@@ -1,15 +1,15 @@
-Building UnityNext
-==================
+Building Unity 8
+================
 
 download source
 ---------------
 - the build requires some additional dependencies, so create the parent folder to not pollute your setup
   $ mkdir ~/unity
 
-- fetch Unity Next source
+- fetch Unity 8 source
   $ sudo apt-get install bzr
-  $ bzr branch lp:unity/phablet ~/unity/unity-next
-  $ cd ~/unity/unity-next
+  $ bzr branch lp:unity/8.0 ~/unity/unity8
+  $ cd ~/unity/unity8
 
 build dependencies
 ------------------
@@ -20,8 +20,8 @@ $ ./build -s
   - build and install lp:libunity/phablet, lp:unity/phablet-mods, lp:hud/phablet and lp:unity-lens-people locally
   - install build dependencies
 
-build UnityNext
----------------
+build Unity 8
+-------------
 $ ./build
 
 subsequent updates of the dependencies
@@ -30,16 +30,16 @@ $ ./build_unity -u
 $ ./build_unity
 
 
-Running UnityNext on your desktop
-=================================
+Running Unity 8 on your desktop
+===============================
 
 run the People lens daemon
 --------------------------
 $ ~/unity/unity_build/libexec/unity-people-daemon
 
-run the UnityNext shell
------------------------
-$ cd ~/unity/unity-next
+run the Unity 8 shell
+---------------------
+$ cd ~/unity/unity8
 $ ./run
 
 Notes
@@ -56,15 +56,15 @@ Notes
   later.
   $ cd builddir; make install
 
-Running UnityNext on devices
-============================
+Running Unity 8 on devices
+==========================
 - Ubuntu Touch builds are currently only available in 13.10 flavour
 - supported hardware should match one those listed here https://wiki.ubuntu.com/Touch/Devices#Running_fine
 - follow the Ubuntu Touch install instructions for your chosen device https://wiki.ubuntu.com/Touch/Install
 - make sure your device is connected to a WiFi network
 - also make sure you have your SSH key in ~/.ssh/id_rsa.pub (or install one on the device yourself)
 
-$ cd ~/unity/unity-next
+$ cd ~/unity/unity8
 $ ./run_on_device -s
   this will:
   - install your public SSH key on the device
@@ -100,4 +100,4 @@ https://launchpad.net/canonical-client-development-guidelines
 
 Development Environment
 =======================
-QtCreator (available via the Software Center) is the best IDE to hack on UnityNext.
+QtCreator (available via the Software Center) is the best IDE to hack on Unity 8.
