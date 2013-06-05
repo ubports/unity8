@@ -1,0 +1,786 @@
+unity8 (7.80.0) saucy; urgency=low
+
+  * Rename to unity8.
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Tue, 04 Jun 2013 14:45:29 +0200
+
+qml-phone-shell (1.80) raring; urgency=low
+
+  * Focus/unfocus apps on lock/unlock to make sure keyboard is hidden.
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Sat, 01 Jun 2013 00:31:03 +0200
+
+qml-phone-shell (1.79) raring; urgency=low
+
+  [ Michael Terry ]
+  * Make greeter look like the desktop one
+  
+  [ Gerry Boland ]
+  * Fix a bug where a minimized app gets focus after closing another app
+  * Applied a workaround to reduce flickering when launching apps
+
+  [ Ying-Chun Liu (PaulLiu) ]
+  * Make the panel translatable
+
+  [ Michael Zanetti ]
+  * Limit people lens to max 50 people. More people can be found with search feature.
+
+ -- Michael Zanetti <michael.zanetti@canonical.com>  Fri, 24 May 2013 17:06:05 +0200
+
+qml-phone-shell (1.78) raring; urgency=low
+
+  [ Sergio Schvezov ]
+  * Replacing the music and ski safari mock apps with calendar and weather in 
+    the launcher (LP: #1178262).
+
+  [ Daniel d'Andrada ]
+  * Support pointer-to-touch event conversion for desktop testing.
+  * Use DirectionalDragArea in the Launcher.
+  * Add AxisVelocityCalculator component.
+  * Use touch instead of pointer interaction in autopilot.
+
+  [ Nick Dedekind ]
+  * Enable indicators in greeter.
+  * Add DashContent tests.
+
+  [ Michael Terry ]
+  * Split mock and test LightDM plugins.
+  * Add support for more PAM/LightDM features in the greeter.
+
+  [ Ying-Chun Liu (PaulLiu) ]
+  * Add i18n support.
+  * Add libc6-dev to Build-Depends.
+
+  [ Michał Sawicz ]
+  * Unlock onFocusRequested to unlock on incoming call (LP: #1181654).
+  * Use device-services in run_on_device.
+  * Filter input in greeter. (LP: #1185443).
+
+  [ Albert Astals Cid ]
+  * Remove FilterGrid dimensions bahavior.
+
+  [ Ubuntu Translators Team ]
+  * Added translations for 36 languages. Thanks!
+
+  [ Michael Zanetti ]
+  * Fix autopilot tests on devices.
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Fri, 24 May 2013 17:06:05 +0200
+
+qml-phone-shell (1.77) raring; urgency=low
+
+  [ Mathieu Trudel-Lapierre ]
+  * debian/control:
+    - Drop indicators-client-plugin* Depends for qml-phone-shell to Recommends.
+    - Add/update Vcs-Browser, Vcs-Bzr and add a notice to uploaders. 
+  * debian/copyright: fix syntax.
+
+  [ Michał Sawicz ]
+  * Drop indicators-client-examples recommends altogether
+
+  [ Renato Araujo Oliveira Filho ]
+  * Renamed Media player files to match with new application name.
+
+  [ Daniel d'Andrada ]
+  * New: DirectionalDragArea component. An area that detects axis-aligned 
+    single-finger drag gestures.
+  * Make it possible to send touch events from within QML test code.
+
+ -- Mathieu Trudel-Lapierre <mathieu-tl@ubuntu.com>  Fri, 26 Apr 2013 11:15:00 -0400
+
+qml-phone-shell (1.76) raring; urgency=low
+
+  [ Albert Astals Cid ]
+  * Remove QSortFilterProxyModelQML::get() to ensure per-role fetching
+  * Highlight matching strings in the HUD
+  [ Michał Sawicz ]
+  * Dropped support for 12.10
+  [ Michael Zanetti ]
+  * Update autopilot tests for 1.3 release
+  [ Andrea Cimitan ]
+  * Use SDK's Panel - enable swipe from bottom to reveal Dash bottom bar
+  [ Michael Terry ]
+  * Introduce a mock LightDM plugin to prepare for real switch
+  [ Daniel d'Andrada ]
+  * Move definition of global test targets to main tests CMakeLists file
+  [ Mirco Müller ]
+  * Introduce Notifications UI, currently only driven by tests
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Thu, 16 May 2013 15:52:18 +0200
+
+qml-phone-shell (1.75) raring; urgency=low
+
+  * Fix search history in the dash
+  * Hud: No appstack anymore
+  * Hud: Support having toolbar items enabled/disabled
+  * Hud: remove the app quit toolbar item
+  * Tweak to improve the switch application animation
+  * Correctly load icons when running on the desktop
+  * Use real enum from ApplicationInfo instead of its counterfeit local version
+  * Added gdb debugging (-g/--gdb) run_on_device option
+  * Drop support for quantal in build_unity script
+  * Make out of source builds work in sibling directories
+  * Clean up debian/control
+  * Build with the new Qt 5.0.2 packages
+  * Tests for:
+    * IndicatorMenuWindow
+    * PeopleFilterGrid
+
+ -- Albert Astals Cid <albert.astals@canonical.com>  Thu, 09 May 2013 15:10:03 +0200
+
+qml-phone-shell (1.74) raring; urgency=low
+
+  [ Albert Astals Cid ]
+  * Use new HUD api
+  * Improvements to build and run scripts
+  * Test for GenericLensView
+  * Use -z defs for SHARED and MODULE libraries
+
+ -- Sergio Schvezov <sergio.schvezov@canonical.com>  Fri, 26 Apr 2013 13:14:03 -0300
+
+qml-phone-shell (1.73) raring; urgency=low
+
+  [ Albert Astals ]
+  * No need to include lens.h in peoplepreviewdata.h
+  * Bumping libhud dependency to use the new libhud-client2
+
+  [ Andrea Cimitan ]
+  * Adds test for LensView
+
+  [ Michael Zanetti ]
+  * Fix execution of local autopilot tests
+
+ -- Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>  Thu, 25 Apr 2013 13:46:23 -0300
+
+qml-phone-shell (1.72) raring; urgency=low
+
+  * bring greeter closer to desktop design
+  * simplify SortFilterProxyModel role management
+  * CMake and build script improvements
+  * enable volume slider in Overview
+  * clean up .bzrignore
+  * flatten qmluitests and unittests into generic qmltests
+  * split out LimitProxyModel out of SortFilterProxyModel
+  * replace fake QML wrappers for Ubuntu.Application with a mock
+    implementation
+  * hide Frequent and Available categories in Apps lens during search
+    (LP: #1170495)
+  * add first test utilities
+  * use fake Unity plugin for Dash tests
+  * generate and package API docs
+  * close applications after long-press in dash
+  * simplify preview calculation
+  * tests for:
+    * bad indentation
+    * Panel
+    * indicators Overview
+    * IndicatorItem
+    * ListViewWithPageHeader
+    * Clock
+    * OpenEffect
+    * FilterGrids
+    * MenuContent
+    * header standalone compilation
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Fri, 19 Apr 2013 21:16:50 +0200
+
+qml-phone-shell (1.71) quantal; urgency=low
+
+  * add missing python3 dependency
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Thu, 11 Apr 2013 17:11:15 +0200
+
+qml-phone-shell (1.70) quantal; urgency=low
+
+  * CMake fixes
+  * improve HUD PeakDetector performance
+  * initial QML coverage measurement
+  * enable coverage analysis for C/C++
+  * require out-of-source builds
+  * fix incorrect linkage in hudclient.cpp
+  * reduce warnings
+  * add an optional on-commit test hook
+  * tests for:
+    * IndicatorRow
+    * Tile
+    * SearchIndicator
+    * trailing whitespace
+    * PageHeader
+    * SearchHistoryModel
+    * ResponsiveFlowView
+    * SideStage
+    * Indicators
+  * move tests into subdirectories
+  * increase test setup consistency
+  * remove some dead code
+  * register CategoryFilter to QML
+  * use a static python install path for autopilot
+  * merge first stages of libunity-api
+  * drop unneeded moc includes
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Thu, 11 Apr 2013 14:42:22 +0200
+
+qml-phone-shell (1.69) quantal; urgency=low
+
+  [ Sergio Schvezov ]
+  * Removing mocks for calendar, clock and calculator.
+
+  [ Michał Sawicz ]
+  * Add entries needed in the .desktop file and change the name and comment.
+
+ -- Sergio Schvezov <sergio.schvezov@canonical.com>  Thu, 04 Apr 2013 19:32:06 -0300
+
+qml-phone-shell (1.68) quantal; urgency=low
+
+  * fix launching SideStage apps when there's no side stage
+  * CMake cleanups
+  * prevent breakage of local builds
+  * added README for qmluitests
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Thu, 04 Apr 2013 02:02:27 +0200
+
+qml-phone-shell (1.67) quantal; urgency=low
+
+  * use real data in Apps lens Installed category
+  * add --clean option in build scripts
+  * add CODING guide
+  * install test dependencies in build scripts
+  * fix phone app name
+  * Tests for:
+    * Showable
+    * Launcher
+    * HUD parametrized actions
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Wed, 03 Apr 2013 00:11:00 +0200
+
+qml-phone-shell (1.66) quantal; urgency=low
+
+  * Revert Carousel changes due to crash
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Thu, 28 Mar 2013 10:51:20 +0100
+
+qml-phone-shell (1.65) quantal; urgency=low
+
+  * Modifying build dep to require python
+
+ -- Sergio Schvezov <sergio.schvezov@canonical.com>  Wed, 27 Mar 2013 16:07:10 -0300
+
+qml-phone-shell (1.64) quantal; urgency=low
+
+  * Rename ubuntu-gallery to gallery-app
+  * Resetting Apps lens content position when swiping from left
+  * Make the previews more flexible with different screen sizes
+  * Tests for:
+    * HUD
+    * ResponsiveGridView
+
+ -- Albert Astals Cid <albert.astals@canonical.com>  Wed, 20 Mar 2013 17:44:44 +0100
+
+qml-phone-shell (1.63) quantal; urgency=low
+
+  * Rename telephony-app to phone-app
+  * notepad-qml has been renamed to notes-app
+  * Use a ListView for the Carousel component for scalability
+  * Make sure the greeter stays usable for smaller screens
+  * Elide username in greeter when too long
+  * Improve Carousel creation time
+  * CrossFadeImage fixes
+  * Fixed play button size
+  * Remove unused files
+  * Tests for:
+    * Revealer
+    * HUD
+    * Greeter
+    * FilterGrid
+    * CrossFadeImage
+
+ -- Albert Astals Cid <albert.astals@canonical.com>  Tue, 19 Mar 2013 17:43:21 +0100
+
+qml-phone-shell (1.62) quantal; urgency=low
+
+  * Use one SpecialItem in HUD AppStack
+  * Remove outdated manual tests
+  * Improve build scripts
+  * Hook up other HUD Toolbar actions
+  * Tests for:
+    * HUD
+    * Time.js
+    * AnimationControllerWithSignals
+    * Carousel
+  * Autopilot test framework
+  * Force build-dep at python2.7
+  * Suppress warnings
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Fri, 15 Mar 2013 16:26:22 +0100
+
+qml-phone-shell (1.61) quantal; urgency=low
+
+  * Rename ubuntu-browser to webbrowser-app.
+
+ -- Olivier Tilloy <olivier.tilloy@canonical.com>  Fri, 08 Mar 2013 15:55:36 +0100
+
+qml-phone-shell (1.60) quantal; urgency=low
+
+  * Fixes in sidestage
+  * Reduce memory consumption
+  * Introduced testing
+
+ -- Michael Zanetti <michael.zanetti@canonical.com>  Thu, 07 Mar 2013 12:04:19 +0100
+
+qml-phone-shell (1.59) quantal; urgency=low
+
+  * Window management: update screenshots manually and only when an application in focus goes out out focus.
+  * Dash apps lens: use screenshot of applications from cache when going back to dash.
+
+ -- Florian Boucault <florian.boucault@canonical.com>  Sat, 23 Feb 2013 17:48:23 +0000
+
+qml-phone-shell (1.58) quantal; urgency=low
+
+  * Sidestage: make the handle bigger to make it easier to grab.
+
+ -- Florian Boucault <florian.boucault@canonical.com>  Fri, 22 Feb 2013 23:20:16 +0000
+
+qml-phone-shell (1.57) quantal; urgency=low
+
+  * fix right-edge swipe breaking
+
+ -- Gerry Boland <gerry.boland@canonical.com>  Wed, 20 Feb 2013 14:37:25 +0000
+
+qml-phone-shell (1.56) quantal; urgency=low
+
+  * use ApplicationManager.keyboardVisible and keyboardHeight for system-wide
+    keyboard detection
+
+ -- Florian Boucault <florian.boucault@canonical.com>  Wed, 20 Feb 2013 07:05:49 +0000
+
+qml-phone-shell (1.55) quantal; urgency=low
+
+  * fix seeing flash of previous application when launching a new one
+
+ -- Florian Boucault <florian.boucault@canonical.com>  Wed, 20 Feb 2013 06:15:01 +0000
+
+qml-phone-shell (1.54) quantal; urgency=low
+
+  * fix quitting last application again
+
+ -- Florian Boucault <florian.boucault@canonical.com>  Wed, 20 Feb 2013 03:39:17 +0000
+
+qml-phone-shell (1.53) quantal; urgency=low
+
+  * fix activation of incorrect application
+  * fix home lens population and increase initial lens search delay
+  * reduce the times of image reloads in carousels
+  * reduce memory consumption by tweaking the background images
+  * indicator visual and behaviour fixes
+  * reduce search crash probability
+  * fix panel over greeter when fullscreen app open
+  * fix sidestage after quitting last mainstage app
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Wed, 20 Feb 2013 01:47:27 +0100
+
+qml-phone-shell (1.52) quantal; urgency=low
+
+  * fix launcher for password-protected users
+  * fix ebay link for ebay web app
+  * allow launching arbitrary apps from command line
+  * show sidestage on sidestage app activation
+  * add sidestage support to the HUD
+  * disable main stage's right edge when sidestage is enabled
+  * destroy greeter contents when hidden to save memory
+  * fix indicators height
+  * visual fixes to HUD
+  * remove spotify from dash
+  * show dash after closing last application
+  * rename qmlproject to unity
+  * add Lenses::loaded property to prevent acting on non-ready Lens
+    objects
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Mon, 18 Feb 2013 17:51:34 +0100
+
+qml-phone-shell (1.51) quantal; urgency=low
+
+  * use lens data in home
+  * increase flicking velocity in dash
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Sat, 16 Feb 2013 20:59:58 +0100
+
+qml-phone-shell (1.50) quantal; urgency=low
+
+  * New side stage feature.
+  * Implemented support for volume control using hardware keys.
+  * reduce the edge detection size to 2 GUs.
+  * use mock music lens.
+  * add an "expandable" property to FilterGrid.
+  * Use the current time as a icon for Time&Date device menu item. Missing device menu plane and volume icons added.
+  * decrease delegate height for those showing contact details.
+  * adjust music and videos lens to latest design spec.
+
+ -- Florian Boucault <florian.boucault@canonical.com>  Sat, 16 Feb 2013 02:50:24 +0000
+
+qml-phone-shell (1.49) quantal; urgency=low
+
+  * fix people preview
+  * show page headers when switching lenses
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Fri, 15 Feb 2013 11:12:37 +0100
+
+qml-phone-shell (1.48) quantal; urgency=low
+
+  * more HUD fixes
+  * bottom bar fullscreen behavior fix
+  * clean up stage implementation
+  * reduce memory footprint by reducing image sizes
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Fri, 15 Feb 2013 01:49:05 +0100
+
+qml-phone-shell (1.47) quantal; urgency=low
+
+  * darken view on open indicators
+  * design tweaks for HUD, people lens and video preview
+  * added carousel in music lens
+  * workaround people lens performance
+  * add carousel in people lens and use real data in Home people carousel
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Wed, 13 Feb 2013 22:00:32 +0100
+
+qml-phone-shell (1.46) quantal; urgency=low
+
+  * new people preview
+  * HUD fixes
+  * fullscreen mode support
+  * use external mock lens for videos
+  * rework bottombar communication due to PID mismatch
+  * improve unity build script
+  * rename ubuntu-gallery
+  * connect up the HUD quit button
+  * unfocus HUD text entry on speech recognition
+  * carousel fixes for low item count
+  * new greeter
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Tue, 12 Feb 2013 10:24:09 +0100
+
+qml-phone-shell (1.45) quantal; urgency=low
+
+  * new people carousel
+  * integration of voice and parametrized actions in HUD
+  * xml-based user list for greeter
+  * new people lens layout
+  * refactored top panel
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Sun, 10 Feb 2013 13:06:25 +0100
+
+qml-phone-shell (1.44) quantal; urgency=low
+
+  * latest designs for greeter and video preview
+  * initial integration with HUD service
+  * HUD parametrized actions UI
+  * licensing and packaging fixes
+  * asynchronous loading in video preview to reduce delay
+  * search support in People and Generic lens views
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Fri, 08 Feb 2013 00:34:18 +0100
+
+qml-phone-shell (1.43) quantal; urgency=low
+
+  * carousel view in dash
+  * smarter dash categories
+  * generic lens view
+  * fixes to HUD
+  * fix launching gallery
+  * close preview when launching player
+  * run_on_device tweaks
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Wed, 06 Feb 2013 20:34:28 +0100
+
+qml-phone-shell (1.42) quantal; urgency=low
+
+  * restore video playback
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Tue, 05 Feb 2013 23:42:07 +0100
+
+qml-phone-shell (1.41) quantal; urgency=low
+
+  * Video previews
+  * run_on_device is tunneled through adb forward
+
+ -- Michael Zanetti <michael.zanetti@canonical.com>  Tue, 05 Feb 2013 17:46:57 +0100
+
+qml-phone-shell (1.40) quantal; urgency=low
+
+  * Fix missing installed files
+
+ -- Albert Astals Cid  <albert.astals@canonical.com>  Tue, 05 Feb 2013 11:26:46 +0100
+
+qml-phone-shell (1.39) quantal; urgency=low
+
+  * HUD ui with fake data
+
+ -- Albert Astals Cid  <albert.astals@canonical.com>  Mon, 04 Feb 2013 18:48:39 +0100
+
+qml-phone-shell (1.38) quantal; urgency=low
+
+  * fix launching of notepad 
+
+ -- Bill Filler <bill.filler@canonical.com>  Fri, 01 Feb 2013 03:21:29 -0500
+
+qml-phone-shell (1.37) quantal; urgency=low
+
+  * QT_QPA_PLATFORM was renamed from hybris to ubuntu, so reflecting at the
+    env variable to make it to work fullscreen at the devices again
+
+ -- Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>  Fri, 01 Feb 2013 02:35:44 -0500
+
+qml-phone-shell (1.36) quantal; urgency=low
+
+  * launch real notepad app 
+  * fix launching of mock apps
+
+ -- Bill Filler <bill.filler@canonical.com>  Thu, 31 Jan 2013 21:36:05 -0500
+
+qml-phone-shell (1.35) quantal; urgency=low
+
+  * integrate ubuntu-browser instead of snowshoe 
+
+ -- Bill Filler <bill.filler@canonical.com>  Thu, 31 Jan 2013 17:33:37 -0500
+
+qml-phone-shell (1.34) quantal; urgency=low
+
+  * Qt5-proper release
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Thu, 31 Jan 2013 17:34:06 +0000
+
+qml-phone-shell (1.33) quantal; urgency=low
+
+  * New release
+
+ -- Florian Boucault <florian.boucault@canonical.com>  Thu, 17 Jan 2013 07:39:47 +0700
+
+qml-phone-shell (1.32) quantal; urgency=low
+
+  * New release
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Fri, 21 Dec 2012 21:49:43 +0100
+
+qml-phone-shell (1.31) quantal; urgency=low
+
+  * New release
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Fri, 21 Dec 2012 02:06:37 +0100
+
+qml-phone-shell (1.30) quantal; urgency=low
+
+  * New release
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Wed, 19 Dec 2012 19:29:40 +0100
+
+qml-phone-shell (1.29) quantal; urgency=low
+
+  * New release
+
+ -- Florian Boucault <florian.boucault@canonical.com>  Wed, 19 Dec 2012 00:07:55 +0000
+
+qml-phone-shell (1.28) quantal; urgency=low
+
+  * New release
+
+ -- Florian Boucault <florian.boucault@canonical.com>  Tue, 18 Dec 2012 19:03:04 +0000
+
+qml-phone-shell (1.27) quantal; urgency=low
+
+  * New release
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Tue, 18 Dec 2012 02:22:35 +0100
+
+qml-phone-shell (1.26) quantal; urgency=low
+
+  * New release
+
+ -- Florian Boucault <florian.boucault@canonical.com>  Fri, 14 Dec 2012 18:17:40 +0000
+
+qml-phone-shell (1.25) quantal; urgency=low
+
+  * New release
+
+ -- Florian Boucault <florian.boucault@canonical.com>  Thu, 13 Dec 2012 22:51:56 +0000
+
+qml-phone-shell (1.24) quantal; urgency=low
+
+  * New release
+
+ -- Florian Boucault <florian.boucault@canonical.com>  Wed, 12 Dec 2012 21:49:50 +0000
+
+qml-phone-shell (1.23) quantal; urgency=low
+
+  * New release
+
+ -- Florian Boucault <florian.boucault@canonical.com>  Tue, 11 Dec 2012 20:38:08 +0000
+
+qml-phone-shell (1.22) quantal; urgency=low
+
+  * New release
+
+ -- Florian Boucault <florian.boucault@canonical.com>  Tue, 11 Dec 2012 00:13:16 +0000
+
+qml-phone-shell (1.21) quantal; urgency=low
+
+  * New release with fullscreen launcher fixes 
+
+ -- Bill Filler <bill.filler@canonical.com>  Fri, 07 Dec 2012 09:36:37 +0000
+
+qml-phone-shell (1.20) quantal; urgency=low
+
+  * New release
+
+ -- Florian Boucault <florian.boucault@canonical.com>  Thu, 06 Dec 2012 16:53:05 +0000
+
+qml-phone-shell (1.19) quantal; urgency=low
+
+  * enable multi-threaded render for apps 
+
+ -- Bill Filler <bill.filler@canonical.com>  Wed, 05 Dec 2012 17:34:09 +0000
+
+qml-phone-shell (1.18) quantal; urgency=low
+
+  [ Bill Filler ]
+  * update launcher to use wk2-render (chromeless webkit) for facebook
+    and twitter 
+
+ -- Florian Boucault <florian.boucault@canonical.com>  Wed, 05 Dec 2012 12:20:50 +0000
+
+qml-phone-shell (1.17) quantal; urgency=low
+
+  * New release
+
+ -- Florian Boucault <florian.boucault@canonical.com>  Sat, 01 Dec 2012 01:18:03 +0000
+
+qml-phone-shell (1.16) quantal; urgency=low
+
+  * fix to launch new gallery with correct args 
+
+ -- Bill Filler <bill.filler@canonical.com>  Thu, 29 Nov 2012 17:04:36 -0500
+
+qml-phone-shell (1.15) quantal; urgency=low
+
+  * New release
+
+ -- Florian Boucault <florian.boucault@canonical.com>  Wed, 28 Nov 2012 20:35:03 +0000
+
+qml-phone-shell (1.14) quantal; urgency=low
+
+  * New release
+
+ -- Florian Boucault <florian.boucault@canonical.com>  Mon, 26 Nov 2012 21:39:36 +0000
+
+qml-phone-shell (1.13) quantal; urgency=low
+
+  * New release
+
+ -- Florian Boucault <florian.boucault@canonical.com>  Fri, 23 Nov 2012 19:47:54 +0000
+
+qml-phone-shell (1.12) quantal; urgency=low
+
+  * Daily release
+
+ -- Florian Boucault <florian.boucault@canonical.com>  Thu, 22 Nov 2012 10:21:11 +0000
+
+qml-phone-shell (1.11) quantal; urgency=low
+
+  * Daily release
+
+ -- Florian Boucault <florian.boucault@canonical.com>  Wed, 21 Nov 2012 22:06:38 +0000
+
+qml-phone-shell (1.10) quantal; urgency=low
+
+  * Daily release
+
+ -- Florian Boucault <florian.boucault@canonical.com>  Wed, 21 Nov 2012 01:04:32 +0000
+
+qml-phone-shell (1.9) quantal; urgency=low
+
+  * New release
+
+ -- Florian Boucault <florian.boucault@canonical.com>  Mon, 19 Nov 2012 18:55:51 +0000
+
+qml-phone-shell (1.8) quantal; urgency=low
+
+  [ Michał Sawicz ]
+  * new codebase
+
+ -- Florian Boucault <florian.boucault@canonical.com>  Fri, 09 Nov 2012 00:15:19 +0000
+
+qml-phone-shell (1.2) quantal; urgency=low
+
+  * fix working dir for launch
+  * launch script that sets up ofono and then calls telephony-app
+
+ -- Bill Filler <bill.filler@canonical.com>  Mon, 05 Nov 2012 17:28:31 -0500
+
+qml-phone-shell (1.1) quantal; urgency=low
+
+  * comment out console.log() to prevent crash 
+
+ -- Bill Filler <bill.filler@canonical.com>  Sun, 28 Oct 2012 22:18:36 +0100
+
+qml-phone-shell (1.0) quantal; urgency=low
+
+  * Remove install rule for qml-phone-shell.conf
+
+ -- Ricardo Mendoza <ricardo.mendoza@canonical.com>  Fri, 26 Oct 2012 12:09:03 -0430
+
+qml-phone-shell (0.9) quantal; urgency=low
+
+  * Remove qml-phone-shell.conf to use new ubuntu-session.
+
+ -- Ricardo Mendoza <ricardo.mendoza@canonical.com>  Fri, 26 Oct 2012 11:10:04 -0430
+
+qml-phone-shell (0.8) quantal; urgency=low
+
+  * Fix for both size and scrolling.
+
+ -- Michael Frey <michael.frey@canonical.com>  Thu, 25 Oct 2012 14:28:46 +0200
+
+qml-phone-shell (0.7) quantal; urgency=low
+
+  [Michael Frey]
+  * qml-phone-shell.conf: better setup of env vars and launch
+    via dbus-luanch to properly setup session bus
+  * shellapplication.cpp: don't setup custom env before launching
+    processes 
+
+ -- Bill Filler <bill.filler@canonical.com>  Sun, 21 Oct 2012 11:32:42 +0200
+
+qml-phone-shell (0.6) quantal; urgency=low
+
+  * added additional Android env vars to upstart script 
+
+ -- Bill Filler <bill.filler@canonical.com>  Fri, 19 Oct 2012 09:35:25 -0400
+
+qml-phone-shell (0.5) quantal; urgency=low
+
+  * added support to launch telephony-app 
+
+ -- Bill Filler <bill.filler@canonical.com>  Thu, 18 Oct 2012 13:45:25 -0400
+
+qml-phone-shell (0.4) quantal; urgency=low
+
+  * Creating a release
+
+ -- Sergio Schvezov <sergio.schvezov@canonical.com>  Mon, 15 Oct 2012 13:05:34 -0300
+
+qml-phone-shell (0.3) quantal; urgency=low
+
+  * added support for launching applications
+
+ -- Bill Filler <bill.filler@canonical.com>  Fri, 12 Oct 2012 12:42:33 -0400
+
+qml-phone-shell (0.2) quantal; urgency=low
+
+  * New release that includes upstart support.
+
+ -- Tony Espy <espy@canonical.com>  Thu, 11 Oct 2012 17:18:07 -0400
+
+qml-phone-shell (0.1) quantal; urgency=low
+
+  * Initial release
+
+ -- Bill Filler <bill.filler@canonical.com>  Wed, 10 Oct 2012 10:19:53 -0400

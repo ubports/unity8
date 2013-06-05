@@ -1,0 +1,63 @@
+For qmluitests and unittests tests.
+
+
+General guidelines
+==================
+
+Tests under qmluitests target should be designed in a way that they can be run either
+automatically (with qmltestrunner) or manually (with qmlscene). So make sure you
+add UI controls for manual interaction and labels for monitoring output when needed.
+
+The order in which tests are run should not matter. The test application
+should be in its initial state before each and every test function is called.
+Therefore it should be reset when a test function finishes or before the next
+one starts. A convenient way of doing so is using the init() function of the
+TestCase component. It gets called automatically before each test function.
+
+The name property of [Unity]TestCase does not include a 'Test' suffix.
+Both [Unity]TestCase and their functions are placed after properties
+and Components being tested.
+e.g.:
+    Item {
+        Component { }
+
+        Component { }
+
+        TestCase {
+            name: "Launcher"
+
+            property var exampleProperty
+
+            function test_something() {}
+        }
+    }
+
+
+Documenting
+===========
+
+When you write a test function, try to explain what it's trying to check, what's
+the use case. Because in most cases the name of the test function is not expressive
+enough.
+e.g.:
+    // Checks that the filter toggle button, the one that says "View All (xy)",
+    // shows up only when it's possible for the grid to be expanded.
+    function test_filterToggleButton()
+
+
+Hints and tips on test API usage
+================================
+
+The compare() function can take a third, optional, argument. It is the error
+message that will be displayed when the test fails. Thus, if you use it, you
+should talk about the failure case, not about the expected/successful one.
+
+Wrong:
+    compare(newAppScreenshot.withBackground, false,
+            "switched app have background disabled")
+Right:
+    compare(newAppScreenshot.withBackground, false,
+            "switched app have background enabled")
+Best:
+    compare(newAppScreenshot.withBackground, false,
+            "screenshot of app being brought to foreground has unnecesary background")

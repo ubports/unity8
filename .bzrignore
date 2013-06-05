@@ -1,0 +1,9 @@
+# default build dir
+/builddir
+# QtCreator project files
+/*.user
+# Eclipse project files
+/.project
+/.cproject
+/.settings
+/.pydevproject

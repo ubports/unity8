@@ -1,0 +1,26 @@
+#!/bin/sh
+set -e
+cd $(dirname $0)
+PO_DIR=$PWD
+
+PROGNAME=$(basename $0)
+
+# Create a list of files to scan
+GETTEXT_FILES=$(mktemp --tmpdir uitk-unity.lst.XXXXX)
+trap 'rm -f "$GETTEXT_FILES"' EXIT
+cd ..
+find \( -name '*.h' -o -name '*.cpp' -o -name '*.qml' \) \
+    -a ! \( -path './debian/*' -o -path './builddir/*' -o -path './build/*' -o -path './.bzr/*' \) | sort \
+> $GETTEXT_FILES
+
+# Generate pot from our list
+xgettext \
+    --output $PO_DIR/unity8.pot \
+    --files-from $GETTEXT_FILES \
+    --qt --c++ \
+    --add-comments=TRANSLATORS \
+    --keyword=tr \
+    --package-name="unity8" \
+    --copyright-holder="Canonical Ltd."
+
+echo "$PROGNAME: $PO_DIR/auto-generated.pot updated"

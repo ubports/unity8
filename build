@@ -1,0 +1,67 @@
+#!/bin/sh
+
+PACKAGE=unity8
+UNITY_BUILD_DIR=$PWD/../unity_build/build
+SETUP=false
+CLEAN=false
+NUM_JOBS=$(( `grep -c ^processor /proc/cpuinfo` + 1 ))
+
+usage() {
+    echo "usage: build [OPTIONS] [BUILD_TYPE]\n" >&2
+    echo "Script to build the shell. If BUILD_TYPE is not specified, it defaults to \"debug\".\n" >&2
+    echo "OPTIONS:" >&2
+    echo " -s, --setup Setup the build environment and branch Unity" >&2
+    echo " -c, --clean Clean the build tree before building" >&2
+    echo >&2
+    exit 1
+}
+
+ARGS=`getopt -n$0 -u -a --longoptions="setup,clean,help" -o "sch" -- "$@"`
+[ $? -ne 0 ] && usage
+eval set -- "$ARGS"
+
+while [ $# -gt 0 ]
+do
+    case "$1" in
+       -s|--setup)   SETUP=true;;
+       -c|--clean)   CLEAN=true;;
+       -h|--help)    usage;;
+       --)           shift;break;;
+    esac
+    shift
+done
+
+[ $# -gt 1 ] && usage
+
+BUILD_TYPE="debug"
+[ $# -eq 1 ] && BUILD_TYPE="$1"
+
+install_dependencies() {
+    sudo add-apt-repository -y ppa:phablet-team/desktop-deps || exit 1
+    sudo add-apt-repository -y ppa:canonical-qt5-edgers/qt5-proper || exit 2;
+    sudo add-apt-repository -y ppa:ubuntu-sdk-team/ppa || exit 3
+    sudo apt-get update || exit 4
+    echo "Installing dependencies.."
+    sudo apt-get install -y qtdeclarative5-ubuntu-ui-toolkit-plugin qtdeclarative5-dee-plugin indicators-client indicators-client-plugin-* qtbase5-dev qtbase5-private-dev qtdeclarative5-dev qtdeclarative5-dev-tools qtdeclarative5-test-plugin libdee-qt5-dev libpulse-dev qtdeclarative5-xmllistmodel-plugin unity-lens-mock demo-assets ubuntu-mobile-icons || exit 6
+}
+
+if [ -f "/usr/bin/ninja" ] ; then
+  GENERATOR="-G Ninja"
+  BUILD_COMMAND="ninja -j$NUM_JOBS"
+else
+  GENERATOR=
+  BUILD_COMMAND="make -j$NUM_JOBS"
+fi
+
+if $SETUP; then
+    install_dependencies
+    ./build_unity --setup || exit 6
+    ./build_unity
+else
+    if $CLEAN; then rm -rf builddir; fi
+    mkdir -p builddir
+    cd builddir
+    PKG_CONFIG_PATH=$UNITY_BUILD_DIR/lib/pkgconfig/:$PKG_CONFIG_PATH cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE .. ${GENERATOR}
+    ${BUILD_COMMAND}
+fi
+

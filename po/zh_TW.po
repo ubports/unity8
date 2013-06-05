@@ -1,0 +1,119 @@
+# Unity 8 translation for Traditional Chinese language.
+# Copyright (C) 2013 Canonical Ltd
+# This file is distributed under the same license as the unity package.
+# Ying-Chun Liu (PaulLiu) <paul.liu@canonical.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: unity\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-05-30 21:08+0800\n"
+"PO-Revision-Date: 2013-06-04 12:35+0000\n"
+"Last-Translator: Ying-Chun Liu <paul.liu@canonical.com>\n"
+"Language-Team: Ubuntu Touch Team <ubuntu-phone@lists.ubuntu.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2013-06-05 06:34+0000\n"
+"X-Generator: Launchpad (build 16660)\n"
+"Language: \n"
+
+#: Components/PageHeader.qml:300
+msgid "Recent searches"
+msgstr "最近搜尋"
+
+#: Dash/DashApps.qml:65
+msgid "Running apps"
+msgstr "執行中的程式"
+
+#: Dash/DashApps.qml:68
+msgid "Frequently used"
+msgstr "最常使用"
+
+#: Dash/DashApps.qml:71
+msgid "Installed"
+msgstr "已安裝"
+
+#: Dash/DashApps.qml:74
+msgid "Available for download"
+msgstr "可供下載"
+
+#: Dash/DashApps.qml:178
+msgid "Apps"
+msgstr "程式"
+
+#: Dash/DashHome.qml:43
+msgid "Frequent Apps"
+msgstr "常用的程式"
+
+#: Dash/DashHome.qml:46
+msgid "Favourite People"
+msgstr "喜歡的朋友"
+
+#: Dash/DashHome.qml:49
+msgid "People Recently in Touch"
+msgstr "最近接觸的朋友"
+
+#: Dash/DashHome.qml:52
+msgid "Recent Music"
+msgstr "最近聽過的音樂"
+
+#: Dash/DashHome.qml:55
+msgid "Videos Popular Online"
+msgstr "線上熱門的影片"
+
+#: Dash/DashHome.qml:197 plugins/Unity/lenses.cpp:38
+msgid "Home"
+msgstr "家屋"
+
+#: Dash/DashMusic.qml:92
+msgid "Music"
+msgstr "音樂"
+
+#: Dash/DashPeople.qml:116
+msgid "People"
+msgstr "朋友"
+
+#: Dash/DashVideos.qml:148
+msgid "Videos"
+msgstr "影片"
+
+#: Hud/HudParametrizedActionsPage.qml:132
+msgid "Confirm"
+msgstr "確認"
+
+#: Hud/Hud.qml:61 Hud/Hud.qml:99 Hud/Hud.qml:372
+msgid "Type or say a command"
+msgstr "輸入或說出命令"
+
+#: Hud/Hud.qml:84
+msgid "Loading. Please Wait..."
+msgstr "載入中。請稍候..."
+
+#: Hud/Hud.qml:89
+msgid "Speak Now..."
+msgstr "請說..."
+
+#: Hud/Hud.qml:94
+msgid "Speaking..."
+msgstr "說話中..."
+
+#: Panel/MenuContent.qml:192
+msgid "Device"
+msgstr "裝置"
+
+#: Panel/Menus/Overview/FlightModeWidget.qml:42
+msgid "Flight mode"
+msgstr "飛航模式"
+
+#: plugins/Unity/lens.cpp:333
+msgid "Sorry, there is nothing that matches your search."
+msgstr "很抱歉，找不到符合您想搜尋的結果。"
+
+#: plugins/Unity/lenses.cpp:39
+msgid "Home screen"
+msgstr "家屋畫面"
+
+#: plugins/Unity/lenses.cpp:40
+msgid "Search"
+msgstr "搜尋"

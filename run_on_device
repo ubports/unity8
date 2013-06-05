@@ -1,0 +1,129 @@
+#!/bin/sh
+CODE_DIR=shell
+USER=phablet
+USER_ID=32011
+PASSWORD=phablet
+PACKAGE=unity8
+BINARY=unity8
+TARGET_IP=${TARGET_IP-127.0.0.1}
+TARGET_SSH_PORT=${TARGET_SSH_PORT-2222}
+TARGET_DEBUG_PORT=3768
+RUN_OPTIONS=-qmljsdebugger=port:$TARGET_DEBUG_PORT
+SETUP=false
+GDB=false
+SUDO="echo $PASSWORD | sudo -S"
+NUM_JOBS='$(( `grep -c ^processor /proc/cpuinfo` + 1 ))'
+
+usage() {
+    echo "usage: run_on_device [OPTIONS]\n"
+    echo "Script to setup a build environment for the shell and sync build and run it on the device\n"
+    echo "OPTIONS:"
+    echo "  -s, --setup   Setup the build environment"
+    echo ""
+    echo "IMPORTANT:"
+    echo " * Make sure to have the networking and PPAs setup on the device beforehand (phablet-deploy-networking && phablet-ppa-fetch)."
+    echo " * Execute that script from a directory containing a branch the shell code."
+    exit 1
+}
+
+exec_with_ssh() {
+    ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -t $USER@$TARGET_IP -p $TARGET_SSH_PORT "bash -ic \"$@\""
+}
+
+exec_with_adb() {
+    adb shell chroot /data/ubuntu /usr/bin/env -i PATH=/bin:/usr/bin:/sbin:/usr/sbin:/tools/bin "$@"
+}
+adb_root() {
+    adb root
+    adb wait-for-device
+}
+
+install_ssh_key() {
+    ssh-keygen -R $TARGET_IP
+    HOME_DIR=/data/ubuntu/home/phablet
+    adb push ~/.ssh/id_rsa.pub $HOME_DIR/.ssh/authorized_keys
+    adb shell chown $USER_ID:$USER_ID $HOME_DIR/.ssh
+    adb shell chown $USER_ID:$USER_ID $HOME_DIR/.ssh/authorized_keys
+    adb shell chmod 700 $HOME_DIR/.ssh
+    adb shell chmod 600 $HOME_DIR/.ssh/authorized_keys
+}
+
+setup_adb_forwarding() {
+    adb forward tcp:$TARGET_SSH_PORT tcp:22
+    adb forward tcp:$TARGET_DEBUG_PORT tcp:$TARGET_DEBUG_PORT
+}
+
+install_dependencies() {
+    exec_with_adb apt-get -y install openssh-server
+    exec_with_ssh $SUDO apt-get -y install build-essential rsync bzr ccache gdb ninja-build
+    exec_with_ssh $SUDO add-apt-repository -y ppa:canonical-qt5-edgers/qt5-proper
+    exec_with_ssh $SUDO add-apt-repository -s -y ppa:phablet-team/ppa
+    exec_with_ssh $SUDO apt-get update
+    exec_with_ssh $SUDO apt-get -y build-dep $PACKAGE
+}
+
+sync_code() {
+    bzr export --uncommitted --format=dir /tmp/$CODE_DIR
+    rsync -crlOzv -e "ssh -p $TARGET_SSH_PORT -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" /tmp/$CODE_DIR/ $USER@$TARGET_IP:$CODE_DIR/
+    rm -rf /tmp/$CODE_DIR
+}
+
+build() {
+    exec_with_ssh PATH=/usr/lib/ccache:$PATH "cd $CODE_DIR/ && PATH=/usr/lib/ccache:$PATH ./build"
+}
+
+run() {
+    SERVICEFILE="/data/ubuntu/etc/device-services"
+    adb shell "grep $BINARY $SERVICEFILE"
+    CONTAINS_SHELL=$?
+    if [ $CONTAINS_SHELL -eq 0 ]; then
+        echo "Modifying $SERVICEFILE on device. Old contents will be saved in $SERVICEFILE.backup"
+        adb shell cp $SERVICEFILE $SERVICEFILE.backup
+        adb shell sed -i /$BINARY/d $SERVICEFILE
+        adb shell "chroot /data/ubuntu /usr/bin/service ubuntu-session restart"
+    fi
+    adb shell pkill $BINARY
+    if $GDB; then
+        exec_with_ssh "cd $CODE_DIR/ && ./run --gdb --nomousetouch -- $RUN_OPTIONS"
+    else
+        exec_with_ssh "cd $CODE_DIR && ./run --nomousetouch -- $RUN_OPTIONS"
+    fi
+    if [ $CONTAINS_SHELL -eq 0 ]; then
+        echo "Restoring $SERVICEFILE on device from $SERVICEFILE.backup"
+        adb shell cp $SERVICEFILE.backup $SERVICEFILE
+        adb shell "chroot /data/ubuntu /usr/bin/service ubuntu-session restart"
+    fi
+}
+
+set -- `getopt -n$0 -u -a --longoptions="setup,gdb,help" "sgh" "$@"`
+
+# FIXME: giving incorrect arguments does not call usage and exit
+while [ $# -gt 0 ]
+do
+    case "$1" in
+       -s|--setup)   SETUP=true;;
+       -g|--gdb)     GDB=true;;
+       -h|--help)    usage;;
+       --)           shift;break;;
+    esac
+    shift
+done
+
+
+adb_root
+[ "${TARGET_IP}" = "127.0.0.1" ] && setup_adb_forwarding
+
+if $SETUP; then
+    echo "Setting up environment for building shell.."
+    install_ssh_key
+    install_dependencies
+    sync_code
+else
+    echo "Transferring code.."
+    sync_code
+    echo "Building.."
+    build
+    echo "Running.."
+    run
+fi
+

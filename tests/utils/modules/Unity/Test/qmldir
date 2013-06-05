@@ -1,0 +1,3 @@
+module Unity.Test
+plugin UnityTestQml
+UnityTestCase 0.1 UnityTestCase.qml

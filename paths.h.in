@@ -1,0 +1,64 @@
+/*
+ * Copyright (C) 2012 Canonical, Ltd.
+ *
+ * Authors:
+ *  Ugo Riboni <ugo.riboni@canonical.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; version 3.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+// Qt
+#include <QtCore/QCoreApplication>
+#include <QtCore/QDir>
+
+inline bool isRunningInstalled() {
+    static bool installed = (QCoreApplication::applicationDirPath() ==
+                             QDir(("@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_BINDIR@")).canonicalPath());
+    return installed;
+}
+
+inline QString translationDirectory() {
+    if (isRunningInstalled()) {
+        return QString("@CMAKE_INSTALL_PREFIX@/share/locale");
+    } else {
+        return QString("@CMAKE_BINARY_DIR@/po/locale");
+    }
+}
+
+inline QString shellAppDirectory() {
+    if (isRunningInstalled()) {
+        return QString("@CMAKE_INSTALL_PREFIX@/@SHELL_APP_DIR@/");
+    } else {
+        return QString("@CMAKE_SOURCE_DIR@/");
+    }
+}
+
+inline QString shellImportPath() {
+    if (isRunningInstalled()) {
+        return QString("@CMAKE_INSTALL_PREFIX@/@SHELL_APP_DIR@/plugins");
+    } else {
+        return QString("@CMAKE_BINARY_DIR@/plugins/");
+    }
+}
+
+inline QString fakePluginsImportPath() {
+    if (isRunningInstalled()) {
+        return QString("@CMAKE_INSTALL_PREFIX@/@SHELL_APP_DIR@/plugins/mocks");
+    } else {
+        return QString("@CMAKE_BINARY_DIR@/tests/mocks");
+    }
+}
+
+inline QString sourceDirectory() {
+    return QString("@CMAKE_SOURCE_DIR@/");
+}

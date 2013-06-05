@@ -1,0 +1,5 @@
+add_subdirectory(Ubuntu)
+add_subdirectory(Utils)
+add_subdirectory(Unity)
+add_subdirectory(HudClient)
+add_subdirectory(LightDM)

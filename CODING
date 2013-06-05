@@ -1,0 +1,103 @@
+Building UnityNext
+==================
+
+download source
+---------------
+- the build requires some additional dependencies, so create the parent folder to not pollute your setup
+  $ mkdir ~/unity
+
+- fetch Unity Next source
+  $ sudo apt-get install bzr
+  $ bzr branch lp:unity/phablet ~/unity/unity-next
+  $ cd ~/unity/unity-next
+
+build dependencies
+------------------
+If its your first time, download & build deps
+$ ./build -s
+  this will:
+  - add ppa:phablet-team/desktop-deps, ppa:canonical-qt5-edgers/qt5-proper, ppa:ubuntu-sdk-team
+  - build and install lp:libunity/phablet, lp:unity/phablet-mods, lp:hud/phablet and lp:unity-lens-people locally
+  - install build dependencies
+
+build UnityNext
+---------------
+$ ./build
+
+subsequent updates of the dependencies
+--------------------------------------
+$ ./build_unity -u
+$ ./build_unity
+
+
+Running UnityNext on your desktop
+=================================
+
+run the People lens daemon
+--------------------------
+$ ~/unity/unity_build/libexec/unity-people-daemon
+
+run the UnityNext shell
+-----------------------
+$ cd ~/unity/unity-next
+$ ./run
+
+Notes
+-----
+- to navigate, utilize the mouse left button as you would your finger
+- if your contacts are empty
+  $ sudo apt-get install gir1.2-ebook-1.2
+  $ manage-address-book.py create
+    this will:
+    - create an EDS address book
+    - populate the address book with sample data
+- to get the translations work, currently you have to do make install to
+  put the *.mo files into correct structure. We'll look for a better solution
+  later.
+  $ cd builddir; make install
+
+Running UnityNext on devices
+============================
+- Ubuntu Touch builds are currently only available in 13.10 flavour
+- supported hardware should match one those listed here https://wiki.ubuntu.com/Touch/Devices#Running_fine
+- follow the Ubuntu Touch install instructions for your chosen device https://wiki.ubuntu.com/Touch/Install
+- make sure your device is connected to a WiFi network
+- also make sure you have your SSH key in ~/.ssh/id_rsa.pub (or install one on the device yourself)
+
+$ cd ~/unity/unity-next
+$ ./run_on_device -s
+  this will:
+  - install your public SSH key on the device
+  - add ppa:canonical-qt5-edgers/qt5-proper and ppa:phablet-team
+  - install the needed dependencies
+
+$ ./run_on_device
+  this will:
+  - rsync the code to the device
+  - build on the device
+  - replace the running shell
+
+Notes
+-----
+- using adb over TCP has some advantages, Google will be of help here
+  - TL;DR: `adb tcpip 5555; adb connect $your_device_ip`
+  - you can persist the above via `adb shell setprop persist.adb.tcp.port 5555`
+  - it's unsafe - anyone can connect to your device
+  - with TCP the Nexus 10 doesn't drop the adb connection when locking the screen
+- exporting ANDROID_SERIAL=$your_device_serial or ANDROID_SERIAL=$your_device_ip:5555
+  will make adb not complain about multiple devices 
+- you can export TARGET_IP=$your_device_ip TARGET_SSH_PORT=22 for run_on_device
+  to not use adb forwarding - useful if you use multiple devices
+- using Ninja (package ninja-build - run_on_device -s installs this now) will improve
+  build times (especially in the nothing-to-build case)
+
+
+Coding guidelines
+=================
+The work-in-progress coding guidelines are available under:
+https://launchpad.net/canonical-client-development-guidelines
+
+
+Development Environment
+=======================
+QtCreator (available via the Software Center) is the best IDE to hack on UnityNext.

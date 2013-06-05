@@ -1,0 +1,15 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+export DPKG_GENSYMBOLS_CHECK_LEVEL=4
+
+%:
+	dh $@ --parallel
+
+override_dh_install:
+	dh_install --fail-missing
+
+override_dh_shlibdeps:
+	dh_shlibdeps -XlibMockLightDM-qml.so

@@ -1,0 +1,118 @@
+# German translation for unity
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# This file is distributed under the same license as the unity package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: unity\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-05-30 21:08+0800\n"
+"PO-Revision-Date: 2013-06-04 08:17+0000\n"
+"Last-Translator: Friedrich <Unknown>\n"
+"Language-Team: German <de@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2013-06-05 06:34+0000\n"
+"X-Generator: Launchpad (build 16660)\n"
+
+#: Components/PageHeader.qml:300
+msgid "Recent searches"
+msgstr "Letzte Suchbegriffe"
+
+#: Dash/DashApps.qml:65
+msgid "Running apps"
+msgstr "Aktive Anwendungen"
+
+#: Dash/DashApps.qml:68
+msgid "Frequently used"
+msgstr "Häufig verwendet"
+
+#: Dash/DashApps.qml:71
+msgid "Installed"
+msgstr "Installiert"
+
+#: Dash/DashApps.qml:74
+msgid "Available for download"
+msgstr "Zum Herunterladen verfügbar"
+
+#: Dash/DashApps.qml:178
+msgid "Apps"
+msgstr "Anwendungen"
+
+#: Dash/DashHome.qml:43
+msgid "Frequent Apps"
+msgstr "Häufig genutzte Anwendungen"
+
+#: Dash/DashHome.qml:46
+msgid "Favourite People"
+msgstr "Lieblingspersonen"
+
+#: Dash/DashHome.qml:49
+msgid "People Recently in Touch"
+msgstr "Zuletzt kontaktierte Personen"
+
+#: Dash/DashHome.qml:52
+msgid "Recent Music"
+msgstr "Zuletzt gehörte Musik"
+
+#: Dash/DashHome.qml:55
+msgid "Videos Popular Online"
+msgstr "Beliebte Online-Videos"
+
+#: Dash/DashHome.qml:197 plugins/Unity/lenses.cpp:38
+msgid "Home"
+msgstr "Start"
+
+#: Dash/DashMusic.qml:92
+msgid "Music"
+msgstr "Musik"
+
+#: Dash/DashPeople.qml:116
+msgid "People"
+msgstr "Personen"
+
+#: Dash/DashVideos.qml:148
+msgid "Videos"
+msgstr "Videos"
+
+#: Hud/HudParametrizedActionsPage.qml:132
+msgid "Confirm"
+msgstr "Bestätigen"
+
+#: Hud/Hud.qml:61 Hud/Hud.qml:99 Hud/Hud.qml:372
+msgid "Type or say a command"
+msgstr "Geben Sie einen Befehl ein oder sprechen Sie ihn"
+
+#: Hud/Hud.qml:84
+msgid "Loading. Please Wait..."
+msgstr "Wird geladen. Bitte warten …"
+
+#: Hud/Hud.qml:89
+msgid "Speak Now..."
+msgstr "Sprechen Sie jetzt …"
+
+#: Hud/Hud.qml:94
+msgid "Speaking..."
+msgstr "Sie sprechen …"
+
+#: Panel/MenuContent.qml:192
+msgid "Device"
+msgstr "Gerät"
+
+#: Panel/Menus/Overview/FlightModeWidget.qml:42
+msgid "Flight mode"
+msgstr "Flugmodus"
+
+#: plugins/Unity/lens.cpp:333
+msgid "Sorry, there is nothing that matches your search."
+msgstr "Entschuldigung, es wurden keine Treffer erzielt."
+
+#: plugins/Unity/lenses.cpp:39
+msgid "Home screen"
+msgstr "Startseite"
+
+#: plugins/Unity/lenses.cpp:40
+msgid "Search"
+msgstr "Suchen"

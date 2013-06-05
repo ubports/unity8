@@ -1,0 +1,188 @@
+#!/bin/bash
+
+TARGET_DIR=$PWD/../unity_build
+BUILD_DIR=$TARGET_DIR/build
+SETUP=false
+UPDATE=false
+CLEAN=false
+NUM_JOBS=$(( `grep -c ^processor /proc/cpuinfo` + 1 ))
+LENSES="applications mockmusic mockvideos"
+
+# verified working revisions
+LIBUNITY_REV=215
+UNITY_REV=3260
+PEOPLE_LENS_REV=74
+HUD_REV=252
+
+usage() {
+    echo "usage: build_unity [OPTIONS]\n"
+    echo "Script to build Unity on Ubuntu 12.10.\n"
+    echo "OPTIONS:"
+    echo "  -s, --setup   Setup the build environment and branch Unity"
+    echo "  -u, --update  Update Unity's source code"
+    echo "  -c, --clean   Clean build trees before building"
+    exit 1
+}
+
+set -- `getopt -n$0 -u -a --longoptions="setup,update,clean,help" "such" "$@"`
+
+# FIXME: giving incorrect arguments does not call usage and exit
+while [ $# -gt 0 ]
+do
+    case "$1" in
+       -s|--setup)   SETUP=true;;
+       -u|--update)  UPDATE=true;;
+       -c|--clean)   CLEAN=true;;
+       -h|--help)    usage;;
+       --)           shift;break;;
+    esac
+    shift
+done
+
+install_dependencies() {
+    echo "Installing build dependencies.."
+    sudo apt-get build-dep -y libunity unity || exit 4
+    sudo apt-get install -y libgtest-dev gnome-common libfolks-dev libtelepathy-glib-dev || exit 5
+    # HUD dependencies
+    sudo apt-get install -y bamfdaemon debhelper dh-autoreconf gir1.2-dee-1.0 gnome-common gnome-doc-utils gobject-introspection gtk-doc-tools indicator-application indicator-appmenu indicator-appmenu-tools intltool libappindicator3-dev libbamf3-dev libdbusmenu-glib-dev libdbusmenu-gtk3-dev libdbusmenu-jsonloader-dev libdbustest1-dev libdee-dev libgirepository1.0-dev libgtk-3-dev libncurses5-dev libreadline-dev libsqlite3-dev metacity sqlite3 valac-0.18 libpocketsphinx-dev libsphinxbase-dev  || exit 6
+}
+
+branch_libunity() {
+    echo "Branching libunity.."
+    bzr branch lp:libunity/phablet $TARGET_DIR/libunity
+}
+
+branch_unity() {
+    echo "Branching Unity.."
+    bzr branch lp:unity/phablet-mods $TARGET_DIR/unity
+}
+
+branch_people_lens() {
+    echo "Branching people lens.."
+    bzr branch lp:unity-lens-people $TARGET_DIR/people_lens
+}
+
+branch_hud() {
+    echo "Branching hud.."
+    bzr branch lp:hud $TARGET_DIR/hud
+}
+
+update_unity() {
+    echo "Updating Unity.."
+    bzr pull -d $TARGET_DIR/unity
+}
+
+update_libunity() {
+    echo "Updating libunity.."
+    bzr pull -d $TARGET_DIR/libunity
+}
+
+update_people_lens() {
+    echo "Updating people lens.."
+    bzr pull -d $TARGET_DIR/people_lens
+}
+
+update_hud() {
+    echo "Updating hud"
+    bzr pull -d $TARGET_DIR/hud
+}
+
+compile_libunity() {
+    echo "Configuring libunity.."
+
+    if $CLEAN; then bzr clean-tree -d $TARGET_DIR/libunity --quiet --unknown --ignored --force; fi
+
+    cd $TARGET_DIR/libunity
+    bzr revert --quiet -r $LIBUNITY_REV || exit 8
+
+    ./autogen.sh --prefix $BUILD_DIR --disable-debug
+
+    echo "Building libunity and installing in " $BUILD_DIR
+    make -j$NUM_JOBS install
+
+}
+
+compile_unity_core() {
+    echo "Configuring Unity.."
+
+    if $CLEAN; then bzr clean-tree -d $TARGET_DIR/unity --quiet --unknown --ignored --force; fi
+
+    cd $TARGET_DIR/unity
+    bzr revert --quiet -r $UNITY_REV || exit 9
+
+    mkdir $TARGET_DIR/unity/build
+    cd $TARGET_DIR/unity/build
+
+    PKG_CONFIG_PATH=$BUILD_DIR/lib/pkgconfig:$PKG_CONFIG_PATH cmake $TARGET_DIR/unity -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$BUILD_DIR -DCOMPIZ_PLUGIN_INSTALL_TYPE=local -DGSETTINGS_LOCALINSTALL=ON
+
+    echo "Building UnityCore and installing in " $BUILD_DIR
+    cd UnityCore
+    make -j$NUM_JOBS
+    make install
+
+}
+
+compile_people_lens() {
+    echo "Configuring people lens.."
+
+    if $CLEAN; then bzr clean-tree -d $TARGET_DIR/people_lens --quiet --unknown --ignored --force; fi
+
+    cd $TARGET_DIR/people_lens
+    bzr revert --quiet -r $PEOPLE_LENS_REV || exit 10
+
+    PKG_CONFIG_PATH=$BUILD_DIR/lib/pkgconfig:$PKG_CONFIG_PATH ./autogen.sh --prefix $BUILD_DIR --enable-localinstall
+
+    echo "Building people lens and installing in " $BUILD_DIR
+    MAINTAINER_VALAFLAGS="--vapidir=${BUILD_DIR}/share/vala/vapi" make -j$NUM_JOBS install
+
+}
+
+compile_hud() {
+    echo "Configuring hud.."
+
+    if $CLEAN; then bzr clean-tree -d $TARGET_DIR/hud --quiet --unknown --ignored --force; fi
+
+    cd $TARGET_DIR/hud
+    bzr revert -r $HUD_REV || exit 11
+
+    mkdir $TARGET_DIR/hud/build
+    cd $TARGET_DIR/hud/build
+
+    cmake $TARGET_DIR/hud/ -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$BUILD_DIR -DCMAKE_INSTALL_LIBDIR=lib -DLOCAL_INSTALL=ON -DENABLE_TESTS=OFF
+
+    echo "Building hud and installing in " $BUILD_DIR
+    make install
+
+}
+
+link_lenses() {
+    echo "Linking system lenses.."
+    mkdir -p $BUILD_DIR/share/unity/lenses/
+    for LENS in $LENSES; do
+        [ -e $BUILD_DIR/share/unity/lenses/$LENS ] || ln -ivs /usr/share/unity/lenses/$LENS $BUILD_DIR/share/unity/lenses/$LENS
+    done
+}
+
+if $SETUP; then
+    echo "Setting up environment for building Unity.."
+    install_dependencies
+    mkdir -p $TARGET_DIR
+    branch_libunity
+    branch_unity
+    branch_people_lens
+    branch_hud
+elif $UPDATE; then
+    update_libunity
+    update_unity
+    update_people_lens
+    update_hud
+else
+    if $CLEAN; then rm -Rf $BUILD_DIR; fi
+    mkdir -p $BUILD_DIR
+    compile_libunity
+    compile_unity_core
+    compile_people_lens
+    compile_hud
+    link_lenses
+fi
+
