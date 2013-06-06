@@ -24,7 +24,7 @@ Showable {
     id: dash
 
     property alias contentProgress: dashContent.contentProgress
-    property string showLensOnLoaded: "home.lens"
+    property string showLensOnLoaded: "home.scope"
     property real contentScale: 1.0
 
     width: units.gu(40)

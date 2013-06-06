@@ -130,7 +130,7 @@ void Scope::setNoResultsHint(const QString& hint) {
 
 void Scope::activate(const QString& uri)
 {
-//    m_unityScope->Activate(QByteArray::fromPercentEncoding(uri.toUtf8()).constData()); FIXME pawel
+//    m_unityScope->Activate(QByteArray::fromPercentEncoding(uri.toUtf8()).constData()); TODO needs model row
 }
 
 void Scope::onActivated(unity::dash::LocalResult const& result, unity::dash::ScopeHandledType type, unity::glib::HintsMap const&)
