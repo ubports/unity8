@@ -20,12 +20,10 @@
 // self
 #include "categories.h"
 #include "categoryfilter.h"
-#include <QDebug>
 
 Categories::Categories(QObject* parent)
     : DeeListModel(parent)
     , m_resultModel(0)
-//    , m_globalResultModel(0)
 {
     // FIXME: need to clean up unused filters on countChanged
     m_roles[Categories::RoleId] = "id";
@@ -34,9 +32,7 @@ Categories::Categories(QObject* parent)
     m_roles[Categories::RoleRenderer] = "renderer";
     m_roles[Categories::RoleHints] = "hints";
     m_roles[Categories::RoleResults] = "results";
-    m_roles[Categories::RoleGlobalResults] = "globalResults";
     m_roles[Categories::RoleCount] = "count";
-    m_roles[Categories::RoleGlobalCount] = "globalCount";
 
     // TODO This should not be needed but accumulatting the count changes
     // makes the visualization more stable and also makes crashes on fast
@@ -49,7 +45,6 @@ Categories::Categories(QObject* parent)
 Categories::~Categories()
 {
     qDeleteAll(m_filters);
-//    qDeleteAll(m_globalFilters);
 }
 
 CategoryFilter*
@@ -67,21 +62,6 @@ Categories::getFilter(int index) const
     return m_filters[index];
 }
 
-/*CategoryFilter*
-Categories::getGlobalFilter(int index) const
-{
-    if (!m_globalFilters.contains(index)) {
-        CategoryFilter* filter = new CategoryFilter();
-        connect(filter, SIGNAL(countChanged()), this, SLOT(onGlobalCountChanged()));
-        filter->setModel(m_globalResultModel);
-        filter->setIndex(index);
-
-        m_globalFilters.insert(index, filter);
-    }
-
-    return m_globalFilters[index];
-    }*/
-
 void
 Categories::setResultModel(DeeListModel* model)
 {
@@ -95,21 +75,6 @@ Categories::setResultModel(DeeListModel* model)
         Q_EMIT resultModelChanged(m_resultModel);
     }
 }
-
-/*
-void
-Categories::setGlobalResultModel(DeeListModel* model)
-{
-    if (model != m_globalResultModel) {
-        m_globalResultModel = model;
-
-        Q_FOREACH(CategoryFilter* filter, m_globalFilters) {
-            filter->setModel(m_globalResultModel);
-        }
-
-        Q_EMIT globalResultModelChanged(m_globalResultModel);
-    }
-    }*/
 
 void
 Categories::onCountChanged()
@@ -132,19 +97,6 @@ Categories::onEmitCountChanged()
     }
     m_timerFilters.clear();
 }
-
-/*
-void
-Categories::onGlobalCountChanged()
-{
-    CategoryFilter* filter = qobject_cast<CategoryFilter*>(sender());
-    if (filter) {
-        QModelIndex changedIndex = index(filter->index());
-        QVector<int> roles;
-        roles.append(Categories::RoleGlobalCount);
-        Q_EMIT dataChanged(changedIndex, changedIndex, roles);
-    }
-    }*/
 
 QHash<int, QByteArray>
 Categories::roleNames() const
@@ -171,18 +123,9 @@ Categories::data(const QModelIndex& index, int role) const
         return QVariant::fromValue(DeeListModel::data(index, 4)); //HINTS
     } else if (role == RoleResults) {
         return QVariant::fromValue(getFilter(index.row()));
-    } else if (role == RoleGlobalResults) {
-        qWarning() << "GLOBAL RESULTS???";
-//        return QVariant::fromValue(getGlobalFilter(index.row()));
-        return QVariant();
     } else if (role == RoleCount) {
         CategoryFilter* filter = getFilter(index.row());
         return QVariant::fromValue(filter->rowCount());
-    } else if (role == RoleGlobalCount) {
-        qWarning() << "GLOBAL COUNT???";
-//        QSortFilterProxyModel* filter = getGlobalFilter(index.row());
-        //       return QVariant::fromValue(filter->rowCount());
-        return QVariant();
     } else {
         return QVariant();
     }
