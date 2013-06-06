@@ -79,6 +79,7 @@ Item {
         }
     }
 
+    /* FIXME: applications.lens and home.lens are effectively disabled for now */
     property var lensDelegateMapping: {"mockmusic.scope": "DashMusic.qml",
                                        "applications.lens": "DashApps.qml",
                                        "home.lens": "DashHome.qml",
