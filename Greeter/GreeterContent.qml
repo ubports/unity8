@@ -73,6 +73,8 @@ MouseArea {
         width: units.gu(29)
         height: parent.height
 
+        // TODO: Once we have a system API for determining which mode we are
+        // in, tablet/phone/desktop, that should be used instead of narrowMode.
         source: greeter.narrowMode ? "" : "LoginList.qml"
 
         onLoaded: {
