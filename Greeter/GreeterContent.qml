@@ -73,7 +73,7 @@ MouseArea {
         width: units.gu(29)
         height: parent.height
 
-        source: greeter.multiUser ? "LoginList.qml" : ""
+        source: greeter.narrowMode ? "" : "LoginList.qml"
 
         onLoaded: {
             item.currentIndex = greeterContentLoader.currentIndex
