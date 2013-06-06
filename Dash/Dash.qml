@@ -31,7 +31,7 @@ Showable {
     height: units.gu(71)
 
     function setCurrentLens(lensId, animate, reset) {
-        var lensIndex = filteredLenses.findFirst(Lenses.RoleId, lensId)
+        var lensIndex = filteredLenses.findFirst(Scopes.RoleId, lensId)
 
         if (lensIndex == -1) {
             console.warn("No match for lens with id: %1".arg(lensId))
@@ -48,12 +48,12 @@ Showable {
 
     SortFilterProxyModel {
         id: filteredLenses
-        model: Lenses {
+        model: Scopes {
             id: lenses
         }
         dynamicSortFilter: true
 
-        filterRole: Lenses.RoleVisible
+        filterRole: Scopes.RoleVisible
         filterRegExp: RegExp("^true$")
     }
 

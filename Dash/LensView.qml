@@ -19,7 +19,7 @@ import Utils 0.1
 import Unity 0.1
 
 FocusScope {
-    property Lens lens
+    property Scope lens
     property SortFilterProxyModel categories: categoryFilter
     property bool isCurrent
     property ListModel searchHistory

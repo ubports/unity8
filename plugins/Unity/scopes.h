@@ -88,4 +88,4 @@ private:
     void removeUnityScope(int index);
 };
 
-#endif // LENSES_H
+#endif // SCOPES_H

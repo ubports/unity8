@@ -40,8 +40,8 @@ static const char* DBUS_SERVICE = "com.canonical.Shell.BottomBarVisibilityCommun
 void UnityPlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("Unity"));
-    qmlRegisterType<Scope>(uri, 0, 1, "Lens");
-    qmlRegisterType<Scopes>(uri, 0, 1, "Lenses");
+    qmlRegisterType<Scope>(uri, 0, 1, "Scope");
+    qmlRegisterType<Scopes>(uri, 0, 1, "Scopes");
     qmlRegisterType<Categories>(uri, 0, 1, "Categories");
     qmlRegisterType<CategoryFilter>(uri, 0, 1, "CategoryFilter");
     qmlRegisterType<DeeListModel>(uri, 0, 1, "DeeListModel");
