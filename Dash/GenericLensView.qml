@@ -22,6 +22,31 @@ import "../Components/ListItems" as ListItems
 LensView {
     id: lensView
 
+    //FIXME: a quick hack to get icons out of gicons and fallback to
+    //base icon for annotated icons. Doesn't correctly handle all icons.
+    //Proper global solution needed.
+    function from_gicon(name) {
+        var icon_name = name;
+        var annotated_re = /^. UnityProtocolAnnotatedIcon/;
+        if (annotated_re.test(name)) {
+            var base_icon_re = /'base-icon':.+?'(.+?)'/;
+            var base_icon = name.toString().match(base_icon_re);
+            icon_name = base_icon[1];
+        }
+        else {
+            var themed_re = /^. GThemedIcon\s*([^\s]+)\s*/;
+            var themed = name.match(themed_re);
+            if (themed) {
+                return "image://gicon/" + themed[1];
+            }
+        }
+        var remote_re = /^http/;
+        if (remote_re.test(icon_name)) {
+            return icon_name;
+        }
+        return "image://gicon/" + icon_name;
+    }
+
     onIsCurrentChanged: {
         pageHeader.resetSearch();
     }
@@ -74,7 +99,7 @@ LensView {
                     text: column_5 ? column_5 : "" // FIXME: this shouldn't be necessary
                     imageWidth: units.gu(11)
                     imageHeight: units.gu(16)
-                    source: column_1 ? column_1 : "" // FIXME: ditto
+                    source: column_1 ? from_gicon(column_1) : "" // FIXME: ditto
                 }
             }
         }
