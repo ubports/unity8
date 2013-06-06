@@ -11,6 +11,8 @@ TARGET_DEBUG_PORT=3768
 RUN_OPTIONS=-qmljsdebugger=port:$TARGET_DEBUG_PORT
 SETUP=false
 GDB=false
+PINLOCK=false
+KEYLOCK=false
 SUDO="echo $PASSWORD | sudo -S"
 NUM_JOBS='$(( `grep -c ^processor /proc/cpuinfo` + 1 ))'
 
@@ -19,6 +21,8 @@ usage() {
     echo "Script to setup a build environment for the shell and sync build and run it on the device\n"
     echo "OPTIONS:"
     echo "  -s, --setup   Setup the build environment"
+    echo "  -p, --pinlock Enable a PIN lock screen when running"
+    echo "  -k, --keylock Enable a Keyboard lock screen when running"
     echo ""
     echo "IMPORTANT:"
     echo " * Make sure to have the networking and PPAs setup on the device beforehand (phablet-deploy-networking && phablet-ppa-fetch)."
@@ -83,11 +87,19 @@ run() {
         adb shell "chroot /data/ubuntu /usr/bin/service ubuntu-session restart"
     fi
     adb shell pkill $BINARY
+    ARGS="--nomousetouch"
     if $GDB; then
-        exec_with_ssh "cd $CODE_DIR/ && ./run --gdb --nomousetouch -- $RUN_OPTIONS"
-    else
-        exec_with_ssh "cd $CODE_DIR && ./run --nomousetouch -- $RUN_OPTIONS"
+        ARGS="$ARGS --gdb"
     fi
+    if $PINLOCK; then
+        ARGS="$ARGS -p"
+    fi
+    if $KEYLOCK; then
+        ARGS="$ARGS -k"
+    fi
+
+    exec_with_ssh "cd $CODE_DIR/ && ./run $ARGS -- $RUN_OPTIONS"
+
     if [ $CONTAINS_SHELL -eq 0 ]; then
         echo "Restoring $SERVICEFILE on device from $SERVICEFILE.backup"
         adb shell cp $SERVICEFILE.backup $SERVICEFILE
@@ -95,7 +107,7 @@ run() {
     fi
 }
 
-set -- `getopt -n$0 -u -a --longoptions="setup,gdb,help" "sgh" "$@"`
+set -- `getopt -n$0 -u -a --longoptions="setup,gdb,pinlock,keylock,help" "sgpkh" "$@"`
 
 # FIXME: giving incorrect arguments does not call usage and exit
 while [ $# -gt 0 ]
@@ -103,6 +115,8 @@ do
     case "$1" in
        -s|--setup)   SETUP=true;;
        -g|--gdb)     GDB=true;;
+       -p|--pinlock)     PINLOCK=true;;
+       -k|--keylock)     KEYLOCK=true;;
        -h|--help)    usage;;
        --)           shift;break;;
     esac
