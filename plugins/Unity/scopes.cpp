@@ -18,10 +18,10 @@
  */
 
 // Self
-#include "lenses.h"
+#include "scopes.h"
 
 // Local
-#include "lens.h"
+#include "scope.h"
 
 // Qt
 #include <QDebug>
@@ -172,7 +172,7 @@ void Scopes::addUnityScope(const unity::dash::Scope::Ptr& unity_scope)
     Scope* scope = new Scope(this);
     scope->setUnityScope(unity_scope);
     /* DOCME */
-    QObject::connect(scope, SIGNAL(visibleChanged(bool)), this, SLOT(onLensPropertyChanged()));
+    QObject::connect(scope, SIGNAL(visibleChanged(bool)), this, SLOT(onScopePropertyChanged()));
     m_scopes.append(scope);
 }
 

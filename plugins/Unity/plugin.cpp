@@ -24,8 +24,8 @@
 #include "plugin.h"
 
 // local
-#include "lens.h"
-#include "lenses.h"
+#include "scope.h"
+#include "scopes.h"
 #include "categories.h"
 #include "categoryfilter.h"
 #include "bottombarvisibilitycommunicatorshell.h"

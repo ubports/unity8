@@ -18,7 +18,7 @@
  */
 
 // Self
-#include "lens.h"
+#include "scope.h"
 #include "categories.h"
 
 // Qt
@@ -257,13 +257,11 @@ void Scope::onCategoriesSwarmNameChanged(const std::string& /* swarm_name */)
 
 void Scope::onCategoriesChanged(const unity::dash::Categories::Ptr& /* categories */)
 {
-    qWarning() << "categories changed!";
     m_categories->setName(QString::fromStdString(m_unityScope->categories()->swarm_name));
 }
 
 void Scope::onCategoriesModelChanged(unity::glib::Object<DeeModel> model)
 {
-    qWarning() << "categories model changed!";
     m_categories->setModel(model);
 }
 
@@ -276,7 +274,6 @@ void Scope::onSearchFinished(const std::string &query, unity::glib::HintsMap con
 {
     QString hint;
 
-    qWarning() << "Result count:" << id() << m_unityScope->results()->count() <<  QString::fromStdString(m_unityScope->results()->swarm_name) << m_categories->rowCount();
     if (!m_unityScope->results()->count()) {
         unity::glib::HintsMap::const_iterator it = hints.find("no-results-hint");
         if (it != hints.end()) {
