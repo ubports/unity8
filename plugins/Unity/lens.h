@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef LENS_H
-#define LENS_H
+#ifndef SCOPE_H
+#define SCOPE_H
 
 // Qt
 #include <QObject>
@@ -35,7 +35,7 @@
 
 class Categories;
 
-class Lens : public QObject
+class Scope : public QObject
 {
     Q_OBJECT
     Q_ENUMS(ViewType)
@@ -56,7 +56,7 @@ class Lens : public QObject
     Q_PROPERTY(QString noResultsHint READ noResultsHint WRITE setNoResultsHint NOTIFY noResultsHintChanged)
 
 public:
-    explicit Lens(QObject *parent = 0);
+    explicit Scope(QObject *parent = 0);
 
     enum ViewType {
         Hidden,
@@ -86,8 +86,8 @@ public:
     void setNoResultsHint(const QString& hint);
 
     Q_INVOKABLE void activate(const QString& uri);
-    void setUnityLens(const unity::dash::Scope::Ptr& lens);
-    unity::dash::Scope::Ptr unityLens() const;
+    void setUnityScope(const unity::dash::Scope::Ptr& scope);
+    unity::dash::Scope::Ptr unityScope() const;
 
 Q_SIGNALS:
     void idChanged(const std::string&);
@@ -123,13 +123,13 @@ private:
     void onActivated(unity::dash::LocalResult const& result, unity::dash::ScopeHandledType type, unity::glib::HintsMap const&);
     void fallbackActivate(const QString& uri);
 
-    unity::dash::Scope::Ptr m_unityLens;
+    unity::dash::Scope::Ptr m_unityScope;
     DeeListModel* m_results;
     Categories* m_categories;
     QString m_searchQuery;
     QString m_noResultsHint;
 };
 
-Q_DECLARE_METATYPE(Lens*)
+Q_DECLARE_METATYPE(Scope*)
 
-#endif // LENS_H
+#endif // SCOPE_H

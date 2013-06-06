@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef LENSES_H
-#define LENSES_H
+#ifndef SCOPES_H
+#define SCOPES_H
 
 // Qt
 #include <QAbstractListModel>
@@ -32,14 +32,14 @@ namespace unity
 {
 namespace dash
 {
-class Lenses;
+class Scopes;
 }
 }
 
 class Hotkey;
-class Lens;
+class Scope;
 
-class Lenses : public QAbstractListModel
+class Scopes : public QAbstractListModel
 {
     Q_OBJECT
 
@@ -48,8 +48,8 @@ class Lenses : public QAbstractListModel
     Q_PROPERTY(bool loaded READ loaded NOTIFY loadedChanged)
 
 public:
-    explicit Lenses(QObject *parent = 0);
-    ~Lenses() = default;
+    explicit Scopes(QObject *parent = 0);
+    ~Scopes() = default;
 
     enum Roles {
         RoleLens,
@@ -68,25 +68,25 @@ public:
     bool loaded() const;
 
 Q_SIGNALS:
-    void activateLensRequested(const QString& lens_id);
+    void activateScopeRequested(const QString& scope_id);
     void loadedChanged(bool loaded);
 
 private Q_SLOTS:
     void loadMocks();
-    void onScopeAdded(const unity::dash::Scope::Ptr& lens, int position);
+    void onScopeAdded(const unity::dash::Scope::Ptr& scope, int position);
     void onScopeRemoved(const unity::dash::Scope::Ptr& scope);
     void onScopesReordered(const unity::dash::Scopes::ScopeList& scopes);
-    void onLensPropertyChanged();
+    void onScopePropertyChanged();
 
 private:
     unity::dash::GSettingsScopesReader::Ptr m_scopesReader;
-    unity::dash::Scopes::Ptr m_unityLenses;
-    QList<Lens*> m_lenses;
+    unity::dash::Scopes::Ptr m_unityScopes;
+    QList<Scope*> m_scopes;
     QHash<int, QByteArray> m_roles;
     bool m_loaded;
 
-    void addUnityLens(const unity::dash::Scope::Ptr& unity_lens);
-    void removeUnityLens(int index);
+    void addUnityScope(const unity::dash::Scope::Ptr& unity_scope);
+    void removeUnityScope(int index);
 };
 
 #endif // LENSES_H
