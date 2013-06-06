@@ -72,7 +72,6 @@ Q_SIGNALS:
     void loadedChanged(bool loaded);
 
 private Q_SLOTS:
-    void loadMocks();
     void onScopeAdded(const unity::dash::Scope::Ptr& scope, int position);
     void onScopeRemoved(const unity::dash::Scope::Ptr& scope);
     void onScopesReordered(const unity::dash::Scopes::ScopeList& scopes);

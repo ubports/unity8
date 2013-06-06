@@ -119,48 +119,6 @@ void Scopes::onScopesReordered(const unity::dash::Scopes::ScopeList& scopes)
     //TODO
 }
 
-void Scopes::loadMocks()
-{
-    /* FIXME: this is temporary code that is required on mobile to order
-       the lenses according to the design.
-    */
-    QStringList staticScopes;
-    staticScopes << "mockmusic.lens" << "people.lens" << "home.lens" << "applications.lens" << "mockvideos.lens";
-
-    // not all the lenses are guaranteed to go into the model (only if their UnitCore counterparts exist);
-    // so build up a list of the valid ones, then add them later.
-    QList<unity::dash::Scope::Ptr> added_scopes;
-
-    // add statically ordered lenses
-    Q_FOREACH(QString lensId, staticScopes) {
-        unity::dash::Scope::Ptr lens = m_unityScopes->GetScope(lensId.toStdString());
-        if (lens != NULL) {
-            added_scopes << lens;
-        }
-    }
-
-    // add remaining lenses
-    unity::dash::Scopes::ScopeList scopesList = m_unityScopes->GetScopes();
-    for(auto it = scopesList.begin(); it != scopesList.end(); ++it) {
-        unity::dash::Scope::Ptr scope = (*it);
-        if (!staticScopes.contains(QString::fromStdString(scope->id))) {
-            added_scopes << scope;
-        }
-    }
-
-    if (added_scopes.count() > 0) {
-        int index = rowCount();
-        beginInsertRows(QModelIndex(), index, index+added_scopes.count()-1);
-        Q_FOREACH(unity::dash::Scope::Ptr scope, added_scopes) {
-            addUnityScope(scope);
-        }
-        endInsertRows();
-        }
-
-    m_loaded = true;
-    Q_EMIT loadedChanged(m_loaded);
-}
-
 void Scopes::onScopePropertyChanged()
 {
     QModelIndex scopeIndex = index(m_scopes.indexOf(qobject_cast<Scope*>(sender())));
