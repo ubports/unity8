@@ -32,27 +32,15 @@ Lens::Lens(QObject *parent) :
     QObject(parent)
 {
     m_results = new DeeListModel(this);
-    //m_globalResults = new DeeListModel(this);
     m_categories = new Categories(this);
 
     m_categories->setResultModel(m_results);
-//  m_categories->setGlobalResultModel(m_globalResults);
 }
 
 QString Lens::id() const
 {
     return QString::fromStdString(m_unityLens->id());
 }
-
-/*QString Lens::dbusName() const
-{
-    return QString::fromStdString(m_unityLens->dbus_name());
-}
-
-QString Lens::dbusPath() const
-{
-    return QString::fromStdString(m_unityLens->dbus_path());
-    }*/
 
 QString Lens::name() const
 {
@@ -79,11 +67,6 @@ bool Lens::visible() const
     return m_unityLens->visible();
 }
 
-/*bool Lens::searchInGlobal() const
-{
-    return m_unityLens->search_in_global();
-    }*/
-
 QString Lens::shortcut() const
 {
     return QString::fromStdString(m_unityLens->shortcut());
@@ -99,11 +82,6 @@ DeeListModel* Lens::results() const
     return m_results;
 }
 
-/*DeeListModel* Lens::globalResults() const
-{
-    return m_globalResults;
-}*/
-
 Categories* Lens::categories() const
 {
     return m_categories;
@@ -118,11 +96,6 @@ QString Lens::searchQuery() const
 {
     return m_searchQuery;
 }
-
-/*QString Lens::globalSearchQuery() const
-{
-    return m_globalSearchQuery;
-}*/
 
 QString Lens::noResultsHint() const
 {
@@ -148,20 +121,6 @@ void Lens::setSearchQuery(const QString& search_query)
     }
 }
 
-//void Lens::setGlobalSearchQuery(const QString& search_query)
-//{
-    /* Checking for m_globalSearchQuery.isNull() which returns true only when the string
-       has never been set is necessary because when search_query is the empty
-       string ("") and m_globalSearchQuery is the null string,
-       search_query != m_globalSearchQuery is still true.
-    */
-/*    if (m_globalSearchQuery.isNull() || search_query != m_globalSearchQuery) {
-        m_globalSearchQuery = search_query;
-        m_unityLens->GlobalSearch(search_query.toStdString(), sigc::mem_fun(this, &Lens::globalSearchFinished));
-        Q_EMIT globalSearchQueryChanged();
-    }
-}*/
-
 void Lens::setNoResultsHint(const QString& hint) {
     if (hint != m_noResultsHint) {
         m_noResultsHint = hint;
@@ -171,13 +130,13 @@ void Lens::setNoResultsHint(const QString& hint) {
 
 void Lens::activate(const QString& uri)
 {
-    //   m_unityLens->Activate(QByteArray::fromPercentEncoding(uri.toUtf8()).constData()); FIXME pawel
+//    m_unityLens->Activate(QByteArray::fromPercentEncoding(uri.toUtf8()).constData()); FIXME pawel
 }
 
-void Lens::onActivated(std::string const& uri, unity::dash::ScopeHandledType type, unity::glib::HintsMap const&)
+void Lens::onActivated(unity::dash::LocalResult const& result, unity::dash::ScopeHandledType type, unity::glib::HintsMap const&)
 {
     if (type == unity::dash::NOT_HANDLED) {
-        fallbackActivate(QString::fromStdString(uri));
+        fallbackActivate(QString::fromStdString(result.uri));
     }
 }
 
@@ -218,19 +177,13 @@ void Lens::fallbackActivate(const QString& uri)
 void Lens::setUnityLens(const unity::dash::Scope::Ptr& lens)
 {
     m_unityLens = lens;
-//    m_results->setModel(m_unityLens->results()->model());
 
     if (QString::fromStdString(m_unityLens->results()->swarm_name) == QString(":local")) {
         m_results->setModel(m_unityLens->results()->model());
     } else {
         m_results->setName(QString::fromStdString(m_unityLens->results()->swarm_name));
     }
-/*    if (QString::fromStdString(m_unityLens->global_results()->swarm_name) == QString(":local")) {
-        m_globalResults->setModel(m_unityLens->global_results()->model());
-    } else {
-        m_globalResults->setName(QString::fromStdString(m_unityLens->global_results()->swarm_name));
-        }*/
-    
+
     if (QString::fromStdString(m_unityLens->categories()->swarm_name) == QString(":local")) {
         m_categories->setModel(m_unityLens->categories()->model());
     } else {
@@ -239,21 +192,16 @@ void Lens::setUnityLens(const unity::dash::Scope::Ptr& lens)
 
     /* Property change signals */
     m_unityLens->id.changed.connect(sigc::mem_fun(this, &Lens::idChanged));
-//    m_unityLens->dbus_name.changed.connect(sigc::mem_fun(this, &Lens::dbusNameChanged));
-//    m_unityLens->dbus_path.changed.connect(sigc::mem_fun(this, &Lens::dbusPathChanged));
     m_unityLens->name.changed.connect(sigc::mem_fun(this, &Lens::nameChanged));
     m_unityLens->icon_hint.changed.connect(sigc::mem_fun(this, &Lens::iconHintChanged));
     m_unityLens->description.changed.connect(sigc::mem_fun(this, &Lens::descriptionChanged));
     m_unityLens->search_hint.changed.connect(sigc::mem_fun(this, &Lens::searchHintChanged));
     m_unityLens->visible.changed.connect(sigc::mem_fun(this, &Lens::visibleChanged));
-//    m_unityLens->search_in_global.changed.connect(sigc::mem_fun(this, &Lens::searchInGlobalChanged));
     m_unityLens->shortcut.changed.connect(sigc::mem_fun(this, &Lens::shortcutChanged));
     m_unityLens->connected.changed.connect(sigc::mem_fun(this, &Lens::connectedChanged));
     m_unityLens->results.changed.connect(sigc::mem_fun(this, &Lens::onResultsChanged));
     m_unityLens->results()->swarm_name.changed.connect(sigc::mem_fun(this, &Lens::onResultsSwarmNameChanged));
     m_unityLens->results()->model.changed.connect(sigc::mem_fun(this, &Lens::onResultsModelChanged));
-//    m_unityLens->global_results.changed.connect(sigc::mem_fun(this, &Lens::onGlobalResultsChanged));
-//    m_unityLens->global_results()->swarm_name.changed.connect(sigc::mem_fun(this, &Lens::onGlobalResultsSwarmNameChanged));
     m_unityLens->categories()->model.changed.connect(sigc::mem_fun(this, &Lens::onCategoriesModelChanged));
     m_unityLens->categories.changed.connect(sigc::mem_fun(this, &Lens::onCategoriesChanged));
     m_unityLens->categories()->swarm_name.changed.connect(sigc::mem_fun(this, &Lens::onCategoriesSwarmNameChanged));
@@ -263,7 +211,7 @@ void Lens::setUnityLens(const unity::dash::Scope::Ptr& lens)
     connect(this, SIGNAL(searchFinished(const std::string &, unity::glib::HintsMap const &, unity::glib::Error const &)), SLOT(onSearchFinished(const std::string &, unity::glib::HintsMap const &)));
 
     /* FIXME: signal should be forwarded instead of calling the handler directly */
-    //unityLens->activated.connect(sigc::mem_fun(this, &Lens::onActivated)); //FIXME pawel
+    m_unityLens->activated.connect(sigc::mem_fun(this, &Lens::onActivated));
 
     /* Synchronize local states with m_unityLens right now and whenever
        m_unityLens becomes connected */
@@ -284,9 +232,6 @@ void Lens::synchronizeStates()
         if (!m_searchQuery.isNull()) {
             m_unityLens->Search(m_searchQuery.toStdString());
         }
-        /*if (!m_globalSearchQuery.isNull()) {
-            m_unityLens->GlobalSearch(m_globalSearchQuery.toStdString());
-            }*/
     }
 }
 
@@ -304,16 +249,6 @@ void Lens::onResultsModelChanged(unity::glib::Object<DeeModel> model)
 {
     m_results->setModel(m_unityLens->results()->model());
 }
-
-//void Lens::onGlobalResultsSwarmNameChanged(const std::string& /* swarm_name */)
-//{
-//    m_globalResults->setName(QString::fromStdString(m_unityLens->global_results()->swarm_name));
-//
-
-//id Lens::onGlobalResultsChanged(const unity::dash::Results::Ptr& /* global_results */)
-//
-//  m_globalResults->setName(QString::fromStdString(m_unityLens->global_results()->swarm_name));
-//}
 
 void Lens::onCategoriesSwarmNameChanged(const std::string& /* swarm_name */)
 {
