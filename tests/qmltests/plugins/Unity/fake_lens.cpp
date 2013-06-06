@@ -35,7 +35,7 @@ Lens::Lens(QObject* parent)
     m_results->setModel(create_results_model(4, 30));
 
     m_categories->setResultModel(m_results);
-    m_categories->setGlobalResultModel(m_results);
+//    m_categories->setGlobalResultModel(m_results);
 }
 
 Lens::Lens(QString const& id,
@@ -53,7 +53,7 @@ Lens::Lens(QString const& id,
     m_results->setModel(create_results_model(4, 30));
 
     m_categories->setResultModel(m_results);
-    m_categories->setGlobalResultModel(m_results);
+//    m_categories->setGlobalResultModel(m_results);
 }
 
 QString Lens::id() const {

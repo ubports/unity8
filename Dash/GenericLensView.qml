@@ -71,7 +71,7 @@ LensView {
                 delegate: Tile {
                     width: filtergrid.cellWidth
                     height: filtergrid.cellHeight
-                    text: column_4 ? column_4 : "" // FIXME: this shouldn't be necessary
+                    text: column_5 ? column_5 : "" // FIXME: this shouldn't be necessary
                     imageWidth: units.gu(11)
                     imageHeight: units.gu(16)
                     source: column_1 ? column_1 : "" // FIXME: ditto

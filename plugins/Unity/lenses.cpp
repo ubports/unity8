@@ -28,24 +28,23 @@
 #include <QtCore/QStringList>
 #include <QtGui/QKeySequence>
 
-// libunity-core
-#include <UnityCore/FilesystemLenses.h>
-#include <UnityCore/HomeLens.h>
-
 Lenses::Lenses(QObject *parent)
     : QAbstractListModel(parent)
-    , m_unityLenses(std::make_shared<unity::dash::FilesystemLenses>())
-    , m_homeLens(std::make_shared<unity::dash::HomeLens>(QString::fromUtf8(dgettext("unity", "Home")).toStdString(),
+    , m_unityLenses(std::make_shared<unity::dash::GSettingsScopes>())
+/*    , m_homeLens(std::make_shared<unity::dash::HomeLens>(QString::fromUtf8(dgettext("unity", "Home")).toStdString(),
                                                          QString::fromUtf8(dgettext("unity", "Home screen")).toStdString(),
-                                                         QString::fromUtf8(dgettext("unity", "Search")).toStdString()))
+                                                         QString::fromUtf8(dgettext("unity", "Search")).toStdString()))*/
     , m_loaded(false)
 {
     m_roles[Lenses::RoleLens] = "lens";
     m_roles[Lenses::RoleId] = "id";
     m_roles[Lenses::RoleVisible] = "visible";
 
-    m_homeLens->AddLenses(m_unityLenses);
-    std::dynamic_pointer_cast<unity::dash::FilesystemLenses>(m_unityLenses)->lenses_loaded.connect(sigc::mem_fun(this, &Lenses::onLensesLoaded));
+    m_unityLenses->scope_added.connect(sigc::mem_fun(this, &Lenses::onScopeAdded));
+    m_unityLenses->scope_removed.connect(sigc::mem_fun(this, &Lenses::onScopeRemoved));
+    m_unityLenses->scopes_reordered.connect(sigc::mem_fun(this, &Lenses::onScopesReordered));
+    m_unityLenses->LoadScopes();
+    //std::dynamic_pointer_cast<unity::dash::FilesystemLenses>(m_unityLenses)->lenses_loaded.connect(sigc::mem_fun(this, &Lenses::onLensesLoaded));
 }
 
 QHash<int, QByteArray> Lenses::roleNames() const
@@ -102,12 +101,26 @@ bool Lenses::loaded() const
     return m_loaded;
 }
 
-void Lenses::onLensAdded(const unity::dash::Lens::Ptr& lens)
+void Lenses::onScopeAdded(const unity::dash::Scope::Ptr& scope, int position)
 {
     int index = m_lenses.count();
     beginInsertRows(QModelIndex(), index, index);
-    addUnityLens(lens);
+    addUnityLens(scope);
     endInsertRows();
+
+    // FIXME: do only once after all loaded?
+    m_loaded = true;
+    Q_EMIT loadedChanged(m_loaded);
+}
+
+void Lenses::onScopeRemoved(const unity::dash::Scope::Ptr& scope)
+{
+    //TODO pawel
+}
+
+void Lenses::onScopesReordered(const unity::dash::Scopes::ScopeList& scopes)
+{
+    //TODO pawel
 }
 
 void Lenses::onLensesLoaded()
@@ -115,29 +128,25 @@ void Lenses::onLensesLoaded()
     /* FIXME: this is temporary code that is required on mobile to order
        the lenses according to the design.
     */
-    QStringList staticLenses;
+    /*QStringList staticLenses;
     staticLenses << "mockmusic.lens" << "people.lens" << "home.lens" << "applications.lens" << "mockvideos.lens";
 
     // not all the lenses are guaranteed to go into the model (only if their UnitCore counterparts exist);
     // so build up a list of the valid ones, then add them later.
-    QList<unity::dash::Lens::Ptr> added_lenses;
+    QList<unity::dash::Scope::Ptr> added_lenses;
 
     // add statically ordered lenses
     Q_FOREACH(QString lensId, staticLenses) {
-        if (lensId == "home.lens") {
-            added_lenses << m_homeLens;
-        } else {
-            unity::dash::Lens::Ptr lens = m_unityLenses->GetLens(lensId.toStdString());
-            if (lens != NULL) {
-                added_lenses << lens;
-            }
+        unity::dash::Scope::Ptr lens = m_unityLenses->GetScope(lensId.toStdString());
+        if (lens != NULL) {
+            added_lenses << lens;
         }
     }
 
     // add remaining lenses
-    unity::dash::Lenses::LensList lensesList = m_unityLenses->GetLenses();
+    unity::dash::Scopes::ScopeList lensesList = m_unityLenses->GetScopes();
     for(auto it = lensesList.begin(); it != lensesList.end(); ++it) {
-        unity::dash::Lens::Ptr lens = (*it);
+        unity::dash::Scope::Ptr lens = (*it);
         if (!staticLenses.contains(QString::fromStdString(lens->id))) {
             added_lenses << lens;
         }
@@ -146,17 +155,17 @@ void Lenses::onLensesLoaded()
     if (added_lenses.count() > 0) {
         int index = rowCount();
         beginInsertRows(QModelIndex(), index, index+added_lenses.count()-1);
-        Q_FOREACH(unity::dash::Lens::Ptr lens, added_lenses) {
+        Q_FOREACH(unity::dash::Scope::Ptr lens, added_lenses) {
             addUnityLens(lens);
         }
         endInsertRows();
-    }
+        }*/
 
     m_loaded = true;
     Q_EMIT loadedChanged(m_loaded);
 
     // listen to dynamically added lenses
-    m_homeLens->lens_added.connect(sigc::mem_fun(this, &Lenses::onLensAdded));
+    //m_homeLens->lens_added.connect(sigc::mem_fun(this, &Lenses::onLensAdded)); //FIXME
 }
 
 void Lenses::onLensPropertyChanged()
@@ -165,7 +174,7 @@ void Lenses::onLensPropertyChanged()
     Q_EMIT dataChanged(lensIndex, lensIndex);
 }
 
-void Lenses::addUnityLens(const unity::dash::Lens::Ptr& unity_lens)
+void Lenses::addUnityLens(const unity::dash::Scope::Ptr& unity_lens)
 {
     Lens* lens = new Lens(this);
     lens->setUnityLens(unity_lens);

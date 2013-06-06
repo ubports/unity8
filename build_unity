@@ -9,8 +9,8 @@ NUM_JOBS=$(( `grep -c ^processor /proc/cpuinfo` + 1 ))
 LENSES="applications mockmusic mockvideos"
 
 # verified working revisions
-LIBUNITY_REV=215
-UNITY_REV=3260
+LIBUNITY_REV=219
+UNITY_REV=3343
 PEOPLE_LENS_REV=74
 HUD_REV=252
 
@@ -49,12 +49,13 @@ install_dependencies() {
 
 branch_libunity() {
     echo "Branching libunity.."
-    bzr branch lp:libunity/phablet $TARGET_DIR/libunity
+    bzr branch lp:libunity $TARGET_DIR/libunity
 }
 
 branch_unity() {
     echo "Branching Unity.."
-    bzr branch lp:unity/phablet-mods $TARGET_DIR/unity
+#   bzr branch lp:unity/phablet-mods $TARGET_DIR/unity
+    bzr branch lp:unity $TARGET_DIR/unity
 }
 
 branch_people_lens() {
@@ -95,7 +96,8 @@ compile_libunity() {
     cd $TARGET_DIR/libunity
     bzr revert --quiet -r $LIBUNITY_REV || exit 8
 
-    ./autogen.sh --prefix $BUILD_DIR --disable-debug
+    # FIXME: gi overrides
+    ./autogen.sh --prefix $BUILD_DIR --disable-debug --with-pygi-overrides-dir=$BUILD_DIR/gi-overrides
 
     echo "Building libunity and installing in " $BUILD_DIR
     make -j$NUM_JOBS install
@@ -181,8 +183,8 @@ else
     mkdir -p $BUILD_DIR
     compile_libunity
     compile_unity_core
-    compile_people_lens
+#   compile_people_lens
     compile_hud
-    link_lenses
+#   link_lenses
 fi
 

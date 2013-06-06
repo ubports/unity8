@@ -36,7 +36,7 @@ class Categories : public DeeListModel
     Q_ENUMS(Roles)
 
     Q_PROPERTY(DeeListModel* resultModel READ resultModel WRITE setResultModel NOTIFY resultModelChanged)
-    Q_PROPERTY(DeeListModel* globalResultModel READ globalResultModel WRITE setResultModel NOTIFY globalResultModelChanged)
+//    Q_PROPERTY(DeeListModel* globalResultModel READ globalResultModel WRITE setResultModel NOTIFY globalResultModelChanged)
 
 public:
     explicit Categories(QObject* parent = 0);
@@ -60,32 +60,32 @@ public:
 
     /* getters */
     DeeListModel* resultModel() { return m_resultModel; }
-    DeeListModel* globalResultModel() { return m_globalResultModel; }
+//    DeeListModel* globalResultModel() { return m_globalResultModel; }
 
     /* setters */
     void setResultModel(DeeListModel*);
-    void setGlobalResultModel(DeeListModel*);
+//    void setGlobalResultModel(DeeListModel*);
 
 Q_SIGNALS:
     void resultModelChanged(DeeListModel*);
-    void globalResultModelChanged(DeeListModel*);
+//    void globalResultModelChanged(DeeListModel*);
 
 private Q_SLOTS:
     void onCountChanged();
-    void onGlobalCountChanged();
+//    void onGlobalCountChanged();
     void onEmitCountChanged();
 
 private:
     CategoryFilter* getFilter(int index) const;
-    CategoryFilter* getGlobalFilter(int index) const;
+//    CategoryFilter* getGlobalFilter(int index) const;
 
     QTimer m_timer;
     QSet<CategoryFilter*> m_timerFilters;
     QHash<int, QByteArray> m_roles;
     DeeListModel* m_resultModel;
-    DeeListModel* m_globalResultModel;
+//    DeeListModel* m_globalResultModel;
     mutable QMap<int, CategoryFilter*> m_filters;
-    mutable QMap<int, CategoryFilter*> m_globalFilters;
+//    mutable QMap<int, CategoryFilter*> m_globalFilters;
 };
 
 #endif // CATEGORIES_H

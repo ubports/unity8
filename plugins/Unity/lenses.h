@@ -25,8 +25,8 @@
 #include <QList>
 
 // libunity-core
-#include <UnityCore/Lens.h>
-#include <UnityCore/HomeLens.h>
+#include <UnityCore/Scope.h>
+#include <UnityCore/GSettingsScopes.h>
 
 namespace unity
 {
@@ -72,18 +72,20 @@ Q_SIGNALS:
     void loadedChanged(bool loaded);
 
 private Q_SLOTS:
-    void onLensAdded(const unity::dash::Lens::Ptr& lens);
+    void onScopeAdded(const unity::dash::Scope::Ptr& lens, int position);
+    void onScopeRemoved(const unity::dash::Scope::Ptr& scope);
+    void onScopesReordered(const unity::dash::Scopes::ScopeList& scopes);
     void onLensesLoaded();
     void onLensPropertyChanged();
 
 private:
-    unity::dash::Lenses::Ptr m_unityLenses;
-    unity::dash::HomeLens::Ptr m_homeLens;
+    unity::dash::GSettingsScopesReader::Ptr m_scopesReader;
+    unity::dash::Scopes::Ptr m_unityLenses;
     QList<Lens*> m_lenses;
     QHash<int, QByteArray> m_roles;
     bool m_loaded;
 
-    void addUnityLens(const unity::dash::Lens::Ptr& unity_lens);
+    void addUnityLens(const unity::dash::Scope::Ptr& unity_lens);
     void removeUnityLens(int index);
 };
 

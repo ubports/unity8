@@ -17,7 +17,6 @@ set(QMLPLUGIN_SRC
     lenses.cpp
     categories.cpp
     categoryfilter.cpp
-    peoplepreviewdata.cpp
     plugin.cpp
     bottombarvisibilitycommunicatorshell.cpp
     launchermodel.cpp

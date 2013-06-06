@@ -20,11 +20,12 @@
 // self
 #include "categories.h"
 #include "categoryfilter.h"
+#include <QDebug>
 
 Categories::Categories(QObject* parent)
     : DeeListModel(parent)
     , m_resultModel(0)
-    , m_globalResultModel(0)
+//    , m_globalResultModel(0)
 {
     // FIXME: need to clean up unused filters on countChanged
     m_roles[Categories::RoleId] = "id";
@@ -48,7 +49,7 @@ Categories::Categories(QObject* parent)
 Categories::~Categories()
 {
     qDeleteAll(m_filters);
-    qDeleteAll(m_globalFilters);
+//    qDeleteAll(m_globalFilters);
 }
 
 CategoryFilter*
@@ -66,7 +67,7 @@ Categories::getFilter(int index) const
     return m_filters[index];
 }
 
-CategoryFilter*
+/*CategoryFilter*
 Categories::getGlobalFilter(int index) const
 {
     if (!m_globalFilters.contains(index)) {
@@ -79,7 +80,7 @@ Categories::getGlobalFilter(int index) const
     }
 
     return m_globalFilters[index];
-}
+    }*/
 
 void
 Categories::setResultModel(DeeListModel* model)
@@ -95,6 +96,7 @@ Categories::setResultModel(DeeListModel* model)
     }
 }
 
+/*
 void
 Categories::setGlobalResultModel(DeeListModel* model)
 {
@@ -107,7 +109,7 @@ Categories::setGlobalResultModel(DeeListModel* model)
 
         Q_EMIT globalResultModelChanged(m_globalResultModel);
     }
-}
+    }*/
 
 void
 Categories::onCountChanged()
@@ -131,6 +133,7 @@ Categories::onEmitCountChanged()
     m_timerFilters.clear();
 }
 
+/*
 void
 Categories::onGlobalCountChanged()
 {
@@ -141,7 +144,7 @@ Categories::onGlobalCountChanged()
         roles.append(Categories::RoleGlobalCount);
         Q_EMIT dataChanged(changedIndex, changedIndex, roles);
     }
-}
+    }*/
 
 QHash<int, QByteArray>
 Categories::roleNames() const
@@ -159,23 +162,27 @@ Categories::data(const QModelIndex& index, int role) const
     if (role == RoleId) {
         return QVariant::fromValue(index.row());
     } else if (role == RoleName) {
-        return QVariant::fromValue(DeeListModel::data(index, 0));
+        return QVariant::fromValue(DeeListModel::data(index, 1)); //DISPLAY_NAME
     } else if (role == RoleIcon) {
-        return QVariant::fromValue(DeeListModel::data(index, 1));
+        return QVariant::fromValue(DeeListModel::data(index, 2)); //ICON_HINT
     } else if (role == RoleRenderer) {
-        return QVariant::fromValue(DeeListModel::data(index, 2));
+        return QVariant::fromValue(DeeListModel::data(index, 3)); //RENDERER_NAME
     } else if (role == RoleHints) {
-        return QVariant::fromValue(DeeListModel::data(index, 3));
+        return QVariant::fromValue(DeeListModel::data(index, 4)); //HINTS
     } else if (role == RoleResults) {
         return QVariant::fromValue(getFilter(index.row()));
     } else if (role == RoleGlobalResults) {
-        return QVariant::fromValue(getGlobalFilter(index.row()));
+        qWarning() << "GLOBAL RESULTS???";
+//        return QVariant::fromValue(getGlobalFilter(index.row()));
+        return QVariant();
     } else if (role == RoleCount) {
         CategoryFilter* filter = getFilter(index.row());
         return QVariant::fromValue(filter->rowCount());
     } else if (role == RoleGlobalCount) {
-        QSortFilterProxyModel* filter = getGlobalFilter(index.row());
-        return QVariant::fromValue(filter->rowCount());
+        qWarning() << "GLOBAL COUNT???";
+//        QSortFilterProxyModel* filter = getGlobalFilter(index.row());
+        //       return QVariant::fromValue(filter->rowCount());
+        return QVariant();
     } else {
         return QVariant();
     }
