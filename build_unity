@@ -54,7 +54,6 @@ branch_libunity() {
 
 branch_unity() {
     echo "Branching Unity.."
-#   bzr branch lp:unity/phablet-mods $TARGET_DIR/unity
     bzr branch lp:unity $TARGET_DIR/unity
 }
 
@@ -96,7 +95,6 @@ compile_libunity() {
     cd $TARGET_DIR/libunity
     bzr revert --quiet -r $LIBUNITY_REV || exit 8
 
-    # FIXME: gi overrides
     ./autogen.sh --prefix $BUILD_DIR --disable-debug --with-pygi-overrides-dir=$BUILD_DIR/gi-overrides
 
     echo "Building libunity and installing in " $BUILD_DIR
@@ -185,6 +183,6 @@ else
     compile_unity_core
 #   compile_people_lens
     compile_hud
-#   link_lenses
+    link_lenses
 fi
 
