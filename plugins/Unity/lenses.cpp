@@ -44,7 +44,6 @@ Lenses::Lenses(QObject *parent)
     m_unityLenses->scope_removed.connect(sigc::mem_fun(this, &Lenses::onScopeRemoved));
     m_unityLenses->scopes_reordered.connect(sigc::mem_fun(this, &Lenses::onScopesReordered));
     m_unityLenses->LoadScopes();
-    //std::dynamic_pointer_cast<unity::dash::FilesystemLenses>(m_unityLenses)->lenses_loaded.connect(sigc::mem_fun(this, &Lenses::onLensesLoaded));
 }
 
 QHash<int, QByteArray> Lenses::roleNames() const
@@ -115,20 +114,20 @@ void Lenses::onScopeAdded(const unity::dash::Scope::Ptr& scope, int position)
 
 void Lenses::onScopeRemoved(const unity::dash::Scope::Ptr& scope)
 {
-    //TODO pawel
+    //TODO
 }
 
 void Lenses::onScopesReordered(const unity::dash::Scopes::ScopeList& scopes)
 {
-    //TODO pawel
+    //TODO
 }
 
-void Lenses::onLensesLoaded()
+void Lenses::loadMocks()
 {
     /* FIXME: this is temporary code that is required on mobile to order
        the lenses according to the design.
     */
-    /*QStringList staticLenses;
+    QStringList staticLenses;
     staticLenses << "mockmusic.lens" << "people.lens" << "home.lens" << "applications.lens" << "mockvideos.lens";
 
     // not all the lenses are guaranteed to go into the model (only if their UnitCore counterparts exist);
@@ -159,7 +158,7 @@ void Lenses::onLensesLoaded()
             addUnityLens(lens);
         }
         endInsertRows();
-        }*/
+        }
 
     m_loaded = true;
     Q_EMIT loadedChanged(m_loaded);
