@@ -57,6 +57,7 @@ void IndicatorClientCommon::init(const QSettings& settings)
 {
     Q_INIT_RESOURCE(indicatorclient_common);
 
+    setId(settings.value("Indicator Service/Name").toString());
     QString dbusService = settings.value("Indicator Service/DBusName").toString();
     QString objectPath = settings.value("Indicator Service/ObjectPath").toString();
 
@@ -163,6 +164,19 @@ void IndicatorClientCommon::shutdown()
 
     delete m_actionGroup;
     m_actionGroup = 0;
+}
+
+QString IndicatorClientCommon::identifier() const
+{
+    return m_identifier;
+}
+
+void IndicatorClientCommon::setId(const QString &identifier)
+{
+    if (identifier != m_identifier) {
+        m_identifier = identifier;
+        Q_EMIT identifierChanged(m_identifier);
+    }
 }
 
 QUrl IndicatorClientCommon::icon() const

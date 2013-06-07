@@ -37,7 +37,8 @@ class IndicatorsModel : public QAbstractListModel
 
 public:
     enum ModelRoles {
-        Title = 0,
+        Identifier = 0,
+        Title,
         IconSource,
         Label,
         Description,
@@ -68,6 +69,7 @@ Q_SIGNALS:
     void countChanged();
 
 private Q_SLOTS:
+    void onIdChanged();
     void onIconChanged();
     void onTitleChanged();
     void onLabelChanged();

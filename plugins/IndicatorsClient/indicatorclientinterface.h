@@ -57,13 +57,20 @@ public:
     virtual void shutdown() = 0;
 
     /**
+     * @brief Used to retrieve the current plugin identifier
+     * @return The identifier
+     *
+     * This function can be used to retrieve the indicator identifier
+     */
+    virtual QString identifier() const = 0;
+
+    /**
      * @brief Used to retrieve the current plugin icon
      * @return The icon url
      *
      * This function can be used to retrieve the indicator icon which will appear on the panel
      */
     virtual QUrl icon() const = 0;
-
 
     /**
      * @brief Used to retrieve the current plugin title

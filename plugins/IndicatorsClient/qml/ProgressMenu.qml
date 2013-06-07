@@ -22,6 +22,8 @@ import Ubuntu.Components 0.1
 
 Menu {
 
+    property alias value : progressBar.value
+
     // TODO: Replace this with the official ProgressBar component as soon as
     // it is available. For now, this rebuilds the Mockup as close as possible.
     UbuntuShape {

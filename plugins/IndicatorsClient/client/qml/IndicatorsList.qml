@@ -35,6 +35,7 @@ Page {
 
     ListView {
         id: mainMenu
+        objectName: "mainMenu"
         anchors.fill: parent
         model: indicators
 
@@ -43,7 +44,7 @@ Page {
             anchors.right: parent.right
             height: implicitHeight
             progression: isValid
-            objectName: title
+            objectName: identifier
 
             // Used basic components instead of 'ListItem.Standard' properties because it does not support image resize
             Image {
@@ -68,8 +69,8 @@ Page {
                     var props = model.initialProperties
                     props["widgetsMap"] = indicators.widgetsMap
 
-                    var page = Qt.createComponent("indicatorspage.qml")
-                    pages.push(page, {"initialProperties" : props, "component" : model.component})
+                    var page = Qt.createComponent("IndicatorsPage.qml")
+                    pages.push(page.createObject(pages), {"initialProperties" : props, "component" : model.component})
                 }
             }
         }

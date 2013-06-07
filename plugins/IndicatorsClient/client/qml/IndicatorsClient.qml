@@ -23,10 +23,18 @@ import Ubuntu.Components.ListItems 0.1 as ListItem
 
 Rectangle {
     color: "black"
+    id: root
+
     PageStack {
         id: pages
 
         anchors.fill: parent
-        Component.onCompleted: push(Qt.createComponent("indicatorslist.qml"))
+        Component.onCompleted: root.reset()
+    }
+
+    function reset() {
+        pages.clear();
+        var component = Qt.createComponent("IndicatorsList.qml")
+        pages.push(component.createObject(pages));
     }
 }

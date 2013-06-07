@@ -40,6 +40,7 @@ Item {
             if (!__menuFactory.menu ||  !__menuFactory.menu.extra || !__menuFactory.widgetsMap) {
                 return ''
             }
+
             var widgetType = __menuFactory.menu.extra.canonical_type
             var sourceFile = null
             if (widgetType) {

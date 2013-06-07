@@ -23,7 +23,7 @@ import Ubuntu.Components.ListItems 0.1 as ListItem
 
 BasicMenu {
     id: __menu
-
+    objectName: menu ? menu.action : ""
     progression: menu && (menu.linkSubMenu !== undefined)
     text: menu && menu.label ? menu.label : ""
     color: "#221e1c"

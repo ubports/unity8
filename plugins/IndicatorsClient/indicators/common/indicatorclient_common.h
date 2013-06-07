@@ -31,6 +31,7 @@ class QStateAction;
 class IndicatorClientCommon : public QObject, public IndicatorClientInterface
 {
     Q_OBJECT
+    Q_PROPERTY(QString identifier READ identifier NOTIFY identifierChanged)
     Q_PROPERTY(QString title READ title NOTIFY titleChanged)
     Q_PROPERTY(QString label READ label NOTIFY labelChanged)
     Q_PROPERTY(QString description READ description NOTIFY descriptionChanged)
@@ -46,6 +47,7 @@ public:
     void init(const QSettings& settings);
     void shutdown();
 
+    QString identifier() const;
     QUrl icon() const;
     QString title() const;
     bool visible() const;
@@ -59,6 +61,7 @@ public:
     WidgetsMap widgets();
 
 Q_SIGNALS:
+    void identifierChanged(const QString &identifier);
     void iconChanged(const QUrl &icon);
     void titleChanged(const QString &title);
     void visibleChanged(bool visible);
@@ -70,6 +73,7 @@ Q_SIGNALS:
 protected:
     PropertiesMap m_initialProperties;
 
+    void setId(const QString &id);
     void setIcon(const QUrl &icon);
     void setTitle(const QString &title);
     void setDescription(const QString &description);
@@ -86,6 +90,7 @@ private Q_SLOTS:
     void updateState(const QVariant &state);
 
 private:
+    QString m_identifier;
     QUrl m_icon;
     QString m_title;
     QString m_description;

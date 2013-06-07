@@ -9,29 +9,44 @@
 
 import os.path
 
+from autopilot.input import Mouse, Touch, Pointer
 from autopilot.testcase import AutopilotTestCase
 from autopilot.matchers import Eventually
 from autopilot.platform import model
 from testtools.matchers import Equals
 
 from indicators_client.emulators.main_window import MainWindow
+from logging import getLogger
+import sys
+from time import sleep
+
+log = getLogger(__name__)
 
 class FormFactors(object):
     Phone, Tablet, Desktop = range(3)
 
 class IndicatorsTestCase(AutopilotTestCase):
 
-    """A common test case class that provides several useful methods for shell tests."""
+    """A common test case class that provides several useful methods for indicator tests."""
 
-    def setUp(self, geometry, grid_size):
-        super(ShellTestCase, self).setUp()
-        self.launch_test_local(geometry)
+    if model() == 'Desktop':
+        scenarios = [
+        ('with mouse', dict(input_device_class=Mouse)),
+        ]
+    else:
+        scenarios = [
+        ('with touch', dict(input_device_class=Touch)),
+        ]
 
-    def launch_test_local(self, geometry):
+    def setUp(self):
+        self.pointing_device = Pointer(self.input_device_class.create())
+        self.launch_test_local()
+        super(IndicatorsTestCase, self).setUp()
+
+    def launch_test_local(self):
         os.environ['LD_LIBRARY_PATH'] = "../../../unity_build/build/lib"
         os.environ['QML2_IMPORT_PATH'] = "../../builddir/plugins:../../builddir/tests/mocks"
-        self.app = self.launch_test_application(
-            "../../builddir/plugins/IndicatorsClient/client/indicators-client")
+        self.app = self.launch_test_application("../../builddir/plugins/IndicatorsClient/client/indicators-client")
 
     def skipWrapper(*args, **kwargs):
         pass

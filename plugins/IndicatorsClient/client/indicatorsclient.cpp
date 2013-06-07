@@ -45,7 +45,7 @@ void IndicatorsClient::setupUI()
 {
     m_view = new QQuickView;
 
-    m_view->setSource(QUrl("qrc:qml/indicatorsclient.qml"));
+    m_view->setSource(QUrl("qrc:qml/IndicatorsClient.qml"));
     m_view->setResizeMode(QQuickView::SizeRootObjectToView);
 
     //Usable size on desktop
@@ -55,6 +55,6 @@ void IndicatorsClient::setupUI()
 int IndicatorsClient::run()
 {
     setupUI();
-    m_view->showMaximized();
+    m_view->show();
     return m_application->exec();
 }

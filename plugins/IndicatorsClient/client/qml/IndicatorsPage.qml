@@ -25,12 +25,13 @@ Page {
 
     title: initialProperties && initialProperties.title ?  initialProperties.title : ""
     property variant initialProperties
-    property alias component : _loader.sourceComponent
+    property alias component : page_loader.sourceComponent
 
     anchors.fill: parent
 
     Loader {
-        id: _loader
+        id: page_loader
+        objectName: "page_loader"
 
         anchors.fill: parent
 

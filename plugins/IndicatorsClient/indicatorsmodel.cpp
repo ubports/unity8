@@ -70,8 +70,9 @@ IndicatorsModel::IndicatorsModel(QObject *parent)
 /*! \internal */
 IndicatorsModel::~IndicatorsModel()
 {
-    delete m_widgetsMap;
-    delete m_manager;
+    disconnect(m_manager, 0, 0, 0);
+    m_manager->deleteLater();
+    m_widgetsMap->deleteLater();
 }
 
 /*!
@@ -155,6 +156,7 @@ void IndicatorsModel::onIndicatorLoaded(const QString& indicator)
     QObject* obj = dynamic_cast<QObject*>(plugin.get());
     if (obj)
     {
+        QObject::connect(obj, SIGNAL(idChanged(const QString&)), this, SLOT(onIdChanged()));
         QObject::connect(obj, SIGNAL(iconChanged(const QUrl&)), this, SLOT(onIconChanged()));
         QObject::connect(obj, SIGNAL(titleChanged(const QString&)), this, SLOT(onTitleChanged()));
         QObject::connect(obj, SIGNAL(labelChanged(const QString&)), this, SLOT(onLabelChanged()));
@@ -187,6 +189,12 @@ void IndicatorsModel::onIndicatorAboutToBeUnloaded(const QString& indicator)
         i++;
     }
 
+}
+
+/*! \internal */
+void IndicatorsModel::onIdChanged()
+{
+    notifyDataChanged(QObject::sender(), Identifier);
 }
 
 /*! \internal */
@@ -233,6 +241,7 @@ QHash<int, QByteArray> IndicatorsModel::roleNames() const
 {
     static QHash<int, QByteArray> roles;
     if (roles.isEmpty()) {
+        roles[Identifier] = "identifier";
         roles[Title] = "title";
         roles[IconSource] = "iconSource";
         roles[Label] = "label";
@@ -261,6 +270,11 @@ QVariant IndicatorsModel::data(const QModelIndex &index, int role) const
     IndicatorClientInterface::Ptr plugin = m_plugins[index.row()];
 
     switch (role) {
+    case Identifier:
+        if (plugin) {
+            attribute = QVariant(plugin->identifier());
+        }
+        break;
     case Title:
         if (plugin) {
             attribute = QVariant(plugin->title());

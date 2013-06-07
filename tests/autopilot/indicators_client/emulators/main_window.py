@@ -5,14 +5,25 @@
 # under the terms of the GNU General Public License version 3, as published
 # by the Free Software Foundation.
 
+from indicators_client.emulators import IndicatorsIntrospectionObject
+
 class MainWindow(object):
     """An emulator class that makes it easy to interact with the shell"""
 
     def __init__(self, app):
         self.app = app
 
-    def get_panel(self):
-        return self.app.select_single("Panel")
+    def get_qml_view(self):
+        """Get the main QML view"""
+        return self.app.select_single("QQuickView")
 
-    def get_indicator(self):
-        return self.app.select_single("Indicator")
+    def get_indicators_client(self):
+        return self.app.select_single("IndicatorsClient")
+
+    def get_page_stack(self):
+        """Get the page stack"""
+        return self.app.select_single("PageStack")
+
+    def get_power_menu(self):
+        """Get the power menu from the list"""
+        return self.app.select_single("BasicMenu", objectName="indicator-power");
