@@ -16,6 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import ListViewWithPageHeader 0.1
 import Dee 3.0
 import Unity 0.1
 import Utils 0.1
@@ -105,11 +106,11 @@ LensView {
             }
         }
 
-        sectionProperty: "name"
-        sectionDelegate: ListItems.Header {
-            width: categoryView.width
-            text: section
-        }
+//         sectionProperty: "name"
+//         sectionDelegate: ListItems.Header {
+//             width: categoryView.width
+//             text: section
+//         }
         pageHeader: PageHeader {
             id: pageHeader
             width: categoryView.width

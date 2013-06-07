@@ -21,6 +21,7 @@ import "carousel.js" as CarouselJS
 Item {
     id: carousel
 
+    clip: true // FIXME ?
     property Component itemComponent
     property var model
     property alias minimumTileWidth: flickable.minimumTileWidth

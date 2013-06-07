@@ -16,6 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import ListViewWithPageHeader 0.1
 import "../Components"
 import "../Components/ListItems" as ListItems
 import "Video"
@@ -94,7 +95,7 @@ LensView {
         id: categoryView
         anchors.fill: parent
         model: lensView.categories
-        clipListView: !previewLoader.onScreen
+//         clipListView: !previewLoader.onScreen
 
         onAtYEndChanged: if (atYEnd) endReached()
         onMovingChanged: if (moving && atYEnd) endReached()
@@ -136,11 +137,11 @@ LensView {
             }
         }
 
-        sectionProperty: "name"
-        sectionDelegate: ListItems.Header {
-            width: categoryView.width
-            text: section
-        }
+//         sectionProperty: "name"
+//         sectionDelegate: ListItems.Header {
+//             width: categoryView.width
+//             text: section
+//         }
 
         pageHeader: PageHeader {
             id: pageHeader

@@ -16,6 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import ListViewWithPageHeader 0.1
 import "../Components"
 import "../Components/ListItems" as ListItems
 import "Music"
@@ -81,11 +82,11 @@ LensView {
             }
         }
 
-        sectionProperty: "name"
-        sectionDelegate: ListItems.Header {
-            width: categoryView.width
-            text: section
-        }
+//         sectionProperty: "name"
+//         sectionDelegate: ListItems.Header {
+//             width: categoryView.width
+//             text: section
+//         }
         pageHeader: PageHeader {
             id: pageHeader
             width: categoryView.width

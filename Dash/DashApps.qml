@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Utils 0.1
+import ListViewWithPageHeader 0.1
 import "../Components"
 import "../Components/ListItems"
 import "Apps"
@@ -167,11 +168,11 @@ LensView {
             }
         }
 
-        sectionProperty: "category"
-        sectionDelegate: Header {
-            width: categoryView.width
-            text: categoryListModel.getCategory(section)
-        }
+//         sectionProperty: "category"
+//         sectionDelegate: Header {
+//             width: categoryView.width
+//             text: categoryListModel.getCategory(section)
+//         }
         pageHeader: PageHeader {
             id: pageHeader
             width: categoryView.width
