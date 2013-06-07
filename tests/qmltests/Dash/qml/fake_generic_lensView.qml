@@ -20,7 +20,5 @@ FakeLensView {
     id: fake_generic_lensView
     objectName: "fake_generic_lensView"
 
-    rect_color1: "blue"
-    rect_color2: "orange"
-    rect_color3: "teal"
+    back_color: "#D0D0D0"
 }

@@ -22,15 +22,13 @@ FocusScope {
     property Lens lens : null
     property bool isCurrent : false
 
-    property alias rect_color1 : rect1.color
-    property alias rect_color2 : rect2.color
-    property alias rect_color3 : rect3.color
-
     property ListModel searchHistory
 
     signal endReached
     signal movementStarted
     signal positionedAtBeginning
+
+    property alias back_color : back.color
 
     onEndReached: {
         if (shell != undefined && shell.lens_status != undefined) {
@@ -48,45 +46,74 @@ FocusScope {
         }
     }
 
-
-    Column {
+    Rectangle {
+        id: back
         anchors.fill: parent
-        Rectangle {
-            id: rect1
-            height: parent.height/3; width: parent.width;
+        color: "grey"
+    }
 
-            Text {
-                id: label1
-                anchors.fill: parent
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
-                text: lens ? lens.id : ""
+    function randomBg()
+    {
+    var hex1=new Array("4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F")
+    var bg="#"+hex1[Math.floor(Math.random()*hex1.length)]+
+                hex1[Math.floor(Math.random()*hex1.length)]+
+                hex1[Math.floor(Math.random()*hex1.length)]+
+                hex1[Math.floor(Math.random()*hex1.length)]+
+                hex1[Math.floor(Math.random()*hex1.length)]+
+                hex1[Math.floor(Math.random()*hex1.length)]
+    return bg
+    }
+
+
+    ListView {
+        id: list_view
+        anchors.fill: parent
+        model: lens ? lens.categories : null
+        orientation: ListView.Vertical
+
+        delegate:  Column {
+            id: column
+            width: list_view.width
+            height: childrenRect.height
+
+            Rectangle {
+                width: list_view.width
+                height: units.gu(3)
+                color: randomBg()
+
+                Text {
+                    text: name
+                    font.family: "Ubuntu"
+                    font.weight: Font.Bold
+                    font.pixelSize: 20
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
             }
-        }
+            GridView {
+                id: results_grid
+                model: results
+                cellWidth: units.gu(10); cellHeight: units.gu(10)
+                height: childrenRect.height
+                width: list_view.width
+                interactive: false
 
-        Rectangle {
-            id: rect2
-            height: parent.height/3; width: parent.width
-
-            Text {
-                id: label2
-                anchors.fill: parent
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
-                text: lens ? lens.id : ""
-            }
-        }
-
-        Rectangle {
-            id: rect3
-            height: parent.height/3; width: parent.width
-
-            Text {
-                id: label3
-                anchors.fill: parent
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
-                text: lens ? lens.id : ""
+                delegate:  Component {
+                    id: resultDelegate
+                    Item {
+                        width: results_grid.cellWidth; height: results_grid.cellHeight
+                        Column {
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            Image {
+                                width: units.gu(5)
+                                height: units.gu(5)
+                                source: column_1
+                                anchors.horizontalCenter: parent.horizontalCenter
+                            }
+                            Text { text: column_4; anchors.horizontalCenter: parent.horizontalCenter }
+                        }
+                    }
+               }
             }
         }
     }

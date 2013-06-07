@@ -47,12 +47,17 @@ Item {
         model: lensesModel
         lenses : lensesModel
 
-        lensDelegateMapping: { "MockLens3" : "../tests/qmltests/Dash/qml/fake_lensView3.qml",
-                               "MockLens2" : "../tests/qmltests/Dash/qml/fake_lensView2.qml",
-                               "MockLens1" : "../tests/qmltests/Dash/qml/fake_lensView1.qml",
-                               "MockLens4" : "../tests/qmltests/Dash/qml/fake_lensView4.qml"
-                             }
+        lens_mapper : lens_delegate_mapper
+    }
 
+    LensDelegateMapper {
+        id: lens_delegate_mapper
+        lensDelegateMapping: {
+            "MockLens1": "../tests/qmltests/Dash/qml/fake_lensView1.qml",
+            "MockLens2": "../tests/qmltests/Dash/qml/fake_lensView2.qml",
+            "MockLens3": "../tests/qmltests/Dash/qml/fake_lensView3.qml",
+            "MockLens4": "../tests/qmltests/Dash/qml/fake_lensView4.qml"
+        }
         genericLens: "../tests/qmltests/Dash/qml/fake_generic_lensView.qml"
     }
 
