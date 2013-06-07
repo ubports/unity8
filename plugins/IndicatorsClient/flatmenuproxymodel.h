@@ -60,6 +60,9 @@ public:
 
     int status() const;
 
+    /* QML */
+    Q_INVOKABLE QVariantMap get(int row) const;
+
 public Q_SLOTS:
     void onRowsInserted(const QModelIndex &parent, int start, int end);
     void onRowsAboutToBeInserted(const QModelIndex &parent, int start, int end);

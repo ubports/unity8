@@ -31,7 +31,9 @@ public:
     ~IndicatorClientMessaging();
 
     void init(const QSettings& settings);
-    QUrl componentSource() const;
+
+    QUrl iconComponentSource() const;
+    QUrl pageComponentSource() const;
 };
 
 #endif

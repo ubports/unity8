@@ -35,7 +35,6 @@ class IndicatorClientCommon : public QObject, public IndicatorClientInterface
     Q_PROPERTY(QString title READ title NOTIFY titleChanged)
     Q_PROPERTY(QString label READ label NOTIFY labelChanged)
     Q_PROPERTY(QString description READ description NOTIFY descriptionChanged)
-    Q_PROPERTY(QUrl icon READ icon NOTIFY iconChanged)
     Q_PROPERTY(bool visible READ visible NOTIFY visibleChanged)
     Q_PROPERTY(int priority READ priority NOTIFY priorityChanged)
 
@@ -47,19 +46,18 @@ public:
     void shutdown();
 
     QString identifier() const;
-    QUrl icon() const;
     QString title() const;
     bool visible() const;
     QString description() const;
     QString label() const;
     int priority() const;
 
-    QUrl componentSource() const;
+    QUrl iconComponentSource() const;
+    QUrl pageComponentSource() const;
     PropertiesMap initialProperties();
 
 Q_SIGNALS:
     void identifierChanged(const QString &identifier);
-    void iconChanged(const QUrl &icon);
     void titleChanged(const QString &title);
     void visibleChanged(bool visible);
     void descriptionChanged(const QString &description);
@@ -70,31 +68,19 @@ protected:
     PropertiesMap m_initialProperties;
 
     void setId(const QString &id);
-    void setIcon(const QUrl &icon);
     void setTitle(const QString &title);
     void setDescription(const QString &description);
     void setVisible(bool visible);
     void setLabel(const QString &title);
     void setPriority(int priority);
-    virtual bool parseRootElement(const QString &type, QMap<int, QVariant> data);
-    QDBusActionGroup *actionGroup() const;
-
-private Q_SLOTS:
-    void onModelChanged();
-    void updateState(const QVariant &state);
 
 private:
     QString m_identifier;
-    QUrl m_icon;
     QString m_title;
     QString m_description;
     QString m_label;
     bool m_visible;
     int m_priority;
-    QDBusMenuModel *m_model;
-    QDBusActionGroup *m_actionGroup;
-    QStateAction *m_action;
-    QQmlComponent *m_component;
 };
 
 #endif // INDICATORCLIENT_COMMON_H

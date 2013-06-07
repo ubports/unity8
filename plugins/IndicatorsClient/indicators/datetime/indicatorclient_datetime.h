@@ -36,13 +36,9 @@ public:
 
     void init(const QSettings& settings);
     void shutdown();
-    QString dateTime() const;
-    bool parseRootElement(const QString &type, QMap<int, QVariant> data);
-    QUrl componentSource() const;
 
-private Q_SLOTS:
-    void onTimeout();
-    void updateTimeFormat(const QVariant &state);
+    QUrl iconComponentSource() const;
+    QUrl pageComponentSource() const;
 
 private:
     QTimer m_timer;

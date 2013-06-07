@@ -24,11 +24,16 @@ IndicatorClientSound::IndicatorClientSound(QObject *parent)
 {
     setTitle("Sound");
     setPriority(IndicatorPriority::SOUND);
-    setIcon(QUrl("audio-volume-high"));
+    // setIcon(QUrl("audio-volume-high"));
 }
 
 
 void IndicatorClientSound::init(const QSettings& settings)
 {
     IndicatorClientCommon::init(settings);
+}
+
+QUrl IndicatorClientSound::iconComponentSource() const
+{
+    return QUrl("qrc:/indicatorsclient/qml/DefaultIndicatorIcon.qml");
 }

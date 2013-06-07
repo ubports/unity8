@@ -16,18 +16,42 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import IndicatorsClient 0.1 as IndicatorsClient
 
 Item {
     id: indicatorItem
 
-    property alias iconSource: itemImage.source
-    property alias label: itemLabel.text
+    property alias iconUrl: loader.source
     property bool highlighted: false
     property bool dimmed: false
+    property var initialProperties: undefined
+
+    opacity: dimmed ? 0.4 : 1
 
     // only visible when non-empty
-    visible: label != "" || iconSource != ""
-    width: itemRow.width + units.gu(1)
+    visible: loader.item != undefined && loader.status == Loader.Ready
+    width: visible ? loader.item.width : 0
+
+    Loader {
+        id: loader
+
+        onStatusChanged: {
+            if (status == Loader.Ready) {
+                item.height = Qt.binding(function() { return indicatorItem.height; })
+
+                for(var pName in initialProperties) {
+                    if (item.hasOwnProperty(pName)) {
+                        item[pName] = initialProperties[pName]
+                    }
+                }
+            }
+        }
+    }
+
+    Connections {
+        target: loader.item
+        onVisibleChanged: { visible = loader.item.visible }
+    }
 
     Rectangle {
         color: "#dd4814"
@@ -35,36 +59,5 @@ Item {
         width: parent.width
         anchors.top: parent.bottom
         visible: highlighted
-    }
-
-    Row {
-        id: itemRow
-        objectName: "itemRow"
-        anchors {
-            top: parent.top
-            bottom: parent.bottom
-            horizontalCenter: parent.horizontalCenter
-        }
-        spacing: units.gu(0.5)
-        opacity: dimmed ? 0.4 : 1
-
-        Image {
-            id: itemImage
-            objectName: "itemImage"
-            visible: source != ""
-            height: units.gu(2.5)
-            width: units.gu(2.5)
-            anchors.verticalCenter: parent.verticalCenter
-        }
-
-        Label {
-            id: itemLabel
-            objectName: "itemLabel"
-            color: "#f3f3e7"
-            opacity: 0.8
-            font.family: "Ubuntu"
-            fontSize: "medium"
-            anchors.verticalCenter: parent.verticalCenter
-        }
     }
 }

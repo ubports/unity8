@@ -33,18 +33,8 @@ public:
     ~IndicatorClientNetwork();
 
     void init(const QSettings& settings);
-    QUrl componentSource() const;
-    bool parseRootElement(const QString &type, QMap<int, QVariant> data);
-
-private Q_SLOTS:
-    void animationNextFrame();
-    void updateNetworkStatus(const QVariant &state);
-
-private:
-    QStateAction *m_action;
-    QTimer m_timedAnimation;
-
-    QString getIconBasedOnSingal(uint signal) const;
+    QUrl iconComponentSource() const;
+    QUrl pageComponentSource() const;
 };
 
 #endif

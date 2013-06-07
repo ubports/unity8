@@ -46,7 +46,7 @@ public:
 };
 
 
-#define FAKE_INDICATOR(number, title, icon) \
+#define FAKE_INDICATOR(number, title) \
   class FakeIndicatorClient##number : public FakeIndicatorClient \
   { \
   public: \
@@ -55,7 +55,6 @@ public:
       { \
           setTitle(title); \
           setPriority(number); \
-          setIcon(QUrl(icon)); \
       } \
   };
 

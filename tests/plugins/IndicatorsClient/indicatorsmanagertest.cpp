@@ -25,8 +25,8 @@
 #include <QtTest>
 #include <QDebug>
 
-FAKE_INDICATOR(1, "Fake Title 1", "fake-indicator-1")
-FAKE_INDICATOR(2, "Fake Title 2", "fake-indicator-2")
+FAKE_INDICATOR(1, "Fake Title 1")
+FAKE_INDICATOR(2, "Fake Title 2")
 
 class IndicatorsManagerTest : public QObject
 {
@@ -74,7 +74,6 @@ private Q_SLOTS:
         QVERIFY(indicator.get());
 
         QCOMPARE(indicator->identifier(), QString("indicator-fake1"));
-        QCOMPARE(indicator->icon(), QUrl("image://gicon/fake-indicator-1"));
         QCOMPARE(indicator->title(), QString("Fake Title 1"));
         QCOMPARE(indicator->label(), QString());
         QCOMPARE(indicator->description(), QString());

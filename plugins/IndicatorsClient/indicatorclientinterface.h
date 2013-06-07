@@ -64,14 +64,6 @@ public:
     virtual QString identifier() const = 0;
 
     /**
-     * @brief Used to retrieve the current plugin icon
-     * @return The icon url
-     *
-     * This function can be used to retrieve the indicator icon which will appear on the panel
-     */
-    virtual QUrl icon() const = 0;
-
-    /**
      * @brief Used to retrieve the current plugin title
      * @return The title
      *
@@ -109,14 +101,17 @@ public:
      */
     virtual int priority() const = 0;
 
+    /**
+     * @brief Used to retrieve the icon component source file
+     * @return The icon component url
+     */
+    virtual QUrl iconComponentSource() const = 0;
 
     /**
-     * @brief Used to retrieve the plugin initial component
-     * @param engine The current \l QDeclarativeEngine used to parse the componente code
-     * @param parent The parent of the returned object
-     * @return A new \l QDeclarativeComponent with the initial plugin view
+     * @brief Used to retrieve the plugin page component source file
+     * @return A url pointing to the component source file
      */
-    virtual QUrl componentSource() const = 0;
+    virtual QUrl pageComponentSource() const = 0;
 
     /**
      * @brief Used during the plugin Component instanciation to set the initial properties

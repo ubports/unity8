@@ -42,7 +42,12 @@ void IndicatorClientMessaging::init(const QSettings& settings)
     m_initialProperties.insert("highlightFollowsCurrentItem", false);
 }
 
-QUrl IndicatorClientMessaging::componentSource() const
+QUrl IndicatorClientMessaging::iconComponentSource() const
 {
-    return QUrl("qrc:/indicatorsclient/qml/MessagingIndicator.qml");
+    return QUrl("qrc:/indicatorsclient/qml/DefaultIndicatorIcon.qml");
+}
+
+QUrl IndicatorClientMessaging::pageComponentSource() const
+{
+    return QUrl("qrc:/indicatorsclient/qml/MessagingIndicatorPage.qml");
 }

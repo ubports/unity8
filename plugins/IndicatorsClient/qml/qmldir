@@ -1,7 +1,9 @@
 module IndicatorsClient
 plugin IndicatorsClientQml
 
-PluginItem 0.1 PluginItem.qml
+IndicatorItem 0.1 IndicatorItem.qml
+IndicatorIcon 0.1 IndicatorIcon.qml
+IndicatorPage 0.1 IndicatorPage.qml
 BasicMenu 0.1 BasicMenu.qml
 ButtonMenu 0.1 ButtonMenu.qml
 DBusActionState 0.1 DBusActionState.qml

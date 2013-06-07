@@ -38,13 +38,8 @@
 
 IndicatorClientCommon::IndicatorClientCommon(QObject *parent)
     : QObject(parent),
-      m_icon(""),
       m_visible(false),
-      m_priority(0),
-      m_model(0),
-      m_actionGroup(0),
-      m_action(0),
-      m_component(0)
+      m_priority(0)
 {
 }
 
@@ -59,107 +54,15 @@ void IndicatorClientCommon::init(const QSettings& settings)
     QString dbusService = settings.value("Indicator Service/DBusName").toString();
     QString objectPath = settings.value("Indicator Service/ObjectPath").toString();
 
-    m_model = new QDBusMenuModel(this);
-    m_model->setBusName(dbusService);
-    m_model->setObjectPath(objectPath + "/" + TARGET_DEVICE);
-    m_model->setBusType(DBusEnums::SessionBus);
-
-    //keep track of any change in the model
-    connect(m_model, SIGNAL(statusChanged(DBusEnums::ConnectionStatus)), SLOT(onModelChanged()));
-    connect(m_model, SIGNAL(rowsInserted(QModelIndex,int,int)), SLOT(onModelChanged()));
-    connect(m_model, SIGNAL(rowsRemoved(QModelIndex,int,int)), SLOT(onModelChanged()));
-    connect(m_model, SIGNAL(dataChanged(QModelIndex,QModelIndex)), SLOT(onModelChanged()));
-
-    m_actionGroup = new QDBusActionGroup(this);
-    m_actionGroup->setBusType(m_model->busType());
-    m_actionGroup->setBusName(m_model->busName());
-    m_actionGroup->setObjectPath(objectPath);
-
     m_initialProperties.clear();
     m_initialProperties.insert("title", m_title);
     m_initialProperties.insert("busType", 1);
     m_initialProperties.insert("busName", dbusService);
     m_initialProperties.insert("objectPath", objectPath);
-
-    m_actionGroup->start();
-    m_model->start();
-}
-
-void IndicatorClientCommon::onModelChanged()
-{
-    DBusEnums::ConnectionStatus status = m_model->status();
-
-    if (status == DBusEnums::Connected) {
-        QModelIndex index = m_model->index(0);
-        if (index.isValid()) {
-            QVariant extra = m_model->data(index, QDBusMenuModel::Extra);
-            QVariantMap extraMap = extra.toMap();
-            if (extraMap.contains("canonical_type")) {
-                QString type = extraMap["canonical_type"].toString();
-                parseRootElement(type, m_model->itemData(index));
-            }
-        }
-    } else {
-        parseRootElement("", QMap<int, QVariant>());
-    }
-}
-
-bool IndicatorClientCommon::parseRootElement(const QString &type, QMap<int, QVariant> data)
-{
-    if (type.isEmpty()) {
-        return false;
-    } else if (type != "com.canonical.indicator.root") {
-        if (!type.startsWith("com.canonical.indicator.root")) {
-            qWarning() << "indicator" << title() << "does not support root element";
-        }
-        return false;
-    } else {
-        if (m_action != 0) {
-            delete m_action;
-        }
-
-        QVariant action = data[QDBusMenuModel::Action];
-        m_action = m_actionGroup->action(action.toString());
-
-        if (m_action->isValid()) {
-            updateState(m_action->state());
-        }
-        QObject::connect(m_action, SIGNAL(stateChanged(QVariant)), this, SLOT(updateState(QVariant)));
-        return true;
-    }
-}
-
-void IndicatorClientCommon::updateState(const QVariant &state)
-{
-    if (state.isValid()) {
-        // (sssb) : the current label, icon name, accessible name, and visibility state of the indicator.
-        QVariantList states = state.toList();
-        if (states.size() == 4) {
-            setLabel(states[0].toString());
-            setIcon(QUrl(states[1].toString()));
-            setVisible(states[2].toBool());
-            return;
-        }
-    }
-
-    setLabel("");
-    setIcon(QUrl());
-    setVisible(false);
 }
 
 void IndicatorClientCommon::shutdown()
 {
-    delete m_component;
-    m_component = 0;
-
-    delete m_model;
-    m_model = 0;
-
-    delete m_action;
-    m_action = 0;
-
-    delete m_actionGroup;
-    m_actionGroup = 0;
 }
 
 QString IndicatorClientCommon::identifier() const
@@ -172,23 +75,6 @@ void IndicatorClientCommon::setId(const QString &identifier)
     if (identifier != m_identifier) {
         m_identifier = identifier;
         Q_EMIT identifierChanged(m_identifier);
-    }
-}
-
-QUrl IndicatorClientCommon::icon() const
-{
-    if (!m_icon.isEmpty() && m_icon.scheme().isEmpty()) {
-        return QString("image://gicon/") + QUrl::toPercentEncoding(m_icon.toString());
-    } else {
-        return m_icon;
-    }
-}
-
-void IndicatorClientCommon::setIcon(const QUrl &icon)
-{
-    if (icon != m_icon) {
-        m_icon = icon;
-        Q_EMIT iconChanged(m_icon);
     }
 }
 
@@ -257,14 +143,14 @@ void IndicatorClientCommon::setLabel(const QString &label)
     }
 }
 
-QDBusActionGroup *IndicatorClientCommon::actionGroup() const
+QUrl IndicatorClientCommon::iconComponentSource() const
 {
-    return m_actionGroup;
+    return QUrl("qrc:/indicatorsclient/qml/DefaultIndicatorIcon.qml");
 }
 
-QUrl IndicatorClientCommon::componentSource() const
+QUrl IndicatorClientCommon::pageComponentSource() const
 {
-    return QUrl("qrc:/indicatorsclient/qml/CommonIndicator.qml");
+    return QUrl("qrc:/indicatorsclient/qml/DefaultIndicatorPage.qml");
 }
 
 IndicatorClientInterface::PropertiesMap IndicatorClientCommon::initialProperties()

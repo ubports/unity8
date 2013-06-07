@@ -29,14 +29,10 @@
 #include <qstateaction.h>
 
 IndicatorClientNetwork::IndicatorClientNetwork(QObject *parent)
-    : IndicatorClientCommon(parent),
-      m_action(0)
+    : IndicatorClientCommon(parent)
 {
     setTitle("Networks");
     setPriority(IndicatorPriority::NETWORK);
-
-    m_timedAnimation.setInterval(500);
-    connect(&m_timedAnimation, SIGNAL(timeout()), SLOT(animationNextFrame()));
 }
 
 IndicatorClientNetwork::~IndicatorClientNetwork()
@@ -48,115 +44,15 @@ void IndicatorClientNetwork::init(const QSettings& settings)
     IndicatorClientCommon::init(settings);
 
     qmlRegisterType<NetworkAgent>("NetworkSettings", 0, 1, "NetworkAgent");
-    setIcon(QUrl("image://gicon/wifi-none"));
+    // setIcon(QUrl("image://gicon/wifi-none"));
 }
 
-QUrl IndicatorClientNetwork::componentSource() const
+QUrl IndicatorClientNetwork::iconComponentSource() const
 {
-    return QUrl("qrc:/indicatorsclient/qml/NetworkIndicator.qml");
+    return QUrl("qrc:/indicatorsclient/qml/NetworkIndicatorIcon.qml");
 }
 
-bool IndicatorClientNetwork::parseRootElement(const QString &type, QMap<int, QVariant> data)
+QUrl IndicatorClientNetwork::pageComponentSource() const
 {
-    if (type == "com.canonical.indicator.root.network") {
-        if (m_action != 0) {
-            delete m_action;
-        }
-
-        QVariant action = data[QDBusMenuModel::Action];
-        m_action = actionGroup()->action(action.toString());
-        if (m_action->isValid()) {
-            updateNetworkStatus(m_action->state());
-        }
-        connect(m_action, SIGNAL(stateChanged(QVariant)), SLOT(updateNetworkStatus(QVariant)));
-        return true;
-    } else {
-        return false;
-    }
-}
-
-QString IndicatorClientNetwork::getIconBasedOnSingal(uint signal) const
-{
-    if (signal == 0) {
-        return "nm-signal-00";
-    } else if (signal <= 25) {
-        return "nm-signal-25";
-    } else if (signal <= 50) {
-        return "nm-signal-50";
-    } else if (signal <= 75) {
-        return "nm-signal-75";
-    } else {
-        return "nm-signal-100";
-    }
-}
-
-void IndicatorClientNetwork::animationNextFrame()
-{
-    static int frame = 0;
-    QString iconName;
-    switch (frame) {
-    case 0:
-        iconName = "nm-signal-00";
-        break;
-    case 1:
-        iconName = "nm-signal-25";
-        break;
-    case 2:
-        iconName = "nm-signal-50";
-        break;
-    case 3:
-        iconName = "nm-signal-75";
-        break;
-    case 4:
-        iconName = "nm-signal-100";
-        break;
-    }
-
-    if (frame < 4) {
-        frame++;
-    } else {
-        frame = 0;
-    }
-    setIcon(QUrl("image://gicon/" + iconName));
-}
-
-void IndicatorClientNetwork::updateNetworkStatus(const QVariant &state)
-{
-    if (state.isValid()) {
-        // (uuu)
-        // - Device type
-        // - Connection state
-        // - Extended state
-        QVariantList states = state.toList();
-        if (states.size() == 3) {
-            QString iconName;
-            uint connectionState = states[1].toUInt();
-            switch (connectionState)
-            {
-            case 3: // NM_ACTIVE_CONNECTION_STATE_DEACTIVATING
-            case 1: // NM_ACTIVE_CONNECTION_STATE_ACTIVATING
-                m_timedAnimation.start();
-                iconName = "nm-signal-100";
-                break;
-            case 2: // NM_ACTIVE_CONNECTION_STATE_ACTIVATED
-                m_timedAnimation.stop();
-                iconName = getIconBasedOnSingal(states[2].toUInt());
-                break;
-            case 0: // NM_ACTIVE_CONNECTION_STATE_UNKNOWN
-            default:
-                m_timedAnimation.stop();
-                iconName = "wifi-none";
-                break;
-            }
-
-            setIcon(QUrl("image://gicon/" + iconName));
-            return;
-        } else {
-            qWarning() << "Invalid network root state value";
-            m_timedAnimation.stop();
-            setIcon(QUrl());
-        }
-    } else {
-        qWarning() << "Invalid network root state";
-    }
+    return QUrl("qrc:/indicatorsclient/qml/NetworkIndicatorPage.qml");
 }

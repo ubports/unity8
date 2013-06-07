@@ -39,7 +39,7 @@ Item {
         "unity.widgets.systemsettings.tablet.volumecontrol" : sliderMenu,
         "unity.widgets.systemsettings.tablet.switch"        : switchMenu,
 
-        "com.canonical.indicator.button"    : buttomMenu,
+        "com.canonical.indicator.button"    : buttonMenu,
         "com.canonical.indicator.div"       : divMenu,
         "com.canonical.indicator.section"   : sectionMenu,
         "com.canonical.indicator.progress"  : progressMenu,
@@ -57,7 +57,7 @@ Item {
 
     Component { id: sliderMenu; IC.SliderMenu {} }
     Component { id: switchMenu; IC.SwitchMenu {} }
-    Component { id: buttomMenu; IC.ButtonMenu {} }
+    Component { id: buttonMenu; IC.ButtonMenu {} }
     Component { id: divMenu; IC.DivMenu {} }
     Component { id: sectionMenu; IC.SectionMenu {} }
     Component { id: progressMenu; IC.ProgressMenu {} }
@@ -69,38 +69,38 @@ Item {
     Component { id: indicatorMenu; IC.Menu {} }
 
     Loader {
-            id: __loader
-            anchors.fill: parent
-            asynchronous: true
-            sourceComponent: {
-                if (!__menuFactory.menu ||  !__menuFactory.menu.extra) {
-                    return undefined
-                }
+        id: __loader
+        anchors.fill: parent
+        asynchronous: true
+        sourceComponent: {
+            if (!__menuFactory.menu ||  !__menuFactory.menu.extra) {
+                return undefined
+            }
 
-                var widgetType = __menuFactory.menu.extra.canonical_type
-                var sourceFile = null
-                if (widgetType) {
-                    var component = _map[widgetType]
-                    if (component != undefined) {
-                        return component
-                    }
-                }
+            var widgetType = __menuFactory.menu.extra.canonical_type
+            if (widgetType) {
+                return _map[widgetType]
+            }
+            else {
                 if (widgetType === "com.canonical.indicator.root") {
                    return undefined
                 // Try discovery the item based on the basic properties
                 } else if (menu.hasSection) {
                     return sectionMenu
                 }
-                return indicatorMenu
-            }
-
-            onStatusChanged: {
-                if (status == Loader.Ready) {
-                    item.listViewIsCurrentItem = Qt.binding(function() { return isCurrentItem; });
-                    item.actionGroup = Qt.binding(function() { return __menuFactory.actionGroup; });
-                    item.menu = Qt.binding(function() { return __menuFactory.menu; });
+                else {
+                    return indicatorMenu
                 }
             }
-    }
+            return undefined
+        }
 
+        onStatusChanged: {
+            if (status == Loader.Ready) {
+                item.listViewIsCurrentItem = Qt.binding(function() { return isCurrentItem; });
+                item.actionGroup = Qt.binding(function() { return __menuFactory.actionGroup; });
+                item.menu = Qt.binding(function() { return __menuFactory.menu; });
+            }
+        }
+    }
 }

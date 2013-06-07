@@ -79,12 +79,12 @@ Item {
     Item {
         id: priv
         property variant actionObject : action && actionGroup ? actionGroup.action(action) : null
-        property variant actionState: actionObject && actionObject.valid ? actionObject.state : undefined
+        property variant actionState: actionObject ? actionObject.state : undefined
 
         Binding {
             id: propertyBinding
             value: priv.actionState
-            when: (actionGroup && active && priv.actionObject && priv.actionObject.valid)
+            when: (actionGroup && active && priv.actionObject)
         }
     }
 

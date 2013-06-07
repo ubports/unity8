@@ -323,3 +323,18 @@ int FlatMenuProxyModel::rowOffsetOf(const QModelIndex &index, int row, bool incl
 
     return offset;
 }
+
+/*! \for use in qml */
+QVariantMap FlatMenuProxyModel::get(int row) const
+{
+    QVariantMap result;
+
+    QModelIndex index = this->index(row);
+    if (index.isValid()) {
+        const QHash<int, QByteArray> roleNames = this->roleNames();
+        Q_FOREACH(int i, roleNames.keys()) {
+            result.insert(roleNames[i], data(index, i));
+        }
+    }
+    return result;
+}

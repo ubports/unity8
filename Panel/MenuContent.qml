@@ -94,7 +94,7 @@ Rectangle {
 
             width: menus.width
             height: menus.height
-            source: component
+            source: pageUrl
             visible: content.__shown
             onVisibleChanged: {
                 // Reset the indicator states

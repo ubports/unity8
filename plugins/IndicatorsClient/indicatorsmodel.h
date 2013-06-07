@@ -37,10 +37,10 @@ public:
     enum ModelRoles {
         Identifier = 0,
         Title,
-        IconSource,
         Label,
         Description,
-        QMLComponent,
+        IconUrl,
+        PageUrl,
         InitialProperties,
         IsValid
     };
@@ -65,7 +65,6 @@ Q_SIGNALS:
 
 private Q_SLOTS:
     void onIdentifierChanged();
-    void onIconChanged();
     void onTitleChanged();
     void onLabelChanged();
     void onIndicatorLoaded(const QString& indicator);

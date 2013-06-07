@@ -31,3 +31,8 @@ void IndicatorClientPower::init(const QSettings& settings)
 {
     IndicatorClientCommon::init(settings);
 }
+
+QUrl IndicatorClientPower::iconComponentSource() const
+{
+    return QUrl("qrc:/indicatorsclient/qml/DefaultIndicatorIcon.qml");
+}

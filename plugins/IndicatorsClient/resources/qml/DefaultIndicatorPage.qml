@@ -17,8 +17,9 @@
  *      Renato Araujo Oliveira Filho <renato@canonical.com>
  */
 
+import QtQuick 2.0
 import IndicatorsClient 0.1 as IndicatorsClient
 
-IndicatorsClient.PluginItem {
+IndicatorsClient.IndicatorPage {
       anchors.fill: parent
 }

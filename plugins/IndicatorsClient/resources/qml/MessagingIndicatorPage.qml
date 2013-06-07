@@ -17,11 +17,11 @@
  *      Renato Araujo Oliveira Filho <renato.filho@canonical.com>
  */
 
-import IndicatorsClient 0.1 as IndicatorsClient
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import IndicatorsClient 0.1 as IndicatorsClient
 
-IndicatorsClient.PluginItem {
+IndicatorsClient.IndicatorPage {
     anchors.fill: parent
 
     function stop() {

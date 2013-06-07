@@ -23,43 +23,23 @@ import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
 import IndicatorsClient 0.1 as IndicatorsClient
 
-Item {
+IndicatorBase {
     id: main
 
     //const
-    property string device: "phone"
-    property string title
     property alias emptyText: emptyLabel.text
-    property int busType
-    property string busName
-    property string objectPath
     property alias highlightFollowsCurrentItem : mainMenu.highlightFollowsCurrentItem
     readonly property real overshootHeight: (mainMenu.contentY < 0) ? -mainMenu.contentY : 0
     property bool __active: false
 
     anchors.fill: parent
 
-    QDBusActionGroup {
-        id: __actionGroup
-        busType: main.busType
-        busName: main.busName
-        objectPath: main.objectPath
-    }
-
-    IndicatorsClient.FlatMenuProxyModel {
-        id: __proxyModel
-
-        busType: main.busType
-        busName: main.busName
-        objectPath: main.objectPath  + "/" + device
-    }
-
     ListView {
         id: mainMenu
 
         property int visibleItems: 0
 
-        model: __proxyModel
+        model: proxyModel
         anchors {
             fill: parent
             bottomMargin: Qt.inputMethod.visible ? (Qt.inputMethod.keyboardRectangle.height - main.anchors.bottomMargin) : 0
@@ -147,7 +127,7 @@ Item {
                 FactoryMenu {
                     id: factory
 
-                    actionGroup: __actionGroup
+                    actionGroup: main.actionGroup
                     isCurrentItem: item.ListView.isCurrentItem
                     anchors.left: parent.left
                     anchors.right: parent.right
@@ -181,19 +161,19 @@ Item {
     function start()
     {
         reset()
-        if (!main.__active) {
-            __proxyModel.start()
-            __actionGroup.start()
-            main.__active = true
+        if (!__active) {
+            proxyModel.start()
+            actionGroup.start()
+            __active = true
         }
     }
 
     function stop()
     {
-        if (main.__active) {
-            main.__active = false
-            __proxyModel.stop()
-            __actionGroup.stop()
+        if (__active) {
+            __active = false
+            proxyModel.stop()
+            actionGroup.stop()
         }
     }
 

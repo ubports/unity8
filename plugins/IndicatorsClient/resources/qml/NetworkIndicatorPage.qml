@@ -17,6 +17,7 @@
  *      Renato Araujo Oliveira Filho <renato@canonical.com>
  */
 
+import QtQuick 2.0
 import IndicatorsClient 0.1 as IndicatorsClient
 import Ubuntu.Components 0.1
 import NetworkSettings 0.1
@@ -36,7 +37,7 @@ PageStack {
     Page {
         id: _mainPage
 
-        IndicatorsClient.PluginItem {
+        IndicatorsClient.IndicatorPage {
             id: _pluginItem
             anchors.fill: parent
         }

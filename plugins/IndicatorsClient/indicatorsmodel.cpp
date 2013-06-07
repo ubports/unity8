@@ -141,7 +141,6 @@ void IndicatorsModel::onIndicatorLoaded(const QString& indicator)
     if (obj)
     {
         QObject::connect(obj, SIGNAL(identifierChanged(const QString&)), this, SLOT(onIdentifierChanged()));
-        QObject::connect(obj, SIGNAL(iconChanged(const QUrl&)), this, SLOT(onIconChanged()));
         QObject::connect(obj, SIGNAL(titleChanged(const QString&)), this, SLOT(onTitleChanged()));
         QObject::connect(obj, SIGNAL(labelChanged(const QString&)), this, SLOT(onLabelChanged()));
     }
@@ -177,12 +176,6 @@ void IndicatorsModel::onIndicatorAboutToBeUnloaded(const QString& indicator)
 void IndicatorsModel::onIdentifierChanged()
 {
     notifyDataChanged(QObject::sender(), Identifier);
-}
-
-/*! \internal */
-void IndicatorsModel::onIconChanged()
-{
-    notifyDataChanged(QObject::sender(), IconSource);
 }
 
 /*! \internal */
@@ -225,10 +218,10 @@ QHash<int, QByteArray> IndicatorsModel::roleNames() const
     if (roles.isEmpty()) {
         roles[Identifier] = "identifier";
         roles[Title] = "title";
-        roles[IconSource] = "iconSource";
         roles[Label] = "label";
         roles[Description] = "description";
-        roles[QMLComponent] = "component";
+        roles[IconUrl] = "iconUrl";
+        roles[PageUrl] = "pageUrl";
         roles[InitialProperties] = "initialProperties";
         roles[IsValid] = "isValid";
     }
@@ -262,13 +255,6 @@ QVariant IndicatorsModel::data(const QModelIndex &index, int role) const
             attribute = QVariant(plugin->title());
         }
         break;
-    case IconSource:
-        if (plugin) {
-            return plugin->icon().toString();
-        } else {
-            attribute = QVariant("No plugin");
-        }
-        break;
     case Label:
         if (plugin) {
             attribute = QVariant(plugin->label());
@@ -281,9 +267,16 @@ QVariant IndicatorsModel::data(const QModelIndex &index, int role) const
         }
         break;
     }
-    case QMLComponent:
+    case IconUrl:
         if (plugin) {
-            return plugin->componentSource();
+            return plugin->iconComponentSource().toString();
+        } else {
+            attribute = QVariant("No plugin");
+        }
+        break;
+    case PageUrl:
+        if (plugin) {
+            return plugin->pageComponentSource();
         }
         break;
     case InitialProperties:

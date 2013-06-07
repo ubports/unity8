@@ -25,8 +25,8 @@
 #include <QtTest>
 #include <QDebug>
 
-FAKE_INDICATOR(1, "Fake Title 1", "fake-indicator-1")
-FAKE_INDICATOR(2, "Fake Title 2", "fake-indicator-2")
+FAKE_INDICATOR(1, "Fake Title 1")
+FAKE_INDICATOR(2, "Fake Title 2")
 
 class IndicatorsModelTest : public QObject
 {
@@ -70,7 +70,6 @@ private Q_SLOTS:
         QVariantMap data = model.get(0);
         QCOMPARE(data["title"].toString(), QString("Fake Title 1"));
         QCOMPARE(data["label"].toString(), QString());
-        QCOMPARE(data["iconSource"].value<QUrl>(), QUrl("image://gicon/fake-indicator-1"));
         QCOMPARE(data["description"].toString(), QString());
         // There is no QML context
         QVERIFY(!data["component"].value<QObject*>());
@@ -79,7 +78,6 @@ private Q_SLOTS:
         data = model.get(1);
         QCOMPARE(data["title"].toString(), QString("Fake Title 2"));
         QCOMPARE(data["label"].toString(), QString());
-        QCOMPARE(data["iconSource"].value<QUrl>(), QUrl("image://gicon/fake-indicator-2"));
         QCOMPARE(data["description"].toString(), QString());
         // There is no QML context
         QVERIFY(!data["component"].value<QObject*>());
