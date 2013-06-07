@@ -16,6 +16,7 @@ endif()
 
 
 add_subdirectory(indicators)
+add_subdirectory(client)
 
 if(NETWORK_PLUGIN_ENABLED)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DNETWORK_PLUGIN_ENABLED" )

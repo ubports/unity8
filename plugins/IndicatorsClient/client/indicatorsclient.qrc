@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/indicatorsclient.qml</file>
+        <file>qml/indicatorslist.qml</file>
+        <file>qml/indicatorspage.qml</file>
+    </qresource>
+</RCC>

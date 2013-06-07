@@ -32,7 +32,7 @@ IndicatorsFactory::IndicatorsFactory()
     registerItem<IndicatorClientDateTime>("indicator-datetime");
     registerItem<IndicatorClientMessaging>("indicator-messaging");
     registerItem<IndicatorClientNetwork>("indicator-network");
-    registerItem<IndicatorClientPower>("indicator-battery");
+    registerItem<IndicatorClientPower>("indicator-power");
     registerItem<IndicatorClientSound>("indicator-sound");
 }
 
