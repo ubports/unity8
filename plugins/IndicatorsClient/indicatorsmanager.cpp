@@ -43,7 +43,7 @@ public:
 
 IndicatorsManager::IndicatorsManager(QObject* parent)
 : QObject(parent)
-, m_factory(new IndicatorsFactory())
+, m_loaded(false)
 {
 }
 
@@ -74,6 +74,7 @@ void IndicatorsManager::load()
 
     QObject::connect(m_fsWatcher.data(), SIGNAL(directoryChanged(const QString&)), this, SLOT(onDirectoryChanged(const QString&)));
     QObject::connect(m_fsWatcher.data(), SIGNAL(fileChanged(const QString&)), this, SLOT(onFileChanged(const QString&)));
+    setLoaded(true);
 }
 
 void IndicatorsManager::onDirectoryChanged(const QString& direcory)
@@ -114,6 +115,13 @@ void IndicatorsManager::load(const QFileInfo& file_info)
     indicator_settings.beginGroup("Indicator Service");
     QString name = indicator_settings.value("Name").toString();
 
+    // don't bother loading if it's not registered.
+    if (!IndicatorsFactory::instance().isRegistered(name))
+    {
+        qWarning() << Q_FUNC_INFO << "Invalid plugin name: " << name << " - not registered in factory.";
+        return;
+    }
+
     auto iter = m_indicatorsData.find(name);
     if (iter != m_indicatorsData.end())
     {
@@ -147,7 +155,7 @@ void IndicatorsManager::load(const QFileInfo& file_info)
             file_info != currentData->m_fileInfo)
         {
             currentData->m_fileInfo = file_info;
-            Q_EMIT loaded(name);
+            Q_EMIT indicatorLoaded(name);
         }
     }
     else
@@ -155,7 +163,7 @@ void IndicatorsManager::load(const QFileInfo& file_info)
         IndicatorData* data = new IndicatorData(name, file_info);
         data->m_verified = true;
         m_indicatorsData[name]= data;
-        Q_EMIT loaded(name);
+        Q_EMIT indicatorLoaded(name);
     }
 }
 
@@ -165,11 +173,18 @@ void IndicatorsManager::unload()
     while(iter.hasNext())
     {
         iter.next();
-        Q_EMIT aboutToBeUnloaded(iter.key());
+        IndicatorData* data = iter.value();
+        if (data->m_obj)
+        {
+            data->m_obj->shutdown();
+        }
+        Q_EMIT indicatorAboutToBeUnloaded(iter.key());
     }
 
     qDeleteAll(m_indicatorsData);
     m_indicatorsData.clear();
+
+    setLoaded(false);
 }
 
 void IndicatorsManager::unload(const QFileInfo& file)
@@ -184,12 +199,23 @@ void IndicatorsManager::unload(const QFileInfo& file)
             if (!data->m_verified)
             {
                 QString name = data->m_name;
-                Q_EMIT aboutToBeUnloaded(name);
+                Q_EMIT indicatorAboutToBeUnloaded(name);
 
                 delete data;
                 iter.remove();
             }
         }
+    }
+
+    setLoaded(m_indicatorsData.size() > 0);
+}
+
+void IndicatorsManager::setLoaded(bool loaded)
+{
+    if (loaded != m_loaded)
+    {
+        m_loaded = loaded;
+        Q_EMIT loadedChanged(m_loaded);
     }
 }
 
@@ -217,7 +243,7 @@ void IndicatorsManager::endVerify(const QString& path)
             if (!data->m_verified)
             {
                 QString name = data->m_name;
-                Q_EMIT aboutToBeUnloaded(name);
+                Q_EMIT indicatorAboutToBeUnloaded(name);
 
                 delete data;
                 iter.remove();
@@ -237,7 +263,7 @@ IndicatorClientInterface::Ptr IndicatorsManager::indicator(const QString& indica
     if (data->m_obj)
         return data->m_obj;
 
-    IndicatorClientInterface::Ptr plugin = m_factory->create(indicator, this);
+    IndicatorClientInterface::Ptr plugin = IndicatorsFactory::instance().create(indicator, this);
     if (plugin)
     {
         data->m_obj = plugin;
@@ -255,4 +281,9 @@ QList<IndicatorClientInterface::Ptr> IndicatorsManager::indicators()
         list.append(plugin);
     }
     return list;
+}
+
+bool IndicatorsManager::isLoaded() const
+{
+    return m_loaded;
 }

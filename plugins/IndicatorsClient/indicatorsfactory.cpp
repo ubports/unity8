@@ -29,11 +29,11 @@
 
 IndicatorsFactory::IndicatorsFactory()
 {
-    registerItem<IndicatorClientDateTime>("indicator-datetime");
-    registerItem<IndicatorClientMessaging>("indicator-messaging");
-    registerItem<IndicatorClientNetwork>("indicator-network");
-    registerItem<IndicatorClientPower>("indicator-power");
-    registerItem<IndicatorClientSound>("indicator-sound");
+    registerIndicator<IndicatorClientDateTime>("indicator-datetime");
+    registerIndicator<IndicatorClientMessaging>("indicator-messaging");
+    registerIndicator<IndicatorClientNetwork>("indicator-network");
+    registerIndicator<IndicatorClientPower>("indicator-power");
+    registerIndicator<IndicatorClientSound>("indicator-sound");
 }
 
 IndicatorsFactory::~IndicatorsFactory()
@@ -41,10 +41,10 @@ IndicatorsFactory::~IndicatorsFactory()
     qDeleteAll(m_factoryItems);
 }
 
-template<class TYPE>
-void IndicatorsFactory::registerItem(const QString& indicator)
+IndicatorsFactory& IndicatorsFactory::instance()
 {
-    m_factoryItems[indicator] = new IndicatorFactoryItemTyped<TYPE>();
+    static IndicatorsFactory factory;
+    return factory;
 }
 
 IndicatorClientInterface::Ptr IndicatorsFactory::create(const QString& indicator, QObject* parent)
@@ -52,4 +52,10 @@ IndicatorClientInterface::Ptr IndicatorsFactory::create(const QString& indicator
     if (!m_factoryItems.contains(indicator))
         return IndicatorClientInterface::Ptr();
     return m_factoryItems[indicator]->create(parent);
+}
+
+
+bool IndicatorsFactory::isRegistered(const QString& indicator)
+{
+    return m_factoryItems.contains(indicator);
 }

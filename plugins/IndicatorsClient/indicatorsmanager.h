@@ -29,11 +29,10 @@
 
 #include "indicatorclientinterface.h"
 
-class IndicatorsFactory;
-
 class IndicatorsManager : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(bool loaded READ isLoaded NOTIFY loadedChanged)
 public:
     explicit IndicatorsManager(QObject* parent = 0);
     ~IndicatorsManager();
@@ -45,9 +44,13 @@ public:
 
     QList<IndicatorClientInterface::Ptr> indicators();
 
+    bool isLoaded() const;
+
 Q_SIGNALS:
-    void loaded(const QString& indicator);
-    void aboutToBeUnloaded(const QString& indicator);
+    void loadedChanged(bool);
+
+    void indicatorLoaded(const QString& indicator);
+    void indicatorAboutToBeUnloaded(const QString& indicator);
 
 private Q_SLOTS:
     void onDirectoryChanged(const QString& direcory);
@@ -61,10 +64,12 @@ private:
     void startVerify(const QString& path);
     void endVerify(const QString& path);
 
+    void setLoaded(bool);
+
     class IndicatorData;
     QHash<QString, IndicatorData*> m_indicatorsData;
     QSharedPointer<QFileSystemWatcher> m_fsWatcher;
-    IndicatorsFactory* m_factory;
+    bool m_loaded;
 };
 
 #endif // INDICATORS_MANAGER_H

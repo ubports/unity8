@@ -62,10 +62,15 @@ set(IndicatorsClientQM_RESOURCES
     indicatorsclient.qrc
 )
 
-add_library(IndicatorsClientQml MODULE
+add_library(IndicatorsClientQml SHARED
     ${IndicatorsClientQML_RCC}
     ${IndicatorsClientQML_SOURCES}
 )
+# Because this is an internal support library, we want
+# to expose all symbols in it. Consider changing this
+# either to a static library or just using the
+# files directly in targets.
+set_target_properties(IndicatorsClientQml PROPERTIES COMPILE_FLAGS -fvisibility=default)
 
 target_link_libraries(IndicatorsClientQml
     ${Qt5Core_LIBRARIES}

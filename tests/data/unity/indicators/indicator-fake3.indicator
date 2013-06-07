@@ -1,0 +1,4 @@
+[Indicator Service]
+Name=indicator-fake3
+DBusName=com.canonical.indicator.fake3
+ObjectPath=/com/canonical/indicator/fake3

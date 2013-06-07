@@ -58,8 +58,8 @@ IndicatorsModel::IndicatorsModel(QObject *parent)
     : QAbstractListModel(parent)
 {
     m_manager = new IndicatorsManager(this);
-    QObject::connect(m_manager, SIGNAL(loaded(const QString&)), this, SLOT(onIndicatorLoaded(const QString&)));
-    QObject::connect(m_manager, SIGNAL(aboutToBeUnloaded(const QString&)), this, SLOT(onIndicatorAboutToBeUnloaded(const QString&)));
+    QObject::connect(m_manager, SIGNAL(indicatorLoaded(const QString&)), this, SLOT(onIndicatorLoaded(const QString&)));
+    QObject::connect(m_manager, SIGNAL(indicatorAboutToBeUnloaded(const QString&)), this, SLOT(onIndicatorAboutToBeUnloaded(const QString&)));
     m_widgetsMap = new WidgetsMap;
 
     QObject::connect(this, SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SIGNAL(countChanged()));
@@ -156,7 +156,7 @@ void IndicatorsModel::onIndicatorLoaded(const QString& indicator)
     QObject* obj = dynamic_cast<QObject*>(plugin.get());
     if (obj)
     {
-        QObject::connect(obj, SIGNAL(idChanged(const QString&)), this, SLOT(onIdChanged()));
+        QObject::connect(obj, SIGNAL(identifierChanged(const QString&)), this, SLOT(onIdentifierChanged()));
         QObject::connect(obj, SIGNAL(iconChanged(const QUrl&)), this, SLOT(onIconChanged()));
         QObject::connect(obj, SIGNAL(titleChanged(const QString&)), this, SLOT(onTitleChanged()));
         QObject::connect(obj, SIGNAL(labelChanged(const QString&)), this, SLOT(onLabelChanged()));
@@ -192,7 +192,7 @@ void IndicatorsModel::onIndicatorAboutToBeUnloaded(const QString& indicator)
 }
 
 /*! \internal */
-void IndicatorsModel::onIdChanged()
+void IndicatorsModel::onIdentifierChanged()
 {
     notifyDataChanged(QObject::sender(), Identifier);
 }

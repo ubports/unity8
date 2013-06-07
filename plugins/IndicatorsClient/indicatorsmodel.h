@@ -69,7 +69,7 @@ Q_SIGNALS:
     void countChanged();
 
 private Q_SLOTS:
-    void onIdChanged();
+    void onIdentifierChanged();
     void onIconChanged();
     void onTitleChanged();
     void onLabelChanged();

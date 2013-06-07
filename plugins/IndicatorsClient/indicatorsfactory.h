@@ -41,18 +41,33 @@ public:
     IndicatorClientInterface::Ptr create(QObject* parent = 0) { return std::make_shared<TYPE>(parent); }
 };
 
-class IndicatorsFactory
+class IndicatorsFactory : public QObject
 {
+    Q_OBJECT
 public:
-    IndicatorsFactory();
     virtual ~IndicatorsFactory();
 
     IndicatorClientInterface::Ptr create(const QString& indicator, QObject* parent = 0);
 
     template<class TYPE>
-    void registerItem(const QString& indicator);
+    void registerIndicator(const QString& indicator)
+    {
+        if (m_factoryItems.contains(indicator))
+            return;
+        m_factoryItems[indicator] = new IndicatorFactoryItemTyped<TYPE>();
+        Q_EMIT registered(indicator);
+    }
+
+    bool isRegistered(const QString& indicator);
+
+    static IndicatorsFactory& instance();
+
+Q_SIGNALS:
+    void registered(const QString& indicator);
 
 private:
+    IndicatorsFactory();
+
     QHash<QString, IndicatorFactoryItem*> m_factoryItems;
 };
 
