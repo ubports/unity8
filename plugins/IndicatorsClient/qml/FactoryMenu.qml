@@ -18,7 +18,9 @@
  */
 
 import QtQuick 2.0
-import IndicatorsClient 0.1 as IndicatorsClient
+import IndicatorsClient 0.1 as IC
+import IndicatorsClient.Messaging 0.1 as ICMessaging
+import IndicatorsClient.Network 0.1 as ICNetwork
 
 Item {
     id: __menuFactory
@@ -27,69 +29,80 @@ Item {
     property QtObject listView
     property QtObject actionGroup
     property bool isCurrentItem
-    readonly property bool empty: (__loader.object !== undefined) ? __loader.object.state === "EMPTY" : true
+    readonly property bool empty: (__loader.item !== undefined && __loader.status == Loader.Ready) ? __loader.item.state === "EMPTY" : true
+
+    implicitHeight: (__loader.status === Loader.Ready) ? __loader.item.implicitHeight : 0
 
     signal selectItem(int targetIndex)
 
     property var _map:  {
-        "unity.widgets.systemsettings.tablet.volumecontrol" : "IndicatorsClient.SliderMenu",
-        "unity.widgets.systemsettings.tablet.switch"        : "IndicatorsClient.SwitchMenu",
-        "unity.widgets.systemsettings.tablet.switch"        : "IndicatorsClient.DashApps",
+        "unity.widgets.systemsettings.tablet.volumecontrol" : sliderMenu,
+        "unity.widgets.systemsettings.tablet.switch"        : switchMenu,
 
-        "com.canonical.indicator.button"    : "IndicatorsClient.ButtonMenu",
-        "com.canonical.indicator.div"       : "IndicatorsClient.DivMenu",
-        "com.canonical.indicator.section"   : "IndicatorsClient.MenuSection",
-        "com.canonical.indicator.progress"  : "IndicatorsClient.ProgressMenu",
-        "com.canonical.indicator.slider"    : "IndicatorsClient.SliderMenu",
-        "com.canonical.indicator.switch"    : "IndicatorsClient.SwitchMenu",
+        "com.canonical.indicator.button"    : buttomMenu,
+        "com.canonical.indicator.div"       : divMenu,
+        "com.canonical.indicator.section"   : sectionMenu,
+        "com.canonical.indicator.progress"  : progressMenu,
+        "com.canonical.indicator.slider"    : sliderMenu,
+        "com.canonical.indicator.switch"    : switchMenu,
 
-        "com.canonical.indicator.messages.messageitem"  : "IndicatorsClient.Messaging.MessageItem",
-        "com.canonical.indicator.messages.snapdecision" : "IndicatorsClient.Messaging.SnapDecision",
-        "com.canonical.indicator.messages.sourceitem"   : "IndicatorsClient.Messaging.GroupedMessage",
+        "com.canonical.indicator.messages.messageitem"  : messageItem,
+        "com.canonical.indicator.messages.snapdecision" : snapDecision,
+        "com.canonical.indicator.messages.sourceitem"   : groupedMessage,
 
-        "unity.widget.systemsettings.tablet.sectiontitle" : "IndicatorsClient.Network.WifiSection",
-        "unity.widgets.systemsettings.tablet.wifisection" : "IndicatorsClient.Network.WifiSection",
-        "unity.widgets.systemsettings.tablet.accesspoint" : "IndicatorsClient.Network.Accesspoint",
+        "unity.widget.systemsettings.tablet.sectiontitle" : wifiSection,
+        "unity.widgets.systemsettings.tablet.wifisection" : wifiSection,
+        "unity.widgets.systemsettings.tablet.accesspoint" : accessPoint,
     }
 
-    function get_qml_string(type) {
-        return "import QtQuick 2.0; import IndicatorsClient 0.1 as IndicatorsClient; " + type + " {}";
-    }
+    Component { id: sliderMenu; IC.SliderMenu {} }
+    Component { id: switchMenu; IC.SwitchMenu {} }
+    Component { id: buttomMenu; IC.ButtonMenu {} }
+    Component { id: divMenu; IC.DivMenu {} }
+    Component { id: sectionMenu; IC.SectionMenu {} }
+    Component { id: progressMenu; IC.ProgressMenu {} }
+    Component { id: messageItem; ICMessaging.MessageItem {} }
+    Component { id: snapDecision; ICMessaging.SnapDecision {} }
+    Component { id: groupedMessage; ICMessaging.GroupedMessage {} }
+    Component { id: wifiSection; ICNetwork.WifiSection {} }
+    Component { id: accessPoint; ICNetwork.AccessPoint {} }
 
-    QtObject {
-        id: __loader
+    Component { id: indicatorMenu; IC.Menu {Component.onCompleted: console.log("menu created");} }
 
-        property var object: {
-            if (!__menuFactory.menu ||  !__menuFactory.menu.extra) {
-                return undefined
-            }
-
-            var tmp_object = undefined
-            var widgetType = __menuFactory.menu.extra.canonical_type
-            if (widgetType) {
-                var component_type = _map[widgetType]
-                if (component_type != undefined) {
-                    tmp_object = Qt.createQmlObject(get_qml_string(component_type), __menuFactory)
+    Loader {
+            id: __loader
+            anchors.fill: parent
+            asynchronous: true
+            sourceComponent: {
+                if (!__menuFactory.menu ||  !__menuFactory.menu.extra) {
+                    return undefined
                 }
-            }
-            if (tmp_object == undefined) {
+
+                var widgetType = __menuFactory.menu.extra.canonical_type
+                var sourceFile = null
+                if (widgetType) {
+                    var component = _map[widgetType]
+                    if (component != undefined) {
+                        console.log(component);
+                        return component
+                    }
+                }
                 if (widgetType === "com.canonical.indicator.root") {
-                    tmp_object = undefined
+                   return undefined
                 // Try discovery the item based on the basic properties
                 } else if (menu.hasSection) {
-                    tmp_object = Qt.createQmlObject(get_qml_string("IndicatorsClient.SectionMenu"), __menuFactory)
-                } else {
-                    tmp_object = Qt.createQmlObject(get_qml_string("IndicatorsClient.Menu"), __menuFactory)
+                    return sectionMenu
+                }
+                return indicatorMenu
+            }
+
+            onStatusChanged: {
+                if (status == Loader.Ready) {
+                    item.listViewIsCurrentItem = Qt.binding(function() { return isCurrentItem; });
+                    item.actionGroup = Qt.binding(function() { return __menuFactory.actionGroup; });
+                    item.menu = Qt.binding(function() { return __menuFactory.menu; });
                 }
             }
-            if (tmp_object != undefined) {
-                tmp_object.listViewIsCurrentItem = Qt.binding(function() { return isCurrentItem; });
-                tmp_object.actionGroup = Qt.binding(function() { return __menuFactory.actionGroup; });
-                tmp_object.menu = Qt.binding(function() { return __menuFactory.menu; });
-            }
-            return tmp_object
-        }
     }
 
-    implicitHeight: __loader.object ? __loader.object.implicitHeight : 0
 }

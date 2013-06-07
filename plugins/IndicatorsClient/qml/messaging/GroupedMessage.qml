@@ -22,14 +22,12 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import IndicatorsClient 0.1 as IndicatorsClient
 
-IndicatorsClient.RemovableMenu {
+IndicatorsClient.BasicMenu {
     property variant action: menu && actionGroup ? actionGroup.action(menu.action) : undefined
     property alias count: label.text
 
     color: "#221e1b"
     implicitHeight: units.gu(10)
-
-    onSwipingChanged: listView.interactive = !swiping
 
     Row {
         anchors.fill: parent
