@@ -75,12 +75,12 @@ build() {
 
 run() {
     SERVICEFILE="/data/ubuntu/etc/device-services"
-    adb shell "egrep \"$BINARY|qml-phone-shell\" $SERVICEFILE"
+    adb shell "egrep '$BINARY|qml-phone-shell' $SERVICEFILE"
     CONTAINS_SHELL=$?
     if [ $CONTAINS_SHELL -eq 0 ]; then
         echo "Modifying $SERVICEFILE on device. Old contents will be saved in $SERVICEFILE.backup"
         adb shell cp $SERVICEFILE $SERVICEFILE.backup
-        adb shell sed -i "/$BINARY\|qml-phone-shell/d" $SERVICEFILE
+        adb shell sed -i "/$BINARY\\\\\|qml-phone-shell/d" $SERVICEFILE
         adb shell "chroot /data/ubuntu /usr/bin/service ubuntu-session restart"
     fi
     adb shell pkill qml-phone-shell
