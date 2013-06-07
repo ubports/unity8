@@ -43,7 +43,7 @@ IndicatorsClient.BasicMenu {
         anchors.left: parent.left
         anchors.right: parent.right
 
-        avatar: menu && (menu.extra.canonical_icon.length > 0) ? "image://gicon/" + encodeURI(menu.extra.canonical_icon) : "qrc:/indicatorsclient/messaging/artwork/default_contact.png"
+        avatar: menu && (menu.extra.canonical_icon.length > 0) ? "image://gicon/" + encodeURI(menu.extra.canonical_icon) : "qrc:/indicatorsclient/artwork/messaging/default_contact.png"
         icon: menu && (menu.extra.canonical_app_icon.length > 0) ? "image://gicon/" + encodeURI(menu.extra.canonical_app_icon) : ""
         appIcon: icon
 

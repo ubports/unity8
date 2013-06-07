@@ -34,7 +34,6 @@ class IndicatorClientInterface
 {
 public:
     typedef QMap<QString, QVariant> PropertiesMap;
-    typedef QMap<QString, QUrl> WidgetsMap;
 
     typedef std::shared_ptr<IndicatorClientInterface> Ptr;
 
@@ -105,13 +104,6 @@ public:
     virtual bool visible() const = 0;
 
     /**
-     * @brief Used to retrieve the current plugin accessible name
-     * @return The accessible name is plugin name as seen by assistive technologies
-     */
-    virtual QString accessibleName() const = 0;
-
-
-    /**
      * @brief Used to retrieve the current plugin priority
      * @return The priorty value for the plugin, this will be used to arrange the plugin on the indicator panel
      */
@@ -124,7 +116,7 @@ public:
      * @param parent The parent of the returned object
      * @return A new \l QDeclarativeComponent with the initial plugin view
      */
-    virtual QQmlComponent *component(QQmlEngine *engine, QObject *parent=0) = 0;
+    virtual QUrl componentSource() const = 0;
 
     /**
      * @brief Used during the plugin Component instanciation to set the initial properties
@@ -132,13 +124,6 @@ public:
      */
 
     virtual PropertiesMap initialProperties() = 0;
-
-    /**
-     * @brief The plugin should implement this function to return the custom widgets
-     * implemente by the plugin
-     * @return The map with the widget name and url: {'WifiAccessPointItem' : 'wifi-widget.qml'}
-     */
-    virtual WidgetsMap widgets() = 0;
 };
 
 #endif

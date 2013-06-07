@@ -2,12 +2,7 @@ set(INDICATORCLIENT_MESSAGING_SRC
     indicatorclient_messaging.cpp
 )
 
-qt5_add_resources(INDICATORCLIENT_MESSAGING_RESOURCES_RCC
-    indicatorclient_messaging.qrc
-)
-
 add_library(indicatorclient_messaging STATIC
-    ${INDICATORCLIENT_MESSAGING_RESOURCES_RCC}
     ${INDICATORCLIENT_MESSAGING_SRC}
 )
 

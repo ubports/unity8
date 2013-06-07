@@ -4,12 +4,7 @@ set(INDICATORCLIENT_NETWORK_SRC
     secret-agent.c
 )
 
-qt5_add_resources(INDICATORCLIENT_NETWORK_RESOURCES_RCC
-    indicatorclient_network.qrc
-)
-
 add_library(indicatorclient_network
-    ${INDICATORCLIENT_NETWORK_RESOURCES_RCC}
     ${INDICATORCLIENT_NETWORK_SRC}
 )
 

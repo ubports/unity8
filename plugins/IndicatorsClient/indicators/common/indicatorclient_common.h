@@ -36,7 +36,6 @@ class IndicatorClientCommon : public QObject, public IndicatorClientInterface
     Q_PROPERTY(QString label READ label NOTIFY labelChanged)
     Q_PROPERTY(QString description READ description NOTIFY descriptionChanged)
     Q_PROPERTY(QUrl icon READ icon NOTIFY iconChanged)
-    Q_PROPERTY(QString accessibleName READ accessibleName NOTIFY accessibleNameChanged)
     Q_PROPERTY(bool visible READ visible NOTIFY visibleChanged)
     Q_PROPERTY(int priority READ priority NOTIFY priorityChanged)
 
@@ -52,13 +51,11 @@ public:
     QString title() const;
     bool visible() const;
     QString description() const;
-    QString accessibleName() const;
     QString label() const;
     int priority() const;
 
-    QQmlComponent *component(QQmlEngine *engine, QObject *parent=0);
+    QUrl componentSource() const;
     PropertiesMap initialProperties();
-    WidgetsMap widgets();
 
 Q_SIGNALS:
     void identifierChanged(const QString &identifier);
@@ -66,7 +63,6 @@ Q_SIGNALS:
     void titleChanged(const QString &title);
     void visibleChanged(bool visible);
     void descriptionChanged(const QString &description);
-    void accessibleNameChanged(const QString &assesibleName);
     void labelChanged(const QString &label);
     void priorityChanged(int priority);
 
@@ -78,11 +74,9 @@ protected:
     void setTitle(const QString &title);
     void setDescription(const QString &description);
     void setVisible(bool visible);
-    void setAccessibleName(const QString &accessibleName);
     void setLabel(const QString &title);
     void setPriority(int priority);
     virtual bool parseRootElement(const QString &type, QMap<int, QVariant> data);
-    virtual QQmlComponent *createComponent(QQmlEngine *engine, QObject *parent=0) const;
     QDBusActionGroup *actionGroup() const;
 
 private Q_SLOTS:
@@ -94,7 +88,6 @@ private:
     QUrl m_icon;
     QString m_title;
     QString m_description;
-    QString m_accessibleName;
     QString m_label;
     bool m_visible;
     int m_priority;

@@ -67,7 +67,6 @@ Page {
             onClicked: {
                 if (progression) {
                     var props = model.initialProperties
-                    props["widgetsMap"] = indicators.widgetsMap
 
                     var page = Qt.createComponent("IndicatorsPage.qml")
                     pages.push(page.createObject(pages), {"initialProperties" : props, "component" : model.component})

@@ -26,7 +26,6 @@ BasicMenu {
 
     property string label: menu && menu.label ? menu.label : ""
     property bool busy: false
-    property variant _widgetsMap : widgetsMap
     property int count: menu && menu.linkSection ?  menu.linkSection.count : 0
 
     color: "#221e1b"

@@ -25,6 +25,5 @@ void FakeChewieQmlPlugin::registerTypes(const char *uri)
 //   g_type_init();
 // #endif
 
-  qmlRegisterUncreatableType<WidgetsMap>(uri, 0, 1, "WidgetsMap", "WidgetsMap must be created by PluginModel");
   qmlRegisterType<PluginModel>(uri, 0, 1, "PluginModel");
 }

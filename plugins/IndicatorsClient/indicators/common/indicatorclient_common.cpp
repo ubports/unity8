@@ -55,8 +55,6 @@ IndicatorClientCommon::~IndicatorClientCommon()
 
 void IndicatorClientCommon::init(const QSettings& settings)
 {
-    Q_INIT_RESOURCE(indicatorclient_common);
-
     setId(settings.value("Indicator Service/Name").toString());
     QString dbusService = settings.value("Indicator Service/DBusName").toString();
     QString objectPath = settings.value("Indicator Service/ObjectPath").toString();
@@ -140,7 +138,6 @@ void IndicatorClientCommon::updateState(const QVariant &state)
             setLabel(states[0].toString());
             setIcon(QUrl(states[1].toString()));
             setVisible(states[2].toBool());
-            setAccessibleName(states[3].toString());
             return;
         }
     }
@@ -148,7 +145,6 @@ void IndicatorClientCommon::updateState(const QVariant &state)
     setLabel("");
     setIcon(QUrl());
     setVisible(false);
-    setAccessibleName("");
 }
 
 void IndicatorClientCommon::shutdown()
@@ -235,19 +231,6 @@ void IndicatorClientCommon::setPriority(int priority)
     }
 }
 
-QString IndicatorClientCommon::accessibleName() const
-{
-    return m_accessibleName;
-}
-
-void IndicatorClientCommon::setAccessibleName(const QString &accesibleName)
-{
-    if (accesibleName != m_accessibleName) {
-        m_accessibleName = accesibleName;
-        Q_EMIT accessibleNameChanged(m_accessibleName);
-    }
-}
-
 bool IndicatorClientCommon::visible() const
 {
     return m_visible;
@@ -279,39 +262,12 @@ QDBusActionGroup *IndicatorClientCommon::actionGroup() const
     return m_actionGroup;
 }
 
-QQmlComponent *IndicatorClientCommon::createComponent(QQmlEngine *engine, QObject *parent) const
+QUrl IndicatorClientCommon::componentSource() const
 {
-    return new QQmlComponent(engine, QUrl("qrc:/indicatorsclient/qml/commonplugin.qml"), parent);
-}
-
-QQmlComponent *IndicatorClientCommon::component(QQmlEngine *engine, QObject *parent)
-{
-    if (m_component == 0) {
-        m_component = createComponent(engine, parent);
-    }
-    return m_component;
+    return QUrl("qrc:/indicatorsclient/qml/CommonIndicator.qml");
 }
 
 IndicatorClientInterface::PropertiesMap IndicatorClientCommon::initialProperties()
 {
     return m_initialProperties;
-}
-
-IndicatorClientInterface::WidgetsMap IndicatorClientCommon::widgets()
-{
-    // Register all basic/native widgets
-    static WidgetsMap w;
-    if (w.isEmpty()) {
-        //TODO: use a generic name for volumecontrol widget (Slider)
-        w.insert("unity.widgets.systemsettings.tablet.volumecontrol", QUrl("SliderMenu.qml"));
-        w.insert("unity.widgets.systemsettings.tablet.switch", QUrl("SwitchMenu.qml"));
-
-        w.insert("com.canonical.indicator.button", QUrl("ButtonMenu.qml"));
-        w.insert("com.canonical.indicator.div", QUrl("DivMenu.qml"));
-        w.insert("com.canonical.indicator.section", QUrl("MenuSection.qml"));
-        w.insert("com.canonical.indicator.progress", QUrl("ProgressMenu.qml"));
-        w.insert("com.canonical.indicator.slider", QUrl("SliderMenu.qml"));
-        w.insert("com.canonical.indicator.switch", QUrl("SwitchMenu.qml"));
-    }
-    return w;
 }

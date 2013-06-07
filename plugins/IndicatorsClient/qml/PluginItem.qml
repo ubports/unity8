@@ -30,7 +30,6 @@ Item {
     property string device: "phone"
     property string title
     property alias emptyText: emptyLabel.text
-    property variant widgetsMap : null
     property int busType
     property string busName
     property string objectPath
@@ -153,7 +152,6 @@ Item {
                     anchors.left: parent.left
                     anchors.right: parent.right
                     height: implicitHeight
-                    widgetsMap: main ? main.widgetsMap : null
                     menu: model
 
                     onSelectItem: item.ListView.view.currentIndex = targetIndex

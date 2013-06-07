@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/indicatorsclient/datetime">
-        <file>qml/ClockPage.qml</file>
-        <file>artwork/time_and_date@18.png</file>
-    </qresource>
-</RCC>

@@ -47,7 +47,7 @@ Item {
                 width: units.gu(2)
                 height: width
                 fillMode: Image.PreserveAspectFit
-                source: "qrc:/indicatorsclient/messaging/artwork/message_sms01_54px.png"
+                source: "qrc:/indicatorsclient/artwork/messaging/message_sms01_54px.png"
             }
 
             Label {

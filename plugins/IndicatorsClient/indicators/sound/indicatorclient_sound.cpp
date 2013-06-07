@@ -31,5 +31,4 @@ IndicatorClientSound::IndicatorClientSound(QObject *parent)
 void IndicatorClientSound::init(const QSettings& settings)
 {
     IndicatorClientCommon::init(settings);
-    Q_INIT_RESOURCE(indicatorclient_sound);
 }

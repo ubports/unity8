@@ -25,13 +25,13 @@
 // local
 #include "flatmenuproxymodel.h"
 #include "indicatorsmanager.h"
-#include "widgetsmap.h"
 #include "indicatorsmodel.h"
 
 void IndicatorsClientPlugin::registerTypes(const char *uri)
 {
+    Q_INIT_RESOURCE(indicatorclient);
+
     qmlRegisterType<IndicatorsManager>(uri, 0, 1, "IndicatorsManager");
-    qmlRegisterUncreatableType<WidgetsMap>(uri, 0, 1, "WidgetsMap", "WidgetsMap must be created by PluginModel");
     qmlRegisterType<FlatMenuProxyModel>(uri, 0, 1, "FlatMenuProxyModel");
     qmlRegisterType<IndicatorsModel>(uri, 0, 1, "IndicatorsModel");
 }

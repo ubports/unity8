@@ -80,11 +80,6 @@ private Q_SLOTS:
         QCOMPARE(indicator->description(), QString());
         QCOMPARE(indicator->priority(), 1);
 
-        IndicatorClientInterface::WidgetsMap widgets = indicator->widgets();
-        QCOMPARE(widgets.count(), 2);
-        QCOMPARE(widgets["com.canonical.button"], QUrl("Button.qml"));
-        QCOMPARE(widgets["com.canonical.label"], QUrl("Label.qml"));
-
         // Check that the initial properties have been set.
         IndicatorClientInterface::PropertiesMap props = indicator->initialProperties();
         QCOMPARE(props.count(), 4);

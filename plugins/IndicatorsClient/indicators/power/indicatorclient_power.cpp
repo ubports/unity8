@@ -30,5 +30,4 @@ IndicatorClientPower::IndicatorClientPower(QObject *parent)
 void IndicatorClientPower::init(const QSettings& settings)
 {
     IndicatorClientCommon::init(settings);
-    Q_INIT_RESOURCE(indicatorclient_power);
 }

@@ -15,6 +15,7 @@ from autopilot.matchers import Eventually
 from autopilot.platform import model
 from testtools.matchers import Equals
 
+from indicators_client.emulators import IndicatorsEmulatorBase
 from indicators_client.emulators.main_window import MainWindow
 from logging import getLogger
 import sys
@@ -46,7 +47,8 @@ class IndicatorsTestCase(AutopilotTestCase):
     def launch_test_local(self):
         os.environ['LD_LIBRARY_PATH'] = "../../../unity_build/build/lib"
         os.environ['QML2_IMPORT_PATH'] = "../../builddir/plugins:../../builddir/tests/mocks"
-        self.app = self.launch_test_application("../../builddir/plugins/IndicatorsClient/client/indicators-client")
+        self.app = self.launch_test_application("../../builddir/plugins/IndicatorsClient/client/indicators-client",
+                                                emulator_base=IndicatorsEmulatorBase)
 
     def skipWrapper(*args, **kwargs):
         pass

@@ -40,7 +40,7 @@ IndicatorsClient.RemovableMenu {
             height: units.gu(6)
             width: units.gu(6)
             image: Image {
-                source: menu && (menu.extra.canonical_icon.length > 0) ? "image://gicon/" + encodeURI(menu.extra.canonical_icon) : "qrc:/indicatorsclient/messaging/artwork/default_app.svg"
+                source: menu && (menu.extra.canonical_icon.length > 0) ? "image://gicon/" + encodeURI(menu.extra.canonical_icon) : "qrc:/indicatorsclient/artwork/messaging/default_app.svg"
                 fillMode: Image.PreserveAspectFit
             }
         }

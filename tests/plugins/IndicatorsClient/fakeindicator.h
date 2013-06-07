@@ -41,14 +41,6 @@ public:
     int initializedCount() const { return m_initializedCount; }
     void shutdown() { m_initializedCount--; }
 
-    IndicatorClientInterface::WidgetsMap widgets()
-    {
-        WidgetsMap w;
-        w.insert("com.canonical.button", QUrl("Button.qml"));
-        w.insert("com.canonical.label", QUrl("Label.qml"));
-        return w;
-    }
-
   private:
     int m_initializedCount;
 };

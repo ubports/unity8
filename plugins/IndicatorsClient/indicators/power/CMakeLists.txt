@@ -2,12 +2,7 @@ set(INDICATORCLIENT_POWER_SRC
     indicatorclient_power.cpp
 )
 
-qt5_add_resources(INDICATORCLIENT_POWER_RESOURCES_RCC
-    indicatorclient_power.qrc
-)
-
 add_library(indicatorclient_power STATIC
-    ${INDICATORCLIENT_POWER_RESOURCES_RCC}
     ${INDICATORCLIENT_POWER_SRC}
 )
 

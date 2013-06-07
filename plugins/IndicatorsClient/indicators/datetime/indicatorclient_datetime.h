@@ -38,7 +38,7 @@ public:
     void shutdown();
     QString dateTime() const;
     bool parseRootElement(const QString &type, QMap<int, QVariant> data);
-    QQmlComponent *createComponent(QQmlEngine *engine, QObject *parent=0) const;
+    QUrl componentSource() const;
 
 private Q_SLOTS:
     void onTimeout();

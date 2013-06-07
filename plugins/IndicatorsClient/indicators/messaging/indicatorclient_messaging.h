@@ -31,8 +31,7 @@ public:
     ~IndicatorClientMessaging();
 
     void init(const QSettings& settings);
-    QQmlComponent* createComponent(QQmlEngine *engine, QObject *parent) const;
-    WidgetsMap widgets();
+    QUrl componentSource() const;
 };
 
 #endif

@@ -23,35 +23,9 @@
 #include <QAbstractListModel>
 #include <QQmlEngine>
 
-
-class WidgetsMap : public QObject
-{
-    Q_OBJECT
-public:
-    WidgetsMap(QObject *parent=0)
-    : QObject(parent)
-    {}
-
-    void append(QMap<QString, QUrl> types)
-    {
-        Q_FOREACH(QString key, types.keys()) {
-            m_map.insert(key, types[key]);
-        }
-    }
-    void clear() { m_map.clear(); }
-
-    Q_INVOKABLE QMap<QString, QUrl> map() const { return m_map; }
-    Q_INVOKABLE QUrl find(const QString &widget) const { return m_map[widget]; }
-
-private:
-    QMap<QString, QUrl> m_map;
-};
-
-
 class PluginModel : public QAbstractListModel
 {
     Q_OBJECT
-    Q_PROPERTY(WidgetsMap* widgetsMap READ widgetsMap NOTIFY widgetsMapChanged)
     Q_PROPERTY(int count READ count NOTIFY countChanged)
 
 public:
@@ -68,8 +42,6 @@ public:
     PluginModel(QObject *parent=0);
     ~PluginModel();
 
-    WidgetsMap* widgetsMap() const;
-
     Q_INVOKABLE void load();
     Q_INVOKABLE void unload();
 
@@ -83,11 +55,9 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
 
 Q_SIGNALS:
-    void widgetsMapChanged(WidgetsMap *widgetsMap);
     void countChanged();
 
 private:
-    WidgetsMap* m_widgetsMap;
     int count() const;
 };
 

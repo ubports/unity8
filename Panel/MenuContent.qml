@@ -94,7 +94,7 @@ Rectangle {
 
             width: menus.width
             height: menus.height
-            sourceComponent: component
+            source: component
             visible: content.__shown
             onVisibleChanged: {
                 // Reset the indicator states
@@ -106,9 +106,6 @@ Rectangle {
 
             onStatusChanged: {
                 if (status == Loader.Ready) {
-                    if (indicatorsModel.widgetsMap && item.hasOwnProperty("widgetsMap")) {
-                        item["widgetsMap"] = indicatorsModel.widgetsMap
-                    }
                     for(var pName in initialProperties) {
                         if (item.hasOwnProperty(pName)) {
                             item[pName] = initialProperties[pName]

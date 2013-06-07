@@ -46,26 +46,14 @@ IndicatorClientNetwork::~IndicatorClientNetwork()
 void IndicatorClientNetwork::init(const QSettings& settings)
 {
     IndicatorClientCommon::init(settings);
-    Q_INIT_RESOURCE(indicatorclient_network);
 
     qmlRegisterType<NetworkAgent>("NetworkSettings", 0, 1, "NetworkAgent");
     setIcon(QUrl("image://gicon/wifi-none"));
 }
 
-QQmlComponent *IndicatorClientNetwork::createComponent(QQmlEngine *engine, QObject *parent) const
+QUrl IndicatorClientNetwork::componentSource() const
 {
-    return new QQmlComponent(engine, QUrl("qrc:/indicatorclient/network/qml/NetworkPage.qml"), parent);
-}
-
-IndicatorClientInterface::WidgetsMap IndicatorClientNetwork::widgets()
-{
-    static WidgetsMap w;
-    if (w.isEmpty()) {
-        w.insert("unity.widget.systemsettings.tablet.sectiontitle", QUrl("qrc:/indicatorclient/network/qml/WifiSection.qml"));
-        w.insert("unity.widgets.systemsettings.tablet.wifisection", QUrl("qrc:/indicatorclient/network/qml/WifiSection.qml"));
-        w.insert("unity.widgets.systemsettings.tablet.accesspoint", QUrl("qrc:/indicatorclient/network/qml/Accesspoint.qml"));
-    }
-    return w;
+    return QUrl("qrc:/indicatorsclient/qml/NetworkIndicator.qml");
 }
 
 bool IndicatorClientNetwork::parseRootElement(const QString &type, QMap<int, QVariant> data)

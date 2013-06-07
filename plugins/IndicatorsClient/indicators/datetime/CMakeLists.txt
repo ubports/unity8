@@ -2,12 +2,7 @@ set(INDICATORCLIENT_DATETIME_SRC
     indicatorclient_datetime.cpp
 )
 
-qt5_add_resources(INDICATORCLIENT_DATETIME_RESOURCES_RCC
-    indicatorclient_datetime.qrc
-)
-
 add_library(indicatorclient_datetime STATIC
-    ${INDICATORCLIENT_DATETIME_RESOURCES_RCC}
     ${INDICATORCLIENT_DATETIME_SRC}
 )
 

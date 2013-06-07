@@ -1,8 +1,0 @@
-<RCC>
-    <qresource prefix="/indicatorclient/network">
-        <file>qml/WifiSection.qml</file>
-        <file>qml/Accesspoint.qml</file>
-        <file>qml/NetworkPage.qml</file>
-        <file>qml/PasswordDialog.qml</file>
-    </qresource>
-</RCC>

@@ -55,8 +55,6 @@ const QList<Indicator> indicator_list = QList<Indicator>()
 PluginModel::PluginModel(QObject *parent)
     : QAbstractListModel(parent)
 {
-    m_widgetsMap = new WidgetsMap;
-
     QObject::connect(this, SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SIGNAL(countChanged()));
     QObject::connect(this, SIGNAL(rowsRemoved(const QModelIndex &, int, int)), this, SIGNAL(countChanged()));
     QObject::connect(this, SIGNAL(modelReset()), this, SIGNAL(countChanged()));
@@ -65,7 +63,6 @@ PluginModel::PluginModel(QObject *parent)
 /*! \internal */
 PluginModel::~PluginModel()
 {
-    delete m_widgetsMap;
 }
 
 /*!
@@ -101,15 +98,6 @@ int PluginModel::count() const
 }
 
 /*!
-    \qmlproperty WidgetsMap PluginModel::widgetsMap
-    This property holds the map for all new widgets registered by dynamically loaded plugins.
-*/
-WidgetsMap* PluginModel::widgetsMap() const
-{
-    return m_widgetsMap;
-}
-
-/*!
     \qmlmethod PluginModel::load()
 
     Load all plugin information available on baseDir.
@@ -126,7 +114,6 @@ void PluginModel::load()
 */
 void PluginModel::unload()
 {
-    m_widgetsMap->clear();
 }
 
 /*! \internal */

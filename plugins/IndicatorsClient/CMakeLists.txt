@@ -17,6 +17,7 @@ endif()
 
 add_subdirectory(indicators)
 add_subdirectory(client)
+add_subdirectory(qml)
 
 if(NETWORK_PLUGIN_ENABLED)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DNETWORK_PLUGIN_ENABLED" )
@@ -38,32 +39,18 @@ set(IndicatorsClientQML_SOURCES
     indicatorsmanager.cpp
     indicatorsmodel.cpp
     plugin.cpp
-    widgetsmap.cpp
 )
 
-set(IndicatorsClientQML_QML
-    qml/BasicMenu.qml
-    qml/ButtonMenu.qml
-    qml/DBusActionState.qml
-    qml/DivMenu.qml
-    qml/FactoryMenu.qml
-    qml/HLine.qml
-    qml/Menu.qml
-    qml/PluginItem.qml
-    qml/RemoveBackground.qml
-    qml/SectionMenu.qml
-    qml/SliderMenu.qml
-    qml/SwitchMenu.qml
-    qml/TextMenu.qml
-    qml/ProgressMenu.qml
+set(IndicatorsClientQML_RESOURCES
+    resources/indicatorclient.qrc
 )
 
-set(IndicatorsClientQM_RESOURCES
-    indicatorsclient.qrc
+qt5_add_resources(IndicatorsClientQML_RESOURCES_RCC
+    ${IndicatorsClientQML_RESOURCES}
 )
 
 add_library(IndicatorsClientQml SHARED
-    ${IndicatorsClientQML_RCC}
+    ${IndicatorsClientQML_RESOURCES_RCC}
     ${IndicatorsClientQML_SOURCES}
 )
 # Because this is an internal support library, we want
@@ -85,25 +72,3 @@ target_link_libraries(IndicatorsClientQml
 )
 
 qt5_use_modules(IndicatorsClientQml Qml)
-
-# copy qmldir file into build directory for shadow builds
-file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
-    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
-)
-
-# copy qmldir file into build directory for shadow builds
-file(COPY ${IndicatorsClientQML_QML}
-    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/qml
-    )
-
-install(TARGETS IndicatorsClientQml
-        DESTINATION ${SHELL_APP_DIR}/plugins/IndicatorsClient
-)
-
-install(FILES qmldir
-        DESTINATION ${SHELL_APP_DIR}/plugins/IndicatorsClient
-)
-
-install(FILES ${IndicatorsClientQML_QML}
-        DESTINATION ${SHELL_APP_DIR}/plugins/IndicatorsClient/qml
-)

@@ -4,14 +4,6 @@ set(INDICATORCLIENT_COMMON_SRC
     indicatorclient_common.cpp
 )
 
-set(INDICATORCLIENT_COMMON_RESOURCES
-    indicatorclient_common.qrc
-)
-
-qt5_add_resources(INDICATORCLIENT_COMMON_RESOURCES_RCC
-    ${INDICATORCLIENT_COMMON_RESOURCES}
-)
-
 add_library(indicatorclient_common STATIC
     ${INDICATORCLIENT_COMMON_RESOURCES_RCC}
     ${INDICATORCLIENT_COMMON_SRC}

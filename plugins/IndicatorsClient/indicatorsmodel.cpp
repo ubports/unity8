@@ -19,7 +19,6 @@
 
 #include "indicatorsmodel.h"
 #include "indicatorsmanager.h"
-#include "widgetsmap.h"
 #include "indicatorclientinterface.h"
 
 #include <QQmlContext>
@@ -60,7 +59,6 @@ IndicatorsModel::IndicatorsModel(QObject *parent)
     m_manager = new IndicatorsManager(this);
     QObject::connect(m_manager, SIGNAL(indicatorLoaded(const QString&)), this, SLOT(onIndicatorLoaded(const QString&)));
     QObject::connect(m_manager, SIGNAL(indicatorAboutToBeUnloaded(const QString&)), this, SLOT(onIndicatorAboutToBeUnloaded(const QString&)));
-    m_widgetsMap = new WidgetsMap;
 
     QObject::connect(this, SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SIGNAL(countChanged()));
     QObject::connect(this, SIGNAL(rowsRemoved(const QModelIndex &, int, int)), this, SIGNAL(countChanged()));
@@ -72,7 +70,6 @@ IndicatorsModel::~IndicatorsModel()
 {
     disconnect(m_manager, 0, 0, 0);
     m_manager->deleteLater();
-    m_widgetsMap->deleteLater();
 }
 
 /*!
@@ -108,22 +105,12 @@ int IndicatorsModel::count() const
 }
 
 /*!
-    \qmlproperty WidgetsMap IndicatorsModel::widgetsMap
-    This property holds the map for all new widgets registered by dynamically loaded plugins.
-*/
-WidgetsMap* IndicatorsModel::widgetsMap() const
-{
-    return m_widgetsMap;
-}
-
-/*!
     \qmlmethod IndicatorsModel::unload()
 
     Load all plugins.
 */
 void IndicatorsModel::load()
 {
-    m_widgetsMap->clear();
     m_plugins.clear();
     m_manager->load();
 }
@@ -135,7 +122,6 @@ void IndicatorsModel::load()
 */
 void IndicatorsModel::unload()
 {
-    m_widgetsMap->clear();
     m_manager->unload();
 }
 
@@ -151,8 +137,6 @@ void IndicatorsModel::onIndicatorLoaded(const QString& indicator)
 
     beginInsertRows(QModelIndex(), insert_pos, insert_pos);
 
-    m_widgetsMap->append(plugin->widgets());
-
     QObject* obj = dynamic_cast<QObject*>(plugin.get());
     if (obj)
     {
@@ -165,8 +149,6 @@ void IndicatorsModel::onIndicatorLoaded(const QString& indicator)
     m_plugins.insert(i, plugin);
 
     endInsertRows();
-
-    Q_EMIT widgetsMapChanged(m_widgetsMap);
 }
 
 /*! \internal */
@@ -301,10 +283,7 @@ QVariant IndicatorsModel::data(const QModelIndex &index, int role) const
     }
     case QMLComponent:
         if (plugin) {
-            QQmlContext *context = QQmlEngine::contextForObject(this);
-            if (context) {
-                attribute = QVariant::fromValue<QQmlComponent*>(plugin->component(context->parentContext()->engine()));
-            }
+            return plugin->componentSource();
         }
         break;
     case InitialProperties:

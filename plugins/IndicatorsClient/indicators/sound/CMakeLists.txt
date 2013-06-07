@@ -2,16 +2,7 @@ set(INDICATORCLIENT_SOUND_SRC
     indicatorclient_sound.cpp
 )
 
-set(INDICATORCLIENT_SOUND_RESOURCES
-    indicatorclient_sound.qrc
-)
-
-qt5_add_resources(INDICATORCLIENT_SOUND_RESOURCES_RCC
-    ${INDICATORCLIENT_SOUND_RESOURCES}
-)
-
 add_library(indicatorclient_sound STATIC
-    ${INDICATORCLIENT_SOUND_RESOURCES_RCC}
     ${INDICATORCLIENT_SOUND_SRC}
 )
 

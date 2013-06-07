@@ -37,25 +37,12 @@ IndicatorClientMessaging::~IndicatorClientMessaging()
 void IndicatorClientMessaging::init(const QSettings& settings)
 {
     IndicatorClientCommon::init(settings);
-    Q_INIT_RESOURCE(indicatorclient_messaging);
 
     m_initialProperties.insert("emptyText", "You have no more outstanding messages.");
     m_initialProperties.insert("highlightFollowsCurrentItem", false);
 }
 
-QQmlComponent *IndicatorClientMessaging::createComponent(QQmlEngine *engine, QObject *parent) const
+QUrl IndicatorClientMessaging::componentSource() const
 {
-    return new QQmlComponent(engine, QUrl("qrc:/indicatorsclient/messaging/qml/messagingplugin.qml"), parent);
+    return QUrl("qrc:/indicatorsclient/qml/MessagingIndicator.qml");
 }
-
-IndicatorClientInterface::WidgetsMap IndicatorClientMessaging::widgets()
-{
-    static WidgetsMap w;
-    if (w.isEmpty()) {
-        w.insert("com.canonical.indicator.messages.messageitem", QUrl("qrc:/indicatorsclient/messaging/qml/MessageItem.qml"));
-        w.insert("com.canonical.indicator.messages.snapdecision", QUrl("qrc:/indicatorsclient/messaging/qml/MessageItem.qml"));
-        w.insert("com.canonical.indicator.messages.sourceitem", QUrl("qrc:/indicatorsclient/messaging/qml/GroupedMessage.qml"));
-    }
-    return w;
-}
-

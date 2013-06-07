@@ -46,7 +46,6 @@ IndicatorClientDateTime::~IndicatorClientDateTime()
 void IndicatorClientDateTime::init(const QSettings& settings)
 {
     IndicatorClientCommon::init(settings);
-    Q_INIT_RESOURCE(indicatorclient_datetime);
 
     m_timer.start(1000 * 10);
 }
@@ -105,15 +104,14 @@ void IndicatorClientDateTime::updateTimeFormat(const QVariant &state)
             m_format = states[0].toString();
             setIcon(QUrl(states[1].toString()));
             setVisible(states[2].toBool());
-            setAccessibleName(states[3].toString());
             onTimeout();
         }
     }
 }
 
-QQmlComponent *IndicatorClientDateTime::createComponent(QQmlEngine *engine, QObject *parent) const
+QUrl IndicatorClientDateTime::componentSource() const
 {
-    return new QQmlComponent(engine, QUrl("qrc:/indicatorsclient/datetime/qml/ClockPage.qml"), parent);
+    return QUrl("qrc:/indicatorsclient/qml/DatetimeIndicator.qml");
 }
 
 void IndicatorClientDateTime::onTimeout()

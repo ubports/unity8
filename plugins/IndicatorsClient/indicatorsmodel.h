@@ -26,13 +26,11 @@
 #include <QAbstractListModel>
 #include <QQmlEngine>
 
-class WidgetsMap;
 class IndicatorsManager;
 
 class IndicatorsModel : public QAbstractListModel
 {
     Q_OBJECT
-    Q_PROPERTY(WidgetsMap* widgetsMap READ widgetsMap NOTIFY widgetsMapChanged)
     Q_PROPERTY(int count READ count NOTIFY countChanged)
 
 public:
@@ -50,8 +48,6 @@ public:
     IndicatorsModel(QObject *parent=0);
     ~IndicatorsModel();
 
-    WidgetsMap* widgetsMap() const;
-
     Q_INVOKABLE void load();
     Q_INVOKABLE void unload();
 
@@ -65,7 +61,6 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
 
 Q_SIGNALS:
-    void widgetsMapChanged(WidgetsMap *widgetsMap);
     void countChanged();
 
 private Q_SLOTS:
@@ -78,7 +73,6 @@ private Q_SLOTS:
 
 private:
     IndicatorsManager *m_manager;
-    WidgetsMap* m_widgetsMap;
     QList<IndicatorClientInterface::Ptr> m_plugins;
 
     void notifyDataChanged(QObject *sender, int role);

@@ -33,8 +33,7 @@ public:
     ~IndicatorClientNetwork();
 
     void init(const QSettings& settings);
-    QQmlComponent *createComponent(QQmlEngine *engine, QObject *parent=0) const;
-    WidgetsMap widgets();
+    QUrl componentSource() const;
     bool parseRootElement(const QString &type, QMap<int, QVariant> data);
 
 private Q_SLOTS:

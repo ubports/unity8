@@ -25,7 +25,6 @@
 #include <QQuickView>
 
 class PluginManager;
-class WidgetsMap;
 
 class IndicatorsClient : public QObject
 {
