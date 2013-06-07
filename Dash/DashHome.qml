@@ -194,7 +194,7 @@ LensView {
 //             text: listView.model.getCategory(section)
 //         }
         pageHeader: PageHeader {
-            width: parent.width
+            width: listView.width
             text: i18n.tr("Home")
         }
     }
