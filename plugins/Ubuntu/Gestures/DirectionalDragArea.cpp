@@ -34,7 +34,7 @@ public:
     virtual void start() { m_timer.start(); }
     virtual void stop() { m_timer.stop(); }
 private:
-    QTimer m_timer; 
+    QTimer m_timer;
 };
 
 DirectionalDragArea::DirectionalDragArea(QQuickItem *parent)
@@ -44,7 +44,7 @@ DirectionalDragArea::DirectionalDragArea(QQuickItem *parent)
     , m_direction(DirectionalDragArea::Rightwards)
     , m_wideningAngle(0)
     , m_wideningFactor(0)
-    , m_distanceThreshold(0) 
+    , m_distanceThreshold(0)
     , m_minSpeed(0)
     , m_maxSilenceTime(200)
     , m_silenceTime(0)
