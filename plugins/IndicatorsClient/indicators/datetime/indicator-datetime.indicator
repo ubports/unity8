@@ -1,0 +1,4 @@
+[Indicator Service]
+Name=indicator-datetime
+DBusName=com.canonical.indicator.time
+ObjectPath=/com/canonical/indicator/time

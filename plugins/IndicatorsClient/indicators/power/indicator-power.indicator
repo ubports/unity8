@@ -1,0 +1,4 @@
+[Indicator Service]
+Name=indicator-power
+DBusName=com.canonical.indicator.battery
+ObjectPath=/com/canonical/indicator/battery

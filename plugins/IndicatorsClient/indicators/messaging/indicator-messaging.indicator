@@ -1,0 +1,4 @@
+[Indicator Service]
+Name=indicator-messaging
+DBusName=com.canonical.indicator.messages
+ObjectPath=/com/canonical/indicator/messages

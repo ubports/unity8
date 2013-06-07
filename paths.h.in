@@ -20,6 +20,7 @@
 // Qt
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
+#include <QStandardPaths>
 
 inline bool isRunningInstalled() {
     static bool installed = (QCoreApplication::applicationDirPath() ==
@@ -57,6 +58,14 @@ inline QString fakePluginsImportPath() {
     } else {
         return QString("@CMAKE_BINARY_DIR@/tests/mocks");
     }
+}
+
+inline QStringList shellDataDirs() {
+    QStringList dirs = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
+    if (!isRunningInstalled()) {
+        dirs.prepend("@CMAKE_BINARY_DIR@/share");
+    }
+    return dirs;
 }
 
 inline QString sourceDirectory() {

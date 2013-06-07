@@ -20,9 +20,10 @@
 #include "indicatorsmanager.h"
 #include "indicatorsfactory.h"
 
-#include <QStandardPaths>
 #include <QSettings>
 #include <QDebug>
+
+#include "paths.h"
 
 
 class IndicatorsManager::IndicatorData
@@ -55,7 +56,7 @@ IndicatorsManager::~IndicatorsManager()
 void IndicatorsManager::load()
 {
     unload();
-    QStringList xdgLocations = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
+    QStringList xdgLocations = shellDataDirs();//QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
 
     m_fsWatcher.reset(new QFileSystemWatcher(this));
 
