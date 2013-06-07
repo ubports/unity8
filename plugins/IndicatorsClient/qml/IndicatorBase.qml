@@ -28,7 +28,7 @@ Item {
 
     //const
     property string title
-    property string device: "desktop"
+    property string device: "phone"
     property int busType
     property string busName
     property string actionsObjectPath
