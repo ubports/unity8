@@ -39,7 +39,6 @@ private Q_SLOTS:
         view->engine()->addImportPath(BUILT_PLUGINS_DIR);
         view->setSource(QUrl::fromLocalFile(LISTVIEWWITHPAGEHEADER_FOLDER "/test.qml"));
         lvwph = dynamic_cast<ListViewWithPageHeader*>(view->rootObject()->findChild<QQuickFlickable*>());
-        qDebug() << lvwph;
         model = view->rootObject()->findChild<QQuickListModel*>();
         otherDelegate = view->rootObject()->findChild<QQmlComponent*>();
         QVERIFY(lvwph);
