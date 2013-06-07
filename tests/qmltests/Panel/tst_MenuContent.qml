@@ -19,7 +19,7 @@ import QtTest 1.0
 import Unity.Test 0.1 as UT
 import ".."
 import "../../../Panel"
-import Ubuntu.ChewieUI 0.1 as ChewieUI
+import IndicatorsClient 0.1 as IndicatorsClient
 
 Item {
     id: shell
@@ -39,7 +39,7 @@ Item {
     Item { id: handle }
 
 
-    ChewieUI.PluginModel {
+    IndicatorsClient.IndicatorsModel {
         id: indicatorsModel
     }
 

@@ -1,0 +1,92 @@
+/*
+ * Copyright 2013 Canonical Ltd.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation; version 3.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authors:
+ *      Renato Araujo Oliveira Filho <renato@canonical.com>
+ *      Olivier Tilloy <olivier.tilloy@canonical.com>
+ */
+
+import QtQuick 2.0
+import Ubuntu.Components 0.1
+import IndicatorsClient 0.1 as IndicatorsClient
+
+IndicatorsClient.RemovableMenu {
+    property variant action: menu && actionGroup ? actionGroup.action(menu.action) : undefined
+    property alias count: label.text
+
+    color: "#221e1b"
+    implicitHeight: units.gu(10)
+
+    onSwipingChanged: listView.interactive = !swiping
+
+    Row {
+        anchors.fill: parent
+        anchors.margins: units.gu(2)
+        spacing: units.gu(4)
+
+        UbuntuShape {
+            height: units.gu(6)
+            width: units.gu(6)
+            image: Image {
+                source: menu && (menu.extra.canonical_icon.length > 0) ? "image://gicon/" + encodeURI(menu.extra.canonical_icon) : "qrc:/indicatorsclient/messaging/artwork/default_app.svg"
+                fillMode: Image.PreserveAspectFit
+            }
+        }
+
+        Label {
+            anchors.verticalCenter: parent.verticalCenter
+            color: "#e8e1d0"
+            font.weight: Font.DemiBold
+            fontSize: "medium"
+            text: menu && menu.label ? menu.label : ""
+        }
+
+        Label {
+            id: label
+            anchors.verticalCenter: parent.verticalCenter
+            width: parent.width - x
+            horizontalAlignment: Text.AlignRight
+            color: "#e8e1d0"
+            font.weight: Font.DemiBold
+            fontSize: "medium"
+            text: action && action.valid && action.state ? action.state[0] : "0"
+        }
+    }
+
+    IndicatorsClient.HLine {
+        anchors.top: parent.top
+        color: "#403b37"
+    }
+
+    IndicatorsClient.HLine {
+        anchors.bottom: parent.bottom
+        color: "#060606"
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        onClicked: {
+            if (action && action.valid) {
+                action.activate(true)
+            }
+        }
+    }
+
+    onItemRemoved: {
+        if (action && action.valid) {
+            action.activate(false)
+        }
+    }
+}

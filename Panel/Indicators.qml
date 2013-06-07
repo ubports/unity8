@@ -16,7 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import Ubuntu.ChewieUI 0.1 as ChewieUI
+import IndicatorsClient 0.1 as IndicatorsClient
 
 import "../Components"
 import "../Components/Math.js" as MathLocal
@@ -225,7 +225,7 @@ Showable {
 
     }
 
-    ChewieUI.PluginModel {
+    IndicatorsClient.IndicatorsModel {
         id: indicatorsModel
         Component.onCompleted: load()
     }

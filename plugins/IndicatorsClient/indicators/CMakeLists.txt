@@ -1,0 +1,6 @@
+add_subdirectory(common)
+add_subdirectory(messaging)
+add_subdirectory(sound)
+add_subdirectory(power)
+add_subdirectory(datetime)
+add_subdirectory(network)

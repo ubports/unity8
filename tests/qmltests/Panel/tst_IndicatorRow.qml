@@ -19,7 +19,7 @@ import QtTest 1.0
 import Unity.Test 0.1 as UT
 import ".."
 import "../../../Panel"
-import Ubuntu.ChewieUI 0.1 as ChewieUI
+import IndicatorsClient 0.1 as IndicatorsClient
 
 /*
   This tests the IndicatorRow component by using a fake model to stage data in the indicators
@@ -51,7 +51,7 @@ Item {
         indicatorsModel: indicatorModel
     }
 
-    ChewieUI.PluginModel {
+    IndicatorsClient.IndicatorsModel {
         id: indicatorModel
     }
 

@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/indicatorsclient">
+        <file>qml/commonplugin.qml</file>
+    </qresource>
+</RCC>

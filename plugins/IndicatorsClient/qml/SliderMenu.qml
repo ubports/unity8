@@ -1,0 +1,66 @@
+/*
+ * Copyright 2013 Canonical Ltd.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation; version 3.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authors:
+ *      Renato Araujo Oliveira Filho <renato@canonical.com>
+ */
+
+import QtQuick 2.0
+import Ubuntu.Components 0.1
+
+Menu {
+    id: _sliderMenu
+
+    property alias minimumValue: slider.minimumValue
+    property alias maximumValue: slider.maximumValue
+    property alias value: slider.value
+
+    control: Slider {
+        id: slider
+        width: _sliderMenu.text ? units.gu(20) : _sliderMenu.width - units.gu(4)
+        anchors.verticalCenter: parent.verticalCenter
+        live: false        
+        // FIXME: The interval should be [0.0 - 1.0]. Unfortunately, when
+        // reaching the boundaries (0.0 or 1.0), the value is converted
+        // to an integer when automatically wrapped in a variant when
+        // passed to QStateAction::updateState(…). The server chokes on
+        // those values, complaining that they’re not of the right type…
+        minimumValue: menu.extra.canonical_min ? menu.extra.canonical_min * 1.000001 : 0.0000001
+        maximumValue: menu.extra.canonical_max ? menu.extra.canonical_max * 1.000001 : 0.9999999
+
+        Binding {
+            target: slider.ItemStyle.style
+            property: "backgroundColor"
+            value: Qt.rgba(0.5, 0.5, 0.5, 0.1)
+        }
+
+        Binding {
+            target: slider.ItemStyle.style
+            property: "backgroundOpacity"
+            value: 1.0
+        }
+
+        // Use this to disable the label, since there is not way to do it on the component.
+        function formatValue(v) {
+            return ""
+        }
+    }
+
+    DBusActionState {
+        action: menu ? menu.action : undefined
+        target: slider
+        property: "value"
+    }
+}
