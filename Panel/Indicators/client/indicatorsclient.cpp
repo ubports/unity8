@@ -45,7 +45,7 @@ IndicatorsClient::~IndicatorsClient()
 void IndicatorsClient::setupUI()
 {
     m_view = new QQuickView;
-    m_view->engine()->setBaseUrl(QUrl::fromLocalFile(::shellAppDirectory()+"Panel/indicatorsclient/"));
+    m_view->engine()->setBaseUrl(QUrl::fromLocalFile(::shellAppDirectory()+"Panel/Indicators/client/"));
     m_view->engine()->addImportPath(::shellImportPath());
 
     m_view->setSource(QUrl("IndicatorsClient.qml"));

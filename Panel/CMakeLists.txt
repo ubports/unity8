@@ -1,1 +1,1 @@
-add_subdirectory(indicatorsclient)
+add_subdirectory(Indicators)
