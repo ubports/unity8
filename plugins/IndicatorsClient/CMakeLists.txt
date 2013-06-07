@@ -14,7 +14,6 @@ else()
     message(WARNING "Missing glib or libnm dependency for the network plugin, not building")
 endif()
 
-add_subdirectory(indicators)
 add_subdirectory(qml)
 
 if(NETWORK_PLUGIN_ENABLED)
