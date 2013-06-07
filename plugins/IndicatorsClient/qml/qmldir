@@ -1,0 +1,19 @@
+module IndicatorsClient
+plugin IndicatorsClientQml
+
+PluginItem 0.1 PluginItem.qml
+BasicMenu 0.1 BasicMenu.qml
+ButtonMenu 0.1 ButtonMenu.qml
+DBusActionState 0.1 DBusActionState.qml
+DivMenu 0.1 DivMenu.qml
+FactoryMenu 0.1 FactoryMenu.qml
+HLine 0.1 HLine.qml
+Menu 0.1 Menu.qml
+RemovableMenu 0.1 RemovableMenu.qml
+SectionMenu 0.1 SectionMenu.qml
+SliderMenu 0.1 SliderMenu.qml
+SwitchMenu 0.1 SwitchMenu.qml
+TextMenu 0.1 TextMenu.qml
+ProgressMenu 0.1 ProgressMenu.qml
+
+internal RemoveBackground RemoveBackground.qml

@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/indicatorsclient">
+        <file>artwork/datetime/time_and_date@18.png</file>
+        <file>artwork/messaging/default_contact.png</file>
+        <file>artwork/messaging/default_app.svg</file>
+        <file>artwork/messaging/message_sms01_54px.png</file>
+
+        <file>qml/CommonIndicator.qml</file>
+        <file>qml/DatetimeIndicator.qml</file>
+        <file>qml/MessagingIndicator.qml</file>
+        <file>qml/NetworkIndicator.qml</file>
+    </qresource>
+</RCC>
