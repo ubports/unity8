@@ -66,8 +66,7 @@ Item {
     Component { id: groupedMessage; ICMessaging.GroupedMessage {} }
     Component { id: wifiSection; ICNetwork.WifiSection {} }
     Component { id: accessPoint; ICNetwork.AccessPoint {} }
-
-    Component { id: indicatorMenu; IC.Menu {Component.onCompleted: console.log("menu created");} }
+    Component { id: indicatorMenu; IC.Menu {} }
 
     Loader {
             id: __loader
@@ -83,7 +82,6 @@ Item {
                 if (widgetType) {
                     var component = _map[widgetType]
                     if (component != undefined) {
-                        console.log(component);
                         return component
                     }
                 }

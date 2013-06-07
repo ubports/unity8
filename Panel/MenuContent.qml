@@ -29,7 +29,7 @@ Rectangle {
     property bool __contentActive: false
     property alias currentIndex : menus.currentIndex
     property color backgroundColor: "#221e1c"
-    property int contentReleaseInterval: 5000
+    property int contentReleaseInterval: 20000
 
     width: units.gu(40)
     height: units.gu(42)

@@ -45,6 +45,7 @@ Showable {
             if (contentProgress <= hintValue && indicators.state == "reveal") {
                 indicators.state = "hint"
                 menuContent.hideAll()
+                menuContent.releaseContent()
             } else if (contentProgress > hintValue && contentProgress < lockThreshold) {
                 menuContent.showMenu()
                 indicators.state = "reveal"
@@ -59,10 +60,6 @@ Showable {
                 }
                 indicators.state = "locked"
             }
-        }
-
-        if (contentProgress == 0) {
-            menuContent.releaseContent()
         }
     }
 
@@ -236,6 +233,7 @@ Showable {
             if (hideAnimation.running) {
                 indicators.state = "initial"
                 menuContent.hideAll()
+                menuContent.releaseContent()
             } else  {
                 if (state == "initial") indicatorRow.setDefaultItem()
             }
