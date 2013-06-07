@@ -38,6 +38,10 @@ private Q_SLOTS:
         view = new QQuickView();
         view->engine()->addImportPath(BUILT_PLUGINS_DIR);
         view->setSource(QUrl::fromLocalFile(LISTVIEWWITHPAGEHEADER_FOLDER "/test.qml"));
+        // This originally was 
+        // lvwph = view->rootObject()->findChild<ListViewWithPageHeader*>();
+        // but here doesn't work because of the way we are linking listviewwithpageheader.cpp
+        // doesn't create the moc so doesn't get the Q_OBJECT macro info
         lvwph = dynamic_cast<ListViewWithPageHeader*>(view->rootObject()->findChild<QQuickFlickable*>());
         model = view->rootObject()->findChild<QQuickListModel*>();
         otherDelegate = view->rootObject()->findChild<QQmlComponent*>();
