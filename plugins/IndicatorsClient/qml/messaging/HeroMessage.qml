@@ -26,7 +26,7 @@ IndicatorsClient.BasicMenu {
     id: __heroMessage
 
     property variant actionsDescription: null
-    property variant action: menu && actionGroup ? actionGroup.action(menu.action) : undefined
+    property variant action: menu && menu.action!="" && actionGroup ? actionGroup.action(menu.action) : null
     property alias heroMessageHeader: __heroMessageHeader
     property real collapsedHeight: heroMessageHeader.y + heroMessageHeader.bodyBottom + units.gu(2)
     property real expandedHeight: collapsedHeight

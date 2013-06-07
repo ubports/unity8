@@ -20,6 +20,7 @@ import ".."
 import "../../../Panel/Menus"
 import "../../../Components"
 import Unity.Test 0.1 as UT
+import IndicatorsClient 0.1
 
 Rectangle {
     id: shell
@@ -47,9 +48,9 @@ Rectangle {
 
     ListModel {
         id: mockModel
-        ListElement {title: "foo"; label: "foo"; iconSource: "graphics/sound_on_icon.png"}
-        ListElement {title: "bar"; label: ""; iconSource: "graphics/sound_on_icon.png"}
-        ListElement {title: "baz"; label: "baz"; iconSource: "graphics/sound_on_icon.png"}
+        ListElement {title: "fake1"; iconQml: "qrc:/tests/indciatorsclient/qml/fake_menu_icon1.qml"; indicatorProperties: ""}
+        ListElement {title: "fake2"; iconQml: "qrc:/tests/indciatorsclient/qml/fake_menu_icon2.qml"; indicatorProperties: ""}
+        ListElement {title: "fake3"; iconQml: "qrc:/tests/indciatorsclient/qml/fake_menu_icon3.qml"; indicatorProperties: ""}
     }
 
     ListModel {
@@ -98,25 +99,12 @@ Rectangle {
             button = findChild(overview, "overviewGridButton3");
             compare(button, undefined, "There should only be 3 buttons... found at least 4...");
 
-            mockModel2.append({title: "humppa", label: "", iconSource: "graphics/sound_on_icon.png"})
+            mockModel2.append({title: "humppa", iconQml: "qrc:/tests/indciatorsclient/qml/fake_menu_icon4.qml", indicatorProperties: ""})
             overviewGrid.forceLayout();
             waitForRendering(overviewGrid);
 
             button = findChild(overview, "overviewGridButton3");
             verify(button !== undefined, "button3 wasn't found");
-        }
-
-        function test_text_or_icon_data() {
-            return [
-                {tag: "text", index: 0, imageVisible: false},
-                {tag: "image", index: 1, imageVisible: true}
-            ]
-        }
-
-        function test_text_or_icon(data) {
-            var button = findChild(overview, "overviewGridButton" + data.index);
-            var image = findChild(button, "overviewGridButtonImage");
-            compare(image.visible, data.imageVisible)
         }
 
         function test_volume_slider_data() {

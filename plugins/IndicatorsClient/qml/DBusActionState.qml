@@ -46,7 +46,7 @@ Item {
       \preliminary
       The dbus action name
      */
-    property string action : undefined
+    property string action : ""
 
     /*!
       \preliminary
@@ -78,7 +78,7 @@ Item {
 
     Item {
         id: priv
-        property variant actionObject : action && actionGroup ? actionGroup.action(action) : null
+        property variant actionObject : action!="" && actionGroup ? actionGroup.action(action) : null
         property variant actionState: actionObject ? actionObject.state : undefined
 
         Binding {

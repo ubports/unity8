@@ -56,34 +56,29 @@ Item {
         interactive: false
         delegate:
             AbstractButton {
+                id: indicatorButton
                 objectName: "overviewGridButton" + index
                 width: grid.cellWidth
                 height: grid.cellHeight
-                Image {
-                    id: imageIcon
-                    objectName: "overviewGridButtonImage"
-                    source: iconSource
-                    width: units.gu(4)
-                    height: units.gu(4)
-                    anchors {
-                        centerIn: parent
-                        verticalCenterOffset: -units.gu(1)
-                    }
-                    sourceSize.width: width
-                    sourceSize.height: height
-                    visible: labelIcon.text === ""
-                }
 
-                Label {
-                    id: labelIcon
-                    text: label
-                    color: "#f3f3e7"
-                    opacity: 0.8
-                    font.family: "Ubuntu"
-                    fontSize: "large"
-                    anchors {
-                        centerIn: parent
-                        verticalCenterOffset: -units.gu(1)
+                Loader {
+                    id: loader
+                    source: iconQml
+
+                    onStatusChanged: {
+                        item.width = units.gu(5)
+                        item.height = units.gu(5)
+
+                        item.x = Qt.binding(function() { return indicatorButton.width/2 - item.width/2; })
+                        item.y = Qt.binding(function() { return indicatorButton.height/2 - item.height/2 - units.gu(1); })
+
+                        if (status == Loader.Ready) {
+                            for(var pName in indicatorProperties) {
+                                if (item.hasOwnProperty(pName)) {
+                                    item[pName] = indicatorProperties[pName]
+                                }
+                            }
+                        }
                     }
                 }
 

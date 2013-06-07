@@ -74,7 +74,7 @@ Menu {
     }
 
     DBusActionState {
-        action: menu ? menu.action : undefined
+        action: menu ? menu.action : ""
         target: _textField
         property: "text"
     }

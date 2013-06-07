@@ -21,10 +21,10 @@ import IndicatorsClient 0.1 as IndicatorsClient
 Item {
     id: indicatorItem
 
-    property alias iconUrl: loader.source
+    property alias iconQml: loader.source
     property bool highlighted: false
     property bool dimmed: false
-    property var initialProperties: undefined
+    property var indicatorProperties: undefined
 
     opacity: dimmed ? 0.4 : 1
 
@@ -39,9 +39,9 @@ Item {
             if (status == Loader.Ready) {
                 item.height = Qt.binding(function() { return indicatorItem.height; })
 
-                for(var pName in initialProperties) {
+                for(var pName in indicatorProperties) {
                     if (item.hasOwnProperty(pName)) {
-                        item[pName] = initialProperties[pName]
+                        item[pName] = indicatorProperties[pName]
                     }
                 }
             }
@@ -55,6 +55,7 @@ Item {
 
     Rectangle {
         color: "#dd4814"
+        objectName: "highlight"
         height: units.dp(2)
         width: parent.width
         anchors.top: parent.bottom

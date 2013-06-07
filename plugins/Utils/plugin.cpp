@@ -24,6 +24,7 @@
 #include "plugin.h"
 
 // local
+#include "applicationpaths.h"
 #include "qlimitproxymodelqml.h"
 #include "qsortfilterproxymodelqml.h"
 #include "ubuntuwindow.h"
@@ -35,4 +36,5 @@ void UtilsPlugin::registerTypes(const char *uri)
     qmlRegisterType<QLimitProxyModelQML>(uri, 0, 1, "LimitProxyModel");
     qmlRegisterType<QSortFilterProxyModelQML>(uri, 0, 1, "SortFilterProxyModel");
     qmlRegisterExtendedType<QQuickWindow, UbuntuWindow>(uri, 0, 1, "Window");
+    qmlRegisterType<ApplicationPaths>(uri, 0, 1, "ApplicationPaths");
 }

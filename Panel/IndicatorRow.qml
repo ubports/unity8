@@ -60,8 +60,9 @@ Item {
 
                property int ownIndex: index
 
-               iconUrl: model.iconUrl
-               initialProperties : model.initialProperties
+               iconQml: model.iconQml
+
+               indicatorProperties : model.indicatorProperties
                highlighted: indicatorRow.state == "reveal" || indicatorRow.state == "locked" || indicatorRow.state == "commit" ? ownIndex == indicatorRow.currentItemIndex : false
                dimmed: { //See FIXME in Indicators regarding the "states" change
                    if (indicatorRow.state == "initial" || indicatorRow.state == "") {

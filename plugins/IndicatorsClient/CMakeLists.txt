@@ -14,13 +14,13 @@ else()
     message(WARNING "Missing glib or libnm dependency for the network plugin, not building")
 endif()
 
-
 add_subdirectory(indicators)
-add_subdirectory(client)
 add_subdirectory(qml)
 
 if(NETWORK_PLUGIN_ENABLED)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DNETWORK_PLUGIN_ENABLED" )
+
+    add_subdirectory(Network)
 endif()
 
 include_directories(
@@ -30,12 +30,11 @@ include_directories(
     ${Qt5Quick_INCLUDE_DIRS}
     ${GLIB_INCLUDE_DIRS}
     ${QMENUMODEL_INCLUDE_DIRS}
-    ${indicatorclient_common_SOURCE_DIR}
 )
 
 set(IndicatorsClientQML_SOURCES
     flatmenuproxymodel.cpp
-    indicatorsfactory.cpp
+    indicator.cpp
     indicatorsmanager.cpp
     indicatorsmodel.cpp
     plugin.cpp
@@ -64,11 +63,6 @@ target_link_libraries(IndicatorsClientQml
     ${Qt5Quick_LIBRARIES}
     ${GOBJECT_LDFLAGS}
     ${QMENUMODEL_LDFLAGS}
-    indicatorclient_datetime
-    indicatorclient_messaging
-    indicatorclient_power
-    indicatorclient_sound
-    indicatorclient_network
 )
 
 qt5_use_modules(IndicatorsClientQml Qml)

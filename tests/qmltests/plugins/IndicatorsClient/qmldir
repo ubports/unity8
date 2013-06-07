@@ -1,0 +1,5 @@
+module IndicatorsClient
+plugin IndicatorsClientFakeQml
+
+IndicatorsModel 0.1 IndicatorsModel.qml
+FakeMenuPage 0.1 FakeMenuPage.qml

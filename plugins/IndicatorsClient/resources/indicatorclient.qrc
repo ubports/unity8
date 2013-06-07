@@ -1,16 +1,7 @@
 <RCC>
     <qresource prefix="/indicatorsclient">
-        <file>artwork/datetime/time_and_date@18.png</file>
         <file>artwork/messaging/default_contact.png</file>
         <file>artwork/messaging/default_app.svg</file>
         <file>artwork/messaging/message_sms01_54px.png</file>
-
-        <file>qml/DefaultIndicatorIcon.qml</file>
-        <file>qml/DefaultIndicatorPage.qml</file>
-        <file>qml/DatetimeIndicatorIcon.qml</file>
-        <file>qml/DatetimeIndicatorPage.qml</file>
-        <file>qml/MessagingIndicatorPage.qml</file>
-        <file>qml/NetworkIndicatorIcon.qml</file>
-        <file>qml/NetworkIndicatorPage.qml</file>
     </qresource>
 </RCC>

@@ -29,54 +29,39 @@ Rectangle {
     IndicatorItem {
         id: indicatorItem
         anchors.fill: parent
-        iconSource: "../../../Panel/graphics/Clock.png"
-        label: "Clock"
     }
 
     UT.UnityTestCase {
         name: "IndicatorItem"
 
         function init_test() {
-            indicatorItem.iconSource = "../../../Panel/graphics/Clock.png"
-            indicatorItem.label = "Clock"
         }
 
         function test_dimmed() {
             init_test()
 
-            var itemRow = findChild(indicatorItem, "itemRow")
             indicatorItem.dimmed = true
-            compare(itemRow.opacity > 0, true, "IndicatorItem opacity should not be 0")
-            compare(itemRow.opacity < 1, true, "IndicatorItem opacity should not be 1")
+            compare(indicatorItem.opacity > 0, true, "IndicatorItem opacity should not be 0")
+            compare(indicatorItem.opacity < 1, true, "IndicatorItem opacity should not be 1")
+        }
+
+        function test_highlight() {
+            var itemHighlight = findChild(indicatorItem, "highlight")
+            verify(itemHighlight != undefined)
+
+            indicatorItem.highlighted = true;
+            compare(itemHighlight.visible, true, "Indicator should be highlighted")
+
+            indicatorItem.highlighted = false;
+            compare(itemHighlight.visible, false, "Indicator should not be highlighted")
         }
 
         function test_empty() {
             init_test()
 
-            indicatorItem.iconSource = ""
-            indicatorItem.label = ""
-            compare(indicatorItem.visible, false, "IndicatorItem should not be visible")
-        }
-
-        function test_noLabel() {
-            init_test()
-
-            var itemImage = findChild(indicatorItem, "itemImage")
-            var itemLabel = findChild(indicatorItem, "itemLabel")
-            indicatorItem.label = ""
-            compare(itemImage.visible, true, "The image should be visible")
-            compare(itemImage.width > 0, true, "The image should have a positive width")
-            compare(itemLabel.width > 0, false, "The label should not have a positive width")
-        }
-
-        function test_noImage() {
-            init_test()
-
-            var itemImage = findChild(indicatorItem, "itemImage")
-            var itemLabel = findChild(indicatorItem, "itemLabel")
-            indicatorItem.iconSource = ""
-            compare(itemImage.visible, false, "The image should not be visible")
-            compare(itemLabel.width > 0, true, "The label should have a positive width")
+            compare(indicatorItem.visible, false, "IndicatorItem should not be visible.")
+            indicatorItem.iconQml = "qrc:/tests/indciatorsclient/qml/fake_menu_icon1.qml";
+            tryCompare(indicatorItem, "visible", true)
         }
     }
 }

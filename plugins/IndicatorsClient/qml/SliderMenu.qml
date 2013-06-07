@@ -31,7 +31,7 @@ Menu {
         id: slider
         width: _sliderMenu.text ? units.gu(20) : _sliderMenu.width - units.gu(4)
         anchors.verticalCenter: parent.verticalCenter
-        live: false        
+        live: false
         // FIXME: The interval should be [0.0 - 1.0]. Unfortunately, when
         // reaching the boundaries (0.0 or 1.0), the value is converted
         // to an integer when automatically wrapped in a variant when
@@ -59,7 +59,7 @@ Menu {
     }
 
     DBusActionState {
-        action: menu ? menu.action : undefined
+        action: menu ? menu.action : ""
         target: slider
         property: "value"
     }

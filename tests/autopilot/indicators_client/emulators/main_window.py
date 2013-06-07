@@ -5,6 +5,8 @@
 # under the terms of the GNU General Public License version 3, as published
 # by the Free Software Foundation.
 
+from indicators_client.emulators import IndicatorsIntrospectionObject
+
 class MainWindow(object):
     """An emulator class that makes it easy to interact with the shell"""
 

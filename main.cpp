@@ -22,13 +22,14 @@
 #include <QtGui/QIcon>
 #include <QtGui/QGuiApplication>
 #include <QtQml/QQmlEngine>
+#include <QtQml/QQmlContext>
 #include <qpa/qplatformnativeinterface.h>
 #include <QLibrary>
 #include <libintl.h>
 
 // local
-#include "paths.h"
 #include "MouseTouchAdaptor.h"
+#include "paths.h"
 
 namespace {
 /* When you append and import path to the list of import paths it will be the *last*
@@ -88,7 +89,7 @@ int main(int argc, char** argv)
     QQuickView* view = new QQuickView();
     view->setResizeMode(QQuickView::SizeRootObjectToView);
     view->setTitle("Qml Phone Shell");
-    view->engine()->setBaseUrl(QUrl::fromLocalFile(shellAppDirectory()));
+    view->engine()->setBaseUrl(QUrl::fromLocalFile(::shellAppDirectory()));
     if (args.contains(QLatin1String("-frameless"))) {
         view->setFlags(Qt::FramelessWindowHint);
     }
@@ -111,12 +112,10 @@ int main(int argc, char** argv)
     nativeInterface->setProperty("ubuntuSessionType", 1);
     view->setProperty("role", 2); // INDICATOR_ACTOR_ROLE
 
-    QObject::connect(view->engine(), SIGNAL(quit()), qApp, SLOT(quit()));
-
     QUrl source("Shell.qml");
-    view->engine()->addImportPath(shellAppDirectory());
-    view->engine()->addImportPath(shellImportPath());
-    appendImportPath(view->engine(), fakePluginsImportPath());
+    view->engine()->addImportPath(::shellAppDirectory());
+    view->engine()->addImportPath(::shellImportPath());
+    appendImportPath(view->engine(), ::fakePluginsImportPath());
     view->setSource(source);
     view->setColor("transparent");
 

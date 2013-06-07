@@ -21,7 +21,7 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 
 BasicMenu {
-    property variant action: menu && actionGroup ? actionGroup.action(menu.action) : undefined
+    property variant action: menu && menu.action!="" && actionGroup ? actionGroup.action(menu.action) : null
 
     color: "#221e1b"
     height: undefined  // If we're using implicitHieght, we need to make sure height is not set.

@@ -12,7 +12,7 @@ macro(run_tests)
               -o -,txt)
         add_test(NAME ${_test} COMMAND ${testCommand})
         add_custom_target(${_test} ${testCommand})
-        add_executable(${_test}Exec ${_test}.cpp fakeindicator.h
+        add_executable(${_test}Exec ${_test}.cpp
             )
         qt5_use_modules(${_test}Exec Test Core Qml)
         target_link_libraries(${_test}Exec

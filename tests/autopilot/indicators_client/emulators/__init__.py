@@ -5,7 +5,7 @@
 # under the terms of the GNU General Public License version 3, as published
 # by the Free Software Foundation.
 
-from autopilot.introspection.dbus import CustomEmulatorBase
+from autopilot.introspection.dbus import DBusIntrospectionObject
 from autopilot.input import Mouse, Touch, Pointer
 from autopilot.platform import model
 
@@ -13,7 +13,7 @@ from time import sleep
 
 from autopilot.introspection.dbus import IntrospectableObjectMetaclass
 
-class IndicatorsEmulatorBase(CustomEmulatorBase):
+class IndicatorsIntrospectionObject(DBusIntrospectionObject):
 
     """A common class that provides introspection and other helpers to indictors."""
 
@@ -29,8 +29,3 @@ class IndicatorsEmulatorBase(CustomEmulatorBase):
     def setUp(self):
         self.pointing_device = Pointer(self.input_device_class.create())
         super(IndicatorsTestCase, self).setUp()
-
-
-    def plop(self):
-        print type(CustomEmulatorBase)
-        print "PLOP"

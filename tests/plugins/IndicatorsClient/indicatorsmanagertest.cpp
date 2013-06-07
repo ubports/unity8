@@ -17,27 +17,26 @@
  *      Renato Araujo Oliveira Filho <renato@canonical.com>
  */
 
-#include "fakeindicator.h"
 #include "indicatorsmanager.h"
-#include "indicatorsfactory.h"
 #include "paths.h"
 
 #include <QtTest>
 #include <QDebug>
-
-FAKE_INDICATOR(1, "Fake Title 1")
-FAKE_INDICATOR(2, "Fake Title 2")
 
 class IndicatorsManagerTest : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
 
-    void initTestCase() {
+    void initTestCase()
+    {
+        setenv("UNITY_TEST_ENV", "1", 1);
         setenv("XDG_DATA_DIRS", (sourceDirectory() + "/tests/data").toLatin1().data(), 1);
+    }
 
-        IndicatorsFactory::instance().registerIndicator<FakeIndicatorClient1>("indicator-fake1");
-        IndicatorsFactory::instance().registerIndicator<FakeIndicatorClient2>("indicator-fake2");
+    void cleanupTestCase()
+    {
+        unsetenv("UNITY_TEST_ENV");
     }
 
     /*
@@ -45,7 +44,6 @@ private Q_SLOTS:
      */
     void testLoad()
     {
-
         IndicatorsManager manager;
 
         QVERIFY(!manager.isLoaded());
@@ -54,7 +52,7 @@ private Q_SLOTS:
         manager.load();
 
         QVERIFY(manager.isLoaded());
-        QCOMPARE(manager.indicators().count(), 2);
+        QCOMPARE(manager.indicators().count(), 4);
 
         manager.unload();
 
@@ -70,19 +68,14 @@ private Q_SLOTS:
         IndicatorsManager manager;
         manager.load();
 
-        IndicatorClientInterface::Ptr indicator = manager.indicator("indicator-fake1");
+        Indicator::Ptr indicator = manager.indicator("indicator-fake1");
         QVERIFY(indicator.get());
 
         QCOMPARE(indicator->identifier(), QString("indicator-fake1"));
-        QCOMPARE(indicator->title(), QString("Fake Title 1"));
-        QCOMPARE(indicator->label(), QString());
-        QCOMPARE(indicator->description(), QString());
-        QCOMPARE(indicator->priority(), 1);
 
         // Check that the initial properties have been set.
-        IndicatorClientInterface::PropertiesMap props = indicator->initialProperties();
-        QCOMPARE(props.count(), 4);
-        QCOMPARE(props["title"].toString(), QString("Fake Title 1"));
+        QVariantMap props = indicator->indicatorProperties().toMap();
+        QCOMPARE(props.count(), 3);
         QCOMPARE(props["busType"].toInt(), 1);
         QCOMPARE(props["busName"].toString(), QString("com.canonical.indicator.fake1"));
         QCOMPARE(props["objectPath"].toString(), QString("/com/canonical/indicator/fake1"));
@@ -96,13 +89,13 @@ private Q_SLOTS:
         IndicatorsManager manager;
         manager.load();
 
-        IndicatorClientInterface::Ptr i0 = manager.indicator("indicator-fake1");
-        IndicatorClientInterface::Ptr i1 = manager.indicator("indicator-fake1");
+        Indicator::Ptr i0 = manager.indicator("indicator-fake1");
+        Indicator::Ptr i1 = manager.indicator("indicator-fake1");
         QVERIFY(i0?true:false);
         QVERIFY(i1?true:false);
         QCOMPARE(i0, i1);
 
-        IndicatorClientInterface::Ptr i2 = manager.indicator("indicator-fake2");
+        Indicator::Ptr i2 = manager.indicator("indicator-fake2");
         QVERIFY(i2?true:false);
         QVERIFY(i2 != i1);
         QVERIFY(i2 != i1);
@@ -119,14 +112,11 @@ private Q_SLOTS:
         QPointer<QObject> pi0;
         QPointer<QObject> pi1;
         {
-            IndicatorClientInterface::Ptr i0 = manager.indicator("indicator-fake1");
+            Indicator::Ptr i0 = manager.indicator("indicator-fake1");
             pi0 = dynamic_cast<QObject*>(i0.get());
-            QCOMPARE(pi0->property("initializedCount").toInt(), 1);
 
-            IndicatorClientInterface::Ptr i1 = manager.indicator("indicator-fake1");
+            Indicator::Ptr i1 = manager.indicator("indicator-fake1");
             pi1 = dynamic_cast<QObject*>(i1.get());
-            QCOMPARE(pi0->property("initializedCount").toInt(), 1);
-            QCOMPARE(pi1->property("initializedCount").toInt(), 1);
 
             manager.unload();
             // still alive while we have the shared pointers.

@@ -17,31 +17,30 @@
  *      Renato Araujo Oliveira Filho <renato@canonical.com>
  */
 
-#include "fakeindicator.h"
 #include "indicatorsmodel.h"
-#include "indicatorsfactory.h"
 #include "paths.h"
 
 #include <QtTest>
 #include <QDebug>
-
-FAKE_INDICATOR(1, "Fake Title 1")
-FAKE_INDICATOR(2, "Fake Title 2")
 
 class IndicatorsModelTest : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
 
-    void initTestCase() {
+    void initTestCase()
+    {
+        setenv("UNITY_TEST_ENV", "1", 1);
         setenv("XDG_DATA_DIRS", (sourceDirectory() + "/tests/data").toLatin1().data(), 1);
+    }
 
-        IndicatorsFactory::instance().registerIndicator<FakeIndicatorClient1>("indicator-fake1");
-        IndicatorsFactory::instance().registerIndicator<FakeIndicatorClient2>("indicator-fake2");
+    void cleanupTestCase()
+    {
+        unsetenv("UNITY_TEST_ENV");
     }
 
     /*
-     * Test if all plugins is loaded correct
+     * Testa that all the plugins are loaded / unloaded correctly
      */
     void testLoad()
     {
@@ -51,7 +50,7 @@ private Q_SLOTS:
 
         model.load();
 
-        QCOMPARE(model.property("count").toInt(), 2);
+        QCOMPARE(model.property("count").toInt(), 4);
 
         model.unload();
 
@@ -60,31 +59,40 @@ private Q_SLOTS:
     }
 
     /*
-     * Test if the plugin data was loaded correct
+     * Testa that the plugin data was loaded correctly
      */
-    void testDataOrder()
+    void testDataAndOrder()
     {
+        // Priority order. (2, 1, 4, 3)
+        QVariantMap map;
+        QVariantMap map1; map1["priority"] = 1; map1["title"] = "fake1";
+        QVariantMap map2; map2["priority"] = 0; map2["title"] = "fake2";
+        QVariantMap map3; map3["priority"] = 3; map3["title"] = "fake3";
+        QVariantMap map4; map4["priority"] = 2; map4["title"] = "fake4";
+        map["indicator-fake1"] = map1;
+        map["indicator-fake2"] = map2;
+        map["indicator-fake3"] = map3;
+        map["indicator-fake4"] = map4;
+
         IndicatorsModel model;
+        model.setIndicatorData(map);
         model.load();
 
-        QVariantMap data = model.get(0);
-        QCOMPARE(data["title"].toString(), QString("Fake Title 1"));
-        QCOMPARE(data["label"].toString(), QString());
-        QCOMPARE(data["description"].toString(), QString());
-        // There is no QML context
-        QVERIFY(!data["component"].value<QObject*>());
-        QCOMPARE(data["isValid"].toBool(), true);
+        QCOMPARE(model.get(0)["identifier"].toString(), QString("indicator-fake2"));
+        QCOMPARE(model.get(0)["title"].toString(), QString("fake2"));
+        QCOMPARE(model.get(0)["indicatorProperties"].toMap()["busName"].toString(), QString("com.canonical.indicator.fake2"));
 
-        data = model.get(1);
-        QCOMPARE(data["title"].toString(), QString("Fake Title 2"));
-        QCOMPARE(data["label"].toString(), QString());
-        QCOMPARE(data["description"].toString(), QString());
-        // There is no QML context
-        QVERIFY(!data["component"].value<QObject*>());
-        QCOMPARE(data["isValid"].toBool(), true);
+        QCOMPARE(model.get(1)["identifier"].toString(), QString("indicator-fake1"));
+        QCOMPARE(model.get(1)["title"].toString(), QString("fake1"));
+        QCOMPARE(model.get(1)["indicatorProperties"].toMap()["busName"].toString(), QString("com.canonical.indicator.fake1"));
 
-        data = model.get(3);
-        QVERIFY(data.isEmpty());
+        QCOMPARE(model.get(2)["identifier"].toString(), QString("indicator-fake4"));
+        QCOMPARE(model.get(2)["title"].toString(), QString("fake4"));
+        QCOMPARE(model.get(2)["indicatorProperties"].toMap()["busName"].toString(), QString("com.canonical.indicator.fake4"));
+
+        QCOMPARE(model.get(3)["identifier"].toString(), QString("indicator-fake3"));
+        QCOMPARE(model.get(3)["title"].toString(), QString("fake3"));
+        QCOMPARE(model.get(3)["indicatorProperties"].toMap()["busName"].toString(), QString("com.canonical.indicator.fake3"));
     }
 };
 

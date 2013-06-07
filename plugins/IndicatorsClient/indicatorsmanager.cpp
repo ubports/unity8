@@ -18,7 +18,6 @@
  */
 
 #include "indicatorsmanager.h"
-#include "indicatorsfactory.h"
 
 #include <QSettings>
 #include <QDebug>
@@ -39,7 +38,7 @@ public:
     QFileInfo m_fileInfo;
 
     bool m_verified;
-    IndicatorClientInterface::Ptr m_obj;
+    Indicator::Ptr m_indicator;
 };
 
 IndicatorsManager::IndicatorsManager(QObject* parent)
@@ -116,13 +115,6 @@ void IndicatorsManager::load(const QFileInfo& file_info)
     indicator_settings.beginGroup("Indicator Service");
     QString name = indicator_settings.value("Name").toString();
 
-    // don't bother loading if it's not registered.
-    if (!IndicatorsFactory::instance().isRegistered(name))
-    {
-        qWarning() << Q_FUNC_INFO << "Invalid plugin name: " << name << " - not registered in factory.";
-        return;
-    }
-
     auto iter = m_indicatorsData.find(name);
     if (iter != m_indicatorsData.end())
     {
@@ -174,11 +166,6 @@ void IndicatorsManager::unload()
     while(iter.hasNext())
     {
         iter.next();
-        IndicatorData* data = iter.value();
-        if (data->m_obj)
-        {
-            data->m_obj->shutdown();
-        }
         Q_EMIT indicatorAboutToBeUnloaded(iter.key());
     }
 
@@ -253,32 +240,33 @@ void IndicatorsManager::endVerify(const QString& path)
     }
 }
 
-IndicatorClientInterface::Ptr IndicatorsManager::indicator(const QString& indicator)
+Indicator::Ptr IndicatorsManager::indicator(const QString& indicator)
 {
-    if (!m_indicatorsData.contains(indicator)) {
+    if (!m_indicatorsData.contains(indicator))
+    {
         qWarning() << Q_FUNC_INFO << "Invalid plugin name: " <<  indicator;
         return 0;
     }
 
     IndicatorData *data = m_indicatorsData[indicator];
-    if (data->m_obj)
-        return data->m_obj;
+    if (data->m_indicator)
+        return data->m_indicator;
 
-    IndicatorClientInterface::Ptr plugin = IndicatorsFactory::instance().create(indicator, this);
+    Indicator::Ptr plugin = std::make_shared<Indicator>(this);
     if (plugin)
     {
-        data->m_obj = plugin;
+        data->m_indicator = plugin;
         plugin->init(QSettings(data->m_fileInfo.absoluteFilePath(), QSettings::IniFormat, this));
     }
     return plugin;
 }
 
-QList<IndicatorClientInterface::Ptr> IndicatorsManager::indicators()
+QList<Indicator::Ptr> IndicatorsManager::indicators()
 {
-    QList<IndicatorClientInterface::Ptr> list;
+    QList<Indicator::Ptr> list;
     Q_FOREACH(IndicatorData* data, m_indicatorsData)
     {
-        IndicatorClientInterface::Ptr plugin = indicator(data->m_name);
+        Indicator::Ptr plugin = indicator(data->m_name);
         list.append(plugin);
     }
     return list;

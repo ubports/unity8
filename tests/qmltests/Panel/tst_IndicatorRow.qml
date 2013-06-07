@@ -53,6 +53,7 @@ Item {
 
     IndicatorsClient.IndicatorsModel {
         id: indicatorModel
+        Component.onCompleted: load()
     }
 
     UT.UnityTestCase {
@@ -177,6 +178,7 @@ Item {
         }
 
         function test_intial_state() {
+            wait(1000)
             init_test();
 
             indicatorRow.state = "initial";
@@ -241,7 +243,7 @@ Item {
             compare(get_indicator_item_at(4).dimmed, true, "Other indicators should dim when in locked state");
         }
 
-        function test_active_overview_() {
+        function test_active_overview() {
             init_test();
 
             indicatorRow.overviewActive = true;

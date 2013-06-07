@@ -19,17 +19,12 @@
 
 #include "indicatorsmodel.h"
 #include "indicatorsmanager.h"
-#include "indicatorclientinterface.h"
+#include "indicator.h"
+#include "paths.h"
 
 #include <QQmlContext>
 #include <QQmlEngine>
 #include <QDebug>
-
-
-static bool comparePlugins(const IndicatorClientInterface::Ptr obj1, const IndicatorClientInterface::Ptr obj2)
-{
-    return obj1->priority() < obj2->priority();
-}
 
 /*!
     \qmltype IndicatorsModel
@@ -128,37 +123,40 @@ void IndicatorsModel::unload()
 /*! \internal */
 void IndicatorsModel::onIndicatorLoaded(const QString& indicator)
 {
-    IndicatorClientInterface::Ptr plugin = m_manager->indicator(indicator);
+    Indicator::Ptr plugin = m_manager->indicator(indicator);
     if (!plugin)
         return;
 
-    QList<IndicatorClientInterface::Ptr>::iterator i = qLowerBound(m_plugins.begin(), m_plugins.end(), plugin, comparePlugins);
-    int insert_pos = qMin(i - m_plugins.begin(), m_plugins.count());
+    if (m_plugins.indexOf(plugin) >= 0)
+        return;
 
-    beginInsertRows(QModelIndex(), insert_pos, insert_pos);
-
-    QObject* obj = dynamic_cast<QObject*>(plugin.get());
-    if (obj)
-    {
-        QObject::connect(obj, SIGNAL(identifierChanged(const QString&)), this, SLOT(onIdentifierChanged()));
-        QObject::connect(obj, SIGNAL(titleChanged(const QString&)), this, SLOT(onTitleChanged()));
-        QObject::connect(obj, SIGNAL(labelChanged(const QString&)), this, SLOT(onLabelChanged()));
+    // find the insert position
+    int pos = 0;
+    while (pos < count()) {
+        // keep going while the existing priority is less.
+        if (indicatorData(plugin, Priority).toInt() < data(index(pos), Priority).toInt())
+            break;
+        pos++;
     }
 
-    m_plugins.insert(i, plugin);
+    QObject::connect(plugin.get(), SIGNAL(identifierChanged(const QString&)), this, SLOT(onIdentifierChanged()));
+    QObject::connect(plugin.get(), SIGNAL(indicatorPropertiesChanged(const QVariant&)), this, SLOT(onIndicatorPropertiesChanged()));
 
+    beginInsertRows(QModelIndex(), pos, pos);
+
+    m_plugins.insert(pos, plugin);
     endInsertRows();
 }
 
 /*! \internal */
 void IndicatorsModel::onIndicatorAboutToBeUnloaded(const QString& indicator)
 {
-    IndicatorClientInterface::Ptr plugin = m_manager->indicator(indicator);
+    Indicator::Ptr plugin = m_manager->indicator(indicator);
     if (!plugin)
         return;
 
     int i = 0;
-    QMutableListIterator<IndicatorClientInterface::Ptr> iter(m_plugins);
+    QMutableListIterator<Indicator::Ptr> iter(m_plugins);
     while(iter.hasNext())
     {
         if (plugin == iter.next())
@@ -179,26 +177,20 @@ void IndicatorsModel::onIdentifierChanged()
 }
 
 /*! \internal */
-void IndicatorsModel::onTitleChanged()
+void IndicatorsModel::onIndicatorPropertiesChanged()
 {
-    notifyDataChanged(QObject::sender(), Title);
-}
-
-/*! \internal */
-void IndicatorsModel::onLabelChanged()
-{
-    notifyDataChanged(QObject::sender(), Label);
+    notifyDataChanged(QObject::sender(), IndicatorProperties);
 }
 
 /*! \internal */
 void IndicatorsModel::notifyDataChanged(QObject *sender, int role)
 {
-    IndicatorClientInterface* plugin = dynamic_cast<IndicatorClientInterface*>(sender);
+    Indicator* plugin = qobject_cast<Indicator*>(sender);
     if (!plugin)
         return;
 
     int index = 0;
-    QMutableListIterator<IndicatorClientInterface::Ptr> iter(m_plugins);
+    QMutableListIterator<Indicator::Ptr> iter(m_plugins);
     while(iter.hasNext())
     {
         if (iter.next().get() == plugin)
@@ -215,14 +207,15 @@ void IndicatorsModel::notifyDataChanged(QObject *sender, int role)
 QHash<int, QByteArray> IndicatorsModel::roleNames() const
 {
     static QHash<int, QByteArray> roles;
-    if (roles.isEmpty()) {
+    if (roles.isEmpty())
+    {
         roles[Identifier] = "identifier";
+        roles[Priority] = "priority";
         roles[Title] = "title";
-        roles[Label] = "label";
         roles[Description] = "description";
-        roles[IconUrl] = "iconUrl";
-        roles[PageUrl] = "pageUrl";
-        roles[InitialProperties] = "initialProperties";
+        roles[IconQml] = "iconQml";
+        roles[PageQml] = "pageQml";
+        roles[IndicatorProperties] = "indicatorProperties";
         roles[IsValid] = "isValid";
     }
     return roles;
@@ -235,62 +228,68 @@ int IndicatorsModel::columnCount(const QModelIndex &) const
 }
 
 /*! \internal */
+QVariant IndicatorsModel::defaultData(Indicator::Ptr plugin, int role)
+{
+    switch (role)
+    {
+        case Priority:
+            return 0;
+        case Title:
+            return plugin ? plugin->identifier() : "Unknown";
+        case Description:
+            return "";
+        case IconQml:
+            return shellAppDirectory()+"/Panel/Indicators/DefaultIndicatorIcon.qml";
+        case PageQml:
+            return shellAppDirectory()+"/Panel/Indicators/DefaultIndicatorPage.qml";
+    }
+    return QVariant();
+}
+
+/*! \internal */
 QVariant IndicatorsModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid() || index.row() >= m_plugins.size())
         return QVariant();
 
-    QVariant attribute;
+    Indicator::Ptr plugin = m_plugins[index.row()];
 
-    IndicatorClientInterface::Ptr plugin = m_plugins[index.row()];
-
-    switch (role) {
-    case Identifier:
-        if (plugin) {
-            attribute = QVariant(plugin->identifier());
-        }
-        break;
-    case Title:
-        if (plugin) {
-            attribute = QVariant(plugin->title());
-        }
-        break;
-    case Label:
-        if (plugin) {
-            attribute = QVariant(plugin->label());
-        }
-        break;
-    case Description:
+    switch (role)
     {
-        if (plugin) {
-            attribute = QVariant(plugin->description());
-        }
-        break;
+        case Identifier:
+            if (plugin)
+            {
+                return QVariant(plugin->identifier());
+            }
+            break;
+        case IndicatorProperties:
+            if (plugin)
+            {
+                return QVariant(plugin->indicatorProperties());
+            }
+            break;
+        case IsValid:
+            return (plugin.get() ? true : false);
+        case Priority:
+        case Title:
+        case Description:
+        case IconQml:
+        case PageQml:
+            return indicatorData(plugin, role);
+        default:
+            break;
     }
-    case IconUrl:
-        if (plugin) {
-            return plugin->iconComponentSource().toString();
-        } else {
-            attribute = QVariant("No plugin");
-        }
-        break;
-    case PageUrl:
-        if (plugin) {
-            return plugin->pageComponentSource();
-        }
-        break;
-    case InitialProperties:
-        if (plugin) {
-            attribute = plugin->initialProperties();
-        }
-        break;
-    case IsValid:
-        attribute = QVariant(plugin != 0);
-        break;
-    default:
-        break;
+    return QVariant();
+}
+
+QVariant IndicatorsModel::indicatorData(const Indicator::Ptr& plugin, int role) const
+{
+    if (plugin && m_parsed_indicator_data.contains(plugin->identifier()))
+    {
+        QVariantMap data = m_parsed_indicator_data[plugin->identifier()];
+        return data.value(roleNames()[role], QVariant());
     }
-    return attribute;
+    return defaultData(plugin, role);
 }
 
 /*! \internal */
@@ -303,4 +302,25 @@ QModelIndex IndicatorsModel::parent(const QModelIndex&) const
 int IndicatorsModel::rowCount(const QModelIndex&) const
 {
     return m_plugins.count();
+}
+
+void IndicatorsModel::setIndicatorData(const QVariant& data)
+{
+    m_indicator_data = data;
+
+    m_parsed_indicator_data.clear();
+    QMap<QString, QVariant> map = data.toMap();
+    QMapIterator<QString, QVariant> iter(map);
+    while(iter.hasNext())
+    {
+        iter.next();
+        m_parsed_indicator_data[iter.key()] = iter.value().toMap();
+    }
+
+    Q_EMIT indicatorDataChanged(m_indicator_data);
+}
+
+QVariant IndicatorsModel::indicatorData() const
+{
+    return m_indicator_data;
 }

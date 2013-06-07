@@ -94,7 +94,7 @@ Rectangle {
 
             width: menus.width
             height: menus.height
-            source: pageUrl
+            source: pageQml
             visible: content.__shown
             onVisibleChanged: {
                 // Reset the indicator states
@@ -106,9 +106,9 @@ Rectangle {
 
             onStatusChanged: {
                 if (status == Loader.Ready) {
-                    for(var pName in initialProperties) {
+                    for(var pName in indicatorProperties) {
                         if (item.hasOwnProperty(pName)) {
-                            item[pName] = initialProperties[pName]
+                            item[pName] = indicatorProperties[pName]
                         }
                     }
                     if (contentActive && menus.visible) {

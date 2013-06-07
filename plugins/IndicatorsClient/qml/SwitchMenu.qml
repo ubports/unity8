@@ -33,7 +33,7 @@ Menu {
     }
 
     DBusActionState {
-        action: menu ? menu.action : undefined
+        action: menu ? menu.action : ""
         target: switcher
         property: "checked"
     }

@@ -27,11 +27,11 @@ Item {
     height: units.gu(70)
 
     property var indicator_status: {
-        'menu_plugin1': { 'started': false, 'reset': 0 },
-        'menu_plugin2': { 'started': false, 'reset': 0 },
-        'menu_plugin3': { 'started': false, 'reset': 0 },
-        'menu_plugin4': { 'started': false, 'reset': 0 },
-        'menu_plugin5': { 'started': false, 'reset': 0 }
+        'menu_page1': { 'started': false, 'reset': 0 },
+        'menu_page2': { 'started': false, 'reset': 0 },
+        'menu_page3': { 'started': false, 'reset': 0 },
+        'menu_page4': { 'started': false, 'reset': 0 },
+        'menu_page5': { 'started': false, 'reset': 0 }
     }
 
     // Dummy objects
@@ -41,6 +41,7 @@ Item {
 
     IndicatorsClient.IndicatorsModel {
         id: indicatorsModel
+        Component.onCompleted: load()
     }
 
     MenuContent {
@@ -123,20 +124,20 @@ Item {
     }
 
     function get_test_menu_objecName(index) {
-        return "menu_plugin"+(index+1);
+        return "menu_page"+(index+1);
     }
 
     property string test_menu_objectName : ""
     function current_menu_equals_test_menu() {
         var current_loader = menu_content_test.findChild(menuContent, "menus").currentItem
         if (current_loader == undefined) {
-            console.log("current_loader undefined");
+            console.log("current_loader 'menus' undefined");
             return false;
         }
 
         var menu = menu_content_test.findChild(menuContent, test_menu_objectName);
         if (menu == undefined) {
-            console.log("test_menu undefined");
+            console.log("test_menu " + test_menu_objectName + " undefined");
             return false;
         }
 

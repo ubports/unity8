@@ -51,7 +51,7 @@ IndicatorsClient.Menu {
         return "image://gicon/" + imageName;
     }
 
-    icon: menu && wifiApStrength ? getNetworkIcon(menu) : "image://gicon/nm-no-connection"
+    icon: menu && wifiApStrength ? getNetworkIcon(menu) : "image://gicon/wifi-none"
     iconFrame: false
     control: CheckBox {
         id: checkBoxActive
@@ -62,7 +62,7 @@ IndicatorsClient.Menu {
     }
 
     IndicatorsClient.DBusActionState {
-        action: menu ? menu.action : undefined
+        action: menu ? menu.action : ""
         target: checkBoxActive
         property: "checked"
     }

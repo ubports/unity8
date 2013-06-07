@@ -21,7 +21,7 @@
 #ifndef INDICATORSMODEL_H
 #define INDICATORSMODEL_H
 
-#include "indicatorclientinterface.h"
+#include "indicator.h"
 
 #include <QAbstractListModel>
 #include <QQmlEngine>
@@ -31,17 +31,19 @@ class IndicatorsManager;
 class IndicatorsModel : public QAbstractListModel
 {
     Q_OBJECT
+    Q_ENUMS(Roles)
     Q_PROPERTY(int count READ count NOTIFY countChanged)
+    Q_PROPERTY(QVariant indicatorData READ indicatorData WRITE setIndicatorData NOTIFY indicatorDataChanged)
 
 public:
-    enum ModelRoles {
+    enum Roles {
         Identifier = 0,
+        Priority,
         Title,
-        Label,
         Description,
-        IconUrl,
-        PageUrl,
-        InitialProperties,
+        IconQml,
+        PageQml,
+        IndicatorProperties,
         IsValid
     };
 
@@ -60,22 +62,30 @@ public:
     QModelIndex parent (const QModelIndex &index) const;
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
 
+    void setIndicatorData(const QVariant& data);
+    QVariant indicatorData() const;
+
 Q_SIGNALS:
     void countChanged();
+    void indicatorDataChanged(const QVariant& data);
 
 private Q_SLOTS:
     void onIdentifierChanged();
-    void onTitleChanged();
-    void onLabelChanged();
+    void onIndicatorPropertiesChanged();
     void onIndicatorLoaded(const QString& indicator);
     void onIndicatorAboutToBeUnloaded(const QString& indicator);
 
 private:
     IndicatorsManager *m_manager;
-    QList<IndicatorClientInterface::Ptr> m_plugins;
+
+    QList<Indicator::Ptr> m_plugins;
+    QVariant m_indicator_data;
+    QMap<QString, QVariantMap> m_parsed_indicator_data;
 
     void notifyDataChanged(QObject *sender, int role);
     int count() const;
+    QVariant indicatorData(const Indicator::Ptr& plugin, int role) const;
+    static QVariant defaultData(Indicator::Ptr plugin, int role);
 };
 
 #endif // INDICATORSMODEL_H

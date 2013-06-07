@@ -23,7 +23,7 @@ import Ubuntu.Components 0.1
 import IndicatorsClient 0.1 as IndicatorsClient
 
 IndicatorsClient.BasicMenu {
-    property variant action: menu && actionGroup ? actionGroup.action(menu.action) : undefined
+    property variant action: menu && menu.action!="" && actionGroup ? actionGroup.action(menu.action) : null
     property alias count: label.text
 
     color: "#221e1b"

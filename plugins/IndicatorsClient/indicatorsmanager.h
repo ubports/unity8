@@ -27,7 +27,7 @@
 #include <QHash>
 #include <QSharedPointer>
 
-#include "indicatorclientinterface.h"
+#include "indicator.h"
 
 class IndicatorsManager : public QObject
 {
@@ -40,9 +40,9 @@ public:
     Q_INVOKABLE void load();
     Q_INVOKABLE void unload();
 
-    IndicatorClientInterface::Ptr indicator(const QString& indicator);
+    Indicator::Ptr indicator(const QString& indicator);
 
-    QList<IndicatorClientInterface::Ptr> indicators();
+    QList<Indicator::Ptr> indicators();
 
     bool isLoaded() const;
 

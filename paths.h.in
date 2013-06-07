@@ -17,6 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef PATHS_H
+#define PATHS_H
+
 // Qt
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
@@ -62,7 +65,7 @@ inline QString fakePluginsImportPath() {
 
 inline QStringList shellDataDirs() {
     QStringList dirs = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
-    if (!isRunningInstalled()) {
+    if (!isRunningInstalled() && getenv("UNITY_TEST_ENV")==NULL) {
         dirs.prepend("@CMAKE_BINARY_DIR@/share");
     }
     return dirs;
@@ -71,3 +74,5 @@ inline QStringList shellDataDirs() {
 inline QString sourceDirectory() {
     return QString("@CMAKE_SOURCE_DIR@/");
 }
+
+#endif
