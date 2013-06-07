@@ -19,8 +19,11 @@
 
 #include "listviewwithpageheader.h"
 
+#include <QAbstractItemModel>
+
 void ListViewWithPageHeaderPlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("ListViewWithPageHeader"));
+    qmlRegisterType<QAbstractItemModel>();
     qmlRegisterType<ListViewWithPageHeader>(uri, 0, 1, "ListViewWithPageHeader");
 }
