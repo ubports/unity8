@@ -206,7 +206,7 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
                 if (contentY() == -m_minYExtent) {
                     m_headerItemShownHeight = 0;
                 } else {
-                    m_headerItemShownHeight = qBound(0., m_headerItemShownHeight, m_headerItem->height());
+                    m_headerItemShownHeight = qBound(static_cast<qreal>(0.), m_headerItemShownHeight, m_headerItem->height());
                 }
                 if (m_headerItemShownHeight > 0) {
                     m_headerItem->setY(contentY() - m_headerItem->height() + m_headerItemShownHeight);
@@ -525,7 +525,7 @@ void ListViewWithPageHeader::headerHeightChanged(qreal newHeaderHeight, qreal ol
         // If the header is shown because of the clip
         // Change its size
         m_headerItemShownHeight += heightDiff;
-        m_headerItemShownHeight = qBound(0., m_headerItemShownHeight, newHeaderHeight);
+        m_headerItemShownHeight = qBound(static_cast<qreal>(0.), m_headerItemShownHeight, newHeaderHeight);
         updateClipItem();
         adjustMinYExtent();
     } else {
