@@ -29,7 +29,8 @@ PageStack {
     property alias emptyText: _pluginItem.emptyText
     property alias busType: _pluginItem.busType
     property alias busName: _pluginItem.busName
-    property alias objectPath: _pluginItem.objectPath
+    property alias actionsObjectPath : _pluginItem.actionsObjectPath
+    property alias menuObjectPaths : _pluginItem.menuObjectPaths
 
     __showHeader: false
     anchors.fill: parent

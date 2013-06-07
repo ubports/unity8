@@ -1,0 +1,9 @@
+[Indicator Service]
+Name=indicator-datetime
+ObjectPath=/com/canonical/indicator/time
+
+[phone]
+ObjectPath=/com/canonical/indicator/time/phone
+
+[desktop]
+ObjectPath=/com/canonical/indicator/time/desktop

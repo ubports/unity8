@@ -100,7 +100,7 @@ void IndicatorsManager::load(const QDir& dir)
 {
     startVerify(dir.canonicalPath());
 
-    QFileInfoList indicator_files = dir.entryInfoList(QStringList() << "*.indicator", QDir::Files);
+    QFileInfoList indicator_files = dir.entryInfoList(QStringList(), QDir::Files|QDir::NoDotAndDotDot);
     Q_FOREACH(const QFileInfo& indicator_file, indicator_files)
     {
         load(indicator_file);
@@ -112,8 +112,7 @@ void IndicatorsManager::load(const QDir& dir)
 void IndicatorsManager::load(const QFileInfo& file_info)
 {
     QSettings indicator_settings(file_info.absoluteFilePath(), QSettings::IniFormat, this);
-    indicator_settings.beginGroup("Indicator Service");
-    QString name = indicator_settings.value("Name").toString();
+    QString name = indicator_settings.value("Indicator Service/Name").toString();
 
     auto iter = m_indicatorsData.find(name);
     if (iter != m_indicatorsData.end())
@@ -256,7 +255,8 @@ Indicator::Ptr IndicatorsManager::indicator(const QString& indicator)
     if (plugin)
     {
         data->m_indicator = plugin;
-        plugin->init(QSettings(data->m_fileInfo.absoluteFilePath(), QSettings::IniFormat, this));
+        QSettings settings(data->m_fileInfo.absoluteFilePath(), QSettings::IniFormat, this);
+        plugin->init(data->m_fileInfo.fileName(), settings);
     }
     return plugin;
 }

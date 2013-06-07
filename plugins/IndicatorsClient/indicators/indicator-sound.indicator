@@ -1,4 +1,0 @@
-[Indicator Service]
-Name=indicator-sound
-DBusName=com.canonical.settings.sound
-ObjectPath=/com/canonical/settings/sound

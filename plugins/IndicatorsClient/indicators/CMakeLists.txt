@@ -1,9 +1,9 @@
 set(INDICATOR_FILES
-    ${CMAKE_CURRENT_SOURCE_DIR}/indicator-datetime.indicator
-    ${CMAKE_CURRENT_SOURCE_DIR}/indicator-messaging.indicator
-    ${CMAKE_CURRENT_SOURCE_DIR}/indicator-network.indicator
-    ${CMAKE_CURRENT_SOURCE_DIR}/indicator-power.indicator
-    ${CMAKE_CURRENT_SOURCE_DIR}/indicator-sound.indicator
+    ${CMAKE_CURRENT_SOURCE_DIR}/com.canonical.indicator.battery
+    ${CMAKE_CURRENT_SOURCE_DIR}/com.canonical.indicator.messages
+    ${CMAKE_CURRENT_SOURCE_DIR}/com.canonical.indicator.time
+    ${CMAKE_CURRENT_SOURCE_DIR}/com.canonical.settings.network
+    ${CMAKE_CURRENT_SOURCE_DIR}/com.canonical.settings.sound
 )
 
 # copy indicators file into build directory for shadow builds

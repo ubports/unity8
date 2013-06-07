@@ -41,7 +41,7 @@ public:
     Indicator(QObject *parent = 0);
     virtual ~Indicator();
 
-    void init(const QSettings& settings);
+    void init(const QString& busName, const QSettings& settings);
 
     QString identifier() const;
     QVariant indicatorProperties() const;

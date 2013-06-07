@@ -25,7 +25,7 @@ import Ubuntu.Components.ListItems 0.1 as ListItem
 IndicatorBase {
     id: indicatorIcon
     property var action: undefined
-    property bool started: (busType != 0) && (busName != "") && (objectPath != "")
+    property bool started: (busType != 0) && (busName != "") && (deviceMenuObjectPath != "")
     property int iconSize: height - units.gu(0.5)
 
     signal actionStateChanged()

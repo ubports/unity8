@@ -184,7 +184,7 @@ IndicatorBase {
     }
 
     Component.onCompleted: {
-        if ((busType != 0) && (busName != "") && (objectPath != "")) {
+        if ((busType != 0) && (busName != "") && (deviceMenuObjectPath != "")) {
             start();
         }
     }
