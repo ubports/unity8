@@ -36,8 +36,6 @@ Item {
 
     property string deviceMenuObjectPath : menuObjectPaths.hasOwnProperty(device) ? menuObjectPaths[device] : ""
 
-    onDeviceMenuObjectPathChanged: console.log("\n\n" + deviceMenuObjectPath + "\n\n");
-
     signal actionGroupUpdated()
     signal modelUpdated()
 
