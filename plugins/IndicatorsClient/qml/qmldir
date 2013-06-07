@@ -8,7 +8,7 @@ BasicMenu 0.1 BasicMenu.qml
 ButtonMenu 0.1 ButtonMenu.qml
 DBusActionState 0.1 DBusActionState.qml
 DivMenu 0.1 DivMenu.qml
-FactoryMenu 0.1 FactoryMenu.qml
+MenuFactory 0.1 MenuFactory.qml
 HLine 0.1 HLine.qml
 Menu 0.1 Menu.qml
 RemovableMenu 0.1 RemovableMenu.qml

@@ -30,8 +30,6 @@ public:
     IndicatorClientPower(QObject *parent=0);
 
     void init(const QSettings& settings);
-
-    QUrl iconComponentSource() const;
 };
 
 #endif

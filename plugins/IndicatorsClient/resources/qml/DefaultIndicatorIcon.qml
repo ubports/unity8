@@ -42,7 +42,6 @@ IndicatorsClient.IndicatorIcon {
         Image {
             id: itemImage
             objectName: "itemImage"
-            source: "image://gicon/audio-volume-high"
             visible: source != ""
             height: units.gu(2.5)
             width: units.gu(2.5)

@@ -37,14 +37,6 @@ IndicatorClientMessaging::~IndicatorClientMessaging()
 void IndicatorClientMessaging::init(const QSettings& settings)
 {
     IndicatorClientCommon::init(settings);
-
-    m_initialProperties.insert("emptyText", "You have no more outstanding messages.");
-    m_initialProperties.insert("highlightFollowsCurrentItem", false);
-}
-
-QUrl IndicatorClientMessaging::iconComponentSource() const
-{
-    return QUrl("qrc:/indicatorsclient/qml/DefaultIndicatorIcon.qml");
 }
 
 QUrl IndicatorClientMessaging::pageComponentSource() const

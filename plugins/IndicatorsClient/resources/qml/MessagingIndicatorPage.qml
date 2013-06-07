@@ -24,6 +24,9 @@ import IndicatorsClient 0.1 as IndicatorsClient
 IndicatorsClient.IndicatorPage {
     anchors.fill: parent
 
+    highlightFollowsCurrentItem: false
+    emptyText: "You have no more outstanding messages."
+
     function stop() {
         // never stops the service
         // this will keep all objects in memory, consume more memory

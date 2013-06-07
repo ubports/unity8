@@ -124,7 +124,7 @@ IndicatorBase {
                     }
                 }
 
-                FactoryMenu {
+                MenuFactory {
                     id: factory
 
                     actionGroup: main.actionGroup

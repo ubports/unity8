@@ -32,7 +32,6 @@ public:
 
     void init(const QSettings& settings);
 
-    QUrl iconComponentSource() const;
     QUrl pageComponentSource() const;
 };
 

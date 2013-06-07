@@ -44,7 +44,6 @@ void IndicatorClientNetwork::init(const QSettings& settings)
     IndicatorClientCommon::init(settings);
 
     qmlRegisterType<NetworkAgent>("NetworkSettings", 0, 1, "NetworkAgent");
-    // setIcon(QUrl("image://gicon/wifi-none"));
 }
 
 QUrl IndicatorClientNetwork::iconComponentSource() const
