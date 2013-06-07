@@ -17,6 +17,25 @@
 #include "DirectionalDragArea.h"
 
 #include <QtCore/qmath.h>
+#include <QtCore/QTimer>
+
+// Essentially a QTimer wrapper
+class RecognitionTimer : public UbuntuGestures::AbstractTimer
+{
+    Q_OBJECT
+public:
+    RecognitionTimer(QObject *parent) : UbuntuGestures::AbstractTimer(parent) {
+        m_timer.setSingleShot(false);
+        connect(&m_timer, &QTimer::timeout,
+                this, &UbuntuGestures::AbstractTimer::timeout);
+    }
+    virtual int interval() const { return m_timer.interval(); }
+    virtual void setInterval(int msecs) { m_timer.setInterval(msecs); }
+    virtual void start() { m_timer.start(); }
+    virtual void stop() { m_timer.stop(); }
+private:
+    QTimer m_timer; 
+};
 
 DirectionalDragArea::DirectionalDragArea(QQuickItem *parent)
     : QQuickItem(parent)
@@ -25,8 +44,18 @@ DirectionalDragArea::DirectionalDragArea(QQuickItem *parent)
     , m_direction(DirectionalDragArea::Rightwards)
     , m_wideningAngle(0)
     , m_wideningFactor(0)
-    , m_distanceThreshold(0)
+    , m_distanceThreshold(0) 
+    , m_minSpeed(0)
+    , m_maxSilenceTime(200)
+    , m_silenceTime(0)
+    , m_numSamplesOnLastSpeedCheck(0)
+    , m_recognitionTimer(0)
+    , m_velocityCalculator(0)
 {
+    setRecognitionTimer(new RecognitionTimer(this));
+    m_recognitionTimer->setInterval(60);
+
+    m_velocityCalculator = new AxisVelocityCalculator(this);
 }
 
 DirectionalDragArea::Direction DirectionalDragArea::direction() const
@@ -71,6 +100,51 @@ void DirectionalDragArea::setDistanceThreshold(qreal value)
         m_distanceThreshold = value;
         Q_EMIT distanceThresholdChanged(value);
     }
+}
+
+void DirectionalDragArea::setMinSpeed(qreal value)
+{
+    if (m_minSpeed != value) {
+        m_minSpeed = value;
+        Q_EMIT minSpeedChanged(value);
+    }
+}
+
+void DirectionalDragArea::setMaxSilenceTime(int value)
+{
+    if (m_maxSilenceTime != value) {
+        m_maxSilenceTime = value;
+        Q_EMIT maxSilenceTimeChanged(value);
+    }
+}
+
+void DirectionalDragArea::setRecognitionTimer(UbuntuGestures::AbstractTimer *timer)
+{
+    // NB: We assume test code (the only client of this method) won't call it while
+    //     the current timer is active
+
+    int interval = 0;
+
+    // can be null when called from the constructor
+    if (m_recognitionTimer) {
+        interval = m_recognitionTimer->interval();
+        if (m_recognitionTimer->parent() == this) {
+            delete m_recognitionTimer;
+        }
+    }
+
+    m_recognitionTimer = timer;
+    timer->setInterval(interval);
+    connect(timer, &UbuntuGestures::AbstractTimer::timeout,
+            this, &DirectionalDragArea::checkSpeed);
+}
+
+void DirectionalDragArea::setAxisVelocityCalculator(AxisVelocityCalculator *newVelCalc)
+{
+    if (m_velocityCalculator->parent() == this)
+        delete m_velocityCalculator;
+
+    m_velocityCalculator = newVelCalc;
 }
 
 qreal DirectionalDragArea::distance() const
@@ -122,6 +196,10 @@ void DirectionalDragArea::touchEvent_absent(QTouchEvent *event)
         m_startPos = event->touchPoints()[0].pos();
         m_touchId = event->touchPoints()[0].id();
         m_dampedPos.reset(m_startPos);
+        updateVelocityCalculator(m_startPos);
+        m_velocityCalculator->reset();
+        m_numSamplesOnLastSpeedCheck = 0;
+        m_silenceTime = 0;
         setPreviousPos(m_startPos);
         setStatus(Undecided);
     }
@@ -148,6 +226,7 @@ void DirectionalDragArea::touchEvent_undecided(QTouchEvent *event)
     m_previousDampedPos.setX(m_dampedPos.x());
     m_previousDampedPos.setY(m_dampedPos.y());
     m_dampedPos.update(touchPos);
+    updateVelocityCalculator(touchPos);
 
     if (!pointInsideAllowedArea()) {
         setStatus(Rejected);
@@ -238,12 +317,39 @@ bool DirectionalDragArea::movedFarEnough(const QPointF &point) const
         return qFabs(point.y() - m_startPos.y()) > m_distanceThreshold;
 }
 
+void DirectionalDragArea::checkSpeed()
+{
+    if (m_velocityCalculator->numSamples() >= AxisVelocityCalculator::MIN_SAMPLES_NEEDED) {
+        qreal speed = qFabs(m_velocityCalculator->calculate());
+        qreal minSpeedMsecs = m_minSpeed / 1000.0;
+
+        if (speed < minSpeedMsecs) {
+            setStatus(Rejected);
+        }
+    }
+
+    if (m_velocityCalculator->numSamples() == m_numSamplesOnLastSpeedCheck) {
+        m_silenceTime += m_recognitionTimer->interval();
+
+        if (m_silenceTime > m_maxSilenceTime) {
+            setStatus(Rejected);
+        }
+    } else {
+        m_silenceTime = 0;
+    }
+    m_numSamplesOnLastSpeedCheck = m_velocityCalculator->numSamples();
+}
+
 void DirectionalDragArea::setStatus(DirectionalDragArea::Status newStatus)
 {
     if (newStatus == m_status)
         return;
 
     DirectionalDragArea::Status oldStatus = m_status;
+
+    if (oldStatus == Undecided) {
+        m_recognitionTimer->stop();
+    }
 
     m_status = newStatus;
     Q_EMIT statusChanged(m_status);
@@ -255,6 +361,7 @@ void DirectionalDragArea::setStatus(DirectionalDragArea::Status newStatus)
             }
             break;
         case Undecided:
+            m_recognitionTimer->start();
             Q_EMIT draggingChanged(true);
             break;
         case Rejected:
@@ -288,6 +395,15 @@ void DirectionalDragArea::setPreviousPos(QPointF point)
     }
 }
 
+void DirectionalDragArea::updateVelocityCalculator(QPointF point)
+{
+    if (directionIsHorizontal()) {
+        m_velocityCalculator->setTrackedPosition(point.x());
+    } else {
+        m_velocityCalculator->setTrackedPosition(point.y());
+    }
+}
+
 bool DirectionalDragArea::directionIsHorizontal() const
 {
     return m_direction == Leftwards || m_direction == Rightwards;
@@ -297,3 +413,6 @@ bool DirectionalDragArea::directionIsVertical() const
 {
     return m_direction == Upwards || m_direction == Downwards;
 }
+
+// Because we are defining a new QObject-based class (RecognitionTimer) here.
+#include "DirectionalDragArea.moc"

@@ -18,8 +18,24 @@
 #define DIRECTIONAL_DRAG_AREA_H
 
 #include <QtQuick/QQuickItem>
+#include "AxisVelocityCalculator.h"
 #include "UbuntuGesturesGlobal.h"
 #include "Damper.h"
+
+namespace UbuntuGestures {
+/* Defines an interface for a Timer. */
+class UBUNTUGESTURES_EXPORT AbstractTimer : public QObject {
+    Q_OBJECT
+public:
+    AbstractTimer(QObject *parent) : QObject(parent) {}
+    virtual int interval() const = 0;
+    virtual void setInterval(int msecs) = 0;
+    virtual void start() = 0;
+    virtual void stop() = 0;
+Q_SIGNALS:
+    void timeout();
+};
+}
 
 /*
  An area that detects axis-aligned single-finger drag gestures
@@ -74,6 +90,19 @@ class UBUNTUGESTURES_EXPORT DirectionalDragArea : public QQuickItem {
     Q_PROPERTY(qreal distanceThreshold READ distanceThreshold WRITE setDistanceThreshold
                NOTIFY distanceThresholdChanged)
 
+    // In units per second
+    Q_PROPERTY(qreal minSpeed READ minSpeed WRITE setMinSpeed NOTIFY minSpeedChanged)
+
+    // A gesture will be rejected if more than maxSilenceTime milliseconds has
+    // passed since we last got an input event from it (during Undecided state).
+    //
+    // Silence (i.e., lack of new input events) doesn't necessarily mean that the user's
+    // finger is still (zero drag speed). In some cases the finger might be moving but
+    // the driver's high noise filtering might cause those silence periods, specially
+    // in the moments succeeding a press (talking about Galaxy Nexus here).
+    Q_PROPERTY(int maxSilenceTime READ maxSilenceTime
+                                  WRITE setMaxSilenceTime
+                                  NOTIFY maxSilenceTimeChanged)
     //
     /////
 
@@ -130,6 +159,20 @@ public:
     qreal distanceThreshold() const { return m_distanceThreshold; }
     void setDistanceThreshold(qreal value);
 
+    qreal minSpeed() const { return m_minSpeed; }
+    void setMinSpeed(qreal value);
+
+    int maxSilenceTime() const { return m_maxSilenceTime; }
+    void setMaxSilenceTime(int value);
+
+    // Replaces the existing Timer with the given one.
+    //
+    // Useful for providing a fake timer when testing.
+    void setRecognitionTimer(UbuntuGestures::AbstractTimer *timer);
+
+    // Useful for testing, where a calculator with a fake time source can be supplied
+    void setAxisVelocityCalculator(AxisVelocityCalculator *velCalc);
+
 Q_SIGNALS:
     void directionChanged(Direction direction);
     void statusChanged(Status value);
@@ -138,11 +181,16 @@ Q_SIGNALS:
     void maxDeviationChanged(qreal value);
     void wideningAngleChanged(qreal value);
     void distanceThresholdChanged(qreal value);
+    void minSpeedChanged(qreal value);
+    void maxSilenceTimeChanged(int value);
     void touchXChanged(qreal value);
     void touchYChanged(qreal value);
 
 protected:
     virtual void touchEvent(QTouchEvent *event);
+
+private Q_SLOTS:
+    void checkSpeed();
 
 private:
     void touchEvent_absent(QTouchEvent *event);
@@ -155,6 +203,7 @@ private:
     const QTouchEvent::TouchPoint *fetchTargetTouchPoint(QTouchEvent *event);
     void setStatus(Status newStatus);
     void setPreviousPos(QPointF point);
+    void updateVelocityCalculator(QPointF point);
 
     // convenience functions
     bool directionIsHorizontal() const;
@@ -175,6 +224,12 @@ private:
     qreal m_wideningAngle; // in degrees
     qreal m_wideningFactor; // it's tan(degreesToRadian(m_wideningAngle))
     qreal m_distanceThreshold;
+    qreal m_minSpeed;
+    int m_maxSilenceTime; // in milliseconds
+    int m_silenceTime; // in milliseconds
+    int m_numSamplesOnLastSpeedCheck;
+    UbuntuGestures::AbstractTimer *m_recognitionTimer;
+    AxisVelocityCalculator *m_velocityCalculator;
 };
 
 #endif // DIRECTIONAL_DRAG_AREA_H
