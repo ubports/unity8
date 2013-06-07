@@ -83,6 +83,7 @@ run() {
         adb shell sed -i "/$BINARY\|qml-phone-shell/d" $SERVICEFILE
         adb shell "chroot /data/ubuntu /usr/bin/service ubuntu-session restart"
     fi
+    adb shell pkill qml-phone-shell
     adb shell pkill $BINARY
     if $GDB; then
         exec_with_ssh "cd $CODE_DIR/ && ./run --gdb --nomousetouch -- $RUN_OPTIONS"
