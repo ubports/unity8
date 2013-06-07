@@ -10,5 +10,5 @@ from indicators_client.emulators import IndicatorsIntrospectionObject
 class SwitchMenu(IndicatorsIntrospectionObject):
     """A switch menu control."""
 
-    def get_checked(self):
-        return self.checked
+class Switch(IndicatorsIntrospectionObject):
+    """A switch control."""
