@@ -1,0 +1,118 @@
+# Armenian translation for unity
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# This file is distributed under the same license as the unity package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: unity\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-05-30 21:08+0800\n"
+"PO-Revision-Date: 2013-06-07 12:42+0000\n"
+"Last-Translator: iAbaS <sosabazyan@yandex.ru>\n"
+"Language-Team: Armenian <hy@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2013-06-08 07:52+0000\n"
+"X-Generator: Launchpad (build 16667)\n"
+
+#: Components/PageHeader.qml:300
+msgid "Recent searches"
+msgstr "Վերջին որոնումներ"
+
+#: Dash/DashApps.qml:65
+msgid "Running apps"
+msgstr "Բացած ծրագրեր"
+
+#: Dash/DashApps.qml:68
+msgid "Frequently used"
+msgstr "Վերջին բացածները"
+
+#: Dash/DashApps.qml:71
+msgid "Installed"
+msgstr "Տեղադրված"
+
+#: Dash/DashApps.qml:74
+msgid "Available for download"
+msgstr "Հասանելի ծրագրեր"
+
+#: Dash/DashApps.qml:178
+msgid "Apps"
+msgstr "Ծրագրեր"
+
+#: Dash/DashHome.qml:43
+msgid "Frequent Apps"
+msgstr "Հաճախակի ծրագրերը"
+
+#: Dash/DashHome.qml:46
+msgid "Favourite People"
+msgstr "Ֆավորիտներ"
+
+#: Dash/DashHome.qml:49
+msgid "People Recently in Touch"
+msgstr "Վերջին մարդիկ"
+
+#: Dash/DashHome.qml:52
+msgid "Recent Music"
+msgstr "Վերջին երգերը"
+
+#: Dash/DashHome.qml:55
+msgid "Videos Popular Online"
+msgstr "Հայտնի օնլայն վիդեոներ"
+
+#: Dash/DashHome.qml:197 plugins/Unity/lenses.cpp:38
+msgid "Home"
+msgstr "Տուն"
+
+#: Dash/DashMusic.qml:92
+msgid "Music"
+msgstr "Երգեր"
+
+#: Dash/DashPeople.qml:116
+msgid "People"
+msgstr "Մարդիկ"
+
+#: Dash/DashVideos.qml:148
+msgid "Videos"
+msgstr "Վիդեոներ"
+
+#: Hud/HudParametrizedActionsPage.qml:132
+msgid "Confirm"
+msgstr "Հաստատել"
+
+#: Hud/Hud.qml:61 Hud/Hud.qml:99 Hud/Hud.qml:372
+msgid "Type or say a command"
+msgstr "Գրիր կամ ասա կոմմենտը"
+
+#: Hud/Hud.qml:84
+msgid "Loading. Please Wait..."
+msgstr "Խնդրում ենք սպասել..."
+
+#: Hud/Hud.qml:89
+msgid "Speak Now..."
+msgstr "Խոսի՛ր"
+
+#: Hud/Hud.qml:94
+msgid "Speaking..."
+msgstr "Խոսում եմ..."
+
+#: Panel/MenuContent.qml:192
+msgid "Device"
+msgstr "Սարք"
+
+#: Panel/Menus/Overview/FlightModeWidget.qml:42
+msgid "Flight mode"
+msgstr "Անկապ րեժիմ"
+
+#: plugins/Unity/lens.cpp:333
+msgid "Sorry, there is nothing that matches your search."
+msgstr "Կներերք, բայց Ձեր հարցումով ոչինչ չկար"
+
+#: plugins/Unity/lenses.cpp:39
+msgid "Home screen"
+msgstr "Տուն"
+
+#: plugins/Unity/lenses.cpp:40
+msgid "Search"
+msgstr "Որոնում"
