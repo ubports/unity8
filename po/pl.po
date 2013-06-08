@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-08 14:19+0200\n"
-"PO-Revision-Date: 2013-06-08 14:20+0100\n"
+"POT-Creation-Date: 2013-06-08 14:40+0200\n"
+"PO-Revision-Date: 2013-06-08 14:43+0100\n"
 "Last-Translator: Michał Sawicz <michal.sawicz@canonical.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
@@ -134,17 +134,65 @@ msgstr "Wideo popularne online"
 msgid "Home"
 msgstr "Dom"
 
-#: Dash/DashMusic.qml:92
+#: Dash/DashMusic.qml:27 Dash/DashVideos.qml:28
+msgid "Featured"
+msgstr "Polecane"
+
+#: Dash/DashMusic.qml:28 Dash/DashVideos.qml:29
+msgid "Recent"
+msgstr "Najnowsze"
+
+#: Dash/DashMusic.qml:29 Dash/DashVideos.qml:30
+msgid "New Releases"
+msgstr "Nowości"
+
+#: Dash/DashMusic.qml:30
+msgid "Top Charting"
+msgstr "Przeboje"
+
+#: Dash/DashMusic.qml:99
 msgid "Music"
 msgstr "Muzyka"
 
-#: Dash/DashPeople.qml:116
+#: Dash/DashPeople.qml:31
+msgid "Favourites"
+msgstr "Ulubione"
+
+#: Dash/DashPeople.qml:32
+msgid "Recently in touch"
+msgstr "Ostatnio w kontakcie"
+
+#: Dash/DashPeople.qml:33
+msgid "New Contacts"
+msgstr "Nowe kontakty"
+
+#: Dash/DashPeople.qml:34
+msgid "A-Z"
+msgstr "A-Z"
+
+#: Dash/DashPeople.qml:123
 msgid "People"
 msgstr "Ludzie"
 
-#: Dash/DashVideos.qml:148
+#: Dash/DashVideos.qml:31
+msgid "Popular Online"
+msgstr "Popularne online"
+
+#: Dash/DashVideos.qml:155
 msgid "Videos"
 msgstr "Filmy"
+
+#: Dash/Video/VideoPreview.qml:98
+msgid "Directed by:"
+msgstr "Reżyseria:"
+
+#: Dash/Video/VideoPreview.qml:121
+msgid "Starring:"
+msgstr "Obsada:"
+
+#: Dash/Video/VideoPreview.qml:144
+msgid "Author:"
+msgstr "Autor:"
 
 #: Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
