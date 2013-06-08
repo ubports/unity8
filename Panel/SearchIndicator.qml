@@ -23,7 +23,7 @@ Item {
     width: units.gu(9)
     height: units.gu(3)
 
-    property string headerText: "Search"
+    property string headerText: i18n.tr("Search")
 
     signal clicked
 
