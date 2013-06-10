@@ -75,10 +75,14 @@ private Q_SLOTS:
 
         // Check that the initial properties have been set.
         QVariantMap props = indicator->indicatorProperties().toMap();
-        QCOMPARE(props.count(), 3);
+        QCOMPARE(props.count(), 4);
         QCOMPARE(props["busType"].toInt(), 1);
         QCOMPARE(props["busName"].toString(), QString("com.canonical.indicator.fake1"));
-        QCOMPARE(props["objectPath"].toString(), QString("/com/canonical/indicator/fake1"));
+        QCOMPARE(props["actionsObjectPath"].toString(), QString("/com/canonical/indicator/fake1"));
+
+        QVariantMap objectPaths = props["menuObjectPaths"].toMap();
+        QCOMPARE(objectPaths["phone"].toString(), QString("/com/canonical/indicator/fake1/phone"));
+        QCOMPARE(objectPaths["desktop"].toString(), QString("/com/canonical/indicator/fake1/desktop"));
     }
 
     /*

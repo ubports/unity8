@@ -1,4 +1,0 @@
-[Indicator Service]
-Name=indicator-fake1
-DBusName=com.canonical.indicator.fake1
-ObjectPath=/com/canonical/indicator/fake1
