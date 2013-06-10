@@ -24,6 +24,13 @@ import "Music"
 LensView {
     id: lensView
 
+    property var categoryNames: [
+        i18n.tr("Featured"),
+        i18n.tr("Recent"),
+        i18n.tr("New Releases"),
+        i18n.tr("Top Charting")
+    ]
+
     onIsCurrentChanged: {
         pageHeader.resetSearch();
     }
@@ -85,7 +92,7 @@ LensView {
 //         sectionProperty: "name"
 //         sectionDelegate: ListItems.Header {
 //             width: categoryView.width
-//             text: section
+//             text: i18n.tr(section)
 //         }
         pageHeader: PageHeader {
             id: pageHeader

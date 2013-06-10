@@ -28,6 +28,13 @@ LensView {
     id: lensView
     property alias previewShown: previewLoader.onScreen
 
+    property var categoryNames: [
+        i18n.tr("Favourites"),
+        i18n.tr("Recently in touch"),
+        i18n.tr("New Contacts"),
+        i18n.tr("A-Z")
+    ]
+
     onIsCurrentChanged: {
         pageHeader.resetSearch();
     }
@@ -109,7 +116,7 @@ LensView {
 //         sectionProperty: "name"
 //         sectionDelegate: ListItems.Header {
 //             width: categoryView.width
-//             text: section
+//             text: i18n.tr(section)
 //         }
         pageHeader: PageHeader {
             id: pageHeader
