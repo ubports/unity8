@@ -53,8 +53,6 @@ void GreeterPrivate::handleAuthenticate()
     if (authenticationUser == "no-password") {
         authenticated = true;
         Q_EMIT q->authenticationComplete();
-    } else if (authenticationUser == "has-pin"){
-        Q_EMIT q->showPrompt("PIN", Greeter::PromptTypeSecret);
     } else if (authenticationUser == "auth-error") {
         authenticated = false;
         Q_EMIT q->authenticationComplete();
@@ -87,11 +85,7 @@ void GreeterPrivate::handleRespond(const QString &response)
         return;
     }
 
-    if (authenticationUser == "has-pin") {
-        authenticated = (response == "1234");
-    } else {
-        authenticated = (response == "password");
-    }
+    authenticated = (response == "password");
     Q_EMIT q->authenticationComplete();
 }
 
