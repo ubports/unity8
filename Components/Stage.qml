@@ -491,9 +491,6 @@ Showable {
 
         }
 
-        function onRecognized() {
-        }
-
         function onGestureEnded() {
             if (stage.applications.count > 1 && dragVelocityCalculator.calculate() < 0) {
                 switchToApplicationAnimationController.completeToEndWithSignal();
