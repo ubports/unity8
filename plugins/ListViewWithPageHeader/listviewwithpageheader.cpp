@@ -507,10 +507,9 @@ void ListViewWithPageHeader::itemGeometryChanged(QQuickItem *item, const QRectF 
             headerHeightChanged(newGeometry.height(), oldGeometry.height(), oldGeometry.y());
         } else {
             if (oldGeometry.y() + oldGeometry.height() + m_clipItem->y() < contentY() && !m_visibleItems.isEmpty()) {
-                item->setY(item->y() - heightDiff);
-                if (m_visibleItems.first() == item) {
-                    adjustMinYExtent();
-                }
+                QQuickItem *firstItem = m_visibleItems.first();
+                firstItem->setY(firstItem->y() - heightDiff);
+                adjustMinYExtent();
             }
         }
         polish();
