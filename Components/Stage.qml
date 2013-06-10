@@ -406,28 +406,6 @@ Showable {
     }
 
     property real __startValue: stage.width
-    property real __hintValue: units.gu(1.5) // Should be 3, but 1.5 balances the not-Linear easing of switchToApplicationAnimation
-
-    Binding {
-        target: switchToApplicationAnimationController
-        property: "progress"
-        value: stage.__dragValueToProgress(-rightEdgeDraggingArea.distance,
-                                           stage.__startValue, stage.applications.count)
-        when: rightEdgeDraggingArea.status === DirectionalDragArea.Recognized
-    }
-
-    NumberAnimation {
-        id: hintProgressAnimation
-        target: switchToApplicationAnimationController
-        property: "progress"
-        easing.type: Easing.OutQuad
-        from: 0.0
-        to: stage.__dragValueToProgress(stage.__hintValue,
-                                        stage.__startValue,
-                                        stage.applications.count)
-        duration: 150
-
-    }
 
     AnimationControllerWithSignals {
         id: switchToApplicationAnimationController
@@ -465,6 +443,24 @@ Showable {
         wideningAngle: 20
         distanceThreshold: units.gu(2)
 
+        onDistanceChanged: {
+            if (status !== DirectionalDragArea.Recognized)
+                return
+
+            var targetProgress = __dragValueToProgress(-distance, __startValue,
+                                                       stage.applications.count)
+            var delta = targetProgress - switchToApplicationAnimationController.progress
+
+            // When the gesture finally gets recognized, the finger will likely be
+            // reasonably far from the edge. If we made the progress immediately
+            // follow the finger position it would be visually unpleasant as there
+            // would be a jump to meet the finger's current position.
+            //
+            // The trick is not to go all the way (1.0) as it would cause the
+            // aforementioned jump.
+            switchToApplicationAnimationController.progress += 0.4 * delta
+        }
+
         property bool gotRejected: false
 
         onStatusChanged: {
@@ -474,7 +470,6 @@ Showable {
             } else if (status == DirectionalDragArea.Recognized) {
                 onRecognized();
             } else if (status == DirectionalDragArea.Rejected) {
-                hintProgressAnimation.stop()
                 switchToApplicationAnimationController.completeToBeginningWithSignal();
                 gotRejected = true;
             } else if (status == DirectionalDragArea.WaitingForTouch) {
@@ -490,18 +485,16 @@ Showable {
             if (stage.applications.count > 1) {
                 nextApplication = stage.applications.get(1);
             }
+            switchToApplicationAnimationController.progress = 0
             switchToApplicationAnimation.prepare(nextApplication);
             switchToApplicationAnimationController.animation = switchToApplicationAnimation;
 
-            hintProgressAnimation.start()
         }
 
         function onRecognized() {
-            hintProgressAnimation.stop()
         }
 
         function onGestureEnded() {
-            hintProgressAnimation.stop()
             if (stage.applications.count > 1 && dragVelocityCalculator.calculate() < 0) {
                 switchToApplicationAnimationController.completeToEndWithSignal();
             } else {

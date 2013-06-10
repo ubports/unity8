@@ -195,51 +195,6 @@ Rectangle {
         name: "Stage"
         when: windowShown
 
-        /* If you press Stage's right edge it should show the hint that it's possible to
-           switch to the next running application. This means (graphically) sliding the
-           next application window from Stage's right edge for a small part of its width */
-        function test_pressingRightEdgeShowsHint() {
-            redControl.checked = true
-
-            tryCompare(stage, "usingScreenshots", true) // wait for the animation to start
-            tryCompare(stage, "usingScreenshots", false) // and then for it to end
-            compare(fakeAppManager.mainStageFocusedApplication.desktopFile, "red")
-            compare(fakeAppManager.mainStageApplications.get(0).desktopFile, "red")
-
-            greenControl.checked = true
-
-            tryCompare(stage, "usingScreenshots", true) // wait for the animation to start
-            tryCompare(stage, "usingScreenshots", false) // and then for it to end
-            compare(fakeAppManager.mainStageFocusedApplication.desktopFile, "green")
-            compare(fakeAppManager.mainStageApplications.get(0).desktopFile, "green")
-
-            var draggingAreaCenterX = stage.width - (stage.rightEdgeDraggingAreaWidth / 2)
-            var draggingAreaCenterY = stage.height / 2
-            touchPress(stage, draggingAreaCenterX, draggingAreaCenterY)
-
-            // wait for the animation to start
-            tryCompare(stage, "usingScreenshots", true)
-
-            // "red" should be the new/next application being shown
-            compare(newAppScreenshot.application.desktopFile, "red")
-            tryCompareFunction(isShowingABitOfNewApp, true);
-
-            // "green" should be the current application being shown
-            compare(oldAppScreenshot.application.desktopFile, "green")
-            tryCompareFunction(isCurrentAppFadingOut, true);
-
-            touchRelease(stage, draggingAreaCenterX, draggingAreaCenterY)
-        }
-
-        function isShowingABitOfNewApp() {
-            // it should come from the right and take less than half of the screen
-            // but at least 5% of it
-            return newAppScreenshot.x > stage.width/2
-                && newAppScreenshot.x < stage.width*(95/100)
-                && newAppScreenshot.y === 0
-                && newAppScreenshot.visible
-        }
-
         function isCurrentAppFadingOut() {
             // it should get a bit translucent and smaller
             return oldAppScreenshot.opacity < 0.99
@@ -307,15 +262,17 @@ Rectangle {
 
             var draggingAreaCenterX = stage.width - (stage.rightEdgeDraggingAreaWidth / 2)
             var draggingAreaCenterY = stage.height / 2
-            touchPress(stage, draggingAreaCenterX, draggingAreaCenterY)
+            var finalTouchX = draggingAreaCenterX - units.gu(5)
+            touchFlick(stage, draggingAreaCenterX, draggingAreaCenterY,
+                       finalTouchX, draggingAreaCenterY,
+                       true /* beginTouch */, false /* endTouch */)
 
             // wait for the animation to start
             tryCompare(stage, "usingScreenshots", true)
 
             compare(newAppScreenshot.withBackground, false, "switched app does have background enabled")
 
-            tryCompareFunction(isShowingABitOfNewApp, true); // wait for the hint animation to finish
-            touchRelease(stage, draggingAreaCenterX, draggingAreaCenterY)
+            touchRelease(stage, finalTouchX, draggingAreaCenterY)
         }
     }
 }
