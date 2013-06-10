@@ -99,4 +99,3 @@ private Q_SLOTS:
 QTEST_MAIN(IndicatorsModelTest)
 
 #include "indicatorsmodeltest.moc"
-

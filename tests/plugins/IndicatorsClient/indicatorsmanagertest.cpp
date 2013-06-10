@@ -137,4 +137,3 @@ private Q_SLOTS:
 
 QTEST_MAIN(IndicatorsManagerTest)
 #include "indicatorsmanagertest.moc"
-

@@ -94,8 +94,3 @@ class TestDisplayMenus(IndicatorsTestCase):
 
         # TODO - should check backend when it's introspectable.
         self.assertThat(brightness_menu.value, Eventually(NotEquals(old_ab_value)))
-
-
-
-
-
