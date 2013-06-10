@@ -18,26 +18,50 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import "carousel.js" as CarouselJS
 
+/*! The Carousel component presents the items of a model in a carousel view. It's similar to a
+    cover flow. But it stops at it's boundaries (therefore no PathView is used).
+  */
 Item {
     id: carousel
 
+    /// The component to be used as delegate. This component has to be derived from BaseCarouselDelegate
     property Component itemComponent
-    property var model
-    property alias minimumTileWidth: flickable.minimumTileWidth
-    property alias pathItemCount: flickable.pathItemCount
-    property alias tileAspectRatio: flickable.tileAspectRatio
-    property int cacheBuffer: 0
+    /// Model for the Carousel, which has to be a model usable by a ListView
+    property alias model: listView.model
+    /// A minimal width of a tile can be set here. Per default a best fit will be calculated
+    property alias minimumTileWidth: listView.minimumTileWidth
+    /// Sets the number of tiles that are visible
+    property alias pathItemCount: listView.pathItemCount
+    /// Aspect ratio of the tiles width/height
+    property alias tileAspectRatio: listView.tileAspectRatio
+    /// Used to cache some delegates for performance reasons. See the ListView documentation for details
+    property alias cacheBuffer: listView.cacheBuffer
+    /// Width of the "draw buffer" in pixel. The drawBuffer is an additional area at start/end where
+    /// items drawn, even if it is not in the visible area.
+    /// cacheBuffer controls only the to retain delegates outside the visible area (and is used on top of the drawBuffer)
+    /// see https://bugreports.qt-project.org/browse/QTBUG-29173
+    property int drawBuffer: width / pathItemCount // an "ok" value - but values used from the listView cause loops
+    /// The selected item can be shown in a different size controlled by selectedItemScaleFactor
     property real selectedItemScaleFactor: 1.1
 
+    /// Emitted when the user clicked on an item
+    /// @param index is the index of the clicked item
+    /// @param delegateItem is the clicked component/delegate itself
+    /// @param itemY is y of the clicked delegate
     signal clicked(int index, var delegateItem, real itemY)
 
-    implicitHeight: flickable.tileHeight * selectedItemScaleFactor
+    implicitHeight: listView.tileHeight * selectedItemScaleFactor
 
-    /* TODO: evaluate if the component could be more efficient with a ListView,
-             using this technique https://bugreports.qt-project.org/browse/QTBUG-29173 */
+    /* Basic idea behind the carousel effect is to move the items of the delegates (compacting /stuffing them).
+       One drawback is, that more delegates have to be drawn than usually. As some items are moved from the
+       invisible to the visible area. Setting the cacheBuffer does not fix this.
+       See https://bugreports.qt-project.org/browse/QTBUG-29173
+       Therefore the ListView has negative left and right anchors margins, and in addition a header
+       and footer item to compensate that.
 
-    Flickable {
-        id: flickable
+       The scaling of the items is controlled by the variable continuousIndex, described below. */
+    ListView {
+        id: listView
 
         property real minimumTileWidth: 0
         property real newContentX: -1
@@ -57,20 +81,27 @@ Item {
             - 'gapToEndPhase' gap in pixels between middle and end phase
             - 'kGapEnd' constant used to calculate 'continuousIndex' in end phase
             - 'kMiddleIndex' constant used to calculate 'continuousIndex' in middle phase
-            - 'kXBeginningEnd' constant used to calculate 'continuousIndex' in beginning and end phase. */
+            - 'kXBeginningEnd' constant used to calculate 'continuousIndex' in beginning and end phase
+            - 'realContentWidth' the width of all the delegates only (without header/footer)
+            - 'realContentX' the 'contentX' of the listview ignoring the 'drawBuffer'
+            - 'realWidth' the 'width' of the listview, as it is used as component. */
 
-        readonly property real gapToMiddlePhase: Math.min(width / 2 - tileWidth / 2, (contentWidth - width) / 2)
-        readonly property real gapToEndPhase: contentWidth - width - gapToMiddlePhase
+        readonly property real gapToMiddlePhase: Math.min(realWidth / 2 - tileWidth / 2, (realContentWidth - realWidth) / 2)
+        readonly property real gapToEndPhase: realContentWidth - realWidth - gapToMiddlePhase
         readonly property real kGapEnd: kMiddleIndex * (1 - gapToEndPhase / gapToMiddlePhase)
-        readonly property real kMiddleIndex: (width / 2) / tileWidth - 0.5
+        readonly property real kMiddleIndex: (realWidth / 2) / tileWidth - 0.5
         readonly property real kXBeginningEnd: 1 / tileWidth + kMiddleIndex / gapToMiddlePhase
-        readonly property real realPathItemCount: Math.min(width / tileWidth, pathItemCount)
-        readonly property real referenceGapToMiddlePhase: width / 2 - tileWidth / 2
+        readonly property real maximumItemTranslation: (listView.tileWidth * 3) / listView.scaleFactor
+        readonly property real realContentWidth: contentWidth - 2 * carousel.drawBuffer
+        readonly property real realContentX: contentX + carousel.drawBuffer
+        readonly property real realPathItemCount: Math.min(realWidth / tileWidth, pathItemCount)
+        readonly property real realWidth: carousel.width
+        readonly property real referenceGapToMiddlePhase: realWidth / 2 - tileWidth / 2
         readonly property real referencePathItemCount: referenceWidth / referenceTileWidth
         readonly property real referenceWidth: 848
         readonly property real referenceTileWidth: 175
         readonly property real scaleFactor: tileWidth / referenceTileWidth
-        readonly property real tileWidth: Math.max(width / pathItemCount, minimumTileWidth)
+        readonly property real tileWidth: Math.max(realWidth / pathItemCount, minimumTileWidth)
         readonly property real tileHeight: tileWidth / tileAspectRatio
         readonly property real translationXViewFactor: 0.2 * (referenceGapToMiddlePhase / gapToMiddlePhase)
         readonly property real verticalMargin: (parent.height - tileHeight) / 2
@@ -80,20 +111,36 @@ Item {
             fill: parent
             topMargin: verticalMargin
             bottomMargin: verticalMargin
+            // extending the "drawing area"
+            leftMargin: -carousel.drawBuffer
+            rightMargin: -carousel.drawBuffer
         }
-        contentWidth: view.width
-        contentHeight: height
+
+        /* The header and footer help to "extend" the area, the listview draws items.
+           This together with anchors.leftMargin and anchors.rightMargin. */
+        header: Item {
+            width: carousel.drawBuffer
+            height: listView.tileHeight
+        }
+        footer: Item {
+            width: carousel.drawBuffer
+            height: listView.tileHeight
+        }
+
         boundsBehavior: Flickable.StopAtBounds
-        flickDeceleration: Math.max(1500 * Math.pow(width / referenceWidth, 1.5), 1500) // 1500 is platform default
-        maximumFlickVelocity: Math.max(2500 * Math.pow(width / referenceWidth, 1.5), 2500) // 2500 is platform default
+        cacheBuffer: carousel.cacheBuffer
+        flickDeceleration: Math.max(1500 * Math.pow(realWidth / referenceWidth, 1.5), 1500) // 1500 is platform default
+        maximumFlickVelocity: Math.max(2500 * Math.pow(realWidth / referenceWidth, 1.5), 2500) // 2500 is platform default
+        orientation: ListView.Horizontal
 
         function itemClicked(index, delegateItem) {
             var x = CarouselJS.getXFromContinuousIndex(index,
-                                                       width,
-                                                       contentWidth,
+                                                       realWidth,
+                                                       realContentWidth,
                                                        tileWidth,
                                                        gapToMiddlePhase,
-                                                       gapToEndPhase)
+                                                       gapToEndPhase,
+                                                       carousel.drawBuffer)
 
             if (Math.abs(x - contentX) < 1) {
                 /* We're clicking the selected item and
@@ -116,22 +163,22 @@ Item {
             newContentX = -1
         }
         onMovementEnded: {
-            if (contentX > 0 && contentX < contentWidth - width)
+            if (realContentX > 0 && realContentX < realContentWidth - realWidth)
                 stepAnimation.start()
         }
 
         SmoothedAnimation {
             id: stepAnimation
 
-            target: flickable
+            target: listView
             property: "contentX"
-            from: flickable.contentX
-            to: CarouselJS.getXFromContinuousIndex(view.selectedIndex,
-                                                   flickable.width,
-                                                   flickable.contentWidth,
-                                                   flickable.tileWidth,
-                                                   flickable.gapToMiddlePhase,
-                                                   flickable.gapToEndPhase)
+            to: CarouselJS.getXFromContinuousIndex(listView.selectedIndex,
+                                                   listView.realWidth,
+                                                   listView.realContentWidth,
+                                                   listView.tileWidth,
+                                                   listView.gapToMiddlePhase,
+                                                   listView.gapToEndPhase,
+                                                   carousel.drawBuffer)
             duration: 450
             velocity: 200
             easing.type: Easing.InOutQuad
@@ -141,112 +188,96 @@ Item {
             id: newContentXAnimation
 
             NumberAnimation {
-                target: flickable
+                target: listView
                 property: "contentX"
-                from: flickable.contentX
-                to: flickable.newContentX
+                from: listView.contentX
+                to: listView.newContentX
                 duration: 300
                 easing.type: Easing.InOutQuad
             }
             ScriptAction {
-                script: flickable.newContentX = -1
+                script: listView.newContentX = -1
             }
         }
 
-        Row {
-            id: view
+        readonly property int selectedIndex: Math.round(continuousIndex)
+        readonly property real continuousIndex: CarouselJS.getContinuousIndex(listView.realContentX,
+                                                                              listView.tileWidth,
+                                                                              listView.gapToMiddlePhase,
+                                                                              listView.gapToEndPhase,
+                                                                              listView.kGapEnd,
+                                                                              listView.kMiddleIndex,
+                                                                              listView.kXBeginningEnd)
 
-            readonly property int selectedIndex: Math.round(continuousIndex)
-            readonly property real continuousIndex: CarouselJS.getContinuousIndex(flickable.contentX,
-                                                                                  flickable.tileWidth,
-                                                                                  flickable.gapToMiddlePhase,
-                                                                                  flickable.gapToEndPhase,
-                                                                                  flickable.kGapEnd,
-                                                                                  flickable.kMiddleIndex,
-                                                                                  flickable.kXBeginningEnd)
+        property real viewTranslation: CarouselJS.getViewTranslation(listView.realContentX,
+                                                                     listView.tileWidth,
+                                                                     listView.gapToMiddlePhase,
+                                                                     listView.gapToEndPhase,
+                                                                     listView.translationXViewFactor)
 
-            height: parent.height
-            anchors.verticalCenter: parent.verticalCenter
+        delegate: Loader {
+            property bool explicitlyScaled: explicitScaleFactor == carousel.selectedItemScaleFactor
+            property real explicitScaleFactor: explicitScale ? carousel.selectedItemScaleFactor : 1.0
+            readonly property bool explicitScale: (!listView.moving ||
+                                                   listView.realContentX <= 0 ||
+                                                   listView.realContentX >= listView.realContentWidth - listView.realWidth) &&
+                                                  listView.newContentX < 0 &&
+                                                  index === listView.selectedIndex
+            readonly property real cachedTiles: listView.realPathItemCount + carousel.drawBuffer / listView.tileWidth
+            readonly property real distance: listView.continuousIndex - index
+            readonly property real itemTranslationScale: CarouselJS.getItemScale(0.5,
+                                                                                 (index + 0.5), // good approximation of scale while changing selected item
+                                                                                 listView.count,
+                                                                                 listView.visibleTilesScaleFactor)
+            readonly property real itemScale: CarouselJS.getItemScale(distance,
+                                                                      listView.continuousIndex,
+                                                                      listView.count,
+                                                                      listView.visibleTilesScaleFactor)
+            readonly property real translationX: CarouselJS.getItemTranslation(index,
+                                                                               listView.selectedIndex,
+                                                                               distance,
+                                                                               itemScale,
+                                                                               itemTranslationScale,
+                                                                               listView.maximumItemTranslation)
+
+            width: listView.tileWidth
+            height: listView.tileHeight
+            scale: itemScale * explicitScaleFactor
+            sourceComponent: itemComponent
+            z: cachedTiles - Math.abs(index - listView.selectedIndex)
 
             transform: Translate {
-                x: CarouselJS.getViewTranslation(flickable.contentX,
-                                                 flickable.tileWidth,
-                                                 flickable.gapToMiddlePhase,
-                                                 flickable.gapToEndPhase,
-                                                 flickable.translationXViewFactor)
+                x: listView.viewTranslation + translationX * listView.scaleFactor
             }
 
-            Repeater {
-                id: repeater
-
-                model: carousel.model
-
-                Loader {
-                    property bool explicitlyScaled: explicitScaleFactor == carousel.selectedItemScaleFactor
-                    property real explicitScaleFactor: explicitScale ? carousel.selectedItemScaleFactor : 1.0
-                    readonly property bool explicitScale: (!flickable.moving ||
-                                                           flickable.contentX <= 0 ||
-                                                           flickable.contentX >= flickable.contentWidth - flickable.width) &&
-                                                          flickable.newContentX < 0 &&
-                                                          index === view.selectedIndex
-                    readonly property real cachedTiles: flickable.realPathItemCount + carousel.cacheBuffer / flickable.tileWidth
-                    readonly property real distance: view.continuousIndex - index
-                    readonly property real itemTranslationScale: CarouselJS.getItemScale(0.5,
-                                                                                         (index + 0.5), // good approximation of scale while changing selected item
-                                                                                         repeater.count,
-                                                                                         flickable.visibleTilesScaleFactor)
-                    readonly property real itemScale: CarouselJS.getItemScale(distance,
-                                                                              view.continuousIndex,
-                                                                              repeater.count,
-                                                                              flickable.visibleTilesScaleFactor)
-                    readonly property real translationFactor: (flickable.tileWidth * 3) / flickable.scaleFactor
-                    readonly property real translationX: index === view.selectedIndex ? 0 :
-                                                         CarouselJS.getItemTranslation(distance,
-                                                                                       itemScale,
-                                                                                       itemTranslationScale,
-                                                                                       translationFactor)
-
-                    width: flickable.tileWidth
-                    height: flickable.tileHeight
-                    scale: itemScale * explicitScaleFactor
-                    opacity: scale > 0.02 ? 1 : 0
-                    sourceComponent: z > 0 ? itemComponent : undefined
-                    z: cachedTiles - Math.abs(index - view.selectedIndex)
-
-                    transform: Translate {
-                        x: translationX * flickable.scaleFactor
+            Behavior on explicitScaleFactor {
+                SequentialAnimation {
+                    ScriptAction {
+                        script: if (!explicitScale)
+                                    explicitlyScaled = false
                     }
-
-                    Behavior on explicitScaleFactor {
-                        SequentialAnimation {
-                            ScriptAction {
-                                script: if (!explicitScale)
-                                            explicitlyScaled = false
-                            }
-                            NumberAnimation {
-                                duration: explicitScaleFactor === 1.0 ? 250 : 150
-                                easing.type: Easing.InOutQuad
-                            }
-                            ScriptAction {
-                                script: if (explicitScale)
-                                            explicitlyScaled = true
-                            }
-                        }
+                    NumberAnimation {
+                        duration: explicitScaleFactor === 1.0 ? 250 : 150
+                        easing.type: Easing.InOutQuad
                     }
-
-                    onLoaded: {
-                        item.explicitlyScaled = Qt.binding(function() { return explicitlyScaled; })
-                        item.model = Qt.binding(function() { return model; })
-                    }
-
-                    MouseArea {
-                        id: mouseArea
-
-                        anchors.fill: parent
-
-                        onClicked: flickable.itemClicked(index, item)
+                    ScriptAction {
+                        script: if (explicitScale)
+                                    explicitlyScaled = true
                     }
                 }
+            }
+
+            onLoaded: {
+                item.explicitlyScaled = Qt.binding(function() { return explicitlyScaled; })
+                item.model = Qt.binding(function() { return model; })
+            }
+
+            MouseArea {
+                id: mouseArea
+
+                anchors.fill: parent
+
+                onClicked: listView.itemClicked(index, item)
             }
         }
     }
