@@ -197,9 +197,19 @@ Item {
         height: root.height
 
         onTouchXChanged: {
-            if (dragging) {
-                panel.x = Math.min(0, touchX - panel.width);
-            }
+            if (status !== DirectionalDragArea.Recognized)
+                return;
+
+            // When the gesture finally gets recognized, the finger will likely be
+            // reasonably far from the edge. If we made the panel immediately
+            // follow the finger position it would be visually unpleasant as it
+            // would appear right next to the user's finger out of nowhere.
+            // Instead, we make the panel go towards the user's finger in several
+            // steps. ie., in an animated way.
+            var targetPanelX = Math.min(0, touchX - panel.width)
+            var delta = targetPanelX - panel.x
+            // the trick is not to go all the way (1.0) as it would cause a sudden jump
+            panel.x += 0.4 * delta
         }
 
         onDraggingChanged: {
