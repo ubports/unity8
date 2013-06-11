@@ -31,8 +31,8 @@ public:
     }
     virtual int interval() const { return m_timer.interval(); }
     virtual void setInterval(int msecs) { m_timer.setInterval(msecs); }
-    virtual void start() { m_timer.start(); }
-    virtual void stop() { m_timer.stop(); }
+    virtual void start() { m_timer.start(); UbuntuGestures::AbstractTimer::start(); }
+    virtual void stop() { m_timer.stop(); UbuntuGestures::AbstractTimer::stop(); }
 private:
     QTimer m_timer;
 };
@@ -120,14 +120,13 @@ void DirectionalDragArea::setMaxSilenceTime(int value)
 
 void DirectionalDragArea::setRecognitionTimer(UbuntuGestures::AbstractTimer *timer)
 {
-    // NB: We assume test code (the only client of this method) won't call it while
-    //     the current timer is active
-
     int interval = 0;
+    bool timerWasRunning = false;
 
     // can be null when called from the constructor
     if (m_recognitionTimer) {
         interval = m_recognitionTimer->interval();
+        timerWasRunning = m_recognitionTimer->isRunning();
         if (m_recognitionTimer->parent() == this) {
             delete m_recognitionTimer;
         }
@@ -137,6 +136,9 @@ void DirectionalDragArea::setRecognitionTimer(UbuntuGestures::AbstractTimer *tim
     timer->setInterval(interval);
     connect(timer, &UbuntuGestures::AbstractTimer::timeout,
             this, &DirectionalDragArea::checkSpeed);
+    if (timerWasRunning) {
+        m_recognitionTimer->start();
+    }
 }
 
 void DirectionalDragArea::setAxisVelocityCalculator(AxisVelocityCalculator *newVelCalc)

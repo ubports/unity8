@@ -27,13 +27,16 @@ namespace UbuntuGestures {
 class UBUNTUGESTURES_EXPORT AbstractTimer : public QObject {
     Q_OBJECT
 public:
-    AbstractTimer(QObject *parent) : QObject(parent) {}
+    AbstractTimer(QObject *parent) : QObject(parent), m_isRunning(false) {}
     virtual int interval() const = 0;
     virtual void setInterval(int msecs) = 0;
-    virtual void start() = 0;
-    virtual void stop() = 0;
+    virtual void start() { m_isRunning = true; };
+    virtual void stop() { m_isRunning = false; }
+    bool isRunning() const { return m_isRunning; }
 Q_SIGNALS:
     void timeout();
+private:
+    bool m_isRunning;
 };
 }
 

@@ -27,20 +27,15 @@ class FakeTimer : public UbuntuGestures::AbstractTimer
     Q_OBJECT
 public:
     FakeTimer(QObject *parent = 0)
-        : UbuntuGestures::AbstractTimer(parent),
-          m_isRunning(false)
+        : UbuntuGestures::AbstractTimer(parent)
     {}
 
     virtual int interval() const { return m_duration; }
     virtual void setInterval(int msecs) { m_duration = msecs; }
-    virtual void start() { m_isRunning = true; }
-    virtual void stop() { m_isRunning = false; }
 
-    bool isRunning() const { return m_isRunning; }
     void emitTimeout() {Q_EMIT timeout();}
 private:
     int m_duration;
-    bool m_isRunning;
 };
 
 class FakeTimeSource : public AxisVelocityCalculator::TimeSource
