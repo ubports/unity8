@@ -467,8 +467,6 @@ Showable {
             if (status == DirectionalDragArea.Undecided) {
                 gotRejected = false
                 onUndecided();
-            } else if (status == DirectionalDragArea.Recognized) {
-                onRecognized();
             } else if (status == DirectionalDragArea.Rejected) {
                 switchToApplicationAnimationController.completeToBeginningWithSignal();
                 gotRejected = true;
