@@ -168,11 +168,11 @@ LensView {
             }
         }
 
-//         sectionProperty: "category"
-//         sectionDelegate: Header {
-//             width: categoryView.width
-//             text: categoryListModel.getCategory(section)
-//         }
+        sectionProperty: "category"
+        sectionDelegate: Header {
+            width: categoryView.width
+            text: categoryListModel.getCategory(section)
+        }
         pageHeader: PageHeader {
             id: pageHeader
             width: categoryView.width

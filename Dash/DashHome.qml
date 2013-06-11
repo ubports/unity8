@@ -188,11 +188,11 @@ LensView {
             }
         }
 
-//         sectionProperty: "category"
-//         sectionDelegate: Header {
-//             width: listView.width
-//             text: listView.model.getCategory(section)
-//         }
+        sectionProperty: "category"
+        sectionDelegate: Header {
+            width: listView.width
+            text: listView.model.getCategory(section)
+        }
         pageHeader: PageHeader {
             width: listView.width
             text: i18n.tr("Home")

@@ -18,10 +18,43 @@
 
 #include <QDebug>
 #include <qqmlinfo.h>
+#include <qqmlengine.h>
 #include <private/qquickvisualdatamodel_p.h>
 #include <private/qqmlglobal_p.h>
 #include <private/qquickitem_p.h>
 // #include <private/qquickrectangle_p.h>
+
+qreal ListViewWithPageHeader::ListItem::height() const
+{
+    return m_item->height() + (m_sectionItem ? m_sectionItem->height() : 0);
+}
+
+qreal ListViewWithPageHeader::ListItem::y() const
+{
+    return m_item->y() - (m_sectionItem ? m_sectionItem->height() : 0);
+}
+
+void ListViewWithPageHeader::ListItem::setY(qreal newY)
+{
+    if (m_sectionItem) {
+        m_sectionItem->setY(newY);
+        m_item->setY(newY + m_sectionItem->height());
+    } else {
+        m_item->setY(newY);
+    }
+}
+
+bool ListViewWithPageHeader::ListItem::culled() const
+{
+    return QQuickItemPrivate::get(m_item)->culled;
+}
+
+void ListViewWithPageHeader::ListItem::setCulled(bool culled)
+{
+    QQuickItemPrivate::get(m_item)->setCulled(culled);
+    if (m_sectionItem)
+        QQuickItemPrivate::get(m_sectionItem)->setCulled(culled);
+}
 
 ListViewWithPageHeader::ListViewWithPageHeader()
  : m_delegateModel(nullptr)
@@ -32,6 +65,8 @@ ListViewWithPageHeader::ListViewWithPageHeader()
  , m_headerItem(nullptr)
  , m_previousContentY(0)
  , m_headerItemShownHeight(0)
+ , m_sectionDelegate(nullptr)
+ , m_topSectionItem(nullptr)
 {
     m_clipItem = new QQuickItem(contentItem());
 //     m_clipItem = new QQuickRectangle(contentItem());
@@ -80,7 +115,7 @@ void ListViewWithPageHeader::setDelegate(QQmlComponent *delegate)
         }
 
         // Cleanup the existing items
-        foreach(QQuickItem *item, m_visibleItems)
+        foreach(ListItem *item, m_visibleItems)
             releaseItem(item);
         m_visibleItems.clear();
         m_firstVisibleIndex = -1;
@@ -110,6 +145,7 @@ void ListViewWithPageHeader::setHeader(QQuickItem *headerItem)
             oldHeaderHeight = m_headerItem->height();
             oldHeaderY = m_headerItem->y();
             QQuickItemPrivate::get(m_headerItem)->removeItemChangeListener(this, QQuickItemPrivate::Geometry);
+            m_headerItem->setParentItem(nullptr);
         }
         m_headerItem = headerItem;
         if (m_headerItem) {
@@ -127,6 +163,46 @@ void ListViewWithPageHeader::setHeader(QQuickItem *headerItem)
     }
 }
 
+QQmlComponent *ListViewWithPageHeader::sectionDelegate() const
+{
+    return m_sectionDelegate;
+}
+
+void ListViewWithPageHeader::setSectionDelegate(QQmlComponent *delegate)
+{
+    if (delegate != m_sectionDelegate) {
+        // TODO clean existing sections
+
+        m_sectionDelegate = delegate;
+
+        m_topSectionItem = getSectionItem(QString());
+        m_topSectionItem->setZ(3);
+        QQuickItemPrivate::get(m_topSectionItem)->setCulled(true);
+
+        // TODO create sections for existing items
+
+        Q_EMIT sectionDelegateChanged();
+    }
+}
+
+QString ListViewWithPageHeader::sectionProperty() const
+{
+    return m_sectionProperty;
+}
+
+void ListViewWithPageHeader::setSectionProperty(const QString &property)
+{
+    if (property != m_sectionProperty) {
+        m_sectionProperty = property;
+
+        updateWatchedRoles();
+
+        // TODO recreate sections
+
+        Q_EMIT sectionPropertyChanged();
+    }
+}
+
 void ListViewWithPageHeader::positionAtBeginning()
 {
     qreal headerHeight = (m_headerItem ? m_headerItem->height() : 0);
@@ -134,14 +210,14 @@ void ListViewWithPageHeader::positionAtBeginning()
         // This could be optimized by trying to reuse the interesection
         // of items that may end up intersecting between the existing
         // m_visibleItems and the items we are creating in the next loop
-        foreach(QQuickItem *item, m_visibleItems)
+        foreach(ListItem *item, m_visibleItems)
             releaseItem(item);
         m_visibleItems.clear();
         m_firstVisibleIndex = -1;
 
         // Create the item 0, it will be already correctly positioned at createItem()
         m_clipItem->setY(0);
-        QQuickItem *item = createItem(0, false);
+        ListItem *item = createItem(0, false);
         // Create the subsequent items
         int modelIndex = 1;
         qreal pos = item->y() + item->height();
@@ -221,9 +297,10 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
     }
     if (!m_visibleItems.isEmpty()) {
         updateClipItem();
-        QQuickItem *firstItem = m_visibleItems.first();
+        ListItem *firstItem = m_visibleItems.first();
         firstItem->setY(firstItem->y() + diff);
     }
+
     m_previousContentY = contentY();
     polish();
 }
@@ -239,6 +316,7 @@ void ListViewWithPageHeader::createDelegateModel()
     connect(m_delegateModel, SIGNAL(createdItem(int,QQuickItem*)), this, SLOT(itemCreated(int,QQuickItem*)));
     if (isComponentComplete())
         m_delegateModel->componentComplete();
+    updateWatchedRoles();
 }
 
 void ListViewWithPageHeader::refill()
@@ -271,7 +349,7 @@ bool ListViewWithPageHeader::addVisibleItems(qreal fillFrom, qreal fillTo, bool 
     if (m_delegateModel->count() == 0)
         return false;
 
-    QQuickItem *item;
+    ListItem *item;
 //     qDebug() << "ListViewWithPageHeader::addVisibleItems" << fillFrom << fillTo << asynchronous;
 
     int modelIndex = 0;
@@ -311,14 +389,68 @@ bool ListViewWithPageHeader::addVisibleItems(qreal fillFrom, qreal fillTo, bool 
     return changed;
 }
 
-void ListViewWithPageHeader::releaseItem(QQuickItem *item)
+void ListViewWithPageHeader::releaseItem(ListItem *listItem)
 {
+    QQuickItem *item = listItem->m_item;
     QQuickItemPrivate *itemPrivate = QQuickItemPrivate::get(item);
     itemPrivate->removeItemChangeListener(this, QQuickItemPrivate::Geometry);
     QQuickVisualModel::ReleaseFlags flags = m_delegateModel->release(item);
     if (flags & QQuickVisualModel::Destroyed) {
         item->setParentItem(nullptr);
     }
+    delete listItem->m_sectionItem;
+    delete listItem;
+}
+
+void ListViewWithPageHeader::updateWatchedRoles()
+{
+    if (m_delegateModel) {
+        QList<QByteArray> roles;
+        if (!m_sectionProperty.isEmpty())
+            roles << m_sectionProperty.toUtf8();
+        m_delegateModel->setWatchedRoles(roles);
+    }
+}
+
+QQuickItem *ListViewWithPageHeader::getSectionItem(int modelIndex)
+{
+    if (!m_sectionDelegate)
+        return nullptr;
+
+    const QString section = m_delegateModel->stringValue(modelIndex, m_sectionProperty);
+    if (modelIndex > 0) {
+        const QString prevSection = m_delegateModel->stringValue(modelIndex - 1, m_sectionProperty);
+        if (section == prevSection)
+            return nullptr;
+    }
+
+    return getSectionItem(section);
+}
+
+QQuickItem *ListViewWithPageHeader::getSectionItem(const QString &sectionText)
+{
+    QQuickItem *sectionItem = nullptr;
+
+    QQmlContext *creationContext = m_sectionDelegate->creationContext();
+    QQmlContext *context = new QQmlContext(creationContext ? creationContext : qmlContext(this));
+    context->setContextProperty(QLatin1String("section"), sectionText);
+    QObject *nobj = m_sectionDelegate->beginCreate(context);
+    if (nobj) {
+        QQml_setParent_noEvent(context, nobj);
+        sectionItem = qobject_cast<QQuickItem *>(nobj);
+        if (!sectionItem) {
+            delete nobj;
+        } else {
+            sectionItem->setZ(2);
+            QQml_setParent_noEvent(sectionItem, m_clipItem);
+            sectionItem->setParentItem(m_clipItem);
+        }
+    } else {
+        delete context;
+    }
+    m_sectionDelegate->completeCreate();
+
+    return sectionItem;
 }
 
 bool ListViewWithPageHeader::removeNonVisibleItems(qreal bufferFrom, qreal bufferTo)
@@ -330,7 +462,7 @@ bool ListViewWithPageHeader::removeNonVisibleItems(qreal bufferFrom, qreal buffe
     int i = 0;
     int removedItems = 0;
     while (i < m_visibleItems.count()) {
-        QQuickItem *item = m_visibleItems[i];
+        ListItem *item = m_visibleItems[i];
         const qreal pos = item->y() + m_clipItem->y();
 //         qDebug() << i << pos << (pos + item->height()) << bufferFrom << bufferTo;
         if (pos + item->height() < bufferFrom || pos > bufferTo) {
@@ -352,7 +484,7 @@ bool ListViewWithPageHeader::removeNonVisibleItems(qreal bufferFrom, qreal buffe
     return changed;
 }
 
-QQuickItem *ListViewWithPageHeader::createItem(int modelIndex, bool asynchronous)
+ListViewWithPageHeader::ListItem *ListViewWithPageHeader::createItem(int modelIndex, bool asynchronous)
 {
 //     qDebug() << "CREATE ITEM" << modelIndex;
     if (asynchronous && m_asyncRequestedIndexes.contains(modelIndex))
@@ -365,29 +497,32 @@ QQuickItem *ListViewWithPageHeader::createItem(int modelIndex, bool asynchronous
         return 0;
     } else {
 //         qDebug() << "ListViewWithPageHeader::createItem::We have the item" << modelIndex << item;
+        ListItem *listItem = new ListItem;
+        listItem->m_item = item;
+        listItem->m_sectionItem = getSectionItem(modelIndex);
         QQuickItemPrivate::get(item)->addItemChangeListener(this, QQuickItemPrivate::Geometry);
-        QQuickItem *prevItem = itemAtIndex(modelIndex - 1);
+        ListItem *prevItem = itemAtIndex(modelIndex - 1);
         if (prevItem) {
-            item->setY(prevItem->y() + prevItem->height());
+            listItem->setY(prevItem->y() + prevItem->height());
         } else {
-            QQuickItem *nextItem = itemAtIndex(modelIndex + 1);
+            ListItem *nextItem = itemAtIndex(modelIndex + 1);
             if (nextItem) {
-                item->setY(nextItem->y() - item->height());
+                listItem->setY(nextItem->y() - listItem ->height());
             } else if (modelIndex == 0 && m_headerItem) {
-                item->setY(m_headerItem->height());
+                listItem->setY(m_headerItem->height());
             }
         }
-        QQuickItemPrivate::get(item)->setCulled(item->y() + item->height() + m_clipItem->y() < contentY() || item->y() + m_clipItem->y() >= contentY() + height());
+        listItem->setCulled(listItem->y() + listItem->height() + m_clipItem->y() < contentY() || listItem->y() + m_clipItem->y() >= contentY() + height());
         if (m_visibleItems.isEmpty()) {
-            m_visibleItems << item;
+            m_visibleItems << listItem;
         } else {
-            m_visibleItems.insert(modelIndex - m_firstVisibleIndex, item);
+            m_visibleItems.insert(modelIndex - m_firstVisibleIndex, listItem);
         }
         if (m_firstVisibleIndex < 0 || modelIndex < m_firstVisibleIndex) {
             m_firstVisibleIndex = modelIndex;
             adjustMinYExtent();
         }
-        return item;
+        return listItem;
     }
 }
 
@@ -431,15 +566,15 @@ void ListViewWithPageHeader::onModelUpdated(const QQuickChangeSet &changeSet, bo
             bool growDown = true;
             for (int i = 0; growDown && i < remove.count; ++i) {
                 const int modelIndex = remove.index + i;
-                QQuickItem *item = itemAtIndex(modelIndex);
-                if (item && !QQuickItemPrivate::get(item)->culled) {
+                ListItem *item = itemAtIndex(modelIndex);
+                if (item && !item->culled()) {
                     growDown = false;
                 }
             }
             for (int i = remove.count - 1; i >= 0; --i) {
                 const int visibleIndex = remove.index + i - m_firstVisibleIndex;
                 if (visibleIndex >= 0 && visibleIndex < m_visibleItems.count()) {
-                    QQuickItem *item = m_visibleItems[visibleIndex];
+                    ListItem *item = m_visibleItems[visibleIndex];
                     releaseItem(item);
                     m_visibleItems.removeAt(visibleIndex);
                 }
@@ -467,7 +602,7 @@ void ListViewWithPageHeader::onModelUpdated(const QQuickChangeSet &changeSet, bo
             bool growUp = false;
             if (!firstItemWithViewOnTop) {
                 for (int i = 0; i < m_visibleItems.count(); ++i) {
-                    if (!QQuickItemPrivate::get(m_visibleItems[i])->culled) {
+                    if (!m_visibleItems[i]->culled()) {
                         if (insert.index <= m_firstVisibleIndex + i) {
                             growUp = true;
                         }
@@ -479,15 +614,15 @@ void ListViewWithPageHeader::onModelUpdated(const QQuickChangeSet &changeSet, bo
             const qreal oldFirstValidIndexPos = m_visibleItems.first()->y();
             for (int i = insert.count - 1; i >= 0; --i) {
                 const int modelIndex = insert.index + i;
-                QQuickItem *item = createItem(modelIndex, false);
+                ListItem *item = createItem(modelIndex, false);
                 if (growUp) {
-                    QQuickItem *firstItem = m_visibleItems.first();
+                    ListItem *firstItem = m_visibleItems.first();
                     firstItem->setY(firstItem->y() - item->height());
                     adjustMinYExtent();
                 }
             }
             if (firstItemWithViewOnTop) {
-                QQuickItem *firstItem = m_visibleItems.first();
+                ListItem *firstItem = m_visibleItems.first();
                 firstItem->setY(oldFirstValidIndexPos);
             }
         } else if (insert.index <= m_firstVisibleIndex) {
@@ -507,7 +642,7 @@ void ListViewWithPageHeader::itemGeometryChanged(QQuickItem *item, const QRectF 
             headerHeightChanged(newGeometry.height(), oldGeometry.height(), oldGeometry.y());
         } else {
             if (oldGeometry.y() + oldGeometry.height() + m_clipItem->y() < contentY() && !m_visibleItems.isEmpty()) {
-                QQuickItem *firstItem = m_visibleItems.first();
+                ListItem *firstItem = m_visibleItems.first();
                 firstItem->setY(firstItem->y() - heightDiff);
                 adjustMinYExtent();
             }
@@ -531,7 +666,7 @@ void ListViewWithPageHeader::headerHeightChanged(qreal newHeaderHeight, qreal ol
         if (oldHeaderY + oldHeaderHeight > contentY()) {
             // If the header is shown because its position
             // Change its size
-            QQuickItem *firstItem = m_visibleItems.first();
+            ListItem *firstItem = m_visibleItems.first();
             firstItem->setY(firstItem->y() + heightDiff);
         } else {
             // If the header is not on screen, just change the start of the list
@@ -551,7 +686,7 @@ void ListViewWithPageHeader::adjustMinYExtent()
     }
 }
 
-QQuickItem *ListViewWithPageHeader::itemAtIndex(int modelIndex) const
+ListViewWithPageHeader::ListItem *ListViewWithPageHeader::itemAtIndex(int modelIndex) const
 {
     const int visibleIndexedModelIndex = modelIndex - m_firstVisibleIndex;
     if (visibleIndexedModelIndex >= 0 && visibleIndexedModelIndex < m_visibleItems.count())
@@ -572,11 +707,52 @@ void ListViewWithPageHeader::updatePolish()
         qreal pos = m_visibleItems.first()->y();
 
 //         qDebug() << "ListViewWithPageHeader::updatePolish Updating positions and heights. contentY" << contentY() << "minYExtent" << minYExtent();
-        foreach(QQuickItem *item, m_visibleItems) {
-            QQuickItemPrivate::get(item)->setCulled(pos + item->height() < visibleFrom || pos >= visibleTo);
+        int firstReallyVisibleItem = -1;
+        int modelIndex = m_firstVisibleIndex;
+        foreach(ListItem *item, m_visibleItems) {
+            const bool cull = pos + item->height() < visibleFrom || pos >= visibleTo;
+            item->setCulled(cull);
             item->setY(pos);
+            if (!cull && firstReallyVisibleItem == -1) {
+                firstReallyVisibleItem = modelIndex;
+                if (m_topSectionItem) {
+                    // Update the top sticky section header
+                    const QString section = m_delegateModel->stringValue(modelIndex, m_sectionProperty);
+                    QQmlContext *context = QQmlEngine::contextForObject(m_topSectionItem)->parentContext();
+                    context->setContextProperty(QLatin1String("section"), section);
+                    
+
+                    // Positing the top section sticky item is a two step process
+                    // First we set it either we cull it (because it doesn't need to be sticked to the top)
+                    // or stick it to the top
+                    // Then after the loop we'll make sure that if there's another section just below it
+                    // pushed the sticky section up to make it disappear
+                    const qreal topSectionStickPos = m_headerItemShownHeight + contentY() - m_clipItem->y();
+                    if (topSectionStickPos <= pos) {
+                        QQuickItemPrivate::get(m_topSectionItem)->setCulled(true);
+                    } else {
+                        QQuickItemPrivate::get(m_topSectionItem)->setCulled(false);
+                        m_topSectionItem->setY(topSectionStickPos);
+                    }
+                }
+            }
 //             qDebug() << "ListViewWithPageHeader::updatePolish" << /*index << */pos + m_clipItem->y() << /*QQuickItemPrivate::get(item)->culled <<*/ (pos + item->height() < visibleFrom) << (pos > visibleTo);
             pos += item->height();
+            ++modelIndex;
+        }
+
+        // Second step of section sticky item positioning
+        // Look at the next section header, check if it's pushing up the sticky one
+        if (m_topSectionItem) {
+            for (int i = firstReallyVisibleItem - m_firstVisibleIndex + 1; i < m_visibleItems.count(); ++i) {
+                ListItem *item = m_visibleItems[i];
+                if (item->m_sectionItem) {
+                    if (m_topSectionItem->y() + m_topSectionItem->height() > item->y()) {
+                        m_topSectionItem->setY(item->y() - m_topSectionItem->height());
+                    }
+                    break;
+                }
+            }
         }
     }
 
@@ -588,7 +764,7 @@ void ListViewWithPageHeader::updatePolish()
         const int visibleItems = m_visibleItems.count();
         const int lastValidIndex = m_firstVisibleIndex + visibleItems - 1;
         if (lastValidIndex == modelCount - 1) {
-            QQuickItem *item = m_visibleItems.last();
+            ListItem *item = m_visibleItems.last();
             contentHeight = item->y() + item->height() + m_clipItem->y();
             if (m_firstVisibleIndex != 0) {
                 // Make sure that if we are shrinking we tell the view we still fit
@@ -597,7 +773,7 @@ void ListViewWithPageHeader::updatePolish()
         } else {
             contentHeight = m_headerItem ? m_headerItem->height() : 0;
             if (!m_visibleItems.isEmpty()) {
-                foreach(QQuickItem *item, m_visibleItems) {
+                foreach(ListItem *item, m_visibleItems) {
                     contentHeight += item->height();
                 }
                 const int unknownSizes = modelCount - visibleItems;
@@ -610,3 +786,5 @@ void ListViewWithPageHeader::updatePolish()
     }
     
 }
+
+#include "moc_listviewwithpageheader.cpp"

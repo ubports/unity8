@@ -30,6 +30,8 @@ class ListViewWithPageHeader : public QQuickFlickable, public QQuickItemChangeLi
     Q_PROPERTY(QAbstractItemModel *model READ model WRITE setModel NOTIFY modelChanged)
     Q_PROPERTY(QQmlComponent *delegate READ delegate WRITE setDelegate NOTIFY delegateChanged)
     Q_PROPERTY(QQuickItem *pageHeader READ header WRITE setHeader NOTIFY headerChanged)
+    Q_PROPERTY(QQmlComponent *sectionDelegate READ sectionDelegate WRITE setSectionDelegate NOTIFY sectionDelegateChanged)
+    Q_PROPERTY(QString sectionProperty READ sectionProperty WRITE setSectionProperty NOTIFY sectionPropertyChanged)
 
     friend class ListViewWithPageHeaderTest;
 
@@ -46,6 +48,12 @@ public:
     QQuickItem *header() const;
     void setHeader(QQuickItem *header);
 
+    QQmlComponent *sectionDelegate() const;
+    void setSectionDelegate(QQmlComponent *delegate);
+
+    QString sectionProperty() const;
+    void setSectionProperty(const QString &property);
+
     Q_INVOKABLE void positionAtBeginning();
     Q_INVOKABLE void showHeader();
 
@@ -53,6 +61,8 @@ Q_SIGNALS:
     void modelChanged();
     void delegateChanged();
     void headerChanged();
+    void sectionDelegateChanged();
+    void sectionPropertyChanged();
 
 protected:
     void componentComplete();
@@ -68,6 +78,22 @@ private Q_SLOTS:
     void onModelUpdated(const QQuickChangeSet &changeSet, bool reset);
 
 private:
+    class ListItem
+    {
+        public:
+            qreal height() const;
+
+            qreal y() const;
+            void setY(qreal newY);
+
+            bool culled() const;
+            void setCulled(bool culled);
+
+//         private:
+            QQuickItem *m_item;
+            QQuickItem *m_sectionItem;
+    };
+
     void setContentY(qreal pos);
 
     void createDelegateModel();
@@ -75,13 +101,16 @@ private:
     void refill();
     bool addVisibleItems(qreal fillFrom, qreal fillTo, bool asynchronous);
     bool removeNonVisibleItems(qreal bufferFrom, qreal bufferTo);
-    QQuickItem *createItem(int modelIndex, bool asynchronous);
+    ListItem *createItem(int modelIndex, bool asynchronous);
 
     void adjustMinYExtent();
     void updateClipItem();
     void headerHeightChanged(qreal newHeaderHeight, qreal oldHeaderHeight, qreal oldHeaderY);
-    QQuickItem *itemAtIndex(int modelIndex) const; // Returns the item at modelIndex if has been created
-    void releaseItem(QQuickItem *item);
+    ListItem *itemAtIndex(int modelIndex) const; // Returns the item at modelIndex if has been created
+    void releaseItem(ListItem *item);
+    void updateWatchedRoles();
+    QQuickItem *getSectionItem(int modelIndex);
+    QQuickItem *getSectionItem(const QString &sectionText);
 
     QQuickVisualDataModel *m_delegateModel;
 
@@ -92,7 +121,7 @@ private:
     bool m_delegateValidated;
 
     // Visible indexes, [0] is m_firstValidIndex, [0+1] is m_firstValidIndex +1, ...
-    QList<QQuickItem *> m_visibleItems;
+    QList<ListItem *> m_visibleItems;
     int m_firstVisibleIndex;
 
     qreal m_minYExtent;
@@ -107,6 +136,10 @@ private:
     qreal m_previousContentY;
     qreal m_headerItemShownHeight; // The height of header shown when the header is shown outside its topmost position
                                    // i.e. it's being shown after dragging down in the middle of the list
+
+    QQmlComponent *m_sectionDelegate;
+    QString m_sectionProperty;
+    QQuickItem *m_topSectionItem;
 };
 
 

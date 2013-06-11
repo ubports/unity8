@@ -144,11 +144,11 @@ LensView {
             }
         }
 
-//         sectionProperty: "name"
-//         sectionDelegate: ListItems.Header {
-//             width: categoryView.width
-//             text: i18n.tr(section)
-//         }
+        sectionProperty: "name"
+        sectionDelegate: ListItems.Header {
+            width: categoryView.width
+            text: i18n.tr(section)
+        }
 
         pageHeader: PageHeader {
             id: pageHeader

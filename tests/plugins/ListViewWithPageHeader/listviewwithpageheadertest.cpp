@@ -59,10 +59,10 @@ private Q_SLOTS:
 
     void verifyItem(int visibleIndex, qreal pos, qreal height, bool culled)
     {
-        QQuickItem *item = lvwph->m_visibleItems[visibleIndex];
+        ListViewWithPageHeader::ListItem *item = lvwph->m_visibleItems[visibleIndex];
         QTRY_COMPARE(item->y(), pos);
         QTRY_COMPARE(item->height(), height);
-        QCOMPARE(QQuickItemPrivate::get(item)->culled, culled);
+        QCOMPARE(QQuickItemPrivate::get(item->m_item)->culled, culled);
     }
 
     void changeContentY(qreal change)

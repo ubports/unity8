@@ -80,11 +80,11 @@ LensView {
             }
         }
 
-//         sectionProperty: "name"
-//         sectionDelegate: ListItems.Header {
-//             width: categoryView.width
-//             text: section
-//         }
+        sectionProperty: "name"
+        sectionDelegate: ListItems.Header {
+            width: categoryView.width
+            text: section
+        }
         pageHeader: PageHeader {
             id: pageHeader
             objectName: "pageHeader"
