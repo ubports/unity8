@@ -82,24 +82,24 @@ LensView {
     }
 
     Component.onCompleted: {
-        var scope = dashContent.scopes.get("mockmusic.scope")
+        var scope = dashContent.scopes.get("mockmusicmaster.scope")
         if (scope) {
-            musicFilter.model = dashContent.scopes.get("mockmusic.scope").results
+            musicFilter.model = dashContent.scopes.get("mockmusicmaster.scope").results
         }
-        scope = dashContent.scopes.get("mockvideos.scope")
+        scope = dashContent.scopes.get("mockvideosmaster.scope")
         if (scope) {
-            videosFilter.model = dashContent.scopes.get("mockvideos.scope").results
+            videosFilter.model = dashContent.scopes.get("mockvideosmaster.scope").results
         }
     }
 
     Connections {
         target: dashContent
         onLensLoaded: switch (lensId) {
-            case "mockmusic.scope":
-                musicFilter.model = dashContent.scopes.get("mockmusic.scope").results
+            case "mockmusicmaster.scope":
+                musicFilter.model = dashContent.scopes.get("mockmusicmaster.scope").results
                 break;
-            case "mockvideos.scope":
-                videosFilter.model = dashContent.scopes.get("mockvideos.scope").results
+            case "mockvideosmaster.scope":
+                videosFilter.model = dashContent.scopes.get("mockvideosmaster.scope").results
                 break;
         }
     }

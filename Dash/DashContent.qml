@@ -79,10 +79,10 @@ Item {
         }
     }
 
-    property var lensDelegateMapping: {"mockmusic.scope": "DashMusic.qml",
+    property var lensDelegateMapping: {"mockmusicmaster.scope": "DashMusic.qml",
                                        "applications.scope": "DashApps.qml",
                                        "home.scope": "DashHome.qml",
-                                       "mockvideos.scope": "DashVideos.qml",
+                                       "mockvideosmaster.scope": "DashVideos.qml",
                                       }
     property string genericLens: "GenericLensView.qml"
 
