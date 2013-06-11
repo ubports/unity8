@@ -47,12 +47,16 @@ inline QString shellAppDirectory() {
     }
 }
 
-inline QString shellImportPath() {
+inline QStringList shellImportPaths() {
+    QStringList paths;
     if (isRunningInstalled()) {
-        return QString("@CMAKE_INSTALL_PREFIX@/@SHELL_APP_DIR@/plugins");
+        paths << QString("@CMAKE_INSTALL_PREFIX@/@SHELL_APP_DIR@/plugins");
+        paths << QString("@CMAKE_INSTALL_PREFIX@/@SHELL_APP_DIR@/modules");
     } else {
-        return QString("@CMAKE_BINARY_DIR@/plugins/");
+        paths << QString("@CMAKE_BINARY_DIR@/plugins");
+        paths << QString("@CMAKE_BINARY_DIR@/modules");
     }
+    return paths;
 }
 
 inline QString fakePluginsImportPath() {

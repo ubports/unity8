@@ -13,6 +13,7 @@
 /usr/share/unity8/Shell.qml
 /usr/share/unity8/SideStage/*
 /usr/share/unity8/graphics/*
+/usr/share/unity8/modules/IndicatorsClient/*
 /usr/share/unity8/plugins/HudClient/*
 /usr/share/unity8/plugins/LightDM/*
 /usr/share/unity8/plugins/Ubuntu/*

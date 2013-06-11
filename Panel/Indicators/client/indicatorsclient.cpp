@@ -26,6 +26,14 @@
 #include <QQmlEngine>
 #include <QDebug>
 
+void prependImportPaths(QQmlEngine *engine, const QStringList &paths)
+{
+    QStringList importPathList = engine->importPathList();
+    for (int i = paths.count()-1; i >= 0; i--)
+        importPathList.prepend(paths[i]);
+    engine->setImportPathList(importPathList);
+}
+
 IndicatorsClient::IndicatorsClient(int &argc, char **argv)
     : QObject(0),
       m_view(0)
@@ -46,7 +54,7 @@ void IndicatorsClient::setupUI()
 {
     m_view = new QQuickView;
     m_view->engine()->setBaseUrl(QUrl::fromLocalFile(::shellAppDirectory()+"Panel/Indicators/client/"));
-    m_view->engine()->addImportPath(::shellImportPath());
+    prependImportPaths(m_view->engine(), ::shellImportPaths());
 
     m_view->setSource(QUrl("IndicatorsClient.qml"));
     m_view->setResizeMode(QQuickView::SizeRootObjectToView);

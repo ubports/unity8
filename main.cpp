@@ -32,13 +32,22 @@
 #include "paths.h"
 
 namespace {
+
+void prependImportPaths(QQmlEngine *engine, const QStringList &paths)
+{
+    QStringList importPathList = engine->importPathList();
+    for (int i = paths.count() -1; i >= 0; i--)
+        importPathList.prepend(paths[i]);
+    engine->setImportPathList(importPathList);
+}
+
 /* When you append and import path to the list of import paths it will be the *last*
    place where Qt will search for QML modules.
    The usual QQmlEngine::addImportPath() actually prepends the given path.*/
-void appendImportPath(QQmlEngine *engine, const QString &path)
+void appendImportPaths(QQmlEngine *engine, const QStringList &paths)
 {
     QStringList importPathList = engine->importPathList();
-    importPathList.append(path);
+    importPathList.append(paths);
     engine->setImportPathList(importPathList);
 }
 
@@ -113,9 +122,9 @@ int main(int argc, char** argv)
     view->setProperty("role", 2); // INDICATOR_ACTOR_ROLE
 
     QUrl source("Shell.qml");
-    view->engine()->addImportPath(::shellAppDirectory());
-    view->engine()->addImportPath(::shellImportPath());
-    appendImportPath(view->engine(), ::fakePluginsImportPath());
+    prependImportPaths(view->engine(), QStringList() << ::shellAppDirectory());
+    prependImportPaths(view->engine(), ::shellImportPaths());
+    appendImportPaths(view->engine(), QStringList() << ::fakePluginsImportPath());
     view->setSource(source);
     view->setColor("transparent");
 

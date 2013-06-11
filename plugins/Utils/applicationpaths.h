@@ -31,7 +31,7 @@ public:
 
     Q_INVOKABLE bool isRunningInstalled() const     { return ::isRunningInstalled(); }
     Q_INVOKABLE QString shellAppDirectory() const   { return ::shellAppDirectory(); }
-    Q_INVOKABLE QString shellImportPath() const     { return ::shellImportPath(); }
+    Q_INVOKABLE QStringList shellImportPaths() const     { return ::shellImportPaths(); }
     Q_INVOKABLE QString fakePluginsImportPath() const { return ::fakePluginsImportPath(); }
     Q_INVOKABLE QStringList shellDataDirs() const   { return ::shellDataDirs(); }
     Q_INVOKABLE QString sourceDirectory() const     { return ::sourceDirectory(); }

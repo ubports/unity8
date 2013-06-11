@@ -1,22 +1,21 @@
 file(GLOB IndicatorsClient_QMLFILES
     *.qml
-    *.js
 )
 
 # copy qmldir file into build directory for shadow builds
 file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
-    DESTINATION ${CMAKE_BINARY_DIR}/plugins/IndicatorsClient/Messaging
+    DESTINATION ${CMAKE_BINARY_DIR}/modules/IndicatorsClient/Network
 )
 
 # copy qmldir file into build directory for shadow builds
 file(COPY ${IndicatorsClient_QMLFILES}
-    DESTINATION ${CMAKE_BINARY_DIR}/plugins/IndicatorsClient/Messaging
+    DESTINATION ${CMAKE_BINARY_DIR}/modules/IndicatorsClient/Network
 )
 
 install(FILES qmldir
-        DESTINATION ${SHELL_APP_DIR}/plugins/IndicatorsClient/Messaging
+        DESTINATION ${SHELL_APP_DIR}/modules/IndicatorsClient/Network
 )
 
 install(FILES ${IndicatorsClient_QMLFILES}
-        DESTINATION ${SHELL_APP_DIR}/plugins/IndicatorsClient/Messaging
+        DESTINATION ${SHELL_APP_DIR}/modules/IndicatorsClient/Network
 )

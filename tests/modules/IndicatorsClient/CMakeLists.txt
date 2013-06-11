@@ -1,7 +1,7 @@
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/IndicatorsClient
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/IndicatorsClient/indicators/common
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../../modules/IndicatorsClient
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../../modules/IndicatorsClient/indicators/common
     )
 
 macro(run_tests)

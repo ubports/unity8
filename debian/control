@@ -56,6 +56,17 @@ Architecture: all
 Description: transitional dummy package
  This is a transitional dummy package. It can safely be removed.
 
+Package: indicators-client
+Architecture: amd64 armhf i386
+Depends: ${shlibs:Depends},
+         ${misc:Depends},
+         qtdeclarative5-ubuntu-ui-toolkit-plugin | qt-components-ubuntu,
+         qmenumodel-qml,
+         unity8 (= ${source:Version}),
+Description: Indicators and system settings client application
+ This package contains the client application for indicators and system
+ settings.
+
 Package: unity8-fake-env
 Replaces: qml-phone-shell-fake-env (<< 7.80~)
 Breaks: qml-phone-shell-fake-env (<< 7.80~)
@@ -75,7 +86,8 @@ Package: unity8-autopilot
 Replaces: qml-phone-shell-autopilot (<< 7.80~)
 Breaks: qml-phone-shell-autopilot (<< 7.80~)
 Architecture: all
-Depends: libautopilot-qt,
+Depends: indicators-client (= ${source:Version}),
+         libautopilot-qt,
          libqt5test5,
          libqt5widgets5,
          python-evdev,

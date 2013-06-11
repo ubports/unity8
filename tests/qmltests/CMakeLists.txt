@@ -5,6 +5,7 @@ add_subdirectory(plugins)
 
 set(qmltest_DEFAULT_IMPORT_PATHS
   ${CMAKE_CURRENT_BINARY_DIR}/plugins
+  ${CMAKE_CURRENT_BINARY_DIR}/modules
   ${CMAKE_BINARY_DIR}/tests/utils/modules
 )
 
