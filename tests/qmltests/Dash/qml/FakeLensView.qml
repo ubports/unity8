@@ -28,21 +28,21 @@ FocusScope {
     signal movementStarted
     signal positionedAtBeginning
 
-    property alias back_color : back.color
+    property alias backColor : back.color
 
     onEndReached: {
-        if (shell != undefined && shell.lens_status != undefined) {
-            shell.lens_status[lens.id].endReached++;
+        if (shell != undefined && shell.lensStatus != undefined) {
+            shell.lensStatus[lens.id].endReached++;
         }
     }
     onMovementStarted: {
-        if (shell != undefined && shell.lens_status != undefined) {
-            shell.lens_status[lens.id].movementStarted++;
+        if (shell != undefined && shell.lensStatus != undefined) {
+            shell.lensStatus[lens.id].movementStarted++;
         }
     }
     onPositionedAtBeginning: {
-        if (shell != undefined && shell.lens_status != undefined) {
-            shell.lens_status[lens.id].positionedAtBeginning++;
+        if (shell != undefined && shell.lensStatus != undefined) {
+            shell.lensStatus[lens.id].positionedAtBeginning++;
         }
     }
 
@@ -54,30 +54,30 @@ FocusScope {
 
     function randomBg()
     {
-    var hex1=new Array("4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F")
-    var bg="#"+hex1[Math.floor(Math.random()*hex1.length)]+
-                hex1[Math.floor(Math.random()*hex1.length)]+
-                hex1[Math.floor(Math.random()*hex1.length)]+
-                hex1[Math.floor(Math.random()*hex1.length)]+
-                hex1[Math.floor(Math.random()*hex1.length)]+
-                hex1[Math.floor(Math.random()*hex1.length)]
-    return bg
+        var hex1=new Array("4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F")
+        var bg="#"+hex1[Math.floor(Math.random()*hex1.length)]+
+                    hex1[Math.floor(Math.random()*hex1.length)]+
+                    hex1[Math.floor(Math.random()*hex1.length)]+
+                    hex1[Math.floor(Math.random()*hex1.length)]+
+                    hex1[Math.floor(Math.random()*hex1.length)]+
+                    hex1[Math.floor(Math.random()*hex1.length)]
+        return bg
     }
 
 
     ListView {
-        id: list_view
+        id: listView
         anchors.fill: parent
         model: lens ? lens.categories : null
         orientation: ListView.Vertical
 
         delegate:  Column {
             id: column
-            width: list_view.width
+            width: listView.width
             height: childrenRect.height
 
             Rectangle {
-                width: list_view.width
+                width: listView.width
                 height: units.gu(3)
                 color: randomBg()
 
@@ -90,17 +90,17 @@ FocusScope {
                 }
             }
             GridView {
-                id: results_grid
+                id: resultsGrid
                 model: results
                 cellWidth: units.gu(10); cellHeight: units.gu(10)
                 height: childrenRect.height
-                width: list_view.width
+                width: listView.width
                 interactive: false
 
                 delegate:  Component {
                     id: resultDelegate
                     Item {
-                        width: results_grid.cellWidth; height: results_grid.cellHeight
+                        width: resultsGrid.cellWidth; height: resultsGrid.cellHeight
                         Column {
                             anchors.verticalCenter: parent.verticalCenter
                             anchors.horizontalCenter: parent.horizontalCenter

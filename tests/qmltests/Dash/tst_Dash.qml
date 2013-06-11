@@ -34,7 +34,7 @@ Item {
     }
 
     LensDelegateMapper {
-        id: lens_delegate_mapper
+        id: lensDelegateMapper
         lensDelegateMapping: {
             "MockLens1": "../tests/qmltests/Dash/qml/fake_lensView1.qml",
             "MockLens2": "../tests/qmltests/Dash/qml/fake_lensView2.qml",
@@ -52,7 +52,7 @@ Item {
 
         Component.onCompleted: {
             var dashContent = findChild(dash, "dashContent");
-            dashContent.lens_mapper = lens_delegate_mapper;
+            dashContent.lensMapper = lensDelegateMapper;
             lenses = dashContent.lenses;
         }
 
@@ -67,11 +67,11 @@ Item {
 
         function get_lens_data() {
             return [
-                        { tag: "MockLens1", visual_index: 0, should_be_visible: true },
-                        { tag: "MockLens2", visual_index: -1, should_be_visible: false },
-                        { tag: "MockLens3", visual_index: 1, should_be_visible: true },
-                        { tag: "MockLens4", visual_index: 2, should_be_visible: true },
-                        { tag: "MockLens5", visual_index: 3, should_be_visible: true },
+                        { tag: "MockLens1", visualIndex: 0, shouldBeVisible: true },
+                        { tag: "MockLens2", visualIndex: -1, shouldBeVisible: false },
+                        { tag: "MockLens3", visualIndex: 1, shouldBeVisible: true },
+                        { tag: "MockLens4", visualIndex: 2, shouldBeVisible: true },
+                        { tag: "MockLens5", visualIndex: 3, shouldBeVisible: true },
             ]
         }
 
@@ -88,9 +88,9 @@ Item {
             var dashContent = findChild(dash, "dashContent");
             var current_index = dashContent.currentIndex;
 
-            dash.setCurrentLens(data.tag, true, false);
-            compare(dashContent.currentIndex, data.should_be_visible ? data.visual_index : current_index);
-            compare(dashbar.currentIndex, data.should_be_visible ? data.visual_index : current_index);
+            dash.setCurrentLens(data.tag, true /* animate */, false /* reset */);
+            compare(dashContent.currentIndex, data.shouldBeVisible ? data.visualIndex : current_index);
+            compare(dashbar.currentIndex, data.shouldBeVisible ? data.visualIndex : current_index);
         }
 
         function test_show_lens_on_load_data() {
@@ -98,7 +98,7 @@ Item {
         }
 
         function test_show_lens_on_load(data) {
-            if (data.should_be_visible == false) {
+            if (data.shouldBeVisible == false) {
                 console.log("Not testing " + data.tag + ": not visible");
                 return;
             }
@@ -106,7 +106,7 @@ Item {
 
             var dashContentList = findChild(dash, "dashContentList");
             verify(dashContentList != undefined);
-            tryCompare(dashContentList, "currentIndex", data.visual_index);
+            tryCompare(dashContentList, "currentIndex", data.visualIndex);
         }
 
         function test_dash_bar_set_index_connection_data() {
@@ -114,7 +114,7 @@ Item {
         }
 
         function test_dash_bar_set_index_connection(data) {
-            if (data.should_be_visible == false) {
+            if (data.shouldBeVisible == false) {
                 console.log("Not testing " + data.tag + ": not visible");
                 return;
             }
@@ -126,8 +126,8 @@ Item {
             var dashContent = findChild(dash, "dashContent");
             var current_index = dashContent.currentIndex;
 
-            dashbar.itemSelected(data.visual_index);
-            compare(dashContent.currentIndex, data.should_be_visible ? data.visual_index : current_index);
+            dashbar.itemSelected(data.visualIndex);
+            compare(dashContent.currentIndex, data.shouldBeVisible ? data.visualIndex : current_index);
         }
     }
 }

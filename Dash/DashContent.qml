@@ -28,7 +28,7 @@ Item {
     property real contentProgress: Math.max(0, Math.min(dashContentList.contentX / (dashContentList.contentWidth - dashContentList.width), units.dp(1)))
     property alias currentIndex: dashContentList.currentIndex
 
-    property LensDelegateMapper lens_mapper : LensDelegateMapper {}
+    property LensDelegateMapper lensMapper : LensDelegateMapper {}
 
     signal movementStarted()
     signal movementEnded()
@@ -115,7 +115,7 @@ Item {
                 width: ListView.view.width
                 height: ListView.view.height
                 asynchronous: true
-                source: lens_mapper.map(lens.id)
+                source: lensMapper.map(lens.id)
                 onLoaded: {
                     item.lens = Qt.binding(function() { return lens })
                     item.isCurrent = Qt.binding(function() { return ListView.isCurrentItem })

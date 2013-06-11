@@ -20,5 +20,5 @@ FakeLensView {
     id: fake_lensView2
     objectName: "fake_lensView2"
 
-    back_color: "#A0A0A0"
+    backColor: "#A0A0A0"
 }
