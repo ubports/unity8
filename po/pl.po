@@ -6,85 +6,84 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-06-08 14:40+0200\n"
-"PO-Revision-Date: 2013-06-08 14:43+0100\n"
-"Last-Translator: Michał Sawicz <michal.sawicz@canonical.com>\n"
+"PO-Revision-Date: 2013-06-05 22:43+0000\n"
+"Last-Translator: Piotr Merski <Unknown>\n"
 "Language-Team: Polish <pl@li.org>\n"
-"Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-06 06:30+0000\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Launchpad-Export-Date: 2013-06-11 06:34+0000\n"
+"X-Generator: Launchpad (build 16667)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
-msgstr "Telefon"
+msgstr ""
 
 #: Applications/applications.js:29
 msgid "Camera"
-msgstr "Aparat"
+msgstr ""
 
 #: Applications/applications.js:35
 msgid "Gallery"
-msgstr "Galeria"
+msgstr ""
 
 #: Applications/applications.js:40
 msgid "Facebook"
-msgstr "Facebook"
+msgstr ""
 
 #: Applications/applications.js:46
 msgid "Browser"
-msgstr "Internet"
+msgstr ""
 
 #: Applications/applications.js:51
 msgid "Twitter"
-msgstr "Twitter"
+msgstr ""
 
 #: Applications/applications.js:57
 msgid "GMail"
-msgstr "GMail"
+msgstr ""
 
 #: Applications/applications.js:62
 msgid "Weather"
-msgstr "Pogoda"
+msgstr ""
 
 #: Applications/applications.js:68
 msgid "Notepad"
-msgstr "Notatki"
+msgstr ""
 
 #: Applications/applications.js:74
 msgid "Calendar"
-msgstr "Kalendarz"
+msgstr ""
 
 #: Applications/applications.js:80
 msgid "Media Player"
-msgstr "Odtwarzacz mediów"
+msgstr ""
 
 #: Applications/applications.js:86
 msgid "Evernote"
-msgstr "Evernote"
+msgstr ""
 
 #: Applications/applications.js:91
 msgid "Map"
-msgstr "Mapa"
+msgstr ""
 
 #: Applications/applications.js:96
 msgid "Pinterest"
-msgstr "Pinterest"
+msgstr ""
 
 #: Applications/applications.js:101
 msgid "SoundCloud"
-msgstr "SoundCloud"
+msgstr ""
 
 #: Applications/applications.js:106
 msgid "Wikipedia"
-msgstr "Wikipedia"
+msgstr ""
 
 #: Applications/applications.js:111
 msgid "YouTube"
-msgstr "YouTube"
+msgstr ""
 
 #: Components/PageHeader.qml:300
 msgid "Recent searches"
@@ -136,19 +135,19 @@ msgstr "Dom"
 
 #: Dash/DashMusic.qml:27 Dash/DashVideos.qml:28
 msgid "Featured"
-msgstr "Polecane"
+msgstr ""
 
 #: Dash/DashMusic.qml:28 Dash/DashVideos.qml:29
 msgid "Recent"
-msgstr "Najnowsze"
+msgstr ""
 
 #: Dash/DashMusic.qml:29 Dash/DashVideos.qml:30
 msgid "New Releases"
-msgstr "Nowości"
+msgstr ""
 
 #: Dash/DashMusic.qml:30
 msgid "Top Charting"
-msgstr "Przeboje"
+msgstr ""
 
 #: Dash/DashMusic.qml:99
 msgid "Music"
@@ -156,19 +155,19 @@ msgstr "Muzyka"
 
 #: Dash/DashPeople.qml:31
 msgid "Favourites"
-msgstr "Ulubione"
+msgstr ""
 
 #: Dash/DashPeople.qml:32
 msgid "Recently in touch"
-msgstr "Ostatnio w kontakcie"
+msgstr ""
 
 #: Dash/DashPeople.qml:33
 msgid "New Contacts"
-msgstr "Nowe kontakty"
+msgstr ""
 
 #: Dash/DashPeople.qml:34
 msgid "A-Z"
-msgstr "A-Z"
+msgstr ""
 
 #: Dash/DashPeople.qml:123
 msgid "People"
@@ -176,7 +175,7 @@ msgstr "Ludzie"
 
 #: Dash/DashVideos.qml:31
 msgid "Popular Online"
-msgstr "Popularne online"
+msgstr ""
 
 #: Dash/DashVideos.qml:155
 msgid "Videos"
@@ -184,15 +183,15 @@ msgstr "Filmy"
 
 #: Dash/Video/VideoPreview.qml:98
 msgid "Directed by:"
-msgstr "Reżyseria:"
+msgstr ""
 
 #: Dash/Video/VideoPreview.qml:121
 msgid "Starring:"
-msgstr "Obsada:"
+msgstr ""
 
 #: Dash/Video/VideoPreview.qml:144
 msgid "Author:"
-msgstr "Autor:"
+msgstr ""
 
 #: Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"

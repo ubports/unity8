@@ -19,6 +19,7 @@ import QtTest 1.0
 import "../../../Components/carousel.js" as Carousel
 
 TestCase {
+    id: root
     name: "Carousel"
 
     property real carouselWidth
@@ -49,9 +50,9 @@ TestCase {
     }
 
     function test_getContinuousIndex(data) {
-        carouselWidth = data.carouselWidth
-        tileWidth = data.tileWidth
-        itemCount = data.itemCount
+        root.carouselWidth = data.carouselWidth
+        root.tileWidth = data.tileWidth
+        root.itemCount = data.itemCount
 
         var index = Carousel.getContinuousIndex(data.x,
                                                 data.tileWidth,
@@ -69,23 +70,23 @@ TestCase {
                   index: 0, carouselWidth:400, tileWidth:100, itemCount:10, drawBuffer:0, result: 0},
                  {tag:"in startup",
                   index: 2, carouselWidth:400, tileWidth:100, itemCount:10, drawBuffer:0, result: 100},
-//                 {tag:"in startup with drawBuffer",
-//                  index: 2, carouselWidth:400, tileWidth:100, itemCount:10, drawBuffer:100, result: 0},
+                 {tag:"in startup with drawBuffer",
+                  index: 2, carouselWidth:400, tileWidth:100, itemCount:10, drawBuffer:100, result: 0},
                  {tag:"in the middle",
                   index: 5, carouselWidth:400, tileWidth:100, itemCount:10, drawBuffer:0, result: 350},
-//                 {tag:"in the middle with drawBuffer",
-//                  index: 5, carouselWidth:400, tileWidth:100, itemCount:10, drawBuffer:100, result: 250},
+                 {tag:"in the middle with drawBuffer",
+                  index: 5, carouselWidth:400, tileWidth:100, itemCount:10, drawBuffer:100, result: 250},
                  {tag:"at end",
                   index: 9, carouselWidth:400, tileWidth:100, itemCount:10, drawBuffer:0, result: 600},
-//                 {tag:"at end with drawBuffer",
-//                  index: 9, carouselWidth:400, tileWidth:100, itemCount:10, drawBuffer:100, result: 500},
+                 {tag:"at end with drawBuffer",
+                  index: 9, carouselWidth:400, tileWidth:100, itemCount:10, drawBuffer:100, result: 500},
                ]
     }
 
     function test_getXFromContinuousIndex(data) {
-        carouselWidth = data.carouselWidth
-        tileWidth = data.tileWidth
-        itemCount = data.itemCount
+        root.carouselWidth = data.carouselWidth
+        root.tileWidth = data.tileWidth
+        root.itemCount = data.itemCount
 
         var x = Carousel.getXFromContinuousIndex(data.index,
                                                  data.carouselWidth,
@@ -113,14 +114,14 @@ TestCase {
     }
 
     function test_getViewTranslation(data) {
-        carouselWidth = data.carouselWidth
-        tileWidth = data.tileWidth
-        itemCount = data.itemCount
+        root.carouselWidth = data.carouselWidth
+        root.tileWidth = data.tileWidth
+        root.itemCount = data.itemCount
 
         var x = Carousel.getViewTranslation(data.x,
                                             data.tileWidth,
-                                            gapToMiddlePhase,
-                                            gapToEndPhase,
+                                            root.gapToMiddlePhase,
+                                            root.gapToEndPhase,
                                             data.translationXViewFactor)
         compare(x, data.result)
     }
@@ -158,30 +159,33 @@ TestCase {
 
     // test for the getItemTranslation() function
     function test_getItemTranslation_data() {
-        return [ // tests if distance only affects the sign
-                 {distance: 1, scale: 0, maxScale: 1, maxTranslation: 10, result: 10},
-//                 {distance: 99, scale: 0, maxScale: 1, maxTranslation: 10, result: 10},
-                 {distance: 0, scale: 0, maxScale: 1, maxTranslation: 10, result: -10},
-                 {distance: -1, scale: 0, maxScale: 1, maxTranslation: 10, result: -10},
+        return [ // tests for index and selectedIndex
+                 {index: 1, selectedIndex: 1, distance: 1, scale: 1, maxScale: 1, maxTranslation: 10, result: 0},
+                 // tests if distance only affects the sign
+                 {index: 1, selectedIndex: 2, distance: 1, scale: 0, maxScale: 1, maxTranslation: 10, result: 10},
+                 {index: 1, selectedIndex: 2, distance: 99, scale: 0, maxScale: 1, maxTranslation: 10, result: 10},
+                 {index: 1, selectedIndex: 2, distance: -1, scale: 0, maxScale: 1, maxTranslation: 10, result: -10},
+                 {index: 1, selectedIndex: 2, distance: -99, scale: 0, maxScale: 1, maxTranslation: 10, result: -10},
                  // tests for the scale
-                 {distance: 1, scale: 1, maxScale: 1, maxTranslation: 10, result: 0},
-                 {distance: 1, scale: 0, maxScale: 1, maxTranslation: 10, result: 10},
-                 {distance: 1, scale: 0.5, maxScale: 1, maxTranslation: 10, result: 5},
+                 {index: 1, selectedIndex: 2, distance: 1, scale: 1, maxScale: 1, maxTranslation: 10, result: 0},
+                 {index: 1, selectedIndex: 2, distance: 1, scale: 0, maxScale: 1, maxTranslation: 10, result: 10},
+                 {index: 1, selectedIndex: 2, distance: 1, scale: 0.5, maxScale: 1, maxTranslation: 10, result: 5},
                  // tests for maxScale
-                 {distance: 1, scale: 1, maxScale: 1, maxTranslation: 10, result: 0},
-                 {distance: 1, scale: 1, maxScale: 2, maxTranslation: 10, result: 10},
-//                 {distance: 1, scale: 1, maxScale: 0, maxTranslation: 10, result: 0},
-//                 {distance: 1, scale: 1, maxScale: 99, maxTranslation: 10, result: 10},
+                 {index: 1, selectedIndex: 2, distance: 1, scale: 0, maxScale: 0.98, maxTranslation: 10, result: 9.8},
+                 {index: 1, selectedIndex: 2, distance: 1, scale: 0.5, maxScale: 0.95, maxTranslation: 10, result: 4.5},
+                 {index: 1, selectedIndex: 2, distance: 1, scale: 0.8, maxScale: 0.93, maxTranslation: 10, result: 1.3},
                  // test for maxTranslation
-                 {distance: 1, scale: 1, maxScale: 1, maxTranslation: 1, result: 0},
-                 {distance: 1, scale: 0, maxScale: 1, maxTranslation: 1, result: 1},
-                 {distance: 1, scale: 0, maxScale: 1, maxTranslation: 10, result: 10},
-                 {distance: 1, scale: 0, maxScale: 1, maxTranslation: 0, result: 0},
+                 {index: 1, selectedIndex: 2, distance: 1, scale: 1, maxScale: 1, maxTranslation: 1, result: 0},
+                 {index: 1, selectedIndex: 2, distance: 1, scale: 0, maxScale: 1, maxTranslation: 1, result: 1},
+                 {index: 1, selectedIndex: 2, distance: 1, scale: 0, maxScale: 1, maxTranslation: 10, result: 10},
+                 {index: 1, selectedIndex: 2, distance: 1, scale: 0, maxScale: 1, maxTranslation: 0, result: 0},
                ]
     }
 
     function test_getItemTranslation(data) {
-        var scale = Carousel.getItemTranslation(data.distance,
+        var scale = Carousel.getItemTranslation(data.index,
+                                                data.selectedIndex,
+                                                data.distance,
                                                 data.scale,
                                                 data.maxScale,
                                                 data.maxTranslation)
