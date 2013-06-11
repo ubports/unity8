@@ -367,21 +367,27 @@ FocusScope {
         onUnlocked: lockscreen.hide()
         onCancel: greeter.show()
 
-        Component.onCompleted: LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole))
+        Component.onCompleted: {
+            if (LightDM.Users.count == 1) {
+                LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole))
+            }
+        }
     }
 
     Connections {
         target: LightDM.Greeter
 
         onShowPrompt: {
-            // TODO: There's no better way for now to determine if its a PIN or a passphrase.
-            if (text == "PIN") {
-                lockscreen.alphaNumeric = false
-            } else {
-                lockscreen.alphaNumeric = true
+            if (LightDM.Users.count == 1) {
+                // TODO: There's no better way for now to determine if its a PIN or a passphrase.
+                if (text == "PIN") {
+                    lockscreen.alphaNumeric = false
+                } else {
+                    lockscreen.alphaNumeric = true
+                }
+                lockscreen.placeholderText = i18n.tr("Please enter %1:").arg(text);
+                lockscreen.show();
             }
-            lockscreen.placeholderText = i18n.tr("Please enter %1:").arg(text);
-            lockscreen.show();
         }
     }
 
