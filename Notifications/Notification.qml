@@ -16,6 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Notification 0.1
 
 UbuntuShape {
     id: notification
@@ -26,6 +27,9 @@ UbuntuShape {
     property alias summary: summaryLabel.text
     property alias body: bodyLabel.text
     property var actions
+    property var notificationId
+    property var type
+    property var notification
 
     signal actionInvoked(string buttonId)
 
@@ -36,10 +40,15 @@ UbuntuShape {
     MouseArea {
         id: interactiveArea
 
+        Repeater {
+            id: actionRepeater
+            model: actions
+        }
+
         anchors.fill: contentColumn
         objectName: "interactiveArea"
-        enabled: notification.type == "Notifications.Type.Interactive"
-        onClicked: notification.actionInvoked(actions.get(0).id)
+        enabled: notification.type == Notification.Interactive
+        onClicked: notificationRenderer.model.triggerAction(notificationId, actionRepeater.model.actionId(0))
     }
 
     Column {
@@ -130,7 +139,7 @@ UbuntuShape {
             objectName: "buttonRow"
             spacing: contentColumn.spacing
             layoutDirection: Qt.RightToLeft
-            visible: notification.type == "Notifications.Type.SnapDecision"
+            visible: notification.type == Notification.SnapDecision
             anchors {
                 left: parent.left
                 right: parent.right
@@ -145,7 +154,7 @@ UbuntuShape {
                     width: (buttonRow.width - buttonRow.spacing) / 2
                     height: units.gu(4)
                     text: label
-                    onClicked: notification.actionInvoked(id)
+                    onClicked: notificationRenderer.model.triggerAction(notificationId, id)
                 }
             }
         }

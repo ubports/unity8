@@ -38,6 +38,8 @@ ListView {
         summary: model.summary
         body: model.body
         actions: model.actions
+        notificationId: model.id
+        notification: model.notification
     }
 
     populate: Transition {
