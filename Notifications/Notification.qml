@@ -16,12 +16,11 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import Notification 0.1
+import NotificationsBackend 1.0
 
 UbuntuShape {
     id: notification
 
-    property string type
     property alias iconSource: avatarIcon.source
     property alias secondaryIconSource: secondaryIcon.source
     property alias summary: summaryLabel.text
