@@ -90,7 +90,9 @@ class UBUNTUGESTURES_EXPORT DirectionalDragArea : public QQuickItem {
     Q_PROPERTY(qreal distanceThreshold READ distanceThreshold WRITE setDistanceThreshold
                NOTIFY distanceThresholdChanged)
 
-    // In units per second
+    // Minimum speed a gesture needs to have in order to be recognized as a
+    // directional drag.
+    // In pixels per second
     Q_PROPERTY(qreal minSpeed READ minSpeed WRITE setMinSpeed NOTIFY minSpeedChanged)
 
     // A gesture will be rejected if more than maxSilenceTime milliseconds has
