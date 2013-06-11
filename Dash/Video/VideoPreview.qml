@@ -95,7 +95,7 @@ DashPreview {
                 color: "white"
                 horizontalAlignment: Text.AlignRight
                 width: parent.firstColWidth
-                text: "Directed by:"
+                text: i18n.tr("Directed by:")
                 style: Text.Raised
                 styleColor: "black"
             }
@@ -118,7 +118,7 @@ DashPreview {
                 horizontalAlignment: Text.AlignRight
                 color: "white"
                 width: parent.firstColWidth
-                text: "Starring:"
+                text: i18n.tr("Starring:")
                 style: Text.Raised
                 styleColor: "black"
             }
@@ -141,7 +141,7 @@ DashPreview {
                 horizontalAlignment: Text.AlignRight
                 color: "white"
                 width: parent.firstColWidth
-                text: "Author:"
+                text: i18n.tr("Author:")
                 style: Text.Raised
                 styleColor: "black"
             }
