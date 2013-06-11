@@ -27,7 +27,7 @@ Item {
     height: units.gu(80)
 
     Lenses {
-        id: lenses
+        id: scopes
     }
 
     GenericLensView {
@@ -36,10 +36,10 @@ Item {
 
         UT.UnityTestCase {
             name: "GenericLensView"
-            when: lenses.loaded
+            when: scopes.loaded
 
             function init() {
-                genericLensView.lens = lenses.get(0)
+                genericLensView.lens = scopes.get(0)
             }
 
             function test_isCurrent() {

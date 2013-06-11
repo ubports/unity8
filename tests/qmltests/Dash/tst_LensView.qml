@@ -26,7 +26,7 @@ Item {
     height: units.gu(80)
 
     Lenses {
-        id: lenses
+        id: scopes
     }
 
     LensView {
@@ -35,7 +35,7 @@ Item {
 
         TestCase {
             name: "LensView"
-            when: lenses.loaded
+            when: scopes.loaded
 
             function init() {
                 lensView.lens = lenses.get(0)

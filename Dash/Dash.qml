@@ -49,7 +49,7 @@ Showable {
     SortFilterProxyModel {
         id: filteredLenses
         model: Scopes {
-            id: lenses
+            id: scopes
         }
         dynamicSortFilter: true
 
@@ -61,7 +61,7 @@ Showable {
         id: dashContent
         anchors.fill: parent
         model: filteredLenses
-        lenses: lenses
+        scopes: scopes
         onMovementStarted: dashbar.startNavigation()
         onMovementEnded: dashbar.stopNavigation()
         onContentFlickStarted: dashbar.finishNavigation()

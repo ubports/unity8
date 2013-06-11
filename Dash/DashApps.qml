@@ -86,7 +86,7 @@ LensView {
         dynamicSortFilter: true
         filterRole: 2 // this is the category id for each result
         filterRegExp: /^3$/ // only proxy items that are category 3 - Installed
-        model: dashContent.lenses.get("applications.lens").results
+        model: dashContent.scopes.get("applications.scope").results
     }
 
     property var categoryModels: {

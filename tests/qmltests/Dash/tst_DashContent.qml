@@ -45,7 +45,7 @@ Item {
         anchors.fill: parent
 
         model: lensesModel
-        lenses : lensesModel
+        scopes : lensesModel
 
         lensDelegateMapping: { "MockLens3" : "../tests/qmltests/Dash/qml/fake_lensView3.qml",
                                "MockLens2" : "../tests/qmltests/Dash/qml/fake_lensView2.qml",

@@ -109,6 +109,11 @@ void Scopes::onScopeAdded(const unity::dash::Scope::Ptr& scope, int position)
     Q_EMIT loadedChanged(m_loaded);
 }
 
+void Scopes::onScopesLoaded()
+{
+    qWarning() << "Scopes Loaded!!!";
+}
+
 void Scopes::onScopeRemoved(const unity::dash::Scope::Ptr& scope)
 {
     //TODO
@@ -127,6 +132,7 @@ void Scopes::onScopePropertyChanged()
 
 void Scopes::addUnityScope(const unity::dash::Scope::Ptr& unity_scope)
 {
+    qDebug() << "Scope added:" << QString::fromStdString(unity_scope->id);
     Scope* scope = new Scope(this);
     scope->setUnityScope(unity_scope);
     /* DOCME */

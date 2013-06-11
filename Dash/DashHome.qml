@@ -34,19 +34,11 @@ LensView {
         id: categoryListModel
         // specifies page's content categories, type of delegate and model used in each category
         ListElement { category: "Frequent Apps";         component: "AppsGrid";       modelName: "AppsModel" }
-        ListElement { category: "Favourite People";      component: "PeopleCarousel"; modelName: "FavouriteModel" }
-        ListElement { category: "People Recently in Touch"; component: "PeopleGrid";  modelName: "RecentModel" }
         ListElement { category: "Recent Music";          component: "MusicGrid";      modelName: "MusicModel" }
         ListElement { category: "Videos Popular Online"; component: "VideosGrid";     modelName: "VideosModel" }
         function getCategory(category1) {
             if (category1 === "Frequent Apps") {
                 return i18n.tr("Frequent Apps");
-            }
-            if (category1 === "Favourite People") {
-                return i18n.tr("Favourite People");
-            }
-            if (category1 === "People Recently in Touch") {
-                return i18n.tr("People Recently in Touch");
             }
             if (category1 === "Recent Music") {
                 return i18n.tr("Recent Music");
@@ -90,33 +82,24 @@ LensView {
     }
 
     Component.onCompleted: {
-        var lens = dashContent.lenses.get("people.lens")
-        if (lens) {
-            favouritesFilter.model = dashContent.lenses.get("people.lens").results
-            recentFilter.model = dashContent.lenses.get("people.lens").results
+        var scope = dashContent.scopes.get("mockmusic.scope")
+        if (scope) {
+            musicFilter.model = dashContent.scopes.get("mockmusic.scope").results
         }
-        lens = dashContent.lenses.get("mockmusic.lens")
-        if (lens) {
-            musicFilter.model = dashContent.lenses.get("mockmusic.lens").results
-        }
-        lens = dashContent.lenses.get("mockvideos.lens")
-        if (lens) {
-            videosFilter.model = dashContent.lenses.get("mockvideos.lens").results
+        scope = dashContent.scopes.get("mockvideos.scope")
+        if (scope) {
+            videosFilter.model = dashContent.scopes.get("mockvideos.scope").results
         }
     }
 
     Connections {
         target: dashContent
         onLensLoaded: switch (lensId) {
-            case "people.lens":
-                favouritesFilter.model = dashContent.lenses.get("people.lens").results
-                recentFilter.model = dashContent.lenses.get("people.lens").results
+            case "mockmusic.scope":
+                musicFilter.model = dashContent.scopes.get("mockmusic.scope").results
                 break;
-            case "mockmusic.lens":
-                musicFilter.model = dashContent.lenses.get("mockmusic.lens").results
-                break;
-            case "mockvideos.lens":
-                videosFilter.model = dashContent.lenses.get("mockvideos.lens").results
+            case "mockvideos.scope":
+                videosFilter.model = dashContent.scopes.get("mockvideos.scope").results
                 break;
         }
     }

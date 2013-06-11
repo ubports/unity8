@@ -24,7 +24,7 @@ Item {
     height: units.gu(71)
 
     property var model: null
-    property var lenses: null
+    property var scopes: null
     property real contentProgress: Math.max(0, Math.min(dashContentList.contentX / (dashContentList.contentWidth - dashContentList.width), units.dp(1)))
     property alias currentIndex: dashContentList.currentIndex
 
@@ -36,13 +36,13 @@ Item {
     signal lensLoaded(string lensId)
     signal positionedAtBeginning()
 
-    // If we set the current lens index before the lenses have been added,
-    // then we need to wait until the loaded signals gets emitted from the lenses
+    // If we set the current lens index before the scopes have been added,
+    // then we need to wait until the loaded signals gets emitted from the scopes
     property var set_current_index: undefined
     Connections {
-        target: lenses
+        target: scopes
         onLoadedChanged: {
-            if (lenses.loaded && set_current_index != undefined) {
+            if (scopes.loaded && set_current_index != undefined) {
                 setCurrentLensAtIndex(set_current_index[0], set_current_index[1], set_current_index[2]);
                 set_current_index = undefined;
             }
@@ -57,8 +57,8 @@ Item {
             dashContentList.highlightMoveDuration = 0
         }
 
-        // if the lenses haven't loaded yet, then wait until they are.
-        if (!lenses.loaded) {
+        // if the scopes haven't loaded yet, then wait until they are.
+        if (!scopes.loaded) {
             set_current_index = [ index, animate, reset ]
             return;
         }
@@ -79,12 +79,10 @@ Item {
         }
     }
 
-    /* FIXME: applications.lens and home.lens are effectively disabled for now */
     property var lensDelegateMapping: {"mockmusic.scope": "DashMusic.qml",
-                                       "applications.lens": "DashApps.qml",
-                                       "home.lens": "DashHome.qml",
+                                       "applications.scope": "DashApps.qml",
+                                       "home.scope": "DashHome.qml",
                                        "mockvideos.scope": "DashVideos.qml",
-                                       "people.lens": "DashPeople.qml",
                                       }
     property string genericLens: "GenericLensView.qml"
 
@@ -92,7 +90,7 @@ Item {
         id: dashContentList
         objectName: "dashContentList"
 
-        interactive: dashContent.lenses.loaded
+        interactive: dashContent.scopes.loaded
 
         anchors.fill: parent
         model: dashContent.model
