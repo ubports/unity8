@@ -37,7 +37,6 @@ class Categories;
 class Scope : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(ViewType)
 
     Q_PROPERTY(QString id READ id NOTIFY idChanged)
     Q_PROPERTY(QString name READ name NOTIFY nameChanged)
@@ -49,19 +48,12 @@ class Scope : public QObject
     Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
     Q_PROPERTY(DeeListModel* results READ results NOTIFY resultsChanged)
     Q_PROPERTY(Categories* categories READ categories NOTIFY categoriesChanged)
-    Q_PROPERTY(ViewType viewType READ viewType WRITE setViewType NOTIFY viewTypeChanged)
 
     Q_PROPERTY(QString searchQuery READ searchQuery WRITE setSearchQuery NOTIFY searchQueryChanged)
     Q_PROPERTY(QString noResultsHint READ noResultsHint WRITE setNoResultsHint NOTIFY noResultsHintChanged)
 
 public:
     explicit Scope(QObject *parent = 0);
-
-    enum ViewType {
-        Hidden,
-        HomeView,
-        ScopeView
-    };
 
     /* getters */
     QString id() const;
@@ -75,12 +67,10 @@ public:
     DeeListModel* results() const;
     DeeListModel* globalResults() const;
     Categories* categories() const;
-    ViewType viewType() const;
     QString searchQuery() const;
     QString noResultsHint() const;
 
     /* setters */
-    void setViewType(const ViewType& viewType);
     void setSearchQuery(const QString& search_query);
     void setNoResultsHint(const QString& hint);
 
@@ -101,7 +91,6 @@ Q_SIGNALS:
     void connectedChanged(bool);
     void resultsChanged();
     void categoriesChanged();
-    void viewTypeChanged(ViewType);
     void searchFinished(const std::string&, unity::glib::HintsMap const&, unity::glib::Error const&);
     void searchQueryChanged();
     void noResultsHintChanged();
@@ -117,7 +106,6 @@ private:
     void onCategoriesSwarmNameChanged(const std::string&);
     void onCategoriesModelChanged(unity::glib::Object<DeeModel>);
     void onCategoriesChanged(const unity::dash::Categories::Ptr&);
-    void onViewTypeChanged(unity::dash::ScopeViewType);
 
     void onActivated(unity::dash::LocalResult const& result, unity::dash::ScopeHandledType type, unity::glib::HintsMap const&);
     void fallbackActivate(const QString& uri);

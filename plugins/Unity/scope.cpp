@@ -87,11 +87,6 @@ Categories* Scope::categories() const
     return m_categories;
 }
 
-Scope::ViewType Scope::viewType() const
-{
-    return (Scope::ViewType) m_unityScope->view_type();
-}
-
 QString Scope::searchQuery() const
 {
     return m_searchQuery;
@@ -100,11 +95,6 @@ QString Scope::searchQuery() const
 QString Scope::noResultsHint() const
 {
     return m_noResultsHint;
-}
-
-void Scope::setViewType(const Scope::ViewType& viewType)
-{
-    m_unityScope->view_type = (unity::dash::ScopeViewType) viewType;
 }
 
 void Scope::setSearchQuery(const QString& search_query)
@@ -205,8 +195,6 @@ void Scope::setUnityScope(const unity::dash::Scope::Ptr& scope)
     m_unityScope->categories()->model.changed.connect(sigc::mem_fun(this, &Scope::onCategoriesModelChanged));
     m_unityScope->categories.changed.connect(sigc::mem_fun(this, &Scope::onCategoriesChanged));
     m_unityScope->categories()->swarm_name.changed.connect(sigc::mem_fun(this, &Scope::onCategoriesSwarmNameChanged));
-    m_unityScope->view_type.changed.connect(sigc::mem_fun(this, &Scope::onViewTypeChanged));
-
     /* Signals forwarding */
     connect(this, SIGNAL(searchFinished(const std::string &, unity::glib::HintsMap const &, unity::glib::Error const &)), SLOT(onSearchFinished(const std::string &, unity::glib::HintsMap const &)));
 
@@ -263,11 +251,6 @@ void Scope::onCategoriesChanged(const unity::dash::Categories::Ptr& /* categorie
 void Scope::onCategoriesModelChanged(unity::glib::Object<DeeModel> model)
 {
     m_categories->setModel(model);
-}
-
-void Scope::onViewTypeChanged(unity::dash::ScopeViewType viewType)
-{
-    Q_EMIT viewTypeChanged( (Scope::ViewType) viewType);
 }
 
 void Scope::onSearchFinished(const std::string &query, unity::glib::HintsMap const &hints)
