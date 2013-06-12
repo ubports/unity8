@@ -7,6 +7,8 @@
 add_subdirectory(demo)
 add_subdirectory(full)
 add_subdirectory(single)
+add_subdirectory(single-pin)
+add_subdirectory(single-passphrase)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}

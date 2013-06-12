@@ -47,3 +47,15 @@ class MainWindow(object):
 
     def get_launcher(self):
         return self.app.select_single("Launcher")
+
+    def get_pinPadLoader(self):
+        return self.app.select_single("QQuickLoader", objectName="pinPadLoader")
+
+    def get_pinPadButton(self, buttonId):
+        return self.app.select_single("PinPadButton", objectName="pinPadButton%i" % buttonId)
+
+    def get_lockscreen(self):
+        return self.app.select_single("Lockscreen")
+
+    def get_pinentryField(self):
+        return self.app.select_single("TextField", objectName="pinentryField")
