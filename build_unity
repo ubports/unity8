@@ -9,7 +9,7 @@ NUM_JOBS=$(( `grep -c ^processor /proc/cpuinfo` + 1 ))
 LENSES="applications mockmusic mockvideos"
 
 # verified working revisions
-LIBUNITY_REV=219
+LIBUNITY_REV=228
 UNITY_REV=3343
 HUD_REV=252
 
