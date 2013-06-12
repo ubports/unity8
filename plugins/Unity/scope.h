@@ -65,7 +65,6 @@ public:
     QString shortcut() const;
     bool connected() const;
     DeeListModel* results() const;
-    DeeListModel* globalResults() const;
     Categories* categories() const;
     QString searchQuery() const;
     QString noResultsHint() const;
