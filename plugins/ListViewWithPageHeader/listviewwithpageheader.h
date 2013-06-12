@@ -33,6 +33,7 @@ class ListViewWithPageHeader : public QQuickFlickable, public QQuickItemChangeLi
     Q_PROPERTY(QQuickItem *pageHeader READ header WRITE setHeader NOTIFY headerChanged)
     Q_PROPERTY(QQmlComponent *sectionDelegate READ sectionDelegate WRITE setSectionDelegate NOTIFY sectionDelegateChanged)
     Q_PROPERTY(QString sectionProperty READ sectionProperty WRITE setSectionProperty NOTIFY sectionPropertyChanged)
+    Q_PROPERTY(bool forceNoClip READ forceNoClip WRITE setForceNoClip NOTIFY forceNoClipChanged)
 
     friend class ListViewWithPageHeaderTest;
 
@@ -55,6 +56,9 @@ public:
     QString sectionProperty() const;
     void setSectionProperty(const QString &property);
 
+    bool forceNoClip() const;
+    void setForceNoClip(bool noClip);
+
     Q_INVOKABLE void positionAtBeginning();
     Q_INVOKABLE void showHeader();
 
@@ -64,6 +68,7 @@ Q_SIGNALS:
     void headerChanged();
     void sectionDelegateChanged();
     void sectionPropertyChanged();
+    void forceNoClipChanged();
 
 protected:
     void componentComplete();
@@ -140,6 +145,8 @@ private:
     QQmlComponent *m_sectionDelegate;
     QString m_sectionProperty;
     QQuickItem *m_topSectionItem;
+
+    bool m_forceNoClip;
 };
 
 

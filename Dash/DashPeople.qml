@@ -93,7 +93,7 @@ LensView {
         model: lensView.categories
         onAtYEndChanged: if (atYEnd) endReached()
         onMovingChanged: if (moving && atYEnd) endReached()
-        // clipListView: !previewLoader.onScreen
+        forceNoClip: previewLoader.onScreen
 
         delegate: ListItems.Base {
             id: base

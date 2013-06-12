@@ -68,6 +68,7 @@ ListViewWithPageHeader::ListViewWithPageHeader()
  , m_headerItemShownHeight(0)
  , m_sectionDelegate(nullptr)
  , m_topSectionItem(nullptr)
+ , m_forceNoClip(false)
 {
     m_clipItem = new QQuickItem(contentItem());
 //     m_clipItem = new QQuickRectangle(contentItem());
@@ -207,6 +208,20 @@ void ListViewWithPageHeader::setSectionProperty(const QString &property)
         // TODO recreate sections
 
         Q_EMIT sectionPropertyChanged();
+    }
+}
+
+bool ListViewWithPageHeader::forceNoClip() const
+{
+    return m_forceNoClip;
+}
+
+void ListViewWithPageHeader::setForceNoClip(bool noClip)
+{
+    if (noClip != m_forceNoClip) {
+        m_forceNoClip = noClip;
+        updateClipItem();
+        Q_EMIT forceNoClipChanged();
     }
 }
 
@@ -550,7 +565,7 @@ void ListViewWithPageHeader::updateClipItem()
 {
     m_clipItem->setHeight(height() - m_headerItemShownHeight);
     m_clipItem->setY(contentY() + m_headerItemShownHeight);
-    m_clipItem->setClip(m_headerItemShownHeight > 0);
+    m_clipItem->setClip(!m_forceNoClip && m_headerItemShownHeight > 0);
 }
 
 void ListViewWithPageHeader::onContentHeightChanged()

@@ -102,7 +102,7 @@ LensView {
         id: categoryView
         anchors.fill: parent
         model: lensView.categories
-//         clipListView: !previewLoader.onScreen
+        forceNoClip: previewLoader.onScreen
 
         onAtYEndChanged: if (atYEnd) endReached()
         onMovingChanged: if (moving && atYEnd) endReached()
