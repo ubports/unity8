@@ -16,7 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import NotificationsBackend 1.0
+import Unity.Notifications 1.0
 
 UbuntuShape {
     id: notification
@@ -28,7 +28,7 @@ UbuntuShape {
     property var actions
     property var notificationId
     property var type
-    property var notification
+    property var notificationobj
 
     signal actionInvoked(string buttonId)
 
@@ -47,7 +47,7 @@ UbuntuShape {
         anchors.fill: contentColumn
         objectName: "interactiveArea"
         enabled: notification.type == Notification.Interactive
-        onClicked: notificationRenderer.model.triggerAction(notificationId, actionRepeater.model.actionId(0))
+        onClicked: notification.notificationobj.invokeAction(actionRepeater.model.actionId(0))
     }
 
     Column {
@@ -153,7 +153,7 @@ UbuntuShape {
                     width: (buttonRow.width - buttonRow.spacing) / 2
                     height: units.gu(4)
                     text: label
-                    onClicked: notificationRenderer.model.triggerAction(notificationId, id)
+                    onClicked: notification.notificationobj.invokeAction(id)
                 }
             }
         }

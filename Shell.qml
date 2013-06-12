@@ -28,7 +28,7 @@ import "Components/Math.js" as MathLocal
 import "Bottombar"
 import "SideStage"
 import "Notifications"
-import NotificationsBackend 1.0
+import Unity.Notifications 1.0
 
 FocusScope {
     id: shell
