@@ -40,9 +40,9 @@ import os
 from os import path
 
 
-class TestShell(ShellTestCase, TestShellHelpers):
+class TestLockscreens(ShellTestCase, TestShellHelpers):
 
-    """Tests the Shell"""
+    """Tests the Lockscreens"""
 
     # Scenarios:
     # Fill in the scenarios to run the whole test suite with multiple configurations.
@@ -68,14 +68,14 @@ class TestShell(ShellTestCase, TestShellHelpers):
         divisor = 1
         while (sg.get_screen_width() < self.app_width / divisor or sg.get_screen_height() < self.app_height / divisor):
             divisor = divisor * 2
-        super(TestShell, self).setUp("%sx%s" % (self.app_width / divisor, self.app_height / divisor), "%s" % (self.grid_unit_px / divisor))
+        super(TestLockscreens, self).setUp("%sx%s" % (self.app_width / divisor, self.app_height / divisor), "%s" % (self.grid_unit_px / divisor))
 
         dash = self.main_window.get_dash()
         self.assertThat(dash.showLensOnLoaded, Eventually(Equals(""), timeout=30))
 
     def test_unlock(self):
         self.unlock_greeter()
-        
+
         pinPadLoader = self.main_window.get_pinPadLoader();
         self.assertThat(pinPadLoader.progress, Eventually(Equals(1)))
         lockscreen = self.main_window.get_lockscreen();
@@ -95,7 +95,7 @@ class TestShell(ShellTestCase, TestShellHelpers):
 
     def test_unlock_wrong(self):
         self.unlock_greeter()
-        
+
         pinPadLoader = self.main_window.get_pinPadLoader();
         self.assertThat(pinPadLoader.progress, Eventually(Equals(1)))
         lockscreen = self.main_window.get_lockscreen();
