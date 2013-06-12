@@ -120,7 +120,10 @@ void Scope::setNoResultsHint(const QString& hint) {
 
 void Scope::activate(const QString& uri)
 {
-//    m_unityScope->Activate(QByteArray::fromPercentEncoding(uri.toUtf8()).constData()); TODO needs model row
+    // TODO:
+    // we need to create unity::dash::LocalResult (see UnityCore/Result.h) and pass it to Activate;
+    // this requires entire row from the model, so we need row index rather than uri.
+    // m_unityScope->Activate(QByteArray::fromPercentEncoding(uri.toUtf8()).constData());
 }
 
 void Scope::onActivated(unity::dash::LocalResult const& result, unity::dash::ScopeHandledType type, unity::glib::HintsMap const&)
