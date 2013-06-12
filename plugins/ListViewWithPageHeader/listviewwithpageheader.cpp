@@ -22,6 +22,7 @@
 #include <private/qquickvisualdatamodel_p.h>
 #include <private/qqmlglobal_p.h>
 #include <private/qquickitem_p.h>
+#include <private/qquickanimation_p.h>
 // #include <private/qquickrectangle_p.h>
 
 qreal ListViewWithPageHeader::ListItem::height() const
@@ -72,6 +73,12 @@ ListViewWithPageHeader::ListViewWithPageHeader()
 //     m_clipItem = new QQuickRectangle(contentItem());
 //     ((QQuickRectangle*)m_clipItem)->setColor(Qt::gray);
 
+    m_headerShowAnimation = new QQuickNumberAnimation(this);
+    m_headerShowAnimation->setEasing(QEasingCurve::OutQuad);
+    m_headerShowAnimation->setProperty("contentY");
+    m_headerShowAnimation->setDuration(200);
+    m_headerShowAnimation->setTargetObject(this);
+
     connect(this, SIGNAL(contentWidthChanged()), this, SLOT(onContentWidthChanged()));
     connect(this, SIGNAL(contentHeightChanged()), this, SLOT(onContentHeightChanged()));
 }
@@ -119,7 +126,7 @@ void ListViewWithPageHeader::setDelegate(QQmlComponent *delegate)
             releaseItem(item);
         m_visibleItems.clear();
         m_firstVisibleIndex = -1;
-        QQuickFlickable::setContentY(0);
+        setContentY(0);
         m_clipItem->setY(0);
 
         m_delegateModel->setDelegate(delegate);
@@ -232,12 +239,16 @@ void ListViewWithPageHeader::positionAtBeginning()
 
         m_previousContentY = m_visibleItems.first()->y() - headerHeight;
     }
-    QQuickFlickable::setContentY(m_visibleItems.first()->y() + m_clipItem->y() - headerHeight);
+    setContentY(m_visibleItems.first()->y() + m_clipItem->y() - headerHeight);
 }
 
 void ListViewWithPageHeader::showHeader()
 {
-    // TODO
+    auto to = qMax(-minYExtent(), contentY() - m_headerItem->height() + m_headerItemShownHeight);
+    if (to != contentY()) {
+        m_headerShowAnimation->setTo(to);
+        m_headerShowAnimation->start();
+    }
 }
 
 qreal ListViewWithPageHeader::minYExtent() const
@@ -303,11 +314,6 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
 
     m_previousContentY = contentY();
     polish();
-}
-
-void ListViewWithPageHeader::setContentY(qreal /*pos*/)
-{
-    qWarning() << "ListViewWithPageHeader::setContentY unsupported feature";
 }
 
 void ListViewWithPageHeader::createDelegateModel()
@@ -449,6 +455,8 @@ QQuickItem *ListViewWithPageHeader::getSectionItem(const QString &sectionText)
         delete context;
     }
     m_sectionDelegate->completeCreate();
+
+    // TODO attach to sectionItem so we can accomodate to it changing its height
 
     return sectionItem;
 }
