@@ -54,7 +54,7 @@ FilterGrid {
             // - FilterGrid is "height: childrenRect.height" so all delegates are always loaded
             // TODO: Optimize this by:
             // - not loading all delegates all the time and remove layer.enabled and/or
-            // - destroy whole lens when not visible/needed to free the GPU memory
+            // - destroy whole scope when not visible/needed to free the GPU memory
             layer.enabled: true
 
             dataModel: data

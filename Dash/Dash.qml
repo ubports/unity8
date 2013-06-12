@@ -24,30 +24,30 @@ Showable {
     id: dash
 
     property alias contentProgress: dashContent.contentProgress
-    property string showLensOnLoaded: "home.scope"
+    property string showScopeOnLoaded: "home.scope"
     property real contentScale: 1.0
 
     width: units.gu(40)
     height: units.gu(71)
 
-    function setCurrentLens(lensId, animate, reset) {
-        var lensIndex = filteredLenses.findFirst(Scopes.RoleId, lensId)
+    function setCurrentScope(scopeId, animate, reset) {
+        var scopeIndex = filteredScopes.findFirst(Scopes.RoleId, scopeId)
 
-        if (lensIndex == -1) {
-            console.warn("No match for lens with id: %1".arg(lensId))
+        if (scopeIndex == -1) {
+            console.warn("No match for scope with id: %1".arg(scopeId))
             return
         }
 
-        if (lensIndex == dashContent.currentIndex && !reset) {
-            // the lens is already the current one
+        if (scopeIndex == dashContent.currentIndex && !reset) {
+            // the scope is already the current one
             return
         }
 
-        dashContent.setCurrentLensAtIndex(lensIndex, animate, reset)
+        dashContent.setCurrentScopeAtIndex(scopeIndex, animate, reset)
     }
 
     SortFilterProxyModel {
-        id: filteredLenses
+        id: filteredScopes
         model: Scopes {
             id: scopes
         }
@@ -60,17 +60,17 @@ Showable {
     DashContent {
         id: dashContent
         anchors.fill: parent
-        model: filteredLenses
+        model: filteredScopes
         scopes: scopes
         onMovementStarted: dashbar.startNavigation()
         onMovementEnded: dashbar.stopNavigation()
         onContentFlickStarted: dashbar.finishNavigation()
         onContentEndReached: dashbar.finishNavigation()
         onPreviewShown: dashbar.finishNavigation()
-        onLensLoaded: {
-            if (lensId == dash.showLensOnLoaded) {
-                dash.setCurrentLens(lensId, false, false)
-                dash.showLensOnLoaded = ""
+        onScopeLoaded: {
+            if (scopeId == dash.showScopeOnLoaded) {
+                dash.setCurrentScope(scopeId, false, false)
+                dash.showScopeOnLoaded = ""
             }
         }
         scale: dash.contentScale
@@ -82,9 +82,9 @@ Showable {
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
-        model: filteredLenses
+        model: filteredScopes
         currentIndex: dashContent.currentIndex
-        onItemSelected: dashContent.setCurrentLensAtIndex(index, true, false)
+        onItemSelected: dashContent.setCurrentScopeAtIndex(index, true, false)
         opacity: dash.contentScale == 1.0 ? 1.0 : 0.0
         Behavior on opacity { NumberAnimation { easing.type: Easing.OutQuad; duration: 150 } }
     }

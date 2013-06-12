@@ -23,8 +23,8 @@ import "../Components"
 import "../Components/ListItems" as ListItems
 import "People"
 
-LensView {
-    id: lensView
+ScopeView {
+    id: scopeView
     property alias previewShown: previewLoader.onScreen
 
     property var categoryNames: [
@@ -41,7 +41,7 @@ LensView {
     onMovementStarted: categoryView.showHeader()
 
     Binding {
-        target: lensView.lens
+        target: scopeView.scope
         property: "searchQuery"
         value: pageHeader.searchQuery
     }
@@ -89,7 +89,7 @@ LensView {
     ListViewWithPageHeader {
         id: categoryView
         anchors.fill: parent
-        model: lensView.categories
+        model: scopeView.categories
         onAtYEndChanged: if (atYEnd) endReached()
         onMovingChanged: if (moving && atYEnd) endReached()
         clipListView: !previewLoader.onScreen
@@ -122,7 +122,7 @@ LensView {
             width: categoryView.width
             text: i18n.tr("People")
             searchEntryEnabled: true
-            searchHistory: lensView.searchHistory
+            searchHistory: scopeView.searchHistory
         }
     }
 
@@ -210,7 +210,7 @@ LensView {
 
     PeoplePreviewData {
         id: previewData
-        lens: lensView.lens
+        scope: scopeView.scope
         property Data model
 
         onError: previewLoader.open = false

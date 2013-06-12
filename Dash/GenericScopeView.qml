@@ -20,8 +20,8 @@ import "../Components"
 import "../Components/ListItems" as ListItems
 import "../Components/IconUtil.js" as IconUtil
 
-LensView {
-    id: lensView
+ScopeView {
+    id: scopeView
 
     onIsCurrentChanged: {
         pageHeader.resetSearch();
@@ -30,7 +30,7 @@ LensView {
     onMovementStarted: categoryView.showHeader()
 
     Binding {
-        target: lensView.lens
+        target: scopeView.scope
         property: "searchQuery"
         value: pageHeader.searchQuery
     }
@@ -46,7 +46,7 @@ LensView {
     ListViewWithPageHeader {
         id: categoryView
         anchors.fill: parent
-        model: lensView.categories
+        model: scopeView.categories
         onAtYEndChanged: if (atYEnd) endReached()
         onMovingChanged: if (moving && atYEnd) endReached()
 
@@ -89,7 +89,7 @@ LensView {
             id: pageHeader
             objectName: "pageHeader"
             width: categoryView.width
-            text: lensView.lens.name
+            text: scopeView.scope.name
             searchEntryEnabled: true
         }
     }

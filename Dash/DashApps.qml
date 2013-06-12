@@ -21,8 +21,8 @@ import "../Components"
 import "../Components/ListItems"
 import "Apps"
 
-LensView {
-    id: lensView
+ScopeView {
+    id: scopeView
 
     // FIXME: a way to aggregate these models would be ideal
     property var mainStageApplicationsModel: shell.applicationManager.mainStageApplications
@@ -40,7 +40,7 @@ LensView {
     }
 
     Binding {
-        target: lensView.lens
+        target: scopeView.scope
         property: "searchQuery"
         value: pageHeader.searchQuery
     }
@@ -177,7 +177,7 @@ LensView {
             width: categoryView.width
             text: i18n.tr("Apps")
             searchEntryEnabled: true
-            searchHistory: lensView.searchHistory
+            searchHistory: scopeView.searchHistory
         }
     }
 }

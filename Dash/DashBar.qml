@@ -97,10 +97,10 @@ Item {
 
                         Image {
                             anchors.centerIn: parent
-                            /* FIXME: should be 'source: lens.iconHint' but the
-                               lenses do not contain the right icons yet
+                            /* FIXME: should be 'source: scope.iconHint' but the
+                               scopes do not contain the right icons yet
                             */
-                            source: "graphics/lensIcons/%1.png".arg(lens.name)
+                            source: "graphics/lensIcons/%1.png".arg(scope.name)
                             height: iconSize
                             width: iconSize
                             // opacity: index == currentIndex ? 1 : 1 // same opacity for now

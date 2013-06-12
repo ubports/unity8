@@ -20,8 +20,8 @@ import "../Components"
 import "../Components/ListItems" as ListItems
 import "Video"
 
-LensView {
-    id: lensView
+ScopeView {
+    id: scopeView
     property alias previewShown: previewLoader.onScreen
 
     property var categoryNames: [
@@ -38,7 +38,7 @@ LensView {
     onMovementStarted: categoryView.showHeader()
 
     Binding {
-        target: lensView.lens
+        target: scopeView.scope
         property: "searchQuery"
         value: pageHeader.searchQuery
     }
@@ -100,7 +100,7 @@ LensView {
     ListViewWithPageHeader {
         id: categoryView
         anchors.fill: parent
-        model: lensView.categories
+        model: scopeView.categories
         clipListView: !previewLoader.onScreen
 
         onAtYEndChanged: if (atYEnd) endReached()
@@ -115,7 +115,7 @@ LensView {
             Loader {
                 id: loader
                 anchors { top: parent.top; left: parent.left; right: parent.right }
-                sourceComponent: lensView.getRenderer(base.categoryId)
+                sourceComponent: scopeView.getRenderer(base.categoryId)
                 onLoaded: {
                     item.model = results
                 }
@@ -154,7 +154,7 @@ LensView {
             width: categoryView.width
             text: i18n.tr("Videos")
             searchEntryEnabled: true
-            searchHistory: lensView.searchHistory
+            searchHistory: scopeView.searchHistory
         }
     }
 

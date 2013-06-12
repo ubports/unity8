@@ -25,7 +25,7 @@ import "Video"
 import "Music"
 import "People"
 
-LensView {
+ScopeView {
     id: root
 
     onMovementStarted: listView.showHeader()
@@ -94,7 +94,7 @@ LensView {
 
     Connections {
         target: dashContent
-        onLensLoaded: switch (lensId) {
+        onScopeLoaded: switch (scopeId) {
             case "mockmusicmaster.scope":
                 musicFilter.model = dashContent.scopes.get("mockmusicmaster.scope").results
                 break;
@@ -154,7 +154,7 @@ LensView {
                 onLoaded: {
                     item.model = categoryModels[modelName]
 
-                    //FIXME: workaround for lack of previews for videos in Home lens.
+                    //FIXME: workaround for lack of previews for videos in Home scope.
                     //Need to connect to the clicked() signal here and act upon it here instead.
                     if (component === "VideosGrid") {
                         function playVideo(index, data) {

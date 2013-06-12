@@ -61,7 +61,7 @@ public:
     Q_INVOKABLE int rowCount(const QModelIndex& parent = QModelIndex()) const;
 
     Q_INVOKABLE QVariant get(int row) const;
-    Q_INVOKABLE QVariant get(const QString& lens_id) const;
+    Q_INVOKABLE QVariant get(const QString& scope_id) const;
 
     QHash<int, QByteArray> roleNames() const;
 

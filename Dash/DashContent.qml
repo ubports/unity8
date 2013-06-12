@@ -33,23 +33,23 @@ Item {
     signal contentFlickStarted()
     signal contentEndReached()
     signal previewShown()
-    signal lensLoaded(string lensId)
+    signal scopeLoaded(string scopeId)
     signal positionedAtBeginning()
 
-    // If we set the current lens index before the scopes have been added,
+    // If we set the current scope index before the scopes have been added,
     // then we need to wait until the loaded signals gets emitted from the scopes
     property var set_current_index: undefined
     Connections {
         target: scopes
         onLoadedChanged: {
             if (scopes.loaded && set_current_index != undefined) {
-                setCurrentLensAtIndex(set_current_index[0], set_current_index[1], set_current_index[2]);
+                setCurrentScopeAtIndex(set_current_index[0], set_current_index[1], set_current_index[2]);
                 set_current_index = undefined;
             }
         }
     }
 
-    function setCurrentLensAtIndex(index, animate, reset) {
+    function setCurrentScopeAtIndex(index, animate, reset) {
         var storedMoveDuration = dashContentList.highlightMoveDuration
         var storedMoveSpeed = dashContentList.highlightMoveVelocity
         if (!animate) {
@@ -79,12 +79,12 @@ Item {
         }
     }
 
-    property var lensDelegateMapping: {"mockmusicmaster.scope": "DashMusic.qml",
+    property var scopeDelegateMapping: {"mockmusicmaster.scope": "DashMusic.qml",
                                        "applications.scope": "DashApps.qml",
                                        "home.scope": "DashHome.qml",
                                        "mockvideosmaster.scope": "DashVideos.qml",
                                       }
-    property string genericLens: "GenericLensView.qml"
+    property string genericScope: "GenericScopeView.qml"
 
     ListView {
         id: dashContentList
@@ -102,7 +102,7 @@ Item {
         highlightMoveDuration: 250
         highlightRangeMode: ListView.StrictlyEnforceRange
         /* FIXME: workaround rendering issue due to use of ShaderEffectSource in
-           UbuntuShape. While switching from the home lens to the People lens the
+           UbuntuShape. While switching from the home scope to the People scope the
            rendering would block midway.
         */
         cacheBuffer: 2147483647
@@ -112,7 +112,7 @@ Item {
         // If the number of items is less than the current index, then need to reset to another item.
         onCountChanged: {
             if (currentIndex >= count)
-                dashContent.setCurrentLensAtIndex(count-1, true, true)
+                dashContent.setCurrentScopeAtIndex(count-1, true, true)
         }
 
         delegate:
@@ -121,20 +121,20 @@ Item {
                 height: ListView.view.height
                 asynchronous: true
                 source: {
-                    var customLens = lensDelegateMapping[lens.id]
-                    if (customLens) {
-                        return customLens
+                    var customScope = scopeDelegateMapping[scope.id]
+                    if (customScope) {
+                        return customScope
                     } else {
-                        return genericLens
+                        return genericScope
                     }
                 }
                 onLoaded: {
-                    item.lens = Qt.binding(function() { return lens })
+                    item.scope = Qt.binding(function() { return scope })
                     item.isCurrent = Qt.binding(function() { return ListView.isCurrentItem })
                     item.searchHistory = Qt.binding(function() { return shell.searchHistory })
                     dashContentList.movementStarted.connect(item.movementStarted)
                     dashContent.positionedAtBeginning.connect(item.positionedAtBeginning)
-                    dashContent.lensLoaded(item.lens.id)
+                    dashContent.scopeLoaded(item.scope.id)
                 }
                 Connections {
                     target: item

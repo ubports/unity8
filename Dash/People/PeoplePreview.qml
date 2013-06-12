@@ -47,7 +47,7 @@ DashPreview {
             visible: preview.model != undefined && preview.model.status != undefined
             model: preview.model
             property int index: 1
-            // FIXME that should trigger the action on the lens/scope, when there's support
+            // FIXME that should trigger the action on the scope, when there's support
             onClicked: shell.activateApplication("/usr/share/applications/%1-webapp.desktop".arg(model.statusService), "--homepage=%1".arg(model.statusPostUri))
         }
 
@@ -69,7 +69,7 @@ DashPreview {
                     delegate: Phone {
                         objectName: "phoneField" + index
                         model: preview.model
-                        // FIXME these should trigger actions on the lens/scope, when there's support
+                        // FIXME these should trigger actions on the scope, when there's support
                         onPhoneClicked: shell.activateApplication("/usr/share/applications/phone-app.desktop", "call://%1".arg(number.replace(/[^\d\+]/g, "")))
                         onTextClicked: shell.activateApplication("/usr/share/applications/phone-app.desktop", "message://%1".arg(number.replace(/[^\d\+]/g, "")))
                     }

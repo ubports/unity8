@@ -33,7 +33,7 @@ Scopes::Scopes(QObject *parent)
     , m_unityScopes(std::make_shared<unity::dash::GSettingsScopes>())
     , m_loaded(false)
 {
-    m_roles[Scopes::RoleLens] = "lens";
+    m_roles[Scopes::RoleLens] = "scope";
     m_roles[Scopes::RoleId] = "id";
     m_roles[Scopes::RoleVisible] = "visible";
 

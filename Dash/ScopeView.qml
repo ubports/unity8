@@ -19,7 +19,7 @@ import Utils 0.1
 import Unity 0.1
 
 FocusScope {
-    property Scope lens
+    property Scope scope
     property SortFilterProxyModel categories: categoryFilter
     property bool isCurrent
     property ListModel searchHistory
@@ -29,17 +29,17 @@ FocusScope {
     signal positionedAtBeginning
 
     // FIXME delay the search so that daemons have time to settle
-    onLensChanged: timer.restart()
+    onScopeChanged: timer.restart()
 
     Timer {
         id: timer
         interval: 2000
-        onTriggered: lens.searchQuery = ""
+        onTriggered: scope.searchQuery = ""
     }
 
     SortFilterProxyModel {
         id: categoryFilter
-        model: lens.categories
+        model: scope.categories
         dynamicSortFilter: true
         filterRole: Categories.RoleCount
         filterRegExp: /^0$/
