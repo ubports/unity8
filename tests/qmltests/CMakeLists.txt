@@ -1,6 +1,7 @@
 # add_qml_test macro
 include(QmlTest)
 
+add_subdirectory(modules)
 add_subdirectory(plugins)
 
 set(qmltest_DEFAULT_IMPORT_PATHS
