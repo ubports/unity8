@@ -27,7 +27,6 @@
 
 // libunity-core
 #include <UnityCore/Scope.h>
-#include <UnityCore/Variant.h>
 #include <UnityCore/Results.h>
 
 // dee-qt
