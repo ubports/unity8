@@ -54,35 +54,28 @@ AbstractButton {
      */
     function __showDivider() {
         // if we're not in ListView, always show a thin dividing line at the bottom
-        if (ListView.view !== null) {
-
-            // if we're last item in ListView don't show divider
-            if (index === ListView.view.model.count - 1) return false;
+        var model = null;
+        if (typeof ListViewWithPageHeader !== 'undefined') {
+            if (typeof ListViewWithPageHeader.model !== 'undefined') {
+                model = ListViewWithPageHeader.model;
+            }
+        } else if (ListView.view !== null) {
+            model = ListView.view.model;
         }
+            // if we're last item in ListView don't show divider
+        if (model && index === model.count - 1) return false;
+
         return true;
     }
 
-    property bool __clippingRequired: ListView.view !== null
-                                      && ListView.view.section.labelPositioning & ViewSection.CurrentLabelAtStart
-
-    property real __yPositionRelativeToListView: ListView.view ? y - ListView.view.contentY : y
-
     property real __heightToClip: {
         // Check this is in position where clipping is needed
-        if (__clippingRequired && __yPositionRelativeToListView <= __sectionDelegateHeight
-                && __yPositionRelativeToListView > -height) {
-            return Math.min(__sectionDelegateHeight - __yPositionRelativeToListView, height);
-        } else {
-            return 0;
+        if (typeof ListViewWithPageHeader !== 'undefined') {
+            if (typeof heightToClip !== 'undefined') {
+                return heightToClip;
+            }
         }
-    }
-
-    property int __sectionDelegateHeight: {
-        if (__clippingRequired && ListView.view.hasOwnProperty("__sectionDelegateHeight")) {
-            return ListView.view.__sectionDelegateHeight;
-        } else {
-            return 0;
-        }
+        return 0;
     }
 
     /*!

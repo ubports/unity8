@@ -531,6 +531,8 @@ void ListViewWithPageHeader::itemCreated(int modelIndex, QQuickItem *item)
 //     qDebug() << "ListViewWithPageHeader::itemCreated" << modelIndex << item;
 
     item->setParentItem(m_clipItem);
+    QQmlContext *context = QQmlEngine::contextForObject(item)->parentContext();
+    context->setContextProperty(QLatin1String("ListViewWithPageHeader"), this);
     if (m_asyncRequestedIndexes.remove(modelIndex)) {
         createItem(modelIndex, false);
     }
@@ -738,6 +740,12 @@ void ListViewWithPageHeader::updatePolish()
                         }
                     }
                 }
+            }
+            QQmlContext *context = QQmlEngine::contextForObject(item->m_item)->parentContext();
+            if (!cull && pos < visibleFrom) {
+                context->setContextProperty(QLatin1String("heightToClip"), visibleFrom - pos);
+            } else {
+                context->setContextProperty(QLatin1String("heightToClip"), QVariant::fromValue<int>(0));
             }
 //             qDebug() << "ListViewWithPageHeader::updatePolish" << /*index << */pos + m_clipItem->y() << /*QQuickItemPrivate::get(item)->culled <<*/ (pos + item->height() < visibleFrom) << (pos > visibleTo);
             pos += item->height();
