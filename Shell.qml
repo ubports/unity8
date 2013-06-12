@@ -218,26 +218,18 @@ FocusScope {
             Connections {
                 target: shell.applicationManager
                 onMainStageFocusedApplicationChanged: {
-                    handleFocusedApplicationChange(mainStage, shell.applicationManager.mainStageFocusedApplication);
-                }
-                onSideStageFocusedApplicationChanged: {
-                    handleFocusedApplicationChange(sideStage, shell.applicationManager.sideStageFocusedApplication);
-                }
-                ignoreUnknownSignals: true
-
-                function handleFocusedApplicationChange(stage, application) {
-                    if (stages.shown) {
-                        if (application) {
-                            stage.show();
-                            stages.show();
-                        }
-                    } else {
-                        // focus changed while shell in foreground, ensure app remains unfocused
-                        if (application) {
-                            shell.applicationManager.unfocusCurrentApplication();
-                        }
+                    if (shell.applicationManager.mainStageFocusedApplication) {
+                        mainStage.show();
+                        stages.show();
                     }
                 }
+                onSideStageFocusedApplicationChanged: {
+                    if (shell.applicationManager.sideStageFocusedApplication) {
+                        sideStage.show();
+                        stages.show();
+                    }
+                }
+                ignoreUnknownSignals: true
             }
 
 
