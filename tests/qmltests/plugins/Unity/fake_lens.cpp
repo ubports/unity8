@@ -35,7 +35,6 @@ Scope::Scope(QObject* parent)
     m_results->setModel(create_results_model(4, 30));
 
     m_categories->setResultModel(m_results);
-//    m_categories->setGlobalResultModel(m_results);
 }
 
 Scope::Scope(QString const& id,
@@ -53,7 +52,6 @@ Scope::Scope(QString const& id,
     m_results->setModel(create_results_model(4, 30));
 
     m_categories->setResultModel(m_results);
-//    m_categories->setGlobalResultModel(m_results);
 }
 
 QString Scope::id() const {
@@ -91,6 +89,7 @@ Categories* Scope::categories() const {
 }
 
 static const gchar * categories_model_schema[] = {
+  "s", //ID
   "s", // DISPLAY_NAME
   "s", // ICON_HINT
   "s", // RENDERER_NAME
@@ -125,6 +124,7 @@ static const gchar * results_model_schema[] = {
   "s", // URI
   "s", // ICON_HINT
   "u", // CATEGORY
+  "u", // RESULT_TYPE
   "s", // MIMETYPE
   "s", // TITLE
   "s", // COMMENT
