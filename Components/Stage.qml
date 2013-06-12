@@ -441,7 +441,8 @@ Showable {
         direction: DirectionalDragArea.Leftwards
         maxDeviation: units.gu(1)
         wideningAngle: 20
-        distanceThreshold: units.gu(2)
+        distanceThreshold: units.gu(3)
+        minSpeed: units.gu(5)
 
         onDistanceChanged: {
             if (status !== DirectionalDragArea.Recognized)
