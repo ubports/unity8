@@ -115,20 +115,32 @@ void Scopes::onScopesLoaded()
 
 void Scopes::onScopeRemoved(const unity::dash::Scope::Ptr& scope)
 {
-    auto index = m_scopes.count();
     auto id = QString::fromStdString(scope->id);
-    beginRemoveRows(QModelIndex(), index, index);
-    auto removed_idx = removeUnityScope(id);
-    endRemoveRows();
+    auto index = findScopeById(id);
+    if (index >= 0) {
+        beginRemoveRows(QModelIndex(), index, index);
+        removeUnityScope(index);
+        endRemoveRows();
 
-    if (removed_idx >= 0) {
-        Q_EMIT scopeRemoved(id, removed_idx);
+        Q_EMIT scopeRemoved(id, index);
     }
 }
 
 void Scopes::onScopesReordered(const unity::dash::Scopes::ScopeList& scopes)
 {
-    //TODO
+    // is this QML-friendly? Shall it be more robust (beginMoveRows)?
+    beginResetModel();
+
+    // remove existing scopes
+    for (auto i=m_scopes.count()-1; i>=0; i--) {
+        removeUnityScope(i);
+    }
+
+    // re-create scopes
+    for (uint i=0; i<scopes.size(); i++) {
+        addUnityScope(scopes[i]);
+    }
+    endResetModel();
 }
 
 void Scopes::onScopePropertyChanged()
@@ -153,11 +165,10 @@ void Scopes::removeUnityScope(int index)
     delete scope;
 }
 
-int Scopes::removeUnityScope(const QString& scope_id)
+int Scopes::findScopeById(const QString& scope_id)
 {
     for (int i=0; i<m_scopes.count(); i++) {
         if (m_scopes[i]->id() == scope_id) {
-            removeUnityScope(i);
             return i;
         }
     }

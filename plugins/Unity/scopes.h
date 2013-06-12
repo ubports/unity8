@@ -88,7 +88,7 @@ private:
 
     void addUnityScope(const unity::dash::Scope::Ptr& unity_scope);
     void removeUnityScope(int index);
-    int removeUnityScope(const QString& scope_id);
+    int findScopeById(const QString& scope_id);
 };
 
 #endif // SCOPES_H
