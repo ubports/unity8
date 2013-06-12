@@ -25,27 +25,27 @@ Item {
     width: units.gu(120)
     height: units.gu(80)
 
-    Lenses {
+    Scopes {
         id: scopes
     }
 
-    LensView {
-        id: lensView
+    ScopeView {
+        id: scopeView
         anchors.fill: parent
 
         TestCase {
-            name: "LensView"
+            name: "ScopeView"
             when: scopes.loaded
 
             function init() {
-                lensView.lens = lenses.get(0)
+                scopeView.scope = scopes.get(0)
             }
 
-            function test_changeLens() {
-                lensView.lens.searchQuery = "test"
-                lensView.lens = lenses.get(1)
-                lensView.lens = lenses.get(0)
-                tryCompare(lensView.lens, "searchQuery", "")
+            function test_changeScope() {
+                scopeView.scope.searchQuery = "test"
+                scopeView.scope = scopes.get(1)
+                scopeView.scope = scopes.get(0)
+                tryCompare(scopeView.scope, "searchQuery", "")
             }
         }
     }

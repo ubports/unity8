@@ -174,9 +174,9 @@ void Scope::fallbackActivate(const QString& uri)
     QDesktopServices::openUrl(url);
 }
 
-void Scope::setUnityScope(const unity::dash::Scope::Ptr& lens)
+void Scope::setUnityScope(const unity::dash::Scope::Ptr& scope)
 {
-    m_unityScope = lens;
+    m_unityScope = scope;
 
     if (QString::fromStdString(m_unityScope->results()->swarm_name) == QString(":local")) {
         m_results->setModel(m_unityScope->results()->model());

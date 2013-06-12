@@ -26,27 +26,27 @@ Item {
     width: units.gu(120)
     height: units.gu(80)
 
-    Lenses {
+    Scopes {
         id: scopes
     }
 
-    GenericLensView {
-        id: genericLensView
+    GenericScopeView {
+        id: genericScopeView
         anchors.fill: parent
 
         UT.UnityTestCase {
-            name: "GenericLensView"
+            name: "GenericScopeView"
             when: scopes.loaded
 
             function init() {
-                genericLensView.lens = scopes.get(0)
+                genericScopeView.scope = scopes.get(0)
             }
 
             function test_isCurrent() {
-                var pageHeader = findChild(genericLensView, "pageHeader");
-                genericLensView.isCurrent = true
+                var pageHeader = findChild(genericScopeView, "pageHeader");
+                genericScopeView.isCurrent = true
                 pageHeader.searchQuery = "test"
-                genericLensView.isCurrent = false
+                genericScopeView.isCurrent = false
                 tryCompare(pageHeader, "searchQuery", "")
             }
         }

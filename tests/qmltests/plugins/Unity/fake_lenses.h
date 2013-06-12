@@ -16,8 +16,8 @@
  * Author: Nick Dedekind <nick.dedekind@canonical.com>
  */
 
-#ifndef FAKE_LENSES_H
-#define FAKE_LENSES_H
+#ifndef FAKE_SCOPES_H
+#define FAKE_SCOPES_H
 
 // Local
 #include "fake_lens.h"
@@ -27,7 +27,7 @@
 #include <QList>
 #include <QTimer>
 
-class Lenses : public QAbstractListModel
+class Scopes : public QAbstractListModel
 {
     Q_OBJECT
     Q_ENUMS(Roles)
@@ -35,11 +35,11 @@ class Lenses : public QAbstractListModel
     Q_PROPERTY(int count READ count NOTIFY countChanged)
 
 public:
-    explicit Lenses(QObject *parent = 0);
-    ~Lenses();
+    explicit Scopes(QObject *parent = 0);
+    ~Scopes();
 
     enum Roles {
-        RoleLens,
+        RoleScope,
         RoleId,
         RoleVisible
     };
@@ -47,9 +47,9 @@ public:
     Q_INVOKABLE int rowCount(const QModelIndex& parent = QModelIndex()) const;
 
     Q_INVOKABLE QVariant get(int row) const;
-    Q_INVOKABLE QVariant get(const QString& lens_id) const;
+    Q_INVOKABLE QVariant get(const QString& scope_id) const;
 
-    Q_INVOKABLE void addLens(Lens* lens);
+    Q_INVOKABLE void addScope(Scope* scope);
 
     Q_INVOKABLE void clear();
     Q_INVOKABLE void load();
@@ -62,18 +62,18 @@ public:
     int count() const;
 
 Q_SIGNALS:
-    void activateLensRequested(const QString& lens_id);
+    void activateScopeRequested(const QString& scope_id);
     void loadedChanged(bool);
     void countChanged();
 
 private Q_SLOTS:
-    void updateLenses();
+    void updateScopes();
 
 private:
-    QList<Lens*> m_lenses;
+    QList<Scope*> m_scopes;
     QHash<int, QByteArray> m_roles;
     bool m_loaded;
     QTimer timer;
 };
 
-#endif // LENSES_H
+#endif // SCOPES_H

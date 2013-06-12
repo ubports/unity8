@@ -14,14 +14,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FAKE_LENS_H
-#define FAKE_LENS_H
+#ifndef FAKE_SCOPE_H
+#define FAKE_SCOPE_H
 
 // Qt
 #include <QObject>
 #include "categories.h"
 
-class Lens : public QObject
+class Scope : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString id READ id NOTIFY idChanged)
@@ -31,8 +31,8 @@ class Lens : public QObject
     Q_PROPERTY(Categories* categories READ categories NOTIFY categoriesChanged)
 
 public:
-    Lens(QObject* parent = 0);
-    Lens(QString const& id, QString const& name, bool visible, QObject* parent = 0);
+    Scope(QObject* parent = 0);
+    Scope(QString const& id, QString const& name, bool visible, QObject* parent = 0);
 
     QString id() const;
     QString name() const;
@@ -60,4 +60,4 @@ private:
     DeeListModel* m_results;
 };
 
-#endif // FAKE_LENS_H
+#endif // FAKE_SCOPE_H

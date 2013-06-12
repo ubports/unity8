@@ -16,9 +16,9 @@
 
 import QtQuick 2.0
 
-FakeLensView {
-    id: fake_generic_lensView
-    objectName: "fake_generic_lensView"
+FakeScopeView {
+    id: fake_generic_scopeView
+    objectName: "fake_generic_scopeView"
 
     rect_color1: "blue"
     rect_color2: "orange"

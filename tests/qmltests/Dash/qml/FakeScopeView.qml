@@ -18,8 +18,8 @@ import QtQuick 2.0
 import Unity 0.1
 
 FocusScope {
-    id: fakeLensView
-    property Lens lens : null
+    id: fakeScopeView
+    property Scope scope : null
     property bool isCurrent : false
 
     property alias rect_color1 : rect1.color
@@ -33,18 +33,18 @@ FocusScope {
     signal positionedAtBeginning
 
     onEndReached: {
-        if (shell != undefined && shell.lens_status != undefined) {
-            shell.lens_status[lens.id].endReached++;
+        if (shell != undefined && shell.scope_status != undefined) {
+            shell.scope_status[scope.id].endReached++;
         }
     }
     onMovementStarted: {
-        if (shell != undefined && shell.lens_status != undefined) {
-            shell.lens_status[lens.id].movementStarted++;
+        if (shell != undefined && shell.scope_status != undefined) {
+            shell.scope_status[scope.id].movementStarted++;
         }
     }
     onPositionedAtBeginning: {
-        if (shell != undefined && shell.lens_status != undefined) {
-            shell.lens_status[lens.id].positionedAtBeginning++;
+        if (shell != undefined && shell.scope_status != undefined) {
+            shell.scope_status[scope.id].positionedAtBeginning++;
         }
     }
 
@@ -60,7 +60,7 @@ FocusScope {
                 anchors.fill: parent
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
-                text: lens ? lens.id : ""
+                text: scope ? scope.id : ""
             }
         }
 
@@ -73,7 +73,7 @@ FocusScope {
                 anchors.fill: parent
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
-                text: lens ? lens.id : ""
+                text: scope ? scope.id : ""
             }
         }
 
@@ -86,7 +86,7 @@ FocusScope {
                 anchors.fill: parent
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
-                text: lens ? lens.id : ""
+                text: scope ? scope.id : ""
             }
         }
     }

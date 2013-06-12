@@ -33,7 +33,7 @@ Scopes::Scopes(QObject *parent)
     , m_unityScopes(std::make_shared<unity::dash::GSettingsScopes>())
     , m_loaded(false)
 {
-    m_roles[Scopes::RoleLens] = "scope";
+    m_roles[Scopes::RoleScope] = "scope";
     m_roles[Scopes::RoleId] = "id";
     m_roles[Scopes::RoleVisible] = "visible";
 
@@ -65,7 +65,7 @@ QVariant Scopes::data(const QModelIndex& index, int role) const
 
     Scope* scope = m_scopes.at(index.row());
 
-    if (role == Scopes::RoleLens) {
+    if (role == Scopes::RoleScope) {
         return QVariant::fromValue(scope);
     } else if (role == Scopes::RoleId) {
         return QVariant::fromValue(scope->id());
@@ -111,7 +111,6 @@ void Scopes::onScopeAdded(const unity::dash::Scope::Ptr& scope, int position)
 
 void Scopes::onScopesLoaded()
 {
-    qWarning() << "Scopes Loaded!!!";
 }
 
 void Scopes::onScopeRemoved(const unity::dash::Scope::Ptr& scope)
@@ -132,7 +131,6 @@ void Scopes::onScopePropertyChanged()
 
 void Scopes::addUnityScope(const unity::dash::Scope::Ptr& unity_scope)
 {
-    qDebug() << "Scope added:" << QString::fromStdString(unity_scope->id);
     Scope* scope = new Scope(this);
     scope->setUnityScope(unity_scope);
     /* DOCME */

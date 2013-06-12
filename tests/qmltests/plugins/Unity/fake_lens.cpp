@@ -25,7 +25,7 @@ static DeeModel* create_results_model(unsigned category_count, unsigned result_c
 
 // TODO: Implement remaining pieces
 
-Lens::Lens(QObject* parent)
+Scope::Scope(QObject* parent)
 : QObject(parent),
   m_visible(false),
   m_categories(new Categories(this)),
@@ -38,7 +38,7 @@ Lens::Lens(QObject* parent)
 //    m_categories->setGlobalResultModel(m_results);
 }
 
-Lens::Lens(QString const& id,
+Scope::Scope(QString const& id,
            QString const& name,
            bool visible,
            QObject* parent)
@@ -56,37 +56,37 @@ Lens::Lens(QString const& id,
 //    m_categories->setGlobalResultModel(m_results);
 }
 
-QString Lens::id() const {
+QString Scope::id() const {
     return m_id;
 }
 
-QString Lens::name() const {
+QString Scope::name() const {
     return m_name;
 }
 
-QString Lens::searchQuery() const {
+QString Scope::searchQuery() const {
     return m_searchQuery;
 }
 
-void Lens::setName(const QString &str) {
+void Scope::setName(const QString &str) {
     if (str != m_name) {
         m_name = str;
         Q_EMIT nameChanged(m_name);
     }
 }
 
-void Lens::setSearchQuery(const QString &str) {
+void Scope::setSearchQuery(const QString &str) {
     if (str != m_searchQuery) {
         m_searchQuery = str;
         Q_EMIT searchQueryChanged(m_searchQuery);
     }
 }
 
-bool Lens::visible() const {
+bool Scope::visible() const {
     return m_visible;
 }
 
-Categories* Lens::categories() const {
+Categories* Scope::categories() const {
   return m_categories;
 }
 

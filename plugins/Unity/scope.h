@@ -61,7 +61,7 @@ public:
     enum ViewType {
         Hidden,
         HomeView,
-        LensView
+        ScopeView
     };
 
     /* getters */

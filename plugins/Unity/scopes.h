@@ -52,7 +52,7 @@ public:
     ~Scopes() = default;
 
     enum Roles {
-        RoleLens,
+        RoleScope,
         RoleId,
         RoleVisible
     };
