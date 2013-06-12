@@ -20,7 +20,7 @@
 #define FAKE_SCOPES_H
 
 // Local
-#include "fake_lens.h"
+#include "fake_scope.h"
 
 // Qt
 #include <QAbstractListModel>

@@ -15,7 +15,7 @@
  */
 
 // Self
-#include "fake_lens.h"
+#include "fake_scope.h"
 
 #include <dee.h>
 #include "paths.h"

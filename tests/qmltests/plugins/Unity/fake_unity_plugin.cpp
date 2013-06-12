@@ -20,7 +20,7 @@
 #include "fake_unity_plugin.h"
 
 // local
-#include "fake_lenses.h"
+#include "fake_scopes.h"
 #include "categories.h"
 #include "categoryfilter.h"
 #include "fake_launchermodel.h"

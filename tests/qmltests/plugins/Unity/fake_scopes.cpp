@@ -17,7 +17,7 @@
  */
 
 // Self
-#include "fake_lenses.h"
+#include "fake_scopes.h"
 
 // TODO: Implement remaining pieces, like Categories (i.e. LensView now gives warnings)
 

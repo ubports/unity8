@@ -47,13 +47,13 @@ Item {
         model: scopesModel
         scopes : scopesModel
 
-        scopeDelegateMapping: { "MockScope3" : "../tests/qmltests/Dash/qml/fake_lensView3.qml",
-                               "MockScope2" : "../tests/qmltests/Dash/qml/fake_lensView2.qml",
-                               "MockScope1" : "../tests/qmltests/Dash/qml/fake_lensView1.qml",
-                               "MockScope4" : "../tests/qmltests/Dash/qml/fake_lensView4.qml"
+        scopeDelegateMapping: { "MockScope3" : "../tests/qmltests/Dash/qml/fake_scopeView3.qml",
+                               "MockScope2" : "../tests/qmltests/Dash/qml/fake_scopeView2.qml",
+                               "MockScope1" : "../tests/qmltests/Dash/qml/fake_scopeView1.qml",
+                               "MockScope4" : "../tests/qmltests/Dash/qml/fake_scopeView4.qml"
                              }
 
-        genericScope: "../tests/qmltests/Dash/qml/fake_generic_lensView.qml"
+        genericScope: "../tests/qmltests/Dash/qml/fake_generic_scopeView.qml"
     }
 
     function clear_scope_status() {
