@@ -22,6 +22,7 @@
 
 class QAbstractItemModel;
 class QQuickChangeSet;
+class QQuickNumberAnimation;
 class QQuickVisualDataModel;
 
 class ListViewWithPageHeader : public QQuickFlickable, public QQuickItemChangeListener
@@ -94,8 +95,6 @@ private:
             QQuickItem *m_sectionItem;
     };
 
-    void setContentY(qreal pos);
-
     void createDelegateModel();
 
     void refill();
@@ -136,6 +135,7 @@ private:
     qreal m_previousContentY;
     qreal m_headerItemShownHeight; // The height of header shown when the header is shown outside its topmost position
                                    // i.e. it's being shown after dragging down in the middle of the list
+    QQuickNumberAnimation *m_headerShowAnimation;
 
     QQmlComponent *m_sectionDelegate;
     QString m_sectionProperty;
