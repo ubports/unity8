@@ -70,6 +70,7 @@ public:
 Q_SIGNALS:
     void activateScopeRequested(const QString& scope_id);
     void loadedChanged(bool loaded);
+    void scopeRemoved(const QString& scope_id, int index);
 
 private Q_SLOTS:
     void onScopesLoaded();
@@ -87,6 +88,7 @@ private:
 
     void addUnityScope(const unity::dash::Scope::Ptr& unity_scope);
     void removeUnityScope(int index);
+    int removeUnityScope(const QString& scope_id);
 };
 
 #endif // SCOPES_H

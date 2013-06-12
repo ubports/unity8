@@ -115,7 +115,15 @@ void Scopes::onScopesLoaded()
 
 void Scopes::onScopeRemoved(const unity::dash::Scope::Ptr& scope)
 {
-    //TODO
+    auto index = m_scopes.count();
+    auto id = QString::fromStdString(scope->id);
+    beginRemoveRows(QModelIndex(), index, index);
+    auto removed_idx = removeUnityScope(id);
+    endRemoveRows();
+
+    if (removed_idx >= 0) {
+        Q_EMIT scopeRemoved(id, removed_idx);
+    }
 }
 
 void Scopes::onScopesReordered(const unity::dash::Scopes::ScopeList& scopes)
@@ -143,4 +151,15 @@ void Scopes::removeUnityScope(int index)
     Scope* scope = m_scopes.takeAt(index);
 
     delete scope;
+}
+
+int Scopes::removeUnityScope(const QString& scope_id)
+{
+    for (int i=0; i<m_scopes.count(); i++) {
+        if (m_scopes[i]->id() == scope_id) {
+            removeUnityScope(i);
+            return i;
+        }
+    }
+    return -1;
 }
