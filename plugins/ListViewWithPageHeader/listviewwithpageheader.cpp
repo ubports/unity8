@@ -701,7 +701,7 @@ void ListViewWithPageHeader::updatePolish()
         return;
 
     if (!m_visibleItems.isEmpty()) {
-        const qreal visibleFrom = contentY() - m_clipItem->y();
+        const qreal visibleFrom = contentY() - m_clipItem->y() + m_headerItemShownHeight;
         const qreal visibleTo = contentY() + height() - m_clipItem->y();
 
         qreal pos = m_visibleItems.first()->y();
@@ -720,7 +720,6 @@ void ListViewWithPageHeader::updatePolish()
                     const QString section = m_delegateModel->stringValue(modelIndex, m_sectionProperty);
                     QQmlContext *context = QQmlEngine::contextForObject(m_topSectionItem)->parentContext();
                     context->setContextProperty(QLatin1String("section"), section);
-                    
 
                     // Positing the top section sticky item is a two step process
                     // First we set it either we cull it (because it doesn't need to be sticked to the top)
@@ -730,9 +729,13 @@ void ListViewWithPageHeader::updatePolish()
                     const qreal topSectionStickPos = m_headerItemShownHeight + contentY() - m_clipItem->y();
                     if (topSectionStickPos <= pos) {
                         QQuickItemPrivate::get(m_topSectionItem)->setCulled(true);
+                        QQuickItemPrivate::get(item->m_sectionItem)->setCulled(false);
                     } else {
                         QQuickItemPrivate::get(m_topSectionItem)->setCulled(false);
                         m_topSectionItem->setY(topSectionStickPos);
+                        if (item->m_sectionItem) {
+                            QQuickItemPrivate::get(item->m_sectionItem)->setCulled(true);
+                        }
                     }
                 }
             }

@@ -1226,10 +1226,7 @@ private Q_SLOTS:
         verifyItem(0, -308., 75., true);
         verifyItem(1, -233., 75., true);
         verifyItem(2, -158., 75., true);
-        // TODO This is not visible culled should be true, but at the moment
-        // we do not cull taking the clip/m_headerItemShownHeight into account
-        // not a big thing but may be nice to fix in the future
-        verifyItem(3, -83., 75., false);
+        verifyItem(3, -83., 75., true);
         verifyItem(4, -8., 75., false);
         verifyItem(5, 67., 75., false);
         verifyItem(6, 142., 75., false);
