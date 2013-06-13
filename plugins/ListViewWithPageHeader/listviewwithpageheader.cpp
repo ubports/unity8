@@ -14,6 +14,68 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/*
+ * Some documentation on how this thing works:
+ *
+ * A flickable has two very important concepts that define the top and
+ * height of the flickable area.
+ * The top is returned in minYExtent()
+ * The height is set using setContentHeight()
+ * By changing those two values we can make the list grow up or down
+ * as needed. e.g. if we are in the middle of the list 
+ * and something that is above the viewport grows, since we do not
+ * want to change the viewport because of that we just adjust the
+ * minYExtent so that the list grows up.
+ *
+ * The implementation on the list relies on the delegateModel doing
+ * most of the instantiation work. You call createItem() when you
+ * need to create an item asking for it async or not. If returns null
+ * it means the item will be created async and the model will call the
+ * itemCreated slot with the item.
+ *
+ * updatePolish is the central point of dispatch for the work of the
+ * class. It is called by the scene graph just before drawing the class.
+ * In it we:
+ *  * Make sure all items are positioned correctly
+ *  * Add/Remove items if needed
+ *  * Update the content height if it was dirty
+ * 
+ * m_visibleItems contains all the items we have created at the moment.
+ * Actually not all of them are visible since it includes the ones
+ * in the cache area we create asynchronously to help performance.
+ * The first item in m_visibleItems has the m_firstVisibleIndex in
+ * the model. If you actually want to know what is the first
+ * item in the viewport you have to find the first non culled element
+ * in m_visibleItems
+ * 
+ * All the items (except the header) are childs of m_clipItem which
+ * is a child of the contentItem() of the flickable (The contentItem()
+ * is what actually 'moves' in a a flickable). This way
+ * we can implement the clipping needed so we can have the header
+ * shown in the middle of the list over the items without the items
+ * leaking under the header in case it is transparent.
+ *
+ * The first item of m_visibleItems is the one that defines the
+ * positions of all the rest of items (see updatePolish()) and
+ * this is why sometimes we move it even if it's not the item
+ * that has triggered the function (i.e. in itemGeometryChanged())
+ *
+ * m_visibleItems is a list of ListItem. Each ListItem
+ * will contain a item and potentially a sectionItem. The sectionItem
+ * is only there when the list is using sectionDelegate+sectionProperty
+ * and this is the first item of the section. Each ListItem is vertically
+ * layouted with the sectionItem first and then the item.
+ *
+ * For sectioning we also have a section item alone (m_topSectionItem)
+ * that is used for the cases we need to show the sticky section item at
+ * the top of the view.
+ *
+ * There are a few things that are not really implemented or tested properly
+ * which we don't use at the moment like changing the model, changing
+ * the section delegate, having a section delegate that changes its size, etc.
+ * The known missing features are marked with TODOs along the code.
+ */
+
 #include "listviewwithpageheader.h"
 
 #include <QDebug>
@@ -320,7 +382,7 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
         }
         // We will be changing the clip item, need to accomadate for it
         // otherwise we move the firstItem down/up twice (unless the
-        // show header animation is running, where we want a different effect)
+        // show header animation is running, where we want to keep the viewport stable)
         if (!m_headerShowAnimation->isRunning())
             diff += oldHeaderItemShownHeight - m_headerItemShownHeight;
         else
@@ -351,7 +413,6 @@ void ListViewWithPageHeader::createDelegateModel()
 void ListViewWithPageHeader::refill()
 {
     if (!isComponentComplete()) {
-        qWarning() << "Incomplete ListViewWithPageHeader::refill";
         return;
     }
 

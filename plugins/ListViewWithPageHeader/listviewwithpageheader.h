@@ -96,7 +96,6 @@ private:
             bool culled() const;
             void setCulled(bool culled);
 
-//         private:
             QQuickItem *m_item;
             QQuickItem *m_sectionItem;
     };
