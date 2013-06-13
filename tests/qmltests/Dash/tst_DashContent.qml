@@ -62,20 +62,20 @@ Item {
     }
 
     function clear_scope_status() {
-        scope_status["MockScope1"].movementStarted = 0;
-        scope_status["MockScope1"].positionedAtBeginning = 0;
+        scopeStatus["MockScope1"].movementStarted = 0;
+        scopeStatus["MockScope1"].positionedAtBeginning = 0;
 
-        scope_status["MockScope2"].movementStarted = 0;
-        scope_status["MockScope2"].positionedAtBeginning = 0;
+        scopeStatus["MockScope2"].movementStarted = 0;
+        scopeStatus["MockScope2"].positionedAtBeginning = 0;
 
-        scope_status["MockScope3"].movementStarted = 0;
-        scope_status["MockScope3"].positionedAtBeginning = 0;
+        scopeStatus["MockScope3"].movementStarted = 0;
+        scopeStatus["MockScope3"].positionedAtBeginning = 0;
 
-        scope_status["MockScope4"].movementStarted = 0;
-        scope_status["MockScope4"].positionedAtBeginning = 0;
+        scopeStatus["MockScope4"].movementStarted = 0;
+        scopeStatus["MockScope4"].positionedAtBeginning = 0;
 
-        scope_status["MockScope5"].movementStarted = 0;
-        scope_status["MockScope5"].positionedAtBeginning = 0;
+        scopeStatus["MockScope5"].movementStarted = 0;
+        scopeStatus["MockScope5"].positionedAtBeginning = 0;
     }
 
     SignalSpy {
@@ -115,7 +115,7 @@ Item {
         }
 
         function test_movement_started_signal() {
-            dash_content.setCurrentScopeAtIndex(3, true, false);
+            dashContent.setCurrentScopeAtIndex(3, true, false);
 
             var dashContentList = findChild(dashContent, "dashContentList");
             verify(dashContentList != undefined)
@@ -125,24 +125,24 @@ Item {
             dashContentList.movementStarted();
 
             compare(movementStartedSpy.count, 1, "DashContent should have emitted movementStarted signal when content list did.");
-            compare(scope_status["MockScope1"].movementStarted, 1, "MockScope1 should have emitted movementStarted signal when content list did.");
-            compare(scope_status["MockScope2"].movementStarted, 1, "MockScope2 should have emitted movementStarted signal when content list did.");
-            compare(scope_status["MockScope3"].movementStarted, 1, "MockScope3 should have emitted movementStarted signal when content list did.");
-            compare(scope_status["MockScope4"].movementStarted, 1, "MockScope4 should have emitted movementStarted signal when content list did.");
-            compare(scope_status["MockScope5"].movementStarted, 1, "MockScope5 should have emitted movementStarted signal when content list did.");
+            compare(scopeStatus["MockScope1"].movementStarted, 1, "MockScope1 should have emitted movementStarted signal when content list did.");
+            compare(scopeStatus["MockScope2"].movementStarted, 1, "MockScope2 should have emitted movementStarted signal when content list did.");
+            compare(scopeStatus["MockScope3"].movementStarted, 1, "MockScope3 should have emitted movementStarted signal when content list did.");
+            compare(scopeStatus["MockScope4"].movementStarted, 1, "MockScope4 should have emitted movementStarted signal when content list did.");
+            compare(scopeStatus["MockScope5"].movementStarted, 1, "MockScope5 should have emitted movementStarted signal when content list did.");
         }
 
         function test_positioned_at_beginning_signal() {
-            dash_content.setCurrentScopeAtIndex(3, true, false);
+            dashContent.setCurrentScopeAtIndex(3, true, false);
 
             tryCompare(scopeLoadedSpy, "count", 5);
 
-            dash_content.positionedAtBeginning();
-            compare(scope_status["MockScope1"].positionedAtBeginning, 1, "MockScope1 should have emitted positionedAtBeginning signal when DashContent did.");
-            compare(scope_status["MockScope2"].positionedAtBeginning, 1, "MockScope2 should have emitted positionedAtBeginning signal when DashContent did.");
-            compare(scope_status["MockScope3"].positionedAtBeginning, 1, "MockScope3 should have emitted positionedAtBeginning signal when DashContent did.");
-            compare(scope_status["MockScope4"].positionedAtBeginning, 1, "MockScope4 should have emitted positionedAtBeginning signal when DashContent did.");
-            compare(scope_status["MockScope5"].positionedAtBeginning, 1, "MockScope5 should have emitted positionedAtBeginning signal when DashContent did.");
+            dashContent.positionedAtBeginning();
+            compare(scopeStatus["MockScope1"].positionedAtBeginning, 1, "MockScope1 should have emitted positionedAtBeginning signal when DashContent did.");
+            compare(scopeStatus["MockScope2"].positionedAtBeginning, 1, "MockScope2 should have emitted positionedAtBeginning signal when DashContent did.");
+            compare(scopeStatus["MockScope3"].positionedAtBeginning, 1, "MockScope3 should have emitted positionedAtBeginning signal when DashContent did.");
+            compare(scopeStatus["MockScope4"].positionedAtBeginning, 1, "MockScope4 should have emitted positionedAtBeginning signal when DashContent did.");
+            compare(scopeStatus["MockScope5"].positionedAtBeginning, 1, "MockScope5 should have emitted positionedAtBeginning signal when DashContent did.");
         }
 
         function test_scope_loaded() {
@@ -154,7 +154,7 @@ Item {
             verify(dashContentList != undefined);
 
             tryCompare(scopeLoadedSpy, "count", 5);
-            dash_content.setCurrentScopeAtIndex(0, true, false);
+            dashContent.setCurrentScopeAtIndex(0, true, false);
             dashContentList.currentItem.item.endReached();
 
             compare(contentEndReachedSpy.count, 1);
