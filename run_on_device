@@ -11,6 +11,8 @@ TARGET_DEBUG_PORT=3768
 RUN_OPTIONS=-qmljsdebugger=port:$TARGET_DEBUG_PORT
 SETUP=false
 GDB=false
+PINLOCK=false
+KEYLOCK=false
 SUDO="echo $PASSWORD | sudo -S"
 NUM_JOBS='$(( `grep -c ^processor /proc/cpuinfo` + 1 ))'
 
@@ -19,6 +21,8 @@ usage() {
     echo "Script to setup a build environment for the shell and sync build and run it on the device\n"
     echo "OPTIONS:"
     echo "  -s, --setup   Setup the build environment"
+    echo "  -p, --pinlock Enable a PIN lock screen when running"
+    echo "  -k, --keylock Enable a Keyboard lock screen when running"
     echo ""
     echo "IMPORTANT:"
     echo " * Make sure to have the networking and PPAs setup on the device beforehand (phablet-deploy-networking && phablet-ppa-fetch)."
@@ -33,6 +37,7 @@ exec_with_ssh() {
 exec_with_adb() {
     adb shell chroot /data/ubuntu /usr/bin/env -i PATH=/bin:/usr/bin:/sbin:/usr/sbin:/tools/bin "$@"
 }
+
 adb_root() {
     adb root
     adb wait-for-device
@@ -55,39 +60,49 @@ setup_adb_forwarding() {
 
 install_dependencies() {
     exec_with_adb apt-get -y install openssh-server
-    exec_with_ssh $SUDO apt-get -y install build-essential rsync bzr ccache gdb ninja-build
+    exec_with_ssh $SUDO apt-get -y install build-essential rsync bzr ccache gdb ninja-build devscripts equivs
     exec_with_ssh $SUDO add-apt-repository -y ppa:canonical-qt5-edgers/qt5-proper
     exec_with_ssh $SUDO add-apt-repository -s -y ppa:phablet-team/ppa
     exec_with_ssh $SUDO apt-get update
-    exec_with_ssh $SUDO apt-get -y build-dep $PACKAGE
 }
 
 sync_code() {
-    bzr export --uncommitted --format=dir /tmp/$CODE_DIR
+    [ -e .bzr ] && bzr export --uncommitted --format=dir /tmp/$CODE_DIR
+    [ -e .git ] && git checkout-index -a -f --prefix=/tmp/$CODE_DIR/
     rsync -crlOzv -e "ssh -p $TARGET_SSH_PORT -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" /tmp/$CODE_DIR/ $USER@$TARGET_IP:$CODE_DIR/
     rm -rf /tmp/$CODE_DIR
 }
 
 build() {
+    exec_with_ssh "[ $CODE_DIR/debian/control -nt unity8-build-deps*deb ] && $SUDO mk-build-deps --tool=\\\"apt-get -y --no-install-recommends\\\" --build-dep --install $CODE_DIR/debian/control"
     exec_with_ssh PATH=/usr/lib/ccache:$PATH "cd $CODE_DIR/ && PATH=/usr/lib/ccache:$PATH ./build"
 }
 
 run() {
     SERVICEFILE="/data/ubuntu/etc/device-services"
-    adb shell "grep $BINARY $SERVICEFILE"
+    adb shell "egrep '$BINARY|qml-phone-shell' $SERVICEFILE"
     CONTAINS_SHELL=$?
     if [ $CONTAINS_SHELL -eq 0 ]; then
         echo "Modifying $SERVICEFILE on device. Old contents will be saved in $SERVICEFILE.backup"
         adb shell cp $SERVICEFILE $SERVICEFILE.backup
-        adb shell sed -i /$BINARY/d $SERVICEFILE
+        adb shell sed -i "/$BINARY\\\\\|qml-phone-shell/d" $SERVICEFILE
         adb shell "chroot /data/ubuntu /usr/bin/service ubuntu-session restart"
     fi
+    adb shell pkill qml-phone-shell
     adb shell pkill $BINARY
+    ARGS="--nomousetouch"
     if $GDB; then
-        exec_with_ssh "cd $CODE_DIR/ && ./run --gdb --nomousetouch -- $RUN_OPTIONS"
-    else
-        exec_with_ssh "cd $CODE_DIR && ./run --nomousetouch -- $RUN_OPTIONS"
+        ARGS="$ARGS --gdb"
     fi
+    if $PINLOCK; then
+        ARGS="$ARGS -p"
+    fi
+    if $KEYLOCK; then
+        ARGS="$ARGS -k"
+    fi
+
+    exec_with_ssh "cd $CODE_DIR/ && ./run $ARGS -- $RUN_OPTIONS"
+
     if [ $CONTAINS_SHELL -eq 0 ]; then
         echo "Restoring $SERVICEFILE on device from $SERVICEFILE.backup"
         adb shell cp $SERVICEFILE.backup $SERVICEFILE
@@ -95,7 +110,7 @@ run() {
     fi
 }
 
-set -- `getopt -n$0 -u -a --longoptions="setup,gdb,help" "sgh" "$@"`
+set -- `getopt -n$0 -u -a --longoptions="setup,gdb,pinlock,keylock,help" "sgpkh" "$@"`
 
 # FIXME: giving incorrect arguments does not call usage and exit
 while [ $# -gt 0 ]
@@ -103,6 +118,8 @@ do
     case "$1" in
        -s|--setup)   SETUP=true;;
        -g|--gdb)     GDB=true;;
+       -p|--pinlock)     PINLOCK=true;;
+       -k|--keylock)     KEYLOCK=true;;
        -h|--help)    usage;;
        --)           shift;break;;
     esac

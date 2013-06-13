@@ -37,12 +37,13 @@ BUILD_TYPE="debug"
 [ $# -eq 1 ] && BUILD_TYPE="$1"
 
 install_dependencies() {
-    sudo add-apt-repository -y ppa:phablet-team/desktop-deps || exit 1
-    sudo add-apt-repository -y ppa:canonical-qt5-edgers/qt5-proper || exit 2;
-    sudo add-apt-repository -y ppa:ubuntu-sdk-team/ppa || exit 3
+    . /etc/lsb-release
+    [ -f /etc/apt/sources.list.d/phablet-team-desktop-deps-${DISTRIB_CODENAME}.list ] || sudo add-apt-repository ppa:phablet-team/desktop-deps || exit 1
+    [ -f /etc/apt/sources.list.d/canonical-qt5-edgers-qt5-proper-${DISTRIB_CODENAME}.list ] || sudo add-apt-repository ppa:canonical-qt5-edgers/qt5-proper || exit 2;
+    [ -f /etc/apt/sources.list.d/ubuntu-sdk-team-ppa-${DISTRIB_CODENAME}.list ] || sudo add-apt-repository ppa:ubuntu-sdk-team/ppa || exit 3
     sudo apt-get update || exit 4
-    echo "Installing dependencies.."
-    sudo apt-get install -y qtdeclarative5-ubuntu-ui-toolkit-plugin qtdeclarative5-dee-plugin indicators-client indicators-client-plugin-* qtbase5-dev qtbase5-private-dev qtdeclarative5-dev qtdeclarative5-dev-tools qtdeclarative5-test-plugin libdee-qt5-dev libpulse-dev qtdeclarative5-xmllistmodel-plugin unity-lens-mock demo-assets ubuntu-mobile-icons || exit 6
+    echo "Installing Unity 8 dependencies.."
+    sudo apt-get install qtdeclarative5-ubuntu-ui-toolkit-plugin qtdeclarative5-dee-plugin indicators-client indicators-client-plugin-* qtbase5-dev qtbase5-private-dev qtdeclarative5-dev qtdeclarative5-dev-tools qtdeclarative5-test-plugin libdee-qt5-dev libpulse-dev qtdeclarative5-xmllistmodel-plugin unity-lens-mock demo-assets ubuntu-mobile-icons || exit 5
 }
 
 if [ -f "/usr/bin/ninja" ] ; then
@@ -55,13 +56,13 @@ fi
 
 if $SETUP; then
     install_dependencies
-    ./build_unity --setup || exit 6
-    ./build_unity
+    ./build_unity --setup || exit 1$?
+    ./build_unity || exit 1$?
 else
     if $CLEAN; then rm -rf builddir; fi
     mkdir -p builddir
     cd builddir
-    PKG_CONFIG_PATH=$UNITY_BUILD_DIR/lib/pkgconfig/:$PKG_CONFIG_PATH cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE .. ${GENERATOR}
-    ${BUILD_COMMAND}
+    PKG_CONFIG_PATH=$UNITY_BUILD_DIR/lib/pkgconfig/:$PKG_CONFIG_PATH cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE .. ${GENERATOR} || exit 6
+    ${BUILD_COMMAND} || exit 7
 fi
 

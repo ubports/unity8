@@ -7,15 +7,83 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-05-30 21:08+0800\n"
-"PO-Revision-Date: 2013-06-03 08:52+0000\n"
+"POT-Creation-Date: 2013-06-08 14:40+0200\n"
+"PO-Revision-Date: 2013-06-10 16:19+0000\n"
 "Last-Translator: Jiri Grönroos <Unknown>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-04 06:27+0000\n"
-"X-Generator: Launchpad (build 16660)\n"
+"X-Launchpad-Export-Date: 2013-06-11 06:34+0000\n"
+"X-Generator: Launchpad (build 16667)\n"
+
+#: Applications/applications.js:23
+msgid "Phone"
+msgstr "Puhelin"
+
+#: Applications/applications.js:29
+msgid "Camera"
+msgstr "Kamera"
+
+#: Applications/applications.js:35
+msgid "Gallery"
+msgstr "Galleria"
+
+#: Applications/applications.js:40
+msgid "Facebook"
+msgstr "Facebook"
+
+#: Applications/applications.js:46
+msgid "Browser"
+msgstr "Selain"
+
+#: Applications/applications.js:51
+msgid "Twitter"
+msgstr "Twitter"
+
+#: Applications/applications.js:57
+msgid "GMail"
+msgstr "GMail"
+
+#: Applications/applications.js:62
+msgid "Weather"
+msgstr "Sää"
+
+#: Applications/applications.js:68
+msgid "Notepad"
+msgstr "Muistio"
+
+#: Applications/applications.js:74
+msgid "Calendar"
+msgstr "Kalenteri"
+
+#: Applications/applications.js:80
+msgid "Media Player"
+msgstr "Mediasoitin"
+
+#: Applications/applications.js:86
+msgid "Evernote"
+msgstr "Evernote"
+
+#: Applications/applications.js:91
+msgid "Map"
+msgstr "Kartta"
+
+#: Applications/applications.js:96
+msgid "Pinterest"
+msgstr "Pinterest"
+
+#: Applications/applications.js:101
+msgid "SoundCloud"
+msgstr "SoundCloud"
+
+#: Applications/applications.js:106
+msgid "Wikipedia"
+msgstr "Wikipedia"
+
+#: Applications/applications.js:111
+msgid "YouTube"
+msgstr "YouTube"
 
 #: Components/PageHeader.qml:300
 msgid "Recent searches"
@@ -63,19 +131,67 @@ msgstr "Suositut verkkovideot"
 
 #: Dash/DashHome.qml:197 plugins/Unity/lenses.cpp:38
 msgid "Home"
-msgstr "Alkuun"
+msgstr "Kotinäyttö"
 
-#: Dash/DashMusic.qml:92
+#: Dash/DashMusic.qml:27 Dash/DashVideos.qml:28
+msgid "Featured"
+msgstr "Suositellut"
+
+#: Dash/DashMusic.qml:28 Dash/DashVideos.qml:29
+msgid "Recent"
+msgstr "Viimeisimmät"
+
+#: Dash/DashMusic.qml:29 Dash/DashVideos.qml:30
+msgid "New Releases"
+msgstr "Uudet julkaisut"
+
+#: Dash/DashMusic.qml:30
+msgid "Top Charting"
+msgstr "Nousukiidossa"
+
+#: Dash/DashMusic.qml:99
 msgid "Music"
 msgstr "Musiikki"
 
-#: Dash/DashPeople.qml:116
+#: Dash/DashPeople.qml:31
+msgid "Favourites"
+msgstr "Suosikit"
+
+#: Dash/DashPeople.qml:32
+msgid "Recently in touch"
+msgstr "Viimeksi yhteydessä"
+
+#: Dash/DashPeople.qml:33
+msgid "New Contacts"
+msgstr "Uudet yhteystiedot"
+
+#: Dash/DashPeople.qml:34
+msgid "A-Z"
+msgstr ""
+
+#: Dash/DashPeople.qml:123
 msgid "People"
 msgstr "Ihmiset"
 
-#: Dash/DashVideos.qml:148
+#: Dash/DashVideos.qml:31
+msgid "Popular Online"
+msgstr "Suosittua verkossa"
+
+#: Dash/DashVideos.qml:155
 msgid "Videos"
 msgstr "Videot"
+
+#: Dash/Video/VideoPreview.qml:98
+msgid "Directed by:"
+msgstr "Ohjannut:"
+
+#: Dash/Video/VideoPreview.qml:121
+msgid "Starring:"
+msgstr "Pääosissa:"
+
+#: Dash/Video/VideoPreview.qml:144
+msgid "Author:"
+msgstr "Laatinut:"
 
 #: Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
@@ -105,6 +221,10 @@ msgstr "Laite"
 msgid "Flight mode"
 msgstr "Lentokonetila"
 
+#: Panel/SearchIndicator.qml:26 plugins/Unity/lenses.cpp:40
+msgid "Search"
+msgstr "Hae"
+
 #: plugins/Unity/lens.cpp:333
 msgid "Sorry, there is nothing that matches your search."
 msgstr "Hakuun täsmääviä tuloksia ei löydy."
@@ -112,7 +232,3 @@ msgstr "Hakuun täsmääviä tuloksia ei löydy."
 #: plugins/Unity/lenses.cpp:39
 msgid "Home screen"
 msgstr "Kotinäyttö"
-
-#: plugins/Unity/lenses.cpp:40
-msgid "Search"
-msgstr "Hae"

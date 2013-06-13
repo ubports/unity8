@@ -95,6 +95,13 @@ public:
     */
     Q_INVOKABLE void reset();
 
+    int numSamples() const;
+
+    /*
+        The minimum amount of samples needed for a velocity calculation.
+     */
+    static const int MIN_SAMPLES_NEEDED = 2;
+
     /*
       Maximum number of movement samples stored
     */
@@ -114,8 +121,6 @@ private:
       How much the finger has moved since processMovement() was last called.
     */
     void processMovement(qreal movement);
-
-    int numSamples() const;
 
     class Sample
     {

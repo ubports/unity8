@@ -28,6 +28,8 @@ Item {
     property real contentProgress: Math.max(0, Math.min(dashContentList.contentX / (dashContentList.contentWidth - dashContentList.width), units.dp(1)))
     property alias currentIndex: dashContentList.currentIndex
 
+    property LensDelegateMapper lensMapper : LensDelegateMapper {}
+
     signal movementStarted()
     signal movementEnded()
     signal contentFlickStarted()
@@ -79,14 +81,6 @@ Item {
         }
     }
 
-    property var lensDelegateMapping: {"mockmusic.lens": "DashMusic.qml",
-                                       "applications.lens": "DashApps.qml",
-                                       "home.lens": "DashHome.qml",
-                                       "mockvideos.lens": "DashVideos.qml",
-                                       "people.lens": "DashPeople.qml",
-                                      }
-    property string genericLens: "GenericLensView.qml"
-
     ListView {
         id: dashContentList
         objectName: "dashContentList"
@@ -121,14 +115,7 @@ Item {
                 width: ListView.view.width
                 height: ListView.view.height
                 asynchronous: true
-                source: {
-                    var customLens = lensDelegateMapping[lens.id]
-                    if (customLens) {
-                        return customLens
-                    } else {
-                        return genericLens
-                    }
-                }
+                source: lensMapper.map(lens.id)
                 onLoaded: {
                     item.lens = Qt.binding(function() { return lens })
                     item.isCurrent = Qt.binding(function() { return ListView.isCurrentItem })
@@ -150,6 +137,8 @@ Item {
                         }
                     }
                 }
+
+                Component.onDestruction: active = false
             }
     }
 }

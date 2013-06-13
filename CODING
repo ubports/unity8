@@ -17,7 +17,7 @@ If its your first time, download & build deps
 $ ./build -s
   this will:
   - add ppa:phablet-team/desktop-deps, ppa:canonical-qt5-edgers/qt5-proper, ppa:ubuntu-sdk-team
-  - build and install lp:libunity/phablet, lp:unity/phablet-mods, lp:hud/phablet and lp:unity-lens-people locally
+  - build and install lp:libunity/phablet, lp:unity/phablet-mods, lp:hud/phablet locally
   - install build dependencies
 
 build Unity 8
@@ -33,10 +33,6 @@ $ ./build_unity
 Running Unity 8 on your desktop
 ===============================
 
-run the People lens daemon
---------------------------
-$ ~/unity/unity_build/libexec/unity-people-daemon
-
 run the Unity 8 shell
 ---------------------
 $ cd ~/unity/unity8
@@ -45,12 +41,6 @@ $ ./run
 Notes
 -----
 - to navigate, utilize the mouse left button as you would your finger
-- if your contacts are empty
-  $ sudo apt-get install gir1.2-ebook-1.2
-  $ manage-address-book.py create
-    this will:
-    - create an EDS address book
-    - populate the address book with sample data
 - to get the translations work, currently you have to do make install to
   put the *.mo files into correct structure. We'll look for a better solution
   later.

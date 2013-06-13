@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import LightDM 0.1 as LightDM
+import "../Components"
 
 Item {
     id: root
@@ -218,30 +219,9 @@ Item {
             source: "graphics/icon_arrow.png"
         }
 
-        SequentialAnimation {
+        WrongPasswordAnimation {
             id: wrongPasswordAnimation
-            NumberAnimation {
-                target: passwordInput
-                property: "anchors.horizontalCenterOffset"
-                duration: 50
-                easing.type: Easing.InQuad
-                to: units.gu(2)
-            }
-            NumberAnimation {
-                target: passwordInput
-                property: "anchors.horizontalCenterOffset"
-                duration: 100
-                easing.type: Easing.InOutQuad
-                to: -units.gu(2)
-            }
-            NumberAnimation {
-                target: passwordInput
-                easing.type: Easing.OutElastic
-                properties: "anchors.horizontalCenterOffset"
-                to: 0
-                duration: 400
-                easing.overshoot: units.gu(2)
-            }
+            target: passwordInput
         }
 
         Connections {
