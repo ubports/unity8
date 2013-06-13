@@ -28,7 +28,6 @@ UbuntuShape {
     property var actions
     property var notificationId
     property var type
-    property var notificationobj
 
     signal actionInvoked(string buttonId)
 
@@ -47,7 +46,7 @@ UbuntuShape {
         anchors.fill: contentColumn
         objectName: "interactiveArea"
         enabled: notification.type == Notification.Interactive
-        onClicked: notification.notificationobj.invokeAction(actionRepeater.model.actionId(0))
+        onClicked: notificationRenderer.model.get(notificationId).invokeAction(actionRepeater.model.actionId(0))
     }
 
     Column {
@@ -153,7 +152,7 @@ UbuntuShape {
                     width: (buttonRow.width - buttonRow.spacing) / 2
                     height: units.gu(4)
                     text: label
-                    onClicked: notification.notificationobj.invokeAction(id)
+                    onClicked: notificationRenderer.model.get(notificationId).invokeAction(id)
                 }
             }
         }
