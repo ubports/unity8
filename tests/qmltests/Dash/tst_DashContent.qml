@@ -200,7 +200,7 @@ Item {
         }
 
         function test_scope_mapping(data) {
-            dashContent.setCurrentLensAtIndex(data.index, true, false);  
+            dashContent.setCurrentLensAtIndex(data.index, true, false);
             tryCompareFunction(get_current_item_object_name, data.objectName)
         }
 
