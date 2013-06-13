@@ -31,9 +31,16 @@ Showable {
     readonly property bool multiUser: LightDM.Users.count > 1
 
     readonly property bool leftTeaserPressed: greeterContentLoader.status == Loader.Ready && greeterContentLoader.item.leftTeaserPressed
+    readonly property bool rightTeaserPressed: greeterContentLoader.status == Loader.Ready && greeterContentLoader.item.rightTeaserPressed
 
     signal selected(int uid)
     signal unlocked(int uid)
+
+    onRightTeaserPressedChanged: {
+        if (rightTeaserPressed) {
+            teasingTimer.start();
+        }
+    }
 
     Loader {
         id: greeterContentLoader
@@ -54,4 +61,32 @@ Showable {
             onUnlocked: greeter.unlocked(uid);
         }
     }
+
+    Timer {
+        id: teasingTimer
+        interval: 200
+    }
+
+    states: [
+        State {
+            name: "teasing"
+            when: greeter.rightTeaserPressed || teasingTimer.running
+            PropertyChanges {
+                target: greeter
+                x: -units.gu(2)
+            }
+        }
+    ]
+    transitions: [
+        Transition {
+            from: "*"
+            to: "*"
+            NumberAnimation {
+                target: greeter
+                property: "x"
+                duration: 300
+                easing.type: Easing.OutCubic
+            }
+        }
+    ]
 }
