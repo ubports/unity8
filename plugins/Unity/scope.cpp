@@ -118,7 +118,7 @@ void Scope::setNoResultsHint(const QString& hint) {
     }
 }
 
-void Scope::activate(const QString& uri)
+void Scope::activate(const QString& /*uri*/)
 {
     // TODO:
     // we need to create unity::dash::LocalResult (see UnityCore/Result.h) and pass it to Activate;
@@ -236,7 +236,7 @@ void Scope::onResultsChanged(const unity::dash::Results::Ptr& /* results */)
     m_results->setName(QString::fromStdString(m_unityScope->results()->swarm_name));
 }
 
-void Scope::onResultsModelChanged(unity::glib::Object<DeeModel> model)
+void Scope::onResultsModelChanged(unity::glib::Object<DeeModel> /* model */)
 {
     m_results->setModel(m_unityScope->results()->model());
 }
@@ -256,7 +256,7 @@ void Scope::onCategoriesModelChanged(unity::glib::Object<DeeModel> model)
     m_categories->setModel(model);
 }
 
-void Scope::onSearchFinished(const std::string &query, unity::glib::HintsMap const &hints)
+void Scope::onSearchFinished(const std::string& /* query */, unity::glib::HintsMap const &hints)
 {
     QString hint;
 
