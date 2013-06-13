@@ -27,27 +27,20 @@ void InfographicModelPrivate::generateFakeData()
     std::normal_distribution<qreal> distribution(0.5, 0.2);
     auto rand = std::bind(distribution, generator);
 
-    QVector<QColor> colours;
-    colours.push_back(QColor::fromRgbF(0.3, 0.27, 0.32));
-    colours.push_back(QColor::fromRgbF(0.83, 0.49, 0.58));
-    colours.push_back(QColor::fromRgbF(0.63, 0.51, 0.59));
+    QColor orange = QColor::fromRgbF(0.9, 0.3, 0.1, 1.0);
+    QColor yellow = QColor::fromRgbF(1.0, 0.6, 0.0, 1.0);
+    QColor red = QColor::fromRgbF(0.8, 0.0, 0.0, 1.0);
+    QColor darkPurple = QColor::fromRgbF(0.5, 0.2, 0.3, 1.0);
+    QColor lightPurple = QColor::fromRgbF(0.8, 0.1, 0.8, 1.0);
+    QColor pink(QColor::fromRgbF(0.75, 0.13, 0.75));
 
-    colours.push_back(QColor::fromRgbF(0.28, 0.26, 0.4));
-    colours.push_back(QColor::fromRgbF(0.47, 0.38, 0.56));
-    colours.push_back(QColor::fromRgbF(0.69, 0.65, 0.78));
-
-    colours.push_back(QColor::fromRgbF(0.32, 0.21, 0.16));
-    colours.push_back(QColor::fromRgbF(0.55, 0.45, 0.32));
-    colours.push_back(QColor::fromRgbF(0.85, 0.74, 0.53));
-
-    colours.push_back(QColor::fromRgbF(0.25, 0.31, 0.19));
-    colours.push_back(QColor::fromRgbF(0.63, 0.53, 0.3));
-    colours.push_back(QColor::fromRgbF(0.89, 0.56, 0.31));
-
-    InfographicColorTheme first(colours[0], colours[1], colours[2]);
-    InfographicColorTheme second(colours[3], colours[4], colours[5]);
-    InfographicColorTheme eighth(colours[6], colours[7], colours[8]);
-    InfographicColorTheme ninth(colours[9], colours[10], colours[11]);
+    InfographicColorTheme orangeTheme(yellow, orange, red);
+    InfographicColorTheme yellowTheme(orange, yellow, orange);
+    InfographicColorTheme redTheme(red, red, red);
+    InfographicColorTheme darkPurpleTheme(lightPurple, darkPurple, pink);
+    InfographicColorTheme lightPurpleTheme(lightPurple, lightPurple,
+            lightPurple);
+    InfographicColorTheme pinkTheme(lightPurple, pink, darkPurple);
 
     {
         QVariantList firstMonth;
@@ -59,8 +52,8 @@ void InfographicModelPrivate::generateFakeData()
         while (secondMonth.size() < 31)
             secondMonth.push_back(QVariant(rand()));
         QSharedPointer<InfographicData> data(
-                new InfographicData("<b>52km</b> travelled", first, firstMonth,
-                        ninth, secondMonth, this));
+                new InfographicData("<b>52km</b> travelled", yellowTheme, firstMonth,
+                        orangeTheme, secondMonth, this));
         m_fakeData.insert("guest", data);
     }
 
@@ -74,8 +67,8 @@ void InfographicModelPrivate::generateFakeData()
         while (secondMonth.size() < 31)
             secondMonth.push_back(QVariant(rand()));
         QSharedPointer<InfographicData> data(
-                new InfographicData("<b>33</b> messages today", second,
-                        firstMonth, eighth, secondMonth, this));
+                new InfographicData("<b>33</b> messages today", pinkTheme,
+                        firstMonth, orangeTheme, secondMonth, this));
         m_fakeData.insert("guest", data);
     }
 
@@ -89,8 +82,8 @@ void InfographicModelPrivate::generateFakeData()
         while (secondMonth.size() < 31)
             secondMonth.push_back(QVariant(rand()));
         QSharedPointer<InfographicData> data(
-                new InfographicData("<b>69</b> minutes talk time", eighth,
-                        firstMonth, second, secondMonth, this));
+                new InfographicData("<b>69</b> minutes talk time", darkPurpleTheme,
+                        firstMonth, redTheme, secondMonth, this));
         m_fakeData.insert("guest", data);
     }
 }
