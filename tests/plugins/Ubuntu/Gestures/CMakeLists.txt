@@ -11,9 +11,9 @@ set(testCommand
       -o ${CMAKE_BINARY_DIR}/DirectionalDragAreaTest.xml,xunitxml
       -o -,txt)
 
-add_custom_target(DirectionalDragAreaTest ${testCommand})
-add_dependencies(qmluitests DirectionalDragAreaTest)
-add_dependencies(DirectionalDragAreaTest DirectionalDragAreaTestExec UbutunGesturesTestQmlFiles)
+add_custom_target(testDirectionalDragArea ${testCommand})
+add_dependencies(qmluitests testDirectionalDragArea)
+add_dependencies(testDirectionalDragArea DirectionalDragAreaTestExec UbutunGesturesTestQmlFiles)
 
 add_executable(DirectionalDragAreaTestExec tst_DirectionalDragArea.cpp)
 qt5_use_modules(DirectionalDragAreaTestExec Test Core Qml Gui Quick)
@@ -26,6 +26,8 @@ add_custom_target(UbuntuGesturesTestQmlFiles ALL
     COMMAND cp ${qmlFiles} ${CMAKE_CURRENT_BINARY_DIR}
     DEPENDS ${qmlFiles}
 )
+
+########## other tests
 
 macro(add_gesture_test CLASSNAME)
     set(testCommand

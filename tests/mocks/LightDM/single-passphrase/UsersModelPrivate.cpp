@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright (C) 2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,13 +12,22 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Author: Michael Terry <michael.terry@canonical.com>
  */
 
-import QtQuick 2.0
+#include "../UsersModelPrivate.h"
 
-FakeLensView {
-    id: fake_generic_lensView
-    objectName: "fake_generic_lensView"
+namespace QLightDM
+{
 
-    backColor: "#D0D0D0"
+UsersModelPrivate::UsersModelPrivate(UsersModel* parent)
+  : q_ptr(parent)
+{
+    entries =
+    {
+        { "has-pin",           "Has PIN",      0, 0, false, false, 0, 0 },
+    };
+}
+
 }

@@ -22,6 +22,30 @@
 
 #include <DirectionalDragArea.h>
 
+class FakeTimer : public UbuntuGestures::AbstractTimer
+{
+    Q_OBJECT
+public:
+    FakeTimer(QObject *parent = 0)
+        : UbuntuGestures::AbstractTimer(parent)
+    {}
+
+    virtual int interval() const { return m_duration; }
+    virtual void setInterval(int msecs) { m_duration = msecs; }
+
+    void emitTimeout() {Q_EMIT timeout();}
+private:
+    int m_duration;
+};
+
+class FakeTimeSource : public AxisVelocityCalculator::TimeSource
+{
+public:
+    FakeTimeSource() { m_msecsSinceReference = 0; }
+    virtual qint64 msecsSinceReference() {return m_msecsSinceReference;}
+    qint64 m_msecsSinceReference;
+};
+
 class tst_DirectionalDragArea: public QObject
 {
     Q_OBJECT
@@ -31,13 +55,24 @@ private Q_SLOTS:
     void initTestCase(); // will be called before the first test function is executed
     void cleanupTestCase(); // will be called after the last test function was executed.
 
+    void init(); // called right before each and every test function is executed
+    void cleanup(); // called right after each and every test function is executed
+
     void edgeDrag();
     void edgeDrag_data();
     void dragWithShortDirectionChange();
+    void minSpeed();
+    void minSpeed_data();
+    void recognitionTimerUsage();
+    void maxSilenceTime();
 
 private:
     QQuickView *createView();
+    QQuickView *view;
     QTouchDevice *device;
+    FakeTimer *fakeTimer;
+    FakeTimeSource *fakeTimeSource;
+    AxisVelocityCalculator *velCalcWithFakeTiming;
 };
 
 void tst_DirectionalDragArea::initTestCase()
@@ -47,10 +82,40 @@ void tst_DirectionalDragArea::initTestCase()
         device->setType(QTouchDevice::TouchScreen);
         QWindowSystemInterface::registerTouchDevice(device);
     }
+
+    view = 0;
 }
 
 void tst_DirectionalDragArea::cleanupTestCase()
 {
+}
+
+void tst_DirectionalDragArea::init()
+{
+    view = createView();
+    view->setSource(QUrl::fromLocalFile("edgeDragExample.qml"));
+    view->show();
+    QVERIFY(QTest::qWaitForWindowExposed(view));
+    QVERIFY(view->rootObject() != 0);
+    qApp->processEvents();
+
+    fakeTimer = new FakeTimer;
+    fakeTimeSource = new FakeTimeSource;
+    velCalcWithFakeTiming = new AxisVelocityCalculator(fakeTimeSource);
+}
+
+void tst_DirectionalDragArea::cleanup()
+{
+    delete view;
+    view = 0;
+
+    delete fakeTimer;
+    fakeTimer = 0;
+
+    // will bring fakeTimeSource down with it
+    delete velCalcWithFakeTiming;
+    fakeTimeSource = 0;
+    velCalcWithFakeTiming = 0;
 }
 
 QQuickView *tst_DirectionalDragArea::createView()
@@ -119,17 +184,11 @@ void tst_DirectionalDragArea::edgeDrag()
     QFETCH(qreal, dragDistanceFactor);
     QFETCH(int, expectedGestureRecognition);
 
-    QQuickView *view = createView();
-    QScopedPointer<QQuickView> scope(view);
-    view->setSource(QUrl::fromLocalFile("edgeDragExample.qml"));
-    view->show();
-    QVERIFY(QTest::qWaitForWindowExposed(view));
-    QVERIFY(view->rootObject() != 0);
-    qApp->processEvents();
-
     DirectionalDragArea *edgeDragArea =
         view->rootObject()->findChild<DirectionalDragArea*>(dragAreaObjectName);
     QVERIFY(edgeDragArea != 0);
+    edgeDragArea->setRecognitionTimer(fakeTimer);
+    edgeDragArea->setAxisVelocityCalculator(velCalcWithFakeTiming);
 
     QSignalSpy draggingSpy(edgeDragArea, SIGNAL(draggingChanged(bool)));
 
@@ -230,17 +289,11 @@ void tst_DirectionalDragArea::edgeDrag_data()
  */
 void tst_DirectionalDragArea::dragWithShortDirectionChange()
 {
-    QQuickView *view = createView();
-    QScopedPointer<QQuickView> scope(view);
-    view->setSource(QUrl::fromLocalFile("edgeDragExample.qml"));
-    view->show();
-    QVERIFY(QTest::qWaitForWindowExposed(view));
-    QVERIFY(view->rootObject() != 0);
-    qApp->processEvents();
-
     DirectionalDragArea *edgeDragArea =
         view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
     QVERIFY(edgeDragArea != 0);
+    edgeDragArea->setRecognitionTimer(fakeTimer);
+    edgeDragArea->setAxisVelocityCalculator(velCalcWithFakeTiming);
 
     QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea, view);
     QPointF touchPoint = initialTouchPos;
@@ -270,6 +323,140 @@ void tst_DirectionalDragArea::dragWithShortDirectionChange()
     QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::Recognized);
 
     QTest::touchEvent(view, device).release(0, touchPoint.toPoint());
+}
+
+/*
+   Checks that a gesture will be rejected if it's slower than minSpeed while
+   status is Undecided.
+ */
+void tst_DirectionalDragArea::minSpeed()
+{
+    QFETCH(int, minSpeedMsecsDeviation);
+    QFETCH(int, expectedStatusAfterSpeedCheck);
+
+    DirectionalDragArea *edgeDragArea =
+        view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
+    QVERIFY(edgeDragArea != 0);
+    edgeDragArea->setRecognitionTimer(fakeTimer);
+    edgeDragArea->setAxisVelocityCalculator(velCalcWithFakeTiming);
+
+    QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea, view);
+    QPointF touchPoint = initialTouchPos;
+
+    QPointF dragDirectionVector(1.0, 0.0);
+    qreal distanceStep = edgeDragArea->distanceThreshold() * 0.1f;
+    QPointF touchMovement = dragDirectionVector * distanceStep;
+    qreal minSpeedMsecs = edgeDragArea->minSpeed() / 1000.0;
+    qint64 timeStepMsecs = qFloor(distanceStep / minSpeedMsecs) + minSpeedMsecsDeviation;
+
+    // if it fails it means the params set in the QML file are not in harmony with the values
+    // used in this test
+    Q_ASSERT(timeStepMsecs > 0);
+
+    fakeTimeSource->m_msecsSinceReference = 0;
+    QTest::touchEvent(view, device).press(0, touchPoint.toPoint());
+
+    // Move a bit in the proper direction
+    for (int i=0; i < 4; ++i) {
+        touchPoint += touchMovement;
+        fakeTimeSource->m_msecsSinceReference += timeStepMsecs;
+        QTest::touchEvent(view, device).move(0, touchPoint.toPoint());
+    }
+
+    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::Undecided);
+
+    // Force the periodic speed check.
+    fakeTimer->emitTimeout();
+
+    QCOMPARE((int)edgeDragArea->status(), expectedStatusAfterSpeedCheck);
+}
+
+void tst_DirectionalDragArea::minSpeed_data()
+{
+    QTest::addColumn<int>("minSpeedMsecsDeviation");
+    QTest::addColumn<int>("expectedStatusAfterSpeedCheck");
+
+    QTest::newRow("slower than minSpeed") << 20 << (int)DirectionalDragArea::Rejected;
+    QTest::newRow("faster than minSpeed") << -20 << (int)DirectionalDragArea::Undecided;
+}
+
+/*
+    Checks that the recognition timer is started and stopped appropriately.
+    I.e., check that it's running only while gesture recognition is taking place
+    (status == Undecided)
+ */
+void tst_DirectionalDragArea::recognitionTimerUsage()
+{
+    DirectionalDragArea *edgeDragArea =
+        view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
+    QVERIFY(edgeDragArea != 0);
+    edgeDragArea->setRecognitionTimer(fakeTimer);
+    edgeDragArea->setAxisVelocityCalculator(velCalcWithFakeTiming);
+
+    QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea, view);
+    QPointF touchPoint = initialTouchPos;
+
+    QPointF dragDirectionVector(1.0, 0.0);
+    QPointF touchMovement = dragDirectionVector * (edgeDragArea->distanceThreshold() * 0.2f);
+
+    QVERIFY(!fakeTimer->isRunning());
+
+    QTest::touchEvent(view, device).press(0, touchPoint.toPoint());
+
+    QVERIFY(fakeTimer->isRunning());
+
+    // Move a bit in the proper direction
+    for (int i=0; i < 3; ++i) {
+        touchPoint += touchMovement;
+        QTest::touchEvent(view, device).move(0, touchPoint.toPoint());
+    }
+
+    QVERIFY(fakeTimer->isRunning());
+
+    // Move beyond distance threshold
+    touchPoint += 3*touchMovement;
+    QTest::touchEvent(view, device).move(0, touchPoint.toPoint());
+
+    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::Recognized);
+
+    QVERIFY(!fakeTimer->isRunning());
+}
+
+/*
+    A gesture should be rejected if too much time has passed without any new input
+    events from it.
+ */
+void tst_DirectionalDragArea::maxSilenceTime()
+{
+    DirectionalDragArea *edgeDragArea =
+        view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
+    QVERIFY(edgeDragArea != 0);
+    edgeDragArea->setRecognitionTimer(fakeTimer);
+    edgeDragArea->setAxisVelocityCalculator(velCalcWithFakeTiming);
+
+    QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea, view);
+    QPointF touchPoint = initialTouchPos;
+
+    fakeTimeSource->m_msecsSinceReference = 0;
+    QTest::touchEvent(view, device).press(0, touchPoint.toPoint());
+
+    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::Undecided);
+
+    int neededTimeouts = qCeil((qreal)edgeDragArea->maxSilenceTime() / (qreal)fakeTimer->interval());
+    if ((edgeDragArea->maxSilenceTime() % fakeTimer->interval()) == 0) {
+        ++neededTimeouts;
+    }
+
+    // Force the periodic speed check.
+    for (int i = 0; i < neededTimeouts; ++i) {
+        fakeTimer->emitTimeout();
+
+        if (i < neededTimeouts - 1) {
+            QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::Undecided);
+        }
+    }
+
+    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::Rejected);
 }
 
 QTEST_MAIN(tst_DirectionalDragArea)
