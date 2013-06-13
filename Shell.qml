@@ -67,7 +67,7 @@ FocusScope {
     }
 
     readonly property bool fullscreenMode: {
-        if (greeter.shown) {
+        if (greeter.shown || lockscreen.shown) {
             return false;
         } else if (mainStage.usingScreenshots) { // Window Manager animating so want to re-evaluate fullscreen mode
             return mainStage.switchingFromFullscreenToFullscreen;
@@ -124,7 +124,6 @@ FocusScope {
 
     Item {
         id: underlay
-
         anchors.fill: parent
         visible: !(panel.indicators.fullyOpened && shell.width <= panel.indicatorsMenuWidth)
                  && (stages.fullyHidden
@@ -148,7 +147,7 @@ FocusScope {
         Dash {
             id: dash
 
-            available: !greeter.shown
+            available: !greeter.shown && !lockscreen.shown
             hides: [stages, launcher, panel.indicators]
             shown: disappearingAnimationProgress !== 1.0
             enabled: disappearingAnimationProgress === 0.0
@@ -219,26 +218,18 @@ FocusScope {
             Connections {
                 target: shell.applicationManager
                 onMainStageFocusedApplicationChanged: {
-                    handleFocusedApplicationChange(mainStage, shell.applicationManager.mainStageFocusedApplication);
-                }
-                onSideStageFocusedApplicationChanged: {
-                    handleFocusedApplicationChange(sideStage, shell.applicationManager.sideStageFocusedApplication);
-                }
-                ignoreUnknownSignals: true
-
-                function handleFocusedApplicationChange(stage, application) {
-                    if (stages.shown) {
-                        if (application) {
-                            stage.show();
-                            stages.show();
-                        }
-                    } else {
-                        // focus changed while shell in foreground, ensure app remains unfocused
-                        if (application) {
-                            shell.applicationManager.unfocusCurrentApplication();
-                        }
+                    if (shell.applicationManager.mainStageFocusedApplication) {
+                        mainStage.show();
+                        stages.show();
                     }
                 }
+                onSideStageFocusedApplicationChanged: {
+                    if (shell.applicationManager.sideStageFocusedApplication) {
+                        sideStage.show();
+                        stages.show();
+                    }
+                }
+                ignoreUnknownSignals: true
             }
 
 
@@ -301,7 +292,7 @@ FocusScope {
                             && sideStage[sideStageRevealer.boundProperty] == sideStageRevealer.openedValue
                 shouldUseScreenshots: !fullyShown || mainStage.usingScreenshots || sideStageRevealer.pressed
 
-                available: !greeter.shown && enabled
+                available: !greeter.shown && !lockscreen.shown && enabled
                 hides: [launcher, panel.indicators]
                 shown: false
                 showAnimation: StandardAnimation { property: "x"; duration: 350; to: sideStageRevealer.openedValue; easing.type: Easing.OutQuint }
@@ -352,6 +343,46 @@ FocusScope {
         orientation: Qt.Horizontal
     }
 
+    Lockscreen {
+        id: lockscreen
+        hides: [launcher, panel.indicators, hud]
+        shown: false
+        enabled: true
+        showAnimation: StandardAnimation { property: "opacity"; to: 1 }
+        hideAnimation: StandardAnimation { property: "opacity"; to: 0 }
+        y: panel.panelHeight
+        x: required ? 0 : - width
+        width: parent.width
+        height: parent.height - panel.panelHeight
+        background: shell.background
+
+        onUnlocked: lockscreen.hide()
+        onCancel: greeter.show()
+
+        Component.onCompleted: {
+            if (LightDM.Users.count == 1) {
+                LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole))
+            }
+        }
+    }
+
+    Connections {
+        target: LightDM.Greeter
+
+        onShowPrompt: {
+            if (LightDM.Users.count == 1) {
+                // TODO: There's no better way for now to determine if its a PIN or a passphrase.
+                if (text == "PIN") {
+                    lockscreen.alphaNumeric = false
+                } else {
+                    lockscreen.alphaNumeric = true
+                }
+                lockscreen.placeholderText = i18n.tr("Please enter %1:").arg(text);
+                lockscreen.show();
+            }
+        }
+    }
+
     Greeter {
         id: greeter
 
@@ -360,7 +391,6 @@ FocusScope {
         shown: true
         showAnimation: StandardAnimation { property: "x"; to: greeterRevealer.openedValue }
         hideAnimation: StandardAnimation { property: "x"; to: greeterRevealer.closedValue }
-
         y: panel.panelHeight
         width: parent.width
         height: parent.height - panel.panelHeight
@@ -370,6 +400,12 @@ FocusScope {
 
         onShownChanged: {
             if (shown) {
+                lockscreen.reset();
+                // If there is only one user, we start authenticating with that one here.
+                // If there are more users, the Greeter will handle that
+                if (LightDM.Users.count == 1) {
+                    LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
+                }
                 greeter.forceActiveFocus();
                 // FIXME: *FocusedApplication are not updated when unfocused, hence the need to check whether
                 // the stage was actually shown
@@ -397,7 +433,7 @@ FocusScope {
 
     InputFilterArea {
         anchors.fill: parent
-        blockInput: greeter.shown
+        blockInput: greeter.shown || lockscreen.shown
     }
 
     Revealer {
@@ -426,7 +462,7 @@ FocusScope {
                 hides: [launcher]
             }
             fullscreenMode: shell.fullscreenMode
-            searchVisible: !greeter.shown
+            searchVisible: !greeter.shown && !lockscreen.shown
 
             InputFilterArea {
                 anchors.fill: parent
@@ -440,7 +476,7 @@ FocusScope {
             width: parent.width > units.gu(60) ? units.gu(40) : parent.width
             height: parent.height
 
-            available: !greeter.shown && !panel.indicators.shown
+            available: !greeter.shown && !panel.indicators.shown && !lockscreen.shown
             shown: false
             showAnimation: StandardAnimation { property: "y"; duration: hud.showableAnimationDuration; to: 0; easing.type: Easing.Linear }
             hideAnimation: StandardAnimation { property: "y"; duration: hud.showableAnimationDuration; to: hudRevealer.closedValue; easing.type: Easing.Linear }

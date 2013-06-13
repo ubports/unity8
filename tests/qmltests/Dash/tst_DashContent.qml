@@ -28,7 +28,7 @@ Item {
 
     property ListModel searchHistory: ListModel {}
 
-    property var scope_status: {
+    property var scopeStatus: {
         'MockScope1': { 'movementStarted': 0, 'positionedAtBeginning': 0 },
         'MockScope2': { 'movementStarted': 0, 'positionedAtBeginning': 0 },
         'MockScope3': { 'movementStarted': 0, 'positionedAtBeginning': 0 },
@@ -41,19 +41,24 @@ Item {
     }
 
     DashContent {
-        id: dash_content
+        id: dashContent
         anchors.fill: parent
 
         model: scopesModel
         scopes : scopesModel
 
-        scopeDelegateMapping: { "MockScope3" : "../tests/qmltests/Dash/qml/fake_scopeView3.qml",
-                               "MockScope2" : "../tests/qmltests/Dash/qml/fake_scopeView2.qml",
-                               "MockScope1" : "../tests/qmltests/Dash/qml/fake_scopeView1.qml",
-                               "MockScope4" : "../tests/qmltests/Dash/qml/fake_scopeView4.qml"
-                             }
+        lensMapper : lensDelegateMapper
+    }
 
-        genericScope: "../tests/qmltests/Dash/qml/fake_generic_scopeView.qml"
+    LensDelegateMapper {
+        id: lensDelegateMapper
+        lensDelegateMapping: {
+            "MockLens1": "../tests/qmltests/Dash/qml/fake_lensView1.qml",
+            "MockLens2": "../tests/qmltests/Dash/qml/fake_lensView2.qml",
+            "MockLens3": "../tests/qmltests/Dash/qml/fake_lensView3.qml",
+            "MockLens4": "../tests/qmltests/Dash/qml/fake_lensView4.qml"
+        }
+        genericLens: "../tests/qmltests/Dash/qml/fake_generic_lensView.qml"
     }
 
     function clear_scope_status() {
@@ -74,20 +79,20 @@ Item {
     }
 
     SignalSpy {
-        id: scopeLoaded_spy
-        target: dash_content
+        id: scopeLoadedSpy
+        target: dashContent
         signalName: "scopeLoaded"
     }
 
     SignalSpy {
-        id: movementStarted_spy
-        target: dash_content
+        id: movementStartedSpy
+        target: dashContent
         signalName: "movementStarted"
     }
 
     SignalSpy {
-        id: contentEndReached_spy
-        target: dash_content
+        id: contentEndReachedSpy
+        target: dashContent
         signalName: "contentEndReached"
     }
 
@@ -96,13 +101,13 @@ Item {
         when: windowShown
 
         function init() {
-            scopeLoaded_spy.clear();
-            movementStarted_spy.clear();
-            contentEndReached_spy.clear()
+            scopeLoadedSpy.clear();
+            movementStartedSpy.clear();
+            contentEndReachedSpy.clear()
             clear_scope_status();
 
-            // clear, wait for dahs to empty and load scopes.
-            var dashContentList = findChild(dash_content, "dashContentList");
+            // clear, wait for dahs to empty and load lenses.
+            var dashContentList = findChild(dashContent, "dashContentList");
             verify(dashContentList != undefined)
             scopesModel.clear();
             tryCompare(dashContentList, "count", 0);
@@ -112,12 +117,14 @@ Item {
         function test_movement_started_signal() {
             dash_content.setCurrentScopeAtIndex(3, true, false);
 
-            var dashContentList = findChild(dash_content, "dashContentList");
+            var dashContentList = findChild(dashContent, "dashContentList");
             verify(dashContentList != undefined)
-            tryCompare(scopeLoaded_spy, "count", 5);
+
+            tryCompare(scopeLoadedSpy, "count", 5);
 
             dashContentList.movementStarted();
-            compare(movementStarted_spy.count, 1, "DashContent should have emitted movementStarted signal when content list did.");
+
+            compare(movementStartedSpy.count, 1, "DashContent should have emitted movementStarted signal when content list did.");
             compare(scope_status["MockScope1"].movementStarted, 1, "MockScope1 should have emitted movementStarted signal when content list did.");
             compare(scope_status["MockScope2"].movementStarted, 1, "MockScope2 should have emitted movementStarted signal when content list did.");
             compare(scope_status["MockScope3"].movementStarted, 1, "MockScope3 should have emitted movementStarted signal when content list did.");
@@ -128,7 +135,7 @@ Item {
         function test_positioned_at_beginning_signal() {
             dash_content.setCurrentScopeAtIndex(3, true, false);
 
-            tryCompare(scopeLoaded_spy, "count", 5);
+            tryCompare(scopeLoadedSpy, "count", 5);
 
             dash_content.positionedAtBeginning();
             compare(scope_status["MockScope1"].positionedAtBeginning, 1, "MockScope1 should have emitted positionedAtBeginning signal when DashContent did.");
@@ -139,18 +146,18 @@ Item {
         }
 
         function test_scope_loaded() {
-            tryCompare(scopeLoaded_spy, "count", 5);
+            tryCompare(scopeLoadedSpy, "count", 5);
         }
 
         function test_content_end_reached() {
-            var dashContentList = findChild(dash_content, "dashContentList");
+            var dashContentList = findChild(dashContent, "dashContentList");
             verify(dashContentList != undefined);
-            tryCompare(scopeLoaded_spy, "count", 5);
 
+            tryCompare(scopeLoadedSpy, "count", 5);
             dash_content.setCurrentScopeAtIndex(0, true, false);
             dashContentList.currentItem.item.endReached();
 
-            compare(contentEndReached_spy.count, 1);
+            compare(contentEndReachedSpy.count, 1);
         }
 
         // This tests that setting the current scope index will end up at the correct index even if
@@ -159,19 +166,19 @@ Item {
             verify(scopesModel.loaded == false);
 
             // next index is 1 if current is -1, otherwise it's current + 1
-            var next_index = ((dash_content.currentIndex == -1 ? 0 : dash_content.currentIndex) + 1) % 5
+            var next_index = ((dashContent.currentIndex == -1 ? 0 : dashContent.currentIndex) + 1) % 5
 
-            dash_content.setCurrentScopeAtIndex(next_index, true, false);
-            tryCompare(dash_content, "currentIndex", next_index);
+            dashContent.setCurrentScopeAtIndex(next_index, true, false);
+            tryCompare(dashContent, "currentIndex", next_index);
             verify(scopesModel.loaded == true);
 
             // test greater than scope count.
-            dash_content.setCurrentScopeAtIndex(scopesModel.count, true, false);
-            compare(dash_content.currentIndex, 4);
+            dashContent.setCurrentScopeAtIndex(scopesModel.count, true, false);
+            compare(dashContent.currentIndex, 4);
         }
 
         function get_current_item_object_name() {
-            var dashContentList = findChild(dash_content, "dashContentList");
+            var dashContentList = findChild(dashContent, "dashContentList");
             verify(dashContentList != undefined);
 
             if (dashContentList.currentItem != undefined) {
@@ -193,7 +200,7 @@ Item {
         }
 
         function test_scope_mapping(data) {
-            dash_content.setCurrentScopeAtIndex(data.index, true, false);
+            dashContent.setCurrentLensAtIndex(data.index, true, false);  
             tryCompareFunction(get_current_item_object_name, data.objectName)
         }
 

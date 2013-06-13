@@ -20,7 +20,5 @@ FakeScopeView {
     id: fake_scopeView1
     objectName: "fake_scopeView1"
 
-    rect_color1: "red"
-    rect_color2: "green"
-    rect_color3: "blue"
+    backColor: "#909090"
 }

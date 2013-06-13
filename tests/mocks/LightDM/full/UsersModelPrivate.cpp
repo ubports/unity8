@@ -27,6 +27,7 @@ UsersModelPrivate::UsersModelPrivate(UsersModel* parent)
     entries =
     {
         { "has-password",      "Has Password", 0, 0, false, false, 0, 0 },
+        { "has-pin",           "Has PIN",      0, 0, false, false, 0, 0 },
         { "different-prompt",  "Different Prompt", 0, 0, false, false, 0, 0 },
         { "no-password",       "No Password", 0, 0, false, false, 0, 0 },
         { "auth-error",        "Auth Error", 0, 0, false, false, 0, 0 },

@@ -59,6 +59,7 @@ Showable {
 
     DashContent {
         id: dashContent
+        objectName: "dashContent"
         anchors.fill: parent
         model: filteredScopes
         scopes: scopes
@@ -79,6 +80,7 @@ Showable {
 
     DashBar {
         id: dashbar
+        objectName: "dashbar"
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right

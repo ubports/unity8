@@ -28,6 +28,8 @@ Item {
     property real contentProgress: Math.max(0, Math.min(dashContentList.contentX / (dashContentList.contentWidth - dashContentList.width), units.dp(1)))
     property alias currentIndex: dashContentList.currentIndex
 
+    property ScopeDelegateMapper scopeMapper : ScopeDelegateMapper {}
+
     signal movementStarted()
     signal movementEnded()
     signal contentFlickStarted()
@@ -79,13 +81,6 @@ Item {
         }
     }
 
-    property var scopeDelegateMapping: {"mockmusicmaster.scope": "DashMusic.qml",
-                                       "applications.scope": "DashApps.qml",
-                                       "home.scope": "DashHome.qml",
-                                       "mockvideosmaster.scope": "DashVideos.qml",
-                                      }
-    property string genericScope: "GenericScopeView.qml"
-
     ListView {
         id: dashContentList
         objectName: "dashContentList"
@@ -120,14 +115,8 @@ Item {
                 width: ListView.view.width
                 height: ListView.view.height
                 asynchronous: true
-                source: {
-                    var customScope = scopeDelegateMapping[scope.id]
-                    if (customScope) {
-                        return customScope
-                    } else {
-                        return genericScope
-                    }
-                }
+                source: scopeMapper.map(scope.id)
+
                 onLoaded: {
                     item.scope = Qt.binding(function() { return scope })
                     item.isCurrent = Qt.binding(function() { return ListView.isCurrentItem })
@@ -149,6 +138,8 @@ Item {
                         }
                     }
                 }
+
+                Component.onDestruction: active = false
             }
     }
 }

@@ -85,7 +85,7 @@ void AxisVelocityCalculator::processMovement(qreal movement)
 
 qreal AxisVelocityCalculator::calculate() const
 {
-    if (numSamples() < 2) {
+    if (numSamples() < MIN_SAMPLES_NEEDED) {
         return 0.0;
     }
 

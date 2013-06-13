@@ -54,6 +54,7 @@ Item {
         maxDeviation: units.gu(2)
         wideningAngle: 10
         distanceThreshold: units.gu(4)
+        minSpeed: 50
 
         onStatusChanged: {
             switch (status) {
