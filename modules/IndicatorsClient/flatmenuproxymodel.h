@@ -64,11 +64,11 @@ public:
     Q_INVOKABLE QVariantMap get(int row) const;
 
 public Q_SLOTS:
-    void onRowsInserted(const QModelIndex &parent, int start, int end);
-    void onRowsAboutToBeInserted(const QModelIndex &parent, int start, int end);
+    // void onRowsInserted(const QModelIndex &parent, int start, int end);
+    // void onRowsAboutToBeInserted(const QModelIndex &parent, int start, int end);
 
-    void onRowsRemoved(const QModelIndex &parent, int start, int end);
-    void onRowsAboutToBeRemoved(const QModelIndex &parent, int start, int end);
+    // void onRowsRemoved(const QModelIndex &parent, int start, int end);
+    // void onRowsAboutToBeRemoved(const QModelIndex &parent, int start, int end);
 
     void onModelAboutToBeReset();
     void onModelReset();
