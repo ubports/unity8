@@ -47,18 +47,18 @@ Item {
         model: scopesModel
         scopes : scopesModel
 
-        lensMapper : lensDelegateMapper
+        scopeMapper : scopeDelegateMapper
     }
 
-    LensDelegateMapper {
-        id: lensDelegateMapper
-        lensDelegateMapping: {
-            "MockLens1": "../tests/qmltests/Dash/qml/fake_lensView1.qml",
-            "MockLens2": "../tests/qmltests/Dash/qml/fake_lensView2.qml",
-            "MockLens3": "../tests/qmltests/Dash/qml/fake_lensView3.qml",
-            "MockLens4": "../tests/qmltests/Dash/qml/fake_lensView4.qml"
+    ScopeDelegateMapper {
+        id: scopeDelegateMapper
+        scopeDelegateMapping: {
+            "MockScope1": "../tests/qmltests/Dash/qml/fake_scopeView1.qml",
+            "MockScope2": "../tests/qmltests/Dash/qml/fake_scopeView2.qml",
+            "MockScope3": "../tests/qmltests/Dash/qml/fake_scopeView3.qml",
+            "MockScope4": "../tests/qmltests/Dash/qml/fake_scopeView4.qml"
         }
-        genericLens: "../tests/qmltests/Dash/qml/fake_generic_lensView.qml"
+        genericScope: "../tests/qmltests/Dash/qml/fake_generic_scopeView.qml"
     }
 
     function clear_scope_status() {
@@ -106,7 +106,7 @@ Item {
             contentEndReachedSpy.clear()
             clear_scope_status();
 
-            // clear, wait for dahs to empty and load lenses.
+            // clear, wait for dahs to empty and load scopes.
             var dashContentList = findChild(dashContent, "dashContentList");
             verify(dashContentList != undefined)
             scopesModel.clear();
@@ -200,7 +200,7 @@ Item {
         }
 
         function test_scope_mapping(data) {
-            dashContent.setCurrentLensAtIndex(data.index, true, false);
+            dashContent.setCurrentScopeAtIndex(data.index, true, false);
             tryCompareFunction(get_current_item_object_name, data.objectName)
         }
 
