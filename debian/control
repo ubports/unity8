@@ -38,7 +38,7 @@ Replaces: qml-phone-shell (<< 7.80~)
 Breaks: qml-phone-shell (<< 7.80~)
 Architecture: amd64 armhf i386
 Depends: indicators-client (>= 0.6.1),
-         libunity-core-6.0-dev (>= 7.0.0daily13.06.07),
+         libunity-core-6.0-5 (>= 7.0.0daily13.06.07),
          qtdeclarative5-dee-plugin,
          qtdeclarative5-ubuntu-ui-toolkit-plugin,
          qtdeclarative5-xmllistmodel-plugin,
