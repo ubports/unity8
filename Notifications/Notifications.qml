@@ -20,9 +20,9 @@ import "../Components"
 import "timings.js" as Timings
 
 ListView {
-    id: notificationRenderer
+    id: notificationList
 
-    objectName: "notificationRenderer"
+    objectName: "notificationList"
     interactive: false
 
     spacing: units.gu(.5)
@@ -39,6 +39,7 @@ ListView {
         body: model.body
         actions: model.actions
         notificationId: model.id
+        notification: notificationList.model.get(notificationId)
     }
 
     populate: Transition {
