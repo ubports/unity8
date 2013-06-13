@@ -20,6 +20,7 @@ import ".."
 import "../../../Notifications"
 import Ubuntu.Components 0.1
 import Unity.Test 0.1
+import Unity.Notifications 1.0
 
 Row {
     id: rootRow
@@ -30,7 +31,7 @@ Row {
 
     function addSnapDecisionNotification() {
         var n = {
-            type: "Notifications.Type.SnapDecision",
+            type: Notification.SnapDecision,
             summary: "Tom Ato",
             body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
             icon: "../graphics/avatars/funky.png",
@@ -44,7 +45,7 @@ Row {
 
     function addEphemeralNotification() {
         var n = {
-            type: "Notifications.Type.Ephemeral",
+            type: Notification.Ephemeral,
             summary: "Cole Raby",
             body: "I did not expect it to be that late.",
             icon: "../graphics/avatars/amanda.png",
@@ -57,7 +58,7 @@ Row {
 
     function addEphemeralIconSummaryNotification() {
         var n = {
-            type: "Notifications.Type.Ephemeral",
+            type: Notification.Ephemeral,
             summary: "Photo upload completed",
             body: "",
             icon: "",
@@ -70,7 +71,7 @@ Row {
 
     function addInteractiveNotification() {
         var n = {
-            type: "Notifications.Type.Interactive",
+            type: Notification.Interactive,
             summary: "Interactive notification",
             body: "This is a notification that can be clicked",
             icon: "../graphics/avatars/anna_olsson.png",
@@ -170,7 +171,7 @@ Row {
             return [
             {
                 tag: "Snap Decision with secondary icon",
-                type: "Notifications.Type.SnapDecision",
+                type: Notification.SnapDecision,
                 summary: "Tom Ato",
                 body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
                 icon: "../graphics/avatars/funky.png",
@@ -186,7 +187,7 @@ Row {
             },
             {
                 tag: "Ephemeral notification - icon-summary layout",
-                type: "Notifications.Type.Ephemeral",
+                type: Notification.Ephemeral,
                 summary: "Photo upload completed",
                 body: "",
                 icon: "",
@@ -201,7 +202,7 @@ Row {
             },
             {
                 tag: "Ephemeral notification - check suppression of secondary icon for icon-summary layout",
-                type: "Notifications.Type.Ephemeral",
+                type: Notification.Ephemeral,
                 summary: "New comment successfully published",
                 body: "",
                 icon: "",
@@ -216,7 +217,7 @@ Row {
             },
             {
                 tag: "Interactive notification",
-                type: "Notifications.Type.Interactive",
+                type: Notification.Interactive,
                 summary: "Interactive notification",
                 body: "This is a notification that can be clicked",
                 icon: "../graphics/avatars/amanda.png",
@@ -231,7 +232,7 @@ Row {
             },
             {
                 tag: "Snap Decision without secondary icon",
-                type: "Notifications.Type.SnapDecision",
+                type: Notification.SnapDecision,
                 summary: "Bro Coly",
                 body: "At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
                 icon: "../graphics/avatars/anna_olsson.png",
@@ -247,7 +248,7 @@ Row {
             },
             {
                 tag: "Ephemeral notification",
-                type: "Notifications.Type.Ephemeral",
+                type: Notification.Ephemeral,
                 summary: "Cole Raby",
                 body: "I did not expect it to be that late.",
                 icon: "../graphics/avatars/funky.png",
