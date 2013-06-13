@@ -330,6 +330,9 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
         updateClipItem();
         ListItem *firstItem = m_visibleItems.first();
         firstItem->setY(firstItem->y() + diff);
+        if (m_headerShowAnimation->isRunning()) {
+            adjustMinYExtent();
+        }
     }
 
     m_previousContentY = contentY();
