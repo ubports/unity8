@@ -97,7 +97,7 @@ bool Scopes::loaded() const
     return m_loaded;
 }
 
-void Scopes::onScopeAdded(const unity::dash::Scope::Ptr& scope, int position)
+void Scopes::onScopeAdded(const unity::dash::Scope::Ptr& scope, int /*position*/)
 {
     int index = m_scopes.count();
     beginInsertRows(QModelIndex(), index, index);

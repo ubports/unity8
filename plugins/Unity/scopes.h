@@ -74,7 +74,7 @@ Q_SIGNALS:
 
 private Q_SLOTS:
     void onScopesLoaded();
-    void onScopeAdded(const unity::dash::Scope::Ptr& scope, int position);
+    void onScopeAdded(const unity::dash::Scope::Ptr& scope, int /*position*/);
     void onScopeRemoved(const unity::dash::Scope::Ptr& scope);
     void onScopesReordered(const unity::dash::Scopes::ScopeList& scopes);
     void onScopePropertyChanged();
