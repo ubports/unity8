@@ -173,8 +173,9 @@ Item {
             verify(scopesModel.loaded == true);
 
             // test greater than scope count.
+            var currentScopeIndex = dashContent.currentIndex;
             dashContent.setCurrentScopeAtIndex(scopesModel.count, true, false);
-            compare(dashContent.currentIndex, 4);
+            compare(dashContent.currentIndex, currentScopeIndex, "Scope should not change if changing to greater index than count");
         }
 
         function get_current_item_object_name() {
