@@ -25,8 +25,10 @@ MouseArea {
 
     property bool promptless: loginLoader.status == Loader.Ready && LightDM.Greeter.promptless
     property bool ready: wallpaper.status == Image.Ready
-    property bool leftTeaserPressed: teasingMouseArea.pressed && teasingMouseArea.mouseX < teasingMouseArea.width / 2
-    property bool rightTeaserPressed: teasingMouseArea.pressed && teasingMouseArea.mouseX > teasingMouseArea.width / 2
+    property bool leftTeaserPressed: teasingMouseArea.pressed &&
+                                     teasingMouseArea.mouseX < teasingMouseArea.width / 2
+    property bool rightTeaserPressed: teasingMouseArea.pressed &&
+                                     teasingMouseArea.mouseX > teasingMouseArea.width / 2
 
     signal selected(int uid)
     signal unlocked(int uid)

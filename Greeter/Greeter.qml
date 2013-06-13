@@ -30,8 +30,10 @@ Showable {
     readonly property bool narrowMode: !multiUser && width <= units.gu(60)
     readonly property bool multiUser: LightDM.Users.count > 1
 
-    readonly property bool leftTeaserPressed: greeterContentLoader.status == Loader.Ready && greeterContentLoader.item.leftTeaserPressed
-    readonly property bool rightTeaserPressed: greeterContentLoader.status == Loader.Ready && greeterContentLoader.item.rightTeaserPressed
+    readonly property bool leftTeaserPressed: greeterContentLoader.status == Loader.Ready &&
+                                              greeterContentLoader.item.leftTeaserPressed
+    readonly property bool rightTeaserPressed: greeterContentLoader.status == Loader.Ready &&
+                                               greeterContentLoader.item.rightTeaserPressed
 
     signal selected(int uid)
     signal unlocked(int uid)
