@@ -319,8 +319,12 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
             }
         }
         // We will be changing the clip item, need to accomadate for it
-        // otherwise we move the firstItem down/up twice
-        diff += oldHeaderItemShownHeight - m_headerItemShownHeight;
+        // otherwise we move the firstItem down/up twice (unless the
+        // show header animation is running, where we want a different effect)
+        if (!m_headerShowAnimation->isRunning())
+            diff += oldHeaderItemShownHeight - m_headerItemShownHeight;
+        else
+            diff = -diff;
     }
     if (!m_visibleItems.isEmpty()) {
         updateClipItem();
