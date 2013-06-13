@@ -108,6 +108,7 @@ DeeModel* create_categories_model(unsigned category_count) {
     for(unsigned i = 0; i < category_count; ++i)
     {
       dee_model_append(category_model,
+                       std::to_string(i).c_str(),
                        ("Category "+std::to_string(i)).c_str(),
                        "gtk-apply",
                        "grid",
@@ -156,6 +157,7 @@ DeeModel* create_results_model(unsigned category_count, unsigned result_count) {
                        ("uri://result."+std::to_string(i)).c_str(),
                        (shellAppDirectory() + "Dash/graphics/lensIcons/" + (icons[i%G_N_ELEMENTS(icons)])).toLatin1().data(),
                        category,
+                       0,
                        "application/x-desktop",
                        ("Title."+std::to_string(i)).c_str(),
                        ("Comment."+std::to_string(i)).c_str(),
