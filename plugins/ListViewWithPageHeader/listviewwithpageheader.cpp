@@ -82,6 +82,7 @@ ListViewWithPageHeader::ListViewWithPageHeader()
 
     connect(this, SIGNAL(contentWidthChanged()), this, SLOT(onContentWidthChanged()));
     connect(this, SIGNAL(contentHeightChanged()), this, SLOT(onContentHeightChanged()));
+    connect(this, SIGNAL(heightChanged()), this, SLOT(onHeightChanged()));
 }
 
 ListViewWithPageHeader::~ListViewWithPageHeader()
@@ -576,6 +577,12 @@ void ListViewWithPageHeader::onContentHeightChanged()
 void ListViewWithPageHeader::onContentWidthChanged()
 {
     m_clipItem->setWidth(contentItem()->width());
+}
+
+void ListViewWithPageHeader::onHeightChanged()
+{
+    setMaximumFlickVelocity(height() * 10);
+    setFlickDeceleration(height() * 2);
 }
 
 void ListViewWithPageHeader::onModelUpdated(const QQuickChangeSet &changeSet, bool /*reset*/)

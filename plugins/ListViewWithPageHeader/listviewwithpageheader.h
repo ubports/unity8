@@ -81,6 +81,7 @@ private Q_SLOTS:
     void itemCreated(int modelIndex, QQuickItem *item);
     void onContentHeightChanged();
     void onContentWidthChanged();
+    void onHeightChanged();
     void onModelUpdated(const QQuickChangeSet &changeSet, bool reset);
 
 private:
