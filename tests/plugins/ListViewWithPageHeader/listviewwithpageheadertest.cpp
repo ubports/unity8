@@ -21,6 +21,7 @@
 #include <QQuickView>
 #include <QtTestGui>
 #include <private/qquicklistmodel_p.h>
+#include <private/qquickanimation_p.h>
 #include <private/qquickitem_p.h>
 
 class ListViewWithPageHeaderTest : public QObject
@@ -38,10 +39,6 @@ private Q_SLOTS:
         view = new QQuickView();
         view->engine()->addImportPath(BUILT_PLUGINS_DIR);
         view->setSource(QUrl::fromLocalFile(LISTVIEWWITHPAGEHEADER_FOLDER "/test.qml"));
-        // This originally was 
-        // lvwph = view->rootObject()->findChild<ListViewWithPageHeader*>();
-        // but here doesn't work because of the way we are linking listviewwithpageheader.cpp
-        // doesn't create the moc so doesn't get the Q_OBJECT macro info
         lvwph = dynamic_cast<ListViewWithPageHeader*>(view->rootObject()->findChild<QQuickFlickable*>());
         model = view->rootObject()->findChild<QQuickListModel*>();
         otherDelegate = view->rootObject()->findChild<QQmlComponent*>();
@@ -1413,7 +1410,7 @@ private Q_SLOTS:
         QVERIFY(!lvwph->isAtYEnd());
     }
 
-    void changeSizeVisibleItemNotOnViewport()
+    void testChangeSizeVisibleItemNotOnViewport()
     {
         changeContentY(440);
 
@@ -1447,6 +1444,60 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItem->y(), 0.);
         QCOMPARE(lvwph->m_headerItem->height(), 50.);
         QCOMPARE(lvwph->contentY(), 440.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+    }
+
+    void testShowHeaderCloseToTheTop()
+    {
+        changeContentY(375);
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 5);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, -325., 150., true);
+        verifyItem(1, -175, 200., false);
+        verifyItem(2, 25, 350., false);
+        verifyItem(3, 375, 350., false);
+        verifyItem(4, 725, 350., true);
+        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_clipItem->y(), 375.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 375.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);;
+
+        lvwph->showHeader();
+
+        QTRY_VERIFY(!lvwph->m_headerShowAnimation->isRunning());
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 5);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, -375., 150., true);
+        verifyItem(1, -225, 200., true);
+        verifyItem(2, -25, 350., false);
+        verifyItem(3, 325, 350., false);
+        verifyItem(4, 675, 350., true);
+        QCOMPARE(lvwph->m_minYExtent, 50.);
+        QCOMPARE(lvwph->m_clipItem->y(), 375.);
+        QCOMPARE(lvwph->m_clipItem->clip(), true);
+        QCOMPARE(lvwph->m_headerItem->y(), 325.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 325.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 50.);;
+
+        scrollToTop();
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, 50., 150., false);
+        verifyItem(1, 200., 200., false);
+        verifyItem(2, 400., 350., false);
+        verifyItem(3, 750., 350., true);
+        QCOMPARE(lvwph->m_minYExtent, 50.);
+        QCOMPARE(lvwph->m_clipItem->y(), -50.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), -50.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), -50.);
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
     }
 
