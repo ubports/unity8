@@ -22,7 +22,7 @@
  * The top is returned in minYExtent()
  * The height is set using setContentHeight()
  * By changing those two values we can make the list grow up or down
- * as needed. e.g. if we are in the middle of the list 
+ * as needed. e.g. if we are in the middle of the list
  * and something that is above the viewport grows, since we do not
  * want to change the viewport because of that we just adjust the
  * minYExtent so that the list grows up.
@@ -39,7 +39,7 @@
  *  * Make sure all items are positioned correctly
  *  * Add/Remove items if needed
  *  * Update the content height if it was dirty
- * 
+ *
  * m_visibleItems contains all the items we have created at the moment.
  * Actually not all of them are visible since it includes the ones
  * in the cache area we create asynchronously to help performance.
@@ -47,7 +47,7 @@
  * the model. If you actually want to know what is the first
  * item in the viewport you have to find the first non culled element
  * in m_visibleItems
- * 
+ *
  * All the items (except the header) are childs of m_clipItem which
  * is a child of the contentItem() of the flickable (The contentItem()
  * is what actually 'moves' in a a flickable). This way
@@ -893,7 +893,6 @@ void ListViewWithPageHeader::updatePolish()
         m_contentHeightDirty = false;
         setContentHeight(contentHeight);
     }
-    
 }
 
 #include "moc_listviewwithpageheader.cpp"
