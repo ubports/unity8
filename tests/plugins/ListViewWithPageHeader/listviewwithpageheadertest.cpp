@@ -966,7 +966,7 @@ private Q_SLOTS:
         changeContentY(700);
 
         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
-        QCOMPARE(lvwph->m_firstVisibleIndex, 2);
+        QTRY_COMPARE(lvwph->m_firstVisibleIndex, 2);
         verifyItem(0, -300., 350., false);
         verifyItem(1, 50, 350., false);
         verifyItem(2, 400, 350., false);
