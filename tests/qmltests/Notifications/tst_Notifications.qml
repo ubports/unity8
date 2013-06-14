@@ -25,8 +25,25 @@ import Unity.Notifications 1.0
 Row {
     id: rootRow
 
+    Component {
+        id: mockNotification
+
+        QtObject {
+
+            signal actionInvoked()
+
+            function invokeAction(actionId) {
+                actionInvoked()
+            }
+        }
+    }
+
     ListModel {
         id: mockModel
+
+        function getRaw(id) {
+            return mockNotification.createObject(mockModel)
+        }
     }
 
     function addSnapDecisionNotification() {

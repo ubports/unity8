@@ -39,7 +39,7 @@ ListView {
         body: model.body
         actions: model.actions
         notificationId: model.id
-        notification: notificationList.model.get(notificationId)
+        notification: notificationList.model.getRaw(notificationId)
     }
 
     populate: Transition {

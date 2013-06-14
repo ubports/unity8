@@ -41,13 +41,16 @@ UbuntuShape {
 
         Repeater {
             id: actionRepeater
-            model: actions
+            model: notification.actions
         }
 
         anchors.fill: contentColumn
         objectName: "interactiveArea"
         enabled: notification.type == Notification.Interactive
-        onClicked: notification.notification.invokeAction(actionRepeater.model.actionId(0))
+        onClicked: {
+            notification.notification.invokeAction(actionRepeater.model.get(0).id)
+            actionInvoked(actionRepeater.model.get(0).id)
+        }
     }
 
     Column {
@@ -153,7 +156,10 @@ UbuntuShape {
                     width: (buttonRow.width - buttonRow.spacing) / 2
                     height: units.gu(4)
                     text: label
-                    onClicked: notification.notification.invokeAction(id)
+                    onClicked: {
+                        notification.notification.invokeAction(id)
+                        actionInvoked(id)
+                    }
                 }
             }
         }
