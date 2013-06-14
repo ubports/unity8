@@ -14,16 +14,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "plugin.h"
-#include "AxisVelocityCalculator.h"
 #include "Direction.h"
-#include "DirectionalDragArea.h"
 
-#include <qqml.h>
-
-void UbuntuGestureQmlPlugin::registerTypes(const char *uri)
+bool Direction::isHorizontal(Direction::Type type)
 {
-    qmlRegisterType<Direction>(uri, 0, 1, "Direction");
-    qmlRegisterType<DirectionalDragArea>(uri, 0, 1, "DirectionalDragArea");
-    qmlRegisterType<AxisVelocityCalculator>(uri, 0, 1, "AxisVelocityCalculator");
+    return type == Direction::Leftwards || type == Direction::Rightwards;
+}
+
+bool Direction::isVertical(Direction::Type type)
+{
+    return type == Direction::Upwards || type == Direction::Downwards;
 }
