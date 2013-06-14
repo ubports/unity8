@@ -47,6 +47,20 @@ private Q_SLOTS:
         QVERIFY(otherDelegate);
         view->show();
         QTest::qWaitForWindowExposed(view);
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, 50., 150., false);
+        verifyItem(1, 200., 200., false);
+        verifyItem(2, 400., 350., false);
+        verifyItem(3, 750., 350., true);
+        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_clipItem->y(), 0.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 0.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
     }
 
     void cleanup()
@@ -111,23 +125,6 @@ private Q_SLOTS:
     void testCreationDeletion()
     {
         // Nothing, init/cleanup already tests this
-    }
-
-    void testInitialLayout()
-    {
-        QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
-        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
-        verifyItem(0, 50., 150., false);
-        verifyItem(1, 200., 200., false);
-        verifyItem(2, 400., 350., false);
-        verifyItem(3, 750., 350., true);
-        QCOMPARE(lvwph->m_minYExtent, 0.);
-        QCOMPARE(lvwph->m_clipItem->y(), 0.);
-        QCOMPARE(lvwph->m_clipItem->clip(), false);
-        QCOMPARE(lvwph->m_headerItem->y(), 0.);
-        QCOMPARE(lvwph->m_headerItem->height(), 50.);
-        QCOMPARE(lvwph->contentY(), 0.);
-        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
     }
 
     void testDrag1PixelUp()
