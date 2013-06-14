@@ -59,7 +59,7 @@ ScopeView {
 
     function getRenderer(categoryId) {
         switch (categoryId) {
-            case 0: return musicCarousel
+            case 1: return musicCarousel
             default: return musicFilterGrid
         }
     }
