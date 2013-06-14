@@ -68,17 +68,17 @@ private Q_SLOTS:
         if (dest > lvwph->contentY()) {
             const qreal jump = 25;
             while (lvwph->contentY() + jump < dest) {
-                lvwph->QQuickFlickable::setContentY(lvwph->contentY() + jump);
+                lvwph->setContentY(lvwph->contentY() + jump);
                 QTest::qWait(0);
             }
         } else {
             const qreal jump = -25;
             while (lvwph->contentY() + jump > dest) {
-                lvwph->QQuickFlickable::setContentY(lvwph->contentY() + jump);
+                lvwph->setContentY(lvwph->contentY() + jump);
                 QTest::qWait(0);
             }
         }
-        lvwph->QQuickFlickable::setContentY(dest);
+        lvwph->setContentY(dest);
         QTest::qWait(0);
     }
 
@@ -87,9 +87,9 @@ private Q_SLOTS:
         const qreal jump = -25;
         while (!lvwph->isAtYBeginning()) {
             if (lvwph->contentY() + jump > -lvwph->minYExtent()) {
-                lvwph->QQuickFlickable::setContentY(lvwph->contentY() + jump);
+                lvwph->setContentY(lvwph->contentY() + jump);
             } else {
-                lvwph->QQuickFlickable::setContentY(lvwph->contentY() - 1);
+                lvwph->setContentY(lvwph->contentY() - 1);
             }
             QTest::qWait(0);
         }
@@ -100,9 +100,9 @@ private Q_SLOTS:
         const qreal jump = 25;
         while (!lvwph->isAtYEnd()) {
             if (lvwph->contentY() + lvwph->height() + jump < lvwph->contentHeight()) {
-                lvwph->QQuickFlickable::setContentY(lvwph->contentY() + jump);
+                lvwph->setContentY(lvwph->contentY() + jump);
             } else {
-                lvwph->QQuickFlickable::setContentY(lvwph->contentY() + 1);
+                lvwph->setContentY(lvwph->contentY() + 1);
             }
             QTest::qWait(0);
         }
@@ -132,7 +132,7 @@ private Q_SLOTS:
 
     void testDrag1PixelUp()
     {
-        lvwph->QQuickFlickable::setContentY(lvwph->contentY() + 1);
+        lvwph->setContentY(lvwph->contentY() + 1);
         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
         verifyItem(0, 49., 150., false);
