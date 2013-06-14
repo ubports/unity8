@@ -30,8 +30,6 @@ UbuntuShape {
     property var type
     property var notification
 
-    signal actionInvoked(string buttonId)
-
     implicitHeight: childrenRect.height
     color: Qt.rgba(0, 0, 0, 0.85)
     opacity: 0
@@ -52,10 +50,7 @@ UbuntuShape {
         anchors.fill: contentColumn
         objectName: "interactiveArea"
         enabled: notification.type == Notification.Interactive
-        onClicked: {
-            notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
-            actionInvoked(actionRepeater.itemAt(0).actionId)
-        }
+        onClicked: notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
     }
 
     Column {
@@ -161,10 +156,7 @@ UbuntuShape {
                     width: (buttonRow.width - buttonRow.spacing) / 2
                     height: units.gu(4)
                     text: label
-                    onClicked: {
-                        notification.notification.invokeAction(id)
-                        actionInvoked(id)
-                    }
+                    onClicked: notification.notification.invokeAction(id)
                 }
             }
         }

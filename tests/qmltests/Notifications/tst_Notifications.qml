@@ -29,12 +29,7 @@ Row {
         id: mockNotification
 
         QtObject {
-
-            signal actionInvoked()
-
-            function invokeAction(actionId) {
-                actionInvoked()
-            }
+            function invokeAction(actionId) { }
         }
     }
 
@@ -290,7 +285,7 @@ Row {
 
         SignalSpy {
             id: actionSpy
-            signalName: "actionInvoked"
+            signalName: "clicked"
         }
 
         function cleanup() {
@@ -321,7 +316,7 @@ Row {
             compare(interactiveArea.enabled, data.interactiveAreaEnabled, "check for interactive area")
 
             if(data.interactiveAreaEnabled) {
-                actionSpy.target = notification
+                actionSpy.target = findChild(notification, "interactiveArea")
                 mouseClick(notification, notification.width / 2, notification.height / 2)
                 actionSpy.wait()
                 compare(actionSpy.signalArguments[0][0], data.actions[0]["id"], "got wrong id for interactive action")
@@ -341,12 +336,13 @@ Row {
                 var buttonAccept = findChild(buttonRow, "button0")
 
                 waitForRendering(notification)
-                actionSpy.target = notification
+                actionSpy.target = buttonCancel
                 mouseClick(buttonCancel, buttonCancel.width / 2, buttonCancel.height / 2)
                 actionSpy.wait()
                 compare(actionSpy.signalArguments[0][0], data.actions[1]["id"], "got wrong id for negative action")
                 actionSpy.clear()
 
+                actionSpy.target = buttonAccept
                 mouseClick(buttonAccept, buttonAccept.width / 2, buttonAccept.height / 2)
                 actionSpy.wait()
                 compare(actionSpy.signalArguments[0][0], data.actions[0]["id"], "got wrong id positive action")
