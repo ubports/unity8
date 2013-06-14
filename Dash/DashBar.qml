@@ -100,7 +100,7 @@ Item {
                             /* FIXME: should be 'source: scope.iconHint' but the
                                scopes do not contain the right icons yet
                             */
-                            source: "graphics/lensIcons/%1.png".arg(scope.name)
+                            source: "graphics/scopeIcons/%1.png".arg(scope.name)
                             height: iconSize
                             width: iconSize
                             // opacity: index == currentIndex ? 1 : 1 // same opacity for now
