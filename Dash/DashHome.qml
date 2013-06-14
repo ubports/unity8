@@ -23,7 +23,6 @@ import "../Applications"
 import "Apps"
 import "Video"
 import "Music"
-import "People"
 
 ScopeView {
     id: root
@@ -123,14 +122,10 @@ ScopeView {
         }
     }
 
-    Component { id: peopleCarousel; PeopleCarousel {}   }
-    Component { id: peopleGrid;     PeopleFilterGrid {} }
     Component { id: musicGrid;      MusicFilterGrid {}  }
     Component { id: videosGrid;     VideosFilterGrid {} }
     property var componentModels: {
                 "AppsGrid": applicationsFilterGrid,
-                "PeopleCarousel": peopleCarousel,
-                "PeopleGrid": peopleGrid,
                 "MusicGrid": musicGrid,
                 "VideosGrid": videosGrid,
     }
