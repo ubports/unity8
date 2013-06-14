@@ -41,15 +41,20 @@ UbuntuShape {
 
         Repeater {
             id: actionRepeater
+
             model: notification.actions
+
+            delegate: Item {
+                property string actionId: model.id
+            }
         }
 
         anchors.fill: contentColumn
         objectName: "interactiveArea"
         enabled: notification.type == Notification.Interactive
         onClicked: {
-            notification.notification.invokeAction(actionRepeater.model.get(0).id)
-            actionInvoked(actionRepeater.model.get(0).id)
+            notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
+            actionInvoked(actionRepeater.itemAt(0).actionId)
         }
     }
 
