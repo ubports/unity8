@@ -136,7 +136,7 @@ void Scope::onActivated(unity::dash::LocalResult const& result, unity::dash::Sco
 void Scope::fallbackActivate(const QString& uri)
 {
     /* FIXME: stripping all content before the first column because for some
-              reason the lenses give uri with junk content at their beginning.
+              reason the scopes give uri with junk content at their beginning.
     */
     QString tweakedUri = uri;
     int firstColumnAt = tweakedUri.indexOf(":");

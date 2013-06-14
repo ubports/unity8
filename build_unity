@@ -6,7 +6,6 @@ SETUP=false
 UPDATE=false
 CLEAN=false
 NUM_JOBS=$(( `grep -c ^processor /proc/cpuinfo` + 1 ))
-LENSES="applications mockmusic mockvideos"
 
 # verified working revisions
 LIBUNITY_REV=228
@@ -136,14 +135,6 @@ compile_hud() {
 
 }
 
-link_lenses() {
-    echo "Linking system lenses.."
-    mkdir -p $BUILD_DIR/share/unity/lenses/
-    for LENS in $LENSES; do
-        [ -e $BUILD_DIR/share/unity/lenses/$LENS ] || ln -ivs /usr/share/unity/lenses/$LENS $BUILD_DIR/share/unity/lenses/$LENS
-    done
-}
-
 if $SETUP; then
     echo "Setting up environment for building Unity.."
     install_utils
@@ -163,6 +154,5 @@ else
     compile_libunity
     compile_unity_core
     compile_hud
-    link_lenses
 fi
 
