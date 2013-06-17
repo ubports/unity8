@@ -1095,6 +1095,7 @@ private Q_SLOTS:
             Q_FOREACH(ListViewWithPageHeader::ListItem *item, lvwph->m_visibleItems)
                 qDebug() << item->m_item;
             QTest::qWait(1000);
+            ++i;
         }
         qDebug() << "Before compare";
         Q_FOREACH(ListViewWithPageHeader::ListItem *item, lvwph->m_visibleItems)
@@ -1231,6 +1232,7 @@ private Q_SLOTS:
             Q_FOREACH(ListViewWithPageHeader::ListItem *item, lvwph->m_visibleItems)
                 qDebug() << item->m_item;
             QTest::qWait(1000);
+            ++i;
         }
         qDebug() << "Before compare";
         Q_FOREACH(ListViewWithPageHeader::ListItem *item, lvwph->m_visibleItems)
