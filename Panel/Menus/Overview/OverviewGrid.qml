@@ -65,18 +65,15 @@ Item {
                     id: loader
                     source: widgetSource
 
-                    onStatusChanged: {
-                        item.width = units.gu(5)
-                        item.height = units.gu(5)
+                    width: units.gu(5)
+                    height: units.gu(5)
+                    anchors.centerIn: parent
+                    anchors.verticalCenterOffset: -units.gu(1)
 
-                        item.x = Qt.binding(function() { return indicatorButton.width/2 - item.width/2; })
-                        item.y = Qt.binding(function() { return indicatorButton.height/2 - item.height/2 - units.gu(1); })
-
-                        if (status == Loader.Ready) {
-                            for(var pName in indicatorProperties) {
-                                if (item.hasOwnProperty(pName)) {
-                                    item[pName] = indicatorProperties[pName]
-                                }
+                    onLoaded: {
+                        for(var pName in indicatorProperties) {
+                            if (item.hasOwnProperty(pName)) {
+                                item[pName] = indicatorProperties[pName]
                             }
                         }
                     }

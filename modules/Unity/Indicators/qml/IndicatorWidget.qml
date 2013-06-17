@@ -25,6 +25,8 @@ import Unity.Indicators 0.1 as Indicators
 
 IndicatorBase {
     id: indicatorWidget
+
+//    enabled: false        // FIXME : should be enabled when we have desktop indicators
     property var action: undefined
     property bool started: (busType != 0) && (busName != "") && (deviceMenuObjectPath != "")
     property int iconSize: height - units.gu(0.5)

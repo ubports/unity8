@@ -39,6 +39,7 @@ Indicators.IndicatorWidget {
         }
         spacing: units.gu(0.5)
 
+        // FIXME : Should us Ubuntu.Icon . results in low res images
         Image {
             id: itemImage
             objectName: "itemImage"

@@ -27,8 +27,9 @@ Indicators.IndicatorWidget {
     width: networkIcon.width + units.gu(1)
 
     property int signalStrength: 0
-    property int connectionState: 0
+    property int connectionState: Indicators.ConnectionState.Initial
 
+    // FIXME : Should us Ubuntu.Icon . results in low res images
     Image {
         id: networkIcon
         objectName: "itemImage"
@@ -36,15 +37,13 @@ Indicators.IndicatorWidget {
         visible: source != ""
         height: indicatorWidget.iconSize
         width: indicatorWidget.iconSize
-        anchors {
-            verticalCenter: parent.verticalCenter
-            horizontalCenter: parent.horizontalCenter
-        }
+        anchors.centerIn: parent
     }
 
     function parseRootElement(type, data) {
-        if (type == "com.canonical.indicator.root.network")
+        if (type == "com.canonical.indicator.root.network") {
             return true;
+        }
         return false;
     }
 
@@ -77,22 +76,22 @@ Indicators.IndicatorWidget {
     states: [
         State {
             name: "unknown"
-            when: connectionState > 3 || connectionState < 1
+            when: connectionState > Indicators.ConnectionState.Deactivating || connectionState < Indicators.ConnectionState.Activating
             PropertyChanges { target: activation_animation; running: false }
         },
         State {
             name: "activating"
-            when: connectionState == 1
+            when: connectionState == Indicators.ConnectionState.Activating
             PropertyChanges { target: activation_animation; running: true }
         },
         State {
             name: "activated"
-            when: connectionState == 2
+            when: connectionState == Indicators.ConnectionState.Activated
             PropertyChanges { target: activation_animation; running: false }
         },
         State {
             name: "deactivating"
-            when: connectionState == 3
+            when: connectionState == Indicators.ConnectionState.Deactivating
             PropertyChanges { target: activation_animation; running: true }
         }
     ]

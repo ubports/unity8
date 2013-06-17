@@ -58,11 +58,11 @@ Description: transitional dummy package
 
 Package: indicators-client
 Architecture: amd64 armhf i386
-Depends: ${shlibs:Depends},
-         ${misc:Depends},
+Depends: qmenumodel-qml,
          qtdeclarative5-ubuntu-ui-toolkit-plugin | qt-components-ubuntu,
-         qmenumodel-qml,
          unity8 (= ${source:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends},
 Description: Indicators and system settings client application
  This package contains the client application for indicators and system
  settings.

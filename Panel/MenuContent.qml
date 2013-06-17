@@ -104,22 +104,15 @@ Rectangle {
             }
             asynchronous: true
 
-            onStatusChanged: {
-                if (status == Loader.Ready) {
-                    for(var pName in indicatorProperties) {
-                        if (item.hasOwnProperty(pName)) {
-                            item[pName] = indicatorProperties[pName]
-                        }
-                    }
-                    if (contentActive && menus.visible) {
-                        item.start()
+            onLoaded: {
+                for(var pName in indicatorProperties) {
+                    if (item.hasOwnProperty(pName)) {
+                        item[pName] = indicatorProperties[pName]
                     }
                 }
-            }
-
-            // FIXME: QTBUG-30632 - asynchronous loader crashes when changing index quickly.
-            Component.onDestruction: {
-                active = false;
+                if (contentActive && menus.visible) {
+                    item.start()
+                }
             }
 
             // Need to use a binding because the handle height changes.

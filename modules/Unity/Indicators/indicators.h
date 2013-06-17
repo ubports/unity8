@@ -34,4 +34,19 @@ public:
     ActionState(QObject*parent=0):QObject(parent) {}
 };
 
+class ConnectionState : public QObject
+{
+    Q_OBJECT
+public:
+    Q_ENUMS(ConnectionStates)
+    enum ConnectionStates {
+      Initial         = 0x00,
+      Activating      = 0x01,
+      Activated       = 0x02,
+      Deactivating    = 0x03,
+    };
+
+    ConnectionState(QObject*parent=0):QObject(parent) {}
+};
+
 #endif // INDICATORS_H
