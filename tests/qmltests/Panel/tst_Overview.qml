@@ -99,7 +99,7 @@ Rectangle {
             button = findChild(overview, "overviewGridButton3");
             compare(button, undefined, "There should only be 3 buttons... found at least 4...");
 
-            mockModel2.append({title: "humppa", widgetSource: "qrc:/tests/indciatorsclient/qml/fake_menu_widget4.qml", indicatorProperties: ""})
+            mockModel2.append({title: "humppa", widgetSource: "qrc:/tests/indciators/qml/fake_menu_widget4.qml", indicatorProperties: ""})
             overviewGrid.forceLayout();
             waitForRendering(overviewGrid);
 
