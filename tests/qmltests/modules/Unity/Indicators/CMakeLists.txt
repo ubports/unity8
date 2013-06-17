@@ -6,8 +6,6 @@ find_package(Qt5Quick REQUIRED)
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
-    ${Qt5Core_INCLUDE_DIRS}
-    ${Qt5Quick_INCLUDE_DIRS}
 )
 
 set(IndicatorsFakeQml_SOURCES
@@ -33,18 +31,14 @@ add_library(IndicatorsFakeQml SHARED
 set_target_properties(IndicatorsFakeQml PROPERTIES COMPILE_FLAGS -fvisibility=default)
 
 target_link_libraries(IndicatorsFakeQml
-    ${Qt5Core_LIBRARIES}
-    ${Qt5Quick_LIBRARIES}
     ${GOBJECT_LDFLAGS}
     ${QMENUMODEL_LDFLAGS}
 )
 
-qt5_use_modules(IndicatorsFakeQml Qml)
-
-
+qt5_use_modules(IndicatorsFakeQml Core Qml Quick)
 
 file(GLOB IndicatorsFake_QMLFILES
-    *.qml
+    IndicatorsModel.qml
     qml/FakeMenuPage.qml
 )
 

@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.0
-import Indicators 0.1 as Indicators
+import Unity.Indicators 0.1 as Indicators
 
 Indicators.FakeMenuPage {
     id: menu_plugin1
