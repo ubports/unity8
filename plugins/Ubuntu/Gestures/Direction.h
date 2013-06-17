@@ -36,8 +36,8 @@ public:
         Upwards // Along the negative direction of the Y axis
     };
 
-    static bool isHorizontal(Direction::Type type);
-    static bool isVertical(Direction::Type type);
+    Q_INVOKABLE static bool isHorizontal(Direction::Type type);
+    Q_INVOKABLE static bool isVertical(Direction::Type type);
 };
 
 #endif // DIRECTION_H

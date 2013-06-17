@@ -21,9 +21,15 @@
 
 #include <qqml.h>
 
+static QObject* directionSingleton(QQmlEngine* engine, QJSEngine* scriptEngine) {
+  Q_UNUSED(engine);
+  Q_UNUSED(scriptEngine);
+  return new Direction;
+}
+
 void UbuntuGestureQmlPlugin::registerTypes(const char *uri)
 {
-    qmlRegisterType<Direction>(uri, 0, 1, "Direction");
+    qmlRegisterSingletonType<Direction>(uri, 0, 1, "Direction", directionSingleton);
     qmlRegisterType<DirectionalDragArea>(uri, 0, 1, "DirectionalDragArea");
     qmlRegisterType<AxisVelocityCalculator>(uri, 0, 1, "AxisVelocityCalculator");
 }
