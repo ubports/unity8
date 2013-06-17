@@ -14,7 +14,7 @@ add_definitions(-DLISTVIEWWITHPAGEHEADER_FOLDER="${CMAKE_CURRENT_SOURCE_DIR}")
 add_definitions(-DBUILT_PLUGINS_DIR="${CMAKE_BINARY_DIR}/plugins")
 
 set(testCommand ${CMAKE_CURRENT_BINARY_DIR}/listviewwithpageheadertestExec
-        -o ${CMAKE_BINARY_DIR}/testListViewWithPageHeader.xml,xunitxml
+        -o ${CMAKE_BINARY_DIR}/testlistviewwithpageheader.xml,xunitxml
         -o -,txt)
 add_custom_target(testlistviewwithpageheader ${testCommand})
 add_dependencies(qmluitests testlistviewwithpageheader)
