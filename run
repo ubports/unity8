@@ -1,7 +1,7 @@
 #!/bin/sh
 
 QML_PHONE_SHELL_PATH=./builddir/unity8
-export LD_LIBRARY_PATH=$PWD/../unity_build/build/lib
+export LD_LIBRARY_PATH=$PWD/../unity_build/build/lib:$PWD/../unity_build/build/lib/libunity
 GDB=false
 FAKE=false
 PINLOCK=false

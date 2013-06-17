@@ -19,15 +19,14 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import IndicatorsClient 0.1 as IndicatorsClient
+import Unity.Indicators 0.1 as Indicators
 
-IndicatorsClient.IndicatorIcon {
+Indicators.IndicatorIcon {
     id: indicatorIcon
 
     width: timeLabel.width + units.gu(1)
 
     property alias label: timeLabel.text
-    property date __date
 
     Label {
         id: timeLabel
@@ -36,20 +35,19 @@ IndicatorsClient.IndicatorIcon {
         opacity: 0.8
         font.family: "Ubuntu"
         fontSize: "medium"
-        anchors {
-            verticalCenter: parent.verticalCenter
-            horizontalCenter: parent.horizontalCenter
-        }
-        text: Qt.formatTime(__date)
+        anchors.centerIn: parent
+        text: Qt.formatTime(timer.dateNow)
     }
 
     Timer {
         id: timer
-        interval: 1000 * 60
+        interval: 1000 * 10
         running: indicatorIcon.visible
         repeat: true
         triggeredOnStart: true
-        onTriggered: __date = new Date
+        property date dateNow
+
+        onTriggered: dateNow = new Date
     }
 
     onActionStateChanged: {

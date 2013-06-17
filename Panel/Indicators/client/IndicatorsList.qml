@@ -20,7 +20,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
-import IndicatorsClient 0.1 as IndicatorsClient
+import Unity.Indicators 0.1 as Indicators
 import "../.."
 
 Page {
@@ -38,7 +38,7 @@ Page {
         anchors.fill: parent
         model: indicatorsModel
 
-        delegate: IndicatorsClient.Menu {
+        delegate: Indicators.Menu {
             anchors.left: parent.left
             anchors.right: parent.right
             height: implicitHeight

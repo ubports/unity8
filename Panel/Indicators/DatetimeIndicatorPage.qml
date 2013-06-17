@@ -47,7 +47,7 @@ Flickable {
         height: units.gu(30)
 
         Label {
-            id: __time
+            id: timeLabel
             anchors {
                 horizontalCenter: parent.horizontalCenter
                 verticalCenter: parent.verticalCenter
@@ -60,7 +60,7 @@ Flickable {
         }
 
         Label {
-            id: __date
+            id: dateLabel
 
             anchors {
                 left: parent.left
@@ -75,20 +75,19 @@ Flickable {
     }
 
     Timer {
-        interval: 1000 * 60 // one minute
+        interval: 1000 * 10 // 10 seconds
         running: true
         repeat: true
+        triggeredOnStart: true
         onTriggered: updateTime();
-
-        Component.onCompleted: updateTime();
     }
 
     function updateTime() {
         var dt = new Date()
         var time = Qt.formatTime(dt)
         var space = time.indexOf(" ")
-        __time.text = time.substr(0, space > 0 ? space : 5)
-        __date.text = Qt.formatDateTime(dt, "dddd,\ndd MMMM")
+        timeLabel.text = time.substr(0, space > 0 ? space : 5)
+        dateLabel.text = Qt.formatDateTime(dt, "dddd,\ndd MMMM")
     }
 
     // Make it compatible with the PluginItem interface

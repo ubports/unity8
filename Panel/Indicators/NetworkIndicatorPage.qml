@@ -18,8 +18,8 @@
  */
 
 import QtQuick 2.0
-import IndicatorsClient 0.1 as IndicatorsClient
-import IndicatorsClient.Network 0.1 as ICNetwork
+import Unity.Indicators 0.1 as Indicators
+import Unity.Indicators.Network 0.1 as ICNetwork
 import Ubuntu.Components 0.1
 
 PageStack {
@@ -38,7 +38,7 @@ PageStack {
     Page {
         id: _mainPage
 
-        IndicatorsClient.IndicatorPage {
+        Indicators.IndicatorPage {
             id: _pluginItem
             anchors.fill: parent
         }

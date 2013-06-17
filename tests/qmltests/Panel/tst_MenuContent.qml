@@ -19,7 +19,7 @@ import QtTest 1.0
 import Unity.Test 0.1 as UT
 import ".."
 import "../../../Panel"
-import IndicatorsClient 0.1 as IndicatorsClient
+import Unity.Indicators 0.1 as Indicators
 
 Item {
     id: shell
@@ -39,7 +39,7 @@ Item {
     Item { id: handle }
 
 
-    IndicatorsClient.IndicatorsModel {
+    Indicators.IndicatorsModel {
         id: indicatorsModel
         Component.onCompleted: load()
     }

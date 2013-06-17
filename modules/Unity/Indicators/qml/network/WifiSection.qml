@@ -14,12 +14,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * Authors:
- *      Nick Dedekind <nick.dedekind@canonical.com>
+ *      Renato Araujo Oliveira Filho <renato@canonical.com>
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 0.1
 import Unity.Indicators 0.1 as Indicators
 
-Indicators.IndicatorPage {
-      anchors.fill: parent
+Indicators.SectionMenu {
+    property variant busyAction : actionGroup ? actionGroup.action(menu.extra.canonical_busy_action) : undefined
+    busy: busyAction && busyAction.valid ? busyAction.state : false
 }

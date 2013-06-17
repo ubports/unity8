@@ -16,7 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import IndicatorsClient 0.1 as IndicatorsClient
+import Unity.Indicators 0.1 as Indicators
 
 Item {
     id: indicatorItem
@@ -29,28 +29,21 @@ Item {
     opacity: dimmed ? 0.4 : 1
 
     // only visible when non-empty
-    visible: loader.item != undefined && loader.status == Loader.Ready
+    visible: loader.item != undefined && loader.status == Loader.Ready ? loader.item.enabled : false
     width: visible ? loader.item.width : 0
 
     Loader {
         id: loader
 
-        onStatusChanged: {
-            if (status == Loader.Ready) {
-                item.height = Qt.binding(function() { return indicatorItem.height; })
+        onLoaded: {
+            item.height = Qt.binding(function() { return indicatorItem.height; })
 
-                for(var pName in indicatorProperties) {
-                    if (item.hasOwnProperty(pName)) {
-                        item[pName] = indicatorProperties[pName]
-                    }
+            for(var pName in indicatorProperties) {
+                if (item.hasOwnProperty(pName)) {
+                    item[pName] = indicatorProperties[pName]
                 }
             }
         }
-    }
-
-    Connections {
-        target: loader.item
-        onVisibleChanged: { visible = loader.item.visible }
     }
 
     Rectangle {

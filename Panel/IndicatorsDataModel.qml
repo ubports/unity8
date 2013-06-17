@@ -18,10 +18,10 @@
  */
 
 import QtQuick 2.0
-import IndicatorsClient 0.1
+import Unity.Indicators 0.1 as Indicators
 import Utils 0.1
 
-IndicatorsModel {
+Indicators.IndicatorsModel {
     id: ic_model
 
     Component.onCompleted: load()

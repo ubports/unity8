@@ -20,7 +20,7 @@ import ".."
 import "../../../Panel/Menus"
 import "../../../Components"
 import Unity.Test 0.1 as UT
-import IndicatorsClient 0.1
+import Unity.Indicators 0.1 as Indicators
 
 Rectangle {
     id: shell
