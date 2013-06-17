@@ -144,7 +144,7 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->contentY(), 1.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
 //     }
-// 
+//
 //     void testHeaderDetachDragDown()
 //     {
 //         QTest::mousePress(view, Qt::LeftButton, Qt::NoModifier, QPoint(0, 0));
@@ -170,9 +170,9 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem->height(), 50.);
 //         QCOMPARE(lvwph->contentY(), -5.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
-// 
+//
 //         QTest::mouseRelease(view, Qt::LeftButton, Qt::NoModifier, QPoint(0, 15));
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
 //         verifyItem(0, 50., 150., false);
@@ -187,7 +187,7 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->contentY(), 0.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
 //     }
-// 
+//
 //     void testDrag375PixelUp()
 //     {
 //         changeContentY(375);
@@ -206,7 +206,7 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->contentY(), 375.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
 //     }
-// 
+//
 //     void testDrag520PixelUp()
 //     {
 //         changeContentY(520);
@@ -224,7 +224,7 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->contentY(), 520.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
 //     }
-// 
+//
 //     void testDragHeaderUpThenShow()
 //     {
 //         changeContentY(120);
@@ -241,7 +241,7 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem->height(), 50.);
 //         QCOMPARE(lvwph->contentY(), 120.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
-// 
+//
 //         changeContentY(-30);
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
@@ -257,7 +257,7 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->contentY(), 90.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 30.);
 //     }
-// 
+//
 //     void testDragHeaderUpThenShowWithoutHidingTotally()
 //     {
 //         changeContentY(10);
@@ -274,9 +274,9 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem->height(), 50.);
 //         QCOMPARE(lvwph->contentY(), 10.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
-// 
+//
 //         changeContentY(-1);
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
 //         verifyItem(0, 41., 150., false);
@@ -291,7 +291,7 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->contentY(), 9.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
 //     }
-// 
+//
 //     void testPositionAtBeginningIndex0Visible()
 //     {
 //         changeContentY(375);
@@ -309,9 +309,9 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem->height(), 50.);
 //         QCOMPARE(lvwph->contentY(), 375.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
-// 
+//
 //         lvwph->positionAtBeginning();
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
 //         verifyItem(0, 50., 150., false);
@@ -326,7 +326,7 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->contentY(), 0.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
 //     }
-// 
+//
 //     void testPositionAtBeginningIndex0NotVisible()
 //     {
 //         changeContentY(520);
@@ -343,9 +343,9 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem->height(), 50.);
 //         QCOMPARE(lvwph->contentY(), 520.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
-// 
+//
 //         lvwph->positionAtBeginning();
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
 //         verifyItem(0, 50., 150., false);
@@ -360,7 +360,7 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->contentY(), 0.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
 //     }
-// 
+//
 //     void testIndex0GrowOnScreen()
 //     {
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
@@ -376,9 +376,9 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem->height(), 50.);
 //         QCOMPARE(lvwph->contentY(), 0.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
-// 
+//
 //         model->setProperty(0, "size", 400);
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
 //         verifyItem(0, 50., 400., false);
@@ -392,7 +392,7 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->contentY(), 0.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
 //     }
-// 
+//
 //     void testIndex0GrowOffScreen()
 //     {
 //         changeContentY(375);
@@ -410,9 +410,9 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem->height(), 50.);
 //         QCOMPARE(lvwph->contentY(), 375.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
-// 
+//
 //         model->setProperty(0, "size", 400);
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 5);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
 //         verifyItem(0, -575., 400., true);
@@ -427,9 +427,9 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem->height(), 50.);
 //         QCOMPARE(lvwph->contentY(), 375.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
-// 
+//
 //         scrollToTop();
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
 //         verifyItem(0, 50., 400., false);
@@ -442,9 +442,9 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem->height(), 50.);
 //         QCOMPARE(lvwph->contentY(), -250.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
-// 
+//
 //         changeContentY(30);
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
 //         verifyItem(0, 20., 400., false);
@@ -458,7 +458,7 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->contentY(), -220.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
 //     }
-// 
+//
 //     void testIndex0GrowNotCreated()
 //     {
 //         changeContentY(520);
@@ -475,9 +475,9 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem->height(), 50.);
 //         QCOMPARE(lvwph->contentY(), 520.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
-// 
+//
 //         model->setProperty(0, "size", 400);
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 1);
 //         verifyItem(0, -320., 200., true);
@@ -491,9 +491,9 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem->height(), 50.);
 //         QCOMPARE(lvwph->contentY(), 520.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
-// 
+//
 //         scrollToTop();
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
 //         verifyItem(0, 50., 400., false);
@@ -507,7 +507,7 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->contentY(), -250.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
 //     }
-// 
+//
 //     void testShowHideShowHeaderAtBottom()
 //     {
 //         scrollToBottom();
@@ -523,7 +523,7 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem->height(), 50.);
 //         QCOMPARE(lvwph->contentY(), 1258.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
-// 
+//
 //         changeContentY(-30);
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 3);
@@ -537,7 +537,7 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem->height(), 50.);
 //         QCOMPARE(lvwph->contentY(), 1228.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 30.);
-// 
+//
 //         changeContentY(30);
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 3);
@@ -551,7 +551,7 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem->height(), 50.);
 //         QCOMPARE(lvwph->contentY(), 1258.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
-// 
+//
 //         changeContentY(-30);
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 3);
@@ -566,7 +566,7 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->contentY(), 1228.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 30.);
 //     }
-// 
+//
 //     void testChangeDelegateAtBottom()
 //     {
 //         scrollToBottom();
@@ -582,9 +582,9 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem->height(), 50.);
 //         QCOMPARE(lvwph->contentY(), 1258.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
-// 
+//
 //         lvwph->setDelegate(otherDelegate);
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 6);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
 //         verifyItem(0, 50., 35., false);
@@ -601,7 +601,7 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->contentY(), 0.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
 //     }
-// 
+//
 //     void testGrowHeaderAtTop()
 //     {
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
@@ -617,9 +617,9 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem->height(), 50.);
 //         QCOMPARE(lvwph->contentY(), 0.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
-// 
+//
 //         lvwph->m_headerItem->setHeight(100);
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
 //         verifyItem(0, 100., 150., false);
@@ -634,7 +634,7 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->contentY(), 0.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
 //     }
-// 
+//
 //     void testGrowHeaderAtBottom()
 //     {
 //         scrollToBottom();
@@ -650,9 +650,9 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem->height(), 50.);
 //         QCOMPARE(lvwph->contentY(), 1258.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
-// 
+//
 //         lvwph->m_headerItem->setHeight(100);
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 3);
 //         verifyItem(0, -508., 350., true);
@@ -665,9 +665,9 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem->height(), 100.);
 //         QCOMPARE(lvwph->contentY(), 1258.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
-// 
+//
 //         changeContentY(-30);
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 3);
 //         verifyItem(0, -508., 350., true);
@@ -680,10 +680,10 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem->height(), 100.);
 //         QCOMPARE(lvwph->contentY(), 1228.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 30.);
-// 
-// 
+//
+//
 //         scrollToTop();
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
 //         verifyItem(0, 100., 150., false);
@@ -698,7 +698,7 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->contentY(), -50.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
 //     }
-// 
+//
 //     void testGrowHeaderPartlyShown()
 //     {
 //         scrollToBottom();
@@ -714,9 +714,9 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem->height(), 50.);
 //         QCOMPARE(lvwph->contentY(), 1258.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
-// 
+//
 //         changeContentY(-30);
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 3);
 //         verifyItem(0, -508., 350., true);
@@ -729,9 +729,9 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem->height(), 50.);
 //         QCOMPARE(lvwph->contentY(), 1228.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 30.);
-// 
+//
 //         lvwph->m_headerItem->setHeight(100);
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 3);
 //         verifyItem(0, -508., 350., true);
@@ -744,9 +744,9 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem->height(), 100.);
 //         QCOMPARE(lvwph->contentY(), 1228.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 80.);
-// 
+//
 //         scrollToTop();
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
 //         verifyItem(0, 100., 150., false);
@@ -761,13 +761,13 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->contentY(), 0.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
 //     }
-// 
+//
 //     void testShrinkHeaderMoreThanPartlyShown()
 //     {
 //         scrollToBottom();
 //         lvwph->m_headerItem->setHeight(100);
 //         changeContentY(-30);
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 3);
 //         verifyItem(0, -508., 350., true);
@@ -780,9 +780,9 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem->height(), 100.);
 //         QCOMPARE(lvwph->contentY(), 1228.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 30.);
-// 
+//
 //         lvwph->m_headerItem->setHeight(50);
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 3);
 //         verifyItem(0, -508., 350., true);
@@ -796,9 +796,9 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->contentY(), 1228.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
 //         QTRY_VERIFY(lvwph->isAtYEnd());
-// 
+//
 //         scrollToTop();
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
 //         verifyItem(0, 50., 150., false);
@@ -813,11 +813,11 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->contentY(), -30.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
 //     }
-// 
+//
 //     void testSetEmptyHeaderAtTop()
 //     {
 //         lvwph->setHeader(nullptr);
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
 //         verifyItem(0, 0., 150., false);
@@ -831,12 +831,12 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->contentY(), 0.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
 //     }
-// 
+//
 //     void testSetEmptyHeaderAtBottom()
 //     {
 //         scrollToBottom();
 //         lvwph->setHeader(nullptr);
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 3);
 //         verifyItem(0, -508., 350., true);
@@ -848,9 +848,9 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem, (QQuickItem*)nullptr);
 //         QCOMPARE(lvwph->contentY(), 1258.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
-// 
+//
 //         scrollToTop();
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
 //         verifyItem(0, 0., 150., false);
@@ -864,13 +864,13 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->contentY(), 50.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
 //     }
-// 
+//
 //     void testSetEmptyHeaderWhenPartlyShownClipped()
 //     {
 //         scrollToBottom();
 //         changeContentY(-30);
 //         lvwph->setHeader(nullptr);
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 3);
 //         verifyItem(0, -508., 350., true);
@@ -883,9 +883,9 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->contentY(), 1228.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
 //         QTRY_VERIFY(lvwph->isAtYEnd());
-// 
+//
 //         scrollToTop();
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
 //         verifyItem(0, 0., 150., false);
@@ -899,12 +899,12 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->contentY(), 20.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
 //     }
-// 
+//
 //     void testSetEmptyHeaderWhenPartlyShownNotClipped()
 //     {
 //         changeContentY(30);
 //         lvwph->setHeader(nullptr);
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
 //         verifyItem(0, -30., 150., false);
@@ -918,11 +918,11 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->contentY(), 30.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
 //     }
-// 
+//
 //     void testSetNullDelegate()
 //     {
 //         lvwph->setDelegate(nullptr);
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 0);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, -1);
 //         QCOMPARE(lvwph->m_minYExtent, 0.);
@@ -936,12 +936,12 @@ private Q_SLOTS:
 //         QVERIFY(lvwph->isAtYBeginning());
 //         QVERIFY(lvwph->isAtYEnd());
 //     }
-// 
+//
 //     void testInsertItems()
 //     {
 //         QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 1), Q_ARG(QVariant, 100));
 //         QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 1), Q_ARG(QVariant, 125));
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 5);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
 //         verifyItem(0, 50., 150., false);
@@ -957,11 +957,11 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->contentY(), 0.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
 //     }
-// 
+//
 //     void testInsertItemsOnNotShownPosition()
 //     {
 //         changeContentY(700);
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
 //         QTRY_COMPARE(lvwph->m_firstVisibleIndex, 2);
 //         verifyItem(0, -300., 350., false);
@@ -975,10 +975,10 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem->height(), 50.);
 //         QCOMPARE(lvwph->contentY(), 700.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
-// 
+//
 //         QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 1), Q_ARG(QVariant, 100));
 //         QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 1), Q_ARG(QVariant, 125));
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 4);
 //         verifyItem(0, -300., 350., false);
@@ -992,9 +992,9 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem->height(), 50.);
 //         QCOMPARE(lvwph->contentY(), 700.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
-// 
+//
 //         scrollToTop();
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 5);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
 //         verifyItem(0, 50., 150., false);
@@ -1010,12 +1010,12 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->contentY(), -225.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
 //     }
-// 
+//
 //     void testInsertItemsAtEndOfViewport()
 //     {
 //         QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 3), Q_ARG(QVariant, 100));
 //         QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 3), Q_ARG(QVariant, 125));
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
 //         verifyItem(0, 50., 150., false);
@@ -1030,11 +1030,11 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->contentY(), 0.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
 //     }
-// 
+//
 //     void testInsertItemsBeforeValidIndex()
 //     {
 //         changeContentY(520);
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 1);
 //         verifyItem(0, -320., 200., true);
@@ -1048,10 +1048,10 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem->height(), 50.);
 //         QCOMPARE(lvwph->contentY(), 520.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
-// 
+//
 //         QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 1), Q_ARG(QVariant, 100));
 //         QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 1), Q_ARG(QVariant, 125));
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 3);
 //         verifyItem(0, -320., 200., true);
@@ -1136,12 +1136,12 @@ private Q_SLOTS:
 //     void testInsertItemsAtBottom()
 //     {
 //         scrollToBottom();
-// 
+//
 //         QVERIFY(lvwph->isAtYEnd());
-// 
+//
 //         QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 6), Q_ARG(QVariant, 100));
 //         QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 6), Q_ARG(QVariant, 125));
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 5);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 3);
 //         verifyItem(0, -508., 350., true);
@@ -1157,9 +1157,9 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->contentY(), 1258.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
 //         QVERIFY(!lvwph->isAtYEnd());
-// 
+//
 //         scrollToBottom();
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 4);
 //         verifyItem(0, -383., 350., true);
@@ -1175,11 +1175,11 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
 //         QVERIFY(lvwph->isAtYEnd());
 //     }
-// 
+//
 //     void testInsertItemAtTop()
 //     {
 //         QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 75));
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
 //         verifyItem(0, 50., 75., false);
@@ -1199,7 +1199,7 @@ private Q_SLOTS:
 //     void testInsertItem10SmallItemsAtTopWhenAtBottom()
 //     {
 //         scrollToBottom();
-// 
+//
 //         QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 75));
 //         QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 75));
 //         QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 75));
@@ -1210,7 +1210,7 @@ private Q_SLOTS:
 //         QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 75));
 //         QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 75));
 //         QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 75));
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 13);
 //         verifyItem(0, -508., 350., true);
@@ -1223,9 +1223,9 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem->height(), 50.);
 //         QCOMPARE(lvwph->contentY(), 1258.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
-// 
+//
 //         changeContentY(-1700);
-// 
+//
 //         int i = 0;
 //         while(i < 10 && lvwph->m_visibleItems.count() != 12) {
 //             qDebug() << "Loop" << i;
@@ -1263,7 +1263,7 @@ private Q_SLOTS:
 //     void testRemoveItemsAtTop()
 //     {
 //         QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 0), Q_ARG(QVariant, 2));
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
 //         verifyItem(0, 50., 350., false);
@@ -1278,13 +1278,13 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
 //         QVERIFY(lvwph->isAtYBeginning());
 //     }
-// 
+//
 //     void testRemoveNonCreatedItemsAtTopWhenAtBottom()
 //     {
 //         scrollToBottom();
-// 
+//
 //         QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 0), Q_ARG(QVariant, 2));
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 1);
 //         verifyItem(0, -508., 350., true);
@@ -1298,13 +1298,13 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->contentY(), 1258.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
 //     }
-// 
+//
 //     void testRemoveLastItemsAtBottom()
 //     {
 //         scrollToBottom();
-// 
+//
 //         QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 4), Q_ARG(QVariant, 2));
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 1);
 //         verifyItem(0, -358., 200., true);
@@ -1318,11 +1318,11 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->contentY(), 558.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
 //     }
-// 
+//
 //     void testRemoveItemOutOfViewport()
 //     {
 //         changeContentY(520);
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 1);
 //         verifyItem(0, -320., 200., true);
@@ -1336,10 +1336,10 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem->height(), 50.);
 //         QCOMPARE(lvwph->contentY(), 520.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
-// 
-// 
+//
+//
 //         QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 1), Q_ARG(QVariant, 1));
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
 //         verifyItem(0, -270., 150., true);
@@ -1354,11 +1354,11 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->contentY(), 520.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
 //     }
-// 
+//
 //     void testMoveFirstItems()
 //     {
 //         QMetaObject::invokeMethod(model, "moveItems", Q_ARG(QVariant, 0), Q_ARG(QVariant, 1), Q_ARG(QVariant, 1));
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
 //         verifyItem(0, 50., 200., false);
@@ -1372,13 +1372,13 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem->height(), 50.);
 //         QCOMPARE(lvwph->contentY(), 0.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
-// 
+//
 //     }
-// 
+//
 //     void testMoveFirstOutOfVisibleItems()
 //     {
 //         QMetaObject::invokeMethod(model, "moveItems", Q_ARG(QVariant, 0), Q_ARG(QVariant, 4), Q_ARG(QVariant, 1));
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
 //         verifyItem(0, 50., 200., false);
@@ -1391,13 +1391,13 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem->height(), 50.);
 //         QCOMPARE(lvwph->contentY(), 0.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
-// 
+//
 //     }
-// 
+//
 //     void testMoveFirstToLastAtBottom()
 //     {
 //         scrollToBottom();
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 3);
 //         verifyItem(0, -508., 350., true);
@@ -1410,9 +1410,9 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem->height(), 50.);
 //         QCOMPARE(lvwph->contentY(), 1258.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
-// 
+//
 //         QMetaObject::invokeMethod(model, "moveItems", Q_ARG(QVariant, 0), Q_ARG(QVariant, 5), Q_ARG(QVariant, 1));
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 2);
 //         verifyItem(0, -508., 350., true);
@@ -1428,11 +1428,11 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
 //         QVERIFY(!lvwph->isAtYEnd());
 //     }
-// 
+//
 //     void testChangeSizeVisibleItemNotOnViewport()
 //     {
 //         changeContentY(440);
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 5);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
 //         verifyItem(0, -390., 150., true);
@@ -1447,9 +1447,9 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem->height(), 50.);
 //         QCOMPARE(lvwph->contentY(), 440.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
-// 
+//
 //         model->setProperty(1, "size", 100);
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 5);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
 //         verifyItem(0, -290., 150., true);
@@ -1465,11 +1465,11 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->contentY(), 440.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
 //     }
-// 
+//
 //     void testShowHeaderCloseToTheTop()
 //     {
 //         changeContentY(375);
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 5);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
 //         verifyItem(0, -325., 150., true);
@@ -1484,9 +1484,9 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem->height(), 50.);
 //         QCOMPARE(lvwph->contentY(), 375.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);;
-// 
+//
 //         lvwph->showHeader();
-// 
+//
 //         QTRY_VERIFY(!lvwph->m_headerShowAnimation->isRunning());
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 5);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
@@ -1502,9 +1502,9 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem->height(), 50.);
 //         QCOMPARE(lvwph->contentY(), 325.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 50.);;
-// 
+//
 //         scrollToTop();
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
 //         verifyItem(0, 50., 150., false);
