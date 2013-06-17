@@ -1089,6 +1089,16 @@ private Q_SLOTS:
         QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 1), Q_ARG(QVariant, 100));
         QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 1), Q_ARG(QVariant, 125));
 
+        int i = 0;
+        while(i < 10 && lvwph->m_visibleItems.count() != 5) {
+            qDebug() << "Loop" << i;
+            Q_FOREACH(ListViewWithPageHeader::ListItem *item, lvwph->m_visibleItems)
+                qDebug() << item->m_item;
+            QTest::qWait(1000);
+        }
+        qDebug() << "Before compare";
+        Q_FOREACH(ListViewWithPageHeader::ListItem *item, lvwph->m_visibleItems)
+            qDebug() << item->m_item;
         QTRY_COMPARE(lvwph->m_visibleItems.count(), 5);
         QCOMPARE(lvwph->m_firstVisibleIndex, 2);
         verifyItem(0, -275., 100., true);
