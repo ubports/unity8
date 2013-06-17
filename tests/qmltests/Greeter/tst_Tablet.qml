@@ -305,5 +305,24 @@ Item {
             var index = select_user("no-background")
             compare(greeter.model.data(index, LightDM.UserRoles.BackgroundPathRole), "")
         }
+
+        function test_teasingArea_data() {
+            return [
+                {tag: "left", posX: units.gu(2), leftPressed: true, rightPressed: false},
+                {tag: "right", posX: greeter.width - units.gu(2), leftPressed: false, rightPressed: true}
+            ]
+        }
+
+        function test_teasingArea(data) {
+            tryCompare(greeter, "leftTeaserPressed", false)
+            tryCompare(greeter, "rightTeaserPressed", false)
+            mousePress(greeter, data.posX, greeter.height - units.gu(1))
+            tryCompare(greeter, "leftTeaserPressed", data.leftPressed)
+            tryCompare(greeter, "rightTeaserPressed", data.rightPressed)
+            mouseRelease(greeter, data.posX, greeter.height - units.gu(1))
+            tryCompare(greeter, "leftTeaserPressed", false)
+            tryCompare(greeter, "rightTeaserPressed", false)
+        }
+
     }
 }
