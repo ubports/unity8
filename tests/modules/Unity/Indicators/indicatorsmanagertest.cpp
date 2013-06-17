@@ -69,7 +69,7 @@ private Q_SLOTS:
         manager.load();
 
         Indicator::Ptr indicator = manager.indicator("indicator-fake1");
-        QVERIFY(indicator.get());
+        QVERIFY(indicator ? true : false);
 
         QCOMPARE(indicator->identifier(), QString("indicator-fake1"));
 
@@ -113,25 +113,24 @@ private Q_SLOTS:
         IndicatorsManager manager;
         manager.load();
 
-        QPointer<QObject> pi0;
-        QPointer<QObject> pi1;
+        QWeakPointer<Indicator> wp0;
+        QWeakPointer<Indicator> wp1;
         {
             Indicator::Ptr i0 = manager.indicator("indicator-fake1");
-            pi0 = dynamic_cast<QObject*>(i0.get());
+            wp0 = i0.toWeakRef();
 
             Indicator::Ptr i1 = manager.indicator("indicator-fake1");
-            pi1 = dynamic_cast<QObject*>(i1.get());
+            wp1 = i1.toWeakRef();
 
             manager.unload();
             // still alive while we have the shared pointers.
-            QVERIFY(!pi0.isNull());
-            QVERIFY(!pi1.isNull());
-
+            QVERIFY(!wp0.isNull());
+            QVERIFY(!wp1.isNull());
         }
 
         // no more smart pointers. should have been released.
-        QVERIFY(pi0.isNull());
-        QVERIFY(pi1.isNull());
+        QVERIFY(wp0.isNull());
+        QVERIFY(wp1.isNull());
     }
 };
 

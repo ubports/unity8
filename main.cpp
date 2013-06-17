@@ -28,16 +28,17 @@
 #include <libintl.h>
 
 // local
-#include "MouseTouchAdaptor.h"
 #include "paths.h"
+#include "MouseTouchAdaptor.h"
 
 namespace {
 
 void prependImportPaths(QQmlEngine *engine, const QStringList &paths)
 {
     QStringList importPathList = engine->importPathList();
-    for (int i = paths.count() -1; i >= 0; i--)
+    for (int i = paths.count() -1; i >= 0; i--) {
         importPathList.prepend(paths[i]);
+    }
     engine->setImportPathList(importPathList);
 }
 

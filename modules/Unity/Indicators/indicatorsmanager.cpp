@@ -244,20 +244,17 @@ Indicator::Ptr IndicatorsManager::indicator(const QString& indicator)
     if (!m_indicatorsData.contains(indicator))
     {
         qWarning() << Q_FUNC_INFO << "Invalid plugin name: " <<  indicator;
-        return 0;
+        return Indicator::Ptr();
     }
 
     IndicatorData *data = m_indicatorsData[indicator];
     if (data->m_indicator)
         return data->m_indicator;
 
-    Indicator::Ptr plugin = std::make_shared<Indicator>(this);
-    if (plugin)
-    {
-        data->m_indicator = plugin;
-        QSettings settings(data->m_fileInfo.absoluteFilePath(), QSettings::IniFormat, this);
-        plugin->init(data->m_fileInfo.fileName(), settings);
-    }
+    Indicator::Ptr plugin(new Indicator(this));
+    data->m_indicator = plugin;
+    QSettings settings(data->m_fileInfo.absoluteFilePath(), QSettings::IniFormat, this);
+    plugin->init(data->m_fileInfo.fileName(), settings);
     return plugin;
 }
 

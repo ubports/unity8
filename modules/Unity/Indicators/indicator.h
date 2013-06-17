@@ -25,10 +25,6 @@
 #include <QSettings>
 #include <memory>
 
-class QDBusActionGroup;
-class QDBusMenuModel;
-class QStateAction;
-
 class Indicator : public QObject
 {
     Q_OBJECT
@@ -36,7 +32,7 @@ class Indicator : public QObject
     Q_PROPERTY(QVariant indicatorProperties READ indicatorProperties NOTIFY indicatorPropertiesChanged)
 
 public:
-    typedef std::shared_ptr<Indicator> Ptr;
+    typedef QSharedPointer<Indicator> Ptr;
 
     Indicator(QObject *parent = 0);
     virtual ~Indicator();

@@ -139,8 +139,8 @@ void IndicatorsModel::onIndicatorLoaded(const QString& indicator)
         pos++;
     }
 
-    QObject::connect(plugin.get(), SIGNAL(identifierChanged(const QString&)), this, SLOT(onIdentifierChanged()));
-    QObject::connect(plugin.get(), SIGNAL(indicatorPropertiesChanged(const QVariant&)), this, SLOT(onIndicatorPropertiesChanged()));
+    QObject::connect(plugin.data(), SIGNAL(identifierChanged(const QString&)), this, SLOT(onIdentifierChanged()));
+    QObject::connect(plugin.data(), SIGNAL(indicatorPropertiesChanged(const QVariant&)), this, SLOT(onIndicatorPropertiesChanged()));
 
     beginInsertRows(QModelIndex(), pos, pos);
 
@@ -193,7 +193,7 @@ void IndicatorsModel::notifyDataChanged(QObject *sender, int role)
     QMutableListIterator<Indicator::Ptr> iter(m_plugins);
     while(iter.hasNext())
     {
-        if (iter.next().get() == plugin)
+        if (iter.next().data() == plugin)
         {
             QModelIndex changedIndex = this->index(index);
             dataChanged(changedIndex, changedIndex, QVector<int>() << role);
@@ -269,7 +269,7 @@ QVariant IndicatorsModel::data(const QModelIndex &index, int role) const
             }
             break;
         case IsValid:
-            return (plugin.get() ? true : false);
+            return (plugin ? true : false);
         case Priority:
         case Title:
         case Description:

@@ -19,19 +19,7 @@
 
 #include "indicator.h"
 
-#include <QUrl>
-#include <QtPlugin>
-#include <QResource>
-#include <QDebug>
-#include <QFileInfo>
-#include <QDir>
-#include <QQmlEngine>
-#include <QQmlContext>
-#include <QJsonObject>
-
-#include <qdbusmenumodel.h>
-#include <qdbusactiongroup.h>
-#include <qstateaction.h>
+#include <QStringList>
 
 Indicator::Indicator(QObject *parent)
     : QObject(parent)
