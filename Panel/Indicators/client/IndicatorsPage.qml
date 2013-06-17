@@ -39,10 +39,10 @@ Page {
             if (status == Loader.Ready) {
                 for(var pName in indicatorProperties) {
                     if (item.hasOwnProperty(pName)) {
-                        item[pName] = indicatorProperties[pName]
+                        item[pName] = indicatorProperties[pName];
                     }
                 }
-                item.start()
+                item.start();
             }
         }
     }

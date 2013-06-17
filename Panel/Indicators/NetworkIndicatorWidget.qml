@@ -21,8 +21,8 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Unity.Indicators 0.1 as Indicators
 
-Indicators.IndicatorIcon {
-    id: indicatorIcon
+Indicators.IndicatorWidget {
+    id: indicatorWidget
 
     width: networkIcon.width + units.gu(1)
 
@@ -34,8 +34,8 @@ Indicators.IndicatorIcon {
         objectName: "itemImage"
         source: get_icon_for_signal(connectionState, signalStrength)
         visible: source != ""
-        height: indicatorIcon.iconSize
-        width: indicatorIcon.iconSize
+        height: indicatorWidget.iconSize
+        width: indicatorWidget.iconSize
         anchors {
             verticalCenter: parent.verticalCenter
             horizontalCenter: parent.horizontalCenter
@@ -44,29 +44,29 @@ Indicators.IndicatorIcon {
 
     function parseRootElement(type, data) {
         if (type == "com.canonical.indicator.root.network")
-            return true
-        return false
+            return true;
+        return false;
     }
 
     onActionStateChanged: {
         if (action == undefined || !action.valid) {
-            return
+            return;
         }
 
         if (action.state == undefined) {
-            connectionState = 0
-            return
+            connectionState = 0;
+            return;
         }
 
-        connectionState = action.state[1]
+        connectionState = action.state[1];
         if (connectionState == 2) {
-            signalStrength = action.state[2]
+            signalStrength = action.state[2];
         }
     }
 
     NumberAnimation {
         id: activation_animation
-        target: indicatorIcon
+        target: indicatorWidget
         property: "signalStrength"
         from: 0
         to: 100
@@ -101,16 +101,16 @@ Indicators.IndicatorIcon {
     function get_icon_for_signal(con_state, value) {
         if (con_state >= 1 && con_state <= 3) {
             if (value == 0) {
-                return "image://gicon/nm-signal-00"
+                return "image://gicon/nm-signal-00";
             } else if (value <= 25) {
-                return "image://gicon/nm-signal-25"
+                return "image://gicon/nm-signal-25";
             } else if (value <= 50) {
-                return "image://gicon/nm-signal-50"
+                return "image://gicon/nm-signal-50";
             } else if (value <= 75) {
-                return "image://gicon/nm-signal-75"
+                return "image://gicon/nm-signal-75";
             }
-            return "image://gicon/nm-signal-100"
+            return "image://gicon/nm-signal-100";
         }
-        return "image://gicon/wifi-none"
+        return "image://gicon/wifi-none";
     }
 }

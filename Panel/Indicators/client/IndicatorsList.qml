@@ -54,8 +54,8 @@ Page {
 
             onClicked: {
                 if (progression) {
-                    var page = Qt.createComponent("IndicatorsPage.qml")
-                    pages.push(page.createObject(pages), {"indicatorProperties" : model.indicatorProperties, "pageSource" : model.pageSource})
+                    var page = Qt.createComponent("IndicatorsPage.qml");
+                    pages.push(page.createObject(pages), {"indicatorProperties" : model.indicatorProperties, "pageSource" : model.pageSource});
                 }
             }
         }

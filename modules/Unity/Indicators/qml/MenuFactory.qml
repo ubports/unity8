@@ -74,25 +74,25 @@ Item {
         asynchronous: true
         sourceComponent: {
             if (!__menuFactory.menu ||  !__menuFactory.menu.extra) {
-                return undefined
+                return undefined;
             }
 
-            var widgetType = __menuFactory.menu.extra.canonical_type
+            var widgetType = __menuFactory.menu.extra.canonical_type;
             if (widgetType) {
-                return _map[widgetType]
+                return _map[widgetType];
             }
             else {
                 if (widgetType === "com.canonical.indicator.root") {
-                   return undefined
+                   return undefined;
                 // Try discovery the item based on the basic properties
                 } else if (menu.hasSection) {
-                    return sectionMenu
+                    return sectionMenu;
                 }
                 else {
-                    return indicatorMenu
+                    return indicatorMenu;
                 }
             }
-            return undefined
+            return undefined;
         }
 
         onStatusChanged: {

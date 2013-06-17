@@ -21,8 +21,8 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Unity.Indicators 0.1 as Indicators
 
-Indicators.IndicatorIcon {
-    id: indicatorIcon
+Indicators.IndicatorWidget {
+    id: indicatorWidget
 
     width: itemRow.width + units.gu(1)
 
@@ -43,8 +43,8 @@ Indicators.IndicatorIcon {
             id: itemImage
             objectName: "itemImage"
             visible: source != ""
-            height: indicatorIcon.iconSize
-            width: indicatorIcon.iconSize
+            height: indicatorWidget.iconSize
+            width: indicatorWidget.iconSize
             anchors.verticalCenter: parent.verticalCenter
         }
 
@@ -62,16 +62,16 @@ Indicators.IndicatorIcon {
 
     onActionStateChanged: {
         if (action == undefined || !action.valid) {
-            return
+            return;
         }
 
         if (action.state == undefined) {
             label = "";
             iconSource = "";
-            return
+            return;
         }
 
-        label = action.state[Indicators.ActionState.Label]
-        iconSource = "image://gicon/" + action.state[Indicators.ActionState.IconSource]
+        label = action.state[Indicators.ActionState.Label];
+        iconSource = "image://gicon/" + action.state[Indicators.ActionState.IconSource];
     }
 }

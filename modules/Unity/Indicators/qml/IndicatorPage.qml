@@ -74,13 +74,13 @@ IndicatorBase {
                 if (!item.empty) {
                     mainMenu.visibleItems += 1;
                 }
-                ready = true
+                ready = true;
             }
             Component.onDestruction: {
                 if (!item.empty) {
                     mainMenu.visibleItems -= 1;
                 }
-                ready = false
+                ready = false;
             }
 
             onEmptyChanged: {
@@ -117,9 +117,9 @@ IndicatorBase {
                             return 0;
                         }
                         if (hasSection || ((depth == 0) && (!factory.empty))) {
-                            return implicitHeight
+                            return implicitHeight;
                         } else {
-                            return 0
+                            return 0;
                         }
                     }
                 }
@@ -162,25 +162,25 @@ IndicatorBase {
     {
         reset()
         if (!__active) {
-            proxyModel.start()
-            actionGroup.start()
-            __active = true
+            proxyModel.start();
+            actionGroup.start();
+            __active = true;
         }
     }
 
     function stop()
     {
         if (__active) {
-            __active = false
-            proxyModel.stop()
-            actionGroup.stop()
+            __active = false;
+            proxyModel.stop();
+            actionGroup.stop();
         }
     }
 
     function reset()
     {
-        mainMenu.currentIndex = -1
-        mainMenu.positionViewAtBeginning()
+        mainMenu.currentIndex = -1;
+        mainMenu.positionViewAtBeginning();
     }
 
     Component.onCompleted: {

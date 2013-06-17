@@ -1,8 +1,8 @@
 module Unity.Indicators
 plugin IndicatorsQml
 
-IndicatorItem 0.1 IndicatorItem.qml
-IndicatorIcon 0.1 IndicatorIcon.qml
+IndicatorBase 0.1 IndicatorBase.qml
+IndicatorWidget 0.1 IndicatorWidget.qml
 IndicatorPage 0.1 IndicatorPage.qml
 BasicMenu 0.1 BasicMenu.qml
 ButtonMenu 0.1 ButtonMenu.qml

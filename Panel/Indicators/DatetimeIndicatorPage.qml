@@ -83,11 +83,11 @@ Flickable {
     }
 
     function updateTime() {
-        var dt = new Date()
-        var time = Qt.formatTime(dt)
-        var space = time.indexOf(" ")
-        timeLabel.text = time.substr(0, space > 0 ? space : 5)
-        dateLabel.text = Qt.formatDateTime(dt, "dddd,\ndd MMMM")
+        var dt = new Date();
+        var time = Qt.formatTime(dt);
+        var space = time.indexOf(" ");
+        timeLabel.text = time.substr(0, space > 0 ? space : 5);
+        dateLabel.text = Qt.formatDateTime(dt, "dddd,\ndd MMMM");
     }
 
     // Make it compatible with the PluginItem interface

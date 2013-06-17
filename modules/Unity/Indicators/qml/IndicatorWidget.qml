@@ -24,7 +24,7 @@ import Ubuntu.Components.ListItems 0.1 as ListItem
 import Unity.Indicators 0.1 as Indicators
 
 IndicatorBase {
-    id: indicatorIcon
+    id: indicatorWidget
     property var action: undefined
     property bool started: (busType != 0) && (busName != "") && (deviceMenuObjectPath != "")
     property int iconSize: height - units.gu(0.5)
@@ -33,12 +33,12 @@ IndicatorBase {
 
     onStartedChanged: {
         if (started) {
-            proxyModel.start()
-            actionGroup.start()
+            proxyModel.start();
+            actionGroup.start();
         }
         else {
-            proxyModel.stop()
-            actionGroup.stop()
+            proxyModel.stop();
+            actionGroup.stop();
         }
     }
     onActionChanged: actionStateChanged()
@@ -47,9 +47,9 @@ IndicatorBase {
 
 
     function update_state() {
-        var data = proxyModel.get(0)
+        var data = proxyModel.get(0);
         if (data == undefined || data.extra == undefined) {
-            return
+            return;
         }
 
         if (!data.extra.hasOwnProperty("canonical_type")) {
@@ -57,7 +57,7 @@ IndicatorBase {
         }
 
         if (parseRootElement(data.extra.canonical_type, data)) {
-            action = actionGroup.action(data.action)
+            action = actionGroup.action(data.action);
         }
     }
 
@@ -75,14 +75,14 @@ IndicatorBase {
 
     onActionStateChanged: {
         if (action == undefined || !action.valid) {
-            return
+            return;
         }
 
         if (action.state == undefined) {
-            enabled = false
-            return
+            enabled = false;
+            return;
         }
 
-        enabled = action.state[Indicators.ActionState.Visible]
+        enabled = action.state[Indicators.ActionState.Visible];
     }
 }

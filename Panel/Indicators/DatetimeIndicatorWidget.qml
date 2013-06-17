@@ -21,8 +21,8 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Unity.Indicators 0.1 as Indicators
 
-Indicators.IndicatorIcon {
-    id: indicatorIcon
+Indicators.IndicatorWidget {
+    id: indicatorWidget
 
     width: timeLabel.width + units.gu(1)
 
@@ -42,7 +42,7 @@ Indicators.IndicatorIcon {
     Timer {
         id: timer
         interval: 1000 * 10
-        running: indicatorIcon.visible
+        running: indicatorWidget.visible
         repeat: true
         triggeredOnStart: true
         property date dateNow
@@ -52,14 +52,14 @@ Indicators.IndicatorIcon {
 
     onActionStateChanged: {
         if (action == undefined || !action.valid) {
-            return
+            return;
         }
 
         if (action.state == undefined) {
             visible = false;
-            return
+            return;
         }
 
-        indicatorIcon.visible = action.state[3]
+        indicatorWidget.visible = action.state[3];
     }
 }

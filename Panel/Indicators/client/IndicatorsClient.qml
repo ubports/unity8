@@ -34,9 +34,9 @@ Rectangle {
 
     function reset() {
         pages.clear();
-        var component = Qt.createComponent("IndicatorsList.qml")
-        var page = component.createObject(pages)
-        console.log(component.errorString())
+        var component = Qt.createComponent("IndicatorsList.qml");
+        var page = component.createObject(pages);
+        console.log(component.errorString());
         pages.push(page);
     }
 }

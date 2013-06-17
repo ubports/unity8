@@ -63,18 +63,18 @@ PageStack {
 
     function start()
     {
-        push(_mainPage)
-        _pluginItem.start()
+        push(_mainPage);
+        _pluginItem.start();
     }
 
     function stop()
     {
-        clear()
-        _pluginItem.stop()
+        clear();
+        _pluginItem.stop();
     }
 
     function reset()
     {
-        _pluginItem.reset()
+        _pluginItem.reset();
     }
 }
