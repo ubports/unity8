@@ -25,7 +25,7 @@ Page {
 
     title: indicatorProperties && indicatorProperties.title ?  indicatorProperties.title : ""
     property variant indicatorProperties
-    property alias pageQml : page_loader.source
+    property alias pageSource : page_loader.source
 
     anchors.fill: parent
 

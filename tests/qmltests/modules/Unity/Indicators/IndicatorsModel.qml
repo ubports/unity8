@@ -27,8 +27,8 @@ ListModel {
         priority: 0
         title: "Menu1";
         description: "";
-        iconQml: "qrc:/tests/indciators/qml/fake_menu_icon1.qml";
-        pageQml: "qrc:/tests/indciators/qml/fake_menu_page1.qml";
+        widgetSource: "qrc:/tests/indciators/qml/fake_menu_widget1.qml";
+        pageSource: "qrc:/tests/indciators/qml/fake_menu_page1.qml";
         indicatorProperties: "";
         isValid: "";
     }
@@ -37,8 +37,8 @@ ListModel {
         priority: 1
         title: "Menu2";
         description: "";
-        iconQml: "qrc:/tests/indciators/qml/fake_menu_icon2.qml";
-        pageQml: "qrc:/tests/indciators/qml/fake_menu_page2.qml";
+        widgetSource: "qrc:/tests/indciators/qml/fake_menu_widget2.qml";
+        pageSource: "qrc:/tests/indciators/qml/fake_menu_page2.qml";
         indicatorProperties: "";
         isValid: "";
     }
@@ -47,8 +47,8 @@ ListModel {
         priority: 2
         title: "Menu3";
         description: "";
-        iconQml: "qrc:/tests/indciators/qml/fake_menu_icon3.qml";
-        pageQml: "qrc:/tests/indciators/qml/fake_menu_page3.qml";
+        widgetSource: "qrc:/tests/indciators/qml/fake_menu_widget3.qml";
+        pageSource: "qrc:/tests/indciators/qml/fake_menu_page3.qml";
         indicatorProperties: "";
         isValid: "";
     }
@@ -57,8 +57,8 @@ ListModel {
         priority: 3
         title: "Menu4";
         description: "";
-        iconQml: "qrc:/tests/indciators/qml/fake_menu_icon4.qml";
-        pageQml: "qrc:/tests/indciators/qml/fake_menu_page4.qml";
+        widgetSource: "qrc:/tests/indciators/qml/fake_menu_widget4.qml";
+        pageSource: "qrc:/tests/indciators/qml/fake_menu_page4.qml";
         indicatorProperties: "";
         isValid: "";
     }
@@ -67,8 +67,8 @@ ListModel {
         priority: 4
         title: "Menu5";
         description: "";
-        iconQml: "qrc:/tests/indciators/qml/fake_menu_icon5.qml";
-        pageQml: "qrc:/tests/indciators/qml/fake_menu_page5.qml";
+        widgetSource: "qrc:/tests/indciators/qml/fake_menu_widget5.qml";
+        pageSource: "qrc:/tests/indciators/qml/fake_menu_page5.qml";
         indicatorProperties: "";
         isValid: "";
     }

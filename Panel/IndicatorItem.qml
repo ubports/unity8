@@ -21,7 +21,7 @@ import Unity.Indicators 0.1 as Indicators
 Item {
     id: indicatorItem
 
-    property alias iconQml: loader.source
+    property alias widgetSource: loader.source
     property bool highlighted: false
     property bool dimmed: false
     property var indicatorProperties: undefined

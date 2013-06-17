@@ -60,7 +60,7 @@ Item {
 
                property int ownIndex: index
 
-               iconQml: model.iconQml
+               widgetSource: model.widgetSource
 
                indicatorProperties : model.indicatorProperties
                highlighted: indicatorRow.state == "reveal" || indicatorRow.state == "locked" || indicatorRow.state == "commit" ? ownIndex == indicatorRow.currentItemIndex : false

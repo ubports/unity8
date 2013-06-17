@@ -60,7 +60,7 @@ Rectangle {
             init_test()
 
             compare(indicatorItem.visible, false, "IndicatorItem should not be visible.")
-            indicatorItem.iconQml = "qrc:/tests/indciatorsclient/qml/fake_menu_icon1.qml";
+            indicatorItem.widgetSource = "qrc:/tests/indciatorsclient/qml/fake_menu_widget1.qml";
             tryCompare(indicatorItem, "visible", true)
         }
     }

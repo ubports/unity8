@@ -48,9 +48,9 @@ Rectangle {
 
     ListModel {
         id: mockModel
-        ListElement {title: "fake1"; iconQml: "qrc:/tests/indciatorsclient/qml/fake_menu_icon1.qml"; indicatorProperties: ""}
-        ListElement {title: "fake2"; iconQml: "qrc:/tests/indciatorsclient/qml/fake_menu_icon2.qml"; indicatorProperties: ""}
-        ListElement {title: "fake3"; iconQml: "qrc:/tests/indciatorsclient/qml/fake_menu_icon3.qml"; indicatorProperties: ""}
+        ListElement {title: "fake1"; widgetSource: "qrc:/tests/indciatorsclient/qml/fake_menu_widget1.qml"; indicatorProperties: ""}
+        ListElement {title: "fake2"; widgetSource: "qrc:/tests/indciatorsclient/qml/fake_menu_widget2.qml"; indicatorProperties: ""}
+        ListElement {title: "fake3"; widgetSource: "qrc:/tests/indciatorsclient/qml/fake_menu_widget3.qml"; indicatorProperties: ""}
     }
 
     ListModel {
@@ -99,7 +99,7 @@ Rectangle {
             button = findChild(overview, "overviewGridButton3");
             compare(button, undefined, "There should only be 3 buttons... found at least 4...");
 
-            mockModel2.append({title: "humppa", iconQml: "qrc:/tests/indciatorsclient/qml/fake_menu_icon4.qml", indicatorProperties: ""})
+            mockModel2.append({title: "humppa", widgetSource: "qrc:/tests/indciatorsclient/qml/fake_menu_widget4.qml", indicatorProperties: ""})
             overviewGrid.forceLayout();
             waitForRendering(overviewGrid);
 

@@ -63,7 +63,7 @@ Item {
 
                 Loader {
                     id: loader
-                    source: iconQml
+                    source: widgetSource
 
                     onStatusChanged: {
                         item.width = units.gu(5)

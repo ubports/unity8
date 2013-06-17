@@ -41,8 +41,8 @@ public:
         Priority,
         Title,
         Description,
-        IconQml,
-        PageQml,
+        WidgetSource,
+        PageSource,
         IndicatorProperties,
         IsValid
     };

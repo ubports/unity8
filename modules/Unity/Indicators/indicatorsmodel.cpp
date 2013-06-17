@@ -213,8 +213,8 @@ QHash<int, QByteArray> IndicatorsModel::roleNames() const
         roles[Priority] = "priority";
         roles[Title] = "title";
         roles[Description] = "description";
-        roles[IconQml] = "iconQml";
-        roles[PageQml] = "pageQml";
+        roles[WidgetSource] = "widgetSource";
+        roles[PageSource] = "pageSource";
         roles[IndicatorProperties] = "indicatorProperties";
         roles[IsValid] = "isValid";
     }
@@ -238,9 +238,9 @@ QVariant IndicatorsModel::defaultData(Indicator::Ptr plugin, int role)
             return plugin ? plugin->identifier() : "Unknown";
         case Description:
             return "";
-        case IconQml:
-            return shellAppDirectory()+"/Panel/Indicators/DefaultIndicatorIcon.qml";
-        case PageQml:
+        case WidgetSource:
+            return shellAppDirectory()+"/Panel/Indicators/DefaultIndicatorWidget.qml";
+        case PageSource:
             return shellAppDirectory()+"/Panel/Indicators/DefaultIndicatorPage.qml";
     }
     return QVariant();
@@ -273,8 +273,8 @@ QVariant IndicatorsModel::data(const QModelIndex &index, int role) const
         case Priority:
         case Title:
         case Description:
-        case IconQml:
-        case PageQml:
+        case WidgetSource:
+        case PageSource:
             return indicatorData(plugin, role);
         default:
             break;

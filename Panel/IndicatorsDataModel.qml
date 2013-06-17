@@ -33,36 +33,36 @@ Indicators.IndicatorsModel {
             'title': 'Messaging',
             'description' : '',
             'priority': 10,
-            'iconQml' : applicationPaths.shellAppDirectory()+'/Panel/Indicators/MessagingIndicatorIcon.qml',
-            'pageQml' : applicationPaths.shellAppDirectory()+'/Panel/Indicators/MessagingIndicatorPage.qml'
+            'widgetSource' : applicationPaths.shellAppDirectory()+'/Panel/Indicators/MessagingIndicatorWidget.qml',
+            'pageSource' : applicationPaths.shellAppDirectory()+'/Panel/Indicators/MessagingIndicatorPage.qml'
         },
         'indicator-sound' : {
             'title': 'Sound',
             'description' : '',
             'priority': 20,
-            'iconQml' : applicationPaths.shellAppDirectory()+'/Panel/Indicators/SoundIndicatorIcon.qml',
-            'pageQml' : applicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorPage.qml'
+            'widgetSource' : applicationPaths.shellAppDirectory()+'/Panel/Indicators/SoundIndicatorWidget.qml',
+            'pageSource' : applicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorPage.qml'
         },
         'indicator-network' : {
             'title': 'Networks',
             'description' : '',
             'priority': 30,
-            'iconQml' : applicationPaths.shellAppDirectory()+'/Panel/Indicators/NetworkIndicatorIcon.qml',
-            'pageQml' : applicationPaths.shellAppDirectory()+'/Panel/Indicators/NetworkIndicatorPage.qml'
+            'widgetSource' : applicationPaths.shellAppDirectory()+'/Panel/Indicators/NetworkIndicatorWidget.qml',
+            'pageSource' : applicationPaths.shellAppDirectory()+'/Panel/Indicators/NetworkIndicatorPage.qml'
         },
         'indicator-power' : {
             'title': 'Battery',
             'description' : '',
             'priority': 40,
-            'iconQml' : applicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorIcon.qml',
-            'pageQml' : applicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorPage.qml'
+            'widgetSource' : applicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorWidget.qml',
+            'pageSource' : applicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorPage.qml'
         },
         'indicator-datetime' : {
             'title': 'Date and Time',
             'description' : '',
             'priority': 100,
-            'iconQml' : applicationPaths.shellAppDirectory()+'/Panel/Indicators/DatetimeIndicatorIcon.qml',
-            'pageQml' : applicationPaths.shellAppDirectory()+'/Panel/Indicators/DatetimeIndicatorPage.qml'
+            'widgetSource' : applicationPaths.shellAppDirectory()+'/Panel/Indicators/DatetimeIndicatorWidget.qml',
+            'pageSource' : applicationPaths.shellAppDirectory()+'/Panel/Indicators/DatetimeIndicatorPage.qml'
         }
     }
 }
