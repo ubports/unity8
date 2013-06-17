@@ -1225,6 +1225,16 @@ private Q_SLOTS:
 
         changeContentY(-1700);
 
+        int i = 0;
+        while(i < 10 && lvwph->m_visibleItems.count() != 12) {
+            qDebug() << "Loop" << i;
+            Q_FOREACH(ListViewWithPageHeader::ListItem *item, lvwph->m_visibleItems)
+                qDebug() << item->m_item;
+            QTest::qWait(1000);
+        }
+        qDebug() << "Before compare";
+        Q_FOREACH(ListViewWithPageHeader::ListItem *item, lvwph->m_visibleItems)
+            qDebug() << item->m_item;
         QTRY_COMPARE(lvwph->m_visibleItems.count(), 12);
         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
         verifyItem(0, -308., 75., true);
