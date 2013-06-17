@@ -547,7 +547,7 @@ QQuickItem *ListViewWithPageHeader::getSectionItem(const QString &sectionText)
 
 bool ListViewWithPageHeader::removeNonVisibleItems(qreal bufferFrom, qreal bufferTo)
 {
-//     qDebug() << "ListViewWithPageHeader::removeNonVisibleItems" << bufferFrom << bufferTo;
+    qDebug() << "ListViewWithPageHeader::removeNonVisibleItems" << bufferFrom << bufferTo;
     bool changed = false;
 
     bool foundVisible = false;
@@ -556,9 +556,9 @@ bool ListViewWithPageHeader::removeNonVisibleItems(qreal bufferFrom, qreal buffe
     while (i < m_visibleItems.count()) {
         ListItem *item = m_visibleItems[i];
         const qreal pos = item->y() + m_clipItem->y();
-//         qDebug() << i << pos << (pos + item->height()) << bufferFrom << bufferTo;
+        qDebug() << i << pos << (pos + item->height()) << bufferFrom << bufferTo;
         if (pos + item->height() < bufferFrom || pos > bufferTo) {
-//             qDebug() << "Releasing" << i << (pos + item->height() < bufferFrom) << pos + item->height() << bufferFrom << (pos > bufferTo) << pos << bufferTo;
+            qDebug() << "Releasing" << i << (pos + item->height() < bufferFrom) << pos + item->height() << bufferFrom << (pos > bufferTo) << pos << bufferTo;
             releaseItem(item);
             m_visibleItems.removeAt(i);
             changed = true;
@@ -806,7 +806,7 @@ void ListViewWithPageHeader::updatePolish()
 
         qreal pos = m_visibleItems.first()->y();
 
-//         qDebug() << "ListViewWithPageHeader::updatePolish Updating positions and heights. contentY" << contentY() << "minYExtent" << minYExtent();
+        qDebug() << "ListViewWithPageHeader::updatePolish Updating positions and heights. contentY" << contentY() << "minYExtent" << minYExtent();
         int firstReallyVisibleItem = -1;
         int modelIndex = m_firstVisibleIndex;
         foreach(ListItem *item, m_visibleItems) {
@@ -845,7 +845,7 @@ void ListViewWithPageHeader::updatePolish()
             } else {
                 context->setContextProperty(QLatin1String("heightToClip"), QVariant::fromValue<int>(0));
             }
-//             qDebug() << "ListViewWithPageHeader::updatePolish" << /*index << */pos + m_clipItem->y() << /*QQuickItemPrivate::get(item)->culled <<*/ (pos + item->height() < visibleFrom) << (pos > visibleTo);
+            qDebug() << "ListViewWithPageHeader::updatePolish" << item->m_item;
             pos += item->height();
             ++modelIndex;
         }
