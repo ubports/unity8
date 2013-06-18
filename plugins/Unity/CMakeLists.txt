@@ -17,7 +17,14 @@ set(QMLPLUGIN_SRC
     scopes.cpp
     categories.cpp
     categoryfilter.cpp
+    checkoptionfilter.cpp
+    filter.cpp
+    filteroption.cpp
+    filter.cpp
     plugin.cpp
+    multirangefilter.cpp
+    radiooptionfilter.cpp
+    ratingsfilter.cpp
     bottombarvisibilitycommunicatorshell.cpp
     launchermodel.cpp
     )
