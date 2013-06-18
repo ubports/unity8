@@ -29,12 +29,17 @@ Row {
         id: mockNotification
 
         QtObject {
-            function invokeAction(actionId) { }
+            function invokeAction(actionId) {
+                mockModel.actionId = actionId
+                print ("action-id: ", actionId)
+            }
         }
     }
 
     ListModel {
         id: mockModel
+
+        property string actionId
 
         function getRaw(id) {
             return mockNotification.createObject(mockModel)
@@ -319,7 +324,7 @@ Row {
                 actionSpy.target = findChild(notification, "interactiveArea")
                 mouseClick(notification, notification.width / 2, notification.height / 2)
                 actionSpy.wait()
-                compare(actionSpy.signalArguments[0][0], data.actions[0]["id"], "got wrong id for interactive action")
+                compare(mockModel.actionId, data.actions[0]["id"], "got wrong id for interactive action")
                 compare(clickThroughSpy.count, 0, "click on interactive notification fell through")
             } else {
                 mouseClick(notification, notification.width / 2, notification.height / 2)
@@ -339,13 +344,13 @@ Row {
                 actionSpy.target = buttonCancel
                 mouseClick(buttonCancel, buttonCancel.width / 2, buttonCancel.height / 2)
                 actionSpy.wait()
-                compare(actionSpy.signalArguments[0][0], data.actions[1]["id"], "got wrong id for negative action")
+                compare(mockModel.actionId, data.actions[1]["id"], "got wrong id for negative action")
                 actionSpy.clear()
 
                 actionSpy.target = buttonAccept
                 mouseClick(buttonAccept, buttonAccept.width / 2, buttonAccept.height / 2)
                 actionSpy.wait()
-                compare(actionSpy.signalArguments[0][0], data.actions[0]["id"], "got wrong id positive action")
+                compare(mockModel.actionId, data.actions[0]["id"], "got wrong id positive action")
             }
         }
     }
