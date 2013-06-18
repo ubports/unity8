@@ -400,6 +400,7 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
     }
 
     m_previousContentY = contentY();
+    layout();
     polish();
 }
 
@@ -794,6 +795,7 @@ void ListViewWithPageHeader::onModelUpdated(const QQuickChangeSet &changeSet, bo
         }
     }
 
+    layout();
     polish();
     m_contentHeightDirty = true;
 }
@@ -827,6 +829,7 @@ void ListViewWithPageHeader::headerHeightChanged(qreal newHeaderHeight, qreal ol
         m_headerItemShownHeight = qBound(static_cast<qreal>(0.), m_headerItemShownHeight, newHeaderHeight);
         updateClipItem();
         adjustMinYExtent();
+        layout();
         qDebug() << "ListViewWithPageHeader::headerHeightChanged A" << m_minYExtent;
     } else {
         if (oldHeaderY + oldHeaderHeight > contentY()) {
@@ -862,11 +865,8 @@ ListViewWithPageHeader::ListItem *ListViewWithPageHeader::itemAtIndex(int modelI
     return nullptr;
 }
 
-void ListViewWithPageHeader::updatePolish()
+void ListViewWithPageHeader::layout()
 {
-    if (!model())
-        return;
-
     if (!m_visibleItems.isEmpty()) {
         const qreal visibleFrom = contentY() - m_clipItem->y() + m_headerItemShownHeight;
         const qreal visibleTo = contentY() + height() - m_clipItem->y();
@@ -933,6 +933,14 @@ void ListViewWithPageHeader::updatePolish()
             }
         }
     }
+}
+
+void ListViewWithPageHeader::updatePolish()
+{
+    if (!model())
+        return;
+
+    layout();
 
     refill();
 

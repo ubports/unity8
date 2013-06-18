@@ -102,6 +102,7 @@ private:
 
     void createDelegateModel();
 
+    void layout();
     void refill();
     bool addVisibleItems(qreal fillFrom, qreal fillTo, bool asynchronous);
     bool removeNonVisibleItems(qreal bufferFrom, qreal bufferTo);
