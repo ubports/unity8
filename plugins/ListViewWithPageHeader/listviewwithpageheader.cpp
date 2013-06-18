@@ -824,6 +824,7 @@ void ListViewWithPageHeader::itemGeometryChanged(QQuickItem *item, const QRectF 
                 ListItem *firstItem = m_visibleItems.first();
                 firstItem->setY(firstItem->y() - heightDiff);
                 adjustMinYExtent();
+                layout();
             }
         }
         polish();
@@ -841,13 +842,13 @@ void ListViewWithPageHeader::headerHeightChanged(qreal newHeaderHeight, qreal ol
         m_headerItemShownHeight = qBound(static_cast<qreal>(0.), m_headerItemShownHeight, newHeaderHeight);
         updateClipItem();
         adjustMinYExtent();
-        layout();
     } else {
         if (oldHeaderY + oldHeaderHeight > contentY()) {
             // If the header is shown because its position
             // Change its size
             ListItem *firstItem = m_visibleItems.first();
             firstItem->setY(firstItem->y() + heightDiff);
+            layout();
         } else {
             // If the header is not on screen, just change the start of the list
             // so the viewport is not changed
