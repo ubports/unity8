@@ -1,8 +1,3 @@
-include(FindPkgConfig)
-find_package(Qt5Qml)
-find_package(Qt5Quick)
-find_package(Qt5Gui)
-
 add_executable(uqmlscene
     ${shellapplication_MOC_SRCS}
     main.cpp
