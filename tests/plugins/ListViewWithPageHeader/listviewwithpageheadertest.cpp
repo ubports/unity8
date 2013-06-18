@@ -216,7 +216,13 @@ private Q_SLOTS:
         verifyItem(1, -120, 350., false);
         verifyItem(2, 230, 350., false);
         verifyItem(3, 580, 350., true);
-        QCOMPARE(lvwph->m_minYExtent, 0.);
+        // Just here as first check against m_minYExtent when m_firstVisibleIndex is not 0
+        // We as humans know that m_minYExtent will be 0 but since the first delegate is not there anymore
+        // we have to estimate its size, the average item height is 312.5 which is 162.5 more than the
+        // "real" size of 150 and that's why the m_minYExtent has that "peculiar" value
+        // It's fine since what it means is that we could scroll more up than the original position
+        // but we will recalculate m_minYExtent when the item 0 is created and set it correctly
+        QCOMPARE(lvwph->m_minYExtent, 162.5);
         QCOMPARE(lvwph->m_clipItem->y(), 520.);
         QCOMPARE(lvwph->m_clipItem->clip(), false);
         QCOMPARE(lvwph->m_headerItem->y(), 0.);
@@ -336,7 +342,7 @@ private Q_SLOTS:
         verifyItem(1, -120, 350., false);
         verifyItem(2, 230, 350., false);
         verifyItem(3, 580, 350., true);
-        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_minYExtent, 162.5);
         QCOMPARE(lvwph->m_clipItem->y(), 520.);
         QCOMPARE(lvwph->m_clipItem->clip(), false);
         QCOMPARE(lvwph->m_headerItem->y(), 0.);
@@ -468,7 +474,7 @@ private Q_SLOTS:
         verifyItem(1, -120, 350., false);
         verifyItem(2, 230, 350., false);
         verifyItem(3, 580, 350., true);
-        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_minYExtent, 162.5);
         QCOMPARE(lvwph->m_clipItem->y(), 520.);
         QCOMPARE(lvwph->m_clipItem->clip(), false);
         QCOMPARE(lvwph->m_headerItem->y(), 0.);
@@ -484,7 +490,7 @@ private Q_SLOTS:
         verifyItem(1, -120, 350., false);
         verifyItem(2, 230, 350., false);
         verifyItem(3, 580, 350., true);
-        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_minYExtent, 162.5);
         QCOMPARE(lvwph->m_clipItem->y(), 520.);
         QCOMPARE(lvwph->m_clipItem->clip(), false);
         QCOMPARE(lvwph->m_headerItem->y(), 0.);
@@ -516,7 +522,7 @@ private Q_SLOTS:
         verifyItem(0, -508., 350., true);
         verifyItem(1, -158, 350., false);
         verifyItem(2, 192, 350., false);
-        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_minYExtent, 350.);
         QCOMPARE(lvwph->m_clipItem->y(), 1258.);
         QCOMPARE(lvwph->m_clipItem->clip(), false);
         QCOMPARE(lvwph->m_headerItem->y(), 0.);
@@ -530,7 +536,7 @@ private Q_SLOTS:
         verifyItem(0, -508., 350., true);
         verifyItem(1, -158, 350., false);
         verifyItem(2, 192, 350., false);
-        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_minYExtent, 350.);
         QCOMPARE(lvwph->m_clipItem->y(), 1258.);
         QCOMPARE(lvwph->m_clipItem->clip(), true);
         QCOMPARE(lvwph->m_headerItem->y(), 1208.);
@@ -544,10 +550,10 @@ private Q_SLOTS:
         verifyItem(0, -508., 350., true);
         verifyItem(1, -158, 350., false);
         verifyItem(2, 192, 350., false);
-        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_minYExtent, 350.);
         QCOMPARE(lvwph->m_clipItem->y(), 1258.);
         QCOMPARE(lvwph->m_clipItem->clip(), false);
-        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->y(), -350.);
         QCOMPARE(lvwph->m_headerItem->height(), 50.);
         QCOMPARE(lvwph->contentY(), 1258.);
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
@@ -558,7 +564,7 @@ private Q_SLOTS:
         verifyItem(0, -508., 350., true);
         verifyItem(1, -158, 350., false);
         verifyItem(2, 192, 350., false);
-        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_minYExtent, 350.);
         QCOMPARE(lvwph->m_clipItem->y(), 1258.);
         QCOMPARE(lvwph->m_clipItem->clip(), true);
         QCOMPARE(lvwph->m_headerItem->y(), 1208.);
@@ -575,7 +581,7 @@ private Q_SLOTS:
         verifyItem(0, -508., 350., true);
         verifyItem(1, -158, 350., false);
         verifyItem(2, 192, 350., false);
-        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_minYExtent, 350.);
         QCOMPARE(lvwph->m_clipItem->y(), 1258.);
         QCOMPARE(lvwph->m_clipItem->clip(), false);
         QCOMPARE(lvwph->m_headerItem->y(), 0.);
@@ -643,7 +649,7 @@ private Q_SLOTS:
         verifyItem(0, -508., 350., true);
         verifyItem(1, -158, 350., false);
         verifyItem(2, 192, 350., false);
-        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_minYExtent, 350.);
         QCOMPARE(lvwph->m_clipItem->y(), 1258.);
         QCOMPARE(lvwph->m_clipItem->clip(), false);
         QCOMPARE(lvwph->m_headerItem->y(), 0.);
@@ -658,7 +664,7 @@ private Q_SLOTS:
         verifyItem(0, -508., 350., true);
         verifyItem(1, -158, 350., false);
         verifyItem(2, 192, 350., false);
-        QCOMPARE(lvwph->m_minYExtent, -650.);
+        QCOMPARE(lvwph->m_minYExtent, 400.);
         QCOMPARE(lvwph->m_clipItem->y(), 1258.);
         QCOMPARE(lvwph->m_clipItem->clip(), false);
         QCOMPARE(lvwph->m_headerItem->y(), 0.);
@@ -673,7 +679,7 @@ private Q_SLOTS:
         verifyItem(0, -508., 350., true);
         verifyItem(1, -158, 350., false);
         verifyItem(2, 192, 350., false);
-        QCOMPARE(lvwph->m_minYExtent, -650.);
+        QCOMPARE(lvwph->m_minYExtent, 400.);
         QCOMPARE(lvwph->m_clipItem->y(), 1258.);
         QCOMPARE(lvwph->m_clipItem->clip(), true);
         QCOMPARE(lvwph->m_headerItem->y(), 1158.);
@@ -707,7 +713,7 @@ private Q_SLOTS:
         verifyItem(0, -508., 350., true);
         verifyItem(1, -158, 350., false);
         verifyItem(2, 192, 350., false);
-        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_minYExtent, 350.);
         QCOMPARE(lvwph->m_clipItem->y(), 1258.);
         QCOMPARE(lvwph->m_clipItem->clip(), false);
         QCOMPARE(lvwph->m_headerItem->y(), 0.);
@@ -722,7 +728,7 @@ private Q_SLOTS:
         verifyItem(0, -508., 350., true);
         verifyItem(1, -158, 350., false);
         verifyItem(2, 192, 350., false);
-        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_minYExtent, 350.);
         QCOMPARE(lvwph->m_clipItem->y(), 1258.);
         QCOMPARE(lvwph->m_clipItem->clip(), true);
         QCOMPARE(lvwph->m_headerItem->y(), 1208.);
@@ -737,7 +743,7 @@ private Q_SLOTS:
         verifyItem(0, -508., 350., true);
         verifyItem(1, -158, 350., false);
         verifyItem(2, 192, 350., false);
-        QCOMPARE(lvwph->m_minYExtent, -700.);
+        QCOMPARE(lvwph->m_minYExtent, 350.);
         QCOMPARE(lvwph->m_clipItem->y(), 1308.);
         QCOMPARE(lvwph->m_clipItem->clip(), true);
         QCOMPARE(lvwph->m_headerItem->y(), 1208.);
@@ -773,7 +779,7 @@ private Q_SLOTS:
         verifyItem(0, -508., 350., true);
         verifyItem(1, -158, 350., false);
         verifyItem(2, 192, 350., false);
-        QCOMPARE(lvwph->m_minYExtent, -650.);
+        QCOMPARE(lvwph->m_minYExtent, 400.);
         QCOMPARE(lvwph->m_clipItem->y(), 1258.);
         QCOMPARE(lvwph->m_clipItem->clip(), true);
         QCOMPARE(lvwph->m_headerItem->y(), 1158.);
@@ -788,7 +794,7 @@ private Q_SLOTS:
         verifyItem(0, -508., 350., true);
         verifyItem(1, -158, 350., false);
         verifyItem(2, 192, 350., false);
-        QCOMPARE(lvwph->m_minYExtent, -670.);
+        QCOMPARE(lvwph->m_minYExtent, 380.);
         QCOMPARE(lvwph->m_clipItem->y(), 1228.);
         QCOMPARE(lvwph->m_clipItem->clip(), false);
         QCOMPARE(lvwph->m_headerItem->y(), 1158.);
@@ -842,7 +848,7 @@ private Q_SLOTS:
         verifyItem(0, -508., 350., true);
         verifyItem(1, -158, 350., false);
         verifyItem(2, 192, 350., false);
-        QCOMPARE(lvwph->m_minYExtent, -750.);
+        QCOMPARE(lvwph->m_minYExtent, 300.);
         QCOMPARE(lvwph->m_clipItem->y(), 1258.);
         QCOMPARE(lvwph->m_clipItem->clip(), false);
         QCOMPARE(lvwph->m_headerItem, (QQuickItem*)nullptr);
@@ -876,7 +882,7 @@ private Q_SLOTS:
         verifyItem(0, -508., 350., true);
         verifyItem(1, -158, 350., false);
         verifyItem(2, 192, 350., false);
-        QCOMPARE(lvwph->m_minYExtent, -720.);
+        QCOMPARE(lvwph->m_minYExtent, 330.);
         QCOMPARE(lvwph->m_clipItem->y(), 1228.);
         QCOMPARE(lvwph->m_clipItem->clip(), false);
         QCOMPARE(lvwph->m_headerItem, (QQuickItem*)nullptr);
@@ -968,7 +974,7 @@ private Q_SLOTS:
         verifyItem(1, 50, 350., false);
         verifyItem(2, 400, 350., false);
         verifyItem(3, 750, 350., true);
-        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_minYExtent, 350.);
         QCOMPARE(lvwph->m_clipItem->y(), 700.);
         QCOMPARE(lvwph->m_clipItem->clip(), false);
         QCOMPARE(lvwph->m_headerItem->y(), 0.);
@@ -985,7 +991,7 @@ private Q_SLOTS:
         verifyItem(1, 50, 350., false);
         verifyItem(2, 400, 350., false);
         verifyItem(3, 750, 350., true);
-        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_minYExtent, 1050.);
         QCOMPARE(lvwph->m_clipItem->y(), 700.);
         QCOMPARE(lvwph->m_clipItem->clip(), false);
         QCOMPARE(lvwph->m_headerItem->y(), 0.);
@@ -1041,7 +1047,7 @@ private Q_SLOTS:
         verifyItem(1, -120, 350., false);
         verifyItem(2, 230, 350., false);
         verifyItem(3, 580, 350., true);
-        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_minYExtent, 162.5);
         QCOMPARE(lvwph->m_clipItem->y(), 520.);
         QCOMPARE(lvwph->m_clipItem->clip(), false);
         QCOMPARE(lvwph->m_headerItem->y(), 0.);
@@ -1058,7 +1064,7 @@ private Q_SLOTS:
         verifyItem(1, -120, 350., false);
         verifyItem(2, 230, 350., false);
         verifyItem(3, 580, 350., true);
-        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_minYExtent, 787.5);
         QCOMPARE(lvwph->m_clipItem->y(), 520.);
         QCOMPARE(lvwph->m_clipItem->clip(), false);
         QCOMPARE(lvwph->m_headerItem->y(), 0.);
@@ -1096,7 +1102,7 @@ private Q_SLOTS:
         verifyItem(2, 25, 350., false);
         verifyItem(3, 375, 350., false);
         verifyItem(4, 725, 350., true);
-        QCOMPARE(lvwph->m_minYExtent, -50.);
+        QCOMPARE(lvwph->m_minYExtent, 490.);
         QCOMPARE(lvwph->m_clipItem->y(), 375.);
         QCOMPARE(lvwph->m_clipItem->clip(), false);
         QCOMPARE(lvwph->m_headerItem->y(), 0.);
@@ -1138,7 +1144,7 @@ private Q_SLOTS:
         verifyItem(2, 192, 350., false);
         verifyItem(3, 542, 125., true);
         verifyItem(4, 667, 100., true);
-        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_minYExtent, 350.);
         QCOMPARE(lvwph->m_clipItem->y(), 1258.);
         QCOMPARE(lvwph->m_clipItem->clip(), false);
         QCOMPARE(lvwph->m_headerItem->y(), 0.);
@@ -1155,7 +1161,7 @@ private Q_SLOTS:
         verifyItem(1, -33, 350., false);
         verifyItem(2, 317, 125., false);
         verifyItem(3, 442, 100., false);
-        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_minYExtent, -125.);
         QCOMPARE(lvwph->m_clipItem->y(), 1483.);
         QCOMPARE(lvwph->m_clipItem->clip(), false);
         QCOMPARE(lvwph->m_headerItem->y(), 0.);
@@ -1205,7 +1211,7 @@ private Q_SLOTS:
         verifyItem(0, -508., 350., true);
         verifyItem(1, -158, 350., false);
         verifyItem(2, 192, 350., false);
-        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_minYExtent, 3850.);
         QCOMPARE(lvwph->m_clipItem->y(), 1258.);
         QCOMPARE(lvwph->m_clipItem->clip(), false);
         QCOMPARE(lvwph->m_headerItem->y(), 0.);
@@ -1268,7 +1274,7 @@ private Q_SLOTS:
         verifyItem(0, -508., 350., true);
         verifyItem(1, -158, 350., false);
         verifyItem(2, 192, 350., false);
-        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_minYExtent, -350.);
         QCOMPARE(lvwph->m_clipItem->y(), 1258.);
         QCOMPARE(lvwph->m_clipItem->clip(), false);
         QCOMPARE(lvwph->m_headerItem->y(), 0.);
@@ -1288,7 +1294,7 @@ private Q_SLOTS:
         verifyItem(0, -358., 200., true);
         verifyItem(1, -158, 350., false);
         verifyItem(2, 192, 350., false);
-        QCOMPARE(lvwph->m_minYExtent, -150.);
+        QCOMPARE(lvwph->m_minYExtent, 150.);
         QCOMPARE(lvwph->m_clipItem->y(), 558.);
         QCOMPARE(lvwph->m_clipItem->clip(), false);
         QCOMPARE(lvwph->m_headerItem->y(), 0.);
@@ -1307,7 +1313,7 @@ private Q_SLOTS:
         verifyItem(1, -120, 350., false);
         verifyItem(2, 230, 350., false);
         verifyItem(3, 580, 350., true);
-        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_minYExtent, 162.5);
         QCOMPARE(lvwph->m_clipItem->y(), 520.);
         QCOMPARE(lvwph->m_clipItem->clip(), false);
         QCOMPARE(lvwph->m_headerItem->y(), 0.);
@@ -1381,7 +1387,7 @@ private Q_SLOTS:
         verifyItem(0, -508., 350., true);
         verifyItem(1, -158, 350., false);
         verifyItem(2, 192, 350., false);
-        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_minYExtent, 350.);
         QCOMPARE(lvwph->m_clipItem->y(), 1258.);
         QCOMPARE(lvwph->m_clipItem->clip(), false);
         QCOMPARE(lvwph->m_headerItem->y(), 0.);

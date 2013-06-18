@@ -70,6 +70,12 @@
  * that is used for the cases we need to show the sticky section item at
  * the top of the view.
  *
+ * Note that minYExtent and height are not always totally accurate, since
+ * we don't have the items created we can't guess their heights
+ * so we can only guarantee the values are correct when the first/last
+ * items of the list are visible, otherwise we just live with good enough
+ * values that make the list scrollable
+ *
  * There are a few things that are not really implemented or tested properly
  * which we don't use at the moment like changing the model, changing
  * the section delegate, having a section delegate that changes its size, etc.
@@ -191,6 +197,7 @@ void ListViewWithPageHeader::setDelegate(QQmlComponent *delegate)
             releaseItem(item);
         m_visibleItems.clear();
         m_firstVisibleIndex = -1;
+        adjustMinYExtent();
         setContentY(0);
         m_clipItem->setY(0);
 
@@ -568,6 +575,7 @@ bool ListViewWithPageHeader::removeNonVisibleItems(qreal bufferFrom, qreal buffe
     bool foundVisible = false;
     int i = 0;
     int removedItems = 0;
+    const auto oldFirstVisibleIndex = m_firstVisibleIndex;
     while (i < m_visibleItems.count()) {
         ListItem *item = m_visibleItems[i];
         const qreal pos = item->y() + m_clipItem->y();
@@ -586,6 +594,9 @@ bool ListViewWithPageHeader::removeNonVisibleItems(qreal bufferFrom, qreal buffe
             }
             ++i;
         }
+    }
+    if (m_firstVisibleIndex != oldFirstVisibleIndex) {
+        adjustMinYExtent();
     }
 
     return changed;
@@ -682,6 +693,8 @@ void ListViewWithPageHeader::onModelUpdated(const QQuickChangeSet &changeSet, bo
 {
     // TODO Do something with reset
 //     qDebug() << "ListViewWithPageHeader::onModelUpdated" << changeSet << reset;
+    const auto oldFirstVisibleIndex = m_firstVisibleIndex;
+
     foreach(const QQuickChangeSet::Remove &remove, changeSet.removes()) {
 //         qDebug() << "ListViewWithPageHeader::onModelUpdated Remove" << remove;
         if (remove.index + remove.count > m_firstVisibleIndex && remove.index < m_firstVisibleIndex + m_visibleItems.count()) {
@@ -791,6 +804,10 @@ void ListViewWithPageHeader::onModelUpdated(const QQuickChangeSet &changeSet, bo
         }
     }
 
+    if (m_firstVisibleIndex != oldFirstVisibleIndex) {
+        adjustMinYExtent();
+    }
+
     layout();
     polish();
     m_contentHeightDirty = true;
@@ -845,8 +862,18 @@ void ListViewWithPageHeader::adjustMinYExtent()
     if (m_visibleItems.isEmpty()) {
         m_minYExtent = 0;
     } else {
-        m_minYExtent = -m_visibleItems.first()->y() - m_clipItem->y() + (m_headerItem ? m_headerItem->height() : 0);
-        qDebug() << "adjustMinYExtent" << m_minYExtent << m_visibleItems.first()->y() << m_clipItem->y();
+        qreal nonCreatedHeight = 0;
+        if (m_firstVisibleIndex != 0) {
+            // Calculate the average height of items to estimate the position of the list start
+            const int visibleItems = m_visibleItems.count();
+            qreal visibleItemsHeight = 0;
+            foreach(ListItem *item, m_visibleItems) {
+                visibleItemsHeight += item->height();
+            }
+            nonCreatedHeight = m_firstVisibleIndex * visibleItemsHeight / visibleItems;
+//             qDebug() << m_firstVisibleIndex << visibleItemsHeight << visibleItems << nonCreatedHeight;
+        }
+        m_minYExtent = nonCreatedHeight - m_visibleItems.first()->y() - m_clipItem->y() + (m_headerItem ? m_headerItem->height() : 0);
     }
 }
 
@@ -867,7 +894,7 @@ void ListViewWithPageHeader::layout()
 
         qreal pos = m_visibleItems.first()->y();
 
-//         qDebug() << "ListViewWithPageHeader::updatePolish Updating positions and heights. contentY" << contentY() << "minYExtent" << minYExtent();
+//         qDebug() << "ListViewWithPageHeader::layout Updating positions and heights. contentY" << contentY() << "minYExtent" << minYExtent();
         int firstReallyVisibleItem = -1;
         int modelIndex = m_firstVisibleIndex;
         foreach(ListItem *item, m_visibleItems) {
@@ -906,7 +933,7 @@ void ListViewWithPageHeader::layout()
             } else {
                 context->setContextProperty(QLatin1String("heightToClip"), QVariant::fromValue<int>(0));
             }
-//             qDebug() << "ListViewWithPageHeader::updatePolish" << item->m_item;
+//             qDebug() << "ListViewWithPageHeader::layout" << item->m_item;
             pos += item->height();
             ++modelIndex;
         }
