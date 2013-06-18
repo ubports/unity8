@@ -69,8 +69,13 @@ inline QString fakePluginsImportPath() {
 
 inline QStringList shellDataDirs() {
     QStringList dirs = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
-    if (!isRunningInstalled() && getenv("UNITY_TEST_ENV")==NULL) {
-        dirs.prepend("@CMAKE_BINARY_DIR@/share");
+    if (!isRunningInstalled()) {
+        if (getenv("UNITY_TEST_ENV")==NULL) {
+            dirs.prepend("@CMAKE_BINARY_DIR@/share");
+        }
+    }
+    else {
+        dirs.prepend(shellAppDirectory());
     }
     return dirs;
 }

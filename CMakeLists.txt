@@ -133,7 +133,7 @@ install(FILES ${QML_JS_FILES}
 # add subdirectories to build
 add_subdirectory(modules)
 add_subdirectory(plugins)
-add_subdirectory(Panel)
+add_subdirectory(src)
 
 # install subdirectories
 set(QML_DIRS

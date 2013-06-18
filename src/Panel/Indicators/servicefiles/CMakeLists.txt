@@ -13,5 +13,5 @@ file(COPY ${INDICATOR_FILES}
 
 # install indicator file
 install(FILES ${INDICATOR_FILES}
-    DESTINATION ${CMAKE_INSTALL_DATADIR}/unity/indicators
+    DESTINATION ${SHELL_APP_DIR}/unity/indicators
 )
