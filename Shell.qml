@@ -177,7 +177,7 @@ FocusScope {
         Notifications {
             id: notifications
 
-            model: notificationmodel
+            model: Model
             anchors {
                 fill: parent
                 leftMargin: units.gu(1)
