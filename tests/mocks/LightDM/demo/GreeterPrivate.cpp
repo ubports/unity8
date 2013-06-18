@@ -18,6 +18,8 @@
 
 #include "../Greeter.h"
 #include "../GreeterPrivate.h"
+#include <QtCore/QDir>
+#include <QtCore/QSettings>
 
 namespace QLightDM
 {
@@ -33,13 +35,32 @@ void GreeterPrivate::handleAuthenticate()
 {
     Q_Q(Greeter);
 
-    authenticated = true;
-    Q_EMIT q->authenticationComplete();
+    QSettings settings(QDir::homePath() + "/.unity8-greeter-demo", QSettings::NativeFormat);
+    QVariant password = settings.value("password", "none");
+
+    if (password == "pin") {
+        Q_EMIT q->showPrompt("PIN", Greeter::PromptTypeSecret);
+    } else if (password == "keyboard") {
+        Q_EMIT q->showPrompt("Password", Greeter::PromptTypeSecret);
+    } else {
+        authenticated = true;
+        Q_EMIT q->authenticationComplete();
+    }
 }
 
 void GreeterPrivate::handleRespond(const QString &response)
 {
-    Q_UNUSED(response);
+    Q_Q(Greeter);
+
+    QSettings settings(QDir::homePath() + "/.unity8-greeter-demo", QSettings::NativeFormat);
+    QVariant password = settings.value("password", "none");
+
+    if (password == "pin") {
+        authenticated = (response == "1234");
+    } else {
+        authenticated = (response == "password");
+    }
+    Q_EMIT q->authenticationComplete();
 }
 
 }

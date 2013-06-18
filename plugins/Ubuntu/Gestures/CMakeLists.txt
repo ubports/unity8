@@ -7,6 +7,7 @@ find_package(Qt5Quick REQUIRED)
 set(UbuntuGestureQml_SOURCES
     plugin.cpp
     AxisVelocityCalculator.cpp
+    Direction.cpp
     DirectionalDragArea.cpp
 )
 
