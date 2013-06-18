@@ -17,7 +17,7 @@ install(FILES qmldir
 )
 
 install(FILES ${Indicators_QMLFILES}
-        DESTINATION ${SHELL_APP_DIR}/modules/Unity/Indicators/Network
+        DESTINATION ${SHELL_APP_DIR}/modules/Unity/Indicators
 )
 
 add_subdirectory(messaging)
