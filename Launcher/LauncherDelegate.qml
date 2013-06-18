@@ -16,7 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-
+import QtGraphicalEffects 1.0
 Item {
     id: root
 
@@ -37,9 +37,13 @@ Item {
 
     property bool dragging:false
 
+    property alias brightness: brightnessEffect.brightness
+
     signal clicked()
     signal longtap()
     signal released()
+
+    onYChanged: print("y is", y)
 
     UbuntuShape {
         id: iconItem
@@ -47,7 +51,7 @@ Item {
         width: parent.width
         height: parent.height
         anchors.centerIn: parent
-        anchors.verticalCenterOffset: root.offset  + (height - root.effectiveHeight)/2 * (angle < 0 ? -1 : 1)
+        anchors.verticalCenterOffset: root.offset  + (height - root.effectiveHeight)/2 * (angle < 0 ? 1 : -1)
         rotation: root.inverted ? 180 : 0
         radius: "medium"
 
@@ -58,6 +62,7 @@ Item {
         }
 
         image: Image {
+            id: iconImage
             source: "../graphics/applicationIcons/" + root.iconName + ".png"
         }
 
@@ -84,6 +89,27 @@ Item {
             width: iconItem.width + units.gu(1.5)
             height: width
         }
+
+        BrightnessContrast {
+            id: brightnessEffect
+            anchors.fill: parent
+            source: parent
+            brightness: 0
+        }
+    }
+
+    QtObject {
+        id: priv
+        property real totalUnfoldedHeight: launcherFlickable.itemSize + launcherColumn.spacing
+        property real totalEffectiveHeight: effectiveHeight + launcherColumn.spacing
+        property real distanceFromTopEdge: -(launcherFlickable.contentY - itemsBeforeThis*totalUnfoldedHeight)
+        property real distanceFromBottomEdge: launcherFlickable.height - (y+height) + launcherFlickable.contentY
+
+        property real distanceFromEdge: Math.abs(distanceFromBottomEdge) < Math.abs(distanceFromTopEdge) ? distanceFromBottomEdge : distanceFromTopEdge
+        property real orientationFlag: Math.abs(distanceFromBottomEdge) < Math.abs(distanceFromTopEdge) ? -1 : 1
+
+        property real overlapWithFoldingArea: totalUnfoldedHeight - distanceFromEdge
+
     }
 
     states: [
@@ -91,15 +117,97 @@ Item {
             name: "docked"
             PropertyChanges {
                 target: root
-                offset: if (launcherFlickable.contentY > itemsBeforeThis * (foldedHeight + launcherColumn.spacing*2)) {
-                            return launcherFlickable.contentY - (index * (foldedHeight + launcherColumn.spacing*2));
-                        } else if (y + height - launcherFlickable.contentY > launcherFlickable.height - (itemsAfterThis*(foldedHeight - launcherColumn.spacing))) {
-                            return launcherFlickable.height - (y+height) + launcherFlickable.contentY - (itemsAfterThis*(foldedHeight - launcherColumn.spacing));
-                        } else {
-                            return 0;
-                        }
-                angle: -Math.min(Math.max(offset * maxAngle / foldedHeight, -maxAngle), maxAngle)
 
+                offset: {
+                    // First/last items are special
+                    if (index == 0 || index == iconRepeater.count-1) {
+                        // Just keep them bound to the edges in case they're outside of the visible area
+                        if (priv.distanceFromEdge < 0) {
+                            return (-priv.distanceFromEdge - (height - effectiveHeight)) * priv.orientationFlag;
+                        }
+                        return 0;
+                    }
+
+                    // Are we already completely outside the flickable? Stop the icon here.
+                    if (priv.distanceFromEdge < -priv.totalUnfoldedHeight) {
+                        return (-priv.distanceFromEdge - effectiveHeight) * priv.orientationFlag
+                    }
+
+                    // We're touching the edge, move slower than the actual flicking speed.
+                    if (priv.distanceFromEdge < 0) {
+                        return (Math.abs(priv.distanceFromEdge) * priv.totalEffectiveHeight / priv.totalUnfoldedHeight) * priv.orientationFlag
+                    }
+
+                    return 0;
+
+                }
+
+                angle: {
+                    // First item is special
+                    if (index == 0 || index == iconRepeater.count-1) {
+                        if (priv.distanceFromEdge < 0) {
+                            // distanceFromTopEdge : angle = totalUnfoldedHeight/2 : maxAngle
+                            return Math.max(-maxAngle, priv.distanceFromEdge * maxAngle / (priv.totalUnfoldedHeight)) * priv.orientationFlag
+                        }
+                        return 0; // Don't fold first item as long as inside the view
+                    }
+
+                    // Are we in the already completely outside the flickable? Fold for the last 5 degrees
+                    if (priv.distanceFromEdge < 0) {
+                        // -distanceFromTopEdge : angle = totalUnfoldedHeight : 5
+                        return Math.max(-maxAngle, (priv.distanceFromEdge * 5 / priv.totalUnfoldedHeight) - (maxAngle-5)) * priv.orientationFlag
+                    }
+
+                    // We are overlapping with the folding area, fold the icon to maxAngle - 5 degrees
+                    if (priv.overlapWithFoldingArea > 0) {
+                        // overlap: totalHeight = angle : (maxAngle - 5)
+                        return -priv.overlapWithFoldingArea * (maxAngle -5) / priv.totalUnfoldedHeight * priv.orientationFlag;
+
+                    }
+
+                    return 0;
+                }
+
+                opacity: {
+                    // First item is special
+                    if (index == 0 || index == iconRepeater.count-1) {
+                        if (priv.distanceFromEdge < 0) {
+                            // Fade from 1 to 0 in the distance of 2 items height (which is when the next item reaches the edge)
+                            return 1.0 - (-priv.distanceFromEdge / (priv.totalUnfoldedHeight * 2))
+                        }
+                        return 1; // Don't make first/last item transparent as long as inside the view
+                    }
+
+                    // Are we in the already completely outside the flickable? Fade to from 0.75 to 0 in twice 2 items height
+                    if (priv.distanceFromEdge < 0) {
+                        // -distanceFromEdge : 1-opacity = totalUnfoldedHeight : 0.75
+                        return 0.75 - (-priv.distanceFromEdge * 0.75 / (priv.totalUnfoldedHeight*2))
+                    }
+
+                    // We are overlapping with the folding area, fade out to 0.75
+                    if (priv.overlapWithFoldingArea > 0) {
+                        // overlap : totalHeight = 1-opacity : 0.25
+                        return 1 - (priv.overlapWithFoldingArea * 0.25 / priv.totalUnfoldedHeight)
+                    }
+                    return 1;
+                }
+
+                brightness: {
+                    if (index == 0 || index == iconRepeater.count-1) {
+                        if (priv.distanceFromEdge < 0) {
+                            return -(-priv.distanceFromEdge / (priv.totalUnfoldedHeight * 2))
+                        }
+                        return 0;
+                    }
+                    if (priv.distanceFromEdge < 0) {
+                        return -0.3 - (-priv.distanceFromEdge * 0.1 / (priv.totalUnfoldedHeight*2))
+                    }
+
+                    if (priv.overlapWithFoldingArea > 0) {
+                        return - (priv.overlapWithFoldingArea * 0.3 / priv.totalUnfoldedHeight)
+                    }
+                    return 0;
+                }
             }
         },
 
