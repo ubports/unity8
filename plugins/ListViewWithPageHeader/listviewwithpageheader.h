@@ -113,13 +113,13 @@ private:
     ListItem *itemAtIndex(int modelIndex) const; // Returns the item at modelIndex if has been created
     void releaseItem(ListItem *item);
     void updateWatchedRoles();
-    QQuickItem *getSectionItem(int modelIndex);
+    QQuickItem *getSectionItem(int modelIndex, bool alreadyInserted);
     QQuickItem *getSectionItem(const QString &sectionText);
 
     QQuickVisualDataModel *m_delegateModel;
 
-    // List of indexes we are still waiting because we requested them asynchronously
-    QSet<int> m_asyncRequestedIndexes;
+    // Index we are waiting because we requested it asynchronously
+    int m_asyncRequestedIndex;
 
     // Used to only give a warning once if the delegate does not return objects
     bool m_delegateValidated;
