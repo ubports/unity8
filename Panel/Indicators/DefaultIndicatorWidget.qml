@@ -69,10 +69,12 @@ Indicators.IndicatorWidget {
         if (action.state == undefined) {
             label = "";
             iconSource = "";
+            enabled = false;
             return;
         }
 
-        label = action.state[Indicators.ActionState.Label];
-        iconSource = "image://gicon/" + action.state[Indicators.ActionState.IconSource];
+        label = action.state[Indicators.DefaultActionState.Label];
+        iconSource = "image://gicon/" + action.state[Indicators.DefaultActionState.IconSource];
+        enabled = action.state[Indicators.DefaultActionState.Visible];
     }
 }

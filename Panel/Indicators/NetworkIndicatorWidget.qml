@@ -27,7 +27,7 @@ Indicators.IndicatorWidget {
     width: networkIcon.width + units.gu(1)
 
     property int signalStrength: 0
-    property int connectionState: Indicators.ConnectionState.Initial
+    property int connectionState: Indicators.NetworkConnection.Initial
 
     // FIXME : Should us Ubuntu.Icon . results in low res images
     Image {
@@ -57,9 +57,9 @@ Indicators.IndicatorWidget {
             return;
         }
 
-        connectionState = action.state[1];
-        if (connectionState == 2) {
-            signalStrength = action.state[2];
+        connectionState = action.state[Indicators.NetworkActionState.Connection];
+        if (connectionState == Indicators.NetworkConnection.Activated) {
+            signalStrength = action.state[Indicators.NetworkActionState.SignalStrength];
         }
     }
 
@@ -76,29 +76,29 @@ Indicators.IndicatorWidget {
     states: [
         State {
             name: "unknown"
-            when: connectionState > Indicators.ConnectionState.Deactivating || connectionState < Indicators.ConnectionState.Activating
+            when: connectionState < Indicators.NetworkConnection.Activating || connectionState > Indicators.NetworkConnection.Deactivating
             PropertyChanges { target: activation_animation; running: false }
         },
         State {
             name: "activating"
-            when: connectionState == Indicators.ConnectionState.Activating
+            when: connectionState == Indicators.NetworkConnection.Activating
             PropertyChanges { target: activation_animation; running: true }
         },
         State {
             name: "activated"
-            when: connectionState == Indicators.ConnectionState.Activated
+            when: connectionState == Indicators.NetworkConnection.Activated
             PropertyChanges { target: activation_animation; running: false }
         },
         State {
             name: "deactivating"
-            when: connectionState == Indicators.ConnectionState.Deactivating
+            when: connectionState == Indicators.NetworkConnection.Deactivating
             PropertyChanges { target: activation_animation; running: true }
         }
     ]
 
 
     function get_icon_for_signal(con_state, value) {
-        if (con_state >= 1 && con_state <= 3) {
+        if (con_state >= Indicators.NetworkConnection.Activating && con_state <= Indicators.NetworkConnection.Deactivating) {
             if (value == 0) {
                 return "image://gicon/nm-signal-00";
             } else if (value <= 25) {

@@ -74,17 +74,4 @@ IndicatorBase {
         onStateChanged: actionStateChanged()
         onValidChanged: actionStateChanged()
     }
-
-    onActionStateChanged: {
-        if (action == undefined || !action.valid) {
-            return;
-        }
-
-        if (action.state == undefined) {
-            enabled = false;
-            return;
-        }
-
-        enabled = action.state[Indicators.ActionState.Visible];
-    }
 }

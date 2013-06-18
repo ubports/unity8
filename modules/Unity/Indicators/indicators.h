@@ -19,34 +19,47 @@
 #ifndef INDICATORS_H
 #define INDICATORS_H
 
-class ActionState : public QObject
+class DefaultActionState : public QObject
 {
     Q_OBJECT
 public:
-    Q_ENUMS(ActionStates)
-    enum ActionStates {
+    Q_ENUMS(DefaultActionStates)
+    enum DefaultActionStates {
       Label           = 0x00,
       IconSource      = 0x01,
       AccessableName  = 0x02,
       Visible         = 0x03,
     };
 
-    ActionState(QObject*parent=0):QObject(parent) {}
+    DefaultActionState(QObject*parent=0):QObject(parent) {}
 };
 
-class ConnectionState : public QObject
+class NetworkActionState : public QObject
 {
     Q_OBJECT
 public:
-    Q_ENUMS(ConnectionStates)
-    enum ConnectionStates {
+    Q_ENUMS(NetworkActionStates)
+    enum NetworkActionStates {
+      Connection      = 0x01,
+      SignalStrength  = 0x02,
+    };
+
+    NetworkActionState(QObject*parent=0):QObject(parent) {}
+};
+
+class NetworkConnection : public QObject
+{
+    Q_OBJECT
+public:
+    Q_ENUMS(NetworkConnectionStates)
+    enum NetworkConnectionStates {
       Initial         = 0x00,
       Activating      = 0x01,
       Activated       = 0x02,
       Deactivating    = 0x03,
     };
 
-    ConnectionState(QObject*parent=0):QObject(parent) {}
+    NetworkConnection(QObject*parent=0):QObject(parent) {}
 };
 
 #endif // INDICATORS_H
