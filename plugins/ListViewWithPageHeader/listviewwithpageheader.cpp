@@ -846,6 +846,7 @@ void ListViewWithPageHeader::adjustMinYExtent()
         m_minYExtent = 0;
     } else {
         m_minYExtent = -m_visibleItems.first()->y() - m_clipItem->y() + (m_headerItem ? m_headerItem->height() : 0);
+        qDebug() << "adjustMinYExtent" << m_minYExtent << m_visibleItems.first()->y() << m_clipItem->y();
     }
 }
 
