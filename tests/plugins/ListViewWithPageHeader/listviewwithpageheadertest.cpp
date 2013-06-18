@@ -1089,17 +1089,6 @@ private Q_SLOTS:
         QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 1), Q_ARG(QVariant, 100));
         QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 1), Q_ARG(QVariant, 125));
 
-        int i = 0;
-        while(i < 10 && lvwph->m_visibleItems.count() != 5) {
-            qDebug() << "Loop" << i;
-            Q_FOREACH(ListViewWithPageHeader::ListItem *item, lvwph->m_visibleItems)
-                qDebug() << item->m_item;
-            QTest::qWait(1000);
-            ++i;
-        }
-        qDebug() << "Before compare";
-        Q_FOREACH(ListViewWithPageHeader::ListItem *item, lvwph->m_visibleItems)
-            qDebug() << item->m_item;
         QTRY_COMPARE(lvwph->m_visibleItems.count(), 5);
         QCOMPARE(lvwph->m_firstVisibleIndex, 2);
         verifyItem(0, -275., 100., true);
@@ -1226,17 +1215,6 @@ private Q_SLOTS:
 
         changeContentY(-1700);
 
-        int i = 0;
-        while(i < 10 && lvwph->m_visibleItems.count() != 12) {
-            qDebug() << "Loop" << i;
-            Q_FOREACH(ListViewWithPageHeader::ListItem *item, lvwph->m_visibleItems)
-                qDebug() << item->m_item;
-            QTest::qWait(1000);
-            ++i;
-        }
-        qDebug() << "Before compare";
-        Q_FOREACH(ListViewWithPageHeader::ListItem *item, lvwph->m_visibleItems)
-            qDebug() << item->m_item;
         QTRY_COMPARE(lvwph->m_visibleItems.count(), 12);
         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
         verifyItem(0, -308., 75., true);
