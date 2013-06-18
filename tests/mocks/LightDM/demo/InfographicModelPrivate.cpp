@@ -27,11 +27,11 @@ void InfographicModelPrivate::generateFakeData()
     std::normal_distribution<qreal> distribution(0.5, 0.2);
     auto rand = std::bind(distribution, generator);
 
-    QColor orange = QColor::fromRgbF(0.9, 0.3, 0.1, 1.0);
-    QColor yellow = QColor::fromRgbF(1.0, 0.6, 0.0, 1.0);
-    QColor red = QColor::fromRgbF(0.8, 0.0, 0.0, 1.0);
-    QColor darkPurple = QColor::fromRgbF(0.5, 0.2, 0.3, 1.0);
-    QColor lightPurple = QColor::fromRgbF(0.8, 0.1, 0.8, 1.0);
+    QColor orange(QColor::fromRgbF(0.9, 0.3, 0.1, 1.0));
+    QColor yellow(QColor::fromRgbF(1.0, 0.6, 0.0, 1.0));
+    QColor red(QColor::fromRgbF(0.8, 0.0, 0.0, 1.0));
+    QColor darkPurple(QColor::fromRgbF(0.5, 0.2, 0.3, 1.0));
+    QColor lightPurple(QColor::fromRgbF(0.8, 0.1, 0.8, 1.0));
     QColor pink(QColor::fromRgbF(0.75, 0.13, 0.75));
 
     InfographicColorTheme orangeTheme(yellow, orange, red);
