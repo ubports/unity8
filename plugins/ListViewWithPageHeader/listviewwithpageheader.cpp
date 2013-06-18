@@ -395,7 +395,6 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
         firstItem->setY(firstItem->y() + diff);
         if (m_headerShowAnimation->isRunning()) {
             adjustMinYExtent();
-            qDebug() << "ListViewWithPageHeader::viewportMoved" << m_minYExtent;
         }
     }
 
@@ -563,7 +562,7 @@ QQuickItem *ListViewWithPageHeader::getSectionItem(const QString &sectionText)
 
 bool ListViewWithPageHeader::removeNonVisibleItems(qreal bufferFrom, qreal bufferTo)
 {
-    qDebug() << "ListViewWithPageHeader::removeNonVisibleItems" << bufferFrom << bufferTo;
+//     qDebug() << "ListViewWithPageHeader::removeNonVisibleItems" << bufferFrom << bufferTo;
     bool changed = false;
 
     bool foundVisible = false;
@@ -572,9 +571,9 @@ bool ListViewWithPageHeader::removeNonVisibleItems(qreal bufferFrom, qreal buffe
     while (i < m_visibleItems.count()) {
         ListItem *item = m_visibleItems[i];
         const qreal pos = item->y() + m_clipItem->y();
-        qDebug() << i << pos << (pos + item->height()) << bufferFrom << bufferTo;
+//         qDebug() << i << pos << (pos + item->height()) << bufferFrom << bufferTo;
         if (pos + item->height() < bufferFrom || pos > bufferTo) {
-            qDebug() << "Releasing" << i << (pos + item->height() < bufferFrom) << pos + item->height() << bufferFrom << (pos > bufferTo) << pos << bufferTo;
+//             qDebug() << "Releasing" << i << (pos + item->height() < bufferFrom) << pos + item->height() << bufferFrom << (pos > bufferTo) << pos << bufferTo;
             releaseItem(item);
             m_visibleItems.removeAt(i);
             changed = true;
@@ -638,7 +637,6 @@ ListViewWithPageHeader::ListItem *ListViewWithPageHeader::createItem(int modelIn
             if (m_firstVisibleIndex < 0 || modelIndex < m_firstVisibleIndex) {
                 m_firstVisibleIndex = modelIndex;
                 adjustMinYExtent();
-                qDebug() << "ListViewWithPageHeader::createItem" << m_minYExtent;
             }
         }
         return listItem;
@@ -716,7 +714,6 @@ void ListViewWithPageHeader::onModelUpdated(const QQuickChangeSet &changeSet, bo
             }
             if (growDown) {
                 adjustMinYExtent();
-                qDebug() << "ListViewWithPageHeader::onModelUpdated grow down" << m_minYExtent;
             } else if (remove.index <= m_firstVisibleIndex && !m_visibleItems.isEmpty()) {
                 // We removed the first item that is the one that positions the rest
                 // position the new first item correctly
@@ -736,7 +733,7 @@ void ListViewWithPageHeader::onModelUpdated(const QQuickChangeSet &changeSet, bo
     }
 
     foreach(const QQuickChangeSet::Insert &insert, changeSet.inserts()) {
-        qDebug() << "ListViewWithPageHeader::onModelUpdated Insert" << insert.index << insert.count;
+//         qDebug() << "ListViewWithPageHeader::onModelUpdated Insert" << insert.index << insert.count;
         const bool insertingInValidIndexes = insert.index > m_firstVisibleIndex && insert.index < m_firstVisibleIndex + m_visibleItems.count();
         const bool firstItemWithViewOnTop = insert.index == 0 && m_firstVisibleIndex == 0 && m_visibleItems.first()->y() + m_clipItem->y() > contentY();
         if (insertingInValidIndexes || firstItemWithViewOnTop)
@@ -763,7 +760,6 @@ void ListViewWithPageHeader::onModelUpdated(const QQuickChangeSet &changeSet, bo
                     ListItem *firstItem = m_visibleItems.first();
                     firstItem->setY(firstItem->y() - item->height());
                     adjustMinYExtent();
-                    qDebug() << "ListViewWithPageHeader::onModelUpdated growed up" << m_minYExtent;
                 }
                 // Adding an item may break a "same section" chain, so check
                 // if we need adding a new section item
@@ -811,7 +807,6 @@ void ListViewWithPageHeader::itemGeometryChanged(QQuickItem *item, const QRectF 
                 ListItem *firstItem = m_visibleItems.first();
                 firstItem->setY(firstItem->y() - heightDiff);
                 adjustMinYExtent();
-                qDebug() << "ListViewWithPageHeader::itemGeometryChanged before viewport" << m_minYExtent;
             }
         }
         polish();
@@ -830,7 +825,6 @@ void ListViewWithPageHeader::headerHeightChanged(qreal newHeaderHeight, qreal ol
         updateClipItem();
         adjustMinYExtent();
         layout();
-        qDebug() << "ListViewWithPageHeader::headerHeightChanged A" << m_minYExtent;
     } else {
         if (oldHeaderY + oldHeaderHeight > contentY()) {
             // If the header is shown because its position
@@ -841,7 +835,6 @@ void ListViewWithPageHeader::headerHeightChanged(qreal newHeaderHeight, qreal ol
             // If the header is not on screen, just change the start of the list
             // so the viewport is not changed
             adjustMinYExtent();
-            qDebug() << "ListViewWithPageHeader::headerHeightChanged B" << m_minYExtent;
         }
     }
 }
@@ -873,7 +866,7 @@ void ListViewWithPageHeader::layout()
 
         qreal pos = m_visibleItems.first()->y();
 
-        qDebug() << "ListViewWithPageHeader::updatePolish Updating positions and heights. contentY" << contentY() << "minYExtent" << minYExtent();
+//         qDebug() << "ListViewWithPageHeader::updatePolish Updating positions and heights. contentY" << contentY() << "minYExtent" << minYExtent();
         int firstReallyVisibleItem = -1;
         int modelIndex = m_firstVisibleIndex;
         foreach(ListItem *item, m_visibleItems) {
@@ -912,7 +905,7 @@ void ListViewWithPageHeader::layout()
             } else {
                 context->setContextProperty(QLatin1String("heightToClip"), QVariant::fromValue<int>(0));
             }
-            qDebug() << "ListViewWithPageHeader::updatePolish" << item->m_item;
+//             qDebug() << "ListViewWithPageHeader::updatePolish" << item->m_item;
             pos += item->height();
             ++modelIndex;
         }
