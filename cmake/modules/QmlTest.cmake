@@ -27,6 +27,37 @@ endif()
 
 set(qmlscene_exe ${CMAKE_BINARY_DIR}/tests/uqmlscene/uqmlscene)
 
+macro(add_manual_qml_test SUBPATH COMPONENT_NAME)
+    set(options NO_ADD_TEST NO_TARGETS)
+    set(multi_value_keywords IMPORT_PATHS TARGETS PROPERTIES ENVIRONMENT)
+
+    cmake_parse_arguments(qmltest "${options}" "" "${multi_value_keywords}" ${ARGN})
+
+    set(qmlscene_TARGET try${COMPONENT_NAME})
+    set(qmltest_FILE ${SUBPATH}/tst_${COMPONENT_NAME})
+
+    set(qmlscene_imports "")
+    if(NOT "${qmltest_IMPORT_PATHS}" STREQUAL "")
+        foreach(IMPORT_PATH ${qmltest_IMPORT_PATHS})
+            list(APPEND qmlscene_imports "-I")
+            list(APPEND qmlscene_imports ${IMPORT_PATH})
+        endforeach(IMPORT_PATH)
+    elseif(NOT "${qmltest_DEFAULT_IMPORT_PATHS}" STREQUAL "")
+        foreach(IMPORT_PATH ${qmltest_DEFAULT_IMPORT_PATHS})
+            list(APPEND qmlscene_imports "-I")
+            list(APPEND qmlscene_imports ${IMPORT_PATH})
+        endforeach(IMPORT_PATH)
+    endif()
+
+    set(qmlscene_command
+        env ${qmltest_ENVIRONMENT}
+        ${qmlscene_exe} ${CMAKE_CURRENT_SOURCE_DIR}/${qmltest_FILE}.qml
+            ${qmlscene_imports}
+    )
+    add_custom_target(${qmlscene_TARGET} ${qmlscene_command})
+
+endmacro(add_manual_qml_test)
+
 macro(add_qml_test SUBPATH COMPONENT_NAME)
     set(options NO_ADD_TEST NO_TARGETS)
     set(multi_value_keywords IMPORT_PATHS TARGETS PROPERTIES ENVIRONMENT)
@@ -34,7 +65,6 @@ macro(add_qml_test SUBPATH COMPONENT_NAME)
     cmake_parse_arguments(qmltest "${options}" "" "${multi_value_keywords}" ${ARGN})
 
     set(qmltest_TARGET test${COMPONENT_NAME})
-    set(qmlscene_TARGET try${COMPONENT_NAME})
     set(qmltest_FILE ${SUBPATH}/tst_${COMPONENT_NAME})
 
     set(qmltestrunner_imports "")
@@ -58,26 +88,6 @@ macro(add_qml_test SUBPATH COMPONENT_NAME)
             -o -,txt
     )
     add_custom_target(${qmltest_TARGET} ${qmltest_command})
-
-    set(qmlscene_imports "")
-    if(NOT "${qmltest_IMPORT_PATHS}" STREQUAL "")
-        foreach(IMPORT_PATH ${qmltest_IMPORT_PATHS})
-            list(APPEND qmlscene_imports "-I")
-            list(APPEND qmlscene_imports ${IMPORT_PATH})
-        endforeach(IMPORT_PATH)
-    elseif(NOT "${qmltest_DEFAULT_IMPORT_PATHS}" STREQUAL "")
-        foreach(IMPORT_PATH ${qmltest_DEFAULT_IMPORT_PATHS})
-            list(APPEND qmlscene_imports "-I")
-            list(APPEND qmlscene_imports ${IMPORT_PATH})
-        endforeach(IMPORT_PATH)
-    endif()
-
-    set(qmlscene_command
-        env ${qmltest_ENVIRONMENT}
-        ${qmlscene_exe} ${CMAKE_CURRENT_SOURCE_DIR}/${qmltest_FILE}.qml
-            ${qmlscene_imports}
-    )
-    add_custom_target(${qmlscene_TARGET} ${qmlscene_command})
 
     if(NOT "${qmltest_PROPERTIES}" STREQUAL "")
         set_target_properties(${qmltest_TARGET} PROPERTIES ${qmltest_PROPERTIES})
@@ -106,4 +116,6 @@ macro(add_qml_test SUBPATH COMPONENT_NAME)
             endforeach(TARGET)
         endif()
     endif("${qmltest_NO_TARGETS}" STREQUAL "FALSE")
+
+    add_manual_qml_test(${SUBPATH} ${COMPONENT_NAME} ${ARGN})
 endmacro(add_qml_test)
