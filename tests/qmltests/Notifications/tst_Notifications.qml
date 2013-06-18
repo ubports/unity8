@@ -31,7 +31,6 @@ Row {
         QtObject {
             function invokeAction(actionId) {
                 mockModel.actionId = actionId
-                print ("action-id: ", actionId)
             }
         }
     }
