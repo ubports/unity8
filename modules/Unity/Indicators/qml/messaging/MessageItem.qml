@@ -39,8 +39,8 @@ Indicators.BasicMenu {
         // property will be propagated to the __contents.item at any time
         Binding {
             target: __contents.item
-            property: "listViewIsCurrentItem"
-            value: listViewIsCurrentItem
+            property: "menuActivated"
+            value: menuActivated
             when: (__contents.status == Loader.Ready)
         }
 
@@ -63,6 +63,12 @@ Indicators.BasicMenu {
             property: "actionsDescription"
             value: actionsDescription
             when: (__contents.status == Loader.Ready)
+        }
+
+        Connections {
+            target: __contents.item ? __contents.item : null
+            onActivateMenu: activateMenu()
+            onDeactivateMenu: deactivateMenu()
         }
     }
 

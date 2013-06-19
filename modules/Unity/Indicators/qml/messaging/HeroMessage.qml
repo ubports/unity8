@@ -51,17 +51,17 @@ Indicators.BasicMenu {
 
         onAppIconClicked:  {
             if (action && action.valid) {
-                listViewSelectItem(-1)
+                deactivateMenu()
                 action.activate(true)
             }
         }
     }
 
     onClicked: {
-        if (listViewIsCurrentItem) {
-            listViewSelectItem(-1)
+        if (menuActivated) {
+            deactivateMenu()
         } else {
-            listViewSelectItem(index)
+            activateMenu()
         }
     }
 
@@ -79,7 +79,7 @@ Indicators.BasicMenu {
 
     states: State {
         name: "expanded"
-        when: listViewIsCurrentItem
+        when: menuActivated
 
         PropertyChanges {
             target: __heroMessage

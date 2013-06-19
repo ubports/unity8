@@ -33,7 +33,8 @@ Item {
 
     implicitHeight: (__loader.status === Loader.Ready) ? __loader.item.implicitHeight : 0
 
-    signal selectItem(int targetIndex)
+    signal activated()
+    signal deactivated()
 
     property var _map:  {
         "unity.widgets.systemsettings.tablet.volumecontrol" : sliderMenu,
@@ -95,12 +96,13 @@ Item {
             return undefined;
         }
 
-        onStatusChanged: {
-            if (status == Loader.Ready) {
-                item.listViewIsCurrentItem = Qt.binding(function() { return isCurrentItem; });
-                item.actionGroup = Qt.binding(function() { return __menuFactory.actionGroup; });
-                item.menu = Qt.binding(function() { return __menuFactory.menu; });
-            }
+        onLoaded: {
+            item.menuActivated = Qt.binding(function() { return isCurrentItem; });
+            item.actionGroup = Qt.binding(function() { return __menuFactory.actionGroup; });
+            item.menu = Qt.binding(function() { return __menuFactory.menu; });
+
+            item.activateMenu.connect(function() { __menuFactory.activated(); });
+            item.deactivateMenu.connect(function() { __menuFactory.deactivated(); });
         }
     }
 }

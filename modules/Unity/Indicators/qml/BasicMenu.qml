@@ -23,10 +23,13 @@ import Ubuntu.Components.ListItems 0.1 as ListItem
 ListItem.Standard {
     id: _priv
 
-    property bool listViewIsCurrentItem : false
+    property bool menuActivated : false
     property QtObject menu
     property QtObject actionGroup
     property alias color: __bg.color
+
+    signal activateMenu()
+    signal deactivateMenu()
 
     showDivider: false
     __foregroundColor: "#e8e1d0"
@@ -41,11 +44,5 @@ ListItem.Standard {
         anchors.fill: parent
         color: "#221e1c"
         z: -1
-    }
-
-    function listViewSelectItem(targetIndex) {
-        if (__menuFactory != undefined) {
-            return __menuFactory.selectItem(targetIndex)
-        }
     }
 }

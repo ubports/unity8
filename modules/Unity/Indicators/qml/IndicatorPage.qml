@@ -134,7 +134,11 @@ IndicatorBase {
                     height: implicitHeight
                     menu: model
 
-                    onSelectItem: item.ListView.view.currentIndex = targetIndex
+                    Connections {
+                        target : factory
+                        onActivated: item.ListView.view.currentIndex = index
+                        onDeactivated: item.ListView.view.currentIndex = -1
+                    }
                 }
             }
         }
