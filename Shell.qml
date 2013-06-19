@@ -172,18 +172,6 @@ FocusScope {
             // greeterRevealer.animatedProgress are not animated
             Behavior on disappearingAnimationProgress { SmoothedAnimation { velocity: 5 }}
         }
-
-        Notifications {
-            id: notifications
-
-            model: NotificationBackend.Model
-            anchors {
-                fill: parent
-                leftMargin: units.gu(1)
-                rightMargin: units.gu(1)
-                topMargin: panel.panelHeight + units.gu(1)
-            }
-        }
     }
 
 
@@ -571,6 +559,18 @@ FocusScope {
                     panel.indicators.hide()
                     hud.hide()
                 }
+            }
+        }
+
+        Notifications {
+            id: notifications
+
+            model: NotificationBackend.Model
+            anchors {
+                fill: parent
+                leftMargin: units.gu(1)
+                rightMargin: units.gu(1)
+                topMargin: panel.panelHeight + units.gu(1)
             }
         }
     }
