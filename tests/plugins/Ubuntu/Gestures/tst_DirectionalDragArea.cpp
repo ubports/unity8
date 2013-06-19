@@ -132,13 +132,13 @@ namespace {
 QPointF calculateInitialTouchPos(DirectionalDragArea *edgeDragArea, QQuickView *view)
 {
     switch (edgeDragArea->direction()) {
-        case DirectionalDragArea::Upwards:
+        case Direction::Upwards:
             return QPointF(view->width()/2.0f, view->height() - (edgeDragArea->height()/2.0f));
-        case DirectionalDragArea::Downwards:
+        case Direction::Downwards:
             return QPointF(view->width()/2.0f, edgeDragArea->height()/2.0f);
-        case DirectionalDragArea::Leftwards:
+        case Direction::Leftwards:
             return QPointF(view->width() - (edgeDragArea->width()/2.0f), view->height()/2.0f);
-        default: // DirectionalDragArea::Rightwards:
+        default: // Direction::Rightwards:
             return QPointF(edgeDragArea->width()/2.0f, view->height()/2.0f);
     }
 }
@@ -153,13 +153,13 @@ QPointF calculateDirectionVector(DirectionalDragArea *edgeDragArea,
     qreal angleSin = qSin(angleRadians);
 
     switch (edgeDragArea->direction()) {
-        case DirectionalDragArea::Upwards:
+        case Direction::Upwards:
             return QPointF(angleSin, -angleCos);
-        case DirectionalDragArea::Downwards:
+        case Direction::Downwards:
             return QPointF(angleSin, angleCos);
-        case DirectionalDragArea::Leftwards:
+        case Direction::Leftwards:
             return QPointF(-angleCos, angleSin);
-        default: // DirectionalDragArea::Rightwards:
+        default: // Direction::Rightwards:
             return QPointF(angleCos, angleSin);
     }
 }
@@ -168,8 +168,7 @@ QPointF createTouchDeviation(DirectionalDragArea *edgeDragArea)
 {
     qreal deviation = edgeDragArea->maxDeviation() * 0.8;
 
-    if (edgeDragArea->direction() == DirectionalDragArea::Leftwards
-            || edgeDragArea->direction() == DirectionalDragArea::Rightwards) {
+    if (Direction::isHorizontal(edgeDragArea->direction())) {
         return QPointF(0, deviation);
     } else {
         return QPointF(deviation, 0);

@@ -51,7 +51,7 @@ Item {
 
         height: units.gu(5)
 
-        direction: DirectionalDragArea.Downwards
+        direction: Direction.Downwards
         maxDeviation: units.gu(2)
         wideningAngle: 10
         distanceThreshold: units.gu(4)
