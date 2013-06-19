@@ -18,17 +18,10 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import "../Components"
 import "../Components/ListItems" as ListItems
-import "Music"
+import "../Components/IconUtil.js" as IconUtil
 
 ScopeView {
     id: scopeView
-
-    property var categoryNames: [
-        i18n.tr("Featured"),
-        i18n.tr("Recent"),
-        i18n.tr("New Releases"),
-        i18n.tr("Top Charting")
-    ]
 
     onIsCurrentChanged: {
         pageHeader.resetSearch();
@@ -50,55 +43,54 @@ ScopeView {
         }
     }
 
-    /* Workaround for bug: https://bugreports.qt-project.org/browse/QTBUG-28403
-       When using Loader to load external QML file in the list deelgate, the ListView has
-       a bug where it can position the delegate content to overlap the section header
-       of the ListView - a workaround is to use sourceComponent of Loader instead */
-    Component { id: musicCarousel;   MusicCarousel {} }
-    Component { id: musicFilterGrid; MusicFilterGrid {} }
-
-    function getRenderer(categoryId) {
-        switch (categoryId) {
-            case 1: return musicCarousel
-            default: return musicFilterGrid
-        }
-    }
-
     ListViewWithPageHeader {
         id: categoryView
         anchors.fill: parent
         model: scopeView.categories
-
         onAtYEndChanged: if (atYEnd) endReached()
         onMovingChanged: if (moving && atYEnd) endReached()
 
         delegate: ListItems.Base {
-            id: base
             highlightWhenPressed: false
 
-            property int categoryId: id
+            FilterGrid {
+                id: filtergrid
+                model: results
 
-            Loader {
-                anchors { top: parent.top; left: parent.left; right: parent.right }
-                sourceComponent: scopeView.getRenderer(base.categoryId)
-                onLoaded: {
-                    item.model = results
+                anchors {
+                    top: parent.top
+                    left: parent.left
+                    right: parent.right
                 }
-                asynchronous: true
+
+                filter: false
+                minimumHorizontalSpacing: units.gu(0.5)
+                delegateWidth: units.gu(11)
+                delegateHeight: units.gu(18)
+                verticalSpacing: units.gu(2)
+
+                delegate: Tile {
+                    width: filtergrid.cellWidth
+                    height: filtergrid.cellHeight
+                    text: column_5 ? column_5 : "" // FIXME: this shouldn't be necessary
+                    imageWidth: units.gu(11)
+                    imageHeight: units.gu(16)
+                    source: column_1 ? IconUtil.from_gicon(column_1) : "" // FIXME: ditto
+                }
             }
         }
 
         sectionProperty: "name"
         sectionDelegate: ListItems.Header {
             width: categoryView.width
-            text: i18n.tr(section)
+            text: section
         }
         pageHeader: PageHeader {
             id: pageHeader
+            objectName: "pageHeader"
             width: categoryView.width
-            text: i18n.tr("Music")
+            text: scopeView.scope.name
             searchEntryEnabled: true
-            searchHistory: scopeView.searchHistory
         }
     }
 }

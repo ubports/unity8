@@ -109,27 +109,19 @@ msgstr ""
 msgid "Apps"
 msgstr ""
 
-#: Dash/DashHome.qml:43
+#: Dash/DashHome.qml:40
 msgid "Frequent Apps"
 msgstr ""
 
-#: Dash/DashHome.qml:46
-msgid "Favourite People"
-msgstr ""
-
-#: Dash/DashHome.qml:49
-msgid "People Recently in Touch"
-msgstr ""
-
-#: Dash/DashHome.qml:52
+#: Dash/DashHome.qml:43
 msgid "Recent Music"
 msgstr ""
 
-#: Dash/DashHome.qml:55
+#: Dash/DashHome.qml:46
 msgid "Videos Popular Online"
 msgstr ""
 
-#: Dash/DashHome.qml:197 plugins/Unity/lenses.cpp:38
+#: Dash/DashHome.qml:175
 msgid "Home"
 msgstr ""
 
@@ -151,26 +143,6 @@ msgstr ""
 
 #: Dash/DashMusic.qml:99
 msgid "Music"
-msgstr ""
-
-#: Dash/DashPeople.qml:31
-msgid "Favourites"
-msgstr ""
-
-#: Dash/DashPeople.qml:32
-msgid "Recently in touch"
-msgstr ""
-
-#: Dash/DashPeople.qml:33
-msgid "New Contacts"
-msgstr ""
-
-#: Dash/DashPeople.qml:34
-msgid "A-Z"
-msgstr ""
-
-#: Dash/DashPeople.qml:123
-msgid "People"
 msgstr ""
 
 #: Dash/DashVideos.qml:31
@@ -234,16 +206,17 @@ msgstr ""
 msgid "Flight mode"
 msgstr ""
 
-#: Panel/SearchIndicator.qml:26 plugins/Unity/lenses.cpp:40
+#: Panel/SearchIndicator.qml:26
 msgid "Search"
 msgstr ""
 
-#: plugins/Unity/lens.cpp:333
+#: plugins/Unity/scope.cpp:268
 msgid "Sorry, there is nothing that matches your search."
 msgstr ""
 
-#: plugins/Unity/lenses.cpp:39
-msgid "Home screen"
+#: Shell.qml:380
+#, qt-format
+msgid "Please enter %1:"
 msgstr ""
 
 #: Shell.qml:380

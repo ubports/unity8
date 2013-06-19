@@ -71,7 +71,7 @@ class TestShellHelpers(object):
             self.touch.drag(start_x, start_y, stop_x, stop_y)
 
         # Because the shell loads up lots of stuff, unlocking the greeter can
-        # be a bit stuttery while lenses are still consuming all resources.
+        # be a bit stuttery while scopes are still consuming all resources.
         # Give it another (max retries) chance
         try:
             self.assertThat(greeter.created, Eventually(Equals(False)))
