@@ -36,6 +36,7 @@ class ListViewWithPageHeader : public QQuickFlickable, public QQuickItemChangeLi
     Q_PROPERTY(bool forceNoClip READ forceNoClip WRITE setForceNoClip NOTIFY forceNoClipChanged)
 
     friend class ListViewWithPageHeaderTest;
+    friend class ListViewWithPageHeaderTestSection;
 
 public:
     ListViewWithPageHeader();
