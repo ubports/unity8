@@ -24,7 +24,7 @@
 #include <private/qquickanimation_p.h>
 #include <private/qquickitem_p.h>
 
-class ListViewWithPageHeaderSectionTest : public QObject
+class ListViewWithPageHeaderTestSection : public QObject
 {
     Q_OBJECT
 
@@ -1671,6 +1671,6 @@ private:
     QQmlComponent *otherDelegate;
 };
 
-QTEST_MAIN(ListViewWithPageHeaderTest)
+QTEST_MAIN(ListViewWithPageHeaderTestSection)
 
 #include "listviewwithpageheadertestsection.moc"
