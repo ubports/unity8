@@ -567,11 +567,26 @@ FocusScope {
 
             model: NotificationBackend.Model
             anchors {
-                fill: parent
+                top: parent.top
+                right: parent.right
+                bottom: parent.bottom
                 leftMargin: units.gu(1)
                 rightMargin: units.gu(1)
                 topMargin: panel.panelHeight + units.gu(1)
             }
+            states: [
+                State {
+                    name: "narrow"
+                    when: overlay.width <= units.gu(40)
+                    AnchorChanges { target: notifications; anchors.left: parent.left }
+                },
+                State {
+                    name: "wide"
+                    when: overlay.width > units.gu(40)
+                    AnchorChanges { target: notifications; anchors.left: undefined }
+                    PropertyChanges { target: notifications; width: units.gu(38) }
+                }
+            ]
         }
     }
 
