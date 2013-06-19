@@ -577,12 +577,12 @@ FocusScope {
             states: [
                 State {
                     name: "narrow"
-                    when: overlay.width <= units.gu(40)
+                    when: overlay.width <= units.gu(60)
                     AnchorChanges { target: notifications; anchors.left: parent.left }
                 },
                 State {
                     name: "wide"
-                    when: overlay.width > units.gu(40)
+                    when: overlay.width > units.gu(60)
                     AnchorChanges { target: notifications; anchors.left: undefined }
                     PropertyChanges { target: notifications; width: units.gu(38) }
                 }
