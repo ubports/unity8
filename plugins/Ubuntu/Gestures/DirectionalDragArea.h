@@ -172,8 +172,8 @@ public:
     // Useful for providing a fake timer when testing.
     void setRecognitionTimer(UbuntuGestures::AbstractTimer *timer);
 
-    // Useful for testing, where a calculator with a fake time source can be supplied
-    void setAxisVelocityCalculator(AxisVelocityCalculator *velCalc);
+    // Useful for testing, where a fake time source can be supplied
+    void setTimeSource(UbuntuGestures::TimeSource *timeSource);
 
 Q_SIGNALS:
     void directionChanged(Direction::Type direction);

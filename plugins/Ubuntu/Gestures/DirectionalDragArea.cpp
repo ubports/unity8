@@ -141,12 +141,9 @@ void DirectionalDragArea::setRecognitionTimer(UbuntuGestures::AbstractTimer *tim
     }
 }
 
-void DirectionalDragArea::setAxisVelocityCalculator(AxisVelocityCalculator *newVelCalc)
+void DirectionalDragArea::setTimeSource(UbuntuGestures::TimeSource *timeSource)
 {
-    if (m_velocityCalculator->parent() == this)
-        delete m_velocityCalculator;
-
-    m_velocityCalculator = newVelCalc;
+    m_velocityCalculator->setTimeSource(timeSource);
 }
 
 qreal DirectionalDragArea::distance() const

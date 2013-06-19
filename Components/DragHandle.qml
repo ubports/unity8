@@ -59,7 +59,10 @@ DirectionalDragArea {
     property var __previousStatus
     property real __totalDragDistance: 0
 
+    property alias edgeDragEvaluator: dragEvaluator
+
     EdgeDragEvaluator {
+        objectName: "edgeDragEvaluator"
         id: dragEvaluator
         trackedPosition: Direction.isHorizontal(direction) ? parent.x + touchX : parent.y + touchY
         maxDragDistance: maxTotalDragDistance

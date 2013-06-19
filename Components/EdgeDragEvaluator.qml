@@ -47,15 +47,20 @@ AxisVelocityCalculator {
 
     property int direction
 
+    property real velocity
+    property real minVelocity
+
     // Returns whether the drag should continue by itself until completed.
     function shouldAutoComplete() {
         var deltaPos = trackedPosition - __startPosition
         if (Math.abs(deltaPos) < minDragDistance) {
+            velocity = 0
+            minVelocity = 0
             return false
         }
 
-        var minVelocity = __calculateMinimumVelocityForAutoCompletion(deltaPos)
-        var velocity = calculate()
+        minVelocity = __calculateMinimumVelocityForAutoCompletion(deltaPos)
+        velocity = calculate()
 
         if (Direction.isPositive(direction) && (velocity >= minVelocity)
             || !Direction.isPositive(direction) && (velocity <= minVelocity))

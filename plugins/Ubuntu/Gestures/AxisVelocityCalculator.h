@@ -25,6 +25,19 @@
 #include <stdint.h>
 #include <QtCore/QObject>
 
+namespace UbuntuGestures {
+/*
+    Interface for a time source.
+ */
+class UBUNTUGESTURES_EXPORT TimeSource : public QObject {
+    Q_OBJECT
+public:
+    virtual ~TimeSource() {}
+    /* Returns the current time in milliseconds since some reference time in the past. */
+    virtual qint64 msecsSinceReference() = 0;
+};
+}
+
 /*
   Estimates the current velocity of a finger based on recent movement along an axis
 
@@ -60,25 +73,9 @@ class UBUNTUGESTURES_EXPORT AxisVelocityCalculator : public QObject
 public:
 
     /*
-        Interface for a time source.
-     */
-    class TimeSource {
-      public:
-        virtual ~TimeSource() {}
-        /* Returns the current time in milliseconds since some reference time in the past. */
-        virtual qint64 msecsSinceReference() = 0;
-    };
-
-    /*
       Regular constructor
      */
     AxisVelocityCalculator(QObject *parent = 0);
-
-    /*
-      Extended constructor useful for testing purposes where you can inject
-      a fake time source implementation.
-     */
-    AxisVelocityCalculator(TimeSource *timeSource, QObject *parent = 0);
 
     virtual ~AxisVelocityCalculator();
 
@@ -104,6 +101,11 @@ public:
     Q_INVOKABLE void reset();
 
     int numSamples() const;
+
+    /*
+        Replaces the TimeSource with the given one. Useful for testing purposes.
+     */
+    void setTimeSource(UbuntuGestures::TimeSource *timeSource);
 
     /*
         The minimum amount of samples needed for a velocity calculation.
@@ -142,7 +144,7 @@ private:
     int m_samplesRead; /* index of the oldest sample available. -1 if buffer is empty */
     int m_samplesWrite; /* index where the next sample will be written */
 
-    TimeSource *m_timeSource;
+    UbuntuGestures::TimeSource *m_timeSource;
 
     qreal m_trackedPosition;
 };
