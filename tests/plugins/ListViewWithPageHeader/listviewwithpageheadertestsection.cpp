@@ -591,9 +591,9 @@ private Q_SLOTS:
 //         QCOMPARE(lvwph->m_headerItem->height(), 50.);
 //         QCOMPARE(lvwph->contentY(), 1458.);
 //         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
-// 
+//
 //         lvwph->setDelegate(otherDelegate);
-// 
+//
 //         QTRY_COMPARE(lvwph->m_visibleItems.count(), 6);
 //         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
 //         verifyItem(0, 50., 35., false);
