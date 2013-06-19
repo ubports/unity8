@@ -37,16 +37,6 @@ UbuntuShape {
     MouseArea {
         id: interactiveArea
 
-        Repeater {
-            id: actionRepeater
-
-            model: notification.actions
-
-            delegate: Item {
-                property string actionId: model.id
-            }
-        }
-
         anchors.fill: contentColumn
         objectName: "interactiveArea"
         enabled: notification.type == Notification.Interactive
@@ -148,6 +138,7 @@ UbuntuShape {
             }
 
             Repeater {
+                id: actionRepeater
                 model: notification.actions
 
                 Button {

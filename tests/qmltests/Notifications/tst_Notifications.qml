@@ -30,7 +30,7 @@ Row {
 
         QtObject {
             function invokeAction(actionId) {
-                mockModel.actionId = actionId
+                mockModel.actionInvoked(actionId)
             }
         }
     }
@@ -38,7 +38,7 @@ Row {
     ListModel {
         id: mockModel
 
-        property string actionId
+        signal actionInvoked(string actionId)
 
         function getRaw(id) {
             return mockNotification.createObject(mockModel)
@@ -289,7 +289,9 @@ Row {
 
         SignalSpy {
             id: actionSpy
-            signalName: "clicked"
+
+            target: mockModel
+            signalName: "actionInvoked"
         }
 
         function cleanup() {
@@ -320,10 +322,9 @@ Row {
             compare(interactiveArea.enabled, data.interactiveAreaEnabled, "check for interactive area")
 
             if(data.interactiveAreaEnabled) {
-                actionSpy.target = findChild(notification, "interactiveArea")
                 mouseClick(notification, notification.width / 2, notification.height / 2)
                 actionSpy.wait()
-                compare(mockModel.actionId, data.actions[0]["id"], "got wrong id for interactive action")
+                compare(actionSpy.signalArguments[0][0], data.actions[0]["id"], "got wrong id for interactive action")
                 compare(clickThroughSpy.count, 0, "click on interactive notification fell through")
             } else {
                 mouseClick(notification, notification.width / 2, notification.height / 2)
@@ -340,16 +341,15 @@ Row {
                 var buttonAccept = findChild(buttonRow, "button0")
 
                 waitForRendering(notification)
-                actionSpy.target = buttonCancel
                 mouseClick(buttonCancel, buttonCancel.width / 2, buttonCancel.height / 2)
                 actionSpy.wait()
-                compare(mockModel.actionId, data.actions[1]["id"], "got wrong id for negative action")
+                compare(actionSpy.signalArguments[0][0], data.actions[1]["id"], "got wrong id for negative action")
                 actionSpy.clear()
 
-                actionSpy.target = buttonAccept
                 mouseClick(buttonAccept, buttonAccept.width / 2, buttonAccept.height / 2)
                 actionSpy.wait()
-                compare(mockModel.actionId, data.actions[0]["id"], "got wrong id positive action")
+                compare(actionSpy.signalArguments[0][0], data.actions[0]["id"], "got wrong id positive action")
+                actionSpy.clear()
             }
         }
     }
