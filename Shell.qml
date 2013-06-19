@@ -552,14 +552,14 @@ FocusScope {
                 greeter.hide()
                 // Animate if moving between application and dash
                 if (!stages.shown) {
-                    dash.setCurrentLens("home.lens", true, false)
+                    dash.setCurrentScope("home.scope", true, false)
                 } else {
-                    dash.setCurrentLens("home.lens", false, false)
+                    dash.setCurrentScope("home.scope", false, false)
                 }
                 stages.hide();
             }
             onDash: {
-                dash.setCurrentLens("applications.lens", true, false)
+                dash.setCurrentScope("applications.scope", true, false)
                 stages.hide();
             }
             onLauncherApplicationSelected:{

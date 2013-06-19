@@ -35,7 +35,7 @@ FilterGrid {
         objectName: "delegate" + index
         Application {
             id: application
-            desktopFile: model.column_6 ? stripProtocol(model.column_6) : model.desktopFile // FIXME: this is temporary
+            desktopFile: model.column_7 ? stripProtocol(model.column_7) : model.desktopFile // FIXME: this is temporary
 
             function stripProtocol(uri) {
                 var chunks = uri.split('file://')
@@ -47,7 +47,7 @@ FilterGrid {
 
         width: filterGrid.cellWidth
         height: filterGrid.cellHeight
-        text: model.column_4 ? model.column_4 : application.name // FIXME: this is temporary
+        text: model.column_5 ? model.column_5 : application.name // FIXME: this is temporary
         imageWidth: units.gu(8)
         imageHeight: units.gu(7.5)
         source: icon.indexOf("/") == -1 ? "image://gicon/" + icon : icon

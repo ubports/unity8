@@ -73,7 +73,7 @@ class TestHud(ShellTestCase, TestShellHelpers):
         super(TestHud, self).setUp("%sx%s" % (self.app_width / divisor, self.app_height / divisor), "%s" % (self.grid_unit_px / divisor))
 
         dash = self.main_window.get_dash()
-        self.assertThat(dash.showLensOnLoaded, Eventually(Equals(""), timeout=30))
+        self.assertThat(dash.showScopeOnLoaded, Eventually(Equals(""), timeout=30))
 
     def test_show_hud(self):
         hud = self.main_window.get_hud()

@@ -22,8 +22,8 @@ set(UnityQML_SOURCES
   ${CMAKE_SOURCE_DIR}/plugins/Unity/categories.cpp
   ${CMAKE_SOURCE_DIR}/plugins/Unity/categoryfilter.cpp
   ${CMAKE_SOURCE_DIR}/plugins/Utils/qsortfilterproxymodelqml.cpp
-  fake_lens.cpp
-  fake_lenses.cpp
+  fake_scope.cpp
+  fake_scopes.cpp
   fake_unity_plugin.cpp
   fake_launchermodel.cpp
 )
