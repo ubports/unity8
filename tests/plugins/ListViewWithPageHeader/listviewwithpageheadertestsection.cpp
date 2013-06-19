@@ -24,7 +24,7 @@
 #include <private/qquickanimation_p.h>
 #include <private/qquickitem_p.h>
 
-class ListViewWithPageHeaderTest : public QObject
+class ListViewWithPageHeaderSectionTest : public QObject
 {
     Q_OBJECT
 
