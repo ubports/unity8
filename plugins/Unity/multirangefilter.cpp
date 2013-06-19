@@ -25,7 +25,7 @@ MultiRangeFilter::MultiRangeFilter(QObject *parent) :
 {
 }
 
-FilterOptions* MultiRangeFilter::options() const
+CombinedFilterOptions* MultiRangeFilter::options() const
 {
     return m_options;
 }
@@ -45,7 +45,11 @@ void MultiRangeFilter::onOptionsChanged(unity::dash::MultiRangeFilter::Options o
         delete m_options;
         m_options = NULL;
     }
-    m_options = new FilterOptions(m_unityMultiRangeFilter->options,
+/*    m_options = new FilterOptions(m_unityMultiRangeFilter->options,
+                                  m_unityMultiRangeFilter->option_added,
+                                  m_unityMultiRangeFilter->option_removed);*/
+
+    m_options = new CombinedFilterOptions(m_unityMultiRangeFilter->options,
                                   m_unityMultiRangeFilter->option_added,
                                   m_unityMultiRangeFilter->option_removed);
     /* Property change signals */

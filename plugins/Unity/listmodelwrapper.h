@@ -30,18 +30,12 @@
 template <class WrapperItem, class ItemClass>
 class ListModelWrapper : public QAbstractListModel
 {
-//    Q_ENUMS(Roles)
-
 public:
     explicit ListModelWrapper(const std::vector<ItemClass>& list,
                               sigc::signal<void, ItemClass> itemAddedSignal,
                               sigc::signal<void, ItemClass> itemRemovedSignal,
                               QObject *parent = 0);
     ~ListModelWrapper();
-
-//    enum Roles {
-    //      RoleItem
-//    };/
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
     int rowCount(const QModelIndex& parent = QModelIndex()) const;
@@ -68,10 +62,6 @@ ListModelWrapper<WrapperItem, ItemClass>::ListModelWrapper(const std::vector<Ite
                                                            QObject *parent) :
     QAbstractListModel(parent)
 {
-//    QHash<int, QByteArray> roles;
-//    roles[ListModelWrapper::RoleItem] = "item";
-//    setRoleNames(roles);
-
     for (unsigned int i=0; i<list.size(); i++) {
         addItem(list[i], i);
     }
@@ -111,11 +101,7 @@ QVariant ListModelWrapper<WrapperItem, ItemClass>::data(const QModelIndex& index
 
     WrapperItem* item = m_list.at(index.row());
 
-//    if (role == ListModelWrapper::RoleItem) {
-        return QVariant::fromValue(item);
-//    } else {
-//        return QVariant();
-//    }
+    return QVariant::fromValue(item);
 }
 
 template <class WrapperItem, class ItemClass>

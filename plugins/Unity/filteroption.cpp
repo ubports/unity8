@@ -24,7 +24,7 @@
 #include <UnityCore/Filter.h>
 
 FilterOption::FilterOption(unity::dash::FilterOption::Ptr unityFilterOption, QObject *parent) :
-    QObject(parent), m_unityFilterOption(NULL)
+    AbstractFilterOption(parent), m_unityFilterOption(NULL)
 {
     setUnityFilterOption(unityFilterOption);
 }

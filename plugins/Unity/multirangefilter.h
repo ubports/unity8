@@ -30,18 +30,19 @@
 // Local
 #include "filter.h"
 #include "filteroption.h"
+#include "combinedfilteroptions.h"
 
 class MultiRangeFilter : public Filter
 {
     Q_OBJECT
 
-    Q_PROPERTY(FilterOptions* options READ options NOTIFY optionsChanged)
+    Q_PROPERTY(CombinedFilterOptions* options READ options NOTIFY optionsChanged)
 
 public:
     explicit MultiRangeFilter(QObject *parent = 0);
 
     /* getters */
-    FilterOptions* options() const;
+    CombinedFilterOptions* options() const;
 
 Q_SIGNALS:
     void optionsChanged();
@@ -51,7 +52,7 @@ protected:
 
 private:
     unity::dash::MultiRangeFilter::Ptr m_unityMultiRangeFilter;
-    FilterOptions* m_options;
+    CombinedFilterOptions* m_options;
 
     void onOptionsChanged(unity::dash::MultiRangeFilter::Options);
 };
