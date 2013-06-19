@@ -13,12 +13,15 @@ remove_definitions(-DQT_NO_KEYWORDS)
 add_definitions(-DLISTVIEWWITHPAGEHEADER_FOLDER="${CMAKE_CURRENT_SOURCE_DIR}")
 add_definitions(-DBUILT_PLUGINS_DIR="${CMAKE_BINARY_DIR}/plugins")
 
-set(testCommand ${CMAKE_CURRENT_BINARY_DIR}/listviewwithpageheadertestExec
-        -o ${CMAKE_BINARY_DIR}/testlistviewwithpageheader.xml,xunitxml
-        -o -,txt)
-add_custom_target(testlistviewwithpageheader ${testCommand})
-add_dependencies(qmluitests testlistviewwithpageheader)
-
 add_executable(listviewwithpageheadertestExec listviewwithpageheadertest.cpp ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/ListViewWithPageHeader/listviewwithpageheader.cpp)
 qt5_use_modules(listviewwithpageheadertestExec Test Core Qml)
 target_link_libraries(listviewwithpageheadertestExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
+add_custom_target(testlistviewwithpageheader ${CMAKE_CURRENT_BINARY_DIR}/listviewwithpageheadertestExec -o ${CMAKE_BINARY_DIR}/testlistviewwithpageheader.xml,xunitxml -o -,txt)
+
+add_executable(listviewwithpageheadertestsectionExec listviewwithpageheadertestsection.cpp ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/ListViewWithPageHeader/listviewwithpageheader.cpp)
+qt5_use_modules(listviewwithpageheadertestsectionExec Test Core Qml)
+target_link_libraries(listviewwithpageheadertestsectionExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
+add_custom_target(testlistviewwithpageheadersection ${CMAKE_CURRENT_BINARY_DIR}/listviewwithpageheadertestsectionExec -o ${CMAKE_BINARY_DIR}/testlistviewwithpageheadersection.xml,xunitxml -o -,txt)
+
+add_dependencies(qmluitests testlistviewwithpageheader)
+add_dependencies(qmluitests testlistviewwithpageheadersection)
