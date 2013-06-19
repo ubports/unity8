@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-08 14:40+0200\n"
+"POT-Creation-Date: 2013-06-19 17:06+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -193,6 +193,19 @@ msgstr ""
 msgid "Author:"
 msgstr ""
 
+#: Greeter/Lockscreen.qml:126
+msgid "Emergency call"
+msgstr ""
+
+#: Greeter/PassphraseLockscreen.qml:59
+#, qt-format
+msgid "Hello %1"
+msgstr ""
+
+#: Greeter/PassphraseLockscreen.qml:59
+msgid "Hello"
+msgstr ""
+
 #: Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
 msgstr ""
@@ -231,4 +244,9 @@ msgstr ""
 
 #: plugins/Unity/lenses.cpp:39
 msgid "Home screen"
+msgstr ""
+
+#: Shell.qml:380
+#, qt-format
+msgid "Please enter %1:"
 msgstr ""
