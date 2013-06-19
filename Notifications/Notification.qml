@@ -147,6 +147,7 @@ UbuntuShape {
                     width: (buttonRow.width - buttonRow.spacing) / 2
                     height: units.gu(4)
                     text: label
+                    property string actionId: id
                     onClicked: notification.notification.invokeAction(id)
                 }
             }
