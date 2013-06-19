@@ -59,7 +59,7 @@ add_qml_test(Greeter Infographics IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} $
 add_qml_test(Hud Hud)
 add_qml_test(Hud Result)
 add_qml_test(Launcher Launcher IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
-add_qml_test(Notifications Notifications)
+add_qml_test(Notifications Notifications IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_CURRENT_SOURCE_DIR}/plugins)
 add_qml_test(Panel IndicatorRow)
 add_qml_test(Panel Indicators)
 add_qml_test(Panel MenuContent)

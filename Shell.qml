@@ -27,6 +27,8 @@ import "Components"
 import "Components/Math.js" as MathLocal
 import "Bottombar"
 import "SideStage"
+import "Notifications"
+import Unity.Notifications 1.0 as NotificationBackend
 
 FocusScope {
     id: shell
@@ -169,6 +171,18 @@ FocusScope {
             // FIXME: only necessary because stagesRevealer.animatedProgress and
             // greeterRevealer.animatedProgress are not animated
             Behavior on disappearingAnimationProgress { SmoothedAnimation { velocity: 5 }}
+        }
+
+        Notifications {
+            id: notifications
+
+            model: NotificationBackend.Model
+            anchors {
+                fill: parent
+                leftMargin: units.gu(1)
+                rightMargin: units.gu(1)
+                topMargin: panel.panelHeight + units.gu(1)
+            }
         }
     }
 
