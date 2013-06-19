@@ -28,7 +28,7 @@ import "Components/Math.js" as MathLocal
 import "Bottombar"
 import "SideStage"
 import "Notifications"
-import Unity.Notifications 1.0 as Notifications
+import Unity.Notifications 1.0 as NotificationBackend
 
 FocusScope {
     id: shell
@@ -177,7 +177,7 @@ FocusScope {
         Notifications {
             id: notifications
 
-            model: Notifications.Model
+            model: NotificationBackend.Model
             anchors {
                 fill: parent
                 leftMargin: units.gu(1)
