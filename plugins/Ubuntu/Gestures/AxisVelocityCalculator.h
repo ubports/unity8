@@ -86,6 +86,14 @@ public:
     void setTrackedPosition(qreal value);
 
     /*
+        Inform that trackedPosition remained motionless since the time it was
+        last changed.
+
+        It's the same as calling setTrackedPosition(trackedPosition())
+     */
+    Q_INVOKABLE void updateIdleTime();
+
+    /*
       Calculates the finger velocity, in axis units/millisecond
     */
     Q_INVOKABLE qreal calculate() const;
@@ -105,13 +113,13 @@ public:
     /*
       Maximum number of movement samples stored
     */
-    static const int MAX_SAMPLES = 10;
+    static const int MAX_SAMPLES = 50;
 
     /*
       Age of the oldest sample considered in the velocity calculations, in
       milliseconds, compared to the most recent one.
     */
-    static const int AGE_OLDEST_SAMPLE = 200;
+    static const int AGE_OLDEST_SAMPLE = 100;
 
 Q_SIGNALS:
     void trackedPositionChanged(qreal value);

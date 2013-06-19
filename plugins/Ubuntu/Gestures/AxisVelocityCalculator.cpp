@@ -59,13 +59,17 @@ qreal AxisVelocityCalculator::trackedPosition() const
 
 void AxisVelocityCalculator::setTrackedPosition(qreal newPosition)
 {
-    if (newPosition == m_trackedPosition) {
-        return;
-    }
-
     processMovement(newPosition - m_trackedPosition);
-    m_trackedPosition = newPosition;
-    Q_EMIT trackedPositionChanged(newPosition);
+
+    if (newPosition != m_trackedPosition) {
+        m_trackedPosition = newPosition;
+        Q_EMIT trackedPositionChanged(newPosition);
+    }
+}
+
+void AxisVelocityCalculator::updateIdleTime()
+{
+    processMovement(0);
 }
 
 void AxisVelocityCalculator::processMovement(qreal movement)

@@ -203,7 +203,11 @@ void DirectionalDragArea::touchEvent_absent(QTouchEvent *event)
         m_numSamplesOnLastSpeedCheck = 0;
         m_silenceTime = 0;
         setPreviousPos(m_startPos);
-        setStatus(Undecided);
+
+        if (m_distanceThreshold > 0)
+            setStatus(Undecided);
+        else
+            setStatus(Recognized);
     }
 }
 
