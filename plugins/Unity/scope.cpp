@@ -118,12 +118,23 @@ void Scope::setNoResultsHint(const QString& hint) {
     }
 }
 
-void Scope::activate(const QString& /*uri*/)
+void Scope::activate(const QVariant &uri, const QVariant &icon_hint, const QVariant &category,
+                     const QVariant &result_type, const QVariant &mimetype, const QVariant &title,
+                     const QVariant &comment, const QVariant &dnd_uri, const QVariant &metadata)
 {
-    // TODO:
-    // we need to create unity::dash::LocalResult (see UnityCore/Result.h) and pass it to Activate;
-    // this requires entire row from the model, so we need row index rather than uri.
-    // m_unityScope->Activate(QByteArray::fromPercentEncoding(uri.toUtf8()).constData());
+    unity::dash::LocalResult res;
+    res.uri = uri.toString().toStdString();
+    res.icon_hint = icon_hint.toString().toStdString();
+    res.category_index = category.toUInt();
+    res.result_type = result_type.toUInt();
+    res.mimetype = mimetype.toString().toStdString();
+    res.name = title.toString().toStdString();
+    res.comment = comment.toString().toStdString();
+    res.dnd_uri = dnd_uri.toString().toStdString();
+    
+    //TODO metadata
+
+    m_unityScope->Activate(res);
 }
 
 void Scope::onActivated(unity::dash::LocalResult const& result, unity::dash::ScopeHandledType type, unity::glib::HintsMap const&)
