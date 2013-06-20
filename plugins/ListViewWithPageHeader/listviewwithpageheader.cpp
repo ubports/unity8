@@ -394,10 +394,12 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
         // We will be changing the clip item, need to accomadate for it
         // otherwise we move the firstItem down/up twice (unless the
         // show header animation is running, where we want to keep the viewport stable)
-        if (!m_headerShowAnimation->isRunning())
+        if (!m_headerShowAnimation->isRunning()) {
             diff += oldHeaderItemShownHeight - m_headerItemShownHeight;
-        else
+        } else {
             diff = -diff;
+            m_contentHeightDirty = true;
+        }
     }
     if (!m_visibleItems.isEmpty()) {
         updateClipItem();

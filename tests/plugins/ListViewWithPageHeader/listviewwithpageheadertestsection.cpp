@@ -1667,6 +1667,16 @@ private Q_SLOTS:
         QVERIFY(QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
     }
 
+    void testShowHeaderAtBottom()
+    {
+        scrollToBottom();
+
+        lvwph->showHeader();
+
+        QTRY_VERIFY(!lvwph->m_headerShowAnimation->isRunning());
+        QVERIFY (lvwph->isAtYEnd());
+    }
+
 private:
     QQuickView *view;
     ListViewWithPageHeader *lvwph;

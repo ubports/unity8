@@ -1446,6 +1446,16 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
     }
 
+    void testShowHeaderAtBottom()
+    {
+        scrollToBottom();
+
+        lvwph->showHeader();
+
+        QTRY_VERIFY(!lvwph->m_headerShowAnimation->isRunning());
+        QVERIFY (lvwph->isAtYEnd());
+    }
+
 private:
     QQuickView *view;
     ListViewWithPageHeader *lvwph;
