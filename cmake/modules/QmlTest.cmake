@@ -9,6 +9,10 @@
 # IMPORT_PATHS will pass those paths to qmltestrunner as "-import" arguments
 # PROPERTIES will be set on the target and test target. See CMake's set_target_properties()
 #
+# Two targets will be created:
+#   - testComponentName - Runs the test with qmltestrunner
+#   - tryComponentName - Runs the test with uqmlscene, for manual interaction
+#
 # To change/set a default value for the whole test suite, prior to calling add_qml_test, set:
 # qmltest_DEFAULT_NO_ADD_TEST (default: FALSE)
 # qmltest_DEFAULT_TARGETS
@@ -20,6 +24,39 @@ find_program(qmltestrunner_exe qmltestrunner)
 if(NOT qmltestrunner_exe)
   msg(FATAL_ERROR "Could not locate qmltestrunner.")
 endif()
+
+set(qmlscene_exe ${CMAKE_BINARY_DIR}/tests/uqmlscene/uqmlscene)
+
+macro(add_manual_qml_test SUBPATH COMPONENT_NAME)
+    set(options NO_ADD_TEST NO_TARGETS)
+    set(multi_value_keywords IMPORT_PATHS TARGETS PROPERTIES ENVIRONMENT)
+
+    cmake_parse_arguments(qmltest "${options}" "" "${multi_value_keywords}" ${ARGN})
+
+    set(qmlscene_TARGET try${COMPONENT_NAME})
+    set(qmltest_FILE ${SUBPATH}/tst_${COMPONENT_NAME})
+
+    set(qmlscene_imports "")
+    if(NOT "${qmltest_IMPORT_PATHS}" STREQUAL "")
+        foreach(IMPORT_PATH ${qmltest_IMPORT_PATHS})
+            list(APPEND qmlscene_imports "-I")
+            list(APPEND qmlscene_imports ${IMPORT_PATH})
+        endforeach(IMPORT_PATH)
+    elseif(NOT "${qmltest_DEFAULT_IMPORT_PATHS}" STREQUAL "")
+        foreach(IMPORT_PATH ${qmltest_DEFAULT_IMPORT_PATHS})
+            list(APPEND qmlscene_imports "-I")
+            list(APPEND qmlscene_imports ${IMPORT_PATH})
+        endforeach(IMPORT_PATH)
+    endif()
+
+    set(qmlscene_command
+        env ${qmltest_ENVIRONMENT}
+        ${qmlscene_exe} ${CMAKE_CURRENT_SOURCE_DIR}/${qmltest_FILE}.qml
+            ${qmlscene_imports}
+    )
+    add_custom_target(${qmlscene_TARGET} ${qmlscene_command})
+
+endmacro(add_manual_qml_test)
 
 macro(add_qml_test SUBPATH COMPONENT_NAME)
     set(options NO_ADD_TEST NO_TARGETS)
@@ -50,7 +87,6 @@ macro(add_qml_test SUBPATH COMPONENT_NAME)
             -o ${CMAKE_BINARY_DIR}/${qmltest_TARGET}.xml,xunitxml
             -o -,txt
     )
-
     add_custom_target(${qmltest_TARGET} ${qmltest_command})
 
     if(NOT "${qmltest_PROPERTIES}" STREQUAL "")
@@ -80,4 +116,6 @@ macro(add_qml_test SUBPATH COMPONENT_NAME)
             endforeach(TARGET)
         endif()
     endif("${qmltest_NO_TARGETS}" STREQUAL "FALSE")
+
+    add_manual_qml_test(${SUBPATH} ${COMPONENT_NAME} ${ARGN})
 endmacro(add_qml_test)

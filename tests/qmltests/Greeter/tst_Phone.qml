@@ -46,17 +46,22 @@ Item {
             compare(greeter.narrowMode, true)
         }
 
-        function test_teasingArea() {
-            tryCompare(greeter, "leftTeaserPressed", false)
-            mousePress(greeter, units.gu(2), greeter.height - units.gu(1))
-            tryCompare(greeter, "leftTeaserPressed", true)
-            mouseRelease(greeter, units.gu(2), greeter.height - units.gu(1))
-            tryCompare(greeter, "leftTeaserPressed", false)
+        function test_teasingArea_data() {
+            return [
+                {tag: "left", posX: units.gu(2), leftPressed: true, rightPressed: false},
+                {tag: "right", posX: greeter.width - units.gu(2), leftPressed: false, rightPressed: true}
+            ]
+        }
 
-            mousePress(greeter, greeter.width - units.gu(2), greeter.height - units.gu(1))
+        function test_teasingArea(data) {
             tryCompare(greeter, "leftTeaserPressed", false)
-            mouseRelease(greeter, units.gu(2), greeter.height - units.gu(1))
+            tryCompare(greeter, "rightTeaserPressed", false)
+            mousePress(greeter, data.posX, greeter.height - units.gu(1))
+            tryCompare(greeter, "leftTeaserPressed", data.leftPressed)
+            tryCompare(greeter, "rightTeaserPressed", data.rightPressed)
+            mouseRelease(greeter, data.posX, greeter.height - units.gu(1))
             tryCompare(greeter, "leftTeaserPressed", false)
+            tryCompare(greeter, "rightTeaserPressed", false)
         }
     }
 }

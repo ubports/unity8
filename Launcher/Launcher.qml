@@ -184,7 +184,7 @@ Item {
     DirectionalDragArea {
         id: dragArea
 
-        direction: DirectionalDragArea.Rightwards
+        direction: Direction.Rightwards
 
         // values to be tweaked and later removed from here and set in stone as defaults
         // once we are confident it's all good.

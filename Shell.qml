@@ -27,6 +27,8 @@ import "Components"
 import "Components/Math.js" as MathLocal
 import "Bottombar"
 import "SideStage"
+import "Notifications"
+import Unity.Notifications 1.0 as NotificationBackend
 
 FocusScope {
     id: shell
@@ -558,6 +560,33 @@ FocusScope {
                     hud.hide()
                 }
             }
+        }
+
+        Notifications {
+            id: notifications
+
+            model: NotificationBackend.Model
+            anchors {
+                top: parent.top
+                right: parent.right
+                bottom: parent.bottom
+                leftMargin: units.gu(1)
+                rightMargin: units.gu(1)
+                topMargin: panel.panelHeight + units.gu(1)
+            }
+            states: [
+                State {
+                    name: "narrow"
+                    when: overlay.width <= units.gu(60)
+                    AnchorChanges { target: notifications; anchors.left: parent.left }
+                },
+                State {
+                    name: "wide"
+                    when: overlay.width > units.gu(60)
+                    AnchorChanges { target: notifications; anchors.left: undefined }
+                    PropertyChanges { target: notifications; width: units.gu(38) }
+                }
+            ]
         }
     }
 

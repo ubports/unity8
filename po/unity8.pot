@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-14 16:09+0200\n"
+"POT-Creation-Date: 2013-06-19 17:06+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -212,6 +212,11 @@ msgstr ""
 
 #: plugins/Unity/scope.cpp:268
 msgid "Sorry, there is nothing that matches your search."
+msgstr ""
+
+#: Shell.qml:380
+#, qt-format
+msgid "Please enter %1:"
 msgstr ""
 
 #: Shell.qml:380

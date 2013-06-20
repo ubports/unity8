@@ -26,7 +26,7 @@ Item {
 
     property int lineHeight: units.dp(2)
     property int itemSize: units.gu(7)
-    property int iconSize: units.gu(2.5)
+    property int iconSize: units.gu(3.5)
 
     signal itemSelected(int index)
 
@@ -97,14 +97,9 @@ Item {
 
                         Image {
                             anchors.centerIn: parent
-                            /* FIXME: should be 'source: scope.iconHint' but the
-                               scopes do not contain the right icons yet
-                            */
-                            source: "graphics/scopeIcons/%1.png".arg(scope.name)
-                            height: iconSize
-                            width: iconSize
+                            source: scope.iconHint
+                            sourceSize { width: iconSize; height: iconSize }
                             // opacity: index == currentIndex ? 1 : 1 // same opacity for now
-                            smooth: true
                         }
                     }
             }

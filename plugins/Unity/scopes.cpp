@@ -128,7 +128,7 @@ void Scopes::onScopeRemoved(const unity::dash::Scope::Ptr& scope)
 
 void Scopes::onScopesReordered(const unity::dash::Scopes::ScopeList& scopes)
 {
-    // is this QML-friendly? Shall it be more robust (beginMoveRows)?
+    // FIXME Should use beginMoveRows()/endMoveRows() to not recreate the UI for every scope.
     beginResetModel();
 
     // remove existing scopes
