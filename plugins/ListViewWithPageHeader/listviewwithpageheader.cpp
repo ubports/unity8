@@ -830,6 +830,7 @@ void ListViewWithPageHeader::itemGeometryChanged(QQuickItem *item, const QRectF 
                 layout();
             }
         }
+        refill();
         polish();
         m_contentHeightDirty = true;
     }
