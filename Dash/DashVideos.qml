@@ -20,8 +20,8 @@ import "../Components"
 import "../Components/ListItems" as ListItems
 import "Video"
 
-LensView {
-    id: lensView
+ScopeView {
+    id: scopeView
     property alias previewShown: previewLoader.onScreen
 
     property var categoryNames: [
@@ -38,7 +38,7 @@ LensView {
     onMovementStarted: categoryView.showHeader()
 
     Binding {
-        target: lensView.lens
+        target: scopeView.scope
         property: "searchQuery"
         value: pageHeader.searchQuery
     }
@@ -60,7 +60,7 @@ LensView {
 
     function getRenderer(categoryId) {
         switch (categoryId) {
-            case 0: return videosCarousel
+            case 1: return videosCarousel
             default: return videosFilterGrid
         }
     }
@@ -100,7 +100,7 @@ LensView {
     ListViewWithPageHeader {
         id: categoryView
         anchors.fill: parent
-        model: lensView.categories
+        model: scopeView.categories
         clipListView: !previewLoader.onScreen
 
         onAtYEndChanged: if (atYEnd) endReached()
@@ -115,7 +115,7 @@ LensView {
             Loader {
                 id: loader
                 anchors { top: parent.top; left: parent.left; right: parent.right }
-                sourceComponent: lensView.getRenderer(base.categoryId)
+                sourceComponent: scopeView.getRenderer(base.categoryId)
                 onLoaded: {
                     item.model = results
                 }
@@ -127,9 +127,9 @@ LensView {
                         var dataItem;
                         // VideosCarousel and VideosFilterGrid have different
                         // clicked signals, accomodate for that
-                        if (categoryId == 0) {
+                        if (categoryId == 1) {
                             var fileUri = delegateItem.model.column_0.replace(/^[^:]+:/, "")
-                            dataItem = {fileUri: fileUri, nfoUri: delegateItem.model.column_5}
+                            dataItem = {fileUri: fileUri, nfoUri: delegateItem.model.column_6}
                         } else {
                             dataItem = data;
                         }
@@ -154,7 +154,7 @@ LensView {
             width: categoryView.width
             text: i18n.tr("Videos")
             searchEntryEnabled: true
-            searchHistory: lensView.searchHistory
+            searchHistory: scopeView.searchHistory
         }
     }
 

@@ -41,7 +41,7 @@ DirectionalDragArea::DirectionalDragArea(QQuickItem *parent)
     : QQuickItem(parent)
     , m_status(WaitingForTouch)
     , m_touchId(-1)
-    , m_direction(DirectionalDragArea::Rightwards)
+    , m_direction(Direction::Rightwards)
     , m_wideningAngle(0)
     , m_wideningFactor(0)
     , m_distanceThreshold(0)
@@ -58,12 +58,12 @@ DirectionalDragArea::DirectionalDragArea(QQuickItem *parent)
     m_velocityCalculator = new AxisVelocityCalculator(this);
 }
 
-DirectionalDragArea::Direction DirectionalDragArea::direction() const
+Direction::Type DirectionalDragArea::direction() const
 {
     return m_direction;
 }
 
-void DirectionalDragArea::setDirection(DirectionalDragArea::Direction direction)
+void DirectionalDragArea::setDirection(Direction::Type direction)
 {
     if (direction != m_direction) {
         m_direction = direction;
@@ -151,7 +151,7 @@ void DirectionalDragArea::setAxisVelocityCalculator(AxisVelocityCalculator *newV
 
 qreal DirectionalDragArea::distance() const
 {
-    if (directionIsHorizontal()) {
+    if (Direction::isHorizontal(m_direction)) {
         return m_previousPos.x() - m_startPos.x();
     } else {
         return m_previousPos.y() - m_startPos.y();
@@ -286,13 +286,13 @@ bool DirectionalDragArea::pointInsideAllowedArea() const
     qreal dY = m_dampedPos.y() - m_startPos.y();
 
     switch (m_direction) {
-        case Upwards:
+        case Direction::Upwards:
             return dY <= 0 && qFabs(dX) <= qFabs(dY) * m_wideningFactor;
-        case Downwards:
+        case Direction::Downwards:
             return dY >= 0 && qFabs(dX) <= dY * m_wideningFactor;
-        case Leftwards:
+        case Direction::Leftwards:
             return dX <= 0  && qFabs(dY) <= qFabs(dX) * m_wideningFactor;
-        default: // Rightwards:
+        default: // Direction::Rightwards:
             return dX >= 0 && qFabs(dY) <= dX * m_wideningFactor;
     }
 }
@@ -300,20 +300,20 @@ bool DirectionalDragArea::pointInsideAllowedArea() const
 bool DirectionalDragArea::movingInRightDirection() const
 {
     switch (m_direction) {
-        case Upwards:
+        case Direction::Upwards:
             return m_dampedPos.y() <= m_previousDampedPos.y();
-        case Downwards:
+        case Direction::Downwards:
             return m_dampedPos.y() >= m_previousDampedPos.y();
-        case Leftwards:
+        case Direction::Leftwards:
             return m_dampedPos.x() <= m_previousDampedPos.x();
-        default: // Rightwards:
+        default: // Direction::Rightwards:
             return m_dampedPos.x() >= m_previousDampedPos.x();
     }
 }
 
 bool DirectionalDragArea::movedFarEnough(const QPointF &point) const
 {
-    if (directionIsHorizontal())
+    if (Direction::isHorizontal(m_direction))
         return qFabs(point.x() - m_startPos.x()) > m_distanceThreshold;
     else
         return qFabs(point.y() - m_startPos.y()) > m_distanceThreshold;
@@ -386,34 +386,24 @@ void DirectionalDragArea::setPreviousPos(QPointF point)
 
     if (xChanged) {
         Q_EMIT touchXChanged(point.x());
-        if (directionIsHorizontal())
+        if (Direction::isHorizontal(m_direction))
             Q_EMIT distanceChanged(distance());
     }
 
     if (yChanged) {
         Q_EMIT touchYChanged(point.y());
-        if (directionIsVertical())
+        if (Direction::isVertical(m_direction))
             Q_EMIT distanceChanged(distance());
     }
 }
 
 void DirectionalDragArea::updateVelocityCalculator(QPointF point)
 {
-    if (directionIsHorizontal()) {
+    if (Direction::isHorizontal(m_direction)) {
         m_velocityCalculator->setTrackedPosition(point.x());
     } else {
         m_velocityCalculator->setTrackedPosition(point.y());
     }
-}
-
-bool DirectionalDragArea::directionIsHorizontal() const
-{
-    return m_direction == Leftwards || m_direction == Rightwards;
-}
-
-bool DirectionalDragArea::directionIsVertical() const
-{
-    return m_direction == Upwards || m_direction == Downwards;
 }
 
 // Because we are defining a new QObject-based class (RecognitionTimer) here.

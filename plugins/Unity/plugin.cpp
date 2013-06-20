@@ -24,11 +24,10 @@
 #include "plugin.h"
 
 // local
-#include "lens.h"
-#include "lenses.h"
+#include "scope.h"
+#include "scopes.h"
 #include "categories.h"
 #include "categoryfilter.h"
-#include "peoplepreviewdata.h"
 #include "bottombarvisibilitycommunicatorshell.h"
 #include "launchermodel.h"
 
@@ -41,15 +40,11 @@ static const char* DBUS_SERVICE = "com.canonical.Shell.BottomBarVisibilityCommun
 void UnityPlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("Unity"));
-    qmlRegisterType<Lens>(uri, 0, 1, "Lens");
-    qmlRegisterType<Lenses>(uri, 0, 1, "Lenses");
+    qmlRegisterType<Scope>(uri, 0, 1, "Scope");
+    qmlRegisterType<Scopes>(uri, 0, 1, "Scopes");
     qmlRegisterType<Categories>(uri, 0, 1, "Categories");
     qmlRegisterType<CategoryFilter>(uri, 0, 1, "CategoryFilter");
     qmlRegisterType<DeeListModel>(uri, 0, 1, "DeeListModel");
-    qmlRegisterType<PeoplePreviewData>(uri, 0, 1, "PeoplePreviewData");
-    qmlRegisterType<PeoplePhoneData>(uri, 0, 1, "PeoplePhoneData");
-    qmlRegisterType<PeopleAddressData>(uri, 0, 1, "PeopleAddressData");
-    qmlRegisterType<PeopleIMData>(uri, 0, 1, "PeopleIMData");
     qmlRegisterType<LauncherModel>(uri, 0, 1, "LauncherModel");
     qmlRegisterUncreatableType<LauncherItem>(uri, 0, 1, "LauncherItem", "Can't create new Launcher Items in QML. Get them from the LauncherModel.");
     qmlRegisterUncreatableType<BottomBarVisibilityCommunicatorShell>(uri, 0, 1, "BottomBarVisibilityCommunicatorShell", "Can't create BottomBarVisibilityCommunicatorShell");

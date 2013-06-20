@@ -37,14 +37,14 @@ FilterGrid {
         objectName: "delegate" + index
         width: filtergrid.cellWidth
         height: filtergrid.cellHeight
-        text: model.column_4
+        text: model.column_5
         imageWidth: filtergrid.iconWidth
         imageHeight: filtergrid.iconHeight
         source: model.column_1
         fillMode: Image.PreserveAspectCrop
         onClicked: {
             var fileUri = model.column_0.replace(/^[^:]+:/, "")
-            var data = {fileUri: fileUri, nfoUri: model.column_5}
+            var data = {fileUri: fileUri, nfoUri: model.column_6}
             filtergrid.clicked(index, data, tile.y);
         }
     }
