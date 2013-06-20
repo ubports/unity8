@@ -47,6 +47,7 @@ void CombinedFilterOptions::initList(const std::vector<unity::dash::FilterOption
                                      sigc::signal<void, unity::dash::FilterOption::Ptr> itemAddedSignal,
                                      sigc::signal<void, unity::dash::FilterOption::Ptr> itemRemovedSignal)
 {
+    // combine options, e.g. A, B, C becomes A-B, B-C, C
     unsigned int i = 0;
     while (i < list.size()) {
         unity::dash::FilterOption::Ptr option1 = list[i];
@@ -54,15 +55,34 @@ void CombinedFilterOptions::initList(const std::vector<unity::dash::FilterOption
         if (i < list.size()-1) {
             option2 = list[i+1];
         }
-        auto co = new CombinedFilterOption(option1, option2);
+        auto co = new CombinedFilterOption(option1);
+        connect(co, SIGNAL(activeChanged(bool)), this, SLOT(onActiveChanged(bool)));
+        addOption(co);
         ++i;
     }
     if (list.size() > 1) {
-        auto co = new CombinedFilterOption(list[i], NULL);
+        auto co = new CombinedFilterOption(list[i-1], NULL);
+        addOption(co);
     }
         
     itemAddedSignal.connect(sigc::mem_fun(this, &CombinedFilterOptions::onItemAdded));
     itemRemovedSignal.connect(sigc::mem_fun(this, &CombinedFilterOptions::onItemRemoved));
+}
+
+void CombinedFilterOptions::addOption(CombinedFilterOption *option)
+{
+    int index = m_list.count();
+    beginInsertRows(QModelIndex(), index, index);
+    m_list.insert(index, option);
+    endInsertRows();
+}
+
+void CombinedFilterOptions::onActiveChanged(bool state)
+{
+    CombinedFilterOption *option = dynamic_cast<CombinedFilterOption*>(QObject::sender());
+    if (option) {
+        //TODO: de-activate all others?
+    }
 }
 
 void CombinedFilterOptions::onItemAdded(unity::dash::FilterOption::Ptr item)

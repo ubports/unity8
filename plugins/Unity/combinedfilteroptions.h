@@ -41,10 +41,14 @@ public:
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 
+private Q_SLOTS:
+    void onActiveChanged(bool state);
+
 private:
     void initList(const std::vector<unity::dash::FilterOption::Ptr>& list,
                                          sigc::signal<void, unity::dash::FilterOption::Ptr> itemAddedSignal,
                                          sigc::signal<void, unity::dash::FilterOption::Ptr> itemRemovedSignal);
+    void addOption(CombinedFilterOption *option);
     void onItemAdded(unity::dash::FilterOption::Ptr item);
     void onItemRemoved(unity::dash::FilterOption::Ptr item);
 

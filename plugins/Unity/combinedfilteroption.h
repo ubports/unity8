@@ -29,7 +29,7 @@
 class CombinedFilterOption : public AbstractFilterOption
 {
 public:
-    explicit CombinedFilterOption(unity::dash::FilterOption::Ptr unityFilterOption1, unity::dash::FilterOption::Ptr unityFilterOption2, QObject *parent = 0);
+    explicit CombinedFilterOption(unity::dash::FilterOption::Ptr unityFilterOption1, unity::dash::FilterOption::Ptr unityFilterOption2 = NULL, QObject *parent = 0);
 
     /* getters */
     QString id() const override;
@@ -49,7 +49,7 @@ private:
     std::string getCombinedName() const;
     void setUnityFilterOption(unity::dash::FilterOption::Ptr unityFilterOption1, unity::dash::FilterOption::Ptr unityFilterOption2 = NULL);
 
-    bool m_active;
+    bool m_active; //not needed???
     unity::dash::FilterOption::Ptr m_unityFilterOption[2];
 };
 

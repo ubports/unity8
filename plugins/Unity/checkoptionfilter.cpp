@@ -48,10 +48,32 @@ void CheckOptionFilter::onOptionsChanged(unity::dash::CheckOptionFilter::CheckOp
     m_options = new FilterOptions(m_unityCheckOptionFilter->options,
                                   m_unityCheckOptionFilter->option_added,
                                   m_unityCheckOptionFilter->option_removed);
+
+    Q_FOREACH(FilterOption* option, m_options->rawList()) {
+        connect(option, SIGNAL(activeChanged(bool)), this, SLOT(onActiveChanged(bool)));
+    }
+
     /* Property change signals */
     m_unityCheckOptionFilter->options.changed.connect(sigc::mem_fun(this, &CheckOptionFilter::onOptionsChanged));
 
     Q_EMIT optionsChanged();
+}
+
+void CheckOptionFilter::onActiveChanged(bool state)
+{
+    if (state == false)
+        return;
+
+    FilterOption *selected_option = dynamic_cast<FilterOption*>(QObject::sender());
+    if (selected_option) {
+        Q_FOREACH(FilterOption* option, m_options->rawList()) {
+            if (option != selected_option && option->active()) {
+                option->setActive(false);
+                // we know only one option can be selected, so break immediately
+                break;
+            }
+        }
+    }
 }
 
 #include "checkoptionfilter.moc"

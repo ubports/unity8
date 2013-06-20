@@ -53,6 +53,7 @@ private:
     unity::dash::CheckOptionFilter::Ptr m_unityCheckOptionFilter;
     FilterOptions* m_options;
 
+    void onActiveChanged(bool state);
     void onOptionsChanged(unity::dash::CheckOptionFilter::CheckOptions);
 };
 

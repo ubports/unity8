@@ -29,7 +29,9 @@ CombinedFilterOption::CombinedFilterOption(unity::dash::FilterOption::Ptr unityF
 
 std::string CombinedFilterOption::getCombinedId() const
 {
-    return m_unityFilterOption[0]->id() + "-" + m_unityFilterOption[1]->id();
+    if (m_unityFilterOption[1] != NULL)
+        return m_unityFilterOption[0]->id() + "-" + m_unityFilterOption[1]->id();
+    return m_unityFilterOption[0]->id();
 }
 
 std::string CombinedFilterOption::getCombinedName() const
@@ -51,17 +53,19 @@ QString CombinedFilterOption::name() const
 
 QString CombinedFilterOption::iconHint() const
 {
-    return "";
+    return QString::fromStdString(m_unityFilterOption[0]->icon_hint());
 }
 
 bool CombinedFilterOption::active() const
 {
-    return m_unityFilterOption[0]->active && m_unityFilterOption[1]->active;
+    if (m_unityFilterOption[1] != NULL)
+        return m_unityFilterOption[0]->active && m_unityFilterOption[1]->active;
+    return m_unityFilterOption[0]->active;
 }
 
 void CombinedFilterOption::setActive(bool active)
 {
-    m_active = active;
+    m_active = active; //???
     m_unityFilterOption[0]->active;
     if (m_unityFilterOption[1] != NULL)
         m_unityFilterOption[1]->active = active;
@@ -93,6 +97,6 @@ void CombinedFilterOption::setUnityFilterOption(unity::dash::FilterOption::Ptr u
         m_unityFilterOption[i]->id.changed.connect(sigc::mem_fun(this, &CombinedFilterOption::onIdChanged));
         m_unityFilterOption[i]->name.changed.connect(sigc::mem_fun(this, &CombinedFilterOption::nameChanged));
         m_unityFilterOption[i]->icon_hint.changed.connect(sigc::mem_fun(this, &CombinedFilterOption::iconHintChanged));
-        m_unityFilterOption[i]->active.changed.connect(sigc::mem_fun(this, &CombinedFilterOption::activeChanged));
+        m_unityFilterOption[i]->active.changed.connect(sigc::mem_fun(this, &CombinedFilterOption::onActiveChanged));
     }
 }
