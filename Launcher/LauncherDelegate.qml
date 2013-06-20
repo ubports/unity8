@@ -237,7 +237,7 @@ Item {
                 brightness: {
                     if (index == 0 || index == iconRepeater.count-1) {
                         if (priv.distanceFromEdge < 0) {
-                            return -(-priv.distanceFromEdge / (priv.totalUnfoldedHeight * 2))
+                            return -(-priv.distanceFromEdge / (priv.foldingAreaHeight * 3))
                         }
                         return 0;
                     }
