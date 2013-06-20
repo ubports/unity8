@@ -7,59 +7,59 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-06-08 14:40+0200\n"
-"PO-Revision-Date: 2013-06-05 22:20+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-06-19 17:06+0200\n"
+"PO-Revision-Date: 2013-06-14 21:09+0000\n"
+"Last-Translator: Ibrahim Saed <ibraheem5000@gmail.com>\n"
 "Language-Team: Arabic <ar@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-11 06:34+0000\n"
-"X-Generator: Launchpad (build 16667)\n"
+"X-Launchpad-Export-Date: 2013-06-20 06:36+0000\n"
+"X-Generator: Launchpad (build 16673)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
-msgstr ""
+msgstr "الهاتف"
 
 #: Applications/applications.js:29
 msgid "Camera"
-msgstr ""
+msgstr "الكاميرا"
 
 #: Applications/applications.js:35
 msgid "Gallery"
-msgstr ""
+msgstr "المعرض"
 
 #: Applications/applications.js:40
 msgid "Facebook"
-msgstr ""
+msgstr "فيسبوك"
 
 #: Applications/applications.js:46
 msgid "Browser"
-msgstr ""
+msgstr "المتصفح"
 
 #: Applications/applications.js:51
 msgid "Twitter"
-msgstr ""
+msgstr "تويتر"
 
 #: Applications/applications.js:57
 msgid "GMail"
-msgstr ""
+msgstr "جي ميل"
 
 #: Applications/applications.js:62
 msgid "Weather"
-msgstr ""
+msgstr "الطقس"
 
 #: Applications/applications.js:68
 msgid "Notepad"
-msgstr ""
+msgstr "المذكرة"
 
 #: Applications/applications.js:74
 msgid "Calendar"
-msgstr ""
+msgstr "التقويم"
 
 #: Applications/applications.js:80
 msgid "Media Player"
-msgstr ""
+msgstr "مشغّل الوسائط"
 
 #: Applications/applications.js:86
 msgid "Evernote"
@@ -67,7 +67,7 @@ msgstr ""
 
 #: Applications/applications.js:91
 msgid "Map"
-msgstr ""
+msgstr "الخريطة"
 
 #: Applications/applications.js:96
 msgid "Pinterest"
@@ -79,11 +79,11 @@ msgstr ""
 
 #: Applications/applications.js:106
 msgid "Wikipedia"
-msgstr ""
+msgstr "ويكيبيديا"
 
 #: Applications/applications.js:111
 msgid "YouTube"
-msgstr ""
+msgstr "يوتيوب"
 
 #: Components/PageHeader.qml:300
 msgid "Recent searches"
@@ -135,15 +135,15 @@ msgstr "الرئيسية"
 
 #: Dash/DashMusic.qml:27 Dash/DashVideos.qml:28
 msgid "Featured"
-msgstr ""
+msgstr "المميز"
 
 #: Dash/DashMusic.qml:28 Dash/DashVideos.qml:29
 msgid "Recent"
-msgstr ""
+msgstr "الحديث"
 
 #: Dash/DashMusic.qml:29 Dash/DashVideos.qml:30
 msgid "New Releases"
-msgstr ""
+msgstr "الإصدارات الجديدة"
 
 #: Dash/DashMusic.qml:30
 msgid "Top Charting"
@@ -155,19 +155,19 @@ msgstr "موسيقى"
 
 #: Dash/DashPeople.qml:31
 msgid "Favourites"
-msgstr ""
+msgstr "المفضلات"
 
 #: Dash/DashPeople.qml:32
 msgid "Recently in touch"
-msgstr ""
+msgstr "على اتصال موخرا"
 
 #: Dash/DashPeople.qml:33
 msgid "New Contacts"
-msgstr ""
+msgstr "أشخاص جدد"
 
 #: Dash/DashPeople.qml:34
 msgid "A-Z"
-msgstr ""
+msgstr "A-Z"
 
 #: Dash/DashPeople.qml:123
 msgid "People"
@@ -175,7 +175,7 @@ msgstr "أشخاص"
 
 #: Dash/DashVideos.qml:31
 msgid "Popular Online"
-msgstr ""
+msgstr "الشائع على الإنترنت"
 
 #: Dash/DashVideos.qml:155
 msgid "Videos"
@@ -183,14 +183,27 @@ msgstr "فيديوهات"
 
 #: Dash/Video/VideoPreview.qml:98
 msgid "Directed by:"
-msgstr ""
+msgstr "أخرجه:"
 
 #: Dash/Video/VideoPreview.qml:121
 msgid "Starring:"
-msgstr ""
+msgstr "النجوم:"
 
 #: Dash/Video/VideoPreview.qml:144
 msgid "Author:"
+msgstr "المؤلف:"
+
+#: Greeter/Lockscreen.qml:126
+msgid "Emergency call"
+msgstr ""
+
+#: Greeter/PassphraseLockscreen.qml:59
+#, qt-format
+msgid "Hello %1"
+msgstr ""
+
+#: Greeter/PassphraseLockscreen.qml:59
+msgid "Hello"
 msgstr ""
 
 #: Hud/HudParametrizedActionsPage.qml:132
@@ -232,3 +245,8 @@ msgstr "عذراً، لا يوجد ما يطابق بحثك."
 #: plugins/Unity/lenses.cpp:39
 msgid "Home screen"
 msgstr "الشاشة الرئيسية"
+
+#: Shell.qml:380
+#, qt-format
+msgid "Please enter %1:"
+msgstr ""

@@ -20,8 +20,8 @@ import "../Components"
 import "../Components/ListItems" as ListItems
 import "Music"
 
-LensView {
-    id: lensView
+ScopeView {
+    id: scopeView
 
     property var categoryNames: [
         i18n.tr("Featured"),
@@ -37,7 +37,7 @@ LensView {
     onMovementStarted: categoryView.showHeader()
 
     Binding {
-        target: lensView.lens
+        target: scopeView.scope
         property: "searchQuery"
         value: pageHeader.searchQuery
     }
@@ -59,7 +59,7 @@ LensView {
 
     function getRenderer(categoryId) {
         switch (categoryId) {
-            case 0: return musicCarousel
+            case 1: return musicCarousel
             default: return musicFilterGrid
         }
     }
@@ -67,7 +67,7 @@ LensView {
     ListViewWithPageHeader {
         id: categoryView
         anchors.fill: parent
-        model: lensView.categories
+        model: scopeView.categories
 
         onAtYEndChanged: if (atYEnd) endReached()
         onMovingChanged: if (moving && atYEnd) endReached()
@@ -80,7 +80,7 @@ LensView {
 
             Loader {
                 anchors { top: parent.top; left: parent.left; right: parent.right }
-                sourceComponent: lensView.getRenderer(base.categoryId)
+                sourceComponent: scopeView.getRenderer(base.categoryId)
                 onLoaded: {
                     item.model = results
                 }
@@ -98,7 +98,7 @@ LensView {
             width: categoryView.width
             text: i18n.tr("Music")
             searchEntryEnabled: true
-            searchHistory: lensView.searchHistory
+            searchHistory: scopeView.searchHistory
         }
     }
 }

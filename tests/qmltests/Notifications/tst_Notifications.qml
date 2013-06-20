@@ -20,17 +20,34 @@ import ".."
 import "../../../Notifications"
 import Ubuntu.Components 0.1
 import Unity.Test 0.1
+import Unity.Notifications 1.0
 
 Row {
     id: rootRow
 
+    Component {
+        id: mockNotification
+
+        QtObject {
+            function invokeAction(actionId) {
+                mockModel.actionInvoked(actionId)
+            }
+        }
+    }
+
     ListModel {
         id: mockModel
+
+        signal actionInvoked(string actionId)
+
+        function getRaw(id) {
+            return mockNotification.createObject(mockModel)
+        }
     }
 
     function addSnapDecisionNotification() {
         var n = {
-            type: "Notifications.Type.SnapDecision",
+            type: Notification.SnapDecision,
             summary: "Tom Ato",
             body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
             icon: "../graphics/avatars/funky.png",
@@ -44,7 +61,7 @@ Row {
 
     function addEphemeralNotification() {
         var n = {
-            type: "Notifications.Type.Ephemeral",
+            type: Notification.Ephemeral,
             summary: "Cole Raby",
             body: "I did not expect it to be that late.",
             icon: "../graphics/avatars/amanda.png",
@@ -57,7 +74,7 @@ Row {
 
     function addEphemeralIconSummaryNotification() {
         var n = {
-            type: "Notifications.Type.Ephemeral",
+            type: Notification.Ephemeral,
             summary: "Photo upload completed",
             body: "",
             icon: "",
@@ -70,7 +87,7 @@ Row {
 
     function addInteractiveNotification() {
         var n = {
-            type: "Notifications.Type.Interactive",
+            type: Notification.Interactive,
             summary: "Interactive notification",
             body: "This is a notification that can be clicked",
             icon: "../graphics/avatars/anna_olsson.png",
@@ -170,7 +187,7 @@ Row {
             return [
             {
                 tag: "Snap Decision with secondary icon",
-                type: "Notifications.Type.SnapDecision",
+                type: Notification.SnapDecision,
                 summary: "Tom Ato",
                 body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
                 icon: "../graphics/avatars/funky.png",
@@ -186,7 +203,7 @@ Row {
             },
             {
                 tag: "Ephemeral notification - icon-summary layout",
-                type: "Notifications.Type.Ephemeral",
+                type: Notification.Ephemeral,
                 summary: "Photo upload completed",
                 body: "",
                 icon: "",
@@ -201,7 +218,7 @@ Row {
             },
             {
                 tag: "Ephemeral notification - check suppression of secondary icon for icon-summary layout",
-                type: "Notifications.Type.Ephemeral",
+                type: Notification.Ephemeral,
                 summary: "New comment successfully published",
                 body: "",
                 icon: "",
@@ -216,7 +233,7 @@ Row {
             },
             {
                 tag: "Interactive notification",
-                type: "Notifications.Type.Interactive",
+                type: Notification.Interactive,
                 summary: "Interactive notification",
                 body: "This is a notification that can be clicked",
                 icon: "../graphics/avatars/amanda.png",
@@ -231,7 +248,7 @@ Row {
             },
             {
                 tag: "Snap Decision without secondary icon",
-                type: "Notifications.Type.SnapDecision",
+                type: Notification.SnapDecision,
                 summary: "Bro Coly",
                 body: "At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
                 icon: "../graphics/avatars/anna_olsson.png",
@@ -247,7 +264,7 @@ Row {
             },
             {
                 tag: "Ephemeral notification",
-                type: "Notifications.Type.Ephemeral",
+                type: Notification.Ephemeral,
                 summary: "Cole Raby",
                 body: "I did not expect it to be that late.",
                 icon: "../graphics/avatars/funky.png",
@@ -272,6 +289,8 @@ Row {
 
         SignalSpy {
             id: actionSpy
+
+            target: mockModel
             signalName: "actionInvoked"
         }
 
@@ -303,7 +322,6 @@ Row {
             compare(interactiveArea.enabled, data.interactiveAreaEnabled, "check for interactive area")
 
             if(data.interactiveAreaEnabled) {
-                actionSpy.target = notification
                 mouseClick(notification, notification.width / 2, notification.height / 2)
                 actionSpy.wait()
                 compare(actionSpy.signalArguments[0][0], data.actions[0]["id"], "got wrong id for interactive action")
@@ -323,7 +341,6 @@ Row {
                 var buttonAccept = findChild(buttonRow, "button0")
 
                 waitForRendering(notification)
-                actionSpy.target = notification
                 mouseClick(buttonCancel, buttonCancel.width / 2, buttonCancel.height / 2)
                 actionSpy.wait()
                 compare(actionSpy.signalArguments[0][0], data.actions[1]["id"], "got wrong id for negative action")
@@ -332,6 +349,7 @@ Row {
                 mouseClick(buttonAccept, buttonAccept.width / 2, buttonAccept.height / 2)
                 actionSpy.wait()
                 compare(actionSpy.signalArguments[0][0], data.actions[0]["id"], "got wrong id positive action")
+                actionSpy.clear()
             }
         }
     }

@@ -21,6 +21,7 @@
 #include "AxisVelocityCalculator.h"
 #include "UbuntuGesturesGlobal.h"
 #include "Damper.h"
+#include "Direction.h"
 
 namespace UbuntuGestures {
 /* Defines an interface for a Timer. */
@@ -53,7 +54,7 @@ class UBUNTUGESTURES_EXPORT DirectionalDragArea : public QQuickItem {
     Q_OBJECT
 
     // The direction in which the gesture should move in order to be recognized.
-    Q_PROPERTY(Direction direction READ direction WRITE setDirection NOTIFY directionChanged)
+    Q_PROPERTY(Direction::Type direction READ direction WRITE setDirection NOTIFY directionChanged)
 
     // The distance travelled by the finger along the axis specified by
     // DirectionalDragArea's direction.
@@ -116,12 +117,8 @@ class UBUNTUGESTURES_EXPORT DirectionalDragArea : public QQuickItem {
 public:
     DirectionalDragArea(QQuickItem *parent = 0);
 
-    enum Direction { Rightwards, // Along the positive direction of the X axis
-                     Leftwards, // Along the negative direction of the X axis
-                     Downwards, // Along the positive direction of the Y axis
-                     Upwards }; // Along the negative direction of the Y axis
-    Direction direction() const;
-    void setDirection(Direction);
+    Direction::Type direction() const;
+    void setDirection(Direction::Type);
 
     // Describes the state of the directional drag gesture.
     enum Status {
@@ -179,7 +176,7 @@ public:
     void setAxisVelocityCalculator(AxisVelocityCalculator *velCalc);
 
 Q_SIGNALS:
-    void directionChanged(Direction direction);
+    void directionChanged(Direction::Type direction);
     void statusChanged(Status value);
     void draggingChanged(bool value);
     void distanceChanged(qreal value);
@@ -210,10 +207,6 @@ private:
     void setPreviousPos(QPointF point);
     void updateVelocityCalculator(QPointF point);
 
-    // convenience functions
-    bool directionIsHorizontal() const;
-    bool directionIsVertical() const;
-
     Status m_status;
 
     QPointF m_startPos;
@@ -225,7 +218,7 @@ private:
     DampedPointF m_dampedPos;
     QPointF m_previousDampedPos;
 
-    Direction m_direction;
+    Direction::Type m_direction;
     qreal m_wideningAngle; // in degrees
     qreal m_wideningFactor; // it's tan(degreesToRadian(m_wideningAngle))
     qreal m_distanceThreshold;

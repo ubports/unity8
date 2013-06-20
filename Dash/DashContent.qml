@@ -24,34 +24,34 @@ Item {
     height: units.gu(71)
 
     property var model: null
-    property var lenses: null
+    property var scopes: null
     property real contentProgress: Math.max(0, Math.min(dashContentList.contentX / (dashContentList.contentWidth - dashContentList.width), units.dp(1)))
     property alias currentIndex: dashContentList.currentIndex
 
-    property LensDelegateMapper lensMapper : LensDelegateMapper {}
+    property ScopeDelegateMapper scopeMapper : ScopeDelegateMapper {}
 
     signal movementStarted()
     signal movementEnded()
     signal contentFlickStarted()
     signal contentEndReached()
     signal previewShown()
-    signal lensLoaded(string lensId)
+    signal scopeLoaded(string scopeId)
     signal positionedAtBeginning()
 
-    // If we set the current lens index before the lenses have been added,
-    // then we need to wait until the loaded signals gets emitted from the lenses
+    // If we set the current scope index before the scopes have been added,
+    // then we need to wait until the loaded signals gets emitted from the scopes
     property var set_current_index: undefined
     Connections {
-        target: lenses
+        target: scopes
         onLoadedChanged: {
-            if (lenses.loaded && set_current_index != undefined) {
-                setCurrentLensAtIndex(set_current_index[0], set_current_index[1], set_current_index[2]);
+            if (scopes.loaded && set_current_index != undefined) {
+                setCurrentScopeAtIndex(set_current_index[0], set_current_index[1], set_current_index[2]);
                 set_current_index = undefined;
             }
         }
     }
 
-    function setCurrentLensAtIndex(index, animate, reset) {
+    function setCurrentScopeAtIndex(index, animate, reset) {
         var storedMoveDuration = dashContentList.highlightMoveDuration
         var storedMoveSpeed = dashContentList.highlightMoveVelocity
         if (!animate) {
@@ -59,8 +59,8 @@ Item {
             dashContentList.highlightMoveDuration = 0
         }
 
-        // if the lenses haven't loaded yet, then wait until they are.
-        if (!lenses.loaded) {
+        // if the scopes haven't loaded yet, then wait until they are.
+        if (!scopes.loaded) {
             set_current_index = [ index, animate, reset ]
             return;
         }
@@ -85,7 +85,7 @@ Item {
         id: dashContentList
         objectName: "dashContentList"
 
-        interactive: dashContent.lenses.loaded
+        interactive: dashContent.scopes.loaded
 
         anchors.fill: parent
         model: dashContent.model
@@ -97,7 +97,7 @@ Item {
         highlightMoveDuration: 250
         highlightRangeMode: ListView.StrictlyEnforceRange
         /* FIXME: workaround rendering issue due to use of ShaderEffectSource in
-           UbuntuShape. While switching from the home lens to the People lens the
+           UbuntuShape. While switching from the home scope to the People scope the
            rendering would block midway.
         */
         cacheBuffer: 2147483647
@@ -107,7 +107,7 @@ Item {
         // If the number of items is less than the current index, then need to reset to another item.
         onCountChanged: {
             if (currentIndex >= count)
-                dashContent.setCurrentLensAtIndex(count-1, true, true)
+                dashContent.setCurrentScopeAtIndex(count-1, true, true)
         }
 
         delegate:
@@ -115,14 +115,15 @@ Item {
                 width: ListView.view.width
                 height: ListView.view.height
                 asynchronous: true
-                source: lensMapper.map(lens.id)
+                source: scopeMapper.map(scope.id)
+
                 onLoaded: {
-                    item.lens = Qt.binding(function() { return lens })
+                    item.scope = Qt.binding(function() { return scope })
                     item.isCurrent = Qt.binding(function() { return ListView.isCurrentItem })
                     item.searchHistory = Qt.binding(function() { return shell.searchHistory })
                     dashContentList.movementStarted.connect(item.movementStarted)
                     dashContent.positionedAtBeginning.connect(item.positionedAtBeginning)
-                    dashContent.lensLoaded(item.lens.id)
+                    dashContent.scopeLoaded(item.scope.id)
                 }
                 Connections {
                     target: item

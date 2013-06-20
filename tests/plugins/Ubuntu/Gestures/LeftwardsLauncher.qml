@@ -54,7 +54,7 @@ Item {
 
         width: units.gu(5)
 
-        direction: DirectionalDragArea.Leftwards
+        direction: Direction.Leftwards
         maxDeviation: units.gu(2)
         wideningAngle: 10
         distanceThreshold: units.gu(4)

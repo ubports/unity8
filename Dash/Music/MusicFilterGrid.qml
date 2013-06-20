@@ -38,8 +38,8 @@ FilterGrid {
         height: filterGrid.cellHeight
         iconWidth: filterGrid.iconWidth
         iconHeight: filterGrid.iconHeight
-        artist: model.column_4
-        album: model.column_5
+        artist: model.column_5
+        album: model.column_6
         source: model.column_1
         onClicked: {
             filterGrid.clicked(index);
