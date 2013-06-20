@@ -34,12 +34,12 @@ Item {
             right: parent.right
             bottom: parent.bottom
         }
-        model: lenses
+        model: scopes
         onItemSelected: currentIndex = index
     }
 
-    Lenses {
-        id: lenses
+    Scopes {
+        id: scopes
     }
 
     SignalSpy {
@@ -50,7 +50,7 @@ Item {
 
     UT.UnityTestCase {
         name: "DashBar"
-        when: lenses.loaded
+        when: scopes.loaded
 
         property alias model: dashBar.model
         property alias currentIndex: dashBar.currentIndex

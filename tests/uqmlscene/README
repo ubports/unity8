@@ -1,0 +1,1 @@
+Qt's qmlscene tool modified to use MouseTouchAdaptor. That way we can interact with touch-only components

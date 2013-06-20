@@ -14,7 +14,7 @@ Build-Depends: cmake,
                libnm-util-dev,
                libpulse-dev,
                libqmenumodel-dev,
-               libunity-core-6.0-dev,
+               libunity-core-6.0-dev (<< 7.80),
                libxcb1-dev,
                pkg-config,
                python3,
@@ -43,10 +43,14 @@ Architecture: amd64 armhf i386
 Depends: qmenumodel-qml,
          qtdeclarative5-dee-plugin,
          qtdeclarative5-ubuntu-ui-toolkit-plugin,
+         qtdeclarative5-unity-notifications-plugin | unity-notifications-impl,
+         unity-notifications-impl-1,
          qtdeclarative5-xmllistmodel-plugin,
          qtubuntu,
          ${misc:Depends},
          ${shlibs:Depends},
+Recommends: unity-scope-home,
+            unity-lens-applications,
 Description: Ubuntu QML shell
  The Ubuntu QML shell is the primary user interface for Ubuntu devices.
 
