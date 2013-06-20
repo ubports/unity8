@@ -102,7 +102,7 @@ ScopeView {
         id: categoryView
         anchors.fill: parent
         model: scopeView.categories
-        forceNoClip: !previewLoader.onScreen
+        forceNoClip: previewLoader.onScreen
 
         onAtYEndChanged: if (atYEnd) endReached()
         onMovingChanged: if (moving && atYEnd) endReached()
