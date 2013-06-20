@@ -1086,7 +1086,7 @@ private Q_SLOTS:
         verifyItem(2, 192, 350., false);
         verifyItem(3, 542, 125., true);
         verifyItem(4, 667, 100., true);
-        QCOMPARE(lvwph->m_minYExtent, 350.);
+        QCOMPARE(lvwph->m_minYExtent, 65.);
         QCOMPARE(lvwph->m_clipItem->y(), 1258.);
         QCOMPARE(lvwph->m_clipItem->clip(), false);
         QCOMPARE(lvwph->m_headerItem->y(), 0.);
@@ -1345,7 +1345,7 @@ private Q_SLOTS:
         verifyItem(1, -158, 350., false);
         verifyItem(2, 192, 350., false);
         verifyItem(3, 542, 150., true);
-        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_minYExtent, -100.);
         QCOMPARE(lvwph->m_clipItem->y(), 1258.);
         QCOMPARE(lvwph->m_clipItem->clip(), false);
         QCOMPARE(lvwph->m_headerItem->y(), 0.);

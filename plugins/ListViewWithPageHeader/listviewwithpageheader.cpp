@@ -650,8 +650,8 @@ ListViewWithPageHeader::ListItem *ListViewWithPageHeader::createItem(int modelIn
             }
             if (m_firstVisibleIndex < 0 || modelIndex < m_firstVisibleIndex) {
                 m_firstVisibleIndex = modelIndex;
-                adjustMinYExtent();
             }
+            adjustMinYExtent();
         }
         return listItem;
     }
@@ -831,6 +831,7 @@ void ListViewWithPageHeader::itemGeometryChanged(QQuickItem *item, const QRectF 
             }
         }
         refill();
+        adjustMinYExtent();
         polish();
         m_contentHeightDirty = true;
     }

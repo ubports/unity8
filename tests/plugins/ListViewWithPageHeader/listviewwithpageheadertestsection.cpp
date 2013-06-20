@@ -1025,7 +1025,7 @@ private Q_SLOTS:
         verifyItem(1, 70, 390., false, "Bold", false);
         verifyItem(2, 460, 350., false, QString(), false);
         verifyItem(3, 810, 390., true, "Lazy", true);
-        QCOMPARE(lvwph->m_minYExtent, 970./3.);
+        QCOMPARE(lvwph->m_minYExtent, 330.);
         QCOMPARE(lvwph->m_clipItem->y(), 800.);
         QCOMPARE(lvwph->m_clipItem->clip(), false);
         QCOMPARE(lvwph->m_headerItem->y(), 0.);
@@ -1235,7 +1235,7 @@ private Q_SLOTS:
         verifyItem(2, 152, 390., false, "Lazy", false);
         verifyItem(3, 542, 165., true, "Regular", true);
         verifyItem(4, 707, 140., true, "Agressive", true);
-        QCOMPARE(lvwph->m_minYExtent, 310.);
+        QCOMPARE(lvwph->m_minYExtent, 41.);
         QCOMPARE(lvwph->m_clipItem->y(), 1458.);
         QCOMPARE(lvwph->m_clipItem->clip(), false);
         QCOMPARE(lvwph->m_headerItem->y(), 0.);
@@ -1480,7 +1480,7 @@ private Q_SLOTS:
         verifyItem(1, -40, 390., false, "Mild", true);
         verifyItem(2, 350, 390., false, "Bold", false);
         verifyItem(3, 740, 390., true, "Lazy", true);
-        QCOMPARE(lvwph->m_minYExtent, 152.5);
+        QCOMPARE(lvwph->m_minYExtent, 162.5);
         QCOMPARE(lvwph->m_clipItem->y(), 520.);
         QCOMPARE(lvwph->m_clipItem->clip(), false);
         QCOMPARE(lvwph->m_headerItem->y(), 0.);
@@ -1558,7 +1558,7 @@ private Q_SLOTS:
         verifyItem(1, -198, 350., false, QString(), true);
         verifyItem(2, 152, 390., false, "Lazy", false);
         verifyItem(3, 542, 190., true, "Agressive", true);
-        QCOMPARE(lvwph->m_minYExtent, -200./3.);
+        QCOMPARE(lvwph->m_minYExtent, -160.);
         QCOMPARE(lvwph->m_clipItem->y(), 1458.);
         QCOMPARE(lvwph->m_clipItem->clip(), false);
         QCOMPARE(lvwph->m_headerItem->y(), 0.);
