@@ -42,40 +42,46 @@ Item {
     signal longtap()
     signal released()
 
-    UbuntuShape {
+    Item {
         id: iconItem
-        color: Qt.rgba(0, 0, 1, 0.5)
         width: parent.width
         height: parent.height
         anchors.centerIn: parent
-        radius: "medium"
 
-        image: Image {
-            id: iconImage
-            source: "../graphics/applicationIcons/" + root.iconName + ".png"
-        }
+        UbuntuShape {
+            color: Qt.rgba(0, 0, 1, 0.5)
+            width: parent.width - units.gu(1)
+            height: parent.height - units.gu(1)
+            anchors.centerIn: parent
+            radius: "medium"
 
-        MouseArea {
-            id: mouseArea
-            anchors.fill: parent
-            onClicked: root.clicked()
-            onCanceled: root.released()
-            preventStealing: false
-
-            onPressAndHold: {
-                root.state = "moving"
+            image: Image {
+                id: iconImage
+                source: "../graphics/applicationIcons/" + root.iconName + ".png"
             }
-            onReleased: {
-                root.state = "docked"
-            }
-        }
 
+            MouseArea {
+                id: mouseArea
+                anchors.fill: parent
+                onClicked: root.clicked()
+                onCanceled: root.released()
+                preventStealing: false
+
+                onPressAndHold: {
+                    root.state = "moving"
+                }
+                onReleased: {
+                    root.state = "docked"
+                }
+            }
+
+        }
         BorderImage {
             id: overlayHighlight
             anchors.centerIn: iconItem
             rotation: inverted ? 180 : 0
             source: root.highlighted || mouseArea.pressed ? "graphics/selected.sci" : "graphics/non-selected.sci"
-            width: iconItem.width + units.gu(1.5)
+            width: root.width + units.gu(0.5)
             height: width
         }
     }
@@ -209,7 +215,7 @@ Item {
                     if (index == 0 || index == iconRepeater.count-1) {
                         if (priv.distanceFromEdge < 0) {
                             // Fade from 1 to 0 in the distance of 2 items height (which is when the next item reaches the edge)
-                            return 1.0 - (-priv.distanceFromEdge / (priv.totalUnfoldedHeight * 2))
+                            return 1.0 - (-priv.distanceFromEdge / (priv.foldingAreaHeight * 3))
                         }
                         return 1; // Don't make first/last item transparent as long as inside the view
                     }

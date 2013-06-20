@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Unity 0.1
+import "../Components/ListItems"
 
 Item {
     id: root
@@ -24,7 +25,7 @@ Item {
     rotation: inverted ? 180 : 0
 
     property var model
-    property bool inverted: true
+    property bool inverted: false
     property bool dragging: false
     property bool moving: launcherFlickable.moving
     property int dragPosition: 0
@@ -61,24 +62,41 @@ Item {
 
     Column {
         id: mainColumn
-        anchors.fill: parent
-        anchors.margins: units.gu(1)
-        spacing: units.gu(1)
-
-        LauncherDelegate {
-            id: dashItem
-            objectName: "dashItem"
-            width: launcherFlickable.itemSize
-            height: launcherFlickable.itemSize
-            anchors.horizontalCenter: parent.horizontalCenter
-            iconName: "dash"
-            onClicked: root.dashItemSelected(0)
+        anchors {
+            fill: parent
+            topMargin: units.gu(0.5)
+            bottomMargin: units.gu(1)
+            leftMargin: units.gu(0.5)
+            rightMargin: units.gu(0.5)
         }
+        spacing: units.gu(0.5)
+
+        MouseArea {
+            id: dashItem
+            width: parent.width
+            height: units.gu(6.5)
+            onClicked: root.dashItemSelected(0)
+            Image {
+                objectName: "dashItem"
+                width: units.gu(5.5)
+                height: width
+                anchors.centerIn: parent
+                source: "graphics/home.png"
+            }
+        }
+        ThinDivider {
+            anchors {
+                left: parent.left
+                right: parent.right
+                margins: -mainColumn.anchors.leftMargin
+            }
+        }
+
         Flickable {
             id: launcherFlickable
             anchors.left: parent.left
             anchors.right: parent.right
-            height: parent.height - dashItem.height - parent.spacing
+            height: parent.height - dashItem.height - parent.spacing*2
             contentHeight: launcherColumn.height
 
             property int itemSize: width
@@ -86,7 +104,7 @@ Item {
             Column {
                 id: launcherColumn
                 width: parent.width
-                spacing: units.gu(1)
+                //spacing: units.gu(1)
                 anchors.horizontalCenter: parent.horizontalCenter
 
                 Repeater {
