@@ -23,7 +23,7 @@ import Ubuntu.Gestures 0.1
 Item {
     id: bottombar
 
-    // Whether an anpplication if on foreground (as opposed to have shell's Dash on foreground)
+    // Whether there's an application on foreground (as opposed to have shell's Dash on foreground)
     property bool applicationIsOnForeground
 
     property variant theHud
