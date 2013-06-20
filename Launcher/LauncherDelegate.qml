@@ -37,6 +37,7 @@ Item {
 
     property bool dragging:false
 
+//    property real brightness: 0
     property alias brightness: brightnessEffect.brightness
 
     signal clicked()
@@ -90,11 +91,67 @@ Item {
             height: width
         }
 
-        BrightnessContrast {
+/*        BrightnessContrast {
             id: brightnessEffect
             anchors.fill: parent
             source: parent
             brightness: 0
+        }
+        */
+
+/*        UbuntuShape {
+            id: brightnessShape
+            anchors.fill: parent
+            color: "black"
+            radius: "medium"
+        }
+*/
+    }
+    ShaderEffect {
+        id: brightnessEffect
+        anchors.centerIn: parent
+        width: parent.width
+        height: parent.height
+        property real itemOpacity: root.opacity
+        property real brightness: 0
+        property real angle: root.angle
+
+        anchors.verticalCenterOffset: root.offset  + (height - root.effectiveHeight)/2 * (angle < 0 ? 1 : -1)
+
+        property variant source: ShaderEffectSource {
+            sourceItem: iconItem
+            hideSource: true
+        }
+/*        vertexShader: "
+            uniform highp mat4 qt_Matrix;
+            attribute highp vec4 qt_Vertex;
+            varying highp vec2 qt_MultiTexCoord0;
+            varying highp vec2 coord;
+            uniform lowp float angle;
+            varying highp vec2 centerPoint;
+            void main() {
+                coord = qt_MultiTexCoord0;
+                highp vec4 rotatedVertex = qt_Vertex * angle;
+                gl_Position = qt_Matrix * rotatedVertex;
+            }"
+*/
+        fragmentShader: "
+            varying highp vec2 qt_TexCoord0;
+            uniform sampler2D source;
+            uniform lowp float brightness;
+            uniform lowp float itemOpacity;
+            void main(void)
+            {
+                highp vec4 sourceColor = texture2D(source, qt_TexCoord0);
+                sourceColor.rgb = mix(sourceColor.rgb, vec3(step(0.0, brightness)), abs(brightness));
+                sourceColor *= itemOpacity;
+                gl_FragColor = sourceColor;
+            }"
+
+        transform: Rotation {
+            axis { x: 1; y: 0; z: 0 }
+            origin { x: iconItem.width / 2; y: iconItem.height / 2; z: 0 }
+            angle: root.angle
         }
     }
 
