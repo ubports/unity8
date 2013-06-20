@@ -98,7 +98,8 @@ class TestShellHelpers(object):
         # go to the void for the first time because there's no real way to know what the display has
         # painted already. Give it another (max retries) chance.
         try:
-            self.assertThat(lambda: getattr(bottombar, "__applicationInFocus"), Eventually(Equals(True)))
+            self.assertThat(lambda: getattr(bottombar, "applicationIsOnForeground"),
+                            Eventually(Equals(True)))
         except:
             if retries > 0:
                 logger.warning("Failed to launch app. Retrying...")

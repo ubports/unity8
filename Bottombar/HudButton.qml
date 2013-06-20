@@ -20,10 +20,11 @@ import Ubuntu.Components 0.1
 Item {
     id: item
 
-    property int bottomMargin: units.gu(2)
-    property bool mouseOver: contains(mouse)
+    property bool mouseOver
 
-    property point mouse: Qt.point(-1,-1)
+    property int bottomMargin: units.gu(2)
+
+    signal clicked()
 
     readonly property real scaleOnMouseOver: 1.2
 

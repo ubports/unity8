@@ -188,6 +188,7 @@ FocusScope {
 
             property bool fullyShown: shown && stages[stagesRevealer.boundProperty] == stagesRevealer.openedValue
                                       && parent.x == 0
+
             property bool fullyHidden: !shown && stages[stagesRevealer.boundProperty] == stagesRevealer.closedValue
             available: !greeter.shown
             hides: [launcher, panel.indicators]
@@ -515,6 +516,8 @@ FocusScope {
             theHud: hud
             anchors.fill: parent
             enabled: !panel.indicators.shown
+            applicationIsOnForeground: applicationManager.mainStageFocusedApplication
+                                    || applicationManager.sideStageFocusedApplication
         }
 
         InputFilterArea {
