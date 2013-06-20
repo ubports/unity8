@@ -41,7 +41,15 @@ install_dependencies() {
     [ -f /etc/apt/sources.list.d/ubuntu-sdk-team-ppa-${DISTRIB_CODENAME}.list ] || sudo add-apt-repository ppa:ubuntu-sdk-team/ppa || exit 3
     sudo apt-get update || exit 4
     echo "Installing Unity 8 dependencies.."
-    sudo apt-get install devscripts equivs qtdeclarative5-ubuntu-ui-toolkit-plugin qtdeclarative5-dee-plugin indicators-client indicators-client-plugin-* ubuntu-mobile-icons unity-notifications-impl-1 || exit 5
+    sudo apt-get install devscripts \
+                         equivs \
+                         qtdeclarative5-ubuntu-ui-toolkit-plugin \
+                         qtdeclarative5-dee-plugin \
+                         indicators-client \
+                         indicators-client-plugin-* \
+                         ubuntu-mobile-icons \
+                         unity-notifications-impl-1 \
+        || exit 5
 }
 
 mk_build_deps() {
