@@ -4,6 +4,7 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 export DPKG_GENSYMBOLS_CHECK_LEVEL=4
+export NO_PNG_PKG_MANGLE=1
 
 %:
 	dh $@ --parallel
