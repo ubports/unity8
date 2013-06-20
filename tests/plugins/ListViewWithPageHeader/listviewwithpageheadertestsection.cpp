@@ -575,41 +575,44 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
     }
 
-    // TODO
-//     void testChangeDelegateAtBottom()
-//     {
-//         scrollToBottom();
-//         QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
-//         QCOMPARE(lvwph->m_firstVisibleIndex, 3);
-//         verifyItem(0, -588., 390., true);
-//         verifyItem(1, -198, 350., false);
-//         verifyItem(2, 152, 390., false);
-//         QCOMPARE(lvwph->m_minYExtent, 0.);
-//         QCOMPARE(lvwph->m_clipItem->y(), 1458.);
-//         QCOMPARE(lvwph->m_clipItem->clip(), false);
-//         QCOMPARE(lvwph->m_headerItem->y(), 0.);
-//         QCOMPARE(lvwph->m_headerItem->height(), 50.);
-//         QCOMPARE(lvwph->contentY(), 1458.);
-//         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
-//
-//         lvwph->setDelegate(otherDelegate);
-//
-//         QTRY_COMPARE(lvwph->m_visibleItems.count(), 6);
-//         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
-//         verifyItem(0, 50., 35., false);
-//         verifyItem(1, 85, 35., false);
-//         verifyItem(2, 120, 35., false);
-//         verifyItem(3, 155, 35., false);
-//         verifyItem(4, 190, 35., false);
-//         verifyItem(5, 225, 35., false);
-//         QCOMPARE(lvwph->m_minYExtent, 0.);
-//         QCOMPARE(lvwph->m_clipItem->y(), 0.);
-//         QCOMPARE(lvwph->m_clipItem->clip(), false);
-//         QCOMPARE(lvwph->m_headerItem->y(), 0.);
-//         QCOMPARE(lvwph->m_headerItem->height(), 50.);
-//         QCOMPARE(lvwph->contentY(), 0.);
-//         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
-//     }
+    void testChangeDelegateAtBottom()
+    {
+        scrollToBottom();
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 3);
+        verifyItem(0, -588., 390., true, "Bold", true);
+        verifyItem(1, -198, 350., false, QString(), true);
+        verifyItem(2, 152, 390., false, "Lazy", false);
+        QCOMPARE(lvwph->m_minYExtent, 310.);
+        QCOMPARE(lvwph->m_clipItem->y(), 1458.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 1458.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+        QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
+        QCOMPARE(section(lvwph->m_topSectionItem), QString("Bold"));
+        QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
+
+        lvwph->setDelegate(otherDelegate);
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 6);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, 50., 75., false, "Agressive", false);
+        verifyItem(1, 125, 75., false, "Regular", false);
+        verifyItem(2, 200, 75., false, "Mild", false);
+        verifyItem(3, 275, 75., false, "Bold", false);
+        verifyItem(4, 350, 35., false, QString(), true);
+        verifyItem(5, 385, 75., false, "Lazy", false);
+        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_clipItem->y(), 0.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 0.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+        QVERIFY(QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
+    }
 
     void testGrowHeaderAtTop()
     {

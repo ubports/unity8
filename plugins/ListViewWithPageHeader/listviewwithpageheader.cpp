@@ -200,6 +200,9 @@ void ListViewWithPageHeader::setDelegate(QQmlComponent *delegate)
         adjustMinYExtent();
         setContentY(0);
         m_clipItem->setY(0);
+        if (m_topSectionItem) {
+            QQuickItemPrivate::get(m_topSectionItem)->setCulled(true);
+        }
 
         m_delegateModel->setDelegate(delegate);
 
