@@ -50,16 +50,19 @@ private:
             while (lvwph->contentY() + jump < dest) {
                 lvwph->setContentY(lvwph->contentY() + jump);
                 QTest::qWait(1);
+                qApp->processEvents();
             }
         } else {
             const qreal jump = -25;
             while (lvwph->contentY() + jump > dest) {
                 lvwph->setContentY(lvwph->contentY() + jump);
                 QTest::qWait(1);
+                qApp->processEvents();
             }
         }
         lvwph->setContentY(dest);
         QTest::qWait(1);
+        qApp->processEvents();
     }
 
     void scrollToTop()
@@ -72,6 +75,7 @@ private:
                 lvwph->setContentY(lvwph->contentY() - 1);
             }
             QTest::qWait(1);
+            qApp->processEvents();
         }
     }
 
@@ -85,6 +89,7 @@ private:
                 lvwph->setContentY(lvwph->contentY() + 1);
             }
             QTest::qWait(1);
+            qApp->processEvents();
         }
     }
 
