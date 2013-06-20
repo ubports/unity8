@@ -25,6 +25,7 @@ Item {
     property real angle: 0
     property bool highlighted: false
     property real offset: 0
+    property alias brightness: transformEffect.brightness
 
     property real maxAngle: 0
     property bool inverted: false
@@ -37,14 +38,9 @@ Item {
 
     property bool dragging:false
 
-//    property real brightness: 0
-    property alias brightness: brightnessEffect.brightness
-
     signal clicked()
     signal longtap()
     signal released()
-
-    onYChanged: print("y is", y)
 
     UbuntuShape {
         id: iconItem
@@ -52,15 +48,7 @@ Item {
         width: parent.width
         height: parent.height
         anchors.centerIn: parent
-        anchors.verticalCenterOffset: root.offset  + (height - root.effectiveHeight)/2 * (angle < 0 ? 1 : -1)
-        rotation: root.inverted ? 180 : 0
         radius: "medium"
-
-        transform: Rotation {
-            axis { x: 1; y: 0; z: 0 }
-            origin { x: iconItem.width / 2; y: iconItem.height / 2; z: 0 }
-            angle: root.angle
-        }
 
         image: Image {
             id: iconImage
@@ -90,31 +78,17 @@ Item {
             width: iconItem.width + units.gu(1.5)
             height: width
         }
-
-/*        BrightnessContrast {
-            id: brightnessEffect
-            anchors.fill: parent
-            source: parent
-            brightness: 0
-        }
-        */
-
-/*        UbuntuShape {
-            id: brightnessShape
-            anchors.fill: parent
-            color: "black"
-            radius: "medium"
-        }
-*/
     }
+
     ShaderEffect {
-        id: brightnessEffect
+        id: transformEffect
         anchors.centerIn: parent
         width: parent.width
         height: parent.height
         property real itemOpacity: root.opacity
         property real brightness: 0
         property real angle: root.angle
+        rotation: root.inverted ? 180 : 0
 
         anchors.verticalCenterOffset: root.offset  + (height - root.effectiveHeight)/2 * (angle < 0 ? 1 : -1)
 
@@ -122,6 +96,13 @@ Item {
             sourceItem: iconItem
             hideSource: true
         }
+
+        transform: Rotation {
+            axis { x: 1; y: 0; z: 0 }
+            origin { x: iconItem.width / 2; y: iconItem.height / 2; z: 0 }
+            angle: root.angle
+        }
+
 /*        vertexShader: "
             uniform highp mat4 qt_Matrix;
             attribute highp vec4 qt_Vertex;
@@ -147,12 +128,6 @@ Item {
                 sourceColor *= itemOpacity;
                 gl_FragColor = sourceColor;
             }"
-
-        transform: Rotation {
-            axis { x: 1; y: 0; z: 0 }
-            origin { x: iconItem.width / 2; y: iconItem.height / 2; z: 0 }
-            angle: root.angle
-        }
     }
 
     QtObject {
