@@ -24,9 +24,8 @@ import "../Applications"
 import "Apps"
 import "Video"
 import "Music"
-import "People"
 
-LensView {
+ScopeView {
     id: root
 
     onMovementStarted: listView.showHeader()
@@ -35,19 +34,11 @@ LensView {
         id: categoryListModel
         // specifies page's content categories, type of delegate and model used in each category
         ListElement { category: "Frequent Apps";         component: "AppsGrid";       modelName: "AppsModel" }
-        ListElement { category: "Favourite People";      component: "PeopleCarousel"; modelName: "FavouriteModel" }
-        ListElement { category: "People Recently in Touch"; component: "PeopleGrid";  modelName: "RecentModel" }
         ListElement { category: "Recent Music";          component: "MusicGrid";      modelName: "MusicModel" }
         ListElement { category: "Videos Popular Online"; component: "VideosGrid";     modelName: "VideosModel" }
         function getCategory(category1) {
             if (category1 === "Frequent Apps") {
                 return i18n.tr("Frequent Apps");
-            }
-            if (category1 === "Favourite People") {
-                return i18n.tr("Favourite People");
-            }
-            if (category1 === "People Recently in Touch") {
-                return i18n.tr("People Recently in Touch");
             }
             if (category1 === "Recent Music") {
                 return i18n.tr("Recent Music");
@@ -91,33 +82,24 @@ LensView {
     }
 
     Component.onCompleted: {
-        var lens = dashContent.lenses.get("people.lens")
-        if (lens) {
-            favouritesFilter.model = dashContent.lenses.get("people.lens").results
-            recentFilter.model = dashContent.lenses.get("people.lens").results
+        var scope = dashContent.scopes.get("mockmusicmaster.scope")
+        if (scope) {
+            musicFilter.model = dashContent.scopes.get("mockmusicmaster.scope").results
         }
-        lens = dashContent.lenses.get("mockmusic.lens")
-        if (lens) {
-            musicFilter.model = dashContent.lenses.get("mockmusic.lens").results
-        }
-        lens = dashContent.lenses.get("mockvideos.lens")
-        if (lens) {
-            videosFilter.model = dashContent.lenses.get("mockvideos.lens").results
+        scope = dashContent.scopes.get("mockvideosmaster.scope")
+        if (scope) {
+            videosFilter.model = dashContent.scopes.get("mockvideosmaster.scope").results
         }
     }
 
     Connections {
         target: dashContent
-        onLensLoaded: switch (lensId) {
-            case "people.lens":
-                favouritesFilter.model = dashContent.lenses.get("people.lens").results
-                recentFilter.model = dashContent.lenses.get("people.lens").results
+        onScopeLoaded: switch (scopeId) {
+            case "mockmusicmaster.scope":
+                musicFilter.model = dashContent.scopes.get("mockmusicmaster.scope").results
                 break;
-            case "mockmusic.lens":
-                musicFilter.model = dashContent.lenses.get("mockmusic.lens").results
-                break;
-            case "mockvideos.lens":
-                videosFilter.model = dashContent.lenses.get("mockvideos.lens").results
+            case "mockvideosmaster.scope":
+                videosFilter.model = dashContent.scopes.get("mockvideosmaster.scope").results
                 break;
         }
     }
@@ -141,14 +123,10 @@ LensView {
         }
     }
 
-    Component { id: peopleCarousel; PeopleCarousel {}   }
-    Component { id: peopleGrid;     PeopleFilterGrid {} }
     Component { id: musicGrid;      MusicFilterGrid {}  }
     Component { id: videosGrid;     VideosFilterGrid {} }
     property var componentModels: {
                 "AppsGrid": applicationsFilterGrid,
-                "PeopleCarousel": peopleCarousel,
-                "PeopleGrid": peopleGrid,
                 "MusicGrid": musicGrid,
                 "VideosGrid": videosGrid,
     }
@@ -172,7 +150,7 @@ LensView {
                 onLoaded: {
                     item.model = categoryModels[modelName]
 
-                    //FIXME: workaround for lack of previews for videos in Home lens.
+                    //FIXME: workaround for lack of previews for videos in Home scope.
                     //Need to connect to the clicked() signal here and act upon it here instead.
                     if (component === "VideosGrid") {
                         function playVideo(index, data) {

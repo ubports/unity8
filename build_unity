@@ -6,11 +6,10 @@ SETUP=false
 UPDATE=false
 CLEAN=false
 NUM_JOBS=$(( `grep -c ^processor /proc/cpuinfo` + 1 ))
-LENSES="applications mockmusic mockvideos"
 
 # verified working revisions
-LIBUNITY_REV=215
-UNITY_REV=3260
+LIBUNITY_REV=228
+UNITY_REV=3343
 HUD_REV=252
 
 usage() {
@@ -53,12 +52,12 @@ mk_build_deps() {
 
 branch_libunity() {
     echo "Branching libunity.."
-    bzr branch lp:libunity/phablet $TARGET_DIR/libunity || exit 8
+    bzr branch lp:libunity $TARGET_DIR/libunity || exit 8
 }
 
 branch_unity() {
     echo "Branching Unity.."
-    bzr branch lp:unity/phablet-mods $TARGET_DIR/unity || exit 9
+    bzr branch lp:unity $TARGET_DIR/unity || exit 9
 }
 
 branch_hud() {
@@ -92,7 +91,7 @@ compile_libunity() {
     mkdir $TARGET_DIR/libunity/build
     cd $TARGET_DIR/libunity/build
 
-    ../autogen.sh --prefix $BUILD_DIR --disable-debug || exit 15
+    ../autogen.sh --prefix $BUILD_DIR --disable-debug --with-pygi-overrides-dir=$BUILD_DIR/gi-overrides || exit 15
 
     echo "Building libunity and installing in " $BUILD_DIR
     make -j$NUM_JOBS install || exit 16
@@ -136,14 +135,6 @@ compile_hud() {
 
 }
 
-link_lenses() {
-    echo "Linking system lenses.."
-    mkdir -p $BUILD_DIR/share/unity/lenses/
-    for LENS in $LENSES; do
-        [ -e $BUILD_DIR/share/unity/lenses/$LENS ] || ln -ivs /usr/share/unity/lenses/$LENS $BUILD_DIR/share/unity/lenses/$LENS
-    done
-}
-
 if $SETUP; then
     echo "Setting up environment for building Unity.."
     install_utils
@@ -163,6 +154,5 @@ else
     compile_libunity
     compile_unity_core
     compile_hud
-    link_lenses
 fi
 
