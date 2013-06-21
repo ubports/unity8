@@ -114,6 +114,7 @@ private:
     void headerHeightChanged(qreal newHeaderHeight, qreal oldHeaderHeight, qreal oldHeaderY);
     ListItem *itemAtIndex(int modelIndex) const; // Returns the item at modelIndex if has been created
     void releaseItem(ListItem *item);
+    void reallyReleaseItem(ListItem *item);
     void updateWatchedRoles();
     QQuickItem *getSectionItem(int modelIndex, bool alreadyInserted);
     QQuickItem *getSectionItem(const QString &sectionText);
@@ -149,6 +150,10 @@ private:
     QQuickItem *m_topSectionItem;
 
     bool m_forceNoClip;
+
+    // Qt 5.0 doesn't like releasing the items just after itemCreated
+    // so we delay the releasing until the next updatePolish
+    QList<ListItem *> m_itemsToRelease;
 };
 
 

@@ -493,7 +493,7 @@ bool ListViewWithPageHeader::addVisibleItems(qreal fillFrom, qreal fillTo, bool 
     return changed;
 }
 
-void ListViewWithPageHeader::releaseItem(ListItem *listItem)
+void ListViewWithPageHeader::reallyReleaseItem(ListItem *listItem)
 {
     QQuickItem *item = listItem->m_item;
     QQuickItemPrivate *itemPrivate = QQuickItemPrivate::get(item);
@@ -504,6 +504,11 @@ void ListViewWithPageHeader::releaseItem(ListItem *listItem)
     }
     delete listItem->m_sectionItem;
     delete listItem;
+}
+
+void ListViewWithPageHeader::releaseItem(ListItem *listItem)
+{
+    m_itemsToRelease << listItem;
 }
 
 void ListViewWithPageHeader::updateWatchedRoles()
@@ -967,6 +972,10 @@ void ListViewWithPageHeader::layout()
 
 void ListViewWithPageHeader::updatePolish()
 {
+    Q_FOREACH(ListItem *item, m_itemsToRelease)
+        reallyReleaseItem(item);
+    m_itemsToRelease.clear();
+
     if (!model())
         return;
 
