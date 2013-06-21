@@ -668,6 +668,7 @@ void ListViewWithPageHeader::itemCreated(int modelIndex, QQuickItem *item)
     context->setContextProperty(QLatin1String("ListViewWithPageHeader"), this);
     if (modelIndex == m_asyncRequestedIndex) {
         createItem(modelIndex, false);
+        refill();
     }
 }
 
