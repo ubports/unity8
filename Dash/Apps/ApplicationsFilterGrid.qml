@@ -21,7 +21,7 @@ import "../../Applications"
 FilterGrid {
     id: filterGrid
 
-    filter: true
+    filter: false
     expandable: false
     minimumHorizontalSpacing: units.gu(0.5)
     maximumNumberOfColumns: 6
