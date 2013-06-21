@@ -226,14 +226,12 @@ void ListViewWithPageHeader::setHeader(QQuickItem *headerItem)
         if (m_headerItem) {
             oldHeaderHeight = m_headerItem->height();
             oldHeaderY = m_headerItem->y();
-            QQuickItemPrivate::get(m_headerItem)->removeItemChangeListener(this, QQuickItemPrivate::Geometry);
             m_headerItem->setParentItem(nullptr);
         }
         m_headerItem = headerItem;
         if (m_headerItem) {
             m_headerItem->setParentItem(contentItem());
             m_headerItem->setZ(1);
-            QQuickItemPrivate::get(m_headerItem)->addItemChangeListener(this, QQuickItemPrivate::Geometry);
         }
         qreal newHeaderHeight = m_headerItem ? m_headerItem->height() : 0;
         if (!m_visibleItems.isEmpty() && newHeaderHeight != oldHeaderHeight) {
@@ -366,7 +364,9 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
         if (contentY() < -m_minYExtent) {
             // Stick the header item to the top when dragging down
             m_headerItem->setY(contentY());
+            m_headerItem->setHeight(m_headerItem->implicitHeight() + (-m_minYExtent - contentY()));
         } else {
+            m_headerItem->setHeight(m_headerItem->implicitHeight());
             // We are going down (but it's not because of the rebound at the end)
             // (but the header was not shown by it's own position)
             // or the header is partially shown
@@ -824,19 +824,15 @@ void ListViewWithPageHeader::onModelUpdated(const QQuickChangeSet &changeSet, bo
     m_contentHeightDirty = true;
 }
 
-void ListViewWithPageHeader::itemGeometryChanged(QQuickItem *item, const QRectF &newGeometry, const QRectF &oldGeometry)
+void ListViewWithPageHeader::itemGeometryChanged(QQuickItem * /*item*/, const QRectF &newGeometry, const QRectF &oldGeometry)
 {
     const qreal heightDiff = newGeometry.height() - oldGeometry.height();
     if (heightDiff != 0) {
-        if (item == m_headerItem) {
-            headerHeightChanged(newGeometry.height(), oldGeometry.height(), oldGeometry.y());
-        } else {
-            if (oldGeometry.y() + oldGeometry.height() + m_clipItem->y() < contentY() && !m_visibleItems.isEmpty()) {
-                ListItem *firstItem = m_visibleItems.first();
-                firstItem->setY(firstItem->y() - heightDiff);
-                adjustMinYExtent();
-                layout();
-            }
+        if (oldGeometry.y() + oldGeometry.height() + m_clipItem->y() < contentY() && !m_visibleItems.isEmpty()) {
+            ListItem *firstItem = m_visibleItems.first();
+            firstItem->setY(firstItem->y() - heightDiff);
+            adjustMinYExtent();
+            layout();
         }
         refill();
         adjustMinYExtent();
@@ -887,7 +883,7 @@ void ListViewWithPageHeader::adjustMinYExtent()
             nonCreatedHeight = m_firstVisibleIndex * visibleItemsHeight / visibleItems;
 //             qDebug() << m_firstVisibleIndex << visibleItemsHeight << visibleItems << nonCreatedHeight;
         }
-        m_minYExtent = nonCreatedHeight - m_visibleItems.first()->y() - m_clipItem->y() + (m_headerItem ? m_headerItem->height() : 0);
+        m_minYExtent = nonCreatedHeight - m_visibleItems.first()->y() - m_clipItem->y() + (m_headerItem ? m_headerItem->implicitHeight() : 0);
     }
 }
 
@@ -996,7 +992,7 @@ void ListViewWithPageHeader::updatePolish()
                 m_minYExtent = qMax(m_minYExtent, -(contentHeight - height()));
             }
         } else {
-            contentHeight = m_headerItem ? m_headerItem->height() : 0;
+            contentHeight = m_headerItem ? m_headerItem->implicitHeight() : 0;
             if (!m_visibleItems.isEmpty()) {
                 foreach(ListItem *item, m_visibleItems) {
                     contentHeight += item->height();

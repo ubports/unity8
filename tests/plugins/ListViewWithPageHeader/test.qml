@@ -85,6 +85,7 @@ Rectangle {
             color: "transparent"
             width: parent.width
             height: 50
+            implicitHeight: 50
             Text {
                 anchors.fill: parent
                 text: "APPS"
