@@ -496,8 +496,6 @@ bool ListViewWithPageHeader::addVisibleItems(qreal fillFrom, qreal fillTo, bool 
 void ListViewWithPageHeader::reallyReleaseItem(ListItem *listItem)
 {
     QQuickItem *item = listItem->m_item;
-    QQuickItemPrivate *itemPrivate = QQuickItemPrivate::get(item);
-    itemPrivate->removeItemChangeListener(this, QQuickItemPrivate::Geometry);
     QQuickVisualModel::ReleaseFlags flags = m_delegateModel->release(item);
     if (flags & QQuickVisualModel::Destroyed) {
         item->setParentItem(nullptr);
@@ -508,6 +506,8 @@ void ListViewWithPageHeader::reallyReleaseItem(ListItem *listItem)
 
 void ListViewWithPageHeader::releaseItem(ListItem *listItem)
 {
+    QQuickItemPrivate *itemPrivate = QQuickItemPrivate::get(listItem->m_item);
+    itemPrivate->removeItemChangeListener(this, QQuickItemPrivate::Geometry);
     m_itemsToRelease << listItem;
 }
 
