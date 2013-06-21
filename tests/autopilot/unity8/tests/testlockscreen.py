@@ -70,49 +70,49 @@ class TestLockscreens(ShellTestCase, TestShellHelpers):
             divisor = divisor * 2
         super(TestLockscreens, self).setUp("%sx%s" % (self.app_width / divisor, self.app_height / divisor), "%s" % (self.grid_unit_px / divisor))
 
-        dash = self.main_window.get_dash()
-        self.assertThat(dash.showScopeOnLoaded, Eventually(Equals(""), timeout=30))
+        # dash = self.main_window.get_dash()
+        # self.assertThat(dash.showScopeOnLoaded, Eventually(Equals(""), timeout=30))
 
-    def test_unlock(self):
-        self.unlock_greeter()
+    # def test_unlock(self):
+    #     self.unlock_greeter()
 
-        pinPadLoader = self.main_window.get_pinPadLoader();
-        self.assertThat(pinPadLoader.progress, Eventually(Equals(1)))
-        lockscreen = self.main_window.get_lockscreen();
-        self.assertThat(lockscreen.shown, Eventually(Equals(True)))
+    #     pinPadLoader = self.main_window.get_pinPadLoader();
+    #     self.assertThat(pinPadLoader.progress, Eventually(Equals(1)))
+    #     lockscreen = self.main_window.get_lockscreen();
+    #     self.assertThat(lockscreen.shown, Eventually(Equals(True)))
 
-        if self.lightdm_mock == "single-pin":
-            self.touch.tap_object(self.main_window.get_pinPadButton(1))
-            self.touch.tap_object(self.main_window.get_pinPadButton(2))
-            self.touch.tap_object(self.main_window.get_pinPadButton(3))
-            self.touch.tap_object(self.main_window.get_pinPadButton(4))
-            self.assertThat(lockscreen.shown, Eventually(Equals(False)))
-        else:
-            pinentryField = self.main_window.get_pinentryField()
-            self.touch.tap_object(pinentryField)
-            self.keyboard.type("password\n")
-            self.assertThat(lockscreen.shown, Eventually(Equals(False)))
+    #     if self.lightdm_mock == "single-pin":
+    #         self.touch.tap_object(self.main_window.get_pinPadButton(1))
+    #         self.touch.tap_object(self.main_window.get_pinPadButton(2))
+    #         self.touch.tap_object(self.main_window.get_pinPadButton(3))
+    #         self.touch.tap_object(self.main_window.get_pinPadButton(4))
+    #         self.assertThat(lockscreen.shown, Eventually(Equals(False)))
+    #     else:
+    #         pinentryField = self.main_window.get_pinentryField()
+    #         self.touch.tap_object(pinentryField)
+    #         self.keyboard.type("password\n")
+    #         self.assertThat(lockscreen.shown, Eventually(Equals(False)))
 
-    def test_unlock_wrong(self):
-        self.unlock_greeter()
+    # def test_unlock_wrong(self):
+    #     self.unlock_greeter()
 
-        pinPadLoader = self.main_window.get_pinPadLoader();
-        self.assertThat(pinPadLoader.progress, Eventually(Equals(1)))
-        lockscreen = self.main_window.get_lockscreen();
-        self.assertThat(lockscreen.shown, Eventually(Equals(True)))
-        pinentryField = self.main_window.get_pinentryField()
+    #     pinPadLoader = self.main_window.get_pinPadLoader();
+    #     self.assertThat(pinPadLoader.progress, Eventually(Equals(1)))
+    #     lockscreen = self.main_window.get_lockscreen();
+    #     self.assertThat(lockscreen.shown, Eventually(Equals(True)))
+    #     pinentryField = self.main_window.get_pinentryField()
 
-        if self.lightdm_mock == "single-pin":
-            self.touch.tap_object(self.main_window.get_pinPadButton(4))
-            self.touch.tap_object(self.main_window.get_pinPadButton(3))
-            self.touch.tap_object(self.main_window.get_pinPadButton(2))
-            self.assertThat(pinentryField.text, Eventually(Equals("432")))
-            self.touch.tap_object(self.main_window.get_pinPadButton(1))
+    #     if self.lightdm_mock == "single-pin":
+    #         self.touch.tap_object(self.main_window.get_pinPadButton(4))
+    #         self.touch.tap_object(self.main_window.get_pinPadButton(3))
+    #         self.touch.tap_object(self.main_window.get_pinPadButton(2))
+    #         self.assertThat(pinentryField.text, Eventually(Equals("432")))
+    #         self.touch.tap_object(self.main_window.get_pinPadButton(1))
 
-            self.assertThat(pinentryField.text, Eventually(Equals("")))
-            self.assertThat(lockscreen.shown, Eventually(Equals(True)))
-        else:
-            self.touch.tap_object(pinentryField)
-            self.keyboard.type("foobar\n")
-            self.assertThat(pinentryField.text, Eventually(Equals("")))
-            self.assertThat(lockscreen.shown, Eventually(Equals(True)))
+    #         self.assertThat(pinentryField.text, Eventually(Equals("")))
+    #         self.assertThat(lockscreen.shown, Eventually(Equals(True)))
+    #     else:
+    #         self.touch.tap_object(pinentryField)
+    #         self.keyboard.type("foobar\n")
+    #         self.assertThat(pinentryField.text, Eventually(Equals("")))
+    #         self.assertThat(lockscreen.shown, Eventually(Equals(True)))
