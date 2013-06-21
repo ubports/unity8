@@ -18,36 +18,40 @@ import QtQuick 2.0
 import "../Components"
 import "../Components/Math.js" as MathLocal
 import Unity 0.1
+import Ubuntu.Gestures 0.1
 
 Item {
     id: bottombar
-    width: shell.width
-    height: shell.height
+
+    // Whether there's an application on foreground (as opposed to have shell's Dash on foreground)
+    property bool applicationIsOnForeground
 
     property variant theHud
     property bool enabled: false
     readonly property real bottomEdgeButtonCenterDistance: units.gu(34)
-    readonly property real bottomEdgeShowButtonDistance: units.gu(2)
 
-    property bool __applicationInFocus: false
-
-    state: "hidden"
+    state: dragArea.status === DirectionalDragArea.Recognized ? "shown" : "hidden"
 
     HudButton {
         id: hudButton
 
-        x: MathLocal.clamp(hudButtonRevealer.pressedX - width / 2, 0, bottombar.width - width)
-        y: bottombar.height - bottomEdgeButtonCenterDistance - height / 2 - bottomMargin
+        x: MathLocal.clamp(dragArea.touchStartX - (width / 2), 0, bottombar.width - width)
+        y: bottombar.height - bottomEdgeButtonCenterDistance - (height / 2) - bottomMargin
+
+        mouseOver: {
+            if (dragArea.status === DirectionalDragArea.Recognized) {
+                var touchLocal = mapFromItem(dragArea, dragArea.touchX, dragArea.touchY)
+                return touchLocal.x > 0 && touchLocal.x < width
+                    && touchLocal.y > 0 && touchLocal.y < height
+            } else {
+                return false
+            }
+        }
+
+        onClicked: theHud.show()
+
         Behavior on bottomMargin {
             NumberAnimation{duration: hudButton.opacity < 0.01 ? 200 : 70; easing.type: Easing.OutQuart}
-        }
-        mouse: {
-            if (hudButtonRevealer.draggingArea.pressed) {
-                var mapped = mapFromItem(hudButtonRevealer.draggingArea, hudButtonRevealer.draggingArea.mouseX, hudButtonRevealer.draggingArea.mouseY)
-                return Qt.point(mapped.x, mapped.y)
-            } else {
-                return mouse
-            }
         }
 
         Behavior on opacity {
@@ -60,74 +64,36 @@ Item {
         onShownChanged: bottomBarVisibilityCommunicatorShell.forceHidden = theHud.shown
     }
 
-    function updateApplicationInFocus() {
-        if (shell.applicationManager.mainStageFocusedApplication || shell.applicationManager.sideStageFocusedApplication) {
-            __applicationInFocus = true
-        } else {
-            __applicationInFocus = false
-        }
-    }
-
-    Connections {
-        target: shell.applicationManager
-        ignoreUnknownSignals: true
-        onMainStageFocusedApplicationChanged: updateApplicationInFocus()
-        onSideStageFocusedApplicationChanged: updateApplicationInFocus()
-    }
-
-    Showable {
-        id: hudButtonShowable
-
-        opacity: 1.0
+    DirectionalDragArea {
+        id: dragArea
         width: parent.width
-        height: bottomEdgeShowButtonDistance
-        shown: false
-        showAnimation: StandardAnimation { property: "y"; duration: 350; to: hudButtonRevealer.openedValue; easing.type: Easing.OutCubic }
-        hideAnimation: StandardAnimation { property: "y"; duration: 350; to: hudButtonRevealer.closedValue; easing.type: Easing.OutCubic }
-        onYChanged: {
-            if (y == hudButtonRevealer.openedValue)
-                bottombar.state = "shown"
-        }
+        height: distanceThreshold
+        anchors.bottom: parent.bottom
 
-        // eater
-        MouseArea {
-            anchors.fill: parent
-        }
-    }
+        enabled: !theHud.shown && bottombar.enabled && applicationIsOnForeground
+        direction: Direction.Upwards
 
-    Revealer {
-        id: hudButtonRevealer
+        // values to be tweaked and later removed from here and set in stone as defaults
+        // once we are confident it's all good.
+        maxDeviation: units.gu(1)
+        wideningAngle: 30
+        distanceThreshold: units.gu(3)
+        minSpeed: units.gu(5)
 
-        property double pressedX
+        property int previousStatus: -1
+        property real touchStartX: -1
 
-        enabled: !theHud.shown && bottombar.enabled && __applicationInFocus
-        direction: Qt.RightToLeft
-        openedValue: bottombar.height - height
-        closedValue: bottombar.height
-        target: hudButtonShowable
-        width: hudButtonShowable.width
-        height: hudButtonShowable.height
-        anchors.bottom: bottombar.bottom
-        onOpenPressed: {
-            pressedX = mouseX
-        }
-
-        onOpenReleased: {
-            if (hudButton.opacity != 0 && hudButton.mouseOver) {
-                hudButtonShowable.hide()
-                theHud.show()
-            } else {
-                hudButtonShowable.hide()
+        onStatusChanged: {
+            if (status === DirectionalDragArea.WaitingForTouch) {
+                if (previousStatus == DirectionalDragArea.Recognized) {
+                    if (hudButton.mouseOver) {
+                        hudButton.clicked()
+                    }
+                }
+            } else if (status === DirectionalDragArea.Undecided) {
+                touchStartX = touchX
             }
-        }
-    }
-
-    Connections {
-        target: hudButtonShowable.hideAnimation
-        onRunningChanged: {
-            if (hudButtonShowable.hideAnimation.running) {
-                bottombar.state = "hidden"
-            }
+            previousStatus = status
         }
     }
 
