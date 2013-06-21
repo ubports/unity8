@@ -53,15 +53,15 @@ GVariant* GVariantFromQVariant(const QVariant &var)
             QHash<QString, QVariant>::const_iterator it = hash.constBegin();
             while (it != hash.constEnd()) {
                 GVariant *key = g_variant_new_string(it.key().toUtf8());
-                children[++cnt] = g_variant_new_dict_entry(key, GVariantFromQVariant(it.value()));
+                children[cnt++] = g_variant_new_dict_entry(key, g_variant_new_variant(GVariantFromQVariant(it.value())));
                 ++it;
             }
-            gv = g_variant_new_array(G_VARIANT_TYPE_DICT_ENTRY, children, 1);
+            gv = g_variant_new_array(G_VARIANT_TYPE("{sv}"), children, hash.size());
             delete [] children;
             break;
         }
         default:
-            return NULL;
+            break;
     }
     return gv;
 }
@@ -69,6 +69,14 @@ GVariant* GVariantFromQVariant(const QVariant &var)
 unity::glib::HintsMap hintsMapFromQVariant(const QVariant &var)
 {
     if (var.type() == QVariant::Hash) {
+        unity::glib::HintsMap hintsMap;
+        const auto hash = var.toHash();
+        QHash<QString, QVariant>::const_iterator it = hash.constBegin();
+        while (it != hash.constEnd()) {
+            hintsMap[it.key().toStdString()] = GVariantFromQVariant(it.value());
+            ++it;
+        }
+        return hintsMap;
     }
     return unity::glib::HintsMap();
 }

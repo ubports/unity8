@@ -177,7 +177,7 @@ void Scope::fallbackActivate(const QString& uri)
     qWarning() << "FIXME: Possibly no handler for scheme: " << url.scheme();
     qWarning() << "Trying to open" << tweakedUri;
     /* Try our luck */
-    QDesktopServices::openUrl(url);
+    QDesktopServices::openUrl(uri); //url?
 }
 
 void Scope::setUnityScope(const unity::dash::Scope::Ptr& scope)
