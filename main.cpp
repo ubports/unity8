@@ -124,7 +124,7 @@ int main(int argc, char** argv)
 
     QUrl source("Shell.qml");
     prependImportPaths(view->engine(), QStringList() << ::shellAppDirectory());
-    prependImportPaths(view->engine(), ::shellImportPaths());
+    appendImportPaths(view->engine(), ::shellImportPaths());
     appendImportPaths(view->engine(), QStringList() << ::fakePluginsImportPath());
     view->setSource(source);
     view->setColor("transparent");
