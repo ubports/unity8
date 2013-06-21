@@ -23,6 +23,8 @@ Item {
     property string iconName
 
     property real angle: 0
+
+    onAngleChanged: if (index == 1) print("onAngleChanged", angle)
     property bool highlighted: false
     property real offset: 0
     property alias brightness: transformEffect.brightness
@@ -103,11 +105,32 @@ Item {
             hideSource: true
         }
 
-        transform: Rotation {
-            axis { x: 1; y: 0; z: 0 }
-            origin { x: iconItem.width / 2; y: iconItem.height / 2; z: 0 }
-            angle: root.angle
-        }
+        transform: [
+            Rotation {
+                axis { x: 1; y: 0; z: 0 }
+                origin { x: iconItem.width / 2; y: angle > 0 ? 0 : iconItem.height; z: 0 }
+                angle: root.angle * 0.8
+            },
+            Rotation {
+                axis { x: 1; y: 0; z: 0 }
+                origin { x: iconItem.width / 2; y: angle > 0 ? 0 : iconItem.height; z: 0 }
+                angle: root.angle * 0.8
+            },
+            Rotation {
+                axis { x: 1; y: 0; z: 0 }
+                origin { x: iconItem.width / 2; y: angle > 0 ? 0 : iconItem.height; z: 0 }
+                angle: root.angle * 0.8
+            },
+            Scale {
+                xScale: 1 - (Math.abs(angle) / 500)
+                yScale: 1 - (Math.abs(angle) / 500)
+                origin { x: iconItem.width / 2; y: iconItem.height / 2}
+            },
+            Translate {
+                y: -(root.height - root.effectiveHeight) * priv.orientationFlag
+            }
+
+        ]
 
 /*        vertexShader: "
             uniform highp mat4 qt_Matrix;
@@ -172,6 +195,7 @@ Item {
 
                     // Are we already completely outside the flickable? Stop the icon here.
                     if (priv.distanceFromEdge < -priv.totalUnfoldedHeight) {
+                        return (-priv.distanceFromEdge - (root.height - effectiveHeight)) * priv.orientationFlag;
                         return (-priv.distanceFromEdge - effectiveHeight) * priv.orientationFlag
                     }
 
@@ -185,6 +209,7 @@ Item {
                 }
 
                 angle: {
+                    //return 0;
                     // First item is special
                     if (index == 0 || index == iconRepeater.count-1) {
                         if (priv.distanceFromEdge < 0) {
