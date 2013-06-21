@@ -19,7 +19,10 @@
 
 // Self
 #include "scope.h"
+
+// local
 #include "categories.h"
+#include "variantutils.h"
 
 // Qt
 #include <QUrl>
@@ -131,8 +134,7 @@ void Scope::activate(const QVariant &uri, const QVariant &icon_hint, const QVari
     res.name = title.toString().toStdString();
     res.comment = comment.toString().toStdString();
     res.dnd_uri = dnd_uri.toString().toStdString();
-    
-    //TODO metadata
+    res.hints = hintsMapFromQVariant(metadata);
 
     m_unityScope->Activate(res);
 }

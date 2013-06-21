@@ -20,6 +20,7 @@ set(QMLPLUGIN_SRC
     plugin.cpp
     bottombarvisibilitycommunicatorshell.cpp
     launchermodel.cpp
+    variantutils.cpp
     )
 
 add_library(Unity-qml MODULE
