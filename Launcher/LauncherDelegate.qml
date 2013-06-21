@@ -109,17 +109,17 @@ Item {
             Rotation {
                 axis { x: 1; y: 0; z: 0 }
                 origin { x: iconItem.width / 2; y: angle > 0 ? 0 : iconItem.height; z: 0 }
-                angle: root.angle * 0.8
+                angle: root.angle * 0.7
             },
             Rotation {
                 axis { x: 1; y: 0; z: 0 }
                 origin { x: iconItem.width / 2; y: angle > 0 ? 0 : iconItem.height; z: 0 }
-                angle: root.angle * 0.8
+                angle: root.angle * 0.7
             },
             Rotation {
                 axis { x: 1; y: 0; z: 0 }
                 origin { x: iconItem.width / 2; y: angle > 0 ? 0 : iconItem.height; z: 0 }
-                angle: root.angle * 0.8
+                angle: root.angle * 0.7
             },
             Scale {
                 xScale: 1 - (Math.abs(angle) / 500)
@@ -127,7 +127,7 @@ Item {
                 origin { x: iconItem.width / 2; y: iconItem.height / 2}
             },
             Translate {
-                y: -(root.height - root.effectiveHeight) * priv.orientationFlag
+                y: -(root.height - root.effectiveHeight) * 0.5 * priv.orientationFlag
             }
 
         ]
