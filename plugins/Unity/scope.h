@@ -99,7 +99,12 @@ Q_SIGNALS:
     void searchFinished(const std::string&, unity::glib::HintsMap const&, unity::glib::Error const&);
     void searchQueryChanged();
     void noResultsHintChanged();
+
+    // signals triggered by activate(..) or preview(..) requests.
     void previewReady(const Preview &preview);
+    void showDash();
+    void hideDash();
+    void gotoUri(const QString &uri);
 
 private Q_SLOTS:
     void synchronizeStates();
@@ -117,7 +122,7 @@ private:
                                                const QVariant &mimetype, const QVariant &title,
                                                const QVariant &comment, const QVariant &dnd_uri,
                                                const QVariant &metadata);
-    void onActivated(unity::dash::LocalResult const& result, unity::dash::ScopeHandledType type, unity::glib::HintsMap const&);
+    void onActivated(unity::dash::LocalResult const& result, unity::dash::ScopeHandledType type, unity::glib::HintsMap const& hints);
     void onPreviewReady(unity::dash::LocalResult const& result, unity::dash::Preview::Ptr const& preview);
     void fallbackActivate(const QString& uri);
 

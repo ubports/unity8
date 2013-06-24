@@ -42,6 +42,11 @@ void Preview::setUnityPreview(unity::dash::Preview::Ptr unityPreview)
     m_unityPreview = unityPreview;
 }
 
+QString Preview::rendererName() const
+{
+    return QString::fromStdString(m_unityPreview->renderer_name());
+}
+
 QString Preview::title() const
 {
     return QString::fromStdString(m_unityPreview->title());

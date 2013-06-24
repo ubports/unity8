@@ -159,15 +159,37 @@ void Scope::preview(const QVariant &uri, const QVariant &icon_hint, const QVaria
     m_unityScope->Preview(res);
 }
 
-void Scope::onActivated(unity::dash::LocalResult const& result, unity::dash::ScopeHandledType type, unity::glib::HintsMap const&)
+void Scope::onActivated(unity::dash::LocalResult const& result, unity::dash::ScopeHandledType type, unity::glib::HintsMap const& hints)
 {
-    if (type == unity::dash::NOT_HANDLED) {
-        fallbackActivate(QString::fromStdString(result.uri));
+    // note: we will not get called on SHOW_PREVIEW, instead UnityCore will signal preview_ready.
+    switch (type)
+    {
+        case unity::dash::NOT_HANDLED:
+            fallbackActivate(QString::fromStdString(result.uri));
+            break;
+        case unity::dash::SHOW_DASH:
+            Q_EMIT showDash();
+            break;
+        case unity::dash::HIDE_DASH:
+            Q_EMIT hideDash();
+            break;
+        case unity::dash::GOTO_DASH_URI:
+            if (hints.contains("goto-uri")) {
+                Q_EMIT gotoUri(QString::fromStdString(hints["goto-uri"]));
+            } else {
+                qWarning() << "Missing goto-uri hint for GOTO_DASH_URI activation reply";
+            }
+            break;
+        default:
+            qWarning() << "Unhandled activation response:" << type;
     }
 }
 
 void Scope::onPreviewReady(unity::dash::LocalResult const& result, unity::dash::Preview::Ptr const& preview)
 {
+    auto res = createLocalResult(uri, icon_hint, category, result_type, mimetype, title, comment, dnd_uri, metadata);
+    auto prv = Preview::newFromUnityPreview(preview);
+    Q_EMIT previewReady(prv);
 }
 
 void Scope::fallbackActivate(const QString& uri)

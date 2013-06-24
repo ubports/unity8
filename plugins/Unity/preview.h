@@ -32,6 +32,7 @@ class Preview : public QObject
 {
     Q_OBJECT
     
+    Q_PROPERTY(QString rendererName READ rendererName)
     Q_PROPERTY(QString title READ title)
     Q_PROPERTY(QString subtitle READ subtitle)
     
@@ -39,6 +40,7 @@ public:
     explicit Preview(QObject *parent = 0);
     static Preview* newFromUnityPreview(unity::dash::Preview::Ptr unityPreview);
 
+    QString rendererName() const;
     QString title() const;
     QString subtitle () const;
 
