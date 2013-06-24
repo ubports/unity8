@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import "../../Components"
 import "../../Applications"
+import "../../Components/IconUtil.js" as IconUtil
 
 FilterGrid {
     id: filterGrid
@@ -50,7 +51,7 @@ FilterGrid {
         text: model.column_5 ? model.column_5 : application.name // FIXME: this is temporary
         imageWidth: units.gu(8)
         imageHeight: units.gu(7.5)
-        source: icon.indexOf("/") == -1 ? "image://gicon/" + icon : icon
+        source: IconUtil.from_gicon(icon)
         onClicked: filterGrid.clicked(index, application.desktopFile);
     }
 }
