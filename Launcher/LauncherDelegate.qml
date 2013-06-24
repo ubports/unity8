@@ -67,6 +67,7 @@ Item {
                 onClicked: root.clicked()
                 onCanceled: root.released()
                 preventStealing: false
+                enabled: root.angle < 5
 
                 onPressAndHold: {
                     root.state = "moving"
@@ -153,18 +154,15 @@ Item {
     QtObject {
         id: priv
 
-        // The height of the area where icons start getting folded
-        property int foldingAreaHeight: totalUnfoldedHeight * 0.75
-
-        property real totalUnfoldedHeight: launcherFlickable.itemSize + launcherColumn.spacing
-        property real totalEffectiveHeight: effectiveHeight + launcherColumn.spacing
-        property real distanceFromTopEdge: -(launcherFlickable.contentY - itemsBeforeThis*totalUnfoldedHeight)
-        property real distanceFromBottomEdge: launcherFlickable.height - (y+height) + launcherFlickable.contentY
+        property real totalUnfoldedHeight: launcherListView.itemSize + launcherListView.spacing
+        property real totalEffectiveHeight: effectiveHeight + launcherListView.spacing
+        property real distanceFromTopEdge: -(launcherListView.contentY + launcherListView.topMargin - itemsBeforeThis*totalUnfoldedHeight)
+        property real distanceFromBottomEdge: launcherListView.height - launcherListView.bottomMargin - (y+height) + launcherListView.contentY
 
         property real distanceFromEdge: Math.abs(distanceFromBottomEdge) < Math.abs(distanceFromTopEdge) ? distanceFromBottomEdge : distanceFromTopEdge
         property real orientationFlag: Math.abs(distanceFromBottomEdge) < Math.abs(distanceFromTopEdge) ? -1 : 1
 
-        property real overlapWithFoldingArea: foldingAreaHeight - distanceFromEdge
+        property real overlapWithFoldingArea: launcherListView.foldingAreaHeight - distanceFromEdge
 
     }
 
@@ -177,7 +175,7 @@ Item {
                 // This is the offset that keeps the items inside the panel
                 offset: {
                     // First/last items are special
-                    if (index == 0 || index == iconRepeater.count-1) {
+                    if (index == 0 || index == launcherListView.count-1) {
                         // Just keep them bound to the edges in case they're outside of the visible area
                         if (priv.distanceFromEdge < 0) {
                             return (-priv.distanceFromEdge - (height - effectiveHeight)) * priv.orientationFlag;
@@ -203,10 +201,10 @@ Item {
                 angle: {
                     //return 0;
                     // First item is special
-                    if (index == 0 || index == iconRepeater.count-1) {
+                    if (index == 0 || index == launcherListView.count-1) {
                         if (priv.distanceFromEdge < 0) {
                             // distanceFromTopEdge : angle = totalUnfoldedHeight/2 : maxAngle
-                            return Math.max(-maxAngle, priv.distanceFromEdge * maxAngle / (priv.foldingAreaHeight)) * priv.orientationFlag
+                            return Math.max(-maxAngle, priv.distanceFromEdge * maxAngle / (launcherListView.foldingAreaHeight)) * priv.orientationFlag
                         }
                         return 0; // Don't fold first item as long as inside the view
                     }
@@ -214,13 +212,13 @@ Item {
                     // Are we in the already completely outside the flickable? Fold for the last 5 degrees
                     if (priv.distanceFromEdge < 0) {
                         // -distanceFromTopEdge : angle = totalUnfoldedHeight : 5
-                        return Math.max(-maxAngle, (priv.distanceFromEdge * 5 / priv.foldingAreaHeight) - (maxAngle-5)) * priv.orientationFlag
+                        return Math.max(-maxAngle, (priv.distanceFromEdge * 5 / launcherListView.foldingAreaHeight) - (maxAngle-5)) * priv.orientationFlag
                     }
 
                     // We are overlapping with the folding area, fold the icon to maxAngle - 5 degrees
                     if (priv.overlapWithFoldingArea > 0) {
                         // overlap: totalHeight = angle : (maxAngle - 5)
-                        return -priv.overlapWithFoldingArea * (maxAngle -5) / priv.foldingAreaHeight * priv.orientationFlag;
+                        return -priv.overlapWithFoldingArea * (maxAngle -5) / launcherListView.foldingAreaHeight * priv.orientationFlag;
 
                     }
 
@@ -229,10 +227,10 @@ Item {
 
                 opacity: {
                     // First item is special
-                    if (index == 0 || index == iconRepeater.count-1) {
+                    if (index == 0 || index == launcherListView.count-1) {
                         if (priv.distanceFromEdge < 0) {
                             // Fade from 1 to 0 in the distance of 3 * foldingAreaHeight (which is when the next item reaches the edge)
-                            return 1.0 - (-priv.distanceFromEdge / (priv.foldingAreaHeight * 3))
+                            return 1.0 - (-priv.distanceFromEdge / (launcherListView.foldingAreaHeight * 3))
                         }
                         return 1; // Don't make first/last item transparent as long as inside the view
                     }
@@ -246,15 +244,15 @@ Item {
                     // We are overlapping with the folding area, fade out to 0.75
                     if (priv.overlapWithFoldingArea > 0) {
                         // overlap : totalHeight = 1-opacity : 0.25
-                        return 1 - (priv.overlapWithFoldingArea * 0.25 / priv.foldingAreaHeight)
+                        return 1 - (priv.overlapWithFoldingArea * 0.25 / launcherListView.foldingAreaHeight)
                     }
                     return 1;
                 }
 
                 brightness: {
-                    if (index == 0 || index == iconRepeater.count-1) {
+                    if (index == 0 || index == launcherListView.count-1) {
                         if (priv.distanceFromEdge < 0) {
-                            return -(-priv.distanceFromEdge / (priv.foldingAreaHeight * 3))
+                            return -(-priv.distanceFromEdge / (launcherListView.foldingAreaHeight * 3))
                         }
                         return 0;
                     }
@@ -263,7 +261,7 @@ Item {
                     }
 
                     if (priv.overlapWithFoldingArea > 0) {
-                        return - (priv.overlapWithFoldingArea * 0.3 / priv.foldingAreaHeight)
+                        return - (priv.overlapWithFoldingArea * 0.3 / launcherListView.foldingAreaHeight)
                     }
                     return 0;
                 }
