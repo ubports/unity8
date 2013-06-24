@@ -23,7 +23,6 @@ Item {
     property string iconName
 
     property real angle: 0
-
     property bool highlighted: false
     property real offset: 0
     property alias brightness: transformEffect.brightness
