@@ -33,7 +33,7 @@ function from_gicon(name) {
             return "image://gicon/" + themed[1];
         }
     }
-    var name_re = /^[a-z-]+$/;
+    var name_re = /^[a-z1-9_-\.]+$/;
     if (name_re.test(icon_name)) {
         return "image://gicon/" + icon_name;
     } else {
