@@ -187,8 +187,8 @@ Rectangle {
             unlockedCheckBox.checked = false
             LightDM.Greeter.authenticate(data.username)
 
+            var inputField = findChild(lockscreen, "pinentryField")
             if (data.alphanumeric) {
-                var inputField = findChild(lockscreen, "pinentryField")
                 mouseClick(inputField, units.gu(1), units.gu(1))
                 typeString(data.password)
                 keyClick(Qt.Key_Enter)
@@ -200,6 +200,12 @@ Rectangle {
                 }
             }
             tryCompare(unlockedCheckBox, "checked", data.unlockedSignal)
+            if (!data.unlockedSignal) {
+                // make sure the input is cleared on wrong input
+                tryCompareFunction(function() {return inputField.text.length == 0}, true)
+            } else {
+                tryCompareFunction(function() {return inputField.text.length > 0}, true) 
+            }
         }
     }
 }
