@@ -204,7 +204,7 @@ Rectangle {
                 // make sure the input is cleared on wrong input
                 tryCompareFunction(function() {return inputField.text.length == 0}, true)
             } else {
-                tryCompareFunction(function() {return inputField.text.length > 0}, true) 
+                tryCompareFunction(function() {return inputField.text.length > 0}, true)
             }
         }
     }
