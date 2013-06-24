@@ -98,7 +98,7 @@ Item {
         property real angle: root.angle
         rotation: root.inverted ? 180 : 0
 
-        anchors.verticalCenterOffset: root.offset  + (height - root.effectiveHeight)/2 * (angle < 0 ? 1 : -1)
+        anchors.verticalCenterOffset: root.offset
 
         property variant source: ShaderEffectSource {
             sourceItem: iconItem
@@ -106,6 +106,10 @@ Item {
         }
 
         transform: [
+            // Rotating 3 times at top/bottom because that increases the perspective.
+            // This is a hack, but as QML does not support real 3D coordinates
+            // getting a higher perspective can only be done by a hack. This is the most
+            // readable/understandable one I could come up with.
             Rotation {
                 axis { x: 1; y: 0; z: 0 }
                 origin { x: iconItem.width / 2; y: angle > 0 ? 0 : iconItem.height; z: 0 }
@@ -121,30 +125,18 @@ Item {
                 origin { x: iconItem.width / 2; y: angle > 0 ? 0 : iconItem.height; z: 0 }
                 angle: root.angle * 0.7
             },
+            // Because rotating it 3 times moves it more to the front/back, i.e. it gets
+            // bigger/smaller we need a scale to eliminate that side effect again.
             Scale {
                 xScale: 1 - (Math.abs(angle) / 500)
                 yScale: 1 - (Math.abs(angle) / 500)
                 origin { x: iconItem.width / 2; y: iconItem.height / 2}
-            },
-            Translate {
-                y: -(root.height - root.effectiveHeight) * 0.5 * priv.orientationFlag
             }
 
         ]
 
-/*        vertexShader: "
-            uniform highp mat4 qt_Matrix;
-            attribute highp vec4 qt_Vertex;
-            varying highp vec2 qt_MultiTexCoord0;
-            varying highp vec2 coord;
-            uniform lowp float angle;
-            varying highp vec2 centerPoint;
-            void main() {
-                coord = qt_MultiTexCoord0;
-                highp vec4 rotatedVertex = qt_Vertex * angle;
-                gl_Position = qt_Matrix * rotatedVertex;
-            }"
-*/
+        // Using a fragment shader instead of QML's opacity and BrightnessContrast
+        // to be able to do both in one step which gives quite some better performance
         fragmentShader: "
             varying highp vec2 qt_TexCoord0;
             uniform sampler2D source;
@@ -183,6 +175,7 @@ Item {
             PropertyChanges {
                 target: root
 
+                // This is the offset that keeps the items in the panel
                 offset: {
                     // First/last items are special
                     if (index == 0 || index == iconRepeater.count-1) {
@@ -208,6 +201,7 @@ Item {
 
                 }
 
+                // The angle used for rotating
                 angle: {
                     //return 0;
                     // First item is special
