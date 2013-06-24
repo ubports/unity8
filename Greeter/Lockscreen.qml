@@ -48,6 +48,7 @@ Showable {
     }
 
     function reset() {
+        // This causes the loader below to destry and recreate the source
         pinPadLoader.resetting = true;
         pinPadLoader.resetting = false;
     }
