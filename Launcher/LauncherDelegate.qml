@@ -75,7 +75,6 @@ Item {
                     root.state = "docked"
                 }
             }
-
         }
         BorderImage {
             id: overlayHighlight
@@ -193,7 +192,6 @@ Item {
                     }
 
                     return 0;
-
                 }
 
                 // The angle used for rotating
@@ -285,7 +283,5 @@ Item {
                 drag.target: root
             }
         }
-
     ]
-
 }
