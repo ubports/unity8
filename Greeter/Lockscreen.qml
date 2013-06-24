@@ -42,7 +42,7 @@ Showable {
     signal emergencyCall()
 
     onRequiredChanged: {
-        if (required) {
+        if (required && pinPadLoader.item) {
             pinPadLoader.item.clear(false);
         }
     }
