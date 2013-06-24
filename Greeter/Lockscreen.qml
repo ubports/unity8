@@ -41,6 +41,12 @@ Showable {
     signal cancel()
     signal emergencyCall()
 
+    onRequiredChanged: {
+        if (required) {
+            pinPadLoader.item.clear(false);
+        }
+    }
+
     function reset() {
         pinPadLoader.resetting = true;
         pinPadLoader.resetting = false;
@@ -140,7 +146,6 @@ Showable {
             }
             if (LightDM.Greeter.authenticated) {
                 root.unlocked();
-                pinPadLoader.item.clear(false);
             } else {
                 pinPadLoader.item.clear(true);
             }
