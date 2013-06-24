@@ -22,6 +22,7 @@
 
 // local
 #include "categories.h"
+#include "preview.h"
 #include "variantutils.h"
 
 // Qt
@@ -121,9 +122,12 @@ void Scope::setNoResultsHint(const QString& hint) {
     }
 }
 
-void Scope::activate(const QVariant &uri, const QVariant &icon_hint, const QVariant &category,
-                     const QVariant &result_type, const QVariant &mimetype, const QVariant &title,
-                     const QVariant &comment, const QVariant &dnd_uri, const QVariant &metadata)
+
+unity::dash::LocalResult Scope::createLocalResult(const QVariant &uri, const QVariant &icon_hint,
+                                                  const QVariant &category, const QVariant &result_type,
+                                                  const QVariant &mimetype, const QVariant &title,
+                                                  const QVariant &comment, const QVariant &dnd_uri,
+                                                  const QVariant &metadata)
 {
     unity::dash::LocalResult res;
     res.uri = uri.toString().toStdString();
@@ -136,7 +140,23 @@ void Scope::activate(const QVariant &uri, const QVariant &icon_hint, const QVari
     res.dnd_uri = dnd_uri.toString().toStdString();
     res.hints = hintsMapFromQVariant(metadata);
 
+    return res;
+}
+
+void Scope::activate(const QVariant &uri, const QVariant &icon_hint, const QVariant &category,
+                     const QVariant &result_type, const QVariant &mimetype, const QVariant &title,
+                     const QVariant &comment, const QVariant &dnd_uri, const QVariant &metadata)
+{
+    auto res = createLocalResult(uri, icon_hint, category, result_type, mimetype, title, comment, dnd_uri, metadata);
     m_unityScope->Activate(res);
+}
+
+void Scope::preview(const QVariant &uri, const QVariant &icon_hint, const QVariant &category,
+             const QVariant &result_type, const QVariant &mimetype, const QVariant &title,
+             const QVariant &comment, const QVariant &dnd_uri, const QVariant &metadata)
+{
+    auto res = createLocalResult(uri, icon_hint, category, result_type, mimetype, title, comment, dnd_uri, metadata);
+    m_unityScope->Preview(res);
 }
 
 void Scope::onActivated(unity::dash::LocalResult const& result, unity::dash::ScopeHandledType type, unity::glib::HintsMap const&)
@@ -144,6 +164,10 @@ void Scope::onActivated(unity::dash::LocalResult const& result, unity::dash::Sco
     if (type == unity::dash::NOT_HANDLED) {
         fallbackActivate(QString::fromStdString(result.uri));
     }
+}
+
+void Scope::onPreviewReady(unity::dash::LocalResult const& result, unity::dash::Preview::Ptr const& preview)
+{
 }
 
 void Scope::fallbackActivate(const QString& uri)
@@ -216,6 +240,8 @@ void Scope::setUnityScope(const unity::dash::Scope::Ptr& scope)
 
     /* FIXME: signal should be forwarded instead of calling the handler directly */
     m_unityScope->activated.connect(sigc::mem_fun(this, &Scope::onActivated));
+
+    m_unityScope->preview_ready.connect(sigc::mem_fun(this, &Scope::onPreviewReady));
 
     /* Synchronize local states with m_unityScope right now and whenever
        m_unityScope becomes connected */

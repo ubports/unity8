@@ -33,6 +33,7 @@
 #include "deelistmodel.h"
 
 class Categories;
+class Preview;
 
 class Scope : public QObject
 {
@@ -76,6 +77,9 @@ public:
     Q_INVOKABLE void activate(const QVariant &uri, const QVariant &icon_hint, const QVariant &category,
                               const QVariant &result_type, const QVariant &mimetype, const QVariant &title,
                               const QVariant &comment, const QVariant &dnd_uri, const QVariant &metadata);
+    Q_INVOKABLE void preview(const QVariant &uri, const QVariant &icon_hint, const QVariant &category,
+                              const QVariant &result_type, const QVariant &mimetype, const QVariant &title,
+                              const QVariant &comment, const QVariant &dnd_uri, const QVariant &metadata);
     void setUnityScope(const unity::dash::Scope::Ptr& scope);
     unity::dash::Scope::Ptr unityScope() const;
 
@@ -95,6 +99,7 @@ Q_SIGNALS:
     void searchFinished(const std::string&, unity::glib::HintsMap const&, unity::glib::Error const&);
     void searchQueryChanged();
     void noResultsHintChanged();
+    void previewReady(const Preview &preview);
 
 private Q_SLOTS:
     void synchronizeStates();
@@ -107,8 +112,13 @@ private:
     void onCategoriesSwarmNameChanged(const std::string&);
     void onCategoriesModelChanged(unity::glib::Object<DeeModel>);
     void onCategoriesChanged(const unity::dash::Categories::Ptr&);
-
+    unity::dash::LocalResult createLocalResult(const QVariant &uri, const QVariant &icon_hint,
+                                               const QVariant &category, const QVariant &result_type,
+                                               const QVariant &mimetype, const QVariant &title,
+                                               const QVariant &comment, const QVariant &dnd_uri,
+                                               const QVariant &metadata);
     void onActivated(unity::dash::LocalResult const& result, unity::dash::ScopeHandledType type, unity::glib::HintsMap const&);
+    void onPreviewReady(unity::dash::LocalResult const& result, unity::dash::Preview::Ptr const& preview);
     void fallbackActivate(const QString& uri);
 
     unity::dash::Scope::Ptr m_unityScope;

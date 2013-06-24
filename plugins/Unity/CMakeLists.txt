@@ -20,6 +20,11 @@ set(QMLPLUGIN_SRC
     plugin.cpp
     bottombarvisibilitycommunicatorshell.cpp
     launchermodel.cpp
+    applicationpreview.cpp
+    genericpreview.cpp
+    moviepreview.cpp
+    musicpreview.cpp
+    preview.cpp
     variantutils.cpp
     )
 
