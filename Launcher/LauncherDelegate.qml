@@ -24,7 +24,6 @@ Item {
 
     property real angle: 0
 
-    onAngleChanged: if (index == 1) print("onAngleChanged", angle)
     property bool highlighted: false
     property real offset: 0
     property alias brightness: transformEffect.brightness
@@ -126,7 +125,7 @@ Item {
                 angle: root.angle * 0.7
             },
             // Because rotating it 3 times moves it more to the front/back, i.e. it gets
-            // bigger/smaller we need a scale to eliminate that side effect again.
+            // bigger/smaller and we need a scale to compensate that again.
             Scale {
                 xScale: 1 - (Math.abs(angle) / 500)
                 yScale: 1 - (Math.abs(angle) / 500)
@@ -175,7 +174,7 @@ Item {
             PropertyChanges {
                 target: root
 
-                // This is the offset that keeps the items in the panel
+                // This is the offset that keeps the items inside the panel
                 offset: {
                     // First/last items are special
                     if (index == 0 || index == iconRepeater.count-1) {
@@ -189,7 +188,6 @@ Item {
                     // Are we already completely outside the flickable? Stop the icon here.
                     if (priv.distanceFromEdge < -priv.totalUnfoldedHeight) {
                         return (-priv.distanceFromEdge - (root.height - effectiveHeight)) * priv.orientationFlag;
-                        return (-priv.distanceFromEdge - effectiveHeight) * priv.orientationFlag
                     }
 
                     // We're touching the edge, move slower than the actual flicking speed.
@@ -233,7 +231,7 @@ Item {
                     // First item is special
                     if (index == 0 || index == iconRepeater.count-1) {
                         if (priv.distanceFromEdge < 0) {
-                            // Fade from 1 to 0 in the distance of 2 items height (which is when the next item reaches the edge)
+                            // Fade from 1 to 0 in the distance of 3 * foldingAreaHeight (which is when the next item reaches the edge)
                             return 1.0 - (-priv.distanceFromEdge / (priv.foldingAreaHeight * 3))
                         }
                         return 1; // Don't make first/last item transparent as long as inside the view
