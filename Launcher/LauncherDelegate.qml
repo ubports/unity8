@@ -200,7 +200,7 @@ Item {
                     // First/last items are special
                     if (index == 0 || index == listView.count-1) {
                         if (priv.distanceFromEdge < 0) {
-                            // distanceFromTopEdge : angle = totalUnfoldedHeight/2 : maxAngle
+                            // proportion equation: distanceFromTopEdge : angle = totalUnfoldedHeight/2 : maxAngle
                             return Math.max(-maxAngle, priv.distanceFromEdge * maxAngle / (listView.foldingAreaHeight)) * priv.orientationFlag
                         }
                         return 0; // Don't fold first/last item as long as inside the view
@@ -208,13 +208,13 @@ Item {
 
                     // Are we in the already completely outside the flickable? Fold for the last 5 degrees
                     if (priv.distanceFromEdge < 0) {
-                        // -distanceFromTopEdge : angle = totalUnfoldedHeight : 5
+                        // proportion equation: -distanceFromTopEdge : angle = totalUnfoldedHeight : 5
                         return Math.max(-maxAngle, (priv.distanceFromEdge * 5 / listView.foldingAreaHeight) - (maxAngle-5)) * priv.orientationFlag
                     }
 
                     // We are overlapping with the folding area, fold the icon to maxAngle - 5 degrees
                     if (priv.overlapWithFoldingArea > 0) {
-                        // overlap: totalHeight = angle : (maxAngle - 5)
+                        // proportion equation: overlap: totalHeight = angle : (maxAngle - 5)
                         return -priv.overlapWithFoldingArea * (maxAngle -5) / listView.foldingAreaHeight * priv.orientationFlag;
                     }
                     return 0;
@@ -232,13 +232,13 @@ Item {
 
                     // Are we already completely outside the flickable? Fade from 0.75 to 0 in 2 items height
                     if (priv.distanceFromEdge < 0) {
-                        // -distanceFromEdge : 1-opacity = totalUnfoldedHeight : 0.75
+                        // proportion equation: -distanceFromEdge : 1-opacity = totalUnfoldedHeight : 0.75
                         return 0.75 - (-priv.distanceFromEdge * 0.75 / (priv.totalUnfoldedHeight*2))
                     }
 
                     // We are overlapping with the folding area, fade out to 0.75
                     if (priv.overlapWithFoldingArea > 0) {
-                        // overlap : totalHeight = 1-opacity : 0.25
+                        // proportion equation: overlap : totalHeight = 1-opacity : 0.25
                         return 1 - (priv.overlapWithFoldingArea * 0.25 / listView.foldingAreaHeight)
                     }
                     return 1;
