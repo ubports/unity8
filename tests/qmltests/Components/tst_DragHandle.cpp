@@ -201,7 +201,6 @@ qreal tst_DragHandle::fetchDragThreshold(DirectionalDragArea *dragHandle)
     AxisVelocityCalculator *edgeDragEvaluator =
         dragHandle->findChild<AxisVelocityCalculator*>("edgeDragEvaluator");
     Q_ASSERT(edgeDragEvaluator != 0);
-    edgeDragEvaluator->setTimeSource(fakeTimeSource);
 
     return edgeDragEvaluator->property("dragThreshold").toReal();
 }
