@@ -92,6 +92,7 @@ Item {
     ShaderEffect {
         id: transformEffect
         anchors.centerIn: parent
+        anchors.verticalCenterOffset: root.offset
         width: parent.width
         height: parent.height
         property real itemOpacity: root.itemOpacity
@@ -99,7 +100,6 @@ Item {
         property real angle: root.angle
         rotation: root.inverted ? 180 : 0
 
-        anchors.verticalCenterOffset: root.offset
 
         property variant source: ShaderEffectSource {
             sourceItem: iconItem
