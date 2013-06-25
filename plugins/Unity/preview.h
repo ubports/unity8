@@ -49,11 +49,13 @@ public:
     QString subtitle () const;
     PreviewActionList actions();
 
+public Q_SLOTS:
+    void execute(const QString& actionId, const QHash<QString, QVariant>& hints);
+
 protected:
     virtual void setUnityPreview(unity::dash::Preview::Ptr unityPreview);
     
     unity::dash::Preview::Ptr m_unityPreview;
-
 };
 
 Q_DECLARE_METATYPE(Preview *)

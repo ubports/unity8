@@ -27,6 +27,15 @@
 // libuinity-core
 #include <UnityCore/Preview.h>
 
+enum LayoutHint // keep in sync with unty::dash::LayoutHint
+{
+    None,
+    Left,
+    Right,
+    Top,
+    Bottom
+};
+
 class PreviewAction : public QObject
 {
     Q_OBJECT
@@ -36,6 +45,7 @@ class PreviewAction : public QObject
     Q_PROPERTY(QString iconHint READ iconHint)
     Q_PROPERTY(QString extraText READ extraText)
     Q_PROPERTY(QString activationUri READ activationUri)
+    Q_PROPERTY(LayoutHint layoutHint READ layoutHint)
 
 public:
     explicit PreviewAction(QObject *parent = 0);
@@ -46,6 +56,10 @@ public:
     QString iconHint() const;
     QString extraText() const;
     QString activationUri() const;
+    LayoutHint layoutHint() const;
+
+public Q_SLOTS:
+    void execute(const QHash<QString, QVariant>& hints);
 
 private:
     unity::dash::Preview::ActionPtr m_unityAction;
@@ -54,5 +68,6 @@ private:
 typedef QList<PreviewAction *> PreviewActionList;
 Q_DECLARE_METATYPE(PreviewAction*)
 Q_DECLARE_METATYPE(PreviewActionList)
+Q_DECLARE_METATYPE(LayoutHint)
 
 #endif

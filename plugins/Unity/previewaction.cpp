@@ -63,3 +63,14 @@ QString PreviewAction::activationUri() const
         return QString::fromStdString(m_unityAction->activation_uri);
     return "";
 }
+
+LayoutHint PreviewAction::layoutHint() const
+{
+    if (m_unityAction)
+        return static_cast<LayoutHint>(m_unityAction->layout_hint);
+    return LayoutHint::None;
+}
+
+void PreviewAction::execute(const QHash<QString, QVariant>& hints)
+{
+}

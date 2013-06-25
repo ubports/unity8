@@ -140,7 +140,7 @@ unity::dash::LocalResult Scope::createLocalResult(const QVariant &uri, const QVa
     res.name = title.toString().toStdString();
     res.comment = comment.toString().toStdString();
     res.dnd_uri = dnd_uri.toString().toStdString();
-    res.hints = hintsMapFromQVariant(metadata);
+    res.hints = convertToHintsMap(metadata);
 
     return res;
 }

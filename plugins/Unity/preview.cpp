@@ -23,6 +23,7 @@
 #include "applicationpreview.h"
 #include "moviepreview.h"
 #include "musicpreview.h"
+#include "variantutils.h"
 
 // Qt
 #include <QDebug>
@@ -39,22 +40,31 @@ Preview::Preview(QObject *parent):
 
 QString Preview::rendererName() const
 {
-    if (m_unityPreview)
+    if (m_unityPreview) {
         return QString::fromStdString(m_unityPreview->renderer_name());
+    } else {
+        qWarning() << "Preview not set";
+    }
     return "";
 }
 
 QString Preview::title() const
 {
-    if (m_unityPreview)
+    if (m_unityPreview) {
         return QString::fromStdString(m_unityPreview->title());
+    } else {
+        qWarning() << "Preview not set";
+    }
     return "";
 }
 
 QString Preview::subtitle () const
 {
-    if (m_unityPreview)
+    if (m_unityPreview) {
         return QString::fromStdString(m_unityPreview->subtitle());
+    } else {
+        qWarning() << "Preview not set";
+    }
     return "";
 }
 
@@ -67,6 +77,8 @@ PreviewActionList Preview::actions()
             action->setUnityAction(unityAction);
             alist.append(action);
         }
+    } else {
+        qWarning() << "Preview not set";
     }
     return alist;
 }
@@ -99,4 +111,14 @@ Preview* Preview::newFromUnityPreview(unity::dash::Preview::Ptr unityPreview)
 void Preview::setUnityPreview(unity::dash::Preview::Ptr /* unityPreview */)
 {
     // default implementation does nothing
+}
+
+void Preview::execute(const QString& actionId, const QHash<QString, QVariant>& hints)
+{
+    if (m_unityPreview) {
+        auto unityHints = convertToHintsMap(hints);
+        m_unityPreview->PerformAction(actionId.toStdString(), unityHints);
+    } else {
+        qWarning() << "Preview not set";
+    }
 }

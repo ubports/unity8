@@ -27,6 +27,7 @@
 #include <UnityCore/Variant.h>
 
 GVariant* GVariantFromQVariant(const QVariant &value);
-unity::glib::HintsMap hintsMapFromQVariant(const QVariant &var);
+unity::glib::HintsMap convertToHintsMap(const QHash<QString, QVariant> &val);
+unity::glib::HintsMap convertToHintsMap(const QVariant &var);
 
 #endif

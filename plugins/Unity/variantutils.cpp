@@ -66,17 +66,24 @@ GVariant* GVariantFromQVariant(const QVariant &var)
     return gv;
 }
 
-unity::glib::HintsMap hintsMapFromQVariant(const QVariant &var)
+
+unity::glib::HintsMap convertToHintsMap(const QHash<QString, QVariant> &val)
+{
+    unity::glib::HintsMap hintsMap;
+    QHash<QString, QVariant>::const_iterator it = val.constBegin();
+    while (it != val.constEnd()) {
+        hintsMap[it.key().toStdString()] = GVariantFromQVariant(it.value());
+        ++it;
+    }
+    return hintsMap;
+}
+
+unity::glib::HintsMap convertToHintsMap(const QVariant &var)
 {
     if (var.type() == QVariant::Hash) {
         unity::glib::HintsMap hintsMap;
         const auto hash = var.toHash();
-        QHash<QString, QVariant>::const_iterator it = hash.constBegin();
-        while (it != hash.constEnd()) {
-            hintsMap[it.key().toStdString()] = GVariantFromQVariant(it.value());
-            ++it;
-        }
-        return hintsMap;
+        return convertToHintsMap(hash);
     }
     return unity::glib::HintsMap();
 }
