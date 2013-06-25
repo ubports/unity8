@@ -3,7 +3,8 @@ Building Unity 8
 
 download source
 ---------------
-- the build requires some additional dependencies, so create the parent folder to not pollute your setup
+- the build requires some additional dependencies, so create the parent
+folder to not pollute your setup
   $ mkdir ~/unity
 
 - fetch Unity 8 source
@@ -16,19 +17,22 @@ build dependencies
 If its your first time, download & build deps
 $ ./build -s
   this will:
-  - add ppa:phablet-team/desktop-deps, ppa:canonical-qt5-edgers/qt5-proper, ppa:ubuntu-sdk-team
-  - build and install lp:libunity/phablet, lp:unity/phablet-mods, lp:hud/phablet locally
-  - install build dependencies
+  - add the following ppa's
+    - ppa:phablet-team/desktop-deps
+    - ppa:canonical-qt5-edgers/qt5-proper
+    - ppa:ubuntu-sdk-team
+  - install the required dependencies to build, as well as run on the desktop
+
+Note, once the ppa's are added a apt-get update will be run, if you have
+any failures associated with it, the build script will bail out of the setup
+and fail to install all the required dependencies.
 
 build Unity 8
 -------------
 $ ./build
 
-subsequent updates of the dependencies
---------------------------------------
-$ ./build_unity -u
-$ ./build_unity
-
+You may also rebuild with the -c for clean, which just deletes the build
+directory.
 
 Running Unity 8 on your desktop
 ===============================
@@ -37,6 +41,12 @@ run the Unity 8 shell
 ---------------------
 $ cd ~/unity/unity8
 $ ./run
+
+Options can be passed to test the lock screen
+$ ./run -p OR -k
+
+-p is for pin lock, for which the default prompt answer is "1234"
+-k is for keylock passphrase, for which the default prompt answer is "password"
 
 Notes
 -----
@@ -49,10 +59,16 @@ Notes
 Running Unity 8 on devices
 ==========================
 - Ubuntu Touch builds are currently only available in 13.10 flavour
-- supported hardware should match one those listed here https://wiki.ubuntu.com/Touch/Devices#Running_fine
-- follow the Ubuntu Touch install instructions for your chosen device https://wiki.ubuntu.com/Touch/Install
+- supported hardware should match one those listed here
+https://wiki.ubuntu.com/Touch/Devices#Running_fine
+- follow the Ubuntu Touch install instructions for your chosen device
+https://wiki.ubuntu.com/Touch/Install
 - make sure your device is connected to a WiFi network
-- also make sure you have your SSH key in ~/.ssh/id_rsa.pub (or install one on the device yourself)
+- If you haven’t already or if you’ve just freshly flashed your device
+make sure you run phablet-network-setup which will allow package updates to
+the device
+- also make sure you have your SSH key in ~/.ssh/id_rsa.pub (or install one
+on the device yourself)
 
 $ cd ~/unity/unity8
 $ ./run_on_device -s
@@ -67,18 +83,27 @@ $ ./run_on_device
   - build on the device
   - replace the running shell
 
+Options can be passed to test the lock screen
+$ ./run_on_device -p OR -k
+
+-p is for pin lock, for which the default prompt answer is "1234"
+-k is for keylock passphrase, for which the default prompt answer is "password"
+
 Notes
 -----
 - using adb over TCP has some advantages, Google will be of help here
   - TL;DR: `adb tcpip 5555; adb connect $your_device_ip`
   - you can persist the above via `adb shell setprop persist.adb.tcp.port 5555`
   - it's unsafe - anyone can connect to your device
-  - with TCP the Nexus 10 doesn't drop the adb connection when locking the screen
-- exporting ANDROID_SERIAL=$your_device_serial or ANDROID_SERIAL=$your_device_ip:5555
-  will make adb not complain about multiple devices 
+  - with TCP the Nexus 10 doesn't drop the adb connection when locking
+  the screen
+- exporting ANDROID_SERIAL=$your_device_serial or
+ANDROID_SERIAL=$your_device_ip:5555
+  will make adb not complain about multiple devices
 - you can export TARGET_IP=$your_device_ip TARGET_SSH_PORT=22 for run_on_device
   to not use adb forwarding - useful if you use multiple devices
-- using Ninja (package ninja-build - run_on_device -s installs this now) will improve
+- using Ninja (package ninja-build - run_on_device -s installs this now)
+will improve
   build times (especially in the nothing-to-build case)
 
 
@@ -90,4 +115,6 @@ https://launchpad.net/canonical-client-development-guidelines
 
 Development Environment
 =======================
-QtCreator (available via the Software Center) is the best IDE to hack on Unity 8.
+QtCreator (available via the Software Center) is the best IDE to hack on
+Unity 8.
+
