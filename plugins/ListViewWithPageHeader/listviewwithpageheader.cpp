@@ -639,11 +639,11 @@ ListViewWithPageHeader::ListItem *ListViewWithPageHeader::createItem(int modelIn
             ListItem *currItem = itemAtIndex(modelIndex);
             if (currItem) {
                 // There's something already in m_visibleItems at out index, meaning this is an insert, so attach to its top
-                listItem->setY(currItem->y() - listItem ->height());
+                listItem->setY(currItem->y() - listItem->height());
             } else {
                 ListItem *nextItem = itemAtIndex(modelIndex + 1);
                 if (nextItem) {
-                    listItem->setY(nextItem->y() - listItem ->height());
+                    listItem->setY(nextItem->y() - listItem->height());
                 } else if (modelIndex == 0 && m_headerItem) {
                     listItem->setY(m_headerItem->height());
                 } else if (!m_visibleItems.isEmpty()) {
