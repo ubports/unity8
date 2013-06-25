@@ -56,6 +56,10 @@ Item {
 
             image: Image {
                 id: iconImage
+                sourceSize: {
+                    width: parent.width
+                    height: parent.height
+                }
                 source: "../graphics/applicationIcons/" + root.iconName + ".png"
             }
 
