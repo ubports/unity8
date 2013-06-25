@@ -636,13 +636,19 @@ ListViewWithPageHeader::ListItem *ListViewWithPageHeader::createItem(int modelIn
         if (prevItem) {
             listItem->setY(prevItem->y() + prevItem->height());
         } else {
-            ListItem *nextItem = itemAtIndex(modelIndex + 1);
-            if (nextItem) {
-                listItem->setY(nextItem->y() - listItem ->height());
-            } else if (modelIndex == 0 && m_headerItem) {
-                listItem->setY(m_headerItem->height());
-            } else if (!m_visibleItems.isEmpty()) {
-                lostItem = true;
+            ListItem *currItem = itemAtIndex(modelIndex);
+            if (currItem) {
+                // There's something already in m_visibleItems at out index, meaning this is an insert, so attach to its top
+                listItem->setY(currItem->y() - listItem ->height());
+            } else {
+                ListItem *nextItem = itemAtIndex(modelIndex + 1);
+                if (nextItem) {
+                    listItem->setY(nextItem->y() - listItem ->height());
+                } else if (modelIndex == 0 && m_headerItem) {
+                    listItem->setY(m_headerItem->height());
+                } else if (!m_visibleItems.isEmpty()) {
+                    lostItem = true;
+                }
             }
         }
         if (lostItem) {
@@ -707,7 +713,7 @@ void ListViewWithPageHeader::onModelUpdated(const QQuickChangeSet &changeSet, bo
     const auto oldFirstVisibleIndex = m_firstVisibleIndex;
 
     foreach(const QQuickChangeSet::Remove &remove, changeSet.removes()) {
-//         qDebug() << "ListViewWithPageHeader::onModelUpdated Remove" << remove;
+//         qDebug() << "ListViewWithPageHeader::onModelUpdated Remove" << remove.index << remove.count;
         if (remove.index + remove.count > m_firstVisibleIndex && remove.index < m_firstVisibleIndex + m_visibleItems.count()) {
             const qreal oldFirstValidIndexPos = m_visibleItems.first()->y();
             // If all the items we are removing are either not created or culled
