@@ -36,8 +36,6 @@ Item {
 
     property bool dragging:false
 
-    readonly property ListView listView: ListView.view
-
     signal clicked()
     signal longtap()
     signal released()
@@ -155,6 +153,7 @@ Item {
     QtObject {
         id: priv
 
+        property ListView listView: root.ListView.view
         property real totalUnfoldedHeight: listView.itemSize + listView.spacing
         property real totalEffectiveHeight: effectiveHeight + listView.spacing
         property real effectiveContentY: listView.contentY - listView.originY
@@ -177,7 +176,7 @@ Item {
                 // This is the offset that keeps the items inside the panel
                 offset: {
                     // First/last items are special
-                    if (index == 0 || index == listView.count-1) {
+                    if (index == 0 || index == priv.listView.count-1) {
                         // Just keep them bound to the edges in case they're outside of the visible area
                         if (priv.distanceFromEdge < 0) {
                             return (-priv.distanceFromEdge - (height - effectiveHeight)) * priv.orientationFlag;
@@ -200,10 +199,10 @@ Item {
                 // The angle used for rotating
                 angle: {
                     // First/last items are special
-                    if (index == 0 || index == listView.count-1) {
+                    if (index == 0 || index == priv.listView.count-1) {
                         if (priv.distanceFromEdge < 0) {
                             // proportion equation: distanceFromTopEdge : angle = totalUnfoldedHeight/2 : maxAngle
-                            return Math.max(-maxAngle, priv.distanceFromEdge * maxAngle / (listView.foldingAreaHeight)) * priv.orientationFlag
+                            return Math.max(-maxAngle, priv.distanceFromEdge * maxAngle / (priv.listView.foldingAreaHeight)) * priv.orientationFlag
                         }
                         return 0; // Don't fold first/last item as long as inside the view
                     }
@@ -211,23 +210,23 @@ Item {
                     // Are we in the already completely outside the flickable? Fold for the last 5 degrees
                     if (priv.distanceFromEdge < 0) {
                         // proportion equation: -distanceFromTopEdge : angle = totalUnfoldedHeight : 5
-                        return Math.max(-maxAngle, (priv.distanceFromEdge * 5 / listView.foldingAreaHeight) - (maxAngle-5)) * priv.orientationFlag
+                        return Math.max(-maxAngle, (priv.distanceFromEdge * 5 / priv.listView.foldingAreaHeight) - (maxAngle-5)) * priv.orientationFlag
                     }
 
                     // We are overlapping with the folding area, fold the icon to maxAngle - 5 degrees
                     if (priv.overlapWithFoldingArea > 0) {
                         // proportion equation: overlap: totalHeight = angle : (maxAngle - 5)
-                        return -priv.overlapWithFoldingArea * (maxAngle -5) / listView.foldingAreaHeight * priv.orientationFlag;
+                        return -priv.overlapWithFoldingArea * (maxAngle -5) / priv.listView.foldingAreaHeight * priv.orientationFlag;
                     }
                     return 0;
                 }
 
                 itemOpacity: {
                     // First/last items are special
-                    if (index == 0 || index == listView.count-1) {
+                    if (index == 0 || index == priv.listView.count-1) {
                         if (priv.distanceFromEdge < 0) {
                             // Fade from 1 to 0 in the distance of 3 * foldingAreaHeight (which is when the next item reaches the edge)
-                            return 1.0 - (-priv.distanceFromEdge / (listView.foldingAreaHeight * 3))
+                            return 1.0 - (-priv.distanceFromEdge / (priv.listView.foldingAreaHeight * 3))
                         }
                         return 1; // Don't make first/last item transparent as long as inside the view
                     }
@@ -241,16 +240,16 @@ Item {
                     // We are overlapping with the folding area, fade out to 0.75
                     if (priv.overlapWithFoldingArea > 0) {
                         // proportion equation: overlap : totalHeight = 1-opacity : 0.25
-                        return 1 - (priv.overlapWithFoldingArea * 0.25 / listView.foldingAreaHeight)
+                        return 1 - (priv.overlapWithFoldingArea * 0.25 / priv.listView.foldingAreaHeight)
                     }
                     return 1;
                 }
 
                 brightness: {
                     // First/last items are special
-                    if (index == 0 || index == listView.count-1) {
+                    if (index == 0 || index == priv.listView.count-1) {
                         if (priv.distanceFromEdge < 0) {
-                            return -(-priv.distanceFromEdge / (listView.foldingAreaHeight * 3))
+                            return -(-priv.distanceFromEdge / (priv.listView.foldingAreaHeight * 3))
                         }
                         return 0;
                     }
@@ -261,7 +260,7 @@ Item {
 
                     // We are overlapping with the folding area, fade out to 0.7
                     if (priv.overlapWithFoldingArea > 0) {
-                        return - (priv.overlapWithFoldingArea * 0.3 / listView.foldingAreaHeight)
+                        return - (priv.overlapWithFoldingArea * 0.3 / priv.listView.foldingAreaHeight)
                     }
                     return 0;
                 }
