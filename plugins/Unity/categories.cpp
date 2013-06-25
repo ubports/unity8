@@ -30,6 +30,7 @@ Categories::Categories(QObject* parent)
     m_roles[Categories::RoleName] = "name";
     m_roles[Categories::RoleIcon] = "icon";
     m_roles[Categories::RoleRenderer] = "renderer";
+    m_roles[Categories::RoleContentType] = "content_type";
     m_roles[Categories::RoleHints] = "hints";
     m_roles[Categories::RoleResults] = "results";
     m_roles[Categories::RoleCount] = "count";
@@ -111,22 +112,31 @@ Categories::data(const QModelIndex& index, int role) const
         return QVariant();
     }
 
-    if (role == RoleId) {
+    switch (role) {
+      case RoleId:
         return QVariant::fromValue(index.row());
-    } else if (role == RoleName) {
+      case RoleName:
         return QVariant::fromValue(DeeListModel::data(index, 1)); //DISPLAY_NAME
-    } else if (role == RoleIcon) {
+      case RoleIcon:
         return QVariant::fromValue(DeeListModel::data(index, 2)); //ICON_HINT
-    } else if (role == RoleRenderer) {
+      case RoleRenderer:
         return QVariant::fromValue(DeeListModel::data(index, 3)); //RENDERER_NAME
-    } else if (role == RoleHints) {
+      case RoleContentType:
+      {
+        auto hints = QVariant::fromValue(DeeListModel::data(index, 4)).toHash();
+        return hints.contains("content-type") ?
+            hints["content-type"] : QVariant(QString("default"));
+      }
+      case RoleHints:
         return QVariant::fromValue(DeeListModel::data(index, 4)); //HINTS
-    } else if (role == RoleResults) {
+      case RoleResults:
         return QVariant::fromValue(getFilter(index.row()));
-    } else if (role == RoleCount) {
+      case RoleCount:
+      {
         CategoryFilter* filter = getFilter(index.row());
         return QVariant::fromValue(filter->rowCount());
-    } else {
+      }
+      default:
         return QVariant();
     }
 }
