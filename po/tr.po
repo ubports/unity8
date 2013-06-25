@@ -8,58 +8,58 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-06-19 17:06+0200\n"
-"PO-Revision-Date: 2013-06-05 22:20+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2013-06-24 17:24+0000\n"
+"Last-Translator: Adar Cem EREN <adarcemeren34@gmail.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-20 06:37+0000\n"
-"X-Generator: Launchpad (build 16673)\n"
+"X-Launchpad-Export-Date: 2013-06-25 06:00+0000\n"
+"X-Generator: Launchpad (build 16677)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
-msgstr ""
+msgstr "Telefon"
 
 #: Applications/applications.js:29
 msgid "Camera"
-msgstr ""
+msgstr "Kamera"
 
 #: Applications/applications.js:35
 msgid "Gallery"
-msgstr ""
+msgstr "Galeri"
 
 #: Applications/applications.js:40
 msgid "Facebook"
-msgstr ""
+msgstr "Facebook"
 
 #: Applications/applications.js:46
 msgid "Browser"
-msgstr ""
+msgstr "Tarayıcı"
 
 #: Applications/applications.js:51
 msgid "Twitter"
-msgstr ""
+msgstr "Twitter"
 
 #: Applications/applications.js:57
 msgid "GMail"
-msgstr ""
+msgstr "GMail"
 
 #: Applications/applications.js:62
 msgid "Weather"
-msgstr ""
+msgstr "Hava Durumu"
 
 #: Applications/applications.js:68
 msgid "Notepad"
-msgstr ""
+msgstr "Not Defteri"
 
 #: Applications/applications.js:74
 msgid "Calendar"
-msgstr ""
+msgstr "Takvim"
 
 #: Applications/applications.js:80
 msgid "Media Player"
-msgstr ""
+msgstr "Ortam Oynatıcı"
 
 #: Applications/applications.js:86
 msgid "Evernote"
@@ -67,7 +67,7 @@ msgstr ""
 
 #: Applications/applications.js:91
 msgid "Map"
-msgstr ""
+msgstr "Harita"
 
 #: Applications/applications.js:96
 msgid "Pinterest"
@@ -79,15 +79,15 @@ msgstr ""
 
 #: Applications/applications.js:106
 msgid "Wikipedia"
-msgstr ""
+msgstr "Vikipedi"
 
 #: Applications/applications.js:111
 msgid "YouTube"
-msgstr ""
+msgstr "YouTube"
 
 #: Components/PageHeader.qml:300
 msgid "Recent searches"
-msgstr "Son aramalar"
+msgstr "Son Arananlar"
 
 #: Dash/DashApps.qml:65
 msgid "Running apps"
@@ -131,15 +131,15 @@ msgstr "Çevrimiçi Yaygın Videolar"
 
 #: Dash/DashHome.qml:197 plugins/Unity/lenses.cpp:38
 msgid "Home"
-msgstr "Ev"
+msgstr "Ana Sayfa"
 
 #: Dash/DashMusic.qml:27 Dash/DashVideos.qml:28
 msgid "Featured"
-msgstr ""
+msgstr "Öne Çıkanlar"
 
 #: Dash/DashMusic.qml:28 Dash/DashVideos.qml:29
 msgid "Recent"
-msgstr ""
+msgstr "En Son"
 
 #: Dash/DashMusic.qml:29 Dash/DashVideos.qml:30
 msgid "New Releases"
@@ -155,7 +155,7 @@ msgstr "Müzik"
 
 #: Dash/DashPeople.qml:31
 msgid "Favourites"
-msgstr ""
+msgstr "Favoriler"
 
 #: Dash/DashPeople.qml:32
 msgid "Recently in touch"
@@ -163,11 +163,11 @@ msgstr ""
 
 #: Dash/DashPeople.qml:33
 msgid "New Contacts"
-msgstr ""
+msgstr "Yeni Kişiler"
 
 #: Dash/DashPeople.qml:34
 msgid "A-Z"
-msgstr ""
+msgstr "A-Z"
 
 #: Dash/DashPeople.qml:123
 msgid "People"
@@ -175,7 +175,7 @@ msgstr "Kişiler"
 
 #: Dash/DashVideos.qml:31
 msgid "Popular Online"
-msgstr ""
+msgstr "Genellikle Çevrimiçi"
 
 #: Dash/DashVideos.qml:155
 msgid "Videos"
@@ -183,7 +183,7 @@ msgstr "Videolar"
 
 #: Dash/Video/VideoPreview.qml:98
 msgid "Directed by:"
-msgstr ""
+msgstr "Yönetmen"
 
 #: Dash/Video/VideoPreview.qml:121
 msgid "Starring:"
@@ -191,11 +191,11 @@ msgstr ""
 
 #: Dash/Video/VideoPreview.qml:144
 msgid "Author:"
-msgstr ""
+msgstr "Yazar:"
 
 #: Greeter/Lockscreen.qml:126
 msgid "Emergency call"
-msgstr ""
+msgstr "Acil Arama"
 
 #: Greeter/PassphraseLockscreen.qml:59
 #, qt-format
@@ -204,7 +204,7 @@ msgstr ""
 
 #: Greeter/PassphraseLockscreen.qml:59
 msgid "Hello"
-msgstr ""
+msgstr "Merhaba"
 
 #: Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
@@ -232,7 +232,7 @@ msgstr "Aygıt"
 
 #: Panel/Menus/Overview/FlightModeWidget.qml:42
 msgid "Flight mode"
-msgstr "Uçak kipi"
+msgstr "Uçak Modu"
 
 #: Panel/SearchIndicator.qml:26 plugins/Unity/lenses.cpp:40
 msgid "Search"
