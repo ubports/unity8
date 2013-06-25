@@ -112,11 +112,9 @@ Item {
                 preferredHighlightBegin: (height - itemSize) / 2
                 preferredHighlightEnd: (height + itemSize) / 2
 
-                property int itemSize: width
-
                 // The height of the area where icons start getting folded
                 property int foldingAreaHeight: itemSize * 0.75
-
+                property int itemSize: width
 
                 delegate: LauncherDelegate {
                     id: launcherDelegate
@@ -128,7 +126,6 @@ Item {
                     highlighted: root.dragging && index === root.highlightIndex
                     z: -Math.abs(offset)
                     state: "docked"
-
                     maxAngle: 60
 
                     onClicked: {

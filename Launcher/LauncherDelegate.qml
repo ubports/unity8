@@ -134,7 +134,6 @@ Item {
                 yScale: 1 - (Math.abs(angle) / 500)
                 origin { x: iconItem.width / 2; y: iconItem.height / 2}
             }
-
         ]
 
         // Using a fragment shader instead of QML's opacity and BrightnessContrast
@@ -165,7 +164,6 @@ Item {
         property real orientationFlag: Math.abs(distanceFromBottomEdge) < Math.abs(distanceFromTopEdge) ? -1 : 1
 
         property real overlapWithFoldingArea: listView.foldingAreaHeight - distanceFromEdge
-
     }
 
     states: [
@@ -194,7 +192,6 @@ Item {
                     if (priv.distanceFromEdge < 0) {
                         return (Math.abs(priv.distanceFromEdge) * priv.totalEffectiveHeight / priv.totalUnfoldedHeight) * priv.orientationFlag
                     }
-
                     return 0;
                 }
 
@@ -219,9 +216,7 @@ Item {
                     if (priv.overlapWithFoldingArea > 0) {
                         // overlap: totalHeight = angle : (maxAngle - 5)
                         return -priv.overlapWithFoldingArea * (maxAngle -5) / listView.foldingAreaHeight * priv.orientationFlag;
-
                     }
-
                     return 0;
                 }
 
