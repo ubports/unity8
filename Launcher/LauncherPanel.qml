@@ -91,6 +91,7 @@ Item {
                 right: parent.right
                 margins: -mainColumn.anchors.leftMargin
             }
+            rotation: root.rotation
         }
 
         Item {
