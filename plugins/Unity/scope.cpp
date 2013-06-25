@@ -30,6 +30,8 @@
 #include <QDebug>
 #include <QtGui/QDesktopServices>
 
+#include <UnityCore/Variant.h>
+
 #include <libintl.h>
 
 Scope::Scope(QObject *parent) :
@@ -174,8 +176,8 @@ void Scope::onActivated(unity::dash::LocalResult const& result, unity::dash::Sco
             Q_EMIT hideDash();
             break;
         case unity::dash::GOTO_DASH_URI:
-            if (hints.contains("goto-uri")) {
-                Q_EMIT gotoUri(QString::fromStdString(hints["goto-uri"]));
+            if (hints.find("goto-uri") != hints.end()) {
+                Q_EMIT gotoUri(QString::fromStdString(g_variant_get_string(hints.at("goto-uri"), nullptr)));
             } else {
                 qWarning() << "Missing goto-uri hint for GOTO_DASH_URI activation reply";
             }
@@ -187,9 +189,8 @@ void Scope::onActivated(unity::dash::LocalResult const& result, unity::dash::Sco
 
 void Scope::onPreviewReady(unity::dash::LocalResult const& result, unity::dash::Preview::Ptr const& preview)
 {
-    auto res = createLocalResult(uri, icon_hint, category, result_type, mimetype, title, comment, dnd_uri, metadata);
     auto prv = Preview::newFromUnityPreview(preview);
-    Q_EMIT previewReady(prv);
+    Q_EMIT previewReady(*prv);
 }
 
 void Scope::fallbackActivate(const QString& uri)

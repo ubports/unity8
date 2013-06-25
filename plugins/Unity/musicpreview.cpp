@@ -23,3 +23,8 @@ MusicPreview::MusicPreview(QObject *parent):
     Preview(parent)
 {
 }
+
+void MusicPreview::setUnityPreview(unity::dash::Preview::Ptr unityPreview)
+{
+    m_unityMusicPreview = std::dynamic_pointer_cast<unity::dash::MusicPreview>(unityPreview);
+}

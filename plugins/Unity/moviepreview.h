@@ -45,9 +45,10 @@ public:
     float rating() const;
     unsigned int numRatings() const;
 
-private:
+protected:
     void setUnityPreview(unity::dash::Preview::Ptr unityPreview) override;
 
+private:
     unity::dash::MoviePreview::Ptr m_unityMoviePreview;
 };
 

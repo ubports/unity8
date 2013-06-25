@@ -55,3 +55,7 @@ unsigned int ApplicationPreview::numRatings() const
     return m_unityAppPreview->num_ratings();
 }
 
+void ApplicationPreview::setUnityPreview(unity::dash::Preview::Ptr unityPreview)
+{
+    m_unityAppPreview = std::dynamic_pointer_cast<unity::dash::ApplicationPreview>(unityPreview);
+}

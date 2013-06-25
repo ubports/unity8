@@ -27,12 +27,21 @@
 #include <QObject>
 #include <QMetaType>
 
+// libunity-core
+#include <UnityCore/MusicPreview.h>
+
 class MusicPreview: public Preview
 {
     Q_OBJECT
 
 public:
     explicit MusicPreview(QObject *parent = 0);
+
+protected:
+    void setUnityPreview(unity::dash::Preview::Ptr unityPreview) override;
+
+private:
+    unity::dash::MusicPreview::Ptr m_unityMusicPreview;
 };
 
 Q_DECLARE_METATYPE(MusicPreview *)

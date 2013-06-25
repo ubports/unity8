@@ -51,6 +51,9 @@ public:
     float rating() const;
     unsigned int numRatings() const;
 
+protected:
+    void setUnityPreview(unity::dash::Preview::Ptr unityPreview) override;
+
 private:
     unity::dash::ApplicationPreview::Ptr m_unityAppPreview;
 };

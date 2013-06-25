@@ -37,11 +37,6 @@ Preview::Preview(QObject *parent):
 {
 }
 
-void Preview::setUnityPreview(unity::dash::Preview::Ptr unityPreview)
-{
-    m_unityPreview = unityPreview;
-}
-
 QString Preview::rendererName() const
 {
     return QString::fromStdString(m_unityPreview->renderer_name());
@@ -76,7 +71,13 @@ Preview* Preview::newFromUnityPreview(unity::dash::Preview::Ptr unityPreview)
         qWarning() << "Unknown preview type: " << typeid(*unityPreview).name();
         preview = new GenericPreview();
     }
+    preview->m_unityPreview = unityPreview;
     preview->setUnityPreview(unityPreview);
 
     return preview;
+}
+
+void Preview::setUnityPreview(unity::dash::Preview::Ptr /* unityPreview */)
+{
+    // default implementation does nothing
 }
