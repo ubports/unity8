@@ -187,7 +187,7 @@ void Scope::onActivated(unity::dash::LocalResult const& result, unity::dash::Sco
     }
 }
 
-void Scope::onPreviewReady(unity::dash::LocalResult const& result, unity::dash::Preview::Ptr const& preview)
+void Scope::onPreviewReady(unity::dash::LocalResult const& /* result */, unity::dash::Preview::Ptr const& preview)
 {
     auto prv = Preview::newFromUnityPreview(preview);
     Q_EMIT previewReady(*prv);

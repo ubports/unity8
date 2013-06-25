@@ -39,17 +39,36 @@ Preview::Preview(QObject *parent):
 
 QString Preview::rendererName() const
 {
-    return QString::fromStdString(m_unityPreview->renderer_name());
+    if (m_unityPreview)
+        return QString::fromStdString(m_unityPreview->renderer_name());
+    return "";
 }
 
 QString Preview::title() const
 {
-    return QString::fromStdString(m_unityPreview->title());
+    if (m_unityPreview)
+        return QString::fromStdString(m_unityPreview->title());
+    return "";
 }
 
 QString Preview::subtitle () const
 {
-    return QString::fromStdString(m_unityPreview->subtitle());
+    if (m_unityPreview)
+        return QString::fromStdString(m_unityPreview->subtitle());
+    return "";
+}
+
+PreviewActionList Preview::actions()
+{
+    PreviewActionList alist;
+    if (m_unityPreview) {
+        for (auto unityAction: m_unityPreview->GetActions()) {
+            auto action = new PreviewAction(this);
+            action->setUnityAction(unityAction);
+            alist.append(action);
+        }
+    }
+    return alist;
 }
 
 Preview* Preview::newFromUnityPreview(unity::dash::Preview::Ptr unityPreview)

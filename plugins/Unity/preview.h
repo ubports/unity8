@@ -28,6 +28,9 @@
 // libunity-core
 #include <UnityCore/Preview.h>
 
+// local
+#include "previewaction.h"
+
 class Preview : public QObject
 {
     Q_OBJECT
@@ -35,6 +38,7 @@ class Preview : public QObject
     Q_PROPERTY(QString rendererName READ rendererName)
     Q_PROPERTY(QString title READ title)
     Q_PROPERTY(QString subtitle READ subtitle)
+    Q_PROPERTY(PreviewActionList actions READ actions)
     
 public:
     explicit Preview(QObject *parent = 0);
@@ -43,6 +47,7 @@ public:
     QString rendererName() const;
     QString title() const;
     QString subtitle () const;
+    PreviewActionList actions();
 
 protected:
     virtual void setUnityPreview(unity::dash::Preview::Ptr unityPreview);
