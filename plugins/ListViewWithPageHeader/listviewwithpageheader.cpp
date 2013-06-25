@@ -70,6 +70,13 @@
  * that is used for the cases we need to show the sticky section item at
  * the top of the view.
  *
+ * Each delegate item has a context property called heightToClip that is
+ * used to communicate to the delegate implementation in case it has to
+ * clip itself because of overlapping with the top sticky section item.
+ * This is an implementation decision since it has been agreed it
+ * is easier to implement the clipping in QML with this info than to
+ * do it at the C++ level.
+ *
  * Note that minYExtent and height are not always totally accurate, since
  * we don't have the items created we can't guess their heights
  * so we can only guarantee the values are correct when the first/last
