@@ -157,8 +157,10 @@ Item {
 
         property real totalUnfoldedHeight: listView.itemSize + listView.spacing
         property real totalEffectiveHeight: effectiveHeight + listView.spacing
-        property real distanceFromTopEdge: -(listView.contentY + listView.topMargin - index*totalUnfoldedHeight)
-        property real distanceFromBottomEdge: listView.height - listView.bottomMargin - (y+height) + listView.contentY
+        property real effectiveContentY: listView.contentY - listView.originY
+        property real effectiveY: y - listView.originY
+        property real distanceFromTopEdge: -(effectiveContentY + listView.topMargin - index*totalUnfoldedHeight)
+        property real distanceFromBottomEdge: listView.height - listView.bottomMargin - (effectiveY+height) + effectiveContentY
 
         property real distanceFromEdge: Math.abs(distanceFromBottomEdge) < Math.abs(distanceFromTopEdge) ? distanceFromBottomEdge : distanceFromTopEdge
         property real orientationFlag: Math.abs(distanceFromBottomEdge) < Math.abs(distanceFromTopEdge) ? -1 : 1
