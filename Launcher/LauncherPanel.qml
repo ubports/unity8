@@ -27,7 +27,7 @@ Item {
     property var model
     property bool inverted: true
     property bool dragging: false
-    property bool moving: launcherListView.moving
+    property bool moving: launcherListView.moving || launcherListView.flicking
     property int dragPosition: 0
     property int highlightIndex: -1
 
