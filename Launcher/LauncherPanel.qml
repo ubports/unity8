@@ -111,7 +111,6 @@ Item {
                 highlightRangeMode: ListView.ApplyRange
                 preferredHighlightBegin: (height - itemSize) / 2
                 preferredHighlightEnd: (height + itemSize) / 2
-                currentIndex: 0
 
                 property int itemSize: width
 
@@ -131,9 +130,6 @@ Item {
                     state: "docked"
 
                     maxAngle: 60
-
-                    itemsBeforeThis: index
-                    itemsAfterThis: launcherListView.count - (index+1)
 
                     onClicked: {
                         root.applicationSelected(launcherModel.get(index).desktopFile);

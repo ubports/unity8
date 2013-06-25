@@ -34,9 +34,6 @@ Item {
     readonly property int effectiveHeight: Math.cos(angle * Math.PI / 180) * height
     readonly property real foldedHeight: Math.cos(maxAngle * Math.PI / 180) * height
 
-    property int itemsBeforeThis: 0
-    property int itemsAfterThis: 0
-
     property bool dragging:false
 
     readonly property ListView listView: ListView.view
@@ -103,7 +100,7 @@ Item {
         property variant source: ShaderEffectSource {
             sourceItem: iconItem
             hideSource: true
-            live: true
+            live: false
         }
 
         transform: [
@@ -157,7 +154,7 @@ Item {
 
         property real totalUnfoldedHeight: listView.itemSize + listView.spacing
         property real totalEffectiveHeight: effectiveHeight + listView.spacing
-        property real distanceFromTopEdge: -(listView.contentY + listView.topMargin - itemsBeforeThis*totalUnfoldedHeight)
+        property real distanceFromTopEdge: -(listView.contentY + listView.topMargin - index*totalUnfoldedHeight)
         property real distanceFromBottomEdge: listView.height - listView.bottomMargin - (y+height) + listView.contentY
 
         property real distanceFromEdge: Math.abs(distanceFromBottomEdge) < Math.abs(distanceFromTopEdge) ? distanceFromBottomEdge : distanceFromTopEdge
@@ -224,7 +221,7 @@ Item {
                     return 0;
                 }
 
-                opacity: {
+                itemOpacity: {
                     // First/last items are special
                     if (index == 0 || index == listView.count-1) {
                         if (priv.distanceFromEdge < 0) {
