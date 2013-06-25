@@ -1,34 +1,30 @@
 Building Unity 8
 ================
 
+Only Ubuntu 13.10 (saucy) is supported as a developement environment.
+
 download source
 ---------------
-- the build requires some additional dependencies, so create the parent folder to not pollute your setup
+- create a parent folder to not pollute your setup. so that you can have different unity
+  branches there (trunk, WIP etc)
   $ mkdir ~/unity
 
 - fetch Unity 8 source
   $ sudo apt-get install bzr
-  $ bzr branch lp:unity/8.0 ~/unity/unity8
-  $ cd ~/unity/unity8
+  $ bzr branch lp:unity/8.0 ~/unity/8.0
+  $ cd ~/unity/8.0
 
-build dependencies
-------------------
-If its your first time, download & build deps
-$ ./build -s
+install dependencies
+--------------------
+If its your first time, install build dependencies
+$ ./build --setup
   this will:
   - add ppa:phablet-team/desktop-deps, ppa:canonical-qt5-edgers/qt5-proper, ppa:ubuntu-sdk-team
-  - build and install lp:libunity/phablet, lp:unity/phablet-mods, lp:hud/phablet locally
   - install build dependencies
 
 build Unity 8
 -------------
 $ ./build
-
-subsequent updates of the dependencies
---------------------------------------
-$ ./build_unity -u
-$ ./build_unity
-
 
 Running Unity 8 on your desktop
 ===============================
@@ -54,8 +50,8 @@ Running Unity 8 on devices
 - make sure your device is connected to a WiFi network
 - also make sure you have your SSH key in ~/.ssh/id_rsa.pub (or install one on the device yourself)
 
-$ cd ~/unity/unity8
-$ ./run_on_device -s
+$ cd ~/unity/8.0
+$ ./run_on_device --setup
   this will:
   - install your public SSH key on the device
   - add ppa:canonical-qt5-edgers/qt5-proper and ppa:phablet-team
@@ -91,3 +87,6 @@ https://launchpad.net/canonical-client-development-guidelines
 Development Environment
 =======================
 QtCreator (available via the Software Center) is the best IDE to hack on Unity 8.
+
+If using VIM, make sure you install some syntax highlighting for QML, like
+https://github.com/peterhoeg/vim-qml
