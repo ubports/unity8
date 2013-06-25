@@ -124,8 +124,7 @@ Categories::data(const QModelIndex& index, int role) const
       case RoleContentType:
       {
         auto hints = QVariant::fromValue(DeeListModel::data(index, 4)).toHash();
-        return hints.contains("content-type") ?
-            hints["content-type"] : QVariant(QString("default"));
+        return hints.contains("content-type") ? hints["content-type"] : QVariant(QString("default"));
       }
       case RoleHints:
         return QVariant::fromValue(DeeListModel::data(index, 4)); //HINTS
