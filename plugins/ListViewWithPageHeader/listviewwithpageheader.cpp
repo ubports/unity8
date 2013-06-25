@@ -663,6 +663,7 @@ ListViewWithPageHeader::ListItem *ListViewWithPageHeader::createItem(int modelIn
             }
             if (m_firstVisibleIndex < 0 || modelIndex < m_firstVisibleIndex) {
                 m_firstVisibleIndex = modelIndex;
+                polish();
             }
             adjustMinYExtent();
         }
@@ -704,6 +705,7 @@ void ListViewWithPageHeader::onHeightChanged()
 {
     setMaximumFlickVelocity(height() * 10);
     setFlickDeceleration(height() * 2);
+    polish();
 }
 
 void ListViewWithPageHeader::onModelUpdated(const QQuickChangeSet &changeSet, bool /*reset*/)
@@ -933,7 +935,13 @@ void ListViewWithPageHeader::layout()
                     const qreal topSectionStickPos = m_headerItemShownHeight + contentY() - m_clipItem->y();
                     if (topSectionStickPos <= pos) {
                         QQuickItemPrivate::get(m_topSectionItem)->setCulled(true);
-                        QQuickItemPrivate::get(item->m_sectionItem)->setCulled(false);
+                        if (item->m_sectionItem) {
+                            // This seems it should happen since why would we cull the top section
+                            // if the first visible item has no section header? This only happens briefly
+                            // when increasing the height of a list that is at the bottom, the m_topSectionItem
+                            // gets shown shortly in the next polish call
+                            QQuickItemPrivate::get(item->m_sectionItem)->setCulled(false);
+                        }
                     } else {
                         QQuickItemPrivate::get(m_topSectionItem)->setCulled(false);
                         m_topSectionItem->setY(topSectionStickPos);
@@ -987,24 +995,27 @@ void ListViewWithPageHeader::updatePolish()
 
     if (m_contentHeightDirty) {
         qreal contentHeight;
-        const int modelCount = model()->rowCount();
-        const int visibleItems = m_visibleItems.count();
-        const int lastValidIndex = m_firstVisibleIndex + visibleItems - 1;
-        if (lastValidIndex == modelCount - 1) {
+        if (m_visibleItems.isEmpty()) {
+            contentHeight = m_headerItem ? m_headerItem->height() : 0;
+        } else {
+            const int modelCount = model()->rowCount();
+            const int visibleItems = m_visibleItems.count();
+            const int lastValidIndex = m_firstVisibleIndex + visibleItems - 1;
+            qreal nonCreatedHeight = 0;
+            if (lastValidIndex != modelCount - 1) {
+                const int visibleItems = m_visibleItems.count();
+                qreal visibleItemsHeight = 0;
+                foreach(ListItem *item, m_visibleItems) {
+                    visibleItemsHeight += item->height();
+                }
+                const int unknownSizes = modelCount - (m_firstVisibleIndex + visibleItems);
+                nonCreatedHeight = unknownSizes * visibleItemsHeight / visibleItems;
+            }
             ListItem *item = m_visibleItems.last();
-            contentHeight = item->y() + item->height() + m_clipItem->y();
+            contentHeight = nonCreatedHeight + item->y() + item->height() + m_clipItem->y();
             if (m_firstVisibleIndex != 0) {
                 // Make sure that if we are shrinking we tell the view we still fit
                 m_minYExtent = qMax(m_minYExtent, -(contentHeight - height()));
-            }
-        } else {
-            contentHeight = m_headerItem ? m_headerItem->implicitHeight() : 0;
-            if (!m_visibleItems.isEmpty()) {
-                foreach(ListItem *item, m_visibleItems) {
-                    contentHeight += item->height();
-                }
-                const int unknownSizes = modelCount - visibleItems;
-                contentHeight += unknownSizes * contentHeight / visibleItems;
             }
         }
 

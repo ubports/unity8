@@ -1456,6 +1456,86 @@ private Q_SLOTS:
         QVERIFY (lvwph->isAtYEnd());
     }
 
+    void growWindow()
+    {
+        view->rootObject()->setHeight(850);
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 5);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, 50., 190., false, "Agressive", false);
+        verifyItem(1, 240., 240., false, "Regular", false);
+        verifyItem(2, 480., 390., false, "Mild", false);
+        verifyItem(3, 870., 390., true, "Bold", true);
+        verifyItem(4, 1260., 350., true, QString(), true);
+        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_clipItem->y(), 0.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 0.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+    }
+
+    void growWindowAtBottom()
+    {
+        // Need a bunch small items at the bottom to trigger the problem
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 6), Q_ARG(QVariant, 50), Q_ARG(QVariant, "Agressive"));
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 6), Q_ARG(QVariant, 50), Q_ARG(QVariant, "Agressive"));
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 6), Q_ARG(QVariant, 50), Q_ARG(QVariant, "Agressive"));
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 6), Q_ARG(QVariant, 50), Q_ARG(QVariant, "Agressive"));
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 6), Q_ARG(QVariant, 50), Q_ARG(QVariant, "Agressive"));
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 6), Q_ARG(QVariant, 50), Q_ARG(QVariant, "Agressive"));
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 6), Q_ARG(QVariant, 50), Q_ARG(QVariant, "Regular"));
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 6), Q_ARG(QVariant, 50), Q_ARG(QVariant, "Regular"));
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 6), Q_ARG(QVariant, 50), Q_ARG(QVariant, "Regular"));
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 6), Q_ARG(QVariant, 50), Q_ARG(QVariant, "Regular"));
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 6), Q_ARG(QVariant, 50), Q_ARG(QVariant, "Regular"));
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 6), Q_ARG(QVariant, 50), Q_ARG(QVariant, "Regular"));
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 6), Q_ARG(QVariant, 50), Q_ARG(QVariant, "Agressive"));
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 6), Q_ARG(QVariant, 50), Q_ARG(QVariant, "Agressive"));
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 6), Q_ARG(QVariant, 50), Q_ARG(QVariant, "Agressive"));
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 6), Q_ARG(QVariant, 50), Q_ARG(QVariant, "Agressive"));
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 6), Q_ARG(QVariant, 50), Q_ARG(QVariant, "Agressive"));
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 6), Q_ARG(QVariant, 50), Q_ARG(QVariant, "Agressive"));
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 6), Q_ARG(QVariant, 50), Q_ARG(QVariant, "Agressive"));
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 6), Q_ARG(QVariant, 50), Q_ARG(QVariant, "Agressive"));
+
+        scrollToBottom();
+
+        view->rootObject()->setHeight(850);
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 21);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 5);
+        verifyItem(0, -660., 390., true, "Lazy", true);
+        verifyItem(1, -270., 90., true, "Agressive", true);
+        verifyItem(2, -180, 50., true, QString(), true);
+        verifyItem(3, -130, 50., true, QString(), true);
+        verifyItem(4, -80, 50., true, QString(), true);
+        verifyItem(5, -30, 50., false, QString(), true);
+        verifyItem(6, 20, 50., false, QString(), true);
+        verifyItem(7, 70, 50., false, QString(), true);
+        verifyItem(8, 120, 50., false, QString(), true);
+        verifyItem(9, 170, 90., false, "Regular", false);
+        verifyItem(10, 260, 50., false, QString(), true);
+        verifyItem(11, 310, 50., false, QString(), true);
+        verifyItem(12, 360, 50., false, QString(), true);
+        verifyItem(13, 410, 50., false, QString(), true);
+        verifyItem(14, 460, 50., false, QString(), true);
+        verifyItem(15, 510, 90., false, "Agressive", false);
+        verifyItem(16, 600, 50., false, QString(), true);
+        verifyItem(17, 650, 50., false, QString(), true);
+        verifyItem(18, 700, 50., false, QString(), true);
+        verifyItem(19, 750, 50., false, QString(), true);
+        verifyItem(20, 800, 50., false, QString(), true);
+        QCOMPARE(lvwph->m_minYExtent, 5 * 1510./21. + 660 - 1970 + 50);
+        QCOMPARE(lvwph->m_clipItem->y(), 1970.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 1970.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+    }
+
 private:
     QQuickView *view;
     ListViewWithPageHeader *lvwph;
