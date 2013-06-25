@@ -199,14 +199,13 @@ Item {
 
                 // The angle used for rotating
                 angle: {
-                    //return 0;
-                    // First item is special
+                    // First/last items are special
                     if (index == 0 || index == listView.count-1) {
                         if (priv.distanceFromEdge < 0) {
                             // distanceFromTopEdge : angle = totalUnfoldedHeight/2 : maxAngle
                             return Math.max(-maxAngle, priv.distanceFromEdge * maxAngle / (listView.foldingAreaHeight)) * priv.orientationFlag
                         }
-                        return 0; // Don't fold first item as long as inside the view
+                        return 0; // Don't fold first/last item as long as inside the view
                     }
 
                     // Are we in the already completely outside the flickable? Fold for the last 5 degrees
@@ -226,7 +225,7 @@ Item {
                 }
 
                 opacity: {
-                    // First item is special
+                    // First/last items are special
                     if (index == 0 || index == listView.count-1) {
                         if (priv.distanceFromEdge < 0) {
                             // Fade from 1 to 0 in the distance of 3 * foldingAreaHeight (which is when the next item reaches the edge)
@@ -235,7 +234,7 @@ Item {
                         return 1; // Don't make first/last item transparent as long as inside the view
                     }
 
-                    // Are we in the already completely outside the flickable? Fade to from 0.75 to 0 in twice 2 items height
+                    // Are we already completely outside the flickable? Fade from 0.75 to 0 in 2 items height
                     if (priv.distanceFromEdge < 0) {
                         // -distanceFromEdge : 1-opacity = totalUnfoldedHeight : 0.75
                         return 0.75 - (-priv.distanceFromEdge * 0.75 / (priv.totalUnfoldedHeight*2))
@@ -250,16 +249,19 @@ Item {
                 }
 
                 brightness: {
+                    // First/last items are special
                     if (index == 0 || index == listView.count-1) {
                         if (priv.distanceFromEdge < 0) {
                             return -(-priv.distanceFromEdge / (listView.foldingAreaHeight * 3))
                         }
                         return 0;
                     }
+                    // Are we already completely outside the flickable? Fade from 0.7 to 0 in 2 items height
                     if (priv.distanceFromEdge < 0) {
                         return -0.3 - (-priv.distanceFromEdge * 0.1 / (priv.totalUnfoldedHeight*2))
                     }
 
+                    // We are overlapping with the folding area, fade out to 0.7
                     if (priv.overlapWithFoldingArea > 0) {
                         return - (priv.overlapWithFoldingArea * 0.3 / listView.foldingAreaHeight)
                     }
