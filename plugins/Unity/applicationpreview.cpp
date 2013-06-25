@@ -20,6 +20,8 @@
 // local
 #include "applicationpreview.h"
 
+#include <QDebug>
+
 ApplicationPreview::ApplicationPreview(QObject *parent):
     Preview(parent)
 {
@@ -27,32 +29,62 @@ ApplicationPreview::ApplicationPreview(QObject *parent):
 
 QString ApplicationPreview::lastUpdate() const
 {
-    return QString::fromStdString(m_unityAppPreview->last_update());
+    if (m_unityAppPreview) {
+        return QString::fromStdString(m_unityAppPreview->last_update());
+    } else {
+        qWarning() << "Preview not set";
+    }
+    return "";
 }
 
 QString ApplicationPreview::copyright() const
 {
-    return QString::fromStdString(m_unityAppPreview->copyright());
+    if (m_unityAppPreview) {
+        return QString::fromStdString(m_unityAppPreview->copyright());
+    } else {
+        qWarning() << "Preview not set";
+    }
+return "";
 }
 
 QString ApplicationPreview::license() const
 {
-    return QString::fromStdString(m_unityAppPreview->license());
+    if (m_unityAppPreview) {
+        return QString::fromStdString(m_unityAppPreview->license());
+    } else {
+        qWarning() << "Preview not set";
+    }
+    return "";
 }
 
 QString ApplicationPreview::appIcon() const
 {
-    return QString::fromUtf8(g_icon_to_string(m_unityAppPreview->app_icon()));
+    if (m_unityAppPreview) {
+        return QString::fromUtf8(g_icon_to_string(m_unityAppPreview->app_icon()));
+    } else {
+        qWarning() << "Preview not set";
+    }
+    return "";
 }
 
 float ApplicationPreview::rating() const
 {
-    return m_unityAppPreview->rating();
+    if (m_unityAppPreview) {
+        return m_unityAppPreview->rating();
+    } else {
+        qWarning() << "Preview not set";
+    }
+    return 0.0f;
 }
 
 unsigned int ApplicationPreview::numRatings() const
 {
-    return m_unityAppPreview->num_ratings();
+    if (m_unityAppPreview) {
+        return m_unityAppPreview->num_ratings();
+    } else {
+        qWarning() << "Preview not set";
+    }
+    return 0;
 }
 
 void ApplicationPreview::setUnityPreview(unity::dash::Preview::Ptr unityPreview)

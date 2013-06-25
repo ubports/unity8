@@ -18,13 +18,24 @@
  */
 
 #include "musicpreview.h"
+#include <QDebug>
 
 MusicPreview::MusicPreview(QObject *parent):
     Preview(parent)
 {
+    m_tracks = new DeeListModel(this);
 }
 
 void MusicPreview::setUnityPreview(unity::dash::Preview::Ptr unityPreview)
 {
     m_unityMusicPreview = std::dynamic_pointer_cast<unity::dash::MusicPreview>(unityPreview);
+    m_tracks->setModel(m_unityMusicPreview->GetTracksModel()->model());
+}
+
+DeeListModel* MusicPreview::tracks() const
+{
+    if (m_unityMusicPreview == nullptr) {
+        qWarning() << "Preview not set";
+    }
+    return m_tracks;
 }

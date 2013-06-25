@@ -30,18 +30,30 @@
 // libunity-core
 #include <UnityCore/MusicPreview.h>
 
+
+// dee-qt
+#include "deelistmodel.h"
+
 class MusicPreview: public Preview
 {
     Q_OBJECT
 
+    Q_PROPERTY(DeeListModel* tracks READ tracks NOTIFY tracksChanged)
+
 public:
     explicit MusicPreview(QObject *parent = 0);
+
+    DeeListModel* tracks() const;
+
+Q_SIGNALS:
+    void tracksChanged();
 
 protected:
     void setUnityPreview(unity::dash::Preview::Ptr unityPreview) override;
 
 private:
     unity::dash::MusicPreview::Ptr m_unityMusicPreview;
+    DeeListModel *m_tracks;
 };
 
 Q_DECLARE_METATYPE(MusicPreview *)
