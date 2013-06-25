@@ -117,6 +117,15 @@ Item {
                 property int foldingAreaHeight: itemSize * 0.75
                 property int itemSize: width
 
+                Component.onCompleted: {
+                    // This is needed because snapping would partially fold
+                    // the first item on initialisation. This can only be
+                    // overridden by mouse interactions - which is what flick()
+                    // simulates. Setting contentY to 0 would not work because
+                    // of this.
+                    flick(0, units.gu(20))
+                }
+
                 delegate: LauncherDelegate {
                     id: launcherDelegate
                     objectName: "launcherDelegate" + index
