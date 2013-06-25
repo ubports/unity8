@@ -26,6 +26,7 @@ Item {
     property bool highlighted: false
     property real offset: 0
     property alias brightness: transformEffect.brightness
+    property real itemOpacity: 1
 
     property real maxAngle: 0
     property bool inverted: false
@@ -49,7 +50,6 @@ Item {
         anchors.centerIn: parent
 
         UbuntuShape {
-            color: Qt.rgba(0, 0, 1, 0.5)
             width: parent.width - units.gu(1)
             height: parent.height - units.gu(1)
             anchors.centerIn: parent
@@ -91,7 +91,7 @@ Item {
         anchors.centerIn: parent
         width: parent.width
         height: parent.height
-        property real itemOpacity: root.opacity
+        property real itemOpacity: root.itemOpacity
         property real brightness: 0
         property real angle: root.angle
         rotation: root.inverted ? 180 : 0
@@ -101,6 +101,7 @@ Item {
         property variant source: ShaderEffectSource {
             sourceItem: iconItem
             hideSource: true
+            live: true
         }
 
         transform: [
