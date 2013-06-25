@@ -39,7 +39,7 @@ Item {
 
     property bool dragging:false
 
-    property ListView listView: ListView.view
+    readonly property ListView listView: ListView.view
 
     signal clicked()
     signal longtap()
@@ -165,7 +165,6 @@ Item {
 
         property real overlapWithFoldingArea: listView.foldingAreaHeight - distanceFromEdge
 
-        Component.onCompleted: print("created delegate. listview is", listView)
     }
 
     states: [
