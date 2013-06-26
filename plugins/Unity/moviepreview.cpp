@@ -20,6 +20,9 @@
 // local
 #include "moviepreview.h"
 
+// Qt
+#include <QDebug>
+
 MoviePreview::MoviePreview(QObject *parent):
     Preview(parent)
 {
@@ -27,19 +30,30 @@ MoviePreview::MoviePreview(QObject *parent):
 
 QString MoviePreview::year() const
 {
-    return QString::fromStdString(m_unityMoviePreview->year());
+    if (m_unityMoviePreview) {
+        return QString::fromStdString(m_unityMoviePreview->year());
+    } else {
+        qWarning() << "Preview not set";
+    }
 }
 
 float MoviePreview::rating() const
 {
-    return m_unityMoviePreview->rating();
+    if (m_unityMoviePreview) {
+        return m_unityMoviePreview->rating();
+    } else {
+        qWarning() << "Preview not set";
+    }
 }
 
 unsigned int MoviePreview::numRatings() const
 {
-    return m_unityMoviePreview->num_ratings();
+    if (m_unityMoviePreview) {
+        return m_unityMoviePreview->num_ratings();
+    } else {
+        qWarning() << "Preview not set";
+    }
 }
-
     
 void MoviePreview::setUnityPreview(unity::dash::Preview::Ptr unityPreview)
 {

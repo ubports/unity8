@@ -29,6 +29,7 @@
 #include <QUrl>
 #include <QDebug>
 #include <QtGui/QDesktopServices>
+#include <QQmlEngine>
 
 #include <UnityCore/Variant.h>
 
@@ -190,7 +191,10 @@ void Scope::onActivated(unity::dash::LocalResult const& result, unity::dash::Sco
 void Scope::onPreviewReady(unity::dash::LocalResult const& /* result */, unity::dash::Preview::Ptr const& preview)
 {
     auto prv = Preview::newFromUnityPreview(preview);
-    Q_EMIT previewReady(*prv);
+    // is this the best solution? QML may need to keep more than one preview instance around, so we can't own it.
+    // passing it by value is not possible.
+    QQmlEngine::setObjectOwnership(prv, QQmlEngine::JavaScriptOwnership);
+    Q_EMIT previewReady(prv);
 }
 
 void Scope::fallbackActivate(const QString& uri)

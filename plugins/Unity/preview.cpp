@@ -91,7 +91,7 @@ Preview* Preview::newFromUnityPreview(unity::dash::Preview::Ptr unityPreview)
         preview = new GenericPreview();
     }
     else if (typeid(*unityPreview) == typeid(unity::dash::MusicPreview)) {
-        preview = new GenericPreview();
+        preview = new MusicPreview();
     }
     else if (typeid(*unityPreview) == typeid(unity::dash::MoviePreview)) {
         preview = new MoviePreview();

@@ -35,4 +35,6 @@ public:
     explicit GenericPreview(QObject *parent = 0);
 };
 
+Q_DECLARE_METATYPE(GenericPreview *)
+
 #endif

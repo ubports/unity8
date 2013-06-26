@@ -101,7 +101,7 @@ Q_SIGNALS:
     void noResultsHintChanged();
 
     // signals triggered by activate(..) or preview(..) requests.
-    void previewReady(const Preview &preview);
+    void previewReady(Preview *preview);
     void showDash();
     void hideDash();
     void gotoUri(const QString &uri);
