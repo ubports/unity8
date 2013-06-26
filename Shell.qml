@@ -380,7 +380,7 @@ FocusScope {
                 } else {
                     lockscreen.alphaNumeric = true
                 }
-                lockscreen.placeholderText = i18n.tr("Please enter %1:").arg(text);
+                lockscreen.placeholderText = i18n.tr("Please enter %1").arg(text);
                 lockscreen.show();
             }
         }

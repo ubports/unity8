@@ -26,17 +26,17 @@ function from_gicon(name) {
         var base_icon_re = /'base-icon':.+?'(.+?)'/;
         var base_icon = name.toString().match(base_icon_re);
         icon_name = base_icon[1];
-    }
-    else {
+    } else {
         var themed_re = /^. GThemedIcon\s*([^\s]+)\s*/;
         var themed = name.match(themed_re);
         if (themed) {
             return "image://gicon/" + themed[1];
         }
     }
-    var remote_re = /^http/;
-    if (remote_re.test(icon_name)) {
+    var name_re = /^[a-z0-9\._-]+$/;
+    if (name_re.test(icon_name)) {
+        return "image://gicon/" + icon_name;
+    } else {
         return icon_name;
     }
-    return "image://gicon/" + icon_name;
 }
