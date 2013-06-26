@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * Authors:
- *      Renato Araujo Oliveira Filho <renato@canonical.com>
+ *      Nick Dedekind <nick.dedekind@canonical.com>
  */
 
 import QtQuick 2.0
