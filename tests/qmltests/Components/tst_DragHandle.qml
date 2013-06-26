@@ -70,10 +70,11 @@ Item {
 
         y: {
             if (dragHandle) {
-                if (dragHandle.direction === Direction.Downwards)
-                    dragHandle.edgeDragEvaluator.dragThreshold
-                else
-                    parent.height - dragHandle.edgeDragEvaluator.dragThreshold
+                if (dragHandle.direction === Direction.Downwards) {
+                    dragHandle.edgeDragEvaluator.dragThreshold;
+                } else {
+                    parent.height - dragHandle.edgeDragEvaluator.dragThreshold;
+                }
             } else {
                 0
             }
@@ -90,20 +91,22 @@ Item {
             id: velocityText
             font.pixelSize: units.gu(2)
             text: {
-                if (dragHandle !== undefined)
-                    "Velocity: " + (dragHandle.edgeDragEvaluator.velocity * 1000)
-                else
-                    "Velocity: -"
+                if (dragHandle !== undefined) {
+                    "Velocity: " + (dragHandle.edgeDragEvaluator.velocity * 1000);
+                } else {
+                    "Velocity: -";
+                }
             }
         }
         Text {
             anchors.top: velocityText.bottom
             font.pixelSize: units.gu(2)
             text: {
-                if (dragHandle !== undefined)
-                    "Minimum velocity: " + (dragHandle.edgeDragEvaluator.minVelocity * 1000)
-                else
-                    "Minimum velocity: -"
+                if (dragHandle !== undefined) {
+                    "Minimum velocity: " + (dragHandle.edgeDragEvaluator.minVelocity * 1000);
+                } else {
+                    "Minimum velocity: -";
+                }
             }
         }
     }

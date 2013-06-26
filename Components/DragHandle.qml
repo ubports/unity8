@@ -72,16 +72,16 @@ DirectionalDragArea {
     onDistanceChanged: {
         if (status === DirectionalDragArea.Recognized) {
             // don't go the whole distance in order to smooth out the movement
-            var step = distance * 0.3
+            var step = distance * 0.3;
 
-            step = __limitMovement(step)
+            step = __limitMovement(step);
 
-            __totalDragDistance += step
+            __totalDragDistance += step;
 
             if (Direction.isHorizontal(direction)) {
-                parent.x += step
+                parent.x += step;
             } else {
-                parent.y += step
+                parent.y += step;
             }
         }
     }
@@ -90,56 +90,59 @@ DirectionalDragArea {
     function __limitMovement(step) {
         if (Direction.isPositive(direction)) {
             if (__totalDragDistance + step > maxTotalDragDistance) {
-                step = maxTotalDragDistance - __totalDragDistance
+                step = maxTotalDragDistance - __totalDragDistance;
             } else if (__totalDragDistance + step < 0) {
-                step = 0 - __totalDragDistance
+                step = 0 - __totalDragDistance;
             }
         } else {
             if (__totalDragDistance + step < -maxTotalDragDistance) {
-                step = -maxTotalDragDistance - __totalDragDistance
+                step = -maxTotalDragDistance - __totalDragDistance;
             } else if (__totalDragDistance + step > 0) {
-                step = 0 - __totalDragDistance
+                step = 0 - __totalDragDistance;
             }
         }
 
-        return step
+        return step;
     }
 
     onStatusChanged: {
         if (status === DirectionalDragArea.WaitingForTouch) {
             if (__previousStatus === DirectionalDragArea.Recognized) {
-                __onFinishedRecognizedGesture()
+                __onFinishedRecognizedGesture();
             }
-            __totalDragDistance = 0
+            __totalDragDistance = 0;
         }
         else if (status === DirectionalDragArea.Undecided) {
-            dragEvaluator.reset()
+            dragEvaluator.reset();
         }
         else if (status === DirectionalDragArea.Recognized) {
             if (__previousStatus === DirectionalDragArea.WaitingForTouch)
-                dragEvaluator.reset()
+                dragEvaluator.reset();
         }
-        __previousStatus = status
+        __previousStatus = status;
     }
 
     function __onFinishedRecognizedGesture() {
-        if (dragEvaluator.shouldAutoComplete())
-            __completeDrag()
-        else
-            __rollbackDrag()
+        if (dragEvaluator.shouldAutoComplete()) {
+            __completeDrag();
+        } else {
+            __rollbackDrag();
+        }
     }
 
     function __completeDrag() {
-        if (parent.shown)
-            parent.hide()
-        else
-            parent.show()
+        if (parent.shown) {
+            parent.hide();
+        } else {
+            parent.show();
+        }
     }
 
     function __rollbackDrag() {
-        if (parent.shown)
-            parent.show()
-        else
-            parent.hide()
+        if (parent.shown) {
+            parent.show();
+        } else {
+            parent.hide();
+        }
     }
 }

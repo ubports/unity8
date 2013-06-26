@@ -47,7 +47,7 @@ Showable {
 
         onStatusChanged: {
             if (status === DirectionalDragArea.Recognized)
-                dragHandleRecognizedGesture(upwardsDragHandle)
+                dragHandleRecognizedGesture(upwardsDragHandle);
         }
 
         Rectangle { color: "red"; anchors.fill: parent }
@@ -66,7 +66,7 @@ Showable {
 
         onStatusChanged: {
             if (status === DirectionalDragArea.Recognized)
-                dragHandleRecognizedGesture(downwardsDragHandle)
+                dragHandleRecognizedGesture(downwardsDragHandle);
         }
 
         Rectangle { color: "green"; anchors.fill: parent }

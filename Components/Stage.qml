@@ -480,7 +480,7 @@ Showable {
         }
 
         function onUndecided() {
-            dragEvaluator.reset()
+            dragEvaluator.reset();
 
             var nextApplication = null;
             if (stage.applications.count > 1) {

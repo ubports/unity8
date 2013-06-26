@@ -52,21 +52,22 @@ AxisVelocityCalculator {
 
     // Returns whether the drag should continue by itself until completed.
     function shouldAutoComplete() {
-        var deltaPos = trackedPosition - __startPosition
+        var deltaPos = trackedPosition - __startPosition;
         if (Math.abs(deltaPos) < minDragDistance) {
-            velocity = 0
-            minVelocity = 0
-            return false
+            velocity = 0;
+            minVelocity = 0;
+            return false;
         }
 
-        minVelocity = __calculateMinimumVelocityForAutoCompletion(deltaPos)
-        velocity = calculate()
+        minVelocity = __calculateMinimumVelocityForAutoCompletion(deltaPos);
+        velocity = calculate();
 
         if (Direction.isPositive(direction) && (velocity >= minVelocity)
-            || !Direction.isPositive(direction) && (velocity <= minVelocity))
-            return true
-        else
-            return false
+            || !Direction.isPositive(direction) && (velocity <= minVelocity)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     property real __startPosition
@@ -78,10 +79,10 @@ AxisVelocityCalculator {
     property real __v0: Direction.isPositive(direction) ? __speedThresholdMs : - __speedThresholdMs
 
     function __calculateMinimumVelocityForAutoCompletion(distance) {
-        return __v0 - ((__speedThresholdMs / dragThreshold) * distance)
+        return __v0 - ((__speedThresholdMs / dragThreshold) * distance);
     }
 
     function reset() {
-        __startPosition = trackedPosition
+        __startPosition = trackedPosition;
     }
 }

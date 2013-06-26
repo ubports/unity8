@@ -170,9 +170,9 @@ FocusScope {
             opacity: 1.0 - disappearingAnimationProgress
             property real disappearingAnimationProgress: {
                 if (greeter.shown) {
-                    return greeter.showProgress
+                    return greeter.showProgress;
                 } else {
-                    return stagesOuterContainer.showProgress
+                    return stagesOuterContainer.showProgress;
                 }
             }
 
@@ -439,7 +439,6 @@ FocusScope {
             var bgPath = greeter.model.data(uid, LightDM.UserRoles.BackgroundPathRole)
             shell.background = bgPath ? bgPath : default_background
         }
-
     }
 
     InputFilterArea {
