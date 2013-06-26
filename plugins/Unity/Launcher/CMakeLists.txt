@@ -22,10 +22,6 @@ add_library(UnityLauncher-qml MODULE
     ${QMLLAUNCHERPLUGIN_SRC}
     )
 
-#target_link_libraries(UnityLauncher-qml
-#    ${Qt5Gui_LIBRARIES}
-#    )
-
 qt5_use_modules(UnityLauncher-qml Qml)
 
 # copy qmldir file into build directory for shadow builds
