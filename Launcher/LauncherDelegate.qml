@@ -54,10 +54,8 @@ Item {
 
             image: Image {
                 id: iconImage
-                sourceSize: {
-                    width: parent.width
-                    height: parent.height
-                }
+                sourceSize.width: parent.width
+                sourceSize.height: parent.height
                 source: "../graphics/applicationIcons/" + root.iconName + ".png"
             }
 
@@ -81,9 +79,11 @@ Item {
             id: overlayHighlight
             anchors.centerIn: iconItem
             rotation: inverted ? 180 : 0
-            source: root.highlighted || mouseArea.pressed ? "graphics/selected.sci" : "graphics/non-selected.sci"
+            source: isSelected ? "graphics/selected.sci" : "graphics/non-selected.sci"
             width: root.width + units.gu(0.5)
             height: width
+            property bool isSelected: root.highlighted || mouseArea.pressed
+            onIsSelectedChanged: shaderEffectSource.scheduleUpdate();
         }
     }
 
@@ -100,6 +100,7 @@ Item {
 
 
         property variant source: ShaderEffectSource {
+            id: shaderEffectSource
             sourceItem: iconItem
             hideSource: true
             live: false
