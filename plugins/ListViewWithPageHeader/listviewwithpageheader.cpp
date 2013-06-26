@@ -692,6 +692,7 @@ void ListViewWithPageHeader::itemCreated(int modelIndex, QQuickItem *item)
     item->setParentItem(m_clipItem);
     QQmlContext *context = QQmlEngine::contextForObject(item)->parentContext();
     context->setContextProperty(QLatin1String("ListViewWithPageHeader"), this);
+    context->setContextProperty(QLatin1String("heightToClip"), QVariant::fromValue<int>(0));
     if (modelIndex == m_asyncRequestedIndex) {
         createItem(modelIndex, false);
         refill();
