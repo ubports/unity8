@@ -365,8 +365,6 @@ FocusScope {
         height: parent.height - panel.panelHeight
         background: shell.background
 
-        property real showAnimationProgress: MathLocal.clamp(1 + x / width, 0, 1)
-
         onUnlocked: lockscreen.hide()
         onCancel: greeter.show()
 
