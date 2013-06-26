@@ -587,6 +587,13 @@ QQuickItem *ListViewWithPageHeader::getSectionItem(const QString &sectionText)
 bool ListViewWithPageHeader::removeNonVisibleItems(qreal bufferFrom, qreal bufferTo)
 {
 //     qDebug() << "ListViewWithPageHeader::removeNonVisibleItems" << bufferFrom << bufferTo;
+    // Do not remove items if we are overshooting up or down, since we'll come back
+    // to the "stable" position and delete/create items without any reason
+    if (contentY() < -m_minYExtent) {
+        return false;
+    } else if (contentY() + height() > contentHeight()) {
+        return false;
+    }
     bool changed = false;
 
     bool foundVisible = false;
