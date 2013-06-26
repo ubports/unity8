@@ -50,7 +50,7 @@ class ShellTestCase(AutopilotTestCase):
 
     def launch_test_installed(self, geometry):
         os.environ['LD_LIBRARY_PATH'] = "/usr/share/unity8/plugins/mocks/LightDM/" + self.lightdm_mock
-        os.environ['QML2_IMPORT_PATH'] = "/usr/share/unity8/plugins/mocks:../../builddir/plugins:../../builddir/modules"
+        os.environ['QML2_IMPORT_PATH'] = "/usr/share/unity8/plugins/mocks:/usr/share/unity8/plugins:/usr/share/unity8/modules"
         if model() == 'Desktop' and geometry != "0x0":
             self.app = self.launch_test_application(
                "unity8", "-geometry", geometry, "-frameless", app_type='qt')
