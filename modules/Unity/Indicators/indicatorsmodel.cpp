@@ -30,7 +30,7 @@
     \qmltype IndicatorsModel
     \inherits QAbstractListModel
 
-    \brief The IndicatorsModel class defines the list model for indicators plugins
+    \brief The IndicatorsModel class defines the list model for indicators
 
     \b {This component is under heavy development.}
 
@@ -81,18 +81,18 @@ int IndicatorsModel::count() const
 /*!
     \qmlmethod IndicatorsModel::unload()
 
-    Load all plugins.
+    Load all indicators.
 */
 void IndicatorsModel::load()
 {
-    m_plugins.clear();
+    m_indicators.clear();
     m_manager->load();
 }
 
 /*!
     \qmlmethod IndicatorsModel::unload()
 
-    Unload all plugins.
+    Unload all indicators.
 */
 void IndicatorsModel::unload()
 {
@@ -100,49 +100,57 @@ void IndicatorsModel::unload()
 }
 
 /*! \internal */
-void IndicatorsModel::onIndicatorLoaded(const QString& indicator)
+void IndicatorsModel::onIndicatorLoaded(const QString& indicator_name)
 {
-    Indicator::Ptr plugin = m_manager->indicator(indicator);
-    if (!plugin)
+    Indicator::Ptr indicator = m_manager->indicator(indicator_name);
+    if (!indicator)
+    {
         return;
+    }
 
-    if (m_plugins.indexOf(plugin) >= 0)
+    if (m_indicators.indexOf(indicator) >= 0)
+    {
         return;
+    }
 
     // find the insert position
     int pos = 0;
-    while (pos < count()) {
+    while (pos < count())
+    {
         // keep going while the existing priority is less.
-        if (indicatorData(plugin, Priority).toInt() < data(index(pos), Priority).toInt())
+        if (indicatorData(indicator, Priority).toInt() < data(index(pos), Priority).toInt())
             break;
         pos++;
     }
 
-    QObject::connect(plugin.data(), SIGNAL(identifierChanged(const QString&)), this, SLOT(onIdentifierChanged()));
-    QObject::connect(plugin.data(), SIGNAL(indicatorPropertiesChanged(const QVariant&)), this, SLOT(onIndicatorPropertiesChanged()));
+    QObject::connect(indicator.data(), SIGNAL(identifierChanged(const QString&)), this, SLOT(onIdentifierChanged()));
+    QObject::connect(indicator.data(), SIGNAL(indicatorPropertiesChanged(const QVariant&)), this, SLOT(onIndicatorPropertiesChanged()));
 
     beginInsertRows(QModelIndex(), pos, pos);
 
-    m_plugins.insert(pos, plugin);
+    m_indicators.insert(pos, indicator);
     endInsertRows();
 }
 
 /*! \internal */
-void IndicatorsModel::onIndicatorAboutToBeUnloaded(const QString& indicator)
+void IndicatorsModel::onIndicatorAboutToBeUnloaded(const QString& indicator_name)
 {
-    Indicator::Ptr plugin = m_manager->indicator(indicator);
-    if (!plugin)
+    Indicator::Ptr indicator = m_manager->indicator(indicator_name);
+    if (!indicator)
+    {
         return;
+    }
 
     int i = 0;
-    QMutableListIterator<Indicator::Ptr> iter(m_plugins);
+    QMutableListIterator<Indicator::Ptr> iter(m_indicators);
     while(iter.hasNext())
     {
-        if (plugin == iter.next())
+        if (indicator == iter.next())
         {
             beginRemoveRows(QModelIndex(), i, i);
             iter.remove();
             endRemoveRows();
+            break;
         }
         i++;
     }
@@ -164,15 +172,17 @@ void IndicatorsModel::onIndicatorPropertiesChanged()
 /*! \internal */
 void IndicatorsModel::notifyDataChanged(QObject *sender, int role)
 {
-    Indicator* plugin = qobject_cast<Indicator*>(sender);
-    if (!plugin)
+    Indicator* indicator = qobject_cast<Indicator*>(sender);
+    if (!indicator)
+    {
         return;
+    }
 
     int index = 0;
-    QMutableListIterator<Indicator::Ptr> iter(m_plugins);
+    QMutableListIterator<Indicator::Ptr> iter(m_indicators);
     while(iter.hasNext())
     {
-        if (iter.next().data() == plugin)
+        if (indicator == iter.next())
         {
             QModelIndex changedIndex = this->index(index);
             dataChanged(changedIndex, changedIndex, QVector<int>() << role);
@@ -207,14 +217,14 @@ int IndicatorsModel::columnCount(const QModelIndex &) const
 }
 
 /*! \internal */
-QVariant IndicatorsModel::defaultData(Indicator::Ptr plugin, int role)
+QVariant IndicatorsModel::defaultData(Indicator::Ptr indicator, int role)
 {
     switch (role)
     {
         case Priority:
             return 0;
         case Title:
-            return plugin ? plugin->identifier() : "Unknown";
+            return indicator ? indicator->identifier() : "Unknown";
         case Description:
             return "";
         case WidgetSource:
@@ -233,47 +243,47 @@ Q_INVOKABLE QVariant IndicatorsModel::data(int row, int role) const
 /*! \internal */
 QVariant IndicatorsModel::data(const QModelIndex &index, int role) const
 {
-    if (!index.isValid() || index.row() >= m_plugins.size())
+    if (!index.isValid() || index.row() >= m_indicators.size())
         return QVariant();
 
-    Indicator::Ptr plugin = m_plugins[index.row()];
+    Indicator::Ptr indicator = m_indicators[index.row()];
 
     switch (role)
     {
         case Identifier:
-            if (plugin)
+            if (indicator)
             {
-                return QVariant(plugin->identifier());
+                return QVariant(indicator->identifier());
             }
             break;
         case IndicatorProperties:
-            if (plugin)
+            if (indicator)
             {
-                return QVariant(plugin->indicatorProperties());
+                return QVariant(indicator->indicatorProperties());
             }
             break;
         case IsValid:
-            return (plugin ? true : false);
+            return (indicator ? true : false);
         case Priority:
         case Title:
         case Description:
         case WidgetSource:
         case PageSource:
-            return indicatorData(plugin, role);
+            return indicatorData(indicator, role);
         default:
             break;
     }
     return QVariant();
 }
 
-QVariant IndicatorsModel::indicatorData(const Indicator::Ptr& plugin, int role) const
+QVariant IndicatorsModel::indicatorData(const Indicator::Ptr& indicator, int role) const
 {
-    if (plugin && m_parsed_indicator_data.contains(plugin->identifier()))
+    if (indicator && m_parsed_indicator_data.contains(indicator->identifier()))
     {
-        QVariantMap data = m_parsed_indicator_data[plugin->identifier()];
+        QVariantMap data = m_parsed_indicator_data[indicator->identifier()];
         return data.value(roleNames()[role], QVariant());
     }
-    return defaultData(plugin, role);
+    return defaultData(indicator, role);
 }
 
 /*! \internal */
@@ -285,7 +295,7 @@ QModelIndex IndicatorsModel::parent(const QModelIndex&) const
 /*! \internal */
 int IndicatorsModel::rowCount(const QModelIndex&) const
 {
-    return m_plugins.count();
+    return m_indicators.count();
 }
 
 void IndicatorsModel::setIndicatorData(const QVariant& data)

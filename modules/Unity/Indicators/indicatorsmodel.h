@@ -78,7 +78,7 @@ private Q_SLOTS:
 private:
     IndicatorsManager *m_manager;
 
-    QList<Indicator::Ptr> m_plugins;
+    QList<Indicator::Ptr> m_indicators;
     QVariant m_indicator_data;
     QMap<QString, QVariantMap> m_parsed_indicator_data;
 
