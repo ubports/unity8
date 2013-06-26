@@ -133,23 +133,12 @@ int main(int argc, char** argv)
 
     QObject::connect(view->engine(), SIGNAL(quit()), qApp, SLOT(quit()));
 
-
-    Q_FOREACH(QString import, view->engine()->importPathList())
-    {
-        printf("BEFORE IMPORT - %s\n", import.toLatin1().data());
-    }
-
     QUrl source("Shell.qml");
     prependImportPaths(view->engine(), QStringList() << ::shellAppDirectory());
-    prependImportPaths(view->engine(), shellImportPaths());
+    prependImportPaths(view->engine(), ::shellImportPaths());
     appendImportPaths(view->engine(), QStringList() << ::fakePluginsImportPath());
     view->setSource(source);
     view->setColor("transparent");
-
-    Q_FOREACH(QString import, view->engine()->importPathList())
-    {
-        printf("AFTER IMPORT - %s\n", import.toLatin1().data());
-    }
 
     if (qgetenv("QT_QPA_PLATFORM") == "ubuntu" || args.contains(QLatin1String("-fullscreen"))) {
         view->showFullScreen();
