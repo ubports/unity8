@@ -42,6 +42,7 @@ void UnityPlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("Unity"));
     qmlRegisterUncreatableType<Preview>(uri, 0, 1, "Preview", "Can't create Preview object in QML.");
+    qmlRegisterUncreatableType<PreviewAction>(uri, 0, 1, "PreviewAction", "Can't create PreviewAction object in QML.");
     qmlRegisterType<Scope>(uri, 0, 1, "Scope");
     qmlRegisterType<Scopes>(uri, 0, 1, "Scopes");
     qmlRegisterType<Categories>(uri, 0, 1, "Categories");

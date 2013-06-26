@@ -35,10 +35,10 @@ class Preview : public QObject
 {
     Q_OBJECT
     
-    Q_PROPERTY(QString rendererName READ rendererName)
-    Q_PROPERTY(QString title READ title)
-    Q_PROPERTY(QString subtitle READ subtitle)
-    Q_PROPERTY(PreviewActionList actions READ actions)
+    Q_PROPERTY(QString rendererName READ rendererName NOTIFY rendererNameChanged)
+    Q_PROPERTY(QString title READ title NOTIFY titleChanged)
+    Q_PROPERTY(QString subtitle READ subtitle NOTIFY subtitleChanged)
+    Q_PROPERTY(PreviewActionList actions READ actions NOTIFY actionsChanged)
     
 public:
     explicit Preview(QObject *parent = 0);
@@ -51,6 +51,12 @@ public:
 
 public Q_SLOTS:
     void execute(const QString& actionId, const QHash<QString, QVariant>& hints);
+
+Q_SIGNALS:
+    void rendererNameChanged();
+    void titleChanged();
+    void subtitleChanged();
+    void actionsChanged();
 
 protected:
     virtual void setUnityPreview(unity::dash::Preview::Ptr unityPreview);

@@ -66,8 +66,8 @@ private:
 };
 
 typedef QList<PreviewAction *> PreviewActionList;
-Q_DECLARE_METATYPE(PreviewAction*)
-Q_DECLARE_METATYPE(PreviewActionList)
+Q_DECLARE_METATYPE(PreviewAction *)
+Q_DECLARE_METATYPE(PreviewActionList *)
 Q_DECLARE_METATYPE(LayoutHint)
 
 #endif
