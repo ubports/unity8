@@ -35,9 +35,9 @@ file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
     )
 
 install(TARGETS LightDM-qml
-    DESTINATION ${SHELL_APP_DIR}/plugins/LightDM
+    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/LightDM
     )
 
 install(FILES qmldir
-    DESTINATION ${SHELL_APP_DIR}/plugins/LightDM
+    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/LightDM
     )
