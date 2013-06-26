@@ -38,7 +38,7 @@ class Preview : public QObject
     Q_PROPERTY(QString rendererName READ rendererName NOTIFY rendererNameChanged)
     Q_PROPERTY(QString title READ title NOTIFY titleChanged)
     Q_PROPERTY(QString subtitle READ subtitle NOTIFY subtitleChanged)
-    Q_PROPERTY(PreviewActionList actions READ actions NOTIFY actionsChanged)
+    Q_PROPERTY(QVariantList actions READ actions NOTIFY actionsChanged)
     
 public:
     explicit Preview(QObject *parent = 0);
@@ -47,7 +47,7 @@ public:
     QString rendererName() const;
     QString title() const;
     QString subtitle () const;
-    PreviewActionList actions();
+    QVariantList actions();
 
 public Q_SLOTS:
     void execute(const QString& actionId, const QHash<QString, QVariant>& hints);

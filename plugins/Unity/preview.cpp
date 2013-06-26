@@ -19,6 +19,7 @@
 
 // local
 #include "preview.h"
+#include "previewaction.h"
 #include "genericpreview.h"
 #include "applicationpreview.h"
 #include "moviepreview.h"
@@ -68,14 +69,16 @@ QString Preview::subtitle () const
     return "";
 }
 
-PreviewActionList Preview::actions()
+QVariantList Preview::actions()
 {
-    PreviewActionList alist;
+    QVariantList alist;
     if (m_unityPreview) {
         for (auto unityAction: m_unityPreview->GetActions()) {
-            auto action = new PreviewAction(this);
+            auto action = new PreviewAction(this); // preview is the owner of actions
             action->setUnityAction(unityAction);
-            alist.append(action);
+            QVariant v;
+            v.setValue(action);
+            alist.append(v);
         }
     } else {
         qWarning() << "Preview not set";

@@ -25,6 +25,7 @@
 
 // local
 #include "preview.h"
+#include "previewaction.h"
 #include "scope.h"
 #include "scopes.h"
 #include "categories.h"

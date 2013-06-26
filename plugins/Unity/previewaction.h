@@ -65,9 +65,9 @@ private:
     unity::dash::Preview::ActionPtr m_unityAction;
 };
 
-typedef QList<PreviewAction *> PreviewActionList;
+//typedef QList<PreviewAction *> PreviewActionList;
 Q_DECLARE_METATYPE(PreviewAction *)
-Q_DECLARE_METATYPE(PreviewActionList *)
+//Q_DECLARE_METATYPE(PreviewActionList *)
 Q_DECLARE_METATYPE(LayoutHint)
 
 #endif
