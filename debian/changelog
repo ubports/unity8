@@ -1,3 +1,61 @@
+unity8 (7.81.1) saucy; urgency=low
+
+  * Translation updates.
+
+  [ Michał Sawicz ]
+  * Don't limit installed apps.
+  * Pre-optimize PNGs to speed-up builds.
+  * Clean up build scripts.
+
+  [ Daniel d'Andrada ]
+  * Use DirectionalDragArea in BottomBar.
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Fri, 21 Jun 2013 17:37:02 +0200
+
+unity8 (7.81.0) saucy; urgency=low
+
+  * Translation updates.
+
+  [ Michał Sawicz ]
+  * Drop People lens.
+  * Support git-backed checkout.
+  * Revert focus stealing prevention for new apps. Fixes:
+    https://bugs.launchpad.net/bugs/1190155.
+  * Update CODING after unity8 rename.
+  * Update translation template file.
+  * Fix notification placement.
+
+  [ Michael Terry ]
+  * Show login list when not in narrow mode, instead of only when we have
+    multiple users.
+
+  [ Günter Schwann ]
+  * Bring back ListView'ed Carousel now that Qt is fixed.
+
+  [ Daniel d'Andrada ]
+  * Stage: code cleanup.
+  * DirectionalDragArea: added minSpeed and maxSilenceTime constraints.
+  * Move Direction enum out of DirectionalDragArea.
+  * Added uqmlscene tool and tryFoo targets for manual testing.
+
+  [ Michael Zanetti ]
+  * Add Lockscreens.
+  * Added right edge hinting to greeter.
+
+  [ Nick Dedekind ]
+  * Added Dash tests.
+
+  [ Nicolas d'Offay ]
+  * Changed infographic gradient colours.
+
+  [ Mirco Müller ]
+  * Integrate notifications.
+
+  [ Pawel Stołowski ]
+  * New version with support for smart scopes.
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Fri, 14 Jun 2013 12:56:17 +0200
+
 unity8 (7.80.0) saucy; urgency=low
 
   * Rename to unity8.

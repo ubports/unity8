@@ -71,7 +71,7 @@ class TestShellHelpers(object):
             self.touch.drag(start_x, start_y, stop_x, stop_y)
 
         # Because the shell loads up lots of stuff, unlocking the greeter can
-        # be a bit stuttery while lenses are still consuming all resources.
+        # be a bit stuttery while scopes are still consuming all resources.
         # Give it another (max retries) chance
         try:
             self.assertThat(greeter.created, Eventually(Equals(False)))
@@ -98,7 +98,8 @@ class TestShellHelpers(object):
         # go to the void for the first time because there's no real way to know what the display has
         # painted already. Give it another (max retries) chance.
         try:
-            self.assertThat(lambda: getattr(bottombar, "__applicationInFocus"), Eventually(Equals(True)))
+            self.assertThat(lambda: getattr(bottombar, "applicationIsOnForeground"),
+                            Eventually(Equals(True)))
         except:
             if retries > 0:
                 logger.warning("Failed to launch app. Retrying...")

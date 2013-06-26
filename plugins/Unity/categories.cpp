@@ -24,18 +24,16 @@
 Categories::Categories(QObject* parent)
     : DeeListModel(parent)
     , m_resultModel(0)
-    , m_globalResultModel(0)
 {
     // FIXME: need to clean up unused filters on countChanged
     m_roles[Categories::RoleId] = "id";
     m_roles[Categories::RoleName] = "name";
     m_roles[Categories::RoleIcon] = "icon";
     m_roles[Categories::RoleRenderer] = "renderer";
+    m_roles[Categories::RoleContentType] = "content_type";
     m_roles[Categories::RoleHints] = "hints";
     m_roles[Categories::RoleResults] = "results";
-    m_roles[Categories::RoleGlobalResults] = "globalResults";
     m_roles[Categories::RoleCount] = "count";
-    m_roles[Categories::RoleGlobalCount] = "globalCount";
 
     // TODO This should not be needed but accumulatting the count changes
     // makes the visualization more stable and also makes crashes on fast
@@ -48,7 +46,6 @@ Categories::Categories(QObject* parent)
 Categories::~Categories()
 {
     qDeleteAll(m_filters);
-    qDeleteAll(m_globalFilters);
 }
 
 CategoryFilter*
@@ -66,21 +63,6 @@ Categories::getFilter(int index) const
     return m_filters[index];
 }
 
-CategoryFilter*
-Categories::getGlobalFilter(int index) const
-{
-    if (!m_globalFilters.contains(index)) {
-        CategoryFilter* filter = new CategoryFilter();
-        connect(filter, SIGNAL(countChanged()), this, SLOT(onGlobalCountChanged()));
-        filter->setModel(m_globalResultModel);
-        filter->setIndex(index);
-
-        m_globalFilters.insert(index, filter);
-    }
-
-    return m_globalFilters[index];
-}
-
 void
 Categories::setResultModel(DeeListModel* model)
 {
@@ -92,20 +74,6 @@ Categories::setResultModel(DeeListModel* model)
         }
 
         Q_EMIT resultModelChanged(m_resultModel);
-    }
-}
-
-void
-Categories::setGlobalResultModel(DeeListModel* model)
-{
-    if (model != m_globalResultModel) {
-        m_globalResultModel = model;
-
-        Q_FOREACH(CategoryFilter* filter, m_globalFilters) {
-            filter->setModel(m_globalResultModel);
-        }
-
-        Q_EMIT globalResultModelChanged(m_globalResultModel);
     }
 }
 
@@ -131,18 +99,6 @@ Categories::onEmitCountChanged()
     m_timerFilters.clear();
 }
 
-void
-Categories::onGlobalCountChanged()
-{
-    CategoryFilter* filter = qobject_cast<CategoryFilter*>(sender());
-    if (filter) {
-        QModelIndex changedIndex = index(filter->index());
-        QVector<int> roles;
-        roles.append(Categories::RoleGlobalCount);
-        Q_EMIT dataChanged(changedIndex, changedIndex, roles);
-    }
-}
-
 QHash<int, QByteArray>
 Categories::roleNames() const
 {
@@ -156,27 +112,30 @@ Categories::data(const QModelIndex& index, int role) const
         return QVariant();
     }
 
-    if (role == RoleId) {
-        return QVariant::fromValue(index.row());
-    } else if (role == RoleName) {
-        return QVariant::fromValue(DeeListModel::data(index, 0));
-    } else if (role == RoleIcon) {
-        return QVariant::fromValue(DeeListModel::data(index, 1));
-    } else if (role == RoleRenderer) {
-        return QVariant::fromValue(DeeListModel::data(index, 2));
-    } else if (role == RoleHints) {
-        return QVariant::fromValue(DeeListModel::data(index, 3));
-    } else if (role == RoleResults) {
-        return QVariant::fromValue(getFilter(index.row()));
-    } else if (role == RoleGlobalResults) {
-        return QVariant::fromValue(getGlobalFilter(index.row()));
-    } else if (role == RoleCount) {
-        CategoryFilter* filter = getFilter(index.row());
-        return QVariant::fromValue(filter->rowCount());
-    } else if (role == RoleGlobalCount) {
-        QSortFilterProxyModel* filter = getGlobalFilter(index.row());
-        return QVariant::fromValue(filter->rowCount());
-    } else {
-        return QVariant();
+    switch (role) {
+        case RoleId:
+            return QVariant::fromValue(index.row());
+        case RoleName:
+            return QVariant::fromValue(DeeListModel::data(index, 1)); //DISPLAY_NAME
+        case RoleIcon:
+            return QVariant::fromValue(DeeListModel::data(index, 2)); //ICON_HINT
+        case RoleRenderer:
+            return QVariant::fromValue(DeeListModel::data(index, 3)); //RENDERER_NAME
+        case RoleContentType:
+        {
+            auto hints = QVariant::fromValue(DeeListModel::data(index, 4)).toHash();
+            return hints.contains("content-type") ? hints["content-type"] : QVariant(QString("default"));
+        }
+        case RoleHints:
+            return QVariant::fromValue(DeeListModel::data(index, 4)); //HINTS
+        case RoleResults:
+            return QVariant::fromValue(getFilter(index.row()));
+        case RoleCount:
+        {
+            CategoryFilter* filter = getFilter(index.row());
+            return QVariant::fromValue(filter->rowCount());
+        }
+        default:
+            return QVariant();
     }
 }

@@ -20,7 +20,7 @@
 #include "fake_unity_plugin.h"
 
 // local
-#include "fake_lenses.h"
+#include "fake_scopes.h"
 #include "categories.h"
 #include "categoryfilter.h"
 #include "fake_launchermodel.h"
@@ -37,8 +37,8 @@ void FakeUnityPlugin::registerTypes(const char *uri)
 
     Q_ASSERT(uri == QLatin1String("Unity"));
 
-    qmlRegisterType<Lenses>(uri, 0, 1, "Lenses");
-    qmlRegisterType<Lens>(uri, 0, 1, "Lens");
+    qmlRegisterType<Scopes>(uri, 0, 1, "Scopes");
+    qmlRegisterType<Scope>(uri, 0, 1, "Scope");
     qmlRegisterType<Categories>(uri, 0, 1, "Categories");
     qmlRegisterType<CategoryFilter>(uri, 0, 1, "CategoryFilter");
     qmlRegisterType<LauncherModel>(uri, 0, 1, "LauncherModel");

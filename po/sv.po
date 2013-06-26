@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-06-08 14:40+0200\n"
+"POT-Creation-Date: 2013-06-19 17:06+0200\n"
 "PO-Revision-Date: 2013-06-05 22:20+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-11 06:34+0000\n"
-"X-Generator: Launchpad (build 16667)\n"
+"X-Launchpad-Export-Date: 2013-06-20 06:37+0000\n"
+"X-Generator: Launchpad (build 16673)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -193,6 +193,19 @@ msgstr ""
 msgid "Author:"
 msgstr ""
 
+#: Greeter/Lockscreen.qml:126
+msgid "Emergency call"
+msgstr ""
+
+#: Greeter/PassphraseLockscreen.qml:59
+#, qt-format
+msgid "Hello %1"
+msgstr ""
+
+#: Greeter/PassphraseLockscreen.qml:59
+msgid "Hello"
+msgstr ""
+
 #: Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
 msgstr ""
@@ -231,4 +244,9 @@ msgstr ""
 
 #: plugins/Unity/lenses.cpp:39
 msgid "Home screen"
+msgstr ""
+
+#: Shell.qml:380
+#, qt-format
+msgid "Please enter %1:"
 msgstr ""

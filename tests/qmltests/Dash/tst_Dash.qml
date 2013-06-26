@@ -30,79 +30,79 @@ Item {
     Dash {
         id: dash
         anchors.fill: parent
-        showLensOnLoaded: "MockLens2"
+        showScopeOnLoaded: "MockScope2"
     }
 
-    LensDelegateMapper {
-        id: lensDelegateMapper
-        lensDelegateMapping: {
-            "MockLens1": "../tests/qmltests/Dash/qml/fake_lensView1.qml",
-            "MockLens2": "../tests/qmltests/Dash/qml/fake_lensView2.qml",
-            "MockLens3": "../tests/qmltests/Dash/qml/fake_lensView3.qml",
-            "MockLens4": "../tests/qmltests/Dash/qml/fake_lensView4.qml"
+    ScopeDelegateMapper {
+        id: scopeDelegateMapper
+        scopeDelegateMapping: {
+            "MockScope1": "../tests/qmltests/Dash/qml/fake_scopeView1.qml",
+            "MockScope2": "../tests/qmltests/Dash/qml/fake_scopeView2.qml",
+            "MockScope3": "../tests/qmltests/Dash/qml/fake_scopeView3.qml",
+            "MockScope4": "../tests/qmltests/Dash/qml/fake_scopeView4.qml"
         }
-        genericLens: "../tests/qmltests/Dash/qml/fake_generic_lensView.qml"
+        genericScope: "../tests/qmltests/Dash/qml/fake_generic_scopeView.qml"
     }
 
     UT.UnityTestCase {
         name: "Dash"
         when: windowShown
 
-        property var lenses
+        property var scopes
 
         Component.onCompleted: {
             var dashContent = findChild(dash, "dashContent");
-            dashContent.lensMapper = lensDelegateMapper;
-            lenses = dashContent.lenses;
+            dashContent.scopeMapper = scopeDelegateMapper;
+            scopes = dashContent.scopes;
         }
 
         function init() {
-            // clear and reload the lenses.
-            lenses.clear();
+            // clear and reload the scopes.
+            scopes.clear();
             var dashContentList = findChild(dash, "dashContentList");
             verify(dashContentList != undefined);
             tryCompare(dashContentList, "count", 0);
-            lenses.load();
+            scopes.load();
         }
 
-        function get_lens_data() {
+        function get_scope_data() {
             return [
-                        { tag: "MockLens1", visualIndex: 0, shouldBeVisible: true },
-                        { tag: "MockLens2", visualIndex: -1, shouldBeVisible: false },
-                        { tag: "MockLens3", visualIndex: 1, shouldBeVisible: true },
-                        { tag: "MockLens4", visualIndex: 2, shouldBeVisible: true },
-                        { tag: "MockLens5", visualIndex: 3, shouldBeVisible: true },
+                        { tag: "MockScope1", visualIndex: 0, shouldBeVisible: true },
+                        { tag: "MockScope2", visualIndex: -1, shouldBeVisible: false },
+                        { tag: "MockScope3", visualIndex: 1, shouldBeVisible: true },
+                        { tag: "MockScope4", visualIndex: 2, shouldBeVisible: true },
+                        { tag: "MockScope5", visualIndex: 3, shouldBeVisible: true },
             ]
         }
 
-        function test_set_current_lens_data() {
-            return get_lens_data()
+        function test_set_current_scope_data() {
+            return get_scope_data()
         }
 
-        function test_set_current_lens(data) {
-            // wait for lenses to load
-            tryCompare(lenses, "loaded", true);
+        function test_set_current_scope(data) {
+            // wait for scopes to load
+            tryCompare(scopes, "loaded", true);
 
             var dashbar = findChild(dash, "dashbar");
             verify(dashbar != undefined)
             var dashContent = findChild(dash, "dashContent");
             var current_index = dashContent.currentIndex;
 
-            dash.setCurrentLens(data.tag, true /* animate */, false /* reset */);
+            dash.setCurrentScope(data.tag, true /* animate */, false /* reset */);
             compare(dashContent.currentIndex, data.shouldBeVisible ? data.visualIndex : current_index);
             compare(dashbar.currentIndex, data.shouldBeVisible ? data.visualIndex : current_index);
         }
 
-        function test_show_lens_on_load_data() {
-            return get_lens_data()
+        function test_show_scope_on_load_data() {
+            return get_scope_data()
         }
 
-        function test_show_lens_on_load(data) {
+        function test_show_scope_on_load(data) {
             if (data.shouldBeVisible == false) {
                 console.log("Not testing " + data.tag + ": not visible");
                 return;
             }
-            dash.showLensOnLoaded = data.tag
+            dash.showScopeOnLoaded = data.tag
 
             var dashContentList = findChild(dash, "dashContentList");
             verify(dashContentList != undefined);
@@ -110,7 +110,7 @@ Item {
         }
 
         function test_dash_bar_set_index_connection_data() {
-            return get_lens_data()
+            return get_scope_data()
         }
 
         function test_dash_bar_set_index_connection(data) {
@@ -118,8 +118,8 @@ Item {
                 console.log("Not testing " + data.tag + ": not visible");
                 return;
             }
-            // wait for lenses to load
-            tryCompare(lenses, "loaded", true);
+            // wait for scopes to load
+            tryCompare(scopes, "loaded", true);
 
             var dashbar = findChild(dash, "dashbar");
             verify(dashbar != undefined)

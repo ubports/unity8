@@ -1,0 +1,253 @@
+# Bulgarian translation for unity
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# This file is distributed under the same license as the unity package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: unity\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-06-19 17:06+0200\n"
+"PO-Revision-Date: 2013-06-19 15:47+0000\n"
+"Last-Translator: Miroslav E. Hadzhiev (Хаджиев) "
+"<miroslav.hadzhiev@gmail.com>\n"
+"Language-Team: Bulgarian <bg@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2013-06-20 06:36+0000\n"
+"X-Generator: Launchpad (build 16673)\n"
+
+#: Applications/applications.js:23
+msgid "Phone"
+msgstr "Телефон"
+
+#: Applications/applications.js:29
+msgid "Camera"
+msgstr "Камера"
+
+#: Applications/applications.js:35
+msgid "Gallery"
+msgstr "Колекция"
+
+#: Applications/applications.js:40
+msgid "Facebook"
+msgstr "Фейсбук"
+
+#: Applications/applications.js:46
+msgid "Browser"
+msgstr "Браузър"
+
+#: Applications/applications.js:51
+msgid "Twitter"
+msgstr "Туитър"
+
+#: Applications/applications.js:57
+msgid "GMail"
+msgstr "Е-поща от Гугъл"
+
+#: Applications/applications.js:62
+msgid "Weather"
+msgstr "Метеоусловия"
+
+#: Applications/applications.js:68
+msgid "Notepad"
+msgstr "Бележник"
+
+#: Applications/applications.js:74
+msgid "Calendar"
+msgstr "Календар"
+
+#: Applications/applications.js:80
+msgid "Media Player"
+msgstr "Мултимедиен плеър"
+
+#: Applications/applications.js:86
+msgid "Evernote"
+msgstr ""
+
+#: Applications/applications.js:91
+msgid "Map"
+msgstr "Карта"
+
+#: Applications/applications.js:96
+msgid "Pinterest"
+msgstr ""
+
+#: Applications/applications.js:101
+msgid "SoundCloud"
+msgstr ""
+
+#: Applications/applications.js:106
+msgid "Wikipedia"
+msgstr "Уикипедия"
+
+#: Applications/applications.js:111
+msgid "YouTube"
+msgstr "YouTube"
+
+#: Components/PageHeader.qml:300
+msgid "Recent searches"
+msgstr "Скорошни търсения"
+
+#: Dash/DashApps.qml:65
+msgid "Running apps"
+msgstr ""
+
+#: Dash/DashApps.qml:68
+msgid "Frequently used"
+msgstr ""
+
+#: Dash/DashApps.qml:71
+msgid "Installed"
+msgstr "Инсталирани"
+
+#: Dash/DashApps.qml:74
+msgid "Available for download"
+msgstr ""
+
+#: Dash/DashApps.qml:178
+msgid "Apps"
+msgstr "Приложения"
+
+#: Dash/DashHome.qml:43
+msgid "Frequent Apps"
+msgstr ""
+
+#: Dash/DashHome.qml:46
+msgid "Favourite People"
+msgstr ""
+
+#: Dash/DashHome.qml:49
+msgid "People Recently in Touch"
+msgstr ""
+
+#: Dash/DashHome.qml:52
+msgid "Recent Music"
+msgstr ""
+
+#: Dash/DashHome.qml:55
+msgid "Videos Popular Online"
+msgstr ""
+
+#: Dash/DashHome.qml:197 plugins/Unity/lenses.cpp:38
+msgid "Home"
+msgstr "Начало"
+
+#: Dash/DashMusic.qml:27 Dash/DashVideos.qml:28
+msgid "Featured"
+msgstr "Най-отличени"
+
+#: Dash/DashMusic.qml:28 Dash/DashVideos.qml:29
+msgid "Recent"
+msgstr "Най-нови"
+
+#: Dash/DashMusic.qml:29 Dash/DashVideos.qml:30
+msgid "New Releases"
+msgstr ""
+
+#: Dash/DashMusic.qml:30
+msgid "Top Charting"
+msgstr ""
+
+#: Dash/DashMusic.qml:99
+msgid "Music"
+msgstr "Музика"
+
+#: Dash/DashPeople.qml:31
+msgid "Favourites"
+msgstr "Любими"
+
+#: Dash/DashPeople.qml:32
+msgid "Recently in touch"
+msgstr ""
+
+#: Dash/DashPeople.qml:33
+msgid "New Contacts"
+msgstr ""
+
+#: Dash/DashPeople.qml:34
+msgid "A-Z"
+msgstr "А-Я"
+
+#: Dash/DashPeople.qml:123
+msgid "People"
+msgstr "Хора"
+
+#: Dash/DashVideos.qml:31
+msgid "Popular Online"
+msgstr ""
+
+#: Dash/DashVideos.qml:155
+msgid "Videos"
+msgstr "Видеоклипове"
+
+#: Dash/Video/VideoPreview.qml:98
+msgid "Directed by:"
+msgstr ""
+
+#: Dash/Video/VideoPreview.qml:121
+msgid "Starring:"
+msgstr ""
+
+#: Dash/Video/VideoPreview.qml:144
+msgid "Author:"
+msgstr "Автор:"
+
+#: Greeter/Lockscreen.qml:126
+msgid "Emergency call"
+msgstr ""
+
+#: Greeter/PassphraseLockscreen.qml:59
+#, qt-format
+msgid "Hello %1"
+msgstr ""
+
+#: Greeter/PassphraseLockscreen.qml:59
+msgid "Hello"
+msgstr ""
+
+#: Hud/HudParametrizedActionsPage.qml:132
+msgid "Confirm"
+msgstr "Потвърди"
+
+#: Hud/Hud.qml:61 Hud/Hud.qml:99 Hud/Hud.qml:372
+msgid "Type or say a command"
+msgstr ""
+
+#: Hud/Hud.qml:84
+msgid "Loading. Please Wait..."
+msgstr ""
+
+#: Hud/Hud.qml:89
+msgid "Speak Now..."
+msgstr ""
+
+#: Hud/Hud.qml:94
+msgid "Speaking..."
+msgstr ""
+
+#: Panel/MenuContent.qml:192
+msgid "Device"
+msgstr "Устройство"
+
+#: Panel/Menus/Overview/FlightModeWidget.qml:42
+msgid "Flight mode"
+msgstr ""
+
+#: Panel/SearchIndicator.qml:26 plugins/Unity/lenses.cpp:40
+msgid "Search"
+msgstr "Търсене"
+
+#: plugins/Unity/lens.cpp:333
+msgid "Sorry, there is nothing that matches your search."
+msgstr "Съжаляваме, няма нищо, което да отговаря на вашето търсене."
+
+#: plugins/Unity/lenses.cpp:39
+msgid "Home screen"
+msgstr "Начален екран"
+
+#: Shell.qml:380
+#, qt-format
+msgid "Please enter %1:"
+msgstr ""
