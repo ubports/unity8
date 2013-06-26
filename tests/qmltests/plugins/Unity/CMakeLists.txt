@@ -25,7 +25,6 @@ set(UnityQML_SOURCES
   fake_scope.cpp
   fake_scopes.cpp
   fake_unity_plugin.cpp
-  fake_launchermodel.cpp
 )
 
 add_library(FakeUnityQml MODULE ${UnityQML_SOURCES})

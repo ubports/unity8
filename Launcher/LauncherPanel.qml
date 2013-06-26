@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Unity 0.1
+import Unity.Launcher 0.1
 import "../Components/ListItems"
 
 Item {
@@ -139,7 +140,7 @@ Item {
                     maxAngle: 60
 
                     onClicked: {
-                        root.applicationSelected(launcherModel.get(index).desktopFile);
+                        root.applicationSelected(LauncherModel.get(index).desktopFile);
                     }
                 }
 

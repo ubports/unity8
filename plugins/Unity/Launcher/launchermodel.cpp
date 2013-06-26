@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Canonical, Ltd.
+ * Copyright (C) 2013 Canonical, Ltd.
  *
  * Authors:
  *  Michael Zanetti <michael.zanetti@canonical.com>
@@ -18,9 +18,13 @@
  */
 
 #include "launchermodel.h"
+#include "launcheritem.h"
 
-LauncherModel::LauncherModel(QObject *parent): QAbstractListModel(parent)
+LauncherModel::LauncherModel(QObject *parent): LauncherModelInterface(parent)
 {
+    // FIXME: Dummy data... Aggregate real data from backends
+
+    // Fake favorites
     LauncherItem *item = new LauncherItem("/usr/share/applications/phone-app.desktop", "Phone", "phone-app");
     m_list.append(item);
     item = new LauncherItem("/usr/share/applications/camera-app.desktop", "Camera", "camera");
@@ -71,7 +75,7 @@ QVariant LauncherModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-LauncherItem *LauncherModel::get(int index) const
+unity::shell::launcher::LauncherItemInterface *LauncherModel::get(int index) const
 {
     if (index < 0 || index >= m_list.count()) {
         return 0;
@@ -95,56 +99,4 @@ QHash<int, QByteArray> LauncherModel::roleNames() const
     roles.insert(RoleFavorite, "favorite");
     roles.insert(RoleRunning, "runnng");
     return roles;
-}
-
-
-LauncherItem::LauncherItem(const QString &desktopFile, const QString &name, const QString &icon, QObject *parent):
-    QObject(parent),
-    m_desktopFile(desktopFile),
-    m_name(name),
-    m_icon(icon),
-    m_favorite(false)
-{
-
-}
-
-QString LauncherItem::desktopFile() const
-{
-    return m_desktopFile;
-}
-
-QString LauncherItem::name() const
-{
-    return m_name;
-}
-
-QString LauncherItem::icon() const
-{
-    return m_icon;
-}
-
-bool LauncherItem::favorite() const
-{
-    return m_favorite;
-}
-
-void LauncherItem::setFavorite(bool favorite)
-{
-    if (m_favorite != favorite) {
-        m_favorite = favorite;
-        Q_EMIT favoriteChanged(m_favorite);
-    }
-}
-
-bool LauncherItem::running() const
-{
-    return m_running;
-}
-
-void LauncherItem::setRunning(bool running)
-{
-    if (m_running != running) {
-        m_running = running;
-        Q_EMIT runningChanged(running);
-    }
 }

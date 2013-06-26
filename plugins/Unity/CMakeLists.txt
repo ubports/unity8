@@ -9,8 +9,6 @@ include_directories(
     ${QTDEE_INCLUDE_DIRS}
     ${UNITYCORE_INCLUDE_DIRS}
     ${Qt5DBus_INCLUDE_DIRS}
-#TODO: remove this once unity-api is released to distro
-    /home/mzanetti/Development/unity-api/include
 )
 
 set(QMLPLUGIN_SRC
@@ -21,7 +19,6 @@ set(QMLPLUGIN_SRC
     categoryfilter.cpp
     plugin.cpp
     bottombarvisibilitycommunicatorshell.cpp
-    launchermodel.cpp
     )
 
 add_library(Unity-qml MODULE
@@ -49,3 +46,7 @@ install(TARGETS Unity-qml
 install(FILES qmldir
     DESTINATION ${SHELL_APP_DIR}/plugins/Unity
     )
+
+
+add_subdirectory(Launcher)
+

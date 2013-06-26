@@ -19,6 +19,7 @@ import "../Components"
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
 import Unity 0.1
+import Unity.Launcher 0.1
 
 Item {
     id: root
@@ -97,10 +98,6 @@ Item {
         }
     }
 
-    LauncherModel {
-        id: launcherModel
-    }
-
     MouseArea {
         id: launcherDragArea
         enabled: root.state == "visible"
@@ -153,7 +150,7 @@ Item {
             bottom: parent.bottom
         }
         x: -width
-        model: launcherModel
+        model: LauncherModel
 
         property bool animate: true
 
