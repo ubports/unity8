@@ -9,6 +9,8 @@ include_directories(
     ${QTDEE_INCLUDE_DIRS}
     ${UNITYCORE_INCLUDE_DIRS}
     ${Qt5DBus_INCLUDE_DIRS}
+#TODO: remove this once unity-api is released to distro
+    /home/mzanetti/Development/unity-api/include
 )
 
 set(QMLPLUGIN_SRC
