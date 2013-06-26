@@ -37,7 +37,11 @@ void prependImportPaths(QQmlEngine *engine, const QStringList &paths)
 {
     QStringList importPathList = engine->importPathList();
     for (int i = paths.count() -1; i >= 0; i--) {
-        importPathList.prepend(paths[i]);
+        // don't duplicate
+        const QString& path = paths[i];
+        QStringList::iterator iter = qFind(importPathList.begin(), importPathList.end(), path);
+        if (iter == importPathList.end())
+            importPathList.prepend(path);
     }
     engine->setImportPathList(importPathList);
 }
@@ -48,6 +52,12 @@ void prependImportPaths(QQmlEngine *engine, const QStringList &paths)
 void appendImportPaths(QQmlEngine *engine, const QStringList &paths)
 {
     QStringList importPathList = engine->importPathList();
+    Q_FOREACH(const QString& path, paths) {
+        // don't duplicate
+        QStringList::iterator iter = qFind(importPathList.begin(), importPathList.end(), path);
+        if (iter == importPathList.end())
+            importPathList.append(path);
+    }
     importPathList.append(paths);
     engine->setImportPathList(importPathList);
 }
@@ -124,7 +134,7 @@ int main(int argc, char** argv)
 
     QUrl source("Shell.qml");
     prependImportPaths(view->engine(), QStringList() << ::shellAppDirectory());
-    appendImportPaths(view->engine(), ::shellImportPaths());
+    prependImportPaths(view->engine(), ::shellImportPaths());
     appendImportPaths(view->engine(), QStringList() << ::fakePluginsImportPath());
     view->setSource(source);
     view->setColor("transparent");
