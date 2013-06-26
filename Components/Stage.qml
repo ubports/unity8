@@ -474,7 +474,6 @@ Showable {
                 switchToApplicationAnimationController.completeToBeginningWithSignal();
                 gotRejected = true;
             } else if (status == DirectionalDragArea.WaitingForTouch) {
-                dragEvaluator.updateIdleTime()
                 if (!gotRejected)
                     onGestureEnded()
             }

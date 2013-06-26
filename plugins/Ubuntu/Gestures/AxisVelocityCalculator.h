@@ -83,17 +83,9 @@ public:
     void setTrackedPosition(qreal value);
 
     /*
-        Inform that trackedPosition remained motionless since the time it was
-        last changed.
-
-        It's the same as calling setTrackedPosition(trackedPosition())
-     */
-    Q_INVOKABLE void updateIdleTime();
-
-    /*
       Calculates the finger velocity, in axis units/millisecond
     */
-    Q_INVOKABLE qreal calculate() const;
+    Q_INVOKABLE qreal calculate();
 
     /*
       Removes all stored movements from previous calls to setTrackedPosition()
@@ -127,6 +119,15 @@ Q_SIGNALS:
     void trackedPositionChanged(qreal value);
 
 private:
+
+    /*
+        Inform that trackedPosition remained motionless since the time it was
+        last changed.
+
+        It's the same as calling setTrackedPosition(trackedPosition())
+     */
+    void updateIdleTime();
+
     /*
       How much the finger has moved since processMovement() was last called.
     */

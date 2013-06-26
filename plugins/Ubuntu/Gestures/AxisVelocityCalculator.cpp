@@ -82,11 +82,12 @@ void AxisVelocityCalculator::processMovement(qreal movement)
     m_samplesWrite = (m_samplesWrite + 1) % MAX_SAMPLES;
 }
 
-qreal AxisVelocityCalculator::calculate() const
+qreal AxisVelocityCalculator::calculate()
 {
     if (numSamples() < MIN_SAMPLES_NEEDED) {
         return 0.0;
     }
+    updateIdleTime(); // consider the time elapsed since the last update and now
 
     int lastIndex;
     if (m_samplesWrite == 0) {

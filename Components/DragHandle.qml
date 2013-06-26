@@ -107,7 +107,6 @@ DirectionalDragArea {
 
     onStatusChanged: {
         if (status === DirectionalDragArea.WaitingForTouch) {
-            dragEvaluator.updateIdleTime()
             if (__previousStatus === DirectionalDragArea.Recognized) {
                 __onFinishedRecognizedGesture()
             }
