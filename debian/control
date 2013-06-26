@@ -38,6 +38,7 @@ Package: unity8
 Architecture: any
 Depends: ${misc:Depends},
          ${shlibs:Depends},
+         unity8-private (= ${binary:Version}),
          indicators-client (>= 0.6.1),
          qtdeclarative5-dee-plugin,
          qtdeclarative5-ubuntu-ui-toolkit-plugin,
@@ -55,8 +56,22 @@ Breaks: qml-phone-shell (<< 7.80~)
 Description: Unity 8 shell
  The Unity 8 shell is the primary user interface for Ubuntu devices.
 
+Package: unity8-private
+Architecture: any
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
+Description: Unity 8 private libs
+ The Unity 8 shell is the primary user interface for Ubuntu devices.
+ .
+ This package contains the private libraries for QML and other components
+ only used by the shell.
+
 Package: unity8-fake-env
 Architecture: any
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
 Depends: ${misc:Depends},
          ${shlibs:Depends},
 Replaces: qml-phone-shell-fake-env (<< 7.80~)

@@ -9,9 +9,6 @@ export NO_PNG_PKG_MANGLE=1
 %:
 	dh $@ --parallel --fail-missing --with python2
 
-override_dh_shlibdeps:
-	dh_shlibdeps -XlibMockLightDM-qml.so
-
 override_dh_install:
 	# install autopilot tests
 	cd tests/autopilot; \
@@ -20,4 +17,12 @@ override_dh_install:
 	done; \
 	cd $(CURDIR)
 	dh_install -X'*.pyc' --fail-missing
+
+# use private lib directories
+override_dh_makeshlibs:
+	dh_makeshlibs -Nunity8-private -Nunity8-fake-env
+
+# libMockLightDM-qml.so links against liblightdm-qt5-2.so which doesn't exist
+override_dh_shlibdeps:
+	dh_shlibdeps -XlibMockLightDM-qml.so
 
