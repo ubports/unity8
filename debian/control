@@ -76,8 +76,8 @@ Depends: ${misc:Depends},
          libqt5test5,
          libqt5widgets5,
          python-evdev,
-         unity8 (= ${source:Version}),
-         unity8-fake-env (= ${source:Version}),
+         unity8 (>= ${source:Version}),
+         unity8-fake-env (>= ${source:Version}),
 Description: Test package for Unity 8 shell
  Autopilot tests for the unity8 package
 
