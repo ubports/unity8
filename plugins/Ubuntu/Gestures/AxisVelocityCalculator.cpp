@@ -148,4 +148,11 @@ void AxisVelocityCalculator::setTimeSource(UbuntuGestures::TimeSource *timeSourc
         delete m_timeSource;
 
     m_timeSource = timeSource;
+
+    if (numSamples() > 0) {
+        qWarning("AxisVelocityCalculator: changing time source while there are samples present.");
+        // Any existent samples are based on the old time source and are, therefore, incompatible
+        // with this new one.
+        reset();
+    }
 }
