@@ -7,10 +7,7 @@ export DPKG_GENSYMBOLS_CHECK_LEVEL=4
 export NO_PNG_PKG_MANGLE=1
 
 %:
-	dh $@ --parallel
-
-override_dh_install:
-	dh_install --fail-missing
+	dh $@ --parallel --fail-missing
 
 override_dh_shlibdeps:
 	dh_shlibdeps -XlibMockLightDM-qml.so
