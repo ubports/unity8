@@ -34,12 +34,12 @@ class ApplicationPreview: public Preview
 {
     Q_OBJECT
 
-    Q_PROPERTY(QString lastUpdate READ lastUpdate)
-    Q_PROPERTY(QString copyright READ copyright)
-    Q_PROPERTY(QString license READ license)
-    Q_PROPERTY(QString appIcon READ appIcon)
-    Q_PROPERTY(float rating READ rating)
-    Q_PROPERTY(unsigned int numRatings READ numRatings)
+    Q_PROPERTY(QString lastUpdate READ lastUpdate NOTIFY lastUpdateChanged)
+    Q_PROPERTY(QString copyright READ copyright NOTIFY copyrightChanged)
+    Q_PROPERTY(QString license READ license NOTIFY licenseChanged)
+    Q_PROPERTY(QString appIcon READ appIcon NOTIFY appIconChanged)
+    Q_PROPERTY(float rating READ rating NOTIFY ratingChanged)
+    Q_PROPERTY(unsigned int numRatings READ numRatings NOTIFY numRatingsChanged)
 
 public:
     explicit ApplicationPreview(QObject *parent = 0);
@@ -50,6 +50,14 @@ public:
     QString appIcon() const;
     float rating() const;
     unsigned int numRatings() const;
+
+Q_SIGNALS:
+    void lastUpdateChanged();
+    void copyrightChanged();
+    void licenseChanged();
+    void appIconChanged();
+    void ratingChanged();
+    void numRatingsChanged();
 
 protected:
     void setUnityPreview(unity::dash::Preview::Ptr unityPreview) override;
