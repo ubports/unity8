@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-19 17:06+0200\n"
+"POT-Creation-Date: 2013-06-26 22:58+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -165,7 +165,7 @@ msgstr ""
 msgid "Author:"
 msgstr ""
 
-#: Greeter/Lockscreen.qml:126
+#: Greeter/Lockscreen.qml:133
 msgid "Emergency call"
 msgstr ""
 
@@ -214,12 +214,7 @@ msgstr ""
 msgid "Sorry, there is nothing that matches your search."
 msgstr ""
 
-#: Shell.qml:380
+#: Shell.qml:383
 #, qt-format
-msgid "Please enter %1:"
-msgstr ""
-
-#: Shell.qml:380
-#, qt-format
-msgid "Please enter %1:"
+msgid "Please enter %1"
 msgstr ""
