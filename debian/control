@@ -67,9 +67,8 @@ Depends: qmenumodel-qml,
          unity8 (= ${source:Version}),
          ${misc:Depends},
          ${shlibs:Depends},
-Description: Indicators and system settings client application
- This package contains the client application for indicators and system
- settings.
+Description: Indicators client test application
+ This package contains the client application for indicators used by autopilot
 
 Package: unity8-fake-env
 Replaces: qml-phone-shell-fake-env (<< 7.80~)

@@ -23,7 +23,6 @@
 
 #include <QObject>
 #include <QSettings>
-#include <memory>
 
 class Indicator : public QObject
 {

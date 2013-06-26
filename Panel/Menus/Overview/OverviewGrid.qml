@@ -56,7 +56,6 @@ Item {
         interactive: false
         delegate:
             AbstractButton {
-                id: indicatorButton
                 objectName: "overviewGridButton" + index
                 width: grid.cellWidth
                 height: grid.cellHeight

@@ -1,9 +1,6 @@
 /*
  * Copyright (C) 2013 Canonical, Ltd.
  *
- * Authors:
- *  Michał Sawicz <michal.sawicz@canonical.com>
- *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 3.
@@ -15,8 +12,9 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Author: Nick Dedekind <nick.dedekind@canonical.com>
  */
-
 
 #ifndef INDICATORS_MANAGER_H
 #define INDICATORS_MANAGER_H
@@ -53,13 +51,13 @@ Q_SIGNALS:
     void indicatorAboutToBeUnloaded(const QString& indicator);
 
 private Q_SLOTS:
-    void onDirectoryChanged(const QString& direcory);
+    void onDirectoryChanged(const QString& directory);
     void onFileChanged(const QString& file);
 
 private:
-    void load(const QDir& dir);
-    void load(const QFileInfo& file);
-    void unload(const QFileInfo& dir);
+    void loadDir(const QDir& dir);
+    void loadFile(const QFileInfo& file);
+    void unloadFile(const QFileInfo& dir);
 
     void startVerify(const QString& path);
     void endVerify(const QString& path);

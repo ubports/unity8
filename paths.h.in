@@ -75,7 +75,8 @@ inline QStringList shellDataDirs() {
         }
     }
     else {
-        dirs.prepend(shellAppDirectory());
+        // append so by default we use xdg files.
+        dirs.append(shellAppDirectory());
     }
     return dirs;
 }

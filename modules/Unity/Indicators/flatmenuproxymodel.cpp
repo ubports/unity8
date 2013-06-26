@@ -220,60 +220,6 @@ void FlatMenuProxyModel::onModelReset()
     Q_EMIT countChanged();
 }
 
-// void FlatMenuProxyModel::onRowsAboutToBeInserted(const QModelIndex &index, int first, int last)
-// {
-//     if (index.isValid()) {
-//         int firstIndex = rowOffsetOf(index, first);
-//         int lastIndex = rowOffsetOf(index, last, true);
-
-//         beginInsertRows(QModelIndex(), firstIndex, lastIndex);
-//         m_rowCount += (lastIndex - firstIndex + 1);
-//     }
-// }
-
-// void FlatMenuProxyModel::onRowsAboutToBeRemoved(const QModelIndex &index, int first, int last)
-// {
-//     if (index.isValid()) {
-//         int firstIndex = rowOffsetOf(index, first);
-//         int lastIndex = rowOffsetOf(index, last, true);
-
-//         m_indexCache.clear();
-//         beginRemoveRows(QModelIndex(), firstIndex, lastIndex);
-//         m_rowCount -= (lastIndex - firstIndex + 1);
-//     }
-// }
-
-// void FlatMenuProxyModel::onRowsInserted(const QModelIndex &index, int first, int last)
-// {
-//     if (index.isValid()) {
-//         m_indexCache.clear();
-//         endInsertRows();
-//         for (int i=first; i <= last; i++) {
-//             QModelIndex subIndex = sourceModel()->index(i, 0, index.parent());
-//             if (subIndex.isValid()) {
-//                 int subSectionSize = recursiveRowCount(subIndex);
-//                 if (subSectionSize > 0) {
-//                     int firstIndex = rowOffsetOf(index, i) + 1;
-//                     int lastIndex = rowOffsetOf(index, i, true);
-
-//                     beginInsertRows(QModelIndex(), firstIndex, lastIndex);
-//                     m_rowCount += lastIndex - firstIndex + 1;
-//                     endInsertRows();
-//                 }
-//             }
-//         }
-//     }
-//     Q_EMIT countChanged();
-// }
-
-// void FlatMenuProxyModel::onRowsRemoved(const QModelIndex &index, int, int)
-// {
-//     if (index.isValid()) {
-//         endRemoveRows();
-//         Q_EMIT countChanged();
-//     }
-// }
-
 int FlatMenuProxyModel::recursiveRowCount(const QModelIndex &index) const
 {
     int size = sourceModel()->rowCount(index);
@@ -316,17 +262,7 @@ int FlatMenuProxyModel::rowOffsetOf(const QModelIndex &index, int row, bool incl
     return offset;
 }
 
-/*! \for use in qml */
-QVariantMap FlatMenuProxyModel::get(int row) const
+QVariant FlatMenuProxyModel::data(int row, int role) const
 {
-    QVariantMap result;
-
-    QModelIndex index = this->index(row);
-    if (index.isValid()) {
-        const QHash<int, QByteArray> roleNames = this->roleNames();
-        Q_FOREACH(int i, roleNames.keys()) {
-            result.insert(roleNames[i], data(index, i));
-        }
-    }
-    return result;
+    return QAbstractProxyModel::data(index(row, 0), role);
 }

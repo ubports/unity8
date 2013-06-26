@@ -34,11 +34,24 @@ class FlatMenuProxyModel : public QAbstractProxyModel
     Q_PROPERTY(QString objectPath READ objectPath WRITE setObjectPath NOTIFY objectPathChanged)
     Q_PROPERTY(int status READ status NOTIFY statusChanged)
 
+    Q_ENUMS(Roles)
 public:
+    // Because this is a proxy to qmenumodel, it may change.
+    enum Roles {
+        Action  = Qt::DisplayRole + 1,
+        Label,
+        Extra,
+        Depth,
+        hasSection,
+        hasSubMenu
+    };
+
     FlatMenuProxyModel(QAbstractItemModel *source=0);
     ~FlatMenuProxyModel();
 
     void setSourceModel(QAbstractItemModel * sourceModel);
+
+    Q_INVOKABLE QVariant data(int row, int role = Qt::DisplayRole) const;
 
     QModelIndex mapFromSource(const QModelIndex &index) const;
     QModelIndex mapToSource(const QModelIndex &index) const;
@@ -60,16 +73,7 @@ public:
 
     int status() const;
 
-    /* QML */
-    Q_INVOKABLE QVariantMap get(int row) const;
-
 public Q_SLOTS:
-    // void onRowsInserted(const QModelIndex &parent, int start, int end);
-    // void onRowsAboutToBeInserted(const QModelIndex &parent, int start, int end);
-
-    // void onRowsRemoved(const QModelIndex &parent, int start, int end);
-    // void onRowsAboutToBeRemoved(const QModelIndex &parent, int start, int end);
-
     void onModelAboutToBeReset();
     void onModelReset();
 

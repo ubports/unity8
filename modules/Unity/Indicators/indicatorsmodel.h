@@ -53,7 +53,7 @@ public:
     Q_INVOKABLE void load();
     Q_INVOKABLE void unload();
 
-    Q_INVOKABLE QVariantMap get(int row) const;
+    Q_INVOKABLE QVariant data(int row, int role = Qt::DisplayRole) const;
 
     /* QAbstractItemModel */
     QHash<int, QByteArray> roleNames() const;

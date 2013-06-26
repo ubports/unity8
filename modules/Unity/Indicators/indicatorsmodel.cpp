@@ -68,27 +68,6 @@ IndicatorsModel::~IndicatorsModel()
 }
 
 /*!
-    \qmlmethod IndicatorsModel::get(int)
-
-    Returns the item at index in the model. This allows the item data to be accessed from JavaScript:
-    \b Note: methods should only be called after the Component has completed.
-*/
-QVariantMap IndicatorsModel::get(int row) const
-{
-    QVariantMap result;
-
-    QModelIndex index = this->index(row);
-    if (index.isValid()) {
-        QMap<int, QVariant> data = itemData(index);
-        const QHash<int, QByteArray> roleNames = this->roleNames();
-        Q_FOREACH(int i, roleNames.keys()) {
-            result.insert(roleNames[i], data[i]);
-        }
-    }
-    return result;
-}
-
-/*!
     \qmlproperty IndicatorsModel::count
     The number of data entries in the model.
 
@@ -244,6 +223,11 @@ QVariant IndicatorsModel::defaultData(Indicator::Ptr plugin, int role)
             return shellAppDirectory()+"/Panel/Indicators/DefaultIndicatorPage.qml";
     }
     return QVariant();
+}
+
+Q_INVOKABLE QVariant IndicatorsModel::data(int row, int role) const
+{
+    return data(index(row, 0), role);
 }
 
 /*! \internal */

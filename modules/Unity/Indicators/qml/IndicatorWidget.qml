@@ -49,21 +49,21 @@ IndicatorBase {
 
 
     function update_state() {
-        var data = proxyModel.get(0);
-        if (data == undefined || data.extra == undefined) {
+        var extra = proxyModel.data(0, Indicators.FlatMenuProxyModel.Extra);
+        if (extra == undefined) {
             return;
         }
 
-        if (!data.extra.hasOwnProperty("canonical_type")) {
+        if (!extra.hasOwnProperty("canonical_type")) {
             return;
         }
 
-        if (parseRootElement(data.extra.canonical_type, data)) {
-            action = actionGroup.action(data.action);
+        if (parseRootElement(extra.canonical_type)) {
+            action = actionGroup.action(proxyModel.data(0, Indicators.FlatMenuProxyModel.Action));
         }
     }
 
-    function parseRootElement(type, data) {
+    function parseRootElement(type) {
         if (type == "com.canonical.indicator.root")
             return true;
         return false;

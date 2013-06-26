@@ -40,7 +40,7 @@ Indicators.IndicatorWidget {
         anchors.centerIn: parent
     }
 
-    function parseRootElement(type, data) {
+    function parseRootElement(type) {
         if (type == "com.canonical.indicator.root.network") {
             return true;
         }

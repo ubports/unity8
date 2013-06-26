@@ -1,9 +1,6 @@
 /*
  * Copyright (C) 2013 Canonical, Ltd.
  *
- * Authors:
- *  Michał Sawicz <michal.sawicz@canonical.com>
- *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 3.
@@ -15,6 +12,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Author: Nick Dedekind <nick.dedekind@canonical.com>
  */
 
 #include "indicatorsmanager.h"
@@ -29,9 +28,9 @@ class IndicatorsManager::IndicatorData
 {
 public:
     IndicatorData(const QString& name, const QFileInfo& fileInfo)
-    : m_name(name)
-    , m_fileInfo(fileInfo)
-    , m_verified (true)
+        : m_name(name)
+        , m_fileInfo(fileInfo)
+        , m_verified (true)
     {}
 
     QString m_name;
@@ -42,8 +41,8 @@ public:
 };
 
 IndicatorsManager::IndicatorsManager(QObject* parent)
-: QObject(parent)
-, m_loaded(false)
+    : QObject(parent)
+    , m_loaded(false)
 {
 }
 
@@ -68,7 +67,7 @@ void IndicatorsManager::load()
             // watch folder for changes.
             m_fsWatcher->addPath(indicator_path);
 
-            load(indicator_dir);
+            loadDir(indicator_dir);
         }
     }
 
@@ -77,9 +76,9 @@ void IndicatorsManager::load()
     setLoaded(true);
 }
 
-void IndicatorsManager::onDirectoryChanged(const QString& direcory)
+void IndicatorsManager::onDirectoryChanged(const QString& directory)
 {
-    load(QDir(direcory));
+    loadDir(QDir(directory));
 }
 
 void IndicatorsManager::onFileChanged(const QString& file)
@@ -87,29 +86,29 @@ void IndicatorsManager::onFileChanged(const QString& file)
     QFileInfo file_info(file);
     if (!file_info.exists())
     {
-        unload(file_info);
+        unloadFile(file_info);
         return;
     }
     else
     {
-        load(QFileInfo(file));
+        loadFile(QFileInfo(file));
     }
 }
 
-void IndicatorsManager::load(const QDir& dir)
+void IndicatorsManager::loadDir(const QDir& dir)
 {
     startVerify(dir.canonicalPath());
 
     QFileInfoList indicator_files = dir.entryInfoList(QStringList(), QDir::Files|QDir::NoDotAndDotDot);
     Q_FOREACH(const QFileInfo& indicator_file, indicator_files)
     {
-        load(indicator_file);
+        loadFile(indicator_file);
     }
 
     endVerify(dir.canonicalPath());
 }
 
-void IndicatorsManager::load(const QFileInfo& file_info)
+void IndicatorsManager::loadFile(const QFileInfo& file_info)
 {
     QSettings indicator_settings(file_info.absoluteFilePath(), QSettings::IniFormat, this);
     QString name = indicator_settings.value("Indicator Service/Name").toString();
@@ -128,18 +127,24 @@ void IndicatorsManager::load(const QFileInfo& file_info)
 
         // if we've already got this indicator, we need to make sure we're not overwriting data which is
         // from a lower priority standard path
-        QStringList xdgLocations = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
+        QStringList xdgLocations = shellDataDirs();
         for (int i = 0; i < xdgLocations.size(); i++)
         {
             QString indicatorDir = QDir::cleanPath(xdgLocations[i] + "/unity/indicators");
 
             if (newFileInfoDir == indicatorDir)
-               file_info_location = i;
+            {
+                file_info_location = i;
+            }
             if (currentDataDir == indicatorDir)
+            {
                 current_data_location = i;
+            }
 
             if (file_info_location != -1 && current_data_location != -1)
+            {
                 break;
+            }
         }
 
         // file location is higher (or of equal) priority. overwrite.
@@ -174,7 +179,7 @@ void IndicatorsManager::unload()
     setLoaded(false);
 }
 
-void IndicatorsManager::unload(const QFileInfo& file)
+void IndicatorsManager::unloadFile(const QFileInfo& file)
 {
     QMutableHashIterator<QString, IndicatorData*> iter(m_indicatorsData);
     while(iter.hasNext())
@@ -214,7 +219,9 @@ void IndicatorsManager::startVerify(const QString& path)
         iter.next();
         IndicatorData* data = iter.value();
         if (data->m_fileInfo.canonicalPath() == path)
+        {
            data->m_verified = false;
+        }
     }
 }
 
@@ -249,7 +256,9 @@ Indicator::Ptr IndicatorsManager::indicator(const QString& indicator)
 
     IndicatorData *data = m_indicatorsData[indicator];
     if (data->m_indicator)
+    {
         return data->m_indicator;
+    }
 
     Indicator::Ptr plugin(new Indicator(this));
     data->m_indicator = plugin;
