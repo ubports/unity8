@@ -44,7 +44,7 @@ Item {
 
     // Visually mark drag threshold
     Rectangle {
-        color: "black";
+        color: "black"
         width: 2
         height: parent.height
 
