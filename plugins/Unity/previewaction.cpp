@@ -70,7 +70,3 @@ LayoutHint PreviewAction::layoutHint() const
         return static_cast<LayoutHint>(m_unityAction->layout_hint);
     return LayoutHint::None;
 }
-
-void PreviewAction::execute(const QHash<QString, QVariant>& hints)
-{
-}

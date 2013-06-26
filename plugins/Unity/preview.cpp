@@ -69,21 +69,20 @@ QString Preview::subtitle () const
     return "";
 }
 
-QVariantList Preview::actions()
+QVariant Preview::actions()
 {
-    QVariantList alist;
+    QList<QObject *> alist;
     if (m_unityPreview) {
         for (auto unityAction: m_unityPreview->GetActions()) {
             auto action = new PreviewAction(this); // preview is the owner of actions
             action->setUnityAction(unityAction);
-            QVariant v;
-            v.setValue(action);
-            alist.append(v);
+            alist.append(action);
         }
     } else {
         qWarning() << "Preview not set";
     }
-    return alist;
+
+    return QVariant::fromValue(alist);
 }
 
 Preview* Preview::newFromUnityPreview(unity::dash::Preview::Ptr unityPreview)
