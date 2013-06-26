@@ -17,6 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef PATHS_H
+#define PATHS_H
+
 // Qt
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
@@ -43,12 +46,14 @@ inline QString shellAppDirectory() {
     }
 }
 
-inline QString shellImportPath() {
+inline QStringList shellImportPaths() {
+    QStringList paths;
     if (isRunningInstalled()) {
-        return QString("@CMAKE_INSTALL_PREFIX@/@SHELL_APP_DIR@/plugins");
+        paths << QString("@CMAKE_INSTALL_PREFIX@/@SHELL_APP_DIR@/plugins");
     } else {
-        return QString("@CMAKE_BINARY_DIR@/plugins/");
+        paths << QString("@CMAKE_BINARY_DIR@/plugins");
     }
+    return paths;
 }
 
 inline QString fakePluginsImportPath() {
@@ -62,3 +67,5 @@ inline QString fakePluginsImportPath() {
 inline QString sourceDirectory() {
     return QString("@CMAKE_SOURCE_DIR@/");
 }
+
+#endif
