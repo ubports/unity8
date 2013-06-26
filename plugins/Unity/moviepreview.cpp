@@ -35,6 +35,7 @@ QString MoviePreview::year() const
     } else {
         qWarning() << "Preview not set";
     }
+    return "";
 }
 
 float MoviePreview::rating() const
@@ -44,6 +45,7 @@ float MoviePreview::rating() const
     } else {
         qWarning() << "Preview not set";
     }
+    return 0.0f;
 }
 
 unsigned int MoviePreview::numRatings() const
@@ -53,6 +55,7 @@ unsigned int MoviePreview::numRatings() const
     } else {
         qWarning() << "Preview not set";
     }
+    return 0;
 }
     
 void MoviePreview::setUnityPreview(unity::dash::Preview::Ptr unityPreview)
