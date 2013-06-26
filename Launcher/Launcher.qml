@@ -50,7 +50,7 @@ Item {
     }
 
     function hide() {
-        state = ""
+        switchToNextState("")
     }
 
     function switchToNextState(state) {
@@ -215,11 +215,11 @@ Item {
 
         onDraggingChanged: {
             if (!dragging) {
-                if (distance > root.width / 2) {
-                    root.dash()
-                    root.switchToNextState("")
-                } else if (distance > panel.width/2) {
+                if (distance > panel.width/2) {
                     root.switchToNextState("visible")
+                    if (distance > panel.width * 2) {
+                        root.dash()
+                    }
                 } else {
                     root.switchToNextState("")
                 }
