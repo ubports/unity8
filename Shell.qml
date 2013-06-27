@@ -550,8 +550,11 @@ FocusScope {
                 stages.hide();
             }
             onDash: {
-                dash.setCurrentScope("applications.scope", true, false)
-                stages.hide();
+                if (stages.shown) {
+                    dash.setCurrentScope("applications.scope", true, false)
+                    stages.hide();
+                    launcher.hide();
+                }
             }
             onLauncherApplicationSelected:{
                 greeter.hide()

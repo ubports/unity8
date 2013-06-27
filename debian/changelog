@@ -1,3 +1,21 @@
+unity8 (7.81.2) saucy; urgency=low
+
+  * Translation updates.
+
+  [ Michał Sawicz ]
+  * Fix icons in ApplicationsFilterGrid.qml.
+  * Support flipped image in run_on_device.
+  
+  [ Michael Zanetti ]
+  * Don't clear lockscreen when it's fading out.
+  * Reworked Launcher folding.
+  * Tweak Launcher revealing.
+
+  [ Michal Hruby ]
+  * Add content_type property to category models.
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Wed, 26 Jun 2013 18:10:39 +0200
+
 unity8 (7.81.1-0ubuntu1) UNRELEASED; urgency=low
 
   * Clean packaging for entering saucy and following daily release guidelines
