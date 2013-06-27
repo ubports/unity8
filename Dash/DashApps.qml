@@ -17,7 +17,6 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Utils 0.1
-import ListViewWithPageHeader 0.1
 import "../Components"
 import "../Components/ListItems"
 import "Apps"
@@ -113,7 +112,7 @@ ScopeView {
         "ApplicationsFilterGrid": applicationsFilterGrid,
     }
 
-    ListViewWithPageHeader {
+    ScopeListView {
         id: categoryView
         anchors.fill: parent
         model: SortFilterProxyModel {

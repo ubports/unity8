@@ -724,8 +724,6 @@ void ListViewWithPageHeader::onContentWidthChanged()
 
 void ListViewWithPageHeader::onHeightChanged()
 {
-    setMaximumFlickVelocity(height() * 10);
-    setFlickDeceleration(height() * 2);
     polish();
 }
 

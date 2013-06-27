@@ -16,7 +16,6 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import ListViewWithPageHeader 0.1
 import "../Components"
 import "../Components/ListItems" as ListItems
 import "Music"
@@ -65,7 +64,7 @@ ScopeView {
         }
     }
 
-    ListViewWithPageHeader {
+    ScopeListView {
         id: categoryView
         anchors.fill: parent
         model: scopeView.categories
