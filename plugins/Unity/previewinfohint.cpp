@@ -62,4 +62,8 @@ QString PreviewInfoHint::iconHint() const
 
 QVariant PreviewInfoHint::value() const
 {
+    if (m_unityInfoHint) {
+        return QVariantFromGVariant(m_unityInfoHint->value);
+    }
+    return QVariant();
 }
