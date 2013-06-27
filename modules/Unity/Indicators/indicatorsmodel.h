@@ -84,8 +84,8 @@ private:
 
     void notifyDataChanged(QObject *sender, int role);
     int count() const;
-    QVariant indicatorData(const Indicator::Ptr& plugin, int role) const;
-    static QVariant defaultData(Indicator::Ptr plugin, int role);
+    QVariant indicatorData(const Indicator::Ptr& indicator, int role) const;
+    static QVariant defaultData(Indicator::Ptr indicator, int role);
 };
 
 #endif // INDICATORSMODEL_H

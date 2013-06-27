@@ -38,7 +38,7 @@ public:
     Q_INVOKABLE void load();
     Q_INVOKABLE void unload();
 
-    Indicator::Ptr indicator(const QString& indicator);
+    Indicator::Ptr indicator(const QString& indicator_name);
 
     QList<Indicator::Ptr> indicators();
 
@@ -47,8 +47,8 @@ public:
 Q_SIGNALS:
     void loadedChanged(bool);
 
-    void indicatorLoaded(const QString& indicator);
-    void indicatorAboutToBeUnloaded(const QString& indicator);
+    void indicatorLoaded(const QString& indicator_name);
+    void indicatorAboutToBeUnloaded(const QString& indicator_name);
 
 private Q_SLOTS:
     void onDirectoryChanged(const QString& directory);

@@ -10,4 +10,3 @@ QuickReply 0.1 QuickReply.qml
 SimpleTextMessage 0.1 SimpleTextMessage.qml
 SnapDecision 0.1 SnapDecision.qml
 TextMessage 0.1 TextMessage.qml
-MessagingPlugin 0.1 MessagingPlugin.qml

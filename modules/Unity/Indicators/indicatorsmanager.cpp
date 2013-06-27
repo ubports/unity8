@@ -246,25 +246,25 @@ void IndicatorsManager::endVerify(const QString& path)
     }
 }
 
-Indicator::Ptr IndicatorsManager::indicator(const QString& indicator)
+Indicator::Ptr IndicatorsManager::indicator(const QString& indicator_name)
 {
-    if (!m_indicatorsData.contains(indicator))
+    if (!m_indicatorsData.contains(indicator_name))
     {
-        qWarning() << Q_FUNC_INFO << "Invalid plugin name: " <<  indicator;
+        qWarning() << Q_FUNC_INFO << "Invalid indicator name: " <<  indicator_name;
         return Indicator::Ptr();
     }
 
-    IndicatorData *data = m_indicatorsData[indicator];
+    IndicatorData *data = m_indicatorsData[indicator_name];
     if (data->m_indicator)
     {
         return data->m_indicator;
     }
 
-    Indicator::Ptr plugin(new Indicator(this));
-    data->m_indicator = plugin;
+    Indicator::Ptr new_indicator(new Indicator(this));
+    data->m_indicator = new_indicator;
     QSettings settings(data->m_fileInfo.absoluteFilePath(), QSettings::IniFormat, this);
-    plugin->init(data->m_fileInfo.fileName(), settings);
-    return plugin;
+    new_indicator->init(data->m_fileInfo.fileName(), settings);
+    return new_indicator;
 }
 
 QList<Indicator::Ptr> IndicatorsManager::indicators()
@@ -272,8 +272,9 @@ QList<Indicator::Ptr> IndicatorsManager::indicators()
     QList<Indicator::Ptr> list;
     Q_FOREACH(IndicatorData* data, m_indicatorsData)
     {
-        Indicator::Ptr plugin = indicator(data->m_name);
-        list.append(plugin);
+        Indicator::Ptr ret = indicator(data->m_name);
+        if (ret)
+            list.append(ret);
     }
     return list;
 }
