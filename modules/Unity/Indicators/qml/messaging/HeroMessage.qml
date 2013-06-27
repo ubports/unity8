@@ -51,17 +51,17 @@ Indicators.BasicMenu {
 
         onAppIconClicked:  {
             if (action && action.valid) {
-                deactivateMenu()
-                action.activate(true)
+                deactivateMenu();
+                action.activate(true);
             }
         }
     }
 
     onClicked: {
         if (menuActivated) {
-            deactivateMenu()
+            deactivateMenu();
         } else {
-            activateMenu()
+            activateMenu();
         }
     }
 
@@ -109,7 +109,7 @@ Indicators.BasicMenu {
 
     onItemRemoved: {
         if (action && action.valid) {
-            action.activate(false)
+            action.activate(false);
         }
     }
 }

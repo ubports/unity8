@@ -54,9 +54,9 @@ HeroMessage {
 
             onClicked: {
                 if (__quickreply.state === "") {
-                    __quickreply.state = "expanded"
+                    __quickreply.state = "expanded";
                 } else {
-                    __quickreply.state = ""
+                    __quickreply.state = "";
                 }
             }
         }
@@ -129,7 +129,7 @@ HeroMessage {
 
     onStateChanged: {
         if (state === "") {
-            __quickreply.state = ""
+            __quickreply.state = "";
         }
     }
 }

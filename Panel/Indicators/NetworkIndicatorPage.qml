@@ -57,7 +57,7 @@ PageStack {
         id: networkAgent
 
         onSecretRequested: {
-            _network.push(passwordPageComponent)
+            _network.push(passwordPageComponent);
         }
     }
 

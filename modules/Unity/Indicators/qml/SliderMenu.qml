@@ -54,7 +54,7 @@ Menu {
 
         // Use this to disable the label, since there is not way to do it on the component.
         function formatValue(v) {
-            return ""
+            return "";
         }
     }
 

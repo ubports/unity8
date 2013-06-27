@@ -23,5 +23,5 @@
 function formatDate(timestamp) {
     // timestamp is in microseconds since epoch
     var date = new Date(timestamp / 1000);
-    return Qt.formatDateTime(date, "hh:mm - MMM dd")
+    return Qt.formatDateTime(date, "hh:mm - MMM dd");
 }

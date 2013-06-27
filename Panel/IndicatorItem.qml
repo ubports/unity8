@@ -36,11 +36,11 @@ Item {
         id: loader
 
         onLoaded: {
-            item.height = Qt.binding(function() { return indicatorItem.height; })
+            item.height = Qt.binding(function() { return indicatorItem.height; });
 
             for(var pName in indicatorProperties) {
                 if (item.hasOwnProperty(pName)) {
-                    item[pName] = indicatorProperties[pName]
+                    item[pName] = indicatorProperties[pName];
                 }
             }
         }

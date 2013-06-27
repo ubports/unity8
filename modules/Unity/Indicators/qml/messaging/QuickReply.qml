@@ -109,7 +109,7 @@ Item {
 
                     anchors.fill: parent
                     onClicked: {
-                        __actionTextField.text = modelData
+                        __actionTextField.text = modelData;
                     }
                 }
 

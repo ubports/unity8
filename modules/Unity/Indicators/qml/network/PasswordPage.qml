@@ -62,7 +62,7 @@ Page {
                     width: units.gu(10)
                     onClicked: {
                         agent.cancel(token);
-                        pageStack.pop()
+                        pageStack.pop();
                     }
                 }
 
@@ -70,8 +70,8 @@ Page {
                     text: "Ok"
                     width: units.gu(10)
                     onClicked: {
-                        agent.authenticate(token, _password.text)
-                        pageStack.pop()
+                        agent.authenticate(token, _password.text);
+                        pageStack.pop();
                     }
                 }
             }

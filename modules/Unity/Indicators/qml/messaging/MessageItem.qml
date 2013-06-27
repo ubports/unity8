@@ -77,22 +77,22 @@ Indicators.BasicMenu {
     {
         var parameterType = ""
         for (var actIndex in actionsDescription) {
-            var desc = actionsDescription[actIndex]
+            var desc = actionsDescription[actIndex];
             if (desc["parameter-type"] !== undefined) {
-                parameterType += desc["parameter-type"]
+                parameterType += desc["parameter-type"];
             } else {
-                parameterType += "_"
+                parameterType += "_";
             }
         }
 
         if (parameterType === "") {
-            __contents.source = "SimpleTextMessage.qml"
+            __contents.source = "SimpleTextMessage.qml";
         } else if (parameterType === "s") {
-            __contents.source = "TextMessage.qml"
+            __contents.source = "TextMessage.qml";
         } else if (parameterType === "_s") {
-            __contents.source = "SnapDecision.qml"
+            __contents.source = "SnapDecision.qml";
         } else {
-            console.debug("Unknown paramater type: " + parameterType)
+            console.debug("Unknown paramater type: " + parameterType);
         }
     }
 }

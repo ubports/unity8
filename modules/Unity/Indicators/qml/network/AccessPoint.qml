@@ -33,19 +33,19 @@ Indicators.Menu {
         var signalStrength = parseInt(wifiApStrength)
 
         if (data.extra.canonical_wifi_ap_is_adhoc) {
-            imageName = "nm-adhoc"
+            imageName = "nm-adhoc";
         } else if (signalStrength == 0) {
-            imageName = "nm-signal-00"
+            imageName = "nm-signal-00";
         } else if (signalStrength <= 25) {
-            imageName = "nm-signal-25"
+            imageName = "nm-signal-25";
         } else if (signalStrength <= 50) {
-            imageName = "nm-signal-50"
+            imageName = "nm-signal-50";
         } else if (signalStrength <= 75) {
-            imageName = "nm-signal-75"
+            imageName = "nm-signal-75";
         }
 
         if (data.extra.canonical_wifi_ap_is_secure) {
-            imageName += "-secure"
+            imageName += "-secure";
         }
 
         return "image://gicon/" + imageName;
