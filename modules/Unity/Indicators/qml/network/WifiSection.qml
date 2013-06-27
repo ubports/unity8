@@ -21,7 +21,7 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Unity.Indicators 0.1 as Indicators
 
-Indicators.SectionMenu {
+Indicators.SectionMenuItem {
     property variant busyAction : actionGroup ? actionGroup.action(menu.extra.canonical_busy_action) : undefined
     busy: busyAction && busyAction.valid ? busyAction.state : false
 }

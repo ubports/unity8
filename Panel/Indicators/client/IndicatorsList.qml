@@ -38,7 +38,7 @@ Page {
         anchors.fill: parent
         model: indicatorsModel
 
-        delegate: Indicators.Menu {
+        delegate: Indicators.MenuItem {
             anchors.left: parent.left
             anchors.right: parent.right
             progression: isValid

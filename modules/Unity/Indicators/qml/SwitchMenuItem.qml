@@ -19,26 +19,22 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import Ubuntu.Components.ListItems 0.1 as ListItem
 
-BasicMenu {
-    id: __menu
-    objectName: menu ? menu.action : ""
-    progression: menu && (menu.linkSubMenu !== undefined)
-    text: menu && menu.label ? menu.label : ""
-    color: "#221e1c"
-    height: undefined   // If we're using implicitHieght, we need to make sure height is not set.
-    implicitHeight: units.gu(7)
+MenuItem {
+    id: _switchMenu
 
-    HLine {
-        id: ___topHLine
-        anchors.top: parent.top
-        color: "#403b37"
+    property alias checked: switcher.checked
+
+    control: Switch {
+        id: switcher
+
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.right: parent.right
     }
 
-    HLine {
-        id: ___bottomHLine
-        anchors.bottom: parent.bottom
-        color: "#060606"
+    DBusActionState {
+        action: menu ? menu.action : ""
+        target: switcher
+        property: "checked"
     }
 }

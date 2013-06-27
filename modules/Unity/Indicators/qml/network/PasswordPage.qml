@@ -37,17 +37,17 @@ Page {
             right: parent.right
         }
 
-        Indicators.SectionMenu {
+        Indicators.SectionMenuItem {
             label: "Authentication"
         }
 
-        Indicators.TextMenu {
+        Indicators.TextMenuItem {
             id: _password
 
             password: true
         }
 
-        Indicators.Menu {
+        Indicators.MenuItem {
             Row {
                 anchors {
                     right: parent.right

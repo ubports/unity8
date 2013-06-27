@@ -22,7 +22,7 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Unity.Indicators 0.1 as Indicators
 
-Indicators.BasicMenu {
+Indicators.BasicMenuItem {
     property variant action: menu && menu.action!="" && actionGroup ? actionGroup.action(menu.action) : null
     property alias count: label.text
 

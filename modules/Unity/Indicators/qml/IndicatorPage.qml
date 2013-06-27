@@ -106,7 +106,7 @@ IndicatorBase {
 
                 anchors.fill: parent
 
-                DivMenu {
+                DivMenuItem {
                     id: div
 
                     anchors.left: parent.left
@@ -125,7 +125,7 @@ IndicatorBase {
                     }
                 }
 
-                MenuFactory {
+                MenuItemFactory {
                     id: factory
 
                     actionGroup: main.actionGroup

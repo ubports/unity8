@@ -22,7 +22,7 @@ import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
 import Unity.Indicators 0.1 as Indicators
 
-Indicators.Menu {
+Indicators.MenuItem {
     property variant actionWifiApStrength : menu && actionGroup ? actionGroup.action(menu.extra.canonical_wifi_ap_strength_action) : null
     property variant wifiApStrength : actionWifiApStrength && actionWifiApStrength.valid ? actionWifiApStrength.state : "0"
 

@@ -20,7 +20,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 
-Menu {
+MenuItem {
     id: _textMenu
 
     property alias text: _textField.text

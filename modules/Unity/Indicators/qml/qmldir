@@ -1,21 +1,20 @@
 module Unity.Indicators
 plugin IndicatorsQml
 
-IndicatorBase 0.1 IndicatorBase.qml
-IndicatorWidget 0.1 IndicatorWidget.qml
-IndicatorPage 0.1 IndicatorPage.qml
-BasicMenu 0.1 BasicMenu.qml
-ButtonMenu 0.1 ButtonMenu.qml
+BasicMenuItem 0.1 BasicMenuItem.qml
+ButtonMenuItem 0.1 ButtonMenuItem.qml
 DBusActionState 0.1 DBusActionState.qml
-DivMenu 0.1 DivMenu.qml
-MenuFactory 0.1 MenuFactory.qml
+DivMenuItem 0.1 DivMenuItem.qml
 HLine 0.1 HLine.qml
-Menu 0.1 Menu.qml
-RemovableMenu 0.1 RemovableMenu.qml
-SectionMenu 0.1 SectionMenu.qml
-SliderMenu 0.1 SliderMenu.qml
-SwitchMenu 0.1 SwitchMenu.qml
-TextMenu 0.1 TextMenu.qml
-ProgressMenu 0.1 ProgressMenu.qml
+IndicatorBase 0.1 IndicatorBase.qml
+IndicatorPage 0.1 IndicatorPage.qml
+IndicatorWidget 0.1 IndicatorWidget.qml
+MenuItem 0.1 MenuItem.qml
+MenuItemFactory 0.1 MenuItemFactory.qml
+ProgressMenuItem 0.1 ProgressMenuItem.qml
+SectionMenuItem 0.1 SectionMenuItem.qml
+SliderMenuItem 0.1 SliderMenuItem.qml
+SwitchMenuItem 0.1 SwitchMenuItem.qml
+TextMenuItem 0.1 TextMenuItem.qml
 
 internal RemoveBackground RemoveBackground.qml

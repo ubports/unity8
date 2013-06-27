@@ -56,18 +56,18 @@ Item {
         "unity.widgets.systemsettings.tablet.accesspoint" : accessPoint,
     }
 
-    Component { id: sliderMenu; Indicators.SliderMenu {} }
-    Component { id: switchMenu; Indicators.SwitchMenu {} }
-    Component { id: buttonMenu; Indicators.ButtonMenu {} }
-    Component { id: divMenu; Indicators.DivMenu {} }
-    Component { id: sectionMenu; Indicators.SectionMenu {} }
-    Component { id: progressMenu; Indicators.ProgressMenu {} }
-    Component { id: messageItem; ICMessaging.MessageItem {} }
+    Component { id: sliderMenu; Indicators.SliderMenuItem {} }
+    Component { id: switchMenu; Indicators.SwitchMenuItem {} }
+    Component { id: buttonMenu; Indicators.ButtonMenuItem {} }
+    Component { id: divMenu; Indicators.DivMenuItem {} }
+    Component { id: sectionMenu; Indicators.SectionMenuItem {} }
+    Component { id: progressMenu; Indicators.ProgressMenuItem {} }
+    Component { id: messageItem; ICMessaging.MessageMenuItem {} }
     Component { id: snapDecision; ICMessaging.SnapDecision {} }
     Component { id: groupedMessage; ICMessaging.GroupedMessage {} }
     Component { id: wifiSection; ICNetwork.WifiSection {} }
     Component { id: accessPoint; ICNetwork.AccessPoint {} }
-    Component { id: indicatorMenu; Indicators.Menu {} }
+    Component { id: indicatorMenu; Indicators.MenuItem {} }
 
     Loader {
         id: __loader
@@ -93,7 +93,6 @@ Item {
                     return indicatorMenu;
                 }
             }
-            return undefined;
         }
 
         onLoaded: {
