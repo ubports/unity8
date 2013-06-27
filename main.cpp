@@ -25,7 +25,6 @@
 #include <qpa/qplatformnativeinterface.h>
 #include <QLibrary>
 #include <libintl.h>
-#include <QDebug>
 
 // local
 #include "paths.h"
