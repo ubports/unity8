@@ -203,7 +203,7 @@ void ListViewWithPageHeader::setDelegate(QQmlComponent *delegate)
         }
 
         // Cleanup the existing items
-        foreach(ListItem *item, m_visibleItems)
+        Q_FOREACH(ListItem *item, m_visibleItems)
             releaseItem(item);
         m_visibleItems.clear();
         m_firstVisibleIndex = -1;
@@ -314,7 +314,7 @@ void ListViewWithPageHeader::positionAtBeginning()
         // TODO This could be optimized by trying to reuse the interesection
         // of items that may end up intersecting between the existing
         // m_visibleItems and the items we are creating in the next loop
-        foreach(ListItem *item, m_visibleItems)
+        Q_FOREACH(ListItem *item, m_visibleItems)
             releaseItem(item);
         m_visibleItems.clear();
         m_firstVisibleIndex = -1;
@@ -735,7 +735,7 @@ void ListViewWithPageHeader::onModelUpdated(const QQuickChangeSet &changeSet, bo
 //     qDebug() << "ListViewWithPageHeader::onModelUpdated" << changeSet << reset;
     const auto oldFirstVisibleIndex = m_firstVisibleIndex;
 
-    foreach(const QQuickChangeSet::Remove &remove, changeSet.removes()) {
+    Q_FOREACH(const QQuickChangeSet::Remove &remove, changeSet.removes()) {
 //         qDebug() << "ListViewWithPageHeader::onModelUpdated Remove" << remove.index << remove.count;
         if (remove.index + remove.count > m_firstVisibleIndex && remove.index < m_firstVisibleIndex + m_visibleItems.count()) {
             const qreal oldFirstValidIndexPos = m_visibleItems.first()->y();
@@ -785,7 +785,7 @@ void ListViewWithPageHeader::onModelUpdated(const QQuickChangeSet &changeSet, bo
         }
     }
 
-    foreach(const QQuickChangeSet::Insert &insert, changeSet.inserts()) {
+    Q_FOREACH(const QQuickChangeSet::Insert &insert, changeSet.inserts()) {
 //         qDebug() << "ListViewWithPageHeader::onModelUpdated Insert" << insert.index << insert.count;
         const bool insertingInValidIndexes = insert.index > m_firstVisibleIndex && insert.index < m_firstVisibleIndex + m_visibleItems.count();
         const bool firstItemWithViewOnTop = insert.index == 0 && m_firstVisibleIndex == 0 && m_visibleItems.first()->y() + m_clipItem->y() > contentY();
@@ -906,7 +906,7 @@ void ListViewWithPageHeader::adjustMinYExtent()
             // Calculate the average height of items to estimate the position of the list start
             const int visibleItems = m_visibleItems.count();
             qreal visibleItemsHeight = 0;
-            foreach(ListItem *item, m_visibleItems) {
+            Q_FOREACH(ListItem *item, m_visibleItems) {
                 visibleItemsHeight += item->height();
             }
             nonCreatedHeight = m_firstVisibleIndex * visibleItemsHeight / visibleItems;
@@ -940,7 +940,7 @@ void ListViewWithPageHeader::layout()
 //         qDebug() << "ListViewWithPageHeader::layout Updating positions and heights. contentY" << contentY() << "minYExtent" << minYExtent();
         int firstReallyVisibleItem = -1;
         int modelIndex = m_firstVisibleIndex;
-        foreach(ListItem *item, m_visibleItems) {
+        Q_FOREACH(ListItem *item, m_visibleItems) {
             const bool cull = pos + item->height() < visibleFrom || pos >= visibleTo;
             item->setCulled(cull);
             item->setY(pos);
@@ -1032,7 +1032,7 @@ void ListViewWithPageHeader::updatePolish()
             if (lastValidIndex != modelCount - 1) {
                 const int visibleItems = m_visibleItems.count();
                 qreal visibleItemsHeight = 0;
-                foreach(ListItem *item, m_visibleItems) {
+                Q_FOREACH(ListItem *item, m_visibleItems) {
                     visibleItemsHeight += item->height();
                 }
                 const int unknownSizes = modelCount - (m_firstVisibleIndex + visibleItems);
