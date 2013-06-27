@@ -1,34 +1,45 @@
 Building Unity 8
 ================
 
+Only Ubuntu 13.10 (saucy) is supported as a developement environment.
+
 download source
 ---------------
-- the build requires some additional dependencies, so create the parent
-folder to not pollute your setup
+- create a parent folder to not pollute your setup. so that you can have different unity
+  branches there (trunk, WIP etc)
+
   $ mkdir ~/unity
 
 - fetch Unity 8 source
   $ sudo apt-get install bzr
-  $ bzr branch lp:unity/8.0 ~/unity/unity8
+  $ bzr branch lp:unity8 ~/unity/unity8
   $ cd ~/unity/unity8
 
-build dependencies
-------------------
-If its your first time, download & build deps
-$ ./build -s
+install dependencies
+--------------------
+If its your first time, install build dependencies
+
+$ cd ~/unity/unity8
+$ ./build --setup
+
   this will:
-  - add the following ppa's
+  - add the following PPA's
     - ppa:phablet-team/desktop-deps
     - ppa:canonical-qt5-edgers/qt5-proper
     - ppa:ubuntu-sdk-team
   - install the required dependencies to build, as well as run on the desktop
+  - it should also install unity-scope-home and unity-lens-application which 
+    are technically "recommends", not strict dependencies
 
-Note, once the ppa's are added a apt-get update will be run, if you have
+Note, once the PPA's are added, the script runs apt-get update, if you have
 any failures associated with it, the build script will bail out of the setup
 and fail to install all the required dependencies.
 
+
 build Unity 8
 -------------
+
+$ cd ~/unity/unity8
 $ ./build
 
 You may also rebuild with the -c for clean, which just deletes the build
@@ -55,6 +66,12 @@ Notes
   put the *.mo files into correct structure. We'll look for a better solution
   later.
   $ cd builddir; make install
+- if you wish to populate contacts
+  $ sudo apt-get install gir1.2-ebook-1.2
+  $ manage-address-book.py create
+  this will:
+    - Create an EDS address book
+    - Populate the address book with sample data
 
 Running Unity 8 on devices
 ==========================
@@ -71,7 +88,7 @@ the device
 on the device yourself)
 
 $ cd ~/unity/unity8
-$ ./run_on_device -s
+$ ./run_on_device --setup
   this will:
   - install your public SSH key on the device
   - add ppa:canonical-qt5-edgers/qt5-proper and ppa:phablet-team
@@ -117,4 +134,7 @@ Development Environment
 =======================
 QtCreator (available via the Software Center) is the best IDE to hack on
 Unity 8.
+
+If using VIM, make sure you install some syntax highlighting for QML, like
+https://github.com/peterhoeg/vim-qml
 
