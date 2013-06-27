@@ -38,7 +38,10 @@ class Preview : public QObject
     Q_PROPERTY(QString rendererName READ rendererName NOTIFY rendererNameChanged)
     Q_PROPERTY(QString title READ title NOTIFY titleChanged)
     Q_PROPERTY(QString subtitle READ subtitle NOTIFY subtitleChanged)
+    Q_PROPERTY(QString description READ description NOTIFY descriptionChanged)
     Q_PROPERTY(QVariant actions READ actions NOTIFY actionsChanged)
+    Q_PROPERTY(QString image READ image NOTIFY imageChanged)
+    Q_PROPERTY(QString imageSourceUri READ imageSourceUri NOTIFY imageSourceUriChanged)
     
 public:
     explicit Preview(QObject *parent = 0);
@@ -46,8 +49,11 @@ public:
 
     QString rendererName() const;
     QString title() const;
-    QString subtitle () const;
+    QString subtitle() const;
+    QString description() const;
     QVariant actions();
+    QString image() const;
+    QString imageSourceUri() const;
 
     Q_INVOKABLE void execute(const QString& actionId, const QHash<QString, QVariant>& hints);
 
@@ -55,7 +61,10 @@ Q_SIGNALS:
     void rendererNameChanged();
     void titleChanged();
     void subtitleChanged();
+    void descriptionChanged();
     void actionsChanged();
+    void imageChanged();
+    void imageSourceUriChanged();
 
 protected:
     virtual void setUnityPreview(unity::dash::Preview::Ptr unityPreview);

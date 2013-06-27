@@ -69,6 +69,16 @@ QString Preview::subtitle () const
     return "";
 }
 
+QString Preview::description() const
+{
+    if (m_unityPreview) {
+        return QString::fromStdString(m_unityPreview->description());
+    } else {
+        qWarning() << "Preview not set";
+    }
+    return "";
+}
+
 QVariant Preview::actions()
 {
     QList<QObject *> alist;
@@ -83,6 +93,26 @@ QVariant Preview::actions()
     }
 
     return QVariant::fromValue(alist);
+}
+
+QString Preview::image() const
+{
+    if (m_unityPreview) {
+        return QString::fromUtf8(g_icon_to_string(m_unityPreview->image()));
+    } else {
+        qWarning() << "Preview not set";
+    }
+    return QString::null;
+}
+
+QString Preview::imageSourceUri() const
+{
+    if (m_unityPreview) {
+        return QString::fromStdString(m_unityPreview->image_source_uri());
+    } else {
+        qWarning() << "Preview not set";
+    }
+    return QString::null;
 }
 
 Preview* Preview::newFromUnityPreview(unity::dash::Preview::Ptr unityPreview)
@@ -118,7 +148,10 @@ void Preview::setUnityPreview(unity::dash::Preview::Ptr unityPreview)
     Q_EMIT rendererNameChanged();
     Q_EMIT titleChanged();
     Q_EMIT subtitleChanged();
+    Q_EMIT descriptionChanged();
     Q_EMIT actionsChanged();
+    Q_EMIT imageChanged();
+    Q_EMIT imageSourceUriChanged();
 }
 
 void Preview::execute(const QString& actionId, const QHash<QString, QVariant>& hints)
