@@ -162,6 +162,7 @@ ListViewWithPageHeader::ListViewWithPageHeader()
     connect(this, SIGNAL(contentWidthChanged()), this, SLOT(onContentWidthChanged()));
     connect(this, SIGNAL(contentHeightChanged()), this, SLOT(onContentHeightChanged()));
     connect(this, SIGNAL(heightChanged()), this, SLOT(onHeightChanged()));
+    connect(m_headerShowAnimation, SIGNAL(stopped()), this, SLOT(onShowHeaderAnimationFinished()));
 }
 
 ListViewWithPageHeader::~ListViewWithPageHeader()
@@ -408,7 +409,6 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
             diff += oldHeaderItemShownHeight - m_headerItemShownHeight;
         } else {
             diff = -diff;
-            m_contentHeightDirty = true;
         }
     }
     if (!m_visibleItems.isEmpty()) {
@@ -849,6 +849,12 @@ void ListViewWithPageHeader::onModelUpdated(const QQuickChangeSet &changeSet, bo
     layout();
     polish();
     m_contentHeightDirty = true;
+}
+
+void ListViewWithPageHeader::onShowHeaderAnimationFinished()
+{
+    m_contentHeightDirty = true;
+    polish();
 }
 
 void ListViewWithPageHeader::itemGeometryChanged(QQuickItem * /*item*/, const QRectF &newGeometry, const QRectF &oldGeometry)

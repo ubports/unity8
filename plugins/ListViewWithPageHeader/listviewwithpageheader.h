@@ -84,6 +84,7 @@ private Q_SLOTS:
     void onContentWidthChanged();
     void onHeightChanged();
     void onModelUpdated(const QQuickChangeSet &changeSet, bool reset);
+    void onShowHeaderAnimationFinished();
 
 private:
     class ListItem
