@@ -38,7 +38,7 @@ private:
     int m_duration;
 };
 
-class FakeTimeSource : public AxisVelocityCalculator::TimeSource
+class FakeTimeSource : public UbuntuGestures::TimeSource
 {
 public:
     FakeTimeSource() { m_msecsSinceReference = 0; }
@@ -72,7 +72,6 @@ private:
     QTouchDevice *device;
     FakeTimer *fakeTimer;
     FakeTimeSource *fakeTimeSource;
-    AxisVelocityCalculator *velCalcWithFakeTiming;
 };
 
 void tst_DirectionalDragArea::initTestCase()
@@ -101,7 +100,6 @@ void tst_DirectionalDragArea::init()
 
     fakeTimer = new FakeTimer;
     fakeTimeSource = new FakeTimeSource;
-    velCalcWithFakeTiming = new AxisVelocityCalculator(fakeTimeSource);
 }
 
 void tst_DirectionalDragArea::cleanup()
@@ -112,10 +110,8 @@ void tst_DirectionalDragArea::cleanup()
     delete fakeTimer;
     fakeTimer = 0;
 
-    // will bring fakeTimeSource down with it
-    delete velCalcWithFakeTiming;
+    delete fakeTimeSource;
     fakeTimeSource = 0;
-    velCalcWithFakeTiming = 0;
 }
 
 QQuickView *tst_DirectionalDragArea::createView()
@@ -187,7 +183,7 @@ void tst_DirectionalDragArea::edgeDrag()
         view->rootObject()->findChild<DirectionalDragArea*>(dragAreaObjectName);
     QVERIFY(edgeDragArea != 0);
     edgeDragArea->setRecognitionTimer(fakeTimer);
-    edgeDragArea->setAxisVelocityCalculator(velCalcWithFakeTiming);
+    edgeDragArea->setTimeSource(fakeTimeSource);
 
     QSignalSpy draggingSpy(edgeDragArea, SIGNAL(draggingChanged(bool)));
 
@@ -292,7 +288,7 @@ void tst_DirectionalDragArea::dragWithShortDirectionChange()
         view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
     QVERIFY(edgeDragArea != 0);
     edgeDragArea->setRecognitionTimer(fakeTimer);
-    edgeDragArea->setAxisVelocityCalculator(velCalcWithFakeTiming);
+    edgeDragArea->setTimeSource(fakeTimeSource);
 
     QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea, view);
     QPointF touchPoint = initialTouchPos;
@@ -337,7 +333,7 @@ void tst_DirectionalDragArea::minSpeed()
         view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
     QVERIFY(edgeDragArea != 0);
     edgeDragArea->setRecognitionTimer(fakeTimer);
-    edgeDragArea->setAxisVelocityCalculator(velCalcWithFakeTiming);
+    edgeDragArea->setTimeSource(fakeTimeSource);
 
     QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea, view);
     QPointF touchPoint = initialTouchPos;
@@ -390,7 +386,7 @@ void tst_DirectionalDragArea::recognitionTimerUsage()
         view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
     QVERIFY(edgeDragArea != 0);
     edgeDragArea->setRecognitionTimer(fakeTimer);
-    edgeDragArea->setAxisVelocityCalculator(velCalcWithFakeTiming);
+    edgeDragArea->setTimeSource(fakeTimeSource);
 
     QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea, view);
     QPointF touchPoint = initialTouchPos;
@@ -431,7 +427,7 @@ void tst_DirectionalDragArea::maxSilenceTime()
         view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
     QVERIFY(edgeDragArea != 0);
     edgeDragArea->setRecognitionTimer(fakeTimer);
-    edgeDragArea->setAxisVelocityCalculator(velCalcWithFakeTiming);
+    edgeDragArea->setTimeSource(fakeTimeSource);
 
     QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea, view);
     QPointF touchPoint = initialTouchPos;
