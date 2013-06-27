@@ -35,7 +35,7 @@ void IndicatorsPlugin::registerTypes(const char *uri)
     qmlRegisterType<IndicatorsManager>(uri, 0, 1, "IndicatorsManager");
     qmlRegisterType<FlatMenuProxyModel>(uri, 0, 1, "FlatMenuProxyModel");
     qmlRegisterType<IndicatorsModel>(uri, 0, 1, "IndicatorsModel");
-    qmlRegisterUncreatableType<DefaultActionState>(uri, 0, 1, "DefaultActionState", "Can't create DefaultActionState class");
+    qmlRegisterUncreatableType<ActionState>(uri, 0, 1, "ActionState", "Can't create ActionState class");
     qmlRegisterUncreatableType<NetworkActionState>(uri, 0, 1, "NetworkActionState", "Can't create NetworkActionState class");
     qmlRegisterUncreatableType<NetworkConnection>(uri, 0, 1, "NetworkConnection", "Can't create NetworkConnection class");
 }

@@ -19,19 +19,19 @@
 #ifndef INDICATORS_H
 #define INDICATORS_H
 
-class DefaultActionState : public QObject
+class ActionState : public QObject
 {
     Q_OBJECT
 public:
-    Q_ENUMS(DefaultActionStates)
-    enum DefaultActionStates {
+    Q_ENUMS(ActionStates)
+    enum ActionStates {
       Label           = 0x00,
       IconSource      = 0x01,
       AccessableName  = 0x02,
       Visible         = 0x03,
     };
 
-    DefaultActionState(QObject*parent=0):QObject(parent) {}
+    ActionState(QObject*parent=0):QObject(parent) {}
 };
 
 class NetworkActionState : public QObject

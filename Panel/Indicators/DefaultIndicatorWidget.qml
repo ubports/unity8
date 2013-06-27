@@ -73,8 +73,8 @@ Indicators.IndicatorWidget {
             return;
         }
 
-        label = action.state[Indicators.DefaultActionState.Label];
-        iconSource = "image://gicon/" + action.state[Indicators.DefaultActionState.IconSource];
-        enabled = action.state[Indicators.DefaultActionState.Visible];
+        label = action.state[Indicators.ActionState.Label];
+        iconSource = "image://gicon/" + action.state[Indicators.ActionState.IconSource];
+        enabled = action.state[Indicators.ActionState.Visible];
     }
 }
