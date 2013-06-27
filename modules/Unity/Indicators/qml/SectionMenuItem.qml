@@ -31,7 +31,6 @@ BasicMenuItem {
     color: "#221e1b"
     anchors.left: parent ? parent.left : undefined
     anchors.right: parent ? parent.right : undefined
-    height: undefined  // If we're using implicitHieght, we need to make sure height is not set.
     implicitHeight: label !== "" ? __header.height : 0
     state: count === 0 ? "EMPTY" : ""
 

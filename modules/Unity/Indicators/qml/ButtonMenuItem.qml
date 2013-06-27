@@ -21,16 +21,14 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 
 BasicMenuItem {
-    property variant action: menu && menu.action!="" && actionGroup ? actionGroup.action(menu.action) : null
+    property var action: menu && menu.action != "" && actionGroup ? actionGroup.action(menu.action) : null
 
     color: "#221e1b"
-    height: undefined  // If we're using implicitHieght, we need to make sure height is not set.
     implicitHeight: units.gu(7)
 
     Button {
         text: menu ? menu.label : ""
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.centerIn: parent
         height: units.gu(4)
         width: units.gu(16)
         color: "#1b1817"

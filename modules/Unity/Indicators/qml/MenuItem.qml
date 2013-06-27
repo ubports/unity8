@@ -27,7 +27,6 @@ BasicMenuItem {
     progression: menu && (menu.linkSubMenu !== undefined)
     text: menu && menu.label ? menu.label : ""
     color: "#221e1c"
-    height: undefined   // If we're using implicitHieght, we need to make sure height is not set.
     implicitHeight: units.gu(7)
 
     HLine {
