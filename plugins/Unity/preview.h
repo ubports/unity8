@@ -59,7 +59,7 @@ Q_SIGNALS:
 
 protected:
     virtual void setUnityPreview(unity::dash::Preview::Ptr unityPreview);
-    
+
     unity::dash::Preview::Ptr m_unityPreview;
 };
 

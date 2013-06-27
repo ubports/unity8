@@ -41,11 +41,11 @@ class PreviewAction : public QObject
     Q_OBJECT
 
     Q_PROPERTY(QString id READ id)
-    Q_PROPERTY(QString displayName READ displayName)
-    Q_PROPERTY(QString iconHint READ iconHint)
-    Q_PROPERTY(QString extraText READ extraText)
-    Q_PROPERTY(QString activationUri READ activationUri)
-    Q_PROPERTY(LayoutHint layoutHint READ layoutHint)
+    Q_PROPERTY(QString displayName READ displayName NOTIFY displayNameChanged)
+    Q_PROPERTY(QString iconHint READ iconHint NOTIFY iconHintChanged)
+    Q_PROPERTY(QString extraText READ extraText NOTIFY extraTextChanged)
+    Q_PROPERTY(QString activationUri READ activationUri NOTIFY activationUriChanged)
+    Q_PROPERTY(LayoutHint layoutHint READ layoutHint NOTIFY layoutHintChanged)
 
 public:
     explicit PreviewAction(QObject *parent = 0);
@@ -57,6 +57,13 @@ public:
     QString extraText() const;
     QString activationUri() const;
     LayoutHint layoutHint() const;
+
+Q_SIGNALS:
+    void displayNameChanged();
+    void iconHintChanged();
+    void extraTextChanged();
+    void activationUriChanged();
+    void layoutHintChanged();
 
 private:
     unity::dash::Preview::ActionPtr m_unityAction;

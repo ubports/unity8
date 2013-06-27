@@ -27,6 +27,12 @@ PreviewAction::PreviewAction(QObject *parent)
 void PreviewAction::setUnityAction(unity::dash::Preview::ActionPtr unityAction)
 {
     m_unityAction = unityAction;
+
+    Q_EMIT displayNameChanged();
+    Q_EMIT iconHintChanged();
+    Q_EMIT extraTextChanged();
+    Q_EMIT activationUriChanged();
+    Q_EMIT layoutHintChanged();
 }
 
 QString PreviewAction::id() const
