@@ -26,6 +26,7 @@ set(QMLPLUGIN_SRC
     musicpreview.cpp
     preview.cpp
     previewaction.cpp
+    previewinfohint.cpp
     variantutils.cpp
     )
 

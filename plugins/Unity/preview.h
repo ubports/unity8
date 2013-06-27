@@ -40,6 +40,7 @@ class Preview : public QObject
     Q_PROPERTY(QString subtitle READ subtitle NOTIFY subtitleChanged)
     Q_PROPERTY(QString description READ description NOTIFY descriptionChanged)
     Q_PROPERTY(QVariant actions READ actions NOTIFY actionsChanged)
+    Q_PROPERTY(QVariant infoHints READ infoHints NOTIFY infoHintsChanged)
     Q_PROPERTY(QString image READ image NOTIFY imageChanged)
     Q_PROPERTY(QString imageSourceUri READ imageSourceUri NOTIFY imageSourceUriChanged)
     
@@ -52,6 +53,7 @@ public:
     QString subtitle() const;
     QString description() const;
     QVariant actions();
+    QVariant infoHints();
     QString image() const;
     QString imageSourceUri() const;
 
@@ -63,6 +65,7 @@ Q_SIGNALS:
     void subtitleChanged();
     void descriptionChanged();
     void actionsChanged();
+    void infoHintsChanged();
     void imageChanged();
     void imageSourceUriChanged();
 

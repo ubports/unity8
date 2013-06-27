@@ -20,6 +20,7 @@
 // local
 #include "preview.h"
 #include "previewaction.h"
+#include "previewinfohint.h"
 #include "genericpreview.h"
 #include "applicationpreview.h"
 #include "moviepreview.h"
@@ -95,6 +96,22 @@ QVariant Preview::actions()
     return QVariant::fromValue(alist);
 }
 
+QVariant Preview::infoHints()
+{
+    QList<QObject *> hints;
+    if (m_unityPreview) {
+        for (auto unityInfoHint: m_unityPreview->GetInfoHints()) {
+            auto hint = new PreviewInfoHint(this); // preview is the owner of hints
+            hint->setUnityInfoHint(unityInfoHint);
+            hints.append(hint);
+        }
+    } else {
+        qWarning() << "Preview not set";
+    }
+
+    return QVariant::fromValue(hints);
+}
+
 QString Preview::image() const
 {
     if (m_unityPreview) {
@@ -150,6 +167,7 @@ void Preview::setUnityPreview(unity::dash::Preview::Ptr unityPreview)
     Q_EMIT subtitleChanged();
     Q_EMIT descriptionChanged();
     Q_EMIT actionsChanged();
+    Q_EMIT infoHintsChanged();
     Q_EMIT imageChanged();
     Q_EMIT imageSourceUriChanged();
 }
