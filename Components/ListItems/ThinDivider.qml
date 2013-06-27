@@ -23,9 +23,5 @@ Image {
     }
     height: (visible) ? units.dp(2) : 0
 
-    /* Relevant really only for ListViewWithPageHeader with Base delegates: should this image
-       be overlapping content, specify how many pixels from the bottom should be transparent */
-    readonly property int allowedBottomOverlap: units.dp(1)
-
     source: "graphics/ListItemDividerHorizontal.png"
 }

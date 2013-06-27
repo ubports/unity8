@@ -68,11 +68,16 @@ AbstractButton {
         return true;
     }
 
+    /* Relevant really only for ListViewWithPageHeader case: specify how many pixels we can overlap with the section header */
+    readonly property int allowedOverlap: units.dp(1)
+
     property real __heightToClip: {
         // Check this is in position where clipping is needed
         if (typeof ListViewWithPageHeader !== 'undefined') {
             if (typeof heightToClip !== 'undefined') {
-                return heightToClip;
+                if (heightToClip >= allowedOverlap) {
+                    return heightToClip - allowedOverlap;
+                }
             }
         }
         return 0;
