@@ -80,7 +80,9 @@ MouseArea {
         source: greeter.narrowMode ? "" : "LoginList.qml"
 
         onLoaded: {
-            item.currentIndex = greeterContentLoader.currentIndex
+            item.currentIndex = greeterContentLoader.currentIndex;
+            selected(item.currentIndex);
+            item.resetAuthentication();
         }
 
         Binding {
