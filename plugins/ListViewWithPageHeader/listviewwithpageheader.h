@@ -150,6 +150,7 @@ private:
     QQuickItem *m_topSectionItem;
 
     bool m_forceNoClip;
+    bool m_inLayout;
 
     // Qt 5.0 doesn't like releasing the items just after itemCreated
     // so we delay the releasing until the next updatePolish

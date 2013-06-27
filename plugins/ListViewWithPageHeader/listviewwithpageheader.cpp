@@ -145,6 +145,7 @@ ListViewWithPageHeader::ListViewWithPageHeader()
  , m_sectionDelegate(nullptr)
  , m_topSectionItem(nullptr)
  , m_forceNoClip(false)
+ , m_inLayout(false)
 {
     m_clipItem = new QQuickItem(contentItem());
 //     m_clipItem = new QQuickRectangle(contentItem());
@@ -433,6 +434,9 @@ void ListViewWithPageHeader::createDelegateModel()
 
 void ListViewWithPageHeader::refill()
 {
+    if (m_inLayout) {
+        return;
+    }
     if (!isComponentComplete()) {
         return;
     }
@@ -921,6 +925,10 @@ ListViewWithPageHeader::ListItem *ListViewWithPageHeader::itemAtIndex(int modelI
 
 void ListViewWithPageHeader::layout()
 {
+    if (m_inLayout)
+        return;
+
+    m_inLayout = true;
     if (!m_visibleItems.isEmpty()) {
         const qreal visibleFrom = contentY() - m_clipItem->y() + m_headerItemShownHeight;
         const qreal visibleTo = contentY() + height() - m_clipItem->y();
@@ -994,6 +1002,7 @@ void ListViewWithPageHeader::layout()
             }
         }
     }
+    m_inLayout = false;
 }
 
 void ListViewWithPageHeader::updatePolish()
