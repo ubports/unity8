@@ -32,13 +32,12 @@ private:
     void verifyItem(int visibleIndex, qreal pos, qreal height, bool culled, const QString &sectionHeader, bool sectionHeaderCulled)
     {
         QTRY_VERIFY(visibleIndex < lvwph->m_visibleItems.count());
-        ListViewWithPageHeader::ListItem *item = lvwph->m_visibleItems[visibleIndex];
-        QTRY_COMPARE(item->y(), pos);
-        QTRY_COMPARE(item->height(), height);
-        QCOMPARE(QQuickItemPrivate::get(item->m_item)->culled, culled);
-        QCOMPARE(section(item->m_sectionItem), sectionHeader);
+        QTRY_COMPARE(lvwph->m_visibleItems[visibleIndex]->y(), pos);
+        QTRY_COMPARE(lvwph->m_visibleItems[visibleIndex]->height(), height);
+        QCOMPARE(QQuickItemPrivate::get(lvwph->m_visibleItems[visibleIndex]->m_item)->culled, culled);
+        QCOMPARE(section(lvwph->m_visibleItems[visibleIndex]->m_sectionItem), sectionHeader);
         if (!sectionHeader.isNull()) {
-            QCOMPARE(QQuickItemPrivate::get(item->m_sectionItem)->culled, sectionHeaderCulled);
+            QCOMPARE(QQuickItemPrivate::get(lvwph->m_visibleItems[visibleIndex]->m_sectionItem)->culled, sectionHeaderCulled);
         }
     }
 
@@ -1264,6 +1263,26 @@ private Q_SLOTS:
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Mild"));
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
+    }
+
+    void testAddSecondToCulledCategoryOfTwo()
+    {
+        // Do some setup
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 25), Q_ARG(QVariant, "Agressive"));
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 25), Q_ARG(QVariant, "Agressive"));
+
+        changeContentY(200);
+
+        // Very the items are culled
+        verifyItem(0, -150., 65., true, "Agressive", true);
+        verifyItem(1, -85, 25., true, QString(), true);
+
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 1), Q_ARG(QVariant, 25), Q_ARG(QVariant, "Agressive"));
+
+        // Very the new item is there correctly
+        verifyItem(0, -175., 65., true, "Agressive", true);
+        verifyItem(1, -110, 25., true, QString(), true);
+        verifyItem(2, -85, 25., true, QString(), true);
     }
 
     void testMoveFirstItems()

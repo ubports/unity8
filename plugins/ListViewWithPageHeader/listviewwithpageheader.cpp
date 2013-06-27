@@ -814,7 +814,7 @@ void ListViewWithPageHeader::onModelUpdated(const QQuickChangeSet &changeSet, bo
                     ListItem *nextItem = itemAtIndex(modelIndex + 1);
                     if (nextItem && !nextItem->m_sectionItem) {
                         nextItem->m_sectionItem = getSectionItem(modelIndex + 1, true /* alredy inserted into m_visibleItems*/);
-                        if (growUp) {
+                        if (growUp && nextItem->m_sectionItem) {
                             ListItem *firstItem = m_visibleItems.first();
                             firstItem->setY(firstItem->y() - nextItem->m_sectionItem->height());
                             adjustMinYExtent();
