@@ -41,7 +41,7 @@ Item {
             //Make sure that the component lost focus when enabled = false,
             //otherwise it will get focus again when enable = true
             if (!enabled) {
-                focus = false
+                focus = false;
             }
         }
     }

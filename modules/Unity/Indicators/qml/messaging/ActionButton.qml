@@ -27,7 +27,7 @@ Button {
 
     onClicked: {
         if (action && action.valid) {
-            action.activate(actionParameter)
+            action.activate(actionParameter);
         }
     }
 }

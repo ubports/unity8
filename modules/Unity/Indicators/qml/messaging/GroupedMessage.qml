@@ -77,14 +77,14 @@ Indicators.BasicMenu {
         anchors.fill: parent
         onClicked: {
             if (action && action.valid) {
-                action.activate(true)
+                action.activate(true);
             }
         }
     }
 
     onItemRemoved: {
         if (action && action.valid) {
-            action.activate(false)
+            action.activate(false);
         }
     }
 }

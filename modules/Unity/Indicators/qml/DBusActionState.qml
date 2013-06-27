@@ -98,7 +98,7 @@ Item {
     function onViewValueChanged() {
         if (priv.actionObject.valid) {
             var propertyValue = target[property];
-            priv.actionObject.updateState(propertyValue)
+            priv.actionObject.updateState(propertyValue);
         }
     }
 }
