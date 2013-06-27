@@ -309,7 +309,7 @@ void ListViewWithPageHeader::positionAtBeginning()
 {
     qreal headerHeight = (m_headerItem ? m_headerItem->height() : 0);
     if (m_firstVisibleIndex != 0) {
-        // This could be optimized by trying to reuse the interesection
+        // TODO This could be optimized by trying to reuse the interesection
         // of items that may end up intersecting between the existing
         // m_visibleItems and the items we are creating in the next loop
         foreach(ListItem *item, m_visibleItems)
