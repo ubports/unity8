@@ -122,6 +122,7 @@ MouseArea {
 
         function updateUsername(uid) {
             greeterContentLoader.infographicModel.username = greeterContentLoader.model.data(uid, LightDM.UserRoles.NameRole)
+            greeterContentLoader.infographicModel.readyForDataChangeSlot();
         }
 
         anchors {
