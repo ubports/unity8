@@ -967,8 +967,9 @@ void ListViewWithPageHeader::layout()
                 }
             }
             QQmlContext *context = QQmlEngine::contextForObject(item->m_item)->parentContext();
-            if (!cull && pos < visibleFrom) {
-                context->setContextProperty(QLatin1String("heightToClip"), visibleFrom - pos);
+            const qreal clipFrom = visibleFrom + (!item->m_sectionItem && m_topSectionItem && !QQuickItemPrivate::get(m_topSectionItem)->culled ? m_topSectionItem->height() : 0);
+            if (!cull && pos < clipFrom) {
+                context->setContextProperty(QLatin1String("heightToClip"), clipFrom - pos);
             } else {
                 context->setContextProperty(QLatin1String("heightToClip"), QVariant::fromValue<int>(0));
             }
