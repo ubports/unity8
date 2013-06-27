@@ -51,6 +51,9 @@ Q_SIGNALS:
 protected:
     void setUnityPreview(unity::dash::Preview::Ptr unityPreview) override;
 
+private Q_SLOTS:
+    void onTracksModelChanged(unity::glib::Object<DeeModel> model);
+
 private:
     unity::dash::MusicPreview::Ptr m_unityMusicPreview;
     DeeListModel *m_tracks;

@@ -23,7 +23,8 @@
 #include <QDebug>
 
 ApplicationPreview::ApplicationPreview(QObject *parent):
-    Preview(parent)
+    Preview(parent),
+    m_unityAppPreview(nullptr)
 {
 }
 

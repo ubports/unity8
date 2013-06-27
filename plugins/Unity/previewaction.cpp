@@ -20,7 +20,8 @@
 #include "previewaction.h"
 
 PreviewAction::PreviewAction(QObject *parent)
-    : QObject(parent)
+    : QObject(parent),
+      m_unityAction(nullptr)
 {
 }
 

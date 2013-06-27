@@ -24,7 +24,8 @@
 #include <QDebug>
 
 MoviePreview::MoviePreview(QObject *parent):
-    Preview(parent)
+    Preview(parent),
+    m_unityMoviePreview(nullptr)
 {
 }
 
@@ -61,4 +62,8 @@ unsigned int MoviePreview::numRatings() const
 void MoviePreview::setUnityPreview(unity::dash::Preview::Ptr unityPreview)
 {
     m_unityMoviePreview = std::dynamic_pointer_cast<unity::dash::MoviePreview>(unityPreview);
+
+    Q_EMIT yearChanged();
+    Q_EMIT ratingChanged();
+    Q_EMIT numRatingsChanged();
 }

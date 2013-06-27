@@ -36,7 +36,8 @@
 #include <UnityCore/MusicPreview.h>
 
 Preview::Preview(QObject *parent):
-    QObject(parent)
+    QObject(parent),
+    m_unityPreview(nullptr)
 {
 }
 
