@@ -66,6 +66,75 @@ GVariant* GVariantFromQVariant(const QVariant &var)
     return gv;
 }
 
+// implementation of this conversion taken from libdee-qt private utility function.
+QVariant QVariantFromGVariant(GVariant *value)
+{
+    /* We need to special-case a{sv} here as G_VARIANT_CLASS_ARRAY handles simple arrays;
+       we need to create QVariantHash, not a list */
+    if (g_variant_is_of_type(value, G_VARIANT_TYPE_VARDICT)) {
+        const gsize nChildren = g_variant_n_children(value);
+        QVariantHash hash;
+        for (gsize i = 0; i < nChildren; ++i)
+        {
+            GVariant* dict_entry = g_variant_get_child_value(value, i);
+
+            gchar* dict_key;
+            GVariant *dict_var;
+            g_variant_get(dict_entry, "{&sv}", &dict_key, &dict_var);
+            hash.insert(QString::fromUtf8(dict_key), QVariantFromGVariant(dict_var));
+            g_variant_unref(dict_var);
+            g_variant_unref(dict_entry);
+        }
+        return hash;
+    }
+
+    switch (g_variant_classify(value)) {
+        case G_VARIANT_CLASS_BOOLEAN:
+            return QVariant((bool) g_variant_get_boolean(value));
+        case G_VARIANT_CLASS_BYTE:
+            return QVariant((uchar) g_variant_get_byte(value));
+        case G_VARIANT_CLASS_INT16:
+            return QVariant((qint16) g_variant_get_int16(value));
+        case G_VARIANT_CLASS_UINT16:
+            return QVariant((quint16) g_variant_get_uint16(value));
+        case G_VARIANT_CLASS_INT32:
+            return QVariant((qint32) g_variant_get_int32(value));
+        case G_VARIANT_CLASS_UINT32:
+            return QVariant((quint32) g_variant_get_uint32(value));
+        case G_VARIANT_CLASS_INT64:
+            return QVariant((qint64) g_variant_get_int64(value));
+        case G_VARIANT_CLASS_UINT64:
+            return QVariant((quint64) g_variant_get_uint64(value));
+        case G_VARIANT_CLASS_DOUBLE:
+            return QVariant(g_variant_get_double(value));
+        case G_VARIANT_CLASS_STRING:
+            return QVariant(QString::fromUtf8(g_variant_get_string(value, NULL)));
+        case G_VARIANT_CLASS_ARRAY:
+        case G_VARIANT_CLASS_TUPLE:
+        {
+            const gsize nChildren = g_variant_n_children(value);
+            QList<QVariant> array;
+            for (gsize i = 0; i < nChildren; ++i)
+            {
+              GVariant* gvariant = g_variant_get_child_value(value, i);
+              array << QVariantFromGVariant(gvariant);
+              g_variant_unref(gvariant);
+            }
+            return array;
+        }
+        default:
+            /* Fallback on an empty QVariant.
+               FIXME: Missing conversion of following GVariant types:
+                - G_VARIANT_CLASS_HANDLE
+                - G_VARIANT_CLASS_OBJECT_PATH
+                - G_VARIANT_CLASS_SIGNATURE
+                - G_VARIANT_CLASS_VARIANT
+                - G_VARIANT_CLASS_MAYBE
+                - G_VARIANT_CLASS_DICT_ENTRY
+            */
+            return QVariant();
+    }
+}
 
 unity::glib::HintsMap convertToHintsMap(const QHash<QString, QVariant> &val)
 {
