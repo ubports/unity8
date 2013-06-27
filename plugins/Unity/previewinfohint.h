@@ -55,4 +55,6 @@ private:
     unity::dash::Preview::InfoHintPtr m_unityInfoHint;
 };
 
+Q_DECLARE_METATYPE(PreviewInfoHint *)
+
 #endif

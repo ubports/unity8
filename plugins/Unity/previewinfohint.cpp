@@ -19,6 +19,7 @@
 
 // local
 #include "previewinfohint.h"
+#include "variantutils.h"
 
 PreviewInfoHint::PreviewInfoHint(QObject *parent):
     QObject(parent),
@@ -37,14 +38,26 @@ void PreviewInfoHint::setUnityInfoHint(unity::dash::Preview::InfoHintPtr unityIn
 
 QString PreviewInfoHint::id() const
 {
+    if (m_unityInfoHint) {
+        return QString::fromStdString(m_unityInfoHint->id);
+    }
+    return "";
 }
 
 QString PreviewInfoHint::displayName() const
 {
+    if (m_unityInfoHint) {
+        return QString::fromStdString(m_unityInfoHint->display_name);
+    }
+    return "";
 }
 
 QString PreviewInfoHint::iconHint() const
 {
+   if (m_unityInfoHint) {
+       return QString::fromStdString(m_unityInfoHint->icon_hint);
+   }
+   return "";
 }
 
 QVariant PreviewInfoHint::value() const
