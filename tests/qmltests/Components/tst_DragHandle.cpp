@@ -49,7 +49,7 @@ class tst_DragHandle: public QObject
 {
     Q_OBJECT
 public:
-    tst_DragHandle() : device(0) { }
+    tst_DragHandle() : m_device(0) { }
 private Q_SLOTS:
     void initTestCase(); // will be called before the first test function is executed
     void cleanupTestCase(); // will be called after the last test function was executed.
@@ -67,22 +67,22 @@ private:
     void tryCompare(std::function<qreal ()> actualFunc, qreal expectedValue);
 
     QQuickView *createView();
-    QQuickView *view;
-    QTouchDevice *device;
-    FakeTimer *fakeTimer;
-    FakeTimeSource *fakeTimeSource;
+    QQuickView *m_view;
+    QTouchDevice *m_device;
+    FakeTimer *m_fakeTimer;
+    FakeTimeSource *m_fakeTimeSource;
 };
 
 
 void tst_DragHandle::initTestCase()
 {
-    if (!device) {
-        device = new QTouchDevice;
-        device->setType(QTouchDevice::TouchScreen);
-        QWindowSystemInterface::registerTouchDevice(device);
+    if (!m_device) {
+        m_device = new QTouchDevice;
+        m_device->setType(QTouchDevice::TouchScreen);
+        QWindowSystemInterface::registerTouchDevice(m_device);
     }
 
-    view = 0;
+    m_view = 0;
 }
 
 void tst_DragHandle::cleanupTestCase()
@@ -91,27 +91,27 @@ void tst_DragHandle::cleanupTestCase()
 
 void tst_DragHandle::init()
 {
-    view = createView();
-    view->setSource(QUrl::fromLocalFile(TEST_DIR"/tst_DragHandle.qml"));
-    view->show();
-    QVERIFY(QTest::qWaitForWindowExposed(view));
-    QVERIFY(view->rootObject() != 0);
+    m_view = createView();
+    m_view->setSource(QUrl::fromLocalFile(TEST_DIR"/tst_DragHandle.qml"));
+    m_view->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_view));
+    QVERIFY(m_view->rootObject() != 0);
     qApp->processEvents();
 
-    fakeTimer = new FakeTimer;
-    fakeTimeSource = new FakeTimeSource;
+    m_fakeTimer = new FakeTimer;
+    m_fakeTimeSource = new FakeTimeSource;
 }
 
 void tst_DragHandle::cleanup()
 {
-    delete view;
-    view = 0;
+    delete m_view;
+    m_view = 0;
 
-    delete fakeTimer;
-    fakeTimer = 0;
+    delete m_fakeTimer;
+    m_fakeTimer = 0;
 
-    delete fakeTimeSource;
-    fakeTimeSource = 0;
+    delete m_fakeTimeSource;
+    m_fakeTimeSource = 0;
 }
 
 QQuickView *tst_DragHandle::createView()
@@ -166,32 +166,32 @@ void tst_DragHandle::flickAndHold(DirectionalDragArea *dragHandle,
     QPointF dragDirectionVector = calculateDirectionVector(dragHandle);
     QPointF touchMovement = dragDirectionVector * (distance / (qreal)numSteps);
 
-    QTest::touchEvent(view, device).press(0, touchPoint.toPoint());
+    QTest::touchEvent(m_view, m_device).press(0, touchPoint.toPoint());
 
     for (int i = 0; i < numSteps; ++i) {
         touchPoint += touchMovement;
-        fakeTimeSource->m_msecsSinceReference += timeStep;
-        QTest::touchEvent(view, device).move(0, touchPoint.toPoint());
+        m_fakeTimeSource->m_msecsSinceReference += timeStep;
+        QTest::touchEvent(m_view, m_device).move(0, touchPoint.toPoint());
     }
 
     // Wait for quite a bit before finally releasing to make a very low flick/release
     // speed.
-    fakeTimeSource->m_msecsSinceReference += 5000;
-    QTest::touchEvent(view, device).release(0, touchPoint.toPoint());
+    m_fakeTimeSource->m_msecsSinceReference += 5000;
+    QTest::touchEvent(m_view, m_device).release(0, touchPoint.toPoint());
 }
 
 DirectionalDragArea *tst_DragHandle::fetchAndSetupDragHandle(const char *objectName)
 {
     DirectionalDragArea *dragHandle =
-        view->rootObject()->findChild<DirectionalDragArea*>(objectName);
+        m_view->rootObject()->findChild<DirectionalDragArea*>(objectName);
     Q_ASSERT(dragHandle != 0);
-    dragHandle->setRecognitionTimer(fakeTimer);
-    dragHandle->setTimeSource(fakeTimeSource);
+    dragHandle->setRecognitionTimer(m_fakeTimer);
+    dragHandle->setTimeSource(m_fakeTimeSource);
 
     AxisVelocityCalculator *edgeDragEvaluator =
         dragHandle->findChild<AxisVelocityCalculator*>("edgeDragEvaluator");
     Q_ASSERT(edgeDragEvaluator != 0);
-    edgeDragEvaluator->setTimeSource(fakeTimeSource);
+    edgeDragEvaluator->setTimeSource(m_fakeTimeSource);
 
     return dragHandle;
 }

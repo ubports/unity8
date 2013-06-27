@@ -52,10 +52,11 @@ Item {
 
         x: {
             if (dragHandle) {
-                if (dragHandle.direction === Direction.Rightwards)
-                    dragHandle.edgeDragEvaluator.dragThreshold
-                else
-                    parent.width - dragHandle.edgeDragEvaluator.dragThreshold
+                if (dragHandle.direction === Direction.Rightwards) {
+                    dragHandle.edgeDragEvaluator.dragThreshold;
+                } else {
+                    parent.width - dragHandle.edgeDragEvaluator.dragThreshold;
+                }
             } else {
                 0
             }
