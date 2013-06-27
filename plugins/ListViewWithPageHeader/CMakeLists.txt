@@ -1,11 +1,15 @@
+# There's no cmake var for v8 include path :-/
+# so create one
+LIST(GET Qt5Core_INCLUDE_DIRS 0 QtCoreDir0)
+SET(Qt5V8_PRIVATE_INCLUDE_DIR ${QtCoreDir0}/../QtV8/${Qt5Core_VERSION_STRING}/QtV8)
+
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
     ${Qt5Qml_PRIVATE_INCLUDE_DIRS}
     ${Qt5Quick_INCLUDE_DIRS}
     ${Qt5Quick_PRIVATE_INCLUDE_DIRS}
-# FIXME There's no cmake var for this :-/
-    /usr/include/qt5/QtV8/5.0.2/QtV8
+    ${Qt5V8_PRIVATE_INCLUDE_DIR}
 )
 
 remove_definitions(-DQT_NO_KEYWORDS)
