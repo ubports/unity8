@@ -100,6 +100,8 @@
 #include <private/qquickanimation_p.h>
 // #include <private/qquickrectangle_p.h>
 
+static const qreal bufferRatio = 0.5;
+
 qreal ListViewWithPageHeader::ListItem::height() const
 {
     return m_item->height() + (m_sectionItem ? m_sectionItem->height() : 0);
@@ -323,7 +325,7 @@ void ListViewWithPageHeader::positionAtBeginning()
         // Create the subsequent items
         int modelIndex = 1;
         qreal pos = item->y() + item->height();
-        const qreal buffer = height() / 2;
+        const qreal buffer = height() * bufferRatio;
         const qreal bufferTo = height() + buffer;
         while (modelIndex < m_delegateModel->count() && pos <= bufferTo) {
             if (!(item = createItem(modelIndex, false)))
@@ -441,7 +443,7 @@ void ListViewWithPageHeader::refill()
         return;
     }
 
-    const qreal buffer = height() / 2;
+    const qreal buffer = height() * bufferRatio;
     const qreal from = contentY();
     const qreal to = from + height();
     const qreal bufferFrom = from - buffer;
