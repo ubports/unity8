@@ -16,6 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Unity.Indicators 0.1 as Indicators
 import "Menus"
 import "../Components"
 
@@ -179,7 +180,13 @@ Rectangle {
                 left: parent.left
                 right: parent.right
             }
-            text: content.overviewActive ? i18n.tr("Device") : (indicatorsModel && menus.currentIndex >= 0 && menus.currentIndex < indicatorsModel.count) ?  indicatorsModel.get(menus.currentIndex).title : ""
+            text: {
+                if (content.overviewActive)
+                    return i18n.tr("Device");
+                if (indicatorsModel && menus.currentIndex >= 0 && menus.currentIndex < indicatorsModel.count)
+                    return indicatorsModel.data(menus.currentIndex, Indicators.IndicatorsModel.Title);
+                return "";
+            }
             opacity: __shown ? 1 : 0
             Behavior on opacity {NumberAnimation{duration: 100}}
         }
