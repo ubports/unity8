@@ -100,7 +100,7 @@ ScopeView {
        When using Loader to load external QML file in the list deelgate, the ListView has
        a bug where it can position the delegate content to overlap the section header
        of the ListView - a workaround is to use sourceComponent of Loader instead */
-    Component { id: runningApplicationsGrid; RunningApplicationsGrid {} }
+    Component { id: runningApplicationsGrid; RunningApplicationsGrid { clip: true } }
     Component {
         id: applicationsFilterGrid;
         ApplicationsFilterGrid {
