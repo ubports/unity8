@@ -153,7 +153,6 @@ Item {
             launcher.tease();
 
             if (data.available) {
-            
                 // Check if the launcher slides in for units.gu(2). However, as the animation is 200ms
                 // and the teaseTimer's timeout too, give it a 2 pixels grace distance
                 tryCompareFunction(
