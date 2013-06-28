@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Canonical, Ltd.
+ * Copyright (C) 2013 Canonical, Ltd.
  *
  * Authors:
  *  Michael Zanetti <michael.zanetti@canonical.com>
@@ -17,48 +17,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QAbstractListModel>
+#ifndef LAUNCHERITEM_H
+#define LAUNCHERITEM_H
 
-class LauncherItem;
+#include <unity/shell/launcher/LauncherItemInterface.h>
 
-class LauncherModel: public QAbstractListModel
-{
-   Q_OBJECT
+using namespace unity::shell::launcher;
 
-public:
-    enum Roles {
-        RoleDesktopFile = Qt::UserRole,
-        RoleName,
-        RoleIcon,
-        RoleFavorite,
-        RoleRunning
-    };
-
-    LauncherModel(QObject *parent = 0);
-    ~LauncherModel();
-
-    int rowCount(const QModelIndex &parent) const;
-
-    QVariant data(const QModelIndex &index, int role) const;
-
-    Q_INVOKABLE LauncherItem* get(int index) const;
-    Q_INVOKABLE void move(int oldIndex, int newIndex);
-
-    QHash<int, QByteArray> roleNames() const;
-
-private:
-    QList<LauncherItem*> m_list;
-};
-
-class LauncherItem: public QObject
+class LauncherItem: public LauncherItemInterface
 {
     Q_OBJECT
-    Q_PROPERTY(QString desktopFile READ desktopFile CONSTANT)
-    Q_PROPERTY(QString name READ name CONSTANT)
-    Q_PROPERTY(QString icon READ icon CONSTANT)
-    Q_PROPERTY(bool favorite READ favorite WRITE setFavorite NOTIFY favoriteChanged)
-    Q_PROPERTY(bool running READ running WRITE setRunning NOTIFY runningChanged)
-
 public:
     LauncherItem(const QString &desktopFile, const QString &name, const QString &icon, QObject *parent = 0);
 
@@ -73,6 +41,15 @@ public:
     bool running() const;
     void setRunning(bool running);
 
+    bool recent() const;
+    void setRecent(bool recent);
+
+    int progress() const;
+    void setProgress(int progress);
+
+    int count() const;
+    void setCount(int count);
+
 Q_SIGNALS:
     void favoriteChanged(bool favorite);
     void runningChanged(bool running);
@@ -83,4 +60,9 @@ private:
     QString m_icon;
     bool m_favorite;
     bool m_running;
+    bool m_recent;
+    int m_progress;
+    int m_count;
 };
+
+#endif // LAUNCHERITEM_H

@@ -19,7 +19,6 @@ set(QMLPLUGIN_SRC
     categoryfilter.cpp
     plugin.cpp
     bottombarvisibilitycommunicatorshell.cpp
-    launchermodel.cpp
     )
 
 add_library(Unity-qml MODULE
@@ -47,3 +46,7 @@ install(TARGETS Unity-qml
 install(FILES qmldir
     DESTINATION ${SHELL_APP_DIR}/plugins/Unity
     )
+
+
+add_subdirectory(Launcher)
+

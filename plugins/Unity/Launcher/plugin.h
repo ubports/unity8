@@ -13,31 +13,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Author: Nick Dedekind <nick.dedekind@canonical.com>
+ * Author: Michael Zanetti <michael.zanetti@canonical.com>
  */
 
-// Self
-#include "fake_unity_plugin.h"
+#ifndef UNITY_LAUNCHER_PLUGIN_H
+#define UNITY_LAUNCHER_PLUGIN_H
 
-// local
-#include "fake_scopes.h"
-#include "categories.h"
-#include "categoryfilter.h"
+#include <QtQml/QQmlEngine>
+#include <QtQml/QQmlExtensionPlugin>
 
-// External
-#include <glib-object.h>
-#include <QtQml>
-
-void FakeUnityPlugin::registerTypes(const char *uri)
+class UnityLauncherPlugin : public QQmlExtensionPlugin
 {
-#ifndef GLIB_VERSION_2_36
-  g_type_init();
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
+
+public:
+    void registerTypes(const char *uri);
+};
+
 #endif
-
-    Q_ASSERT(uri == QLatin1String("Unity"));
-
-    qmlRegisterType<Scopes>(uri, 0, 1, "Scopes");
-    qmlRegisterType<Scope>(uri, 0, 1, "Scope");
-    qmlRegisterType<Categories>(uri, 0, 1, "Categories");
-    qmlRegisterType<CategoryFilter>(uri, 0, 1, "CategoryFilter");
-}
