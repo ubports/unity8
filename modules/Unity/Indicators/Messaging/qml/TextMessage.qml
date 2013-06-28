@@ -20,13 +20,16 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Unity.Indicators 0.1 as Indicators
 
 SimpleTextMessage {
-    id: __heroMessage
+    id: __simpleMessage
 
     footer: ActionTextField {
         anchors.fill:  parent
-        action: menu && actionGroup && actionsDescription ? actionGroup.action(actionsDescription[0].name) : undefined
+        actionGroup: __simpleMessage.actionGroup
+        action: actionsDescription[0].name
+
         buttonText: actionsDescription ? actionsDescription[0].label : "Send"
     }
 }

@@ -26,7 +26,6 @@ Indicators.BasicMenuItem {
     id: __heroMessage
 
     property variant actionsDescription: null
-    property var action: menu && menu.action != "" && actionGroup ? actionGroup.action(menu.action) : null
     property alias heroMessageHeader: __heroMessageHeader
     property real collapsedHeight: heroMessageHeader.y + heroMessageHeader.bodyBottom + units.gu(2)
     property real expandedHeight: collapsedHeight
@@ -35,6 +34,12 @@ Indicators.BasicMenuItem {
 
     removable: state !== "expanded"
     implicitHeight: collapsedHeight
+
+    Indicators.MenuItemAction {
+        id: menuAction
+        actionGroup: __heroMessage.actionGroup
+        action: menu ? menu.action : ""
+    }
 
     HeroMessageHeader {
         id: __heroMessageHeader
@@ -50,7 +55,7 @@ Indicators.BasicMenuItem {
         state: __heroMessage.state
 
         onAppIconClicked:  {
-            if (action && action.valid) {
+            if (menuAction.valid) {
                 deactivateMenu();
                 action.activate(true);
             }
@@ -108,8 +113,8 @@ Indicators.BasicMenuItem {
     }
 
     onItemRemoved: {
-        if (action && action.valid) {
-            action.activate(false);
+        if (menuAction.valid) {
+            menuAction.activate(false);
         }
     }
 }

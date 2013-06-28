@@ -23,11 +23,17 @@ import Ubuntu.Components 0.1
 import Unity.Indicators 0.1 as Indicators
 
 Indicators.BasicMenuItem {
-    property var action: menu && menu.action != "" && actionGroup ? actionGroup.action(menu.action) : null
+    id: __groupedMessage
     property alias count: label.text
 
     color: "#221e1b"
     implicitHeight: units.gu(10)
+
+    Indicators.MenuItemAction {
+        id: menuAction
+        actionGroup: __groupedMessage.actionGroup
+        action: menu ? menu.action : ""
+    }
 
     Row {
         anchors.fill: parent
@@ -59,7 +65,7 @@ Indicators.BasicMenuItem {
             color: "#e8e1d0"
             font.weight: Font.DemiBold
             fontSize: "medium"
-            text: action && action.valid && action.state ? action.state[0] : "0"
+            text: menuAction.valid ? menuAction.state[0] : "0"
         }
     }
 
@@ -76,15 +82,15 @@ Indicators.BasicMenuItem {
     MouseArea {
         anchors.fill: parent
         onClicked: {
-            if (action && action.valid) {
-                action.activate(true);
+            if (menuAction.valid) {
+                menuAction.activate(true);
             }
         }
     }
 
     onItemRemoved: {
-        if (action && action.valid) {
-            action.activate(false);
+        if (menuAction.valid) {
+            menuAction.activate(false);
         }
     }
 }

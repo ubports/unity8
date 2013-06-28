@@ -23,7 +23,9 @@ import Ubuntu.Components 0.1
 import Unity.Indicators 0.1 as Indicators
 
 Item {
+    property alias actionGroup: __actionTextField.actionGroup
     property alias action: __actionTextField.action
+
     property alias buttonText: __actionTextField.buttonText
     property real expandedHeight: childrenRect.height
     property alias messages : __messagelistRepeater.model

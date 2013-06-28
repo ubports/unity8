@@ -22,6 +22,13 @@ import Ubuntu.Components 0.1
 import Unity.Indicators 0.1 as Indicators
 
 Indicators.SectionMenuItem {
-    property variant busyAction : actionGroup ? actionGroup.action(menu.extra.canonical_busy_action) : undefined
-    busy: busyAction && busyAction.valid ? busyAction.state : false
+    id: __wifiSectionMenu
+
+    Indicators.MenuItemAction {
+        id: busyAction
+        actionGroup: __wifiSectionMenu.actionGroup
+        action: menu ? menu.extra.canonical_busy_action : ""
+    }
+
+    busy: busyAction.valid ? busyAction.state : false
 }

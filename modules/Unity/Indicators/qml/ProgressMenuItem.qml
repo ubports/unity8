@@ -54,7 +54,7 @@ MenuItem {
         }
     }
 
-    DBusActionState {
+    MenuItemActionValue {
         actionGroup: _progressMenu.actionGroup
         action: menu ? menu.action : ""
         target: progressBar

@@ -19,10 +19,7 @@
  */
 
 import QtQuick 2.0
-import QMenuModel 0.1
-import Ubuntu.Components 0.1
-import Ubuntu.Components.ListItems 0.1 as ListItem
-import Unity.Indicators 0.1 as Indicators
+import Ubuntu.Components 0.1 as Components
 
 IndicatorBase {
     id: main
@@ -132,7 +129,6 @@ IndicatorBase {
                     isCurrentItem: item.ListView.isCurrentItem
                     anchors.left: parent.left
                     anchors.right: parent.right
-                    height: implicitHeight
                     menu: model
 
                     Connections {
@@ -145,14 +141,15 @@ IndicatorBase {
         }
     }
 
-    Label {
+    Components.Label {
         id: emptyLabel
         visible: (mainMenu.visibleItems === 0)
-        anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.topMargin: units.gu(2)
-        height: paintedHeight
+        anchors {
+            top: parent.top
+            left: parent.left
+            right: parent.right
+            topMargin: units.gu(2)
+        }
         wrapMode: Text.WordWrap
         horizontalAlignment: Text.AlignHCenter
 

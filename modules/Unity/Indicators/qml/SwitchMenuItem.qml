@@ -27,12 +27,14 @@ MenuItem {
 
     control: Switch {
         id: switcher
+        enabled: menuAction.valid
 
         anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right
     }
 
-    DBusActionState {
+    MenuItemActionValue {
+        id: menuAction
         actionGroup: _switchMenu.actionGroup
         action: menu ? menu.action : ""
         target: switcher

@@ -20,10 +20,11 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Unity.Indicators 0.1 as Indicators
 import "utils.js" as Utils
 
 HeroMessage {
-    id: __heroMessage
+    id: __snapDecision
 
     expandedHeight: __buttons.y + __buttons.height + __quickreply.height + units.gu(2)
     heroMessageHeader.titleText.text:  menu ? menu.label : ""
@@ -62,7 +63,9 @@ HeroMessage {
         }
 
         ActionButton {
-            action: menu && actionGroup && actionsDescription ? actionGroup.action(actionsDescription[0].name) : undefined
+            actionGroup: __snapDecision.actionGroup
+            action: actionsDescription[0].name
+
             text: actionsDescription ?  actionsDescription[0].label : "Call back"
             color: "#c94212"
             anchors.right: parent.right
@@ -73,7 +76,7 @@ HeroMessage {
 
         states: State {
             name: "expanded"
-            when: __heroMessage.state === "expanded"
+            when: __snapDecision.state === "expanded"
 
             PropertyChanges {
                 target: __buttons
@@ -92,9 +95,11 @@ HeroMessage {
     QuickReply {
         id: __quickreply
 
+        actionGroup: __snapDecision.actionGroup
+        action: actionsDescription[1].name
+
         messages: actionsDescription ? actionsDescription[1]["parameter-hint"] : ""
         buttonText: actionsDescription ? actionsDescription[1].label : "send"
-        action:  menu && actionGroup && actionsDescription ? actionGroup.action(actionsDescription[1].name) : undefined
         anchors.top: __buttons.bottom
         anchors.topMargin: units.gu(2)
         anchors.left: parent.left

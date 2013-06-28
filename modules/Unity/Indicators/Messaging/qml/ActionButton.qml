@@ -20,14 +20,24 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Unity.Indicators 0.1 as Indicators
 
 Button {
-    property variant action: null
-    property variant actionParameter: null
+    id: __button
+    property QtObject actionGroup: null
+    property string action
+
+    property var actionParameter: null
+
+    Indicators.MenuItemAction {
+        id: menuAction
+        actionGroup: __button.actionGroup
+        action: __button.action
+    }
 
     onClicked: {
-        if (action && action.valid) {
-            action.activate(actionParameter);
+        if (menuAction.valid) {
+            menuAction.activate(actionParameter);
         }
     }
 }

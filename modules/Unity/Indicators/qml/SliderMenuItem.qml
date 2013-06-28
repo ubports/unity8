@@ -29,6 +29,7 @@ MenuItem {
 
     control: Slider {
         id: slider
+        enabled: menuAction.valid
         width: _sliderMenu.text ? units.gu(20) : _sliderMenu.width - units.gu(4)
         anchors.verticalCenter: parent.verticalCenter
         live: false
@@ -58,7 +59,8 @@ MenuItem {
         }
     }
 
-    DBusActionState {
+    MenuItemActionValue {
+        id: menuAction
         actionGroup: _sliderMenu.actionGroup
         action: menu ? menu.action : ""
         target: slider

@@ -20,7 +20,7 @@
 import QtQuick 2.0
 
 /*!
-    \qmltype DBusActionState
+    \qmltype MenuItemActionValue
     \inqmlmodule Indicators 0.1
     \brief Helper class to connect dbus action state with qml components property
 
@@ -29,7 +29,7 @@ import QtQuick 2.0
         Slider {
             id: slide
         }
-        DBusActionState {
+        MenuItemActionValue {
             actionGroup: menuItem.actionGroup
             action: "/ubuntu/sound/volume"
             target: slider
@@ -40,26 +40,8 @@ import QtQuick 2.0
     \b{This component is under heavy development.}
 */
 
-Item {
+MenuItemAction {
     id: dbusActionState
-
-    /*!
-      \preliminary
-      The dbus action name
-     */
-    property string action : ""
-
-    /*!
-      \preliminary
-      The dbus action group object
-     */
-    property QtObject actionGroup : null
-
-    /*!
-      \preliminary
-      This is a read-only property with the action current value
-     */
-    property var value : undefined
 
     /*!
       \preliminary
@@ -85,23 +67,23 @@ Item {
 
     Item {
         id: priv
-        property var actionObject: action != ""  && dbusActionState.actionGroup ? dbusActionState.actionGroup.action(action) : null
-        property var actionState: actionObject ? actionObject.state : undefined
+        property alias actionObject : dbusActionState.__actionObject
 
         property var currentTarget: undefined
         property string currentSignal
 
+
         Binding {
             id: propertyBinding
-            value: priv.actionState
-            when: (actionGroup && active && priv.actionObject)
+            value: dbusActionState.state
+            when: priv.actionObject && dbusActionState.active
             property: dbusActionState.property
         }
     }
 
     function connectViewChanges() {
         if (priv.currentTarget != undefined && priv.currentSignal !== "") {
-            if (priv.currentTarget[priv.currentSignal] != undefined) {
+            if (priv.currentTarget[priv.currentSignal] !== undefined) {
                 priv.currentTarget[priv.currentSignal].disconnect(onViewValueChanged);
             }
         }
@@ -110,7 +92,7 @@ Item {
         priv.currentSignal = "";
         if (target) {
             var signal = "on%1Changed".arg(property.charAt(0).toUpperCase() + property.slice(1));
-            if (target[signal] != undefined) {
+            if (target[signal] !== undefined) {
                 target[signal].connect(onViewValueChanged);
                 priv.currentTarget = target;
                 priv.currentSignal = signal;
@@ -119,7 +101,7 @@ Item {
     }
 
     function onViewValueChanged() {
-        if (priv.actionObject.valid) {
+        if (valid) {
             var propertyValue = target[property];
             priv.actionObject.updateState(propertyValue);
         }

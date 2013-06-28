@@ -22,7 +22,9 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 
 Item {
+    property alias actionGroup: __sendButton.actionGroup
     property alias action: __sendButton.action
+
     property alias text: __replyField.text
     property alias buttonText: __sendButton.text
 

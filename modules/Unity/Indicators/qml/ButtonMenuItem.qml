@@ -21,12 +21,13 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 
 BasicMenuItem {
-    property var action: menu && menu.action != "" && actionGroup ? actionGroup.action(menu.action) : null
-
+    id: _buttonMenu
     color: "#221e1b"
     implicitHeight: units.gu(7)
 
     Button {
+        id: button
+        enabled: menuAction.valid
         text: menu ? menu.label : ""
         anchors.centerIn: parent
         height: units.gu(4)
@@ -34,9 +35,13 @@ BasicMenuItem {
         color: "#1b1817"
 
         onClicked: {
-            if (action && action.valid) {
-                action.activate()
-            }
+            menuAction.activate()
         }
+    }
+
+    MenuItemAction {
+        id: menuAction
+        actionGroup: _buttonMenu.actionGroup
+        action: menu ? menu.action : ""
     }
 }
