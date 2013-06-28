@@ -156,7 +156,11 @@ Item {
             
                 // Check if the launcher slides in for units.gu(2). However, as the animation is 200ms
                 // and the teaseTimer's timeout too, give it a 2 pixels grace distance
-                tryCompareFunction(function(){return launcher.maxPanelX >= -launcher.panelWidth + units.gu(2) - 2;}, true)
+                tryCompareFunction(
+                    function(){
+                        return launcher.maxPanelX >= -launcher.panelWidth + units.gu(2) - 2;
+                    },
+                    true)
             } else {
                 wait(100)
                 compare(launcher.maxPanelX, -launcher.panelWidth, "Launcher moved even if it shouldn't")
