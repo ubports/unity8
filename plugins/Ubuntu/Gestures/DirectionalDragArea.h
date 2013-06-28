@@ -60,9 +60,17 @@ class UBUNTUGESTURES_EXPORT DirectionalDragArea : public QQuickItem {
     // DirectionalDragArea's direction.
     Q_PROPERTY(qreal distance READ distance NOTIFY distanceChanged)
 
-    // Position of the touch point performing the drag.
+    // The distance travelled by the finger along the axis specified by
+    // DirectionalDragArea's direction in scene coordinates
+    Q_PROPERTY(qreal sceneDistance READ sceneDistance NOTIFY sceneDistanceChanged)
+
+    // Position of the touch point performing the drag relative to this item.
     Q_PROPERTY(qreal touchX READ touchX NOTIFY touchXChanged)
     Q_PROPERTY(qreal touchY READ touchY NOTIFY touchYChanged)
+
+    // Position of the touch point performing the drag, in scene's coordinate system
+    Q_PROPERTY(qreal touchSceneX READ touchSceneX NOTIFY touchSceneXChanged)
+    Q_PROPERTY(qreal touchSceneY READ touchSceneY NOTIFY touchSceneYChanged)
 
     // The current status of the directional drag gesture area.
     Q_PROPERTY(Status status READ status NOTIFY statusChanged)
@@ -146,9 +154,13 @@ public:
     Status status() const { return m_status; }
 
     qreal distance() const;
+    qreal sceneDistance() const;
 
     qreal touchX() const;
     qreal touchY() const;
+
+    qreal touchSceneX() const;
+    qreal touchSceneY() const;
 
     bool dragging() const { return (m_status == Undecided) || (m_status == Recognized); }
 
@@ -180,6 +192,7 @@ Q_SIGNALS:
     void statusChanged(Status value);
     void draggingChanged(bool value);
     void distanceChanged(qreal value);
+    void sceneDistanceChanged(qreal value);
     void maxDeviationChanged(qreal value);
     void wideningAngleChanged(qreal value);
     void distanceThresholdChanged(qreal value);
@@ -187,6 +200,8 @@ Q_SIGNALS:
     void maxSilenceTimeChanged(int value);
     void touchXChanged(qreal value);
     void touchYChanged(qreal value);
+    void touchSceneXChanged(qreal value);
+    void touchSceneYChanged(qreal value);
 
 protected:
     virtual void touchEvent(QTouchEvent *event);
@@ -205,12 +220,15 @@ private:
     const QTouchEvent::TouchPoint *fetchTargetTouchPoint(QTouchEvent *event);
     void setStatus(Status newStatus);
     void setPreviousPos(QPointF point);
+    void setPreviousScenePos(QPointF point);
     void updateVelocityCalculator(QPointF point);
 
     Status m_status;
 
     QPointF m_startPos;
+    QPointF m_startScenePos;
     QPointF m_previousPos;
+    QPointF m_previousScenePos;
     int m_touchId;
 
     // A movement damper is used in some of the gesture recognition calculations

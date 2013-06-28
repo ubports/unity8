@@ -65,6 +65,8 @@ private Q_SLOTS:
     void minSpeed_data();
     void recognitionTimerUsage();
     void maxSilenceTime();
+    void sceneXAndX();
+    void sceneYAndY();
 
 private:
     QQuickView *createView();
@@ -452,6 +454,64 @@ void tst_DirectionalDragArea::maxSilenceTime()
     }
 
     QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::Rejected);
+}
+
+/*
+  Checks that it informs the X coordinate of the touch point in local and scene coordinates
+  correctly.
+ */
+void tst_DirectionalDragArea::sceneXAndX()
+{
+    DirectionalDragArea *edgeDragArea =
+        view->rootObject()->findChild<DirectionalDragArea*>("hnDragArea");
+    QVERIFY(edgeDragArea != 0);
+    edgeDragArea->setRecognitionTimer(fakeTimer);
+    edgeDragArea->setTimeSource(fakeTimeSource);
+
+    QPointF touchScenePos(view->width() - (edgeDragArea->width()/2.0f), view->height()/2.0f);
+
+    fakeTimeSource->m_msecsSinceReference = 0;
+    QTest::touchEvent(view, device).press(0, touchScenePos.toPoint());
+
+    QSignalSpy touchXSpy(edgeDragArea, SIGNAL(touchXChanged(qreal)));
+    QSignalSpy touchSceneXSpy(edgeDragArea, SIGNAL(touchSceneXChanged(qreal)));
+
+    touchScenePos.rx() = view->width() / 2;
+    QTest::touchEvent(view, device).move(0, touchScenePos.toPoint());
+
+    QCOMPARE(touchXSpy.count(), 1);
+    QCOMPARE(touchSceneXSpy.count(), 1);
+    QCOMPARE(edgeDragArea->touchX(), touchScenePos.x() - edgeDragArea->x());
+    QCOMPARE(edgeDragArea->touchSceneX(), touchScenePos.x());
+}
+
+/*
+  Checks that it informs the Y coordinate of the touch point in local and scene coordinates
+  correctly.
+ */
+void tst_DirectionalDragArea::sceneYAndY()
+{
+    DirectionalDragArea *edgeDragArea =
+        view->rootObject()->findChild<DirectionalDragArea*>("vnDragArea");
+    QVERIFY(edgeDragArea != 0);
+    edgeDragArea->setRecognitionTimer(fakeTimer);
+    edgeDragArea->setTimeSource(fakeTimeSource);
+
+    QPointF touchScenePos(view->width()/2.0f, view->height() - (edgeDragArea->height()/2.0f));
+
+    fakeTimeSource->m_msecsSinceReference = 0;
+    QTest::touchEvent(view, device).press(0, touchScenePos.toPoint());
+
+    QSignalSpy touchYSpy(edgeDragArea, SIGNAL(touchYChanged(qreal)));
+    QSignalSpy touchSceneYSpy(edgeDragArea, SIGNAL(touchSceneYChanged(qreal)));
+
+    touchScenePos.ry() = view->height() / 2;
+    QTest::touchEvent(view, device).move(0, touchScenePos.toPoint());
+
+    QCOMPARE(touchYSpy.count(), 1);
+    QCOMPARE(touchSceneYSpy.count(), 1);
+    QCOMPARE(edgeDragArea->touchY(), touchScenePos.y() - edgeDragArea->y());
+    QCOMPARE(edgeDragArea->touchSceneY(), touchScenePos.y());
 }
 
 QTEST_MAIN(tst_DirectionalDragArea)
