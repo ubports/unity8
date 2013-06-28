@@ -19,12 +19,19 @@
 
 // Self
 #include "scope.h"
+
+// local
 #include "categories.h"
+#include "preview.h"
+#include "variantutils.h"
 
 // Qt
 #include <QUrl>
 #include <QDebug>
 #include <QtGui/QDesktopServices>
+#include <QQmlEngine>
+
+#include <UnityCore/Variant.h>
 
 #include <libintl.h>
 
@@ -118,19 +125,76 @@ void Scope::setNoResultsHint(const QString& hint) {
     }
 }
 
-void Scope::activate(const QString& /*uri*/)
+
+unity::dash::LocalResult Scope::createLocalResult(const QVariant &uri, const QVariant &icon_hint,
+                                                  const QVariant &category, const QVariant &result_type,
+                                                  const QVariant &mimetype, const QVariant &title,
+                                                  const QVariant &comment, const QVariant &dnd_uri,
+                                                  const QVariant &metadata)
 {
-    // TODO:
-    // we need to create unity::dash::LocalResult (see UnityCore/Result.h) and pass it to Activate;
-    // this requires entire row from the model, so we need row index rather than uri.
-    // m_unityScope->Activate(QByteArray::fromPercentEncoding(uri.toUtf8()).constData());
+    unity::dash::LocalResult res;
+    res.uri = uri.toString().toStdString();
+    res.icon_hint = icon_hint.toString().toStdString();
+    res.category_index = category.toUInt();
+    res.result_type = result_type.toUInt();
+    res.mimetype = mimetype.toString().toStdString();
+    res.name = title.toString().toStdString();
+    res.comment = comment.toString().toStdString();
+    res.dnd_uri = dnd_uri.toString().toStdString();
+    res.hints = convertToHintsMap(metadata);
+
+    return res;
 }
 
-void Scope::onActivated(unity::dash::LocalResult const& result, unity::dash::ScopeHandledType type, unity::glib::HintsMap const&)
+void Scope::activate(const QVariant &uri, const QVariant &icon_hint, const QVariant &category,
+                     const QVariant &result_type, const QVariant &mimetype, const QVariant &title,
+                     const QVariant &comment, const QVariant &dnd_uri, const QVariant &metadata)
 {
-    if (type == unity::dash::NOT_HANDLED) {
-        fallbackActivate(QString::fromStdString(result.uri));
+    auto res = createLocalResult(uri, icon_hint, category, result_type, mimetype, title, comment, dnd_uri, metadata);
+    m_unityScope->Activate(res);
+}
+
+void Scope::preview(const QVariant &uri, const QVariant &icon_hint, const QVariant &category,
+             const QVariant &result_type, const QVariant &mimetype, const QVariant &title,
+             const QVariant &comment, const QVariant &dnd_uri, const QVariant &metadata)
+{
+    auto res = createLocalResult(uri, icon_hint, category, result_type, mimetype, title, comment, dnd_uri, metadata);
+    m_unityScope->Preview(res);
+}
+
+void Scope::onActivated(unity::dash::LocalResult const& result, unity::dash::ScopeHandledType type, unity::glib::HintsMap const& hints)
+{
+    // note: we will not get called on SHOW_PREVIEW, instead UnityCore will signal preview_ready.
+    switch (type)
+    {
+        case unity::dash::NOT_HANDLED:
+            fallbackActivate(QString::fromStdString(result.uri));
+            break;
+        case unity::dash::SHOW_DASH:
+            Q_EMIT showDash();
+            break;
+        case unity::dash::HIDE_DASH:
+            Q_EMIT hideDash();
+            break;
+        case unity::dash::GOTO_DASH_URI:
+            if (hints.find("goto-uri") != hints.end()) {
+                Q_EMIT gotoUri(QString::fromStdString(g_variant_get_string(hints.at("goto-uri"), nullptr)));
+            } else {
+                qWarning() << "Missing goto-uri hint for GOTO_DASH_URI activation reply";
+            }
+            break;
+        default:
+            qWarning() << "Unhandled activation response:" << type;
     }
+}
+
+void Scope::onPreviewReady(unity::dash::LocalResult const& /* result */, unity::dash::Preview::Ptr const& preview)
+{
+    auto prv = Preview::newFromUnityPreview(preview);
+    // is this the best solution? QML may need to keep more than one preview instance around, so we can't own it.
+    // passing it by value is not possible.
+    QQmlEngine::setObjectOwnership(prv, QQmlEngine::JavaScriptOwnership);
+    Q_EMIT previewReady(prv);
 }
 
 void Scope::fallbackActivate(const QString& uri)
@@ -161,10 +225,10 @@ void Scope::fallbackActivate(const QString& uri)
         return;
     }
 
-    qWarning() << "FIXME: Possibly no handler for scheme: " << url.scheme();
-    qWarning() << "Trying to open" << tweakedUri;
+    qDebug() << "Trying to open" << uri;
+
     /* Try our luck */
-    QDesktopServices::openUrl(url);
+    QDesktopServices::openUrl(uri); //url?
 }
 
 void Scope::setUnityScope(const unity::dash::Scope::Ptr& scope)
@@ -203,6 +267,8 @@ void Scope::setUnityScope(const unity::dash::Scope::Ptr& scope)
 
     /* FIXME: signal should be forwarded instead of calling the handler directly */
     m_unityScope->activated.connect(sigc::mem_fun(this, &Scope::onActivated));
+
+    m_unityScope->preview_ready.connect(sigc::mem_fun(this, &Scope::onPreviewReady));
 
     /* Synchronize local states with m_unityScope right now and whenever
        m_unityScope becomes connected */
