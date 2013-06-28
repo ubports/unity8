@@ -18,7 +18,7 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 
 Button {
-    ItemStyle.class: "transparent-button"
+    color: "transparent"
 
     property alias source: image.source
 
