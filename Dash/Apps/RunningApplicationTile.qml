@@ -57,41 +57,30 @@ AbstractButton {
         applicationImage.updateFromCache();
     }
 
-    // START-FIXME: should use UbuntuShape from SDK, when it can
-    // shape arbitrary items.
-
-    ShaderEffectSource {
-        id: ses
-        sourceItem: ApplicationImage {
-            id: applicationImage
-            source: application
-            width: shapedApplicationImage.width
-            height: shapedApplicationImage.height
-            fillMode: ApplicationImage.PreserveAspectCrop
-        }
-
-        width: 1
-        height: 1
-        hideSource: true
-    }
-
-    Shape {
+    // FIXME: should use UbuntuShape from SDK
+    UbuntuShapeForItem {
         id: shapedApplicationImage
         anchors {
             top: parent.top
             horizontalCenter: parent.horizontalCenter
         }
 
-        radius: "medium"
-        image: ses
-
         // FIXME: width and height should be defined according to the
         // application window's aspect ratio.
         width: (application.stage === ApplicationInfo.MainStage && __sideStageEnabled) ?
             units.gu(22) : units.gu(11)
         height: (__sideStageEnabled) ? units.gu(22) : units.gu(19)
+        radius: "medium"
+        image: applicationImage
     }
-    // END-FIXME
+
+    ApplicationImage {
+        id: applicationImage
+        source: application
+        width: shapedApplicationImage.width
+        height: shapedApplicationImage.height
+        fillMode: ApplicationImage.PreserveAspectCrop
+    }
 
     UbuntuShape {
         id: borderPressed
