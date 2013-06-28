@@ -12,11 +12,10 @@ include_directories(
 )
 
 set(QMLPLUGIN_SRC
-    ../Utils/qsortfilterproxymodelqml.cpp # FIXME evaluate a more generic approach for using other plugins
     scope.cpp
     scopes.cpp
     categories.cpp
-    categoryfilter.cpp
+    categoryresults.cpp
     plugin.cpp
     bottombarvisibilitycommunicatorshell.cpp
     launchermodel.cpp

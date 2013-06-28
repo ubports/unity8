@@ -18,60 +18,51 @@
  */
 
 
-#ifndef CATEGORIES_H
-#define CATEGORIES_H
-
-// unity-core
-#include <UnityCore/Scope.h>
+#ifndef CATEGORY_RESULTS_H
+#define CATEGORY_RESULTS_H
 
 // dee-qt
 #include "deelistmodel.h"
 
-#include <QSet>
-#include <QTimer>
-
-class Categories : public DeeListModel
+class CategoryResults : public DeeListModel
 {
     Q_OBJECT
 
     Q_ENUMS(Roles)
 
+    Q_PROPERTY(int categoryIndex READ categoryIndex WRITE setCategoryIndex NOTIFY categoryIndexChanged)
+
 public:
-    explicit Categories(QObject* parent = 0);
-    ~Categories();
+    explicit CategoryResults(QObject* parent = 0);
+    ~CategoryResults();
 
     enum Roles {
-        RoleId,
-        RoleName,
-        RoleIcon,
-        RoleRenderer,
-        RoleContentType,
-        RoleHints,
-        RoleResults,
-        RoleCount
+        RoleUri,
+        RoleIconHint,
+        //RoleCategory,   // not needed
+        //RoleResultType, // not needed
+        RoleMimetype,
+        RoleTitle,
+        RoleComment,
+        RoleDndUri
     };
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
 
     QHash<int, QByteArray> roleNames() const;
 
-    /* setters */
-    void setUnityScope(const unity::dash::Scope::Ptr& scope);
+    /* getters */
+    int categoryIndex() const;
 
-private Q_SLOTS:
-    void onCountChanged();
-    void onEmitCountChanged();
+    /* setters */
+    void setCategoryIndex(int index);
+
+Q_SIGNALS:
+    void categoryIndexChanged(int index);
 
 private:
-    void onCategoriesModelChanged(unity::glib::Object<DeeModel> model);
-
-    DeeListModel* getFilter(int index) const;
-
-    unity::dash::Scope::Ptr m_unityScope;
-    QTimer m_timer;
-    QSet<DeeListModel*> m_timerFilters;
     QHash<int, QByteArray> m_roles;
-    mutable QMap<int, std::shared_ptr<DeeListModel>> m_filters;
+    int m_category_index;
 };
 
-#endif // CATEGORIES_H
+#endif // CATEGORY_RESULTS_H

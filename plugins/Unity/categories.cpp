@@ -19,11 +19,10 @@
 
 // self
 #include "categories.h"
-#include "categoryfilter.h"
+#include "categoryresults.h"
 
 Categories::Categories(QObject* parent)
     : DeeListModel(parent)
-    , m_resultModel(0)
 {
     // FIXME: need to clean up unused filters on countChanged
     m_roles[Categories::RoleId] = "id";
@@ -45,42 +44,57 @@ Categories::Categories(QObject* parent)
 
 Categories::~Categories()
 {
-    qDeleteAll(m_filters);
 }
 
-CategoryFilter*
+DeeListModel*
 Categories::getFilter(int index) const
 {
     if (!m_filters.contains(index)) {
-        CategoryFilter* filter = new CategoryFilter();
-        connect(filter, SIGNAL(countChanged()), this, SLOT(onCountChanged()));
-        filter->setModel(m_resultModel);
-        filter->setIndex(index);
+        auto results = std::make_shared<CategoryResults> ();
+        results->setCategoryIndex(index);
+        connect(results.get(), SIGNAL(countChanged()), this, SLOT(onCountChanged()));
 
-        m_filters.insert(index, filter);
+        unsigned cat_index = static_cast<unsigned>(index);
+        auto unity_results = m_unityScope->GetResultsForCategory(cat_index);
+        results->setModel(unity_results->model());
+
+        m_filters.insert(index, results);
     }
 
-    return m_filters[index];
+    return m_filters[index].get();
+}
+
+void Categories::onCategoriesModelChanged(unity::glib::Object<DeeModel> model)
+{
+    m_timerFilters.clear();
+    m_filters.clear();
+
+    setModel(model);
 }
 
 void
-Categories::setResultModel(DeeListModel* model)
+Categories::setUnityScope(const unity::dash::Scope::Ptr& scope)
 {
-    if (model != m_resultModel) {
-        m_resultModel = model;
+    m_unityScope = scope;
 
+    // no need to call this, we'll get notified
+    //setModel(m_unityScope->categories()->model());
+
+    m_unityScope->categories()->model.changed.connect(sigc::mem_fun(this, &Categories::onCategoriesModelChanged));
+
+    /*
+    if (model != m_resultModel) {
         Q_FOREACH(CategoryFilter* filter, m_filters) {
             filter->setModel(m_resultModel);
         }
-
-        Q_EMIT resultModelChanged(m_resultModel);
     }
+    */
 }
 
 void
 Categories::onCountChanged()
 {
-    CategoryFilter* filter = qobject_cast<CategoryFilter*>(sender());
+    DeeListModel* filter = qobject_cast<DeeListModel*>(sender());
     if (filter) {
         m_timerFilters << filter;
         m_timer.start();
@@ -92,8 +106,9 @@ Categories::onEmitCountChanged()
 {
     QVector<int> roles;
     roles.append(Categories::RoleCount);
-    Q_FOREACH(CategoryFilter* filter, m_timerFilters) {
-        QModelIndex changedIndex = index(filter->index());
+    Q_FOREACH(DeeListModel* results, m_timerFilters) {
+        auto cat_results = qobject_cast<CategoryResults*>(results);
+        QModelIndex changedIndex = index(cat_results->categoryIndex());
         Q_EMIT dataChanged(changedIndex, changedIndex, roles);
     }
     m_timerFilters.clear();
@@ -116,25 +131,22 @@ Categories::data(const QModelIndex& index, int role) const
         case RoleId:
             return QVariant::fromValue(index.row());
         case RoleName:
-            return QVariant::fromValue(DeeListModel::data(index, 1)); //DISPLAY_NAME
+            return DeeListModel::data(index, 1); //DISPLAY_NAME
         case RoleIcon:
-            return QVariant::fromValue(DeeListModel::data(index, 2)); //ICON_HINT
+            return DeeListModel::data(index, 2); //ICON_HINT
         case RoleRenderer:
-            return QVariant::fromValue(DeeListModel::data(index, 3)); //RENDERER_NAME
+            return DeeListModel::data(index, 3); //RENDERER_NAME
         case RoleContentType:
         {
-            auto hints = QVariant::fromValue(DeeListModel::data(index, 4)).toHash();
+            auto hints = DeeListModel::data(index, 4).toHash();
             return hints.contains("content-type") ? hints["content-type"] : QVariant(QString("default"));
         }
         case RoleHints:
-            return QVariant::fromValue(DeeListModel::data(index, 4)); //HINTS
+            return DeeListModel::data(index, 4); //HINTS
         case RoleResults:
             return QVariant::fromValue(getFilter(index.row()));
         case RoleCount:
-        {
-            CategoryFilter* filter = getFilter(index.row());
-            return QVariant::fromValue(filter->rowCount());
-        }
+            return QVariant::fromValue(getFilter(index.row())->rowCount());
         default:
             return QVariant();
     }

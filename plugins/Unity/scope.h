@@ -32,7 +32,7 @@
 // dee-qt
 #include "deelistmodel.h"
 
-class Categories;
+#include "categories.h"
 
 class Scope : public QObject
 {
@@ -46,11 +46,11 @@ class Scope : public QObject
     Q_PROPERTY(bool visible READ visible NOTIFY visibleChanged)
     Q_PROPERTY(QString shortcut READ shortcut NOTIFY shortcutChanged)
     Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
-    Q_PROPERTY(DeeListModel* results READ results NOTIFY resultsChanged)
     Q_PROPERTY(Categories* categories READ categories NOTIFY categoriesChanged)
 
     Q_PROPERTY(QString searchQuery READ searchQuery WRITE setSearchQuery NOTIFY searchQueryChanged)
     Q_PROPERTY(QString noResultsHint READ noResultsHint WRITE setNoResultsHint NOTIFY noResultsHintChanged)
+    Q_PROPERTY(QString formFactor READ formFactor WRITE setFormFactor NOTIFY formFactorChanged)
 
 public:
     explicit Scope(QObject *parent = 0);
@@ -64,14 +64,15 @@ public:
     bool visible() const;
     QString shortcut() const;
     bool connected() const;
-    DeeListModel* results() const;
     Categories* categories() const;
     QString searchQuery() const;
     QString noResultsHint() const;
+    QString formFactor() const;
 
     /* setters */
     void setSearchQuery(const QString& search_query);
     void setNoResultsHint(const QString& hint);
+    void setFormFactor(const QString& form_factor);
 
     Q_INVOKABLE void activate(const QString& uri);
     void setUnityScope(const unity::dash::Scope::Ptr& scope);
@@ -88,32 +89,29 @@ Q_SIGNALS:
     void visibleChanged(bool);
     void shortcutChanged(const std::string&);
     void connectedChanged(bool);
-    void resultsChanged();
     void categoriesChanged();
     void searchFinished(const std::string&, unity::glib::HintsMap const&, unity::glib::Error const&);
     void searchQueryChanged();
     void noResultsHintChanged();
+    void formFactorChanged();
 
 private Q_SLOTS:
     void synchronizeStates();
     void onSearchFinished(const std::string &, unity::glib::HintsMap const &);
 
 private:
-    void onResultsSwarmNameChanged(const std::string&);
-    void onResultsChanged(const unity::dash::Results::Ptr&);
     void onResultsModelChanged(unity::glib::Object<DeeModel>);
-    void onCategoriesSwarmNameChanged(const std::string&);
     void onCategoriesModelChanged(unity::glib::Object<DeeModel>);
-    void onCategoriesChanged(const unity::dash::Categories::Ptr&);
 
     void onActivated(unity::dash::LocalResult const& result, unity::dash::ScopeHandledType type, unity::glib::HintsMap const&);
     void fallbackActivate(const QString& uri);
 
     unity::dash::Scope::Ptr m_unityScope;
-    DeeListModel* m_results;
-    Categories* m_categories;
+    std::unique_ptr<DeeListModel> m_results;
+    std::unique_ptr<Categories> m_categories;
     QString m_searchQuery;
     QString m_noResultsHint;
+    QString m_formFactor;
 };
 
 Q_DECLARE_METATYPE(Scope*)
