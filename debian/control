@@ -45,7 +45,7 @@ Depends: ${misc:Depends},
          qtdeclarative5-unity-notifications-plugin | unity-notifications-impl,
          unity-notifications-impl-1,
          qtdeclarative5-xmllistmodel-plugin,
-         qtubuntu,
+         unity8-fake-env | qtubuntu-shell,
 Recommends: indicators-client-plugin-datetime (>= 0.6.1),
             indicators-client-plugin-messaging (>= 0.6.1),
             indicators-client-plugin-network (>= 0.6.1),
@@ -72,6 +72,7 @@ Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends}
 Depends: ${misc:Depends},
          ${shlibs:Depends},
+Provides: qtubuntu-shell,
 Description: Fake environment for running Unity 8 shell
  Provides fake implementations of some QML modules used by Unity 8 shell
  (e.g Ubuntu.Application) so that you can run it in a sandboxed environment.
