@@ -131,13 +131,13 @@ Preview* Preview::newFromUnityPreview(unity::dash::Preview::Ptr unityPreview)
         preview = new GenericPreview();
     }
 
-    preview->Preview::setUnityPreview(unityPreview);
+    preview->setUnityPreviewBase(unityPreview);
     preview->setUnityPreview(unityPreview);
 
     return preview;
 }
 
-void Preview::setUnityPreview(unity::dash::Preview::Ptr unityPreview)
+void Preview::setUnityPreviewBase(unity::dash::Preview::Ptr unityPreview)
 {
     m_unityPreview = unityPreview;
 
@@ -161,6 +161,11 @@ void Preview::setUnityPreview(unity::dash::Preview::Ptr unityPreview)
     Q_EMIT infoHintsChanged();
     Q_EMIT imageChanged();
     Q_EMIT imageSourceUriChanged();
+}
+
+void Preview::setUnityPreview(unity::dash::Preview::Ptr /* unityPreview */)
+{
+    // default implementation does nothing
 }
 
 void Preview::execute(const QString& actionId, const QHash<QString, QVariant>& hints)
