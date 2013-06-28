@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-06-19 17:06+0200\n"
+"POT-Creation-Date: 2013-06-26 22:58+0200\n"
 "PO-Revision-Date: 2013-06-25 08:02+0000\n"
 "Last-Translator: Gheyret T.Kenji <Unknown>\n"
 "Language-Team: Uyghur <ug@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-26 06:20+0000\n"
+"X-Launchpad-Export-Date: 2013-06-27 16:16+0000\n"
 "X-Generator: Launchpad (build 16681)\n"
 
 #: Applications/applications.js:23
@@ -109,27 +109,19 @@ msgstr "چۈشۈرگىلى بولىدىغانلىرى"
 msgid "Apps"
 msgstr "ئەپلەر"
 
-#: Dash/DashHome.qml:43
+#: Dash/DashHome.qml:40
 msgid "Frequent Apps"
 msgstr "دائىم ئىشلىتىلىدىغان ئەپلەر"
 
-#: Dash/DashHome.qml:46
-msgid "Favourite People"
-msgstr "ھەمىشە ئالاقە قىلىدىغان كىشىلەر"
-
-#: Dash/DashHome.qml:49
-msgid "People Recently in Touch"
-msgstr "يېقىندا ئالاقە قىلغان كىشىلەر"
-
-#: Dash/DashHome.qml:52
+#: Dash/DashHome.qml:43
 msgid "Recent Music"
 msgstr "يېقىندا ئاڭلىغان مۇزىكىلار"
 
-#: Dash/DashHome.qml:55
+#: Dash/DashHome.qml:46
 msgid "Videos Popular Online"
 msgstr "توردىكى ئالقىشقا ئېرىشكەن سىنلار"
 
-#: Dash/DashHome.qml:197 plugins/Unity/lenses.cpp:38
+#: Dash/DashHome.qml:175
 msgid "Home"
 msgstr "ماكان"
 
@@ -153,26 +145,6 @@ msgstr ""
 msgid "Music"
 msgstr "مۇزىكا"
 
-#: Dash/DashPeople.qml:31
-msgid "Favourites"
-msgstr ""
-
-#: Dash/DashPeople.qml:32
-msgid "Recently in touch"
-msgstr "يېقىندا ئالاقە قىلغانلار"
-
-#: Dash/DashPeople.qml:33
-msgid "New Contacts"
-msgstr "يېڭى ئالاقەداشلار"
-
-#: Dash/DashPeople.qml:34
-msgid "A-Z"
-msgstr "A-Z"
-
-#: Dash/DashPeople.qml:123
-msgid "People"
-msgstr "كىشىلەر"
-
 #: Dash/DashVideos.qml:31
 msgid "Popular Online"
 msgstr ""
@@ -193,7 +165,7 @@ msgstr ""
 msgid "Author:"
 msgstr "ئاپتور:"
 
-#: Greeter/Lockscreen.qml:126
+#: Greeter/Lockscreen.qml:133
 msgid "Emergency call"
 msgstr "جىددىي تېلېفون"
 
@@ -234,19 +206,36 @@ msgstr "ئۈسكۈنە"
 msgid "Flight mode"
 msgstr "ئايروپىلاندا"
 
-#: Panel/SearchIndicator.qml:26 plugins/Unity/lenses.cpp:40
+#: Panel/SearchIndicator.qml:26
 msgid "Search"
 msgstr "ئىزدە"
 
-#: plugins/Unity/lens.cpp:333
+#: plugins/Unity/scope.cpp:268
 msgid "Sorry, there is nothing that matches your search."
 msgstr "كەچۈرۈڭ، ئىزدىگىنىڭىزگە ماس نەتىجە تېپىلمىدى."
 
-#: plugins/Unity/lenses.cpp:39
-msgid "Home screen"
-msgstr "ماكان ئېكران"
-
-#: Shell.qml:380
+#: Shell.qml:383
 #, qt-format
-msgid "Please enter %1:"
-msgstr "%1 نى كىرگۈزۈڭ:"
+msgid "Please enter %1"
+msgstr ""
+
+#~ msgid "Favourite People"
+#~ msgstr "ھەمىشە ئالاقە قىلىدىغان كىشىلەر"
+
+#~ msgid "People Recently in Touch"
+#~ msgstr "يېقىندا ئالاقە قىلغان كىشىلەر"
+
+#~ msgid "People"
+#~ msgstr "كىشىلەر"
+
+#~ msgid "Home screen"
+#~ msgstr "ماكان ئېكران"
+
+#~ msgid "A-Z"
+#~ msgstr "A-Z"
+
+#~ msgid "Recently in touch"
+#~ msgstr "يېقىندا ئالاقە قىلغانلار"
+
+#~ msgid "New Contacts"
+#~ msgstr "يېڭى ئالاقەداشلار"
