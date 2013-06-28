@@ -23,7 +23,7 @@ def execute_makecheck(local_branch, master_branch, old_revision_number, old_revi
 
     os.chdir(local_path_from_url(master_branch.base))
 
-    print "Executing 'make check'.."
+    print "Executing 'make -C builddir test'.."
     os.environ['CTEST_OUTPUT_ON_FAILURE'] = "1"
     if (subprocess.call("make -C builddir test", shell=True) != 0):
 
