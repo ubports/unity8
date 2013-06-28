@@ -49,6 +49,9 @@ install_dependencies() {
                          indicators-client-plugin-* \
                          ubuntu-mobile-icons \
                          unity-notifications-impl-1 \
+                         unity-scope-home \
+                         unity-lens-applications \
+
         || exit 5
 }
 
