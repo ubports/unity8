@@ -181,17 +181,10 @@ Item {
         }
     }
 
-    DirectionalDragArea {
+    EdgeDragArea {
         id: dragArea
 
         direction: Direction.Rightwards
-
-        // values to be tweaked and later removed from here and set in stone as defaults
-        // once we are confident it's all good.
-        maxDeviation: units.gu(1)
-        wideningAngle: 30
-        distanceThreshold: units.gu(3)
-        minSpeed: units.gu(5)
 
         enabled: root.available && root.state !== "visible"
         width: root.dragAreaWidth
