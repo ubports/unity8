@@ -74,14 +74,14 @@ Item {
             tryCompare(greeter, "rightTeaserPressed", false)
         }
 
-        function test_tease_data() {
+        function test_teaseLockedUnlocked_data() {
             return [
                 {tag: "unlocked", locked: false},
                 {tag: "locked", locked: true}
             ];
         }
 
-        function test_tease(data) {
+        function test_teaseLockedUnlocked(data) {
             tryCompare(greeter, "rightTeaserPressed", false);
             tryCompare(greeter, "x", 0);
             greeter.locked = data.locked;
