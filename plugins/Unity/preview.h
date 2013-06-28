@@ -31,10 +31,10 @@
 // local
 #include "previewaction.h"
 
-class Preview : public QObject
+class Q_DECL_EXPORT Preview : public QObject
 {
     Q_OBJECT
-    
+
     Q_PROPERTY(QString rendererName READ rendererName NOTIFY rendererNameChanged)
     Q_PROPERTY(QString title READ title NOTIFY titleChanged)
     Q_PROPERTY(QString subtitle READ subtitle NOTIFY subtitleChanged)
@@ -43,7 +43,7 @@ class Preview : public QObject
     Q_PROPERTY(QVariant infoHints READ infoHints NOTIFY infoHintsChanged)
     Q_PROPERTY(QString image READ image NOTIFY imageChanged)
     Q_PROPERTY(QString imageSourceUri READ imageSourceUri NOTIFY imageSourceUriChanged)
-    
+
 public:
     explicit Preview(QObject *parent = 0);
     static Preview* newFromUnityPreview(unity::dash::Preview::Ptr unityPreview);

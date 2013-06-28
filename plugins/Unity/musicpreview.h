@@ -30,11 +30,9 @@
 // libunity-core
 #include <UnityCore/MusicPreview.h>
 
+class DeeListModel;
 
-// dee-qt
-#include "deelistmodel.h"
-
-class MusicPreview: public Preview
+class Q_DECL_EXPORT MusicPreview: public Preview
 {
     Q_OBJECT
 

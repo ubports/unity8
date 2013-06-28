@@ -20,6 +20,9 @@
 #include "musicpreview.h"
 #include <QDebug>
 
+// dee-qt
+#include "deelistmodel.h"
+
 MusicPreview::MusicPreview(QObject *parent):
     Preview(parent),
     m_unityMusicPreview(nullptr)

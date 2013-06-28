@@ -30,7 +30,7 @@
 // libunity-core
 #include <UnityCore/ApplicationPreview.h>
 
-class ApplicationPreview: public Preview
+class Q_DECL_EXPORT ApplicationPreview: public Preview
 {
     Q_OBJECT
 

@@ -58,7 +58,7 @@ unsigned int MoviePreview::numRatings() const
     }
     return 0;
 }
-    
+
 void MoviePreview::setUnityPreview(unity::dash::Preview::Ptr unityPreview)
 {
     m_unityMoviePreview = std::dynamic_pointer_cast<unity::dash::MoviePreview>(unityPreview);

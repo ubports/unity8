@@ -152,7 +152,7 @@ Preview* Preview::newFromUnityPreview(unity::dash::Preview::Ptr unityPreview)
         qWarning() << "Unknown preview type: " << typeid(*unityPreview).name();
         preview = new GenericPreview();
     }
-    
+
     preview->Preview::setUnityPreview(unityPreview);
     preview->setUnityPreview(unityPreview);
 
@@ -182,4 +182,3 @@ void Preview::execute(const QString& actionId, const QHash<QString, QVariant>& h
         qWarning() << "Preview not set";
     }
 }
-

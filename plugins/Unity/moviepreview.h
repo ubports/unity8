@@ -30,7 +30,7 @@
 // libunity-core
 #include <UnityCore/MoviePreview.h>
 
-class MoviePreview: public Preview
+class Q_DECL_EXPORT MoviePreview: public Preview
 {
     Q_OBJECT
 
