@@ -1472,7 +1472,7 @@ private Q_SLOTS:
         lvwph->showHeader();
 
         QTRY_VERIFY(!lvwph->m_headerShowAnimation->isRunning());
-        QVERIFY (lvwph->isAtYEnd());
+        QTRY_VERIFY (lvwph->isAtYEnd());
     }
 
     void growWindow()
