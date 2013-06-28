@@ -67,6 +67,7 @@ private Q_SLOTS:
     void maxSilenceTime();
     void sceneXAndX();
     void sceneYAndY();
+    void emitDraggingChangedOnDirectRecognition();
 
 private:
     QQuickView *createView();
@@ -512,6 +513,37 @@ void tst_DirectionalDragArea::sceneYAndY()
     QCOMPARE(touchSceneYSpy.count(), 1);
     QCOMPARE(edgeDragArea->touchY(), touchScenePos.y() - edgeDragArea->y());
     QCOMPARE(edgeDragArea->touchSceneY(), touchScenePos.y());
+}
+
+/*
+  Emit draggingChanged() when status change from WaitingForTouch directly to Recognized.
+  This happens when the gesture recognition is effectively disabled (e.g. by setting a
+  distanceThreshold of zero)
+ */
+void tst_DirectionalDragArea::emitDraggingChangedOnDirectRecognition()
+{
+    DirectionalDragArea *edgeDragArea =
+        view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
+    QVERIFY(edgeDragArea != 0);
+    edgeDragArea->setRecognitionTimer(fakeTimer);
+    edgeDragArea->setTimeSource(fakeTimeSource);
+
+    QPointF touchPos = calculateInitialTouchPos(edgeDragArea, view);
+
+    QSignalSpy draggingSpy(edgeDragArea, SIGNAL(draggingChanged(bool)));
+
+    // That will make it completetly skip the recognition phase ("Undecided" status).
+    edgeDragArea->setDistanceThreshold(0.0);
+
+    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::WaitingForTouch);
+    QCOMPARE(edgeDragArea->dragging(), false);
+
+    fakeTimeSource->m_msecsSinceReference = 0;
+    QTest::touchEvent(view, device).press(0, touchPos.toPoint());
+
+    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::Recognized);
+    QCOMPARE(draggingSpy.count(), 1);
+    QCOMPARE(edgeDragArea->dragging(), true);
 }
 
 QTEST_MAIN(tst_DirectionalDragArea)
