@@ -38,6 +38,7 @@ public:
 
     Q_INVOKABLE static bool isHorizontal(Direction::Type type);
     Q_INVOKABLE static bool isVertical(Direction::Type type);
+    Q_INVOKABLE static bool isPositive(Direction::Type type);
 };
 
 #endif // DIRECTION_H

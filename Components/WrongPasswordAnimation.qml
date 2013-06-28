@@ -26,14 +26,14 @@ SequentialAnimation {
         property: "anchors.horizontalCenterOffset"
         duration: 50
         easing.type: Easing.InQuad
-        to: units.gu(2)
+        to: units.gu(1)
     }
     NumberAnimation {
         target: root.target
         property: "anchors.horizontalCenterOffset"
         duration: 100
         easing.type: Easing.InOutQuad
-        to: -units.gu(2)
+        to: -units.gu(1)
     }
     NumberAnimation {
         target: root.target
@@ -41,6 +41,6 @@ SequentialAnimation {
         properties: "anchors.horizontalCenterOffset"
         to: 0
         duration: 400
-        easing.overshoot: units.gu(2)
+        easing.overshoot: units.gu(1)
     }
 }
