@@ -1,24 +1,14 @@
 file(GLOB Indicators_QMLFILES
     *.qml
+    qmldir
 )
 
-# copy qmldir file into build directory for shadow builds
-file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
-    DESTINATION ${CMAKE_BINARY_DIR}/modules/Unity/Indicators
-)
-
-# copy qmldir file into build directory for shadow builds
-file(COPY ${Indicators_QMLFILES}
-    DESTINATION ${CMAKE_BINARY_DIR}/modules/Unity/Indicators
-)
-
-install(FILES qmldir
-        DESTINATION ${SHELL_APP_DIR}/modules/Unity/Indicators
+# copy qml & qmldir files into build directory for shadow builds
+add_custom_target(UnityIndicatorsQmlFiles ALL
+    COMMAND cp ${Indicators_QMLFILES} ${CMAKE_BINARY_DIR}/modules/Unity/Indicators
+    DEPENDS ${Indicators_QMLFILES}
 )
 
 install(FILES ${Indicators_QMLFILES}
         DESTINATION ${SHELL_APP_DIR}/modules/Unity/Indicators
 )
-
-add_subdirectory(messaging)
-add_subdirectory(network)

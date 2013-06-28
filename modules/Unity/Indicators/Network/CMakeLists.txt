@@ -35,3 +35,5 @@ if(LIBNM_GLIB_FOUND AND LIBNM_UTIL_FOUND AND GLIB_FOUND)
 else()
     message(WARNING "Missing glib or libnm dependency for the network plugin, not building")
 endif()
+
+add_subdirectory(qml)
