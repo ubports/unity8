@@ -30,9 +30,24 @@ UbuntuShape {
     property var type
     property var notification
 
-    implicitHeight: childrenRect.height
+    objectName: "background"
+    implicitHeight: contentColumn.height + contentColumn.spacing * 2
     color: Qt.rgba(0, 0, 0, 0.85)
     opacity: 0
+
+    clip: true
+
+    Behavior on implicitHeight {
+        id: heightBehavior
+
+        enabled: false
+        UbuntuNumberAnimation {
+            duration: UbuntuAnimation.SnapDuration
+        }
+    }
+
+    // delay enabling height behavior until the add transition is complete
+    onOpacityChanged: if (opacity == 1) heightBehavior.enabled = true
 
     MouseArea {
         id: interactiveArea
@@ -52,7 +67,7 @@ UbuntuShape {
             top: parent.top
             margins: spacing
         }
-        height: childrenRect.height + spacing
+
         spacing: units.gu(1)
 
         Row {
@@ -125,30 +140,112 @@ UbuntuShape {
             }
         }
 
-        Row {
+        Item {
             id: buttonRow
 
             objectName: "buttonRow"
-            spacing: contentColumn.spacing
-            layoutDirection: Qt.RightToLeft
+            anchors {
+                left: parent.left
+                right: parent.right
+            }
             visible: notification.type == Notification.SnapDecision
+            height: units.gu(4)
+
+            property real buttonWidth: (width - contentColumn.spacing) / 2
+            property bool expanded
+
+            Button {
+                id: leftButton
+
+                objectName: "button1"
+                width: parent.expanded ? parent.width : parent.buttonWidth
+                anchors {
+                    top: parent.top
+                    bottom: parent.bottom
+                }
+                text: notification.type == Notification.SnapDecision && actionRepeater.count >= 2 ? actionRepeater.itemAt(1).actionLabel : ""
+                color: "#cdcdcb"
+                onClicked: {
+                    if (actionRepeater.count > 2) {
+                        buttonRow.expanded = !buttonRow.expanded
+                    } else {
+                        notification.notification.invokeAction(actionRepeater.itemAt(1).actionId)
+                    }
+                }
+
+                Behavior on width {
+                    UbuntuNumberAnimation {
+                        duration: UbuntuAnimation.SnapDuration
+                    }
+                }
+            }
+
+            Button {
+                id: rightButton
+
+                objectName: "button0"
+                anchors {
+                    left: leftButton.right
+                    leftMargin: contentColumn.spacing
+                    right: parent.right
+                }
+                text: notification.type == Notification.SnapDecision && actionRepeater.count >= 1 ? actionRepeater.itemAt(0).actionLabel : ""
+                anchors {
+                    top: parent.top
+                    bottom: parent.bottom
+                }
+                color: "#d85317"
+                visible: width > 0
+                onClicked: notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
+            }
+        }
+
+        Column {
+            objectName: "buttonColumn"
+            spacing: contentColumn.spacing
             anchors {
                 left: parent.left
                 right: parent.right
             }
 
+            // calculate initial position before Column takes over
+            y: buttonRow.y + buttonRow.height + contentColumn.spacing
+
+            visible: notification.type == Notification.SnapDecision
+            height: buttonRow.expanded ? implicitHeight : 0
+
             Repeater {
                 id: actionRepeater
-                model: notification.actions
 
-                Button {
-                    objectName: "button" + index
-                    color: Positioner.isFirstItem ? "#d85317" : "#cdcdcb"
-                    width: (buttonRow.width - buttonRow.spacing) / 2
-                    height: units.gu(4)
-                    text: label
+                model: notification.actions
+                delegate: Loader {
+                    id: loader
+
                     property string actionId: id
-                    onClicked: notification.notification.invokeAction(id)
+                    property string actionLabel: label
+
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                    }
+
+                    Component {
+                        id: actionButton
+
+                        Button {
+                            objectName: "button" + index
+                            anchors {
+                                left: parent.left
+                                right: parent.right
+                            }
+
+                            text: loader.actionLabel
+                            height: units.gu(4)
+                            color: "#cdcdcb"
+                            onClicked: notification.notification.invokeAction(loader.actionId)
+                        }
+                    }
+                    sourceComponent: (index == 0 || index == 1) ? undefined : actionButton
                 }
             }
         }

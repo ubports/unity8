@@ -53,7 +53,10 @@ Row {
             icon: "../graphics/avatars/funky.png",
             secondaryIcon: "../graphics/applicationIcons/facebook.png",
             actions: [{ id: "ok_id", label: "Ok"},
-                      { id: "cancel_id", label: "Cancel"}]
+                      { id: "cancel_id", label: "Cancel"},
+                      { id: "notreally_id", label: "Not really"},
+                      { id: "noway_id", label: "No way"},
+                      { id: "nada_id", label: "Nada"}]
         }
 
         mockModel.append(n)
@@ -132,7 +135,7 @@ Row {
         id: interactiveControls
 
         width: units.gu(30)
-        height: units.gu(71)
+        height: units.gu(81)
         color: "grey"
 
         Column {
@@ -193,7 +196,10 @@ Row {
                 icon: "../graphics/avatars/funky.png",
                 secondaryIcon: "../graphics/applicationIcons/facebook.png",
                 actions: [{ id: "ok_id", label: "Ok"},
-                          { id: "cancel_id", label: "Cancel"}],
+                          { id: "cancel_id", label: "Cancel"},
+                          { id: "notreally_id", label: "Not really"},
+                          { id: "noway_id", label: "No way"},
+                          { id: "nada_id", label: "Nada"}],
                 summaryVisible: true,
                 bodyVisible: true,
                 interactiveAreaEnabled: false,
@@ -299,6 +305,39 @@ Row {
             actionSpy.clear()
         }
 
+        /*Timer {
+            id: timerTestNotificationRenderer
+
+            interval: 100
+            repeat: true
+            running: true
+            property int hsecond: 0
+            property bool testPass: false
+            onTriggered: {
+
+                try {
+                    var heightAfterExpand = notification.height
+
+                    if(initialHeight < heightAfterExpand) {
+                        testPass: true
+                        verify(testPass = true,  "height of expanded snap-decision is not the greater than its initial height")
+                        stop()
+                    }
+                }
+                catch(err) {
+                    // do nothing
+                }
+
+                // wait 2 seconds
+                if(hsecond > 20) {
+                    verify(testPass = true, "height of expanded snap-decision is not the greater than its initial height")
+                    stop()
+                }
+
+                hsecond++
+            }
+        }*/
+
         function test_NotificationRenderer(data) {
             // populate model with some mock notifications
             mockModel.append(data)
@@ -341,15 +380,53 @@ Row {
                 var buttonAccept = findChild(buttonRow, "button0")
 
                 waitForRendering(notification)
-                mouseClick(buttonCancel, buttonCancel.width / 2, buttonCancel.height / 2)
-                actionSpy.wait()
-                compare(actionSpy.signalArguments[0][0], data.actions[1]["id"], "got wrong id for negative action")
-                actionSpy.clear()
 
+                // only test the left/cancel-button if two actions have been passed in
+                if (data.actions.length == 2) {
+                    mouseClick(buttonCancel, buttonCancel.width / 2, buttonCancel.height / 2)
+                    actionSpy.wait()
+                    compare(actionSpy.signalArguments[0][0], data.actions[1]["id"], "got wrong id for negative action")
+                    actionSpy.clear()
+                }
+
+                // click the positive/right button
                 mouseClick(buttonAccept, buttonAccept.width / 2, buttonAccept.height / 2)
                 actionSpy.wait()
                 compare(actionSpy.signalArguments[0][0], data.actions[0]["id"], "got wrong id positive action")
                 actionSpy.clear()
+
+                // check if there's more than one negative choice
+                if (data.actions.length > 2) {
+                    var initialHeight = notification.height
+
+                    // click to expand
+                    mouseClick(buttonCancel, buttonCancel.width / 2, buttonCancel.height / 2)
+                    waitForRendering(notification)
+                    actionSpy.clear()
+ 
+                    //timerTestNotificationRenderer.start()
+
+                    // test the additional buttons
+                    for (var i = 2; i < data.actions.length; i++) {
+                        waitForRendering(notification)
+                        var buttonColumn = findChild(notification, "buttonColumn")
+                        var button = findChild(buttonColumn, "button" + i)
+                        
+                        mouseClick(button, button.width / 2, button.height / 2)
+                        actionSpy.wait()
+                        compare(actionSpy.signalArguments[0][0], data.actions[i]["id"], "got wrong id for additional negative action")
+                        actionSpy.clear()
+                    }
+
+                    // click to collapse
+                    mouseClick(buttonCancel, buttonCancel.width / 2, buttonCancel.height / 2)
+                    waitForRendering(notification)
+                    tryCompare(notification, "height", initialHeight)
+                } else {
+                    mouseClick(buttonCancel, buttonCancel.width / 2, buttonCancel.height / 2)
+                    actionSpy.wait()
+                    compare(actionSpy.signalArguments[0][0], data.actions[1]["id"], "got wrong id for negative action")
+                }
             }
         }
     }
