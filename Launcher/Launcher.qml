@@ -25,7 +25,6 @@ Item {
 
     property bool available: true // can be used to disable all interactions
 
-    property bool teasing: false
     property int panelWidth: units.gu(8.5)
     property int dragAreaWidth: units.gu(1)
     property real progress: dragArea.dragging  && dragArea.touchX > panel.width ? dragArea.touchX : 0
@@ -58,8 +57,8 @@ Item {
         animateTimer.start();
     }
 
-    onTeasingChanged: {
-        if (teasing) {
+    function tease() {
+        if (available) {
             teaseTimer.start();
         }
     }
@@ -244,7 +243,7 @@ Item {
         },
         State {
             name: "teasing"
-            when: root.teasing || teaseTimer.running
+            when: teaseTimer.running
             PropertyChanges {
                 target: panel
                 x: -root.panelWidth + units.gu(2)
