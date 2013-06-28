@@ -142,8 +142,8 @@ Item {
 
         function test_teaseLauncher_data() {
             return [
-                {tag: "tease - available", available: true},
-                {tag: "tease - not available", available: false}
+                {tag: "available", available: true},
+                {tag: "not available", available: false}
             ];
         }
 

@@ -76,8 +76,8 @@ Item {
 
         function test_tease_data() {
             return [
-                {tag: "tease - unlocked", locked: false},
-                {tag: "tease - locked", locked: true}
+                {tag: "unlocked", locked: false},
+                {tag: "locked", locked: true}
             ];
         }
 
