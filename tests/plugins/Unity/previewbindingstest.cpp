@@ -16,14 +16,12 @@
 
 #include "previewbindingstest.h"
 #include <QTest>
-#include <QSignalSpy>
-#include <QDebug>
 
-#include <UnityCore/GenericPreview.h>
+#include <UnityCore/Preview.h>
 #include <UnityCore/GLibWrapper.h>
 #include <unity-protocol.h>
 
-#include "preview.h"
+#include "genericpreview.h"
 #include "applicationpreview.h"
 #include "moviepreview.h"
 #include "musicpreview.h"
