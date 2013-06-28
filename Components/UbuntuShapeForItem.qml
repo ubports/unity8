@@ -23,7 +23,6 @@ import Ubuntu.Components 0.1
  * Bug: https://bugs.launchpad.net/tavastia/+bug/1089595
  */
 
-
 Item {
     id: root
 
