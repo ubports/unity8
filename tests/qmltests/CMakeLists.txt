@@ -1,6 +1,8 @@
 # add_qml_test macro
 include(QmlTest)
 
+add_subdirectory(Components)
+
 set(qmltest_DEFAULT_IMPORT_PATHS
   ${CMAKE_BINARY_DIR}/tests/utils/modules
   ${CMAKE_BINARY_DIR}/tests/mocks
@@ -23,6 +25,7 @@ add_qml_test(utils/Unity/Test UnityTest)
 set(qmltest_DEFAULT_TARGETS qmluitests)
 set(qmltest_DEFAULT_NO_ADD_TEST TRUE)
 set(qmltest_DEFAULT_PROPERTIES "")
+add_manual_qml_test(Components DragHandle IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
 add_qml_test(Components DraggingArea)
 add_qml_test(Components FilterGrid IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/plugins)
 add_qml_test(Components ListViewWithPageHeader)

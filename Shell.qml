@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Application 0.1
 import Ubuntu.Components 0.1
+import Ubuntu.Gestures 0.1
 import LightDM 0.1 as LightDM
 import "Dash"
 import "Greeter"
@@ -167,7 +168,14 @@ FocusScope {
 
             contentScale: 1.0 - 0.2 * disappearingAnimationProgress
             opacity: 1.0 - disappearingAnimationProgress
-            property real disappearingAnimationProgress: ((greeter.shown) ? greeterRevealer.animatedProgress : stagesRevealer.animatedProgress)
+            property real disappearingAnimationProgress: {
+                if (greeter.shown) {
+                    return greeter.showProgress;
+                } else {
+                    return stagesOuterContainer.showProgress;
+                }
+            }
+
             // FIXME: only necessary because stagesRevealer.animatedProgress and
             // greeterRevealer.animatedProgress are not animated
             Behavior on disappearingAnimationProgress { SmoothedAnimation { velocity: 5 }}
@@ -176,26 +184,29 @@ FocusScope {
 
 
     Item {
+        id: stagesOuterContainer
 
         width: parent.width
         height: parent.height
         x: launcher.progress
         Behavior on x {SmoothedAnimation{velocity: 600}}
 
+        property real showProgress:
+            MathLocal.clamp(1 - (x + stages.x) / shell.width, 0, 1)
 
         Showable {
             id: stages
 
-            property bool fullyShown: shown && stages[stagesRevealer.boundProperty] == stagesRevealer.openedValue
-                                      && parent.x == 0
+            x: width
 
-            property bool fullyHidden: !shown && stages[stagesRevealer.boundProperty] == stagesRevealer.closedValue
+            property bool fullyShown: shown && x == 0 && parent.x == 0
+            property bool fullyHidden: !shown && x == width
             available: !greeter.shown
             hides: [launcher, panel.indicators]
             shown: false
             opacity: 1.0
-            showAnimation: StandardAnimation { property: "x"; duration: 350; to: stagesRevealer.openedValue; easing.type: Easing.OutCubic }
-            hideAnimation: StandardAnimation { property: "x"; duration: 350; to: stagesRevealer.closedValue; easing.type: Easing.OutCubic }
+            showAnimation: StandardAnimation { property: "x"; duration: 350; to: 0; easing.type: Easing.OutCubic }
+            hideAnimation: StandardAnimation { property: "x"; duration: 350; to: width; easing.type: Easing.OutCubic }
 
             width: parent.width
             height: parent.height
@@ -326,24 +337,19 @@ FocusScope {
                 height: sideStage.height
                 orientation: Qt.Horizontal
             }
+
+            DragHandle {
+                id: stagesRevealer
+
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.right: parent.left
+
+                width: shell.edgeSize
+                direction: Direction.Leftwards
+                enabled: mainStage.applications.count > 0 || sideStage.applications.count > 0
+            }
         }
-    }
-
-
-    Revealer {
-        id: stagesRevealer
-
-        property real animatedProgress: MathLocal.clamp((-dragPosition - launcher.progress) / closedValue, 0, 1)
-        enabled: mainStage.applications.count > 0 || sideStage.applications.count > 0
-        direction: Qt.RightToLeft
-        openedValue: 0
-        hintDisplacement: units.gu(3)
-        handleSize: shell.edgeSize
-        closedValue: width
-        target: stages
-        width: stages.width
-        height: stages.height
-        orientation: Qt.Horizontal
     }
 
     Lockscreen {
@@ -392,11 +398,12 @@ FocusScope {
         available: true
         hides: [launcher, panel.indicators, hud]
         shown: true
-        showAnimation: StandardAnimation { property: "x"; to: greeterRevealer.openedValue }
-        hideAnimation: StandardAnimation { property: "x"; to: greeterRevealer.closedValue }
+
         y: panel.panelHeight
         width: parent.width
         height: parent.height - panel.panelHeight
+
+        dragHandleWidth: shell.edgeSize
 
         property var previousMainApp: null
         property var previousSideApp: null
@@ -437,19 +444,6 @@ FocusScope {
     InputFilterArea {
         anchors.fill: parent
         blockInput: greeter.shown || lockscreen.shown
-    }
-
-    Revealer {
-        id: greeterRevealer
-
-        property real animatedProgress: MathLocal.clamp(-dragPosition / closedValue, 0, 1)
-        target: greeter
-        width: greeter.width
-        height: greeter.height
-        handleSize: shell.edgeSize
-        orientation: Qt.Horizontal
-        visible: greeter.shown
-        enabled: !greeter.locked
     }
 
     Item {
