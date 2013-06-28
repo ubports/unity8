@@ -411,7 +411,6 @@ Row {
                         waitForRendering(notification)
                         var buttonColumn = findChild(notification, "buttonColumn")
                         var button = findChild(buttonColumn, "button" + i)
-                        
                         mouseClick(button, button.width / 2, button.height / 2)
                         actionSpy.wait()
                         compare(actionSpy.signalArguments[0][0], data.actions[i]["id"], "got wrong id for additional negative action")
