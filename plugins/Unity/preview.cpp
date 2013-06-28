@@ -83,34 +83,12 @@ QString Preview::description() const
 
 QVariant Preview::actions()
 {
-    QList<QObject *> alist;
-    if (m_unityPreview) {
-        for (auto unityAction: m_unityPreview->GetActions()) {
-            auto action = new PreviewAction(this); // preview is the owner of actions
-            action->setUnityAction(unityAction);
-            alist.append(action);
-        }
-    } else {
-        qWarning() << "Preview not set";
-    }
-
-    return QVariant::fromValue(alist);
+    return QVariant::fromValue(m_actions);
 }
 
 QVariant Preview::infoHints()
 {
-    QList<QObject *> hints;
-    if (m_unityPreview) {
-        for (auto unityInfoHint: m_unityPreview->GetInfoHints()) {
-            auto hint = new PreviewInfoHint(this); // preview is the owner of hints
-            hint->setUnityInfoHint(unityInfoHint);
-            hints.append(hint);
-        }
-    } else {
-        qWarning() << "Preview not set";
-    }
-
-    return QVariant::fromValue(hints);
+    return QVariant::fromValue(m_infoHints);
 }
 
 QString Preview::image() const
@@ -162,6 +140,18 @@ Preview* Preview::newFromUnityPreview(unity::dash::Preview::Ptr unityPreview)
 void Preview::setUnityPreview(unity::dash::Preview::Ptr unityPreview)
 {
     m_unityPreview = unityPreview;
+
+    for (auto unityInfoHint: m_unityPreview->GetInfoHints()) {
+        auto hint = new PreviewInfoHint(this);
+        hint->setUnityInfoHint(unityInfoHint);
+        m_infoHints.append(hint);
+    }
+
+    for (auto unityAction: m_unityPreview->GetActions()) {
+        auto action = new PreviewAction(this);
+        action->setUnityAction(unityAction);
+        m_actions.append(action);
+    }
 
     Q_EMIT rendererNameChanged();
     Q_EMIT titleChanged();

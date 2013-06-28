@@ -24,6 +24,7 @@
 #include <QObject>
 #include <QString>
 #include <QMetaType>
+#include <QList>
 
 // libunity-core
 #include <UnityCore/Preview.h>
@@ -73,6 +74,10 @@ protected:
     virtual void setUnityPreview(unity::dash::Preview::Ptr unityPreview);
 
     unity::dash::Preview::Ptr m_unityPreview;
+
+private:
+    QList<QObject *> m_actions;
+    QList<QObject *> m_infoHints;
 };
 
 Q_DECLARE_METATYPE(Preview *)
