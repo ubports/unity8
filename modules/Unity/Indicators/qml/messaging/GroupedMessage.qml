@@ -23,7 +23,7 @@ import Ubuntu.Components 0.1
 import Unity.Indicators 0.1 as Indicators
 
 Indicators.BasicMenuItem {
-    property variant action: menu && menu.action!="" && actionGroup ? actionGroup.action(menu.action) : null
+    property var action: menu && menu.action != "" && actionGroup ? actionGroup.action(menu.action) : null
     property alias count: label.text
 
     color: "#221e1b"

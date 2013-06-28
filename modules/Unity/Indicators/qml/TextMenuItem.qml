@@ -74,6 +74,7 @@ MenuItem {
     }
 
     DBusActionState {
+        actionGroup: _textMenu.actionGroup
         action: menu ? menu.action : ""
         target: _textField
         property: "text"

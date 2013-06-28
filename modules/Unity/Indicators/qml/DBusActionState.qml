@@ -30,6 +30,7 @@ import QtQuick 2.0
             id: slide
         }
         DBusActionState {
+            actionGroup: menuItem.actionGroup
             action: "/ubuntu/sound/volume"
             target: slider
             property: "value"
@@ -50,9 +51,15 @@ Item {
 
     /*!
       \preliminary
+      The dbus action group object
+     */
+    property QtObject actionGroup : null
+
+    /*!
+      \preliminary
       This is a read-only property with the action current value
      */
-    property variant value : undefined
+    property var value : undefined
 
     /*!
       \preliminary
@@ -64,7 +71,7 @@ Item {
       \preliminary
       The property name of \l target component which will be linked with action state
      */
-    property alias property: propertyBinding.property
+    property string property: propertyBinding.property
 
     /*!
       \preliminary
@@ -72,26 +79,42 @@ Item {
      */
     property bool active: true
 
-    Component.onCompleted: connectViewChanges ()
+    Component.onCompleted: connectViewChanges()
     onTargetChanged: connectViewChanges()
     onPropertyChanged: connectViewChanges()
 
     Item {
         id: priv
-        property variant actionObject : action!="" && actionGroup ? actionGroup.action(action) : null
-        property variant actionState: actionObject ? actionObject.state : undefined
+        property var actionObject: action != ""  && dbusActionState.actionGroup ? dbusActionState.actionGroup.action(action) : null
+        property var actionState: actionObject ? actionObject.state : undefined
+
+        property var currentTarget: undefined
+        property string currentSignal
 
         Binding {
             id: propertyBinding
             value: priv.actionState
             when: (actionGroup && active && priv.actionObject)
+            property: dbusActionState.property
         }
     }
 
     function connectViewChanges() {
-        if (target && property) {
-            var signalName = "on%1Changed".arg(property.charAt(0).toUpperCase() + property.slice(1));
-            target[signalName].connect(onViewValueChanged);
+        if (priv.currentTarget != undefined && priv.currentSignal !== "") {
+            if (priv.currentTarget[priv.currentSignal] != undefined) {
+                priv.currentTarget[priv.currentSignal].disconnect(onViewValueChanged);
+            }
+        }
+
+        priv.currentTarget = null;
+        priv.currentSignal = "";
+        if (target) {
+            var signal = "on%1Changed".arg(property.charAt(0).toUpperCase() + property.slice(1));
+            if (target[signal] != undefined) {
+                target[signal].connect(onViewValueChanged);
+                priv.currentTarget = target;
+                priv.currentSignal = signal;
+            }
         }
     }
 

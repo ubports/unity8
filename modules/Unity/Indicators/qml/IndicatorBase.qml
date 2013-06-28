@@ -29,18 +29,18 @@ Item {
 
     //const
     property string title
-    property string device: "phone"
     property int busType
     property string busName
     property string actionsObjectPath
-    property var menuObjectPaths : undefined
+    property var menuObjectPaths: undefined
+    readonly property string device: "phone"
 
-    property string deviceMenuObjectPath : menuObjectPaths.hasOwnProperty(device) ? menuObjectPaths[device] : ""
+    property string deviceMenuObjectPath: menuObjectPaths.hasOwnProperty(device) ? menuObjectPaths[device] : ""
 
     signal actionGroupUpdated()
     signal modelUpdated()
 
-    property var actionGroup : QDBusActionGroup {
+    property var actionGroup: QDBusActionGroup {
         busType: indicatorItem.busType
         busName: indicatorItem.busName
         objectPath: indicatorItem.actionsObjectPath
@@ -48,7 +48,7 @@ Item {
         onActionAppear: indicatorItem.actionGroupUpdated();
     }
 
-    property var proxyModel : Indicators.FlatMenuProxyModel {
+    property var proxyModel: Indicators.FlatMenuProxyModel {
         busType: indicatorItem.busType
         busName: indicatorItem.busName
         objectPath: indicatorItem.deviceMenuObjectPath

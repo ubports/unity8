@@ -23,6 +23,7 @@ import Ubuntu.Components.ListItems 0.1 as ListItem
 import Unity.Indicators 0.1 as Indicators
 
 Indicators.MenuItem {
+    id: _accessPoint
     property variant actionWifiApStrength : menu && actionGroup ? actionGroup.action(menu.extra.canonical_wifi_ap_strength_action) : null
     property variant wifiApStrength : actionWifiApStrength && actionWifiApStrength.valid ? actionWifiApStrength.state : "0"
 
@@ -57,11 +58,11 @@ Indicators.MenuItem {
         id: checkBoxActive
         height: units.gu(4)
         width: units.gu(4)
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.centerIn: parent
     }
 
     Indicators.DBusActionState {
+        actionGroup: _accessPoint.actionGroup
         action: menu ? menu.action : ""
         target: checkBoxActive
         property: "checked"

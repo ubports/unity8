@@ -23,7 +23,7 @@ import Ubuntu.Components.ListItems 0.1 as ListItem
 ListItem.Standard {
     id: _priv
 
-    property bool menuActivated : false
+    property bool menuActivated: false
     property QtObject menu
     property QtObject actionGroup
     property alias color: __bg.color

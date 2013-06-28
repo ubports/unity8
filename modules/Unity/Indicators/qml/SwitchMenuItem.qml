@@ -33,6 +33,7 @@ MenuItem {
     }
 
     DBusActionState {
+        actionGroup: _switchMenu.actionGroup
         action: menu ? menu.action : ""
         target: switcher
         property: "checked"

@@ -30,10 +30,7 @@ IndicatorBase {
     //const
     property alias emptyText: emptyLabel.text
     property alias highlightFollowsCurrentItem : mainMenu.highlightFollowsCurrentItem
-    readonly property real overshootHeight: (mainMenu.contentY < 0) ? -mainMenu.contentY : 0
     property bool __active: false
-
-    anchors.fill: parent
 
     ListView {
         id: mainMenu
@@ -51,7 +48,10 @@ IndicatorBase {
                     easing.type: Easing.OutQuad
                 }
             }
-            onBottomMarginChanged: mainMenu.positionViewAtIndex(mainMenu.currentIndex, ListView.End)
+            // TODO - does ever frame.
+            onBottomMarginChanged: {
+                mainMenu.positionViewAtIndex(mainMenu.currentIndex, ListView.End)
+            }
         }
 
         // Ensure all delegates are cached in order to improve smoothness of scrolling

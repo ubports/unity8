@@ -59,6 +59,7 @@ MenuItem {
     }
 
     DBusActionState {
+        actionGroup: _sliderMenu.actionGroup
         action: menu ? menu.action : ""
         target: slider
         property: "value"

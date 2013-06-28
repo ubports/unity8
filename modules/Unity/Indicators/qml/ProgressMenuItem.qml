@@ -21,7 +21,7 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 
 MenuItem {
-
+    id: _progressMenu
     property alias value : progressBar.value
 
     // TODO: Replace this with the official ProgressBar component as soon as
@@ -55,6 +55,7 @@ MenuItem {
     }
 
     DBusActionState {
+        actionGroup: _progressMenu.actionGroup
         action: menu ? menu.action : ""
         target: progressBar
         property: "value"
