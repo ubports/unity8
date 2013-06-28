@@ -139,12 +139,28 @@ Item {
             tryCompare(panel, "x", -panel.width, 1000)
         }
 
-        function test_teaseLauncher() {
-            launcher.maxPanelX = -99999999;
+
+        function test_teaseLauncher_data() {
+            return [
+                {tag: "tease - available", available: true},
+                {tag: "tease - not available", available: false}
+            ];
+        }
+
+        function test_teaseLauncher(data) {
+            launcher.available = data.available;
+            launcher.maxPanelX = -launcher.panelWidth;
             launcher.tease();
-            // Check if the launcher slides in for units.gu(2). However, as the animation is 200ms
-            // and the teaseTimer's timeout too, give it a 2 pixels grace distance
-            tryCompareFunction(function(){return launcher.maxPanelX >= -launcher.panelWidth + units.gu(2) - 2;}, true)
+
+            if (data.available) {
+            
+                // Check if the launcher slides in for units.gu(2). However, as the animation is 200ms
+                // and the teaseTimer's timeout too, give it a 2 pixels grace distance
+                tryCompareFunction(function(){return launcher.maxPanelX >= -launcher.panelWidth + units.gu(2) - 2;}, true)
+            } else {
+                wait(100)
+                compare(launcher.maxPanelX, -launcher.panelWidth, "Launcher moved even if it shouldn't")
+            }
             waitUntilLauncherDisappears();
         }
     }
