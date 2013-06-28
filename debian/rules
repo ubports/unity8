@@ -6,6 +6,8 @@
 export DPKG_GENSYMBOLS_CHECK_LEVEL=4
 export NO_PNG_PKG_MANGLE=1
 
+SCOPES_RECOMMENDS := $(shell perl debian/scopes-recommends-generator /usr/share/unity/client-scopes.json)
+
 %:
 	dh $@ --parallel --fail-missing --with python2
 
@@ -26,3 +28,5 @@ override_dh_makeshlibs:
 override_dh_shlibdeps:
 	dh_shlibdeps -XlibMockLightDM-qml.so
 
+override_dh_gencontrol:
+	dh_gencontrol -- -Vunity-default-masterscopes="$(SCOPES_RECOMMENDS)"
