@@ -54,6 +54,8 @@ void PreviewBindingsTest::testApplicationPreview()
     unity_protocol_preview_set_subtitle(UNITY_PROTOCOL_PREVIEW(raw_preview), "Web Browser");
     unity_protocol_preview_set_description(UNITY_PROTOCOL_PREVIEW(raw_preview), "Lorem ipsum dolor sit amet");
     unity_protocol_application_preview_set_license(UNITY_PROTOCOL_APPLICATION_PREVIEW(raw_preview), "GPL");
+    unity_protocol_application_preview_set_rating(UNITY_PROTOCOL_APPLICATION_PREVIEW(raw_preview), 0.5f);
+    unity_protocol_application_preview_set_num_ratings(UNITY_PROTOCOL_APPLICATION_PREVIEW(raw_preview), 4);
     unity::glib::Object<GObject> gen_prv(raw_preview);
 
     auto core_prv = unity::dash::Preview::PreviewForProtocolObject(gen_prv);
@@ -65,6 +67,8 @@ void PreviewBindingsTest::testApplicationPreview()
     QCOMPARE(app_prv->subtitle(), QString("Web Browser"));
     QCOMPARE(app_prv->description(), QString("Lorem ipsum dolor sit amet"));
     QCOMPARE(app_prv->license(), QString("GPL"));
+    QCOMPARE(app_prv->rating(), 0.5f);
+    QCOMPARE(app_prv->numRatings(), unsigned (4));
 }
 
 void PreviewBindingsTest::testMoviePreview()
