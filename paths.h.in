@@ -48,9 +48,7 @@ inline QString shellAppDirectory() {
 
 inline QStringList overrideImportPaths() {
     QStringList paths;
-    if (isRunningInstalled()) {
-        paths << QString("@CMAKE_INSTALL_PREFIX@/@SHELL_PRIVATE_LIBDIR@/qml");
-    } else {
+    if (!isRunningInstalled()) {
         paths << QString("@CMAKE_BINARY_DIR@/plugins");
     }
     return paths;
@@ -59,6 +57,7 @@ inline QStringList overrideImportPaths() {
 inline QStringList fallbackImportPaths() {
     QStringList paths;
     if (isRunningInstalled()) {
+        paths << QString("@CMAKE_INSTALL_PREFIX@/@SHELL_PRIVATE_LIBDIR@/qml");
         paths << QString("@CMAKE_INSTALL_PREFIX@/@SHELL_PRIVATE_LIBDIR@/qml/mocks");
     } else {
         paths << QString("@CMAKE_BINARY_DIR@/tests/mocks");
