@@ -69,7 +69,6 @@ Item {
     function activate(param) {
         if (valid) {
             __actionObject.activate(param);
-            console.log("ACTIONED : " + action + "(" + param + ")")
         }
     }
 
