@@ -43,7 +43,7 @@ ScopeView {
         }
     }
 
-    ListViewWithPageHeader {
+    ScopeListView {
         id: categoryView
         anchors.fill: parent
         model: scopeView.categories

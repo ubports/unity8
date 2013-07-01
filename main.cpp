@@ -31,13 +31,33 @@
 #include "MouseTouchAdaptor.h"
 
 namespace {
+
+void prependImportPaths(QQmlEngine *engine, const QStringList &paths)
+{
+    QStringList importPathList = engine->importPathList();
+    for (int i = paths.count() -1; i >= 0; i--) {
+        // don't duplicate
+        const QString& path = paths[i];
+        QStringList::iterator iter = qFind(importPathList.begin(), importPathList.end(), path);
+        if (iter == importPathList.end())
+            importPathList.prepend(path);
+    }
+    engine->setImportPathList(importPathList);
+}
+
 /* When you append and import path to the list of import paths it will be the *last*
    place where Qt will search for QML modules.
    The usual QQmlEngine::addImportPath() actually prepends the given path.*/
-void appendImportPath(QQmlEngine *engine, const QString &path)
+void appendImportPaths(QQmlEngine *engine, const QStringList &paths)
 {
     QStringList importPathList = engine->importPathList();
-    importPathList.append(path);
+    Q_FOREACH(const QString& path, paths) {
+        // don't duplicate
+        QStringList::iterator iter = qFind(importPathList.begin(), importPathList.end(), path);
+        if (iter == importPathList.end())
+            importPathList.append(path);
+    }
+    importPathList.append(paths);
     engine->setImportPathList(importPathList);
 }
 
@@ -88,7 +108,7 @@ int main(int argc, char** argv)
     QQuickView* view = new QQuickView();
     view->setResizeMode(QQuickView::SizeRootObjectToView);
     view->setTitle("Qml Phone Shell");
-    view->engine()->setBaseUrl(QUrl::fromLocalFile(shellAppDirectory()));
+    view->engine()->setBaseUrl(QUrl::fromLocalFile(::shellAppDirectory()));
     if (args.contains(QLatin1String("-frameless"))) {
         view->setFlags(Qt::FramelessWindowHint);
     }
@@ -114,9 +134,9 @@ int main(int argc, char** argv)
     QObject::connect(view->engine(), SIGNAL(quit()), qApp, SLOT(quit()));
 
     QUrl source("Shell.qml");
-    view->engine()->addImportPath(shellAppDirectory());
-    view->engine()->addImportPath(shellImportPath());
-    appendImportPath(view->engine(), fakePluginsImportPath());
+    prependImportPaths(view->engine(), QStringList() << ::shellAppDirectory());
+    prependImportPaths(view->engine(), ::shellImportPaths());
+    appendImportPaths(view->engine(), QStringList() << ::fakePluginsImportPath());
     view->setSource(source);
     view->setColor("transparent");
 

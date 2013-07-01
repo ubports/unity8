@@ -97,11 +97,11 @@ ScopeView {
         }
     }
 
-    ListViewWithPageHeader {
+    ScopeListView {
         id: categoryView
         anchors.fill: parent
         model: scopeView.categories
-        clipListView: !previewLoader.onScreen
+        forceNoClip: previewLoader.onScreen
 
         onAtYEndChanged: if (atYEnd) endReached()
         onMovingChanged: if (moving && atYEnd) endReached()
@@ -119,7 +119,6 @@ ScopeView {
                 onLoaded: {
                     item.model = results
                 }
-                asynchronous: true
 
                 Connections {
                     target: loader.item

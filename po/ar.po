@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-06-19 17:06+0200\n"
+"POT-Creation-Date: 2013-06-26 22:58+0200\n"
 "PO-Revision-Date: 2013-06-22 16:15+0000\n"
 "Last-Translator: Ibrahim Saed <ibraheem5000@gmail.com>\n"
 "Language-Team: Arabic <ar@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-23 05:56+0000\n"
-"X-Generator: Launchpad (build 16677)\n"
+"X-Launchpad-Export-Date: 2013-06-27 16:15+0000\n"
+"X-Generator: Launchpad (build 16681)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -109,27 +109,19 @@ msgstr "متوفرة للتنزيل"
 msgid "Apps"
 msgstr "تطبيقات"
 
-#: Dash/DashHome.qml:43
+#: Dash/DashHome.qml:40
 msgid "Frequent Apps"
 msgstr "تطبيقات مألوفة"
 
-#: Dash/DashHome.qml:46
-msgid "Favourite People"
-msgstr "الأشخاص المفضلون"
-
-#: Dash/DashHome.qml:49
-msgid "People Recently in Touch"
-msgstr "أشخاص كانوا على اتصال مؤخرا"
-
-#: Dash/DashHome.qml:52
+#: Dash/DashHome.qml:43
 msgid "Recent Music"
 msgstr "آخر الصوتيات المشغلة"
 
-#: Dash/DashHome.qml:55
+#: Dash/DashHome.qml:46
 msgid "Videos Popular Online"
 msgstr "فيديوهات رائجة على الإنترنت"
 
-#: Dash/DashHome.qml:197 plugins/Unity/lenses.cpp:38
+#: Dash/DashHome.qml:175
 msgid "Home"
 msgstr "الرئيسية"
 
@@ -153,26 +145,6 @@ msgstr ""
 msgid "Music"
 msgstr "موسيقى"
 
-#: Dash/DashPeople.qml:31
-msgid "Favourites"
-msgstr "المفضلات"
-
-#: Dash/DashPeople.qml:32
-msgid "Recently in touch"
-msgstr "على اتصال موخرا"
-
-#: Dash/DashPeople.qml:33
-msgid "New Contacts"
-msgstr "أشخاص جدد"
-
-#: Dash/DashPeople.qml:34
-msgid "A-Z"
-msgstr "A-Z"
-
-#: Dash/DashPeople.qml:123
-msgid "People"
-msgstr "أشخاص"
-
 #: Dash/DashVideos.qml:31
 msgid "Popular Online"
 msgstr "الشائع على الإنترنت"
@@ -193,7 +165,7 @@ msgstr "النجوم:"
 msgid "Author:"
 msgstr "المؤلف:"
 
-#: Greeter/Lockscreen.qml:126
+#: Greeter/Lockscreen.qml:133
 msgid "Emergency call"
 msgstr "مكالمة طوارئ"
 
@@ -234,19 +206,39 @@ msgstr "الجهاز"
 msgid "Flight mode"
 msgstr "نمط الطيران"
 
-#: Panel/SearchIndicator.qml:26 plugins/Unity/lenses.cpp:40
+#: Panel/SearchIndicator.qml:26
 msgid "Search"
 msgstr "ابحث"
 
-#: plugins/Unity/lens.cpp:333
+#: plugins/Unity/scope.cpp:268
 msgid "Sorry, there is nothing that matches your search."
 msgstr "عذراً، لا يوجد ما يطابق بحثك."
 
-#: plugins/Unity/lenses.cpp:39
-msgid "Home screen"
-msgstr "الشاشة الرئيسية"
-
-#: Shell.qml:380
+#: Shell.qml:383
 #, qt-format
-msgid "Please enter %1:"
-msgstr "رجاءً أدخِل %1:"
+msgid "Please enter %1"
+msgstr ""
+
+#~ msgid "People"
+#~ msgstr "أشخاص"
+
+#~ msgid "Home screen"
+#~ msgstr "الشاشة الرئيسية"
+
+#~ msgid "Favourite People"
+#~ msgstr "الأشخاص المفضلون"
+
+#~ msgid "People Recently in Touch"
+#~ msgstr "أشخاص كانوا على اتصال مؤخرا"
+
+#~ msgid "A-Z"
+#~ msgstr "A-Z"
+
+#~ msgid "Recently in touch"
+#~ msgstr "على اتصال موخرا"
+
+#~ msgid "New Contacts"
+#~ msgstr "أشخاص جدد"
+
+#~ msgid "Favourites"
+#~ msgstr "المفضلات"

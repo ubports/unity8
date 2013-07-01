@@ -55,13 +55,6 @@ Item {
             }
         }
 
-        // Don't let the style play with our opacity
-        Binding {
-            target: searchBar.ItemStyle.style
-            property: "opacity"
-            value: 1
-        }
-
         Item {
             id: primary
             height: searchBar.height

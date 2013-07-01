@@ -416,12 +416,14 @@ Showable {
         }
     }
 
-    AxisVelocityCalculator {
-        id: dragVelocityCalculator
-        trackedPosition: rightEdgeDraggingArea.distance
+    EdgeDragEvaluator {
+        id: dragEvaluator
+        trackedPosition: rightEdgeDraggingArea.touchX
+        direction: rightEdgeDraggingArea.direction
+        maxDragDistance: stage.width
     }
 
-    DirectionalDragArea {
+    EdgeDragArea {
         id: rightEdgeDraggingArea
 
         enabled: {
@@ -439,10 +441,6 @@ Showable {
         anchors.right: parent.right
 
         direction: Direction.Leftwards
-        maxDeviation: units.gu(1)
-        wideningAngle: 20
-        distanceThreshold: units.gu(3)
-        minSpeed: units.gu(5)
 
         onDistanceChanged: {
             if (status !== DirectionalDragArea.Recognized)
@@ -478,7 +476,7 @@ Showable {
         }
 
         function onUndecided() {
-            dragVelocityCalculator.reset()
+            dragEvaluator.reset();
 
             var nextApplication = null;
             if (stage.applications.count > 1) {
@@ -491,7 +489,7 @@ Showable {
         }
 
         function onGestureEnded() {
-            if (stage.applications.count > 1 && dragVelocityCalculator.calculate() < 0) {
+            if (stage.applications.count > 1 && dragEvaluator.shouldAutoComplete()) {
                 switchToApplicationAnimationController.completeToEndWithSignal();
             } else {
                 switchToApplicationAnimationController.completeToBeginningWithSignal();

@@ -108,7 +108,7 @@ Item {
 
                 anchors.fill: parent
                 radius: "small"
-                borderSource: ItemStyle.style.borderPressed
+                borderSource: "radius_pressed.sci"
                 opacity: button.pressed ? 1.0 : 0.0
                 Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.OutQuint } }
             }

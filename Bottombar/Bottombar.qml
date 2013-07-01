@@ -64,7 +64,7 @@ Item {
         onShownChanged: bottomBarVisibilityCommunicatorShell.forceHidden = theHud.shown
     }
 
-    DirectionalDragArea {
+    EdgeDragArea {
         id: dragArea
         width: parent.width
         height: distanceThreshold
@@ -72,13 +72,6 @@ Item {
 
         enabled: !theHud.shown && bottombar.enabled && applicationIsOnForeground
         direction: Direction.Upwards
-
-        // values to be tweaked and later removed from here and set in stone as defaults
-        // once we are confident it's all good.
-        maxDeviation: units.gu(1)
-        wideningAngle: 30
-        distanceThreshold: units.gu(3)
-        minSpeed: units.gu(5)
 
         property int previousStatus: -1
         property real touchStartX: -1
