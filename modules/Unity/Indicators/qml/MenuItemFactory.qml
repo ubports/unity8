@@ -31,7 +31,7 @@ Item {
     property bool isCurrentItem
     readonly property bool empty: (__loader.item !== undefined && __loader.status == Loader.Ready) ? __loader.item.state === "EMPTY" : true
 
-    implicitHeight: (__loader.status === Loader.Ready) ? __loader.item.implicitHeight : 0
+    implicitHeight: __loader.height
 
     signal activated()
     signal deactivated()
@@ -71,8 +71,13 @@ Item {
 
     Loader {
         id: __loader
-        anchors.fill: parent
         asynchronous: true
+
+        anchors {
+            left: parent.left
+            right: parent.right
+        }
+
         sourceComponent: {
             if (!__menuFactory.menu ||  !__menuFactory.menu.extra) {
                 return undefined;
@@ -81,15 +86,13 @@ Item {
             var widgetType = __menuFactory.menu.extra.canonical_type;
             if (widgetType) {
                 return _map[widgetType];
-            }
-            else {
+            } else {
                 if (widgetType === "com.canonical.indicator.root") {
                    return undefined;
                 // Try discovery the item based on the basic properties
                 } else if (menu.hasSection) {
                     return sectionMenu;
-                }
-                else {
+                } else {
                     return indicatorMenu;
                 }
             }

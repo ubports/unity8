@@ -27,8 +27,6 @@ Indicators.MenuItem {
     property variant actionWifiApStrength : menu && actionGroup ? actionGroup.action(menu.extra.canonical_wifi_ap_strength_action) : null
     property variant wifiApStrength : actionWifiApStrength && actionWifiApStrength.valid ? actionWifiApStrength.state : "0"
 
-    implicitHeight: units.gu(7)
-
     function getNetworkIcon(data) {
         var imageName = "nm-signal-100"
         var signalStrength = parseInt(wifiApStrength)

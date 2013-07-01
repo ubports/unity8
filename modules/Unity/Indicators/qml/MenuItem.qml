@@ -30,13 +30,11 @@ BasicMenuItem {
     implicitHeight: units.gu(7)
 
     HLine {
-        id: ___topHLine
         anchors.top: parent.top
         color: "#403b37"
     }
 
     HLine {
-        id: ___bottomHLine
         anchors.bottom: parent.bottom
         color: "#060606"
     }
