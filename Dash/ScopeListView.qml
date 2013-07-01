@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Canonical, Ltd.
+ * Copyright (C) 2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,13 +15,9 @@
  */
 
 import QtQuick 2.0
+import ListViewWithPageHeader 0.1
 
-Image {
-    anchors {
-        left: (parent) ? parent.left : null
-        right: (parent) ? parent.right : null
-    }
-    height: (visible) ? units.dp(2) : 0
-
-    source: "graphics/ListItemDividerHorizontal.png"
+ListViewWithPageHeader {
+    maximumFlickVelocity: height * 10
+    flickDeceleration: height * 2
 }
