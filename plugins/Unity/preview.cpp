@@ -116,13 +116,13 @@ Preview* Preview::newFromUnityPreview(unity::dash::Preview::Ptr unityPreview)
 {
     Preview* preview = nullptr;
 
-    if (typeid(*unityPreview) == typeid(unity::dash::GenericPreview)) {
+    if (dynamic_cast<unity::dash::GenericPreview *>(unityPreview.get()) != nullptr) {
         preview = new GenericPreview();
-    } else if (typeid(*unityPreview) == typeid(unity::dash::MusicPreview)) {
+    } else if (dynamic_cast<unity::dash::MusicPreview *>(unityPreview.get()) != nullptr) {
         preview = new MusicPreview();
-    } else if (typeid(*unityPreview) == typeid(unity::dash::MoviePreview)) {
+    } else if (dynamic_cast<unity::dash::MoviePreview *>(unityPreview.get()) != nullptr) {
         preview = new MoviePreview();
-    } else if (typeid(*unityPreview) == typeid(unity::dash::ApplicationPreview)) {
+    } else if (dynamic_cast<unity::dash::ApplicationPreview *>(unityPreview.get()) != nullptr) {
         preview = new ApplicationPreview();
     } else {
         qWarning() << "Unknown preview type: " << typeid(*unityPreview).name();
