@@ -36,7 +36,7 @@ QString MoviePreview::year() const
     } else {
         qWarning() << "Preview not set";
     }
-    return "";
+    return QString();
 }
 
 float MoviePreview::rating() const

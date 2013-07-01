@@ -35,7 +35,7 @@ QString ApplicationPreview::lastUpdate() const
     } else {
         qWarning() << "Preview not set";
     }
-    return "";
+    return QString();
 }
 
 QString ApplicationPreview::copyright() const
@@ -45,7 +45,7 @@ QString ApplicationPreview::copyright() const
     } else {
         qWarning() << "Preview not set";
     }
-return "";
+    return QString();
 }
 
 QString ApplicationPreview::license() const
@@ -55,7 +55,7 @@ QString ApplicationPreview::license() const
     } else {
         qWarning() << "Preview not set";
     }
-    return "";
+    return QString();
 }
 
 QString ApplicationPreview::appIcon() const
@@ -65,7 +65,7 @@ QString ApplicationPreview::appIcon() const
     } else {
         qWarning() << "Preview not set";
     }
-    return "";
+    return QString();
 }
 
 float ApplicationPreview::rating() const

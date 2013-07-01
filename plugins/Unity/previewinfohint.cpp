@@ -41,7 +41,7 @@ QString PreviewInfoHint::id() const
     if (m_unityInfoHint) {
         return QString::fromStdString(m_unityInfoHint->id);
     }
-    return "";
+    return QString();
 }
 
 QString PreviewInfoHint::displayName() const
@@ -49,7 +49,7 @@ QString PreviewInfoHint::displayName() const
     if (m_unityInfoHint) {
         return QString::fromStdString(m_unityInfoHint->display_name);
     }
-    return "";
+    return QString();
 }
 
 QString PreviewInfoHint::iconHint() const
@@ -57,7 +57,7 @@ QString PreviewInfoHint::iconHint() const
    if (m_unityInfoHint) {
        return QString::fromStdString(m_unityInfoHint->icon_hint);
    }
-   return "";
+   return QString();
 }
 
 QVariant PreviewInfoHint::value() const

@@ -48,7 +48,7 @@ QString Preview::rendererName() const
     } else {
         qWarning() << "Preview not set";
     }
-    return "";
+    return QString();
 }
 
 QString Preview::title() const
@@ -58,7 +58,7 @@ QString Preview::title() const
     } else {
         qWarning() << "Preview not set";
     }
-    return "";
+    return QString();
 }
 
 QString Preview::subtitle () const
@@ -68,7 +68,7 @@ QString Preview::subtitle () const
     } else {
         qWarning() << "Preview not set";
     }
-    return "";
+    return QString();
 }
 
 QString Preview::description() const
@@ -78,7 +78,7 @@ QString Preview::description() const
     } else {
         qWarning() << "Preview not set";
     }
-    return "";
+    return QString();
 }
 
 QVariant Preview::actions()
@@ -117,14 +117,11 @@ Preview* Preview::newFromUnityPreview(unity::dash::Preview::Ptr unityPreview)
 
     if (typeid(*unityPreview) == typeid(unity::dash::GenericPreview)) {
         preview = new GenericPreview();
-    }
-    else if (typeid(*unityPreview) == typeid(unity::dash::MusicPreview)) {
+    } else if (typeid(*unityPreview) == typeid(unity::dash::MusicPreview)) {
         preview = new MusicPreview();
-    }
-    else if (typeid(*unityPreview) == typeid(unity::dash::MoviePreview)) {
+    } else if (typeid(*unityPreview) == typeid(unity::dash::MoviePreview)) {
         preview = new MoviePreview();
-    }
-    else if (typeid(*unityPreview) == typeid(unity::dash::ApplicationPreview)) {
+    } else if (typeid(*unityPreview) == typeid(unity::dash::ApplicationPreview)) {
         preview = new ApplicationPreview();
     } else {
         qWarning() << "Unknown preview type: " << typeid(*unityPreview).name();

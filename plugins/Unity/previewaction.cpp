@@ -40,35 +40,35 @@ QString PreviewAction::id() const
 {
     if (m_unityAction)
         return QString::fromStdString(m_unityAction->id);
-    return "";
+    return QString();
 }
 
 QString PreviewAction::displayName() const
 {
     if (m_unityAction)
         return QString::fromStdString(m_unityAction->display_name);
-    return "";
+    return QString();
 }
 
 QString PreviewAction::iconHint() const
 {
     if (m_unityAction)
         return QString::fromStdString(m_unityAction->icon_hint);
-    return "";
+    return QString();
 }
 
 QString PreviewAction::extraText() const
 {
     if (m_unityAction)
         return QString::fromStdString(m_unityAction->extra_text);
-    return "";
+    return QString();
 }
 
 QString PreviewAction::activationUri() const
 {
     if (m_unityAction)
         return QString::fromStdString(m_unityAction->activation_uri);
-    return "";
+    return QString();
 }
 
 LayoutHint PreviewAction::layoutHint() const
