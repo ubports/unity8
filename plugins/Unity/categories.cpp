@@ -49,26 +49,26 @@ Categories::~Categories()
 DeeListModel*
 Categories::getFilter(int index) const
 {
-    if (!m_filters.contains(index)) {
-        auto results = std::make_shared<CategoryResults> ();
+    if (!m_results.contains(index) || m_results[index].isNull()) {
+        auto results = new CategoryResults;
         results->setCategoryIndex(index);
-        connect(results.get(), SIGNAL(countChanged()), this, SLOT(onCountChanged()));
+        connect(results, &DeeListModel::countChanged, this, &Categories::onCountChanged);
 
         unsigned cat_index = static_cast<unsigned>(index);
         auto unity_results = m_unityScope->GetResultsForCategory(cat_index);
         results->setModel(unity_results->model());
 
-        m_filters.insert(index, results);
+        m_results.insert(index, results);
     }
 
-    return m_filters[index].get();
+    return m_results[index];
 }
 
 void Categories::onCategoriesModelChanged(unity::glib::Object<DeeModel> model)
 {
-    m_timerFilters.clear();
-    m_filters.clear();
-
+    m_updatedCategories.clear();
+    // FIXME: this might destroy the renderer view and re-create it, optimize?
+    m_results.clear();
     setModel(model);
 }
 
@@ -81,22 +81,14 @@ Categories::setUnityScope(const unity::dash::Scope::Ptr& scope)
     //setModel(m_unityScope->categories()->model());
 
     m_unityScope->categories()->model.changed.connect(sigc::mem_fun(this, &Categories::onCategoriesModelChanged));
-
-    /*
-    if (model != m_resultModel) {
-        Q_FOREACH(CategoryFilter* filter, m_filters) {
-            filter->setModel(m_resultModel);
-        }
-    }
-    */
 }
 
 void
 Categories::onCountChanged()
 {
-    DeeListModel* filter = qobject_cast<DeeListModel*>(sender());
-    if (filter) {
-        m_timerFilters << filter;
+    CategoryResults* results = qobject_cast<CategoryResults*>(sender());
+    if (results) {
+        m_updatedCategories << results->categoryIndex();
         m_timer.start();
     }
 }
@@ -106,12 +98,12 @@ Categories::onEmitCountChanged()
 {
     QVector<int> roles;
     roles.append(Categories::RoleCount);
-    Q_FOREACH(DeeListModel* results, m_timerFilters) {
-        auto cat_results = qobject_cast<CategoryResults*>(results);
-        QModelIndex changedIndex = index(cat_results->categoryIndex());
+    Q_FOREACH(int cat_index, m_updatedCategories) {
+        if (m_results[cat_index].isNull()) continue;
+        QModelIndex changedIndex = index(cat_index);
         Q_EMIT dataChanged(changedIndex, changedIndex, roles);
     }
-    m_timerFilters.clear();
+    m_updatedCategories.clear();
 }
 
 QHash<int, QByteArray>

@@ -27,6 +27,7 @@
 // dee-qt
 #include "deelistmodel.h"
 
+#include <QPointer>
 #include <QSet>
 #include <QTimer>
 
@@ -69,9 +70,9 @@ private:
 
     unity::dash::Scope::Ptr m_unityScope;
     QTimer m_timer;
-    QSet<DeeListModel*> m_timerFilters;
+    QSet<int> m_updatedCategories;
     QHash<int, QByteArray> m_roles;
-    mutable QMap<int, std::shared_ptr<DeeListModel>> m_filters;
+    mutable QMap<int, QPointer<DeeListModel>> m_results;
 };
 
 #endif // CATEGORIES_H
