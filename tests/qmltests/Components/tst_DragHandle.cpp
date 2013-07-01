@@ -59,6 +59,9 @@ private Q_SLOTS:
 
     void dragThreshold_horizontal();
     void dragThreshold_vertical();
+    void stretch_horizontal();
+    void stretch_vertical();
+    void hintingAnimation();
 
 private:
     void flickAndHold(DirectionalDragArea *dragHandle, qreal distance);
@@ -287,6 +290,103 @@ void tst_DragHandle::dragThreshold_vertical()
 
     // should keep going until completion
     tryCompare([&](){ return parentItem->y(); }, -parentItem->height());
+    QCOMPARE(parentItem->property("shown").toBool(), false);
+}
+
+/*
+  Checks that when the stretch property is true, dragging the DragHandle increases
+  the width or height (depending on its direction) of its parent Showable
+ */
+void tst_DragHandle::stretch_horizontal()
+{
+    DirectionalDragArea *dragHandle = fetchAndSetupDragHandle("rightwardsDragHandle");
+    qreal totalDragDistance = dragHandle->property("maxTotalDragDistance").toReal();
+    QQuickItem *parentItem = dragHandle->parentItem();
+
+    // enable strech mode
+    m_view->rootObject()->setProperty("stretch", QVariant(true));
+
+    QCOMPARE(parentItem->width(), 0.0);
+
+    // flick all the way
+    flickAndHold(dragHandle, totalDragDistance);
+
+    // should keep going until completion
+    // Parent item should now have its full height
+    tryCompare([&](){ return parentItem->width(); }, totalDragDistance);
+    QCOMPARE(parentItem->property("shown").toBool(), true);
+
+    dragHandle = fetchAndSetupDragHandle("leftwardsDragHandle");
+
+    // flick all the way
+    flickAndHold(dragHandle, totalDragDistance);
+
+    // should keep going until completion
+    // Parent item should now have its full height
+    tryCompare([&](){ return parentItem->width(); }, 0.0);
+    QCOMPARE(parentItem->property("shown").toBool(), false);
+}
+
+void tst_DragHandle::stretch_vertical()
+{
+    DirectionalDragArea *dragHandle = fetchAndSetupDragHandle("downwardsDragHandle");
+    qreal totalDragDistance = dragHandle->property("maxTotalDragDistance").toReal();
+    QQuickItem *parentItem = dragHandle->parentItem();
+
+    // enable strech mode
+    m_view->rootObject()->setProperty("stretch", QVariant(true));
+
+    QCOMPARE(parentItem->height(), 0.0);
+
+    // flick all the way
+    flickAndHold(dragHandle, totalDragDistance);
+
+    // should keep going until completion
+    // Parent item should now have its full height
+    tryCompare([&](){ return parentItem->height(); }, totalDragDistance);
+    QCOMPARE(parentItem->property("shown").toBool(), true);
+
+    dragHandle = fetchAndSetupDragHandle("upwardsDragHandle");
+
+    // flick all the way
+    flickAndHold(dragHandle, totalDragDistance);
+
+    // should keep going until completion
+    // Parent item should now have its full height
+    tryCompare([&](){ return parentItem->height(); }, 0.0);
+    QCOMPARE(parentItem->property("shown").toBool(), false);
+}
+
+/*
+    Set DragHandle.hintDisplacement to a value bigger than zero.
+    Then lay a finger on the DragHandle.
+    The expected behavior is that it will move or strech its parent Showable
+    by hintDisplacement pixels.
+ */
+void tst_DragHandle::hintingAnimation()
+{
+    DirectionalDragArea *dragHandle = fetchAndSetupDragHandle("downwardsDragHandle");
+    QQuickItem *parentItem = dragHandle->parentItem();
+    qreal hintDisplacement = 100.0;
+
+    // enable hinting animations and stretch mode
+    m_view->rootObject()->setProperty("hintDisplacement", QVariant(hintDisplacement));
+    m_view->rootObject()->setProperty("stretch", QVariant(true));
+
+    QCOMPARE(parentItem->height(), 0.0);
+
+    QPointF initialTouchPos = dragHandle->mapToScene(
+        QPointF(dragHandle->width() / 2.0, dragHandle->height() / 2.0));
+    QPointF touchPoint = initialTouchPos;
+
+    // Pressing causes the Showable to be stretched by hintDisplacement pixels
+    QTest::touchEvent(m_view, m_device).press(0, touchPoint.toPoint());
+    tryCompare([&](){ return parentItem->height(); }, hintDisplacement);
+
+    // Releasing causes the Showable to shrink back to 0 pixels.
+    QTest::touchEvent(m_view, m_device).release(0, touchPoint.toPoint());
+    tryCompare([&](){ return parentItem->height(); }, 0.0);
+
     QCOMPARE(parentItem->property("shown").toBool(), false);
 }
 

@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
+import "Math.js" as MathLocal
 
 /*
  Put a DragHandle inside a Showable to enable the user to drag it from that handle.
@@ -45,19 +46,122 @@ import Ubuntu.Gestures 0.1
  */
 EdgeDragArea {
     id: dragArea
+    objectName: "dragHandle"
+
+    property bool stretch: false
+
+    property alias autoCompleteDragThreshold: dragEvaluator.dragThreshold
 
     // How far you can drag
-    property real maxTotalDragDistance: Direction.isHorizontal(direction) ? parent.width : parent.height
+    property real maxTotalDragDistance: {
+        if (stretch) {
+            0; // not enough context information to set a sensible default
+        } else {
+            Direction.isHorizontal(direction) ? parent.width : parent.height;
+        }
+    }
 
-    property var __previousStatus
-    property real __totalDragDistance: 0
+    property real hintDisplacement: 0
+    SmoothedAnimation {
+        id: hintingAnimation
+        target: hintingAnimation
+        property: "targetValue"
+        duration: 150
+        velocity: -1
+        to: Direction.isPositive(direction) ? d.startValue + hintDisplacement
+                                            : d.startValue - hintDisplacement
+        property real targetValue
+        onTargetValueChanged: {
+            if (!running) {
+                return;
+            }
+
+            if (Direction.isPositive(direction)) {
+                if (parent[d.targetProp] < targetValue) {
+                    parent[d.targetProp] = targetValue;
+                }
+            } else {
+                if (parent[d.targetProp] > targetValue) {
+                    parent[d.targetProp] = targetValue;
+                }
+            }
+        }
+    }
+
+    // Private stuff
+    QtObject {
+        id: d
+        property var previousStatus: undefined
+        property real startValue
+        property real minValue: Direction.isPositive(direction) ? startValue
+                                                                : startValue - maxTotalDragDistance
+        property real maxValue: Direction.isPositive(direction) ? startValue + maxTotalDragDistance
+                                                                : startValue
+
+        property var dragParent: dragArea.parent
+
+        // The property of DragHandle's parent that will be modified
+        property string targetProp: {
+            if (stretch) {
+                Direction.isHorizontal(direction) ? "width" : "height";
+            } else {
+                Direction.isHorizontal(direction) ? "x" : "y";
+            }
+        }
+
+        function limitMovement(step) {
+            var targetValue = MathLocal.clamp(dragParent[targetProp] + step, minValue, maxValue);
+            var step = targetValue - dragParent[targetProp];
+
+            if (hintDisplacement == 0) {
+                return step;
+            }
+
+            // we should not go behind hintingAnimation's current value
+            if (Direction.isPositive(direction)) {
+                if (dragParent[targetProp] + step < hintingAnimation.targetValue) {
+                    step = hintingAnimation.targetValue - dragParent[targetProp];
+                }
+            } else {
+                if (dragParent[targetProp] + step > hintingAnimation.targetValue) {
+                    step = hintingAnimation.targetValue - dragParent[targetProp];
+                }
+            }
+
+            return step;
+        }
+
+        function onFinishedRecognizedGesture() {
+            if (dragEvaluator.shouldAutoComplete()) {
+                completeDrag();
+            } else {
+                rollbackDrag();
+            }
+        }
+
+        function completeDrag() {
+            if (dragParent.shown) {
+                dragParent.hide();
+            } else {
+                dragParent.show();
+            }
+        }
+
+        function rollbackDrag() {
+            if (dragParent.shown) {
+                dragParent.show();
+            } else {
+                dragParent.hide();
+            }
+        }
+    }
 
     property alias edgeDragEvaluator: dragEvaluator
 
     EdgeDragEvaluator {
         objectName: "edgeDragEvaluator"
         id: dragEvaluator
-        trackedPosition: Direction.isHorizontal(direction) ? parent.x + touchX : parent.y + touchY
+        trackedPosition: sceneDistance
         maxDragDistance: maxTotalDragDistance
         direction: dragArea.direction
     }
@@ -67,75 +171,38 @@ EdgeDragArea {
             // don't go the whole distance in order to smooth out the movement
             var step = distance * 0.3;
 
-            step = __limitMovement(step);
+            step = d.limitMovement(step);
 
-            __totalDragDistance += step;
-
-            if (Direction.isHorizontal(direction)) {
-                parent.x += step;
-            } else {
-                parent.y += step;
-            }
+            parent[d.targetProp] += step;
         }
     }
 
-
-    function __limitMovement(step) {
-        if (Direction.isPositive(direction)) {
-            if (__totalDragDistance + step > maxTotalDragDistance) {
-                step = maxTotalDragDistance - __totalDragDistance;
-            } else if (__totalDragDistance + step < 0) {
-                step = 0 - __totalDragDistance;
+    onDraggingChanged: {
+        if (dragging) {
+            if (hintDisplacement > 0) {
+                hintingAnimation.targetValue = d.startValue;
+                hintingAnimation.start();
             }
         } else {
-            if (__totalDragDistance + step < -maxTotalDragDistance) {
-                step = -maxTotalDragDistance - __totalDragDistance;
-            } else if (__totalDragDistance + step > 0) {
-                step = 0 - __totalDragDistance;
-            }
+            hintingAnimation.stop();
         }
-
-        return step;
     }
 
     onStatusChanged: {
         if (status === DirectionalDragArea.WaitingForTouch) {
-            if (__previousStatus === DirectionalDragArea.Recognized) {
-                __onFinishedRecognizedGesture();
+            if (d.previousStatus === DirectionalDragArea.Recognized) {
+                d.onFinishedRecognizedGesture();
             }
-            __totalDragDistance = 0;
+            d.startValue = parent[d.targetProp];
         }
-        else if (status === DirectionalDragArea.Undecided) {
+
+        if (d.previousStatus === DirectionalDragArea.WaitingForTouch ||
+                d.previousStatus === undefined) {
             dragEvaluator.reset();
+            d.startValue = parent[d.targetProp];
         }
-        else if (status === DirectionalDragArea.Recognized) {
-            if (__previousStatus === DirectionalDragArea.WaitingForTouch)
-                dragEvaluator.reset();
-        }
-        __previousStatus = status;
+
+        d.previousStatus = status;
     }
 
-    function __onFinishedRecognizedGesture() {
-        if (dragEvaluator.shouldAutoComplete()) {
-            __completeDrag();
-        } else {
-            __rollbackDrag();
-        }
-    }
-
-    function __completeDrag() {
-        if (parent.shown) {
-            parent.hide();
-        } else {
-            parent.show();
-        }
-    }
-
-    function __rollbackDrag() {
-        if (parent.shown) {
-            parent.show();
-        } else {
-            parent.hide();
-        }
-    }
 }
