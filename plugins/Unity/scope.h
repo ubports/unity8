@@ -100,14 +100,10 @@ private Q_SLOTS:
     void onSearchFinished(const std::string &, unity::glib::HintsMap const &);
 
 private:
-    void onResultsModelChanged(unity::glib::Object<DeeModel>);
-    void onCategoriesModelChanged(unity::glib::Object<DeeModel>);
-
     void onActivated(unity::dash::LocalResult const& result, unity::dash::ScopeHandledType type, unity::glib::HintsMap const&);
     void fallbackActivate(const QString& uri);
 
     unity::dash::Scope::Ptr m_unityScope;
-    std::unique_ptr<DeeListModel> m_results;
     std::unique_ptr<Categories> m_categories;
     QString m_searchQuery;
     QString m_noResultsHint;

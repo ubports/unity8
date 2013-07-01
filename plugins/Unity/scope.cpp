@@ -31,7 +31,6 @@
 Scope::Scope(QObject *parent) :
     QObject(parent)
 {
-    m_results.reset(new DeeListModel(this));
     m_categories.reset(new Categories(this));
 }
 
@@ -179,8 +178,6 @@ void Scope::setUnityScope(const unity::dash::Scope::Ptr& scope)
 {
     m_unityScope = scope;
 
-    // TODO: do we even need this?
-    m_results->setModel(m_unityScope->results()->model());
     m_categories->setUnityScope(m_unityScope);
 
     m_unityScope->form_factor = m_formFactor.toStdString();
@@ -193,7 +190,6 @@ void Scope::setUnityScope(const unity::dash::Scope::Ptr& scope)
     m_unityScope->visible.changed.connect(sigc::mem_fun(this, &Scope::visibleChanged));
     m_unityScope->shortcut.changed.connect(sigc::mem_fun(this, &Scope::shortcutChanged));
     m_unityScope->connected.changed.connect(sigc::mem_fun(this, &Scope::connectedChanged));
-    m_unityScope->results()->model.changed.connect(sigc::mem_fun(this, &Scope::onResultsModelChanged));
     /* Signals forwarding */
     connect(this, SIGNAL(searchFinished(const std::string &, unity::glib::HintsMap const &, unity::glib::Error const &)), SLOT(onSearchFinished(const std::string &, unity::glib::HintsMap const &)));
 
@@ -220,11 +216,6 @@ void Scope::synchronizeStates()
             m_unityScope->Search(m_searchQuery.toStdString());
         }
     }
-}
-
-void Scope::onResultsModelChanged(unity::glib::Object<DeeModel> /* model */)
-{
-    m_results->setModel(m_unityScope->results()->model());
 }
 
 void Scope::onSearchFinished(const std::string& /* query */, unity::glib::HintsMap const &hints)
