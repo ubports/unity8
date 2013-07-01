@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-06-19 17:06+0200\n"
+"POT-Creation-Date: 2013-06-26 22:58+0200\n"
 "PO-Revision-Date: 2013-06-24 17:24+0000\n"
 "Last-Translator: Adar Cem EREN <adarcemeren34@gmail.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-25 06:00+0000\n"
-"X-Generator: Launchpad (build 16677)\n"
+"X-Launchpad-Export-Date: 2013-06-27 16:16+0000\n"
+"X-Generator: Launchpad (build 16681)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -109,27 +109,19 @@ msgstr "İndirilebilir durumda"
 msgid "Apps"
 msgstr "Uygulamalar"
 
-#: Dash/DashHome.qml:43
+#: Dash/DashHome.qml:40
 msgid "Frequent Apps"
 msgstr "Sıkça Kullanılan Uygulamalar"
 
-#: Dash/DashHome.qml:46
-msgid "Favourite People"
-msgstr "Favori Kişiler"
-
-#: Dash/DashHome.qml:49
-msgid "People Recently in Touch"
-msgstr "En Son Konuşulan Kişiler"
-
-#: Dash/DashHome.qml:52
+#: Dash/DashHome.qml:43
 msgid "Recent Music"
 msgstr "En Son Müzik"
 
-#: Dash/DashHome.qml:55
+#: Dash/DashHome.qml:46
 msgid "Videos Popular Online"
 msgstr "Çevrimiçi Yaygın Videolar"
 
-#: Dash/DashHome.qml:197 plugins/Unity/lenses.cpp:38
+#: Dash/DashHome.qml:175
 msgid "Home"
 msgstr "Ana Sayfa"
 
@@ -153,26 +145,6 @@ msgstr ""
 msgid "Music"
 msgstr "Müzik"
 
-#: Dash/DashPeople.qml:31
-msgid "Favourites"
-msgstr "Favoriler"
-
-#: Dash/DashPeople.qml:32
-msgid "Recently in touch"
-msgstr ""
-
-#: Dash/DashPeople.qml:33
-msgid "New Contacts"
-msgstr "Yeni Kişiler"
-
-#: Dash/DashPeople.qml:34
-msgid "A-Z"
-msgstr "A-Z"
-
-#: Dash/DashPeople.qml:123
-msgid "People"
-msgstr "Kişiler"
-
 #: Dash/DashVideos.qml:31
 msgid "Popular Online"
 msgstr "Genellikle Çevrimiçi"
@@ -193,7 +165,7 @@ msgstr ""
 msgid "Author:"
 msgstr "Yazar:"
 
-#: Greeter/Lockscreen.qml:126
+#: Greeter/Lockscreen.qml:133
 msgid "Emergency call"
 msgstr "Acil Arama"
 
@@ -234,19 +206,36 @@ msgstr "Aygıt"
 msgid "Flight mode"
 msgstr "Uçak Modu"
 
-#: Panel/SearchIndicator.qml:26 plugins/Unity/lenses.cpp:40
+#: Panel/SearchIndicator.qml:26
 msgid "Search"
 msgstr "Ara"
 
-#: plugins/Unity/lens.cpp:333
+#: plugins/Unity/scope.cpp:268
 msgid "Sorry, there is nothing that matches your search."
 msgstr "Üzgünüz, aramanızla eşleşen hiçbir şey yok."
 
-#: plugins/Unity/lenses.cpp:39
-msgid "Home screen"
-msgstr "Başlangıç ekranı"
-
-#: Shell.qml:380
+#: Shell.qml:383
 #, qt-format
-msgid "Please enter %1:"
+msgid "Please enter %1"
 msgstr ""
+
+#~ msgid "People"
+#~ msgstr "Kişiler"
+
+#~ msgid "Home screen"
+#~ msgstr "Başlangıç ekranı"
+
+#~ msgid "Favourite People"
+#~ msgstr "Favori Kişiler"
+
+#~ msgid "People Recently in Touch"
+#~ msgstr "En Son Konuşulan Kişiler"
+
+#~ msgid "A-Z"
+#~ msgstr "A-Z"
+
+#~ msgid "New Contacts"
+#~ msgstr "Yeni Kişiler"
+
+#~ msgid "Favourites"
+#~ msgstr "Favoriler"

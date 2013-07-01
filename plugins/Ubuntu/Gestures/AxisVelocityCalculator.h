@@ -25,6 +25,19 @@
 #include <stdint.h>
 #include <QtCore/QObject>
 
+namespace UbuntuGestures {
+/*
+    Interface for a time source.
+ */
+class UBUNTUGESTURES_EXPORT TimeSource : public QObject {
+    Q_OBJECT
+public:
+    virtual ~TimeSource() {}
+    /* Returns the current time in milliseconds since some reference time in the past. */
+    virtual qint64 msecsSinceReference() = 0;
+};
+}
+
 /*
   Estimates the current velocity of a finger based on recent movement along an axis
 
@@ -60,25 +73,9 @@ class UBUNTUGESTURES_EXPORT AxisVelocityCalculator : public QObject
 public:
 
     /*
-        Interface for a time source.
-     */
-    class TimeSource {
-      public:
-        virtual ~TimeSource() {}
-        /* Returns the current time in milliseconds since some reference time in the past. */
-        virtual qint64 msecsSinceReference() = 0;
-    };
-
-    /*
       Regular constructor
      */
     AxisVelocityCalculator(QObject *parent = 0);
-
-    /*
-      Extended constructor useful for testing purposes where you can inject
-      a fake time source implementation.
-     */
-    AxisVelocityCalculator(TimeSource *timeSource, QObject *parent = 0);
 
     virtual ~AxisVelocityCalculator();
 
@@ -88,7 +85,7 @@ public:
     /*
       Calculates the finger velocity, in axis units/millisecond
     */
-    Q_INVOKABLE qreal calculate() const;
+    Q_INVOKABLE qreal calculate();
 
     /*
       Removes all stored movements from previous calls to setTrackedPosition()
@@ -98,6 +95,11 @@ public:
     int numSamples() const;
 
     /*
+        Replaces the TimeSource with the given one. Useful for testing purposes.
+     */
+    void setTimeSource(UbuntuGestures::TimeSource *timeSource);
+
+    /*
         The minimum amount of samples needed for a velocity calculation.
      */
     static const int MIN_SAMPLES_NEEDED = 2;
@@ -105,18 +107,27 @@ public:
     /*
       Maximum number of movement samples stored
     */
-    static const int MAX_SAMPLES = 10;
+    static const int MAX_SAMPLES = 50;
 
     /*
       Age of the oldest sample considered in the velocity calculations, in
       milliseconds, compared to the most recent one.
     */
-    static const int AGE_OLDEST_SAMPLE = 200;
+    static const int AGE_OLDEST_SAMPLE = 100;
 
 Q_SIGNALS:
     void trackedPositionChanged(qreal value);
 
 private:
+
+    /*
+        Inform that trackedPosition remained motionless since the time it was
+        last changed.
+
+        It's the same as calling setTrackedPosition(trackedPosition())
+     */
+    void updateIdleTime();
+
     /*
       How much the finger has moved since processMovement() was last called.
     */
@@ -134,7 +145,7 @@ private:
     int m_samplesRead; /* index of the oldest sample available. -1 if buffer is empty */
     int m_samplesWrite; /* index where the next sample will be written */
 
-    TimeSource *m_timeSource;
+    UbuntuGestures::TimeSource *m_timeSource;
 
     qreal m_trackedPosition;
 };

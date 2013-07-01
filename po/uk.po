@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-06-19 17:06+0200\n"
-"PO-Revision-Date: 2013-06-14 11:26+0000\n"
-"Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
+"POT-Creation-Date: 2013-06-26 22:58+0200\n"
+"PO-Revision-Date: 2013-06-29 14:27+0000\n"
+"Last-Translator: Roman Koshkin <mar2008m@rambler.ru>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-20 06:37+0000\n"
-"X-Generator: Launchpad (build 16673)\n"
+"X-Launchpad-Export-Date: 2013-06-30 07:12+0000\n"
+"X-Generator: Launchpad (build 16692)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -109,27 +109,19 @@ msgstr "Доступно до завантаження"
 msgid "Apps"
 msgstr "Програми"
 
-#: Dash/DashHome.qml:43
+#: Dash/DashHome.qml:40
 msgid "Frequent Apps"
 msgstr "Часто використовувані програми"
 
-#: Dash/DashHome.qml:46
-msgid "Favourite People"
-msgstr "Вибрані контакти"
-
-#: Dash/DashHome.qml:49
-msgid "People Recently in Touch"
-msgstr "Недавні контакти"
-
-#: Dash/DashHome.qml:52
+#: Dash/DashHome.qml:43
 msgid "Recent Music"
 msgstr "Нещодавно прослухана музика"
 
-#: Dash/DashHome.qml:55
+#: Dash/DashHome.qml:46
 msgid "Videos Popular Online"
 msgstr "Популярні в мережі відео"
 
-#: Dash/DashHome.qml:197 plugins/Unity/lenses.cpp:38
+#: Dash/DashHome.qml:175
 msgid "Home"
 msgstr "Домівка"
 
@@ -153,26 +145,6 @@ msgstr "З високими оцінками"
 msgid "Music"
 msgstr "Музика"
 
-#: Dash/DashPeople.qml:31
-msgid "Favourites"
-msgstr "Улюблене"
-
-#: Dash/DashPeople.qml:32
-msgid "Recently in touch"
-msgstr "Нещодавні контакти"
-
-#: Dash/DashPeople.qml:33
-msgid "New Contacts"
-msgstr "Нові контакти"
-
-#: Dash/DashPeople.qml:34
-msgid "A-Z"
-msgstr "А-Я"
-
-#: Dash/DashPeople.qml:123
-msgid "People"
-msgstr "Люди"
-
 #: Dash/DashVideos.qml:31
 msgid "Popular Online"
 msgstr "Популярне у мережі"
@@ -193,18 +165,18 @@ msgstr "Актори:"
 msgid "Author:"
 msgstr "Автор:"
 
-#: Greeter/Lockscreen.qml:126
+#: Greeter/Lockscreen.qml:133
 msgid "Emergency call"
-msgstr ""
+msgstr "Екстрений виклик"
 
 #: Greeter/PassphraseLockscreen.qml:59
 #, qt-format
 msgid "Hello %1"
-msgstr ""
+msgstr "Привіт, %1"
 
 #: Greeter/PassphraseLockscreen.qml:59
 msgid "Hello"
-msgstr ""
+msgstr "Привіт!"
 
 #: Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
@@ -234,19 +206,39 @@ msgstr "Пристрій"
 msgid "Flight mode"
 msgstr "Автономний режим"
 
-#: Panel/SearchIndicator.qml:26 plugins/Unity/lenses.cpp:40
+#: Panel/SearchIndicator.qml:26
 msgid "Search"
 msgstr "Пошук"
 
-#: plugins/Unity/lens.cpp:333
+#: plugins/Unity/scope.cpp:268
 msgid "Sorry, there is nothing that matches your search."
 msgstr "Вибачте, для вказаних вами ключових слів нічого не знайдено."
 
-#: plugins/Unity/lenses.cpp:39
-msgid "Home screen"
-msgstr "Екран домівки"
-
-#: Shell.qml:380
+#: Shell.qml:383
 #, qt-format
-msgid "Please enter %1:"
-msgstr ""
+msgid "Please enter %1"
+msgstr "Будь ласка, введіть %1"
+
+#~ msgid "People"
+#~ msgstr "Люди"
+
+#~ msgid "Home screen"
+#~ msgstr "Екран домівки"
+
+#~ msgid "Favourite People"
+#~ msgstr "Вибрані контакти"
+
+#~ msgid "People Recently in Touch"
+#~ msgstr "Недавні контакти"
+
+#~ msgid "A-Z"
+#~ msgstr "А-Я"
+
+#~ msgid "New Contacts"
+#~ msgstr "Нові контакти"
+
+#~ msgid "Favourites"
+#~ msgstr "Улюблене"
+
+#~ msgid "Recently in touch"
+#~ msgstr "Нещодавні контакти"

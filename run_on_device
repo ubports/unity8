@@ -15,6 +15,8 @@ PINLOCK=false
 KEYLOCK=false
 SUDO="echo $PASSWORD | sudo -S"
 NUM_JOBS='$(( `grep -c ^processor /proc/cpuinfo` + 1 ))'
+FLIPPED=false
+CHROOT_PREFIX="/data/ubuntu"
 
 usage() {
     echo "usage: run_on_device [OPTIONS]\n"
@@ -35,7 +37,11 @@ exec_with_ssh() {
 }
 
 exec_with_adb() {
-    adb shell chroot /data/ubuntu /usr/bin/env -i PATH=/bin:/usr/bin:/sbin:/usr/sbin:/tools/bin "$@"
+    if $FLIPPED; then
+        adb shell $@
+    else
+        adb shell chroot /data/ubuntu /usr/bin/env -i PATH=/bin:/usr/bin:/sbin:/usr/sbin:/tools/bin "$@"
+    fi
 }
 
 adb_root() {
@@ -45,7 +51,7 @@ adb_root() {
 
 install_ssh_key() {
     ssh-keygen -R $TARGET_IP
-    HOME_DIR=/data/ubuntu/home/phablet
+    HOME_DIR="${CHROOT_PREFIX}/home/phablet"
     adb push ~/.ssh/id_rsa.pub $HOME_DIR/.ssh/authorized_keys
     adb shell chown $USER_ID:$USER_ID $HOME_DIR/.ssh
     adb shell chown $USER_ID:$USER_ID $HOME_DIR/.ssh/authorized_keys
@@ -79,14 +85,15 @@ build() {
 }
 
 run() {
-    SERVICEFILE="/data/ubuntu/etc/device-services"
+    SERVICEFILE="${CHROOT_PREFIX}/etc/device-services"
     adb shell "egrep '$BINARY|qml-phone-shell' $SERVICEFILE"
     CONTAINS_SHELL=$?
     if [ $CONTAINS_SHELL -eq 0 ]; then
         echo "Modifying $SERVICEFILE on device. Old contents will be saved in $SERVICEFILE.backup"
         adb shell cp $SERVICEFILE $SERVICEFILE.backup
         adb shell sed -i "/$BINARY\\\\\|qml-phone-shell/d" $SERVICEFILE
-        adb shell "chroot /data/ubuntu /usr/bin/service ubuntu-session restart"
+        if $FLIPPED; then exec_with_adb /usr/bin/service ubuntu-touch-session restart
+        else exec_with_adb /usr/bin/service ubuntu-session restart; fi
     fi
     adb shell pkill qml-phone-shell
     adb shell pkill $BINARY
@@ -106,7 +113,8 @@ run() {
     if [ $CONTAINS_SHELL -eq 0 ]; then
         echo "Restoring $SERVICEFILE on device from $SERVICEFILE.backup"
         adb shell cp $SERVICEFILE.backup $SERVICEFILE
-        adb shell "chroot /data/ubuntu /usr/bin/service ubuntu-session restart"
+        if $FLIPPED; then exec_with_adb /usr/bin/service ubuntu-touch-session restart
+        else exec_with_adb /usr/bin/service ubuntu-session restart; fi
     fi
 }
 
@@ -129,6 +137,16 @@ done
 
 adb_root
 [ "${TARGET_IP}" = "127.0.0.1" ] && setup_adb_forwarding
+
+if [ "`adb shell 'grep -q Ubuntu /etc/lsb-release 2> /dev/null && echo -n FLIPPED'`" = "FLIPPED" ]; then
+    FLIPPED=true
+    CHROOT_PREFIX=""
+    if [ "${TARGET_IP}" != "127.0.0.1" ]; then
+        echo "ERROR: Flipped image detected, adb over TCP/IP isn't supported, yet :/"
+        echo "Unset TARGET_IP and try again."
+        exit 2
+    fi
+fi
 
 if $SETUP; then
     echo "Setting up environment for building shell.."

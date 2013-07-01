@@ -16,14 +16,23 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Ubuntu.Gestures 0.1
 import LightDM 0.1 as LightDM
 import "../Components"
+import "../Components/Math.js" as MathLocal
 
 Showable {
     id: greeter
     enabled: shown
     created: greeterContentLoader.status == Loader.Ready && greeterContentLoader.item.ready
 
+    // 1 when fully shown and 0 when fully hidden
+    property real showProgress: MathLocal.clamp((width + x) / width, 0, 1)
+
+    showAnimation: StandardAnimation { property: "x"; to: 0 }
+    hideAnimation: StandardAnimation { property: "x"; to: -width }
+
+    property alias dragHandleWidth: dragHandle.width
     property alias model: greeterContentLoader.model
     property bool locked: shown && multiUser && !greeterContentLoader.promptless
 
@@ -91,4 +100,21 @@ Showable {
             }
         }
     ]
+
+    DragHandle {
+        id: dragHandle
+
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+
+        // no need for requiring a directional drag since we are covering the screen
+        // anyway (i.e., no change user could be trying to interact with some other
+        // UI element)
+        distanceThreshold: 0
+
+        enabled: !greeter.locked
+
+        direction: Direction.Leftwards
+    }
 }

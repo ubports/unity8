@@ -25,3 +25,8 @@ bool Direction::isVertical(Direction::Type type)
 {
     return type == Direction::Upwards || type == Direction::Downwards;
 }
+
+bool Direction::isPositive(Direction::Type type)
+{
+    return type == Rightwards || type == Downwards;
+}

@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1 as Theming
+import Ubuntu.Components 0.1
 
 /* FIXME: This component is duplicating the UbuntuShape from the SDK, but shapes more
  * general (Item-based) components. This ability should be incorporated into the SDK's
@@ -24,66 +24,22 @@ import Ubuntu.Components 0.1 as Theming
  */
 
 Item {
-    id: shape
+    id: root
 
-    Theming.ItemStyle.class: "UbuntuShape-radius-" + radius
+    property alias radius: shape.radius
+    property alias image: source.sourceItem
 
-    property string radius: "small"
-    property url maskSource: Theming.ComponentUtils.style(shape, "maskSource", "")
-    property url borderSource: Theming.ComponentUtils.style(shape, "borderIdle", "")
-    property Item image
-
-    implicitWidth: units.gu(8)
-    implicitHeight: units.gu(8)
-
-    onWidthChanged: __updateImageDimensions()
-    onHeightChanged: __updateImageDimensions()
-    onImageChanged: __updateImageDimensions()
-
-    function __updateImageDimensions() {
-        if (!image) return;
-        image.width = shape.width;
-        image.height = shape.height;
-        image.visible = false;
+    ShaderEffectSource {
+        id: source
+        width: 1
+        height: 1
+        hideSource: true
     }
 
-    ShaderEffect {
-        anchors.fill: parent
-        visible: shape.image
-
-        property ShaderEffectSource mask: ShaderEffectSource {
-            sourceItem: BorderImage {
-                width: shape.width
-                height: shape.height
-                source: shape.maskSource
-                visible: false
-            }
-        }
-
-        property ShaderEffectSource image: ShaderEffectSource {
-            sourceItem: shape.image
-        }
-
-        fragmentShader:
-            "
-            varying highp vec2 qt_TexCoord0;
-            uniform lowp float qt_Opacity;
-            uniform sampler2D mask;
-            uniform sampler2D image;
-
-            void main(void)
-            {
-                lowp vec4 maskColor = texture2D(mask, qt_TexCoord0.st);
-                lowp vec4 imageColor = texture2D(image, qt_TexCoord0.st);
-                gl_FragColor = imageColor * maskColor.a * qt_Opacity;
-            }
-            "
-    }
-
-    BorderImage {
-        id: border
+    Shape {
+        id: shape
+        image: source
 
         anchors.fill: parent
-        source: shape.borderSource
     }
 }
