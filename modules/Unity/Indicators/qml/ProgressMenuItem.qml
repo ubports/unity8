@@ -28,10 +28,12 @@ MenuItem {
     // it is available. For now, this rebuilds the Mockup as close as possible.
     UbuntuShape {
         id: progressBar
-        anchors.right: parent.right
-        anchors.rightMargin: units.gu(2)
-        anchors.left: parent.left
-        anchors.leftMargin: units.gu(2)
+        anchors {
+            right: parent.right
+            rightMargin: units.gu(2)
+            left: parent.left
+            leftMargin: units.gu(2)
+        }
         height: units.gu(4)
         anchors.verticalCenter: parent.verticalCenter
         color: "#00000000"

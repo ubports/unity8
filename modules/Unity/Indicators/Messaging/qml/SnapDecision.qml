@@ -100,10 +100,12 @@ HeroMessage {
 
         messages: actionsDescription ? actionsDescription[1]["parameter-hint"] : ""
         buttonText: actionsDescription ? actionsDescription[1].label : "send"
-        anchors.top: __buttons.bottom
-        anchors.topMargin: units.gu(2)
-        anchors.left: parent.left
-        anchors.right: parent.right
+        anchors {
+            top: __buttons.bottom
+            topMargin: units.gu(2)
+            left: parent.left
+            right: parent.right
+        }
         height: 0
         opacity: 0.0
         enabled: false

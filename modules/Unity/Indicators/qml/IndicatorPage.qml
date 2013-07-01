@@ -63,8 +63,10 @@ IndicatorBase {
             property bool ready: false
             property alias empty: factory.empty
 
-            anchors.left: parent.left
-            anchors.right: parent.right
+            anchors {
+                left: parent.left
+                right: parent.right
+            }
             height: div.height + factory.implicitHeight
             visible: height > 0
 
@@ -127,8 +129,10 @@ IndicatorBase {
 
                     actionGroup: main.actionGroup
                     isCurrentItem: item.ListView.isCurrentItem
-                    anchors.left: parent.left
-                    anchors.right: parent.right
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                    }
                     menu: model
 
                     Connections {

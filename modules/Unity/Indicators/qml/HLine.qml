@@ -22,6 +22,8 @@ import Ubuntu.Components 0.1
 
 Rectangle {
     height: units.dp(1)
-    anchors.left: parent.left
-    anchors.right: parent.right
+    anchors {
+        left: parent.left
+        right: parent.right
+    }
 }

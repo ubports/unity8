@@ -31,11 +31,13 @@ Item {
     TextField {
         id: __replyField
 
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        anchors.right: __sendButton.left
-        anchors.rightMargin: units.gu(1)
+        anchors {
+            top: parent.top
+            bottom: parent.bottom
+            left: parent.left
+            right: __sendButton.left
+            rightMargin: units.gu(1)
+        }
         placeholderText: "Reply"
         hasClearButton: false
 
@@ -52,9 +54,11 @@ Item {
         id: __sendButton
 
         actionParameter: __replyField.text
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        anchors.right: parent.right
+        anchors {
+            top: parent.top
+            bottom: parent.bottom
+            right: parent.right
+        }
         width: units.gu(9)
         enabled: __replyField.text !== ""
         color: enabled ? "#c94212" : "#bababa"

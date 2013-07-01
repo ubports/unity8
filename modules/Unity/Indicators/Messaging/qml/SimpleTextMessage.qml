@@ -35,20 +35,24 @@ HeroMessage {
     Item {
         id: __fullMessage
 
-        anchors.left: parent.left
-        anchors.leftMargin: units.gu(2)
-        anchors.right: parent.right
-        anchors.rightMargin: units.gu(2)
-        anchors.top: heroMessageHeader.bottom
+        anchors {
+            left: parent.left
+            leftMargin: units.gu(2)
+            right: parent.right
+            rightMargin: units.gu(2)
+            top: heroMessageHeader.bottom
+        }
         height: childrenRect.height
         opacity: 0.0
         enabled: false
 
         Label {
             id: __bodyText
-            anchors.top: parent.top
-            anchors.left: parent.left
-            anchors.right: parent.right
+            anchors {
+                top: parent.top
+                left: parent.left
+                right: parent.right
+            }
             wrapMode: Text.WordWrap
             elide: Text.ElideRight
             color: "#e8e1d0"
@@ -59,10 +63,12 @@ HeroMessage {
         Loader {
             id: __footer
 
-            anchors.top: __bodyText.bottom
-            anchors.topMargin: units.gu(2)
-            anchors.left: parent.left
-            anchors.right: parent.right
+            anchors {
+                top: __bodyText.bottom
+                topMargin: units.gu(2)
+                left: parent.left
+                right: parent.right
+            }
             height: __footer.item != undefined ? units.gu(4) : 0
         }
 

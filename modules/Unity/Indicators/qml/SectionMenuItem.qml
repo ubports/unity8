@@ -29,8 +29,10 @@ BasicMenuItem {
     property int count: menu && menu.linkSection ?  menu.linkSection.count : 0
 
     color: "#221e1b"
-    anchors.left: parent ? parent.left : undefined
-    anchors.right: parent ? parent.right : undefined
+    anchors {
+        left: parent ? parent.left : undefined
+        right: parent ? parent.right : undefined
+    }
     implicitHeight: label !== "" ? __header.height : 0
     state: count === 0 ? "EMPTY" : ""
 
@@ -39,16 +41,20 @@ BasicMenuItem {
 
         text: label
         height: units.gu(4)
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.top: parent.top
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: parent.top
+        }
         visible: text != ""
 
         ActivityIndicator {
             id: indicator
             running: busy
-            anchors.margins: units.gu(0.5)
-            anchors.right: parent.right
+            anchors {
+                margins: units.gu(0.5)
+                right: parent.right
+            }
             height: parent.height - (anchors.margins * 2)
             width: height
             anchors.verticalCenter: parent.verticalCenter

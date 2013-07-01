@@ -38,11 +38,13 @@ Item {
         height: units.gu(4)
 
         Row {
-            anchors.fill: parent
-            anchors.leftMargin: units.gu(2)
-            anchors.rightMargin: units.gu(2)
-            anchors.topMargin: units.gu(1)
-            anchors.bottomMargin: units.gu(1)
+            anchors {
+                fill: parent
+                leftMargin: units.gu(2)
+                rightMargin: units.gu(2)
+                topMargin: units.gu(1)
+                bottomMargin: units.gu(1)
+            }
             spacing: units.gu(1)
 
             Image {
@@ -69,9 +71,11 @@ Item {
 
     Column {
         id: __messagelist
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.top: __header.bottom
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: __header.bottom
+        }
         height: childrenRect.height
 
         Repeater {
@@ -87,9 +91,11 @@ Item {
                 Label {
                     id: __label
 
-                    anchors.fill: parent
-                    anchors.leftMargin: units.gu(2)
-                    anchors.rightMargin: units.gu(2)
+                    anchors {
+                        fill: parent
+                        leftMargin: units.gu(2)
+                        rightMargin: units.gu(2)
+                    }
                     verticalAlignment: Text.AlignVCenter
                     fontSize: "medium"
                     color: "#e8e1d0"

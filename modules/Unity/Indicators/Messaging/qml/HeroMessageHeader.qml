@@ -38,10 +38,12 @@ Item {
 
     UbuntuShape {
         id: __avatarImageContainer
-        anchors.top: parent.top
-        anchors.topMargin: units.gu(2)
-        anchors.left: parent.left
-        anchors.leftMargin: units.gu(2)
+        anchors {
+            top: parent.top
+            topMargin: units.gu(2)
+            left: parent.left
+            leftMargin: units.gu(2)
+        }
         height: units.gu(6)
         width: units.gu(6)
         image: Image {
@@ -52,10 +54,12 @@ Item {
 
     Image {
         id: __iconImage
-        anchors.top: parent.top
-        anchors.topMargin: units.gu(2)
-        anchors.left: __avatarImageContainer.right
-        anchors.leftMargin: units.gu(1)
+        anchors {
+            top: parent.top
+            topMargin: units.gu(2)
+            left: __avatarImageContainer.right
+            leftMargin: units.gu(1)
+        }
         height: units.gu(1.5)
         width: units.gu(2)
         horizontalAlignment: Image.AlignHCenter
@@ -65,11 +69,13 @@ Item {
 
     Label {
         id: __titleText
-        anchors.baseline: __iconImage.bottom
-        anchors.left: __iconImage.right
-        anchors.leftMargin: units.gu(1)
-        anchors.right: __appIcon.left
-        anchors.rightMargin: units.gu(2)
+        anchors {
+            baseline: __iconImage.bottom
+            left: __iconImage.right
+            leftMargin: units.gu(1)
+            right: __appIcon.left
+            rightMargin: units.gu(2)
+        }
         elide: Text.ElideRight
         color: "#e8e1d0"
         font.weight: Font.DemiBold
@@ -78,10 +84,12 @@ Item {
 
     Label {
         id: __subtitleText
-        anchors.baseline: __titleText.baseline
-        anchors.baselineOffset: units.gu(2.5)
-        anchors.left: __titleText.left
-        anchors.right: __titleText.right
+        anchors {
+            baseline: __titleText.baseline
+            baselineOffset: units.gu(2.5)
+            left: __titleText.left
+            right: __titleText.right
+        }
         elide: Text.ElideRight
         color: "#8f8f88"
         fontSize: "small"
@@ -89,11 +97,13 @@ Item {
 
     Label {
         id: __bodyText
-        anchors.baseline: __subtitleText.baseline
-        anchors.baselineOffset: units.gu(2.5)
-        anchors.left: __titleText.left
-        anchors.right: parent.right
-        anchors.rightMargin: units.gu(2)
+        anchors {
+            baseline: __subtitleText.baseline
+            baselineOffset: units.gu(2.5)
+            left: __titleText.left
+            right: parent.right
+            rightMargin: units.gu(2)
+        }
         maximumLineCount: 2
         wrapMode: Text.WordWrap
         elide: Text.ElideRight
@@ -105,20 +115,24 @@ Item {
         id: __appIcon
         width: units.gu(7)
         height: units.gu(7)
-        anchors.top: parent.top
-        anchors.right: parent.right
+        anchors {
+            top: parent.top
+            right: parent.right
+        }
         opacity: 0.0
         enabled: __heroMessageHeader.state === "expanded"
 
         Image {
             id: __appIconImage
             height: width
-            anchors.left: parent.left
-            anchors.leftMargin: units.gu(2)
-            anchors.right: parent.right
-            anchors.rightMargin: units.gu(2)
-            anchors.topMargin: units.gu(1)
-            anchors.verticalCenter: parent.verticalCenter
+            anchors {
+                left: parent.left
+                leftMargin: units.gu(2)
+                right: parent.right
+                rightMargin: units.gu(2)
+                topMargin: units.gu(1)
+                verticalCenter: parent.verticalCenter
+            }
             fillMode: Image.PreserveAspectFit
         }
 
