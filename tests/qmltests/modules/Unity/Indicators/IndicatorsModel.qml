@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.0
+import Unity.Indicators 0.1 as Indicators
 
 ListModel {
 
@@ -71,6 +72,33 @@ ListModel {
         pageSource: "qrc:/tests/indciators/qml/fake_menu_page5.qml";
         indicatorProperties: "";
         isValid: "";
+    }
+
+    function data(row, role) {
+        if (role == Indicators.IndicatorsModelRole.Identifier) {
+            return get(row).identifier;
+        }
+        else if (role == Indicators.IndicatorsModelRole.Priority) {
+            return get(row).priority
+        }
+        else if (role == Indicators.IndicatorsModelRole.Title) {
+            return get(row).title
+        }
+        else if (role == Indicators.IndicatorsModelRole.Description) {
+            return get(row).description
+        }
+        else if (role == Indicators.IndicatorsModelRole.WidgetSource) {
+            return get(row).widgetSource
+        }
+        else if (role == Indicators.IndicatorsModelRole.PageSource) {
+            return get(row).pageSource
+        }
+        else if (role == Indicators.IndicatorsModelRole.IndicatorProperties) {
+            return get(row).indicatorProperties
+        }
+        else if (role == Indicators.IndicatorsModelRole.IsValid) {
+            return get(row).isValid
+        }
     }
 
 }

@@ -184,7 +184,7 @@ Rectangle {
                 if (content.overviewActive)
                     return i18n.tr("Device");
                 if (indicatorsModel && menus.currentIndex >= 0 && menus.currentIndex < indicatorsModel.count)
-                    return indicatorsModel.data(menus.currentIndex, Indicators.IndicatorsModel.Title);
+                    return indicatorsModel.data(menus.currentIndex, Indicators.IndicatorsModelRole.Title);
                 return "";
             }
             opacity: __shown ? 1 : 0

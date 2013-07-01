@@ -36,16 +36,6 @@ class IndicatorsModel : public QAbstractListModel
     Q_PROPERTY(QVariant indicatorData READ indicatorData WRITE setIndicatorData NOTIFY indicatorDataChanged)
 
 public:
-    enum Roles {
-        Identifier = 0,
-        Priority,
-        Title,
-        Description,
-        WidgetSource,
-        PageSource,
-        IndicatorProperties,
-        IsValid
-    };
 
     IndicatorsModel(QObject *parent=0);
     ~IndicatorsModel();

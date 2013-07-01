@@ -46,7 +46,7 @@ IndicatorBase {
 
 
     function update_state() {
-        var extra = proxyModel.data(0, Indicators.FlatMenuProxyModel.Extra);
+        var extra = proxyModel.data(0, Indicators.FlatMenuProxyModelRole.Extra);
         if (extra == undefined) {
             return;
         }
@@ -56,7 +56,7 @@ IndicatorBase {
         }
 
         if (parseRootElement(extra.canonical_type)) {
-            action = actionGroup.action(proxyModel.data(0, Indicators.FlatMenuProxyModel.Action));
+            action = actionGroup.action(proxyModel.data(0, Indicators.FlatMenuProxyModelRole.Action));
         }
     }
 

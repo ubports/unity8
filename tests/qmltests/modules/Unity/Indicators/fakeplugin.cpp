@@ -20,11 +20,18 @@
 #include <QtQml>
 
 // self
-#include "plugin.h"
+#include "fakeplugin.h"
 
 // local
+#include "indicators.h"
 
-void IndicatorsFakePlugin::registerTypes(const char *)
+void IndicatorsFakePlugin::registerTypes(const char * uri)
 {
     Q_INIT_RESOURCE(indicators_fake);
+
+    qmlRegisterUncreatableType<ActionState>(uri, 0, 1, "ActionState", "Can't create ActionState class");
+    qmlRegisterUncreatableType<NetworkActionState>(uri, 0, 1, "NetworkActionState", "Can't create NetworkActionState class");
+    qmlRegisterUncreatableType<NetworkConnection>(uri, 0, 1, "NetworkConnection", "Can't create NetworkConnection class");
+    qmlRegisterUncreatableType<IndicatorsModelRole>(uri, 0, 1, "IndicatorsModelRole", "Can't create IndicatorsModelRole class");
+    qmlRegisterUncreatableType<FlatMenuProxyModelRole>(uri, 0, 1, "FlatMenuProxyModelRole", "Can't create FlatMenuProxyModelRole class");
 }

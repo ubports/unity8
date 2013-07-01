@@ -19,6 +19,8 @@
 #ifndef INDICATORS_H
 #define INDICATORS_H
 
+#include <QObject>
+
 class ActionState : public QObject
 {
     Q_OBJECT
@@ -60,6 +62,42 @@ public:
     };
 
     NetworkConnection(QObject*parent=0):QObject(parent) {}
+};
+
+class IndicatorsModelRole : public QObject
+{
+    Q_OBJECT
+public:
+    Q_ENUMS(Roles)
+    enum Roles {
+        Identifier = 0,
+        Priority,
+        Title,
+        Description,
+        WidgetSource,
+        PageSource,
+        IndicatorProperties,
+        IsValid
+    };
+
+    IndicatorsModelRole(QObject*parent=0):QObject(parent) {}
+};
+
+class FlatMenuProxyModelRole : public QObject
+{
+    Q_OBJECT
+public:
+    Q_ENUMS(Roles)
+    enum Roles {
+        Action  = Qt::DisplayRole + 1,
+        Label,
+        Extra,
+        Depth,
+        hasSection,
+        hasSubMenu
+    };
+
+    FlatMenuProxyModelRole(QObject*parent=0):QObject(parent) {}
 };
 
 #endif // INDICATORS_H

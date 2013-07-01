@@ -36,16 +36,6 @@ class FlatMenuProxyModel : public QAbstractProxyModel
 
     Q_ENUMS(Roles)
 public:
-    // Because this is a proxy to qmenumodel, it may change.
-    enum Roles {
-        Action  = Qt::DisplayRole + 1,
-        Label,
-        Extra,
-        Depth,
-        hasSection,
-        hasSubMenu
-    };
-
     FlatMenuProxyModel(QAbstractItemModel *source=0);
     ~FlatMenuProxyModel();
 

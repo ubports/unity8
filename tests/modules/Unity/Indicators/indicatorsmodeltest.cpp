@@ -18,6 +18,7 @@
  */
 
 #include "indicatorsmodel.h"
+#include "indicators.h"
 #include "paths.h"
 
 #include <QtTest>
@@ -78,21 +79,21 @@ private Q_SLOTS:
         model.setIndicatorData(map);
         model.load();
 
-        QCOMPARE(model.data(0, IndicatorsModel::Identifier).toString(), QString("indicator-fake2"));
-        QCOMPARE(model.data(0, IndicatorsModel::Title).toString(), QString("fake2"));
-        QCOMPARE(model.data(0, IndicatorsModel::IndicatorProperties).toMap()["busName"].toString(), QString("com.canonical.indicator.fake2"));
+        QCOMPARE(model.data(0, IndicatorsModelRole::Identifier).toString(), QString("indicator-fake2"));
+        QCOMPARE(model.data(0, IndicatorsModelRole::Title).toString(), QString("fake2"));
+        QCOMPARE(model.data(0, IndicatorsModelRole::IndicatorProperties).toMap()["busName"].toString(), QString("com.canonical.indicator.fake2"));
 
-        QCOMPARE(model.data(1, IndicatorsModel::Identifier).toString(), QString("indicator-fake1"));
-        QCOMPARE(model.data(1, IndicatorsModel::Title).toString(), QString("fake1"));
-        QCOMPARE(model.data(1, IndicatorsModel::IndicatorProperties).toMap()["busName"].toString(), QString("com.canonical.indicator.fake1"));
+        QCOMPARE(model.data(1, IndicatorsModelRole::Identifier).toString(), QString("indicator-fake1"));
+        QCOMPARE(model.data(1, IndicatorsModelRole::Title).toString(), QString("fake1"));
+        QCOMPARE(model.data(1, IndicatorsModelRole::IndicatorProperties).toMap()["busName"].toString(), QString("com.canonical.indicator.fake1"));
 
-        QCOMPARE(model.data(2, IndicatorsModel::Identifier).toString(), QString("indicator-fake4"));
-        QCOMPARE(model.data(2, IndicatorsModel::Title).toString(), QString("fake4"));
-        QCOMPARE(model.data(2, IndicatorsModel::IndicatorProperties).toMap()["busName"].toString(), QString("com.canonical.indicator.fake4"));
+        QCOMPARE(model.data(2, IndicatorsModelRole::Identifier).toString(), QString("indicator-fake4"));
+        QCOMPARE(model.data(2, IndicatorsModelRole::Title).toString(), QString("fake4"));
+        QCOMPARE(model.data(2, IndicatorsModelRole::IndicatorProperties).toMap()["busName"].toString(), QString("com.canonical.indicator.fake4"));
 
-        QCOMPARE(model.data(3, IndicatorsModel::Identifier).toString(), QString("indicator-fake3"));
-        QCOMPARE(model.data(3, IndicatorsModel::Title).toString(), QString("fake3"));
-        QCOMPARE(model.data(3, IndicatorsModel::IndicatorProperties).toMap()["busName"].toString(), QString("com.canonical.indicator.fake3"));
+        QCOMPARE(model.data(3, IndicatorsModelRole::Identifier).toString(), QString("indicator-fake3"));
+        QCOMPARE(model.data(3, IndicatorsModelRole::Title).toString(), QString("fake3"));
+        QCOMPARE(model.data(3, IndicatorsModelRole::IndicatorProperties).toMap()["busName"].toString(), QString("com.canonical.indicator.fake3"));
     }
 };
 

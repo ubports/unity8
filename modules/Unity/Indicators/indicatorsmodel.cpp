@@ -20,6 +20,7 @@
 #include "indicatorsmodel.h"
 #include "indicatorsmanager.h"
 #include "indicator.h"
+#include "indicators.h"
 #include "paths.h"
 
 #include <QQmlContext>
@@ -118,7 +119,7 @@ void IndicatorsModel::onIndicatorLoaded(const QString& indicator_name)
     while (pos < count())
     {
         // keep going while the existing priority is less.
-        if (indicatorData(indicator, Priority).toInt() < data(index(pos), Priority).toInt())
+        if (indicatorData(indicator, IndicatorsModelRole::Priority).toInt() < data(index(pos), IndicatorsModelRole::Priority).toInt())
             break;
         pos++;
     }
@@ -160,13 +161,13 @@ void IndicatorsModel::onIndicatorAboutToBeUnloaded(const QString& indicator_name
 /*! \internal */
 void IndicatorsModel::onIdentifierChanged()
 {
-    notifyDataChanged(QObject::sender(), Identifier);
+    notifyDataChanged(QObject::sender(), IndicatorsModelRole::Identifier);
 }
 
 /*! \internal */
 void IndicatorsModel::onIndicatorPropertiesChanged()
 {
-    notifyDataChanged(QObject::sender(), IndicatorProperties);
+    notifyDataChanged(QObject::sender(), IndicatorsModelRole::IndicatorProperties);
 }
 
 /*! \internal */
@@ -198,14 +199,14 @@ QHash<int, QByteArray> IndicatorsModel::roleNames() const
     static QHash<int, QByteArray> roles;
     if (roles.isEmpty())
     {
-        roles[Identifier] = "identifier";
-        roles[Priority] = "priority";
-        roles[Title] = "title";
-        roles[Description] = "description";
-        roles[WidgetSource] = "widgetSource";
-        roles[PageSource] = "pageSource";
-        roles[IndicatorProperties] = "indicatorProperties";
-        roles[IsValid] = "isValid";
+        roles[IndicatorsModelRole::Identifier] = "identifier";
+        roles[IndicatorsModelRole::Priority] = "priority";
+        roles[IndicatorsModelRole::Title] = "title";
+        roles[IndicatorsModelRole::Description] = "description";
+        roles[IndicatorsModelRole::WidgetSource] = "widgetSource";
+        roles[IndicatorsModelRole::PageSource] = "pageSource";
+        roles[IndicatorsModelRole::IndicatorProperties] = "indicatorProperties";
+        roles[IndicatorsModelRole::IsValid] = "isValid";
     }
     return roles;
 }
@@ -221,15 +222,15 @@ QVariant IndicatorsModel::defaultData(Indicator::Ptr indicator, int role)
 {
     switch (role)
     {
-        case Priority:
+        case IndicatorsModelRole::Priority:
             return 0;
-        case Title:
+        case IndicatorsModelRole::Title:
             return indicator ? indicator->identifier() : "Unknown";
-        case Description:
+        case IndicatorsModelRole::Description:
             return "";
-        case WidgetSource:
+        case IndicatorsModelRole::WidgetSource:
             return shellAppDirectory()+"/Panel/Indicators/DefaultIndicatorWidget.qml";
-        case PageSource:
+        case IndicatorsModelRole::PageSource:
             return shellAppDirectory()+"/Panel/Indicators/DefaultIndicatorPage.qml";
     }
     return QVariant();
@@ -250,25 +251,25 @@ QVariant IndicatorsModel::data(const QModelIndex &index, int role) const
 
     switch (role)
     {
-        case Identifier:
+        case IndicatorsModelRole::Identifier:
             if (indicator)
             {
                 return QVariant(indicator->identifier());
             }
             break;
-        case IndicatorProperties:
+        case IndicatorsModelRole::IndicatorProperties:
             if (indicator)
             {
                 return QVariant(indicator->indicatorProperties());
             }
             break;
-        case IsValid:
+        case IndicatorsModelRole::IsValid:
             return (indicator ? true : false);
-        case Priority:
-        case Title:
-        case Description:
-        case WidgetSource:
-        case PageSource:
+        case IndicatorsModelRole::Priority:
+        case IndicatorsModelRole::Title:
+        case IndicatorsModelRole::Description:
+        case IndicatorsModelRole::WidgetSource:
+        case IndicatorsModelRole::PageSource:
             return indicatorData(indicator, role);
         default:
             break;
