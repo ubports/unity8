@@ -29,6 +29,7 @@
 
 // Qt
 #include <QDebug>
+#include <QtAlgorithms>
 
 #include <UnityCore/GenericPreview.h>
 #include <UnityCore/ApplicationPreview.h>
@@ -137,6 +138,11 @@ Preview* Preview::newFromUnityPreview(unity::dash::Preview::Ptr unityPreview)
 void Preview::setUnityPreviewBase(unity::dash::Preview::Ptr unityPreview)
 {
     m_unityPreview = unityPreview;
+
+    qDeleteAll(m_infoHints);
+    m_infoHints.clear();
+    qDeleteAll(m_actions);
+    m_actions.clear();
 
     for (auto unityInfoHint: m_unityPreview->GetInfoHints()) {
         auto hint = new PreviewInfoHint(this);
