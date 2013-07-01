@@ -50,6 +50,8 @@ install_dependencies() {
                          qtdeclarative5-dee-plugin \
                          ubuntu-mobile-icons \
                          unity-notifications-impl-1 \
+                         unity-scope-home \
+                         unity-lens-applications \
         || exit 5
 }
 

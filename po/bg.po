@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-06-19 17:06+0200\n"
+"POT-Creation-Date: 2013-06-26 22:58+0200\n"
 "PO-Revision-Date: 2013-06-19 15:47+0000\n"
 "Last-Translator: Miroslav E. Hadzhiev (Хаджиев) "
 "<miroslav.hadzhiev@gmail.com>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-20 06:36+0000\n"
-"X-Generator: Launchpad (build 16673)\n"
+"X-Launchpad-Export-Date: 2013-06-27 16:15+0000\n"
+"X-Generator: Launchpad (build 16681)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -110,27 +110,19 @@ msgstr ""
 msgid "Apps"
 msgstr "Приложения"
 
-#: Dash/DashHome.qml:43
+#: Dash/DashHome.qml:40
 msgid "Frequent Apps"
 msgstr ""
 
-#: Dash/DashHome.qml:46
-msgid "Favourite People"
-msgstr ""
-
-#: Dash/DashHome.qml:49
-msgid "People Recently in Touch"
-msgstr ""
-
-#: Dash/DashHome.qml:52
+#: Dash/DashHome.qml:43
 msgid "Recent Music"
 msgstr ""
 
-#: Dash/DashHome.qml:55
+#: Dash/DashHome.qml:46
 msgid "Videos Popular Online"
 msgstr ""
 
-#: Dash/DashHome.qml:197 plugins/Unity/lenses.cpp:38
+#: Dash/DashHome.qml:175
 msgid "Home"
 msgstr "Начало"
 
@@ -154,26 +146,6 @@ msgstr ""
 msgid "Music"
 msgstr "Музика"
 
-#: Dash/DashPeople.qml:31
-msgid "Favourites"
-msgstr "Любими"
-
-#: Dash/DashPeople.qml:32
-msgid "Recently in touch"
-msgstr ""
-
-#: Dash/DashPeople.qml:33
-msgid "New Contacts"
-msgstr ""
-
-#: Dash/DashPeople.qml:34
-msgid "A-Z"
-msgstr "А-Я"
-
-#: Dash/DashPeople.qml:123
-msgid "People"
-msgstr "Хора"
-
 #: Dash/DashVideos.qml:31
 msgid "Popular Online"
 msgstr ""
@@ -194,7 +166,7 @@ msgstr ""
 msgid "Author:"
 msgstr "Автор:"
 
-#: Greeter/Lockscreen.qml:126
+#: Greeter/Lockscreen.qml:133
 msgid "Emergency call"
 msgstr ""
 
@@ -235,19 +207,27 @@ msgstr "Устройство"
 msgid "Flight mode"
 msgstr ""
 
-#: Panel/SearchIndicator.qml:26 plugins/Unity/lenses.cpp:40
+#: Panel/SearchIndicator.qml:26
 msgid "Search"
 msgstr "Търсене"
 
-#: plugins/Unity/lens.cpp:333
+#: plugins/Unity/scope.cpp:268
 msgid "Sorry, there is nothing that matches your search."
 msgstr "Съжаляваме, няма нищо, което да отговаря на вашето търсене."
 
-#: plugins/Unity/lenses.cpp:39
-msgid "Home screen"
-msgstr "Начален екран"
-
-#: Shell.qml:380
+#: Shell.qml:383
 #, qt-format
-msgid "Please enter %1:"
+msgid "Please enter %1"
 msgstr ""
+
+#~ msgid "Favourites"
+#~ msgstr "Любими"
+
+#~ msgid "People"
+#~ msgstr "Хора"
+
+#~ msgid "A-Z"
+#~ msgstr "А-Я"
+
+#~ msgid "Home screen"
+#~ msgstr "Начален екран"

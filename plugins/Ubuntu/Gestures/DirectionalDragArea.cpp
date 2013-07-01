@@ -141,12 +141,9 @@ void DirectionalDragArea::setRecognitionTimer(UbuntuGestures::AbstractTimer *tim
     }
 }
 
-void DirectionalDragArea::setAxisVelocityCalculator(AxisVelocityCalculator *newVelCalc)
+void DirectionalDragArea::setTimeSource(UbuntuGestures::TimeSource *timeSource)
 {
-    if (m_velocityCalculator->parent() == this)
-        delete m_velocityCalculator;
-
-    m_velocityCalculator = newVelCalc;
+    m_velocityCalculator->setTimeSource(timeSource);
 }
 
 qreal DirectionalDragArea::distance() const
@@ -158,6 +155,15 @@ qreal DirectionalDragArea::distance() const
     }
 }
 
+qreal DirectionalDragArea::sceneDistance() const
+{
+    if (Direction::isHorizontal(m_direction)) {
+        return m_previousScenePos.x() - m_startScenePos.x();
+    } else {
+        return m_previousScenePos.y() - m_startScenePos.y();
+    }
+}
+
 qreal DirectionalDragArea::touchX() const
 {
     return m_previousPos.x();
@@ -166,6 +172,16 @@ qreal DirectionalDragArea::touchX() const
 qreal DirectionalDragArea::touchY() const
 {
     return m_previousPos.y();
+}
+
+qreal DirectionalDragArea::touchSceneX() const
+{
+    return m_previousScenePos.x();
+}
+
+qreal DirectionalDragArea::touchSceneY() const
+{
+    return m_previousScenePos.y();
 }
 
 void DirectionalDragArea::touchEvent(QTouchEvent *event)
@@ -195,15 +211,22 @@ void DirectionalDragArea::touchEvent_absent(QTouchEvent *event)
 {
     if ((event->touchPointStates() && (Qt::TouchPointPressed || Qt::TouchPointMoved))
             && event->touchPoints().count() == 1) {
-        m_startPos = event->touchPoints()[0].pos();
-        m_touchId = event->touchPoints()[0].id();
+        const QTouchEvent::TouchPoint &touchPoint = event->touchPoints()[0];
+        m_startPos = touchPoint.pos();
+        m_startScenePos = touchPoint.scenePos();
+        m_touchId = touchPoint.id();
         m_dampedPos.reset(m_startPos);
         updateVelocityCalculator(m_startPos);
         m_velocityCalculator->reset();
         m_numSamplesOnLastSpeedCheck = 0;
         m_silenceTime = 0;
         setPreviousPos(m_startPos);
-        setStatus(Undecided);
+        setPreviousScenePos(m_startScenePos);
+
+        if (m_distanceThreshold > 0)
+            setStatus(Undecided);
+        else
+            setStatus(Recognized);
     }
 }
 
@@ -241,6 +264,7 @@ void DirectionalDragArea::touchEvent_undecided(QTouchEvent *event)
     }
 
     setPreviousPos(touchPos);
+    setPreviousScenePos(touchPoint->scenePos());
 
     if (movedFarEnough(touchPos)) {
         setStatus(Recognized);
@@ -252,6 +276,7 @@ void DirectionalDragArea::touchEvent_recognized(QTouchEvent *event)
     const QTouchEvent::TouchPoint *touchPoint = fetchTargetTouchPoint(event);
 
     setPreviousPos(touchPoint->pos());
+    setPreviousScenePos(touchPoint->scenePos());
 
     if (touchPoint->state() == Qt::TouchPointReleased) {
         setStatus(WaitingForTouch);
@@ -366,6 +391,10 @@ void DirectionalDragArea::setStatus(DirectionalDragArea::Status newStatus)
             m_recognitionTimer->start();
             Q_EMIT draggingChanged(true);
             break;
+        case Recognized:
+            if (oldStatus == WaitingForTouch)
+                Q_EMIT draggingChanged(true);
+            break;
         case Rejected:
             Q_EMIT draggingChanged(false);
             break;
@@ -394,6 +423,28 @@ void DirectionalDragArea::setPreviousPos(QPointF point)
         Q_EMIT touchYChanged(point.y());
         if (Direction::isVertical(m_direction))
             Q_EMIT distanceChanged(distance());
+    }
+}
+
+void DirectionalDragArea::setPreviousScenePos(QPointF point)
+{
+    Q_ASSERT(m_status != Rejected);
+
+    bool xChanged = m_previousScenePos.x() != point.x();
+    bool yChanged = m_previousScenePos.y() != point.y();
+
+    m_previousScenePos = point;
+
+    if (xChanged) {
+        Q_EMIT touchSceneXChanged(point.x());
+        if (Direction::isHorizontal(m_direction))
+            Q_EMIT sceneDistanceChanged(sceneDistance());
+    }
+
+    if (yChanged) {
+        Q_EMIT touchSceneYChanged(point.y());
+        if (Direction::isVertical(m_direction))
+            Q_EMIT sceneDistanceChanged(sceneDistance());
     }
 }
 

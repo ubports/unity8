@@ -21,9 +21,10 @@
 #include "AxisVelocityCalculator.h"
 #include <QtCore/QElapsedTimer>
 
-class RealTimeSource : public AxisVelocityCalculator::TimeSource {
+class RealTimeSource : public UbuntuGestures::TimeSource {
 public:
-    RealTimeSource() {
+    RealTimeSource()
+        : UbuntuGestures::TimeSource() {
         m_timer.start();
     }
     virtual qint64 msecsSinceReference() {
@@ -33,23 +34,17 @@ private:
     QElapsedTimer m_timer;
 };
 
-
 AxisVelocityCalculator::AxisVelocityCalculator(QObject *parent)
-    : AxisVelocityCalculator(new RealTimeSource, parent)
-{
-}
-
-AxisVelocityCalculator::AxisVelocityCalculator(TimeSource *timeSource, QObject *parent)
     : QObject(parent)
-    , m_timeSource(timeSource)
+    , m_timeSource(new RealTimeSource)
     , m_trackedPosition(0.0)
 {
+    m_timeSource->setParent(this);
     reset();
 }
 
 AxisVelocityCalculator::~AxisVelocityCalculator()
 {
-    delete m_timeSource;
 }
 
 qreal AxisVelocityCalculator::trackedPosition() const
@@ -59,13 +54,17 @@ qreal AxisVelocityCalculator::trackedPosition() const
 
 void AxisVelocityCalculator::setTrackedPosition(qreal newPosition)
 {
-    if (newPosition == m_trackedPosition) {
-        return;
-    }
-
     processMovement(newPosition - m_trackedPosition);
-    m_trackedPosition = newPosition;
-    Q_EMIT trackedPositionChanged(newPosition);
+
+    if (newPosition != m_trackedPosition) {
+        m_trackedPosition = newPosition;
+        Q_EMIT trackedPositionChanged(newPosition);
+    }
+}
+
+void AxisVelocityCalculator::updateIdleTime()
+{
+    processMovement(0);
 }
 
 void AxisVelocityCalculator::processMovement(qreal movement)
@@ -83,11 +82,12 @@ void AxisVelocityCalculator::processMovement(qreal movement)
     m_samplesWrite = (m_samplesWrite + 1) % MAX_SAMPLES;
 }
 
-qreal AxisVelocityCalculator::calculate() const
+qreal AxisVelocityCalculator::calculate()
 {
     if (numSamples() < MIN_SAMPLES_NEEDED) {
         return 0.0;
     }
+    updateIdleTime(); // consider the time elapsed since the last update and now
 
     int lastIndex;
     if (m_samplesWrite == 0) {
@@ -139,5 +139,20 @@ int AxisVelocityCalculator::numSamples() const
         } else {
             return m_samplesWrite - m_samplesRead;
         }
+    }
+}
+
+void AxisVelocityCalculator::setTimeSource(UbuntuGestures::TimeSource *timeSource)
+{
+    if (m_timeSource && m_timeSource->parent() == this)
+        delete m_timeSource;
+
+    m_timeSource = timeSource;
+
+    if (numSamples() > 0) {
+        qWarning("AxisVelocityCalculator: changing time source while there are samples present.");
+        // Any existent samples are based on the old time source and are, therefore, incompatible
+        // with this new one.
+        reset();
     }
 }

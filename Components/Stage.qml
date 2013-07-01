@@ -416,9 +416,11 @@ Showable {
         }
     }
 
-    AxisVelocityCalculator {
-        id: dragVelocityCalculator
-        trackedPosition: rightEdgeDraggingArea.distance
+    EdgeDragEvaluator {
+        id: dragEvaluator
+        trackedPosition: rightEdgeDraggingArea.touchX
+        direction: rightEdgeDraggingArea.direction
+        maxDragDistance: stage.width
     }
 
     DirectionalDragArea {
@@ -478,7 +480,7 @@ Showable {
         }
 
         function onUndecided() {
-            dragVelocityCalculator.reset()
+            dragEvaluator.reset();
 
             var nextApplication = null;
             if (stage.applications.count > 1) {
@@ -491,7 +493,7 @@ Showable {
         }
 
         function onGestureEnded() {
-            if (stage.applications.count > 1 && dragVelocityCalculator.calculate() < 0) {
+            if (stage.applications.count > 1 && dragEvaluator.shouldAutoComplete()) {
                 switchToApplicationAnimationController.completeToEndWithSignal();
             } else {
                 switchToApplicationAnimationController.completeToBeginningWithSignal();
