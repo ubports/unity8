@@ -77,7 +77,7 @@ protected:
 
 private:
     void setUnityPreviewBase(unity::dash::Preview::Ptr unityPreview);
-    
+
     QList<QObject *> m_actions;
     QList<QObject *> m_infoHints;
 };
