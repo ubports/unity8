@@ -150,7 +150,6 @@ ScopeView {
                         item.model = categoryModels[modelName]
                     }
                 }
-                asynchronous: true
             }
 
             ListView.onRemove: SequentialAnimation {

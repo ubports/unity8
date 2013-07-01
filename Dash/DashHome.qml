@@ -161,7 +161,6 @@ ScopeView {
                         item.clicked.connect(playVideo);
                     }
                 }
-                asynchronous: true
             }
         }
 

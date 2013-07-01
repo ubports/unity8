@@ -119,7 +119,6 @@ ScopeView {
                 onLoaded: {
                     item.model = results
                 }
-                asynchronous: true
 
                 Connections {
                     target: loader.item
