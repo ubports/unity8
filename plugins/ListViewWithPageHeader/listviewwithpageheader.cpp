@@ -686,6 +686,7 @@ ListViewWithPageHeader::ListItem *ListViewWithPageHeader::createItem(int modelIn
                 polish();
             }
             adjustMinYExtent();
+            m_contentHeightDirty = true;
         }
         return listItem;
     }
