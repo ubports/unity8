@@ -25,6 +25,24 @@ class QQuickChangeSet;
 class QQuickNumberAnimation;
 class QQuickVisualDataModel;
 
+
+/**
+    Note for users of this class
+
+    ListViewWithPageHeader already loads delegates async when appropiate so if
+    your delegate uses a Loader you should not enable the asynchronous feature since
+    that will need to introduce sizing problems
+
+    With the double async it may happen what while we are scrolling down
+    we reach to a point where given the size of the just created delegate with loader not yet loaded (which will be very close to 0)
+    we are already "at the end" of the list, but then a few milliseconds later the loader finishes loading and we could
+    have kept scrolling. This is specially visible at the end of the list where you realize
+    that scrolling ended a bit before the end of the list but the speed of the flicking was good
+    to reach the end
+
+    By not having the second async we get a better sizing when the delegate is created and things work better
+*/
+
 class ListViewWithPageHeader : public QQuickFlickable, public QQuickItemChangeListener
 {
     Q_OBJECT
