@@ -23,12 +23,21 @@ def execute_makecheck(local_branch, master_branch, old_revision_number, old_revi
 
     os.chdir(local_path_from_url(master_branch.base))
 
-    print "Executing 'make check'.."
-    if (subprocess.call("make check", shell=True) != 0):
-        raise errors.BzrError("Unit tests failed, fix them before committing!")
+    print "Executing 'make -C builddir test'.."
+    os.environ['CTEST_OUTPUT_ON_FAILURE'] = "1"
+    if (subprocess.call("make -C builddir test", shell=True) != 0):
 
-    print "Executing 'make qmluitests'.."
-    if (subprocess.call("make qmluitests", shell=True) != 0):
-        raise errors.BzrError("QML UI tests failed, fix them before committing!")
+        print("\n\n*** Warning ***\n\nBasic tests failed. This commit will not pass continuous integration.")
+
+        branch = local_branch or master_branch
+        revision = branch.repository.get_revision(future_revision_id)
+        msg_file = open('message.txt', 'w')
+        msg_file.write(revision.message)
+        msg_file.close()
+
+        print("\n\nSaved commit message to $SRC_DIR/message.txt.")
+        print("You can uncommit this revision, fix the tests and reuse your message running:\n\nbzr commit -F message.txt\n\n")
+    elif os.path.isfile("message.txt"):
+        os.remove("message.txt")
 
 branch.Branch.hooks.install_named_hook('pre_commit', execute_makecheck, 'make check pre-commit')
