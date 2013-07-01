@@ -23,10 +23,11 @@ import Unity.Indicators 0.1 as Indicators
 IndicatorBase {
     id: indicatorWidget
 
-//    enabled: false        // FIXME : should be enabled when we have desktop indicators
+//    enabled: false        // FIXME : should be disabled until bus available when we have desktop indicators
     property var action: undefined
     property bool started: (busType != 0) && (busName != "") && (deviceMenuObjectPath != "")
     property int iconSize: height - units.gu(0.5)
+    property string rootMenuType: "com.canonical.indicator.root"
 
     signal actionStateChanged()
 
@@ -34,8 +35,7 @@ IndicatorBase {
         if (started) {
             proxyModel.start();
             actionGroup.start();
-        }
-        else {
+        } else {
             proxyModel.stop();
             actionGroup.stop();
         }
@@ -55,15 +55,9 @@ IndicatorBase {
             return;
         }
 
-        if (parseRootElement(extra.canonical_type)) {
+        if (extra.canonical_type === rootMenuType) {
             action = actionGroup.action(proxyModel.data(0, Indicators.FlatMenuProxyModelRole.Action));
         }
-    }
-
-    function parseRootElement(type) {
-        if (type == "com.canonical.indicator.root")
-            return true;
-        return false;
     }
 
     Connections {

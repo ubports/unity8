@@ -28,6 +28,7 @@ Indicators.IndicatorWidget {
 
     property int signalStrength: 0
     property int connectionState: Indicators.NetworkConnection.Initial
+    rootMenuType: "com.canonical.indicator.root.network"
 
     // FIXME : Should us Ubuntu.Icon . results in low res images
     Image {
@@ -38,13 +39,6 @@ Indicators.IndicatorWidget {
         height: indicatorWidget.iconSize
         width: indicatorWidget.iconSize
         anchors.centerIn: parent
-    }
-
-    function parseRootElement(type) {
-        if (type == "com.canonical.indicator.root.network") {
-            return true;
-        }
-        return false;
     }
 
     onActionStateChanged: {
