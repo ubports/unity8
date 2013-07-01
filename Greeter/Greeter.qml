@@ -48,7 +48,7 @@ Showable {
     signal unlocked(int uid)
 
     onRightTeaserPressedChanged: {
-        if (rightTeaserPressed) {
+        if (rightTeaserPressed && !locked) {
             teasingTimer.start();
         }
     }
@@ -81,7 +81,7 @@ Showable {
     states: [
         State {
             name: "teasing"
-            when: greeter.rightTeaserPressed || teasingTimer.running
+            when: teasingTimer.running
             PropertyChanges {
                 target: greeter
                 x: -units.gu(2)

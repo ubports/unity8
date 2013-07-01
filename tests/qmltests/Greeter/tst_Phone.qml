@@ -28,7 +28,17 @@ Item {
 
     Greeter {
         id: greeter
-        anchors.fill: parent
+        width: parent.width
+        height: parent.height
+        x: 0; y: 0
+
+        property int minX: 0
+
+        onXChanged: {
+            if (x < minX) {
+                minX = x;
+            }
+        }
     }
 
     SignalSpy {
@@ -62,6 +72,35 @@ Item {
             mouseRelease(greeter, data.posX, greeter.height - units.gu(1))
             tryCompare(greeter, "leftTeaserPressed", false)
             tryCompare(greeter, "rightTeaserPressed", false)
+        }
+
+        function test_teaseLockedUnlocked_data() {
+            return [
+                {tag: "unlocked", locked: false},
+                {tag: "locked", locked: true}
+            ];
+        }
+
+        function test_teaseLockedUnlocked(data) {
+            tryCompare(greeter, "rightTeaserPressed", false);
+            tryCompare(greeter, "x", 0);
+            greeter.locked = data.locked;
+
+            mouseClick(greeter, greeter.width - units.gu(5), greeter.height - units.gu(1));
+            greeter.minX = 0; // This is needed because the transition actually makes x jump once before animating
+
+            if (!data.locked) {
+                // Check if it has been moved over by 2 GUs. Give it a 2 pixel grace area
+                // because animation duration and teaseTimer are the same duration and
+                // might cause slight offsets
+                tryCompareFunction(function() { return greeter.minX <= -units.gu(2) + 2}, true);
+            } else {
+                // waiting 100ms to make sure nothing moves
+                wait(100);
+                compare(greeter.minX, 0, "Greeter moved even tho its locked");
+            }
+            // Wait until we're back to 0
+            tryCompareFunction(function() { return greeter.x;},  0);
         }
     }
 }
