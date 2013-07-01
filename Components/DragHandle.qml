@@ -43,15 +43,8 @@ import Ubuntu.Gestures 0.1
   }
 
  */
-DirectionalDragArea {
+EdgeDragArea {
     id: dragArea
-
-    // Once we are satisfied with those values, make them the default
-    // and remove them from here for the sake of consistency
-    maxDeviation: units.gu(1)
-    wideningAngle: 20
-    distanceThreshold: units.gu(3)
-    minSpeed: units.gu(5)
 
     // How far you can drag
     property real maxTotalDragDistance: Direction.isHorizontal(direction) ? parent.width : parent.height
