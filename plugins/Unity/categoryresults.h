@@ -39,12 +39,13 @@ public:
     enum Roles {
         RoleUri,
         RoleIconHint,
-        //RoleCategory,   // not needed
+        RoleCategory,
         //RoleResultType, // not needed
         RoleMimetype,
         RoleTitle,
         RoleComment,
-        RoleDndUri
+        RoleDndUri,
+        RoleMetadata
     };
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;

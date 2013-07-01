@@ -26,10 +26,12 @@ CategoryResults::CategoryResults(QObject* parent)
 {
     m_roles[CategoryResults::RoleUri] = "uri";
     m_roles[CategoryResults::RoleIconHint] = "icon";
+    m_roles[CategoryResults::RoleCategory] = "category";
     m_roles[CategoryResults::RoleMimetype] = "mimetype";
     m_roles[CategoryResults::RoleTitle] = "title";
     m_roles[CategoryResults::RoleComment] = "comment";
     m_roles[CategoryResults::RoleDndUri] = "dnd_uri";
+    m_roles[CategoryResults::RoleMetadata] = "metadata";
 }
 
 CategoryResults::~CategoryResults()
@@ -67,6 +69,8 @@ CategoryResults::data(const QModelIndex& index, int role) const
             return DeeListModel::data(index, 0);
         case RoleIconHint:
             return DeeListModel::data(index, 1);
+        case RoleCategory:
+            return DeeListModel::data(index, 2);
         case RoleMimetype:
             return DeeListModel::data(index, 4);
         case RoleTitle:
@@ -75,6 +79,8 @@ CategoryResults::data(const QModelIndex& index, int role) const
             return DeeListModel::data(index, 6);
         case RoleDndUri:
             return DeeListModel::data(index, 7);
+        case RoleMetadata:
+            return DeeListModel::data(index, 8);
         default:
             return QVariant();
     }
