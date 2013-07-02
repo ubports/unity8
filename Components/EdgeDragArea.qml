@@ -16,19 +16,21 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Ubuntu.Gestures 0.1
 
-Button {
-    color: "transparent"
+/*
+ A DirectionalDragArea wrapper that provides some well-chosen defaults
+ for its gesture recognition parameters.
+*/
+DirectionalDragArea {
 
-    property alias source: image.source
-
-    height: units.gu(4)
-    width: height
-    opacity: enabled ? 1 : 0.5
-    Behavior on opacity { NumberAnimation { duration: 150 } }
-
-    Image {
-        id: image
-        anchors.fill: parent
-    }
+    // TODO: Re-evaluate those or even the recognition heuristics itself once
+    // we have gesture cancelling/forwarding in place.
+    //
+    // The idea here is that it's better having lax rules than false negatives.
+    // False negatives are very frustrating to the user.
+    maxDeviation: units.gu(3)
+    wideningAngle: 50
+    distanceThreshold: units.gu(1.5)
+    minSpeed: units.gu(0) // some people were getting false negatives with it enabled.
 }

@@ -24,6 +24,8 @@ import "carousel.js" as CarouselJS
 Item {
     id: carousel
 
+    clip: true // Don't leak horizontally to other dashes
+
     /// The component to be used as delegate. This component has to be derived from BaseCarouselDelegate
     property Component itemComponent
     /// Model for the Carousel, which has to be a model usable by a ListView

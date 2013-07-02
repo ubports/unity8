@@ -439,6 +439,12 @@ FocusScope {
             var bgPath = greeter.model.data(uid, LightDM.UserRoles.BackgroundPathRole)
             shell.background = bgPath ? bgPath : default_background
         }
+
+        onLeftTeaserPressedChanged: {
+            if (leftTeaserPressed) {
+                launcher.tease();
+            }
+        }
     }
 
     InputFilterArea {
@@ -532,7 +538,6 @@ FocusScope {
             width: parent.width
             dragAreaWidth: shell.edgeSize
             available: !greeter.locked
-            teasing: available && greeter.leftTeaserPressed
             onDashItemSelected: {
                 greeter.hide()
                 // Animate if moving between application and dash

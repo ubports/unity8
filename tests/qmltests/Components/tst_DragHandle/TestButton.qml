@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Canonical, Ltd.
+ * Copyright (C) 2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,29 +17,25 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 
-/* FIXME: This component is duplicating the UbuntuShape from the SDK, but shapes more
- * general (Item-based) components. This ability should be incorporated into the SDK's
- * UbuntuShape so this file can be removed.
- * Bug: https://bugs.launchpad.net/tavastia/+bug/1089595
- */
+Rectangle {
+    id: rect
+    width: childrenRect.width
+    height: childrenRect.height
 
-Item {
-    id: root
+    property alias text: textComponent.text
 
-    property alias radius: shape.radius
-    property alias image: source.sourceItem
+    signal clicked
 
-    ShaderEffectSource {
-        id: source
-        width: 1
-        height: 1
-        hideSource: true
-    }
-
-    Shape {
-        id: shape
-        image: source
-
-        anchors.fill: parent
+    color: "yellow"
+    Text {
+        id: textComponent
+        font.pixelSize: units.gu(2)
+        text: root.stretch ? "stretch" : "move"
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                rect.clicked()
+            }
+        }
     }
 }
