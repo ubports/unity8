@@ -98,8 +98,8 @@ Rectangle {
             visible: content.__shown
             onVisibleChanged: {
                 // Reset the indicator states
-                if (!visible && item) {
-                    //item.reset()
+                if (!visible && item && item["reset"]) {
+                    item.reset()
                 }
             }
             asynchronous: true
