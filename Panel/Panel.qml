@@ -17,7 +17,6 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import "../Components"
-import "../Components/ListItems"
 
 Item {
     id: root
@@ -75,29 +74,6 @@ Item {
         }
     }
 
-    BorderImage {
-        id: dropShadow
-        anchors {
-            top: indicatorsMenu.top
-            bottom: indicatorsSeparatorLine.bottom
-            left: indicatorsMenu.left
-            right: indicatorsMenu.right
-            margins: -units.gu(1)
-        }
-        visible: indicatorsMenu.progress != indicatorRevealer.closedValue
-        source: "graphics/rectangular_dropshadow.sci"
-    }
-
-    VerticalThinDivider {
-        anchors {
-            top: leftSeparatorLine.top
-            bottom: indicatorsSeparatorLine.top
-            right: indicatorsMenu.left
-        }
-        width: units.dp(2)
-        source: "graphics/VerticalDivider.png"
-    }
-
     Indicators {
         id: indicatorsMenu
 
@@ -105,58 +81,13 @@ Item {
         y: 0
         width: root.indicatorsMenuWidth
         shown: false
-        revealer: indicatorRevealer
-        hintValue: indicatorRevealer.hintDisplacement
+        hintValue: __panelMinusSeparatorLineHeight * 3
         panelHeight: __panelMinusSeparatorLineHeight
-        showAnimation: StandardAnimation { property: "progress"; duration: 350; to: indicatorRevealer.openedValue; easing.type: Easing.OutCubic }
-        hideAnimation: StandardAnimation { property: "progress"; duration: 350; to: indicatorRevealer.closedValue; easing.type: Easing.OutCubic }
         openedHeight: parent.height
 
         pinnedMode: !fullscreenMode
 
-        property real unitProgress: (indicatorRevealer.closedValue - progress) / (indicatorRevealer.closedValue - indicatorRevealer.openedValue)
-    }
-
-    PanelSeparatorLine {
-        id: indicatorsSeparatorLine
-        anchors {
-            top: indicatorsMenu.bottom
-            left: indicatorsMenu.left
-            right: parent.right
-        }
-    }
-
-    Revealer {
-        id: indicatorRevealer
-        objectName: "indicatorRevealer"
-
-        width: root.indicatorsMenuWidth
-        anchors {
-            top: parent.top
-            bottom: parent.bottom
-            right: parent.right
-        }
-        target: indicatorsMenu
-        handleSize: __panelMinusSeparatorLineHeight
-        closedValue: __panelMinusSeparatorLineHeight
-        dragVelocityThreshold: units.dp(1)
-        boundProperty: "progress"
-        hintDisplacement: __panelMinusSeparatorLineHeight * 3
-        openOnPress: !fullscreenMode
-        orientation: Qt.Vertical
-
-        onOpenClicked: {
-            indicatorsMenu.openOverview();
-            indicatorsMenu.show();
-        }
-        onCloseClicked: indicatorsMenu.hide();
-
-        onOpenPressed: indicatorsMenu.handlePress()
-
-        function dragToValue(dragPosition) {
-            var offset = target.shown ? 0 : -hintDisplacement + handleSize;
-            return dragPosition + offset;
-        }
+        property real unitProgress: height / parent.height
     }
 
     SearchIndicator {
@@ -192,13 +123,11 @@ Item {
             name: "in" //fully opaque and visible at top edge of screen
             when: !fullscreenMode
             PropertyChanges { target: panelBackground; y: 0 }
-            PropertyChanges { target: indicatorRevealer; openedValue: indicatorsMenu.openedHeight - panelHeight }
         },
         State {
             name: "out" //pushed off screen
             when: fullscreenMode
             PropertyChanges { target: panelBackground; y: -panelHeight }
-            PropertyChanges { target: indicatorRevealer; openedValue: indicatorsMenu.openedHeight }
         }
     ]
 }

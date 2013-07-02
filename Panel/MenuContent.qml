@@ -99,7 +99,7 @@ Rectangle {
             onVisibleChanged: {
                 // Reset the indicator states
                 if (!visible && item) {
-                    item.reset()
+                    //item.reset()
                 }
             }
             asynchronous: true
