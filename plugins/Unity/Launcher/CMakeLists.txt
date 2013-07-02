@@ -8,8 +8,6 @@ include_directories(
     ${LIBUNITY_API_INCLUDEDIR}
 )
 
-message(found ${LIBUNITY_API_INCLUDEDIR})
-
 set(QMLLAUNCHERPLUGIN_SRC
     plugin.cpp
     launchermodel.cpp
