@@ -28,12 +28,14 @@ LauncherModel::LauncherModel(QObject *parent):
     m_backend(new LauncherBackend(this))
 {
     Q_FOREACH (const QString &entry, m_backend->storedApplications()) {
+        qDebug() << "adding app" << entry;
         LauncherItem *item = new LauncherItem(entry, m_backend->displayName(entry), m_backend->icon(entry), this);
         if (m_backend->isPinned(entry)) {
             item->setFavorite(true);
         } else {
             item->setRecent(true);
         }
+        m_list.append(item);
     }
 }
 
