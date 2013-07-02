@@ -15,6 +15,7 @@
 /usr/share/unity8/graphics/*
 /usr/share/unity8/plugins/HudClient/*
 /usr/share/unity8/plugins/LightDM/*
+/usr/share/unity8/plugins/ListViewWithPageHeader/*
 /usr/share/unity8/plugins/Ubuntu/*
 /usr/share/unity8/plugins/Unity/*
 /usr/share/unity8/plugins/Utils/*

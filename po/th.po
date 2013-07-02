@@ -1,4 +1,4 @@
-# Ukrainian translation for unity
+# Thai translation for unity
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
 # This file is distributed under the same license as the unity package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
@@ -6,12 +6,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-06-26 22:58+0200\n"
-"PO-Revision-Date: 2013-06-29 14:27+0000\n"
-"Last-Translator: Roman Koshkin <mar2008m@rambler.ru>\n"
-"Language-Team: Ukrainian <uk@li.org>\n"
-"Language: uk\n"
+"PO-Revision-Date: 2013-06-28 15:34+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Thai <th@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,226 +19,202 @@ msgstr ""
 
 #: Applications/applications.js:23
 msgid "Phone"
-msgstr "Телефон"
+msgstr ""
 
 #: Applications/applications.js:29
 msgid "Camera"
-msgstr "Фотоапарат"
+msgstr ""
 
 #: Applications/applications.js:35
 msgid "Gallery"
-msgstr "Галерея"
+msgstr ""
 
 #: Applications/applications.js:40
 msgid "Facebook"
-msgstr "Facebook"
+msgstr ""
 
 #: Applications/applications.js:46
 msgid "Browser"
-msgstr "Навігатор"
+msgstr ""
 
 #: Applications/applications.js:51
 msgid "Twitter"
-msgstr "Twitter"
+msgstr ""
 
 #: Applications/applications.js:57
 msgid "GMail"
-msgstr "GMail"
+msgstr ""
 
 #: Applications/applications.js:62
 msgid "Weather"
-msgstr "Погода"
+msgstr ""
 
 #: Applications/applications.js:68
 msgid "Notepad"
-msgstr "Блокнот"
+msgstr ""
 
 #: Applications/applications.js:74
 msgid "Calendar"
-msgstr "Календар"
+msgstr ""
 
 #: Applications/applications.js:80
 msgid "Media Player"
-msgstr "Програвач"
+msgstr ""
 
 #: Applications/applications.js:86
 msgid "Evernote"
-msgstr "Evernote"
+msgstr ""
 
 #: Applications/applications.js:91
 msgid "Map"
-msgstr "Карта"
+msgstr ""
 
 #: Applications/applications.js:96
 msgid "Pinterest"
-msgstr "Pinterest"
+msgstr ""
 
 #: Applications/applications.js:101
 msgid "SoundCloud"
-msgstr "SoundCloud"
+msgstr ""
 
 #: Applications/applications.js:106
 msgid "Wikipedia"
-msgstr "Вікіпедія"
+msgstr ""
 
 #: Applications/applications.js:111
 msgid "YouTube"
-msgstr "YouTube"
+msgstr ""
 
 #: Components/PageHeader.qml:300
 msgid "Recent searches"
-msgstr "Нещодавні пошуки"
+msgstr ""
 
 #: Dash/DashApps.qml:65
 msgid "Running apps"
-msgstr "Запущені програми"
+msgstr ""
 
 #: Dash/DashApps.qml:68
 msgid "Frequently used"
-msgstr "Найчастіше використовувані"
+msgstr ""
 
 #: Dash/DashApps.qml:71
 msgid "Installed"
-msgstr "Встановлені"
+msgstr ""
 
 #: Dash/DashApps.qml:74
 msgid "Available for download"
-msgstr "Доступно до завантаження"
+msgstr ""
 
 #: Dash/DashApps.qml:178
 msgid "Apps"
-msgstr "Програми"
+msgstr ""
 
 #: Dash/DashHome.qml:40
 msgid "Frequent Apps"
-msgstr "Часто використовувані програми"
+msgstr ""
 
 #: Dash/DashHome.qml:43
 msgid "Recent Music"
-msgstr "Нещодавно прослухана музика"
+msgstr ""
 
 #: Dash/DashHome.qml:46
 msgid "Videos Popular Online"
-msgstr "Популярні в мережі відео"
+msgstr ""
 
 #: Dash/DashHome.qml:175
 msgid "Home"
-msgstr "Домівка"
+msgstr ""
 
 #: Dash/DashMusic.qml:27 Dash/DashVideos.qml:28
 msgid "Featured"
-msgstr "Рекомендовані"
+msgstr ""
 
 #: Dash/DashMusic.qml:28 Dash/DashVideos.qml:29
 msgid "Recent"
-msgstr "Нещодавні"
+msgstr ""
 
 #: Dash/DashMusic.qml:29 Dash/DashVideos.qml:30
 msgid "New Releases"
-msgstr "Нові випуски"
+msgstr ""
 
 #: Dash/DashMusic.qml:30
 msgid "Top Charting"
-msgstr "З високими оцінками"
+msgstr ""
 
 #: Dash/DashMusic.qml:99
 msgid "Music"
-msgstr "Музика"
+msgstr ""
 
 #: Dash/DashVideos.qml:31
 msgid "Popular Online"
-msgstr "Популярне у мережі"
+msgstr ""
 
 #: Dash/DashVideos.qml:155
 msgid "Videos"
-msgstr "Відео"
+msgstr ""
 
 #: Dash/Video/VideoPreview.qml:98
 msgid "Directed by:"
-msgstr "Режисер:"
+msgstr ""
 
 #: Dash/Video/VideoPreview.qml:121
 msgid "Starring:"
-msgstr "Актори:"
+msgstr ""
 
 #: Dash/Video/VideoPreview.qml:144
 msgid "Author:"
-msgstr "Автор:"
+msgstr ""
 
 #: Greeter/Lockscreen.qml:133
 msgid "Emergency call"
-msgstr "Екстрений виклик"
+msgstr ""
 
 #: Greeter/PassphraseLockscreen.qml:59
 #, qt-format
 msgid "Hello %1"
-msgstr "Привіт, %1"
+msgstr ""
 
 #: Greeter/PassphraseLockscreen.qml:59
 msgid "Hello"
-msgstr "Привіт!"
+msgstr ""
 
 #: Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
-msgstr "Підтвердити"
+msgstr ""
 
 #: Hud/Hud.qml:61 Hud/Hud.qml:99 Hud/Hud.qml:372
 msgid "Type or say a command"
-msgstr "Введіть або озвучте команду"
+msgstr ""
 
 #: Hud/Hud.qml:84
 msgid "Loading. Please Wait..."
-msgstr "Завантаження. Будь ласка, зачекайте…"
+msgstr ""
 
 #: Hud/Hud.qml:89
 msgid "Speak Now..."
-msgstr "Можна говорити…"
+msgstr ""
 
 #: Hud/Hud.qml:94
 msgid "Speaking..."
-msgstr "Мовлення…"
+msgstr ""
 
 #: Panel/MenuContent.qml:192
 msgid "Device"
-msgstr "Пристрій"
+msgstr ""
 
 #: Panel/Menus/Overview/FlightModeWidget.qml:42
 msgid "Flight mode"
-msgstr "Автономний режим"
+msgstr ""
 
 #: Panel/SearchIndicator.qml:26
 msgid "Search"
-msgstr "Пошук"
+msgstr ""
 
 #: plugins/Unity/scope.cpp:268
 msgid "Sorry, there is nothing that matches your search."
-msgstr "Вибачте, для вказаних вами ключових слів нічого не знайдено."
+msgstr ""
 
 #: Shell.qml:383
 #, qt-format
 msgid "Please enter %1"
-msgstr "Будь ласка, введіть %1"
-
-#~ msgid "People"
-#~ msgstr "Люди"
-
-#~ msgid "Home screen"
-#~ msgstr "Екран домівки"
-
-#~ msgid "Favourite People"
-#~ msgstr "Вибрані контакти"
-
-#~ msgid "People Recently in Touch"
-#~ msgstr "Недавні контакти"
-
-#~ msgid "A-Z"
-#~ msgstr "А-Я"
-
-#~ msgid "New Contacts"
-#~ msgstr "Нові контакти"
-
-#~ msgid "Favourites"
-#~ msgstr "Улюблене"
-
-#~ msgid "Recently in touch"
-#~ msgstr "Нещодавні контакти"
+msgstr ""

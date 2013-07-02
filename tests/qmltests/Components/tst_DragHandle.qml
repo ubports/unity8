@@ -34,12 +34,19 @@ Item {
 
     property var dragHandle
 
+    property bool stretch: false
+    property real hintDisplacement: 0
+
     VerticalShowable {
         onDragHandleRecognizedGesture: { root.dragHandle = dragHandle }
+        stretch: root.stretch
+        hintDisplacement: root.hintDisplacement
     }
 
     HorizontalShowable {
         onDragHandleRecognizedGesture: { root.dragHandle = dragHandle }
+        stretch: root.stretch
+        hintDisplacement: root.hintDisplacement
     }
 
     // Visually mark drag threshold
@@ -108,6 +115,31 @@ Item {
                 } else {
                     "Minimum velocity: -";
                 }
+            }
+        }
+    }
+
+    TestButton {
+        id: stretchButton
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.margins: units.gu(1)
+
+        text: root.stretch ? "stretch" : "move"
+        onClicked: { root.stretch = !root.stretch; }
+    }
+
+    TestButton {
+        anchors.bottom: parent.bottom
+        anchors.left: stretchButton.right
+        anchors.margins: units.gu(1)
+
+        text: root.hintDisplacement > 0 ? "hint" : "no hint"
+        onClicked: {
+            if (root.hintDisplacement > 0) {
+                root.hintDisplacement = 0;
+            } else {
+                root.hintDisplacement = units.gu(6);
             }
         }
     }

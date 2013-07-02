@@ -12,34 +12,22 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
+#ifndef LISTVIEWWITHPAGEHEADER_PLUGIN_H
+#define LISTVIEWWITHPAGEHEADER_PLUGIN_H
 
-/* FIXME: This component is duplicating the UbuntuShape from the SDK, but shapes more
- * general (Item-based) components. This ability should be incorporated into the SDK's
- * UbuntuShape so this file can be removed.
- * Bug: https://bugs.launchpad.net/tavastia/+bug/1089595
- */
+#include <QtQml/QQmlEngine>
+#include <QtQml/QQmlExtensionPlugin>
 
-Item {
-    id: root
+class ListViewWithPageHeaderPlugin : public QQmlExtensionPlugin
+{
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
 
-    property alias radius: shape.radius
-    property alias image: source.sourceItem
+public:
+    void registerTypes(const char *uri);
+};
 
-    ShaderEffectSource {
-        id: source
-        width: 1
-        height: 1
-        hideSource: true
-    }
-
-    Shape {
-        id: shape
-        image: source
-
-        anchors.fill: parent
-    }
-}
+#endif
