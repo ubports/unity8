@@ -146,6 +146,7 @@ unity::dash::LocalResult Scope::createLocalResult(const QVariant &uri, const QVa
     return res;
 }
 
+// FIXME: Change to use row index.
 void Scope::activate(const QVariant &uri, const QVariant &icon_hint, const QVariant &category,
                      const QVariant &result_type, const QVariant &mimetype, const QVariant &title,
                      const QVariant &comment, const QVariant &dnd_uri, const QVariant &metadata)
@@ -154,6 +155,7 @@ void Scope::activate(const QVariant &uri, const QVariant &icon_hint, const QVari
     m_unityScope->Activate(res);
 }
 
+// FIXME: Change to use row index.
 void Scope::preview(const QVariant &uri, const QVariant &icon_hint, const QVariant &category,
              const QVariant &result_type, const QVariant &mimetype, const QVariant &title,
              const QVariant &comment, const QVariant &dnd_uri, const QVariant &metadata)
