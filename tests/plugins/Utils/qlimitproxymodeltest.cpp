@@ -446,6 +446,7 @@ private Q_SLOTS:
 
         ModelTest t1(&proxy);
     }
+
     void testModelChanged() {
         QLimitProxyModelQML proxy;
         MockListModel model, model2;
@@ -463,6 +464,20 @@ private Q_SLOTS:
 
         proxy.setModel(&model);
         QCOMPARE(spyOnModelChanged.count(), 3);
+    }
+
+    void setSameModelTwice() {
+        QLimitProxyModelQML proxy;
+        MockListModel model;
+
+        proxy.setModel(&model);
+        proxy.setModel(&model);
+
+        QSignalSpy spyOnCountChanged(&proxy, SIGNAL(countChanged()));
+
+        model.insertRows(0, 5);
+        QCOMPARE(proxy.rowCount(), 5);
+        QCOMPARE(spyOnCountChanged.count(), 1);
     }
 };
 
