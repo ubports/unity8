@@ -155,15 +155,6 @@ void Preview::setUnityPreviewBase(unity::dash::Preview::Ptr unityPreview)
         action->setUnityAction(unityAction);
         m_actions.append(action);
     }
-
-    Q_EMIT rendererNameChanged();
-    Q_EMIT titleChanged();
-    Q_EMIT subtitleChanged();
-    Q_EMIT descriptionChanged();
-    Q_EMIT actionsChanged();
-    Q_EMIT infoHintsChanged();
-    Q_EMIT imageChanged();
-    Q_EMIT imageSourceUriChanged();
 }
 
 void Preview::setUnityPreview(unity::dash::Preview::Ptr /* unityPreview */)

@@ -31,9 +31,7 @@ void PreviewInfoHint::setUnityInfoHint(unity::dash::Preview::InfoHintPtr unityIn
 {
     m_unityInfoHint = unityInfoHint;
 
-    Q_EMIT displayNameChanged();
-    Q_EMIT iconHintChanged();
-    Q_EMIT valueChanged();
+    Q_EMIT previewInfoHintChanged();
 }
 
 QString PreviewInfoHint::id() const

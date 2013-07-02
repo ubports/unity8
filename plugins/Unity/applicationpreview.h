@@ -34,12 +34,12 @@ class Q_DECL_EXPORT ApplicationPreview: public Preview
 {
     Q_OBJECT
 
-    Q_PROPERTY(QString lastUpdate READ lastUpdate NOTIFY lastUpdateChanged)
-    Q_PROPERTY(QString copyright READ copyright NOTIFY copyrightChanged)
-    Q_PROPERTY(QString license READ license NOTIFY licenseChanged)
-    Q_PROPERTY(QString appIcon READ appIcon NOTIFY appIconChanged)
-    Q_PROPERTY(float rating READ rating NOTIFY ratingChanged)
-    Q_PROPERTY(unsigned int numRatings READ numRatings NOTIFY numRatingsChanged)
+    Q_PROPERTY(QString lastUpdate READ lastUpdate NOTIFY previewChanged)
+    Q_PROPERTY(QString copyright READ copyright NOTIFY previewChanged)
+    Q_PROPERTY(QString license READ license NOTIFY previewChanged)
+    Q_PROPERTY(QString appIcon READ appIcon NOTIFY previewChanged)
+    Q_PROPERTY(float rating READ rating NOTIFY previewChanged)
+    Q_PROPERTY(unsigned int numRatings READ numRatings NOTIFY previewChanged)
 
 public:
     explicit ApplicationPreview(QObject *parent = 0);
@@ -52,12 +52,7 @@ public:
     unsigned int numRatings() const;
 
 Q_SIGNALS:
-    void lastUpdateChanged();
-    void copyrightChanged();
-    void licenseChanged();
-    void appIconChanged();
-    void ratingChanged();
-    void numRatingsChanged();
+    void previewChanged();
 
 protected:
     void setUnityPreview(unity::dash::Preview::Ptr unityPreview) override;

@@ -32,10 +32,10 @@ class PreviewInfoHint : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(QString id READ id)
-    Q_PROPERTY(QString displayName READ displayName NOTIFY displayNameChanged)
-    Q_PROPERTY(QString iconHint READ iconHint NOTIFY iconHintChanged)
-    Q_PROPERTY(QVariant value READ value NOTIFY valueChanged)
+    Q_PROPERTY(QString id READ id NOTIFY previewInfoHintChanged)
+    Q_PROPERTY(QString displayName READ displayName NOTIFY previewInfoHintChanged)
+    Q_PROPERTY(QString iconHint READ iconHint NOTIFY previewInfoHintChanged)
+    Q_PROPERTY(QVariant value READ value NOTIFY previewInfoHintChanged)
 
 public:
     explicit PreviewInfoHint(QObject *parent = 0);
@@ -47,9 +47,7 @@ public:
     QVariant value() const;
 
 Q_SIGNALS:
-    void displayNameChanged();
-    void iconHintChanged();
-    void valueChanged();
+    void previewInfoHintChanged();
 
 private:
     unity::dash::Preview::InfoHintPtr m_unityInfoHint;

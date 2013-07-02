@@ -34,9 +34,9 @@ class Q_DECL_EXPORT MoviePreview: public Preview
 {
     Q_OBJECT
 
-    Q_PROPERTY(QString year READ year NOTIFY yearChanged)
-    Q_PROPERTY(float rating READ rating NOTIFY ratingChanged)
-    Q_PROPERTY(unsigned int numRatings READ numRatings NOTIFY numRatingsChanged)
+    Q_PROPERTY(QString year READ year NOTIFY previewChanged)
+    Q_PROPERTY(float rating READ rating NOTIFY previewChanged)
+    Q_PROPERTY(unsigned int numRatings READ numRatings NOTIFY previewChanged)
 
 public:
     explicit MoviePreview(QObject *parent = 0);
@@ -46,9 +46,7 @@ public:
     unsigned int numRatings() const;
 
 Q_SIGNALS:
-    void yearChanged();
-    void ratingChanged();
-    void numRatingsChanged();
+    void previewChanged();
 
 protected:
     void setUnityPreview(unity::dash::Preview::Ptr unityPreview) override;

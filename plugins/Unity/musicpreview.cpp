@@ -36,6 +36,7 @@ void MusicPreview::setUnityPreview(unity::dash::Preview::Ptr unityPreview)
     m_tracks->setModel(m_unityMusicPreview->GetTracksModel()->model());
     m_unityMusicPreview->GetTracksModel()->model.changed.connect(sigc::mem_fun(this, &MusicPreview::onTracksModelChanged));
 
+    Q_EMIT previewChanged();
     Q_EMIT tracksChanged();
 }
 

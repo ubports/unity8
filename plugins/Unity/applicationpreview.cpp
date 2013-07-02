@@ -92,10 +92,5 @@ void ApplicationPreview::setUnityPreview(unity::dash::Preview::Ptr unityPreview)
 {
     m_unityAppPreview = std::dynamic_pointer_cast<unity::dash::ApplicationPreview>(unityPreview);
 
-    Q_EMIT lastUpdateChanged();
-    Q_EMIT copyrightChanged();
-    Q_EMIT licenseChanged();
-    Q_EMIT appIconChanged();
-    Q_EMIT ratingChanged();
-    Q_EMIT numRatingsChanged();
+    Q_EMIT previewChanged();
 }
