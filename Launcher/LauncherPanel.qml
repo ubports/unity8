@@ -108,7 +108,6 @@ Item {
                 height: parent.height - dashItem.height - parent.spacing*2
                 model: root.model
                 cacheBuffer: itemSize * 3
-                snapMode: ListView.SnapToItem
                 highlightRangeMode: ListView.ApplyRange
                 preferredHighlightBegin: (height - itemSize) / 2
                 preferredHighlightEnd: (height + itemSize) / 2
@@ -116,14 +115,22 @@ Item {
                 // The height of the area where icons start getting folded
                 property int foldingAreaHeight: itemSize * 0.75
                 property int itemSize: width
+                property int clickFlickSpeed: units.gu(60)
 
-                Component.onCompleted: {
-                    // This is needed because snapping would partially fold
-                    // the first item on initialisation. This can only be
-                    // overridden by mouse interactions - which is what flick()
-                    // simulates. Setting contentY to 0 would not work because
-                    // of this.
-                    flick(0, units.gu(20))
+                // Setting snapMode delayed to make sure the ListView stays positioned
+                // at the beginning. If the SnapMode is already set when the model
+                // delivers the items, it's going to snap immediately. Depending on
+                // the height of the list, this might cause the first item to be half
+                // folded at the beginning. Once the list is populated we can set the
+                // snapMode and actually snapping will only happens when the user
+                // interacts with the list.
+                Timer {
+                    interval: 1
+                    running: true
+                    repeat: false
+                    onTriggered: {
+                        launcherListView.snapMode = ListView.SnapToItem
+                    }
                 }
 
                 delegate: LauncherDelegate {
@@ -139,7 +146,26 @@ Item {
                     maxAngle: 60
 
                     onClicked: {
-                        root.applicationSelected(launcherModel.get(index).desktopFile);
+                        // First/last item do the scrolling at more than 12 degrees
+                        if (index == 0 || index == launcherListView.count -1) {
+                            if (angle > 12) {
+                                launcherListView.flick(0, -launcherListView.clickFlickSpeed);
+                            } else if (angle < -12) {
+                                launcherListView.flick(0, launcherListView.clickFlickSpeed);
+                            } else {
+                                root.applicationSelected(launcherModel.get(index).desktopFile);
+                            }
+                            return;
+                        }
+
+                        // the rest launches apps up to an angle of 30 degrees
+                        if (angle > 30) {
+                            launcherListView.flick(0, -launcherListView.clickFlickSpeed);
+                        } else if (angle < -30) {
+                            launcherListView.flick(0, launcherListView.clickFlickSpeed);
+                        } else {
+                            root.applicationSelected(launcherModel.get(index).desktopFile);
+                        }
                     }
                 }
 
@@ -151,9 +177,9 @@ Item {
                         top: parent.top
                         topMargin: launcherListView.topMargin
                     }
-                    height: launcherListView.itemSize
+                    height: launcherListView.itemSize / 2
                     enabled: launcherListView.contentY > -launcherListView.topMargin
-                    onClicked: launcherListView.flick(0, units.gu(40))
+                    onClicked: launcherListView.flick(0, launcherListView.clickFlickSpeed)
                 }
 
                 MouseArea {
@@ -164,9 +190,9 @@ Item {
                         bottom: parent.bottom
                         bottomMargin: launcherListView.bottomMargin
                     }
-                    height: launcherListView.itemSize
+                    height: launcherListView.itemSize / 2
                     enabled: launcherListView.contentHeight - launcherListView.height - launcherListView.contentY > -launcherListView.bottomMargin
-                    onClicked: launcherListView.flick(0, -units.gu(40))
+                    onClicked: launcherListView.flick(0, -launcherListView.clickFlickSpeed)
                 }
             }
         }
