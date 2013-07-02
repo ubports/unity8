@@ -1,19 +1,19 @@
 # Dependencies
 include(FindPkgConfig)
-pkg_check_modules(LIBUNITY_API REQUIRED libunity-api)
+pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
-    ${LIBUNITY_API_INCLUDEDIR}
+    ${LAUNCHER_API_INCLUDEDIR}
 )
 
 set(QMLLAUNCHERPLUGIN_SRC
     plugin.cpp
     launchermodel.cpp
     launcheritem.cpp
-    ${LIBUNITY_API_INCLUDEDIR}/unity/shell/launcher/LauncherItemInterface.h
-    ${LIBUNITY_API_INCLUDEDIR}/unity/shell/launcher/LauncherModelInterface.h
+    ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherItemInterface.h
+    ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherModelInterface.h
     )
 
 add_library(UnityLauncher-qml MODULE
