@@ -1,21 +1,21 @@
 # Dependencies
 include(FindPkgConfig)
-
-#TODO: remove this once unity-api is released to distro
-set(UNITY_API_DIR /home/mzanetti/Development/unity-api/include/)
+pkg_check_modules(LIBUNITY_API REQUIRED libunity-api)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
-    ${UNITY_API_DIR}
+    ${LIBUNITY_API_INCLUDEDIR}
 )
+
+message(found ${LIBUNITY_API_INCLUDEDIR})
 
 set(QMLLAUNCHERPLUGIN_SRC
     plugin.cpp
     launchermodel.cpp
     launcheritem.cpp
-    ${UNITY_API_DIR}/unity/shell/launcher/LauncherItemInterface.h
-    ${UNITY_API_DIR}/unity/shell/launcher/LauncherModelInterface.h
+    ${LIBUNITY_API_INCLUDEDIR}/unity/shell/launcher/LauncherItemInterface.h
+    ${LIBUNITY_API_INCLUDEDIR}/unity/shell/launcher/LauncherModelInterface.h
     )
 
 add_library(UnityLauncher-qml MODULE

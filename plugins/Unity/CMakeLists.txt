@@ -49,4 +49,3 @@ install(FILES qmldir
 
 
 add_subdirectory(Launcher)
-
