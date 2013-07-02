@@ -93,6 +93,18 @@ void LauncherModel::move(int oldIndex, int newIndex)
     m_backend->setFavoriteApplications(appIds);
 }
 
+void LauncherModel::pin(int index)
+{
+    QString appId = m_list.at(index)->desktopFile();
+    if (!m_backend->favoriteApplications().contains(appId)) {
+        QStringList oldList = m_backend->favoriteApplications();
+        m_backend->setFavoriteApplications(oldList << appId);
+    }
+    if (!m_backend->isPinned(appId)) {
+        m_backend->setPinned(appId, true);
+    }
+}
+
 QHash<int, QByteArray> LauncherModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
