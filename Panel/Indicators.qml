@@ -37,6 +37,8 @@ Showable {
     property bool fullyOpened: height == openedHeight
     property bool partiallyOpened: height > panelHeight && !fullyOpened
 
+    // TODO: Perhaps we need a animation standard for showing/hiding? Each showable seems to
+    // use its own values. Need to ask design about this.
     showAnimation: StandardAnimation {
         property: "height"
         duration: 350
