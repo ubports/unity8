@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Canonical, Ltd.
+ * Copyright (C) 2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,13 +15,27 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 0.1
 
-Image {
-    anchors {
-        left: (parent) ? parent.left : null
-        right: (parent) ? parent.right : null
+Rectangle {
+    id: rect
+    width: childrenRect.width
+    height: childrenRect.height
+
+    property alias text: textComponent.text
+
+    signal clicked
+
+    color: "yellow"
+    Text {
+        id: textComponent
+        font.pixelSize: units.gu(2)
+        text: root.stretch ? "stretch" : "move"
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                rect.clicked()
+            }
+        }
     }
-    height: (visible) ? units.dp(2) : 0
-
-    source: "graphics/ListItemDividerHorizontal.png"
 }

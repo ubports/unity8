@@ -423,7 +423,7 @@ Showable {
         maxDragDistance: stage.width
     }
 
-    DirectionalDragArea {
+    EdgeDragArea {
         id: rightEdgeDraggingArea
 
         enabled: {
@@ -441,10 +441,6 @@ Showable {
         anchors.right: parent.right
 
         direction: Direction.Leftwards
-        maxDeviation: units.gu(1)
-        wideningAngle: 20
-        distanceThreshold: units.gu(3)
-        minSpeed: units.gu(5)
 
         onDistanceChanged: {
             if (status !== DirectionalDragArea.Recognized)

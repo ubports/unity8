@@ -12,16 +12,22 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
-import QtQuick 2.0
+#ifndef LISTVIEWWITHPAGEHEADER_PLUGIN_H
+#define LISTVIEWWITHPAGEHEADER_PLUGIN_H
 
-Image {
-    anchors {
-        left: (parent) ? parent.left : null
-        right: (parent) ? parent.right : null
-    }
-    height: (visible) ? units.dp(2) : 0
+#include <QtQml/QQmlEngine>
+#include <QtQml/QQmlExtensionPlugin>
 
-    source: "graphics/ListItemDividerHorizontal.png"
-}
+class ListViewWithPageHeaderPlugin : public QQmlExtensionPlugin
+{
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
+
+public:
+    void registerTypes(const char *uri);
+};
+
+#endif

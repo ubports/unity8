@@ -64,7 +64,7 @@ ScopeView {
         }
     }
 
-    ListViewWithPageHeader {
+    ScopeListView {
         id: categoryView
         anchors.fill: parent
         model: scopeView.categories
@@ -84,7 +84,6 @@ ScopeView {
                 onLoaded: {
                     item.model = results
                 }
-                asynchronous: true
             }
         }
 
