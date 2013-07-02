@@ -35,10 +35,20 @@ file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
     DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
     )
 
+# create the ListViewWithPageHeader.qmltypes file
+add_custom_target(ListViewWithPageHeader-qmltypes ALL
+    COMMAND qmlplugindump -notrelocatable ListViewWithPageHeader 0.1 ${CMAKE_BINARY_DIR}/plugins > ${CMAKE_CURRENT_BINARY_DIR}/ListViewWithPageHeader.qmltypes
+)
+add_dependencies(ListViewWithPageHeader-qmltypes ListViewWithPageHeader-qml)
+
 install(TARGETS ListViewWithPageHeader-qml
     DESTINATION ${SHELL_APP_DIR}/plugins/ListViewWithPageHeader
     )
 
 install(FILES qmldir
+    DESTINATION ${SHELL_APP_DIR}/plugins/ListViewWithPageHeader
+    )
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/ListViewWithPageHeader.qmltypes
     DESTINATION ${SHELL_APP_DIR}/plugins/ListViewWithPageHeader
     )

@@ -40,10 +40,20 @@ file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
     DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
     )
 
+# create the Unity.qmltypes file
+add_custom_target(Unity-qmltypes ALL
+    COMMAND qmlplugindump -notrelocatable Unity 0.1 ${CMAKE_BINARY_DIR}/plugins > ${CMAKE_CURRENT_BINARY_DIR}/Unity.qmltypes
+)
+add_dependencies(Unity-qmltypes Unity-qml)
+
 install(TARGETS Unity-qml
     DESTINATION ${SHELL_APP_DIR}/plugins/Unity
     )
 
 install(FILES qmldir
+    DESTINATION ${SHELL_APP_DIR}/plugins/Unity
+    )
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/Unity.qmltypes
     DESTINATION ${SHELL_APP_DIR}/plugins/Unity
     )

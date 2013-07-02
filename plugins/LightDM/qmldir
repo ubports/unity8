@@ -1,2 +1,3 @@
 module LightDM
 plugin LightDM-qml
+typeinfo LightDM.qmltypes

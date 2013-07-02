@@ -1,2 +1,3 @@
 module Utils
 plugin Utils-qml
+typeinfo Utils.qmltypes

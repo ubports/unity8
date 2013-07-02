@@ -40,10 +40,20 @@ file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
     DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
     )
 
+# create the HudClient.qmltypes file
+add_custom_target(HudClientQmlTypes ALL
+    COMMAND qmlplugindump -notrelocatable HudClient 0.1 ${CMAKE_BINARY_DIR}/plugins > ${CMAKE_CURRENT_BINARY_DIR}/HudClient.qmltypes
+)
+add_dependencies(HudClientQmlTypes HudClientQml)
+
 install(TARGETS HudClientQml
     DESTINATION ${SHELL_APP_DIR}/plugins/HudClient
     )
 
 install(FILES qmldir
+    DESTINATION ${SHELL_APP_DIR}/plugins/HudClient
+    )
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/HudClient.qmltypes
     DESTINATION ${SHELL_APP_DIR}/plugins/HudClient
     )

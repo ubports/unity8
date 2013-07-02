@@ -1,2 +1,3 @@
 module Unity
 plugin Unity-qml
+typeinfo Unity.qmltypes

@@ -27,10 +27,20 @@ file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
     DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
     )
 
+# create the Utils.qmltypes file
+add_custom_target(Utils-qmltypes ALL
+    COMMAND qmlplugindump -notrelocatable Utils 0.1 ${CMAKE_BINARY_DIR}/plugins > ${CMAKE_CURRENT_BINARY_DIR}/Utils.qmltypes
+)
+add_dependencies(Utils-qmltypes Utils-qml)
+
 install(TARGETS Utils-qml
     DESTINATION ${SHELL_APP_DIR}/plugins/Utils
     )
 
 install(FILES qmldir
+    DESTINATION ${SHELL_APP_DIR}/plugins/Utils
+    )
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/Utils.qmltypes
     DESTINATION ${SHELL_APP_DIR}/plugins/Utils
     )

@@ -34,10 +34,20 @@ file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
     DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
     )
 
+# create the LightDM.qmltypes file
+add_custom_target(LightDM-qmltyes ALL
+    COMMAND qmlplugindump -notrelocatable LightDM 0.1 ${CMAKE_BINARY_DIR}/plugins > ${CMAKE_CURRENT_BINARY_DIR}/LightDM.qmltypes
+)
+add_dependencies(LightDM-qmltyes LightDM-qml)
+
 install(TARGETS LightDM-qml
     DESTINATION ${SHELL_APP_DIR}/plugins/LightDM
     )
 
 install(FILES qmldir
+    DESTINATION ${SHELL_APP_DIR}/plugins/LightDM
+    )
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/LightDM.qmltypes
     DESTINATION ${SHELL_APP_DIR}/plugins/LightDM
     )

@@ -1,2 +1,3 @@
 module Ubuntu.Gestures
 plugin UbuntuGestureQml
+typeinfo UbuntuGestures.qmltypes
