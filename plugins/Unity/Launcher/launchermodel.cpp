@@ -27,7 +27,7 @@ LauncherModel::LauncherModel(QObject *parent):
     LauncherModelInterface(parent),
     m_backend(new LauncherBackend(this))
 {
-    Q_FOREACH (const QString &entry, m_backend->favoriteApplications()) {
+    Q_FOREACH (const QString &entry, m_backend->storedApplications()) {
         m_list.append(new LauncherItem(entry, m_backend->displayName(entry), m_backend->icon(entry), this));
     }
 }
@@ -88,17 +88,19 @@ void LauncherModel::move(int oldIndex, int newIndex)
     // Store new order
     QStringList appIds;
     Q_FOREACH(LauncherItem *item, m_list) {
-        appIds << item->desktopFile();
+        if (item->favorite() || item->recent()) {
+            appIds << item->desktopFile();
+        }
     }
-    m_backend->setFavoriteApplications(appIds);
+    m_backend->setStoredApplications(appIds);
 }
 
 void LauncherModel::pin(int index)
 {
     QString appId = m_list.at(index)->desktopFile();
-    if (!m_backend->favoriteApplications().contains(appId)) {
-        QStringList oldList = m_backend->favoriteApplications();
-        m_backend->setFavoriteApplications(oldList << appId);
+    if (!m_backend->storedApplications().contains(appId)) {
+        QStringList oldList = m_backend->storedApplications();
+        m_backend->setStoredApplications(oldList << appId);
     }
     if (!m_backend->isPinned(appId)) {
         m_backend->setPinned(appId, true);

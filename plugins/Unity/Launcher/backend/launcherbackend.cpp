@@ -8,7 +8,7 @@ LauncherBackend::LauncherBackend(QObject *parent):
 
     // TODO: load default pinned ones from default config, instead of hardcoding here...
 
-    m_favoriteApps <<
+    m_storedApps <<
         QLatin1String("phone-app.desktop") <<
         QLatin1String("camera-app.desktop") <<
         QLatin1String("gallery-app.desktop") <<
@@ -26,14 +26,14 @@ LauncherBackend::~LauncherBackend()
 
 }
 
-QStringList LauncherBackend::favoriteApplications() const
+QStringList LauncherBackend::storedApplications() const
 {
-    return m_favoriteApps;
+    return m_storedApps;
 }
 
-void LauncherBackend::setFavoriteApplications(const QStringList &appIds)
+void LauncherBackend::setStoredApplications(const QStringList &appIds)
 {
-    m_favoriteApps = appIds;
+    m_storedApps = appIds;
     // TODO: Cleanup pinned state from settings for apps not in list any more.
 }
 

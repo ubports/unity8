@@ -38,13 +38,13 @@ public:
     virtual ~LauncherBackend();
 
     /**
-      * @brief Returns a list of favorite applications.
+      * @brief Returns a list of stored applications.
       * @returns A list of application IDs.
       */
-    QStringList favoriteApplications() const;
+    QStringList storedApplications() const;
 
     /**
-      * @brief Set the list of favorite applications.
+      * @brief Set the list of stored applications.
       *
       * Any previously stored information for apps not contained
       * in the list any more, e.g. the pinned state, will be
@@ -52,7 +52,7 @@ public:
       *
       * @param appIds The new list of stored applications.
       */
-    void setFavoriteApplications(const QStringList &appIds);
+    void setStoredApplications(const QStringList &appIds);
 
     /**
       * @brief Get the user friendly name of an application.
@@ -109,7 +109,7 @@ Q_SIGNALS:
     void countChanged(const QString &appId, int count);
 
 private:
-    QStringList m_favoriteApps;
+    QStringList m_storedApps;
 };
 
 #endif // LAUNCHERBACKEND_H
