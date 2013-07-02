@@ -91,6 +91,7 @@ enable_testing()
 # Autopilot tests
 include(autopilot)
 declare_autopilot_test(unity8 ${CMAKE_SOURCE_DIR}/tests/autopilot/)
+declare_autopilot_test(indicators_client ${CMAKE_SOURCE_DIR}/tests/autopilot/)
 
 add_subdirectory(tests)
 

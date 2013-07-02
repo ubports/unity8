@@ -26,4 +26,4 @@ class MainWindow(object):
 
     def get_power_menu(self):
         """Get the power menu from the list"""
-        return self.app.select_single("BasicMenu", objectName="indicator-power");
+        return self.app.select_single("BasicMenuItem", objectName="indicator-power");

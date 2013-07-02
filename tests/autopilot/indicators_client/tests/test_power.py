@@ -67,7 +67,7 @@ class TestDisplayMenus(IndicatorsTestCase):
     def test_auto_bright_switch(self):
         """Test the auto-bright switch"""
 
-        auto_brightness = self.app.select_single("SwitchMenu", objectName="auto-brightness")
+        auto_brightness = self.app.select_single("SwitchMenuItem", objectName="auto-brightness")
         self.assertThat(auto_brightness, NotEquals(None))
 
         old_ab_value = auto_brightness.checked
@@ -80,7 +80,7 @@ class TestDisplayMenus(IndicatorsTestCase):
     def test_brightness_slider(self):
         """Test the auto-bright switch"""
 
-        brightness_menu = self.app.select_single("SliderMenu", objectName="brightness")
+        brightness_menu = self.app.select_single("SliderMenuItem", objectName="brightness")
         self.assertThat(brightness_menu, NotEquals(None))
 
         old_ab_value = brightness_menu.value
