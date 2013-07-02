@@ -28,7 +28,12 @@ LauncherModel::LauncherModel(QObject *parent):
     m_backend(new LauncherBackend(this))
 {
     Q_FOREACH (const QString &entry, m_backend->storedApplications()) {
-        m_list.append(new LauncherItem(entry, m_backend->displayName(entry), m_backend->icon(entry), this));
+        LauncherItem *item = new LauncherItem(entry, m_backend->displayName(entry), m_backend->icon(entry), this);
+        if (m_backend->isPinned(entry)) {
+            item->setFavorite(true);
+        } else {
+            item->setRecent(true);
+        }
     }
 }
 
@@ -77,33 +82,25 @@ void LauncherModel::move(int oldIndex, int newIndex)
     m_list.move(oldIndex, newIndex);
     endMoveRows();
 
-    // Mark moved app as pinned
-    LauncherItem *movedItem = m_list.at(newIndex);
-    if (!m_backend->isPinned(movedItem->desktopFile())) {
-        m_backend->setPinned(m_list.at(newIndex)->desktopFile(), true);
-        QModelIndex modelIndex = index(newIndex);
-        Q_EMIT dataChanged(modelIndex, modelIndex);
-    }
+    storeAppList();
 
-    // Store new order
-    QStringList appIds;
-    Q_FOREACH(LauncherItem *item, m_list) {
-        if (item->favorite() || item->recent()) {
-            appIds << item->desktopFile();
-        }
-    }
-    m_backend->setStoredApplications(appIds);
+    pin(newIndex);
 }
 
 void LauncherModel::pin(int index)
 {
-    QString appId = m_list.at(index)->desktopFile();
-    if (!m_backend->storedApplications().contains(appId)) {
-        QStringList oldList = m_backend->storedApplications();
-        m_backend->setStoredApplications(oldList << appId);
-    }
-    if (!m_backend->isPinned(appId)) {
-        m_backend->setPinned(appId, true);
+    LauncherItem *item = m_list.at(index);
+    if (!item->favorite()) {
+
+        item->setFavorite(true);
+        item->setRecent(false);
+
+        m_backend->setPinned(item->desktopFile(), true);
+
+        QModelIndex modelIndex = this->index(index);
+        Q_EMIT dataChanged(modelIndex, modelIndex);
+
+        storeAppList();
     }
 }
 
@@ -116,4 +113,15 @@ QHash<int, QByteArray> LauncherModel::roleNames() const
     roles.insert(RoleFavorite, "favorite");
     roles.insert(RoleRunning, "runnng");
     return roles;
+}
+
+void LauncherModel::storeAppList()
+{
+    QStringList appIds;
+    Q_FOREACH(LauncherItem *item, m_list) {
+        if (item->favorite() || item->recent()) {
+            appIds << item->desktopFile();
+        }
+    }
+    m_backend->setStoredApplications(appIds);
 }

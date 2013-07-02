@@ -50,6 +50,9 @@ public:
     QHash<int, QByteArray> roleNames() const;
 
 private:
+    void storeAppList();
+
+private:
     QList<LauncherItem*> m_list;
     LauncherBackend *m_backend;
 };
