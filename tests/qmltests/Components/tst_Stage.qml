@@ -233,8 +233,7 @@ Rectangle {
 
             var touchX = stage.width - (stage.rightEdgeDraggingAreaWidth / 2)
             var touchY = stage.height / 2
-            touchFlick(stage, touchX, touchY,
-                       touchX - units.gu(5), touchY)
+            touchFlick(stage, touchX, touchY, stage.width * 0.25, touchY)
 
             // wait until animations end, if any
             tryCompare(stage, "usingScreenshots", false)

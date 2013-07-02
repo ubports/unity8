@@ -7,83 +7,83 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-06-19 17:06+0200\n"
-"PO-Revision-Date: 2013-06-09 10:23+0000\n"
+"POT-Creation-Date: 2013-06-26 22:58+0200\n"
+"PO-Revision-Date: 2013-06-29 10:26+0000\n"
 "Last-Translator: Damir Jerovšek <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-20 06:37+0000\n"
-"X-Generator: Launchpad (build 16673)\n"
+"X-Launchpad-Export-Date: 2013-06-30 07:12+0000\n"
+"X-Generator: Launchpad (build 16692)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
-msgstr ""
+msgstr "Telefon"
 
 #: Applications/applications.js:29
 msgid "Camera"
-msgstr ""
+msgstr "Fotoaparat"
 
 #: Applications/applications.js:35
 msgid "Gallery"
-msgstr ""
+msgstr "Galerija"
 
 #: Applications/applications.js:40
 msgid "Facebook"
-msgstr ""
+msgstr "Facebook"
 
 #: Applications/applications.js:46
 msgid "Browser"
-msgstr ""
+msgstr "Brskalnik"
 
 #: Applications/applications.js:51
 msgid "Twitter"
-msgstr ""
+msgstr "Twitter"
 
 #: Applications/applications.js:57
 msgid "GMail"
-msgstr ""
+msgstr "GMail"
 
 #: Applications/applications.js:62
 msgid "Weather"
-msgstr ""
+msgstr "Vreme"
 
 #: Applications/applications.js:68
 msgid "Notepad"
-msgstr ""
+msgstr "Beležnica"
 
 #: Applications/applications.js:74
 msgid "Calendar"
-msgstr ""
+msgstr "Koledar"
 
 #: Applications/applications.js:80
 msgid "Media Player"
-msgstr ""
+msgstr "Predvajalnik predstavnosti"
 
 #: Applications/applications.js:86
 msgid "Evernote"
-msgstr ""
+msgstr "Evernote"
 
 #: Applications/applications.js:91
 msgid "Map"
-msgstr ""
+msgstr "Zemljevid"
 
 #: Applications/applications.js:96
 msgid "Pinterest"
-msgstr ""
+msgstr "Pinterest"
 
 #: Applications/applications.js:101
 msgid "SoundCloud"
-msgstr ""
+msgstr "SoundCloud"
 
 #: Applications/applications.js:106
 msgid "Wikipedia"
-msgstr ""
+msgstr "Wikipedija"
 
 #: Applications/applications.js:111
 msgid "YouTube"
-msgstr ""
+msgstr "YouTube"
 
 #: Components/PageHeader.qml:300
 msgid "Recent searches"
@@ -109,27 +109,19 @@ msgstr "Na voljo za prejem"
 msgid "Apps"
 msgstr "Programi"
 
-#: Dash/DashHome.qml:43
+#: Dash/DashHome.qml:40
 msgid "Frequent Apps"
 msgstr ""
 
-#: Dash/DashHome.qml:46
-msgid "Favourite People"
-msgstr ""
-
-#: Dash/DashHome.qml:49
-msgid "People Recently in Touch"
-msgstr ""
-
-#: Dash/DashHome.qml:52
+#: Dash/DashHome.qml:43
 msgid "Recent Music"
 msgstr "Nedavna glasba"
 
-#: Dash/DashHome.qml:55
+#: Dash/DashHome.qml:46
 msgid "Videos Popular Online"
 msgstr ""
 
-#: Dash/DashHome.qml:197 plugins/Unity/lenses.cpp:38
+#: Dash/DashHome.qml:175
 msgid "Home"
 msgstr "Domov"
 
@@ -139,11 +131,11 @@ msgstr ""
 
 #: Dash/DashMusic.qml:28 Dash/DashVideos.qml:29
 msgid "Recent"
-msgstr ""
+msgstr "Nedavno"
 
 #: Dash/DashMusic.qml:29 Dash/DashVideos.qml:30
 msgid "New Releases"
-msgstr ""
+msgstr "Nove izdaje"
 
 #: Dash/DashMusic.qml:30
 msgid "Top Charting"
@@ -152,26 +144,6 @@ msgstr ""
 #: Dash/DashMusic.qml:99
 msgid "Music"
 msgstr "Glasba"
-
-#: Dash/DashPeople.qml:31
-msgid "Favourites"
-msgstr ""
-
-#: Dash/DashPeople.qml:32
-msgid "Recently in touch"
-msgstr ""
-
-#: Dash/DashPeople.qml:33
-msgid "New Contacts"
-msgstr ""
-
-#: Dash/DashPeople.qml:34
-msgid "A-Z"
-msgstr ""
-
-#: Dash/DashPeople.qml:123
-msgid "People"
-msgstr "Ljudje"
 
 #: Dash/DashVideos.qml:31
 msgid "Popular Online"
@@ -191,20 +163,20 @@ msgstr ""
 
 #: Dash/Video/VideoPreview.qml:144
 msgid "Author:"
-msgstr ""
+msgstr "Avtor:"
 
-#: Greeter/Lockscreen.qml:126
+#: Greeter/Lockscreen.qml:133
 msgid "Emergency call"
-msgstr ""
+msgstr "Klic v sili"
 
 #: Greeter/PassphraseLockscreen.qml:59
 #, qt-format
 msgid "Hello %1"
-msgstr ""
+msgstr "Pozdravljeni, %1"
 
 #: Greeter/PassphraseLockscreen.qml:59
 msgid "Hello"
-msgstr ""
+msgstr "Pozdravljeni"
 
 #: Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
@@ -234,19 +206,21 @@ msgstr "Naprava"
 msgid "Flight mode"
 msgstr "Način letenja"
 
-#: Panel/SearchIndicator.qml:26 plugins/Unity/lenses.cpp:40
+#: Panel/SearchIndicator.qml:26
 msgid "Search"
 msgstr "Iskanje"
 
-#: plugins/Unity/lens.cpp:333
+#: plugins/Unity/scope.cpp:268
 msgid "Sorry, there is nothing that matches your search."
 msgstr "Nič se ne ujema z vašim iskalnim nizom."
 
-#: plugins/Unity/lenses.cpp:39
-msgid "Home screen"
-msgstr "Domači zaslon"
-
-#: Shell.qml:380
+#: Shell.qml:383
 #, qt-format
-msgid "Please enter %1:"
-msgstr ""
+msgid "Please enter %1"
+msgstr "Vnesite %1"
+
+#~ msgid "People"
+#~ msgstr "Ljudje"
+
+#~ msgid "Home screen"
+#~ msgstr "Domači zaslon"

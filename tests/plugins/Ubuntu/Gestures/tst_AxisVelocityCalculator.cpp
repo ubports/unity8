@@ -20,7 +20,7 @@
 
 #include <AxisVelocityCalculator.h>
 
-class FakeTimeSource : public AxisVelocityCalculator::TimeSource {
+class FakeTimeSource : public UbuntuGestures::TimeSource {
 public:
     FakeTimeSource() : m_value(0) {}
 
@@ -44,71 +44,85 @@ class tst_AxisVelocityCalculator : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
+    void init(); // called right before each and every test function is executed
+    void cleanup(); // called right after each and every test function is executed
+
     void simpleSamples();
     void noSamples();
     void overflowSamples();
     void average();
+
+private:
+    AxisVelocityCalculator *velCalc;
+    FakeTimeSource *fakeTimeSource;
 };
+
+void tst_AxisVelocityCalculator::init()
+{
+    fakeTimeSource = new FakeTimeSource;
+
+    velCalc = new AxisVelocityCalculator;
+    velCalc->setTimeSource(fakeTimeSource);
+}
+
+void tst_AxisVelocityCalculator::cleanup()
+{
+    delete velCalc;
+    delete fakeTimeSource;
+}
 
 void tst_AxisVelocityCalculator::simpleSamples()
 {
-    FakeTimeSource *fakeTimeSource = new FakeTimeSource;
-    AxisVelocityCalculator velCalc(fakeTimeSource);
     qreal pos = 0;
 
-    velCalc.setTrackedPosition(pos);
-    velCalc.reset();
+    velCalc->setTrackedPosition(pos);
+    velCalc->reset();
 
     fakeTimeSource->setMsecsSinceReference(10);
     pos += 20;
-    velCalc.setTrackedPosition(pos);
+    velCalc->setTrackedPosition(pos);
 
     fakeTimeSource->setMsecsSinceReference(20);
     pos += 20;
-    velCalc.setTrackedPosition(pos);
+    velCalc->setTrackedPosition(pos);
 
     fakeTimeSource->setMsecsSinceReference(30);
     pos += 20;
-    velCalc.setTrackedPosition(pos);
+    velCalc->setTrackedPosition(pos);
 
-    qreal velocity = velCalc.calculate();
+    qreal velocity = velCalc->calculate();
 
     QCOMPARE(velocity, 2.0f);
 }
 
 void tst_AxisVelocityCalculator::noSamples()
 {
-    FakeTimeSource *fakeTimeSource = new FakeTimeSource;
-    AxisVelocityCalculator velCalc(fakeTimeSource);
-
-    float velocity = velCalc.calculate();
+    float velocity = velCalc->calculate();
 
     QCOMPARE(velocity, 0.0f);
 }
 
 void tst_AxisVelocityCalculator::overflowSamples()
 {
-    FakeTimeSource *fakeTimeSource = new FakeTimeSource;
-    AxisVelocityCalculator velCalc(fakeTimeSource);
     qreal pos = 0;
 
-    velCalc.setTrackedPosition(pos);
-    velCalc.reset();
+    velCalc->setTrackedPosition(pos);
+    velCalc->reset();
 
     for (int i = 0; i < 1000; ++i) {
         fakeTimeSource->increaseMsecsSinceReference(10);
         pos += 20;
-        velCalc.setTrackedPosition(pos);
+        velCalc->setTrackedPosition(pos);
     }
 
     /* overwrite all existing samples with faster ones */
     for (int i = 0; i < AxisVelocityCalculator::MAX_SAMPLES; ++i) {
         fakeTimeSource->increaseMsecsSinceReference(10);
         pos += 40;
-        velCalc.setTrackedPosition(pos);
+        velCalc->setTrackedPosition(pos);
     }
 
-    float velocity = velCalc.calculate();
+    float velocity = velCalc->calculate();
 
     /* check that the calculated velocity correspond to the latest, faster, samples */
     QCOMPARE(velocity, 4.0f);
@@ -116,28 +130,26 @@ void tst_AxisVelocityCalculator::overflowSamples()
 
 void tst_AxisVelocityCalculator::average()
 {
-    FakeTimeSource *fakeTimeSource = new FakeTimeSource;
-    AxisVelocityCalculator velCalc(fakeTimeSource);
     qreal pos = 0;
 
-    velCalc.setTrackedPosition(pos);
-    velCalc.reset();
+    velCalc->setTrackedPosition(pos);
+    velCalc->reset();
 
     fakeTimeSource->increaseMsecsSinceReference(10);
     pos += 20;
-    velCalc.setTrackedPosition(pos);
+    velCalc->setTrackedPosition(pos);
 
     fakeTimeSource->increaseMsecsSinceReference(10);
     pos += 20;
-    velCalc.setTrackedPosition(pos);
+    velCalc->setTrackedPosition(pos);
 
     /* the last sample is an erratic one and would yield a big velocity if
        considered isolatedly */
     fakeTimeSource->increaseMsecsSinceReference(10);
     pos += 100;
-    velCalc.setTrackedPosition(pos);
+    velCalc->setTrackedPosition(pos);
 
-    float velocity = velCalc.calculate();
+    float velocity = velCalc->calculate();
 
     /* calculated velocity is lower than the one from the last sample */
     QVERIFY(velocity < 9.0f);

@@ -47,15 +47,15 @@ Item {
         anchors.centerIn: parent
 
         UbuntuShape {
-            width: parent.width - units.gu(1)
-            height: parent.height - units.gu(1)
-            anchors.centerIn: parent
+            id: iconShape
+            anchors.fill: parent
+            anchors.margins: units.gu(0.5)
             radius: "medium"
 
             image: Image {
                 id: iconImage
-                sourceSize.width: parent.width
-                sourceSize.height: parent.height
+                sourceSize.width: iconShape.width
+                sourceSize.height: iconShape.height
                 source: "../graphics/applicationIcons/" + root.iconName + ".png"
             }
 
