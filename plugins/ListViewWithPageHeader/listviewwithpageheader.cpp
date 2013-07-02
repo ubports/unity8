@@ -342,6 +342,9 @@ void ListViewWithPageHeader::positionAtBeginning()
 
 void ListViewWithPageHeader::showHeader()
 {
+    if (!m_headerItem)
+        return;
+
     auto to = qMax(-minYExtent(), contentY() - m_headerItem->height() + m_headerItemShownHeight);
     if (to != contentY()) {
         m_headerShowAnimation->setTo(to);
