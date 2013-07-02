@@ -19,32 +19,18 @@
 
 #include "launchermodel.h"
 #include "launcheritem.h"
+#include "backend/launcherbackend.h"
+#include "backend/applicationlistmodel.h"
 
-LauncherModel::LauncherModel(QObject *parent): LauncherModelInterface(parent)
+#include <QDebug>
+
+LauncherModel::LauncherModel(QObject *parent):
+    LauncherModelInterface(parent),
+    m_backend(new LauncherBackend(this))
 {
-    // FIXME: Dummy data... Aggregate real data from backends
-
-    // Fake favorites
-    LauncherItem *item = new LauncherItem("/usr/share/applications/phone-app.desktop", "Phone", "phone-app");
-    m_list.append(item);
-    item = new LauncherItem("/usr/share/applications/camera-app.desktop", "Camera", "camera");
-    m_list.append(item);
-    item = new LauncherItem("/usr/share/applications/gallery-app.desktop", "Gallery", "gallery");
-    m_list.append(item);
-    item = new LauncherItem("/usr/share/applications/facebook-webapp.desktop", "Facebook", "facebook");
-    m_list.append(item);
-    item = new LauncherItem("/usr/share/applications/webbrowser-app.desktop", "Browser", "browser");
-    m_list.append(item);
-    item = new LauncherItem("/usr/share/applications/twitter-webapp.desktop", "Twitter", "twitter");
-    m_list.append(item);
-    item = new LauncherItem("/usr/share/applications/gmail-webapp.desktop", "GMail", "gmail");
-    m_list.append(item);
-    item = new LauncherItem("/usr/share/applications/ubuntu-weather-app.desktop", "Weather", "weather");
-    m_list.append(item);
-    item = new LauncherItem("/usr/share/applications/notes-app.desktop", "Notepad", "notepad");
-    m_list.append(item);
-    item = new LauncherItem("/usr/share/applications/ubuntu-calendar-app.desktop","Calendar", "calendar");
-    m_list.append(item);
+    Q_FOREACH (const QString &entry, m_backend->favoriteApplications()) {
+        m_list.append(new LauncherItem(entry, m_backend->displayName(entry), m_backend->icon(entry), this));
+    }
 }
 
 LauncherModel::~LauncherModel()
@@ -64,6 +50,8 @@ QVariant LauncherModel::data(const QModelIndex &index, int role) const
 {
     LauncherItem *item = m_list.at(index.row());
     switch(role) {
+    case RoleDesktopFile:
+        return item->desktopFile();
     case RoleName:
         return item->name();
     case RoleIcon:
@@ -85,9 +73,24 @@ unity::shell::launcher::LauncherItemInterface *LauncherModel::get(int index) con
 
 void LauncherModel::move(int oldIndex, int newIndex)
 {
+    // Perform the move in our list
     beginMoveRows(QModelIndex(), oldIndex, oldIndex, QModelIndex(), newIndex);
     m_list.move(oldIndex, newIndex);
     endMoveRows();
+
+    // Mark moved app as pinned
+    LauncherItem *movedItem = m_list.at(newIndex);
+    if (!m_backend->isPinned(movedItem->desktopFile()) {
+        m_backend->setPinned(m_list.at(newIndex)->desktopFile(), true);
+        emit dataChanged(QModelIndex(), newIndex, newIndex);
+    }
+
+    // Store new order
+    QStringList appIds;
+    Q_FOREACH(LauncherItem *item, m_list) {
+        appIds << item->desktopFile();
+    }
+    m_backend->setFavoriteApplications(appIds);
 }
 
 QHash<int, QByteArray> LauncherModel::roleNames() const

@@ -20,11 +20,14 @@
 #ifndef LAUNCHERMODELH
 #define LAUNCHERMODEL_H
 
+// unity-api
 #include <unity/shell/launcher/LauncherModelInterface.h>
 
+// Qt
 #include <QAbstractListModel>
 
 class LauncherItem;
+class LauncherBackend;
 
 using namespace unity::shell::launcher;
 
@@ -47,6 +50,7 @@ public:
 
 private:
     QList<LauncherItem*> m_list;
+    LauncherBackend *m_backend;
 };
 
 #endif // LAUNCHERMODEL_H
