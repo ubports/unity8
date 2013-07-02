@@ -20,7 +20,6 @@
 #include "launchermodel.h"
 #include "launcheritem.h"
 #include "backend/launcherbackend.h"
-#include "backend/applicationlistmodel.h"
 
 #include <QDebug>
 
@@ -80,9 +79,10 @@ void LauncherModel::move(int oldIndex, int newIndex)
 
     // Mark moved app as pinned
     LauncherItem *movedItem = m_list.at(newIndex);
-    if (!m_backend->isPinned(movedItem->desktopFile()) {
+    if (!m_backend->isPinned(movedItem->desktopFile())) {
         m_backend->setPinned(m_list.at(newIndex)->desktopFile(), true);
-        emit dataChanged(QModelIndex(), newIndex, newIndex);
+        QModelIndex modelIndex = index(newIndex);
+        Q_EMIT dataChanged(modelIndex, modelIndex);
     }
 
     // Store new order

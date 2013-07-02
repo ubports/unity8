@@ -1,6 +1,6 @@
 #include "launcherbackend.h"
 
-#include "applicationlistmodel.h"
+#include <QHash>
 
 LauncherBackend::LauncherBackend(QObject *parent):
     QObject(parent)

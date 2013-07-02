@@ -17,7 +17,6 @@ set(QMLLAUNCHERPLUGIN_SRC
     ${UNITY_API_DIR}/unity/shell/launcher/LauncherItemInterface.h
     ${UNITY_API_DIR}/unity/shell/launcher/LauncherModelInterface.h
     backend/launcherbackend.cpp
-    backend/applicationlistmodel.cpp
     )
 
 add_library(UnityLauncher-qml MODULE
