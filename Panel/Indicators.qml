@@ -26,20 +26,21 @@ import "../Components/Math.js" as MathLocal
 Showable {
     id: indicators
 
-    property int openedHeight: units.gu(71)
+    property int referenceOpenedHeight: units.gu(71)
+    property real openedHeight: pinnedMode ? referenceOpenedHeight - panelHeight
+                                           : referenceOpenedHeight
     property int panelHeight: units.gu(3)
     property bool pinnedMode: true  //should be set true if indicators menu can cover whole screen
 
     property int hintValue
-    readonly property int lockThreshold: openedHeight / 2
-    property bool fullyOpened: pinnedMode ? height == openedHeight - panelHeight
-                                          : height == openedHeight
+    readonly property int lockThreshold: referenceOpenedHeight / 2
+    property bool fullyOpened: height == openedHeight
     property bool partiallyOpened: height > panelHeight && !fullyOpened
 
     showAnimation: StandardAnimation {
         property: "height"
         duration: 350
-        to: pinnedMode ? openedHeight - panelHeight : openedHeight
+        to: openedHeight
         easing.type: Easing.OutCubic
     }
 
@@ -55,7 +56,7 @@ Showable {
     onHeightChanged: {
         // need to use handle.get_height(). As the handle height depends on indicators.height changes (but this is called first!)
         var contentProgress = indicators.height - handle.get_height()
-        if (!showAnimation.running && !hideAnimation.running /*&& !revealer.hintingAnimation.running*/) {
+        if (!showAnimation.running && !hideAnimation.running) {
             if (contentProgress <= hintValue && indicators.state == "reveal") {
                 indicators.state = "hint"
                 menuContent.hideAll()
@@ -335,10 +336,15 @@ Showable {
         hintDisplacement: pinnedMode ? indicators.hintValue : 0
         autoCompleteDragThreshold: maxTotalDragDistance / 2
         stretch: true
-        maxTotalDragDistance:
-            pinnedMode ? openedHeight - panelHeight - handle.height
-                       : openedHeight - handle.height
+        maxTotalDragDistance: openedHeight - handle.height
         distanceThreshold: pinnedMode ? 0 : units.gu(3)
+
+        onStatusChanged: {
+            if (status === DirectionalDragArea.Recognized) {
+                menuContent.hideAll()
+                menuContent.activateContent()
+            }
+        }
     }
     DragHandle {
         id: hideDragHandle
@@ -349,7 +355,7 @@ Showable {
         hintDisplacement: units.gu(2)
         autoCompleteDragThreshold: maxTotalDragDistance / 6
         stretch: true
-        maxTotalDragDistance: openedHeight - 2*panelHeight
+        maxTotalDragDistance: referenceOpenedHeight - 2*panelHeight
         distanceThreshold: 0
     }
 

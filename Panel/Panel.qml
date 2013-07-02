@@ -83,11 +83,11 @@ Item {
         shown: false
         hintValue: __panelMinusSeparatorLineHeight * 3
         panelHeight: __panelMinusSeparatorLineHeight
-        openedHeight: parent.height
+        referenceOpenedHeight: parent.height
 
         pinnedMode: !fullscreenMode
 
-        property real unitProgress: height / parent.height
+        property real unitProgress: (height - panelHeight) / (openedHeight - panelHeight)
     }
 
     SearchIndicator {
