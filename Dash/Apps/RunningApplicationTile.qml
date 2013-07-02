@@ -87,7 +87,7 @@ AbstractButton {
 
         anchors.fill: shapedApplicationImage
         radius: "medium"
-        borderSource: ItemStyle.style.borderPressed
+        borderSource: "radius_pressed.sci"
         opacity: root.pressed ? 1.0 : 0.0
         Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.OutQuint } }
     }

@@ -15,20 +15,9 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import ListViewWithPageHeader 0.1
 
-Button {
-    color: "transparent"
-
-    property alias source: image.source
-
-    height: units.gu(4)
-    width: height
-    opacity: enabled ? 1 : 0.5
-    Behavior on opacity { NumberAnimation { duration: 150 } }
-
-    Image {
-        id: image
-        anchors.fill: parent
-    }
+ListViewWithPageHeader {
+    maximumFlickVelocity: height * 10
+    flickDeceleration: height * 2
 }

@@ -12,23 +12,18 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
+#include "plugin.h"
 
-Button {
-    color: "transparent"
+#include "listviewwithpageheader.h"
 
-    property alias source: image.source
+#include <QAbstractItemModel>
 
-    height: units.gu(4)
-    width: height
-    opacity: enabled ? 1 : 0.5
-    Behavior on opacity { NumberAnimation { duration: 150 } }
-
-    Image {
-        id: image
-        anchors.fill: parent
-    }
+void ListViewWithPageHeaderPlugin::registerTypes(const char *uri)
+{
+    Q_ASSERT(uri == QLatin1String("ListViewWithPageHeader"));
+    qmlRegisterType<QAbstractItemModel>();
+    qmlRegisterType<ListViewWithPageHeader>(uri, 0, 1, "ListViewWithPageHeader");
 }

@@ -21,18 +21,35 @@ import Ubuntu.Gestures 0.1
 
 Showable {
     id: showable
-    x: -width
-    width: parent.width
+    x: stretch ? 0 : -width
+    width: stretch ? 0 : parent.width
     height: parent.height
+
+    property bool stretch
+    property real hintDisplacement
+
+    onStretchChanged: {
+        if (stretch) {
+            x = 0;
+            width = 0;
+        } else {
+            x = -parent.width;
+            width = parent.width;
+        }
+    }
 
     shown: false
 
     signal dragHandleRecognizedGesture(var dragHandle)
 
-    showAnimation: StandardAnimation { property: "x"; to: 0 }
-    hideAnimation: StandardAnimation { property: "x"; to: -width }
+    property string animatedProp: stretch ? "width" : "x"
+    property real propValueWhenShown: stretch ? parent.width : 0
+    property real propValueWhenHidden: stretch ? 0 : -width
 
-    Rectangle { color: "blue"; anchors.fill: parent }
+    showAnimation: StandardAnimation { property: animatedProp; to: propValueWhenShown }
+    hideAnimation: StandardAnimation { property: animatedProp; to: propValueWhenHidden }
+
+    Image { source: "UnityLogo.png"; anchors.fill: parent }
 
     DragHandle {
         objectName: "leftwardsDragHandle"
@@ -44,6 +61,9 @@ Showable {
         width: units.gu(2)
 
         direction: Direction.Leftwards
+        stretch: showable.stretch
+        maxTotalDragDistance: showable.parent.width
+        hintDisplacement: showable.hintDisplacement
 
         onStatusChanged: {
             if (status === DirectionalDragArea.Recognized) {
@@ -64,6 +84,9 @@ Showable {
         width: units.gu(2)
 
         direction: Direction.Rightwards
+        stretch: showable.stretch
+        maxTotalDragDistance: showable.parent.width
+        hintDisplacement: showable.hintDisplacement
 
         onStatusChanged: {
             if (status === DirectionalDragArea.Recognized) {

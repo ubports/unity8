@@ -25,12 +25,6 @@ Item {
     */
     property alias text: label.text
 
-    /* When this header is used in a ListViewWithPageHeader with CurrentLabelAtStart mode, to stop
-       the list's delegates contents being visible through this header, they clip themselves
-       depending on their position. However to allow delegates underlap the bottom X pixels of this
-       header (so delegate appears through ThinDivider say) we set an offset property here. */
-    readonly property int bottomBorderAllowedOverlap: bottomBorder.allowedBottomOverlap
-
     height: units.gu(4.5)
 
     Item {

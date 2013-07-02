@@ -130,7 +130,7 @@ ScopeView {
                 "VideosGrid": videosGrid,
     }
 
-    ListViewWithPageHeader {
+    ScopeListView {
         id: listView
         anchors.fill: parent
         model: categoryListModel
@@ -161,7 +161,6 @@ ScopeView {
                         item.clicked.connect(playVideo);
                     }
                 }
-                asynchronous: true
             }
         }
 

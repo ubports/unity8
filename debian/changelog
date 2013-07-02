@@ -5,6 +5,12 @@ unity8 (7.81.3-0ubuntu1) UNRELEASED; urgency=low
 
  -- Didier Roche <didrocks@ubuntu.com>  Wed, 26 Jun 2013 11:01:09 +0200
 
+unity8 (7.81.3) UNRELEASED; urgency=low
+
+  * Choose more appropriate values for edge-drag gestures (LP: #1194150)
+
+ -- Daniel d'Andrada <daniel.dandrada@canonical.com>  Fri, 28 Jun 2013 16:28:24 -0300
+
 unity8 (7.81.2) saucy; urgency=low
 
   * Translation updates.
