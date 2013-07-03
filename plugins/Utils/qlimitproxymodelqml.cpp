@@ -39,11 +39,11 @@ QHash<int, QByteArray> QLimitProxyModelQML::roleNames() const
 void
 QLimitProxyModelQML::setModel(QAbstractItemModel *itemModel)
 {
-    if (sourceModel() != NULL) {
-        sourceModel()->disconnect(this);
-    }
-
     if (itemModel != sourceModel()) {
+        if (sourceModel() != NULL) {
+            sourceModel()->disconnect(this);
+        }
+
         setSourceModel(itemModel);
 
         if (sourceModel() != NULL) {

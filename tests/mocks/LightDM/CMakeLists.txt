@@ -13,6 +13,7 @@ add_subdirectory(single-passphrase)
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_SOURCE_DIR}/tests/mocks/libusermetrics
 )
 
 set(QMLPLUGIN_SRC
@@ -34,6 +35,8 @@ add_dependencies(MockLightDM-qml MockLightDM-full)
 target_link_libraries(MockLightDM-qml
     -L${CMAKE_CURRENT_BINARY_DIR}/full
     -llightdm-qt5-2
+    -L${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics
+    -lusermetricsoutput
     )
 
 qt5_use_modules(MockLightDM-qml Gui Qml)
