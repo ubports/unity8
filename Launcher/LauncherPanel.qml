@@ -122,7 +122,7 @@ Item {
                 // delivers the items, it's going to snap immediately. Depending on
                 // the height of the list, this might cause the first item to be half
                 // folded at the beginning. Once the list is populated we can set the
-                // snapMode and actually snapping will only happens when the user
+                // snapMode and actual snapping will only happen when the user
                 // interacts with the list.
                 Timer {
                     interval: 1
