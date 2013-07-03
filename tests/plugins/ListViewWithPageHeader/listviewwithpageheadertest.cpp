@@ -1299,6 +1299,12 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
     }
 
+    void testCrashShowHeaderWithNoHeader()
+    {
+        lvwph->setHeader(nullptr);
+        lvwph->showHeader();
+    }
+
 private:
     QQuickView *view;
     ListViewWithPageHeader *lvwph;
