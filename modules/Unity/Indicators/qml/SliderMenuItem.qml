@@ -41,18 +41,7 @@ MenuItem {
         minimumValue: menu.extra.canonical_min ? menu.extra.canonical_min * 1.000001 : 0.0000001
         maximumValue: menu.extra.canonical_max ? menu.extra.canonical_max * 1.000001 : 0.9999999
 
-        Binding {
-            target: slider.ItemStyle.style
-            property: "backgroundColor"
-            value: Qt.rgba(0.5, 0.5, 0.5, 0.1)
-        }
-
-        Binding {
-            target: slider.ItemStyle.style
-            property: "backgroundOpacity"
-            value: 1.0
-        }
-
+        // FIXME - to be deprecated in Ubuntu.Components.
         // Use this to disable the label, since there is not way to do it on the component.
         function formatValue(v) {
             return "";
