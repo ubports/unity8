@@ -110,6 +110,15 @@ void LauncherModel::pin(int index)
     }
 }
 
+void LauncherModel::remove(int index)
+{
+    beginRemoveRows(QModelIndex(), index, index);
+    m_list.takeAt(index)->deleteLater();
+    endRemoveRows();
+
+    storeAppList();
+}
+
 QHash<int, QByteArray> LauncherModel::roleNames() const
 {
     QHash<int, QByteArray> roles;

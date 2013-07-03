@@ -46,6 +46,7 @@ public:
     Q_INVOKABLE unity::shell::launcher::LauncherItemInterface* get(int index) const;
     Q_INVOKABLE void move(int oldIndex, int newIndex);
     Q_INVOKABLE void pin(int index);
+    Q_INVOKABLE void remove(int index);
 
     QHash<int, QByteArray> roleNames() const;
 
