@@ -13,5 +13,5 @@ set_target_properties(MockUserMetrics PROPERTIES
                       VERSION 1)
 
 install(TARGETS MockUserMetrics
-    DESTINATION ${SHELL_APP_DIR}/plugins/mocks/libusermetrics
+    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/mocks/libusermetrics
     )
