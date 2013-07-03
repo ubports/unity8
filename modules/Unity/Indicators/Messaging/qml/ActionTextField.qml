@@ -22,20 +22,20 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 
 Item {
-    property alias actionGroup: __sendButton.actionGroup
-    property alias action: __sendButton.action
+    property alias actionGroup: sendButton.actionGroup
+    property alias action: sendButton.action
 
-    property alias text: __replyField.text
-    property alias buttonText: __sendButton.text
+    property alias text: replyField.text
+    property alias buttonText: sendButton.text
 
     TextField {
-        id: __replyField
+        id: replyField
 
         anchors {
             top: parent.top
             bottom: parent.bottom
             left: parent.left
-            right: __sendButton.left
+            right: sendButton.left
             rightMargin: units.gu(1)
         }
         placeholderText: "Reply"
@@ -51,16 +51,16 @@ Item {
     }
 
     ActionButton {
-        id: __sendButton
+        id: sendButton
 
-        actionParameter: __replyField.text
+        actionParameter: replyField.text
         anchors {
             top: parent.top
             bottom: parent.bottom
             right: parent.right
         }
         width: units.gu(9)
-        enabled: __replyField.text !== ""
+        enabled: replyField.text !== ""
         color: enabled ? "#c94212" : "#bababa"
     }
 }

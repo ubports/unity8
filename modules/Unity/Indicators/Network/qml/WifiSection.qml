@@ -22,11 +22,11 @@ import Ubuntu.Components 0.1
 import Unity.Indicators 0.1 as Indicators
 
 Indicators.SectionMenuItem {
-    id: __wifiSectionMenu
+    id: wifiSectionMenu
 
     Indicators.MenuAction {
         id: busyAction
-        actionGroup: __wifiSectionMenu.actionGroup
+        actionGroup: wifiSectionMenu.actionGroup
         action: menu ? menu.extra.canonical_busy_action : ""
     }
 

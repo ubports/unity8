@@ -22,22 +22,22 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 
 Item {
-    id: __heroMessageHeader
+    id: heroMessageHeader
 
-    property alias avatar: __avatarImage.source
-    property alias icon: __iconImage.source
-    property alias appIcon: __appIconImage.source
+    property alias avatar: avatarImage.source
+    property alias icon: iconImage.source
+    property alias appIcon: appIconImage.source
     property alias titleText: __titleText
     property alias subtitleText: __subtitleText
     property alias bodyText: __bodyText
-    property real bodyBottom: __bodyText.y + __bodyText.height
+    property real bodyBottom: bodyText.y + bodyText.height
 
     signal appIconClicked()
 
     height: units.gu(9)
 
     UbuntuShape {
-        id: __avatarImageContainer
+        id: avatarImageContainer
         anchors {
             top: parent.top
             topMargin: units.gu(2)
@@ -47,17 +47,17 @@ Item {
         height: units.gu(6)
         width: units.gu(6)
         image: Image {
-            id: __avatarImage
+            id: avatarImage
             fillMode: Image.PreserveAspectFit
         }
     }
 
     Image {
-        id: __iconImage
+        id: iconImage
         anchors {
             top: parent.top
             topMargin: units.gu(2)
-            left: __avatarImageContainer.right
+            left: avatarImageContainer.right
             leftMargin: units.gu(1)
         }
         height: units.gu(1.5)
@@ -70,8 +70,8 @@ Item {
     Label {
         id: __titleText
         anchors {
-            baseline: __iconImage.bottom
-            left: __iconImage.right
+            baseline: iconImage.bottom
+            left: iconImage.right
             leftMargin: units.gu(1)
             right: __appIcon.left
             rightMargin: units.gu(2)
@@ -120,10 +120,10 @@ Item {
             right: parent.right
         }
         opacity: 0.0
-        enabled: __heroMessageHeader.state === "expanded"
+        enabled: heroMessageHeader.state === "expanded"
 
         Image {
-            id: __appIconImage
+            id: appIconImage
             height: width
             anchors {
                 left: parent.left
@@ -138,7 +138,7 @@ Item {
 
         MouseArea {
             anchors.fill: parent
-            onClicked: __heroMessageHeader.appIconClicked()
+            onClicked: heroMessageHeader.appIconClicked()
         }
     }
 

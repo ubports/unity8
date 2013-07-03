@@ -23,7 +23,7 @@ import Ubuntu.Components 0.1
 import Unity.Indicators 0.1 as Indicators
 
 Indicators.BasicMenuItem {
-    id: __groupedMessage
+    id: groupedMessage
     property alias count: label.text
 
     color: "#221e1b"
@@ -31,7 +31,7 @@ Indicators.BasicMenuItem {
 
     Indicators.MenuAction {
         id: menuAction
-        actionGroup: __groupedMessage.actionGroup
+        actionGroup: groupedMessage.actionGroup
         action: menu ? menu.action : ""
     }
 

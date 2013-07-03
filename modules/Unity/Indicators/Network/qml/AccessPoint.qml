@@ -23,7 +23,7 @@ import Ubuntu.Components.ListItems 0.1 as ListItem
 import Unity.Indicators 0.1 as Indicators
 
 Indicators.MenuItem {
-    id: _accessPoint
+    id: accessPoint
     property variant actionWifiApStrength : menu && actionGroup ? actionGroup.action(menu.extra.canonical_wifi_ap_strength_action) : null
     property variant wifiApStrength : actionWifiApStrength && actionWifiApStrength.valid ? actionWifiApStrength.state : "0"
 
@@ -60,7 +60,7 @@ Indicators.MenuItem {
     }
 
     Indicators.MenuActionBinding {
-        actionGroup: _accessPoint.actionGroup
+        actionGroup: accessPoint.actionGroup
         action: menu ? menu.action : ""
         target: checkBoxActive
         property: "checked"

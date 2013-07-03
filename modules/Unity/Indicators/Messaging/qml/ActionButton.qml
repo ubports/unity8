@@ -23,7 +23,7 @@ import Ubuntu.Components 0.1
 import Unity.Indicators 0.1 as Indicators
 
 Button {
-    id: __button
+    id: button
     property QtObject actionGroup: null
     property string action
 
@@ -31,8 +31,8 @@ Button {
 
     Indicators.MenuAction {
         id: menuAction
-        actionGroup: __button.actionGroup
-        action: __button.action
+        actionGroup: button.actionGroup
+        action: button.action
     }
 
     onClicked: {

@@ -24,9 +24,9 @@ import Unity.Indicators 0.1 as Indicators
 import "utils.js" as Utils
 
 HeroMessage {
-    id: __snapDecision
+    id: snapDecision
 
-    expandedHeight: __buttons.y + __buttons.height + __quickreply.height + units.gu(2)
+    expandedHeight: buttons.y + buttons.height + quickreply.height + units.gu(2)
     heroMessageHeader.titleText.text:  menu ? menu.label : ""
     heroMessageHeader.subtitleText.text: menu ? menu.extra.canonical_text : ""
     heroMessageHeader.subtitleText.color: "#e8e1d0"
@@ -34,7 +34,7 @@ HeroMessage {
     heroMessageHeader.bodyText.color: "#8f8f88"
 
     Item {
-        id: __buttons
+        id: buttons
 
         anchors.left: parent.left
         anchors.leftMargin: units.gu(2)
@@ -54,16 +54,16 @@ HeroMessage {
             width: (parent.width - units.gu(1)) / 2
 
             onClicked: {
-                if (__quickreply.state === "") {
-                    __quickreply.state = "expanded";
+                if (quickreply.state === "") {
+                    quickreply.state = "expanded";
                 } else {
-                    __quickreply.state = "";
+                    quickreply.state = "";
                 }
             }
         }
 
         ActionButton {
-            actionGroup: __snapDecision.actionGroup
+            actionGroup: snapDecision.actionGroup
             action: actionsDescription[0].name
 
             text: actionsDescription ?  actionsDescription[0].label : "Call back"
@@ -76,10 +76,10 @@ HeroMessage {
 
         states: State {
             name: "expanded"
-            when: __snapDecision.state === "expanded"
+            when: snapDecision.state === "expanded"
 
             PropertyChanges {
-                target: __buttons
+                target: buttons
                 opacity: 1.0
             }
         }
@@ -93,15 +93,15 @@ HeroMessage {
     }
 
     QuickReply {
-        id: __quickreply
+        id: quickreply
 
-        actionGroup: __snapDecision.actionGroup
+        actionGroup: snapDecision.actionGroup
         action: actionsDescription[1].name
 
         messages: actionsDescription ? actionsDescription[1]["parameter-hint"] : ""
         buttonText: actionsDescription ? actionsDescription[1].label : "send"
         anchors {
-            top: __buttons.bottom
+            top: buttons.bottom
             topMargin: units.gu(2)
             left: parent.left
             right: parent.right
@@ -114,13 +114,13 @@ HeroMessage {
             name: "expanded"
 
             PropertyChanges {
-                target: __quickreply
+                target: quickreply
                 height: expandedHeight
                 opacity: 1.0
             }
 
             PropertyChanges {
-                target: __quickreply
+                target: quickreply
                 enabled: true
             }
         }
@@ -136,7 +136,7 @@ HeroMessage {
 
     onStateChanged: {
         if (state === "") {
-            __quickreply.state = "";
+            quickreply.state = "";
         }
     }
 }

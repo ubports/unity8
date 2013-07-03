@@ -21,7 +21,7 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 
 BasicMenuItem {
-    id: _buttonMenu
+    id: buttonMenu
     color: "#221e1b"
     implicitHeight: units.gu(7)
 
@@ -41,7 +41,7 @@ BasicMenuItem {
 
     MenuAction {
         id: menuAction
-        actionGroup: _buttonMenu.actionGroup
+        actionGroup: buttonMenu.actionGroup
         action: menu ? menu.action : ""
     }
 }

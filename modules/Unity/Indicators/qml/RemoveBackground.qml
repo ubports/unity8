@@ -18,14 +18,10 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 
 Rectangle {
-    id: __backgroundItem
-
     anchors.fill: parent
     color: "#333130"
     Label {
-        id: __backgroundText
-
-        property int slidingMargin: units.gu(3)
+        id: backgroundText
 
         anchors.fill: parent
         verticalAlignment: Text.AlignVCenter
@@ -39,8 +35,8 @@ Rectangle {
         State {
             name: "SwipingRight"
             PropertyChanges {
-                target: __backgroundText
-                anchors.rightMargin: __backgroundText.slidingMargin
+                target: backgroundText
+                anchors.rightMargin: units.gu(3)
                 anchors.leftMargin: 0
                 horizontalAlignment: Text.AlignRight
 
@@ -49,9 +45,9 @@ Rectangle {
         State {
             name: "SwipingLeft"
             PropertyChanges {
-                target: __backgroundText
+                target: backgroundText
                 anchors.rightMargin: 0
-                anchors.leftMargin: __backgroundText.slidingMargin
+                anchors.leftMargin: units.gu(3)
                 horizontalAlignment: Text.AlignLeft
             }
         }

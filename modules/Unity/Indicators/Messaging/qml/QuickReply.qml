@@ -23,15 +23,15 @@ import Ubuntu.Components 0.1
 import Unity.Indicators 0.1 as Indicators
 
 Item {
-    property alias actionGroup: __actionTextField.actionGroup
-    property alias action: __actionTextField.action
+    property alias actionGroup: actionTextField.actionGroup
+    property alias action: actionTextField.action
 
-    property alias buttonText: __actionTextField.buttonText
+    property alias buttonText: actionTextField.buttonText
     property real expandedHeight: childrenRect.height
-    property alias messages : __messagelistRepeater.model
+    property alias messages : messagelistRepeater.model
 
     Item {
-        id: __header
+        id: header
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
@@ -70,21 +70,21 @@ Item {
     }
 
     Column {
-        id: __messagelist
+        id: messagelist
         anchors {
             left: parent.left
             right: parent.right
-            top: __header.bottom
+            top: header.bottom
         }
         height: childrenRect.height
 
         Repeater {
-            id: __messagelistRepeater
+            id: messagelistRepeater
 
             height: childrenRect.height
 
             Rectangle {
-                width: __messagelist.width
+                width: messagelist.width
                 height: units.gu(5)
                 color: "#333230"
 
@@ -117,7 +117,7 @@ Item {
 
                     anchors.fill: parent
                     onClicked: {
-                        __actionTextField.text = modelData;
+                        actionTextField.text = modelData;
                     }
                 }
 
@@ -140,13 +140,13 @@ Item {
     }
 
     Item {
-        anchors.top: __messagelist.bottom
+        anchors.top: messagelist.bottom
         anchors.left: parent.left
         anchors.right: parent.right
         height: units.gu(6)
 
         ActionTextField {
-            id: __actionTextField
+            id: actionTextField
 
             anchors.fill: parent
             anchors.margins: units.gu(1)

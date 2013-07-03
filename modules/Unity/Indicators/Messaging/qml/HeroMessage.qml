@@ -23,7 +23,7 @@ import Ubuntu.Components 0.1
 import Unity.Indicators 0.1 as Indicators
 
 Indicators.BasicMenuItem {
-    id: __heroMessage
+    id: heroMessage
 
     property variant actionsDescription: null
     property alias heroMessageHeader: __heroMessageHeader
@@ -37,7 +37,7 @@ Indicators.BasicMenuItem {
 
     Indicators.MenuAction {
         id: menuAction
-        actionGroup: __heroMessage.actionGroup
+        actionGroup: heroMessage.actionGroup
         action: menu ? menu.action : ""
     }
 
@@ -52,7 +52,7 @@ Indicators.BasicMenuItem {
         icon: menu && (menu.extra.canonical_app_icon.length > 0) ? "image://gicon/" + encodeURI(menu.extra.canonical_app_icon) : ""
         appIcon: icon
 
-        state: __heroMessage.state
+        state: heroMessage.state
 
         onAppIconClicked:  {
             if (menuAction.valid) {
@@ -87,9 +87,9 @@ Indicators.BasicMenuItem {
         when: menuActivated
 
         PropertyChanges {
-            target: __heroMessage
+            target: heroMessage
             color: "#333130"
-            implicitHeight: __heroMessage.expandedHeight
+            implicitHeight: heroMessage.expandedHeight
         }
         PropertyChanges {
             target: __topHLine

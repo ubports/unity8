@@ -21,7 +21,7 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 
 MenuItem {
-    id: _switchMenu
+    id: switchMenu
 
     property alias checked: switcher.checked
 
@@ -35,7 +35,7 @@ MenuItem {
 
     MenuActionBinding {
         id: menuAction
-        actionGroup: _switchMenu.actionGroup
+        actionGroup: switchMenu.actionGroup
         action: menu ? menu.action : ""
         target: switcher
         property: "checked"

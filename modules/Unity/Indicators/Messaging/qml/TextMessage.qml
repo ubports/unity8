@@ -23,11 +23,11 @@ import Ubuntu.Components 0.1
 import Unity.Indicators 0.1 as Indicators
 
 SimpleTextMessage {
-    id: __simpleMessage
+    id: simpleMessage
 
     footer: ActionTextField {
         anchors.fill:  parent
-        actionGroup: __simpleMessage.actionGroup
+        actionGroup: simpleMessage.actionGroup
         action: actionsDescription[0].name
 
         buttonText: actionsDescription ? actionsDescription[0].label : "Send"

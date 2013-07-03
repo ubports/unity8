@@ -23,50 +23,48 @@ import Ubuntu.Components 0.1
 import Unity.Indicators 0.1 as Indicators
 
 Indicators.BasicMenuItem {
-    id: __messageItem
-
     property variant actionsDescription: menu ? menu.extra.canonical_message_actions : undefined
 
     onActionGroupChanged: loadItem()
     onActionsDescriptionChanged: loadItem()
-    implicitHeight: __contents.status == Loader.Ready ? __contents.item.implicitHeight : 0
+    implicitHeight: contents.status == Loader.Ready ? contents.item.implicitHeight : 0
 
     Loader {
-        id: __contents
+        id: contents
 
         anchors.fill: parent
         // Binding all properties for the item, to make sure that any change in the
-        // property will be propagated to the __contents.item at any time
+        // property will be propagated to the contents.item at any time
         Binding {
-            target: __contents.item
+            target: contents.item
             property: "menuActivated"
             value: menuActivated
-            when: (__contents.status == Loader.Ready)
+            when: (contents.status == Loader.Ready)
         }
 
         Binding {
-            target: __contents.item
+            target: contents.item
             property: "actionGroup"
             value: actionGroup
-            when: (__contents.status == Loader.Ready)
+            when: (contents.status == Loader.Ready)
         }
 
         Binding {
-            target: __contents.item
+            target: contents.item
             property: "menu"
             value: menu
-            when: (__contents.status == Loader.Ready)
+            when: (contents.status == Loader.Ready)
         }
 
         Binding {
-            target: __contents.item
+            target: contents.item
             property: "actionsDescription"
             value: actionsDescription
-            when: (__contents.status == Loader.Ready)
+            when: (contents.status == Loader.Ready)
         }
 
         Connections {
-            target: __contents.item ? __contents.item : null
+            target: contents.item ? contents.item : null
             onActivateMenu: activateMenu()
             onDeactivateMenu: deactivateMenu()
         }
@@ -86,11 +84,11 @@ Indicators.BasicMenuItem {
         }
 
         if (parameterType === "") {
-            __contents.source = "SimpleTextMessage.qml";
+            contents.source = "SimpleTextMessage.qml";
         } else if (parameterType === "s") {
-            __contents.source = "TextMessage.qml";
+            contents.source = "TextMessage.qml";
         } else if (parameterType === "_s") {
-            __contents.source = "SnapDecision.qml";
+            contents.source = "SnapDecision.qml";
         } else {
             console.debug("Unknown paramater type: " + parameterType);
         }

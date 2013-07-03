@@ -25,15 +25,15 @@ import "utils.js" as Utils
 HeroMessage {
     id: __heroMessage
 
-    property alias footer: __footer.sourceComponent
+    property alias footer: footerLoader.sourceComponent
 
-    expandedHeight: __fullMessage.y + __fullMessage.height + units.gu(2)
+    expandedHeight: fullMessage.y + fullMessage.height + units.gu(2)
     heroMessageHeader.titleText.text: menu ? menu.label : ""
     heroMessageHeader.subtitleText.text: menu ? Utils.formatDate(menu.extra.canonical_time) : ""
     heroMessageHeader.bodyText.text: menu ? menu.extra.canonical_text : ""
 
     Item {
-        id: __fullMessage
+        id: fullMessage
 
         anchors {
             left: parent.left
@@ -47,7 +47,7 @@ HeroMessage {
         enabled: false
 
         Label {
-            id: __bodyText
+            id: bodyText
             anchors {
                 top: parent.top
                 left: parent.left
@@ -61,15 +61,15 @@ HeroMessage {
         }
 
         Loader {
-            id: __footer
+            id: footerLoader
 
             anchors {
-                top: __bodyText.bottom
+                top: bodyText.bottom
                 topMargin: units.gu(2)
                 left: parent.left
                 right: parent.right
             }
-            height: __footer.item != undefined ? units.gu(4) : 0
+            height: item != undefined ? units.gu(4) : 0
         }
 
         states: State {
@@ -82,7 +82,7 @@ HeroMessage {
             }
 
             PropertyChanges {
-                target: __fullMessage
+                target: fullMessage
                 opacity: 1.0
                 enabled: true
             }

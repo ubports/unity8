@@ -21,12 +21,12 @@ import QtQuick 2.0
 import Ubuntu.Components.ListItems 0.1 as ListItem
 
 ListItem.Standard {
-    id: _priv
+    id: stdListItem
 
     property bool menuActivated: false
     property QtObject menu
     property QtObject actionGroup
-    property alias color: __bg.color
+    property alias color: background.color
 
     signal activateMenu()
     signal deactivateMenu()
@@ -35,11 +35,11 @@ ListItem.Standard {
     __foregroundColor: "#e8e1d0"
 
     backgroundIndicator: RemoveBackground {
-        state: _priv.swipingState
+        state: stdListItem.swipingState
     }
 
     Rectangle {
-        id: __bg
+        id: background
 
         anchors.fill: parent
         color: "#221e1c"

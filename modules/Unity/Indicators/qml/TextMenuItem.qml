@@ -21,10 +21,10 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 
 MenuItem {
-    id: _textMenu
+    id: textMenu
 
-    property alias text: _textField.text
-    property alias password: _showPassword.visible
+    property alias text: textField.text
+    property alias password: showPassword.visible
 
     implicitHeight: password ? units.gu(10) : units.gu(7)
 
@@ -39,7 +39,7 @@ MenuItem {
         }
 
         TextField {
-            id: _textField
+            id: textField
 
             anchors {
                 left: parent.left
@@ -47,11 +47,11 @@ MenuItem {
             }
 
             placeholderText: "Password"
-            echoMode: _textMenu.password && !_checkBox.checked ? TextInput.Password : TextInput.Normal
+            echoMode: textMenu.password && !_checkBox.checked ? TextInput.Password : TextInput.Normal
         }
 
         Row {
-            id: _showPassword
+            id: showPassword
 
             visible: false
             anchors {
@@ -74,9 +74,9 @@ MenuItem {
     }
 
     MenuActionBinding {
-        actionGroup: _textMenu.actionGroup
+        actionGroup: textMenu.actionGroup
         action: menu ? menu.action : ""
-        target: _textField
+        target: textField
         property: "text"
     }
 }

@@ -22,17 +22,11 @@ import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
 
 BasicMenuItem {
-    id: __sectionMenu
-
     property string label: menu && menu.label ? menu.label : ""
     property bool busy: false
     property int count: menu && menu.linkSection ?  menu.linkSection.count : 0
 
     color: "#221e1b"
-    anchors {
-        left: parent ? parent.left : undefined
-        right: parent ? parent.right : undefined
-    }
     implicitHeight: label !== "" ? __header.height : 0
     state: count === 0 ? "EMPTY" : ""
 

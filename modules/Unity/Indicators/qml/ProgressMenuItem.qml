@@ -21,7 +21,7 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 
 MenuItem {
-    id: _progressMenu
+    id: progressMenu
     property alias value : progressBar.value
 
     // TODO: Replace this with the official ProgressBar component as soon as
@@ -36,7 +36,7 @@ MenuItem {
         }
         height: units.gu(4)
         anchors.verticalCenter: parent.verticalCenter
-        color: "#00000000"
+        color: "transparent"
 
         property int minimumValue: 0
         property int maximumValue: 100
@@ -57,7 +57,7 @@ MenuItem {
     }
 
     MenuActionBinding {
-        actionGroup: _progressMenu.actionGroup
+        actionGroup: progressMenu.actionGroup
         action: menu ? menu.action : ""
         target: progressBar
         property: "value"

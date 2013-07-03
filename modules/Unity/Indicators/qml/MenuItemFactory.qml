@@ -23,15 +23,15 @@ import Unity.Indicators.Messaging 0.1 as ICMessaging
 import Unity.Indicators.Network 0.1 as ICNetwork
 
 Item {
-    id: __menuFactory
+    id: menuFactory
 
     property QtObject menu
     property QtObject listView
     property QtObject actionGroup
     property bool isCurrentItem
-    readonly property bool empty: (__loader.item !== undefined && __loader.status == Loader.Ready) ? __loader.item.state === "EMPTY" : true
+    readonly property bool empty: (loader.item !== undefined && loader.status == Loader.Ready) ? loader.item.state === "EMPTY" : true
 
-    implicitHeight: __loader.height
+    implicitHeight: loader.height
 
     signal activated()
     signal deactivated()
@@ -70,7 +70,7 @@ Item {
     Component { id: indicatorMenu; Indicators.MenuItem {} }
 
     Loader {
-        id: __loader
+        id: loader
         asynchronous: true
 
         anchors {
@@ -79,11 +79,11 @@ Item {
         }
 
         sourceComponent: {
-            if (!__menuFactory.menu ||  !__menuFactory.menu.extra) {
+            if (!menuFactory.menu ||  !menuFactory.menu.extra) {
                 return undefined;
             }
 
-            var widgetType = __menuFactory.menu.extra.canonical_type;
+            var widgetType = menuFactory.menu.extra.canonical_type;
             if (widgetType) {
                 return _map[widgetType];
             } else {
@@ -100,11 +100,11 @@ Item {
 
         onLoaded: {
             item.menuActivated = Qt.binding(function() { return isCurrentItem; });
-            item.actionGroup = Qt.binding(function() { return __menuFactory.actionGroup; });
-            item.menu = Qt.binding(function() { return __menuFactory.menu; });
+            item.actionGroup = Qt.binding(function() { return menuFactory.actionGroup; });
+            item.menu = Qt.binding(function() { return menuFactory.menu; });
 
-            item.activateMenu.connect(function() { __menuFactory.activated(); });
-            item.deactivateMenu.connect(function() { __menuFactory.deactivated(); });
+            item.activateMenu.connect(function() { menuFactory.activated(); });
+            item.deactivateMenu.connect(function() { menuFactory.deactivated(); });
         }
     }
 }
