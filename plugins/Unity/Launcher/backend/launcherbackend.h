@@ -55,6 +55,12 @@ public:
     void setStoredApplications(const QStringList &appIds);
 
     /**
+      * @brief Get the full path to the .desktop file.
+      * @returns The full path to the .dekstop file.
+      */
+    QString desktopFile(const QString &appId) const;
+
+    /**
       * @brief Get the user friendly name of an application.
       * @param appId The ID of the application.
       * @returns The user friendly name of the application.

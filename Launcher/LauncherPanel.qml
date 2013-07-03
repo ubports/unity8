@@ -140,7 +140,7 @@ Item {
                     maxAngle: 60
 
                     onClicked: {
-                        root.applicationSelected("/usr/share/applications/" + LauncherModel.get(index).desktopFile);
+                        root.applicationSelected(LauncherModel.get(index).desktopFile);
                     }
                 }
 

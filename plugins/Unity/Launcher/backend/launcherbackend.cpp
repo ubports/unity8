@@ -56,6 +56,12 @@ void LauncherBackend::setStoredApplications(const QStringList &appIds)
     // TODO: Cleanup pinned state from settings for apps not in list any more.
 }
 
+QString LauncherBackend::desktopFile(const QString &appId) const
+{
+    // TODO: return real path instead of this hardcoded one
+    return QLatin1String("/usr/share/applications/") + appId;
+}
+
 QString LauncherBackend::displayName(const QString &appId) const
 {
     // TODO: get stuff from desktop files instead this hardcoded map

@@ -19,8 +19,9 @@
 
 #include "launcheritem.h"
 
-LauncherItem::LauncherItem(const QString &desktopFile, const QString &name, const QString &icon, QObject *parent) :
+LauncherItem::LauncherItem(const QString &appId, const QString &desktopFile, const QString &name, const QString &icon, QObject *parent) :
     LauncherItemInterface(parent),
+    m_appId(appId),
     m_desktopFile(desktopFile),
     m_name(name),
     m_icon(icon),
@@ -31,6 +32,11 @@ LauncherItem::LauncherItem(const QString &desktopFile, const QString &name, cons
     m_count(0)
 {
 
+}
+
+QString LauncherItem::appId()
+{
+    return m_appId;
 }
 
 QString LauncherItem::desktopFile() const
