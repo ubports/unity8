@@ -53,8 +53,7 @@ Showable {
                 // we dont want to switch to a indicator menu until we hit reveal state.
                 if (menuContent.overviewActive) {
                     menuContent.showOverview()
-                }
-                else {
+                } else {
                     menuContent.showMenu()
                 }
                 indicators.state = "locked"
@@ -243,8 +242,7 @@ Showable {
             if (showAnimation.running) {
                 if (indicators.state == "initial") {
                     openOverview()
-                }
-                else {
+                } else {
                     indicators.calculateCurrentItem(revealer.lateralPosition, false)
                     menuContent.showMenu()
                 }

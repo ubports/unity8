@@ -85,8 +85,7 @@ Item {
                     if (!indicators.shown) {
                         indicators.openOverview();
                         indicators.show();
-                    }
-                    else {
+                    } else {
                         indicators.hide();
                     }
                 }
