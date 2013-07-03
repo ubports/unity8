@@ -4,17 +4,16 @@ include(FindPkgConfig)
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Quick REQUIRED)
 
-#TODO: fix this once unity-api is released to distro
-set(UNITY_API_DIR /home/mzanetti/Development/unity-api/include/)
+pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${UNITY_API_DIR}
+    ${LAUNCHER_API_INCLUDEDIR}
 )
 
 set(MockLauncherModel_SOURCES
-    ${UNITY_API_DIR}/unity/shell/launcher/LauncherModelInterface.h
-    ${UNITY_API_DIR}/unity/shell/launcher/LauncherItemInterface.h
+    ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherItemInterface.h
+    ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherModelInterface.h
     plugin.cpp
     MockLauncherModel.cpp
     MockLauncherItem.cpp
