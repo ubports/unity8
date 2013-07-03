@@ -48,6 +48,10 @@ EdgeDragArea {
     id: dragArea
     objectName: "dragHandle"
 
+    // Disable gesture detection by default when hinting is used.
+    // It doesn't make sense to have both.
+    distanceThreshold: hintDisplacement > 0 ? 0 : units.gu(1.5)
+
     property bool stretch: false
 
     property alias autoCompleteDragThreshold: dragEvaluator.dragThreshold

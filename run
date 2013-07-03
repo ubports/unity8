@@ -41,17 +41,17 @@ done
 
 if $FAKE; then
   export QML2_IMPORT_PATH=$PWD/builddir/tests/mocks:$PWD/builddir/plugins
-  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/tests/mocks/LightDM/single
+  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/tests/mocks/libusermetrics:$PWD/builddir/tests/mocks/LightDM/single
 fi
 
 if $PINLOCK; then
   export QML2_IMPORT_PATH=$PWD/builddir/tests/mocks:$PWD/builddir/plugins
-  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/tests/mocks/LightDM/single-pin
+  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/tests/mocks/libusermetrics:$PWD/builddir/tests/mocks/LightDM/single-pin
 fi
 
 if $KEYLOCK; then
   export QML2_IMPORT_PATH=$PWD/builddir/tests/mocks:$PWD/builddir/plugins
-  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/tests/mocks/LightDM/single-passphrase
+  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/tests/mocks/libusermetrics:$PWD/builddir/tests/mocks/LightDM/single-passphrase
 fi
 
 # Force icon theme if running on the desktop, otherwise gnome theme (if running
