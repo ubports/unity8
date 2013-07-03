@@ -81,7 +81,6 @@ Item {
         }
     }
 
-
     UT.UnityTestCase {
         id: testCase
         name: "Launcher"
