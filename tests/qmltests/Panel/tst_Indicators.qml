@@ -42,23 +42,9 @@ Item {
         }
         width: (shell.width > units.gu(60)) ? units.gu(40) : shell.width
         y: 0
-        hintValue: indicatorRevealer.hintDisplacement
         shown: false
-        revealer: indicatorRevealer
 
         openedHeight: parent.height - click_me.height
-
-        showAnimation: NumberAnimation { property: "progress"; duration: 350; to: indicatorRevealer.openedValue; easing.type: Easing.OutCubic }
-        hideAnimation: NumberAnimation { property: "progress"; duration: 350; to: indicatorRevealer.closedValue; easing.type: Easing.OutCubic }
-    }
-
-    Revealer {
-        anchors.fill: indicators
-        id: indicatorRevealer
-        hintDisplacement: indicators.panelHeight * 3
-
-        openedValue: indicators.openedHeight - indicators.panelHeight
-        closedValue: indicators.panelHeight
     }
 
     // Just a rect for clicking to open the indicators.
@@ -153,60 +139,63 @@ Item {
         {
             // tests changing the lateral position of the revealer activates the correct indicator items.
 
-            // This "should" put the indicators in "hint" state
-            indicators.progress = indicators.hintValue;
-
             var indicator_row = findChild(indicators, "indicatorRow")
             var row_repeater = findChild(indicators, "rowRepeater")
 
             for (var i = 0; i < row_repeater.count; i++) {
                 var indicator_item = row_repeater.itemAt(i);
 
-                var indicator_position = indicator_row.row.x + indicator_item.x + indicator_item.width/2;
+                var indicator_position = indicators.mapFromItem(indicator_item,
+                        indicator_item.width/2, indicator_item.height/2)
 
-                indicatorRevealer.lateralPosition = indicator_position;
+                touchFlick(indicators,
+                           indicator_position.x, indicator_position.y,
+                           indicator_position.x, indicators.openedHeight * 0.4,
+                           true /* beginTouch */, false /* endTouch */)
 
-                compare(indicator_row.currentItem, indicator_item, "Incorrect item activated at position " + i);
+                compare(indicator_row.currentItem, indicator_item,
+                        "Incorrect item activated at position " + i);
+
+                touchFlick(indicators,
+                           indicator_position.x, indicators.openedHeight * 0.4,
+                           indicator_position.x, indicator_position.y,
+                           false /* beginTouch */, true /* endTouch */)
+
+                // wait until fully closed
+                tryCompare(indicators, "height", indicators.panelHeight)
             }
         }
 
-        // PROGRESS TESTS
-
-        // values for specific state changes are subject to internal decisions, so we can't determine the true progress value
-        // which would cause the state to change without making too many assuptyions
-        // However, we can assume that a partially opened panel will not be initial, and fully opened panel will be locked.
+        // values for specific state changes are subject to internal decisions, so we can't
+        // determine the true height value which would cause the state to change without making
+        // too many assuptyions
+        // However, we can assume that a partially opened panel will not be initial, and fully
+        // opened panel will be locked.
 
         function test_progress_changes_state_to_not_initial() {
-            indicators.progress = indicatorRevealer.closedValue +  (indicatorRevealer.openedValue - indicatorRevealer.closedValue)/2;
-            compare(indicators.state!="initial", true, "Indicators should not be in initial state when partially opened.");
+            indicators.height = indicators.openedHeight / 2
+            compare(indicators.state!="initial", true,
+                    "Indicators should not be in initial state when partially opened.")
         }
 
         function test_progress_changes_state_to_locked() {
-            indicators.progress = indicators.openedHeight;
-            compare(indicators.state, "locked", "Indicators should be locked when fully opened.");
+            indicators.height = indicators.openedHeight - indicators.panelHeight
+            compare(indicators.state, "locked", "Indicators should be locked when fully opened.")
         }
 
         function test_partially_open() {
-            indicators.progress = indicatorRevealer.closedValue +  (indicatorRevealer.openedValue - indicatorRevealer.closedValue)/2;
-            compare(indicators.partiallyOpened, true, "Indicator should show as partially opened when in between revealer closedValue & openedValue height");
-            compare(indicators.fullyOpened, false, "Indicator should not show as fully opened when in between revealer closedValue & openedValue height");
+            indicators.height = indicators.openedHeight / 2
+            compare(indicators.partiallyOpened, true,
+                    "Indicator should show as partially opened when height is half of openedHeight")
+            compare(indicators.fullyOpened, false,
+                    "Indicator should not show as fully opened when height is half of openedHeight")
         }
 
         function test_fully_open() {
-            indicators.progress = indicatorRevealer.openedValue
-            compare(indicators.partiallyOpened, false, "Indicator should show as fully opened when in between revealer closedValue & openedValue height");
-            compare(indicators.fullyOpened, true, "Indicator should not show as fully opened when at revealer openedValue height");
+            indicators.height = indicators.openedHeight
+            compare(indicators.partiallyOpened, false);
+            compare(indicators.fullyOpened, true);
         }
 
-        // The indicator menu content should be shown if the indicators are show through an animation before they
-        // enter a furthur state through a progress change (eg press indicator row, drag down a less then hint
-        // threshold and release to show
-        function test_menu_open_on_hint_drag() {
-            indicators.handlePress();
-            indicators.show()
-
-            var menuContent = findChild(indicators, "menuContent")
-            compare(menuContent.__shown, true, "Indicator menu content should be shown after a indicator show.");
-        }
     }
 }
