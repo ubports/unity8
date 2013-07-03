@@ -192,7 +192,7 @@ Item {
         }
 
         function test_fully_open() {
-            indicators.height = indicators.openedHeight - indicators.panelHeight
+            indicators.height = indicators.openedHeight
             compare(indicators.partiallyOpened, false);
             compare(indicators.fullyOpened, true);
         }
