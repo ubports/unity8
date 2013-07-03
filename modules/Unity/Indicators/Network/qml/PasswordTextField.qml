@@ -20,22 +20,19 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 
-MenuItem {
+Item {
     id: textMenu
 
     property alias text: textField.text
-    property alias password: showPassword.visible
 
-    implicitHeight: password ? units.gu(10) : units.gu(7)
+    height: contentColumn.height
 
     Column {
-        id: _contentColumn
+        id: contentColumn
         spacing: units.gu(0.5)
         anchors {
             left: parent.left
             right: parent.right
-            verticalCenter: parent.verticalCenter
-            margins: units.gu(3)
         }
 
         TextField {
@@ -47,36 +44,25 @@ MenuItem {
             }
 
             placeholderText: "Password"
-            echoMode: textMenu.password && !_checkBox.checked ? TextInput.Password : TextInput.Normal
+            echoMode: showPassword.checked ? TextInput.Password : TextInput.Normal
         }
 
         Row {
-            id: showPassword
-
-            visible: false
             anchors {
                 left: parent.left
                 right: parent.right
-
             }
 
             spacing: units.gu(1)
 
             CheckBox {
-                id: _checkBox
+                id: showPassword
             }
 
             Label {
                 text: "Show password"
-                anchors.verticalCenter: _checkBox.verticalCenter
+                anchors.verticalCenter: showPassword.verticalCenter
             }
         }
-    }
-
-    MenuActionBinding {
-        actionGroup: textMenu.actionGroup
-        action: menu ? menu.action : ""
-        target: textField
-        property: "text"
     }
 }

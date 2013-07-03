@@ -41,10 +41,18 @@ Page {
             label: "Authentication"
         }
 
-        Indicators.TextMenuItem {
-            id: _password
+        Indicators.MenuItem {
+            implicitHeight: password.height + units.gu(1)
 
-            password: true
+            PasswordTextField {
+                id: password
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    margins: units.gu(3)
+                    verticalCenter: parent.verticalCenter
+                }
+            }
         }
 
         Indicators.MenuItem {
@@ -70,7 +78,7 @@ Page {
                     text: "Ok"
                     width: units.gu(10)
                     onClicked: {
-                        agent.authenticate(token, _password.text);
+                        agent.authenticate(token, password.text);
                         pageStack.pop();
                     }
                 }

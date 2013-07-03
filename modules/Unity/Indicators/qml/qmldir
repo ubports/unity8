@@ -16,6 +16,5 @@ ProgressMenuItem 0.1 ProgressMenuItem.qml
 SectionMenuItem 0.1 SectionMenuItem.qml
 SliderMenuItem 0.1 SliderMenuItem.qml
 SwitchMenuItem 0.1 SwitchMenuItem.qml
-TextMenuItem 0.1 TextMenuItem.qml
 
 internal RemoveBackground RemoveBackground.qml
