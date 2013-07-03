@@ -102,21 +102,21 @@ bool Greeter::startSessionSync(const QString &session)
     return d->m_greeter->startSessionSync(session);
 }
 
-void Greeter::showPromptFilter(QString text, QLightDM::Greeter::PromptType type)
+void Greeter::showPromptFilter(const QString &text, QLightDM::Greeter::PromptType type)
 {
     Q_D(Greeter);
     d->wasPrompted = true;
 
     // Strip prompt of any colons at the end
-    text = text.trimmed();
-    if (text.endsWith(":") || text.endsWith("：")) {
-        text.chop(1);
+    QString trimmedText = text.trimmed();
+    if (trimmedText.endsWith(":") || trimmedText.endsWith("：")) {
+        trimmedText.chop(1);
     }
 
-    Q_EMIT showPrompt(text, type == QLightDM::Greeter::PromptTypeSecret);
+    Q_EMIT showPrompt(trimmedText, type == QLightDM::Greeter::PromptTypeSecret);
 }
 
-void Greeter::showMessageFilter(QString text, QLightDM::Greeter::MessageType type)
+void Greeter::showMessageFilter(const QString &text, QLightDM::Greeter::MessageType type)
 {
     Q_EMIT showMessage(text, type == QLightDM::Greeter::MessageTypeError);
 }

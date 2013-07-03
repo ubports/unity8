@@ -1,3 +1,4 @@
 add_subdirectory(Utils)
 add_subdirectory(Ubuntu)
+add_subdirectory(Unity)
 add_subdirectory(ListViewWithPageHeader)

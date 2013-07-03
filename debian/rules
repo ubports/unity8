@@ -9,6 +9,10 @@ export NO_PNG_PKG_MANGLE=1
 %:
 	dh $@ --parallel
 
+override_dh_auto_clean:
+	dh_auto_clean
+	rm -rf builddir
+
 override_dh_install:
 	dh_install --fail-missing
 

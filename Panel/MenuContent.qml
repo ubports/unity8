@@ -99,7 +99,7 @@ Rectangle {
             visible: content.__shown
             onVisibleChanged: {
                 // Reset the indicator states
-                if (!visible && item) {
+                if (!visible && item && item["reset"]) {
                     item.reset()
                 }
             }

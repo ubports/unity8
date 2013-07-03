@@ -77,92 +77,56 @@ Item {
             return panel.mapFromItem(indicator_item, indicator_item.width/2, indicator_item.height/2);
         }
 
-        function test_hint_data() { return get_window_data() }
-
         // Pressing on the indicator panel should activate the indicator hints
         // and expose a portion of the conent.
-        function test_hint(data) {
-            panel.fullscreenMode = data.fullscreenFlag;
+        function test_hint() {
+            panel.fullscreenMode = false;
+            // Wait for the indicators to get into position.
+            // (switches between normal and fullscreen modes are animated)
+            tryCompare(panel.indicators, "y", 0)
 
             var indicator_item_coord = get_indicator_item_position(0);
-            var indicator_revealer = findChild(panel, "indicatorRevealer");
-            verify(indicator_revealer != undefined)
 
-            mousePress(panel,
-                       indicator_item_coord.x, panel.panelHeight/2,
-                       Qt.LeftButton, Qt.NoModifier , 0);
+            touchPress(panel, indicator_item_coord.x, panel.panelHeight / 2)
 
-            if (!panel.fullscreenMode)
-            {
-                compare(indicator_revealer.hintingAnimation.running, true, "Indicator revealer hint animation should be running after mouse press on indicator panel in pinned mode");
-                tryCompare(indicator_revealer.hintingAnimation, "running", false);
-                tryCompare(panel.indicators, "partiallyOpened", true);
-            }
-            else
-            {
-                // nothing should happen
-                compare(indicator_revealer.hintingAnimation.running, false, "Indicator revealer hint animation should not be running after mouse press on indicator panel in fullscreen mode");
-                compare(panel.indicators.partiallyOpened, false, "Indicator should not be partially opened when panel is pressed in fullscreenmode");
-                compare(panel.indicators.fullyOpened, false, "Indicator should not be partially opened when panel is pressed in fullscreenmode");
-            }
+            // hint animation should be run, meaning that indicators will move downwards
+            // by hintValue pixels without any drag taking place
+            tryCompare(panel.indicators, "height",
+                       panel.indicators.panelHeight + panel.indicators.hintValue);
+            tryCompare(panel.indicators, "partiallyOpened", true);
+            tryCompare(panel.indicators, "fullyOpened", false);
 
-            mouseRelease(panel,
-                         indicator_item_coord.x, panel.panelHeight/2,
-                         Qt.LeftButton, Qt.NoModifier , 0);
+            touchRelease(panel, indicator_item_coord.x, panel.panelHeight/2)
         }
 
-        function test_show_click_data() { return get_window_data() }
-
-        // Clicking the indicator panel should fully open the inidicators
-        function test_show_click(data) {
-            panel.fullscreenMode = data.fullscreenFlag;
-
-            var indicator_item_coord = get_indicator_item_position(0);
-
-            mouseClick(panel,
-                       indicator_item_coord.x, panel.panelHeight/2,
-                       Qt.LeftButton, Qt.NoModifier , 0);
-
-            if (!panel.fullscreenMode)
-            {
-                compare(panel.indicators.showAnimation.running, true, "Show animation should run after panel is clicked in pinned mode.");
-                tryCompare(panel.indicators, "fullyOpened", true);
-
-                // click will activate device overview.
-                compare(findChild(panel.indicators, "indicatorRow").overviewActive, true, "Overview indicator should be avtive when indicators clicked.")
-            }
-            else
-            {
-                compare(panel.indicators.showAnimation.running, false, "Indicators should not open when panel is clicked in pinned mode.");
-            }
-        }
-
-        function test_show_press_release_data() { return get_window_data() }
-
-        // Pressing and releasing on the indicator panel will fully open the indicators
-        function test_show_press_release(data) {
-            panel.fullscreenMode = data.fullscreenFlag;
+        // Pressing on the top edge of the screen should have no effect if the panel
+        // is hidden (!pinned), which is the case when a fullscreen app is being shown
+        function test_noHintOnFullscreenMode() {
+            panel.fullscreenMode = true;
+            // Wait for the indicators to get into position.
+            // (switches between normal and fullscreen modes are animated)
+            tryCompare(panel.indicators, "y", -panel.panelHeight)
 
             var indicator_item_coord = get_indicator_item_position(0);
 
-            mousePress(panel,
-                       indicator_item_coord.x, panel.panelHeight/2,
-                       Qt.LeftButton, Qt.NoModifier , 0);
+            touchPress(panel, indicator_item_coord.x, panel.panelHeight / 2)
 
-            mouseRelease(panel,
-                         indicator_item_coord.x, panel.panelHeight/2,
-                         Qt.LeftButton, Qt.NoModifier , 0);
+            // Give some time for a hint animation to change things, if any
+            wait(500)
 
-            if (!panel.fullscreenMode)
-            {
-                compare(panel.indicators.showAnimation.running, true, "Show animation should run after panel is clicked in pinned mode.");
-                tryCompare(panel.indicators, "fullyOpened", true);
-            }
-            else
-            {
-                // nothing should happen.
-                compare(panel.indicators.showAnimation.running, false, "Indicators should not open when panel is clicked in pinned mode.");
-            }
+            // no hint animation when fullscreen
+            compare(panel.indicators.y, -panel.panelHeight)
+            var indicatorRow = findChild(panel.indicators, "indicatorRow");
+            verify(indicatorRow != undefined)
+            compare(indicatorRow.y, 0)
+            compare(panel.indicators.height, panel.indicators.panelHeight)
+            compare(panel.indicators.partiallyOpened, false,
+                    "Indicator should not be partially opened when panel is pressed in" +
+                    " fullscreenmode")
+            compare(panel.indicators.fullyOpened, false, "Indicator should not be partially" +
+                   " opened when panel is pressed in fullscreenmode")
+
+            touchRelease(panel, indicator_item_coord.x, panel.panelHeight/2)
         }
 
         function test_drag_show_data() { return get_window_data() }
@@ -173,9 +137,6 @@ Item {
         function test_drag_show(data) {
             panel.fullscreenMode = data.fullscreenFlag;
 
-            var indicator_revealer = findChild(panel, "indicatorRevealer");
-            verify(indicator_revealer != undefined)
-
             var indicator_row = findChild(panel.indicators, "indicatorRow");
             verify(indicator_row != undefined)
 
@@ -185,6 +146,14 @@ Item {
             var menu_content = findChild(panel.indicators, "menuContent");
             verify(indicator_row != undefined)
 
+            // Wait for the indicators to get into position.
+            // (switches between normal and fullscreen modes are animated)
+            if (data.fullscreenFlag) {
+                tryCompare(panel.indicators, "y", -panel.panelHeight)
+            } else {
+                tryCompare(panel.indicators, "y", 0)
+            }
+
             // do this for each indicator item
             for (var i = 0; i < row_repeater.count; i++) {
 
@@ -193,40 +162,25 @@ Item {
 
                 var indicator_item_coord = get_indicator_item_position(i);
 
-                // 1) Press on the panel
-                mousePress(panel,
-                           indicator_item_coord.x, panel.panelHeight/2,
-                           Qt.LeftButton, Qt.NoModifier , 0);
+                touchPress(panel,
+                           indicator_item_coord.x, panel.panelHeight / 2)
 
-                if (!panel.fullscreenMode)
-                {
-                    // hint animation should be run, and panel will end in partiallyOpened state.
-                    compare(indicator_revealer.hintingAnimation.running, true, "Indicator revealer hint animation should be running after mouse press on indicator panel");
-                    tryCompare(indicator_revealer.hintingAnimation, "running", false);
-                    tryCompare(panel.indicators, "partiallyOpened", true);
-                }
+                // 1) Drag the mouse down
+                touchFlick(panel,
+                           indicator_item_coord.x, panel.panelHeight / 2,
+                           indicator_item_coord.x, panel.height * 0.8,
+                           false /* beginTouch */, false /* endTouch */)
 
-                // 2) Drag the mouse down
-                var old_progress = panel.indicators.progress
-                mouseMove(panel,
-                          indicator_item_coord.x, old_progress + (panel.height - old_progress)/2,
-                          0, Qt.LeftButton);
+                // Indicators height should follow the drag, and therefore increase accordingly.
+                // They should be at least half-way through the screen
+                tryCompareFunction(
+                    function() {return panel.indicators.height >= panel.height * 0.5},
+                    true)
 
-                // progress should increase.
-                var progress_increases = panel.indicators.progress > old_progress;
-                compare(progress_increases, true, "Progress has not increased on dragging indicator.");
+                touchRelease(panel, indicator_item_coord.x, panel.height * 0.8)
 
-                mouseMove(panel,
-                          indicator_item_coord.x, shell.y + shell.height,
-                          0, Qt.LeftButton);
-
-                tryCompare(panel.indicators, "fullyOpened", true);
-
-                mouseRelease(panel,
-                             indicator_item_coord.x, indicator_item_coord.y + panel.height/2,
-                             Qt.LeftButton, Qt.NoModifier , 0);
-
-                compare(indicator_row.currentItem, indicator_item, "Incorrect item activated at position " + i);
+                compare(indicator_row.currentItem, indicator_item,
+                        "Incorrect item activated at position " + i)
                 compare(menu_content.__shown, true, "Menu conetent should be enabled for item at position " + i);
 
                 // init for next indicator_item
@@ -241,11 +195,10 @@ Item {
             var search_indicator = findChild(panel, "search");
             verify(search_indicator != undefined);
 
-            mouseClick(search_indicator,
-                       1, 1,
-                       Qt.LeftButton, Qt.NoModifier , 0);
+            tap(search_indicator, 1, 1)
 
-            compare(search_clicked, true, "Clicking search indicator while it was enabled did not emit searchClicked signal")
+            compare(search_clicked, true,
+                    "Tapping search indicator while it was enabled did not emit searchClicked signal")
         }
 
         function test_search_click_when_not_visible() {
@@ -255,11 +208,10 @@ Item {
             var search_indicator = findChild(panel, "search");
             verify(search_indicator != undefined);
 
-            mouseClick(search_indicator,
-                       1, 1,
-                       Qt.LeftButton, Qt.NoModifier , 0);
+            tap(search_indicator, 1, 1)
 
-            compare(search_clicked, false, "Clicking search indicator while it was not visible emitted searchClicked signal")
+            compare(search_clicked, false,
+                    "Tapping search indicator while it was not visible emitted searchClicked signal")
         }
     }
 }

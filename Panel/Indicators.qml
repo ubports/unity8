@@ -16,35 +16,51 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Ubuntu.Gestures 0.1
 
 import "../Components"
+import "../Components/ListItems"
 import "../Components/Math.js" as MathLocal
 
 Showable {
     id: indicators
 
-    property int progress: panelHeight
-    property int openedHeight: units.gu(71)
+    property int referenceOpenedHeight: units.gu(71)
+    property real openedHeight: pinnedMode ? referenceOpenedHeight - panelHeight
+                                           : referenceOpenedHeight
     property int panelHeight: units.gu(3)
     property bool pinnedMode: true  //should be set true if indicators menu can cover whole screen
 
     property int hintValue
-    readonly property int lockThreshold: shell.height/2
-    property bool fullyOpened: revealer ? progress == revealer.openedValue : false
-    property bool partiallyOpened: revealer ? progress > revealer.closedValue && progress < revealer.openedValue : false
+    readonly property int lockThreshold: referenceOpenedHeight / 2
+    property bool fullyOpened: height == openedHeight
+    property bool partiallyOpened: height > panelHeight && !fullyOpened
 
-    property Revealer revealer: null
+    // TODO: Perhaps we need a animation standard for showing/hiding? Each showable seems to
+    // use its own values. Need to ask design about this.
+    showAnimation: StandardAnimation {
+        property: "height"
+        duration: 350
+        to: openedHeight
+        easing.type: Easing.OutCubic
+    }
 
-    height: menuContent.height + handle.height + menuContent.y
+    hideAnimation: StandardAnimation {
+        property: "height"
+        duration: 350
+        to: panelHeight
+        easing.type: Easing.OutCubic
+    }
 
-    onProgressChanged: {
-        // need to use handle.get_height(). As the handle height depends on progress changes (but this is called first!)
-        var contentProgress = progress - handle.get_height()
-        if (!showAnimation.running && !hideAnimation.running && !revealer.hintingAnimation.running) {
+    height: panelHeight
+
+    onHeightChanged: {
+        // need to use handle.get_height(). As the handle height depends on indicators.height changes (but this is called first!)
+        var contentProgress = indicators.height - handle.get_height()
+        if (!showAnimation.running && !hideAnimation.running) {
             if (contentProgress <= hintValue && indicators.state == "reveal") {
                 indicators.state = "hint"
                 menuContent.hideAll()
-                menuContent.releaseContent()
             } else if (contentProgress > hintValue && contentProgress < lockThreshold) {
                 menuContent.showMenu()
                 indicators.state = "reveal"
@@ -59,12 +75,10 @@ Showable {
                 indicators.state = "locked"
             }
         }
-    }
 
-    function handlePress() {
-        menuContent.hideAll()
-        menuContent.activateContent()
-        indicators.state = "hint"
+        if (contentProgress == 0) {
+            menuContent.releaseContent()
+        }
     }
 
     function openOverview() {
@@ -86,7 +100,9 @@ Showable {
           If bar is dragged down a distance greater than or equal to lockThreshold, this is 1.
           Otherwise it contains the bar's location as a fraction of the distance between hintValue (is 0) and lockThreshold (is 1).
         */
-        var verticalProgress = MathLocal.clamp((indicators.progress - handle.height - hintValue) / (lockThreshold - hintValue), 0, 1)
+        var verticalProgress =
+            MathLocal.clamp((indicators.height - handle.height - hintValue) /
+                            (lockThreshold - hintValue), 0, 1)
 
         /*
           Percentage of an indicator icon's width the user's press can stray horizontally from the
@@ -134,6 +150,17 @@ Showable {
         }
     }
 
+    VerticalThinDivider {
+        anchors {
+            top: indicators.top
+            topMargin: panelHeight
+            bottom: handle.bottom
+            right: indicators.left
+        }
+        width: units.dp(2)
+        source: "graphics/VerticalDivider.png"
+    }
+
     MenuContent {
         id: menuContent
         objectName: "menuContent"
@@ -142,8 +169,8 @@ Showable {
             left: parent.left
             right: parent.right
             top: indicatorRow.bottom
+            bottom: parent.bottom
         }
-        height: progress - y
         indicatorsModel: indicatorsModel
         animate: false
         clip: indicators.partiallyOpened
@@ -182,7 +209,7 @@ Showable {
         clip: height < handleImage.height
 
         function get_height() {
-            return Math.max(Math.min(handleImage.height, progress - handleImage.height), 0)
+            return Math.max(Math.min(handleImage.height, indicators.height - handleImage.height), 0)
         }
 
         BorderImage {
@@ -198,6 +225,29 @@ Showable {
         MouseArea { //prevent clicks passing through
             anchors.fill: parent
         }
+    }
+
+    PanelSeparatorLine {
+        id: indicatorsSeparatorLine
+        visible: true
+        anchors {
+            top: handle.bottom
+            left: indicators.left
+            right: indicators.right
+        }
+    }
+
+    BorderImage {
+        id: dropShadow
+        anchors {
+            top: indicators.top
+            bottom: indicatorsSeparatorLine.bottom
+            left: indicators.left
+            right: indicators.right
+            margins: -units.gu(1)
+        }
+        visible: indicators.height > panelHeight
+        source: "graphics/rectangular_dropshadow.sci"
     }
 
     PanelBackground {
@@ -230,7 +280,6 @@ Showable {
             if (hideAnimation.running) {
                 indicators.state = "initial"
                 menuContent.hideAll()
-                menuContent.releaseContent()
             } else  {
                 if (state == "initial") indicatorRow.setDefaultItem()
             }
@@ -243,7 +292,7 @@ Showable {
                 if (indicators.state == "initial") {
                     openOverview()
                 } else {
-                    indicators.calculateCurrentItem(revealer.lateralPosition, false)
+                    indicators.calculateCurrentItem(dragHandle.touchX, false)
                     menuContent.showMenu()
                 }
                 indicators.state = "commit"
@@ -252,10 +301,10 @@ Showable {
     }
 
     Connections {
-        target: revealer
-        onLateralPositionChanged: {
-            var buffer = revealer.dragging ? true : false
-            indicators.calculateCurrentItem(revealer.lateralPosition, buffer)
+        target: dragHandle
+        onTouchXChanged: {
+            var buffer = dragHandle.dragging ? true : false
+            indicators.calculateCurrentItem(dragHandle.touchX, buffer)
         }
     }
 
@@ -271,6 +320,43 @@ Showable {
         state = last_state;
     }
 
+    property var dragHandle: showDragHandle.dragging ? showDragHandle : hideDragHandle
+    DragHandle {
+        id: showDragHandle
+        anchors.bottom: parent.bottom
+        // go beyond parent so that it stays reachable, at the top of the screen.
+        anchors.bottomMargin: pinnedMode ? 0 : -panelHeight
+        anchors.left: parent.left
+        anchors.right: parent.right
+        height: panelHeight
+        direction: Direction.Downwards
+        enabled: !indicators.shown
+        hintDisplacement: pinnedMode ? indicators.hintValue : 0
+        autoCompleteDragThreshold: maxTotalDragDistance / 2
+        stretch: true
+        maxTotalDragDistance: openedHeight - handle.height
+        distanceThreshold: pinnedMode ? 0 : units.gu(3)
+
+        onStatusChanged: {
+            if (status === DirectionalDragArea.Recognized) {
+                menuContent.hideAll()
+                menuContent.activateContent()
+            }
+        }
+    }
+    DragHandle {
+        id: hideDragHandle
+        anchors.fill: handle
+        height: panelHeight
+        direction: Direction.Upwards
+        enabled: indicators.shown
+        hintDisplacement: units.gu(2)
+        autoCompleteDragThreshold: maxTotalDragDistance / 6
+        stretch: true
+        maxTotalDragDistance: referenceOpenedHeight - 2*panelHeight
+        distanceThreshold: 0
+    }
+
     property list<State> offScreenModeStates: [
         State {
             name: "initial"
@@ -283,7 +369,7 @@ Showable {
             name: "reveal"
             extend: "hint"
             PropertyChanges { target: menuContent; animate: true }
-            StateChangeScript { script: calculateCurrentItem(revealer.lateralPosition, false); }
+            StateChangeScript { script: calculateCurrentItem(dragHandle.touchX, false); }
         },
         State {
             name: "locked"
@@ -305,7 +391,7 @@ Showable {
         State {
             name: "reveal"
             PropertyChanges { target: menuContent; animate: true }
-            StateChangeScript { script: calculateCurrentItem(revealer.lateralPosition, false); }
+            StateChangeScript { script: calculateCurrentItem(dragHandle.touchX, false); }
         },
         State {
             name: "locked"
