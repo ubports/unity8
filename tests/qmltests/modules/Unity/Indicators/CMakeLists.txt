@@ -32,10 +32,7 @@ add_library(IndicatorsFakeQml SHARED
 # files directly in targets.
 set_target_properties(IndicatorsFakeQml PROPERTIES COMPILE_FLAGS -fvisibility=default)
 
-target_link_libraries(IndicatorsFakeQml
-    ${GOBJECT_LDFLAGS}
-    ${QMENUMODEL_LDFLAGS}
-)
+target_link_libraries(IndicatorsFakeQml)
 
 qt5_use_modules(IndicatorsFakeQml Core Qml Quick)
 

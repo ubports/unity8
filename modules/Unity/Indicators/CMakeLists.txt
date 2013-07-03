@@ -1,6 +1,5 @@
 project(IndicatorsQml)
 
-pkg_check_modules(GLIB glib-2.0>=2.32)
 pkg_check_modules(QMENUMODEL REQUIRED qmenumodel)
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Quick REQUIRED)
@@ -12,7 +11,6 @@ add_subdirectory(Network)
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
-    ${GLIB_INCLUDE_DIRS}
     ${QMENUMODEL_INCLUDE_DIRS}
 )
 
@@ -44,7 +42,6 @@ add_library(IndicatorsQml SHARED
 set_target_properties(IndicatorsQml PROPERTIES COMPILE_FLAGS -fvisibility=default)
 
 target_link_libraries(IndicatorsQml
-    ${GOBJECT_LDFLAGS}
     ${QMENUMODEL_LDFLAGS}
 )
 

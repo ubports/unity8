@@ -178,7 +178,6 @@ Item {
         }
 
         function test_intial_state() {
-            wait(1000)
             init_test();
 
             indicatorRow.state = "initial";
