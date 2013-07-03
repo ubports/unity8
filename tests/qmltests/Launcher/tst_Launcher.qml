@@ -24,19 +24,19 @@ import "../../../Launcher"
    launcher. */
 Item {
     width: units.gu(50)
-    height: units.gu(81)
+    height: units.gu(50)
 
     Launcher {
         id: launcher
         x: 0
         y: 0
         width: units.gu(40)
-        height: units.gu(81)
+        height: parent.height
 
-        property string latestApplicationSelected
+        property string lastSelectedApplication
 
         onLauncherApplicationSelected: {
-            latestApplicationSelected = desktopFile
+            lastSelectedApplication = desktopFile
         }
 
         property int dashItemSelected_count: 0
@@ -58,66 +58,7 @@ Item {
     }
 
     UT.UnityTestCase {
-        id: testCase
-        name: "Launcher"
-        when: windowShown
-
-        // Drag from the left edge of the screen rightwards and check that the launcher
-        // appears (as if being dragged by the finger/pointer)
-        function test_dragLeftEdgeToRevealLauncherAndTapCenterToDismiss() {
-            var panel = findChild(launcher, "launcherPanel")
-            verify(panel != undefined)
-
-            // it starts out hidden just left of the left launcher edge
-            compare(panel.x, -panel.width)
-
-            dragLauncherIntoView()
-
-            // tapping on the center of the screen should dismiss the launcher
-            mouseClick(launcher, launcher.width/2, launcher.height/2)
-
-            // should eventually get fully retracted (hidden)
-            tryCompare(panel, "x", -launcher.panelWidth, 1000)
-        }
-
-        /* If I click on the icon of an application on the launcher
-           Launcher::launcherApplicationSelected signal should be emitted with the
-           corresponding desktop file. E.g. clicking on phone icon should yield
-           launcherApplicationSelected("[...]phone-app.desktop") */
-        function test_clickingOnAppIconCausesSignalEmission() {
-            launcher.latestApplicationSelected = ""
-
-            dragLauncherIntoView()
-
-            var appIcon = findChild(launcher, "launcherDelegate0")
-            verify(appIcon != undefined)
-
-            mouseClick(appIcon, appIcon.width/2, appIcon.height/2)
-
-            tryCompare(launcher, "latestApplicationSelected",
-                       "/usr/share/applications/phone-app.desktop")
-
-            // Tapping on an application icon also dismisses the launcher
-            waitUntilLauncherDisappears()
-        }
-
-        /* If I click on the dash icon on the launcher
-           Launcher::dashItemSelected signal should be emitted */
-        function test_clickingOnDashIconCausesSignalEmission() {
-            launcher.dashItemSelected_count = 0
-
-            dragLauncherIntoView()
-
-            var dashIcon = findChild(launcher, "dashItem")
-            verify(dashIcon != undefined)
-
-            mouseClick(dashIcon, dashIcon.width/2, dashIcon.height/2)
-
-            tryCompare(launcher, "dashItemSelected_count", 1)
-
-            // Tapping on the dash icon also dismisses the launcher
-            waitUntilLauncherDisappears()
-        }
+        id: revealer
 
         function dragLauncherIntoView() {
             var startX = launcher.dragAreaWidth/2
@@ -138,7 +79,70 @@ Item {
             var panel = findChild(launcher, "launcherPanel")
             tryCompare(panel, "x", -panel.width, 1000)
         }
+    }
 
+
+    UT.UnityTestCase {
+        id: testCase
+        name: "Launcher"
+        when: windowShown && initTestCase.completed
+
+        // Drag from the left edge of the screen rightwards and check that the launcher
+        // appears (as if being dragged by the finger/pointer)
+        function test_dragLeftEdgeToRevealLauncherAndTapCenterToDismiss() {
+            var panel = findChild(launcher, "launcherPanel")
+            verify(panel != undefined)
+
+            // it starts out hidden just left of the left launcher edge
+            compare(panel.x, -panel.width)
+
+            revealer.dragLauncherIntoView()
+
+            // tapping on the center of the screen should dismiss the launcher
+            mouseClick(launcher, launcher.width/2, launcher.height/2)
+
+            // should eventually get fully retracted (hidden)
+            tryCompare(panel, "x", -launcher.panelWidth, 1000)
+        }
+
+        /* If I click on the icon of an application on the launcher
+           Launcher::launcherApplicationSelected signal should be emitted with the
+           corresponding desktop file. E.g. clicking on phone icon should yield
+           launcherApplicationSelected("[...]phone-app.desktop") */
+        function test_clickingOnAppIconCausesSignalEmission() {
+            launcher.lastSelectedApplication = ""
+
+            revealer.dragLauncherIntoView()
+
+            var appIcon = findChild(launcher, "launcherDelegate0")
+            verify(appIcon != undefined)
+
+            mouseClick(appIcon, appIcon.width/2, appIcon.height/2)
+
+            tryCompare(launcher, "lastSelectedApplication",
+                       "/usr/share/applications/phone-app.desktop")
+
+            // Tapping on an application icon also dismisses the launcher
+            revealer.waitUntilLauncherDisappears()
+        }
+
+        /* If I click on the dash icon on the launcher
+           Launcher::dashItemSelected signal should be emitted */
+        function test_clickingOnDashIconCausesSignalEmission() {
+            launcher.dashItemSelected_count = 0
+
+            revealer.dragLauncherIntoView()
+
+            var dashIcon = findChild(launcher, "dashItem")
+            verify(dashIcon != undefined)
+
+            mouseClick(dashIcon, dashIcon.width/2, dashIcon.height/2)
+
+            tryCompare(launcher, "dashItemSelected_count", 1)
+
+            // Tapping on the dash icon also dismisses the launcher
+            revealer.waitUntilLauncherDisappears()
+        }
 
         function test_teaseLauncher_data() {
             return [
@@ -164,7 +168,59 @@ Item {
                 wait(100)
                 compare(launcher.maxPanelX, -launcher.panelWidth, "Launcher moved even if it shouldn't")
             }
-            waitUntilLauncherDisappears();
+            revealer.waitUntilLauncherDisappears();
+            launcher.available = true;
+        }
+    }
+
+    UT.UnityTestCase {
+        id: clickFlickTestCase
+        when: windowShown && testCase.completed
+
+        function test_clickFlick_data() {
+            var listView = findChild(launcher, "launcherListView");
+            return [
+                {tag: "unfolded top", flickSpeed: units.gu(200), clickY: listView.topMargin + units.gu(2), expectFlick: false},
+                {tag: "folded top", flickSpeed: -units.gu(200), clickY: listView.topMargin + units.gu(2), expectFlick: true},
+                {tag: "unfolded bottom", flickSpeed: -units.gu(200), clickY: listView.height - listView.topMargin - units.gu(1), expectFlick: false},
+                {tag: "folded bottom", flickSpeed: units.gu(200), clickY: listView.height - listView.topMargin - units.gu(1), expectFlick: true},
+            ];
+        }
+
+        function test_clickFlick(data) {
+            launcher.lastSelectedApplication = ""
+            revealer.dragLauncherIntoView();
+            var listView = findChild(launcher, "launcherListView");
+
+            listView.flick(0, data.flickSpeed);
+            tryCompare(listView, "flicking", false);
+
+            var oldY = listView.contentY;
+
+            mouseClick(listView, listView.width / 2, data.clickY);
+            tryCompare(listView, "flicking", false)
+
+            if (data.expectFlick) {
+                verify(listView.contentY != oldY);
+                compare(launcher.lastSelectedApplication, "", "Launcher app clicked signal emitted even though it should only flick");
+            } else {
+                verify(launcher.lastSelectedApplication != "");
+                compare(listView.contentY, oldY, "Launcher was flicked even though it should only launch an app");
+            }
+            // Click somewhere in the empty space to make it hide in case it isn't
+            mouseClick(launcher, launcher.width - units.gu(1), units.gu(1));
+            revealer.waitUntilLauncherDisappears();
+        }
+    }
+
+    UT.UnityTestCase {
+        id: initTestCase
+        name: "LauncherInit"
+        when: windowShown
+
+        function test_initFirstUnfolded() {
+            var listView = findChild(launcher, "launcherListView");
+            compare(listView.contentY, -listView.topMargin, "Launcher did not start up with first item unfolded");
         }
     }
 }

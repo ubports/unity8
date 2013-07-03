@@ -100,6 +100,7 @@ Item {
             height: parent.height - dashItem.height - parent.spacing*2
             ListView {
                 id: launcherListView
+                objectName: "launcherListView"
                 anchors.fill: parent
                 anchors.topMargin: -itemSize
                 anchors.bottomMargin: -itemSize
