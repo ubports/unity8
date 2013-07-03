@@ -30,7 +30,7 @@ class Categories : public DeeListModel
     Q_OBJECT
 
     Q_ENUMS(Roles)
-  
+
 public:
     Categories(QObject* parent = 0);
     enum Roles {
