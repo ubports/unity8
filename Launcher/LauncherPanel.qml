@@ -112,6 +112,7 @@ Item {
                 highlightRangeMode: ListView.ApplyRange
                 preferredHighlightBegin: (height - itemSize) / 2
                 preferredHighlightEnd: (height + itemSize) / 2
+                snapMode: ListView.SnapToItem
 
                 // The height of the area where icons start getting folded
                 property int foldingAreaHeight: itemSize * 0.75
@@ -126,11 +127,14 @@ Item {
                 // snapMode and actual snapping will only happen when the user
                 // interacts with the list.
                 Timer {
-                    interval: 1
+                    interval: 1000
                     running: true
-                    repeat: false
+                    repeat: true
                     onTriggered: {
-                        launcherListView.snapMode = ListView.SnapToItem
+                        topFoldingArea.clicked(undefined)
+                        //launcherListView.snapMode = ListView.SnapToItem
+//                        launcherListView.flick(0, -units.gu(2000000));
+//                        launcherListView.contentY = -launcherListView.topMargin;
                     }
                 }
 

@@ -23,8 +23,9 @@ import "../../../Launcher"
 /* Nothing is shown at first. If you drag from left edge you will bring up the
    launcher. */
 Item {
+    id: root
     width: units.gu(50)
-    height: units.gu(50)
+    height: units.gu(55)
 
     Launcher {
         id: launcher
@@ -114,6 +115,9 @@ Item {
             revealer.dragLauncherIntoView()
 
             var appIcon = findChild(launcher, "launcherDelegate0")
+            print("clicking now!", appIcon.angle);
+            wait(3000);
+
             verify(appIcon != undefined)
 
             mouseClick(appIcon, appIcon.width/2, appIcon.height/2)
@@ -206,6 +210,10 @@ Item {
                 verify(launcher.lastSelectedApplication != "");
                 compare(listView.contentY, oldY, "Launcher was flicked even though it should only launch an app");
             }
+
+            // Restore position on top
+            listView.flick(0, units.gu(200));
+            tryCompare(listView, "flicking", false)
             // Click somewhere in the empty space to make it hide in case it isn't
             mouseClick(launcher, launcher.width - units.gu(1), units.gu(1));
             revealer.waitUntilLauncherDisappears();
@@ -218,8 +226,17 @@ Item {
         when: windowShown
 
         function test_initFirstUnfolded() {
+            // Make sure noone changed the height of the window. The issue this test case
+            // is verifying only happens on certain heights of the Launcher
+            compare(root.height, units.gu(55));
+
             var listView = findChild(launcher, "launcherListView");
+            wait(1000);
+            print("humppa", listView.contentY, listView.topMargin)
             compare(listView.contentY, -listView.topMargin, "Launcher did not start up with first item unfolded");
+
+            // Now do check that snapping is in fact enabled
+            compare(listView.snapMode, ListView.SnapToItem, "Snapping is not enabled");
         }
     }
 }
