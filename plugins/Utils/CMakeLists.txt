@@ -22,22 +22,27 @@ set_target_properties(Utils-qml PROPERTIES COMPILE_FLAGS -fvisibility=default)
 
 qt5_use_modules(Utils-qml Qml Quick)
 
+file(GLOB Utils_QMLFILES
+    qmldir
+)
+
 # copy qmldir file into build directory for shadow builds
-file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
-    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
-    )
+add_custom_target(UtilsQmlFiles ALL
+    COMMAND cp ${Utils_QMLFILES} ${CMAKE_CURRENT_BINARY_DIR}
+    DEPENDS ${Utils_QMLFILES}
+)
 
 # create the Utils.qmltypes file
 add_custom_target(Utils-qmltypes ALL
     COMMAND qmlplugindump -notrelocatable Utils 0.1 ${CMAKE_BINARY_DIR}/plugins > ${CMAKE_CURRENT_BINARY_DIR}/Utils.qmltypes
 )
-add_dependencies(Utils-qmltypes Utils-qml)
+add_dependencies(Utils-qmltypes Utils-qml UtilsQmlFiles)
 
 install(TARGETS Utils-qml
     DESTINATION ${SHELL_APP_DIR}/plugins/Utils
     )
 
-install(FILES qmldir
+install(FILES ${Utils_QMLFILES}
     DESTINATION ${SHELL_APP_DIR}/plugins/Utils
     )
 

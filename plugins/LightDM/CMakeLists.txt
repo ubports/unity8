@@ -29,22 +29,27 @@ target_link_libraries(LightDM-qml
 
 qt5_use_modules(LightDM-qml Gui Qml)
 
+file(GLOB LightDM_QMLFILES
+    qmldir
+)
+
 # copy qmldir file into build directory for shadow builds
-file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
-    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
-    )
+add_custom_target(LightDMQmlFiles ALL
+    COMMAND cp ${LightDM_QMLFILES} ${CMAKE_CURRENT_BINARY_DIR}
+    DEPENDS ${LightDM_QMLFILES}
+)
 
 # create the LightDM.qmltypes file
 add_custom_target(LightDM-qmltyes ALL
     COMMAND qmlplugindump -notrelocatable LightDM 0.1 ${CMAKE_BINARY_DIR}/plugins > ${CMAKE_CURRENT_BINARY_DIR}/LightDM.qmltypes
 )
-add_dependencies(LightDM-qmltyes LightDM-qml)
+add_dependencies(LightDM-qmltyes LightDM-qml LightDMQmlFiles)
 
 install(TARGETS LightDM-qml
     DESTINATION ${SHELL_APP_DIR}/plugins/LightDM
     )
 
-install(FILES qmldir
+install(FILES ${LightDM_QMLFILES}
     DESTINATION ${SHELL_APP_DIR}/plugins/LightDM
     )
 
