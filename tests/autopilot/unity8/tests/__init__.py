@@ -39,7 +39,7 @@ class ShellTestCase(AutopilotTestCase):
             self.launch_test_local(geometry)
 
     def launch_test_local(self, geometry):
-        os.environ['LD_LIBRARY_PATH'] = "../../../unity_build/build/lib:../../builddir/tests/mocks/libusermetrics:../../builddir/tests/mocks/LightDM/" + self.lightdm_mock
+        os.environ['LD_LIBRARY_PATH'] = "../../builddir/tests/mocks/libusermetrics:../../builddir/tests/mocks/LightDM/" + self.lightdm_mock
         if geometry != "0x0":
             self.app = self.launch_test_application(
                 "../../builddir/unity8", "-geometry", geometry, "-frameless", app_type='qt')
