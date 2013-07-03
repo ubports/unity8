@@ -305,39 +305,6 @@ Row {
             actionSpy.clear()
         }
 
-        /*Timer {
-            id: timerTestNotificationRenderer
-
-            interval: 100
-            repeat: true
-            running: true
-            property int hsecond: 0
-            property bool testPass: false
-            onTriggered: {
-
-                try {
-                    var heightAfterExpand = notification.height
-
-                    if(initialHeight < heightAfterExpand) {
-                        testPass: true
-                        verify(testPass = true,  "height of expanded snap-decision is not the greater than its initial height")
-                        stop()
-                    }
-                }
-                catch(err) {
-                    // do nothing
-                }
-
-                // wait 2 seconds
-                if(hsecond > 20) {
-                    verify(testPass = true, "height of expanded snap-decision is not the greater than its initial height")
-                    stop()
-                }
-
-                hsecond++
-            }
-        }*/
-
         function test_NotificationRenderer(data) {
             // populate model with some mock notifications
             mockModel.append(data)
@@ -404,8 +371,6 @@ Row {
                     waitForRendering(notification)
                     actionSpy.clear()
  
-                    //timerTestNotificationRenderer.start()
-
                     // test the additional buttons
                     for (var i = 2; i < data.actions.length; i++) {
                         waitForRendering(notification)
