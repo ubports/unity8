@@ -79,7 +79,7 @@ int main(int argc, char** argv)
     setenv("QML_FORCE_THREADED_RENDERER", "1", 1);
     setenv("QML_FIXED_ANIMATION_STEP", "1", 1);
 
-    QGuiApplication::setApplicationName("Qml Phone Shell");
+    QGuiApplication::setApplicationName("Unity 8");
     QGuiApplication application(argc, argv);
 
     resolveIconTheme();
