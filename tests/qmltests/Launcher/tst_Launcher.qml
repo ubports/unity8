@@ -61,23 +61,23 @@ Item {
         id: revealer
 
         function dragLauncherIntoView() {
-            var startX = launcher.dragAreaWidth/2
-            var startY = launcher.height/2
+            var startX = launcher.dragAreaWidth/2;
+            var startY = launcher.height/2;
             touchFlick(launcher,
                        startX, startY,
-                       startX+units.gu(8), startY)
+                       startX+units.gu(8), startY);
 
-            var panel = findChild(launcher, "launcherPanel")
-            verify(panel != undefined)
+            var panel = findChild(launcher, "launcherPanel");
+            verify(panel != undefined);
 
             // wait until it gets fully extended
-            tryCompare(panel, "x", 0)
-            tryCompare(launcher, "state", "visible")
+            tryCompare(panel, "x", 0);
+            tryCompare(launcher, "state", "visible");
         }
 
         function waitUntilLauncherDisappears() {
-            var panel = findChild(launcher, "launcherPanel")
-            tryCompare(panel, "x", -panel.width, 1000)
+            var panel = findChild(launcher, "launcherPanel");
+            tryCompare(panel, "x", -panel.width, 1000);
         }
     }
 
@@ -188,7 +188,7 @@ Item {
         }
 
         function test_clickFlick(data) {
-            launcher.lastSelectedApplication = ""
+            launcher.lastSelectedApplication = "";
             revealer.dragLauncherIntoView();
             var listView = findChild(launcher, "launcherListView");
 
@@ -198,7 +198,7 @@ Item {
             var oldY = listView.contentY;
 
             mouseClick(listView, listView.width / 2, data.clickY);
-            tryCompare(listView, "flicking", false)
+            tryCompare(listView, "flicking", false);
 
             if (data.expectFlick) {
                 verify(listView.contentY != oldY);
