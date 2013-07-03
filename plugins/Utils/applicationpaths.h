@@ -27,8 +27,6 @@ class ApplicationPaths : public QObject
 {
     Q_OBJECT
 public:
-    ApplicationPaths(QObject*parent=0):QObject(parent) {}
-
     Q_INVOKABLE bool isRunningInstalled() const     { return ::isRunningInstalled(); }
     Q_INVOKABLE QString shellAppDirectory() const   { return ::shellAppDirectory(); }
     Q_INVOKABLE QStringList shellImportPaths() const     { return ::shellImportPaths(); }
