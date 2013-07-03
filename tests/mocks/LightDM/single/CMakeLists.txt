@@ -1,9 +1,7 @@
 set(LibLightDM_SOURCES
     ../Greeter.cpp
-    ../InfographicModel.cpp
     ../UsersModel.cpp
     GreeterPrivate.cpp
-    InfographicModelPrivate.cpp
     UsersModelPrivate.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/qvariantlistmodel.cpp
     )

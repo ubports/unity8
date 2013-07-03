@@ -51,8 +51,8 @@ public Q_SLOTS:
     bool startSessionSync(const QString &session=QString());
 
 Q_SIGNALS:
-    void showMessage(QString text, bool isError);
-    void showPrompt(QString text, bool isSecret);
+    void showMessage(const QString &text, bool isError);
+    void showPrompt(const QString &text, bool isSecret);
     void authenticationComplete();
     void promptlessChanged();
 
@@ -62,8 +62,8 @@ private:
     Q_DECLARE_PRIVATE(Greeter)
 
 private Q_SLOTS:
-    void showMessageFilter(QString text, QLightDM::Greeter::MessageType type);
-    void showPromptFilter(QString text, QLightDM::Greeter::PromptType type);
+    void showMessageFilter(const QString &text, QLightDM::Greeter::MessageType type);
+    void showPromptFilter(const QString &text, QLightDM::Greeter::PromptType type);
     void authenticationCompleteFilter();
 };
 

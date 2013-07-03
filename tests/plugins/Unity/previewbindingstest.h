@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012,2013 Canonical, Ltd.
+ * Copyright (C) 2011, 2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,16 +12,23 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors: Pete Woods <pete.woods@canonical.com>
  */
 
-#ifndef INFOGRAPHICMODEL_H
-#define INFOGRAPHICMODEL_H
+#ifndef PREVIEWBINDINGSTEST_H
+#define PREVIEWBINDINGSTEST_H
 
-#include <QLightDM/InfographicModel>
+#include <QObject>
 
-typedef QLightDM::InfographicModel InfographicModel;
-typedef QLightDM::InfographicColorTheme InfographicColorTheme;
+class PreviewBindingsTest : public QObject
+{
+    Q_OBJECT
+
+    private Q_SLOTS:
+        void initTestCase();
+        void testGenericPreview();
+        void testApplicationPreview();
+        void testMoviePreview();
+        void testMusicPreview();
+};
 
 #endif

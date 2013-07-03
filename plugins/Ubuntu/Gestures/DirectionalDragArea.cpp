@@ -404,7 +404,7 @@ void DirectionalDragArea::setStatus(DirectionalDragArea::Status newStatus)
     }
 }
 
-void DirectionalDragArea::setPreviousPos(QPointF point)
+void DirectionalDragArea::setPreviousPos(const QPointF &point)
 {
     Q_ASSERT(m_status != Rejected);
 
@@ -426,7 +426,7 @@ void DirectionalDragArea::setPreviousPos(QPointF point)
     }
 }
 
-void DirectionalDragArea::setPreviousScenePos(QPointF point)
+void DirectionalDragArea::setPreviousScenePos(const QPointF &point)
 {
     Q_ASSERT(m_status != Rejected);
 
@@ -448,7 +448,7 @@ void DirectionalDragArea::setPreviousScenePos(QPointF point)
     }
 }
 
-void DirectionalDragArea::updateVelocityCalculator(QPointF point)
+void DirectionalDragArea::updateVelocityCalculator(const QPointF &point)
 {
     if (Direction::isHorizontal(m_direction)) {
         m_velocityCalculator->setTrackedPosition(point.x());

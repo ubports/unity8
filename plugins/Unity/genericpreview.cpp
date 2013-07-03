@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2013 Canonical, Ltd.
  *
+ * Authors:
+ *  Pawel Stolowski <pawel.stolowski@canonical.com>
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 3.
@@ -14,10 +17,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var rhythm     = 700;
-var fastBeat   = 0.5 * rhythm;
-var snapBeat   = 0.5 * fastBeat;
-var slowBeat   = rhythm;
-var sleepyBeat = slowBeat * 2;
+// local
+#include "genericpreview.h"
 
-var easing     = Easing.OutQuint;
+GenericPreview::GenericPreview(QObject *parent):
+    Preview(parent)
+{
+}
