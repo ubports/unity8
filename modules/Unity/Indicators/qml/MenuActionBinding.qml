@@ -39,19 +39,19 @@ import QtQuick 2.0
 */
 
 MenuAction {
-    id: dbusActionState
+    id: menuAction
 
     /*!
       \preliminary
       The component which will have the property changed by action
      */
-    property alias target: propertyBinding.target
+    property QtObject target: null
 
     /*!
       \preliminary
       The property name of \l target component which will be linked with action state
      */
-    property string property: propertyBinding.property
+    property string property
 
     /*!
       \preliminary
@@ -63,37 +63,36 @@ MenuAction {
     onTargetChanged: connectViewChanges()
     onPropertyChanged: connectViewChanges()
 
-    QtObject {
-        id: priv
-        property alias actionObject : dbusActionState.__actionObject
-
+    Item {
+        id: d
         property var currentTarget: undefined
         property string currentSignal
-
-
-        Binding {
-            id: propertyBinding
-            value: dbusActionState.state
-            when: priv.actionObject && dbusActionState.active
-            property: dbusActionState.property
-        }
     }
 
+    Binding {
+        id: propertyBinding
+        target: menuAction.target
+        property: menuAction.property
+        value: menuAction.state
+        when: menuAction.actionObject && menuAction.active
+    }
+
+    // TODO - re-evaluate in c++
     function connectViewChanges() {
-        if (priv.currentTarget != undefined && priv.currentSignal !== "") {
-            if (priv.currentTarget[priv.currentSignal] !== undefined) {
-                priv.currentTarget[priv.currentSignal].disconnect(onViewValueChanged);
+        if (d.currentTarget != undefined && d.currentSignal !== "") {
+            if (d.currentTarget[d.currentSignal] !== undefined) {
+                d.currentTarget[d.currentSignal].disconnect(onViewValueChanged);
             }
         }
 
-        priv.currentTarget = null;
-        priv.currentSignal = "";
+        d.currentTarget = null;
+        d.currentSignal = "";
         if (target) {
             var signal = "on%1Changed".arg(property.charAt(0).toUpperCase() + property.slice(1));
             if (target[signal] !== undefined) {
                 target[signal].connect(onViewValueChanged);
-                priv.currentTarget = target;
-                priv.currentSignal = signal;
+                d.currentTarget = target;
+                d.currentSignal = signal;
             }
         }
     }
@@ -101,7 +100,7 @@ MenuAction {
     function onViewValueChanged() {
         if (valid) {
             var propertyValue = target[property];
-            priv.actionObject.updateState(propertyValue);
+            actionObject.updateState(propertyValue);
         }
     }
 }

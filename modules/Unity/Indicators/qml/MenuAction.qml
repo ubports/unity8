@@ -38,8 +38,8 @@ import QtQuick 2.0
     \endqml
 */
 
-QtObject {
-    id: dbusAction
+Item {
+    id: menuAction
 
     /*!
       \preliminary
@@ -57,35 +57,30 @@ QtObject {
       \preliminary
       This is a read-only property with the current validity of the action
      */
-    readonly property bool valid: __actionObject ? __actionObject.valid : false
+    readonly property bool valid: actionObject ? actionObject.valid : false
 
-    readonly property var state: __actionObject ? __actionObject.state : undefined
+    readonly property var state: actionObject ? actionObject.state : undefined
 
     // internal
-    property QtObject __actionObject: null
+    property QtObject actionObject: null
 
     function activate(param) {
         if (valid) {
-            __actionObject.activate(param);
+            actionObject.activate(param);
         }
     }
 
     onActionGroupChanged: updateAction()
     onActionChanged: updateAction()
 
-    QtObject {
-        id: priv
-        property var actionObject: null
-
-        Connections {
-            target: dbusAction.actionGroup != undefined ? dbusAction.actionGroup : null
-            onActionAppear: dbusAction.updateAction();
-            onActionVanish: dbusAction.updateAction();
-            onStatusChanged: dbusAction.updateAction();
-        }
+    Connections {
+        target: menuAction.actionGroup != undefined ? menuAction.actionGroup : null
+        onActionAppear: menuAction.updateAction();
+        onActionVanish: menuAction.updateAction();
+        onStatusChanged: menuAction.updateAction();
     }
 
     function updateAction() {
-        __actionObject = action !== "" && actionGroup ? actionGroup.action(action) : null
+        actionObject = action !== "" && actionGroup ? actionGroup.action(action) : null
     }
 }
