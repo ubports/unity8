@@ -36,8 +36,8 @@ Homepage: http://launchpad.net/unity
 # If you aren't a member of ~unity-team but need to upload
 # packaging changes, just go ahead. ~unity-team will notice
 # and sync up the code again.
-Vcs-Bzr: https://code.launchpad.net/~unity-team/unity/8.0
-Vcs-Browser: https://bazaar.launchpad.net/~unity-team/unity/phablet/8.0
+Vcs-Bzr: https://code.launchpad.net/unity8
+Vcs-Browser: https://bazaar.launchpad.net/~unity-team/unity8/trunk
 
 Package: unity8
 Architecture: any
