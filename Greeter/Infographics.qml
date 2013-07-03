@@ -81,7 +81,7 @@ Item {
                     var nextCircle = presentCircles.itemAt(presentCircleCounter++)
                     if (nextCircle !== null) nextCircle.presentCircleGrowAnim.start()
                 }
-                if (presentCircleCounter > infographic.model.currentDay) {
+                if (presentCircleCounter > infographic.model.currentDay && pastCircleCounter >= pastCircles.count) {
                     stop()
                 }
             }
