@@ -144,6 +144,7 @@ ScopeView {
                             shell.activateApplication(data);
                         }
 
+                        item.objectName = "dashHomeApplicationsGrid";
                         item.clicked.connect(activateApplication);
                     }
                 }
