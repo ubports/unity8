@@ -56,7 +56,7 @@ MenuItem {
         }
     }
 
-    MenuItemActionValue {
+    MenuActionBinding {
         actionGroup: _progressMenu.actionGroup
         action: menu ? menu.action : ""
         target: progressBar

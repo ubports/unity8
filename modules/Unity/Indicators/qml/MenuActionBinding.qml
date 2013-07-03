@@ -20,27 +20,25 @@
 import QtQuick 2.0
 
 /*!
-    \qmltype MenuItemActionValue
+    \qmltype MenuActionBinding
     \inqmlmodule Indicators 0.1
-    \brief Helper class to connect dbus action state with qml components property
+    \brief Helper class to connect a qmenumodel action state with a qml components property
 
-    Exampiles:
+    Example:
     \qml
         Slider {
             id: slide
         }
-        MenuItemActionValue {
+        MenuActionBinding {
             actionGroup: menuItem.actionGroup
             action: "/ubuntu/sound/volume"
             target: slider
             property: "value"
         }
     \endqml
-
-    \b{This component is under heavy development.}
 */
 
-MenuItemAction {
+MenuAction {
     id: dbusActionState
 
     /*!
@@ -65,7 +63,7 @@ MenuItemAction {
     onTargetChanged: connectViewChanges()
     onPropertyChanged: connectViewChanges()
 
-    Item {
+    QtObject {
         id: priv
         property alias actionObject : dbusActionState.__actionObject
 

@@ -29,7 +29,7 @@ Button {
 
     property var actionParameter: null
 
-    Indicators.MenuItemAction {
+    Indicators.MenuAction {
         id: menuAction
         actionGroup: __button.actionGroup
         action: __button.action

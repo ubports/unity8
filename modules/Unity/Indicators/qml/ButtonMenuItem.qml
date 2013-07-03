@@ -39,7 +39,7 @@ BasicMenuItem {
         }
     }
 
-    MenuItemAction {
+    MenuAction {
         id: menuAction
         actionGroup: _buttonMenu.actionGroup
         action: menu ? menu.action : ""

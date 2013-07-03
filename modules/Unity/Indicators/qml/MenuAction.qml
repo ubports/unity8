@@ -20,27 +20,25 @@
 import QtQuick 2.0
 
 /*!
-    \qmltype MenuItemActionValue
+    \qmltype MenuAction
     \inqmlmodule Indicators 0.1
-    \brief Helper class to connect dbus action state with qml components property
+    \brief Helper class to connect to a qmenumodel action
 
-    Exampiles:
+    Example:
     \qml
         Button {
             id: slide
             onClick: { action.activate() }
         }
-        MenuItemAction {
+        MenuAction {
             id: action
             actionGroup: menuItem.actionGroup
-            action: "/ubuntu/sound/auto"
+            action: "/ubuntu/sound/enabled"
         }
     \endqml
-
-    \b{This component is under heavy development.}
 */
 
-Item {
+QtObject {
     id: dbusAction
 
     /*!
@@ -75,7 +73,7 @@ Item {
     onActionGroupChanged: updateAction()
     onActionChanged: updateAction()
 
-    Item {
+    QtObject {
         id: priv
         property var actionObject: null
 

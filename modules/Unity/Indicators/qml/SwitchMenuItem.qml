@@ -33,7 +33,7 @@ MenuItem {
         anchors.right: parent.right
     }
 
-    MenuItemActionValue {
+    MenuActionBinding {
         id: menuAction
         actionGroup: _switchMenu.actionGroup
         action: menu ? menu.action : ""

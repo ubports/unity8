@@ -35,7 +35,7 @@ Indicators.BasicMenuItem {
     removable: state !== "expanded"
     implicitHeight: collapsedHeight
 
-    Indicators.MenuItemAction {
+    Indicators.MenuAction {
         id: menuAction
         actionGroup: __heroMessage.actionGroup
         action: menu ? menu.action : ""

@@ -29,7 +29,7 @@ Indicators.BasicMenuItem {
     color: "#221e1b"
     implicitHeight: units.gu(10)
 
-    Indicators.MenuItemAction {
+    Indicators.MenuAction {
         id: menuAction
         actionGroup: __groupedMessage.actionGroup
         action: menu ? menu.action : ""

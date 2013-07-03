@@ -9,8 +9,8 @@ IndicatorBase 0.1 IndicatorBase.qml
 IndicatorPage 0.1 IndicatorPage.qml
 IndicatorWidget 0.1 IndicatorWidget.qml
 MenuItem 0.1 MenuItem.qml
-MenuItemAction 0.1 MenuItemAction.qml
-MenuItemActionValue 0.1 MenuItemActionValue.qml
+MenuAction 0.1 MenuAction.qml
+MenuActionBinding 0.1 MenuActionBinding.qml
 MenuItemFactory 0.1 MenuItemFactory.qml
 ProgressMenuItem 0.1 ProgressMenuItem.qml
 SectionMenuItem 0.1 SectionMenuItem.qml

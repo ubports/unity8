@@ -59,7 +59,7 @@ Indicators.MenuItem {
         anchors.centerIn: parent
     }
 
-    Indicators.MenuItemActionValue {
+    Indicators.MenuActionBinding {
         actionGroup: _accessPoint.actionGroup
         action: menu ? menu.action : ""
         target: checkBoxActive

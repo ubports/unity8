@@ -59,7 +59,7 @@ MenuItem {
         }
     }
 
-    MenuItemActionValue {
+    MenuActionBinding {
         id: menuAction
         actionGroup: _sliderMenu.actionGroup
         action: menu ? menu.action : ""
