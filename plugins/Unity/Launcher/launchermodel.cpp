@@ -21,14 +21,11 @@
 #include "launcheritem.h"
 #include "backend/launcherbackend.h"
 
-#include <QDebug>
-
 LauncherModel::LauncherModel(QObject *parent):
     LauncherModelInterface(parent),
     m_backend(new LauncherBackend(this))
 {
     Q_FOREACH (const QString &entry, m_backend->storedApplications()) {
-        qDebug() << "adding app" << entry;
         LauncherItem *item = new LauncherItem(entry,
                                               m_backend->desktopFile(entry),
                                               m_backend->displayName(entry),
