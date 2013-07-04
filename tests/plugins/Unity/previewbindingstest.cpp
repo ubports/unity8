@@ -27,6 +27,10 @@
 #include "musicpreview.h"
 #include "socialpreview.h"
 #include "socialpreviewcomment.h"
+#include "previewaction.h"
+
+#include <glib.h>
+#include <glib-object.h>
 
 void PreviewBindingsTest::initTestCase()
 {
@@ -38,6 +42,9 @@ void PreviewBindingsTest::testGenericPreview()
     unity_protocol_preview_set_title(UNITY_PROTOCOL_PREVIEW(raw_preview), "Metallica");
     unity_protocol_preview_set_subtitle(UNITY_PROTOCOL_PREVIEW(raw_preview), "Ride The Lightning");
     unity_protocol_preview_set_description(UNITY_PROTOCOL_PREVIEW(raw_preview), "Lorem ipsum dolor sit amet");
+    GFile *icon_file = g_file_new_for_path("/foo.png");
+    GIcon *icon =  g_file_icon_new(icon_file);
+    unity_protocol_preview_add_action(UNITY_PROTOCOL_PREVIEW(raw_preview), "1", "Action1", icon, UNITY_PROTOCOL_LAYOUT_HINT_LEFT);
     unity::glib::Object<GObject> gen_prv(raw_preview);
 
     auto core_prv = unity::dash::Preview::PreviewForProtocolObject(gen_prv);
@@ -47,6 +54,17 @@ void PreviewBindingsTest::testGenericPreview()
     QCOMPARE(prv->title(), QString("Metallica"));
     QCOMPARE(prv->subtitle(), QString("Ride The Lightning"));
     QCOMPARE(prv->description(), QString("Lorem ipsum dolor sit amet"));
+
+    auto actions = prv->actions().value<QList<QObject *>>();
+    QCOMPARE(actions.size(), 1);
+    auto act = dynamic_cast<PreviewAction *>(actions[0]);
+    QVERIFY(act != nullptr);
+    QCOMPARE(act->id(), QString("1"));
+    QCOMPARE(act->displayName(), QString("Action1"));
+    QCOMPARE(act->iconHint(), QString("/foo.png"));
+
+    g_object_unref(icon);
+    g_object_unref(icon_file);
 }
 
 void PreviewBindingsTest::testApplicationPreview()
@@ -113,8 +131,12 @@ void PreviewBindingsTest::testMusicPreview()
 
 void PreviewBindingsTest::testSocialPreview()
 {
+    GFile *icon_file = g_file_new_for_path("/foo.png");
+    GIcon *icon =  g_file_icon_new(icon_file);
+
     auto raw_preview = (GObject *)unity_protocol_social_preview_new();
     unity_protocol_social_preview_set_sender(UNITY_PROTOCOL_SOCIAL_PREVIEW(raw_preview), "John");
+    unity_protocol_social_preview_set_avatar(UNITY_PROTOCOL_SOCIAL_PREVIEW(raw_preview), icon);
     unity_protocol_social_preview_set_content(UNITY_PROTOCOL_SOCIAL_PREVIEW(raw_preview), "Lorem ipsum dolor sit amet");
     unity_protocol_social_preview_add_comment(UNITY_PROTOCOL_SOCIAL_PREVIEW(raw_preview), "1", "comment1", "Ubuntu", "2013-07-04 14:10");
     unity::glib::Object<GObject> gen_prv(raw_preview);
@@ -126,6 +148,7 @@ void PreviewBindingsTest::testSocialPreview()
     QCOMPARE(social_prv != nullptr, true);
     QCOMPARE(social_prv->sender(), QString("John"));
     QCOMPARE(social_prv->content(), QString("Lorem ipsum dolor sit amet"));
+    QCOMPARE(social_prv->avatar(), QString("/foo.png"));
 
     auto comments = social_prv->comments().value<QList<QObject *>>();
     QCOMPARE(comments.size(), 1);
@@ -135,6 +158,9 @@ void PreviewBindingsTest::testSocialPreview()
     QCOMPARE(cmt->displayName(), QString("comment1"));
     QCOMPARE(cmt->content(), QString("Ubuntu"));
     QCOMPARE(cmt->time(), QString("2013-07-04 14:10"));
+
+    g_object_unref(icon);
+    g_object_unref(icon_file);
 }
 
 QTEST_MAIN(PreviewBindingsTest)
