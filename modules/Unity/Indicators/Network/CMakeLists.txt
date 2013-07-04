@@ -31,6 +31,10 @@ if(LIBNM_GLIB_FOUND AND LIBNM_UTIL_FOUND AND GLIB_FOUND)
         ${LIBNM_GLIB_LIBRARIES}
         ${LIBNM_UTIL_LIBRARIES}
     )
+
+    install(TARGETS IndicatorsNetworkQml
+        DESTINATION ${SHELL_APP_DIR}/modules/Unity/Indicators/Network
+    )
 else()
     message(WARNING "Missing glib or libnm dependency for the network plugin, not building")
 endif()
