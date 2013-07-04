@@ -22,28 +22,28 @@ macro(export_qmlplugin PLUGIN VERSION PLUGIN_SUBPATH)
 
     # copy the qmldir file
     add_custom_target(${PLUGIN}-qmlfiles ALL
-                        COMMAND cp ${QMLFILES} ${CMAKE_BINARY_DIR}/qml/${PLUGIN_SUBPATH}
+                        COMMAND cp ${QMLFILES} ${CMAKE_BINARY_DIR}/plugins/${PLUGIN_SUBPATH}
                         DEPENDS ${QMLFILES}
     )
 
     # create the plugin.qmltypes file
     add_custom_target(${PLUGIN}-qmltypes ALL
-        COMMAND qmlplugindump -notrelocatable ${PLUGIN} ${VERSION} ${CMAKE_BINARY_DIR}/qml > ${CMAKE_BINARY_DIR}/qml/${PLUGIN_SUBPATH}/plugin.qmltypes
+        COMMAND qmlplugindump -notrelocatable ${PLUGIN} ${VERSION} ${CMAKE_BINARY_DIR}/plugins > ${CMAKE_BINARY_DIR}/plugins/${PLUGIN_SUBPATH}/plugin.qmltypes
     )
     add_dependencies(${PLUGIN}-qmltypes ${PLUGIN}-qmlfiles ${qmlplugin_TARGETS})
 
     # install the qmldir file.
     install(FILES ${QMLFILES}
-        DESTINATION ${SHELL_APP_DIR}/qml/${PLUGIN_SUBPATH}
+        DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/${PLUGIN_SUBPATH}
     )
 
     # install the qmltypes file.
-    install(FILES ${CMAKE_BINARY_DIR}/qml/${PLUGIN_SUBPATH}/plugin.qmltypes
-        DESTINATION ${SHELL_APP_DIR}/qml/${PLUGIN_SUBPATH}
+    install(FILES ${CMAKE_BINARY_DIR}/plugins/${PLUGIN_SUBPATH}/plugin.qmltypes
+        DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/${PLUGIN_SUBPATH}
     )
 
     # install the additional targets
     install(TARGETS ${qmlplugin_TARGETS}
-        DESTINATION ${SHELL_APP_DIR}/qml/${PLUGIN_SUBPATH}
+        DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/${PLUGIN_SUBPATH}
     )
 endmacro(export_qmlplugin)

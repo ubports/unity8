@@ -23,4 +23,4 @@ set_target_properties(Utils-qml PROPERTIES COMPILE_FLAGS -fvisibility=default)
 qt5_use_modules(Utils-qml Qml Quick)
 
 # export the qmldir and qmltypes files
-export_qmlplugin(Utils 0.1 plugins Utils TARGETS Utils-qml)
+export_qmlplugin(Utils 0.1 Utils TARGETS Utils-qml)
