@@ -25,6 +25,8 @@
 #include "applicationpreview.h"
 #include "moviepreview.h"
 #include "musicpreview.h"
+#include "socialpreview.h"
+#include "socialpreviewcomment.h"
 
 void PreviewBindingsTest::initTestCase()
 {
@@ -107,6 +109,32 @@ void PreviewBindingsTest::testMusicPreview()
     QCOMPARE(music_prv->title(), QString("Metallica"));
     QCOMPARE(music_prv->subtitle(), QString("Death Magnetic"));
     QCOMPARE(music_prv->description(), QString("Lorem ipsum dolor sit amet"));
+}
+
+void PreviewBindingsTest::testSocialPreview()
+{
+    auto raw_preview = (GObject *)unity_protocol_social_preview_new();
+    unity_protocol_social_preview_set_sender(UNITY_PROTOCOL_SOCIAL_PREVIEW(raw_preview), "John");
+    unity_protocol_social_preview_set_content(UNITY_PROTOCOL_SOCIAL_PREVIEW(raw_preview), "Lorem ipsum dolor sit amet");
+    unity_protocol_social_preview_add_comment(UNITY_PROTOCOL_SOCIAL_PREVIEW(raw_preview), "1", "comment1", "Ubuntu", "2013-07-04 14:10");
+    unity::glib::Object<GObject> gen_prv(raw_preview);
+
+    auto core_prv = unity::dash::Preview::PreviewForProtocolObject(gen_prv);
+    auto prv = Preview::newFromUnityPreview(core_prv);
+    auto social_prv = dynamic_cast<SocialPreview*>(prv);
+
+    QCOMPARE(social_prv != nullptr, true);
+    QCOMPARE(social_prv->sender(), QString("John"));
+    QCOMPARE(social_prv->content(), QString("Lorem ipsum dolor sit amet"));
+
+    auto comments = social_prv->comments().value<QList<QObject *>>();
+    QCOMPARE(comments.size(), 1);
+    auto cmt = dynamic_cast<SocialPreviewComment *>(comments[0]);
+    QVERIFY(cmt != nullptr);
+    QCOMPARE(cmt->id(), QString("1"));
+    QCOMPARE(cmt->displayName(), QString("comment1"));
+    QCOMPARE(cmt->content(), QString("Ubuntu"));
+    QCOMPARE(cmt->time(), QString("2013-07-04 14:10"));
 }
 
 QTEST_MAIN(PreviewBindingsTest)
