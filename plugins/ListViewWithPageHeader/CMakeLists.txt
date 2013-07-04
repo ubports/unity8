@@ -36,9 +36,9 @@ file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
     )
 
 install(TARGETS ListViewWithPageHeader-qml
-    DESTINATION ${SHELL_APP_DIR}/plugins/ListViewWithPageHeader
+    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/ListViewWithPageHeader
     )
 
 install(FILES qmldir
-    DESTINATION ${SHELL_APP_DIR}/plugins/ListViewWithPageHeader
+    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/ListViewWithPageHeader
     )
