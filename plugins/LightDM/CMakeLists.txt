@@ -36,4 +36,4 @@ target_link_libraries(LightDM-qml
 qt5_use_modules(LightDM-qml Gui Qml)
 
 # export the qmldir and qmltypes files
-export_qmlplugin(LightDM 0.1 plugins LightDM TARGETS LightDM-qml)
+export_qmlplugin(LightDM 0.1 LightDM TARGETS LightDM-qml)

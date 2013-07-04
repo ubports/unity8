@@ -39,4 +39,4 @@ target_link_libraries(HudClientQml
 qt5_use_modules(HudClientQml Qml)
 
 # export the qmldir and qmltypes files
-export_qmlplugin(HudClient 0.1 plugins HudClient TARGETS HudClientQml)
+export_qmlplugin(HudClient 0.1 HudClient TARGETS HudClientQml)

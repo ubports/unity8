@@ -34,4 +34,4 @@ target_link_libraries(ListViewWithPageHeader-qml
 qt5_use_modules(ListViewWithPageHeader-qml Qml Quick)
 
 # export the qmldir and qmltypes files
-export_qmlplugin(ListViewWithPageHeader 0.1 plugins ListViewWithPageHeader TARGETS ListViewWithPageHeader-qml)
+export_qmlplugin(ListViewWithPageHeader 0.1 ListViewWithPageHeader TARGETS ListViewWithPageHeader-qml)

@@ -47,4 +47,4 @@ target_link_libraries(Unity-qml
 qt5_use_modules(Unity-qml Qml)
 
 # export the qmldir and qmltypes files
-export_qmlplugin(Unity 0.1 plugins Unity TARGETS Unity-qml)
+export_qmlplugin(Unity 0.1 Unity TARGETS Unity-qml)

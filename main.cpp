@@ -39,10 +39,10 @@ void prependImportPaths(QQmlEngine *engine, const QStringList &paths)
         // don't duplicate
         const QString& path = paths[i];
         QStringList::iterator iter = qFind(importPathList.begin(), importPathList.end(), path);
-        if (iter == importPathList.end())
-            importPathList.prepend(path);
+        if (iter == importPathList.end()) {
+            engine->addImportPath(path);
+        }
     }
-    engine->setImportPathList(importPathList);
 }
 
 /* When you append and import path to the list of import paths it will be the *last*
@@ -54,10 +54,10 @@ void appendImportPaths(QQmlEngine *engine, const QStringList &paths)
     Q_FOREACH(const QString& path, paths) {
         // don't duplicate
         QStringList::iterator iter = qFind(importPathList.begin(), importPathList.end(), path);
-        if (iter == importPathList.end())
+        if (iter == importPathList.end()) {
             importPathList.append(path);
+        }
     }
-    importPathList.append(paths);
     engine->setImportPathList(importPathList);
 }
 
@@ -79,7 +79,7 @@ int main(int argc, char** argv)
     setenv("QML_FORCE_THREADED_RENDERER", "1", 1);
     setenv("QML_FIXED_ANIMATION_STEP", "1", 1);
 
-    QGuiApplication::setApplicationName("Qml Phone Shell");
+    QGuiApplication::setApplicationName("Unity 8");
     QGuiApplication application(argc, argv);
 
     resolveIconTheme();
@@ -134,9 +134,8 @@ int main(int argc, char** argv)
     QObject::connect(view->engine(), SIGNAL(quit()), qApp, SLOT(quit()));
 
     QUrl source("Shell.qml");
-    prependImportPaths(view->engine(), QStringList() << ::shellAppDirectory());
-    prependImportPaths(view->engine(), ::shellImportPaths());
-    appendImportPaths(view->engine(), QStringList() << ::fakePluginsImportPath());
+    prependImportPaths(view->engine(), ::overrideImportPaths());
+    appendImportPaths(view->engine(), ::fallbackImportPaths());
     view->setSource(source);
     view->setColor("transparent");
 

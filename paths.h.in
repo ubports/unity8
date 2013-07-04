@@ -46,22 +46,23 @@ inline QString shellAppDirectory() {
     }
 }
 
-inline QStringList shellImportPaths() {
+inline QStringList overrideImportPaths() {
     QStringList paths;
-    if (isRunningInstalled()) {
-        paths << QString("@CMAKE_INSTALL_PREFIX@/@SHELL_APP_DIR@/plugins");
-    } else {
+    if (!isRunningInstalled()) {
         paths << QString("@CMAKE_BINARY_DIR@/plugins");
     }
     return paths;
 }
 
-inline QString fakePluginsImportPath() {
+inline QStringList fallbackImportPaths() {
+    QStringList paths;
     if (isRunningInstalled()) {
-        return QString("@CMAKE_INSTALL_PREFIX@/@SHELL_APP_DIR@/plugins/mocks");
+        paths << QString("@CMAKE_INSTALL_PREFIX@/@SHELL_PRIVATE_LIBDIR@/qml");
+        paths << QString("@CMAKE_INSTALL_PREFIX@/@SHELL_PRIVATE_LIBDIR@/qml/mocks");
     } else {
-        return QString("@CMAKE_BINARY_DIR@/tests/mocks");
+        paths << QString("@CMAKE_BINARY_DIR@/tests/mocks");
     }
+    return paths;
 }
 
 inline QString sourceDirectory() {

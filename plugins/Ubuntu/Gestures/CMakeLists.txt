@@ -24,4 +24,4 @@ qt5_use_modules(UbuntuGestureQml Core Quick)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 # export the qmldir and qmltypes files
-export_qmlplugin(Ubuntu.Gestures 0.1 plugins Ubuntu/Gestures TARGETS UbuntuGestureQml)
+export_qmlplugin(Ubuntu.Gestures 0.1 Ubuntu/Gestures TARGETS UbuntuGestureQml)
