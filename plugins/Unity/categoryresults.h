@@ -2,7 +2,7 @@
  * Copyright (C) 2013 Canonical, Ltd.
  *
  * Authors:
- *  Michał Sawicz <michal.sawicz@canonical.com>
+ *  Michal Hruby <michal.hruby@canonical.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -61,7 +61,7 @@ Q_SIGNALS:
 
 private:
     QHash<int, QByteArray> m_roles;
-    int m_category_index;
+    int m_categoryIndex;
 };
 
 #endif // CATEGORY_RESULTS_H

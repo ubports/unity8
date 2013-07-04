@@ -2,7 +2,7 @@
  * Copyright (C) 2013 Canonical, Ltd.
  *
  * Authors:
- *  Michał Sawicz <michal.sawicz@canonical.com>
+ *  Michał Hruby <michal.hruby@canonical.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ enum ResultsColumn {
 
 CategoryResults::CategoryResults(QObject* parent)
     : DeeListModel(parent)
-    , m_category_index(-1)
+    , m_categoryIndex(-1)
 {
     m_roles[CategoryResults::RoleUri] = "uri";
     m_roles[CategoryResults::RoleIconHint] = "icon";
@@ -49,14 +49,14 @@ CategoryResults::CategoryResults(QObject* parent)
 
 int CategoryResults::categoryIndex() const
 {
-    return m_category_index;
+    return m_categoryIndex;
 }
 
 void CategoryResults::setCategoryIndex(int index)
 {
-    if (m_category_index != index) {
-        m_category_index = index;
-        Q_EMIT categoryIndexChanged(m_category_index);
+    if (m_categoryIndex != index) {
+        m_categoryIndex = index;
+        Q_EMIT categoryIndexChanged(m_categoryIndex);
     }
 }
 
