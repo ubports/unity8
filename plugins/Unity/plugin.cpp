@@ -49,7 +49,7 @@ void UnityPlugin::registerTypes(const char *uri)
     qmlRegisterType<Scope>(uri, 0, 1, "Scope");
     qmlRegisterType<Scopes>(uri, 0, 1, "Scopes");
     qmlRegisterType<Categories>(uri, 0, 1, "Categories");
-    qmlRegisterType<CategoryResults>(uri, 0, 1, "CategoryResults");
+    qmlRegisterUncreatableType<CategoryResults>(uri, 0, 1, "CategoryResults", "Can't create new Category Results in QML. Get them from Categories instance.");
     qmlRegisterType<DeeListModel>(uri, 0, 1, "DeeListModel");
     qmlRegisterType<LauncherModel>(uri, 0, 1, "LauncherModel");
     qmlRegisterUncreatableType<LauncherItem>(uri, 0, 1, "LauncherItem", "Can't create new Launcher Items in QML. Get them from the LauncherModel.");

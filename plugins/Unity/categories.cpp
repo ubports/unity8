@@ -21,15 +21,23 @@
 #include "categories.h"
 #include "categoryresults.h"
 
+// TODO: use something from libunity once it's public
+enum CategoryColumn {
+    ID,
+    DISPLAY_NAME,
+    ICON_HINT,
+    RENDERER_NAME,
+    HINTS
+};
+
 Categories::Categories(QObject* parent)
     : DeeListModel(parent)
 {
-    // FIXME: need to clean up unused filters on countChanged
     m_roles[Categories::RoleId] = "id";
     m_roles[Categories::RoleName] = "name";
     m_roles[Categories::RoleIcon] = "icon";
     m_roles[Categories::RoleRenderer] = "renderer";
-    m_roles[Categories::RoleContentType] = "content_type";
+    m_roles[Categories::RoleContentType] = "contentType";
     m_roles[Categories::RoleHints] = "hints";
     m_roles[Categories::RoleResults] = "results";
     m_roles[Categories::RoleCount] = "count";
@@ -39,23 +47,19 @@ Categories::Categories(QObject* parent)
     // change of the search term harder to reproduce
     m_timer.setSingleShot(true);
     m_timer.setInterval(50);
-    connect(&m_timer, SIGNAL(timeout()), this, SLOT(onEmitCountChanged()));
-}
-
-Categories::~Categories()
-{
+    connect(&m_timer, &QTimer::timeout, this, &Categories::onEmitCountChanged);
 }
 
 DeeListModel*
-Categories::getFilter(int index) const
+Categories::getResults(int index) const
 {
-    if (!m_results.contains(index) || m_results[index].isNull()) {
-        auto results = new CategoryResults;
+    if (!m_results.contains(index)) {
+        CategoryResults* results = new CategoryResults(const_cast<Categories*>(this));
         results->setCategoryIndex(index);
         connect(results, &DeeListModel::countChanged, this, &Categories::onCountChanged);
 
-        unsigned cat_index = static_cast<unsigned>(index);
-        auto unity_results = m_unityScope->GetResultsForCategory(cat_index);
+        unsigned categoryIndex = static_cast<unsigned>(index);
+        auto unity_results = m_unityScope->GetResultsForCategory(categoryIndex);
         results->setModel(unity_results->model());
 
         m_results.insert(index, results);
@@ -68,6 +72,9 @@ void Categories::onCategoriesModelChanged(unity::glib::Object<DeeModel> model)
 {
     m_updatedCategories.clear();
     // FIXME: this might destroy the renderer view and re-create it, optimize?
+    Q_FOREACH(DeeListModel* model, m_results) {
+      delete model;
+    }
     m_results.clear();
     setModel(model);
 }
@@ -80,7 +87,9 @@ Categories::setUnityScope(const unity::dash::Scope::Ptr& scope)
     // no need to call this, we'll get notified
     //setModel(m_unityScope->categories()->model());
 
-    m_unityScope->categories()->model.changed.connect(sigc::mem_fun(this, &Categories::onCategoriesModelChanged));
+    m_categoriesChangedConnection.disconnect();
+    m_categoriesChangedConnection =
+        m_unityScope->categories()->model.changed.connect(sigc::mem_fun(this, &Categories::onCategoriesModelChanged));
 }
 
 void
@@ -98,9 +107,9 @@ Categories::onEmitCountChanged()
 {
     QVector<int> roles;
     roles.append(Categories::RoleCount);
-    Q_FOREACH(int cat_index, m_updatedCategories) {
-        if (m_results[cat_index].isNull()) continue;
-        QModelIndex changedIndex = index(cat_index);
+    Q_FOREACH(int categoryIndex, m_updatedCategories) {
+        if (!m_results.contains(categoryIndex)) continue;
+        QModelIndex changedIndex = index(categoryIndex);
         Q_EMIT dataChanged(changedIndex, changedIndex, roles);
     }
     m_updatedCategories.clear();
@@ -123,22 +132,22 @@ Categories::data(const QModelIndex& index, int role) const
         case RoleId:
             return QVariant::fromValue(index.row());
         case RoleName:
-            return DeeListModel::data(index, 1); //DISPLAY_NAME
+            return DeeListModel::data(index, CategoryColumn::DISPLAY_NAME);
         case RoleIcon:
-            return DeeListModel::data(index, 2); //ICON_HINT
+            return DeeListModel::data(index, CategoryColumn::ICON_HINT);
         case RoleRenderer:
-            return DeeListModel::data(index, 3); //RENDERER_NAME
+            return DeeListModel::data(index, CategoryColumn::RENDERER_NAME);
         case RoleContentType:
         {
-            auto hints = DeeListModel::data(index, 4).toHash();
+            auto hints = DeeListModel::data(index, CategoryColumn::HINTS).toHash();
             return hints.contains("content-type") ? hints["content-type"] : QVariant(QString("default"));
         }
         case RoleHints:
-            return DeeListModel::data(index, 4); //HINTS
+            return DeeListModel::data(index, CategoryColumn::HINTS);
         case RoleResults:
-            return QVariant::fromValue(getFilter(index.row()));
+            return QVariant::fromValue(getResults(index.row()));
         case RoleCount:
-            return QVariant::fromValue(getFilter(index.row())->rowCount());
+            return QVariant::fromValue(getResults(index.row())->rowCount());
         default:
             return QVariant();
     }

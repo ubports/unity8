@@ -34,13 +34,11 @@ class CategoryResults : public DeeListModel
 
 public:
     explicit CategoryResults(QObject* parent = 0);
-    ~CategoryResults();
 
     enum Roles {
         RoleUri,
         RoleIconHint,
         RoleCategory,
-        //RoleResultType, // not needed
         RoleMimetype,
         RoleTitle,
         RoleComment,

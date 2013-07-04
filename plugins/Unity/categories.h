@@ -39,7 +39,6 @@ class Categories : public DeeListModel
 
 public:
     explicit Categories(QObject* parent = 0);
-    ~Categories();
 
     enum Roles {
         RoleId,
@@ -66,13 +65,14 @@ private Q_SLOTS:
 private:
     void onCategoriesModelChanged(unity::glib::Object<DeeModel> model);
 
-    DeeListModel* getFilter(int index) const;
+    DeeListModel* getResults(int index) const;
 
     unity::dash::Scope::Ptr m_unityScope;
     QTimer m_timer;
     QSet<int> m_updatedCategories;
     QHash<int, QByteArray> m_roles;
-    mutable QMap<int, QPointer<DeeListModel>> m_results;
+    mutable QMap<int, DeeListModel*> m_results;
+    sigc::connection m_categoriesChangedConnection;
 };
 
 #endif // CATEGORIES_H

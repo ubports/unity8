@@ -20,6 +20,19 @@
 // self
 #include "categoryresults.h"
 
+// TODO: use something from libunity once it's public
+enum ResultsColumn {
+    URI,
+    ICON_HINT,
+    CATEGORY,
+    RESULT_TYPE,
+    MIMETYPE,
+    TITLE,
+    COMMENT,
+    DND_URI,
+    METADATA
+};
+
 CategoryResults::CategoryResults(QObject* parent)
     : DeeListModel(parent)
     , m_category_index(-1)
@@ -30,12 +43,8 @@ CategoryResults::CategoryResults(QObject* parent)
     m_roles[CategoryResults::RoleMimetype] = "mimetype";
     m_roles[CategoryResults::RoleTitle] = "title";
     m_roles[CategoryResults::RoleComment] = "comment";
-    m_roles[CategoryResults::RoleDndUri] = "dnd_uri";
+    m_roles[CategoryResults::RoleDndUri] = "dndUri";
     m_roles[CategoryResults::RoleMetadata] = "metadata";
-}
-
-CategoryResults::~CategoryResults()
-{
 }
 
 int CategoryResults::categoryIndex() const
@@ -66,21 +75,21 @@ CategoryResults::data(const QModelIndex& index, int role) const
 
     switch (role) {
         case RoleUri:
-            return DeeListModel::data(index, 0);
+            return DeeListModel::data(index, ResultsColumn::URI);
         case RoleIconHint:
-            return DeeListModel::data(index, 1);
+            return DeeListModel::data(index, ResultsColumn::ICON_HINT);
         case RoleCategory:
-            return DeeListModel::data(index, 2);
+            return DeeListModel::data(index, ResultsColumn::CATEGORY);
         case RoleMimetype:
-            return DeeListModel::data(index, 4);
+            return DeeListModel::data(index, ResultsColumn::MIMETYPE);
         case RoleTitle:
-            return DeeListModel::data(index, 5);
+            return DeeListModel::data(index, ResultsColumn::TITLE);
         case RoleComment:
-            return DeeListModel::data(index, 6);
+            return DeeListModel::data(index, ResultsColumn::COMMENT);
         case RoleDndUri:
-            return DeeListModel::data(index, 7);
+            return DeeListModel::data(index, ResultsColumn::DND_URI);
         case RoleMetadata:
-            return DeeListModel::data(index, 8);
+            return DeeListModel::data(index, ResultsColumn::METADATA);
         default:
             return QVariant();
     }

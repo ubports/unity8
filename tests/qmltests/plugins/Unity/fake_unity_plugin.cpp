@@ -40,7 +40,7 @@ void FakeUnityPlugin::registerTypes(const char *uri)
     qmlRegisterType<Scopes>(uri, 0, 1, "Scopes");
     qmlRegisterType<Scope>(uri, 0, 1, "Scope");
     qmlRegisterType<Categories>(uri, 0, 1, "Categories");
-    qmlRegisterType<CategoryResults>(uri, 0, 1, "CategoryResults");
+    qmlRegisterUncreatableType<CategoryResults>(uri, 0, 1, "CategoryResults", "Can't create");
     qmlRegisterType<LauncherModel>(uri, 0, 1, "LauncherModel");
     qmlRegisterUncreatableType<LauncherItem>(uri, 0, 1, "LauncherItem", "Can't create");
 }
