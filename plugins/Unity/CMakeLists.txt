@@ -1,3 +1,6 @@
+# export_qmlplugin macro
+include(Plugins)
+
 # Dependencies
 include(FindPkgConfig)
 pkg_check_modules(QTDEE REQUIRED libdee-qt5)
@@ -43,30 +46,5 @@ target_link_libraries(Unity-qml
 
 qt5_use_modules(Unity-qml Qml)
 
-file(GLOB Unity_QMLFILES
-    qmldir
-)
-
-# copy qmldir file into build directory for shadow builds
-add_custom_target(UnityQmlFiles ALL
-    COMMAND cp ${Unity_QMLFILES} ${CMAKE_CURRENT_BINARY_DIR}
-    DEPENDS ${Unity_QMLFILES}
-)
-
-# create the Unity.qmltypes file
-add_custom_target(Unity-qmltypes ALL
-    COMMAND qmlplugindump -notrelocatable Unity 0.1 ${CMAKE_BINARY_DIR}/plugins > ${CMAKE_CURRENT_BINARY_DIR}/Unity.qmltypes
-)
-add_dependencies(Unity-qmltypes Unity-qml UnityQmlFiles)
-
-install(TARGETS Unity-qml
-    DESTINATION ${SHELL_APP_DIR}/plugins/Unity
-    )
-
-install(FILES ${Unity_QMLFILES}
-    DESTINATION ${SHELL_APP_DIR}/plugins/Unity
-    )
-
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/Unity.qmltypes
-    DESTINATION ${SHELL_APP_DIR}/plugins/Unity
-    )
+# export the qmldir and qmltypes files
+export_qmlplugin(Unity 0.1 plugins Unity TARGETS Unity-qml)

@@ -1,3 +1,6 @@
+# export_qmlplugin macro
+include(Plugins)
+
 # There's no cmake var for v8 include path :-/
 # so create one
 LIST(GET Qt5Core_INCLUDE_DIRS 0 QtCoreDir0)
@@ -30,30 +33,5 @@ target_link_libraries(ListViewWithPageHeader-qml
 
 qt5_use_modules(ListViewWithPageHeader-qml Qml Quick)
 
-file(GLOB ListViewWithPageHeader_QMLFILES
-    qmldir
-)
-
-# copy qmldir file into build directory for shadow builds
-add_custom_target(ListViewWithPageHeaderQmlFiles ALL
-    COMMAND cp ${ListViewWithPageHeader_QMLFILES} ${CMAKE_CURRENT_BINARY_DIR}
-    DEPENDS ${ListViewWithPageHeader_QMLFILES}
-)
-
-# create the ListViewWithPageHeader.qmltypes file
-add_custom_target(ListViewWithPageHeader-qmltypes ALL
-    COMMAND qmlplugindump -notrelocatable ListViewWithPageHeader 0.1 ${CMAKE_BINARY_DIR}/plugins > ${CMAKE_CURRENT_BINARY_DIR}/ListViewWithPageHeader.qmltypes
-)
-add_dependencies(ListViewWithPageHeader-qmltypes ListViewWithPageHeader-qml ListViewWithPageHeaderQmlFiles)
-
-install(TARGETS ListViewWithPageHeader-qml
-    DESTINATION ${SHELL_APP_DIR}/plugins/ListViewWithPageHeader
-    )
-
-install(FILES ${ListViewWithPageHeader_QMLFILES}
-    DESTINATION ${SHELL_APP_DIR}/plugins/ListViewWithPageHeader
-    )
-
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/ListViewWithPageHeader.qmltypes
-    DESTINATION ${SHELL_APP_DIR}/plugins/ListViewWithPageHeader
-    )
+# export the qmldir and qmltypes files
+export_qmlplugin(ListViewWithPageHeader 0.1 plugins ListViewWithPageHeader TARGETS ListViewWithPageHeader-qml)

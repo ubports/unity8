@@ -1,3 +1,6 @@
+# export_qmlplugin macro
+include(Plugins)
+
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Quick REQUIRED)
 pkg_search_module(DEE dee-1.0 REQUIRED)
@@ -35,30 +38,5 @@ target_link_libraries(HudClientQml
 
 qt5_use_modules(HudClientQml Qml)
 
-file(GLOB HudClient_QMLFILES
-    qmldir
-)
-
-# copy qmldir file into build directory for shadow builds
-add_custom_target(HudClientQmlFiles ALL
-    COMMAND cp ${HudClient_QMLFILES} ${CMAKE_CURRENT_BINARY_DIR}
-    DEPENDS ${HudClient_QMLFILES}
-)
-
-# create the HudClient.qmltypes file
-add_custom_target(HudClientQmlTypes ALL
-    COMMAND qmlplugindump -notrelocatable HudClient 0.1 ${CMAKE_BINARY_DIR}/plugins > ${CMAKE_CURRENT_BINARY_DIR}/HudClient.qmltypes
-)
-add_dependencies(HudClientQmlTypes HudClientQml HudClientQmlFiles)
-
-install(TARGETS HudClientQml
-    DESTINATION ${SHELL_APP_DIR}/plugins/HudClient
-    )
-
-install(FILES ${HudClient_QMLFILES}
-        DESTINATION ${SHELL_APP_DIR}/plugins/HudClient
-)
-
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/HudClient.qmltypes
-    DESTINATION ${SHELL_APP_DIR}/plugins/HudClient
-    )
+# export the qmldir and qmltypes files
+export_qmlplugin(HudClient 0.1 plugins HudClient TARGETS HudClientQml)
