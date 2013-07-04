@@ -41,9 +41,9 @@ file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
     )
 
 install(TARGETS HudClientQml
-    DESTINATION ${SHELL_APP_DIR}/plugins/HudClient
+    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/HudClient
     )
 
 install(FILES qmldir
-    DESTINATION ${SHELL_APP_DIR}/plugins/HudClient
+    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/HudClient
     )

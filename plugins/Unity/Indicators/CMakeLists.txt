@@ -48,5 +48,5 @@ target_link_libraries(IndicatorsQml
 qt5_use_modules(IndicatorsQml Core Qml Quick)
 
 install(TARGETS IndicatorsQml
-    DESTINATION ${SHELL_APP_DIR}/modules/Unity/Indicators
+    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/Unity/Indicators
     )

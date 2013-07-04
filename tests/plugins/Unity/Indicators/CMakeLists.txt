@@ -1,6 +1,6 @@
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../../../modules/Unity/Indicators
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../../../plugins/Unity/Indicators
     )
 
 macro(run_tests)

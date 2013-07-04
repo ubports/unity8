@@ -1,3 +1,10 @@
+unity8 (7.81.3-0ubuntu1) UNRELEASED; urgency=low
+
+  * Clean packaging for entering saucy and following daily release guidelines
+  * Automatic snapshot from revision 49 (bootstrap)
+
+ -- Didier Roche <didrocks@ubuntu.com>  Wed, 26 Jun 2013 11:01:09 +0200
+
 unity8 (7.81.3) UNRELEASED; urgency=low
 
   * Choose more appropriate values for edge-drag gestures (LP: #1194150)

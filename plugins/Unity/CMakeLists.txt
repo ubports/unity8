@@ -1,3 +1,5 @@
+add_subdirectory(Indicators)
+
 # Dependencies
 include(FindPkgConfig)
 pkg_check_modules(QTDEE REQUIRED libdee-qt5)
@@ -49,9 +51,9 @@ file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
     )
 
 install(TARGETS Unity-qml
-    DESTINATION ${SHELL_APP_DIR}/plugins/Unity
+    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/Unity
     )
 
 install(FILES qmldir
-    DESTINATION ${SHELL_APP_DIR}/plugins/Unity
+    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/Unity
     )

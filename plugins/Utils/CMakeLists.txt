@@ -29,9 +29,9 @@ file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
     )
 
 install(TARGETS Utils-qml
-    DESTINATION ${SHELL_APP_DIR}/plugins/Utils
+    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/Utils
     )
 
 install(FILES qmldir
-    DESTINATION ${SHELL_APP_DIR}/plugins/Utils
+    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/Utils
     )

@@ -1,0 +1,27 @@
+#!/usr/bin/perl -w
+
+use strict;
+binmode STDOUT, ":utf8";
+use utf8;
+
+use JSON;
+
+my $json;
+{
+  local $/; #Enable 'slurp' mode
+  open my $fh, "<", $ARGV[0];
+  $json = <$fh>;
+  close $fh;
+}
+# get it to a scalar
+my $j = "[" . $json . "]";
+
+my $decoded_json = decode_json( $j );
+
+my $recommends_list = "";
+for my $record ( @$decoded_json ) {
+  foreach my $key ( keys(%$record) ) {
+    $recommends_list = $recommends_list . $key . ", ";
+  }
+}
+print $recommends_list;

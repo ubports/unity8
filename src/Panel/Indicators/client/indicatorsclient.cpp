@@ -55,7 +55,7 @@ void IndicatorsClient::setupUI()
 {
     m_view = new QQuickView;
     m_view->engine()->setBaseUrl(QUrl::fromLocalFile(::shellAppDirectory()+"Panel/Indicators/client/"));
-    prependImportPaths(m_view->engine(), ::shellImportPaths());
+    prependImportPaths(m_view->engine(), ::overrideImportPaths());
 
     m_view->setSource(QUrl("IndicatorsClient.qml"));
     m_view->setResizeMode(QQuickView::SizeRootObjectToView);

@@ -23,12 +23,3 @@ set_target_properties(${INDICATORS_CLIENT_APP} PROPERTIES COMPILE_FLAGS -fPIC)
 
 install(TARGETS ${INDICATORS_CLIENT_APP}
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-
-file(GLOB IndicatorsClient_QMLFILES
-    *.qml
-    *.js
-)
-
-install(FILES ${IndicatorsClient_QMLFILES}
-        DESTINATION ${SHELL_APP_DIR}/Panel/Indicators/client
-)

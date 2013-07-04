@@ -47,11 +47,9 @@ class IndicatorsTestCase(AutopilotTestCase):
             self.launch_test_local()
 
     def launch_test_local(self):
-        os.environ['QML2_IMPORT_PATH'] = "../../builddir/plugins:../../builddir/modules"
         self.app = self.launch_test_application("../../builddir/src/Panel/Indicators/client/indicators-client", app_type='qt')
 
     def launch_test_installed(self):
-        os.environ['QML2_IMPORT_PATH'] = "/usr/share/unity8/plugins:/usr/share/unity8/modules"
         self.app = self.launch_test_application("indicators-client", app_type='qt')
 
     def skipWrapper(*args, **kwargs):

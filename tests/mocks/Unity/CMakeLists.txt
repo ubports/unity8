@@ -1,5 +1,7 @@
 set(CMAKE_AUTOMOC ON)
 
+add_subdirectory(Indicators)
+
 include(FindPkgConfig)
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Quick REQUIRED)

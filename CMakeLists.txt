@@ -57,6 +57,7 @@ find_package(Qt5DBus)
 include(GNUInstallDirs)
 
 set(SHELL_APP_DIR ${CMAKE_INSTALL_DATADIR}/unity8)
+set(SHELL_PRIVATE_LIBDIR ${CMAKE_INSTALL_LIBDIR}/unity8)
 
 configure_file(paths.h.in ${CMAKE_CURRENT_BINARY_DIR}/paths.h @ONLY)
 
@@ -132,7 +133,6 @@ install(FILES ${QML_JS_FILES}
     )
 
 # add subdirectories to build
-add_subdirectory(modules)
 add_subdirectory(plugins)
 add_subdirectory(src)
 
