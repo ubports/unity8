@@ -27,9 +27,9 @@ add_custom_target(UbuntuGestureQmlDirFile ALL
 )
 
 install(TARGETS UbuntuGestureQml
-    DESTINATION ${SHELL_APP_DIR}/plugins/Ubuntu/Gestures
+    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/Ubuntu/Gestures
     )
 
 install(FILES qmldir
-    DESTINATION ${SHELL_APP_DIR}/plugins/Ubuntu/Gestures
+    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/Ubuntu/Gestures
     )

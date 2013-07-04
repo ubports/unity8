@@ -219,9 +219,9 @@ private:
     bool movedFarEnough(const QPointF &point) const;
     const QTouchEvent::TouchPoint *fetchTargetTouchPoint(QTouchEvent *event);
     void setStatus(Status newStatus);
-    void setPreviousPos(QPointF point);
-    void setPreviousScenePos(QPointF point);
-    void updateVelocityCalculator(QPointF point);
+    void setPreviousPos(const QPointF &point);
+    void setPreviousScenePos(const QPointF &point);
+    void updateVelocityCalculator(const QPointF &point);
 
     Status m_status;
 

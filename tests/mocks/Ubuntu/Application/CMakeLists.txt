@@ -27,9 +27,9 @@ add_custom_target(InputFilterAreaQmlFile ALL
 )
 
 install(TARGETS FakeUbuntuApplicationQml
-    DESTINATION ${SHELL_APP_DIR}/plugins/mocks/Ubuntu/Application
+    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/mocks/Ubuntu/Application
     )
 
 install(FILES qmldir InputFilterArea.qml
-    DESTINATION ${SHELL_APP_DIR}/plugins/mocks/Ubuntu/Application
+    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/mocks/Ubuntu/Application
     )

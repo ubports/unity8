@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2013 Canonical, Ltd.
  *
+ * Authors:
+ *  Pawel Stolowski <pawel.stolowski@canonical.com>
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 3.
@@ -14,9 +17,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+#ifndef VARIANTUTILS_H
+#define VARIANTUTILS_H
 
-Item {
-    property variant value
-    property string text
-}
+#include <glib.h>
+#include <QVariant>
+
+// libunity-core
+#include <UnityCore/Variant.h>
+
+GVariant* GVariantFromQVariant(const QVariant &value);
+QVariant QVariantFromGVariant(GVariant *value);
+unity::glib::HintsMap convertToHintsMap(const QHash<QString, QVariant> &val);
+unity::glib::HintsMap convertToHintsMap(const QVariant &var);
+
+#endif

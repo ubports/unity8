@@ -1,10 +1,10 @@
 Source: unity8
 Section: x11
-Priority: extra
+Priority: optional
 Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
 Build-Depends: cmake,
                debhelper (>= 9),
-               libc6-dev,
+               libjson-perl,
                libdee-qt5-dev (>= 3.0),
                libgl1-mesa-dev[!armhf] | libgl-dev[!armhf],
                libgl1-mesa-dri,
@@ -14,9 +14,13 @@ Build-Depends: cmake,
                libqt5v8-5-private-dev,
                libunity-core-6.0-dev (<< 7.80),
                libunity-api-dev,
+               libunity-dev (>= 7.0.3),
+               libusermetricsoutput1-dev,
                libxcb1-dev,
                pkg-config,
                python3,
+               python (>= 2.7),
+               python-setuptools,
                qt5-default,
                qtbase5-dev,
                qtbase5-private-dev,
@@ -28,75 +32,69 @@ Build-Depends: cmake,
                qtdeclarative5-ubuntu-ui-toolkit-plugin,
                qtdeclarative5-xmllistmodel-plugin,
                ttf-ubuntu-font-family,
-Standards-Version: 3.9.3
+               libunity-scopes-json-def-phone,
+Standards-Version: 3.9.4
 Homepage: http://launchpad.net/unity
 # If you aren't a member of ~unity-team but need to upload
 # packaging changes, just go ahead. ~unity-team will notice
 # and sync up the code again.
-Vcs-Bzr: https://code.launchpad.net/~unity-team/unity/phablet
-Vcs-Browser: https://bazaar.launchpad.net/~unity-team/unity/phablet/files
+Vcs-Bzr: https://code.launchpad.net/unity8
+Vcs-Browser: https://bazaar.launchpad.net/~unity-team/unity8/trunk
 
 Package: unity8
-Replaces: qml-phone-shell (<< 7.80~)
-Breaks: qml-phone-shell (<< 7.80~)
-Architecture: amd64 armhf i386
-Depends: indicators-client (>= 0.6.1),
+Architecture: any
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
+         unity8-private (= ${binary:Version}),
+         indicators-client (>= 0.6.1),
          qtdeclarative5-dee-plugin,
          qtdeclarative5-ubuntu-ui-toolkit-plugin,
          qtdeclarative5-unity-notifications-plugin | unity-notifications-impl,
          unity-notifications-impl-1,
          qtdeclarative5-xmllistmodel-plugin,
-         qtubuntu,
-         ${misc:Depends},
-         ${shlibs:Depends},
-Recommends: indicators-client-plugin-datetime (>= 0.6.1),
+         unity8-fake-env | qtubuntu-shell,
+Recommends: ${unity-default-masterscopes},
+            indicators-client-plugin-datetime (>= 0.6.1),
             indicators-client-plugin-messaging (>= 0.6.1),
             indicators-client-plugin-network (>= 0.6.1),
             indicators-client-plugin-power (>= 0.6.1),
             indicators-client-plugin-sound (>= 0.6.1),
-            unity-scope-home,
-            unity-lens-applications,
-Description: Ubuntu QML shell
- The Ubuntu QML shell is the primary user interface for Ubuntu devices.
+Description: Unity 8 shell
+ The Unity 8 shell is the primary user interface for Ubuntu devices.
 
-Package: qml-phone-shell
-Depends: unity8, ${misc:Depends}
-Architecture: all
-Description: transitional dummy package
- This is a transitional dummy package. It can safely be removed.
+Package: unity8-private
+Architecture: any
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
+Description: Unity 8 private libs
+ The Unity 8 shell is the primary user interface for Ubuntu devices.
+ .
+ This package contains the private libraries for QML and other components
+ only used by the shell.
 
 Package: unity8-fake-env
-Replaces: qml-phone-shell-fake-env (<< 7.80~)
-Breaks: qml-phone-shell-fake-env (<< 7.80~)
-Architecture: amd64 armhf i386
-Depends: ${misc:Depends}, ${shlibs:Depends}
-Description: Fake environment for running Ubuntu QML shell
- Provides fake implementations of some QML modules used by Ubuntu QML shell
+Architecture: any
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
+Provides: qtubuntu-shell,
+Description: Fake environment for running Unity 8 shell
+ Provides fake implementations of some QML modules used by Unity 8 shell
  (e.g Ubuntu.Application) so that you can run it in a sandboxed environment.
 
-Package: qml-phone-shell-fake-env
-Depends: unity8-fake-env, ${misc:Depends}
-Architecture: all
-Description: transitional dummy package
- This is a transitional dummy package. It can safely be removed.
-
 Package: unity8-autopilot
-Replaces: qml-phone-shell-autopilot (<< 7.80~)
-Breaks: qml-phone-shell-autopilot (<< 7.80~)
 Architecture: all
-Depends: libautopilot-qt,
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
+         ${python:Depends},
+         libautopilot-qt,
          libqt5test5,
          libqt5widgets5,
          python-evdev,
-         unity8 (= ${source:Version}),
-         unity8-fake-env (= ${source:Version}),
-         ${misc:Depends},
-         ${shlibs:Depends},
-Description: Test package for the shell
+         unity8 (>= ${source:Version}),
+         unity8-fake-env (>= ${source:Version}),
+Description: Test package for Unity 8 shell
  Autopilot tests for the unity8 package
-
-Package: qml-phone-shell-autopilot
-Depends: unity8-autopilot, ${misc:Depends}
-Architecture: all
-Description: transitional dummy package
- This is a transitional dummy package. It can safely be removed.

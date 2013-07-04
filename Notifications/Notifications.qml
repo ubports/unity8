@@ -17,7 +17,6 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import "../Components"
-import "timings.js" as Timings
 
 ListView {
     id: notificationList
@@ -40,40 +39,38 @@ ListView {
         actions: model.actions
         notificationId: model.id
         notification: notificationList.model.getRaw(notificationId)
+
+        // make sure there's no opacity-difference between the several
+        // elements in a notification
+        layer.enabled: add.running || remove.running || populate.running
     }
 
     populate: Transition {
-        NumberAnimation {
+        UbuntuNumberAnimation {
             property: "opacity"
             to: 1
-            duration: Timings.snapBeat
-            easing.type: Timings.easing
+            duration: UbuntuAnimation.SnapDuration
         }
     }
 
     add: Transition {
-        NumberAnimation {
+        UbuntuNumberAnimation {
             property: "opacity"
             to: 1
-            duration: Timings.snapBeat
-            easing.type: Timings.easing
+            duration: UbuntuAnimation.SnapDuration
         }
     }
 
     remove: Transition {
-        NumberAnimation {
+        UbuntuNumberAnimation {
             property: "opacity"
             to: 0
-            duration: Timings.fastBeat
-            easing.type: Timings.easing
         }
     }
 
     displaced: Transition {
-        NumberAnimation {
+        UbuntuNumberAnimation {
             properties: "x,y"
-            duration: Timings.fastBeat
-            easing.type: Timings.easing
         }
     }
 }
