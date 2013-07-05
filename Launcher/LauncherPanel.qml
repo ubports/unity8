@@ -101,6 +101,7 @@ Item {
             height: parent.height - dashItem.height - parent.spacing*2
             ListView {
                 id: launcherListView
+                objectName: "launcherListView"
                 anchors.fill: parent
                 anchors.topMargin: -itemSize
                 anchors.bottomMargin: -itemSize
@@ -117,15 +118,7 @@ Item {
                 // The height of the area where icons start getting folded
                 property int foldingAreaHeight: itemSize * 0.75
                 property int itemSize: width
-
-                Component.onCompleted: {
-                    // This is needed because snapping would partially fold
-                    // the first item on initialisation. This can only be
-                    // overridden by mouse interactions - which is what flick()
-                    // simulates. Setting contentY to 0 would not work because
-                    // of this.
-                    flick(0, units.gu(20))
-                }
+                property int clickFlickSpeed: units.gu(60)
 
                 delegate: LauncherDelegate {
                     id: launcherDelegate
@@ -140,7 +133,26 @@ Item {
                     maxAngle: 60
 
                     onClicked: {
-                        root.applicationSelected(LauncherModel.get(index).desktopFile);
+                        // First/last item do the scrolling at more than 12 degrees
+                        if (index == 0 || index == launcherListView.count -1) {
+                            if (angle > 12) {
+                                launcherListView.flick(0, -launcherListView.clickFlickSpeed);
+                            } else if (angle < -12) {
+                                launcherListView.flick(0, launcherListView.clickFlickSpeed);
+                            } else {
+                                root.applicationSelected(LauncherModel.get(index).desktopFile);
+                            }
+                            return;
+                        }
+
+                        // the rest launches apps up to an angle of 30 degrees
+                        if (angle > 30) {
+                            launcherListView.flick(0, -launcherListView.clickFlickSpeed);
+                        } else if (angle < -30) {
+                            launcherListView.flick(0, launcherListView.clickFlickSpeed);
+                        } else {
+                            root.applicationSelected(LauncherModel.get(index).desktopFile);
+                        }
                     }
                 }
 
@@ -152,9 +164,9 @@ Item {
                         top: parent.top
                         topMargin: launcherListView.topMargin
                     }
-                    height: launcherListView.itemSize
+                    height: launcherListView.itemSize / 2
                     enabled: launcherListView.contentY > -launcherListView.topMargin
-                    onClicked: launcherListView.flick(0, units.gu(40))
+                    onClicked: launcherListView.flick(0, launcherListView.clickFlickSpeed)
                 }
 
                 MouseArea {
@@ -165,9 +177,9 @@ Item {
                         bottom: parent.bottom
                         bottomMargin: launcherListView.bottomMargin
                     }
-                    height: launcherListView.itemSize
+                    height: launcherListView.itemSize / 2
                     enabled: launcherListView.contentHeight - launcherListView.height - launcherListView.contentY > -launcherListView.bottomMargin
-                    onClicked: launcherListView.flick(0, -units.gu(40))
+                    onClicked: launcherListView.flick(0, -launcherListView.clickFlickSpeed)
                 }
             }
         }
