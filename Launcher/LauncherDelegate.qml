@@ -65,7 +65,6 @@ Item {
                 onClicked: root.clicked()
                 onCanceled: root.released()
                 preventStealing: false
-                enabled: root.angle < 5
 
                 onPressAndHold: {
                     root.state = "moving"
