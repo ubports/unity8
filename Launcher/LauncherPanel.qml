@@ -109,10 +109,10 @@ Item {
                 height: parent.height - dashItem.height - parent.spacing*2
                 model: root.model
                 cacheBuffer: itemSize * 3
+                snapMode: ListView.SnapToItem
                 highlightRangeMode: ListView.ApplyRange
                 preferredHighlightBegin: (height - itemSize) / 2
                 preferredHighlightEnd: (height + itemSize) / 2
-                snapMode: ListView.SnapToItem
 
                 // The height of the area where icons start getting folded
                 property int foldingAreaHeight: itemSize * 0.75

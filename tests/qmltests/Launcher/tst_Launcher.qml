@@ -240,8 +240,6 @@ Item {
             compare(root.height, units.gu(55));
 
             var listView = findChild(launcher, "launcherListView");
-            wait(1000);
-            print("humppa", listView.contentY, listView.topMargin)
             compare(listView.contentY, -listView.topMargin, "Launcher did not start up with first item unfolded");
 
             // Now do check that snapping is in fact enabled
