@@ -26,7 +26,7 @@ UsersModelPrivate::UsersModelPrivate(UsersModel* parent)
 {
     entries =
     {
-        { "one", "Only User", 0, 0, false, false, 0, 0 },
+        { "single", "Single User", 0, 0, false, false, 0, 0 },
     };
 }
 

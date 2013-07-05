@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012,2013 Canonical, Ltd.
+ * Copyright (C) 2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -13,15 +13,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Authors: Pete Woods <pete.woods@canonical.com>
  */
 
-#ifndef INFOGRAPHICMODEL_H
-#define INFOGRAPHICMODEL_H
+#include "plugin.h"
 
-#include <QLightDM/InfographicModel>
+#include "listviewwithpageheader.h"
 
-typedef QLightDM::InfographicModel InfographicModel;
-typedef QLightDM::InfographicColorTheme InfographicColorTheme;
+#include <QAbstractItemModel>
 
-#endif
+void ListViewWithPageHeaderPlugin::registerTypes(const char *uri)
+{
+    Q_ASSERT(uri == QLatin1String("ListViewWithPageHeader"));
+    qmlRegisterType<QAbstractItemModel>();
+    qmlRegisterType<ListViewWithPageHeader>(uri, 0, 1, "ListViewWithPageHeader");
+}

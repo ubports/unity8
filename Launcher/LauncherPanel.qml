@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Unity 0.1
+import "../Components/ListItems"
 
 Item {
     id: root
@@ -26,7 +27,7 @@ Item {
     property var model
     property bool inverted: true
     property bool dragging: false
-    property bool moving: launcherFlickable.moving
+    property bool moving: launcherListView.moving || launcherListView.flicking
     property int dragPosition: 0
     property int highlightIndex: -1
 
@@ -34,23 +35,23 @@ Item {
     signal dashItemSelected(int index)
 
     onDragPositionChanged: {
-        var effectiveDragPosition = root.inverted ? launcherFlickable.height - dragPosition : dragPosition - mainColumn.anchors.margins
+        var effectiveDragPosition = root.inverted ? launcherListView.height - dragPosition : dragPosition - mainColumn.anchors.margins
 
-        var hiddenContentHeight = launcherFlickable.contentHeight - launcherFlickable.height
+        var hiddenContentHeight = launcherListView.contentHeight - launcherListView.height
         // Shortening scrollable height because the first/last item needs to be fully expanded before reaching the top/bottom
-        var scrollableHeight = launcherFlickable.height - (launcherFlickable.itemSize + launcherColumn.spacing) *2
+        var scrollableHeight = launcherListView.height - (launcherListView.itemSize + launcherColumn.spacing) *2
         // As we shortened the scrollableHeight, lets move everything down by the itemSize
-        var shortenedEffectiveDragPosition = effectiveDragPosition - launcherFlickable.itemSize - launcherColumn.spacing
+        var shortenedEffectiveDragPosition = effectiveDragPosition - launcherListView.itemSize - launcherColumn.spacing
         var newContentY = shortenedEffectiveDragPosition * hiddenContentHeight / scrollableHeight
 
         // limit top/bottom to prevent overshooting
-        launcherFlickable.contentY = Math.min(hiddenContentHeight, Math.max(0, newContentY));
+        launcherListView.contentY = Math.min(hiddenContentHeight, Math.max(0, newContentY));
 
         // Now calculate the current index:
         // > the current mouse position + the hidden/scolled content on top is the mouse position in the averall view
         // > adjust that removing all the margins
         // > divide by itemSize to get index
-        highlightIndex = (effectiveDragPosition + launcherFlickable.contentY - mainColumn.anchors.margins*3 - launcherColumn.spacing/2) / (launcherFlickable.itemSize + launcherColumn.spacing)
+        highlightIndex = (effectiveDragPosition + launcherListView.contentY - mainColumn.anchors.margins*3 - launcherColumn.spacing/2) / (launcherListView.itemSize + launcherColumn.spacing)
     }
 
     BorderImage {
@@ -61,58 +62,111 @@ Item {
 
     Column {
         id: mainColumn
-        anchors.fill: parent
-        anchors.margins: units.gu(1)
-        spacing: units.gu(1)
-
-        LauncherDelegate {
-            id: dashItem
-            objectName: "dashItem"
-            width: launcherFlickable.itemSize
-            height: launcherFlickable.itemSize
-            anchors.horizontalCenter: parent.horizontalCenter
-            iconName: "dash"
-            onClicked: root.dashItemSelected(0)
+        anchors {
+            fill: parent
+            topMargin: units.gu(0.5)
+            bottomMargin: units.gu(1)
+            leftMargin: units.gu(0.5)
+            rightMargin: units.gu(0.5)
         }
-        Flickable {
-            id: launcherFlickable
+        spacing: units.gu(0.5)
+
+        MouseArea {
+            id: dashItem
+            width: parent.width
+            height: units.gu(6.5)
+            onClicked: root.dashItemSelected(0)
+            z: 1
+            Image {
+                objectName: "dashItem"
+                width: units.gu(5.5)
+                height: width
+                anchors.centerIn: parent
+                source: "graphics/home.png"
+            }
+        }
+        ThinDivider {
+            anchors {
+                left: parent.left
+                right: parent.right
+                margins: -mainColumn.anchors.leftMargin
+            }
+            rotation: root.rotation
+        }
+
+        Item {
             anchors.left: parent.left
             anchors.right: parent.right
-            height: parent.height - dashItem.height - parent.spacing
-            contentHeight: launcherColumn.height
+            height: parent.height - dashItem.height - parent.spacing*2
+            ListView {
+                id: launcherListView
+                anchors.fill: parent
+                anchors.topMargin: -itemSize
+                anchors.bottomMargin: -itemSize
+                topMargin: itemSize
+                bottomMargin: itemSize
+                height: parent.height - dashItem.height - parent.spacing*2
+                model: root.model
+                cacheBuffer: itemSize * 3
+                snapMode: ListView.SnapToItem
+                highlightRangeMode: ListView.ApplyRange
+                preferredHighlightBegin: (height - itemSize) / 2
+                preferredHighlightEnd: (height + itemSize) / 2
 
-            property int itemSize: width
+                // The height of the area where icons start getting folded
+                property int foldingAreaHeight: itemSize * 0.75
+                property int itemSize: width
 
-            Column {
-                id: launcherColumn
-                width: parent.width
-                spacing: units.gu(1)
-                anchors.horizontalCenter: parent.horizontalCenter
+                Component.onCompleted: {
+                    // This is needed because snapping would partially fold
+                    // the first item on initialisation. This can only be
+                    // overridden by mouse interactions - which is what flick()
+                    // simulates. Setting contentY to 0 would not work because
+                    // of this.
+                    flick(0, units.gu(20))
+                }
 
-                Repeater {
-                    id: iconRepeater
-                    model: root.model
+                delegate: LauncherDelegate {
+                    id: launcherDelegate
+                    objectName: "launcherDelegate" + index
+                    width: launcherListView.itemSize
+                    height: launcherListView.itemSize
+                    iconName: model.icon
+                    inverted: root.inverted
+                    highlighted: root.dragging && index === root.highlightIndex
+                    z: -Math.abs(offset)
+                    state: "docked"
+                    maxAngle: 60
 
-                    LauncherDelegate {
-                        id: launcherDelegate
-                        objectName: "launcherDelegate" + index
-                        width: launcherFlickable.itemSize
-                        height: launcherFlickable.itemSize
-                        iconName: model.icon
-                        inverted: root.inverted
-                        highlighted: root.dragging && index === root.highlightIndex
-                        z: -Math.abs(offset)
-                        state: "docked"
-
-                        maxAngle: 60
-
-                        itemsBeforeThis: index
-                        itemsAfterThis: iconRepeater.count - (index+1)
-
-                        onClicked: {
-                            root.applicationSelected(launcherModel.get(index).desktopFile);
-                        }
+                    onClicked: {
+                        root.applicationSelected(launcherModel.get(index).desktopFile);
                     }
+                }
+
+                MouseArea {
+                    id: topFoldingArea
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        top: parent.top
+                        topMargin: launcherListView.topMargin
+                    }
+                    height: launcherListView.itemSize
+                    enabled: launcherListView.contentY > -launcherListView.topMargin
+                    onClicked: launcherListView.flick(0, units.gu(40))
+                }
+
+                MouseArea {
+                    id: bottomFoldingArea
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        bottom: parent.bottom
+                        bottomMargin: launcherListView.bottomMargin
+                    }
+                    height: launcherListView.itemSize
+                    enabled: launcherListView.contentHeight - launcherListView.height - launcherListView.contentY > -launcherListView.bottomMargin
+                    onClicked: launcherListView.flick(0, -units.gu(40))
                 }
             }
         }

@@ -14,10 +14,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var rhythm     = 700;
-var fastBeat   = 0.5 * rhythm;
-var snapBeat   = 0.5 * fastBeat;
-var slowBeat   = rhythm;
-var sleepyBeat = slowBeat * 2;
+import QtQuick 2.0
+import ListViewWithPageHeader 0.1
 
-var easing     = Easing.OutQuint;
+ListViewWithPageHeader {
+    maximumFlickVelocity: height * 10
+    flickDeceleration: height * 2
+}

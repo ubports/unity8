@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-06-19 17:06+0200\n"
+"POT-Creation-Date: 2013-06-26 22:58+0200\n"
 "PO-Revision-Date: 2013-06-07 12:42+0000\n"
 "Last-Translator: iAbaS <sosabazyan@yandex.ru>\n"
 "Language-Team: Armenian <hy@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-20 06:36+0000\n"
-"X-Generator: Launchpad (build 16673)\n"
+"X-Launchpad-Export-Date: 2013-06-27 16:15+0000\n"
+"X-Generator: Launchpad (build 16681)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -109,27 +109,19 @@ msgstr "Հասանելի ծրագրեր"
 msgid "Apps"
 msgstr "Ծրագրեր"
 
-#: Dash/DashHome.qml:43
+#: Dash/DashHome.qml:40
 msgid "Frequent Apps"
 msgstr "Հաճախակի ծրագրերը"
 
-#: Dash/DashHome.qml:46
-msgid "Favourite People"
-msgstr "Ֆավորիտներ"
-
-#: Dash/DashHome.qml:49
-msgid "People Recently in Touch"
-msgstr "Վերջին մարդիկ"
-
-#: Dash/DashHome.qml:52
+#: Dash/DashHome.qml:43
 msgid "Recent Music"
 msgstr "Վերջին երգերը"
 
-#: Dash/DashHome.qml:55
+#: Dash/DashHome.qml:46
 msgid "Videos Popular Online"
 msgstr "Հայտնի օնլայն վիդեոներ"
 
-#: Dash/DashHome.qml:197 plugins/Unity/lenses.cpp:38
+#: Dash/DashHome.qml:175
 msgid "Home"
 msgstr "Տուն"
 
@@ -153,26 +145,6 @@ msgstr ""
 msgid "Music"
 msgstr "Երգեր"
 
-#: Dash/DashPeople.qml:31
-msgid "Favourites"
-msgstr ""
-
-#: Dash/DashPeople.qml:32
-msgid "Recently in touch"
-msgstr ""
-
-#: Dash/DashPeople.qml:33
-msgid "New Contacts"
-msgstr ""
-
-#: Dash/DashPeople.qml:34
-msgid "A-Z"
-msgstr ""
-
-#: Dash/DashPeople.qml:123
-msgid "People"
-msgstr "Մարդիկ"
-
 #: Dash/DashVideos.qml:31
 msgid "Popular Online"
 msgstr ""
@@ -193,7 +165,7 @@ msgstr ""
 msgid "Author:"
 msgstr ""
 
-#: Greeter/Lockscreen.qml:126
+#: Greeter/Lockscreen.qml:133
 msgid "Emergency call"
 msgstr ""
 
@@ -234,19 +206,27 @@ msgstr "Սարք"
 msgid "Flight mode"
 msgstr "Անկապ րեժիմ"
 
-#: Panel/SearchIndicator.qml:26 plugins/Unity/lenses.cpp:40
+#: Panel/SearchIndicator.qml:26
 msgid "Search"
 msgstr "Որոնում"
 
-#: plugins/Unity/lens.cpp:333
+#: plugins/Unity/scope.cpp:268
 msgid "Sorry, there is nothing that matches your search."
 msgstr "Կներերք, բայց Ձեր հարցումով ոչինչ չկար"
 
-#: plugins/Unity/lenses.cpp:39
-msgid "Home screen"
-msgstr "Տուն"
-
-#: Shell.qml:380
+#: Shell.qml:383
 #, qt-format
-msgid "Please enter %1:"
+msgid "Please enter %1"
 msgstr ""
+
+#~ msgid "People Recently in Touch"
+#~ msgstr "Վերջին մարդիկ"
+
+#~ msgid "Favourite People"
+#~ msgstr "Ֆավորիտներ"
+
+#~ msgid "People"
+#~ msgstr "Մարդիկ"
+
+#~ msgid "Home screen"
+#~ msgstr "Տուն"

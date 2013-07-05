@@ -25,7 +25,6 @@ Item {
 
     property bool available: true // can be used to disable all interactions
 
-    property bool teasing: false
     property int panelWidth: units.gu(8.5)
     property int dragAreaWidth: units.gu(1)
     property real progress: dragArea.dragging  && dragArea.touchX > panel.width ? dragArea.touchX : 0
@@ -50,7 +49,7 @@ Item {
     }
 
     function hide() {
-        state = ""
+        switchToNextState("")
     }
 
     function switchToNextState(state) {
@@ -58,8 +57,8 @@ Item {
         animateTimer.start();
     }
 
-    onTeasingChanged: {
-        if (teasing) {
+    function tease() {
+        if (available) {
             teaseTimer.start();
         }
     }
@@ -181,17 +180,10 @@ Item {
         }
     }
 
-    DirectionalDragArea {
+    EdgeDragArea {
         id: dragArea
 
         direction: Direction.Rightwards
-
-        // values to be tweaked and later removed from here and set in stone as defaults
-        // once we are confident it's all good.
-        maxDeviation: units.gu(1)
-        wideningAngle: 30
-        distanceThreshold: units.gu(3)
-        minSpeed: units.gu(5)
 
         enabled: root.available && root.state !== "visible"
         width: root.dragAreaWidth
@@ -215,11 +207,11 @@ Item {
 
         onDraggingChanged: {
             if (!dragging) {
-                if (distance > root.width / 2) {
-                    root.dash()
-                    root.switchToNextState("")
-                } else if (distance > panel.width/2) {
+                if (distance > panel.width / 2) {
                     root.switchToNextState("visible")
+                    if (distance > panel.width * 2) {
+                        root.dash()
+                    }
                 } else {
                     root.switchToNextState("")
                 }
@@ -244,7 +236,7 @@ Item {
         },
         State {
             name: "teasing"
-            when: root.teasing || teaseTimer.running
+            when: teaseTimer.running
             PropertyChanges {
                 target: panel
                 x: -root.panelWidth + units.gu(2)

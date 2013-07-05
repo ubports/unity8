@@ -17,6 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef PATHS_H
+#define PATHS_H
+
 // Qt
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
@@ -43,22 +46,27 @@ inline QString shellAppDirectory() {
     }
 }
 
-inline QString shellImportPath() {
-    if (isRunningInstalled()) {
-        return QString("@CMAKE_INSTALL_PREFIX@/@SHELL_APP_DIR@/plugins");
-    } else {
-        return QString("@CMAKE_BINARY_DIR@/plugins/");
+inline QStringList overrideImportPaths() {
+    QStringList paths;
+    if (!isRunningInstalled()) {
+        paths << QString("@CMAKE_BINARY_DIR@/plugins");
     }
+    return paths;
 }
 
-inline QString fakePluginsImportPath() {
+inline QStringList fallbackImportPaths() {
+    QStringList paths;
     if (isRunningInstalled()) {
-        return QString("@CMAKE_INSTALL_PREFIX@/@SHELL_APP_DIR@/plugins/mocks");
+        paths << QString("@CMAKE_INSTALL_PREFIX@/@SHELL_PRIVATE_LIBDIR@/qml");
+        paths << QString("@CMAKE_INSTALL_PREFIX@/@SHELL_PRIVATE_LIBDIR@/qml/mocks");
     } else {
-        return QString("@CMAKE_BINARY_DIR@/tests/mocks");
+        paths << QString("@CMAKE_BINARY_DIR@/tests/mocks");
     }
+    return paths;
 }
 
 inline QString sourceDirectory() {
     return QString("@CMAKE_SOURCE_DIR@/");
 }
+
+#endif

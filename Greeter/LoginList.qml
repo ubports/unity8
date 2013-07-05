@@ -66,14 +66,6 @@ Item {
 
         readonly property bool movingInternally: moveTimer.running || userList.moving
 
-        onCountChanged: {
-            // Start authentication when we start up
-            if (!LightDM.Greeter.authenticationUser && userList.currentItem) {
-                root.selected(userList.currentIndex);
-                root.resetAuthentication();
-            }
-        }
-
         onCurrentIndexChanged: {
             if (LightDM.Greeter.authenticationUser != userList.model.data(currentIndex, LightDM.UserRoles.NameRole)) {
                 root.resetAuthentication();

@@ -30,6 +30,14 @@ set(QMLPLUGIN_SRC
     ratingsfilter.cpp
     bottombarvisibilitycommunicatorshell.cpp
     launchermodel.cpp
+    applicationpreview.cpp
+    genericpreview.cpp
+    moviepreview.cpp
+    musicpreview.cpp
+    preview.cpp
+    previewaction.cpp
+    previewinfohint.cpp
+    variantutils.cpp
     )
 
 add_library(Unity-qml MODULE
@@ -51,9 +59,9 @@ file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
     )
 
 install(TARGETS Unity-qml
-    DESTINATION ${SHELL_APP_DIR}/plugins/Unity
+    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/Unity
     )
 
 install(FILES qmldir
-    DESTINATION ${SHELL_APP_DIR}/plugins/Unity
+    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/Unity
     )
