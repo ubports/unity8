@@ -99,24 +99,32 @@ QString LauncherBackend::icon(const QString &appId) const
 bool LauncherBackend::isPinned(const QString &appId) const
 {
     // TODO: return app's pinned state from settings
+    Q_UNUSED(appId)
     return true;
 }
 
 void LauncherBackend::setPinned(const QString &appId, bool pinned)
 {
     // TODO: Store pinned state in settings.
+    Q_UNUSED(appId)
+    Q_UNUSED(pinned)
 }
 
-QuickListModelInterface* LauncherBackend::quickList(const QString &appId) const
+QList<QuickListEntry> LauncherBackend::quickList(const QString &appId) const
 {
-    // TODO: No clue where to get the quicklist from, but this is the place to return it.
-    return 0;
+    // TODO: Get static (from .desktop file) and dynamic (from the app itself)
+    // entries and return them here. Frontend related entries (like "Pin to launcher")
+    // don't matter here. This is just the backend part.
+    // TODO: emit quickListChanged() when the dynamic part changes
+    Q_UNUSED(appId)
+    return QList<QuickListEntry>();
 }
 
 int LauncherBackend::progress(const QString &appId) const
 {
     // TODO: Return value for progress emblem.
     // TODO: emit progressChanged() when this value changes.
+    Q_UNUSED(appId)
     return -1;
 }
 
@@ -124,5 +132,13 @@ int LauncherBackend::count(const QString &appId) const
 {
     // TODO: Return value for count emblem.
     // TODO: emit countChanged() when this value changes.
+    Q_UNUSED(appId)
     return 0;
+}
+
+void LauncherBackend::triggerQuickListAction(const QString &appId, const QString &quickListId)
+{
+    // TODO: execute the given quicklist action
+    Q_UNUSED(appId)
+    Q_UNUSED(quickListId)
 }

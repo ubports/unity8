@@ -1,40 +1,36 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
- *
- * Authors:
- *  Michael Zanetti <michael.zanetti@canonical.com>
+ * Copyright 2013 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
+ * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation; version 3.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
+ * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authors:
+ *      Michael Zanetti <michael.zanetti@canonical.com>
  */
 
-#ifndef LAUNCHERITEM_H
-#define LAUNCHERITEM_H
-
-#include "quicklistmodel.h"
+#ifndef MOCKLAUNCHERITEM_H
+#define MOCKLAUNCHERITEM_H
 
 #include <unity/shell/launcher/LauncherItemInterface.h>
 
-class QuickListModel;
+class MockQuickListModel;
 
 using namespace unity::shell::launcher;
 
-class LauncherItem: public LauncherItemInterface
+class MockLauncherItem: public LauncherItemInterface
 {
     Q_OBJECT
 public:
-    LauncherItem(const QString &appId, const QString &desktopFile, const QString &name, const QString &icon, QObject *parent = 0);
-
-    QString appId();
+    MockLauncherItem(const QString& desktopFile, const QString& name, const QString& icon, QObject* parent = 0);
 
     QString desktopFile() const;
 
@@ -58,12 +54,7 @@ public:
 
     unity::shell::launcher::QuickListModelInterface *quickList() const;
 
-Q_SIGNALS:
-    void favoriteChanged(bool favorite);
-    void runningChanged(bool running);
-
 private:
-    QString m_appId;
     QString m_desktopFile;
     QString m_name;
     QString m_icon;
@@ -72,7 +63,7 @@ private:
     bool m_recent;
     int m_progress;
     int m_count;
-    QuickListModel *m_quickList;
+    MockQuickListModel *m_quickList;
 };
 
-#endif // LAUNCHERITEM_H
+#endif // MOCKLAUNCHERITEM_H

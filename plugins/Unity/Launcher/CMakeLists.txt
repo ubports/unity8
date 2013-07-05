@@ -12,9 +12,12 @@ set(QMLLAUNCHERPLUGIN_SRC
     plugin.cpp
     launchermodel.cpp
     launcheritem.cpp
+    quicklistmodel.cpp
+    common/quicklistentry.cpp
     backend/launcherbackend.cpp
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherItemInterface.h
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherModelInterface.h
+    ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/QuickListModelInterface.h
     )
 
 add_library(UnityLauncher-qml MODULE

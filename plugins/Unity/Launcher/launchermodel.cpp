@@ -32,7 +32,7 @@ LauncherModel::LauncherModel(QObject *parent):
                                               m_backend->icon(entry),
                                               this);
         if (m_backend->isPinned(entry)) {
-            item->setFavorite(true);
+            item->setPinned(true);
         } else {
             item->setRecent(true);
         }
@@ -63,8 +63,8 @@ QVariant LauncherModel::data(const QModelIndex &index, int role) const
         return item->name();
     case RoleIcon:
         return item->icon();
-    case RoleFavorite:
-        return item->favorite();
+    case RolePinned:
+        return item->pinned();
     }
 
     return QVariant();
@@ -93,9 +93,9 @@ void LauncherModel::move(int oldIndex, int newIndex)
 void LauncherModel::pin(int index)
 {
     LauncherItem *item = m_list.at(index);
-    if (!item->favorite()) {
+    if (!item->pinned()) {
 
-        item->setFavorite(true);
+        item->setPinned(true);
         item->setRecent(false);
 
         m_backend->setPinned(item->appId(), true);
@@ -116,13 +116,23 @@ void LauncherModel::remove(int index)
     storeAppList();
 }
 
+void LauncherModel::triggerQuickListAction(int itemIndex, int quickListIndex)
+{
+    QString appId = m_list.at(itemIndex)->appId();
+    QuickListModel *model = qobject_cast<QuickListModel*>(m_list.at(itemIndex)->quickList());
+    if (model) {
+        QString actionId = model->get(quickListIndex).actionId();
+        m_backend->triggerQuickListAction(appId, actionId);
+    }
+}
+
 QHash<int, QByteArray> LauncherModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles.insert(RoleDesktopFile, "desktopFile");
     roles.insert(RoleName, "name");
     roles.insert(RoleIcon, "icon");
-    roles.insert(RoleFavorite, "favorite");
+    roles.insert(RolePinned, "pinned");
     roles.insert(RoleRunning, "runnng");
     return roles;
 }
@@ -131,7 +141,7 @@ void LauncherModel::storeAppList()
 {
     QStringList appIds;
     Q_FOREACH(LauncherItem *item, m_list) {
-        if (item->favorite() || item->recent()) {
+        if (item->pinned() || item->recent()) {
             appIds << item->appId();
         }
     }

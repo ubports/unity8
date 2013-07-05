@@ -18,6 +18,7 @@
  */
 
 #include "launcheritem.h"
+#include "quicklistmodel.h"
 
 LauncherItem::LauncherItem(const QString &appId, const QString &desktopFile, const QString &name, const QString &icon, QObject *parent) :
     LauncherItemInterface(parent),
@@ -25,11 +26,12 @@ LauncherItem::LauncherItem(const QString &appId, const QString &desktopFile, con
     m_desktopFile(desktopFile),
     m_name(name),
     m_icon(icon),
-    m_favorite(false),
+    m_pinned(false),
     m_running(false),
     m_recent(false),
     m_progress(-1),
-    m_count(0)
+    m_count(0),
+    m_quickList(new QuickListModel(this))
 {
 
 }
@@ -54,16 +56,16 @@ QString LauncherItem::icon() const
     return m_icon;
 }
 
-bool LauncherItem::favorite() const
+bool LauncherItem::pinned() const
 {
-    return m_favorite;
+    return m_pinned;
 }
 
-void LauncherItem::setFavorite(bool favorite)
+void LauncherItem::setPinned(bool pinned)
 {
-    if (m_favorite != favorite) {
-        m_favorite = favorite;
-        Q_EMIT favoriteChanged(favorite);
+    if (m_pinned != pinned) {
+        m_pinned = pinned;
+        Q_EMIT pinnedChanged(pinned);
     }
 }
 
@@ -117,4 +119,9 @@ void LauncherItem::setCount(int count)
         m_count = count;
         Q_EMIT countChanged(count);
     }
+}
+
+unity::shell::launcher::QuickListModelInterface *LauncherItem::quickList() const
+{
+    return m_quickList;
 }

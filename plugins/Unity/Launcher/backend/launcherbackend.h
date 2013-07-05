@@ -19,10 +19,10 @@
 #ifndef LAUNCHERBACKEND_H
 #define LAUNCHERBACKEND_H
 
+#include "common/quicklistentry.h"
+
 #include <QObject>
 #include <QStringList>
-
-class QuickListModelInterface;
 
 /**
   * @brief An interface that provides all the data needed by the launcher.
@@ -94,7 +94,14 @@ public:
       * @param appId The ID of the application.
       * @returns A QuickListModelInterface containing the QuickList.
       */
-    QuickListModelInterface* quickList(const QString &appId) const;
+    QList<QuickListEntry> quickList(const QString &appId) const;
+
+    /**
+      * @brief Execute an action from the quickList
+      * @param appId The app ID for which the action was triggered
+      * @param the quicklist ID of the action that was triggered
+      */
+    void triggerQuickListAction(const QString &appId, const QString &entryId);
 
     /**
       * @brief Get the progress for the progress overlay of an application.
@@ -111,6 +118,7 @@ public:
     int count(const QString &appId) const;
 
 Q_SIGNALS:
+    void quickListChanged(const QString &appId, const QList<QuickListEntry> &quickList);
     void progressChanged(const QString &appId, int progress);
     void countChanged(const QString &appId, int count);
 
