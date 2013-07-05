@@ -44,7 +44,7 @@ Item {
             }
 
             placeholderText: "Password"
-            echoMode: showPassword.checked ? TextInput.Password : TextInput.Normal
+            echoMode: showPassword.checked ? TextInput.Normal : TextInput.Password
         }
 
         Row {
