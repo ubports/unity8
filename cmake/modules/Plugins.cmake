@@ -1,8 +1,7 @@
 # Creates targets for copying and installing qmlfiles and generating the qmltypes file for a plugin
 #
-# add_qml_test(plugin version plugin_export sub_path [DEPENDS target1 [target2 ...]])
+# add_qml_test(plugin version sub_path [TARGETS target1 [target2 ...]])
 #
-# plugin_export folder where plugin will be found (plugins/modules/imports)
 # TARGETS additional install targets (eg the plugin shared object)
 #
 # Two targets will be created:
