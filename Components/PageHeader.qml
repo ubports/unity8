@@ -147,9 +147,8 @@ Item {
 
                     hasClearButton: false
 
-                    primaryItem: Button {
+                    primaryItem: AbstractButton {
                         enabled: searchField.text != ""
-                        color: "transparent"
                         onClicked: {
                             if (searchField.text != "") {
                                 searchHistory.addQuery(searchField.text)
@@ -271,8 +270,7 @@ Item {
 
                         // FIXME: this should go into the first item below, but enable: false
                         // prevents mouse events propagation
-                        Button {
-                            color: "transparent"
+                        AbstractButton {
                             anchors {
                                 top: parent.top
                                 right: parent.right
