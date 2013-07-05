@@ -50,17 +50,10 @@ ScopeView {
         }
     }
 
-    /* Workaround for bug: https://bugreports.qt-project.org/browse/QTBUG-28403
-       When using Loader to load external QML file in the list deelgate, the ListView has
-       a bug where it can position the delegate content to overlap the section header
-       of the ListView - a workaround is to use sourceComponent of Loader instead */
-    Component { id: musicCarousel;   MusicCarousel {} }
-    Component { id: musicFilterGrid; MusicFilterGrid {} }
-
     function getRenderer(categoryId) {
         switch (categoryId) {
-            case 1: return musicCarousel
-            default: return musicFilterGrid
+            case 1: return "Music/MusicCarousel.qml"
+            default: return "Music/MusicFilterGrid.qml"
         }
     }
 
@@ -80,7 +73,7 @@ ScopeView {
 
             Loader {
                 anchors { top: parent.top; left: parent.left; right: parent.right }
-                sourceComponent: scopeView.getRenderer(base.categoryId)
+                source: scopeView.getRenderer(base.categoryId)
                 onLoaded: {
                     item.model = results
                 }
