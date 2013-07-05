@@ -19,31 +19,47 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Ubuntu.Components.ListItems 0.1 as ListItem
 
 Page {
     id: _page
 
     title: indicatorProperties && indicatorProperties.title ?  indicatorProperties.title : ""
     property variant indicatorProperties
-    property alias pageSource : page_loader.source
+    property string pageSource : page_loader.source
 
     anchors.fill: parent
+
+    ListItem.Standard {
+        id: button
+
+        text: "Enable Visual Representation"
+        control: Switch {
+            id: checked
+            checked: true
+        }
+    }
 
     Loader {
         id: page_loader
         objectName: "page_loader"
 
-        anchors.fill: parent
+        anchors {
+            top: button.bottom
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+            topMargin: units.gu(2)
+        }
+        source : checked.checked ? _page.pageSource : "IndicatorsTree.qml"
 
-        onStatusChanged: {
-            if (status == Loader.Ready) {
-                for(var pName in indicatorProperties) {
-                    if (item.hasOwnProperty(pName)) {
-                        item[pName] = indicatorProperties[pName];
-                    }
+        onLoaded: {
+            for(var pName in indicatorProperties) {
+                if (item.hasOwnProperty(pName)) {
+                    item[pName] = indicatorProperties[pName];
                 }
-                item.start();
             }
+            item.start();
         }
     }
 }

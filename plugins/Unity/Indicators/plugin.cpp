@@ -27,6 +27,7 @@
 #include "indicatorsmanager.h"
 #include "indicatorsmodel.h"
 #include "indicators.h"
+#include "modelprinter.h"
 
 void IndicatorsPlugin::registerTypes(const char *uri)
 {
@@ -35,6 +36,7 @@ void IndicatorsPlugin::registerTypes(const char *uri)
     qmlRegisterType<IndicatorsManager>(uri, 0, 1, "IndicatorsManager");
     qmlRegisterType<FlatMenuProxyModel>(uri, 0, 1, "FlatMenuProxyModel");
     qmlRegisterType<IndicatorsModel>(uri, 0, 1, "IndicatorsModel");
+    qmlRegisterType<ModelPrinter>(uri, 0, 1, "ModelPrinter");
 
     qmlRegisterUncreatableType<ActionState>(uri, 0, 1, "ActionState", "Can't create ActionState class");
     qmlRegisterUncreatableType<NetworkActionState>(uri, 0, 1, "NetworkActionState", "Can't create NetworkActionState class");

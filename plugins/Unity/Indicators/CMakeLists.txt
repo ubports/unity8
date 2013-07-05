@@ -20,6 +20,7 @@ set(IndicatorsQML_SOURCES
     indicators.h
     indicatorsmanager.cpp
     indicatorsmodel.cpp
+    modelprinter.cpp
     plugin.cpp
 )
 
