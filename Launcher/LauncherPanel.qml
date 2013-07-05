@@ -119,25 +119,6 @@ Item {
                 property int itemSize: width
                 property int clickFlickSpeed: units.gu(60)
 
-                // Setting snapMode delayed to make sure the ListView stays positioned
-                // at the beginning. If the SnapMode is already set when the model
-                // delivers the items, it's going to snap immediately. Depending on
-                // the height of the list, this might cause the first item to be half
-                // folded at the beginning. Once the list is populated we can set the
-                // snapMode and actual snapping will only happen when the user
-                // interacts with the list.
-                Timer {
-                    interval: 1000
-                    running: true
-                    repeat: true
-                    onTriggered: {
-                        topFoldingArea.clicked(undefined)
-                        //launcherListView.snapMode = ListView.SnapToItem
-//                        launcherListView.flick(0, -units.gu(2000000));
-//                        launcherListView.contentY = -launcherListView.topMargin;
-                    }
-                }
-
                 delegate: LauncherDelegate {
                     id: launcherDelegate
                     objectName: "launcherDelegate" + index
