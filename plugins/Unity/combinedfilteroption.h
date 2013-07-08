@@ -26,8 +26,14 @@
 // libunity-core
 #include <UnityCore/Filter.h>
 
-class CombinedFilterOption : public AbstractFilterOption
+/**
+ * Combines one or two Unity's filter options into one.
+ * Becomes active if both of them are active.
+ */
+class Q_DECL_EXPORT CombinedFilterOption : public AbstractFilterOption
 {
+    Q_OBJECT
+
 public:
     explicit CombinedFilterOption(unity::dash::FilterOption::Ptr unityFilterOption1, unity::dash::FilterOption::Ptr unityFilterOption2 = NULL, QObject *parent = 0);
 
@@ -38,7 +44,7 @@ public:
     bool active() const override;
 
     /* setters */
-    void setActive(bool active) override;
+    Q_INVOKABLE void setActive(bool active) override;
 
 private Q_SLOTS:
     void onIdChanged(const std::string &id);
@@ -49,8 +55,18 @@ private:
     std::string getCombinedName() const;
     void setUnityFilterOption(unity::dash::FilterOption::Ptr unityFilterOption1, unity::dash::FilterOption::Ptr unityFilterOption2 = NULL);
 
+   /* De-activate the filter, and also de-activate one or both of the underlying unity's filter options, depending on whether
+      one of them is active in otherFilter. This is used internally by CombinedFilterOptions to ensure only one
+      CombinedFilterOption is active. */
+    void setInactive(const CombinedFilterOption &otherFilter);
+
     bool m_active; //not needed???
+    bool m_requested_active;
     unity::dash::FilterOption::Ptr m_unityFilterOption[2];
+
+    friend class CombinedFilterOptions;
 };
+
+Q_DECLARE_METATYPE(CombinedFilterOption*)
 
 #endif /* COMBINEDFILTEROPTION_H */

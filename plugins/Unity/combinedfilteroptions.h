@@ -32,6 +32,8 @@
 
 class CombinedFilterOptions : public QAbstractListModel
 {
+    Q_OBJECT
+
 public:
     CombinedFilterOptions(const std::vector<unity::dash::FilterOption::Ptr>& list,
                            sigc::signal<void, unity::dash::FilterOption::Ptr> itemAddedSignal,

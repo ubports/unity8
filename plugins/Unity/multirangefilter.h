@@ -32,7 +32,7 @@
 #include "filteroption.h"
 #include "combinedfilteroptions.h"
 
-class MultiRangeFilter : public Filter
+class Q_DECL_EXPORT MultiRangeFilter : public Filter
 {
     Q_OBJECT
 

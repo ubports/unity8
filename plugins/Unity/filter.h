@@ -27,7 +27,7 @@
 // libunity-core
 #include <UnityCore/Filter.h>
 
-class Filter : public QObject
+class Q_DECL_EXPORT Filter : public QObject
 {
     Q_OBJECT
 

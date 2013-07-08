@@ -21,10 +21,11 @@
 
 CombinedFilterOptions::CombinedFilterOptions(const std::vector<unity::dash::FilterOption::Ptr>& list,
                                                sigc::signal<void, unity::dash::FilterOption::Ptr> itemAddedSignal,
-                                               sigc::signal<void, unity::dash::FilterOption::Ptr> itemRemovedSignal, 
+                                               sigc::signal<void, unity::dash::FilterOption::Ptr> itemRemovedSignal,
                                                QObject *parent)
     : QAbstractListModel(parent)
 {
+    initList(list, itemAddedSignal, itemRemovedSignal);
 }
 
 
@@ -49,22 +50,22 @@ void CombinedFilterOptions::initList(const std::vector<unity::dash::FilterOption
 {
     // combine options, e.g. A, B, C becomes A-B, B-C, C
     unsigned int i = 0;
-    while (i < list.size()) {
+    while (i < list.size() - 1) {
         unity::dash::FilterOption::Ptr option1 = list[i];
         unity::dash::FilterOption::Ptr option2 = NULL;
-        if (i < list.size()-1) {
-            option2 = list[i+1];
-        }
-        auto co = new CombinedFilterOption(option1);
+        //if (i < list.size()-1) {
+        option2 = list[i+1];
+            //}
+        auto co = new CombinedFilterOption(option1, option2);
         connect(co, SIGNAL(activeChanged(bool)), this, SLOT(onActiveChanged(bool)));
         addOption(co);
         ++i;
     }
-    if (list.size() > 1) {
-        auto co = new CombinedFilterOption(list[i-1], NULL);
+    if (list.size() > 0) {
+        auto co = new CombinedFilterOption(list[i], NULL);
         addOption(co);
     }
-        
+
     itemAddedSignal.connect(sigc::mem_fun(this, &CombinedFilterOptions::onItemAdded));
     itemRemovedSignal.connect(sigc::mem_fun(this, &CombinedFilterOptions::onItemRemoved));
 }
@@ -79,9 +80,18 @@ void CombinedFilterOptions::addOption(CombinedFilterOption *option)
 
 void CombinedFilterOptions::onActiveChanged(bool state)
 {
-    CombinedFilterOption *option = dynamic_cast<CombinedFilterOption*>(QObject::sender());
-    if (option) {
-        //TODO: de-activate all others?
+    // if option became active, need to disable all other options
+    if (state) {
+        CombinedFilterOption *option = dynamic_cast<CombinedFilterOption*>(QObject::sender());
+        if (option) {
+            Q_FOREACH (auto fo, m_list) {
+                if (option != fo) {
+                    // note that changing state will result in onActiveChanged signal for that option, but
+                    // since it will be 'false', we won't end up in an infinite loop
+                    fo->setInactive(*option);
+                }
+            }
+        }
     }
 }
 

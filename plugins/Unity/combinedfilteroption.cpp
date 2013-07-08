@@ -18,10 +18,12 @@
  */
 
 #include "combinedfilteroption.h"
+#include <QDebug>
 
 CombinedFilterOption::CombinedFilterOption(unity::dash::FilterOption::Ptr unityFilterOption1, unity::dash::FilterOption::Ptr unityFilterOption2, QObject *parent)
     : AbstractFilterOption(parent),
       m_active(false),
+      m_requested_active(false),
       m_unityFilterOption {NULL, NULL}
 {
     setUnityFilterOption(unityFilterOption1, unityFilterOption2);
@@ -59,16 +61,33 @@ QString CombinedFilterOption::iconHint() const
 bool CombinedFilterOption::active() const
 {
     if (m_unityFilterOption[1] != NULL)
-        return m_unityFilterOption[0]->active && m_unityFilterOption[1]->active;
-    return m_unityFilterOption[0]->active;
+        return m_unityFilterOption[0]->active && m_unityFilterOption[1]->active && m_requested_active;
+    return m_unityFilterOption[0]->active && m_requested_active;
 }
 
 void CombinedFilterOption::setActive(bool active)
 {
-    m_active = active; //???
-    m_unityFilterOption[0]->active;
+    m_requested_active = active;
+    m_unityFilterOption[0]->active = active;
     if (m_unityFilterOption[1] != NULL)
         m_unityFilterOption[1]->active = active;
+}
+
+void CombinedFilterOption::setInactive(const CombinedFilterOption &otherFilter)
+{
+    // de-activate underlying unity filter options as long as they don't belong
+    // to otherFilter.
+    if (this != &otherFilter) {
+        for (int i = 0; i<2; i++) {
+            if (m_unityFilterOption[i] != nullptr) {
+                if (m_unityFilterOption[i]->active &&
+                    m_unityFilterOption[i] != otherFilter.m_unityFilterOption[0] &&
+                    m_unityFilterOption[i] != otherFilter.m_unityFilterOption[1]) {
+                    m_unityFilterOption[i]->active = false;
+                }
+            }
+        }
+    }
 }
 
 void CombinedFilterOption::onIdChanged(const std::string &/* id */)
@@ -78,7 +97,11 @@ void CombinedFilterOption::onIdChanged(const std::string &/* id */)
 
 void CombinedFilterOption::onActiveChanged(bool /*active*/)
 {
-    Q_EMIT activeChanged(CombinedFilterOption::active());
+    bool combinedState = CombinedFilterOption::active();
+    if (m_active != combinedState) {
+        m_active = combinedState;
+        Q_EMIT activeChanged(m_active);
+    }
 }
 
 void CombinedFilterOption::setUnityFilterOption(unity::dash::FilterOption::Ptr unityFilterOption1, unity::dash::FilterOption::Ptr unityFilterOption2)
@@ -94,9 +117,11 @@ void CombinedFilterOption::setUnityFilterOption(unity::dash::FilterOption::Ptr u
 
     /* Property change signals */
     for (int i=0; i<2; i++) {
-        m_unityFilterOption[i]->id.changed.connect(sigc::mem_fun(this, &CombinedFilterOption::onIdChanged));
-        m_unityFilterOption[i]->name.changed.connect(sigc::mem_fun(this, &CombinedFilterOption::nameChanged));
-        m_unityFilterOption[i]->icon_hint.changed.connect(sigc::mem_fun(this, &CombinedFilterOption::iconHintChanged));
-        m_unityFilterOption[i]->active.changed.connect(sigc::mem_fun(this, &CombinedFilterOption::onActiveChanged));
+        if (m_unityFilterOption[i] != nullptr) {
+            m_unityFilterOption[i]->id.changed.connect(sigc::mem_fun(this, &CombinedFilterOption::onIdChanged));
+            m_unityFilterOption[i]->name.changed.connect(sigc::mem_fun(this, &CombinedFilterOption::nameChanged));
+            m_unityFilterOption[i]->icon_hint.changed.connect(sigc::mem_fun(this, &CombinedFilterOption::iconHintChanged));
+            m_unityFilterOption[i]->active.changed.connect(sigc::mem_fun(this, &CombinedFilterOption::onActiveChanged));
+        }
     }
 }
