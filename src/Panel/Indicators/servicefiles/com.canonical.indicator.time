@@ -1,5 +1,5 @@
 [Indicator Service]
-Name=indicator-datetime
+Name=indicator-time
 ObjectPath=/com/canonical/indicator/time
 
 [phone]
