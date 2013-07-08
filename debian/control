@@ -33,8 +33,6 @@ Build-Depends: cmake,
                qtdeclarative5-xmllistmodel-plugin,
                ttf-ubuntu-font-family,
                libunity-scopes-json-def-phone,
-               unity8-private | unity-launcher-impl,
-               unity-launcher-impl-2,
 Standards-Version: 3.9.4
 Homepage: http://launchpad.net/unity
 # If you aren't a member of ~unity-team but need to upload
@@ -55,6 +53,8 @@ Depends: ${misc:Depends},
          unity-notifications-impl-1,
          qtdeclarative5-xmllistmodel-plugin,
          unity8-fake-env | qtubuntu-shell,
+         unity8-private | unity-launcher-impl,
+         unity-launcher-impl-2,
 Recommends: ${unity-default-masterscopes},
             indicators-client-plugin-datetime (>= 0.6.1),
             indicators-client-plugin-messaging (>= 0.6.1),
