@@ -24,6 +24,6 @@ class MainWindow(object):
         """Get the page stack"""
         return self.app.select_single("PageStack")
 
-    def get_power_menu(self):
-        """Get the power menu from the list"""
-        return self.app.select_single("BasicMenuItem", objectName="indicator-power");
+    def get_battery_menu(self):
+        """Get the battery menu from the list"""
+        return self.app.select_single("BasicMenuItem", objectName="indicator-battery");
