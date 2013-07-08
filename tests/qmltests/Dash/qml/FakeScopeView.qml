@@ -107,10 +107,10 @@ FocusScope {
                             Image {
                                 width: units.gu(5)
                                 height: units.gu(5)
-                                source: column_1
+                                source: icon
                                 anchors.horizontalCenter: parent.horizontalCenter
                             }
-                            Text { text: column_4; anchors.horizontalCenter: parent.horizontalCenter }
+                            Text { text: title; anchors.horizontalCenter: parent.horizontalCenter }
                         }
                     }
                }
