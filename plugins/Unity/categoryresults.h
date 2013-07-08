@@ -2,7 +2,6 @@
  * Copyright (C) 2013 Canonical, Ltd.
  *
  * Authors:
- *  Michał Sawicz <michal.sawicz@canonical.com>
  *  Michal Hruby <michal.hruby@canonical.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -19,61 +18,50 @@
  */
 
 
-#ifndef CATEGORIES_H
-#define CATEGORIES_H
-
-// unity-core
-#include <UnityCore/Scope.h>
+#ifndef CATEGORY_RESULTS_H
+#define CATEGORY_RESULTS_H
 
 // dee-qt
 #include "deelistmodel.h"
 
-#include <QPointer>
-#include <QSet>
-#include <QTimer>
-
-class Categories : public DeeListModel
+class CategoryResults : public DeeListModel
 {
     Q_OBJECT
 
     Q_ENUMS(Roles)
 
+    Q_PROPERTY(int categoryIndex READ categoryIndex WRITE setCategoryIndex NOTIFY categoryIndexChanged)
+
 public:
-    explicit Categories(QObject* parent = 0);
+    explicit CategoryResults(QObject* parent = 0);
 
     enum Roles {
-        RoleId,
-        RoleName,
-        RoleIcon,
-        RoleRenderer,
-        RoleContentType,
-        RoleHints,
-        RoleResults,
-        RoleCount
+        RoleUri,
+        RoleIconHint,
+        RoleCategory,
+        RoleMimetype,
+        RoleTitle,
+        RoleComment,
+        RoleDndUri,
+        RoleMetadata
     };
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
 
     QHash<int, QByteArray> roleNames() const;
 
-    /* setters */
-    void setUnityScope(const unity::dash::Scope::Ptr& scope);
+    /* getters */
+    int categoryIndex() const;
 
-private Q_SLOTS:
-    void onCountChanged();
-    void onEmitCountChanged();
+    /* setters */
+    void setCategoryIndex(int index);
+
+Q_SIGNALS:
+    void categoryIndexChanged(int index);
 
 private:
-    void onCategoriesModelChanged(unity::glib::Object<DeeModel> model);
-
-    DeeListModel* getResults(int index) const;
-
-    unity::dash::Scope::Ptr m_unityScope;
-    QTimer m_timer;
-    QSet<int> m_updatedCategories;
     QHash<int, QByteArray> m_roles;
-    mutable QMap<int, DeeListModel*> m_results;
-    sigc::connection m_categoriesChangedConnection;
+    int m_categoryIndex;
 };
 
-#endif // CATEGORIES_H
+#endif // CATEGORY_RESULTS_H

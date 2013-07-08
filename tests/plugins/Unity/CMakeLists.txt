@@ -23,7 +23,7 @@ macro(run_tests)
         add_executable(${_test}Exec ${_test}.cpp previewbindingstest.cpp)
         qt5_use_modules(${_test}Exec Test Core Qml)
         set_tests_properties(test${CLASSNAME}${_test}
-                PROPERTIES ENVIRONMENT LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/plugins/Unity:${LIBUNITYPROTO_LIBRARY_DIRS})
+                PROPERTIES ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/plugins/Unity:${LIBUNITYPROTO_LIBRARY_DIRS}")
 
         target_link_libraries(${_test}Exec
             Unity-qml

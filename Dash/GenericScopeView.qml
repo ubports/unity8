@@ -72,10 +72,10 @@ ScopeView {
                 delegate: Tile {
                     width: filtergrid.cellWidth
                     height: filtergrid.cellHeight
-                    text: column_5 ? column_5 : "" // FIXME: this shouldn't be necessary
+                    text: title
                     imageWidth: units.gu(11)
                     imageHeight: units.gu(16)
-                    source: column_1 ? IconUtil.from_gicon(column_1) : "" // FIXME: ditto
+                    source: IconUtil.from_gicon(icon)
                 }
             }
         }
