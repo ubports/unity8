@@ -21,8 +21,8 @@ class TestDisplayMenus(IndicatorsTestCase):
 
         # This opens the messaging menu so you don't have to do that in
         # every test case
-        power = self.main_window.get_power_menu()
-        self.pointing_device.move_to_object(power)
+        battery_menu = self.main_window.get_battery_menu()
+        self.pointing_device.move_to_object(battery_menu)
         self.pointing_device.click()
 
         self.page = self.app.select_single("IndicatorsPage");

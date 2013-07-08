@@ -19,6 +19,7 @@ import "../../Components"
 
 ResponsiveFlowView {
     id: root
+    clip: true
 
     signal updateScreenshots
 

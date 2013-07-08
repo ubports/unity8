@@ -48,14 +48,14 @@ Indicators.IndicatorsModel {
             'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/NetworkIndicatorWidget.qml',
             'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/NetworkIndicatorPage.qml'
         },
-        'indicator-power' : {
+        'indicator-battery' : {
             'title': 'Battery',
             'description' : '',
             'priority': 40,
             'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorWidget.qml',
             'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorPage.qml'
         },
-        'indicator-datetime' : {
+        'indicator-time' : {
             'title': 'Date and Time',
             'description' : '',
             'priority': 100,

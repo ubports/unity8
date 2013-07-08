@@ -1,5 +1,5 @@
 [Indicator Service]
-Name=indicator-power
+Name=indicator-battery
 ObjectPath=/com/canonical/indicator/battery
 
 [phone]
