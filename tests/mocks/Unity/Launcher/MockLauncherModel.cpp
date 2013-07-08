@@ -133,7 +133,7 @@ void MockLauncherModel::requestRemove(const QString &appId)
     }
 }
 
-void MockLauncherModel::quickListActionInvoked(const QString &appId, int quickListIndex)
+void MockLauncherModel::quickListActionInvoked(const QString &appId, int actionIndex)
 {
     Q_UNUSED(appId)
     Q_UNUSED(quickListIndex)

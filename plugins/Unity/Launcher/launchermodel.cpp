@@ -130,7 +130,7 @@ void LauncherModel::requestRemove(const QString &appId)
     storeAppList();
 }
 
-void LauncherModel::quickListActionInvoked(const QString &appId, int quickListIndex)
+void LauncherModel::quickListActionInvoked(const QString &appId, int actionIndex)
 {
     int index = findApplication(appId);
     if (index < 0) {
@@ -139,7 +139,7 @@ void LauncherModel::quickListActionInvoked(const QString &appId, int quickListIn
 
     QuickListModel *model = qobject_cast<QuickListModel*>(m_list.at(index)->quickList());
     if (model) {
-        QString actionId = model->get(quickListIndex).actionId();
+        QString actionId = model->get(actionIndex).actionId();
         m_backend->triggerQuickListAction(appId, actionId);
     }
 }
