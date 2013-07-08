@@ -86,20 +86,20 @@ ScopeView {
                         onClicked: {
                             mouse.accepted = true
                             effect.positionPx = mapToItem(categoryView, 0, 0).y
-                            scopeView.scope.activate(column_0, column_1,
-                                                     column_2, column_3,
-                                                     column_4, column_5,
-                                                     column_6, column_7,
-                                                     column_8)
+                            scopeView.scope.activate(uri, icon,
+                                                     category, 0,
+                                                     mimetype, title,
+                                                     comment, dndUri,
+                                                     metadata)
                         }
                         onPressAndHold: {
                             mouse.accepted = true
                             effect.positionPx = mapToItem(categoryView, 0, 0).y
-                            scopeView.scope.preview(column_0, column_1,
-                                                    column_2, column_3,
-                                                    column_4, column_5,
-                                                    column_6, column_7,
-                                                    column_8)
+                            scopeView.scope.preview(uri, icon,
+                                                    category, 0,
+                                                    mimetype, title,
+                                                    comment, dndUri,
+                                                    metadata)
                         }
                     }
                 }
