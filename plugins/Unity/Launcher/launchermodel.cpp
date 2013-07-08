@@ -57,16 +57,16 @@ QVariant LauncherModel::data(const QModelIndex &index, int role) const
 {
     LauncherItem *item = m_list.at(index.row());
     switch(role) {
-    case RoleAppId:
-        return item->desktopFile();
-    case RoleDesktopFile:
-        return item->desktopFile();
-    case RoleName:
-        return item->name();
-    case RoleIcon:
-        return item->icon();
-    case RolePinned:
-        return item->pinned();
+        case RoleAppId:
+            return item->desktopFile();
+        case RoleDesktopFile:
+            return item->desktopFile();
+        case RoleName:
+            return item->name();
+        case RoleIcon:
+            return item->icon();
+        case RolePinned:
+            return item->pinned();
     }
 
     return QVariant();
