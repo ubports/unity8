@@ -23,20 +23,21 @@ import "../../../Launcher"
 /* Nothing is shown at first. If you drag from left edge you will bring up the
    launcher. */
 Item {
+    id: root
     width: units.gu(50)
-    height: units.gu(81)
+    height: units.gu(55)
 
     Launcher {
         id: launcher
         x: 0
         y: 0
         width: units.gu(40)
-        height: units.gu(81)
+        height: parent.height
 
-        property string latestApplicationSelected
+        property string lastSelectedApplication
 
         onLauncherApplicationSelected: {
-            latestApplicationSelected = desktopFile
+            lastSelectedApplication = desktopFile
         }
 
         property int dashItemSelected_count: 0
@@ -58,9 +59,33 @@ Item {
     }
 
     UT.UnityTestCase {
+        id: revealer
+
+        function dragLauncherIntoView() {
+            var startX = launcher.dragAreaWidth/2;
+            var startY = launcher.height/2;
+            touchFlick(launcher,
+                       startX, startY,
+                       startX+units.gu(8), startY);
+
+            var panel = findChild(launcher, "launcherPanel");
+            verify(panel != undefined);
+
+            // wait until it gets fully extended
+            tryCompare(panel, "x", 0);
+            tryCompare(launcher, "state", "visible");
+        }
+
+        function waitUntilLauncherDisappears() {
+            var panel = findChild(launcher, "launcherPanel");
+            tryCompare(panel, "x", -panel.width, 1000);
+        }
+    }
+
+    UT.UnityTestCase {
         id: testCase
         name: "Launcher"
-        when: windowShown
+        when: windowShown && initTestCase.completed
 
         // Drag from the left edge of the screen rightwards and check that the launcher
         // appears (as if being dragged by the finger/pointer)
@@ -71,7 +96,7 @@ Item {
             // it starts out hidden just left of the left launcher edge
             compare(panel.x, -panel.width)
 
-            dragLauncherIntoView()
+            revealer.dragLauncherIntoView()
 
             // tapping on the center of the screen should dismiss the launcher
             mouseClick(launcher, launcher.width/2, launcher.height/2)
@@ -85,20 +110,25 @@ Item {
            corresponding desktop file. E.g. clicking on phone icon should yield
            launcherApplicationSelected("[...]phone-app.desktop") */
         function test_clickingOnAppIconCausesSignalEmission() {
-            launcher.latestApplicationSelected = ""
+            launcher.lastSelectedApplication = ""
 
-            dragLauncherIntoView()
+            revealer.dragLauncherIntoView()
+
+            var listView = findChild(launcher, "launcherListView");
+            listView.flick(0, units.gu(500));
+            tryCompare(listView, "flicking", false);
 
             var appIcon = findChild(launcher, "launcherDelegate0")
+
             verify(appIcon != undefined)
 
             mouseClick(appIcon, appIcon.width/2, appIcon.height/2)
 
-            tryCompare(launcher, "latestApplicationSelected",
+            tryCompare(launcher, "lastSelectedApplication",
                        "/usr/share/applications/phone-app.desktop")
 
             // Tapping on an application icon also dismisses the launcher
-            waitUntilLauncherDisappears()
+            revealer.waitUntilLauncherDisappears()
         }
 
         /* If I click on the dash icon on the launcher
@@ -106,7 +136,7 @@ Item {
         function test_clickingOnDashIconCausesSignalEmission() {
             launcher.dashItemSelected_count = 0
 
-            dragLauncherIntoView()
+            revealer.dragLauncherIntoView()
 
             var dashIcon = findChild(launcher, "dashItem")
             verify(dashIcon != undefined)
@@ -116,29 +146,8 @@ Item {
             tryCompare(launcher, "dashItemSelected_count", 1)
 
             // Tapping on the dash icon also dismisses the launcher
-            waitUntilLauncherDisappears()
+            revealer.waitUntilLauncherDisappears()
         }
-
-        function dragLauncherIntoView() {
-            var startX = launcher.dragAreaWidth/2
-            var startY = launcher.height/2
-            touchFlick(launcher,
-                       startX, startY,
-                       startX+units.gu(8), startY)
-
-            var panel = findChild(launcher, "launcherPanel")
-            verify(panel != undefined)
-
-            // wait until it gets fully extended
-            tryCompare(panel, "x", 0)
-            tryCompare(launcher, "state", "visible")
-        }
-
-        function waitUntilLauncherDisappears() {
-            var panel = findChild(launcher, "launcherPanel")
-            tryCompare(panel, "x", -panel.width, 1000)
-        }
-
 
         function test_teaseLauncher_data() {
             return [
@@ -164,7 +173,78 @@ Item {
                 wait(100)
                 compare(launcher.maxPanelX, -launcher.panelWidth, "Launcher moved even if it shouldn't")
             }
-            waitUntilLauncherDisappears();
+            revealer.waitUntilLauncherDisappears();
+            launcher.available = true;
         }
+    }
+
+    UT.UnityTestCase {
+        id: clickFlickTestCase
+        when: windowShown && testCase.completed
+
+        function test_clickFlick_data() {
+            var listView = findChild(launcher, "launcherListView");
+            return [
+                {tag: "unfolded top", flickSpeed: units.gu(200), clickY: listView.topMargin + units.gu(2), expectFlick: false},
+                {tag: "folded top", flickSpeed: -units.gu(200), clickY: listView.topMargin + units.gu(2), expectFlick: true},
+                {tag: "unfolded bottom", flickSpeed: -units.gu(200), clickY: listView.height - listView.topMargin - units.gu(1), expectFlick: false},
+                {tag: "folded bottom", flickSpeed: units.gu(200), clickY: listView.height - listView.topMargin - units.gu(1), expectFlick: true},
+            ];
+        }
+
+        function test_clickFlick(data) {
+            launcher.lastSelectedApplication = "";
+            revealer.dragLauncherIntoView();
+            var listView = findChild(launcher, "launcherListView");
+
+            listView.flick(0, data.flickSpeed);
+            tryCompare(listView, "flicking", false);
+
+            var oldY = listView.contentY;
+
+            mouseClick(listView, listView.width / 2, data.clickY);
+            tryCompare(listView, "flicking", false);
+
+            if (data.expectFlick) {
+                verify(listView.contentY != oldY);
+                compare(launcher.lastSelectedApplication, "", "Launcher app clicked signal emitted even though it should only flick");
+            } else {
+                verify(launcher.lastSelectedApplication != "");
+                compare(listView.contentY, oldY, "Launcher was flicked even though it should only launch an app");
+            }
+
+            // Restore position on top
+            listView.flick(0, units.gu(200));
+            tryCompare(listView, "flicking", false)
+            // Click somewhere in the empty space to make it hide in case it isn't
+            mouseClick(launcher, launcher.width - units.gu(1), units.gu(1));
+            revealer.waitUntilLauncherDisappears();
+        }
+    }
+
+    UT.UnityTestCase {
+        id: initTestCase
+        name: "LauncherInit"
+        when: windowShown
+
+        /*
+         * FIXME: There is a bug in ListView which makes it snap to an item
+         * instead of the edge at startup. Enable this test once our patch for
+         * ListView has landed upstream.
+         * https://bugreports.qt-project.org/browse/QTBUG-32251
+
+        function test_initFirstUnfolded() {
+
+            // Make sure noone changed the height of the window. The issue this test case
+            // is verifying only happens on certain heights of the Launcher
+            compare(root.height, units.gu(55));
+
+            var listView = findChild(launcher, "launcherListView");
+            compare(listView.contentY, -listView.topMargin, "Launcher did not start up with first item unfolded");
+
+            // Now do check that snapping is in fact enabled
+            compare(listView.snapMode, ListView.SnapToItem, "Snapping is not enabled");
+        }
+        */
     }
 }

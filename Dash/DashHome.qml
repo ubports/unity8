@@ -32,9 +32,9 @@ ScopeView {
     ListModel {
         id: categoryListModel
         // specifies page's content categories, type of delegate and model used in each category
-        ListElement { category: "Frequent Apps";         component: "AppsGrid";       modelName: "AppsModel" }
-        ListElement { category: "Recent Music";          component: "MusicGrid";      modelName: "MusicModel" }
-        ListElement { category: "Videos Popular Online"; component: "VideosGrid";     modelName: "VideosModel" }
+        ListElement { category: "Frequent Apps";         component: "Apps/ApplicationsFilterGrid.qml";  modelName: "AppsModel" }
+        ListElement { category: "Recent Music";          component: "Music/MusicFilterGrid.qml";        modelName: "MusicModel" }
+        ListElement { category: "Videos Popular Online"; component: "Video/VideosFilterGrid.qml";       modelName: "VideosModel" }
         function getCategory(category1) {
             if (category1 === "Frequent Apps") {
                 return i18n.tr("Frequent Apps");
@@ -110,26 +110,6 @@ ScopeView {
                                   "VideosModel": videosFilter,
                                  }
 
-    /* Workaround for bug: https://bugreports.qt-project.org/browse/QTBUG-28403
-       When using Loader to load external QML file in the list deelgate, the ListView has
-       a bug where it can position the delegate content to overlap the section header
-       of the ListView - a workaround is to use sourceComponent of Loader instead */
-    Component {
-        id: applicationsFilterGrid
-        ApplicationsFilterGrid {
-            objectName: "dashHomeApplicationsGrid"
-            onClicked: shell.activateApplication(data);
-        }
-    }
-
-    Component { id: musicGrid;      MusicFilterGrid {}  }
-    Component { id: videosGrid;     VideosFilterGrid {} }
-    property var componentModels: {
-                "AppsGrid": applicationsFilterGrid,
-                "MusicGrid": musicGrid,
-                "VideosGrid": videosGrid,
-    }
-
     ScopeListView {
         id: listView
         anchors.fill: parent
@@ -145,13 +125,13 @@ ScopeView {
 
             Loader {
                 anchors { top: parent.top; left: parent.left; right: parent.right }
-                sourceComponent: componentModels[component]
+                source: component
                 onLoaded: {
                     item.model = categoryModels[modelName]
 
                     //FIXME: workaround for lack of previews for videos in Home scope.
                     //Need to connect to the clicked() signal here and act upon it here instead.
-                    if (component === "VideosGrid") {
+                    if (modelName === "VideosModel") {
                         function playVideo(index, data) {
                             if (data.fileUri) {
                                 shell.activateApplication('/usr/share/applications/mediaplayer-app.desktop', "/usr/share/demo-assets/videos/" + data.fileUri);
@@ -159,6 +139,13 @@ ScopeView {
                         }
 
                         item.clicked.connect(playVideo);
+                    } else if (modelName === "AppsModel") {
+                        function activateApplication(index, data) {
+                            shell.activateApplication(data);
+                        }
+
+                        item.objectName = "dashHomeApplicationsGrid";
+                        item.clicked.connect(activateApplication);
                     }
                 }
             }

@@ -1,9 +1,105 @@
-unity8 (7.81.3-0ubuntu1) UNRELEASED; urgency=low
+unity8 (7.81.3+13.10.20130708ubuntu.unity.next-0ubuntu1) saucy; urgency=low
 
+  [ Michael Terry ]
+  * Ensure the past circle animations complete Currently, all the
+    animations stop as soon as the present circles are all visible. This
+    change ensures that the animations run to completion.
+
+  [ Michael Zanetti ]
+  * improve launcher flicking bahavior - fix initial snapping - improve
+    foldingAreas behavior - increase clickFlick speed to flick 4 items.
+
+  [ Albert Astals ]
+  * Remove workarounds for Qt bug 28403 . (LP: #28403)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 83 (ubuntu-unity/next)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 08 Jul 2013 02:34:23 +0000
+
+unity8 (7.81.3+13.10.20130704ubuntu.unity.next-0ubuntu1) saucy; urgency=low
+
+  [ Didier Roche ]
   * Clean packaging for entering saucy and following daily release guidelines
   * Automatic snapshot from revision 49 (bootstrap)
 
- -- Didier Roche <didrocks@ubuntu.com>  Wed, 26 Jun 2013 11:01:09 +0200
+  [ Michał Sawicz ]
+  * Fix unity8.pot file.
+  * Support the simplified theming from ubuntu-ui-toolkit.
+  * Use AbstractButtons instead of Button { color: "transparent" } that
+    doesn't work.
+
+  [ Albert Astals ]
+  * ListViewWithPageHeader implementation in C++. (LP: #1171918)
+  * LVWPH: Do not crash on showHeader if we don't have a header .
+  * Fix bug when setting the same model twice to a QLimitProxyModelQML.
+  * Add some const & Saves us some microseconds in copying stuff.
+
+  [ Daniel d'Andrada ]
+  * Make Greeter and Stage use the new DragHandle component. So they no
+    longer use Revealers. Now a directional drag gesture is required to
+    start the animation that brings back a "minimized" application when
+    the dash is on foreground. Besides that, now they have the following
+    feature:  - Action only completes succesfully if you drag through at
+    least half the    screen width or if your swipe is fast enough. The
+    shorter the swipe, the faster it has to be for the action to auto-
+    complete.
+  * DirectionalDragArea: add touchSceneX, touchSceneY, and sceneDistance
+    properties.
+  * DirectionalDragArea: emit draggingChanged() on direct recognition
+    draggingChanged() should be emited when status change from
+    WaitingForTouch directly to Recognized.
+  * update CODING instructions for building & running.
+  * DragHandle: add stretch and hintDisplacement properties.
+  * DragHandle: fix hinting Revision 64 had a bad interaction with
+    revision 66 (that added line was lost in the merge/rebase process).
+    tst_DragHandle::hintingAnimation() points out the problem (fails on
+    line 388).
+  * Make Panel use DragHandles instead of a Revealer - A directional
+    drag gesture is needed reveal the panel when fullscreen. - better
+    logic for deciding when to auto-complete the show/hide animation -
+    hinting animation to close the panel - Tapping on menu bar no longer
+    opens nearest indicator menu - No closing with handle click.
+
+  [ mhall119 ]
+  * Fix build script error from extra blank line. (LP: #1196322)
+
+  [ Nick Dedekind ]
+  * Changed shellImportPath to return a list of paths. Added
+    prependImportPaths and changed appendImportPaths to check for
+    duplicates.
+
+  [ Mirco Müller ]
+  * Added support and tests for expanding snap-decisions with more than
+    2 actions passed in.
+
+  [ Michael Zanetti ]
+  * As requested by design, decreasing wobblyness in the
+    WrongPasswordAnimation.
+  * improve the bzr commit hook - don't run qmltests in here, it takes
+    too long - don't abort commit on failed tests, its too annoying -
+    instead, print a fat warning and backup the commit message to be
+    reused after uncommitting and fixing the tests.
+  * edge hinting tweaks - change edge hinting behavior to only happen on
+    onPressed and immediately snap back - fix edge hinting to not happen
+    if the Greeter is locked .
+
+  [ Michael Terry ]
+  * Fix "Tap to Unlock" text not appearing when in tablet greeter mode
+    with only one user.
+  * Use libusermetrics to provide infographic data.
+  * Delete builddir/ when running "debuild clean".
+
+  [ Pawel Stolowski ]
+  * Bindings for preview and activation requests.
+
+  [ Kevin Gunn ]
+  * update CODING instructions for building & running.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 78 (ubuntu-unity/next)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 04 Jul 2013 12:44:19 +0000
 
 unity8 (7.81.3) UNRELEASED; urgency=low
 
