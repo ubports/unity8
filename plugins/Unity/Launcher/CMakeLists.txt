@@ -4,8 +4,6 @@ pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${LAUNCHER_API_INCLUDEDIR}
 )
 
 set(QMLLAUNCHERPLUGIN_SRC

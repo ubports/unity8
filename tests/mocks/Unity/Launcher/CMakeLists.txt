@@ -8,7 +8,6 @@ pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${LAUNCHER_API_INCLUDEDIR}
 )
 
 set(MockLauncherModel_SOURCES
