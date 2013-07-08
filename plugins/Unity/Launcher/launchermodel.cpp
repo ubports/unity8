@@ -57,6 +57,8 @@ QVariant LauncherModel::data(const QModelIndex &index, int role) const
 {
     LauncherItem *item = m_list.at(index.row());
     switch(role) {
+    case RoleAppId:
+        return item->desktopFile();
     case RoleDesktopFile:
         return item->desktopFile();
     case RoleName:
@@ -87,11 +89,16 @@ void LauncherModel::move(int oldIndex, int newIndex)
 
     storeAppList();
 
-    pin(newIndex);
+    pin(m_list.at(newIndex)->appId());
 }
 
-void LauncherModel::pin(int index)
+void LauncherModel::pin(const QString &appId)
 {
+    int index = findApplication(appId);
+    if (index < 0) {
+        return;
+    }
+
     LauncherItem *item = m_list.at(index);
     if (!item->pinned()) {
 
@@ -107,8 +114,13 @@ void LauncherModel::pin(int index)
     }
 }
 
-void LauncherModel::remove(int index)
+void LauncherModel::requestRemove(const QString &appId)
 {
+    int index = findApplication(appId);
+    if (index < 0) {
+        return;
+    }
+
     beginRemoveRows(QModelIndex(), index, index);
     m_list.takeAt(index)->deleteLater();
     endRemoveRows();
@@ -116,25 +128,18 @@ void LauncherModel::remove(int index)
     storeAppList();
 }
 
-void LauncherModel::triggerQuickListAction(int itemIndex, int quickListIndex)
+void LauncherModel::triggerQuickListAction(const QString &appId, int quickListIndex)
 {
-    QString appId = m_list.at(itemIndex)->appId();
-    QuickListModel *model = qobject_cast<QuickListModel*>(m_list.at(itemIndex)->quickList());
+    int index = findApplication(appId);
+    if (index < 0) {
+        return;
+    }
+
+    QuickListModel *model = qobject_cast<QuickListModel*>(m_list.at(index)->quickList());
     if (model) {
         QString actionId = model->get(quickListIndex).actionId();
         m_backend->triggerQuickListAction(appId, actionId);
     }
-}
-
-QHash<int, QByteArray> LauncherModel::roleNames() const
-{
-    QHash<int, QByteArray> roles;
-    roles.insert(RoleDesktopFile, "desktopFile");
-    roles.insert(RoleName, "name");
-    roles.insert(RoleIcon, "icon");
-    roles.insert(RolePinned, "pinned");
-    roles.insert(RoleRunning, "runnng");
-    return roles;
 }
 
 void LauncherModel::storeAppList()
@@ -146,4 +151,15 @@ void LauncherModel::storeAppList()
         }
     }
     m_backend->setStoredApplications(appIds);
+}
+
+int LauncherModel::findApplication(const QString &appId)
+{
+    for (int i = 0; i < m_list.count(); ++i) {
+        LauncherItem *item = m_list.at(i);
+        if (item->appId() == appId) {
+            return i;
+        }
+    }
+    return -1;
 }

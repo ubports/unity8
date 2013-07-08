@@ -22,8 +22,9 @@
 
 using namespace unity::shell::launcher;
 
-MockLauncherItem::MockLauncherItem(const QString& desktopFile, const QString& name, const QString& icon, QObject* parent):
+MockLauncherItem::MockLauncherItem(const QString &appId, const QString& desktopFile, const QString& name, const QString& icon, QObject* parent):
     LauncherItemInterface(parent),
+    m_appId(appId),
     m_desktopFile(desktopFile),
     m_name(name),
     m_icon(icon),
@@ -35,6 +36,11 @@ MockLauncherItem::MockLauncherItem(const QString& desktopFile, const QString& na
     m_quickList(new MockQuickListModel(this))
 {
 
+}
+
+QString MockLauncherItem::appId() const
+{
+    return m_appId;
 }
 
 QString MockLauncherItem::desktopFile() const

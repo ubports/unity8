@@ -40,9 +40,12 @@ public:
 
     Q_INVOKABLE unity::shell::launcher::LauncherItemInterface *get(int index) const;
     Q_INVOKABLE void move(int oldIndex, int newIndex);
-    Q_INVOKABLE void pin(int index);
-    Q_INVOKABLE void remove(int index);
-    Q_INVOKABLE void triggerQuickListAction(int itemIndex, int quickListIndex);
+    Q_INVOKABLE void pin(const QString &appId);
+    Q_INVOKABLE void requestRemove(const QString &appId);
+    Q_INVOKABLE void triggerQuickListAction(const QString &appId, int quickListIndex);
+
+private:
+    int findApp(const QString &appId);
 
 private:
     QList<MockLauncherItem*> m_list;

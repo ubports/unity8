@@ -22,25 +22,25 @@
 
 MockLauncherModel::MockLauncherModel(QObject* parent): LauncherModelInterface(parent)
 {
-    MockLauncherItem *item = new MockLauncherItem("/usr/share/applications/phone-app.desktop", "Phone", "phone-app");
+    MockLauncherItem *item = new MockLauncherItem("phone-app", "/usr/share/applications/phone-app.desktop", "Phone", "phone-app");
     m_list.append(item);
-    item = new MockLauncherItem("/usr/share/applications/camera-app.desktop", "Camera", "camera");
+    item = new MockLauncherItem("camera-app", "/usr/share/applications/camera-app.desktop", "Camera", "camera");
     m_list.append(item);
-    item = new MockLauncherItem("/usr/share/applications/gallery-app.desktop", "Gallery", "gallery");
+    item = new MockLauncherItem("gallery-app", "/usr/share/applications/gallery-app.desktop", "Gallery", "gallery");
     m_list.append(item);
-    item = new MockLauncherItem("/usr/share/applications/facebook-webapp.desktop", "Facebook", "facebook");
+    item = new MockLauncherItem("facebook-webapp", "/usr/share/applications/facebook-webapp.desktop", "Facebook", "facebook");
     m_list.append(item);
-    item = new MockLauncherItem("/usr/share/applications/webbrowser-app.desktop", "Browser", "browser");
+    item = new MockLauncherItem("webbrowser-app", "/usr/share/applications/webbrowser-app.desktop", "Browser", "browser");
     m_list.append(item);
-    item = new MockLauncherItem("/usr/share/applications/twitter-webapp.desktop", "Twitter", "twitter");
+    item = new MockLauncherItem("twitter-webapp", "/usr/share/applications/twitter-webapp.desktop", "Twitter", "twitter");
     m_list.append(item);
-    item = new MockLauncherItem("/usr/share/applications/gmail-webapp.desktop", "GMail", "gmail");
+    item = new MockLauncherItem("gmail-webapp", "/usr/share/applications/gmail-webapp.desktop", "GMail", "gmail");
     m_list.append(item);
-    item = new MockLauncherItem("/usr/share/applications/ubuntu-weather-app.desktop", "Weather", "weather");
+    item = new MockLauncherItem("ubuntu-weather-app", "/usr/share/applications/ubuntu-weather-app.desktop", "Weather", "weather");
     m_list.append(item);
-    item = new MockLauncherItem("/usr/share/applications/notes-app.desktop", "Notepad", "notepad");
+    item = new MockLauncherItem("notes-app", "/usr/share/applications/notes-app.desktop", "Notepad", "notepad");
     m_list.append(item);
-    item = new MockLauncherItem("/usr/share/applications/ubuntu-calendar-app.desktop","Calendar", "calendar");
+    item = new MockLauncherItem("ubuntu-calendar-app", "/usr/share/applications/ubuntu-calendar-app.desktop","Calendar", "calendar");
     m_list.append(item);
 }
 
@@ -100,23 +100,40 @@ void MockLauncherModel::move(int oldIndex, int newIndex)
     endMoveRows();
 }
 
-void MockLauncherModel::pin(int index)
+void MockLauncherModel::pin(const QString &appId)
 {
-    m_list.at(index)->setPinned(true);
-    QModelIndex modelIndex = this->index(index);
-    Q_EMIT dataChanged(modelIndex, modelIndex);
+    int index = findApp(appId);
+    if (index >= 0) {
+        m_list.at(index)->setPinned(true);
+        QModelIndex modelIndex = this->index(index);
+        Q_EMIT dataChanged(modelIndex, modelIndex);
+    }
 }
 
-void MockLauncherModel::remove(int index)
+void MockLauncherModel::requestRemove(const QString &appId)
 {
-    beginRemoveRows(QModelIndex(), index, 0);
-    m_list.takeAt(index)->deleteLater();
-    endRemoveRows();
+    int index = findApp(appId);
+    if (index >= 0) {
+        beginRemoveRows(QModelIndex(), index, 0);
+        m_list.takeAt(index)->deleteLater();
+        endRemoveRows();
+    }
 }
 
-void MockLauncherModel::triggerQuickListAction(int itemIndex, int quickListIndex)
+void MockLauncherModel::triggerQuickListAction(const QString &appId, int quickListIndex)
 {
-    Q_UNUSED(itemIndex)
+    Q_UNUSED(appId)
     Q_UNUSED(quickListIndex)
     // Nothing to mock yet...
+}
+
+int MockLauncherModel::findApp(const QString &appId)
+{
+    for (int i = 0; i < m_list.count(); ++i) {
+        MockLauncherItem *item = m_list.at(i);
+        if (item->appId() == appId) {
+            return i;
+        }
+    }
+    return -1;
 }

@@ -34,10 +34,8 @@ class LauncherItem: public LauncherItemInterface
 public:
     LauncherItem(const QString &appId, const QString &desktopFile, const QString &name, const QString &icon, QObject *parent = 0);
 
-    QString appId();
-
+    QString appId() const;
     QString desktopFile() const;
-
     QString name() const;
     QString icon() const;
 

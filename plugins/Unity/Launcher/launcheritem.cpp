@@ -36,7 +36,7 @@ LauncherItem::LauncherItem(const QString &appId, const QString &desktopFile, con
 
 }
 
-QString LauncherItem::appId()
+QString LauncherItem::appId() const
 {
     return m_appId;
 }

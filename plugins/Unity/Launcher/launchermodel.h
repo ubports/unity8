@@ -45,14 +45,13 @@ public:
 
     Q_INVOKABLE unity::shell::launcher::LauncherItemInterface* get(int index) const;
     Q_INVOKABLE void move(int oldIndex, int newIndex);
-    Q_INVOKABLE void pin(int index);
-    Q_INVOKABLE void remove(int index);
-    Q_INVOKABLE void triggerQuickListAction(int itemIndex, int quickListIndex);
-
-    QHash<int, QByteArray> roleNames() const;
+    Q_INVOKABLE void pin(const QString &appId);
+    Q_INVOKABLE void requestRemove(const QString &appId);
+    Q_INVOKABLE void triggerQuickListAction(const QString &appId, int quickListIndex);
 
 private:
     void storeAppList();
+    int findApplication(const QString &appId);
 
 private:
     QList<LauncherItem*> m_list;
