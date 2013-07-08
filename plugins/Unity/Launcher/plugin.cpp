@@ -34,6 +34,7 @@ static QObject* modelProvider(QQmlEngine* /* engine */, QJSEngine* /* scriptEngi
 {
     return new LauncherModel();
 }
+
 void UnityLauncherPlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("Unity.Launcher"));
