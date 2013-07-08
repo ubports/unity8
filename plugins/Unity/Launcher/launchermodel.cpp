@@ -92,25 +92,27 @@ void LauncherModel::move(int oldIndex, int newIndex)
     pin(m_list.at(newIndex)->appId());
 }
 
-void LauncherModel::pin(const QString &appId)
+void LauncherModel::pin(const QString &appId, int index)
 {
-    int index = findApplication(appId);
-    if (index < 0) {
-        return;
-    }
+    int currentIndex = findApplication(appId);
 
-    LauncherItem *item = m_list.at(index);
-    if (!item->pinned()) {
-
+    if (currentIndex >= 0) {
+        if (index == -1 || index == currentIndex) {
+            m_list.at(currentIndex)->setPinned(true);
+            QModelIndex modelIndex = this->index(currentIndex);
+            Q_EMIT dataChanged(modelIndex, modelIndex);
+        } else {
+            move(currentIndex, index);
+        }
+    } else {
+        beginInsertRows(QModelIndex(), index, index);
+        LauncherItem *item = new LauncherItem(appId,
+                                              m_backend->desktopFile(appId),
+                                              m_backend->displayName(appId),
+                                              m_backend->icon(appId));
         item->setPinned(true);
-        item->setRecent(false);
-
-        m_backend->setPinned(item->appId(), true);
-
-        QModelIndex modelIndex = this->index(index);
-        Q_EMIT dataChanged(modelIndex, modelIndex);
-
-        storeAppList();
+        m_list.insert(index, item);
+        endInsertRows();
     }
 }
 
@@ -128,7 +130,7 @@ void LauncherModel::requestRemove(const QString &appId)
     storeAppList();
 }
 
-void LauncherModel::triggerQuickListAction(const QString &appId, int quickListIndex)
+void LauncherModel::quickListActionInvoked(const QString &appId, int quickListIndex)
 {
     int index = findApplication(appId);
     if (index < 0) {

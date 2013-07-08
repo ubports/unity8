@@ -100,13 +100,26 @@ void MockLauncherModel::move(int oldIndex, int newIndex)
     endMoveRows();
 }
 
-void MockLauncherModel::pin(const QString &appId)
+void MockLauncherModel::pin(const QString &appId, int index)
 {
-    int index = findApp(appId);
-    if (index >= 0) {
+    int currentIndex = findApp(appId);
+
+    if (currentIndex >= 0) {
+        if (index == -1 || index == currentIndex) {
+            m_list.at(currentIndex)->setPinned(true);
+            QModelIndex modelIndex = this->index(currentIndex);
+            Q_EMIT dataChanged(modelIndex, modelIndex);
+        } else {
+            move(currentIndex, index);
+        }
+    } else {
+        beginInsertRows(QModelIndex(), index, index);
+        m_list.insert(index, new MockLauncherItem(appId,
+                                                  appId + ".desktop",
+                                                  appId,
+                                                  appId + ".png"));
         m_list.at(index)->setPinned(true);
-        QModelIndex modelIndex = this->index(index);
-        Q_EMIT dataChanged(modelIndex, modelIndex);
+        endInsertRows();
     }
 }
 
@@ -120,7 +133,7 @@ void MockLauncherModel::requestRemove(const QString &appId)
     }
 }
 
-void MockLauncherModel::triggerQuickListAction(const QString &appId, int quickListIndex)
+void MockLauncherModel::quickListActionInvoked(const QString &appId, int quickListIndex)
 {
     Q_UNUSED(appId)
     Q_UNUSED(quickListIndex)

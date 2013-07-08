@@ -40,9 +40,9 @@ public:
 
     Q_INVOKABLE unity::shell::launcher::LauncherItemInterface *get(int index) const;
     Q_INVOKABLE void move(int oldIndex, int newIndex);
-    Q_INVOKABLE void pin(const QString &appId);
+    Q_INVOKABLE void pin(const QString &appId, int index = -1);
     Q_INVOKABLE void requestRemove(const QString &appId);
-    Q_INVOKABLE void triggerQuickListAction(const QString &appId, int quickListIndex);
+    Q_INVOKABLE void quickListActionInvoked(const QString &appId, int quickListIndex);
 
 private:
     int findApp(const QString &appId);
