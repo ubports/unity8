@@ -1,2 +1,3 @@
 module ListViewWithPageHeader
 plugin ListViewWithPageHeader-qml
+typeinfo plugin.qmltypes

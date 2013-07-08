@@ -22,15 +22,5 @@ set_target_properties(Utils-qml PROPERTIES COMPILE_FLAGS -fvisibility=default)
 
 qt5_use_modules(Utils-qml Qml Quick)
 
-# copy qmldir file into build directory for shadow builds
-file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
-    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
-    )
-
-install(TARGETS Utils-qml
-    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/Utils
-    )
-
-install(FILES qmldir
-    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/Utils
-    )
+# export the qmldir and qmltypes files
+export_qmlplugin(Utils 0.1 Utils TARGETS Utils-qml)
