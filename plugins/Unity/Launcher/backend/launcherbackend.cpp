@@ -38,6 +38,31 @@ LauncherBackend::LauncherBackend(QObject *parent):
         QLatin1String("ubuntu-weather-app.desktop") <<
         QLatin1String("notes-app.desktop") <<
         QLatin1String("ubuntu-calendar-app.desktop");
+
+    // TODO: get stuff from desktop files instead this hardcoded map
+    m_displayNameMap.insert("phone-app.desktop", "Phone");
+    m_displayNameMap.insert("camera-app.desktop", "Camera");
+    m_displayNameMap.insert("gallery-app.desktop", "Gallery");
+    m_displayNameMap.insert("facebook-webapp.desktop", "Facebook");
+    m_displayNameMap.insert("webbrowser-app.desktop", "Browser");
+    m_displayNameMap.insert("twitter-webapp.desktop", "Twitter");
+    m_displayNameMap.insert("gmail-webapp.desktop", "GMail");
+    m_displayNameMap.insert("ubuntu-weather-app.desktop", "Weather");
+    m_displayNameMap.insert("notes-app.desktop", "Notes");
+    m_displayNameMap.insert("ubuntu-calendar-app.desktop", "Calendar");
+
+    // TODO: get stuff from desktop files instead this hardcoded map
+    m_iconMap.insert("phone-app.desktop", "phone-app");
+    m_iconMap.insert("camera-app.desktop", "camera");
+    m_iconMap.insert("gallery-app.desktop", "gallery");
+    m_iconMap.insert("facebook-webapp.desktop", "facebook");
+    m_iconMap.insert("webbrowser-app.desktop", "browser");
+    m_iconMap.insert("twitter-webapp.desktop", "twitter");
+    m_iconMap.insert("gmail-webapp.desktop", "gmail");
+    m_iconMap.insert("ubuntu-weather-app.desktop", "weather");
+    m_iconMap.insert("notes-app.desktop", "notepad");
+    m_iconMap.insert("ubuntu-calendar-app.desktop", "calendar");
+
 }
 
 LauncherBackend::~LauncherBackend()
@@ -64,36 +89,12 @@ QString LauncherBackend::desktopFile(const QString &appId) const
 
 QString LauncherBackend::displayName(const QString &appId) const
 {
-    // TODO: get stuff from desktop files instead this hardcoded map
-    QHash<QString, QString> map;
-    map.insert("phone-app.desktop", "Phone");
-    map.insert("camera-app.desktop", "Camera");
-    map.insert("gallery-app.desktop", "Gallery");
-    map.insert("facebook-webapp.desktop", "Facebook");
-    map.insert("webbrowser-app.desktop", "Browser");
-    map.insert("twitter-webapp.desktop", "Twitter");
-    map.insert("gmail-webapp.desktop", "GMail");
-    map.insert("ubuntu-weather-app.desktop", "Weather");
-    map.insert("notes-app.desktop", "Notes");
-    map.insert("ubuntu-calendar-app.desktop", "Calendar");
-    return map.value(appId);
+    return m_displayNameMap.value(appId);
 }
 
 QString LauncherBackend::icon(const QString &appId) const
 {
-    // TODO: get stuff from desktop files instead this hardcoded map
-    QHash<QString, QString> map;
-    map.insert("phone-app.desktop", "phone-app");
-    map.insert("camera-app.desktop", "camera");
-    map.insert("gallery-app.desktop", "gallery");
-    map.insert("facebook-webapp.desktop", "facebook");
-    map.insert("webbrowser-app.desktop", "browser");
-    map.insert("twitter-webapp.desktop", "twitter");
-    map.insert("gmail-webapp.desktop", "gmail");
-    map.insert("ubuntu-weather-app.desktop", "weather");
-    map.insert("notes-app.desktop", "notepad");
-    map.insert("ubuntu-calendar-app.desktop", "calendar");
-    return map.value(appId);
+    return m_iconMap.value(appId);
 }
 
 bool LauncherBackend::isPinned(const QString &appId) const

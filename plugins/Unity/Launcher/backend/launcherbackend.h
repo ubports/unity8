@@ -124,6 +124,8 @@ Q_SIGNALS:
 
 private:
     QStringList m_storedApps;
+    QHash<QString, QString> m_displayNameMap;
+    QHash<QString, QString> m_iconMap;
 };
 
 #endif // LAUNCHERBACKEND_H
