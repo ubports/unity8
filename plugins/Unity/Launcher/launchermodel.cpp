@@ -105,6 +105,9 @@ void LauncherModel::pin(const QString &appId, int index)
             move(currentIndex, index);
         }
     } else {
+        if (index == -1) {
+            index = m_list.count();
+        }
         beginInsertRows(QModelIndex(), index, index);
         LauncherItem *item = new LauncherItem(appId,
                                               m_backend->desktopFile(appId),
