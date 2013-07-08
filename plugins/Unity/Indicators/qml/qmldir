@@ -1,6 +1,5 @@
 module Unity.Indicators
 plugin IndicatorsQml
-typeinfo plugin.qmltypes
 
 BasicMenuItem 0.1 BasicMenuItem.qml
 ButtonMenuItem 0.1 ButtonMenuItem.qml

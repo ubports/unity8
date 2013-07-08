@@ -23,6 +23,5 @@ qt5_use_modules(UbuntuGestureQml Core Quick)
 # So that Foo.cpp can #include "Foo.moc"
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-# export the qmldir qmltypes and plugin files
-export_qmlfiles(Ubuntu.Gestures Ubuntu/Gestures)
+# export the qmldir and qmltypes files
 export_qmlplugin(Ubuntu.Gestures 0.1 Ubuntu/Gestures TARGETS UbuntuGestureQml)
