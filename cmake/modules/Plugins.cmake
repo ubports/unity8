@@ -1,12 +1,12 @@
 # Creates targets for copying and installing qmlfiles and generating the qmltypes file for a plugin
 #
-# add_qml_test(plugin version sub_path [TARGETS target1 [target2 ...]])
+# export_qmlplugin(plugin version sub_path [TARGETS target1 [target2 ...]])
 #
 # TARGETS additional install targets (eg the plugin shared object)
 #
 # Two targets will be created:
-#   - PluginName-qmlfiles - Copies the qml files (*.qml, *.js, qmldir) into the shadow build folder.
-#   - PluginName-qmltypes - Generates the qmltypes file in the shadow build folder.
+#   - plugin-qmlfiles - Copies the qml files (*.qml, *.js, qmldir) into the shadow build folder.
+#   - plugin-qmltypes - Generates the qmltypes file in the shadow build folder.
 
 
 macro(export_qmlplugin PLUGIN VERSION PLUGIN_SUBPATH)
