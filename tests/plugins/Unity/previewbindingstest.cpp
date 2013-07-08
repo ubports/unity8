@@ -38,17 +38,18 @@ void PreviewBindingsTest::initTestCase()
 
 void PreviewBindingsTest::testGenericPreview()
 {
-    auto raw_preview = (GObject *)unity_protocol_generic_preview_new();
-    unity_protocol_preview_set_title(UNITY_PROTOCOL_PREVIEW(raw_preview), "Metallica");
-    unity_protocol_preview_set_subtitle(UNITY_PROTOCOL_PREVIEW(raw_preview), "Ride The Lightning");
-    unity_protocol_preview_set_description(UNITY_PROTOCOL_PREVIEW(raw_preview), "Lorem ipsum dolor sit amet");
-    GFile *icon_file = g_file_new_for_path("/foo.png");
-    GIcon *icon =  g_file_icon_new(icon_file);
-    unity_protocol_preview_add_action(UNITY_PROTOCOL_PREVIEW(raw_preview), "1", "Action1", icon, UNITY_PROTOCOL_LAYOUT_HINT_LEFT);
-    unity::glib::Object<GObject> gen_prv(raw_preview);
+    auto rawPreview = (GObject *)unity_protocol_generic_preview_new();
+    unity_protocol_preview_set_title(UNITY_PROTOCOL_PREVIEW(rawPreview), "Metallica");
+    unity_protocol_preview_set_subtitle(UNITY_PROTOCOL_PREVIEW(rawPreview), "Ride The Lightning");
+    unity_protocol_preview_set_description(UNITY_PROTOCOL_PREVIEW(rawPreview), "Lorem ipsum dolor sit amet");
+    GFile *iconFile = g_file_new_for_path("/foo.png");
+    GIcon *icon =  g_file_icon_new(iconFile);
+    unity_protocol_preview_add_action(UNITY_PROTOCOL_PREVIEW(rawPreview), "1", "Action1", icon,
+                                      UNITY_PROTOCOL_LAYOUT_HINT_LEFT);
+    unity::glib::Object<GObject> genPrv(rawPreview);
 
-    auto core_prv = unity::dash::Preview::PreviewForProtocolObject(gen_prv);
-    auto prv = Preview::newFromUnityPreview(core_prv);
+    auto corePrv = unity::dash::Preview::PreviewForProtocolObject(genPrv);
+    auto prv = Preview::newFromUnityPreview(corePrv);
 
     QCOMPARE(prv != nullptr, true);
     QCOMPARE(prv->title(), QString("Metallica"));
@@ -64,93 +65,93 @@ void PreviewBindingsTest::testGenericPreview()
     QCOMPARE(act->iconHint(), QString("/foo.png"));
 
     g_object_unref(icon);
-    g_object_unref(icon_file);
+    g_object_unref(iconFile);
 }
 
 void PreviewBindingsTest::testApplicationPreview()
 {
-    auto raw_preview = (GObject *)unity_protocol_application_preview_new();
-    unity_protocol_preview_set_title(UNITY_PROTOCOL_PREVIEW(raw_preview), "Firefox");
-    unity_protocol_preview_set_subtitle(UNITY_PROTOCOL_PREVIEW(raw_preview), "Web Browser");
-    unity_protocol_preview_set_description(UNITY_PROTOCOL_PREVIEW(raw_preview), "Lorem ipsum dolor sit amet");
-    unity_protocol_application_preview_set_license(UNITY_PROTOCOL_APPLICATION_PREVIEW(raw_preview), "GPL");
-    unity_protocol_application_preview_set_rating(UNITY_PROTOCOL_APPLICATION_PREVIEW(raw_preview), 0.5f);
-    unity_protocol_application_preview_set_num_ratings(UNITY_PROTOCOL_APPLICATION_PREVIEW(raw_preview), 4);
-    unity::glib::Object<GObject> gen_prv(raw_preview);
+    auto rawPreview = (GObject *)unity_protocol_application_preview_new();
+    unity_protocol_preview_set_title(UNITY_PROTOCOL_PREVIEW(rawPreview), "Firefox");
+    unity_protocol_preview_set_subtitle(UNITY_PROTOCOL_PREVIEW(rawPreview), "Web Browser");
+    unity_protocol_preview_set_description(UNITY_PROTOCOL_PREVIEW(rawPreview), "Lorem ipsum dolor sit amet");
+    unity_protocol_application_preview_set_license(UNITY_PROTOCOL_APPLICATION_PREVIEW(rawPreview), "GPL");
+    unity_protocol_application_preview_set_rating(UNITY_PROTOCOL_APPLICATION_PREVIEW(rawPreview), 0.5f);
+    unity_protocol_application_preview_set_num_ratings(UNITY_PROTOCOL_APPLICATION_PREVIEW(rawPreview), 4);
+    unity::glib::Object<GObject> genPrv(rawPreview);
 
-    auto core_prv = unity::dash::Preview::PreviewForProtocolObject(gen_prv);
-    auto prv = Preview::newFromUnityPreview(core_prv);
-    auto app_prv = dynamic_cast<ApplicationPreview*>(prv);
+    auto corePrv = unity::dash::Preview::PreviewForProtocolObject(genPrv);
+    auto prv = Preview::newFromUnityPreview(corePrv);
+    auto appPrv = dynamic_cast<ApplicationPreview*>(prv);
 
-    QCOMPARE(app_prv != nullptr, true);
-    QCOMPARE(app_prv->title(), QString("Firefox"));
-    QCOMPARE(app_prv->subtitle(), QString("Web Browser"));
-    QCOMPARE(app_prv->description(), QString("Lorem ipsum dolor sit amet"));
-    QCOMPARE(app_prv->license(), QString("GPL"));
-    QCOMPARE(app_prv->rating(), 0.5f);
-    QCOMPARE(app_prv->numRatings(), unsigned (4));
+    QCOMPARE(appPrv != nullptr, true);
+    QCOMPARE(appPrv->title(), QString("Firefox"));
+    QCOMPARE(appPrv->subtitle(), QString("Web Browser"));
+    QCOMPARE(appPrv->description(), QString("Lorem ipsum dolor sit amet"));
+    QCOMPARE(appPrv->license(), QString("GPL"));
+    QCOMPARE(appPrv->rating(), 0.5f);
+    QCOMPARE(appPrv->numRatings(), unsigned (4));
 }
 
 void PreviewBindingsTest::testMoviePreview()
 {
-    auto raw_preview = (GObject *)unity_protocol_movie_preview_new();
-    unity_protocol_preview_set_title(UNITY_PROTOCOL_PREVIEW(raw_preview), "Blade Runner");
-    unity_protocol_preview_set_subtitle(UNITY_PROTOCOL_PREVIEW(raw_preview), "Ridley Scott");
-    unity_protocol_preview_set_description(UNITY_PROTOCOL_PREVIEW(raw_preview), "Lorem ipsum dolor sit amet");
-    unity_protocol_movie_preview_set_year(UNITY_PROTOCOL_MOVIE_PREVIEW(raw_preview), "1982");
-    unity::glib::Object<GObject> gen_prv(raw_preview);
+    auto rawPreview = (GObject *)unity_protocol_movie_preview_new();
+    unity_protocol_preview_set_title(UNITY_PROTOCOL_PREVIEW(rawPreview), "Blade Runner");
+    unity_protocol_preview_set_subtitle(UNITY_PROTOCOL_PREVIEW(rawPreview), "Ridley Scott");
+    unity_protocol_preview_set_description(UNITY_PROTOCOL_PREVIEW(rawPreview), "Lorem ipsum dolor sit amet");
+    unity_protocol_movie_preview_set_year(UNITY_PROTOCOL_MOVIE_PREVIEW(rawPreview), "1982");
+    unity::glib::Object<GObject> genPrv(rawPreview);
 
-    auto core_prv = unity::dash::Preview::PreviewForProtocolObject(gen_prv);
-    auto prv = Preview::newFromUnityPreview(core_prv);
-    auto movie_prv = dynamic_cast<MoviePreview*>(prv);
+    auto corePrv = unity::dash::Preview::PreviewForProtocolObject(genPrv);
+    auto prv = Preview::newFromUnityPreview(corePrv);
+    auto moviePrv = dynamic_cast<MoviePreview*>(prv);
 
-    QCOMPARE(movie_prv != nullptr, true);
-    QCOMPARE(movie_prv->title(), QString("Blade Runner"));
-    QCOMPARE(movie_prv->subtitle(), QString("Ridley Scott"));
-    QCOMPARE(movie_prv->description(), QString("Lorem ipsum dolor sit amet"));
-    QCOMPARE(movie_prv->year(), QString("1982"));
+    QCOMPARE(moviePrv != nullptr, true);
+    QCOMPARE(moviePrv->title(), QString("Blade Runner"));
+    QCOMPARE(moviePrv->subtitle(), QString("Ridley Scott"));
+    QCOMPARE(moviePrv->description(), QString("Lorem ipsum dolor sit amet"));
+    QCOMPARE(moviePrv->year(), QString("1982"));
 }
 
 void PreviewBindingsTest::testMusicPreview()
 {
-    auto raw_preview = (GObject *)unity_protocol_music_preview_new();
-    unity_protocol_preview_set_title(UNITY_PROTOCOL_PREVIEW(raw_preview), "Metallica");
-    unity_protocol_preview_set_subtitle(UNITY_PROTOCOL_PREVIEW(raw_preview), "Death Magnetic");
-    unity_protocol_preview_set_description(UNITY_PROTOCOL_PREVIEW(raw_preview), "Lorem ipsum dolor sit amet");
-    unity::glib::Object<GObject> gen_prv(raw_preview);
+    auto rawPreview = (GObject *)unity_protocol_music_preview_new();
+    unity_protocol_preview_set_title(UNITY_PROTOCOL_PREVIEW(rawPreview), "Metallica");
+    unity_protocol_preview_set_subtitle(UNITY_PROTOCOL_PREVIEW(rawPreview), "Death Magnetic");
+    unity_protocol_preview_set_description(UNITY_PROTOCOL_PREVIEW(rawPreview), "Lorem ipsum dolor sit amet");
+    unity::glib::Object<GObject> genPrv(rawPreview);
 
-    auto core_prv = unity::dash::Preview::PreviewForProtocolObject(gen_prv);
-    auto prv = Preview::newFromUnityPreview(core_prv);
-    auto music_prv = dynamic_cast<MusicPreview*>(prv);
+    auto corePrv = unity::dash::Preview::PreviewForProtocolObject(genPrv);
+    auto prv = Preview::newFromUnityPreview(corePrv);
+    auto musicPrv = dynamic_cast<MusicPreview*>(prv);
 
-    QCOMPARE(music_prv != nullptr, true);
-    QCOMPARE(music_prv->title(), QString("Metallica"));
-    QCOMPARE(music_prv->subtitle(), QString("Death Magnetic"));
-    QCOMPARE(music_prv->description(), QString("Lorem ipsum dolor sit amet"));
+    QCOMPARE(musicPrv != nullptr, true);
+    QCOMPARE(musicPrv->title(), QString("Metallica"));
+    QCOMPARE(musicPrv->subtitle(), QString("Death Magnetic"));
+    QCOMPARE(musicPrv->description(), QString("Lorem ipsum dolor sit amet"));
 }
 
 void PreviewBindingsTest::testSocialPreview()
 {
-    GFile *icon_file = g_file_new_for_path("/foo.png");
-    GIcon *icon =  g_file_icon_new(icon_file);
+    GFile *iconFile = g_file_new_for_path("/foo.png");
+    GIcon *icon =  g_file_icon_new(iconFile);
 
-    auto raw_preview = (GObject *)unity_protocol_social_preview_new();
-    unity_protocol_social_preview_set_sender(UNITY_PROTOCOL_SOCIAL_PREVIEW(raw_preview), "John");
-    unity_protocol_social_preview_set_avatar(UNITY_PROTOCOL_SOCIAL_PREVIEW(raw_preview), icon);
-    unity_protocol_social_preview_set_content(UNITY_PROTOCOL_SOCIAL_PREVIEW(raw_preview), "Lorem ipsum dolor sit amet");
-    unity_protocol_social_preview_add_comment(UNITY_PROTOCOL_SOCIAL_PREVIEW(raw_preview), "1", "comment1", "Ubuntu", "2013-07-04 14:10");
-    unity::glib::Object<GObject> gen_prv(raw_preview);
+    auto rawPreview = (GObject *)unity_protocol_social_preview_new();
+    unity_protocol_social_preview_set_sender(UNITY_PROTOCOL_SOCIAL_PREVIEW(rawPreview), "John");
+    unity_protocol_social_preview_set_avatar(UNITY_PROTOCOL_SOCIAL_PREVIEW(rawPreview), icon);
+    unity_protocol_social_preview_set_content(UNITY_PROTOCOL_SOCIAL_PREVIEW(rawPreview), "Lorem ipsum dolor sit amet");
+    unity_protocol_social_preview_add_comment(UNITY_PROTOCOL_SOCIAL_PREVIEW(rawPreview), "1", "comment1", "Ubuntu", "2013-07-04 14:10");
+    unity::glib::Object<GObject> genPrv(rawPreview);
 
-    auto core_prv = unity::dash::Preview::PreviewForProtocolObject(gen_prv);
-    auto prv = Preview::newFromUnityPreview(core_prv);
-    auto social_prv = dynamic_cast<SocialPreview*>(prv);
+    auto corePrv = unity::dash::Preview::PreviewForProtocolObject(genPrv);
+    auto prv = Preview::newFromUnityPreview(corePrv);
+    auto socialPrv = dynamic_cast<SocialPreview*>(prv);
 
-    QCOMPARE(social_prv != nullptr, true);
-    QCOMPARE(social_prv->sender(), QString("John"));
-    QCOMPARE(social_prv->content(), QString("Lorem ipsum dolor sit amet"));
-    QCOMPARE(social_prv->avatar(), QString("/foo.png"));
+    QCOMPARE(socialPrv != nullptr, true);
+    QCOMPARE(socialPrv->sender(), QString("John"));
+    QCOMPARE(socialPrv->content(), QString("Lorem ipsum dolor sit amet"));
+    QCOMPARE(socialPrv->avatar(), QString("/foo.png"));
 
-    auto comments = social_prv->comments().value<QList<QObject *>>();
+    auto comments = socialPrv->comments().value<QList<QObject *>>();
     QCOMPARE(comments.size(), 1);
     auto cmt = dynamic_cast<SocialPreviewComment *>(comments[0]);
     QVERIFY(cmt != nullptr);
@@ -160,7 +161,7 @@ void PreviewBindingsTest::testSocialPreview()
     QCOMPARE(cmt->time(), QString("2013-07-04 14:10"));
 
     g_object_unref(icon);
-    g_object_unref(icon_file);
+    g_object_unref(iconFile);
 }
 
 QTEST_MAIN(PreviewBindingsTest)
