@@ -19,11 +19,10 @@ include_directories(
 add_definitions(-DQT_NO_KEYWORDS)
 
 set(UnityQML_SOURCES
-  ${CMAKE_SOURCE_DIR}/plugins/Unity/categories.cpp
-  ${CMAKE_SOURCE_DIR}/plugins/Unity/categoryfilter.cpp
-  ${CMAKE_SOURCE_DIR}/plugins/Utils/qsortfilterproxymodelqml.cpp
+  ${CMAKE_SOURCE_DIR}/plugins/Unity/categoryresults.cpp
   fake_scope.cpp
   fake_scopes.cpp
+  fake_categories.cpp
   fake_unity_plugin.cpp
 )
 

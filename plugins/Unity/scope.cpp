@@ -3,6 +3,7 @@
  *
  * Authors:
  *  Florian Boucault <florian.boucault@canonical.com>
+ *  Michal Hruby <michal.hruby@canonical.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,10 +39,7 @@
 Scope::Scope(QObject *parent) :
     QObject(parent)
 {
-    m_results = new DeeListModel(this);
-    m_categories = new Categories(this);
-
-    m_categories->setResultModel(m_results);
+    m_categories.reset(new Categories(this));
 }
 
 QString Scope::id() const
@@ -84,14 +82,9 @@ bool Scope::connected() const
     return m_unityScope->connected();
 }
 
-DeeListModel* Scope::results() const
-{
-    return m_results;
-}
-
 Categories* Scope::categories() const
 {
-    return m_categories;
+    return m_categories.get();
 }
 
 QString Scope::searchQuery() const
@@ -102,6 +95,11 @@ QString Scope::searchQuery() const
 QString Scope::noResultsHint() const
 {
     return m_noResultsHint;
+}
+
+QString Scope::formFactor() const
+{
+    return m_formFactor;
 }
 
 void Scope::setSearchQuery(const QString& search_query)
@@ -125,6 +123,15 @@ void Scope::setNoResultsHint(const QString& hint) {
     }
 }
 
+void Scope::setFormFactor(const QString& form_factor) {
+    if (form_factor != m_formFactor) {
+        m_formFactor = form_factor;
+        if (m_unityScope) {
+            m_unityScope->form_factor = m_formFactor.toStdString();
+        }
+        Q_EMIT formFactorChanged();
+    }
+}
 
 unity::dash::LocalResult Scope::createLocalResult(const QVariant &uri, const QVariant &icon_hint,
                                                   const QVariant &category, const QVariant &result_type,
@@ -237,18 +244,9 @@ void Scope::setUnityScope(const unity::dash::Scope::Ptr& scope)
 {
     m_unityScope = scope;
 
-    if (QString::fromStdString(m_unityScope->results()->swarm_name) == QString(":local")) {
-        m_results->setModel(m_unityScope->results()->model());
-    } else {
-        m_results->setName(QString::fromStdString(m_unityScope->results()->swarm_name));
-    }
+    m_categories->setUnityScope(m_unityScope);
 
-    if (QString::fromStdString(m_unityScope->categories()->swarm_name) == QString(":local")) {
-        m_categories->setModel(m_unityScope->categories()->model());
-    } else {
-        m_categories->setName(QString::fromStdString(m_unityScope->categories()->swarm_name));
-    }
-
+    m_unityScope->form_factor = m_formFactor.toStdString();
     /* Property change signals */
     m_unityScope->id.changed.connect(sigc::mem_fun(this, &Scope::idChanged));
     m_unityScope->name.changed.connect(sigc::mem_fun(this, &Scope::nameChanged));
@@ -258,12 +256,6 @@ void Scope::setUnityScope(const unity::dash::Scope::Ptr& scope)
     m_unityScope->visible.changed.connect(sigc::mem_fun(this, &Scope::visibleChanged));
     m_unityScope->shortcut.changed.connect(sigc::mem_fun(this, &Scope::shortcutChanged));
     m_unityScope->connected.changed.connect(sigc::mem_fun(this, &Scope::connectedChanged));
-    m_unityScope->results.changed.connect(sigc::mem_fun(this, &Scope::onResultsChanged));
-    m_unityScope->results()->swarm_name.changed.connect(sigc::mem_fun(this, &Scope::onResultsSwarmNameChanged));
-    m_unityScope->results()->model.changed.connect(sigc::mem_fun(this, &Scope::onResultsModelChanged));
-    m_unityScope->categories()->model.changed.connect(sigc::mem_fun(this, &Scope::onCategoriesModelChanged));
-    m_unityScope->categories.changed.connect(sigc::mem_fun(this, &Scope::onCategoriesChanged));
-    m_unityScope->categories()->swarm_name.changed.connect(sigc::mem_fun(this, &Scope::onCategoriesSwarmNameChanged));
     /* Signals forwarding */
     connect(this, SIGNAL(searchFinished(const std::string &, unity::glib::HintsMap const &, unity::glib::Error const &)), SLOT(onSearchFinished(const std::string &, unity::glib::HintsMap const &)));
 
@@ -292,36 +284,6 @@ void Scope::synchronizeStates()
             m_unityScope->Search(m_searchQuery.toStdString());
         }
     }
-}
-
-void Scope::onResultsSwarmNameChanged(const std::string& /* swarm_name */)
-{
-    m_results->setName(QString::fromStdString(m_unityScope->results()->swarm_name));
-}
-
-void Scope::onResultsChanged(const unity::dash::Results::Ptr& /* results */)
-{
-    m_results->setName(QString::fromStdString(m_unityScope->results()->swarm_name));
-}
-
-void Scope::onResultsModelChanged(unity::glib::Object<DeeModel> /* model */)
-{
-    m_results->setModel(m_unityScope->results()->model());
-}
-
-void Scope::onCategoriesSwarmNameChanged(const std::string& /* swarm_name */)
-{
-    m_categories->setName(QString::fromStdString(m_unityScope->categories()->swarm_name));
-}
-
-void Scope::onCategoriesChanged(const unity::dash::Categories::Ptr& /* categories */)
-{
-    m_categories->setName(QString::fromStdString(m_unityScope->categories()->swarm_name));
-}
-
-void Scope::onCategoriesModelChanged(unity::glib::Object<DeeModel> model)
-{
-    m_categories->setModel(model);
 }
 
 void Scope::onSearchFinished(const std::string& /* query */, unity::glib::HintsMap const &hints)

@@ -21,8 +21,8 @@
 
 // local
 #include "fake_scopes.h"
-#include "categories.h"
-#include "categoryfilter.h"
+#include "fake_categories.h"
+#include "categoryresults.h"
 
 // External
 #include <glib-object.h>
@@ -39,5 +39,5 @@ void FakeUnityPlugin::registerTypes(const char *uri)
     qmlRegisterType<Scopes>(uri, 0, 1, "Scopes");
     qmlRegisterType<Scope>(uri, 0, 1, "Scope");
     qmlRegisterType<Categories>(uri, 0, 1, "Categories");
-    qmlRegisterType<CategoryFilter>(uri, 0, 1, "CategoryFilter");
+    qmlRegisterUncreatableType<CategoryResults>(uri, 0, 1, "CategoryResults", "Can't create");
 }

@@ -30,7 +30,7 @@
 #include "scope.h"
 #include "scopes.h"
 #include "categories.h"
-#include "categoryfilter.h"
+#include "categoryresults.h"
 #include "bottombarvisibilitycommunicatorshell.h"
 
 // libqtdee
@@ -48,7 +48,7 @@ void UnityPlugin::registerTypes(const char *uri)
     qmlRegisterType<Scope>(uri, 0, 1, "Scope");
     qmlRegisterType<Scopes>(uri, 0, 1, "Scopes");
     qmlRegisterType<Categories>(uri, 0, 1, "Categories");
-    qmlRegisterType<CategoryFilter>(uri, 0, 1, "CategoryFilter");
+    qmlRegisterUncreatableType<CategoryResults>(uri, 0, 1, "CategoryResults", "Can't create new Category Results in QML. Get them from Categories instance.");
     qmlRegisterType<DeeListModel>(uri, 0, 1, "DeeListModel");
     qmlRegisterUncreatableType<BottomBarVisibilityCommunicatorShell>(uri, 0, 1, "BottomBarVisibilityCommunicatorShell", "Can't create BottomBarVisibilityCommunicatorShell");
 }
