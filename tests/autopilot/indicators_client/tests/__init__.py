@@ -38,15 +38,21 @@ class IndicatorsTestCase(AutopilotTestCase):
         ('with touch', dict(input_device_class=Touch)),
         ]
 
-    def setUp(self, geometry):
+    def setUp(self, geometry, grid_size):
         self.pointing_device = Pointer(self.input_device_class.create())
         super(IndicatorsTestCase, self).setUp()
+        if grid_size != "0":
+            os.environ['GRID_UNIT_PX'] = grid_size
+            self.grid_size = int(grid_size)
+        else:
+            self.grid_size = int(os.environ['GRID_UNIT_PX'])
+
         if os.path.realpath(__file__).startswith("/usr/"):
             self.launch_test_installed(geometry)
         else:
             self.launch_test_local(geometry)
 
-    def launch_test_local(self,geometry):
+    def launch_test_local(self, geometry):
         if geometry != "0x0":
             self.app = self.launch_test_application("../../builddir/src/Panel/Indicators/client/indicators-client",
                 "-geometry", geometry, app_type='qt')

@@ -17,22 +17,22 @@ import math
 
 class TestDisplayMenus(IndicatorsTestCase):
     def setUp(self):
-        super(TestDisplayMenus, self).setUp("384x640")
+        super(TestDisplayMenus, self).setUp("400x800", "12")
 
         # This opens the messaging menu so you don't have to do that in
         # every test case
-        battery_menu = self.main_window.get_battery_menu()
-        self.pointing_device.move_to_object(battery_menu)
+        self.assertThat(lambda: self.main_window.get_battery_menu(), Eventually(NotEquals(None)));
+        self.pointing_device.move_to_object(self.main_window.get_battery_menu())
         self.pointing_device.click()
 
-        self.page = self.app.select_single("IndicatorsPage");
-        page_loader = self.app.select_single("IndicatorsPage/QQuickLoader", objectName="page_loader");
+        fn_loader = lambda: self.app.select_single("IndicatorsPage/QQuickLoader", objectName="page_loader");
+        self.assertThat(fn_loader, Eventually(NotEquals(None)));
+        page_loader = fn_loader();
         self.assertThat(page_loader.progress, Eventually(Equals(1.0)))
 
     def tearDown(self):
         # self.main_window.get_indicators_client().reset()
         super(TestDisplayMenus, self).tearDown()
-
 
     # START SECTION
     # We need to move these to emulators once autopilot supports emulators for
@@ -67,8 +67,10 @@ class TestDisplayMenus(IndicatorsTestCase):
     def test_auto_bright_switch(self):
         """Test the auto-bright switch"""
 
-        auto_brightness = self.app.select_single("SwitchMenuItem", objectName="auto-brightness")
-        self.assertThat(auto_brightness, NotEquals(None))
+        # wait for the switch menu item
+        fn_auto_brightness = lambda: self.app.select_single("SwitchMenuItem", objectName="auto-brightness");
+        self.assertThat(fn_auto_brightness, Eventually(NotEquals(None)));
+        auto_brightness = fn_auto_brightness();
 
         old_ab_value = auto_brightness.checked
 
@@ -80,8 +82,9 @@ class TestDisplayMenus(IndicatorsTestCase):
     def test_brightness_slider(self):
         """Test the auto-bright switch"""
 
-        brightness_menu = self.app.select_single("SliderMenuItem", objectName="brightness")
-        self.assertThat(brightness_menu, NotEquals(None))
+        fn_brightness_menu = lambda: self.app.select_single("SliderMenuItem", objectName="brightness");
+        self.assertThat(fn_brightness_menu, Eventually(NotEquals(None)));
+        brightness_menu = fn_brightness_menu();
 
         old_ab_value = brightness_menu.value
         # find a new value to do to. At least 1/4 distance away from current value
