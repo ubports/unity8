@@ -347,6 +347,19 @@ void ListViewWithPageHeader::showHeader()
 
     auto to = qMax(-minYExtent(), contentY() - m_headerItem->height() + m_headerItemShownHeight);
     if (to != contentY()) {
+        const bool headerShownByItsOwn = contentY() < m_headerItem->y() + m_headerItem->height();
+        if (headerShownByItsOwn && m_headerItemShownHeight == 0) {
+            // We are not clipping since we are just at the top of the viewport
+            // but because of the showHeader animation we will need to, so
+            // enable the clipping without logically moving the items
+            m_headerItemShownHeight = m_headerItem->y() + m_headerItem->height() - contentY();
+            if (!m_visibleItems.isEmpty()) {
+                updateClipItem();
+                ListItem *firstItem = m_visibleItems.first();
+                firstItem->setY(firstItem->y() - m_headerItemShownHeight);
+                layout();
+            }
+        }
         m_headerShowAnimation->setTo(to);
         m_headerShowAnimation->start();
     }
