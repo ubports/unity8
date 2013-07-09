@@ -20,9 +20,12 @@
 #include <QQmlEngine>
 #include <QQuickView>
 #include <QtTestGui>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-pedantic"
 #include <private/qquicklistmodel_p.h>
 #include <private/qquickanimation_p.h>
 #include <private/qquickitem_p.h>
+#pragma GCC diagnostic pop
 
 class ListViewWithPageHeaderTestSection : public QObject
 {
