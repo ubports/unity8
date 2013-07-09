@@ -26,32 +26,29 @@ static DeeModel* create_results_model(unsigned category_count, unsigned result_c
 // TODO: Implement remaining pieces
 
 Scope::Scope(QObject* parent)
-: QObject(parent),
-  m_visible(false),
-  m_categories(new Categories(this)),
-  m_results(new DeeListModel(this))
+    : QObject(parent)
+    , m_visible(false)
+    , m_categories(new Categories(this))
+    , m_results(new DeeListModel(this))
 {
+    DeeModel* results_model = create_results_model(4, 30);
+    m_categories->setResultModel(results_model);
     m_categories->setModel(create_categories_model(4));
-    m_results->setModel(create_results_model(4, 30));
-
-    m_categories->setResultModel(m_results);
+    m_results->setModel(results_model);
 }
 
-Scope::Scope(QString const& id,
-           QString const& name,
-           bool visible,
-           QObject* parent)
-: QObject(parent),
-  m_id(id),
-  m_name(name),
-  m_visible(visible),
-  m_categories(new Categories(this)),
-  m_results(new DeeListModel(this))
+Scope::Scope(QString const& id, QString const& name, bool visible, QObject* parent)
+    : QObject(parent)
+    , m_id(id)
+    , m_name(name)
+    , m_visible(visible)
+    , m_categories(new Categories(this))
+    , m_results(new DeeListModel(this))
 {
+    DeeModel* results_model = create_results_model(4, 30);
+    m_categories->setResultModel(results_model);
     m_categories->setModel(create_categories_model(4));
-    m_results->setModel(create_results_model(4, 30));
-
-    m_categories->setResultModel(m_results);
+    m_results->setModel(results_model);
 }
 
 QString Scope::id() const {
@@ -66,6 +63,42 @@ QString Scope::searchQuery() const {
     return m_searchQuery;
 }
 
+QString Scope::iconHint() const {
+    return m_iconHint;
+}
+
+QString Scope::description() const {
+    return m_description;
+}
+
+QString Scope::searchHint() const {
+    return QString("");
+}
+
+QString Scope::shortcut() const {
+    return QString("");
+}
+
+bool Scope::connected() const {
+    return true;
+}
+
+Categories* Scope::categories() const {
+    return m_categories;
+}
+
+QString Scope::noResultsHint() const {
+    return m_noResultsHint;
+}
+
+QString Scope::formFactor() const {
+    return m_formFactor;
+}
+
+bool Scope::visible() const {
+    return m_visible;
+}
+
 void Scope::setName(const QString &str) {
     if (str != m_name) {
         m_name = str;
@@ -76,45 +109,47 @@ void Scope::setName(const QString &str) {
 void Scope::setSearchQuery(const QString &str) {
     if (str != m_searchQuery) {
         m_searchQuery = str;
-        Q_EMIT searchQueryChanged(m_searchQuery);
+        Q_EMIT searchQueryChanged();
     }
 }
 
-bool Scope::visible() const {
-    return m_visible;
+void Scope::setFormFactor(const QString &str) {
+    if (str != m_formFactor) {
+        m_formFactor = str;
+        Q_EMIT formFactorChanged();
+    }
 }
 
-Categories* Scope::categories() const {
-  return m_categories;
+void Scope::setNoResultsHint(const QString& str) {
+    if (str != m_noResultsHint) {
+        m_noResultsHint = str;
+        Q_EMIT noResultsHintChanged();
+    }
 }
 
 static const gchar * categories_model_schema[] = {
-  "s", //ID
-  "s", // DISPLAY_NAME
-  "s", // ICON_HINT
-  "s", // RENDERER_NAME
-  "a{sv}" // HINTS
+    "s", //ID
+    "s", // DISPLAY_NAME
+    "s", // ICON_HINT
+    "s", // RENDERER_NAME
+    "a{sv}" // HINTS
 };
 
 
 DeeModel* create_categories_model(unsigned category_count) {
     DeeModel* category_model = dee_sequence_model_new();
     dee_model_set_schema_full(category_model, categories_model_schema, G_N_ELEMENTS(categories_model_schema));
-
-    GVariantBuilder b;
-    g_variant_builder_init(&b, G_VARIANT_TYPE("a{sv}"));
-    GVariant *hints = g_variant_builder_end(&b);
+    GVariant* hints = g_variant_new_array(g_variant_type_element(G_VARIANT_TYPE_VARDICT), NULL, 0);
 
     for(unsigned i = 0; i < category_count; ++i)
     {
-      dee_model_append(category_model,
-                       std::to_string(i).c_str(),
-                       ("Category "+std::to_string(i)).c_str(),
-                       "gtk-apply",
-                       "grid",
-                       hints);
+        dee_model_append(category_model,
+                         std::to_string(i).c_str(),
+                         ("Category "+std::to_string(i)).c_str(),
+                         "gtk-apply",
+                         "grid",
+                         hints);
     }
-    g_variant_unref(hints);
     return category_model;
 }
 
@@ -122,48 +157,44 @@ DeeModel* create_categories_model(unsigned category_count) {
 /* Schema that is used in the DeeModel representing
    the results */
 static const gchar * results_model_schema[] = {
-  "s", // URI
-  "s", // ICON_HINT
-  "u", // CATEGORY
-  "u", // RESULT_TYPE
-  "s", // MIMETYPE
-  "s", // TITLE
-  "s", // COMMENT
-  "s", // DND_URI
-  "a{sv}" // METADATA
+    "s", // URI
+    "s", // ICON_HINT
+    "u", // CATEGORY
+    "u", // RESULT_TYPE
+    "s", // MIMETYPE
+    "s", // TITLE
+    "s", // COMMENT
+    "s", // DND_URI
+    "a{sv}" // METADATA
 };
 
 static const gchar * icons[] = {
-  "Applications.png",
-  "Home.png",
-  "Music.png",
-  "People.png",
-  "Videos.png",
+    "Applications.png",
+    "Home.png",
+    "Music.png",
+    "People.png",
+    "Videos.png",
 };
 
 DeeModel* create_results_model(unsigned category_count, unsigned result_count) {
     DeeModel* results_model = dee_sequence_model_new();
     dee_model_set_schema_full(results_model, results_model_schema, G_N_ELEMENTS(results_model_schema));
-
-    GVariantBuilder b;
-    g_variant_builder_init(&b, G_VARIANT_TYPE("a{sv}"));
-    GVariant *hints = g_variant_builder_end(&b);
+    GVariant* hints = g_variant_new_array(g_variant_type_element(G_VARIANT_TYPE_VARDICT), NULL, 0);
 
     for(unsigned i = 0; i < result_count; ++i)
     {
-      unsigned category = i % category_count;
+        unsigned category = i % category_count;
 
-      dee_model_append(results_model,
-                       ("uri://result."+std::to_string(i)).c_str(),
-                       (shellAppDirectory() + "Dash/graphics/scopeIcons/" + (icons[i%G_N_ELEMENTS(icons)])).toLatin1().data(),
-                       category,
-                       0,
-                       "application/x-desktop",
-                       ("Title."+std::to_string(i)).c_str(),
-                       ("Comment."+std::to_string(i)).c_str(),
-                       ("uri://result."+std::to_string(i)).c_str(),
-                       hints);
+        dee_model_append(results_model,
+                         ("uri://result."+std::to_string(i)).c_str(),
+                         (shellAppDirectory() + "Dash/graphics/scopeIcons/" + (icons[i%G_N_ELEMENTS(icons)])).toLatin1().data(),
+                         category,
+                         0,
+                         "application/x-desktop",
+                         ("Title."+std::to_string(i)).c_str(),
+                         ("Comment."+std::to_string(i)).c_str(),
+                         ("uri://result."+std::to_string(i)).c_str(),
+                         hints);
     }
-    g_variant_unref(hints);
     return results_model;
-  }
+}

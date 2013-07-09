@@ -1,10 +1,6 @@
 /*
  * Copyright (C) 2013 Canonical, Ltd.
  *
- * Authors:
- *  Michał Sawicz <michal.sawicz@canonical.com>
- *  Michal Hruby <michal.hruby@canonical.com>
- *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 3.
@@ -18,19 +14,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef FAKE_CATEGORIES_H
+#define FAKE_CATEGORIES_H
 
-#ifndef CATEGORIES_H
-#define CATEGORIES_H
-
-// unity-core
-#include <UnityCore/Scope.h>
-
-// dee-qt
-#include "deelistmodel.h"
-
-#include <QPointer>
+// Qt
+#include <QObject>
 #include <QSet>
 #include <QTimer>
+
+#include <dee.h>
+#include <deelistmodel.h>
 
 class Categories : public DeeListModel
 {
@@ -39,8 +32,7 @@ class Categories : public DeeListModel
     Q_ENUMS(Roles)
 
 public:
-    explicit Categories(QObject* parent = 0);
-
+    Categories(QObject* parent = 0);
     enum Roles {
         RoleId,
         RoleName,
@@ -57,23 +49,21 @@ public:
     QHash<int, QByteArray> roleNames() const;
 
     /* setters */
-    void setUnityScope(const unity::dash::Scope::Ptr& scope);
+    void setResultModel(DeeModel* model);
 
 private Q_SLOTS:
     void onCountChanged();
     void onEmitCountChanged();
 
 private:
-    void onCategoriesModelChanged(unity::glib::Object<DeeModel> model);
+    DeeModel* getResultsForCategory(unsigned index) const;
+    DeeListModel* getFilter(int index) const;
 
-    DeeListModel* getResults(int index) const;
-
-    unity::dash::Scope::Ptr m_unityScope;
+    DeeModel* m_dee_results;
     QTimer m_timer;
-    QSet<int> m_updatedCategories;
+    QSet<DeeListModel*> m_timerFilters;
     QHash<int, QByteArray> m_roles;
-    mutable QMap<int, DeeListModel*> m_results;
-    sigc::connection m_categoriesChangedConnection;
+    mutable QMap<int, DeeListModel*> m_filters;
 };
 
-#endif // CATEGORIES_H
+#endif // FAKE_CATEGORIES_H

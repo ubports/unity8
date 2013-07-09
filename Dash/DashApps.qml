@@ -56,10 +56,10 @@ ScopeView {
     ListModel {
         id: categoryListModel
         // specifies app categories, type of delegate and model used in each category
-        ListElement { category: "Running apps";           component: "RunningApplicationsGrid"; modelName: "RunningApplicationsModel" }
-        ListElement { category: "Frequently used";        component: "ApplicationsFilterGrid";  modelName: "FrequentlyUsedAppsModel" }
-        ListElement { category: "Installed";              component: "ApplicationsFilterGrid";  modelName: "InstalledApplicationsModel" }
-        ListElement { category: "Available for download"; component: "ApplicationsFilterGrid";  modelName: "AppsAvailableForDownloadModel" }
+        ListElement { category: "Running apps";           component: "Apps/RunningApplicationsGrid.qml"; modelName: "RunningApplicationsModel" }
+        ListElement { category: "Frequently used";        component: "Apps/ApplicationsFilterGrid.qml";  modelName: "FrequentlyUsedAppsModel" }
+        ListElement { category: "Installed";              component: "Apps/ApplicationsFilterGrid.qml";  modelName: "InstalledApplicationsModel" }
+        ListElement { category: "Available for download"; component: "Apps/ApplicationsFilterGrid.qml";  modelName: "AppsAvailableForDownloadModel" }
         function getCategory(category1) {
             if (category1 === "Running apps") {
                 return i18n.tr("Running apps");
@@ -95,23 +95,6 @@ ScopeView {
         "AppsAvailableForDownloadModel": appsAvailableForDownloadModel,
     }
 
-    /* Workaround for bug: https://bugreports.qt-project.org/browse/QTBUG-28403
-       When using Loader to load external QML file in the list deelgate, the ListView has
-       a bug where it can position the delegate content to overlap the section header
-       of the ListView - a workaround is to use sourceComponent of Loader instead */
-    Component { id: runningApplicationsGrid; RunningApplicationsGrid { clip: true } }
-    Component {
-        id: applicationsFilterGrid;
-        ApplicationsFilterGrid {
-            onClicked: shell.activateApplication(data)
-        }
-    }
-
-    property var componentModels: {
-        "RunningApplicationsGrid": runningApplicationsGrid,
-        "ApplicationsFilterGrid": applicationsFilterGrid,
-    }
-
     ScopeListView {
         id: categoryView
         anchors.fill: parent
@@ -139,7 +122,7 @@ ScopeView {
                     left: parent.left
                     right: parent.right
                 }
-                sourceComponent: componentModels[component]
+                source: component
                 onLoaded: {
                     if (modelName == "RunningApplicationsModel") {
                         item.firstModel = mainStageApplicationsModel
@@ -147,7 +130,13 @@ ScopeView {
                         item.canEnableTerminationMode =
                             Qt.binding(function() { return isCurrent; })
                     } else {
+                        function activateApplication(index, data) {
+                            shell.activateApplication(data);
+                        }
+
                         item.model = categoryModels[modelName]
+                        item.clicked.connect(activateApplication);
+
                     }
                 }
             }

@@ -1,3 +1,35 @@
+unity8 (7.81.3+13.10.20130709ubuntu.unity.next-0ubuntu1) saucy; urgency=low
+
+  [ Michal Hruby ]
+  * Implement CategoryResults based on DeeFilterModel.
+
+  [ Nick Dedekind ]
+  * Added plugin cmake procedure for qmltypes files.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 86 (ubuntu-unity/next)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 09 Jul 2013 02:58:58 +0000
+
+unity8 (7.81.3+13.10.20130708ubuntu.unity.next-0ubuntu1) saucy; urgency=low
+
+  [ Michael Terry ]
+  * Ensure the past circle animations complete Currently, all the
+    animations stop as soon as the present circles are all visible. This
+    change ensures that the animations run to completion.
+
+  [ Michael Zanetti ]
+  * improve launcher flicking bahavior - fix initial snapping - improve
+    foldingAreas behavior - increase clickFlick speed to flick 4 items.
+
+  [ Albert Astals ]
+  * Remove workarounds for Qt bug 28403 . (LP: #28403)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 83 (ubuntu-unity/next)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 08 Jul 2013 02:34:23 +0000
+
 unity8 (7.81.3+13.10.20130704ubuntu.unity.next-0ubuntu1) saucy; urgency=low
 
   [ Didier Roche ]
