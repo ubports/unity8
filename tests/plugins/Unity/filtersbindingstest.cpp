@@ -27,8 +27,6 @@
 // libunity
 #include <unity.h>
 
-#include <dee.h>
-
 // local
 #include "filter.h"
 #include "multirangefilter.h"
@@ -38,7 +36,7 @@ void FiltersBindingsTest::initTestCase()
 {
 }
 
-GVariant *createOptions(int numOfOptions)
+GVariant* FiltersBindingsTest::createOptions(int numOfOptions)
 {
     auto vtype = g_variant_type_new("a(sssb)");
     auto vb = g_variant_builder_new(vtype);
@@ -50,7 +48,7 @@ GVariant *createOptions(int numOfOptions)
     return g_variant_builder_end(vb);
 }
 
-DeeModel* createFilterModel()
+DeeModel* FiltersBindingsTest::createFilterModel()
 {
     const char* filter_schema[8] = {"s", "s", "s", "s", "a{sv}", "b", "b", "b"};
     auto model = dee_sequence_model_new();
@@ -58,7 +56,7 @@ DeeModel* createFilterModel()
     return model;
 }
 
-void createMultiRangeFilter(DeeModel *model, const std::string &id, const std::string &name, int optionCount)
+void FiltersBindingsTest::createMultiRangeFilter(DeeModel *model, const std::string &id, const std::string &name, int optionCount)
 {
     GVariant* row[8];
 
@@ -209,6 +207,10 @@ void FiltersBindingsTest::testMultiRangeFilter()
 
         delete multi_filter;
     }
+}
+
+void FiltersBindingsTest::testCheckOptionFilter()
+{
 }
 
 QTEST_MAIN(FiltersBindingsTest)

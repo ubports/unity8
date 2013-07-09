@@ -18,6 +18,7 @@
 #define FILTERSBINDINGSTEST_H
 
 #include <QObject>
+#include <dee.h>
 
 class FiltersBindingsTest : public QObject
 {
@@ -26,6 +27,12 @@ class FiltersBindingsTest : public QObject
     private Q_SLOTS:
         void initTestCase();
         void testMultiRangeFilter();
+        void testCheckOptionFilter();
+
+    private:
+        DeeModel* createFilterModel();
+        GVariant* createOptions(int numOfOptions);
+        void createMultiRangeFilter(DeeModel *model, const std::string &id, const std::string &name, int optionCount);
 };
 
 #endif
