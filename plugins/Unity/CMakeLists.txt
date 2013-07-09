@@ -29,6 +29,8 @@ set(QMLPLUGIN_SRC
     preview.cpp
     previewaction.cpp
     previewinfohint.cpp
+    socialpreview.cpp
+    socialpreviewcomment.cpp
     variantutils.cpp
     )
 

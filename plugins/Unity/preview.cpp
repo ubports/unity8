@@ -25,6 +25,7 @@
 #include "applicationpreview.h"
 #include "moviepreview.h"
 #include "musicpreview.h"
+#include "socialpreview.h"
 #include "variantutils.h"
 
 // Qt
@@ -35,6 +36,7 @@
 #include <UnityCore/ApplicationPreview.h>
 #include <UnityCore/MoviePreview.h>
 #include <UnityCore/MusicPreview.h>
+#include <UnityCore/SocialPreview.h>
 
 Preview::Preview(QObject *parent):
     QObject(parent),
@@ -124,6 +126,8 @@ Preview* Preview::newFromUnityPreview(unity::dash::Preview::Ptr unityPreview)
         preview = new MoviePreview();
     } else if (dynamic_cast<unity::dash::ApplicationPreview *>(unityPreview.get()) != nullptr) {
         preview = new ApplicationPreview();
+    } else if (dynamic_cast<unity::dash::SocialPreview *>(unityPreview.get()) != nullptr) {
+        preview = new SocialPreview();
     } else {
         qWarning() << "Unknown preview type: " << typeid(*unityPreview).name();
         preview = new GenericPreview();
