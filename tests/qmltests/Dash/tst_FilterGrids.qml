@@ -53,26 +53,26 @@ Rectangle {
 
     ListModel {
         id: fakeModel
-        ListElement { column_0: "Column0"; column_1: "../../graphics/clock.png"; column_4: "Item0"; column_5: ""; column_6: "dummy.desktop" }
-        ListElement { column_0: "Column0"; column_1: "../../graphics/clock.png"; column_4: "Item1"; column_5: ""; column_6: "dummy.desktop" }
-        ListElement { column_0: "Column0"; column_1: "../../graphics/clock.png"; column_4: "Item2"; column_5: ""; column_6: "dummy.desktop" }
-        ListElement { column_0: "Column0"; column_1: "../../graphics/clock.png"; column_4: "Item3"; column_5: ""; column_6: "dummy.desktop" }
-        ListElement { column_0: "Column0"; column_1: "../../graphics/clock.png"; column_4: "Item4"; column_5: ""; column_6: "dummy.desktop" }
-        ListElement { column_0: "Column0"; column_1: "../../graphics/clock.png"; column_4: "Item5"; column_5: ""; column_6: "dummy.desktop" }
-        ListElement { column_0: "Column0"; column_1: "../../graphics/clock.png"; column_4: "Item6"; column_5: ""; column_6: "dummy.desktop" }
-        ListElement { column_0: "Column0"; column_1: "../../graphics/clock.png"; column_4: "Item7"; column_5: ""; column_6: "dummy.desktop" }
-        ListElement { column_0: "Column0"; column_1: "../../graphics/clock.png"; column_4: "Item8"; column_5: ""; column_6: "dummy.desktop" }
-        ListElement { column_0: "Column0"; column_1: "../../graphics/clock.png"; column_4: "Item9"; column_5: ""; column_6: "dummy.desktop" }
-        ListElement { column_0: "Column0"; column_1: "../../graphics/clock.png"; column_4: "Item10"; column_5: ""; column_6: "dummy.desktop" }
-        ListElement { column_0: "Column0"; column_1: "../../graphics/clock.png"; column_4: "Item11"; column_5: ""; column_6: "dummy.desktop" }
-        ListElement { column_0: "Column0"; column_1: "../../graphics/clock.png"; column_4: "Item12"; column_5: ""; column_6: "dummy.desktop" }
-        ListElement { column_0: "Column0"; column_1: "../../graphics/clock.png"; column_4: "Item13"; column_5: ""; column_6: "dummy.desktop" }
-        ListElement { column_0: "Column0"; column_1: "../../graphics/clock.png"; column_4: "Item14"; column_5: ""; column_6: "dummy.desktop" }
-        ListElement { column_0: "Column0"; column_1: "../../graphics/clock.png"; column_4: "Item15"; column_5: ""; column_6: "dummy.desktop" }
-        ListElement { column_0: "Column0"; column_1: "../../graphics/clock.png"; column_4: "Item16"; column_5: ""; column_6: "dummy.desktop" }
-        ListElement { column_0: "Column0"; column_1: "../../graphics/clock.png"; column_4: "Item17"; column_5: ""; column_6: "dummy.desktop" }
-        ListElement { column_0: "Column0"; column_1: "../../graphics/clock.png"; column_4: "Item18"; column_5: ""; column_6: "dummy.desktop" }
-        ListElement { column_0: "Column0"; column_1: "../../graphics/clock.png"; column_4: "Item19"; column_5: ""; column_6: "dummy.desktop" }
+        ListElement { icon: "../../graphics/clock.png"; title: "Item0"; comment: ""; uri: "dummy.desktop"; dndUri: "dummy.desktop" }
+        ListElement { icon: "../../graphics/clock.png"; title: "Item1"; comment: ""; uri: "dummy.desktop"; dndUri: "dummy.desktop" }
+        ListElement { icon: "../../graphics/clock.png"; title: "Item2"; comment: ""; uri: "dummy.desktop"; dndUri: "dummy.desktop" }
+        ListElement { icon: "../../graphics/clock.png"; title: "Item3"; comment: ""; uri: "dummy.desktop"; dndUri: "dummy.desktop" }
+        ListElement { icon: "../../graphics/clock.png"; title: "Item4"; comment: ""; uri: "dummy.desktop"; dndUri: "dummy.desktop" }
+        ListElement { icon: "../../graphics/clock.png"; title: "Item5"; comment: ""; uri: "dummy.desktop"; dndUri: "dummy.desktop" }
+        ListElement { icon: "../../graphics/clock.png"; title: "Item6"; comment: ""; uri: "dummy.desktop"; dndUri: "dummy.desktop" }
+        ListElement { icon: "../../graphics/clock.png"; title: "Item7"; comment: ""; uri: "dummy.desktop"; dndUri: "dummy.desktop" }
+        ListElement { icon: "../../graphics/clock.png"; title: "Item8"; comment: ""; uri: "dummy.desktop"; dndUri: "dummy.desktop" }
+        ListElement { icon: "../../graphics/clock.png"; title: "Item9"; comment: ""; uri: "dummy.desktop"; dndUri: "dummy.desktop" }
+        ListElement { icon: "../../graphics/clock.png"; title: "Item10"; comment: ""; uri: "dummy.desktop"; dndUri: "dummy.desktop" }
+        ListElement { icon: "../../graphics/clock.png"; title: "Item11"; comment: ""; uri: "dummy.desktop"; dndUri: "dummy.desktop" }
+        ListElement { icon: "../../graphics/clock.png"; title: "Item12"; comment: ""; uri: "dummy.desktop"; dndUri: "dummy.desktop" }
+        ListElement { icon: "../../graphics/clock.png"; title: "Item13"; comment: ""; uri: "dummy.desktop"; dndUri: "dummy.desktop" }
+        ListElement { icon: "../../graphics/clock.png"; title: "Item14"; comment: ""; uri: "dummy.desktop"; dndUri: "dummy.desktop" }
+        ListElement { icon: "../../graphics/clock.png"; title: "Item15"; comment: ""; uri: "dummy.desktop"; dndUri: "dummy.desktop" }
+        ListElement { icon: "../../graphics/clock.png"; title: "Item16"; comment: ""; uri: "dummy.desktop"; dndUri: "dummy.desktop" }
+        ListElement { icon: "../../graphics/clock.png"; title: "Item17"; comment: ""; uri: "dummy.desktop"; dndUri: "dummy.desktop" }
+        ListElement { icon: "../../graphics/clock.png"; title: "Item18"; comment: ""; uri: "dummy.desktop"; dndUri: "dummy.desktop" }
+        ListElement { icon: "../../graphics/clock.png"; title: "Item19"; comment: ""; uri: "dummy.desktop"; dndUri: "dummy.desktop" }
     }
 
     Rectangle {
