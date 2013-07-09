@@ -46,9 +46,8 @@ void MultiRangeFilter::onOptionsChanged(unity::dash::MultiRangeFilter::Options /
         m_options = NULL;
     }
 
-    m_options = new CombinedFilterOptions(m_unityMultiRangeFilter->options,
-                                  m_unityMultiRangeFilter->option_added,
-                                  m_unityMultiRangeFilter->option_removed);
+    m_options = new CombinedFilterOptions(m_unityMultiRangeFilter->options);
+
     /* Property change signals */
     m_signals << m_unityMultiRangeFilter->options.changed.connect(sigc::mem_fun(this, &MultiRangeFilter::onOptionsChanged));
 

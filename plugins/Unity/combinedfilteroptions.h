@@ -35,10 +35,7 @@ class CombinedFilterOptions : public QAbstractListModel
     Q_OBJECT
 
 public:
-    CombinedFilterOptions(const std::vector<unity::dash::FilterOption::Ptr>& list,
-                           sigc::signal<void, unity::dash::FilterOption::Ptr> itemAddedSignal,
-                           sigc::signal<void, unity::dash::FilterOption::Ptr> itemRemovedSignal,
-                           QObject *parent = 0);
+    CombinedFilterOptions(const std::vector<unity::dash::FilterOption::Ptr>& list, QObject *parent = 0);
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
@@ -47,12 +44,8 @@ private Q_SLOTS:
     void onActiveChanged(bool state);
 
 private:
-    void initList(const std::vector<unity::dash::FilterOption::Ptr>& list,
-                                         sigc::signal<void, unity::dash::FilterOption::Ptr> itemAddedSignal,
-                                         sigc::signal<void, unity::dash::FilterOption::Ptr> itemRemovedSignal);
+    void initList(const std::vector<unity::dash::FilterOption::Ptr>& list);
     void addOption(CombinedFilterOption *option);
-    void onItemAdded(unity::dash::FilterOption::Ptr item);
-    void onItemRemoved(unity::dash::FilterOption::Ptr item);
 
     QList<CombinedFilterOption*> m_list;
 };

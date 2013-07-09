@@ -19,13 +19,10 @@
 
 #include "combinedfilteroptions.h"
 
-CombinedFilterOptions::CombinedFilterOptions(const std::vector<unity::dash::FilterOption::Ptr>& list,
-                                               sigc::signal<void, unity::dash::FilterOption::Ptr> itemAddedSignal,
-                                               sigc::signal<void, unity::dash::FilterOption::Ptr> itemRemovedSignal,
-                                               QObject *parent)
+CombinedFilterOptions::CombinedFilterOptions(const std::vector<unity::dash::FilterOption::Ptr>& list, QObject *parent)
     : QAbstractListModel(parent)
 {
-    initList(list, itemAddedSignal, itemRemovedSignal);
+    initList(list);
 }
 
 
@@ -44,9 +41,7 @@ int CombinedFilterOptions::rowCount(const QModelIndex& /* parent */) const
     return m_list.count();
 }
 
-void CombinedFilterOptions::initList(const std::vector<unity::dash::FilterOption::Ptr>& list,
-                                     sigc::signal<void, unity::dash::FilterOption::Ptr> itemAddedSignal,
-                                     sigc::signal<void, unity::dash::FilterOption::Ptr> itemRemovedSignal)
+void CombinedFilterOptions::initList(const std::vector<unity::dash::FilterOption::Ptr>& list)
 {
     // combine options, e.g. A, B, C becomes A-B, B-C, C
     unsigned int i = 0;
@@ -62,9 +57,6 @@ void CombinedFilterOptions::initList(const std::vector<unity::dash::FilterOption
         auto co = new CombinedFilterOption(list[i], NULL);
         addOption(co);
     }
-
-    itemAddedSignal.connect(sigc::mem_fun(this, &CombinedFilterOptions::onItemAdded));
-    itemRemovedSignal.connect(sigc::mem_fun(this, &CombinedFilterOptions::onItemRemoved));
 }
 
 void CombinedFilterOptions::addOption(CombinedFilterOption *option)
@@ -90,12 +82,4 @@ void CombinedFilterOptions::onActiveChanged(bool state)
             }
         }
     }
-}
-
-void CombinedFilterOptions::onItemAdded(unity::dash::FilterOption::Ptr item)
-{
-}
-
-void CombinedFilterOptions::onItemRemoved(unity::dash::FilterOption::Ptr item)
-{
 }
