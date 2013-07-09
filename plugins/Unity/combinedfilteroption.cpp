@@ -23,7 +23,7 @@
 CombinedFilterOption::CombinedFilterOption(unity::dash::FilterOption::Ptr unityFilterOption1, unity::dash::FilterOption::Ptr unityFilterOption2, QObject *parent)
     : AbstractFilterOption(parent),
       m_active(false),
-      m_requested_active(false),
+      m_requestedActive(false),
       m_unityFilterOption {NULL, NULL}
 {
     setUnityFilterOption(unityFilterOption1, unityFilterOption2);
@@ -61,13 +61,13 @@ QString CombinedFilterOption::iconHint() const
 bool CombinedFilterOption::active() const
 {
     if (m_unityFilterOption[1] != NULL)
-        return m_unityFilterOption[0]->active && m_unityFilterOption[1]->active && m_requested_active;
-    return m_unityFilterOption[0]->active && m_requested_active;
+        return m_unityFilterOption[0]->active && m_unityFilterOption[1]->active && m_requestedActive;
+    return m_unityFilterOption[0]->active && m_requestedActive;
 }
 
 void CombinedFilterOption::setActive(bool active)
 {
-    m_requested_active = active;
+    m_requestedActive = active;
     m_unityFilterOption[0]->active = active;
     if (m_unityFilterOption[1] != NULL)
         m_unityFilterOption[1]->active = active;
@@ -78,6 +78,7 @@ void CombinedFilterOption::setInactive(const CombinedFilterOption &otherFilter)
     // de-activate underlying unity filter options as long as they don't belong
     // to otherFilter.
     if (this != &otherFilter) {
+        m_requestedActive = false;
         for (int i = 0; i<2; i++) {
             if (m_unityFilterOption[i] != nullptr) {
                 if (m_unityFilterOption[i]->active &&

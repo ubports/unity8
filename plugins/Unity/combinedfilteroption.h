@@ -62,7 +62,7 @@ private:
     void setInactive(const CombinedFilterOption &otherFilter);
 
     bool m_active;
-    bool m_requested_active;
+    bool m_requestedActive;
     unity::dash::FilterOption::Ptr m_unityFilterOption[2];
     SignalsList m_signals;
 

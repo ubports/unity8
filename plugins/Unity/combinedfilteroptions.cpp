@@ -52,10 +52,7 @@ void CombinedFilterOptions::initList(const std::vector<unity::dash::FilterOption
     unsigned int i = 0;
     while (i < list.size() - 1) {
         unity::dash::FilterOption::Ptr option1 = list[i];
-        unity::dash::FilterOption::Ptr option2 = NULL;
-        //if (i < list.size()-1) {
-        option2 = list[i+1];
-            //}
+        unity::dash::FilterOption::Ptr option2 = list[i+1];
         auto co = new CombinedFilterOption(option1, option2);
         connect(co, SIGNAL(activeChanged(bool)), this, SLOT(onActiveChanged(bool)));
         addOption(co);
