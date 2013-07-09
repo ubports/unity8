@@ -41,7 +41,6 @@ Filter::Filter(QObject *parent) :
 {
 }
 
-
 QString Filter::id() const
 {
     return QString::fromStdString(m_unityFilter->id());

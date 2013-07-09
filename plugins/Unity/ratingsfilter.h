@@ -30,7 +30,7 @@
 // Local
 #include "filter.h"
 
-class RatingsFilter : public Filter
+class Q_DECL_EXPORT RatingsFilter : public Filter
 {
     Q_OBJECT
 

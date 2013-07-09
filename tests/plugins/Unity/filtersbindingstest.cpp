@@ -243,6 +243,14 @@ void FiltersBindingsTest::testCheckOptionFilter()
         auto options = check_filter->options();
         QCOMPARE(options->rowCount(), 3);
 
+        QCOMPARE(check_filter->id(), QString("f1"));
+        QCOMPARE(check_filter->name(), QString("Filter1"));
+        QCOMPARE(check_filter->iconHint(), QString(""));
+        QCOMPARE(check_filter->rendererName(), QString("filter-checkoption"));
+        QCOMPARE(check_filter->visible(), true);
+        QCOMPARE(check_filter->collapsed(), false);
+        QCOMPARE(check_filter->filtering(), false);
+
         QVariant optvar = options->data(options->index(0));
         FilterOption* opt0 = optvar.value<FilterOption*>();
         QCOMPARE(opt0->id(), QString("opt0"));
@@ -340,7 +348,6 @@ void FiltersBindingsTest::testRadioOptionFilter()
 
         delete radio_filter;
     }
-
 }
 
 QTEST_MAIN(FiltersBindingsTest)

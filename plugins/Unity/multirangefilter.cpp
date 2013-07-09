@@ -38,7 +38,7 @@ void MultiRangeFilter::setUnityFilter(unity::dash::Filter::Ptr filter)
     onOptionsChanged(m_unityMultiRangeFilter->options);
 }
 
-void MultiRangeFilter::onOptionsChanged(unity::dash::MultiRangeFilter::Options options)
+void MultiRangeFilter::onOptionsChanged(unity::dash::MultiRangeFilter::Options /* options */)
 {
     if (m_options != NULL) {
         // FIXME: should disconnect from m_unityFilter's signals
