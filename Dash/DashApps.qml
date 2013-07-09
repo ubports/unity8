@@ -16,6 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Unity 0.1
 import Utils 0.1
 import "../Components"
 import "../Components/ListItems"
@@ -81,17 +82,19 @@ ScopeView {
     AppsAvailableForDownloadModel { id: appsAvailableForDownloadModel }
 
     // FIXME this should not be needed, the backend should handle all that itself
-    SortFilterProxyModel {
-        id: installedFilter
-        dynamicSortFilter: true
-        filterRole: 2 // this is the category id for each result
-        filterRegExp: /^3$/ // only proxy items that are category 3 - Installed
-        model: dashContent.scopes.get("applications.scope").results
+    property var installedModel: null
+
+    Repeater {
+        model: scopeView.scope.categories
+
+        delegate: Item {
+            Component.onCompleted: if (index == 3) scopeView.installedModel = Qt.binding(function() { return model.results; });
+        }
     }
 
     property var categoryModels: {
         "FrequentlyUsedAppsModel": frequentlyUsedAppsModel,
-        "InstalledApplicationsModel": installedFilter,
+        "InstalledApplicationsModel": installedModel,
         "AppsAvailableForDownloadModel": appsAvailableForDownloadModel,
     }
 
@@ -134,7 +137,7 @@ ScopeView {
                             shell.activateApplication(data);
                         }
 
-                        item.model = categoryModels[modelName]
+                        item.model = Qt.binding(function() { return categoryModels[modelName]; });
                         item.clicked.connect(activateApplication);
 
                     }

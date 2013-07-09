@@ -16,6 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Unity 0.1
 import Utils 0.1
 import "../Components"
 import "../Components/ListItems"
@@ -52,42 +53,33 @@ ScopeView {
     FrequentlyUsedAppsModel { id: appsModel }
 
     // FIXME this should be handled by the backends by populating the global search model
-    SortFilterProxyModel {
-        id: favouritesFilter
-        dynamicSortFilter: true
-        filterRole: 2
-        filterRegExp: /^0$/
+    property var musicModel: null
+    property var videosModel: null
+
+    Repeater {
+        id: musicRepeater
+
+        delegate: Item {
+            Component.onCompleted: if (index == 1) musicModel = Qt.binding(function() { return model.results; });
+        }
     }
 
-    SortFilterProxyModel {
-        id: recentFilter
-        dynamicSortFilter: true
-        filterRole: 2
-        filterRegExp: /^2$/
-    }
+    Repeater {
+        id: videosRepeater
 
-    SortFilterProxyModel {
-        id: musicFilter
-        dynamicSortFilter: true
-        filterRole: 2
-        filterRegExp: /^1$/
-    }
-
-    SortFilterProxyModel {
-        id: videosFilter
-        dynamicSortFilter: true
-        filterRole: 2
-        filterRegExp: /^3$/
+        delegate: Item {
+            Component.onCompleted: if (index == 3) videosModel = Qt.binding(function() { return model.results; });
+        }
     }
 
     Component.onCompleted: {
         var scope = dashContent.scopes.get("mockmusicmaster.scope")
         if (scope) {
-            musicFilter.model = dashContent.scopes.get("mockmusicmaster.scope").results
+            musicRepeater.model = dashContent.scopes.get("mockmusicmaster.scope").categories
         }
         scope = dashContent.scopes.get("mockvideosmaster.scope")
         if (scope) {
-            videosFilter.model = dashContent.scopes.get("mockvideosmaster.scope").results
+            videosRepeater.model = dashContent.scopes.get("mockvideosmaster.scope").categories
         }
     }
 
@@ -95,19 +87,17 @@ ScopeView {
         target: dashContent
         onScopeLoaded: switch (scopeId) {
             case "mockmusicmaster.scope":
-                musicFilter.model = dashContent.scopes.get("mockmusicmaster.scope").results
+                musicRepeater.model = dashContent.scopes.get("mockmusicmaster.scope").categories
                 break;
             case "mockvideosmaster.scope":
-                videosFilter.model = dashContent.scopes.get("mockvideosmaster.scope").results
+                videosRepeater.model = dashContent.scopes.get("mockvideosmaster.scope").categories
                 break;
         }
     }
 
     property var categoryModels: {"AppsModel": appsModel,
-                                  "FavouriteModel": favouritesFilter,
-                                  "RecentModel": recentFilter,
-                                  "MusicModel": musicFilter,
-                                  "VideosModel": videosFilter,
+                                  "MusicModel": musicModel,
+                                  "VideosModel": videosModel,
                                  }
 
     ScopeListView {
@@ -127,7 +117,7 @@ ScopeView {
                 anchors { top: parent.top; left: parent.left; right: parent.right }
                 source: component
                 onLoaded: {
-                    item.model = categoryModels[modelName]
+                    item.model = Qt.binding(function() { return categoryModels[modelName]; });
 
                     //FIXME: workaround for lack of previews for videos in Home scope.
                     //Need to connect to the clicked() signal here and act upon it here instead.
