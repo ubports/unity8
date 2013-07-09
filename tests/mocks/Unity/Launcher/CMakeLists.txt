@@ -29,11 +29,3 @@ add_custom_target(LauncherPluginQmlDirFile ALL
     COMMAND cp "${CMAKE_CURRENT_SOURCE_DIR}/qmldir" ${CMAKE_CURRENT_BINARY_DIR}
     DEPENDS qmldir
 )
-
-install(TARGETS MockLauncherPlugin
-    DESTINATION ${SHELL_APP_DIR}/plugins/mocks/Unity/Launcher
-    )
-
-install(FILES qmldir
-    DESTINATION ${SHELL_APP_DIR}/plugins/mocks/Unity/Launcher
-    )
