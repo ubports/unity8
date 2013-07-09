@@ -23,6 +23,7 @@
 
 #include <QObject>
 #include <QStringList>
+#include <QHash>
 
 /**
   * @brief An interface that provides all the data needed by the launcher.
