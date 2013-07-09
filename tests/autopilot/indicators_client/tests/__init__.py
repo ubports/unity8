@@ -38,19 +38,27 @@ class IndicatorsTestCase(AutopilotTestCase):
         ('with touch', dict(input_device_class=Touch)),
         ]
 
-    def setUp(self):
+    def setUp(self, geometry):
         self.pointing_device = Pointer(self.input_device_class.create())
         super(IndicatorsTestCase, self).setUp()
         if os.path.realpath(__file__).startswith("/usr/"):
-            self.launch_test_installed()
+            self.launch_test_installed(geometry)
         else:
-            self.launch_test_local()
+            self.launch_test_local(geometry)
 
-    def launch_test_local(self):
-        self.app = self.launch_test_application("../../builddir/src/Panel/Indicators/client/indicators-client", app_type='qt')
+    def launch_test_local(self,geometry):
+        if geometry != "0x0":
+            self.app = self.launch_test_application("../../builddir/src/Panel/Indicators/client/indicators-client",
+                "-geometry", geometry, app_type='qt')
+        else:
+            self.app = self.launch_test_application("../../builddir/src/Panel/Indicators/client/indicators-client",
+                app_type='qt')
 
-    def launch_test_installed(self):
-        self.app = self.launch_test_application("indicators-client", app_type='qt')
+    def launch_test_installed(self, geometry):
+        if geometry != "0x0":
+            self.app = self.launch_test_application("indicators-client", "-geometry", geometry, app_type='qt')
+        else:
+            self.app = self.launch_test_application("indicators-client", app_type='qt')
 
     def skipWrapper(*args, **kwargs):
         pass
