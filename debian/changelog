@@ -1,3 +1,16 @@
+unity8 (7.81.3+13.10.20130709ubuntu.unity.next-0ubuntu1) saucy; urgency=low
+
+  [ Michal Hruby ]
+  * Implement CategoryResults based on DeeFilterModel.
+
+  [ Nick Dedekind ]
+  * Added plugin cmake procedure for qmltypes files.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 86 (ubuntu-unity/next)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 09 Jul 2013 02:58:58 +0000
+
 unity8 (7.81.3+13.10.20130708ubuntu.unity.next-0ubuntu1) saucy; urgency=low
 
   [ Michael Terry ]
