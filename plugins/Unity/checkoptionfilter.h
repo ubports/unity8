@@ -31,7 +31,7 @@
 #include "filter.h"
 #include "filteroption.h"
 
-class CheckOptionFilter : public Filter
+class Q_DECL_EXPORT CheckOptionFilter : public Filter
 {
     Q_OBJECT
 
@@ -46,6 +46,9 @@ public:
 Q_SIGNALS:
     void optionsChanged();
 
+private Q_SLOTS:
+    void  onActiveChanged(bool state);
+
 protected:
     virtual void setUnityFilter(unity::dash::Filter::Ptr filter);
 
@@ -53,7 +56,6 @@ private:
     unity::dash::CheckOptionFilter::Ptr m_unityCheckOptionFilter;
     FilterOptions* m_options;
 
-    void onActiveChanged(bool state);
     void onOptionsChanged(unity::dash::CheckOptionFilter::CheckOptions);
 };
 

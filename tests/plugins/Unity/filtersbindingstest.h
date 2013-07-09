@@ -28,11 +28,15 @@ class FiltersBindingsTest : public QObject
         void initTestCase();
         void testMultiRangeFilter();
         void testCheckOptionFilter();
+        void testRadioOptionFilter();
 
     private:
         DeeModel* createFilterModel();
         GVariant* createOptions(int numOfOptions);
         void createMultiRangeFilter(DeeModel *model, const std::string &id, const std::string &name, int optionCount);
+        void createCheckOptionFilter(DeeModel *model, const std::string &id, const std::string &name, int optionCount);
+        void createRadioOptionFilter(DeeModel *model, const std::string &id, const std::string &name, int optionCount);
+        void createFilter(DeeModel *model, const std::string &renderer, const std::string &id, const std::string &name, int optionCount);
 };
 
 #endif

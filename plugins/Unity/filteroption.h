@@ -27,7 +27,7 @@
 // libunity-core
 #include <UnityCore/Filter.h>
 
-class FilterOption : public AbstractFilterOption
+class Q_DECL_EXPORT FilterOption : public AbstractFilterOption
 {
     Q_OBJECT
 

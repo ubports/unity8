@@ -31,7 +31,7 @@
 #include "filter.h"
 #include "filteroption.h"
 
-class RadioOptionFilter : public Filter
+class Q_DECL_EXPORT RadioOptionFilter : public Filter
 {
     Q_OBJECT
 
