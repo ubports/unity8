@@ -49,6 +49,8 @@ class NotificationTestCase(ShellTestCase, TestShellHelpers):
 
     def setUp(self):
         self.action_interactive_triggered = False
+        self.action_accept_triggered = False
+        self.action_send_message_triggered = False
         self.touch = Touch.create()
         super(NotificationTestCase, self).setUp("768x1280", "18")
 
@@ -123,14 +125,18 @@ class NotificationTestCase(ShellTestCase, TestShellHelpers):
     def action_sd_decline4_cb (self, notification, action):
         if action == "action_decline_4":
             print "Send custom message..."
+            self.action_send_message_triggered = True
         else:
             print "That should not have happened (action_decline_4)!"
+            self.action_send_message_triggered = False
 
     def action_sd_accept_cb (self, notification, action):
         if action == "action_accept":
             print "Accepting call"
+            self.action_accept_triggered = True
         else:
             print "That should not have happened (action_accept)!"
+            self.action_accept_triggered = False
 
 class TestNotifications(NotificationTestCase):
     def test_icon_summary_body(self):
@@ -175,7 +181,7 @@ class TestNotifications(NotificationTestCase):
         notification = get_notification()
         self.assertThat(notification.opacity, Eventually(Equals(1.0)))
         self.touch.tap_object(notification.select_single(objectName="interactiveArea"))
-        #self.assertThat (self.action_interactive_triggered, Equals(True))
+        self.assertThat (self.action_interactive_triggered, Equals(True))
 
     def test_sd_incoming_call(self):
         """Snap-decision simulating incoming call."""
@@ -201,6 +207,10 @@ class TestNotifications(NotificationTestCase):
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
         self.assertThat(notification.opacity, Eventually(Equals(1.0)))
+        self.touch.tap_object(notification.select_single(objectName="button1"))
+        self.assertThat(notification.select_single(objectName="buttonRow").expanded, Eventually(Equals(True)))
+        self.touch.tap_object(notification.select_single(objectName="button4"))
+        self.assertThat (self.action_send_message_triggered, Equals(True))
 
     def test_icon_summary(self):
         notify_list = self.get_notifications_list()
