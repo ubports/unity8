@@ -29,6 +29,7 @@
 
 // Local
 #include "filter.h"
+#include "signalslist.h"
 
 class Q_DECL_EXPORT RatingsFilter : public Filter
 {
@@ -53,6 +54,7 @@ protected:
 
 private:
     unity::dash::RatingsFilter::Ptr m_unityRatingsFilter;
+    SignalsList m_signals;
 };
 
 Q_DECLARE_METATYPE(RatingsFilter*)

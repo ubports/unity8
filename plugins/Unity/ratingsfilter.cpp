@@ -38,14 +38,14 @@ void RatingsFilter::setRating(float rating)
 void RatingsFilter::setUnityFilter(unity::dash::Filter::Ptr filter)
 {
     if (m_unityFilter != NULL) {
-        // FIXME: should disconnect from m_unityFilter's signals
+        m_signals.disconnectAll();
     }
 
     Filter::setUnityFilter(filter);
     m_unityRatingsFilter = std::dynamic_pointer_cast<unity::dash::RatingsFilter>(m_unityFilter);
 
     /* Property change signals */
-    m_unityRatingsFilter->rating.changed.connect(sigc::mem_fun(this, &RatingsFilter::ratingChanged));
+    m_signals << m_unityRatingsFilter->rating.changed.connect(sigc::mem_fun(this, &RatingsFilter::ratingChanged));
 }
 
 #include "ratingsfilter.moc"

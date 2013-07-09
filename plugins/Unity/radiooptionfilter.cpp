@@ -51,7 +51,7 @@ void RadioOptionFilter::setUnityFilter(unity::dash::Filter::Ptr filter)
 void RadioOptionFilter::onOptionsChanged(unity::dash::RadioOptionFilter::RadioOptions)
 {
     if (m_options != NULL) {
-        // FIXME: should disconnect from m_unityFilter's signals
+        m_signals.disconnectAll();
         delete m_options;
         m_options = NULL;
     }
@@ -59,7 +59,7 @@ void RadioOptionFilter::onOptionsChanged(unity::dash::RadioOptionFilter::RadioOp
                                  m_unityRadioOptionFilter->option_added,
                                  m_unityRadioOptionFilter->option_removed);
     /* Property change signals */
-    m_unityRadioOptionFilter->options.changed.connect(sigc::mem_fun(this, &RadioOptionFilter::onOptionsChanged));
+    m_signals << m_unityRadioOptionFilter->options.changed.connect(sigc::mem_fun(this, &RadioOptionFilter::onOptionsChanged));
 
     Q_EMIT optionsChanged();
 }

@@ -57,16 +57,16 @@ void FilterOption::setActive(bool active)
 void FilterOption::setUnityFilterOption(unity::dash::FilterOption::Ptr unityFilterOption)
 {
     if (m_unityFilterOption != NULL) {
-        // FIXME: should disconnect from m_unityFilterOption's signals
+        m_signals.disconnectAll();
     }
 
     m_unityFilterOption = unityFilterOption;
 
     /* Property change signals */
-    m_unityFilterOption->id.changed.connect(sigc::mem_fun(this, &FilterOption::idChanged));
-    m_unityFilterOption->name.changed.connect(sigc::mem_fun(this, &FilterOption::nameChanged));
-    m_unityFilterOption->icon_hint.changed.connect(sigc::mem_fun(this, &FilterOption::iconHintChanged));
-    m_unityFilterOption->active.changed.connect(sigc::mem_fun(this, &FilterOption::activeChanged));
+    m_signals << m_unityFilterOption->id.changed.connect(sigc::mem_fun(this, &FilterOption::idChanged))
+              << m_unityFilterOption->name.changed.connect(sigc::mem_fun(this, &FilterOption::nameChanged))
+              << m_unityFilterOption->icon_hint.changed.connect(sigc::mem_fun(this, &FilterOption::iconHintChanged))
+              << m_unityFilterOption->active.changed.connect(sigc::mem_fun(this, &FilterOption::activeChanged));
 }
 
 #include "filteroption.moc"

@@ -22,6 +22,7 @@
 
 // Local
 #include "abstractfilteroption.h"
+#include "signalslist.h"
 
 // libunity-core
 #include <UnityCore/Filter.h>
@@ -60,9 +61,10 @@ private:
       CombinedFilterOption is active. */
     void setInactive(const CombinedFilterOption &otherFilter);
 
-    bool m_active; //not needed???
+    bool m_active;
     bool m_requested_active;
     unity::dash::FilterOption::Ptr m_unityFilterOption[2];
+    SignalsList m_signals;
 
     friend class CombinedFilterOptions;
 };

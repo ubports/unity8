@@ -38,10 +38,10 @@ void CheckOptionFilter::setUnityFilter(unity::dash::Filter::Ptr filter)
     onOptionsChanged(m_unityCheckOptionFilter->options);
 }
 
-void CheckOptionFilter::onOptionsChanged(unity::dash::CheckOptionFilter::CheckOptions options)
+void CheckOptionFilter::onOptionsChanged(unity::dash::CheckOptionFilter::CheckOptions /* options */)
 {
     if (m_options != NULL) {
-        // FIXME: should disconnect from m_unityFilter's signals
+        m_signals.disconnectAll();
         delete m_options;
         m_options = NULL;
     }
@@ -54,7 +54,7 @@ void CheckOptionFilter::onOptionsChanged(unity::dash::CheckOptionFilter::CheckOp
     }
 
     /* Property change signals */
-    m_unityCheckOptionFilter->options.changed.connect(sigc::mem_fun(this, &CheckOptionFilter::onOptionsChanged));
+    m_signals.append(m_unityCheckOptionFilter->options.changed.connect(sigc::mem_fun(this, &CheckOptionFilter::onOptionsChanged)));
 
     Q_EMIT optionsChanged();
 }

@@ -85,22 +85,22 @@ void Filter::clear()
 void Filter::setUnityFilter(unity::dash::Filter::Ptr unityFilter)
 {
     if (m_unityFilter != NULL) {
-        // FIXME: should disconnect from m_unityFilter's signals
+        m_signals.disconnectAll();
     }
 
     m_unityFilter = unityFilter;
 
     /* Property change signals */
-    m_unityFilter->id.changed.connect(sigc::mem_fun(this, &Filter::idChanged));
-    m_unityFilter->name.changed.connect(sigc::mem_fun(this, &Filter::nameChanged));
-    m_unityFilter->icon_hint.changed.connect(sigc::mem_fun(this, &Filter::iconHintChanged));
-    m_unityFilter->renderer_name.changed.connect(sigc::mem_fun(this, &Filter::rendererNameChanged));
-    m_unityFilter->visible.changed.connect(sigc::mem_fun(this, &Filter::visibleChanged));
-    m_unityFilter->collapsed.changed.connect(sigc::mem_fun(this, &Filter::collapsedChanged));
-    m_unityFilter->filtering.changed.connect(sigc::mem_fun(this, &Filter::filteringChanged));
+    m_signals << m_unityFilter->id.changed.connect(sigc::mem_fun(this, &Filter::idChanged))
+              << m_unityFilter->name.changed.connect(sigc::mem_fun(this, &Filter::nameChanged))
+              << m_unityFilter->icon_hint.changed.connect(sigc::mem_fun(this, &Filter::iconHintChanged))
+              << m_unityFilter->renderer_name.changed.connect(sigc::mem_fun(this, &Filter::rendererNameChanged))
+              << m_unityFilter->visible.changed.connect(sigc::mem_fun(this, &Filter::visibleChanged))
+              << m_unityFilter->collapsed.changed.connect(sigc::mem_fun(this, &Filter::collapsedChanged))
+              << m_unityFilter->filtering.changed.connect(sigc::mem_fun(this, &Filter::filteringChanged));
 
     /* Signals forwarding */
-    m_unityFilter->removed.connect(sigc::mem_fun(this, &Filter::removed));
+    m_signals << m_unityFilter->removed.connect(sigc::mem_fun(this, &Filter::removed));
 }
 
 Filter* Filter::newFromUnityFilter(unity::dash::Filter::Ptr unityFilter)

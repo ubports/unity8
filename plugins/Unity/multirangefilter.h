@@ -31,6 +31,7 @@
 #include "filter.h"
 #include "filteroption.h"
 #include "combinedfilteroptions.h"
+#include "signalslist.h"
 
 class Q_DECL_EXPORT MultiRangeFilter : public Filter
 {
@@ -53,6 +54,7 @@ protected:
 private:
     unity::dash::MultiRangeFilter::Ptr m_unityMultiRangeFilter;
     CombinedFilterOptions* m_options;
+    SignalsList m_signals;
 
     void onOptionsChanged(unity::dash::MultiRangeFilter::Options);
 };

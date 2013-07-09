@@ -23,6 +23,7 @@
 // Local
 #include "abstractfilteroption.h"
 #include "listmodelwrapper.h"
+#include "signalslist.h"
 
 // libunity-core
 #include <UnityCore/Filter.h>
@@ -45,6 +46,7 @@ public:
 
 private:
     void setUnityFilterOption(unity::dash::FilterOption::Ptr unityFilterOption);
+    SignalsList m_signals;
 
     unity::dash::FilterOption::Ptr m_unityFilterOption;
 };

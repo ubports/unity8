@@ -41,19 +41,16 @@ void MultiRangeFilter::setUnityFilter(unity::dash::Filter::Ptr filter)
 void MultiRangeFilter::onOptionsChanged(unity::dash::MultiRangeFilter::Options /* options */)
 {
     if (m_options != NULL) {
-        // FIXME: should disconnect from m_unityFilter's signals
+        m_signals.disconnectAll();
         delete m_options;
         m_options = NULL;
     }
-/*    m_options = new FilterOptions(m_unityMultiRangeFilter->options,
-                                  m_unityMultiRangeFilter->option_added,
-                                  m_unityMultiRangeFilter->option_removed);*/
 
     m_options = new CombinedFilterOptions(m_unityMultiRangeFilter->options,
                                   m_unityMultiRangeFilter->option_added,
                                   m_unityMultiRangeFilter->option_removed);
     /* Property change signals */
-    m_unityMultiRangeFilter->options.changed.connect(sigc::mem_fun(this, &MultiRangeFilter::onOptionsChanged));
+    m_signals << m_unityMultiRangeFilter->options.changed.connect(sigc::mem_fun(this, &MultiRangeFilter::onOptionsChanged));
 
     Q_EMIT optionsChanged();
 }

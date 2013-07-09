@@ -27,6 +27,9 @@
 // libunity-core
 #include <UnityCore/Filter.h>
 
+// local
+#include "signalslist.h"
+
 class Q_DECL_EXPORT Filter : public QObject
 {
     Q_OBJECT
@@ -70,6 +73,9 @@ Q_SIGNALS:
 protected:
     unity::dash::Filter::Ptr m_unityFilter;
     virtual void setUnityFilter(unity::dash::Filter::Ptr unityFilter);
+
+private:
+    SignalsList m_signals;
 };
 
 Q_DECLARE_METATYPE(Filter*)

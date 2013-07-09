@@ -30,6 +30,7 @@
 // Local
 #include "filter.h"
 #include "filteroption.h"
+#include "signalslist.h"
 
 class Q_DECL_EXPORT CheckOptionFilter : public Filter
 {
@@ -55,6 +56,7 @@ protected:
 private:
     unity::dash::CheckOptionFilter::Ptr m_unityCheckOptionFilter;
     FilterOptions* m_options;
+    SignalsList m_signals;
 
     void onOptionsChanged(unity::dash::CheckOptionFilter::CheckOptions);
 };

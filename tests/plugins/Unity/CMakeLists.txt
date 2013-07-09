@@ -1,6 +1,7 @@
 pkg_check_modules(UNITYCORE REQUIRED unity-core-6.0)
 pkg_check_modules(LIBUNITYPROTO REQUIRED unity-protocol-private)
 pkg_check_modules(LIBUNITY REQUIRED unity)
+pkg_check_modules(LIBSIGCPP REQUIRED sigc++-2.0)
 
 include_directories(
     ${Unity-qml_SOURCE_DIR}
@@ -8,6 +9,7 @@ include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${LIBUNITYPROTO_INCLUDE_DIRS}
     ${LIBUNITY_INCLUDE_DIRS}
+    ${LIBSIGCPP_INCLUDE_DIRS}
     ${UNITYCORE_INCLUDE_DIRS}
     )
 
@@ -30,6 +32,7 @@ macro(run_tests)
             ${UNITYCORE_LDFLAGS}
             ${LIBUNITY_LDFLAGS}
             ${LIBUNITYPROTO_LDFLAGS}
+            ${LIBSIGCPP_LDFLAGS}
             )
 
         set(_test_list "${_test_list};${_test}")
@@ -37,6 +40,7 @@ macro(run_tests)
 endmacro(run_tests)
 
 run_tests(
+    signalslisttest
     previewbindingstest
     filtersbindingstest
     )

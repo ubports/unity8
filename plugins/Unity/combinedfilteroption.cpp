@@ -108,7 +108,7 @@ void CombinedFilterOption::setUnityFilterOption(unity::dash::FilterOption::Ptr u
 {
     for (int i=0; i<2; i++) {
         if (m_unityFilterOption[0] != NULL) {
-            // FIXME: should disconnect from m_unityFilterOption's signals
+            m_signals.disconnectAll();
         }
     }
 
@@ -118,10 +118,10 @@ void CombinedFilterOption::setUnityFilterOption(unity::dash::FilterOption::Ptr u
     /* Property change signals */
     for (int i=0; i<2; i++) {
         if (m_unityFilterOption[i] != nullptr) {
-            m_unityFilterOption[i]->id.changed.connect(sigc::mem_fun(this, &CombinedFilterOption::onIdChanged));
-            m_unityFilterOption[i]->name.changed.connect(sigc::mem_fun(this, &CombinedFilterOption::nameChanged));
-            m_unityFilterOption[i]->icon_hint.changed.connect(sigc::mem_fun(this, &CombinedFilterOption::iconHintChanged));
-            m_unityFilterOption[i]->active.changed.connect(sigc::mem_fun(this, &CombinedFilterOption::onActiveChanged));
+            m_signals << m_unityFilterOption[i]->id.changed.connect(sigc::mem_fun(this, &CombinedFilterOption::onIdChanged))
+                      << m_unityFilterOption[i]->name.changed.connect(sigc::mem_fun(this, &CombinedFilterOption::nameChanged))
+                      << m_unityFilterOption[i]->icon_hint.changed.connect(sigc::mem_fun(this,&CombinedFilterOption::iconHintChanged))
+                      << m_unityFilterOption[i]->active.changed.connect(sigc::mem_fun(this, &CombinedFilterOption::onActiveChanged));
         }
     }
 }

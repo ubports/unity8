@@ -30,6 +30,7 @@
 // Local
 #include "filter.h"
 #include "filteroption.h"
+#include "signalslist.h"
 
 class Q_DECL_EXPORT RadioOptionFilter : public Filter
 {
@@ -54,6 +55,7 @@ protected:
 private:
     unity::dash::RadioOptionFilter::Ptr m_unityRadioOptionFilter;
     FilterOptions* m_options;
+    SignalsList m_signals;
 
     void onOptionsChanged(unity::dash::RadioOptionFilter::RadioOptions);
 };

@@ -40,6 +40,7 @@ set(QMLPLUGIN_SRC
     preview.cpp
     previewaction.cpp
     previewinfohint.cpp
+    signalslist.cpp
     variantutils.cpp
     )
 
