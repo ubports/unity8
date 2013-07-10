@@ -83,6 +83,7 @@ Item {
                 height: width
                 anchors.centerIn: parent
                 source: "graphics/home.png"
+                rotation: root.rotation
             }
         }
         ThinDivider {
