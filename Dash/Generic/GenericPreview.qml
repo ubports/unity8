@@ -26,7 +26,7 @@ DashPreview {
     property var previewData
 
     title: previewData.title
-    url: IconUtil.from_gicon(IconpreviewData.image)
+    url: IconUtil.from_gicon(previewData.image)
     previewWidthRatio: 0.6
 
     buttons: GridView {
