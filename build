@@ -45,6 +45,7 @@ install_dependencies() {
                          equivs \
                          qtdeclarative5-ubuntu-ui-toolkit-plugin \
                          qtdeclarative5-dee-plugin \
+                         qmenumodel-qml \
                          ubuntu-mobile-icons \
                          unity-notifications-impl-1 \
                          unity-scope-home \
