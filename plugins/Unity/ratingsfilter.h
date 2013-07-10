@@ -30,6 +30,10 @@
 // Local
 #include "filter.h"
 #include "signalslist.h"
+#include "ratingfilteroption.h"
+#include "ratingfilteroption.h"
+
+class GenericListModel;
 
 class Q_DECL_EXPORT RatingsFilter : public Filter
 {
@@ -43,6 +47,9 @@ public:
     /* getters */
     float rating() const;
 
+    /* getters */
+    GenericListModel* options() const;
+
     /* setters */
     void setRating(float rating);
 
@@ -52,8 +59,12 @@ Q_SIGNALS:
 protected:
     virtual void setUnityFilter(unity::dash::Filter::Ptr filter);
 
+protected Q_SLOTS:
+    void onActiveChanged();
+
 private:
     unity::dash::RatingsFilter::Ptr m_unityRatingsFilter;
+    GenericListModel *m_options;
     SignalsList m_signals;
 };
 

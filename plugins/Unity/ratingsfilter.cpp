@@ -20,14 +20,22 @@
 // Self
 #include "ratingsfilter.h"
 
+// local
+#include "genericlistmodel.h"
+
 RatingsFilter::RatingsFilter(QObject *parent) :
-    Filter(parent), m_unityRatingsFilter(NULL)
+    Filter(parent), m_unityRatingsFilter(NULL), m_options(nullptr)
 {
 }
 
 float RatingsFilter::rating() const
 {
     return m_unityRatingsFilter->rating();
+}
+
+GenericListModel* RatingsFilter::options() const
+{
+    return m_options;
 }
 
 void RatingsFilter::setRating(float rating)
@@ -44,8 +52,27 @@ void RatingsFilter::setUnityFilter(unity::dash::Filter::Ptr filter)
     Filter::setUnityFilter(filter);
     m_unityRatingsFilter = std::dynamic_pointer_cast<unity::dash::RatingsFilter>(m_unityFilter);
 
+    if (m_options) {
+        delete m_options;
+    }
+
+    m_options = new GenericListModel(this);
+    for (int i=1; i<=5; i++) {
+        auto opt = new RatingFilterOption(QString::number(i), i*0.2f, this);
+        connect(opt, SIGNAL(activeChanged(bool)), this, SLOT(onActiveChanged()));
+        m_options->addOption(opt);
+    }
+
     /* Property change signals */
     m_signals << m_unityRatingsFilter->rating.changed.connect(sigc::mem_fun(this, &RatingsFilter::ratingChanged));
+}
+
+void RatingsFilter::onActiveChanged()
+{
+    RatingFilterOption *option = dynamic_cast<RatingFilterOption*>(QObject::sender());
+    if (option != nullptr) {
+        setRating(option->value());
+    }
 }
 
 #include "ratingsfilter.moc"
