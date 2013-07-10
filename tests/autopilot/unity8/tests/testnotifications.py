@@ -33,7 +33,7 @@ from autopilot.matchers import Eventually
 from autopilot.display import Display
 from autopilot.platform import model
 
-from gi.repository import GLib, Notify
+from gi.repository import GLib, Notify, Gtk
 import unittest
 import time
 import os
@@ -61,7 +61,6 @@ class NotificationTestCase(ShellTestCase, TestShellHelpers):
         logger.info("Creating notification with title(%s) body(%s) and urgency(%r)", title, body, urgency)
         n = Notify.Notification.new(title, body, asset)
         n.set_urgency(self._get_urgency(urgency))
-
         return n
 
     def _get_urgency(self, urgency):
@@ -96,7 +95,7 @@ class NotificationTestCase(ShellTestCase, TestShellHelpers):
         main_view = self.main_window.get_qml_view()
         return main_view.select_single("QQuickListView", objectName='notificationList')
 
-    def action_interactive_cb (self, notification, action):
+    def action_interactive_cb (self, notification, action, data):
         if action == "action_id":
             logger.info("--- Triggering action ---")
             self.action_interactive_triggered = True
@@ -104,25 +103,25 @@ class NotificationTestCase(ShellTestCase, TestShellHelpers):
             logger.info("--- That should not have happened (action_id)! ---")
             self.action_interactive_triggered = False
 
-    def action_sd_decline1_cb (self, notification, action):
+    def action_sd_decline1_cb (self, notification, action, data):
         if action == "action_decline_1":
             print "Decline"
         else:
             print "That should not have happened (action_decline_1)!"
 
-    def action_sd_decline2_cb (self, notification, action):
+    def action_sd_decline2_cb (self, notification, action, data):
         if action == "action_decline_2":
             print "\"Can't talk now, what's up?\""
         else:
             print "That should not have happened (action_decline_2)!"
 
-    def action_sd_decline3_cb (self, notification, action):
+    def action_sd_decline3_cb (self, notification, action, data):
         if action == "action_decline_3":
             print "\"I call you back.\""
         else:
             print "That should not have happened (action_decline_3)!"
 
-    def action_sd_decline4_cb (self, notification, action):
+    def action_sd_decline4_cb (self, notification, action, data):
         if action == "action_decline_4":
             print "Send custom message..."
             self.action_send_message_triggered = True
@@ -130,13 +129,16 @@ class NotificationTestCase(ShellTestCase, TestShellHelpers):
             print "That should not have happened (action_decline_4)!"
             self.action_send_message_triggered = False
 
-    def action_sd_accept_cb (self, notification, action):
+    def action_sd_accept_cb (self, notification, action, data):
         if action == "action_accept":
             print "Accepting call"
             self.action_accept_triggered = True
         else:
             print "That should not have happened (action_accept)!"
             self.action_accept_triggered = False
+
+    def close_cb(self, notification):
+        Gtk.main_quit()
 
 class TestNotifications(NotificationTestCase):
     def test_icon_summary_body(self):
@@ -174,14 +176,16 @@ class TestNotifications(NotificationTestCase):
         notification.set_hint('x-canonical-secondary-icon', GLib.Variant.new_string(hint_icon))
         notification.set_hint('x-canonical-switch-to-application', GLib.Variant.new_string('true'));
         notification.add_action('action_id', 'dummy', self.action_interactive_cb, None, None);
+        notification.connect('closed', self.close_cb)
         notification.show()
+        Gtk.main()
 
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
         self.assertThat(notification.opacity, Eventually(Equals(1.0)))
         self.touch.tap_object(notification.select_single(objectName="interactiveArea"))
-        self.assertThat (self.action_interactive_triggered, Equals(True))
+        self.assertThat(self.action_interactive_triggered, Equals(True))
 
     def test_sd_incoming_call(self):
         """Snap-decision simulating incoming call."""
@@ -201,7 +205,9 @@ class TestNotifications(NotificationTestCase):
         notification.add_action ('action_decline_4', 'Send custom message...', self.action_sd_decline4_cb, None, None);
         notification.set_hint('x-canonical-snap-decisions', GLib.Variant.new_string('true'));
         notification.set_hint('x-canonical-secondary-icon', GLib.Variant.new_string(hint_icon))
+        notification.connect('closed', self.close_cb)
         notification.show()
+        Gtk.main()
 
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
@@ -210,7 +216,7 @@ class TestNotifications(NotificationTestCase):
         self.touch.tap_object(notification.select_single(objectName="button1"))
         self.assertThat(notification.select_single(objectName="buttonRow").expanded, Eventually(Equals(True)))
         self.touch.tap_object(notification.select_single(objectName="button4"))
-        self.assertThat (self.action_send_message_triggered, Equals(True))
+        self.assertThat(self.action_send_message_triggered, Equals(True))
 
     def test_icon_summary(self):
         notify_list = self.get_notifications_list()
