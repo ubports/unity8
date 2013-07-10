@@ -106,7 +106,6 @@ add_executable(${SHELL_APP}
 
 qt5_use_modules(${SHELL_APP} Qml Quick Test)
 pkg_check_modules(XCB REQUIRED xcb)
-pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=2)
 
 if (NOT "${XCB_INCLUDE_DIRS}" STREQUAL "")
     set_target_properties(${SHELL_APP} PROPERTIES INCLUDE_DIRECTORIES ${XCB_INCLUDE_DIRS})
