@@ -54,7 +54,7 @@ void CombinedFilterOptions::initList(const std::vector<unity::dash::FilterOption
         ++i;
     }
     if (list.size() > 0) {
-        auto co = new CombinedFilterOption(list[i], NULL, this);
+        auto co = new CombinedFilterOption(list[i], nullptr, this);
         addOption(co);
     }
 }

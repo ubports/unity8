@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Canonical, Ltd.
+ * Copyright (C) 2011, 2013 Canonical, Ltd.
  *
  * Authors:
  *  Florian Boucault <florian.boucault@canonical.com>
@@ -28,7 +28,6 @@
 #include <UnityCore/Filters.h>
 #include <UnityCore/Filter.h>
 
-
 class Filter;
 
 class Filters : public QAbstractListModel
@@ -38,7 +37,7 @@ class Filters : public QAbstractListModel
     Q_ENUMS(Roles)
 
 public:
-    explicit Filters(unity::dash::Filters::Ptr unityFilters, QObject *parent = 0);
+    explicit Filters(unity::dash::Filters::Ptr unityFilters, QObject *parent = nullptr);
     ~Filters();
 
     enum Roles {

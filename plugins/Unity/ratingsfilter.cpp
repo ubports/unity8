@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Canonical, Ltd.
+ * Copyright (C) 2011, 2013 Canonical, Ltd.
  *
  * Authors:
  *  Florian Boucault <florian.boucault@canonical.com>
@@ -21,7 +21,7 @@
 #include "ratingsfilter.h"
 
 RatingsFilter::RatingsFilter(QObject *parent) :
-    Filter(parent), m_unityRatingsFilter(NULL)
+    Filter(parent), m_unityRatingsFilter(nullptr)
 {
 }
 
@@ -37,7 +37,7 @@ void RatingsFilter::setRating(float rating)
 
 void RatingsFilter::setUnityFilter(unity::dash::Filter::Ptr filter)
 {
-    if (m_unityFilter != NULL) {
+    if (m_unityFilter != nullptr) {
         m_signals.disconnectAll();
     }
 

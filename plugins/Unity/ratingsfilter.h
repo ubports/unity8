@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Canonical, Ltd.
+ * Copyright (C) 2011, 2013 Canonical, Ltd.
  *
  * Authors:
  *  Florian Boucault <florian.boucault@canonical.com>
@@ -38,7 +38,7 @@ class Q_DECL_EXPORT RatingsFilter : public Filter
     Q_PROPERTY(float rating READ rating WRITE setRating NOTIFY ratingChanged)
 
 public:
-    explicit RatingsFilter(QObject *parent = 0);
+    explicit RatingsFilter(QObject *parent = nullptr);
 
     /* getters */
     float rating() const;

@@ -24,21 +24,21 @@ CombinedFilterOption::CombinedFilterOption(unity::dash::FilterOption::Ptr unityF
     : AbstractFilterOption(parent),
       m_active(false),
       m_requestedActive(false),
-      m_unityFilterOption {NULL, NULL}
+      m_unityFilterOption {nullptr, nullptr}
 {
     setUnityFilterOption(unityFilterOption1, unityFilterOption2);
 }
 
 std::string CombinedFilterOption::getCombinedId() const
 {
-    if (m_unityFilterOption[1] != NULL)
+    if (m_unityFilterOption[1] != nullptr)
         return m_unityFilterOption[0]->id() + "-" + m_unityFilterOption[1]->id();
     return m_unityFilterOption[0]->id();
 }
 
 std::string CombinedFilterOption::getCombinedName() const
 {
-    if (m_unityFilterOption[1] != NULL)
+    if (m_unityFilterOption[1] != nullptr)
         return tr("%1 - %2")
             .arg(QString::fromStdString(m_unityFilterOption[0]->name()))
             .arg(QString::fromStdString(m_unityFilterOption[1]->name())).toStdString();
@@ -62,7 +62,7 @@ QString CombinedFilterOption::iconHint() const
 
 bool CombinedFilterOption::active() const
 {
-    if (m_unityFilterOption[1] != NULL)
+    if (m_unityFilterOption[1] != nullptr)
         return m_unityFilterOption[0]->active && m_unityFilterOption[1]->active && m_requestedActive;
     return m_unityFilterOption[0]->active && m_requestedActive;
 }
@@ -71,7 +71,7 @@ void CombinedFilterOption::setActive(bool active)
 {
     m_requestedActive = active;
     m_unityFilterOption[0]->active = active;
-    if (m_unityFilterOption[1] != NULL)
+    if (m_unityFilterOption[1] != nullptr)
         m_unityFilterOption[1]->active = active;
 }
 
@@ -110,7 +110,7 @@ void CombinedFilterOption::onActiveChanged(bool /*active*/)
 void CombinedFilterOption::setUnityFilterOption(unity::dash::FilterOption::Ptr unityFilterOption1, unity::dash::FilterOption::Ptr unityFilterOption2)
 {
     for (int i=0; i<2; i++) {
-        if (m_unityFilterOption[0] != NULL) {
+        if (m_unityFilterOption[0] != nullptr) {
             m_signals.disconnectAll();
         }
     }

@@ -36,7 +36,7 @@ class Q_DECL_EXPORT CombinedFilterOption : public AbstractFilterOption
     Q_OBJECT
 
 public:
-    explicit CombinedFilterOption(unity::dash::FilterOption::Ptr unityFilterOption1, unity::dash::FilterOption::Ptr unityFilterOption2 = NULL, QObject *parent = 0);
+    explicit CombinedFilterOption(unity::dash::FilterOption::Ptr unityFilterOption1, unity::dash::FilterOption::Ptr unityFilterOption2 = nullptr, QObject *parent = 0);
 
     /* getters */
     QString id() const override;
@@ -54,7 +54,7 @@ private Q_SLOTS:
 private:
     std::string getCombinedId() const;
     std::string getCombinedName() const;
-    void setUnityFilterOption(unity::dash::FilterOption::Ptr unityFilterOption1, unity::dash::FilterOption::Ptr unityFilterOption2 = NULL);
+    void setUnityFilterOption(unity::dash::FilterOption::Ptr unityFilterOption1, unity::dash::FilterOption::Ptr unityFilterOption2 = nullptr);
 
    /* De-activate the filter, and also de-activate one or both of the underlying unity's filter options, depending on whether
       one of them is active in otherFilter. This is used internally by CombinedFilterOptions to ensure only one

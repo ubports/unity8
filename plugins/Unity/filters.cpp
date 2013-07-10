@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Canonical, Ltd.
+ * Copyright (C) 2011, 2013 Canonical, Ltd.
  *
  * Authors:
  *  Florian Boucault <florian.boucault@canonical.com>
@@ -83,12 +83,12 @@ Filter* Filters::getFilter(const QString& id) const
             return filter;
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 void Filters::onFilterAdded(unity::dash::Filter::Ptr unityFilter)
 {
-    if (unityFilter == NULL) {
+    if (unityFilter == nullptr) {
         return;
     }
 
@@ -99,7 +99,7 @@ void Filters::onFilterAdded(unity::dash::Filter::Ptr unityFilter)
 
 void Filters::onFilterChanged(unity::dash::Filter::Ptr unityFilter)
 {
-    if (unityFilter == NULL) {
+    if (unityFilter == nullptr) {
         return;
     }
 
