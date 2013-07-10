@@ -24,7 +24,6 @@ set(UnityQML_SOURCES
   fake_scopes.cpp
   fake_categories.cpp
   fake_unity_plugin.cpp
-  fake_launchermodel.cpp
 )
 
 add_library(FakeUnityQml MODULE ${UnityQML_SOURCES})
@@ -41,3 +40,5 @@ qt5_use_modules(FakeUnityQml Qml)
 file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
     DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
     )
+
+add_subdirectory(Launcher)
