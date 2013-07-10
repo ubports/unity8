@@ -15,7 +15,7 @@ from autopilot.matchers import Eventually
 from autopilot.platform import model
 from testtools.matchers import Equals
 
-from unity8.emulators.main_window import MainWindow
+from unity8.shell.emulators.main_window import MainWindow
 
 class FormFactors(object):
     Phone, Tablet, Desktop = range(3)

@@ -10,7 +10,7 @@
 from testtools.matchers import Equals, NotEquals
 from autopilot.matchers import Eventually
 
-from indicators_client.tests import IndicatorsTestCase
+from unity8.indicators_client.tests import IndicatorsTestCase
 from time import sleep
 import random
 import math

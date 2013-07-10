@@ -5,4 +5,4 @@
 # under the terms of the GNU General Public License version 3, as published
 # by the Free Software Foundation.
 
-"""unity8 autopilot tests and emulators - top level package."""
+"""unity8 indicators-client autopilot tests and emulators - sub level package."""
