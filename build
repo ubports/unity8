@@ -43,9 +43,6 @@ install_dependencies() {
     echo "Installing Unity 8 dependencies.."
     sudo apt-get install devscripts \
                          equivs \
-                         libnm-glib-dev \
-                         libnm-util-dev \
-                         libqmenumodel-dev \
                          qtdeclarative5-ubuntu-ui-toolkit-plugin \
                          qtdeclarative5-dee-plugin \
                          ubuntu-mobile-icons \
