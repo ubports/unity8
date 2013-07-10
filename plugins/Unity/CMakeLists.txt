@@ -18,7 +18,6 @@ set(QMLPLUGIN_SRC
     abstractfilteroption.cpp
     combinedfilteroption.cpp
     combinedfilteroptions.cpp
-    ../Utils/qsortfilterproxymodelqml.cpp # FIXME evaluate a more generic approach for using other plugins
     scope.cpp
     scopes.cpp
     categories.cpp
