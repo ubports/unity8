@@ -45,7 +45,7 @@ public:
     bool active() const override;
 
     /* setters */
-    Q_INVOKABLE void setActive(bool active) override;
+    void setActive(bool active) override;
 
 private Q_SLOTS:
     void onIdChanged(const std::string &id);
