@@ -5,7 +5,4 @@
 # under the terms of the GNU General Public License version 3, as published
 # by the Free Software Foundation.
 
-import indicators_client
-import shell
-
 """unity8 autopilot tests and emulators - top level package."""
