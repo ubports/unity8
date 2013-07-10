@@ -39,7 +39,9 @@ std::string CombinedFilterOption::getCombinedId() const
 std::string CombinedFilterOption::getCombinedName() const
 {
     if (m_unityFilterOption[1] != NULL)
-        return m_unityFilterOption[0]->name() + " - " + m_unityFilterOption[1]->name(); //TODO i18n?
+        return tr("%1 - %2")
+            .arg(QString::fromStdString(m_unityFilterOption[0]->name()))
+            .arg(QString::fromStdString(m_unityFilterOption[1]->name())).toStdString();
     return m_unityFilterOption[0]->name();
 }
 
