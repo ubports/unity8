@@ -1,3 +1,27 @@
+unity8 (7.81.3+13.10.20130710ubuntu.unity.next-0ubuntu1) saucy; urgency=low
+
+  [ Michael Zanetti ]
+  * removed unused old file ShortcutsContainer.qml.
+
+  [ Michał Sawicz ]
+  * Fix fetching data from scopes in the custom scope pages. (LP:
+    #1199322)
+
+  [ Ying-Chun Liu ]
+  * Fix references to scope data. (LP: #1199322)
+
+  [ Albert Astals ]
+  * Fix showHeader animation when the header is half shown at top .
+  * Disable -pedantic on the private Qt headers .
+
+  [ Pawel Stolowski ]
+  * Bindings for SocialPreview.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 94 (ubuntu-unity/next)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 10 Jul 2013 02:32:00 +0000
+
 unity8 (7.81.3+13.10.20130709ubuntu.unity.next-0ubuntu1) saucy; urgency=low
 
   [ Michal Hruby ]
