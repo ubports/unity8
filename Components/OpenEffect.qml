@@ -19,11 +19,13 @@ import QtQuick 2.0
 Item {
     id: effect
     property bool enabled: topGapPx != positionPx || bottomGapPx != positionPx
+    property alias live: effectSource.live
     property Item sourceItem
     property ShaderEffectSource source: ShaderEffectSource {
+        id: effectSource
         sourceItem: effect.enabled ? effect.sourceItem : null
         hideSource: effect.enabled
-        live: effect.enabled
+        live: false
         sourceRect: {
           if (effect.enabled) {
             Qt.rect(0, -effect.topOverflow, sourceItem.width, sourceItem.height + effect.topOverflow + effect.bottomOverflow)
@@ -32,6 +34,8 @@ Item {
           }
         }
     }
+
+    onEnabledChanged: if (!live && enabled) scheduleUpdate()
 
     /*!
     \qmlproperty real positionPx
@@ -59,6 +63,10 @@ Item {
     property real bottomOpacity: 1.0
 
     property real __roundedPositionPx: Math.round(positionPx)
+
+    function scheduleUpdate() {
+        source.scheduleUpdate();
+    }
 
     ShaderEffect {
         id: top
