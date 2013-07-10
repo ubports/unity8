@@ -29,6 +29,7 @@ class PreviewBindingsTest : public QObject
         void testApplicationPreview();
         void testMoviePreview();
         void testMusicPreview();
+        void testSocialPreview();
 };
 
 #endif

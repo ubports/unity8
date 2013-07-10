@@ -17,30 +17,47 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GENERICPREVIEW_H
-#define GENERICPREVIEW_H
+#ifndef SOCIALPREVIEW_H
+#define SOCIALPREVIEW_H
 
 // local
 #include "preview.h"
 
 // Qt
 #include <QObject>
+#include <QList>
 #include <QMetaType>
 
-class GenericPreview : public Preview
+// libunity-core
+#include <UnityCore/SocialPreview.h>
+
+class Q_DECL_EXPORT SocialPreview: public Preview
 {
     Q_OBJECT
 
+    Q_PROPERTY(QString sender READ sender NOTIFY previewChanged)
+    Q_PROPERTY(QString content READ content NOTIFY previewChanged)
+    Q_PROPERTY(QString avatar READ avatar NOTIFY previewChanged)
+
 public:
-    explicit GenericPreview(QObject *parent = 0);
+    explicit SocialPreview(QObject *parent = 0);
+
+    QString sender() const;
+    QString content() const;
+    QString avatar() const;
+    QVariant comments();
 
 Q_SIGNALS:
     void previewChanged();
 
 protected:
     void setUnityPreview(unity::dash::Preview::Ptr unityPreview) override;
+
+private:
+    unity::dash::SocialPreview::Ptr m_unitySocialPreview;
+    QList<QObject *> m_comments;
 };
 
-Q_DECLARE_METATYPE(GenericPreview *)
+Q_DECLARE_METATYPE(SocialPreview *)
 
 #endif

@@ -24,3 +24,8 @@ GenericPreview::GenericPreview(QObject *parent):
     Preview(parent)
 {
 }
+
+void GenericPreview::setUnityPreview(unity::dash::Preview::Ptr /* unityPreview */)
+{
+    Q_EMIT previewChanged();
+}
