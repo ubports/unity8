@@ -17,16 +17,18 @@
 import QtQuick 2.0
 
 QtObject {
-    property var previewDelegateMapping: {"preview-generic": "Generic/GenericPreview.qml",
-                                      }
-    property string genericPreview: "Generic/GenericPreview.qml"
+    property var d: QtObject {
+        readonly property string genericPreview: "Generic/GenericPreview.qml"
+        property var previewDelegateMapping: {"preview-generic": genericPreview,
+        }
+    }
 
     function map(rendererName) {
-        var customPreview = previewDelegateMapping[rendererName]
+        var customPreview = d.previewDelegateMapping[rendererName]
         if (customPreview != undefined) {
             return customPreview
         }
-        console.info("Renderer "+rendererName+" not found, using preview-generic")
-        return genericPreview
+        console.debug("Renderer "+rendererName+" not found, using preview-generic")
+        return d.genericPreview
     }
 }

@@ -26,20 +26,20 @@ DashPreview {
     property var previewData
 
     title: previewData.title
-    url: previewData.image
+    url: IconUtil.from_gicon(IconpreviewData.image)
     previewWidthRatio: 0.6
 
     buttons: GridView {
         id: buttons
         model: genericPreview.previewData.actions
 
-        property int numOfRows: (count+1)/2
+        property int numOfRows: (count + 1) / 2
         property int spacing: units.gu(1)
-        height: Math.max(units.gu(4), units.gu(4)*numOfRows+spacing*(numOfRows-1))
+        height: Math.max(units.gu(4), units.gu(4)*numOfRows + spacing*(numOfRows - 1))
 
-        cellWidth: Math.max(units.gu(9), width/2)
-        cellHeight: buttonHeight+spacing
-        property int buttonWidth: Math.max(0, width/2-spacing)
+        cellWidth: Math.max(units.gu(9), width / 2)
+        cellHeight: buttonHeight + spacing
+        property int buttonWidth: Math.max(0, width / 2 - spacing)
         property int buttonHeight: units.gu(4)
 
         delegate: Button {

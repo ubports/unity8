@@ -19,10 +19,10 @@ import Ubuntu.Components 0.1
 import "../Components"
 import "../Components/ListItems" as ListItems
 import "../Components/IconUtil.js" as IconUtil
-import "Generic"
 
 ScopeView {
     id: scopeView
+    property alias previewShown: previewLoader.onScreen
 
     onIsCurrentChanged: {
         pageHeader.resetSearch();
@@ -48,6 +48,8 @@ ScopeView {
         id: categoryView
         anchors.fill: parent
         model: scopeView.categories
+        forceNoClip: previewLoader.onScreen
+
         onAtYEndChanged: if (atYEnd) endReached()
         onMovingChanged: if (moving && atYEnd) endReached()
 
@@ -196,6 +198,18 @@ ScopeView {
 
         onLoaded: {
             item.previewData = previewLoader.previewData
+        }
+    }
+
+    // TODO: Move as InverseMouseArea to DashPreview
+    MouseArea {
+        enabled: previewLoader.onScreen
+        anchors {
+            fill: parent
+            topMargin: effect.bottomGapPx
+        }
+        onClicked: {
+            previewLoader.open = false;
         }
     }
 }
