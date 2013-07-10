@@ -1,11 +1,3 @@
-set(CMAKE_AUTOMOC ON)
-
-include(FindPkgConfig)
-find_package(Qt5Core REQUIRED)
-find_package(Qt5Quick REQUIRED)
-
-pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher)
-
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
