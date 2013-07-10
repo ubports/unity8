@@ -33,6 +33,8 @@
 #include "combinedfilteroption.h"
 #include "checkoptionfilter.h"
 #include "radiooptionfilter.h"
+#include "ratingsfilter.h"
+#include "ratingfilteroption.h"
 
 void FiltersBindingsTest::initTestCase()
 {
@@ -71,6 +73,30 @@ void FiltersBindingsTest::createRadioOptionFilter(DeeModel *model, const std::st
 void FiltersBindingsTest::createCheckOptionFilter(DeeModel *model, const std::string &id, const std::string &name, int optionCount)
 {
     createFilter(model, "filter-checkoption", id, name, optionCount);
+}
+
+void FiltersBindingsTest::createRatingsFilter(DeeModel *model, const std::string &id, const std::string &name)
+{
+    GVariant* row[8];
+
+    row[0] = g_variant_new_string(id.c_str());
+    row[1] = g_variant_new_string(name.c_str());
+    row[2] = g_variant_new_string(""); // icon hint
+    row[3] = g_variant_new_string("filter-ratings");
+
+    GVariant *children[2];
+    GVariant *key1 = g_variant_new_string("show-all-button");
+    GVariant *key2 = g_variant_new_string("rating");
+    children[0] = g_variant_new_dict_entry(key1, g_variant_new_variant(g_variant_new_boolean(false)));
+    children[1] = g_variant_new_dict_entry(key2, g_variant_new_variant(g_variant_new_double(0.0f)));
+    auto fhints = g_variant_new_array(G_VARIANT_TYPE("{sv}"), children, 2);
+
+    row[4] = fhints;
+    row[5] = g_variant_new_boolean(true);  // visible
+    row[6] = g_variant_new_boolean(false); // collapsed
+    row[7] = g_variant_new_boolean(false); // filtering
+
+    dee_model_append_row(model, row);
 }
 
 void FiltersBindingsTest::createFilter(DeeModel *model, const std::string &renderer, const std::string &id, const std::string &name, int optionCount)
@@ -347,6 +373,63 @@ void FiltersBindingsTest::testRadioOptionFilter()
         QCOMPARE(opt2->active(), false);
 
         delete radio_filter;
+    }
+}
+
+void FiltersBindingsTest::testRatingsFilter()
+{
+    auto model = createFilterModel();
+
+    createRatingsFilter(model, "f1", "Filter1");
+
+    // create filter out of 1st row
+    auto iter = dee_model_get_first_iter(DEE_MODEL(model));
+    {
+        auto core_filter = unity::dash::Filter::FilterFromIter(model, iter);
+        QVERIFY(core_filter != nullptr);
+        auto bind_filter = Filter::newFromUnityFilter(core_filter);
+        auto rating_filter = dynamic_cast<RatingsFilter*>(bind_filter);
+        QVERIFY(rating_filter != nullptr);
+        auto options = rating_filter->options();
+        QCOMPARE(options->rowCount(), 5);
+
+        RatingFilterOption* opt[5];
+        for (int i = 0; i<5; i++) {
+            opt[i] = options->data(options->index(i)).value<RatingFilterOption*>();
+        }
+
+        QSignalSpy opt0spy(opt[0], SIGNAL(activeChanged(bool)));
+        QSignalSpy opt4spy(opt[4], SIGNAL(activeChanged(bool)));
+
+        QVERIFY(qAbs(opt[0]->value() - 0.2f) <= 0.0001f);
+        QVERIFY(qAbs(opt[1]->value() - 0.4f) <= 0.0001f);
+        QVERIFY(qAbs(opt[2]->value() - 0.6f) <= 0.0001f);
+        QVERIFY(qAbs(opt[3]->value() - 0.8f) <= 0.0001f);
+        QVERIFY(qAbs(opt[4]->value() - 1.0f) <= 0.0001f);
+
+        // all options initially inactive
+        for (int i=0; i<5; i++) {
+            QCOMPARE(opt[i]->active(), false);
+        }
+
+        // verify activation for all options
+        for (int i=0; i<5; i++) {
+            opt[i]->setActive(true);
+            QCOMPARE(opt[i]->active(), true);
+
+            // verify that all other options are inactive
+            for (int j=0; j<5; j++) {
+                if (i != j) {
+                    QCOMPARE(opt[j]->active(), false);
+                }
+            }
+        }
+
+        QCOMPARE(opt0spy.count(), 2);
+        QCOMPARE(opt4spy.count(), 1);
+
+        opt[4]->setActive(false);
+        QCOMPARE(opt4spy.count(), 2);
     }
 }
 

@@ -22,32 +22,25 @@
 
 // Qt
 #include <QObject>
-#include <QAbstractListModel>
 
 // libunity-core
 #include <UnityCore/Filter.h>
 
 // local
-#include "combinedfilteroption.h"
+#include "genericlistmodel.h"
 
-class CombinedFilterOptions : public QAbstractListModel
+class CombinedFilterOptions : public GenericListModel
 {
     Q_OBJECT
 
 public:
     CombinedFilterOptions(const std::vector<unity::dash::FilterOption::Ptr>& list, QObject *parent = 0);
 
-    QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
-    int rowCount(const QModelIndex& parent = QModelIndex()) const override;
-
 private Q_SLOTS:
     void onActiveChanged(bool state);
 
 private:
     void initList(const std::vector<unity::dash::FilterOption::Ptr>& list);
-    void addOption(CombinedFilterOption *option);
-
-    QList<CombinedFilterOption*> m_list;
 };
 
 Q_DECLARE_METATYPE(CombinedFilterOptions*)

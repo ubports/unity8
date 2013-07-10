@@ -22,25 +22,19 @@
 
 // local
 #include "genericlistmodel.h"
+#include "ratingfilteroption.h"
+
+// Qt
+#include <QDebug>
 
 RatingsFilter::RatingsFilter(QObject *parent) :
     Filter(parent), m_unityRatingsFilter(NULL), m_options(nullptr)
 {
 }
 
-float RatingsFilter::rating() const
-{
-    return m_unityRatingsFilter->rating();
-}
-
 GenericListModel* RatingsFilter::options() const
 {
     return m_options;
-}
-
-void RatingsFilter::setRating(float rating)
-{
-    m_unityRatingsFilter->rating = rating;
 }
 
 void RatingsFilter::setUnityFilter(unity::dash::Filter::Ptr filter)
@@ -63,15 +57,27 @@ void RatingsFilter::setUnityFilter(unity::dash::Filter::Ptr filter)
         m_options->addOption(opt);
     }
 
-    /* Property change signals */
-    m_signals << m_unityRatingsFilter->rating.changed.connect(sigc::mem_fun(this, &RatingsFilter::ratingChanged));
+    Q_EMIT ratingsChanged();
 }
 
 void RatingsFilter::onActiveChanged()
 {
     RatingFilterOption *option = dynamic_cast<RatingFilterOption*>(QObject::sender());
     if (option != nullptr) {
-        setRating(option->value());
+        if (option->active()) {
+            // disable all other options
+            for (auto it = m_options->optionsBegin(); it != m_options->optionsEnd(); it++) {
+                RatingFilterOption *opt = dynamic_cast<RatingFilterOption *>(*it);
+                if (opt && opt != option && opt->active()) {
+                    opt->setActive(false);
+                }
+            }
+            m_unityRatingsFilter->rating = option->value();
+        }
+
+        Q_EMIT ratingsChanged();
+    } else {
+        qWarning() << "Invalid option";
     }
 }
 

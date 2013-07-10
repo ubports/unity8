@@ -30,8 +30,6 @@
 // Local
 #include "filter.h"
 #include "signalslist.h"
-#include "ratingfilteroption.h"
-#include "ratingfilteroption.h"
 
 class GenericListModel;
 
@@ -39,22 +37,16 @@ class Q_DECL_EXPORT RatingsFilter : public Filter
 {
     Q_OBJECT
 
-    Q_PROPERTY(float rating READ rating WRITE setRating NOTIFY ratingChanged)
+    Q_PROPERTY(GenericListModel* options READ options NOTIFY ratingsChanged)
 
 public:
     explicit RatingsFilter(QObject *parent = 0);
 
     /* getters */
-    float rating() const;
-
-    /* getters */
     GenericListModel* options() const;
 
-    /* setters */
-    void setRating(float rating);
-
 Q_SIGNALS:
-    void ratingChanged(float);
+    void ratingsChanged();
 
 protected:
     virtual void setUnityFilter(unity::dash::Filter::Ptr filter);

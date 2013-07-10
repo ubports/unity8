@@ -18,27 +18,12 @@
  */
 
 #include "combinedfilteroptions.h"
+#include "combinedfilteroption.h"
 
 CombinedFilterOptions::CombinedFilterOptions(const std::vector<unity::dash::FilterOption::Ptr>& list, QObject *parent)
-    : QAbstractListModel(parent)
+    : GenericListModel(parent)
 {
     initList(list);
-}
-
-
-QVariant CombinedFilterOptions::data(const QModelIndex& index, int /* role */) const
-{
-    if (!index.isValid()) {
-        return QVariant();
-    }
-
-    CombinedFilterOption* item = m_list.at(index.row());
-    return QVariant::fromValue(item);
-}
-
-int CombinedFilterOptions::rowCount(const QModelIndex& /* parent */) const
-{
-    return m_list.count();
 }
 
 void CombinedFilterOptions::initList(const std::vector<unity::dash::FilterOption::Ptr>& list)
@@ -59,14 +44,6 @@ void CombinedFilterOptions::initList(const std::vector<unity::dash::FilterOption
     }
 }
 
-void CombinedFilterOptions::addOption(CombinedFilterOption *option)
-{
-    int index = m_list.count();
-    beginInsertRows(QModelIndex(), index, index);
-    m_list.insert(index, option);
-    endInsertRows();
-}
-
 void CombinedFilterOptions::onActiveChanged(bool state)
 {
     // if option became active, need to disable all other options
@@ -75,9 +52,12 @@ void CombinedFilterOptions::onActiveChanged(bool state)
         if (option) {
             Q_FOREACH (auto fo, m_list) {
                 if (option != fo) {
-                    // note that changing state will result in onActiveChanged signal for that option, but
-                    // since it will be 'false', we won't end up in an infinite loop
-                    fo->setInactive(*option);
+                    CombinedFilterOption *other = dynamic_cast<CombinedFilterOption*>(fo);
+                    if (fo) {
+                        // note that changing state will result in onActiveChanged signal for that option, but
+                        // since it will be 'false', we won't end up in an infinite loop
+                        other->setInactive(*option);
+                    }
                 }
             }
         }

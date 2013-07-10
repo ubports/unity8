@@ -29,6 +29,7 @@ class FiltersBindingsTest : public QObject
         void testMultiRangeFilter();
         void testCheckOptionFilter();
         void testRadioOptionFilter();
+        void testRatingsFilter();
 
     private:
         DeeModel* createFilterModel();
@@ -36,6 +37,7 @@ class FiltersBindingsTest : public QObject
         void createMultiRangeFilter(DeeModel *model, const std::string &id, const std::string &name, int optionCount);
         void createCheckOptionFilter(DeeModel *model, const std::string &id, const std::string &name, int optionCount);
         void createRadioOptionFilter(DeeModel *model, const std::string &id, const std::string &name, int optionCount);
+        void createRatingsFilter(DeeModel *model, const std::string &id, const std::string &name);
         void createFilter(DeeModel *model, const std::string &renderer, const std::string &id, const std::string &name, int optionCount);
 };
 

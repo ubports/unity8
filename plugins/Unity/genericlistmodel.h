@@ -24,13 +24,7 @@
 #include <QObject>
 #include <QAbstractListModel>
 
-// libunity-core
-#include <UnityCore/Filter.h>
-
-// local
-#include "combinedfilteroption.h"
-
-class GenericListModel : public QAbstractListModel
+class Q_DECL_EXPORT GenericListModel : public QAbstractListModel
 {
     Q_OBJECT
 
@@ -39,9 +33,12 @@ public:
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
-
     void addOption(QObject* option);
 
+    QList<QObject *>::Iterator optionsBegin();
+    QList<QObject *>::Iterator optionsEnd();
+
+protected:
     QList<QObject *> m_list;
 };
 

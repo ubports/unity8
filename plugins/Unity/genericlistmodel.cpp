@@ -46,3 +46,13 @@ void GenericListModel::addOption(QObject *option)
     m_list.insert(index, option);
     endInsertRows();
 }
+
+QList<QObject *>::Iterator GenericListModel::optionsBegin()
+{
+    return m_list.begin();
+}
+
+QList<QObject *>::Iterator GenericListModel::optionsEnd()
+{
+    return m_list.end();
+}
