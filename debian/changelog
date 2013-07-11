@@ -1,3 +1,22 @@
+unity8 (7.81.3+13.10.20130711ubuntu.unity.next-0ubuntu1) saucy; urgency=low
+
+  [ Michael Zanetti ]
+  * invert the home button too in case the whole panel is inverted. (LP:
+    #1199622)
+
+  [ Michał Sawicz ]
+  * Make the OpenEffect non-live by default to improve performance. (LP:
+    #1124584)
+
+  [ Ying-Chun Liu ]
+  * Add Generic Preview. Modify GenericScopeView to support activate and
+    preview.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 98 (ubuntu-unity/next)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 11 Jul 2013 03:00:53 +0000
+
 unity8 (7.81.3+13.10.20130710ubuntu.unity.next-0ubuntu1) saucy; urgency=low
 
   [ Michael Zanetti ]

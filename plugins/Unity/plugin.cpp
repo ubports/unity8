@@ -33,7 +33,6 @@
 #include "categories.h"
 #include "categoryresults.h"
 #include "bottombarvisibilitycommunicatorshell.h"
-#include "launchermodel.h"
 
 // libqtdee
 #include "deelistmodel.h"
@@ -53,8 +52,6 @@ void UnityPlugin::registerTypes(const char *uri)
     qmlRegisterType<Categories>(uri, 0, 1, "Categories");
     qmlRegisterUncreatableType<CategoryResults>(uri, 0, 1, "CategoryResults", "Can't create new Category Results in QML. Get them from Categories instance.");
     qmlRegisterType<DeeListModel>(uri, 0, 1, "DeeListModel");
-    qmlRegisterType<LauncherModel>(uri, 0, 1, "LauncherModel");
-    qmlRegisterUncreatableType<LauncherItem>(uri, 0, 1, "LauncherItem", "Can't create new Launcher Items in QML. Get them from the LauncherModel.");
     qmlRegisterUncreatableType<BottomBarVisibilityCommunicatorShell>(uri, 0, 1, "BottomBarVisibilityCommunicatorShell", "Can't create BottomBarVisibilityCommunicatorShell");
 }
 

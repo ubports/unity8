@@ -23,7 +23,6 @@
 #include "fake_scopes.h"
 #include "fake_categories.h"
 #include "categoryresults.h"
-#include "fake_launchermodel.h"
 
 // External
 #include <glib-object.h>
@@ -41,6 +40,4 @@ void FakeUnityPlugin::registerTypes(const char *uri)
     qmlRegisterType<Scope>(uri, 0, 1, "Scope");
     qmlRegisterType<Categories>(uri, 0, 1, "Categories");
     qmlRegisterUncreatableType<CategoryResults>(uri, 0, 1, "CategoryResults", "Can't create");
-    qmlRegisterType<LauncherModel>(uri, 0, 1, "LauncherModel");
-    qmlRegisterUncreatableType<LauncherItem>(uri, 0, 1, "LauncherItem", "Can't create");
 }
