@@ -235,58 +235,45 @@ class TestNotifications(NotificationTestCase):
         self.assertThat(notification.summary, Equals(summary))
         self.assertThat(notification.opacity, Eventually(Equals(1.0)))
 
-    def test_low_urgency(self):
+    def test_urgency_order(self):
         notify_list = self.get_notifications_list()
         self.unlock_greeter()
 
-        summary = "Low Urgency"
-        body = "No, I'd rather see paint dry, pal *yawn*"
-        icon_path = self.get_icon_path('avatars/anna_olsson@12.png')
+        summary_low = 'Low Urgency'
+        body_low = "No, I'd rather see paint dry, pal *yawn*"
+        icon_path_low = self.get_icon_path('avatars/amanda@12.png')
+        summary_normal = 'Normal Urgency'
+        body_normal = "Hey pal, what's up with the party next weekend? Will you join me and Anna?"
+        icon_path_normal = self.get_icon_path('avatars/funky@12.png')
+        summary_critical = 'Critical Urgency'
+        body_critical = 'Dude, this is so urgent you have no idea :)'
+        icon_path_critical = self.get_icon_path('avatars/anna_olsson@12.png')
 
-        notification = self.create_notification(summary, body, icon_path, "LOW")
-        notification.show()
+        notification_normal = self.create_notification(summary_normal, body_normal, icon_path_normal, "NORMAL")
+        notification_normal.show()
+        notification_low = self.create_notification(summary_low, body_low, icon_path_low, "LOW")
+        notification_low.show()
+        notification_critical = self.create_notification(summary_critical, body_critical, icon_path_critical, "CRITICAL")
+        notification_critical.show()
 
+        time.sleep(4)
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
-        self.assertThat(notification.summary, Equals(summary))
-        self.assertThat(notification.body, Equals(body))
+        self.assertThat(notification.summary, Equals(summary_critical))
+        self.assertThat(notification.body, Equals(body_critical))
         self.assertThat(notification.opacity, Eventually(Equals(1.0)))
 
-    def test_normal_urgency(self):
-        notify_list = self.get_notifications_list()
-        self.unlock_greeter()
-
-        summary = "Normal Urgency"
-        body = "Hey pal, what's up with the party next weekend? Will you join me and Anna?"
-        icon_path = self.get_icon_path('avatars/funky@12.png')
-
-        notification = self.create_notification(summary, body, icon_path, "NORMAL")
-        notification.show()
-
-        get_notification = lambda: notify_list.select_single('Notification')
-        self.assertThat(get_notification, Eventually(NotEquals(None)))
+        time.sleep(4)
         notification = get_notification()
-        self.assertThat(notification.summary, Equals(summary))
-        self.assertThat(notification.body, Equals(body))
+        self.assertThat(notification.summary, Equals(summary_normal))
+        self.assertThat(notification.body, Equals(body_normal))
         self.assertThat(notification.opacity, Eventually(Equals(1.0)))
 
-    def test_critical_urgency(self):
-        notify_list = self.get_notifications_list()
-        self.unlock_greeter()
-
-        summary = 'Critical Urgency'
-        body = 'Dude, this is so urgent you have no idea :)'
-        icon_path = self.get_icon_path('avatars/amanda@12.png')
-
-        notification = self.create_notification(summary, body, icon_path, "CRITICAL")
-        notification.show()
-
-        get_notification = lambda: notify_list.select_single('Notification')
-        self.assertThat(get_notification, Eventually(NotEquals(None)))
+        time.sleep(4)
         notification = get_notification()
-        self.assertThat(notification.summary, Equals(summary))
-        self.assertThat(notification.body, Equals(body))
+        self.assertThat(notification.summary, Equals(summary_low))
+        self.assertThat(notification.body, Equals(body_low))
         self.assertThat(notification.opacity, Eventually(Equals(1.0)))
 
     def test_summary_body(self):
@@ -319,4 +306,150 @@ class TestNotifications(NotificationTestCase):
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
         self.assertThat(notification.summary, Equals(summary))
+        self.assertThat(notification.body, Equals(''))
         self.assertThat(notification.opacity, Eventually(Equals(1.0)))
+
+    def test_update_notification(self):
+        notify_list = self.get_notifications_list()
+        self.unlock_greeter()
+
+        summary = 'Inital notification (1. notification)'
+        body = 'This is the original content of this notification-bubble.'
+        icon_path = self.get_icon_path('avatars/funky@12.png')
+        notification = self.create_notification(summary, body, icon_path)
+        notification.show()
+        get_notification = lambda: notify_list.select_single('Notification')
+        self.assertThat(get_notification, Eventually(NotEquals(None)))
+        self.assertThat(get_notification().summary, Equals(summary))
+        self.assertThat(get_notification().body, Equals(body))
+        self.assertThat(get_notification().opacity, Eventually(Equals(1.0)))
+
+        time.sleep(3)
+        summary = 'Updated notification (1. notification)'
+        body = 'Here the same bubble with new title- and body-text, even the icon can be changed on the update.'
+        icon_path = self.get_icon_path('avatars/amanda@12.png')
+        notification.update(summary, body, icon_path)
+        notification.show ();
+        self.assertThat(get_notification, Eventually(NotEquals(None)))
+        self.assertThat(get_notification().summary, Equals(summary))
+        self.assertThat(get_notification().body, Equals(body))
+
+        time.sleep(6)
+        summary = 'Initial layout (2. notification)'
+        body = 'This bubble uses the icon-title-body layout with a secondary icon.'
+        icon_path = self.get_icon_path('avatars/anna_olsson@12.png')
+        hint_icon = self.get_icon_path('applicationIcons/phone-app@18.png')
+        notification = self.create_notification(summary, body, icon_path)
+        notification.set_hint('x-canonical-secondary-icon', GLib.Variant.new_string(hint_icon))
+        notification.show ();
+        self.assertThat(get_notification, Eventually(NotEquals(None)))
+        self.assertThat(get_notification().summary, Equals(summary))
+        self.assertThat(get_notification().body, Equals(body))
+        self.assertThat(get_notification().opacity, Eventually(Equals(1.0)))
+
+        time.sleep(3)
+        notification.clear_hints()
+        summary = 'Updated layout (2. notification)'
+        body = 'After the update we now have a bubble using the title-body layout.'
+        icon_path = self.get_icon_path('avatars/anna_olsson@12.png')
+        notification.update(summary, body, None)
+        notification.show()
+        self.assertThat(get_notification, Eventually(NotEquals(None)))
+        self.assertThat(get_notification().summary, Equals(summary))
+        self.assertThat(get_notification().body, Equals(body))
+
+    def test_append_hint(self):
+        notify_list = self.get_notifications_list()
+        self.unlock_greeter()
+
+        summary = 'Cole Raby'
+        body = 'Hey Bro Coly!'
+        icon_path = self.get_icon_path('avatars/amanda@12.png')
+        body_sum = body
+        notification = self.create_notification(summary, body, icon_path)
+        notification.set_hint('x-canonical-append', GLib.Variant.new_string('true'));
+        notification.show()
+        get_notification = lambda: notify_list.select_single('Notification')
+        self.assertThat(get_notification, Eventually(NotEquals(None)))
+        notification = get_notification()
+        self.assertThat(notification.summary, Equals(summary))
+        self.assertThat(notification.body, Equals(body))
+        self.assertThat(notification.opacity, Eventually(Equals(1.0)))
+
+        time.sleep(1)
+        body = 'What\'s up dude?'
+        body_sum += '\n' + body
+        notification = self.create_notification(summary, body, icon_path)
+        notification.set_hint('x-canonical-append', GLib.Variant.new_string('true'));
+        notification.show()
+        get_notification = lambda: notify_list.select_single('Notification')
+        self.assertThat(get_notification, Eventually(NotEquals(None)))
+        notification = get_notification()
+        self.assertThat(notification.summary, Equals(summary))
+        self.assertThat(notification.body, Equals(body_sum))
+
+        time.sleep(1)
+        body = 'Did you watch the air-race in Oshkosh last week?'
+        body_sum += '\n' + body
+        notification = self.create_notification(summary, body, icon_path)
+        notification.set_hint('x-canonical-append', GLib.Variant.new_string('true'));
+        notification.show()
+        self.assertThat(get_notification, Eventually(NotEquals(None)))
+        notification = get_notification()
+        self.assertThat(notification.summary, Equals(summary))
+        self.assertThat(notification.body, Equals(body_sum))
+
+        time.sleep(1)
+        body = 'Phil owned the place like no one before him!'
+        body_sum += '\n' + body
+        notification = self.create_notification(summary, body, icon_path)
+        notification.set_hint('x-canonical-append', GLib.Variant.new_string('true'));
+        notification.show()
+        self.assertThat(get_notification, Eventually(NotEquals(None)))
+        notification = get_notification()
+        self.assertThat(notification.summary, Equals(summary))
+        self.assertThat(notification.body, Equals(body_sum))
+
+        time.sleep(1)
+        body = 'Did really everything in the race work according to regulations?'
+        body_sum += '\n' + body
+        notification = self.create_notification(summary, body, icon_path)
+        notification.set_hint('x-canonical-append', GLib.Variant.new_string('true'));
+        notification.show()
+        self.assertThat(get_notification, Eventually(NotEquals(None)))
+        notification = get_notification()
+        self.assertThat(notification.summary, Equals(summary))
+        self.assertThat(notification.body, Equals(body_sum))
+
+        time.sleep(1)
+        body = 'Somehow I think to remember Burt Williams did cut corners and was not punished for this.'
+        body_sum += '\n' + body
+        notification = self.create_notification(summary, body, icon_path)
+        notification.set_hint('x-canonical-append', GLib.Variant.new_string('true'));
+        notification.show()
+        self.assertThat(get_notification, Eventually(NotEquals(None)))
+        notification = get_notification()
+        self.assertThat(notification.summary, Equals(summary))
+        self.assertThat(notification.body, Equals(body_sum))
+
+        time.sleep(1)
+        body = 'Hopefully the referees will watch the videos of the race.'
+        body_sum += '\n' + body
+        notification = self.create_notification(summary, body, icon_path)
+        notification.set_hint('x-canonical-append', GLib.Variant.new_string('true'));
+        notification.show()
+        self.assertThat(get_notification, Eventually(NotEquals(None)))
+        notification = get_notification()
+        self.assertThat(notification.summary, Equals(summary))
+        self.assertThat(notification.body, Equals(body_sum))
+
+        time.sleep(1)
+        body = 'Burt could get fined with US$ 50000 for that rule-violation :)'
+        body_sum += '\n' + body
+        notification = self.create_notification(summary, body, icon_path)
+        notification.set_hint('x-canonical-append', GLib.Variant.new_string('true'));
+        notification.show()
+        self.assertThat(get_notification, Eventually(NotEquals(None)))
+        notification = get_notification()
+        self.assertThat(notification.summary, Equals(summary))
+        self.assertThat(notification.body, Equals(body_sum))
