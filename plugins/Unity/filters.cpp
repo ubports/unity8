@@ -92,7 +92,6 @@ void Filters::onFilterAdded(unity::dash::Filter::Ptr unityFilter)
         return;
     }
 
-    /* FIXME: figure out actual index of unityFilter; for now filters are appended */
     int index = m_filters.count();
     addFilter(unityFilter, index);
 }

@@ -107,7 +107,6 @@ QVariant ListModelWrapper<WrapperItem, ItemClass>::data(const QModelIndex& index
 template <class WrapperItem, class ItemClass>
 void ListModelWrapper<WrapperItem, ItemClass>::onItemAdded(ItemClass item)
 {
-    /* FIXME: figure out actual index of item; for now items are appended */
     int index = m_list.count();
     beginInsertRows(QModelIndex(), index, index);
     addItem(item, index);
