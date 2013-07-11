@@ -23,9 +23,15 @@ $ cd ~/unity8/trunk
 $ ./build --setup
 
   this will:
+  - add ppa:ubuntu-unity/next
   - install the required dependencies to build, as well as run on the desktop
   - it should also install unity-scope-home and unity-lens-application which 
     are technically "recommends", not strict dependencies
+
+Note, once the PPA is added, the script runs apt-get update, if you have
+any failures associated with it, the build script will bail out of the setup
+and fail to install all the required dependencies.
+
 
 build Unity 8
 -------------
