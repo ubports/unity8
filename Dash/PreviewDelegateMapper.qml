@@ -16,24 +16,19 @@
 
 import QtQuick 2.0
 
-Column {
-    id: shortcutsContainer
+QtObject {
+    property var d: QtObject {
+        readonly property string genericPreview: "Generic/GenericPreview.qml"
+        property var previewDelegateMapping: {"preview-generic": genericPreview,
+        }
+    }
 
-    property int foldedAngle: 0
-    property int initialFoldedOffset: 0
-    property int foldedOffset: 0
-    property int initialIndex: 0
-
-    property bool animating: angleAnimation.running || offsetAnimation.running
-
-    property ListModel model
-    property var delegate
-
-    Behavior on foldedAngle { NumberAnimation { id: angleAnimation; duration: 200; } }
-    Behavior on foldedOffset { NumberAnimation { id: offsetAnimation; duration: 200; } }
-
-    Repeater {
-        model: shortcutsContainer.model
-        delegate: shortcutsContainer.delegate
+    function map(rendererName) {
+        var customPreview = d.previewDelegateMapping[rendererName]
+        if (customPreview != undefined) {
+            return customPreview
+        }
+        console.debug("Renderer "+rendererName+" not found, using preview-generic")
+        return d.genericPreview
     }
 }

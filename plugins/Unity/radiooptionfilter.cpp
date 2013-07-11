@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Canonical, Ltd.
+ * Copyright (C) 2011, 2013 Canonical, Ltd.
  *
  * Authors:
  *  Florian Boucault <florian.boucault@canonical.com>
@@ -21,7 +21,7 @@
 #include "radiooptionfilter.h"
 
 RadioOptionFilter::RadioOptionFilter(QObject *parent) :
-    Filter(parent), m_unityRadioOptionFilter(NULL), m_options(NULL)
+    Filter(parent), m_unityRadioOptionFilter(nullptr), m_options(nullptr)
 {
 }
 
@@ -37,7 +37,7 @@ FilterOption* RadioOptionFilter::getOption(const QString& id) const
             return option;
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 void RadioOptionFilter::setUnityFilter(unity::dash::Filter::Ptr filter)
@@ -50,10 +50,10 @@ void RadioOptionFilter::setUnityFilter(unity::dash::Filter::Ptr filter)
 
 void RadioOptionFilter::onOptionsChanged(unity::dash::RadioOptionFilter::RadioOptions)
 {
-    if (m_options != NULL) {
+    if (m_options != nullptr) {
         m_signals.disconnectAll();
         delete m_options;
-        m_options = NULL;
+        m_options = nullptr;
     }
     m_options = new FilterOptions(m_unityRadioOptionFilter->options,
                                  m_unityRadioOptionFilter->option_added,

@@ -1,8 +1,9 @@
 /*
- * Copyright (C) 2011 Canonical, Ltd.
+ * Copyright (C) 2011, 2013 Canonical, Ltd.
  *
  * Authors:
  *  Florian Boucault <florian.boucault@canonical.com>
+ *  Pawel Stolowski <pawel.stolowski@canonical.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,7 +25,7 @@
 #include <UnityCore/Filter.h>
 
 FilterOption::FilterOption(unity::dash::FilterOption::Ptr unityFilterOption, QObject *parent) :
-    AbstractFilterOption(parent), m_unityFilterOption(NULL)
+    AbstractFilterOption(parent), m_unityFilterOption(nullptr)
 {
     setUnityFilterOption(unityFilterOption);
 }
@@ -56,7 +57,7 @@ void FilterOption::setActive(bool active)
 
 void FilterOption::setUnityFilterOption(unity::dash::FilterOption::Ptr unityFilterOption)
 {
-    if (m_unityFilterOption != NULL) {
+    if (m_unityFilterOption != nullptr) {
         m_signals.disconnectAll();
     }
 

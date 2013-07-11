@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Canonical, Ltd.
+ * Copyright (C) 2011, 2013 Canonical, Ltd.
  *
  * Authors:
  *  Florian Boucault <florian.boucault@canonical.com>
@@ -40,7 +40,7 @@ class Q_DECL_EXPORT RatingsFilter : public Filter
     Q_PROPERTY(GenericListModel* options READ options NOTIFY ratingsChanged)
 
 public:
-    explicit RatingsFilter(QObject *parent = 0);
+    explicit RatingsFilter(QObject *parent = nullptr);
 
     /* getters */
     GenericListModel* options() const;

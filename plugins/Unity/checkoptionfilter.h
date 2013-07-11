@@ -39,7 +39,7 @@ class Q_DECL_EXPORT CheckOptionFilter : public Filter
     Q_PROPERTY(FilterOptions* options READ options NOTIFY optionsChanged)
 
 public:
-    explicit CheckOptionFilter(QObject *parent = 0);
+    explicit CheckOptionFilter(QObject *parent = nullptr);
 
     /* getters */
     FilterOptions* options() const;

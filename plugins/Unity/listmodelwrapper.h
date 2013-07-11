@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Canonical, Ltd.
+ * Copyright (C) 2011, 2013 Canonical, Ltd.
  *
  * Authors:
  *  Florian Boucault <florian.boucault@canonical.com>
@@ -34,7 +34,7 @@ public:
     explicit ListModelWrapper(const std::vector<ItemClass>& list,
                               sigc::signal<void, ItemClass> itemAddedSignal,
                               sigc::signal<void, ItemClass> itemRemovedSignal,
-                              QObject *parent = 0);
+                              QObject *parent = nullptr);
     ~ListModelWrapper();
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
@@ -107,7 +107,6 @@ QVariant ListModelWrapper<WrapperItem, ItemClass>::data(const QModelIndex& index
 template <class WrapperItem, class ItemClass>
 void ListModelWrapper<WrapperItem, ItemClass>::onItemAdded(ItemClass item)
 {
-    /* FIXME: figure out actual index of item; for now items are appended */
     int index = m_list.count();
     beginInsertRows(QModelIndex(), index, index);
     addItem(item, index);

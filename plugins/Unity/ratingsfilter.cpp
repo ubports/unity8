@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Canonical, Ltd.
+ * Copyright (C) 2011, 2013 Canonical, Ltd.
  *
  * Authors:
  *  Florian Boucault <florian.boucault@canonical.com>
@@ -28,7 +28,7 @@
 #include <QDebug>
 
 RatingsFilter::RatingsFilter(QObject *parent) :
-    Filter(parent), m_unityRatingsFilter(NULL), m_options(nullptr)
+    Filter(parent), m_unityRatingsFilter(nullptr), m_options(nullptr)
 {
 }
 
@@ -39,7 +39,7 @@ GenericListModel* RatingsFilter::options() const
 
 void RatingsFilter::setUnityFilter(unity::dash::Filter::Ptr filter)
 {
-    if (m_unityFilter != NULL) {
+    if (m_unityFilter != nullptr) {
         m_signals.disconnectAll();
     }
 

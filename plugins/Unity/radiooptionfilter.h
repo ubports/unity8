@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Canonical, Ltd.
+ * Copyright (C) 2011, 2013 Canonical, Ltd.
  *
  * Authors:
  *  Florian Boucault <florian.boucault@canonical.com>
@@ -39,7 +39,7 @@ class Q_DECL_EXPORT RadioOptionFilter : public Filter
     Q_PROPERTY(FilterOptions* options READ options NOTIFY optionsChanged)
 
 public:
-    explicit RadioOptionFilter(QObject *parent = 0);
+    explicit RadioOptionFilter(QObject *parent = nullptr);
 
     /* getters */
     FilterOptions* options() const;

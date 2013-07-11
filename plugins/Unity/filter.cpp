@@ -1,8 +1,9 @@
 /*
- * Copyright (C) 2011 Canonical, Ltd.
+ * Copyright (C) 2011, 2013 Canonical, Ltd.
  *
  * Authors:
  *  Florian Boucault <florian.boucault@canonical.com>
+ *  Pawel Stolowski <pawel.stolowski@canonical.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -84,7 +85,7 @@ void Filter::clear()
 
 void Filter::setUnityFilter(unity::dash::Filter::Ptr unityFilter)
 {
-    if (m_unityFilter != NULL) {
+    if (m_unityFilter != nullptr) {
         m_signals.disconnectAll();
     }
 

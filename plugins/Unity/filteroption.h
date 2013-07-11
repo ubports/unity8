@@ -1,8 +1,9 @@
 /*
- * Copyright (C) 2011 Canonical, Ltd.
+ * Copyright (C) 2011, 2013 Canonical, Ltd.
  *
  * Authors:
  *  Florian Boucault <florian.boucault@canonical.com>
+ *  Pawel Stolowski <pawel.stolowski@canonical.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,7 +34,7 @@ class Q_DECL_EXPORT FilterOption : public AbstractFilterOption
     Q_OBJECT
 
 public:
-    explicit FilterOption(unity::dash::FilterOption::Ptr unityFilterOption, QObject *parent = 0);
+    explicit FilterOption(unity::dash::FilterOption::Ptr unityFilterOption, QObject *parent = nullptr);
 
     /* getters */
     QString id() const override;

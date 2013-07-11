@@ -13,6 +13,7 @@ Build-Depends: cmake,
                libpulse-dev,
                libqt5v8-5-private-dev,
                libunity-core-6.0-dev (<< 7.80),
+               libunity-api-dev (>= 7.80.3),
                libunity-dev (>= 7.0.3),
                libsigc++-2.0-dev,
                libusermetricsoutput1-dev,
@@ -53,6 +54,8 @@ Depends: ${misc:Depends},
          unity-notifications-impl-1,
          qtdeclarative5-xmllistmodel-plugin,
          unity8-fake-env | qtubuntu-shell,
+         unity8-private | unity-launcher-impl,
+         unity-launcher-impl-2,
 Recommends: ${unity-default-masterscopes},
             indicators-client-plugin-datetime (>= 0.6.1),
             indicators-client-plugin-messaging (>= 0.6.1),
@@ -68,6 +71,8 @@ Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends}
 Depends: ${misc:Depends},
          ${shlibs:Depends},
+Provides: unity-launcher-impl,
+          unity-launcher-impl-2
 Description: Unity 8 private libs
  The Unity 8 shell is the primary user interface for Ubuntu devices.
  .

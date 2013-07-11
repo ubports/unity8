@@ -28,7 +28,7 @@ BaseCarouselDelegate {
         image: Image {
             asynchronous: true
             sourceSize { width: item.width; height: item.height }
-            source: model ? model.column_1 : ""
+            source: model ? model.icon : ""
         }
     }
 

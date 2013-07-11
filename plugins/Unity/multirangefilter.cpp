@@ -1,8 +1,9 @@
 /*
- * Copyright (C) 2011 Canonical, Ltd.
+ * Copyright (C) 2011, 2013 Canonical, Ltd.
  *
  * Authors:
  *  Florian Boucault <florian.boucault@canonical.com>
+ *  Pawel Stolowski <pawel.stolowski@canonical.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +22,7 @@
 #include "multirangefilter.h"
 
 MultiRangeFilter::MultiRangeFilter(QObject *parent) :
-    Filter(parent), m_unityMultiRangeFilter(NULL), m_options(NULL)
+    Filter(parent), m_unityMultiRangeFilter(nullptr), m_options(nullptr)
 {
 }
 
@@ -40,10 +41,10 @@ void MultiRangeFilter::setUnityFilter(unity::dash::Filter::Ptr filter)
 
 void MultiRangeFilter::onOptionsChanged(unity::dash::MultiRangeFilter::Options /* options */)
 {
-    if (m_options != NULL) {
+    if (m_options != nullptr) {
         m_signals.disconnectAll();
         delete m_options;
-        m_options = NULL;
+        m_options = nullptr;
     }
 
     m_options = new CombinedFilterOptions(m_unityMultiRangeFilter->options);

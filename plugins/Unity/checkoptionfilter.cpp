@@ -21,7 +21,7 @@
 #include "checkoptionfilter.h"
 
 CheckOptionFilter::CheckOptionFilter(QObject *parent) :
-    Filter(parent), m_unityCheckOptionFilter(NULL), m_options(NULL)
+    Filter(parent), m_unityCheckOptionFilter(nullptr), m_options(nullptr)
 {
 }
 
@@ -40,10 +40,10 @@ void CheckOptionFilter::setUnityFilter(unity::dash::Filter::Ptr filter)
 
 void CheckOptionFilter::onOptionsChanged(unity::dash::CheckOptionFilter::CheckOptions /* options */)
 {
-    if (m_options != NULL) {
+    if (m_options != nullptr) {
         m_signals.disconnectAll();
         delete m_options;
-        m_options = NULL;
+        m_options = nullptr;
     }
     m_options = new FilterOptions(m_unityCheckOptionFilter->options,
                                   m_unityCheckOptionFilter->option_added,

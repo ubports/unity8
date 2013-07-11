@@ -18,7 +18,6 @@ set(QMLPLUGIN_SRC
     abstractfilteroption.cpp
     combinedfilteroption.cpp
     combinedfilteroptions.cpp
-    ../Utils/qsortfilterproxymodelqml.cpp # FIXME evaluate a more generic approach for using other plugins
     scope.cpp
     scopes.cpp
     categories.cpp
@@ -34,7 +33,6 @@ set(QMLPLUGIN_SRC
     ratingsfilter.cpp
     ratingfilteroption.cpp
     bottombarvisibilitycommunicatorshell.cpp
-    launchermodel.cpp
     applicationpreview.cpp
     genericpreview.cpp
     moviepreview.cpp
@@ -43,6 +41,8 @@ set(QMLPLUGIN_SRC
     previewaction.cpp
     previewinfohint.cpp
     signalslist.cpp
+    socialpreview.cpp
+    socialpreviewcomment.cpp
     variantutils.cpp
     )
 
@@ -61,3 +61,5 @@ qt5_use_modules(Unity-qml Qml)
 
 # export the qmldir and qmltypes files
 export_qmlplugin(Unity 0.1 Unity TARGETS Unity-qml)
+
+add_subdirectory(Launcher)

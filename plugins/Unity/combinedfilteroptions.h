@@ -34,7 +34,7 @@ class CombinedFilterOptions : public GenericListModel
     Q_OBJECT
 
 public:
-    CombinedFilterOptions(const std::vector<unity::dash::FilterOption::Ptr>& list, QObject *parent = 0);
+    CombinedFilterOptions(const std::vector<unity::dash::FilterOption::Ptr>& list, QObject *parent = nullptr);
 
 private Q_SLOTS:
     void onActiveChanged(bool state);

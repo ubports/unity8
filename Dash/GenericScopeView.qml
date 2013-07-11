@@ -22,6 +22,7 @@ import "../Components/IconUtil.js" as IconUtil
 
 ScopeView {
     id: scopeView
+    property alias previewShown: previewLoader.onScreen
 
     onIsCurrentChanged: {
         pageHeader.resetSearch();
@@ -47,6 +48,8 @@ ScopeView {
         id: categoryView
         anchors.fill: parent
         model: scopeView.categories
+        forceNoClip: previewLoader.onScreen
+
         onAtYEndChanged: if (atYEnd) endReached()
         onMovingChanged: if (moving && atYEnd) endReached()
 
@@ -75,7 +78,32 @@ ScopeView {
                     text: title
                     imageWidth: units.gu(11)
                     imageHeight: units.gu(16)
+
                     source: IconUtil.from_gicon(icon)
+
+                    MouseArea {
+                        anchors {
+                            fill: parent
+                        }
+                        onClicked: {
+                            mouse.accepted = true
+                            effect.positionPx = mapToItem(categoryView, 0, 0).y
+                            scopeView.scope.activate(uri, icon,
+                                                     category, 0,
+                                                     mimetype, title,
+                                                     comment, dndUri,
+                                                     metadata)
+                        }
+                        onPressAndHold: {
+                            mouse.accepted = true
+                            effect.positionPx = mapToItem(categoryView, 0, 0).y
+                            scopeView.scope.preview(uri, icon,
+                                                    category, 0,
+                                                    mimetype, title,
+                                                    comment, dndUri,
+                                                    metadata)
+                        }
+                    }
                 }
             }
         }
@@ -91,6 +119,97 @@ ScopeView {
             width: categoryView.width
             text: scopeView.scope.name
             searchEntryEnabled: true
+        }
+    }
+
+    OpenEffect {
+        id: effect
+        anchors {
+            fill: parent
+            bottomMargin: -bottomOverflow
+        }
+        sourceItem: categoryView
+
+        enabled: gap > 0.0
+
+        topGapPx: (1 - gap) * positionPx
+        topOpacity: (1 - gap * 1.2)
+        bottomGapPx: positionPx + gap * (targetBottomGapPx - positionPx)
+        bottomOverflow: units.gu(20)
+        bottomOpacity: 1 - (gap * 0.8)
+
+        property int targetBottomGapPx: height - units.gu(8) - bottomOverflow
+        property real gap: previewLoader.open ? 1.0 : 0.0
+
+        Behavior on gap {
+            NumberAnimation {
+                duration: 200
+                easing.type: Easing.InOutQuad
+                onRunningChanged: {
+                    if (!previewLoader.open && !running) {
+                        previewLoader.onScreen = false
+                    }
+                }
+            }
+        }
+    }
+
+    Connections {
+        target: scopeView.scope
+        onPreviewReady: {
+            previewLoader.previewData = preview
+            previewLoader.open = true
+        }
+    }
+
+    PreviewDelegateMapper {
+        id: previewDelegateMapper
+    }
+
+    Connections {
+        ignoreUnknownSignals: true
+        target: previewLoader.valid ? previewLoader.item : null
+        onClose: {
+            previewLoader.open = false
+        }
+    }
+
+    Loader {
+        id: previewLoader
+        property var previewData
+        height: effect.bottomGapPx - effect.topGapPx
+        anchors {
+            top: parent.top
+            topMargin: effect.topGapPx
+            left: parent.left
+            right: parent.right
+        }
+        source: onScreen ? previewDelegateMapper.map(previewLoader.previewData.rendererName) : ""
+
+        property bool open: false
+        property bool onScreen: false
+        property bool valid: item !== null
+
+        onOpenChanged: {
+            if (open) {
+                onScreen = true
+            }
+        }
+
+        onLoaded: {
+            item.previewData = previewLoader.previewData
+        }
+    }
+
+    // TODO: Move as InverseMouseArea to DashPreview
+    MouseArea {
+        enabled: previewLoader.onScreen
+        anchors {
+            fill: parent
+            topMargin: effect.bottomGapPx
+        }
+        onClicked: {
+            previewLoader.open = false;
         }
     }
 }

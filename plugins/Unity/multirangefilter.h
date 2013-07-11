@@ -1,8 +1,9 @@
 /*
- * Copyright (C) 2011 Canonical, Ltd.
+ * Copyright (C) 2011, 2013 Canonical, Ltd.
  *
  * Authors:
  *  Florian Boucault <florian.boucault@canonical.com>
+ *  Pawel Stolowski <pawel.stolowski@canonical.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,7 +41,7 @@ class Q_DECL_EXPORT MultiRangeFilter : public Filter
     Q_PROPERTY(CombinedFilterOptions* options READ options NOTIFY optionsChanged)
 
 public:
-    explicit MultiRangeFilter(QObject *parent = 0);
+    explicit MultiRangeFilter(QObject *parent = nullptr);
 
     /* getters */
     CombinedFilterOptions* options() const;
