@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Unity 0.1
+import Unity.Launcher 0.1
 import "../Components/ListItems"
 
 Item {
@@ -140,7 +141,7 @@ Item {
                             } else if (angle < -12) {
                                 launcherListView.flick(0, launcherListView.clickFlickSpeed);
                             } else {
-                                root.applicationSelected(launcherModel.get(index).desktopFile);
+                                root.applicationSelected(LauncherModel.get(index).desktopFile);
                             }
                             return;
                         }
@@ -151,7 +152,7 @@ Item {
                         } else if (angle < -30) {
                             launcherListView.flick(0, launcherListView.clickFlickSpeed);
                         } else {
-                            root.applicationSelected(launcherModel.get(index).desktopFile);
+                            root.applicationSelected(LauncherModel.get(index).desktopFile);
                         }
                     }
                 }
