@@ -17,32 +17,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef COMBINEDOPTIONSWRAPPER_H
-#define COMBINEDOPTIONSWRAPPER_H
+#ifndef RATINGFILTEROPTION_H
+#define RATINGFILTEROPTION_H
 
-// Qt
 #include <QObject>
 
-// libunity-core
-#include <UnityCore/Filter.h>
-
-// local
-#include "genericlistmodel.h"
-
-class CombinedFilterOptions : public GenericListModel
+class Q_DECL_EXPORT RatingFilterOption : public QObject
 {
     Q_OBJECT
 
 public:
-    CombinedFilterOptions(const std::vector<unity::dash::FilterOption::Ptr>& list, QObject *parent = nullptr);
+    explicit RatingFilterOption(const QString &id, float ratingValue, QObject *parent = 0);
 
-private Q_SLOTS:
-    void onActiveChanged(bool state);
+    /* getters */
+    QString id() const;
+    bool active() const;
+    float value() const;
+
+    /* setters */
+    Q_INVOKABLE void setActive(bool active);
+
+Q_SIGNALS:
+    void activeChanged(bool);
 
 private:
-    void initList(const std::vector<unity::dash::FilterOption::Ptr>& list);
+    bool m_active;
+    float m_value;
+    QString m_id;
 };
 
-Q_DECLARE_METATYPE(CombinedFilterOptions*)
+Q_DECLARE_METATYPE(RatingFilterOption*)
 
-#endif
+#endif /* COMBINEDFILTEROPTION_H */

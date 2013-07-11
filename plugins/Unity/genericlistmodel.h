@@ -17,32 +17,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef COMBINEDOPTIONSWRAPPER_H
-#define COMBINEDOPTIONSWRAPPER_H
+#ifndef GENERICLISTMODEL_H
+#define GENERICLISTMODEL_H
 
 // Qt
 #include <QObject>
+#include <QAbstractListModel>
 
-// libunity-core
-#include <UnityCore/Filter.h>
-
-// local
-#include "genericlistmodel.h"
-
-class CombinedFilterOptions : public GenericListModel
+class Q_DECL_EXPORT GenericListModel : public QAbstractListModel
 {
     Q_OBJECT
 
 public:
-    CombinedFilterOptions(const std::vector<unity::dash::FilterOption::Ptr>& list, QObject *parent = nullptr);
+    GenericListModel(QObject *parent = 0);
 
-private Q_SLOTS:
-    void onActiveChanged(bool state);
+    QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
+    int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+    void addOption(QObject* option);
 
-private:
-    void initList(const std::vector<unity::dash::FilterOption::Ptr>& list);
+    QList<QObject *>::Iterator optionsBegin();
+    QList<QObject *>::Iterator optionsEnd();
+
+protected:
+    QList<QObject *> m_list;
 };
 
-Q_DECLARE_METATYPE(CombinedFilterOptions*)
+Q_DECLARE_METATYPE(GenericListModel*)
 
 #endif

@@ -20,19 +20,21 @@
 // Self
 #include "ratingsfilter.h"
 
+// local
+#include "genericlistmodel.h"
+#include "ratingfilteroption.h"
+
+// Qt
+#include <QDebug>
+
 RatingsFilter::RatingsFilter(QObject *parent) :
-    Filter(parent), m_unityRatingsFilter(nullptr)
+    Filter(parent), m_unityRatingsFilter(nullptr), m_options(nullptr)
 {
 }
 
-float RatingsFilter::rating() const
+GenericListModel* RatingsFilter::options() const
 {
-    return m_unityRatingsFilter->rating();
-}
-
-void RatingsFilter::setRating(float rating)
-{
-    m_unityRatingsFilter->rating = rating;
+    return m_options;
 }
 
 void RatingsFilter::setUnityFilter(unity::dash::Filter::Ptr filter)
@@ -44,8 +46,39 @@ void RatingsFilter::setUnityFilter(unity::dash::Filter::Ptr filter)
     Filter::setUnityFilter(filter);
     m_unityRatingsFilter = std::dynamic_pointer_cast<unity::dash::RatingsFilter>(m_unityFilter);
 
-    /* Property change signals */
-    m_signals << m_unityRatingsFilter->rating.changed.connect(sigc::mem_fun(this, &RatingsFilter::ratingChanged));
+    if (m_options) {
+        delete m_options;
+    }
+
+    m_options = new GenericListModel(this);
+    for (int i=1; i<=5; i++) {
+        auto opt = new RatingFilterOption(QString::number(i), i*0.2f, this);
+        connect(opt, SIGNAL(activeChanged(bool)), this, SLOT(onActiveChanged()));
+        m_options->addOption(opt);
+    }
+
+    Q_EMIT ratingsChanged();
+}
+
+void RatingsFilter::onActiveChanged()
+{
+    RatingFilterOption *option = dynamic_cast<RatingFilterOption*>(QObject::sender());
+    if (option != nullptr) {
+        if (option->active()) {
+            // disable all other options
+            for (auto it = m_options->optionsBegin(); it != m_options->optionsEnd(); it++) {
+                RatingFilterOption *opt = dynamic_cast<RatingFilterOption *>(*it);
+                if (opt && opt != option && opt->active()) {
+                    opt->setActive(false);
+                }
+            }
+            m_unityRatingsFilter->rating = option->value();
+        }
+
+        Q_EMIT ratingsChanged();
+    } else {
+        qWarning() << "Invalid option";
+    }
 }
 
 #include "ratingsfilter.moc"

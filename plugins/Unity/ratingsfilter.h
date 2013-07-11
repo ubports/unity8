@@ -31,29 +31,32 @@
 #include "filter.h"
 #include "signalslist.h"
 
+class GenericListModel;
+
 class Q_DECL_EXPORT RatingsFilter : public Filter
 {
     Q_OBJECT
 
-    Q_PROPERTY(float rating READ rating WRITE setRating NOTIFY ratingChanged)
+    Q_PROPERTY(GenericListModel* options READ options NOTIFY ratingsChanged)
 
 public:
     explicit RatingsFilter(QObject *parent = nullptr);
 
     /* getters */
-    float rating() const;
-
-    /* setters */
-    void setRating(float rating);
+    GenericListModel* options() const;
 
 Q_SIGNALS:
-    void ratingChanged(float);
+    void ratingsChanged();
 
 protected:
     virtual void setUnityFilter(unity::dash::Filter::Ptr filter);
 
+protected Q_SLOTS:
+    void onActiveChanged();
+
 private:
     unity::dash::RatingsFilter::Ptr m_unityRatingsFilter;
+    GenericListModel *m_options;
     SignalsList m_signals;
 };
 

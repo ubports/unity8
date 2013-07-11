@@ -25,11 +25,13 @@ set(QMLPLUGIN_SRC
     filter.cpp
     filteroption.cpp
     filter.cpp
+    genericlistmodel.cpp
     categoryresults.cpp
     plugin.cpp
     multirangefilter.cpp
     radiooptionfilter.cpp
     ratingsfilter.cpp
+    ratingfilteroption.cpp
     bottombarvisibilitycommunicatorshell.cpp
     applicationpreview.cpp
     genericpreview.cpp
