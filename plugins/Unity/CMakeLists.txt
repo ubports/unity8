@@ -1,6 +1,8 @@
 # export_qmlplugin macro
 include(Plugins)
 
+add_subdirectory(Indicators)
+
 # Dependencies
 include(FindPkgConfig)
 pkg_check_modules(QTDEE REQUIRED libdee-qt5)

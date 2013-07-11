@@ -16,55 +16,42 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Unity.Indicators 0.1 as Indicators
 
 Item {
     id: indicatorItem
 
-    property alias iconSource: itemImage.source
-    property alias label: itemLabel.text
+    property alias widgetSource: loader.source
     property bool highlighted: false
     property bool dimmed: false
+    property var indicatorProperties: undefined
+
+    opacity: dimmed ? 0.4 : 1
 
     // only visible when non-empty
-    visible: label != "" || iconSource != ""
-    width: itemRow.width + units.gu(1)
+    visible: loader.item != undefined && loader.status == Loader.Ready ? loader.item.enabled : false
+    width: visible ? loader.item.width : 0
+
+    Loader {
+        id: loader
+
+        onLoaded: {
+            item.height = Qt.binding(function() { return indicatorItem.height; });
+
+            for(var pName in indicatorProperties) {
+                if (item.hasOwnProperty(pName)) {
+                    item[pName] = indicatorProperties[pName];
+                }
+            }
+        }
+    }
 
     Rectangle {
         color: "#dd4814"
+        objectName: "highlight"
         height: units.dp(2)
         width: parent.width
         anchors.top: parent.bottom
         visible: highlighted
-    }
-
-    Row {
-        id: itemRow
-        objectName: "itemRow"
-        anchors {
-            top: parent.top
-            bottom: parent.bottom
-            horizontalCenter: parent.horizontalCenter
-        }
-        spacing: units.gu(0.5)
-        opacity: dimmed ? 0.4 : 1
-
-        Image {
-            id: itemImage
-            objectName: "itemImage"
-            visible: source != ""
-            height: units.gu(2.5)
-            width: units.gu(2.5)
-            anchors.verticalCenter: parent.verticalCenter
-        }
-
-        Label {
-            id: itemLabel
-            objectName: "itemLabel"
-            color: "#f3f3e7"
-            opacity: 0.8
-            font.family: "Ubuntu"
-            fontSize: "medium"
-            anchors.verticalCenter: parent.verticalCenter
-        }
     }
 }

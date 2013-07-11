@@ -1,0 +1,5 @@
+module Unity.Indicators
+plugin IndicatorsFakeQml
+
+IndicatorsModel 0.1 IndicatorsModel.qml
+FakeMenuPage 0.1 FakeMenuPage.qml
