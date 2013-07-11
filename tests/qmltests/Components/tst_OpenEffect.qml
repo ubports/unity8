@@ -28,7 +28,7 @@ TestCase {
     function test_openeffect_shadereffectsource() {
         compare(openEffect1.source.hideSource, true, "OpenEffect ShaderEffectSource is incorrect")
         compare(openEffect1.source.sourceItem, rectangle2, "OpenEffect ShaderEffectSource is incorrect")
-        compare(openEffect1.source.live, true, "OpenEffect ShaderEffectSource is incorrect")
+        compare(openEffect1.source.live, false, "OpenEffect ShaderEffectSource is incorrect")
         compare(openEffect1.source.sourceRect.x, 0, "OpenEffect ShaderEffectSource is incorrect")
         compare(openEffect1.source.sourceRect.y, 0, "OpenEffect ShaderEffectSource is incorrect")
         compare(openEffect1.source.sourceRect.width, 50, "OpenEffect ShaderEffectSource is incorrect")

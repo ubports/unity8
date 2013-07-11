@@ -39,7 +39,13 @@ MenuItem {
         // passed to QStateAction::updateState(…). The server chokes on
         // those values, complaining that they’re not of the right type…
         minimumValue: menu.extra.canonical_min ? menu.extra.canonical_min * 1.000001 : 0.0000001
-        maximumValue: menu.extra.canonical_max ? menu.extra.canonical_max * 1.000001 : 0.9999999
+        maximumValue: {
+            var maximum = menu.extra.canonical_max ? menu.extra.canonical_max * 1.000001 : 0.9999999
+            if (maximum <= minimumValue) {
+                    return minimumValue + 1;
+            }
+            return maximum;
+        }
 
         // FIXME - to be deprecated in Ubuntu.Components.
         // Use this to disable the label, since there is not way to do it on the component.

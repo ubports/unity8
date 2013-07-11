@@ -15,7 +15,7 @@ from autopilot.matchers import Eventually
 from autopilot.platform import model
 from testtools.matchers import Equals
 
-from indicators_client.emulators.main_window import MainWindow
+from unity8.indicators_client.emulators.main_window import MainWindow
 from logging import getLogger
 import sys
 from time import sleep

@@ -25,8 +25,8 @@
 
 from __future__ import absolute_import
 
-from unity8.tests import ShellTestCase, FormFactors
-from unity8.tests.helpers import TestShellHelpers
+from unity8.shell.tests import ShellTestCase, FormFactors
+from unity8.shell.tests.helpers import TestShellHelpers
 
 from autopilot.input import Mouse, Touch, Pointer
 from testtools.matchers import Equals, NotEquals, GreaterThan, MismatchError

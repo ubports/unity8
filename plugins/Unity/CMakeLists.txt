@@ -23,7 +23,6 @@ set(QMLPLUGIN_SRC
     categoryresults.cpp
     plugin.cpp
     bottombarvisibilitycommunicatorshell.cpp
-    launchermodel.cpp
     applicationpreview.cpp
     genericpreview.cpp
     moviepreview.cpp
@@ -51,3 +50,5 @@ qt5_use_modules(Unity-qml Qml)
 
 # export the qmldir and qmltypes files
 export_qmlplugin(Unity 0.1 Unity TARGETS Unity-qml)
+
+add_subdirectory(Launcher)

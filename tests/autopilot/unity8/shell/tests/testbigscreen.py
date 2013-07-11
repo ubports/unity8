@@ -10,7 +10,7 @@
 from testtools.matchers import Equals
 from autopilot.matchers import Eventually
 
-from unity8.tests import ShellTestCase
+from unity8.shell.tests import ShellTestCase
 
 class TestBig(ShellTestCase):
     def setUp(self):

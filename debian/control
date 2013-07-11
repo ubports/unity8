@@ -15,6 +15,7 @@ Build-Depends: cmake,
                libpulse-dev,
                libqmenumodel-dev,
                libqt5v8-5-private-dev,
+               libunity-api-dev (>= 7.80.3),
                libunity-core-6.0-dev (<< 7.80),
                libunity-dev (>= 7.0.3),
                libunity-scopes-json-def-phone,
@@ -34,7 +35,7 @@ Build-Depends: cmake,
                qtdeclarative5-test-plugin,
                qtdeclarative5-ubuntu-ui-toolkit-plugin,
                qtdeclarative5-xmllistmodel-plugin,
-               ttf-ubuntu-font-family
+               ttf-ubuntu-font-family,
 Standards-Version: 3.9.4
 Homepage: http://launchpad.net/unity
 # If you aren't a member of ~unity-team but need to upload
@@ -43,6 +44,16 @@ Homepage: http://launchpad.net/unity
 Vcs-Bzr: https://code.launchpad.net/unity8
 Vcs-Browser: https://bazaar.launchpad.net/~unity-team/unity8/trunk
 
+Package: indicators-client
+Architecture: amd64 armhf i386
+Depends: qmenumodel-qml,
+         qtdeclarative5-ubuntu-ui-toolkit-plugin | qt-components-ubuntu,
+         unity8 (= ${binary:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends},
+Description: Indicators client test application
+ This package contains the client application for indicators used by autopilot
+
 Package: unity8
 Architecture: any
 Depends: qmenumodel-qml,
@@ -50,50 +61,21 @@ Depends: qmenumodel-qml,
          qtdeclarative5-ubuntu-ui-toolkit-plugin,
          qtdeclarative5-unity-notifications-plugin | unity-notifications-impl,
          qtdeclarative5-xmllistmodel-plugin,
+         unity-launcher-impl-2,
          unity-notifications-impl-1,
          unity8-fake-env | qtubuntu-shell,
          unity8-private (= ${binary:Version}),
+         unity8-private | unity-launcher-impl,
          ${misc:Depends},
-         ${shlibs:Depends}
+         ${shlibs:Depends},
 Recommends: indicator-battery,
             indicator-messages,
             indicator-network,
             indicator-sound,
             indicator-time,
-            ${unity-default-masterscopes}
+            ${unity-default-masterscopes},
 Description: Unity 8 shell
  The Unity 8 shell is the primary user interface for Ubuntu devices.
-
-Package: unity8-private
-Architecture: any
-Multi-Arch: same
-Pre-Depends: ${misc:Pre-Depends}
-Depends: ${misc:Depends}, ${shlibs:Depends}
-Description: Unity 8 private libs
- The Unity 8 shell is the primary user interface for Ubuntu devices.
- .
- This package contains the private libraries for QML and other components
- only used by the shell.
-
-Package: unity8-fake-env
-Architecture: any
-Multi-Arch: same
-Pre-Depends: ${misc:Pre-Depends}
-Depends: ${misc:Depends}, ${shlibs:Depends}
-Provides: qtubuntu-shell
-Description: Fake environment for running Unity 8 shell
- Provides fake implementations of some QML modules used by Unity 8 shell
- (e.g Ubuntu.Application) so that you can run it in a sandboxed environment.
-
-Package: indicators-client
-Architecture: amd64 armhf i386
-Depends: qmenumodel-qml,
-         qtdeclarative5-ubuntu-ui-toolkit-plugin | qt-components-ubuntu,
-         unity8 (= ${binary:Version}),
-         ${misc:Depends},
-         ${shlibs:Depends}
-Description: Indicators client test application
- This package contains the client application for indicators used by autopilot
 
 Package: unity8-autopilot
 Architecture: all
@@ -106,6 +88,31 @@ Depends: indicators-client (>= ${source:Version}),
          unity8-fake-env (>= ${source:Version}),
          ${misc:Depends},
          ${python:Depends},
-         ${shlibs:Depends}
+         ${shlibs:Depends},
 Description: Test package for Unity 8 shell
  Autopilot tests for the unity8 package
+
+Package: unity8-fake-env
+Architecture: any
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends},
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
+Provides: qtubuntu-shell,
+Description: Fake environment for running Unity 8 shell
+ Provides fake implementations of some QML modules used by Unity 8 shell
+ (e.g Ubuntu.Application) so that you can run it in a sandboxed environment.
+
+Package: unity8-private
+Architecture: any
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends},
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
+Provides: unity-launcher-impl,
+          unity-launcher-impl-2,
+Description: Unity 8 private libs
+ The Unity 8 shell is the primary user interface for Ubuntu devices.
+ .
+ This package contains the private libraries for QML and other components
+ only used by the shell.
