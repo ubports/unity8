@@ -36,7 +36,7 @@ enum LayoutHint // keep in sync with unty::dash::LayoutHint
     Bottom
 };
 
-class PreviewAction : public QObject
+class Q_DECL_EXPORT PreviewAction : public QObject
 {
     Q_OBJECT
 
