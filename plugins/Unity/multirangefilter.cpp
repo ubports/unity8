@@ -22,7 +22,7 @@
 #include "multirangefilter.h"
 
 MultiRangeFilter::MultiRangeFilter(QObject *parent) :
-    Filter(parent), m_unityMultiRangeFilter(NULL), m_options(NULL)
+    Filter(parent), m_unityMultiRangeFilter(nullptr), m_options(nullptr)
 {
 }
 
@@ -41,10 +41,10 @@ void MultiRangeFilter::setUnityFilter(unity::dash::Filter::Ptr filter)
 
 void MultiRangeFilter::onOptionsChanged(unity::dash::MultiRangeFilter::Options /* options */)
 {
-    if (m_options != NULL) {
+    if (m_options != nullptr) {
         m_signals.disconnectAll();
         delete m_options;
-        m_options = NULL;
+        m_options = nullptr;
     }
 
     m_options = new CombinedFilterOptions(m_unityMultiRangeFilter->options);

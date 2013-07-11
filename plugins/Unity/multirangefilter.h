@@ -41,7 +41,7 @@ class Q_DECL_EXPORT MultiRangeFilter : public Filter
     Q_PROPERTY(CombinedFilterOptions* options READ options NOTIFY optionsChanged)
 
 public:
-    explicit MultiRangeFilter(QObject *parent = 0);
+    explicit MultiRangeFilter(QObject *parent = nullptr);
 
     /* getters */
     CombinedFilterOptions* options() const;

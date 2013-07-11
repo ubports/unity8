@@ -34,7 +34,7 @@ public:
     explicit ListModelWrapper(const std::vector<ItemClass>& list,
                               sigc::signal<void, ItemClass> itemAddedSignal,
                               sigc::signal<void, ItemClass> itemRemovedSignal,
-                              QObject *parent = 0);
+                              QObject *parent = nullptr);
     ~ListModelWrapper();
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
