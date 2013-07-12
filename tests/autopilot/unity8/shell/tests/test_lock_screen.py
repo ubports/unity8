@@ -64,7 +64,9 @@ class TestLockscreen(Unity8TestCase):
 
     def test_can_unlock_screen(self):
         """Must be able to unlock the screen."""
+        self.lightdm_mock = "single_pin"
         self.app = self.launch_unity()
+        time.sleep(30)
 
     # def test_unlock(self):
     #     self.unlock_greeter()

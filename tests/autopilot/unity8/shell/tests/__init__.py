@@ -31,13 +31,12 @@ class Unity8TestCase(AutopilotTestCase):
 
     """A sane test case base class for the Unity8 shell tests."""
 
-    # The lightdm mock we want to load. Options seem to be "full", "single-pin",
-    # "single-passphrase" or "single-key".
-    lightdm_mock = "full"
-
     def setUp(self):
         super(Unity8TestCase, self).setUp()
         self._proxy = None
+        # The lightdm mock we want to load. Options seem to be "full", "single-pin",
+        # "single-passphrase" or "single-key".
+        self.lightdm_mock = "full"
 
     def launch_unity(self):
         """Launch the unity8 shell, return a proxy object for it."""
