@@ -9,7 +9,9 @@
 
 from autopilot.platform import model
 from autopilot.testcase import AutopilotTestCase
+from autopilot.matchers import Eventually
 import subprocess
+from testtools.matchers import Equals, NotEquals
 import logging
 import os.path
 import sysconfig
@@ -29,6 +31,10 @@ class Unity8TestCase(AutopilotTestCase):
 
     """A sane test case base class for the Unity8 shell tests."""
 
+    def setUp(self):
+        super(Unity8TestCase, self).setUp()
+        self._proxy = None
+
     def launch_unity(self):
         """Launch the unity8 shell, return a proxy object for it."""
         shell_binary_path = self._get_shell_binary_path()
@@ -38,8 +44,24 @@ class Unity8TestCase(AutopilotTestCase):
                app_type='qt'
                )
         logger.debug("Started unity8 shell, backend is: %r", app_proxy._Backend)
+        self._set_proxy(app_proxy)
+
+        # this line ensures that the dash is visible before we return.
+        logger.info("Waiting for the dash to load...")
+        self.assertThat(self.get_dash().showScopeOnLoaded, Eventually(Equals("")))
+        logger.info("dash loaded!")
         return app_proxy
 
+    def _set_proxy(self, proxy):
+        """Keep a copy of the proxy object, so we can use it to get common parts
+        of the shell later on.
+
+        """
+        self._proxy = proxy
+        self.addCleanup(self._clear_proxy)
+
+    def _clear_proxy(self):
+        self._proxy = None
 
     def _get_shell_binary_path(self):
         """Return a path to the unity8 binary, either the locally built binary
@@ -61,6 +83,11 @@ class Unity8TestCase(AutopilotTestCase):
             return subprocess.check_output(['which', 'unity8']).strip()
         except subprocess.CalledProcessError as e:
             self.fail("Unable to locate unity8 binary: %r" % e)
+
+    def get_dash(self):
+        dash = self._proxy.select_single("Dash")
+        self.assertThat(dash, NotEquals(None))
+        return dash
 
 
 class ShellTestCase(AutopilotTestCase):
