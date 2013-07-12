@@ -19,6 +19,8 @@
 
 #include "combinedfilteroption.h"
 
+#include <libintl.h>
+
 CombinedFilterOption::CombinedFilterOption(unity::dash::FilterOption::Ptr unityFilterOption1, unity::dash::FilterOption::Ptr unityFilterOption2, QObject *parent)
     : AbstractFilterOption(parent),
       m_active(false),
@@ -37,10 +39,11 @@ QString CombinedFilterOption::getCombinedId() const
 
 QString CombinedFilterOption::getCombinedName() const
 {
-    if (m_unityFilterOption[1] != nullptr)
-        return tr("%1 - %2")
+    if (m_unityFilterOption[1] != nullptr) {
+        return QString::fromStdString(gettext("%1 - %2"))
             .arg(QString::fromStdString(m_unityFilterOption[0]->name()))
             .arg(QString::fromStdString(m_unityFilterOption[1]->name()));
+    }
     return QString::fromStdString(m_unityFilterOption[0]->name());
 }
 
