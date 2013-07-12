@@ -22,6 +22,7 @@
 #include <QtGui/QIcon>
 #include <QtGui/QGuiApplication>
 #include <QtQml/QQmlEngine>
+#include <QtQml/QQmlContext>
 #include <qpa/qplatformnativeinterface.h>
 #include <QLibrary>
 #include <libintl.h>
@@ -130,8 +131,6 @@ int main(int argc, char** argv)
     */
     nativeInterface->setProperty("ubuntuSessionType", 1);
     view->setProperty("role", 2); // INDICATOR_ACTOR_ROLE
-
-    QObject::connect(view->engine(), SIGNAL(quit()), qApp, SLOT(quit()));
 
     QUrl source("Shell.qml");
     prependImportPaths(view->engine(), ::overrideImportPaths());

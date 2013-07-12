@@ -16,6 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Unity.Indicators 0.1 as Indicators
 import "Menus"
 import "../Components"
 
@@ -29,7 +30,7 @@ Rectangle {
     property bool __contentActive: false
     property alias currentIndex : menus.currentIndex
     property color backgroundColor: "#221e1c"
-    property int contentReleaseInterval: 5000
+    property int contentReleaseInterval: 20000
 
     width: units.gu(40)
     height: units.gu(42)
@@ -94,7 +95,7 @@ Rectangle {
 
             width: menus.width
             height: menus.height
-            sourceComponent: component
+            source: pageSource
             visible: content.__shown
             onVisibleChanged: {
                 // Reset the indicator states
@@ -104,25 +105,15 @@ Rectangle {
             }
             asynchronous: true
 
-            onStatusChanged: {
-                if (status == Loader.Ready) {
-                    if (indicatorsModel.widgetsMap && item.hasOwnProperty("widgetsMap")) {
-                        item["widgetsMap"] = indicatorsModel.widgetsMap
-                    }
-                    for(var pName in initialProperties) {
-                        if (item.hasOwnProperty(pName)) {
-                            item[pName] = initialProperties[pName]
-                        }
-                    }
-                    if (contentActive && menus.visible) {
-                        item.start()
+            onLoaded: {
+                for(var pName in indicatorProperties) {
+                    if (item.hasOwnProperty(pName)) {
+                        item[pName] = indicatorProperties[pName]
                     }
                 }
-            }
-
-            // FIXME: QTBUG-30632 - asynchronous loader crashes when changing index quickly.
-            Component.onDestruction: {
-                active = false;
+                if (contentActive && menus.visible) {
+                    item.start()
+                }
             }
 
             // Need to use a binding because the handle height changes.
@@ -189,7 +180,13 @@ Rectangle {
                 left: parent.left
                 right: parent.right
             }
-            text: content.overviewActive ? i18n.tr("Device") : (indicatorsModel && menus.currentIndex >= 0 && menus.currentIndex < indicatorsModel.count) ?  indicatorsModel.get(menus.currentIndex).title : ""
+            text: {
+                if (content.overviewActive)
+                    return i18n.tr("Device");
+                if (indicatorsModel && menus.currentIndex >= 0 && menus.currentIndex < indicatorsModel.count)
+                    return indicatorsModel.data(menus.currentIndex, Indicators.IndicatorsModelRole.Title);
+                return "";
+            }
             opacity: __shown ? 1 : 0
             Behavior on opacity {NumberAnimation{duration: 100}}
         }

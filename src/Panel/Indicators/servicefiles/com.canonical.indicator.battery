@@ -1,0 +1,9 @@
+[Indicator Service]
+Name=indicator-battery
+ObjectPath=/com/canonical/indicator/battery
+
+[phone]
+ObjectPath=/com/canonical/indicator/battery/phone
+
+[desktop]
+ObjectPath=/com/canonical/indicator/battery/phone

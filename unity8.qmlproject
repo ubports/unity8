@@ -18,6 +18,7 @@ Project {
     /* List of plugin directories passed to QML runtime */
     importPaths: [
         "builddir/plugins",
+        "builddir/modules",
         "builddir/tests/plugins",
         "builddir/tests/utils/modules"
     ]

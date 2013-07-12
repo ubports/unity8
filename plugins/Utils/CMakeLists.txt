@@ -5,6 +5,7 @@ include_directories(
 )
 
 set(QMLPLUGIN_SRC
+    applicationpaths.h
     qlimitproxymodelqml.cpp
     qsortfilterproxymodelqml.cpp
     ubuntuwindow.cpp

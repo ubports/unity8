@@ -1,3 +1,5 @@
+add_subdirectory(Indicators)
+
 pkg_check_modules(UNITYCORE REQUIRED unity-core-6.0)
 pkg_check_modules(LIBUNITYPROTO REQUIRED unity-protocol-private)
 pkg_check_modules(LIBUNITY REQUIRED unity)

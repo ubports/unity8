@@ -17,7 +17,6 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
-import Ubuntu.ChewieUI 0.1 as ChewieUI
 
 import "../Components"
 import "../Components/ListItems"
@@ -70,8 +69,7 @@ Showable {
                 // we dont want to switch to a indicator menu until we hit reveal state.
                 if (menuContent.overviewActive) {
                     menuContent.showOverview()
-                }
-                else {
+                } else {
                     menuContent.showMenu()
                 }
                 indicators.state = "locked"
@@ -272,9 +270,8 @@ Showable {
 
     }
 
-    ChewieUI.PluginModel {
+    IndicatorsDataModel {
         id: indicatorsModel
-        Component.onCompleted: load()
     }
 
     Connections {
@@ -294,8 +291,7 @@ Showable {
             if (showAnimation.running) {
                 if (indicators.state == "initial") {
                     openOverview()
-                }
-                else {
+                } else {
                     indicators.calculateCurrentItem(dragHandle.touchX, false)
                     menuContent.showMenu()
                 }
