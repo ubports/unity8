@@ -46,7 +46,7 @@ Item {
     Rectangle {
         id: background
         anchors.fill: parent
-        color: "white"
+        color: "white" // FIXME should use normal background color of Suru theme
         visible: applicationScreenshot.withBackground
     }
 
