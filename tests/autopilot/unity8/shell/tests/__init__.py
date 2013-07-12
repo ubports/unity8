@@ -31,26 +31,77 @@ class Unity8TestCase(AutopilotTestCase):
 
     """A sane test case base class for the Unity8 shell tests."""
 
+    # The lightdm mock we want to load. Options seem to be "full", "single-pin",
+    # "single-passphrase" or "single-key".
+    lightdm_mock = "full"
+
     def setUp(self):
         super(Unity8TestCase, self).setUp()
         self._proxy = None
 
     def launch_unity(self):
         """Launch the unity8 shell, return a proxy object for it."""
-        shell_binary_path = self._get_shell_binary_path()
+        # first, work out which binary to launch:
+        binary_path = os.path.abspath(
+            os.path.join(
+                os.path.dirname(__file__),
+                "../../../../../builddir/unity8"
+                )
+            )
+        if os.path.exists(binary_path):
+            lib_path = os.path.dirname(binary_path)
+        else:
+            try:
+                binary_path = subprocess.check_output(['which', 'unity8']).strip()
+                lib_path = os.path.join(
+                    "/usr/lib/",
+                    sysconfig.get_config_var('MULTIARCH'),
+                    "unity8"
+                    )
+            except subprocess.CalledProcessError as e:
+                self.fail("Unable to locate unity8 binary: %r" % e)
+
+        # we now have a path to the unity8 binary, and lib_path points to the
+        # directory where we need to patch some environment variables.
+
+        # do the environment variable patching:
+        self._patch_environment(lib_path)
+
+        # launch the shell:
         app_proxy = self.launch_test_application(
-               shell_binary_path,
+               binary_path,
                "-fullscreen",
                app_type='qt'
                )
         logger.debug("Started unity8 shell, backend is: %r", app_proxy._Backend)
         self._set_proxy(app_proxy)
 
-        # this line ensures that the dash is visible before we return.
+        # Ensure that the dash is visible before we return:
         logger.info("Waiting for the dash to load...")
         self.assertThat(self.get_dash().showScopeOnLoaded, Eventually(Equals("")))
         logger.info("dash loaded!")
         return app_proxy
+
+    def _patch_environment(self, lib_path):
+        """Patch environment variables for launching the unity8 shell."""
+        ld_lib_path_patches = (
+            os.path.join(lib_path, "qml/mocks/libusermetrics"),
+            os.path.join(lib_path, "qml/mocks/LightDM/" + self.lightdm_mock),
+            )
+
+        self.patch_environment("LD_LIBRARY_PATH", ":".join(ld_lib_path_patches))
+        self.patch_environment("QML2_IMPORT_PATH", os.path.join(lib_path, "qml/mocks"))
+
+
+    def _get_shell_binary_path(self):
+        """Return a path to the unity8 binary, either the locally built binary
+        or the version installed on the system.
+
+        The locally built binary will be preferred.
+
+        """
+
+
 
     def _set_proxy(self, proxy):
         """Keep a copy of the proxy object, so we can use it to get common parts
@@ -62,27 +113,6 @@ class Unity8TestCase(AutopilotTestCase):
 
     def _clear_proxy(self):
         self._proxy = None
-
-    def _get_shell_binary_path(self):
-        """Return a path to the unity8 binary, either the locally built binary
-        or the version installed on the system.
-
-        The locally built binary will be preferred.
-
-        """
-
-        local_path = os.path.abspath(
-            os.path.join(
-                os.path.dirname(__file__),
-                "../../../../../builddir/unity8"
-                )
-            )
-        if os.path.exists(local_path):
-            return local_path
-        try:
-            return subprocess.check_output(['which', 'unity8']).strip()
-        except subprocess.CalledProcessError as e:
-            self.fail("Unable to locate unity8 binary: %r" % e)
 
     def get_dash(self):
         dash = self._proxy.select_single("Dash")
