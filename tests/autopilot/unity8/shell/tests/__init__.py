@@ -11,14 +11,14 @@ import os.path
 import sysconfig
 
 from autopilot.testcase import AutopilotTestCase
-from autopilot.matchers import Eventually
 from autopilot.platform import model
-from testtools.matchers import Equals
 
 from unity8.shell.emulators.main_window import MainWindow
 
+
 class FormFactors(object):
     Phone, Tablet, Desktop = range(3)
+
 
 class ShellTestCase(AutopilotTestCase):
 
@@ -35,12 +35,21 @@ class ShellTestCase(AutopilotTestCase):
             self.grid_size = int(grid_size)
         else:
             self.grid_size = int(os.environ['GRID_UNIT_PX'])
-        if os.path.realpath(__file__).startswith("/usr/"):
-            self.launch_test_installed(geometry)
-        else:
+        # launch the local binary if it exists, system binary otherwise
+        local_path = os.path.abspath(
+            os.path.join(
+                os.path.dirname(__file__),
+                "../../../../../builddir/unity8"
+                )
+            )
+        if os.path.exists(local_path):
             self.launch_test_local(geometry)
+        else:
+            self.launch_test_installed(geometry)
 
     def launch_test_local(self, geometry):
+        # TODO: This assumed we're launching the tests from the autopilot test root
+        # dir, which may not always be the case.
         os.environ['LD_LIBRARY_PATH'] = "../../builddir/tests/mocks/libusermetrics:../../builddir/tests/mocks/LightDM" + self.lightdm_mock
         os.environ['QML2_IMPORT_PATH'] = "../../builddir/tests/mocks"
         if geometry != "0x0":
