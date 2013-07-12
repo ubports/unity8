@@ -9,6 +9,7 @@
 
 from autopilot.platform import model
 from autopilot.testcase import AutopilotTestCase
+import subprocess
 import logging
 import os.path
 import sysconfig
