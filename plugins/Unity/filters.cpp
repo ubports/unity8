@@ -3,6 +3,7 @@
  *
  * Authors:
  *  Florian Boucault <florian.boucault@canonical.com>
+ *  Pawel Stolowski <pawel.stolowski@canonical.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,10 +33,6 @@
 Filters::Filters(unity::dash::Filters::Ptr unityFilters, QObject *parent) :
     QAbstractListModel(parent), m_unityFilters(unityFilters)
 {
-    QHash<int, QByteArray> roles;
-    roles[Filters::RoleFilter] = "filter";
-    setRoleNames(roles);
-
     for (unsigned int i=0; i<m_unityFilters->count(); i++) {
         unity::dash::Filter::Ptr unityFilter = m_unityFilters->FilterAtIndex(i);
         addFilter(unityFilter, i);
@@ -74,6 +71,13 @@ QVariant Filters::data(const QModelIndex& index, int role) const
     } else {
         return QVariant();
     }
+}
+
+QHash<int, QByteArray> Filters::roleNames() const
+{
+    QHash<int, QByteArray> roles;
+    roles[Filters::RoleFilter] = "filter";
+    return roles;
 }
 
 Filter* Filters::getFilter(const QString& id) const

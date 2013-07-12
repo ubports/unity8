@@ -24,7 +24,7 @@ set(QMLPLUGIN_SRC
     checkoptionfilter.cpp
     filter.cpp
     filteroption.cpp
-    filter.cpp
+    filters.cpp
     genericlistmodel.cpp
     categoryresults.cpp
     plugin.cpp

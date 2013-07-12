@@ -102,6 +102,11 @@ QString Scope::formFactor() const
     return m_formFactor;
 }
 
+Filters* Scope::filters() const
+{
+    return m_filters.get();
+}
+
 void Scope::setSearchQuery(const QString& search_query)
 {
     /* Checking for m_searchQuery.isNull() which returns true only when the string
@@ -245,6 +250,7 @@ void Scope::setUnityScope(const unity::dash::Scope::Ptr& scope)
     m_unityScope = scope;
 
     m_categories->setUnityScope(m_unityScope);
+    m_filters.reset(new Filters(m_unityScope->filters, this));
 
     m_unityScope->form_factor = m_formFactor.toStdString();
     /* Property change signals */

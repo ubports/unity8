@@ -33,6 +33,7 @@
 #include "deelistmodel.h"
 
 #include "categories.h"
+#include "filters.h"
 
 class Preview;
 
@@ -49,6 +50,7 @@ class Scope : public QObject
     Q_PROPERTY(QString shortcut READ shortcut NOTIFY shortcutChanged)
     Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
     Q_PROPERTY(Categories* categories READ categories NOTIFY categoriesChanged)
+    Q_PROPERTY(Filters* filters READ filters NOTIFY filtersChanged)
 
     Q_PROPERTY(QString searchQuery READ searchQuery WRITE setSearchQuery NOTIFY searchQueryChanged)
     Q_PROPERTY(QString noResultsHint READ noResultsHint WRITE setNoResultsHint NOTIFY noResultsHintChanged)
@@ -67,6 +69,7 @@ public:
     QString shortcut() const;
     bool connected() const;
     Categories* categories() const;
+    Filters* filters() const;
     QString searchQuery() const;
     QString noResultsHint() const;
     QString formFactor() const;
@@ -101,6 +104,7 @@ Q_SIGNALS:
     void searchQueryChanged();
     void noResultsHintChanged();
     void formFactorChanged();
+    void filtersChanged();
 
     // signals triggered by activate(..) or preview(..) requests.
     void previewReady(Preview *preview);
@@ -124,6 +128,7 @@ private:
 
     unity::dash::Scope::Ptr m_unityScope;
     std::unique_ptr<Categories> m_categories;
+    std::unique_ptr<Filters> m_filters;
     QString m_searchQuery;
     QString m_noResultsHint;
     QString m_formFactor;
