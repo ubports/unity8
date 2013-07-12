@@ -42,8 +42,8 @@ Q_SIGNALS:
 
 private:
     bool m_active;
-    float m_value;
     QString m_id;
+    float m_value;
 };
 
 Q_DECLARE_METATYPE(RatingFilterOption*)

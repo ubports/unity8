@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef COMBINEDOPTIONSWRAPPER_H
-#define COMBINEDOPTIONSWRAPPER_H
+#ifndef COMBINEDFILTEROPTIONS_H
+#define COMBINEDFILTEROPTIONS_H
 
 // Qt
 #include <QObject>

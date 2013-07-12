@@ -18,7 +18,6 @@
  */
 
 #include "combinedfilteroption.h"
-#include <QDebug>
 
 CombinedFilterOption::CombinedFilterOption(unity::dash::FilterOption::Ptr unityFilterOption1, unity::dash::FilterOption::Ptr unityFilterOption2, QObject *parent)
     : AbstractFilterOption(parent),
@@ -109,11 +108,7 @@ void CombinedFilterOption::onActiveChanged(bool /*active*/)
 
 void CombinedFilterOption::setUnityFilterOption(unity::dash::FilterOption::Ptr unityFilterOption1, unity::dash::FilterOption::Ptr unityFilterOption2)
 {
-    for (int i=0; i<2; i++) {
-        if (m_unityFilterOption[0] != nullptr) {
-            m_signals.disconnectAll();
-        }
-    }
+    m_signals.disconnectAll();
 
     m_unityFilterOption[0] = unityFilterOption1;
     m_unityFilterOption[1] = unityFilterOption2;
