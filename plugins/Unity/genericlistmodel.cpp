@@ -39,7 +39,7 @@ int GenericListModel::rowCount(const QModelIndex& /* parent */) const
     return m_list.count();
 }
 
-void GenericListModel::addOption(QObject *option)
+void GenericListModel::addObject(QObject *option)
 {
     int index = m_list.count();
     beginInsertRows(QModelIndex(), index, index);

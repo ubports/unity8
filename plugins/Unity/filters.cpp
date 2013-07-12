@@ -64,9 +64,8 @@ QVariant Filters::data(const QModelIndex& index, int role) const
         return QVariant();
     }
 
-    Filter* filter = m_filters.at(index.row());
-
     if (role == Filters::RoleFilter) {
+        Filter* filter = m_filters.at(index.row());
         return QVariant::fromValue(filter);
     } else {
         return QVariant();
@@ -133,6 +132,7 @@ void Filters::removeFilter(int index)
 
 int Filters::indexForFilter(unity::dash::Filter::Ptr unityFilter)
 {
+    // TODO: use a map
     int index;
     for (index=0; index<m_filters.count(); index++) {
         if (m_filters[index]->hasUnityFilter(unityFilter)) {

@@ -24,6 +24,9 @@
 #include <QObject>
 #include <QAbstractListModel>
 
+/*
+ *  TODO: see if it'd be better to use QVariantListModel.
+ */
 class Q_DECL_EXPORT GenericListModel : public QAbstractListModel
 {
     Q_OBJECT
@@ -33,7 +36,7 @@ public:
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
-    void addOption(QObject* option);
+    void addObject(QObject* option);
 
     QList<QObject *>::Iterator optionsBegin();
     QList<QObject *>::Iterator optionsEnd();

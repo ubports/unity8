@@ -54,7 +54,7 @@ void RatingsFilter::setUnityFilter(unity::dash::Filter::Ptr filter)
     for (int i=1; i<=5; i++) {
         auto opt = new RatingFilterOption(QString::number(i), i*0.2f, this);
         connect(opt, SIGNAL(activeChanged(bool)), this, SLOT(onActiveChanged()));
-        m_options->addOption(opt);
+        m_options->addObject(opt);
     }
 
     Q_EMIT ratingsChanged();

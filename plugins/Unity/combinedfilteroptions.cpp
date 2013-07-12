@@ -35,12 +35,12 @@ void CombinedFilterOptions::initList(const std::vector<unity::dash::FilterOption
         unity::dash::FilterOption::Ptr option2 = list[i+1];
         auto co = new CombinedFilterOption(option1, option2, this);
         connect(co, SIGNAL(activeChanged(bool)), this, SLOT(onActiveChanged(bool)));
-        addOption(co);
+        addObject(co);
         ++i;
     }
     if (list.size() > 0) {
         auto co = new CombinedFilterOption(list[i], nullptr, this);
-        addOption(co);
+        addObject(co);
     }
 }
 
