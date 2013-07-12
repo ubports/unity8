@@ -27,4 +27,4 @@ class SignalsListTest : public QObject
         void testSignalsList();
 };
 
-#endif
+#endif // SIGNALSLISTTEST_H

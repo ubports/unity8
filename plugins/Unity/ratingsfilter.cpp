@@ -80,5 +80,3 @@ void RatingsFilter::onActiveChanged()
         qWarning() << "Invalid option";
     }
 }
-
-#include "ratingsfilter.moc"

@@ -89,5 +89,3 @@ void FilterOption::onActiveChanged(bool active)
 {
     Q_EMIT activeChanged(active);
 }
-
-#include "filteroption.moc"

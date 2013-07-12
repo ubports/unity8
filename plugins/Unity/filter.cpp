@@ -129,5 +129,3 @@ bool Filter::hasUnityFilter(unity::dash::Filter::Ptr unityFilter) const
 {
     return m_unityFilter == unityFilter;
 }
-
-#include "filter.moc"

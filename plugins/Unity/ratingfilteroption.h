@@ -48,4 +48,4 @@ private:
 
 Q_DECLARE_METATYPE(RatingFilterOption*)
 
-#endif /* COMBINEDFILTEROPTION_H */
+#endif /* RATINGFILTEROPTION_H */

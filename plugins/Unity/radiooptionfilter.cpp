@@ -63,5 +63,3 @@ void RadioOptionFilter::onOptionsChanged(unity::dash::RadioOptionFilter::RadioOp
 
     Q_EMIT optionsChanged();
 }
-
-#include "radiooptionfilter.moc"

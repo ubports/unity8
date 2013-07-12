@@ -44,4 +44,4 @@ class FiltersBindingsTest : public QObject
         void createFilter(DeeModel *model, const std::string &renderer, const std::string &id, const std::string &name, int optionCount);
 };
 
-#endif
+#endif // FILTERSBINDINGSTEST_H

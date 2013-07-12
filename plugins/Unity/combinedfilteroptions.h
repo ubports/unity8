@@ -45,4 +45,4 @@ private:
 
 Q_DECLARE_METATYPE(CombinedFilterOptions*)
 
-#endif
+#endif // COMBINEDFILTEROPTIONS_H

@@ -54,5 +54,3 @@ void MultiRangeFilter::onOptionsChanged(unity::dash::MultiRangeFilter::Options /
 
     Q_EMIT optionsChanged();
 }
-
-#include "multirangefilter.moc"

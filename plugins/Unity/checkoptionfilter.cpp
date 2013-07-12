@@ -75,5 +75,3 @@ void CheckOptionFilter::onActiveChanged(bool state)
         }
     }
 }
-
-#include "checkoptionfilter.moc"
