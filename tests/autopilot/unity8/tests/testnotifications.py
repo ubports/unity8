@@ -33,7 +33,7 @@ from autopilot.matchers import Eventually
 from autopilot.display import Display
 from autopilot.platform import model
 
-from gi.repository import GLib, Notify, Gtk
+from gi.repository import GLib, Notify
 import unittest
 import time
 import os
@@ -56,6 +56,7 @@ class NotificationTestCase(ShellTestCase, TestShellHelpers):
 
         Notify.init("Autopilot Notification Tests")
         self.addCleanup(Notify.uninit)
+        self.loop = GLib.MainLoop.new(None, False)
 
     def create_notification(self, title="", body="", asset=None, urgency='NORMAL'):
         logger.info("Creating notification with title(%s) body(%s) and urgency(%r)", title, body, urgency)
@@ -94,6 +95,16 @@ class NotificationTestCase(ShellTestCase, TestShellHelpers):
     def get_notifications_list(self):
         main_view = self.main_window.get_qml_view()
         return main_view.select_single("QQuickListView", objectName='notificationList')
+
+    def assert_notification(self, notification, summary=None, body=None, opacity=None):
+        if summary != None:
+            self.assertThat(notification.summary, Equals(summary))
+
+        if body != None:
+            self.assertThat(notification.body, Equals(body))
+
+        if opacity != None:
+            self.assertThat(notification.opacity, Eventually(Equals(opacity)))
 
     def action_interactive_cb (self, notification, action, data):
         if action == "action_id":
@@ -138,7 +149,7 @@ class NotificationTestCase(ShellTestCase, TestShellHelpers):
             self.action_accept_triggered = False
 
     def close_cb(self, notification):
-        Gtk.main_quit()
+        self.loop.quit()
 
 class TestNotifications(NotificationTestCase):
     def test_icon_summary_body(self):
@@ -158,9 +169,7 @@ class TestNotifications(NotificationTestCase):
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
-        self.assertThat(notification.summary, Equals(summary))
-        self.assertThat(notification.body, Equals(body))
-        self.assertThat(notification.opacity, Eventually(Equals(1.0)))
+        self.assert_notification(notification, summary, body, 1.0)
 
     def test_interactive(self):
         """Interactive notification must allow clicking on it."""
@@ -178,12 +187,12 @@ class TestNotifications(NotificationTestCase):
         notification.add_action('action_id', 'dummy', self.action_interactive_cb, None, None);
         notification.connect('closed', self.close_cb)
         notification.show()
-        Gtk.main()
+        self.loop.run()
 
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
-        self.assertThat(notification.opacity, Eventually(Equals(1.0)))
+        self.assert_notification(notification, None, None, 1.0)
         self.touch.tap_object(notification.select_single(objectName="interactiveArea"))
         self.assertThat(self.action_interactive_triggered, Equals(True))
 
@@ -207,12 +216,12 @@ class TestNotifications(NotificationTestCase):
         notification.set_hint('x-canonical-secondary-icon', GLib.Variant.new_string(hint_icon))
         notification.connect('closed', self.close_cb)
         notification.show()
-        Gtk.main()
+        self.loop.run()
 
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
-        self.assertThat(notification.opacity, Eventually(Equals(1.0)))
+        self.assert_notification(notification, None, None, 1.0)
         self.touch.tap_object(notification.select_single(objectName="button1"))
         self.assertThat(notification.select_single(objectName="buttonRow").expanded, Eventually(Equals(True)))
         self.touch.tap_object(notification.select_single(objectName="button4"))
@@ -232,8 +241,7 @@ class TestNotifications(NotificationTestCase):
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
-        self.assertThat(notification.summary, Equals(summary))
-        self.assertThat(notification.opacity, Eventually(Equals(1.0)))
+        self.assert_notification(notification, summary, None, 1.0)
 
     def test_urgency_order(self):
         notify_list = self.get_notifications_list()
@@ -260,21 +268,15 @@ class TestNotifications(NotificationTestCase):
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
-        self.assertThat(notification.summary, Equals(summary_critical))
-        self.assertThat(notification.body, Equals(body_critical))
-        self.assertThat(notification.opacity, Eventually(Equals(1.0)))
+        self.assert_notification(notification, summary_critical, body_critical, 1.0)
 
         time.sleep(4)
         notification = get_notification()
-        self.assertThat(notification.summary, Equals(summary_normal))
-        self.assertThat(notification.body, Equals(body_normal))
-        self.assertThat(notification.opacity, Eventually(Equals(1.0)))
+        self.assert_notification(notification, summary_normal, body_normal, 1.0)
 
         time.sleep(4)
         notification = get_notification()
-        self.assertThat(notification.summary, Equals(summary_low))
-        self.assertThat(notification.body, Equals(body_low))
-        self.assertThat(notification.opacity, Eventually(Equals(1.0)))
+        self.assert_notification(notification, summary_low, body_low, 1.0)
 
     def test_summary_body(self):
         notify_list = self.get_notifications_list()
@@ -289,9 +291,7 @@ class TestNotifications(NotificationTestCase):
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
-        self.assertThat(notification.summary, Equals(summary))
-        self.assertThat(notification.body, Equals(body))
-        self.assertThat(notification.opacity, Eventually(Equals(1.0)))
+        self.assert_notification(notification, summary, body, 1.0)
 
     def test_summary_only(self):
         notify_list = self.get_notifications_list()
@@ -305,9 +305,7 @@ class TestNotifications(NotificationTestCase):
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
-        self.assertThat(notification.summary, Equals(summary))
-        self.assertThat(notification.body, Equals(''))
-        self.assertThat(notification.opacity, Eventually(Equals(1.0)))
+        self.assert_notification(notification, summary, '', 1.0)
 
     def test_update_notification(self):
         notify_list = self.get_notifications_list()
@@ -320,9 +318,7 @@ class TestNotifications(NotificationTestCase):
         notification.show()
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
-        self.assertThat(get_notification().summary, Equals(summary))
-        self.assertThat(get_notification().body, Equals(body))
-        self.assertThat(get_notification().opacity, Eventually(Equals(1.0)))
+        self.assert_notification(get_notification(), summary, body, 1.0)
 
         time.sleep(3)
         summary = 'Updated notification (1. notification)'
@@ -331,8 +327,7 @@ class TestNotifications(NotificationTestCase):
         notification.update(summary, body, icon_path)
         notification.show ();
         self.assertThat(get_notification, Eventually(NotEquals(None)))
-        self.assertThat(get_notification().summary, Equals(summary))
-        self.assertThat(get_notification().body, Equals(body))
+        self.assert_notification(get_notification(), summary, body)
 
         time.sleep(6)
         summary = 'Initial layout (2. notification)'
@@ -343,9 +338,7 @@ class TestNotifications(NotificationTestCase):
         notification.set_hint('x-canonical-secondary-icon', GLib.Variant.new_string(hint_icon))
         notification.show ();
         self.assertThat(get_notification, Eventually(NotEquals(None)))
-        self.assertThat(get_notification().summary, Equals(summary))
-        self.assertThat(get_notification().body, Equals(body))
-        self.assertThat(get_notification().opacity, Eventually(Equals(1.0)))
+        self.assert_notification(get_notification(), summary, body, 1.0)
 
         time.sleep(3)
         notification.clear_hints()
@@ -355,8 +348,7 @@ class TestNotifications(NotificationTestCase):
         notification.update(summary, body, None)
         notification.show()
         self.assertThat(get_notification, Eventually(NotEquals(None)))
-        self.assertThat(get_notification().summary, Equals(summary))
-        self.assertThat(get_notification().body, Equals(body))
+        self.assert_notification(get_notification(), summary, body)
 
     def test_append_hint(self):
         notify_list = self.get_notifications_list()
@@ -372,9 +364,7 @@ class TestNotifications(NotificationTestCase):
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
-        self.assertThat(notification.summary, Equals(summary))
-        self.assertThat(notification.body, Equals(body))
-        self.assertThat(notification.opacity, Eventually(Equals(1.0)))
+        self.assert_notification(notification, summary, body_sum, 1.0)
 
         time.sleep(1)
         body = 'What\'s up dude?'
@@ -385,8 +375,7 @@ class TestNotifications(NotificationTestCase):
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
-        self.assertThat(notification.summary, Equals(summary))
-        self.assertThat(notification.body, Equals(body_sum))
+        self.assert_notification(notification, summary, body_sum)
 
         time.sleep(1)
         body = 'Did you watch the air-race in Oshkosh last week?'
@@ -396,8 +385,7 @@ class TestNotifications(NotificationTestCase):
         notification.show()
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
-        self.assertThat(notification.summary, Equals(summary))
-        self.assertThat(notification.body, Equals(body_sum))
+        self.assert_notification(notification, summary, body_sum)
 
         time.sleep(1)
         body = 'Phil owned the place like no one before him!'
@@ -407,8 +395,7 @@ class TestNotifications(NotificationTestCase):
         notification.show()
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
-        self.assertThat(notification.summary, Equals(summary))
-        self.assertThat(notification.body, Equals(body_sum))
+        self.assert_notification(notification, summary, body_sum)
 
         time.sleep(1)
         body = 'Did really everything in the race work according to regulations?'
@@ -418,8 +405,7 @@ class TestNotifications(NotificationTestCase):
         notification.show()
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
-        self.assertThat(notification.summary, Equals(summary))
-        self.assertThat(notification.body, Equals(body_sum))
+        self.assert_notification(notification, summary, body_sum)
 
         time.sleep(1)
         body = 'Somehow I think to remember Burt Williams did cut corners and was not punished for this.'
@@ -429,8 +415,7 @@ class TestNotifications(NotificationTestCase):
         notification.show()
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
-        self.assertThat(notification.summary, Equals(summary))
-        self.assertThat(notification.body, Equals(body_sum))
+        self.assert_notification(notification, summary, body_sum)
 
         time.sleep(1)
         body = 'Hopefully the referees will watch the videos of the race.'
@@ -440,8 +425,7 @@ class TestNotifications(NotificationTestCase):
         notification.show()
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
-        self.assertThat(notification.summary, Equals(summary))
-        self.assertThat(notification.body, Equals(body_sum))
+        self.assert_notification(notification, summary, body_sum)
 
         time.sleep(1)
         body = 'Burt could get fined with US$ 50000 for that rule-violation :)'
@@ -451,5 +435,5 @@ class TestNotifications(NotificationTestCase):
         notification.show()
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
-        self.assertThat(notification.summary, Equals(summary))
-        self.assertThat(notification.body, Equals(body_sum))
+        self.assert_notification(notification, summary, body_sum)
+
