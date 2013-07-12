@@ -7,17 +7,59 @@
 
 """unity8 autopilot tests."""
 
+from autopilot.platform import model
+from autopilot.testcase import AutopilotTestCase
+import logging
 import os.path
 import sysconfig
 
-from autopilot.testcase import AutopilotTestCase
-from autopilot.platform import model
 
 from unity8.shell.emulators.main_window import MainWindow
 
 
+logger = logging.getLogger(__name__)
+
+
 class FormFactors(object):
     Phone, Tablet, Desktop = range(3)
+
+
+class Unity8TestCase(AutopilotTestCase):
+
+    """A sane test case base class for the Unity8 shell tests."""
+
+    def launch_unity(self):
+        """Launch the unity8 shell, return a proxy object for it."""
+        shell_binary_path = self._get_shell_binary_path()
+        app_proxy = self.launch_test_application(
+               shell_binary_path,
+               "-fullscreen",
+               app_type='qt'
+               )
+        logger.debug("Started unity8 shell, backend is: %r", app_proxy._Backend)
+        return app_proxy
+
+
+    def _get_shell_binary_path(self):
+        """Return a path to the unity8 binary, either the locally built binary
+        or the version installed on the system.
+
+        The locally built binary will be preferred.
+
+        """
+
+        local_path = os.path.abspath(
+            os.path.join(
+                os.path.dirname(__file__),
+                "../../../../../builddir/unity8"
+                )
+            )
+        if os.path.exists(local_path):
+            return local_path
+        try:
+            return subprocess.check_output(['which', 'unity8']).strip()
+        except subprocess.CalledProcessError as e:
+            self.fail("Unable to locate unity8 binary: %r" % e)
 
 
 class ShellTestCase(AutopilotTestCase):
