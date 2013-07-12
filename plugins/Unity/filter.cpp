@@ -99,9 +99,6 @@ void Filter::setUnityFilter(unity::dash::Filter::Ptr unityFilter)
               << m_unityFilter->visible.changed.connect(sigc::mem_fun(this, &Filter::visibleChanged))
               << m_unityFilter->collapsed.changed.connect(sigc::mem_fun(this, &Filter::collapsedChanged))
               << m_unityFilter->filtering.changed.connect(sigc::mem_fun(this, &Filter::filteringChanged));
-
-    /* Signals forwarding */
-    m_signals << m_unityFilter->removed.connect(sigc::mem_fun(this, &Filter::removed));
 }
 
 Filter* Filter::newFromUnityFilter(unity::dash::Filter::Ptr unityFilter)

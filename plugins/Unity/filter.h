@@ -69,8 +69,6 @@ Q_SIGNALS:
     void collapsedChanged(bool);
     void filteringChanged(bool);
 
-    void removed();
-
 protected:
     unity::dash::Filter::Ptr m_unityFilter;
     virtual void setUnityFilter(unity::dash::Filter::Ptr unityFilter);
