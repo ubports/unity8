@@ -40,6 +40,7 @@ QString CombinedFilterOption::getCombinedId() const
 QString CombinedFilterOption::getCombinedName() const
 {
     if (m_unityFilterOption[1] != nullptr) {
+        // TRANSLATORS: this joins two names from a Range filter
         return QString::fromStdString(gettext("%1 - %2"))
             .arg(QString::fromStdString(m_unityFilterOption[0]->name()))
             .arg(QString::fromStdString(m_unityFilterOption[1]->name()));
