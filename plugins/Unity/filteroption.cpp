@@ -64,10 +64,30 @@ void FilterOption::setUnityFilterOption(unity::dash::FilterOption::Ptr unityFilt
     m_unityFilterOption = unityFilterOption;
 
     /* Property change signals */
-    m_signals << m_unityFilterOption->id.changed.connect(sigc::mem_fun(this, &FilterOption::idChanged))
-              << m_unityFilterOption->name.changed.connect(sigc::mem_fun(this, &FilterOption::nameChanged))
-              << m_unityFilterOption->icon_hint.changed.connect(sigc::mem_fun(this, &FilterOption::iconHintChanged))
-              << m_unityFilterOption->active.changed.connect(sigc::mem_fun(this, &FilterOption::activeChanged));
+    m_signals << m_unityFilterOption->id.changed.connect(sigc::mem_fun(this, &FilterOption::onIdChanged))
+              << m_unityFilterOption->name.changed.connect(sigc::mem_fun(this, &FilterOption::onNameChanged))
+              << m_unityFilterOption->icon_hint.changed.connect(sigc::mem_fun(this, &FilterOption::onIconHintChanged))
+              << m_unityFilterOption->active.changed.connect(sigc::mem_fun(this, &FilterOption::onActiveChanged));
+}
+
+void FilterOption::onIdChanged(const std::string &/* id */)
+{
+    Q_EMIT idChanged(id());
+}
+
+void FilterOption::onNameChanged(const std::string &/* name */)
+{
+    Q_EMIT nameChanged(name());
+}
+
+void FilterOption::onIconHintChanged(const std::string &/* iconHint */)
+{
+    Q_EMIT iconHintChanged(iconHint());
+}
+
+void FilterOption::onActiveChanged(bool active)
+{
+    Q_EMIT activeChanged(active);
 }
 
 #include "filteroption.moc"

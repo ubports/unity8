@@ -49,13 +49,14 @@ public:
     /* setters */
     void setActive(bool active) override;
 
-private Q_SLOTS:
+private:
     void onIdChanged(const std::string &id);
+    void onNameChanged(const std::string &name);
+    void onIconHintChanged(const std::string &iconHint);
     void onActiveChanged(bool active);
 
-private:
-    std::string getCombinedId() const;
-    std::string getCombinedName() const;
+    QString getCombinedId() const;
+    QString getCombinedName() const;
     void setUnityFilterOption(unity::dash::FilterOption::Ptr unityFilterOption1,
                               unity::dash::FilterOption::Ptr unityFilterOption2 = nullptr);
 

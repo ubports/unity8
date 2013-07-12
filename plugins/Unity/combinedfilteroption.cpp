@@ -28,30 +28,30 @@ CombinedFilterOption::CombinedFilterOption(unity::dash::FilterOption::Ptr unityF
     setUnityFilterOption(unityFilterOption1, unityFilterOption2);
 }
 
-std::string CombinedFilterOption::getCombinedId() const
+QString CombinedFilterOption::getCombinedId() const
 {
     if (m_unityFilterOption[1] != nullptr)
-        return m_unityFilterOption[0]->id() + "-" + m_unityFilterOption[1]->id();
-    return m_unityFilterOption[0]->id();
+        return QString::fromStdString(m_unityFilterOption[0]->id() + "-" + m_unityFilterOption[1]->id());
+    return QString::fromStdString(m_unityFilterOption[0]->id());
 }
 
-std::string CombinedFilterOption::getCombinedName() const
+QString CombinedFilterOption::getCombinedName() const
 {
     if (m_unityFilterOption[1] != nullptr)
         return tr("%1 - %2")
             .arg(QString::fromStdString(m_unityFilterOption[0]->name()))
-            .arg(QString::fromStdString(m_unityFilterOption[1]->name())).toStdString();
-    return m_unityFilterOption[0]->name();
+            .arg(QString::fromStdString(m_unityFilterOption[1]->name()));
+    return QString::fromStdString(m_unityFilterOption[0]->name());
 }
 
 QString CombinedFilterOption::id() const
 {
-    return QString::fromStdString(getCombinedId());
+    return getCombinedId();
 }
 
 QString CombinedFilterOption::name() const
 {
-    return QString::fromStdString(getCombinedName());
+    return getCombinedName();
 }
 
 QString CombinedFilterOption::iconHint() const
@@ -97,6 +97,16 @@ void CombinedFilterOption::onIdChanged(const std::string &/* id */)
     Q_EMIT idChanged(getCombinedId());
 }
 
+void CombinedFilterOption::onNameChanged(const std::string &/* name */)
+{
+    Q_EMIT nameChanged(getCombinedName());
+}
+
+void CombinedFilterOption::onIconHintChanged(const std::string &/* iconHint */)
+{
+    Q_EMIT iconHintChanged(iconHint());
+}
+
 void CombinedFilterOption::onActiveChanged(bool /*active*/)
 {
     bool combinedState = CombinedFilterOption::active();
@@ -117,8 +127,8 @@ void CombinedFilterOption::setUnityFilterOption(unity::dash::FilterOption::Ptr u
     for (int i=0; i<2; i++) {
         if (m_unityFilterOption[i] != nullptr) {
             m_signals << m_unityFilterOption[i]->id.changed.connect(sigc::mem_fun(this, &CombinedFilterOption::onIdChanged))
-                      << m_unityFilterOption[i]->name.changed.connect(sigc::mem_fun(this, &CombinedFilterOption::nameChanged))
-                      << m_unityFilterOption[i]->icon_hint.changed.connect(sigc::mem_fun(this,&CombinedFilterOption::iconHintChanged))
+                      << m_unityFilterOption[i]->name.changed.connect(sigc::mem_fun(this, &CombinedFilterOption::onNameChanged))
+                      << m_unityFilterOption[i]->icon_hint.changed.connect(sigc::mem_fun(this,&CombinedFilterOption::onIconHintChanged))
                       << m_unityFilterOption[i]->active.changed.connect(sigc::mem_fun(this, &CombinedFilterOption::onActiveChanged));
         }
     }

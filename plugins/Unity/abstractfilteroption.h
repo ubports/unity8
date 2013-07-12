@@ -46,9 +46,9 @@ public:
     virtual void setActive(bool active) = 0;
 
 Q_SIGNALS:
-    void idChanged(std::string);
-    void nameChanged(std::string);
-    void iconHintChanged(std::string);
+    void idChanged(const QString &);
+    void nameChanged(const QString &);
+    void iconHintChanged(const QString &);
     void activeChanged(bool);
 };
 

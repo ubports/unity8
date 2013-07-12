@@ -46,6 +46,11 @@ public:
     void setActive(bool active) override;
 
 private:
+    void onIdChanged(const std::string &id);
+    void onNameChanged(const std::string &name);
+    void onIconHintChanged(const std::string &iconHint);
+    void onActiveChanged(bool active);
+
     void setUnityFilterOption(unity::dash::FilterOption::Ptr unityFilterOption);
     SignalsList m_signals;
 
