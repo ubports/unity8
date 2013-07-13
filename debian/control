@@ -70,8 +70,6 @@ Depends: qmenumodel-qml,
          ${shlibs:Depends},
 Recommends: indicator-battery,
             indicator-messages,
-            indicator-network,
-            indicator-sound,
             indicator-time,
             ${unity-default-masterscopes},
 Description: Unity 8 shell
