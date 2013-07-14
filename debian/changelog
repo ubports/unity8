@@ -1,3 +1,13 @@
+unity8 (7.81.3+13.10.20130714ubuntu.unity.next-0ubuntu1) saucy; urgency=low
+
+  [ Michael Terry ]
+  * Change Ok to OK. (LP: #1131842)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 104 (ubuntu-unity/next)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Sun, 14 Jul 2013 02:31:57 +0000
+
 unity8 (7.81.3+13.10.20130712ubuntu.unity.next-0ubuntu1) saucy; urgency=low
 
   [ Michael Zanetti ]
