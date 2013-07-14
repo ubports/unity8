@@ -30,14 +30,9 @@ from unity8.shell.tests.helpers import with_lightdm_mock
 
 from autopilot.input import Mouse, Touch, Pointer
 from testtools.matchers import Equals, NotEquals, GreaterThan, MismatchError
-from autopilot.matchers import Eventually
-from autopilot.display import Display
-from autopilot.platform import model
 
-import unittest
+
 import time
-import os
-from os import path
 
 
 class TestLockscreen(Unity8TestCase):
@@ -62,7 +57,7 @@ class TestLockscreen(Unity8TestCase):
     #     dash = self.main_window.get_dash()
     #     self.assertThat(dash.showScopeOnLoaded, Eventually(Equals(""), timeout=30))
 
-    @with_lightdm_mock("single_pin")
+    @with_lightdm_mock("single-pin")
     def test_can_unlock_screen(self):
         """Must be able to unlock the screen."""
         self.lightdm_mock = "single_pin"
