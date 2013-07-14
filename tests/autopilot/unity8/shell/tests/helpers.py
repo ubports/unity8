@@ -5,13 +5,26 @@
 # under the terms of the GNU General Public License version 3, as published
 # by the Free Software Foundation.
 
-from testtools.matchers import Equals, NotEquals
 from autopilot.matchers import Eventually
+from testtools.matchers import Equals, NotEquals
+from functools import wraps
 
 import logging
 
 logger = logging.getLogger(__name__)
 
+
+def with_lightdm_mock(fn, mock_type):
+    """A simple decorator that sets up the LightDM mock for a single test."""
+    @wraps(fn)
+    def wrapper(*args, **kwargs):
+        logger.info("Setting up LightDM mock type '%s'", mock_type)
+        return fn(*args, **kwargs)
+    return wrapper
+
+
+# TODO: Mixing classes like these are ikky. Remove them, and replace with
+# something better!
 class TestShellHelpers(object):
     """Helpers for testing the Shell"""
 
