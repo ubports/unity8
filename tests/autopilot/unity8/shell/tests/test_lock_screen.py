@@ -6,21 +6,6 @@
 # by the Free Software Foundation.
 
 
-# This file contains general purpose test cases for Unity.
-# Each test written in this file will be executed for a variety of
-# configurations, such as Phone, Tablet or Desktop form factors.
-#
-# Sometimes there is the need to disable a certain test for a particular
-# configuration. To do so, add this in a new line directly below your test:
-#
-#    test_testname.blacklist = (FormFactors.Tablet, FormFactors.Desktop,)
-#
-# Available form factors are:
-# FormFactors.Phone
-# FormFactors.Tablet
-# FormFactors.Desktop
-
-
 """Tests for the Shell"""
 
 from __future__ import absolute_import
@@ -29,11 +14,10 @@ from unity8.shell.tests import Unity8TestCase
 from unity8.shell.tests.helpers import with_lightdm_mock
 
 from autopilot.matchers import Eventually
-from testtools import skipUnless, skipIf
 from autopilot.platform import model
-from testtools.matchers import Equals
 import logging
-import time
+from testtools import skipUnless
+from testtools.matchers import Equals
 
 
 logger = logging.getLogger(__name__)
