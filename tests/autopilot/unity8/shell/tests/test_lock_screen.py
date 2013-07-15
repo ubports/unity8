@@ -66,10 +66,39 @@ class TestLockscreen(Unity8TestCase):
 
         self.assertThat(lockscreen.shown, Eventually(Equals(False)))
 
+    @with_lightdm_mock("single-pin")
+    def test_pin_screen_wrong_code(self):
+        """Entering the wrong pin code must not dismiss the lock screen."""
+        self.app = self.launch_unity()
+        self._unlock_greeter()
+
+        lockscreen = self._wait_for_lockscreen()
+        self._enter_pincode("4321")
+
+        pinentryField = self.main_window.get_pinentryField()
+        self.assertThat(pinentryField.text, Eventually(Equals("")))
+        self.assertThat(lockscreen.shown, Eventually(Equals(True)))
+
+    @skipUnless(model() == 'Desktop', "Passphrase applicable to desktop only.")
+    @with_lightdm_mock("single-passphrase")
+    def test_passphrase_screen_wrong_password(self):
+        """Entering the wrong password must not dismiss the lock screen."""
+        self.app = self.launch_unity()
+        self._unlock_greeter()
+
+        lockscreen = self._wait_for_lockscreen()
+        self._enter_passphrase("foobar")
+
+        pinentryField = self.main_window.get_pinentryField()
+        self.assertThat(pinentryField.text, Eventually(Equals("")))
+        self.assertThat(lockscreen.shown, Eventually(Equals(True)))
+
     def _unlock_greeter(self):
+        """Swipe the greeter out of the way."""
         greeter = self.main_window.get_greeter()
         self.assertThat(greeter.created, Eventually(Equals(True)))
 
+        # TODO: Is this ever called? Find out, and maybe remove this branch:
         if greeter.multiUser:
             password_field = self.select_greeter_user("No Password")
             self.assertThat(password_field.opacity, Eventually(Equals(1)))
@@ -130,26 +159,3 @@ class TestLockscreen(Unity8TestCase):
 
 
 
-    # def test_unlock_wrong(self):
-    #     self.unlock_greeter()
-
-    #     pinPadLoader = self.main_window.get_pinPadLoader();
-    #     self.assertThat(pinPadLoader.progress, Eventually(Equals(1)))
-    #     lockscreen = self.main_window.get_lockscreen();
-    #     self.assertThat(lockscreen.shown, Eventually(Equals(True)))
-    #     pinentryField = self.main_window.get_pinentryField()
-
-    #     if self.lightdm_mock == "single-pin":
-    #         self.touch.tap_object(self.main_window.get_pinPadButton(4))
-    #         self.touch.tap_object(self.main_window.get_pinPadButton(3))
-    #         self.touch.tap_object(self.main_window.get_pinPadButton(2))
-    #         self.assertThat(pinentryField.text, Eventually(Equals("432")))
-    #         self.touch.tap_object(self.main_window.get_pinPadButton(1))
-
-    #         self.assertThat(pinentryField.text, Eventually(Equals("")))
-    #         self.assertThat(lockscreen.shown, Eventually(Equals(True)))
-    #     else:
-    #         self.touch.tap_object(pinentryField)
-    #         self.keyboard.type("foobar\n")
-    #         self.assertThat(pinentryField.text, Eventually(Equals("")))
-    #         self.assertThat(lockscreen.shown, Eventually(Equals(True)))
