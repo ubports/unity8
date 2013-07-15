@@ -29,6 +29,8 @@ from unity8.shell.tests import Unity8TestCase
 from unity8.shell.tests.helpers import with_lightdm_mock
 
 from autopilot.matchers import Eventually
+from testtools import skipUnless, skipIf
+from autopilot.platform import model
 from testtools.matchers import Equals
 import logging
 import time
@@ -41,32 +43,26 @@ class TestLockscreen(Unity8TestCase):
 
     """Tests for the lock screen."""
 
-    # if model() == 'Desktop':
-    #     scenarios = [
-    #         ('Pinlock', dict(app_width=768, app_height=1280, grid_unit_px=18, lightdm_mock="single-pin")),
-    #         ('Keylock', dict(app_width=768, app_height=1280, grid_unit_px=18, lightdm_mock="single-passphrase")),
-    #     ]
-    # else:
-    #     scenarios = [
-    #         ('Pinlock', dict(app_width=0, app_height=0, grid_unit_px=0, lightdm_mock="single-pin")),
-    #         ('Keylock', dict(app_width=0, app_height=0, grid_unit_px=0, lightdm_mock="single-key")),
-    #     ]
-
-    # def setUp(self):
-    #     super(TestLockscreen, self).setUp()
-
-
-    #     dash = self.main_window.get_dash()
-    #     self.assertThat(dash.showScopeOnLoaded, Eventually(Equals(""), timeout=30))
-
     @with_lightdm_mock("single-pin")
-    def test_can_unlock_screen(self):
+    def test_can_unlock_pin_screen(self):
         """Must be able to unlock the PIN entry lock screen."""
         self.app = self.launch_unity()
         self._unlock_greeter()
 
         lockscreen = self._wait_for_lockscreen()
         self._enter_pincode("1234")
+
+        self.assertThat(lockscreen.shown, Eventually(Equals(False)))
+
+    @skipUnless(model() == 'Desktop', "Passphrase applicable to desktop only.")
+    @with_lightdm_mock("single-passphrase")
+    def test_can_unlock_passphrase_screen(self):
+        """Must be able to unlock the passphrase entry screen."""
+        self.app = self.launch_unity()
+        self._unlock_greeter()
+
+        lockscreen = self._wait_for_lockscreen()
+        self._enter_passphrase("password")
 
         self.assertThat(lockscreen.shown, Eventually(Equals(False)))
 
@@ -116,25 +112,23 @@ class TestLockscreen(Unity8TestCase):
                 )
             self.touch.tap_object(self.main_window.get_pinPadButton(int(num)))
 
-    # def test_unlock(self):
-    #     self.unlock_greeter()
+    def _enter_passphrase(self, passphrase):
+        """Enter the password specified in 'passphrase' into the password entry
+        field.
 
-    #     pinPadLoader = self.main_window.get_pinPadLoader();
-    #     self.assertThat(pinPadLoader.progress, Eventually(Equals(1)))
-    #     lockscreen = self.main_window.get_lockscreen();
-    #     self.assertThat(lockscreen.shown, Eventually(Equals(True)))
+        :param passphrase: The string you want to enter.
+        :raises: TypeError if passphrase is not a string.
 
-    #     if self.lightdm_mock == "single-pin":
-    #         self.touch.tap_object(self.main_window.get_pinPadButton(1))
-    #         self.touch.tap_object(self.main_window.get_pinPadButton(2))
-    #         self.touch.tap_object(self.main_window.get_pinPadButton(3))
-    #         self.touch.tap_object(self.main_window.get_pinPadButton(4))
-    #         self.assertThat(lockscreen.shown, Eventually(Equals(False)))
-    #     else:
-    #         pinentryField = self.main_window.get_pinentryField()
-    #         self.touch.tap_object(pinentryField)
-    #         self.keyboard.type("password\n")
-    #         self.assertThat(lockscreen.shown, Eventually(Equals(False)))
+        """
+        if not isinstance(passphrase, basestring):
+            raise TypeError("'passphrase' parameter must be a string.")
+
+        pinentryField = self.main_window.get_pinentryField()
+        self.touch.tap_object(pinentryField)
+        self.keyboard.type(passphrase)
+        self.keyboard.type("\n")
+
+
 
     # def test_unlock_wrong(self):
     #     self.unlock_greeter()
