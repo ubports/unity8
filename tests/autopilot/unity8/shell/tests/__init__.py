@@ -10,13 +10,13 @@
 from autopilot.platform import model
 from autopilot.testcase import AutopilotTestCase
 from autopilot.matchers import Eventually
-import subprocess
 from testtools.matchers import Equals, NotEquals
+from autopilot.input import Touch
 import logging
 import os.path
 import sysconfig
 
-
+from unity8 import get_lib_path, get_unity8_binary_path
 from unity8.shell.emulators.main_window import MainWindow
 
 
@@ -34,31 +34,18 @@ class Unity8TestCase(AutopilotTestCase):
     def setUp(self):
         super(Unity8TestCase, self).setUp()
         self._proxy = None
-        # The lightdm mock we want to load. Options seem to be "full", "single-pin",
-        # "single-passphrase" or "single-key".
-        self.lightdm_mock = "full"
+        self.touch = Touch.create()
 
     def launch_unity(self):
         """Launch the unity8 shell, return a proxy object for it."""
         # first, work out which binary to launch:
-        binary_path = os.path.abspath(
-            os.path.join(
-                os.path.dirname(__file__),
-                "../../../../../builddir/unity8"
-                )
-            )
-        if os.path.exists(binary_path):
-            lib_path = os.path.dirname(binary_path)
-        else:
-            try:
-                binary_path = subprocess.check_output(['which', 'unity8']).strip()
-                lib_path = os.path.join(
-                    "/usr/lib/",
-                    sysconfig.get_config_var('MULTIARCH'),
-                    "unity8"
-                    )
-            except subprocess.CalledProcessError as e:
-                self.fail("Unable to locate unity8 binary: %r" % e)
+        binary_path = get_unity8_binary_path()
+        lib_path = get_lib_path()
+
+        logger.info("Lib path is '%s', binary path is '%s'",
+            lib_path,
+            binary_path
+        )
 
         # we now have a path to the unity8 binary, and lib_path points to the
         # directory where we need to patch some environment variables.
@@ -83,12 +70,12 @@ class Unity8TestCase(AutopilotTestCase):
 
     def _patch_environment(self, lib_path):
         """Patch environment variables for launching the unity8 shell."""
-        ld_lib_path_patches = (
-            os.path.join(lib_path, "qml/mocks/libusermetrics"),
-            os.path.join(lib_path, "qml/mocks/LightDM/" + self.lightdm_mock),
-            )
+        # ld_lib_path_patches = (
+        #     os.path.join(lib_path, "qml/mocks/libusermetrics"),
+        #     os.path.join(lib_path, "qml/mocks/LightDM/" + self.lightdm_mock),
+        #     )
 
-        self.patch_environment("LD_LIBRARY_PATH", ":".join(ld_lib_path_patches))
+        # self.patch_environment("LD_LIBRARY_PATH", ":".join(ld_lib_path_patches))
         self.patch_environment("QML2_IMPORT_PATH", os.path.join(lib_path, "qml/mocks"))
 
 
@@ -117,6 +104,11 @@ class Unity8TestCase(AutopilotTestCase):
         dash = self._proxy.select_single("Dash")
         self.assertThat(dash, NotEquals(None))
         return dash
+
+    @property
+    def main_window(self):
+        return MainWindow(self._proxy)
+
 
 
 class ShellTestCase(AutopilotTestCase):

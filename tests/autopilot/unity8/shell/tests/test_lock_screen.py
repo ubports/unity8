@@ -28,11 +28,13 @@ from __future__ import absolute_import
 from unity8.shell.tests import Unity8TestCase
 from unity8.shell.tests.helpers import with_lightdm_mock
 
-from autopilot.input import Mouse, Touch, Pointer
-from testtools.matchers import Equals, NotEquals, GreaterThan, MismatchError
-
-
+from autopilot.matchers import Eventually
+from testtools.matchers import Equals
+import logging
 import time
+
+
+logger = logging.getLogger(__name__)
 
 
 class TestLockscreen(Unity8TestCase):
@@ -59,10 +61,60 @@ class TestLockscreen(Unity8TestCase):
 
     @with_lightdm_mock("single-pin")
     def test_can_unlock_screen(self):
-        """Must be able to unlock the screen."""
-        self.lightdm_mock = "single_pin"
+        """Must be able to unlock the PIN entry lock screen."""
         self.app = self.launch_unity()
-        time.sleep(30)
+        self._unlock_greeter()
+
+        lockscreen = self._wait_for_lockscreen()
+        self._enter_pincode("1234")
+
+        self.assertThat(lockscreen.shown, Eventually(Equals(False)))
+
+    def _unlock_greeter(self):
+        greeter = self.main_window.get_greeter()
+        self.assertThat(greeter.created, Eventually(Equals(True)))
+
+        if greeter.multiUser:
+            password_field = self.select_greeter_user("No Password")
+            self.assertThat(password_field.opacity, Eventually(Equals(1)))
+            self.touch.tap_object(password_field)
+
+        else:
+            rect = greeter.globalRect
+            start_x = rect[0] + rect[2] - 3
+            start_y = int(rect[1] + rect[3] / 2)
+            stop_x = int(rect[0] + rect[2] * 0.2)
+            stop_y = start_y
+            self.touch.drag(start_x, start_y, stop_x, stop_y)
+
+        self.assertThat(greeter.created, Eventually(Equals(False)))
+
+    def _wait_for_lockscreen(self):
+        """Wait for the lock screen to load, and return it."""
+        pinPadLoader = self.main_window.get_pinPadLoader();
+        self.assertThat(pinPadLoader.progress, Eventually(Equals(1)))
+        lockscreen = self.main_window.get_lockscreen();
+        self.assertThat(lockscreen.shown, Eventually(Equals(True)))
+        return lockscreen
+
+    def _enter_pincode(self, code):
+        """Enter code 'code' into the single-pin lightdm pincode entry
+        screen.
+
+        :param code: must be a string of numeric characters.
+        :raises: TypeError if code is not a string.
+        :raises: ValueError if code contains non-numeric characters.
+
+        """
+
+        if not isinstance(code, basestring):
+            raise TypeError("'code' parameter must be a string.")
+        for num in code:
+            if not num.isdigit():
+                raise ValueError(
+                    "'code' parameter contains non-numeric characters."
+                )
+            self.touch.tap_object(self.main_window.get_pinPadButton(int(num)))
 
     # def test_unlock(self):
     #     self.unlock_greeter()
