@@ -30,6 +30,10 @@ def with_lightdm_mock(mock_type):
                 "qml/mocks/LightDM/",
                 mock_type
             )
+            if not os.path.exists(new_ld_library_path):
+                raise RuntimeError(
+                    "LightDM mock '%s' does not exist." % mock_type
+                )
 
             logger.info("New library path: %s", new_ld_library_path)
             args[0].patch_environment('LD_LIBRARY_PATH', new_ld_library_path)
