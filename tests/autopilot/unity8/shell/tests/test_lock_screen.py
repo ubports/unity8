@@ -30,8 +30,9 @@ class TestLockscreen(Unity8TestCase):
     @with_lightdm_mock("single-pin")
     def test_can_unlock_pin_screen(self):
         """Must be able to unlock the PIN entry lock screen."""
-        self.app = self.launch_unity()
-        self._unlock_greeter()
+        self.launch_unity()
+        greeter = self.main_window.get_greeter()
+        greeter.unlock()
 
         lockscreen = self._wait_for_lockscreen()
         self._enter_pincode("1234")
@@ -42,8 +43,9 @@ class TestLockscreen(Unity8TestCase):
     @with_lightdm_mock("single-passphrase")
     def test_can_unlock_passphrase_screen(self):
         """Must be able to unlock the passphrase entry screen."""
-        self.app = self.launch_unity()
-        self._unlock_greeter()
+        self.launch_unity()
+        greeter = self.main_window.get_greeter()
+        greeter.unlock()
 
         lockscreen = self._wait_for_lockscreen()
         self._enter_passphrase("password")
@@ -53,8 +55,9 @@ class TestLockscreen(Unity8TestCase):
     @with_lightdm_mock("single-pin")
     def test_pin_screen_wrong_code(self):
         """Entering the wrong pin code must not dismiss the lock screen."""
-        self.app = self.launch_unity()
-        self._unlock_greeter()
+        self.launch_unity()
+        greeter = self.main_window.get_greeter()
+        greeter.unlock()
 
         lockscreen = self._wait_for_lockscreen()
         self._enter_pincode("4321")
@@ -67,8 +70,9 @@ class TestLockscreen(Unity8TestCase):
     @with_lightdm_mock("single-passphrase")
     def test_passphrase_screen_wrong_password(self):
         """Entering the wrong password must not dismiss the lock screen."""
-        self.app = self.launch_unity()
-        self._unlock_greeter()
+        self.launch_unity()
+        greeter = self.main_window.get_greeter()
+        greeter.unlock()
 
         lockscreen = self._wait_for_lockscreen()
         self._enter_passphrase("foobar")
@@ -76,27 +80,6 @@ class TestLockscreen(Unity8TestCase):
         pinentryField = self.main_window.get_pinentryField()
         self.assertThat(pinentryField.text, Eventually(Equals("")))
         self.assertThat(lockscreen.shown, Eventually(Equals(True)))
-
-    def _unlock_greeter(self):
-        """Swipe the greeter out of the way."""
-        greeter = self.main_window.get_greeter()
-        self.assertThat(greeter.created, Eventually(Equals(True)))
-
-        # TODO: Is this ever called? Find out, and maybe remove this branch:
-        if greeter.multiUser:
-            password_field = self.select_greeter_user("No Password")
-            self.assertThat(password_field.opacity, Eventually(Equals(1)))
-            self.touch.tap_object(password_field)
-
-        else:
-            rect = greeter.globalRect
-            start_x = rect[0] + rect[2] - 3
-            start_y = int(rect[1] + rect[3] / 2)
-            stop_x = int(rect[0] + rect[2] * 0.2)
-            stop_y = start_y
-            self.touch.drag(start_x, start_y, stop_x, stop_y)
-
-        self.assertThat(greeter.created, Eventually(Equals(False)))
 
     def _wait_for_lockscreen(self):
         """Wait for the lock screen to load, and return it."""

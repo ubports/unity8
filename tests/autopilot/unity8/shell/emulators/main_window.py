@@ -5,6 +5,10 @@
 # under the terms of the GNU General Public License version 3, as published
 # by the Free Software Foundation.
 
+
+from unity8.shell.emulators.greeter import Greeter
+
+
 class MainWindow(object):
     """An emulator class that makes it easy to interact with the shell"""
 
@@ -16,7 +20,7 @@ class MainWindow(object):
         return self.app.select_single("QQuickView")
 
     def get_greeter(self):
-        return self.app.select_single("Greeter")
+        return self.app.select_single(Greeter)
 
     def get_greeter_content_loader(self):
         return self.app.select_single("QQuickLoader", objectName="greeterContentLoader")

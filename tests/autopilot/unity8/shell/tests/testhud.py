@@ -6,21 +6,6 @@
 # by the Free Software Foundation.
 
 
-# This file contains general purpose test cases for Unity.
-# Each test written in this file will be executed for a variety of
-# configurations, such as Phone, Tablet or Desktop form factors.
-#
-# Sometimes there is the need to disable a certain test for a particular
-# configuration. To do so, add this in a new line directly below your test:
-#
-#    test_testname.blacklist = (FormFactors.Tablet, FormFactors.Desktop,)
-#
-# Available form factors are:
-# FormFactors.Phone
-# FormFactors.Tablet
-# FormFactors.Desktop
-
-
 """Tests for the Shell"""
 
 from __future__ import absolute_import
@@ -31,12 +16,11 @@ from autopilot.input import Touch
 from testtools.matchers import Equals, MismatchError
 from autopilot.matchers import Eventually
 from autopilot.display import Display
-from autopilot.platform import model
 
 
 class TestHud(Unity8TestCase):
 
-    """Tests the Shell HUD"""
+    """Tests the Shell HUD."""
 
     # Scenarios:
     # Fill in the scenarios to run the whole test suite with multiple configurations.
@@ -57,9 +41,19 @@ class TestHud(Unity8TestCase):
 #             ('Fullscreen', dict(app_width=0, app_height=0, grid_unit_px=0, lightdm_mock="single")),
 #         ]
 
+    def setUp(self):
+        self.touch = Touch.create()
+
+        sg = Display().create()
+        divisor = 1
+        while (sg.get_screen_width() < self.app_width / divisor or sg.get_screen_height() < self.app_height / divisor):
+            divisor = divisor * 2
+        super(TestHud, self).setUp("%sx%s" % (self.app_width / divisor, self.app_height / divisor), "%s" % (self.grid_unit_px / divisor))
+
+        dash = self.main_window.get_dash()
+        self.assertThat(dash.showScopeOnLoaded, Eventually(Equals(""), timeout=30))
 
     def test_show_hud(self):
-        self.launch_unity()
         hud = self.main_window.get_hud()
         self.unlock_greeter()
         self.show_hud()

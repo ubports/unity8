@@ -18,6 +18,7 @@ import sysconfig
 
 from unity8 import get_lib_path, get_unity8_binary_path
 from unity8.shell.emulators.main_window import MainWindow
+from unity8.shell.emulators import Unity8EmulatorBase
 
 
 logger = logging.getLogger(__name__)
@@ -57,7 +58,8 @@ class Unity8TestCase(AutopilotTestCase):
         app_proxy = self.launch_test_application(
                binary_path,
                "-fullscreen",
-               app_type='qt'
+               app_type='qt',
+               emulator_base=Unity8EmulatorBase,
                )
         logger.debug("Started unity8 shell, backend is: %r", app_proxy._Backend)
         self._set_proxy(app_proxy)
