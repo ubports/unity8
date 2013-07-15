@@ -61,7 +61,9 @@ class TestHud(Unity8TestCase):
     def test_show_hud(self):
         self.launch_unity()
         hud = self.main_window.get_hud()
-        self.unlock_greeter()
+        greeter = self.main_window.get_greeter()
+        greeter.unlock()
+
         self.show_hud()
         self.assertThat(hud.shown, Eventually(Equals(True)))
 
