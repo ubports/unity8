@@ -131,7 +131,7 @@ UbuntuShape {
                     }
                     visible: body != ""
                     fontSize: "small"
-//                    color: Theme.palette.selected.backgroundText
+                    color: Theme.palette.selected.backgroundText
                     opacity: 0.6
                     wrapMode: Text.WordWrap
                     maximumLineCount: 10
