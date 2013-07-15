@@ -49,7 +49,6 @@ PageStack {
 
         ICNetwork.PasswordPage {
             agent: networkAgent
-            token: token
         }
     }
 
@@ -57,7 +56,7 @@ PageStack {
         id: networkAgent
 
         onSecretRequested: {
-            _network.push(passwordPageComponent);
+            _network.push(passwordPageComponent, {"token": token});
         }
     }
 
