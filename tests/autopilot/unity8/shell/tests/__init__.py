@@ -78,17 +78,6 @@ class Unity8TestCase(AutopilotTestCase):
         # self.patch_environment("LD_LIBRARY_PATH", ":".join(ld_lib_path_patches))
         self.patch_environment("QML2_IMPORT_PATH", os.path.join(lib_path, "qml/mocks"))
 
-
-    def _get_shell_binary_path(self):
-        """Return a path to the unity8 binary, either the locally built binary
-        or the version installed on the system.
-
-        The locally built binary will be preferred.
-
-        """
-
-
-
     def _set_proxy(self, proxy):
         """Keep a copy of the proxy object, so we can use it to get common parts
         of the shell later on.
@@ -108,7 +97,6 @@ class Unity8TestCase(AutopilotTestCase):
     @property
     def main_window(self):
         return MainWindow(self._proxy)
-
 
 
 class ShellTestCase(AutopilotTestCase):
