@@ -75,7 +75,7 @@ Page {
                 }
 
                 Button {
-                    text: "Ok"
+                    text: "OK"
                     width: units.gu(10)
                     onClicked: {
                         agent.authenticate(token, password.text);
