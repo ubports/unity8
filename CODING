@@ -23,15 +23,12 @@ $ cd ~/unity8/trunk
 $ ./build --setup
 
   this will:
-  - add the following PPA's
-    - ppa:phablet-team/desktop-deps
-    - ppa:canonical-qt5-edgers/qt5-proper
-    - ppa:ubuntu-sdk-team
+  - add ppa:ubuntu-unity/next
   - install the required dependencies to build, as well as run on the desktop
   - it should also install unity-scope-home and unity-lens-application which 
     are technically "recommends", not strict dependencies
 
-Note, once the PPA's are added, the script runs apt-get update, if you have
+Note, once the PPA is added, the script runs apt-get update, if you have
 any failures associated with it, the build script will bail out of the setup
 and fail to install all the required dependencies.
 
@@ -44,6 +41,7 @@ $ ./build
 
 You may also rebuild with the -c for clean, which just deletes the build
 directory.
+
 
 Running Unity 8 on your desktop
 ===============================
@@ -73,6 +71,7 @@ Notes
     - Create an EDS address book
     - Populate the address book with sample data
 
+
 Running Unity 8 on devices
 ==========================
 - Ubuntu Touch builds are currently only available in 13.10 flavour
@@ -91,7 +90,6 @@ $ cd ~/unity/trunk
 $ ./run_on_device --setup
   this will:
   - install your public SSH key on the device
-  - add ppa:canonical-qt5-edgers/qt5-proper and ppa:phablet-team
   - install the needed dependencies
 
 $ ./run_on_device
@@ -109,6 +107,7 @@ $ ./run_on_device -p OR -k
 Notes
 -----
 - using adb over TCP has some advantages, Google will be of help here
+  - NOTE: this is not yet available for flipped images
   - TL;DR: `adb tcpip 5555; adb connect $your_device_ip`
   - you can persist the above via `adb shell setprop persist.adb.tcp.port 5555`
   - it's unsafe - anyone can connect to your device
