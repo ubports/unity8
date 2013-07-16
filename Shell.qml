@@ -159,6 +159,7 @@ FocusScope {
 
         Dash {
             id: dash
+            objectName: "dash"
 
             available: !greeter.shown && !lockscreen.shown
             hides: [stages, launcher, panel.indicators]
