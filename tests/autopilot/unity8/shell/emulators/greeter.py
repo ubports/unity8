@@ -27,3 +27,42 @@ class Greeter(Unity8EmulatorBase):
             touch.drag(start_x, start_y, stop_x, stop_y)
 
         self.created.wait_for(False)
+
+    #TODO: This was moved here from helpers.TestShellHelpersg
+    def select_greeter_user(self, username):
+        greeter = self.main_window.get_greeter()
+        self.assertThat(greeter.created, Eventually(Equals(True)))
+        self.assertThat(greeter.multiUser, Eventually(Equals(True)))
+
+        login_loader = self.main_window.get_login_loader()
+        self.assertThat(login_loader.progress, Eventually(Equals(1)))
+
+        login_list = self.main_window.get_login_list()
+        list_view = login_list.get_children_by_type("QQuickListView")[0]
+
+        try_count = 0
+        max_tries = 50  # just in case we go off rails
+        while try_count < max_tries:
+            users = list_view.get_children_by_type("QQuickItem")[0].get_children_by_type("QQuickItem")
+            target_user = None
+            for user in users:
+                try:
+                    user_label = user.get_children_by_type("Label")[0]
+                    if user.opacity < 0.1:
+                        continue  # off-screen item
+                    if user_label.text == username:
+                        target_user = user
+                        break
+                    elif target_user is None or user.y > target_user.y:
+                        target_user = user
+                except Exception:
+                    pass
+            if target_user is None:
+                break
+            user_label = target_user.get_children_by_type("Label")[0]
+            self.touch.tap_object(user_label)
+            self.assertThat(list_view.movingInternally, Eventually(Equals(False)))
+            if user_label.text == username:
+                return login_list.get_children_by_type("TextField")[0]
+            try_count = try_count + 1
+        self.fail()  # We didn't find it
