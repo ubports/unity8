@@ -120,6 +120,15 @@ FocusScope {
 
     function updateImage() {
         if (testImage.status == Image.Ready) {
+            if (shell.width / shell.height <= testImage.sourceSize.width / testImage.sourceSize.height) {
+                backgroundImage.sourceSize = undefined
+                backgroundImage.sourceSize.height = shell.height
+            }
+            else {
+                backgroundImage.sourceSize = undefined
+                backgroundImage.sourceSize.width = shell.width
+            }
+
             shell.background = testImage.source
         } else if (testImage.status == Image.Error) {
             shell.background = shell.default_background
@@ -157,8 +166,6 @@ FocusScope {
         Image {
             id: backgroundImage
             source: shell.background
-            sourceSize.width: parent.width
-            sourceSize.height: parent.height
             anchors.fill: parent
             fillMode: Image.PreserveAspectCrop
         }
