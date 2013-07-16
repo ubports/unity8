@@ -5,24 +5,6 @@
 # under the terms of the GNU General Public License version 3, as published
 # by the Free Software Foundation.
 
-
-# This file contains general purpose test cases for Unity.
-# Each test written in this file will be executed for a variety of
-# configurations, such as Phone, Tablet or Desktop form factors.
-#
-# Sometimes there is the need to disable a certain test for a particular
-# configuration. To do so, add this in a new line directly below your test:
-#
-#    test_testname.blacklist = (FormFactors.Tablet, FormFactors.Desktop,)
-#
-# Available form factors are:
-# FormFactors.Phone
-# FormFactors.Tablet
-# FormFactors.Desktop
-
-
-"""Tests for the Shell"""
-
 from __future__ import absolute_import
 
 from collections import namedtuple
@@ -53,7 +35,7 @@ class TestHud(Unity8TestCase):
         hud_show_button = self.main_window.get_hud_show_button()
         hud = self.main_window.get_hud()
 
-        self._launch_application_from_app_screen()
+        self._launch_test_app_from_app_screen()
 
         swipe_coords = self._get_hud_button_swipe_coords(window, hud_show_button)
         self.touch.press(swipe_coords.start_x, swipe_coords.start_y)
@@ -69,7 +51,7 @@ class TestHud(Unity8TestCase):
         hud_show_button = self.main_window.get_hud_show_button()
         hud = self.main_window.get_hud()
 
-        self._launch_application_from_app_screen()
+        self._launch_test_app_from_app_screen()
 
         swipe_coords = self._get_hud_button_swipe_coords(window, hud_show_button)
         self.touch.press(swipe_coords.start_x, swipe_coords.start_y)
@@ -119,14 +101,11 @@ class TestHud(Unity8TestCase):
         self.launch_unity()
         self.main_window.get_greeter().unlock()
         hud = self.main_window.get_hud()
+
+        self._launch_test_app_from_app_screen()
         hud.show()
 
-        self._launch_application_from_app_screen()
-
-        rect = hud.globalRect
-        x = int(rect[0] + rect[2] / 2)
-        y = rect[1] + self.grid_size
-
+        x, y = hud.get_close_button_coords(self.grid_size)
         self.touch.tap(x, y)
         self.assertThat(hud.shown, Eventually(Equals(False)))
 
@@ -140,17 +119,25 @@ class TestHud(Unity8TestCase):
     #     self.touch.tap(x, y)
     #     self.assertRaises(MismatchError, lambda: self.assertThat(hud.shown, Eventually(Equals(False), timeout=3)))
 
-    # def test_hide_hud_dragging(self):
-    #     hud = self.main_window.get_hud()
-    #     self.unlock_greeter()
-    #     self.show_hud()
-    #     rect = hud.globalRect
-    #     start_x = rect[0] + (rect[2] - rect[0]) / 2
-    #     start_y = rect[1] + 1
-    #     stop_x = start_x
-    #     stop_y = start_y + (rect[3] - rect[1]) / 2
-    #     self.touch.drag(start_x, start_y, stop_x, stop_y)
-    #     self.assertThat(hud.shown, Eventually(Equals(False)))
+    def test_hide_hud_dragging(self):
+        """Once open the Hud must close if the upper bar is dragged and released
+        downward.
+
+        """
+        self.launch_unity()
+        self.main_window.get_greeter().unlock()
+        hud = self.main_window.get_hud()
+        window = self.main_window.get_qml_view()
+
+        self._launch_test_app_from_app_screen()
+        hud.show()
+
+        start_x, start_y = hud.get_close_button_coords(self.grid_size)
+        end_x = start_x
+        end_y = int(window.height / 2)
+
+        self.touch.drag(start_x, start_y, end_x, end_y)
+        self.assertThat(hud.shown, Eventually(Equals(False)))
 
     def test_launcher_hides_hud(self):
         """Opening the Launcher while the Hud is active must close the Hud."""
@@ -159,17 +146,17 @@ class TestHud(Unity8TestCase):
         hud = self.main_window.get_hud()
         launcher = self.main_window.get_launcher()
 
-        self._launch_application_from_app_screen()
+        self._launch_test_app_from_app_screen()
 
         hud.show()
         launcher.show()
 
         self.assertThat(hud.shown, Eventually(Equals(False)))
 
-    def _launch_application_from_app_screen(self):
+    def _launch_test_app_from_app_screen(self):
         """Launches the camera app using the Dash UI.
 
-        This is becuase when testing on the desktop running
+        Because when testing on the desktop running
         self.launch_application() will launch the application on the desktop
         itself and not within the Unity8 UI.
 
@@ -191,6 +178,10 @@ class TestHud(Unity8TestCase):
             self.touch.release()
 
     def _get_hud_button_swipe_coords(self, main_view, hud_show_button):
+        """Returns the coords both start and end x,y for swiping to make the
+        'hud show' button appear.
+
+        """
         start_x = int(main_view.x + (main_view.width / 2))
         end_x = start_x
         start_y = main_view.y + (main_view.height -3)

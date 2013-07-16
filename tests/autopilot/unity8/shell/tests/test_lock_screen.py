@@ -6,8 +6,6 @@
 # by the Free Software Foundation.
 
 
-"""Tests for the Shell"""
-
 from __future__ import absolute_import
 
 from unity8.shell.tests import Unity8TestCase
