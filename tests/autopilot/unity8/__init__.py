@@ -30,7 +30,7 @@ def get_unity8_binary_path():
     binary_path = os.path.abspath(
         os.path.join(
             os.path.dirname(__file__),
-            "../../../../../builddir/unity8"
+            "../../../builddir/unity8"
             )
         )
     if not os.path.exists(binary_path):

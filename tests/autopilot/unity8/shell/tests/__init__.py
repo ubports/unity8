@@ -27,6 +27,12 @@ logger = logging.getLogger(__name__)
 class FormFactors(object):
     Phone, Tablet, Desktop = range(3)
 
+def _get_device_emulation_scenarios():
+    if model() == 'Desktop':
+        return [ ('Desktop Nexus 4', dict(app_width=384, app_height=640, grid_unit_px=18)) ]
+        # return [ ('Desktop Nexus 4', dict(app_width=768, app_height=1280, grid_unit_px=18)) ]
+    else:
+        return [ ('Native Device', dict(app_width=0, app_height=0, grid_unit_px=0)) ]
 
 class Unity8TestCase(AutopilotTestCase):
 
@@ -36,6 +42,27 @@ class Unity8TestCase(AutopilotTestCase):
         super(Unity8TestCase, self).setUp()
         self._proxy = None
         self.touch = Touch.create()
+        self._setup_grid_size()
+        self._determine_geometry()
+
+    def _setup_grid_size(self):
+        """Use the grid size that may be supplied or use the default."""
+        if getattr(self, 'grid_unit_px', 0) == 0:
+            self.grid_size = int(os.getenv['GRID_UNIT_PX'])
+        else:
+            self.grid_size = self.grid_unit_px
+            self.patch_environment("GRID_UNIT_PX", str(self.grid_size))
+
+    def _determine_geometry(self):
+        """Use the geometry that may be supplied or use the default."""
+        width = getattr(self, 'app_width', 0)
+        height = getattr(self, 'app_height', 0)
+        if width == 0 and width == 0:
+            self.unity_geometry_args = ['-fullscreen']
+        else:
+            # Work it out until it fits to screen i.e. divisor
+            geo_string = "%sx%s" % (width, height)
+            self.unity_geometry_args = ['-geometry', geo_string, '-frameless', '-mousetouch']
 
     def launch_unity(self):
         """Launch the unity8 shell, return a proxy object for it."""
@@ -56,11 +83,11 @@ class Unity8TestCase(AutopilotTestCase):
 
         # launch the shell:
         app_proxy = self.launch_test_application(
-               binary_path,
-               "-fullscreen",
-               app_type='qt',
-               emulator_base=Unity8EmulatorBase,
-               )
+            binary_path,
+            *self.unity_geometry_args,
+            app_type='qt',
+            emulator_base=Unity8EmulatorBase
+        )
         logger.debug("Started unity8 shell, backend is: %r", app_proxy._Backend)
         self._set_proxy(app_proxy)
 

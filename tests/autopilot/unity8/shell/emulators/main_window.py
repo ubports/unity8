@@ -7,6 +7,9 @@
 
 
 from unity8.shell.emulators.greeter import Greeter
+from unity8.shell.emulators.hud import Hud
+from unity8.shell.emulators.dash import Dash
+from unity8.shell.emulators.launcher import Launcher
 
 
 class MainWindow(object):

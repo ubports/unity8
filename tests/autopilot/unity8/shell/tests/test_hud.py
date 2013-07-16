@@ -25,7 +25,9 @@
 
 from __future__ import absolute_import
 
-from unity8.shell.tests import Unity8TestCase
+from collections import namedtuple
+
+from unity8.shell.tests import Unity8TestCase, _get_device_emulation_scenarios
 
 from autopilot.input import Touch
 from testtools.matchers import Equals, MismatchError
@@ -34,98 +36,185 @@ from autopilot.display import Display
 from autopilot.platform import model
 
 
+SwipeCoords = namedtuple('SwipeCoords', 'start_x end_x start_y end_y')
+
+
 class TestHud(Unity8TestCase):
 
     """Tests the Shell HUD"""
 
-    # Scenarios:
-    # Fill in the scenarios to run the whole test suite with multiple configurations.
-    # Use app_width, app_height and grid_unit_px to set the apps geometry.
-    # Set app_width and app_height to 0 to use fullscreen.
-    # Set grid_unit_px to 0 to use the current system environment.
+    scenarios = _get_device_emulation_scenarios()
 
-#     if model() == 'Desktop':
-#         scenarios = [
-#             ('Nexus 4', dict(app_width=768, app_height=1280, grid_unit_px=18, lightdm_mock="single")),
-#             ('Nexus 10', dict(app_width=2560, app_height=1600, grid_unit_px=20, lightdm_mock="full")),
-# # TODO: don't run fullscreen tests just yet as the VM is performing too badly for that. Enable this once
-# # Autopilot tests are running on bear metal.
-# #            ('Fullscreen', dict(app_width=0, app_height=0, grid_unit_px=10, lightdm_mock="full")),
-#         ]
-#     else:
-#         scenarios = [
-#             ('Fullscreen', dict(app_width=0, app_height=0, grid_unit_px=0, lightdm_mock="single")),
-#         ]
+    def _launch_application_from_app_screen(self):
+        # find the first application and launch it.
+        # becuase launch_application on the desktop will launch it on the
+        # desktop.
+        dash = self.main_window.get_dash()
+        icon = dash.get_application_icon()
+        self.touch.tap_object(icon)
 
+        # Ensure application is open
+        bottombar = self.main_window.get_bottombar()
+        self.assertThat(bottombar.applicationIsOnForeground, Eventually(Equals(True)))
 
-    def test_show_hud(self):
+    # Because some tests are manually manipulating the finger, we want to
+    # cleanup if the test fails, but we don't want to fail with an exception if
+    # we don't.
+    def _maybe_release_finger(self):
+        """Only release the finger if it is in fact down."""
+        if self.touch._touch_finger is not None:
+            self.touch.release()
+
+    def test_show_hud_button_appears(self):
+        """Swiping up while an app is active must show the 'show hud' button."""
         self.launch_unity()
-        hud = self.main_window.get_hud()
-        greeter = self.main_window.get_greeter()
-        greeter.unlock()
+        self.main_window.get_greeter().unlock()
 
-        self.show_hud()
-        self.assertThat(hud.shown, Eventually(Equals(True)))
-
-    def test_show_hud_button_dont_open(self):
-        self.unlock_greeter()
-        self.open_first_dash_home_app()
+        window = self.main_window.get_qml_view()
         hud_show_button = self.main_window.get_hud_show_button()
         hud = self.main_window.get_hud()
+
+        # determine the swipe
+        swipe_coords = self._get_hud_button_swipe_coords(window, hud_show_button)
+        # start_x = int(window.x + (window.width / 2))
+        # end_x = start_x
+        # start_y = window.y + (window.height -3)
+        # end_y = int(hud_show_button.y)
+
+        self._launch_application_from_app_screen()
+
+        self.touch.press(swipe_coords.start_x, swipe_coords.start_y)
+        self.addCleanup(self.touch.release)
+        self.touch._finger_move(swipe_coords.end_x, swipe_coords.end_y)
+
+        hud_show_button.opacity.wait_for(1.0)
+        self.assertThat(hud_show_button.opacity, Eventually(Equals(1.0)))
+
+    def test_show_hud_appears(self):
+        """Releasing the touch on the 'show hud' button must display the hud."""
+        self.launch_unity()
+        self.main_window.get_greeter().unlock()
+
         window = self.main_window.get_qml_view()
-        start_x = int(window.x + window.width / 2)
-        start_y = window.y + window.height - 2
-        self.assertThat(hud_show_button.opacity, Eventually(Equals(0)))
-        self.touch.press(start_x, start_y)
-        self.touch._finger_move(start_x, start_y - self.grid_size)
-        self.assertThat(hud_show_button.opacity, Eventually(Equals(0)))
-        self.touch._finger_move(start_x, start_y - self.grid_size * 2)
-        self.touch._finger_move(start_x, start_y - self.grid_size * 3)
-        self.touch._finger_move(start_x, start_y - self.grid_size * 4)
-        self.assertThat(hud_show_button.opacity, Eventually(Equals(1.0)))
-        self.assertThat(hud_show_button.mouseOver, Eventually(Equals(False)))
-        self.touch._finger_move(start_x, start_y - self.grid_size * 34)
-        self.assertThat(hud_show_button.opacity, Eventually(Equals(1.0)))
-        self.assertThat(hud_show_button.mouseOver, Eventually(Equals(True)))
-        self.touch._finger_move(start_x, start_y - self.grid_size)
-        self.assertThat(hud_show_button.opacity, Eventually(Equals(1.0)))
-        self.assertThat(hud_show_button.mouseOver, Eventually(Equals(False)))
-        self.touch.release()
-        self.assertThat(hud_show_button.opacity, Eventually(Equals(0)))
+        hud_show_button = self.main_window.get_hud_show_button()
+        hud = self.main_window.get_hud()
+
+        # determine the swipe
+        swipe_coords = self._get_hud_button_swipe_coords(window, hud_show_button)
+        # start_x = int(window.x + (window.width / 2))
+        # end_x = start_x
+        # start_y = window.y + (window.height -3)
+        # end_y = int(hud_show_button.y)
+
+        self._launch_application_from_app_screen()
+
+        self.touch.press(swipe_coords.start_x, swipe_coords.start_y)
+        self.addCleanup(self._maybe_release_finger)
+        self.touch._finger_move(swipe_coords.end_x, swipe_coords.end_y)
+
         self.assertThat(hud.shown, Eventually(Equals(False)))
+        hud_show_button.opacity.wait_for(1.0)
+        self.assertThat(hud_show_button.opacity, Eventually(Equals(1.0)))
+        self.touch.release()
+        self.assertThat(hud.shown, Eventually(Equals(True)))
+
+        # self.launch_unity()
+        # hud = self.main_window.get_hud()
+        # greeter = self.main_window.get_greeter()
+        # greeter.unlock()
+
+        # self._launch_application_from_app_screen()
+
+        # hud.show()
+        # self.assertThat(hud.shown, Eventually(Equals(True)))
+
+    # def test_show_hud_button_dont_open(self):
+    #     self.launch_unity()
+    #     hud_show_button = self.main_window.get_hud_show_button()
+    #     hud = self.main_window.get_hud()
+    #     greeter = self.main_window.get_greeter()
+    #     greeter.unlock()
+
+    #     self.unlock_greeter()
+    #     self.open_first_dash_home_app()
+    #     hud_show_button = self.main_window.get_hud_show_button()
+    #     hud = self.main_window.get_hud()
+    #     window = self.main_window.get_qml_view()
+    #     start_x = int(window.x + window.width / 2)
+    #     start_y = window.y + window.height - 2
+    #     self.assertThat(hud_show_button.opacity, Eventually(Equals(0)))
+    #     self.touch.press(start_x, start_y)
+    #     self.touch._finger_move(start_x, start_y - self.grid_size)
+    #     self.assertThat(hud_show_button.opacity, Eventually(Equals(0)))
+    #     self.touch._finger_move(start_x, start_y - self.grid_size * 2)
+    #     self.touch._finger_move(start_x, start_y - self.grid_size * 3)
+    #     self.touch._finger_move(start_x, start_y - self.grid_size * 4)
+    #     self.assertThat(hud_show_button.opacity, Eventually(Equals(1.0)))
+    #     self.assertThat(hud_show_button.mouseOver, Eventually(Equals(False)))
+    #     self.touch._finger_move(start_x, start_y - self.grid_size * 34)
+    #     self.assertThat(hud_show_button.opacity, Eventually(Equals(1.0)))
+    #     self.assertThat(hud_show_button.mouseOver, Eventually(Equals(True)))
+    #     self.touch._finger_move(start_x, start_y - self.grid_size)
+    #     self.assertThat(hud_show_button.opacity, Eventually(Equals(1.0)))
+    #     self.assertThat(hud_show_button.mouseOver, Eventually(Equals(False)))
+    #     self.touch.release()
+    #     self.assertThat(hud_show_button.opacity, Eventually(Equals(0)))
+    #     self.assertThat(hud.shown, Eventually(Equals(False)))
 
     def test_hide_hud_click(self):
+        """Tapping the close button of the Hud must dismiss it."""
+        self.launch_unity()
+        self.main_window.get_greeter().unlock()
+        self._launch_application_from_app_screen()
         hud = self.main_window.get_hud()
-        self.unlock_greeter()
-        self.show_hud()
-        self.close_hud_click()
-        self.assertThat(hud.shown, Eventually(Equals(False)))
+        hud.show()
 
-    def test_hide_hud_click_outside_handle(self):
-        hud = self.main_window.get_hud()
-        self.unlock_greeter()
-        self.show_hud()
         rect = hud.globalRect
         x = int(rect[0] + rect[2] / 2)
-        y = rect[1] + hud.handleHeight + 1
+        y = rect[1] + self.grid_size
+
         self.touch.tap(x, y)
-        self.assertRaises(MismatchError, lambda: self.assertThat(hud.shown, Eventually(Equals(False), timeout=3)))
-
-    def test_hide_hud_dragging(self):
-        hud = self.main_window.get_hud()
-        self.unlock_greeter()
-        self.show_hud()
-        rect = hud.globalRect
-        start_x = rect[0] + (rect[2] - rect[0]) / 2
-        start_y = rect[1] + 1
-        stop_x = start_x
-        stop_y = start_y + (rect[3] - rect[1]) / 2
-        self.touch.drag(start_x, start_y, stop_x, stop_y)
         self.assertThat(hud.shown, Eventually(Equals(False)))
 
-    def test_hide_hud_launcher(self):
+    # def test_hide_hud_click_outside_handle(self):
+    #     hud = self.main_window.get_hud()
+    #     self.unlock_greeter()
+    #     self.show_hud()
+    #     rect = hud.globalRect
+    #     x = int(rect[0] + rect[2] / 2)
+    #     y = rect[1] + hud.handleHeight + 1
+    #     self.touch.tap(x, y)
+    #     self.assertRaises(MismatchError, lambda: self.assertThat(hud.shown, Eventually(Equals(False), timeout=3)))
+
+    # def test_hide_hud_dragging(self):
+    #     hud = self.main_window.get_hud()
+    #     self.unlock_greeter()
+    #     self.show_hud()
+    #     rect = hud.globalRect
+    #     start_x = rect[0] + (rect[2] - rect[0]) / 2
+    #     start_y = rect[1] + 1
+    #     stop_x = start_x
+    #     stop_y = start_y + (rect[3] - rect[1]) / 2
+    #     self.touch.drag(start_x, start_y, stop_x, stop_y)
+    #     self.assertThat(hud.shown, Eventually(Equals(False)))
+
+    def test_launcher_hides_hud(self):
+        """Opening the Launcher while the Hud is active must close the Hud."""
+        self.launch_unity()
+        self.main_window.get_greeter().unlock()
+        self._launch_application_from_app_screen()
         hud = self.main_window.get_hud()
-        self.unlock_greeter()
-        self.show_hud()
-        self.show_launcher()
+        launcher = self.main_window.get_launcher()
+
+        hud.show()
+        launcher.show()
+
         self.assertThat(hud.shown, Eventually(Equals(False)))
+
+    def _get_hud_button_swipe_coords(self, main_view, hud_show_button):
+        start_x = int(main_view.x + (main_view.width / 2))
+        end_x = start_x
+        start_y = main_view.y + (main_view.height -3)
+        end_y = int(hud_show_button.y)
+
+        return SwipeCoords(start_x, end_x, start_y, end_y)
