@@ -64,7 +64,7 @@ ScopeView {
                     right: parent.right
                 }
 
-                source: getRenderer(model.renderer)
+                source: getRenderer(model.renderer, model.contentType)
 
                 onLoaded: {
                     item.model = results
@@ -114,9 +114,14 @@ ScopeView {
         }
     }
 
-    function getRenderer(rendererId) {
+    function getRenderer(rendererId, contentType) {
         switch (rendererId) {
-            case "grid": return "Generic/GenericFilterGrid.qml"
+            case "grid": {
+                switch (contentType) {
+                    case "video": return "Generic/GenericFilterGridPotrait.qml"
+                    default: return "Generic/GenericFilterGrid.qml"
+                }
+            }
             case "carousel": return "Generic/GenericCarousel.qml"
             default: return "Generic/GenericFilterGrid.qml"
         }

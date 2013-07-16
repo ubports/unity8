@@ -24,11 +24,11 @@ FilterGrid {
     filter: false
     minimumHorizontalSpacing: units.gu(0.5)
     delegateWidth: units.gu(11)
-    delegateHeight: units.gu(18)
+    delegateHeight: units.gu(9.5)
     verticalSpacing: units.gu(2)
 
-    readonly property int iconWidth: (width / columns) * 0.8
-    readonly property int iconHeight: iconWidth * 16 / 11
+    property int iconWidth: units.gu(8)
+    property int iconHeight: units.gu(7.5)
 
     signal clicked(int index, var delegateItem, real itemY)
     signal pressAndHold(int index, var delegateItem, real itemY)
