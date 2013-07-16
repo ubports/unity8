@@ -3,7 +3,7 @@
 # export_qmlfiles(plugin sub_path)
 #
 #
-# Two targets will be created:
+# Target to be created:
 #   - plugin-qmlfiles - Copies the qml files (*.qml, *.js, qmldir) into the shadow build folder.
 
 macro(export_qmlfiles PLUGIN PLUGIN_SUBPATH)
@@ -33,7 +33,7 @@ endmacro(export_qmlfiles)
 #
 # TARGETS additional install targets (eg the plugin shared object)
 #
-# Two targets will be created:
+# Target to be created:
 #   - plugin-qmltypes - Generates the qmltypes file in the shadow build folder.
 
 macro(export_qmlplugin PLUGIN VERSION PLUGIN_SUBPATH)
