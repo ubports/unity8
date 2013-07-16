@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.0
+import GSettings 1.0
 import Ubuntu.Application 0.1
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
@@ -110,6 +111,26 @@ FocusScope {
             }
             stages.show();
         }
+    }
+
+    GSettings {
+        id: backgroundSettings
+        schema: "org.gnome.desktop.background"
+    }
+
+    function updateImage() {
+        if (testImage.status == Image.Ready) {
+            shell.background = testImage.source
+        } else if (testImage.status == Image.Error) {
+            shell.background = shell.default_background
+        }
+    }
+
+    Image {
+        id: testImage
+        source: backgroundSettings.pictureUri
+        visible: false
+        onStatusChanged: updateImage()
     }
 
     VolumeControl {
