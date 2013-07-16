@@ -96,6 +96,7 @@ Item {
         anchors.fill: parent
         cache: false
         asynchronous: true
+        fillMode: Image.PreserveAspectCrop
         z: 1
     }
 
@@ -104,6 +105,7 @@ Item {
         anchors.fill: parent
         cache: false
         asynchronous: true
+        fillMode: Image.PreserveAspectCrop
         z: 0
     }
 
