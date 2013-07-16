@@ -19,17 +19,17 @@ import Ubuntu.Components 0.1
 import "../../Components"
 
 Carousel {
-    id: videosCarousel
+    id: genericCarousel
 
     tileAspectRatio: 198 / 288
     minimumTileWidth: units.gu(13)
-    itemComponent: carouselDelegateVideo
+    itemComponent: carouselDelegateGeneric
     selectedItemScaleFactor: 1.14
     cacheBuffer: 1404 // 18px * 13gu * 6
     height: implicitHeight + units.gu(6)
 
     Component {
-        id: carouselDelegateVideo
+        id: carouselDelegateGeneric
 
         BaseCarouselDelegate {
             id: item
