@@ -177,6 +177,7 @@ class TestHud(Unity8TestCase):
         if self.touch._touch_finger is not None:
             self.touch.release()
 
+    # TODO: perhaps move this to the Hud emulator?
     def _get_hud_button_swipe_coords(self, main_view, hud_show_button):
         """Returns the coords both start and end x,y for swiping to make the
         'hud show' button appear.
@@ -185,6 +186,6 @@ class TestHud(Unity8TestCase):
         start_x = int(main_view.x + (main_view.width / 2))
         end_x = start_x
         start_y = main_view.y + (main_view.height -3)
-        end_y = int(hud_show_button.y)
+        end_y = int(hud_show_button.y + (hud_show_button.height/2))
 
         return SwipeCoords(start_x, end_x, start_y, end_y)
