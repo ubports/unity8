@@ -4,7 +4,6 @@ Priority: optional
 Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
 Build-Depends: cmake,
                debhelper (>= 9),
-               gsettings-desktop-schemas,
                libdee-qt5-dev (>= 3.0),
                libgl1-mesa-dev[!armhf] | libgl-dev[!armhf],
                libgl1-mesa-dri,
@@ -31,7 +30,6 @@ Build-Depends: cmake,
                qtbase5-private-dev,
                qtdeclarative5-dev,
                qtdeclarative5-dev-tools,
-               qtdeclarative5-gsettings1.0,
                qtdeclarative5-private-dev,
                qtdeclarative5-qtquick2-plugin,
                qtdeclarative5-test-plugin,
@@ -58,8 +56,10 @@ Description: Indicators client test application
 
 Package: unity8
 Architecture: any
-Depends: qmenumodel-qml,
+Depends: gsettings-desktop-schemas,
+         qmenumodel-qml,
          qtdeclarative5-dee-plugin,
+         qtdeclarative5-gsettings1.0,
          qtdeclarative5-ubuntu-ui-toolkit-plugin,
          qtdeclarative5-unity-notifications-plugin | unity-notifications-impl,
          qtdeclarative5-xmllistmodel-plugin,
