@@ -12,6 +12,7 @@ from autopilot.testcase import AutopilotTestCase
 from autopilot.matchers import Eventually
 from testtools.matchers import Equals, NotEquals
 from autopilot.input import Touch
+from autopilot.display import Display
 import logging
 import os.path
 import sysconfig
@@ -29,8 +30,8 @@ class FormFactors(object):
 
 def _get_device_emulation_scenarios():
     if model() == 'Desktop':
-        return [ ('Desktop Nexus 4', dict(app_width=384, app_height=640, grid_unit_px=18)) ]
-        # return [ ('Desktop Nexus 4', dict(app_width=768, app_height=1280, grid_unit_px=18)) ]
+        # return [ ('Desktop Nexus 4', dict(app_width=384, app_height=640, grid_unit_px=18)) ]
+        return [ ('Desktop Nexus 4', dict(app_width=768, app_height=1280, grid_unit_px=18)) ]
     else:
         return [ ('Native Device', dict(app_width=0, app_height=0, grid_unit_px=0)) ]
 
@@ -42,27 +43,53 @@ class Unity8TestCase(AutopilotTestCase):
         super(Unity8TestCase, self).setUp()
         self._proxy = None
         self.touch = Touch.create()
-        self._setup_grid_size()
-        self._determine_geometry()
+        self._setup_display_details()
 
-    def _setup_grid_size(self):
-        """Use the grid size that may be supplied or use the default."""
-        if getattr(self, 'grid_unit_px', 0) == 0:
-            self.grid_size = int(os.getenv['GRID_UNIT_PX'])
-        else:
-            self.grid_size = self.grid_unit_px
-            self.patch_environment("GRID_UNIT_PX", str(self.grid_size))
+    def _setup_display_details(self):
+        # This needs a bit of a cleanup, make it clearer
+        scale_divisor = self._determine_geometry()
+        self._setup_grid_size(scale_divisor)
 
     def _determine_geometry(self):
         """Use the geometry that may be supplied or use the default."""
         width = getattr(self, 'app_width', 0)
         height = getattr(self, 'app_height', 0)
+        scale_divisor = 1
         if width == 0 and width == 0:
             self.unity_geometry_args = ['-fullscreen']
         else:
-            # Work it out until it fits to screen i.e. divisor
+            if self._geo_larger_than_display(width, height):
+                scale_divisor = self._get_scaled_down_geo(width, height)
+                width = width / scale_divisor
+                height = height / scale_divisor
+                logger.info("Provided geometry larger than Display, scaled down to: %sx%s",
+                    width,
+                    height
+                )
             geo_string = "%sx%s" % (width, height)
             self.unity_geometry_args = ['-geometry', geo_string, '-frameless', '-mousetouch']
+        return scale_divisor
+
+    def _setup_grid_size(self, scale_divisor):
+        """Use the grid size that may be supplied or use the default."""
+        if getattr(self, 'grid_unit_px', 0) == 0:
+            self.grid_size = int(os.getenv['GRID_UNIT_PX'])
+        else:
+            self.grid_size = int(self.grid_unit_px / scale_divisor)
+            self.patch_environment("GRID_UNIT_PX", str(self.grid_size))
+            logger.info(">>> Seting grid size: %s", self.grid_size)
+
+    def _geo_larger_than_display(self, width, height):
+        screen = Display.create()
+        screen_width = screen.get_screen_width()
+        screen_height = screen.get_screen_height()
+        return (width > screen_width) or (height > screen_height)
+
+    def _get_scaled_down_geo(self, width, height):
+        divisor = 1
+        while self._geo_larger_than_display(width / divisor, height / divisor):
+            divisor = divisor * 2
+        return divisor
 
     def launch_unity(self):
         """Launch the unity8 shell, return a proxy object for it."""
