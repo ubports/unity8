@@ -21,11 +21,11 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Unity.Indicators 0.1 as Indicators
 import QMenuModel 0.1
+import Ubuntu.Components.ListItems 0.1 as ListItem
 
 Page {
     id: page
     anchors.fill: parent
-
 
     property alias busType: menuModel.busType
     property alias busName: menuModel.busName
@@ -48,16 +48,40 @@ Page {
         id: printer
         model: menuModel
 
-        onSourceChanged: all_data.text = printer.getString()
+        onSourceChanged: page.refresh()
+    }
+
+    function refresh() {
+        all_data.text = printer.getString();
     }
 
     Flickable {
-        anchors.fill: parent
+        anchors {
+            top: parent.top
+            left: parent.left
+            right: parent.right
+            bottom: button.top
+        }
         contentHeight: all_data.height
         clip:true
         Text {
             id: all_data
             color: "white"
+        }
+    }
+
+    ListItem.Standard {
+        id: button
+        anchors {
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+        }
+
+        text: ""
+        control: Button {
+            text: "Refresh"
+            onClicked: page.refresh()
         }
     }
 }

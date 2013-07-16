@@ -28,20 +28,17 @@ ModelPrinter::ModelPrinter(QObject *parent)
 
 void ModelPrinter::setSourceModel(QAbstractItemModel * sourceModel)
 {
-    if (m_model != NULL)
-    {
+    if (m_model != NULL) {
         disconnect(m_model, SIGNAL(modelReset()), this, SIGNAL(sourceChanged()));
         disconnect(m_model, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SIGNAL(sourceChanged()));
         disconnect(m_model, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SIGNAL(sourceChanged()));
     }
-    if (m_model != sourceModel)
-    {
+    if (m_model != sourceModel) {
         m_model = sourceModel;
         Q_EMIT modelChanged();
         Q_EMIT sourceChanged();
     }
-    if (m_model != NULL)
-    {
+    if (m_model != NULL) {
         connect(m_model, SIGNAL(modelReset()), this, SIGNAL(sourceChanged()));
         connect(m_model, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SIGNAL(sourceChanged()));
         connect(m_model, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SIGNAL(sourceChanged()));
@@ -89,8 +86,7 @@ QString ModelPrinter::recurse_string(const QModelIndex& index, int level) const
 
     int rowCount = m_model->rowCount(index);
     stream << tabify(level) << "child count" << ": " << rowCount << endl;
-    for (int i = 0; i < rowCount; i++)
-    {
+    for (int i = 0; i < rowCount; i++) {
         QModelIndex child = m_model->index(i, 0, index);
         str += recurse_string(child, level+1);
     }
