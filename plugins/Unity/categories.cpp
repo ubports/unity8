@@ -3,6 +3,7 @@
  *
  * Authors:
  *  Michał Sawicz <michal.sawicz@canonical.com>
+ *  Michal Hruby <michal.hruby@canonical.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,18 +20,25 @@
 
 // self
 #include "categories.h"
-#include "categoryfilter.h"
+#include "categoryresults.h"
+
+// TODO: use something from libunity once it's public
+enum CategoryColumn {
+    ID,
+    DISPLAY_NAME,
+    ICON_HINT,
+    RENDERER_NAME,
+    HINTS
+};
 
 Categories::Categories(QObject* parent)
     : DeeListModel(parent)
-    , m_resultModel(0)
 {
-    // FIXME: need to clean up unused filters on countChanged
     m_roles[Categories::RoleId] = "id";
     m_roles[Categories::RoleName] = "name";
     m_roles[Categories::RoleIcon] = "icon";
     m_roles[Categories::RoleRenderer] = "renderer";
-    m_roles[Categories::RoleContentType] = "content_type";
+    m_roles[Categories::RoleContentType] = "contentType";
     m_roles[Categories::RoleHints] = "hints";
     m_roles[Categories::RoleResults] = "results";
     m_roles[Categories::RoleCount] = "count";
@@ -40,49 +48,57 @@ Categories::Categories(QObject* parent)
     // change of the search term harder to reproduce
     m_timer.setSingleShot(true);
     m_timer.setInterval(50);
-    connect(&m_timer, SIGNAL(timeout()), this, SLOT(onEmitCountChanged()));
+    connect(&m_timer, &QTimer::timeout, this, &Categories::onEmitCountChanged);
 }
 
-Categories::~Categories()
+DeeListModel*
+Categories::getResults(int index) const
 {
-    qDeleteAll(m_filters);
-}
+    if (!m_results.contains(index)) {
+        CategoryResults* results = new CategoryResults(const_cast<Categories*>(this));
+        results->setCategoryIndex(index);
+        connect(results, &DeeListModel::countChanged, this, &Categories::onCountChanged);
 
-CategoryFilter*
-Categories::getFilter(int index) const
-{
-    if (!m_filters.contains(index)) {
-        CategoryFilter* filter = new CategoryFilter();
-        connect(filter, SIGNAL(countChanged()), this, SLOT(onCountChanged()));
-        filter->setModel(m_resultModel);
-        filter->setIndex(index);
+        unsigned categoryIndex = static_cast<unsigned>(index);
+        auto unity_results = m_unityScope->GetResultsForCategory(categoryIndex);
+        results->setModel(unity_results->model());
 
-        m_filters.insert(index, filter);
+        m_results.insert(index, results);
     }
 
-    return m_filters[index];
+    return m_results[index];
+}
+
+void Categories::onCategoriesModelChanged(unity::glib::Object<DeeModel> model)
+{
+    m_updatedCategories.clear();
+    // FIXME: this might destroy the renderer view and re-create it, optimize?
+    Q_FOREACH(DeeListModel* model, m_results) {
+      delete model;
+    }
+    m_results.clear();
+    setModel(model);
 }
 
 void
-Categories::setResultModel(DeeListModel* model)
+Categories::setUnityScope(const unity::dash::Scope::Ptr& scope)
 {
-    if (model != m_resultModel) {
-        m_resultModel = model;
+    m_unityScope = scope;
 
-        Q_FOREACH(CategoryFilter* filter, m_filters) {
-            filter->setModel(m_resultModel);
-        }
+    // no need to call this, we'll get notified
+    //setModel(m_unityScope->categories()->model());
 
-        Q_EMIT resultModelChanged(m_resultModel);
-    }
+    m_categoriesChangedConnection.disconnect();
+    m_categoriesChangedConnection =
+        m_unityScope->categories()->model.changed.connect(sigc::mem_fun(this, &Categories::onCategoriesModelChanged));
 }
 
 void
 Categories::onCountChanged()
 {
-    CategoryFilter* filter = qobject_cast<CategoryFilter*>(sender());
-    if (filter) {
-        m_timerFilters << filter;
+    CategoryResults* results = qobject_cast<CategoryResults*>(sender());
+    if (results) {
+        m_updatedCategories << results->categoryIndex();
         m_timer.start();
     }
 }
@@ -92,11 +108,12 @@ Categories::onEmitCountChanged()
 {
     QVector<int> roles;
     roles.append(Categories::RoleCount);
-    Q_FOREACH(CategoryFilter* filter, m_timerFilters) {
-        QModelIndex changedIndex = index(filter->index());
+    Q_FOREACH(int categoryIndex, m_updatedCategories) {
+        if (!m_results.contains(categoryIndex)) continue;
+        QModelIndex changedIndex = index(categoryIndex);
         Q_EMIT dataChanged(changedIndex, changedIndex, roles);
     }
-    m_timerFilters.clear();
+    m_updatedCategories.clear();
 }
 
 QHash<int, QByteArray>
@@ -116,25 +133,22 @@ Categories::data(const QModelIndex& index, int role) const
         case RoleId:
             return QVariant::fromValue(index.row());
         case RoleName:
-            return QVariant::fromValue(DeeListModel::data(index, 1)); //DISPLAY_NAME
+            return DeeListModel::data(index, CategoryColumn::DISPLAY_NAME);
         case RoleIcon:
-            return QVariant::fromValue(DeeListModel::data(index, 2)); //ICON_HINT
+            return DeeListModel::data(index, CategoryColumn::ICON_HINT);
         case RoleRenderer:
-            return QVariant::fromValue(DeeListModel::data(index, 3)); //RENDERER_NAME
+            return DeeListModel::data(index, CategoryColumn::RENDERER_NAME);
         case RoleContentType:
         {
-            auto hints = QVariant::fromValue(DeeListModel::data(index, 4)).toHash();
+            auto hints = DeeListModel::data(index, CategoryColumn::HINTS).toHash();
             return hints.contains("content-type") ? hints["content-type"] : QVariant(QString("default"));
         }
         case RoleHints:
-            return QVariant::fromValue(DeeListModel::data(index, 4)); //HINTS
+            return DeeListModel::data(index, CategoryColumn::HINTS);
         case RoleResults:
-            return QVariant::fromValue(getFilter(index.row()));
+            return QVariant::fromValue(getResults(index.row()));
         case RoleCount:
-        {
-            CategoryFilter* filter = getFilter(index.row());
-            return QVariant::fromValue(filter->rowCount());
-        }
+            return QVariant::fromValue(getResults(index.row())->rowCount());
         default:
             return QVariant();
     }

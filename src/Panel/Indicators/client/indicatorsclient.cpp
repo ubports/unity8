@@ -56,6 +56,26 @@ IndicatorsClient::IndicatorsClient(int &argc, char **argv)
       m_view(0)
 {
     m_application = new QApplication(argc, argv);
+    QStringList args = m_application->arguments();
+
+    m_view = new QQuickView;
+    m_view->engine()->setBaseUrl(QUrl::fromLocalFile(::shellAppDirectory()+"Panel/Indicators/client/"));
+    prependImportPaths(m_view->engine(), ::overrideImportPaths());
+    appendImportPaths(m_view->engine(), ::fallbackImportPaths());
+
+    m_view->setSource(QUrl("IndicatorsClient.qml"));
+    m_view->setResizeMode(QQuickView::SizeRootObjectToView);
+
+    if (args.contains(QLatin1String("-geometry")) && args.size() > args.indexOf(QLatin1String("-geometry")) + 1) {
+        QStringList geometryArg = args.at(args.indexOf(QLatin1String("-geometry")) + 1).split('x');
+        if (geometryArg.size() == 2) {
+            m_view->resize(geometryArg.at(0).toInt(), geometryArg.at(1).toInt());
+        }
+    }
+    else {
+        //Usable size on desktop
+        m_view->setMinimumSize(QSize(480, 720));
+    }
 }
 
 IndicatorsClient::~IndicatorsClient()
@@ -69,21 +89,11 @@ IndicatorsClient::~IndicatorsClient()
 
 void IndicatorsClient::setupUI()
 {
-    m_view = new QQuickView;
-    m_view->engine()->setBaseUrl(QUrl::fromLocalFile(::shellAppDirectory()+"Panel/Indicators/client/"));
-    prependImportPaths(m_view->engine(), ::overrideImportPaths());
-    appendImportPaths(m_view->engine(), ::fallbackImportPaths());
 
-    m_view->setSource(QUrl("IndicatorsClient.qml"));
-    m_view->setResizeMode(QQuickView::SizeRootObjectToView);
-
-    //Usable size on desktop
-    m_view->setMinimumSize(QSize(480, 720));
 }
 
 int IndicatorsClient::run()
 {
-    setupUI();
     m_view->show();
     return m_application->exec();
 }

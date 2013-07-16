@@ -91,10 +91,8 @@ enable_testing()
 
 # Autopilot tests
 include(autopilot)
-declare_autopilot_test(unity8 ${CMAKE_SOURCE_DIR}/tests/autopilot/)
-declare_autopilot_test(indicators_client ${CMAKE_SOURCE_DIR}/tests/autopilot/)
-
-add_subdirectory(tests)
+declare_autopilot_test(shell unity8.shell ${CMAKE_SOURCE_DIR}/tests/autopilot/)
+declare_autopilot_test(indicators_client unity8.indicators_client ${CMAKE_SOURCE_DIR}/tests/autopilot/)
 
 set(SHELL_APP unity8)
 
@@ -133,6 +131,7 @@ install(FILES ${QML_JS_FILES}
     )
 
 # add subdirectories to build
+add_subdirectory(tests)
 add_subdirectory(plugins)
 add_subdirectory(src)
 

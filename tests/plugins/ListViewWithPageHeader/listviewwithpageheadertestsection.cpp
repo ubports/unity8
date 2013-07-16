@@ -20,9 +20,12 @@
 #include <QQmlEngine>
 #include <QQuickView>
 #include <QtTestGui>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-pedantic"
 #include <private/qquicklistmodel_p.h>
 #include <private/qquickanimation_p.h>
 #include <private/qquickitem_p.h>
+#pragma GCC diagnostic pop
 
 class ListViewWithPageHeaderTestSection : public QObject
 {
@@ -1405,6 +1408,63 @@ private Q_SLOTS:
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Mild"));
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
+    }
+
+    void testShowHeaderHalfShown()
+    {
+#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
+        QSKIP("This test is extremely unstable in 5.0.x");
+#endif
+        changeContentY(20);
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, 30., 190., false, "Agressive", false);
+        verifyItem(1, 220, 240., false, "Regular", false);
+        verifyItem(2, 460, 390., false, "Mild", false);
+        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_clipItem->y(), 20.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 20.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);;
+        QVERIFY(QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
+
+        lvwph->showHeader();
+
+        QTRY_VERIFY(!lvwph->m_headerShowAnimation->isRunning());
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, -20., 190., false, "Agressive", true);
+        verifyItem(1, 170, 240., false, "Regular", false);
+        verifyItem(2, 410, 390., false, "Mild", false);
+        QCOMPARE(lvwph->m_minYExtent, 20.);
+        QCOMPARE(lvwph->m_clipItem->y(), 50.);
+        QCOMPARE(lvwph->m_clipItem->clip(), true);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 0.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 50.);
+        QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
+        QCOMPARE(section(lvwph->m_topSectionItem), QString("Agressive"));
+        QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
+
+        scrollToTop();
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, 50., 190., false, "Agressive", false);
+        verifyItem(1, 240., 240., false, "Regular", false);
+        verifyItem(2, 480., 390., false, "Mild", false);
+        QCOMPARE(lvwph->m_minYExtent, 20.);
+        QCOMPARE(lvwph->m_clipItem->y(), -20.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), -20.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), -20.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+        QVERIFY(QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
     }
 
     void testShowHeaderCloseToTheTop()

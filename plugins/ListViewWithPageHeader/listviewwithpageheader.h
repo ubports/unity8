@@ -17,8 +17,11 @@
 #ifndef LISTVIEWWITHPAGEHEADER_H
 #define LISTVIEWWITHPAGEHEADER_H
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-pedantic"
 #include <private/qquickitemchangelistener_p.h>
 #include <private/qquickflickable_p.h>
+#pragma GCC diagnostic pop
 
 class QAbstractItemModel;
 class QQuickChangeSet;

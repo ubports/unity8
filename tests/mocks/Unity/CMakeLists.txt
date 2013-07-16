@@ -21,13 +21,11 @@ include_directories(
 add_definitions(-DQT_NO_KEYWORDS)
 
 set(UnityQML_SOURCES
-  ${CMAKE_SOURCE_DIR}/plugins/Unity/categories.cpp
-  ${CMAKE_SOURCE_DIR}/plugins/Unity/categoryfilter.cpp
-  ${CMAKE_SOURCE_DIR}/plugins/Utils/qsortfilterproxymodelqml.cpp
+  ${CMAKE_SOURCE_DIR}/plugins/Unity/categoryresults.cpp
   fake_scope.cpp
   fake_scopes.cpp
+  fake_categories.cpp
   fake_unity_plugin.cpp
-  fake_launchermodel.cpp
 )
 
 add_library(FakeUnityQml MODULE ${UnityQML_SOURCES})
@@ -44,3 +42,5 @@ qt5_use_modules(FakeUnityQml Qml)
 file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
     DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
     )
+
+add_subdirectory(Launcher)

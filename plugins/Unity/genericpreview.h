@@ -33,6 +33,12 @@ class GenericPreview : public Preview
 
 public:
     explicit GenericPreview(QObject *parent = 0);
+
+Q_SIGNALS:
+    void previewChanged();
+
+protected:
+    void setUnityPreview(unity::dash::Preview::Ptr unityPreview) override;
 };
 
 Q_DECLARE_METATYPE(GenericPreview *)
