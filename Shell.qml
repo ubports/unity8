@@ -119,6 +119,9 @@ FocusScope {
     }
 
     function updateImage() {
+        if (testImage.source == "")
+            return
+
         if (testImage.status == Image.Ready) {
             if (shell.width / shell.height <= testImage.sourceSize.width / testImage.sourceSize.height) {
                 backgroundImage.sourceSize.width = 0
@@ -133,12 +136,20 @@ FocusScope {
         } else if (testImage.status == Image.Error) {
             shell.background = shell.default_background
         }
+
+        // unload testImage source to save memory
+        testImage.source = ""
     }
 
     Image {
         id: testImage
-        source: backgroundSettings.pictureUri
+
+        property url gsettingsImage: backgroundSettings.pictureUri
+
+        source: gsettingsImage
         visible: false
+
+        onGsettingsImageChanged: source = gsettingsImage
         onStatusChanged: updateImage()
     }
 
