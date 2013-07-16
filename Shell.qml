@@ -121,12 +121,12 @@ FocusScope {
     function updateImage() {
         if (testImage.status == Image.Ready) {
             if (shell.width / shell.height <= testImage.sourceSize.width / testImage.sourceSize.height) {
-                backgroundImage.sourceSize = undefined
-                backgroundImage.sourceSize.height = shell.height
+                backgroundImage.sourceSize.width = 0
+                backgroundImage.sourceSize.height = Qt.binding(function() { return shell.height })
             }
             else {
-                backgroundImage.sourceSize = undefined
-                backgroundImage.sourceSize.width = shell.width
+                backgroundImage.sourceSize.height = 0
+                backgroundImage.sourceSize.width = Qt.binding(function() { return shell.width })
             }
 
             shell.background = testImage.source
