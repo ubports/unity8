@@ -39,3 +39,4 @@ def get_unity8_binary_path():
         except subprocess.CalledProcessError as e:
             raise RuntimeError("Unable to locate unity8 binary: %r" % e)
     return binary_path
+

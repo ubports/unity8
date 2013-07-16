@@ -8,8 +8,8 @@
 
 from __future__ import absolute_import
 
+from unity8.shell import with_lightdm_mock
 from unity8.shell.tests import Unity8TestCase, _get_device_emulation_scenarios
-from unity8.shell.tests.helpers import with_lightdm_mock
 
 from autopilot.matchers import Eventually
 from autopilot.platform import model
