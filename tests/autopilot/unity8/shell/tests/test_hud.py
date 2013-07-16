@@ -49,41 +49,34 @@ class TestHud(Unity8TestCase):
         """Swiping up while an app is active must show the 'show hud' button."""
         self.launch_unity()
         self.main_window.get_greeter().unlock()
-
         window = self.main_window.get_qml_view()
         hud_show_button = self.main_window.get_hud_show_button()
         hud = self.main_window.get_hud()
 
-        swipe_coords = self._get_hud_button_swipe_coords(window, hud_show_button)
-
         self._launch_application_from_app_screen()
 
+        swipe_coords = self._get_hud_button_swipe_coords(window, hud_show_button)
         self.touch.press(swipe_coords.start_x, swipe_coords.start_y)
         self.addCleanup(self.touch.release)
         self.touch._finger_move(swipe_coords.end_x, swipe_coords.end_y)
-
-        hud_show_button.opacity.wait_for(1.0)
         self.assertThat(hud_show_button.opacity, Eventually(Equals(1.0)))
 
     def test_show_hud_appears(self):
         """Releasing the touch on the 'show hud' button must display the hud."""
         self.launch_unity()
         self.main_window.get_greeter().unlock()
-
         window = self.main_window.get_qml_view()
         hud_show_button = self.main_window.get_hud_show_button()
         hud = self.main_window.get_hud()
 
-        swipe_coords = self._get_hud_button_swipe_coords(window, hud_show_button)
-
         self._launch_application_from_app_screen()
 
+        swipe_coords = self._get_hud_button_swipe_coords(window, hud_show_button)
         self.touch.press(swipe_coords.start_x, swipe_coords.start_y)
         self.addCleanup(self._maybe_release_finger)
         self.touch._finger_move(swipe_coords.end_x, swipe_coords.end_y)
 
         self.assertThat(hud.shown, Eventually(Equals(False)))
-        hud_show_button.opacity.wait_for(1.0)
         self.assertThat(hud_show_button.opacity, Eventually(Equals(1.0)))
         self.touch.release()
         self.assertThat(hud.shown, Eventually(Equals(True)))
@@ -125,9 +118,10 @@ class TestHud(Unity8TestCase):
         """Tapping the close button of the Hud must dismiss it."""
         self.launch_unity()
         self.main_window.get_greeter().unlock()
-        self._launch_application_from_app_screen()
         hud = self.main_window.get_hud()
         hud.show()
+
+        self._launch_application_from_app_screen()
 
         rect = hud.globalRect
         x = int(rect[0] + rect[2] / 2)
@@ -162,9 +156,10 @@ class TestHud(Unity8TestCase):
         """Opening the Launcher while the Hud is active must close the Hud."""
         self.launch_unity()
         self.main_window.get_greeter().unlock()
-        self._launch_application_from_app_screen()
         hud = self.main_window.get_hud()
         launcher = self.main_window.get_launcher()
+
+        self._launch_application_from_app_screen()
 
         hud.show()
         launcher.show()
@@ -194,7 +189,6 @@ class TestHud(Unity8TestCase):
         """Only release the finger if it is in fact down."""
         if self.touch._touch_finger is not None:
             self.touch.release()
-
 
     def _get_hud_button_swipe_coords(self, main_view, hud_show_button):
         start_x = int(main_view.x + (main_view.width / 2))
