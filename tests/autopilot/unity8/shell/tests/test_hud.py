@@ -45,26 +45,6 @@ class TestHud(Unity8TestCase):
 
     scenarios = _get_device_emulation_scenarios()
 
-    def _launch_application_from_app_screen(self):
-        # find the first application and launch it.
-        # becuase launch_application on the desktop will launch it on the
-        # desktop.
-        dash = self.main_window.get_dash()
-        icon = dash.get_application_icon()
-        self.touch.tap_object(icon)
-
-        # Ensure application is open
-        bottombar = self.main_window.get_bottombar()
-        self.assertThat(bottombar.applicationIsOnForeground, Eventually(Equals(True)))
-
-    # Because some tests are manually manipulating the finger, we want to
-    # cleanup if the test fails, but we don't want to fail with an exception if
-    # we don't.
-    def _maybe_release_finger(self):
-        """Only release the finger if it is in fact down."""
-        if self.touch._touch_finger is not None:
-            self.touch.release()
-
     def test_show_hud_button_appears(self):
         """Swiping up while an app is active must show the 'show hud' button."""
         self.launch_unity()
@@ -74,12 +54,7 @@ class TestHud(Unity8TestCase):
         hud_show_button = self.main_window.get_hud_show_button()
         hud = self.main_window.get_hud()
 
-        # determine the swipe
         swipe_coords = self._get_hud_button_swipe_coords(window, hud_show_button)
-        # start_x = int(window.x + (window.width / 2))
-        # end_x = start_x
-        # start_y = window.y + (window.height -3)
-        # end_y = int(hud_show_button.y)
 
         self._launch_application_from_app_screen()
 
@@ -99,12 +74,7 @@ class TestHud(Unity8TestCase):
         hud_show_button = self.main_window.get_hud_show_button()
         hud = self.main_window.get_hud()
 
-        # determine the swipe
         swipe_coords = self._get_hud_button_swipe_coords(window, hud_show_button)
-        # start_x = int(window.x + (window.width / 2))
-        # end_x = start_x
-        # start_y = window.y + (window.height -3)
-        # end_y = int(hud_show_button.y)
 
         self._launch_application_from_app_screen()
 
@@ -117,16 +87,6 @@ class TestHud(Unity8TestCase):
         self.assertThat(hud_show_button.opacity, Eventually(Equals(1.0)))
         self.touch.release()
         self.assertThat(hud.shown, Eventually(Equals(True)))
-
-        # self.launch_unity()
-        # hud = self.main_window.get_hud()
-        # greeter = self.main_window.get_greeter()
-        # greeter.unlock()
-
-        # self._launch_application_from_app_screen()
-
-        # hud.show()
-        # self.assertThat(hud.shown, Eventually(Equals(True)))
 
     # def test_show_hud_button_dont_open(self):
     #     self.launch_unity()
@@ -210,6 +170,31 @@ class TestHud(Unity8TestCase):
         launcher.show()
 
         self.assertThat(hud.shown, Eventually(Equals(False)))
+
+    def _launch_application_from_app_screen(self):
+        """Launches the camera app using the Dash UI.
+
+        This is becuase when testing on the desktop running
+        self.launch_application() will launch the application on the desktop
+        itself and not within the Unity8 UI.
+
+        """
+        dash = self.main_window.get_dash()
+        icon = dash.get_application_icon('Camera')
+        self.touch.tap_object(icon)
+
+        # Ensure application is open
+        bottombar = self.main_window.get_bottombar()
+        self.assertThat(bottombar.applicationIsOnForeground, Eventually(Equals(True)))
+
+    # Because some tests are manually manipulating the finger, we want to
+    # cleanup if the test fails, but we don't want to fail with an exception if
+    # we don't.
+    def _maybe_release_finger(self):
+        """Only release the finger if it is in fact down."""
+        if self.touch._touch_finger is not None:
+            self.touch.release()
+
 
     def _get_hud_button_swipe_coords(self, main_view, hud_show_button):
         start_x = int(main_view.x + (main_view.width / 2))
