@@ -126,8 +126,7 @@ FocusScope {
             if (shell.width / shell.height <= testImage.sourceSize.width / testImage.sourceSize.height) {
                 backgroundImage.sourceSize.width = 0
                 backgroundImage.sourceSize.height = Qt.binding(function() { return shell.height })
-            }
-            else {
+            } else {
                 backgroundImage.sourceSize.height = 0
                 backgroundImage.sourceSize.width = Qt.binding(function() { return shell.width })
             }
