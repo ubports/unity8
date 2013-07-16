@@ -77,7 +77,6 @@ class Unity8TestCase(AutopilotTestCase):
         else:
             self.grid_size = int(self.grid_unit_px / scale_divisor)
             self.patch_environment("GRID_UNIT_PX", str(self.grid_size))
-            logger.info(">>> Seting grid size: %s", self.grid_size)
 
     def _geo_larger_than_display(self, width, height):
         screen = Display.create()

@@ -11,10 +11,10 @@ from collections import namedtuple
 
 from unity8.shell.tests import Unity8TestCase, _get_device_emulation_scenarios
 
+from autopilot.display import Display
 from autopilot.input import Touch
 from testtools.matchers import Equals, MismatchError
 from autopilot.matchers import Eventually
-from autopilot.display import Display
 from autopilot.platform import model
 
 

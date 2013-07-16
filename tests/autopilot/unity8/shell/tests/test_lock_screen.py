@@ -8,7 +8,7 @@
 
 from __future__ import absolute_import
 
-from unity8.shell.tests import Unity8TestCase
+from unity8.shell.tests import Unity8TestCase, _get_device_emulation_scenarios
 from unity8.shell.tests.helpers import with_lightdm_mock
 
 from autopilot.matchers import Eventually
@@ -24,6 +24,8 @@ logger = logging.getLogger(__name__)
 class TestLockscreen(Unity8TestCase):
 
     """Tests for the lock screen."""
+
+    scenarios = _get_device_emulation_scenarios()
 
     @with_lightdm_mock("single-pin")
     def test_can_unlock_pin_screen(self):
