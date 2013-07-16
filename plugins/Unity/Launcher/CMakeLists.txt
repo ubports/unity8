@@ -24,4 +24,5 @@ add_library(UnityLauncher-qml MODULE
 qt5_use_modules(UnityLauncher-qml Qml)
 
 # export the qmldir and qmltypes files
+export_qmlfiles(Unity.Launcher Unity/Launcher)
 export_qmlplugin(Unity.Launcher 0.1 Unity/Launcher TARGETS UnityLauncher-qml)
