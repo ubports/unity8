@@ -15,7 +15,6 @@ from unity8.shell.tests import Unity8TestCase
 
 # TODO: Find out if these tests are still required, if so, what they're supposed
 # to be testing, and whether they're supposed to work on the devices.
-# Also, this doesn't work as automatically scales the geometry . . .
 class ScreenAlignmentTests(Unity8TestCase):
 
     scenarios = [

@@ -109,7 +109,7 @@ class TestHud(Unity8TestCase):
         self._launch_test_app_from_app_screen()
         hud.show()
 
-        x, y = hud.get_close_button_coords(self.grid_size)
+        x, y = hud.get_close_button_coords()
         self.touch.tap(x, y)
         self.assertThat(hud.shown, Eventually(Equals(False)))
 
@@ -137,7 +137,7 @@ class TestHud(Unity8TestCase):
         self._launch_test_app_from_app_screen()
         hud.show()
 
-        start_x, start_y = hud.get_close_button_coords(self.grid_size)
+        start_x, start_y = hud.get_close_button_coords()
         end_x = start_x
         end_y = int(window.height / 2)
 

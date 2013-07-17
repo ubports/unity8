@@ -6,6 +6,7 @@
 # by the Free Software Foundation.
 
 """unity8 autopilot tests and emulators - top level package."""
+import os
 import os.path
 import subprocess
 import sysconfig
@@ -45,3 +46,6 @@ def get_unity8_binary_path():
             raise RuntimeError("Unable to locate unity8 binary: %r" % e)
     return binary_path
 
+
+def get_grid_size():
+    os.getenv('GRID_UNIT_PX')

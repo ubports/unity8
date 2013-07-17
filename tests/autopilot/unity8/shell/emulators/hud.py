@@ -1,3 +1,4 @@
+from unity8 import get_grid_size
 from unity8.shell.emulators import Unity8EmulatorBase
 from autopilot.input import Touch
 
@@ -40,13 +41,9 @@ class Hud(Unity8EmulatorBase):
         x, y = self.get_close_button_coords()
         touch.tap(x, y)
 
-    # TODO: Should grid_size be passed in or should we have a get_grid_size in
-    # unity8.__init__ that reads it from the env.
-    # Yeah I think so as it doesn't seem to make sense when passing it in.
-    # Plus as above shows, we don't always have it.
-    def get_close_button_coords(self, grid_size):
+    def get_close_button_coords(self):
         """Returns the coordinates of the Huds close button bar."""
         rect = self.globalRect
         x = int(rect[0] + rect[2] / 2)
-        y = rect[1] + grid_size
+        y = rect[1] + get_grid_size()
         return x, y

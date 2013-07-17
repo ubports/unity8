@@ -29,6 +29,7 @@ class Greeter(Unity8EmulatorBase):
         self.created.wait_for(False)
 
     #TODO: This was moved here from helpers.TestShellHelpersg
+    # Needs a cleanup (used in borked above).
     def select_greeter_user(self, username):
         greeter = self.main_window.get_greeter()
         self.assertThat(greeter.created, Eventually(Equals(True)))
