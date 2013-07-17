@@ -28,6 +28,7 @@ UbuntuShape {
     property var actions
     property var notificationId
     property var type
+    property var hints
     property var notification
 
     objectName: "background"
@@ -194,7 +195,7 @@ UbuntuShape {
                     top: parent.top
                     bottom: parent.bottom
                 }
-                color: "#d85317"
+                color: notification.hints == Notification.ButtonTint ? "#d85317" : "#cdcdcb"
                 visible: width > 0
                 onClicked: notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
             }
