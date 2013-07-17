@@ -265,9 +265,6 @@ FocusScope {
                 function show() {
                     stages.show();
                 }
-                function showWithoutAnimation() {
-                    stages.showWithoutAnimation();
-                }
                 function hide() {
                 }
 

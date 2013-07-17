@@ -59,31 +59,22 @@ Item {
                 objectName: "overviewGridButton" + index
                 width: grid.cellWidth
                 height: grid.cellHeight
-                Image {
-                    id: imageIcon
-                    objectName: "overviewGridButtonImage"
-                    source: iconSource
-                    width: units.gu(4)
-                    height: units.gu(4)
-                    anchors {
-                        centerIn: parent
-                        verticalCenterOffset: -units.gu(1)
-                    }
-                    sourceSize.width: width
-                    sourceSize.height: height
-                    visible: labelIcon.text === ""
-                }
 
-                Label {
-                    id: labelIcon
-                    text: label
-                    color: Theme.palette.selected.backgroundText
-                    opacity: 0.8
-                    font.family: "Ubuntu"
-                    fontSize: "large"
-                    anchors {
-                        centerIn: parent
-                        verticalCenterOffset: -units.gu(1)
+                Loader {
+                    id: loader
+                    source: widgetSource
+
+                    width: units.gu(5)
+                    height: units.gu(5)
+                    anchors.centerIn: parent
+                    anchors.verticalCenterOffset: -units.gu(1)
+
+                    onLoaded: {
+                        for(var pName in indicatorProperties) {
+                            if (item.hasOwnProperty(pName)) {
+                                item[pName] = indicatorProperties[pName]
+                            }
+                        }
                     }
                 }
 

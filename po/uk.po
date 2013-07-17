@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-06-26 22:58+0200\n"
-"PO-Revision-Date: 2013-06-29 14:27+0000\n"
-"Last-Translator: Roman Koshkin <mar2008m@rambler.ru>\n"
+"PO-Revision-Date: 2013-06-27 10:47+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-30 07:12+0000\n"
-"X-Generator: Launchpad (build 16692)\n"
+"X-Launchpad-Export-Date: 2013-07-17 07:49+0000\n"
+"X-Generator: Launchpad (build 16696)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -217,28 +217,4 @@ msgstr "Вибачте, для вказаних вами ключових слі
 #: Shell.qml:383
 #, qt-format
 msgid "Please enter %1"
-msgstr "Будь ласка, введіть %1"
-
-#~ msgid "People"
-#~ msgstr "Люди"
-
-#~ msgid "Home screen"
-#~ msgstr "Екран домівки"
-
-#~ msgid "Favourite People"
-#~ msgstr "Вибрані контакти"
-
-#~ msgid "People Recently in Touch"
-#~ msgstr "Недавні контакти"
-
-#~ msgid "A-Z"
-#~ msgstr "А-Я"
-
-#~ msgid "New Contacts"
-#~ msgstr "Нові контакти"
-
-#~ msgid "Favourites"
-#~ msgstr "Улюблене"
-
-#~ msgid "Recently in touch"
-#~ msgstr "Нещодавні контакти"
+msgstr ""

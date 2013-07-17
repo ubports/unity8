@@ -1,0 +1,9 @@
+[Indicator Service]
+Name=indicator-messaging
+ObjectPath=/com/canonical/indicator/messages
+
+[phone]
+ObjectPath=/com/canonical/indicator/messages/phone
+
+[desktop]
+ObjectPath=/com/canonical/indicator/messages/menu

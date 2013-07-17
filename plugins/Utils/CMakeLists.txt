@@ -5,6 +5,7 @@ include_directories(
 )
 
 set(QMLPLUGIN_SRC
+    applicationpaths.h
     qlimitproxymodelqml.cpp
     qsortfilterproxymodelqml.cpp
     ubuntuwindow.cpp
@@ -22,5 +23,6 @@ set_target_properties(Utils-qml PROPERTIES COMPILE_FLAGS -fvisibility=default)
 
 qt5_use_modules(Utils-qml Qml Quick)
 
-# export the qmldir and qmltypes files
+# export the qmldir qmltypes and plugin files
+export_qmlfiles(Utils Utils)
 export_qmlplugin(Utils 0.1 Utils TARGETS Utils-qml)

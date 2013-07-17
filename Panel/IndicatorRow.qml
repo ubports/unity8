@@ -21,7 +21,7 @@ Item {
     id: indicatorRow
 
     property QtObject currentItem : null
-    property int currentItemIndex: currentItem ? currentItem.ownIndex : -1
+    readonly property int currentItemIndex: currentItem ? currentItem.ownIndex : -1
     property alias row: row
     property QtObject indicatorsModel: null
     property bool overviewActive: false // "state of the menu"
@@ -54,13 +54,15 @@ Item {
             id: rowRepeater
             objectName: "rowRepeater"
             model: indicatorsModel ? indicatorsModel : undefined
+
             IndicatorItem {
                id: indicatorItem
 
                property int ownIndex: index
 
-               label: model.label
-               iconSource: model.iconSource
+               widgetSource: model.widgetSource
+
+               indicatorProperties : model.indicatorProperties
                highlighted: indicatorRow.state == "reveal" || indicatorRow.state == "locked" || indicatorRow.state == "commit" ? ownIndex == indicatorRow.currentItemIndex : false
                dimmed: { //See FIXME in Indicators regarding the "states" change
                    if (indicatorRow.state == "initial" || indicatorRow.state == "") {

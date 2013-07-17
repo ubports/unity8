@@ -19,7 +19,7 @@ import QtTest 1.0
 import Unity.Test 0.1 as UT
 import ".."
 import "../../../Panel"
-import Ubuntu.ChewieUI 0.1 as ChewieUI
+import Unity.Indicators 0.1 as Indicators
 
 /*
   This tests the IndicatorRow component by using a fake model to stage data in the indicators
@@ -51,8 +51,9 @@ Item {
         indicatorsModel: indicatorModel
     }
 
-    ChewieUI.PluginModel {
+    Indicators.IndicatorsModel {
         id: indicatorModel
+        Component.onCompleted: load()
     }
 
     UT.UnityTestCase {
@@ -241,7 +242,7 @@ Item {
             compare(get_indicator_item_at(4).dimmed, true, "Other indicators should dim when in locked state");
         }
 
-        function test_active_overview_() {
+        function test_active_overview() {
             init_test();
 
             indicatorRow.overviewActive = true;
