@@ -40,7 +40,7 @@ Item {
             verticalCenter: parent.verticalCenter
         }
         text: i18n.tr("Flight mode")
-        color: "#f3f3e7"
+        color: Theme.palette.selected.backgroundText
         style: Text.Raised
         styleColor: "black"
         opacity: 0.6;
