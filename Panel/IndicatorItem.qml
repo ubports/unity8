@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Unity.Indicators 0.1 as Indicators
+import "../Components"
 
 Item {
     id: indicatorItem
@@ -27,6 +28,7 @@ Item {
     property var indicatorProperties: undefined
 
     opacity: dimmed ? 0.4 : 1
+    Behavior on opacity { StandardAnimation {} }
 
     // only visible when non-empty
     visible: loader.item != undefined && loader.status == Loader.Ready ? loader.item.enabled : false
@@ -53,5 +55,8 @@ Item {
         width: parent.width
         anchors.top: parent.bottom
         visible: highlighted
+
+        opacity: highlighted ? 1 : 0
+        Behavior on opacity { StandardAnimation {} }
     }
 }

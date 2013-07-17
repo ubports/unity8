@@ -16,6 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import "../Components"
 
 Item {
     id: indicatorRow
@@ -25,7 +26,7 @@ Item {
     property alias row: row
     property QtObject indicatorsModel: null
 
-    Behavior on y {NumberAnimation {duration: 300; easing.type: Easing.OutCubic} }
+    Behavior on y { StandardAnimation {} }
 
     width: units.gu(40)
     height: units.gu(3)
@@ -82,21 +83,9 @@ Item {
                    }
                }
                Behavior on y {
-                    NumberAnimation{
-                        duration: {
-                            if (index == 0) {
-                                return 250
-                            } else if (index == 1) {
-                                return 150
-                            } else if (index == 2) {
-                                return 550
-                            } else if (index == 3) {
-                                return 400
-                            } else {
-                                return 100 + Math.random() * 200
-                            }
-                        }
-                        easing.type: Easing.OutCubic
+                    StandardAnimation {
+                        // flow away from current index
+                        duration: (rowRepeater.count - Math.abs(indicatorRow.currentItemIndex - index)) * (500/rowRepeater.count)
                     }
                 }
             }

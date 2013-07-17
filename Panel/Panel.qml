@@ -41,9 +41,7 @@ Item {
         y: 0
         onYChanged: indicatorsMenu.y = y;
 
-        Behavior on y {
-                NumberAnimation { duration: 200 }
-        }
+        Behavior on y { StandardAnimation {} }
     }
 
     PanelSeparatorLine {
