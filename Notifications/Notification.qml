@@ -117,7 +117,7 @@ UbuntuShape {
                     }
                     fontSize: "medium"
                     font.bold: true
-                    color: "#f3f3e7"
+                    color: Theme.palette.selected.backgroundText
                     elide: Text.ElideRight
                 }
 
@@ -131,7 +131,7 @@ UbuntuShape {
                     }
                     visible: body != ""
                     fontSize: "small"
-                    color: "#f3f3e7"
+                    color: Theme.palette.selected.backgroundText
                     opacity: 0.6
                     wrapMode: Text.WordWrap
                     maximumLineCount: 10
@@ -194,7 +194,7 @@ UbuntuShape {
                     top: parent.top
                     bottom: parent.bottom
                 }
-                color: "#d85317"
+                color: "#d85317" // FIXME ??
                 visible: width > 0
                 onClicked: notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
             }
@@ -241,7 +241,7 @@ UbuntuShape {
 
                             text: loader.actionLabel
                             height: units.gu(4)
-                            color: "#cdcdcb"
+                            color: "#cdcdcb" // FIXME ?? which color?
                             onClicked: notification.notification.invokeAction(loader.actionId)
                         }
                     }
