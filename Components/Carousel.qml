@@ -52,10 +52,10 @@ Item {
     /// @param itemY is y of the clicked delegate
     signal clicked(int index, var delegateItem, real itemY)
 
-    /// Emitted when the user pressAndHold on an item
-    /// @param index is the index of the clicked item
-    /// @param delegateItem is the clicked component/delegate itself
-    /// @param itemY is y of the clicked delegate
+    /// Emitted when the user pressed and held on an item
+    /// @param index is the index of the held item
+    /// @param delegateItem is the held component/delegate itself
+    /// @param itemY is y of the held delegate
     signal pressAndHold(int index, var delegateItem, real itemY)
 
     implicitHeight: listView.tileHeight * selectedItemScaleFactor
