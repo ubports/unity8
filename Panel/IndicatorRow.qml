@@ -63,20 +63,11 @@ Item {
                widgetSource: model.widgetSource
 
                indicatorProperties : model.indicatorProperties
-               highlighted: indicatorRow.state == "reveal" || indicatorRow.state == "locked" || indicatorRow.state == "commit" ? ownIndex == indicatorRow.currentItemIndex : false
-               dimmed: { //See FIXME in Indicators regarding the "states" change
-                   if (indicatorRow.state == "initial" || indicatorRow.state == "") {
-                       return false;
-                   } else if (indicatorRow.state == "hint") {
-                       return true
-                   } else {
-                       return ownIndex != indicatorRow.currentItemIndex
-                   }
-               }
+               highlighted: indicatorRow.state != "initial" ? ownIndex == indicatorRow.currentItemIndex : false
+               dimmed: indicatorRow.state != "initial" ? ownIndex != indicatorRow.currentItemIndex : false
                height: indicatorRow.height
                y: {
-                   //FIXME: all indicators will be initial for now.
-                   if (!highlighted  && (indicatorRow.state == "locked" || indicatorRow.state == "commit")) {
+                   if (!highlighted && (indicatorRow.state == "locked" || indicatorRow.state == "commit")) {
                        return -indicatorRow.height
                    } else {
                        return 0

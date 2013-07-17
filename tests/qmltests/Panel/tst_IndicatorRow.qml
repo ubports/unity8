@@ -121,7 +121,7 @@ Item {
             indicatorRow.state = "hint";
             indicatorRow.setItem(0);
 
-            compare(indicatorRow.currentItem.highlighted, false, "Indicator should not highlight when in hint state");
+            compare(indicatorRow.currentItem.highlighted, true, "Indicator should highlight when in hint state");
             compare(get_indicator_item_at(1).highlighted, false, "Other indicators should not highlight when in hint state");
             compare(get_indicator_item_at(2).highlighted, false, "Other indicators should not highlight when in hint state");
             compare(get_indicator_item_at(3).highlighted, false, "Other indicators should not highlight when in hint state");
@@ -195,7 +195,7 @@ Item {
             indicatorRow.state = "hint";
             indicatorRow.setItem(0);
 
-            compare(get_indicator_item_at(0).dimmed, true, "Current indicator should dim when in hint state");
+            compare(get_indicator_item_at(0).dimmed, false, "Current indicator should not dim when in hint state");
             compare(get_indicator_item_at(1).dimmed, true, "Other indicators should dim when in hint state");
             compare(get_indicator_item_at(2).dimmed, true, "Other indicators should dim when in hint state");
             compare(get_indicator_item_at(3).dimmed, true, "Other indicators should dim when in hint state");

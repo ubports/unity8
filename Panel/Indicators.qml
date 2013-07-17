@@ -58,7 +58,7 @@ Showable {
         if (!showAnimation.running && !hideAnimation.running) {
             if (revealProgress == 0) {
                 indicators.state = "initial"
-            } else if (revealProgress <= hintValue && indicators.state == "reveal") {
+            } else if (revealProgress <= hintValue) {
                 indicators.state = "hint";
             } else if (revealProgress > hintValue && revealProgress < lockThreshold) {
                 indicators.state = "reveal";
@@ -123,6 +123,8 @@ Showable {
             if ((!useBuffer || (useBuffer && bufferExceeded)) || indicatorRow.currentItem < 0 || indicatorRow.currentItem == null)  {
                 indicatorRow.currentItem = currentItem;
             }
+        } else if (!currentItem) {
+            indicatorRow.setDefaultItem();
         }
     }
 
@@ -239,10 +241,7 @@ Showable {
         onRunningChanged: {
             if (hideAnimation.running) {
                 indicators.state = "initial"
-            } else  {
-                if (state == "initial") {
-                    indicatorRow.setDefaultItem()
-                }
+                indicatorRow.currentItem = null;
             }
         }
     }
@@ -262,18 +261,6 @@ Showable {
             var buffer = dragHandle.dragging ? true : false;
             indicators.calculateCurrentItem(dragHandle.touchX, buffer);
         }
-    }
-
-    // We start with pinned states. (default pinnedMode: true)
-    states: pinnedModeStates
-    // because of dynamic assignment of states, we need to assign state after completion.
-    Component.onCompleted: state = "initial"
-
-    // changing states will reset state to "".
-    onPinnedModeChanged: {
-        var last_state = state;
-        states = (pinnedMode) ? pinnedModeStates : offScreenModeStates;
-        state = last_state;
     }
 
     property var dragHandle: showDragHandle.dragging ? showDragHandle : hideDragHandle
@@ -311,18 +298,27 @@ Showable {
         distanceThreshold: 0
     }
 
-    property list<State> offScreenModeStates: [
+    states: [
         State {
             name: "initial"
         },
         State {
             name: "hint"
-            PropertyChanges { target: indicatorRow; y: panelHeight }
+            PropertyChanges {
+                target: indicatorRow;
+                y: pinnedMode ? 0 : panelHeight
+            }
+            StateChangeScript {
+                script: {
+                    if (dragHandle) {
+                        calculateCurrentItem(dragHandle.touchX, false);
+                    }
+                }
+            }
         },
         State {
             name: "reveal"
             extend: "hint"
-            StateChangeScript { script: calculateCurrentItem(dragHandle.touchX, false); }
         },
         State {
             name: "locked"
@@ -333,25 +329,7 @@ Showable {
             extend: "hint"
         }
     ]
-
-    property list<State> pinnedModeStates: [
-        State {
-            name: "initial"
-        },
-        State {
-            name: "hint"
-        },
-        State {
-            name: "reveal"
-            StateChangeScript { script: calculateCurrentItem(dragHandle.touchX, false); }
-        },
-        State {
-            name: "locked"
-        },
-        State {
-            name: "commit"
-        }
-    ]
+    state: "initial"
 
     transitions: [
         Transition  {
