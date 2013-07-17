@@ -1,0 +1,2 @@
+module QMenuModel
+QDBusActionGroup 0.1 QDBusActionGroup.qml
