@@ -44,7 +44,7 @@ class MainWindow(object):
         return self.app.select_single("HudButton")
 
     def get_dash(self):
-        return self.app.select_single("Dash")
+        return self.app.select_single(Dash)
 
     def get_dash_home_applications_grid(self):
         return self.app.select_single("ApplicationsFilterGrid", objectName="dashHomeApplicationsGrid")

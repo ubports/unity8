@@ -11,16 +11,21 @@ import subprocess
 import sysconfig
 
 
+def running_installed_tests():
+    binary_path = get_unity8_binary_path()
+    return binary_path.startswith('/usr')
+
+
 def get_lib_path():
     """Return the library path to use in this test run."""
-    binary_path = get_unity8_binary_path()
-    if binary_path.startswith("/usr"):
+    if running_installed_tests():
         lib_path = os.path.join(
             "/usr/lib/",
             sysconfig.get_config_var('MULTIARCH'),
             "unity8"
             )
     else:
+        binary_path = get_unity8_binary_path()
         lib_path = os.path.dirname(binary_path)
     return lib_path
 

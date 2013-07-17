@@ -20,6 +20,7 @@ import sysconfig
 from unity8 import get_lib_path, get_unity8_binary_path
 from unity8.shell.emulators.main_window import MainWindow
 from unity8.shell.emulators import Unity8EmulatorBase
+from unity8.shell.emulators.dash import Dash
 
 
 logger = logging.getLogger(__name__)
@@ -73,7 +74,7 @@ class Unity8TestCase(AutopilotTestCase):
     def _setup_grid_size(self, scale_divisor):
         """Use the grid size that may be supplied or use the default."""
         if getattr(self, 'grid_unit_px', 0) == 0:
-            self.grid_size = int(os.getenv['GRID_UNIT_PX'])
+            self.grid_size = int(os.getenv('GRID_UNIT_PX'))
         else:
             self.grid_size = int(self.grid_unit_px / scale_divisor)
             self.patch_environment("GRID_UNIT_PX", str(self.grid_size))
@@ -145,7 +146,7 @@ class Unity8TestCase(AutopilotTestCase):
         self._proxy = None
 
     def get_dash(self):
-        dash = self._proxy.select_single("Dash")
+        dash = self._proxy.select_single(Dash)
         self.assertThat(dash, NotEquals(None))
         return dash
 
