@@ -86,7 +86,6 @@ Item {
     function activate_content(index)
     {
         menuContent.currentIndex = index
-        menuContent.showMenu();
     }
 
     function get_test_menu_objecName(index) {
@@ -117,7 +116,6 @@ Item {
         when: windowShown
 
         function init() {
-            menuContent.hideAll();
             if (menuContent.__contentActive)
                 menuContent.releaseContent();
             tryCompare(menuContent, "__contentActive", false);

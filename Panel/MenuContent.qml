@@ -23,7 +23,6 @@ Rectangle {
     id: content
 
     property QtObject indicatorsModel: null
-    property bool animate: true // FIXME: Remove. This doesnt seem to be being used and it's referenced in Indicators.
     property bool __contentActive: false
     property alias currentIndex : menus.currentIndex
     property color backgroundColor: "#221e1c"
@@ -36,13 +35,13 @@ Rectangle {
     signal menuSelected(int index)
 
     function activateContent() {
-        contentReleaseTimer.stop()
-        __contentActive = true
+        contentReleaseTimer.stop();
+        __contentActive = true;
     }
 
     function releaseContent() {
         if (__contentActive)
-            contentReleaseTimer.restart()
+            contentReleaseTimer.restart();
     }
 
     ListView {
@@ -68,9 +67,9 @@ Rectangle {
 
             onContentActiveChanged: {
                 if (contentActive && item) {
-                    item.start()
+                    item.start();
                 } else if (!contentActive && item) {
-                    item.stop()
+                    item.stop();
                 }
             }
 
@@ -80,7 +79,7 @@ Rectangle {
             onVisibleChanged: {
                 // Reset the indicator states
                 if (!visible && item && item["reset"]) {
-                    item.reset()
+                    item.reset();
                 }
             }
             asynchronous: true
@@ -88,11 +87,11 @@ Rectangle {
             onLoaded: {
                 for(var pName in indicatorProperties) {
                     if (item.hasOwnProperty(pName)) {
-                        item[pName] = indicatorProperties[pName]
+                        item[pName] = indicatorProperties[pName];
                     }
                 }
                 if (contentActive && menus.visible) {
-                    item.start()
+                    item.start();
                 }
             }
 
@@ -104,8 +103,6 @@ Rectangle {
                 value: handle.height
             }
         }
-
-        Behavior on opacity { NumberAnimation {duration: 200} }
     }
 
     Rectangle {

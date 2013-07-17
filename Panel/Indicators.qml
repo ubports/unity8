@@ -56,19 +56,19 @@ Showable {
 
     onHeightChanged: {
         // need to use handle.get_height(). As the handle height depends on indicators.height changes (but this is called first!)
-        var contentProgress = indicators.height - handle.get_height()
+        var contentProgress = indicators.height - handle.get_height();
         if (!showAnimation.running && !hideAnimation.running) {
             if (contentProgress <= hintValue && indicators.state == "reveal") {
-                indicators.state = "hint"
+                indicators.state = "hint";
             } else if (contentProgress > hintValue && contentProgress < lockThreshold) {
-                indicators.state = "reveal"
+                indicators.state = "reveal";
             } else if (contentProgress >= lockThreshold && lockThreshold > 0) {
-                indicators.state = "locked"
+                indicators.state = "locked";
             }
         }
 
         if (contentProgress == 0) {
-            menuContent.releaseContent()
+            menuContent.releaseContent();
         }
     }
 
@@ -79,7 +79,7 @@ Showable {
         var distanceFromRightEdge
         var bufferExceeded = false
 
-        if (indicators.state == "commit" || indicators.state == "locked" || showAnimation.running || hideAnimation.running) return
+        if (indicators.state == "commit" || indicators.state == "locked" || showAnimation.running || hideAnimation.running) return;
 
         /*
           If user drags the indicator handle bar down a distance hintValue or less, this is 0.
@@ -88,14 +88,14 @@ Showable {
         */
         var verticalProgress =
             MathLocal.clamp((indicators.height - handle.height - hintValue) /
-                            (lockThreshold - hintValue), 0, 1)
+                            (lockThreshold - hintValue), 0, 1);
 
         /*
           Percentage of an indicator icon's width the user's press can stray horizontally from the
           focused icon before we change focus to another icon. E.g. a value of 0.5 means you must
           go right a distance of half an icon's width before focus moves to the icon on the right
         */
-        var maxBufferThreshold = 0.5
+        var maxBufferThreshold = 0.5;
 
         /*
           To help users find the indicator of their choice while opening the indicators, we add logic to add a
@@ -112,12 +112,12 @@ Showable {
             itemCoordinates = indicatorRow.row.mapToItem(currentItem, rowCoordinates.x, 0);
             distanceFromRightEdge = (currentItem.width - itemCoordinates.x) / (currentItem.width)
             if (Math.abs(currentItem.ownIndex - indicatorRow.currentItemIndex) > 1) {
-                bufferExceeded = true
+                bufferExceeded = true;
             } else {
                 if (indicatorRow.currentItemIndex < currentItem.ownIndex && distanceFromRightEdge < (1 - effectiveBufferThreshold)) {
-                    bufferExceeded = true
+                    bufferExceeded = true;
                 } else if (indicatorRow.currentItemIndex > currentItem.ownIndex && distanceFromRightEdge > effectiveBufferThreshold) {
-                    bufferExceeded = true
+                    bufferExceeded = true;
                 }
             }
             if ((!useBuffer || (useBuffer && bufferExceeded)) || indicatorRow.currentItem < 0 || indicatorRow.currentItem == null)  {
@@ -158,8 +158,7 @@ Showable {
             bottom: parent.bottom
         }
         indicatorsModel: indicatorsModel
-        animate: false
-        clip: indicators.partiallyOpened
+        clip: !indicators.fullyOpened
 
         onMenuSelected: {
             indicatorRow.setItem(index)
@@ -195,7 +194,7 @@ Showable {
         clip: height < handleImage.height
 
         function get_height() {
-            return Math.max(Math.min(handleImage.height, indicators.height - handleImage.height), 0)
+            return Math.max(Math.min(handleImage.height, indicators.height - handleImage.height), 0);
         }
 
         BorderImage {
@@ -264,9 +263,10 @@ Showable {
         onRunningChanged: {
             if (hideAnimation.running) {
                 indicators.state = "initial"
-                menuContent.hideAll()
             } else  {
-                if (state == "initial") indicatorRow.setDefaultItem()
+                if (state == "initial") {
+                    indicatorRow.setDefaultItem()
+                }
             }
         }
     }
@@ -274,8 +274,8 @@ Showable {
         target: showAnimation
         onRunningChanged: {
             if (showAnimation.running) {
-                indicators.calculateCurrentItem(dragHandle.touchX, false)
-                indicators.state = "commit"
+                indicators.calculateCurrentItem(dragHandle.touchX, false);
+                indicators.state = "commit";
             }
         }
     }
@@ -283,8 +283,8 @@ Showable {
     Connections {
         target: dragHandle
         onTouchXChanged: {
-            var buffer = dragHandle.dragging ? true : false
-            indicators.calculateCurrentItem(dragHandle.touchX, buffer)
+            var buffer = dragHandle.dragging ? true : false;
+            indicators.calculateCurrentItem(dragHandle.touchX, buffer);
         }
     }
 
@@ -319,8 +319,7 @@ Showable {
 
         onStatusChanged: {
             if (status === DirectionalDragArea.Recognized) {
-                menuContent.hideAll()
-                menuContent.activateContent()
+                menuContent.activateContent();
             }
         }
     }
@@ -348,7 +347,6 @@ Showable {
         State {
             name: "reveal"
             extend: "hint"
-            PropertyChanges { target: menuContent; animate: true }
             StateChangeScript { script: calculateCurrentItem(dragHandle.touchX, false); }
         },
         State {
@@ -370,7 +368,6 @@ Showable {
         },
         State {
             name: "reveal"
-            PropertyChanges { target: menuContent; animate: true }
             StateChangeScript { script: calculateCurrentItem(dragHandle.touchX, false); }
         },
         State {
