@@ -10,18 +10,20 @@
 from autopilot.matchers import Eventually
 from testtools.matchers import Equals
 
-from unity8.shell.tests import ShellTestCase
+from unity8.shell.tests import Unity8TestCase
 
 
 # TODO: Find out if these tests are still required, if so, what they're supposed
 # to be testing, and whether they're supposed to work on the devices.
-class ScreenAlignmentTests(ShellTestCase):
-    def setUp(self):
-        super(ScreenAlignmentTests, self).setUp("2560x1600", "20")
+# Also, this doesn't work as automatically scales the geometry . . .
+class ScreenAlignmentTests(Unity8TestCase):
+
+    scenarios = [('Big Screen', dict(app_width=2560, app_height=1600, grid_unit_px=20))]
+
+    def test_hud_not_shown_greeter(self):
+        self.launch_unity()
         self.assertThat(self.main_window.get_qml_view().visible,
             Eventually(Equals(True))
         )
-
-    def test_hud_not_shown_greeter(self):
         hud_showable = self.main_window.get_hud_showable()
         self.assertThat(hud_showable.y, Eventually(Equals(1600)))
