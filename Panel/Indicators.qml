@@ -60,18 +60,9 @@ Showable {
         if (!showAnimation.running && !hideAnimation.running) {
             if (contentProgress <= hintValue && indicators.state == "reveal") {
                 indicators.state = "hint"
-                menuContent.hideAll()
             } else if (contentProgress > hintValue && contentProgress < lockThreshold) {
-                menuContent.showMenu()
                 indicators.state = "reveal"
             } else if (contentProgress >= lockThreshold && lockThreshold > 0) {
-                // If we've shown the overview and are closing the view with progress changes (revealer handle),
-                // we dont want to switch to a indicator menu until we hit reveal state.
-                if (menuContent.overviewActive) {
-                    menuContent.showOverview()
-                } else {
-                    menuContent.showMenu()
-                }
                 indicators.state = "locked"
             }
         }
@@ -79,11 +70,6 @@ Showable {
         if (contentProgress == 0) {
             menuContent.releaseContent()
         }
-    }
-
-    function openOverview() {
-        indicatorRow.currentItem = null
-        menuContent.showOverview()
     }
 
     function calculateCurrentItem(xValue, useBuffer) {
@@ -264,7 +250,6 @@ Showable {
         height: indicators.panelHeight
         indicatorsModel: indicatorsModel
         state: indicators.state
-        overviewActive: menuContent.overviewActive
 
         onCurrentItemIndexChanged: menuContent.currentIndex = currentItemIndex
 
@@ -289,12 +274,7 @@ Showable {
         target: showAnimation
         onRunningChanged: {
             if (showAnimation.running) {
-                if (indicators.state == "initial") {
-                    openOverview()
-                } else {
-                    indicators.calculateCurrentItem(dragHandle.touchX, false)
-                    menuContent.showMenu()
-                }
+                indicators.calculateCurrentItem(dragHandle.touchX, false)
                 indicators.state = "commit"
             }
         }

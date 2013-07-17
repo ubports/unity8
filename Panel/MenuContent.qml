@@ -17,7 +17,6 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Unity.Indicators 0.1 as Indicators
-import "Menus"
 import "../Components"
 
 Rectangle {
@@ -25,8 +24,6 @@ Rectangle {
 
     property QtObject indicatorsModel: null
     property bool animate: true // FIXME: Remove. This doesnt seem to be being used and it's referenced in Indicators.
-    property bool overviewActive: true // "state of the menu"
-    property bool __shown: false
     property bool __contentActive: false
     property alias currentIndex : menus.currentIndex
     property color backgroundColor: "#221e1c"
@@ -35,23 +32,8 @@ Rectangle {
     width: units.gu(40)
     height: units.gu(42)
     color: backgroundColor
-    enabled: __shown
 
     signal menuSelected(int index)
-
-    function showMenu() {
-        __shown = true
-        overviewActive = false
-    }
-
-    function showOverview() {
-        __shown = true
-        overviewActive = true
-    }
-
-    function hideAll() {
-        __shown = false
-    }
 
     function activateContent() {
         contentReleaseTimer.stop()
@@ -72,7 +54,6 @@ Rectangle {
         width: parent.width
 
         spacing: units.gu(0.5)
-        opacity: !overviewActive && __shown ? 1 : 0
         enabled: opacity != 0
         orientation: ListView.Horizontal
         model: indicatorsModel
@@ -96,7 +77,6 @@ Rectangle {
             width: menus.width
             height: menus.height
             source: pageSource
-            visible: content.__shown
             onVisibleChanged: {
                 // Reset the indicator states
                 if (!visible && item && item["reset"]) {
@@ -128,38 +108,6 @@ Rectangle {
         Behavior on opacity { NumberAnimation {duration: 200} }
     }
 
-    Overview {
-        id: overview
-        objectName: "overview"
-
-        anchors.top: header.bottom
-        anchors.bottom: parent.bottom
-        // FIXME: Dont know why we're using handle height (introduces dep).. Check with design about bottom margin
-        anchors.bottomMargin: handle.height
-
-        width: content.width
-        indicatorsModel: content.indicatorsModel
-        enabled: content.overviewActive && content.__shown
-        opacity: content.overviewActive && content.__shown ? 1 : 0
-        Behavior on opacity {NumberAnimation{duration: 200}}
-        visible: opacity != 0
-
-        onMenuSelected: {
-            var storedDuration = menus.highlightMoveDuration
-            var storedVelocity = menus.highlightMoveVelocity
-            menus.highlightMoveDuration = 0
-            menus.highlightMoveVelocity = 100000
-
-            menus.currentIndex = modelIndex
-            content.overviewActive = false
-
-            menus.highlightMoveDuration = storedDuration
-            menus.highlightMoveVelocity = storedVelocity
-
-            content.menuSelected(modelIndex)
-        }
-    }
-
     Rectangle {
         id: header
         objectName: "header"
@@ -181,14 +129,10 @@ Rectangle {
                 right: parent.right
             }
             text: {
-                if (content.overviewActive)
-                    return i18n.tr("Device");
                 if (indicatorsModel && menus.currentIndex >= 0 && menus.currentIndex < indicatorsModel.count)
                     return indicatorsModel.data(menus.currentIndex, Indicators.IndicatorsModelRole.Title);
                 return "";
             }
-            opacity: __shown ? 1 : 0
-            Behavior on opacity {NumberAnimation{duration: 100}}
         }
     }
 
