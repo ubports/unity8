@@ -24,7 +24,7 @@ Rectangle {
 
     property QtObject indicatorsModel: null
     property bool __contentActive: false
-    property alias currentIndex : menus.currentIndex
+    property alias currentMenuIndex : menus.currentIndex
     property color backgroundColor: "#221e1c"
     property int contentReleaseInterval: 20000
 

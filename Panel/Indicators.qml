@@ -41,6 +41,13 @@ Showable {
         duration: 350
         to: openedHeight
         easing.type: Easing.OutCubic
+
+        // Re-size if we've changed the openHeight while shown.
+        onToChanged: {
+            if (indicators.shown) {
+                indicators.show();
+            }
+        }
     }
 
     hideAnimation: StandardAnimation {
@@ -73,11 +80,11 @@ Showable {
     }
 
     function calculateCurrentItem(xValue, useBuffer) {
-        var rowCoordinates
-        var itemCoordinates
-        var currentItem
-        var distanceFromRightEdge
-        var bufferExceeded = false
+        var rowCoordinates;
+        var itemCoordinates;
+        var currentItem;
+        var distanceFromRightEdge;
+        var bufferExceeded = false;
 
         if (indicators.state == "commit" || indicators.state == "locked" || showAnimation.running || hideAnimation.running) return;
 
@@ -162,8 +169,15 @@ Showable {
         indicatorsModel: indicatorsModel
         clip: !indicators.fullyOpened
 
-        onMenuSelected: {
-            indicatorRow.setItem(index)
+        Connections {
+            target: indicatorRow
+            onCurrentItemIndexChanged: menuContent.updateCurrentMenu();
+        }
+
+        function updateCurrentMenu() {
+            if (currentMenuIndex != indicatorRow.currentItemIndex) {
+                currentMenuIndex = indicatorRow.currentItemIndex;
+            }
         }
 
         //small shadow gradient at bottom of menu
@@ -233,28 +247,35 @@ Showable {
         indicatorsModel: indicatorsModel
         state: indicators.state
 
-        onCurrentItemIndexChanged: menuContent.currentIndex = currentItemIndex
+        Connections {
+            target: menuContent
+            onCurrentMenuIndexChanged: {
+                indicatorRow.setCurrentItem(menuContent.currentMenuIndex);
+            }
+        }
+    }
+
+    Connections {
+        target: showAnimation
+        onRunningChanged: {
+            if (showAnimation.running) {
+                indicators.state = "commit";
+            }
+        }
     }
 
     Connections {
         target: hideAnimation
         onRunningChanged: {
             if (hideAnimation.running) {
-                indicators.state = "initial"
+                indicators.state = "initial";
                 indicatorRow.currentItem = null;
             }
         }
     }
-    Connections {
-        target: showAnimation
-        onRunningChanged: {
-            if (showAnimation.running) {
-                indicators.calculateCurrentItem(dragHandle.touchX, false);
-                indicators.state = "commit";
-            }
-        }
-    }
 
+    property var dragHandle: null
+    // connections to the active drag handle
     Connections {
         target: dragHandle
         onTouchXChanged: {
@@ -263,7 +284,6 @@ Showable {
         }
     }
 
-    property var dragHandle: showDragHandle.dragging ? showDragHandle : hideDragHandle
     DragHandle {
         id: showDragHandle
         anchors.bottom: parent.bottom
@@ -285,6 +305,9 @@ Showable {
                 menuContent.activateContent();
             }
         }
+        onDraggingChanged: {
+            dragHandle = dragging ? showDragHandle : null;
+        }
     }
     DragHandle {
         id: hideDragHandle
@@ -296,6 +319,10 @@ Showable {
         stretch: true
         maxTotalDragDistance: openedHeight - panelHeight
         distanceThreshold: 0
+
+        onDraggingChanged: {
+            dragHandle = dragging ? hideDragHandle : null;
+        }
     }
 
     states: [

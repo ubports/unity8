@@ -31,16 +31,15 @@ Item {
     width: units.gu(40)
     height: units.gu(3)
 
-    Component.onCompleted: setDefaultItem()
-
     function setDefaultItem() {
         // The leftmost indicator
-        var defaultItemIndex = 0
-        setItem(defaultItemIndex)
+        setCurrentItem(0);
     }
 
-    function setItem(index) {
-        currentItem = rowRepeater.itemAt(index)
+    function setCurrentItem(index) {
+        if (currentItemIndex !== index) {
+            currentItem = rowRepeater.itemAt(index);
+        }
     }
 
     Row {
@@ -68,9 +67,9 @@ Item {
                height: indicatorRow.height
                y: {
                    if (!highlighted && (indicatorRow.state == "locked" || indicatorRow.state == "commit")) {
-                       return -indicatorRow.height
+                       return -indicatorRow.height;
                    } else {
-                       return 0
+                       return 0;
                    }
                }
                Behavior on y {
