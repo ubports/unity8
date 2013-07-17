@@ -117,14 +117,14 @@ Item {
         state: {
             if (parent.width < indicatorsMenu.width + width) {
                 if (indicatorsMenu.state != "initial") {
-                    return "hiddenUp";
+                    return "hidden";
                 }
             }
             if (root.searchVisible) {
                 return "visible";
             }
 
-            return "hiddenUp";
+            return "hidden";
         }
 
         width: units.gu(13)

@@ -42,7 +42,6 @@ Item {
         height: parent.height
 
         Behavior on opacity { StandardAnimation {} }
-        Behavior on y {NumberAnimation {duration: 300; easing.type: Easing.OutCubic}}
 
         Image {
             id: icon
@@ -68,15 +67,13 @@ Item {
             name: "visible"
             PropertyChanges {
                 target: container
-                y: 0
                 opacity: 1
             }
         },
         State {
-            name: "hiddenUp"
+            name: "hidden"
             PropertyChanges {
                 target: container
-                y: -height
                 opacity: 0
             }
         }
