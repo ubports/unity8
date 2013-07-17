@@ -258,7 +258,7 @@ class TestNotifications(NotificationTestCase):
         body = "Click this notification to trigger the attached action."
         icon_path = self.get_icon_path('avatars/anna_olsson@12.png')
         hint_icon = self.get_icon_path('applicationIcons/phone-app@18.png')
- 
+
         notification = self.create_interactive(summary,
                                                body,
                                                icon_path,
@@ -269,7 +269,7 @@ class TestNotifications(NotificationTestCase):
                                                self.action_interactive_cb)
         notification.show()
         self.loop.run()
- 
+
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
@@ -282,19 +282,19 @@ class TestNotifications(NotificationTestCase):
         """Snap-decision simulating incoming call."""
         notify_list = self.get_notifications_list()
         self.unlock_greeter()
- 
+
         summary = "Incoming call"
         body = "Frank Zappa\n+44 (0)7736 027340"
         icon_path = self.get_icon_path('avatars/anna_olsson@12.png')
         hint_icon = self.get_icon_path('applicationIcons/phone-app@18.png')
- 
+
         action_ids = ['action_accept', 'action_decline_1', 'action_decline_2', 'action_decline_3', 'action_decline_4']
         action_labels = ['Accept', 'Decline', '"Can\'t talk now, what\'s up?"', '"I call you back."', 'Send custom message...']
         action_cbs = [self.action_sd_accept_cb, self.action_sd_decline1_cb, self.action_sd_decline2_cb, self.action_sd_decline3_cb, self.action_sd_decline4_cb]
         notification = self.create_snap_decision(summary, body, icon_path, hint_icon, "NORMAL", action_ids, action_labels, action_cbs)
         notification.show()
         self.loop.run()
- 
+
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
