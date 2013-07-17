@@ -47,4 +47,3 @@ private:
 };
 
 #endif // MODELPRINTER_H
-
