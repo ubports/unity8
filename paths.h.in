@@ -23,6 +23,7 @@
 // Qt
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
+#include <QStandardPaths>
 
 inline bool isRunningInstalled() {
     static bool installed = (QCoreApplication::applicationDirPath() ==
@@ -63,6 +64,20 @@ inline QStringList fallbackImportPaths() {
         paths << QString("@CMAKE_BINARY_DIR@/tests/mocks");
     }
     return paths;
+}
+
+inline QStringList shellDataDirs() {
+    QStringList dirs = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
+    if (!isRunningInstalled()) {
+        if (getenv("UNITY_TEST_ENV")==NULL) {
+            dirs.prepend("@CMAKE_BINARY_DIR@/share");
+        }
+    }
+    else {
+        // append so by default we use xdg files.
+        dirs.append(shellAppDirectory());
+    }
+    return dirs;
 }
 
 inline QString sourceDirectory() {

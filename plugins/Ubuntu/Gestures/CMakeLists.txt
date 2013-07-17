@@ -1,3 +1,6 @@
+# export_qmlplugin macro
+include(Plugins)
+
 set(CMAKE_AUTOMOC ON)
 
 include(FindPkgConfig)
@@ -20,16 +23,6 @@ qt5_use_modules(UbuntuGestureQml Core Quick)
 # So that Foo.cpp can #include "Foo.moc"
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-# copy files into build directory for shadow builds
-add_custom_target(UbuntuGestureQmlDirFile ALL
-    COMMAND cp "${CMAKE_CURRENT_SOURCE_DIR}/qmldir" ${CMAKE_CURRENT_BINARY_DIR}
-    DEPENDS qmldir
-)
-
-install(TARGETS UbuntuGestureQml
-    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/Ubuntu/Gestures
-    )
-
-install(FILES qmldir
-    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/Ubuntu/Gestures
-    )
+# export the qmldir qmltypes and plugin files
+export_qmlfiles(Ubuntu.Gestures Ubuntu/Gestures)
+export_qmlplugin(Ubuntu.Gestures 0.1 Ubuntu/Gestures TARGETS UbuntuGestureQml)

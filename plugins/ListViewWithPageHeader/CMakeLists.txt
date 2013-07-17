@@ -1,3 +1,6 @@
+# export_qmlplugin macro
+include(Plugins)
+
 # There's no cmake var for v8 include path :-/
 # so create one
 LIST(GET Qt5Core_INCLUDE_DIRS 0 QtCoreDir0)
@@ -30,15 +33,6 @@ target_link_libraries(ListViewWithPageHeader-qml
 
 qt5_use_modules(ListViewWithPageHeader-qml Qml Quick)
 
-# copy qmldir file into build directory for shadow builds
-file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
-    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
-    )
-
-install(TARGETS ListViewWithPageHeader-qml
-    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/ListViewWithPageHeader
-    )
-
-install(FILES qmldir
-    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/ListViewWithPageHeader
-    )
+# export the qmldir qmltypes and plugin files
+export_qmlfiles(ListViewWithPageHeader ListViewWithPageHeader)
+export_qmlplugin(ListViewWithPageHeader 0.1 ListViewWithPageHeader TARGETS ListViewWithPageHeader-qml)

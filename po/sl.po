@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-06-26 22:58+0200\n"
-"PO-Revision-Date: 2013-06-29 10:26+0000\n"
+"PO-Revision-Date: 2013-07-02 12:59+0000\n"
 "Last-Translator: Damir Jerovšek <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-30 07:12+0000\n"
-"X-Generator: Launchpad (build 16692)\n"
+"X-Launchpad-Export-Date: 2013-07-06 08:44+0000\n"
+"X-Generator: Launchpad (build 16696)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -23,7 +23,7 @@ msgstr "Telefon"
 
 #: Applications/applications.js:29
 msgid "Camera"
-msgstr "Fotoaparat"
+msgstr ""
 
 #: Applications/applications.js:35
 msgid "Gallery"
@@ -111,7 +111,7 @@ msgstr "Programi"
 
 #: Dash/DashHome.qml:40
 msgid "Frequent Apps"
-msgstr ""
+msgstr "Pogosto uporabljani programi"
 
 #: Dash/DashHome.qml:43
 msgid "Recent Music"
@@ -127,7 +127,7 @@ msgstr "Domov"
 
 #: Dash/DashMusic.qml:27 Dash/DashVideos.qml:28
 msgid "Featured"
-msgstr ""
+msgstr "Predstavljeno"
 
 #: Dash/DashMusic.qml:28 Dash/DashVideos.qml:29
 msgid "Recent"
@@ -139,7 +139,7 @@ msgstr "Nove izdaje"
 
 #: Dash/DashMusic.qml:30
 msgid "Top Charting"
-msgstr ""
+msgstr "Najvišje na lestvici"
 
 #: Dash/DashMusic.qml:99
 msgid "Music"
@@ -147,7 +147,7 @@ msgstr "Glasba"
 
 #: Dash/DashVideos.qml:31
 msgid "Popular Online"
-msgstr ""
+msgstr "Priljubljeno na spletu"
 
 #: Dash/DashVideos.qml:155
 msgid "Videos"
@@ -163,7 +163,7 @@ msgstr ""
 
 #: Dash/Video/VideoPreview.qml:144
 msgid "Author:"
-msgstr "Avtor:"
+msgstr ""
 
 #: Greeter/Lockscreen.qml:133
 msgid "Emergency call"
@@ -176,7 +176,7 @@ msgstr "Pozdravljeni, %1"
 
 #: Greeter/PassphraseLockscreen.qml:59
 msgid "Hello"
-msgstr "Pozdravljeni"
+msgstr ""
 
 #: Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
@@ -217,10 +217,4 @@ msgstr "Nič se ne ujema z vašim iskalnim nizom."
 #: Shell.qml:383
 #, qt-format
 msgid "Please enter %1"
-msgstr "Vnesite %1"
-
-#~ msgid "People"
-#~ msgstr "Ljudje"
-
-#~ msgid "Home screen"
-#~ msgstr "Domači zaslon"
+msgstr ""

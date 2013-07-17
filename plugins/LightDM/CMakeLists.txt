@@ -1,3 +1,6 @@
+# export_qmlplugin macro
+include(Plugins)
+
 # Dependencies
 include(FindPkgConfig)
 pkg_check_modules(LIBUSERMETRICSOUTPUT REQUIRED libusermetricsoutput-1)
@@ -32,15 +35,6 @@ target_link_libraries(LightDM-qml
 
 qt5_use_modules(LightDM-qml Gui Qml)
 
-# copy qmldir file into build directory for shadow builds
-file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
-    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
-    )
-
-install(TARGETS LightDM-qml
-    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/LightDM
-    )
-
-install(FILES qmldir
-    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/LightDM
-    )
+# export the qmldir qmltypes and plugin files
+export_qmlfiles(LightDM LightDM)
+export_qmlplugin(LightDM 0.1 LightDM TARGETS LightDM-qml)

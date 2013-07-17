@@ -1,3 +1,8 @@
+# export_qmlplugin macro
+include(Plugins)
+
+add_subdirectory(Indicators)
+
 # Dependencies
 include(FindPkgConfig)
 pkg_check_modules(QTDEE REQUIRED libdee-qt5)
@@ -12,14 +17,12 @@ include_directories(
 )
 
 set(QMLPLUGIN_SRC
-    ../Utils/qsortfilterproxymodelqml.cpp # FIXME evaluate a more generic approach for using other plugins
     scope.cpp
     scopes.cpp
     categories.cpp
-    categoryfilter.cpp
+    categoryresults.cpp
     plugin.cpp
     bottombarvisibilitycommunicatorshell.cpp
-    launchermodel.cpp
     applicationpreview.cpp
     genericpreview.cpp
     moviepreview.cpp
@@ -27,6 +30,8 @@ set(QMLPLUGIN_SRC
     preview.cpp
     previewaction.cpp
     previewinfohint.cpp
+    socialpreview.cpp
+    socialpreviewcomment.cpp
     variantutils.cpp
     )
 
@@ -43,15 +48,8 @@ target_link_libraries(Unity-qml
 
 qt5_use_modules(Unity-qml Qml)
 
-# copy qmldir file into build directory for shadow builds
-file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
-    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
-    )
+# export the qmldir qmltypes and plugin files
+export_qmlfiles(Unity Unity)
+export_qmlplugin(Unity 0.1 Unity TARGETS Unity-qml)
 
-install(TARGETS Unity-qml
-    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/Unity
-    )
-
-install(FILES qmldir
-    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/Unity
-    )
+add_subdirectory(Launcher)

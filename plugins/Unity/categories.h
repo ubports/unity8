@@ -3,6 +3,7 @@
  *
  * Authors:
  *  Michał Sawicz <michal.sawicz@canonical.com>
+ *  Michal Hruby <michal.hruby@canonical.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,13 +22,15 @@
 #ifndef CATEGORIES_H
 #define CATEGORIES_H
 
+// unity-core
+#include <UnityCore/Scope.h>
+
 // dee-qt
 #include "deelistmodel.h"
 
+#include <QPointer>
 #include <QSet>
 #include <QTimer>
-
-class CategoryFilter;
 
 class Categories : public DeeListModel
 {
@@ -35,11 +38,8 @@ class Categories : public DeeListModel
 
     Q_ENUMS(Roles)
 
-    Q_PROPERTY(DeeListModel* resultModel READ resultModel WRITE setResultModel NOTIFY resultModelChanged)
-
 public:
     explicit Categories(QObject* parent = 0);
-    ~Categories();
 
     enum Roles {
         RoleId,
@@ -56,27 +56,24 @@ public:
 
     QHash<int, QByteArray> roleNames() const;
 
-    /* getters */
-    DeeListModel* resultModel() { return m_resultModel; }
-
     /* setters */
-    void setResultModel(DeeListModel*);
-
-Q_SIGNALS:
-    void resultModelChanged(DeeListModel*);
+    void setUnityScope(const unity::dash::Scope::Ptr& scope);
 
 private Q_SLOTS:
     void onCountChanged();
     void onEmitCountChanged();
 
 private:
-    CategoryFilter* getFilter(int index) const;
+    void onCategoriesModelChanged(unity::glib::Object<DeeModel> model);
 
+    DeeListModel* getResults(int index) const;
+
+    unity::dash::Scope::Ptr m_unityScope;
     QTimer m_timer;
-    QSet<CategoryFilter*> m_timerFilters;
+    QSet<int> m_updatedCategories;
     QHash<int, QByteArray> m_roles;
-    DeeListModel* m_resultModel;
-    mutable QMap<int, CategoryFilter*> m_filters;
+    mutable QMap<int, DeeListModel*> m_results;
+    sigc::connection m_categoriesChangedConnection;
 };
 
 #endif // CATEGORIES_H

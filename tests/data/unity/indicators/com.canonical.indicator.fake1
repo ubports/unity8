@@ -1,0 +1,9 @@
+[Indicator Service]
+Name=indicator-fake1
+ObjectPath=/com/canonical/indicator/fake1
+
+[phone]
+ObjectPath=/com/canonical/indicator/fake1/phone
+
+[desktop]
+ObjectPath=/com/canonical/indicator/fake1/desktop
