@@ -23,23 +23,26 @@ import Unity.Indicators.Network 0.1 as ICNetwork
 import Ubuntu.Components 0.1
 
 PageStack {
-    id: _network
+    id: network
+    // Stops the search for a parent tree node.
+    // We don't want it going up to the indicator tabs.
+    // FIXME: need a better way of doing this.
+    __propagated: null
 
     property alias title: _mainPage.title
-    property alias emptyText: _pluginItem.emptyText
-    property alias busType: _pluginItem.busType
-    property alias busName: _pluginItem.busName
-    property alias actionsObjectPath : _pluginItem.actionsObjectPath
-    property alias menuObjectPaths : _pluginItem.menuObjectPaths
+    property alias emptyText: pluginItem.emptyText
+    property alias busType: pluginItem.busType
+    property alias busName: pluginItem.busName
+    property alias actionsObjectPath : pluginItem.actionsObjectPath
+    property alias menuObjectPaths : pluginItem.menuObjectPaths
 
-    __showHeader: false
     anchors.fill: parent
 
     Page {
         id: _mainPage
 
         Indicators.IndicatorPage {
-            id: _pluginItem
+            id: pluginItem
             anchors.fill: parent
         }
     }
@@ -63,17 +66,17 @@ PageStack {
     function start()
     {
         push(_mainPage);
-        _pluginItem.start();
+        pluginItem.start();
     }
 
     function stop()
     {
         clear();
-        _pluginItem.stop();
+        pluginItem.stop();
     }
 
     function reset()
     {
-        _pluginItem.reset();
+        pluginItem.reset();
     }
 }
