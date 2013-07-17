@@ -115,7 +115,7 @@ FocusScope {
 
     GSettings {
         id: backgroundSettings
-        schema: "org.gnome.desktop.background"
+        schema.id: "org.gnome.desktop.background"
     }
 
     function updateImage() {
