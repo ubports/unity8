@@ -48,7 +48,7 @@ DashPreview {
         property int buttonWidth: Math.min(units.gu(22), (width - spacing) / 2)
         Button {
             width: parent.buttonWidth
-            color: "#dd4814"
+            color: Theme.palette.selected.foreground
             text: nfo.ready && nfo.video.buyPrice != "" ? "Buy for " + nfo.video.buyPrice : ""
             visible: text != ""
             iconSource: "graphics/icon_button_amazon.png"
@@ -56,7 +56,7 @@ DashPreview {
         }
         Button {
             width: parent.buttonWidth
-            color: "#dd4814"
+            color: Theme.palette.selected.foreground
             text: nfo.ready && nfo.video.buyPrice != "" ? "Rent for " + nfo.video.rentPrice : ""
             visible: text != ""
             iconSource: "graphics/icon_button_u1.png"
@@ -73,7 +73,7 @@ DashPreview {
 
         Label {
             text: nfo.ready ? nfo.video.plot : ""
-            color: "#f3f3e7"
+            color: Theme.palette.selected.backgroundText
             opacity: .6
             fontSize: "medium"
             width: parent.width
