@@ -172,21 +172,21 @@ Item {
                                                        tileWidth,
                                                        gapToMiddlePhase,
                                                        gapToEndPhase,
-                                                       carousel.drawBuffer)
+                                                       carousel.drawBuffer);
 
             if (Math.abs(x - contentX) < 1) {
                 /* We're pressAndHold the selected item and
                    we're in the neighbourhood of radius 1 pixel from it.
                    Let's emit the pressAndHold signal. */
-                carousel.pressAndHold(index, delegateItem, delegateItem.y)
-                return
+                carousel.pressAndHold(index, delegateItem, delegateItem.y);
+                return;
             }
 
-            stepAnimation.stop()
-            newContentXAnimation.stop()
+            stepAnimation.stop();
+            newContentXAnimation.stop();
 
-            newContentX = x
-            newContentXAnimation.start()
+            newContentX = x;
+            newContentXAnimation.start();
         }
 
         onMovementStarted: {

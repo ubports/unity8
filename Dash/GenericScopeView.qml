@@ -118,12 +118,12 @@ ScopeView {
         switch (rendererId) {
             case "grid": {
                 switch (contentType) {
-                    case "video": return "Generic/GenericFilterGridPotrait.qml"
-                    default: return "Generic/GenericFilterGrid.qml"
+                    case "video": return "Generic/GenericFilterGridPotrait.qml";
+                    default: return "Generic/GenericFilterGrid.qml";
                 }
             }
-            case "carousel": return "Generic/GenericCarousel.qml"
-            default: return "Generic/GenericFilterGrid.qml"
+            case "carousel": return "Generic/GenericCarousel.qml";
+            default: return "Generic/GenericFilterGrid.qml";
         }
     }
 
