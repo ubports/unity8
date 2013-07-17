@@ -1,3 +1,6 @@
+# export_qmlplugin macro
+include(Plugins)
+
 project(IndicatorsNetworkQml)
 
 pkg_check_modules(GLIB glib-2.0>=2.32)
@@ -32,9 +35,9 @@ if(LIBNM_GLIB_FOUND AND LIBNM_UTIL_FOUND AND GLIB_FOUND)
         ${LIBNM_UTIL_LIBRARIES}
     )
 
-    install(TARGETS IndicatorsNetworkQml
-        DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/Unity/Indicators/Network
-    )
+    # export the qmltypes and plugin files
+    export_qmlplugin(Unity.Indicators.Network 0.1 Unity/Indicators/Network TARGETS IndicatorsNetworkQml)
+
 else()
     message(WARNING "Missing glib or libnm dependency for the network plugin, not building")
 endif()

@@ -1,3 +1,6 @@
+# export_qmlplugin macro
+include(Plugins)
+
 project(IndicatorsQml)
 
 pkg_check_modules(QMENUMODEL REQUIRED qmenumodel)
@@ -47,6 +50,5 @@ target_link_libraries(IndicatorsQml
 
 qt5_use_modules(IndicatorsQml Core Qml Quick)
 
-install(TARGETS IndicatorsQml
-    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/Unity/Indicators
-    )
+# export the qmltypes and plugin files
+export_qmlplugin(Unity.Indicators 0.1 Unity/Indicators TARGETS IndicatorsQml)

@@ -1,3 +1,37 @@
+unity8 (7.81.3+13.10.20130717ubuntu.unity.next-0ubuntu1) saucy; urgency=low
+
+  [ Daniel d'Andrada ]
+  * Remove dead code: Showable::showWithoutAnimation.
+
+  [ Nick Dedekind ]
+  * Split Plugins export macro into export_qmlfiles and
+    export_qmlplugins. Added qmltypes to indicators plugin.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 112 (ubuntu-unity/next)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 17 Jul 2013 03:14:49 +0000
+
+unity8 (7.81.3+13.10.20130716ubuntu.unity.next-0ubuntu1) saucy; urgency=low
+
+  [ Pete Woods ]
+  * Rename the demo user "single" to "phablet" Fix the infographics on
+    the device At the moment the mock lightdm backend we are using says
+    the current user is called "single", while in reality the processes
+    all run as the "phablet" user.
+
+  [ Michał Sawicz ]
+  * Only use ppa:ubuntu-unity/next and clean build scripts and CODING,
+    accordingly.
+  * Do not recommend indicator-power and indicator-sound. On device
+    they're provided by lp:indicator-server for the time being.
+  * Fix the Network page to provide the correct token. (LP: #1201529)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 109 (ubuntu-unity/next)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 16 Jul 2013 02:32:03 +0000
+
 unity8 (7.81.3+13.10.20130714ubuntu.unity.next-0ubuntu1) saucy; urgency=low
 
   [ Michael Terry ]
