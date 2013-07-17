@@ -1,3 +1,17 @@
+unity8 (7.81.3+13.10.20130717ubuntu.unity.next-0ubuntu1) saucy; urgency=low
+
+  [ Daniel d'Andrada ]
+  * Remove dead code: Showable::showWithoutAnimation.
+
+  [ Nick Dedekind ]
+  * Split Plugins export macro into export_qmlfiles and
+    export_qmlplugins. Added qmltypes to indicators plugin.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 112 (ubuntu-unity/next)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 17 Jul 2013 03:14:49 +0000
+
 unity8 (7.81.3+13.10.20130716ubuntu.unity.next-0ubuntu1) saucy; urgency=low
 
   [ Pete Woods ]
