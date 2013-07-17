@@ -25,14 +25,12 @@ import "../Components/Math.js" as MathLocal
 Showable {
     id: indicators
 
-    property int referenceOpenedHeight: units.gu(71)
-    property real openedHeight: pinnedMode ? referenceOpenedHeight - panelHeight
-                                           : referenceOpenedHeight
+    property real openedHeight: units.gu(71)
     property int panelHeight: units.gu(3)
     property bool pinnedMode: true  //should be set true if indicators menu can cover whole screen
 
     property int hintValue
-    readonly property int lockThreshold: referenceOpenedHeight / 2
+    readonly property int lockThreshold: openedHeight / 2
     property bool fullyOpened: height == openedHeight
     property bool partiallyOpened: height > panelHeight && !fullyOpened
 
@@ -56,18 +54,20 @@ Showable {
 
     onHeightChanged: {
         // need to use handle.get_height(). As the handle height depends on indicators.height changes (but this is called first!)
-        var contentProgress = indicators.height - handle.get_height();
+        var revealProgress = indicators.height - panelHeight
         if (!showAnimation.running && !hideAnimation.running) {
-            if (contentProgress <= hintValue && indicators.state == "reveal") {
+            if (revealProgress == 0) {
+                indicators.state = "initial"
+            } else if (revealProgress <= hintValue && indicators.state == "reveal") {
                 indicators.state = "hint";
-            } else if (contentProgress > hintValue && contentProgress < lockThreshold) {
+            } else if (revealProgress > hintValue && revealProgress < lockThreshold) {
                 indicators.state = "reveal";
-            } else if (contentProgress >= lockThreshold && lockThreshold > 0) {
+            } else if (revealProgress >= lockThreshold && lockThreshold > 0) {
                 indicators.state = "locked";
             }
         }
 
-        if (contentProgress == 0) {
+        if (revealProgress == 0) {
             menuContent.releaseContent();
         }
     }
@@ -155,7 +155,7 @@ Showable {
             left: parent.left
             right: parent.right
             top: indicatorRow.bottom
-            bottom: parent.bottom
+            bottom: handle.top
         }
         indicatorsModel: indicatorsModel
         clip: !indicators.fullyOpened
@@ -188,7 +188,7 @@ Showable {
         anchors {
             left: parent.left
             right: parent.right
-            top: menuContent.bottom
+            bottom: parent.bottom
         }
         height: get_height()
         clip: height < handleImage.height
@@ -212,31 +212,12 @@ Showable {
         }
     }
 
-    PanelSeparatorLine {
-        id: indicatorsSeparatorLine
-        visible: true
-        anchors {
-            top: handle.bottom
-            left: indicators.left
-            right: indicators.right
-        }
-    }
-
-    BorderImage {
-        id: dropShadow
-        anchors {
-            top: indicators.top
-            bottom: indicatorsSeparatorLine.bottom
-            left: indicators.left
-            right: indicators.right
-            margins: -units.gu(1)
-        }
-        visible: indicators.height > panelHeight
-        source: "graphics/rectangular_dropshadow.sci"
-    }
-
     PanelBackground {
         anchors.fill: indicatorRow
+    }
+
+    IndicatorsDataModel {
+        id: indicatorsModel
     }
 
     IndicatorRow {
@@ -251,11 +232,6 @@ Showable {
         state: indicators.state
 
         onCurrentItemIndexChanged: menuContent.currentIndex = currentItemIndex
-
-    }
-
-    IndicatorsDataModel {
-        id: indicatorsModel
     }
 
     Connections {
@@ -314,7 +290,7 @@ Showable {
         hintDisplacement: pinnedMode ? indicators.hintValue : 0
         autoCompleteDragThreshold: maxTotalDragDistance / 2
         stretch: true
-        maxTotalDragDistance: openedHeight - handle.height
+        maxTotalDragDistance: openedHeight - panelHeight
         distanceThreshold: pinnedMode ? 0 : units.gu(3)
 
         onStatusChanged: {
@@ -326,13 +302,12 @@ Showable {
     DragHandle {
         id: hideDragHandle
         anchors.fill: handle
-        height: panelHeight
         direction: Direction.Upwards
         enabled: indicators.shown
         hintDisplacement: units.gu(2)
         autoCompleteDragThreshold: maxTotalDragDistance / 6
         stretch: true
-        maxTotalDragDistance: referenceOpenedHeight - 2*panelHeight
+        maxTotalDragDistance: openedHeight - panelHeight
         distanceThreshold: 0
     }
 
