@@ -82,10 +82,14 @@ class Unity8TestCase(AutopilotTestCase):
             self.patch_environment("GRID_UNIT_PX", str(self.grid_size))
 
     def _geo_larger_than_display(self, width, height):
-        screen = Display.create()
-        screen_width = screen.get_screen_width()
-        screen_height = screen.get_screen_height()
-        return (width > screen_width) or (height > screen_height)
+        should_scale = getattr(self, 'scale_geo', True)
+        if should_scale:
+            screen = Display.create()
+            screen_width = screen.get_screen_width()
+            screen_height = screen.get_screen_height()
+            return (width > screen_width) or (height > screen_height)
+        else:
+            return False
 
     def _get_scaled_down_geo(self, width, height):
         divisor = 1

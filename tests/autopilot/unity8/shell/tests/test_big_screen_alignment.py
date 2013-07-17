@@ -18,7 +18,9 @@ from unity8.shell.tests import Unity8TestCase
 # Also, this doesn't work as automatically scales the geometry . . .
 class ScreenAlignmentTests(Unity8TestCase):
 
-    scenarios = [('Big Screen', dict(app_width=2560, app_height=1600, grid_unit_px=20))]
+    scenarios = [
+        ('Big Screen', dict(app_width=2560, app_height=1600, grid_unit_px=20, scale_geo=False))
+    ]
 
     def test_hud_not_shown_greeter(self):
         self.launch_unity()
