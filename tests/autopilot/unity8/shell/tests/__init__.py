@@ -31,8 +31,10 @@ class FormFactors(object):
 
 def _get_device_emulation_scenarios():
     if model() == 'Desktop':
-        # return [ ('Desktop Nexus 4', dict(app_width=384, app_height=640, grid_unit_px=18)) ]
-        return [ ('Desktop Nexus 4', dict(app_width=768, app_height=1280, grid_unit_px=18)) ]
+        return [
+            ('Desktop Nexus 4', dict(app_width=768, app_height=1280, grid_unit_px=18)),
+            ('Desktop Nexus 10',  dict(app_width=2560, app_height=1600, grid_unit_px=20)),
+        ]
     else:
         return [ ('Native Device', dict(app_width=0, app_height=0, grid_unit_px=0)) ]
 
