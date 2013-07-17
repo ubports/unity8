@@ -98,6 +98,14 @@ Showable {
                             (lockThreshold - hintValue), 0, 1);
 
         /*
+          Vertical velocity check. Don't change the indicator if we're moving too quickly.
+        */
+        var verticalVelocity = Math.abs(yVelocityCalculator.calculate());
+        if (verticalVelocity >= 0.3 && indicatorRow.currentItem!=null) {
+            return;
+        }
+
+        /*
           Percentage of an indicator icon's width the user's press can stray horizontally from the
           focused icon before we change focus to another icon. E.g. a value of 0.5 means you must
           go right a distance of half an icon's width before focus moves to the icon on the right
@@ -282,6 +290,9 @@ Showable {
             var buffer = dragHandle.dragging ? true : false;
             indicators.calculateCurrentItem(dragHandle.touchX, buffer);
         }
+        onTouchSceneYChanged: {
+            yVelocityCalculator.trackedPosition = dragHandle.touchSceneY;
+        }
     }
 
     DragHandle {
@@ -323,6 +334,10 @@ Showable {
         onDraggingChanged: {
             dragHandle = dragging ? hideDragHandle : null;
         }
+    }
+
+    AxisVelocityCalculator {
+        id: yVelocityCalculator
     }
 
     states: [
