@@ -12,11 +12,8 @@ from collections import namedtuple
 from unity8.shell import with_lightdm_mock
 from unity8.shell.tests import Unity8TestCase, _get_device_emulation_scenarios
 
-from autopilot.display import Display
-from autopilot.input import Touch
-from testtools.matchers import Equals, MismatchError
+from testtools.matchers import Equals
 from autopilot.matchers import Eventually
-from autopilot.platform import model
 
 
 SwipeCoords = namedtuple('SwipeCoords', 'start_x end_x start_y end_y')
@@ -35,7 +32,6 @@ class TestHud(Unity8TestCase):
         self.main_window.get_greeter().unlock()
         window = self.main_window.get_qml_view()
         hud_show_button = self.main_window.get_hud_show_button()
-        hud = self.main_window.get_hud()
 
         self._launch_test_app_from_app_screen()
 
@@ -173,7 +169,8 @@ class TestHud(Unity8TestCase):
 
         # Ensure application is open
         bottombar = self.main_window.get_bottombar()
-        self.assertThat(bottombar.applicationIsOnForeground, Eventually(Equals(True)))
+        self.assertThat(bottombar.applicationIsOnForeground,
+                        Eventually(Equals(True)))
 
     # Because some tests are manually manipulating the finger, we want to
     # cleanup if the test fails, but we don't want to fail with an exception if
@@ -191,7 +188,7 @@ class TestHud(Unity8TestCase):
         """
         start_x = int(main_view.x + (main_view.width / 2))
         end_x = start_x
-        start_y = main_view.y + (main_view.height -3)
+        start_y = main_view.y + (main_view.height - 3)
         end_y = int(hud_show_button.y + (hud_show_button.height/2))
 
         return SwipeCoords(start_x, end_x, start_y, end_y)

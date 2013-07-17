@@ -2,6 +2,7 @@ from unity8 import get_grid_size
 from unity8.shell.emulators import Unity8EmulatorBase
 from autopilot.input import Touch
 
+
 class Hud(Unity8EmulatorBase):
 
     """An emulator that understands the Hud."""

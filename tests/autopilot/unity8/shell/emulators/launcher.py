@@ -1,6 +1,7 @@
 from unity8.shell.emulators import Unity8EmulatorBase
 from autopilot.input import Touch
 
+
 class Launcher(Unity8EmulatorBase):
 
     """An emulator that understands the Launcher."""
