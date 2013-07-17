@@ -24,11 +24,15 @@
 
 // local
 #include "indicators.h"
+#include "menucontentactivator.h"
 
 void IndicatorsFakePlugin::registerTypes(const char * uri)
 {
     Q_INIT_RESOURCE(indicators_fake);
 
+    qmlRegisterType<MenuContentActivator>(uri, 0, 1, "MenuContentActivator");
+
+    qmlRegisterUncreatableType<MenuContentState>(uri, 0, 1, "MenuContentState", "Can't create MenuContentState class");
     qmlRegisterUncreatableType<ActionState>(uri, 0, 1, "ActionState", "Can't create ActionState class");
     qmlRegisterUncreatableType<NetworkActionState>(uri, 0, 1, "NetworkActionState", "Can't create NetworkActionState class");
     qmlRegisterUncreatableType<NetworkConnection>(uri, 0, 1, "NetworkConnection", "Can't create NetworkConnection class");

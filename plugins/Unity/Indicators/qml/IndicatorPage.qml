@@ -188,10 +188,4 @@ IndicatorBase {
         mainMenu.currentIndex = -1;
         mainMenu.positionViewAtBeginning();
     }
-
-    Component.onCompleted: {
-        if ((busType != 0) && (busName != "") && (deviceMenuObjectPath != "")) {
-            start();
-        }
-    }
 }

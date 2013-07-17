@@ -281,7 +281,10 @@ Showable {
                 indicators.state = "initial"
                 menuContent.hideAll()
             } else  {
-                if (state == "initial") indicatorRow.setDefaultItem()
+                if (state == "initial") {
+                    indicatorRow.setDefaultItem();
+                    menuContent.releaseContent();
+                }
             }
         }
     }
