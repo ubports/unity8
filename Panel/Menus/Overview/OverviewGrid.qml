@@ -29,7 +29,7 @@ Item {
     UbuntuShape {
         id: gridBackground
         anchors.fill: grid
-        color: "#282421"
+        color: "#282421" // FIXME missing palette
         radius: "medium"
     }
 
@@ -77,7 +77,7 @@ Item {
                 Label {
                     id: labelIcon
                     text: label
-                    color: "#f3f3e7"
+                    color: Theme.palette.selected.backgroundText
                     opacity: 0.8
                     font.family: "Ubuntu"
                     fontSize: "large"
@@ -89,7 +89,7 @@ Item {
 
                 Label {
                     text: title
-                    color: "#f3f3e7"
+                    color: Theme.palette.selected.backgroundText
                     fontSize: "small"
                     anchors {
                         left: parent.left

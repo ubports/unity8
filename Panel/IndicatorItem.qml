@@ -30,7 +30,7 @@ Item {
     width: itemRow.width + units.gu(1)
 
     Rectangle {
-        color: "#dd4814"
+        color: Theme.palette.selected.foreground
         height: units.dp(2)
         width: parent.width
         anchors.top: parent.bottom
@@ -60,7 +60,7 @@ Item {
         Label {
             id: itemLabel
             objectName: "itemLabel"
-            color: "#f3f3e7"
+            color: Theme.palette.selected.backgroundText
             opacity: 0.8
             font.family: "Ubuntu"
             fontSize: "medium"
