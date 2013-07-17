@@ -64,7 +64,7 @@ Showable {
         var revealProgress = indicators.height - panelHeight
         if (!showAnimation.running && !hideAnimation.running) {
             if (revealProgress == 0) {
-                indicators.state = "initial"
+                indicators.state = "initial";
             } else if (revealProgress <= hintValue) {
                 indicators.state = "hint";
             } else if (revealProgress > hintValue && revealProgress < lockThreshold) {
@@ -125,7 +125,7 @@ Showable {
         currentItem = indicatorRow.row.childAt(rowCoordinates.x, 0);
         if (currentItem && currentItem != indicatorRow.currentItem ) {
             itemCoordinates = indicatorRow.row.mapToItem(currentItem, rowCoordinates.x, 0);
-            distanceFromRightEdge = (currentItem.width - itemCoordinates.x) / (currentItem.width)
+            distanceFromRightEdge = (currentItem.width - itemCoordinates.x) / (currentItem.width);
             if (Math.abs(currentItem.ownIndex - indicatorRow.currentItemIndex) > 1) {
                 bufferExceeded = true;
             } else {
