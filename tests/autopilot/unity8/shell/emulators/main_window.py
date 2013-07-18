@@ -1,9 +1,21 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
-# Copyright 2013 Canonical
 #
-# This program is free software: you can redistribute it and/or modify it
-# under the terms of the GNU General Public License version 3, as published
-# by the Free Software Foundation.
+# Unity8 Autopilot Test Suite
+# Copyright (C) 2012-2013 Canonical
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
 
 
 from unity8.shell.emulators.greeter import Greeter
@@ -26,7 +38,10 @@ class MainWindow(object):
         return self.app.select_single(Greeter)
 
     def get_greeter_content_loader(self):
-        return self.app.select_single("QQuickLoader", objectName="greeterContentLoader")
+        return self.app.select_single(
+            "QQuickLoader",
+            objectName="greeterContentLoader"
+        )
 
     def get_login_loader(self):
         return self.app.select_single("QQuickLoader", objectName="loginLoader")
@@ -35,7 +50,7 @@ class MainWindow(object):
         return self.app.select_single("LoginList")
 
     def get_hud(self):
-        return self.app.select_single("Hud")
+        return self.app.select_single(Hud)
 
     def get_hud_showable(self):
         return self.app.select_single("Showable", objectName="hudShowable")
@@ -47,19 +62,25 @@ class MainWindow(object):
         return self.app.select_single(Dash)
 
     def get_dash_home_applications_grid(self):
-        return self.app.select_single("ApplicationsFilterGrid", objectName="dashHomeApplicationsGrid")
+        return self.app.select_single(
+            "ApplicationsFilterGrid",
+            objectName="dashHomeApplicationsGrid"
+        )
 
     def get_bottombar(self):
         return self.app.select_single("Bottombar")
 
     def get_launcher(self):
-        return self.app.select_single("Launcher")
+        return self.app.select_single(Launcher)
 
     def get_pinPadLoader(self):
         return self.app.select_single("QQuickLoader", objectName="pinPadLoader")
 
     def get_pinPadButton(self, buttonId):
-        return self.app.select_single("PinPadButton", objectName="pinPadButton%i" % buttonId)
+        return self.app.select_single(
+            "PinPadButton",
+            objectName="pinPadButton%i" % buttonId
+        )
 
     def get_lockscreen(self):
         return self.app.select_single("Lockscreen")

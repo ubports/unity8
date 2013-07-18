@@ -1,9 +1,21 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
-# Copyright 2013 Canonical
 #
-# This program is free software: you can redistribute it and/or modify it
-# under the terms of the GNU General Public License version 3, as published
-# by the Free Software Foundation.
+# Unity8 Autopilot Test Suite
+# Copyright (C) 2012-2013 Canonical
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
 
 from __future__ import absolute_import
 
@@ -21,7 +33,7 @@ SwipeCoords = namedtuple('SwipeCoords', 'start_x end_x start_y end_y')
 
 class TestHud(Unity8TestCase):
 
-    """Tests the Shell HUD"""
+    """Tests the Shell HUD."""
 
     scenarios = _get_device_emulation_scenarios()
 
@@ -35,7 +47,10 @@ class TestHud(Unity8TestCase):
 
         self._launch_test_app_from_app_screen()
 
-        swipe_coords = self._get_hud_button_swipe_coords(window, hud_show_button)
+        swipe_coords = self._get_hud_button_swipe_coords(
+            window,
+            hud_show_button
+        )
         self.touch.press(swipe_coords.start_x, swipe_coords.start_y)
         self.addCleanup(self.touch.release)
         self.touch._finger_move(swipe_coords.end_x, swipe_coords.end_y)
@@ -52,7 +67,10 @@ class TestHud(Unity8TestCase):
 
         self._launch_test_app_from_app_screen()
 
-        swipe_coords = self._get_hud_button_swipe_coords(window, hud_show_button)
+        swipe_coords = self._get_hud_button_swipe_coords(
+            window,
+            hud_show_button
+        )
         self.touch.press(swipe_coords.start_x, swipe_coords.start_y)
         self.addCleanup(self._maybe_release_finger)
         self.touch._finger_move(swipe_coords.end_x, swipe_coords.end_y)
@@ -61,39 +79,6 @@ class TestHud(Unity8TestCase):
         self.assertThat(hud_show_button.opacity, Eventually(Equals(1.0)))
         self.touch.release()
         self.assertThat(hud.shown, Eventually(Equals(True)))
-
-    # def test_show_hud_button_dont_open(self):
-    #     self.launch_unity()
-    #     hud_show_button = self.main_window.get_hud_show_button()
-    #     hud = self.main_window.get_hud()
-    #     greeter = self.main_window.get_greeter()
-    #     greeter.unlock()
-
-    #     self.unlock_greeter()
-    #     self.open_first_dash_home_app()
-    #     hud_show_button = self.main_window.get_hud_show_button()
-    #     hud = self.main_window.get_hud()
-    #     window = self.main_window.get_qml_view()
-    #     start_x = int(window.x + window.width / 2)
-    #     start_y = window.y + window.height - 2
-    #     self.assertThat(hud_show_button.opacity, Eventually(Equals(0)))
-    #     self.touch.press(start_x, start_y)
-    #     self.touch._finger_move(start_x, start_y - self.grid_size)
-    #     self.assertThat(hud_show_button.opacity, Eventually(Equals(0)))
-    #     self.touch._finger_move(start_x, start_y - self.grid_size * 2)
-    #     self.touch._finger_move(start_x, start_y - self.grid_size * 3)
-    #     self.touch._finger_move(start_x, start_y - self.grid_size * 4)
-    #     self.assertThat(hud_show_button.opacity, Eventually(Equals(1.0)))
-    #     self.assertThat(hud_show_button.mouseOver, Eventually(Equals(False)))
-    #     self.touch._finger_move(start_x, start_y - self.grid_size * 34)
-    #     self.assertThat(hud_show_button.opacity, Eventually(Equals(1.0)))
-    #     self.assertThat(hud_show_button.mouseOver, Eventually(Equals(True)))
-    #     self.touch._finger_move(start_x, start_y - self.grid_size)
-    #     self.assertThat(hud_show_button.opacity, Eventually(Equals(1.0)))
-    #     self.assertThat(hud_show_button.mouseOver, Eventually(Equals(False)))
-    #     self.touch.release()
-    #     self.assertThat(hud_show_button.opacity, Eventually(Equals(0)))
-    #     self.assertThat(hud.shown, Eventually(Equals(False)))
 
     @with_lightdm_mock("single")
     def test_hide_hud_click(self):
@@ -108,16 +93,6 @@ class TestHud(Unity8TestCase):
         x, y = hud.get_close_button_coords()
         self.touch.tap(x, y)
         self.assertThat(hud.shown, Eventually(Equals(False)))
-
-    # def test_hide_hud_click_outside_handle(self):
-    #     hud = self.main_window.get_hud()
-    #     self.unlock_greeter()
-    #     self.show_hud()
-    #     rect = hud.globalRect
-    #     x = int(rect[0] + rect[2] / 2)
-    #     y = rect[1] + hud.handleHeight + 1
-    #     self.touch.tap(x, y)
-    #     self.assertRaises(MismatchError, lambda: self.assertThat(hud.shown, Eventually(Equals(False), timeout=3)))
 
     @with_lightdm_mock("single")
     def test_hide_hud_dragging(self):

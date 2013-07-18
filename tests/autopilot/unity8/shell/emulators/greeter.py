@@ -1,3 +1,22 @@
+# -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
+#
+# Unity8 Autopilot Test Suite
+# Copyright (C) 2012-2013 Canonical
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
 from unity8.shell.emulators import Unity8EmulatorBase
 from autopilot.input import Touch
 
@@ -28,7 +47,7 @@ class Greeter(Unity8EmulatorBase):
 
         self.created.wait_for(False)
 
-    #TODO: This was moved here from helpers.TestShellHelpersg
+    #TODO: This was moved here from helpers.TestShellHelpers
     # Needs a cleanup (used in borked above).
     def select_greeter_user(self, username):
         greeter = self.main_window.get_greeter()

@@ -1,46 +1,66 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
-# Copyright 2013 Canonical
 #
-# This program is free software: you can redistribute it and/or modify it
-# under the terms of the GNU General Public License version 3, as published
-# by the Free Software Foundation.
+# Unity8 Autopilot Test Suite
+# Copyright (C) 2012-2013 Canonical
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
 
 """unity8 autopilot tests."""
 
 from autopilot.platform import model
 from autopilot.testcase import AutopilotTestCase
 from autopilot.matchers import Eventually
-from testtools.matchers import Equals, NotEquals
 from autopilot.input import Touch
 from autopilot.display import Display
 import logging
 import os.path
-import sysconfig
+from testtools.matchers import Equals, NotEquals
 
 from unity8 import get_lib_path, get_unity8_binary_path
-from unity8.shell.emulators.main_window import MainWindow
 from unity8.shell.emulators import Unity8EmulatorBase
 from unity8.shell.emulators.dash import Dash
+from unity8.shell.emulators.main_window import MainWindow
 
 
 logger = logging.getLogger(__name__)
 
 
-class FormFactors(object):
-    Phone, Tablet, Desktop = range(3)
-
 def _get_device_emulation_scenarios():
     if model() == 'Desktop':
         return [
-            ('Desktop Nexus 4', dict(app_width=768, app_height=1280, grid_unit_px=18)),
-            ('Desktop Nexus 10',  dict(app_width=2560, app_height=1600, grid_unit_px=20)),
+            (
+                'Desktop Nexus 4',
+                dict(app_width=768, app_height=1280, grid_unit_px=18)
+            ),
+            (
+                'Desktop Nexus 10',
+                dict(app_width=2560, app_height=1600, grid_unit_px=20)
+            ),
         ]
     else:
-        return [ ('Native Device', dict(app_width=0, app_height=0, grid_unit_px=0)) ]
+        return [
+            (
+                'Native Device',
+                dict(app_width=0, app_height=0, grid_unit_px=0)
+            )
+        ]
+
 
 class Unity8TestCase(AutopilotTestCase):
 
-    """A sane test case base class for the Unity8 shell tests."""
+    """A test case base class for the Unity8 shell tests."""
 
     def setUp(self):
         super(Unity8TestCase, self).setUp()
@@ -49,7 +69,6 @@ class Unity8TestCase(AutopilotTestCase):
         self._setup_display_details()
 
     def _setup_display_details(self):
-        # This needs a bit of a cleanup, make it clearer
         scale_divisor = self._determine_geometry()
         self._setup_grid_size(scale_divisor)
 
@@ -65,12 +84,18 @@ class Unity8TestCase(AutopilotTestCase):
                 scale_divisor = self._get_scaled_down_geo(width, height)
                 width = width / scale_divisor
                 height = height / scale_divisor
-                logger.info("Provided geometry larger than Display, scaled down to: %sx%s",
+                logger.info(
+                    "Geometry larger than display, scaled down to: %dx%d",
                     width,
                     height
                 )
-            geo_string = "%sx%s" % (width, height)
-            self.unity_geometry_args = ['-geometry', geo_string, '-frameless', '-mousetouch']
+            geo_string = "%dx%d" % (width, height)
+            self.unity_geometry_args = [
+                '-geometry',
+                geo_string,
+                '-frameless',
+                '-mousetouch'
+            ]
         return scale_divisor
 
     def _setup_grid_size(self, scale_divisor):
@@ -122,18 +147,18 @@ class Unity8TestCase(AutopilotTestCase):
         self._set_proxy(app_proxy)
 
         # Ensure that the dash is visible before we return:
-        self.assertThat(self.get_dash().showScopeOnLoaded, Eventually(Equals("")))
+        self.assertThat(
+            self.get_dash().showScopeOnLoaded,
+            Eventually(Equals(""))
+        )
         return app_proxy
 
     def _patch_environment(self, lib_path):
         """Patch environment variables for launching the unity8 shell."""
-        # ld_lib_path_patches = (
-        #     os.path.join(lib_path, "qml/mocks/libusermetrics"),
-        #     os.path.join(lib_path, "qml/mocks/LightDM/" + self.lightdm_mock),
-        #     )
-
-        # self.patch_environment("LD_LIBRARY_PATH", ":".join(ld_lib_path_patches))
-        self.patch_environment("QML2_IMPORT_PATH", os.path.join(lib_path, "qml/mocks"))
+        self.patch_environment(
+            "QML2_IMPORT_PATH",
+            os.path.join(lib_path, "qml/mocks")
+        )
 
     def _set_proxy(self, proxy):
         """Keep a copy of the proxy object, so we can use it to get common parts
