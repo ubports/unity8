@@ -25,6 +25,7 @@ set(IndicatorsQML_SOURCES
     indicatorsmodel.cpp
     plugin.cpp
 )
+add_definitions(-DUNITYINDICATORS_LIBRARY)
 
 set(IndicatorsQML_RESOURCES
     resources/indicators.qrc
@@ -38,11 +39,6 @@ add_library(IndicatorsQml SHARED
     ${IndicatorsQML_RESOURCES_RCC}
     ${IndicatorsQML_SOURCES}
 )
-# Because this is an internal support library, we want
-# to expose all symbols in it. Consider changing this
-# either to a static library or just using the
-# files directly in targets.
-set_target_properties(IndicatorsQml PROPERTIES COMPILE_FLAGS -fvisibility=default)
 
 target_link_libraries(IndicatorsQml
     ${QMENUMODEL_LDFLAGS}

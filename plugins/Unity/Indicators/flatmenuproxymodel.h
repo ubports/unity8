@@ -20,12 +20,14 @@
 #ifndef FLATMENUPROXYMODEL_H
 #define FLATMENUPROXYMODEL_H
 
+#include "unityindicatorsglobal.h"
+
 #include <QAbstractProxyModel>
 #include <qdbusmenumodel.h>
 
 class SectionInfo;
 
-class FlatMenuProxyModel : public QAbstractProxyModel
+class UNITYINDICATORS_EXPORT FlatMenuProxyModel : public QAbstractProxyModel
 {
     Q_OBJECT
     Q_PROPERTY(int count READ count NOTIFY countChanged)

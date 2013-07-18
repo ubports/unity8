@@ -118,7 +118,7 @@ UbuntuShape {
                     }
                     fontSize: "medium"
                     font.bold: true
-                    color: "#f3f3e7"
+                    color: Theme.palette.selected.backgroundText
                     elide: Text.ElideRight
                 }
 
@@ -132,7 +132,7 @@ UbuntuShape {
                     }
                     visible: body != ""
                     fontSize: "small"
-                    color: "#f3f3e7"
+                    color: Theme.palette.selected.backgroundText
                     opacity: 0.6
                     wrapMode: Text.WordWrap
                     maximumLineCount: 10
