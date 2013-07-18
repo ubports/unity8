@@ -75,7 +75,11 @@ void FlatMenuProxyModel::setSourceModel(QAbstractItemModel *source)
                 SLOT(onModelAboutToBeReset()));
         connect(source,
                 SIGNAL(modelReset()),
-                SLOT(onModelReset()));''
+                SLOT(onModelReset()));
+
+        connect(source,
+                SIGNAL(statusChanged(DBusEnums::ConnectionStatus)),
+                SIGNAL(statusChanged()));
 
         // initiliaze rowCount
         QModelIndex lastItem = source->index(source->rowCount() - 1, 0);
