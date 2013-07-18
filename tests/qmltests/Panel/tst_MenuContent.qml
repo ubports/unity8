@@ -52,8 +52,8 @@ Item {
         height: parent.height - 50
     }
 
-    Item {
-        id: click_me
+    Rectangle {
+        color: "#bbbbbb"
 
         height: 50
         anchors {
@@ -62,50 +62,16 @@ Item {
             right: parent.right
         }
 
-        Rectangle {
-            color: "#999999"
-
-            anchors {
-                top: parent.top
-                left: parent.left
-                right: parent.horizontalCenter
-                bottom: parent.bottom
-            }
-
-            Text {
-                text: "Devices"
-                anchors.fill: parent
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-            }
-
-            MouseArea {
-                anchors.fill: parent
-                onClicked: menuContent.showOverview()
-            }
+        Text {
+            text: "Next Indicator"
+            anchors.fill: parent
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
         }
 
-        Rectangle {
-            color: "#bbbbbb"
-
-            anchors {
-                top: parent.top
-                left: parent.horizontalCenter
-                right: parent.right
-                bottom: parent.bottom
-            }
-
-            Text {
-                text: "Next Indicator"
-                anchors.fill: parent
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-            }
-
-            MouseArea {
-                anchors.fill: parent
-                onClicked: activate_next_content()
-            }
+        MouseArea {
+            anchors.fill: parent
+            onClicked: activate_next_content()
         }
     }
 
@@ -120,7 +86,6 @@ Item {
     function activate_content(index)
     {
         menuContent.currentIndex = index
-        menuContent.showMenu();
     }
 
     function get_test_menu_objecName(index) {
@@ -151,7 +116,6 @@ Item {
         when: windowShown
 
         function init() {
-            menuContent.hideAll();
             if (menuContent.__contentActive)
                 menuContent.releaseContent();
             tryCompare(menuContent, "__contentActive", false);
@@ -172,40 +136,6 @@ Item {
                 activate_content(menu_index);
                 test_menu_objectName = get_test_menu_objecName(menu_index);
                 compare(menus.currentIndex, menu_index, "Current menu index does not match selected menu index");
-                tryCompareFunction(current_menu_equals_test_menu, true);
-            }
-            // overview should not be visible.
-            tryCompare(findChild(menuContent, "overview"), "visible", false);
-        }
-
-        function test_show_overview() {
-            menuContent.showOverview();
-
-            var overview = findChild(menuContent, "overview");
-            tryCompare(overview, "visible", true);
-            tryCompare(overview, "enabled", true);
-            tryCompare(overview, "opacity", 1.0);
-
-            // menus should not be enabled.
-            tryCompare(findChild(menuContent, "menus"), "opacity", 0);
-            tryCompare(findChild(menuContent, "menus"), "enabled", false);
-        }
-
-        function test_overview_menuSelected_signal() {
-            menuContent.showOverview();
-
-            var overview = findChild(menuContent, "overview");
-            var menus = menu_content_test.findChild(menuContent, "menus")
-
-            var menu_count = indicatorsModel.count;
-            verify(menu_count > 0, "Menu count should be greater than zero");
-            for (var i = 0; i < menu_count; i++) {
-                // manually emit signal from overview.
-                // we dont want to go with mouse events here, otherwise we're testing the overview and not the signal.
-                overview.menuSelected(i);
-
-                test_menu_objectName = get_test_menu_objecName(i);
-                compare(menus.currentIndex, i, "Current menu index does not match selected menu index");
                 tryCompareFunction(current_menu_equals_test_menu, true);
             }
         }
