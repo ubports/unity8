@@ -37,7 +37,7 @@ LauncherBackend::LauncherBackend(QObject *parent):
         QLatin1String("gmail-webapp.desktop") <<
         QLatin1String("ubuntu-weather-app.desktop") <<
         QLatin1String("notes-app.desktop") <<
-        QLatin1String("ubuntu-calendar-app.desktop");
+        QLatin1String("calendar-app.desktop");
 
     // TODO: get stuff from desktop files instead this hardcoded map
     m_displayNameMap.insert("phone-app.desktop", "Phone");
@@ -49,7 +49,7 @@ LauncherBackend::LauncherBackend(QObject *parent):
     m_displayNameMap.insert("gmail-webapp.desktop", "GMail");
     m_displayNameMap.insert("ubuntu-weather-app.desktop", "Weather");
     m_displayNameMap.insert("notes-app.desktop", "Notes");
-    m_displayNameMap.insert("ubuntu-calendar-app.desktop", "Calendar");
+    m_displayNameMap.insert("calendar-app.desktop", "Calendar");
 
     // TODO: get stuff from desktop files instead this hardcoded map
     m_iconMap.insert("phone-app.desktop", "phone-app");
@@ -61,7 +61,7 @@ LauncherBackend::LauncherBackend(QObject *parent):
     m_iconMap.insert("gmail-webapp.desktop", "gmail");
     m_iconMap.insert("ubuntu-weather-app.desktop", "weather");
     m_iconMap.insert("notes-app.desktop", "notepad");
-    m_iconMap.insert("ubuntu-calendar-app.desktop", "calendar");
+    m_iconMap.insert("calendar-app.desktop", "calendar");
 
 }
 

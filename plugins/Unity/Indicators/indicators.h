@@ -19,9 +19,11 @@
 #ifndef INDICATORS_H
 #define INDICATORS_H
 
+#include "unityindicatorsglobal.h"
+
 #include <QObject>
 
-class ActionState : public QObject
+class UNITYINDICATORS_EXPORT ActionState : public QObject
 {
     Q_OBJECT
 public:
@@ -36,7 +38,7 @@ public:
     ActionState(QObject*parent=0):QObject(parent) {}
 };
 
-class NetworkActionState : public QObject
+class UNITYINDICATORS_EXPORT NetworkActionState : public QObject
 {
     Q_OBJECT
 public:
@@ -49,7 +51,7 @@ public:
     NetworkActionState(QObject*parent=0):QObject(parent) {}
 };
 
-class NetworkConnection : public QObject
+class UNITYINDICATORS_EXPORT NetworkConnection : public QObject
 {
     Q_OBJECT
 public:
@@ -64,7 +66,7 @@ public:
     NetworkConnection(QObject*parent=0):QObject(parent) {}
 };
 
-class IndicatorsModelRole : public QObject
+class UNITYINDICATORS_EXPORT IndicatorsModelRole : public QObject
 {
     Q_OBJECT
 public:
@@ -83,7 +85,7 @@ public:
     IndicatorsModelRole(QObject*parent=0):QObject(parent) {}
 };
 
-class FlatMenuProxyModelRole : public QObject
+class UNITYINDICATORS_EXPORT FlatMenuProxyModelRole : public QObject
 {
     Q_OBJECT
 public:
