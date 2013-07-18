@@ -32,7 +32,6 @@ Item {
 
     function init_test()
     {
-        indicatorRow.overviewActive = false;
         indicatorRow.state = "initial";
         indicatorRow.currentItem = null;
     }
@@ -240,19 +239,6 @@ Item {
             compare(get_indicator_item_at(2).dimmed, true, "Other indicators should dim when in locked state");
             compare(get_indicator_item_at(3).dimmed, true, "Other indicators should dim when in locked state");
             compare(get_indicator_item_at(4).dimmed, true, "Other indicators should dim when in locked state");
-        }
-
-        function test_active_overview() {
-            init_test();
-
-            indicatorRow.overviewActive = true;
-            indicatorRow.state = "commit";
-
-            compare(get_indicator_item_at(0).dimmed, true, "Indicator should dim when in overview");
-            compare(get_indicator_item_at(1).dimmed, true, "Indicator should dim when in overview");
-            compare(get_indicator_item_at(2).dimmed, true, "Indicator should dim when in overview");
-            compare(get_indicator_item_at(3).dimmed, true, "Indicator should dim when in overview");
-            compare(get_indicator_item_at(4).dimmed, true, "Indicator should dim when in overview");
         }
     }
 }

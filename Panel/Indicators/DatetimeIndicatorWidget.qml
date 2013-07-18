@@ -31,7 +31,7 @@ Indicators.IndicatorWidget {
     Label {
         id: timeLabel
         objectName: "timeLabel"
-        color: "#f3f3e7"
+        color: Theme.palette.selected.backgroundText
         opacity: 0.8
         font.family: "Ubuntu"
         fontSize: "medium"

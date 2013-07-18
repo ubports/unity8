@@ -165,5 +165,3 @@ void PreviewBindingsTest::testSocialPreview()
 }
 
 QTEST_MAIN(PreviewBindingsTest)
-
-#include "previewbindingstest.moc"
