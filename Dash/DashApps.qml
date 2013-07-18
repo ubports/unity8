@@ -135,9 +135,9 @@ ScopeView {
                         function activateApplication(index, data) {
                             //Check somehow if the app is not installed
                             // IF NOT INSTALLED:
-                            //previewLoader.previewData = data;
-                            //previewLoader.open = true;
-                            //effect.positionPx = mapToItem(categoryView, 0, itemY).y;
+//                            previewLoader.previewData = data;
+//                            previewLoader.open = true;
+//                            effect.positionPx = mapToItem(categoryView, 0, itemY).y;
                             // IF INSTALLED:
                             shell.activateApplication(data);
                         }
@@ -239,7 +239,7 @@ ScopeView {
             left: parent.left
             right: parent.right
         }
-        source: onScreen ? previewDelegateMapper.map("preview-app") : ""
+        source: onScreen ? previewDelegateMapper.map("preview-application") : ""
 
         property bool open: false
         property bool onScreen: false
