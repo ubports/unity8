@@ -806,7 +806,7 @@ void ListViewWithPageHeader::onModelUpdated(const QQuickChangeSet &changeSet, bo
     Q_FOREACH(const QQuickChangeSet::Insert &insert, changeSet.inserts()) {
 //         qDebug() << "ListViewWithPageHeader::onModelUpdated Insert" << insert.index << insert.count;
         const bool insertingInValidIndexes = insert.index > m_firstVisibleIndex && insert.index < m_firstVisibleIndex + m_visibleItems.count();
-        const bool firstItemWithViewOnTop = insert.index == 0 && m_firstVisibleIndex == 0 && m_visibleItems.first()->y() + m_clipItem->y() > contentY();
+        const bool firstItemWithViewOnTop = !m_visibleItems.isEmpty() && insert.index == 0 && m_firstVisibleIndex == 0 && m_visibleItems.first()->y() + m_clipItem->y() > contentY();
         if (insertingInValidIndexes || firstItemWithViewOnTop)
         {
             // If the items we are adding won't be really visible
