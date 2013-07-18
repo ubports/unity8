@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Canonical, Ltd.
+ * Copyright (C) 2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,11 +48,11 @@ private:
 class UNITYINDICATORS_EXPORT MenuContentState : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(bool active READ active NOTIFY activeChanged)
+    Q_PROPERTY(bool active READ isActive NOTIFY activeChanged)
 public:
     MenuContentState(bool active);
 
-    bool active() const;
+    bool isActive() const;
     void setActive(bool active);
 
 Q_SIGNALS:
@@ -67,8 +67,7 @@ class UNITYINDICATORS_EXPORT MenuContentActivator : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(int baseIndex READ baseIndex WRITE setBaseIndex NOTIFY baseIndexChanged)
-    Q_PROPERTY(int delta READ delta NOTIFY deltaChanged)
-    Q_PROPERTY(bool running READ running WRITE setRunning NOTIFY runningChanged)
+    Q_PROPERTY(bool running READ isRunning WRITE setRunning NOTIFY runningChanged)
     Q_PROPERTY(int count READ count WRITE setCount NOTIFY countChanged)
     Q_PROPERTY(QQmlListProperty<MenuContentState> content READ content NOTIFY contentChanged DESIGNABLE false)
 public:
@@ -81,7 +80,7 @@ public:
     Q_INVOKABLE bool isMenuContentActive(int index) const;
 
     void setRunning(bool running);
-    bool running() const;
+    bool isRunning() const;
 
     void setBaseIndex(int index);
     int baseIndex() const;

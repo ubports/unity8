@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Canonical Ltd.
+ * Copyright 2013 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * Authors:
- *      Renato Araujo Oliveira Filho <renato@canonical.com>
+ *      Nick Dedekind <nick.dedekind@canonical.com>
  */
 
 #include "menucontentactivator.h"
@@ -60,12 +60,10 @@ private Q_SLOTS:
     }
 
     /*
-     * Test if a new plugin init function is called only once
+     * Tests the ordering of activation
      */
     void testContentActiveChange()
     {
-        // Tests the ordering of activation
-
         MenuContentActivator activator;
         activator.setContentTimer(m_fakeTimeSource);
         activator.setCount(10);
@@ -167,10 +165,11 @@ private Q_SLOTS:
         QCOMPARE(activator.isMenuContentActive(10), false);
     }
 
+    /*
+     * Tests the delta calculation for each timeout.
+     */
     void testDelta()
     {
-        // Tests the delta calculation for each timeout.
-
         MenuContentActivator activator;
         activator.setContentTimer(m_fakeTimeSource);
         activator.setCount(9);
@@ -220,10 +219,12 @@ private Q_SLOTS:
         QCOMPARE(getIndexList(&activator), QList<int>() << 4 << 2 << 5 << 1 << 6 << 0 << 7 << 8);
     }
 
+    /*
+     * Tests that changing the base index re-prioritizes the activation
+     * around the base index.
+     */
     void testBaseIndexChange()
     {
-        // Tests that changing the base index re-prioritizes the activation
-        // around the base index.
         MenuContentActivator activator;
         activator.setContentTimer(m_fakeTimeSource);
         activator.setCount(12);

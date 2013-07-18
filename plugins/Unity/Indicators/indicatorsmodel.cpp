@@ -128,6 +128,7 @@ void IndicatorsModel::onIndicatorLoaded(const QString& indicator_name)
     QObject::connect(indicator.data(), SIGNAL(indicatorPropertiesChanged(const QVariant&)), this, SLOT(onIndicatorPropertiesChanged()));
 
     beginInsertRows(QModelIndex(), pos, pos);
+
     m_indicators.insert(pos, indicator);
     endInsertRows();
 }

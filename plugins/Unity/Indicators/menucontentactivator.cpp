@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Canonical, Ltd.
+ * Copyright (C) 2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,7 +17,6 @@
  */
 
  #include "menucontentactivator.h"
- #include <QDebug>
 
 // Essentially a QTimer wrapper
 class ContentTimer : public UnityIndicators::AbstractTimer
@@ -96,9 +95,7 @@ void MenuContentActivator::restart()
     d->findNextInactiveDelta(&finished);
     if (!finished) {
         d->m_timer->start();
-    }
-    else {
-        // stop the timer.
+    } else {
         d->m_timer->stop();
     }
 
@@ -131,7 +128,7 @@ void MenuContentActivator::clear()
 bool MenuContentActivator::isMenuContentActive(int index) const
 {
     if (d->m_content.contains(index))
-        return d->m_content[index]->active();
+        return d->m_content[index]->isActive();
     return false;
 }
 
@@ -139,13 +136,12 @@ void MenuContentActivator::setRunning(bool running)
 {
     if (running) {
         restart();
-    }
-    else {
+    } else {
         stop();
     }
 }
 
-bool MenuContentActivator::running() const
+bool MenuContentActivator::isRunning() const
 {
     return d->m_running;
 }
@@ -155,19 +151,10 @@ void MenuContentActivator::setBaseIndex(int index)
     if (d->m_baseIndex != index) {
         d->m_baseIndex = index;
 
-        // if we've updated the base index, we need to
-        bool finished = false;
-        d->findNextInactiveDelta(&finished);
-        if (running()) {
-            if (!isMenuContentActive(d->m_baseIndex)) {
-                setMenuContentState(d->m_baseIndex, true);
-            }
-            if (finished) {
-                // stop the timer.
-                d->m_timer->stop();
-            }
+        if (isRunning()) {
+            restart();
         }
-        setDelta(0);
+
         Q_EMIT baseIndexChanged(index);
     }
 }
@@ -183,7 +170,7 @@ void MenuContentActivator::setCount(int count)
         d->m_count = count;
         Q_EMIT countChanged(count);
 
-        if (running()) {
+        if (isRunning()) {
             restart();
         }
     }
@@ -225,7 +212,6 @@ void MenuContentActivator::onTimeout()
     }
 
     if (finished) {
-        // just stop the timer.
         d->m_timer->stop();
     }
 }
@@ -257,8 +243,7 @@ void MenuContentActivator::setMenuContentState(int index, bool active)
 {
     if (d->m_content.contains(index)) {
         d->m_content[index]->setActive(active);
-    }
-    else {
+    } else {
         d->m_content[index] = new MenuContentState(active);
         Q_EMIT contentChanged();
     }
@@ -292,8 +277,7 @@ int MenuContentActivatorPrivate::findNextInactiveDelta(bool* finished)
                 }
                 continue;
             }
-        }
-        else {
+        } else {
             // positive of baseIndex
             tmpDelta = (-tmpDelta) + 1;
             // reached the top?
@@ -344,7 +328,7 @@ MenuContentState::MenuContentState(bool active)
 {
 }
 
-bool MenuContentState::active() const
+bool MenuContentState::isActive() const
 {
     return m_active;
 }
