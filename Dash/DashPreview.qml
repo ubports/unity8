@@ -19,8 +19,10 @@ import Ubuntu.Components 0.1
 
 Rectangle {
     id: root
+
+    property var previewData
+
     property string title: ""
-    property url url: ""
     property real previewWidthRatio: 0.5
 
     property Component header

@@ -23,8 +23,6 @@ import "../../Components"
 DashPreview {
     id: root
 
-    property var previewData
-
     signal download
     signal open
     signal sendUserReview(string review)
