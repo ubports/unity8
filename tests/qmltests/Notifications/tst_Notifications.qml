@@ -365,7 +365,7 @@ Row {
                 }
 
                 // check the tinting of the positive/right button
-                compare(buttonAccept.color, data.buttonTinted ? "#d85317" : "#cdcdcb", "button has the wrong color-tint")
+                compare(buttonAccept.gradient, data.buttonTinted ? UbuntuColors.orangeGradient : UbuntuColors.greyGradient, "button has the wrong color-tint")
 
                 // click the positive/right button
                 mouseClick(buttonAccept, buttonAccept.width / 2, buttonAccept.height / 2)
