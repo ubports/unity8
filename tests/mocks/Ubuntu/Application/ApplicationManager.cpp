@@ -321,10 +321,10 @@ void ApplicationManager::buildListOfAvailableApplications()
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
-    application->setDesktopFile("/usr/share/applications/ubuntu-calendar-app.desktop");
+    application->setDesktopFile("/usr/share/applications/calendar-app.desktop");
     application->setName("Calendar");
     application->setIcon("calendar");
-    application->setExec("/usr/bin/qmlscene /usr/share/ubuntu-calendar-app/calendar.qml");
+    application->setExec("/usr/bin/qmlscene /usr/share/calendar-app/calendar.qml");
     application->setStage(ApplicationInfo::SideStage);
     application->setHandle(nextHandle++);
     m_availableApplications.append(application);
