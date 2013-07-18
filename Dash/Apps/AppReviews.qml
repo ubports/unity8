@@ -26,7 +26,7 @@ Column {
 
     signal sendReview(string review)
 
-    spacing: units.gu(1)
+    spacing: units.gu(2)
     state: ""
 
     states: [
@@ -74,7 +74,6 @@ Column {
         id: row
         spacing: units.gu(1)
         width: root.width
-        height: childrenRect.height
 
         TextField {
             id: reviewField
@@ -103,62 +102,68 @@ Column {
 
     ListItem.ThinDivider {}
 
-    Column {
-        width: parent.width
-        height: childrenRect.height
-        spacing: units.gu(2)
+    Label {
+        fontSize: "medium"
+        color: "white"
+        style: Text.Raised
+        styleColor: "black"
+        opacity: .9
+        text: i18n.tr("Comments:")
+    }
 
-        Label {
-            fontSize: "medium"
-            color: "white"
-            style: Text.Raised
-            styleColor: "black"
-            opacity: .9
-            text: i18n.tr("Comments:")
-        }
+    Repeater {
+        model: root.model
 
-        Repeater {
-            model: root.model
+        Column {
+            width: parent.width
 
             Column {
-                width: root.width
-                height: childrenRect.height
-                Column {
-                    Label {
-                        text: "" // FROM PREVIEW DATA (FIXME: need scope format data)
-                        fontSize: "medium"
-                        color: "white"
-                        opacity: .8
-                        wrapMode: Text.WordWrap
-                        style: Text.Raised
-                        styleColor: "black"
-                    }
-                    Row {
-                        spacing: units.gu(1)
-                        RatingStars {
-                            maximumRating: 10
-                            rating: 0 // FROM PREVIEW DATA (FIXME: need scope format data)
-                        }
-                        Label {
-                            text: "" // FROM PREVIEW DATA (FIXME: need scope format data)
-                            fontSize: "medium"
-                            color: "#f3f3e7"
-                            opacity: .6
-                            style: Text.Raised
-                            styleColor: "black"
-                        }
-                    }
-                }
+
                 Label {
                     text: "" // FROM PREVIEW DATA (FIXME: need scope format data)
                     fontSize: "medium"
-                    color: "#f3f3e7"
-                    opacity: .6
-                    width: root.width
+                    color: "white"
+                    opacity: .8
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                    }
                     wrapMode: Text.WordWrap
                     style: Text.Raised
                     styleColor: "black"
                 }
+
+                Row {
+                    spacing: units.gu(1)
+
+                    RatingStars {
+                        maximumRating: 10
+                        rating: 0 // FROM PREVIEW DATA (FIXME: need scope format data)
+                    }
+
+                    Label {
+                        text: "" // FROM PREVIEW DATA (FIXME: need scope format data)
+                        fontSize: "medium"
+                        color: Theme.palette.selected.backgroundText
+                        opacity: .6
+                        style: Text.Raised
+                        styleColor: "black"
+                    }
+                }
+            }
+
+            Label {
+                text: "" // FROM PREVIEW DATA (FIXME: need scope format data)
+                fontSize: "medium"
+                color: Theme.palette.selected.backgroundText
+                opacity: .6
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                }
+                wrapMode: Text.WordWrap
+                style: Text.Raised
+                styleColor: "black"
             }
         }
     }

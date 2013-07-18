@@ -18,10 +18,9 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
 import ".."
-import "../../Applications"
 import "../../Components"
 
-DashBasePreview {
+DashPreview {
     id: root
 
     property var previewData
@@ -34,10 +33,6 @@ DashBasePreview {
 
     header: AppScreenshotsList {
         height: units.gu(20)
-        anchors {
-            left: parent.left
-            right: parent.right
-        }
 
         model: 0 // FROM PREVIEW DATA (FIXME: need scope format data)
     }
@@ -86,7 +81,7 @@ DashBasePreview {
         Label {
             text: "" // FROM PREVIEW DATA (FIXME: need scope format data)
             fontSize: "medium"
-            color: "#f3f3e7"
+            color: Theme.palette.selected.backgroundText
             opacity: .6
             width: parent.width
             wrapMode: Text.WordWrap

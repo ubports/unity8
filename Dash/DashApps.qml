@@ -133,13 +133,8 @@ ScopeView {
                             Qt.binding(function() { return isCurrent; })
                     } else {
                         function activateApplication(index, data) {
-                            //Check somehow if the app is not installed
-                            // IF NOT INSTALLED:
-//                            previewLoader.previewData = data;
-//                            previewLoader.open = true;
-//                            effect.positionPx = mapToItem(categoryView, 0, itemY).y;
-                            // IF INSTALLED:
-                            shell.activateApplication(data);
+                            previewLoader.previewData = data;
+                            previewLoader.open = true;
                         }
 
                         item.model = Qt.binding(function() { return categoryModels[modelName]; });

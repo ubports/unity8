@@ -56,7 +56,7 @@ DashPreview {
         }
         focus: false
     }
-    description: Column {
+    body: Column {
         spacing: units.gu(2)
 
         Label {

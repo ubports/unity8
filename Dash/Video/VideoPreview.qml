@@ -19,13 +19,12 @@ import Ubuntu.Components 0.1
 import ".."
 import "../../Components"
 
-DashBasePreview {
+DashPreview {
     id: root
 
     property var item
     property alias ready: nfo.ready
     property bool playable: false
-    property bool forceSquare: false
     readonly property url fileUri: item ? item.fileUri : ""
 
     VideoInfo {
@@ -50,7 +49,6 @@ DashBasePreview {
         id: urlLoader
         anchors.left: parent.left
         anchors.right: parent.right
-        height: root.forceSquare ? width : width * previewImage.sourceSize.height / previewImage.sourceSize.width
         radius: "medium"
         image: Image {
             id: previewImage
