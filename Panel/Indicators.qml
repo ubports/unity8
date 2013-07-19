@@ -265,7 +265,8 @@ Showable {
                 indicators.state = "initial"
             } else  {
                 if (state == "initial") {
-                    indicatorRow.setDefaultItem()
+                    indicatorRow.setDefaultItem();
+                    menuContent.releaseContent();
                 }
             }
         }
