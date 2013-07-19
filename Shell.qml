@@ -129,6 +129,7 @@ FocusScope {
 
     Item {
         id: underlay
+        objectName: "underlay"
         anchors.fill: parent
 
         // Whether the underlay is fully covered by opaque UI elements.
@@ -207,6 +208,7 @@ FocusScope {
 
         Showable {
             id: stages
+            objectName: "stages"
 
             x: width
 
@@ -407,6 +409,7 @@ FocusScope {
 
     Greeter {
         id: greeter
+        objectName: "greeter"
 
         available: true
         hides: [launcher, panel.indicators, hud]
@@ -545,6 +548,7 @@ FocusScope {
 
         Launcher {
             id: launcher
+            objectName: "launcher"
 
             anchors.top: parent.top
             anchors.bottom: parent.bottom

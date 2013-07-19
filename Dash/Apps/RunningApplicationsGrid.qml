@@ -20,6 +20,7 @@ import "../../Components"
 ResponsiveFlowView {
     id: root
     clip: true
+    objectName: "runningApplicationsGrid"
 
     signal updateScreenshots
 
