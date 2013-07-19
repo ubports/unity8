@@ -20,8 +20,8 @@ import "../../Components"
 
 Row {
     id: root
-    property alias icon: imgIcon.source
-    property alias appName: lblAppName.text
+    property alias icon: image.source
+    property alias appName: appNameLabel.text
     property alias rating: ratingStars.rating
     property int rated: 0
     property int reviews: 0
@@ -29,12 +29,12 @@ Row {
     spacing: units.gu(2)
 
     UbuntuShape {
-        id: imgShape
+        id: imageShape
         width: units.gu(6)
         height: units.gu(6)
         image: Image {
-            id: imgIcon
-            sourceSize { width: imgShape.width; height: imgShape.height }
+            id: image
+            sourceSize { width: imageShape.width; height: imageShape.height }
             asynchronous: true
             fillMode: Image.PreserveAspectFit
         }
@@ -44,7 +44,7 @@ Row {
         spacing: units.gu(1)
 
         Label {
-            id: lblAppName
+            id: appNameLabel
             fontSize: "large"
             color: "white"
             style: Text.Raised
@@ -61,7 +61,7 @@ Row {
             }
 
             Label {
-                id: lblRated
+                id: ratedLabel
                 fontSize: "medium"
                 color: "white"
                 style: Text.Raised
@@ -72,7 +72,7 @@ Row {
             }
 
             Label {
-                id: lblReviews
+                id: reviewsLabel
                 fontSize: "medium"
                 color: "white"
                 style: Text.Raised

@@ -94,9 +94,10 @@ DashPreview {
                 left: parent.left
                 right: parent.right
             }
-            height: childrenRect.height
+            height: rateLabel.height
 
             Label {
+                id: rateLabel
                 fontSize: "medium"
                 color: "white"
                 style: Text.Raised

@@ -75,7 +75,7 @@ Column {
         spacing: units.gu(1)
         width: root.width
 
-        TextField {
+        TextArea {
             id: reviewField
             placeholderText: i18n.tr("Review")
             width: parent.width
@@ -83,6 +83,12 @@ Column {
 
             onFocusChanged: {
                 root.state = "editing";
+            }
+
+            onTextChanged: {
+                if (reviewField.text == "") {
+                    reviewField.focus = false;
+                }
             }
         }
 
@@ -96,6 +102,7 @@ Column {
             onClicked: {
                 root.sendReview(reviewField.text);
                 root.state = "";
+                reviewField.text = "";
             }
         }
     }

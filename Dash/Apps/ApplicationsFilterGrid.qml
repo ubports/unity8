@@ -30,9 +30,10 @@ FilterGrid {
     delegateHeight: units.gu(9.5)
     verticalSpacing: units.gu(2)
 
-    signal clicked(int index, variant data)
+    signal clicked(int index, variant data, real itemY)
 
     delegate: Tile {
+        id: tile
         objectName: "delegate" + index
         Application {
             id: application
@@ -52,6 +53,6 @@ FilterGrid {
         imageWidth: units.gu(8)
         imageHeight: units.gu(7.5)
         source: IconUtil.from_gicon(icon)
-        onClicked: filterGrid.clicked(index, application.desktopFile);
+        onClicked: filterGrid.clicked(index, application.desktopFile, tile.y);
     }
 }
