@@ -365,7 +365,7 @@ Row {
                 }
 
                 // check the tinting of the positive/right button
-                compare(buttonAccept.gradient, data.buttonTinted ? UbuntuColors.orangeGradient : UbuntuColors.greyGradient, "button has the wrong color-tint")
+                verify(buttonAccept.gradient === data.buttonTinted ? UbuntuColors.orangeGradient : UbuntuColors.greyGradient, "button has the wrong color-tint")
 
                 // click the positive/right button
                 mouseClick(buttonAccept, buttonAccept.width / 2, buttonAccept.height / 2)
@@ -381,7 +381,7 @@ Row {
                     mouseClick(buttonCancel, buttonCancel.width / 2, buttonCancel.height / 2)
                     waitForRendering(notification)
                     actionSpy.clear()
- 
+ 
                     // test the additional buttons
                     for (var i = 2; i < data.actions.length; i++) {
                         waitForRendering(notification)
