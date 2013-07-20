@@ -27,9 +27,6 @@ Showable {
     property string showScopeOnLoaded: "home.scope"
     property real contentScale: 1.0
 
-    width: units.gu(40)
-    height: units.gu(71)
-
     function setCurrentScope(scopeId, animate, reset) {
         var scopeIndex = filteredScopes.findFirst(Scopes.RoleId, scopeId)
 
