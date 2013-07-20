@@ -381,7 +381,7 @@ Row {
                     mouseClick(buttonCancel, buttonCancel.width / 2, buttonCancel.height / 2)
                     waitForRendering(notification)
                     actionSpy.clear()
- 
+
                     // test the additional buttons
                     for (var i = 2; i < data.actions.length; i++) {
                         waitForRendering(notification)
