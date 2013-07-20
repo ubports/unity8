@@ -62,6 +62,7 @@ Row {
 
             Label {
                 id: ratedLabel
+                objectName: "ratedLabel"
                 fontSize: "medium"
                 color: "white"
                 style: Text.Raised
@@ -73,6 +74,7 @@ Row {
 
             Label {
                 id: reviewsLabel
+                objectName: "reviewsLabel"
                 fontSize: "medium"
                 color: "white"
                 style: Text.Raised

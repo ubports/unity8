@@ -23,20 +23,19 @@ import "../../Components"
 DashPreview {
     id: root
 
-    signal download
-    signal open
     signal sendUserReview(string review)
 
-    title: "" // FROM PREVIEW DATA (FIXME: need scope format data)
+    title: root.previewData.title
 
     header: AppScreenshotsList {
         height: units.gu(20)
 
-        model: 0 // FROM PREVIEW DATA (FIXME: need scope format data)
+        model: previewData.infoHints[0]
     }
 
     buttons: GridView {
         id: buttons
+        objectName: "gridButtons"
         model: root.previewData.actions
 
         property int numOfRows: (count + 1) / 2
@@ -67,17 +66,17 @@ DashPreview {
         spacing: units.gu(1)
 
         AppInfo {
-            appName: "" // FROM PREVIEW DATA (FIXME: need scope format data)
-            icon: "" // FROM PREVIEW DATA (FIXME: need scope format data)
-            rating: 0 // FROM PREVIEW DATA (FIXME: need scope format data)
-            rated: 0 // FROM PREVIEW DATA (FIXME: need scope format data)
-            reviews: 0 // FROM PREVIEW DATA (FIXME: need scope format data)
+            appName: root.previewData.title
+            icon: root.previewData.image
+            rating: root.previewData.infoHints[1]
+            rated: root.previewData.infoHints[2]
+            reviews: root.previewData.infoHints[3]
 
             width: root.width
         }
 
         Label {
-            text: "" // FROM PREVIEW DATA (FIXME: need scope format data)
+            text: root.previewData.description
             fontSize: "medium"
             color: Theme.palette.selected.backgroundText
             opacity: .6
@@ -118,10 +117,13 @@ DashPreview {
         ListItem.ThinDivider {}
 
         AppReviews {
+            objectName: "appReviews"
             anchors {
                 left: parent.left
                 right: parent.right
             }
+
+            model: root.previewData.infoHints[4]
 
             onSendReview: root.sendUserReview(review);
         }

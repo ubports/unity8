@@ -77,6 +77,7 @@ Column {
 
         TextArea {
             id: reviewField
+            objectName: "reviewField"
             placeholderText: i18n.tr("Review")
             width: parent.width
             height: units.gu(5)
@@ -94,6 +95,7 @@ Column {
 
         Button {
             id: sendButton
+            objectName: "sendButton"
             width: units.gu(10)
             color: Theme.palette.selected.foreground
             text: i18n.tr("Send")
@@ -119,6 +121,7 @@ Column {
     }
 
     Repeater {
+        objectName: "commentsArea"
         model: root.model
 
         Column {
@@ -127,7 +130,7 @@ Column {
             Column {
 
                 Label {
-                    text: "" // FROM PREVIEW DATA (FIXME: need scope format data)
+                    text: modelData.username
                     fontSize: "medium"
                     color: "white"
                     opacity: .8
@@ -145,11 +148,11 @@ Column {
 
                     RatingStars {
                         maximumRating: 10
-                        rating: 0 // FROM PREVIEW DATA (FIXME: need scope format data)
+                        rating: modelData.rate
                     }
 
                     Label {
-                        text: "" // FROM PREVIEW DATA (FIXME: need scope format data)
+                        text: modelData.date
                         fontSize: "medium"
                         color: Theme.palette.selected.backgroundText
                         opacity: .6
@@ -160,7 +163,7 @@ Column {
             }
 
             Label {
-                text: "" // FROM PREVIEW DATA (FIXME: need scope format data)
+                text: modelData.comment
                 fontSize: "medium"
                 color: Theme.palette.selected.backgroundText
                 opacity: .6
