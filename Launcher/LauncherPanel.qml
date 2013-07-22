@@ -16,6 +16,8 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Ubuntu.Components.Popups 0.1
+import Ubuntu.Components.ListItems 0.1 as ListItems
 import Unity 0.1
 import Unity.Launcher 0.1
 import "../Components/ListItems"
@@ -26,9 +28,9 @@ Item {
     rotation: inverted ? 180 : 0
 
     property var model
-    property bool inverted: true
+    property bool inverted: false
     property bool dragging: false
-    property bool moving: launcherListView.moving || launcherListView.flicking
+    property bool moving: launcherListView.moving || launcherListView.flicking || dndArea.draggedItem !== undefined
     property int dragPosition: 0
     property int highlightIndex: -1
 
@@ -110,7 +112,7 @@ Item {
                 height: parent.height - dashItem.height - parent.spacing*2
                 model: root.model
                 cacheBuffer: itemSize * 3
-                snapMode: ListView.SnapToItem
+                snapMode: interactive ? ListView.SnapToItem : ListView.NoSnap
                 highlightRangeMode: ListView.ApplyRange
                 preferredHighlightBegin: (height - itemSize) / 2
                 preferredHighlightEnd: (height + itemSize) / 2
@@ -120,17 +122,25 @@ Item {
                 property int itemSize: width
                 property int clickFlickSpeed: units.gu(60)
 
+                displaced: Transition {
+                    NumberAnimation { properties: "x,y"; duration: 100 }
+                }
+
                 delegate: LauncherDelegate {
                     id: launcherDelegate
                     objectName: "launcherDelegate" + index
                     width: launcherListView.itemSize
-                    height: launcherListView.itemSize
+                    height: dragging ? units.gu(2) : launcherListView.itemSize
                     iconName: model.icon
                     inverted: root.inverted
-                    highlighted: root.dragging && index === root.highlightIndex
+                    highlighted: dragging && index === root.highlightIndex
                     z: -Math.abs(offset)
-                    state: "docked"
                     maxAngle: 60
+                    property bool dragging: false
+
+                    Behavior on height {
+                        NumberAnimation { duration: 200 }
+                    }
 
                     onClicked: {
                         // First/last item do the scrolling at more than 12 degrees
@@ -156,6 +166,145 @@ Item {
                     }
                 }
 
+                MouseArea {
+                    id: dndArea
+                    anchors.fill: parent
+                    anchors.topMargin: launcherListView.topMargin
+                    anchors.bottomMargin: launcherListView.bottomMargin
+
+                    property int draggedIndex: -1
+                    property var selectedItem
+                    property int startX
+                    property int startY
+
+
+                    Item {
+                        id: fakeDragItem
+                        width: launcherListView.itemSize
+                        height: launcherListView.itemSize
+                        visible: dndArea.draggedIndex >= 0
+                        property string iconName
+
+                        UbuntuShape {
+                            id: iconShape
+                            anchors.fill: parent
+                            anchors.margins: units.gu(0.5)
+                            radius: "medium"
+
+                            image: Image {
+                                id: iconImage
+                                sourceSize.width: iconShape.width
+                                sourceSize.height: iconShape.height
+                                source: "../graphics/applicationIcons/" + fakeDragItem.iconName + ".png"
+                            }
+                        }
+                        BorderImage {
+                            id: overlayHighlight
+                            anchors.centerIn: fakeDragItem
+                            rotation: inverted ? 180 : 0
+                            source: isSelected ? "graphics/selected.sci" : "graphics/non-selected.sci"
+                            width: fakeDragItem.width + units.gu(0.5)
+                            height: width
+                        }
+                    }
+
+/*                    LauncherDelegate {
+                        id: fakeDragItem
+                        visible: dndArea.draggedItem !== undefined
+                        iconName: "gmail"
+                        height: launcherListView.itemSize
+                        width: height
+                        rotation: root.rotation
+                    }
+*/
+                    onPressed: {
+                        var realContentY = launcherListView.contentY + launcherListView.topMargin
+                        selectedItem = launcherListView.itemAt(mouseX, mouseY + realContentY)
+                        selectedItem.highlighted = true
+
+                    }
+
+                    onClicked: {
+                    }
+
+                    onCanceled: {
+                        selectedItem.highlighted = false
+                    }
+
+                    onReleased: {
+                        print("released");
+                        selectedItem.highlighted = false
+                        selectedItem.opacity = 1
+                        selectedItem.dragging = false;
+                        selectedItem = undefined;
+
+                        draggedIndex = -1;
+                        drag.target = undefined
+                        launcherListView.interactive = true;
+                    }
+
+                    onPressAndHold: {
+                        var realItemSize = launcherListView.itemSize + launcherListView.spacing
+                        var realContentY = launcherListView.contentY + launcherListView.topMargin
+                        draggedIndex = Math.floor((mouseY + realContentY) / realItemSize);
+
+                        launcherListView.interactive = false
+
+                        var yOffset = draggedIndex > 0 ? (mouseY + realContentY) % (draggedIndex * realItemSize) : mouseY + realContentY
+
+                        fakeDragItem.iconName = launcherListView.model.get(draggedIndex).icon
+                        fakeDragItem.x = 0
+                        fakeDragItem.y = mouseY - yOffset
+                        drag.target = fakeDragItem
+
+                        selectedItem.opacity = 0
+
+                        startX = mouseX
+                        startY = mouseY
+                    }
+
+                    onPositionChanged: {
+                        if (draggedIndex >= 0) {
+
+                            if (!selectedItem.dragging) {
+                                var distance = Math.max(Math.abs(mouseX - startX), Math.abs(mouseY - startY))
+                                if (distance > launcherListView.itemSize) {
+                                    print("starting drag")
+                                    selectedItem.dragging = true
+                                }
+                            }
+                            if (!selectedItem.dragging) {
+                                return
+                            }
+
+                            //launcherPanel.dragPosition = inverted ? launcherListView.height - y : y
+                            //launcherPanel.dragPosition = mouseY
+
+                            var realContentY = launcherListView.contentY + launcherListView.topMargin
+                            var realItemSize = launcherListView.itemSize + launcherListView.spacing
+                            var itemCenterY = fakeDragItem.y + fakeDragItem.height / 2
+
+                            // Move it down by the the missing size to compensate index calculation with only expanded items
+                            itemCenterY += selectedItem.height / 2
+
+                            var newIndex = (itemCenterY + realContentY) / realItemSize
+
+                            if (newIndex > draggedIndex + 1) {
+                                newIndex = draggedIndex + 1
+                            } else if (newIndex < draggedIndex) {
+                                newIndex = draggedIndex -1
+                            } else {
+                                return
+                            }
+
+                            if (newIndex >= 0 && newIndex < launcherListView.count) {
+                                print("moving", draggedIndex, "to", newIndex)
+                                launcherListView.model.move(draggedIndex, newIndex)
+                                draggedIndex = newIndex
+                            }
+                        }
+                    }
+                }
                 MouseArea {
                     id: topFoldingArea
                     anchors {
@@ -184,4 +333,24 @@ Item {
             }
         }
     }
+
+    Component {
+        id: popoverComponent
+        Popover {
+            id: popover
+            width: units.gu(20)
+
+            Column {
+                width: parent.width
+                height: childrenRect.height
+                Repeater {
+                    model: 2
+                    ListItems.Standard {
+                        text: "foo bar baz"
+                    }
+                }
+            }
+        }
+    }
+
 }

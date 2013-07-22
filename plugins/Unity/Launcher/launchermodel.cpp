@@ -82,8 +82,25 @@ unity::shell::launcher::LauncherItemInterface *LauncherModel::get(int index) con
 
 void LauncherModel::move(int oldIndex, int newIndex)
 {
-    // Perform the move in our list
-    beginMoveRows(QModelIndex(), oldIndex, oldIndex, QModelIndex(), newIndex);
+    // Make sure its not moved outside the lists
+    if (newIndex < 0) {
+        newIndex = 0;
+    }
+    if (newIndex >= m_list.count()) {
+        newIndex = m_list.count()-1;
+    }
+
+    // Nothing to do?
+    if (oldIndex == newIndex) {
+        return;
+    }
+
+    // QList's and QAbstractItemModel's move implementation differ when moving an item up the list :/
+    // While QList needs the index in the resulting list, beginMoveRows expects it to be in the current list
+    // adjust the model's index by +1 in case we're moving upwards
+    int newModelIndex = newIndex > oldIndex ? newIndex+1 : newIndex;
+
+    beginMoveRows(QModelIndex(), oldIndex, oldIndex, QModelIndex(), newModelIndex);
     m_list.move(oldIndex, newIndex);
     endMoveRows();
 
