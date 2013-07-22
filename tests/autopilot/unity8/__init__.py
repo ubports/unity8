@@ -43,6 +43,11 @@ def get_lib_path():
     return lib_path
 
 
+def get_default_extra_mock_libraries():
+    mocks_path = get_mocks_library_path()
+    return os.path.join(mocks_path, 'libusermetrics')
+
+
 def get_mocks_library_path():
     if running_installed_tests():
         mock_path = "qml/mocks/"

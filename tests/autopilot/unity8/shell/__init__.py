@@ -23,7 +23,7 @@ from functools import wraps
 import logging
 import os.path
 
-from unity8 import get_mocks_library_path
+from unity8 import get_mocks_library_path, get_default_extra_mock_libraries
 
 
 logger = logging.getLogger(__name__)
@@ -35,7 +35,10 @@ def with_lightdm_mock(mock_type):
         @wraps(fn)
         def wrapper(*args, **kwargs):
             logger.info("Setting up LightDM mock type '%s'", mock_type)
-            new_ld_library_path = _get_ld_library_path(mock_type)
+            new_ld_library_path = "%s:%s" % (
+                get_default_extra_mock_libraries(),
+                _get_ld_library_path(mock_type)
+            )
             logger.info("New library path: %s", new_ld_library_path)
             tests_self = args[0]
             tests_self.patch_environment(
