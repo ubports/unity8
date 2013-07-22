@@ -28,7 +28,7 @@ import logging
 import os.path
 from testtools.matchers import Equals, NotEquals
 
-from unity8 import get_lib_path, get_unity8_binary_path
+from unity8 import get_lib_path, get_unity8_binary_path, get_mocks_library_path
 from unity8.shell.emulators import Unity8EmulatorBase
 from unity8.shell.emulators.dash import Dash
 from unity8.shell.emulators.main_window import MainWindow
@@ -132,11 +132,8 @@ class Unity8TestCase(AutopilotTestCase):
             binary_path
         )
 
-        # we now have a path to the unity8 binary, and lib_path points to the
-        # directory where we need to patch some environment variables.
-        self._patch_environment(lib_path)
+        self._setup_extra_mock_environment_patch()
 
-        # launch the shell:
         app_proxy = self.launch_test_application(
             binary_path,
             *self.unity_geometry_args,
@@ -153,12 +150,9 @@ class Unity8TestCase(AutopilotTestCase):
         )
         return app_proxy
 
-    def _patch_environment(self, lib_path):
-        """Patch environment variables for launching the unity8 shell."""
-        self.patch_environment(
-            "QML2_IMPORT_PATH",
-            os.path.join(lib_path, "qml/mocks")
-        )
+    def _setup_extra_mock_environment_patch(self):
+        mocks_library_path = get_mocks_library_path()
+        self.patch_environment('QML2_IMPORT_PATH', mocks_library_path)
 
     def _set_proxy(self, proxy):
         """Keep a copy of the proxy object, so we can use it to get common parts

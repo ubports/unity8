@@ -36,11 +36,31 @@ def get_lib_path():
             "/usr/lib/",
             sysconfig.get_config_var('MULTIARCH'),
             "unity8"
-            )
+        )
     else:
         binary_path = get_unity8_binary_path()
         lib_path = os.path.dirname(binary_path)
     return lib_path
+
+
+def get_mocks_library_path():
+    if running_installed_tests():
+        mock_path = "qml/mocks/"
+    else:
+        mock_path = "../lib/x86_64-linux-gnu/unity8/qml/mocks/"
+    lib_path = get_lib_path()
+    ld_library_path = os.path.abspath(
+        os.path.join(
+            lib_path,
+            mock_path,
+        )
+    )
+
+    if not os.path.exists(ld_library_path):
+        raise RuntimeError(
+            "Expected library path does not exists: %s." % (ld_library_path)
+        )
+    return ld_library_path
 
 
 def get_unity8_binary_path():
@@ -48,9 +68,9 @@ def get_unity8_binary_path():
     binary_path = os.path.abspath(
         os.path.join(
             os.path.dirname(__file__),
-            "../../../builddir/unity8"
-            )
+            "../../../builddir/install/bin/unity8"
         )
+    )
     if not os.path.exists(binary_path):
         try:
             binary_path = subprocess.check_output(['which', 'unity8']).strip()
