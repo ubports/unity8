@@ -47,7 +47,7 @@ class TestLockscreen(Unity8TestCase):
 
         self.assertThat(lockscreen.shown, Eventually(Equals(False)))
 
-    @skipUnless(model() == 'Desktop', "Passphrase applicable to desktop only.")
+    @skipUnless(model() == 'Desktop', "Broken passphrase entry on UInput (LP: #1203788).")
     @with_lightdm_mock("single-passphrase")
     def test_can_unlock_passphrase_screen(self):
         """Must be able to unlock the passphrase entry screen."""
@@ -74,7 +74,7 @@ class TestLockscreen(Unity8TestCase):
         self.assertThat(pinentryField.text, Eventually(Equals("")))
         self.assertThat(lockscreen.shown, Eventually(Equals(True)))
 
-    @skipUnless(model() == 'Desktop', "Passphrase applicable to desktop only.")
+    @skipUnless(model() == 'Desktop', "Broken passphrase entry on UInput (LP: #1203788).")
     @with_lightdm_mock("single-passphrase")
     def test_passphrase_screen_wrong_password(self):
         """Entering the wrong password must not dismiss the lock screen."""

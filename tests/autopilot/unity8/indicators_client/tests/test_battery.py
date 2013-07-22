@@ -8,6 +8,7 @@
 """Add tests here if you want to ensure the behaviour of the power indicator menus are correct"""
 
 from testtools.matchers import Equals, NotEquals
+from autopilot.input import Touch
 from autopilot.matchers import Eventually
 
 from unity8.indicators_client.tests import IndicatorsTestCase
@@ -82,6 +83,8 @@ class TestDisplayMenus(IndicatorsTestCase):
     def test_brightness_slider(self):
         """Test the auto-bright switch"""
 
+        if self.input_device_class is Touch:
+            self.skipTest("Dragging is broken with Touch input (LP: #1203808).")
         fn_brightness_menu = lambda: self.app.select_single("SliderMenuItem", objectName="brightness");
         self.assertThat(fn_brightness_menu, Eventually(NotEquals(None)));
         brightness_menu = fn_brightness_menu();
