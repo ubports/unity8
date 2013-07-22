@@ -330,7 +330,7 @@ Showable {
         anchors.right: parent.right
         height: panelHeight
         direction: Direction.Downwards
-        enabled: !indicators.shown
+        enabled: !indicators.shown && indicators.available
         hintDisplacement: pinnedMode ? indicators.hintValue : 0
         autoCompleteDragThreshold: maxTotalDragDistance / 2
         stretch: true
@@ -349,7 +349,7 @@ Showable {
         anchors.fill: handle
         height: panelHeight
         direction: Direction.Upwards
-        enabled: indicators.shown
+        enabled: indicators.shown && indicators.available
         hintDisplacement: units.gu(2)
         autoCompleteDragThreshold: maxTotalDragDistance / 6
         stretch: true

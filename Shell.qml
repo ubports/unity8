@@ -153,7 +153,7 @@ FocusScope {
             available: !greeter.shown && !lockscreen.shown
             hides: [stages, launcher, panel.indicators]
             shown: disappearingAnimationProgress !== 1.0
-            enabled: disappearingAnimationProgress === 0.0
+            enabled: disappearingAnimationProgress === 0.0 && !leftEdgeDemo.visible && !topEdgeDemo.visible
             // FIXME: unfocus all applications when going back to the dash
             onEnabledChanged: {
                 if (enabled) {
@@ -179,6 +179,40 @@ FocusScope {
             // FIXME: only necessary because stagesRevealer.animatedProgress and
             // greeterRevealer.animatedProgress are not animated
             Behavior on disappearingAnimationProgress { SmoothedAnimation { velocity: 5 }}
+
+            DemoOverlay {
+                id: topEdgeDemo
+
+                edge: "top"
+                title: "Top edge"
+                text: "Try swiping from the top edge to access the indicators"
+                anchors.fill: parent
+
+                Connections {
+                    target: panel.indicators
+                    onFullyOpenedChanged: topEdgeDemo.visible = false
+                }
+            }
+
+            DemoOverlay {
+                id: leftEdgeDemo
+
+                edge: "left"
+                title: "Left edge"
+                text: "Swipe from the left to reveal the launcher for quick access to apps"
+                anchors.fill: parent
+                visible: false
+
+                Connections {
+                    target: bottomEdgeDemo
+                    onVisibleChanged: if (!bottomEdgeDemo.visible) leftEdgeDemo.visible = true
+                }
+
+                Connections {
+                    target: launcher
+                    onProgressChanged: if (launcher.progress >= 1.0) leftEdgeDemo.visible = false
+                }
+            }
         }
     }
 
@@ -442,11 +476,26 @@ FocusScope {
                 launcher.tease();
             }
         }
+
+        DemoOverlay {
+            id: rightEdgeDemo
+
+            edge: "right"
+            title: "Right edge"
+            text: "Try swiping from the right edge to unlock the phone"
+            anchors.fill: parent
+
+            Connections {
+                target: greeter
+                onUnlocked: rightEdgeDemo.visible = false
+                onShownChanged: if (!greeter.shown) rightEdgeDemo.visible = false
+            }
+        }
     }
 
     InputFilterArea {
-        anchors.fill: parent
         blockInput: greeter.shown || lockscreen.shown
+        anchors.fill: parent
     }
 
     Item {
@@ -460,6 +509,7 @@ FocusScope {
             indicatorsMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
             indicators {
                 hides: [launcher]
+                available: !rightEdgeDemo.visible && !leftEdgeDemo.visible
             }
             fullscreenMode: shell.fullscreenMode
             searchVisible: !greeter.shown && !lockscreen.shown
@@ -467,6 +517,22 @@ FocusScope {
             InputFilterArea {
                 anchors.fill: parent
                 blockInput: panel.indicators.shown
+            }
+
+            DemoOverlay {
+                id: bottomEdgeDemo
+
+                edge: "bottom"
+                title: "Close"
+                text: "Swipe up again to close the settings screen"
+                anchors.fill: panel.indicators
+                visible: false
+
+                Connections {
+                    target: panel.indicators
+                    onFullyOpenedChanged: if (panel.indicators.fullyOpened) bottomEdgeDemo.visible = true
+                    onPartiallyOpenedChanged: if (!panel.indicators.partiallyOpened && !panel.indicators.fullyOpened) bottomEdgeDemo.visible = false
+                }
             }
         }
 
@@ -476,7 +542,7 @@ FocusScope {
             width: parent.width > units.gu(60) ? units.gu(40) : parent.width
             height: parent.height
 
-            available: !greeter.shown && !panel.indicators.shown && !lockscreen.shown
+            available: !greeter.shown && !panel.indicators.shown && !lockscreen.shown && !topEdgeDemo.visible
             shown: false
             showAnimation: StandardAnimation { property: "y"; duration: hud.showableAnimationDuration; to: 0; easing.type: Easing.Linear }
             hideAnimation: StandardAnimation { property: "y"; duration: hud.showableAnimationDuration; to: hudRevealer.closedValue; easing.type: Easing.Linear }
@@ -534,7 +600,7 @@ FocusScope {
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
-            available: !greeter.locked
+            available: !greeter.locked && !rightEdgeDemo.visible && !topEdgeDemo.visible && !bottomEdgeDemo.visible
             onDashItemSelected: {
                 greeter.hide()
                 // Animate if moving between application and dash
