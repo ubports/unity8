@@ -785,10 +785,14 @@ void ListViewWithPageHeader::onModelUpdated(const QQuickChangeSet &changeSet, bo
             }
             if (growDown) {
                 adjustMinYExtent();
-            } else if (remove.index <= m_firstVisibleIndex && !m_visibleItems.isEmpty()) {
-                // We removed the first item that is the one that positions the rest
-                // position the new first item correctly
-                m_visibleItems.first()->setY(oldFirstValidIndexPos);
+            } else if (remove.index <= m_firstVisibleIndex) {
+                if (!m_visibleItems.isEmpty()) {
+                    // We removed the first item that is the one that positions the rest
+                    // position the new first item correctly
+                    m_visibleItems.first()->setY(oldFirstValidIndexPos);
+                } else {
+                    m_firstVisibleIndex = -1;
+                }
             }
         } else if (remove.index + remove.count <= m_firstVisibleIndex) {
             m_firstVisibleIndex -= remove.count;
@@ -806,7 +810,7 @@ void ListViewWithPageHeader::onModelUpdated(const QQuickChangeSet &changeSet, bo
     Q_FOREACH(const QQuickChangeSet::Insert &insert, changeSet.inserts()) {
 //         qDebug() << "ListViewWithPageHeader::onModelUpdated Insert" << insert.index << insert.count;
         const bool insertingInValidIndexes = insert.index > m_firstVisibleIndex && insert.index < m_firstVisibleIndex + m_visibleItems.count();
-        const bool firstItemWithViewOnTop = insert.index == 0 && m_firstVisibleIndex == 0 && !m_visibleItems.isEmpty() && m_visibleItems.first()->y() + m_clipItem->y() > contentY();
+        const bool firstItemWithViewOnTop = insert.index == 0 && m_firstVisibleIndex == 0 && m_visibleItems.first()->y() + m_clipItem->y() > contentY();
         if (insertingInValidIndexes || firstItemWithViewOnTop)
         {
             // If the items we are adding won't be really visible
