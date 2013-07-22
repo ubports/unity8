@@ -15,6 +15,7 @@ from autopilot.matchers import Eventually
 from autopilot.platform import model
 from testtools.matchers import Equals
 
+from unity8 import get_binary_path
 from unity8.indicators_client.emulators.main_window import MainWindow
 from logging import getLogger
 import sys
@@ -54,10 +55,10 @@ class IndicatorsTestCase(AutopilotTestCase):
 
     def launch_test_local(self, geometry):
         if geometry != "0x0":
-            self.app = self.launch_test_application("../../builddir/src/Panel/Indicators/client/indicators-client",
+            self.app = self.launch_test_application(get_binary_path("indicators-client"),
                 "-geometry", geometry, app_type='qt')
         else:
-            self.app = self.launch_test_application("../../builddir/src/Panel/Indicators/client/indicators-client",
+            self.app = self.launch_test_application(get_binary_path("indicators-client"),
                 app_type='qt')
 
     def launch_test_installed(self, geometry):

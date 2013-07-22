@@ -25,7 +25,7 @@ import sysconfig
 
 
 def running_installed_tests():
-    binary_path = get_unity8_binary_path()
+    binary_path = get_binary_path()
     return binary_path.startswith('/usr')
 
 
@@ -38,7 +38,7 @@ def get_lib_path():
             "unity8"
         )
     else:
-        binary_path = get_unity8_binary_path()
+        binary_path = get_binary_path()
         lib_path = os.path.dirname(binary_path)
     return lib_path
 
@@ -68,19 +68,19 @@ def get_mocks_library_path():
     return ld_library_path
 
 
-def get_unity8_binary_path():
-    """Return the path to the unity8 binary."""
+def get_binary_path(binary="unity8"):
+    """Return the path to the specified binary."""
     binary_path = os.path.abspath(
         os.path.join(
             os.path.dirname(__file__),
-            "../../../builddir/install/bin/unity8"
+            "../../../builddir/install/bin/%s" % binary
         )
     )
     if not os.path.exists(binary_path):
         try:
-            binary_path = subprocess.check_output(['which', 'unity8']).strip()
+            binary_path = subprocess.check_output(['which', binary]).strip()
         except subprocess.CalledProcessError as e:
-            raise RuntimeError("Unable to locate unity8 binary: %r" % e)
+            raise RuntimeError("Unable to locate %s binary: %r" % (binary, e))
     return binary_path
 
 
