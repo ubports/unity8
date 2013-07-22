@@ -42,10 +42,10 @@ class IndicatorsTestCase(AutopilotTestCase):
         self.pointing_device = Pointer(self.input_device_class.create())
         super(IndicatorsTestCase, self).setUp()
         if grid_size != "0":
-            os.environ['GRID_UNIT_PX'] = grid_size
+            self.patch_environment("GRID_UNIT_PX", str(grid_size))
             self.grid_size = int(grid_size)
         else:
-            self.grid_size = int(os.environ['GRID_UNIT_PX'])
+            self.grid_size = int(os.getenv('GRID_UNIT_PX'))
 
         if os.path.realpath(__file__).startswith("/usr/"):
             self.launch_test_installed(geometry)
