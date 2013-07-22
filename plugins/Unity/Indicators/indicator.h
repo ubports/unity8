@@ -21,10 +21,12 @@
 #ifndef INDICATOR_H
 #define INDICATOR_H
 
+#include "unityindicatorsglobal.h"
+
 #include <QObject>
 #include <QSettings>
 
-class Indicator : public QObject
+class UNITYINDICATORS_EXPORT Indicator : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString identifier READ identifier NOTIFY identifierChanged)

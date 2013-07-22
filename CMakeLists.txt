@@ -101,6 +101,7 @@ set(shell_app_HDRS
 
 add_executable(${SHELL_APP}
     ${shellapplication_MOC_SRCS}
+    ApplicationArguments.h
     main.cpp
     MouseTouchAdaptor.cpp
     )
