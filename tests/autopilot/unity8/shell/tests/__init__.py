@@ -140,14 +140,15 @@ class Unity8TestCase(AutopilotTestCase):
             app_type='qt',
             emulator_base=Unity8EmulatorBase
         )
-        logger.debug("Started unity8 shell, backend is: %r", app_proxy._Backend)
         self._set_proxy(app_proxy)
 
         # Ensure that the dash is visible before we return:
+        logger.debug("Unity8 started, waiting for Dash.")
         self.assertThat(
             self.get_dash().showScopeOnLoaded,
             Eventually(Equals(""))
         )
+        logger.debug("Unity8 Dash loaded and ready.")
         return app_proxy
 
     def _setup_extra_mock_environment_patch(self):
