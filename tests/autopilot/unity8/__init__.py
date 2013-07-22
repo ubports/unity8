@@ -85,4 +85,9 @@ def get_unity8_binary_path():
 
 
 def get_grid_size():
-    os.getenv('GRID_UNIT_PX')
+    grid_size = os.getenv('GRID_UNIT_PX')
+    if grid_size is None:
+        raise RuntimeError(
+            "Environment variable GRID_UNIT_PX has not been set."
+        )
+    return int(grid_size)
