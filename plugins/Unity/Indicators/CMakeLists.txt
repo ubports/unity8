@@ -23,6 +23,7 @@ set(IndicatorsQML_SOURCES
     indicators.h
     indicatorsmanager.cpp
     indicatorsmodel.cpp
+    menucontentactivator.cpp
     plugin.cpp
 )
 add_definitions(-DUNITYINDICATORS_LIBRARY)

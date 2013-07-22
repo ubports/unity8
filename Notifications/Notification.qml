@@ -28,6 +28,7 @@ UbuntuShape {
     property var actions
     property var notificationId
     property var type
+    property var hints
     property var notification
 
     objectName: "background"
@@ -164,7 +165,7 @@ UbuntuShape {
                     bottom: parent.bottom
                 }
                 text: notification.type == Notification.SnapDecision && actionRepeater.count >= 2 ? actionRepeater.itemAt(1).actionLabel : ""
-                color: "#cdcdcb"
+                gradient: UbuntuColors.greyGradient
                 onClicked: {
                     if (actionRepeater.count > 2) {
                         buttonRow.expanded = !buttonRow.expanded
@@ -194,7 +195,7 @@ UbuntuShape {
                     top: parent.top
                     bottom: parent.bottom
                 }
-                color: "#d85317" // FIXME ??
+                gradient: notification.hints == Notification.ButtonTint ? UbuntuColors.orangeGradient : UbuntuColors.greyGradient
                 visible: width > 0
                 onClicked: notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
             }
@@ -241,7 +242,7 @@ UbuntuShape {
 
                             text: loader.actionLabel
                             height: units.gu(4)
-                            color: "#cdcdcb" // FIXME ?? which color?
+                            gradient: UbuntuColors.greyGradient
                             onClicked: notification.notification.invokeAction(loader.actionId)
                         }
                     }

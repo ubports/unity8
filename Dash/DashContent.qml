@@ -20,8 +20,6 @@ import Unity 0.1
 
 Item {
     id: dashContent
-    width: units.gu(40)
-    height: units.gu(71)
 
     property var model: null
     property var scopes: null
