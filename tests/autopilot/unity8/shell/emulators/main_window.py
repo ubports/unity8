@@ -74,7 +74,10 @@ class MainWindow(object):
         return self.app.select_single(Launcher)
 
     def get_pinPadLoader(self):
-        return self.app.select_single("QQuickLoader", objectName="pinPadLoader")
+        return self.app.select_single(
+            "QQuickLoader",
+            objectName="pinPadLoader"
+        )
 
     def get_pinPadButton(self, buttonId):
         return self.app.select_single(

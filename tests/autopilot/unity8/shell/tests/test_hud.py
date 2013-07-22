@@ -39,7 +39,9 @@ class TestHud(Unity8TestCase):
 
     @with_lightdm_mock("single")
     def test_show_hud_button_appears(self):
-        """Swiping up while an app is active must show the 'show hud' button."""
+        """Swiping up while an app is active must show the 'show hud' button.
+
+        """
         self.launch_unity()
         self.main_window.get_greeter().unlock()
         window = self.main_window.get_qml_view()
@@ -58,7 +60,9 @@ class TestHud(Unity8TestCase):
 
     @with_lightdm_mock("single")
     def test_show_hud_appears(self):
-        """Releasing the touch on the 'show hud' button must display the hud."""
+        """Releasing the touch on the 'show hud' button must display the hud.
+
+        """
         self.launch_unity()
         self.main_window.get_greeter().unlock()
         window = self.main_window.get_qml_view()
@@ -96,8 +100,8 @@ class TestHud(Unity8TestCase):
 
     @with_lightdm_mock("single")
     def test_hide_hud_dragging(self):
-        """Once open the Hud must close if the upper bar is dragged and released
-        downward.
+        """Once open the Hud must close if the upper bar is dragged and
+        released downward.
 
         """
         self.launch_unity()

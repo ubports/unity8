@@ -127,7 +127,8 @@ class Unity8TestCase(AutopilotTestCase):
         binary_path = get_unity8_binary_path()
         lib_path = get_lib_path()
 
-        logger.info("Lib path is '%s', binary path is '%s'",
+        logger.info(
+            "Lib path is '%s', binary path is '%s'",
             lib_path,
             binary_path
         )
@@ -156,8 +157,8 @@ class Unity8TestCase(AutopilotTestCase):
         self.patch_environment('QML2_IMPORT_PATH', mocks_library_path)
 
     def _set_proxy(self, proxy):
-        """Keep a copy of the proxy object, so we can use it to get common parts
-        of the shell later on.
+        """Keep a copy of the proxy object, so we can use it to get common
+        parts of the shell later on.
 
         """
         self._proxy = proxy

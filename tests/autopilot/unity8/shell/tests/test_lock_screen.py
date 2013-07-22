@@ -91,9 +91,9 @@ class TestLockscreen(Unity8TestCase):
 
     def _wait_for_lockscreen(self):
         """Wait for the lock screen to load, and return it."""
-        pinPadLoader = self.main_window.get_pinPadLoader();
+        pinPadLoader = self.main_window.get_pinPadLoader()
         self.assertThat(pinPadLoader.progress, Eventually(Equals(1)))
-        lockscreen = self.main_window.get_lockscreen();
+        lockscreen = self.main_window.get_lockscreen()
         self.assertThat(lockscreen.shown, Eventually(Equals(True)))
         return lockscreen
 
