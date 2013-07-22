@@ -31,11 +31,11 @@ class IndicatorsTestCase(AutopilotTestCase):
 
     if model() == 'Desktop':
         scenarios = [
-        ('with mouse', dict(input_device_class=Mouse)),
+        ('with mouse', dict(input_device_class=Mouse, grid_unit="12")),
         ]
     else:
         scenarios = [
-        ('with touch', dict(input_device_class=Touch)),
+        ('with touch', dict(input_device_class=Touch, grid_unit="0")),
         ]
 
     def setUp(self, geometry, grid_size):
