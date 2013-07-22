@@ -131,6 +131,3 @@ class TestLockscreen(Unity8TestCase):
         self.touch.tap_object(pinentryField)
         self.keyboard.type(passphrase)
         self.keyboard.type("\n")
-
-
-
