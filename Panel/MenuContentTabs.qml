@@ -24,17 +24,11 @@ MainView {
 
     property QtObject indicatorsModel: null
     property alias currentMenuIndex : tabs.selectedTabIndex
-    property color backgroundColor: "#221e1c"
+    backgroundColor: "#221e1c"
     property int contentReleaseInterval: 20000
 
     width: units.gu(40)
     height: units.gu(42)
-
-    // FIXME: *grumble* MainView is locked to style with a background. OVERRIDE!!
-    Rectangle {
-        anchors.fill: parent
-        color: backgroundColor
-    }
 
     QtObject {
         id: d
