@@ -145,9 +145,11 @@ class Unity8TestCase(AutopilotTestCase):
 
         # Ensure that the dash is visible before we return:
         logger.debug("Unity8 started, waiting for Dash.")
+        # FIXME! There is a huge timeout here for when we're doing CI on
+        # VMs. See lp:1203715
         self.assertThat(
             self.get_dash().showScopeOnLoaded,
-            Eventually(Equals(""))
+            Eventually(Equals(""), timeout=40)
         )
         logger.debug("Unity8 Dash loaded and ready.")
         return app_proxy
