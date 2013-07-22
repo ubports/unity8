@@ -48,6 +48,7 @@ Row {
     function addSnapDecisionNotification() {
         var n = {
             type: Notification.SnapDecision,
+            hints: Notification.ButtonTint,
             summary: "Tom Ato",
             body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
             icon: "../graphics/avatars/funky.png",
@@ -189,8 +190,9 @@ Row {
         function test_NotificationRenderer_data() {
             return [
             {
-                tag: "Snap Decision with secondary icon",
+                tag: "Snap Decision with secondary icon and button-tint",
                 type: Notification.SnapDecision,
+                hints: Notification.ButtonTint,
                 summary: "Tom Ato",
                 body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
                 icon: "../graphics/avatars/funky.png",
@@ -205,7 +207,8 @@ Row {
                 interactiveAreaEnabled: false,
                 iconVisible: true,
                 secondaryIconVisible: true,
-                buttonRowVisible: true
+                buttonRowVisible: true,
+                buttonTinted: true
             },
             {
                 tag: "Ephemeral notification - icon-summary layout",
@@ -220,7 +223,8 @@ Row {
                 interactiveAreaEnabled: false,
                 iconVisible: false,
                 secondaryIconVisible: true,
-                buttonRowVisible: false
+                buttonRowVisible: false,
+                buttonTinted: false
             },
             {
                 tag: "Ephemeral notification - check suppression of secondary icon for icon-summary layout",
@@ -235,7 +239,8 @@ Row {
                 interactiveAreaEnabled: false,
                 iconVisible: false,
                 secondaryIconVisible: true,
-                buttonRowVisible: false
+                buttonRowVisible: false,
+                buttonTinted: false
             },
             {
                 tag: "Interactive notification",
@@ -250,10 +255,11 @@ Row {
                 interactiveAreaEnabled: true,
                 iconVisible: true,
                 secondaryIconVisible: false,
-                buttonRowVisible: false
+                buttonRowVisible: false,
+                buttonTinted: false
             },
             {
-                tag: "Snap Decision without secondary icon",
+                tag: "Snap Decision without secondary icon and no button-tint",
                 type: Notification.SnapDecision,
                 summary: "Bro Coly",
                 body: "At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
@@ -266,7 +272,8 @@ Row {
                 interactiveAreaEnabled: false,
                 iconVisible: true,
                 secondaryIconVisible: false,
-                buttonRowVisible: true
+                buttonRowVisible: true,
+                buttonTinted: false
             },
             {
                 tag: "Ephemeral notification",
@@ -281,7 +288,8 @@ Row {
                 interactiveAreaEnabled: false,
                 iconVisible: true,
                 secondaryIconVisible: true,
-                buttonRowVisible: false
+                buttonRowVisible: false,
+                buttonTinted: false
             }
             ]
         }
@@ -356,6 +364,9 @@ Row {
                     actionSpy.clear()
                 }
 
+                // check the tinting of the positive/right button
+                verify(buttonAccept.gradient === data.buttonTinted ? UbuntuColors.orangeGradient : UbuntuColors.greyGradient, "button has the wrong color-tint")
+
                 // click the positive/right button
                 mouseClick(buttonAccept, buttonAccept.width / 2, buttonAccept.height / 2)
                 actionSpy.wait()
@@ -370,7 +381,7 @@ Row {
                     mouseClick(buttonCancel, buttonCancel.width / 2, buttonCancel.height / 2)
                     waitForRendering(notification)
                     actionSpy.clear()
- 
+
                     // test the additional buttons
                     for (var i = 2; i < data.actions.length; i++) {
                         waitForRendering(notification)
