@@ -81,7 +81,7 @@ Row {
                 styleColor: "black"
                 opacity: .6
                 //TRANSLATORS: Number of persons who wrote reviews for this app
-                text: i18n.tr("%n review", "%n reviews", root.reviews)
+                text: i18n.tr("%1 review", "%1 reviews", root.reviews).arg(root.reviews)
             }
         }
     }

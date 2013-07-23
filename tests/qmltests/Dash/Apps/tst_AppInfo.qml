@@ -46,7 +46,7 @@ Item {
 
         function test_reviews() {
             var rated = findChild(appInfo, "reviewsLabel");
-            compare(rated.text, i18n.tr("%n review", "%n reviews", 8), "Reviews don't match");
+            compare(rated.text, i18n.tr("%1 review", "%1 reviews", 8).arg(8), "Reviews don't match");
         }
     }
 }

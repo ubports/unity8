@@ -83,6 +83,8 @@ Column {
             height: units.gu(4)
             verticalAlignment: Text.AlignVCenter
 
+            Behavior on height { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
+
             onFocusChanged: {
                 if(reviewField.focus){
                     root.state = "editing";
@@ -94,9 +96,10 @@ Column {
                 if (reviewField.text == "") {
                     root.state = "";
                     reviewField.focus = false;
-                } else if (reviewField.lineCount > 1 && reviewField.lineCount < 6) {
-                    reviewField.height = units.gu(3) * reviewField.lineCount;
-                } else if (reviewField.lineCount == 1) {
+                } else if (reviewField.lineCount > 1) {
+                    reviewField.height = reviewField.contentHeight;
+                }
+                if (reviewField.lineCount == 1) {
                     reviewField.height = units.gu(4);
                 }
             }
@@ -115,13 +118,15 @@ Column {
             id: sendButton
             objectName: "sendButton"
             width: units.gu(10)
-            height: reviewField.height
+            height: units.gu(4)
+            anchors.bottom: reviewField.bottom
             color: Theme.palette.selected.foreground
             text: i18n.tr("Send")
             opacity: 0
 
             onClicked: {
                 root.sendReview(reviewField.text);
+                reviewField.text = ""
             }
         }
     }
