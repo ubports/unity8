@@ -1,81 +1,187 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
-# Copyright 2013 Canonical
 #
-# This program is free software: you can redistribute it and/or modify it
-# under the terms of the GNU General Public License version 3, as published
-# by the Free Software Foundation.
+# Unity Autopilot Test Suite
+# Copyright (C) 2012-2013 Canonical
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
 
-"""unity8 autopilot tests."""
+"""unity autopilot tests."""
 
-import os.path
-import sysconfig
-
+from autopilot.platform import model
 from autopilot.testcase import AutopilotTestCase
 from autopilot.matchers import Eventually
-from autopilot.platform import model
-from testtools.matchers import Equals
+from autopilot.input import Touch
+from autopilot.display import Display
+import logging
+import os.path
+from testtools.matchers import Equals, NotEquals
 
+from unity8 import get_lib_path, get_binary_path, get_mocks_library_path
+from unity8.shell.emulators import UnityEmulatorBase
+from unity8.shell.emulators.dash import Dash
 from unity8.shell.emulators.main_window import MainWindow
 
-class FormFactors(object):
-    Phone, Tablet, Desktop = range(3)
 
-class ShellTestCase(AutopilotTestCase):
+logger = logging.getLogger(__name__)
 
-    """A common test case class that provides several useful methods for shell tests."""
 
-    libdir = "/usr/lib/{0}/unity8".format(sysconfig.get_config_var('MULTIARCH'))
-    lightdm_mock = "full"
+def _get_device_emulation_scenarios():
+    if model() == 'Desktop':
+        return [
+            (
+                'Desktop Nexus 4',
+                dict(app_width=768, app_height=1280, grid_unit_px=18)
+            ),
+            (
+                'Desktop Nexus 10',
+                dict(app_width=2560, app_height=1600, grid_unit_px=20)
+            ),
+        ]
+    else:
+        return [
+            (
+                'Native Device',
+                dict(app_width=0, app_height=0, grid_unit_px=0)
+            )
+        ]
 
-    def setUp(self, geometry, grid_size):
-        super(ShellTestCase, self).setUp()
-        # Lets assume we are installed system wide if this file is somewhere in /usr
-        if grid_size != "0":
-            os.environ['GRID_UNIT_PX'] = grid_size
-            self.grid_size = int(grid_size)
+
+class UnityTestCase(AutopilotTestCase):
+
+    """A test case base class for the Unity shell tests."""
+
+    def setUp(self):
+        super(UnityTestCase, self).setUp()
+        self._proxy = None
+        self.touch = Touch.create()
+        self._setup_display_details()
+
+    def _setup_display_details(self):
+        scale_divisor = self._determine_geometry()
+        self._setup_grid_size(scale_divisor)
+
+    def _determine_geometry(self):
+        """Use the geometry that may be supplied or use the default."""
+        width = getattr(self, 'app_width', 0)
+        height = getattr(self, 'app_height', 0)
+        scale_divisor = 1
+        if width == 0 and width == 0:
+            self.unity_geometry_args = ['-fullscreen']
         else:
-            self.grid_size = int(os.environ['GRID_UNIT_PX'])
-        if os.path.realpath(__file__).startswith("/usr/"):
-            self.launch_test_installed(geometry)
+            if self._geo_larger_than_display(width, height):
+                scale_divisor = self._get_scaled_down_geo(width, height)
+                width = width / scale_divisor
+                height = height / scale_divisor
+                logger.info(
+                    "Geometry larger than display, scaled down to: %dx%d",
+                    width,
+                    height
+                )
+            geo_string = "%dx%d" % (width, height)
+            self.unity_geometry_args = [
+                '-geometry',
+                geo_string,
+                '-frameless',
+                '-mousetouch'
+            ]
+        return scale_divisor
+
+    def _setup_grid_size(self, scale_divisor):
+        """Use the grid size that may be supplied or use the default."""
+        if getattr(self, 'grid_unit_px', 0) == 0:
+            self.grid_size = int(os.getenv('GRID_UNIT_PX'))
         else:
-            self.launch_test_local(geometry)
+            self.grid_size = int(self.grid_unit_px / scale_divisor)
+            self.patch_environment("GRID_UNIT_PX", str(self.grid_size))
 
-    def launch_test_local(self, geometry):
-        os.environ['LD_LIBRARY_PATH'] = "../../builddir/tests/mocks/libusermetrics:../../builddir/tests/mocks/LightDM" + self.lightdm_mock
-        os.environ['QML2_IMPORT_PATH'] = "../../builddir/tests/mocks"
-        if geometry != "0x0":
-            self.app = self.launch_test_application(
-                "../../builddir/unity8", "-geometry", geometry, "-frameless", app_type='qt')
+    def _geo_larger_than_display(self, width, height):
+        should_scale = getattr(self, 'scale_geo', True)
+        if should_scale:
+            screen = Display.create()
+            screen_width = screen.get_screen_width()
+            screen_height = screen.get_screen_height()
+            return (width > screen_width) or (height > screen_height)
         else:
-            self.app = self.launch_test_application(
-                "../../builddir/unity8", "-fullscreen", app_type='qt')
+            return False
 
-    def launch_test_installed(self, geometry):
-        os.environ['LD_LIBRARY_PATH'] = "{0}/qml/mocks/libusermetrics:{0}/qml/mocks/LightDM/{1}".format(self.libdir, self.lightdm_mock)
-        os.environ['QML2_IMPORT_PATH'] = "{0}/qml/mocks".format(self.libdir)
-        if model() == 'Desktop' and geometry != "0x0":
-            self.app = self.launch_test_application(
-               "unity8", "-geometry", geometry, "-frameless", app_type='qt')
-        else:
-            self.app = self.launch_test_application(
-               "unity8", "-fullscreen", app_type='qt')
+    def _get_scaled_down_geo(self, width, height):
+        divisor = 1
+        while self._geo_larger_than_display(width / divisor, height / divisor):
+            divisor = divisor * 2
+        return divisor
 
-    def skipWrapper(*args, **kwargs):
-        pass
+    def launch_unity(self):
+        """Launch the unity shell, return a proxy object for it."""
+        binary_path = get_binary_path()
+        lib_path = get_lib_path()
 
-    def form_factor(self):
-        return FormFactors.Desktop
+        logger.info(
+            "Lib path is '%s', binary path is '%s'",
+            lib_path,
+            binary_path
+        )
 
-    def __getattribute__(self, attr_name):
-        attr = object.__getattribute__(self, attr_name);
-        if attr_name.startswith("test_"):
-            try:
-                if self.form_factor() in attr.blacklist:
-                    return self.skipWrapper
-            except:
-                pass
-        return attr
+        self._setup_extra_mock_environment_patch()
+
+        app_proxy = self.launch_test_application(
+            binary_path,
+            *self.unity_geometry_args,
+            app_type='qt',
+            emulator_base=UnityEmulatorBase
+        )
+        self._set_proxy(app_proxy)
+
+        # Ensure that the dash is visible before we return:
+        logger.debug("Unity started, waiting for it to be ready.")
+        self.assertUnityReady()
+        logger.debug("Unity loaded and ready.")
+
+        return app_proxy
+
+    def _setup_extra_mock_environment_patch(self):
+        mocks_library_path = get_mocks_library_path()
+        self.patch_environment('QML2_IMPORT_PATH', mocks_library_path)
+
+    def _set_proxy(self, proxy):
+        """Keep a copy of the proxy object, so we can use it to get common
+        parts of the shell later on.
+
+        """
+        self._proxy = proxy
+        self.addCleanup(self._clear_proxy)
+
+    def _clear_proxy(self):
+        self._proxy = None
+
+    def assertUnityReady(self):
+        dash = self.get_dash()
+        home_scope = dash.get_scope('home')
+
+        # FIXME! There is a huge timeout here for when we're doing CI on
+        # VMs. See lp:1203715
+        self.assertThat(
+            home_scope.isLoaded,
+            Eventually(Equals(True), timeout=60)
+        )
+        self.assertThat(home_scope.isCurrent, Eventually(Equals(True)))
+
+    def get_dash(self):
+        dash = self._proxy.select_single(Dash)
+        self.assertThat(dash, NotEquals(None))
+        return dash
 
     @property
     def main_window(self):
-        return MainWindow(self.app)
+        return MainWindow(self._proxy)
