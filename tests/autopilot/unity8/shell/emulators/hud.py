@@ -81,4 +81,3 @@ class Hud(UnityEmulatorBase):
         end_y = int(hud_show_button.y + (hud_show_button.height/2))
 
         return SwipeCoords(start_x, end_x, start_y, end_y)
-
