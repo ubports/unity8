@@ -158,7 +158,8 @@ Item {
                         Transition {
                             from: "*"
                             to: "*"
-                            NumberAnimation { properties: "angle,offset,height"; duration: 200 }
+                            NumberAnimation { properties: "angle,offset"; duration: 200 }
+                            NumberAnimation { properties: "height"; duration: 150 }
                         }
                     ]
 
