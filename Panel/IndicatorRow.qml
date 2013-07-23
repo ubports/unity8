@@ -24,7 +24,6 @@ Item {
     readonly property int currentItemIndex: currentItem ? currentItem.ownIndex : -1
     property alias row: row
     property QtObject indicatorsModel: null
-    property bool overviewActive: false // "state of the menu"
 
     Behavior on y {NumberAnimation {duration: 300; easing.type: Easing.OutCubic} }
 
@@ -76,7 +75,7 @@ Item {
                height: indicatorRow.height
                y: {
                    //FIXME: all indicators will be initial for now.
-                   if (!highlighted && !overviewActive && (indicatorRow.state == "locked" || indicatorRow.state == "commit")) {
+                   if (!highlighted  && (indicatorRow.state == "locked" || indicatorRow.state == "commit")) {
                        return -indicatorRow.height
                    } else {
                        return 0

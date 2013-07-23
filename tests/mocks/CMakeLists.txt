@@ -1,5 +1,6 @@
 add_subdirectory(libusermetrics)
 add_subdirectory(LightDM)
+add_subdirectory(QMenuModel)
 add_subdirectory(Ubuntu)
 add_subdirectory(Unity)
 add_subdirectory(HudClient)

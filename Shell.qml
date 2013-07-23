@@ -63,6 +63,8 @@ FocusScope {
     property var applicationManager: ApplicationManagerWrapper {}
 
     Component.onCompleted: {
+        Theme.name = "Ubuntu.Components.Themes.SuruGradient"
+
         applicationManager.sideStageEnabled = Qt.binding(function() { return sideStage.enabled })
 
         // FIXME: if application focused before shell starts, shell draws on top of it only.
@@ -167,11 +169,20 @@ FocusScope {
 
     Item {
         id: underlay
+        objectName: "underlay"
         anchors.fill: parent
-        visible: !(panel.indicators.fullyOpened && shell.width <= panel.indicatorsMenuWidth)
-                 && (stages.fullyHidden
-                     || (stages.fullyShown && mainStage.usingScreenshots)
-                     || !stages.fullyShown && (mainStage.usingScreenshots || (sideStage.shown && sideStage.usingScreenshots)))
+
+        // Whether the underlay is fully covered by opaque UI elements.
+        property bool fullyCovered: panel.indicators.fullyOpened && shell.width <= panel.indicatorsMenuWidth
+
+        // Whether the user should see the topmost application surface (if there's one at all).
+        property bool applicationSurfaceShouldBeSeen:
+                (mainStage.applications && mainStage.applications.count > 0)
+                && (!stages.fullyHidden && !mainStage.usingScreenshots)
+
+        // NB! Application surfaces are stacked behing the shell one. So they can only be seen by the user
+        // through the translucent parts of the shell surface.
+        visible: !fullyCovered && !applicationSurfaceShouldBeSeen
 
         Image {
             id: backgroundImage
@@ -188,6 +199,7 @@ FocusScope {
 
         Dash {
             id: dash
+            objectName: "dash"
 
             available: !greeter.shown && !lockscreen.shown
             hides: [stages, launcher, panel.indicators]
@@ -215,7 +227,7 @@ FocusScope {
                 }
             }
 
-            // FIXME: only necessary because stagesRevealer.animatedProgress and
+            // FIXME: only necessary because stagesOuterContainer.showProgress and
             // greeterRevealer.animatedProgress are not animated
             Behavior on disappearingAnimationProgress { SmoothedAnimation { velocity: 5 }}
         }
@@ -235,6 +247,7 @@ FocusScope {
 
         Showable {
             id: stages
+            objectName: "stages"
 
             x: width
 
@@ -291,6 +304,7 @@ FocusScope {
 
                 anchors.fill: parent
                 fullyShown: stages.fullyShown
+                fullyHidden: stages.fullyHidden
                 shouldUseScreenshots: !fullyShown
                 rightEdgeEnabled: !sideStage.enabled
 
@@ -301,9 +315,6 @@ FocusScope {
                 shown: true
                 function show() {
                     stages.show();
-                }
-                function showWithoutAnimation() {
-                    stages.showWithoutAnimation();
                 }
                 function hide() {
                 }
@@ -378,7 +389,7 @@ FocusScope {
             }
 
             DragHandle {
-                id: stagesRevealer
+                id: stagesDragHandle
 
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
@@ -386,7 +397,11 @@ FocusScope {
 
                 width: shell.edgeSize
                 direction: Direction.Leftwards
-                enabled: mainStage.applications.count > 0 || sideStage.applications.count > 0
+                property bool haveApps: mainStage.applications.count > 0 || sideStage.applications.count > 0
+
+                maxTotalDragDistance: haveApps ? parent.width : parent.width * 0.7
+                // Make autocompletion impossible when !haveApps
+                edgeDragEvaluator.minDragDistance: haveApps ? maxTotalDragDistance * 0.1 : Number.MAX_VALUE
             }
         }
     }
@@ -433,6 +448,7 @@ FocusScope {
 
     Greeter {
         id: greeter
+        objectName: "greeter"
 
         available: true
         hides: [launcher, panel.indicators, hud]
@@ -571,6 +587,7 @@ FocusScope {
 
         Launcher {
             id: launcher
+            objectName: "launcher"
 
             anchors.top: parent.top
             anchors.bottom: parent.bottom
@@ -589,7 +606,7 @@ FocusScope {
             }
             onDash: {
                 if (stages.shown) {
-                    dash.setCurrentScope("applications.scope", true, false)
+                    dash.setCurrentScope("applications.scope", true /* animate */, true /* reset */)
                     stages.hide();
                     launcher.hide();
                 }

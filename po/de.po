@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-06-26 22:58+0200\n"
-"PO-Revision-Date: 2013-06-29 12:53+0000\n"
-"Last-Translator: Phillip Sz <Unknown>\n"
+"PO-Revision-Date: 2013-06-27 00:37+0000\n"
+"Last-Translator: Michał Sawicz <michal.sawicz@canonical.com>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-30 07:12+0000\n"
-"X-Generator: Launchpad (build 16692)\n"
+"X-Launchpad-Export-Date: 2013-07-17 07:49+0000\n"
+"X-Generator: Launchpad (build 16696)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -217,28 +217,4 @@ msgstr "Entschuldigung, es wurden keine Treffer erzielt."
 #: Shell.qml:383
 #, qt-format
 msgid "Please enter %1"
-msgstr "Bitte geben Sie %1 ein"
-
-#~ msgid "People"
-#~ msgstr "Personen"
-
-#~ msgid "Home screen"
-#~ msgstr "Startseite"
-
-#~ msgid "Favourite People"
-#~ msgstr "Lieblingspersonen"
-
-#~ msgid "People Recently in Touch"
-#~ msgstr "Zuletzt kontaktierte Personen"
-
-#~ msgid "A-Z"
-#~ msgstr "A-Z"
-
-#~ msgid "Recently in touch"
-#~ msgstr "Kürzlich im Gespräch"
-
-#~ msgid "New Contacts"
-#~ msgstr "Neue Kontakte"
-
-#~ msgid "Favourites"
-#~ msgstr "Favoriten"
+msgstr ""

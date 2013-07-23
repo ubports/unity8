@@ -45,7 +45,7 @@ Item {
                 verticalCenter: parent.verticalCenter
             }
 
-            color: "#f3f3e7" //at 60%
+            color: Theme.palette.selected.backgroundText //at 60%
             opacity: 0.6
             font.family: "Ubuntu"
             fontSize: "medium"

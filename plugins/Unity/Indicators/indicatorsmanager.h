@@ -19,15 +19,16 @@
 #ifndef INDICATORS_MANAGER_H
 #define INDICATORS_MANAGER_H
 
+#include "indicator.h"
+#include "unityindicatorsglobal.h"
+
 #include <QObject>
 #include <QFileSystemWatcher>
 #include <QDir>
 #include <QHash>
 #include <QSharedPointer>
 
-#include "indicator.h"
-
-class IndicatorsManager : public QObject
+class UNITYINDICATORS_EXPORT IndicatorsManager : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool loaded READ isLoaded NOTIFY loadedChanged)

@@ -69,7 +69,7 @@ AbstractButton {
                 rightMargin: units.gu(1)
             }
 
-            color: "#f3f3e7"
+            color: Theme.palette.selected.backgroundText
             opacity: 0.9
             style: Text.Raised
             styleColor: "black"
@@ -97,7 +97,7 @@ AbstractButton {
                 rightMargin: units.gu(1)
             }
 
-            color: "#f3f3e7"
+            color: Theme.palette.selected.backgroundText
             opacity: 0.9
             style: Text.Raised
             styleColor: "black"

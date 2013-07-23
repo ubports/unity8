@@ -1,2 +1,3 @@
 module Unity.Launcher
 plugin UnityLauncher-qml
+typeinfo plugin.qmltypes

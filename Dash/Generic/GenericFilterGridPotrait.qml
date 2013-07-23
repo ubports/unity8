@@ -15,21 +15,16 @@
  */
 
 import QtQuick 2.0
+import "../../Components"
 
-Item {
-    id: menuWindow
+GenericFilterGrid {
+    id: filtergrid
 
-    property bool shown: false
-    property int contentHeight: height
-    property string headingText: name
-    property string name
+    minimumHorizontalSpacing: units.gu(0.5)
+    delegateWidth: units.gu(11)
+    delegateHeight: units.gu(18)
+    verticalSpacing: units.gu(2)
 
-    enabled: shown
-    opacity: shown ? 1.0 : 0.0
-    Behavior on opacity { NumberAnimation {duration: shown ? 300 : 150 } }
-
-    // don't pass any events under this screen
-    MouseArea {
-        anchors.fill: parent
-    }
+    iconWidth: (width / columns) * 0.8
+    iconHeight: iconWidth * 16 / 11
 }
