@@ -30,7 +30,6 @@ class Greeter(UnityEmulatorBase):
         self.created.wait_for(True)
         touch = Touch.create()
 
-        # TODO: Is this ever called? Find out, and maybe remove this branch:
         rect = self.globalRect
         start_x = rect[0] + rect[2] - 3
         start_y = int(rect[1] + rect[3] / 2)

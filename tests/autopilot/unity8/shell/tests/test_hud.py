@@ -19,16 +19,11 @@
 
 from __future__ import absolute_import
 
-from collections import namedtuple
-
 from unity8.shell import with_lightdm_mock
 from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 
 from testtools.matchers import Equals
 from autopilot.matchers import Eventually
-
-
-SwipeCoords = namedtuple('SwipeCoords', 'start_x end_x start_y end_y')
 
 
 class TestHud(UnityTestCase):
@@ -46,10 +41,11 @@ class TestHud(UnityTestCase):
         self.main_window.get_greeter().unlock()
         window = self.main_window.get_qml_view()
         hud_show_button = self.main_window.get_hud_show_button()
+        hud = self.main_window.get_hud()
 
         self._launch_test_app_from_app_screen()
 
-        swipe_coords = self._get_hud_button_swipe_coords(
+        swipe_coords = hud.get_button_swipe_coords(
             window,
             hud_show_button
         )
@@ -71,7 +67,7 @@ class TestHud(UnityTestCase):
 
         self._launch_test_app_from_app_screen()
 
-        swipe_coords = self._get_hud_button_swipe_coords(
+        swipe_coords = hud.get_button_swipe_coords(
             window,
             hud_show_button
         )
@@ -158,16 +154,3 @@ class TestHud(UnityTestCase):
         """Only release the finger if it is in fact down."""
         if self.touch._touch_finger is not None:
             self.touch.release()
-
-    # TODO: perhaps move this to the Hud emulator?
-    def _get_hud_button_swipe_coords(self, main_view, hud_show_button):
-        """Returns the coords both start and end x,y for swiping to make the
-        'hud show' button appear.
-
-        """
-        start_x = int(main_view.x + (main_view.width / 2))
-        end_x = start_x
-        start_y = main_view.y + (main_view.height - 3)
-        end_y = int(hud_show_button.y + (hud_show_button.height/2))
-
-        return SwipeCoords(start_x, end_x, start_y, end_y)
