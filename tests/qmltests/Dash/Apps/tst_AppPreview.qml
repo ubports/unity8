@@ -108,7 +108,7 @@ Item {
         function test_actions() {
             root.calls = new Array();
             var buttons = findChild(appPreview, "gridButtons");
-            compare(buttons.count, 3);
+            compare(buttons.count, 3, "Not the proper amount of actions detected.");
 
             for(var i = 0; i < buttons.count; i++) {
                 buttons.currentIndex = i;
@@ -117,7 +117,7 @@ Item {
 
             var actions = get_actions();
             for(var i = 0; i < actions.length; i++) {
-                compare(root.calls[i], actions[i].id);
+                compare(root.calls[i], actions[i].id, "Id of action not found.");
             }
         }
     }

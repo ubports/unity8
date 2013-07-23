@@ -41,12 +41,12 @@ Item {
 
         function test_rated() {
             var rated = findChild(appInfo, "ratedLabel");
-            compare(rated.text, "(120)");
+            compare(rated.text, "(120)", "Rates not equal");
         }
 
         function test_reviews() {
             var rated = findChild(appInfo, "reviewsLabel");
-            compare(rated.text, i18n.tr("%n review", "%n reviews", 8));
+            compare(rated.text, i18n.tr("%n review", "%n reviews", 8), "Reviews don't match");
         }
     }
 }

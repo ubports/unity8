@@ -76,8 +76,8 @@ Item {
             appReviews.state = "";
             var reviewField = findChild(appReviews, "reviewField");
             var sendButton = findChild(appReviews, "sendButton");
-            compare(reviewField.width, appReviews.width);
-            compare(sendButton.opacity, 0);
+            compare(reviewField.width, appReviews.width, "ReviewField width don't match");
+            compare(sendButton.opacity, 0, "SendButton opacity should be 0");
         }
 
         function test_send_review() {
@@ -92,11 +92,11 @@ Item {
             var sendButton = findChild(appReviews, "sendButton");
             var reviewField = findChild(appReviews, "reviewField");
 
-            compare(reviewField.focus, false);
-            compare(appReviews.state, "");
+            compare(reviewField.focus, false, "ReviewField shouldn't have focus");
+            compare(appReviews.state, "", "State should be empty");
             mouseClick(reviewField, 1, 1);
-            compare(reviewField.focus, true);
-            compare(appReviews.state, "editing");
+            compare(reviewField.focus, true, "Review Field should have focus");
+            compare(appReviews.state, "editing", "State should be 'editing'");
         }
 
         function test_comments() {
@@ -107,10 +107,10 @@ Item {
                 var rate = commentsArea.itemAt(i).children[0].children[1].children[0].rating
                 var date = commentsArea.itemAt(i).children[0].children[1].children[1].text
                 var comment = commentsArea.itemAt(i).children[1].text
-                compare(username, root._username);
-                compare(rate, root._rating);
-                compare(date, root._date);
-                compare(comment, root._comment);
+                compare(username, root._username, "Username don't match");
+                compare(rate, root._rating, "Rating don't match");
+                compare(date, root._date, "Date don't match");
+                compare(comment, root._comment, "Comment don't match");
             }
         }
 
