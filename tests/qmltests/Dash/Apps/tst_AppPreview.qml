@@ -102,7 +102,7 @@ Item {
     }
 
     UT.UnityTestCase {
-        name: "AppReviews"
+        name: "AppPreview"
         when: windowShown
 
         function test_actions() {

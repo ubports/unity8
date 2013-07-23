@@ -80,14 +80,31 @@ Column {
             objectName: "reviewField"
             placeholderText: i18n.tr("Review")
             width: parent.width
-            height: units.gu(5)
+            height: units.gu(4)
+            verticalAlignment: Text.AlignVCenter
 
             onFocusChanged: {
-                root.state = "editing";
+                if(reviewField.focus){
+                    root.state = "editing";
+                    reviewField.selectAll();
+                }
             }
 
             onTextChanged: {
                 if (reviewField.text == "") {
+                    root.state = "";
+                    reviewField.focus = false;
+                } else if (reviewField.lineCount > 1 && reviewField.lineCount < 6) {
+                    reviewField.height = units.gu(3) * reviewField.lineCount;
+                } else if (reviewField.lineCount == 1) {
+                    reviewField.height = units.gu(4);
+                }
+            }
+
+            InverseMouseArea {
+                anchors.fill: parent
+                propagateComposedEvents: false
+                onPressed: {
                     reviewField.focus = false;
                     root.state = "";
                 }
@@ -98,14 +115,13 @@ Column {
             id: sendButton
             objectName: "sendButton"
             width: units.gu(10)
+            height: reviewField.height
             color: Theme.palette.selected.foreground
             text: i18n.tr("Send")
             opacity: 0
 
             onClicked: {
                 root.sendReview(reviewField.text);
-                root.state = "";
-                reviewField.text = "";
             }
         }
     }

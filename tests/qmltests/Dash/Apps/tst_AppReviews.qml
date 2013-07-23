@@ -81,9 +81,22 @@ Item {
         }
 
         function test_send_review() {
+            sendReviewSpy.clear();
             var sendButton = findChild(appReviews, "sendButton");
-            mouseClick(sendButton, 1, 1)
+            mouseClick(sendButton, 1, 1);
             compare(sendReviewSpy.count, 1, "SendReview signal not emitted");
+        }
+
+        function test_review_focus() {
+            sendReviewSpy.clear();
+            var sendButton = findChild(appReviews, "sendButton");
+            var reviewField = findChild(appReviews, "reviewField");
+
+            compare(reviewField.focus, false);
+            compare(appReviews.state, "");
+            mouseClick(reviewField, 1, 1);
+            compare(reviewField.focus, true);
+            compare(appReviews.state, "editing");
         }
 
         function test_comments() {

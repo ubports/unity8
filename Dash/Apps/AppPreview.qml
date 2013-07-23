@@ -27,10 +27,35 @@ DashPreview {
 
     title: root.previewData.title
 
-    header: AppScreenshotsList {
-        height: units.gu(20)
-
+    header: ListView {
+        id: screenshots
+        spacing: units.gu(1)
+        orientation: ListView.Horizontal
+        height: units.gu(22)
+        anchors {
+            left: parent.left
+            right: parent.right
+            margins: units.gu(1)
+        }
         model: previewData.infoHints[0]
+
+        delegate: UbuntuShape {
+            id: item
+            height: screenshots.height
+            width: units.gu(12)
+            radius: "medium"
+            borderSource: ""
+            image: Image {
+                asynchronous: true
+                sourceSize { width: item.width; height: item.height }
+                source: model ? model.modelData : ""
+            }
+        }
+
+        MouseArea {
+            id: mouseArea
+            anchors.fill: parent
+        }
     }
 
     buttons: GridView {
@@ -66,6 +91,7 @@ DashPreview {
         spacing: units.gu(1)
 
         AppInfo {
+            objectName: "appInfo"
             appName: root.previewData.title
             icon: root.previewData.image
             rating: root.previewData.infoHints[1]
