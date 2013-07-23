@@ -119,6 +119,7 @@ Item {
                 readonly property bool isLoaded: status == Loader.Ready
 
                 onIsLoadedChanged: console.debug("Object: ", scopeId, " isLoaded:", isLoaded)
+                Component.onCompleted: console.debug("Loader:", scopeId)
 
                 onLoaded: {
                     item.scope = Qt.binding(function() { return scope })

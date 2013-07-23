@@ -173,7 +173,7 @@ class Unity8TestCase(AutopilotTestCase):
         # VMs. See lp:1203715
         self.assertThat(
             home_scope.isLoaded,
-            Eventually(Equals(True), timeout=40)
+            Eventually(Equals(True), timeout=60)
         )
         self.assertThat(home_scope.isCurrent, Eventually(Equals(True)))
 
