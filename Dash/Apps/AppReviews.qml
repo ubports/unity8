@@ -103,7 +103,7 @@ Column {
 
             InverseMouseArea {
                 anchors.fill: parent
-                propagateComposedEvents: false
+                propagateComposedEvents: true
                 onPressed: {
                     reviewField.focus = false;
                     root.state = "";
