@@ -1,6 +1,6 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
-# Unity8 Autopilot Test Suite
+# Unity Autopilot Test Suite
 # Copyright (C) 2012-2013 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
@@ -17,7 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-"""unity8 autopilot tests."""
+"""unity autopilot tests."""
 
 from autopilot.platform import model
 from autopilot.testcase import AutopilotTestCase
@@ -29,7 +29,7 @@ import os.path
 from testtools.matchers import Equals, NotEquals
 
 from unity8 import get_lib_path, get_binary_path, get_mocks_library_path
-from unity8.shell.emulators import Unity8EmulatorBase
+from unity8.shell.emulators import UnityEmulatorBase
 from unity8.shell.emulators.dash import Dash
 from unity8.shell.emulators.main_window import MainWindow
 
@@ -58,12 +58,12 @@ def _get_device_emulation_scenarios():
         ]
 
 
-class Unity8TestCase(AutopilotTestCase):
+class UnityTestCase(AutopilotTestCase):
 
-    """A test case base class for the Unity8 shell tests."""
+    """A test case base class for the Unity shell tests."""
 
     def setUp(self):
-        super(Unity8TestCase, self).setUp()
+        super(UnityTestCase, self).setUp()
         self._proxy = None
         self.touch = Touch.create()
         self._setup_display_details()
@@ -123,7 +123,7 @@ class Unity8TestCase(AutopilotTestCase):
         return divisor
 
     def launch_unity(self):
-        """Launch the unity8 shell, return a proxy object for it."""
+        """Launch the unity shell, return a proxy object for it."""
         binary_path = get_binary_path()
         lib_path = get_lib_path()
 
@@ -139,14 +139,14 @@ class Unity8TestCase(AutopilotTestCase):
             binary_path,
             *self.unity_geometry_args,
             app_type='qt',
-            emulator_base=Unity8EmulatorBase
+            emulator_base=UnityEmulatorBase
         )
         self._set_proxy(app_proxy)
 
         # Ensure that the dash is visible before we return:
-        logger.debug("Unity8 started, waiting for it to be ready.")
+        logger.debug("Unity started, waiting for it to be ready.")
         self.assertUnityReady()
-        logger.debug("Unity8 loaded and ready.")
+        logger.debug("Unity loaded and ready.")
 
         return app_proxy
 

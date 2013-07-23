@@ -1,6 +1,6 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
-# Unity8 Autopilot Test Suite
+# Unity Autopilot Test Suite
 # Copyright (C) 2012-2013 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
@@ -21,5 +21,5 @@
 from autopilot.introspection import CustomEmulatorBase
 
 
-class Unity8EmulatorBase(CustomEmulatorBase):
-    """A base class for all unity8 emulators."""
+class UnityEmulatorBase(CustomEmulatorBase):
+    """A base class for all unity emulators."""

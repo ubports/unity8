@@ -1,6 +1,6 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
-# Unity8 Autopilot Test Suite
+# Unity Autopilot Test Suite
 # Copyright (C) 2012-2013 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@ from __future__ import absolute_import
 from collections import namedtuple
 
 from unity8.shell import with_lightdm_mock
-from unity8.shell.tests import Unity8TestCase, _get_device_emulation_scenarios
+from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 
 from testtools.matchers import Equals
 from autopilot.matchers import Eventually
@@ -31,7 +31,7 @@ from autopilot.matchers import Eventually
 SwipeCoords = namedtuple('SwipeCoords', 'start_x end_x start_y end_y')
 
 
-class TestHud(Unity8TestCase):
+class TestHud(UnityTestCase):
 
     """Tests the Shell HUD."""
 
@@ -139,7 +139,7 @@ class TestHud(Unity8TestCase):
 
         Because when testing on the desktop running
         self.launch_application() will launch the application on the desktop
-        itself and not within the Unity8 UI.
+        itself and not within the Unity UI.
 
         """
         dash = self.main_window.get_dash()

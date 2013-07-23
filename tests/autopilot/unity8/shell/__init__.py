@@ -1,6 +1,6 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
-# Unity8 Autopilot Test Suite
+# Unity Autopilot Test Suite
 # Copyright (C) 2012-2013 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
@@ -17,7 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-"""unity8 shell autopilot tests and emulators - sub level package."""
+"""unity shell autopilot tests and emulators - sub level package."""
 
 from functools import wraps
 import logging

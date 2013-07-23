@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
-# Unity8 Autopilot Test Suite
+# Unity Autopilot Test Suite
 # Copyright (C) 2012-2013 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,7 @@ from setuptools import find_packages
 setup(
     name='unity',
     version='8.0',
-    description='Unity 8 autopilot tests.',
+    description='Unity autopilot tests.',
     url='https://launchpad.net/unity',
     license='GPLv3',
     packages=find_packages(),

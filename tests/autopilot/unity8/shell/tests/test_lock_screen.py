@@ -1,6 +1,6 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
-# Unity8 Autopilot Test Suite
+# Unity Autopilot Test Suite
 # Copyright (C) 2012-2013 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@
 from __future__ import absolute_import
 
 from unity8.shell import with_lightdm_mock
-from unity8.shell.tests import Unity8TestCase, _get_device_emulation_scenarios
+from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 
 from autopilot.matchers import Eventually
 from autopilot.platform import model
@@ -29,7 +29,7 @@ from testtools import skipUnless
 from testtools.matchers import Equals
 
 
-class TestLockscreen(Unity8TestCase):
+class TestLockscreen(UnityTestCase):
 
     """Tests for the lock screen."""
 

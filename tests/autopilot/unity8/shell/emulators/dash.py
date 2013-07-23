@@ -1,6 +1,6 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
-# Unity8 Autopilot Test Suite
+# Unity Autopilot Test Suite
 # Copyright (C) 2012-2013 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
@@ -17,10 +17,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from unity8.shell.emulators import Unity8EmulatorBase
+from unity8.shell.emulators import UnityEmulatorBase
 
 
-class Dash(Unity8EmulatorBase):
+class Dash(UnityEmulatorBase):
 
     """An emulator that understands the Dash."""
 

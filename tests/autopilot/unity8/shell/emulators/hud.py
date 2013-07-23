@@ -1,6 +1,6 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
-# Unity8 Autopilot Test Suite
+# Unity Autopilot Test Suite
 # Copyright (C) 2012-2013 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
@@ -18,11 +18,11 @@
 #
 
 from unity8 import get_grid_size
-from unity8.shell.emulators import Unity8EmulatorBase
+from unity8.shell.emulators import UnityEmulatorBase
 from autopilot.input import Touch
 
 
-class Hud(Unity8EmulatorBase):
+class Hud(UnityEmulatorBase):
 
     """An emulator that understands the Hud."""
 
