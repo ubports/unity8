@@ -114,12 +114,11 @@ Item {
                 height: ListView.view.height
                 asynchronous: true
                 source: scopeMapper.map(scope.id)
+
+                // these are needed for autopilot tests
                 readonly property string scopeId: scope.id
                 readonly property bool isCurrent: ListView.isCurrentItem
                 readonly property bool isLoaded: status == Loader.Ready
-
-                onIsLoadedChanged: console.debug("Object: ", scopeId, " isLoaded:", isLoaded)
-                Component.onCompleted: console.debug("Loader:", scopeId)
 
                 onLoaded: {
                     item.scope = Qt.binding(function() { return scope })
