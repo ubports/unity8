@@ -166,11 +166,11 @@ class Unity8TestCase(AutopilotTestCase):
         self._proxy = None
 
     def assertUnityReady(self):
+        dash = self.get_dash()
+        home_scope = dash.get_scope('home')
+
         # FIXME! There is a huge timeout here for when we're doing CI on
         # VMs. See lp:1203715
-        home_scope = self.get_dash_home_scope()
-        # home_scope_is_loaded = lambda: home_scope.isCurrent
-        # home_scope_is_current = lambda: get_home_scope().isLoaded
         self.assertThat(
             home_scope.isLoaded,
             Eventually(Equals(True), timeout=40)
@@ -181,15 +181,6 @@ class Unity8TestCase(AutopilotTestCase):
         dash = self._proxy.select_single(Dash)
         self.assertThat(dash, NotEquals(None))
         return dash
-
-    # change this to get_scope(name='home') and add the .scope to it
-    def get_dash_home_scope(self):
-        dash = self.get_dash()
-        dash_content = dash.select_single(
-            'QQuickListView',
-            objectName='dashContentList'
-        )
-        return dash_content.select_single('QQuickLoader', scopeId='home.scope')
 
     @property
     def main_window(self):
