@@ -89,6 +89,7 @@ Column {
             onTextChanged: {
                 if (reviewField.text == "") {
                     reviewField.focus = false;
+                    root.state = "";
                 }
             }
         }
