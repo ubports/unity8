@@ -90,7 +90,7 @@ Item {
                         verticalCenter: parent.verticalCenter
                     }
 
-                    color: "#f3f3e7"
+                    color: Theme.palette.selected.backgroundText
                     opacity: 0.8
                     font.family: "Ubuntu"
                     font.weight: Font.Light

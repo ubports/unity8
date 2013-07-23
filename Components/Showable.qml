@@ -52,7 +52,7 @@ Item {
     function show() {
         required = true;
         if (created) {
-            __reallyShow(true);
+            __reallyShow();
         } else {
             __shouldShow = true;
         }
@@ -60,16 +60,12 @@ Item {
 
     onCreatedChanged: {
         if (created && __shouldShow) {
-            __reallyShow(true);
+            __reallyShow();
             __shouldShow = false;
         }
     }
 
-    function showWithoutAnimation() {
-        __reallyShow(false);
-    }
-
-    function __reallyShow(animated) {
+    function __reallyShow() {
         if (!available) {
             return false;
         }
@@ -81,13 +77,8 @@ Item {
         }
 
         if (showAnimation != undefined) {
-            if (animated) {
-                if (!showAnimation.running) {
-                    showAnimation.restart()
-                }
-            } else {
-                showAnimation.start();
-                showAnimation.complete();
+            if (!showAnimation.running) {
+                showAnimation.restart()
             }
         } else {
             visible = true;

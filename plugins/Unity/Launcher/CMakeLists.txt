@@ -1,6 +1,5 @@
-# Dependencies
 include(FindPkgConfig)
-pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher)
+pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=2)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -25,4 +24,5 @@ add_library(UnityLauncher-qml MODULE
 qt5_use_modules(UnityLauncher-qml Qml)
 
 # export the qmldir and qmltypes files
+export_qmlfiles(Unity.Launcher Unity/Launcher)
 export_qmlplugin(Unity.Launcher 0.1 Unity/Launcher TARGETS UnityLauncher-qml)

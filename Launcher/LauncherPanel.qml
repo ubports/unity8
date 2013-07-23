@@ -86,6 +86,7 @@ Item {
                 height: width
                 anchors.centerIn: parent
                 source: "graphics/home.png"
+                rotation: root.rotation
             }
         }
         ThinDivider {
@@ -178,7 +179,7 @@ Item {
                     property int startY
 
 
-                    Item {
+/*                    Item {
                         id: fakeDragItem
                         width: launcherListView.itemSize
                         height: launcherListView.itemSize
@@ -207,16 +208,16 @@ Item {
                             height: width
                         }
                     }
-
-/*                    LauncherDelegate {
+*/
+                    LauncherDelegate {
                         id: fakeDragItem
-                        visible: dndArea.draggedItem !== undefined
+                        visible: dndArea.draggedIndex >= 0
                         iconName: "gmail"
                         height: launcherListView.itemSize
                         width: height
                         rotation: root.rotation
                     }
-*/
+
                     onPressed: {
                         var realContentY = launcherListView.contentY + launcherListView.topMargin
                         selectedItem = launcherListView.itemAt(mouseX, mouseY + realContentY)
