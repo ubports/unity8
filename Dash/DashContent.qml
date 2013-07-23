@@ -118,6 +118,8 @@ Item {
                 readonly property bool isCurrent: ListView.isCurrentItem
                 readonly property bool isLoaded: status == Loader.Ready
 
+                onIsLoadedChanged: console.debug("Object: ", scopeId, " isLoaded:", isLoaded)
+
                 onLoaded: {
                     item.scope = Qt.binding(function() { return scope })
                     item.isCurrent = Qt.binding(function() { return ListView.isCurrentItem })
