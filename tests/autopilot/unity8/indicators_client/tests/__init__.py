@@ -30,19 +30,22 @@ class IndicatorsTestCase(AutopilotTestCase):
 
     """A common test case class that provides several useful methods for indicator tests."""
 
+    geometry = None
+    grid_unit = None
+
     if model() == 'Desktop':
         scenarios = [
-        ('with mouse', dict(input_device_class=Mouse, grid_unit="12")),
+        ('with mouse', dict(input_device_class=Mouse, geometry="400x800", grid_unit="12")),
         ]
     else:
         scenarios = [
-        ('with touch', dict(input_device_class=Touch, grid_unit="0")),
+        ('with touch', dict(input_device_class=Touch)),
         ]
 
     def setUp(self, geometry, grid_size):
         self.pointing_device = Pointer(self.input_device_class.create())
         super(IndicatorsTestCase, self).setUp()
-        if grid_size != "0":
+        if grid_size is not None:
             self.patch_environment("GRID_UNIT_PX", str(grid_size))
             self.grid_size = int(grid_size)
         else:
@@ -54,7 +57,7 @@ class IndicatorsTestCase(AutopilotTestCase):
             self.launch_test_local(geometry)
 
     def launch_test_local(self, geometry):
-        if geometry != "0x0":
+        if geometry is None:
             self.app = self.launch_test_application(get_binary_path("indicators-client"),
                 "-geometry", geometry, app_type='qt')
         else:
@@ -62,7 +65,7 @@ class IndicatorsTestCase(AutopilotTestCase):
                 app_type='qt')
 
     def launch_test_installed(self, geometry):
-        if geometry != "0x0":
+        if geometry is not None:
             self.app = self.launch_test_application("indicators-client", "-geometry", geometry, app_type='qt')
         else:
             self.app = self.launch_test_application("indicators-client", app_type='qt')

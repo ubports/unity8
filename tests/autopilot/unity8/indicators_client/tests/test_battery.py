@@ -18,7 +18,7 @@ import math
 
 class TestDisplayMenus(IndicatorsTestCase):
     def setUp(self):
-        super(TestDisplayMenus, self).setUp("400x800", self.grid_unit)
+        super(TestDisplayMenus, self).setUp(self.geometry, self.grid_unit)
 
         # This opens the messaging menu so you don't have to do that in
         # every test case
