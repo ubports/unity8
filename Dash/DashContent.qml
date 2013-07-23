@@ -114,6 +114,9 @@ Item {
                 height: ListView.view.height
                 asynchronous: true
                 source: scopeMapper.map(scope.id)
+                readonly property string scopeId: scope.id
+                readonly property bool isCurrent: ListView.isCurrentItem
+                readonly property bool isLoaded: status == Loader.Ready
 
                 onLoaded: {
                     item.scope = Qt.binding(function() { return scope })

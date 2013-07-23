@@ -144,14 +144,10 @@ class Unity8TestCase(AutopilotTestCase):
         self._set_proxy(app_proxy)
 
         # Ensure that the dash is visible before we return:
-        logger.debug("Unity8 started, waiting for Dash.")
-        # FIXME! There is a huge timeout here for when we're doing CI on
-        # VMs. See lp:1203715
-        self.assertThat(
-            self.get_dash().showScopeOnLoaded,
-            Eventually(Equals(""), timeout=40)
-        )
-        logger.debug("Unity8 Dash loaded and ready.")
+        logger.debug("Unity8 started, waiting for it to be ready.")
+        self.assertUnityReady()
+        logger.debug("Unity8 loaded and ready.")
+
         return app_proxy
 
     def _setup_extra_mock_environment_patch(self):
@@ -169,10 +165,31 @@ class Unity8TestCase(AutopilotTestCase):
     def _clear_proxy(self):
         self._proxy = None
 
+    def assertUnityReady(self):
+        # FIXME! There is a huge timeout here for when we're doing CI on
+        # VMs. See lp:1203715
+        home_scope = self.get_dash_home_scope()
+        # home_scope_is_loaded = lambda: home_scope.isCurrent
+        # home_scope_is_current = lambda: get_home_scope().isLoaded
+        self.assertThat(
+            home_scope.isLoaded,
+            Eventually(Equals(True), timeout=40)
+        )
+        self.assertThat(home_scope.isCurrent, Eventually(Equals(True)))
+
     def get_dash(self):
         dash = self._proxy.select_single(Dash)
         self.assertThat(dash, NotEquals(None))
         return dash
+
+    # change this to get_scope(name='home') and add the .scope to it
+    def get_dash_home_scope(self):
+        dash = self.get_dash()
+        dash_content = dash.select_single(
+            'QQuickListView',
+            objectName='dashContentList'
+        )
+        return dash_content.select_single('QQuickLoader', scopeId='home.scope')
 
     @property
     def main_window(self):
