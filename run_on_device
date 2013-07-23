@@ -33,7 +33,7 @@ usage() {
 }
 
 exec_with_ssh() {
-    ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -t $USER@$TARGET_IP -p $TARGET_SSH_PORT "bash -ic \"$@\""
+    ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -t $USER@$TARGET_IP -p $TARGET_SSH_PORT sudo -u $USER -i bash -ic \"$@\"
 }
 
 exec_with_adb() {
@@ -83,17 +83,6 @@ build() {
 }
 
 run() {
-    SERVICEFILE="${CHROOT_PREFIX}/etc/device-services"
-    adb shell "egrep '$BINARY' $SERVICEFILE"
-    CONTAINS_SHELL=$?
-    if [ $CONTAINS_SHELL -eq 0 ]; then
-        echo "Modifying $SERVICEFILE on device. Old contents will be saved in $SERVICEFILE.backup"
-        adb shell cp $SERVICEFILE $SERVICEFILE.backup
-        adb shell sed -i "/$BINARY/d" $SERVICEFILE
-        if $FLIPPED; then exec_with_adb /usr/bin/service ubuntu-touch-session restart
-        else exec_with_adb /usr/bin/service ubuntu-session restart; fi
-    fi
-    adb shell pkill $BINARY
     ARGS="--nomousetouch"
     if $GDB; then
         ARGS="$ARGS --gdb"
@@ -105,14 +94,9 @@ run() {
         ARGS="$ARGS -k"
     fi
 
+    exec_with_ssh "stop unity8"
     exec_with_ssh "cd $CODE_DIR/ && ./run $ARGS -- $RUN_OPTIONS"
-
-    if [ $CONTAINS_SHELL -eq 0 ]; then
-        echo "Restoring $SERVICEFILE on device from $SERVICEFILE.backup"
-        adb shell cp $SERVICEFILE.backup $SERVICEFILE
-        if $FLIPPED; then exec_with_adb /usr/bin/service ubuntu-touch-session restart
-        else exec_with_adb /usr/bin/service ubuntu-session restart; fi
-    fi
+    exec_with_ssh "start unity8"
 }
 
 set -- `getopt -n$0 -u -a --longoptions="setup,gdb,pinlock,keylock,help" "sgpkh" "$@"`

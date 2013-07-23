@@ -47,7 +47,7 @@ Item {
     }
 
     Rectangle {
-        color: "#dd4814"
+        color: Theme.palette.selected.foreground
         objectName: "highlight"
         height: units.dp(2)
         width: parent.width
