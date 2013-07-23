@@ -127,11 +127,14 @@ Item {
                     NumberAnimation { properties: "x,y"; duration: 100 }
                 }
 
-                delegate: LauncherDelegate {
+                delegate: LauncherListDelegate {
                     id: launcherDelegate
                     objectName: "launcherDelegate" + index
-                    width: launcherListView.itemSize
-                    height: dragging ? units.gu(2) : launcherListView.itemSize
+                    itemHeight: launcherListView.itemSize
+                    itemWidth: launcherListView.itemSize
+                    width: itemWidth
+//                    height: dragging ? units.gu(2) : launcherListView.itemSize
+                    height: itemHeight
                     iconName: model.icon
                     inverted: root.inverted
                     highlighted: dragging && index === root.highlightIndex
@@ -139,11 +142,27 @@ Item {
                     maxAngle: 60
                     property bool dragging: false
 
-                    Behavior on height {
-                        NumberAnimation { duration: 200 }
-                    }
+                    states: [
+                        State {
+                            name: "dragging"
+                            when: dragging
+                            PropertyChanges {
+                                target: launcherDelegate
+                                angle: 80
+                                offset: effectiveHeight / 2
+                                height: effectiveHeight
+                            }
+                        }
+                    ]
+                    transitions: [
+                        Transition {
+                            from: "*"
+                            to: "*"
+                            NumberAnimation { properties: "angle,offset,height"; duration: 200 }
+                        }
+                    ]
 
-                    onClicked: {
+/*                    onClicked: {
                         // First/last item do the scrolling at more than 12 degrees
                         if (index == 0 || index == launcherListView.count -1) {
                             if (angle > 12) {
@@ -165,6 +184,7 @@ Item {
                             root.applicationSelected(LauncherModel.get(index).desktopFile);
                         }
                     }
+                */
                 }
 
                 MouseArea {
@@ -178,43 +198,13 @@ Item {
                     property int startX
                     property int startY
 
-
-/*                    Item {
-                        id: fakeDragItem
-                        width: launcherListView.itemSize
-                        height: launcherListView.itemSize
-                        visible: dndArea.draggedIndex >= 0
-                        property string iconName
-
-                        UbuntuShape {
-                            id: iconShape
-                            anchors.fill: parent
-                            anchors.margins: units.gu(0.5)
-                            radius: "medium"
-
-                            image: Image {
-                                id: iconImage
-                                sourceSize.width: iconShape.width
-                                sourceSize.height: iconShape.height
-                                source: "../graphics/applicationIcons/" + fakeDragItem.iconName + ".png"
-                            }
-                        }
-                        BorderImage {
-                            id: overlayHighlight
-                            anchors.centerIn: fakeDragItem
-                            rotation: inverted ? 180 : 0
-                            source: isSelected ? "graphics/selected.sci" : "graphics/non-selected.sci"
-                            width: fakeDragItem.width + units.gu(0.5)
-                            height: width
-                        }
-                    }
-*/
                     LauncherDelegate {
                         id: fakeDragItem
                         visible: dndArea.draggedIndex >= 0
-                        iconName: "gmail"
-                        height: launcherListView.itemSize
-                        width: height
+                        itemWidth: launcherListView.itemSize
+                        itemHeight: launcherListView.itemSize
+                        height: itemHeight
+                        width: itemWidth
                         rotation: root.rotation
                     }
 
