@@ -22,7 +22,7 @@ import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
 
 Page {
-    id: _page
+    id: page
 
     title: indicatorProperties && indicatorProperties.title ?  indicatorProperties.title : ""
     property variant indicatorProperties
@@ -31,11 +31,10 @@ Page {
     anchors.fill: parent
 
     ListItem.Standard {
-        id: button
-
+        id: visualCheckItem
         text: "Enable Visual Representation"
         control: Switch {
-            id: checked
+            id: visualCheck
             checked: true
         }
     }
@@ -45,13 +44,14 @@ Page {
         objectName: "page_loader"
 
         anchors {
-            top: button.bottom
+            top: visualCheckItem.bottom
             left: parent.left
             right: parent.right
-            bottom: parent.bottom
+            bottom: buttons.top
             topMargin: units.gu(2)
+            bottomMargin: units.gu(2)
         }
-        source : checked.checked ? _page.pageSource : "IndicatorsTree.qml"
+        source : visualCheck.checked ? page.pageSource : "IndicatorsTree.qml"
 
         onLoaded: {
             for(var pName in indicatorProperties) {
@@ -60,6 +60,34 @@ Page {
                 }
             }
             item.start();
+        }
+    }
+
+    Item {
+        id: buttons
+        anchors {
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+            margins: units.gu(1)
+        }
+        height: childrenRect.height
+
+        Button {
+            anchors {
+                left: parent.left
+            }
+            text: "Back"
+            onClicked: page.pageStack.reset()
+        }
+        Button {
+            id: refresh
+            visible: !visualCheck.checked
+            anchors {
+                right: parent.right
+            }
+            text: "Refresh"
+            onClicked: page_loader.item.refresh()
         }
     }
 }

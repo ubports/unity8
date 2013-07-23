@@ -39,6 +39,10 @@ Page {
         menuModel.start();
     }
 
+    function refresh() {
+        all_data.text = printer.getString();
+    }
+
     QDBusMenuModel {
         id: menuModel
         objectPath: page.deviceMenuObjectPath
@@ -51,37 +55,13 @@ Page {
         onSourceChanged: page.refresh()
     }
 
-    function refresh() {
-        all_data.text = printer.getString();
-    }
-
     Flickable {
-        anchors {
-            top: parent.top
-            left: parent.left
-            right: parent.right
-            bottom: button.top
-        }
+        anchors.fill: parent
         contentHeight: all_data.height
         clip:true
         Text {
             id: all_data
             color: "white"
-        }
-    }
-
-    ListItem.Standard {
-        id: button
-        anchors {
-            left: parent.left
-            right: parent.right
-            bottom: parent.bottom
-        }
-
-        text: ""
-        control: Button {
-            text: "Refresh"
-            onClicked: page.refresh()
         }
     }
 }
