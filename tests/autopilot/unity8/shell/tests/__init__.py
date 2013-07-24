@@ -19,6 +19,11 @@
 
 """unity autopilot tests."""
 
+try:
+    from gi.repository import Gio
+except ImportError:
+    Gio = None
+
 from autopilot.platform import model
 from autopilot.testcase import AutopilotTestCase
 from autopilot.matchers import Eventually
@@ -36,6 +41,10 @@ from unity8.shell.emulators.main_window import MainWindow
 
 logger = logging.getLogger(__name__)
 
+UNITYSHELL_GSETTINGS_SCHEMA = "org.compiz.unityshell"
+UNITYSHELL_GSETTINGS_PATH = "/org/compiz/profiles/unity/plugins/unityshell/"
+UNITYSHELL_LAUNCHER_KEY = "launcher-hide-mode"
+UNITYSHELL_LAUNCHER_MODE = 1 # launcher hidden
 
 def _get_device_emulation_scenarios():
     if model() == 'Desktop':
@@ -64,9 +73,20 @@ class UnityTestCase(AutopilotTestCase):
 
     def setUp(self):
         super(UnityTestCase, self).setUp()
+        if Gio is not None and UNITYSHELL_GSETTINGS_SCHEMA in Gio.Settings.list_relocatable_schemas():
+            # Hide Unity launcher
+            self._unityshell_schema = Gio.Settings.new_with_path(UNITYSHELL_GSETTINGS_SCHEMA, UNITYSHELL_GSETTINGS_PATH)
+            self._launcher_hide_mode = self._unityshell_schema.get_int(UNITYSHELL_LAUNCHER_KEY)
+            self._unityshell_schema.set_int(UNITYSHELL_LAUNCHER_KEY, UNITYSHELL_LAUNCHER_MODE)
+            self.addCleanup(self._reset_launcher)
+
         self._proxy = None
         self.touch = Touch.create()
         self._setup_display_details()
+
+    def _reset_launcher(self):
+        """Reset Unity launcher hide mode"""
+        self._unityshell_schema.set_int(UNITYSHELL_LAUNCHER_KEY, self._launcher_hide_mode)
 
     def _setup_display_details(self):
         scale_divisor = self._determine_geometry()
