@@ -26,6 +26,7 @@ import "Music"
 
 ScopeView {
     id: root
+    objectName: "DashHome"
 
     onMovementStarted: listView.showHeader()
 
