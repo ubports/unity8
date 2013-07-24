@@ -25,6 +25,7 @@
 #include <QString>
 #include <QMetaType>
 #include <QList>
+#include <QVariantMap>
 
 // libunity-core
 #include <UnityCore/Preview.h>
@@ -42,6 +43,7 @@ class Q_DECL_EXPORT Preview : public QObject
     Q_PROPERTY(QString description READ description NOTIFY previewChanged)
     Q_PROPERTY(QVariant actions READ actions NOTIFY previewChanged)
     Q_PROPERTY(QVariant infoHints READ infoHints NOTIFY previewChanged)
+    Q_PROPERTY(QVariantMap infoMap READ infoHintsHash NOTIFY previewChanged)
     Q_PROPERTY(QString image READ image NOTIFY previewChanged)
     Q_PROPERTY(QString imageSourceUri READ imageSourceUri NOTIFY previewChanged)
 
@@ -55,6 +57,7 @@ public:
     QString description() const;
     QVariant actions();
     QVariant infoHints();
+    QVariantMap infoHintsHash();
     QString image() const;
     QString imageSourceUri() const;
 
@@ -73,6 +76,7 @@ private:
 
     QList<QObject *> m_actions;
     QList<QObject *> m_infoHints;
+    QVariantMap m_infoHintsHash;
 };
 
 Q_DECLARE_METATYPE(Preview *)

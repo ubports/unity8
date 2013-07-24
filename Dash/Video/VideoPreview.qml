@@ -24,7 +24,10 @@ DashPreview {
 
     property var item
     property alias ready: nfo.ready
+    property bool playable: false
+    property string filePath: fileUri != ""
     readonly property url fileUri: item ? item.fileUri : ""
+    property url url: item ? item.nfoUri.replace(/\.nfo$/, "-fanart.jpg") : ""
 
     VideoInfo {
         id: nfo
@@ -32,13 +35,42 @@ DashPreview {
     }
 
     title: nfo.ready ? nfo.video.title : ""
-    url: item ? item.nfoUri.replace(/\.nfo$/, "-fanart.jpg") : ""
     previewWidthRatio: 0.6
-    playable: fileUri != ""
 
     onPreviewImageClicked: {
         if (playable) {
             shell.activateApplication('/usr/share/applications/mediaplayer-app.desktop', root.fileUri);
+        }
+    }
+
+    // TODO: replace this UbuntuShape with the Video component once that lands
+    // with the player.
+    header: UbuntuShape {
+        id: urlLoader
+        anchors.left: parent.left
+        anchors.right: parent.right
+        radius: "medium"
+        image: Image {
+            id: previewImage
+            asynchronous: true
+            source: root.url
+            fillMode: Image.PreserveAspectCrop
+        }
+
+        Image {
+            objectName: "playButton"
+            anchors.centerIn: parent
+            visible: root.playable
+            readonly property bool bigButton: parent.width > units.gu(40)
+            width: bigButton ? units.gu(8) : units.gu(4.5)
+            height: width
+            source: "../graphics/play_button%1%2.png".arg(previewImageMouseArea.pressed ? "_active" : "").arg(bigButton ? "_big" : "")
+        }
+
+        MouseArea {
+            id: previewImageMouseArea
+            anchors.fill: parent
+            onClicked: root.previewImageClicked()
         }
     }
 
@@ -64,7 +96,7 @@ DashPreview {
         }
     }
 
-    description: Column {
+    body: Column {
         spacing: units.gu(2)
         RatingStars {
             maximumRating: 10 // FIXME: this should happen on the backend side
