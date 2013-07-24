@@ -28,7 +28,7 @@ Item {
     rotation: inverted ? 180 : 0
 
     property var model
-    property bool inverted: true
+    property bool inverted: false
     property bool dragging: false
     property bool moving: launcherListView.moving || launcherListView.flicking || dndArea.draggedItem !== undefined
     property int dragPosition: 0
@@ -42,9 +42,9 @@ Item {
 
         var hiddenContentHeight = launcherListView.contentHeight - launcherListView.height
         // Shortening scrollable height because the first/last item needs to be fully expanded before reaching the top/bottom
-        var scrollableHeight = launcherListView.height - (launcherListView.itemSize + launcherColumn.spacing) *2
+        var scrollableHeight = launcherListView.height - (launcherListView.itemSize + launcherListView.spacing) *2
         // As we shortened the scrollableHeight, lets move everything down by the itemSize
-        var shortenedEffectiveDragPosition = effectiveDragPosition - launcherListView.itemSize - launcherColumn.spacing
+        var shortenedEffectiveDragPosition = effectiveDragPosition - launcherListView.itemSize - launcherListView.spacing
         var newContentY = shortenedEffectiveDragPosition * hiddenContentHeight / scrollableHeight
 
         // limit top/bottom to prevent overshooting
@@ -54,7 +54,7 @@ Item {
         // > the current mouse position + the hidden/scolled content on top is the mouse position in the averall view
         // > adjust that removing all the margins
         // > divide by itemSize to get index
-        highlightIndex = (effectiveDragPosition + launcherListView.contentY - mainColumn.anchors.margins*3 - launcherColumn.spacing/2) / (launcherListView.itemSize + launcherColumn.spacing)
+//        highlightIndex = (effectiveDragPosition + launcherListView.contentY - mainColumn.anchors.margins*3 - launcherListView.spacing/2) / (launcherListView.itemSize + launcherColumn.spacing)
     }
 
     BorderImage {
@@ -236,6 +236,8 @@ Item {
                         draggedIndex = -1;
                         drag.target = undefined
                         launcherListView.interactive = true;
+
+                        progressiveScrollingTimer.stop();
                     }
 
                     onPressAndHold: {
@@ -279,7 +281,7 @@ Item {
                             }
 
                             //launcherPanel.dragPosition = inverted ? launcherListView.height - y : y
-                            //launcherPanel.dragPosition = mouseY
+                            //root.dragPosition = mouseY
 
                             var realContentY = launcherListView.contentY + launcherListView.topMargin
                             var realItemSize = launcherListView.itemSize + launcherListView.spacing
@@ -287,6 +289,20 @@ Item {
 
                             // Move it down by the the missing size to compensate index calculation with only expanded items
                             itemCenterY += selectedItem.height / 2
+
+                            print("mouseY", mouseY, launcherListView.height - launcherListView.topMargin - launcherListView.bottomMargin - realItemSize)
+                            if (mouseY > launcherListView.height - launcherListView.topMargin - launcherListView.bottomMargin - realItemSize) {
+                                print("entered bottom area")
+                                progressiveScrollingTimer.downwards = false
+                                progressiveScrollingTimer.start()
+                            } else if (mouseY < realItemSize) {
+                                progressiveScrollingTimer.downwards = true
+                                progressiveScrollingTimer.start()
+                                print("entered top area")
+                            } else {
+                                progressiveScrollingTimer.stop()
+                                print("not in any area")
+                            }
 
                             var newIndex = (itemCenterY + realContentY) / realItemSize
 
@@ -306,6 +322,25 @@ Item {
                         }
                     }
                 }
+                Timer {
+                    id: progressiveScrollingTimer
+                    interval: 5
+                    repeat: true
+                    running: false
+                    property bool downwards: true
+                    onTriggered: {
+                        if (downwards) {
+                            if (launcherListView.contentY > launcherListView.contentHeight - launcherListView.height) {
+                                launcherListView.contentY -= 2
+                            }
+                        } else {
+                            if (launcherListView.contentY < 0) {
+                                launcherListView.contentY += 2
+                            }
+                        }
+                    }
+                }
+
                 MouseArea {
                     id: topFoldingArea
                     anchors {
