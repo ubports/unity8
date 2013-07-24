@@ -54,30 +54,36 @@ Item {
             objectName: "rowRepeater"
             model: indicatorsModel ? indicatorsModel : undefined
 
-            IndicatorItem {
-               id: indicatorItem
+            Item {
+                id: itemWrapper
+                height: indicatorRow.height
+                width: childrenRect.width
+                property int ownIndex: index
 
-               property int ownIndex: index
+                IndicatorItem {
+                   id: indicatorItem
+                   height: parent.height
 
-               widgetSource: model.widgetSource
+                   highlighted: indicatorRow.state != "initial" ? itemWrapper.ownIndex == indicatorRow.currentItemIndex : false
+                   dimmed: indicatorRow.state != "initial" ? itemWrapper.ownIndex != indicatorRow.currentItemIndex : false
 
-               indicatorProperties : model.indicatorProperties
-               highlighted: indicatorRow.state != "initial" ? ownIndex == indicatorRow.currentItemIndex : false
-               dimmed: indicatorRow.state != "initial" ? ownIndex != indicatorRow.currentItemIndex : false
-               height: indicatorRow.height
-               y: {
-                   if (!highlighted && (indicatorRow.state == "locked" || indicatorRow.state == "commit")) {
-                       return -indicatorRow.height;
-                   } else {
-                       return 0;
-                   }
-               }
-               Behavior on y {
-                    StandardAnimation {
-                        // flow away from current index
-                        duration: (rowRepeater.count - Math.abs(indicatorRow.currentItemIndex - index)) * (500/rowRepeater.count)
+                   widgetSource: model.widgetSource
+                   indicatorProperties : model.indicatorProperties
+                }
+
+                opacity: {
+                    if (!indicatorItem.highlighted && (indicatorRow.state == "locked" || indicatorRow.state == "commit")) {
+                        return 0.0;
+                    } else {
+                        return 1.0;
                     }
                 }
+                Behavior on opacity {
+                     StandardAnimation {
+                         // flow away from current index
+                         duration: (rowRepeater.count - Math.abs(indicatorRow.currentItemIndex - index)) * (500/rowRepeater.count)
+                     }
+                 }
             }
         }
     }
