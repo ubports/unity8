@@ -115,6 +115,11 @@ Item {
                 asynchronous: true
                 source: scopeMapper.map(scope.id)
 
+                // these are needed for autopilot tests
+                readonly property string scopeId: scope.id
+                readonly property bool isCurrent: ListView.isCurrentItem
+                readonly property bool isLoaded: status == Loader.Ready
+
                 onLoaded: {
                     item.scope = Qt.binding(function() { return scope })
                     item.isCurrent = Qt.binding(function() { return ListView.isCurrentItem })
