@@ -28,7 +28,7 @@ Item {
     rotation: inverted ? 180 : 0
 
     property var model
-    property bool inverted: false
+    property bool inverted: true
     property bool dragging: false
     property bool moving: launcherListView.moving || launcherListView.flicking || dndArea.draggedItem !== undefined
     property int dragPosition: 0
@@ -117,6 +117,7 @@ Item {
                 highlightRangeMode: ListView.ApplyRange
                 preferredHighlightBegin: (height - itemSize) / 2
                 preferredHighlightEnd: (height + itemSize) / 2
+                layoutDirection: root.inverted ? Qt.RightToLeft : Qt.LeftToRight
 
                 // The height of the area where icons start getting folded
                 property int foldingAreaHeight: itemSize * 0.75
@@ -133,7 +134,6 @@ Item {
                     itemHeight: launcherListView.itemSize
                     itemWidth: launcherListView.itemSize
                     width: itemWidth
-//                    height: dragging ? units.gu(2) : launcherListView.itemSize
                     height: itemHeight
                     iconName: model.icon
                     inverted: root.inverted
@@ -148,7 +148,7 @@ Item {
                             when: dragging
                             PropertyChanges {
                                 target: launcherDelegate
-                                angle: 80
+                                angle: root.inverted ? -80 : 80
                                 offset: effectiveHeight / 2
                                 height: effectiveHeight
                             }
@@ -162,30 +162,6 @@ Item {
                             NumberAnimation { properties: "height"; duration: 150 }
                         }
                     ]
-
-/*                    onClicked: {
-                        // First/last item do the scrolling at more than 12 degrees
-                        if (index == 0 || index == launcherListView.count -1) {
-                            if (angle > 12) {
-                                launcherListView.flick(0, -launcherListView.clickFlickSpeed);
-                            } else if (angle < -12) {
-                                launcherListView.flick(0, launcherListView.clickFlickSpeed);
-                            } else {
-                                root.applicationSelected(LauncherModel.get(index).desktopFile);
-                            }
-                            return;
-                        }
-
-                        // the rest launches apps up to an angle of 30 degrees
-                        if (angle > 30) {
-                            launcherListView.flick(0, -launcherListView.clickFlickSpeed);
-                        } else if (angle < -30) {
-                            launcherListView.flick(0, launcherListView.clickFlickSpeed);
-                        } else {
-                            root.applicationSelected(LauncherModel.get(index).desktopFile);
-                        }
-                    }
-                */
                 }
 
                 MouseArea {
@@ -214,10 +190,36 @@ Item {
                         var realContentY = launcherListView.contentY + launcherListView.topMargin
                         selectedItem = launcherListView.itemAt(mouseX, mouseY + realContentY)
                         selectedItem.highlighted = true
-
                     }
 
                     onClicked: {
+                        var realItemSize = launcherListView.itemSize + launcherListView.spacing
+                        var realContentY = launcherListView.contentY + launcherListView.topMargin
+                        var index = Math.floor((mouseY + realContentY) / realItemSize);
+                        var clickedItem = launcherListView.itemAt(mouseX, mouseY + realContentY)
+
+                        print("clicked on", index, clickedItem)
+
+                        // First/last item do the scrolling at more than 12 degrees
+                        if (index == 0 || index == launcherListView.count -1) {
+                            if (clickedItem.angle > 12) {
+                                launcherListView.flick(0, -launcherListView.clickFlickSpeed);
+                            } else if (clickedItem.angle < -12) {
+                                launcherListView.flick(0, launcherListView.clickFlickSpeed);
+                            } else {
+                                root.applicationSelected(LauncherModel.get(index).desktopFile);
+                            }
+                            return;
+                        }
+
+                        // the rest launches apps up to an angle of 30 degrees
+                        if (clickedItem.angle > 30) {
+                            launcherListView.flick(0, -launcherListView.clickFlickSpeed);
+                        } else if (clickedItem.angle < -30) {
+                            launcherListView.flick(0, launcherListView.clickFlickSpeed);
+                        } else {
+                            root.applicationSelected(LauncherModel.get(index).desktopFile);
+                        }
                     }
 
                     onCanceled: {
@@ -238,7 +240,6 @@ Item {
 
                     onPressAndHold: {
                         var realItemSize = launcherListView.itemSize + launcherListView.spacing
-
                         var realContentY = launcherListView.contentY + launcherListView.topMargin
                         draggedIndex = Math.floor((mouseY + realContentY) / realItemSize);
 
