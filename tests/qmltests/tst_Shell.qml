@@ -191,7 +191,7 @@ Item {
             var appIcon = findChild(launcherPanel, "launcherDelegate0")
 
             // Swipe upwards over the launcher to ensure that this icon
-            // at the bottom is not folded and faded away. 
+            // at the bottom is not folded and faded away.
             var touchStartX = launcherPanel.width / 2;
             var touchStartY = launcherPanel.height / 2;
             touchFlick(launcherPanel, touchStartX, touchStartY, touchStartX, 0);
