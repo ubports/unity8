@@ -152,7 +152,17 @@ Item {
                                 offset: effectiveHeight / 2
                                 height: effectiveHeight
                             }
+                        },
+                        State {
+                            name: "expanded"
+                            when: dndArea.draggedIndex >= 0 && !dragging
+                            PropertyChanges {
+                                target: launcherDelegate
+                                angle: 0
+                                offset: 0
+                            }
                         }
+
                     ]
                     transitions: [
                         Transition {
@@ -324,18 +334,20 @@ Item {
                 }
                 Timer {
                     id: progressiveScrollingTimer
-                    interval: 5
+                    interval: 2
                     repeat: true
                     running: false
                     property bool downwards: true
                     onTriggered: {
                         if (downwards) {
-                            if (launcherListView.contentY > launcherListView.contentHeight - launcherListView.height) {
-                                launcherListView.contentY -= 2
+                            var minY = launcherListView.contentHeight - launcherListView.height + mainColumn.spacing*2
+                            if (launcherListView.contentY > minY) {
+                                launcherListView.contentY = Math.max(launcherListView.contentY - units.dp(2), minY)
                             }
                         } else {
-                            if (launcherListView.contentY < 0) {
-                                launcherListView.contentY += 2
+                            var maxY = -mainColumn.spacing*2
+                            if (launcherListView.contentY < maxY) {
+                                launcherListView.contentY = Math.min(launcherListView.contentY + units.dp(2), maxY)
                             }
                         }
                     }
