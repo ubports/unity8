@@ -113,7 +113,7 @@ int main(int argc, char** argv)
     view->setResizeMode(QQuickView::SizeRootObjectToView);
     view->setTitle("Qml Phone Shell");
     view->engine()->setBaseUrl(QUrl::fromLocalFile(::shellAppDirectory()));
-    view->rootContext()->setContextProperty("ApplicationArguments", &qmlArgs);
+    view->rootContext()->setContextProperty("applicationArguments", &qmlArgs);
     if (args.contains(QLatin1String("-frameless"))) {
         view->setFlags(Qt::FramelessWindowHint);
     }

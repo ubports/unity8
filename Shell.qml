@@ -36,8 +36,8 @@ FocusScope {
 
     // this is only here to select the width / height of the window if not running fullscreen
     property bool tablet: false
-    width: tablet ? units.gu(160) : ApplicationArguments.hasGeometry() ? ApplicationArguments.width() : units.gu(40)
-    height: tablet ? units.gu(100) : ApplicationArguments.hasGeometry() ? ApplicationArguments.height() : units.gu(71)
+    width: tablet ? units.gu(160) : applicationArguments.hasGeometry() ? applicationArguments.width() : units.gu(40)
+    height: tablet ? units.gu(100) : applicationArguments.hasGeometry() ? applicationArguments.height() : units.gu(71)
 
     property real edgeSize: units.gu(2)
     property url default_background: shell.width >= units.gu(60) ? "graphics/tablet_background.jpg" : "graphics/phone_background.jpg"
