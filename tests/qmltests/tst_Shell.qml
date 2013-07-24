@@ -23,8 +23,30 @@ import Unity.Test 0.1 as UT
 
 import "../.."
 
-Shell {
-    id: shell
+Item {
+    width: shell.width
+    height: shell.height
+
+    QtObject {
+        id: applicationArguments
+
+        function hasGeometry() {
+            return false;
+        }
+
+        function width() {
+            return 0;
+        }
+
+        function height() {
+            return 0;
+        }
+    }
+
+    Shell {
+        id: shell
+    }
+
     UT.UnityTestCase {
         name: "Shell"
         when: windowShown
