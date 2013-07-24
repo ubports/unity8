@@ -198,6 +198,7 @@ Item {
                     property var selectedItem
                     property int startX
                     property int startY
+                    property var quickListPopover
 
                     LauncherDelegate {
                         id: fakeDragItem
@@ -237,10 +238,16 @@ Item {
 
                     onPressAndHold: {
                         var realItemSize = launcherListView.itemSize + launcherListView.spacing
+
                         var realContentY = launcherListView.contentY + launcherListView.topMargin
                         draggedIndex = Math.floor((mouseY + realContentY) / realItemSize);
 
                         launcherListView.interactive = false
+
+                        var quickListModel = launcherListView.model.get(draggedIndex).quickList
+                        var quickListAppId = launcherListView.model.get(draggedIndex).appId
+                        quickListPopover = PopupUtils.open(popoverComponent, selectedItem,
+                                                           {model: quickListModel, appId: quickListAppId})
 
                         var yOffset = draggedIndex > 0 ? (mouseY + realContentY) % (draggedIndex * realItemSize) : mouseY + realContentY
 
@@ -263,6 +270,7 @@ Item {
                                 if (distance > launcherListView.itemSize) {
                                     print("starting drag")
                                     selectedItem.dragging = true
+                                    PopupUtils.close(quickListPopover)
                                 }
                             }
                             if (!selectedItem.dragging) {
@@ -331,18 +339,23 @@ Item {
         Popover {
             id: popover
             width: units.gu(20)
+            property var model
+            property string appId
 
             Column {
                 width: parent.width
                 height: childrenRect.height
                 Repeater {
-                    model: 2
+                    model: popover.model
                     ListItems.Standard {
-                        text: "foo bar baz"
+                        text: model.label
+                        onClicked: {
+                            LauncherModel.quickListActionInvoked(appId, index)
+                            PopupUtils.close(popover)
+                        }
                     }
                 }
             }
         }
     }
-
 }

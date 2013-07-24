@@ -157,10 +157,23 @@ void LauncherModel::quickListActionInvoked(const QString &appId, int actionIndex
         return;
     }
 
-    QuickListModel *model = qobject_cast<QuickListModel*>(m_list.at(index)->quickList());
+    LauncherItem *item = m_list.at(index);
+    QuickListModel *model = qobject_cast<QuickListModel*>(item->quickList());
     if (model) {
         QString actionId = model->get(actionIndex).actionId();
-        m_backend->triggerQuickListAction(appId, actionId);
+
+        // Check if this is one of the launcher actions we handle ourselves
+        if (actionId == "pin_item") {
+            if (item->pinned()) {
+                requestRemove(appId);
+            } else {
+                pin(appId);
+            }
+
+        // Nope, we don't know this action, let the backend forward it to the application
+        } else {
+            m_backend->triggerQuickListAction(appId, actionId);
+        }
     }
 }
 

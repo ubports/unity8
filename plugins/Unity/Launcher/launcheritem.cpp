@@ -33,7 +33,10 @@ LauncherItem::LauncherItem(const QString &appId, const QString &desktopFile, con
     m_count(0),
     m_quickList(new QuickListModel(this))
 {
-
+    QuickListEntry pinningAction;
+    pinningAction.setActionId("pin_item");
+    pinningAction.setText("Pin to Launcher");
+    m_quickList->appendAction(pinningAction);
 }
 
 QString LauncherItem::appId() const
@@ -65,6 +68,10 @@ void LauncherItem::setPinned(bool pinned)
 {
     if (m_pinned != pinned) {
         m_pinned = pinned;
+        QuickListEntry entry;
+        entry.setActionId("pin_item");
+        entry.setText(pinned ? "Remove from Launcher": "Pin to Launcher");
+        m_quickList->updateAction(entry);
         Q_EMIT pinnedChanged(pinned);
     }
 }
