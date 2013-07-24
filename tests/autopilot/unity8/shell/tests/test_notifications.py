@@ -61,20 +61,20 @@ class TestNotifications(UnityTestCase):
         self.launch_unity()
         greeter = self.main_window.get_greeter()
         greeter.unlock()
+        notify_list = self._get_notifications_list()
 
         summary = "Icon-Summary-Body"
         body = "Hey pal, what's up with the party next weekend? Will you join me and Anna?"
-        icon_path = self.get_icon_path('avatars/anna_olsson@12.png')
-        hint_icon = self.get_icon_path('applicationIcons/phone-app@18.png')
+        icon_path = self._get_icon_path('avatars/anna_olsson@12.png')
+        hint_icon = self._get_icon_path('applicationIcons/phone-app@18.png')
 
-        notification = self.create_ephemeral(summary, body, icon_path, hint_icon)
+        notification = self._create_ephemeral(summary, body, icon_path, hint_icon)
         notification.show()
 
-        notify_list = self._get_notifications_list()
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
-        self.assert_notification(notification, summary, body, True, True, 1.0)
+        self._assert_notification(notification, summary, body, True, True, 1.0)
 
     @with_lightdm_mock("single")
     @skip("No GLib main-loop support yet, so don't run any interactive notification tests.")
@@ -87,26 +87,26 @@ class TestNotifications(UnityTestCase):
 
         summary = "Interactive notification"
         body = "Click this notification to trigger the attached action."
-        icon_path = self.get_icon_path('avatars/anna_olsson@12.png')
-        hint_icon = self.get_icon_path('applicationIcons/phone-app@18.png')
+        icon_path = self._get_icon_path('avatars/anna_olsson@12.png')
+        hint_icon = self._get_icon_path('applicationIcons/phone-app@18.png')
 
-        notification = self.create_interactive(summary,
-                                               body,
-                                               icon_path,
-                                               hint_icon,
-                                               "NORMAL",
-                                               "action_id",
-                                               "dummy",
-                                               self.action_interactive_cb)
+        notification = self._create_interactive(summary,
+                                                body,
+                                                icon_path,
+                                                hint_icon,
+                                                "NORMAL",
+                                                "action_id",
+                                                "dummy",
+                                                self._action_interactive_cb)
         notification.show()
         self.loop.run()
 
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
-        self.assert_notification(notification, None, None, True, True, 1.0)
+        self._assert_notification(notification, None, None, True, True, 1.0)
         self.touch.tap_object(notification.select_single(objectName="interactiveArea"))
-        self.assertThat(self.action_interactive_triggered, Equals(True))
+        self._assertThat(self.action_interactive_triggered, Equals(True))
 
     @with_lightdm_mock("single")
     @skip("No GLib main-loop support yet, so don't run any snap-decision notification tests.")
@@ -119,24 +119,24 @@ class TestNotifications(UnityTestCase):
 
         summary = "Incoming call"
         body = "Frank Zappa\n+44 (0)7736 027340"
-        icon_path = self.get_icon_path('avatars/anna_olsson@12.png')
-        hint_icon = self.get_icon_path('applicationIcons/phone-app@18.png')
+        icon_path = self._get_icon_path('avatars/anna_olsson@12.png')
+        hint_icon = self._get_icon_path('applicationIcons/phone-app@18.png')
 
         action_ids = ['action_accept', 'action_decline_1', 'action_decline_2', 'action_decline_3', 'action_decline_4']
         action_labels = ['Accept', 'Decline', '"Can\'t talk now, what\'s up?"', '"I call you back."', 'Send custom message...']
-        action_cbs = [self.action_sd_accept_cb, self.action_sd_decline1_cb, self.action_sd_decline2_cb, self.action_sd_decline3_cb, self.action_sd_decline4_cb]
-        notification = self.create_snap_decision(summary, body, icon_path, hint_icon, "NORMAL", action_ids, action_labels, action_cbs)
+        action_cbs = [self._action_sd_accept_cb, self._action_sd_decline1_cb, self._action_sd_decline2_cb, self._action_sd_decline3_cb, self._action_sd_decline4_cb]
+        notification = self._create_snap_decision(summary, body, icon_path, hint_icon, "NORMAL", action_ids, action_labels, action_cbs)
         notification.show()
         self.loop.run()
 
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
-        self.assert_notification(notification, None, None, True, True, 1.0)
+        self._assert_notification(notification, None, None, True, True, 1.0)
         self.touch.tap_object(notification.select_single(objectName="button1"))
-        self.assertThat(notification.select_single(objectName="buttonRow").expanded, Eventually(Equals(True)))
+        self._assertThat(notification.select_single(objectName="buttonRow").expanded, Eventually(Equals(True)))
         self.touch.tap_object(notification.select_single(objectName="button4"))
-        self.assertThat(self.action_send_message_triggered, Equals(True))
+        self._assertThat(self.action_send_message_triggered, Equals(True))
 
     @with_lightdm_mock("single")
     def test_icon_summary(self):
@@ -146,15 +146,15 @@ class TestNotifications(UnityTestCase):
         notify_list = self._get_notifications_list()
 
         summary = "Upload of image completed"
-        hint_icon = self.get_icon_path('applicationIcons/facebook@18.png')
+        hint_icon = self._get_icon_path('applicationIcons/facebook@18.png')
 
-        notification = self.create_ephemeral(summary, None, None, hint_icon)
+        notification = self._create_ephemeral(summary, None, None, hint_icon)
         notification.show()
 
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
-        self.assert_notification(notification, summary, None, False, True, 1.0)
+        self._assert_notification(notification, summary, None, False, True, 1.0)
 
     @with_lightdm_mock("single")
     def test_urgency_order(self):
@@ -165,34 +165,34 @@ class TestNotifications(UnityTestCase):
 
         summary_low = 'Low Urgency'
         body_low = "No, I'd rather see paint dry, pal *yawn*"
-        icon_path_low = self.get_icon_path('avatars/amanda@12.png')
+        icon_path_low = self._get_icon_path('avatars/amanda@12.png')
         summary_normal = 'Normal Urgency'
         body_normal = "Hey pal, what's up with the party next weekend? Will you join me and Anna?"
-        icon_path_normal = self.get_icon_path('avatars/funky@12.png')
+        icon_path_normal = self._get_icon_path('avatars/funky@12.png')
         summary_critical = 'Critical Urgency'
         body_critical = 'Dude, this is so urgent you have no idea :)'
-        icon_path_critical = self.get_icon_path('avatars/anna_olsson@12.png')
+        icon_path_critical = self._get_icon_path('avatars/anna_olsson@12.png')
 
-        notification_normal = self.create_ephemeral(summary_normal, body_normal, icon_path_normal, None, "NORMAL")
+        notification_normal = self._create_ephemeral(summary_normal, body_normal, icon_path_normal, None, "NORMAL")
         notification_normal.show()
-        notification_low = self.create_ephemeral(summary_low, body_low, icon_path_low, None, "LOW")
+        notification_low = self._create_ephemeral(summary_low, body_low, icon_path_low, None, "LOW")
         notification_low.show()
-        notification_critical = self.create_ephemeral(summary_critical, body_critical, icon_path_critical, None, "CRITICAL")
+        notification_critical = self._create_ephemeral(summary_critical, body_critical, icon_path_critical, None, "CRITICAL")
         notification_critical.show()
 
         time.sleep(4)
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
-        self.assert_notification(notification, summary_critical, body_critical, True, False, 1.0)
+        self._assert_notification(notification, summary_critical, body_critical, True, False, 1.0)
 
         time.sleep(4)
         notification = get_notification()
-        self.assert_notification(notification, summary_normal, body_normal, True, False, 1.0)
+        self._assert_notification(notification, summary_normal, body_normal, True, False, 1.0)
 
         time.sleep(4)
         notification = get_notification()
-        self.assert_notification(notification, summary_low, body_low, True, False, 1.0)
+        self._assert_notification(notification, summary_low, body_low, True, False, 1.0)
 
     @with_lightdm_mock("single")
     def test_summary_body(self):
@@ -204,13 +204,13 @@ class TestNotifications(UnityTestCase):
         summary = 'Summary-Body'
         body = 'This is a superfluous notification'
 
-        notification = self.create_ephemeral(summary, body)
+        notification = self._create_ephemeral(summary, body)
         notification.show()
 
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
-        self.assert_notification(notification, summary, body, False, False, 1.0)
+        self._assert_notification(notification, summary, body, False, False, 1.0)
 
     @with_lightdm_mock("single")
     def test_summary_only(self):
@@ -221,13 +221,13 @@ class TestNotifications(UnityTestCase):
 
         summary = 'Summary-Only'
 
-        notification = self.create_ephemeral(summary)
+        notification = self._create_ephemeral(summary)
         notification.show()
 
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
-        self.assert_notification(notification, summary, '', False, False, 1.0)
+        self._assert_notification(notification, summary, '', False, False, 1.0)
 
     @with_lightdm_mock("single")
     def test_update_notification(self):
@@ -238,32 +238,32 @@ class TestNotifications(UnityTestCase):
 
         summary = 'Inital notification (1. notification)'
         body = 'This is the original content of this notification-bubble.'
-        icon_path = self.get_icon_path('avatars/funky@12.png')
-        notification = self.create_ephemeral(summary, body, icon_path)
+        icon_path = self._get_icon_path('avatars/funky@12.png')
+        notification = self._create_ephemeral(summary, body, icon_path)
         notification.show()
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
-        self.assert_notification(get_notification(), summary, body, True, False, 1.0)
+        self._assert_notification(get_notification(), summary, body, True, False, 1.0)
 
         time.sleep(3)
         summary = 'Updated notification (1. notification)'
         body = 'Here the same bubble with new title- and body-text, even the icon can be changed on the update.'
-        icon_path = self.get_icon_path('avatars/amanda@12.png')
+        icon_path = self._get_icon_path('avatars/amanda@12.png')
         notification.update(summary, body, icon_path)
         notification.show ();
         self.assertThat(get_notification, Eventually(NotEquals(None)))
-        self.assert_notification(get_notification(), summary, body)
+        self._assert_notification(get_notification(), summary, body)
 
         time.sleep(6)
         summary = 'Initial layout (2. notification)'
         body = 'This bubble uses the icon-title-body layout with a secondary icon.'
-        icon_path = self.get_icon_path('avatars/anna_olsson@12.png')
-        hint_icon = self.get_icon_path('applicationIcons/phone-app@18.png')
-        notification = self.create_ephemeral(summary, body, icon_path)
+        icon_path = self._get_icon_path('avatars/anna_olsson@12.png')
+        hint_icon = self._get_icon_path('applicationIcons/phone-app@18.png')
+        notification = self._create_ephemeral(summary, body, icon_path)
         notification.set_hint('x-canonical-secondary-icon', GLib.Variant.new_string(hint_icon))
         notification.show ();
         self.assertThat(get_notification, Eventually(NotEquals(None)))
-        self.assert_notification(get_notification(), summary, body, True, True, 1.0)
+        self._assert_notification(get_notification(), summary, body, True, True, 1.0)
 
         time.sleep(3)
         notification.clear_hints()
@@ -272,7 +272,7 @@ class TestNotifications(UnityTestCase):
         notification.update(summary, body, None)
         notification.show()
         self.assertThat(get_notification, Eventually(NotEquals(None)))
-        self.assert_notification(get_notification(), summary, body, False)
+        self._assert_notification(get_notification(), summary, body, False)
 
     @with_lightdm_mock("single")
     def test_append_hint(self):
@@ -283,15 +283,15 @@ class TestNotifications(UnityTestCase):
 
         summary = 'Cole Raby'
         body = 'Hey Bro Coly!'
-        icon_path = self.get_icon_path('avatars/amanda@12.png')
+        icon_path = self._get_icon_path('avatars/amanda@12.png')
         body_sum = body
-        notification = self.create_ephemeral(summary, body, icon_path)
+        notification = self._create_ephemeral(summary, body, icon_path)
         notification.set_hint('x-canonical-append', GLib.Variant.new_string('true'));
         notification.show()
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
-        self.assert_notification(notification, summary, body_sum, True, False, 1.0)
+        self._assert_notification(notification, summary, body_sum, True, False, 1.0)
 
         bodies = ['What\'s up dude?',
                   'Did you watch the air-race in Oshkosh last week?',
@@ -305,13 +305,13 @@ class TestNotifications(UnityTestCase):
             time.sleep(1)
             body = new_body
             body_sum += '\n' + body
-            notification = self.create_ephemeral(summary, body, icon_path)
+            notification = self._create_ephemeral(summary, body, icon_path)
             notification.set_hint('x-canonical-append', GLib.Variant.new_string('true'));
             notification.show()
             get_notification = lambda: notify_list.select_single('Notification')
             self.assertThat(get_notification, Eventually(NotEquals(None)))
             notification = get_notification()
-            self.assert_notification(notification, summary, body_sum, True, False, 1.0)
+            self._assert_notification(notification, summary, body_sum, True, False, 1.0)
 
     def _create_ephemeral(self, summary="", body="", icon=None, secondary_icon=None, urgency="NORMAL"):
         logger.info("Creating ephemeral notification with summary(%s), body(%s) and urgency(%r)", summary, body, urgency)
@@ -415,10 +415,8 @@ class TestNotifications(UnityTestCase):
             return os.path.abspath(os.getcwd() + "/../../graphics/" + icon_name)
 
     def _get_notifications_list(self):
-        #main_view = self.main_window.get_qml_view()
-        # self.main_window.get_qml_view()
-        window = self.main_window.get_qml_view()
-        return window.get_notifications_list()  #main_view.select_single("QQuickListView", objectName='notificationList')
+        main_view = self.main_window.get_qml_view()
+        return main_view.select_single("QQuickListView", objectName='notificationList')
 
     def _assert_notification(self, notification, summary=None, body=None, icon=True, secondary_icon=False, opacity=None):
         if summary != None:
