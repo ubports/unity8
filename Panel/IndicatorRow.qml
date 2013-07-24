@@ -58,7 +58,10 @@ Item {
                 id: itemWrapper
                 height: indicatorRow.height
                 width: childrenRect.width
+
                 property int ownIndex: index
+                property alias highlighted: indicatorItem.highlighted
+                property alias dimmed: indicatorItem.dimmed
 
                 IndicatorItem {
                    id: indicatorItem

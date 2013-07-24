@@ -181,7 +181,7 @@ Item {
 
                 compare(indicator_row.currentItem, indicator_item,
                         "Incorrect item activated at position " + i);
-                compare(menu_content.currentIndex, i, "Menu conetent should be enabled for item at position " + i);
+                compare(menu_content.currentMenuIndex, i, "Menu conetent should be enabled for item at position " + i);
 
                 // init for next indicator_item
                 init();
