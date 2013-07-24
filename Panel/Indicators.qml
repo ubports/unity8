@@ -101,7 +101,7 @@ Showable {
           Vertical velocity check. Don't change the indicator if we're moving too quickly.
         */
         var verticalVelocity = Math.abs(yVelocityCalculator.calculate());
-        if (verticalVelocity >= 0.3 && indicatorRow.currentItem!=null) {
+        if (verticalVelocity >= 0.05 && indicatorRow.currentItem!=null) {
             return;
         }
 
@@ -325,7 +325,7 @@ Showable {
         anchors.fill: handle
         direction: Direction.Upwards
         enabled: indicators.shown
-        hintDisplacement: units.gu(2)
+        hintDisplacement: indicators.hintValue
         autoCompleteDragThreshold: maxTotalDragDistance / 6
         stretch: true
         maxTotalDragDistance: openedHeight - panelHeight
