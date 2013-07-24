@@ -50,9 +50,6 @@ class TestNotifications(UnityTestCase):
     action_interactive_triggered = False
     action_accept_triggered = False
     action_send_message_triggered = False
-
-    Notify.init("Autopilot Notification Tests")
-    #self.addCleanup(Notify.uninit)
     #loop = GLib.MainLoop.new(None, False)
 
     @with_lightdm_mock("single")
@@ -61,6 +58,7 @@ class TestNotifications(UnityTestCase):
         self.launch_unity()
         greeter = self.main_window.get_greeter()
         greeter.unlock()
+        Notify.init("Autopilot Notification Tests")
         notify_list = self._get_notifications_list()
 
         summary = "Icon-Summary-Body"
@@ -75,6 +73,7 @@ class TestNotifications(UnityTestCase):
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
         self._assert_notification(notification, summary, body, True, True, 1.0)
+        Notify.uninit()
 
     @with_lightdm_mock("single")
     @skip("No GLib main-loop support yet, so don't run any interactive notification tests.")
@@ -83,6 +82,7 @@ class TestNotifications(UnityTestCase):
         self.launch_unity()
         greeter = self.main_window.get_greeter()
         greeter.unlock()
+        Notify.init("Autopilot Notification Tests")
         notify_list = self._get_notifications_list()
 
         summary = "Interactive notification"
@@ -107,6 +107,7 @@ class TestNotifications(UnityTestCase):
         self._assert_notification(notification, None, None, True, True, 1.0)
         self.touch.tap_object(notification.select_single(objectName="interactiveArea"))
         self._assertThat(self.action_interactive_triggered, Equals(True))
+        Notify.uninit()
 
     @with_lightdm_mock("single")
     @skip("No GLib main-loop support yet, so don't run any snap-decision notification tests.")
@@ -115,6 +116,7 @@ class TestNotifications(UnityTestCase):
         self.launch_unity()
         greeter = self.main_window.get_greeter()
         greeter.unlock()
+        Notify.init("Autopilot Notification Tests")
         notify_list = self._get_notifications_list()
 
         summary = "Incoming call"
@@ -137,12 +139,14 @@ class TestNotifications(UnityTestCase):
         self._assertThat(notification.select_single(objectName="buttonRow").expanded, Eventually(Equals(True)))
         self.touch.tap_object(notification.select_single(objectName="button4"))
         self._assertThat(self.action_send_message_triggered, Equals(True))
+        Notify.uninit()
 
     @with_lightdm_mock("single")
     def test_icon_summary(self):
         self.launch_unity()
         greeter = self.main_window.get_greeter()
         greeter.unlock()
+        Notify.init("Autopilot Notification Tests")
         notify_list = self._get_notifications_list()
 
         summary = "Upload of image completed"
@@ -155,12 +159,14 @@ class TestNotifications(UnityTestCase):
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
         self._assert_notification(notification, summary, None, False, True, 1.0)
+        Notify.uninit()
 
     @with_lightdm_mock("single")
     def test_urgency_order(self):
         self.launch_unity()
         greeter = self.main_window.get_greeter()
         greeter.unlock()
+        Notify.init("Autopilot Notification Tests")
         notify_list = self._get_notifications_list()
 
         summary_low = 'Low Urgency'
@@ -193,12 +199,14 @@ class TestNotifications(UnityTestCase):
         time.sleep(4)
         notification = get_notification()
         self._assert_notification(notification, summary_low, body_low, True, False, 1.0)
+        Notify.uninit()
 
     @with_lightdm_mock("single")
     def test_summary_body(self):
         self.launch_unity()
         greeter = self.main_window.get_greeter()
         greeter.unlock()
+        Notify.init("Autopilot Notification Tests")
         notify_list = self._get_notifications_list()
 
         summary = 'Summary-Body'
@@ -211,12 +219,14 @@ class TestNotifications(UnityTestCase):
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
         self._assert_notification(notification, summary, body, False, False, 1.0)
+        Notify.uninit()
 
     @with_lightdm_mock("single")
     def test_summary_only(self):
         self.launch_unity()
         greeter = self.main_window.get_greeter()
         greeter.unlock()
+        Notify.init("Autopilot Notification Tests")
         notify_list = self._get_notifications_list()
 
         summary = 'Summary-Only'
@@ -228,12 +238,14 @@ class TestNotifications(UnityTestCase):
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
         self._assert_notification(notification, summary, '', False, False, 1.0)
+        Notify.uninit()
 
     @with_lightdm_mock("single")
     def test_update_notification(self):
         self.launch_unity()
         greeter = self.main_window.get_greeter()
         greeter.unlock()
+        Notify.init("Autopilot Notification Tests")
         notify_list = self._get_notifications_list()
 
         summary = 'Inital notification (1. notification)'
@@ -273,12 +285,14 @@ class TestNotifications(UnityTestCase):
         notification.show()
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         self._assert_notification(get_notification(), summary, body, False)
+        Notify.uninit()
 
     @with_lightdm_mock("single")
     def test_append_hint(self):
         self.launch_unity()
         greeter = self.main_window.get_greeter()
         greeter.unlock()
+        Notify.init("Autopilot Notification Tests")
         notify_list = self._get_notifications_list()
 
         summary = 'Cole Raby'
@@ -312,6 +326,8 @@ class TestNotifications(UnityTestCase):
             self.assertThat(get_notification, Eventually(NotEquals(None)))
             notification = get_notification()
             self._assert_notification(notification, summary, body_sum, True, False, 1.0)
+
+        Notify.uninit()
 
     def _create_ephemeral(self, summary="", body="", icon=None, secondary_icon=None, urgency="NORMAL"):
         logger.info("Creating ephemeral notification with summary(%s), body(%s) and urgency(%r)", summary, body, urgency)
