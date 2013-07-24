@@ -1,0 +1,14 @@
+<node>
+  <interface name="com.canonical.unity.AccountsService">
+
+    <annotation name="org.freedesktop.Accounts.VendorExtension" value="true"/>
+
+    <annotation name="org.freedesktop.Accounts.Authentication.ChangeAny"
+                value="com.canonical.unity.AccountsService.ModifyUsers"/>
+
+    <property name="demo-edges" type="b" access="readwrite">
+      <annotation name="org.freedesktop.Accounts.DefaultValue" value="true"/>
+    </property>
+
+  </interface>
+</node>

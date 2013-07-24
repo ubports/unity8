@@ -1,0 +1,5 @@
+polkit.addAdminRule(function(action, subject) {
+	if (action.id == "com.canonical.unity.AccountsService.ModifyUsers") {
+	    return "unix-user:lightdm";
+    }
+});
