@@ -91,12 +91,10 @@ Item {
             sendReviewSpy.clear();
             var sendButton = findChild(appReviews, "sendButton");
             var reviewField = findChild(appReviews, "reviewField");
+            var animation = findChild(appReviews, "editingAnimation");
 
             compare(reviewField.focus, false, "ReviewField shouldn't have focus");
             compare(appReviews.state, "", "State should be empty");
-            mouseClick(reviewField, 1, 1);
-            compare(reviewField.focus, true, "Review Field should have focus");
-            compare(appReviews.state, "editing", "State should be 'editing'");
         }
 
         function test_comments() {
