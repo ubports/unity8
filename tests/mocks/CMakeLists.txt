@@ -1,3 +1,4 @@
+add_subdirectory(GSettings)
 add_subdirectory(libusermetrics)
 add_subdirectory(LightDM)
 add_subdirectory(QMenuModel)

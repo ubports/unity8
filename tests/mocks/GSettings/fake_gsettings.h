@@ -14,14 +14,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+#ifndef FAKE_GSETTINGS_H
+#define FAKE_GSETTINGS_H
 
-Item {
-    property url pictureUri
+#include <QObject>
 
-    property var schema: QtObject {
-        property string id: "org.gnome.desktop.background"
-    }
+class GSettings : public QObject
+{
+    Q_OBJECT
 
-    Component.onCompleted: console.log("                      XXXXXXXXXXX loaded")
-}
+    Q_PROPERTY(QObject schema READ schema NOTIFY schemaChanged)
+
+public:
+    explicit GSettings(QObject *parent = 0);
+
+    QObject schema() const;
+
+Q_SIGNALS:
+    void schemaChanged(const QObject&);
+
+private:
+    QObject m_schema;
+};
+
+#endif // FAKE_GSETTINGS_H
