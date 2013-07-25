@@ -31,31 +31,10 @@ Item {
     property bool inverted: false
     property bool dragging: false
     property bool moving: launcherListView.moving || launcherListView.flicking || dndArea.draggedItem !== undefined
-    property int dragPosition: 0
     property int highlightIndex: -1
 
     signal applicationSelected(string desktopFile)
     signal dashItemSelected(int index)
-
-    onDragPositionChanged: {
-        var effectiveDragPosition = root.inverted ? launcherListView.height - dragPosition : dragPosition - mainColumn.anchors.margins
-
-        var hiddenContentHeight = launcherListView.contentHeight - launcherListView.height
-        // Shortening scrollable height because the first/last item needs to be fully expanded before reaching the top/bottom
-        var scrollableHeight = launcherListView.height - (launcherListView.itemSize + launcherListView.spacing) *2
-        // As we shortened the scrollableHeight, lets move everything down by the itemSize
-        var shortenedEffectiveDragPosition = effectiveDragPosition - launcherListView.itemSize - launcherListView.spacing
-        var newContentY = shortenedEffectiveDragPosition * hiddenContentHeight / scrollableHeight
-
-        // limit top/bottom to prevent overshooting
-        launcherListView.contentY = Math.min(hiddenContentHeight, Math.max(0, newContentY));
-
-        // Now calculate the current index:
-        // > the current mouse position + the hidden/scolled content on top is the mouse position in the averall view
-        // > adjust that removing all the margins
-        // > divide by itemSize to get index
-//        highlightIndex = (effectiveDragPosition + launcherListView.contentY - mainColumn.anchors.margins*3 - launcherListView.spacing/2) / (launcherListView.itemSize + launcherColumn.spacing)
-    }
 
     BorderImage {
         id: background
