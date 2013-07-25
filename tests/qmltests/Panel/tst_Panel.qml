@@ -213,5 +213,43 @@ Item {
             compare(search_clicked, false,
                     "Tapping search indicator while it was not visible emitted searchClicked signal");
         }
+
+        function test_veritcal_velocity_detector() {
+            panel.fullscreenMode = false;
+            panel.searchVisible = false;
+
+            var indicator_row = findChild(panel.indicators, "indicatorRow");
+            verify(indicator_row != undefined);
+
+            var row_repeater = findChild(panel.indicators, "rowRepeater");
+            verify(indicator_row != undefined);
+
+            // Get the first indicator
+            var indicator_item_first = get_indicator_item(0);
+            verify(indicator_item_first != undefined);
+
+            var indicator_item_coord_first = get_indicator_item_position(0);
+            var indicator_item_coord_next = get_indicator_item_position(indicator_row.count-1);
+
+            touchPress(panel,
+                       indicator_item_coord_first.x, panel.panelHeight / 2);
+
+            // 1) Drag the mouse down to hint a bit
+            touchFlick(panel,
+                       indicator_item_coord_first.x, panel.panelHeight / 2,
+                       indicator_item_coord_first.x, panel.panelHeight * 2,
+                       false /* beginTouch */, false /* endTouch */);
+
+            tryCompare(indicator_row, "currentItem", indicator_item_first)
+
+            // 1) Flick mouse down to bottom
+            touchFlick(panel,
+                       indicator_item_coord_first.x, panel.panelHeight * 2,
+                       indicator_item_coord_next.x, panel.height,
+                       false /* beginTouch */, true /* endTouch */,
+                       units.gu(10) /* speed */, 30 /* iterations */); // more samples needed for accurate velocity
+
+            compare(indicator_row.currentItem, indicator_item_first, "First indicator should still be the current item");
+        }
     }
 }
