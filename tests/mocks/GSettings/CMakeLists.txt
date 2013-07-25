@@ -14,7 +14,6 @@ add_definitions(-DQT_NO_KEYWORDS)
 
 set(GSettingsQML_SOURCES
   fake_gsettings.cpp
-  fake_schema.cpp
   plugin.cpp
 )
 

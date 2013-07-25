@@ -14,29 +14,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FAKE_SCHEMA_H
-#define FAKE_SCHEMA_H
+#ifndef PLUGIN_H
+#define PLUGIN_H
 
-#include <QObject>
+#include <QtQml/QQmlExtensionPlugin>
 
-class Schema : public QObject
+class FakeGSettingsQmlPlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
-
-    Q_PROPERTY(QString id READ id WRITE setId NOTIFY idChanged)
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
 
 public:
-    explicit Schema(QObject *parent = 0);
-
-    QString id() const;
-
-    void setId(const QString& str);
-
-Q_SIGNALS:
-    void idChanged(const QString&);
-
-private:
-    QString m_id;
+    void registerTypes(const char *uri);
 };
 
-#endif // FAKE_SCHEMA_H
+#endif // PLUGIN_H

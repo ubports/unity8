@@ -41,8 +41,8 @@ FocusScope {
     height: tablet ? units.gu(100) : units.gu(71)
 
     property real edgeSize: units.gu(2)
-    property url default_background: shell.width >= units.gu(60) ? "graphics/tablet_background.jpg" : "graphics/phone_background.jpg"
-    property url background: default_background
+    property url defaultBackground: shell.width >= units.gu(60) ? "graphics/tablet_background.jpg" : "graphics/phone_background.jpg"
+    property url background: backgroundSettings.pictureUri
     readonly property real panelHeight: panel.panelHeight
 
     property bool dashShown: dash.shown
@@ -120,40 +120,6 @@ FocusScope {
         schema.id: "org.gnome.desktop.background"
     }
 
-    function updateImage() {
-        if (testImage.source == "")
-            return
-
-        if (testImage.status == Image.Ready) {
-            if (shell.width / shell.height <= testImage.sourceSize.width / testImage.sourceSize.height) {
-                backgroundImage.sourceSize.width = 0
-                backgroundImage.sourceSize.height = Qt.binding(function() { return shell.height })
-            } else {
-                backgroundImage.sourceSize.height = 0
-                backgroundImage.sourceSize.width = Qt.binding(function() { return shell.width })
-            }
-
-            shell.background = testImage.source
-        } else if (testImage.status == Image.Error) {
-            shell.background = shell.default_background
-        }
-
-        // unload testImage source to save memory
-        testImage.source = ""
-    }
-
-    Image {
-        id: testImage
-
-        property url gsettingsImage: backgroundSettings.pictureUri
-
-        source: gsettingsImage
-        visible: false
-
-        onGsettingsImageChanged: source = gsettingsImage
-        onStatusChanged: updateImage()
-    }
-
     VolumeControl {
         id: volumeControl
     }
@@ -184,11 +150,15 @@ FocusScope {
         // through the translucent parts of the shell surface.
         visible: !fullyCovered && !applicationSurfaceShouldBeSeen
 
-        Image {
+        CrossFadeImage {
             id: backgroundImage
             source: shell.background
             anchors.fill: parent
-            fillMode: Image.PreserveAspectCrop
+            onStatusChanged: {
+                if (status == Image.Error) {
+                    backgroundSettings.pictureUri = shell.defaultBackground
+                }
+            }
         }
 
         Rectangle {
@@ -492,7 +462,7 @@ FocusScope {
         onUnlocked: greeter.hide()
         onSelected: {
             var bgPath = greeter.model.data(uid, LightDM.UserRoles.BackgroundPathRole)
-            shell.background = bgPath ? bgPath : default_background
+            shell.background = bgPath ? bgPath : defaultBackground
         }
 
         onLeftTeaserPressedChanged: {

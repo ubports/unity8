@@ -85,7 +85,7 @@ Item {
     Connections {
         target: __nextImage
         onStatusChanged: {
-            if (__nextImage.status == Image.Ready) {
+            if (__nextImage.status == Image.Ready || __nextImage.status == Image.Error) {
                  swapImages();
              }
         }

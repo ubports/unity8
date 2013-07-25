@@ -14,20 +14,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "fake_schema.h"
+#include "plugin.h"
+#include "fake_gsettings.h"
 
-Schema::Schema(QObject *parent) :
-    QObject(parent)
+#include <QtQml>
+
+void FakeGSettingsQmlPlugin::registerTypes(const char *uri)
 {
-}
-
-QString Schema::id() const {
-    return m_id;
-}
-
-void Schema::setId(const QString &str) {
-    if (str != m_id) {
-        m_id = str;
-        Q_EMIT idChanged(m_id);
-    }
+    qmlRegisterType<GSettingsControllerQml>(uri, 1, 0, "GSettingsController");
+    qmlRegisterType<GSettingsQml>(uri, 1, 0, "GSettings");
+    qmlRegisterUncreatableType<GSettingsSchemaQml>(uri, 1, 0, "GSettingsSchema",
+                                                   "GSettingsSchema can only be used inside of a GSettings component");
 }
