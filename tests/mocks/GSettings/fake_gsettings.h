@@ -25,17 +25,13 @@ class GSettingsControllerQml: public QObject
     Q_OBJECT
 
 public:
-    static GSettingsControllerQml* getInstance();
+    static GSettingsControllerQml* instance();
     ~GSettingsControllerQml();
 
 private:
     GSettingsControllerQml();
-    GSettingsControllerQml(const GSettingsControllerQml&);
-    GSettingsControllerQml& operator=(const GSettingsControllerQml&);
 
-    static bool instance_exists;
-
-    static GSettingsControllerQml* _controllerInstance;
+    static GSettingsControllerQml* s_controllerInstance;
 };
 
 class GSettingsSchemaQml: public QObject

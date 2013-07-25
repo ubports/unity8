@@ -25,24 +25,20 @@ struct GSettingsQmlPrivate {
     GSettingsSchemaQml *schema;
 };
 
-bool GSettingsControllerQml::instance_exists;
-GSettingsControllerQml* GSettingsControllerQml::_controllerInstance;
+GSettingsControllerQml* GSettingsControllerQml::s_controllerInstance = 0;
 
 GSettingsControllerQml::GSettingsControllerQml() {
 }
 
 GSettingsControllerQml::~GSettingsControllerQml() {
-    instance_exists = false;
+    s_controllerInstance = 0;
 }
 
-GSettingsControllerQml* GSettingsControllerQml::getInstance()  {
-    if(!instance_exists) {
-        _controllerInstance = new GSettingsControllerQml();
-        instance_exists = true;
-        return _controllerInstance;
-    } else {
-        return _controllerInstance;
+GSettingsControllerQml* GSettingsControllerQml::instance()  {
+    if(!s_controllerInstance) {
+        s_controllerInstance = new GSettingsControllerQml();
     }
+    return s_controllerInstance;
 }
 
 GSettingsSchemaQml::GSettingsSchemaQml(QObject *parent): QObject(parent) {
@@ -80,7 +76,7 @@ void GSettingsSchemaQml::setPath(const QByteArray &path) {
 }
 
 GSettingsQml::GSettingsQml(QObject *parent): QObject(parent) {
-    GSettingsControllerQml::getInstance();
+    GSettingsControllerQml::instance();
     priv = new GSettingsQmlPrivate;
     priv->schema = new GSettingsSchemaQml(this);
 }
