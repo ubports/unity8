@@ -72,29 +72,29 @@ Item {
         name: "AppReviews"
         when: windowShown
 
-        function test_state_nothing() {
-            appReviews.state = "";
+        function cleanup() {
+            sendReviewSpy.clear();
             var reviewField = findChild(appReviews, "reviewField");
-            var sendButton = findChild(appReviews, "sendButton");
-            compare(reviewField.width, appReviews.width, "ReviewField width don't match");
-            compare(sendButton.opacity, 0, "SendButton opacity should be 0");
+            reviewField.focus = false;
+            reviewField.text = "";
         }
 
         function test_send_review() {
-            sendReviewSpy.clear();
             var sendButton = findChild(appReviews, "sendButton");
             mouseClick(sendButton, 1, 1);
-            compare(sendReviewSpy.count, 1, "SendReview signal not emitted");
+            sendReviewSpy.wait();
         }
 
         function test_review_focus() {
-            sendReviewSpy.clear();
             var sendButton = findChild(appReviews, "sendButton");
             var reviewField = findChild(appReviews, "reviewField");
-            var animation = findChild(appReviews, "editingAnimation");
 
             compare(reviewField.focus, false, "ReviewField shouldn't have focus");
             compare(appReviews.state, "", "State should be empty");
+
+            mouseClick(reviewField, reviewField.width/2, reviewField.height/2);
+            compare(reviewField.focus, true, "Review Field should have focus");
+            compare(appReviews.state, "editing", "State should be 'editing'");
         }
 
         function test_comments() {
