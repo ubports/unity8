@@ -45,6 +45,7 @@ ScopeView {
 
     ScopeListView {
         id: categoryView
+        objectName: "categoryListView"
         anchors.fill: parent
         model: scopeView.categories
         forceNoClip: previewLoader.onScreen

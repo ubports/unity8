@@ -213,6 +213,59 @@ Item {
             tryCompare(dash, "visible", false);
         }
 
+        /*
+          Regression test for bug https://bugs.launchpad.net/touch-preview-images/+bug/1193419
+
+          When the user minimizes an application (left-edge swipe) he should always end up in the "Running Apps"
+          category of the "Applications" scope view.
+
+          Steps:
+          - go to apps lens
+          - scroll to the bottom
+          - reveal launcher and launch an app
+          - perform long left edge swipe to go minimize the app and go back to the dash.
+
+          Expected Results
+          - apps lens shown and Running Apps visible on screen
+         */
+        function test_minimizingAppTakesToRunningApps() {
+            var dashApps = findChild(shell, "DashApps");
+
+            swipeUntilScopeViewIsReached(dashApps);
+
+            // swipe finger up until the running/recent apps section (which we assume
+            // it's the first one) is as far from view as possible.
+            var appsCategoryListView = findChild(dashApps, "categoryListView");
+            while (!appsCategoryListView.atYEnd) {
+                swipeUpFromCenter();
+                tryCompare(appsCategoryListView, "moving", false);
+            }
+
+            // Switch away from the Applications scope.
+            swipeRightFromCenter();
+            waitUntilItemStopsMoving(dashApps);
+            verify(!itemIsOnScreen(dashApps));
+
+            dragLauncherIntoView();
+
+            // Launch an app from the launcher
+            tapOnAppIconInLauncher();
+
+            waitUntilApplicationWindowIsFullyVisible();
+
+            // Minimize the application we just launched
+            swipeFromLeftEdge();
+
+            // Wait for the whole UI to settle down
+            waitUntilApplicationWindowIsFullyHidden();
+            waitUntilItemStopsMoving(dashApps);
+            tryCompare(appsCategoryListView, "moving", false);
+
+            verify(itemIsOnScreen(dashApps));
+            var runningApplicationsGrid = findChild(dashApps, "runningApplicationsGrid");
+            verify(itemIsOnScreen(runningApplicationsGrid));
+        }
+
         // Wait for the whole UI to settle down
         function waitForUIToSettle() {
             waitUntilApplicationWindowIsFullyHidden();
