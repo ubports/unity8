@@ -26,8 +26,6 @@ Item {
     property alias row: row
     property QtObject indicatorsModel: null
 
-    Behavior on y { StandardAnimation {} }
-
     width: units.gu(40)
     height: units.gu(3)
 

@@ -33,6 +33,7 @@ Showable {
     readonly property int lockThreshold: openedHeight / 2
     property bool fullyOpened: height == openedHeight
     property bool partiallyOpened: height > panelHeight && !fullyOpened
+    property real visualBottom: Math.max(y+height, y+indicatorRow.y+indicatorRow.height)
 
     // TODO: Perhaps we need a animation standard for showing/hiding? Each showable seems to
     // use its own values. Need to ask design about this.
@@ -100,8 +101,8 @@ Showable {
         /*
           Vertical velocity check. Don't change the indicator if we're moving too quickly.
         */
-        var verticalVelocity = Math.abs(yVelocityCalculator.calculate());
-        if (verticalVelocity >= 0.05 && indicatorRow.currentItem!=null) {
+        var verticalSpeed = Math.abs(yVelocityCalculator.calculate());
+        if (verticalSpeed >= 0.05 && indicatorRow.currentItem!=null) {
             return;
         }
 
@@ -282,16 +283,15 @@ Showable {
         }
     }
 
-    property var dragHandle: null
+    property var activeDragHandle: showDragHandle.dragging ? showDragHandle : hideDragHandle.dragging ? hideDragHandle : null
     // connections to the active drag handle
     Connections {
-        target: dragHandle
+        target: activeDragHandle
         onTouchXChanged: {
-            var buffer = dragHandle.dragging ? true : false;
-            indicators.calculateCurrentItem(dragHandle.touchX, buffer);
+            indicators.calculateCurrentItem(activeDragHandle.touchX, true);
         }
         onTouchSceneYChanged: {
-            yVelocityCalculator.trackedPosition = dragHandle.touchSceneY;
+            yVelocityCalculator.trackedPosition = activeDragHandle.touchSceneY;
         }
     }
 
@@ -316,9 +316,6 @@ Showable {
                 menuContent.activateContent();
             }
         }
-        onDraggingChanged: {
-            dragHandle = dragging ? showDragHandle : null;
-        }
     }
     DragHandle {
         id: hideDragHandle
@@ -330,10 +327,6 @@ Showable {
         stretch: true
         maxTotalDragDistance: openedHeight - panelHeight
         distanceThreshold: 0
-
-        onDraggingChanged: {
-            dragHandle = dragging ? hideDragHandle : null;
-        }
     }
 
     AxisVelocityCalculator {
@@ -352,8 +345,8 @@ Showable {
             }
             StateChangeScript {
                 script: {
-                    if (dragHandle) {
-                        calculateCurrentItem(dragHandle.touchX, false);
+                    if (activeDragHandle) {
+                        calculateCurrentItem(activeDragHandle.touchX, false);
                     }
                 }
             }
