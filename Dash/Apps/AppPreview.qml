@@ -39,7 +39,7 @@ DashPreview {
             right: parent.right
             margins: units.gu(1)
         }
-        model: previewData.infoMap["more-screenshots"]
+        model: previewData.infoMap["more-screenshots"].value
 
         delegate: UbuntuShape {
             id: item
@@ -50,7 +50,7 @@ DashPreview {
             image: Image {
                 asynchronous: true
                 sourceSize { width: item.width; height: item.height }
-                source: model ? model.modelData : ""
+                source: modelData ? modelData : ""
             }
         }
 
