@@ -30,7 +30,8 @@ FilterGrid {
     delegateHeight: units.gu(9.5)
     verticalSpacing: units.gu(2)
 
-    signal clicked(int index, variant data, real itemY)
+    signal clicked(int index, variant data)
+    signal pressAndHold(int index, variant data, real itemY)
 
     delegate: Tile {
         id: tile
@@ -54,5 +55,6 @@ FilterGrid {
         imageHeight: units.gu(7.5)
         source: IconUtil.from_gicon(icon)
         onClicked: filterGrid.clicked(index, application.desktopFile, tile.y);
+        onPressAndHold: filterGrid.pressAndHold(index, application.desktopFile, tile.y)
     }
 }

@@ -132,7 +132,11 @@ ScopeView {
                         item.canEnableTerminationMode =
                             Qt.binding(function() { return isCurrent; })
                     } else {
-                        function activateApplication(index, data, itemY) {
+                        function activateApplication(index, data) {
+                            shell.activateApplication(data);
+                        }
+
+                        function openPreview(index, data, itemY) {
                             effect.positionPx = mapToItem(categoryView, 0, itemY).y
                             previewLoader.previewData = data;
                             previewLoader.open = true;
@@ -140,6 +144,7 @@ ScopeView {
 
                         item.model = Qt.binding(function() { return categoryModels[modelName]; });
                         item.clicked.connect(activateApplication);
+                        item.pressAndHold.connect(openPreview)
 
                     }
                 }
