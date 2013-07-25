@@ -38,8 +38,8 @@ Item {
         scopeDelegateMapping: {
             "MockScope1": "../tests/qmltests/Dash/qml/fake_scopeView1.qml",
             "MockScope2": "../tests/qmltests/Dash/qml/fake_scopeView2.qml",
-            "MockScope3": "../tests/qmltests/Dash/qml/fake_scopeView3.qml",
-            "MockScope4": "../tests/qmltests/Dash/qml/fake_scopeView4.qml"
+            "home.scope": "../tests/qmltests/Dash/qml/fake_scopeView3.qml",
+            "applications.scope": "../tests/qmltests/Dash/qml/fake_scopeView4.qml"
         }
         genericScope: "../tests/qmltests/Dash/qml/fake_generic_scopeView.qml"
     }
@@ -69,8 +69,8 @@ Item {
             return [
                         { tag: "MockScope1", visualIndex: 0, shouldBeVisible: true },
                         { tag: "MockScope2", visualIndex: -1, shouldBeVisible: false },
-                        { tag: "MockScope3", visualIndex: 1, shouldBeVisible: true },
-                        { tag: "MockScope4", visualIndex: 2, shouldBeVisible: true },
+                        { tag: "home.scope", visualIndex: 1, shouldBeVisible: true },
+                        { tag: "applications.scope", visualIndex: 2, shouldBeVisible: true },
                         { tag: "MockScope5", visualIndex: 3, shouldBeVisible: true },
             ]
         }

@@ -44,3 +44,4 @@ file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
     )
 
 add_subdirectory(Launcher)
+add_subdirectory(Notifications)

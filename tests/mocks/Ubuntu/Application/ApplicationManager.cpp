@@ -37,8 +37,6 @@ ApplicationManager::ApplicationManager(QObject *parent)
     , m_sideStage(0)
 {
     buildListOfAvailableApplications();
-    createMainStageComponent();
-    createSideStageComponent();
 }
 
 ApplicationManager::~ApplicationManager()
@@ -403,6 +401,9 @@ void ApplicationManager::createMainStageComponent()
 
 void ApplicationManager::createMainStage()
 {
+    if (!m_mainStageComponent)
+        createMainStageComponent();
+
     // The assumptions I make here really should hold.
     QQuickView *quickView =
         qobject_cast<QQuickView*>(QGuiApplication::topLevelWindows()[0]);
@@ -437,6 +438,9 @@ void ApplicationManager::createSideStageComponent()
 
 void ApplicationManager::createSideStage()
 {
+    if (!m_sideStageComponent)
+        createSideStageComponent();
+
     // The assumptions I make here really should hold.
     QQuickView *quickView =
         qobject_cast<QQuickView*>(QGuiApplication::topLevelWindows()[0]);
