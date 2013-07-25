@@ -27,19 +27,15 @@ from __future__ import absolute_import
 from unity8.shell import with_lightdm_mock
 from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 
-from autopilot.input import Mouse, Touch, Pointer
 from testtools.matchers import Equals, NotEquals, GreaterThan, MismatchError
 from testtools import skip
 from autopilot.matchers import Eventually
-from autopilot.display import Display
 from autopilot.platform import model
 
 from gi.repository import GLib, Notify
-import unittest
 import time
 import os
 from os import path
-import subprocess
 import logging
 
 logger = logging.getLogger(__name__)
@@ -50,7 +46,7 @@ class TestNotifications(UnityTestCase):
     action_interactive_triggered = False
     action_accept_triggered = False
     action_send_message_triggered = False
-    #loop = GLib.MainLoop.new(None, False)
+    loop = None
 
     @with_lightdm_mock("single")
     def test_icon_summary_body(self):
@@ -76,7 +72,6 @@ class TestNotifications(UnityTestCase):
         Notify.uninit()
 
     @with_lightdm_mock("single")
-    @skip("No GLib main-loop support yet, so don't run any interactive notification tests.")
     def test_interactive(self):
         """Interactive notification must allow clicking on it."""
         self.launch_unity()
@@ -84,6 +79,7 @@ class TestNotifications(UnityTestCase):
         greeter.unlock()
         Notify.init("Autopilot Notification Tests")
         notify_list = self._get_notifications_list()
+        self.loop = GLib.MainLoop.new(None, False)
 
         summary = "Interactive notification"
         body = "Click this notification to trigger the attached action."
@@ -99,18 +95,17 @@ class TestNotifications(UnityTestCase):
                                                 "dummy",
                                                 self._action_interactive_cb)
         notification.show()
-        self.loop.run()
+        self._run_loop_with_killswitch(self.loop)
 
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
         self._assert_notification(notification, None, None, True, True, 1.0)
         self.touch.tap_object(notification.select_single(objectName="interactiveArea"))
-        self._assertThat(self.action_interactive_triggered, Equals(True))
+        self.assertThat(self.action_interactive_triggered, Equals(True))
         Notify.uninit()
 
     @with_lightdm_mock("single")
-    @skip("No GLib main-loop support yet, so don't run any snap-decision notification tests.")
     def test_sd_incoming_call(self):
         """Snap-decision simulating incoming call."""
         self.launch_unity()
@@ -118,6 +113,7 @@ class TestNotifications(UnityTestCase):
         greeter.unlock()
         Notify.init("Autopilot Notification Tests")
         notify_list = self._get_notifications_list()
+        self.loop = GLib.MainLoop.new(None, False)
 
         summary = "Incoming call"
         body = "Frank Zappa\n+44 (0)7736 027340"
@@ -129,16 +125,16 @@ class TestNotifications(UnityTestCase):
         action_cbs = [self._action_sd_accept_cb, self._action_sd_decline1_cb, self._action_sd_decline2_cb, self._action_sd_decline3_cb, self._action_sd_decline4_cb]
         notification = self._create_snap_decision(summary, body, icon_path, hint_icon, "NORMAL", action_ids, action_labels, action_cbs)
         notification.show()
-        self.loop.run()
+        self._run_loop_with_killswitch(self.loop)
 
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
         self._assert_notification(notification, None, None, True, True, 1.0)
         self.touch.tap_object(notification.select_single(objectName="button1"))
-        self._assertThat(notification.select_single(objectName="buttonRow").expanded, Eventually(Equals(True)))
+        self.assertThat(notification.select_single(objectName="buttonRow").expanded, Eventually(Equals(True)))
         self.touch.tap_object(notification.select_single(objectName="button4"))
-        self._assertThat(self.action_send_message_triggered, Equals(True))
+        self.assertThat(self.action_send_message_triggered, Equals(True))
         Notify.uninit()
 
     @with_lightdm_mock("single")
@@ -329,6 +325,16 @@ class TestNotifications(UnityTestCase):
 
         Notify.uninit()
 
+    def _run_loop_with_killswitch(self, loop):
+        logger.info("Running loop with timeout")
+        print "Running loop with timeout"
+        def killer(loop):
+            logger.info("Killing Loop!")
+            print "Killing Loop!"
+            loop.quit()
+        GLib.timeout_add_seconds(10, killer, loop)
+        loop.run()
+
     def _create_ephemeral(self, summary="", body="", icon=None, secondary_icon=None, urgency="NORMAL"):
         logger.info("Creating ephemeral notification with summary(%s), body(%s) and urgency(%r)", summary, body, urgency)
         if icon != None:
@@ -355,7 +361,7 @@ class TestNotifications(UnityTestCase):
             n.set_hint('x-canonical-secondary-icon', GLib.Variant.new_string(secondary_icon))
         n.set_hint('x-canonical-switch-to-application', GLib.Variant.new_string('true'));
         n.add_action(action_id, action_label, action_cb, None, None);
-        n.connect('closed', self.close_cb)
+        n.connect('closed', self._close_cb)
         n.set_urgency(self._get_urgency(urgency))
 
         return n
@@ -380,7 +386,7 @@ class TestNotifications(UnityTestCase):
         n.set_hint('x-canonical-snap-decisions', GLib.Variant.new_string('true'));
         for i in range(size_ids):
             n.add_action(action_ids[i], action_labels[i], action_cbs[i], None, None)
-        n.connect('closed', self.close_cb)
+        n.connect('closed', self._close_cb)
         n.set_urgency(self._get_urgency(urgency))
 
         return n
@@ -457,9 +463,11 @@ class TestNotifications(UnityTestCase):
     def _action_interactive_cb (self, notification, action, data):
         if action == "action_id":
             logger.info("--- Triggering action ---")
+            print "--- Triggering action ---"
             self.action_interactive_triggered = True
         else:
             logger.info("--- That should not have happened (action_id)! ---")
+            print "--- That should not have happened (action_id)! ---"
             self.action_interactive_triggered = False
 
     def _action_sd_decline1_cb (self, notification, action, data):
