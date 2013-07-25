@@ -32,7 +32,6 @@ class TestHud(UnityTestCase):
 
     scenarios = _get_device_emulation_scenarios()
 
-    @with_lightdm_mock("single")
     def test_show_hud_button_appears(self):
         """Swiping up while an app is active must show the 'show hud' button.
 
@@ -54,7 +53,6 @@ class TestHud(UnityTestCase):
         self.touch._finger_move(swipe_coords.end_x, swipe_coords.end_y)
         self.assertThat(hud_show_button.opacity, Eventually(Equals(1.0)))
 
-    @with_lightdm_mock("single")
     def test_show_hud_appears(self):
         """Releasing the touch on the 'show hud' button must display the hud.
 
@@ -80,7 +78,6 @@ class TestHud(UnityTestCase):
         self.touch.release()
         self.assertThat(hud.shown, Eventually(Equals(True)))
 
-    @with_lightdm_mock("single")
     def test_hide_hud_click(self):
         """Tapping the close button of the Hud must dismiss it."""
         self.launch_unity()
@@ -94,7 +91,6 @@ class TestHud(UnityTestCase):
         self.touch.tap(x, y)
         self.assertThat(hud.shown, Eventually(Equals(False)))
 
-    @with_lightdm_mock("single")
     def test_hide_hud_dragging(self):
         """Once open the Hud must close if the upper bar is dragged and
         released downward.
@@ -115,7 +111,6 @@ class TestHud(UnityTestCase):
         self.touch.drag(start_x, start_y, end_x, end_y)
         self.assertThat(hud.shown, Eventually(Equals(False)))
 
-    @with_lightdm_mock("single")
     def test_launcher_hides_hud(self):
         """Opening the Launcher while the Hud is active must close the Hud."""
         self.launch_unity()
