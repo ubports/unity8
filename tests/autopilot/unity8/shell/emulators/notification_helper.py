@@ -46,13 +46,13 @@ class Notifications(object):
 
         """
         try:
-            t, result = self._wait_for_result(timeout)
-            if t != "callback":
+            result = self._wait_for_result(timeout)
+            if result[0] != "callback":
                 raise AssertionError(
                     "While waiting for callback '%s', the notification was "
                     "closed." % action_id
                 )
-            if result != action_id:
+            if result[1] != action_id:
                 raise AssertionError(
                     "While waiting for callback '%s', the notification %s was "
                     "called instead." % (action_id, result)
@@ -69,8 +69,8 @@ class Notifications(object):
 
         """
         try:
-            t, result = self._wait_for_result(timeout)
-            if t != "close":
+            result = self._wait_for_result(timeout)
+            if result[0] != "close":
                 raise AssertionError(
                     "While waiting for callback to be closed, it was activated"
                     " instead"
