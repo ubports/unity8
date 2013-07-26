@@ -1,3 +1,27 @@
+unity8 (7.81.3+13.10.20130726ubuntu.unity.next-0ubuntu1) saucy; urgency=low
+
+  [ Michal Hruby ]
+  * Expose real category ids and not just indices.
+  * Provide fallbacks for default renderer.
+
+  [ Daniel d'Andrada ]
+  * Give a visual feedback on right-edge drag with no running apps (LP:
+    #1116207). (LP: #1116207)
+
+  [ Albert Astals ]
+  * Update m_firstVisibleIndex if there's no visible items anymore Also
+    remove the check for m_visibleItems.isEmpty() on insert, the
+    m_firstVisibleIndex == 0 already protects us against that.
+
+  [ Christopher Lee ]
+  * Tests now use a default lightdm mock if not decorated. (LP:
+    #1204772)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 135 (ubuntu-unity/next)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 26 Jul 2013 07:06:08 +0000
+
 unity8 (7.81.3+13.10.20130725ubuntu.unity.next-0ubuntu1) saucy; urgency=low
 
   [ Michal Hruby ]
