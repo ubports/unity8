@@ -1,0 +1,22 @@
+<node>
+  <interface name="org.freedesktop.login1.Manager">
+    <method name="GetSession">
+      <arg name="id" type="s" direction="in" />
+      <arg name="path" type="o" direction="out" />
+    </method>
+  </interface>
+  <interface name="org.freedesktop.login1.Session">
+    <property name="Active" type="b" access="read"/>
+  </interface>
+  <interface name="org.freedesktop.DBus.Properties">
+    <signal name="PropertiesChanged">
+      <annotation name="org.qtproject.QtDBus.QtTypeName.In1" value="QVariantMap"/>
+      <arg name="interface" type="s" direction="out"/>
+      <arg name="changed" type="a{sv}" direction="out"/>
+      <arg name="invalid" type="as" direction="out"/>
+    </signal>
+  </interface>
+  <interface name="org.freedesktop.DisplayManager.Session">
+    <method name="Lock"/>
+  </interface>
+</node>

@@ -3,6 +3,7 @@ Section: x11
 Priority: optional
 Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
 Build-Depends: cmake,
+               dbus-test-runner,
                debhelper (>= 9),
                libdee-qt5-dev (>= 3.0),
                libgl1-mesa-dev[!armhf] | libgl-dev[!armhf],
@@ -12,6 +13,7 @@ Build-Depends: cmake,
                libjson-perl,
                libnm-glib-dev,
                libnm-util-dev,
+               liblightdm-qt5-3-dev,
                libpulse-dev,
                libqmenumodel-dev,
                libqt5v8-5-private-dev,
@@ -27,6 +29,7 @@ Build-Depends: cmake,
                python3,
                qt5-default,
                qtbase5-dev,
+               qtbase5-dev-tools,
                qtbase5-private-dev,
                qtdeclarative5-dev,
                qtdeclarative5-dev-tools,
@@ -75,6 +78,15 @@ Recommends: indicator-battery,
 Description: Unity 8 shell
  The Unity 8 shell is the primary user interface for Ubuntu devices.
 
+Package: unity8-greeter
+Architecture: any
+Depends: ubuntu-touch-session,
+         unity8 (>= ${source:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends},
+Description: Ubuntu QML greeter
+ The Ubuntu QML greeter is the primary greeter for Ubuntu devices.
+
 Package: unity8-autopilot
 Architecture: all
 Depends: indicators-client (>= ${source:Version}),
@@ -84,6 +96,7 @@ Depends: indicators-client (>= ${source:Version}),
          python-evdev,
          unity8 (>= ${source:Version}),
          unity8-fake-env (>= ${source:Version}),
+         unity8-greeter (>= ${source:Version}),
          ${misc:Depends},
          ${python:Depends},
          ${shlibs:Depends},

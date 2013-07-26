@@ -41,6 +41,7 @@ from unity8 import (
 )
 from unity8.shell.emulators import UnityEmulatorBase
 from unity8.shell.emulators.dash import Dash
+from unity8.shell.emulators.greeter import Greeter
 from unity8.shell.emulators.main_window import MainWindow
 
 
@@ -148,9 +149,8 @@ class UnityTestCase(AutopilotTestCase):
             divisor = divisor * 2
         return divisor
 
-    def launch_unity(self):
-        """Launch the unity shell, return a proxy object for it."""
-        binary_path = get_binary_path()
+    def _launch(self, executable, ready_func):
+        binary_path = get_binary_path(executable)
         lib_path = get_lib_path()
 
         logger.info(
@@ -173,10 +173,18 @@ class UnityTestCase(AutopilotTestCase):
 
         # Ensure that the dash is visible before we return:
         logger.debug("Unity started, waiting for it to be ready.")
-        self.assertUnityReady()
+        ready_func()
         logger.debug("Unity loaded and ready.")
 
         return app_proxy
+
+    def launch_unity(self):
+        """Launch the unity shell, return a proxy object for it."""
+        return self._launch("unity8", self.assertUnityReady)
+
+    def launch_greeter(self):
+        """Launch the unity shell, return a proxy object for it."""
+        return self._launch("unity8-greeter", self.assertGreeterReady)
 
     def patch_lightdm_mock(self, mock_type='single'):
         self._lightdm_mock_type = mock_type
@@ -192,7 +200,7 @@ class UnityTestCase(AutopilotTestCase):
     def _get_lightdm_mock_path(self, mock_type):
         lib_path = get_mocks_library_path()
         lightdm_mock_path = os.path.abspath(
-            os.path.join(lib_path, "LightDM", mock_type)
+            os.path.join(lib_path, "liblightdm", mock_type)
         )
 
         if not os.path.exists(lightdm_mock_path):
@@ -229,10 +237,19 @@ class UnityTestCase(AutopilotTestCase):
         )
         self.assertThat(home_scope.isCurrent, Eventually(Equals(True)))
 
+    def assertGreeterReady(self):
+        greeter = self.get_greeter()
+        self.assertThat(greeter.created, Eventually(Equals(True)))
+
     def get_dash(self):
         dash = self._proxy.select_single(Dash)
         self.assertThat(dash, NotEquals(None))
         return dash
+
+    def get_greeter(self):
+        greeter = self._proxy.select_single(Greeter)
+        self.assertThat(greeter, NotEquals(None))
+        return greeter
 
     @property
     def main_window(self):

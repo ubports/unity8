@@ -4,6 +4,7 @@ include(QmlTest)
 add_subdirectory(Components)
 
 set(qmltest_DEFAULT_IMPORT_PATHS
+  ${CMAKE_BINARY_DIR}/plugins
   ${CMAKE_BINARY_DIR}/tests/utils/modules
   ${CMAKE_BINARY_DIR}/tests/mocks
 )
@@ -27,45 +28,36 @@ set(qmltest_DEFAULT_NO_ADD_TEST TRUE)
 set(qmltest_DEFAULT_PROPERTIES "")
 
 add_qml_test(. Shell IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS}
-                     ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/LightDM/single")
+                     ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/liblightdm/single")
 add_manual_qml_test(Components DragHandle IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
 add_qml_test(Components DraggingArea)
-add_qml_test(Components FilterGrid IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/plugins)
+add_qml_test(Components FilterGrid)
 add_qml_test(Components ResponsiveFlowView)
 add_qml_test(Components ResponsiveGridView)
 add_qml_test(Components Revealer)
 add_qml_test(Components Showable)
-add_qml_test(Components Stage IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS}
-                                           ${CMAKE_BINARY_DIR}/tests/mocks
-                                           ${CMAKE_BINARY_DIR}/plugins)
+add_qml_test(Components Stage)
 add_qml_test(Components Tile)
 add_qml_test(Components PageHeader)
-add_qml_test(Dash Dash IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
-add_qml_test(Dash DashBar IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${CMAKE_CURRENT_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
-add_qml_test(Dash DashContent IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS})
+add_qml_test(Dash Dash)
+add_qml_test(Dash DashBar)
+add_qml_test(Dash DashContent)
 add_qml_test(Dash DashPreview)
-add_qml_test(Dash GenericScopeView IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
-add_qml_test(Dash ScopeView IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
-add_qml_test(Dash FilterGrids IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/plugins ${CMAKE_CURRENT_SOURCE_DIR}/plugins
-                                           ${CMAKE_BINARY_DIR}/tests/mocks)
-add_qml_test(Dash/Apps RunningApplicationsGrid IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/tests/mocks)
-add_qml_test(Greeter Lockscreen IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS}
-                             PROPERTIES ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics:${CMAKE_BINARY_DIR}/tests/mocks/LightDM/full")
-add_qml_test(Greeter Tablet IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS}
-                            ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics:${CMAKE_BINARY_DIR}/tests/mocks/LightDM/full")
-add_qml_test(Greeter Phone IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS}
-                           ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics:${CMAKE_BINARY_DIR}/tests/mocks/LightDM/single")
-add_qml_test(Greeter Infographics IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS}
-                                  ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics:${CMAKE_BINARY_DIR}/tests/mocks/LightDM/full")
+add_qml_test(Dash GenericScopeView)
+add_qml_test(Dash ScopeView)
+add_qml_test(Dash FilterGrids)
+add_qml_test(Dash/Apps RunningApplicationsGrid)
+add_qml_test(Greeter Lockscreen ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics:${CMAKE_BINARY_DIR}/tests/mocks/liblightdm/full")
+add_qml_test(Greeter Tablet ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics:${CMAKE_BINARY_DIR}/tests/mocks/liblightdm/full")
+add_qml_test(Greeter Phone ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics:${CMAKE_BINARY_DIR}/tests/mocks/liblightdm/single")
+add_qml_test(Greeter Infographics ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics:${CMAKE_BINARY_DIR}/tests/mocks/liblightdm/full")
 add_qml_test(Hud Hud)
 add_qml_test(Hud Result)
-add_qml_test(Launcher Launcher IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
-add_qml_test(Notifications Notifications IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_SOURCE_DIR}/tests/mocks)
+add_qml_test(Launcher Launcher)
+add_qml_test(Notifications Notifications)
 add_qml_test(Panel IndicatorRow)
-add_qml_test(Panel Indicators IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
+add_qml_test(Panel Indicators)
 add_qml_test(Panel MenuContent)
-add_qml_test(Panel Panel IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
+add_qml_test(Panel Panel)
 add_qml_test(Panel SearchIndicator)
-add_qml_test(SideStage SideStage IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS}
-                                              ${CMAKE_BINARY_DIR}/tests/mocks
-                                              ${CMAKE_BINARY_DIR}/plugins)
+add_qml_test(SideStage SideStage)

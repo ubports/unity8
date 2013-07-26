@@ -12,8 +12,9 @@ add_library(MockLightDM-single-passphrase SHARED ${LibLightDM_SOURCES})
 qt5_use_modules(MockLightDM-single-passphrase Gui)
 
 set_target_properties(MockLightDM-single-passphrase PROPERTIES
-                      OUTPUT_NAME lightdm-qt5-2)
+                      OUTPUT_NAME lightdm-qt5-3
+                      SOVERSION 0)
 
 install(TARGETS MockLightDM-single-passphrase
-    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/mocks/LightDM/single-passphrase
+    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/mocks/liblightdm/single-passphrase
     )

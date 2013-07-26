@@ -34,7 +34,8 @@ Showable {
 
     property alias dragHandleWidth: dragHandle.width
     property alias model: greeterContentLoader.model
-    property bool locked: shown && multiUser && !greeterContentLoader.promptless
+    property alias promptless: greeterContentLoader.promptless
+    property bool locked: shown && multiUser && !promptless
 
     readonly property bool narrowMode: !multiUser && width <= units.gu(60)
     readonly property bool multiUser: LightDM.Users.count > 1

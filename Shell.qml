@@ -18,9 +18,8 @@ import QtQuick 2.0
 import Ubuntu.Application 0.1
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
-import LightDM 0.1 as LightDM
+import SessionManager 0.1
 import "Dash"
-import "Greeter"
 import "Launcher"
 import "Panel"
 import "Hud"
@@ -31,17 +30,9 @@ import "SideStage"
 import "Notifications"
 import Unity.Notifications 1.0 as NotificationBackend
 
-FocusScope {
+BasicShell {
     id: shell
 
-    // this is only here to select the width / height of the window if not running fullscreen
-    property bool tablet: false
-    width: tablet ? units.gu(160) : applicationArguments.hasGeometry() ? applicationArguments.width() : units.gu(40)
-    height: tablet ? units.gu(100) : applicationArguments.hasGeometry() ? applicationArguments.height() : units.gu(71)
-
-    property real edgeSize: units.gu(2)
-    property url default_background: shell.width >= units.gu(60) ? "graphics/tablet_background.jpg" : "graphics/phone_background.jpg"
-    property url background: default_background
     readonly property real panelHeight: panel.panelHeight
 
     property bool dashShown: dash.shown
@@ -72,9 +63,7 @@ FocusScope {
     }
 
     readonly property bool fullscreenMode: {
-        if (greeter.shown || lockscreen.shown) {
-            return false;
-        } else if (mainStage.usingScreenshots) { // Window Manager animating so want to re-evaluate fullscreen mode
+        if (mainStage.usingScreenshots) { // Window Manager animating so want to re-evaluate fullscreen mode
             return mainStage.switchingFromFullscreenToFullscreen;
         } else if (applicationManager.mainStageFocusedApplication) {
             return applicationManager.mainStageFocusedApplication.fullscreen;
@@ -87,9 +76,6 @@ FocusScope {
         target: applicationManager
         ignoreUnknownSignals: true
         onFocusRequested: {
-            // TODO: this should be protected to only unlock for certain applications / certain usecases
-            // potentially only in connection with a notification
-            greeter.hide();
             shell.activateApplication(desktopFile);
         }
     }
@@ -114,16 +100,9 @@ FocusScope {
         }
     }
 
-    VolumeControl {
-        id: volumeControl
-    }
-
-    Keys.onVolumeUpPressed: volumeControl.volumeUp()
-    Keys.onVolumeDownPressed: volumeControl.volumeDown()
-
     Keys.onReleased: {
         if (event.key == Qt.Key_PowerOff) {
-            greeter.show()
+            SessionManager.lock()
         }
     }
 
@@ -162,7 +141,6 @@ FocusScope {
             id: dash
             objectName: "dash"
 
-            available: !greeter.shown && !lockscreen.shown
             hides: [stages, launcher, panel.indicators]
             shown: disappearingAnimationProgress !== 1.0
             enabled: disappearingAnimationProgress === 0.0
@@ -180,16 +158,10 @@ FocusScope {
 
             contentScale: 1.0 - 0.2 * disappearingAnimationProgress
             opacity: 1.0 - disappearingAnimationProgress
-            property real disappearingAnimationProgress: {
-                if (greeter.shown) {
-                    return greeter.showProgress;
-                } else {
-                    return stagesOuterContainer.showProgress;
-                }
-            }
+            property real disappearingAnimationProgress: stagesOuterContainer.showProgress
 
-            // FIXME: only necessary because stagesOuterContainer.showProgress and
-            // greeterRevealer.animatedProgress are not animated
+            // FIXME: only necessary because stagesOuterContainer.showProgress
+            // is not animated
             Behavior on disappearingAnimationProgress { SmoothedAnimation { velocity: 5 }}
         }
     }
@@ -214,7 +186,6 @@ FocusScope {
 
             property bool fullyShown: shown && x == 0 && parent.x == 0
             property bool fullyHidden: !shown && x == width
-            available: !greeter.shown
             hides: [launcher, panel.indicators]
             shown: false
             opacity: 1.0
@@ -317,7 +288,7 @@ FocusScope {
                             && sideStage[sideStageRevealer.boundProperty] == sideStageRevealer.openedValue
                 shouldUseScreenshots: !fullyShown || mainStage.usingScreenshots || sideStageRevealer.pressed
 
-                available: !greeter.shown && !lockscreen.shown && enabled
+                available: enabled
                 hides: [launcher, panel.indicators]
                 shown: false
                 showAnimation: StandardAnimation { property: "x"; duration: 350; to: sideStageRevealer.openedValue; easing.type: Easing.OutQuint }
@@ -367,106 +338,6 @@ FocusScope {
         }
     }
 
-    Lockscreen {
-        id: lockscreen
-        hides: [launcher, panel.indicators, hud]
-        shown: false
-        enabled: true
-        showAnimation: StandardAnimation { property: "opacity"; to: 1 }
-        hideAnimation: StandardAnimation { property: "opacity"; to: 0 }
-        y: panel.panelHeight
-        x: required ? 0 : - width
-        width: parent.width
-        height: parent.height - panel.panelHeight
-        background: shell.background
-
-        onUnlocked: lockscreen.hide()
-        onCancel: greeter.show()
-
-        Component.onCompleted: {
-            if (LightDM.Users.count == 1) {
-                LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole))
-            }
-        }
-    }
-
-    Connections {
-        target: LightDM.Greeter
-
-        onShowPrompt: {
-            if (LightDM.Users.count == 1) {
-                // TODO: There's no better way for now to determine if its a PIN or a passphrase.
-                if (text == "PIN") {
-                    lockscreen.alphaNumeric = false
-                } else {
-                    lockscreen.alphaNumeric = true
-                }
-                lockscreen.placeholderText = i18n.tr("Please enter %1").arg(text);
-                lockscreen.show();
-            }
-        }
-    }
-
-    Greeter {
-        id: greeter
-
-        available: true
-        hides: [launcher, panel.indicators, hud]
-        shown: true
-
-        y: panel.panelHeight
-        width: parent.width
-        height: parent.height - panel.panelHeight
-
-        dragHandleWidth: shell.edgeSize
-
-        property var previousMainApp: null
-        property var previousSideApp: null
-
-        onShownChanged: {
-            if (shown) {
-                lockscreen.reset();
-                // If there is only one user, we start authenticating with that one here.
-                // If there are more users, the Greeter will handle that
-                if (LightDM.Users.count == 1) {
-                    LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
-                }
-                greeter.forceActiveFocus();
-                // FIXME: *FocusedApplication are not updated when unfocused, hence the need to check whether
-                // the stage was actually shown
-                if (mainStage.fullyShown) greeter.previousMainApp = applicationManager.mainStageFocusedApplication;
-                if (sideStage.fullyShown) greeter.previousSideApp = applicationManager.sideStageFocusedApplication;
-                applicationManager.unfocusCurrentApplication();
-            } else {
-                if (greeter.previousMainApp) {
-                    applicationManager.focusApplication(greeter.previousMainApp);
-                    greeter.previousMainApp = null;
-                }
-                if (greeter.previousSideApp) {
-                    applicationManager.focusApplication(greeter.previousSideApp);
-                    greeter.previousSideApp = null;
-                }
-            }
-        }
-
-        onUnlocked: greeter.hide()
-        onSelected: {
-            var bgPath = greeter.model.data(uid, LightDM.UserRoles.BackgroundPathRole)
-            shell.background = bgPath ? bgPath : default_background
-        }
-
-        onLeftTeaserPressedChanged: {
-            if (leftTeaserPressed) {
-                launcher.tease();
-            }
-        }
-    }
-
-    InputFilterArea {
-        anchors.fill: parent
-        blockInput: greeter.shown || lockscreen.shown
-    }
-
     Item {
         id: overlay
 
@@ -480,7 +351,6 @@ FocusScope {
                 hides: [launcher]
             }
             fullscreenMode: shell.fullscreenMode
-            searchVisible: !greeter.shown && !lockscreen.shown
 
             InputFilterArea {
                 anchors.fill: parent
@@ -494,7 +364,7 @@ FocusScope {
             width: parent.width > units.gu(60) ? units.gu(40) : parent.width
             height: parent.height
 
-            available: !greeter.shown && !panel.indicators.shown && !lockscreen.shown
+            available: !panel.indicators.shown
             shown: false
             showAnimation: StandardAnimation { property: "y"; duration: hud.showableAnimationDuration; to: 0; easing.type: Easing.Linear }
             hideAnimation: StandardAnimation { property: "y"; duration: hud.showableAnimationDuration; to: hudRevealer.closedValue; easing.type: Easing.Linear }
@@ -552,9 +422,7 @@ FocusScope {
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
-            available: !greeter.locked
             onDashItemSelected: {
-                greeter.hide()
                 // Animate if moving between application and dash
                 if (!stages.shown) {
                     dash.setCurrentScope("home.scope", true, false)
@@ -571,7 +439,6 @@ FocusScope {
                 }
             }
             onLauncherApplicationSelected:{
-                greeter.hide()
                 shell.activateApplication(desktopFile)
             }
             onShownChanged: {
@@ -617,16 +484,6 @@ FocusScope {
             top: parent.top
             bottom: parent.bottom
             left: parent.left
-        }
-        width: shell.edgeSize
-        blockInput: true
-    }
-
-    InputFilterArea {
-        anchors {
-            top: parent.top
-            bottom: parent.bottom
-            right: parent.right
         }
         width: shell.edgeSize
         blockInput: true

@@ -95,6 +95,7 @@ declare_autopilot_test(shell unity8.shell ${CMAKE_SOURCE_DIR}/tests/autopilot/)
 declare_autopilot_test(indicators_client unity8.indicators_client ${CMAKE_SOURCE_DIR}/tests/autopilot/)
 
 set(SHELL_APP unity8)
+set(GREETER_APP unity8-greeter)
 
 set(shell_app_HDRS
     )
@@ -105,8 +106,22 @@ add_executable(${SHELL_APP}
     main.cpp
     MouseTouchAdaptor.cpp
     )
+add_executable(${GREETER_APP}
+    ${greeterapplication_MOC_SRCS}
+    ApplicationArguments.h
+    main.cpp
+    MouseTouchAdaptor.cpp
+    )
+
+set_target_properties(${SHELL_APP} PROPERTIES
+    COMPILE_DEFINITIONS "APP_NAME=\"Unity 8\";QML_FILE=\"Shell.qml\""
+    )
+set_target_properties(${GREETER_APP} PROPERTIES
+    COMPILE_DEFINITIONS "APP_NAME=\"Unity 8 Greeter\";QML_FILE=\"GreeterShell.qml\""
+    )
 
 qt5_use_modules(${SHELL_APP} Qml Quick Test)
+qt5_use_modules(${GREETER_APP} Qml Quick Test)
 pkg_check_modules(XCB REQUIRED xcb)
 
 if (NOT "${XCB_INCLUDE_DIRS}" STREQUAL "")
@@ -118,9 +133,14 @@ target_link_libraries(${SHELL_APP}
     ${Qt5Quick_LIBRARIES}
     ${XCB_LDFLAGS}
     )
+target_link_libraries(${GREETER_APP}
+    ${Qt5Qml_LIBRARIES}
+    ${Qt5Quick_LIBRARIES}
+    ${XCB_LDFLAGS}
+    )
 
 # install binaries
-install(TARGETS ${SHELL_APP}
+install(TARGETS ${SHELL_APP} ${GREETER_APP}
      RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
      )
 
@@ -157,10 +177,14 @@ install(DIRECTORY ${QML_DIRS}
 
 # generate desktop file
 configure_file(${SHELL_APP}.desktop.in ${CMAKE_CURRENT_BINARY_DIR}/${SHELL_APP}.desktop @ONLY)
+configure_file(${GREETER_APP}.desktop.in ${CMAKE_CURRENT_BINARY_DIR}/${GREETER_APP}.desktop @ONLY)
 
 # install desktop file
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${SHELL_APP}.desktop
     DESTINATION ${CMAKE_INSTALL_DATADIR}/applications
+    )
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${GREETER_APP}.desktop
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/xgreeters
     )
 
 #

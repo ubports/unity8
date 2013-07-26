@@ -38,7 +38,7 @@ class TestLockscreen(UnityTestCase):
     @with_lightdm_mock("single-pin")
     def test_can_unlock_pin_screen(self):
         """Must be able to unlock the PIN entry lock screen."""
-        self.launch_unity()
+        self.launch_greeter()
         greeter = self.main_window.get_greeter()
         greeter.unlock()
 
@@ -50,7 +50,7 @@ class TestLockscreen(UnityTestCase):
     @with_lightdm_mock("single-passphrase")
     def test_can_unlock_passphrase_screen(self):
         """Must be able to unlock the passphrase entry screen."""
-        self.launch_unity()
+        self.launch_greeter()
         greeter = self.main_window.get_greeter()
         greeter.unlock()
 
@@ -62,7 +62,7 @@ class TestLockscreen(UnityTestCase):
     @with_lightdm_mock("single-pin")
     def test_pin_screen_wrong_code(self):
         """Entering the wrong pin code must not dismiss the lock screen."""
-        self.launch_unity()
+        self.launch_greeter()
         greeter = self.main_window.get_greeter()
         greeter.unlock()
 
@@ -76,7 +76,7 @@ class TestLockscreen(UnityTestCase):
     @with_lightdm_mock("single-passphrase")
     def test_passphrase_screen_wrong_password(self):
         """Entering the wrong password must not dismiss the lock screen."""
-        self.launch_unity()
+        self.launch_greeter()
         greeter = self.main_window.get_greeter()
         greeter.unlock()
 

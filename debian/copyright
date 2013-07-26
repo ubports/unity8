@@ -22,7 +22,7 @@ License: GPL-3
  On Debian systems, the full text of the GNU General Public License
  version 3 can be found in the file /usr/share/common-licenses/GPL-3.
 
-Files: tests/mocks/LightDM/UsersModel.h tests/mocks/LightDM/Greeter.h
+Files: tests/mocks/liblightdm/UsersModel.h tests/mocks/liblightdm/Greeter.h
 Copyright: 2013 Canonical Ltd.
            2010-2011 David Edmundson
            2010-2011 Robert Ancell

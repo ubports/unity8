@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Unity 8 Greeter
+GenericName=unity8-greeter
+Comment=The converged Unity greeter
+Exec=@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_BINDIR@/ubuntu-touch-session @CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_BINDIR@/unity8-greeter -fullscreen
+Terminal=false
+Icon=unity8
+NoDisplay=true
+X-Ubuntu-Touch=true

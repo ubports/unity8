@@ -22,6 +22,7 @@
 #include <QtQuick/QQuickView>
 #include <QtGui/QIcon>
 #include <QtGui/QGuiApplication>
+#include <QtGui/QScreen>
 #include <QtQml/QQmlEngine>
 #include <QtQml/QQmlContext>
 #include <qpa/qplatformnativeinterface.h>
@@ -82,7 +83,7 @@ int main(int argc, char** argv)
     setenv("QML_FORCE_THREADED_RENDERER", "1", 1);
     setenv("QML_FIXED_ANIMATION_STEP", "1", 1);
 
-    QGuiApplication::setApplicationName("Unity 8");
+    QGuiApplication::setApplicationName(APP_NAME);
     QGuiApplication application(argc, argv);
 
     resolveIconTheme();
@@ -111,7 +112,7 @@ int main(int argc, char** argv)
 
     QQuickView* view = new QQuickView();
     view->setResizeMode(QQuickView::SizeRootObjectToView);
-    view->setTitle("Qml Phone Shell");
+    view->setTitle(APP_NAME);
     view->engine()->setBaseUrl(QUrl::fromLocalFile(::shellAppDirectory()));
     view->rootContext()->setContextProperty("applicationArguments", &qmlArgs);
     if (args.contains(QLatin1String("-frameless"))) {
@@ -136,13 +137,17 @@ int main(int argc, char** argv)
     nativeInterface->setProperty("ubuntuSessionType", 1);
     view->setProperty("role", 2); // INDICATOR_ACTOR_ROLE
 
-    QUrl source("Shell.qml");
+    QUrl source(QML_FILE);
     prependImportPaths(view->engine(), ::overrideImportPaths());
     appendImportPaths(view->engine(), ::fallbackImportPaths());
     view->setSource(source);
     view->setColor("transparent");
 
     if (qgetenv("QT_QPA_PLATFORM") == "ubuntu" || args.contains(QLatin1String("-fullscreen"))) {
+        // First, size window equal to screen (fake a real WM fullscreen mode).
+        // Then, in case we are actually running inside a windowing system,
+        // nicely set actual WM fullscreen hint for its benefit.
+        view->resize(view->screen()->size());
         view->showFullScreen();
     } else {
         view->show();

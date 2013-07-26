@@ -19,7 +19,6 @@
 
 from __future__ import absolute_import
 
-from unity8.shell import with_lightdm_mock
 from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 
 from testtools.matchers import Equals
@@ -37,7 +36,6 @@ class TestHud(UnityTestCase):
 
         """
         self.launch_unity()
-        self.main_window.get_greeter().unlock()
         window = self.main_window.get_qml_view()
         hud_show_button = self.main_window.get_hud_show_button()
         hud = self.main_window.get_hud()
@@ -58,7 +56,6 @@ class TestHud(UnityTestCase):
 
         """
         self.launch_unity()
-        self.main_window.get_greeter().unlock()
         window = self.main_window.get_qml_view()
         hud_show_button = self.main_window.get_hud_show_button()
         hud = self.main_window.get_hud()
@@ -81,7 +78,6 @@ class TestHud(UnityTestCase):
     def test_hide_hud_click(self):
         """Tapping the close button of the Hud must dismiss it."""
         self.launch_unity()
-        self.main_window.get_greeter().unlock()
         hud = self.main_window.get_hud()
 
         self._launch_test_app_from_app_screen()
@@ -97,7 +93,6 @@ class TestHud(UnityTestCase):
 
         """
         self.launch_unity()
-        self.main_window.get_greeter().unlock()
         hud = self.main_window.get_hud()
         window = self.main_window.get_qml_view()
 
@@ -114,7 +109,6 @@ class TestHud(UnityTestCase):
     def test_launcher_hides_hud(self):
         """Opening the Launcher while the Hud is active must close the Hud."""
         self.launch_unity()
-        self.main_window.get_greeter().unlock()
         hud = self.main_window.get_hud()
         launcher = self.main_window.get_launcher()
 

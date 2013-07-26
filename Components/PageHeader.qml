@@ -18,6 +18,7 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
+import SessionManager 0.1
 
 Item {
     /*!
@@ -47,8 +48,8 @@ Item {
     }
 
     Connections {
-        target: greeter
-        onShownChanged: if (shown) resetSearch()
+        target: SessionManager
+        onActiveChanged: if (!SessionManager.active) resetSearch()
     }
 
     Flickable {
