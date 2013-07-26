@@ -28,6 +28,8 @@ public:
     static GSettingsControllerQml* getInstance();
     ~GSettingsControllerQml();
 
+    void setPictureUri(const QString &str);
+
 private:
     GSettingsControllerQml();
     GSettingsControllerQml(const GSettingsControllerQml&);
@@ -72,7 +74,7 @@ public:
     GSettingsSchemaQml * schema() const;
     QString pictureUri() const;
 
-    void setPictureUri(const QString &str);
+    void setPictureUric
 
 Q_SIGNALS:
     void schemaChanged();

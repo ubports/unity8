@@ -27,6 +27,11 @@ import "../.."
 
 Shell {
     id: shell
+
+    GSettingsController {
+        id: gsettingsController
+    }
+
     UT.UnityTestCase {
         name: "Shell"
         when: windowShown

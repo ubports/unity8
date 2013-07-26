@@ -45,6 +45,9 @@ GSettingsControllerQml* GSettingsControllerQml::getInstance()  {
     }
 }
 
+void GSettingsControllerQml::setPictureUri(const QString &str) {
+}
+
 GSettingsSchemaQml::GSettingsSchemaQml(QObject *parent): QObject(parent) {
     priv = new GSettingsSchemaQmlPrivate;
 }
