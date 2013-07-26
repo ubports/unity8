@@ -38,6 +38,8 @@ import time
 import os
 from os import path
 import logging
+import signal
+import subprocess
 
 logger = logging.getLogger(__name__)
 
@@ -48,6 +50,16 @@ class TestNotifications(UnityTestCase):
     action_accept_triggered = False
     action_send_message_triggered = False
     loop = None
+
+    def setUp(self):
+        super(TestNotifications, self).setUp()
+        self._notify_proc = None
+
+    def tearDown(self):
+        super(TestNotifications, self).tearDown()
+        if self._notify_proc is not None and self._notify_proc.poll() is None:
+            logger.error("Notification process wasn't killed.")
+            os.killpg(self._notify_proc.pid, signal.SIGTERM)
 
     @with_lightdm_mock("single")
     def test_icon_summary_body(self):
@@ -80,26 +92,36 @@ class TestNotifications(UnityTestCase):
 
         notify_list = self._get_notifications_list()
 
-        with Notifications() as n:
-            summary = "Summary"
-            body = "Body"
-            icon_path = None
-            n.interactive_notification(
-                summary,
-                body,
-                icon_path,
-                "NORMAL",
-                "action_id",
-                "dummy",
-                [("x-canonical-switch-to-application", "true"), ("x-canonical-secondary-icon", "/home/leecj2/code/phablet/unity8/notification-autopilot-tests/graphics/applicationIcons/phone-app@18.png")]
+        summary = "Summary"
+        body = "Body"
+        icon_path = None
+        hints = [
+            ("x-canonical-switch-to-application", "true"),
+            (
+                "x-canonical-secondary-icon",
+                self._get_icon_path('applicationIcons/phone-app@18.png')
             )
-            get_notification = lambda: notify_list.select_single('Notification')
-            self.assertThat(get_notification, Eventually(NotEquals(None)))
-            notification = get_notification()
+        ]
 
-            self.touch.tap_object(notification.select_single(objectName="interactiveArea"))
+        self._create_interactive_notification(
+            summary,
+            body,
+            icon_path,
+            "NORMAL",
+            "action_id",
+            "dummy",
+            hints
+        )
 
-            n.assert_callback_called("action_id", 10)
+        get_notification = lambda: notify_list.select_single('Notification')
+        self.assertThat(get_notification, Eventually(NotEquals(None)))
+        notification = get_notification()
+
+        self.touch.tap_object(
+            notification.select_single(objectName="interactiveArea")
+        )
+
+        self.assert_notification_action_id_was_called('action_id')
 
     @with_lightdm_mock("single")
     def test_interactive(self):
@@ -382,6 +404,107 @@ class TestNotifications(UnityTestCase):
             loop.quit()
         GLib.timeout_add_seconds(10, killer, loop)
         loop.run()
+
+    def _create_interactive_notification(
+        self,
+        summary="",
+        body="",
+        icon=None,
+        urgency="NORMAL",
+        action_id="action_id",
+        action_label="action_label",
+        hints=[]
+    ):
+        """Create an Interactive notification command.
+
+        :param summary: Summary text for the notification
+        :param body: Body text to display in the notification
+        :param icon: Path string to the icon to use
+        :param urgency: Urgency string for the noticiation, either: 'LOW',
+            'NORMAL', 'CRITICAL'
+        :param action_id: String containing id to store for the callback
+        :param action_label: String to display on the notification
+        :param hint_strings: List of tuples containing the 'name' and value for
+            setting the hint strings for the notification
+
+        """
+        logger.info(
+            "Creating interactive notification with summary(%s), body(%s) "
+            "and urgency(%r)",
+            summary,
+            body,
+            urgency
+        )
+
+        script_args = [
+            '--summary', summary,
+            '--body', body,
+            '--urgency', urgency,
+            '--action', "%s,%s" % (action_id, action_label)
+        ]
+
+        if icon is not None:
+            script_args.extend(['--icon', icon])
+
+        for hint in hints:
+            key, value = hint
+            script_args.extend(['--hint', "%s,%s" % (key, value)])
+
+
+        command = [self._get_notify_script()] + script_args
+        logger.info("Launching interactive notification as: %s", command)
+        self._notify_proc = subprocess.Popen(
+            command,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            close_fds=True,
+            preexec_fn=os.setsid
+        )
+
+    def _get_notify_script(self):
+        """Returns the path to the interactive notification creation script."""
+        the_path = os.path.abspath(
+            os.path.join(
+                __file__,
+                "../../emulators/create_interactive_notification.py"
+            )
+        )
+        return the_path
+
+    def assert_notification_action_id_was_called(self, action_id, timeout=10):
+        """Assert that the interactive notification callback of id *action_id*
+        was called.
+
+        :raises AssertionError: If no interactive notification has actually been
+            created.
+        :raises AssertionError: When *action_id* does not match the actual
+            returned.
+        :raises AssertionError: If no callback was called at all.
+        """
+
+        if self._notify_proc is None:
+            raise AssertionError("No interactive notification was created.")
+
+        for i in xrange(timeout):
+            self._notify_proc.poll()
+            if self._notify_proc.returncode is not None:
+                output = self._notify_proc.communicate()
+                actual_action_id = output[0].strip("\n")
+                if actual_action_id != action_id:
+                    raise AssertionError(
+                        "action id '%s' does not match actual returned '%s'"
+                        % (action_id, actual_action_id)
+                    )
+                else:
+                    return
+            time.sleep(1)
+
+        os.killpg(self._notify_proc.pid, signal.SIGTERM)
+        self._notify_proc = None
+        raise AssertionError(
+            "No callback was called, killing interactivenotification script"
+        )
 
     def _create_ephemeral(self, summary="", body="", icon=None, secondary_icon=None, urgency="NORMAL"):
         logger.info("Creating ephemeral notification with summary(%s), body(%s) and urgency(%r)", summary, body, urgency)
