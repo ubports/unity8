@@ -69,7 +69,7 @@ ScopeView {
             id: base
             highlightWhenPressed: false
 
-            property int categoryId: id
+            property string categoryId: model.categoryId
 
             Loader {
                 anchors { top: parent.top; left: parent.left; right: parent.right }

@@ -34,7 +34,7 @@ enum CategoryColumn {
 Categories::Categories(QObject* parent)
     : DeeListModel(parent)
 {
-    m_roles[Categories::RoleId] = "id";
+    m_roles[Categories::RoleCategoryId] = "categoryId";
     m_roles[Categories::RoleName] = "name";
     m_roles[Categories::RoleIcon] = "icon";
     m_roles[Categories::RoleRenderer] = "renderer";
@@ -131,7 +131,7 @@ Categories::data(const QModelIndex& index, int role) const
     }
 
     switch (role) {
-        case RoleId:
+        case RoleCategoryId:
             return DeeListModel::data(index, CategoryColumn::ID);
         case RoleName:
             return DeeListModel::data(index, CategoryColumn::DISPLAY_NAME);

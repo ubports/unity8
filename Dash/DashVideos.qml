@@ -102,8 +102,7 @@ ScopeView {
         delegate: ListItems.Base {
             id: base
             highlightWhenPressed: false
-            property int categoryIndex: index
-            property int categoryId: id
+            property string categoryId: model.categoryId
 
             Loader {
                 id: loader
