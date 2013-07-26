@@ -19,7 +19,6 @@
 
 #include <QList>
 #include <QtQml>
-#include <QQmlParserStatus>
 
 class GSettingsSchemaQml: public QObject
 {
