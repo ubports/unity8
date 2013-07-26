@@ -23,7 +23,6 @@ import "Apps"
 
 ScopeView {
     id: scopeView
-    objectName: "DashApps"
 
     // FIXME: a way to aggregate these models would be ideal
     property var mainStageApplicationsModel: shell.applicationManager.mainStageApplications
@@ -100,7 +99,6 @@ ScopeView {
 
     ScopeListView {
         id: categoryView
-        objectName: "categoryListView"
         anchors.fill: parent
         model: SortFilterProxyModel {
             model: categoryListModel
