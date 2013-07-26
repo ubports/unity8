@@ -9,6 +9,9 @@ class Notifications(object):
      include callbacks and hints.
 
     """
+    LOW = Notify.Urgency.LOW
+    NORMAL = Notify.Urgency.NORMAL
+    CRITICAL = Notify.Urgency.CRITICAL
 
     def __enter__(self):
         # A queue of tasks to the notification process. Each one represents a
@@ -20,8 +23,8 @@ class Notifications(object):
         self._process = Process(
             target=_run,
             args=(
-                Notifications._task_queue,
-                Notifications._result_queue
+                self._task_queue,
+                self._result_queue
             )
         )
         self._process.start()
@@ -83,7 +86,7 @@ class Notifications(object):
         summary="",
         body="",
         icon=None,
-        urgency=Notify.Urgency.NORMAL,
+        urgency="NORMAL",
         action_id="action_id",
         action_label="action_label",
         hint_strings=[],
@@ -93,8 +96,8 @@ class Notifications(object):
         :param summary: Summary text for the notification
         :param body: Body text to display in the notification
         :param icon: Path string to the icon to use
-        :param urgency: Urgency for the noticiation, either: Notify.Urgency.LOW,
-            Notify.Urgency.NORMAL, Notify.Urgency.CRITICAL
+        :param urgency: Urgency for the noticiation, either: Notifications.LOW,
+            Notifications.NORMAL, Notifications.CRITICAL
         :param action_id: String containing id to store for the callback
         :param action_label: String to display on the notification
         :param hint_strings: List of tuples containing the 'name' and value for
@@ -123,31 +126,35 @@ def _run(task_queue, result_queue):
         except Empty:
             pass
         else:
-            if command[0] == "Quit":
-                loop.quit()
-            elif command[0] == "Interactive":
-                summary = command[1]
-                body = command[2]
-                icon = command[3]
-                action_id = command[4]
-                action_label = command[5]
-                hint_strings = command[6]
+            try:
+                if command[0] == "Quit":
+                    loop.quit()
+                elif command[0] == "Interactive":
+                    summary = command[1]
+                    body = command[2]
+                    icon = command[3]
+                    urgency = command[4]
+                    action_id = command[5]
+                    action_label = command[6]
+                    hint_strings = command[7]
 
-                notification = Notify.Notification.new(summary, body, icon)
-                for hint in hint_strings:
-                    name, value = hint
-                    notification.set_hint_string(name, value)
-                # notification.set_hint_string ("x-canonical-switch-to-application", "true")
-                notification.add_action(
-                    action_id,
-                    action_label,
-                    _action_callback,
-                    None,
-                    None
-                )
-                notification.connect('closed', _quit_callback)
-                notification.show()
-                notifications.append(notification)
+                    notification = Notify.Notification.new(summary, body, icon)
+                    for hint in hint_strings:
+                        name, value = hint
+                        notification.set_hint_string(name, value)
+                    # notification.set_hint_string ("x-canonical-switch-to-application", "true")
+                    notification.add_action(
+                        action_id,
+                        action_label,
+                        _action_callback,
+                        None,
+                        None
+                    )
+                    notification.connect('closed', _quit_callback)
+                    notification.show()
+                    notifications.append(notification)
+            finally:
+                task_queue.task_done()
 
         return True
 
