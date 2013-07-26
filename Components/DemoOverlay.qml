@@ -155,23 +155,67 @@ Item {
     }
 
     SequentialAnimation {
-        id: hintAnimation
-        loops: Animation.Infinite
-        running: true
-        property string prop: (overlay.edge == "left" || overlay.edge == "right") ? "x" : "y"
-        property double endVal: units.dp(5) * ((overlay.edge == "left" || overlay.edge == "top") ? 1 : -1)
-        property double maxGlow: units.dp(20)
-        property int duration: 1000
+        id: wholeAnimation
+        running: overlay.visible
 
         ParallelAnimation {
-            StandardAnimation { target: hintGroup; property: hintAnimation.prop; from: 0; to: hintAnimation.endVal; duration: hintAnimation.duration }
-            StandardAnimation { target: edgeHint; property: "size"; from: 1; to: hintAnimation.maxGlow; duration: hintAnimation.duration }
+            id: fadeInAnimation
+
+            StandardAnimation {
+                target: labelGroup
+                property: {
+                    if (overlay.edge == "right" || overlay.edge == "left") {
+                        return "anchors.leftMargin";
+                    } else if (overlay.edge == "bottom") {
+                        return "anchors.bottomMargin";
+                    } else {
+                        return "anchors.topMargin";
+                    }
+                }
+                from: {
+                    if (overlay.edge == "right") {
+                        return overlay.__edge_margin + units.gu(3)
+                    } else {
+                        return overlay.__edge_margin - units.gu(3)
+                    }
+                }
+                to: overlay.__edge_margin
+                duration: 1000
+            }
+            StandardAnimation {
+                target: labelGroup
+                property: "opacity"
+                from: 0.0
+                to: 1.0
+                duration: 1000
+            }
+            StandardAnimation {
+                target: backgroundShade
+                property: "opacity"
+                from: 0.0
+                to: 0.8
+                duration: 1000
+            }
         }
 
-        // Undo the above
-        ParallelAnimation {
-            StandardAnimation { target: hintGroup; property: hintAnimation.prop; from: hintAnimation.endVal; to: 0; duration: hintAnimation.duration }
-            StandardAnimation { target: edgeHint; property: "size"; from: hintAnimation.maxGlow; to: 1; duration: hintAnimation.duration }
+        SequentialAnimation {
+            id: hintAnimation
+            loops: Animation.Infinite
+            property string prop: (overlay.edge == "left" || overlay.edge == "right") ? "x" : "y"
+            property double endVal: units.dp(5) * ((overlay.edge == "left" || overlay.edge == "top") ? 1 : -1)
+            property double maxGlow: units.dp(20)
+            property int duration: 1000
+
+            ParallelAnimation {
+                StandardAnimation { target: hintGroup; property: hintAnimation.prop; from: 0; to: hintAnimation.endVal; duration: hintAnimation.duration }
+                StandardAnimation { target: edgeHint; property: "size"; from: 1; to: hintAnimation.maxGlow; duration: hintAnimation.duration }
+            }
+
+            // Undo the above
+            ParallelAnimation {
+                StandardAnimation { target: hintGroup; property: hintAnimation.prop; from: hintAnimation.endVal; to: 0; duration: hintAnimation.duration }
+                StandardAnimation { target: edgeHint; property: "size"; from: hintAnimation.maxGlow; to: 1; duration: hintAnimation.duration }
+            }
         }
     }
 }

@@ -187,10 +187,16 @@ FocusScope {
                 title: "Top edge"
                 text: "Try swiping from the top edge to access the indicators"
                 anchors.fill: parent
+                visible: false
+
+                Connections {
+                    target: greeter
+                    onShownChanged: if (!greeter.shown) topEdgeDemo.visible = true
+                }
 
                 Connections {
                     target: panel.indicators
-                    onFullyOpenedChanged: topEdgeDemo.visible = false
+                    onFullyOpenedChanged: if (panel.indicators.fullyOpened) topEdgeDemo.visible = false
                 }
             }
 
