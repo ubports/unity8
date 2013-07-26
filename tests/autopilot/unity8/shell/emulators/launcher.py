@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
@@ -18,15 +17,22 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from unity8.shell.emulators import UnityEmulatorBase
+from autopilot.input import Touch
 
-from distutils.core import setup
-from setuptools import find_packages
 
-setup(
-    name='unity',
-    version='8.0',
-    description='Unity autopilot tests.',
-    url='https://launchpad.net/unity',
-    license='GPLv3',
-    packages=find_packages(),
-)
+class Launcher(UnityEmulatorBase):
+
+    """An emulator that understands the Launcher."""
+
+    def show(self):
+        """Swipes open the launcher."""
+        touch = Touch.create()
+
+        view = self.get_root_instance().select_single('QQuickView')
+        start_x = view.x + 1
+        start_y = view.y + view.height / 2
+        stop_x = start_x + self.panelWidth + 1
+        stop_y = start_y
+        touch.drag(start_x, start_y, stop_x, stop_y)
+        self.shown.wait_for(True)

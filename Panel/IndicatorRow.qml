@@ -26,8 +26,6 @@ Item {
     property alias row: row
     property QtObject indicatorsModel: null
 
-    Behavior on y { StandardAnimation {} }
-
     width: units.gu(40)
     height: units.gu(3)
 
@@ -54,30 +52,39 @@ Item {
             objectName: "rowRepeater"
             model: indicatorsModel ? indicatorsModel : undefined
 
-            IndicatorItem {
-               id: indicatorItem
+            Item {
+                id: itemWrapper
+                height: indicatorRow.height
+                width: childrenRect.width
 
-               property int ownIndex: index
+                property int ownIndex: index
+                property alias highlighted: indicatorItem.highlighted
+                property alias dimmed: indicatorItem.dimmed
 
-               widgetSource: model.widgetSource
+                IndicatorItem {
+                   id: indicatorItem
+                   height: parent.height
 
-               indicatorProperties : model.indicatorProperties
-               highlighted: indicatorRow.state != "initial" ? ownIndex == indicatorRow.currentItemIndex : false
-               dimmed: indicatorRow.state != "initial" ? ownIndex != indicatorRow.currentItemIndex : false
-               height: indicatorRow.height
-               y: {
-                   if (!highlighted && (indicatorRow.state == "locked" || indicatorRow.state == "commit")) {
-                       return -indicatorRow.height;
-                   } else {
-                       return 0;
-                   }
-               }
-               Behavior on y {
-                    StandardAnimation {
-                        // flow away from current index
-                        duration: (rowRepeater.count - Math.abs(indicatorRow.currentItemIndex - index)) * (500/rowRepeater.count)
+                   highlighted: indicatorRow.state != "initial" ? itemWrapper.ownIndex == indicatorRow.currentItemIndex : false
+                   dimmed: indicatorRow.state != "initial" ? itemWrapper.ownIndex != indicatorRow.currentItemIndex : false
+
+                   widgetSource: model.widgetSource
+                   indicatorProperties : model.indicatorProperties
+                }
+
+                opacity: {
+                    if (!indicatorItem.highlighted && (indicatorRow.state == "locked" || indicatorRow.state == "commit")) {
+                        return 0.0;
+                    } else {
+                        return 1.0;
                     }
                 }
+                Behavior on opacity {
+                     StandardAnimation {
+                         // flow away from current index
+                         duration: (rowRepeater.count - Math.abs(indicatorRow.currentItemIndex - index)) * (500/rowRepeater.count)
+                     }
+                 }
             }
         }
     }

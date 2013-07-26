@@ -150,7 +150,7 @@ Rectangle {
     Indicators.MenuContentActivator {
         id:  menuActivator
         running: content.__contentActive
-        baseIndex: content.currentIndex
+        baseIndex: content.currentMenuIndex
         count: indicatorsModel.count
     }
 }

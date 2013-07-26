@@ -77,15 +77,15 @@ Item {
 
     function activate_next_content()
     {
-        if (menuContent.currentIndex == -1)
+        if (menuContent.currentMenuIndex == -1)
             activate_content(0);
         else
-            activate_content((menuContent.currentIndex + 1) % indicatorsModel.count)
+            activate_content((menuContent.currentMenuIndex + 1) % indicatorsModel.count)
     }
 
     function activate_content(index)
     {
-        menuContent.currentIndex = index
+        menuContent.currentMenuIndex = index
     }
 
     function get_test_menu_objecName(index) {
@@ -197,7 +197,7 @@ Item {
 
             for (var i = 0; i < 100; i++) {
                 activate_content(i % menu_count);
-                compare(menuContent.currentIndex, i%menu_count);
+                compare(menuContent.currentMenuIndex, i%menu_count);
             }
             wait(100);
         }

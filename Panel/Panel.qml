@@ -90,10 +90,10 @@ Item {
         id: indicatorsSeparatorLine
         visible: true
         anchors {
-            top: indicatorsMenu.bottom
             left: indicatorsMenu.left
             right: indicatorsMenu.right
         }
+        y: indicatorsMenu.visualBottom
     }
 
     BorderImage {
