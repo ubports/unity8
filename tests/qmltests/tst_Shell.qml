@@ -19,14 +19,35 @@
 
 import QtQuick 2.0
 import QtTest 1.0
-import Unity.Test 0.1 as UT
 import Ubuntu.Application 0.1
-import GSettings 1.0
+import Unity.Test 0.1 as UT
 
 import "../.."
 
-Shell {
-    id: shell
+Item {
+    width: shell.width
+    height: shell.height
+
+    QtObject {
+        id: applicationArguments
+
+        function hasGeometry() {
+            return false;
+        }
+
+        function width() {
+            return 0;
+        }
+
+        function height() {
+            return 0;
+        }
+    }
+
+    Shell {
+        id: shell
+    }
+
     UT.UnityTestCase {
         name: "Shell"
         when: windowShown
@@ -37,14 +58,10 @@ Shell {
             var touchY = shell.height / 2;
             touchFlick(shell, touchX, touchY, shell.width * 0.1, touchY);
 
-            // wait until the animation has finished
-
             var dash = findChild(shell, "dash");
+            // wait until the animation has finished
             tryCompare(dash, "contentScale", 1.0);
             tryCompare(dash, "opacity", 1.0);
-
-            var greeter = findChild(shell, "greeter");
-            tryCompare(greeter, "x", -greeter.width);
         }
 
         function cleanup() {
@@ -57,6 +74,42 @@ Shell {
         }
 
         /*
+           Test the effect of a right-edge drag on the dash in 3 situations:
+           1 - when no application has been launched yet
+           2 - when there's a minimized application
+           3 - after the last running application has been closed/stopped
+
+           The behavior of Dash on 3 should be the same as on 1.
+         */
+        function test_rightEdgeDrag() {
+            checkRightEdgeDragWithNoRunningApps();
+
+            dragLauncherIntoView();
+
+            // Launch an app from the launcher
+            tapOnAppIconInLauncher();
+            waitUntilApplicationWindowIsFullyVisible();
+
+            // Minimize the application we just launched
+            swipeFromLeftEdge();
+
+            waitForUIToSettle();
+
+            checkRightEdgeDragWithMinimizedApp();
+
+            // Minimize that application once again
+            swipeFromLeftEdge();
+
+            // kill it
+            ApplicationManager.mainStageApplications.clear();
+
+            waitForUIToSettle();
+
+            // Right edge behavior should now be the same as before that app was launched
+            checkRightEdgeDragWithNoRunningApps();
+        }
+
+        /*
             Perform a right-edge drag when the Dash is being show and there are
             no running/minimized apps to be restored.
 
@@ -64,7 +117,7 @@ Shell {
             user that his right-edge drag gesture has been successfully recognized
             but there is no application to be brought to foreground.
          */
-        function test_rightEdgeDragWithNoRunningApps() {
+        function checkRightEdgeDragWithNoRunningApps() {
             var touchX = shell.width - (shell.edgeSize / 2);
             var touchY = shell.height / 2;
 
@@ -88,56 +141,40 @@ Shell {
         }
 
         /*
-          Regression test for bug https://bugs.launchpad.net/touch-preview-images/+bug/1193419
+            Perform a right-edge drag when the Dash is being show and there is
+            a running/minimized app to be restored.
 
-          When the user minimizes an application (left-edge swipe) he should always end up in the "Running Apps"
-          category of the "Applications" scope view.
-
-          Steps:
-          - go to apps lens
-          - scroll to the bottom
-          - reveal launcher and launch an app
-          - perform long left edge swipe to go minimize the app and go back to the dash.
-
-          Expected Results
-          - apps lens shown and Running Apps visible on screen
+            The expected behavior is that the dash should fade away and ultimately be
+            made invisible once the gesture is finished as the restored app will now
+            be on foreground.
          */
-        function test_minimizingAppTakesToRunningApps() {
-            var dashApps = findChild(shell, "DashApps");
+        function checkRightEdgeDragWithMinimizedApp() {
+            var touchX = shell.width - (shell.edgeSize / 2);
+            var touchY = shell.height / 2;
 
-            swipeUntilScopeViewIsReached(dashApps);
+            var dash = findChild(shell, "dash");
+            // check that dash has normal scale and opacity
+            tryCompare(dash, "contentScale", 1.0);
+            tryCompare(dash, "opacity", 1.0);
 
-            // swipe finger up until the running/recent apps section (which we assume
-            // it's the first one) is as far from view as possible.
-            var appsCategoryListView = findChild(dashApps, "categoryListView");
-            while (!appsCategoryListView.atYEnd) {
-                swipeUpFromCenter();
-                tryCompare(appsCategoryListView, "moving", false);
-            }
+            touchFlick(shell, touchX, touchY, shell.width * 0.1, touchY,
+                       true /* beginTouch */, false /* endTouch */);
 
-            // Switch away from the Applications scope.
-            swipeRightFromCenter();
-            waitUntilItemStopsMoving(dashApps);
-            verify(!itemIsOnScreen(dashApps));
+            // check that Dash has been scaled down and had its opacity reduced
+            tryCompareFunction(function() { return dash.contentScale <= 0.9; }, true);
+            tryCompareFunction(function() { return dash.opacity <= 0.5; }, true);
 
-            dragLauncherIntoView();
+            touchRelease(shell, shell.width * 0.1, touchY);
 
-            // Launch an app from the launcher
-            tapOnAppIconInLauncher();
+            // dash should have gone away, now that the app is on foreground
+            tryCompare(dash, "visible", false);
+        }
 
-            waitUntilApplicationWindowIsFullyVisible();
-
-            // Minimize the application we just launched
-            swipeFromLeftEdge();
-
-            // Wait for the whole UI to settle down
+        // Wait for the whole UI to settle down
+        function waitForUIToSettle() {
             waitUntilApplicationWindowIsFullyHidden();
-            waitUntilItemStopsMoving(dashApps);
-            tryCompare(appsCategoryListView, "moving", false);
-
-            verify(itemIsOnScreen(dashApps));
-            var runningApplicationsGrid = findChild(dashApps, "runningApplicationsGrid");
-            verify(itemIsOnScreen(runningApplicationsGrid));
+            var dashContentList = findChild(shell, "dashContentList");
+            tryCompare(dashContentList, "moving", false);
         }
 
         function dragLauncherIntoView() {
@@ -209,6 +246,20 @@ Shell {
             touchFlick(shell, touchStartX, touchStartY, touchStartX, 0);
         }
 
+        function itemIsOnScreen(item) {
+            var itemRectInShell = item.mapToItem(shell, 0, 0, item.width, item.height);
+
+            return itemRectInShell.x >= 0
+                && itemRectInShell.y >= 0
+                && itemRectInShell.x + itemRectInShell.width <= shell.width
+                && itemRectInShell.y + itemRectInShell.height <= shell.height;
+        }
+
+        function itemIsToLeftOfScreen(item) {
+            var itemRectInShell = item.mapToItem(shell, 0, 0, item.width, item.height);
+            return itemRectInShell.x < 0;
+        }
+
         function waitUntilItemStopsMoving(item) {
             var itemRectInShell = item.mapToItem(shell, 0, 0, item.width, item.height);
             var previousX = itemRectInShell.x;
@@ -225,20 +276,6 @@ Shell {
                     previousY = itemRectInShell.y;
                 }
             } while (!isStill);
-        }
-
-        function itemIsOnScreen(item) {
-            var itemRectInShell = item.mapToItem(shell, 0, 0, item.width, item.height);
-
-            return itemRectInShell.x >= 0
-                && itemRectInShell.y >= 0
-                && itemRectInShell.x + itemRectInShell.width <= shell.width
-                && itemRectInShell.y + itemRectInShell.height <= shell.height;
-        }
-
-        function itemIsToLeftOfScreen(item) {
-            var itemRectInShell = item.mapToItem(shell, 0, 0, item.width, item.height);
-            return itemRectInShell.x < 0;
         }
 
         function test_wallpaper_data() {

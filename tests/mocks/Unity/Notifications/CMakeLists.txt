@@ -9,7 +9,3 @@ add_custom_target(NotificationsQmlFiles ALL
     COMMAND cp ${QMLFILES} ${CMAKE_CURRENT_BINARY_DIR}
     DEPENDS ${QMLFILES}
 )
-
-install(FILES ${QMLFILES}
-    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/mocks/Unity/Notifications
-    )
