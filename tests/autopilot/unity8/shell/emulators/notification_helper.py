@@ -118,6 +118,9 @@ class Notifications(object):
 
 
 def _run(task_queue, result_queue):
+    # TODO: This list is a nasty workaround to keep a reference count alive to
+    # the notification object. If you don't do that, your callbacks never get
+    # called!
     notifications = []
 
     def _check_queue_for_new_task(*args):
@@ -133,7 +136,7 @@ def _run(task_queue, result_queue):
                     summary = command[1]
                     body = command[2]
                     icon = command[3]
-                    urgency = command[4]
+                    urgency = _translate_urgency(command[4])
                     action_id = command[5]
                     action_label = command[6]
                     hint_strings = command[7]
@@ -151,6 +154,7 @@ def _run(task_queue, result_queue):
                         None
                     )
                     notification.connect('closed', _quit_callback)
+                    notification.set_urgency(urgency)
                     notification.show()
                     notifications.append(notification)
             finally:
@@ -164,6 +168,13 @@ def _run(task_queue, result_queue):
 
     def _quit_callback(*args):
         result_queue.put(("quit",))
+
+    def _translate_urgency(urgency_string):
+        return {
+            "LOW": Notify.Urgency.LOW,
+            "NORMAL": Notify.Urgency.NORMAL,
+            "CRITICAL": Notify.Urgency.CRITICAL,
+        }.get(urgency_string, Notify.Urgency.NORMAL)
 
     # we'll check for new tasks in the input queue every 200 mS
     GLib.timeout_add(200, _check_queue_for_new_task, None)
