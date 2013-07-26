@@ -177,6 +177,7 @@ Showable {
         }
         indicatorsModel: indicatorsModel
         clip: !indicators.fullyOpened
+        activeHeader: indicators.state == "hint" || indicators.state == "reveal"
 
         Connections {
             target: indicatorRow

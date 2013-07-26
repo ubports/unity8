@@ -26,6 +26,7 @@ MainView {
     readonly property int currentMenuIndex : tabs.selectedTabIndex
     backgroundColor: "#221e1c" // FIXME not in palette yet
     property int contentReleaseInterval: 20000
+    property bool activeHeader: false
 
     width: units.gu(40)
     height: units.gu(42)
@@ -37,7 +38,11 @@ MainView {
 
     function setCurrentMenuIndex(index) {
         if (currentMenuIndex !== index) {
+            if (currentMenuIndex == -1) {
+                tabs.tabBar.animate = false;
+            }
             tabs.selectedTabIndex = index;
+            tabs.tabBar.animate = true;
         }
     }
 
@@ -50,6 +55,11 @@ MainView {
         if (d.contentActive) {
             contentReleaseTimer.restart();
         }
+    }
+
+    onActiveHeaderChanged: {
+        tabs.tabBar.active = activeHeader;
+        tabs.tabBar.alwaysActive = activeHeader;
     }
 
     Tabs {
