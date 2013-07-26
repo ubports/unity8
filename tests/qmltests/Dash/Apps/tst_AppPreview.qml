@@ -98,6 +98,12 @@ Item {
         name: "AppPreview"
         when: windowShown
 
+        function cleanup() {
+            sendReviewSpy.clear();
+            reviewField.focus = false;
+            reviewField.text = "";
+        }
+
         function test_actions() {
             root.calls = new Array();
             var buttons = findChild(appPreview, "gridButtons");
@@ -124,20 +130,10 @@ Item {
             compare(rated.text, i18n.tr("%1 review", "%1 reviews", 8).arg(8), "Reviews don't match");
         }
 
-        function test_state_nothing() {
-            var appReviews = findChild(appPreview, "appReviews");
-            appReviews.state = "";
-            var reviewField = findChild(appPreview, "reviewField");
-            var sendButton = findChild(appPreview, "sendButton");
-            compare(reviewField.width, appReviews.width, "ReviewField width don't match");
-            compare(sendButton.opacity, 0, "SendButton opacity should be 0");
-        }
-
         function test_send_review() {
-            sendPreviewSpy.clear();
             var appReviews = findChild(appPreview, "appReviews");
             appReviews.sendReview("review");
-            compare(sendPreviewSpy.count, 1, "SendReview signal not emitted");
+            sendPreviewSpy.wait();
         }
 
         function test_review_focus() {
@@ -148,6 +144,10 @@ Item {
 
             compare(reviewField.focus, false, "ReviewField shouldn't have focus");
             compare(appReviews.state, "", "State should be empty");
+
+            mouseClick(reviewField, reviewField.width/2, reviewField.height/2);
+            compare(reviewField.focus, true, "Review Field should have focus");
+            compare(appReviews.state, "editing", "State should be 'editing'");
         }
 
         function test_comments() {

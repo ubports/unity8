@@ -80,9 +80,9 @@ Column {
             objectName: "reviewField"
             placeholderText: i18n.tr("Review")
             width: parent.width
-            height: units.gu(4)
-            contentHeight: units.gu(3) * 5
             verticalAlignment: Text.AlignVCenter
+            autoSize: true
+            maximumLineCount: 5
 
             Behavior on height { UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration } }
 
@@ -90,18 +90,6 @@ Column {
                 if(reviewField.focus){
                     root.state = "editing";
                     reviewField.selectAll();
-                }
-            }
-
-            onTextChanged: {
-                if (reviewField.text == "") {
-                    root.state = "";
-                    reviewField.focus = false;
-                } else if (reviewField.lineCount > 1) {
-                    reviewField.height = reviewField.contentHeight;
-                }
-                if (reviewField.lineCount == 1) {
-                    reviewField.height = units.gu(4);
                 }
             }
 
