@@ -214,6 +214,9 @@ Item {
                     "Tapping search indicator while it was not visible emitted searchClicked signal");
         }
 
+        // Test the vertical velocity check when flicking the indicators open at an angle.
+        // If the vertical velocity is above a specific point, we shouldnt change active indicators
+        // if the x position changes
         function test_veritcal_velocity_detector() {
             panel.fullscreenMode = false;
             panel.searchVisible = false;
@@ -229,7 +232,7 @@ Item {
             verify(indicator_item_first != undefined);
 
             var indicator_item_coord_first = get_indicator_item_position(0);
-            var indicator_item_coord_next = get_indicator_item_position(indicator_row.count-1);
+            var indicator_item_coord_next = get_indicator_item_position(indicator_row.count - 1);
 
             touchPress(panel,
                        indicator_item_coord_first.x, panel.panelHeight / 2);
