@@ -21,7 +21,7 @@
 
 static QObject* controllerProvider(QQmlEngine* /* engine */, QJSEngine* /* scriptEngine */)
 {
-    return GSettingsControllerQml::getInstance();
+    return GSettingsControllerQml::instance();
 }
 
 void FakeGSettingsQmlPlugin::registerTypes(const char *uri)

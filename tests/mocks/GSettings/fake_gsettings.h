@@ -17,28 +17,9 @@
 #ifndef FAKE_GSETTINGS_H
 #define FAKE_GSETTINGS_H
 
+#include <QList>
 #include <QtQml>
 #include <QQmlParserStatus>
-
-class GSettingsControllerQml: public QObject
-{
-    Q_OBJECT
-
-public:
-    static GSettingsControllerQml* getInstance();
-    ~GSettingsControllerQml();
-
-    void setPictureUri(const QString &str);
-
-private:
-    GSettingsControllerQml();
-    GSettingsControllerQml(const GSettingsControllerQml&);
-    GSettingsControllerQml& operator=(const GSettingsControllerQml&);
-
-    static bool instance_exists;
-
-    static GSettingsControllerQml* _controllerInstance;
-};
 
 class GSettingsSchemaQml: public QObject
 {
@@ -74,7 +55,7 @@ public:
     GSettingsSchemaQml * schema() const;
     QString pictureUri() const;
 
-    void setPictureUric
+    void setPictureUri(const QString &str);
 
 Q_SIGNALS:
     void schemaChanged();
@@ -86,6 +67,24 @@ private:
     QString m_pictureUri;
 
     friend class GSettingsSchemaQml;
+};
+
+class GSettingsControllerQml: public QObject
+{
+    Q_OBJECT
+
+public:
+    static GSettingsControllerQml* instance();
+    ~GSettingsControllerQml();
+
+    void registerSettingsObject(GSettingsQml *obj);
+    Q_INVOKABLE void setPictureUri(const QString &str);
+
+private:
+    GSettingsControllerQml();
+
+    static GSettingsControllerQml* s_controllerInstance;
+    QList<GSettingsQml *> m_registeredGSettings;
 };
 
 #endif // FAKE_GSETTINGS_H

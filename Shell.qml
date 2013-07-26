@@ -152,6 +152,7 @@ FocusScope {
 
         CrossFadeImage {
             id: backgroundImage
+            objectName: "backgroundImage"
             source: shell.background
             anchors.fill: parent
             onStatusChanged: {
@@ -202,7 +203,6 @@ FocusScope {
             Behavior on disappearingAnimationProgress { SmoothedAnimation { velocity: 5 }}
         }
     }
-
 
     Item {
         id: stagesOuterContainer
@@ -267,7 +267,6 @@ FocusScope {
                 }
                 ignoreUnknownSignals: true
             }
-
 
             Stage {
                 id: mainStage

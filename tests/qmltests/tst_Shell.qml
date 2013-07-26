@@ -27,11 +27,6 @@ import "../.."
 
 Shell {
     id: shell
-
-    GSettingsController {
-        id: gsettingsController
-    }
-
     UT.UnityTestCase {
         name: "Shell"
         when: windowShown
@@ -246,8 +241,17 @@ Shell {
             return itemRectInShell.x < 0;
         }
 
-        function test_wallpaper() {
+        function test_wallpaper_data() {
+            return [
+                {tag: "red", url: "tests/data/unity/backgrounds/red.png"},
+                {tag: "blue", url: "tests/data/unity/backgrounds/blue.png"}
+            ]
+        }
 
+        function test_wallpaper(data) {
+            var backgroundImage = findChild(shell, "backgroundImage")
+            GSettingsController.setPictureUri(data.url)
+            tryCompareFunction(function() { return backgroundImage.source.toString().indexOf(data.url) !== -1; }, true)
         }
     }
 }
