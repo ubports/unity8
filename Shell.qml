@@ -417,7 +417,6 @@ FocusScope {
 
     Greeter {
         id: greeter
-        objectName: "greeter"
 
         available: true
         hides: [launcher, panel.indicators, hud]
@@ -556,7 +555,6 @@ FocusScope {
 
         Launcher {
             id: launcher
-            objectName: "launcher"
 
             anchors.top: parent.top
             anchors.bottom: parent.bottom
@@ -575,7 +573,7 @@ FocusScope {
             }
             onDash: {
                 if (stages.shown) {
-                    dash.setCurrentScope("applications.scope", true /* animate */, true /* reset */)
+                    dash.setCurrentScope("applications.scope", true, false)
                     stages.hide();
                     launcher.hide();
                 }
