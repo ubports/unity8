@@ -23,8 +23,8 @@ MainView {
     id: content
 
     property QtObject indicatorsModel: null
-    property alias currentMenuIndex : tabs.selectedTabIndex
-    backgroundColor: "#221e1c"
+    readonly property int currentMenuIndex : tabs.selectedTabIndex
+    backgroundColor: "#221e1c" // FIXME not in palette yet
     property int contentReleaseInterval: 20000
 
     width: units.gu(40)
@@ -33,6 +33,12 @@ MainView {
     QtObject {
         id: d
         property bool contentActive: false
+    }
+
+    function setCurrentMenuIndex(index) {
+        if (currentMenuIndex !== index) {
+            tabs.selectedTabIndex = index;
+        }
     }
 
     function activateContent() {

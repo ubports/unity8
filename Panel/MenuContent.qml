@@ -24,7 +24,7 @@ Rectangle {
 
     property QtObject indicatorsModel: null
     property bool __contentActive: false
-    property alias currentMenuIndex : menus.currentIndex
+    readonly property int currentMenuIndex : menus.currentIndex
     property color backgroundColor: "#221e1c" // FIXME not in palette yet
     property int contentReleaseInterval: 20000
 
@@ -32,7 +32,11 @@ Rectangle {
     height: units.gu(42)
     color: backgroundColor
 
-    signal menuSelected(int index)
+    function setCurrentMenuIndex(index) {
+        if (currentMenuIndex !== index) {
+            menus.currentIndex = index;
+        }
+    }
 
     function activateContent() {
         contentReleaseTimer.stop();

@@ -179,12 +179,8 @@ Showable {
 
         Connections {
             target: indicatorRow
-            onCurrentItemIndexChanged: menuContent.updateCurrentMenu();
-        }
-
-        function updateCurrentMenu() {
-            if (currentMenuIndex != indicatorRow.currentItemIndex) {
-                currentMenuIndex = indicatorRow.currentItemIndex;
+            onCurrentItemIndexChanged: {
+                menuContent.setCurrentMenuIndex(indicatorRow.currentItemIndex);
             }
         }
 
