@@ -73,30 +73,47 @@ class TestNotifications(UnityTestCase):
         Notify.uninit()
 
     @with_lightdm_mock("single")
+    def test_simple_interactive(self):
+        self.launch_unity()
+        greeter = self.main_window.get_greeter()
+        greeter.unlock()
+
+        notify_list = self._get_notifications_list()
+
+        with Notifications() as n:
+            summary = "Summary"
+            body = "Body"
+            icon_path = None
+            n.interactive_notification(
+                summary,
+                body,
+                icon_path,
+                "NORMAL",
+                "action_id",
+                "dummy",
+                [("x-canonical-switch-to-application", "true"), ("x-canonical-secondary-icon", "/home/leecj2/code/phablet/unity8/notification-autopilot-tests/graphics/applicationIcons/phone-app@18.png")]
+            )
+            get_notification = lambda: notify_list.select_single('Notification')
+            self.assertThat(get_notification, Eventually(NotEquals(None)))
+            notification = get_notification()
+
+            self.touch.tap_object(notification.select_single(objectName="interactiveArea"))
+
+            n.assert_callback_called("action_id", 10)
+
+    @with_lightdm_mock("single")
     def test_interactive(self):
         """Interactive notification must allow clicking on it."""
         self.launch_unity()
         greeter = self.main_window.get_greeter()
         greeter.unlock()
-        #Notify.init("Autopilot Notification Tests")
         notify_list = self._get_notifications_list()
-        #self.loop = GLib.MainLoop.new(None, False)
 
         summary = "Interactive notification"
         body = "Click this notification to trigger the attached action."
         icon_path = self._get_icon_path('avatars/anna_olsson@12.png')
         hint_icon = self._get_icon_path('applicationIcons/phone-app@18.png')
 
-        # notification = self._create_interactive(summary,
-        #                                         body,
-        #                                         icon_path,
-        #                                         hint_icon,
-        #                                         "NORMAL",
-        #                                         "action_id",
-        #                                         "dummy",
-        #                                         self._action_interactive_cb)
-        # notification.show()
-        # self._run_loop_with_killswitch(self.loop)
 
 # MIRCO: This is the fancy part that you need to look at ;)
 #
@@ -118,19 +135,17 @@ class TestNotifications(UnityTestCase):
             # THese lines are commented out because for some reason the
             # notification appears in my desktop unity session, rather than the
             # launched unity8 session.
-            # get_notification = lambda: notify_list.select_single('Notification')
-            # self.assertThat(get_notification, Eventually(NotEquals(None)))
-            # notification = get_notification()
+            get_notification = lambda: notify_list.select_single('Notification')
+            self.assertThat(get_notification, Eventually(NotEquals(None)))
+            notification = get_notification()
             # self._assert_notification(notification, None, None, True, True, 1.0)
 
-            # self.touch.tap_object(notification.select_single(objectName="interactiveArea"))
+            self.touch.tap_object(notification.select_single(objectName="interactiveArea"))
 # The notifications object has two assertions we thought would be useful. This
 # one asserts that the interactive action with "action_id" was clicked. There's
 # also an assertion for when the notification was closed. If you find that you
 # need more assertions, we can add those easily enough.
             n.assert_callback_called("action_id", 10)
-            #self.assertThat(self.action_interactive_triggered, Equals(True))
-            #Notify.uninit()
 
     @with_lightdm_mock("single")
     def test_sd_incoming_call(self):
