@@ -52,7 +52,7 @@ ScopeView {
 
     function getRenderer(categoryId) {
         switch (categoryId) {
-            case 1: return "Music/MusicCarousel.qml"
+            case "featured": return "Music/MusicCarousel.qml"
             default: return "Music/MusicFilterGrid.qml"
         }
     }
