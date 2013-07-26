@@ -32,32 +32,34 @@ TestCase {
     // Qt uses in QQuickViewTestUtil::flick
     // speed is in pixels/second
     function mouseFlick(item, x, y, toX, toY, pressMouse, releaseMouse,
-                        speed) {
+                        speed, iterations) {
         pressMouse = ((pressMouse != null) ? pressMouse : true); // Default to true for pressMouse if not present
         releaseMouse = ((releaseMouse != null) ? releaseMouse : true); // Default to true for releaseMouse if not present
 
         // set a default speed if not specified
         speed = (speed != null) ? speed : units.gu(10);
 
+        // set a default iterations if not specified
+        iterations = (iterations !== undefined) ? iterations : 5
+
         var distance = Math.sqrt(Math.pow(toX - x, 2) + Math.pow(toY - y, 2))
         var totalTime = (distance / speed) * 1000 /* converting speed to pixels/ms */
 
-        var nIterations = 5
-        var timeStep = totalTime / nIterations
-        var diffX = (toX - x) / nIterations
-        var diffY = (toY - y) / nIterations
+        var timeStep = totalTime / iterations
+        var diffX = (toX - x) / iterations
+        var diffY = (toY - y) / iterations
         if (pressMouse) {
             fakeDateTime.currentTimeMs += timeStep
             mousePress(item, x, y)
         }
-        for (var i = 0; i < nIterations; ++i) {
+        for (var i = 0; i < iterations; ++i) {
             fakeDateTime.currentTimeMs += timeStep
-            if (i === nIterations - 1) {
+            if (i === iterations - 1) {
                 // Avoid any rounding errors by making the last move be at precisely
                 // the point specified
-                mouseMove(item, toX, toY, nIterations / speed)
+                mouseMove(item, toX, toY, iterations / speed)
             } else {
-                mouseMove(item, x + (i + 1) * diffX, y + (i + 1) * diffY, nIterations / speed)
+                mouseMove(item, x + (i + 1) * diffX, y + (i + 1) * diffY, iterations / speed)
             }
         }
         if (releaseMouse) {
@@ -186,7 +188,7 @@ TestCase {
     }
 
     // speed is in pixels/second
-    function touchFlick(item, x, y, toX, toY, beginTouch, endTouch, speed) {
+    function touchFlick(item, x, y, toX, toY, beginTouch, endTouch, speed, iterations) {
 
         // Default to true for beginTouch if not present
         beginTouch = (beginTouch !== undefined) ? beginTouch : true
@@ -197,13 +199,15 @@ TestCase {
         // Set a default speed if not specified
         speed = (speed !== undefined) ? speed : units.gu(10)
 
+        // Set a default iterations if not specified
+        var iterations = (iterations !== undefined) ? iterations : 5
+
         var distance = Math.sqrt(Math.pow(toX - x, 2) + Math.pow(toY - y, 2))
         var totalTime = (distance / speed) * 1000 /* converting speed to pixels/ms */
 
-        var nIterations = 5
-        var timeStep = totalTime / nIterations
-        var diffX = (toX - x) / nIterations
-        var diffY = (toY - y) / nIterations
+        var timeStep = totalTime / iterations
+        var diffX = (toX - x) / iterations
+        var diffY = (toY - y) / iterations
         if (beginTouch) {
             fakeDateTime.currentTimeMs += timeStep
 
@@ -211,17 +215,17 @@ TestCase {
             event.press(0 /* touchId */, x, y)
             event.commit()
         }
-        for (var i = 0; i < nIterations; ++i) {
+        for (var i = 0; i < iterations; ++i) {
             fakeDateTime.currentTimeMs += timeStep
-            if (i === nIterations - 1) {
+            if (i === iterations - 1) {
                 // Avoid any rounding errors by making the last move be at precisely
                 // the point specified
-                wait(nIterations / speed)
+                wait(iterations / speed)
                 var event = touchEvent()
                 event.move(0 /* touchId */, toX, toY)
                 event.commit()
             } else {
-                wait(nIterations / speed)
+                wait(iterations / speed)
                 var event = touchEvent()
                 event.move(0 /* touchId */, x + (i + 1) * diffX, y + (i + 1) * diffY)
                 event.commit()
