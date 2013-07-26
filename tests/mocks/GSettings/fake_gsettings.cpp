@@ -18,15 +18,6 @@
 
 #include <QList>
 
-struct GSettingsSchemaQmlPrivate {
-    QByteArray id;
-    QByteArray path;
-};
-
-struct GSettingsQmlPrivate {
-    GSettingsSchemaQml *schema;
-};
-
 GSettingsControllerQml* GSettingsControllerQml::s_controllerInstance = 0;
 
 GSettingsControllerQml::GSettingsControllerQml() {
@@ -47,6 +38,10 @@ void GSettingsControllerQml::registerSettingsObject(GSettingsQml *obj) {
     m_registeredGSettings.append(obj);
 }
 
+void GSettingsControllerQml::unRegisterSettingsObject(GSettingsQml *obj) {
+    m_registeredGSettings.removeOne(obj);
+}
+
 void GSettingsControllerQml::setPictureUri(const QString &str) {
     Q_FOREACH (GSettingsQml *obj, m_registeredGSettings) {
         obj->setPictureUri(str);
@@ -54,51 +49,45 @@ void GSettingsControllerQml::setPictureUri(const QString &str) {
 }
 
 GSettingsSchemaQml::GSettingsSchemaQml(QObject *parent): QObject(parent) {
-    priv = new GSettingsSchemaQmlPrivate;
-}
-
-GSettingsSchemaQml::~GSettingsSchemaQml() {
-    delete priv;
 }
 
 QByteArray GSettingsSchemaQml::id() const {
-    return priv->id;
+    return m_id;
 }
 
 void GSettingsSchemaQml::setId(const QByteArray &id) {
-    if (!priv->id.isEmpty()) {
+    if (m_id.isEmpty()) {
         qWarning("GSettings.schema.id may only be set on construction");
         return;
     }
 
-    priv->id = id;
+    m_id = id;
 }
 
 QByteArray GSettingsSchemaQml::path() const {
-    return priv->path;
+    return m_path;
 }
 
 void GSettingsSchemaQml::setPath(const QByteArray &path) {
-    if (!priv->path.isEmpty()) {
+    if (m_path.isEmpty()) {
         qWarning("GSettings.schema.path may only be set on construction");
         return;
     }
 
-    priv->path = path;
+    m_path = path;
 }
 
 GSettingsQml::GSettingsQml(QObject *parent): QObject(parent) {
-    priv = new GSettingsQmlPrivate;
-    priv->schema = new GSettingsSchemaQml(this);
+    m_schema = new GSettingsSchemaQml(this);
     GSettingsControllerQml::instance()->registerSettingsObject(this);
 }
 
 GSettingsQml::~GSettingsQml() {
-    delete priv;
+    GSettingsControllerQml::instance()->unRegisterSettingsObject(this);
 }
 
 GSettingsSchemaQml * GSettingsQml::schema() const {
-    return priv->schema;
+    return m_schema;
 }
 
 QString GSettingsQml::pictureUri() const {

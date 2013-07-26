@@ -29,7 +29,6 @@ class GSettingsSchemaQml: public QObject
 
 public:
     GSettingsSchemaQml(QObject *parent = NULL);
-    ~GSettingsSchemaQml();
 
     QByteArray id() const;
     void setId(const QByteArray &id);
@@ -38,7 +37,8 @@ public:
     void setPath(const QByteArray &path);
 
 private:
-    struct GSettingsSchemaQmlPrivate *priv;
+    QByteArray m_id;
+    QByteArray m_path;
 };
 
 class GSettingsQml: public QObject
@@ -62,7 +62,7 @@ Q_SIGNALS:
     void pictureUriChanged(const QString&);
 
 private:
-    struct GSettingsQmlPrivate *priv;
+    GSettingsSchemaQml* m_schema;
 
     QString m_pictureUri;
 
@@ -78,6 +78,7 @@ public:
     ~GSettingsControllerQml();
 
     void registerSettingsObject(GSettingsQml *obj);
+    void unRegisterSettingsObject(GSettingsQml *obj);
     Q_INVOKABLE void setPictureUri(const QString &str);
 
 private:
