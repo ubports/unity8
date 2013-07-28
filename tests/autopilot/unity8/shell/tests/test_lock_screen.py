@@ -161,4 +161,3 @@ class TestLockscreen(UnityTestCase):
         self.touch.tap_object(prompt)
         self.keyboard.type(passphrase)
         self.keyboard.type("\n")
-
