@@ -1,3 +1,28 @@
+unity8 (7.81.3+13.10.20130729ubuntu.unity.next-0ubuntu1) saucy; urgency=low
+
+  [ Michal Hruby ]
+  * Remove the variant conversions methods as they were moved to dee-qt.
+
+  [ Michał Sawicz ]
+  * Re-enable passphrase tests under UInput.
+  * Use the new string categoryIds in custom video and music scope
+    views. (LP: #1199322)
+
+  [ Nick Dedekind ]
+  * Behavioural changes for indicators - Part 1 - Use standard
+    animations. - Search bar animation less distracting. - Hinting
+    animation shows header. - Vertical velocity detector to reduce
+    accidental menu switches in dragging phase.
+
+  [ Gustavo Pichorim Boiko ]
+  * Add entries to the new applications resulted from the split of the
+    phone-app.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 141 (ubuntu-unity/next)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 29 Jul 2013 03:41:07 +0000
+
 unity8 (7.81.3+13.10.20130726ubuntu.unity.next-0ubuntu1) saucy; urgency=low
 
   [ Michal Hruby ]
