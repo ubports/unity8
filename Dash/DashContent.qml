@@ -20,8 +20,6 @@ import Unity 0.1
 
 Item {
     id: dashContent
-    width: units.gu(40)
-    height: units.gu(71)
 
     property var model: null
     property var scopes: null
@@ -116,6 +114,11 @@ Item {
                 height: ListView.view.height
                 asynchronous: true
                 source: scopeMapper.map(scope.id)
+
+                // these are needed for autopilot tests
+                readonly property string scopeId: scope.id
+                readonly property bool isCurrent: ListView.isCurrentItem
+                readonly property bool isLoaded: status == Loader.Ready
 
                 onLoaded: {
                     item.scope = Qt.binding(function() { return scope })

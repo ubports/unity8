@@ -16,31 +16,28 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import "../Components"
 
 Item {
     id: indicatorRow
 
     property QtObject currentItem : null
-    property int currentItemIndex: currentItem ? currentItem.ownIndex : -1
+    readonly property int currentItemIndex: currentItem ? currentItem.ownIndex : -1
     property alias row: row
     property QtObject indicatorsModel: null
-    property bool overviewActive: false // "state of the menu"
-
-    Behavior on y {NumberAnimation {duration: 300; easing.type: Easing.OutCubic} }
 
     width: units.gu(40)
     height: units.gu(3)
 
-    Component.onCompleted: setDefaultItem()
-
     function setDefaultItem() {
         // The leftmost indicator
-        var defaultItemIndex = 0
-        setItem(defaultItemIndex)
+        setCurrentItem(0);
     }
 
-    function setItem(index) {
-        currentItem = rowRepeater.itemAt(index)
+    function setCurrentItem(index) {
+        if (currentItemIndex !== index) {
+            currentItem = rowRepeater.itemAt(index);
+        }
     }
 
     Row {
@@ -54,50 +51,40 @@ Item {
             id: rowRepeater
             objectName: "rowRepeater"
             model: indicatorsModel ? indicatorsModel : undefined
-            IndicatorItem {
-               id: indicatorItem
 
-               property int ownIndex: index
+            Item {
+                id: itemWrapper
+                height: indicatorRow.height
+                width: childrenRect.width
 
-               label: model.label
-               iconSource: model.iconSource
-               highlighted: indicatorRow.state == "reveal" || indicatorRow.state == "locked" || indicatorRow.state == "commit" ? ownIndex == indicatorRow.currentItemIndex : false
-               dimmed: { //See FIXME in Indicators regarding the "states" change
-                   if (indicatorRow.state == "initial" || indicatorRow.state == "") {
-                       return false;
-                   } else if (indicatorRow.state == "hint") {
-                       return true
-                   } else {
-                       return ownIndex != indicatorRow.currentItemIndex
-                   }
-               }
-               height: indicatorRow.height
-               y: {
-                   //FIXME: all indicators will be initial for now.
-                   if (!highlighted && !overviewActive && (indicatorRow.state == "locked" || indicatorRow.state == "commit")) {
-                       return -indicatorRow.height
-                   } else {
-                       return 0
-                   }
-               }
-               Behavior on y {
-                    NumberAnimation{
-                        duration: {
-                            if (index == 0) {
-                                return 250
-                            } else if (index == 1) {
-                                return 150
-                            } else if (index == 2) {
-                                return 550
-                            } else if (index == 3) {
-                                return 400
-                            } else {
-                                return 100 + Math.random() * 200
-                            }
-                        }
-                        easing.type: Easing.OutCubic
+                property int ownIndex: index
+                property alias highlighted: indicatorItem.highlighted
+                property alias dimmed: indicatorItem.dimmed
+
+                IndicatorItem {
+                   id: indicatorItem
+                   height: parent.height
+
+                   highlighted: indicatorRow.state != "initial" ? itemWrapper.ownIndex == indicatorRow.currentItemIndex : false
+                   dimmed: indicatorRow.state != "initial" ? itemWrapper.ownIndex != indicatorRow.currentItemIndex : false
+
+                   widgetSource: model.widgetSource
+                   indicatorProperties : model.indicatorProperties
+                }
+
+                opacity: {
+                    if (!indicatorItem.highlighted && (indicatorRow.state == "locked" || indicatorRow.state == "commit")) {
+                        return 0.0;
+                    } else {
+                        return 1.0;
                     }
                 }
+                Behavior on opacity {
+                     StandardAnimation {
+                         // flow away from current index
+                         duration: (rowRepeater.count - Math.abs(indicatorRow.currentItemIndex - index)) * (500/rowRepeater.count)
+                     }
+                 }
             }
         }
     }

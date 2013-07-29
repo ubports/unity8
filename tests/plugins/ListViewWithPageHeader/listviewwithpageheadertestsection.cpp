@@ -1129,6 +1129,25 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_topSectionItem->y(), -23.);
     }
 
+    void testInsertToEmpty()
+    {
+        QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 0), Q_ARG(QVariant, 6));
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 0);
+        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_clipItem->y(), 0.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 0.);
+
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 100), Q_ARG(QVariant, "Agressive"));
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 1), Q_ARG(QVariant, 125), Q_ARG(QVariant, "Regular"));
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 2);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, 50., 140., false, "Agressive", false);
+        verifyItem(1, 190., 165., false, "Regular", false);
+    }
+
     void testRemoveItemsAtTop()
     {
         QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 0), Q_ARG(QVariant, 2));

@@ -69,10 +69,8 @@ Item {
 
                 onClicked: {
                     if (!indicators.shown) {
-                        indicators.openOverview();
                         indicators.show();
-                    }
-                    else {
+                    } else {
                         indicators.hide();
                     }
                 }
@@ -90,47 +88,10 @@ Item {
             tryCompare(indicators, "state", "initial");
         }
 
-        // Showing the indicators should fully open the indicator panel with the overview menu visible.
+        // Showing the indicators should fully open the indicator panel.
         function test_show() {
             indicators.show()
             tryCompare(indicators, "fullyOpened", true);
-
-            // A show must open the indicators.
-            compare(findChild(indicators, "indicatorRow").overviewActive, true, "Overview indicator should be active when opened overview.")
-        }
-
-        // Opening the overview menu will activate the overview panel.
-        function test_open_overview() {
-            indicators.openOverview();
-            compare(findChild(indicators, "indicatorRow").overviewActive, true, "Overview should be active when opened overview.")
-        }
-
-        // Showing the indicators, then changing the progress (simulating drag) should keep the overview panel open until
-        // the reveal state is reached.
-        function test_slow_close_open_overview() {
-
-            var indicator_row = findChild(indicators, "indicatorRow");
-            verify(indicator_row != undefined);
-
-            indicators.show()
-            // wait for animation to end. (progress needs to be updated)
-            tryCompare(indicators.showAnimation, "running", false);
-            compare(indicator_row.overviewActive, true, "Overview should be active when opened overview.")
-
-            // iteratively decrease the progress and ensure that it keeps the correct behaviour
-            var current_progress = indicators.progress - shell.height/20;
-            while (current_progress > 0) {
-                indicators.progress = current_progress;
-
-                if (indicators.state == "commit" || indicators.state == "locked") {
-                    compare(indicator_row.overviewActive, true, "Overview should be active when in locked or commit state after show.")
-                }
-                else if (indicators.state == "reveal" || indicators.state == "hint") {
-                    compare(indicator_row.overviewActive, false, "Overview should be not active when not in commit or locked state.")
-                }
-
-                current_progress = current_progress - shell.height/20;
-            }
         }
 
         // Test the change in the revealer lateral position changes the current panel menu to fit the position

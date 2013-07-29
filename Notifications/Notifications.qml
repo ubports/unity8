@@ -32,6 +32,7 @@ ListView {
             right: parent.right
         }
         type: model.type
+        hints: model.hints
         iconSource: model.icon
         secondaryIconSource: model.secondaryIcon
         summary: model.summary

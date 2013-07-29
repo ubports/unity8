@@ -4,13 +4,16 @@ Priority: optional
 Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
 Build-Depends: cmake,
                debhelper (>= 9),
-               libdee-qt5-dev (>= 3.0),
+               libdee-qt5-dev (>= 3.2),
                libgl1-mesa-dev[!armhf] | libgl-dev[!armhf],
                libgl1-mesa-dri,
                libgles2-mesa-dev[armhf],
                libhud-client2-dev,
                libjson-perl,
+               libnm-glib-dev,
+               libnm-util-dev,
                libpulse-dev,
+               libqmenumodel-dev,
                libqt5v8-5-private-dev,
                libunity-api-dev (>= 7.80.3),
                libunity-core-6.0-dev (<< 7.80),
@@ -41,9 +44,19 @@ Homepage: http://launchpad.net/unity
 Vcs-Bzr: https://code.launchpad.net/unity8
 Vcs-Browser: https://bazaar.launchpad.net/~unity-team/unity8/trunk
 
+Package: indicators-client
+Architecture: amd64 armhf i386
+Depends: qmenumodel-qml,
+         qtdeclarative5-ubuntu-ui-toolkit-plugin | qt-components-ubuntu,
+         unity8 (= ${binary:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends},
+Description: Indicators client test application
+ This package contains the client application for indicators used by autopilot
+
 Package: unity8
 Architecture: any
-Depends: indicators-client (>= 0.6.1),
+Depends: qmenumodel-qml,
          qtdeclarative5-dee-plugin,
          qtdeclarative5-ubuntu-ui-toolkit-plugin,
          qtdeclarative5-unity-notifications-plugin | unity-notifications-impl,
@@ -55,18 +68,17 @@ Depends: indicators-client (>= 0.6.1),
          unity8-private | unity-launcher-impl,
          ${misc:Depends},
          ${shlibs:Depends},
-Recommends: indicators-client-plugin-datetime (>= 0.6.1),
-            indicators-client-plugin-messaging (>= 0.6.1),
-            indicators-client-plugin-network (>= 0.6.1),
-            indicators-client-plugin-power (>= 0.6.1),
-            indicators-client-plugin-sound (>= 0.6.1),
+Recommends: indicator-battery,
+            indicator-messages,
+            indicator-time,
             ${unity-default-masterscopes},
 Description: Unity 8 shell
  The Unity 8 shell is the primary user interface for Ubuntu devices.
 
 Package: unity8-autopilot
 Architecture: all
-Depends: libautopilot-qt,
+Depends: indicators-client (>= ${source:Version}),
+         libautopilot-qt,
          libqt5test5,
          libqt5widgets5,
          python-evdev,
@@ -75,6 +87,8 @@ Depends: libautopilot-qt,
          ${misc:Depends},
          ${python:Depends},
          ${shlibs:Depends},
+Recommends: gir1.2-glib-2.0,
+            python-gi,
 Description: Test package for Unity 8 shell
  Autopilot tests for the unity8 package
 

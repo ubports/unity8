@@ -18,10 +18,12 @@
  */
 
 // Qt
+#include <QtQml>
 #include <QtQuick/QQuickView>
 #include <QtGui/QIcon>
 #include <QtGui/QGuiApplication>
 #include <QtQml/QQmlEngine>
+#include <QtQml/QQmlContext>
 #include <qpa/qplatformnativeinterface.h>
 #include <QLibrary>
 #include <libintl.h>
@@ -29,6 +31,7 @@
 // local
 #include "paths.h"
 #include "MouseTouchAdaptor.h"
+#include "ApplicationArguments.h"
 
 namespace {
 
@@ -85,6 +88,7 @@ int main(int argc, char** argv)
     resolveIconTheme();
 
     QStringList args = application.arguments();
+    ApplicationArguments qmlArgs(args);
 
     // The testability driver is only loaded by QApplication but not by QGuiApplication.
     // However, QApplication depends on QWidget which would add some unneeded overhead => Let's load the testability driver on our own.
@@ -109,6 +113,7 @@ int main(int argc, char** argv)
     view->setResizeMode(QQuickView::SizeRootObjectToView);
     view->setTitle("Qml Phone Shell");
     view->engine()->setBaseUrl(QUrl::fromLocalFile(::shellAppDirectory()));
+    view->rootContext()->setContextProperty("applicationArguments", &qmlArgs);
     if (args.contains(QLatin1String("-frameless"))) {
         view->setFlags(Qt::FramelessWindowHint);
     }
@@ -131,8 +136,6 @@ int main(int argc, char** argv)
     nativeInterface->setProperty("ubuntuSessionType", 1);
     view->setProperty("role", 2); // INDICATOR_ACTOR_ROLE
 
-    QObject::connect(view->engine(), SIGNAL(quit()), qApp, SLOT(quit()));
-
     QUrl source("Shell.qml");
     prependImportPaths(view->engine(), ::overrideImportPaths());
     appendImportPaths(view->engine(), ::fallbackImportPaths());
@@ -142,12 +145,6 @@ int main(int argc, char** argv)
     if (qgetenv("QT_QPA_PLATFORM") == "ubuntu" || args.contains(QLatin1String("-fullscreen"))) {
         view->showFullScreen();
     } else {
-        if (args.contains(QLatin1String("-geometry")) && args.size() > args.indexOf(QLatin1String("-geometry")) + 1) {
-            QStringList geometryArg = args.at(args.indexOf(QLatin1String("-geometry")) + 1).split('x');
-            if (geometryArg.size() == 2) {
-                view->resize(geometryArg.at(0).toInt(), geometryArg.at(1).toInt());
-            }
-        }
         view->show();
     }
 

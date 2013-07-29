@@ -1,3 +1,167 @@
+unity8 (7.81.3+13.10.20130729ubuntu.unity.next-0ubuntu1) saucy; urgency=low
+
+  [ Michal Hruby ]
+  * Remove the variant conversions methods as they were moved to dee-qt.
+
+  [ Michał Sawicz ]
+  * Re-enable passphrase tests under UInput.
+  * Use the new string categoryIds in custom video and music scope
+    views. (LP: #1199322)
+
+  [ Nick Dedekind ]
+  * Behavioural changes for indicators - Part 1 - Use standard
+    animations. - Search bar animation less distracting. - Hinting
+    animation shows header. - Vertical velocity detector to reduce
+    accidental menu switches in dragging phase.
+
+  [ Gustavo Pichorim Boiko ]
+  * Add entries to the new applications resulted from the split of the
+    phone-app.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 141 (ubuntu-unity/next)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 29 Jul 2013 03:41:07 +0000
+
+unity8 (7.81.3+13.10.20130726ubuntu.unity.next-0ubuntu1) saucy; urgency=low
+
+  [ Michal Hruby ]
+  * Expose real category ids and not just indices.
+  * Provide fallbacks for default renderer.
+
+  [ Daniel d'Andrada ]
+  * Give a visual feedback on right-edge drag with no running apps (LP:
+    #1116207). (LP: #1116207)
+
+  [ Albert Astals ]
+  * Update m_firstVisibleIndex if there's no visible items anymore Also
+    remove the check for m_visibleItems.isEmpty() on insert, the
+    m_firstVisibleIndex == 0 already protects us against that.
+
+  [ Christopher Lee ]
+  * Tests now use a default lightdm mock if not decorated. (LP:
+    #1204772)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 135 (ubuntu-unity/next)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 26 Jul 2013 07:06:08 +0000
+
+unity8 (7.81.3+13.10.20130725ubuntu.unity.next-0ubuntu1) saucy; urgency=low
+
+  [ Michal Hruby ]
+  * Fix adding items into an empty LVWPH.
+
+  [ Michał Sawicz ]
+  * Move to using upstart in run_on_device.
+  * Added heeding and qmltest for button-tint hint.
+  * Refactoring and cleanup of the Unity8 Autopilot tests.
+  * Hide the Unity launcher during autopiloting and skip battery tests
+    if unavailable.
+
+  [ Ying-Chun Liu ]
+  * Let GenericScope support loading different renderers.
+
+  [ Nick Dedekind ]
+  * Removed overview from indicators.
+  * Menus for indicators is now created prioritised by distance from
+    current item to speed up user experience.
+  * Add ApplicationArguments to know the geometry from start.
+
+  [ Mirco Müller ]
+  * Added heeding and qmltest for button-tint hint.
+
+  [ Christopher Lee ]
+  * Refactoring and cleanup of the Unity8 Autopilot tests.
+
+  [ Thomi Richards ]
+  * Refactoring and cleanup of the Unity8 Autopilot tests.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 129 (ubuntu-unity/next)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 25 Jul 2013 03:02:12 +0000
+
+unity8 (7.81.3+13.10.20130718ubuntu.unity.next-0ubuntu1) saucy; urgency=low
+
+  [ Andrea Cimitan ]
+  * Add support for the colour palette.
+
+  [ Omer Akram ]
+  * fix the calendar icon in the launcher. (LP: #1201905)
+
+  [ Nick Dedekind ]
+  * Export indicator plugin symbols using Q_DECL_EXPORT.
+
+  [ Ying-Chun Liu ]
+  * Don't include .moc in previewbindingstest.cpp.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 118 (ubuntu-unity/next)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 18 Jul 2013 06:07:00 +0000
+
+unity8 (7.81.3+13.10.20130717ubuntu.unity.next-0ubuntu1) saucy; urgency=low
+
+  [ Daniel d'Andrada ]
+  * Remove dead code: Showable::showWithoutAnimation.
+
+  [ Nick Dedekind ]
+  * Split Plugins export macro into export_qmlfiles and
+    export_qmlplugins. Added qmltypes to indicators plugin.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 112 (ubuntu-unity/next)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 17 Jul 2013 03:14:49 +0000
+
+unity8 (7.81.3+13.10.20130716ubuntu.unity.next-0ubuntu1) saucy; urgency=low
+
+  [ Pete Woods ]
+  * Rename the demo user "single" to "phablet" Fix the infographics on
+    the device At the moment the mock lightdm backend we are using says
+    the current user is called "single", while in reality the processes
+    all run as the "phablet" user.
+
+  [ Michał Sawicz ]
+  * Only use ppa:ubuntu-unity/next and clean build scripts and CODING,
+    accordingly.
+  * Do not recommend indicator-power and indicator-sound. On device
+    they're provided by lp:indicator-server for the time being.
+  * Fix the Network page to provide the correct token. (LP: #1201529)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 109 (ubuntu-unity/next)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 16 Jul 2013 02:32:03 +0000
+
+unity8 (7.81.3+13.10.20130714ubuntu.unity.next-0ubuntu1) saucy; urgency=low
+
+  [ Michael Terry ]
+  * Change Ok to OK. (LP: #1131842)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 104 (ubuntu-unity/next)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Sun, 14 Jul 2013 02:31:57 +0000
+
+unity8 (7.81.3+13.10.20130712ubuntu.unity.next-0ubuntu1) saucy; urgency=low
+
+  [ Michael Zanetti ]
+  * Make use of the launcher API defined in unity-api and separate the
+    model from the backend.
+
+  [ Michał Sawicz ]
+  * Issue wrap-and-sort -abt on debian/.
+
+  [ Nick Dedekind ]
+  * Moved indicators-client code into unity8. (LP: #1191132, #1191822)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 102 (ubuntu-unity/next)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 12 Jul 2013 02:31:59 +0000
+
 unity8 (7.81.3+13.10.20130711ubuntu.unity.next-0ubuntu1) saucy; urgency=low
 
   [ Michael Zanetti ]

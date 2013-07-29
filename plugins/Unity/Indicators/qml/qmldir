@@ -1,0 +1,21 @@
+module Unity.Indicators
+plugin IndicatorsQml
+typeinfo plugin.qmltypes
+
+BasicMenuItem 0.1 BasicMenuItem.qml
+ButtonMenuItem 0.1 ButtonMenuItem.qml
+DivMenuItem 0.1 DivMenuItem.qml
+HLine 0.1 HLine.qml
+IndicatorBase 0.1 IndicatorBase.qml
+IndicatorPage 0.1 IndicatorPage.qml
+IndicatorWidget 0.1 IndicatorWidget.qml
+MenuItem 0.1 MenuItem.qml
+MenuAction 0.1 MenuAction.qml
+MenuActionBinding 0.1 MenuActionBinding.qml
+MenuItemFactory 0.1 MenuItemFactory.qml
+ProgressMenuItem 0.1 ProgressMenuItem.qml
+SectionMenuItem 0.1 SectionMenuItem.qml
+SliderMenuItem 0.1 SliderMenuItem.qml
+SwitchMenuItem 0.1 SwitchMenuItem.qml
+
+internal RemoveBackground RemoveBackground.qml

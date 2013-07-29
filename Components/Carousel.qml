@@ -52,6 +52,12 @@ Item {
     /// @param itemY is y of the clicked delegate
     signal clicked(int index, var delegateItem, real itemY)
 
+    /// Emitted when the user pressed and held on an item
+    /// @param index is the index of the held item
+    /// @param delegateItem is the held component/delegate itself
+    /// @param itemY is y of the held delegate
+    signal pressAndHold(int index, var delegateItem, real itemY)
+
     implicitHeight: listView.tileHeight * selectedItemScaleFactor
 
     /* Basic idea behind the carousel effect is to move the items of the delegates (compacting /stuffing them).
@@ -157,6 +163,30 @@ Item {
 
             newContentX = x
             newContentXAnimation.start()
+        }
+
+        function itemPressAndHold(index, delegateItem) {
+            var x = CarouselJS.getXFromContinuousIndex(index,
+                                                       realWidth,
+                                                       realContentWidth,
+                                                       tileWidth,
+                                                       gapToMiddlePhase,
+                                                       gapToEndPhase,
+                                                       carousel.drawBuffer);
+
+            if (Math.abs(x - contentX) < 1) {
+                /* We're pressAndHold the selected item and
+                   we're in the neighbourhood of radius 1 pixel from it.
+                   Let's emit the pressAndHold signal. */
+                carousel.pressAndHold(index, delegateItem, delegateItem.y);
+                return;
+            }
+
+            stepAnimation.stop();
+            newContentXAnimation.stop();
+
+            newContentX = x;
+            newContentXAnimation.start();
         }
 
         onMovementStarted: {
@@ -279,7 +309,14 @@ Item {
 
                 anchors.fill: parent
 
-                onClicked: listView.itemClicked(index, item)
+                onClicked: {
+                    listView.itemClicked(index, item)
+                }
+
+                onPressAndHold: {
+                    listView.itemPressAndHold(index, item)
+                }
+
             }
         }
     }

@@ -16,50 +16,32 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import "Menus"
+import Unity.Indicators 0.1 as Indicators
 import "../Components"
 
 Rectangle {
     id: content
 
     property QtObject indicatorsModel: null
-    property bool animate: true // FIXME: Remove. This doesnt seem to be being used and it's referenced in Indicators.
-    property bool overviewActive: true // "state of the menu"
-    property bool __shown: false
     property bool __contentActive: false
-    property alias currentIndex : menus.currentIndex
-    property color backgroundColor: "#221e1c"
-    property int contentReleaseInterval: 5000
+    property alias currentMenuIndex : menus.currentIndex
+    property color backgroundColor: "#221e1c" // FIXME not in palette yet
+    property int contentReleaseInterval: 20000
 
     width: units.gu(40)
     height: units.gu(42)
     color: backgroundColor
-    enabled: __shown
 
     signal menuSelected(int index)
 
-    function showMenu() {
-        __shown = true
-        overviewActive = false
-    }
-
-    function showOverview() {
-        __shown = true
-        overviewActive = true
-    }
-
-    function hideAll() {
-        __shown = false
-    }
-
     function activateContent() {
-        contentReleaseTimer.stop()
-        __contentActive = true
+        contentReleaseTimer.stop();
+        __contentActive = true;
     }
 
     function releaseContent() {
         if (__contentActive)
-            contentReleaseTimer.restart()
+            contentReleaseTimer.restart();
     }
 
     ListView {
@@ -71,7 +53,6 @@ Rectangle {
         width: parent.width
 
         spacing: units.gu(0.5)
-        opacity: !overviewActive && __shown ? 1 : 0
         enabled: opacity != 0
         orientation: ListView.Horizontal
         model: indicatorsModel
@@ -82,47 +63,36 @@ Rectangle {
 
         delegate: Loader {
             clip: true
-            property bool contentActive: content.__contentActive
+            property bool contentActive: content.__contentActive && menuActivator.content[index].active
 
             onContentActiveChanged: {
                 if (contentActive && item) {
-                    item.start()
+                    item.start();
                 } else if (!contentActive && item) {
-                    item.stop()
+                    item.stop();
                 }
             }
 
             width: menus.width
             height: menus.height
-            sourceComponent: component
-            visible: content.__shown
+            source: pageSource
             onVisibleChanged: {
                 // Reset the indicator states
                 if (!visible && item && item["reset"]) {
-                    item.reset()
+                    item.reset();
                 }
             }
             asynchronous: true
 
-            onStatusChanged: {
-                if (status == Loader.Ready) {
-                    if (indicatorsModel.widgetsMap && item.hasOwnProperty("widgetsMap")) {
-                        item["widgetsMap"] = indicatorsModel.widgetsMap
-                    }
-                    for(var pName in initialProperties) {
-                        if (item.hasOwnProperty(pName)) {
-                            item[pName] = initialProperties[pName]
-                        }
-                    }
-                    if (contentActive && menus.visible) {
-                        item.start()
+            onLoaded: {
+                for(var pName in indicatorProperties) {
+                    if (item.hasOwnProperty(pName)) {
+                        item[pName] = indicatorProperties[pName];
                     }
                 }
-            }
-
-            // FIXME: QTBUG-30632 - asynchronous loader crashes when changing index quickly.
-            Component.onDestruction: {
-                active = false;
+                if (contentActive && menus.visible) {
+                    item.start();
+                }
             }
 
             // Need to use a binding because the handle height changes.
@@ -132,40 +102,6 @@ Rectangle {
                 property: "anchors.bottomMargin"
                 value: handle.height
             }
-        }
-
-        Behavior on opacity { NumberAnimation {duration: 200} }
-    }
-
-    Overview {
-        id: overview
-        objectName: "overview"
-
-        anchors.top: header.bottom
-        anchors.bottom: parent.bottom
-        // FIXME: Dont know why we're using handle height (introduces dep).. Check with design about bottom margin
-        anchors.bottomMargin: handle.height
-
-        width: content.width
-        indicatorsModel: content.indicatorsModel
-        enabled: content.overviewActive && content.__shown
-        opacity: content.overviewActive && content.__shown ? 1 : 0
-        Behavior on opacity {NumberAnimation{duration: 200}}
-        visible: opacity != 0
-
-        onMenuSelected: {
-            var storedDuration = menus.highlightMoveDuration
-            var storedVelocity = menus.highlightMoveVelocity
-            menus.highlightMoveDuration = 0
-            menus.highlightMoveVelocity = 100000
-
-            menus.currentIndex = modelIndex
-            content.overviewActive = false
-
-            menus.highlightMoveDuration = storedDuration
-            menus.highlightMoveVelocity = storedVelocity
-
-            content.menuSelected(modelIndex)
         }
     }
 
@@ -189,9 +125,11 @@ Rectangle {
                 left: parent.left
                 right: parent.right
             }
-            text: content.overviewActive ? i18n.tr("Device") : (indicatorsModel && menus.currentIndex >= 0 && menus.currentIndex < indicatorsModel.count) ?  indicatorsModel.get(menus.currentIndex).title : ""
-            opacity: __shown ? 1 : 0
-            Behavior on opacity {NumberAnimation{duration: 100}}
+            text: {
+                if (indicatorsModel && menus.currentIndex >= 0 && menus.currentIndex < indicatorsModel.count)
+                    return indicatorsModel.data(menus.currentIndex, Indicators.IndicatorsModelRole.Title);
+                return "";
+            }
         }
     }
 
@@ -199,6 +137,16 @@ Rectangle {
         id: contentReleaseTimer
 
         interval: contentReleaseInterval
-        onTriggered: __contentActive = false
+        onTriggered: {
+            __contentActive = false;
+            menuActivator.clear();
+        }
+    }
+
+    Indicators.MenuContentActivator {
+        id:  menuActivator
+        running: content.__contentActive
+        baseIndex: content.currentMenuIndex
+        count: indicatorsModel.count
     }
 }

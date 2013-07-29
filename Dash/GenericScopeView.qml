@@ -56,53 +56,45 @@ ScopeView {
         delegate: ListItems.Base {
             highlightWhenPressed: false
 
-            FilterGrid {
-                id: filtergrid
-                model: results
-
+            Loader {
+                id: rendererLoader
                 anchors {
                     top: parent.top
                     left: parent.left
                     right: parent.right
                 }
 
-                filter: false
-                minimumHorizontalSpacing: units.gu(0.5)
-                delegateWidth: units.gu(11)
-                delegateHeight: units.gu(18)
-                verticalSpacing: units.gu(2)
+                source: getRenderer(model.renderer, model.contentType)
 
-                delegate: Tile {
-                    width: filtergrid.cellWidth
-                    height: filtergrid.cellHeight
-                    text: title
-                    imageWidth: units.gu(11)
-                    imageHeight: units.gu(16)
+                onLoaded: {
+                    item.model = results
+                }
 
-                    source: IconUtil.from_gicon(icon)
-
-                    MouseArea {
-                        anchors {
-                            fill: parent
-                        }
-                        onClicked: {
-                            mouse.accepted = true
-                            effect.positionPx = mapToItem(categoryView, 0, 0).y
-                            scopeView.scope.activate(uri, icon,
-                                                     category, 0,
-                                                     mimetype, title,
-                                                     comment, dndUri,
-                                                     metadata)
-                        }
-                        onPressAndHold: {
-                            mouse.accepted = true
-                            effect.positionPx = mapToItem(categoryView, 0, 0).y
-                            scopeView.scope.preview(uri, icon,
-                                                    category, 0,
-                                                    mimetype, title,
-                                                    comment, dndUri,
-                                                    metadata)
-                        }
+                Connections {
+                    target: rendererLoader.item
+                    onClicked: {
+                        effect.positionPx = mapToItem(categoryView, 0, itemY).y
+                        scopeView.scope.activate(delegateItem.model.uri,
+                                                 delegateItem.model.icon,
+                                                 delegateItem.model.category,
+                                                 0,
+                                                 delegateItem.model.mimetype,
+                                                 delegateItem.model.title,
+                                                 delegateItem.model.comment,
+                                                 delegateItem.model.dndUri,
+                                                 delegateItem.model.metadata)
+                    }
+                    onPressAndHold: {
+                        effect.positionPx = mapToItem(categoryView, 0, itemY).y
+                        scopeView.scope.preview( delegateItem.model.uri,
+                                                 delegateItem.model.icon,
+                                                 delegateItem.model.category,
+                                                 0,
+                                                 delegateItem.model.mimetype,
+                                                 delegateItem.model.title,
+                                                 delegateItem.model.comment,
+                                                 delegateItem.model.dndUri,
+                                                 delegateItem.model.metadata)
                     }
                 }
             }
@@ -119,6 +111,28 @@ ScopeView {
             width: categoryView.width
             text: scopeView.scope.name
             searchEntryEnabled: true
+        }
+    }
+
+    function getDefaultRendererId(contentType) {
+        switch (contentType) {
+            default: return "grid";
+        }
+    }
+
+    function getRenderer(rendererId, contentType) {
+        if (rendererId == "default") {
+            rendererId = getDefaultRendererId(contentType);
+        }
+        switch (rendererId) {
+            case "grid": {
+                switch (contentType) {
+                    case "video": return "Generic/GenericFilterGridPotrait.qml";
+                    default: return "Generic/GenericFilterGrid.qml";
+                }
+            }
+            case "carousel": return "Generic/GenericCarousel.qml";
+            default: return "Generic/GenericFilterGrid.qml";
         }
     }
 

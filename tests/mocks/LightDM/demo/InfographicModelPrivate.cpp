@@ -54,7 +54,7 @@ void InfographicModelPrivate::generateFakeData()
         QSharedPointer<InfographicData> data(
                 new InfographicData("<b>52km</b> travelled", yellowTheme, firstMonth,
                         orangeTheme, secondMonth, this));
-        m_fakeData.insert("guest", data);
+        m_fakeData.insert("phablet", data);
     }
 
     {
@@ -69,7 +69,7 @@ void InfographicModelPrivate::generateFakeData()
         QSharedPointer<InfographicData> data(
                 new InfographicData("<b>33</b> messages today", pinkTheme,
                         firstMonth, orangeTheme, secondMonth, this));
-        m_fakeData.insert("guest", data);
+        m_fakeData.insert("phablet", data);
     }
 
     {
@@ -84,7 +84,7 @@ void InfographicModelPrivate::generateFakeData()
         QSharedPointer<InfographicData> data(
                 new InfographicData("<b>69</b> minutes talk time", darkPurpleTheme,
                         firstMonth, redTheme, secondMonth, this));
-        m_fakeData.insert("guest", data);
+        m_fakeData.insert("phablet", data);
     }
 }
 

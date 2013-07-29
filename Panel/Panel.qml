@@ -39,11 +39,8 @@ Item {
         }
         height: __panelMinusSeparatorLineHeight
         y: 0
-        onYChanged: indicatorsMenu.y = y;
 
-        Behavior on y {
-                NumberAnimation { duration: 200 }
-        }
+        Behavior on y { StandardAnimation {} }
     }
 
     PanelSeparatorLine {
@@ -78,16 +75,38 @@ Item {
         id: indicatorsMenu
 
         anchors.right: parent.right
-        y: 0
+        y: panelBackground.y
         width: root.indicatorsMenuWidth
         shown: false
         hintValue: __panelMinusSeparatorLineHeight * 3
         panelHeight: __panelMinusSeparatorLineHeight
-        referenceOpenedHeight: parent.height
-
+        openedHeight: parent.height + (pinnedMode ? 0 : root.panelHeight)
         pinnedMode: !fullscreenMode
 
         property real unitProgress: (height - panelHeight) / (openedHeight - panelHeight)
+    }
+
+    PanelSeparatorLine {
+        id: indicatorsSeparatorLine
+        visible: true
+        anchors {
+            left: indicatorsMenu.left
+            right: indicatorsMenu.right
+        }
+        y: indicatorsMenu.visualBottom
+    }
+
+    BorderImage {
+        id: dropShadow
+        anchors {
+            top: indicators.top
+            bottom: indicatorsSeparatorLine.bottom
+            left: indicators.left
+            right: indicators.right
+            margins: -units.gu(1)
+        }
+        visible: indicatorsMenu.height > indicatorsMenu.panelHeight
+        source: "graphics/rectangular_dropshadow.sci"
     }
 
     SearchIndicator {
@@ -98,14 +117,14 @@ Item {
         state: {
             if (parent.width < indicatorsMenu.width + width) {
                 if (indicatorsMenu.state != "initial") {
-                    return "hiddenUp";
+                    return "hidden";
                 }
             }
             if (root.searchVisible) {
                 return "visible";
             }
 
-            return "hiddenUp";
+            return "hidden";
         }
 
         width: units.gu(13)
