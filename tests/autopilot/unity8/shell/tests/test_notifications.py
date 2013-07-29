@@ -53,19 +53,21 @@ class TestNotifications(UnityTestCase):
     loop = None
 
     def setUp(self):
-        p = subprocess.Popen(['dbus-launch'], stdout=subprocess.PIPE)
-        output = p.communicate()
-        results = output[0].split("\n")
-        self.dbus_pid = int(results[1].split("=")[1])
-        self.dbus_address = results[0].split("=", 1)[1]
+        self. dbus_address = 'session'
+        if model() == 'Desktop':
+            p = subprocess.Popen(['dbus-launch'], stdout=subprocess.PIPE)
+            output = p.communicate()
+            results = output[0].split("\n")
+            self.dbus_pid = int(results[1].split("=")[1])
+            self.dbus_address = results[0].split("=", 1)[1]
 
-        logger.info("Using DBUS_SESSION_BUS_ADDRESS: %s", self.dbus_address)
-        logger.info("Using DBUS PID: %d", self.dbus_pid)
+            logger.info("Using DBUS_SESSION_BUS_ADDRESS: %s", self.dbus_address)
+            logger.info("Using DBUS PID: %d", self.dbus_pid)
 
-        self.patch_environment("DBUS_SESSION_BUS_ADDRESS", self.dbus_address)
+            self.patch_environment("DBUS_SESSION_BUS_ADDRESS", self.dbus_address)
 
-        kill_dbus = lambda pid: os.killpg(pid, signal.SIGTERM)
-        self.addCleanup(kill_dbus, self.dbus_pid)
+            kill_dbus = lambda pid: os.killpg(pid, signal.SIGTERM)
+            self.addCleanup(kill_dbus, self.dbus_pid)
 
         super(TestNotifications, self).setUp()
         self._notify_proc = None
@@ -390,18 +392,6 @@ class TestNotifications(UnityTestCase):
 
         Notify.uninit()
 
-    def _run_loop_with_killswitch(self, loop):
-        logger.info("Running loop with timeout")
-        print "Running loop with timeout"
-
-        def killer(loop):
-            logger.info("Killing Loop!")
-            print "Killing Loop!"
-            loop.quit()
-
-        GLib.timeout_add_seconds(10, killer, loop)
-        loop.run()
-
     def _create_notification(
         self,
         summary="",
@@ -523,8 +513,8 @@ class TestNotifications(UnityTestCase):
         :param summary: Summary text for the notification
         :param body: Body text to display in the notification
         :param icon: Path string to the icon to use
-        :param urgency: Urgency for the noticiation, either: Notifications.LOW,
-            Notifications.NORMAL, Notifications.CRITICAL
+        :param urgency: Urgency string for the noticiation, either: 'LOW',
+            'NORMAL', 'CRITICAL'
         :param actions: List of tuples containing the 'id' and 'label' for all
             the actions to add
         :param hint_strings: List of tuples containing the 'name' and value for
