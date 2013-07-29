@@ -54,7 +54,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    Notify.init('Interactive Notifications')
+    Notify.init('Snap-Decision Notifications')
 
     notification = Notify.Notification.new(args.summary, args.body, args.icon)
 

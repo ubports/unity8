@@ -99,7 +99,7 @@ class Notifications(object):
         :param urgency: Urgency for the noticiation, either: Notifications.LOW,
             Notifications.NORMAL, Notifications.CRITICAL
         :param action_id: String containing id to store for the callback
-        :param action_label: String to display on the notification
+        :param action_label: String to display on the notification, but really ignored visually
         :param hint_strings: List of tuples containing the 'name' and value for
             setting the hint strings for the notification
 
@@ -112,6 +112,41 @@ class Notifications(object):
             urgency,
             action_id,
             action_label,
+            hint_strings,
+        ))
+        self._task_queue.join()
+
+    def sd_notification(
+        self,
+        summary="",
+        body="",
+        icon=None,
+        urgency="NORMAL",
+        action_ids=[],
+        action_labels=[],
+        hint_strings=[],
+    ):
+        """Create a SnapDecision notification command.
+
+        :param summary: Summary text for the notification
+        :param body: Body text to display in the notification
+        :param icon: Path string to the icon to use
+        :param urgency: Urgency for the noticiation, either: Notifications.LOW,
+            Notifications.NORMAL, Notifications.CRITICAL
+        :param action_ids: List of string containing ids to store for the callback
+        :param action_labels: List of string to display on the action-buttons
+        :param hint_strings: List of tuples containing the 'name' and value for
+            setting the hint strings for the notification
+
+        """
+        self._task_queue.put((
+            "SnapDecision",
+            summary,
+            body,
+            icon,
+            urgency,
+            action_ids,
+            action_labels,
             hint_strings,
         ))
         self._task_queue.join()
@@ -145,7 +180,6 @@ def _run(task_queue, result_queue):
                     for hint in hint_strings:
                         name, value = hint
                         notification.set_hint_string(name, value)
-                    # notification.set_hint_string ("x-canonical-switch-to-application", "true")
                     notification.add_action(
                         action_id,
                         action_label,
@@ -153,6 +187,33 @@ def _run(task_queue, result_queue):
                         None,
                         None
                     )
+                    notification.connect('closed', _quit_callback)
+                    notification.set_urgency(urgency)
+                    notification.show()
+                    notifications.append(notification)
+                elif command[0] == "SnapDecision":
+                    summary = command[1]
+                    body = command[2]
+                    icon = command[3]
+                    urgency = _translate_urgency(command[4])
+                    action_ids = command[5]
+                    action_labels = command[6]
+                    hint_strings = command[7]
+                    notification = Notify.Notification.new(summary, body, icon)
+                    notification.set_hint_string("x-canonical-snap-decisions", "true")
+                    for hint in hint_strings:
+                        name, value = hint
+                        notification.set_hint_string(name, value)
+                    size_ids = len(action_ids)
+                    size_labels = len(action_labels)
+                    if size_ids != size_labels and size_ids:
+                        logger.info("Array-sizes of action-ids (%d), action-labels (%d) and action-callbacks (%d) do not match!", size_ids, size_labels)
+                    for i in range(size_ids):
+                        notification.add_action(action_ids[i],
+                                                action_labels[i],
+                                                _action_callback,
+                                                None,
+                                                None)
                     notification.connect('closed', _quit_callback)
                     notification.set_urgency(urgency)
                     notification.show()
