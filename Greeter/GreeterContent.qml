@@ -23,7 +23,6 @@ MouseArea {
     id: root
     anchors.fill: parent
 
-    property bool promptless: loginLoader.status == Loader.Ready && LightDM.Greeter.promptless
     property bool ready: wallpaper.status == Image.Ready
     property bool leftTeaserPressed: teasingMouseArea.pressed &&
                                      teasingMouseArea.mouseX < teasingMouseArea.width / 2
