@@ -43,6 +43,7 @@ import subprocess
 
 logger = logging.getLogger(__name__)
 
+
 class TestNotifications(UnityTestCase):
 
     scenarios = _get_device_emulation_scenarios()
@@ -89,7 +90,10 @@ class TestNotifications(UnityTestCase):
         icon_path = self._get_icon_path('avatars/anna_olsson@12.png')
         hint_icon = self._get_icon_path('applicationIcons/phone-app@18.png')
 
-        notification = self._create_ephemeral(summary, body, icon_path, hint_icon)
+        notification = self._create_ephemeral(summary,
+                                              body,
+                                              icon_path,
+                                              hint_icon)
         notification.show()
 
         get_notification = lambda: notify_list.select_single('Notification')
@@ -150,14 +154,7 @@ class TestNotifications(UnityTestCase):
         icon_path = self._get_icon_path('avatars/anna_olsson@12.png')
         hint_icon = self._get_icon_path('applicationIcons/phone-app@18.png')
 
-
-# MIRCO: This is the fancy part that you need to look at ;)
-#
-# The 'Notifications' class is a context manager. It's used with the 'with'
-# keyword like this:
         with Notifications() as n:
-# Inside the with block, we're actually running a separate process with a
-# GLib main loop, and can generate interactive notifications, like this:
             time.sleep(1)
             print("creating notification #########################################################################")
             n.interactive_notification(
@@ -170,23 +167,15 @@ class TestNotifications(UnityTestCase):
                 [("x-canonical-secondary-icon", hint_icon)]
             )
 
-            # THese lines are commented out because for some reason the
-            # notification appears in my desktop unity session, rather than the
-            # launched unity8 session.
             print("getting notification #########################################################################")
 
             self.assertThat(notify_list.count, Eventually(Equals(1)))
             print("got notification #########################################################################")
             notification = notify_list.select_single("Notification")
-#            time.sleep(1)
             self.assertThat(notification.opacity, Eventually(GreaterThan(0.95)))
 
             print("clicking notification #########################################################################")
             self.touch.tap_object(notification.select_single(objectName="interactiveArea"))
-# The notifications object has two assertions we thought would be useful. This
-# one asserts that the interactive action with "action_id" was clicked. There's
-# also an assertion for when the notification was closed. If you find that you
-# need more assertions, we can add those easily enough.
             n.assert_callback_called("action_id", 10)
 
     @with_lightdm_mock("single")
@@ -342,7 +331,7 @@ class TestNotifications(UnityTestCase):
         body = 'Here the same bubble with new title- and body-text, even the icon can be changed on the update.'
         icon_path = self._get_icon_path('avatars/amanda@12.png')
         notification.update(summary, body, icon_path)
-        notification.show ();
+        notification.show()
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         self._assert_notification(get_notification(), summary, body)
 
@@ -353,7 +342,7 @@ class TestNotifications(UnityTestCase):
         hint_icon = self._get_icon_path('applicationIcons/phone-app@18.png')
         notification = self._create_ephemeral(summary, body, icon_path)
         notification.set_hint('x-canonical-secondary-icon', GLib.Variant.new_string(hint_icon))
-        notification.show ();
+        notification.show()
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         self._assert_notification(get_notification(), summary, body, True, True, 1.0)
 
@@ -380,7 +369,7 @@ class TestNotifications(UnityTestCase):
         icon_path = self._get_icon_path('avatars/amanda@12.png')
         body_sum = body
         notification = self._create_ephemeral(summary, body, icon_path)
-        notification.set_hint('x-canonical-append', GLib.Variant.new_string('true'));
+        notification.set_hint('x-canonical-append', GLib.Variant.new_string('true'))
         notification.show()
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
@@ -400,7 +389,7 @@ class TestNotifications(UnityTestCase):
             body = new_body
             body_sum += '\n' + body
             notification = self._create_ephemeral(summary, body, icon_path)
-            notification.set_hint('x-canonical-append', GLib.Variant.new_string('true'));
+            notification.set_hint('x-canonical-append', GLib.Variant.new_string('true'))
             notification.show()
             get_notification = lambda: notify_list.select_single('Notification')
             self.assertThat(get_notification, Eventually(NotEquals(None)))
@@ -412,10 +401,12 @@ class TestNotifications(UnityTestCase):
     def _run_loop_with_killswitch(self, loop):
         logger.info("Running loop with timeout")
         print "Running loop with timeout"
+
         def killer(loop):
             logger.info("Killing Loop!")
             print "Killing Loop!"
             loop.quit()
+
         GLib.timeout_add_seconds(10, killer, loop)
         loop.run()
 
@@ -463,7 +454,6 @@ class TestNotifications(UnityTestCase):
         for hint in hints:
             key, value = hint
             script_args.extend(['--hint', "%s,%s" % (key, value)])
-
 
         command = [self._get_notify_script()] + script_args
         logger.info("Launching interactive notification as: %s", command)
@@ -522,13 +512,13 @@ class TestNotifications(UnityTestCase):
 
     def _create_ephemeral(self, summary="", body="", icon=None, secondary_icon=None, urgency="NORMAL"):
         logger.info("Creating ephemeral notification with summary(%s), body(%s) and urgency(%r)", summary, body, urgency)
-        if icon != None:
+        if icon is not None:
             logger.info("Using icon(%s)", icon)
-        if secondary_icon != None:
+        if secondary_icon is not None:
             logger.info("Using secondary-icon(%s)", secondary_icon)
 
         n = Notify.Notification.new(summary, body, icon)
-        if secondary_icon != None:
+        if secondary_icon is not None:
             n.set_hint('x-canonical-secondary-icon', GLib.Variant.new_string(secondary_icon))
         n.set_urgency(self._get_urgency(urgency))
 
@@ -536,16 +526,16 @@ class TestNotifications(UnityTestCase):
 
     def _create_interactive(self, summary="", body="", icon=None, secondary_icon=None, urgency="NORMAL", action_id="action_id", action_label="action_label", action_cb=None):
         logger.info("Creating interactive notification with summary(%s), body(%s) and urgency(%r)", summary, body, urgency)
-        if icon != None:
+        if icon is not None:
             logger.info("Using icon(%s)", icon)
-        if secondary_icon != None:
+        if secondary_icon is not None:
             logger.info("Using secondary-icon(%s)", secondary_icon)
 
         n = Notify.Notification.new(summary, body, icon)
-        if secondary_icon != None:
+        if secondary_icon is not None:
             n.set_hint('x-canonical-secondary-icon', GLib.Variant.new_string(secondary_icon))
-        n.set_hint('x-canonical-switch-to-application', GLib.Variant.new_string('true'));
-        n.add_action(action_id, action_label, action_cb, None, None);
+        n.set_hint('x-canonical-switch-to-application', GLib.Variant.new_string('true'))
+        n.add_action(action_id, action_label, action_cb, None, None)
         n.connect('closed', self._close_cb)
         n.set_urgency(self._get_urgency(urgency))
 
@@ -553,9 +543,9 @@ class TestNotifications(UnityTestCase):
 
     def _create_snap_decision(self, summary="", body="", icon=None, secondary_icon=None, urgency="NORMAL", action_ids=None, action_labels=None, action_cbs=None):
         logger.info("Creating snap-decision notification with summary(%s), body(%s) and urgency(%r)", summary, body, urgency)
-        if icon != None:
+        if icon is not None:
             logger.info("Using icon(%s)", icon)
-        if secondary_icon != None:
+        if secondary_icon is not None:
             logger.info("Using secondary-icon(%s)", secondary_icon)
 
         size_ids = len(action_ids)
@@ -566,9 +556,9 @@ class TestNotifications(UnityTestCase):
             return None
 
         n = Notify.Notification.new(summary, body, icon)
-        if secondary_icon != None:
+        if secondary_icon is not None:
             n.set_hint('x-canonical-secondary-icon', GLib.Variant.new_string(secondary_icon))
-        n.set_hint('x-canonical-snap-decisions', GLib.Variant.new_string('true'));
+        n.set_hint('x-canonical-snap-decisions', GLib.Variant.new_string('true'))
         for i in range(size_ids):
             n.add_action(action_ids[i], action_labels[i], action_cbs[i], None, None)
         n.connect('closed', self._close_cb)
@@ -578,21 +568,20 @@ class TestNotifications(UnityTestCase):
 
     def _create_confirmation(self, summary="", body="", icon=None, secondary_icon=None, urgency="NORMAL"):
         logger.info("Creating confirmation notification with summary(%s), body(%s) and urgency(%r)", summary, body, urgency)
-        if icon != None:
+        if icon is not None:
             logger.info("Using icon(%s)", icon)
-        if secondary_icon != None:
+        if secondary_icon is not None:
             logger.info("Using secondary-icon(%s)", secondary_icon)
 
         n = Notify.Notification.new(summary, body, icon)
-        if secondary_icon != None:
+        if secondary_icon is not None:
             n.set_hint('x-canonical-secondary-icon', GLib.Variant.new_string(secondary_icon))
-        n.set_hint('x-canonical-private-synchronous', GLib.Variant.new_string('true'));
+        n.set_hint('x-canonical-private-synchronous', GLib.Variant.new_string('true'))
         if summary == "" and body == "":
-            n.set_hint('x-canonical-private-icon-only', GLib.Variant.new_string('true'));
+            n.set_hint('x-canonical-private-icon-only', GLib.Variant.new_string('true'))
         n.set_urgency(self._get_urgency(urgency))
 
         return n
-
 
     def _get_icon_path(self, icon_name):
         """Given an icons file name returns the full path (either system or
@@ -617,10 +606,10 @@ class TestNotifications(UnityTestCase):
         return main_view.select_single("QQuickListView", objectName='notificationList')
 
     def _assert_notification(self, notification, summary=None, body=None, icon=True, secondary_icon=False, opacity=None):
-        if summary != None:
+        if summary is not None:
             self.assertThat(notification.summary, Equals(summary))
 
-        if body != None:
+        if body is not None:
             self.assertThat(notification.body, Equals(body))
 
         if icon:
@@ -633,10 +622,10 @@ class TestNotifications(UnityTestCase):
         else:
             self.assertThat(notification.secondaryIconSource, Equals(""))
 
-        if opacity != None:
+        if opacity is not None:
             self.assertThat(notification.opacity, Eventually(Equals(opacity)))
 
-    def _action_interactive_cb (self, notification, action, data):
+    def _action_interactive_cb(self, notification, action, data):
         if action == "action_id":
             logger.info("--- Triggering action ---")
             print "--- Triggering action ---"
@@ -646,25 +635,25 @@ class TestNotifications(UnityTestCase):
             print "--- That should not have happened (action_id)! ---"
             self.action_interactive_triggered = False
 
-    def _action_sd_decline1_cb (self, notification, action, data):
+    def _action_sd_decline1_cb(self, notification, action, data):
         if action == "action_decline_1":
             print "Decline"
         else:
             print "That should not have happened (action_decline_1)!"
 
-    def _action_sd_decline2_cb (self, notification, action, data):
+    def _action_sd_decline2_cb(self, notification, action, data):
         if action == "action_decline_2":
             print "\"Can't talk now, what's up?\""
         else:
             print "That should not have happened (action_decline_2)!"
 
-    def _action_sd_decline3_cb (self, notification, action, data):
+    def _action_sd_decline3_cb(self, notification, action, data):
         if action == "action_decline_3":
             print "\"I call you back.\""
         else:
             print "That should not have happened (action_decline_3)!"
 
-    def _action_sd_decline4_cb (self, notification, action, data):
+    def _action_sd_decline4_cb(self, notification, action, data):
         if action == "action_decline_4":
             print "Send custom message..."
             self.action_send_message_triggered = True
@@ -672,7 +661,7 @@ class TestNotifications(UnityTestCase):
             print "That should not have happened (action_decline_4)!"
             self.action_send_message_triggered = False
 
-    def _action_sd_accept_cb (self, notification, action, data):
+    def _action_sd_accept_cb(self, notification, action, data):
         if action == "action_accept":
             print "Accepting call"
             self.action_accept_triggered = True
