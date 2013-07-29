@@ -165,7 +165,8 @@ class TestNotifications(UnityTestCase):
             (
                 "x-canonical-secondary-icon",
                 self._get_icon_path('applicationIcons/phone-app@18.png')
-            )
+            ),
+            ("x-canonical-snap-decisions", "true"),
         ]
 
         actions = [
@@ -557,6 +558,9 @@ class TestNotifications(UnityTestCase):
             close_fds=True,
             preexec_fn=os.setsid
         )
+        if self._notify_proc.poll() is not None and self._notify_proc.returncode !=0:
+            error_output = self._notify_proc.communicate()[1]
+            raise RuntimeError("Call to script failed with: %s" % error_output)
 
     def _get_notify_script(self, type):
         """Returns the path to the interactive notification creation script."""
