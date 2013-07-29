@@ -8,3 +8,4 @@ Terminal=false
 Icon=unity8
 NoDisplay=true
 X-Ubuntu-Touch=true
+X-LightDM-Session-Type=mir

@@ -1,4 +1,4 @@
 usr/bin/unity8-greeter
-usr/share/xgreeters/unity8-greeter.desktop
+usr/share/lightdm/greeters/unity8-greeter.desktop
 usr/share/unity8/GreeterShell.qml
 usr/share/unity8/Greeter
