@@ -25,7 +25,6 @@
 from __future__ import absolute_import
 
 from unity8.shell import with_lightdm_mock
-from unity8.shell.emulators.notification_helper import Notifications
 from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 
 from testtools.matchers import Equals, NotEquals, GreaterThan, MismatchError
@@ -134,9 +133,8 @@ class TestNotifications(UnityTestCase):
             body,
             icon_path,
             "NORMAL",
-            "action_id",
-            "dummy",
-            hints
+            hints,
+            actions=[("action_id", "dummy")],
         )
 
         get_notification = lambda: notify_list.select_single('Notification')
@@ -177,7 +175,7 @@ class TestNotifications(UnityTestCase):
             ('action_decline_4', 'Send custom message...'),
         ]
 
-        self._create_sd_notification(
+        self._create_interactive_notification(
             summary,
             body,
             icon_path,
@@ -444,63 +442,8 @@ class TestNotifications(UnityTestCase):
             preexec_fn=os.setsid
         )
 
+
     def _create_interactive_notification(
-        self,
-        summary="",
-        body="",
-        icon=None,
-        urgency="NORMAL",
-        action_id="action_id",
-        action_label="action_label",
-        hints=[]
-    ):
-        """Create an Interactive notification command.
-
-        :param summary: Summary text for the notification
-        :param body: Body text to display in the notification
-        :param icon: Path string to the icon to use
-        :param urgency: Urgency string for the noticiation, either: 'LOW',
-            'NORMAL', 'CRITICAL'
-        :param action_id: String containing id to store for the callback
-        :param action_label: String to display on the notification
-        :param hint_strings: List of tuples containing the 'name' and value for
-            setting the hint strings for the notification
-
-        """
-        logger.info(
-            "Creating interactive notification with summary(%s), body(%s) "
-            "and urgency(%r)",
-            summary,
-            body,
-            urgency
-        )
-
-        script_args = [
-            '--summary', summary,
-            '--body', body,
-            '--urgency', urgency,
-            '--action', "%s,%s" % (action_id, action_label)
-        ]
-
-        if icon is not None:
-            script_args.extend(['--icon', icon])
-
-        for hint in hints:
-            key, value = hint
-            script_args.extend(['--hint', "%s,%s" % (key, value)])
-
-        command = [self._get_notify_script("Interactive")] + script_args
-        logger.info("Launching interactive notification as: %s", command)
-        self._notify_proc = subprocess.Popen(
-            command,
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            close_fds=True,
-            preexec_fn=os.setsid
-        )
-
-    def _create_sd_notification(
         self,
         summary="",
         body="",
@@ -548,7 +491,7 @@ class TestNotifications(UnityTestCase):
             action_id, action_label = action
             script_args.extend(['--action', "%s,%s" % (action_id, action_label)])
 
-        command = [self._get_notify_script("SnapDecision")] + script_args
+        command = [self._get_notify_script()] + script_args
         logger.info("Launching snap-decision notification as: %s", command)
         self._notify_proc = subprocess.Popen(
             command,
@@ -562,17 +505,12 @@ class TestNotifications(UnityTestCase):
             error_output = self._notify_proc.communicate()[1]
             raise RuntimeError("Call to script failed with: %s" % error_output)
 
-    def _get_notify_script(self, type):
+    def _get_notify_script(self):
         """Returns the path to the interactive notification creation script."""
-        if type == "Interactive":
-            file = "../../emulators/create_interactive_notification.py"
-        elif type == "SnapDecision":
-            file = "../../emulators/create_sd_notification.py"
-        elif type == "Ephemeral":
-            file = "../../emulators/create_ephemeral_notification.py"
+        file_path = "../../emulators/create_interactive_notification.py"
 
         the_path = os.path.abspath(
-            os.path.join(__file__, file))
+            os.path.join(__file__, file_path))
 
         return the_path
 
@@ -620,48 +558,6 @@ class TestNotifications(UnityTestCase):
         n = Notify.Notification.new(summary, body, icon)
         if secondary_icon is not None:
             n.set_hint('x-canonical-secondary-icon', GLib.Variant.new_string(secondary_icon))
-        n.set_urgency(self._get_urgency(urgency))
-
-        return n
-
-    def _create_interactive(self, summary="", body="", icon=None, secondary_icon=None, urgency="NORMAL", action_id="action_id", action_label="action_label", action_cb=None):
-        logger.info("Creating interactive notification with summary(%s), body(%s) and urgency(%r)", summary, body, urgency)
-        if icon is not None:
-            logger.info("Using icon(%s)", icon)
-        if secondary_icon is not None:
-            logger.info("Using secondary-icon(%s)", secondary_icon)
-
-        n = Notify.Notification.new(summary, body, icon)
-        if secondary_icon is not None:
-            n.set_hint('x-canonical-secondary-icon', GLib.Variant.new_string(secondary_icon))
-        n.set_hint('x-canonical-switch-to-application', GLib.Variant.new_string('true'))
-        n.add_action(action_id, action_label, action_cb, None, None)
-        n.connect('closed', self._close_cb)
-        n.set_urgency(self._get_urgency(urgency))
-
-        return n
-
-    def _create_snap_decision(self, summary="", body="", icon=None, secondary_icon=None, urgency="NORMAL", action_ids=None, action_labels=None, action_cbs=None):
-        logger.info("Creating snap-decision notification with summary(%s), body(%s) and urgency(%r)", summary, body, urgency)
-        if icon is not None:
-            logger.info("Using icon(%s)", icon)
-        if secondary_icon is not None:
-            logger.info("Using secondary-icon(%s)", secondary_icon)
-
-        size_ids = len(action_ids)
-        size_labels = len(action_labels)
-        size_cbs = len(action_cbs)
-        if size_ids != size_labels and size_ids != size_cbs:
-            logger.info("Array-sizes of action-ids (%d), action-labels (%d) and action-callbacks (%d) do not match!", size_ids, size_labels, size_cbs)
-            return None
-
-        n = Notify.Notification.new(summary, body, icon)
-        if secondary_icon is not None:
-            n.set_hint('x-canonical-secondary-icon', GLib.Variant.new_string(secondary_icon))
-        n.set_hint('x-canonical-snap-decisions', GLib.Variant.new_string('true'))
-        for i in range(size_ids):
-            n.add_action(action_ids[i], action_labels[i], action_cbs[i], None, None)
-        n.connect('closed', self._close_cb)
         n.set_urgency(self._get_urgency(urgency))
 
         return n
@@ -731,50 +627,3 @@ class TestNotifications(UnityTestCase):
 
         if opacity is not None:
             self.assertThat(notification.opacity, Eventually(Equals(opacity)))
-
-    def _action_interactive_cb(self, notification, action, data):
-        if action == "action_id":
-            logger.info("--- Triggering action ---")
-            print "--- Triggering action ---"
-            self.action_interactive_triggered = True
-        else:
-            logger.info("--- That should not have happened (action_id)! ---")
-            print "--- That should not have happened (action_id)! ---"
-            self.action_interactive_triggered = False
-
-    def _action_sd_decline1_cb(self, notification, action, data):
-        if action == "action_decline_1":
-            print "Decline"
-        else:
-            print "That should not have happened (action_decline_1)!"
-
-    def _action_sd_decline2_cb(self, notification, action, data):
-        if action == "action_decline_2":
-            print "\"Can't talk now, what's up?\""
-        else:
-            print "That should not have happened (action_decline_2)!"
-
-    def _action_sd_decline3_cb(self, notification, action, data):
-        if action == "action_decline_3":
-            print "\"I call you back.\""
-        else:
-            print "That should not have happened (action_decline_3)!"
-
-    def _action_sd_decline4_cb(self, notification, action, data):
-        if action == "action_decline_4":
-            print "Send custom message..."
-            self.action_send_message_triggered = True
-        else:
-            print "That should not have happened (action_decline_4)!"
-            self.action_send_message_triggered = False
-
-    def _action_sd_accept_cb(self, notification, action, data):
-        if action == "action_accept":
-            print "Accepting call"
-            self.action_accept_triggered = True
-        else:
-            print "That should not have happened (action_accept)!"
-            self.action_accept_triggered = False
-
-    def _close_cb(self, notification):
-        self.loop.quit()

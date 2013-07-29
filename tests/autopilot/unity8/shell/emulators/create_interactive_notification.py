@@ -59,11 +59,11 @@ if __name__ == '__main__':
     notification = Notify.Notification.new(args.summary, args.body, args.icon)
 
     for hint in args.hints:
-        key, value = hint.split(',')
+        key, value = hint.split(',', 1)
         notification.set_hint_string(key, value)
 
     for action in args.action:
-        action_id, action_label = action.split(',')
+        action_id, action_label = action.split(',', 1)
         notification.add_action(
             action_id,
             action_label,
