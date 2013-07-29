@@ -481,6 +481,6 @@ private Q_SLOTS:
     }
 };
 
-QTEST_MAIN(QLimitProxyModelTest)
+QTEST_GUILESS_MAIN(QLimitProxyModelTest)
 
 #include "qlimitproxymodeltest.moc"
