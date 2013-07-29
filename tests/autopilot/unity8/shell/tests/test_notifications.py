@@ -55,9 +55,17 @@ class TestNotifications(UnityTestCase):
         p = subprocess.Popen(['dbus-launch'], stdout=subprocess.PIPE)
         output = p.communicate()
         results = output[0].split("\n")
-        self.dbus_pid = results[1].split("=")[1]
+        self.dbus_pid = int(results[1].split("=")[1])
         self.dbus_address = results[0].split("=", 1)[1]
-        os.environ["DBUS_SESSION_BUS_ADDRESS"] = self.dbus_address
+
+        logger.info("Using DBUS_SESSION_BUS_ADDRESS: %s", self.dbus_address)
+        logger.info("Using DBUS PID: %d", self.dbus_pid)
+
+        self.patch_environment("DBUS_SESSION_BUS_ADDRESS", self.dbus_address)
+
+        kill_dbus = lambda pid: os.killpg(pid, signal.SIGTERM)
+        self.addCleanup(kill_dbus, self.dbus_pid)
+
         super(TestNotifications, self).setUp()
         self._notify_proc = None
 
@@ -66,7 +74,6 @@ class TestNotifications(UnityTestCase):
         if self._notify_proc is not None and self._notify_proc.poll() is None:
             logger.error("Notification process wasn't killed.")
             os.killpg(self._notify_proc.pid, signal.SIGTERM)
-        os.system("kill -15 " + self.dbus_pid)
 
     @with_lightdm_mock("single")
     def test_icon_summary_body(self):
@@ -93,7 +100,7 @@ class TestNotifications(UnityTestCase):
 
     @with_lightdm_mock("single")
     def test_simple_interactive(self):
-        self.launch_unity()
+        self.launch_unity(dbus_bus=self.dbus_address)
         greeter = self.main_window.get_greeter()
         greeter.unlock()
 

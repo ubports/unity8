@@ -122,7 +122,7 @@ class UnityTestCase(AutopilotTestCase):
             divisor = divisor * 2
         return divisor
 
-    def launch_unity(self):
+    def launch_unity(self, **kwargs):
         """Launch the unity shell, return a proxy object for it."""
         binary_path = get_binary_path()
         lib_path = get_lib_path()
@@ -139,7 +139,8 @@ class UnityTestCase(AutopilotTestCase):
             binary_path,
             *self.unity_geometry_args,
             app_type='qt',
-            emulator_base=UnityEmulatorBase
+            emulator_base=UnityEmulatorBase,
+            **kwargs
         )
         self._set_proxy(app_proxy)
 
