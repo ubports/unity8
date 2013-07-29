@@ -42,14 +42,15 @@ public:
     explicit Categories(QObject* parent = 0);
 
     enum Roles {
-        RoleId,
+        RoleCategoryId,
         RoleName,
         RoleIcon,
         RoleRenderer,
         RoleContentType,
         RoleHints,
         RoleResults,
-        RoleCount
+        RoleCount,
+        RoleCategoryIndex
     };
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;

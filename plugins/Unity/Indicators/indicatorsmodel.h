@@ -22,13 +22,14 @@
 #define INDICATORSMODEL_H
 
 #include "indicator.h"
+#include "unityindicatorsglobal.h"
 
 #include <QAbstractListModel>
 #include <QQmlEngine>
 
 class IndicatorsManager;
 
-class IndicatorsModel : public QAbstractListModel
+class UNITYINDICATORS_EXPORT IndicatorsModel : public QAbstractListModel
 {
     Q_OBJECT
     Q_ENUMS(Roles)

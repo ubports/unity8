@@ -1,3 +1,6 @@
+# export_qmlplugin macro
+include(Plugins)
+
 project(IndicatorsQml)
 
 pkg_check_modules(QMENUMODEL REQUIRED qmenumodel)
@@ -20,9 +23,11 @@ set(IndicatorsQML_SOURCES
     indicators.h
     indicatorsmanager.cpp
     indicatorsmodel.cpp
+    menucontentactivator.cpp
     modelprinter.cpp
     plugin.cpp
 )
+add_definitions(-DUNITYINDICATORS_LIBRARY)
 
 set(IndicatorsQML_RESOURCES
     resources/indicators.qrc
@@ -36,11 +41,6 @@ add_library(IndicatorsQml SHARED
     ${IndicatorsQML_RESOURCES_RCC}
     ${IndicatorsQML_SOURCES}
 )
-# Because this is an internal support library, we want
-# to expose all symbols in it. Consider changing this
-# either to a static library or just using the
-# files directly in targets.
-set_target_properties(IndicatorsQml PROPERTIES COMPILE_FLAGS -fvisibility=default)
 
 target_link_libraries(IndicatorsQml
     ${QMENUMODEL_LDFLAGS}
@@ -48,6 +48,5 @@ target_link_libraries(IndicatorsQml
 
 qt5_use_modules(IndicatorsQml Core Qml Quick)
 
-install(TARGETS IndicatorsQml
-    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/Unity/Indicators
-    )
+# export the qmltypes and plugin files
+export_qmlplugin(Unity.Indicators 0.1 Unity/Indicators TARGETS IndicatorsQml)

@@ -1,3 +1,95 @@
+unity8 (7.81.3+13.10.20130726ubuntu.unity.next-0ubuntu1) saucy; urgency=low
+
+  [ Michal Hruby ]
+  * Expose real category ids and not just indices.
+  * Provide fallbacks for default renderer.
+
+  [ Daniel d'Andrada ]
+  * Give a visual feedback on right-edge drag with no running apps (LP:
+    #1116207). (LP: #1116207)
+
+  [ Albert Astals ]
+  * Update m_firstVisibleIndex if there's no visible items anymore Also
+    remove the check for m_visibleItems.isEmpty() on insert, the
+    m_firstVisibleIndex == 0 already protects us against that.
+
+  [ Christopher Lee ]
+  * Tests now use a default lightdm mock if not decorated. (LP:
+    #1204772)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 135 (ubuntu-unity/next)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 26 Jul 2013 07:06:08 +0000
+
+unity8 (7.81.3+13.10.20130725ubuntu.unity.next-0ubuntu1) saucy; urgency=low
+
+  [ Michal Hruby ]
+  * Fix adding items into an empty LVWPH.
+
+  [ Michał Sawicz ]
+  * Move to using upstart in run_on_device.
+  * Added heeding and qmltest for button-tint hint.
+  * Refactoring and cleanup of the Unity8 Autopilot tests.
+  * Hide the Unity launcher during autopiloting and skip battery tests
+    if unavailable.
+
+  [ Ying-Chun Liu ]
+  * Let GenericScope support loading different renderers.
+
+  [ Nick Dedekind ]
+  * Removed overview from indicators.
+  * Menus for indicators is now created prioritised by distance from
+    current item to speed up user experience.
+  * Add ApplicationArguments to know the geometry from start.
+
+  [ Mirco Müller ]
+  * Added heeding and qmltest for button-tint hint.
+
+  [ Christopher Lee ]
+  * Refactoring and cleanup of the Unity8 Autopilot tests.
+
+  [ Thomi Richards ]
+  * Refactoring and cleanup of the Unity8 Autopilot tests.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 129 (ubuntu-unity/next)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 25 Jul 2013 03:02:12 +0000
+
+unity8 (7.81.3+13.10.20130718ubuntu.unity.next-0ubuntu1) saucy; urgency=low
+
+  [ Andrea Cimitan ]
+  * Add support for the colour palette.
+
+  [ Omer Akram ]
+  * fix the calendar icon in the launcher. (LP: #1201905)
+
+  [ Nick Dedekind ]
+  * Export indicator plugin symbols using Q_DECL_EXPORT.
+
+  [ Ying-Chun Liu ]
+  * Don't include .moc in previewbindingstest.cpp.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 118 (ubuntu-unity/next)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 18 Jul 2013 06:07:00 +0000
+
+unity8 (7.81.3+13.10.20130717ubuntu.unity.next-0ubuntu1) saucy; urgency=low
+
+  [ Daniel d'Andrada ]
+  * Remove dead code: Showable::showWithoutAnimation.
+
+  [ Nick Dedekind ]
+  * Split Plugins export macro into export_qmlfiles and
+    export_qmlplugins. Added qmltypes to indicators plugin.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 112 (ubuntu-unity/next)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 17 Jul 2013 03:14:49 +0000
+
 unity8 (7.81.3+13.10.20130716ubuntu.unity.next-0ubuntu1) saucy; urgency=low
 
   [ Pete Woods ]
