@@ -1401,6 +1401,6 @@ private:
     QQmlComponent *otherDelegate;
 };
 
-QTEST_GUILESS_MAIN(ListViewWithPageHeaderTest)
+QTEST_MAIN(ListViewWithPageHeaderTest)
 
 #include "listviewwithpageheadertest.moc"
