@@ -682,10 +682,24 @@ ListViewWithPageHeader::ListItem *ListViewWithPageHeader::createItem(int modelIn
 #if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
     QQuickItem *item = m_delegateModel->item(modelIndex, asynchronous);
 #else
-    QQuickItem *item = qobject_cast<QQuickItem *>(m_delegateModel->object(modelIndex, asynchronous));
+    QObject* object = m_delegateModel->object(modelIndex, asynchronous);
+    QQuickItem *item = qmlobject_cast<QQuickItem*>(object);
 #endif
     if (!item) {
+#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
         m_asyncRequestedIndex = modelIndex;
+#else
+        if (object) {
+            m_delegateModel->release(object);
+            if (!m_delegateValidated) {
+                m_delegateValidated = true;
+                QObject* delegateObj = delegate();
+                qmlInfo(delegateObj ? delegateObj : this) << "Delegate must be of Item type";
+            }
+        } else {
+            m_asyncRequestedIndex = modelIndex;
+        }
+#endif
         return 0;
     } else {
 //         qDebug() << "ListViewWithPageHeader::createItem::We have the item" << modelIndex << item;
@@ -742,7 +756,11 @@ void ListViewWithPageHeader::itemCreated(int modelIndex, QQuickItem *item)
 #else
 void ListViewWithPageHeader::itemCreated(int modelIndex, QObject *object)
 {
-    QQuickItem *item = qobject_cast<QQuickItem *>(object);
+    QQuickItem *item = qmlobject_cast<QQuickItem*>(object);
+    if (!item) {
+        qWarning() << "ListViewWithPageHeader::itemCreated got a non item for index" << modelIndex;
+        return;
+    }
 #endif
 //     qDebug() << "ListViewWithPageHeader::itemCreated" << modelIndex << item;
 
