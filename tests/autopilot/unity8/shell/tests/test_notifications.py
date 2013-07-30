@@ -249,6 +249,7 @@ class NotificationInteractiveTests(InteractiveNotificationsBase):
         summary = "Summary"
         body = "Body"
         icon_path = self._get_icon_path('avatars/anna_olsson@12.png')
+        actions = [("action_id", "dummy")]
         hints = [
             ("x-canonical-switch-to-application", "true"),
             (
@@ -262,8 +263,8 @@ class NotificationInteractiveTests(InteractiveNotificationsBase):
             body,
             icon_path,
             "NORMAL",
+            actions,
             hints,
-            actions=[("action_id", "dummy")],
         )
 
         get_notification = lambda: notify_list.select_single('Notification')
