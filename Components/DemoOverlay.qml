@@ -16,7 +16,6 @@
 
 import QtQuick 2.0
 import QtGraphicalEffects 1.0
-import GSettings 1.0
 import Ubuntu.Application 0.1
 import Ubuntu.Components 0.1
 
@@ -38,26 +37,24 @@ Item {
      */
     property string text
 
+    /*
+     * Whether this demo is even enabled at all.
+     */
+    property bool enabled: true
+
     property color __orange: Qt.hsla(16.0/360.0, 0.83, 0.47, 1.0)
     property color __orange_transparent: Qt.hsla(16.0/360.0, 0.83, 0.47, 0.4)
     property int __edge_margin: units.gu(4)
     property int __text_margin: units.gu(3)
 
-    function __isDemoSkipped() {
-        // Check global spot, then check gsettings
-    }
-
-    function __setDemoSkipped() {
-        // We are running in one of two modes:
-        // 1) As a greeter as the lightdm user
-        // 2) As a shell as session user
-    }
+    signal skip()
 
     Rectangle {
         id: backgroundShade
         anchors.fill: parent
         color: "black"
         opacity: 0.8
+        visible: overlay.enabled
     }
 
     Item {
@@ -66,6 +63,7 @@ Item {
         y: 0
         width: parent.width
         height: parent.height
+        visible: overlay.enabled
 
         Column {
             id: labelGroup
@@ -82,7 +80,6 @@ Item {
             Label {
                 id: titleLabel
                 text: overlay.title
-                color: "#B7B3AC"
                 fontSize: "x-large"
                 width: units.gu(25)
                 wrapMode: Text.WordWrap
@@ -91,7 +88,6 @@ Item {
             Label {
                 id: textLabel
                 text: overlay.text
-                color: "#B7B3AC"
                 width: units.gu(25)
                 wrapMode: Text.WordWrap
             }
@@ -106,9 +102,8 @@ Item {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        console.log("Clicked!");
-                        __setDemoSkipped();
-                        overlay.visible = false;
+                        overlay.enabled = false;
+                        skip();
                     }
                 }
             }
@@ -156,7 +151,7 @@ Item {
 
     SequentialAnimation {
         id: wholeAnimation
-        running: overlay.visible
+        running: overlay.visible && overlay.enabled
 
         ParallelAnimation {
             id: fadeInAnimation

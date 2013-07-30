@@ -9,7 +9,6 @@ add_library(AccountsService-qml MODULE
 
 qt5_use_modules(AccountsService-qml DBus Qml)
 
-export_qmlfiles(AccountsService AccountsService)
 export_qmlplugin(AccountsService 0.1 AccountsService TARGETS AccountsService-qml)
 
 set(POLICYKIT_DIR "${CMAKE_INSTALL_PREFIX}/share/polkit-1")
