@@ -52,7 +52,7 @@ class NotificationsBase(UnityTestCase):
     scenarios = _get_device_emulation_scenarios()
 
     def setUp(self):
-        self. dbus_address = 'session'
+        self.dbus_address = 'session'
         if model() == 'Desktop':
             p = subprocess.Popen(['dbus-launch'], stdout=subprocess.PIPE)
             output = p.communicate()
@@ -120,13 +120,6 @@ class InteractiveNotificationsBase(NotificationsBase):
         super(InteractiveNotificationsBase, self).setUp()
         self._notify_proc = None
 
-    # Veebers remove this with a addCleanup . . .
-    def tearDown(self):
-        super(InteractiveNotificationsBase, self).tearDown()
-        if self._notify_proc is not None and self._notify_proc.poll() is None:
-            logger.error("Notification process wasn't killed.")
-            os.killpg(self._notify_proc.pid, signal.SIGTERM)
-
     def _create_interactive_notification(
         self,
         summary="",
@@ -185,6 +178,9 @@ class InteractiveNotificationsBase(NotificationsBase):
             close_fds=True,
             preexec_fn=os.setsid
         )
+
+        self.addCleanup(self._tidy_up_script_process)
+
         if self._notify_proc.poll() is not None and self._notify_proc.returncode !=0:
             error_output = self._notify_proc.communicate()[1]
             raise RuntimeError("Call to script failed with: %s" % error_output)
@@ -197,6 +193,12 @@ class InteractiveNotificationsBase(NotificationsBase):
             os.path.join(__file__, file_path))
 
         return the_path
+
+    def _tidy_up_script_process(self):
+        if self._notify_proc is not None and self._notify_proc.poll() is None:
+            logger.error("Notification process wasn't killed, killing now.")
+            os.killpg(self._notify_proc.pid, signal.SIGTERM)
+
 
     def assert_notification_action_id_was_called(self, action_id, timeout=10):
         """Assert that the interactive notification callback of id *action_id*
@@ -281,7 +283,7 @@ class NotificationSnapDecisionsTests(InteractiveNotificationsBase):
     @with_lightdm_mock("single")
     def test_sd_incoming_call(self):
         """Snap-decision simulating incoming call."""
-        self.launch_unity()
+        self.launch_unity(dbus_bus=self.dbus_address)
         greeter = self.main_window.get_greeter()
         greeter.unlock()
 
@@ -320,7 +322,9 @@ class NotificationSnapDecisionsTests(InteractiveNotificationsBase):
         notification = get_notification()
         #self._assert_notification(notification, None, None, True, True, 1.0)
         self.touch.tap_object(notification.select_single(objectName="button1"))
+        # Veebers: this needs a better check as it's happening to quick.
         self.assertThat(notification.select_single(objectName="buttonRow").expanded, Eventually(Equals(True)))
+        time.sleep(2)
         self.touch.tap_object(notification.select_single(objectName="button4"))
         self.assert_notification_action_id_was_called("action_decline_4")
 
@@ -391,7 +395,7 @@ class NotificationEphemeralTests(NotificationsBase):
 
     @with_lightdm_mock("single")
     def test_urgency_order(self):
-        self.launch_unity()
+        self.launch_unity(dbus_bus=self.dbus_address)
         greeter = self.main_window.get_greeter()
         greeter.unlock()
         Notify.init("Autopilot Notification Tests")
@@ -431,7 +435,7 @@ class NotificationEphemeralTests(NotificationsBase):
 
     @with_lightdm_mock("single")
     def test_summary_body(self):
-        self.launch_unity()
+        self.launch_unity(dbus_bus=self.dbus_address)
         greeter = self.main_window.get_greeter()
         greeter.unlock()
         Notify.init("Autopilot Notification Tests")
@@ -451,7 +455,7 @@ class NotificationEphemeralTests(NotificationsBase):
 
     @with_lightdm_mock("single")
     def test_summary_only(self):
-        self.launch_unity()
+        self.launch_unity(dbus_bus=self.dbus_address)
         greeter = self.main_window.get_greeter()
         greeter.unlock()
         Notify.init("Autopilot Notification Tests")
@@ -470,7 +474,7 @@ class NotificationEphemeralTests(NotificationsBase):
 
     @with_lightdm_mock("single")
     def test_update_notification(self):
-        self.launch_unity()
+        self.launch_unity(dbus_bus=self.dbus_address)
         greeter = self.main_window.get_greeter()
         greeter.unlock()
         Notify.init("Autopilot Notification Tests")
@@ -517,7 +521,7 @@ class NotificationEphemeralTests(NotificationsBase):
 
     @with_lightdm_mock("single")
     def test_append_hint(self):
-        self.launch_unity()
+        self.launch_unity(dbus_bus=self.dbus_address)
         greeter = self.main_window.get_greeter()
         greeter.unlock()
         Notify.init("Autopilot Notification Tests")
