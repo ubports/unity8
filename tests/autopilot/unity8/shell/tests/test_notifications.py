@@ -512,33 +512,44 @@ class NotificationEphemeralTests(NotificationsBase):
         self.launch_unity(dbus_bus=self.dbus_address)
         greeter = self.main_window.get_greeter()
         greeter.unlock()
-        Notify.init("Autopilot Notification Tests")
+
         notify_list = self._get_notifications_list()
 
         summary = 'Summary-Only'
 
-        notification = self._create_ephemeral(summary)
+        notification = self._create_ephemeral_notification(summary)
         notification.show()
 
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
+
         self._assert_notification(notification, summary, '', False, False, 1.0)
-        Notify.uninit()
 
     @with_lightdm_mock("single")
     def test_update_notification(self):
+        # Mirco, this should probably be split up into 2 tests, one for each
+        # layout type.
+        # Also, the sleeps should be changed to something similar to what is in
+        # the test "test_urgency_order" i.e. using the eventually matcher to
+        # ensure that the required notification etc. is displayed.
         self.launch_unity(dbus_bus=self.dbus_address)
         greeter = self.main_window.get_greeter()
         greeter.unlock()
-        Notify.init("Autopilot Notification Tests")
+
         notify_list = self._get_notifications_list()
 
         summary = 'Inital notification (1. notification)'
         body = 'This is the original content of this notification-bubble.'
         icon_path = self._get_icon_path('avatars/funky@12.png')
-        notification = self._create_ephemeral(summary, body, icon_path)
+
+        notification = self._create_ephemeral_notification(
+            summary,
+            body,
+            icon_path
+        )
         notification.show()
+
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         self._assert_notification(get_notification(), summary, body, True, False, 1.0)
@@ -557,11 +568,27 @@ class NotificationEphemeralTests(NotificationsBase):
         body = 'This bubble uses the icon-title-body layout with a secondary icon.'
         icon_path = self._get_icon_path('avatars/anna_olsson@12.png')
         hint_icon = self._get_icon_path('applicationIcons/phone-app@18.png')
-        notification = self._create_ephemeral(summary, body, icon_path)
-        notification.set_hint('x-canonical-secondary-icon', GLib.Variant.new_string(hint_icon))
+
+        notification = self._create_ephemeral_notification(
+            summary,
+            body,
+            icon_path
+        )
+        notification.set_hint_string(
+            'x-canonical-secondary-icon',
+            hint_icon
+        )
         notification.show()
+
         self.assertThat(get_notification, Eventually(NotEquals(None)))
-        self._assert_notification(get_notification(), summary, body, True, True, 1.0)
+        self._assert_notification(
+            get_notification(),
+            summary,
+            body,
+            True,
+            True,
+            1.0
+        )
 
         time.sleep(3)
         notification.clear_hints()
@@ -569,25 +596,31 @@ class NotificationEphemeralTests(NotificationsBase):
         body = 'After the update we now have a bubble using the title-body layout.'
         notification.update(summary, body, None)
         notification.show()
+
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         self._assert_notification(get_notification(), summary, body, False)
-        Notify.uninit()
 
     @with_lightdm_mock("single")
     def test_append_hint(self):
         self.launch_unity(dbus_bus=self.dbus_address)
         greeter = self.main_window.get_greeter()
         greeter.unlock()
-        Notify.init("Autopilot Notification Tests")
+
         notify_list = self._get_notifications_list()
 
         summary = 'Cole Raby'
         body = 'Hey Bro Coly!'
         icon_path = self._get_icon_path('avatars/amanda@12.png')
         body_sum = body
-        notification = self._create_ephemeral(summary, body, icon_path)
-        notification.set_hint('x-canonical-append', GLib.Variant.new_string('true'))
+        notification = self._create_ephemeral_notification(
+            summary,
+            body,
+            icon_path,
+            hints=[('x-canonical-append', 'true')]
+        )
+
         notification.show()
+
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
@@ -605,15 +638,17 @@ class NotificationEphemeralTests(NotificationsBase):
             time.sleep(1)
             body = new_body
             body_sum += '\n' + body
-            notification = self._create_ephemeral(summary, body, icon_path)
-            notification.set_hint('x-canonical-append', GLib.Variant.new_string('true'))
+            notification = self._create_ephemeral_notification(
+                summary,
+                body,
+                icon_path,
+                hints=[('x-canonical-append', 'true')]
+            )
             notification.show()
             get_notification = lambda: notify_list.select_single('Notification')
             self.assertThat(get_notification, Eventually(NotEquals(None)))
             notification = get_notification()
             self._assert_notification(notification, summary, body_sum, True, False, 1.0)
-
-        Notify.uninit()
 
     def _create_ephemeral_notification(
         self,
