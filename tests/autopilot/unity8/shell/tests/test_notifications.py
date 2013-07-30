@@ -43,13 +43,13 @@ import subprocess
 logger = logging.getLogger(__name__)
 
 
-class TestNotifications(UnityTestCase):
+class NotificationsBase(UnityTestCase):
+    """Notification tests base class that takes care of starting a custom dbus
+    session if required.
+
+    """
 
     scenarios = _get_device_emulation_scenarios()
-    action_interactive_triggered = False
-    action_accept_triggered = False
-    action_send_message_triggered = False
-    loop = None
 
     def setUp(self):
         self. dbus_address = 'session'
@@ -68,46 +68,173 @@ class TestNotifications(UnityTestCase):
             kill_dbus = lambda pid: os.killpg(pid, signal.SIGTERM)
             self.addCleanup(kill_dbus, self.dbus_pid)
 
-        super(TestNotifications, self).setUp()
+        super(NotificationsBase, self).setUp()
+
+    def _get_icon_path(self, icon_name):
+        """Given an icons file name returns the full path (either system or
+        source tree.
+
+        Consider the graphics directory as root so for example (runnign tests
+        from installed unity8-autopilot package):
+        >>> self.get_icon_path('clock@18.png')
+        /usr/share/unity8/graphics/clock@18.png
+
+        >>> self.get_icon_path('applicationIcons/facebook@18.png')
+        /usr/share/unity8/graphics/applicationIcons/facebook@18.png
+
+        """
+        if os.path.abspath(__file__).startswith('/usr/'):
+            return '/usr/share/unity8/graphics/' + icon_name
+        else:
+            return os.path.abspath(os.getcwd() + "/../../graphics/" + icon_name)
+
+    def _get_notifications_list(self):
+        main_view = self.main_window.get_qml_view()
+        return main_view.select_single("QQuickListView", objectName='notificationList')
+
+    def _assert_notification(self, notification, summary=None, body=None, icon=True, secondary_icon=False, opacity=None):
+        if summary is not None:
+            self.assertThat(notification.summary, Equals(summary))
+
+        if body is not None:
+            self.assertThat(notification.body, Equals(body))
+
+        if icon:
+            self.assertThat(notification.iconSource, NotEquals(""))
+        else:
+            self.assertThat(notification.iconSource, Equals(""))
+
+        if secondary_icon:
+            self.assertThat(notification.secondaryIconSource, NotEquals(""))
+        else:
+            self.assertThat(notification.secondaryIconSource, Equals(""))
+
+        if opacity is not None:
+            self.assertThat(notification.opacity, Eventually(Equals(opacity)))
+
+
+class InteractiveNotificationsBase(NotificationsBase):
+    """Base class for test that use interactive notifications."""
+
+    def setUp(self):
+        super(InteractiveNotificationsBase, self).setUp()
         self._notify_proc = None
 
+    # Veebers remove this with a addCleanup . . .
     def tearDown(self):
-        super(TestNotifications, self).tearDown()
+        super(InteractiveNotificationsBase, self).tearDown()
         if self._notify_proc is not None and self._notify_proc.poll() is None:
             logger.error("Notification process wasn't killed.")
             os.killpg(self._notify_proc.pid, signal.SIGTERM)
 
-    @with_lightdm_mock("single")
-    def test_icon_summary_body(self):
-        """Notification must display the expected summary and body text."""
-        self.launch_unity(dbus_bus=self.dbus_address)
-        greeter = self.main_window.get_greeter()
-        greeter.unlock()
+    def _create_interactive_notification(
+        self,
+        summary="",
+        body="",
+        icon=None,
+        urgency="NORMAL",
+        actions=[],
+        hints=[]
+    ):
+        """Create a interactive notification command.
 
-        notify_list = self._get_notifications_list()
+        :param summary: Summary text for the notification
+        :param body: Body text to display in the notification
+        :param icon: Path string to the icon to use
+        :param urgency: Urgency string for the noticiation, either: 'LOW',
+            'NORMAL', 'CRITICAL'
+        :param actions: List of tuples containing the 'id' and 'label' for all
+            the actions to add
+        :param hint_strings: List of tuples containing the 'name' and value for
+            setting the hint strings for the notification
 
-        summary = "Icon-Summary-Body"
-        body = "Hey pal, what's up with the party next weekend? Will you join me and Anna?"
-        icon_path = self._get_icon_path('avatars/anna_olsson@12.png')
-        hints = [
-            (
-                "x-canonical-secondary-icon",
-                self._get_icon_path('applicationIcons/phone-app@18.png')
-            )
-        ]
+        """
 
-        self._create_notification(
+        logger.info(
+            "Creating snap-decision notification with summary(%s), body(%s) "
+            "and urgency(%r)",
             summary,
             body,
-            icon_path,
-            "NORMAL",
-            hints
+            urgency
         )
 
-        get_notification = lambda: notify_list.select_single('Notification')
-        self.assertThat(get_notification, Eventually(NotEquals(None)))
-        notification = get_notification()
-        self._assert_notification(notification, summary, body, True, True, 1.0)
+        script_args = [
+            '--summary', summary,
+            '--body', body,
+            '--urgency', urgency
+        ]
+
+        if icon is not None:
+            script_args.extend(['--icon', icon])
+
+        for hint in hints:
+            key, value = hint
+            script_args.extend(['--hint', "%s,%s" % (key, value)])
+
+        for action in actions:
+            action_id, action_label = action
+            script_args.extend(['--action', "%s,%s" % (action_id, action_label)])
+
+        command = [self._get_notify_script()] + script_args
+        logger.info("Launching snap-decision notification as: %s", command)
+        self._notify_proc = subprocess.Popen(
+            command,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            close_fds=True,
+            preexec_fn=os.setsid
+        )
+        if self._notify_proc.poll() is not None and self._notify_proc.returncode !=0:
+            error_output = self._notify_proc.communicate()[1]
+            raise RuntimeError("Call to script failed with: %s" % error_output)
+
+    def _get_notify_script(self):
+        """Returns the path to the interactive notification creation script."""
+        file_path = "../../emulators/create_interactive_notification.py"
+
+        the_path = os.path.abspath(
+            os.path.join(__file__, file_path))
+
+        return the_path
+
+    def assert_notification_action_id_was_called(self, action_id, timeout=10):
+        """Assert that the interactive notification callback of id *action_id*
+        was called.
+
+        :raises AssertionError: If no interactive notification has actually been
+            created.
+        :raises AssertionError: When *action_id* does not match the actual
+            returned.
+        :raises AssertionError: If no callback was called at all.
+        """
+
+        if self._notify_proc is None:
+            raise AssertionError("No interactive notification was created.")
+
+        for i in xrange(timeout):
+            self._notify_proc.poll()
+            if self._notify_proc.returncode is not None:
+                output = self._notify_proc.communicate()
+                actual_action_id = output[0].strip("\n")
+                if actual_action_id != action_id:
+                    raise AssertionError(
+                        "action id '%s' does not match actual returned '%s'"
+                        % (action_id, actual_action_id)
+                    )
+                else:
+                    return
+            time.sleep(1)
+
+        os.killpg(self._notify_proc.pid, signal.SIGTERM)
+        self._notify_proc = None
+        raise AssertionError(
+            "No callback was called, killing interactivenotification script"
+        )
+
+
+class NotificationInteractiveTests(InteractiveNotificationsBase):
+    """Collection of tests for testing interactive notifications."""
 
     @with_lightdm_mock("single")
     def test_interactive(self):
@@ -146,6 +273,10 @@ class TestNotifications(UnityTestCase):
         )
 
         self.assert_notification_action_id_was_called('action_id')
+
+
+class NotificationSnapDecisionsTests(InteractiveNotificationsBase):
+    """Collections of tests for testing Snap Decision notifications."""
 
     @with_lightdm_mock("single")
     def test_sd_incoming_call(self):
@@ -189,10 +320,45 @@ class TestNotifications(UnityTestCase):
         notification = get_notification()
         #self._assert_notification(notification, None, None, True, True, 1.0)
         self.touch.tap_object(notification.select_single(objectName="button1"))
-        #self.assertThat(notification.select_single(objectName="buttonRow").expanded, Eventually(Equals(True)))
+        self.assertThat(notification.select_single(objectName="buttonRow").expanded, Eventually(Equals(True)))
         self.touch.tap_object(notification.select_single(objectName="button4"))
-        #self.assertThat(self.action_send_message_triggered, Equals(True))
         self.assert_notification_action_id_was_called("action_decline_4")
+
+
+class NotificationEphemeralTests(NotificationsBase):
+    """Collection of tests for testing Ephemeral notifications."""
+
+    @with_lightdm_mock("single")
+    def test_icon_summary_body(self):
+        """Notification must display the expected summary and body text."""
+        self.launch_unity(dbus_bus=self.dbus_address)
+        greeter = self.main_window.get_greeter()
+        greeter.unlock()
+
+        notify_list = self._get_notifications_list()
+
+        summary = "Icon-Summary-Body"
+        body = "Hey pal, what's up with the party next weekend? Will you join me and Anna?"
+        icon_path = self._get_icon_path('avatars/anna_olsson@12.png')
+        hints = [
+            (
+                "x-canonical-secondary-icon",
+                self._get_icon_path('applicationIcons/phone-app@18.png')
+            )
+        ]
+
+        self._create_notification(
+            summary,
+            body,
+            icon_path,
+            "NORMAL",
+            hints
+        )
+
+        get_notification = lambda: notify_list.select_single('Notification')
+        self.assertThat(get_notification, Eventually(NotEquals(None)))
+        notification = get_notification()
+        self._assert_notification(notification, summary, body, True, True, 1.0)
 
     @with_lightdm_mock("single")
     def test_icon_summary(self):
@@ -418,135 +584,32 @@ class TestNotifications(UnityTestCase):
             urgency
         )
 
-        script_args = [
-            '--summary', summary,
-            '--body', body,
-            '--urgency', urgency
-        ]
+        """Replace this with the ephemerial creation."""
 
-        if icon is not None:
-            script_args.extend(['--icon', icon])
+        # script_args = [
+        #     '--summary', summary,
+        #     '--body', body,
+        #     '--urgency', urgency
+        # ]
 
-        for hint in hints:
-            key, value = hint
-            script_args.extend(['--hint', "%s,%s" % (key, value)])
+        # if icon is not None:
+        #     script_args.extend(['--icon', icon])
 
-        command = [self._get_notify_script()] + script_args
-        logger.info("Launching interactive notification as: %s", command)
-        self._notify_proc = subprocess.Popen(
-            command,
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            close_fds=True,
-            preexec_fn=os.setsid
-        )
+        # for hint in hints:
+        #     key, value = hint
+        #     script_args.extend(['--hint', "%s,%s" % (key, value)])
 
+        # command = [self._get_notify_script()] + script_args
+        # logger.info("Launching interactive notification as: %s", command)
+        # self._notify_proc = subprocess.Popen(
+        #     command,
+        #     stdin=subprocess.PIPE,
+        #     stdout=subprocess.PIPE,
+        #     stderr=subprocess.PIPE,
+        #     close_fds=True,
+        #     preexec_fn=os.setsid
+        # )
 
-    def _create_interactive_notification(
-        self,
-        summary="",
-        body="",
-        icon=None,
-        urgency="NORMAL",
-        actions=[],
-        hints=[]
-    ):
-        """Create a SnapDecision notification command.
-
-        :param summary: Summary text for the notification
-        :param body: Body text to display in the notification
-        :param icon: Path string to the icon to use
-        :param urgency: Urgency string for the noticiation, either: 'LOW',
-            'NORMAL', 'CRITICAL'
-        :param actions: List of tuples containing the 'id' and 'label' for all
-            the actions to add
-        :param hint_strings: List of tuples containing the 'name' and value for
-            setting the hint strings for the notification
-
-        """
-
-        logger.info(
-            "Creating snap-decision notification with summary(%s), body(%s) "
-            "and urgency(%r)",
-            summary,
-            body,
-            urgency
-        )
-
-        script_args = [
-            '--summary', summary,
-            '--body', body,
-            '--urgency', urgency
-        ]
-
-        if icon is not None:
-            script_args.extend(['--icon', icon])
-
-        for hint in hints:
-            key, value = hint
-            script_args.extend(['--hint', "%s,%s" % (key, value)])
-
-        for action in actions:
-            action_id, action_label = action
-            script_args.extend(['--action', "%s,%s" % (action_id, action_label)])
-
-        command = [self._get_notify_script()] + script_args
-        logger.info("Launching snap-decision notification as: %s", command)
-        self._notify_proc = subprocess.Popen(
-            command,
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            close_fds=True,
-            preexec_fn=os.setsid
-        )
-        if self._notify_proc.poll() is not None and self._notify_proc.returncode !=0:
-            error_output = self._notify_proc.communicate()[1]
-            raise RuntimeError("Call to script failed with: %s" % error_output)
-
-    def _get_notify_script(self):
-        """Returns the path to the interactive notification creation script."""
-        file_path = "../../emulators/create_interactive_notification.py"
-
-        the_path = os.path.abspath(
-            os.path.join(__file__, file_path))
-
-        return the_path
-
-    def assert_notification_action_id_was_called(self, action_id, timeout=10):
-        """Assert that the interactive notification callback of id *action_id*
-        was called.
-
-        :raises AssertionError: If no interactive notification has actually been
-            created.
-        :raises AssertionError: When *action_id* does not match the actual
-            returned.
-        :raises AssertionError: If no callback was called at all.
-        """
-
-        if self._notify_proc is None:
-            raise AssertionError("No interactive notification was created.")
-
-        for i in xrange(timeout):
-            self._notify_proc.poll()
-            if self._notify_proc.returncode is not None:
-                output = self._notify_proc.communicate()
-                actual_action_id = output[0].strip("\n")
-                if actual_action_id != action_id:
-                    raise AssertionError(
-                        "action id '%s' does not match actual returned '%s'"
-                        % (action_id, actual_action_id)
-                    )
-                else:
-                    return
-            time.sleep(1)
-
-        os.killpg(self._notify_proc.pid, signal.SIGTERM)
-        self._notify_proc = None
-        raise AssertionError(
-            "No callback was called, killing interactivenotification script"
-        )
 
     def _create_ephemeral(self, summary="", body="", icon=None, secondary_icon=None, urgency="NORMAL"):
         logger.info("Creating ephemeral notification with summary(%s), body(%s) and urgency(%r)", summary, body, urgency)
@@ -562,22 +625,22 @@ class TestNotifications(UnityTestCase):
 
         return n
 
-    def _create_confirmation(self, summary="", body="", icon=None, secondary_icon=None, urgency="NORMAL"):
-        logger.info("Creating confirmation notification with summary(%s), body(%s) and urgency(%r)", summary, body, urgency)
-        if icon is not None:
-            logger.info("Using icon(%s)", icon)
-        if secondary_icon is not None:
-            logger.info("Using secondary-icon(%s)", secondary_icon)
+    # def _create_confirmation(self, summary="", body="", icon=None, secondary_icon=None, urgency="NORMAL"):
+    #     logger.info("Creating confirmation notification with summary(%s), body(%s) and urgency(%r)", summary, body, urgency)
+    #     if icon is not None:
+    #         logger.info("Using icon(%s)", icon)
+    #     if secondary_icon is not None:
+    #         logger.info("Using secondary-icon(%s)", secondary_icon)
 
-        n = Notify.Notification.new(summary, body, icon)
-        if secondary_icon is not None:
-            n.set_hint('x-canonical-secondary-icon', GLib.Variant.new_string(secondary_icon))
-        n.set_hint('x-canonical-private-synchronous', GLib.Variant.new_string('true'))
-        if summary == "" and body == "":
-            n.set_hint('x-canonical-private-icon-only', GLib.Variant.new_string('true'))
-        n.set_urgency(self._get_urgency(urgency))
+    #     n = Notify.Notification.new(summary, body, icon)
+    #     if secondary_icon is not None:
+    #         n.set_hint('x-canonical-secondary-icon', GLib.Variant.new_string(secondary_icon))
+    #     n.set_hint('x-canonical-private-synchronous', GLib.Variant.new_string('true'))
+    #     if summary == "" and body == "":
+    #         n.set_hint('x-canonical-private-icon-only', GLib.Variant.new_string('true'))
+    #     n.set_urgency(self._get_urgency(urgency))
 
-        return n
+    #     return n
 
     def _get_urgency(self, urgency):
         """Translates urgency string to enum."""
@@ -586,44 +649,3 @@ class TestNotifications(UnityTestCase):
                           'CRITICAL': Notify.Urgency.CRITICAL}
         return _urgency_enums.get(urgency.upper())
 
-    def _get_icon_path(self, icon_name):
-        """Given an icons file name returns the full path (either system or
-        source tree.
-
-        Consider the graphics directory as root so for example (runnign tests
-        from installed unity8-autopilot package):
-        >>> self.get_icon_path('clock@18.png')
-        /usr/share/unity8/graphics/clock@18.png
-
-        >>> self.get_icon_path('applicationIcons/facebook@18.png')
-        /usr/share/unity8/graphics/applicationIcons/facebook@18.png
-
-        """
-        if os.path.abspath(__file__).startswith('/usr/'):
-            return '/usr/share/unity8/graphics/' + icon_name
-        else:
-            return os.path.abspath(os.getcwd() + "/../../graphics/" + icon_name)
-
-    def _get_notifications_list(self):
-        main_view = self.main_window.get_qml_view()
-        return main_view.select_single("QQuickListView", objectName='notificationList')
-
-    def _assert_notification(self, notification, summary=None, body=None, icon=True, secondary_icon=False, opacity=None):
-        if summary is not None:
-            self.assertThat(notification.summary, Equals(summary))
-
-        if body is not None:
-            self.assertThat(notification.body, Equals(body))
-
-        if icon:
-            self.assertThat(notification.iconSource, NotEquals(""))
-        else:
-            self.assertThat(notification.iconSource, Equals(""))
-
-        if secondary_icon:
-            self.assertThat(notification.secondaryIconSource, NotEquals(""))
-        else:
-            self.assertThat(notification.secondaryIconSource, Equals(""))
-
-        if opacity is not None:
-            self.assertThat(notification.opacity, Eventually(Equals(opacity)))
