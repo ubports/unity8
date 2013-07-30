@@ -27,15 +27,13 @@ from __future__ import absolute_import
 from unity8.shell import with_lightdm_mock
 from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 
-from testtools.matchers import Equals, NotEquals, GreaterThan, MismatchError
-from testtools import skip
+from testtools.matchers import Equals, NotEquals
 from autopilot.matchers import Eventually
 from autopilot.platform import model
 
-from gi.repository import GLib, Notify
+from gi.repository import Notify
 import time
 import os
-from os import path
 import logging
 import signal
 import subprocess
@@ -60,10 +58,15 @@ class NotificationsBase(UnityTestCase):
             self.dbus_pid = int(results[1].split("=")[1])
             self.dbus_address = results[0].split("=", 1)[1]
 
-            logger.info("Using DBUS_SESSION_BUS_ADDRESS: %s", self.dbus_address)
-            logger.info("Using DBUS PID: %d", self.dbus_pid)
+            logger.info(
+                "Using DBUS_SESSION_BUS_ADDRESS: %s",
+                self.dbus_address
+            )
 
-            self.patch_environment("DBUS_SESSION_BUS_ADDRESS", self.dbus_address)
+            self.patch_environment(
+                "DBUS_SESSION_BUS_ADDRESS",
+                self.dbus_address
+            )
 
             kill_dbus = lambda pid: os.killpg(pid, signal.SIGTERM)
             self.addCleanup(kill_dbus, self.dbus_pid)
@@ -86,13 +89,31 @@ class NotificationsBase(UnityTestCase):
         if os.path.abspath(__file__).startswith('/usr/'):
             return '/usr/share/unity8/graphics/' + icon_name
         else:
-            return os.path.abspath(os.getcwd() + "/../../graphics/" + icon_name)
+            return os.path.abspath(
+                os.getcwd() + "/../../graphics/" + icon_name
+            )
 
     def _get_notifications_list(self):
         main_view = self.main_window.get_qml_view()
-        return main_view.select_single("QQuickListView", objectName='notificationList')
+        return main_view.select_single(
+            "QQuickListView",
+            objectName='notificationList'
+        )
 
-    def _assert_notification(self, notification, summary=None, body=None, icon=True, secondary_icon=False, opacity=None):
+    def _assert_notification(
+        self,
+        notification,
+        summary=None,
+        body=None,
+        icon=True,
+        secondary_icon=False,
+        opacity=None
+    ):
+        """Assert that the expected qualities of a notification are as
+        expected.
+
+        """
+
         if summary is not None:
             self.assertThat(notification.summary, Equals(summary))
 
@@ -166,7 +187,8 @@ class InteractiveNotificationsBase(NotificationsBase):
 
         for action in actions:
             action_id, action_label = action
-            script_args.extend(['--action', "%s,%s" % (action_id, action_label)])
+            action_string = "%s,%s" % (action_id, action_label)
+            script_args.extend(['--action', action_string])
 
         command = [self._get_notify_script()] + script_args
         logger.info("Launching snap-decision notification as: %s", command)
@@ -181,7 +203,8 @@ class InteractiveNotificationsBase(NotificationsBase):
 
         self.addCleanup(self._tidy_up_script_process)
 
-        if self._notify_proc.poll() is not None and self._notify_proc.returncode !=0:
+        poll_result = self._notify_proc.poll()
+        if poll_result is not None and self._notify_proc.returncode != 0:
             error_output = self._notify_proc.communicate()[1]
             raise RuntimeError("Call to script failed with: %s" % error_output)
 
@@ -199,13 +222,12 @@ class InteractiveNotificationsBase(NotificationsBase):
             logger.error("Notification process wasn't killed, killing now.")
             os.killpg(self._notify_proc.pid, signal.SIGTERM)
 
-
     def assert_notification_action_id_was_called(self, action_id, timeout=10):
         """Assert that the interactive notification callback of id *action_id*
         was called.
 
-        :raises AssertionError: If no interactive notification has actually been
-            created.
+        :raises AssertionError: If no interactive notification has actually
+            been created.
         :raises AssertionError: When *action_id* does not match the actual
             returned.
         :raises AssertionError: If no callback was called at all.
@@ -324,7 +346,10 @@ class NotificationSnapDecisionsTests(InteractiveNotificationsBase):
         #self._assert_notification(notification, None, None, True, True, 1.0)
         self.touch.tap_object(notification.select_single(objectName="button1"))
         # Veebers: this needs a better check as it's happening to quick.
-        self.assertThat(notification.select_single(objectName="buttonRow").expanded, Eventually(Equals(True)))
+        self.assertThat(
+            notification.select_single(objectName="buttonRow").expanded,
+            Eventually(Equals(True))
+        )
         time.sleep(2)
         self.touch.tap_object(notification.select_single(objectName="button4"))
         self.assert_notification_action_id_was_called("action_decline_4")
@@ -351,7 +376,8 @@ class NotificationEphemeralTests(NotificationsBase):
         notify_list = self._get_notifications_list()
 
         summary = "Icon-Summary-Body"
-        body = "Hey pal, what's up with the party next weekend? Will you join me and Anna?"
+        body = "Hey pal, what's up with the party next weekend? Will you " \
+               "join me and Anna?"
         icon_path = self._get_icon_path('avatars/anna_olsson@12.png')
         hints = [
             (
@@ -404,7 +430,15 @@ class NotificationEphemeralTests(NotificationsBase):
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
-        self._assert_notification(notification, summary, None, False, True, 1.0)
+        self._assert_notification(
+            notification,
+            summary,
+            None,
+            False,
+            True,
+            1.0
+        )
+        foo = "bar"
 
     @with_lightdm_mock("single")
     def test_urgency_order(self):
@@ -419,7 +453,8 @@ class NotificationEphemeralTests(NotificationsBase):
         icon_path_low = self._get_icon_path('avatars/amanda@12.png')
 
         summary_normal = 'Normal Urgency'
-        body_normal = "Hey pal, what's up with the party next weekend? Will you join me and Anna?"
+        body_normal = "Hey pal, what's up with the party next weekend? Will " \
+            "you join me and Anna?"
         icon_path_normal = self._get_icon_path('avatars/funky@12.png')
 
         summary_critical = 'Critical Urgency'
@@ -450,7 +485,10 @@ class NotificationEphemeralTests(NotificationsBase):
         )
         notification_critical.show()
 
-        get_notification = lambda: notify_list.select_single('Notification', summary=summary_critical)
+        get_notification = lambda: notify_list.select_single(
+            'Notification',
+            summary=summary_critical
+        )
         self.assertThat(get_notification, Eventually(NotEquals(None)))
 
         notification = get_notification()
@@ -463,7 +501,10 @@ class NotificationEphemeralTests(NotificationsBase):
             1.0
         )
 
-        get_normal_notification = lambda: notify_list.select_single('Notification', summary=summary_normal)
+        get_normal_notification = lambda: notify_list.select_single(
+            'Notification',
+            summary=summary_normal
+        )
         self.assertThat(get_normal_notification, Eventually(NotEquals(None)))
         notification = get_normal_notification()
         self._assert_notification(
@@ -475,7 +516,10 @@ class NotificationEphemeralTests(NotificationsBase):
             1.0
         )
 
-        get_low_notification = lambda: notify_list.select_single('Notification', summary=summary_low)
+        get_low_notification = lambda: notify_list.select_single(
+            'Notification',
+            summary=summary_low
+        )
         self.assertThat(get_low_notification, Eventually(NotEquals(None)))
         notification = get_low_notification()
         self._assert_notification(
@@ -504,7 +548,14 @@ class NotificationEphemeralTests(NotificationsBase):
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
-        self._assert_notification(notification, summary, body, False, False, 1.0)
+        self._assert_notification(
+            notification,
+            summary,
+            body,
+            False,
+            False,
+            1.0
+        )
         Notify.uninit()
 
     @with_lightdm_mock("single")
@@ -552,11 +603,19 @@ class NotificationEphemeralTests(NotificationsBase):
 
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
-        self._assert_notification(get_notification(), summary, body, True, False, 1.0)
+        self._assert_notification(
+            get_notification(),
+            summary,
+            body,
+            True,
+            False,
+            1.0
+        )
 
         time.sleep(3)
         summary = 'Updated notification (1. notification)'
-        body = 'Here the same bubble with new title- and body-text, even the icon can be changed on the update.'
+        body = 'Here the same bubble with new title- and body-text, even ' \
+            'the icon can be changed on the update.'
         icon_path = self._get_icon_path('avatars/amanda@12.png')
         notification.update(summary, body, icon_path)
         notification.show()
@@ -565,7 +624,8 @@ class NotificationEphemeralTests(NotificationsBase):
 
         time.sleep(6)
         summary = 'Initial layout (2. notification)'
-        body = 'This bubble uses the icon-title-body layout with a secondary icon.'
+        body = 'This bubble uses the icon-title-body layout with a ' \
+            'secondary icon.'
         icon_path = self._get_icon_path('avatars/anna_olsson@12.png')
         hint_icon = self._get_icon_path('applicationIcons/phone-app@18.png')
 
@@ -593,7 +653,8 @@ class NotificationEphemeralTests(NotificationsBase):
         time.sleep(3)
         notification.clear_hints()
         summary = 'Updated layout (2. notification)'
-        body = 'After the update we now have a bubble using the title-body layout.'
+        body = 'After the update we now have a bubble using the title-body ' \
+            'layout.'
         notification.update(summary, body, None)
         notification.show()
 
@@ -624,7 +685,14 @@ class NotificationEphemeralTests(NotificationsBase):
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
-        self._assert_notification(notification, summary, body_sum, True, False, 1.0)
+        self._assert_notification(
+            notification,
+            summary,
+            body_sum,
+            True,
+            False,
+            1.0
+        )
 
         bodies = ['What\'s up dude?',
                   'Did you watch the air-race in Oshkosh last week?',
@@ -645,10 +713,19 @@ class NotificationEphemeralTests(NotificationsBase):
                 hints=[('x-canonical-append', 'true')]
             )
             notification.show()
-            get_notification = lambda: notify_list.select_single('Notification')
+            get_notification = lambda: notify_list.select_single(
+                'Notification'
+            )
             self.assertThat(get_notification, Eventually(NotEquals(None)))
             notification = get_notification()
-            self._assert_notification(notification, summary, body_sum, True, False, 1.0)
+            self._assert_notification(
+                notification,
+                summary,
+                body_sum,
+                True,
+                False,
+                1.0
+            )
 
     def _create_ephemeral_notification(
         self,
@@ -663,14 +740,15 @@ class NotificationEphemeralTests(NotificationsBase):
             :param summary: Summary text for the notification
             :param body: Body text to display in the notification
             :param icon: Path string to the icon to use
-            :param hint_strings: List of tuples containing the 'name' and value for
-                setting the hint strings for the notification
+            :param hint_strings: List of tuples containing the 'name' and value
+                for setting the hint strings for the notification
             :param urgency: Urgency string for the noticiation, either: 'LOW',
                 'NORMAL', 'CRITICAL'
 
         """
         logger.info(
-            "Creating ephemeral: summary(%s), body(%s), urgency(%r) and Icon(%s)",
+            "Creating ephemeral: summary(%s), body(%s), urgency(%r) "
+            "and Icon(%s)",
             summary,
             body,
             urgency,
@@ -693,4 +771,3 @@ class NotificationEphemeralTests(NotificationsBase):
                           'NORMAL': Notify.Urgency.NORMAL,
                           'CRITICAL': Notify.Urgency.CRITICAL}
         return _urgency_enums.get(urgency.upper())
-
