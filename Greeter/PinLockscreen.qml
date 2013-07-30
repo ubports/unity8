@@ -53,7 +53,7 @@ Column {
         onTextChanged: {
             pinentryFieldLabel.text = "";
             for (var i = 0; i < text.length; ++i) {
-                pinentryFieldLabel.text += "•"
+                pinentryFieldLabel.text += "•";
             }
             if (text.length === root.pinLength) {
                 root.entered(text);
@@ -122,55 +122,54 @@ Column {
             rotation: -90
         }
 
-    Grid {
-        anchors {
-            left: parent.left
-            right: parent.right
-            margins: (parent.width - root.padWidth) / 2
-        }
+        Grid {
+            anchors {
+                left: parent.left
+                right: parent.right
+                margins: (parent.width - root.padWidth) / 2
+            }
 
-        columns: 3
+            columns: 3
 
-        Repeater {
-            model: 9
+            Repeater {
+                model: 9
 
-            PinPadButton {
-                objectName: "pinPadButton" + (index + 1)
-                width: root.padWidth / 3
-                height: root.padHeight / 4
-                text: index + 1
+                PinPadButton {
+                    objectName: "pinPadButton" + (index + 1)
+                    width: root.padWidth / 3
+                    height: root.padHeight / 4
+                    text: index + 1
 
-                onClicked: {
-                    pinentryField.text = pinentryField.text + text
+                    onClicked: {
+                        pinentryField.text = pinentryField.text + text;
+                    }
                 }
             }
-        }
 
-        PinPadButton {
-            objectName: "pinPadButtonBack"
-            width: root.padWidth / 3
-            height: root.padHeight / 4
-            iconName: "back"
-            onClicked: root.cancel();
+            PinPadButton {
+                objectName: "pinPadButtonBack"
+                width: root.padWidth / 3
+                height: root.padHeight / 4
+                iconName: "back"
+                onClicked: root.cancel();
+            }
 
-        }
-        PinPadButton {
-            objectName: "pinPadButton0"
-            width: root.padWidth / 3
-            height: root.padHeight / 4
-            text: "0"
-            onClicked: pinentryField.text = pinentryField.text + text
+            PinPadButton {
+                objectName: "pinPadButton0"
+                width: root.padWidth / 3
+                height: root.padHeight / 4
+                text: "0"
+                onClicked: pinentryField.text = pinentryField.text + text
+            }
 
+            PinPadButton {
+                objectName: "pinPadButtonErase"
+                width: root.padWidth / 3
+                height: root.padHeight / 4
+                iconName: "erase"
+                onClicked: pinentryField.text = pinentryField.text.substring(0, pinentryField.text.length-1)
+            }
         }
-        PinPadButton {
-            objectName: "pinPadButtonErase"
-            width: root.padWidth / 3
-            height: root.padHeight / 4
-            iconName: "erase"
-            onClicked: pinentryField.text = pinentryField.text.substring(0, pinentryField.text.length-1)
-        }
-    }
-
     }
 
     WrongPasswordAnimation {
