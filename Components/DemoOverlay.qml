@@ -46,6 +46,7 @@ Item {
     property color __orange_transparent: Qt.hsla(16.0/360.0, 0.83, 0.47, 0.4)
     property int __edge_margin: units.gu(4)
     property int __text_margin: units.gu(3)
+    property int __anim_running: wholeAnimation.running // for testing
 
     signal skip()
 
@@ -94,6 +95,7 @@ Item {
 
             Label {
                 id: skipLabel
+                objectName: "skipLabel"
                 text: i18n.tr("Skip intro")
                 color: overlay.__orange
                 fontSize: "small"
