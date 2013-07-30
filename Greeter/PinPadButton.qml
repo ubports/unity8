@@ -17,28 +17,20 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 
-UbuntuShape {
+Item {
     id: root
-    width: units.gu(10)
-    height: units.gu(7)
-    radius: "medium"
 
     property alias text: label.text
     property alias iconName: icon.name
 
     signal clicked()
 
-    Behavior on color {
-        ColorAnimation { duration: 100 }
-    }
-
     Label {
         id: label
         anchors.centerIn: parent
-        color: "white"
-        fontSize: "x-large"
-        font.weight: Font.Light
-        opacity: 0.9
+        color: "#f3f3e7"
+        fontSize: "large"
+        font.weight: Font.DemiBold
     }
 
     Icon {
@@ -46,14 +38,11 @@ UbuntuShape {
         height: units.gu(3)
         width: height
         anchors.centerIn: parent
-        color: "white"
-        opacity: 0.9
+        color: "#f3f3e7"
     }
 
     MouseArea {
         anchors.fill: parent
         onClicked: root.clicked()
-        onPressed: root.color = Qt.rgba(0, 0, 0, 0.3)
-        onReleased: root.color = Qt.rgba(0, 0, 0, 0)
     }
 }
