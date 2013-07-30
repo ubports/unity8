@@ -34,7 +34,7 @@ enum CategoryColumn {
 Categories::Categories(QObject* parent)
     : DeeListModel(parent)
 {
-    m_roles[Categories::RoleId] = "id";
+    m_roles[Categories::RoleCategoryId] = "categoryId";
     m_roles[Categories::RoleName] = "name";
     m_roles[Categories::RoleIcon] = "icon";
     m_roles[Categories::RoleRenderer] = "renderer";
@@ -42,6 +42,7 @@ Categories::Categories(QObject* parent)
     m_roles[Categories::RoleHints] = "hints";
     m_roles[Categories::RoleResults] = "results";
     m_roles[Categories::RoleCount] = "count";
+    m_roles[Categories::RoleCategoryIndex] = "categoryIndex";
 
     // TODO This should not be needed but accumulatting the count changes
     // makes the visualization more stable and also makes crashes on fast
@@ -130,8 +131,8 @@ Categories::data(const QModelIndex& index, int role) const
     }
 
     switch (role) {
-        case RoleId:
-            return QVariant::fromValue(index.row());
+        case RoleCategoryId:
+            return DeeListModel::data(index, CategoryColumn::ID);
         case RoleName:
             return DeeListModel::data(index, CategoryColumn::DISPLAY_NAME);
         case RoleIcon:
@@ -149,6 +150,8 @@ Categories::data(const QModelIndex& index, int role) const
             return QVariant::fromValue(getResults(index.row()));
         case RoleCount:
             return QVariant::fromValue(getResults(index.row())->rowCount());
+        case RoleCategoryIndex:
+            return QVariant::fromValue(index.row());
         default:
             return QVariant();
     }

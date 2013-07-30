@@ -5,7 +5,7 @@ Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
 Build-Depends: cmake,
                dbus-test-runner,
                debhelper (>= 9),
-               libdee-qt5-dev (>= 3.0),
+               libdee-qt5-dev (>= 3.2),
                libgl1-mesa-dev[!armhf] | libgl-dev[!armhf],
                libgl1-mesa-dri,
                libgles2-mesa-dev[armhf],
@@ -89,6 +89,8 @@ Depends: indicators-client (>= ${source:Version}),
          ${misc:Depends},
          ${python:Depends},
          ${shlibs:Depends},
+Recommends: gir1.2-glib-2.0,
+            python-gi,
 Description: Test package for Unity 8 shell
  Autopilot tests for the unity8 package
 

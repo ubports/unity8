@@ -4,7 +4,11 @@ include(Plugins)
 # There's no cmake var for v8 include path :-/
 # so create one
 LIST(GET Qt5Core_INCLUDE_DIRS 0 QtCoreDir0)
-SET(Qt5V8_PRIVATE_INCLUDE_DIR ${QtCoreDir0}/../QtV8/${Qt5Core_VERSION_STRING}/QtV8)
+if(${Qt5Core_VERSION_STRING} VERSION_LESS "5.1.0")
+    SET(Qt5V8_PRIVATE_INCLUDE_DIR ${QtCoreDir0}/../QtV8/${Qt5Core_VERSION_STRING}/QtV8)
+else()
+    SET(Qt5V8_PRIVATE_INCLUDE_DIR ${QtCoreDir0}/QtV8/${Qt5Core_VERSION_STRING}/QtV8)
+endif()
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -33,5 +37,6 @@ target_link_libraries(ListViewWithPageHeader-qml
 
 qt5_use_modules(ListViewWithPageHeader-qml Qml Quick)
 
-# export the qmldir and qmltypes files
+# export the qmldir qmltypes and plugin files
+export_qmlfiles(ListViewWithPageHeader ListViewWithPageHeader)
 export_qmlplugin(ListViewWithPageHeader 0.1 ListViewWithPageHeader TARGETS ListViewWithPageHeader-qml)

@@ -70,10 +70,10 @@ var __availableApplications = {
         'exec': '/usr/bin/qmlscene /usr/share/notes-app/NotesApp.qml',
         'stage': SideStage
     },
-    '/usr/share/applications/ubuntu-calendar-app.desktop': {
+    '/usr/share/applications/calendar-app.desktop': {
         'name': i18n.tr("Calendar"),
         'icon': 'calendar',
-        'exec': '/usr/bin/qmlscene /usr/share/ubuntu-calendar-app/calendar.qml',
+        'exec': '/usr/bin/qmlscene /usr/share/calendar-app/calendar.qml',
         'stage': SideStage
     },
     '/usr/share/applications/mediaplayer-app.desktop': {

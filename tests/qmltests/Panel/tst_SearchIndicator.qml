@@ -41,24 +41,22 @@ Item {
         when: windowShown
 
         function test_clickedSignal() {
-            clickedSpy.clear()
+            clickedSpy.clear();
             mouseClick(searchIndicator,
                        searchIndicator.width / 2, searchIndicator.height / 2);
-            compare(clickedSpy.count, 1)
+            compare(clickedSpy.count, 1);
         }
 
         function test_hideUp() {
-            var container = findChild(searchIndicator, "container")
-            searchIndicator.state = "hiddenUp"
-            tryCompare(container, "opacity", 0)
-            tryCompare(container, "y", -container.height)
+            var container = findChild(searchIndicator, "container");
+            searchIndicator.state = "hidden";
+            tryCompare(container, "opacity", 0);
         }
 
         function test_show() {
-            var container = findChild(searchIndicator, "container")
-            searchIndicator.state = "visible"
-            tryCompare(container, "opacity", 1)
-            tryCompare(container, "y", 0)
+            var container = findChild(searchIndicator, "container");
+            searchIndicator.state = "visible";
+            tryCompare(container, "opacity", 1);
         }
     }
 }

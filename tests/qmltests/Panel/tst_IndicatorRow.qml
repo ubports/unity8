@@ -32,7 +32,6 @@ Item {
 
     function init_test()
     {
-        indicatorRow.overviewActive = false;
         indicatorRow.state = "initial";
         indicatorRow.currentItem = null;
     }
@@ -62,13 +61,13 @@ Item {
 
         function test_set_current_item() {
             init_test();
-            indicatorRow.setItem(0);
+            indicatorRow.setCurrentItem(0);
             compare(indicatorRow.indicatorsModel.get(indicatorRow.currentItemIndex).title, "Menu1", "Incorrect item at position 0");
 
-            indicatorRow.setItem(1);
+            indicatorRow.setCurrentItem(1);
             compare(indicatorRow.indicatorsModel.get(indicatorRow.currentItemIndex).title, "Menu2", "Incorrect item at position 1");
 
-            indicatorRow.setItem(2);
+            indicatorRow.setCurrentItem(2);
             compare(indicatorRow.indicatorsModel.get(indicatorRow.currentItemIndex).title, "Menu3", "Incorrect item at position 2");
         }
     }
@@ -84,13 +83,13 @@ Item {
         function test_current_item_commit() {
             init_test();
 
-            indicatorRow.setItem(1);
+            indicatorRow.setCurrentItem(1);
             indicatorRow.state = "commit";
-            tryCompare(get_indicator_item_at(0), "y", -indicatorRow.height);
-            tryCompare(get_indicator_item_at(1), "y", 0);
-            tryCompare(get_indicator_item_at(2), "y", -indicatorRow.height);
-            tryCompare(get_indicator_item_at(3), "y", -indicatorRow.height);
-            tryCompare(get_indicator_item_at(4), "y", -indicatorRow.height);
+            tryCompare(get_indicator_item_at(0), "opacity", 0.0);
+            tryCompare(get_indicator_item_at(1), "opacity", 1.0);
+            tryCompare(get_indicator_item_at(2), "opacity", 0.0);
+            tryCompare(get_indicator_item_at(3), "opacity", 0.0);
+            tryCompare(get_indicator_item_at(4), "opacity", 0.0);
 
         }
     }
@@ -107,7 +106,7 @@ Item {
             init_test();
 
             indicatorRow.state = "initial";
-            indicatorRow.setItem(0);
+            indicatorRow.setCurrentItem(0);
 
             compare(indicatorRow.currentItem.highlighted, false, "Indicator should not highlight when in initial state");
             compare(get_indicator_item_at(1).highlighted, false, "Other indicators should not highlight when in initial state");
@@ -120,9 +119,9 @@ Item {
             init_test();
 
             indicatorRow.state = "hint";
-            indicatorRow.setItem(0);
+            indicatorRow.setCurrentItem(0);
 
-            compare(indicatorRow.currentItem.highlighted, false, "Indicator should not highlight when in hint state");
+            compare(indicatorRow.currentItem.highlighted, true, "Indicator should highlight when in hint state");
             compare(get_indicator_item_at(1).highlighted, false, "Other indicators should not highlight when in hint state");
             compare(get_indicator_item_at(2).highlighted, false, "Other indicators should not highlight when in hint state");
             compare(get_indicator_item_at(3).highlighted, false, "Other indicators should not highlight when in hint state");
@@ -133,7 +132,7 @@ Item {
             init_test();
 
             indicatorRow.state = "reveal";
-            indicatorRow.setItem(0);
+            indicatorRow.setCurrentItem(0);
 
             compare(indicatorRow.currentItem.highlighted, true, "Indicator should highlight when in reveal state");
             compare(get_indicator_item_at(1).highlighted, false, "Other indicators should not highlight when in commit state");
@@ -146,7 +145,7 @@ Item {
             init_test();
 
             indicatorRow.state = "commit";
-            indicatorRow.setItem(0);
+            indicatorRow.setCurrentItem(0);
 
             compare(indicatorRow.currentItem.highlighted, true, "Indicator should highlight when in commit state");
             compare(get_indicator_item_at(1).highlighted, false, "Other indicators should not highlight when in commit state");
@@ -159,7 +158,7 @@ Item {
             init_test();
 
             indicatorRow.state = "locked";
-            indicatorRow.setItem(0);
+            indicatorRow.setCurrentItem(0);
 
             compare(indicatorRow.currentItem.highlighted, true, "Indicator should highlight when in locked state");
             compare(get_indicator_item_at(1).highlighted, false, "Other indicators should not highlight when in locked state");
@@ -181,7 +180,7 @@ Item {
             init_test();
 
             indicatorRow.state = "initial";
-            indicatorRow.setItem(0);
+            indicatorRow.setCurrentItem(0);
 
             compare(get_indicator_item_at(0).dimmed, false, "Current indicator should not dim when in intiial state");
             compare(get_indicator_item_at(1).dimmed, false, "Other indicators should not dim when in initial state");
@@ -194,9 +193,9 @@ Item {
             init_test();
 
             indicatorRow.state = "hint";
-            indicatorRow.setItem(0);
+            indicatorRow.setCurrentItem(0);
 
-            compare(get_indicator_item_at(0).dimmed, true, "Current indicator should dim when in hint state");
+            compare(get_indicator_item_at(0).dimmed, false, "Current indicator should not dim when in hint state");
             compare(get_indicator_item_at(1).dimmed, true, "Other indicators should dim when in hint state");
             compare(get_indicator_item_at(2).dimmed, true, "Other indicators should dim when in hint state");
             compare(get_indicator_item_at(3).dimmed, true, "Other indicators should dim when in hint state");
@@ -207,7 +206,7 @@ Item {
             init_test();
 
             indicatorRow.state = "reveal";
-            indicatorRow.setItem(0);
+            indicatorRow.setCurrentItem(0);
 
             compare(get_indicator_item_at(0).dimmed, false, "Current indicator should not dim when in reveal state");
             compare(get_indicator_item_at(1).dimmed, true, "Other indicators should dim when in reveal state");
@@ -220,7 +219,7 @@ Item {
             init_test();
 
             indicatorRow.state = "commit";
-            indicatorRow.setItem(0);
+            indicatorRow.setCurrentItem(0);
 
             compare(get_indicator_item_at(0).dimmed, false, "Current indicator should not dim when in commit state");
             compare(get_indicator_item_at(1).dimmed, true, "Other indicators should dim when in commit state");
@@ -233,26 +232,13 @@ Item {
             init_test();
 
             indicatorRow.state = "locked";
-            indicatorRow.setItem(0);
+            indicatorRow.setCurrentItem(0);
 
             compare(get_indicator_item_at(0).dimmed, false, "Current indicator should not dim when in locked state");
             compare(get_indicator_item_at(1).dimmed, true, "Other indicators should dim when in locked state");
             compare(get_indicator_item_at(2).dimmed, true, "Other indicators should dim when in locked state");
             compare(get_indicator_item_at(3).dimmed, true, "Other indicators should dim when in locked state");
             compare(get_indicator_item_at(4).dimmed, true, "Other indicators should dim when in locked state");
-        }
-
-        function test_active_overview() {
-            init_test();
-
-            indicatorRow.overviewActive = true;
-            indicatorRow.state = "commit";
-
-            compare(get_indicator_item_at(0).dimmed, true, "Indicator should dim when in overview");
-            compare(get_indicator_item_at(1).dimmed, true, "Indicator should dim when in overview");
-            compare(get_indicator_item_at(2).dimmed, true, "Indicator should dim when in overview");
-            compare(get_indicator_item_at(3).dimmed, true, "Indicator should dim when in overview");
-            compare(get_indicator_item_at(4).dimmed, true, "Indicator should dim when in overview");
         }
     }
 }

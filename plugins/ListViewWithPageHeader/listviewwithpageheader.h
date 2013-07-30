@@ -24,9 +24,14 @@
 #pragma GCC diagnostic pop
 
 class QAbstractItemModel;
-class QQuickChangeSet;
 class QQuickNumberAnimation;
+#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
+class QQuickChangeSet;
 class QQuickVisualDataModel;
+#else
+class QQmlChangeSet;
+class QQmlDelegateModel;
+#endif
 
 
 /**
@@ -100,11 +105,19 @@ protected:
     void updatePolish();
 
 private Q_SLOTS:
+#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
     void itemCreated(int modelIndex, QQuickItem *item);
+#else
+    void itemCreated(int modelIndex, QObject *object);
+#endif
     void onContentHeightChanged();
     void onContentWidthChanged();
     void onHeightChanged();
+#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
     void onModelUpdated(const QQuickChangeSet &changeSet, bool reset);
+#else
+    void onModelUpdated(const QQmlChangeSet &changeSet, bool reset);
+#endif
     void onShowHeaderAnimationFinished();
 
 private:
@@ -141,7 +154,11 @@ private:
     QQuickItem *getSectionItem(int modelIndex, bool alreadyInserted);
     QQuickItem *getSectionItem(const QString &sectionText);
 
+#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
     QQuickVisualDataModel *m_delegateModel;
+#else
+    QQmlDelegateModel *m_delegateModel;
+#endif
 
     // Index we are waiting because we requested it asynchronously
     int m_asyncRequestedIndex;

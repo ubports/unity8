@@ -37,8 +37,6 @@ ApplicationManager::ApplicationManager(QObject *parent)
     , m_sideStage(0)
 {
     buildListOfAvailableApplications();
-    createMainStageComponent();
-    createSideStageComponent();
 }
 
 ApplicationManager::~ApplicationManager()
@@ -321,10 +319,10 @@ void ApplicationManager::buildListOfAvailableApplications()
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
-    application->setDesktopFile("/usr/share/applications/ubuntu-calendar-app.desktop");
+    application->setDesktopFile("/usr/share/applications/calendar-app.desktop");
     application->setName("Calendar");
     application->setIcon("calendar");
-    application->setExec("/usr/bin/qmlscene /usr/share/ubuntu-calendar-app/calendar.qml");
+    application->setExec("/usr/bin/qmlscene /usr/share/calendar-app/calendar.qml");
     application->setStage(ApplicationInfo::SideStage);
     application->setHandle(nextHandle++);
     m_availableApplications.append(application);
@@ -403,6 +401,9 @@ void ApplicationManager::createMainStageComponent()
 
 void ApplicationManager::createMainStage()
 {
+    if (!m_mainStageComponent)
+        createMainStageComponent();
+
     // The assumptions I make here really should hold.
     QQuickView *quickView =
         qobject_cast<QQuickView*>(QGuiApplication::topLevelWindows()[0]);
@@ -437,6 +438,9 @@ void ApplicationManager::createSideStageComponent()
 
 void ApplicationManager::createSideStage()
 {
+    if (!m_sideStageComponent)
+        createSideStageComponent();
+
     // The assumptions I make here really should hold.
     QQuickView *quickView =
         qobject_cast<QQuickView*>(QGuiApplication::topLevelWindows()[0]);
