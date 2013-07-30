@@ -56,6 +56,13 @@ Item {
 
         function initTestCase() {
             swipeAwayGreeter();
+
+            // Ensure DashHome is loaded before continuing
+            var dashContentList = findChild(shell, "dashContentList");
+            waitForRendering(dashContentList);
+            var homeLoader = findChild(dashContentList, "home.scope loader");
+            verify(homeLoader);
+            tryCompareFunction(function() {return homeLoader.item !== undefined;}, true);
         }
 
         function cleanup() {
