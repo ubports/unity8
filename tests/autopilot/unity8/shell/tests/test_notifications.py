@@ -623,17 +623,17 @@ class NotificationEphemeralTests(NotificationsBase):
         hints=[],
         urgency="NORMAL"
     ):
-    """Create an ephemeral (non-interactive) notification
+        """Create an ephemeral (non-interactive) notification
 
-        :param summary: Summary text for the notification
-        :param body: Body text to display in the notification
-        :param icon: Path string to the icon to use
-        :param hint_strings: List of tuples containing the 'name' and value for
-            setting the hint strings for the notification
-        :param urgency: Urgency string for the noticiation, either: 'LOW',
-            'NORMAL', 'CRITICAL'
+            :param summary: Summary text for the notification
+            :param body: Body text to display in the notification
+            :param icon: Path string to the icon to use
+            :param hint_strings: List of tuples containing the 'name' and value for
+                setting the hint strings for the notification
+            :param urgency: Urgency string for the noticiation, either: 'LOW',
+                'NORMAL', 'CRITICAL'
 
-    """
+        """
         logger.info(
             "Creating ephemeral: summary(%s), body(%s), urgency(%r) and Icon(%s)",
             summary,
@@ -647,7 +647,7 @@ class NotificationEphemeralTests(NotificationsBase):
         for hint in hints:
             key, value = hint
             n.set_hint_string(key, value)
-            logger.info("Adding hint to notification: (%s, %s"), key, value)
+            logger.info("Adding hint to notification: (%s, %s)", key, value)
         n.set_urgency(self._get_urgency(urgency))
 
         return n
