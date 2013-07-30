@@ -333,6 +333,14 @@ class NotificationSnapDecisionsTests(InteractiveNotificationsBase):
 class NotificationEphemeralTests(NotificationsBase):
     """Collection of tests for testing Ephemeral notifications."""
 
+    def setUp(self):
+        # Because we are using the Notify library we need to init and un-init
+        # otherwise we get crashes.
+        super(NotificationEphemeralTests, self).setUp()
+
+        Notify.init("Autopilot Ephemeral Notification Tests")
+        self.addCleanup(Notify.uninit)
+
     @with_lightdm_mock("single")
     def test_icon_summary_body(self):
         """Notification must display the expected summary and body text."""
@@ -352,13 +360,15 @@ class NotificationEphemeralTests(NotificationsBase):
             )
         ]
 
-        self._create_notification(
+        notification = self._create_ephemeral_notification(
             summary,
             body,
             icon_path,
+            hints,
             "NORMAL",
-            hints
         )
+
+        notification.show()
 
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
@@ -381,13 +391,15 @@ class NotificationEphemeralTests(NotificationsBase):
             )
         ]
 
-        self._create_notification(
+        notification = self._create_ephemeral_notification(
             summary,
             None,
             None,
+            hints,
             "NORMAL",
-            hints
         )
+
+        notification.show()
 
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
@@ -399,40 +411,81 @@ class NotificationEphemeralTests(NotificationsBase):
         self.launch_unity(dbus_bus=self.dbus_address)
         greeter = self.main_window.get_greeter()
         greeter.unlock()
-        Notify.init("Autopilot Notification Tests")
+
         notify_list = self._get_notifications_list()
 
         summary_low = 'Low Urgency'
         body_low = "No, I'd rather see paint dry, pal *yawn*"
         icon_path_low = self._get_icon_path('avatars/amanda@12.png')
+
         summary_normal = 'Normal Urgency'
         body_normal = "Hey pal, what's up with the party next weekend? Will you join me and Anna?"
         icon_path_normal = self._get_icon_path('avatars/funky@12.png')
+
         summary_critical = 'Critical Urgency'
         body_critical = 'Dude, this is so urgent you have no idea :)'
         icon_path_critical = self._get_icon_path('avatars/anna_olsson@12.png')
 
-        notification_normal = self._create_ephemeral(summary_normal, body_normal, icon_path_normal, None, "NORMAL")
+        notification_normal = self._create_ephemeral_notification(
+            summary_normal,
+            body_normal,
+            icon_path_normal,
+            urgency="NORMAL"
+        )
         notification_normal.show()
-        notification_low = self._create_ephemeral(summary_low, body_low, icon_path_low, None, "LOW")
+
+        notification_low = self._create_ephemeral_notification(
+            summary_low,
+            body_low,
+            icon_path_low,
+            urgency="LOW"
+        )
         notification_low.show()
-        notification_critical = self._create_ephemeral(summary_critical, body_critical, icon_path_critical, None, "CRITICAL")
+
+        notification_critical = self._create_ephemeral_notification(
+            summary_critical,
+            body_critical,
+            icon_path_critical,
+            urgency="CRITICAL"
+        )
         notification_critical.show()
 
-        time.sleep(4)
-        get_notification = lambda: notify_list.select_single('Notification')
+        get_notification = lambda: notify_list.select_single('Notification', summary=summary_critical)
         self.assertThat(get_notification, Eventually(NotEquals(None)))
-        notification = get_notification()
-        self._assert_notification(notification, summary_critical, body_critical, True, False, 1.0)
 
-        time.sleep(4)
         notification = get_notification()
-        self._assert_notification(notification, summary_normal, body_normal, True, False, 1.0)
+        self._assert_notification(
+            notification,
+            summary_critical,
+            body_critical,
+            True,
+            False,
+            1.0
+        )
 
-        time.sleep(4)
-        notification = get_notification()
-        self._assert_notification(notification, summary_low, body_low, True, False, 1.0)
-        Notify.uninit()
+        get_normal_notification = lambda: notify_list.select_single('Notification', summary=summary_normal)
+        self.assertThat(get_normal_notification, Eventually(NotEquals(None)))
+        notification = get_normal_notification()
+        self._assert_notification(
+            notification,
+            summary_normal,
+            body_normal,
+            True,
+            False,
+            1.0
+        )
+
+        get_low_notification = lambda: notify_list.select_single('Notification', summary=summary_low)
+        self.assertThat(get_low_notification, Eventually(NotEquals(None)))
+        notification = get_low_notification()
+        self._assert_notification(
+            notification,
+            summary_low,
+            body_low,
+            True,
+            False,
+            1.0
+        )
 
     @with_lightdm_mock("single")
     def test_summary_body(self):
@@ -562,90 +615,42 @@ class NotificationEphemeralTests(NotificationsBase):
 
         Notify.uninit()
 
-    def _create_notification(
+    def _create_ephemeral_notification(
         self,
         summary="",
         body="",
         icon=None,
-        urgency="NORMAL",
-        hints=[]
+        hints=[],
+        urgency="NORMAL"
     ):
-        """Create a notification command.
+    """Create an ephemeral (non-interactive) notification
 
         :param summary: Summary text for the notification
         :param body: Body text to display in the notification
         :param icon: Path string to the icon to use
-        :param urgency: Urgency string for the noticiation, either: 'LOW',
-            'NORMAL', 'CRITICAL'
         :param hint_strings: List of tuples containing the 'name' and value for
             setting the hint strings for the notification
+        :param urgency: Urgency string for the noticiation, either: 'LOW',
+            'NORMAL', 'CRITICAL'
 
-        """
+    """
         logger.info(
-            "Creating notification with summary(%s), body(%s) "
-            "and urgency(%r)",
+            "Creating ephemeral: summary(%s), body(%s), urgency(%r) and Icon(%s)",
             summary,
             body,
-            urgency
+            urgency,
+            icon
         )
 
-        """Replace this with the ephemerial creation."""
-
-        # script_args = [
-        #     '--summary', summary,
-        #     '--body', body,
-        #     '--urgency', urgency
-        # ]
-
-        # if icon is not None:
-        #     script_args.extend(['--icon', icon])
-
-        # for hint in hints:
-        #     key, value = hint
-        #     script_args.extend(['--hint', "%s,%s" % (key, value)])
-
-        # command = [self._get_notify_script()] + script_args
-        # logger.info("Launching interactive notification as: %s", command)
-        # self._notify_proc = subprocess.Popen(
-        #     command,
-        #     stdin=subprocess.PIPE,
-        #     stdout=subprocess.PIPE,
-        #     stderr=subprocess.PIPE,
-        #     close_fds=True,
-        #     preexec_fn=os.setsid
-        # )
-
-
-    def _create_ephemeral(self, summary="", body="", icon=None, secondary_icon=None, urgency="NORMAL"):
-        logger.info("Creating ephemeral notification with summary(%s), body(%s) and urgency(%r)", summary, body, urgency)
-        if icon is not None:
-            logger.info("Using icon(%s)", icon)
-        if secondary_icon is not None:
-            logger.info("Using secondary-icon(%s)", secondary_icon)
-
         n = Notify.Notification.new(summary, body, icon)
-        if secondary_icon is not None:
-            n.set_hint('x-canonical-secondary-icon', GLib.Variant.new_string(secondary_icon))
+
+        for hint in hints:
+            key, value = hint
+            n.set_hint_string(key, value)
+            logger.info("Adding hint to notification: (%s, %s"), key, value)
         n.set_urgency(self._get_urgency(urgency))
 
         return n
-
-    # def _create_confirmation(self, summary="", body="", icon=None, secondary_icon=None, urgency="NORMAL"):
-    #     logger.info("Creating confirmation notification with summary(%s), body(%s) and urgency(%r)", summary, body, urgency)
-    #     if icon is not None:
-    #         logger.info("Using icon(%s)", icon)
-    #     if secondary_icon is not None:
-    #         logger.info("Using secondary-icon(%s)", secondary_icon)
-
-    #     n = Notify.Notification.new(summary, body, icon)
-    #     if secondary_icon is not None:
-    #         n.set_hint('x-canonical-secondary-icon', GLib.Variant.new_string(secondary_icon))
-    #     n.set_hint('x-canonical-private-synchronous', GLib.Variant.new_string('true'))
-    #     if summary == "" and body == "":
-    #         n.set_hint('x-canonical-private-icon-only', GLib.Variant.new_string('true'))
-    #     n.set_urgency(self._get_urgency(urgency))
-
-    #     return n
 
     def _get_urgency(self, urgency):
         """Translates urgency string to enum."""
