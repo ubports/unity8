@@ -3,6 +3,7 @@ Section: x11
 Priority: optional
 Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
 Build-Depends: cmake,
+               dbus-test-runner,
                debhelper (>= 9),
                libdee-qt5-dev (>= 3.0),
                libgl1-mesa-dev[!armhf] | libgl-dev[!armhf],
@@ -27,6 +28,7 @@ Build-Depends: cmake,
                python3,
                qt5-default,
                qtbase5-dev,
+               qtbase5-dev-tools,
                qtbase5-private-dev,
                qtdeclarative5-dev,
                qtdeclarative5-dev-tools,
