@@ -15,6 +15,7 @@
  *
  * Authors:
  *      Renato Araujo Oliveira Filho <renato@canonical.com>
+ *      Nick Dedekind <nick.dedekind@canonical.com>
  */
 
 import QtQuick 2.0
@@ -26,7 +27,7 @@ Page {
 
     title: indicatorProperties && indicatorProperties.title ?  indicatorProperties.title : ""
     property variant indicatorProperties
-    property string pageSource : page_loader.source
+    property string pageSource : pageLoader.source
 
     anchors.fill: parent
 
@@ -40,8 +41,8 @@ Page {
     }
 
     Loader {
-        id: page_loader
-        objectName: "page_loader"
+        id: pageLoader
+        objectName: "pageLoader"
 
         anchors {
             top: visualCheckItem.bottom
@@ -87,7 +88,7 @@ Page {
                 right: parent.right
             }
             text: "Refresh"
-            onClicked: page_loader.item.refresh()
+            onClicked: pageLoader.item.refresh()
         }
     }
 }

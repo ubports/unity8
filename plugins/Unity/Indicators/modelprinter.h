@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Canonical Ltd.
+ * Copyright 2013 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -29,20 +29,21 @@ class ModelPrinter : public QObject
     Q_OBJECT
 
     Q_PROPERTY(QAbstractItemModel* model READ sourceModel WRITE setSourceModel NOTIFY modelChanged)
+    Q_PROPERTY(QString text READ text NOTIFY textChanged)
 public:
     ModelPrinter(QObject* parent=0);
 
     void setSourceModel(QAbstractItemModel* sourceModel);
     QAbstractItemModel* sourceModel() const;
 
-    Q_INVOKABLE QString getString(const QModelIndex& index = QModelIndex()) const;
+    Q_INVOKABLE QString text(const QModelIndex& index = QModelIndex()) const;
 
 Q_SIGNALS:
-    void sourceChanged();
     void modelChanged();
+    void textChanged();
 
 private:
-  QString recurse_string(const QModelIndex& index, int level) const;
+  QString recurseString(const QModelIndex& index, int level) const;
   QAbstractItemModel* m_model;
 };
 

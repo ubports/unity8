@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * Authors:
- *      Nick Dedekind <nick.dededkind@canonical.com
+ *      Nick Dedekind <nick.dededkind@canonical.com>
  */
 
 import QtQuick 2.0
@@ -39,10 +39,6 @@ Page {
         menuModel.start();
     }
 
-    function refresh() {
-        all_data.text = printer.getString();
-    }
-
     QDBusMenuModel {
         id: menuModel
         objectPath: page.deviceMenuObjectPath
@@ -51,8 +47,6 @@ Page {
     Indicators.ModelPrinter {
         id: printer
         model: menuModel
-
-        onSourceChanged: page.refresh()
     }
 
     Flickable {
@@ -62,6 +56,7 @@ Page {
         Text {
             id: all_data
             color: "white"
+            text: printer.text
         }
     }
 }
