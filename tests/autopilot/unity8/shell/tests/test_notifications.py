@@ -47,7 +47,8 @@ class NotificationsTests(UnityTestCase):
     scenarios = _get_device_emulation_scenarios()
 
     # Important note:
-    # We have a single class for these tests and are using setUpClass and
+    # * On desktop only we run a custom dbus session
+    # * We have a single class for these tests and are using setUpClass and
     # tearDownClass to overcome issues that we have encountered with starting a
     # new dbus server for each test (and scenario).
     # Namely we have noticed that, even if we init and uninit as required,
@@ -60,6 +61,7 @@ class NotificationsTests(UnityTestCase):
     @classmethod
     def setUpClass(cls):
         cls.dbus_address = 'session'
+        cls.dbus_pid = None
         if model() == 'Desktop':
             p = subprocess.Popen(['dbus-launch'], stdout=subprocess.PIPE)
             output = p.communicate()
@@ -83,8 +85,9 @@ class NotificationsTests(UnityTestCase):
 
     @classmethod
     def tearDownClass(cls):
-        logger.info("Killing custom dbus server")
-        os.killpg(cls.dbus_pid, signal.SIGTERM)
+        if cls.dbus_pid is not None:
+            logger.info("Killing custom dbus server")
+            os.killpg(cls.dbus_pid, signal.SIGTERM)
 
     def _get_icon_path(self, icon_name):
         """Given an icons file name returns the full path (either system or
