@@ -540,7 +540,7 @@ class EphemeralNotificationsTests(NotificationsBase):
 
         notify_list = self._get_notifications_list()
 
-        summary = 'Inital notification'
+        summary = 'Initial notification'
         body = 'This is the original content of this notification-bubble.'
         icon_path = self._get_icon_path('avatars/funky@12.png')
 
