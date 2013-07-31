@@ -537,6 +537,7 @@ FocusScope {
             title: i18n.tr("Right edge")
             text: i18n.tr("Try swiping from the right edge to unlock the phone")
             anchors.fill: parent
+            visible: shell.showEdgeDemoInGreeter
             enabled: shell.showEdgeDemoInGreeter
             onSkip: {
                 shell.hideEdgeDemoInGreeter()
