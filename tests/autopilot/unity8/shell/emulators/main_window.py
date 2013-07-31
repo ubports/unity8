@@ -89,4 +89,4 @@ class MainWindow(object):
         return self.app.select_single("Lockscreen")
 
     def get_pinentryField(self):
-        return self.app.select_single("TextField", objectName="pinentryField")
+        return self.app.select_single(objectName="pinentryField")
