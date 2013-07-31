@@ -111,6 +111,7 @@ class InteractiveNotificationBase(NotificationsBase):
         self._notify_proc = None
 
     def test_interactive(self):
+        """Interactive notification must react upon click on itself."""
         self.launch_unity()
         greeter = self.main_window.get_greeter()
         greeter.unlock()
@@ -255,7 +256,6 @@ class InteractiveNotificationBase(NotificationsBase):
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             close_fds=True,
-            preexec_fn=os.setsid
         )
 
         self.addCleanup(self._tidy_up_script_process)
@@ -359,6 +359,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         self._assert_notification(notification, summary, body, True, True, 1.0)
 
     def test_icon_summary(self):
+        """Notification must display the expected summary and secondary icon."""
         self.launch_unity()
         greeter = self.main_window.get_greeter()
         greeter.unlock()
@@ -396,6 +397,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         )
 
     def test_urgency_order(self):
+        """Notifications must be displayed in order according to their urgency."""
         self.launch_unity()
         greeter = self.main_window.get_greeter()
         greeter.unlock()
@@ -486,6 +488,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         )
 
     def test_summary_and_body(self):
+        """Notification must display the expected summary- and body-text."""
         self.launch_unity()
         greeter = self.main_window.get_greeter()
         greeter.unlock()
@@ -511,6 +514,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         )
 
     def test_summary_only(self):
+        """Notification must display only the expected summary-text."""
         self.launch_unity()
         greeter = self.main_window.get_greeter()
         greeter.unlock()
@@ -528,19 +532,15 @@ class EphemeralNotificationsTests(NotificationsBase):
 
         self._assert_notification(notification, summary, '', False, False, 1.0)
 
-    def test_update_notification(self):
-        # Mirco, this should probably be split up into 2 tests, one for each
-        # layout type.
-        # Also, the sleeps should be changed to something similar to what is in
-        # the test "test_urgency_order" i.e. using the eventually matcher to
-        # ensure that the required notification etc. is displayed.
+    def test_update_notification_same_layout(self):
+        """Notification must allow updating its contents while being displayed."""
         self.launch_unity()
         greeter = self.main_window.get_greeter()
         greeter.unlock()
 
         notify_list = self._get_notifications_list()
 
-        summary = 'Inital notification (1. notification)'
+        summary = 'Initial notification'
         body = 'This is the original content of this notification-bubble.'
         icon_path = self._get_icon_path('avatars/funky@12.png')
 
@@ -563,7 +563,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         )
 
         time.sleep(3)
-        summary = 'Updated notification (1. notification)'
+        summary = 'Updated notification'
         body = 'Here the same bubble with new title- and body-text, even ' \
             'the icon can be changed on the update.'
         icon_path = self._get_icon_path('avatars/amanda@12.png')
@@ -572,8 +572,15 @@ class EphemeralNotificationsTests(NotificationsBase):
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         self._assert_notification(get_notification(), summary, body)
 
-        time.sleep(6)
-        summary = 'Initial layout (2. notification)'
+    def test_update_notification_layout_change(self):
+        """Notification must allow updating its contents and layout while being displayed."""
+        self.launch_unity()
+        greeter = self.main_window.get_greeter()
+        greeter.unlock()
+
+        notify_list = self._get_notifications_list()
+
+        summary = 'Initial layout'
         body = 'This bubble uses the icon-title-body layout with a ' \
             'secondary icon.'
         icon_path = self._get_icon_path('avatars/anna_olsson@12.png')
@@ -590,6 +597,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         )
         notification.show()
 
+        get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         self._assert_notification(
             get_notification(),
@@ -602,7 +610,7 @@ class EphemeralNotificationsTests(NotificationsBase):
 
         time.sleep(3)
         notification.clear_hints()
-        summary = 'Updated layout (2. notification)'
+        summary = 'Updated layout'
         body = 'After the update we now have a bubble using the title-body ' \
             'layout.'
         notification.update(summary, body, None)
@@ -612,6 +620,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         self._assert_notification(get_notification(), summary, body, False)
 
     def test_append_hint(self):
+        """Notification has to accumulate body-text using append-hint."""
         self.launch_unity()
         greeter = self.main_window.get_greeter()
         greeter.unlock()
