@@ -6,20 +6,6 @@
 # by the Free Software Foundation.
 
 
-# This file contains general purpose test cases for Unity.
-# Each test written in this file will be executed for a variety of
-# configurations, such as Phone, Tablet or Desktop form factors.
-#
-# Sometimes there is the need to disable a certain test for a particular
-# configuration. To do so, add this in a new line directly below your test:
-#
-#    test_testname.blacklist = (FormFactors.Tablet, FormFactors.Desktop,)
-#
-# Available form factors are:
-# FormFactors.Phone
-# FormFactors.Tablet
-# FormFactors.Desktop
-
 """Tests for the Shell"""
 
 from __future__ import absolute_import
@@ -41,7 +27,7 @@ import subprocess
 logger = logging.getLogger(__name__)
 
 
-class NotificationsBase(UnityTestCase):
+class NotificationsTests(UnityTestCase):
     """Notification tests base class that takes care of starting a custom dbus
     session if required.
 
@@ -49,29 +35,34 @@ class NotificationsBase(UnityTestCase):
 
     scenarios = _get_device_emulation_scenarios()
 
-    def setUp(self):
-        self.dbus_address = 'session'
+    @classmethod
+    def setUpClass(cls):
+        cls.dbus_address = 'session'
         if model() == 'Desktop':
             p = subprocess.Popen(['dbus-launch'], stdout=subprocess.PIPE)
             output = p.communicate()
             results = output[0].split("\n")
-            self.dbus_pid = int(results[1].split("=")[1])
-            self.dbus_address = results[0].split("=", 1)[1]
+            cls.dbus_pid = int(results[1].split("=")[1])
+            cls.dbus_address = results[0].split("=", 1)[1]
 
             logger.info(
                 "Using DBUS_SESSION_BUS_ADDRESS: %s",
-                self.dbus_address
+                cls.dbus_address
             )
 
-            self.patch_environment(
-                "DBUS_SESSION_BUS_ADDRESS",
-                self.dbus_address
-            )
+    def setUp(self):
+        super(NotificationsTests, self).setUp()
 
-            kill_dbus = lambda pid: os.killpg(pid, signal.SIGTERM)
-            self.addCleanup(kill_dbus, self.dbus_pid)
+        self._notify_proc = None
+        # Because we are using the Notify library we need to init and un-init
+        # otherwise we get crashes.
+        Notify.init("Autopilot Ephemeral Notification Tests")
+        self.addCleanup(Notify.uninit)
 
-        super(NotificationsBase, self).setUp()
+    @classmethod
+    def tearDownClass(cls):
+        logger.info("Killing custom dbus server")
+        os.killpg(cls.dbus_pid, signal.SIGTERM)
 
     def _get_icon_path(self, icon_name):
         """Given an icons file name returns the full path (either system or
@@ -132,14 +123,6 @@ class NotificationsBase(UnityTestCase):
 
         if opacity is not None:
             self.assertThat(notification.opacity, Eventually(Equals(opacity)))
-
-
-class InteractiveNotificationsBase(NotificationsBase):
-    """Base class for test that use interactive notifications."""
-
-    def setUp(self):
-        super(InteractiveNotificationsBase, self).setUp()
-        self._notify_proc = None
 
     def _create_interactive_notification(
         self,
@@ -256,10 +239,6 @@ class InteractiveNotificationsBase(NotificationsBase):
             "No callback was called, killing interactivenotification script"
         )
 
-
-class NotificationInteractiveTests(InteractiveNotificationsBase):
-    """Collection of tests for testing interactive notifications."""
-
     @with_lightdm_mock("single")
     def test_interactive(self):
         self.launch_unity(dbus_bus=self.dbus_address)
@@ -299,9 +278,6 @@ class NotificationInteractiveTests(InteractiveNotificationsBase):
 
         self.assert_notification_action_id_was_called('action_id')
 
-
-class NotificationSnapDecisionsTests(InteractiveNotificationsBase):
-    """Collections of tests for testing Snap Decision notifications."""
 
     @with_lightdm_mock("single")
     def test_sd_incoming_call(self):
@@ -353,18 +329,6 @@ class NotificationSnapDecisionsTests(InteractiveNotificationsBase):
         time.sleep(2)
         self.touch.tap_object(notification.select_single(objectName="button4"))
         self.assert_notification_action_id_was_called("action_decline_4")
-
-
-class NotificationEphemeralTests(NotificationsBase):
-    """Collection of tests for testing Ephemeral notifications."""
-
-    def setUp(self):
-        # Because we are using the Notify library we need to init and un-init
-        # otherwise we get crashes.
-        super(NotificationEphemeralTests, self).setUp()
-
-        Notify.init("Autopilot Ephemeral Notification Tests")
-        self.addCleanup(Notify.uninit)
 
     @with_lightdm_mock("single")
     def test_icon_summary_body(self):
@@ -532,17 +496,17 @@ class NotificationEphemeralTests(NotificationsBase):
         )
 
     @with_lightdm_mock("single")
-    def test_summary_body(self):
+    def test_summary_and_body(self):
         self.launch_unity(dbus_bus=self.dbus_address)
         greeter = self.main_window.get_greeter()
         greeter.unlock()
-        Notify.init("Autopilot Notification Tests")
+
         notify_list = self._get_notifications_list()
 
         summary = 'Summary-Body'
         body = 'This is a superfluous notification'
 
-        notification = self._create_ephemeral(summary, body)
+        notification = self._create_ephemeral_notification(summary, body)
         notification.show()
 
         get_notification = lambda: notify_list.select_single('Notification')
@@ -556,7 +520,6 @@ class NotificationEphemeralTests(NotificationsBase):
             False,
             1.0
         )
-        Notify.uninit()
 
     @with_lightdm_mock("single")
     def test_summary_only(self):
