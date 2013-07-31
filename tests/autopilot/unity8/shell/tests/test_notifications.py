@@ -264,7 +264,6 @@ class NotificationsTests(UnityTestCase):
             "No callback was called, killing interactivenotification script"
         )
 
-    @with_lightdm_mock("single")
     def test_interactive(self):
         self.launch_unity(dbus_bus=self.dbus_address)
         greeter = self.main_window.get_greeter()
@@ -303,7 +302,6 @@ class NotificationsTests(UnityTestCase):
 
         self.assert_notification_action_id_was_called('action_id')
 
-    @with_lightdm_mock("single")
     def test_sd_incoming_call(self):
         """Snap-decision simulating incoming call."""
         self.launch_unity(dbus_bus=self.dbus_address)
@@ -354,7 +352,6 @@ class NotificationsTests(UnityTestCase):
         self.touch.tap_object(notification.select_single(objectName="button4"))
         self.assert_notification_action_id_was_called("action_decline_4")
 
-    @with_lightdm_mock("single")
     def test_icon_summary_body(self):
         """Notification must display the expected summary and body text."""
         self.launch_unity(dbus_bus=self.dbus_address)
@@ -389,7 +386,6 @@ class NotificationsTests(UnityTestCase):
         notification = get_notification()
         self._assert_notification(notification, summary, body, True, True, 1.0)
 
-    @with_lightdm_mock("single")
     def test_icon_summary(self):
         self.launch_unity(dbus_bus=self.dbus_address)
         greeter = self.main_window.get_greeter()
@@ -427,7 +423,6 @@ class NotificationsTests(UnityTestCase):
             1.0
         )
 
-    @with_lightdm_mock("single")
     def test_urgency_order(self):
         self.launch_unity(dbus_bus=self.dbus_address)
         greeter = self.main_window.get_greeter()
@@ -518,7 +513,6 @@ class NotificationsTests(UnityTestCase):
             1.0
         )
 
-    @with_lightdm_mock("single")
     def test_summary_and_body(self):
         self.launch_unity(dbus_bus=self.dbus_address)
         greeter = self.main_window.get_greeter()
@@ -544,7 +538,6 @@ class NotificationsTests(UnityTestCase):
             1.0
         )
 
-    @with_lightdm_mock("single")
     def test_summary_only(self):
         self.launch_unity(dbus_bus=self.dbus_address)
         greeter = self.main_window.get_greeter()
@@ -563,7 +556,6 @@ class NotificationsTests(UnityTestCase):
 
         self._assert_notification(notification, summary, '', False, False, 1.0)
 
-    @with_lightdm_mock("single")
     def test_update_notification(self):
         # Mirco, this should probably be split up into 2 tests, one for each
         # layout type.
@@ -647,7 +639,6 @@ class NotificationsTests(UnityTestCase):
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         self._assert_notification(get_notification(), summary, body, False)
 
-    @with_lightdm_mock("single")
     def test_append_hint(self):
         self.launch_unity(dbus_bus=self.dbus_address)
         greeter = self.main_window.get_greeter()
