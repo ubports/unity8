@@ -103,6 +103,7 @@ QString ModelPrinter::recurseString(const QModelIndex& index, int level) const
            << "child count"
            << ": "
            << rowCount
+           << endl
            << endl;
 
     for (int i = 0; i < rowCount; i++) {
