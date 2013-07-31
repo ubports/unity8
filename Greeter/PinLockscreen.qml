@@ -65,6 +65,7 @@ Column {
             anchors.centerIn: parent
             font.pixelSize: units.dp(44)
             color: "#f3f3e7"
+            opacity: 0.6
         }
         Label {
             id: pinentryFieldPlaceHolder
