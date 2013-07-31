@@ -118,7 +118,7 @@ ScopeView {
                         var dataItem;
                         // VideosCarousel and VideosFilterGrid have different
                         // clicked signals, accomodate for that
-                        if (categoryId == 1) {
+                        if (categoryId == "featured") {
                             var fileUri = delegateItem.model.uri.replace(/^[^:]+:/, "")
                             dataItem = {fileUri: fileUri, nfoUri: delegateItem.model.comment}
                         } else {
