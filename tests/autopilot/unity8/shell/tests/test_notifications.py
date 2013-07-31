@@ -256,7 +256,6 @@ class InteractiveNotificationBase(NotificationsBase):
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             close_fds=True,
-            preexec_fn=os.setsid
         )
 
         self.addCleanup(self._tidy_up_script_process)
