@@ -46,6 +46,17 @@ class NotificationsTests(UnityTestCase):
 
     scenarios = _get_device_emulation_scenarios()
 
+    # Important note:
+    # We have a single class for these tests and are using setUpClass and
+    # tearDownClass to overcome issues that we have encountered with starting a
+    # new dbus server for each test (and scenario).
+    # Namely we have noticed that, even if we init and uninit as required,
+    # Notification.show() fails with the error stating: "GError: Error calling
+    # StartServiceByName for org.freedesktop.Notifications: The connection is
+    # closed"
+    # This use of setUpClass may be changed in the future if we're able to sort
+    # out the above issue, but for now this works for us.
+
     @classmethod
     def setUpClass(cls):
         cls.dbus_address = 'session'
@@ -289,7 +300,6 @@ class NotificationsTests(UnityTestCase):
 
         self.assert_notification_action_id_was_called('action_id')
 
-
     @with_lightdm_mock("single")
     def test_sd_incoming_call(self):
         """Snap-decision simulating incoming call."""
@@ -413,7 +423,6 @@ class NotificationsTests(UnityTestCase):
             True,
             1.0
         )
-        foo = "bar"
 
     @with_lightdm_mock("single")
     def test_urgency_order(self):
@@ -668,13 +677,15 @@ class NotificationsTests(UnityTestCase):
             1.0
         )
 
-        bodies = ['What\'s up dude?',
-                  'Did you watch the air-race in Oshkosh last week?',
-                  'Phil owned the place like no one before him!',
-                  'Did really everything in the race work according to regulations?',
-                  'Somehow I think to remember Burt Williams did cut corners and was not punished for this.',
-                  'Hopefully the referees will watch the videos of the race.',
-                  'Burt could get fined with US$ 50000 for that rule-violation :)']
+        bodies = [
+            'What\'s up dude?',
+            'Did you watch the air-race in Oshkosh last week?',
+            'Phil owned the place like no one before him!',
+            'Did really everything in the race work according to regulations?',
+            'Somehow I think to remember Burt Williams did cut corners and was not punished for this.',
+            'Hopefully the referees will watch the videos of the race.',
+            'Burt could get fined with US$ 50000 for that rule-violation :)'
+        ]
 
         for new_body in bodies:
             time.sleep(1)
