@@ -21,12 +21,10 @@
 
 from __future__ import absolute_import
 
-from unity8.shell import with_lightdm_mock
 from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 
 from testtools.matchers import Equals, NotEquals
 from autopilot.matchers import Eventually
-from autopilot.platform import model
 
 from gi.repository import Notify
 import time
@@ -46,34 +44,6 @@ class NotificationsTests(UnityTestCase):
 
     scenarios = _get_device_emulation_scenarios()
 
-    # Important note:
-    # * On desktop only we run a custom dbus session
-    # * We have a single class for these tests and are using setUpClass and
-    # tearDownClass to overcome issues that we have encountered with starting a
-    # new dbus server for each test (and scenario).
-    # Namely we have noticed that, even if we init and uninit as required,
-    # Notification.show() fails with the error stating: "GError: Error calling
-    # StartServiceByName for org.freedesktop.Notifications: The connection is
-    # closed"
-    # This use of setUpClass may be changed in the future if we're able to sort
-    # out the above issue, but for now this works for us.
-
-    @classmethod
-    def setUpClass(cls):
-        cls.dbus_address = 'session'
-        cls.dbus_pid = None
-        if model() == 'Desktop':
-            p = subprocess.Popen(['dbus-launch'], stdout=subprocess.PIPE)
-            output = p.communicate()
-            results = output[0].split("\n")
-            cls.dbus_pid = int(results[1].split("=")[1])
-            cls.dbus_address = results[0].split("=", 1)[1]
-
-            logger.info(
-                "Using DBUS_SESSION_BUS_ADDRESS: %s",
-                cls.dbus_address
-            )
-
     def setUp(self):
         super(NotificationsTests, self).setUp()
 
@@ -82,12 +52,6 @@ class NotificationsTests(UnityTestCase):
         # otherwise we get crashes.
         Notify.init("Autopilot Ephemeral Notification Tests")
         self.addCleanup(Notify.uninit)
-
-    @classmethod
-    def tearDownClass(cls):
-        if cls.dbus_pid is not None:
-            logger.info("Killing custom dbus server")
-            os.killpg(cls.dbus_pid, signal.SIGTERM)
 
     def _get_icon_path(self, icon_name):
         """Given an icons file name returns the full path (either system or
@@ -265,7 +229,7 @@ class NotificationsTests(UnityTestCase):
         )
 
     def test_interactive(self):
-        self.launch_unity(dbus_bus=self.dbus_address)
+        self.launch_unity()
         greeter = self.main_window.get_greeter()
         greeter.unlock()
 
@@ -304,7 +268,7 @@ class NotificationsTests(UnityTestCase):
 
     def test_sd_incoming_call(self):
         """Snap-decision simulating incoming call."""
-        self.launch_unity(dbus_bus=self.dbus_address)
+        self.launch_unity()
         greeter = self.main_window.get_greeter()
         greeter.unlock()
 
@@ -354,7 +318,7 @@ class NotificationsTests(UnityTestCase):
 
     def test_icon_summary_body(self):
         """Notification must display the expected summary and body text."""
-        self.launch_unity(dbus_bus=self.dbus_address)
+        self.launch_unity()
         greeter = self.main_window.get_greeter()
         greeter.unlock()
 
@@ -387,7 +351,7 @@ class NotificationsTests(UnityTestCase):
         self._assert_notification(notification, summary, body, True, True, 1.0)
 
     def test_icon_summary(self):
-        self.launch_unity(dbus_bus=self.dbus_address)
+        self.launch_unity()
         greeter = self.main_window.get_greeter()
         greeter.unlock()
 
@@ -424,7 +388,7 @@ class NotificationsTests(UnityTestCase):
         )
 
     def test_urgency_order(self):
-        self.launch_unity(dbus_bus=self.dbus_address)
+        self.launch_unity()
         greeter = self.main_window.get_greeter()
         greeter.unlock()
 
@@ -514,7 +478,7 @@ class NotificationsTests(UnityTestCase):
         )
 
     def test_summary_and_body(self):
-        self.launch_unity(dbus_bus=self.dbus_address)
+        self.launch_unity()
         greeter = self.main_window.get_greeter()
         greeter.unlock()
 
@@ -539,7 +503,7 @@ class NotificationsTests(UnityTestCase):
         )
 
     def test_summary_only(self):
-        self.launch_unity(dbus_bus=self.dbus_address)
+        self.launch_unity()
         greeter = self.main_window.get_greeter()
         greeter.unlock()
 
@@ -562,7 +526,7 @@ class NotificationsTests(UnityTestCase):
         # Also, the sleeps should be changed to something similar to what is in
         # the test "test_urgency_order" i.e. using the eventually matcher to
         # ensure that the required notification etc. is displayed.
-        self.launch_unity(dbus_bus=self.dbus_address)
+        self.launch_unity()
         greeter = self.main_window.get_greeter()
         greeter.unlock()
 
@@ -640,7 +604,7 @@ class NotificationsTests(UnityTestCase):
         self._assert_notification(get_notification(), summary, body, False)
 
     def test_append_hint(self):
-        self.launch_unity(dbus_bus=self.dbus_address)
+        self.launch_unity()
         greeter = self.main_window.get_greeter()
         greeter.unlock()
 
