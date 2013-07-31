@@ -121,6 +121,7 @@ Showable {
             anchors.horizontalCenter: parent.horizontalCenter
             name: "phone-app-call-symbolic"
             color: "#f3f3e7"
+            opacity: 0.6
 
             MouseArea {
                 anchors.fill: parent
@@ -131,6 +132,7 @@ Showable {
         Label {
             text: i18n.tr("Emergency Call")
             color: "#f3f3e7"
+            opacity: 0.6
             fontSize: "medium"
             anchors.horizontalCenter: parent.horizontalCenter
         }
