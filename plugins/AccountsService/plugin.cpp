@@ -34,4 +34,3 @@ void LightDMPlugin::registerTypes(const char *uri)
     Q_ASSERT(uri == QLatin1String("AccountsService"));
     qmlRegisterSingletonType<AccountsService>(uri, 0, 1, "AccountsService", service_provider);
 }
-

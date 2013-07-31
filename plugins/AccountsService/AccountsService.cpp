@@ -67,4 +67,3 @@ QDBusInterface *AccountsService::getUserInterface(const QString &user)
     }
     return iface;
 }
-
