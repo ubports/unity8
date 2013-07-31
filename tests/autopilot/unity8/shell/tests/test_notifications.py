@@ -36,22 +36,10 @@ import subprocess
 logger = logging.getLogger(__name__)
 
 
-class NotificationsTests(UnityTestCase):
-    """Notification tests base class that takes care of starting a custom dbus
-    session if required.
-
-    """
+class NotificationsBase(UnityTestCase):
+    """Base class for all notification tests that provides helper methods."""
 
     scenarios = _get_device_emulation_scenarios()
-
-    def setUp(self):
-        super(NotificationsTests, self).setUp()
-
-        self._notify_proc = None
-        # Because we are using the Notify library we need to init and un-init
-        # otherwise we get crashes.
-        Notify.init("Autopilot Ephemeral Notification Tests")
-        self.addCleanup(Notify.uninit)
 
     def _get_icon_path(self, icon_name):
         """Given an icons file name returns the full path (either system or
@@ -112,6 +100,103 @@ class NotificationsTests(UnityTestCase):
 
         if opacity is not None:
             self.assertThat(notification.opacity, Eventually(Equals(opacity)))
+
+
+class InteractiveNotificationBase(NotificationsBase):
+    """Collection of test for Interactive tests including snap decisions."""
+
+    def setUp(self):
+        super(InteractiveNotificationBase, self).setUp()
+        # Need to keep track when we launch the notification script.
+        self._notify_proc = None
+
+    def test_interactive(self):
+        self.launch_unity()
+        greeter = self.main_window.get_greeter()
+        greeter.unlock()
+
+        notify_list = self._get_notifications_list()
+
+        summary = "Summary"
+        body = "Body"
+        icon_path = self._get_icon_path('avatars/anna_olsson@12.png')
+        actions = [("action_id", "dummy")]
+        hints = [
+            ("x-canonical-switch-to-application", "true"),
+            (
+                "x-canonical-secondary-icon",
+                self._get_icon_path('applicationIcons/phone-app@18.png')
+            )
+        ]
+
+        self._create_interactive_notification(
+            summary,
+            body,
+            icon_path,
+            "NORMAL",
+            actions,
+            hints,
+        )
+
+        get_notification = lambda: notify_list.select_single('Notification')
+        self.assertThat(get_notification, Eventually(NotEquals(None)))
+        notification = get_notification()
+
+        self.touch.tap_object(
+            notification.select_single(objectName="interactiveArea")
+        )
+
+        self.assert_notification_action_id_was_called('action_id')
+
+    def test_sd_incoming_call(self):
+        """Snap-decision simulating incoming call."""
+        self.launch_unity()
+        greeter = self.main_window.get_greeter()
+        greeter.unlock()
+
+        notify_list = self._get_notifications_list()
+
+        summary = "Incoming call"
+        body = "Frank Zappa\n+44 (0)7736 027340"
+        icon_path = self._get_icon_path('avatars/anna_olsson@12.png')
+        hints = [
+            (
+                "x-canonical-secondary-icon",
+                self._get_icon_path('applicationIcons/phone-app@18.png')
+            ),
+            ("x-canonical-snap-decisions", "true"),
+        ]
+
+        actions = [
+            ('action_accept', 'Accept'),
+            ('action_decline_1', 'Decline'),
+            ('action_decline_2', '"Can\'t talk now, what\'s up?"'),
+            ('action_decline_3', '"I call you back."'),
+            ('action_decline_4', 'Send custom message...'),
+        ]
+
+        self._create_interactive_notification(
+            summary,
+            body,
+            icon_path,
+            "NORMAL",
+            actions,
+            hints
+        )
+
+        get_notification = lambda: notify_list.select_single('Notification')
+        self.assertThat(get_notification, Eventually(NotEquals(None)))
+        notification = get_notification()
+        #self._assert_notification(notification, None, None, True, True, 1.0)
+        self.touch.tap_object(notification.select_single(objectName="button1"))
+        # Veebers: this needs a better check as it's happening to quick.
+        self.assertThat(
+            notification.select_single(objectName="buttonRow").expanded,
+            Eventually(Equals(True))
+        )
+        time.sleep(2)
+        self.touch.tap_object(notification.select_single(objectName="button4"))
+        self.assert_notification_action_id_was_called("action_decline_4")
 
     def _create_interactive_notification(
         self,
@@ -228,93 +313,16 @@ class NotificationsTests(UnityTestCase):
             "No callback was called, killing interactivenotification script"
         )
 
-    def test_interactive(self):
-        self.launch_unity()
-        greeter = self.main_window.get_greeter()
-        greeter.unlock()
 
-        notify_list = self._get_notifications_list()
+class EphemeralNotificationsTests(NotificationsBase):
+    """Collection of tests for Emphemeral notifications (non-interactive.)"""
 
-        summary = "Summary"
-        body = "Body"
-        icon_path = self._get_icon_path('avatars/anna_olsson@12.png')
-        actions = [("action_id", "dummy")]
-        hints = [
-            ("x-canonical-switch-to-application", "true"),
-            (
-                "x-canonical-secondary-icon",
-                self._get_icon_path('applicationIcons/phone-app@18.png')
-            )
-        ]
-
-        self._create_interactive_notification(
-            summary,
-            body,
-            icon_path,
-            "NORMAL",
-            actions,
-            hints,
-        )
-
-        get_notification = lambda: notify_list.select_single('Notification')
-        self.assertThat(get_notification, Eventually(NotEquals(None)))
-        notification = get_notification()
-
-        self.touch.tap_object(
-            notification.select_single(objectName="interactiveArea")
-        )
-
-        self.assert_notification_action_id_was_called('action_id')
-
-    def test_sd_incoming_call(self):
-        """Snap-decision simulating incoming call."""
-        self.launch_unity()
-        greeter = self.main_window.get_greeter()
-        greeter.unlock()
-
-        notify_list = self._get_notifications_list()
-
-        summary = "Incoming call"
-        body = "Frank Zappa\n+44 (0)7736 027340"
-        icon_path = self._get_icon_path('avatars/anna_olsson@12.png')
-        hints = [
-            (
-                "x-canonical-secondary-icon",
-                self._get_icon_path('applicationIcons/phone-app@18.png')
-            ),
-            ("x-canonical-snap-decisions", "true"),
-        ]
-
-        actions = [
-            ('action_accept', 'Accept'),
-            ('action_decline_1', 'Decline'),
-            ('action_decline_2', '"Can\'t talk now, what\'s up?"'),
-            ('action_decline_3', '"I call you back."'),
-            ('action_decline_4', 'Send custom message...'),
-        ]
-
-        self._create_interactive_notification(
-            summary,
-            body,
-            icon_path,
-            "NORMAL",
-            actions,
-            hints
-        )
-
-        get_notification = lambda: notify_list.select_single('Notification')
-        self.assertThat(get_notification, Eventually(NotEquals(None)))
-        notification = get_notification()
-        #self._assert_notification(notification, None, None, True, True, 1.0)
-        self.touch.tap_object(notification.select_single(objectName="button1"))
-        # Veebers: this needs a better check as it's happening to quick.
-        self.assertThat(
-            notification.select_single(objectName="buttonRow").expanded,
-            Eventually(Equals(True))
-        )
-        time.sleep(2)
-        self.touch.tap_object(notification.select_single(objectName="button4"))
-        self.assert_notification_action_id_was_called("action_decline_4")
+    def setUp(self):
+        super(EphemeralNotificationsTests, self).setUp()
+        # Because we are using the Notify library we need to init and un-init
+        # otherwise we get crashes.
+        Notify.init("Autopilot Ephemeral Notification Tests")
+        self.addCleanup(Notify.uninit)
 
     def test_icon_summary_body(self):
         """Notification must display the expected summary and body text."""
