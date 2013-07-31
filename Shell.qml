@@ -220,12 +220,12 @@ FocusScope {
 
             Connections {
                 target: greeter
-                onShownChanged: if (!greeter.shown) topEdgeDemo.visible = true
+                onShownChanged: if (topEdgeDemo.enabled && !greeter.shown) topEdgeDemo.visible = true
             }
 
             Connections {
                 target: panel.indicators
-                onFullyOpenedChanged: if (panel.indicators.fullyOpened) topEdgeDemo.visible = false
+                onFullyOpenedChanged: if (topEdgeDemo.enabled && panel.indicators.fullyOpened) topEdgeDemo.visible = false
             }
         }
 
@@ -242,13 +242,13 @@ FocusScope {
 
             Connections {
                 target: bottomEdgeDemo
-                onVisibleChanged: if (!bottomEdgeDemo.visible) leftEdgeDemo.visible = true
+                onVisibleChanged: if (leftEdgeDemo.enabled && !bottomEdgeDemo.visible) leftEdgeDemo.visible = true
             }
 
             Connections {
                 target: launcher
                 onProgressChanged: {
-                    if (launcher.progress >= 1.0) {
+                    if (leftEdgeDemo.enabled && launcher.progress >= 1.0) {
                         leftEdgeDemo.visible = false;
                         shell.hideEdgeDemo();
                     }
@@ -545,9 +545,9 @@ FocusScope {
 
             Connections {
                 target: greeter
-                onUnlocked: rightEdgeDemo.visible = false
+                onUnlocked: if (rightEdgeDemo.enabled) rightEdgeDemo.visible = false
                 onShownChanged: {
-                    if (!greeter.shown) {
+                    if (rightEdgeDemo.enabled && !greeter.shown) {
                         rightEdgeDemo.visible = false
                         shell.hideEdgeDemoInGreeter()
                     }
@@ -595,8 +595,8 @@ FocusScope {
 
                 Connections {
                     target: panel.indicators
-                    onFullyOpenedChanged: if (panel.indicators.fullyOpened) bottomEdgeDemo.visible = true
-                    onPartiallyOpenedChanged: if (!panel.indicators.partiallyOpened && !panel.indicators.fullyOpened) bottomEdgeDemo.visible = false
+                    onFullyOpenedChanged: if (bottomEdgeDemo.enabled && panel.indicators.fullyOpened) bottomEdgeDemo.visible = true
+                    onPartiallyOpenedChanged: if (bottomEdgeDemo.enabled && !panel.indicators.partiallyOpened && !panel.indicators.fullyOpened) bottomEdgeDemo.visible = false
                 }
             }
         }
