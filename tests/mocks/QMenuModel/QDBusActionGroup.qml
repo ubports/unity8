@@ -2,7 +2,7 @@
  * Copyright (C) 2013 Canonical, Ltd.
  *
  * Authors:
- *  Pawel Stolowski <pawel.stolowski@canonical.com>
+ *   Daniel d'Andrada <daniel.dandrada@canonical.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,16 +17,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef VARIANTUTILS_H
-#define VARIANTUTILS_H
+import QtQuick 2.0
 
-#include <glib.h>
-#include <QVariant>
-
-// libunity-core
-#include <UnityCore/Variant.h>
-
-unity::glib::HintsMap convertToHintsMap(const QHash<QString, QVariant> &val);
-unity::glib::HintsMap convertToHintsMap(const QVariant &var);
-
-#endif
+QtObject {
+    property int busType
+    property string busName
+    property string objectPath
+    function start() {}
+}

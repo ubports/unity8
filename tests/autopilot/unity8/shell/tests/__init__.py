@@ -19,6 +19,11 @@
 
 """unity autopilot tests."""
 
+try:
+    from gi.repository import Gio
+except ImportError:
+    Gio = None
+
 from autopilot.platform import model
 from autopilot.testcase import AutopilotTestCase
 from autopilot.matchers import Eventually
@@ -28,7 +33,12 @@ import logging
 import os.path
 from testtools.matchers import Equals, NotEquals
 
-from unity8 import get_lib_path, get_binary_path, get_mocks_library_path
+from unity8 import (
+    get_lib_path,
+    get_binary_path,
+    get_mocks_library_path,
+    get_default_extra_mock_libraries,
+)
 from unity8.shell.emulators import UnityEmulatorBase
 from unity8.shell.emulators.dash import Dash
 from unity8.shell.emulators.main_window import MainWindow
@@ -36,6 +46,10 @@ from unity8.shell.emulators.main_window import MainWindow
 
 logger = logging.getLogger(__name__)
 
+UNITYSHELL_GSETTINGS_SCHEMA = "org.compiz.unityshell"
+UNITYSHELL_GSETTINGS_PATH = "/org/compiz/profiles/unity/plugins/unityshell/"
+UNITYSHELL_LAUNCHER_KEY = "launcher-hide-mode"
+UNITYSHELL_LAUNCHER_MODE = 1 # launcher hidden
 
 def _get_device_emulation_scenarios():
     if model() == 'Desktop':
@@ -64,9 +78,21 @@ class UnityTestCase(AutopilotTestCase):
 
     def setUp(self):
         super(UnityTestCase, self).setUp()
+        if Gio is not None and UNITYSHELL_GSETTINGS_SCHEMA in Gio.Settings.list_relocatable_schemas():
+            # Hide Unity launcher
+            self._unityshell_schema = Gio.Settings.new_with_path(UNITYSHELL_GSETTINGS_SCHEMA, UNITYSHELL_GSETTINGS_PATH)
+            self._launcher_hide_mode = self._unityshell_schema.get_int(UNITYSHELL_LAUNCHER_KEY)
+            self._unityshell_schema.set_int(UNITYSHELL_LAUNCHER_KEY, UNITYSHELL_LAUNCHER_MODE)
+            self.addCleanup(self._reset_launcher)
+
         self._proxy = None
+        self._lightdm_mock_type = None
         self.touch = Touch.create()
         self._setup_display_details()
+
+    def _reset_launcher(self):
+        """Reset Unity launcher hide mode"""
+        self._unityshell_schema.set_int(UNITYSHELL_LAUNCHER_KEY, self._launcher_hide_mode)
 
     def _setup_display_details(self):
         scale_divisor = self._determine_geometry()
@@ -133,6 +159,8 @@ class UnityTestCase(AutopilotTestCase):
             binary_path
         )
 
+        if self._lightdm_mock_type is None:
+            self.patch_lightdm_mock()
         self._setup_extra_mock_environment_patch()
 
         app_proxy = self.launch_test_application(
@@ -150,6 +178,30 @@ class UnityTestCase(AutopilotTestCase):
         logger.debug("Unity loaded and ready.")
 
         return app_proxy
+
+    def patch_lightdm_mock(self, mock_type='single'):
+        self._lightdm_mock_type = mock_type
+        logger.info("Setting up LightDM mock type '%s'", mock_type)
+        new_ld_library_path = "%s:%s" % (
+            get_default_extra_mock_libraries(),
+            self._get_lightdm_mock_path(mock_type)
+        )
+        logger.info("New library path: %s", new_ld_library_path)
+
+        self.patch_environment('LD_LIBRARY_PATH', new_ld_library_path)
+
+    def _get_lightdm_mock_path(self, mock_type):
+        lib_path = get_mocks_library_path()
+        lightdm_mock_path = os.path.abspath(
+            os.path.join(lib_path, "LightDM", mock_type)
+        )
+
+        if not os.path.exists(lightdm_mock_path):
+            raise RuntimeError(
+                "LightDM mock '%s' does not exist at path '%s'."
+                % (mock_type, lightdm_mock_path)
+            )
+        return lightdm_mock_path
 
     def _setup_extra_mock_environment_patch(self):
         mocks_library_path = get_mocks_library_path()

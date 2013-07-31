@@ -299,5 +299,5 @@ private:
     QList<int> m_deltas;
 };
 
-QTEST_MAIN(MenuConentActivatorTest)
+QTEST_GUILESS_MAIN(MenuConentActivatorTest)
 #include "menucontentactivatortest.moc"
