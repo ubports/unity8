@@ -46,6 +46,8 @@ class ApplicationManager : public QObject {
     Q_PROPERTY(ApplicationInfo* sideStageFocusedApplication READ sideStageFocusedApplication
                NOTIFY sideStageFocusedApplicationChanged)
 
+    Q_PROPERTY(bool fake READ fake CONSTANT)
+
  public:
     ApplicationManager(QObject *parent = NULL);
     virtual ~ApplicationManager();
@@ -79,6 +81,8 @@ class ApplicationManager : public QObject {
     ApplicationListModel* sideStageApplications() const;
     ApplicationInfo* mainStageFocusedApplication() const;
     ApplicationInfo* sideStageFocusedApplication() const;
+
+    bool fake() { return true; }
 
     Q_INVOKABLE void focusApplication(int handle);
     Q_INVOKABLE void unfocusCurrentApplication(StageHint stageHint);
