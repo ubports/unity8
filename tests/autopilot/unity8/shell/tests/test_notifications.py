@@ -83,20 +83,26 @@ class NotificationsBase(UnityTestCase):
         """
 
         if summary is not None:
-            self.assertThat(notification.summary, Equals(summary))
+            self.assertThat(notification.summary, Eventually(Equals(summary)))
 
         if body is not None:
-            self.assertThat(notification.body, Equals(body))
+            self.assertThat(notification.body, Eventually(Equals(body)))
 
         if icon:
-            self.assertThat(notification.iconSource, NotEquals(""))
+            self.assertThat(notification.iconSource, Eventually(NotEquals("")))
         else:
-            self.assertThat(notification.iconSource, Equals(""))
+            self.assertThat(notification.iconSource, Eventually(Equals("")))
 
         if secondary_icon:
-            self.assertThat(notification.secondaryIconSource, NotEquals(""))
+            self.assertThat(
+                notification.secondaryIconSource,
+                Eventually(NotEquals(""))
+            )
         else:
-            self.assertThat(notification.secondaryIconSource, Equals(""))
+            self.assertThat(
+                notification.secondaryIconSource,
+                Eventually(Equals(""))
+            )
 
         if opacity is not None:
             self.assertThat(notification.opacity, Eventually(Equals(opacity)))
@@ -248,7 +254,8 @@ class InteractiveNotificationBase(NotificationsBase):
             action_string = "%s,%s" % (action_id, action_label)
             script_args.extend(['--action', action_string])
 
-        command = [self._get_notify_script()] + script_args
+        python_bin = subprocess.check_output(['which', 'python']).strip()
+        command = [python_bin, self._get_notify_script()] + script_args
         logger.info("Launching snap-decision notification as: %s", command)
         self._notify_proc = subprocess.Popen(
             command,
@@ -551,7 +558,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         )
         notification.show()
 
-        get_notification = lambda: notify_list.select_single('Notification')
+        get_notification = lambda: notify_list.select_single('Notification', summary=summary)
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         self._assert_notification(
             get_notification(),
@@ -562,7 +569,6 @@ class EphemeralNotificationsTests(NotificationsBase):
             1.0
         )
 
-        time.sleep(3)
         summary = 'Updated notification'
         body = 'Here the same bubble with new title- and body-text, even ' \
             'the icon can be changed on the update.'
