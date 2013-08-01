@@ -35,4 +35,4 @@ private:
     QList<sigc::connection> m_signals;
 };
 
-#endif
+#endif // SIGNALSLIST_H

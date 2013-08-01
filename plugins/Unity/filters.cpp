@@ -142,6 +142,3 @@ int Filters::indexForFilter(unity::dash::Filter::Ptr unityFilter)
     qWarning() << "Filter" << QString::fromStdString(unityFilter->name()) << "not found in local cache.";
     return -1;
 }
-
-
-#include "filters.moc"

@@ -47,4 +47,4 @@ protected:
 
 Q_DECLARE_METATYPE(GenericListModel*)
 
-#endif
+#endif // GENERICLISTMODEL_H
