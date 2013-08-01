@@ -139,7 +139,7 @@ private:
     void reallyReleaseItem(ListItem *item);
     void updateWatchedRoles();
     QQuickItem *getSectionItem(int modelIndex, bool alreadyInserted);
-    QQuickItem *getSectionItem(const QString &sectionText);
+    QQuickItem *getSectionItem(int modelIndex, const QString &sectionText);
 
     QQuickVisualDataModel *m_delegateModel;
 
