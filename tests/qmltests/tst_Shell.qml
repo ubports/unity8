@@ -82,10 +82,13 @@ Item {
            The behavior of Dash on 3 should be the same as on 1.
          */
         function test_rightEdgeDrag() {
+            print("fpppppppppppppppppppppppp1")
             checkRightEdgeDragWithNoRunningApps();
 
+            print("fpppppppppppppppppppppppp2")
             dragLauncherIntoView();
 
+            print("fpppppppppppppppppppppppp3")
             // Launch an app from the launcher
             tapOnAppIconInLauncher();
             waitUntilApplicationWindowIsFullyVisible();
@@ -178,10 +181,16 @@ Item {
         }
 
         function dragLauncherIntoView() {
+            print("baaaaaaaaaaaar1")
+            print("trying to find child \"launcher\" from shell")
             var launcherPanel = findChild(shell, "launcherPanel");
+            print("baaaaaaaaaaaar2")
             verify(launcherPanel.x = - launcherPanel.width);
+            print("baaaaaaaaaaaar3")
             swipeFromLeftEdge();
+            print("baaaaaaaaaaaar4")
             tryCompare(launcherPanel, "x", 0);
+            print("baaaaaaaaaaaar5")
         }
 
         function tapOnAppIconInLauncher() {
