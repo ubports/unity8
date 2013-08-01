@@ -27,16 +27,15 @@ Rectangle {
 
     PageStack {
         id: pages
-
         anchors.fill: parent
-        Component.onCompleted: root.reset()
-    }
+        Component.onCompleted: reset()
 
-    function reset() {
-        pages.clear();
-        var component = Qt.createComponent("IndicatorsList.qml");
-        var page = component.createObject(pages);
-        console.log(component.errorString());
-        pages.push(page);
+        function reset() {
+            clear();
+            var component = Qt.createComponent("IndicatorsList.qml");
+            var page = component.createObject(pages);
+            console.log(component.errorString());
+            push(page);
+        }
     }
 }

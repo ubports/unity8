@@ -24,6 +24,7 @@ set(IndicatorsQML_SOURCES
     indicatorsmanager.cpp
     indicatorsmodel.cpp
     menucontentactivator.cpp
+    modelprinter.cpp
     plugin.cpp
 )
 add_definitions(-DUNITYINDICATORS_LIBRARY)

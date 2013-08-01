@@ -1,3 +1,36 @@
+unity8 (7.81.3+13.10.20130801ubuntu.unity.next-0ubuntu1) saucy; urgency=low
+
+  [ Michael Zanetti ]
+  * implemented new Lockscreen design.
+
+  [ Michał Sawicz ]
+  * Fix mock VideoPreview to use the string categoryId as well.
+
+  [ Nick Dedekind ]
+  * Added a text tree representation of the qmenumodel to the
+    indicators-client application.
+
+  [ Albert Astals ]
+  * Don't need deelistmodel here.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 149 (ubuntu-unity/next)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 01 Aug 2013 02:32:03 +0000
+
+unity8 (7.81.3+13.10.20130730ubuntu.unity.next-0ubuntu1) saucy; urgency=low
+
+  [ Michał Sawicz ]
+  * Adapt to Qt 5.1.
+
+  [ Albert Astals ]
+  * Adapt to Qt 5.1.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 143 (ubuntu-unity/next)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 30 Jul 2013 02:33:12 +0000
+
 unity8 (7.81.3+13.10.20130729ubuntu.unity.next-0ubuntu1) saucy; urgency=low
 
   [ Michal Hruby ]
