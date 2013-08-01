@@ -38,13 +38,10 @@ class Hud(UnityEmulatorBase):
         window = self.get_root_instance().select_single('QQuickView')
         hud_show_button = window.select_single("HudButton")
 
-        start_x = int(window.x + (window.width / 2))
-        end_x = start_x
-        start_y = window.y + window.height
-        end_y = int(hud_show_button.y + (hud_show_button.height/2))
+        swipe_coords = self.get_button_swipe_coords(window, hud_show_button)
 
-        touch.press(start_x, start_y)
-        touch._finger_move(end_x, end_y)
+        touch.press(swipe_coords.start_x, swipe_coords.start_y)
+        touch._finger_move(swipe_coords.end_x, swipe_coords.end_y)
         try:
             hud_show_button.opacity.wait_for(1.0)
             touch.release()
@@ -78,6 +75,6 @@ class Hud(UnityEmulatorBase):
         start_x = int(main_view.x + (main_view.width / 2))
         end_x = start_x
         start_y = main_view.y + (main_view.height - 3)
-        end_y = int(hud_show_button.y + (hud_show_button.height/2))
+        end_y = main_view.y + int(hud_show_button.y + (hud_show_button.height/2))
 
         return SwipeCoords(start_x, end_x, start_y, end_y)
