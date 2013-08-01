@@ -72,11 +72,16 @@ TestCase {
     // Find an object with the given name recursively, starting
     // at the given object "obj"
     function findChild(obj,objectName) {
-        for (var i in obj.data) {
-            var child = obj.data[i];
-            if (child.objectName === objectName) return child;
-            var subChild = findChild(child,objectName);
-            if (subChild !== undefined) return subChild;
+        var childs = new Array(0);
+        childs.push(obj)
+        while (childs.length > 0) {
+            if (childs[0].objectName == objectName) {
+                return childs[0]
+            }
+            for (var i in childs[0].data) {
+                childs.push(childs[0].data[i])
+            }
+            childs.splice(0, 1);
         }
         return undefined;
     }
