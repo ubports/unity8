@@ -647,4 +647,18 @@ FocusScope {
 
         enabled: shell.applicationManager && shell.applicationManager.keyboardVisible
     }
+
+    Label {
+        anchors.fill: parent
+        visible: applicationManager.fake
+        text: "EARLY ALPHA\nNOT READY FOR USE"
+        color: "lightgrey"
+        opacity: 0.2
+        font.weight: Font.Black
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        fontSizeMode: Text.Fit
+        font.pixelSize: height/2
+        rotation: -45
+    }
 }

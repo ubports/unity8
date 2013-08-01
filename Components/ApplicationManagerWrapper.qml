@@ -29,6 +29,8 @@ Item {
     property bool keyboardVisible: ApplicationManager.keyboardVisible
     property int keyboardHeight: ApplicationManager.keyboardHeight
 
+    property bool fake: ApplicationManager.fake
+
     Component.onCompleted: {
         // Start the watcher so that the ApplicationManager applications model can be populated.
         ApplicationManager.startWatcher();
