@@ -178,7 +178,6 @@ Item {
         }
 
         function dragLauncherIntoView() {
-            print("trying to find child \"launcher\" from shell")
             var launcherPanel = findChild(shell, "launcherPanel");
             verify(launcherPanel.x = - launcherPanel.width);
             swipeFromLeftEdge();
