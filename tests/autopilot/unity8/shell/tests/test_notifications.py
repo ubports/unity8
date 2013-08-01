@@ -124,8 +124,8 @@ class InteractiveNotificationBase(NotificationsBase):
 
         notify_list = self._get_notifications_list()
 
-        summary = "Summary"
-        body = "Body"
+        summary = "Interactive notification"
+        body = "This notification can be clicked on to trigger an action."
         icon_path = self._get_icon_path('avatars/anna_olsson@12.png')
         actions = [("action_id", "dummy")]
         hints = [
