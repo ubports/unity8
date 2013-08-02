@@ -179,7 +179,7 @@ FocusScope {
             available: !greeter.shown && !lockscreen.shown
             hides: [stages, launcher, panel.indicators]
             shown: disappearingAnimationProgress !== 1.0
-            enabled: disappearingAnimationProgress === 0.0 && !leftEdgeDemo.visible && !topEdgeDemo.visible
+            enabled: disappearingAnimationProgress === 0.0 && !leftEdgeDemo.active && !topEdgeDemo.active
             // FIXME: unfocus all applications when going back to the dash
             onEnabledChanged: {
                 if (enabled) {
@@ -220,12 +220,12 @@ FocusScope {
 
             Connections {
                 target: greeter
-                onShownChanged: if (topEdgeDemo.enabled && !greeter.shown) topEdgeDemo.visible = true
+                onShownChanged: if (!greeter.shown) topEdgeDemo.visible = true
             }
 
             Connections {
                 target: panel.indicators
-                onFullyOpenedChanged: if (topEdgeDemo.enabled && panel.indicators.fullyOpened) topEdgeDemo.visible = false
+                onFullyOpenedChanged: if (panel.indicators.fullyOpened) topEdgeDemo.enabled = false
             }
         }
 
@@ -242,14 +242,14 @@ FocusScope {
 
             Connections {
                 target: bottomEdgeDemo
-                onVisibleChanged: if (leftEdgeDemo.enabled && !bottomEdgeDemo.visible) leftEdgeDemo.visible = true
+                onActiveChanged: if (!bottomEdgeDemo.active) leftEdgeDemo.visible = true
             }
 
             Connections {
                 target: launcher
                 onProgressChanged: {
-                    if (leftEdgeDemo.enabled && launcher.progress >= 1.0) {
-                        leftEdgeDemo.visible = false;
+                    if (leftEdgeDemo.active && launcher.progress >= 1.0) {
+                        leftEdgeDemo.enabled = false;
                         shell.hideEdgeDemo();
                     }
                 }
@@ -521,7 +521,7 @@ FocusScope {
             shell.background = bgPath ? bgPath : default_background
             // Update edge demo hint
             var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole)
-            shell.showEdgeDemo = AccountsService.getUserProperty(user, "demo-edges")
+            //shell.showEdgeDemo = AccountsService.getUserProperty(user, "demo-edges")
         }
 
         onLeftTeaserPressedChanged: {
@@ -538,7 +538,6 @@ FocusScope {
             text: i18n.tr("Try swiping from the right edge to unlock the phone")
             anchors.fill: parent
             visible: shell.showEdgeDemoInGreeter
-            enabled: shell.showEdgeDemoInGreeter
             onSkip: {
                 shell.hideEdgeDemoInGreeter()
                 shell.hideEdgeDemo()
@@ -546,10 +545,10 @@ FocusScope {
 
             Connections {
                 target: greeter
-                onUnlocked: if (rightEdgeDemo.enabled) rightEdgeDemo.visible = false
+                onUnlocked: rightEdgeDemo.visible = false
                 onShownChanged: {
-                    if (rightEdgeDemo.enabled && !greeter.shown) {
-                        rightEdgeDemo.visible = false
+                    if (rightEdgeDemo.active && !greeter.shown) {
+                        rightEdgeDemo.enabled = false
                         shell.hideEdgeDemoInGreeter()
                     }
                 }
@@ -573,7 +572,7 @@ FocusScope {
             indicatorsMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
             indicators {
                 hides: [launcher]
-                available: !rightEdgeDemo.visible && !leftEdgeDemo.visible
+                available: !rightEdgeDemo.active && !leftEdgeDemo.active
             }
             fullscreenMode: shell.fullscreenMode
             searchVisible: !greeter.shown && !lockscreen.shown
@@ -596,8 +595,8 @@ FocusScope {
 
                 Connections {
                     target: panel.indicators
-                    onFullyOpenedChanged: if (bottomEdgeDemo.enabled && panel.indicators.fullyOpened) bottomEdgeDemo.visible = true
-                    onPartiallyOpenedChanged: if (bottomEdgeDemo.enabled && !panel.indicators.partiallyOpened && !panel.indicators.fullyOpened) bottomEdgeDemo.visible = false
+                    onFullyOpenedChanged: if (panel.indicators.fullyOpened) bottomEdgeDemo.visible = true
+                    onPartiallyOpenedChanged: if (!panel.indicators.partiallyOpened && !panel.indicators.fullyOpened) bottomEdgeDemo.enabled = false
                 }
             }
         }
@@ -608,7 +607,7 @@ FocusScope {
             width: parent.width > units.gu(60) ? units.gu(40) : parent.width
             height: parent.height
 
-            available: !greeter.shown && !panel.indicators.shown && !lockscreen.shown && !topEdgeDemo.visible
+            available: !greeter.shown && !panel.indicators.shown && !lockscreen.shown && !topEdgeDemo.active
             shown: false
             showAnimation: StandardAnimation { property: "y"; duration: hud.showableAnimationDuration; to: 0; easing.type: Easing.Linear }
             hideAnimation: StandardAnimation { property: "y"; duration: hud.showableAnimationDuration; to: hudRevealer.closedValue; easing.type: Easing.Linear }
@@ -666,7 +665,7 @@ FocusScope {
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
-            available: !greeter.locked && !rightEdgeDemo.visible && !topEdgeDemo.visible && !bottomEdgeDemo.visible
+            available: !greeter.locked && !rightEdgeDemo.active && !topEdgeDemo.active && !bottomEdgeDemo.active
             onDashItemSelected: {
                 greeter.hide()
                 // Animate if moving between application and dash

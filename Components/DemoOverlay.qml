@@ -38,9 +38,14 @@ Item {
     property string text
 
     /*
-     * Whether this demo is even enabled at all.
+     * Whether this demo is allowed to run.
      */
     property bool enabled: true
+
+    /*
+     * Whether this demo is running currently.
+     */
+    readonly property bool active: enabled && visible
 
     property color __orange: Qt.hsla(16.0/360.0, 0.83, 0.47, 1.0)
     property color __orange_transparent: Qt.hsla(16.0/360.0, 0.83, 0.47, 0.4)
@@ -55,7 +60,7 @@ Item {
         anchors.fill: parent
         color: "black"
         opacity: 0.8
-        visible: overlay.enabled
+        visible: overlay.active
     }
 
     Item {
@@ -64,7 +69,7 @@ Item {
         y: 0
         width: parent.width
         height: parent.height
-        visible: overlay.enabled
+        visible: overlay.active
 
         Column {
             id: labelGroup
@@ -153,7 +158,7 @@ Item {
 
     SequentialAnimation {
         id: wholeAnimation
-        running: overlay.visible && overlay.enabled
+        running: overlay.active
 
         ParallelAnimation {
             id: fadeInAnimation
