@@ -29,7 +29,7 @@ static QObject *service_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
     return new AccountsService();
 }
 
-void LightDMPlugin::registerTypes(const char *uri)
+void AccountsServicePlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("AccountsService"));
     qmlRegisterSingletonType<AccountsService>(uri, 0, 1, "AccountsService", service_provider);

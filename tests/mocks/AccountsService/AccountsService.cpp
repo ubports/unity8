@@ -23,11 +23,11 @@ AccountsService::AccountsService(QObject* parent)
 {
 }
 
-QVariant AccountsService::getUserProperty(const QString &user, const QString &property)
+QVariant AccountsService::getUserProperty(const QString &, const QString &)
 {
     return QVariant(false);
 }
 
-void AccountsService::setUserProperty(const QString &user, const QString &property, const QVariant &value)
+void AccountsService::setUserProperty(const QString &, const QString &, const QVariant &)
 {
 }
