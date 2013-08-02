@@ -39,7 +39,7 @@ logger = logging.getLogger(__name__)
 class NotificationsBase(UnityTestCase):
     """Base class for all notification tests that provides helper methods."""
 
-    scenarios = _get_device_emulation_scenarios()
+    scenarios = _get_device_emulation_scenarios('Nexus4')
 
     def _get_icon_path(self, icon_name):
         """Given an icons file name returns the full path (either system or
