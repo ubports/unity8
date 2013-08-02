@@ -16,9 +16,9 @@
  * Author: Michael Terry <michael.terry@canonical.com>
  */
 
-#include "Power.h"
+#include "Powerd.h"
 
-Power::Power(QObject* parent)
+Powerd::Powerd(QObject* parent)
   : QObject(parent),
     powerd(NULL)
 {

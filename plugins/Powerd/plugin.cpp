@@ -17,24 +17,20 @@
  *          Michael Terry <michael.terry@canonical.com>
  */
 
-#ifndef UNITY_POWER_H
-#define UNITY_POWER_H
+#include "plugin.h"
+#include "Powerd.h"
 
-#include <QtCore/QObject>
-#include <QtDBus/QDBusInterface>
+#include <QtQml/QtQml>
 
-class Power: public QObject
+static QObject *powerd_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
-    Q_OBJECT
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+    return new Powerd();
+}
 
-public:
-    explicit Power(QObject *parent = 0);
-
-Q_SIGNALS:
-    void powerStateChange(int state);
-
-private:
-    QDBusInterface *powerd;
-};
-
-#endif
+void PowerdPlugin::registerTypes(const char *uri)
+{
+    Q_ASSERT(uri == QLatin1String("Powerd"));
+    qmlRegisterSingletonType<Powerd>(uri, 0, 1, "Powerd", powerd_provider);
+}

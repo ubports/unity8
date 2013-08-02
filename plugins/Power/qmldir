@@ -1,3 +1,0 @@
-module Power
-plugin Power-qml
-typeinfo plugin.qmltypes
