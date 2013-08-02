@@ -1,3 +1,31 @@
+unity8 (7.81.3+13.10.20130802-0ubuntu1) saucy; urgency=low
+
+  [ Michael Terry ]
+  * Make hud autopilot tests more reliable by fixing how it calculates
+    relative coordinates.
+
+  [ Albert Astals ]
+  * Only update the "section" if we are not culling the item If the item
+    is not shown we should not care about its section.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 155
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 02 Aug 2013 02:40:11 +0000
+
+unity8 (7.81.3+13.10.20130801.1-0ubuntu1) saucy; urgency=low
+
+  [ Michał Sawicz ]
+  * Add a disclaimer for the fake applications plugin.
+
+  [ Nick Dedekind ]
+  * Removed animations from fake indicator pages.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 152
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 01 Aug 2013 14:30:40 +0000
+
 unity8 (7.81.3+13.10.20130801ubuntu.unity.next-0ubuntu1) saucy; urgency=low
 
   [ Michael Zanetti ]
