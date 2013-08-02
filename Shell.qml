@@ -552,7 +552,7 @@ FocusScope {
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
-            available: greeter.narrowMode
+            available: !greeter.shown || greeter.narrowMode
             onDashItemSelected: {
                 greeter.hide()
                 // Animate if moving between application and dash
