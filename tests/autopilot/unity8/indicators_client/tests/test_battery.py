@@ -26,7 +26,7 @@ class TestDisplayMenus(IndicatorsTestCase):
         self.pointing_device.move_to_object(self.main_window.get_battery_menu())
         self.pointing_device.click()
 
-        fn_loader = lambda: self.app.select_single("IndicatorsPage/QQuickLoader", objectName="page_loader");
+        fn_loader = lambda: self.app.select_single("IndicatorsPage/QQuickLoader", objectName="pageLoader");
         self.assertThat(fn_loader, Eventually(NotEquals(None)));
         page_loader = fn_loader();
         self.assertThat(page_loader.progress, Eventually(Equals(1.0)))

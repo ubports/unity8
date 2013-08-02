@@ -280,7 +280,7 @@ void ListViewWithPageHeader::setSectionDelegate(QQmlComponent *delegate)
 
         m_sectionDelegate = delegate;
 
-        m_topSectionItem = getSectionItem(QString());
+        m_topSectionItem = getSectionItem(-1, QString());
         m_topSectionItem->setZ(3);
         QQuickItemPrivate::get(m_topSectionItem)->setCulled(true);
 
@@ -599,16 +599,17 @@ QQuickItem *ListViewWithPageHeader::getSectionItem(int modelIndex, bool alreadyI
         }
     }
 
-    return getSectionItem(section);
+    return getSectionItem(modelIndex, section);
 }
 
-QQuickItem *ListViewWithPageHeader::getSectionItem(const QString &sectionText)
+QQuickItem *ListViewWithPageHeader::getSectionItem(int modelIndex, const QString &sectionText)
 {
     QQuickItem *sectionItem = nullptr;
 
     QQmlContext *creationContext = m_sectionDelegate->creationContext();
     QQmlContext *context = new QQmlContext(creationContext ? creationContext : qmlContext(this));
     context->setContextProperty(QLatin1String("section"), sectionText);
+    context->setContextProperty(QLatin1String("delegateIndex"), modelIndex);
     QObject *nobj = m_sectionDelegate->beginCreate(context);
     if (nobj) {
         QQml_setParent_noEvent(context, nobj);
@@ -932,6 +933,14 @@ void ListViewWithPageHeader::onModelUpdated(const QQmlChangeSet &changeSet, bool
         adjustMinYExtent();
     }
 
+    for (int i = 0; i < m_visibleItems.count(); ++i) {
+        ListItem *item = m_visibleItems[i];
+        if (item->m_sectionItem) {
+            QQmlContext *context = QQmlEngine::contextForObject(item->m_sectionItem)->parentContext();
+            context->setContextProperty(QLatin1String("delegateIndex"), m_firstVisibleIndex + i);
+        }
+    }
+
     layout();
     polish();
     m_contentHeightDirty = true;
@@ -1037,11 +1046,6 @@ void ListViewWithPageHeader::layout()
             if (!cull && firstReallyVisibleItem == -1) {
                 firstReallyVisibleItem = modelIndex;
                 if (m_topSectionItem) {
-                    // Update the top sticky section header
-                    const QString section = m_delegateModel->stringValue(modelIndex, m_sectionProperty);
-                    QQmlContext *context = QQmlEngine::contextForObject(m_topSectionItem)->parentContext();
-                    context->setContextProperty(QLatin1String("section"), section);
-
                     // Positing the top section sticky item is a two step process
                     // First we set it either we cull it (because it doesn't need to be sticked to the top)
                     // or stick it to the top
@@ -1058,8 +1062,22 @@ void ListViewWithPageHeader::layout()
                             QQuickItemPrivate::get(item->m_sectionItem)->setCulled(false);
                         }
                     } else {
+                        // Update the top sticky section header
+                        const QString section = m_delegateModel->stringValue(modelIndex, m_sectionProperty);
+                        QQmlContext *context = QQmlEngine::contextForObject(m_topSectionItem)->parentContext();
+                        context->setContextProperty(QLatin1String("section"), section);
+
                         QQuickItemPrivate::get(m_topSectionItem)->setCulled(false);
                         m_topSectionItem->setY(topSectionStickPos);
+                        int delegateIndex = modelIndex;
+                        // Look for the first index with this section text
+                        while (delegateIndex > 0) {
+                            const QString prevSection = m_delegateModel->stringValue(delegateIndex - 1, m_sectionProperty);
+                            if (prevSection != section)
+                                break;
+                            delegateIndex--;
+                        }
+                        context->setContextProperty(QLatin1String("delegateIndex"), delegateIndex);
                         if (item->m_sectionItem) {
                             QQuickItemPrivate::get(item->m_sectionItem)->setCulled(true);
                         }

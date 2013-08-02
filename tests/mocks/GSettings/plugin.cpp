@@ -12,35 +12,22 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Author: Michael Terry <michael.terry@canonical.com>
  */
 
-#include "../Greeter.h"
-#include "../GreeterPrivate.h"
+#include "plugin.h"
+#include "fake_gsettings.h"
 
-namespace QLightDM
-{
+#include <QtQml>
 
-GreeterPrivate::GreeterPrivate(Greeter* parent)
-  : authenticated(false),
-    authenticationUser(),
-    twoFactorDone(false),
-    q_ptr(parent)
+static QObject* controllerProvider(QQmlEngine* /* engine */, QJSEngine* /* scriptEngine */)
 {
+    return GSettingsControllerQml::instance();
 }
 
-void GreeterPrivate::handleAuthenticate()
+void FakeGSettingsQmlPlugin::registerTypes(const char *uri)
 {
-    Q_Q(Greeter);
-
-    authenticated = true;
-    Q_EMIT q->authenticationComplete();
-}
-
-void GreeterPrivate::handleRespond(QString const &response)
-{
-    Q_UNUSED(response)
-}
-
+    qmlRegisterSingletonType<GSettingsControllerQml>(uri, 1, 0, "GSettingsController", controllerProvider);
+    qmlRegisterType<GSettingsQml>(uri, 1, 0, "GSettings");
+    qmlRegisterUncreatableType<GSettingsSchemaQml>(uri, 1, 0, "GSettingsSchema",
+                                                   "GSettingsSchema can only be used inside of a GSettings component");
 }

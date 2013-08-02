@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright (C) 2012,2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,25 +12,25 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authors: Gerry Boland <gerry.boland@canonical.com>
+ *          Michael Terry <michael.terry@canonical.com>
  */
 
-import QtQuick 2.0
-import Unity.Indicators 0.1 as Indicators
+#include "plugin.h"
+#include "Powerd.h"
 
-Indicators.FakeMenuPage {
-    id: menu_plugin2
-    objectName: "menu_page2"
+#include <QtQml/QtQml>
 
-    Rectangle {
-        id: contents
-        color: "blue"
+static QObject *powerd_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+    return new Powerd();
+}
 
-        height: 150
-        width: 150
-
-        anchors {
-            horizontalCenter: parent.horizontalCenter
-            verticalCenter: parent.verticalCenter
-        }
-    }
+void PowerdPlugin::registerTypes(const char *uri)
+{
+    Q_ASSERT(uri == QLatin1String("Powerd"));
+    qmlRegisterSingletonType<Powerd>(uri, 0, 1, "Powerd", powerd_provider);
 }

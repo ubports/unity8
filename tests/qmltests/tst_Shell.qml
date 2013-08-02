@@ -19,6 +19,7 @@
 
 import QtQuick 2.0
 import QtTest 1.0
+import GSettings 1.0
 import Ubuntu.Application 0.1
 import Unity.Test 0.1 as UT
 
@@ -276,6 +277,19 @@ Item {
                     previousY = itemRectInShell.y;
                 }
             } while (!isStill);
+        }
+
+        function test_wallpaper_data() {
+            return [
+                {tag: "red", url: "tests/data/unity/backgrounds/red.png"},
+                {tag: "blue", url: "tests/data/unity/backgrounds/blue.png"}
+            ]
+        }
+
+        function test_wallpaper(data) {
+            var backgroundImage = findChild(shell, "backgroundImage")
+            GSettingsController.setPictureUri(data.url)
+            tryCompareFunction(function() { return backgroundImage.source.toString().indexOf(data.url) !== -1; }, true)
         }
     }
 }

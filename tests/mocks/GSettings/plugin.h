@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright (C) 2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,23 +14,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Unity.Indicators 0.1 as Indicators
+#ifndef PLUGIN_H
+#define PLUGIN_H
 
-Indicators.FakeMenuPage {
-    id: menu_plugin2
-    objectName: "menu_page2"
+#include <QtQml/QQmlExtensionPlugin>
 
-    Rectangle {
-        id: contents
-        color: "blue"
+class FakeGSettingsQmlPlugin : public QQmlExtensionPlugin
+{
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
 
-        height: 150
-        width: 150
+public:
+    void registerTypes(const char *uri);
+};
 
-        anchors {
-            horizontalCenter: parent.horizontalCenter
-            verticalCenter: parent.verticalCenter
-        }
-    }
-}
+#endif // PLUGIN_H

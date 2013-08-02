@@ -85,7 +85,7 @@ Item {
     Connections {
         target: __nextImage
         onStatusChanged: {
-            if (__nextImage.status == Image.Ready) {
+            if (__nextImage.status == Image.Ready || __nextImage.status == Image.Error) {
                  swapImages();
              }
         }
@@ -96,6 +96,7 @@ Item {
         anchors.fill: parent
         cache: false
         asynchronous: true
+        fillMode: Image.PreserveAspectCrop
         z: 1
     }
 
@@ -104,6 +105,7 @@ Item {
         anchors.fill: parent
         cache: false
         asynchronous: true
+        fillMode: Image.PreserveAspectCrop
         z: 0
     }
 

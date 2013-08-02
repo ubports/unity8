@@ -34,7 +34,7 @@ Showable {
 
     property alias dragHandleWidth: dragHandle.width
     property alias model: greeterContentLoader.model
-    property bool locked: shown && multiUser && !greeterContentLoader.promptless
+    property bool locked: shown && !LightDM.Greeter.promptless
 
     readonly property bool narrowMode: !multiUser && width <= units.gu(60)
     readonly property bool multiUser: LightDM.Users.count > 1
@@ -61,7 +61,6 @@ Showable {
         anchors.fill: parent
         property var model: LightDM.Users
         property int currentIndex: 0
-        property bool promptless: item ? item.promptless : false
         property var infographicModel: LightDM.Infographic
 
         source: required ? "GreeterContent.qml" : ""
@@ -117,7 +116,7 @@ Showable {
         // UI element)
         distanceThreshold: 0
 
-        enabled: !greeter.locked
+        enabled: greeter.narrowMode || !greeter.locked
 
         direction: Direction.Leftwards
     }

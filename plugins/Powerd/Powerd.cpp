@@ -16,31 +16,21 @@
  * Author: Michael Terry <michael.terry@canonical.com>
  */
 
-#include "../Greeter.h"
-#include "../GreeterPrivate.h"
+#include "Powerd.h"
 
-namespace QLightDM
+Powerd::Powerd(QObject* parent)
+  : QObject(parent),
+    powerd(NULL)
 {
+    powerd = new QDBusInterface("com.canonical.powerd",
+                                "/com/canonical/powerd",
+                                "com.canonical.powerd",
+                                QDBusConnection::SM_BUSNAME(), this);
 
-GreeterPrivate::GreeterPrivate(Greeter* parent)
-  : authenticated(false),
-    authenticationUser(),
-    twoFactorDone(false),
-    q_ptr(parent)
-{
-}
-
-void GreeterPrivate::handleAuthenticate()
-{
-    Q_Q(Greeter);
-
-    authenticated = true;
-    Q_EMIT q->authenticationComplete();
-}
-
-void GreeterPrivate::handleRespond(QString const &response)
-{
-    Q_UNUSED(response)
-}
-
+    powerd->connection().connect("com.canonical.powerd",
+                                 "/com/canonical/powerd",
+                                 "com.canonical.powerd",
+                                 "SysPowerStateChange",
+                                 this,
+                                 SIGNAL(powerStateChange(int)));
 }
