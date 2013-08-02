@@ -22,8 +22,6 @@ import "../../Components/IconUtil.js" as IconUtil
 FilterGrid {
     id: filterGrid
 
-    filter: false
-    expandable: false
     minimumHorizontalSpacing: units.gu(0.5)
     maximumNumberOfColumns: 6
     delegateWidth: units.gu(11)

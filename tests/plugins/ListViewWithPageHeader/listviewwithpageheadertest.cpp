@@ -1245,7 +1245,7 @@ private Q_SLOTS:
 
         lvwph->showHeader();
 
-        QTRY_VERIFY(!lvwph->m_headerShowAnimation->isRunning());
+        QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
         QTRY_COMPARE(lvwph->m_visibleItems.count(), 5);
         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
         verifyItem(0, -375., 150., true);
@@ -1301,7 +1301,7 @@ private Q_SLOTS:
 
         lvwph->showHeader();
 
-        QTRY_VERIFY(!lvwph->m_headerShowAnimation->isRunning());
+        QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
         verifyItem(0, -20., 150., false);
@@ -1339,7 +1339,7 @@ private Q_SLOTS:
 
         lvwph->showHeader();
 
-        QTRY_VERIFY(!lvwph->m_headerShowAnimation->isRunning());
+        QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
         QTRY_VERIFY (lvwph->isAtYEnd());
     }
 

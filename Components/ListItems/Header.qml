@@ -25,6 +25,8 @@ Item {
     */
     property alias text: label.text
 
+    signal clicked(variant mouse)
+
     height: units.gu(4.5)
 
     Item {
@@ -63,5 +65,10 @@ Item {
             right: parent.right
             bottom: parent.bottom
         }
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        onClicked: parent.clicked(mouse)
     }
 }

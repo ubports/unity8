@@ -1506,7 +1506,7 @@ private Q_SLOTS:
 
         lvwph->showHeader();
 
-        QTRY_VERIFY(!lvwph->m_headerShowAnimation->isRunning());
+        QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
         QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
         verifyItem(0, -20., 190., false, "Agressive", true);
@@ -1565,7 +1565,7 @@ private Q_SLOTS:
 
         lvwph->showHeader();
 
-        QTRY_VERIFY(!lvwph->m_headerShowAnimation->isRunning());
+        QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
         verifyItem(0, -375., 190., true, "Agressive", true);
@@ -1607,7 +1607,7 @@ private Q_SLOTS:
 
         lvwph->showHeader();
 
-        QTRY_VERIFY(!lvwph->m_headerShowAnimation->isRunning());
+        QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
         QTRY_VERIFY (lvwph->isAtYEnd());
     }
 

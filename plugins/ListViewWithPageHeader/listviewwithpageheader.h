@@ -88,6 +88,8 @@ public:
 
     Q_INVOKABLE void positionAtBeginning();
     Q_INVOKABLE void showHeader();
+    Q_INVOKABLE QQuickItem *item(int modelIndex) const;
+    Q_INVOKABLE void maximizeVisibleArea(int modelIndex);
 
 Q_SIGNALS:
     void modelChanged();
@@ -182,7 +184,8 @@ private:
     qreal m_previousContentY;
     qreal m_headerItemShownHeight; // The height of header shown when the header is shown outside its topmost position
                                    // i.e. it's being shown after dragging down in the middle of the list
-    QQuickNumberAnimation *m_headerShowAnimation;
+    bool contentYAnimationIsShownHeader;
+    QQuickNumberAnimation *m_contentYAnimation;
 
     QQmlComponent *m_sectionDelegate;
     QString m_sectionProperty;

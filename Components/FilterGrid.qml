@@ -35,7 +35,7 @@ Item {
 
     /* Whether, when collapsed, a button should be displayed enabling the user to expand
        the grid to its full size. */
-    property bool expandable: true
+    readonly property bool expandable: model.count > collapsedRowCount * iconTileGrid.columns
 
     property var model: null
 
@@ -75,63 +75,5 @@ Item {
             limit: (filter) ? collapsedRowCount * iconTileGrid.columns : -1
         }
 
-    }
-
-    Item {
-        anchors {
-            left: parent.left
-            right: parent.right
-            top: iconTileGrid.bottom
-        }
-        visible: (expandable && filter && model.count > collapsedRowCount * iconTileGrid.columns)
-        height: (visible) ? childrenRect.height + units.gu(2) : 0
-
-        AbstractButton {
-            id: button
-            objectName: "filterToggleButton"
-
-            anchors {
-                top: parent.top
-                horizontalCenter: parent.horizontalCenter
-            }
-            width: units.gu(22)
-            height: units.gu(4)
-
-            UbuntuShape {
-                anchors.fill: parent
-                color: "#33ffffff" // FIXME no palette
-                radius: "small"
-            }
-
-            UbuntuShape {
-                id: borderPressed
-
-                anchors.fill: parent
-                radius: "small"
-                borderSource: "radius_pressed.sci"
-                opacity: button.pressed ? 1.0 : 0.0
-                Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.OutQuint } }
-            }
-
-            Label {
-                anchors {
-                    verticalCenter: parent.verticalCenter
-                    left: parent.left
-                    right: parent.right
-                    leftMargin: units.gu(1)
-                    rightMargin: units.gu(1)
-                }
-                text: (filter) ? "+ View all (" + model.count + ")" : "- Show fewer"
-                fontSize: "small"
-                color: Theme.palette.selected.backgroundText
-                opacity: 0.6
-                style: Text.Raised
-                styleColor: "black"
-                elide: Text.ElideMiddle
-                horizontalAlignment: Text.AlignHCenter
-            }
-
-            onClicked: filter = !filter
-        }
     }
 }
