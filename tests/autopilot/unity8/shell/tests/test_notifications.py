@@ -195,11 +195,13 @@ class InteractiveNotificationBase(NotificationsBase):
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
         self._assert_notification(notification, None, None, True, True, 1.0)
+        initial_height = notification.height
         self.touch.tap_object(notification.select_single(objectName="button1"))
         self.assertThat(
-            notification.select_single(objectName="buttonRow").expanded,
-            Eventually(Equals(True))
-        )
+            notification.height,
+            Eventually(Equals(initial_height +
+                              3 * notification.select_single(objectName="buttonColumn").spacing +
+                              3 * notification.select_single(objectName="button4").height)))
         self.touch.tap_object(notification.select_single(objectName="button4"))
         self.assert_notification_action_id_was_called("action_decline_4")
 
