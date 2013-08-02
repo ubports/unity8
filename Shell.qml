@@ -128,12 +128,6 @@ FocusScope {
     Keys.onVolumeUpPressed: volumeControl.volumeUp()
     Keys.onVolumeDownPressed: volumeControl.volumeDown()
 
-    Keys.onReleased: {
-        if (event.key == Qt.Key_PowerOff) {
-            greeter.show()
-        }
-    }
-
     Item {
         id: underlay
         objectName: "underlay"
@@ -488,6 +482,7 @@ FocusScope {
         onPowerStateChange: {
             if (state == 0) { // suspend
                 powerConnection.setFocused(false);
+                greeter.show();
             } else if (state == 1) { // active
                 powerConnection.setFocused(true);
             }
