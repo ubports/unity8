@@ -612,7 +612,6 @@ class EphemeralNotificationsTests(NotificationsBase):
             1.0
         )
 
-        time.sleep(3)
         notification.clear_hints()
         summary = 'Updated layout'
         body = 'After the update we now have a bubble using the title-body ' \
@@ -667,7 +666,6 @@ class EphemeralNotificationsTests(NotificationsBase):
         ]
 
         for new_body in bodies:
-            time.sleep(1)
             body = new_body
             body_sum += '\n' + body
             notification = self._create_ephemeral_notification(
