@@ -34,10 +34,8 @@ void GreeterPrivate::handleAuthenticate()
 {
     Q_Q(Greeter);
 
-    if (authenticationUser == "one") {
-        authenticated = true;
-        Q_EMIT q->authenticationComplete();
-    }
+    authenticated = true;
+    Q_EMIT q->authenticationComplete();
 }
 
 void GreeterPrivate::handleRespond(QString const &response)
