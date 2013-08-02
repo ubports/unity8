@@ -19,6 +19,7 @@ import Ubuntu.Application 0.1
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
 import LightDM 0.1 as LightDM
+import Power 0.1
 import "Dash"
 import "Greeter"
 import "Launcher"
@@ -420,9 +421,6 @@ FocusScope {
 
         dragHandleWidth: shell.edgeSize
 
-        property var previousMainApp: null
-        property var previousSideApp: null
-
         onShownChanged: {
             if (shown) {
                 lockscreen.reset();
@@ -432,20 +430,6 @@ FocusScope {
                     LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
                 }
                 greeter.forceActiveFocus();
-                // FIXME: *FocusedApplication are not updated when unfocused, hence the need to check whether
-                // the stage was actually shown
-                if (mainStage.fullyShown) greeter.previousMainApp = applicationManager.mainStageFocusedApplication;
-                if (sideStage.fullyShown) greeter.previousSideApp = applicationManager.sideStageFocusedApplication;
-                applicationManager.unfocusCurrentApplication();
-            } else {
-                if (greeter.previousMainApp) {
-                    applicationManager.focusApplication(greeter.previousMainApp);
-                    greeter.previousMainApp = null;
-                }
-                if (greeter.previousSideApp) {
-                    applicationManager.focusApplication(greeter.previousSideApp);
-                    greeter.previousSideApp = null;
-                }
             }
         }
 
@@ -465,6 +449,41 @@ FocusScope {
     InputFilterArea {
         anchors.fill: parent
         blockInput: greeter.shown || lockscreen.shown
+    }
+
+    Connections {
+        id: powerConnection
+        target: Power
+
+        property var previousMainApp: null
+        property var previousSideApp: null
+
+        function setFocused(focused) {
+            if (!focused) {
+                // FIXME: *FocusedApplication are not updated when unfocused, hence the need to check whether
+                // the stage was actually shown
+                if (mainStage.fullyShown) powerConnection.previousMainApp = applicationManager.mainStageFocusedApplication;
+                if (sideStage.fullyShown) powerConnection.previousSideApp = applicationManager.sideStageFocusedApplication;
+                applicationManager.unfocusCurrentApplication();
+            } else {
+                if (powerConnection.previousMainApp) {
+                    applicationManager.focusApplication(powerConnection.previousMainApp);
+                    powerConnection.previousMainApp = null;
+                }
+                if (powerConnection.previousSideApp) {
+                    applicationManager.focusApplication(powerConnection.previousSideApp);
+                    powerConnection.previousSideApp = null;
+                }
+            }
+        }
+
+        onPowerStateChange: {
+            if (state == 0) { // suspend
+                powerConnection.setFocused(false);
+            } else if (state == 1) { // active
+                powerConnection.setFocused(true);
+            }
+        }
     }
 
     Item {
