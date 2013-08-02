@@ -194,14 +194,12 @@ class InteractiveNotificationBase(NotificationsBase):
         get_notification = lambda: notify_list.select_single('Notification')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
-        #self._assert_notification(notification, None, None, True, True, 1.0)
+        self._assert_notification(notification, None, None, True, True, 1.0)
         self.touch.tap_object(notification.select_single(objectName="button1"))
-        # Veebers: this needs a better check as it's happening to quick.
         self.assertThat(
             notification.select_single(objectName="buttonRow").expanded,
             Eventually(Equals(True))
         )
-        time.sleep(2)
         self.touch.tap_object(notification.select_single(objectName="button4"))
         self.assert_notification_action_id_was_called("action_decline_4")
 
