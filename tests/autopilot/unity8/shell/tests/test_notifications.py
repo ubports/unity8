@@ -47,11 +47,11 @@ class NotificationsBase(UnityTestCase):
 
         Consider the graphics directory as root so for example (runnign tests
         from installed unity8-autopilot package):
-        >>> self.get_icon_path('clock@18.png')
-        /usr/share/unity8/graphics/clock@18.png
+        >>> self.get_icon_path('clock.png')
+        /usr/share/unity8/graphics/clock.png
 
-        >>> self.get_icon_path('applicationIcons/facebook@18.png')
-        /usr/share/unity8/graphics/applicationIcons/facebook@18.png
+        >>> self.get_icon_path('applicationIcons/facebook.png')
+        /usr/share/unity8/graphics/applicationIcons/facebook.png
 
         """
         if os.path.abspath(__file__).startswith('/usr/'):
@@ -126,13 +126,13 @@ class InteractiveNotificationBase(NotificationsBase):
 
         summary = "Interactive notification"
         body = "This notification can be clicked on to trigger an action."
-        icon_path = self._get_icon_path('avatars/anna_olsson@12.png')
+        icon_path = self._get_icon_path('avatars/anna_olsson.png')
         actions = [("action_id", "dummy")]
         hints = [
             ("x-canonical-switch-to-application", "true"),
             (
                 "x-canonical-secondary-icon",
-                self._get_icon_path('applicationIcons/phone-app@18.png')
+                self._get_icon_path('applicationIcons/phone-app.png')
             )
         ]
 
@@ -165,11 +165,11 @@ class InteractiveNotificationBase(NotificationsBase):
 
         summary = "Incoming call"
         body = "Frank Zappa\n+44 (0)7736 027340"
-        icon_path = self._get_icon_path('avatars/anna_olsson@12.png')
+        icon_path = self._get_icon_path('avatars/anna_olsson.png')
         hints = [
             (
                 "x-canonical-secondary-icon",
-                self._get_icon_path('applicationIcons/phone-app@18.png')
+                self._get_icon_path('applicationIcons/phone-app.png')
             ),
             ("x-canonical-snap-decisions", "true"),
         ]
@@ -342,11 +342,11 @@ class EphemeralNotificationsTests(NotificationsBase):
         summary = "Icon-Summary-Body"
         body = "Hey pal, what's up with the party next weekend? Will you " \
                "join me and Anna?"
-        icon_path = self._get_icon_path('avatars/anna_olsson@12.png')
+        icon_path = self._get_icon_path('avatars/anna_olsson.png')
         hints = [
             (
                 "x-canonical-secondary-icon",
-                self._get_icon_path('applicationIcons/phone-app@18.png')
+                self._get_icon_path('applicationIcons/phone-app.png')
             )
         ]
 
@@ -377,7 +377,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         hints = [
             (
                 "x-canonical-secondary-icon",
-                self._get_icon_path('applicationIcons/facebook@18.png')
+                self._get_icon_path('applicationIcons/facebook.png')
             )
         ]
 
@@ -413,16 +413,16 @@ class EphemeralNotificationsTests(NotificationsBase):
 
         summary_low = 'Low Urgency'
         body_low = "No, I'd rather see paint dry, pal *yawn*"
-        icon_path_low = self._get_icon_path('avatars/amanda@12.png')
+        icon_path_low = self._get_icon_path('avatars/amanda.png')
 
         summary_normal = 'Normal Urgency'
         body_normal = "Hey pal, what's up with the party next weekend? Will " \
             "you join me and Anna?"
-        icon_path_normal = self._get_icon_path('avatars/funky@12.png')
+        icon_path_normal = self._get_icon_path('avatars/funky.png')
 
         summary_critical = 'Critical Urgency'
         body_critical = 'Dude, this is so urgent you have no idea :)'
-        icon_path_critical = self._get_icon_path('avatars/anna_olsson@12.png')
+        icon_path_critical = self._get_icon_path('avatars/anna_olsson.png')
 
         notification_normal = self._create_ephemeral_notification(
             summary_normal,
@@ -549,7 +549,7 @@ class EphemeralNotificationsTests(NotificationsBase):
 
         summary = 'Initial notification'
         body = 'This is the original content of this notification-bubble.'
-        icon_path = self._get_icon_path('avatars/funky@12.png')
+        icon_path = self._get_icon_path('avatars/funky.png')
 
         notification = self._create_ephemeral_notification(
             summary,
@@ -572,7 +572,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         summary = 'Updated notification'
         body = 'Here the same bubble with new title- and body-text, even ' \
             'the icon can be changed on the update.'
-        icon_path = self._get_icon_path('avatars/amanda@12.png')
+        icon_path = self._get_icon_path('avatars/amanda.png')
         notification.update(summary, body, icon_path)
         notification.show()
         self.assertThat(get_notification, Eventually(NotEquals(None)))
@@ -589,8 +589,8 @@ class EphemeralNotificationsTests(NotificationsBase):
         summary = 'Initial layout'
         body = 'This bubble uses the icon-title-body layout with a ' \
             'secondary icon.'
-        icon_path = self._get_icon_path('avatars/anna_olsson@12.png')
-        hint_icon = self._get_icon_path('applicationIcons/phone-app@18.png')
+        icon_path = self._get_icon_path('avatars/anna_olsson.png')
+        hint_icon = self._get_icon_path('applicationIcons/phone-app.png')
 
         notification = self._create_ephemeral_notification(
             summary,
@@ -635,7 +635,7 @@ class EphemeralNotificationsTests(NotificationsBase):
 
         summary = 'Cole Raby'
         body = 'Hey Bro Coly!'
-        icon_path = self._get_icon_path('avatars/amanda@12.png')
+        icon_path = self._get_icon_path('avatars/amanda.png')
         body_sum = body
         notification = self._create_ephemeral_notification(
             summary,
