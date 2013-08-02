@@ -200,6 +200,10 @@ class InteractiveNotificationBase(NotificationsBase):
             notification.select_single(objectName="buttonRow").expanded,
             Eventually(Equals(True))
         )
+        self.assertThat(
+            notification.select_single(objectName="button4").visible,
+            Eventually(Equals(True))
+        )
         self.touch.tap_object(notification.select_single(objectName="button4"))
         self.assert_notification_action_id_was_called("action_decline_4")
 
