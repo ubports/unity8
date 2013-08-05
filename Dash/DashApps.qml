@@ -157,7 +157,8 @@ ScopeView {
                 var obj = categoryView.item(delegateIndex)
                 if (obj && obj.loader.item.expandable) {
                     obj.loader.item.filter = !obj.loader.item.filter
-                    categoryView.maximizeVisibleArea(delegateIndex);
+                    if (!obj.loader.item.filter) 
+                        categoryView.maximizeVisibleArea(delegateIndex);
                 }
             }
         }
