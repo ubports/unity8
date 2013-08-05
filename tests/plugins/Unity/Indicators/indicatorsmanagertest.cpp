@@ -134,5 +134,5 @@ private Q_SLOTS:
     }
 };
 
-QTEST_MAIN(IndicatorsManagerTest)
+QTEST_GUILESS_MAIN(IndicatorsManagerTest)
 #include "indicatorsmanagertest.moc"

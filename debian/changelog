@@ -1,3 +1,148 @@
+unity8 (7.81.3+13.10.20130802-0ubuntu1) saucy; urgency=low
+
+  [ Michael Terry ]
+  * Make hud autopilot tests more reliable by fixing how it calculates
+    relative coordinates.
+
+  [ Albert Astals ]
+  * Only update the "section" if we are not culling the item If the item
+    is not shown we should not care about its section.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 155
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 02 Aug 2013 02:40:11 +0000
+
+unity8 (7.81.3+13.10.20130801.1-0ubuntu1) saucy; urgency=low
+
+  [ Michał Sawicz ]
+  * Add a disclaimer for the fake applications plugin.
+
+  [ Nick Dedekind ]
+  * Removed animations from fake indicator pages.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 152
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 01 Aug 2013 14:30:40 +0000
+
+unity8 (7.81.3+13.10.20130801ubuntu.unity.next-0ubuntu1) saucy; urgency=low
+
+  [ Michael Zanetti ]
+  * implemented new Lockscreen design.
+
+  [ Michał Sawicz ]
+  * Fix mock VideoPreview to use the string categoryId as well.
+
+  [ Nick Dedekind ]
+  * Added a text tree representation of the qmenumodel to the
+    indicators-client application.
+
+  [ Albert Astals ]
+  * Don't need deelistmodel here.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 149 (ubuntu-unity/next)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 01 Aug 2013 02:32:03 +0000
+
+unity8 (7.81.3+13.10.20130730ubuntu.unity.next-0ubuntu1) saucy; urgency=low
+
+  [ Michał Sawicz ]
+  * Adapt to Qt 5.1.
+
+  [ Albert Astals ]
+  * Adapt to Qt 5.1.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 143 (ubuntu-unity/next)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 30 Jul 2013 02:33:12 +0000
+
+unity8 (7.81.3+13.10.20130729ubuntu.unity.next-0ubuntu1) saucy; urgency=low
+
+  [ Michal Hruby ]
+  * Remove the variant conversions methods as they were moved to dee-qt.
+
+  [ Michał Sawicz ]
+  * Re-enable passphrase tests under UInput.
+  * Use the new string categoryIds in custom video and music scope
+    views. (LP: #1199322)
+
+  [ Nick Dedekind ]
+  * Behavioural changes for indicators - Part 1 - Use standard
+    animations. - Search bar animation less distracting. - Hinting
+    animation shows header. - Vertical velocity detector to reduce
+    accidental menu switches in dragging phase.
+
+  [ Gustavo Pichorim Boiko ]
+  * Add entries to the new applications resulted from the split of the
+    phone-app.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 141 (ubuntu-unity/next)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 29 Jul 2013 03:41:07 +0000
+
+unity8 (7.81.3+13.10.20130726ubuntu.unity.next-0ubuntu1) saucy; urgency=low
+
+  [ Michal Hruby ]
+  * Expose real category ids and not just indices.
+  * Provide fallbacks for default renderer.
+
+  [ Daniel d'Andrada ]
+  * Give a visual feedback on right-edge drag with no running apps (LP:
+    #1116207). (LP: #1116207)
+
+  [ Albert Astals ]
+  * Update m_firstVisibleIndex if there's no visible items anymore Also
+    remove the check for m_visibleItems.isEmpty() on insert, the
+    m_firstVisibleIndex == 0 already protects us against that.
+
+  [ Christopher Lee ]
+  * Tests now use a default lightdm mock if not decorated. (LP:
+    #1204772)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 135 (ubuntu-unity/next)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 26 Jul 2013 07:06:08 +0000
+
+unity8 (7.81.3+13.10.20130725ubuntu.unity.next-0ubuntu1) saucy; urgency=low
+
+  [ Michal Hruby ]
+  * Fix adding items into an empty LVWPH.
+
+  [ Michał Sawicz ]
+  * Move to using upstart in run_on_device.
+  * Added heeding and qmltest for button-tint hint.
+  * Refactoring and cleanup of the Unity8 Autopilot tests.
+  * Hide the Unity launcher during autopiloting and skip battery tests
+    if unavailable.
+
+  [ Ying-Chun Liu ]
+  * Let GenericScope support loading different renderers.
+
+  [ Nick Dedekind ]
+  * Removed overview from indicators.
+  * Menus for indicators is now created prioritised by distance from
+    current item to speed up user experience.
+  * Add ApplicationArguments to know the geometry from start.
+
+  [ Mirco Müller ]
+  * Added heeding and qmltest for button-tint hint.
+
+  [ Christopher Lee ]
+  * Refactoring and cleanup of the Unity8 Autopilot tests.
+
+  [ Thomi Richards ]
+  * Refactoring and cleanup of the Unity8 Autopilot tests.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 129 (ubuntu-unity/next)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 25 Jul 2013 03:02:12 +0000
+
 unity8 (7.81.3+13.10.20130718ubuntu.unity.next-0ubuntu1) saucy; urgency=low
 
   [ Andrea Cimitan ]

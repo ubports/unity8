@@ -87,7 +87,7 @@ ScopeView {
         model: scopeView.scope.categories
 
         delegate: Item {
-            Component.onCompleted: if (index == 3) scopeView.installedModel = Qt.binding(function() { return model.results; });
+            Component.onCompleted: if (categoryId == "installed") scopeView.installedModel = Qt.binding(function() { return model.results; });
         }
     }
 

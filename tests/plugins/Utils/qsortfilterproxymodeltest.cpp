@@ -285,6 +285,6 @@ private Q_SLOTS:
     }
 };
 
-QTEST_MAIN(QSortFilterProxyModelTest)
+QTEST_GUILESS_MAIN(QSortFilterProxyModelTest)
 
 #include "qsortfilterproxymodeltest.moc"

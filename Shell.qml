@@ -15,10 +15,12 @@
  */
 
 import QtQuick 2.0
+import GSettings 1.0
 import Ubuntu.Application 0.1
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
 import LightDM 0.1 as LightDM
+import Powerd 0.1
 import "Dash"
 import "Greeter"
 import "Launcher"
@@ -36,12 +38,12 @@ FocusScope {
 
     // this is only here to select the width / height of the window if not running fullscreen
     property bool tablet: false
-    width: tablet ? units.gu(160) : ApplicationArguments.hasGeometry() ? ApplicationArguments.width() : units.gu(40)
-    height: tablet ? units.gu(100) : ApplicationArguments.hasGeometry() ? ApplicationArguments.height() : units.gu(71)
+    width: tablet ? units.gu(160) : applicationArguments.hasGeometry() ? applicationArguments.width() : units.gu(40)
+    height: tablet ? units.gu(100) : applicationArguments.hasGeometry() ? applicationArguments.height() : units.gu(71)
 
     property real edgeSize: units.gu(2)
-    property url default_background: shell.width >= units.gu(60) ? "graphics/tablet_background.jpg" : "graphics/phone_background.jpg"
-    property url background: default_background
+    property url defaultBackground: shell.width >= units.gu(60) ? "graphics/tablet_background.jpg" : "graphics/phone_background.jpg"
+    property url background: backgroundSettings.pictureUri
     readonly property real panelHeight: panel.panelHeight
 
     property bool dashShown: dash.shown
@@ -112,6 +114,11 @@ FocusScope {
         }
     }
 
+    GSettings {
+        id: backgroundSettings
+        schema.id: "org.gnome.desktop.background"
+    }
+
     VolumeControl {
         id: volumeControl
     }
@@ -127,18 +134,31 @@ FocusScope {
 
     Item {
         id: underlay
+        objectName: "underlay"
         anchors.fill: parent
-        visible: !(panel.indicators.fullyOpened && shell.width <= panel.indicatorsMenuWidth)
-                 && (stages.fullyHidden
-                     || (stages.fullyShown && mainStage.usingScreenshots)
-                     || !stages.fullyShown && (mainStage.usingScreenshots || (sideStage.shown && sideStage.usingScreenshots)))
 
-        Image {
+        // Whether the underlay is fully covered by opaque UI elements.
+        property bool fullyCovered: panel.indicators.fullyOpened && shell.width <= panel.indicatorsMenuWidth
+
+        // Whether the user should see the topmost application surface (if there's one at all).
+        property bool applicationSurfaceShouldBeSeen:
+                (mainStage.applications && mainStage.applications.count > 0)
+                && (!stages.fullyHidden && !mainStage.usingScreenshots)
+
+        // NB! Application surfaces are stacked behing the shell one. So they can only be seen by the user
+        // through the translucent parts of the shell surface.
+        visible: !fullyCovered && !applicationSurfaceShouldBeSeen
+
+        CrossFadeImage {
             id: backgroundImage
+            objectName: "backgroundImage"
             source: shell.background
-            sourceSize.width: parent.width
-            sourceSize.height: parent.height
             anchors.fill: parent
+            onStatusChanged: {
+                if (status == Image.Error) {
+                    backgroundSettings.pictureUri = shell.defaultBackground
+                }
+            }
         }
 
         Rectangle {
@@ -149,6 +169,7 @@ FocusScope {
 
         Dash {
             id: dash
+            objectName: "dash"
 
             available: !greeter.shown && !lockscreen.shown
             hides: [stages, launcher, panel.indicators]
@@ -176,12 +197,11 @@ FocusScope {
                 }
             }
 
-            // FIXME: only necessary because stagesRevealer.animatedProgress and
+            // FIXME: only necessary because stagesOuterContainer.showProgress and
             // greeterRevealer.animatedProgress are not animated
             Behavior on disappearingAnimationProgress { SmoothedAnimation { velocity: 5 }}
         }
     }
-
 
     Item {
         id: stagesOuterContainer
@@ -196,6 +216,7 @@ FocusScope {
 
         Showable {
             id: stages
+            objectName: "stages"
 
             x: width
 
@@ -246,12 +267,12 @@ FocusScope {
                 ignoreUnknownSignals: true
             }
 
-
             Stage {
                 id: mainStage
 
                 anchors.fill: parent
                 fullyShown: stages.fullyShown
+                fullyHidden: stages.fullyHidden
                 shouldUseScreenshots: !fullyShown
                 rightEdgeEnabled: !sideStage.enabled
 
@@ -336,7 +357,7 @@ FocusScope {
             }
 
             DragHandle {
-                id: stagesRevealer
+                id: stagesDragHandle
 
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
@@ -344,7 +365,11 @@ FocusScope {
 
                 width: shell.edgeSize
                 direction: Direction.Leftwards
-                enabled: mainStage.applications.count > 0 || sideStage.applications.count > 0
+                property bool haveApps: mainStage.applications.count > 0 || sideStage.applications.count > 0
+
+                maxTotalDragDistance: haveApps ? parent.width : parent.width * 0.7
+                // Make autocompletion impossible when !haveApps
+                edgeDragEvaluator.minDragDistance: haveApps ? maxTotalDragDistance * 0.1 : Number.MAX_VALUE
             }
         }
     }
@@ -402,9 +427,6 @@ FocusScope {
 
         dragHandleWidth: shell.edgeSize
 
-        property var previousMainApp: null
-        property var previousSideApp: null
-
         onShownChanged: {
             if (shown) {
                 lockscreen.reset();
@@ -414,27 +436,13 @@ FocusScope {
                     LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
                 }
                 greeter.forceActiveFocus();
-                // FIXME: *FocusedApplication are not updated when unfocused, hence the need to check whether
-                // the stage was actually shown
-                if (mainStage.fullyShown) greeter.previousMainApp = applicationManager.mainStageFocusedApplication;
-                if (sideStage.fullyShown) greeter.previousSideApp = applicationManager.sideStageFocusedApplication;
-                applicationManager.unfocusCurrentApplication();
-            } else {
-                if (greeter.previousMainApp) {
-                    applicationManager.focusApplication(greeter.previousMainApp);
-                    greeter.previousMainApp = null;
-                }
-                if (greeter.previousSideApp) {
-                    applicationManager.focusApplication(greeter.previousSideApp);
-                    greeter.previousSideApp = null;
-                }
             }
         }
 
         onUnlocked: greeter.hide()
         onSelected: {
             var bgPath = greeter.model.data(uid, LightDM.UserRoles.BackgroundPathRole)
-            shell.background = bgPath ? bgPath : default_background
+            shell.background = bgPath ? bgPath : defaultBackground
         }
 
         onLeftTeaserPressedChanged: {
@@ -447,6 +455,41 @@ FocusScope {
     InputFilterArea {
         anchors.fill: parent
         blockInput: greeter.shown || lockscreen.shown
+    }
+
+    Connections {
+        id: powerConnection
+        target: Powerd
+
+        property var previousMainApp: null
+        property var previousSideApp: null
+
+        function setFocused(focused) {
+            if (!focused) {
+                // FIXME: *FocusedApplication are not updated when unfocused, hence the need to check whether
+                // the stage was actually shown
+                if (mainStage.fullyShown) powerConnection.previousMainApp = applicationManager.mainStageFocusedApplication;
+                if (sideStage.fullyShown) powerConnection.previousSideApp = applicationManager.sideStageFocusedApplication;
+                applicationManager.unfocusCurrentApplication();
+            } else {
+                if (powerConnection.previousMainApp) {
+                    applicationManager.focusApplication(powerConnection.previousMainApp);
+                    powerConnection.previousMainApp = null;
+                }
+                if (powerConnection.previousSideApp) {
+                    applicationManager.focusApplication(powerConnection.previousSideApp);
+                    powerConnection.previousSideApp = null;
+                }
+            }
+        }
+
+        onPowerStateChange: {
+            if (state == 0) { // suspend
+                powerConnection.setFocused(false);
+            } else if (state == 1) { // active
+                powerConnection.setFocused(true);
+            }
+        }
     }
 
     Item {
@@ -534,7 +577,7 @@ FocusScope {
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
-            available: !greeter.locked
+            available: !greeter.shown || greeter.narrowMode
             onDashItemSelected: {
                 greeter.hide()
                 // Animate if moving between application and dash
@@ -628,5 +671,19 @@ FocusScope {
         height: shell.applicationManager ? shell.applicationManager.keyboardHeight : 0
 
         enabled: shell.applicationManager && shell.applicationManager.keyboardVisible
+    }
+
+    Label {
+        anchors.fill: parent
+        visible: applicationManager.fake
+        text: "EARLY ALPHA\nNOT READY FOR USE"
+        color: "lightgrey"
+        opacity: 0.2
+        font.weight: Font.Black
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        fontSizeMode: Text.Fit
+        font.pixelSize: height/2
+        rotation: -45
     }
 }

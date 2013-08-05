@@ -17,9 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <deelistmodel.h>
 // local
 #include "previewinfohint.h"
-#include "variantutils.h"
 
 PreviewInfoHint::PreviewInfoHint(QObject *parent):
     QObject(parent),
@@ -61,7 +61,7 @@ QString PreviewInfoHint::iconHint() const
 QVariant PreviewInfoHint::value() const
 {
     if (m_unityInfoHint) {
-        return QVariantFromGVariant(m_unityInfoHint->value);
+        return DeeListModel::VariantForData(m_unityInfoHint->value);
     }
     return QVariant();
 }
