@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2012,2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -13,34 +13,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Author: Michael Terry <michael.terry@canonical.com>
+ * Authors: Gerry Boland <gerry.boland@canonical.com>
+ *          Michael Terry <michael.terry@canonical.com>
  */
 
-#include "../Greeter.h"
-#include "../GreeterPrivate.h"
+#ifndef UNITY_POWERD_H
+#define UNITY_POWERD_H
 
-namespace QLightDM
+#include <QtCore/QObject>
+#include <QtDBus/QDBusInterface>
+
+class Powerd: public QObject
 {
+    Q_OBJECT
 
-GreeterPrivate::GreeterPrivate(Greeter* parent)
-  : authenticated(false),
-    authenticationUser(),
-    twoFactorDone(false),
-    q_ptr(parent)
-{
-}
+public:
+    explicit Powerd(QObject *parent = 0);
 
-void GreeterPrivate::handleAuthenticate()
-{
-    Q_Q(Greeter);
+Q_SIGNALS:
+    void powerStateChange(int state);
 
-    authenticated = true;
-    Q_EMIT q->authenticationComplete();
-}
+private:
+    QDBusInterface *powerd;
+};
 
-void GreeterPrivate::handleRespond(QString const &response)
-{
-    Q_UNUSED(response)
-}
-
-}
+#endif

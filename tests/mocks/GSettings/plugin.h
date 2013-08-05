@@ -12,35 +12,20 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Author: Michael Terry <michael.terry@canonical.com>
  */
 
-#include "../Greeter.h"
-#include "../GreeterPrivate.h"
+#ifndef PLUGIN_H
+#define PLUGIN_H
 
-namespace QLightDM
+#include <QtQml/QQmlExtensionPlugin>
+
+class FakeGSettingsQmlPlugin : public QQmlExtensionPlugin
 {
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
 
-GreeterPrivate::GreeterPrivate(Greeter* parent)
-  : authenticated(false),
-    authenticationUser(),
-    twoFactorDone(false),
-    q_ptr(parent)
-{
-}
+public:
+    void registerTypes(const char *uri);
+};
 
-void GreeterPrivate::handleAuthenticate()
-{
-    Q_Q(Greeter);
-
-    authenticated = true;
-    Q_EMIT q->authenticationComplete();
-}
-
-void GreeterPrivate::handleRespond(QString const &response)
-{
-    Q_UNUSED(response)
-}
-
-}
+#endif // PLUGIN_H

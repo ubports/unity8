@@ -15,10 +15,12 @@
  */
 
 import QtQuick 2.0
+import GSettings 1.0
 import Ubuntu.Application 0.1
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
 import LightDM 0.1 as LightDM
+import Powerd 0.1
 import "Dash"
 import "Greeter"
 import "Launcher"
@@ -40,8 +42,8 @@ FocusScope {
     height: tablet ? units.gu(100) : applicationArguments.hasGeometry() ? applicationArguments.height() : units.gu(71)
 
     property real edgeSize: units.gu(2)
-    property url default_background: shell.width >= units.gu(60) ? "graphics/tablet_background.jpg" : "graphics/phone_background.jpg"
-    property url background: default_background
+    property url defaultBackground: shell.width >= units.gu(60) ? "graphics/tablet_background.jpg" : "graphics/phone_background.jpg"
+    property url background: backgroundSettings.pictureUri
     readonly property real panelHeight: panel.panelHeight
 
     property bool dashShown: dash.shown
@@ -114,18 +116,17 @@ FocusScope {
         }
     }
 
+    GSettings {
+        id: backgroundSettings
+        schema.id: "org.gnome.desktop.background"
+    }
+
     VolumeControl {
         id: volumeControl
     }
 
     Keys.onVolumeUpPressed: volumeControl.volumeUp()
     Keys.onVolumeDownPressed: volumeControl.volumeDown()
-
-    Keys.onReleased: {
-        if (event.key == Qt.Key_PowerOff) {
-            greeter.show()
-        }
-    }
 
     Item {
         id: underlay
@@ -144,12 +145,16 @@ FocusScope {
         // through the translucent parts of the shell surface.
         visible: !fullyCovered && !applicationSurfaceShouldBeSeen
 
-        Image {
+        CrossFadeImage {
             id: backgroundImage
+            objectName: "backgroundImage"
             source: shell.background
-            sourceSize.width: parent.width
-            sourceSize.height: parent.height
             anchors.fill: parent
+            onStatusChanged: {
+                if (status == Image.Error) {
+                    backgroundSettings.pictureUri = shell.defaultBackground
+                }
+            }
         }
 
         Rectangle {
@@ -193,7 +198,6 @@ FocusScope {
             Behavior on disappearingAnimationProgress { SmoothedAnimation { velocity: 5 }}
         }
     }
-
 
     Item {
         id: stagesOuterContainer
@@ -258,7 +262,6 @@ FocusScope {
                 }
                 ignoreUnknownSignals: true
             }
-
 
             Stage {
                 id: mainStage
@@ -420,9 +423,6 @@ FocusScope {
 
         dragHandleWidth: shell.edgeSize
 
-        property var previousMainApp: null
-        property var previousSideApp: null
-
         onShownChanged: {
             if (shown) {
                 lockscreen.reset();
@@ -432,27 +432,13 @@ FocusScope {
                     LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
                 }
                 greeter.forceActiveFocus();
-                // FIXME: *FocusedApplication are not updated when unfocused, hence the need to check whether
-                // the stage was actually shown
-                if (mainStage.fullyShown) greeter.previousMainApp = applicationManager.mainStageFocusedApplication;
-                if (sideStage.fullyShown) greeter.previousSideApp = applicationManager.sideStageFocusedApplication;
-                applicationManager.unfocusCurrentApplication();
-            } else {
-                if (greeter.previousMainApp) {
-                    applicationManager.focusApplication(greeter.previousMainApp);
-                    greeter.previousMainApp = null;
-                }
-                if (greeter.previousSideApp) {
-                    applicationManager.focusApplication(greeter.previousSideApp);
-                    greeter.previousSideApp = null;
-                }
             }
         }
 
         onUnlocked: greeter.hide()
         onSelected: {
             var bgPath = greeter.model.data(uid, LightDM.UserRoles.BackgroundPathRole)
-            shell.background = bgPath ? bgPath : default_background
+            shell.background = bgPath ? bgPath : defaultBackground
         }
 
         onLeftTeaserPressedChanged: {
@@ -465,6 +451,42 @@ FocusScope {
     InputFilterArea {
         anchors.fill: parent
         blockInput: greeter.shown || lockscreen.shown
+    }
+
+    Connections {
+        id: powerConnection
+        target: Powerd
+
+        property var previousMainApp: null
+        property var previousSideApp: null
+
+        function setFocused(focused) {
+            if (!focused) {
+                // FIXME: *FocusedApplication are not updated when unfocused, hence the need to check whether
+                // the stage was actually shown
+                if (mainStage.fullyShown) powerConnection.previousMainApp = applicationManager.mainStageFocusedApplication;
+                if (sideStage.fullyShown) powerConnection.previousSideApp = applicationManager.sideStageFocusedApplication;
+                applicationManager.unfocusCurrentApplication();
+            } else {
+                if (powerConnection.previousMainApp) {
+                    applicationManager.focusApplication(powerConnection.previousMainApp);
+                    powerConnection.previousMainApp = null;
+                }
+                if (powerConnection.previousSideApp) {
+                    applicationManager.focusApplication(powerConnection.previousSideApp);
+                    powerConnection.previousSideApp = null;
+                }
+            }
+        }
+
+        onPowerStateChange: {
+            if (state == 0) { // suspend
+                powerConnection.setFocused(false);
+                greeter.show();
+            } else if (state == 1) { // active
+                powerConnection.setFocused(true);
+            }
+        }
     }
 
     Item {
@@ -552,7 +574,7 @@ FocusScope {
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
-            available: !greeter.locked
+            available: !greeter.shown || greeter.narrowMode
             onDashItemSelected: {
                 greeter.hide()
                 // Animate if moving between application and dash
