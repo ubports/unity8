@@ -99,7 +99,8 @@ Item {
         when: windowShown
 
         function cleanup() {
-            sendReviewSpy.clear();
+            sendPreviewSpy.clear();
+            var reviewField = findChild(appPreview, "reviewField");
             reviewField.focus = false;
             reviewField.text = "";
         }

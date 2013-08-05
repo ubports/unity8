@@ -24,8 +24,6 @@
 
 #include <QObject>
 #include <QList>
-#include <QDBusObjectPath>
-#include <interface/downloadtrackeradaptor.h>
 
 class DownloadTracker : public QObject
 {
@@ -54,7 +52,7 @@ Q_SIGNALS:
 private:
     QString m_dbusPath;
     QString m_service;
-    DownloadTrackerAdaptor* adaptor;
+    bool active = false;
 
     void startService();
 };

@@ -117,6 +117,7 @@ DashPreview {
             }
 
             DownloadTracker {
+                service: "com.canonical.applications.Downloader"
                 dbusPath: root.previewData.infoMap["progressbar_source"] ? root.previewData.infoMap["progressbar_source"].value : ""
 
                 onProgress: {
