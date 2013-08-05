@@ -165,7 +165,7 @@ Showable {
         source: "graphics/VerticalDivider.png"
     }
 
-    MenuContentTabs {
+    MenuContent {
         id: menuContent
         objectName: "menuContent"
 
