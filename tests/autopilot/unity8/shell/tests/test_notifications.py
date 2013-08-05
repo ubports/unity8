@@ -156,7 +156,7 @@ class InteractiveNotificationBase(NotificationsBase):
         self.assert_notification_action_id_was_called('action_id')
 
     def test_sd_incoming_call(self):
-        """Snap-decision simulating incoming call."""
+        """Rejecting a call should make notification expand and offer more options."""
         self.launch_unity()
         greeter = self.main_window.get_greeter()
         greeter.unlock()

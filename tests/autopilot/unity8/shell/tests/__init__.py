@@ -66,6 +66,8 @@ def _get_device_emulation_scenarios(devices='All'):
             return [nexus4]
         elif devices == 'Nexus10':
             return [nexus10]
+        else:
+            raise RuntimeException('Unrecognized device-option "%s" passed.' % devices)
     else:
         return [native]
 
