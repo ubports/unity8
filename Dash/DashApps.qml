@@ -117,13 +117,8 @@ ScopeView {
         delegate: Base {
             id: container
             highlightWhenPressed: false
-            property var loader: loader
-            // Needed because of the GridView.onRemove anim in Tile.qml
-            // TODO see how can we do away without the clip (i.e. not run the animation if we are collapsing)
-            clip: true 
 
             Loader {
-                id: loader
                 anchors {
                     top: parent.top
                     left: parent.left
@@ -143,8 +138,20 @@ ScopeView {
 
                         item.model = Qt.binding(function() { return categoryModels[modelName]; });
                         item.clicked.connect(activateApplication);
-
                     }
+                }
+            }
+
+            ListView.onRemove: SequentialAnimation {
+                PropertyAction {
+                    target: container; property: "ListView.delayRemove"; value: true
+                }
+                NumberAnimation {
+                    target: container; property: "height"; to: 0;
+                    duration: 250; easing.type: Easing.InOutQuad
+                }
+                PropertyAction {
+                    target: container; property: "ListView.delayRemove"; value: false
                 }
             }
         }
@@ -153,14 +160,6 @@ ScopeView {
         sectionDelegate: Header {
             width: categoryView.width
             text: categoryListModel.getCategory(section)
-            onClicked: {
-                var obj = categoryView.item(delegateIndex)
-                if (obj && obj.loader.item.expandable) {
-                    obj.loader.item.filter = !obj.loader.item.filter
-                    if (!obj.loader.item.filter) 
-                        categoryView.maximizeVisibleArea(delegateIndex);
-                }
-            }
         }
         pageHeader: PageHeader {
             id: pageHeader

@@ -56,6 +56,12 @@ ScopeView {
         delegate: ListItems.Base {
             highlightWhenPressed: false
 
+            function headerClicked() {
+                if (rendererLoader.item.expandable) {
+                    rendererLoader.item.filter = !rendererLoader.item.filter;
+                }
+            }
+
             Loader {
                 id: rendererLoader
                 anchors {
@@ -96,6 +102,10 @@ ScopeView {
                                                  delegateItem.model.dndUri,
                                                  delegateItem.model.metadata)
                     }
+                    onFilterChanged: {
+                        if (!target.filter)
+                            categoryView.maximizeVisibleArea(index);
+                    }
                 }
             }
         }
@@ -104,6 +114,11 @@ ScopeView {
         sectionDelegate: ListItems.Header {
             width: categoryView.width
             text: section
+            onClicked: {
+                var obj = categoryView.item(delegateIndex);
+                if (obj)
+                    obj.headerClicked();
+            }
         }
         pageHeader: PageHeader {
             id: pageHeader
