@@ -29,9 +29,6 @@
 #include <UnityCore/Scope.h>
 #include <UnityCore/Results.h>
 
-// dee-qt
-#include "deelistmodel.h"
-
 #include "categories.h"
 
 class Preview;
