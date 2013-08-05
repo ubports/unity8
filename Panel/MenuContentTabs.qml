@@ -58,8 +58,8 @@ MainView {
     }
 
     onActiveHeaderChanged: {
-        tabs.tabBar.active = activeHeader;
-        tabs.tabBar.alwaysActive = activeHeader;
+        tabs.tabBar.selectionMode = activeHeader;
+        tabs.tabBar.alwaysSelectionMode = activeHeader;
     }
 
     Tabs {
