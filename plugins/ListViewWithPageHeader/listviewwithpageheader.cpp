@@ -394,6 +394,7 @@ void ListViewWithPageHeader::maximizeVisibleArea(int modelIndex)
     ListItem *listItem = itemAtIndex(modelIndex);
     if (listItem)
     {
+        layout();
         const auto listItemY = m_clipItem->y() + listItem->y();
         if (listItemY > contentY() && listItemY + listItem->height() > contentY() + height()) {
             // we can scroll the list up to show more stuff
