@@ -190,7 +190,7 @@ FocusScope {
             available: !greeter.shown && !lockscreen.shown
             hides: [stages, launcher, panel.indicators]
             shown: disappearingAnimationProgress !== 1.0
-            enabled: disappearingAnimationProgress === 0.0 && !leftEdgeDemo.active && !topEdgeDemo.active
+            enabled: disappearingAnimationProgress === 0.0 && !leftEdgeDemo.active && !topEdgeDemo.active && !finalEdgeDemo.active
             // FIXME: unfocus all applications when going back to the dash
             onEnabledChanged: {
                 if (enabled) {
@@ -258,12 +258,7 @@ FocusScope {
 
             Connections {
                 target: launcher
-                onProgressChanged: {
-                    if (leftEdgeDemo.active && launcher.progress >= 1.0) {
-                        leftEdgeDemo.enabled = false;
-                        shell.hideEdgeDemo();
-                    }
-                }
+                onProgressChanged: if (launcher.progress >= 1.0) leftEdgeDemo.enabled = false
             }
         }
     }
@@ -513,7 +508,7 @@ FocusScope {
             shell.background = bgPath ? bgPath : defaultBackground
             // Update edge demo hint
             var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole)
-            shell.showEdgeDemo = AccountsService.getUserProperty(user, "demo-edges")
+            shell.showEdgeDemo = true //AccountsService.getUserProperty(user, "demo-edges")
         }
 
         onLeftTeaserPressedChanged: {
@@ -528,6 +523,7 @@ FocusScope {
             edge: "right"
             title: i18n.tr("Right edge")
             text: i18n.tr("Try swiping from the right edge to unlock the phone")
+            skipText: i18n.tr("Finish")
             anchors.fill: parent
             visible: shell.showEdgeDemoInGreeter
             onSkip: {
@@ -602,7 +598,7 @@ FocusScope {
             indicatorsMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
             indicators {
                 hides: [launcher]
-                available: !rightEdgeDemo.active && !leftEdgeDemo.active
+                available: !rightEdgeDemo.active && !leftEdgeDemo.active && !finalEdgeDemo.active
             }
             fullscreenMode: shell.fullscreenMode
             searchVisible: !greeter.shown && !lockscreen.shown
@@ -695,7 +691,7 @@ FocusScope {
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
-            available: !greeter.shown || greeter.narrowMode && !rightEdgeDemo.active && !topEdgeDemo.active && !bottomEdgeDemo.active
+            available: (!greeter.shown || greeter.narrowMode) && !rightEdgeDemo.active && !topEdgeDemo.active && !bottomEdgeDemo.active && !finalEdgeDemo.active
             onDashItemSelected: {
                 greeter.hide()
                 // Animate if moving between application and dash
@@ -750,6 +746,27 @@ FocusScope {
                     PropertyChanges { target: notifications; width: units.gu(38) }
                 }
             ]
+        }
+    }
+
+    DemoOverlay {
+        id: finalEdgeDemo
+
+        edge: "none"
+        title: i18n.tr("Well done")
+        text: i18n.tr("You have now mastered the edge gestures and can start using the phone")
+        skipText: i18n.tr("Finish")
+        anchors.fill: overlay
+        visible: false
+        enabled: shell.showEdgeDemo
+        onSkip: {
+            launcher.hide();
+            shell.hideEdgeDemo();
+        }
+
+        Connections {
+            target: leftEdgeDemo
+            onActiveChanged: if (!leftEdgeDemo.active) finalEdgeDemo.visible = true
         }
     }
 

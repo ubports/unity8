@@ -164,7 +164,7 @@ Item {
 
     SequentialAnimation {
         id: wholeAnimation
-        running: overlay.active && overlay.edge != "none"
+        running: overlay.active
 
         ParallelAnimation {
             id: fadeInAnimation
@@ -188,7 +188,7 @@ Item {
                     }
                 }
                 to: overlay.__edge_margin
-                duration: 1000
+                duration: overlay.edge == "none" ? 0 : 1000
             }
             StandardAnimation {
                 target: labelGroup
@@ -212,7 +212,7 @@ Item {
             property string prop: (overlay.edge == "left" || overlay.edge == "right") ? "x" : "y"
             property double endVal: units.dp(5) * ((overlay.edge == "left" || overlay.edge == "top") ? 1 : -1)
             property double maxGlow: units.dp(20)
-            property int duration: 1000
+            property int duration: overlay.edge == "none" ? 0 : 1000
 
             ParallelAnimation {
                 StandardAnimation { target: hintGroup; property: hintAnimation.prop; from: 0; to: hintAnimation.endVal; duration: hintAnimation.duration }
