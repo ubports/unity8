@@ -160,16 +160,16 @@ ListViewWithPageHeader::ListViewWithPageHeader()
 //     m_clipItem = new QQuickRectangle(contentItem());
 //     ((QQuickRectangle*)m_clipItem)->setColor(Qt::gray);
 
-    m_headerShowAnimation = new QQuickNumberAnimation(this);
-    m_headerShowAnimation->setEasing(QEasingCurve::OutQuad);
-    m_headerShowAnimation->setProperty("contentY");
-    m_headerShowAnimation->setDuration(200);
-    m_headerShowAnimation->setTargetObject(this);
+    m_contentYAnimation = new QQuickNumberAnimation(this);
+    m_contentYAnimation->setEasing(QEasingCurve::OutQuad);
+    m_contentYAnimation->setProperty("contentY");
+    m_contentYAnimation->setDuration(200);
+    m_contentYAnimation->setTargetObject(this);
 
     connect(this, SIGNAL(contentWidthChanged()), this, SLOT(onContentWidthChanged()));
     connect(this, SIGNAL(contentHeightChanged()), this, SLOT(onContentHeightChanged()));
     connect(this, SIGNAL(heightChanged()), this, SLOT(onHeightChanged()));
-    connect(m_headerShowAnimation, SIGNAL(stopped()), this, SLOT(onShowHeaderAnimationFinished()));
+    connect(m_contentYAnimation, SIGNAL(stopped()), this, SLOT(onShowHeaderAnimationFinished()));
 }
 
 ListViewWithPageHeader::~ListViewWithPageHeader()
@@ -374,8 +374,31 @@ void ListViewWithPageHeader::showHeader()
                 layout();
             }
         }
-        m_headerShowAnimation->setTo(to);
-        m_headerShowAnimation->start();
+        m_contentYAnimation->setTo(to);
+        contentYAnimationType = ContentYAnimationShowHeader;
+        m_contentYAnimation->start();
+    }
+}
+
+void ListViewWithPageHeader::maximizeVisibleArea(int modelIndex)
+{
+    ListItem *listItem = itemAtIndex(modelIndex);
+    if (listItem)
+    {
+        const auto listItemY = m_clipItem->y() + listItem->y();
+        if (listItemY > contentY() && listItemY + listItem->height() > contentY() + height()) {
+            // we can scroll the list up to show more stuff
+            const auto to = qMin(listItemY, listItemY + listItem->height() - height());
+            m_contentYAnimation->setTo(to);
+            contentYAnimationType = ContentYAnimationMaximizeVisibleArea;
+            m_contentYAnimation->start();
+        } else if (listItemY < contentY() && listItemY + listItem->height() < contentY() + height()) {
+            // we can scroll the list down to show more stuff
+            const auto to = qMax(listItemY, listItemY + listItem->height() - height());
+            m_contentYAnimation->setTo(to);
+            contentYAnimationType = ContentYAnimationMaximizeVisibleArea;
+            m_contentYAnimation->start();
+        }
     }
 }
 
@@ -400,6 +423,7 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
     QQuickFlickable::viewportMoved(orient);
 //     qDebug() << "ListViewWithPageHeader::viewportMoved" << contentY();
     qreal diff = m_previousContentY - contentY();
+    const bool showHeaderAnimationRunning = m_contentYAnimation->isRunning() && contentYAnimationType == ContentYAnimationShowHeader;
     if (m_headerItem) {
         auto oldHeaderItemShownHeight = m_headerItemShownHeight;
         if (contentY() < -m_minYExtent) {
@@ -410,15 +434,16 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
             m_headerItem->setHeight(m_headerItem->implicitHeight());
             // We are going down (but it's not because of the rebound at the end)
             // (but the header was not shown by it's own position)
-            // or the header is partially shown
+            // or the header is partially shown and we are not doing a maximizeVisibleArea either
             const bool scrolledUp = m_previousContentY > contentY();
             const bool notRebounding = contentY() + height() < contentHeight();
             const bool notShownByItsOwn = contentY() + diff > m_headerItem->y() + m_headerItem->height();
+            const bool maximizeVisibleAreaRunning = m_contentYAnimation->isRunning() && contentYAnimationType == ContentYAnimationMaximizeVisibleArea;
 
             if (!scrolledUp && contentY() == -m_minYExtent) {
                 m_headerItemShownHeight = 0;
                 m_headerItem->setY(contentY());
-            } else if ((scrolledUp && notRebounding && notShownByItsOwn) || (m_headerItemShownHeight > 0)) {
+            } else if ((scrolledUp && notRebounding && notShownByItsOwn && !maximizeVisibleAreaRunning) || (m_headerItemShownHeight > 0)) {
                 m_headerItemShownHeight += diff;
                 if (contentY() == -m_minYExtent) {
                     m_headerItemShownHeight = 0;
@@ -435,7 +460,7 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
         // We will be changing the clip item, need to accomadate for it
         // otherwise we move the firstItem down/up twice (unless the
         // show header animation is running, where we want to keep the viewport stable)
-        if (!m_headerShowAnimation->isRunning()) {
+        if (!showHeaderAnimationRunning) {
             diff += oldHeaderItemShownHeight - m_headerItemShownHeight;
         } else {
             diff = -diff;
@@ -445,7 +470,7 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
         updateClipItem();
         ListItem *firstItem = m_visibleItems.first();
         firstItem->setY(firstItem->y() + diff);
-        if (m_headerShowAnimation->isRunning()) {
+        if (showHeaderAnimationRunning) {
             adjustMinYExtent();
         }
     }
