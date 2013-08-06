@@ -15,7 +15,6 @@
  */
 
 import QtQuick 2.0
-import GSettings 1.0
 import Ubuntu.Application 0.1
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
@@ -43,8 +42,8 @@ FocusScope {
     height: tablet ? units.gu(100) : applicationArguments.hasGeometry() ? applicationArguments.height() : units.gu(71)
 
     property real edgeSize: units.gu(2)
-    property url defaultBackground: shell.width >= units.gu(60) ? "graphics/tablet_background.jpg" : "graphics/phone_background.jpg"
-    property url background: backgroundSettings.pictureUri
+    property url default_background: shell.width >= units.gu(60) ? "graphics/tablet_background.jpg" : "graphics/phone_background.jpg"
+    property url background: default_background
     readonly property real panelHeight: panel.panelHeight
 
     property bool dashShown: dash.shown
@@ -130,23 +129,12 @@ FocusScope {
         }
     }
 
-    GSettings {
-        id: backgroundSettings
-        schema.id: "org.gnome.desktop.background"
-    }
-
     VolumeControl {
         id: volumeControl
     }
 
     Keys.onVolumeUpPressed: volumeControl.volumeUp()
     Keys.onVolumeDownPressed: volumeControl.volumeDown()
-
-    Keys.onReleased: {
-        if (event.key == Qt.Key_PowerOff) {
-            greeter.show()
-        }
-    }
 
     Item {
         id: underlay
@@ -165,16 +153,12 @@ FocusScope {
         // through the translucent parts of the shell surface.
         visible: !fullyCovered && !applicationSurfaceShouldBeSeen
 
-        CrossFadeImage {
+        Image {
             id: backgroundImage
-            objectName: "backgroundImage"
             source: shell.background
+            sourceSize.width: parent.width
+            sourceSize.height: parent.height
             anchors.fill: parent
-            onStatusChanged: {
-                if (status == Image.Error) {
-                    backgroundSettings.pictureUri = shell.defaultBackground
-                }
-            }
         }
 
         Rectangle {
@@ -263,6 +247,7 @@ FocusScope {
         }
     }
 
+
     Item {
         id: stagesOuterContainer
 
@@ -326,6 +311,7 @@ FocusScope {
                 }
                 ignoreUnknownSignals: true
             }
+
 
             Stage {
                 id: mainStage
@@ -505,7 +491,7 @@ FocusScope {
         onSelected: {
             // Update background
             var bgPath = greeter.model.data(uid, LightDM.UserRoles.BackgroundPathRole)
-            shell.background = bgPath ? bgPath : defaultBackground
+            shell.background = bgPath ? bgPath : default_background
             // Update edge demo hint
             var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole)
             shell.showEdgeDemo = true //AccountsService.getUserProperty(user, "demo-edges")
@@ -581,6 +567,7 @@ FocusScope {
         onPowerStateChange: {
             if (state == 0) { // suspend
                 powerConnection.setFocused(false);
+                greeter.show();
             } else if (state == 1) { // active
                 powerConnection.setFocused(true);
             }

@@ -734,7 +734,7 @@ ListViewWithPageHeader::ListItem *ListViewWithPageHeader::createItem(int modelIn
             releaseItem(listItem);
             listItem = nullptr;
         } else {
-            listItem->setCulled(listItem->y() + listItem->height() + m_clipItem->y() < contentY() || listItem->y() + m_clipItem->y() >= contentY() + height());
+            listItem->setCulled(listItem->y() + listItem->height() + m_clipItem->y() <= contentY() || listItem->y() + m_clipItem->y() >= contentY() + height());
             if (m_visibleItems.isEmpty()) {
                 m_visibleItems << listItem;
             } else {
@@ -1040,7 +1040,7 @@ void ListViewWithPageHeader::layout()
         int firstReallyVisibleItem = -1;
         int modelIndex = m_firstVisibleIndex;
         Q_FOREACH(ListItem *item, m_visibleItems) {
-            const bool cull = pos + item->height() < visibleFrom || pos >= visibleTo;
+            const bool cull = pos + item->height() <= visibleFrom || pos >= visibleTo;
             item->setCulled(cull);
             item->setY(pos);
             if (!cull && firstReallyVisibleItem == -1) {

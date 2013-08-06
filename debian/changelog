@@ -1,3 +1,47 @@
+unity8 (7.81.3+13.10.20130806-0ubuntu1) saucy; urgency=low
+
+  [ Michael Terry ]
+  * Show the greeter when powerd tells us to, not just whenever we press
+    the power key. (LP: #1186256)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 164
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 06 Aug 2013 03:43:01 +0000
+
+unity8 (7.81.3+13.10.20130805-0ubuntu1) saucy; urgency=low
+
+  [ Michael Terry ]
+  * Fixes the lockscreen and swiping on the greeter still being possible
+    even when in tablet mode. (LP: #1204984)
+  * Watch powerd signals to notice a sleep and unfocus current app when
+    that happens.
+
+  [ Michael Zanetti ]
+  * make findChild also find invisible childs This considerably
+    increases the amount of items to be searched up to a level where
+    testShell didn't finish any more with searching. Hence this commit
+    also changes findChild to do a breadth-first instead of a depth-
+    first search.
+  * Read background from GSettings or fallback to default_background.
+
+  [ Andrea Cimitan ]
+  * Read background from GSettings or fallback to default_background.
+
+  [ Albert Astals ]
+  * Make LVWPH provide a delegateIndex for sectionHeaders This way we
+    can match the sectionHeader to the model easier in the qml/js side .
+  * Fix tryCompare call The 4th parameter of tryCompare is timeout not
+    message .
+
+  [ Daniel d'Andrada ]
+  * Read background from GSettings or fallback to default_background.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 162
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 05 Aug 2013 02:32:05 +0000
+
 unity8 (7.81.3+13.10.20130802-0ubuntu1) saucy; urgency=low
 
   [ Michael Terry ]

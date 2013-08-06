@@ -1,5 +1,4 @@
 add_subdirectory(AccountsService)
-add_subdirectory(GSettings)
 add_subdirectory(HudClient)
 add_subdirectory(libusermetrics)
 add_subdirectory(LightDM)
