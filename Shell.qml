@@ -537,20 +537,23 @@ FocusScope {
 
             Connections {
                 target: greeter
-                onUnlocked: rightEdgeDemo.visible = false
-                onShownChanged: {
-                    if (rightEdgeDemo.active && !greeter.shown) {
+
+                function hide() {
+                    if (rightEdgeDemo.active) {
                         rightEdgeDemo.enabled = false
                         shell.hideEdgeDemoInGreeter()
                     }
                 }
+
+                onUnlocked: hide()
+                onShownChanged: if (!greeter.shown) hide()
             }
         }
     }
 
     InputFilterArea {
-        blockInput: greeter.shown || lockscreen.shown
         anchors.fill: parent
+        blockInput: greeter.shown || lockscreen.shown
     }
 
     Connections {
