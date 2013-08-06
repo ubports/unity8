@@ -66,6 +66,11 @@ ScopeView {
                             obj.toggleCollapse();
                     }
                     rendererLoader.item.filter = !rendererLoader.item.filter;
+                    if (rendererLoader.item.filter) {
+                        categoryView.expandedIndex = -1
+                    } else {
+                        categoryView.expandedIndex = index
+                    }
                 }
             }
 
@@ -112,7 +117,6 @@ ScopeView {
                     onFilterChanged: {
                         if (!target.filter) {
                             categoryView.maximizeVisibleArea(index);
-                            categoryView.expandedIndex = index
                         }
                     }
                 }
