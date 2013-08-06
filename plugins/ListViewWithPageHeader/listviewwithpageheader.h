@@ -89,7 +89,6 @@ public:
     Q_INVOKABLE void positionAtBeginning();
     Q_INVOKABLE void showHeader();
     Q_INVOKABLE QQuickItem *item(int modelIndex) const;
-    Q_INVOKABLE void maximizeVisibleArea(int modelIndex);
 
     // The index has to be visible for this to try to do something
     Q_INVOKABLE void maximizeVisibleArea(int modelIndex);
