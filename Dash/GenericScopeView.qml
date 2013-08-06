@@ -53,11 +53,18 @@ ScopeView {
         onAtYEndChanged: if (atYEnd) endReached()
         onMovingChanged: if (moving && atYEnd) endReached()
 
+        property int expandedIndex: -1
+
         delegate: ListItems.Base {
             highlightWhenPressed: false
 
-            function headerClicked() {
+            function toggleCollapse() {
                 if (rendererLoader.item.expandable) {
+                    if (index != categoryView.expandedIndex && categoryView.expandedIndex != -1) {
+                        var obj = categoryView.item(categoryView.expandedIndex);
+                        if (obj)
+                            obj.toggleCollapse();
+                    }
                     rendererLoader.item.filter = !rendererLoader.item.filter;
                 }
             }
@@ -103,8 +110,10 @@ ScopeView {
                                                  delegateItem.model.metadata)
                     }
                     onFilterChanged: {
-                        if (!target.filter)
+                        if (!target.filter) {
                             categoryView.maximizeVisibleArea(index);
+                            categoryView.expandedIndex = index
+                        }
                     }
                 }
             }
@@ -117,7 +126,7 @@ ScopeView {
             onClicked: {
                 var obj = categoryView.item(delegateIndex);
                 if (obj)
-                    obj.headerClicked();
+                    obj.toggleCollapse();
             }
         }
         pageHeader: PageHeader {
