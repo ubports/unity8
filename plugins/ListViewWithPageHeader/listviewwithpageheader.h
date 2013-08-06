@@ -91,6 +91,9 @@ public:
     Q_INVOKABLE QQuickItem *item(int modelIndex) const;
     Q_INVOKABLE void maximizeVisibleArea(int modelIndex);
 
+    // The index has to be visible for this to try to do something
+    Q_INVOKABLE void maximizeVisibleArea(int modelIndex);
+
 Q_SIGNALS:
     void modelChanged();
     void delegateChanged();
@@ -184,7 +187,8 @@ private:
     qreal m_previousContentY;
     qreal m_headerItemShownHeight; // The height of header shown when the header is shown outside its topmost position
                                    // i.e. it's being shown after dragging down in the middle of the list
-    bool contentYAnimationIsShownHeader;
+    enum ContentYAnimationType { ContentYAnimationShowHeader, ContentYAnimationMaximizeVisibleArea };
+    ContentYAnimationType contentYAnimationType;
     QQuickNumberAnimation *m_contentYAnimation;
 
     QQmlComponent *m_sectionDelegate;
