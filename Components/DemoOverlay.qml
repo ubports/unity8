@@ -23,7 +23,7 @@ Item {
     id: overlay
 
     /*
-     * Valid values are "left", "right", "top", or "bottom".
+     * Valid values are "left", "right", "top", "bottom", or "none".
      */
     property string edge: "top"
 
@@ -36,6 +36,11 @@ Item {
      * This is the block of text displayed below the header.
      */
     property string text
+
+    /*
+     * This is the text for the skip button.
+     */
+    property string skipText: i18n.tr("Skip intro")
 
     /*
      * Whether this demo is allowed to run.
@@ -101,7 +106,7 @@ Item {
             Label {
                 id: skipLabel
                 objectName: "skipLabel"
-                text: i18n.tr("Skip intro")
+                text: overlay.skipText
                 color: overlay.__orange
                 fontSize: "small"
                 font.underline: true
@@ -120,6 +125,7 @@ Item {
             id: edgeHint
             property int size: 1
             cached: false
+            visible: overlay.edge != "none"
             gradient: Gradient {
                 GradientStop {
                     position: 0.0
@@ -158,7 +164,7 @@ Item {
 
     SequentialAnimation {
         id: wholeAnimation
-        running: overlay.active
+        running: overlay.active && overlay.edge != "none"
 
         ParallelAnimation {
             id: fadeInAnimation
