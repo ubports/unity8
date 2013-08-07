@@ -132,6 +132,11 @@ ScopeView {
                 }
             }
             case "carousel": return "Generic/GenericCarousel.qml";
+            case "special": {
+                switch (contentType) {
+                    case "apps": return "Apps/RunningApplicationsGrid.qml";
+                }
+            }
             default: return "Generic/GenericFilterGrid.qml";
         }
     }
