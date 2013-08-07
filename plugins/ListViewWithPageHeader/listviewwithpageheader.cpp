@@ -446,7 +446,10 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
                 m_headerItemShownHeight = 0;
                 m_headerItem->setY(contentY());
             } else if ((scrolledUp && notRebounding && notShownByItsOwn && !maximizeVisibleAreaRunning) || (m_headerItemShownHeight > 0)) {
-                m_headerItemShownHeight += diff;
+                if (maximizeVisibleAreaRunning && diff > 0) // If we are maximizing and the header was shown, make sure we hide it
+                    m_headerItemShownHeight -= diff;
+                else
+                    m_headerItemShownHeight += diff;
                 if (contentY() == -m_minYExtent) {
                     m_headerItemShownHeight = 0;
                 } else {

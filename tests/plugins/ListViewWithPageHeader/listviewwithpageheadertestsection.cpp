@@ -1930,6 +1930,59 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
     }
 
+    void testMaximizeVisibleAreaTopWithHalfPageHeader()
+    {
+        changeContentY(430);
+        changeContentY(-30);
+
+        bool res = lvwph->maximizeVisibleArea(1);
+        QVERIFY(res);
+        QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, -190., 190., true, "Agressive", true);
+        verifyItem(1, 0., 240., false, "Regular", false);
+        verifyItem(2, 240, 390., false, "Mild", false);
+        verifyItem(3, 630, 390., true, "Bold", true);
+        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_clipItem->y(), 240.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 240.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+        QVERIFY(QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
+    }
+
+    void testMaximizeVisibleAreaBottomWithHalfPageHeader()
+    {
+        changeContentY(430);
+        changeContentY(-30);
+
+        bool res = lvwph->maximizeVisibleArea(3);
+        QVERIFY(res);
+        QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 1);
+        verifyItem(0, -478., 240., true, "Regular", true);
+        verifyItem(1, -238., 390., false, "Mild", true);
+        verifyItem(2, 152, 390., false, "Bold", false);
+        verifyItem(3, 542, 350., true, QString(), true);
+        QCOMPARE(lvwph->m_minYExtent, 152.5);
+        QCOMPARE(lvwph->m_clipItem->y(), 718.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 718.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+        QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
+        QCOMPARE(section(lvwph->m_topSectionItem), QString("Mild"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 2);
+        QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
+    }
+
 private:
     QQuickView *view;
     ListViewWithPageHeader *lvwph;
