@@ -36,7 +36,6 @@ BUILD_TYPE="debug"
 [ $# -eq 1 ] && BUILD_TYPE="$1"
 
 install_dependencies() {
-    [ -f /etc/apt/sources.list.d/ubuntu-unity-next-${DISTRIB_CODENAME}.list ] || sudo add-apt-repository ppa:ubuntu-unity/next || exit 1
     sudo apt-get update || exit 4
     echo "Installing Unity 8 dependencies.."
     sudo apt-get install devscripts \

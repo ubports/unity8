@@ -15,7 +15,6 @@
  */
 
 import QtQuick 2.0
-import GSettings 1.0
 import Ubuntu.Application 0.1
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
@@ -42,8 +41,8 @@ FocusScope {
     height: tablet ? units.gu(100) : applicationArguments.hasGeometry() ? applicationArguments.height() : units.gu(71)
 
     property real edgeSize: units.gu(2)
-    property url defaultBackground: shell.width >= units.gu(60) ? "graphics/tablet_background.jpg" : "graphics/phone_background.jpg"
-    property url background: backgroundSettings.pictureUri
+    property url default_background: shell.width >= units.gu(60) ? "graphics/tablet_background.jpg" : "graphics/phone_background.jpg"
+    property url background: default_background
     readonly property real panelHeight: panel.panelHeight
 
     property bool dashShown: dash.shown
@@ -116,11 +115,6 @@ FocusScope {
         }
     }
 
-    GSettings {
-        id: backgroundSettings
-        schema.id: "org.gnome.desktop.background"
-    }
-
     VolumeControl {
         id: volumeControl
     }
@@ -145,16 +139,12 @@ FocusScope {
         // through the translucent parts of the shell surface.
         visible: !fullyCovered && !applicationSurfaceShouldBeSeen
 
-        CrossFadeImage {
+        Image {
             id: backgroundImage
-            objectName: "backgroundImage"
             source: shell.background
+            sourceSize.width: parent.width
+            sourceSize.height: parent.height
             anchors.fill: parent
-            onStatusChanged: {
-                if (status == Image.Error) {
-                    backgroundSettings.pictureUri = shell.defaultBackground
-                }
-            }
         }
 
         Rectangle {
@@ -198,6 +188,7 @@ FocusScope {
             Behavior on disappearingAnimationProgress { SmoothedAnimation { velocity: 5 }}
         }
     }
+
 
     Item {
         id: stagesOuterContainer
@@ -262,6 +253,7 @@ FocusScope {
                 }
                 ignoreUnknownSignals: true
             }
+
 
             Stage {
                 id: mainStage
@@ -438,7 +430,7 @@ FocusScope {
         onUnlocked: greeter.hide()
         onSelected: {
             var bgPath = greeter.model.data(uid, LightDM.UserRoles.BackgroundPathRole)
-            shell.background = bgPath ? bgPath : defaultBackground
+            shell.background = bgPath ? bgPath : default_background
         }
 
         onLeftTeaserPressedChanged: {

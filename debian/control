@@ -56,10 +56,8 @@ Description: Indicators client test application
 
 Package: unity8
 Architecture: any
-Depends: gsettings-desktop-schemas,
-         qmenumodel-qml,
+Depends: qmenumodel-qml,
          qtdeclarative5-dee-plugin,
-         qtdeclarative5-gsettings1.0,
          qtdeclarative5-ubuntu-ui-toolkit-plugin,
          qtdeclarative5-unity-notifications-plugin | unity-notifications-impl,
          qtdeclarative5-xmllistmodel-plugin,
