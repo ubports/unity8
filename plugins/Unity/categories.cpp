@@ -123,6 +123,24 @@ Categories::roleNames() const
     return m_roles;
 }
 
+void Categories::overrideCategory(const QString& categoryId, QAbstractItemModel* model)
+{
+    m_overriddenCategories[categoryId] = model;
+    // TODO: change the parent of the model?
+
+    // emit the dataChanged signal if the category is already in the model
+    for (int i = 0; i < rowCount(); i++) {
+        auto id = data(index(i), RoleCategoryId).toString();
+        if (id != categoryId) continue;
+        QVector<int> roles;
+        roles.append(RoleCount);
+        roles.append(RoleResults);
+        QModelIndex changedIndex = index(i);
+        Q_EMIT dataChanged(changedIndex, changedIndex, roles);
+        break;
+    }
+}
+
 QVariant
 Categories::data(const QModelIndex& index, int role) const
 {
@@ -147,8 +165,20 @@ Categories::data(const QModelIndex& index, int role) const
         case RoleHints:
             return DeeListModel::data(index, CategoryColumn::HINTS);
         case RoleResults:
+            if (m_overriddenCategories.size() > 0)
+            {
+                auto id = DeeListModel::data(index, CategoryColumn::ID).toString();
+                if (m_overriddenCategories.find(id) != m_overriddenCategories.end())
+                    return QVariant::fromValue(m_overriddenCategories[id]);
+            }
             return QVariant::fromValue(getResults(index.row()));
         case RoleCount:
+            if (m_overriddenCategories.size() > 0)
+            {
+                auto id = DeeListModel::data(index, CategoryColumn::ID).toString();
+                if (m_overriddenCategories.find(id) != m_overriddenCategories.end())
+                    return QVariant::fromValue(m_overriddenCategories[id]->rowCount());
+            }
             return QVariant::fromValue(getResults(index.row())->rowCount());
         case RoleCategoryIndex:
             return QVariant::fromValue(index.row());

@@ -53,6 +53,8 @@ public:
         RoleCategoryIndex
     };
 
+    Q_INVOKABLE void overrideCategory(const QString& categoryId, QAbstractItemModel* model);
+
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
 
     QHash<int, QByteArray> roleNames() const;
@@ -73,6 +75,7 @@ private:
     QTimer m_timer;
     QSet<int> m_updatedCategories;
     QHash<int, QByteArray> m_roles;
+    QMap<QString, QAbstractItemModel*> m_overriddenCategories;
     mutable QMap<int, DeeListModel*> m_results;
     sigc::connection m_categoriesChangedConnection;
 };
