@@ -24,6 +24,7 @@ Item {
      \qmlproperty string text
     */
     property alias text: label.text
+    property alias image: image.source
 
     signal clicked(variant mouse)
 
@@ -33,6 +34,7 @@ Item {
         anchors {
             left: parent.left
             right: parent.right
+            rightMargin: units.gu(0.5)
             top: parent.top
             bottom: bottomBorder.top
         }
@@ -42,8 +44,6 @@ Item {
             anchors {
                 left: parent.left
                 leftMargin: units.gu(2)
-                right: parent.right
-                rightMargin: units.gu(0.5)
                 verticalCenter: parent.verticalCenter
             }
 
@@ -55,6 +55,15 @@ Item {
             textFormat: Text.PlainText
             style: Text.Raised
             styleColor: "black"
+        }
+
+        Image {
+            id: image
+            anchors {
+                left: label.right
+                leftMargin: units.gu(1)
+                verticalCenter: parent.verticalCenter
+            }
         }
     }
 

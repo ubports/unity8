@@ -779,6 +779,10 @@ ListViewWithPageHeader::ListItem *ListViewWithPageHeader::createItem(int modelIn
                 m_firstVisibleIndex = modelIndex;
                 polish();
             }
+            if (listItem->m_sectionItem) {
+                QQmlContext *context = QQmlEngine::contextForObject(listItem->m_sectionItem)->parentContext();
+                context->setContextProperty(QLatin1String("delegateIndex"), modelIndex);
+            }
             adjustMinYExtent();
             m_contentHeightDirty = true;
         }

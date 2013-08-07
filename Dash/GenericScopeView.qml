@@ -58,6 +58,9 @@ ScopeView {
         delegate: ListItems.Base {
             highlightWhenPressed: false
 
+            property bool expandable: rendererLoader.item ? rendererLoader.item.expandable : false
+            property bool filtered: rendererLoader.item ? rendererLoader.item.filter : true
+
             function toggleCollapse() {
                 if (rendererLoader.item.expandable) {
                     if (index != categoryView.expandedIndex && categoryView.expandedIndex != -1) {
@@ -125,8 +128,16 @@ ScopeView {
 
         sectionProperty: "name"
         sectionDelegate: ListItems.Header {
+            property var delegate: categoryView.item(delegateIndex)
             width: categoryView.width
             text: section
+            image: {
+                if (delegate) {
+                    if (delegate.expandable)
+                        return delegate.filtered ? "graphics/header_handlearrow.png" : "graphics/header_handlearrow2.png"
+                }
+                return "";
+            }
             onClicked: {
                 var obj = categoryView.item(delegateIndex);
                 if (obj)
