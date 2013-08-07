@@ -235,13 +235,15 @@ void IndicatorsManager::setLoaded(bool loaded)
         m_loaded = loaded;
         Q_EMIT loadedChanged(m_loaded);
 
-        DBusPendingCall * pending = NULL;
-        if (m_loaded) {
-            pending = upstart_emit_event(m_upstart, "indicator-services-start", NULL, 0, NULL, NULL, NULL, 100);
-        } else {
-            pending = upstart_emit_event(m_upstart, "indicator-services-end", NULL, 0, NULL, NULL, NULL, 100);
+        if (m_upstart != NULL) {
+            DBusPendingCall * pending = NULL;
+            if (m_loaded) {
+                pending = upstart_emit_event(m_upstart, "indicator-services-start", NULL, 0, NULL, NULL, NULL, 100);
+            } else {
+                pending = upstart_emit_event(m_upstart, "indicator-services-end", NULL, 0, NULL, NULL, NULL, 100);
+            }
+            dbus_pending_call_unref(pending);
         }
-        dbus_pending_call_unref(pending);
     }
 }
 
