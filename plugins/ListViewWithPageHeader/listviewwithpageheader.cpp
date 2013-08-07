@@ -392,9 +392,21 @@ bool ListViewWithPageHeader::maximizeVisibleArea(int modelIndex)
             m_contentYAnimation->setTo(to);
             contentYAnimationType = ContentYAnimationMaximizeVisibleArea;
             m_contentYAnimation->start();
-        } else if (listItemY < contentY() && listItemY + listItem->height() < contentY() + height()) {
+        } else if ((listItemY < contentY() && listItemY + listItem->height() < contentY() + height()) ||
+                   (m_topSectionItem && !listItem->m_sectionItem && listItemY - m_topSectionItem->height() < contentY() && listItemY + listItem->height() < contentY() + height()))
+        {
             // we can scroll the list down to show more stuff
-            const auto to = qMax(listItemY, listItemY + listItem->height() - height());
+            auto realVisibleListItemY = listItemY;
+            if (m_topSectionItem) {
+                // If we are showing the top section sticky item and this item doesn't have a section
+                // item we have to make sure to scroll it a bit more so that it is not underlapping
+                // the top section sticky item
+                bool topSectionShown = !QQuickItemPrivate::get(m_topSectionItem)->culled;
+                if (topSectionShown && !listItem->m_sectionItem) {
+                    realVisibleListItemY -= m_topSectionItem->height();
+                }
+            }
+            const auto to = qMax(realVisibleListItemY, listItemY + listItem->height() - height());
             m_contentYAnimation->setTo(to);
             contentYAnimationType = ContentYAnimationMaximizeVisibleArea;
             m_contentYAnimation->start();
