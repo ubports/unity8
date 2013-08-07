@@ -380,7 +380,7 @@ void ListViewWithPageHeader::showHeader()
     }
 }
 
-void ListViewWithPageHeader::maximizeVisibleArea(int modelIndex)
+bool ListViewWithPageHeader::maximizeVisibleArea(int modelIndex)
 {
     ListItem *listItem = itemAtIndex(modelIndex);
     if (listItem)
@@ -399,7 +399,9 @@ void ListViewWithPageHeader::maximizeVisibleArea(int modelIndex)
             contentYAnimationType = ContentYAnimationMaximizeVisibleArea;
             m_contentYAnimation->start();
         }
+        return true;
     }
+    return false;
 }
 
 qreal ListViewWithPageHeader::minYExtent() const
