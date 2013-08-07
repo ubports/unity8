@@ -243,9 +243,9 @@ void IndicatorsManager::setLoaded(bool loaded)
                 event_sent = upstart_emit_event_sync(NULL, m_upstart, "indicator-services-end", NULL, 0);
             }
 
-			if (event_sent != 0) {
-				qDebug() << "Unable to send indicator event to Upstart";
-			}
+            if (event_sent != 0) {
+                qDebug() << "Unable to send indicator event to Upstart";
+            }
         }
     }
 }
