@@ -21,6 +21,7 @@
 #include <QSettings>
 #include <QDebug>
 
+#include <upstart.h>
 #include <nih/alloc.h>
 
 #include "paths.h"
