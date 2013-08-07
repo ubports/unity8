@@ -28,12 +28,6 @@ FocusScope {
     signal movementStarted
     signal positionedAtBeginning
 
-    Binding {
-        target: scope
-        property: "formFactor"
-        value: "phone"
-    }
-
     SortFilterProxyModel {
         id: categoryFilter
         model: scope.categories
