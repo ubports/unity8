@@ -4,6 +4,8 @@ include(Plugins)
 project(IndicatorsQml)
 
 pkg_check_modules(QMENUMODEL REQUIRED qmenumodel)
+pkg_check_modules(LIBUPSTART REQUIRED libupstart libnih libnih-dbus dbus-1)
+
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Quick REQUIRED)
 
@@ -15,6 +17,7 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
     ${QMENUMODEL_INCLUDE_DIRS}
+    ${LIBUPSTART_INCLUDE_DIRS}
 )
 
 set(IndicatorsQML_SOURCES
@@ -44,6 +47,7 @@ add_library(IndicatorsQml SHARED
 
 target_link_libraries(IndicatorsQml
     ${QMENUMODEL_LDFLAGS}
+    ${LIBUPSTART_LIBRARIES}
 )
 
 qt5_use_modules(IndicatorsQml Core Qml Quick)
