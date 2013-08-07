@@ -22,6 +22,7 @@
 #include <QDebug>
 
 #include <upstart.h>
+#include <nih/alloc.h>
 
 #include "paths.h"
 
@@ -50,6 +51,14 @@ public:
 
         if (m_upstart != NULL) {
             m_upstart->auto_start = FALSE;
+        }
+    }
+
+    ~IndicatorData ()
+    {
+        if (m_upstart != NULL) {
+            nih_unref(m_upstart, NULL);
+            m_upstart = NULL;
         }
     }
 
