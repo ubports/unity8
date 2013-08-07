@@ -236,13 +236,16 @@ void IndicatorsManager::setLoaded(bool loaded)
         Q_EMIT loadedChanged(m_loaded);
 
         if (m_upstart != NULL) {
-            DBusPendingCall * pending = NULL;
+            int event_sent = 0;
             if (m_loaded) {
-                pending = upstart_emit_event(m_upstart, "indicator-services-start", NULL, 0, NULL, NULL, NULL, 100);
+                event_sent = upstart_emit_event_sync(NULL, m_upstart, "indicator-services-start", NULL, 0);
             } else {
-                pending = upstart_emit_event(m_upstart, "indicator-services-end", NULL, 0, NULL, NULL, NULL, 100);
+                event_sent = upstart_emit_event_sync(NULL, m_upstart, "indicator-services-end", NULL, 0);
             }
-            dbus_pending_call_unref(pending);
+
+			if (event_sent != 0) {
+				qDebug() << "Unable to send indicator event to Upstart";
+			}
         }
     }
 }
