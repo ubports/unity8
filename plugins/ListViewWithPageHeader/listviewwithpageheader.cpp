@@ -1083,8 +1083,8 @@ void ListViewWithPageHeader::layout()
                     // pushed the sticky section up to make it disappear
                     const qreal topSectionStickPos = m_headerItemShownHeight + contentY() - m_clipItem->y();
                     bool showStickySectionItem;
-                    // We need to show the "top section sticky item" when the position at the "top" of the 
-                    // viewport is bigger than the start of the position of the first visible item 
+                    // We need to show the "top section sticky item" when the position at the "top" of the
+                    // viewport is bigger than the start of the position of the first visible item
                     // i.e. the first visible item starts before the viewport, or when the first
                     // visible item starts just at the viewport start and it does not have its own section item
                     if (topSectionStickPos > pos) {
