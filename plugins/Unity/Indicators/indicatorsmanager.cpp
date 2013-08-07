@@ -21,6 +21,8 @@
 #include <QSettings>
 #include <QDebug>
 
+#include <upstart.h>
+
 #include "paths.h"
 
 
@@ -31,13 +33,33 @@ public:
         : m_name(name)
         , m_fileInfo(fileInfo)
         , m_verified (true)
-    {}
+        , m_upstart (NULL)
+    {
+        auto upstartsession = qgetenv("UPSTART_SESSION");
+        if (!upstartsession.isNull()) {
+            DBusConnection * conn = NULL;
+            conn = dbus_connection_open(upstartsession.constData(), NULL);
+            if (conn != NULL) {
+                m_upstart = nih_dbus_proxy_new(NULL, conn,
+                    NULL,
+                    DBUS_PATH_UPSTART,
+                    NULL, NULL);
+                dbus_connection_unref(conn);
+            }
+        }
+
+        if (m_upstart != NULL) {
+            m_upstart->auto_start = FALSE;
+        }
+    }
 
     QString m_name;
     QFileInfo m_fileInfo;
 
     bool m_verified;
     Indicator::Ptr m_indicator;
+
+    NihDBusProxy * m_upstart;
 };
 
 IndicatorsManager::IndicatorsManager(QObject* parent)
