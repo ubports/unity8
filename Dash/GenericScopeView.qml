@@ -62,7 +62,7 @@ ScopeView {
             property bool filtered: rendererLoader.item ? rendererLoader.item.filter : true
 
             function toggleCollapse() {
-                if (rendererLoader.item.expandable) {
+                if (expandable) {
                     if (index != categoryView.expandedIndex && categoryView.expandedIndex != -1) {
                         var obj = categoryView.item(categoryView.expandedIndex);
                         if (obj)
