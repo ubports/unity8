@@ -28,19 +28,10 @@ FocusScope {
     signal movementStarted
     signal positionedAtBeginning
 
-    // FIXME delay the search so that daemons have time to settle
-    onScopeChanged: timer.restart()
-
     Binding {
         target: scope
         property: "formFactor"
         value: "phone"
-    }
-
-    Timer {
-        id: timer
-        interval: 2000
-        onTriggered: scope.searchQuery = ""
     }
 
     SortFilterProxyModel {
