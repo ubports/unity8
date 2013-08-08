@@ -5,7 +5,7 @@ add_subdirectory(Indicators)
 
 # Dependencies
 include(FindPkgConfig)
-pkg_check_modules(QTDEE REQUIRED libdee-qt5)
+pkg_check_modules(QTDEE REQUIRED libdee-qt5>=3.2)
 pkg_check_modules(UNITYCORE REQUIRED unity-core-6.0)
 
 include_directories(
@@ -61,7 +61,8 @@ target_link_libraries(Unity-qml
 
 qt5_use_modules(Unity-qml Qml)
 
-# export the qmldir and qmltypes files
+# export the qmldir qmltypes and plugin files
+export_qmlfiles(Unity Unity)
 export_qmlplugin(Unity 0.1 Unity TARGETS Unity-qml)
 
 add_subdirectory(Launcher)

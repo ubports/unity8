@@ -161,6 +161,7 @@ Rectangle {
             applicationManager: fakeAppManager
             rightEdgeDraggingAreaWidth: units.gu(2)
             fullyShown: true
+            fullyHidden: false
             newApplicationScreenshot: FakeApplicationScreenshot {
                     id: newAppScreenshot
                     parent: stage

@@ -16,15 +16,17 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Ubuntu.Components.ListItems 0.1
 import "../Components"
 
 Column {
     id: root
     anchors.centerIn: parent
-    spacing: units.gu(2.5)
+    spacing: units.gu(3.5)
 
     property alias placeholderText: pinentryField.placeholderText
-    property int padWidth: units.gu(32)
+    property int padWidth: units.gu(34)
+    property int padHeight: units.gu(28)
     property int pinLength: 4
 
     signal entered(string passphrase)
@@ -37,70 +39,137 @@ Column {
         }
     }
 
-    TextField {
+
+    UbuntuShape {
         id: pinentryField
         objectName: "pinentryField"
         anchors.horizontalCenter: parent.horizontalCenter
-        width: units.gu(32)
+        color: "#55000000"
+        width:root.padWidth
         height: units.gu(5)
-        echoMode: TextInput.Password
-        font.pixelSize: units.dp(44)
-        color: "white"
-        opacity: 0.9
-        hasClearButton: false
-        horizontalAlignment: Text.AlignHCenter
-
+        radius: "medium"
+        property string text: ""
+        property string placeholderText: ""
         onTextChanged: {
-            if (pinentryField.text.length === root.pinLength) {
-                root.entered(pinentryField.text);
+            pinentryFieldLabel.text = "";
+            for (var i = 0; i < text.length; ++i) {
+                pinentryFieldLabel.text += "•";
+            }
+            if (text.length === root.pinLength) {
+                root.entered(text);
             }
         }
 
-        // Using a MouseArea to eat clicks. We don't want to disable the TextField for styling reasons
-        MouseArea {
-            anchors.fill: parent
+        Label {
+            id: pinentryFieldLabel
+            anchors.centerIn: parent
+            font.pixelSize: units.dp(44)
+            color: "#f3f3e7"
+            opacity: 0.6
+        }
+        Label {
+            id: pinentryFieldPlaceHolder
+            anchors.centerIn: parent
+            color: "grey"
+            text: parent.placeholderText
+            visible: pinentryFieldLabel.text.length == 0
         }
     }
 
-    Grid {
+    UbuntuShape {
         anchors {
             left: parent.left
             right: parent.right
             margins: (parent.width - root.padWidth) / 2
         }
+        height: root.padHeight
+        color: "#55000000"
+        radius: "medium"
 
-        columns: 3
-        spacing: units.gu(1)
-
-        Repeater {
-            model: 9
-
-            PinPadButton {
-                objectName: "pinPadButton" + (index + 1)
-                text: index + 1
-
-                onClicked: {
-                    pinentryField.text = pinentryField.text + text
-                }
+        ThinDivider {
+            anchors {
+                left: parent.left
+                right: parent.right
+                top: parent.top
+                topMargin: root.padHeight / 4
+            }
+        }
+        ThinDivider {
+            anchors {
+                left: parent.left
+                right: parent.right
+                verticalCenter: parent.verticalCenter
+            }
+        }
+        ThinDivider {
+            anchors {
+                left: parent.left
+                right: parent.right
+                bottom: parent.bottom
+                bottomMargin: root.padHeight / 4
             }
         }
 
-        PinPadButton {
-            objectName: "pinPadButtonBack"
-            iconName: "back"
-            onClicked: root.cancel();
-
+        ThinDivider {
+            anchors.centerIn: parent
+            anchors.horizontalCenterOffset: -root.padWidth / 6
+            width: root.padHeight
+            rotation: -90
         }
-        PinPadButton {
-            objectName: "pinPadButton0"
-            text: "0"
-            onClicked: pinentryField.text = pinentryField.text + text
-
+        ThinDivider {
+            anchors.centerIn: parent
+            anchors.horizontalCenterOffset: root.padWidth / 6
+            width: root.padHeight
+            rotation: -90
         }
-        PinPadButton {
-            objectName: "pinPadButtonErase"
-            iconName: "erase"
-            onClicked: pinentryField.text = pinentryField.text.substring(0, pinentryField.text.length-1)
+
+        Grid {
+            anchors {
+                left: parent.left
+                right: parent.right
+                margins: (parent.width - root.padWidth) / 2
+            }
+
+            columns: 3
+
+            Repeater {
+                model: 9
+
+                PinPadButton {
+                    objectName: "pinPadButton" + (index + 1)
+                    width: root.padWidth / 3
+                    height: root.padHeight / 4
+                    text: index + 1
+
+                    onClicked: {
+                        pinentryField.text = pinentryField.text + text;
+                    }
+                }
+            }
+
+            PinPadButton {
+                objectName: "pinPadButtonBack"
+                width: root.padWidth / 3
+                height: root.padHeight / 4
+                iconName: "back"
+                onClicked: root.cancel();
+            }
+
+            PinPadButton {
+                objectName: "pinPadButton0"
+                width: root.padWidth / 3
+                height: root.padHeight / 4
+                text: "0"
+                onClicked: pinentryField.text = pinentryField.text + text
+            }
+
+            PinPadButton {
+                objectName: "pinPadButtonErase"
+                width: root.padWidth / 3
+                height: root.padHeight / 4
+                iconName: "erase"
+                onClicked: pinentryField.text = pinentryField.text.substring(0, pinentryField.text.length-1)
+            }
         }
     }
 

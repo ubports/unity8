@@ -54,7 +54,7 @@ Flickable {
             }
 
             text: ""
-            color: "#f3f3e7"
+            color: Theme.palette.selected.backgroundText
             font.weight: Font.Light
             font.pixelSize: units.gu(6)
         }
@@ -69,7 +69,7 @@ Flickable {
                 bottomMargin: units.gu(1.5)
             }
             text: ""
-            color: "#f3f3e7"
+            color: Theme.palette.selected.backgroundText
             fontSize: "small"
         }
     }

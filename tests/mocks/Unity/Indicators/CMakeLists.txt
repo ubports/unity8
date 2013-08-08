@@ -12,6 +12,7 @@ include_directories(
 set(IndicatorsFakeQml_SOURCES
     fakeplugin.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Indicators/indicators.h
+    ${CMAKE_SOURCE_DIR}/plugins/Unity/Indicators/menucontentactivator.cpp
 )
 
 set(IndicatorsFakeQml_RESOURCES
@@ -26,11 +27,7 @@ add_library(IndicatorsFakeQml SHARED
     ${IndicatorsFakeQml_RESOURCES_RCC}
     ${IndicatorsFakeQml_SOURCES}
 )
-# Because this is an internal support library, we want
-# to expose all symbols in it. Consider changing this
-# either to a static library or just using the
-# files directly in targets.
-set_target_properties(IndicatorsFakeQml PROPERTIES COMPILE_FLAGS -fvisibility=default)
+add_definitions(-DUNITYINDICATORS_LIBRARY)
 
 target_link_libraries(IndicatorsFakeQml)
 

@@ -96,7 +96,11 @@
 #include <qqmlengine.h>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-pedantic"
+#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
 #include <private/qquickvisualdatamodel_p.h>
+#else
+#include <private/qqmldelegatemodel_p.h>
+#endif
 #include <private/qqmlglobal_p.h>
 #include <private/qquickitem_p.h>
 #include <private/qquickanimation_p.h>
@@ -183,10 +187,17 @@ void ListViewWithPageHeader::setModel(QAbstractItemModel *model)
         if (!m_delegateModel) {
             createDelegateModel();
         } else {
+#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
             disconnect(m_delegateModel, SIGNAL(modelUpdated(QQuickChangeSet,bool)), this, SLOT(onModelUpdated(QQuickChangeSet,bool)));
         }
         m_delegateModel->setModel(QVariant::fromValue<QAbstractItemModel *>(model));
         connect(m_delegateModel, SIGNAL(modelUpdated(QQuickChangeSet,bool)), this, SLOT(onModelUpdated(QQuickChangeSet,bool)));
+#else
+            disconnect(m_delegateModel, SIGNAL(modelUpdated(QQmlChangeSet,bool)), this, SLOT(onModelUpdated(QQmlChangeSet,bool)));
+        }
+        m_delegateModel->setModel(QVariant::fromValue<QAbstractItemModel *>(model));
+        connect(m_delegateModel, SIGNAL(modelUpdated(QQmlChangeSet,bool)), this, SLOT(onModelUpdated(QQmlChangeSet,bool)));
+#endif
         Q_EMIT modelChanged();
         // TODO?
 //         Q_EMIT contentHeightChanged();
@@ -269,7 +280,7 @@ void ListViewWithPageHeader::setSectionDelegate(QQmlComponent *delegate)
 
         m_sectionDelegate = delegate;
 
-        m_topSectionItem = getSectionItem(QString());
+        m_topSectionItem = getSectionItem(-1, QString());
         m_topSectionItem->setZ(3);
         QQuickItemPrivate::get(m_topSectionItem)->setCulled(true);
 
@@ -446,8 +457,13 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
 
 void ListViewWithPageHeader::createDelegateModel()
 {
+#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
     m_delegateModel = new QQuickVisualDataModel(qmlContext(this), this);
     connect(m_delegateModel, SIGNAL(createdItem(int,QQuickItem*)), this, SLOT(itemCreated(int,QQuickItem*)));
+#else
+    m_delegateModel = new QQmlDelegateModel(qmlContext(this), this);
+    connect(m_delegateModel, SIGNAL(createdItem(int,QObject*)), this, SLOT(itemCreated(int,QObject*)));
+#endif
     if (isComponentComplete())
         m_delegateModel->componentComplete();
     updateWatchedRoles();
@@ -528,8 +544,13 @@ bool ListViewWithPageHeader::addVisibleItems(qreal fillFrom, qreal fillTo, bool 
 void ListViewWithPageHeader::reallyReleaseItem(ListItem *listItem)
 {
     QQuickItem *item = listItem->m_item;
+#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
     QQuickVisualModel::ReleaseFlags flags = m_delegateModel->release(item);
     if (flags & QQuickVisualModel::Destroyed) {
+#else
+    QQmlDelegateModel::ReleaseFlags flags = m_delegateModel->release(item);
+    if (flags & QQmlDelegateModel::Destroyed) {
+#endif
         item->setParentItem(nullptr);
     }
     delete listItem->m_sectionItem;
@@ -578,16 +599,17 @@ QQuickItem *ListViewWithPageHeader::getSectionItem(int modelIndex, bool alreadyI
         }
     }
 
-    return getSectionItem(section);
+    return getSectionItem(modelIndex, section);
 }
 
-QQuickItem *ListViewWithPageHeader::getSectionItem(const QString &sectionText)
+QQuickItem *ListViewWithPageHeader::getSectionItem(int modelIndex, const QString &sectionText)
 {
     QQuickItem *sectionItem = nullptr;
 
     QQmlContext *creationContext = m_sectionDelegate->creationContext();
     QQmlContext *context = new QQmlContext(creationContext ? creationContext : qmlContext(this));
     context->setContextProperty(QLatin1String("section"), sectionText);
+    context->setContextProperty(QLatin1String("delegateIndex"), modelIndex);
     QObject *nobj = m_sectionDelegate->beginCreate(context);
     if (nobj) {
         QQml_setParent_noEvent(context, nobj);
@@ -658,9 +680,27 @@ ListViewWithPageHeader::ListItem *ListViewWithPageHeader::createItem(int modelIn
         return nullptr;
 
     m_asyncRequestedIndex = -1;
+#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
     QQuickItem *item = m_delegateModel->item(modelIndex, asynchronous);
+#else
+    QObject* object = m_delegateModel->object(modelIndex, asynchronous);
+    QQuickItem *item = qmlobject_cast<QQuickItem*>(object);
+#endif
     if (!item) {
+#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
         m_asyncRequestedIndex = modelIndex;
+#else
+        if (object) {
+            m_delegateModel->release(object);
+            if (!m_delegateValidated) {
+                m_delegateValidated = true;
+                QObject* delegateObj = delegate();
+                qmlInfo(delegateObj ? delegateObj : this) << "Delegate must be of Item type";
+            }
+        } else {
+            m_asyncRequestedIndex = modelIndex;
+        }
+#endif
         return 0;
     } else {
 //         qDebug() << "ListViewWithPageHeader::createItem::We have the item" << modelIndex << item;
@@ -694,7 +734,7 @@ ListViewWithPageHeader::ListItem *ListViewWithPageHeader::createItem(int modelIn
             releaseItem(listItem);
             listItem = nullptr;
         } else {
-            listItem->setCulled(listItem->y() + listItem->height() + m_clipItem->y() < contentY() || listItem->y() + m_clipItem->y() >= contentY() + height());
+            listItem->setCulled(listItem->y() + listItem->height() + m_clipItem->y() <= contentY() || listItem->y() + m_clipItem->y() >= contentY() + height());
             if (m_visibleItems.isEmpty()) {
                 m_visibleItems << listItem;
             } else {
@@ -711,8 +751,18 @@ ListViewWithPageHeader::ListItem *ListViewWithPageHeader::createItem(int modelIn
     }
 }
 
+#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
 void ListViewWithPageHeader::itemCreated(int modelIndex, QQuickItem *item)
 {
+#else
+void ListViewWithPageHeader::itemCreated(int modelIndex, QObject *object)
+{
+    QQuickItem *item = qmlobject_cast<QQuickItem*>(object);
+    if (!item) {
+        qWarning() << "ListViewWithPageHeader::itemCreated got a non item for index" << modelIndex;
+        return;
+    }
+#endif
 //     qDebug() << "ListViewWithPageHeader::itemCreated" << modelIndex << item;
 
     item->setParentItem(m_clipItem);
@@ -747,13 +797,22 @@ void ListViewWithPageHeader::onHeightChanged()
     polish();
 }
 
+
+#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
 void ListViewWithPageHeader::onModelUpdated(const QQuickChangeSet &changeSet, bool /*reset*/)
+#else
+void ListViewWithPageHeader::onModelUpdated(const QQmlChangeSet &changeSet, bool /*reset*/)
+#endif
 {
     // TODO Do something with reset
 //     qDebug() << "ListViewWithPageHeader::onModelUpdated" << changeSet << reset;
     const auto oldFirstVisibleIndex = m_firstVisibleIndex;
 
+#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
     Q_FOREACH(const QQuickChangeSet::Remove &remove, changeSet.removes()) {
+#else
+    Q_FOREACH(const QQmlChangeSet::Remove &remove, changeSet.removes()) {
+#endif
 //         qDebug() << "ListViewWithPageHeader::onModelUpdated Remove" << remove.index << remove.count;
         if (remove.index + remove.count > m_firstVisibleIndex && remove.index < m_firstVisibleIndex + m_visibleItems.count()) {
             const qreal oldFirstValidIndexPos = m_visibleItems.first()->y();
@@ -785,10 +844,14 @@ void ListViewWithPageHeader::onModelUpdated(const QQuickChangeSet &changeSet, bo
             }
             if (growDown) {
                 adjustMinYExtent();
-            } else if (remove.index <= m_firstVisibleIndex && !m_visibleItems.isEmpty()) {
-                // We removed the first item that is the one that positions the rest
-                // position the new first item correctly
-                m_visibleItems.first()->setY(oldFirstValidIndexPos);
+            } else if (remove.index <= m_firstVisibleIndex) {
+                if (!m_visibleItems.isEmpty()) {
+                    // We removed the first item that is the one that positions the rest
+                    // position the new first item correctly
+                    m_visibleItems.first()->setY(oldFirstValidIndexPos);
+                } else {
+                    m_firstVisibleIndex = -1;
+                }
             }
         } else if (remove.index + remove.count <= m_firstVisibleIndex) {
             m_firstVisibleIndex -= remove.count;
@@ -803,7 +866,11 @@ void ListViewWithPageHeader::onModelUpdated(const QQuickChangeSet &changeSet, bo
         }
     }
 
+#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
     Q_FOREACH(const QQuickChangeSet::Insert &insert, changeSet.inserts()) {
+#else
+    Q_FOREACH(const QQmlChangeSet::Insert &insert, changeSet.inserts()) {
+#endif
 //         qDebug() << "ListViewWithPageHeader::onModelUpdated Insert" << insert.index << insert.count;
         const bool insertingInValidIndexes = insert.index > m_firstVisibleIndex && insert.index < m_firstVisibleIndex + m_visibleItems.count();
         const bool firstItemWithViewOnTop = insert.index == 0 && m_firstVisibleIndex == 0 && m_visibleItems.first()->y() + m_clipItem->y() > contentY();
@@ -864,6 +931,14 @@ void ListViewWithPageHeader::onModelUpdated(const QQuickChangeSet &changeSet, bo
 
     if (m_firstVisibleIndex != oldFirstVisibleIndex) {
         adjustMinYExtent();
+    }
+
+    for (int i = 0; i < m_visibleItems.count(); ++i) {
+        ListItem *item = m_visibleItems[i];
+        if (item->m_sectionItem) {
+            QQmlContext *context = QQmlEngine::contextForObject(item->m_sectionItem)->parentContext();
+            context->setContextProperty(QLatin1String("delegateIndex"), m_firstVisibleIndex + i);
+        }
     }
 
     layout();
@@ -965,17 +1040,12 @@ void ListViewWithPageHeader::layout()
         int firstReallyVisibleItem = -1;
         int modelIndex = m_firstVisibleIndex;
         Q_FOREACH(ListItem *item, m_visibleItems) {
-            const bool cull = pos + item->height() < visibleFrom || pos >= visibleTo;
+            const bool cull = pos + item->height() <= visibleFrom || pos >= visibleTo;
             item->setCulled(cull);
             item->setY(pos);
             if (!cull && firstReallyVisibleItem == -1) {
                 firstReallyVisibleItem = modelIndex;
                 if (m_topSectionItem) {
-                    // Update the top sticky section header
-                    const QString section = m_delegateModel->stringValue(modelIndex, m_sectionProperty);
-                    QQmlContext *context = QQmlEngine::contextForObject(m_topSectionItem)->parentContext();
-                    context->setContextProperty(QLatin1String("section"), section);
-
                     // Positing the top section sticky item is a two step process
                     // First we set it either we cull it (because it doesn't need to be sticked to the top)
                     // or stick it to the top
@@ -992,8 +1062,22 @@ void ListViewWithPageHeader::layout()
                             QQuickItemPrivate::get(item->m_sectionItem)->setCulled(false);
                         }
                     } else {
+                        // Update the top sticky section header
+                        const QString section = m_delegateModel->stringValue(modelIndex, m_sectionProperty);
+                        QQmlContext *context = QQmlEngine::contextForObject(m_topSectionItem)->parentContext();
+                        context->setContextProperty(QLatin1String("section"), section);
+
                         QQuickItemPrivate::get(m_topSectionItem)->setCulled(false);
                         m_topSectionItem->setY(topSectionStickPos);
+                        int delegateIndex = modelIndex;
+                        // Look for the first index with this section text
+                        while (delegateIndex > 0) {
+                            const QString prevSection = m_delegateModel->stringValue(delegateIndex - 1, m_sectionProperty);
+                            if (prevSection != section)
+                                break;
+                            delegateIndex--;
+                        }
+                        context->setContextProperty(QLatin1String("delegateIndex"), delegateIndex);
                         if (item->m_sectionItem) {
                             QQuickItemPrivate::get(item->m_sectionItem)->setCulled(true);
                         }

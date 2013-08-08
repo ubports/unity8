@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2012,2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,24 +12,29 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authors: Gerry Boland <gerry.boland@canonical.com>
+ *          Michael Terry <michael.terry@canonical.com>
  */
 
-import QtQuick 2.0
+#ifndef UNITY_POWERD_H
+#define UNITY_POWERD_H
 
-Item {
-    id: menuWindow
+#include <QtCore/QObject>
+#include <QtDBus/QDBusInterface>
 
-    property bool shown: false
-    property int contentHeight: height
-    property string headingText: name
-    property string name
+class Powerd: public QObject
+{
+    Q_OBJECT
 
-    enabled: shown
-    opacity: shown ? 1.0 : 0.0
-    Behavior on opacity { NumberAnimation {duration: shown ? 300 : 150 } }
+public:
+    explicit Powerd(QObject *parent = 0);
 
-    // don't pass any events under this screen
-    MouseArea {
-        anchors.fill: parent
-    }
-}
+Q_SIGNALS:
+    void powerStateChange(int state);
+
+private:
+    QDBusInterface *powerd;
+};
+
+#endif

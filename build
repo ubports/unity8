@@ -36,9 +36,6 @@ BUILD_TYPE="debug"
 [ $# -eq 1 ] && BUILD_TYPE="$1"
 
 install_dependencies() {
-    [ -f /etc/apt/sources.list.d/phablet-team-desktop-deps-${DISTRIB_CODENAME}.list ] || sudo add-apt-repository ppa:phablet-team/desktop-deps || exit 1
-    [ -f /etc/apt/sources.list.d/canonical-qt5-edgers-qt5-proper-${DISTRIB_CODENAME}.list ] || sudo add-apt-repository ppa:canonical-qt5-edgers/qt5-proper || exit 2;
-    [ -f /etc/apt/sources.list.d/ubuntu-sdk-team-ppa-${DISTRIB_CODENAME}.list ] || sudo add-apt-repository ppa:ubuntu-sdk-team/ppa || exit 3
     sudo apt-get update || exit 4
     echo "Installing Unity 8 dependencies.."
     sudo apt-get install devscripts \

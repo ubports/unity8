@@ -22,7 +22,11 @@
 #include <QtTestGui>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-pedantic"
+#if QT_VERSION < QT_VERSION_CHECK(5, 1, 0)
 #include <private/qquicklistmodel_p.h>
+#else
+#include <private/qqmllistmodel_p.h>
+#endif
 #include <private/qquickanimation_p.h>
 #include <private/qquickitem_p.h>
 #pragma GCC diagnostic pop
@@ -41,6 +45,7 @@ private:
         QCOMPARE(section(lvwph->m_visibleItems[visibleIndex]->m_sectionItem), sectionHeader);
         if (!sectionHeader.isNull()) {
             QCOMPARE(QQuickItemPrivate::get(lvwph->m_visibleItems[visibleIndex]->m_sectionItem)->culled, sectionHeaderCulled);
+            QCOMPARE(sectionDelegateIndex(lvwph->m_visibleItems[visibleIndex]->m_sectionItem), lvwph->m_firstVisibleIndex + visibleIndex);
         }
     }
 
@@ -112,6 +117,11 @@ private:
         return item ? QQmlEngine::contextForObject(item)->parentContext()->contextProperty(QLatin1String("section")).toString() : QString();
     }
 
+    int sectionDelegateIndex(QQuickItem *item)
+    {
+        return item ? QQmlEngine::contextForObject(item)->parentContext()->contextProperty(QLatin1String("delegateIndex")).toInt() : -1;
+    }
+
 private Q_SLOTS:
 
     void initTestCase()
@@ -124,7 +134,11 @@ private Q_SLOTS:
         view->engine()->addImportPath(BUILT_PLUGINS_DIR);
         view->setSource(QUrl::fromLocalFile(LISTVIEWWITHPAGEHEADER_FOLDER "/test_section.qml"));
         lvwph = dynamic_cast<ListViewWithPageHeader*>(view->rootObject()->findChild<QQuickFlickable*>());
+#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
         model = view->rootObject()->findChild<QQuickListModel*>();
+#else
+        model = view->rootObject()->findChild<QQmlListModel*>();
+#endif
         otherDelegate = view->rootObject()->findChild<QQmlComponent*>();
         QVERIFY(lvwph);
         QVERIFY(model);
@@ -212,6 +226,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Regular"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 1);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
     }
 
@@ -233,6 +248,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Mild"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 2);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
     }
 
@@ -254,6 +270,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Agressive"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 0);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
 
         changeContentY(-30);
@@ -272,6 +289,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 30.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Agressive"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 0);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
     }
 
@@ -327,6 +345,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Regular"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 1);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
 
         lvwph->positionAtBeginning();
@@ -352,6 +371,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Mild"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 2);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
 
         lvwph->positionAtBeginning();
@@ -396,6 +416,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Regular"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 1);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
 
         model->setProperty(0, "size", 400);
@@ -415,6 +436,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Regular"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 1);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
 
         scrollToTop();
@@ -468,6 +490,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Mild"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 2);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
 
         model->setProperty(0, "size", 400);
@@ -487,6 +510,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Mild"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 2);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
 
         scrollToTop();
@@ -523,6 +547,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Bold"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 3);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
 
         changeContentY(-30);
@@ -540,6 +565,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 30.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Bold"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 3);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
 
         changeContentY(30);
@@ -557,6 +583,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Bold"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 3);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
 
         changeContentY(-30);
@@ -574,6 +601,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 30.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Bold"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 3);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
     }
 
@@ -594,6 +622,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Bold"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 3);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
 
         lvwph->setDelegate(otherDelegate);
@@ -652,6 +681,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Bold"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 3);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
 
         scrollToTop();
@@ -690,6 +720,7 @@ private Q_SLOTS:
         QTRY_VERIFY(lvwph->isAtYEnd());
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Bold"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 3);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
 
         scrollToTop();
@@ -726,6 +757,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Agressive"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 0);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
     }
 
@@ -810,6 +842,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Mild"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 2);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
 
         QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 1), Q_ARG(QVariant, 100), Q_ARG(QVariant, "Agressive"));
@@ -830,6 +863,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Mild"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 4);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
 
         scrollToTop();
@@ -870,6 +904,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Agressive"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 0);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
 
         QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 3), Q_ARG(QVariant, 100), Q_ARG(QVariant, "Agressive"));
@@ -890,6 +925,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Agressive"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 0);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
     }
 
@@ -912,6 +948,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Mild"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 2);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
 
         QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 1), Q_ARG(QVariant, 100), Q_ARG(QVariant, "Agressive"));
@@ -932,6 +969,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Mild"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 4);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
     }
 
@@ -954,6 +992,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Regular"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 1);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
 
         QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 1), Q_ARG(QVariant, 100), Q_ARG(QVariant, "Agressive"));
@@ -974,6 +1013,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Regular"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 3);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
 
         scrollToTop();
@@ -1021,6 +1061,7 @@ private Q_SLOTS:
         QVERIFY(!lvwph->isAtYEnd());
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Bold"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 3);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
 
         scrollToBottom();
@@ -1041,6 +1082,7 @@ private Q_SLOTS:
         QVERIFY(lvwph->isAtYEnd());
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Lazy"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 5);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
     }
 
@@ -1094,6 +1136,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Bold"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 13);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
 
         changeContentY(-1700);
@@ -1118,7 +1161,27 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 50.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Regular"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 4);
         QCOMPARE(lvwph->m_topSectionItem->y(), -23.);
+    }
+
+    void testInsertToEmpty()
+    {
+        QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 0), Q_ARG(QVariant, 6));
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 0);
+        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_clipItem->y(), 0.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 0.);
+
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 100), Q_ARG(QVariant, "Agressive"));
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 1), Q_ARG(QVariant, 125), Q_ARG(QVariant, "Regular"));
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 2);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, 50., 140., false, "Agressive", false);
+        verifyItem(1, 190., 165., false, "Regular", false);
     }
 
     void testRemoveItemsAtTop()
@@ -1160,6 +1223,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Bold"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 1);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
     }
 
@@ -1183,6 +1247,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Mild"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 2);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
     }
 
@@ -1205,6 +1270,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Mild"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 2);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
 
         QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 1), Q_ARG(QVariant, 1));
@@ -1224,6 +1290,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Mild"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 1);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
     }
 
@@ -1246,6 +1313,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Mild"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 2);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
 
         QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 3), Q_ARG(QVariant, 1));
@@ -1265,6 +1333,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Mild"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 2);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
     }
 
@@ -1344,6 +1413,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Bold"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 3);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
 
         QMetaObject::invokeMethod(model, "moveItems", Q_ARG(QVariant, 0), Q_ARG(QVariant, 5), Q_ARG(QVariant, 1));
@@ -1364,6 +1434,7 @@ private Q_SLOTS:
         QVERIFY(!lvwph->isAtYEnd());
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Bold"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 2);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
     }
 
@@ -1387,6 +1458,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Mild"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 2);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
 
         model->setProperty(1, "size", 100);
@@ -1407,6 +1479,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Mild"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 2);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
     }
 
@@ -1428,7 +1501,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItem->y(), 0.);
         QCOMPARE(lvwph->m_headerItem->height(), 50.);
         QCOMPARE(lvwph->contentY(), 20.);
-        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);;
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
         QVERIFY(QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
 
         lvwph->showHeader();
@@ -1448,6 +1521,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 50.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Agressive"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 0);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
 
         scrollToTop();
@@ -1483,9 +1557,10 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItem->y(), 0.);
         QCOMPARE(lvwph->m_headerItem->height(), 50.);
         QCOMPARE(lvwph->contentY(), 375.);
-        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);;
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Regular"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 1);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
 
         lvwph->showHeader();
@@ -1506,6 +1581,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 50.);
         QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
         QCOMPARE(section(lvwph->m_topSectionItem), QString("Regular"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 1);
         QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
 
         scrollToTop();
@@ -1615,10 +1691,34 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
     }
 
+    void testCullOnBottomEdge()
+    {
+        changeContentY(240);
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, -190., 190., true, "Agressive", true);
+        verifyItem(1, 0., 240., false, "Regular", false);
+        verifyItem(2, 240., 390., false, "Mild", false);
+        verifyItem(3, 630., 390., true, "Bold", true);
+        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_clipItem->y(), 240.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 240.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+        QVERIFY(QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
+    }
+
 private:
     QQuickView *view;
     ListViewWithPageHeader *lvwph;
+#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
     QQuickListModel *model;
+#else
+    QQmlListModel *model;
+#endif
     QQmlComponent *otherDelegate;
 };
 

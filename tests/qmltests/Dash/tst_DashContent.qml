@@ -31,8 +31,8 @@ Item {
     property var scopeStatus: {
         'MockScope1': { 'movementStarted': 0, 'positionedAtBeginning': 0 },
         'MockScope2': { 'movementStarted': 0, 'positionedAtBeginning': 0 },
-        'MockScope3': { 'movementStarted': 0, 'positionedAtBeginning': 0 },
-        'MockScope4': { 'movementStarted': 0, 'positionedAtBeginning': 0 },
+        'home.scope': { 'movementStarted': 0, 'positionedAtBeginning': 0 },
+        'applications.scope': { 'movementStarted': 0, 'positionedAtBeginning': 0 },
         'MockScope5': { 'movementStarted': 0, 'positionedAtBeginning': 0 }
     }
 
@@ -55,8 +55,8 @@ Item {
         scopeDelegateMapping: {
             "MockScope1": "../tests/qmltests/Dash/qml/fake_scopeView1.qml",
             "MockScope2": "../tests/qmltests/Dash/qml/fake_scopeView2.qml",
-            "MockScope3": "../tests/qmltests/Dash/qml/fake_scopeView3.qml",
-            "MockScope4": "../tests/qmltests/Dash/qml/fake_scopeView4.qml"
+            "home.scope": "../tests/qmltests/Dash/qml/fake_scopeView3.qml",
+            "applications.scope": "../tests/qmltests/Dash/qml/fake_scopeView4.qml"
         }
         genericScope: "../tests/qmltests/Dash/qml/fake_generic_scopeView.qml"
     }
@@ -68,11 +68,11 @@ Item {
         scopeStatus["MockScope2"].movementStarted = 0;
         scopeStatus["MockScope2"].positionedAtBeginning = 0;
 
-        scopeStatus["MockScope3"].movementStarted = 0;
-        scopeStatus["MockScope3"].positionedAtBeginning = 0;
+        scopeStatus["home.scope"].movementStarted = 0;
+        scopeStatus["home.scope"].positionedAtBeginning = 0;
 
-        scopeStatus["MockScope4"].movementStarted = 0;
-        scopeStatus["MockScope4"].positionedAtBeginning = 0;
+        scopeStatus["applications.scope"].movementStarted = 0;
+        scopeStatus["applications.scope"].positionedAtBeginning = 0;
 
         scopeStatus["MockScope5"].movementStarted = 0;
         scopeStatus["MockScope5"].positionedAtBeginning = 0;
@@ -127,8 +127,8 @@ Item {
             compare(movementStartedSpy.count, 1, "DashContent should have emitted movementStarted signal when content list did.");
             compare(scopeStatus["MockScope1"].movementStarted, 1, "MockScope1 should have emitted movementStarted signal when content list did.");
             compare(scopeStatus["MockScope2"].movementStarted, 1, "MockScope2 should have emitted movementStarted signal when content list did.");
-            compare(scopeStatus["MockScope3"].movementStarted, 1, "MockScope3 should have emitted movementStarted signal when content list did.");
-            compare(scopeStatus["MockScope4"].movementStarted, 1, "MockScope4 should have emitted movementStarted signal when content list did.");
+            compare(scopeStatus["home.scope"].movementStarted, 1, "home.scope should have emitted movementStarted signal when content list did.");
+            compare(scopeStatus["applications.scope"].movementStarted, 1, "applications.scope should have emitted movementStarted signal when content list did.");
             compare(scopeStatus["MockScope5"].movementStarted, 1, "MockScope5 should have emitted movementStarted signal when content list did.");
         }
 
@@ -140,8 +140,8 @@ Item {
             dashContent.positionedAtBeginning();
             compare(scopeStatus["MockScope1"].positionedAtBeginning, 1, "MockScope1 should have emitted positionedAtBeginning signal when DashContent did.");
             compare(scopeStatus["MockScope2"].positionedAtBeginning, 1, "MockScope2 should have emitted positionedAtBeginning signal when DashContent did.");
-            compare(scopeStatus["MockScope3"].positionedAtBeginning, 1, "MockScope3 should have emitted positionedAtBeginning signal when DashContent did.");
-            compare(scopeStatus["MockScope4"].positionedAtBeginning, 1, "MockScope4 should have emitted positionedAtBeginning signal when DashContent did.");
+            compare(scopeStatus["home.scope"].positionedAtBeginning, 1, "home.scope should have emitted positionedAtBeginning signal when DashContent did.");
+            compare(scopeStatus["applications.scope"].positionedAtBeginning, 1, "applications.scope should have emitted positionedAtBeginning signal when DashContent did.");
             compare(scopeStatus["MockScope5"].positionedAtBeginning, 1, "MockScope5 should have emitted positionedAtBeginning signal when DashContent did.");
         }
 

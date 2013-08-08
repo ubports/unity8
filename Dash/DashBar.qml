@@ -117,7 +117,7 @@ Item {
 
         Rectangle {
             id: highlightLine
-            color: "#dd4814"
+            color: Theme.palette.selected.foreground
             height: parent.height
             anchors.bottom: parent.bottom
             z: 1

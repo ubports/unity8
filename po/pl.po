@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-06-26 22:58+0200\n"
-"PO-Revision-Date: 2013-06-05 22:43+0000\n"
-"Last-Translator: Piotr Merski <Unknown>\n"
+"PO-Revision-Date: 2013-06-27 08:52+0000\n"
+"Last-Translator: Michał Sawicz <michal.sawicz@canonical.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-27 16:16+0000\n"
-"X-Generator: Launchpad (build 16681)\n"
+"X-Launchpad-Export-Date: 2013-08-08 05:15+0000\n"
+"X-Generator: Launchpad (build 16723)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -167,16 +167,16 @@ msgstr "Autor:"
 
 #: Greeter/Lockscreen.qml:133
 msgid "Emergency call"
-msgstr ""
+msgstr "Telefon alarmowy"
 
 #: Greeter/PassphraseLockscreen.qml:59
 #, qt-format
 msgid "Hello %1"
-msgstr ""
+msgstr "Witaj %1"
 
 #: Greeter/PassphraseLockscreen.qml:59
 msgid "Hello"
-msgstr ""
+msgstr "Witaj"
 
 #: Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
@@ -217,28 +217,4 @@ msgstr "Nie znaleziono pasujących wyników."
 #: Shell.qml:383
 #, qt-format
 msgid "Please enter %1"
-msgstr ""
-
-#~ msgid "Home screen"
-#~ msgstr "Ekran domowy"
-
-#~ msgid "People"
-#~ msgstr "Ludzie"
-
-#~ msgid "People Recently in Touch"
-#~ msgstr "Osoby ostatnio w kontakcie"
-
-#~ msgid "Favourite People"
-#~ msgstr "Ulubione kontakty"
-
-#~ msgid "A-Z"
-#~ msgstr "A-Z"
-
-#~ msgid "Recently in touch"
-#~ msgstr "Ostatnio w kontakcie"
-
-#~ msgid "New Contacts"
-#~ msgstr "Nowe kontakty"
-
-#~ msgid "Favourites"
-#~ msgstr "Ulubione"
+msgstr "Wprowadź %1"

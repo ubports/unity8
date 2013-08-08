@@ -99,7 +99,7 @@ Item {
 
             UbuntuShape {
                 anchors.fill: parent
-                color: "#33ffffff"
+                color: "#33ffffff" // FIXME no palette
                 radius: "small"
             }
 
@@ -123,7 +123,7 @@ Item {
                 }
                 text: (filter) ? "+ View all (" + model.count + ")" : "- Show fewer"
                 fontSize: "small"
-                color: "#f3f3e7"
+                color: Theme.palette.selected.backgroundText
                 opacity: 0.6
                 style: Text.Raised
                 styleColor: "black"

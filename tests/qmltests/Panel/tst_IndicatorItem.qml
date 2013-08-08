@@ -34,34 +34,28 @@ Rectangle {
     UT.UnityTestCase {
         name: "IndicatorItem"
 
-        function init_test() {
-        }
-
         function test_dimmed() {
-            init_test()
-
-            indicatorItem.dimmed = true
-            compare(indicatorItem.opacity > 0, true, "IndicatorItem opacity should not be 0")
-            compare(indicatorItem.opacity < 1, true, "IndicatorItem opacity should not be 1")
+            indicatorItem.dimmed = false;
+            tryCompareFunction(function(){return indicatorItem.opacity}, 1.0);
+            indicatorItem.dimmed = true;
+            tryCompareFunction(function(){return indicatorItem.opacity < 1.0}, true);
         }
 
         function test_highlight() {
-            var itemHighlight = findChild(indicatorItem, "highlight")
-            verify(itemHighlight != undefined)
+            var itemHighlight = findChild(indicatorItem, "highlight");
+            verify(itemHighlight != undefined);
 
             indicatorItem.highlighted = true;
-            compare(itemHighlight.visible, true, "Indicator should be highlighted")
+            compare(itemHighlight.visible, true, "Indicator should be highlighted");
 
             indicatorItem.highlighted = false;
-            compare(itemHighlight.visible, false, "Indicator should not be highlighted")
+            compare(itemHighlight.visible, false, "Indicator should not be highlighted");
         }
 
         function test_empty() {
-            init_test()
-
-            compare(indicatorItem.visible, false, "IndicatorItem should not be visible.")
+            compare(indicatorItem.visible, false, "IndicatorItem should not be visible.");
             indicatorItem.widgetSource = "qrc:/tests/indciators/qml/fake_menu_widget1.qml";
-            tryCompare(indicatorItem, "visible", true)
+            tryCompare(indicatorItem, "visible", true);
         }
     }
 }

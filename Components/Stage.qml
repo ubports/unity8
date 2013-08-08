@@ -39,6 +39,7 @@ Showable {
         type == ApplicationInfo.MainStage ? applicationManager.mainStageApplications
                                             : applicationManager.sideStageApplications
     property bool fullyShown: false
+    property bool fullyHidden: true
     readonly property var focusedApplication:
         type == ApplicationInfo.MainStage ? applicationManager.mainStageFocusedApplication
                                             : applicationManager.sideStageFocusedApplication
@@ -246,6 +247,19 @@ Showable {
                     stage.__hideScreenshots();
                 }
             }
+        }
+    }
+
+    Connections {
+        target: stage.applications
+        onCountChanged: { __discardObsoleteScreenshots(); }
+        ignoreUnknownSignals: true
+    }
+    onFullyHiddenChanged: { __discardObsoleteScreenshots(); }
+    function __discardObsoleteScreenshots() {
+        if (stage.fullyHidden && stage.applications && stage.applications.count == 0) {
+            stage.focusedApplicationWhenUsingScreenshots = undefined;
+            stage.__hideScreenshots();
         }
     }
 
