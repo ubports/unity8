@@ -58,8 +58,8 @@ ScopeView {
         delegate: ListItems.Base {
             highlightWhenPressed: false
 
-            property bool expandable: rendererLoader.item ? rendererLoader.item.expandable : false
-            property bool filtered: rendererLoader.item ? rendererLoader.item.filter : true
+            readonly property bool expandable: rendererLoader.item ? rendererLoader.item.expandable : false
+            readonly property bool filtered: rendererLoader.item ? rendererLoader.item.filter : true
 
             Loader {
                 id: rendererLoader
