@@ -186,6 +186,11 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${SHELL_APP}.desktop
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${GREETER_APP}.desktop
     DESTINATION ${CMAKE_INSTALL_DATADIR}/lightdm/greeters
     )
+# This next rule should use ${CMAKE_INSTALL_SYSCONFDIR}, but until Debian bug
+# 719148 is fixed, we need to manually specify /etc
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/51-${GREETER_APP}.conf
+    DESTINATION /etc/lightdm/lightdm.conf.d
+    )
 
 #
 # Translation
