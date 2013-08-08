@@ -1,3 +1,24 @@
+unity8 (7.81.3+13.10.20130808-0ubuntu1) saucy; urgency=low
+
+  [ Michał Sawicz ]
+  * Re-enable battery slider test.
+
+  [ Nick Dedekind ]
+  * Workaround for non-deletion of indicator page menu items. (LP:
+    #1183065, #1206991)
+
+  [ Albert Astals ]
+  * LVPWH: Fix regression handling the sticky top section culling r166
+    introduced the regression, this fixes it+tests.
+  * Implement+test the maximizeVisibleArea function Tries to show as
+    much possible of an index that is already shown on screen Will be
+    used for the dash category expansion.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 174
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 08 Aug 2013 15:23:17 +0000
+
 unity8 (7.81.3+13.10.20130807-0ubuntu1) saucy; urgency=low
 
   [ Michał Sawicz ]
