@@ -280,7 +280,7 @@ void ListViewWithPageHeader::setSectionDelegate(QQmlComponent *delegate)
 
         m_sectionDelegate = delegate;
 
-        m_topSectionItem = getSectionItem(-1, QString());
+        m_topSectionItem = getSectionItem(QString());
         m_topSectionItem->setZ(3);
         QQuickItemPrivate::get(m_topSectionItem)->setCulled(true);
 
@@ -651,17 +651,17 @@ QQuickItem *ListViewWithPageHeader::getSectionItem(int modelIndex, bool alreadyI
         }
     }
 
-    return getSectionItem(modelIndex, section);
+    return getSectionItem(section);
 }
 
-QQuickItem *ListViewWithPageHeader::getSectionItem(int modelIndex, const QString &sectionText)
+QQuickItem *ListViewWithPageHeader::getSectionItem(const QString &sectionText)
 {
     QQuickItem *sectionItem = nullptr;
 
     QQmlContext *creationContext = m_sectionDelegate->creationContext();
     QQmlContext *context = new QQmlContext(creationContext ? creationContext : qmlContext(this));
     context->setContextProperty(QLatin1String("section"), sectionText);
-    context->setContextProperty(QLatin1String("delegateIndex"), modelIndex);
+    context->setContextProperty(QLatin1String("delegateIndex"), -1);
     QObject *nobj = m_sectionDelegate->beginCreate(context);
     if (nobj) {
         QQml_setParent_noEvent(context, nobj);
