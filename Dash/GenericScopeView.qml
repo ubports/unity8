@@ -119,10 +119,8 @@ ScopeView {
             width: categoryView.width
             text: section
             image: {
-                if (delegate) {
-                    if (delegate.expandable)
-                        return delegate.filtered ? "graphics/header_handlearrow.png" : "graphics/header_handlearrow2.png"
-                }
+                if (delegate && delegate.expandable)
+                    return delegate.filtered ? "graphics/header_handlearrow.png" : "graphics/header_handlearrow2.png"
                 return "";
             }
             onClicked: {
