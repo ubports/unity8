@@ -15,12 +15,19 @@
  */
 
 import QtQuick 2.0
+import "../../Applications"
 
-ListModel {
-    ListElement { desktopFile: "/usr/share/applications/evernote.desktop";     }
-    ListElement { desktopFile: "/usr/share/applications/map.desktop";          }
-    ListElement { desktopFile: "/usr/share/applications/pinterest.desktop";    }
-    ListElement { desktopFile: "/usr/share/applications/soundcloud.desktop";   }
-    ListElement { desktopFile: "/usr/share/applications/wikipedia.desktop";    }
-    ListElement { desktopFile: "/usr/share/applications/youtube.desktop";      }
+DesktopFileModel {
+    baseModel: desktopModel
+
+    ListModel {
+        id: desktopModel
+
+        ListElement { desktopFile: "/usr/share/applications/evernote.desktop";     }
+        ListElement { desktopFile: "/usr/share/applications/map.desktop";          }
+        ListElement { desktopFile: "/usr/share/applications/pinterest.desktop";    }
+        ListElement { desktopFile: "/usr/share/applications/soundcloud.desktop";   }
+        ListElement { desktopFile: "/usr/share/applications/wikipedia.desktop";    }
+        ListElement { desktopFile: "/usr/share/applications/youtube.desktop";      }
+    }
 }

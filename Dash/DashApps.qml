@@ -29,43 +29,8 @@ GenericScopeView {
     property var mainStageApplicationsModel: shell.applicationManager.mainStageApplications
     property var sideStageApplicationModel: shell.applicationManager.sideStageApplications
 
-    ListModel {
-        id: frequentlyUsedAppsModel
-    }
-
-    FrequentlyUsedAppsModel { id: frequentlyUsedAppsBaseModel }
-
-    Repeater {
-        model: frequentlyUsedAppsBaseModel
-        delegate: Item {
-            Application {
-                id: application
-                desktopFile: model.desktopFile
-            }
-            Component.onCompleted: {
-                frequentlyUsedAppsModel.append({"uri": model.desktopFile, "icon": "../../graphics/applicationIcons/" + application.icon + ".png", "title": application.name, "dndUri": model.desktopFile});
-            }
-        }
-    }
-
-    ListModel {
-        id: appsAvailableForDownloadModel
-    }
-
-    AppsAvailableForDownloadModel { id: appsAvailableForDownloadBaseModel }
-
-    Repeater {
-        model: appsAvailableForDownloadBaseModel
-        delegate: Item {
-            Application {
-                id: application
-                desktopFile: model.desktopFile
-            }
-            Component.onCompleted: {
-                appsAvailableForDownloadModel.append({"uri": model.desktopFile, "icon": "../../graphics/applicationIcons/" + application.icon + ".png", "title": application.name, "dndUri": model.desktopFile});
-            }
-        }
-    }
+    FrequentlyUsedAppsModel { id: frequentlyUsedAppsModel }
+    AppsAvailableForDownloadModel { id: appsAvailableForDownloadModel }
 
     ListModel {
         id: runningApplicationsModel
@@ -76,8 +41,8 @@ GenericScopeView {
     }
 
     onScopeChanged: {
-        scopeView.scope.categories.overrideCategory("recently-used", frequentlyUsedAppsModel);
+        scopeView.scope.categories.overrideCategory("recently-used", frequentlyUsedAppsModel.model);
         scopeView.scope.categories.overrideCategory("recent", runningApplicationsModel);
-        scopeView.scope.categories.overrideCategory("more", appsAvailableForDownloadModel);
+        scopeView.scope.categories.overrideCategory("more", appsAvailableForDownloadModel.model);
     }
 }

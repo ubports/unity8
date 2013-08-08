@@ -16,11 +16,17 @@
 
 import QtQuick 2.0
 
-ListModel {
-    ListElement { desktopFile: "/usr/share/applications/camera-app.desktop";       }
-    ListElement { desktopFile: "/usr/share/applications/phone-app.desktop";        }
-    ListElement { desktopFile: "/usr/share/applications/gallery-app.desktop";      }
-    ListElement { desktopFile: "/usr/share/applications/facebook-webapp.desktop";  }
-    ListElement { desktopFile: "/usr/share/applications/webbrowser-app.desktop";   }
-    ListElement { desktopFile: "/usr/share/applications/gmail-webapp.desktop";     }
+DesktopFileModel {
+    baseModel: desktopModel
+
+    ListModel {
+        id: desktopModel
+
+        ListElement { desktopFile: "/usr/share/applications/camera-app.desktop";       }
+        ListElement { desktopFile: "/usr/share/applications/phone-app.desktop";        }
+        ListElement { desktopFile: "/usr/share/applications/gallery-app.desktop";      }
+        ListElement { desktopFile: "/usr/share/applications/facebook-webapp.desktop";  }
+        ListElement { desktopFile: "/usr/share/applications/webbrowser-app.desktop";   }
+        ListElement { desktopFile: "/usr/share/applications/gmail-webapp.desktop";     }
+    }
 }
