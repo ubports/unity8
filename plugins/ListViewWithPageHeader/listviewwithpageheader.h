@@ -90,8 +90,10 @@ public:
     Q_INVOKABLE void showHeader();
     Q_INVOKABLE QQuickItem *item(int modelIndex) const;
 
-    // The index has to be visible for this to try to do something
-    Q_INVOKABLE void maximizeVisibleArea(int modelIndex);
+    // The index has to be created for this to try to do something
+    // Created items are those visible and the precached ones
+    // Returns if the item existed or not
+    Q_INVOKABLE bool maximizeVisibleArea(int modelIndex);
 
 Q_SIGNALS:
     void modelChanged();

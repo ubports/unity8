@@ -1411,7 +1411,8 @@ private Q_SLOTS:
 
     void testMaximizeVisibleArea()
     {
-        lvwph->maximizeVisibleArea(2);
+        bool res = lvwph->maximizeVisibleArea(2);
+        QVERIFY(res);
         QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
 
         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
@@ -1431,12 +1432,14 @@ private Q_SLOTS:
 
     void testMaximizeVisibleAreaVisibleItems()
     {
-        lvwph->maximizeVisibleArea(0);
+        bool res = lvwph->maximizeVisibleArea(0);
+        QVERIFY(res);
         QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
 
         verifyInitialTopPosition();
 
-        lvwph->maximizeVisibleArea(1);
+        res = lvwph->maximizeVisibleArea(1);
+        QVERIFY(res);
         QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
 
         verifyInitialTopPosition();
@@ -1444,17 +1447,20 @@ private Q_SLOTS:
 
     void testMaximizeVisibleAreaInvalidIndexes()
     {
-        lvwph->maximizeVisibleArea(-1);
+        bool res = lvwph->maximizeVisibleArea(-1);
+        QVERIFY(!res);
         QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
 
         verifyInitialTopPosition();
 
-        lvwph->maximizeVisibleArea(1000);
+        res = lvwph->maximizeVisibleArea(1000);
+        QVERIFY(!res);
         QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
 
         verifyInitialTopPosition();
 
-        lvwph->maximizeVisibleArea(4);
+        res = lvwph->maximizeVisibleArea(4);
+        QVERIFY(!res);
         QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
 
         verifyInitialTopPosition();
@@ -1463,7 +1469,8 @@ private Q_SLOTS:
     void testMaximizeVisibleAreaBigElement()
     {
         model->setProperty(2, "size", 4000);
-        lvwph->maximizeVisibleArea(2);
+        bool res = lvwph->maximizeVisibleArea(2);
+        QVERIFY(res);
         QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
 
         QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
@@ -1483,7 +1490,8 @@ private Q_SLOTS:
     void testMaximizeVisibleAreaScrollDown()
     {
         changeContentY(250);
-        lvwph->maximizeVisibleArea(1);
+        bool res = lvwph->maximizeVisibleArea(1);
+        QVERIFY(res);
         QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
 
         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
@@ -1505,7 +1513,8 @@ private Q_SLOTS:
     {
         model->setProperty(1, "size", 1000);
         changeContentY(1150);
-        lvwph->maximizeVisibleArea(1);
+        bool res = lvwph->maximizeVisibleArea(1);
+        QVERIFY(res);
         QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
 
         QTRY_COMPARE(lvwph->m_visibleItems.count(), 2);
@@ -1538,7 +1547,8 @@ private Q_SLOTS:
         QCOMPARE(lvwph->contentY(), 650.);
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
 
-        lvwph->maximizeVisibleArea(1);
+        bool res = lvwph->maximizeVisibleArea(1);
+        QVERIFY(res);
         QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
 
         QTRY_COMPARE(lvwph->m_visibleItems.count(), 2);
@@ -1551,6 +1561,54 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItem->y(), 0.);
         QCOMPARE(lvwph->m_headerItem->height(), 50.);
         QCOMPARE(lvwph->contentY(), 650.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+    }
+
+    void testMaximizeVisibleAreaTopWithHalfPageHeader()
+    {
+        changeContentY(430);
+        changeContentY(-30);
+
+        bool res = lvwph->maximizeVisibleArea(1);
+        QVERIFY(res);
+        QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, -150., 150., true);
+        verifyItem(1, 0., 200., false);
+        verifyItem(2, 200, 350., false);
+        verifyItem(3, 550, 350., true);
+        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_clipItem->y(), 200.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 200.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+    }
+
+    void testMaximizeVisibleAreaBottomWithHalfPageHeader()
+    {
+        changeContentY(430);
+        changeContentY(-30);
+
+        bool res = lvwph->maximizeVisibleArea(3);
+        QVERIFY(res);
+        QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 1);
+        verifyItem(0, -358., 200., true);
+        verifyItem(1, -158., 350., false);
+        verifyItem(2, 192, 350., false);
+        verifyItem(3, 542, 350., true);
+        QCOMPARE(lvwph->m_minYExtent, 162.5);
+        QCOMPARE(lvwph->m_clipItem->y(), 558.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 558.);
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
     }
 

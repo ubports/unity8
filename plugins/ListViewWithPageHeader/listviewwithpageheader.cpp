@@ -389,7 +389,7 @@ QQuickItem *ListViewWithPageHeader::item(int modelIndex) const
         return nullptr;
 }
 
-void ListViewWithPageHeader::maximizeVisibleArea(int modelIndex)
+bool ListViewWithPageHeader::maximizeVisibleArea(int modelIndex)
 {
     ListItem *listItem = itemAtIndex(modelIndex);
     if (listItem)
@@ -402,14 +402,28 @@ void ListViewWithPageHeader::maximizeVisibleArea(int modelIndex)
             m_contentYAnimation->setTo(to);
             contentYAnimationType = ContentYAnimationMaximizeVisibleArea;
             m_contentYAnimation->start();
-        } else if (listItemY < contentY() && listItemY + listItem->height() < contentY() + height()) {
+        } else if ((listItemY < contentY() && listItemY + listItem->height() < contentY() + height()) ||
+                   (m_topSectionItem && !listItem->m_sectionItem && listItemY - m_topSectionItem->height() < contentY() && listItemY + listItem->height() < contentY() + height()))
+        {
             // we can scroll the list down to show more stuff
-            const auto to = qMax(listItemY, listItemY + listItem->height() - height());
+            auto realVisibleListItemY = listItemY;
+            if (m_topSectionItem) {
+                // If we are showing the top section sticky item and this item doesn't have a section
+                // item we have to make sure to scroll it a bit more so that it is not underlapping
+                // the top section sticky item
+                bool topSectionShown = !QQuickItemPrivate::get(m_topSectionItem)->culled;
+                if (topSectionShown && !listItem->m_sectionItem) {
+                    realVisibleListItemY -= m_topSectionItem->height();
+                }
+            }
+            const auto to = qMax(realVisibleListItemY, listItemY + listItem->height() - height());
             m_contentYAnimation->setTo(to);
             contentYAnimationType = ContentYAnimationMaximizeVisibleArea;
             m_contentYAnimation->start();
         }
+        return true;
     }
+    return false;
 }
 
 qreal ListViewWithPageHeader::minYExtent() const
@@ -454,7 +468,10 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
                 m_headerItemShownHeight = 0;
                 m_headerItem->setY(contentY());
             } else if ((scrolledUp && notRebounding && notShownByItsOwn && !maximizeVisibleAreaRunning) || (m_headerItemShownHeight > 0)) {
-                m_headerItemShownHeight += diff;
+                if (maximizeVisibleAreaRunning && diff > 0) // If we are maximizing and the header was shown, make sure we hide it
+                    m_headerItemShownHeight -= diff;
+                else
+                    m_headerItemShownHeight += diff;
                 if (contentY() == -m_minYExtent) {
                     m_headerItemShownHeight = 0;
                 } else {
@@ -1091,7 +1108,19 @@ void ListViewWithPageHeader::layout()
                     // Then after the loop we'll make sure that if there's another section just below it
                     // pushed the sticky section up to make it disappear
                     const qreal topSectionStickPos = m_headerItemShownHeight + contentY() - m_clipItem->y();
-                    if (topSectionStickPos <= pos) {
+                    bool showStickySectionItem;
+                    // We need to show the "top section sticky item" when the position at the "top" of the
+                    // viewport is bigger than the start of the position of the first visible item
+                    // i.e. the first visible item starts before the viewport, or when the first
+                    // visible item starts just at the viewport start and it does not have its own section item
+                    if (topSectionStickPos > pos) {
+                        showStickySectionItem = true;
+                    } else if (topSectionStickPos == pos) {
+                        showStickySectionItem = !item->m_sectionItem;
+                    } else {
+                        showStickySectionItem = false;
+                    }
+                    if (!showStickySectionItem) {
                         QQuickItemPrivate::get(m_topSectionItem)->setCulled(true);
                         if (item->m_sectionItem) {
                             // This seems it should happen since why would we cull the top section
