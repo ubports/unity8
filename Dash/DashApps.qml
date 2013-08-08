@@ -41,8 +41,8 @@ GenericScopeView {
     }
 
     onScopeChanged: {
-        scopeView.scope.categories.overrideCategory("recently-used", frequentlyUsedAppsModel.model);
-        scopeView.scope.categories.overrideCategory("recent", runningApplicationsModel);
-        scopeView.scope.categories.overrideCategory("more", appsAvailableForDownloadModel.model);
+        scopeView.scope.categories.overrideResults("recently-used", frequentlyUsedAppsModel.model);
+        scopeView.scope.categories.overrideResults("recent", runningApplicationsModel);
+        scopeView.scope.categories.overrideResults("more", appsAvailableForDownloadModel.model);
     }
 }

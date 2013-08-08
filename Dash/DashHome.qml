@@ -28,6 +28,6 @@ GenericScopeView {
     FrequentlyUsedAppsModel { id: appsModel }
 
     onScopeChanged: {
-        root.scope.categories.overrideCategory("applications.scope", appsModel.model);
+        root.scope.categories.overrideResults("applications.scope", appsModel.model);
     }
 }

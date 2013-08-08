@@ -53,7 +53,7 @@ public:
         RoleCategoryIndex
     };
 
-    Q_INVOKABLE void overrideCategory(const QString& categoryId, QAbstractItemModel* model);
+    Q_INVOKABLE void overrideResults(const QString& categoryId, QAbstractItemModel* model);
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
 

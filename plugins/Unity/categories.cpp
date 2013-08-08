@@ -123,7 +123,7 @@ Categories::roleNames() const
     return m_roles;
 }
 
-void Categories::overrideCategory(const QString& categoryId, QAbstractItemModel* model)
+void Categories::overrideResults(const QString& categoryId, QAbstractItemModel* model)
 {
     m_overriddenCategories[categoryId] = model;
     // TODO: change the parent of the model?
