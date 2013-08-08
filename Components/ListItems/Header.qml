@@ -55,13 +55,14 @@ Item {
             textFormat: Text.PlainText
             style: Text.Raised
             styleColor: "black"
+            width: parent.width - image.width - image.leftMargin - anchors.leftMargin
         }
 
         Image {
             id: image
+            readonly property double leftMargin: units.gu(1)
+            x: label.x + label.contentWidth + leftMargin
             anchors {
-                left: label.right
-                leftMargin: units.gu(1)
                 verticalCenter: parent.verticalCenter
             }
         }
