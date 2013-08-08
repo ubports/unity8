@@ -1,4 +1,3 @@
-add_subdirectory(AccountsService)
 add_subdirectory(ListViewWithPageHeader)
 add_subdirectory(Ubuntu)
 add_subdirectory(Unity)
