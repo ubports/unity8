@@ -1612,6 +1612,28 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
     }
 
+    void testMaximizeVisibleAreaWithItemResize()
+    {
+        model->setProperty(0, "size", 1000);
+
+        bool res = lvwph->maximizeVisibleArea(1);
+        QVERIFY(res);
+        QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, -658., 1000., false);
+        verifyItem(1, 342., 200., false);
+        verifyItem(2, 542, 350., true);
+        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_clipItem->y(), 708.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 708.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+    }
+
 private:
     QQuickView *view;
     ListViewWithPageHeader *lvwph;
