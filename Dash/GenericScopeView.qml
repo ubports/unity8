@@ -61,22 +61,6 @@ ScopeView {
             property bool expandable: rendererLoader.item ? rendererLoader.item.expandable : false
             property bool filtered: rendererLoader.item ? rendererLoader.item.filter : true
 
-            function toggleCollapse() {
-                if (expandable) {
-                    if (index != categoryView.expandedIndex && categoryView.expandedIndex != -1) {
-                        var obj = categoryView.item(categoryView.expandedIndex);
-                        if (obj)
-                            obj.toggleCollapse();
-                    }
-                    rendererLoader.item.filter = !rendererLoader.item.filter;
-                    if (rendererLoader.item.filter) {
-                        categoryView.expandedIndex = -1
-                    } else {
-                        categoryView.expandedIndex = index
-                    }
-                }
-            }
-
             Loader {
                 id: rendererLoader
                 anchors {
@@ -89,6 +73,9 @@ ScopeView {
 
                 onLoaded: {
                     item.model = results
+                    if (item.expandable) {
+                        item.filter = Qt.binding(function() { return index != categoryView.expandedIndex; });
+                    }
                 }
 
                 Connections {
@@ -139,9 +126,10 @@ ScopeView {
                 return "";
             }
             onClicked: {
-                var obj = categoryView.item(delegateIndex);
-                if (obj)
-                    obj.toggleCollapse();
+                if (categoryView.expandedIndex != delegateIndex)
+                    categoryView.expandedIndex = delegateIndex;
+                else
+                    categoryView.expandedIndex = -1;
             }
         }
         pageHeader: PageHeader {
