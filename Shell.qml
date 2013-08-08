@@ -18,6 +18,7 @@ import QtQuick 2.0
 import Ubuntu.Application 0.1
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
+import Powerd 0.1
 import SessionManager 0.1
 import "Dash"
 import "Launcher"
@@ -97,12 +98,6 @@ BasicShell {
                 sideStage.activateApplication(desktopFile, addDelay);
             }
             stages.show();
-        }
-    }
-
-    Keys.onReleased: {
-        if (event.key == Qt.Key_PowerOff) {
-            SessionManager.lock()
         }
     }
 
@@ -338,6 +333,42 @@ BasicShell {
         }
     }
 
+    Connections {
+        id: powerConnection
+        target: Powerd
+
+        property var previousMainApp: null
+        property var previousSideApp: null
+
+        function setFocused(focused) {
+            if (!focused) {
+                // FIXME: *FocusedApplication are not updated when unfocused, hence the need to check whether
+                // the stage was actually shown
+                if (mainStage.fullyShown) powerConnection.previousMainApp = applicationManager.mainStageFocusedApplication;
+                if (sideStage.fullyShown) powerConnection.previousSideApp = applicationManager.sideStageFocusedApplication;
+                applicationManager.unfocusCurrentApplication();
+            } else {
+                if (powerConnection.previousMainApp) {
+                    applicationManager.focusApplication(powerConnection.previousMainApp);
+                    powerConnection.previousMainApp = null;
+                }
+                if (powerConnection.previousSideApp) {
+                    applicationManager.focusApplication(powerConnection.previousSideApp);
+                    powerConnection.previousSideApp = null;
+                }
+            }
+        }
+
+        onPowerStateChange: {
+            if (state == 0) { // suspend
+                powerConnection.setFocused(false);
+                SessionManager.lock();
+            } else if (state == 1) { // active
+                powerConnection.setFocused(true);
+            }
+        }
+    }
+
     Item {
         id: overlay
 
@@ -503,5 +534,19 @@ BasicShell {
         height: shell.applicationManager ? shell.applicationManager.keyboardHeight : 0
 
         enabled: shell.applicationManager && shell.applicationManager.keyboardVisible
+    }
+
+    Label {
+        anchors.fill: parent
+        visible: applicationManager.fake
+        text: "EARLY ALPHA\nNOT READY FOR USE"
+        color: "lightgrey"
+        opacity: 0.2
+        font.weight: Font.Black
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        fontSizeMode: Text.Fit
+        font.pixelSize: height/2
+        rotation: -45
     }
 }

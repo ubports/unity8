@@ -26,7 +26,7 @@ class TestDisplayMenus(IndicatorsTestCase):
         self.pointing_device.move_to_object(self.main_window.get_battery_menu())
         self.pointing_device.click()
 
-        fn_loader = lambda: self.app.select_single("IndicatorsPage/QQuickLoader", objectName="page_loader");
+        fn_loader = lambda: self.app.select_single("IndicatorsPage/QQuickLoader", objectName="pageLoader");
         self.assertThat(fn_loader, Eventually(NotEquals(None)));
         page_loader = fn_loader();
         self.assertThat(page_loader.progress, Eventually(Equals(1.0)))
@@ -87,8 +87,6 @@ class TestDisplayMenus(IndicatorsTestCase):
     def test_brightness_slider(self):
         """Test the auto-bright switch"""
 
-        if self.input_device_class is Touch:
-            self.skipTest("Dragging is broken with Touch input (LP: #1203808).")
         fn_brightness_menu = lambda: self.app.select_single("SliderMenuItem", objectName="brightness");
         # FIXME: this should go away when we switch to indicator-power
         try:

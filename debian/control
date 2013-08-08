@@ -5,7 +5,7 @@ Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
 Build-Depends: cmake,
                dbus-test-runner,
                debhelper (>= 9),
-               libdee-qt5-dev (>= 3.0),
+               libdee-qt5-dev (>= 3.2),
                libgl1-mesa-dev[!armhf] | libgl-dev[!armhf],
                libgl1-mesa-dri,
                libgles2-mesa-dev[armhf],

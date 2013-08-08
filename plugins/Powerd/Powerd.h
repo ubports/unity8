@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright (C) 2012,2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,25 +12,29 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authors: Gerry Boland <gerry.boland@canonical.com>
+ *          Michael Terry <michael.terry@canonical.com>
  */
 
-import QtQuick 2.0
-import Unity.Indicators 0.1 as Indicators
+#ifndef UNITY_POWERD_H
+#define UNITY_POWERD_H
 
-Indicators.FakeMenuPage {
-    id: menu_plugin2
-    objectName: "menu_page2"
+#include <QtCore/QObject>
+#include <QtDBus/QDBusInterface>
 
-    Rectangle {
-        id: contents
-        color: "blue"
+class Powerd: public QObject
+{
+    Q_OBJECT
 
-        height: 150
-        width: 150
+public:
+    explicit Powerd(QObject *parent = 0);
 
-        anchors {
-            horizontalCenter: parent.horizontalCenter
-            verticalCenter: parent.verticalCenter
-        }
-    }
-}
+Q_SIGNALS:
+    void powerStateChange(int state);
+
+private:
+    QDBusInterface *powerd;
+};
+
+#endif

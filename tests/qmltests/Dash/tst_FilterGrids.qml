@@ -118,7 +118,7 @@ Rectangle {
             gridLoader.source = "../../../Dash/" + data.component;
 
             // Wait until the FilterGrid is loaded by the loader
-            tryCompare(gridLoader, "status", Loader.Ready, "Loader couldn't load " + data.component);
+            tryCompare(gridLoader, "status", Loader.Ready);
 
             // Wait until the GridView inside the model has finished rendering
             var gridView = findChild(gridLoader, "responsiveGridViewGrid");

@@ -25,7 +25,7 @@ class Greeter(UnityEmulatorBase):
 
     """An emulator that understands the greeter screen."""
 
-    def unlock(self):
+    def swipe(self):
         """Swipe the greeter screen away."""
         self.created.wait_for(True)
         touch = Touch.create()
@@ -38,3 +38,6 @@ class Greeter(UnityEmulatorBase):
         touch.drag(start_x, start_y, stop_x, stop_y)
 
         self.created.wait_for(False)
+
+    def get_prompt(self):
+        return self.select_single("TextField", objectName="passwordInput")

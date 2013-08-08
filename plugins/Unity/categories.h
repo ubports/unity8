@@ -42,7 +42,7 @@ public:
     explicit Categories(QObject* parent = 0);
 
     enum Roles {
-        RoleId,
+        RoleCategoryId,
         RoleName,
         RoleIcon,
         RoleRenderer,

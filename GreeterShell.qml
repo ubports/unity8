@@ -89,7 +89,6 @@ BasicShell {
             LightDM.Greeter.startSessionSync();
         }
 
-        onUnlocked: login()
         onShownChanged: {
             if (shown) {
                 lockscreen.reset();
@@ -100,9 +99,11 @@ BasicShell {
                 }
                 greeter.forceActiveFocus();
             }
-            else if (promptless)
+            else if (LightDM.Greeter.promptless)
                 login();
         }
+
+        onUnlocked: login()
         onSelected: {
             var bgPath = greeter.model.data(uid, LightDM.UserRoles.BackgroundPathRole)
             shell.background = bgPath ? bgPath : default_background
@@ -156,7 +157,7 @@ BasicShell {
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
-            available: !greeter.locked
+            available: greeter.narrowMode
             onLauncherApplicationSelected: {
                 shell.activateApplication(name)
             }

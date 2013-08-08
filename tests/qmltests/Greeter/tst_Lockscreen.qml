@@ -186,6 +186,7 @@ Rectangle {
         function test_unlock(data) {
             unlockedCheckBox.checked = false
             LightDM.Greeter.authenticate(data.username)
+            waitForRendering(lockscreen)
 
             var inputField = findChild(lockscreen, "pinentryField")
             if (data.alphanumeric) {

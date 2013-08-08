@@ -29,6 +29,8 @@ Item {
     property bool keyboardVisible: ApplicationManager.keyboardVisible
     property int keyboardHeight: ApplicationManager.keyboardHeight
 
+    property bool fake: ApplicationManager.fake ? ApplicationManager.fake : false
+
     Component.onCompleted: {
         // Start the watcher so that the ApplicationManager applications model can be populated.
         ApplicationManager.startWatcher();
@@ -121,9 +123,16 @@ Item {
                 desktopFile = "/usr/share/applications/share-app.desktop"
             } else if (favoriteApplication == ApplicationManager.BrowserApplication) {
                 desktopFile = "/usr/share/applications/webbrowser-app.desktop"
-            } else if (favoriteApplication == 4) { // ApplicationManager.PhoneApplication
+            } else if (favoriteApplication == ApplicationManager.PhoneApplication) {
                 desktopFile = "/usr/share/applications/phone-app.desktop"
+            } else if (favoriteApplication == ApplicationManager.DialerApplication) {
+                desktopFile = "/usr/share/applications/dialer-app.desktop"
+            } else if (favoriteApplication == ApplicationManager.MessagingApplication) {
+                desktopFile = "/usr/share/applications/messaging-app.desktop"
+            } else if (favoriteApplication == ApplicationManager.AddressbookApplication) {
+                desktopFile = "/usr/share/applications/address-book-app.desktop"
             }
+
             applicationManager.focusRequested(desktopFile);
         }
     }
