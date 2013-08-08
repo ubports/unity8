@@ -33,6 +33,15 @@
 Filters::Filters(unity::dash::Filters::Ptr unityFilters, QObject *parent) :
     QAbstractListModel(parent), m_unityFilters(unityFilters)
 {
+    // setup roles
+    m_roles[Filters::RoleId] = "id";
+    m_roles[Filters::RoleName] = "name";
+    m_roles[Filters::RoleIconHint] = "iconHint";
+    m_roles[Filters::RoleRendererName] = "rendererName";
+    m_roles[Filters::RoleVisible] = "visible";
+    m_roles[Filters::RoleCollapsed] = "collapsed";
+    m_roles[Filters::RoleFiltering] = "filtering";
+
     for (unsigned int i=0; i<m_unityFilters->count(); i++) {
         unity::dash::Filter::Ptr unityFilter = m_unityFilters->FilterAtIndex(i);
         addFilter(unityFilter, i);
@@ -58,25 +67,35 @@ int Filters::rowCount(const QModelIndex& parent) const
 
 QVariant Filters::data(const QModelIndex& index, int role) const
 {
-    Q_UNUSED(role)
-
     if (!index.isValid()) {
         return QVariant();
     }
 
-    if (role == Filters::RoleFilter) {
-        Filter* filter = m_filters.at(index.row());
-        return QVariant::fromValue(filter);
-    } else {
-        return QVariant();
+    Filter* filter = m_filters.at(index.row());
+    switch (role)
+    {
+        case Filters::RoleId: 
+            return filter->id();
+        case Filters::RoleName:
+            return filter->name();
+        case Filters::RoleIconHint:
+            return filter->iconHint();
+        case Filters::RoleRendererName:
+            return filter->rendererName();
+        case Filters::RoleVisible:
+            return filter->visible();
+        case Filters::RoleCollapsed:
+            return filter->collapsed();
+        case Filters::RoleFiltering:
+            return filter->filtering();
+        default:
+            return QVariant();
     }
 }
 
 QHash<int, QByteArray> Filters::roleNames() const
 {
-    QHash<int, QByteArray> roles;
-    roles[Filters::RoleFilter] = "filter";
-    return roles;
+    return m_roles;
 }
 
 Filter* Filters::getFilter(const QString& id) const

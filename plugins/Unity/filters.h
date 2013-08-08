@@ -42,7 +42,13 @@ public:
     ~Filters();
 
     enum Roles {
-        RoleFilter
+        RoleId,
+        RoleName,
+        RoleIconHint,
+        RoleRendererName,
+        RoleVisible,
+        RoleCollapsed,
+        RoleFiltering
     };
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
@@ -54,6 +60,7 @@ public:
 private:
     unity::dash::Filters::Ptr m_unityFilters;
     QList<Filter*> m_filters;
+    QHash<int, QByteArray> m_roles;
 
     void onFilterAdded(unity::dash::Filter::Ptr unityFilter);
     void onFilterChanged(unity::dash::Filter::Ptr unityFilter);
