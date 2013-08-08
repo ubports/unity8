@@ -22,9 +22,9 @@ install(FILES com.canonical.unity.AccountsService.xml
 
 # Create accountsservice symlink for above dbus interface
 install(CODE "
-execute_process(COMMAND mkdir -p \"$ENV{DESTDIR}${ACCOUNTS_IFACE_DIR}\"
-                COMMAND ln -sf ../../dbus-1/interfaces/com.canonical.unity.AccountsService.xml \"$ENV{DESTDIR}${ACCOUNTS_IFACE_DIR}\"
-    )")
+execute_process(COMMAND mkdir -p \"$ENV{DESTDIR}${ACCOUNTS_IFACE_DIR}\")
+execute_process(COMMAND ln -sf ../../dbus-1/interfaces/com.canonical.unity.AccountsService.xml \"$ENV{DESTDIR}${ACCOUNTS_IFACE_DIR}\")
+    ")
 
 install(FILES com.canonical.unity.AccountsService.policy
         DESTINATION "${POLICYKIT_DIR}/actions"
