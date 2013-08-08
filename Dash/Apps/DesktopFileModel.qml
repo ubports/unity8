@@ -26,7 +26,7 @@ Item {
     ListModel {
         id: list
 
-	Component.onCompleted: { root.model = list; }
+        Component.onCompleted: { root.model = list; }
     }
 
     Repeater {
