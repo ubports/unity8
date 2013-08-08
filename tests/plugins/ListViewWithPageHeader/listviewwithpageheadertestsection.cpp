@@ -1711,6 +1711,51 @@ private Q_SLOTS:
         QVERIFY(QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
     }
 
+    void testSectionItemCullOnFirstSectionItemTopEdge()
+    {
+        changeContentY(50);
+
+        verifyItem(0, 0., 190., false, "Agressive", false);
+        verifyItem(1, 190., 240., false, "Regular", false);
+        verifyItem(2, 430., 390., false, "Mild", false);
+        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_clipItem->y(), 50.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 50.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+        QVERIFY(QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
+    }
+
+    void testSectionItemCullOnSecondSectionItemTopEdge()
+    {
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 50), Q_ARG(QVariant, "Agressive"));
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 50), Q_ARG(QVariant, "Agressive"));
+
+        changeContentY(140);
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 5);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, -90., 90., true, "Agressive", true);
+        verifyItem(1, 0., 50., false, QString(), false);
+        verifyItem(2, 50., 150., false, QString(), false);
+        verifyItem(3, 200., 240., false, "Regular", false);
+        verifyItem(4, 440., 390., false, "Mild", false);
+        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_clipItem->y(), 140.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 140.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+        QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
+        QCOMPARE(section(lvwph->m_topSectionItem), QString("Agressive"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 0);
+        QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
+    }
+
+
 private:
     QQuickView *view;
     ListViewWithPageHeader *lvwph;
