@@ -55,6 +55,9 @@ void FlatMenuProxyModel::setSourceModel(QAbstractItemModel *source)
     if (source) {
 
         // FIXME - not working correctly with dynamic inserts/removes
+        // FIXME 2 - We're using Queud connections as a workaround to QTBUG-32859
+        // The signals from qmenumodel are coming straight off the glib event loop,
+        // which is not supported and has the effect of listview delegates not to be deleted.
 
         connect(source,
                 SIGNAL(rowsAboutToBeInserted(QModelIndex,int,int)),
