@@ -30,7 +30,6 @@ DashPreview {
     title: root.previewData.title
 
     header: ListView {
-        id: screenshots
         spacing: units.gu(1)
         orientation: ListView.Horizontal
         height: units.gu(22)
@@ -42,14 +41,17 @@ DashPreview {
         model: previewData.infoMap["more-screenshots"].value
 
         delegate: UbuntuShape {
-            id: item
-            height: screenshots.height
+            id: shape
+            anchors {
+                top: parent.top
+                bottom: parent.bottom
+            }
             width: units.gu(12)
             radius: "medium"
             borderSource: ""
             image: Image {
                 asynchronous: true
-                sourceSize { width: item.width; height: item.height }
+                sourceSize { width: shape.width; height: shape.height }
                 source: modelData ? modelData : ""
             }
         }
