@@ -32,14 +32,14 @@ Column {
     states: [
         State {
             name: ""
-            PropertyChanges { target: sendButton; opacity: 0; }
-            PropertyChanges { target: reviewField; width: root.width; }
+            PropertyChanges { target: reviewField; width: root.width }
+            PropertyChanges { target: sendButton; opacity: 0 }
             PropertyChanges { target: inverseArea; enabled: false }
         },
         State {
             name: "editing"
-            PropertyChanges { target: reviewField; width: (root.width - row.spacing - sendButton.width); }
-            PropertyChanges { target: sendButton; opacity: 1; }
+            PropertyChanges { target: reviewField; width: (root.width - row.spacing - sendButton.width) }
+            PropertyChanges { target: sendButton; opacity: 1 }
             PropertyChanges { target: inverseArea; enabled: true }
         }
      ]
