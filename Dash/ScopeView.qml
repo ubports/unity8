@@ -28,7 +28,8 @@ FocusScope {
     signal movementStarted
     signal positionedAtBeginning
 
-    // FIXME delay the search so that daemons have time to settle
+    // FIXME delay the search so that daemons have time to settle, note that
+    // removing this will break ScopeView::test_changeScope
     onScopeChanged: timer.restart()
 
     Timer {

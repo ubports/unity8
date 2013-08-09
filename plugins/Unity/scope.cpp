@@ -36,8 +36,8 @@
 
 #include <libintl.h>
 
-Scope::Scope(QObject *parent) :
-    QObject(parent)
+Scope::Scope(QObject *parent) : QObject(parent)
+    , m_formFactor("phone")
 {
     m_categories.reset(new Categories(this));
 }
@@ -128,6 +128,7 @@ void Scope::setFormFactor(const QString& form_factor) {
         m_formFactor = form_factor;
         if (m_unityScope) {
             m_unityScope->form_factor = m_formFactor.toStdString();
+            synchronizeStates(); // will trigger a re-search
         }
         Q_EMIT formFactorChanged();
     }
