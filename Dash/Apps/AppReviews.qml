@@ -34,11 +34,13 @@ Column {
             name: ""
             PropertyChanges { target: sendButton; opacity: 0; }
             PropertyChanges { target: reviewField; width: root.width; }
+            PropertyChanges { target: inverseArea; enabled: false }
         },
         State {
             name: "editing"
             PropertyChanges { target: reviewField; width: (root.width - row.spacing - sendButton.width); }
             PropertyChanges { target: sendButton; opacity: 1; }
+            PropertyChanges { target: inverseArea; enabled: true }
         }
      ]
 
@@ -75,6 +77,7 @@ Column {
         spacing: units.gu(1)
         width: root.width
 
+        // FIXME: needs to react to Qt.inputMethod geometry
         TextArea {
             id: reviewField
             objectName: "reviewField"
@@ -93,9 +96,11 @@ Column {
                 }
             }
 
+            // FIXME: not active when in wide mode
             InverseMouseArea {
+                id: inverseArea
                 anchors.fill: parent
-                propagateComposedEvents: true
+                enabled: false
                 onPressed: {
                     reviewField.focus = false;
                     root.state = "";
