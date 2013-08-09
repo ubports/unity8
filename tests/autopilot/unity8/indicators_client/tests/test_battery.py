@@ -87,8 +87,6 @@ class TestDisplayMenus(IndicatorsTestCase):
     def test_brightness_slider(self):
         """Test the auto-bright switch"""
 
-        if self.input_device_class is Touch:
-            self.skipTest("Dragging is broken with Touch input (LP: #1203808).")
         fn_brightness_menu = lambda: self.app.select_single("SliderMenuItem", objectName="brightness");
         # FIXME: this should go away when we switch to indicator-power
         try:

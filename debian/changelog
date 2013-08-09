@@ -1,3 +1,63 @@
+unity8 (7.81.3+13.10.20130809.1-0ubuntu1) saucy; urgency=low
+
+  [ Michal Hruby ]
+  * Set phone form factor for scope requests.
+
+  [ Michał Sawicz ]
+  * Add support for plurals and update the translation template.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 179
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 09 Aug 2013 15:35:06 +0000
+
+unity8 (7.81.3+13.10.20130809-0ubuntu1) saucy; urgency=low
+
+  [ Michał Sawicz ]
+  * Prepare unity8 for cross-building.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 176
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 09 Aug 2013 02:32:10 +0000
+
+unity8 (7.81.3+13.10.20130808-0ubuntu1) saucy; urgency=low
+
+  [ Michał Sawicz ]
+  * Re-enable battery slider test.
+
+  [ Nick Dedekind ]
+  * Workaround for non-deletion of indicator page menu items. (LP:
+    #1183065, #1206991)
+
+  [ Albert Astals ]
+  * LVPWH: Fix regression handling the sticky top section culling r166
+    introduced the regression, this fixes it+tests.
+  * Implement+test the maximizeVisibleArea function Tries to show as
+    much possible of an index that is already shown on screen Will be
+    used for the dash category expansion.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 174
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 08 Aug 2013 15:23:17 +0000
+
+unity8 (7.81.3+13.10.20130807-0ubuntu1) saucy; urgency=low
+
+  [ Michał Sawicz ]
+  * Drop ppa:ubuntu-unity/next.
+  * Revert revision 161 that causes issues with invalid background.
+
+  [ Albert Astals ]
+  * Fix off by one in the culling condition If you are on 0 and your
+    height is 1 and viewport starts at 1 you have to be culled since you
+    are not visible.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 168
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 07 Aug 2013 02:32:00 +0000
+
 unity8 (7.81.3+13.10.20130806-0ubuntu1) saucy; urgency=low
 
   [ Michael Terry ]
