@@ -72,6 +72,7 @@ private Q_SLOTS:
         QVERIFY(indicator ? true : false);
 
         QCOMPARE(indicator->identifier(), QString("indicator-fake1"));
+        QCOMPARE(indicator->position(), 1);
 
         // Check that the initial properties have been set.
         QVariantMap props = indicator->indicatorProperties().toMap();
