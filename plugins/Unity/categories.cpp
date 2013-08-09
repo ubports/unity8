@@ -142,10 +142,24 @@ Categories::roleNames() const
     return m_roles;
 }
 
+void Categories::onOverrideModelDestroyed()
+{
+    QObject* model = sender();
+    auto iter = m_overriddenCategories.begin();
+    while (iter != m_overriddenCategories.end()) {
+        if (iter.value() == model) {
+            iter = m_overriddenCategories.erase(iter);
+            continue;
+        }
+        ++iter;
+    }
+}
+
 void Categories::overrideResults(const QString& categoryId, QAbstractItemModel* model)
 {
     m_overriddenCategories[categoryId] = model;
-    // TODO: change the parent of the model?
+    // watch the model
+    connect(model, &QObject::destroyed, this, &Categories::onOverrideModelDestroyed);
     connect(model, &QAbstractItemModel::rowsInserted, this, &Categories::onRowCountChanged);
     connect(model, &QAbstractItemModel::rowsRemoved, this, &Categories::onRowCountChanged);
 

@@ -66,6 +66,7 @@ private Q_SLOTS:
     void onCountChanged();
     void onRowCountChanged();
     void onEmitCountChanged();
+    void onOverrideModelDestroyed();
 
 private:
     void onCategoriesModelChanged(unity::glib::Object<DeeModel> model);
