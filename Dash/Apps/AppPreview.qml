@@ -69,6 +69,7 @@ DashPreview {
             property int spacing: units.gu(1)
             height: Math.max(units.gu(5), units.gu(5)*numOfRows + spacing*(numOfRows - 1))
 
+            interactive: false
             cellWidth: Math.max(units.gu(9), width / 2)
             cellHeight: buttonHeight + spacing
             property int buttonWidth: count > 1 ? Math.max(0, width / 2 - spacing) : width
