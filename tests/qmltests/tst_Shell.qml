@@ -60,8 +60,9 @@ Item {
         function cleanup() {
             // If a test invoked the greeter, make sure we swipe it away again
             var greeter = findChild(shell, "greeter");
-            if (greeter.shown)
+            if (greeter.shown) {
                 swipeAwayGreeter();
+            }
 
             // kill all (fake) running apps
             killApps(ApplicationManager.mainStageApplications);

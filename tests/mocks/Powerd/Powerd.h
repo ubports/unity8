@@ -13,8 +13,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Authors: Gerry Boland <gerry.boland@canonical.com>
- *          Michael Terry <michael.terry@canonical.com>
+ * Authors: Michael Terry <michael.terry@canonical.com>
  */
 
 #ifndef UNITY_MOCK_POWERD_H

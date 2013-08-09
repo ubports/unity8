@@ -1,3 +1,2 @@
 module Powerd
 plugin MockPowerd-qml
-typeinfo plugin.qmltypes
