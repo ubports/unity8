@@ -145,21 +145,21 @@ DashPreview {
 
         AppInfo {
             objectName: "appInfo"
+            anchors { left: parent.left; right: parent.right }
+
             appName: root.previewData.title
             icon: IconUtil.from_gicon(root.previewData.appIcon)
             rating: root.previewData.infoMap["rating"] ? root.previewData.infoMap["rating"].value : 0
             rated: root.previewData.infoMap["rated"] ? root.previewData.infoMap["rated"].value : 0
             reviews: root.previewData.infoMap["reviews"] ? root.previewData.infoMap["reviews"].value : 0
-
-            width: root.width
         }
 
         Label {
+            anchors { left: parent.left; right: parent.right }
             text: root.previewData.description
             fontSize: "medium"
             color: Theme.palette.selected.backgroundText
             opacity: .6
-            width: parent.width
             wrapMode: Text.WordWrap
             style: Text.Raised
             styleColor: "black"
@@ -168,10 +168,7 @@ DashPreview {
         ListItem.ThinDivider {}
 
         Item {
-            anchors {
-                left: parent.left
-                right: parent.right
-            }
+            anchors { left: parent.left; right: parent.right }
             height: rateLabel.height
 
             Label {
@@ -187,6 +184,7 @@ DashPreview {
                 anchors.verticalCenter: parent.verticalCenter
             }
 
+            // FIXME these need to be made interactive and connected to the scope
             RatingStars {
                 anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
@@ -197,10 +195,7 @@ DashPreview {
 
         AppReviews {
             objectName: "appReviews"
-            anchors {
-                left: parent.left
-                right: parent.right
-            }
+            anchors { left: parent.left; right: parent.right }
 
             model: root.previewData.infoMap["comments"] ? root.previewData.infoMap["comments"].value : undefined
 
