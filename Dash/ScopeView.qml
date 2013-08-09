@@ -31,6 +31,15 @@ FocusScope {
     // FIXME delay the search so that daemons have time to settle
     onScopeChanged: timer.restart()
 
+    Connections {
+        target: scope
+        onActivateApplication: activateApp
+    }
+
+    function activateApp(desktopFilePath) {
+        shell.activateApplication(desktopFilePath);
+    }
+
     Timer {
         id: timer
         interval: 2000

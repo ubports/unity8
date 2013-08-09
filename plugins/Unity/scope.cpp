@@ -35,6 +35,7 @@
 #include <UnityCore/Variant.h>
 
 #include <libintl.h>
+#include <glib.h>
 
 Scope::Scope(QObject *parent) :
     QObject(parent)
@@ -208,18 +209,11 @@ void Scope::onPreviewReady(unity::dash::LocalResult const& /* result */, unity::
 
 void Scope::fallbackActivate(const QString& uri)
 {
-    /* FIXME: stripping all content before the first column because for some
-              reason the scopes give uri with junk content at their beginning.
-    */
-    QString tweakedUri = uri;
-    int firstColumnAt = tweakedUri.indexOf(":");
-    tweakedUri.remove(0, firstColumnAt+1);
-
     /* Tries various methods to trigger a sensible action for the given 'uri'.
        If it has no understanding of the given scheme it falls back on asking
        Qt to open the uri.
     */
-    QUrl url(tweakedUri);
+    QUrl url(uri);
     if (url.scheme() == "file") {
         /* Override the files place's default URI handler: we want the file
            manager to handle opening folders, not the dash.
@@ -230,7 +224,24 @@ void Scope::fallbackActivate(const QString& uri)
         return;
     }
     if (url.scheme() == "application") {
-        // TODO: implement application handling
+        // get the full path to the desktop file
+        QString path(url.authority());
+        if (path.startsWith("/")) {
+            Q_EMIT activateApplication(path);
+        } else {
+            gchar* full_path = nullptr;
+            GKeyFile* key_file = g_key_file_new();
+            QString apps_path = "applications/" + path;
+            if (g_key_file_load_from_data_dirs(key_file, apps_path.toLocal8Bit().constData(), &full_path,
+                                               G_KEY_FILE_NONE, nullptr)) {
+                path = full_path;
+                Q_EMIT activateApplication(path);
+            } else {
+                qWarning() << "Unable to activate " << path;
+            }
+            g_key_file_free(key_file);
+            g_free(full_path);
+        }
         return;
     }
 
