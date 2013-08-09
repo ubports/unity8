@@ -25,7 +25,7 @@ Item {
     width: units.gu(60)
     height: units.gu(80)
 
-    property var calls
+    property var calls: []
 
     SignalSpy {
         id: sendPreviewSpy
@@ -99,6 +99,7 @@ Item {
         when: windowShown
 
         function cleanup() {
+            root.calls = new Array();
             sendPreviewSpy.clear();
             var reviewField = findChild(appPreview, "reviewField");
             reviewField.focus = false;
@@ -106,7 +107,6 @@ Item {
         }
 
         function test_actions() {
-            root.calls = new Array();
             var buttons = findChild(appPreview, "gridButtons");
             compare(buttons.count, 3, "Not the proper amount of actions detected.");
 
