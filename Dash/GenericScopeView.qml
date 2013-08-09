@@ -114,7 +114,16 @@ ScopeView {
         }
     }
 
+    function getDefaultRendererId(contentType) {
+        switch (contentType) {
+            default: return "grid";
+        }
+    }
+
     function getRenderer(rendererId, contentType) {
+        if (rendererId == "default") {
+            rendererId = getDefaultRendererId(contentType);
+        }
         switch (rendererId) {
             case "grid": {
                 switch (contentType) {

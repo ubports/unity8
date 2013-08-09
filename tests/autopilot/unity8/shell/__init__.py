@@ -21,9 +21,6 @@
 
 from functools import wraps
 import logging
-import os.path
-
-from unity8 import get_mocks_library_path, get_default_extra_mock_libraries
 
 
 logger = logging.getLogger(__name__)
@@ -34,31 +31,8 @@ def with_lightdm_mock(mock_type):
     def with_lightdm_mock_internal(fn):
         @wraps(fn)
         def wrapper(*args, **kwargs):
-            logger.info("Setting up LightDM mock type '%s'", mock_type)
-            new_ld_library_path = "%s:%s" % (
-                get_default_extra_mock_libraries(),
-                _get_ld_library_path(mock_type)
-            )
-            logger.info("New library path: %s", new_ld_library_path)
             tests_self = args[0]
-            tests_self.patch_environment(
-                'LD_LIBRARY_PATH',
-                new_ld_library_path
-            )
+            tests_self.patch_lightdm_mock(mock_type)
             return fn(*args, **kwargs)
         return wrapper
     return with_lightdm_mock_internal
-
-
-def _get_ld_library_path(mock_type):
-    lib_path = get_mocks_library_path()
-    new_ld_library_path = os.path.abspath(
-        os.path.join(lib_path, "LightDM", mock_type)
-    )
-
-    if not os.path.exists(new_ld_library_path):
-        raise RuntimeError(
-            "LightDM mock '%s' does not exist at path '%s'."
-            % (mock_type, new_ld_library_path)
-        )
-    return new_ld_library_path

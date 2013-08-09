@@ -27,8 +27,8 @@ usage() {
     echo "  -k, --keylock Enable a Keyboard lock screen when running"
     echo ""
     echo "IMPORTANT:"
-    echo " * Make sure to have the networking and PPAs setup on the device beforehand (phablet-deploy-networking && phablet-ppa-fetch)."
-    echo " * Execute that script from a directory containing a branch the shell code."
+    echo " * Make sure to have networking setup on the device beforehand."
+    echo " * Execute that script from a directory containing unity8 code."
     exit 1
 }
 

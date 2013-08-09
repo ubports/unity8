@@ -32,13 +32,5 @@ Indicators.FakeMenuPage {
             horizontalCenter: parent.horizontalCenter
             verticalCenter: parent.verticalCenter
         }
-
-        NumberAnimation on rotation {
-            id: rotation_animation
-            from: 0
-            to: 360
-            duration: 5000
-            loops: Animation.Infinite
-        }
     }
 }

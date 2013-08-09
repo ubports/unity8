@@ -25,16 +25,15 @@ import "../Components/Math.js" as MathLocal
 Showable {
     id: indicators
 
-    property int referenceOpenedHeight: units.gu(71)
-    property real openedHeight: pinnedMode ? referenceOpenedHeight - panelHeight
-                                           : referenceOpenedHeight
+    property real openedHeight: units.gu(71)
     property int panelHeight: units.gu(3)
     property bool pinnedMode: true  //should be set true if indicators menu can cover whole screen
 
     property int hintValue
-    readonly property int lockThreshold: referenceOpenedHeight / 2
+    readonly property int lockThreshold: openedHeight / 2
     property bool fullyOpened: height == openedHeight
     property bool partiallyOpened: height > panelHeight && !fullyOpened
+    property real visualBottom: Math.max(y+height, y+indicatorRow.y+indicatorRow.height)
 
     // TODO: Perhaps we need a animation standard for showing/hiding? Each showable seems to
     // use its own values. Need to ask design about this.
@@ -43,6 +42,13 @@ Showable {
         duration: 350
         to: openedHeight
         easing.type: Easing.OutCubic
+
+        // Re-size if we've changed the openHeight while shown.
+        onToChanged: {
+            if (indicators.shown) {
+                indicators.show();
+            }
+        }
     }
 
     hideAnimation: StandardAnimation {
@@ -56,28 +62,30 @@ Showable {
 
     onHeightChanged: {
         // need to use handle.get_height(). As the handle height depends on indicators.height changes (but this is called first!)
-        var contentProgress = indicators.height - handle.get_height();
+        var revealProgress = indicators.height - panelHeight
         if (!showAnimation.running && !hideAnimation.running) {
-            if (contentProgress <= hintValue && indicators.state == "reveal") {
+            if (revealProgress == 0) {
+                indicators.state = "initial";
+            } else if (revealProgress <= hintValue) {
                 indicators.state = "hint";
-            } else if (contentProgress > hintValue && contentProgress < lockThreshold) {
+            } else if (revealProgress > hintValue && revealProgress < lockThreshold) {
                 indicators.state = "reveal";
-            } else if (contentProgress >= lockThreshold && lockThreshold > 0) {
+            } else if (revealProgress >= lockThreshold && lockThreshold > 0) {
                 indicators.state = "locked";
             }
         }
 
-        if (contentProgress == 0) {
+        if (revealProgress == 0) {
             menuContent.releaseContent();
         }
     }
 
     function calculateCurrentItem(xValue, useBuffer) {
-        var rowCoordinates
-        var itemCoordinates
-        var currentItem
-        var distanceFromRightEdge
-        var bufferExceeded = false
+        var rowCoordinates;
+        var itemCoordinates;
+        var currentItem;
+        var distanceFromRightEdge;
+        var bufferExceeded = false;
 
         if (indicators.state == "commit" || indicators.state == "locked" || showAnimation.running || hideAnimation.running) return;
 
@@ -89,6 +97,14 @@ Showable {
         var verticalProgress =
             MathLocal.clamp((indicators.height - handle.height - hintValue) /
                             (lockThreshold - hintValue), 0, 1);
+
+        /*
+          Vertical velocity check. Don't change the indicator if we're moving too quickly.
+        */
+        var verticalSpeed = Math.abs(yVelocityCalculator.calculate());
+        if (verticalSpeed >= 0.05 && indicatorRow.currentItem!=null) {
+            return;
+        }
 
         /*
           Percentage of an indicator icon's width the user's press can stray horizontally from the
@@ -110,7 +126,7 @@ Showable {
         currentItem = indicatorRow.row.childAt(rowCoordinates.x, 0);
         if (currentItem && currentItem != indicatorRow.currentItem ) {
             itemCoordinates = indicatorRow.row.mapToItem(currentItem, rowCoordinates.x, 0);
-            distanceFromRightEdge = (currentItem.width - itemCoordinates.x) / (currentItem.width)
+            distanceFromRightEdge = (currentItem.width - itemCoordinates.x) / (currentItem.width);
             if (Math.abs(currentItem.ownIndex - indicatorRow.currentItemIndex) > 1) {
                 bufferExceeded = true;
             } else {
@@ -123,6 +139,8 @@ Showable {
             if ((!useBuffer || (useBuffer && bufferExceeded)) || indicatorRow.currentItem < 0 || indicatorRow.currentItem == null)  {
                 indicatorRow.currentItem = currentItem;
             }
+        } else if (!currentItem) {
+            indicatorRow.setDefaultItem();
         }
     }
 
@@ -155,13 +173,20 @@ Showable {
             left: parent.left
             right: parent.right
             top: indicatorRow.bottom
-            bottom: parent.bottom
+            bottom: handle.top
         }
         indicatorsModel: indicatorsModel
         clip: !indicators.fullyOpened
 
-        onMenuSelected: {
-            indicatorRow.setItem(index)
+        Connections {
+            target: indicatorRow
+            onCurrentItemIndexChanged: menuContent.updateCurrentMenu();
+        }
+
+        function updateCurrentMenu() {
+            if (currentMenuIndex != indicatorRow.currentItemIndex) {
+                currentMenuIndex = indicatorRow.currentItemIndex;
+            }
         }
 
         //small shadow gradient at bottom of menu
@@ -188,7 +213,7 @@ Showable {
         anchors {
             left: parent.left
             right: parent.right
-            top: menuContent.bottom
+            bottom: parent.bottom
         }
         height: get_height()
         clip: height < handleImage.height
@@ -212,31 +237,12 @@ Showable {
         }
     }
 
-    PanelSeparatorLine {
-        id: indicatorsSeparatorLine
-        visible: true
-        anchors {
-            top: handle.bottom
-            left: indicators.left
-            right: indicators.right
-        }
-    }
-
-    BorderImage {
-        id: dropShadow
-        anchors {
-            top: indicators.top
-            bottom: indicatorsSeparatorLine.bottom
-            left: indicators.left
-            right: indicators.right
-            margins: -units.gu(1)
-        }
-        visible: indicators.height > panelHeight
-        source: "graphics/rectangular_dropshadow.sci"
-    }
-
     PanelBackground {
         anchors.fill: indicatorRow
+    }
+
+    IndicatorsDataModel {
+        id: indicatorsModel
     }
 
     IndicatorRow {
@@ -250,58 +256,45 @@ Showable {
         indicatorsModel: indicatorsModel
         state: indicators.state
 
-        onCurrentItemIndexChanged: menuContent.currentIndex = currentItemIndex
-
-    }
-
-    IndicatorsDataModel {
-        id: indicatorsModel
-    }
-
-    Connections {
-        target: hideAnimation
-        onRunningChanged: {
-            if (hideAnimation.running) {
-                indicators.state = "initial"
-            } else  {
-                if (state == "initial") {
-                    indicatorRow.setDefaultItem();
-                    menuContent.releaseContent();
-                }
+        Connections {
+            target: menuContent
+            onCurrentMenuIndexChanged: {
+                indicatorRow.setCurrentItem(menuContent.currentMenuIndex);
             }
         }
     }
+
     Connections {
         target: showAnimation
         onRunningChanged: {
             if (showAnimation.running) {
-                indicators.calculateCurrentItem(dragHandle.touchX, false);
                 indicators.state = "commit";
             }
         }
     }
 
     Connections {
-        target: dragHandle
-        onTouchXChanged: {
-            var buffer = dragHandle.dragging ? true : false;
-            indicators.calculateCurrentItem(dragHandle.touchX, buffer);
+        target: hideAnimation
+        onRunningChanged: {
+            if (hideAnimation.running) {
+                indicators.state = "initial";
+                indicatorRow.currentItem = null;
+            }
         }
     }
 
-    // We start with pinned states. (default pinnedMode: true)
-    states: pinnedModeStates
-    // because of dynamic assignment of states, we need to assign state after completion.
-    Component.onCompleted: state = "initial"
-
-    // changing states will reset state to "".
-    onPinnedModeChanged: {
-        var last_state = state;
-        states = (pinnedMode) ? pinnedModeStates : offScreenModeStates;
-        state = last_state;
+    property var activeDragHandle: showDragHandle.dragging ? showDragHandle : hideDragHandle.dragging ? hideDragHandle : null
+    // connections to the active drag handle
+    Connections {
+        target: activeDragHandle
+        onTouchXChanged: {
+            indicators.calculateCurrentItem(activeDragHandle.touchX, true);
+        }
+        onTouchSceneYChanged: {
+            yVelocityCalculator.trackedPosition = activeDragHandle.touchSceneY;
+        }
     }
 
-    property var dragHandle: showDragHandle.dragging ? showDragHandle : hideDragHandle
     DragHandle {
         id: showDragHandle
         anchors.bottom: parent.bottom
@@ -315,7 +308,7 @@ Showable {
         hintDisplacement: pinnedMode ? indicators.hintValue : 0
         autoCompleteDragThreshold: maxTotalDragDistance / 2
         stretch: true
-        maxTotalDragDistance: openedHeight - handle.height
+        maxTotalDragDistance: openedHeight - panelHeight
         distanceThreshold: pinnedMode ? 0 : units.gu(3)
 
         onStatusChanged: {
@@ -327,57 +320,51 @@ Showable {
     DragHandle {
         id: hideDragHandle
         anchors.fill: handle
-        height: panelHeight
         direction: Direction.Upwards
         enabled: indicators.shown
-        hintDisplacement: units.gu(2)
+        hintDisplacement: indicators.hintValue
         autoCompleteDragThreshold: maxTotalDragDistance / 6
         stretch: true
-        maxTotalDragDistance: referenceOpenedHeight - 2*panelHeight
+        maxTotalDragDistance: openedHeight - panelHeight
         distanceThreshold: 0
     }
 
-    property list<State> offScreenModeStates: [
-        State {
-            name: "initial"
-        },
-        State {
-            name: "hint"
-            PropertyChanges { target: indicatorRow; y: panelHeight }
-        },
-        State {
-            name: "reveal"
-            extend: "hint"
-            StateChangeScript { script: calculateCurrentItem(dragHandle.touchX, false); }
-        },
-        State {
-            name: "locked"
-            extend: "hint"
-        },
-        State {
-            name: "commit"
-            extend: "hint"
-        }
-    ]
+    AxisVelocityCalculator {
+        id: yVelocityCalculator
+    }
 
-    property list<State> pinnedModeStates: [
+    states: [
         State {
             name: "initial"
         },
         State {
             name: "hint"
+            PropertyChanges {
+                target: indicatorRow;
+                y: pinnedMode ? 0 : panelHeight
+            }
+            StateChangeScript {
+                script: {
+                    if (activeDragHandle) {
+                        calculateCurrentItem(activeDragHandle.touchX, false);
+                    }
+                }
+            }
         },
         State {
             name: "reveal"
-            StateChangeScript { script: calculateCurrentItem(dragHandle.touchX, false); }
+            extend: "hint"
         },
         State {
             name: "locked"
+            extend: "hint"
         },
         State {
             name: "commit"
+            extend: "hint"
         }
     ]
+    state: "initial"
 
     transitions: [
         Transition  {

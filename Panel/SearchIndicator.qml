@@ -16,6 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import "../Components"
 
 Item {
     id: search
@@ -40,8 +41,7 @@ Item {
         width: parent.width
         height: parent.height
 
-        Behavior on opacity {NumberAnimation {}}
-        Behavior on y {NumberAnimation {duration: 300; easing.type: Easing.OutCubic}}
+        Behavior on opacity { StandardAnimation {} }
 
         Image {
             id: icon
@@ -67,15 +67,13 @@ Item {
             name: "visible"
             PropertyChanges {
                 target: container
-                y: 0
                 opacity: 1
             }
         },
         State {
-            name: "hiddenUp"
+            name: "hidden"
             PropertyChanges {
                 target: container
-                y: -height
                 opacity: 0
             }
         }

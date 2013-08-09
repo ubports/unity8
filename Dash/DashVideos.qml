@@ -53,7 +53,7 @@ ScopeView {
 
     function getRenderer(categoryId) {
         switch (categoryId) {
-            case 1: return "Video/VideosCarousel.qml"
+            case "featured": return "Video/VideosCarousel.qml"
             default: return "Video/VideosFilterGrid.qml"
         }
     }
@@ -102,8 +102,7 @@ ScopeView {
         delegate: ListItems.Base {
             id: base
             highlightWhenPressed: false
-            property int categoryIndex: index
-            property int categoryId: id
+            property string categoryId: model.categoryId
 
             Loader {
                 id: loader
@@ -119,7 +118,7 @@ ScopeView {
                         var dataItem;
                         // VideosCarousel and VideosFilterGrid have different
                         // clicked signals, accomodate for that
-                        if (categoryId == 1) {
+                        if (categoryId == "featured") {
                             var fileUri = delegateItem.model.uri.replace(/^[^:]+:/, "")
                             dataItem = {fileUri: fileUri, nfoUri: delegateItem.model.comment}
                         } else {
