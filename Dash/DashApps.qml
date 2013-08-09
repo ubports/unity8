@@ -33,11 +33,23 @@ GenericScopeView {
     AppsAvailableForDownloadModel { id: appsAvailableForDownloadModel }
 
     ListModel {
+        id: dummyVisibilityModifier
+
+        ListElement { name: "running-apps" }
+    }
+
+    SortFilterProxyModel {
         id: runningApplicationsModel
 
         property var firstModel: mainStageApplicationsModel
         property var secondModel: sideStageApplicationModel
-        property bool canEnableTerminationMode: Qt.binding(function() { return isCurrent; })
+        //property bool canEnableTerminationMode: Qt.binding(function() { return isCurrent; })
+
+        model: dummyVisibilityModifier
+        filterRole: 0
+        filterRegExp: invertMatch ? ((mainStageApplicationsModel.count === 0 &&
+                                      sideStageApplicationModel.count === 0) ? RegExp("running-apps") : RegExp("")) : RegExp("disabled")
+        invertMatch: scopeView.scope.searchQuery.length == 0
     }
 
     onScopeChanged: {

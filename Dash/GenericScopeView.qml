@@ -67,7 +67,13 @@ ScopeView {
                 source: getRenderer(model.renderer, model.contentType)
 
                 onLoaded: {
-                    item.model = results
+                    if (source.toString().indexOf("Apps/RunningApplicationsGrid.qml") != -1) {
+                        // TODO: the running apps grid doesn't support standard scope results model yet
+                        item.firstModel = results.firstModel;
+                        item.secondModel = results.secondModel;
+                    } else {
+                        item.model = results
+                    }
                 }
 
                 Connections {
