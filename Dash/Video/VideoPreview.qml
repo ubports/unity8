@@ -24,8 +24,7 @@ DashPreview {
 
     property var item
     property alias ready: nfo.ready
-    property bool playable: false
-    property string filePath: fileUri != ""
+    property bool playable: fileUri != ""
     readonly property url fileUri: item ? item.fileUri : ""
     property url url: item ? item.nfoUri.replace(/\.nfo$/, "-fanart.jpg") : ""
 
