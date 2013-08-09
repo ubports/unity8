@@ -19,13 +19,13 @@
  */
 
 
-#ifndef MYTYPE_H
-#define MYTYPE_H
+#ifndef DOWNLOADTRACKER_H
+#define DOWNLOADTRACKER_H
+
+#include <interface/downloadtrackeradaptor.h>
 
 #include <QObject>
-#include <QList>
 #include <QDBusObjectPath>
-#include <interface/downloadtrackeradaptor.h>
 
 class DownloadTracker : public QObject
 {
@@ -60,9 +60,9 @@ Q_SIGNALS:
 private:
     QString m_dbusPath;
     QString m_service;
-    DownloadTrackerAdaptor* adaptor;
+    DownloadTrackerAdaptor* m_adaptor;
 
     void startService();
 };
 
-#endif // MYTYPE_H
+#endif // DOWNLOADTRACKER_H

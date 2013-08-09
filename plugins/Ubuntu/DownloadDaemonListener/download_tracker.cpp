@@ -20,7 +20,6 @@
 
 
 #include "download_tracker.h"
-#include <QDebug>
 
 DownloadTracker::DownloadTracker(QObject *parent) :
     QObject(parent)
@@ -30,8 +29,8 @@ DownloadTracker::DownloadTracker(QObject *parent) :
 bool DownloadTracker::isServiceReady()
 {
     bool ready = false;
-    if(this->adaptor != nullptr) {
-        ready = this->adaptor->isValid();
+    if(m_adaptor != nullptr) {
+        ready = m_adaptor->isValid();
     }
 
     return ready;
@@ -45,9 +44,9 @@ QString DownloadTracker::dbusPath() const
 void DownloadTracker::setDbusPath(QString& path)
 {
     if(path != "" && m_dbusPath != path){
-        this->m_dbusPath = path;
-        this->startService();
-        Q_EMIT dbusPathChanged(this->m_dbusPath);
+        m_dbusPath = path;
+        startService();
+        Q_EMIT dbusPathChanged(m_dbusPath);
     }
 }
 
@@ -59,23 +58,23 @@ QString DownloadTracker::service() const
 void DownloadTracker::setService(QString& service)
 {
     if(service != "" && m_service != service){
-        this->m_service = service;
-        this->startService();
-        Q_EMIT serviceChanged(this->m_service);
+        m_service = service;
+        startService();
+        Q_EMIT serviceChanged(m_service);
     }
 }
 
 void DownloadTracker::startService()
 {
-    if(!this->m_service.isEmpty() && !this->m_dbusPath.isEmpty()) {
-        this->adaptor = new DownloadTrackerAdaptor(this->m_service, this->m_dbusPath, QDBusConnection::sessionBus(), 0);
+    if(!m_service.isEmpty() && !m_dbusPath.isEmpty()) {
+        m_adaptor = new DownloadTrackerAdaptor(m_service, m_dbusPath, QDBusConnection::sessionBus(), 0);
 
-        this->connect(this->adaptor, SIGNAL(canceled(bool)), this, SIGNAL(canceled(bool)));
-        this->connect(this->adaptor, SIGNAL(error(const QString &)), this, SIGNAL(error(const QString &)));
-        this->connect(this->adaptor, SIGNAL(finished(const QString &)), this, SIGNAL(finished(const QString &)));
-        this->connect(this->adaptor, SIGNAL(paused(bool)), this, SIGNAL(paused(bool)));
-        this->connect(this->adaptor, SIGNAL(progress(qulonglong, qulonglong)), this, SIGNAL(progress(qulonglong, qulonglong)));
-        this->connect(this->adaptor, SIGNAL(resumed(bool)), this, SIGNAL(resumed(bool)));
-        this->connect(this->adaptor, SIGNAL(started(bool)), this, SIGNAL(started(bool)));
+        connect(m_adaptor, SIGNAL(canceled(bool)), this, SIGNAL(canceled(bool)));
+        connect(m_adaptor, SIGNAL(error(const QString &)), this, SIGNAL(error(const QString &)));
+        connect(m_adaptor, SIGNAL(finished(const QString &)), this, SIGNAL(finished(const QString &)));
+        connect(m_adaptor, SIGNAL(paused(bool)), this, SIGNAL(paused(bool)));
+        connect(m_adaptor, SIGNAL(progress(qulonglong, qulonglong)), this, SIGNAL(progress(qulonglong, qulonglong)));
+        connect(m_adaptor, SIGNAL(resumed(bool)), this, SIGNAL(resumed(bool)));
+        connect(m_adaptor, SIGNAL(started(bool)), this, SIGNAL(started(bool)));
     }
 }
