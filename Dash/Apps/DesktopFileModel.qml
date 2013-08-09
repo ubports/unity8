@@ -37,7 +37,7 @@ Item {
                 desktopFile: model.desktopFile
             }
             Component.onCompleted: {
-                list.append({"uri": model.desktopFile,
+                list.append({"uri": "application://" + model.desktopFile.replace(/.*\//, ''),
                              "icon": "../../graphics/applicationIcons/" + application.icon + ".png",
                              "category": 0,
                              "mimetype": "application/x-desktop",
