@@ -29,11 +29,9 @@ FocusScope {
     signal positionedAtBeginning
 
     // FIXME delay the search so that daemons have time to settle
-    onScopeChanged: timer.restart()
-
-    Connections {
-        target: scope
-        onActivateApplication: activateApp
+    onScopeChanged: {
+        timer.restart();
+        scope.activateApplication.connect(activateApp);
     }
 
     function activateApp(desktopFilePath) {
