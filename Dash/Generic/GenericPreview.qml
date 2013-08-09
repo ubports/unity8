@@ -41,12 +41,6 @@ DashPreview {
             source: genericPreview.url
             fillMode: Image.PreserveAspectCrop
         }
-
-        MouseArea {
-            id: previewImageMouseArea
-            anchors.fill: parent
-            onClicked: genericPreview.previewImageClicked()
-        }
     }
 
     buttons: GridView {

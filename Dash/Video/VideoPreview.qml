@@ -49,6 +49,7 @@ DashPreview {
         id: urlLoader
         anchors.left: parent.left
         anchors.right: parent.right
+        height: width * previewImage.sourceSize.height / previewImage.sourceSize.width
         radius: "medium"
         image: Image {
             id: previewImage
