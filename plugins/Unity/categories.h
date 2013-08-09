@@ -64,6 +64,7 @@ public:
 
 private Q_SLOTS:
     void onCountChanged();
+    void onRowCountChanged();
     void onEmitCountChanged();
 
 private:

@@ -104,6 +104,25 @@ Categories::onCountChanged()
     }
 }
 
+void Categories::onRowCountChanged()
+{
+    QAbstractItemModel* model = qobject_cast<QAbstractItemModel*>(sender());
+    // find the corresponding category index
+    for (auto iter = m_overriddenCategories.begin(); iter != m_overriddenCategories.end(); ++iter) {
+        if (iter.value() == model) {
+            for (int i = 0; i < rowCount(); i++) {
+                auto id = data(index(i), RoleCategoryId).toString();
+                if (id != iter.key()) continue;
+                QVector<int> roles;
+                roles.append(RoleCount);
+                QModelIndex changedIndex = index(i);
+                Q_EMIT dataChanged(changedIndex, changedIndex, roles);
+                break;
+            }
+        }
+    }
+}
+
 void
 Categories::onEmitCountChanged()
 {
@@ -127,6 +146,8 @@ void Categories::overrideResults(const QString& categoryId, QAbstractItemModel* 
 {
     m_overriddenCategories[categoryId] = model;
     // TODO: change the parent of the model?
+    connect(model, &QAbstractItemModel::rowsInserted, this, &Categories::onRowCountChanged);
+    connect(model, &QAbstractItemModel::rowsRemoved, this, &Categories::onRowCountChanged);
 
     // emit the dataChanged signal if the category is already in the model
     for (int i = 0; i < rowCount(); i++) {
