@@ -93,7 +93,7 @@ Rectangle {
                 elide: Text.ElideRight
                 fontSize: "x-large"
                 font.weight: Font.Light
-                color: "#f3f3e7"
+                color: Theme.palette.selected.backgroundText
                 opacity: 0.9
                 text: root.title
                 style: Text.Raised
