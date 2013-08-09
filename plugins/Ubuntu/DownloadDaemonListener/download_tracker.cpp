@@ -37,19 +37,31 @@ bool DownloadTracker::isServiceReady()
     return ready;
 }
 
+QString DownloadTracker::dbusPath() const
+{
+    return m_dbusPath;
+}
+
 void DownloadTracker::setDbusPath(QString& path)
 {
-    if(path != ""){
+    if(path != "" && m_dbusPath != path){
         this->m_dbusPath = path;
         this->startService();
+        Q_EMIT dbusPathChanged(this->m_dbusPath);
     }
+}
+
+QString DownloadTracker::service() const
+{
+    return m_service;
 }
 
 void DownloadTracker::setService(QString& service)
 {
-    if(service != ""){
+    if(service != "" && m_service != service){
         this->m_service = service;
         this->startService();
+        Q_EMIT serviceChanged(this->m_service);
     }
 }
 
