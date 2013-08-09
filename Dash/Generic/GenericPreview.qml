@@ -29,8 +29,6 @@ DashPreview {
 
     property url url: IconUtil.from_gicon(previewData.image)
 
-    // TODO: replace this UbuntuShape with the Video component once that lands
-    // with the player.
     header: UbuntuShape {
         id: urlLoader
         anchors.left: parent.left
