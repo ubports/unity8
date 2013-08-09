@@ -10,8 +10,8 @@ include_directories(
 )
 
 set(DOWNLOADDAEMONLISTENER_SOURCES
-    backend.cpp
-    download_tracker.cpp
+    plugin.cpp
+    DownloadTracker.cpp
     interface/downloadtrackeradaptor.cpp
     )
 

@@ -19,19 +19,21 @@
  */
 
 
-#ifndef BACKEND_PLUGIN_H
-#define BACKEND_PLUGIN_H
+#include "plugin.h"
+#include "DownloadTracker.h"
 
-#include <QtQml/QQmlEngine>
-#include <QtQml/QQmlExtensionPlugin>
+#include <QtQml>
+#include <QtQml/QQmlContext>
 
-class BackendPlugin : public QQmlExtensionPlugin
+
+void BackendPlugin::registerTypes(const char *uri)
 {
-    Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
+    Q_ASSERT(uri == QLatin1String("Ubuntu.DownloadDaemonListener"));
 
-public:
-    void registerTypes(const char *uri);
-    void initializeEngine(QQmlEngine *engine, const char *uri);
-};
-#endif // BACKEND_PLUGIN_H
+    qmlRegisterType<DownloadTracker>(uri, 0, 1, "DownloadTracker");
+}
+
+void BackendPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
+{
+    QQmlExtensionPlugin::initializeEngine(engine, uri);
+}

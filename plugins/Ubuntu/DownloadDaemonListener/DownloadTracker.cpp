@@ -19,7 +19,7 @@
  */
 
 
-#include "download_tracker.h"
+#include "DownloadTracker.h"
 
 DownloadTracker::DownloadTracker(QObject *parent) :
     QObject(parent)
@@ -66,6 +66,7 @@ void DownloadTracker::setService(QString& service)
 
 void DownloadTracker::startService()
 {
+    // FIXME update dbus path and service on changes
     if(!m_service.isEmpty() && !m_dbusPath.isEmpty()) {
         m_adaptor = new DownloadTrackerAdaptor(m_service, m_dbusPath, QDBusConnection::sessionBus(), 0);
 
