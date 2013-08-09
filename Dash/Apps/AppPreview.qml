@@ -53,12 +53,8 @@ DashPreview {
                 asynchronous: true
                 sourceSize { width: shape.width; height: shape.height }
                 source: modelData ? modelData : ""
+                fillMode: Image.PreserveAspectCrop
             }
-        }
-
-        MouseArea {
-            id: mouseArea
-            anchors.fill: parent
         }
     }
 
@@ -85,12 +81,8 @@ DashPreview {
                 text: modelData.displayName
                 iconSource: modelData.iconHint
                 iconPosition: "right"
-                visible: true
-                onClicked: {
-                    root.previewData.execute(modelData.id, { })
-                }
+                onClicked: root.previewData.execute(modelData.id, { })
             }
-            focus: false
         }
     }
 
