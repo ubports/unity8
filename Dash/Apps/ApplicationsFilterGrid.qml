@@ -33,7 +33,6 @@ FilterGrid {
     signal clicked(int index, variant data)
 
     delegate: Tile {
-        id: tile
         objectName: "delegate" + index
         Application {
             id: application

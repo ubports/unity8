@@ -138,6 +138,7 @@ ScopeView {
 
                         item.model = Qt.binding(function() { return categoryModels[modelName]; });
                         item.clicked.connect(activateApplication);
+
                     }
                 }
             }
