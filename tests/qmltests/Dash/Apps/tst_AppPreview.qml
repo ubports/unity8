@@ -33,32 +33,6 @@ Item {
         signalName: "sendUserReview"
     }
 
-    function get_actions() {
-        var a1 = new Object();
-        a1.id = 123;
-        a1.displayName = "action1";
-        var a2 = new Object();
-        a2.id = 456;
-        a2.displayName = "action2";
-        var a3 = new Object();
-        a3.id = 789;
-        a3.displayName = "action3";
-
-        return [a1, a2, a3];
-    }
-
-    function get_infomap() {
-        var map = {
-            "more-screenshots": screenshots,
-            "rating": rating,
-            "rated": rated,
-            "reviews": reviews,
-            "comments": comments
-        }
-
-        return map;
-    }
-
     property string commentary: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus a mi vitae augue rhoncus lobortis ut rutrum metus. Curabitur tortor leo, tristique sed mollis quis, condimentum venenatis nibh.";
     QtObject { id: screenshots; property var value: ["fake_image1.png", "fake_image2.png", "fake_image3.png"] }
     QtObject { id: rating; property int value: 8 }
@@ -78,8 +52,18 @@ Item {
         property string appIcon: "fake_image.png"
         property string description: "This is an Application description"
         property var execute: root.fake_call
-        property var infoMap: get_infomap()
-        property var actions: get_actions()
+        property var infoMap: {
+            "more-screenshots": screenshots,
+            "rating": rating,
+            "rated": rated,
+            "reviews": reviews,
+            "comments": comments
+        }
+        property var actions: [
+            { "id": 123, "displayName": "action1" },
+            { "id": 456, "displayName": "action2" },
+            { "id": 789, "displayName": "action3" },
+        ]
     }
 
     function fake_call(id, data){
@@ -115,7 +99,7 @@ Item {
                 buttons.currentItem.clicked();
             }
 
-            var actions = get_actions();
+            var actions = data.actions;
             for(var i = 0; i < actions.length; i++) {
                 compare(root.calls[i], actions[i].id, "Id of action not found.");
             }
