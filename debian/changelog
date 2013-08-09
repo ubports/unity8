@@ -1,3 +1,16 @@
+unity8 (7.81.3+13.10.20130809.1-0ubuntu1) saucy; urgency=low
+
+  [ Michal Hruby ]
+  * Set phone form factor for scope requests.
+
+  [ Michał Sawicz ]
+  * Add support for plurals and update the translation template.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 179
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 09 Aug 2013 15:35:06 +0000
+
 unity8 (7.81.3+13.10.20130809-0ubuntu1) saucy; urgency=low
 
   [ Michał Sawicz ]
