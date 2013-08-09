@@ -141,19 +141,17 @@ Column {
         model: root.model
 
         Column {
-            width: parent.width
+            anchors { left: parent.left; right: parent.right }
 
             Column {
+                anchors { left: parent.left; right: parent.right }
 
                 Label {
+                    anchors { left: parent.left; right: parent.right }
                     text: modelData[0]
                     fontSize: "medium"
                     color: "white"
                     opacity: .8
-                    anchors {
-                        left: parent.left
-                        right: parent.right
-                    }
                     wrapMode: Text.WordWrap
                     style: Text.Raised
                     styleColor: "black"
@@ -179,14 +177,11 @@ Column {
             }
 
             Label {
+                anchors { left: parent.left; right: parent.right }
                 text: modelData[3]
                 fontSize: "medium"
                 color: Theme.palette.selected.backgroundText
                 opacity: .6
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                }
                 wrapMode: Text.WordWrap
                 style: Text.Raised
                 styleColor: "black"
