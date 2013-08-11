@@ -17,23 +17,27 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Utils 0.1
+import Unity 0.1
 import "../Components"
-import "../Components/ListItems"
-import "Apps"
 
-GenericScopeView {
+SortFilterProxyModel {
     id: root
-    objectName: "DashHome"
 
-    SearchableResultModel {
-        id: appsModel
+    property string searchQuery: ""
+    property bool hideOnSearch: false
 
-        model: FrequentlyUsedAppsModel {}
-        filterRole: 3
-        searchQuery: root.scope.searchQuery
-    }
+    filterRole: CategoryResults.RoleTitle
 
-    onScopeChanged: {
-        root.scope.categories.overrideResults("applications.scope", appsModel);
+    onSearchQueryChanged: {
+        if (searchQuery.length == 0) {
+            filterRegExp = RegExp("");
+            filterCaseSensitivity = Qt.CaseInsensitive;
+        } else if (!hideOnSearch) {
+            setFilterWildcard(searchQuery);
+            filterCaseSensitivity = Qt.CaseInsensitive;
+        } else {
+            filterRegExp = /^$/;
+            filterCaseSensitivity = Qt.CaseInsensitive;
+        }
     }
 }

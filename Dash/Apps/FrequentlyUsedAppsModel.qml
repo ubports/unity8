@@ -16,17 +16,65 @@
 
 import QtQuick 2.0
 
-DesktopFileModel {
-    baseModel: desktopModel
-
-    ListModel {
-        id: desktopModel
-
-        ListElement { desktopFile: "/usr/share/applications/camera-app.desktop";       }
-        ListElement { desktopFile: "/usr/share/applications/phone-app.desktop";        }
-        ListElement { desktopFile: "/usr/share/applications/gallery-app.desktop";      }
-        ListElement { desktopFile: "/usr/share/applications/facebook-webapp.desktop";  }
-        ListElement { desktopFile: "/usr/share/applications/webbrowser-app.desktop";   }
-        ListElement { desktopFile: "/usr/share/applications/gmail-webapp.desktop";     }
+ListModel {
+    ListElement {
+        uri: "application:///usr/share/applications/camera-app.desktop"
+        icon: "../../graphics/applicationIcons/camera.png"
+        category: 0
+        mimetype: "application/x-desktop"
+        title: "Camera"
+        comment: ""
+        dndUri: "file:///usr/share/applications/camera-app.desktop"
+        metadata: ""
+    }
+    ListElement {
+        uri: "application:///usr/share/applications/phone-app.desktop"
+        icon: "../../graphics/applicationIcons/phone-app.png"
+        category: 0
+        mimetype: "application/x-desktop"
+        title: "Phone"
+        comment: ""
+        dndUri: "file:///usr/share/applications/phone-app.desktop"
+        metadata: ""
+    }
+    ListElement {
+        uri: "application:///usr/share/applications/galery-app.desktop"
+        icon: "../../graphics/applicationIcons/gallery.png"
+        category: 0
+        mimetype: "application/x-desktop"
+        title: "Gallery"
+        comment: ""
+        dndUri: "file:///usr/share/applications/gallery.desktop"
+        metadata: ""
+    }
+    ListElement {
+        uri: "application:///usr/share/applications/facebook-webapp.desktop"
+        icon: "../../graphics/applicationIcons/facebook.png"
+        category: 0
+        mimetype: "application/x-desktop"
+        title: "Facebook"
+        comment: ""
+        dndUri: "file:///usr/share/applications/facebook-webapp.desktop"
+        metadata: ""
+    }
+    ListElement {
+        uri: "application:///usr/share/applications/webbrowser-app.desktop"
+        icon: "../../graphics/applicationIcons/browser.png"
+        category: 0
+        mimetype: "application/x-desktop"
+        title: "Browser"
+        comment: ""
+        dndUri: "file:///usr/share/applications/webbrowser-app.desktop"
+        metadata: ""
+    }
+    ListElement {
+        uri: "application:///usr/share/applications/gmail-webapp.desktop"
+        icon: "../../graphics/applicationIcons/gmail.png"
+        category: 0
+        mimetype: "application/x-desktop"
+        title: "GMail"
+        comment: ""
+        dndUri: "file:///usr/share/applications/gmail-webapp.desktop"
+        metadata: ""
     }
 }

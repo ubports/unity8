@@ -29,8 +29,13 @@ GenericScopeView {
     property var mainStageApplicationsModel: shell.applicationManager.mainStageApplications
     property var sideStageApplicationModel: shell.applicationManager.sideStageApplications
 
-    FrequentlyUsedAppsModel { id: frequentlyUsedAppsModel }
-    AppsAvailableForDownloadModel { id: appsAvailableForDownloadModel }
+    SearchableResultModel {
+        id: appsAvailableForDownloadModel
+
+        model: AppsAvailableForDownloadModel {}
+        filterRole: 3
+        searchQuery: scopeView.scope.searchQuery
+    }
 
     ListModel {
         id: dummyVisibilityModifier
@@ -53,8 +58,7 @@ GenericScopeView {
     }
 
     onScopeChanged: {
-        scopeView.scope.categories.overrideResults("recently-used", frequentlyUsedAppsModel.model);
         scopeView.scope.categories.overrideResults("recent", runningApplicationsModel);
-        scopeView.scope.categories.overrideResults("more", appsAvailableForDownloadModel.model);
+        scopeView.scope.categories.overrideResults("more", appsAvailableForDownloadModel);
     }
 }
