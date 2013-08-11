@@ -69,11 +69,12 @@ ScopeView {
                 onLoaded: {
                     if (source.toString().indexOf("Apps/RunningApplicationsGrid.qml") != -1) {
                         // TODO: the running apps grid doesn't support standard scope results model yet
-                        item.firstModel = results.firstModel;
-                        item.secondModel = results.secondModel;
+                        item.firstModel = results.firstModel
+                        item.secondModel = results.secondModel
                     } else {
                         item.model = results
                     }
+                    item.objectName = categoryId
                 }
 
                 Connections {
