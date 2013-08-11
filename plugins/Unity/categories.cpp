@@ -162,6 +162,7 @@ void Categories::overrideResults(const QString& categoryId, QAbstractItemModel* 
     connect(model, &QObject::destroyed, this, &Categories::onOverrideModelDestroyed);
     connect(model, &QAbstractItemModel::rowsInserted, this, &Categories::onRowCountChanged);
     connect(model, &QAbstractItemModel::rowsRemoved, this, &Categories::onRowCountChanged);
+    connect(model, &QAbstractItemModel::modelReset, this, &Categories::onRowCountChanged);
 
     // emit the dataChanged signal if the category is already in the model
     for (int i = 0; i < rowCount(); i++) {
