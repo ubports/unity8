@@ -43,7 +43,7 @@ QString DownloadTracker::dbusPath() const
 
 void DownloadTracker::setDbusPath(const QString& path)
 {
-    if(!path.isEmpty() && m_dbusPath != path){
+    if(m_dbusPath != path){
         m_dbusPath = path;
         startService();
         Q_EMIT dbusPathChanged(m_dbusPath);
@@ -57,7 +57,7 @@ QString DownloadTracker::service() const
 
 void DownloadTracker::setService(const QString& service)
 {
-    if(!service.isEmpty() && m_service != service){
+    if(m_service != service){
         m_service = service;
         startService();
         Q_EMIT serviceChanged(m_service);

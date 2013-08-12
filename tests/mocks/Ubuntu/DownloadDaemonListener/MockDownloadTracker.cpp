@@ -38,7 +38,7 @@ QString MockDownloadTracker::dbusPath() const
 
 void MockDownloadTracker::setDbusPath(const QString& path)
 {
-    if(!path.isEmpty()){
+    if(m_dbusPath != path){
         m_dbusPath = path;
         startService();
     }
@@ -51,7 +51,7 @@ QString MockDownloadTracker::service() const
 
 void MockDownloadTracker::setService(const QString& service)
 {
-    if(!service.isEmpty()){
+    if(m_service != service){
         m_service = service;
         startService();
     }
