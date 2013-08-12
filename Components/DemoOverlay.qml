@@ -60,8 +60,6 @@ Item {
 
     signal skip()
 
-    onSkip: overlay.enabled = false
-
     Rectangle {
         id: backgroundShade
         anchors.fill: parent
@@ -71,8 +69,8 @@ Item {
 
         MouseArea {
             anchors.fill: parent
-            enabled: overlay.edge == "none" && backgroundShade.opacity == 0.8
-            onClicked: skip()
+            enabled: overlay.edge == "none" && overlay.opacity == 1.0
+            onClicked: fadeOutAnimation.running = true
         }
     }
 
@@ -121,7 +119,7 @@ Item {
 
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: skip()
+                    onClicked: fadeOutAnimation.running = true
                 }
             }
         }
@@ -167,6 +165,20 @@ Item {
         }
     }
 
+    PropertyAnimation {
+        id: fadeOutAnimation
+        target: overlay
+        property: "opacity"
+        to: 0
+        duration: 250
+
+        onStopped: {
+            overlay.enabled = false;
+            overlay.visible = false;
+            skip()
+        }
+    }
+
     SequentialAnimation {
         id: wholeAnimation
         running: overlay.active
@@ -196,17 +208,10 @@ Item {
                 duration: overlay.edge == "none" ? 0 : 1000
             }
             StandardAnimation {
-                target: labelGroup
+                target: overlay
                 property: "opacity"
                 from: 0.0
                 to: 1.0
-                duration: 1000
-            }
-            StandardAnimation {
-                target: backgroundShade
-                property: "opacity"
-                from: 0.0
-                to: 0.8
                 duration: 1000
             }
         }
