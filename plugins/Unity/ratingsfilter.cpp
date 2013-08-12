@@ -3,6 +3,7 @@
  *
  * Authors:
  *  Florian Boucault <florian.boucault@canonical.com>
+ *  Pawel Stolowski <pawel.stolowski@canonical.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,62 +22,49 @@
 #include "ratingsfilter.h"
 
 // local
-#include "genericlistmodel.h"
 #include "ratingfilteroption.h"
-
-// Qt
-#include <QDebug>
+#include "ratingoptionsmodel.h"
 
 RatingsFilter::RatingsFilter(QObject *parent) :
-    Filter(parent), m_unityRatingsFilter(nullptr), m_options(nullptr)
+    Filter(parent),
+    m_unityRatingsFilter(nullptr),
+    m_options(nullptr)
 {
 }
 
-GenericListModel* RatingsFilter::options() const
+GenericOptionsModel* RatingsFilter::options() const
 {
     return m_options;
 }
 
+float RatingsFilter::rating() const
+{
+    if (m_unityRatingsFilter)
+    {
+        return m_unityRatingsFilter->rating;
+    }
+    return 0.0f;
+}
+
 void RatingsFilter::setUnityFilter(unity::dash::Filter::Ptr filter)
 {
-    if (m_unityFilter != nullptr) {
-        m_signals.disconnectAll();
-    }
-
     Filter::setUnityFilter(filter);
     m_unityRatingsFilter = std::dynamic_pointer_cast<unity::dash::RatingsFilter>(m_unityFilter);
 
-    if (m_options) {
-        delete m_options;
-    }
+    delete m_options;
 
-    m_options = new GenericListModel(this);
-    for (int i=1; i<=5; i++) {
-        auto opt = new RatingFilterOption(QString::number(i), i*0.2f, this);
-        connect(opt, SIGNAL(activeChanged(bool)), this, SLOT(onActiveChanged()));
-        m_options->addObject(opt);
-    }
+    m_options = new RatingOptionsModel(this);
+    connect(m_options, SIGNAL(activeChanged(AbstractFilterOption *)), m_options, SLOT(ensureTheOnlyActive(AbstractFilterOption *)));
+    connect(m_options, SIGNAL(activeChanged(AbstractFilterOption *)), this, SLOT(onActiveChanged(AbstractFilterOption *)));
 
-    Q_EMIT ratingsChanged();
+    Q_EMIT optionsChanged();
 }
 
-void RatingsFilter::onActiveChanged()
+void RatingsFilter::onActiveChanged(AbstractFilterOption *option)
 {
-    RatingFilterOption *option = dynamic_cast<RatingFilterOption*>(QObject::sender());
-    if (option != nullptr) {
-        if (option->active()) {
-            // disable all other options
-            for (auto it = m_options->optionsBegin(); it != m_options->optionsEnd(); it++) {
-                RatingFilterOption *opt = dynamic_cast<RatingFilterOption *>(*it);
-                if (opt && opt != option && opt->active()) {
-                    opt->setActive(false);
-                }
-            }
-            m_unityRatingsFilter->rating = option->value();
-        }
-
-        Q_EMIT ratingsChanged();
-    } else {
-        qWarning() << "Invalid option";
+    RatingFilterOption *ratingOption = dynamic_cast<RatingFilterOption*>(option);
+    if (ratingOption != nullptr)
+    {
+        m_unityRatingsFilter->rating = ratingOption->active() ? ratingOption->value() : 0.0f;
     }
 }

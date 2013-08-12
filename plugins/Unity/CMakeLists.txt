@@ -18,8 +18,6 @@ include_directories(
 
 set(QMLPLUGIN_SRC
     abstractfilteroption.cpp
-    combinedfilteroption.cpp
-    combinedfilteroptions.cpp
     scope.cpp
     scopes.cpp
     categories.cpp
@@ -27,7 +25,9 @@ set(QMLPLUGIN_SRC
     filter.cpp
     filteroption.cpp
     filters.cpp
-    genericlistmodel.cpp
+    genericoptionsmodel.cpp
+    ratingoptionsmodel.cpp
+    unityoptionsmodel.cpp
     categoryresults.cpp
     plugin.cpp
     multirangefilter.cpp
@@ -46,7 +46,7 @@ set(QMLPLUGIN_SRC
     socialpreview.cpp
     socialpreviewcomment.cpp
     variantutils.cpp
-    )
+)
 
 add_library(Unity-qml MODULE
     ${QMLPLUGIN_SRC}

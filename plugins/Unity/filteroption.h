@@ -23,7 +23,6 @@
 
 // Local
 #include "abstractfilteroption.h"
-#include "listmodelwrapper.h"
 #include "signalslist.h"
 
 // libunity-core
@@ -58,8 +57,5 @@ private:
 };
 
 Q_DECLARE_METATYPE(FilterOption*)
-
-typedef ListModelWrapper<FilterOption, unity::dash::FilterOption::Ptr> FilterOptions;
-Q_DECLARE_METATYPE(FilterOptions*)
 
 #endif // FILTEROPTION_H

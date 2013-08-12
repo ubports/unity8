@@ -3,6 +3,7 @@
  *
  * Authors:
  *  Florian Boucault <florian.boucault@canonical.com>
+ *  Pawel Stolowski <pawel.stolowski@canonical.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,35 +30,35 @@
 
 // Local
 #include "filter.h"
-#include "signalslist.h"
 
-class GenericListModel;
+class GenericOptionsModel;
+class AbstractFilterOption;
 
 class Q_DECL_EXPORT RatingsFilter : public Filter
 {
     Q_OBJECT
 
-    Q_PROPERTY(GenericListModel* options READ options NOTIFY ratingsChanged)
+    Q_PROPERTY(float rating READ rating NOTIFY ratingChanged)
 
 public:
     explicit RatingsFilter(QObject *parent = nullptr);
 
     /* getters */
-    GenericListModel* options() const;
+    GenericOptionsModel* options() const override;
+    float rating() const;
 
 Q_SIGNALS:
-    void ratingsChanged();
+    void ratingChanged(float);
 
 protected:
-    virtual void setUnityFilter(unity::dash::Filter::Ptr filter);
+    void setUnityFilter(unity::dash::Filter::Ptr filter) override;
 
 protected Q_SLOTS:
-    void onActiveChanged();
+    void onActiveChanged(AbstractFilterOption *option);
 
 private:
     unity::dash::RatingsFilter::Ptr m_unityRatingsFilter;
-    GenericListModel *m_options;
-    SignalsList m_signals;
+    GenericOptionsModel *m_options;
 };
 
 Q_DECLARE_METATYPE(RatingsFilter*)

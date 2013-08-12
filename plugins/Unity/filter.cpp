@@ -115,7 +115,7 @@ Filter* Filter::newFromUnityFilter(unity::dash::Filter::Ptr unityFilter)
         filter = new MultiRangeFilter;
     } else {
         qWarning() << "Filter of unknown type: " << typeid(*unityFilter).name();
-        filter = new Filter;
+        return nullptr;
     }
 
     filter->setUnityFilter(unityFilter);

@@ -17,46 +17,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+// self
+#include "ratingoptionsmodel.h"
+
+// local
 #include "ratingfilteroption.h"
 
-RatingFilterOption::RatingFilterOption(const QString &id, float value, QObject *parent) :
-    AbstractFilterOption(parent),
-    m_active(false),
-    m_id(id),
-    m_value(value)
+RatingOptionsModel::RatingOptionsModel(QObject *parent) :
+    GenericOptionsModel(parent)
 {
-}
-
-QString RatingFilterOption::id() const
-{
-    return m_id;
-}
-
-
-QString RatingFilterOption::name() const
-{
-    return QString::Null();
-}
-
-QString RatingFilterOption::iconHint() const
-{
-    return QString::Null();
-}
-
-float RatingFilterOption::value() const
-{
-    return m_value;
-}
-
-bool RatingFilterOption::active() const
-{
-    return m_active;
-}
-
-void RatingFilterOption::setActive(bool active)
-{
-    if (active != m_active) {
-        m_active = active;
-        Q_EMIT activeChanged(m_active);
+    for (int i=1; i<=5; i++) {
+        auto opt = new RatingFilterOption(QString::number(i), i*0.2f, this);
+        addOption(opt, i-1);
     }
 }

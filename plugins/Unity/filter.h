@@ -31,6 +31,8 @@
 // local
 #include "signalslist.h"
 
+class GenericOptionsModel;
+
 class Q_DECL_EXPORT Filter : public QObject
 {
     Q_OBJECT
@@ -42,6 +44,7 @@ class Q_DECL_EXPORT Filter : public QObject
     Q_PROPERTY(bool visible READ visible NOTIFY visibleChanged)
     Q_PROPERTY(bool collapsed READ collapsed NOTIFY collapsedChanged)
     Q_PROPERTY(bool filtering READ filtering NOTIFY filteringChanged)
+    Q_PROPERTY(GenericOptionsModel* options READ options NOTIFY optionsChanged)
 
 public:
     explicit Filter(QObject *parent = nullptr);
@@ -54,6 +57,7 @@ public:
     bool visible() const;
     bool collapsed() const;
     bool filtering() const;
+    virtual GenericOptionsModel* options() const = 0;
 
     Q_INVOKABLE void clear();
 
@@ -68,6 +72,7 @@ Q_SIGNALS:
     void visibleChanged(bool);
     void collapsedChanged(bool);
     void filteringChanged(bool);
+    void optionsChanged();
 
 protected:
     unity::dash::Filter::Ptr m_unityFilter;

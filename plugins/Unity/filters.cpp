@@ -74,7 +74,7 @@ QVariant Filters::data(const QModelIndex& index, int role) const
     Filter* filter = m_filters.at(index.row());
     switch (role)
     {
-        case Filters::RoleId: 
+        case Filters::RoleId:
             return filter->id();
         case Filters::RoleName:
             return filter->name();
@@ -89,8 +89,9 @@ QVariant Filters::data(const QModelIndex& index, int role) const
         case Filters::RoleFiltering:
             return filter->filtering();
         default:
-            return QVariant();
+            break;
     }
+    return QVariant();
 }
 
 QHash<int, QByteArray> Filters::roleNames() const
@@ -137,7 +138,9 @@ void Filters::addFilter(unity::dash::Filter::Ptr unityFilter, int index)
 {
     beginInsertRows(QModelIndex(), index, index);
     Filter* filter = Filter::newFromUnityFilter(unityFilter);
-    m_filters.insert(index, filter);
+    if (filter != nullptr) {
+        m_filters.insert(index, filter);
+    }
     endInsertRows();
 }
 

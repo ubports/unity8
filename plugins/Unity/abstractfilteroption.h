@@ -24,7 +24,7 @@
 #include <QObject>
 #include <QMetaType>
 
-class AbstractFilterOption : public QObject
+class Q_DECL_EXPORT AbstractFilterOption : public QObject
 {
     Q_OBJECT
 

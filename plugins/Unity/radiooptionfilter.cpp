@@ -3,6 +3,7 @@
  *
  * Authors:
  *  Florian Boucault <florian.boucault@canonical.com>
+ *  Pawel Stolowski <pawel.stolowski@canonical.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,24 +21,17 @@
 // Self
 #include "radiooptionfilter.h"
 
+// local
+#include "unityoptionsmodel.h"
+
 RadioOptionFilter::RadioOptionFilter(QObject *parent) :
     Filter(parent), m_unityRadioOptionFilter(nullptr), m_options(nullptr)
 {
 }
 
-FilterOptions* RadioOptionFilter::options() const
+GenericOptionsModel* RadioOptionFilter::options() const
 {
     return m_options;
-}
-
-FilterOption* RadioOptionFilter::getOption(const QString& id) const
-{
-    Q_FOREACH (FilterOption* option, m_options->rawList()) {
-        if (option->id() == id) {
-            return option;
-        }
-    }
-    return nullptr;
 }
 
 void RadioOptionFilter::setUnityFilter(unity::dash::Filter::Ptr filter)
@@ -55,10 +49,10 @@ void RadioOptionFilter::onOptionsChanged(unity::dash::RadioOptionFilter::RadioOp
         delete m_options;
         m_options = nullptr;
     }
-    m_options = new FilterOptions(m_unityRadioOptionFilter->options,
-                                 m_unityRadioOptionFilter->option_added,
-                                 m_unityRadioOptionFilter->option_removed);
-    /* Property change signals */
+    m_options = new UnityOptionsModel(this, m_unityRadioOptionFilter->options,
+                                      m_unityRadioOptionFilter->option_added,
+                                      m_unityRadioOptionFilter->option_removed);
+
     m_signals << m_unityRadioOptionFilter->options.changed.connect(sigc::mem_fun(this, &RadioOptionFilter::onOptionsChanged));
 
     Q_EMIT optionsChanged();

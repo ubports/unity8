@@ -21,12 +21,15 @@
 // Self
 #include "multirangefilter.h"
 
+// local
+#include "unityoptionsmodel.h"
+
 MultiRangeFilter::MultiRangeFilter(QObject *parent) :
     Filter(parent), m_unityMultiRangeFilter(nullptr), m_options(nullptr)
 {
 }
 
-CombinedFilterOptions* MultiRangeFilter::options() const
+GenericOptionsModel* MultiRangeFilter::options() const
 {
     return m_options;
 }
@@ -47,7 +50,11 @@ void MultiRangeFilter::onOptionsChanged(unity::dash::MultiRangeFilter::Options /
         m_options = nullptr;
     }
 
-    m_options = new CombinedFilterOptions(m_unityMultiRangeFilter->options);
+    m_options = new UnityOptionsModel(this, m_unityMultiRangeFilter->options,
+                                      m_unityMultiRangeFilter->option_added,
+                                      m_unityMultiRangeFilter->option_removed);
+
+    connect(m_options, SIGNAL(activeChanged(AbstractFilterOption *)), m_options, SLOT(ensureTheOnlyActive(AbstractFilterOption *)));
 
     /* Property change signals */
     m_signals << m_unityMultiRangeFilter->options.changed.connect(sigc::mem_fun(this, &MultiRangeFilter::onOptionsChanged));

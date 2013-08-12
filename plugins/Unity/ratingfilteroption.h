@@ -20,25 +20,24 @@
 #ifndef RATINGFILTEROPTION_H
 #define RATINGFILTEROPTION_H
 
-#include <QObject>
+#include "abstractfilteroption.h"
 
-class Q_DECL_EXPORT RatingFilterOption : public QObject
+class Q_DECL_EXPORT RatingFilterOption : public AbstractFilterOption
 {
     Q_OBJECT
 
 public:
-    explicit RatingFilterOption(const QString &id, float ratingValue, QObject *parent = 0);
+    explicit RatingFilterOption(const QString &id, float ratingValue, QObject *parent = nullptr);
 
     /* getters */
-    QString id() const;
-    bool active() const;
+    QString id() const override;
+    QString name() const override;
+    QString iconHint() const override;
+    bool active() const override;
     float value() const;
 
     /* setters */
-    Q_INVOKABLE void setActive(bool active);
-
-Q_SIGNALS:
-    void activeChanged(bool);
+    void setActive(bool active) override;
 
 private:
     bool m_active;

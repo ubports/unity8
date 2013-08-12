@@ -3,6 +3,7 @@
  *
  * Authors:
  *  Florian Boucault <florian.boucault@canonical.com>
+ *  Pawel Stolowski <pawel.stolowski@canonical.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,25 +37,18 @@ class Q_DECL_EXPORT RadioOptionFilter : public Filter
 {
     Q_OBJECT
 
-    Q_PROPERTY(FilterOptions* options READ options NOTIFY optionsChanged)
-
 public:
     explicit RadioOptionFilter(QObject *parent = nullptr);
 
     /* getters */
-    FilterOptions* options() const;
-
-    Q_INVOKABLE FilterOption* getOption(const QString& id) const;
-
-Q_SIGNALS:
-    void optionsChanged();
+    GenericOptionsModel* options() const override;
 
 protected:
-    virtual void setUnityFilter(unity::dash::Filter::Ptr filter);
+    void setUnityFilter(unity::dash::Filter::Ptr filter) override;
 
 private:
     unity::dash::RadioOptionFilter::Ptr m_unityRadioOptionFilter;
-    FilterOptions* m_options;
+    GenericOptionsModel* m_options;
     SignalsList m_signals;
 
     void onOptionsChanged(unity::dash::RadioOptionFilter::RadioOptions);

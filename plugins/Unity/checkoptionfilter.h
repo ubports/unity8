@@ -36,29 +36,21 @@ class Q_DECL_EXPORT CheckOptionFilter : public Filter
 {
     Q_OBJECT
 
-    Q_PROPERTY(FilterOptions* options READ options NOTIFY optionsChanged)
-
 public:
     explicit CheckOptionFilter(QObject *parent = nullptr);
 
     /* getters */
-    FilterOptions* options() const;
-
-Q_SIGNALS:
-    void optionsChanged();
-
-private Q_SLOTS:
-    void  onActiveChanged(bool state);
+    GenericOptionsModel* options() const override;
 
 protected:
-    virtual void setUnityFilter(unity::dash::Filter::Ptr filter);
+    void setUnityFilter(unity::dash::Filter::Ptr filter) override;
 
 private:
-    unity::dash::CheckOptionFilter::Ptr m_unityCheckOptionFilter;
-    FilterOptions* m_options;
-    SignalsList m_signals;
+    void onOptionsChanged(unity::dash::CheckOptionFilter::CheckOptions filter);
 
-    void onOptionsChanged(unity::dash::CheckOptionFilter::CheckOptions);
+    unity::dash::CheckOptionFilter::Ptr m_unityCheckOptionFilter;
+    SignalsList m_signals;
+    GenericOptionsModel* m_options;
 };
 
 Q_DECLARE_METATYPE(CheckOptionFilter*)

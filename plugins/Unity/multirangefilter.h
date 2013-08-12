@@ -31,31 +31,27 @@
 // Local
 #include "filter.h"
 #include "filteroption.h"
-#include "combinedfilteroptions.h"
 #include "signalslist.h"
+
+class GenericOptionsModel;
 
 class Q_DECL_EXPORT MultiRangeFilter : public Filter
 {
     Q_OBJECT
 
-    Q_PROPERTY(CombinedFilterOptions* options READ options NOTIFY optionsChanged)
-
 public:
     explicit MultiRangeFilter(QObject *parent = nullptr);
 
     /* getters */
-    CombinedFilterOptions* options() const;
-
-Q_SIGNALS:
-    void optionsChanged();
+    GenericOptionsModel* options() const override;
 
 protected:
-    virtual void setUnityFilter(unity::dash::Filter::Ptr filter);
+    void setUnityFilter(unity::dash::Filter::Ptr filter) override;
 
 private:
     unity::dash::MultiRangeFilter::Ptr m_unityMultiRangeFilter;
-    CombinedFilterOptions* m_options;
     SignalsList m_signals;
+    GenericOptionsModel* m_options;
 
     void onOptionsChanged(unity::dash::MultiRangeFilter::Options);
 };
