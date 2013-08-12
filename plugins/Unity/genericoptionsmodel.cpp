@@ -140,7 +140,7 @@ void GenericOptionsModel::onOptionChanged()
         int idx = indexOf(option->id());
         if (idx >= 0)
         {
-            QModelIndex optionIndex = index(idx, idx);
+            QModelIndex optionIndex = index(idx);
             Q_EMIT dataChanged(optionIndex, optionIndex);
         }
     }

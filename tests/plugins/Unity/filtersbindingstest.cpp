@@ -313,6 +313,7 @@ void FiltersBindingsTest::testCheckOptionFilter()
         QSignalSpy opt0spy(opt0, SIGNAL(activeChanged(bool)));
         QSignalSpy opt1spy(opt1, SIGNAL(activeChanged(bool)));
         QSignalSpy opt2spy(opt2, SIGNAL(activeChanged(bool)));
+        QSignalSpy dataChangedSpy(options, SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&, const QVector<int>&)));
 
         // test active property changes
         QCOMPARE(opt0->active(), false);
@@ -334,6 +335,8 @@ void FiltersBindingsTest::testCheckOptionFilter()
         QCOMPARE(opt0->active(), false);
         QCOMPARE(opt1->active(), true);
         QCOMPARE(opt2->active(), false);
+
+        QCOMPARE(dataChangedSpy.count(), 3);
 
         delete check_filter;
     }
@@ -385,6 +388,7 @@ void FiltersBindingsTest::testRadioOptionFilter()
         QSignalSpy opt0spy(opt0, SIGNAL(activeChanged(bool)));
         QSignalSpy opt1spy(opt1, SIGNAL(activeChanged(bool)));
         QSignalSpy opt2spy(opt2, SIGNAL(activeChanged(bool)));
+        QSignalSpy dataChangedSpy(options, SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&, const QVector<int>&)));
 
         // test active property changes
         QCOMPARE(opt0->active(), false);
@@ -406,6 +410,8 @@ void FiltersBindingsTest::testRadioOptionFilter()
         QCOMPARE(opt0->active(), false);
         QCOMPARE(opt1->active(), true);
         QCOMPARE(opt2->active(), false);
+
+        QCOMPARE(dataChangedSpy.count(), 3);
 
         delete radio_filter;
     }
@@ -435,6 +441,7 @@ void FiltersBindingsTest::testRatingsFilter()
 
         QSignalSpy opt0spy(opt[0], SIGNAL(activeChanged(bool)));
         QSignalSpy opt4spy(opt[4], SIGNAL(activeChanged(bool)));
+        QSignalSpy dataChangedSpy(options, SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&, const QVector<int>&)));
 
         QVERIFY(qAbs(opt[0]->value() - 0.2f) <= 0.0001f);
         QVERIFY(qAbs(opt[1]->value() - 0.4f) <= 0.0001f);
@@ -469,6 +476,8 @@ void FiltersBindingsTest::testRatingsFilter()
         opt[4]->setActive(false);
         QVERIFY(rating_filter->rating() <= 0.0001f); // rating equals zero
         QCOMPARE(opt4spy.count(), 2);
+
+        QCOMPARE(dataChangedSpy.count(), 10);
     }
 }
 
