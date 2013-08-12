@@ -158,7 +158,6 @@ FocusScope {
             }
 
             onStatusChanged: {
-                print("################################## image status changed", status, "(", Image.Error,"), source:", source)
                 if (status == Image.Error && source != defaultBackground) {
                     source = defaultBackground
                 }
