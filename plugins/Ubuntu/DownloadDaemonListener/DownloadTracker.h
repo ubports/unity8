@@ -33,21 +33,22 @@ class DownloadTracker : public QObject
     Q_DISABLE_COPY(DownloadTracker)
     Q_PROPERTY(QString service READ service WRITE setService NOTIFY serviceChanged)
     Q_PROPERTY(QString dbusPath READ dbusPath WRITE setDbusPath NOTIFY dbusPathChanged)
-    Q_PROPERTY(bool serviceReady READ isServiceReady)
+    Q_PROPERTY(bool serviceReady READ isServiceReady NOTIFY serviceReadyChanged)
 
 public:
     explicit DownloadTracker(QObject *parent = 0);
 
     QString service() const;
     QString dbusPath() const;
+    bool isServiceReady() const;
 
-    void setDbusPath(QString& path);
-    void setService(QString& service);
-    bool isServiceReady();
+    void setDbusPath(const QString& path);
+    void setService(const QString& service);
 
 Q_SIGNALS:
     void serviceChanged(const QString &service);
     void dbusPathChanged(const QString &dbusPath);
+    void serviceReadyChanged(const bool &serviceReady);
 
     void canceled(bool success);
     void error(const QString &error);

@@ -26,7 +26,7 @@ DownloadTracker::DownloadTracker(QObject *parent) :
 {
 }
 
-bool DownloadTracker::isServiceReady()
+bool DownloadTracker::isServiceReady() const
 {
     bool ready = false;
     if(m_adaptor != nullptr) {
@@ -41,9 +41,9 @@ QString DownloadTracker::dbusPath() const
     return m_dbusPath;
 }
 
-void DownloadTracker::setDbusPath(QString& path)
+void DownloadTracker::setDbusPath(const QString& path)
 {
-    if(path != "" && m_dbusPath != path){
+    if(!path.isEmpty() && m_dbusPath != path){
         m_dbusPath = path;
         startService();
         Q_EMIT dbusPathChanged(m_dbusPath);
@@ -55,9 +55,9 @@ QString DownloadTracker::service() const
     return m_service;
 }
 
-void DownloadTracker::setService(QString& service)
+void DownloadTracker::setService(const QString& service)
 {
-    if(service != "" && m_service != service){
+    if(!service.isEmpty() && m_service != service){
         m_service = service;
         startService();
         Q_EMIT serviceChanged(m_service);
@@ -68,7 +68,7 @@ void DownloadTracker::startService()
 {
     // FIXME update dbus path and service on changes
     if(!m_service.isEmpty() && !m_dbusPath.isEmpty()) {
-        m_adaptor = new DownloadTrackerAdaptor(m_service, m_dbusPath, QDBusConnection::sessionBus(), 0);
+        m_adaptor = new DownloadTrackerAdaptor(m_service, m_dbusPath, QDBusConnection::sessionBus(), this);
 
         connect(m_adaptor, SIGNAL(canceled(bool)), this, SIGNAL(canceled(bool)));
         connect(m_adaptor, SIGNAL(error(const QString &)), this, SIGNAL(error(const QString &)));
@@ -78,4 +78,6 @@ void DownloadTracker::startService()
         connect(m_adaptor, SIGNAL(resumed(bool)), this, SIGNAL(resumed(bool)));
         connect(m_adaptor, SIGNAL(started(bool)), this, SIGNAL(started(bool)));
     }
+    // FIXME find a better way of determining if the service is ready
+    Q_EMIT serviceReadyChanged(m_adaptor->isValid());
 }
