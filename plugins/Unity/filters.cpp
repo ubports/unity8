@@ -77,6 +77,7 @@ QVariant Filters::data(const QModelIndex& index, int role) const
         case Filters::RoleId:
             return filter->id();
         case Filters::RoleName:
+        case Qt::DisplayRole:
             return filter->name();
         case Filters::RoleIconHint:
             return filter->iconHint();

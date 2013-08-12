@@ -42,7 +42,7 @@ public:
     ~GenericOptionsModel();
 
     enum Roles {
-        RoleId,
+        RoleId = Qt::UserRole,
         RoleName,
         RoleIconHint,
         RoleActive

@@ -42,7 +42,7 @@ public:
     ~Filters();
 
     enum Roles {
-        RoleId,
+        RoleId = Qt::UserRole,
         RoleName,
         RoleIconHint,
         RoleRendererName,

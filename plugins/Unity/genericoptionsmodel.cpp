@@ -62,6 +62,7 @@ QVariant GenericOptionsModel::data(const QModelIndex& index, int role) const
         case GenericOptionsModel::RoleId:
             return filterOption->id();
         case GenericOptionsModel::RoleName:
+        case Qt::DisplayRole:
             return filterOption->name();
         case GenericOptionsModel::RoleIconHint:
             return filterOption->iconHint();
