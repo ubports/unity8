@@ -43,7 +43,7 @@ FocusScope {
 
     property real edgeSize: units.gu(2)
     property url defaultBackground: shell.width >= units.gu(60) ? "graphics/tablet_background.jpg" : "graphics/phone_background.jpg"
-    property url background: backgroundSettings.pictureUri
+    property url background: backgroundImage.source
     readonly property real panelHeight: panel.panelHeight
 
     property bool dashShown: dash.shown
@@ -119,8 +119,6 @@ FocusScope {
     GSettings {
         id: backgroundSettings
         schema.id: "org.gnome.desktop.background"
-
-        onPictureUriChanged: backgroundImage.source = pictureUri
     }
 
     VolumeControl {
@@ -151,7 +149,11 @@ FocusScope {
             id: backgroundImage
             objectName: "backgroundImage"
 
+            property url gSettingsPicture: backgroundSettings.pictureUri
+
             anchors.fill: parent
+
+            onGSettingsPictureChanged: source = gSettingsPicture
 
             onStatusChanged: {
                 if (status == Image.Error && source != defaultBackground) {
