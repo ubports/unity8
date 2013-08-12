@@ -9,3 +9,4 @@ usr/lib/*/unity8/qml/Utils
 usr/share/accountsservice/interfaces
 usr/share/dbus-1/interfaces
 usr/share/polkit-1
+var/lib/polkit-1

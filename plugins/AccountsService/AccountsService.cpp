@@ -17,8 +17,9 @@
  */
 
 #include "AccountsService.h"
-#include <QtCore/QEvent>
-#include <QtDBus/QDBusPendingReply>
+#include <QtDBus/QDBusConnection>
+#include <QtDBus/QDBusMessage>
+#include <QtDBus/QDBusVariant>
 
 AccountsService::AccountsService(QObject* parent)
   : QObject(parent),
@@ -47,7 +48,7 @@ void AccountsService::setUserProperty(const QString &user, const QString &proper
 {
     auto iface = getUserInterface(user);
     if (iface != nullptr && iface->isValid()) {
-        // The value needs to be carefully wrapped thrice
+        // The value needs to be carefully wrapped
         iface->call("Set", "com.canonical.unity.AccountsService", property, QVariant::fromValue(QDBusVariant(value)));
     }
 }

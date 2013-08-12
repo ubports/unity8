@@ -59,7 +59,7 @@ FocusScope {
         }
     }
 
-    property bool showEdgeDemo: true
+    property bool showEdgeDemo: false
     property bool showEdgeDemoInGreeter: showEdgeDemo //AccountsService.getUserProperty("lightdm", "demo-edges")
 
     function hideEdgeDemo() {
@@ -494,7 +494,7 @@ FocusScope {
             shell.background = bgPath ? bgPath : default_background
             // Update edge demo hint
             var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole)
-            shell.showEdgeDemo = true //AccountsService.getUserProperty(user, "demo-edges")
+            shell.showEdgeDemo = AccountsService.getUserProperty(user, "demo-edges")
         }
 
         onLeftTeaserPressedChanged: {

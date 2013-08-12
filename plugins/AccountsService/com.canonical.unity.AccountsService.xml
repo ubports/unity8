@@ -3,8 +3,11 @@
 
     <annotation name="org.freedesktop.Accounts.VendorExtension" value="true"/>
 
+    <annotation name="org.freedesktop.Accounts.Authentication.ChangeOwn"
+                value="com.canonical.unity.AccountsService.ModifyOwnUser"/>
+
     <annotation name="org.freedesktop.Accounts.Authentication.ChangeAny"
-                value="com.canonical.unity.AccountsService.ModifyUsers"/>
+                value="com.canonical.unity.AccountsService.ModifyAnyUser"/>
 
     <property name="demo-edges" type="b" access="readwrite">
       <annotation name="org.freedesktop.Accounts.DefaultValue" value="true"/>
