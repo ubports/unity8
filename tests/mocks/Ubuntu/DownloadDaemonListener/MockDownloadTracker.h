@@ -19,28 +19,34 @@
  */
 
 
-#ifndef MYTYPE_H
-#define MYTYPE_H
+#ifndef MOCKDOWNLOADTRACKER_H
+#define MOCKDOWNLOADTRACKER_H
 
 #include <QObject>
-#include <QList>
 
-class DownloadTracker : public QObject
+class MockDownloadTracker : public QObject
 {
     Q_OBJECT
-    Q_DISABLE_COPY(DownloadTracker)
-    Q_PROPERTY(QString service WRITE setService)
-    Q_PROPERTY(QString dbusPath WRITE setDbusPath)
-    Q_PROPERTY(bool serviceReady READ isServiceReady)
+    Q_DISABLE_COPY(MockDownloadTracker)
+    Q_PROPERTY(QString service READ service WRITE setService NOTIFY serviceChanged)
+    Q_PROPERTY(QString dbusPath READ dbusPath WRITE setDbusPath NOTIFY dbusPathChanged)
+    Q_PROPERTY(bool serviceReady READ isServiceReady NOTIFY serviceReadyChanged)
 
 public:
-    explicit DownloadTracker(QObject *parent = 0);
+    explicit MockDownloadTracker(QObject *parent = 0);
 
-    void setDbusPath(QString& path);
-    void setService(QString& service);
-    bool isServiceReady();
+    QString service() const;
+    QString dbusPath() const;
+    bool isServiceReady() const;
+
+    void setDbusPath(const QString& path);
+    void setService(const QString& service);
 
 Q_SIGNALS:
+    void serviceChanged(const QString &service);
+    void dbusPathChanged(const QString &dbusPath);
+    void serviceReadyChanged(const bool &serviceReady);
+
     void canceled(bool success);
     void error(const QString &error);
     void finished(const QString &path);
@@ -52,9 +58,9 @@ Q_SIGNALS:
 private:
     QString m_dbusPath;
     QString m_service;
-    bool active = false;
+    bool m_active = false;
 
     void startService();
 };
 
-#endif // MYTYPE_H
+#endif // MOCKDOWNLOADTRACKER_H

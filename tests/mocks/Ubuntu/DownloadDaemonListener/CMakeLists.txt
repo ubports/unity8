@@ -6,7 +6,7 @@ find_package(Qt5Quick REQUIRED)
 
 set(FakeUbuntuDownloadDaemonListenerQml_SOURCES
     plugin.cpp
-    download_tracker.cpp
+    MockDownloadTracker.cpp
 )
 
 add_library(FakeUbuntuDownloadDaemonListenerQml MODULE ${FakeUbuntuDownloadDaemonListenerQml_SOURCES})

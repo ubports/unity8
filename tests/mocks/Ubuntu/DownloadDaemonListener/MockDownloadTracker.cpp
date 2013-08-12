@@ -19,37 +19,48 @@
  */
 
 
-#include "download_tracker.h"
+#include "MockDownloadTracker.h"
 
-DownloadTracker::DownloadTracker(QObject *parent) :
+MockDownloadTracker::MockDownloadTracker(QObject *parent) :
     QObject(parent)
 {
 }
 
-bool DownloadTracker::isServiceReady()
+bool MockDownloadTracker::isServiceReady() const
 {
-    return active;
+    return m_active;
 }
 
-void DownloadTracker::setDbusPath(QString& path)
+QString MockDownloadTracker::dbusPath() const
 {
-    if(path != ""){
-        this->m_dbusPath = path;
-        this->startService();
+    return m_dbusPath;
+}
+
+void MockDownloadTracker::setDbusPath(const QString& path)
+{
+    if(!path.isEmpty()){
+        m_dbusPath = path;
+        startService();
     }
 }
 
-void DownloadTracker::setService(QString& service)
+QString MockDownloadTracker::service() const
 {
-    if(service != ""){
-        this->m_service = service;
-        this->startService();
+    return m_service;
+}
+
+void MockDownloadTracker::setService(const QString& service)
+{
+    if(!service.isEmpty()){
+        m_service = service;
+        startService();
     }
 }
 
-void DownloadTracker::startService()
+void MockDownloadTracker::startService()
 {
-    if(!this->m_service.isEmpty() && !this->m_dbusPath.isEmpty()) {
-        this->active = true;
+    if(!m_service.isEmpty() && !m_dbusPath.isEmpty()) {
+        m_active = true;
+        Q_EMIT serviceReadyChanged(m_active);
     }
 }

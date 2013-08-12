@@ -15,7 +15,7 @@
  */
 
 #include "plugin.h"
-#include "download_tracker.h"
+#include "MockDownloadTracker.h"
 
 #include <QtQml>
 #include <QtQml/QQmlContext>
@@ -24,5 +24,5 @@
 
 void FakeUbuntuDownloadDaemonListenerQmlPlugin::registerTypes(const char *uri)
 {
-    qmlRegisterType<DownloadTracker>(uri, 0, 1, "DownloadTracker");
+    qmlRegisterType<MockDownloadTracker>(uri, 0, 1, "DownloadTracker");
 }
