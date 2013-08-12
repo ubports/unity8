@@ -49,35 +49,30 @@ Item {
         id: shell
     }
 
-    GSettings {
-        id: backgroundSettings
-        schema.id: "org.gnome.desktop.background"
-    }
-
     UT.UnityTestCase {
         name: "Shell"
         when: windowShown
 
-//        function initTestCase() {
-//            // swipe away the greeter/lockscreen
-//            var touchX = shell.width - (shell.edgeSize / 2);
-//            var touchY = shell.height / 2;
-//            touchFlick(shell, touchX, touchY, shell.width * 0.1, touchY);
+        function initTestCase() {
+            // swipe away the greeter/lockscreen
+            var touchX = shell.width - (shell.edgeSize / 2);
+            var touchY = shell.height / 2;
+            touchFlick(shell, touchX, touchY, shell.width * 0.1, touchY);
 
-//            var dash = findChild(shell, "dash");
-//            // wait until the animation has finished
-//            tryCompare(dash, "contentScale", 1.0);
-//            tryCompare(dash, "opacity", 1.0);
-//        }
+            var dash = findChild(shell, "dash");
+            // wait until the animation has finished
+            tryCompare(dash, "contentScale", 1.0);
+            tryCompare(dash, "opacity", 1.0);
+        }
 
-//        function cleanup() {
-//            // kill all (fake) running apps
-//            ApplicationManager.mainStageApplications.clear();
-//            ApplicationManager.sideStageApplications.clear();
+        function cleanup() {
+            // kill all (fake) running apps
+            ApplicationManager.mainStageApplications.clear();
+            ApplicationManager.sideStageApplications.clear();
 
-//            var dashHome = findChild(shell, "DashHome");
-//            swipeUntilScopeViewIsReached(dashHome);
-//        }
+            var dashHome = findChild(shell, "DashHome");
+            swipeUntilScopeViewIsReached(dashHome);
+        }
 
 //        /*
 //           Test the effect of a right-edge drag on the dash in 3 situations:
@@ -294,17 +289,15 @@ Item {
         function test_wallpaper(data) {
             var backgroundImage = findChild(shell, "backgroundImage")
             GSettingsController.setPictureUri(data.url)
+            wait(1000)
             tryCompareFunction(function() { return backgroundImage.source.toString().indexOf(data.url) !== -1; }, true)
             tryCompare(backgroundImage, "status", Image.Ready)
         }
 
         function test_wallpaper_wrong() {
             var backgroundImage = findChild(shell, "backgroundImage")
-            var oldGSettingsBackground = backgroundSettings.pictureUri
-            var oldShellBackground = shell.background
-            wait(2000)
             GSettingsController.setPictureUri("wrong")
-            console.log("WRONG         ", oldGSettingsBackground, backgroundSettings.pictureUri)
+            wait(2000)
             //tryCompareFunction(function() { return oldGSettingsBackground == backgroundSettings.pictureUri; }, true)
 //            tryCompareFunction(function() { return backgroundImage.source.toString().indexOf(data.url) !== -1; }, true)
         }

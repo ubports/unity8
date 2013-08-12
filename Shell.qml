@@ -119,6 +119,8 @@ FocusScope {
     GSettings {
         id: backgroundSettings
         schema.id: "org.gnome.desktop.background"
+
+        onPictureUriChanged: backgroundImage.source = pictureUri
     }
 
     VolumeControl {
@@ -149,28 +151,13 @@ FocusScope {
             id: backgroundImage
             objectName: "backgroundImage"
 
-            property url oldWorkingBackground: shell.defaultBackground
-
-            source: shell.background
             anchors.fill: parent
-            onSwapped: {
-                console.log("swapped")
-//                if (status == Image.Ready) {
-//                    console.log("hhhhhhhhhhhhhhhhhhhhhhh", source)
-//                    oldWorkingBackground = source
-//                }
-            }
 
-//            onStatusChanged: {
-//                if (status == Image.Error) {
-//                    GSettingsController.setPictureUri(oldWorkingBackground)
-//                    console.log("pic",backgroundSettings.pictureUri.toString(), oldWorkingBackground.toString())
-//                    //backgroundSettings.pictureUri = oldWorkingBackground
-//                } else {
-//                    console.log("XXXXXXXXXX               else",status, source.toString(), oldWorkingBackground.toString())
-//                    oldWorkingBackground = source
-//                }
-//            }
+            onStatusChanged: {
+                if (status == Image.Error && source != defaultBackground) {
+                    source = defaultBackground
+                }
+            }
         }
 
         Rectangle {
