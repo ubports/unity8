@@ -74,210 +74,210 @@ Item {
             swipeUntilScopeViewIsReached(dashHome);
         }
 
-//        /*
-//           Test the effect of a right-edge drag on the dash in 3 situations:
-//           1 - when no application has been launched yet
-//           2 - when there's a minimized application
-//           3 - after the last running application has been closed/stopped
+        /*
+           Test the effect of a right-edge drag on the dash in 3 situations:
+           1 - when no application has been launched yet
+           2 - when there's a minimized application
+           3 - after the last running application has been closed/stopped
 
-//           The behavior of Dash on 3 should be the same as on 1.
-//         */
-//        function test_rightEdgeDrag() {
-//            checkRightEdgeDragWithNoRunningApps();
+           The behavior of Dash on 3 should be the same as on 1.
+         */
+        function test_rightEdgeDrag() {
+            checkRightEdgeDragWithNoRunningApps();
 
-//            dragLauncherIntoView();
+            dragLauncherIntoView();
 
-//            // Launch an app from the launcher
-//            tapOnAppIconInLauncher();
-//            waitUntilApplicationWindowIsFullyVisible();
+            // Launch an app from the launcher
+            tapOnAppIconInLauncher();
+            waitUntilApplicationWindowIsFullyVisible();
 
-//            // Minimize the application we just launched
-//            swipeFromLeftEdge();
+            // Minimize the application we just launched
+            swipeFromLeftEdge();
 
-//            waitForUIToSettle();
+            waitForUIToSettle();
 
-//            checkRightEdgeDragWithMinimizedApp();
+            checkRightEdgeDragWithMinimizedApp();
 
-//            // Minimize that application once again
-//            swipeFromLeftEdge();
+            // Minimize that application once again
+            swipeFromLeftEdge();
 
-//            // kill it
-//            ApplicationManager.mainStageApplications.clear();
+            // kill it
+            ApplicationManager.mainStageApplications.clear();
 
-//            waitForUIToSettle();
+            waitForUIToSettle();
 
-//            // Right edge behavior should now be the same as before that app was launched
-//            checkRightEdgeDragWithNoRunningApps();
-//        }
+            // Right edge behavior should now be the same as before that app was launched
+            checkRightEdgeDragWithNoRunningApps();
+        }
 
-//        /*
-//            Perform a right-edge drag when the Dash is being show and there are
-//            no running/minimized apps to be restored.
+        /*
+            Perform a right-edge drag when the Dash is being show and there are
+            no running/minimized apps to be restored.
 
-//            The expected behavior is that an animation should be played to hint the
-//            user that his right-edge drag gesture has been successfully recognized
-//            but there is no application to be brought to foreground.
-//         */
-//        function checkRightEdgeDragWithNoRunningApps() {
-//            var touchX = shell.width - (shell.edgeSize / 2);
-//            var touchY = shell.height / 2;
+            The expected behavior is that an animation should be played to hint the
+            user that his right-edge drag gesture has been successfully recognized
+            but there is no application to be brought to foreground.
+         */
+        function checkRightEdgeDragWithNoRunningApps() {
+            var touchX = shell.width - (shell.edgeSize / 2);
+            var touchY = shell.height / 2;
 
-//            var dash = findChild(shell, "dash");
-//            // check that dash has normal scale and opacity
-//            compare(dash.contentScale, 1.0);
-//            compare(dash.opacity, 1.0);
+            var dash = findChild(shell, "dash");
+            // check that dash has normal scale and opacity
+            compare(dash.contentScale, 1.0);
+            compare(dash.opacity, 1.0);
 
-//            touchFlick(shell, touchX, touchY, shell.width * 0.1, touchY,
-//                       true /* beginTouch */, false /* endTouch */);
+            touchFlick(shell, touchX, touchY, shell.width * 0.1, touchY,
+                       true /* beginTouch */, false /* endTouch */);
 
-//            // check that Dash has been scaled down and had its opacity reduced
-//            tryCompareFunction(function() { return dash.contentScale <= 0.9; }, true);
-//            tryCompareFunction(function() { return dash.opacity <= 0.5; }, true);
+            // check that Dash has been scaled down and had its opacity reduced
+            tryCompareFunction(function() { return dash.contentScale <= 0.9; }, true);
+            tryCompareFunction(function() { return dash.opacity <= 0.5; }, true);
 
-//            touchRelease(shell, shell.width * 0.1, touchY);
+            touchRelease(shell, shell.width * 0.1, touchY);
 
-//            // and now everything should have gone back to normal
-//            tryCompare(dash, "contentScale", 1.0);
-//            tryCompare(dash, "opacity", 1.0);
-//        }
+            // and now everything should have gone back to normal
+            tryCompare(dash, "contentScale", 1.0);
+            tryCompare(dash, "opacity", 1.0);
+        }
 
-//        /*
-//            Perform a right-edge drag when the Dash is being show and there is
-//            a running/minimized app to be restored.
+        /*
+            Perform a right-edge drag when the Dash is being show and there is
+            a running/minimized app to be restored.
 
-//            The expected behavior is that the dash should fade away and ultimately be
-//            made invisible once the gesture is finished as the restored app will now
-//            be on foreground.
-//         */
-//        function checkRightEdgeDragWithMinimizedApp() {
-//            var touchX = shell.width - (shell.edgeSize / 2);
-//            var touchY = shell.height / 2;
+            The expected behavior is that the dash should fade away and ultimately be
+            made invisible once the gesture is finished as the restored app will now
+            be on foreground.
+         */
+        function checkRightEdgeDragWithMinimizedApp() {
+            var touchX = shell.width - (shell.edgeSize / 2);
+            var touchY = shell.height / 2;
 
-//            var dash = findChild(shell, "dash");
-//            // check that dash has normal scale and opacity
-//            tryCompare(dash, "contentScale", 1.0);
-//            tryCompare(dash, "opacity", 1.0);
+            var dash = findChild(shell, "dash");
+            // check that dash has normal scale and opacity
+            tryCompare(dash, "contentScale", 1.0);
+            tryCompare(dash, "opacity", 1.0);
 
-//            touchFlick(shell, touchX, touchY, shell.width * 0.1, touchY,
-//                       true /* beginTouch */, false /* endTouch */);
+            touchFlick(shell, touchX, touchY, shell.width * 0.1, touchY,
+                       true /* beginTouch */, false /* endTouch */);
 
-//            // check that Dash has been scaled down and had its opacity reduced
-//            tryCompareFunction(function() { return dash.contentScale <= 0.9; }, true);
-//            tryCompareFunction(function() { return dash.opacity <= 0.5; }, true);
+            // check that Dash has been scaled down and had its opacity reduced
+            tryCompareFunction(function() { return dash.contentScale <= 0.9; }, true);
+            tryCompareFunction(function() { return dash.opacity <= 0.5; }, true);
 
-//            touchRelease(shell, shell.width * 0.1, touchY);
+            touchRelease(shell, shell.width * 0.1, touchY);
 
-//            // dash should have gone away, now that the app is on foreground
-//            tryCompare(dash, "visible", false);
-//        }
+            // dash should have gone away, now that the app is on foreground
+            tryCompare(dash, "visible", false);
+        }
 
-//        // Wait for the whole UI to settle down
-//        function waitForUIToSettle() {
-//            waitUntilApplicationWindowIsFullyHidden();
-//            var dashContentList = findChild(shell, "dashContentList");
-//            tryCompare(dashContentList, "moving", false);
-//        }
+        // Wait for the whole UI to settle down
+        function waitForUIToSettle() {
+            waitUntilApplicationWindowIsFullyHidden();
+            var dashContentList = findChild(shell, "dashContentList");
+            tryCompare(dashContentList, "moving", false);
+        }
 
-//        function dragLauncherIntoView() {
-//            var launcherPanel = findChild(shell, "launcherPanel");
-//            verify(launcherPanel.x = - launcherPanel.width);
-//            swipeFromLeftEdge();
-//            tryCompare(launcherPanel, "x", 0);
-//        }
+        function dragLauncherIntoView() {
+            var launcherPanel = findChild(shell, "launcherPanel");
+            verify(launcherPanel.x = - launcherPanel.width);
+            swipeFromLeftEdge();
+            tryCompare(launcherPanel, "x", 0);
+        }
 
-//        function tapOnAppIconInLauncher() {
-//            var launcherPanel = findChild(shell, "launcherPanel");
+        function tapOnAppIconInLauncher() {
+            var launcherPanel = findChild(shell, "launcherPanel");
 
-//            // pick the first icon, the one at the bottom.
-//            var appIcon = findChild(launcherPanel, "launcherDelegate0")
+            // pick the first icon, the one at the bottom.
+            var appIcon = findChild(launcherPanel, "launcherDelegate0")
 
-//            // Swipe upwards over the launcher to ensure that this icon
-//            // at the bottom is not folded and faded away.
-//            var touchStartX = launcherPanel.width / 2;
-//            var touchStartY = launcherPanel.height / 2;
-//            touchFlick(launcherPanel, touchStartX, touchStartY, touchStartX, 0);
-//            tryCompare(launcherPanel, "moving", false);
+            // Swipe upwards over the launcher to ensure that this icon
+            // at the bottom is not folded and faded away.
+            var touchStartX = launcherPanel.width / 2;
+            var touchStartY = launcherPanel.height / 2;
+            touchFlick(launcherPanel, touchStartX, touchStartY, touchStartX, 0);
+            tryCompare(launcherPanel, "moving", false);
 
-//            // NB tapping (i.e., using touch events) doesn't activate the icon... go figure...
-//            mouseClick(appIcon, appIcon.width / 2, appIcon.height / 2);
-//        }
+            // NB tapping (i.e., using touch events) doesn't activate the icon... go figure...
+            mouseClick(appIcon, appIcon.width / 2, appIcon.height / 2);
+        }
 
-//        function waitUntilApplicationWindowIsFullyVisible() {
-//            var underlay = findChild(shell, "underlay");
-//            tryCompare(underlay, "visible", false);
-//        }
+        function waitUntilApplicationWindowIsFullyVisible() {
+            var underlay = findChild(shell, "underlay");
+            tryCompare(underlay, "visible", false);
+        }
 
-//        function waitUntilApplicationWindowIsFullyHidden() {
-//            var stages = findChild(shell, "stages");
-//            tryCompare(stages, "fullyHidden", true);
-//        }
+        function waitUntilApplicationWindowIsFullyHidden() {
+            var stages = findChild(shell, "stages");
+            tryCompare(stages, "fullyHidden", true);
+        }
 
-//        function swipeUntilScopeViewIsReached(scopeView) {
-//            while (!itemIsOnScreen(scopeView)) {
-//                if (itemIsToLeftOfScreen(scopeView)) {
-//                    swipeRightFromCenter();
-//                } else {
-//                    swipeLeftFromCenter();
-//                }
-//                waitUntilItemStopsMoving(scopeView);
-//            }
-//        }
+        function swipeUntilScopeViewIsReached(scopeView) {
+            while (!itemIsOnScreen(scopeView)) {
+                if (itemIsToLeftOfScreen(scopeView)) {
+                    swipeRightFromCenter();
+                } else {
+                    swipeLeftFromCenter();
+                }
+                waitUntilItemStopsMoving(scopeView);
+            }
+        }
 
-//        function swipeFromLeftEdge() {
-//            var touchStartX = 2;
-//            var touchStartY = shell.height / 2;
-//            touchFlick(shell, touchStartX, touchStartY, shell.width * 0.75, touchStartY);
-//        }
+        function swipeFromLeftEdge() {
+            var touchStartX = 2;
+            var touchStartY = shell.height / 2;
+            touchFlick(shell, touchStartX, touchStartY, shell.width * 0.75, touchStartY);
+        }
 
-//        function swipeLeftFromCenter() {
-//            var touchStartX = shell.width / 2;
-//            var touchStartY = shell.height / 2;
-//            touchFlick(shell, touchStartX, touchStartY, 0, touchStartY);
-//        }
+        function swipeLeftFromCenter() {
+            var touchStartX = shell.width / 2;
+            var touchStartY = shell.height / 2;
+            touchFlick(shell, touchStartX, touchStartY, 0, touchStartY);
+        }
 
-//        function swipeRightFromCenter() {
-//            var touchStartX = shell.width / 2;
-//            var touchStartY = shell.height / 2;
-//            touchFlick(shell, touchStartX, touchStartY, shell.width, touchStartY);
-//        }
+        function swipeRightFromCenter() {
+            var touchStartX = shell.width / 2;
+            var touchStartY = shell.height / 2;
+            touchFlick(shell, touchStartX, touchStartY, shell.width, touchStartY);
+        }
 
-//        function swipeUpFromCenter() {
-//            var touchStartX = shell.width / 2;
-//            var touchStartY = shell.height / 2;
-//            touchFlick(shell, touchStartX, touchStartY, touchStartX, 0);
-//        }
+        function swipeUpFromCenter() {
+            var touchStartX = shell.width / 2;
+            var touchStartY = shell.height / 2;
+            touchFlick(shell, touchStartX, touchStartY, touchStartX, 0);
+        }
 
-//        function itemIsOnScreen(item) {
-//            var itemRectInShell = item.mapToItem(shell, 0, 0, item.width, item.height);
+        function itemIsOnScreen(item) {
+            var itemRectInShell = item.mapToItem(shell, 0, 0, item.width, item.height);
 
-//            return itemRectInShell.x >= 0
-//                && itemRectInShell.y >= 0
-//                && itemRectInShell.x + itemRectInShell.width <= shell.width
-//                && itemRectInShell.y + itemRectInShell.height <= shell.height;
-//        }
+            return itemRectInShell.x >= 0
+                && itemRectInShell.y >= 0
+                && itemRectInShell.x + itemRectInShell.width <= shell.width
+                && itemRectInShell.y + itemRectInShell.height <= shell.height;
+        }
 
-//        function itemIsToLeftOfScreen(item) {
-//            var itemRectInShell = item.mapToItem(shell, 0, 0, item.width, item.height);
-//            return itemRectInShell.x < 0;
-//        }
+        function itemIsToLeftOfScreen(item) {
+            var itemRectInShell = item.mapToItem(shell, 0, 0, item.width, item.height);
+            return itemRectInShell.x < 0;
+        }
 
-//        function waitUntilItemStopsMoving(item) {
-//            var itemRectInShell = item.mapToItem(shell, 0, 0, item.width, item.height);
-//            var previousX = itemRectInShell.x;
-//            var previousY = itemRectInShell.y;
-//            var isStill = false;
+        function waitUntilItemStopsMoving(item) {
+            var itemRectInShell = item.mapToItem(shell, 0, 0, item.width, item.height);
+            var previousX = itemRectInShell.x;
+            var previousY = itemRectInShell.y;
+            var isStill = false;
 
-//            do {
-//                wait(100);
-//                itemRectInShell = item.mapToItem(shell, 0, 0, item.width, item.height);
-//                if (itemRectInShell.x == previousX && itemRectInShell.y == previousY) {
-//                    isStill = true;
-//                } else {
-//                    previousX = itemRectInShell.x;
-//                    previousY = itemRectInShell.y;
-//                }
-//            } while (!isStill);
-//        }
+            do {
+                wait(100);
+                itemRectInShell = item.mapToItem(shell, 0, 0, item.width, item.height);
+                if (itemRectInShell.x == previousX && itemRectInShell.y == previousY) {
+                    isStill = true;
+                } else {
+                    previousX = itemRectInShell.x;
+                    previousY = itemRectInShell.y;
+                }
+            } while (!isStill);
+        }
 
         function test_wallpaper_data() {
             return [
@@ -289,7 +289,6 @@ Item {
         function test_wallpaper(data) {
             var backgroundImage = findChild(shell, "backgroundImage")
             GSettingsController.setPictureUri(data.url)
-            wait(1000)
             tryCompareFunction(function() { return backgroundImage.source.toString().indexOf(data.url) !== -1; }, true)
             tryCompare(backgroundImage, "status", Image.Ready)
         }
@@ -297,9 +296,9 @@ Item {
         function test_wallpaper_wrong() {
             var backgroundImage = findChild(shell, "backgroundImage")
             GSettingsController.setPictureUri("wrong")
-            wait(2000)
-            //tryCompareFunction(function() { return oldGSettingsBackground == backgroundSettings.pictureUri; }, true)
-//            tryCompareFunction(function() { return backgroundImage.source.toString().indexOf(data.url) !== -1; }, true)
+            tryCompare(backgroundImage, "status", Image.Error)
+            tryCompareFunction(function() { return backgroundImage.source.toString().indexOf(shell.defaultBackground) !== -1; }, true)
+            tryCompare(backgroundImage, "status", Image.Ready)
         }
     }
 }

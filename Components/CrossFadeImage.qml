@@ -58,7 +58,6 @@ Item {
     }
 
     onSourceChanged: {
-                        console.log("here")
         // On creation, the souce handler is called before image pointers are set.
         if (__currentImage === null) {
             __currentImage = image1;
@@ -79,7 +78,6 @@ Item {
             // If case the image is still in QML's cache, status will be "Ready" immediately
             if (__nextImage.status == Image.Ready || __nextImage.source == "") {
                 swapImages();
-
             }
         }
     }
