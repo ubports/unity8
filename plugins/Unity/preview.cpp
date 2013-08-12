@@ -94,7 +94,7 @@ QVariant Preview::infoHints()
     return QVariant::fromValue(m_infoHints);
 }
 
-QVariantMap Preview::infoHintsHash()
+QVariantMap Preview::infoHintsHash() const
 {
     return m_infoHintsHash;
 }

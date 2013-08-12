@@ -57,7 +57,7 @@ public:
     QString description() const;
     QVariant actions();
     QVariant infoHints();
-    QVariantMap infoHintsHash();
+    QVariantMap infoHintsHash() const;
     QString image() const;
     QString imageSourceUri() const;
 
