@@ -43,6 +43,8 @@ Item {
     property Image __currentImage: image1
     property Image __nextImage: image2
 
+    signal swapped
+
     function swapImages() {
         __currentImage.z = 0
         __nextImage.z = 1
@@ -55,7 +57,10 @@ Item {
         var tmpImage = __currentImage
         __currentImage = __nextImage
         __nextImage = tmpImage
+        console.log("swapped here")
+        swapped()
     }
+    onSwapped: console.log("swapped component signal")
 
     onSourceChanged: {
         // On creation, the souce handler is called before image pointers are set.
@@ -85,7 +90,7 @@ Item {
     Connections {
         target: __nextImage
         onStatusChanged: {
-            if (__nextImage.status == Image.Ready) {
+            if (__nextImage.status == Image.Ready || __nextImage.status == Image.Error) {
                  swapImages();
              }
         }
@@ -96,6 +101,7 @@ Item {
         anchors.fill: parent
         cache: false
         asynchronous: true
+        fillMode: Image.PreserveAspectCrop
         z: 1
     }
 
@@ -104,6 +110,7 @@ Item {
         anchors.fill: parent
         cache: false
         asynchronous: true
+        fillMode: Image.PreserveAspectCrop
         z: 0
     }
 
