@@ -60,12 +60,20 @@ Item {
 
     signal skip()
 
+    onSkip: overlay.enabled = false
+
     Rectangle {
         id: backgroundShade
         anchors.fill: parent
         color: "black"
         opacity: 0.8
         visible: overlay.active
+
+        MouseArea {
+            anchors.fill: parent
+            enabled: overlay.edge == "none" && backgroundShade.opacity == 0.8
+            onClicked: skip()
+        }
     }
 
     Item {
@@ -113,10 +121,7 @@ Item {
 
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: {
-                        overlay.enabled = false;
-                        skip();
-                    }
+                    onClicked: skip()
                 }
             }
         }
