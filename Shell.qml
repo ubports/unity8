@@ -149,13 +149,16 @@ FocusScope {
             id: backgroundImage
             objectName: "backgroundImage"
 
-            property url gSettingsPicture: backgroundSettings.pictureUri
+            property url gSettingsPicture: backgroundSettings.pictureUri.length > 0 ? backgroundSettings.pictureUri : defaultBackground
 
             anchors.fill: parent
 
-            onGSettingsPictureChanged: source = gSettingsPicture
+            onGSettingsPictureChanged: {
+                source = gSettingsPicture
+            }
 
             onStatusChanged: {
+                print("################################## image status changed", status, "(", Image.Error,"), source:", source)
                 if (status == Image.Error && source != defaultBackground) {
                     source = defaultBackground
                 }
