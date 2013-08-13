@@ -60,6 +60,7 @@ DashPreview {
         spacing: units.gu(2)
 
         Label {
+            anchors { left: parent.left; right: parent.right }
             visible: text != ""
             fontSize: "medium"
             opacity: 0.6
@@ -68,9 +69,11 @@ DashPreview {
             style: Text.Raised
             styleColor: "black"
             wrapMode: Text.WordWrap
+            textFormat: Text.RichText
         }
 
         Label {
+            anchors { left: parent.left; right: parent.right }
             visible: text != ""
             fontSize: "small"
             opacity: 0.6
@@ -79,6 +82,7 @@ DashPreview {
             style: Text.Raised
             styleColor: "black"
             wrapMode: Text.WordWrap
+            textFormat: Text.RichText
         }
     }
 }
