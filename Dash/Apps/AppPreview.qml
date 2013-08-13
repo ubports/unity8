@@ -99,18 +99,6 @@ DashPreview {
 
             property var model
 
-            Label {
-                anchors.left: parent.left
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.leftMargin: units.gu(1)
-                fontSize: "large"
-                color: "white"
-                style: Text.Raised
-                styleColor: "black"
-                opacity: .8
-                text: progressBar.value + " %"
-            }
-
             DownloadTracker {
                 service: "com.canonical.applications.Downloader"
                 dbusPath: root.previewData.infoMap["progressbar_source"] ? root.previewData.infoMap["progressbar_source"].value : ""
