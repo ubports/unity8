@@ -128,6 +128,12 @@ FocusScope {
 
     // This is a dummy image that is needed to determine if the picture url
     // in backgroundSettings points to a valid picture file.
+    // We can't do this with the real background image because setting a
+    // new source in onStatusChanged triggers a binding loop detection
+    // inside Image, which causes it not to render even though a valid source
+    // would be set. We don't mind about this image staying black and just
+    // use it for verification to populate the source for the real
+    // background image.
     Image {
         source: shell.background
         height: 0
