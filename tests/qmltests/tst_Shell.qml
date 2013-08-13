@@ -281,8 +281,10 @@ Item {
 
         function test_wallpaper_data() {
             return [
-                {tag: "red", url: "tests/data/unity/backgrounds/red.png"},
-                {tag: "blue", url: "tests/data/unity/backgrounds/blue.png"}
+                {tag: "red", url: "tests/data/unity/backgrounds/red.png", expectedUrl: "tests/data/unity/backgrounds/red.png"},
+                {tag: "blue", url: "tests/data/unity/backgrounds/blue.png", expectedUrl: "tests/data/unity/backgrounds/blue.png"},
+                {tag: "invalid", url: "invalid", expectedUrl: shell.defaultBackground},
+                {tag: "empty", url: "", expectedUrl: shell.defaultBackground}
             ]
         }
 
@@ -290,14 +292,6 @@ Item {
             var backgroundImage = findChild(shell, "backgroundImage")
             GSettingsController.setPictureUri(data.url)
             tryCompareFunction(function() { return backgroundImage.source.toString().indexOf(data.url) !== -1; }, true)
-            tryCompare(backgroundImage, "status", Image.Ready)
-        }
-
-        function test_wallpaper_wrong() {
-            var backgroundImage = findChild(shell, "backgroundImage")
-            GSettingsController.setPictureUri("wrong")
-            tryCompare(backgroundImage, "status", Image.Error)
-            tryCompareFunction(function() { return backgroundImage.source.toString().indexOf(shell.defaultBackground) !== -1; }, true)
             tryCompare(backgroundImage, "status", Image.Ready)
         }
     }
