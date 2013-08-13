@@ -392,18 +392,32 @@ QQuickItem *ListViewWithPageHeader::item(int modelIndex) const
 bool ListViewWithPageHeader::maximizeVisibleArea(int modelIndex)
 {
     ListItem *listItem = itemAtIndex(modelIndex);
-    if (listItem)
-    {
+    return maximizeVisibleArea(listItem, listItem->height());
+}
+
+bool ListViewWithPageHeader::maximizeVisibleArea(int modelIndex, int itemHeight)
+{
+    ListItem *listItem = itemAtIndex(modelIndex);
+    if (listItem) {
+        return maximizeVisibleArea(listItem, itemHeight + (listItem->m_sectionItem ? listItem->m_sectionItem->height() : 0));
+    }
+
+    return false;
+}
+
+bool ListViewWithPageHeader::maximizeVisibleArea(ListItem *listItem, int listItemHeight)
+{
+    if (listItem) {
         layout();
         const auto listItemY = m_clipItem->y() + listItem->y();
-        if (listItemY > contentY() && listItemY + listItem->height() > contentY() + height()) {
+        if (listItemY > contentY() && listItemY + listItemHeight > contentY() + height()) {
             // we can scroll the list up to show more stuff
-            const auto to = qMin(listItemY, listItemY + listItem->height() - height());
+            const auto to = qMin(listItemY, listItemY + listItemHeight - height());
             m_contentYAnimation->setTo(to);
             contentYAnimationType = ContentYAnimationMaximizeVisibleArea;
             m_contentYAnimation->start();
-        } else if ((listItemY < contentY() && listItemY + listItem->height() < contentY() + height()) ||
-                   (m_topSectionItem && !listItem->m_sectionItem && listItemY - m_topSectionItem->height() < contentY() && listItemY + listItem->height() < contentY() + height()))
+        } else if ((listItemY < contentY() && listItemY + listItemHeight < contentY() + height()) ||
+                   (m_topSectionItem && !listItem->m_sectionItem && listItemY - m_topSectionItem->height() < contentY() && listItemY + listItemHeight < contentY() + height()))
         {
             // we can scroll the list down to show more stuff
             auto realVisibleListItemY = listItemY;
@@ -416,7 +430,7 @@ bool ListViewWithPageHeader::maximizeVisibleArea(int modelIndex)
                     realVisibleListItemY -= m_topSectionItem->height();
                 }
             }
-            const auto to = qMax(realVisibleListItemY, listItemY + listItem->height() - height());
+            const auto to = qMax(realVisibleListItemY, listItemY + listItemHeight - height());
             m_contentYAnimation->setTo(to);
             contentYAnimationType = ContentYAnimationMaximizeVisibleArea;
             m_contentYAnimation->start();

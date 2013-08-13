@@ -101,11 +101,6 @@ ScopeView {
                                                  delegateItem.model.dndUri,
                                                  delegateItem.model.metadata)
                     }
-                    onFilterChanged: {
-                        if (!target.filter) {
-                            categoryView.maximizeVisibleArea(index);
-                        }
-                    }
                 }
                 Connections {
                     target: categoryView
@@ -121,6 +116,9 @@ ScopeView {
                                     item.startFilterAnimation(shouldFilter)
                                 } else {
                                     item.filter = shouldFilter;
+                                }
+                                if (!shouldFilter) {
+                                    categoryView.maximizeVisibleArea(index, item.uncollapsedHeight);
                                 }
                             }
                         }

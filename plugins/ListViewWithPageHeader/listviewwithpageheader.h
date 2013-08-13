@@ -94,6 +94,7 @@ public:
     // Created items are those visible and the precached ones
     // Returns if the item existed or not
     Q_INVOKABLE bool maximizeVisibleArea(int modelIndex);
+    Q_INVOKABLE bool maximizeVisibleArea(int modelIndex, int itemHeight);
 
 Q_SIGNALS:
     void modelChanged();
@@ -141,6 +142,8 @@ private:
             QQuickItem *m_item;
             QQuickItem *m_sectionItem;
     };
+
+    bool maximizeVisibleArea(ListItem *listItem, int listItemHeight);
 
     void createDelegateModel();
 
