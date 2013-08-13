@@ -27,6 +27,7 @@ PageStack {
     // Stops the search for a parent tree node.
     // We don't want it going up to the indicator tabs.
     // FIXME: need a better way of doing this.
+    // https://bugs.launchpad.net/ubuntu-ui-toolkit/+bug/1211704
     __propagated: null
 
     property alias title: _mainPage.title

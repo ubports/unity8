@@ -19,6 +19,9 @@ import Ubuntu.Components 0.1
 import Unity.Indicators 0.1 as Indicators
 import "../Components"
 
+// FIXME : We dont want to use MainView.
+// Need a regular Item which can have tabs with local header.
+// https://bugs.launchpad.net/ubuntu-ui-toolkit/+bug/1211704
 MainView {
     id: content
 
@@ -78,8 +81,8 @@ MainView {
 
             Tab {
                 id: tab
-                objectName: indicatorsModel.data(index, Indicators.IndicatorsModelRole.Identifier)
-                title: indicatorsModel.data(index, Indicators.IndicatorsModelRole.Title)
+                objectName: model.identifier
+                title: model.title
 
                 page: Page {
                     Loader {
