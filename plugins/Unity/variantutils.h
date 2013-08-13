@@ -26,8 +26,6 @@
 // libunity-core
 #include <UnityCore/Variant.h>
 
-GVariant* GVariantFromQVariant(const QVariant &value);
-QVariant QVariantFromGVariant(GVariant *value);
 unity::glib::HintsMap convertToHintsMap(const QHash<QString, QVariant> &val);
 unity::glib::HintsMap convertToHintsMap(const QVariant &var);
 

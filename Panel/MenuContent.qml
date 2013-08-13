@@ -24,7 +24,7 @@ Rectangle {
 
     property QtObject indicatorsModel: null
     property bool __contentActive: false
-    property alias currentIndex : menus.currentIndex
+    property alias currentMenuIndex : menus.currentIndex
     property color backgroundColor: "#221e1c" // FIXME not in palette yet
     property int contentReleaseInterval: 20000
 
@@ -146,7 +146,7 @@ Rectangle {
     Indicators.MenuContentActivator {
         id:  menuActivator
         running: content.__contentActive
-        baseIndex: content.currentIndex
+        baseIndex: content.currentMenuIndex
         count: indicatorsModel.count
     }
 }

@@ -30,11 +30,11 @@ Item {
     width: units.gu(40)
     height: units.gu(80)
 
-    property bool search_clicked: false
+    property bool searchClicked: false
 
     Connections {
         target: panel
-        onSearchClicked: search_clicked = true
+        onSearchClicked: searchClicked = true
     }
 
     Panel {
@@ -54,27 +54,26 @@ Item {
 
 
         function init() {
-            search_clicked = false;
+            searchClicked = false;
             panel.indicators.hide();
             tryCompare(panel.indicators.hideAnimation, "running", false);
             tryCompare(panel.indicators, "state", "initial");
         }
 
         function get_indicator_item(index) {
-            var row_repeater = findChild(panel.indicators, "rowRepeater");
-            verify(row_repeater != undefined);
-            return row_repeater.itemAt(index);
+            var rowRepeater = findChild(panel.indicators, "rowRepeater");
+            verify(rowRepeater != undefined);
+            return rowRepeater.itemAt(index);
         }
 
         function get_indicator_item_position(index) {
+            var indicatorRow = findChild(panel.indicators, "indicatorRow");
+            verify(indicatorRow != undefined);
 
-            var indicator_row = findChild(panel.indicators, "indicatorRow");
-            verify(indicator_row != undefined);
+            var indicatorItem = get_indicator_item(index);
+            verify(indicatorItem != undefined);
 
-            var indicator_item = get_indicator_item(index);
-            verify(indicator_item != undefined);
-
-            return panel.mapFromItem(indicator_item, indicator_item.width/2, indicator_item.height/2);
+            return panel.mapFromItem(indicatorItem, indicatorItem.width/2, indicatorItem.height/2);
         }
 
         // Pressing on the indicator panel should activate the indicator hints
@@ -85,9 +84,9 @@ Item {
             // (switches between normal and fullscreen modes are animated)
             tryCompare(panel.indicators, "y", 0);
 
-            var indicator_item_coord = get_indicator_item_position(0);
+            var indicatorItemCoord = get_indicator_item_position(0);
 
-            touchPress(panel, indicator_item_coord.x, panel.panelHeight / 2);
+            touchPress(panel, indicatorItemCoord.x, panel.panelHeight / 2);
 
             // hint animation should be run, meaning that indicators will move downwards
             // by hintValue pixels without any drag taking place
@@ -96,7 +95,7 @@ Item {
             tryCompare(panel.indicators, "partiallyOpened", true);
             tryCompare(panel.indicators, "fullyOpened", false);
 
-            touchRelease(panel, indicator_item_coord.x, panel.panelHeight/2);
+            touchRelease(panel, indicatorItemCoord.x, panel.panelHeight/2);
         }
 
         // Pressing on the top edge of the screen should have no effect if the panel
@@ -107,9 +106,9 @@ Item {
             // (switches between normal and fullscreen modes are animated)
             tryCompare(panel.indicators, "y", -panel.panelHeight);
 
-            var indicator_item_coord = get_indicator_item_position(0);
+            var indicatorItemCoord = get_indicator_item_position(0);
 
-            touchPress(panel, indicator_item_coord.x, panel.panelHeight / 2);
+            touchPress(panel, indicatorItemCoord.x, panel.panelHeight / 2);
 
             // Give some time for a hint animation to change things, if any
             wait(500);
@@ -126,7 +125,7 @@ Item {
             compare(panel.indicators.fullyOpened, false, "Indicator should not be partially" +
                    " opened when panel is pressed in fullscreenmode");
 
-            touchRelease(panel, indicator_item_coord.x, panel.panelHeight/2);
+            touchRelease(panel, indicatorItemCoord.x, panel.panelHeight/2);
         }
 
         function test_drag_show_data() { return get_window_data(); }
@@ -137,14 +136,14 @@ Item {
         function test_drag_show(data) {
             panel.fullscreenMode = data.fullscreenFlag;
 
-            var indicator_row = findChild(panel.indicators, "indicatorRow");
-            verify(indicator_row != undefined);
+            var indicatorRow = findChild(panel.indicators, "indicatorRow");
+            verify(indicatorRow != undefined);
 
-            var row_repeater = findChild(panel.indicators, "rowRepeater");
-            verify(indicator_row != undefined);
+            var rowRepeater = findChild(panel.indicators, "rowRepeater");
+            verify(indicatorRow != undefined);
 
-            var menu_content = findChild(panel.indicators, "menuContent");
-            verify(indicator_row != undefined);
+            var menuContent = findChild(panel.indicators, "menuContent");
+            verify(indicatorRow != undefined);
 
             // Wait for the indicators to get into position.
             // (switches between normal and fullscreen modes are animated)
@@ -155,20 +154,20 @@ Item {
             }
 
             // do this for each indicator item
-            for (var i = 0; i < row_repeater.count; i++) {
+            for (var i = 0; i < rowRepeater.count; i++) {
 
-                var indicator_item = get_indicator_item(i);
-                verify(indicator_item != undefined);
+                var indicatorItem = get_indicator_item(i);
+                verify(indicatorItem != undefined);
 
-                var indicator_item_coord = get_indicator_item_position(i);
+                var indicatorItemCoord = get_indicator_item_position(i);
 
                 touchPress(panel,
-                           indicator_item_coord.x, panel.panelHeight / 2);
+                           indicatorItemCoord.x, panel.panelHeight / 2);
 
                 // 1) Drag the mouse down
                 touchFlick(panel,
-                           indicator_item_coord.x, panel.panelHeight / 2,
-                           indicator_item_coord.x, panel.height * 0.8,
+                           indicatorItemCoord.x, panel.panelHeight / 2,
+                           indicatorItemCoord.x, panel.height * 0.8,
                            false /* beginTouch */, false /* endTouch */);
 
                 // Indicators height should follow the drag, and therefore increase accordingly.
@@ -177,13 +176,13 @@ Item {
                     function() {return panel.indicators.height >= panel.height * 0.5},
                     true);
 
-                touchRelease(panel, indicator_item_coord.x, panel.height * 0.8);
+                touchRelease(panel, indicatorItemCoord.x, panel.height * 0.8);
 
-                compare(indicator_row.currentItem, indicator_item,
+                compare(indicatorRow.currentItem, indicatorItem,
                         "Incorrect item activated at position " + i);
-                compare(menu_content.currentIndex, i, "Menu conetent should be enabled for item at position " + i);
+                compare(menuContent.currentMenuIndex, i, "Menu conetent should be enabled for item at position " + i);
 
-                // init for next indicator_item
+                // init for next indicatorItem
                 init();
             }
         }
@@ -192,12 +191,12 @@ Item {
             panel.fullscreenMode = false;
             panel.searchVisible = true;
 
-            var search_indicator = findChild(panel, "search");
-            verify(search_indicator != undefined);
+            var searchIndicator = findChild(panel, "search");
+            verify(searchIndicator != undefined);
 
-            tap(search_indicator, 1, 1);
+            tap(searchIndicator, 1, 1);
 
-            compare(search_clicked, true,
+            compare(searchClicked, true,
                     "Tapping search indicator while it was enabled did not emit searchClicked signal");
         }
 
@@ -205,13 +204,54 @@ Item {
             panel.fullscreenMode = false;
             panel.searchVisible = false;
 
-            var search_indicator = findChild(panel, "search");
-            verify(search_indicator != undefined);
+            var searchIndicator = findChild(panel, "search");
+            verify(searchIndicator != undefined);
 
-            tap(search_indicator, 1, 1);
+            tap(searchIndicator, 1, 1);
 
-            compare(search_clicked, false,
+            compare(searchClicked, false,
                     "Tapping search indicator while it was not visible emitted searchClicked signal");
+        }
+
+        // Test the vertical velocity check when flicking the indicators open at an angle.
+        // If the vertical velocity is above a specific point, we shouldnt change active indicators
+        // if the x position changes
+        function test_vertical_velocity_detector() {
+            panel.fullscreenMode = false;
+            panel.searchVisible = false;
+
+            var indicatorRow = findChild(panel.indicators, "indicatorRow");
+            verify(indicatorRow != undefined);
+
+            var rowRepeater = findChild(panel.indicators, "rowRepeater");
+            verify(indicatorRow != undefined);
+
+            // Get the first indicator
+            var indicatorItemFirst = get_indicator_item(0);
+            verify(indicatorItemFirst != undefined);
+
+            var indicatorItemCoordFirst = get_indicator_item_position(0);
+            var indicatorItemCoordNext = get_indicator_item_position(indicatorRow.count - 1);
+
+            touchPress(panel,
+                       indicatorItemCoordFirst.x, panel.panelHeight / 2);
+
+            // 1) Drag the mouse down to hint a bit
+            touchFlick(panel,
+                       indicatorItemCoordFirst.x, panel.panelHeight / 2,
+                       indicatorItemCoordFirst.x, panel.panelHeight * 2,
+                       false /* beginTouch */, false /* endTouch */);
+
+            tryCompare(indicatorRow, "currentItem", indicatorItemFirst)
+
+            // 1) Flick mouse down to bottom
+            touchFlick(panel,
+                       indicatorItemCoordFirst.x, panel.panelHeight * 2,
+                       indicatorItemCoordNext.x, panel.height,
+                       false /* beginTouch */, true /* endTouch */,
+                       units.gu(10) /* speed */, 30 /* iterations */); // more samples needed for accurate velocity
+
+            compare(indicatorRow.currentItem, indicatorItemFirst, "First indicator should still be the current item");
         }
     }
 }

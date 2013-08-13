@@ -56,6 +56,7 @@ Showable {
     Image {
         anchors.fill: parent
         source: root.required ? root.background : ""
+        fillMode: Image.PreserveAspectCrop
     }
 
     MouseArea {
@@ -69,7 +70,7 @@ Showable {
             left: parent.left
             right: parent.right
             verticalCenter: parent.verticalCenter
-            verticalCenterOffset: root.alphaNumeric ? -units.gu(10) : 0
+            verticalCenterOffset: root.alphaNumeric ? -units.gu(10) : -units.gu(4)
         }
         property bool resetting: false
 
@@ -107,11 +108,11 @@ Showable {
     Column {
         anchors {
             left: parent.left
-            top: pinPadLoader.bottom
-            topMargin: units.gu(4)
-            right: parent.right
             bottom: parent.bottom
+            bottomMargin: units.gu(4)
+            right: parent.right
         }
+        height: childrenRect.height
         spacing: units.gu(1)
 
         Icon {
@@ -120,8 +121,8 @@ Showable {
             width: height
             anchors.horizontalCenter: parent.horizontalCenter
             name: "phone-app-call-symbolic"
-            color: "white"
-            opacity: 0.9
+            color: "#f3f3e7"
+            opacity: 0.6
 
             MouseArea {
                 anchors.fill: parent
@@ -130,9 +131,9 @@ Showable {
         }
 
         Label {
-            text: i18n.tr("Emergency call")
-            color: "white"
-            opacity: 0.9
+            text: i18n.tr("Emergency Call")
+            color: "#f3f3e7"
+            opacity: 0.6
             fontSize: "medium"
             anchors.horizontalCenter: parent.horizontalCenter
         }

@@ -28,6 +28,7 @@
 #include "indicatorsmodel.h"
 #include "indicators.h"
 #include "menucontentactivator.h"
+#include "modelprinter.h"
 
 void IndicatorsPlugin::registerTypes(const char *uri)
 {
@@ -36,6 +37,7 @@ void IndicatorsPlugin::registerTypes(const char *uri)
     qmlRegisterType<IndicatorsManager>(uri, 0, 1, "IndicatorsManager");
     qmlRegisterType<FlatMenuProxyModel>(uri, 0, 1, "FlatMenuProxyModel");
     qmlRegisterType<IndicatorsModel>(uri, 0, 1, "IndicatorsModel");
+    qmlRegisterType<ModelPrinter>(uri, 0, 1, "ModelPrinter");
     qmlRegisterType<MenuContentActivator>(uri, 0, 1, "MenuContentActivator");
 
     qmlRegisterUncreatableType<MenuContentState>(uri, 0, 1, "MenuContentState", "Can't create MenuContentState class");

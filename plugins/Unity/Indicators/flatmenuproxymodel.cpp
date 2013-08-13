@@ -55,31 +55,34 @@ void FlatMenuProxyModel::setSourceModel(QAbstractItemModel *source)
     if (source) {
 
         // FIXME - not working correctly with dynamic inserts/removes
+        // FIXME 2 - We're using Queud connections as a workaround to QTBUG-32859
+        // The signals from qmenumodel are coming straight off the glib event loop,
+        // which is not supported and has the effect of listview delegates not to be deleted.
 
         connect(source,
                 SIGNAL(rowsAboutToBeInserted(QModelIndex,int,int)),
-                SLOT(onModelAboutToBeReset()));
+                SLOT(onModelAboutToBeReset()), Qt::QueuedConnection);
         connect(source,
                 SIGNAL(rowsInserted(QModelIndex,int,int)),
-                SLOT(onModelReset()));
+                SLOT(onModelReset()), Qt::QueuedConnection);
 
         connect(source,
                 SIGNAL(rowsAboutToBeRemoved(QModelIndex,int,int)),
-                SLOT(onModelAboutToBeReset()));
+                SLOT(onModelAboutToBeReset()), Qt::QueuedConnection);
         connect(source,
                 SIGNAL(rowsRemoved(QModelIndex,int,int)),
-                SLOT(onModelReset()));
+                SLOT(onModelReset()), Qt::QueuedConnection);
 
         connect(source,
                 SIGNAL(modelAboutToBeReset()),
-                SLOT(onModelAboutToBeReset()));
+                SLOT(onModelAboutToBeReset()), Qt::QueuedConnection);
         connect(source,
                 SIGNAL(modelReset()),
-                SLOT(onModelReset()));
+                SLOT(onModelReset()), Qt::QueuedConnection);
 
         connect(source,
                 SIGNAL(statusChanged(DBusEnums::ConnectionStatus)),
-                SIGNAL(statusChanged()));
+                SIGNAL(statusChanged()), Qt::QueuedConnection);
 
         // initiliaze rowCount
         QModelIndex lastItem = source->index(source->rowCount() - 1, 0);

@@ -52,8 +52,8 @@ void Scopes::updateScopes()
     clear();
     addScope(new Scope("MockScope1", "People", true, this));
     addScope(new Scope("MockScope2", "Music", false, this));
-    addScope(new Scope("MockScope3", "Home", true, this));
-    addScope(new Scope("MockScope4", "Applications", true, this));
+    addScope(new Scope("home.scope", "Home", true, this));
+    addScope(new Scope("applications.scope", "Applications", true, this));
     addScope(new Scope("MockScope5", "Videos", true, this));
 
     if (!m_loaded) {
