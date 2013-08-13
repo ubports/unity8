@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-06-26 22:58+0200\n"
+"POT-Creation-Date: 2013-08-09 10:12+0200\n"
 "PO-Revision-Date: 2013-07-08 07:25+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitoschido@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-07-31 06:28+0000\n"
-"X-Generator: Launchpad (build 16718)\n"
+"X-Launchpad-Export-Date: 2013-08-10 06:06+0000\n"
+"X-Generator: Launchpad (build 16723)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -85,7 +85,7 @@ msgstr "Wikipedia"
 msgid "YouTube"
 msgstr "YouTube"
 
-#: Components/PageHeader.qml:300
+#: Components/PageHeader.qml:298
 msgid "Recent searches"
 msgstr "Búsquedas recientes"
 
@@ -105,23 +105,23 @@ msgstr "Instaladas"
 msgid "Available for download"
 msgstr "Disponibles para descargar"
 
-#: Dash/DashApps.qml:178
+#: Dash/DashApps.qml:168
 msgid "Apps"
 msgstr "Aplicaciones"
 
-#: Dash/DashHome.qml:40
+#: Dash/DashHome.qml:41
 msgid "Frequent Apps"
 msgstr "Aplicaciones frecuentes"
 
-#: Dash/DashHome.qml:43
+#: Dash/DashHome.qml:44
 msgid "Recent Music"
 msgstr "Música reciente"
 
-#: Dash/DashHome.qml:46
+#: Dash/DashHome.qml:47
 msgid "Videos Popular Online"
 msgstr "Vídeos populares en línea"
 
-#: Dash/DashHome.qml:175
+#: Dash/DashHome.qml:151
 msgid "Home"
 msgstr "Inicio"
 
@@ -141,7 +141,7 @@ msgstr "Lanzamientos nuevos"
 msgid "Top Charting"
 msgstr "Mejor posicionadas"
 
-#: Dash/DashMusic.qml:99
+#: Dash/DashMusic.qml:91
 msgid "Music"
 msgstr "Música"
 
@@ -149,7 +149,7 @@ msgstr "Música"
 msgid "Popular Online"
 msgstr "Populares en línea"
 
-#: Dash/DashVideos.qml:155
+#: Dash/DashVideos.qml:146
 msgid "Videos"
 msgstr "Vídeos"
 
@@ -166,8 +166,8 @@ msgid "Author:"
 msgstr "Autor:"
 
 #: Greeter/Lockscreen.qml:133
-msgid "Emergency call"
-msgstr "Llamada de emergencia"
+msgid "Emergency Call"
+msgstr ""
 
 #: Greeter/PassphraseLockscreen.qml:59
 #, qt-format
@@ -198,23 +198,15 @@ msgstr "Hable ahora…"
 msgid "Speaking..."
 msgstr "Hablando…"
 
-#: Panel/MenuContent.qml:192
-msgid "Device"
-msgstr "Dispositivo"
-
-#: Panel/Menus/Overview/FlightModeWidget.qml:42
-msgid "Flight mode"
-msgstr "Modo de vuelo"
-
-#: Panel/SearchIndicator.qml:26
+#: Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Buscar"
 
-#: plugins/Unity/scope.cpp:268
+#: plugins/Unity/scope.cpp:298
 msgid "Sorry, there is nothing that matches your search."
 msgstr "No hay nada que coincida con su búsqueda."
 
-#: Shell.qml:383
+#: Shell.qml:399
 #, qt-format
 msgid "Please enter %1"
 msgstr "Introduzca %1"
