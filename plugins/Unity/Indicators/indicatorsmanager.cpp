@@ -244,7 +244,7 @@ void IndicatorsManager::setLoaded(bool loaded)
             }
 
             if (event_sent != 0) {
-                qDebug() << "Unable to send indicator event to Upstart";
+                qWarning() << "Unable to send indicator event to Upstart";
             }
         }
     }
