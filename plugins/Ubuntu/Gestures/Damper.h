@@ -24,6 +24,8 @@
  */
 template <class Type> class Damper {
 public:
+    Damper() : m_value(0), m_maxDelta(0) { }
+
     // Maximum delta between the raw value and its dampened counterpart.
     void setMaxDelta(Type maxDelta) {
         if (maxDelta < 0) qFatal("Damper::maxDelta must be a positive number.");

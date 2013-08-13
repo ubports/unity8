@@ -23,6 +23,7 @@
 
 ApplicationInfo::ApplicationInfo(QObject *parent)
     : QObject(parent)
+     ,m_handle(0)
      ,m_stage(MainStage)
      ,m_state(Starting)
      ,m_fullscreen(false)

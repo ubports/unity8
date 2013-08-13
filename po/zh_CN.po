@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-06-26 22:58+0200\n"
+"POT-Creation-Date: 2013-08-09 10:12+0200\n"
 "PO-Revision-Date: 2013-06-27 10:33+0000\n"
 "Last-Translator: Anthony Wong <anthony.wong@canonical.com>\n"
 "Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-08-08 05:15+0000\n"
+"X-Launchpad-Export-Date: 2013-08-10 06:06+0000\n"
 "X-Generator: Launchpad (build 16723)\n"
 
 #: Applications/applications.js:23
@@ -85,7 +85,7 @@ msgstr "维基百科"
 msgid "YouTube"
 msgstr "YouTube"
 
-#: Components/PageHeader.qml:300
+#: Components/PageHeader.qml:298
 msgid "Recent searches"
 msgstr "近期搜索"
 
@@ -105,23 +105,23 @@ msgstr "已安装"
 msgid "Available for download"
 msgstr "可供下载"
 
-#: Dash/DashApps.qml:178
+#: Dash/DashApps.qml:168
 msgid "Apps"
 msgstr "应用程序"
 
-#: Dash/DashHome.qml:40
+#: Dash/DashHome.qml:41
 msgid "Frequent Apps"
 msgstr "常用软件"
 
-#: Dash/DashHome.qml:43
+#: Dash/DashHome.qml:44
 msgid "Recent Music"
 msgstr "近期听过的音乐"
 
-#: Dash/DashHome.qml:46
+#: Dash/DashHome.qml:47
 msgid "Videos Popular Online"
 msgstr "热门在线视频"
 
-#: Dash/DashHome.qml:175
+#: Dash/DashHome.qml:151
 msgid "Home"
 msgstr "主页"
 
@@ -141,7 +141,7 @@ msgstr "新版本"
 msgid "Top Charting"
 msgstr "排行榜图"
 
-#: Dash/DashMusic.qml:99
+#: Dash/DashMusic.qml:91
 msgid "Music"
 msgstr "音乐"
 
@@ -149,7 +149,7 @@ msgstr "音乐"
 msgid "Popular Online"
 msgstr "经常在线"
 
-#: Dash/DashVideos.qml:155
+#: Dash/DashVideos.qml:146
 msgid "Videos"
 msgstr "视频"
 
@@ -166,8 +166,8 @@ msgid "Author:"
 msgstr "作者："
 
 #: Greeter/Lockscreen.qml:133
-msgid "Emergency call"
-msgstr "紧急呼救"
+msgid "Emergency Call"
+msgstr ""
 
 #: Greeter/PassphraseLockscreen.qml:59
 #, qt-format
@@ -198,23 +198,15 @@ msgstr "现在请讲..."
 msgid "Speaking..."
 msgstr "讲话中..."
 
-#: Panel/MenuContent.qml:192
-msgid "Device"
-msgstr "设备"
-
-#: Panel/Menus/Overview/FlightModeWidget.qml:42
-msgid "Flight mode"
-msgstr "飞行模式"
-
-#: Panel/SearchIndicator.qml:26
+#: Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "搜索"
 
-#: plugins/Unity/scope.cpp:268
+#: plugins/Unity/scope.cpp:298
 msgid "Sorry, there is nothing that matches your search."
 msgstr "对不起，没有找到您想要的结果。"
 
-#: Shell.qml:383
+#: Shell.qml:399
 #, qt-format
 msgid "Please enter %1"
 msgstr ""
