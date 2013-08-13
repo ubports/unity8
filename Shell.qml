@@ -43,7 +43,7 @@ FocusScope {
 
     property real edgeSize: units.gu(2)
     property url defaultBackground: shell.width >= units.gu(60) ? "graphics/tablet_background.jpg" : "graphics/phone_background.jpg"
-    readonly property alias background: backgroundImage.source
+    property url background
     readonly property real panelHeight: panel.panelHeight
 
     property bool dashShown: dash.shown
@@ -119,6 +119,26 @@ FocusScope {
     GSettings {
         id: backgroundSettings
         schema.id: "org.gnome.desktop.background"
+
+    }
+    property url gSettingsPicture: backgroundSettings.pictureUri.length > 0 ? backgroundSettings.pictureUri : shell.defaultBackground
+    onGSettingsPictureChanged: {
+        shell.background = gSettingsPicture
+    }
+
+    // This is a dummy image that is needed to determine if the picture url
+    // in backgroundSettings points to a valid picture file.
+    Image {
+        source: shell.background
+        height: 0
+        width: 0
+        sourceSize.height: 0
+        sourceSize.width: 0
+        onStatusChanged: {
+            if (status == Image.Error && source != shell.defaultBackground) {
+                shell.background = defaultBackground
+            }
+        }
     }
 
     VolumeControl {
@@ -149,19 +169,8 @@ FocusScope {
             id: backgroundImage
             objectName: "backgroundImage"
 
-            property url gSettingsPicture: backgroundSettings.pictureUri.length > 0 ? backgroundSettings.pictureUri : defaultBackground
-
             anchors.fill: parent
-
-            onGSettingsPictureChanged: {
-                source = gSettingsPicture
-            }
-
-            onStatusChanged: {
-                if (status == Image.Error && source != defaultBackground) {
-                    source = defaultBackground
-                }
-            }
+            source: shell.background
         }
 
         Rectangle {
