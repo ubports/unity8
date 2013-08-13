@@ -41,6 +41,12 @@ Item {
 
     /* Maximum number of rows to be show when filter=true. */
     property int collapsedRowCount: 2
+    readonly property int collapsedHeight: {
+        return iconTileGrid.contentHeightForRows(Math.min(collapsedRowCount, Math.ceil(model.count / columns))) //
+    }
+    readonly property int uncollapsedHeight: {
+        return iconTileGrid.contentHeightForRows(Math.ceil(model.count / columns)) //
+    }
 
     property alias minimumHorizontalSpacing: iconTileGrid.minimumHorizontalSpacing
     property alias maximumNumberOfColumns: iconTileGrid.maximumNumberOfColumns
@@ -55,7 +61,26 @@ Item {
     readonly property alias moving: iconTileGrid.moving
     readonly property alias pressDelay: iconTileGrid.pressDelay
 
-    height: childrenRect.height
+    height: !filterAnimation.running ? childrenRect.height : height
+    clip: filterAnimation.running
+
+    NumberAnimation {
+        property bool filterEndValue
+        id: filterAnimation
+        target: root
+        property: "height"
+        duration: 200
+        to: filterEndValue ? root.collapsedHeight : root.uncollapsedHeight
+        easing.type: Easing.InOutQuad
+        onStopped: {
+            root.filter = filterEndValue;
+        }
+    }
+
+    function startFilterAnimation(filter) {
+        filterAnimation.filterEndValue = filter
+        filterAnimation.start();
+    }
 
     ResponsiveGridView {
         id: iconTileGrid
@@ -72,7 +97,7 @@ Item {
 
         model: LimitProxyModel {
             model: root.model
-            limit: (filter) ? collapsedRowCount * iconTileGrid.columns : -1
+            limit: (filter && !filterAnimation.running) ? collapsedRowCount * iconTileGrid.columns : -1
         }
 
     }

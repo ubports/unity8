@@ -73,9 +73,6 @@ ScopeView {
 
                 onLoaded: {
                     item.model = results
-                    if (item.expandable) {
-                        item.filter = Qt.binding(function() { return index != categoryView.expandedIndex; });
-                    }
                 }
 
                 Connections {
@@ -107,6 +104,25 @@ ScopeView {
                     onFilterChanged: {
                         if (!target.filter) {
                             categoryView.maximizeVisibleArea(index);
+                        }
+                    }
+                }
+                Connections {
+                    target: categoryView
+                    onExpandedIndexChanged: {
+                        var item = rendererLoader.item;
+                        if (item.expandable) {
+                            var shouldFilter = index != categoryView.expandedIndex;
+                            if (shouldFilter != item.filter) {
+                                // If the filter animation will be seen start it, otherwise, just flip the switch
+                                var shrinkingVisible = shouldFilter && y + item.collapsedHeight < categoryView.height;
+                                var growingVisible = !shouldFilter && y + height < categoryView.height;
+                                if (shrinkingVisible || growingVisible) {
+                                    item.startFilterAnimation(shouldFilter)
+                                } else {
+                                    item.filter = shouldFilter;
+                                }
+                            }
                         }
                     }
                 }
