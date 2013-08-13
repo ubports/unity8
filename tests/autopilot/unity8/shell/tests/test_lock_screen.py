@@ -27,7 +27,9 @@ from autopilot.matchers import Eventually
 from autopilot.platform import model
 from testtools import skipUnless
 from testtools.matchers import Equals
+import logging
 
+logger = logging.getLogger(__name__)
 
 class TestLockscreen(UnityTestCase):
 
@@ -144,6 +146,7 @@ class TestLockscreen(UnityTestCase):
         pinentryField = self.main_window.get_pinentryField()
         self.touch.tap_object(pinentryField)
         self.keyboard.type(passphrase)
+        logger.debug("Typed passphrase: %s", pinentryField.text)
         self.keyboard.type("\n")
 
     def _enter_prompt_passphrase(self, passphrase):
@@ -160,4 +163,5 @@ class TestLockscreen(UnityTestCase):
         prompt = self.main_window.get_greeter().get_prompt()
         self.touch.tap_object(prompt)
         self.keyboard.type(passphrase)
+        logger.debug("Typed passphrase: %s", prompt.text)
         self.keyboard.type("\n")
