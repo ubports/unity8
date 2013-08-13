@@ -21,8 +21,9 @@
 
 #include "DownloadTracker.h"
 
-DownloadTracker::DownloadTracker(QObject *parent) :
-    QObject(parent)
+DownloadTracker::DownloadTracker(QObject *parent)
+    : QObject(parent)
+    , m_adaptor(nullptr)
 {
 }
 
@@ -79,5 +80,5 @@ void DownloadTracker::startService()
         connect(m_adaptor, SIGNAL(started(bool)), this, SIGNAL(started(bool)));
     }
     // FIXME find a better way of determining if the service is ready
-    Q_EMIT serviceReadyChanged(m_adaptor->isValid());
+    Q_EMIT serviceReadyChanged(m_adaptor && m_adaptor->isValid());
 }
