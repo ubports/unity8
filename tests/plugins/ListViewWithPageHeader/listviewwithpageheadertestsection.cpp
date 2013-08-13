@@ -1506,7 +1506,7 @@ private Q_SLOTS:
 
         lvwph->showHeader();
 
-        QTRY_VERIFY(!lvwph->m_headerShowAnimation->isRunning());
+        QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
         QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
         verifyItem(0, -20., 190., false, "Agressive", true);
@@ -1565,7 +1565,7 @@ private Q_SLOTS:
 
         lvwph->showHeader();
 
-        QTRY_VERIFY(!lvwph->m_headerShowAnimation->isRunning());
+        QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
         verifyItem(0, -375., 190., true, "Agressive", true);
@@ -1607,7 +1607,7 @@ private Q_SLOTS:
 
         lvwph->showHeader();
 
-        QTRY_VERIFY(!lvwph->m_headerShowAnimation->isRunning());
+        QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
         QTRY_VERIFY (lvwph->isAtYEnd());
     }
 
@@ -1689,6 +1689,348 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItem->height(), 50.);
         QCOMPARE(lvwph->contentY(), 1970.);
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+    }
+
+    void testCullOnBottomEdge()
+    {
+        changeContentY(240);
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, -190., 190., true, "Agressive", true);
+        verifyItem(1, 0., 240., false, "Regular", false);
+        verifyItem(2, 240., 390., false, "Mild", false);
+        verifyItem(3, 630., 390., true, "Bold", true);
+        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_clipItem->y(), 240.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 240.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+        QVERIFY(QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
+    }
+
+    void testSectionItemCullOnFirstSectionItemTopEdge()
+    {
+        changeContentY(50);
+
+        verifyItem(0, 0., 190., false, "Agressive", false);
+        verifyItem(1, 190., 240., false, "Regular", false);
+        verifyItem(2, 430., 390., false, "Mild", false);
+        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_clipItem->y(), 50.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 50.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+        QVERIFY(QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
+    }
+
+    void testSectionItemCullOnSecondSectionItemTopEdge()
+    {
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 50), Q_ARG(QVariant, "Agressive"));
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 50), Q_ARG(QVariant, "Agressive"));
+
+        changeContentY(140);
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 5);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, -90., 90., true, "Agressive", true);
+        verifyItem(1, 0., 50., false, QString(), false);
+        verifyItem(2, 50., 150., false, QString(), false);
+        verifyItem(3, 200., 240., false, "Regular", false);
+        verifyItem(4, 440., 390., false, "Mild", false);
+        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_clipItem->y(), 140.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 140.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+        QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
+        QCOMPARE(section(lvwph->m_topSectionItem), QString("Agressive"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 0);
+        QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
+    }
+
+    void testMaximizeVisibleArea()
+    {
+        bool res = lvwph->maximizeVisibleArea(2);
+        QVERIFY(res);
+        QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, -278., 190., true, "Agressive", true);
+        verifyItem(1, -88., 240., false, "Regular", true);
+        verifyItem(2, 152, 390., false, "Mild", false);
+        verifyItem(3, 542, 390., true, "Bold", true);
+        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_clipItem->y(), 328.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 328.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+        QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
+        QCOMPARE(section(lvwph->m_topSectionItem), QString("Regular"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 1);
+        QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
+    }
+
+    void testMaximizeVisibleAreaVisibleItems()
+    {
+        bool res = lvwph->maximizeVisibleArea(0);
+        QVERIFY(res);
+        QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
+
+        verifyInitialTopPosition();
+
+        res = lvwph->maximizeVisibleArea(1);
+        QVERIFY(res);
+        QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
+
+        verifyInitialTopPosition();
+    }
+
+    void testMaximizeVisibleAreaInvalidIndexes()
+    {
+        bool res = lvwph->maximizeVisibleArea(-1);
+        QVERIFY(!res);
+        QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
+
+        verifyInitialTopPosition();
+
+        res = lvwph->maximizeVisibleArea(1000);
+        QVERIFY(!res);
+        QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
+
+        verifyInitialTopPosition();
+
+        res = lvwph->maximizeVisibleArea(3);
+        QVERIFY(!res);
+        QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
+
+        verifyInitialTopPosition();
+    }
+
+    void testMaximizeVisibleAreaBigElement()
+    {
+        model->setProperty(2, "size", 4000);
+        verifyItem(2, 480, 4040., false, "Mild", false);
+
+        bool res = lvwph->maximizeVisibleArea(2);
+        QVERIFY(res);
+        QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, -430., 190., true, "Agressive", true);
+        verifyItem(1, -240., 240., true, "Regular", true);
+        verifyItem(2, 0, 4040., false, "Mild", false);
+        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_clipItem->y(), 480.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 480.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+        QVERIFY(QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
+    }
+
+    void testMaximizeVisibleAreaScrollDown()
+    {
+        changeContentY(350);
+        bool res = lvwph->maximizeVisibleArea(1);
+        QVERIFY(res);
+        QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, -190., 190., true, "Agressive", true);
+        verifyItem(1, 0., 240., false, "Regular", false);
+        verifyItem(2, 240, 390., false, "Mild", false);
+        verifyItem(3, 630, 390., true, "Bold", true);
+        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_clipItem->y(), 240.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 240.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+        QVERIFY(QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
+    }
+
+    void testMaximizeVisibleAreaScrollDownBigElement()
+    {
+        model->setProperty(1, "size", 1000);
+        changeContentY(1150);
+        bool res = lvwph->maximizeVisibleArea(1);
+        QVERIFY(res);
+        QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 2);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 1);
+        verifyItem(0, -498., 1040., false, "Regular", true);
+        verifyItem(1, 542., 390., true, "Mild", true);
+        QCOMPARE(lvwph->m_minYExtent, 1250/3.);
+        QCOMPARE(lvwph->m_clipItem->y(), 738.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 738.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+        QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
+        QCOMPARE(section(lvwph->m_topSectionItem), QString("Regular"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 1);
+        QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
+    }
+
+    void testMaximizeVisibleAreaBigElementInTheMiddle()
+    {
+        model->setProperty(1, "size", 1000);
+        changeContentY(650);
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 2);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 1);
+        verifyItem(0, -410., 1040., false, "Regular", true);
+        verifyItem(1, 630., 390., true, "Mild", true);
+        QCOMPARE(lvwph->m_minYExtent, 525.);
+        QCOMPARE(lvwph->m_clipItem->y(), 650.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 650.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+        QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
+        QCOMPARE(section(lvwph->m_topSectionItem), QString("Regular"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 1);
+        QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
+
+        bool res = lvwph->maximizeVisibleArea(1);
+        QVERIFY(res);
+        QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 2);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 1);
+        verifyItem(0, -410., 1040., false, "Regular", true);
+        verifyItem(1, 630., 390., true, "Mild", true);
+        QCOMPARE(lvwph->m_minYExtent, 525.);
+        QCOMPARE(lvwph->m_clipItem->y(), 650.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 650.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+        QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
+        QCOMPARE(section(lvwph->m_topSectionItem), QString("Regular"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 1);
+        QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
+    }
+
+    void testMaximizeVisibleAreaTopWithHalfPageHeader()
+    {
+        changeContentY(430);
+        changeContentY(-30);
+
+        bool res = lvwph->maximizeVisibleArea(1);
+        QVERIFY(res);
+        QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, -190., 190., true, "Agressive", true);
+        verifyItem(1, 0., 240., false, "Regular", false);
+        verifyItem(2, 240, 390., false, "Mild", false);
+        verifyItem(3, 630, 390., true, "Bold", true);
+        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_clipItem->y(), 240.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 240.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+        QVERIFY(QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
+    }
+
+    void testMaximizeVisibleAreaBottomWithHalfPageHeader()
+    {
+        changeContentY(430);
+        changeContentY(-30);
+
+        bool res = lvwph->maximizeVisibleArea(3);
+        QVERIFY(res);
+        QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 1);
+        verifyItem(0, -478., 240., true, "Regular", true);
+        verifyItem(1, -238., 390., false, "Mild", true);
+        verifyItem(2, 152, 390., false, "Bold", false);
+        verifyItem(3, 542, 350., true, QString(), true);
+        QCOMPARE(lvwph->m_minYExtent, 152.5);
+        QCOMPARE(lvwph->m_clipItem->y(), 718.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 718.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+        QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
+        QCOMPARE(section(lvwph->m_topSectionItem), QString("Mild"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 2);
+        QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
+    }
+
+    void testMaximizeVisibleAreaTopSecondSectionItemStickySection()
+    {
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 100), Q_ARG(QVariant, "Agressive"));
+        changeContentY(250);
+        bool res = lvwph->maximizeVisibleArea(1);
+        QVERIFY(res);
+        QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, -100., 140., false, "Agressive", true);
+        verifyItem(1, 40., 150., false, QString(), true);
+        verifyItem(2, 190, 240., false, "Regular", false);
+        verifyItem(3, 430, 390., false, "Mild", false);
+        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_clipItem->y(), 150.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 150.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+        QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
+        QCOMPARE(section(lvwph->m_topSectionItem), QString("Agressive"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 0);
+        QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
+
+        changeContentY(20);
+        res = lvwph->maximizeVisibleArea(1);
+        QVERIFY(res);
+        QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, -100., 140., false, "Agressive", true);
+        verifyItem(1, 40., 150., false, QString(), true);
+        verifyItem(2, 190, 240., false, "Regular", false);
+        verifyItem(3, 430, 390., false, "Mild", false);
+        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_clipItem->y(), 150.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 150.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+        QVERIFY(!QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
+        QCOMPARE(section(lvwph->m_topSectionItem), QString("Agressive"));
+        QCOMPARE(sectionDelegateIndex(lvwph->m_topSectionItem), 0);
+        QCOMPARE(lvwph->m_topSectionItem->y(), 0.);
     }
 
 private:

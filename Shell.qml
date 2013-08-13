@@ -15,7 +15,6 @@
  */
 
 import QtQuick 2.0
-import GSettings 1.0
 import Ubuntu.Application 0.1
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
@@ -42,8 +41,8 @@ FocusScope {
     height: tablet ? units.gu(100) : applicationArguments.hasGeometry() ? applicationArguments.height() : units.gu(71)
 
     property real edgeSize: units.gu(2)
-    property url defaultBackground: shell.width >= units.gu(60) ? "graphics/tablet_background.jpg" : "graphics/phone_background.jpg"
-    property url background: backgroundSettings.pictureUri
+    property url default_background: shell.width >= units.gu(60) ? "graphics/tablet_background.jpg" : "graphics/phone_background.jpg"
+    property url background: default_background
     readonly property real panelHeight: panel.panelHeight
 
     property bool dashShown: dash.shown
@@ -114,23 +113,12 @@ FocusScope {
         }
     }
 
-    GSettings {
-        id: backgroundSettings
-        schema.id: "org.gnome.desktop.background"
-    }
-
     VolumeControl {
         id: volumeControl
     }
 
     Keys.onVolumeUpPressed: volumeControl.volumeUp()
     Keys.onVolumeDownPressed: volumeControl.volumeDown()
-
-    Keys.onReleased: {
-        if (event.key == Qt.Key_PowerOff) {
-            greeter.show()
-        }
-    }
 
     Item {
         id: underlay
@@ -149,16 +137,12 @@ FocusScope {
         // through the translucent parts of the shell surface.
         visible: !fullyCovered && !applicationSurfaceShouldBeSeen
 
-        CrossFadeImage {
+        Image {
             id: backgroundImage
-            objectName: "backgroundImage"
             source: shell.background
+            sourceSize.width: parent.width
+            sourceSize.height: parent.height
             anchors.fill: parent
-            onStatusChanged: {
-                if (status == Image.Error) {
-                    backgroundSettings.pictureUri = shell.defaultBackground
-                }
-            }
         }
 
         Rectangle {
@@ -202,6 +186,7 @@ FocusScope {
             Behavior on disappearingAnimationProgress { SmoothedAnimation { velocity: 5 }}
         }
     }
+
 
     Item {
         id: stagesOuterContainer
@@ -266,6 +251,7 @@ FocusScope {
                 }
                 ignoreUnknownSignals: true
             }
+
 
             Stage {
                 id: mainStage
@@ -442,7 +428,7 @@ FocusScope {
         onUnlocked: greeter.hide()
         onSelected: {
             var bgPath = greeter.model.data(uid, LightDM.UserRoles.BackgroundPathRole)
-            shell.background = bgPath ? bgPath : defaultBackground
+            shell.background = bgPath ? bgPath : default_background
         }
 
         onLeftTeaserPressedChanged: {
@@ -486,6 +472,7 @@ FocusScope {
         onPowerStateChange: {
             if (state == 0) { // suspend
                 powerConnection.setFocused(false);
+                greeter.show();
             } else if (state == 1) { // active
                 powerConnection.setFocused(true);
             }
@@ -674,7 +661,7 @@ FocusScope {
     }
 
     Label {
-        anchors.fill: parent
+        anchors.centerIn: parent
         visible: applicationManager.fake
         text: "EARLY ALPHA\nNOT READY FOR USE"
         color: "lightgrey"
@@ -683,7 +670,7 @@ FocusScope {
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         fontSizeMode: Text.Fit
-        font.pixelSize: height/2
         rotation: -45
+        scale: Math.min(parent.width, parent.height) / width
     }
 }

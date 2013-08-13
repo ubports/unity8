@@ -160,16 +160,16 @@ ListViewWithPageHeader::ListViewWithPageHeader()
 //     m_clipItem = new QQuickRectangle(contentItem());
 //     ((QQuickRectangle*)m_clipItem)->setColor(Qt::gray);
 
-    m_headerShowAnimation = new QQuickNumberAnimation(this);
-    m_headerShowAnimation->setEasing(QEasingCurve::OutQuad);
-    m_headerShowAnimation->setProperty("contentY");
-    m_headerShowAnimation->setDuration(200);
-    m_headerShowAnimation->setTargetObject(this);
+    m_contentYAnimation = new QQuickNumberAnimation(this);
+    m_contentYAnimation->setEasing(QEasingCurve::OutQuad);
+    m_contentYAnimation->setProperty("contentY");
+    m_contentYAnimation->setDuration(200);
+    m_contentYAnimation->setTargetObject(this);
 
     connect(this, SIGNAL(contentWidthChanged()), this, SLOT(onContentWidthChanged()));
     connect(this, SIGNAL(contentHeightChanged()), this, SLOT(onContentHeightChanged()));
     connect(this, SIGNAL(heightChanged()), this, SLOT(onHeightChanged()));
-    connect(m_headerShowAnimation, SIGNAL(stopped()), this, SLOT(onShowHeaderAnimationFinished()));
+    connect(m_contentYAnimation, SIGNAL(stopped()), this, SLOT(onShowHeaderAnimationFinished()));
 }
 
 ListViewWithPageHeader::~ListViewWithPageHeader()
@@ -374,9 +374,46 @@ void ListViewWithPageHeader::showHeader()
                 layout();
             }
         }
-        m_headerShowAnimation->setTo(to);
-        m_headerShowAnimation->start();
+        m_contentYAnimation->setTo(to);
+        contentYAnimationType = ContentYAnimationShowHeader;
+        m_contentYAnimation->start();
     }
+}
+
+bool ListViewWithPageHeader::maximizeVisibleArea(int modelIndex)
+{
+    ListItem *listItem = itemAtIndex(modelIndex);
+    if (listItem)
+    {
+        const auto listItemY = m_clipItem->y() + listItem->y();
+        if (listItemY > contentY() && listItemY + listItem->height() > contentY() + height()) {
+            // we can scroll the list up to show more stuff
+            const auto to = qMin(listItemY, listItemY + listItem->height() - height());
+            m_contentYAnimation->setTo(to);
+            contentYAnimationType = ContentYAnimationMaximizeVisibleArea;
+            m_contentYAnimation->start();
+        } else if ((listItemY < contentY() && listItemY + listItem->height() < contentY() + height()) ||
+                   (m_topSectionItem && !listItem->m_sectionItem && listItemY - m_topSectionItem->height() < contentY() && listItemY + listItem->height() < contentY() + height()))
+        {
+            // we can scroll the list down to show more stuff
+            auto realVisibleListItemY = listItemY;
+            if (m_topSectionItem) {
+                // If we are showing the top section sticky item and this item doesn't have a section
+                // item we have to make sure to scroll it a bit more so that it is not underlapping
+                // the top section sticky item
+                bool topSectionShown = !QQuickItemPrivate::get(m_topSectionItem)->culled;
+                if (topSectionShown && !listItem->m_sectionItem) {
+                    realVisibleListItemY -= m_topSectionItem->height();
+                }
+            }
+            const auto to = qMax(realVisibleListItemY, listItemY + listItem->height() - height());
+            m_contentYAnimation->setTo(to);
+            contentYAnimationType = ContentYAnimationMaximizeVisibleArea;
+            m_contentYAnimation->start();
+        }
+        return true;
+    }
+    return false;
 }
 
 qreal ListViewWithPageHeader::minYExtent() const
@@ -400,6 +437,7 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
     QQuickFlickable::viewportMoved(orient);
 //     qDebug() << "ListViewWithPageHeader::viewportMoved" << contentY();
     qreal diff = m_previousContentY - contentY();
+    const bool showHeaderAnimationRunning = m_contentYAnimation->isRunning() && contentYAnimationType == ContentYAnimationShowHeader;
     if (m_headerItem) {
         auto oldHeaderItemShownHeight = m_headerItemShownHeight;
         if (contentY() < -m_minYExtent) {
@@ -410,16 +448,20 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
             m_headerItem->setHeight(m_headerItem->implicitHeight());
             // We are going down (but it's not because of the rebound at the end)
             // (but the header was not shown by it's own position)
-            // or the header is partially shown
+            // or the header is partially shown and we are not doing a maximizeVisibleArea either
             const bool scrolledUp = m_previousContentY > contentY();
             const bool notRebounding = contentY() + height() < contentHeight();
             const bool notShownByItsOwn = contentY() + diff > m_headerItem->y() + m_headerItem->height();
+            const bool maximizeVisibleAreaRunning = m_contentYAnimation->isRunning() && contentYAnimationType == ContentYAnimationMaximizeVisibleArea;
 
             if (!scrolledUp && contentY() == -m_minYExtent) {
                 m_headerItemShownHeight = 0;
                 m_headerItem->setY(contentY());
-            } else if ((scrolledUp && notRebounding && notShownByItsOwn) || (m_headerItemShownHeight > 0)) {
-                m_headerItemShownHeight += diff;
+            } else if ((scrolledUp && notRebounding && notShownByItsOwn && !maximizeVisibleAreaRunning) || (m_headerItemShownHeight > 0)) {
+                if (maximizeVisibleAreaRunning && diff > 0) // If we are maximizing and the header was shown, make sure we hide it
+                    m_headerItemShownHeight -= diff;
+                else
+                    m_headerItemShownHeight += diff;
                 if (contentY() == -m_minYExtent) {
                     m_headerItemShownHeight = 0;
                 } else {
@@ -435,7 +477,7 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
         // We will be changing the clip item, need to accomadate for it
         // otherwise we move the firstItem down/up twice (unless the
         // show header animation is running, where we want to keep the viewport stable)
-        if (!m_headerShowAnimation->isRunning()) {
+        if (!showHeaderAnimationRunning) {
             diff += oldHeaderItemShownHeight - m_headerItemShownHeight;
         } else {
             diff = -diff;
@@ -445,7 +487,7 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
         updateClipItem();
         ListItem *firstItem = m_visibleItems.first();
         firstItem->setY(firstItem->y() + diff);
-        if (m_headerShowAnimation->isRunning()) {
+        if (showHeaderAnimationRunning) {
             adjustMinYExtent();
         }
     }
@@ -734,7 +776,7 @@ ListViewWithPageHeader::ListItem *ListViewWithPageHeader::createItem(int modelIn
             releaseItem(listItem);
             listItem = nullptr;
         } else {
-            listItem->setCulled(listItem->y() + listItem->height() + m_clipItem->y() < contentY() || listItem->y() + m_clipItem->y() >= contentY() + height());
+            listItem->setCulled(listItem->y() + listItem->height() + m_clipItem->y() <= contentY() || listItem->y() + m_clipItem->y() >= contentY() + height());
             if (m_visibleItems.isEmpty()) {
                 m_visibleItems << listItem;
             } else {
@@ -1040,7 +1082,7 @@ void ListViewWithPageHeader::layout()
         int firstReallyVisibleItem = -1;
         int modelIndex = m_firstVisibleIndex;
         Q_FOREACH(ListItem *item, m_visibleItems) {
-            const bool cull = pos + item->height() < visibleFrom || pos >= visibleTo;
+            const bool cull = pos + item->height() <= visibleFrom || pos >= visibleTo;
             item->setCulled(cull);
             item->setY(pos);
             if (!cull && firstReallyVisibleItem == -1) {
@@ -1052,7 +1094,19 @@ void ListViewWithPageHeader::layout()
                     // Then after the loop we'll make sure that if there's another section just below it
                     // pushed the sticky section up to make it disappear
                     const qreal topSectionStickPos = m_headerItemShownHeight + contentY() - m_clipItem->y();
-                    if (topSectionStickPos <= pos) {
+                    bool showStickySectionItem;
+                    // We need to show the "top section sticky item" when the position at the "top" of the
+                    // viewport is bigger than the start of the position of the first visible item
+                    // i.e. the first visible item starts before the viewport, or when the first
+                    // visible item starts just at the viewport start and it does not have its own section item
+                    if (topSectionStickPos > pos) {
+                        showStickySectionItem = true;
+                    } else if (topSectionStickPos == pos) {
+                        showStickySectionItem = !item->m_sectionItem;
+                    } else {
+                        showStickySectionItem = false;
+                    }
+                    if (!showStickySectionItem) {
                         QQuickItemPrivate::get(m_topSectionItem)->setCulled(true);
                         if (item->m_sectionItem) {
                             // This seems it should happen since why would we cull the top section

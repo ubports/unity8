@@ -20,6 +20,7 @@ xgettext \
     --qt --c++ \
     --add-comments=TRANSLATORS \
     --keyword=tr \
+    --keyword=tr:1,2 \
     --package-name="unity8" \
     --copyright-holder="Canonical Ltd."
 
