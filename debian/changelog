@@ -1,3 +1,25 @@
+unity8 (7.81.3+13.10.20130813.1-0ubuntu1) saucy; urgency=low
+
+  [ Michael Zanetti ]
+  * don't scale the EARLY ALPHA warning text bigger than the screen is.
+
+  [ Michał Sawicz ]
+  * Add debug logging to passphrase entry.
+
+  [ Albert Astals ]
+  * Remove unneeded stuff from CMakelists.txt set(CMAKE_AUTOMOC ON)
+    include(FindPkgConfig) find_package(Qt5Core REQUIRED)
+    find_package(Qt5Quick REQUIRED) Are already on the top-level
+    CMakeLists.txt so no need to write them again Well, actually the
+    Qt5Core wasn't and i added it, it's not really necessary since it's
+    pulled by the others that depend on it, but it doesn't hurt to be
+    explicit.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 189
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 13 Aug 2013 14:08:32 +0000
+
 unity8 (7.81.3+13.10.20130812.1-0ubuntu1) saucy; urgency=low
 
   [ Michael Zanetti ]
