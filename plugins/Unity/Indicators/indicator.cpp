@@ -22,7 +22,8 @@
 #include <QStringList>
 
 Indicator::Indicator(QObject *parent)
-    : QObject(parent)
+    : QObject(parent),
+      m_position(0)
 {
 }
 
@@ -33,6 +34,7 @@ Indicator::~Indicator()
 void Indicator::init(const QString& busName, const QSettings& settings)
 {
     setId(settings.value("Indicator Service/Name").toString());
+    setPosition(settings.value("Indicator Service/Position", QVariant::fromValue(0)).toInt());
 
     QString actionObjectPath = settings.value("Indicator Service/ObjectPath").toString();
 
@@ -69,6 +71,19 @@ void Indicator::setId(const QString &identifier)
     if (identifier != m_identifier) {
         m_identifier = identifier;
         Q_EMIT identifierChanged(m_identifier);
+    }
+}
+
+int Indicator::position() const
+{
+    return m_position;
+}
+
+void Indicator::setPosition(int position)
+{
+    if (position != m_position) {
+        m_position = position;
+        Q_EMIT positionChanged(m_position);
     }
 }
 

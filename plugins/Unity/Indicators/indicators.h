@@ -73,7 +73,7 @@ public:
     Q_ENUMS(Roles)
     enum Roles {
         Identifier = 0,
-        Priority,
+        Position,
         Title,
         Description,
         WidgetSource,
