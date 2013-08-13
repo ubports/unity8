@@ -31,17 +31,19 @@ SessionManager::SessionManager(QObject* parent)
                                     "/org/freedesktop/login1",
                                     "org.freedesktop.login1.Manager",
                                     QDBusConnection::SM_BUSNAME(), this);
-    if (l1_manager->isValid()) {
+    if (l1_manager->isValid() && QString(qgetenv("XDG_SESSION_ID")) != "") {
         QDBusPendingCall pcall = l1_manager->asyncCall("GetSession", QString(qgetenv("XDG_SESSION_ID")));
         QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pcall, this);
         QObject::connect(watcher, SIGNAL(finished(QDBusPendingCallWatcher*)),
                          this, SLOT(getSessionSlot(QDBusPendingCallWatcher*)));
     }
 
-    ldm_session = new QDBusInterface("org.freedesktop.DisplayManager",
-                                     QString(qgetenv("XDG_SESSION_PATH")),
-                                     "org.freedesktop.DisplayManager.Session",
-                                     QDBusConnection::SM_BUSNAME(), this);
+    if (QString(qgetenv("XDG_SESSION_PATH")) != "") {
+        ldm_session = new QDBusInterface("org.freedesktop.DisplayManager",
+                                         QString(qgetenv("XDG_SESSION_PATH")),
+                                         "org.freedesktop.DisplayManager.Session",
+                                         QDBusConnection::SM_BUSNAME(), this);
+    }
 }
 
 bool SessionManager::active() const
