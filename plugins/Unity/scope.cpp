@@ -226,7 +226,7 @@ void Scope::fallbackActivate(const QString& uri)
     }
     if (url.scheme() == "application") {
         // get the full path to the desktop file
-        QString path(url.authority());
+        QString path(url.path().isEmpty() ? url.authority() : url.path());
         if (path.startsWith("/")) {
             Q_EMIT activateApplication(path);
         } else {
