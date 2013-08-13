@@ -170,4 +170,95 @@ ScopeView {
             searchHistory: scopeView.searchHistory
         }
     }
+
+    OpenEffect {
+        id: effect
+        anchors {
+            fill: parent
+            bottomMargin: -bottomOverflow
+        }
+        sourceItem: categoryView
+
+        enabled: gap > 0.0
+
+        topGapPx: (1 - gap) * positionPx
+        topOpacity: (1 - gap * 1.2)
+        bottomGapPx: positionPx + gap * (targetBottomGapPx - positionPx)
+        bottomOverflow: units.gu(20)
+        bottomOpacity: 1 - (gap * 0.8)
+
+        property int targetBottomGapPx: height - units.gu(8) - bottomOverflow
+        property real gap: previewLoader.open ? 1.0 : 0.0
+
+        Behavior on gap {
+            NumberAnimation {
+                duration: 200
+                easing.type: Easing.InOutQuad
+                onRunningChanged: {
+                    if (!previewLoader.open && !running) {
+                        previewLoader.onScreen = false
+                    }
+                }
+            }
+        }
+    }
+
+    Connections {
+        target: scopeView.scope
+        onPreviewReady: {
+            previewLoader.previewData = preview
+            previewLoader.open = true
+        }
+    }
+
+    Connections {
+        ignoreUnknownSignals: true
+        target: previewLoader.valid ? previewLoader.item : null
+        onClose: {
+            previewLoader.open = false
+        }
+    }
+
+    PreviewDelegateMapper {
+        id: previewDelegateMapper
+    }
+
+    Loader {
+        id: previewLoader
+        property var previewData
+        height: effect.bottomGapPx - effect.topGapPx
+        anchors {
+            top: parent.top
+            topMargin: effect.topGapPx
+            left: parent.left
+            right: parent.right
+        }
+        source: onScreen ? previewDelegateMapper.map("preview-application") : ""
+
+        property bool open: false
+        property bool onScreen: false
+        property bool valid: item !== null
+
+        onOpenChanged: {
+            if (open) {
+                onScreen = true
+            }
+        }
+
+        onLoaded: {
+            item.previewData = previewLoader.previewData
+        }
+    }
+
+    // TODO: Move as InverseMouseArea to DashPreview
+    MouseArea {
+        enabled: previewLoader.onScreen
+        anchors {
+            fill: parent
+            topMargin: effect.bottomGapPx
+        }
+        onClicked: {
+            previewLoader.open = false;
+        }
+    }
 }

@@ -211,7 +211,7 @@ ScopeView {
         }
 
         onLoaded: {
-            item.previewData = previewLoader.previewData
+            item.previewData = Qt.binding(function() { return previewLoader.previewData })
         }
     }
 
