@@ -58,7 +58,7 @@ Q_SIGNALS:
 private:
     QString m_dbusPath;
     QString m_service;
-    bool m_active = false;
+    bool m_active;
 
     void startService();
 };

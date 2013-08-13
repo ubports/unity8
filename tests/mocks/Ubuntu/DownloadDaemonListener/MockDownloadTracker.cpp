@@ -21,8 +21,9 @@
 
 #include "MockDownloadTracker.h"
 
-MockDownloadTracker::MockDownloadTracker(QObject *parent) :
-    QObject(parent)
+MockDownloadTracker::MockDownloadTracker(QObject *parent)
+    : QObject(parent)
+    , m_active(false)
 {
 }
 
