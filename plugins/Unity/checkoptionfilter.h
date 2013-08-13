@@ -29,7 +29,6 @@
 
 // Local
 #include "filter.h"
-#include "filteroption.h"
 #include "signalslist.h"
 
 class Q_DECL_EXPORT CheckOptionFilter : public Filter

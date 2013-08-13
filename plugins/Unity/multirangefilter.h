@@ -30,7 +30,6 @@
 
 // Local
 #include "filter.h"
-#include "filteroption.h"
 #include "signalslist.h"
 
 class GenericOptionsModel;

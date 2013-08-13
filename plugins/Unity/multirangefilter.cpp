@@ -42,7 +42,7 @@ void MultiRangeFilter::setUnityFilter(unity::dash::Filter::Ptr filter)
     onOptionsChanged(m_unityMultiRangeFilter->options);
 }
 
-void MultiRangeFilter::onOptionsChanged(unity::dash::MultiRangeFilter::Options /* options */)
+void MultiRangeFilter::onOptionsChanged(unity::dash::MultiRangeFilter::Options options)
 {
     if (m_options != nullptr) {
         m_signals.disconnectAll();
@@ -50,7 +50,7 @@ void MultiRangeFilter::onOptionsChanged(unity::dash::MultiRangeFilter::Options /
         m_options = nullptr;
     }
 
-    m_options = new UnityOptionsModel(this, m_unityMultiRangeFilter->options,
+    m_options = new UnityOptionsModel(this, options,
                                       m_unityMultiRangeFilter->option_added,
                                       m_unityMultiRangeFilter->option_removed);
 

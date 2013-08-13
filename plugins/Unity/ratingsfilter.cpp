@@ -65,6 +65,8 @@ void RatingsFilter::onActiveChanged(AbstractFilterOption *option)
     RatingFilterOption *ratingOption = dynamic_cast<RatingFilterOption*>(option);
     if (ratingOption != nullptr)
     {
-        m_unityRatingsFilter->rating = ratingOption->active() ? ratingOption->value() : 0.0f;
+        const float val = ratingOption->active() ? ratingOption->value() : 0.0f;
+        m_unityRatingsFilter->rating = val;
+        Q_EMIT ratingChanged(val);
     }
 }

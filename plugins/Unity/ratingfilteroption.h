@@ -20,11 +20,14 @@
 #ifndef RATINGFILTEROPTION_H
 #define RATINGFILTEROPTION_H
 
+// local
 #include "abstractfilteroption.h"
 
 class Q_DECL_EXPORT RatingFilterOption : public AbstractFilterOption
 {
     Q_OBJECT
+
+    Q_PROPERTY(float value READ value CONSTANT)
 
 public:
     explicit RatingFilterOption(const QString &id, float ratingValue, QObject *parent = nullptr);

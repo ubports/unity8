@@ -67,6 +67,7 @@ protected:
     int indexOf(const QString &option_id);
 
     QVector<AbstractFilterOption *> m_options;
+
 private:
     void setupRoles();
     QHash<int, QByteArray> m_roles;

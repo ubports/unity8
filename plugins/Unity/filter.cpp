@@ -44,44 +44,58 @@ Filter::Filter(QObject *parent) :
 
 QString Filter::id() const
 {
+    if (!m_unityFilter)
+        return QString::Null();
     return QString::fromStdString(m_unityFilter->id());
 }
 
 QString Filter::name() const
 {
+    if (!m_unityFilter)
+        return QString::Null();
     return QString::fromStdString(m_unityFilter->name());
 }
 
 QString Filter::iconHint() const
 {
+    if (!m_unityFilter)
+        return QString::Null();
     return QString::fromStdString(m_unityFilter->icon_hint());
 }
 
 QString Filter::rendererName() const
 {
+    if (!m_unityFilter)
+        return QString::Null();
     return QString::fromStdString(m_unityFilter->renderer_name());
 }
 
 bool Filter::visible() const
 {
+    if (!m_unityFilter)
+        return false;
     return m_unityFilter->visible();
 }
 
 bool Filter::collapsed() const
 {
+    if (!m_unityFilter)
+        return false;
     return m_unityFilter->collapsed();
 }
 
 bool Filter::filtering() const
 {
+    if (!m_unityFilter)
+        return false;
     return m_unityFilter->filtering();
 }
 
 void Filter::clear()
 {
-    m_unityFilter->Clear();
+    if (m_unityFilter)
+        m_unityFilter->Clear();
 }
-
 
 void Filter::setUnityFilter(unity::dash::Filter::Ptr unityFilter)
 {

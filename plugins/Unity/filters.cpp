@@ -27,9 +27,6 @@
 // Qt
 #include <QDebug>
 
-// libunity-core
-#include <UnityCore/Filters.h>
-
 Filters::Filters(unity::dash::Filters::Ptr unityFilters, QObject *parent) :
     QAbstractListModel(parent), m_unityFilters(unityFilters)
 {
@@ -155,9 +152,7 @@ void Filters::removeFilter(int index)
 
 int Filters::indexForFilter(unity::dash::Filter::Ptr unityFilter)
 {
-    // TODO: use a map
-    int index;
-    for (index=0; index<m_filters.count(); index++) {
+    for (int index=0; index<m_filters.count(); index++) {
         if (m_filters[index]->hasUnityFilter(unityFilter)) {
             return index;
         }

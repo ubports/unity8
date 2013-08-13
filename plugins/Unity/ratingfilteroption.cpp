@@ -17,6 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+// self
 #include "ratingfilteroption.h"
 
 RatingFilterOption::RatingFilterOption(const QString &id, float value, QObject *parent) :
@@ -31,7 +32,6 @@ QString RatingFilterOption::id() const
 {
     return m_id;
 }
-
 
 QString RatingFilterOption::name() const
 {

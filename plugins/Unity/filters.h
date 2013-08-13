@@ -55,13 +55,9 @@ public:
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-    Q_INVOKABLE Filter* getFilter(const QString& id) const;
+    Filter* getFilter(const QString& id) const;
 
 private:
-    unity::dash::Filters::Ptr m_unityFilters;
-    QList<Filter*> m_filters;
-    QHash<int, QByteArray> m_roles;
-
     void onFilterAdded(unity::dash::Filter::Ptr unityFilter);
     void onFilterChanged(unity::dash::Filter::Ptr unityFilter);
     void onFilterRemoved(unity::dash::Filter::Ptr unityFilter);
@@ -70,6 +66,10 @@ private:
     void removeFilter(int index);
 
     int indexForFilter(unity::dash::Filter::Ptr unityFilter);
+
+    unity::dash::Filters::Ptr m_unityFilters;
+    QList<Filter*> m_filters;
+    QHash<int, QByteArray> m_roles;
 };
 
 Q_DECLARE_METATYPE(Filters*)

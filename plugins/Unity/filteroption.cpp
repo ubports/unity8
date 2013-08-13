@@ -70,19 +70,19 @@ void FilterOption::setUnityFilterOption(unity::dash::FilterOption::Ptr unityFilt
               << m_unityFilterOption->active.changed.connect(sigc::mem_fun(this, &FilterOption::onActiveChanged));
 }
 
-void FilterOption::onIdChanged(const std::string &/* id */)
+void FilterOption::onIdChanged(const std::string &id)
 {
-    Q_EMIT idChanged(id());
+    Q_EMIT idChanged(QString::fromStdString(id));
 }
 
-void FilterOption::onNameChanged(const std::string &/* name */)
+void FilterOption::onNameChanged(const std::string &name)
 {
-    Q_EMIT nameChanged(name());
+    Q_EMIT nameChanged(QString::fromStdString(name));
 }
 
-void FilterOption::onIconHintChanged(const std::string &/* iconHint */)
+void FilterOption::onIconHintChanged(const std::string &iconHint)
 {
-    Q_EMIT iconHintChanged(iconHint());
+    Q_EMIT iconHintChanged(QString::fromStdString(iconHint));
 }
 
 void FilterOption::onActiveChanged(bool active)
