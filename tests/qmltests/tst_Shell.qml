@@ -291,7 +291,7 @@ Item {
         function test_wallpaper(data) {
             var backgroundImage = findChild(shell, "backgroundImage")
             GSettingsController.setPictureUri(data.url)
-            tryCompareFunction(function() { return backgroundImage.source.toString().indexOf(data.url) !== -1; }, true)
+            tryCompareFunction(function() { return backgroundImage.source.toString().indexOf(data.expectedUrl) !== -1; }, true)
             tryCompare(backgroundImage, "status", Image.Ready)
         }
     }
