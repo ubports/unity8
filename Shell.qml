@@ -63,6 +63,8 @@ FocusScope {
     property var applicationManager: ApplicationManagerWrapper {}
 
     Component.onCompleted: {
+        Theme.name = "Ubuntu.Components.Themes.SuruGradient"
+
         applicationManager.sideStageEnabled = Qt.binding(function() { return sideStage.enabled })
 
         // FIXME: if application focused before shell starts, shell draws on top of it only.
