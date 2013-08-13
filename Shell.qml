@@ -43,7 +43,7 @@ FocusScope {
 
     property real edgeSize: units.gu(2)
     property url defaultBackground: shell.width >= units.gu(60) ? "graphics/tablet_background.jpg" : "graphics/phone_background.jpg"
-    property url background: backgroundImage.source
+    readonly property alias background: backgroundImage.source
     readonly property real panelHeight: panel.panelHeight
 
     property bool dashShown: dash.shown
@@ -443,10 +443,6 @@ FocusScope {
         }
 
         onUnlocked: greeter.hide()
-        onSelected: {
-            var bgPath = greeter.model.data(uid, LightDM.UserRoles.BackgroundPathRole)
-            shell.background = bgPath ? bgPath : defaultBackground
-        }
 
         onLeftTeaserPressedChanged: {
             if (leftTeaserPressed) {
