@@ -1,12 +1,6 @@
 # export_qmlplugin macro
 include(Plugins)
 
-set(CMAKE_AUTOMOC ON)
-
-include(FindPkgConfig)
-find_package(Qt5Core REQUIRED)
-find_package(Qt5Quick REQUIRED)
-
 set(UbuntuGestureQml_SOURCES
     plugin.cpp
     AxisVelocityCalculator.cpp
