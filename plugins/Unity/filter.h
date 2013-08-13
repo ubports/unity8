@@ -65,10 +65,10 @@ public:
     bool hasUnityFilter(unity::dash::Filter::Ptr unityFilter) const;
 
 Q_SIGNALS:
-    void idChanged(std::string);
-    void nameChanged(std::string);
-    void iconHintChanged(std::string);
-    void rendererNameChanged(std::string);
+    void idChanged(const QString &id);
+    void nameChanged(const QString &name);
+    void iconHintChanged(const QString &iconHint);
+    void rendererNameChanged(const QString &renderer);
     void visibleChanged(bool);
     void collapsedChanged(bool);
     void filteringChanged(bool);
@@ -77,6 +77,12 @@ Q_SIGNALS:
 protected:
     unity::dash::Filter::Ptr m_unityFilter;
     virtual void setUnityFilter(unity::dash::Filter::Ptr unityFilter);
+
+private:
+    void onIdChanged(std::string);
+    void onNameChanged(std::string);
+    void onIconHintChanged(std::string);
+    void onRendererNameChanged(std::string);
 
 private:
     SignalsList m_signals;
