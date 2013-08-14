@@ -230,6 +230,7 @@ void Scope::fallbackActivate(const QString& uri)
         if (path.startsWith("/")) {
             Q_EMIT activateApplication(path);
         } else {
+            // TODO: use the new desktop file finder/parser when it's ready
             gchar* full_path = nullptr;
             GKeyFile* key_file = g_key_file_new();
             QString apps_path = "applications/" + path;
