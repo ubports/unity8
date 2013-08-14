@@ -1,16 +1,8 @@
-set(CMAKE_AUTOMOC ON)
-
-include(FindPkgConfig)
-find_package(Qt5Core REQUIRED)
-find_package(Qt5Quick REQUIRED)
-
 include_directories(
   ${CMAKE_CURRENT_BINARY_DIR}
   ${Qt5Core_INCLUDE_DIRS}
   ${Qt5Quick_INCLUDE_DIRS}
 )
-
-add_definitions(-DQT_NO_KEYWORDS)
 
 set(GSettingsQML_SOURCES
   fake_gsettings.cpp
