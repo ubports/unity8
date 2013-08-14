@@ -34,9 +34,6 @@ class Q_DECL_EXPORT GenericOptionsModel : public QAbstractListModel
 
     Q_ENUMS(Roles)
 
-Q_SIGNALS:
-    void activeChanged(AbstractFilterOption *option);
-
 public:
     GenericOptionsModel(QObject *parent = nullptr);
     ~GenericOptionsModel();
@@ -57,6 +54,9 @@ public:
 public Q_SLOTS:
     virtual void ensureTheOnlyActive(AbstractFilterOption *activeOption);
 
+Q_SIGNALS:
+    void activeChanged(AbstractFilterOption *option);
+
 protected Q_SLOTS:
     void onOptionChanged();
     void onActiveChanged();
@@ -67,10 +67,6 @@ protected:
     int indexOf(const QString &option_id);
 
     QVector<AbstractFilterOption *> m_options;
-
-private:
-    void setupRoles();
-    QHash<int, QByteArray> m_roles;
 };
 
 Q_DECLARE_METATYPE(GenericOptionsModel*)

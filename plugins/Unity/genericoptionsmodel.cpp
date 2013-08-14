@@ -26,7 +26,6 @@
 GenericOptionsModel::GenericOptionsModel(QObject *parent)
     : QAbstractListModel(parent)
 {
-    setupRoles();
 }
 
 GenericOptionsModel::~GenericOptionsModel()
@@ -37,17 +36,14 @@ GenericOptionsModel::~GenericOptionsModel()
     }
 }
 
-void GenericOptionsModel::setupRoles()
-{
-    m_roles[GenericOptionsModel::RoleId] = "id";
-    m_roles[GenericOptionsModel::RoleName] = "name";
-    m_roles[GenericOptionsModel::RoleIconHint] = "iconHint";
-    m_roles[GenericOptionsModel::RoleActive] = "active";
-}
-
 QHash<int, QByteArray> GenericOptionsModel::roleNames() const
 {
-    return m_roles;
+    QHash<int, QByteArray> roles;
+    roles[GenericOptionsModel::RoleId] = "id";
+    roles[GenericOptionsModel::RoleName] = "name";
+    roles[GenericOptionsModel::RoleIconHint] = "iconHint";
+    roles[GenericOptionsModel::RoleActive] = "active";
+    return roles;
 }
 
 QVariant GenericOptionsModel::data(const QModelIndex& index, int role) const
