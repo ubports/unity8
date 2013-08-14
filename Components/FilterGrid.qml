@@ -69,8 +69,11 @@ Item {
         id: filterAnimation
         target: root
         property: "height"
-        duration: 200
         to: filterEndValue ? root.collapsedHeight : root.uncollapsedHeight
+        // Duration and easing here match the ListViewWithPageHeader::m_contentYAnimation
+        // otherwise since both animations can run at the same time you'll get
+        // some visual weirdness.
+        duration: 200
         easing.type: Easing.InOutQuad
         onStopped: {
             root.filter = filterEndValue;
