@@ -30,15 +30,6 @@
 Filters::Filters(unity::dash::Filters::Ptr unityFilters, QObject *parent) :
     QAbstractListModel(parent), m_unityFilters(unityFilters)
 {
-    // setup roles
-    m_roles[Filters::RoleId] = "id";
-    m_roles[Filters::RoleName] = "name";
-    m_roles[Filters::RoleIconHint] = "iconHint";
-    m_roles[Filters::RoleRendererName] = "rendererName";
-    m_roles[Filters::RoleVisible] = "visible";
-    m_roles[Filters::RoleCollapsed] = "collapsed";
-    m_roles[Filters::RoleFiltering] = "filtering";
-
     for (unsigned int i=0; i<m_unityFilters->count(); i++) {
         unity::dash::Filter::Ptr unityFilter = m_unityFilters->FilterAtIndex(i);
         addFilter(unityFilter, i);
@@ -94,7 +85,15 @@ QVariant Filters::data(const QModelIndex& index, int role) const
 
 QHash<int, QByteArray> Filters::roleNames() const
 {
-    return m_roles;
+    QHash<int, QByteArray> roles;
+    roles[Filters::RoleId] = "id";
+    roles[Filters::RoleName] = "name";
+    roles[Filters::RoleIconHint] = "iconHint";
+    roles[Filters::RoleRendererName] = "rendererName";
+    roles[Filters::RoleVisible] = "visible";
+    roles[Filters::RoleCollapsed] = "collapsed";
+    roles[Filters::RoleFiltering] = "filtering";
+    return roles;
 }
 
 Filter* Filters::getFilter(const QString& id) const

@@ -69,7 +69,6 @@ private:
 
     unity::dash::Filters::Ptr m_unityFilters;
     QList<Filter*> m_filters;
-    QHash<int, QByteArray> m_roles;
 };
 
 Q_DECLARE_METATYPE(Filters*)
