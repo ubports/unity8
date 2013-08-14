@@ -43,6 +43,12 @@ Page {
     Loader {
         id: pageLoader
         objectName: "pageLoader"
+        clip:true
+
+        Rectangle {
+            anchors.fill: pageLoader
+            color: "#221e1c" // FIXME not in palette yet
+        }
 
         anchors {
             top: visualCheckItem.bottom
@@ -80,15 +86,6 @@ Page {
             }
             text: "Back"
             onClicked: page.pageStack.reset()
-        }
-        Button {
-            id: refresh
-            visible: !visualCheck.checked
-            anchors {
-                right: parent.right
-            }
-            text: "Refresh"
-            onClicked: pageLoader.item.refresh()
         }
     }
 }

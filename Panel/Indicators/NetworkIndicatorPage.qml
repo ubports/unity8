@@ -18,8 +18,8 @@
  */
 
 import QtQuick 2.0
-import Unity.Indicators 0.1 as Indicators
-import Unity.Indicators.Network 0.1 as ICNetwork
+import Unity.IndicatorsLegacy 0.1 as Indicators
+import Unity.IndicatorsLegacy.Network 0.1 as ICNetwork
 import Ubuntu.Components 0.1
 
 PageStack {

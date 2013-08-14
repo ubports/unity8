@@ -13,7 +13,7 @@ Build-Depends: cmake,
                libnm-glib-dev,
                libnm-util-dev,
                libpulse-dev,
-               libqmenumodel-dev,
+               libqmenumodel-dev (>= 0.2.7),
                libqt5v8-5-private-dev,
                libunity-api-dev (>= 7.80.3),
                libunity-core-6.0-dev (<< 7.80),
@@ -46,7 +46,7 @@ Vcs-Browser: https://bazaar.launchpad.net/~unity-team/unity8/trunk
 
 Package: indicators-client
 Architecture: amd64 armhf i386
-Depends: qmenumodel-qml,
+Depends: qmenumodel-qml (>= 0.2.7),
          qtdeclarative5-ubuntu-ui-toolkit-plugin | qt-components-ubuntu,
          unity8 (= ${binary:Version}),
          ${misc:Depends},
@@ -56,7 +56,7 @@ Description: Indicators client test application
 
 Package: unity8
 Architecture: any
-Depends: qmenumodel-qml,
+Depends: qmenumodel-qml (>= 0.2.7),
          qtdeclarative5-dee-plugin,
          qtdeclarative5-ubuntu-ui-toolkit-plugin,
          qtdeclarative5-unity-notifications-plugin | unity-notifications-impl,

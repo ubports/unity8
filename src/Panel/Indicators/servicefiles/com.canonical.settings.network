@@ -1,5 +1,5 @@
 [Indicator Service]
-Name=indicator-network
+Name=chewie-network
 ObjectPath=/com/canonical/settings/network
 Position=69
 
