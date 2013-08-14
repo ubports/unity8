@@ -81,6 +81,7 @@ Item {
             anchors.left: parent.left
             anchors.right: parent.right
             height: parent.height - dashItem.height - parent.spacing*2
+
             ListView {
                 id: launcherListView
                 objectName: "launcherListView"
@@ -102,6 +103,7 @@ Item {
                 property int foldingAreaHeight: itemSize * 0.75
                 property int itemSize: width
                 property int clickFlickSpeed: units.gu(60)
+                property int draggedIndex: dndArea.draggedIndex
 
                 displaced: Transition {
                     NumberAnimation { properties: "x,y"; duration: 100 }
@@ -134,7 +136,7 @@ Item {
                         },
                         State {
                             name: "expanded"
-                            when: dndArea.draggedIndex >= 0 && !dragging
+                            //when: dndArea.draggedIndex >= 0 && !dragging
                             PropertyChanges {
                                 target: launcherDelegate
                                 angle: 0
@@ -147,7 +149,7 @@ Item {
                         Transition {
                             from: "*"
                             to: "*"
-                            NumberAnimation { properties: "angle,offset"; duration: 200 }
+//                            NumberAnimation { properties: "angle,offset"; duration: 200 }
                             NumberAnimation { properties: "height"; duration: 150 }
                         }
                     ]
@@ -222,11 +224,19 @@ Item {
                         selectedItem.dragging = false;
                         selectedItem = undefined;
 
+                        var droppedIndex = draggedIndex;
                         draggedIndex = -1;
                         drag.target = undefined
-                        launcherListView.interactive = true;
 
                         progressiveScrollingTimer.stop();
+
+                        // FIXME: remove the if condition once the ListView position bug is fixed.
+                        // Right now setting currentIndex to 0 causes more issues than it helps.
+                        if (droppedIndex > 2) {
+                            launcherListView.currentIndex = -1;
+                            launcherListView.currentIndex = droppedIndex;
+                        }
+                        launcherListView.interactive = true;
                     }
 
                     onPressAndHold: {
@@ -279,18 +289,18 @@ Item {
                             // Move it down by the the missing size to compensate index calculation with only expanded items
                             itemCenterY += selectedItem.height / 2
 
-                            print("mouseY", mouseY, launcherListView.height - launcherListView.topMargin - launcherListView.bottomMargin - realItemSize)
+//                            print("mouseY", mouseY, launcherListView.height - launcherListView.topMargin - launcherListView.bottomMargin - realItemSize)
                             if (mouseY > launcherListView.height - launcherListView.topMargin - launcherListView.bottomMargin - realItemSize) {
-                                print("entered bottom area")
+//                                print("entered bottom area")
                                 progressiveScrollingTimer.downwards = false
                                 progressiveScrollingTimer.start()
                             } else if (mouseY < realItemSize) {
                                 progressiveScrollingTimer.downwards = true
                                 progressiveScrollingTimer.start()
-                                print("entered top area")
+//                                print("entered top area")
                             } else {
                                 progressiveScrollingTimer.stop()
-                                print("not in any area")
+//                                print("not in any area")
                             }
 
                             var newIndex = (itemCenterY + realContentY) / realItemSize

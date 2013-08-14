@@ -22,6 +22,10 @@ LauncherDelegate {
 
     // The angle used for rotating
     angle: {
+        if (index == 1 || index == priv.listView.count - 2) {
+            print("index", index, iconName, "overlaps with folding area", priv.overlapWithFoldingArea, priv.distanceFromEdge, priv.bottomDraggingDistanceOffset)
+        }
+
         // First/last items are special
         if (index == 0 || index == priv.listView.count-1) {
             if (priv.distanceFromEdge < 0) {
@@ -120,8 +124,9 @@ LauncherDelegate {
         property real totalEffectiveHeight: effectiveHeight + listView.spacing
         property real effectiveContentY: listView.contentY - listView.originY
         property real effectiveY: y - listView.originY
+        property real bottomDraggingDistanceOffset: listView.draggedIndex > index ? totalUnfoldedHeight : 0
         property real distanceFromTopEdge: -(effectiveContentY + listView.topMargin - index*totalUnfoldedHeight)
-        property real distanceFromBottomEdge: listView.height - listView.bottomMargin - (effectiveY+height) + effectiveContentY
+        property real distanceFromBottomEdge: listView.height - listView.bottomMargin - (effectiveY+height) + effectiveContentY + bottomDraggingDistanceOffset
 
         property real distanceFromEdge: Math.abs(distanceFromBottomEdge) < Math.abs(distanceFromTopEdge) ? distanceFromBottomEdge : distanceFromTopEdge
         property real orientationFlag: Math.abs(distanceFromBottomEdge) < Math.abs(distanceFromTopEdge) ? -1 : 1
