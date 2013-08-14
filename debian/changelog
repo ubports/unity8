@@ -1,3 +1,17 @@
+unity8 (7.81.3+13.10.20130814.3-0ubuntu1) saucy; urgency=low
+
+  [ Ted Gould ]
+  * Upstart signals to control indicator services.
+
+  [ Nick Dedekind ]
+  * Replaced indicator menu listView with tabs view.
+  * Transition Unity.Indicators to UnityMenuModel.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 197
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 14 Aug 2013 14:33:39 +0000
+
 unity8 (7.81.3+13.10.20130814.1-0ubuntu1) saucy; urgency=low
 
   [ Michał Sawicz ]
