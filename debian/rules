@@ -8,7 +8,8 @@ export NO_PNG_PKG_MANGLE=1
 
 SCOPES_RECOMMENDS := $(shell perl debian/scopes-recommends-generator /usr/share/unity/client-scopes.json)
 
-%:
+.PHONY: build
+build %:
 	dh $@ --parallel --fail-missing --with python2
 
 override_dh_auto_clean:
