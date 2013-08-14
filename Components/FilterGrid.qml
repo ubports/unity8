@@ -42,10 +42,10 @@ Item {
     /* Maximum number of rows to be show when filter=true. */
     property int collapsedRowCount: 2
     readonly property int collapsedHeight: {
-        return iconTileGrid.contentHeightForRows(Math.min(collapsedRowCount, Math.ceil(model.count / columns))) //
+        return iconTileGrid.contentHeightForRows(Math.min(collapsedRowCount, Math.ceil(model.count / columns)))
     }
     readonly property int uncollapsedHeight: {
-        return iconTileGrid.contentHeightForRows(Math.ceil(model.count / columns)) //
+        return iconTileGrid.contentHeightForRows(Math.ceil(model.count / columns))
     }
 
     property alias minimumHorizontalSpacing: iconTileGrid.minimumHorizontalSpacing
