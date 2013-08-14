@@ -56,6 +56,7 @@ Showable {
     Image {
         anchors.fill: parent
         source: root.required ? root.background : ""
+        fillMode: Image.PreserveAspectCrop
     }
 
     MouseArea {

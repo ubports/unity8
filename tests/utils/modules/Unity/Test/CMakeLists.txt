@@ -1,7 +1,3 @@
-find_package(Qt5Core REQUIRED)
-find_package(Qt5Quick REQUIRED)
-
-set(CMAKE_AUTOMOC ON)
 add_definitions(-DQT_NO_KEYWORDS)
 
 set(UnityTestQML_SOURCES

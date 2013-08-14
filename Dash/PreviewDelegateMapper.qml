@@ -19,7 +19,9 @@ import QtQuick 2.0
 QtObject {
     property var d: QtObject {
         readonly property string genericPreview: "Generic/GenericPreview.qml"
+        readonly property string appPreview: "Apps/AppPreview.qml"
         property var previewDelegateMapping: {"preview-generic": genericPreview,
+                                              "preview-application": appPreview,
         }
     }
 

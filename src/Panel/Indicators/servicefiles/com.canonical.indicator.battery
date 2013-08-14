@@ -1,6 +1,7 @@
 [Indicator Service]
 Name=indicator-battery
 ObjectPath=/com/canonical/indicator/battery
+Position=40
 
 [phone]
 ObjectPath=/com/canonical/indicator/battery/phone
