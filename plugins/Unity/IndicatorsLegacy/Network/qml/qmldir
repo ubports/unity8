@@ -1,0 +1,9 @@
+module Unity.IndicatorsLegacy.Network
+plugin IndicatorsNetworkQml
+typeinfo plugin.qmltypes
+
+NetworkPage 0.1 NetworkPage.qml
+AccessPoint 0.1 AccessPoint.qml
+PasswordPage 0.1 PasswordPage.qml
+PasswordTextField 0.1 PasswordTextField.qml
+WifiSection 0.1 WifiSection.qml

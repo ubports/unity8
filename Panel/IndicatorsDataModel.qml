@@ -27,6 +27,12 @@ Indicators.IndicatorsModel {
     Component.onCompleted: load()
 
     indicatorData : {
+        'indicator-bluetooth' : {
+            'title': 'Bluetooth',
+            'description' : '',
+            'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorWidget2.qml',
+            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorPage2.qml'
+        },
         'indicator-messaging' : {
             'title': 'Messaging',
             'description' : '',
@@ -36,10 +42,42 @@ Indicators.IndicatorsModel {
         'indicator-sound' : {
             'title': 'Sound',
             'description' : '',
+            'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorWidget2.qml',
+            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorPage2.qml'
+        },
+        'indicator-network' : {
+            'title': 'Networks',
+            'description' : '',
+            'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorWidget2.qml',
+            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorPage2.qml'
+        },
+        'indicator-power' : {
+            'title': 'Battery',
+            'description' : '',
+            'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorWidget2.qml',
+            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorPage2.qml'
+        },
+        'indicator-session' : {
+            'title': 'Session',
+            'description' : '',
+            'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorWidget2.qml',
+            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorPage2.qml'
+        },
+        'indicator-datetime' : {
+            'title': 'Date and Time',
+            'description' : '',
+            'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorWidget2.qml',
+            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorPage2.qml'
+        },
+
+        // OLD FORMAT INDICATORS
+        'chewie-sound' : {
+            'title': 'Sound',
+            'description' : '',
             'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/SoundIndicatorWidget.qml',
             'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorPage.qml'
         },
-        'indicator-network' : {
+        'chewie-network' : {
             'title': 'Networks',
             'description' : '',
             'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/NetworkIndicatorWidget.qml',

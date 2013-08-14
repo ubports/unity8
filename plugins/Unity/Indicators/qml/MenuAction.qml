@@ -15,6 +15,7 @@
  *
  * Authors:
  *      Renato Araujo Oliveira Filho <renato@canonical.com>
+ *      Nick Dedekind <nick.dedekind@canonical.com>
  */
 
 import QtQuick 2.0
@@ -26,14 +27,17 @@ import QtQuick 2.0
 
     Example:
     \qml
-        Button {
-            id: slide
-            onClick: { action.activate() }
-        }
-        MenuAction {
-            id: action
-            actionGroup: menuItem.actionGroup
-            action: "/ubuntu/sound/enabled"
+        BaseMenuItem {
+            id: menuItem
+
+            Switch {
+                checked: menuAction.state
+            }
+
+            Indicators.MenuAction {
+                id: menuAction
+                menu: menuItem.menu
+            }
         }
     \endqml
 */
@@ -43,44 +47,13 @@ Item {
 
     /*!
       \preliminary
-      The dbus action name
-     */
-    property string action: ""
-
-    /*!
-      \preliminary
       The dbus action group object
      */
-    property QtObject actionGroup: null
+    readonly property string name: menu ? menu.action : ""
 
-    /*!
-      \preliminary
-      This is a read-only property with the current validity of the action
-     */
-    readonly property bool valid: actionObject ? actionObject.valid : false
+    property QtObject menu: null
 
-    readonly property var state: actionObject ? actionObject.state : undefined
+    readonly property var state: menu ? menu.actionState : undefined
 
-    // internal
-    property QtObject actionObject: null
-
-    function activate(param) {
-        if (valid) {
-            actionObject.activate(param);
-        }
-    }
-
-    onActionGroupChanged: updateAction()
-    onActionChanged: updateAction()
-
-    Connections {
-        target: menuAction.actionGroup != undefined ? menuAction.actionGroup : null
-        onActionAppear: menuAction.updateAction();
-        onActionVanish: menuAction.updateAction();
-        onStatusChanged: menuAction.updateAction();
-    }
-
-    function updateAction() {
-        actionObject = action !== "" && actionGroup ? actionGroup.action(action) : null
-    }
+    readonly property bool active: menu ? menu.sensitive : false
 }
