@@ -23,7 +23,7 @@ MouseArea {
     id: root
     anchors.fill: parent
 
-    property bool ready: wallpaper.status != Image.Loading // null, ready, and error are all end states
+    property bool ready: wallpaper.source == "" || wallpaper.status == Image.Ready || wallpaper.status == Image.Error
     property bool leftTeaserPressed: teasingMouseArea.pressed &&
                                      teasingMouseArea.mouseX < teasingMouseArea.width / 2
     property bool rightTeaserPressed: teasingMouseArea.pressed &&
