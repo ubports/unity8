@@ -28,22 +28,19 @@
 // libunity-core
 #include <UnityCore/Filter.h>
 
-// local
-#include "signalslist.h"
-
 class GenericOptionsModel;
 
 class Q_DECL_EXPORT Filter : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(QString id READ id NOTIFY idChanged)
-    Q_PROPERTY(QString name READ name NOTIFY nameChanged)
-    Q_PROPERTY(QString iconHint READ iconHint NOTIFY iconHintChanged)
-    Q_PROPERTY(QString rendererName READ rendererName NOTIFY rendererNameChanged)
-    Q_PROPERTY(bool visible READ visible NOTIFY visibleChanged)
-    Q_PROPERTY(bool collapsed READ collapsed NOTIFY collapsedChanged)
-    Q_PROPERTY(bool filtering READ filtering NOTIFY filteringChanged)
+    Q_PROPERTY(QString id READ id CONSTANT)
+    Q_PROPERTY(QString name READ name CONSTANT)
+    Q_PROPERTY(QString iconHint READ iconHint CONSTANT)
+    Q_PROPERTY(QString rendererName READ rendererName CONSTANT)
+    Q_PROPERTY(bool visible READ visible CONSTANT)
+    Q_PROPERTY(bool collapsed READ collapsed CONSTANT)
+    Q_PROPERTY(bool filtering READ filtering CONSTANT)
     Q_PROPERTY(GenericOptionsModel* options READ options NOTIFY optionsChanged)
 
 public:
@@ -65,27 +62,11 @@ public:
     bool hasUnityFilter(unity::dash::Filter::Ptr unityFilter) const;
 
 Q_SIGNALS:
-    void idChanged(const QString &id);
-    void nameChanged(const QString &name);
-    void iconHintChanged(const QString &iconHint);
-    void rendererNameChanged(const QString &renderer);
-    void visibleChanged(bool);
-    void collapsedChanged(bool);
-    void filteringChanged(bool);
     void optionsChanged();
 
 protected:
     unity::dash::Filter::Ptr m_unityFilter;
     virtual void setUnityFilter(unity::dash::Filter::Ptr unityFilter);
-
-private:
-    void onIdChanged(std::string);
-    void onNameChanged(std::string);
-    void onIconHintChanged(std::string);
-    void onRendererNameChanged(std::string);
-
-private:
-    SignalsList m_signals;
 };
 
 Q_DECLARE_METATYPE(Filter*)

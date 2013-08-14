@@ -99,20 +99,7 @@ void Filter::clear()
 
 void Filter::setUnityFilter(unity::dash::Filter::Ptr unityFilter)
 {
-    if (m_unityFilter != nullptr) {
-        m_signals.disconnectAll();
-    }
-
     m_unityFilter = unityFilter;
-
-    /* Property change signals */
-    m_signals << m_unityFilter->id.changed.connect(sigc::mem_fun(this, &Filter::onIdChanged))
-              << m_unityFilter->name.changed.connect(sigc::mem_fun(this, &Filter::onNameChanged))
-              << m_unityFilter->icon_hint.changed.connect(sigc::mem_fun(this, &Filter::onIconHintChanged))
-              << m_unityFilter->renderer_name.changed.connect(sigc::mem_fun(this, &Filter::onRendererNameChanged))
-              << m_unityFilter->visible.changed.connect(sigc::mem_fun(this, &Filter::visibleChanged))
-              << m_unityFilter->collapsed.changed.connect(sigc::mem_fun(this, &Filter::collapsedChanged))
-              << m_unityFilter->filtering.changed.connect(sigc::mem_fun(this, &Filter::filteringChanged));
 }
 
 Filter* Filter::newFromUnityFilter(unity::dash::Filter::Ptr unityFilter)
@@ -139,24 +126,4 @@ Filter* Filter::newFromUnityFilter(unity::dash::Filter::Ptr unityFilter)
 bool Filter::hasUnityFilter(unity::dash::Filter::Ptr unityFilter) const
 {
     return m_unityFilter == unityFilter;
-}
-
-void Filter::onIdChanged(std::string id)
-{
-    Q_EMIT idChanged(QString::fromStdString(id));
-}
-
-void Filter::onNameChanged(std::string name)
-{
-    Q_EMIT nameChanged(QString::fromStdString(name));
-}
-
-void Filter::onIconHintChanged(std::string iconHint)
-{
-    Q_EMIT iconHintChanged(QString::fromStdString(iconHint));
-}
-
-void Filter::onRendererNameChanged(std::string renderer)
-{
-    Q_EMIT rendererNameChanged(QString::fromStdString(renderer));
 }
