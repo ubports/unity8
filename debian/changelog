@@ -1,3 +1,19 @@
+unity8 (7.81.3+13.10.20130814.1-0ubuntu1) saucy; urgency=low
+
+  [ Michał Sawicz ]
+  * Add AppPreview.
+
+  [ Nick Dedekind ]
+  * Use key from indicator service file to source indicator positions.
+
+  [ Diego Sarmentero ]
+  * Add AppPreview.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 193
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 14 Aug 2013 06:33:14 +0000
+
 unity8 (7.81.3+13.10.20130813.1-0ubuntu1) saucy; urgency=low
 
   [ Michael Zanetti ]
