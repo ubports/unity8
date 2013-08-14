@@ -23,7 +23,7 @@ MouseArea {
     id: root
     anchors.fill: parent
 
-    property bool ready: wallpaper.status == Image.Ready
+    property bool ready: wallpaper.status != Image.Loading // null, ready, and error are all end states
     property bool leftTeaserPressed: teasingMouseArea.pressed &&
                                      teasingMouseArea.mouseX < teasingMouseArea.width / 2
     property bool rightTeaserPressed: teasingMouseArea.pressed &&
@@ -31,6 +31,13 @@ MouseArea {
 
     signal selected(int uid)
     signal unlocked(int uid)
+
+    Rectangle {
+        // In case wallpaper fails to load
+        id: wallpaperBackup
+        anchors.fill: parent
+        color: "black"
+    }
 
     CrossFadeImage {
         id: wallpaper
