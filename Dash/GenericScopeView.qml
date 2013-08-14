@@ -53,8 +53,13 @@ ScopeView {
         onAtYEndChanged: if (atYEnd) endReached()
         onMovingChanged: if (moving && atYEnd) endReached()
 
+        property int expandedIndex: -1
+
         delegate: ListItems.Base {
             highlightWhenPressed: false
+
+            readonly property bool expandable: rendererLoader.item ? rendererLoader.item.expandable : false
+            readonly property bool filtered: rendererLoader.item ? rendererLoader.item.filter : true
 
             Loader {
                 id: rendererLoader
@@ -97,13 +102,47 @@ ScopeView {
                                                  delegateItem.model.metadata)
                     }
                 }
+                Connections {
+                    target: categoryView
+                    onExpandedIndexChanged: {
+                        var item = rendererLoader.item;
+                        if (item.expandable) {
+                            var shouldFilter = index != categoryView.expandedIndex;
+                            if (shouldFilter != item.filter) {
+                                // If the filter animation will be seen start it, otherwise, just flip the switch
+                                var shrinkingVisible = shouldFilter && y + item.collapsedHeight < categoryView.height;
+                                var growingVisible = !shouldFilter && y + height < categoryView.height;
+                                if (shrinkingVisible || growingVisible) {
+                                    item.startFilterAnimation(shouldFilter)
+                                } else {
+                                    item.filter = shouldFilter;
+                                }
+                                if (!shouldFilter) {
+                                    categoryView.maximizeVisibleArea(index, item.uncollapsedHeight);
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
 
         sectionProperty: "name"
         sectionDelegate: ListItems.Header {
+            property var delegate: categoryView.item(delegateIndex)
             width: categoryView.width
             text: section
+            image: {
+                if (delegate && delegate.expandable)
+                    return delegate.filtered ? "graphics/header_handlearrow.png" : "graphics/header_handlearrow2.png"
+                return "";
+            }
+            onClicked: {
+                if (categoryView.expandedIndex != delegateIndex)
+                    categoryView.expandedIndex = delegateIndex;
+                else
+                    categoryView.expandedIndex = -1;
+            }
         }
         pageHeader: PageHeader {
             id: pageHeader
