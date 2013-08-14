@@ -392,7 +392,11 @@ QQuickItem *ListViewWithPageHeader::item(int modelIndex) const
 bool ListViewWithPageHeader::maximizeVisibleArea(int modelIndex)
 {
     ListItem *listItem = itemAtIndex(modelIndex);
-    return maximizeVisibleArea(listItem, listItem->height());
+    if (listItem) {
+        return maximizeVisibleArea(listItem, listItem->height());
+    }
+
+    return false;
 }
 
 bool ListViewWithPageHeader::maximizeVisibleArea(int modelIndex, int itemHeight)
