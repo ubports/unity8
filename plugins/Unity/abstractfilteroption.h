@@ -34,8 +34,6 @@ class Q_DECL_EXPORT AbstractFilterOption : public QObject
     Q_PROPERTY(bool active READ active WRITE setActive NOTIFY activeChanged)
 
 public:
-    AbstractFilterOption(QObject *parent);
-
     /* getters */
     virtual QString id() const = 0;
     virtual QString name() const = 0;
@@ -44,6 +42,9 @@ public:
 
     /* setters */
     virtual void setActive(bool active) = 0;
+
+protected:
+    AbstractFilterOption(QObject *parent);
 
 Q_SIGNALS:
     void idChanged(const QString &);
