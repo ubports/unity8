@@ -397,6 +397,9 @@ bool ListViewWithPageHeader::maximizeVisibleArea(int modelIndex)
 
 bool ListViewWithPageHeader::maximizeVisibleArea(int modelIndex, int itemHeight)
 {
+    if (itemHeight < 0)
+        return false;
+
     ListItem *listItem = itemAtIndex(modelIndex);
     if (listItem) {
         return maximizeVisibleArea(listItem, itemHeight + (listItem->m_sectionItem ? listItem->m_sectionItem->height() : 0));
