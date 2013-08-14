@@ -15,12 +15,67 @@
  */
 
 import QtQuick 2.0
+import "../../Applications"
 
 ListModel {
-    ListElement { desktopFile: "/usr/share/applications/evernote.desktop";     }
-    ListElement { desktopFile: "/usr/share/applications/map.desktop";          }
-    ListElement { desktopFile: "/usr/share/applications/pinterest.desktop";    }
-    ListElement { desktopFile: "/usr/share/applications/soundcloud.desktop";   }
-    ListElement { desktopFile: "/usr/share/applications/wikipedia.desktop";    }
-    ListElement { desktopFile: "/usr/share/applications/youtube.desktop";      }
+    ListElement {
+        uri: "application://evernote.desktop"
+        icon: "../../graphics/applicationIcons/evernote.png"
+        category: 0
+        mimetype: "application/x-desktop"
+        title: "Evernote"
+        comment: ""
+        dndUri: "file:///usr/share/applications/evernote.desktop"
+        metadata: ""
+    }
+    ListElement {
+        uri: "application://map.desktop"
+        icon: "../../graphics/applicationIcons/map.png"
+        category: 0
+        mimetype: "application/x-desktop"
+        title: "Map"
+        comment: ""
+        dndUri: "file:///usr/share/applications/map.desktop"
+        metadata: ""
+    }
+    ListElement {
+        uri: "application://pinterest.desktop"
+        icon: "../../graphics/applicationIcons/pinterest.png"
+        category: 0
+        mimetype: "application/x-desktop"
+        title: "Pinterest"
+        comment: ""
+        dndUri: "file:///usr/share/applications/pinterest.desktop"
+        metadata: ""
+    }
+    ListElement {
+        uri: "application://soundcloud.desktop"
+        icon: "../../graphics/applicationIcons/soundcloud.png"
+        category: 0
+        mimetype: "application/x-desktop"
+        title: "Soundcloud"
+        comment: ""
+        dndUri: "file:///usr/share/applications/soundcloud.desktop"
+        metadata: ""
+    }
+    ListElement {
+        uri: "application://wikipedia.desktop"
+        icon: "../../graphics/applicationIcons/wikipedia.png"
+        category: 0
+        mimetype: "application/x-desktop"
+        title: "Wikipedia"
+        comment: ""
+        dndUri: "file:///usr/share/applications/wikipedia.desktop"
+        metadata: ""
+    }
+    ListElement {
+        uri: "application://youtube.desktop"
+        icon: "../../graphics/applicationIcons/youtube.png"
+        category: 0
+        mimetype: "application/x-desktop"
+        title: "Youtube"
+        comment: ""
+        dndUri: "file:///usr/share/applications/youtube.desktop"
+        metadata: ""
+    }
 }

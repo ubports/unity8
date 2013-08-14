@@ -105,6 +105,8 @@ Q_SIGNALS:
     void hideDash();
     void gotoUri(const QString &uri);
 
+    void activateApplication(const QString &desktop);
+
 private Q_SLOTS:
     void synchronizeStates();
     void onSearchFinished(const std::string &, unity::glib::HintsMap const &);
