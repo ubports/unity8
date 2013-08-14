@@ -46,10 +46,6 @@ MockLauncherModel::MockLauncherModel(QObject* parent): LauncherModelInterface(pa
 
 MockLauncherModel::~MockLauncherModel()
 {
-    while (!m_list.empty())
-    {
-        m_list.takeFirst()->deleteLater();
-    }
 }
 
 int MockLauncherModel::rowCount(const QModelIndex& parent) const
