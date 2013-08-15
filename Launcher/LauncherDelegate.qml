@@ -54,7 +54,9 @@ Item {
                 id: iconImage
                 sourceSize.width: iconShape.width
                 sourceSize.height: iconShape.height
-                source: "../graphics/applicationIcons/" + root.iconName + ".png"
+                source: "../graphics/applicationIcons/" + iconName + ".png"
+                property string iconName: root.iconName
+                onIconNameChanged: shaderEffectSource.scheduleUpdate();
             }
         }
 
@@ -85,7 +87,7 @@ Item {
             id: shaderEffectSource
             sourceItem: iconItem
             hideSource: true
-            //live: false
+            live: false
         }
 
         transform: [
