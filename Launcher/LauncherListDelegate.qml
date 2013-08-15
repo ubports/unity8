@@ -22,10 +22,6 @@ LauncherDelegate {
 
     // The angle used for rotating
     angle: {
-        if (index == 1 || index == priv.listView.count - 2) {
-            print("index", index, iconName, "overlaps with folding area", priv.overlapWithFoldingArea, priv.distanceFromEdge, priv.bottomDraggingDistanceOffset)
-        }
-
         // First/last items are special
         if (index == 0 || index == priv.listView.count-1) {
             if (priv.distanceFromEdge < 0) {

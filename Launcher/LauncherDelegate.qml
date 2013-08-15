@@ -77,7 +77,7 @@ Item {
         width: parent.itemWidth
         height: parent.itemHeight
         property real itemOpacity: root.itemOpacity
-        property real brightness: root.brightness
+        property real brightness: Math.max(-1, root.brightness)
         property real angle: root.angle
         rotation: root.inverted ? 180 : 0
 

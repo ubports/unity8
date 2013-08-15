@@ -89,11 +89,11 @@ Item {
                 objectName: "launcherListView"
                 anchors {
                     fill: parent
-                    topMargin: -itemHeight + units.gu(0.5)
-                    bottomMargin: -itemHeight + units.gu(1)
+                    topMargin: -extensionSize + units.gu(0.5)
+                    bottomMargin: -extensionSize + units.gu(1)
                 }
-                topMargin: itemHeight
-                bottomMargin: itemHeight
+                topMargin: extensionSize
+                bottomMargin: extensionSize
                 height: parent.height - dashItem.height - parent.spacing*2
                 model: root.model
                 cacheBuffer: itemHeight * 3
@@ -103,6 +103,11 @@ Item {
                 preferredHighlightEnd: (height + itemHeight) / 2
                 layoutDirection: root.inverted ? Qt.RightToLeft : Qt.LeftToRight
                 spacing: units.gu(0.5)
+
+                // The size of the area the ListView is extended to make sure items are not
+                // destructed. Note that if the move() operation when dragging switches
+                // the item with one that doesn't have a delegate yet everything breaks badly.
+                property int extensionSize: itemHeight * 3
 
                 // The height of the area where icons start getting folded
                 property int foldingAreaHeight: itemHeight * 0.75
@@ -114,8 +119,6 @@ Item {
                 displaced: Transition {
                     NumberAnimation { properties: "x,y"; duration: 100 }
                 }
-
-                onContentYChanged: print("contentY", contentY)
 
                 delegate: LauncherListDelegate {
                     id: launcherDelegate
@@ -177,8 +180,19 @@ Item {
                         Transition {
                             from: "dragging"
                             to: "*"
-                            NumberAnimation { properties: "itemOpacity"; duration: 150 }
+                            NumberAnimation { properties: "itemOpacity"; duration: 1500 }
+                        },
+                        Transition {
+                            from: ""
+                            to: "expanded"
+                            NumberAnimation { properties: "angle"; duration: 150 }
+                        },
+                        Transition {
+                            from: "expanded"
+                            to: ""
+                            NumberAnimation { properties: "angle"; duration: 150 }
                         }
+
                     ]
                 }
 
@@ -206,8 +220,6 @@ Item {
                         var index = Math.floor((mouseY + realContentY) / realItemHeight);
                         var clickedItem = launcherListView.itemAt(mouseX, mouseY + realContentY)
 
-                        print("clicked on", index, clickedItem)
-
                         // First/last item do the scrolling at more than 12 degrees
                         if (index == 0 || index == launcherListView.count -1) {
                             if (clickedItem.angle > 12) {
@@ -232,27 +244,20 @@ Item {
 
                     onCanceled: {
                         selectedItem.highlighted = false
+                        selectedItem = undefined;
                     }
 
                     onReleased: {
-                        print("released");
                         selectedItem.highlighted = false
                         selectedItem.dragging = false;
                         selectedItem = undefined;
 
-                        var droppedIndex = draggedIndex;
                         draggedIndex = -1;
                         drag.target = undefined
 
                         progressiveScrollingTimer.stop();
-
-                        // FIXME: remove the if condition once the ListView position bug is fixed.
-                        // Right now setting currentIndex to 0 causes more issues than it helps.
-//                        if (droppedIndex > 2) {
-//                            launcherListView.currentIndex = -1;
-//                            launcherListView.currentIndex = droppedIndex;
-//                        }
                         launcherListView.interactive = true;
+
                     }
 
                     onPressAndHold: {
@@ -271,7 +276,7 @@ Item {
 
                         fakeDragItem.iconName = launcherListView.model.get(draggedIndex).icon
                         fakeDragItem.x = 0
-                        fakeDragItem.y = mouseY - yOffset
+                        fakeDragItem.y = mouseY - yOffset + launcherListView.anchors.topMargin + launcherListView.topMargin
                         drag.target = fakeDragItem
 
                         startX = mouseX
@@ -284,7 +289,6 @@ Item {
                             if (!selectedItem.dragging) {
                                 var distance = Math.max(Math.abs(mouseX - startX), Math.abs(mouseY - startY))
                                 if (distance > launcherListView.itemHeight) {
-                                    print("starting drag")
                                     selectedItem.dragging = true
                                     PopupUtils.close(quickListPopover)
                                 }
@@ -293,9 +297,6 @@ Item {
                                 return
                             }
 
-                            //launcherPanel.dragPosition = inverted ? launcherListView.height - y : y
-                            //root.dragPosition = mouseY
-
                             var realContentY = launcherListView.contentY + launcherListView.topMargin
                             var realItemHeight = launcherListView.itemHeight + launcherListView.spacing
                             var itemCenterY = fakeDragItem.y + fakeDragItem.height / 2
@@ -303,18 +304,14 @@ Item {
                             // Move it down by the the missing size to compensate index calculation with only expanded items
                             itemCenterY += selectedItem.height / 2
 
-//                            print("mouseY", mouseY, launcherListView.height - launcherListView.topMargin - launcherListView.bottomMargin - realItemHeight)
                             if (mouseY > launcherListView.height - launcherListView.topMargin - launcherListView.bottomMargin - realItemHeight) {
-//                                print("entered bottom area")
                                 progressiveScrollingTimer.downwards = false
                                 progressiveScrollingTimer.start()
                             } else if (mouseY < realItemHeight) {
                                 progressiveScrollingTimer.downwards = true
                                 progressiveScrollingTimer.start()
-//                                print("entered top area")
                             } else {
                                 progressiveScrollingTimer.stop()
-//                                print("not in any area")
                             }
 
                             var newIndex = (itemCenterY + realContentY) / realItemHeight
@@ -328,7 +325,6 @@ Item {
                             }
 
                             if (newIndex >= 0 && newIndex < launcherListView.count) {
-                                print("moving", draggedIndex, "to", newIndex)
                                 launcherListView.model.move(draggedIndex, newIndex)
                                 draggedIndex = newIndex
                             }
@@ -350,7 +346,6 @@ Item {
                         } else {
                             var maxY = launcherListView.contentHeight - launcherListView.height + launcherListView.topMargin + dndArea.selectedItem.effectiveHeight*2
                             if (launcherListView.contentY < maxY) {
-                                print("moving upwards", launcherListView.contentHeight, launcherListView.height, launcherListView.topMargin, dndArea.selectedItem.height, dndArea.selectedItem.effectiveHeight)
                                 launcherListView.contentY = Math.min(launcherListView.contentY + units.dp(2), maxY)
                             }
                         }
