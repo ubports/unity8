@@ -180,9 +180,16 @@ Showable {
         activeHeader: indicators.state == "hint" || indicators.state == "reveal"
 
         Connections {
-            target: indicatorRow
+            property bool enableIndexChangeSignal: true
+
+            target: enableIndexChangeSignal ? indicatorRow : null
             onCurrentItemIndexChanged: {
+                var oldActive = enableIndexChangeSignal;
+                enableIndexChangeSignal = false;
+
                 menuContent.setCurrentMenuIndex(indicatorRow.currentItemIndex);
+
+                enableIndexChangeSignal = oldActive;
             }
         }
 
@@ -254,9 +261,16 @@ Showable {
         state: indicators.state
 
         Connections {
-            target: menuContent
+            property bool enableIndexChangeSignal: true
+
+            target: enableIndexChangeSignal ? menuContent : null
             onCurrentMenuIndexChanged: {
+                var oldActive = enableIndexChangeSignal;
+                enableIndexChangeSignal = false;
+
                 indicatorRow.setCurrentItem(menuContent.currentMenuIndex);
+
+                enableIndexChangeSignal = oldActive;
             }
         }
     }

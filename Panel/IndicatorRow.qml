@@ -16,6 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Unity.Indicators 0.1 as Indicators
 import "../Components"
 
 Item {
@@ -70,6 +71,10 @@ Item {
 
                    widgetSource: model.widgetSource
                    indicatorProperties : model.indicatorProperties
+
+                   onIndicatorVisibleChanged: {
+                       indicatorsModel.setData(index, indicatorVisible, Indicators.IndicatorsModelRole.IsVisible);
+                   }
                 }
 
                 opacity: {

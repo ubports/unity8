@@ -22,4 +22,5 @@ import QtQuick 2.0
 DefaultIndicatorWidget {
     // default the icon so we have something to show when we don't have the bus.
     iconSource: "image://gicon/audio-volume-high"
+    enabled: true
 }

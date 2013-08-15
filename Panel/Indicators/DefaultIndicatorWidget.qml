@@ -63,6 +63,7 @@ Indicators.IndicatorWidget {
 
     onActionStateChanged: {
         if (action == undefined || !action.valid) {
+            enabled = false;
             return;
         }
 

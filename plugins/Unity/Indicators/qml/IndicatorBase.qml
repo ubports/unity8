@@ -39,9 +39,6 @@ Item {
 
     property string deviceMenuObjectPath: menuObjectPaths.hasOwnProperty(device) ? menuObjectPaths[device] : ""
 
-    signal actionGroupUpdated()
-    signal modelUpdated()
-
     property alias menuModel: cachedModel.model
 
     CachedUnityMenuModel {
