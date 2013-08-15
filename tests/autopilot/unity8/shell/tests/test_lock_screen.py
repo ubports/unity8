@@ -177,4 +177,4 @@ class TestLockscreen(UnityTestCase):
             self.assertThat(prompt.text, Eventually(Equals(current_text + character)))
         except AssertionError:
             if retries > 0:
-                self._type_character(character, retries-1)
+                self._type_character(character, prompt, retries-1)
