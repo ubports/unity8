@@ -146,7 +146,8 @@ class TestLockscreen(UnityTestCase):
         pinentryField = self.main_window.get_pinentryField()
         self.touch.tap_object(pinentryField)
         self.assertThat(pinentryField.activeFocus, Eventually(Equals(True)))
-        self.keyboard.type(passphrase)
+        for character in passphrase:
+            self._type_character(character, pinentryField)
         logger.debug("Typed passphrase: %s", pinentryField.text)
         self.keyboard.type("\n")
 
@@ -164,6 +165,16 @@ class TestLockscreen(UnityTestCase):
         prompt = self.main_window.get_greeter().get_prompt()
         self.touch.tap_object(prompt)
         self.assertThat(prompt.activeFocus, Eventually(Equals(True)))
-        self.keyboard.type(passphrase)
+        for character in passphrase:
+            self._type_character(character, prompt)
         logger.debug("Typed passphrase: %s", prompt.text)
         self.keyboard.type("\n")
+
+    def _type_character(self, character, prompt, retries=5):
+        current_text = prompt.text
+        self.keyboard.type(character)
+        try:
+            self.assertThat(prompt.text, Eventually(Equals(current_text + character)))
+        except AssertionError:
+            if retries > 0:
+                self._type_character(character, prompt, retries-1)
