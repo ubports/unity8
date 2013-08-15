@@ -27,7 +27,7 @@ Item {
     rotation: inverted ? 180 : 0
 
     property var model
-    property bool inverted: false
+    property bool inverted: true
     property bool dragging: false
     property bool moving: launcherListView.moving || launcherListView.flicking || dndArea.draggedItem !== undefined
     property int highlightIndex: -1
@@ -312,7 +312,7 @@ Item {
                                 var itemCenterY = fakeDragItem.y + fakeDragItem.height / 2
 
                                 // Move it down by the the missing size to compensate index calculation with only expanded items
-                                itemCenterY += selectedItem.height / 2
+                                itemCenterY += (launcherListView.itemHeight - selectedItem.height) / 2
 
                                 if (mouseY > launcherListView.height - launcherListView.topMargin - launcherListView.bottomMargin - realItemHeight) {
                                     progressiveScrollingTimer.downwards = false
