@@ -117,7 +117,7 @@ Item {
                 property int draggedIndex: dndArea.draggedIndex
 
                 displaced: Transition {
-                    NumberAnimation { properties: "x,y"; duration: 100 }
+                    NumberAnimation { properties: "x,y"; duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
                 }
 
                 delegate: LauncherListDelegate {
@@ -137,12 +137,15 @@ Item {
                     ThinDivider {
                         anchors.centerIn: parent
                         width: parent.width + mainColumn.anchors.leftMargin + mainColumn.anchors.rightMargin
-                        visible: parent.dragging
+                        opacity: parent.dragging ? 1 : 0
+                        Behavior on opacity {
+                            NumberAnimation { duration: UbuntuAnimation.FastDuration }
+                        }
                     }
 
                     states: [
                         State {
-                            name: "pre-dragging"
+                            name: "selected"
                             when: dndArea.selectedItem === launcherDelegate && fakeDragItem.visible && !dragging
                             PropertyChanges {
                                 target: launcherDelegate
@@ -154,27 +157,52 @@ Item {
                             when: dragging
                             PropertyChanges {
                                 target: launcherDelegate
-                                offset: effectiveHeight / 2
+                                offset: units.gu(0.5)
                                 height: units.gu(1)
                                 itemOpacity: 0
                             }
                         },
                         State {
                             name: "expanded"
-                            when: dndArea.draggedIndex >= 0 && !dragging
+                            when: dndArea.draggedIndex >= 0 && (dndArea.preDragging || dndArea.selectedItem.dragging) && !dragging
                             PropertyChanges {
                                 target: launcherDelegate
                                 angle: 0
                                 offset: 0
+                                itemOpacity: 0.6
                             }
                         }
 
                     ]
+                    onStateChanged: if (index == 5) print("state changed to", state)
                     transitions: [
                         Transition {
+                            from: ""
+                            to: "selected"
+                            NumberAnimation { properties: "itemOpacity"; duration: UbuntuAnimation.FastDuration }
+                        },
+                        Transition {
                             from: "*"
+                            to: "expanded"
+                            NumberAnimation { properties: "itemOpacity"; duration: UbuntuAnimation.FastDuration }
+                            NumberAnimation { properties: "angle,offset"; duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
+                        },
+                        Transition {
+                            from: "expanded"
+                            to: ""
+                            NumberAnimation { properties: "itemOpacity"; duration: UbuntuAnimation.BriskDuration }
+                            NumberAnimation { properties: "angle,offset"; duration: UbuntuAnimation.BriskDuration; easing: UbuntuAnimation.StandardEasing }
+                        },
+                        Transition {
+                            from: "selected"
+                            to: "dragging"
+                            NumberAnimation { properties: "height"; duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
+                        },
+                        Transition {
+                            from: "dragging"
                             to: "*"
-                            NumberAnimation { properties: "angle,height,itemOpacity"; duration: 150 }
+                            NumberAnimation { properties: "itemOpacity"; duration: UbuntuAnimation.BriskDuration }
+                            NumberAnimation { properties: "height"; duration: UbuntuAnimation.BriskDuration; easing: UbuntuAnimation.StandardEasing }
                         }
                     ]
                 }
@@ -187,6 +215,7 @@ Item {
 
                     property int draggedIndex: -1
                     property var selectedItem
+                    property bool preDragging: false
                     property int startX
                     property int startY
                     property var quickListPopover
@@ -228,14 +257,16 @@ Item {
                     onCanceled: {
                         selectedItem.highlighted = false
                         selectedItem = undefined;
+                        preDragging = false;
                     }
 
                     onReleased: {
+                        draggedIndex = -1;
                         selectedItem.highlighted = false
                         selectedItem.dragging = false;
                         selectedItem = undefined;
+                        preDragging = false;
 
-                        draggedIndex = -1;
                         drag.target = undefined
 
                         progressiveScrollingTimer.stop();
@@ -271,9 +302,13 @@ Item {
 
                             if (!selectedItem.dragging) {
                                 var distance = Math.max(Math.abs(mouseX - startX), Math.abs(mouseY - startY))
+                                if (!preDragging && distance > units.gu(1.5)) {
+                                    PopupUtils.close(quickListPopover)
+                                    preDragging = true;
+                                }
                                 if (distance > launcherListView.itemHeight) {
                                     selectedItem.dragging = true
-                                    PopupUtils.close(quickListPopover)
+                                    preDragging = false;
                                 }
                             }
                             if (!selectedItem.dragging) {
@@ -372,6 +407,7 @@ Item {
                 width: itemWidth
                 rotation: root.rotation
                 highlighted: true
+                itemOpacity: 0.8
             }
         }
 
