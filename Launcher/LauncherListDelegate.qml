@@ -120,7 +120,7 @@ LauncherDelegate {
         id: priv
 
         property ListView listView: root.ListView.view
-        property real totalUnfoldedHeight: listView.itemSize + listView.spacing
+        property real totalUnfoldedHeight: listView.itemHeight + listView.spacing
         property real totalEffectiveHeight: effectiveHeight + listView.spacing
         property real effectiveContentY: listView.contentY - listView.originY
         property real effectiveY: y - listView.originY

@@ -46,17 +46,17 @@ Item {
         id: mainColumn
         anchors {
             fill: parent
-            topMargin: units.gu(0.5)
-            bottomMargin: units.gu(1)
+//            topMargin: units.gu(0.5)
+//            bottomMargin: units.gu(1)
             leftMargin: units.gu(0.5)
             rightMargin: units.gu(0.5)
         }
-        spacing: units.gu(0.5)
+        //spacing: units.gu(0.5)
 
         MouseArea {
             id: dashItem
             width: parent.width
-            height: units.gu(6.5)
+            height: units.gu(7)
             onClicked: root.dashItemSelected(0)
             z: 1
             Image {
@@ -90,22 +90,23 @@ Item {
                 id: launcherListView
                 objectName: "launcherListView"
                 anchors.fill: parent
-                anchors.topMargin: -itemSize
-                anchors.bottomMargin: -itemSize
-                topMargin: itemSize
-                bottomMargin: itemSize
+                anchors.topMargin: -itemHeight
+                anchors.bottomMargin: -itemHeight
+                topMargin: itemHeight
+                bottomMargin: itemHeight
                 height: parent.height - dashItem.height - parent.spacing*2
                 model: root.model
-                cacheBuffer: itemSize * 3
+                cacheBuffer: itemHeight * 3
                 snapMode: interactive ? ListView.SnapToItem : ListView.NoSnap
                 highlightRangeMode: ListView.ApplyRange
-                preferredHighlightBegin: (height - itemSize) / 2
-                preferredHighlightEnd: (height + itemSize) / 2
+                preferredHighlightBegin: (height - itemHeight) / 2
+                preferredHighlightEnd: (height + itemHeight) / 2
                 layoutDirection: root.inverted ? Qt.RightToLeft : Qt.LeftToRight
 
                 // The height of the area where icons start getting folded
-                property int foldingAreaHeight: itemSize * 0.75
-                property int itemSize: width
+                property int foldingAreaHeight: itemHeight * 0.75
+                property int itemWidth: width
+                property int itemHeight: width * 7.5 / 8
                 property int clickFlickSpeed: units.gu(60)
                 property int draggedIndex: dndArea.draggedIndex
 
@@ -116,8 +117,8 @@ Item {
                 delegate: LauncherListDelegate {
                     id: launcherDelegate
                     objectName: "launcherDelegate" + index
-                    itemHeight: launcherListView.itemSize
-                    itemWidth: launcherListView.itemSize
+                    itemHeight: launcherListView.itemHeight
+                    itemWidth: launcherListView.itemWidth
                     width: itemWidth
                     height: itemHeight
                     iconName: model.icon
@@ -178,9 +179,9 @@ Item {
                     }
 
                     onClicked: {
-                        var realItemSize = launcherListView.itemSize + launcherListView.spacing
+                        var realItemHeight = launcherListView.itemHeight + launcherListView.spacing
                         var realContentY = launcherListView.contentY + launcherListView.topMargin
-                        var index = Math.floor((mouseY + realContentY) / realItemSize);
+                        var index = Math.floor((mouseY + realContentY) / realItemHeight);
                         var clickedItem = launcherListView.itemAt(mouseX, mouseY + realContentY)
 
                         print("clicked on", index, clickedItem)
@@ -234,9 +235,9 @@ Item {
                     }
 
                     onPressAndHold: {
-                        var realItemSize = launcherListView.itemSize + launcherListView.spacing
+                        var realItemHeight = launcherListView.itemHeight + launcherListView.spacing
                         var realContentY = launcherListView.contentY + launcherListView.topMargin
-                        draggedIndex = Math.floor((mouseY + realContentY) / realItemSize);
+                        draggedIndex = Math.floor((mouseY + realContentY) / realItemHeight);
 
                         launcherListView.interactive = false
 
@@ -245,7 +246,7 @@ Item {
                         quickListPopover = PopupUtils.open(popoverComponent, selectedItem,
                                                            {model: quickListModel, appId: quickListAppId})
 
-                        var yOffset = draggedIndex > 0 ? (mouseY + realContentY) % (draggedIndex * realItemSize) : mouseY + realContentY
+                        var yOffset = draggedIndex > 0 ? (mouseY + realContentY) % (draggedIndex * realItemHeight) : mouseY + realContentY
 
                         fakeDragItem.iconName = launcherListView.model.get(draggedIndex).icon
                         fakeDragItem.x = 0
@@ -263,7 +264,7 @@ Item {
 
                             if (!selectedItem.dragging) {
                                 var distance = Math.max(Math.abs(mouseX - startX), Math.abs(mouseY - startY))
-                                if (distance > launcherListView.itemSize) {
+                                if (distance > launcherListView.itemHeight) {
                                     print("starting drag")
                                     selectedItem.dragging = true
                                     PopupUtils.close(quickListPopover)
@@ -277,18 +278,18 @@ Item {
                             //root.dragPosition = mouseY
 
                             var realContentY = launcherListView.contentY + launcherListView.topMargin
-                            var realItemSize = launcherListView.itemSize + launcherListView.spacing
+                            var realItemHeight = launcherListView.itemHeight + launcherListView.spacing
                             var itemCenterY = fakeDragItem.y + fakeDragItem.height / 2
 
                             // Move it down by the the missing size to compensate index calculation with only expanded items
                             itemCenterY += selectedItem.height / 2
 
-//                            print("mouseY", mouseY, launcherListView.height - launcherListView.topMargin - launcherListView.bottomMargin - realItemSize)
-                            if (mouseY > launcherListView.height - launcherListView.topMargin - launcherListView.bottomMargin - realItemSize) {
+//                            print("mouseY", mouseY, launcherListView.height - launcherListView.topMargin - launcherListView.bottomMargin - realItemHeight)
+                            if (mouseY > launcherListView.height - launcherListView.topMargin - launcherListView.bottomMargin - realItemHeight) {
 //                                print("entered bottom area")
                                 progressiveScrollingTimer.downwards = false
                                 progressiveScrollingTimer.start()
-                            } else if (mouseY < realItemSize) {
+                            } else if (mouseY < realItemHeight) {
                                 progressiveScrollingTimer.downwards = true
                                 progressiveScrollingTimer.start()
 //                                print("entered top area")
@@ -297,7 +298,7 @@ Item {
 //                                print("not in any area")
                             }
 
-                            var newIndex = (itemCenterY + realContentY) / realItemSize
+                            var newIndex = (itemCenterY + realContentY) / realItemHeight
 
                             if (newIndex > draggedIndex + 1) {
                                 newIndex = draggedIndex + 1
@@ -330,6 +331,7 @@ Item {
                         } else {
                             var maxY = -mainColumn.spacing*2
                             if (launcherListView.contentY < maxY) {
+                                print("moving upwards", launcherListView.contentY, maxY)
                                 launcherListView.contentY = Math.min(launcherListView.contentY + units.dp(2), maxY)
                             }
                         }
@@ -357,7 +359,7 @@ Item {
                         bottom: parent.bottom
                         bottomMargin: launcherListView.bottomMargin
                     }
-                    height: launcherListView.itemSize / 2
+                    height: launcherListView.itemHeight / 2
                     enabled: launcherListView.contentHeight - launcherListView.height - launcherListView.contentY > -launcherListView.bottomMargin
                     onClicked: launcherListView.flick(0, -launcherListView.clickFlickSpeed)
                 }
@@ -367,8 +369,8 @@ Item {
             LauncherDelegate {
                 id: fakeDragItem
                 visible: dndArea.draggedIndex >= 0
-                itemWidth: launcherListView.itemSize
-                itemHeight: launcherListView.itemSize
+                itemWidth: launcherListView.itemWidth
+                itemHeight: launcherListView.itemHeight
                 height: itemHeight
                 width: itemWidth
                 rotation: root.rotation
