@@ -120,7 +120,7 @@ FocusScope {
         id: backgroundSettings
         schema.id: "org.gnome.desktop.background"
     }
-    property url gSettingsPicture: backgroundSettings.pictureUri.length > 0 ? backgroundSettings.pictureUri : shell.defaultBackground
+    property url gSettingsPicture: backgroundSettings.pictureUri != undefined && backgroundSettings.pictureUri.length > 0 ? backgroundSettings.pictureUri : shell.defaultBackground
     onGSettingsPictureChanged: {
         shell.background = gSettingsPicture
     }
