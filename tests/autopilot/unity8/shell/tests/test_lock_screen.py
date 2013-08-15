@@ -175,6 +175,6 @@ class TestLockscreen(UnityTestCase):
         self.keyboard.type(character)
         try:
             self.assertThat(prompt.text, Eventually(Equals(current_text + character)))
-        except:
+        except AssertionError:
             if retries > 0:
-                _type_character(character, retries-1)
+                self._type_character(character, retries-1)
