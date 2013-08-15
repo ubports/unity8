@@ -29,7 +29,7 @@ Item {
     property var model
     property bool inverted: true
     property bool dragging: false
-    property bool moving: launcherListView.moving || launcherListView.flicking || dndArea.draggedItem !== undefined
+    property bool moving: launcherListView.moving || launcherListView.flicking || dndArea.draggedIndex >= 0
     property int highlightIndex: -1
 
     signal applicationSelected(string desktopFile)
@@ -402,6 +402,5 @@ Item {
                 itemOpacity: 0.8
             }
         }
-
     }
 }
