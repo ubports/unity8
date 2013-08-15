@@ -1,7 +1,5 @@
 file(GLOB INDICATOR_SERVICE_FILES
-    ${CMAKE_CURRENT_SOURCE_DIR}/com.canonical.indicator.battery
     ${CMAKE_CURRENT_SOURCE_DIR}/com.canonical.indicator.messages
-    ${CMAKE_CURRENT_SOURCE_DIR}/com.canonical.indicator.time
     ${CMAKE_CURRENT_SOURCE_DIR}/com.canonical.settings.network
     ${CMAKE_CURRENT_SOURCE_DIR}/com.canonical.settings.sound
 )
