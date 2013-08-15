@@ -154,9 +154,8 @@ Item {
                             when: dragging
                             PropertyChanges {
                                 target: launcherDelegate
-                                angle: root.inverted ? -80 : 80
                                 offset: effectiveHeight / 2
-                                height: effectiveHeight
+                                height: units.gu(1)
                                 itemOpacity: 0
                             }
                         },
@@ -175,24 +174,8 @@ Item {
                         Transition {
                             from: "*"
                             to: "*"
-                            NumberAnimation { properties: "height,itemOpacity"; duration: 150 }
-                        },
-                        Transition {
-                            from: "dragging"
-                            to: "*"
-                            NumberAnimation { properties: "itemOpacity"; duration: 1500 }
-                        },
-                        Transition {
-                            from: ""
-                            to: "expanded"
-                            NumberAnimation { properties: "angle"; duration: 150 }
-                        },
-                        Transition {
-                            from: "expanded"
-                            to: ""
-                            NumberAnimation { properties: "angle"; duration: 150 }
+                            NumberAnimation { properties: "angle,height,itemOpacity"; duration: 150 }
                         }
-
                     ]
                 }
 
