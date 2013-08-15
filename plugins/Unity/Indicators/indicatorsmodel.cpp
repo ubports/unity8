@@ -206,7 +206,7 @@ QHash<int, QByteArray> IndicatorsModel::roleNames() const
         roles[IndicatorsModelRole::WidgetSource] = "widgetSource";
         roles[IndicatorsModelRole::PageSource] = "pageSource";
         roles[IndicatorsModelRole::IndicatorProperties] = "indicatorProperties";
-        roles[IndicatorsModelRole::IsValid] = "isValid";
+        roles[IndicatorsModelRole::IsVisible] = "isVisible";
     }
     return roles;
 }
@@ -269,8 +269,8 @@ QVariant IndicatorsModel::data(const QModelIndex &index, int role) const
                 return QVariant(indicator->indicatorProperties());
             }
             break;
-        case IndicatorsModelRole::IsValid:
-            return (indicator ? true : false);
+        case IndicatorsModelRole::IsVisible:
+            return (indicator ? indicator->isVisible() : false);
         case IndicatorsModelRole::Title:
         case IndicatorsModelRole::Description:
         case IndicatorsModelRole::WidgetSource:
@@ -280,6 +280,34 @@ QVariant IndicatorsModel::data(const QModelIndex &index, int role) const
             break;
     }
     return QVariant();
+}
+
+void IndicatorsModel::setData(int row, const QVariant& value, int role)
+{
+    setData(index(row, 0), value, role);
+}
+
+bool IndicatorsModel::setData(const QModelIndex & index, const QVariant & value, int role)
+{
+    if (!index.isValid() || index.row() >= m_indicators.size())
+        return false;
+
+    Indicator::Ptr indicator = m_indicators[index.row()];
+
+    switch (role)
+    {
+        case IndicatorsModelRole::IsVisible:
+            if (indicator) {
+                if (indicator->setVisible(value.toBool())) {
+                    dataChanged(index, index, QVector<int>() << role);
+                }
+                return true;
+            }
+            break;
+        default:
+            break;
+    }
+    return false;
 }
 
 QVariant IndicatorsModel::indicatorData(const Indicator::Ptr& indicator, int role) const

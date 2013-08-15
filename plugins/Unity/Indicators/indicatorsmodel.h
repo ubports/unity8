@@ -44,17 +44,20 @@ public:
     Q_INVOKABLE void load();
     Q_INVOKABLE void unload();
 
-    Q_INVOKABLE QVariant data(int row, int role = Qt::DisplayRole) const;
+    Q_INVOKABLE QVariant data(int row, int role) const;
+    Q_INVOKABLE void setData(int row, const QVariant& value, int role);
 
     /* QAbstractItemModel */
     QHash<int, QByteArray> roleNames() const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+    bool setData(const QModelIndex & index, const QVariant & value, int role = Qt::EditRole);
     QModelIndex parent (const QModelIndex &index) const;
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
 
     void setIndicatorData(const QVariant& data);
     QVariant indicatorData() const;
+
 
 Q_SIGNALS:
     void countChanged();

@@ -29,10 +29,6 @@
 class UNITYINDICATORS_EXPORT Indicator : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString identifier READ identifier NOTIFY identifierChanged)
-    Q_PROPERTY(int position READ position NOTIFY positionChanged)
-    Q_PROPERTY(QVariant indicatorProperties READ indicatorProperties NOTIFY indicatorPropertiesChanged)
-
 public:
     typedef QSharedPointer<Indicator> Ptr;
 
@@ -44,10 +40,15 @@ public:
     QString identifier() const;
     int position() const;
     QVariant indicatorProperties() const;
+    bool isVisible() const;
+
+    // is set once we know if we're connected.
+    bool setVisible(bool visible);
 
 Q_SIGNALS:
     void identifierChanged(const QString &identifier);
     void positionChanged(int position);
+    void visibleChanged(bool visible);
     void indicatorPropertiesChanged(const QVariant &properties);
 
 protected:
@@ -58,6 +59,7 @@ protected:
 private:
     QString m_identifier;
     int m_position;
+    bool m_visible;
     QVariant m_properties;
 };
 

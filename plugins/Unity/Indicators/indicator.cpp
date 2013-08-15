@@ -23,7 +23,8 @@
 
 Indicator::Indicator(QObject *parent)
     : QObject(parent),
-      m_position(0)
+      m_position(0),
+      m_visible(false)
 {
 }
 
@@ -50,7 +51,6 @@ void Indicator::init(const QString& busName, const QSettings& settings)
             mapMenuObjectPaths[childGroup] = settings.value(menuPath).toString();
         }
     }
-
 
     QVariantMap properties;
     properties.clear();
@@ -87,6 +87,20 @@ void Indicator::setPosition(int position)
     }
 }
 
+bool Indicator::isVisible() const
+{
+    return m_visible;
+}
+
+bool Indicator::setVisible(bool visible)
+{
+    if (visible != m_visible) {
+        m_visible = visible;
+        Q_EMIT visibleChanged(m_visible);
+        return true;
+    }
+    return false;
+}
 
 QVariant Indicator::indicatorProperties() const
 {
