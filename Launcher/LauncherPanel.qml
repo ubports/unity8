@@ -48,7 +48,6 @@ Item {
             leftMargin: units.gu(0.5)
             rightMargin: units.gu(0.5)
         }
-        //spacing: units.gu(0.5)
 
         MouseArea {
             id: dashItem
