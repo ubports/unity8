@@ -48,6 +48,7 @@ add_custom_target(cppcheck COMMAND cppcheck --enable=all -q --error-exitcode=2
                                        ${CMAKE_SOURCE_DIR}/src ${CMAKE_SOURCE_DIR}/tests)
 
 include(FindPkgConfig)
+find_package(Qt5Core)
 find_package(Qt5Qml)
 find_package(Qt5Quick)
 find_package(Qt5Gui)

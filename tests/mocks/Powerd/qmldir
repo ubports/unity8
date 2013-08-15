@@ -1,0 +1,2 @@
+module Powerd
+plugin MockPowerd-qml

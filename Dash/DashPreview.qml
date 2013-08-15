@@ -19,14 +19,15 @@ import Ubuntu.Components 0.1
 
 Rectangle {
     id: root
+
+    property var previewData
+
     property string title: ""
-    property url url: ""
     property real previewWidthRatio: 0.5
-    property bool playable: false
-    property bool forceSquare: false
+
+    property Component header
     property Component buttons
-    property Component caption
-    property Component description
+    property Component body
 
     readonly property bool narrowMode: width <= height
     readonly property int contentSpacing: units.gu(3)
@@ -141,50 +142,19 @@ Rectangle {
                     right: parent.right
                 }
                 height: childrenRect.height
-                spacing: root.contentSpacing
+                spacing: units.gu(1)
 
-                // TODO: replace this UbuntuShape with the Video component once that lands
-                // with the player.
-                UbuntuShape {
-                    id: urlLoader
+                Loader {
+                    id: headerLoader
                     anchors.left: parent.left
                     anchors.right: parent.right
-                    height: root.forceSquare ? width : width * previewImage.sourceSize.height / previewImage.sourceSize.width
-                    radius: "medium"
-                    image: Image {
-                        id: previewImage
-                        asynchronous: true
-                        source: root.url
-                        fillMode: Image.PreserveAspectCrop
-                    }
-
-                    Image {
-                        objectName: "playButton"
-                        anchors.centerIn: parent
-                        visible: root.playable
-                        readonly property bool bigButton: parent.width > units.gu(40)
-                        width: bigButton ? units.gu(8) : units.gu(4.5)
-                        height: width
-                        source: "graphics/play_button%1%2.png".arg(previewImageMouseArea.pressed ? "_active" : "").arg(bigButton ? "_big" : "")
-                    }
-
-                    MouseArea {
-                        id: previewImageMouseArea
-                        anchors.fill: parent
-                        onClicked: root.previewImageClicked()
-                    }
+                    sourceComponent: root.header
                 }
                 Loader {
                     id: buttonLoader
                     anchors.left: parent.left
                     anchors.right: parent.right
                     sourceComponent: root.buttons
-                }
-                Loader {
-                    id: captionLoader
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    sourceComponent: root.caption
                 }
             }
         }
@@ -213,6 +183,6 @@ Rectangle {
         parent: root.narrowMode ? leftColumn : rightColumn
         anchors.left: parent.left
         anchors.right: parent.right
-        sourceComponent: root.description
+        sourceComponent: root.body
     }
 }

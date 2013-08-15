@@ -433,6 +433,7 @@ FocusScope {
 
     Greeter {
         id: greeter
+        objectName: "greeter"
 
         available: true
         hides: [launcher, panel.indicators, hud]

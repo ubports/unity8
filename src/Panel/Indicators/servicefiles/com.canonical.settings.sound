@@ -1,6 +1,7 @@
 [Indicator Service]
-Name=indicator-sound
+Name=chewie-sound
 ObjectPath=/com/canonical/settings/sound
+Position=30
 
 [phone]
 ObjectPath=/com/canonical/settings/sound/phone

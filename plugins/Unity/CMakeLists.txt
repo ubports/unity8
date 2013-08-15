@@ -2,6 +2,7 @@
 include(Plugins)
 
 add_subdirectory(Indicators)
+add_subdirectory(IndicatorsLegacy)
 
 # Dependencies
 include(FindPkgConfig)
@@ -17,11 +18,23 @@ include_directories(
 )
 
 set(QMLPLUGIN_SRC
+    abstractfilteroption.cpp
     scope.cpp
     scopes.cpp
     categories.cpp
+    checkoptionfilter.cpp
+    filter.cpp
+    filteroption.cpp
+    filters.cpp
+    genericoptionsmodel.cpp
+    ratingoptionsmodel.cpp
+    unityoptionsmodel.cpp
     categoryresults.cpp
     plugin.cpp
+    multirangefilter.cpp
+    radiooptionfilter.cpp
+    ratingsfilter.cpp
+    ratingfilteroption.cpp
     bottombarvisibilitycommunicatorshell.cpp
     applicationpreview.cpp
     genericpreview.cpp
@@ -30,10 +43,11 @@ set(QMLPLUGIN_SRC
     preview.cpp
     previewaction.cpp
     previewinfohint.cpp
+    signalslist.cpp
     socialpreview.cpp
     socialpreviewcomment.cpp
     variantutils.cpp
-    )
+)
 
 add_library(Unity-qml MODULE
     ${QMLPLUGIN_SRC}

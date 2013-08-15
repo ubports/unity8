@@ -15,19 +15,22 @@
  *
  * Authors:
  *      Renato Araujo Oliveira Filho <renato@canonical.com>
+ *      Nick Dedekind <nick.dedekind@canonical.com>
  */
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Unity.Indicators 0.1 as Indicators
 
-BasicMenuItem {
-    id: buttonMenu
-    color: "#221e1b"
+BaseMenuItem {
+    id: menuItem
+    objectName: menuAction.name
     implicitHeight: units.gu(7)
+    enabled: menuAction.active
 
     Button {
         id: button
-        enabled: menuAction.valid
+        enabled: menuAction.enabled
         text: menu ? menu.label : ""
         anchors.centerIn: parent
         height: units.gu(4)
@@ -35,13 +38,12 @@ BasicMenuItem {
         color: "#1b1817"
 
         onClicked: {
-            menuAction.activate()
+            menuItem.activate();
         }
     }
 
-    MenuAction {
+    Indicators.MenuAction {
         id: menuAction
-        actionGroup: buttonMenu.actionGroup
-        action: menu ? menu.action : ""
+        menu: menuItem.menu
     }
 }

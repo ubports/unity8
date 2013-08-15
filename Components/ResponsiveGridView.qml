@@ -32,11 +32,17 @@ Item {
     property alias delegate: gridView.delegate
     readonly property int cellWidth: gridView.cellWidth
     readonly property int cellHeight: gridView.cellHeight
-    readonly property int totalContentHeight: Math.ceil(gridView.model.count / columns) * cellHeight + verticalSpacing
+    readonly property int totalContentHeight: {
+        return contentHeightForRows(Math.ceil(gridView.model.count / columns))
+    }
     property alias interactive: gridView.interactive
     readonly property alias flicking: gridView.flicking
     readonly property alias moving: gridView.moving
     readonly property alias pressDelay: gridView.pressDelay
+
+    function contentHeightForRows(rows) {
+        return rows * cellHeight + verticalSpacing
+    }
 
     GridView {
         id: gridView

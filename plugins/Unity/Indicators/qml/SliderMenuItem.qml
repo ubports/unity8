@@ -15,50 +15,106 @@
  *
  * Authors:
  *      Renato Araujo Oliveira Filho <renato@canonical.com>
+ *      Nick Dedekind <nick.dedekind@canonical.com>
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 0.1 as Components
+import Unity.Indicators 0.1 as Indicators
 
-MenuItem {
-    id: _sliderMenu
+FramedMenuItem {
+    id: menuItem
+    objectName: menuAction.name
+    enabled: menuAction.active
 
     property alias minimumValue: slider.minimumValue
     property alias maximumValue: slider.maximumValue
-    property alias value: slider.value
+    readonly property double value: menu ? menuAction.state : 0.0
 
-    control: Slider {
-        id: slider
-        enabled: menuAction.valid
-        width: _sliderMenu.text ? units.gu(20) : _sliderMenu.width - units.gu(4)
-        anchors.verticalCenter: parent.verticalCenter
-        live: false
-        // FIXME: The interval should be [0.0 - 1.0]. Unfortunately, when
-        // reaching the boundaries (0.0 or 1.0), the value is converted
-        // to an integer when automatically wrapped in a variant when
-        // passed to QStateAction::updateState(…). The server chokes on
-        // those values, complaining that they’re not of the right type…
-        minimumValue: menu.extra.canonical_min ? menu.extra.canonical_min * 1.000001 : 0.0000001
-        maximumValue: {
-            var maximum = menu.extra.canonical_max ? menu.extra.canonical_max * 1.000001 : 0.9999999
-            if (maximum <= minimumValue) {
-                    return minimumValue + 1;
-            }
-            return maximum;
+    property QtObject d: QtObject {
+        property bool enableValueConnection: true
+    }
+
+    onValueChanged: {
+        // TODO: look into adding a component to manage bi-directional bindings.
+        var oldEnable = d.enableValueConnection
+        d.enableValueConnection = false;
+
+        // Can't rely on binding. Slider value is assigned by user slide.
+        slider.value = value;
+
+        d.enableValueConnection = oldEnable;
+    }
+
+    control: Item {
+        id: row
+        width: sliderMenu.text ? units.gu(20) : menuItem.width - (2 * menuItem.__contentsMargins)
+        height: slider.height
+
+        Image {
+            id: leftImage
+            visible: source != ""
+            anchors.left: row.left
+            anchors.verticalCenter: row.verticalCenter
+            height: units.gu(4)
+            width: height
+            source: menu.ext.minIcon
         }
 
-        // FIXME - to be deprecated in Ubuntu.Components.
-        // Use this to disable the label, since there is not way to do it on the component.
-        function formatValue(v) {
-            return "";
+        Components.Slider {
+            id: slider
+            anchors {
+                left: leftImage.visible ? leftImage.right : row.left
+                right: rightImage.visible ? rightImage.left : row.right
+                leftMargin: leftImage.visible ? units.gu(0.5) : 0
+                rightMargin: rightImage.visible ? units.gu(0.5) : 0
+            }
+            live: false
+
+            Component.onCompleted: {
+                value = menuItem.value
+            }
+
+            // FIXME: The interval should be [0.0 - 1.0]. Unfortunately, when
+            // reaching the boundaries (0.0 or 1.0), the value is converted
+            // to an integer when automatically wrapped in a variant when
+            // passed to QStateAction::updateState(…). The server chokes on
+            // those values, complaining that they’re not of the right type…
+            minimumValue: menu.ext.minValue ? menu.ext.minValue * 1.000001 : 0.0000001
+            maximumValue: {
+                var maximum = menu.ext.maxValue ? menu.ext.maxValue * 1.000001 : 0.9999999
+                if (maximum <= minimumValue) {
+                        return minimumValue + 1;
+                }
+                return maximum;
+            }
+
+            // FIXME - to be deprecated in Ubuntu.Components.
+            // Use this to disable the label, since there is not way to do it on the component.
+            function formatValue(v) {
+                return "";
+            }
+
+            Connections {
+                target: d.enableValueConnection ? slider : null
+                onValueChanged: {
+                    menuItem.changeState(slider.value);
+                }
+            }
+        }
+
+        Image {
+            id: rightImage
+            anchors.right: row.right
+            anchors.verticalCenter: row.verticalCenter
+            height: units.gu(4)
+            width: height
+            source: menu.ext.maxIcon
         }
     }
 
-    MenuActionBinding {
+    Indicators.MenuAction {
         id: menuAction
-        actionGroup: _sliderMenu.actionGroup
-        action: menu ? menu.action : ""
-        target: slider
-        property: "value"
+        menu: menuItem.menu
     }
 }
