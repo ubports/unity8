@@ -46,8 +46,6 @@ Item {
         id: mainColumn
         anchors {
             fill: parent
-//            topMargin: units.gu(0.5)
-//            bottomMargin: units.gu(1)
             leftMargin: units.gu(0.5)
             rightMargin: units.gu(0.5)
         }
@@ -89,9 +87,11 @@ Item {
             ListView {
                 id: launcherListView
                 objectName: "launcherListView"
-                anchors.fill: parent
-                anchors.topMargin: -itemHeight
-                anchors.bottomMargin: -itemHeight
+                anchors {
+                    fill: parent
+                    topMargin: -itemHeight + units.gu(0.5)
+                    bottomMargin: -itemHeight + units.gu(1)
+                }
                 topMargin: itemHeight
                 bottomMargin: itemHeight
                 height: parent.height - dashItem.height - parent.spacing*2
@@ -102,6 +102,7 @@ Item {
                 preferredHighlightBegin: (height - itemHeight) / 2
                 preferredHighlightEnd: (height + itemHeight) / 2
                 layoutDirection: root.inverted ? Qt.RightToLeft : Qt.LeftToRight
+                spacing: units.gu(0.5)
 
                 // The height of the area where icons start getting folded
                 property int foldingAreaHeight: itemHeight * 0.75
@@ -113,6 +114,8 @@ Item {
                 displaced: Transition {
                     NumberAnimation { properties: "x,y"; duration: 100 }
                 }
+
+                onContentYChanged: print("contentY", contentY)
 
                 delegate: LauncherListDelegate {
                     id: launcherDelegate
@@ -128,7 +131,21 @@ Item {
                     maxAngle: 60
                     property bool dragging: false
 
+                    ThinDivider {
+                        anchors.centerIn: parent
+                        width: parent.width + mainColumn.anchors.leftMargin + mainColumn.anchors.rightMargin
+                        visible: parent.dragging
+                    }
+
                     states: [
+                        State {
+                            name: "pre-dragging"
+                            when: dndArea.selectedItem === launcherDelegate && fakeDragItem.visible && !dragging
+                            PropertyChanges {
+                                target: launcherDelegate
+                                itemOpacity: 0
+                            }
+                        },
                         State {
                             name: "dragging"
                             when: dragging
@@ -137,6 +154,7 @@ Item {
                                 angle: root.inverted ? -80 : 80
                                 offset: effectiveHeight / 2
                                 height: effectiveHeight
+                                itemOpacity: 0
                             }
                         },
                         State {
@@ -154,8 +172,12 @@ Item {
                         Transition {
                             from: "*"
                             to: "*"
-//                            NumberAnimation { properties: "angle,offset"; duration: 200 }
-                            NumberAnimation { properties: "height"; duration: 150 }
+                            NumberAnimation { properties: "height,itemOpacity"; duration: 150 }
+                        },
+                        Transition {
+                            from: "dragging"
+                            to: "*"
+                            NumberAnimation { properties: "itemOpacity"; duration: 150 }
                         }
                     ]
                 }
@@ -215,7 +237,6 @@ Item {
                     onReleased: {
                         print("released");
                         selectedItem.highlighted = false
-                        selectedItem.opacity = 1
                         selectedItem.dragging = false;
                         selectedItem = undefined;
 
@@ -227,10 +248,10 @@ Item {
 
                         // FIXME: remove the if condition once the ListView position bug is fixed.
                         // Right now setting currentIndex to 0 causes more issues than it helps.
-                        if (droppedIndex > 2) {
-                            launcherListView.currentIndex = -1;
-                            launcherListView.currentIndex = droppedIndex;
-                        }
+//                        if (droppedIndex > 2) {
+//                            launcherListView.currentIndex = -1;
+//                            launcherListView.currentIndex = droppedIndex;
+//                        }
                         launcherListView.interactive = true;
                     }
 
@@ -252,8 +273,6 @@ Item {
                         fakeDragItem.x = 0
                         fakeDragItem.y = mouseY - yOffset
                         drag.target = fakeDragItem
-
-                        selectedItem.opacity = 0
 
                         startX = mouseX
                         startY = mouseY
@@ -324,14 +343,14 @@ Item {
                     property bool downwards: true
                     onTriggered: {
                         if (downwards) {
-                            var minY = launcherListView.contentHeight - launcherListView.height + mainColumn.spacing*2
+                            var minY =  -launcherListView.topMargin
                             if (launcherListView.contentY > minY) {
                                 launcherListView.contentY = Math.max(launcherListView.contentY - units.dp(2), minY)
                             }
                         } else {
-                            var maxY = -mainColumn.spacing*2
+                            var maxY = launcherListView.contentHeight - launcherListView.height + launcherListView.topMargin + dndArea.selectedItem.effectiveHeight*2
                             if (launcherListView.contentY < maxY) {
-                                print("moving upwards", launcherListView.contentY, maxY)
+                                print("moving upwards", launcherListView.contentHeight, launcherListView.height, launcherListView.topMargin, dndArea.selectedItem.height, dndArea.selectedItem.effectiveHeight)
                                 launcherListView.contentY = Math.min(launcherListView.contentY + units.dp(2), maxY)
                             }
                         }
@@ -374,6 +393,7 @@ Item {
                 height: itemHeight
                 width: itemWidth
                 rotation: root.rotation
+                highlighted: true
             }
         }
 
