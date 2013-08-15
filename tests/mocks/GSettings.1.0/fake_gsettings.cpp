@@ -28,7 +28,7 @@ GSettingsControllerQml::~GSettingsControllerQml() {
 }
 
 GSettingsControllerQml* GSettingsControllerQml::instance()  {
-    if(!s_controllerInstance) {
+    if (!s_controllerInstance) {
         s_controllerInstance = new GSettingsControllerQml();
     }
     return s_controllerInstance;
