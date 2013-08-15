@@ -82,6 +82,10 @@ Item {
             anchors.right: parent.right
             height: parent.height - dashItem.height - parent.spacing*2
 
+            Item {
+                anchors.fill: parent
+                clip: true
+
             ListView {
                 id: launcherListView
                 objectName: "launcherListView"
@@ -136,7 +140,7 @@ Item {
                         },
                         State {
                             name: "expanded"
-                            //when: dndArea.draggedIndex >= 0 && !dragging
+                            when: dndArea.draggedIndex >= 0 && !dragging
                             PropertyChanges {
                                 target: launcherDelegate
                                 angle: 0
@@ -166,16 +170,6 @@ Item {
                     property int startX
                     property int startY
                     property var quickListPopover
-
-                    LauncherDelegate {
-                        id: fakeDragItem
-                        visible: dndArea.draggedIndex >= 0
-                        itemWidth: launcherListView.itemSize
-                        itemHeight: launcherListView.itemSize
-                        height: itemHeight
-                        width: itemWidth
-                        rotation: root.rotation
-                    }
 
                     onPressed: {
                         var realContentY = launcherListView.contentY + launcherListView.topMargin
@@ -368,7 +362,19 @@ Item {
                     onClicked: launcherListView.flick(0, -launcherListView.clickFlickSpeed)
                 }
             }
+            }
+
+            LauncherDelegate {
+                id: fakeDragItem
+                visible: dndArea.draggedIndex >= 0
+                itemWidth: launcherListView.itemSize
+                itemHeight: launcherListView.itemSize
+                height: itemHeight
+                width: itemWidth
+                rotation: root.rotation
+            }
         }
+
     }
 
     Component {
