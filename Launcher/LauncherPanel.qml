@@ -27,7 +27,7 @@ Item {
     rotation: inverted ? 180 : 0
 
     property var model
-    property bool inverted: false
+    property bool inverted: true
     property bool dragging: false
     property bool moving: launcherListView.moving || launcherListView.flicking || dndArea.draggedIndex >= 0
     property int highlightIndex: -1
