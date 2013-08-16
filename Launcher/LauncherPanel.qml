@@ -113,6 +113,8 @@ Item {
                     property int itemHeight: width * 7.5 / 8
                     property int clickFlickSpeed: units.gu(60)
                     property int draggedIndex: dndArea.draggedIndex
+                    property real realContentY: contentY - originY + topMargin
+                    property int realItemHeight: itemHeight + spacing
 
                     displaced: Transition {
                         NumberAnimation { properties: "x,y"; duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
@@ -231,16 +233,13 @@ Item {
                         property int startY
 
                         onPressed: {
-                            var realContentY = launcherListView.contentY + launcherListView.topMargin
-                            selectedItem = launcherListView.itemAt(mouseX, mouseY + realContentY)
+                            selectedItem = launcherListView.itemAt(mouseX, mouseY + launcherListView.realContentY)
                             selectedItem.highlighted = true
                         }
 
                         onClicked: {
-                            var realItemHeight = launcherListView.itemHeight + launcherListView.spacing
-                            var realContentY = launcherListView.contentY + launcherListView.topMargin
-                            var index = Math.floor((mouseY + realContentY) / realItemHeight);
-                            var clickedItem = launcherListView.itemAt(mouseX, mouseY + realContentY)
+                            var index = Math.floor((mouseY + launcherListView.realContentY) / launcherListView.realItemHeight);
+                            var clickedItem = launcherListView.itemAt(mouseX, mouseY + launcherListView.realContentY)
 
                             // First/last item do the scrolling at more than 12 degrees
                             if (index == 0 || index == launcherListView.count -1) {
@@ -286,13 +285,11 @@ Item {
                         }
 
                         onPressAndHold: {
-                            var realItemHeight = launcherListView.itemHeight + launcherListView.spacing
-                            var realContentY = launcherListView.contentY + launcherListView.topMargin
-                            draggedIndex = Math.floor((mouseY + realContentY) / realItemHeight);
+                            draggedIndex = Math.floor((mouseY + launcherListView.realContentY) / launcherListView.realItemHeight);
 
                             launcherListView.interactive = false
 
-                            var yOffset = draggedIndex > 0 ? (mouseY + realContentY) % (draggedIndex * realItemHeight) : mouseY + realContentY
+                            var yOffset = draggedIndex > 0 ? (mouseY + launcherListView.realContentY) % (draggedIndex * launcherListView.realItemHeight) : mouseY + launcherListView.realContentY
 
                             fakeDragItem.iconName = launcherListView.model.get(draggedIndex).icon
                             fakeDragItem.x = 0
@@ -319,24 +316,22 @@ Item {
                                     return
                                 }
 
-                                var realContentY = launcherListView.contentY + launcherListView.topMargin
-                                var realItemHeight = launcherListView.itemHeight + launcherListView.spacing
                                 var itemCenterY = fakeDragItem.y + fakeDragItem.height / 2
 
                                 // Move it down by the the missing size to compensate index calculation with only expanded items
                                 itemCenterY += (launcherListView.itemHeight - selectedItem.height) / 2
 
-                                if (mouseY > launcherListView.height - launcherListView.topMargin - launcherListView.bottomMargin - realItemHeight) {
+                                if (mouseY > launcherListView.height - launcherListView.topMargin - launcherListView.bottomMargin - launcherListView.realItemHeight) {
                                     progressiveScrollingTimer.downwards = false
                                     progressiveScrollingTimer.start()
-                                } else if (mouseY < realItemHeight) {
+                                } else if (mouseY < launcherListView.realItemHeight) {
                                     progressiveScrollingTimer.downwards = true
                                     progressiveScrollingTimer.start()
                                 } else {
                                     progressiveScrollingTimer.stop()
                                 }
 
-                                var newIndex = (itemCenterY + realContentY) / realItemHeight
+                                var newIndex = (itemCenterY + launcherListView.realContentY) / launcherListView.realItemHeight
 
                                 if (newIndex > draggedIndex + 1) {
                                     newIndex = draggedIndex + 1
