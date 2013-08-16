@@ -102,8 +102,9 @@ Item {
                     spacing: units.gu(0.5)
 
                     // The size of the area the ListView is extended to make sure items are not
-                    // destroyed. Note that if the move() operation when dragging switches
-                    // the item with one that doesn't have a delegate yet everything breaks badly.
+                    // destroyed when dragging them outside the list. This needs to be at least
+                    // itemHeight to prevent folded items from disappearing and DragArea limits
+                    // need to be smaller than this size to avoid breakage.
                     property int extensionSize: itemHeight * 3
 
                     // The height of the area where icons start getting folded
@@ -214,6 +215,8 @@ Item {
                         anchors.fill: parent
                         anchors.topMargin: launcherListView.topMargin
                         anchors.bottomMargin: launcherListView.bottomMargin
+                        drag.minimumY: -launcherListView.topMargin
+                        drag.maximumY: height + launcherListView.bottomMargin
 
                         property int draggedIndex: -1
                         property var selectedItem
