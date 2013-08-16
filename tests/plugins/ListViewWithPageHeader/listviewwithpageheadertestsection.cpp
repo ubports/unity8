@@ -1875,7 +1875,7 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_firstVisibleIndex, 1);
         verifyItem(0, -498., 1040., false, "Regular", true);
         verifyItem(1, 542., 390., true, "Mild", true);
-        QCOMPARE(lvwph->m_minYExtent, 1250/3.);
+        QCOMPARE(lvwph->m_minYExtent, 525.);
         QCOMPARE(lvwph->m_clipItem->y(), 738.);
         QCOMPARE(lvwph->m_clipItem->clip(), false);
         QCOMPARE(lvwph->m_headerItem->y(), 0.);
