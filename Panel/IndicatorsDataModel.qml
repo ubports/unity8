@@ -71,29 +71,11 @@ Indicators.IndicatorsModel {
         },
 
         // OLD FORMAT INDICATORS
-        'chewie-sound' : {
-            'title': 'Sound',
-            'description' : '',
-            'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/SoundIndicatorWidget.qml',
-            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorPage.qml'
-        },
         'chewie-network' : {
             'title': 'Networks',
             'description' : '',
             'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/NetworkIndicatorWidget.qml',
             'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/NetworkIndicatorPage.qml'
-        },
-        'indicator-battery' : {
-            'title': 'Battery',
-            'description' : '',
-            'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorWidget.qml',
-            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorPage.qml'
-        },
-        'indicator-time' : {
-            'title': 'Date and Time',
-            'description' : '',
-            'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DatetimeIndicatorWidget.qml',
-            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DatetimeIndicatorPage.qml'
         }
     }
 }
