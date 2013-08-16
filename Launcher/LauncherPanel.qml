@@ -172,7 +172,6 @@ Item {
                                     itemOpacity: 0.6
                                 }
                             }
-
                         ]
 
                         transitions: [
