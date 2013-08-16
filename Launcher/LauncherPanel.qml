@@ -173,7 +173,7 @@ Item {
                             }
 
                         ]
-                        onStateChanged: if (index == 5) print("state changed to", state)
+
                         transitions: [
                             Transition {
                                 from: ""
