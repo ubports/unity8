@@ -84,6 +84,8 @@ DashPreview {
             styleColor: "black"
             wrapMode: Text.WordWrap
             textFormat: Text.RichText
+            // FIXME: workaround for https://bugreports.qt-project.org/browse/QTBUG-33020
+            onWidthChanged: { wrapMode = Text.NoWrap; wrapMode = Text.WordWrap }
         }
 
         Label {
@@ -97,6 +99,8 @@ DashPreview {
             styleColor: "black"
             wrapMode: Text.WordWrap
             textFormat: Text.RichText
+            // FIXME: workaround for https://bugreports.qt-project.org/browse/QTBUG-33020
+            onWidthChanged: { wrapMode = Text.NoWrap; wrapMode = Text.WordWrap }
         }
     }
 }
