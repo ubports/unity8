@@ -79,7 +79,8 @@ DashPreview {
             fontSize: "medium"
             opacity: 0.6
             color: "white"
-            text: previewData.subtitle
+            // TODO: should backend come back with <br /> already?
+            text: previewData.subtitle.replace(/[\r\n]+/g, "<br />")
             style: Text.Raised
             styleColor: "black"
             wrapMode: Text.WordWrap
@@ -94,7 +95,8 @@ DashPreview {
             fontSize: "small"
             opacity: 0.6
             color: "white"
-            text: previewData.description
+            // TODO: should backend come back with <br /> already?
+            text: previewData.description.replace(/[\r\n]+/g, "<br />")
             style: Text.Raised
             styleColor: "black"
             wrapMode: Text.WordWrap
