@@ -23,7 +23,7 @@ import Unity.IndicatorsLegacy.Network 0.1 as ICNetwork
 import Ubuntu.Components 0.1
 
 PageStack {
-    id: network
+    id: networkPage
     // Stops the search for a parent tree node.
     // We don't want it going up to the indicator tabs.
     // FIXME: need a better way of doing this.
@@ -60,7 +60,7 @@ PageStack {
         id: networkAgent
 
         onSecretRequested: {
-            _network.push(passwordPageComponent, {"token": token});
+            networkPage.push(passwordPageComponent, {"token": token});
         }
     }
 
