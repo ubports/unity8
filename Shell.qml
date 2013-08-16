@@ -463,6 +463,7 @@ FocusScope {
 
     Greeter {
         id: greeter
+        objectName: "greeter"
 
         available: true
         hides: [launcher, panel.indicators, hud]
@@ -795,7 +796,7 @@ FocusScope {
     }
 
     Label {
-        anchors.fill: parent
+        anchors.centerIn: parent
         visible: applicationManager.fake
         text: "EARLY ALPHA\nNOT READY FOR USE"
         color: "lightgrey"
@@ -804,7 +805,7 @@ FocusScope {
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         fontSizeMode: Text.Fit
-        font.pixelSize: height/2
         rotation: -45
+        scale: Math.min(parent.width, parent.height) / width
     }
 }

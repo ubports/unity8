@@ -21,6 +21,9 @@
 #include <QSettings>
 #include <QDebug>
 
+#include <upstart.h>
+#include <nih/alloc.h>
+
 #include "paths.h"
 
 
@@ -31,7 +34,8 @@ public:
         : m_name(name)
         , m_fileInfo(fileInfo)
         , m_verified (true)
-    {}
+    {
+    }
 
     QString m_name;
     QFileInfo m_fileInfo;
@@ -43,12 +47,34 @@ public:
 IndicatorsManager::IndicatorsManager(QObject* parent)
     : QObject(parent)
     , m_loaded(false)
+    , m_upstart(NULL)
 {
+    auto upstartsession = qgetenv("UPSTART_SESSION");
+    if (!upstartsession.isNull()) {
+        DBusConnection * conn = NULL;
+        conn = dbus_connection_open(upstartsession.constData(), NULL);
+        if (conn != NULL) {
+            m_upstart = nih_dbus_proxy_new(NULL, conn,
+                NULL,
+                DBUS_PATH_UPSTART,
+                NULL, NULL);
+            dbus_connection_unref(conn);
+        }
+    }
+
+    if (m_upstart != NULL) {
+        m_upstart->auto_start = FALSE;
+    }
 }
 
 IndicatorsManager::~IndicatorsManager()
 {
     unload();
+
+    if (m_upstart != NULL) {
+        nih_unref(m_upstart, NULL);
+        m_upstart = NULL;
+    }
 }
 
 void IndicatorsManager::load()
@@ -208,6 +234,19 @@ void IndicatorsManager::setLoaded(bool loaded)
     {
         m_loaded = loaded;
         Q_EMIT loadedChanged(m_loaded);
+
+        if (m_upstart != NULL) {
+            int event_sent = 0;
+            if (m_loaded) {
+                event_sent = upstart_emit_event_sync(NULL, m_upstart, "indicator-services-start", NULL, 0);
+            } else {
+                event_sent = upstart_emit_event_sync(NULL, m_upstart, "indicator-services-end", NULL, 0);
+            }
+
+            if (event_sent != 0) {
+                qWarning() << "Unable to send indicator event to Upstart";
+            }
+        }
     }
 }
 

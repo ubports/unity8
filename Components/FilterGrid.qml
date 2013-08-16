@@ -35,12 +35,18 @@ Item {
 
     /* Whether, when collapsed, a button should be displayed enabling the user to expand
        the grid to its full size. */
-    property bool expandable: true
+    readonly property bool expandable: model.count > collapsedRowCount * iconTileGrid.columns
 
     property var model: null
 
     /* Maximum number of rows to be show when filter=true. */
     property int collapsedRowCount: 2
+    readonly property int collapsedHeight: {
+        return iconTileGrid.contentHeightForRows(Math.min(collapsedRowCount, Math.ceil(model.count / columns)))
+    }
+    readonly property int uncollapsedHeight: {
+        return iconTileGrid.contentHeightForRows(Math.ceil(model.count / columns))
+    }
 
     property alias minimumHorizontalSpacing: iconTileGrid.minimumHorizontalSpacing
     property alias maximumNumberOfColumns: iconTileGrid.maximumNumberOfColumns
@@ -55,7 +61,29 @@ Item {
     readonly property alias moving: iconTileGrid.moving
     readonly property alias pressDelay: iconTileGrid.pressDelay
 
-    height: childrenRect.height
+    height: !filterAnimation.running ? childrenRect.height : height
+    clip: filterAnimation.running
+
+    NumberAnimation {
+        property bool filterEndValue
+        id: filterAnimation
+        target: root
+        property: "height"
+        to: filterEndValue ? root.collapsedHeight : root.uncollapsedHeight
+        // Duration and easing here match the ListViewWithPageHeader::m_contentYAnimation
+        // otherwise since both animations can run at the same time you'll get
+        // some visual weirdness.
+        duration: 200
+        easing.type: Easing.InOutQuad
+        onStopped: {
+            root.filter = filterEndValue;
+        }
+    }
+
+    function startFilterAnimation(filter) {
+        filterAnimation.filterEndValue = filter
+        filterAnimation.start();
+    }
 
     ResponsiveGridView {
         id: iconTileGrid
@@ -72,66 +100,8 @@ Item {
 
         model: LimitProxyModel {
             model: root.model
-            limit: (filter) ? collapsedRowCount * iconTileGrid.columns : -1
+            limit: (filter && !filterAnimation.running) ? collapsedRowCount * iconTileGrid.columns : -1
         }
 
-    }
-
-    Item {
-        anchors {
-            left: parent.left
-            right: parent.right
-            top: iconTileGrid.bottom
-        }
-        visible: (expandable && filter && model.count > collapsedRowCount * iconTileGrid.columns)
-        height: (visible) ? childrenRect.height + units.gu(2) : 0
-
-        AbstractButton {
-            id: button
-            objectName: "filterToggleButton"
-
-            anchors {
-                top: parent.top
-                horizontalCenter: parent.horizontalCenter
-            }
-            width: units.gu(22)
-            height: units.gu(4)
-
-            UbuntuShape {
-                anchors.fill: parent
-                color: "#33ffffff" // FIXME no palette
-                radius: "small"
-            }
-
-            UbuntuShape {
-                id: borderPressed
-
-                anchors.fill: parent
-                radius: "small"
-                borderSource: "radius_pressed.sci"
-                opacity: button.pressed ? 1.0 : 0.0
-                Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.OutQuint } }
-            }
-
-            Label {
-                anchors {
-                    verticalCenter: parent.verticalCenter
-                    left: parent.left
-                    right: parent.right
-                    leftMargin: units.gu(1)
-                    rightMargin: units.gu(1)
-                }
-                text: (filter) ? "+ View all (" + model.count + ")" : "- Show fewer"
-                fontSize: "small"
-                color: Theme.palette.selected.backgroundText
-                opacity: 0.6
-                style: Text.Raised
-                styleColor: "black"
-                elide: Text.ElideMiddle
-                horizontalAlignment: Text.AlignHCenter
-            }
-
-            onClicked: filter = !filter
-        }
     }
 }

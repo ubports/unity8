@@ -1,6 +1,7 @@
 [Indicator Service]
 Name=indicator-fake2
 ObjectPath=/com/canonical/indicator/fake2
+Position=0
 
 [phone]
 ObjectPath=/com/canonical/indicator/fake2/phone

@@ -64,7 +64,7 @@ ListModel {
         isValid: "";
     }
     ListElement {
-        identifier: "indicator-fake4";
+        identifier: "indicator-fake5";
         priority: 4
         title: "Menu5";
         description: "";

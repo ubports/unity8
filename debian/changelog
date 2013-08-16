@@ -1,3 +1,76 @@
+unity8 (7.81.3+13.10.20130814.3-0ubuntu1) saucy; urgency=low
+
+  [ Ted Gould ]
+  * Upstart signals to control indicator services.
+
+  [ Nick Dedekind ]
+  * Replaced indicator menu listView with tabs view.
+  * Transition Unity.Indicators to UnityMenuModel.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 197
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 14 Aug 2013 14:33:39 +0000
+
+unity8 (7.81.3+13.10.20130814.1-0ubuntu1) saucy; urgency=low
+
+  [ Michał Sawicz ]
+  * Add AppPreview.
+
+  [ Nick Dedekind ]
+  * Use key from indicator service file to source indicator positions.
+
+  [ Diego Sarmentero ]
+  * Add AppPreview.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 193
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 14 Aug 2013 06:33:14 +0000
+
+unity8 (7.81.3+13.10.20130813.1-0ubuntu1) saucy; urgency=low
+
+  [ Michael Zanetti ]
+  * don't scale the EARLY ALPHA warning text bigger than the screen is.
+
+  [ Michał Sawicz ]
+  * Add debug logging to passphrase entry.
+
+  [ Albert Astals ]
+  * Remove unneeded stuff from CMakelists.txt set(CMAKE_AUTOMOC ON)
+    include(FindPkgConfig) find_package(Qt5Core REQUIRED)
+    find_package(Qt5Quick REQUIRED) Are already on the top-level
+    CMakeLists.txt so no need to write them again Well, actually the
+    Qt5Core wasn't and i added it, it's not really necessary since it's
+    pulled by the others that depend on it, but it doesn't hurt to be
+    explicit.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 189
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 13 Aug 2013 14:08:32 +0000
+
+unity8 (7.81.3+13.10.20130812.1-0ubuntu1) saucy; urgency=low
+
+  [ Michael Zanetti ]
+  * preserve lockscreen's background wallpaper's aspect ratio. (LP:
+    #1208892)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 184
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 12 Aug 2013 19:14:35 +0000
+
+unity8 (7.81.3+13.10.20130812-0ubuntu1) saucy; urgency=low
+
+  [ Albert Astals ]
+  * Fix uses of uninitialized values reported by valgrind.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 182
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 12 Aug 2013 14:33:29 +0000
+
 unity8 (7.81.3+13.10.20130809.1-0ubuntu1) saucy; urgency=low
 
   [ Michal Hruby ]

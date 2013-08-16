@@ -23,11 +23,25 @@ import ".."
 
 DashPreview {
     id: genericPreview
-    property var previewData
 
     title: previewData.title
-    url: IconUtil.from_gicon(previewData.image)
     previewWidthRatio: 0.6
+
+    property url url: IconUtil.from_gicon(previewData.image)
+
+    header: UbuntuShape {
+        id: urlLoader
+        anchors.left: parent.left
+        anchors.right: parent.right
+        height: width * previewImage.sourceSize.height / previewImage.sourceSize.width
+        radius: "medium"
+        image: Image {
+            id: previewImage
+            asynchronous: true
+            source: genericPreview.url
+            fillMode: Image.PreserveAspectCrop
+        }
+    }
 
     buttons: GridView {
         id: buttons
@@ -56,7 +70,7 @@ DashPreview {
         }
         focus: false
     }
-    description: Column {
+    body: Column {
         spacing: units.gu(2)
 
         Label {

@@ -32,7 +32,6 @@ Item {
         id: preview
         anchors.fill: parent
         title: "Testing rocks, debugging sucks!"
-        forceSquare: true
 
         buttons: Row {
             width: parent.width
@@ -55,9 +54,9 @@ Item {
             }
         }
 
-        caption: Label { text: "Caption label" }
+        header: Label { text: "Caption label" }
 
-        description: Column {
+        body: Column {
             id: testContent
             objectName: "testContent"
             width: parent.width
@@ -100,26 +99,6 @@ Item {
             var title = findChild(preview, "titleLabel")
             mouseClick(title, 1, 1)
             compare(closeSpy.count, 1, "Close signal not emitted")
-        }
-
-        function test_play_button_data() {
-            return [
-                {tag: "playable", playable: true},
-                {tag: "not playable", playable: false}
-            ]
-        }
-
-        function test_play_button(data) {
-            var playButton = findChild(preview, "playButton")
-            preview.playable = data.playable
-            compare(playButton.visible, data.playable)
-        }
-
-        function test_play_button_click() {
-            preview.playable = true
-            var playButton = findChild(preview, "playButton")
-            mouseClick(playButton, 1, 1)
-            tryCompare(previewClickedSpy, "count", 1)
         }
 
         function test_columns_data() {

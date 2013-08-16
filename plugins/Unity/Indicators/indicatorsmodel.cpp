@@ -118,8 +118,8 @@ void IndicatorsModel::onIndicatorLoaded(const QString& indicator_name)
     int pos = 0;
     while (pos < count())
     {
-        // keep going while the existing priority is less.
-        if (indicatorData(indicator, IndicatorsModelRole::Priority).toInt() < data(index(pos), IndicatorsModelRole::Priority).toInt())
+        // keep going while the existing position is greater. (put lower position on end)
+        if (indicator->position() >= data(index(pos), IndicatorsModelRole::Position).toInt())
             break;
         pos++;
     }
@@ -200,7 +200,7 @@ QHash<int, QByteArray> IndicatorsModel::roleNames() const
     if (roles.isEmpty())
     {
         roles[IndicatorsModelRole::Identifier] = "identifier";
-        roles[IndicatorsModelRole::Priority] = "priority";
+        roles[IndicatorsModelRole::Position] = "position";
         roles[IndicatorsModelRole::Title] = "title";
         roles[IndicatorsModelRole::Description] = "description";
         roles[IndicatorsModelRole::WidgetSource] = "widgetSource";
@@ -222,7 +222,7 @@ QVariant IndicatorsModel::defaultData(Indicator::Ptr indicator, int role)
 {
     switch (role)
     {
-        case IndicatorsModelRole::Priority:
+        case IndicatorsModelRole::Position:
             return 0;
         case IndicatorsModelRole::Title:
             return indicator ? indicator->identifier() : "Unknown";
@@ -257,6 +257,12 @@ QVariant IndicatorsModel::data(const QModelIndex &index, int role) const
                 return QVariant(indicator->identifier());
             }
             break;
+        case IndicatorsModelRole::Position:
+            if (indicator)
+            {
+                return QVariant(indicator->position());
+            }
+            break;
         case IndicatorsModelRole::IndicatorProperties:
             if (indicator)
             {
@@ -265,7 +271,6 @@ QVariant IndicatorsModel::data(const QModelIndex &index, int role) const
             break;
         case IndicatorsModelRole::IsValid:
             return (indicator ? true : false);
-        case IndicatorsModelRole::Priority:
         case IndicatorsModelRole::Title:
         case IndicatorsModelRole::Description:
         case IndicatorsModelRole::WidgetSource:

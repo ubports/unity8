@@ -1,0 +1,3 @@
+module Ubuntu.DownloadDaemonListener
+plugin DownloadDaemonListener
+typeinfo plugins.qmltypes
