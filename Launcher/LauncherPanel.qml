@@ -242,7 +242,7 @@ Item {
                             var clickedItem = launcherListView.itemAt(mouseX, mouseY + launcherListView.realContentY)
 
                             // First/last item do the scrolling at more than 12 degrees
-                            if (index == 0 || index == launcherListView.count -1) {
+                            if (index == 0 || index == launcherListView.count - 1) {
                                 if (clickedItem.angle > 12) {
                                     launcherListView.flick(0, -launcherListView.clickFlickSpeed);
                                 } else if (clickedItem.angle < -12) {
