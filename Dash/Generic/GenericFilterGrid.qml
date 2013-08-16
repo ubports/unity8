@@ -21,7 +21,6 @@ import "../../Components/IconUtil.js" as IconUtil
 FilterGrid {
     id: filtergrid
 
-    filter: false
     minimumHorizontalSpacing: units.gu(0.5)
     delegateWidth: units.gu(11)
     delegateHeight: units.gu(9.5)

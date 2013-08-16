@@ -27,38 +27,71 @@ Indicators.IndicatorsModel {
     Component.onCompleted: load()
 
     indicatorData : {
+        'indicator-bluetooth' : {
+            'title': 'Bluetooth',
+            'description' : '',
+            'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorWidget2.qml',
+            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorPage2.qml'
+        },
         'indicator-messaging' : {
             'title': 'Messaging',
             'description' : '',
-            'priority': 10,
             'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/MessagingIndicatorWidget.qml',
             'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/MessagingIndicatorPage.qml'
         },
         'indicator-sound' : {
             'title': 'Sound',
             'description' : '',
-            'priority': 20,
-            'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/SoundIndicatorWidget.qml',
-            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorPage.qml'
+            'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorWidget2.qml',
+            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorPage2.qml'
         },
         'indicator-network' : {
             'title': 'Networks',
             'description' : '',
-            'priority': 30,
+            'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorWidget2.qml',
+            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorPage2.qml'
+        },
+        'indicator-power' : {
+            'title': 'Battery',
+            'description' : '',
+            'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorWidget2.qml',
+            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorPage2.qml'
+        },
+        'indicator-session' : {
+            'title': 'Session',
+            'description' : '',
+            'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorWidget2.qml',
+            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorPage2.qml'
+        },
+        'indicator-datetime' : {
+            'title': 'Date and Time',
+            'description' : '',
+            'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorWidget2.qml',
+            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorPage2.qml'
+        },
+
+        // OLD FORMAT INDICATORS
+        'chewie-sound' : {
+            'title': 'Sound',
+            'description' : '',
+            'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/SoundIndicatorWidget.qml',
+            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorPage.qml'
+        },
+        'chewie-network' : {
+            'title': 'Networks',
+            'description' : '',
             'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/NetworkIndicatorWidget.qml',
             'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/NetworkIndicatorPage.qml'
         },
         'indicator-battery' : {
             'title': 'Battery',
             'description' : '',
-            'priority': 40,
             'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorWidget.qml',
             'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorPage.qml'
         },
         'indicator-time' : {
             'title': 'Date and Time',
             'description' : '',
-            'priority': 100,
             'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DatetimeIndicatorWidget.qml',
             'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DatetimeIndicatorPage.qml'
         }

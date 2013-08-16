@@ -26,6 +26,8 @@
 #include <QQmlEngine>
 #include <QDebug>
 
+namespace {
+
 void prependImportPaths(QQmlEngine *engine, const QStringList &paths)
 {
     QStringList importPathList = engine->importPathList();
@@ -51,11 +53,21 @@ void appendImportPaths(QQmlEngine *engine, const QStringList &paths)
     engine->setImportPathList(importPathList);
 }
 
+void resolveIconTheme() {
+    QString ubuntuIconTheme = getenv("UBUNTU_ICON_THEME");
+    if (ubuntuIconTheme.isEmpty()) {
+        QIcon::setThemeName("ubuntu-mobile");
+    }
+}
+} // namespace
+
 IndicatorsClient::IndicatorsClient(int &argc, char **argv)
     : QObject(0),
       m_view(0)
 {
     m_application = new QApplication(argc, argv);
+    resolveIconTheme();
+
     QStringList args = m_application->arguments();
 
     m_view = new QQuickView;

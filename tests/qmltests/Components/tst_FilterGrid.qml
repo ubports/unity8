@@ -45,15 +45,6 @@ Rectangle {
         Row {
             spacing: units.gu(1)
             Label { anchors.verticalCenter: parent.verticalCenter
-                    text: "Expandable" }
-            CheckBox {
-                id: expandableCheckBox
-                checked: true
-            }
-        }
-        Row {
-            spacing: units.gu(1)
-            Label { anchors.verticalCenter: parent.verticalCenter
                     text: "Filter" }
             CheckBox {
                 id: filterCheckBox
@@ -94,7 +85,6 @@ Rectangle {
             collapsedRowCount:
                 collapsedRowCountSelector.values[collapsedRowCountSelector.selectedIndex]
             filter: filterCheckBox.checked
-            expandable: expandableCheckBox.checked
             minimumHorizontalSpacing: units.gu(1)
             delegateWidth: units.gu(6)
             delegateHeight: units.gu(6)
@@ -140,31 +130,6 @@ Rectangle {
 
             // back to initial state
             collapsedRowCountSelector.selectedIndex = 1
-        }
-
-        // Checks that the filter toggle button, the one that says "View All (xy)",
-        // shows up only when it's possible for the grid to be expanded.
-        function test_filterToggleButton() {
-            var filterToggleButton = findChild(filterGrid, "filterToggleButton");
-
-            for (var i = 0; i < 4; ++i) {
-                collapsedRowCountSelector.selectedIndex = i
-                // row count == index + 1
-                // The total number of rows is 4.
-
-                expandableCheckBox.checked = false
-                compare(filterToggleButton.visible, false)
-                expandableCheckBox.checked = true
-
-                if ((i+1) < 4)
-                    compare(filterToggleButton.visible, true)
-                else
-                    compare(filterToggleButton.visible, false)
-            }
-
-            // back to initial state
-            collapsedRowCountSelector.selectedIndex = 1
-            expandableCheckBox.checked = true
         }
 
         function countVisibleDelegates() {

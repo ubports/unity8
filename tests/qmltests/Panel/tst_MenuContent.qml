@@ -85,29 +85,29 @@ Item {
 
     function activate_content(index)
     {
-        menuContent.currentMenuIndex = index
+        menuContent.setCurrentMenuIndex(index)
     }
 
     function get_test_menu_objecName(index) {
         return "menu_page"+(index+1);
     }
 
-    property string test_menu_objectName : ""
-    function current_menu_equals_test_menu() {
-        var current_loader = menu_content_test.findChild(menuContent, "menus").currentItem
-        if (current_loader == undefined) {
-            console.log("current_loader 'menus' undefined");
+    property string testTabObjectName : ""
+
+    function selected_tab_equals_test_tab() {
+        var currentTab = menu_content_test.findChild(menuContent, "tabs").selectedTab
+        if (currentTab == undefined) {
+            console.log("selected tab undefined");
             return false;
         }
 
-        var menu = menu_content_test.findChild(menuContent, test_menu_objectName);
-        if (menu == undefined) {
-            console.log("test_menu " + test_menu_objectName + " undefined");
+        var testTab = menu_content_test.findChild(menuContent, testTabObjectName);
+        if (testTab == undefined) {
+            console.log("test_tab " + testTabObjectName + " undefined");
             return false;
         }
 
-        // The parent of the menu will be the loader
-        return menu.parent == current_loader;
+        return testTab == currentTab;
     }
 
     UT.UnityTestCase {
@@ -123,81 +123,66 @@ Item {
 
         // Check that the correct menus are displayed for the requested item.
         function test_show_menu() {
-            var menu_count = indicatorsModel.count;
-            verify(menu_count > 0, "Menu count should be greater than zero");
+            var menuCount = indicatorsModel.count;
+            verify(menuCount > 0, "Menu count should be greater than zero");
 
-            var menus = menu_content_test.findChild(menuContent, "menus")
+            var tabs = menu_content_test.findChild(menuContent, "tabs")
 
             // Loop over twice to test jump between last and first.
-            for (var i = 0; i < menu_count*2; i++) {
+            for (var i = 0; i < menuCount*2; i++) {
 
-                var menu_index = i%menu_count;
+                var menuIndex = i%menuCount;
 
-                activate_content(menu_index);
-                test_menu_objectName = get_test_menu_objecName(menu_index);
-                compare(menus.currentIndex, menu_index, "Current menu index does not match selected menu index");
-                tryCompareFunction(current_menu_equals_test_menu, true);
+                activate_content(menuIndex);
+                testTabObjectName = indicatorsModel.data(menuIndex, Indicators.IndicatorsModelRole.Identifier);
+                compare(tabs.selectedTabIndex, menuIndex, "Current tab index does not match selected tab index");
+                tryCompareFunction(selected_tab_equals_test_tab, true);
             }
         }
 
         // Calling activateContent should call start on all menus
         function test_activate_content() {
-            var menu_count = indicatorsModel.count;
-            verify(menu_count > 0, "Menu count should be greater than zero");
+            var menuCount = indicatorsModel.count;
+            verify(menuCount > 0, "Menu count should be greater than zero");
 
             // Ensure all the menus are stopped first
             menuContent.__contentActive = false;
-            for (var i = 0; i < menu_count; i++) {
+            for (var i = 0; i < menuCount; i++) {
                 tryCompare(indicator_status[get_test_menu_objecName(i)], "started", false);
             }
 
             // activate content the content to call stop.
             menuContent.activateContent();
-            for (var i = 0; i < menu_count; i++) {
+            for (var i = 0; i < menuCount; i++) {
                 tryCompare(indicator_status[get_test_menu_objecName(i)], "started", true);
             }
         }
 
         // Calling activateContent should call stop on all menus.
         function test_release_content() {
-            var menu_count = indicatorsModel.count;
-            verify(menu_count > 0, "Menu count should be greater than zero");
+            var menuCount = indicatorsModel.count;
+            verify(menuCount > 0, "Menu count should be greater than zero");
 
             // Ensure all the menus are started first
             menuContent.__contentActive = true;
-            for (var i = 0; i < menu_count; i++) {
+            for (var i = 0; i < menuCount; i++) {
                 tryCompare(indicator_status[get_test_menu_objecName(i)], "started", true);
             }
             // release the content to call stop.
             menuContent.releaseContent();
-            for (var i = 0; i < menu_count; i++) {
+            for (var i = 0; i < menuCount; i++) {
                 tryCompare(indicator_status[get_test_menu_objecName(i)], "started", false);
-            }
-        }
-
-        // Header title should be the same as the item
-        function test_menu_header() {
-            var menu_count = indicatorsModel.count;
-            verify(menu_count > 0, "Menu count should be greater than zero");
-
-            var header = findChild(menuContent, "header")
-
-            for (var i = 0; i < menu_count; i++) {
-                activate_content(i);
-
-                var menu_title = indicatorsModel.get(i).title;
-                compare(header.title, menu_title, "Header doesnt match menu title for menu " + i);
             }
         }
 
         // Tests QTBUG-30632 - asynchronous loader crashes when changing index quickly.
         function test_multi_activate() {
-            var menu_count = indicatorsModel.count;
-            verify(menu_count > 0, "Menu count should be greater than zero");
+            var menuCount = indicatorsModel.count;
+            verify(menuCount > 0, "Menu count should be greater than zero");
 
             for (var i = 0; i < 100; i++) {
-                activate_content(i % menu_count);
-                compare(menuContent.currentMenuIndex, i%menu_count);
+                activate_content(i % menuCount);
+                compare(menuContent.currentMenuIndex, i%menuCount);
             }
             wait(100);
         }

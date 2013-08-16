@@ -28,6 +28,8 @@
 #include <QHash>
 #include <QSharedPointer>
 
+typedef struct nih_dbus_proxy        NihDBusProxy;
+
 class UNITYINDICATORS_EXPORT IndicatorsManager : public QObject
 {
     Q_OBJECT
@@ -69,6 +71,7 @@ private:
     QHash<QString, IndicatorData*> m_indicatorsData;
     QSharedPointer<QFileSystemWatcher> m_fsWatcher;
     bool m_loaded;
+    NihDBusProxy * m_upstart;
 };
 
 #endif // INDICATORS_MANAGER_H

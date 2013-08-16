@@ -1,6 +1,7 @@
 [Indicator Service]
-Name=indicator-network
+Name=chewie-network
 ObjectPath=/com/canonical/settings/network
+Position=69
 
 [phone]
 ObjectPath=/com/canonical/settings/network/phone

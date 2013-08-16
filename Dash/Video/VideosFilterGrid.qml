@@ -20,7 +20,6 @@ import "../../Components"
 FilterGrid {
     id: filtergrid
 
-    expandable: false
     minimumHorizontalSpacing: units.gu(0.5)
     maximumNumberOfColumns: 5
     delegateWidth: units.gu(11)

@@ -30,6 +30,7 @@ class UNITYINDICATORS_EXPORT Indicator : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString identifier READ identifier NOTIFY identifierChanged)
+    Q_PROPERTY(int position READ position NOTIFY positionChanged)
     Q_PROPERTY(QVariant indicatorProperties READ indicatorProperties NOTIFY indicatorPropertiesChanged)
 
 public:
@@ -41,18 +42,22 @@ public:
     void init(const QString& busName, const QSettings& settings);
 
     QString identifier() const;
+    int position() const;
     QVariant indicatorProperties() const;
 
 Q_SIGNALS:
     void identifierChanged(const QString &identifier);
+    void positionChanged(int position);
     void indicatorPropertiesChanged(const QVariant &properties);
 
 protected:
     void setId(const QString &id);
+    void setPosition(int position);
     void setIndicatorProperties(const QVariant &properties);
 
 private:
     QString m_identifier;
+    int m_position;
     QVariant m_properties;
 };
 

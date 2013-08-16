@@ -21,17 +21,14 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
 
-BasicMenuItem {
+BaseMenuItem {
     property string label: menu && menu.label ? menu.label : ""
     property bool busy: false
-    property int count: menu && menu.linkSection ?  menu.linkSection.count : 0
 
-    color: "#221e1b"
-    implicitHeight: label !== "" ? __header.height : 0
-    state: count === 0 ? "EMPTY" : ""
+    implicitHeight: label !== "" ? header.height : 0
 
     ListItem.Header {
-        id: __header
+        id: header
 
         text: label
         height: units.gu(4)

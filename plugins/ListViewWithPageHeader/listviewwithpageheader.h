@@ -88,11 +88,13 @@ public:
 
     Q_INVOKABLE void positionAtBeginning();
     Q_INVOKABLE void showHeader();
+    Q_INVOKABLE QQuickItem *item(int modelIndex) const;
 
     // The index has to be created for this to try to do something
     // Created items are those visible and the precached ones
     // Returns if the item existed or not
     Q_INVOKABLE bool maximizeVisibleArea(int modelIndex);
+    Q_INVOKABLE bool maximizeVisibleArea(int modelIndex, int itemHeight);
 
 Q_SIGNALS:
     void modelChanged();
@@ -141,6 +143,8 @@ private:
             QQuickItem *m_sectionItem;
     };
 
+    bool maximizeVisibleArea(ListItem *listItem, int listItemHeight);
+
     void createDelegateModel();
 
     void layout();
@@ -157,7 +161,7 @@ private:
     void reallyReleaseItem(ListItem *item);
     void updateWatchedRoles();
     QQuickItem *getSectionItem(int modelIndex, bool alreadyInserted);
-    QQuickItem *getSectionItem(int modelIndex, const QString &sectionText);
+    QQuickItem *getSectionItem(const QString &sectionText);
 
 #if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
     QQuickVisualDataModel *m_delegateModel;

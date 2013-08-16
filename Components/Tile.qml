@@ -84,10 +84,4 @@ AbstractButton {
             horizontalAlignment: Text.AlignHCenter
         }
     }
-
-    GridView.onRemove: SequentialAnimation {
-        PropertyAction { target: root; property: "GridView.delayRemove"; value: true }
-        NumberAnimation { target: root; property: "opacity"; from: 1; to: 0; duration: 200; easing.type: Easing.InOutQuad }
-        PropertyAction { target: root; property: "GridView.delayRemove"; value: false }
-    }
 }
