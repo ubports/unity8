@@ -71,12 +71,6 @@ Indicators.IndicatorsModel {
         },
 
         // OLD FORMAT INDICATORS
-        'chewie-sound' : {
-            'title': 'Sound',
-            'description' : '',
-            'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/SoundIndicatorWidget.qml',
-            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorPage.qml'
-        },
         'chewie-network' : {
             'title': 'Networks',
             'description' : '',
