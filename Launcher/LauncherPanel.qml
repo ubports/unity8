@@ -163,7 +163,7 @@ Item {
                             },
                             State {
                                 name: "expanded"
-                                when: dndArea.draggedIndex >= 0 && (dndArea.preDragging || dndArea.selectedItem.dragging) && !dragging
+                                when: dndArea.draggedIndex >= 0 && (dndArea.preDragging || dndArea.dragging || dndArea.postDragging) && dndArea.draggedIndex != index
                                 PropertyChanges {
                                     target: launcherDelegate
                                     angle: 0
@@ -201,7 +201,11 @@ Item {
                                 from: "dragging"
                                 to: "*"
                                 NumberAnimation { properties: "itemOpacity"; duration: UbuntuAnimation.BriskDuration }
-                                NumberAnimation { properties: "height"; duration: UbuntuAnimation.BriskDuration; easing: UbuntuAnimation.StandardEasing }
+                                SequentialAnimation {
+                                    NumberAnimation { properties: "height"; duration:UbuntuAnimation.BriskDuration; easing: UbuntuAnimation.StandardEasing }
+                                    PropertyAction { target: dndArea; property: "postDragging"; value: false }
+                                    PropertyAction { target: dndArea; property: "draggedIndex"; value: -1 }
+                                }
                             }
                         ]
                     }
@@ -215,6 +219,8 @@ Item {
                         property int draggedIndex: -1
                         property var selectedItem
                         property bool preDragging: false
+                        property bool dragging: selectedItem !== undefined && selectedItem.dragging
+                        property bool postDragging: false
                         property int startX
                         property int startY
 
@@ -256,10 +262,11 @@ Item {
                             selectedItem.highlighted = false
                             selectedItem = undefined;
                             preDragging = false;
+                            postDragging = false;
                         }
 
                         onReleased: {
-                            draggedIndex = -1;
+                            postDragging = true;
                             selectedItem.highlighted = false
                             selectedItem.dragging = false;
                             selectedItem = undefined;
@@ -292,7 +299,6 @@ Item {
 
                         onPositionChanged: {
                             if (draggedIndex >= 0) {
-
                                 if (!selectedItem.dragging) {
                                     var distance = Math.max(Math.abs(mouseX - startX), Math.abs(mouseY - startY))
                                     if (!preDragging && distance > units.gu(1.5)) {
@@ -393,7 +399,7 @@ Item {
             LauncherDelegate {
                 id: fakeDragItem
                 objectName: "fakeDragItem"
-                visible: dndArea.draggedIndex >= 0
+                visible: dndArea.draggedIndex >= 0 && !dndArea.postDragging
                 itemWidth: launcherListView.itemWidth
                 itemHeight: launcherListView.itemHeight
                 height: itemHeight
