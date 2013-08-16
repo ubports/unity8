@@ -108,7 +108,14 @@ bool RootActionState::isValid() const
     return m_menu && m_menu->rowCount() > 0;
 }
 
-QString RootActionState::label() const
+QString RootActionState::leftLabel() const
+{
+    if (!isValid()) return QString();
+
+    return m_cachedState.value("pre-label", QVariant::fromValue(QString())).toString();
+}
+
+QString RootActionState::rightLabel() const
 {
     if (!isValid()) return QString();
 
@@ -126,7 +133,7 @@ QString RootActionState::accessibleName() const
 {
     if (!isValid()) return QString();
 
-    return m_cachedState.value("accessible-name", QVariant::fromValue(QString())).toString();
+    return m_cachedState.value("accessible-desc", QVariant::fromValue(QString())).toString();
 }
 
 bool RootActionState::isVisible() const
@@ -204,7 +211,7 @@ QVariant RootActionState::toQVariant(GVariant* state) const
                 // FIXME - should be sending a url.
                 GIcon *gicon = g_icon_deserialize (vvalue);
                 if (gicon) {
-                    icons << iconUri(gicon) << iconUri(gicon);
+                    icons << iconUri(gicon);
                 }
                 qmap.insert("icons", icons);
 
@@ -221,7 +228,7 @@ QVariant RootActionState::toQVariant(GVariant* state) const
                         // FIXME - should be sending a url.
                         GIcon *gicon = g_icon_deserialize (child);
                         if (gicon) {
-                            icons << iconUri(gicon) << iconUri(gicon);
+                            icons << iconUri(gicon);
                             g_object_unref (gicon);
                         }
                         g_variant_unref(child);
@@ -252,12 +259,12 @@ QVariant RootActionState::toQVariant(GVariant* state) const
                                        &visible);
 
         qmap["label"] = label ? QString::fromUtf8(label) : "";
-        qmap["accessible-name"] = accessible_name ? QString::fromUtf8(accessible_name) : "";
+        qmap["accessible-desc"] = accessible_name ? QString::fromUtf8(accessible_name) : "";
         qmap["visible"] = visible;
 
         gicon = g_icon_new_for_string (icon, NULL);
         if (gicon) {
-            qmap["icons"] = QStringList() << iconUri(gicon) << iconUri(gicon);
+            qmap["icons"] = QStringList() << iconUri(gicon);
             g_object_unref (gicon);
         }
 

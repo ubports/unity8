@@ -26,7 +26,8 @@ Indicators.IndicatorWidget {
 
     width: itemRow.width + units.gu(0.7)
 
-    property alias label: itemLabel.text
+    property alias leftLabel: itemLeftLabel.text
+    property alias rightLabel: itemRightLabel.text
     property var icons: undefined
 
     Row {
@@ -38,6 +39,17 @@ Indicators.IndicatorWidget {
             horizontalCenter: parent.horizontalCenter
         }
         spacing: units.gu(0.5)
+
+        Label {
+            id: itemLeftLabel
+            objectName: "leftLabel"
+            color: Theme.palette.selected.backgroundText
+            opacity: 0.8
+            font.family: "Ubuntu"
+            fontSize: "medium"
+            anchors.verticalCenter: parent.verticalCenter
+            visible: text != ""
+        }
 
         Row {
             width: childrenRect.width
@@ -63,8 +75,8 @@ Indicators.IndicatorWidget {
         }
 
         Label {
-            id: itemLabel
-            objectName: "itemLabel"
+            id: itemRightLabel
+            objectName: "rightLabel"
             color: Theme.palette.selected.backgroundText
             opacity: 0.8
             font.family: "Ubuntu"
@@ -82,7 +94,8 @@ Indicators.IndicatorWidget {
             return;
         }
 
-        label = actionState.label;
+        leftLabel = actionState.leftLabel;
+        rightLabel = actionState.rightLabel;
         icons = actionState.icons;
         enabled = actionState.visible;
     }
