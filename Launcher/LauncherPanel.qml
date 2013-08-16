@@ -361,7 +361,7 @@ Item {
                                     launcherListView.contentY = Math.max(launcherListView.contentY - units.dp(2), minY)
                                 }
                             } else {
-                                var maxY = launcherListView.contentHeight - launcherListView.height + launcherListView.topMargin + dndArea.selectedItem.height*2
+                                var maxY = launcherListView.contentHeight - launcherListView.height + launcherListView.topMargin + launcherListView.originY
                                 if (launcherListView.contentY < maxY) {
                                     launcherListView.contentY = Math.min(launcherListView.contentY + units.dp(2), maxY)
                                 }
