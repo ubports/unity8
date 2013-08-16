@@ -115,11 +115,11 @@ QString RootActionState::label() const
     return m_cachedState.value("label", QVariant::fromValue(QString())).toString();
 }
 
-QString RootActionState::icon() const
+QStringList RootActionState::icons() const
 {
-    if (!isValid()) return QString();
+    if (!isValid()) return QStringList();
 
-    return m_cachedState.value("icon", QVariant::fromValue(QString())).toString();
+    return m_cachedState.value("icons", QVariant::fromValue(QStringList())).toStringList();
 }
 
 QString RootActionState::accessibleName() const
@@ -198,16 +198,38 @@ QVariant RootActionState::toQVariant(GVariant* state) const
         while (g_variant_iter_loop (&iter, "{sv}", &key, &vvalue))
         {
             QString str = QString::fromUtf8(key);
-            if (str == "icon") {
+            if (str == "icon" && !qmap.contains("icons")) {
+                QStringList icons;
+
                 // FIXME - should be sending a url.
-                GIcon *icon = g_icon_deserialize (vvalue);
-                if (icon) {
-                    qmap.insert(str, iconUri(icon));
-                    g_object_unref (icon);
+                GIcon *gicon = g_icon_deserialize (vvalue);
+                if (gicon) {
+                    icons << iconUri(gicon) << iconUri(gicon);
                 }
-                else {
-                    qmap.insert(str, QVariant(""));
+                qmap.insert("icons", icons);
+
+            } else if (str == "icons") {
+
+                QStringList icons;
+
+                if (g_variant_type_is_array(g_variant_get_type(vvalue))) {
+
+
+                    for (int i = 0, iMax = g_variant_n_children(vvalue); i < iMax; i++) {
+                        GVariant *child = g_variant_get_child_value(vvalue, i);
+
+                        // FIXME - should be sending a url.
+                        GIcon *gicon = g_icon_deserialize (child);
+                        if (gicon) {
+                            icons << iconUri(gicon) << iconUri(gicon);
+                            g_object_unref (gicon);
+                        }
+                        g_variant_unref(child);
+                    }
                 }
+                // will overwrite icon.
+                qmap.insert("icons", icons);
+
             } else {
                 qmap.insert(str, ActionStateParser::toQVariant(vvalue));
             }
@@ -235,7 +257,7 @@ QVariant RootActionState::toQVariant(GVariant* state) const
 
         gicon = g_icon_new_for_string (icon, NULL);
         if (gicon) {
-            qmap["icon"] = iconUri(gicon);
+            qmap["icons"] = QStringList() << iconUri(gicon) << iconUri(gicon);
             g_object_unref (gicon);
         }
 

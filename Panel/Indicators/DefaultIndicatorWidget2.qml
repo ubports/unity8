@@ -27,7 +27,7 @@ Indicators.IndicatorWidget {
     width: itemRow.width + units.gu(1)
 
     property alias label: itemLabel.text
-    property alias iconSource: itemImage.source
+    property var icons: undefined
 
     Row {
         id: itemRow
@@ -39,15 +39,27 @@ Indicators.IndicatorWidget {
         }
         spacing: units.gu(0.5)
 
-        // FIXME : Should us Ubuntu.Icon . results in low res images
-        Image {
-            id: itemImage
-            objectName: "itemImage"
-            visible: source != ""
-            height: indicatorWidget.iconSize
-            width: indicatorWidget.iconSize
-            anchors.verticalCenter: parent.verticalCenter
+        Repeater {
+            model: indicatorWidget.icons
+            width: childrenRect.width
+            anchors {
+                top: parent.top
+                bottom: parent.bottom
+            }
+
+            Image {
+                id: itemImage
+                objectName: "itemImage"
+                visible: source != ""
+                source: modelData
+                height: indicatorWidget.iconSize
+                width: indicatorWidget.iconSize
+                anchors.verticalCenter: parent.verticalCenter
+            }
         }
+
+        // FIXME : Should us Ubuntu.Icon . results in low res images
+
 
         Label {
             id: itemLabel
@@ -70,7 +82,7 @@ Indicators.IndicatorWidget {
         }
 
         label = actionState.label;
-        iconSource = actionState.icon;
+        icons = actionState.icons;
         enabled = actionState.visible;
     }
 }

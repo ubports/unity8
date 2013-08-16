@@ -33,7 +33,7 @@ class UNITYINDICATORS_EXPORT RootActionState : public ActionStateParser
 
     Q_PROPERTY(bool valid READ isValid NOTIFY validChanged)
     Q_PROPERTY(QString label READ label NOTIFY labelChanged)
-    Q_PROPERTY(QString icon READ icon NOTIFY iconChanged)
+    Q_PROPERTY(QStringList icons READ icons NOTIFY iconsChanged)
     Q_PROPERTY(QString accessibleName READ accessibleName NOTIFY accessibleNameChanged)
     Q_PROPERTY(bool visible READ isVisible NOTIFY visibleChanged)
 public:
@@ -48,7 +48,7 @@ public:
 
     bool isValid() const;
     QString label() const;
-    QString icon() const;
+    QStringList icons() const;
     QString accessibleName() const;
     bool isVisible() const;
 
@@ -63,7 +63,7 @@ Q_SIGNALS:
 
     void validChanged();
     void labelChanged();
-    void iconChanged();
+    void iconsChanged();
     void accessibleNameChanged();
     void visibleChanged();
 
