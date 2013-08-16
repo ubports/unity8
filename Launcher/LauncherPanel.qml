@@ -118,7 +118,7 @@ Item {
                         NumberAnimation { properties: "x,y"; duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
                     }
 
-                    delegate: LauncherListDelegate {
+                    delegate: FoldingLauncherDelegate {
                         id: launcherDelegate
                         objectName: "launcherDelegate" + index
                         itemHeight: launcherListView.itemHeight
