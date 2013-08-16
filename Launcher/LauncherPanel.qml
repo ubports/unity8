@@ -102,7 +102,7 @@ Item {
                     spacing: units.gu(0.5)
 
                     // The size of the area the ListView is extended to make sure items are not
-                    // destructed. Note that if the move() operation when dragging switches
+                    // destroyed. Note that if the move() operation when dragging switches
                     // the item with one that doesn't have a delegate yet everything breaks badly.
                     property int extensionSize: itemHeight * 3
 
