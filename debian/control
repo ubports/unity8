@@ -50,6 +50,7 @@ Vcs-Browser: https://bazaar.launchpad.net/~unity-team/unity8/trunk
 
 Package: indicators-client
 Architecture: amd64 armhf i386
+Provides: indicator-renderer,
 Depends: qmenumodel-qml (>= 0.2.7),
          qtdeclarative5-ubuntu-ui-toolkit-plugin | qt-components-ubuntu,
          unity8 (= ${binary:Version}),
