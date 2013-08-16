@@ -25,6 +25,8 @@ import "../../Components/IconUtil.js" as IconUtil
 DashPreview {
     id: root
 
+    property bool canBeRated: root.previewData.rating >= 0.0
+
     signal sendUserReview(string review)
 
     title: root.previewData.title
@@ -38,7 +40,7 @@ DashPreview {
             right: parent.right
             margins: units.gu(1)
         }
-        model: previewData.infoMap["more-screenshots"].value
+        model: previewData.infoMap["more-screenshots"] != null ? previewData.infoMap["more-screenshots"].value : [previewData.image]
 
         delegate: UbuntuShape {
             id: shape
@@ -138,9 +140,9 @@ DashPreview {
 
             appName: root.previewData.title
             icon: IconUtil.from_gicon(root.previewData.appIcon)
-            rating: root.previewData.infoMap["rating"] ? root.previewData.infoMap["rating"].value : 0
+            rating: Math.round(root.previewData.rating * 10)
+            reviews: root.previewData.numRatings
             rated: root.previewData.infoMap["rated"] ? root.previewData.infoMap["rated"].value : 0
-            reviews: root.previewData.infoMap["reviews"] ? root.previewData.infoMap["reviews"].value : 0
         }
 
         Label {
@@ -154,9 +156,12 @@ DashPreview {
             styleColor: "black"
         }
 
-        ListItem.ThinDivider {}
+        ListItem.ThinDivider {
+            visible: root.canBeRated
+        }
 
         Item {
+            visible: root.canBeRated
             anchors { left: parent.left; right: parent.right }
             height: rateLabel.height
 
@@ -180,9 +185,12 @@ DashPreview {
             }
         }
 
-        ListItem.ThinDivider {}
+        ListItem.ThinDivider {
+            visible: root.canBeRated
+        }
 
         AppReviews {
+            visible: root.canBeRated
             objectName: "appReviews"
             anchors { left: parent.left; right: parent.right }
 
