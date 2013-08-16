@@ -156,7 +156,6 @@ Item {
                                 when: dragging
                                 PropertyChanges {
                                     target: launcherDelegate
-                                    offset: units.gu(0.5)
                                     height: units.gu(1)
                                     itemOpacity: 0
                                 }
@@ -184,25 +183,25 @@ Item {
                                 from: "*"
                                 to: "expanded"
                                 NumberAnimation { properties: "itemOpacity"; duration: UbuntuAnimation.FastDuration }
-                                NumberAnimation { properties: "angle,offset"; duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
+                                UbuntuNumberAnimation { properties: "angle,offset" }
                             },
                             Transition {
                                 from: "expanded"
                                 to: ""
                                 NumberAnimation { properties: "itemOpacity"; duration: UbuntuAnimation.BriskDuration }
-                                NumberAnimation { properties: "angle,offset"; duration: UbuntuAnimation.BriskDuration; easing: UbuntuAnimation.StandardEasing }
+                                UbuntuNumberAnimation { properties: "angle,offset" }
                             },
                             Transition {
                                 from: "selected"
                                 to: "dragging"
-                                NumberAnimation { properties: "height"; duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
+                                UbuntuNumberAnimation { properties: "height" }
                             },
                             Transition {
                                 from: "dragging"
                                 to: "*"
                                 NumberAnimation { properties: "itemOpacity"; duration: UbuntuAnimation.BriskDuration }
                                 SequentialAnimation {
-                                    NumberAnimation { properties: "height"; duration:UbuntuAnimation.BriskDuration; easing: UbuntuAnimation.StandardEasing }
+                                    UbuntuNumberAnimation { properties: "height" }
                                     PropertyAction { target: dndArea; property: "postDragging"; value: false }
                                     PropertyAction { target: dndArea; property: "draggedIndex"; value: -1 }
                                 }
