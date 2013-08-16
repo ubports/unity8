@@ -15,11 +15,21 @@ from unity8.indicators_client.tests import IndicatorsTestCase
 from time import sleep
 import random
 import math
+import unittest
 
 class TestDisplayMenus(IndicatorsTestCase):
     def setUp(self):
         super(TestDisplayMenus, self).setUp(self.geometry, self.grid_unit)
 
+    def tearDown(self):
+        # self.main_window.get_indicators_client().reset()
+        super(TestDisplayMenus, self).tearDown()
+
+    # START SECTION
+    # We need to move these to emulators once autopilot supports emulators for
+    # applications started with AutopilotTestCase.launch_test_application
+
+    def open_battery_menu(self):
         # This opens the messaging menu so you don't have to do that in
         # every test case
         self.assertThat(lambda: self.main_window.get_battery_menu(), Eventually(NotEquals(None)));
@@ -30,14 +40,6 @@ class TestDisplayMenus(IndicatorsTestCase):
         self.assertThat(fn_loader, Eventually(NotEquals(None)));
         page_loader = fn_loader();
         self.assertThat(page_loader.progress, Eventually(Equals(1.0)))
-
-    def tearDown(self):
-        # self.main_window.get_indicators_client().reset()
-        super(TestDisplayMenus, self).tearDown()
-
-    # START SECTION
-    # We need to move these to emulators once autopilot supports emulators for
-    # applications started with AutopilotTestCase.launch_test_application
 
     def switch_auto_brightness(self, auto_brightness):
         ab_switch = auto_brightness.select_single("CheckBox");
@@ -65,8 +67,10 @@ class TestDisplayMenus(IndicatorsTestCase):
 
             old_ab_value = brightness_slider.value
 
+    @unittest.skip("Battery indicator has been removed.")
     def test_auto_bright_switch(self):
         """Test the auto-bright switch"""
+        self.open_battery_menu()
 
         # wait for the switch menu item
         fn_auto_brightness = lambda: self.app.select_single("SwitchMenuItem", objectName="auto-brightness");
@@ -84,8 +88,10 @@ class TestDisplayMenus(IndicatorsTestCase):
         # TODO - should check backend when it's introspectable.
         self.assertThat(auto_brightness.checked, Eventually(NotEquals(old_ab_value)))
 
+    @unittest.skip("Battery indicator has been removed.")
     def test_brightness_slider(self):
         """Test the auto-bright switch"""
+        self.open_battery_menu()
 
         fn_brightness_menu = lambda: self.app.select_single("SliderMenuItem", objectName="brightness");
         # FIXME: this should go away when we switch to indicator-power
