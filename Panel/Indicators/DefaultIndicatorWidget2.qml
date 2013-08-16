@@ -24,7 +24,7 @@ import Unity.Indicators 0.1 as Indicators
 Indicators.IndicatorWidget {
     id: indicatorWidget
 
-    width: itemRow.width + units.gu(1)
+    width: itemRow.width + units.gu(0.7)
 
     property alias label: itemLabel.text
     property var icons: undefined
@@ -39,27 +39,28 @@ Indicators.IndicatorWidget {
         }
         spacing: units.gu(0.5)
 
-        Repeater {
-            model: indicatorWidget.icons
+        Row {
             width: childrenRect.width
             anchors {
                 top: parent.top
                 bottom: parent.bottom
             }
+            spacing: units.gu(0.7)
 
-            Image {
-                id: itemImage
-                objectName: "itemImage"
-                visible: source != ""
-                source: modelData
-                height: indicatorWidget.iconSize
-                width: indicatorWidget.iconSize
-                anchors.verticalCenter: parent.verticalCenter
+            Repeater {
+                model: indicatorWidget.icons
+
+                Image {
+                    id: itemImage
+                    objectName: "itemImage"
+                    visible: source != ""
+                    source: modelData
+                    height: indicatorWidget.iconSize
+                    width: indicatorWidget.iconSize
+                    anchors.verticalCenter: parent.verticalCenter
+                }
             }
         }
-
-        // FIXME : Should us Ubuntu.Icon . results in low res images
-
 
         Label {
             id: itemLabel
