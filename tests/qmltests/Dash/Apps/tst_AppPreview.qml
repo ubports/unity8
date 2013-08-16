@@ -51,12 +51,12 @@ Item {
         property string title: "Unity App"
         property string appIcon: "fake_image.png"
         property string description: "This is an Application description"
+        property real rating: rating.value / 10.0
+        property int numRatings: reviews.value
         property var execute: root.fake_call
         property var infoMap: {
             "more-screenshots": screenshots,
-            "rating": rating,
             "rated": rated,
-            "reviews": reviews,
             "comments": comments
         }
         property var actions: [
