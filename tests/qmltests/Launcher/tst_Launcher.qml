@@ -272,14 +272,14 @@ Item {
 
             // Initial state
             compare(draggedItem.itemOpacity, 1, "Item's opacity is not 1 at beginning")
-            compare(fakeDragItem.itemOpacity, 0.8, "FakeDragItem isn't invisible at the beginning")
+            compare(fakeDragItem.visible, false, "FakeDragItem isn't invisible at the beginning")
             tryCompare(findChild(draggedItem, "dropIndicator"), "opacity", 0)
 
             // Doing longpress
             mousePress(draggedItem, draggedItem.width / 2, draggedItem.height / 2)
             // DraggedItem needs to hide and fakeDragItem become visible
             tryCompare(draggedItem, "itemOpacity", 0)
-            tryCompare(fakeDragItem, "itemOpacity", 0.8)
+            tryCompare(fakeDragItem, "visible", true)
 
             // Dragging a bit (> 1.5 gu)
             mouseMove(draggedItem, -units.gu(2), draggedItem.height / 2)
@@ -304,7 +304,7 @@ Item {
             mouseRelease(draggedItem)
             tryCompare(findChild(draggedItem, "dropIndicator"), "opacity", 0)
             tryCompare(draggedItem, "itemOpacity", 1)
-            tryCompare(fakeDragItem, "itemOpacity", 0.8)
+            tryCompare(fakeDragItem, "visible", false)
         }
     }
 }

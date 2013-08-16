@@ -274,7 +274,12 @@ Item {
                         }
 
                         onReleased: {
-                            postDragging = true;
+                            if (dragging) {
+                                postDragging = true;
+                            } else {
+                                draggedIndex = -1;
+                            }
+
                             selectedItem.highlighted = false
                             selectedItem.dragging = false;
                             selectedItem = undefined;
