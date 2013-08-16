@@ -133,6 +133,7 @@ Item {
                         property bool dragging: false
 
                         ThinDivider {
+                            objectName: "dropIndicator"
                             anchors.centerIn: parent
                             width: parent.width + mainColumn.anchors.leftMargin + mainColumn.anchors.rightMargin
                             opacity: parent.dragging ? 1 : 0
@@ -391,6 +392,7 @@ Item {
 
             LauncherDelegate {
                 id: fakeDragItem
+                objectName: "fakeDragItem"
                 visible: dndArea.draggedIndex >= 0
                 itemWidth: launcherListView.itemWidth
                 itemHeight: launcherListView.itemHeight

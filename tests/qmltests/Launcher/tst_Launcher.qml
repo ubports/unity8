@@ -19,6 +19,7 @@ import QtTest 1.0
 import Unity.Test 0.1 as UT
 import ".."
 import "../../../Launcher"
+import Unity.Launcher 0.1
 
 /* Nothing is shown at first. If you drag from left edge you will bring up the
    launcher. */
@@ -246,5 +247,64 @@ Item {
             compare(listView.snapMode, ListView.SnapToItem, "Snapping is not enabled");
         }
         */
+    }
+
+    UT.UnityTestCase {
+        id: dndTestCase
+        name: "Drag and Drop"
+        when: windowShown && initTestCase.completed
+
+        function test_dragndrop_data() {
+            return [
+                {tag: "startDrag", fullDrag: false},
+                {tag: "fullDrag", fullDrag: true},
+            ];
+        }
+
+        function test_dragndrop(data) {
+            revealer.dragLauncherIntoView();
+            var draggedItem = findChild(launcher, "launcherDelegate5")
+            var item0 = findChild(launcher, "launcherDelegate0")
+            var fakeDragItem = findChild(launcher, "fakeDragItem")
+            var initialItemHeight = draggedItem.height
+            var item5Name = LauncherModel.get(5).iconName
+            var item4Name = LauncherModel.get(4).iconName
+
+            // Initial state
+            compare(draggedItem.itemOpacity, 1, "Item's opacity is not 1 at beginning")
+            compare(fakeDragItem.itemOpacity, 0.8, "FakeDragItem isn't invisible at the beginning")
+            tryCompare(findChild(draggedItem, "dropIndicator"), "opacity", 0)
+
+            // Doing longpress
+            mousePress(draggedItem, draggedItem.width / 2, draggedItem.height / 2)
+            // DraggedItem needs to hide and fakeDragItem become visible
+            tryCompare(draggedItem, "itemOpacity", 0)
+            tryCompare(fakeDragItem, "itemOpacity", 0.8)
+
+            // Dragging a bit (> 1.5 gu)
+            mouseMove(draggedItem, -units.gu(2), draggedItem.height / 2)
+            // Other items need to expand and become 0.6 opaque
+            tryCompare(item0, "angle", 0)
+            tryCompare(item0, "itemOpacity", 0.6)
+
+            if (data.fullDrag) {
+                // Dragging a bit more
+                mouseMove(draggedItem, -units.gu(15), draggedItem.height / 2, 100)
+                tryCompare(findChild(draggedItem, "dropIndicator"), "opacity", 1)
+                tryCompare(draggedItem, "height", units.gu(1))
+
+                // Dragging downwards. Item needs to move in the model
+                mouseMove(draggedItem, -units.gu(15), -initialItemHeight)
+                waitForRendering(draggedItem)
+                compare(LauncherModel.get(5).iconName, item4Name)
+                compare(LauncherModel.get(5).iconName, item5Name)
+            }
+
+            // Releasing and checking if initial values are restored
+            mouseRelease(draggedItem)
+            tryCompare(findChild(draggedItem, "dropIndicator"), "opacity", 0)
+            tryCompare(draggedItem, "itemOpacity", 1)
+            tryCompare(fakeDragItem, "itemOpacity", 0.8)
+        }
     }
 }
