@@ -214,9 +214,11 @@ Item {
 
                     MouseArea {
                         id: dndArea
-                        anchors.fill: parent
-                        anchors.topMargin: launcherListView.topMargin
-                        anchors.bottomMargin: launcherListView.bottomMargin
+                        anchors {
+                            fill: parent
+                            topMargin: launcherListView.topMargin
+                            bottomMargin: launcherListView.bottomMargin
+                        }
                         drag.minimumY: -launcherListView.topMargin
                         drag.maximumY: height + launcherListView.bottomMargin
 
