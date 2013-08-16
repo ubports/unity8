@@ -133,13 +133,11 @@ Item {
                         property bool dragging: false
 
                         ThinDivider {
+                            id: dropIndicator
                             objectName: "dropIndicator"
                             anchors.centerIn: parent
                             width: parent.width + mainColumn.anchors.leftMargin + mainColumn.anchors.rightMargin
-                            opacity: parent.dragging ? 1 : 0
-                            Behavior on opacity {
-                                NumberAnimation { duration: UbuntuAnimation.FastDuration }
-                            }
+                            opacity: 0
                         }
 
                         states: [
@@ -158,6 +156,10 @@ Item {
                                     target: launcherDelegate
                                     height: units.gu(1)
                                     itemOpacity: 0
+                                }
+                                PropertyChanges {
+                                    target: dropIndicator
+                                    opacity: 1
                                 }
                             },
                             State {
@@ -195,10 +197,12 @@ Item {
                                 from: "selected"
                                 to: "dragging"
                                 UbuntuNumberAnimation { properties: "height" }
+                                NumberAnimation { target: dropIndicator; properties: "opacity"; duration: UbuntuAnimation.FastDuration }
                             },
                             Transition {
                                 from: "dragging"
                                 to: "*"
+                                NumberAnimation { target: dropIndicator; properties: "opacity"; duration: UbuntuAnimation.FastDuration }
                                 NumberAnimation { properties: "itemOpacity"; duration: UbuntuAnimation.BriskDuration }
                                 SequentialAnimation {
                                     UbuntuNumberAnimation { properties: "height" }
