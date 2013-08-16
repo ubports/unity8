@@ -19,6 +19,7 @@
 #include <QAbstractItemModel>
 #include <QQmlEngine>
 #include <QQuickView>
+#include <QSignalSpy>
 #include <QtTestGui>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-pedantic"
@@ -1632,6 +1633,26 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItem->height(), 50.);
         QCOMPARE(lvwph->contentY(), 708.);
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+    }
+
+    void addingRemoveItemsShouldNotChangeContentY()
+    {
+        QSignalSpy spy(lvwph, SIGNAL(contentYChanged()));
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 150));
+        QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 1), Q_ARG(QVariant, 6));
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 1);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, 50., 150., false);
+        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_clipItem->y(), 0.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 0.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+
+        QCOMPARE(spy.count(), 0);
     }
 
 private:
