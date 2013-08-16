@@ -37,16 +37,6 @@ LauncherBackend::LauncherBackend(QObject *parent):
         QLatin1String("gmail-webapp.desktop") <<
         QLatin1String("ubuntu-weather-app.desktop") <<
         QLatin1String("notes-app.desktop") <<
-        QLatin1String("calendar-app.desktop") <<
-        QLatin1String("phone-app.desktop") <<
-        QLatin1String("camera-app.desktop") <<
-        QLatin1String("gallery-app.desktop") <<
-        QLatin1String("facebook-webapp.desktop") <<
-        QLatin1String("webbrowser-app.desktop") <<
-        QLatin1String("twitter-webapp.desktop") <<
-        QLatin1String("gmail-webapp.desktop") <<
-        QLatin1String("ubuntu-weather-app.desktop") <<
-        QLatin1String("notes-app.desktop") <<
         QLatin1String("calendar-app.desktop");
 
     // TODO: get stuff from desktop files instead this hardcoded map
