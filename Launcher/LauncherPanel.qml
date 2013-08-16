@@ -27,7 +27,7 @@ Item {
     rotation: inverted ? 180 : 0
 
     property var model
-    property bool inverted: true
+    property bool inverted: false
     property bool dragging: false
     property bool moving: launcherListView.moving || launcherListView.flicking || dndArea.draggedIndex >= 0
     property int highlightIndex: -1
@@ -39,6 +39,9 @@ Item {
         id: background
         source: "graphics/launcher_bg.sci"
         anchors.fill: parent
+        anchors.rightMargin: root.inverted ? 0 : -units.gu(1)
+        anchors.leftMargin: root.inverted ? -units.gu(1) : 0
+        rotation: root.rotation
     }
 
     Column {
