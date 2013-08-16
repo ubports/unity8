@@ -25,7 +25,6 @@ Row {
     property alias rating: ratingStars.rating
     property int rated: 0
     property int reviews: 0
-    property bool displayRatings: rating >= 0
 
     spacing: units.gu(2)
 
@@ -54,7 +53,7 @@ Row {
         }
 
         Row {
-	    visible: root.displayRatings
+            visible: root.rating >= 0
             spacing: units.gu(1)
 
             RatingStars {
