@@ -149,6 +149,11 @@ void LauncherModel::quickListActionInvoked(const QString &appId, int actionIndex
     }
 }
 
+void LauncherModel::setUser(const QString &username)
+{
+    m_backend->setUser(username);
+}
+
 void LauncherModel::storeAppList()
 {
     QStringList appIds;

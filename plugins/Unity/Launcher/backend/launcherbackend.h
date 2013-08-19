@@ -119,6 +119,12 @@ public:
       */
     int count(const QString &appId) const;
 
+    /**
+      * @brief Sets the username for which to look up launcher items.
+      * @param username The username to use.
+      */
+    void setUser(const QString &username);
+
 Q_SIGNALS:
     void quickListChanged(const QString &appId, const QList<QuickListEntry> &quickList);
     void progressChanged(const QString &appId, int progress);
@@ -142,6 +148,7 @@ private:
 
     QList<LauncherBackendItem> m_storedApps;
     AccountsService *m_accounts;
+    QString m_user;
 };
 
 #endif // LAUNCHERBACKEND_H

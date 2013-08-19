@@ -31,22 +31,7 @@ LauncherBackend::LauncherBackend(QObject *parent):
     QObject(parent)
 {
     m_accounts = new AccountsService(this);
-    syncFromAccounts();
-
-    // TODO: load default pinned ones from default config, instead of hardcoding here...
-    if (m_storedApps.isEmpty()) {
-        setStoredApplications(QStringList() <<
-            "phone-app.desktop" <<
-            "camera-app.desktop" <<
-            "gallery-app.desktop" <<
-            "facebook-webapp.desktop" <<
-            "webbrowser-app.desktop" <<
-            "twitter-webapp.desktop" <<
-            "gmail-webapp.desktop" <<
-            "ubuntu-weather-app.desktop" <<
-            "notes-app.desktop" <<
-            "calendar-app.desktop");
-    }
+    setUser(qgetenv("USER"));
 }
 
 LauncherBackend::~LauncherBackend()
@@ -165,6 +150,12 @@ int LauncherBackend::count(const QString &appId) const
     return 0;
 }
 
+void LauncherBackend::setUser(const QString &username)
+{
+    m_user = username;
+    syncFromAccounts();
+}
+
 void LauncherBackend::triggerQuickListAction(const QString &appId, const QString &quickListId)
 {
     // TODO: execute the given quicklist action
@@ -174,11 +165,28 @@ void LauncherBackend::triggerQuickListAction(const QString &appId, const QString
 
 void LauncherBackend::syncFromAccounts()
 {
-    auto username = qgetenv("USER");
-    if (username != "") {
-        auto itemsVariant = m_accounts->getUserProperty(username, "launcher-items");
-        setStoredApplications(itemsVariant.toStringList());
+    auto appIds = QStringList();
+
+    if (m_user != "") {
+        appIds = m_accounts->getUserProperty(m_user, "launcher-items").toStringList();
     }
+
+    // TODO: load default pinned ones from default config, instead of hardcoding here...
+    if (appIds.isEmpty()) {
+        appIds <<
+            "phone-app.desktop" <<
+            "camera-app.desktop" <<
+            "gallery-app.desktop" <<
+            "facebook-webapp.desktop" <<
+            "webbrowser-app.desktop" <<
+            "twitter-webapp.desktop" <<
+            "gmail-webapp.desktop" <<
+            "ubuntu-weather-app.desktop" <<
+            "notes-app.desktop" <<
+            "calendar-app.desktop";
+    }
+
+    setStoredApplications(appIds);
 }
 
 void LauncherBackend::syncToAccounts()
@@ -190,9 +198,8 @@ void LauncherBackend::syncToAccounts()
         }
     }
 
-    auto username = qgetenv("USER");
-    if (username != "") {
-        m_accounts->setUserProperty(username, "launcher-items", QVariant(pinnedItems));
+    if (m_user != "") {
+        m_accounts->setUserProperty(m_user, "launcher-items", QVariant(pinnedItems));
     }
 }
 

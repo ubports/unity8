@@ -496,6 +496,8 @@ FocusScope {
             // Update edge demo hint
             var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole)
             shell.showEdgeDemo = AccountsService.getUserProperty(user, "demo-edges")
+            // Update launcher items for new user
+            LauncherModel.setUser(user);
         }
 
         onLeftTeaserPressedChanged: {
