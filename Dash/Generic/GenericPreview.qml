@@ -74,25 +74,33 @@ DashPreview {
         spacing: units.gu(2)
 
         Label {
+            anchors { left: parent.left; right: parent.right }
             visible: text != ""
             fontSize: "medium"
             opacity: 0.6
             color: "white"
-            text: previewData.subtitle
+            text: previewData.subtitle.replace(/[\r\n]+/g, "<br />")
             style: Text.Raised
             styleColor: "black"
             wrapMode: Text.WordWrap
+            textFormat: Text.RichText
+            // FIXME: workaround for https://bugreports.qt-project.org/browse/QTBUG-33020
+            onWidthChanged: { wrapMode = Text.NoWrap; wrapMode = Text.WordWrap }
         }
 
         Label {
+            anchors { left: parent.left; right: parent.right }
             visible: text != ""
             fontSize: "small"
             opacity: 0.6
             color: "white"
-            text: previewData.description
+            text: previewData.description.replace(/[\r\n]+/g, "<br />")
             style: Text.Raised
             styleColor: "black"
             wrapMode: Text.WordWrap
+            textFormat: Text.RichText
+            // FIXME: workaround for https://bugreports.qt-project.org/browse/QTBUG-33020
+            onWidthChanged: { wrapMode = Text.NoWrap; wrapMode = Text.WordWrap }
         }
     }
 }
