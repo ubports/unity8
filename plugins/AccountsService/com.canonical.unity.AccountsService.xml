@@ -13,5 +13,7 @@
       <annotation name="org.freedesktop.Accounts.DefaultValue" value="true"/>
     </property>
 
+    <property name="launcher-items" type="as" access="readwrite"/>
+
   </interface>
 </node>

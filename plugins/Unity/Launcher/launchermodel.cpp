@@ -99,6 +99,7 @@ void LauncherModel::pin(const QString &appId, int index)
     if (currentIndex >= 0) {
         if (index == -1 || index == currentIndex) {
             m_list.at(currentIndex)->setPinned(true);
+            m_backend->setPinned(appId, true);
             QModelIndex modelIndex = this->index(currentIndex);
             Q_EMIT dataChanged(modelIndex, modelIndex);
         } else {
@@ -114,6 +115,7 @@ void LauncherModel::pin(const QString &appId, int index)
                                               m_backend->displayName(appId),
                                               m_backend->icon(appId));
         item->setPinned(true);
+        m_backend->setPinned(appId, true);
         m_list.insert(index, item);
         endInsertRows();
     }

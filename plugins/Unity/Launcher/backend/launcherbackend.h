@@ -19,11 +19,12 @@
 #ifndef LAUNCHERBACKEND_H
 #define LAUNCHERBACKEND_H
 
+#include "AccountsService.h"
 #include "common/quicklistentry.h"
 
 #include <QObject>
+#include <QSettings>
 #include <QStringList>
-#include <QHash>
 
 /**
   * @brief An interface that provides all the data needed by the launcher.
@@ -124,9 +125,23 @@ Q_SIGNALS:
     void countChanged(const QString &appId, int count);
 
 private:
-    QStringList m_storedApps;
-    QHash<QString, QString> m_displayNameMap;
-    QHash<QString, QString> m_iconMap;
+    QString resolveAppId(const QString &appId) const;
+    bool loadDesktopFile(const QString &appId);
+    int findItem(const QString &appId) const;
+    void syncFromAccounts();
+    void syncToAccounts();
+
+    class LauncherBackendItem
+    {
+    public:
+        ~LauncherBackendItem();
+
+        QSettings *settings;
+        bool pinned;
+    };
+
+    QList<LauncherBackendItem> m_storedApps;
+    AccountsService *m_accounts;
 };
 
 #endif // LAUNCHERBACKEND_H
