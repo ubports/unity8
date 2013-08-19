@@ -21,6 +21,8 @@ Item {
     id: root
 
     property string iconName
+    property int count: -1
+    property int progress: -1
 
     property bool highlighted: false
     property real maxAngle: 0
@@ -69,6 +71,59 @@ Item {
             height: root.itemHeight + units.gu(0.5)
             property bool isSelected: root.highlighted
             onIsSelectedChanged: shaderEffectSource.scheduleUpdate();
+        }
+
+        BorderImage {
+            objectName: "countEmblem"
+            anchors {
+                left: parent.left
+                top: parent.top
+            }
+            width: Math.min(units.gu(7.5), Math.max(units.gu(4), countLabel.implicitWidth + units.gu(2)))
+            height: units.gu(4)
+            source: "graphics/notification@30.sci"
+            visible: root.count > 0
+
+            Label {
+                id: countLabel
+                text: root.count
+                anchors{
+                    left: parent.left
+                    right: parent.right
+                    margins: units.gu(0.5)
+                    verticalCenter: parent.verticalCenter
+                }
+                horizontalAlignment: Text.AlignHCenter
+                elide: Text.ElideRight
+                color: "white"
+            }
+        }
+
+        BorderImage {
+            objectName: "progressOverlay"
+            anchors {
+                left: parent.left
+                right: parent.right
+                bottom: parent.bottom
+                margins: units.dp(3)
+            }
+            visible: root.progress > -1
+            source: "graphics/progressbar-trough@30.sci"
+
+            // For fill calculation we need to remove the 3 units of border defined in .sci file
+            property int adjustedWidth: width - units.gu(3)
+
+            BorderImage {
+                anchors {
+                    fill: parent
+                    rightMargin: parent.adjustedWidth - (Math.min(100, root.progress) * parent.adjustedWidth / 100)
+                }
+                source: "graphics/progressbar-fill@30.sci"
+
+                // Because of the borders in the borderimage we can't make it smaller than 10%
+                // Let's just fade in from 0 to 10% instead and then fill the bar.
+                opacity: root.progress / 10
+            }
         }
     }
 

@@ -131,6 +131,8 @@ Item {
                         width: itemWidth
                         height: itemHeight
                         iconName: model.icon
+                        count: model.count
+                        progress: model.progress
                         inverted: root.inverted
                         highlighted: dragging && index === root.highlightIndex
                         z: -Math.abs(offset)

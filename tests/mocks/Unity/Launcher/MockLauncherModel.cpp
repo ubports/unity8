@@ -25,22 +25,33 @@ MockLauncherModel::MockLauncherModel(QObject* parent): LauncherModelInterface(pa
     MockLauncherItem *item = new MockLauncherItem("phone-app", "/usr/share/applications/phone-app.desktop", "Phone", "phone-app", this);
     m_list.append(item);
     item = new MockLauncherItem("camera-app", "/usr/share/applications/camera-app.desktop", "Camera", "camera", this);
+    item->setCount(1234567);
+    item->setProgress(150);
     m_list.append(item);
     item = new MockLauncherItem("gallery-app", "/usr/share/applications/gallery-app.desktop", "Gallery", "gallery", this);
+    item->setProgress(100);
     m_list.append(item);
     item = new MockLauncherItem("facebook-webapp", "/usr/share/applications/facebook-webapp.desktop", "Facebook", "facebook", this);
+    item->setCount(123456);
     m_list.append(item);
     item = new MockLauncherItem("webbrowser-app", "/usr/share/applications/webbrowser-app.desktop", "Browser", "browser", this);
+    item->setProgress(50);
     m_list.append(item);
     item = new MockLauncherItem("twitter-webapp", "/usr/share/applications/twitter-webapp.desktop", "Twitter", "twitter", this);
+    item->setCount(12345);
     m_list.append(item);
     item = new MockLauncherItem("gmail-webapp", "/usr/share/applications/gmail-webapp.desktop", "GMail", "gmail", this);
+    item->setCount(123);
     m_list.append(item);
     item = new MockLauncherItem("ubuntu-weather-app", "/usr/share/applications/ubuntu-weather-app.desktop", "Weather", "weather", this);
+    item->setCount(12);
+    item->setProgress(10);
     m_list.append(item);
     item = new MockLauncherItem("notes-app", "/usr/share/applications/notes-app.desktop", "Notepad", "notepad", this);
+    item->setProgress(0);
     m_list.append(item);
     item = new MockLauncherItem("calendar-app", "/usr/share/applications/calendar-app.desktop","Calendar", "calendar", this);
+    item->setCount(1);
     m_list.append(item);
 }
 
@@ -91,9 +102,29 @@ unity::shell::launcher::LauncherItemInterface *MockLauncherModel::get(int index)
 
 void MockLauncherModel::move(int oldIndex, int newIndex)
 {
-    beginMoveRows(QModelIndex(), oldIndex, oldIndex, QModelIndex(), newIndex);
+    // Make sure its not moved outside the lists
+    if (newIndex < 0) {
+        newIndex = 0;
+    }
+    if (newIndex >= m_list.count()) {
+        newIndex = m_list.count()-1;
+    }
+
+    // Nothing to do?
+    if (oldIndex == newIndex) {
+        return;
+    }
+
+    // QList's and QAbstractItemModel's move implementation differ when moving an item up the list :/
+    // While QList needs the index in the resulting list, beginMoveRows expects it to be in the current list
+    // adjust the model's index by +1 in case we're moving upwards
+    int newModelIndex = newIndex > oldIndex ? newIndex+1 : newIndex;
+
+    beginMoveRows(QModelIndex(), oldIndex, oldIndex, QModelIndex(), newModelIndex);
     m_list.move(oldIndex, newIndex);
     endMoveRows();
+
+    pin(m_list.at(newIndex)->appId());
 }
 
 void MockLauncherModel::pin(const QString &appId, int index)

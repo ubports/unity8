@@ -177,6 +177,22 @@ Item {
             revealer.waitUntilLauncherDisappears();
             launcher.available = true;
         }
+
+        function test_countEmblems() {
+            var launcherListView = findChild(launcher, "launcherListView");
+            for (var i = 0; i < launcherListView.count; ++i) {
+                var delegate = findChild(launcherListView, "launcherDelegate" + i)
+                compare(findChild(delegate, "countEmblem").visible, LauncherModel.get(i).count > 0)
+            }
+        }
+
+        function test_progressOverlays() {
+            var launcherListView = findChild(launcher, "launcherListView");
+            for (var i = 0; i < launcherListView.count; ++i) {
+                var delegate = findChild(launcherListView, "launcherDelegate" + i)
+                compare(findChild(delegate, "progressOverlay").visible, LauncherModel.get(i).progress >= 0)
+            }
+        }
     }
 
     UT.UnityTestCase {
