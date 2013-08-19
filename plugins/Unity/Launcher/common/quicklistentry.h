@@ -35,6 +35,8 @@ public:
     QString icon() const;
     void setIcon(const QString &icon);
 
+    bool hasAction() const;
+
 private:
     QString m_actionId;
     QString m_text;

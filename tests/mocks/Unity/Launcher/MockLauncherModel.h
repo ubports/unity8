@@ -44,6 +44,9 @@ public:
     Q_INVOKABLE void requestRemove(const QString &appId);
     Q_INVOKABLE void quickListActionInvoked(const QString &appId, int actionIndex);
 
+Q_SIGNALS:
+    void quickListTriggered(const QString &appId, int index);
+
 private:
     int findApp(const QString &appId);
 

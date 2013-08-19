@@ -19,6 +19,7 @@ import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItems
 import Unity 0.1
 import Unity.Launcher 0.1
+import Ubuntu.Components.Popups 0.1
 import "../Components/ListItems"
 
 Item {
@@ -29,7 +30,8 @@ Item {
     property var model
     property bool inverted: true
     property bool dragging: false
-    property bool moving: launcherListView.moving || launcherListView.flicking || dndArea.draggedIndex >= 0
+    property bool moving: launcherListView.moving || launcherListView.flicking
+    property bool preventHiding: moving || dndArea.draggedIndex >= 0 || dndArea.quickListPopover !== null || dndArea.pressed
     property int highlightIndex: -1
 
     signal applicationSelected(string desktopFile)
@@ -219,6 +221,7 @@ Item {
 
                     MouseArea {
                         id: dndArea
+                        objectName: "dndArea"
                         anchors {
                             fill: parent
                             topMargin: launcherListView.topMargin
@@ -234,6 +237,7 @@ Item {
                         property bool postDragging: false
                         property int startX
                         property int startY
+                        property var quickListPopover: null
 
                         onPressed: {
                             selectedItem = launcherListView.itemAt(mouseX, mouseY + launcherListView.realContentY)
@@ -295,6 +299,13 @@ Item {
                         onPressAndHold: {
                             draggedIndex = Math.floor((mouseY + launcherListView.realContentY) / launcherListView.realItemHeight);
 
+                            // Opening QuickList
+                            var quickListModel = launcherListView.model.get(draggedIndex).quickList
+                            var quickListAppId = launcherListView.model.get(draggedIndex).appId
+
+                            quickListPopover = PopupUtils.open(popoverComponent, selectedItem,
+                                                               {model: quickListModel, appId: quickListAppId})
+
                             launcherListView.interactive = false
 
                             var yOffset = draggedIndex > 0 ? (mouseY + launcherListView.realContentY) % (draggedIndex * launcherListView.realItemHeight) : mouseY + launcherListView.realContentY
@@ -314,6 +325,7 @@ Item {
                                     var distance = Math.max(Math.abs(mouseX - startX), Math.abs(mouseY - startY))
                                     if (!preDragging && distance > units.gu(1.5)) {
                                         preDragging = true;
+                                        PopupUtils.close(quickListPopover)
                                     }
                                     if (distance > launcherListView.itemHeight) {
                                         selectedItem.dragging = true
@@ -416,6 +428,48 @@ Item {
                 rotation: root.rotation
                 highlighted: true
                 itemOpacity: 0.8
+            }
+        }
+    }
+
+    Component {
+        id: popoverComponent
+
+        Popover {
+            id: popover
+            property var model
+            property string appId
+            contentWidth: quickListColumn.width
+
+            // FIXME: There's a bug in the Popover positioning that it covers the item in case it is rotated.
+            // https://bugs.launchpad.net/ubuntu-ui-toolkit/+bug/1204470
+            // For now, let's move the Popover around with callerMargin.
+            // Remove popupMargin once the bug is fixed.
+            property int popupMargin: root.inverted ? launcherListView.itemHeight : 0;
+
+            callerMargin: units.gu(1) + popupMargin
+
+            Column {
+                id: quickListColumn
+                width: units.gu(30)
+                height: childrenRect.height
+
+                Repeater {
+                    model: popover.model
+
+                    ListItems.Standard {
+                        objectName: "quickListEntry" + index
+                        text: (model.clickable ? "" : "<b>") + model.label + (model.clickable ? "" : "</b>")
+                        highlightWhenPressed: model.clickable
+                        onClicked: {
+                            if (!model.clickable) {
+                                return;
+                            }
+                            LauncherModel.quickListActionInvoked(appId, index);
+                            PopupUtils.close(popover);
+                        }
+                    }
+                }
             }
         }
     }

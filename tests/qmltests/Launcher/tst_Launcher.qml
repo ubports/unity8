@@ -49,6 +49,11 @@ Item {
         property int maxPanelX: 0
     }
 
+    SignalSpy {
+        id: signalSpy
+        target: LauncherModel
+    }
+
     Connections {
         target: testCase.findChild(launcher, "launcherPanel")
 
@@ -305,6 +310,80 @@ Item {
             tryCompare(findChild(draggedItem, "dropIndicator"), "opacity", 0)
             tryCompare(draggedItem, "itemOpacity", 1)
             tryCompare(fakeDragItem, "visible", false)
+        }
+
+        function test_quicklist_dismiss() {
+            revealer.dragLauncherIntoView();
+            var draggedItem = findChild(launcher, "launcherDelegate5")
+            var item0 = findChild(launcher, "launcherDelegate0")
+            var fakeDragItem = findChild(launcher, "fakeDragItem")
+            var dndArea = findChild(launcher, "dndArea")
+
+            // Initial state
+            compare(dndArea.quickListPopover, null)
+
+            // Doing longpress
+            mousePress(draggedItem, draggedItem.width / 2, draggedItem.height / 2)
+            tryCompare(fakeDragItem, "visible", true) // Wait longpress happening
+            verify(dndArea.quickListPopover != null)
+
+            // Dragging a bit (> 1.5 gu)
+            mouseMove(draggedItem, -units.gu(2), draggedItem.height / 2)
+
+            // QuickList needs to be closed when a drag operation starts
+            tryCompare(dndArea, "quickListPopover", null)
+
+            mouseRelease(draggedItem);
+        }
+
+        function test_quicklist_click_data() {
+            return [
+                {tag: "non-clickable", index: 1, clickable: false },
+                {tag: "clickable", index: 2, clickable: true },
+            ];
+        }
+
+        function test_quicklist_click(data) {
+            revealer.dragLauncherIntoView();
+            var clickedItem = findChild(launcher, "launcherDelegate5")
+            var dndArea = findChild(launcher, "dndArea")
+
+            // Initial state
+            compare(dndArea.quickListPopover, null)
+
+            // Doing longpress
+            mousePress(clickedItem, clickedItem.width / 2, clickedItem.height / 2)
+            tryCompare(clickedItem, "itemOpacity", 0) // Wait for longpress to happen
+            verify(dndArea.quickListPopover != null)
+
+            mouseRelease(clickedItem);
+
+            var quickListEntry = findChild(dndArea.quickListPopover, "quickListEntry" + data.index)
+
+            signalSpy.clear();
+            signalSpy.signalName = "quickListTriggered"
+
+            mouseClick(quickListEntry, quickListEntry.width / 2, quickListEntry.height / 2)
+
+            if (data.clickable) {
+                // QuickList needs to be closed when some clickable item is clicked
+                tryCompare(dndArea, "quickListPopover", null)
+
+                compare(signalSpy.count, 1, "Quicklist signal wasn't triggered")
+                compare(signalSpy.signalArguments[0][0], LauncherModel.get(5).appId)
+                compare(signalSpy.signalArguments[0][1], 2)
+
+            } else {
+
+                // QuickList must not be closed when a non-clickable item is clicked
+                verify(dndArea.quickListPopover != null)
+
+                compare(signalSpy.count, 0, "Quicklist signal must NOT be triggered when clicking a non-clickable item")
+
+                // Click somewhere in the empty space to dismiss the quicklist
+                mouseClick(launcher, launcher.width - units.gu(1), units.gu(1));
+                tryCompare(dndArea, "quickListPopover", null)
+            }
         }
     }
 }

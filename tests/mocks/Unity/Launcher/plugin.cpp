@@ -20,6 +20,7 @@
 #include "plugin.h"
 #include "MockLauncherModel.h"
 #include "MockLauncherItem.h"
+#include "MockQuickListModel.h"
 
 #include <unity/shell/launcher/LauncherModelInterface.h>
 #include <unity/shell/launcher/LauncherItemInterface.h>
@@ -39,7 +40,9 @@ void TestLauncherPlugin::registerTypes(const char* uri)
     // @uri Unity.Launcher
     qmlRegisterUncreatableType<LauncherModelInterface>(uri, 0, 1, "LauncherModelInterface", "Abstract Interface. Cannot be instantiated.");
     qmlRegisterUncreatableType<LauncherItemInterface>(uri, 0, 1, "LauncherItemInterface", "Abstract Interface. Cannot be instantiated.");
+    qmlRegisterUncreatableType<QuickListModelInterface>(uri, 0, 1, "QuickListModelInterface", "Abstract Interface. Cannot be instantiated.");
 
     qmlRegisterSingletonType<MockLauncherModel>(uri, 0, 1, "LauncherModel", modelProvider);
     qmlRegisterUncreatableType<MockLauncherItem>(uri, 0, 1, "LauncherItem", "Can't create LauncherItems in QML. Get them from the LauncherModel");
+    qmlRegisterUncreatableType<MockQuickListModel>(uri, 0, 1, "QuickListModel", "Can't create QuickLists in QML. Get them from the LauncherItems");
 }

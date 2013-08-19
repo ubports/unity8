@@ -163,6 +163,9 @@ void LauncherModel::quickListActionInvoked(const QString &appId, int actionIndex
         QString actionId = model->get(actionIndex).actionId();
 
         // Check if this is one of the launcher actions we handle ourselves
+        if (actionId == "no_action") {
+            return;
+        }
         if (actionId == "pin_item") {
             if (item->pinned()) {
                 requestRemove(appId);

@@ -35,7 +35,6 @@ MockLauncherItem::MockLauncherItem(const QString &appId, const QString& desktopF
     m_count(8),
     m_quickList(new MockQuickListModel(this))
 {
-
 }
 
 QString MockLauncherItem::appId() const
