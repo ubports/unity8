@@ -35,7 +35,7 @@ Item {
 
     property string commentary: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus a mi vitae augue rhoncus lobortis ut rutrum metus. Curabitur tortor leo, tristique sed mollis quis, condimentum venenatis nibh.";
     QtObject { id: screenshots; property var value: ["fake_image1.png", "fake_image2.png", "fake_image3.png"] }
-    QtObject { id: rating; property int value: 8 }
+    QtObject { id: rating; property real value: 0.8 }
     QtObject { id: rated; property int value: 120 }
     QtObject { id: reviews; property int value: 8 }
     QtObject { id: progress; property string value: "source" }
@@ -51,12 +51,12 @@ Item {
         property string title: "Unity App"
         property string appIcon: "fake_image.png"
         property string description: "This is an Application description"
+        property real rating: rating.value
+        property int numRatings: reviews.value
         property var execute: root.fake_call
         property var infoMap: {
             "more-screenshots": screenshots,
-            "rating": rating,
             "rated": rated,
-            "reviews": reviews,
             "comments": comments
         }
         property var actions: [
@@ -88,6 +88,7 @@ Item {
             var reviewField = findChild(appPreview, "reviewField");
             reviewField.focus = false;
             reviewField.text = "";
+            data.rating = rating.value;
         }
 
         function test_actions() {
@@ -148,5 +149,18 @@ Item {
                 compare(comment, comments.value[i][3], "Comment don't match");
             }
         }
+
+        function test_negative_rating() {
+            data.rating = -1.0;
+            var rated = findChild(appPreview, "reviewsLabel");
+            verify(rated.visible == false);
+            var commentsArea = findChild(appPreview, "commentsArea");
+            verify(commentsArea.visible == false);
+            var appReviews = findChild(appPreview, "appReviews");
+            verify(appReviews.visible == false);
+            var buttons = findChild(appPreview, "gridButtons");
+            verify(buttons.visible == true);
+        }
+
     }
 }
