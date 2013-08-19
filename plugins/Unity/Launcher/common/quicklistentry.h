@@ -35,7 +35,7 @@ public:
     QString icon() const;
     void setIcon(const QString &icon);
 
-    bool hasAction() const;
+    bool clickable() const;
 
 private:
     QString m_actionId;

@@ -67,7 +67,7 @@ QVariant QuickListModel::data(const QModelIndex &index, int role) const
     case RoleIcon:
         return m_list.at(index.row()).icon();
     case RoleClickable:
-        return m_list.at(index.row()).hasAction();
+        return m_list.at(index.row()).clickable();
     }
     return QVariant();
 }
