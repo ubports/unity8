@@ -23,6 +23,7 @@
 
 // Local
 #include "filter.h"
+#include "genericoptionsmodel.h"
 
 // Qt
 #include <QDebug>
@@ -77,6 +78,8 @@ QVariant Filters::data(const QModelIndex& index, int role) const
             return filter->collapsed();
         case Filters::RoleFiltering:
             return filter->filtering();
+        case Filters::RoleOptions:
+            return QVariant::fromValue(filter->options());
         default:
             break;
     }
@@ -93,6 +96,7 @@ QHash<int, QByteArray> Filters::roleNames() const
     roles[Filters::RoleVisible] = "visible";
     roles[Filters::RoleCollapsed] = "collapsed";
     roles[Filters::RoleFiltering] = "filtering";
+    roles[Filters::RoleOptions] = "options";
     return roles;
 }
 
