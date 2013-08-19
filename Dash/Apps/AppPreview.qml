@@ -154,10 +154,10 @@ DashPreview {
             styleColor: "black"
         }
 
-        Item {
+        Column {
             visible: root.previewData.rating >= 0
             anchors { left: parent.left; right: parent.right }
-            height: childrenRect.height
+            spacing: parent.spacing
 
             ListItem.ThinDivider { }
 
