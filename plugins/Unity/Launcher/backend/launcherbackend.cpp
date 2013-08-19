@@ -101,7 +101,7 @@ bool LauncherBackend::isPinned(const QString &appId) const
 {
     // TODO: return app's pinned state from settings
     Q_UNUSED(appId)
-    return true;
+    return false;
 }
 
 void LauncherBackend::setPinned(const QString &appId, bool pinned)

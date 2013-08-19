@@ -135,9 +135,9 @@ Item {
         id: backgroundShade
         anchors.fill: parent
         color: "black"
-        opacity: root.state == "visible" ? 0.4 : 0
+        opacity: root.state == "visible" ? 0.6 : 0
 
-        Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.OutQuad} }
+        Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.BriskDuration } }
     }
 
     LauncherPanel {

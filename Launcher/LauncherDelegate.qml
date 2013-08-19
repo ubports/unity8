@@ -22,28 +22,26 @@ Item {
 
     property string iconName
 
-    property real angle: 0
     property bool highlighted: false
-    property real offset: 0
-    property alias brightness: transformEffect.brightness
-    property real itemOpacity: 1
-
     property real maxAngle: 0
     property bool inverted: false
 
-    readonly property int effectiveHeight: Math.cos(angle * Math.PI / 180) * height
-    readonly property real foldedHeight: Math.cos(maxAngle * Math.PI / 180) * height
+    readonly property int effectiveHeight: Math.cos(angle * Math.PI / 180) * itemHeight
+    readonly property real foldedHeight: Math.cos(maxAngle * Math.PI / 180) * itemHeight
 
-    property bool dragging:false
-
-    signal clicked()
-    signal longtap()
-    signal released()
+    property int itemWidth
+    property int itemHeight
+    // The angle used for rotating
+    property real angle: 0
+    // This is the offset that keeps the items inside the panel
+    property real offset: 0
+    property real itemOpacity: 1
+    property real brightness: 0
 
     Item {
         id: iconItem
-        width: parent.width
-        height: parent.height
+        width: parent.itemWidth
+        height: parent.itemHeight
         anchors.centerIn: parent
 
         UbuntuShape {
@@ -56,32 +54,20 @@ Item {
                 id: iconImage
                 sourceSize.width: iconShape.width
                 sourceSize.height: iconShape.height
-                source: "../graphics/applicationIcons/" + root.iconName + ".png"
-            }
-
-            MouseArea {
-                id: mouseArea
-                anchors.fill: parent
-                onClicked: root.clicked()
-                onCanceled: root.released()
-                preventStealing: false
-
-                onPressAndHold: {
-                    root.state = "moving"
-                }
-                onReleased: {
-                    root.state = "docked"
-                }
+                source: "../graphics/applicationIcons/" + iconName + ".png"
+                property string iconName: root.iconName
+                onIconNameChanged: shaderEffectSource.scheduleUpdate();
             }
         }
+
         BorderImage {
             id: overlayHighlight
             anchors.centerIn: iconItem
             rotation: inverted ? 180 : 0
             source: isSelected ? "graphics/selected.sci" : "graphics/non-selected.sci"
-            width: root.width + units.gu(0.5)
-            height: width
-            property bool isSelected: root.highlighted || mouseArea.pressed
+            width: root.itemWidth + units.gu(0.5)
+            height: root.itemHeight + units.gu(0.5)
+            property bool isSelected: root.highlighted
             onIsSelectedChanged: shaderEffectSource.scheduleUpdate();
         }
     }
@@ -90,13 +76,12 @@ Item {
         id: transformEffect
         anchors.centerIn: parent
         anchors.verticalCenterOffset: root.offset
-        width: parent.width
-        height: parent.height
+        width: parent.itemWidth
+        height: parent.itemHeight
         property real itemOpacity: root.itemOpacity
-        property real brightness: 0
+        property real brightness: Math.max(-1, root.brightness)
         property real angle: root.angle
         rotation: root.inverted ? 180 : 0
-
 
         property variant source: ShaderEffectSource {
             id: shaderEffectSource
@@ -149,141 +134,4 @@ Item {
                 gl_FragColor = sourceColor;
             }"
     }
-
-    QtObject {
-        id: priv
-
-        property ListView listView: root.ListView.view
-        property real totalUnfoldedHeight: listView.itemSize + listView.spacing
-        property real totalEffectiveHeight: effectiveHeight + listView.spacing
-        property real effectiveContentY: listView.contentY - listView.originY
-        property real effectiveY: y - listView.originY
-        property real distanceFromTopEdge: -(effectiveContentY + listView.topMargin - index*totalUnfoldedHeight)
-        property real distanceFromBottomEdge: listView.height - listView.bottomMargin - (effectiveY+height) + effectiveContentY
-
-        property real distanceFromEdge: Math.abs(distanceFromBottomEdge) < Math.abs(distanceFromTopEdge) ? distanceFromBottomEdge : distanceFromTopEdge
-        property real orientationFlag: Math.abs(distanceFromBottomEdge) < Math.abs(distanceFromTopEdge) ? -1 : 1
-
-        property real overlapWithFoldingArea: listView.foldingAreaHeight - distanceFromEdge
-    }
-
-    states: [
-        State {
-            name: "docked"
-            PropertyChanges {
-                target: root
-
-                // This is the offset that keeps the items inside the panel
-                offset: {
-                    // First/last items are special
-                    if (index == 0 || index == priv.listView.count-1) {
-                        // Just keep them bound to the edges in case they're outside of the visible area
-                        if (priv.distanceFromEdge < 0) {
-                            return (-priv.distanceFromEdge - (height - effectiveHeight)) * priv.orientationFlag;
-                        }
-                        return 0;
-                    }
-
-                    // Are we already completely outside the flickable? Stop the icon here.
-                    if (priv.distanceFromEdge < -priv.totalUnfoldedHeight) {
-                        return (-priv.distanceFromEdge - (root.height - effectiveHeight)) * priv.orientationFlag;
-                    }
-
-                    // We're touching the edge, move slower than the actual flicking speed.
-                    if (priv.distanceFromEdge < 0) {
-                        return (Math.abs(priv.distanceFromEdge) * priv.totalEffectiveHeight / priv.totalUnfoldedHeight) * priv.orientationFlag
-                    }
-                    return 0;
-                }
-
-                // The angle used for rotating
-                angle: {
-                    // First/last items are special
-                    if (index == 0 || index == priv.listView.count-1) {
-                        if (priv.distanceFromEdge < 0) {
-                            // proportion equation: distanceFromTopEdge : angle = totalUnfoldedHeight/2 : maxAngle
-                            return Math.max(-maxAngle, priv.distanceFromEdge * maxAngle / (priv.listView.foldingAreaHeight)) * priv.orientationFlag
-                        }
-                        return 0; // Don't fold first/last item as long as inside the view
-                    }
-
-                    // Are we in the already completely outside the flickable? Fold for the last 5 degrees
-                    if (priv.distanceFromEdge < 0) {
-                        // proportion equation: -distanceFromTopEdge : angle = totalUnfoldedHeight : 5
-                        return Math.max(-maxAngle, (priv.distanceFromEdge * 5 / priv.listView.foldingAreaHeight) - (maxAngle-5)) * priv.orientationFlag
-                    }
-
-                    // We are overlapping with the folding area, fold the icon to maxAngle - 5 degrees
-                    if (priv.overlapWithFoldingArea > 0) {
-                        // proportion equation: overlap: totalHeight = angle : (maxAngle - 5)
-                        return -priv.overlapWithFoldingArea * (maxAngle -5) / priv.listView.foldingAreaHeight * priv.orientationFlag;
-                    }
-                    return 0;
-                }
-
-                itemOpacity: {
-                    // First/last items are special
-                    if (index == 0 || index == priv.listView.count-1) {
-                        if (priv.distanceFromEdge < 0) {
-                            // Fade from 1 to 0 in the distance of 3 * foldingAreaHeight (which is when the next item reaches the edge)
-                            return 1.0 - (-priv.distanceFromEdge / (priv.listView.foldingAreaHeight * 3))
-                        }
-                        return 1; // Don't make first/last item transparent as long as inside the view
-                    }
-
-                    // Are we already completely outside the flickable? Fade from 0.75 to 0 in 2 items height
-                    if (priv.distanceFromEdge < 0) {
-                        // proportion equation: -distanceFromEdge : 1-opacity = totalUnfoldedHeight : 0.75
-                        return 0.75 - (-priv.distanceFromEdge * 0.75 / (priv.totalUnfoldedHeight*2))
-                    }
-
-                    // We are overlapping with the folding area, fade out to 0.75
-                    if (priv.overlapWithFoldingArea > 0) {
-                        // proportion equation: overlap : totalHeight = 1-opacity : 0.25
-                        return 1 - (priv.overlapWithFoldingArea * 0.25 / priv.listView.foldingAreaHeight)
-                    }
-                    return 1;
-                }
-
-                brightness: {
-                    // First/last items are special
-                    if (index == 0 || index == priv.listView.count-1) {
-                        if (priv.distanceFromEdge < 0) {
-                            return -(-priv.distanceFromEdge / (priv.listView.foldingAreaHeight * 3))
-                        }
-                        return 0;
-                    }
-                    // Are we already completely outside the flickable? Fade from 0.7 to 0 in 2 items height
-                    if (priv.distanceFromEdge < 0) {
-                        return -0.3 - (-priv.distanceFromEdge * 0.1 / (priv.totalUnfoldedHeight*2))
-                    }
-
-                    // We are overlapping with the folding area, fade out to 0.7
-                    if (priv.overlapWithFoldingArea > 0) {
-                        return - (priv.overlapWithFoldingArea * 0.3 / priv.listView.foldingAreaHeight)
-                    }
-                    return 0;
-                }
-            }
-        },
-
-        State {
-            name: "moving"
-            PropertyChanges {
-                target: launcherDelegate;
-                offset: 0
-                angle: 0
-            }
-            PropertyChanges {
-                target: root
-                highlighted: true
-                dragging: true
-            }
-            PropertyChanges {
-                target: mouseArea
-                preventStealing: true
-                drag.target: root
-            }
-        }
-    ]
 }

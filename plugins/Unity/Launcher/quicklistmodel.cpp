@@ -37,6 +37,17 @@ void QuickListModel::appendAction(const QuickListEntry &entry)
     endInsertRows();
 }
 
+void QuickListModel::updateAction(const QuickListEntry &entry)
+{
+    for (int i = 0; i < m_list.count(); ++i) {
+        if (m_list.at(i).actionId() == entry.actionId()) {
+            m_list.replace(i, entry);
+            Q_EMIT dataChanged(index(i), index(i));
+            return;
+        }
+    }
+}
+
 QuickListEntry QuickListModel::get(int index) const
 {
     return m_list.at(index);
