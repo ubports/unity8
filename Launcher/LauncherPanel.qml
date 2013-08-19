@@ -274,6 +274,7 @@ Item {
                         }
 
                         onReleased: {
+                            var droppedIndex = draggedIndex;
                             if (dragging) {
                                 postDragging = true;
                             } else {
@@ -289,6 +290,10 @@ Item {
 
                             progressiveScrollingTimer.stop();
                             launcherListView.interactive = true;
+                            if (droppedIndex == launcherListView.count - 1) {
+                                launcherListView.flick(0, -launcherListView.clickFlickSpeed);
+                            }
+
 
                         }
 
