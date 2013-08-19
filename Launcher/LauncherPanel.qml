@@ -296,6 +296,10 @@ Item {
                         }
 
                         onPressAndHold: {
+                            if (Math.abs(selectedItem.angle) > 30) {
+                                return;
+                            }
+
                             draggedIndex = Math.floor((mouseY + launcherListView.realContentY) / launcherListView.realItemHeight);
 
                             launcherListView.interactive = false
@@ -305,6 +309,9 @@ Item {
                             fakeDragItem.iconName = launcherListView.model.get(draggedIndex).icon
                             fakeDragItem.x = 0
                             fakeDragItem.y = mouseY - yOffset + launcherListView.anchors.topMargin + launcherListView.topMargin
+                            fakeDragItem.angle = selectedItem.angle * (root.inverted ? -1 : 1)
+                            fakeDragItem.offset = selectedItem.offset * (root.inverted ? -1 : 1)
+                            fakeDragItem.flatten()
                             drag.target = fakeDragItem
 
                             startX = mouseX
@@ -379,32 +386,6 @@ Item {
                             }
                         }
                     }
-
-                    MouseArea {
-                        id: topFoldingArea
-                        anchors {
-                            left: parent.left
-                            right: parent.right
-                            top: parent.top
-                            topMargin: launcherListView.topMargin
-                        }
-                        height: launcherListView.itemSize / 2
-                        enabled: launcherListView.contentY > -launcherListView.topMargin
-                        onClicked: launcherListView.flick(0, launcherListView.clickFlickSpeed)
-                    }
-
-                    MouseArea {
-                        id: bottomFoldingArea
-                        anchors {
-                            left: parent.left
-                            right: parent.right
-                            bottom: parent.bottom
-                            bottomMargin: launcherListView.bottomMargin
-                        }
-                        height: launcherListView.itemHeight / 2
-                        enabled: launcherListView.contentHeight - launcherListView.height - launcherListView.contentY > -launcherListView.bottomMargin
-                        onClicked: launcherListView.flick(0, -launcherListView.clickFlickSpeed)
-                    }
                 }
             }
 
@@ -419,6 +400,17 @@ Item {
                 rotation: root.rotation
                 highlighted: true
                 itemOpacity: 0.8
+
+                function flatten() {
+                    fakeDragItemAnimation.start();
+                }
+
+                UbuntuNumberAnimation {
+                    id: fakeDragItemAnimation
+                    target: fakeDragItem;
+                    properties: "angle,offset";
+                    to: 0
+                }
             }
         }
     }
