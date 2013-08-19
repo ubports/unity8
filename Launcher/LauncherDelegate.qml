@@ -23,7 +23,6 @@ Item {
     property string iconName
     property int count: -1
     property int progress: -1
-
     property bool highlighted: false
     property real maxAngle: 0
     property bool inverted: false
@@ -39,6 +38,11 @@ Item {
     property real offset: 0
     property real itemOpacity: 1
     property real brightness: 0
+
+    onIconNameChanged: shaderEffectSource.scheduleUpdate();
+    onCountChanged: shaderEffectSource.scheduleUpdate();
+    onProgressChanged: shaderEffectSource.scheduleUpdate();
+    onHighlightedChanged: shaderEffectSource.scheduleUpdate();
 
     Item {
         id: iconItem
@@ -56,9 +60,7 @@ Item {
                 id: iconImage
                 sourceSize.width: iconShape.width
                 sourceSize.height: iconShape.height
-                source: "../graphics/applicationIcons/" + iconName + ".png"
-                property string iconName: root.iconName
-                onIconNameChanged: shaderEffectSource.scheduleUpdate();
+                source: "../graphics/applicationIcons/" + root.iconName + ".png"
             }
         }
 
@@ -66,11 +68,9 @@ Item {
             id: overlayHighlight
             anchors.centerIn: iconItem
             rotation: inverted ? 180 : 0
-            source: isSelected ? "graphics/selected.sci" : "graphics/non-selected.sci"
+            source: root.highlighted ? "graphics/selected.sci" : "graphics/non-selected.sci"
             width: root.itemWidth + units.gu(0.5)
             height: root.itemHeight + units.gu(0.5)
-            property bool isSelected: root.highlighted
-            onIsSelectedChanged: shaderEffectSource.scheduleUpdate();
         }
 
         BorderImage {
