@@ -293,8 +293,6 @@ Item {
                             if (droppedIndex >= launcherListView.count - 2 && postDragging) {
                                 launcherListView.flick(0, -launcherListView.clickFlickSpeed);
                             }
-
-
                         }
 
                         onPressAndHold: {
