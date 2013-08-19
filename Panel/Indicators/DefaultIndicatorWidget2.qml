@@ -94,8 +94,8 @@ Indicators.IndicatorWidget {
             return;
         }
 
-        leftLabel = actionState.leftLabel;
-        rightLabel = actionState.rightLabel;
+        leftLabel = actionState.leftLabel ? actionState.leftLabel : "";
+        rightLabel = actionState.rightLabel ? actionState.rightLabel : "";
         icons = actionState.icons;
         enabled = actionState.visible;
     }
