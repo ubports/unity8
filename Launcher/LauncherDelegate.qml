@@ -76,8 +76,9 @@ Item {
         BorderImage {
             objectName: "countEmblem"
             anchors {
-                left: parent.left
+                right: parent.right
                 top: parent.top
+                margins: -units.dp(1)
             }
             width: Math.min(units.gu(7.5), Math.max(units.gu(3), countLabel.implicitWidth + units.gu(2.5)))
             height: units.gu(3)
@@ -92,7 +93,7 @@ Item {
                 horizontalAlignment: Text.AlignHCenter
                 elide: Text.ElideRight
                 color: "white"
-                fontSize: "x-small"
+                fontSize: "small"
             }
         }
 
