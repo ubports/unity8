@@ -133,6 +133,8 @@ Item {
                         width: itemWidth
                         height: itemHeight
                         iconName: model.icon
+                        count: model.count
+                        progress: model.progress
                         inverted: root.inverted
                         highlighted: dragging && index === root.highlightIndex
                         z: -Math.abs(offset)
@@ -322,6 +324,8 @@ Item {
                             fakeDragItem.y = mouseY - yOffset + launcherListView.anchors.topMargin + launcherListView.topMargin
                             fakeDragItem.angle = selectedItem.angle * (root.inverted ? -1 : 1)
                             fakeDragItem.offset = selectedItem.offset * (root.inverted ? -1 : 1)
+                            fakeDragItem.count = LauncherModel.get(draggedIndex).count
+                            fakeDragItem.progress = LauncherModel.get(draggedIndex).progress
                             fakeDragItem.flatten()
                             drag.target = fakeDragItem
 
