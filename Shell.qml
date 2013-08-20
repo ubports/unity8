@@ -18,6 +18,7 @@ import QtQuick 2.0
 import Ubuntu.Application 0.1
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
+import Unity.Launcher 0.1
 import LightDM 0.1 as LightDM
 import AccountsService 0.1
 import Powerd 0.1

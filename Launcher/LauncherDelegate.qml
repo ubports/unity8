@@ -56,7 +56,7 @@ Item {
                 id: iconImage
                 sourceSize.width: iconShape.width
                 sourceSize.height: iconShape.height
-                source: "../graphics/applicationIcons/" + root.iconName + ".png"
+                source: root.iconName
             }
 
             MouseArea {

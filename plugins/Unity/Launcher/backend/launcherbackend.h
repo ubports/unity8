@@ -136,12 +136,11 @@ private:
     int findItem(const QString &appId) const;
     void syncFromAccounts();
     void syncToAccounts();
+    void clearItems();
 
     class LauncherBackendItem
     {
     public:
-        ~LauncherBackendItem();
-
         QSettings *settings;
         bool pinned;
     };

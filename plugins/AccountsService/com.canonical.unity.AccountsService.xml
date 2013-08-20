@@ -13,7 +13,9 @@
       <annotation name="org.freedesktop.Accounts.DefaultValue" value="true"/>
     </property>
 
-    <property name="launcher-items" type="as" access="readwrite"/>
+    <property name="launcher-items" type="as" access="readwrite">
+      <annotation name="org.freedesktop.Accounts.DefaultValue" value="[]"/>
+    </property>
 
   </interface>
 </node>

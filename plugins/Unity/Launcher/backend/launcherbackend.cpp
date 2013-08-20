@@ -22,11 +22,6 @@
 #include <QDir>
 #include <QFileInfo>
 
-LauncherBackend::LauncherBackendItem::~LauncherBackendItem()
-{
-    delete settings;
-}
-
 LauncherBackend::LauncherBackend(QObject *parent):
     QObject(parent)
 {
@@ -36,7 +31,15 @@ LauncherBackend::LauncherBackend(QObject *parent):
 
 LauncherBackend::~LauncherBackend()
 {
+    clearItems();
+}
 
+void LauncherBackend::clearItems()
+{
+    for (int i = 0; i < m_storedApps.size(); i++) {
+        delete m_storedApps[i].settings;
+    }
+    m_storedApps.clear();
 }
 
 QStringList LauncherBackend::storedApplications() const
@@ -69,7 +72,8 @@ void LauncherBackend::setStoredApplications(const QStringList &appIds)
         }
     }
 
-    m_storedApps.clear();
+    clearItems();
+
     for (auto appId: appIds) {
         loadDesktopFile(appId);
     }
@@ -101,7 +105,14 @@ QString LauncherBackend::icon(const QString &appId) const
     if (index < 0) {
         return "";
     } else {
-        return m_storedApps[index].settings->value("Desktop Entry/Icon").toString();
+        auto iconName = m_storedApps[index].settings->value("Desktop Entry/Icon").toString();
+        if (!iconName.isEmpty()) {
+            QFileInfo iconFileInfo(iconName);
+            if (iconFileInfo.isRelative()) {
+                iconName = "image://gicon/" + iconName;
+            }
+        }
+        return iconName;
     }
 }
 
@@ -187,6 +198,11 @@ void LauncherBackend::syncFromAccounts()
     }
 
     setStoredApplications(appIds);
+
+    // Mark all apps as pinned (since we just refreshed the set)
+    for (int i = 0; i < m_storedApps.size(); i++) {
+        m_storedApps[i].pinned = true;
+    }
 }
 
 void LauncherBackend::syncToAccounts()
