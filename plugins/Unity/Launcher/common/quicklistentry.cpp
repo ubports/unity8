@@ -52,3 +52,8 @@ void QuickListEntry::setIcon(const QString &icon)
 {
     m_icon = icon;
 }
+
+bool QuickListEntry::clickable() const
+{
+    return !m_actionId.isEmpty();
+}

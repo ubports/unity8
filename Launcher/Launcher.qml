@@ -73,7 +73,7 @@ Item {
         id: dismissTimer
         interval: 5000
         onTriggered: {
-            if (!panel.moving) {
+            if (!panel.preventHiding) {
                 root.state = ""
             } else {
                 dismissTimer.restart()
@@ -162,7 +162,7 @@ Item {
             root.dashItemSelected(index)
         }
 
-        onMovingChanged: {
+        onPreventHidingChanged: {
             if (dismissTimer.running) {
                 dismissTimer.restart();
             }
