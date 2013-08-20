@@ -76,6 +76,14 @@ int GenericOptionsModel::rowCount(const QModelIndex& /* parent */) const
     return m_options.size ();
 }
 
+void GenericOptionsModel::setActive(QVector<AbstractFilterOption *>::size_type idx, bool value)
+{
+    if (idx < m_options.size())
+    {
+        m_options[idx]->setActive(value);
+    }
+}
+
 AbstractFilterOption* GenericOptionsModel::getRawOption(QVector<AbstractFilterOption *>::size_type idx) const
 {
     if (idx < m_options.size())
