@@ -1,7 +1,5 @@
-/* Copyright (C) 2013 Canonical, Ltd.
- *
- * Authors:
- *  Michael Zanetti <michael.zanetti@canonical.com>
+/*
+ * Copyright (C) 2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,31 +14,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QUICKLISTENTRY_H
-#define QUICKLISTENTRY_H
+#ifndef PLUGIN_H
+#define PLUGIN_H
 
-#include <QString>
+#include <QtQml/QQmlExtensionPlugin>
 
-class QuickListEntry
+class FakeGSettingsQmlPlugin : public QQmlExtensionPlugin
 {
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
+
 public:
-    QuickListEntry();
-
-    QString actionId() const;
-    void setActionId(const QString &actionId);
-
-    QString text() const;
-    void setText(const QString &text);
-
-    QString icon() const;
-    void setIcon(const QString &icon);
-
-    bool clickable() const;
-
-private:
-    QString m_actionId;
-    QString m_text;
-    QString m_icon;
+    void registerTypes(const char *uri);
 };
 
-#endif // QUICKLISTENTRY
+#endif // PLUGIN_H

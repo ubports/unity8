@@ -82,8 +82,25 @@ unity::shell::launcher::LauncherItemInterface *LauncherModel::get(int index) con
 
 void LauncherModel::move(int oldIndex, int newIndex)
 {
-    // Perform the move in our list
-    beginMoveRows(QModelIndex(), oldIndex, oldIndex, QModelIndex(), newIndex);
+    // Make sure its not moved outside the lists
+    if (newIndex < 0) {
+        newIndex = 0;
+    }
+    if (newIndex >= m_list.count()) {
+        newIndex = m_list.count()-1;
+    }
+
+    // Nothing to do?
+    if (oldIndex == newIndex) {
+        return;
+    }
+
+    // QList's and QAbstractItemModel's move implementation differ when moving an item up the list :/
+    // While QList needs the index in the resulting list, beginMoveRows expects it to be in the current list
+    // adjust the model's index by +1 in case we're moving upwards
+    int newModelIndex = newIndex > oldIndex ? newIndex+1 : newIndex;
+
+    beginMoveRows(QModelIndex(), oldIndex, oldIndex, QModelIndex(), newModelIndex);
     m_list.move(oldIndex, newIndex);
     endMoveRows();
 
@@ -140,10 +157,23 @@ void LauncherModel::quickListActionInvoked(const QString &appId, int actionIndex
         return;
     }
 
-    QuickListModel *model = qobject_cast<QuickListModel*>(m_list.at(index)->quickList());
+    LauncherItem *item = m_list.at(index);
+    QuickListModel *model = qobject_cast<QuickListModel*>(item->quickList());
     if (model) {
         QString actionId = model->get(actionIndex).actionId();
-        m_backend->triggerQuickListAction(appId, actionId);
+
+        // Check if this is one of the launcher actions we handle ourselves
+        if (actionId == "pin_item") {
+            if (item->pinned()) {
+                requestRemove(appId);
+            } else {
+                pin(appId);
+            }
+
+        // Nope, we don't know this action, let the backend forward it to the application
+        } else {
+            m_backend->triggerQuickListAction(appId, actionId);
+        }
     }
 }
 

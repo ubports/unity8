@@ -1,3 +1,85 @@
+unity8 (7.81.3+13.10.20130820.2-0ubuntu1) saucy; urgency=low
+
+  [ Michael Zanetti ]
+  * initial support for quicklists For now they support pinning and
+    removing of items.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 217
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 20 Aug 2013 10:09:36 +0000
+
+unity8 (7.81.3+13.10.20130820-0ubuntu1) saucy; urgency=low
+
+  [ Andrea Cimitan ]
+  * Implement background changing through gsettings. Make sure it does
+    fallback to default background when needed.
+
+  [ Michael Zanetti ]
+  * Implement background changing through gsettings. Make sure it does
+    fallback to default background when needed.
+  * Add Drag'n'drop support to Launcher As dragging an item pins it to
+    the launcher this also contains initial quicklist and pinning
+    support in the plugin part.
+
+  [ Michał Sawicz ]
+  * Fix generic preview wrapping and force rich text parsing.
+
+  [ Michal Hruby ]
+  * Remove the override for Apps available for download, click scope
+    provides these now.
+  * Hide rating widgets when scope provides rating set to < 0.0. Also
+    fallback to regular preview image if there are no more_screenshots
+    specified.
+
+  [ Albert Astals ]
+  * Make sure minYExtent is updated before setting the new content
+    height Otherwise bad things can happen in the positioning .
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 215
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 20 Aug 2013 02:08:42 +0000
+
+unity8 (7.81.3+13.10.20130816.3-0ubuntu1) saucy; urgency=low
+
+  [ Michal Hruby ]
+  * Implement overrideResults() method, which allows us to seamlessly
+    combine real scope data with mocked data.
+
+  [ Michał Sawicz ]
+  * Wait for activeFocus before typing in autopilot tests. (LP:
+    #1212580)
+
+  [ Nick Dedekind ]
+  * Fixed network indicator password dialog not appearing. (LP:
+    #1212730)
+  * Remove time & battery indicator service info.
+
+  [ Albert Astals ]
+  * Dash category expansion.
+  * Fix crash in the shell test Give the item a parent, otherwise the
+    qml engine decides to adopt it and when we do the deleteLater on
+    them, they have been already deleted. Since we are the parents, we
+    don't need to call the deleteLAter eiether they'll be properly
+    deleted on our deletion.
+
+  [ Michael Zanetti ]
+  * make entering text in lockscreen tests more robust. (LP: #1212580)
+
+  [ Michael Terry ]
+  * Define the 'build' target as PHONY so make doesn't get confused by
+    our 'build' script.
+  * Add a test for the Powerd plugin shell support.
+
+  [ Pawel Stolowski ]
+  * Bindings for filters.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 208
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 16 Aug 2013 14:11:35 +0000
+
 unity8 (7.81.3+13.10.20130814.3-0ubuntu1) saucy; urgency=low
 
   [ Ted Gould ]

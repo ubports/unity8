@@ -1244,6 +1244,7 @@ void ListViewWithPageHeader::updatePolish()
         }
 
         m_contentHeightDirty = false;
+        adjustMinYExtent();
         setContentHeight(contentHeight);
     }
 }

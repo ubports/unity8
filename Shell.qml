@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.0
+import GSettings 1.0
 import Ubuntu.Application 0.1
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
@@ -42,8 +43,8 @@ FocusScope {
     height: tablet ? units.gu(100) : applicationArguments.hasGeometry() ? applicationArguments.height() : units.gu(71)
 
     property real edgeSize: units.gu(2)
-    property url default_background: shell.width >= units.gu(60) ? "graphics/tablet_background.jpg" : "graphics/phone_background.jpg"
-    property url background: default_background
+    property url defaultBackground: shell.width >= units.gu(60) ? "graphics/tablet_background.jpg" : "graphics/phone_background.jpg"
+    property url background
     readonly property real panelHeight: panel.panelHeight
 
     property bool dashShown: dash.shown
@@ -129,6 +130,36 @@ FocusScope {
         }
     }
 
+    GSettings {
+        id: backgroundSettings
+        schema.id: "org.gnome.desktop.background"
+    }
+    property url gSettingsPicture: backgroundSettings.pictureUri != undefined && backgroundSettings.pictureUri.length > 0 ? backgroundSettings.pictureUri : shell.defaultBackground
+    onGSettingsPictureChanged: {
+        shell.background = gSettingsPicture
+    }
+
+    // This is a dummy image that is needed to determine if the picture url
+    // in backgroundSettings points to a valid picture file.
+    // We can't do this with the real background image because setting a
+    // new source in onStatusChanged triggers a binding loop detection
+    // inside Image, which causes it not to render even though a valid source
+    // would be set. We don't mind about this image staying black and just
+    // use it for verification to populate the source for the real
+    // background image.
+    Image {
+        source: shell.background
+        height: 0
+        width: 0
+        sourceSize.height: 0
+        sourceSize.width: 0
+        onStatusChanged: {
+            if (status == Image.Error && source != shell.defaultBackground) {
+                shell.background = defaultBackground
+            }
+        }
+    }
+
     VolumeControl {
         id: volumeControl
     }
@@ -153,12 +184,12 @@ FocusScope {
         // through the translucent parts of the shell surface.
         visible: !fullyCovered && !applicationSurfaceShouldBeSeen
 
-        Image {
+        CrossFadeImage {
             id: backgroundImage
-            source: shell.background
-            sourceSize.width: parent.width
-            sourceSize.height: parent.height
+            objectName: "backgroundImage"
+
             anchors.fill: parent
+            source: shell.background
         }
 
         Rectangle {
@@ -247,7 +278,6 @@ FocusScope {
         }
     }
 
-
     Item {
         id: stagesOuterContainer
 
@@ -311,7 +341,6 @@ FocusScope {
                 }
                 ignoreUnknownSignals: true
             }
-
 
             Stage {
                 id: mainStage
@@ -490,9 +519,6 @@ FocusScope {
 
         onUnlocked: greeter.hide()
         onSelected: {
-            // Update background
-            var bgPath = greeter.model.data(uid, LightDM.UserRoles.BackgroundPathRole)
-            shell.background = bgPath ? bgPath : default_background
             // Update edge demo hint
             var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole)
             shell.showEdgeDemo = AccountsService.getUserProperty(user, "demo-edges")
