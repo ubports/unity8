@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * Authors:
- *      Nick Dedekind <nick.dedekind@canonical.com>
+ *      Michael Terry <michael.terry@canonical.com>
  */
 
 #include "launcherbackend.h"

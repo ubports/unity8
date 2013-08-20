@@ -2,6 +2,7 @@
  * Copyright (C) 2013 Canonical, Ltd.
  *
  * Authors:
+ *  Michael Terry <michael.terry@canonical.com>
  *  Michael Zanetti <michael.zanetti@canonical.com>
  *
  * This program is free software; you can redistribute it and/or modify
