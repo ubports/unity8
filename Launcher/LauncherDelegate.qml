@@ -117,16 +117,20 @@ Item {
 
             Item {
                 anchors {
-                    fill: progressOverlay
-                    rightMargin: parent.adjustedWidth - (Math.min(100, root.progress) * parent.adjustedWidth / 100) + units.gu(1)
+                    left: parent.left
+                    top: parent.top
+                    bottom: parent.bottom
                 }
+                width: Math.min(100, root.progress) / 100 * parent.adjustedWidth + units.gu(1)
                 clip: true
 
                 BorderImage {
                     anchors {
-                        fill: parent
-                        rightMargin: -parent.anchors.rightMargin
+                        left: parent.left
+                        top: parent.top
+                        bottom: parent.bottom
                     }
+                    width: progressOverlay.width
                     source: "graphics/progressbar-fill.sci"
                 }
             }
