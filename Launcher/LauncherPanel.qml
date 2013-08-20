@@ -286,15 +286,15 @@ Item {
                         }
 
                         onReleased: {
-                            if (draggedIndex == -1) {
-                                return;
-                            }
-
                             var droppedIndex = draggedIndex;
                             if (dragging) {
                                 postDragging = true;
                             } else {
                                 draggedIndex = -1;
+                            }
+
+                            if (!selectedItem) {
+                                return;
                             }
 
                             selectedItem.highlighted = false
