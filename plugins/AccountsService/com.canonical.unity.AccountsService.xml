@@ -6,6 +6,9 @@
     <annotation name="org.freedesktop.Accounts.Authentication.ChangeOwn"
                 value="com.canonical.unity.AccountsService.ModifyOwnUser"/>
 
+    <annotation name="org.freedesktop.Accounts.Authentication.ReadAny"
+                value="com.canonical.unity.AccountsService.ModifyAnyUser"/>
+
     <annotation name="org.freedesktop.Accounts.Authentication.ChangeAny"
                 value="com.canonical.unity.AccountsService.ModifyAnyUser"/>
 
