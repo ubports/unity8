@@ -25,6 +25,8 @@ QLimitProxyModelQML::QLimitProxyModelQML(QObject *parent)
     , m_limit(-1)
     , m_sourceInserting(false)
     , m_sourceRemoving(false)
+    , m_dataChangedBegin(-1)
+    , m_dataChangedEnd(-1)
 {
     connect(this, SIGNAL(modelReset()), SIGNAL(countChanged()));
     connect(this, SIGNAL(rowsInserted(QModelIndex,int,int)), SIGNAL(countChanged()));
@@ -130,8 +132,25 @@ QLimitProxyModelQML::sourceRowsAboutToBeInserted(const QModelIndex &parent, int 
         beginInsertRows(mapFromSource(parent), start, end);
         m_sourceInserting = true;
     } else if (start < m_limit) {
-        beginInsertRows(mapFromSource(parent), start, qMin(m_limit - 1, end));
-        m_sourceInserting = true;
+        const int nSourceAddedItems = end - start + 1;
+        const int currentCount = QIdentityProxyModel::rowCount();
+        if (currentCount + nSourceAddedItems <= m_limit) {
+            beginInsertRows(mapFromSource(parent), start, end);
+            m_sourceInserting = true;
+        } else if (currentCount < m_limit) {
+            const int nItemsToInsert = m_limit - currentCount;
+            beginInsertRows(mapFromSource(parent), start, start + nItemsToInsert - 1);
+            m_sourceInserting = true;
+            m_dataChangedBegin = start + nItemsToInsert;
+            m_dataChangedEnd = m_limit - 1;
+            if (m_dataChangedBegin > m_dataChangedEnd) {
+                m_dataChangedBegin = -1;
+                m_dataChangedEnd = -1;
+            }
+        } else {
+            m_dataChangedBegin = start;
+            m_dataChangedEnd = m_limit - 1;
+        }
     }
 }
 
@@ -142,8 +161,25 @@ QLimitProxyModelQML::sourceRowsAboutToBeRemoved(const QModelIndex &parent, int s
         beginRemoveRows(mapFromSource(parent), start, end);
         m_sourceRemoving = true;
     } else if (start < m_limit) {
-        beginRemoveRows(mapFromSource(parent), start, qMin(m_limit - 1, end));
-        m_sourceRemoving = true;
+        const int nSourceRemovedItems = end - start + 1;
+        const int currentCount = QIdentityProxyModel::rowCount();
+        if (currentCount <= m_limit) {
+            beginRemoveRows(mapFromSource(parent), start, end);
+            m_sourceRemoving = true;
+        } else if (currentCount - nSourceRemovedItems < m_limit) {
+            const int nItemsToRemove = m_limit - (currentCount - nSourceRemovedItems);
+            beginRemoveRows(mapFromSource(parent), m_limit - nItemsToRemove, m_limit - 1);
+            m_sourceRemoving = true;
+            m_dataChangedBegin = start;
+            m_dataChangedEnd = m_limit - nItemsToRemove - 1;
+            if (m_dataChangedBegin > m_dataChangedEnd) {
+                m_dataChangedBegin = -1;
+                m_dataChangedEnd = -1;
+            }
+        } else {
+            m_dataChangedBegin = start;
+            m_dataChangedEnd = m_limit - 1;
+        }
     }
 }
 
@@ -154,6 +190,11 @@ QLimitProxyModelQML::sourceRowsInserted(const QModelIndex & /*parent*/, int /*st
         endInsertRows();
         m_sourceInserting = false;
     }
+    if (m_dataChangedBegin != -1 && m_dataChangedEnd != -1) {
+        dataChanged(index(m_dataChangedBegin, 0), index(m_dataChangedEnd, 0));
+        m_dataChangedBegin = -1;
+        m_dataChangedEnd = -1;
+    }
 }
 
 void
@@ -162,5 +203,10 @@ QLimitProxyModelQML::sourceRowsRemoved(const QModelIndex & /*parent*/, int /*sta
     if (m_sourceRemoving) {
         endRemoveRows();
         m_sourceRemoving = false;
+    }
+    if (m_dataChangedBegin != -1 && m_dataChangedEnd != -1) {
+        dataChanged(index(m_dataChangedBegin, 0), index(m_dataChangedEnd, 0));
+        m_dataChangedBegin = -1;
+        m_dataChangedEnd = -1;
     }
 }
