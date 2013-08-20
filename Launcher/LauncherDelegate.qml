@@ -89,7 +89,7 @@ Item {
                 id: countLabel
                 text: root.count
                 anchors.centerIn: parent
-                width: Math.min(units.gu(6), implicitWidth)
+                width: units.gu(6)
                 horizontalAlignment: Text.AlignHCenter
                 elide: Text.ElideRight
                 color: "white"
