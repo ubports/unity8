@@ -1,3 +1,35 @@
+unity8 (7.81.3+13.10.20130820-0ubuntu1) saucy; urgency=low
+
+  [ Andrea Cimitan ]
+  * Implement background changing through gsettings. Make sure it does
+    fallback to default background when needed.
+
+  [ Michael Zanetti ]
+  * Implement background changing through gsettings. Make sure it does
+    fallback to default background when needed.
+  * Add Drag'n'drop support to Launcher As dragging an item pins it to
+    the launcher this also contains initial quicklist and pinning
+    support in the plugin part.
+
+  [ Michał Sawicz ]
+  * Fix generic preview wrapping and force rich text parsing.
+
+  [ Michal Hruby ]
+  * Remove the override for Apps available for download, click scope
+    provides these now.
+  * Hide rating widgets when scope provides rating set to < 0.0. Also
+    fallback to regular preview image if there are no more_screenshots
+    specified.
+
+  [ Albert Astals ]
+  * Make sure minYExtent is updated before setting the new content
+    height Otherwise bad things can happen in the positioning .
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 215
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 20 Aug 2013 02:08:42 +0000
+
 unity8 (7.81.3+13.10.20130816.3-0ubuntu1) saucy; urgency=low
 
   [ Michal Hruby ]
