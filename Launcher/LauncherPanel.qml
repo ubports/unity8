@@ -255,7 +255,6 @@ Item {
                                 return;
                             }
 
-                            print("index is", index)
                             // First/last item do the scrolling at more than 12 degrees
                             if (index == 0 || index == launcherListView.count - 1) {
                                 if (clickedItem.angle > 12) {
