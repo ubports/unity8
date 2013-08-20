@@ -79,7 +79,7 @@ Item {
                 left: parent.left
                 top: parent.top
             }
-            width: Math.min(units.gu(7.5), Math.max(units.gu(3), countLabel.implicitWidth + units.gu(2)))
+            width: Math.min(units.gu(7.5), Math.max(units.gu(3), countLabel.implicitWidth + units.gu(2.5)))
             height: units.gu(3)
             source: "graphics/notification.sci"
             visible: root.count > 0
@@ -87,12 +87,8 @@ Item {
             Label {
                 id: countLabel
                 text: root.count
-                anchors{
-                    left: parent.left
-                    right: parent.right
-                    margins: units.gu(0.5)
-                    verticalCenter: parent.verticalCenter
-                }
+                anchors.centerIn: parent
+                width: units.gu(6)
                 horizontalAlignment: Text.AlignHCenter
                 elide: Text.ElideRight
                 color: "white"
@@ -101,32 +97,37 @@ Item {
         }
 
         BorderImage {
+            id: progressOverlay
             objectName: "progressOverlay"
             anchors {
-                left: parent.left
-                right: parent.right
-                bottom: parent.bottom
+                left: iconItem.left
+                right: iconItem.right
+                bottom: iconItem.bottom
                 leftMargin: units.gu(0.5)
                 rightMargin: units.gu(0.5)
                 bottomMargin: units.gu(1)
             }
-            height: units.gu(2)
+            height: units.gu(1.5)
             visible: root.progress > -1
             source: "graphics/progressbar-trough.sci"
 
-            // For fill calculation we need to remove the 3 units of border defined in .sci file
-            property int adjustedWidth: width - units.gu(3)
+            // For fill calculation we need to remove the 2 units of border defined in .sci file
+            property int adjustedWidth: width - units.gu(2)
 
-            BorderImage {
+            Item {
                 anchors {
-                    fill: parent
-                    rightMargin: parent.adjustedWidth - (Math.min(100, root.progress) * parent.adjustedWidth / 100)
+                    fill: progressOverlay
+                    rightMargin: parent.adjustedWidth - (Math.min(100, root.progress) * parent.adjustedWidth / 100) + units.gu(1)
                 }
-                source: "graphics/progressbar-fill.sci"
+                clip: true
 
-                // Because of the borders in the borderimage we can't make it smaller than 10%
-                // Let's just fade in from 0 to 10% instead and then fill the bar.
-                opacity: root.progress / 10
+                BorderImage {
+                    anchors {
+                        fill: parent
+                        rightMargin: -parent.anchors.rightMargin
+                    }
+                    source: "graphics/progressbar-fill.sci"
+                }
             }
         }
     }
