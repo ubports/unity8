@@ -17,15 +17,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "AccountsService.h"
 #include "launcherbackend.h"
 
 #include <QDir>
 #include <QFileInfo>
 
-LauncherBackend::LauncherBackend(QObject *parent):
-    QObject(parent)
+LauncherBackend::LauncherBackend(bool useStorage, QObject *parent):
+    QObject(parent),
+    m_accounts(nullptr)
 {
-    m_accounts = new AccountsService(this);
+    if (useStorage) {
+        m_accounts = new AccountsService(this);
+    }
     setUser(qgetenv("USER"));
 }
 
@@ -55,11 +59,12 @@ void LauncherBackend::setStoredApplications(const QStringList &appIds)
 {
     // Are we dropping any pinned apps?
     auto needToSync = false;
+    auto pinnedItems = QStringList();
     for (int i = 0; i < m_storedApps.size(); i++) {
         if (m_storedApps[i].pinned) {
             auto found = false;
             for (int j = 0; j < appIds.size(); j++) {
-                auto fullAppId = desktopFile(appIds[j]);
+                auto fullAppId = resolveAppId(appIds[j]);
                 if (m_storedApps[i].settings->fileName() == fullAppId) {
                     found = true;
                     break;
@@ -67,15 +72,15 @@ void LauncherBackend::setStoredApplications(const QStringList &appIds)
             }
             if (!found) {
                 needToSync = true;
-                break;
             }
+            pinnedItems.append(m_storedApps[i].settings->fileName());
         }
     }
 
     clearItems();
 
     for (auto appId: appIds) {
-        loadDesktopFile(appId);
+        loadDesktopFile(appId, pinnedItems.contains(resolveAppId(appId)));
     }
 
     if (needToSync) {
@@ -85,8 +90,12 @@ void LauncherBackend::setStoredApplications(const QStringList &appIds)
 
 QString LauncherBackend::desktopFile(const QString &appId) const
 {
-    auto fileInfo = QFileInfo(QDir("/usr/share/applications"), appId);
-    return fileInfo.canonicalFilePath();
+    auto index = findItem(appId);
+    if (index < 0) {
+        return "";
+    } else {
+        return resolveAppId(appId);
+    }
 }
 
 QString LauncherBackend::displayName(const QString &appId) const
@@ -174,11 +183,17 @@ void LauncherBackend::triggerQuickListAction(const QString &appId, const QString
     Q_UNUSED(quickListId)
 }
 
+QString LauncherBackend::resolveAppId(const QString &appId) const
+{
+    QFileInfo fileInfo(QDir("/usr/share/applications"), appId);
+    return fileInfo.absoluteFilePath();
+}
+
 void LauncherBackend::syncFromAccounts()
 {
     auto appIds = QStringList();
 
-    if (m_user != "") {
+    if (m_user != "" && m_accounts != nullptr) {
         appIds = m_accounts->getUserProperty(m_user, "launcher-items").toStringList();
     }
 
@@ -214,23 +229,24 @@ void LauncherBackend::syncToAccounts()
         }
     }
 
-    if (m_user != "") {
+    if (m_user != "" && m_accounts != nullptr) {
         m_accounts->setUserProperty(m_user, "launcher-items", QVariant(pinnedItems));
     }
 }
 
-bool LauncherBackend::loadDesktopFile(const QString &appId)
+bool LauncherBackend::loadDesktopFile(const QString &appId, bool isPinned)
 {
     auto item = LauncherBackendItem();
-    auto fullAppId = desktopFile(appId);
+    auto fullAppId = resolveAppId(appId);
     item.settings = new QSettings(fullAppId, QSettings::IniFormat);
+    item.pinned = isPinned;
     m_storedApps.append(item);
     return true; // QSettings doesn't really indicate a failure mode right now
 }
 
 int LauncherBackend::findItem(const QString &appId) const
 {
-    auto fullAppId = desktopFile(appId);
+    auto fullAppId = resolveAppId(appId);
     for (int i = 0; i < m_storedApps.size(); i++) {
         if (m_storedApps[i].settings->fileName() == fullAppId) {
             return i;

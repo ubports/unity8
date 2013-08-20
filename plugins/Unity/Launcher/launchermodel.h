@@ -17,7 +17,7 @@
  *      Michael Zanetti <michael.zanetti@canonical.com>
  */
 
-#ifndef LAUNCHERMODELH
+#ifndef LAUNCHERMODEL_H
 #define LAUNCHERMODEL_H
 
 // unity-api

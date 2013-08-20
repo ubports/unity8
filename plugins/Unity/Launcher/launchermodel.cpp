@@ -23,7 +23,7 @@
 
 LauncherModel::LauncherModel(QObject *parent):
     LauncherModelInterface(parent),
-    m_backend(new LauncherBackend(this))
+    m_backend(new LauncherBackend(true, this))
 {
     Q_FOREACH (const QString &entry, m_backend->storedApplications()) {
         LauncherItem *item = new LauncherItem(entry,

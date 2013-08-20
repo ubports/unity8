@@ -19,12 +19,13 @@
 #ifndef LAUNCHERBACKEND_H
 #define LAUNCHERBACKEND_H
 
-#include "AccountsService.h"
 #include "common/quicklistentry.h"
 
 #include <QObject>
 #include <QSettings>
 #include <QStringList>
+
+class AccountsService;
 
 /**
   * @brief An interface that provides all the data needed by the launcher.
@@ -36,7 +37,7 @@ class LauncherBackend : public QObject
 
 
 public:
-    LauncherBackend(QObject *parent = 0);
+    LauncherBackend(bool useStorage = true, QObject *parent = 0);
     virtual ~LauncherBackend();
 
     /**
@@ -132,7 +133,7 @@ Q_SIGNALS:
 
 private:
     QString resolveAppId(const QString &appId) const;
-    bool loadDesktopFile(const QString &appId);
+    bool loadDesktopFile(const QString &appId, bool isPinned);
     int findItem(const QString &appId) const;
     void syncFromAccounts();
     void syncToAccounts();
