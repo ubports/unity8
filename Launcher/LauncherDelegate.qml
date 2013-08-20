@@ -94,6 +94,7 @@ Item {
                 elide: Text.ElideRight
                 color: "white"
                 fontSize: "small"
+                font.bold: true
             }
         }
 
@@ -106,7 +107,7 @@ Item {
                 bottom: iconItem.bottom
                 leftMargin: units.gu(0.5)
                 rightMargin: units.gu(0.5)
-                bottomMargin: units.gu(1)
+                bottomMargin: units.gu(0.5)
             }
             height: units.gu(1.5)
             visible: root.progress > -1
