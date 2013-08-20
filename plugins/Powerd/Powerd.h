@@ -26,19 +26,26 @@
 class Powerd: public QObject
 {
     Q_OBJECT
-    Q_FLAGS(DisplayFlags)
+    Q_ENUMS(Status)
+    Q_FLAGS(DisplayFlag DisplayFlags)
 
 public:
-    enum DisplayFlags {
+    enum DisplayFlag {
         UseProximity          = 1, // Use proximity sensor to override screen state
         DisableAutoBrightness = 2, // Force autobrightness to be disabled
         Bright                = 4, // Request the screen to stay bright
+    };
+    Q_DECLARE_FLAGS(DisplayFlags, DisplayFlag)
+
+    enum Status {
+      Off,
+      On,
     };
 
     explicit Powerd(QObject *parent = 0);
 
 Q_SIGNALS:
-    void displayPowerStateChange(int state, unsigned int flags);
+    void displayPowerStateChange(int status, unsigned int flags);
 
 private:
     QDBusInterface *powerd;
