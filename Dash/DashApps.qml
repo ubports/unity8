@@ -29,14 +29,6 @@ GenericScopeView {
     property var mainStageApplicationsModel: shell.applicationManager.mainStageApplications
     property var sideStageApplicationModel: shell.applicationManager.sideStageApplications
 
-    SearchableResultModel {
-        id: appsAvailableForDownloadModel
-
-        model: AppsAvailableForDownloadModel {}
-        filterRole: 3
-        searchQuery: scopeView.scope.searchQuery
-    }
-
     ListModel {
         id: dummyVisibilityModifier
 
@@ -59,6 +51,5 @@ GenericScopeView {
 
     onScopeChanged: {
         scopeView.scope.categories.overrideResults("recent", runningApplicationsModel);
-        scopeView.scope.categories.overrideResults("more", appsAvailableForDownloadModel);
     }
 }
