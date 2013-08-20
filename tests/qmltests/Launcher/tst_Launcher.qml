@@ -19,6 +19,7 @@ import QtTest 1.0
 import Unity.Test 0.1 as UT
 import ".."
 import "../../../Launcher"
+import Unity.Launcher 0.1
 
 /* Nothing is shown at first. If you drag from left edge you will bring up the
    launcher. */
@@ -46,6 +47,11 @@ Item {
         }
 
         property int maxPanelX: 0
+    }
+
+    SignalSpy {
+        id: signalSpy
+        target: LauncherModel
     }
 
     Connections {
@@ -176,6 +182,22 @@ Item {
             revealer.waitUntilLauncherDisappears();
             launcher.available = true;
         }
+
+        function test_countEmblems() {
+            var launcherListView = findChild(launcher, "launcherListView");
+            for (var i = 0; i < launcherListView.count; ++i) {
+                var delegate = findChild(launcherListView, "launcherDelegate" + i)
+                compare(findChild(delegate, "countEmblem").visible, LauncherModel.get(i).count > 0)
+            }
+        }
+
+        function test_progressOverlays() {
+            var launcherListView = findChild(launcher, "launcherListView");
+            for (var i = 0; i < launcherListView.count; ++i) {
+                var delegate = findChild(launcherListView, "launcherDelegate" + i)
+                compare(findChild(delegate, "progressOverlay").visible, LauncherModel.get(i).progress >= 0)
+            }
+        }
     }
 
     UT.UnityTestCase {
@@ -246,5 +268,138 @@ Item {
             compare(listView.snapMode, ListView.SnapToItem, "Snapping is not enabled");
         }
         */
+    }
+
+    UT.UnityTestCase {
+        id: dndTestCase
+        name: "Drag and Drop"
+        when: windowShown && initTestCase.completed
+
+        function test_dragndrop_data() {
+            return [
+                {tag: "startDrag", fullDrag: false},
+                {tag: "fullDrag", fullDrag: true},
+            ];
+        }
+
+        function test_dragndrop(data) {
+            revealer.dragLauncherIntoView();
+            var draggedItem = findChild(launcher, "launcherDelegate5")
+            var item0 = findChild(launcher, "launcherDelegate0")
+            var fakeDragItem = findChild(launcher, "fakeDragItem")
+            var initialItemHeight = draggedItem.height
+            var item5Name = LauncherModel.get(5).iconName
+            var item4Name = LauncherModel.get(4).iconName
+
+            // Initial state
+            compare(draggedItem.itemOpacity, 1, "Item's opacity is not 1 at beginning")
+            compare(fakeDragItem.visible, false, "FakeDragItem isn't invisible at the beginning")
+            tryCompare(findChild(draggedItem, "dropIndicator"), "opacity", 0)
+
+            // Doing longpress
+            mousePress(draggedItem, draggedItem.width / 2, draggedItem.height / 2)
+            // DraggedItem needs to hide and fakeDragItem become visible
+            tryCompare(draggedItem, "itemOpacity", 0)
+            tryCompare(fakeDragItem, "visible", true)
+
+            // Dragging a bit (> 1.5 gu)
+            mouseMove(draggedItem, -units.gu(2), draggedItem.height / 2)
+            // Other items need to expand and become 0.6 opaque
+            tryCompare(item0, "angle", 0)
+            tryCompare(item0, "itemOpacity", 0.6)
+
+            if (data.fullDrag) {
+                // Dragging a bit more
+                mouseMove(draggedItem, -units.gu(15), draggedItem.height / 2, 100)
+                tryCompare(findChild(draggedItem, "dropIndicator"), "opacity", 1)
+                tryCompare(draggedItem, "height", units.gu(1))
+
+                // Dragging downwards. Item needs to move in the model
+                mouseMove(draggedItem, -units.gu(15), -initialItemHeight)
+                waitForRendering(draggedItem)
+                compare(LauncherModel.get(5).iconName, item4Name)
+                compare(LauncherModel.get(5).iconName, item5Name)
+            }
+
+            // Releasing and checking if initial values are restored
+            mouseRelease(draggedItem)
+            tryCompare(findChild(draggedItem, "dropIndicator"), "opacity", 0)
+            tryCompare(draggedItem, "itemOpacity", 1)
+            tryCompare(fakeDragItem, "visible", false)
+        }
+
+        function test_quicklist_dismiss() {
+            revealer.dragLauncherIntoView();
+            var draggedItem = findChild(launcher, "launcherDelegate5")
+            var item0 = findChild(launcher, "launcherDelegate0")
+            var fakeDragItem = findChild(launcher, "fakeDragItem")
+            var dndArea = findChild(launcher, "dndArea")
+
+            // Initial state
+            compare(dndArea.quickListPopover, null)
+
+            // Doing longpress
+            mousePress(draggedItem, draggedItem.width / 2, draggedItem.height / 2)
+            tryCompare(fakeDragItem, "visible", true) // Wait longpress happening
+            verify(dndArea.quickListPopover != null)
+
+            // Dragging a bit (> 1.5 gu)
+            mouseMove(draggedItem, -units.gu(2), draggedItem.height / 2)
+
+            // QuickList needs to be closed when a drag operation starts
+            tryCompare(dndArea, "quickListPopover", null)
+
+            mouseRelease(draggedItem);
+        }
+
+        function test_quicklist_click_data() {
+            return [
+                {tag: "non-clickable", index: 1, clickable: false },
+                {tag: "clickable", index: 2, clickable: true },
+            ];
+        }
+
+        function test_quicklist_click(data) {
+            revealer.dragLauncherIntoView();
+            var clickedItem = findChild(launcher, "launcherDelegate5")
+            var dndArea = findChild(launcher, "dndArea")
+
+            // Initial state
+            compare(dndArea.quickListPopover, null)
+
+            // Doing longpress
+            mousePress(clickedItem, clickedItem.width / 2, clickedItem.height / 2)
+            tryCompare(clickedItem, "itemOpacity", 0) // Wait for longpress to happen
+            verify(dndArea.quickListPopover != null)
+
+            mouseRelease(clickedItem);
+
+            var quickListEntry = findChild(dndArea.quickListPopover, "quickListEntry" + data.index)
+
+            signalSpy.clear();
+            signalSpy.signalName = "quickListTriggered"
+
+            mouseClick(quickListEntry, quickListEntry.width / 2, quickListEntry.height / 2)
+
+            if (data.clickable) {
+                // QuickList needs to be closed when some clickable item is clicked
+                tryCompare(dndArea, "quickListPopover", null)
+
+                compare(signalSpy.count, 1, "Quicklist signal wasn't triggered")
+                compare(signalSpy.signalArguments[0][0], LauncherModel.get(5).appId)
+                compare(signalSpy.signalArguments[0][1], 2)
+
+            } else {
+
+                // QuickList must not be closed when a non-clickable item is clicked
+                verify(dndArea.quickListPopover != null)
+
+                compare(signalSpy.count, 0, "Quicklist signal must NOT be triggered when clicking a non-clickable item")
+
+                // Click somewhere in the empty space to dismiss the quicklist
+                mouseClick(launcher, launcher.width - units.gu(1), units.gu(1));
+                tryCompare(dndArea, "quickListPopover", null)
+            }
+        }
     }
 }

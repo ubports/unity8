@@ -73,7 +73,7 @@ Item {
         id: dismissTimer
         interval: 5000
         onTriggered: {
-            if (!panel.moving) {
+            if (!panel.preventHiding) {
                 root.state = ""
             } else {
                 dismissTimer.restart()
@@ -135,9 +135,9 @@ Item {
         id: backgroundShade
         anchors.fill: parent
         color: "black"
-        opacity: root.state == "visible" ? 0.4 : 0
+        opacity: root.state == "visible" ? 0.6 : 0
 
-        Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.OutQuad} }
+        Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.BriskDuration } }
     }
 
     LauncherPanel {
@@ -162,7 +162,7 @@ Item {
             root.dashItemSelected(index)
         }
 
-        onMovingChanged: {
+        onPreventHidingChanged: {
             if (dismissTimer.running) {
                 dismissTimer.restart();
             }

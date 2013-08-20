@@ -38,7 +38,7 @@ DashPreview {
             right: parent.right
             margins: units.gu(1)
         }
-        model: previewData.infoMap["more-screenshots"].value
+        model: previewData.infoMap["more-screenshots"] != null ? previewData.infoMap["more-screenshots"].value : [previewData.image]
 
         delegate: UbuntuShape {
             id: shape
@@ -138,9 +138,9 @@ DashPreview {
 
             appName: root.previewData.title
             icon: IconUtil.from_gicon(root.previewData.appIcon)
-            rating: root.previewData.infoMap["rating"] ? root.previewData.infoMap["rating"].value : 0
+            rating: Math.round(root.previewData.rating * 10)
+            reviews: root.previewData.numRatings
             rated: root.previewData.infoMap["rated"] ? root.previewData.infoMap["rated"].value : 0
-            reviews: root.previewData.infoMap["reviews"] ? root.previewData.infoMap["reviews"].value : 0
         }
 
         Label {
@@ -154,42 +154,47 @@ DashPreview {
             styleColor: "black"
         }
 
-        ListItem.ThinDivider {}
-
-        Item {
+        Column {
+            visible: root.previewData.rating >= 0
             anchors { left: parent.left; right: parent.right }
-            height: rateLabel.height
+            spacing: parent.spacing
 
-            Label {
-                id: rateLabel
-                fontSize: "medium"
-                color: "white"
-                style: Text.Raised
-                styleColor: "black"
-                opacity: .9
-                text: i18n.tr("Rate this")
+            ListItem.ThinDivider { }
 
-                anchors.left: parent.left
-                anchors.verticalCenter: parent.verticalCenter
+            Item {
+                anchors { left: parent.left; right: parent.right }
+                height: rateLabel.height
+
+                Label {
+                    id: rateLabel
+                    fontSize: "medium"
+                    color: "white"
+                    style: Text.Raised
+                    styleColor: "black"
+                    opacity: .9
+                    text: i18n.tr("Rate this")
+
+                    anchors.left: parent.left
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+
+                // FIXME these need to be made interactive and connected to the scope
+                RatingStars {
+                    anchors.right: parent.right
+                    anchors.verticalCenter: parent.verticalCenter
+                }
             }
 
-            // FIXME these need to be made interactive and connected to the scope
-            RatingStars {
-                anchors.right: parent.right
-                anchors.verticalCenter: parent.verticalCenter
+            ListItem.ThinDivider { }
+
+            AppReviews {
+                objectName: "appReviews"
+                anchors { left: parent.left; right: parent.right }
+
+                model: root.previewData.infoMap["comments"] ? root.previewData.infoMap["comments"].value : undefined
+
+                onSendReview: root.sendUserReview(review);
             }
         }
-
-        ListItem.ThinDivider {}
-
-        AppReviews {
-            objectName: "appReviews"
-            anchors { left: parent.left; right: parent.right }
-
-            model: root.previewData.infoMap["comments"] ? root.previewData.infoMap["comments"].value : undefined
-
-            onSendReview: root.sendUserReview(review);
-        }
-
     }
 }
