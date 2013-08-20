@@ -84,6 +84,16 @@ void GenericOptionsModel::setActive(QVector<AbstractFilterOption *>::size_type i
     }
 }
 
+void GenericOptionsModel::setActive(const QString &id, bool value)
+{
+    Q_FOREACH(auto opt, m_options) {
+        if (opt->id() == id) {
+            opt->setActive(value);
+            break;
+        }
+    }
+}
+
 AbstractFilterOption* GenericOptionsModel::getRawOption(QVector<AbstractFilterOption *>::size_type idx) const
 {
     if (idx < m_options.size())
