@@ -136,7 +136,6 @@ Item {
                         height: itemHeight
                         iconName: model.icon
                         inverted: root.inverted
-                        highlighted: dragging && index === root.highlightIndex
                         z: -Math.abs(offset)
                         maxAngle: 60
                         property bool dragging: false
@@ -243,7 +242,6 @@ Item {
 
                         onPressed: {
                             selectedItem = launcherListView.itemAt(mouseX, mouseY + launcherListView.realContentY)
-                            selectedItem.highlighted = true
                         }
 
                         onClicked: {
@@ -273,7 +271,6 @@ Item {
                         }
 
                         onCanceled: {
-                            selectedItem.highlighted = false
                             selectedItem = undefined;
                             preDragging = false;
                             postDragging = false;
@@ -287,7 +284,6 @@ Item {
                                 draggedIndex = -1;
                             }
 
-                            selectedItem.highlighted = false
                             selectedItem.dragging = false;
                             selectedItem = undefined;
                             preDragging = false;
@@ -412,7 +408,6 @@ Item {
                 height: itemHeight
                 width: itemWidth
                 rotation: root.rotation
-                highlighted: true
                 itemOpacity: 0.9
 
                 function flatten() {
