@@ -212,7 +212,9 @@ Item {
                                 NumberAnimation { target: dropIndicator; properties: "opacity"; duration: UbuntuAnimation.FastDuration }
                                 NumberAnimation { properties: "itemOpacity"; duration: UbuntuAnimation.BriskDuration }
                                 SequentialAnimation {
+                                    ScriptAction { script: if (index == launcherListView.count-1) launcherListView.flick(0, -launcherListView.clickFlickSpeed); }
                                     UbuntuNumberAnimation { properties: "height" }
+                                    ScriptAction { script: if (index == launcherListView.count-1) launcherListView.flick(0, -launcherListView.clickFlickSpeed); }
                                     PropertyAction { target: dndArea; property: "postDragging"; value: false }
                                     PropertyAction { target: dndArea; property: "draggedIndex"; value: -1 }
                                 }
@@ -307,6 +309,9 @@ Item {
                             launcherListView.interactive = true;
                             if (droppedIndex >= launcherListView.count - 2 && postDragging) {
                                 launcherListView.flick(0, -launcherListView.clickFlickSpeed);
+                            }
+                            if (droppedIndex == 0 && postDragging) {
+                                launcherListView.flick(0, launcherListView.clickFlickSpeed);
                             }
                         }
 
