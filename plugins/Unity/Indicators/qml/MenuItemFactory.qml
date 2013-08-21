@@ -19,6 +19,7 @@
 
 import QtQuick 2.0
 import Unity.Indicators 0.1 as Indicators
+import Unity.Indicators.Network 0.1 as ICNetwork
 
 Item {
     id: menuFactory
@@ -38,6 +39,9 @@ Item {
 
         "com.canonical.unity.slider"    : sliderMenu,
         "com.canonical.unity.switch"    : switchMenu,
+
+        "unity.widgets.systemsettings.tablet.wifisection" : wifiSection,
+        "unity.widgets.systemsettings.tablet.accesspoint" : accessPoint,
     }
 
     Component {
@@ -57,6 +61,23 @@ Item {
     Component { id: progressMenu; Indicators.ProgressMenuItem {} }
     Component { id: standardMenu; Indicators.StandardMenuItem {} }
     Component { id: switchMenu; Indicators.SwitchMenuItem {} }
+    Component {
+        id: wifiSection;
+        ICNetwork.WifiSection {
+            Component.onCompleted: {
+                model.loadExtendedAttributes(modelIndex, {'x-canonical-busy-action': 'bool'});
+            }
+        }
+    }
+    Component {
+        id: accessPoint;
+        ICNetwork.AccessPoint {
+            Component.onCompleted: {
+                model.loadExtendedAttributes(modelIndex, {'x-canonical-wifi-ap-is-adhoc': 'bool',
+                                                          'x-canonical-wifi-ap-is-secure': 'bool'});
+            }
+        }
+    }
 
     function load(modelData) {
         if (modelData.type !== undefined) {
