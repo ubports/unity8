@@ -1,3 +1,26 @@
+unity8 (7.81.3+13.10.20130821.1-0ubuntu1) saucy; urgency=low
+
+  [ Michael Zanetti ]
+  * allow testing at 11:13. Old code failed because the text actually
+    says "11:13 AM".
+  * add some checks if we actually clicked an item or in the spacing
+    between them gets rid of some warnings printed by the launcher .
+
+  [ Michał Sawicz ]
+  * Update runtime deps in the build script.
+
+  [ Nick Dedekind ]
+  * Added/Updated legacy network indicator components to use with new
+    indicator backend.
+
+  [ Albert Astals ]
+  * Fix insertions/removals on the qlimitproxymodel . (LP: #1213959)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 230
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 21 Aug 2013 15:04:59 +0000
+
 unity8 (7.81.3+13.10.20130821-0ubuntu1) saucy; urgency=low
 
   [ Michael Zanetti ]
