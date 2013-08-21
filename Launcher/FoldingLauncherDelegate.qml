@@ -24,9 +24,9 @@ LauncherDelegate {
     angle: {
         // First/last items are special
         if (index == 0 || index == priv.listView.count-1) {
-            if (priv.overlapWithFoldedArea > 0) {
+            if (priv.distanceFromEdge < 0) {
                 // proportion equation: distanceFromTopEdge : angle = totalUnfoldedHeight/2 : maxAngle
-                return Math.max(-maxAngle, priv.distanceFromEdge * maxAngle / (priv.listView.foldingStartHeight)) * priv.orientationFlag
+                return Math.max(-maxAngle, priv.distanceFromEdge * maxAngle / (priv.foldingAreaHeight)) * priv.orientationFlag
             }
             return 0; // Don't fold first/last item as long as inside the view
         }
@@ -74,7 +74,7 @@ LauncherDelegate {
             if (priv.distanceFromEdge < 0) {
                 // Fade from 1 to 0 while the in 2*foldingAreaHeight
                 // proportion equation: 0.5 : x = -2*foldingAreaHeight : distance
-                return 1 + (priv.distanceFromEdge) / (priv.foldingAreaHeight*2)
+                return 1 + (priv.distanceFromEdge / (priv.foldingAreaHeight * 2))
             }
             return 1; // Don't make first/last item transparent as long as inside the view
         }
@@ -82,7 +82,7 @@ LauncherDelegate {
         // Did we stop folding? Fade out to 0 in 2*foldingAreaHeight
         if (priv.overlapWithFoldedArea > 0) {
             // overlap : foldingAreaHeight = opacity : 0.75
-            return 0.75 - (priv.overlapWithFoldedArea * 0.75 / (priv.foldingAreaHeight*2));
+            return 0.75 - (priv.overlapWithFoldedArea * 0.75 / (priv.foldingAreaHeight * 2));
         }
 
         // We are overlapping with the folding area, fade out to 0.75 transparency
