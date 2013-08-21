@@ -1,3 +1,18 @@
+unity8 (7.81.3+13.10.20130821.2-0ubuntu1) saucy; urgency=low
+
+  [ Michael Terry ]
+  * Listen to display-power-changed rather than system-power-changed
+    signals when showing the greeter; ignore such signals when the
+    proximity sensor is active. (LP: #1214477)
+
+  [ Pawel Stolowski ]
+  * Added a role for accessing progress-source property of categories.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 233
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 21 Aug 2013 22:09:53 +0000
+
 unity8 (7.81.3+13.10.20130821.1-0ubuntu1) saucy; urgency=low
 
   [ Michael Zanetti ]
