@@ -36,8 +36,8 @@ public:
     Q_DECLARE_FLAGS(DisplayFlags, DisplayFlag)
 
     enum Status {
-      Off,
-      On,
+        Off,
+        On,
     };
 
     explicit Powerd(QObject *parent = 0);
