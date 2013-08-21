@@ -41,7 +41,7 @@ Page {
             label: "Authentication"
         }
 
-        Indicators.MenuItem {
+        Indicators.FramedMenuItem {
             implicitHeight: password.height + units.gu(1)
 
             PasswordTextField {
@@ -55,7 +55,7 @@ Page {
             }
         }
 
-        Indicators.MenuItem {
+        Indicators.FramedMenuItem {
             Row {
                 anchors {
                     right: parent.right

@@ -73,6 +73,7 @@ BasicShell {
 
     Greeter {
         id: greeter
+        objectName: "greeter"
 
         available: true
         hides: [launcher, panel.indicators]
@@ -104,10 +105,6 @@ BasicShell {
         }
 
         onUnlocked: login()
-        onSelected: {
-            var bgPath = greeter.model.data(uid, LightDM.UserRoles.BackgroundPathRole)
-            shell.background = bgPath ? bgPath : default_background
-        }
 
         onLeftTeaserPressedChanged: {
             if (leftTeaserPressed) {

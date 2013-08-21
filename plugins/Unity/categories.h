@@ -47,11 +47,14 @@ public:
         RoleIcon,
         RoleRenderer,
         RoleContentType,
+        RoleProgressSource,
         RoleHints,
         RoleResults,
         RoleCount,
         RoleCategoryIndex
     };
+
+    Q_INVOKABLE void overrideResults(const QString& categoryId, QAbstractItemModel* model);
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
 
@@ -62,7 +65,9 @@ public:
 
 private Q_SLOTS:
     void onCountChanged();
+    void onRowCountChanged();
     void onEmitCountChanged();
+    void onOverrideModelDestroyed();
 
 private:
     void onCategoriesModelChanged(unity::glib::Object<DeeModel> model);
@@ -73,6 +78,7 @@ private:
     QTimer m_timer;
     QSet<int> m_updatedCategories;
     QHash<int, QByteArray> m_roles;
+    QMap<QString, QAbstractItemModel*> m_overriddenCategories;
     mutable QMap<int, DeeListModel*> m_results;
     sigc::connection m_categoriesChangedConnection;
 };

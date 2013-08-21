@@ -94,6 +94,11 @@ QVariant Preview::infoHints()
     return QVariant::fromValue(m_infoHints);
 }
 
+QVariantMap Preview::infoHintsHash() const
+{
+    return m_infoHintsHash;
+}
+
 QString Preview::image() const
 {
     if (m_unityPreview) {
@@ -145,6 +150,7 @@ void Preview::setUnityPreviewBase(unity::dash::Preview::Ptr unityPreview)
 
     qDeleteAll(m_infoHints);
     m_infoHints.clear();
+    m_infoHintsHash.clear();
     qDeleteAll(m_actions);
     m_actions.clear();
 
@@ -152,6 +158,7 @@ void Preview::setUnityPreviewBase(unity::dash::Preview::Ptr unityPreview)
         auto hint = new PreviewInfoHint(this);
         hint->setUnityInfoHint(unityInfoHint);
         m_infoHints.append(hint);
+        m_infoHintsHash[hint->id()] = QVariant::fromValue(hint);
     }
 
     for (auto unityAction: m_unityPreview->GetActions()) {

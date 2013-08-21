@@ -23,11 +23,25 @@ import ".."
 
 DashPreview {
     id: genericPreview
-    property var previewData
 
     title: previewData.title
-    url: IconUtil.from_gicon(previewData.image)
     previewWidthRatio: 0.6
+
+    property url url: IconUtil.from_gicon(previewData.image)
+
+    header: UbuntuShape {
+        id: urlLoader
+        anchors.left: parent.left
+        anchors.right: parent.right
+        height: width * previewImage.sourceSize.height / previewImage.sourceSize.width
+        radius: "medium"
+        image: Image {
+            id: previewImage
+            asynchronous: true
+            source: genericPreview.url
+            fillMode: Image.PreserveAspectCrop
+        }
+    }
 
     buttons: GridView {
         id: buttons
@@ -56,29 +70,37 @@ DashPreview {
         }
         focus: false
     }
-    description: Column {
+    body: Column {
         spacing: units.gu(2)
 
         Label {
+            anchors { left: parent.left; right: parent.right }
             visible: text != ""
             fontSize: "medium"
             opacity: 0.6
             color: "white"
-            text: previewData.subtitle
+            text: previewData.subtitle.replace(/[\r\n]+/g, "<br />")
             style: Text.Raised
             styleColor: "black"
             wrapMode: Text.WordWrap
+            textFormat: Text.RichText
+            // FIXME: workaround for https://bugreports.qt-project.org/browse/QTBUG-33020
+            onWidthChanged: { wrapMode = Text.NoWrap; wrapMode = Text.WordWrap }
         }
 
         Label {
+            anchors { left: parent.left; right: parent.right }
             visible: text != ""
             fontSize: "small"
             opacity: 0.6
             color: "white"
-            text: previewData.description
+            text: previewData.description.replace(/[\r\n]+/g, "<br />")
             style: Text.Raised
             styleColor: "black"
             wrapMode: Text.WordWrap
+            textFormat: Text.RichText
+            // FIXME: workaround for https://bugreports.qt-project.org/browse/QTBUG-33020
+            onWidthChanged: { wrapMode = Text.NoWrap; wrapMode = Text.WordWrap }
         }
     }
 }

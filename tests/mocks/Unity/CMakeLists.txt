@@ -1,10 +1,5 @@
-set(CMAKE_AUTOMOC ON)
-
 add_subdirectory(Indicators)
 
-include(FindPkgConfig)
-find_package(Qt5Core REQUIRED)
-find_package(Qt5Quick REQUIRED)
 pkg_search_module(DEE dee-1.0 REQUIRED)
 pkg_search_module(GOBJECT gobject-2.0 REQUIRED)
 pkg_search_module(DEEQT libdee-qt5 REQUIRED)

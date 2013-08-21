@@ -19,7 +19,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import Unity.Indicators 0.1 as Indicators
+import Unity.IndicatorsLegacy 0.1 as Indicators
 
 Indicators.IndicatorWidget {
     id: indicatorWidget

@@ -24,11 +24,5 @@ import Unity.Indicators 0.1 as Indicators
 Indicators.SectionMenuItem {
     id: wifiSectionMenu
 
-    Indicators.MenuAction {
-        id: busyAction
-        actionGroup: wifiSectionMenu.actionGroup
-        action: menu ? menu.extra.canonical_busy_action : ""
-    }
-
-    busy: busyAction.valid ? busyAction.state : false
+    busy: menu ? menu.ext.xCanonicalBusyAction : false
 }

@@ -1,9 +1,3 @@
-set(CMAKE_AUTOMOC ON)
-
-include(FindPkgConfig)
-find_package(Qt5Core REQUIRED)
-find_package(Qt5Quick REQUIRED)
-
 set(FakeUbuntuApplicationQml_SOURCES
     plugin.cpp
     ApplicationInfo.cpp

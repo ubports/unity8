@@ -20,6 +20,8 @@
 // self
 #include "modelprinter.h"
 
+#include <unitymenumodel.h>
+
 // Qt
 #include <QTextStream>
 
@@ -29,7 +31,7 @@ ModelPrinter::ModelPrinter(QObject *parent)
 {
 }
 
-void ModelPrinter::setSourceModel(QAbstractItemModel * sourceModel)
+void ModelPrinter::setSourceModel(UnityMenuModel * sourceModel)
 {
     if (m_model != NULL) {
         disconnect(m_model);
@@ -40,75 +42,96 @@ void ModelPrinter::setSourceModel(QAbstractItemModel * sourceModel)
         Q_EMIT textChanged();
     }
     if (m_model != NULL) {
-        connect(m_model, SIGNAL(modelReset()), this, SIGNAL(textChanged()));
-        connect(m_model, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SIGNAL(textChanged()));
-        connect(m_model, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SIGNAL(textChanged()));
+        connect(m_model, SIGNAL(rowsInserted(QModelIndex,int,int)), SIGNAL(textChanged()));
+        connect(m_model, SIGNAL(rowsRemoved(QModelIndex,int,int)), SIGNAL(textChanged()));
+        connect(m_model, SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&, const QVector<int>&)), SIGNAL(textChanged()));
     }
 }
 
-QAbstractItemModel* ModelPrinter::sourceModel() const
+UnityMenuModel* ModelPrinter::sourceModel() const
 {
     return m_model;
 }
 
-QString ModelPrinter::text(const QModelIndex& index) const
+QString ModelPrinter::text()
 {
-    return recurseString(index, 0);
+    return getModelDataString(m_model, 0);
 }
 
 QString tabify(int level) {    QString str;
     for (int i = 0; i < level; i++) {
-        str += "   ";
+        str += "      ";
     }
     return str;
 }
 
-QString ModelPrinter::recurseString(const QModelIndex& index, int level) const
+QString ModelPrinter::getModelDataString(UnityMenuModel* sourceModel, int level)
 {
-    if (!m_model)
+    if (!sourceModel)
         return "";
 
     QString str;
     QTextStream stream(&str);
 
-    QHash<int, QByteArray> roleNames = m_model->roleNames();
-    QList<int> roles = roleNames.keys();
-    qSort(roles);
-    Q_FOREACH(int role, roles) {
-        QVariant vData = m_model->data(index, role);
-        if (vData.canConvert(QMetaType::QVariantMap)) {
-            QMapIterator<QString, QVariant> iter(vData.toMap());
-            while (iter.hasNext()) {
-                iter.next();
-                stream << tabify(level)
-                       << roleNames[role]
-                       << "."
-                       << iter.key()
-                       << ": "
-                       << iter.value().toString()
-                       << endl;
+    int rowCount = sourceModel->rowCount();
+    for (int row = 0; row < rowCount; row++) {
+
+        stream << getRowSring(sourceModel, row, level) << endl;
+
+        UnityMenuModel* childMenuModel = qobject_cast<UnityMenuModel*>(sourceModel->submenu(row));
+        if (childMenuModel) {
+
+            if (!m_children.contains(childMenuModel)) {
+                m_children << childMenuModel;
+                connect(childMenuModel, SIGNAL(rowsInserted(QModelIndex,int,int)), SIGNAL(textChanged()));
+                connect(childMenuModel, SIGNAL(rowsRemoved(QModelIndex,int,int)), SIGNAL(textChanged()));
+                connect(childMenuModel, SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&, const QVector<int>&)), SIGNAL(textChanged()));
             }
-        }
-        else {
-            stream << tabify(level)
-                   << roleNames[role]
-                   << ": "
-                   << vData.toString()
-                   << endl;
+            stream << getModelDataString(childMenuModel, level+1);
         }
     }
+    return str;
+}
 
-    int rowCount = m_model->rowCount(index);
-    stream << tabify(level)
-           << "child count"
-           << ": "
-           << rowCount
-           << endl
-           << endl;
+QString ModelPrinter::getRowSring(UnityMenuModel* sourceModel, int row, int depth) const
+{
+    QString str;
+    QTextStream stream(&str);
 
-    for (int i = 0; i < rowCount; i++) {
-        QModelIndex child = m_model->index(i, 0, index);
-        str += recurseString(child, level+1);
+    // Print out this row
+    QHash<int, QByteArray> roleNames = sourceModel->roleNames();
+    QList<int> roles = roleNames.keys();
+    qSort(roles);
+
+    Q_FOREACH(int role, roles) {
+        const QByteArray& roleName = roleNames[role];
+        stream << tabify(depth) << getVariantString(roleName, sourceModel->get(row, roleName));
+    }
+    return str;
+}
+
+QString ModelPrinter::getVariantString(const QString& roleName, const QVariant vData ) const
+{
+    QString str;
+    QTextStream stream(&str);
+
+    if (vData.canConvert(QMetaType::QVariantMap)) {
+        QMapIterator<QString, QVariant> iter(vData.toMap());
+        while (iter.hasNext()) {
+            iter.next();
+            stream << roleName
+                << "."
+                << iter.key()
+                << ": "
+                << iter.value().toString()
+                << endl;
+        }
+    }
+    else {
+            stream << roleName
+                << ": "
+                << vData.toString()
+                << endl;
     }
     return str;
 }

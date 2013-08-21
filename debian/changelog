@@ -1,3 +1,227 @@
+unity8 (7.81.3+13.10.20130821-0ubuntu1) saucy; urgency=low
+
+  [ Michael Zanetti ]
+  * added support for count emblems and progress overlays on the
+    launcher.
+
+  [ Pawel Stolowski ]
+  * Add role for getting filter options model. Add method to activate
+    option based on index or id.
+
+  [ Ted Gould ]
+  * Mark indicators-client as providing an indicator-renderer.
+
+  [ Nick Dedekind ]
+  * Added flatmenuproxymodel pass-through signals from qmenumodel.
+  * Renamed indicator-messaging to indicator-messages.
+
+  [ Gerry Boland ]
+  * Typo fix in FrequentlyUsedAppsModel.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 224
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 21 Aug 2013 08:05:13 +0000
+
+unity8 (7.81.3+13.10.20130820.2-0ubuntu1) saucy; urgency=low
+
+  [ Michael Zanetti ]
+  * initial support for quicklists For now they support pinning and
+    removing of items.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 217
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 20 Aug 2013 10:09:36 +0000
+
+unity8 (7.81.3+13.10.20130820-0ubuntu1) saucy; urgency=low
+
+  [ Andrea Cimitan ]
+  * Implement background changing through gsettings. Make sure it does
+    fallback to default background when needed.
+
+  [ Michael Zanetti ]
+  * Implement background changing through gsettings. Make sure it does
+    fallback to default background when needed.
+  * Add Drag'n'drop support to Launcher As dragging an item pins it to
+    the launcher this also contains initial quicklist and pinning
+    support in the plugin part.
+
+  [ Michał Sawicz ]
+  * Fix generic preview wrapping and force rich text parsing.
+
+  [ Michal Hruby ]
+  * Remove the override for Apps available for download, click scope
+    provides these now.
+  * Hide rating widgets when scope provides rating set to < 0.0. Also
+    fallback to regular preview image if there are no more_screenshots
+    specified.
+
+  [ Albert Astals ]
+  * Make sure minYExtent is updated before setting the new content
+    height Otherwise bad things can happen in the positioning .
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 215
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 20 Aug 2013 02:08:42 +0000
+
+unity8 (7.81.3+13.10.20130816.3-0ubuntu1) saucy; urgency=low
+
+  [ Michal Hruby ]
+  * Implement overrideResults() method, which allows us to seamlessly
+    combine real scope data with mocked data.
+
+  [ Michał Sawicz ]
+  * Wait for activeFocus before typing in autopilot tests. (LP:
+    #1212580)
+
+  [ Nick Dedekind ]
+  * Fixed network indicator password dialog not appearing. (LP:
+    #1212730)
+  * Remove time & battery indicator service info.
+
+  [ Albert Astals ]
+  * Dash category expansion.
+  * Fix crash in the shell test Give the item a parent, otherwise the
+    qml engine decides to adopt it and when we do the deleteLater on
+    them, they have been already deleted. Since we are the parents, we
+    don't need to call the deleteLAter eiether they'll be properly
+    deleted on our deletion.
+
+  [ Michael Zanetti ]
+  * make entering text in lockscreen tests more robust. (LP: #1212580)
+
+  [ Michael Terry ]
+  * Define the 'build' target as PHONY so make doesn't get confused by
+    our 'build' script.
+  * Add a test for the Powerd plugin shell support.
+
+  [ Pawel Stolowski ]
+  * Bindings for filters.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 208
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 16 Aug 2013 14:11:35 +0000
+
+unity8 (7.81.3+13.10.20130814.3-0ubuntu1) saucy; urgency=low
+
+  [ Ted Gould ]
+  * Upstart signals to control indicator services.
+
+  [ Nick Dedekind ]
+  * Replaced indicator menu listView with tabs view.
+  * Transition Unity.Indicators to UnityMenuModel.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 197
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 14 Aug 2013 14:33:39 +0000
+
+unity8 (7.81.3+13.10.20130814.1-0ubuntu1) saucy; urgency=low
+
+  [ Michał Sawicz ]
+  * Add AppPreview.
+
+  [ Nick Dedekind ]
+  * Use key from indicator service file to source indicator positions.
+
+  [ Diego Sarmentero ]
+  * Add AppPreview.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 193
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 14 Aug 2013 06:33:14 +0000
+
+unity8 (7.81.3+13.10.20130813.1-0ubuntu1) saucy; urgency=low
+
+  [ Michael Zanetti ]
+  * don't scale the EARLY ALPHA warning text bigger than the screen is.
+
+  [ Michał Sawicz ]
+  * Add debug logging to passphrase entry.
+
+  [ Albert Astals ]
+  * Remove unneeded stuff from CMakelists.txt set(CMAKE_AUTOMOC ON)
+    include(FindPkgConfig) find_package(Qt5Core REQUIRED)
+    find_package(Qt5Quick REQUIRED) Are already on the top-level
+    CMakeLists.txt so no need to write them again Well, actually the
+    Qt5Core wasn't and i added it, it's not really necessary since it's
+    pulled by the others that depend on it, but it doesn't hurt to be
+    explicit.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 189
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 13 Aug 2013 14:08:32 +0000
+
+unity8 (7.81.3+13.10.20130812.1-0ubuntu1) saucy; urgency=low
+
+  [ Michael Zanetti ]
+  * preserve lockscreen's background wallpaper's aspect ratio. (LP:
+    #1208892)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 184
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 12 Aug 2013 19:14:35 +0000
+
+unity8 (7.81.3+13.10.20130812-0ubuntu1) saucy; urgency=low
+
+  [ Albert Astals ]
+  * Fix uses of uninitialized values reported by valgrind.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 182
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 12 Aug 2013 14:33:29 +0000
+
+unity8 (7.81.3+13.10.20130809.1-0ubuntu1) saucy; urgency=low
+
+  [ Michal Hruby ]
+  * Set phone form factor for scope requests.
+
+  [ Michał Sawicz ]
+  * Add support for plurals and update the translation template.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 179
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 09 Aug 2013 15:35:06 +0000
+
+unity8 (7.81.3+13.10.20130809-0ubuntu1) saucy; urgency=low
+
+  [ Michał Sawicz ]
+  * Prepare unity8 for cross-building.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 176
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 09 Aug 2013 02:32:10 +0000
+
+unity8 (7.81.3+13.10.20130808-0ubuntu1) saucy; urgency=low
+
+  [ Michał Sawicz ]
+  * Re-enable battery slider test.
+
+  [ Nick Dedekind ]
+  * Workaround for non-deletion of indicator page menu items. (LP:
+    #1183065, #1206991)
+
+  [ Albert Astals ]
+  * LVPWH: Fix regression handling the sticky top section culling r166
+    introduced the regression, this fixes it+tests.
+  * Implement+test the maximizeVisibleArea function Tries to show as
+    much possible of an index that is already shown on screen Will be
+    used for the dash category expansion.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 174
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 08 Aug 2013 15:23:17 +0000
+
 unity8 (7.81.3+13.10.20130807-0ubuntu1) saucy; urgency=low
 
   [ Michał Sawicz ]

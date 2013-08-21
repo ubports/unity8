@@ -22,47 +22,41 @@ import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
 import Unity.Indicators 0.1 as Indicators
 
-Indicators.MenuItem {
+Indicators.FramedMenuItem {
     id: accessPoint
-    property variant actionWifiApStrength : menu && actionGroup ? actionGroup.action(menu.extra.canonical_wifi_ap_strength_action) : null
-    property variant wifiApStrength : actionWifiApStrength && actionWifiApStrength.valid ? actionWifiApStrength.state : "0"
 
+    readonly property bool checked: menu ? menu.isToggled : false
+
+    onCheckedChanged: {
+        // Can't rely on binding. Checked is assigned on click.
+        checkBoxActive.checked = checked;
+    }
+
+    // FIXME - we need to get the strength from menu.ext.xCanonicalWifiApStrengthAction
+    // but UnityMenuModel doesnt support fetching actions not attached to menu item.
     function getNetworkIcon(data) {
         var imageName = "nm-signal-100"
-        var signalStrength = parseInt(wifiApStrength)
 
-        if (data.extra.canonical_wifi_ap_is_adhoc) {
+        if (data.ext.xCanonicalWifiApIsAdhoc) {
             imageName = "nm-adhoc";
-        } else if (signalStrength == 0) {
-            imageName = "nm-signal-00";
-        } else if (signalStrength <= 25) {
-            imageName = "nm-signal-25";
-        } else if (signalStrength <= 50) {
-            imageName = "nm-signal-50";
-        } else if (signalStrength <= 75) {
-            imageName = "nm-signal-75";
         }
-
-        if (data.extra.canonical_wifi_ap_is_secure) {
+        if (data.ext.xCanonicalWifiApIsSecure) {
             imageName += "-secure";
         }
 
         return "image://gicon/" + imageName;
     }
 
-    icon: menu && wifiApStrength ? getNetworkIcon(menu) : "image://gicon/wifi-none"
+    icon: menu ? getNetworkIcon(menu) : "image://gicon/wifi-none"
     iconFrame: false
     control: CheckBox {
         id: checkBoxActive
         height: units.gu(4)
         width: units.gu(4)
         anchors.centerIn: parent
-    }
 
-    Indicators.MenuActionBinding {
-        actionGroup: accessPoint.actionGroup
-        action: menu ? menu.action : ""
-        target: checkBoxActive
-        property: "checked"
+        onClicked: {
+            accessPoint.activate();
+        }
     }
 }

@@ -27,7 +27,9 @@ from autopilot.matchers import Eventually
 from autopilot.platform import model
 from testtools import skipUnless
 from testtools.matchers import Equals
+import logging
 
+logger = logging.getLogger(__name__)
 
 class TestLockscreen(UnityTestCase):
 
@@ -143,7 +145,10 @@ class TestLockscreen(UnityTestCase):
 
         pinentryField = self.main_window.get_pinentryField()
         self.touch.tap_object(pinentryField)
-        self.keyboard.type(passphrase)
+        self.assertThat(pinentryField.activeFocus, Eventually(Equals(True)))
+        for character in passphrase:
+            self._type_character(character, pinentryField)
+        logger.debug("Typed passphrase: %s", pinentryField.text)
         self.keyboard.type("\n")
 
     def _enter_prompt_passphrase(self, passphrase):
@@ -159,5 +164,17 @@ class TestLockscreen(UnityTestCase):
 
         prompt = self.main_window.get_greeter().get_prompt()
         self.touch.tap_object(prompt)
-        self.keyboard.type(passphrase)
+        self.assertThat(prompt.activeFocus, Eventually(Equals(True)))
+        for character in passphrase:
+            self._type_character(character, prompt)
+        logger.debug("Typed passphrase: %s", prompt.text)
         self.keyboard.type("\n")
+
+    def _type_character(self, character, prompt, retries=5):
+        current_text = prompt.text
+        self.keyboard.type(character)
+        try:
+            self.assertThat(prompt.text, Eventually(Equals(current_text + character)))
+        except AssertionError:
+            if retries > 0:
+                self._type_character(character, prompt, retries-1)

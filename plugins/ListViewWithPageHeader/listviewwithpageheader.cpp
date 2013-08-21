@@ -280,7 +280,7 @@ void ListViewWithPageHeader::setSectionDelegate(QQmlComponent *delegate)
 
         m_sectionDelegate = delegate;
 
-        m_topSectionItem = getSectionItem(-1, QString());
+        m_topSectionItem = getSectionItem(QString());
         m_topSectionItem->setZ(3);
         QQuickItemPrivate::get(m_topSectionItem)->setCulled(true);
 
@@ -380,20 +380,51 @@ void ListViewWithPageHeader::showHeader()
     }
 }
 
+QQuickItem *ListViewWithPageHeader::item(int modelIndex) const
+{
+    ListItem *item = itemAtIndex(modelIndex);
+    if (item)
+        return item->m_item;
+    else
+        return nullptr;
+}
+
 bool ListViewWithPageHeader::maximizeVisibleArea(int modelIndex)
 {
     ListItem *listItem = itemAtIndex(modelIndex);
-    if (listItem)
-    {
+    if (listItem) {
+        return maximizeVisibleArea(listItem, listItem->height());
+    }
+
+    return false;
+}
+
+bool ListViewWithPageHeader::maximizeVisibleArea(int modelIndex, int itemHeight)
+{
+    if (itemHeight < 0)
+        return false;
+
+    ListItem *listItem = itemAtIndex(modelIndex);
+    if (listItem) {
+        return maximizeVisibleArea(listItem, itemHeight + (listItem->m_sectionItem ? listItem->m_sectionItem->height() : 0));
+    }
+
+    return false;
+}
+
+bool ListViewWithPageHeader::maximizeVisibleArea(ListItem *listItem, int listItemHeight)
+{
+    if (listItem) {
+        layout();
         const auto listItemY = m_clipItem->y() + listItem->y();
-        if (listItemY > contentY() && listItemY + listItem->height() > contentY() + height()) {
+        if (listItemY > contentY() && listItemY + listItemHeight > contentY() + height()) {
             // we can scroll the list up to show more stuff
-            const auto to = qMin(listItemY, listItemY + listItem->height() - height());
+            const auto to = qMin(listItemY, listItemY + listItemHeight - height());
             m_contentYAnimation->setTo(to);
             contentYAnimationType = ContentYAnimationMaximizeVisibleArea;
             m_contentYAnimation->start();
-        } else if ((listItemY < contentY() && listItemY + listItem->height() < contentY() + height()) ||
-                   (m_topSectionItem && !listItem->m_sectionItem && listItemY - m_topSectionItem->height() < contentY() && listItemY + listItem->height() < contentY() + height()))
+        } else if ((listItemY < contentY() && listItemY + listItemHeight < contentY() + height()) ||
+                   (m_topSectionItem && !listItem->m_sectionItem && listItemY - m_topSectionItem->height() < contentY() && listItemY + listItemHeight < contentY() + height()))
         {
             // we can scroll the list down to show more stuff
             auto realVisibleListItemY = listItemY;
@@ -406,7 +437,7 @@ bool ListViewWithPageHeader::maximizeVisibleArea(int modelIndex)
                     realVisibleListItemY -= m_topSectionItem->height();
                 }
             }
-            const auto to = qMax(realVisibleListItemY, listItemY + listItem->height() - height());
+            const auto to = qMax(realVisibleListItemY, listItemY + listItemHeight - height());
             m_contentYAnimation->setTo(to);
             contentYAnimationType = ContentYAnimationMaximizeVisibleArea;
             m_contentYAnimation->start();
@@ -641,17 +672,17 @@ QQuickItem *ListViewWithPageHeader::getSectionItem(int modelIndex, bool alreadyI
         }
     }
 
-    return getSectionItem(modelIndex, section);
+    return getSectionItem(section);
 }
 
-QQuickItem *ListViewWithPageHeader::getSectionItem(int modelIndex, const QString &sectionText)
+QQuickItem *ListViewWithPageHeader::getSectionItem(const QString &sectionText)
 {
     QQuickItem *sectionItem = nullptr;
 
     QQmlContext *creationContext = m_sectionDelegate->creationContext();
     QQmlContext *context = new QQmlContext(creationContext ? creationContext : qmlContext(this));
     context->setContextProperty(QLatin1String("section"), sectionText);
-    context->setContextProperty(QLatin1String("delegateIndex"), modelIndex);
+    context->setContextProperty(QLatin1String("delegateIndex"), -1);
     QObject *nobj = m_sectionDelegate->beginCreate(context);
     if (nobj) {
         QQml_setParent_noEvent(context, nobj);
@@ -785,6 +816,10 @@ ListViewWithPageHeader::ListItem *ListViewWithPageHeader::createItem(int modelIn
             if (m_firstVisibleIndex < 0 || modelIndex < m_firstVisibleIndex) {
                 m_firstVisibleIndex = modelIndex;
                 polish();
+            }
+            if (listItem->m_sectionItem) {
+                QQmlContext *context = QQmlEngine::contextForObject(listItem->m_sectionItem)->parentContext();
+                context->setContextProperty(QLatin1String("delegateIndex"), modelIndex);
             }
             adjustMinYExtent();
             m_contentHeightDirty = true;
@@ -1209,6 +1244,7 @@ void ListViewWithPageHeader::updatePolish()
         }
 
         m_contentHeightDirty = false;
+        adjustMinYExtent();
         setContentHeight(contentHeight);
     }
 }

@@ -118,12 +118,12 @@ BasicShell {
         // through the translucent parts of the shell surface.
         visible: !fullyCovered && !applicationSurfaceShouldBeSeen
 
-        Image {
+        CrossFadeImage {
             id: backgroundImage
-            source: shell.background
-            sourceSize.width: parent.width
-            sourceSize.height: parent.height
+            objectName: "backgroundImage"
+
             anchors.fill: parent
+            source: shell.background
         }
 
         Rectangle {
@@ -160,7 +160,6 @@ BasicShell {
             Behavior on disappearingAnimationProgress { SmoothedAnimation { velocity: 5 }}
         }
     }
-
 
     Item {
         id: stagesOuterContainer
@@ -224,7 +223,6 @@ BasicShell {
                 }
                 ignoreUnknownSignals: true
             }
-
 
             Stage {
                 id: mainStage
@@ -537,7 +535,7 @@ BasicShell {
     }
 
     Label {
-        anchors.fill: parent
+        anchors.centerIn: parent
         visible: applicationManager.fake
         text: "EARLY ALPHA\nNOT READY FOR USE"
         color: "lightgrey"
@@ -546,7 +544,7 @@ BasicShell {
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         fontSizeMode: Text.Fit
-        font.pixelSize: height/2
         rotation: -45
+        scale: Math.min(parent.width, parent.height) / width
     }
 }
