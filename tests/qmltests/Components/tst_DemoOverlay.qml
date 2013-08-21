@@ -55,7 +55,7 @@ Item {
         y: parent.height/2
         width: parent.width/2
         height: parent.height/2
-        enabled: false
+        available: false
     }
 
     DemoOverlay {
@@ -82,7 +82,7 @@ Item {
             compare(right.__anim_running, 1)
 
             compare(left.__anim_running, 0)
-            left.enabled = true
+            left.available = true
             compare(left.__anim_running, 1)
         }
 
@@ -93,7 +93,7 @@ Item {
             mousePress(bottomSkip, 1, 1)
             mouseRelease(bottomSkip, 1, 1)
             signalSpy.wait()
-            compare(bottom.enabled, false)
+            compare(bottom.available, false)
         }
     }
 }
