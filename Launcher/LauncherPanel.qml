@@ -121,6 +121,12 @@ Item {
                     property real realContentY: contentY - originY + topMargin
                     property int realItemHeight: itemHeight + spacing
 
+                    // In case the start dragging transition is running, we need to delay the
+                    // move because the displaced transition would clash with it and cause items
+                    // to be moved to wrong places
+                    property bool draggingTransitionRunning: false
+                    property int scheduledMoveTo: -1
+
                     displaced: Transition {
                         NumberAnimation { properties: "x,y"; duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
                     }
@@ -200,10 +206,26 @@ Item {
                                 UbuntuNumberAnimation { properties: "angle,offset" }
                             },
                             Transition {
+                                id: draggingTransition
                                 from: "selected"
                                 to: "dragging"
-                                UbuntuNumberAnimation { properties: "height" }
-                                NumberAnimation { target: dropIndicator; properties: "opacity"; duration: UbuntuAnimation.FastDuration }
+                                SequentialAnimation {
+                                    PropertyAction { target: launcherListView; property: "draggingTransitionRunning"; value: true }
+                                    ParallelAnimation {
+                                        UbuntuNumberAnimation { properties: "height" }
+                                        NumberAnimation { target: dropIndicator; properties: "opacity"; duration: UbuntuAnimation.FastDuration }
+                                    }
+                                    ScriptAction {
+                                        script: {
+                                            if (launcherListView.scheduledMoveTo > -1) {
+                                                launcherListView.model.move(dndArea.draggedIndex, launcherListView.scheduledMoveTo)
+                                                dndArea.draggedIndex = launcherListView.scheduledMoveTo
+                                                launcherListView.scheduledMoveTo = -1
+                                            }
+                                        }
+                                    }
+                                    PropertyAction { target: launcherListView; property: "draggingTransitionRunning"; value: false }
+                                }
                             },
                             Transition {
                                 from: "dragging"
@@ -372,8 +394,12 @@ Item {
                                 }
 
                                 if (newIndex >= 0 && newIndex < launcherListView.count) {
-                                    launcherListView.model.move(draggedIndex, newIndex)
-                                    draggedIndex = newIndex
+                                    if (launcherListView.draggingTransitionRunning) {
+                                        launcherListView.scheduledMoveTo = newIndex
+                                    } else {
+                                        launcherListView.model.move(draggedIndex, newIndex)
+                                        draggedIndex = newIndex
+                                    }
                                 }
                             }
                         }
