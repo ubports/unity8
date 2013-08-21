@@ -72,7 +72,7 @@ LauncherDelegate {
         // First/last items are special
         if (index == 0 || index == priv.listView.count-1) {
             if (priv.distanceFromEdge < 0) {
-                // Fade from 1 to 0 while the in 2*foldingAreaHeight
+                // Fade from 1 to 0 while traversing a distance of 2*foldingAreaHeight
                 // proportion equation: 0.5 : x = -2*foldingAreaHeight : distance
                 return 1 + (priv.distanceFromEdge / (priv.foldingAreaHeight * 2))
             }
