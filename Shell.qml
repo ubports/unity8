@@ -779,7 +779,7 @@ FocusScope {
         Connections {
             target: leftEdgeDemo
             onShownChanged: {
-                if (!leftEdgeDemo.shown) {
+                if (leftEdgeDemo.active && !leftEdgeDemo.shown) {
                     finalEdgeDemo.show();
                     launcher.hide();
                 }
