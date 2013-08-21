@@ -413,7 +413,7 @@ Item {
                 width: itemWidth
                 rotation: root.rotation
                 highlighted: true
-                itemOpacity: 0.8
+                itemOpacity: 0.9
 
                 function flatten() {
                     fakeDragItemAnimation.start();
