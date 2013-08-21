@@ -24,7 +24,7 @@ LauncherDelegate {
     angle: {
         // First/last items are special
         if (index == 0 || index == priv.listView.count-1) {
-            if (priv.distanceFromEdge < priv.listView.foldingStopHeight) {
+            if (priv.overlapWithFoldedArea > 0) {
                 // proportion equation: distanceFromTopEdge : angle = totalUnfoldedHeight/2 : maxAngle
                 return Math.max(-maxAngle, priv.distanceFromEdge * maxAngle / (priv.listView.foldingStartHeight)) * priv.orientationFlag
             }
