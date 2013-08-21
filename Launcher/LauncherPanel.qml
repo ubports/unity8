@@ -113,7 +113,9 @@ Item {
                     property int extensionSize: itemHeight * 3
 
                     // The height of the area where icons start getting folded
-                    property int foldingAreaHeight: itemHeight * 0.75
+                    property int foldingStartHeight: units.gu(8.5)
+                    // The height of the area where the items reach the final folding angle
+                    property int foldingStopHeight: units.gu(0.5)
                     property int itemWidth: width
                     property int itemHeight: width * 7.5 / 8
                     property int clickFlickSpeed: units.gu(60)
