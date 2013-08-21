@@ -14,6 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import Powerd 0.1
 import QtQuick 2.0
 import QtGraphicalEffects 1.0
 import Ubuntu.Application 0.1
@@ -240,6 +241,23 @@ Showable {
             ParallelAnimation {
                 StandardAnimation { target: hintGroup; property: hintAnimation.prop; from: hintAnimation.endVal; to: 0; duration: hintAnimation.duration }
                 StandardAnimation { target: edgeHint; property: "size"; from: hintAnimation.maxGlow; to: 1; duration: hintAnimation.duration }
+            }
+        }
+    }
+
+    // Watch display, so we can turn off animation if it does.  No reason to
+    // chew CPU when user isn't watching.
+    Connections {
+        id: powerConnection
+        target: Powerd
+
+        onDisplayPowerStateChange: {
+            if (status == Powerd.Off && wholeAnimation.running) {
+                wholeAnimation.paused = true;
+                //hintAnimation.paused = true;
+            } else if (status == Powerd.On) {
+                wholeAnimation.paused = false;
+                //hintAnimation.paused = false;
             }
         }
     }
