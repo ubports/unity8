@@ -47,6 +47,7 @@ public:
         RoleIcon,
         RoleRenderer,
         RoleContentType,
+        RoleProgressSource,
         RoleHints,
         RoleResults,
         RoleCount,
