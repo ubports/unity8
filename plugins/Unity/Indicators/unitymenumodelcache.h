@@ -34,11 +34,15 @@ public:
     UnityMenuModelCache(QObject*parent=NULL);
     ~UnityMenuModelCache();
 
+    Q_INVOKABLE void ref();
+    Q_INVOKABLE void deref();
+
     Q_INVOKABLE UnityMenuModel* model(const QString& path) const;
     Q_INVOKABLE void registerModel(const QString& path, UnityMenuModel* menuModel);
 
 private:
     QHash<QString, UnityMenuModel*> m_menuModels;
+    int m_ref;
 };
 
 #endif // UNITYMENUMODELCACHE_H

@@ -43,6 +43,12 @@ Item {
         return component;
     }
 
+    Component.onCompleted: Indicators.UnityMenuModelCache.ref()
+    Component.onDestruction: {
+        model = null;
+        Indicators.UnityMenuModelCache.deref();
+    }
+
     Component {
         id: modelComponent
 

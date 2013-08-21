@@ -24,16 +24,19 @@ import Unity.Indicators 0.1 as Indicators
 
 FramedMenuItem {
     id: menuItem
-    objectName: menuAction.name
-    enabled: menuAction.active
 
     property alias minimumValue: slider.minimumValue
     property alias maximumValue: slider.maximumValue
-    readonly property double value: menu ? menuAction.state : 0.0
+    property double value: 0.0
+
+    property alias minIcon: leftImage.source
+    property alias maxIcon: rightImage.source
 
     property QtObject d: QtObject {
         property bool enableValueConnection: true
     }
+
+    signal changeState(real value)
 
     onValueChanged: {
         // TODO: look into adding a component to manage bi-directional bindings.
@@ -58,7 +61,6 @@ FramedMenuItem {
             anchors.verticalCenter: row.verticalCenter
             height: units.gu(4)
             width: height
-            source: menu.ext.minIcon
         }
 
         Components.Slider {
@@ -75,19 +77,8 @@ FramedMenuItem {
                 value = menuItem.value
             }
 
-            // FIXME: The interval should be [0.0 - 1.0]. Unfortunately, when
-            // reaching the boundaries (0.0 or 1.0), the value is converted
-            // to an integer when automatically wrapped in a variant when
-            // passed to QStateAction::updateState(…). The server chokes on
-            // those values, complaining that they’re not of the right type…
-            minimumValue: menu.ext.minValue ? menu.ext.minValue * 1.000001 : 0.0000001
-            maximumValue: {
-                var maximum = menu.ext.maxValue ? menu.ext.maxValue * 1.000001 : 0.9999999
-                if (maximum <= minimumValue) {
-                        return minimumValue + 1;
-                }
-                return maximum;
-            }
+            minimumValue: 0.0
+            maximumValue: 0.1
 
             // FIXME - to be deprecated in Ubuntu.Components.
             // Use this to disable the label, since there is not way to do it on the component.
@@ -109,12 +100,6 @@ FramedMenuItem {
             anchors.verticalCenter: row.verticalCenter
             height: units.gu(4)
             width: height
-            source: menu.ext.maxIcon
         }
-    }
-
-    Indicators.MenuAction {
-        id: menuAction
-        menu: menuItem.menu
     }
 }
