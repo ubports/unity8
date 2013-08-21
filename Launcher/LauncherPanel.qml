@@ -222,19 +222,6 @@ Item {
                         ]
                     }
 
-                    Rectangle {
-                        anchors { left: parent.left; right: parent.right; top: parent.top; topMargin: launcherListView.topMargin + launcherListView.foldingStartHeight }
-                        height: units.dp(1); color: "red";
-                    }
-                    Rectangle {
-                        anchors { left: parent.left; right: parent.right; top: parent.top; topMargin: launcherListView.topMargin + launcherListView.foldingStopHeight }
-                        height: units.dp(1); color: "red";
-                    }
-                    Rectangle {
-                        anchors { left: parent.left; right: parent.right; top: parent.top; topMargin: launcherListView.topMargin + launcherListView.foldingStartHeight - units.gu(4.5)}
-                        height: units.dp(1); color: "red";
-                    }
-
                     MouseArea {
                         id: dndArea
                         objectName: "dndArea"
