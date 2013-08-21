@@ -60,6 +60,7 @@ Description: Indicators client test application
 
 Package: unity8
 Architecture: any
+Provides: indicator-renderer,
 Depends: gsettings-desktop-schemas,
          qmenumodel-qml (>= 0.2.7),
          qtdeclarative5-dee-plugin,

@@ -135,6 +135,8 @@ Item {
                         width: itemWidth
                         height: itemHeight
                         iconName: model.icon
+                        count: model.count
+                        progress: model.progress
                         inverted: root.inverted
                         z: -Math.abs(offset)
                         maxAngle: 55
@@ -236,7 +238,7 @@ Item {
                         property int draggedIndex: -1
                         property var selectedItem
                         property bool preDragging: false
-                        property bool dragging: selectedItem !== undefined && selectedItem.dragging
+                        property bool dragging: selectedItem !== undefined && selectedItem !== null && selectedItem.dragging
                         property bool postDragging: false
                         property int startX
                         property int startY
@@ -249,6 +251,11 @@ Item {
                         onClicked: {
                             var index = Math.floor((mouseY + launcherListView.realContentY) / launcherListView.realItemHeight);
                             var clickedItem = launcherListView.itemAt(mouseX, mouseY + launcherListView.realContentY)
+
+                            // Check if we actually clicked an item or only at the spacing in between
+                            if (clickedItem === null) {
+                                return;
+                            }
 
                             // First/last item do the scrolling at more than 12 degrees
                             if (index == 0 || index == launcherListView.count - 1) {
@@ -284,6 +291,10 @@ Item {
                                 postDragging = true;
                             } else {
                                 draggedIndex = -1;
+                            }
+
+                            if (!selectedItem) {
+                                return;
                             }
 
                             selectedItem.dragging = false;
@@ -325,6 +336,8 @@ Item {
                             fakeDragItem.y = mouseY - yOffset + launcherListView.anchors.topMargin + launcherListView.topMargin
                             fakeDragItem.angle = selectedItem.angle * (root.inverted ? -1 : 1)
                             fakeDragItem.offset = selectedItem.offset * (root.inverted ? -1 : 1)
+                            fakeDragItem.count = LauncherModel.get(draggedIndex).count
+                            fakeDragItem.progress = LauncherModel.get(draggedIndex).progress
                             fakeDragItem.flatten()
                             drag.target = fakeDragItem
 

@@ -48,7 +48,8 @@ public:
         RoleRendererName,
         RoleVisible,
         RoleCollapsed,
-        RoleFiltering
+        RoleFiltering,
+        RoleOptions
     };
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
