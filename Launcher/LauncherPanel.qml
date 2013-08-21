@@ -235,7 +235,7 @@ Item {
                         property int draggedIndex: -1
                         property var selectedItem
                         property bool preDragging: false
-                        property bool dragging: selectedItem !== undefined && selectedItem.dragging
+                        property bool dragging: selectedItem !== undefined && selectedItem !== null && selectedItem.dragging
                         property bool postDragging: false
                         property int startX
                         property int startY
@@ -243,12 +243,19 @@ Item {
 
                         onPressed: {
                             selectedItem = launcherListView.itemAt(mouseX, mouseY + launcherListView.realContentY)
-                            selectedItem.highlighted = true
+                            if (selectedItem !== null) {
+                                selectedItem.highlighted = true
+                            }
                         }
 
                         onClicked: {
                             var index = Math.floor((mouseY + launcherListView.realContentY) / launcherListView.realItemHeight);
                             var clickedItem = launcherListView.itemAt(mouseX, mouseY + launcherListView.realContentY)
+
+                            // Check if we actually clicked an item or only at the spacing in between
+                            if (clickedItem === null) {
+                                return;
+                            }
 
                             // First/last item do the scrolling at more than 12 degrees
                             if (index == 0 || index == launcherListView.count - 1) {
@@ -285,6 +292,10 @@ Item {
                                 postDragging = true;
                             } else {
                                 draggedIndex = -1;
+                            }
+
+                            if (!selectedItem) {
+                                return;
                             }
 
                             selectedItem.highlighted = false
