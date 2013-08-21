@@ -212,14 +212,14 @@ Showable {
                     }
                 }
                 to: overlay.__edge_margin
-                duration: overlay.edge == "none" ? 0 : 1000
+                duration: overlay.edge == "none" ? 0 : UbuntuAnimation.SleepyDuration
             }
             StandardAnimation {
                 target: overlay
                 property: "opacity"
                 from: 0.0
                 to: 1.0
-                duration: 1000
+                duration: UbuntuAnimation.SleepyDuration
             }
         }
 
@@ -229,7 +229,7 @@ Showable {
             property string prop: (overlay.edge == "left" || overlay.edge == "right") ? "x" : "y"
             property double endVal: units.dp(5) * ((overlay.edge == "left" || overlay.edge == "top") ? 1 : -1)
             property double maxGlow: units.dp(20)
-            property int duration: overlay.edge == "none" ? 0 : 1000
+            property int duration: overlay.edge == "none" ? 0 : UbuntuAnimation.SleepyDuration
 
             ParallelAnimation {
                 StandardAnimation { target: hintGroup; property: hintAnimation.prop; from: 0; to: hintAnimation.endVal; duration: hintAnimation.duration }
