@@ -151,7 +151,7 @@ QLimitProxyModelQML::sourceRowsAboutToBeInserted(const QModelIndex &parent, int 
             m_dataChangedEnd = m_limit - 1;
         } else { // currentCount < m_limit && currentCount + nSourceAddedItems > m_limit
             // We have less items than the limit but after adding them we will be over
-            // To our users this means we need to insert some items and change the 
+            // To our users this means we need to insert some items and change the
             // data of some others, i.e we had something like
             // A B C
             // with a limit of 5
