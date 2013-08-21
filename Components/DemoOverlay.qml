@@ -19,7 +19,7 @@ import QtGraphicalEffects 1.0
 import Ubuntu.Application 0.1
 import Ubuntu.Components 0.1
 
-Item {
+Showable {
     id: overlay
 
     /*
@@ -43,22 +43,43 @@ Item {
     property string skipText: i18n.tr("Skip intro")
 
     /*
-     * Whether this demo is allowed to run.
-     */
-    property bool enabled: true
-
-    /*
      * Whether this demo is running currently.
      */
-    readonly property bool active: enabled && visible
+    readonly property bool active: available && visible
 
     property color __orange: Qt.hsla(16.0/360.0, 0.83, 0.47, 1.0)
     property color __orange_transparent: Qt.hsla(16.0/360.0, 0.83, 0.47, 0.4)
     property int __edge_margin: units.gu(4)
     property int __text_margin: units.gu(3)
+    property bool __skip_on_hide: false
     property int __anim_running: wholeAnimation.running // for testing
 
     signal skip()
+
+    function doSkip() {
+        __skip_on_hide = true;
+        hide();
+    }
+
+    function hideNow() {
+        overlay.visible = false;
+        overlay.available = false;
+        if (overlay.__skip_on_hide) {
+            overlay.skip();
+        }
+    }
+
+    showAnimation: StandardAnimation {
+        property: "opacity"
+        to: 1
+        onRunningChanged: if (running) overlay.visible = true
+    }
+    hideAnimation: StandardAnimation {
+        property: "opacity"
+        to: 0
+        duration: UbuntuAnimation.BriskDuration
+        onRunningChanged: if (!running) overlay.hideNow()
+    }
 
     Rectangle {
         id: backgroundShade
@@ -70,7 +91,7 @@ Item {
         MouseArea {
             anchors.fill: parent
             enabled: overlay.edge == "none" && overlay.opacity == 1.0
-            onClicked: fadeOutAnimation.running = true
+            onClicked: overlay.doSkip()
         }
     }
 
@@ -119,7 +140,7 @@ Item {
 
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: fadeOutAnimation.running = true
+                    onClicked: overlay.doSkip()
                 }
             }
         }
@@ -162,20 +183,6 @@ Item {
                     return Qt.point(0, height - size);
                 }
             }
-        }
-    }
-
-    PropertyAnimation {
-        id: fadeOutAnimation
-        target: overlay
-        property: "opacity"
-        to: 0
-        duration: 250
-
-        onStopped: {
-            overlay.enabled = false;
-            overlay.visible = false;
-            skip()
         }
     }
 

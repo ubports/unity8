@@ -241,17 +241,17 @@ FocusScope {
             text: i18n.tr("Try swiping from the top edge to access the indicators")
             anchors.fill: dash
             visible: false
-            enabled: shell.showEdgeDemo
+            available: shell.showEdgeDemo
             onSkip: shell.hideEdgeDemo()
 
             Connections {
                 target: greeter
-                onShownChanged: if (!greeter.shown) topEdgeDemo.visible = true
+                onShownChanged: if (!greeter.shown) topEdgeDemo.show()
             }
 
             Connections {
                 target: panel.indicators
-                onFullyOpenedChanged: if (panel.indicators.fullyOpened) topEdgeDemo.enabled = false
+                onFullyOpenedChanged: if (panel.indicators.fullyOpened) topEdgeDemo.hideNow()
             }
         }
 
@@ -263,17 +263,17 @@ FocusScope {
             text: i18n.tr("Swipe from the left to reveal the launcher for quick access to apps")
             anchors.fill: dash
             visible: false
-            enabled: shell.showEdgeDemo
+            available: shell.showEdgeDemo
             onSkip: shell.hideEdgeDemo()
 
             Connections {
                 target: bottomEdgeDemo
-                onActiveChanged: if (!bottomEdgeDemo.active) leftEdgeDemo.visible = true
+                onActiveChanged: if (!bottomEdgeDemo.active) leftEdgeDemo.show()
             }
 
             Connections {
                 target: launcher
-                onProgressChanged: if (launcher.progress >= 1.0) leftEdgeDemo.enabled = false
+                onStateChanged: if (launcher.state == "visible") leftEdgeDemo.hide()
             }
         }
     }
@@ -548,7 +548,7 @@ FocusScope {
 
                 function hide() {
                     if (rightEdgeDemo.active) {
-                        rightEdgeDemo.enabled = false
+                        rightEdgeDemo.hide()
                         shell.hideEdgeDemoInGreeter()
                     }
                 }
@@ -629,13 +629,13 @@ FocusScope {
                 text: i18n.tr("Swipe up again to close the settings screen")
                 anchors.fill: panel.indicators
                 visible: false
-                enabled: shell.showEdgeDemo
+                available: shell.showEdgeDemo
                 onSkip: shell.hideEdgeDemo()
 
                 Connections {
                     target: panel.indicators
-                    onFullyOpenedChanged: if (panel.indicators.fullyOpened) bottomEdgeDemo.visible = true
-                    onPartiallyOpenedChanged: if (!panel.indicators.partiallyOpened && !panel.indicators.fullyOpened) bottomEdgeDemo.enabled = false
+                    onFullyOpenedChanged: if (panel.indicators.fullyOpened) bottomEdgeDemo.show()
+                    onPartiallyOpenedChanged: if (!panel.indicators.partiallyOpened && !panel.indicators.fullyOpened) bottomEdgeDemo.hideNow()
                 }
             }
         }
@@ -771,15 +771,17 @@ FocusScope {
         skipText: i18n.tr("Finish")
         anchors.fill: overlay
         visible: false
-        enabled: shell.showEdgeDemo
-        onSkip: {
-            launcher.hide();
-            shell.hideEdgeDemo();
-        }
+        available: shell.showEdgeDemo
+        onSkip: shell.hideEdgeDemo()
 
         Connections {
             target: leftEdgeDemo
-            onActiveChanged: if (!leftEdgeDemo.active) finalEdgeDemo.visible = true
+            onActiveChanged: {
+                if (!leftEdgeDemo.active) {
+                    finalEdgeDemo.show();
+                    launcher.hide();
+                }
+            }
         }
     }
 
