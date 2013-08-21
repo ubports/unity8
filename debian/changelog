@@ -1,3 +1,28 @@
+unity8 (7.81.3+13.10.20130821-0ubuntu1) saucy; urgency=low
+
+  [ Michael Zanetti ]
+  * added support for count emblems and progress overlays on the
+    launcher.
+
+  [ Pawel Stolowski ]
+  * Add role for getting filter options model. Add method to activate
+    option based on index or id.
+
+  [ Ted Gould ]
+  * Mark indicators-client as providing an indicator-renderer.
+
+  [ Nick Dedekind ]
+  * Added flatmenuproxymodel pass-through signals from qmenumodel.
+  * Renamed indicator-messaging to indicator-messages.
+
+  [ Gerry Boland ]
+  * Typo fix in FrequentlyUsedAppsModel.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 224
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 21 Aug 2013 08:05:13 +0000
+
 unity8 (7.81.3+13.10.20130820.2-0ubuntu1) saucy; urgency=low
 
   [ Michael Zanetti ]
