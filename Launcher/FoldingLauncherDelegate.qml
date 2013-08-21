@@ -63,7 +63,7 @@ LauncherDelegate {
 
         // We stopped folding, move slower than the actual flicking speed.
         if (priv.overlapWithFoldedArea > 0) {
-            return (priv.overlapWithFoldedArea * priv.totalEffectiveHeight / priv.foldingAreaHeight) * priv.orientationFlag;
+            return (priv.overlapWithFoldedArea * priv.totalEffectiveHeight / (priv.totalUnfoldedHeight + priv.listView.foldingStopHeight)) * priv.orientationFlag;
         }
         return 0;
     }

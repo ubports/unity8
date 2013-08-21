@@ -113,11 +113,11 @@ Item {
                     property int extensionSize: itemHeight * 3
 
                     // The height of the area where icons start getting folded
-                    property int foldingStartHeight: units.gu(8.5)
+                    property int foldingStartHeight: units.gu(7.5)
                     // The height of the area where the items reach the final folding angle
-                    property int foldingStopHeight: units.gu(0.5)
-                    property int itemWidth: width
-                    property int itemHeight: width * 7.5 / 8
+                    property int foldingStopHeight: foldingStartHeight - itemHeight - spacing
+                    property int itemWidth: units.gu(7)
+                    property int itemHeight: units.gu(6.5)
                     property int clickFlickSpeed: units.gu(60)
                     property int draggedIndex: dndArea.draggedIndex
                     property real realContentY: contentY - originY + topMargin
@@ -137,7 +137,7 @@ Item {
                         iconName: model.icon
                         inverted: root.inverted
                         z: -Math.abs(offset)
-                        maxAngle: 60
+                        maxAngle: 55
                         property bool dragging: false
 
                         ThinDivider {
@@ -218,6 +218,19 @@ Item {
                                 }
                             }
                         ]
+                    }
+
+                    Rectangle {
+                        anchors { left: parent.left; right: parent.right; top: parent.top; topMargin: launcherListView.topMargin + launcherListView.foldingStartHeight }
+                        height: units.dp(1); color: "red";
+                    }
+                    Rectangle {
+                        anchors { left: parent.left; right: parent.right; top: parent.top; topMargin: launcherListView.topMargin + launcherListView.foldingStopHeight }
+                        height: units.dp(1); color: "red";
+                    }
+                    Rectangle {
+                        anchors { left: parent.left; right: parent.right; top: parent.top; topMargin: launcherListView.topMargin + launcherListView.foldingStartHeight - units.gu(4.5)}
+                        height: units.dp(1); color: "red";
                     }
 
                     MouseArea {
