@@ -74,7 +74,7 @@ Item {
         interval: 5000
         onTriggered: {
             if (!panel.preventHiding) {
-//                root.state = ""
+                root.state = ""
             } else {
                 dismissTimer.restart()
             }
