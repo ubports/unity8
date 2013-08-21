@@ -62,7 +62,7 @@ Item {
             z: 1
             Image {
                 objectName: "dashItem"
-                width: units.gu(5.5)
+                width: units.gu(5)
                 height: width
                 anchors.centerIn: parent
                 source: "graphics/home.png"
