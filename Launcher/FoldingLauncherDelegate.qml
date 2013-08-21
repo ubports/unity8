@@ -97,26 +97,26 @@ LauncherDelegate {
         // First/last items are special
         if (index == 0 || index == priv.listView.count-1) {
 
-            // Traversed one foldingAreaHeight. Stop at 0.5
+            // Traversed one foldingAreaHeight. Stop at 0.3
             if (priv.distanceFromEdge < -priv.foldingAreaHeight) {
-                return -0.5
+                return -0.3
             }
 
-            // We started moving, fade to 0.5
+            // We started moving, fade to 0.3
             if (priv.distanceFromEdge < 0) {
-                return -0.5 * (-priv.distanceFromEdge / (priv.foldingAreaHeight))
+                return -0.3 * (-priv.distanceFromEdge / (priv.foldingAreaHeight))
             }
             return 0;
         }
 
-        // We stopped folding? Stop brightness change at 0.5
+        // We stopped folding? Stop brightness change at 0.3
         if (priv.overlapWithFoldedArea > 0) {
-            return -0.5;
+            return -0.3;
         }
 
-        // We are overlapping with the folding area, fade out to 0.5
+        // We are overlapping with the folding area, fade out to 0.3
         if (priv.overlapWithFoldingArea > 0) {
-            return - (priv.overlapWithFoldingArea * 0.5 / priv.listView.foldingStartHeight);
+            return - (priv.overlapWithFoldingArea * 0.3 / priv.listView.foldingStartHeight);
         }
         return 0;
     }
