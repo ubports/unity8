@@ -209,16 +209,20 @@ int LauncherModel::findApplication(const QString &appId)
 void LauncherModel::progressChanged(const QString &appId, int progress)
 {
     int idx = findApplication(appId);
-    LauncherItem *item = m_list.at(idx);
-    item->setProgress(progress);
-    Q_EMIT dataChanged(index(idx), index(idx), QVector<int>() << RoleProgress);
+    if (idx >= 0) {
+        LauncherItem *item = m_list.at(idx);
+        item->setProgress(progress);
+        Q_EMIT dataChanged(index(idx), index(idx), QVector<int>() << RoleProgress);
+    }
 }
 
 
 void LauncherModel::countChanged(const QString &appId, int count)
 {
     int idx = findApplication(appId);
-    LauncherItem *item = m_list.at(idx);
-    item->setCount(count);
-    Q_EMIT dataChanged(index(idx), index(idx), QVector<int>() << RoleCount);
+    if (idx >= 0) {
+        LauncherItem *item = m_list.at(idx);
+        item->setCount(count);
+        Q_EMIT dataChanged(index(idx), index(idx), QVector<int>() << RoleCount);
+    }
 }
