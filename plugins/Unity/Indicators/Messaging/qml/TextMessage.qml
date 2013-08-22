@@ -20,16 +20,22 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import Unity.IndicatorsLegacy 0.1 as Indicators
+import Unity.Indicators 0.1 as Indicators
 
 SimpleTextMessage {
     id: simpleMessage
 
+    property string replyButtonText: "Send"
+
+    signal reply(string value)
+
     footer: ActionTextField {
         anchors.fill:  parent
-        actionGroup: simpleMessage.actionGroup
-        action: actionsDescription[0].name
 
-        buttonText: actionsDescription ? actionsDescription[0].label : "Send"
+        buttonText: simpleMessage.replyButtonText
+
+        onActivate: {
+            simpleMessage.reply(value);
+        }
     }
 }

@@ -20,26 +20,24 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import Unity.IndicatorsLegacy 0.1 as Indicators
+import Unity.Indicators 0.1 as Indicators
 
-Indicators.BasicMenuItem {
+Indicators.BaseMenuItem {
     id: heroMessage
 
-    property variant actionsDescription: null
+    property var actionsDescription: menu ? menu.ext.xCanonicalMessageActions : undefined
     property alias heroMessageHeader: __heroMessageHeader
     property real collapsedHeight: heroMessageHeader.y + heroMessageHeader.bodyBottom + units.gu(2)
     property real expandedHeight: collapsedHeight
 
-    color: "#221e1c"
+    property alias avatar: __heroMessageHeader.avatar
+    property alias appIcon: __heroMessageHeader.icon
+
+    signal activateApp
+    signal dismiss
 
     removable: state !== "expanded"
     implicitHeight: collapsedHeight
-
-    Indicators.MenuAction {
-        id: menuAction
-        actionGroup: heroMessage.actionGroup
-        action: menu ? menu.action : ""
-    }
 
     HeroMessageHeader {
         id: __heroMessageHeader
@@ -48,25 +46,22 @@ Indicators.BasicMenuItem {
         anchors.left: parent.left
         anchors.right: parent.right
 
-        avatar: menu && (menu.extra.canonical_icon.length > 0) ? "image://gicon/" + encodeURI(menu.extra.canonical_icon) : "qrc:/indicators/artwork/messaging/default_contact.png"
-        icon: menu && (menu.extra.canonical_app_icon.length > 0) ? "image://gicon/" + encodeURI(menu.extra.canonical_app_icon) : ""
+        avatar: "qrc:/indicators/artwork/messaging/default_contact.png"
         appIcon: icon
 
         state: heroMessage.state
 
         onAppIconClicked:  {
-            if (menuAction.valid) {
-                deactivateMenu();
-                action.activate(true);
-            }
+            deselectMenu();
+            heroMessage.activateApp();
         }
     }
 
     onClicked: {
-        if (menuActivated) {
-            deactivateMenu();
+        if (menuSelected) {
+            deselectMenu();
         } else {
-            activateMenu();
+            selectMenu();
         }
     }
 
@@ -84,7 +79,7 @@ Indicators.BasicMenuItem {
 
     states: State {
         name: "expanded"
-        when: menuActivated
+        when: menuSelected
 
         PropertyChanges {
             target: heroMessage
@@ -113,8 +108,6 @@ Indicators.BasicMenuItem {
     }
 
     onItemRemoved: {
-        if (menuAction.valid) {
-            menuAction.activate(false);
-        }
+        heroMessage.dismiss();
     }
 }

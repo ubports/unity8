@@ -20,18 +20,29 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import Unity.IndicatorsLegacy 0.1 as Indicators
+import Unity.Indicators 0.1 as Indicators
 import "utils.js" as Utils
 
 HeroMessage {
     id: snapDecision
 
+    property string title: ""
+    property string time: ""
+    property string message: ""
+
+    property alias actionButtonText: actionButton.text
+    property alias replyMessages: quickreply.messages
+    property alias replyButtonText: quickreply.buttonText
+
     expandedHeight: buttons.y + buttons.height + quickreply.height + units.gu(2)
-    heroMessageHeader.titleText.text:  menu ? menu.label : ""
-    heroMessageHeader.subtitleText.text: menu ? menu.extra.canonical_text : ""
+    heroMessageHeader.titleText.text:  title
+    heroMessageHeader.subtitleText.text: message
     heroMessageHeader.subtitleText.color: "#e8e1d0"
-    heroMessageHeader.bodyText.text: menu ? Utils.formatDate(menu.extra.canonical_time) : ""
+    heroMessageHeader.bodyText.text: time
     heroMessageHeader.bodyText.color: "#8f8f88"
+
+    signal activate
+    signal reply(string value)
 
     Item {
         id: buttons
@@ -62,16 +73,18 @@ HeroMessage {
             }
         }
 
-        ActionButton {
-            actionGroup: snapDecision.actionGroup
-            action: actionsDescription[0].name
-
-            text: actionsDescription ?  actionsDescription[0].label : "Call back"
+        Button {
+            id: actionButton
+            text: "Call back"
             color: "#c94212"
             anchors.right: parent.right
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             width: (parent.width - units.gu(1)) / 2
+
+            onClicked: {
+                snapDecision.activate();
+            }
         }
 
         states: State {
@@ -95,11 +108,12 @@ HeroMessage {
     QuickReply {
         id: quickreply
 
-        actionGroup: snapDecision.actionGroup
-        action: actionsDescription[1].name
+        onReply: {
+            snapDecision.reply(value);
+        }
 
-        messages: actionsDescription ? actionsDescription[1]["parameter-hint"] : ""
-        buttonText: actionsDescription ? actionsDescription[1].label : "send"
+        messages: ""
+        buttonText: "Send"
         anchors {
             top: buttons.bottom
             topMargin: units.gu(2)

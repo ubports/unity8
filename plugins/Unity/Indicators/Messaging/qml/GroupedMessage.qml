@@ -20,20 +20,19 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import Unity.IndicatorsLegacy 0.1 as Indicators
+import Unity.Indicators 0.1 as Indicators
 
-Indicators.BasicMenuItem {
+Indicators.BaseMenuItem {
     id: groupedMessage
+
+    property alias title: __title.text
     property alias count: label.text
+    property string appIcon: "qrc:/indicators/artwork/messaging/default_app.svg"
 
-    color: "#221e1b"
+    signal activateApp()
+    signal dismiss()
+
     implicitHeight: units.gu(10)
-
-    Indicators.MenuAction {
-        id: menuAction
-        actionGroup: groupedMessage.actionGroup
-        action: menu ? menu.action : ""
-    }
 
     Row {
         anchors.fill: parent
@@ -44,17 +43,17 @@ Indicators.BasicMenuItem {
             height: units.gu(6)
             width: units.gu(6)
             image: Image {
-                source: menu && (menu.extra.canonical_icon.length > 0) ? "image://gicon/" + encodeURI(menu.extra.canonical_icon) : "qrc:/indicators/artwork/messaging/default_app.svg"
+                source: groupedMessage.appIcon
                 fillMode: Image.PreserveAspectFit
             }
         }
 
         Label {
+            id: __title
             anchors.verticalCenter: parent.verticalCenter
             color: "#e8e1d0"
             font.weight: Font.DemiBold
             fontSize: "medium"
-            text: menu && menu.label ? menu.label : ""
         }
 
         Label {
@@ -65,7 +64,7 @@ Indicators.BasicMenuItem {
             color: "#e8e1d0"
             font.weight: Font.DemiBold
             fontSize: "medium"
-            text: menuAction.valid ? menuAction.state[0] : "0"
+            text: "0"
         }
     }
 
@@ -82,15 +81,11 @@ Indicators.BasicMenuItem {
     MouseArea {
         anchors.fill: parent
         onClicked: {
-            if (menuAction.valid) {
-                menuAction.activate(true);
-            }
+            groupedMessage.activateApp();
         }
     }
 
     onItemRemoved: {
-        if (menuAction.valid) {
-            menuAction.activate(false);
-        }
+        groupedMessage.dismiss();
     }
 }

@@ -89,10 +89,10 @@ IndicatorBase {
                         menuStack.push(mainMenu.model.submenu(index));
                     }
 
-                    if (item.hasOwnProperty("menuActivated")) {
-                        item.menuActivated = Qt.binding(function() { return ListView.isCurrentItem; });
-                        item.selectMenu.connect(function() { ListView.view.currentIndex = index });
-                        item.deselectMenu.connect(function() { ListView.view.currentIndex = -1 });
+                    if (item.hasOwnProperty("menuSelected")) {
+                        item.menuSelected = Qt.binding(function() { return mainMenu.currentIndex == index; });
+                        item.selectMenu.connect(function() { mainMenu.currentIndex = index; });
+                        item.deselectMenu.connect(function() { mainMenu.currentIndex = -1; });
                     }
                     if (item.hasOwnProperty("menu")) {
                         item.menu = Qt.binding(function() { return model; });
