@@ -19,6 +19,7 @@
 
 import QtQuick 2.0
 import QtTest 1.0
+import GSettings 1.0
 import Ubuntu.Application 0.1
 import Unity.Test 0.1 as UT
 import Powerd 0.1
@@ -124,13 +125,17 @@ Item {
             var mainApp = ApplicationManager.mainStageFocusedApplication;
             tryCompareFunction(function() { return mainApp != null; }, true);
 
-            // Now suspend
-            Powerd.powerStateChange(0);
+            // Try to suspend while proximity is engaged...
+            Powerd.displayPowerStateChange(Powerd.Off, Powerd.UseProximity);
+            tryCompare(greeter, "showProgress", 0);
+
+            // Now really suspend
+            Powerd.displayPowerStateChange(Powerd.Off, 0);
             tryCompare(greeter, "showProgress", 1);
             tryCompare(ApplicationManager, "mainStageFocusedApplication", null);
 
             // And wake up
-            Powerd.powerStateChange(1);
+            Powerd.displayPowerStateChange(Powerd.On, 0);
             tryCompare(ApplicationManager, "mainStageFocusedApplication", mainApp);
             tryCompare(greeter, "showProgress", 1);
         }
@@ -314,6 +319,22 @@ Item {
                     previousY = itemRectInShell.y;
                 }
             } while (!isStill);
+        }
+
+        function test_wallpaper_data() {
+            return [
+                {tag: "red", url: "tests/data/unity/backgrounds/red.png", expectedUrl: "tests/data/unity/backgrounds/red.png"},
+                {tag: "blue", url: "tests/data/unity/backgrounds/blue.png", expectedUrl: "tests/data/unity/backgrounds/blue.png"},
+                {tag: "invalid", url: "invalid", expectedUrl: shell.defaultBackground},
+                {tag: "empty", url: "", expectedUrl: shell.defaultBackground}
+            ]
+        }
+
+        function test_wallpaper(data) {
+            var backgroundImage = findChild(shell, "backgroundImage")
+            GSettingsController.setPictureUri(data.url)
+            tryCompareFunction(function() { return backgroundImage.source.toString().indexOf(data.expectedUrl) !== -1; }, true)
+            tryCompare(backgroundImage, "status", Image.Ready)
         }
     }
 }

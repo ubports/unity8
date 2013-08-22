@@ -53,6 +53,7 @@ Row {
         }
 
         Row {
+            visible: root.rating >= 0
             spacing: units.gu(1)
 
             RatingStars {

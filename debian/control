@@ -20,7 +20,7 @@ Build-Depends: cmake,
                libsigc++-2.0-dev,
                libunity-api-dev (>= 7.80.3),
                libunity-core-6.0-dev (<< 7.80),
-               libunity-dev (>= 7.0.3),
+               libunity-dev (>= 7.0.12),
                libunity-scopes-json-def-phone,
                libupstart-dev,
                libusermetricsoutput1-dev,
@@ -60,8 +60,11 @@ Description: Indicators client test application
 
 Package: unity8
 Architecture: any
-Depends: qmenumodel-qml (>= 0.2.7),
+Provides: indicator-renderer,
+Depends: gsettings-desktop-schemas,
+         qmenumodel-qml (>= 0.2.7),
          qtdeclarative5-dee-plugin,
+         qtdeclarative5-gsettings1.0,
          qtdeclarative5-ubuntu-ui-toolkit-plugin,
          qtdeclarative5-unity-notifications-plugin | unity-notifications-impl,
          qtdeclarative5-xmllistmodel-plugin,

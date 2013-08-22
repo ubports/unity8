@@ -1,5 +1,5 @@
 module Unity.IndicatorsLegacy.Network
-plugin IndicatorsNetworkQml
+plugin IndicatorsLegacyNetworkQml
 typeinfo plugin.qmltypes
 
 NetworkPage 0.1 NetworkPage.qml

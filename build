@@ -40,11 +40,14 @@ install_dependencies() {
     echo "Installing Unity 8 dependencies.."
     sudo apt-get install devscripts \
                          equivs \
+                         gsettings-desktop-schemas \
                          qmenumodel-qml \
-                         qtdeclarative5-ubuntu-ui-toolkit-plugin \
                          qtdeclarative5-dee-plugin \
+                         qtdeclarative5-gsettings1.0 \
+                         qtdeclarative5-ubuntu-ui-toolkit-plugin \
+                         unity-notifications-impl \
+                         qtdeclarative5-xmllistmodel-plugin \
                          ubuntu-mobile-icons \
-                         unity-notifications-impl-1 \
                          unity-scope-home \
                          unity-lens-applications \
         || exit 5

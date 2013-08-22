@@ -39,6 +39,7 @@ Categories::Categories(QObject* parent)
     m_roles[Categories::RoleIcon] = "icon";
     m_roles[Categories::RoleRenderer] = "renderer";
     m_roles[Categories::RoleContentType] = "contentType";
+    m_roles[Categories::RoleProgressSource] = "progressSource";
     m_roles[Categories::RoleHints] = "hints";
     m_roles[Categories::RoleResults] = "results";
     m_roles[Categories::RoleCount] = "count";
@@ -197,6 +198,11 @@ Categories::data(const QModelIndex& index, int role) const
         {
             auto hints = DeeListModel::data(index, CategoryColumn::HINTS).toHash();
             return hints.contains("content-type") ? hints["content-type"] : QVariant(QString("default"));
+        }
+        case RoleProgressSource:
+        {
+            auto hints = DeeListModel::data(index, CategoryColumn::HINTS).toHash();
+            return hints.contains("progress-source") ? hints["progress-source"] : QVariant();
         }
         case RoleHints:
             return DeeListModel::data(index, CategoryColumn::HINTS);

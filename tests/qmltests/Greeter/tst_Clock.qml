@@ -70,7 +70,7 @@ Rectangle {
             compare(clock.__timerRunning, true, "Timer should be running")
             wait(0) // spin event loop to trigger the timer
             verify(dateLabel.text !== dateString)
-            if (timeLabel.text == "11:13") wait(60000) // next test will fail at 11:13, wait 1 minute
+            if (timeLabel.text.indexOf("11:13") != -1) wait(60000) // next test will fail at 11:13, wait 1 minute
             verify(timeLabel.text !== timeString)
         }
 

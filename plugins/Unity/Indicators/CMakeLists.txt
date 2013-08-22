@@ -12,6 +12,7 @@ find_package(Qt5Core REQUIRED)
 find_package(Qt5Quick REQUIRED)
 
 add_subdirectory(qml)
+add_subdirectory(Network)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
