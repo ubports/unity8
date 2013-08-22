@@ -31,17 +31,17 @@ Showable {
     /*
      * This is the header displayed, like "Right edge".
      */
-    property string title
+    property alias title: titleLabel.text
 
     /*
      * This is the block of text displayed below the header.
      */
-    property string text
+    property alias text: textLabel.text
 
     /*
      * This is the text for the skip button.
      */
-    property string skipText: i18n.tr("Skip intro")
+    property alias skipText: skipLabel.text
 
     /*
      * Whether this demo is running currently.
@@ -118,7 +118,6 @@ Showable {
 
             Label {
                 id: titleLabel
-                text: overlay.title
                 fontSize: "x-large"
                 width: units.gu(25)
                 wrapMode: Text.WordWrap
@@ -126,7 +125,6 @@ Showable {
 
             Label {
                 id: textLabel
-                text: overlay.text
                 width: units.gu(25)
                 wrapMode: Text.WordWrap
             }
@@ -134,7 +132,7 @@ Showable {
             Label {
                 id: skipLabel
                 objectName: "skipLabel"
-                text: overlay.skipText
+                text: i18n.tr("Skip intro")
                 color: overlay.__orange
                 fontSize: "small"
                 font.underline: true
