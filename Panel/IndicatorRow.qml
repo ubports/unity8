@@ -56,7 +56,8 @@ Item {
             Item {
                 id: itemWrapper
                 height: indicatorRow.height
-                width: childrenRect.width
+                width: indicatorItem.width
+                visible: indicatorItem.indicatorVisible
 
                 property int ownIndex: index
                 property alias highlighted: indicatorItem.highlighted
@@ -72,6 +73,9 @@ Item {
                    widgetSource: model.widgetSource
                    indicatorProperties : model.indicatorProperties
 
+                   Component.onCompleted: {
+                       indicatorsModel.setData(index, indicatorVisible, Indicators.IndicatorsModelRole.IsVisible);
+                   }
                    onIndicatorVisibleChanged: {
                        indicatorsModel.setData(index, indicatorVisible, Indicators.IndicatorsModelRole.IsVisible);
                    }

@@ -31,9 +31,7 @@ Item {
     opacity: dimmed ? 0.4 : 1
     Behavior on opacity { StandardAnimation {} }
 
-    // only visible when non-empty
-    visible: indicatorVisible
-    width: indicatorVisible ? loader.item.width : 0
+    width: loader.item != undefined && loader.status == Loader.Ready ? loader.item.width : 0
 
     Loader {
         id: loader
