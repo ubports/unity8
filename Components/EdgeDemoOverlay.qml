@@ -48,6 +48,11 @@ Showable {
      */
     readonly property bool active: available && visible
 
+    /*
+     * Whether animations are paused.
+     */
+    property alias paused: wholeAnimation.paused
+
     signal skip()
 
     function doSkip() {
@@ -240,21 +245,6 @@ Showable {
             ParallelAnimation {
                 StandardAnimation { target: hintGroup; property: hintAnimation.prop; from: hintAnimation.endVal; to: 0; duration: hintAnimation.duration }
                 StandardAnimation { target: edgeHint; property: "size"; from: hintAnimation.maxGlow; to: 1; duration: hintAnimation.duration }
-            }
-        }
-    }
-
-    // Watch display, so we can turn off animation if it does.  No reason to
-    // chew CPU when user isn't watching.
-    Connections {
-        id: powerConnection
-        target: Powerd
-
-        onDisplayPowerStateChange: {
-            if (status == Powerd.Off && wholeAnimation.running) {
-                wholeAnimation.pause();
-            } else if (status == Powerd.On) {
-                wholeAnimation.resume();
             }
         }
     }

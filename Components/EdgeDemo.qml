@@ -31,19 +31,26 @@ Item {
     property bool dashEnabled: true
     property bool panelEnabled: true
 
-    property bool showEdgeDemo: false
-    property bool showEdgeDemoInGreeter: showEdgeDemo // TODO: AccountsService.getUserProperty("lightdm", "demo-edges")
+    property bool paused: false
+
+    onPausedChanged: {
+        if (d.rightEdgeDemo)  d.rightEdgeDemo.paused = paused
+        if (d.topEdgeDemo)    d.topEdgeDemo.paused = paused
+        if (d.bottomEdgeDemo) d.bottomEdgeDemo.paused = paused
+        if (d.leftEdgeDemo)   d.leftEdgeDemo.paused = paused
+        if (d.finalEdgeDemo)  d.finalEdgeDemo.paused = paused
+    }
 
     function hideEdgeDemoInShell() {
         var user = LightDM.Users.data(greeter.currentIndex, LightDM.UserRoles.NameRole);
         AccountsService.setUserProperty(user, "demo-edges", false);
-        demo.showEdgeDemo = false;
+        d.showEdgeDemo = false;
         stopDemo();
     }
 
     function hideEdgeDemoInGreeter() {
         // TODO: AccountsService.setUserProperty("lightdm", "demo-edges", false);
-        demo.showEdgeDemoInGreeter = false;
+        d.showEdgeDemoInGreeter = false;
     }
 
     function hideEdgeDemos() {
@@ -70,12 +77,14 @@ Item {
         property QtObject bottomEdgeDemo
         property QtObject leftEdgeDemo
         property QtObject finalEdgeDemo
-    }
+        property bool showEdgeDemo: false
+        property bool showEdgeDemoInGreeter: d.showEdgeDemo // TODO: AccountsService.getUserProperty("lightdm", "demo-edges")
 
-    onShowEdgeDemoInGreeterChanged: {
-        if (!d.overlay && showEdgeDemoInGreeter) {
-            d.overlay = Qt.createComponent("EdgeDemoOverlay.qml")
-            startRightEdgeDemo()
+        onShowEdgeDemoInGreeterChanged: {
+            if (!d.overlay && d.showEdgeDemoInGreeter) {
+                d.overlay = Qt.createComponent("EdgeDemoOverlay.qml")
+                startRightEdgeDemo()
+            }
         }
     }
 
@@ -90,6 +99,8 @@ Item {
                 "text": i18n.tr("Try swiping from the right edge to unlock the phone"),
                 "anchors.fill": demo.greeter,
             });
+        }
+        if (d.rightEdgeDemo) {
             d.rightEdgeDemo.onSkip.connect(demo.hideEdgeDemos)
         } else {
             stopDemo();
@@ -112,7 +123,7 @@ Item {
 
         onSelected: {
             var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole)
-            showEdgeDemo = AccountsService.getUserProperty(user, "demo-edges")
+            d.showEdgeDemo = true;//AccountsService.getUserProperty(user, "demo-edges")
         }
     }
 
@@ -125,6 +136,8 @@ Item {
                 "text": i18n.tr("Try swiping from the top edge to access the indicators"),
                 "anchors.fill": demo.dash,
             });
+        }
+        if (d.topEdgeDemo) {
             d.topEdgeDemo.onSkip.connect(demo.hideEdgeDemoInShell)
         } else {
             stopDemo();
@@ -149,6 +162,8 @@ Item {
                 "text": i18n.tr("Swipe up again to close the settings screen"),
                 "anchors.fill": demo.indicators,
             });
+        }
+        if (d.bottomEdgeDemo) {
             d.bottomEdgeDemo.onSkip.connect(demo.hideEdgeDemoInShell)
         } else {
             stopDemo();
@@ -175,6 +190,8 @@ Item {
                 "text": i18n.tr("Swipe from the left to reveal the launcher for quick access to apps"),
                 "anchors.fill": demo.dash,
             });
+        }
+        if (d.leftEdgeDemo) {
             d.leftEdgeDemo.onSkip.connect(demo.hideEdgeDemoInShell)
         } else {
             stopDemo();
@@ -201,6 +218,8 @@ Item {
                 "text": i18n.tr("You have now mastered the edge gestures and can start using the phone"),
                 "anchors.fill": demo.overlay,
             });
+        }
+        if (d.finalEdgeDemo) {
             d.finalEdgeDemo.onSkip.connect(demo.hideEdgeDemoInShell)
         } else {
             stopDemo();

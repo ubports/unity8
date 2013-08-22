@@ -508,6 +508,13 @@ FocusScope {
             } else if (status == Powerd.On) {
                 powerConnection.setFocused(true);
             }
+
+            // No reason to chew demo CPU when user isn't watching
+            if (status == Powerd.Off) {
+                edgeDemo.paused = true;
+            } else if (status == Powerd.On) {
+                edgeDemo.paused = false;
+            }
         }
     }
 
