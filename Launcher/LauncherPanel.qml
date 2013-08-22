@@ -113,7 +113,7 @@ Item {
                     property int extensionSize: itemHeight * 3
 
                     // The height of the area where icons start getting folded
-                    property int foldingStartHeight: units.gu(7.5)
+                    property int foldingStartHeight: units.gu(6.5)
                     // The height of the area where the items reach the final folding angle
                     property int foldingStopHeight: foldingStartHeight - itemHeight - spacing
                     property int itemWidth: units.gu(7)
