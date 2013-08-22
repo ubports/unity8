@@ -67,6 +67,10 @@ QVariant LauncherModel::data(const QModelIndex &index, int role) const
             return item->icon();
         case RolePinned:
             return item->pinned();
+        case RoleCount:
+            return item->count();
+        case RoleProgress:
+            return item->progress();
     }
 
     return QVariant();
@@ -197,4 +201,21 @@ int LauncherModel::findApplication(const QString &appId)
         }
     }
     return -1;
+}
+
+void LauncherModel::progressChanged(const QString &appId, int progress)
+{
+    int idx = findApplication(appId);
+    LauncherItem *item = m_list.at(idx);
+    item->setProgress(progress);
+    Q_EMIT dataChanged(index(idx), index(idx), QVector<int>() << RoleProgress);
+}
+
+
+void LauncherModel::countChanged(const QString &appId, int count)
+{
+    int idx = findApplication(appId);
+    LauncherItem *item = m_list.at(idx);
+    item->setCount(count);
+    Q_EMIT dataChanged(index(idx), index(idx), QVector<int>() << RoleCount);
 }
