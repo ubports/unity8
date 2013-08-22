@@ -21,61 +21,74 @@ import "../../../Components"
 
 Item {
     id: root
-    width: 700
-    height: 500
+    width: boxWidth * 3
+    height: boxHeight * 2
 
-    DemoOverlay {
+    property int boxWidth: 250
+    property int boxHeight: 250
+
+    EdgeDemoOverlay {
         id: top
         edge: "top"
         title: "Top"
         text: "Displayed on top left"
-        x: 0
-        y: 0
-        width: parent.width/2
-        height: parent.height/2
+        anchors.left: parent.left
+        anchors.top: parent.top
+        width: boxWidth
+        height: boxHeight
     }
 
-    DemoOverlay {
+    EdgeDemoOverlay {
         id: right
         edge: "right"
         title: "Right"
         text: "Displayed on top right"
-        x: parent.width/2
-        y: 0
-        width: parent.width/2
-        height: parent.height/2
+        anchors.right: parent.right
+        anchors.top: parent.top
+        width: boxWidth
+        height: boxHeight
     }
 
-    DemoOverlay {
+    EdgeDemoOverlay {
         id: left
         edge: "left"
         title: "Left"
         text: "Displayed on bottom right"
-        x: parent.width/2
-        y: parent.height/2
-        width: parent.width/2
-        height: parent.height/2
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        width: boxWidth
+        height: boxHeight
         available: false
     }
 
-    DemoOverlay {
+    EdgeDemoOverlay {
         id: bottom
         edge: "bottom"
         title: "Bottom"
         text: "Displayed on bottom left"
-        x: 0
-        y: parent.height/2
-        width: parent.width/2
-        height: parent.height/2
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
+        width: boxWidth
+        height: boxHeight
+    }
+
+    EdgeDemoOverlay {
+        id: none
+        edge: "none"
+        title: "None"
+        text: "Displayed on top middle"
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
+        width: boxWidth
+        height: boxHeight
     }
 
     SignalSpy {
         id: signalSpy
-        target: bottom
     }
 
     UT.UnityTestCase {
-        name: "DemoOverlay"
+        name: "EdgeDemoOverlay"
         when: windowShown
 
         function test_animations() {
@@ -89,6 +102,7 @@ Item {
         }
 
         function test_skip() {
+            signalSpy.target = bottom
             signalSpy.signalName = "skip"
             signalSpy.clear()
             var bottomSkip = findChild(bottom, "skipLabel")
@@ -96,6 +110,16 @@ Item {
             mouseRelease(bottomSkip, 1, 1)
             signalSpy.wait()
             compare(bottom.available, false)
+
+            // Test that the 'none' edge skips anywhere
+            signalSpy.target = none
+            signalSpy.clear()
+            var backgroundShade = findChild(none, "backgroundShade")
+            tryCompare(none, "opacity", 1)
+            mousePress(backgroundShade, 1, 1)
+            mouseRelease(backgroundShade, 1, 1)
+            signalSpy.wait()
+            compare(none.available, false)
         }
     }
 }

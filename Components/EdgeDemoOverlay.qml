@@ -82,6 +82,8 @@ Showable {
     }
 
     Rectangle {
+        objectName: "backgroundShade"
+
         anchors.fill: parent
         color: "black"
         opacity: 0.8

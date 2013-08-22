@@ -52,9 +52,9 @@ Item {
     }
 
     function stopDemo() {
-        launcherEnabled = true;
-        dashEnabled = true;
-        panelEnabled = true;
+        launcherEnabled = true
+        dashEnabled = true
+        panelEnabled = true
         if (d.rightEdgeDemo)  d.rightEdgeDemo.destroy()
         if (d.topEdgeDemo)    d.topEdgeDemo.destroy()
         if (d.bottomEdgeDemo) d.bottomEdgeDemo.destroy()
@@ -100,7 +100,7 @@ Item {
         target: demo.greeter
 
         function hide() {
-            if (d.rightEdgeDemo) {
+            if (d.rightEdgeDemo && d.rightEdgeDemo.active) {
                 d.rightEdgeDemo.hide()
                 hideEdgeDemoInGreeter()
                 startTopEdgeDemo()
@@ -112,7 +112,7 @@ Item {
 
         onSelected: {
             var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole)
-            showEdgeDemo = true;///AccountsService.getUserProperty(user, "demo-edges")
+            showEdgeDemo = AccountsService.getUserProperty(user, "demo-edges")
         }
     }
 
@@ -134,7 +134,7 @@ Item {
     Connections {
         target: demo.indicators
         onFullyOpenedChanged: {
-            if (d.topEdgeDemo && demo.indicators.fullyOpened) {
+            if (d.topEdgeDemo && d.topEdgeDemo.active && demo.indicators.fullyOpened) {
                 d.topEdgeDemo.hideNow()
                 startBottomEdgeDemo()
             }
@@ -158,7 +158,7 @@ Item {
     Connections {
         target: demo.indicators
         onPartiallyOpenedChanged: {
-            if (d.bottomEdgeDemo && !demo.indicators.partiallyOpened && !demo.indicators.fullyOpened) {
+            if (d.bottomEdgeDemo && d.bottomEdgeDemo.active && !demo.indicators.partiallyOpened && !demo.indicators.fullyOpened) {
                 d.bottomEdgeDemo.hideNow()
                 startLeftEdgeDemo()
             }
@@ -184,8 +184,9 @@ Item {
     Connections {
         target: demo.launcher
         onStateChanged: {
-            if (d.leftEdgeDemo && launcher.state == "visible") {
+            if (d.leftEdgeDemo && d.leftEdgeDemo.active && launcher.state == "visible") {
                 d.leftEdgeDemo.hide()
+                launcher.hide()
                 startFinalEdgeDemo()
             }
         }
