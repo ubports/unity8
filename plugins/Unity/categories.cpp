@@ -82,6 +82,12 @@ void Categories::onCategoriesModelChanged(unity::glib::Object<DeeModel> model)
     setModel(model);
 }
 
+void Categories::onCategoryOrderChanged(std::vector<unsigned int> cat_order)
+{
+    const QList<QPersistentModelIndex> pindex = QList<QPersistentModelIndex>();
+    Q_EMIT layoutChanged(pindex, QAbstractItemModel::VerticalSortHint);
+}
+
 void
 Categories::setUnityScope(const unity::dash::Scope::Ptr& scope)
 {
@@ -90,9 +96,9 @@ Categories::setUnityScope(const unity::dash::Scope::Ptr& scope)
     // no need to call this, we'll get notified
     //setModel(m_unityScope->categories()->model());
 
-    m_categoriesChangedConnection.disconnect();
-    m_categoriesChangedConnection =
-        m_unityScope->categories()->model.changed.connect(sigc::mem_fun(this, &Categories::onCategoriesModelChanged));
+    m_signals.disconnectAll();
+    m_signals << m_unityScope->categories()->model.changed.connect(sigc::mem_fun(this, &Categories::onCategoriesModelChanged));
+    m_signals << m_unityScope->category_order.changed.connect(sigc::mem_fun(this, &Categories::onCategoryOrderChanged));
 }
 
 void
@@ -185,45 +191,48 @@ Categories::data(const QModelIndex& index, int role) const
         return QVariant();
     }
 
+    auto realRow = m_unityScope->category_order()[index.row()];
+    const QModelIndex realIndex = createIndex(realRow, index.column());
+
     switch (role) {
         case RoleCategoryId:
-            return DeeListModel::data(index, CategoryColumn::ID);
+            return DeeListModel::data(realIndex, CategoryColumn::ID);
         case RoleName:
-            return DeeListModel::data(index, CategoryColumn::DISPLAY_NAME);
+            return DeeListModel::data(realIndex, CategoryColumn::DISPLAY_NAME);
         case RoleIcon:
-            return DeeListModel::data(index, CategoryColumn::ICON_HINT);
+            return DeeListModel::data(realIndex, CategoryColumn::ICON_HINT);
         case RoleRenderer:
-            return DeeListModel::data(index, CategoryColumn::RENDERER_NAME);
+            return DeeListModel::data(realIndex, CategoryColumn::RENDERER_NAME);
         case RoleContentType:
         {
-            auto hints = DeeListModel::data(index, CategoryColumn::HINTS).toHash();
+            auto hints = DeeListModel::data(realIndex, CategoryColumn::HINTS).toHash();
             return hints.contains("content-type") ? hints["content-type"] : QVariant(QString("default"));
         }
         case RoleProgressSource:
         {
-            auto hints = DeeListModel::data(index, CategoryColumn::HINTS).toHash();
+            auto hints = DeeListModel::data(realIndex, CategoryColumn::HINTS).toHash();
             return hints.contains("progress-source") ? hints["progress-source"] : QVariant();
         }
         case RoleHints:
-            return DeeListModel::data(index, CategoryColumn::HINTS);
+            return DeeListModel::data(realIndex, CategoryColumn::HINTS);
         case RoleResults:
             if (m_overriddenCategories.size() > 0)
             {
-                auto id = DeeListModel::data(index, CategoryColumn::ID).toString();
+                auto id = DeeListModel::data(realIndex, CategoryColumn::ID).toString();
                 if (m_overriddenCategories.find(id) != m_overriddenCategories.end())
                     return QVariant::fromValue(m_overriddenCategories[id]);
             }
-            return QVariant::fromValue(getResults(index.row()));
+            return QVariant::fromValue(getResults(realIndex.row()));
         case RoleCount:
             if (m_overriddenCategories.size() > 0)
             {
-                auto id = DeeListModel::data(index, CategoryColumn::ID).toString();
+                auto id = DeeListModel::data(realIndex, CategoryColumn::ID).toString();
                 if (m_overriddenCategories.find(id) != m_overriddenCategories.end())
                     return QVariant::fromValue(m_overriddenCategories[id]->rowCount());
             }
-            return QVariant::fromValue(getResults(index.row())->rowCount());
+            return QVariant::fromValue(getResults(realIndex.row())->rowCount());
         case RoleCategoryIndex:
-            return QVariant::fromValue(index.row());
+            return QVariant::fromValue(index.row()); // no remapping to realIndex
         default:
             return QVariant();
     }
