@@ -458,7 +458,7 @@ Item {
             // Remove popupMargin once the bug is fixed.
             property int popupMargin: root.inverted ? launcherListView.itemHeight : 0;
 
-            callerMargin: units.gu(2) + popupMargin
+            callerMargin: units.gu(1) + popupMargin
 
             Column {
                 id: quickListColumn
