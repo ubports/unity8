@@ -65,7 +65,7 @@ void LauncherBackend::setStoredApplications(const QStringList &appIds)
         if (m_storedApps[i].pinned) {
             auto found = false;
             for (int j = 0; j < appIds.size(); j++) {
-                auto fullAppId = resolveAppId(appIds[j]);
+                auto fullAppId = desktopFile(appIds[j]);
                 if (m_storedApps[i].settings->fileName() == fullAppId) {
                     found = true;
                     break;
@@ -81,7 +81,7 @@ void LauncherBackend::setStoredApplications(const QStringList &appIds)
     clearItems();
 
     for (auto appId: appIds) {
-        loadDesktopFile(appId, pinnedItems.contains(resolveAppId(appId)));
+        loadDesktopFile(appId, pinnedItems.contains(desktopFile(appId)));
     }
 
     if (needToSync) {
@@ -91,39 +91,32 @@ void LauncherBackend::setStoredApplications(const QStringList &appIds)
 
 QString LauncherBackend::desktopFile(const QString &appId) const
 {
-    auto index = findItem(appId);
-    if (index < 0) {
-        return "";
-    } else {
-        return resolveAppId(appId);
-    }
+    QFileInfo fileInfo(QDir("/usr/share/applications"), appId);
+    return fileInfo.absoluteFilePath();
 }
 
 QString LauncherBackend::displayName(const QString &appId) const
 {
-    auto index = findItem(appId);
-    if (index < 0) {
-        return "";
-    } else {
-        return m_storedApps[index].settings->value("Desktop Entry/Name").toString();
-    }
+    auto desktopFile = parseDesktopFile(appId);
+    auto displayName = desktopFile->value("Desktop Entry/Name").toString();
+    delete desktopFile;
+    return displayName;
 }
 
 QString LauncherBackend::icon(const QString &appId) const
 {
-    auto index = findItem(appId);
-    if (index < 0) {
-        return "";
-    } else {
-        auto iconName = m_storedApps[index].settings->value("Desktop Entry/Icon").toString();
-        if (!iconName.isEmpty()) {
-            QFileInfo iconFileInfo(iconName);
-            if (iconFileInfo.isRelative()) {
-                iconName = "image://gicon/" + iconName;
-            }
+    auto desktopFile = parseDesktopFile(appId);
+    auto iconName = desktopFile->value("Desktop Entry/Icon").toString();
+    delete desktopFile;
+
+    if (!iconName.isEmpty()) {
+        QFileInfo iconFileInfo(iconName);
+        if (iconFileInfo.isRelative()) {
+            iconName = "image://gicon/" + iconName;
         }
-        return iconName;
     }
+
+    return iconName;
 }
 
 bool LauncherBackend::isPinned(const QString &appId) const
@@ -184,12 +177,6 @@ void LauncherBackend::triggerQuickListAction(const QString &appId, const QString
     Q_UNUSED(quickListId)
 }
 
-QString LauncherBackend::resolveAppId(const QString &appId) const
-{
-    QFileInfo fileInfo(QDir("/usr/share/applications"), appId);
-    return fileInfo.absoluteFilePath();
-}
-
 void LauncherBackend::syncFromAccounts()
 {
     auto appIds = QStringList();
@@ -235,11 +222,16 @@ void LauncherBackend::syncToAccounts()
     }
 }
 
+QSettings *LauncherBackend::parseDesktopFile(const QString &appId) const
+{
+    auto fullAppId = desktopFile(appId);
+    return new QSettings(fullAppId, QSettings::IniFormat);
+}
+
 bool LauncherBackend::loadDesktopFile(const QString &appId, bool isPinned)
 {
     auto item = LauncherBackendItem();
-    auto fullAppId = resolveAppId(appId);
-    item.settings = new QSettings(fullAppId, QSettings::IniFormat);
+    item.settings = parseDesktopFile(appId);
     item.pinned = isPinned;
     m_storedApps.append(item);
     return true; // QSettings doesn't really indicate a failure mode right now
@@ -247,7 +239,7 @@ bool LauncherBackend::loadDesktopFile(const QString &appId, bool isPinned)
 
 int LauncherBackend::findItem(const QString &appId) const
 {
-    auto fullAppId = resolveAppId(appId);
+    auto fullAppId = desktopFile(appId);
     for (int i = 0; i < m_storedApps.size(); i++) {
         if (m_storedApps[i].settings->fileName() == fullAppId) {
             return i;

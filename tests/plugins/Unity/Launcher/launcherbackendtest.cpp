@@ -31,15 +31,12 @@ private Q_SLOTS:
     {
         LauncherBackend backend(false);
 
-        auto apps = QStringList() << "one.desktop" << "two" << "/full";
-        backend.setStoredApplications(apps);
+        backend.setStoredApplications(QStringList() << "relative.path" << "/full/path");
+        QCOMPARE(backend.storedApplications(), QStringList() << "/usr/share/applications/relative.path" << "/full/path");
 
         QCOMPARE(backend.desktopFile("one.desktop"), QString("/usr/share/applications/one.desktop"));
         QCOMPARE(backend.desktopFile("two"), QString("/usr/share/applications/two"));
         QCOMPARE(backend.desktopFile("/full"), QString("/full"));
-        QCOMPARE(backend.storedApplications(), QStringList() << "/usr/share/applications/one.desktop" << "/usr/share/applications/two" << "/full");
-
-        QCOMPARE(backend.desktopFile("full"), QString(""));
 
         QCOMPARE(backend.desktopFile("/usr/share/applications/one.desktop"), QString("/usr/share/applications/one.desktop"));
     }
@@ -47,9 +44,6 @@ private Q_SLOTS:
     void testDesktopReading()
     {
         LauncherBackend backend(false);
-
-        auto apps = QStringList() << SRCDIR "/rel-icon.desktop" << SRCDIR "/abs-icon.desktop" << SRCDIR "/no-icon.desktop" << SRCDIR "/no-name.desktop" << SRCDIR "/no-exist.desktop";
-        backend.setStoredApplications(apps);
 
         QCOMPARE(backend.displayName(SRCDIR "/rel-icon.desktop"), QString("Relative Icon"));
         QCOMPARE(backend.icon(SRCDIR "/rel-icon.desktop"), QString("image://gicon/rel-icon"));

@@ -59,12 +59,18 @@ public:
 
     /**
       * @brief Get the full path to the .desktop file.
+      *
+      * The application does not need to be in the list of stored applications.
+      *
       * @returns The full path to the .dekstop file.
       */
     QString desktopFile(const QString &appId) const;
 
     /**
       * @brief Get the user friendly name of an application.
+      *
+      * The application does not need to be in the list of stored applications.
+      *
       * @param appId The ID of the application.
       * @returns The user friendly name of the application.
       */
@@ -72,6 +78,9 @@ public:
 
     /**
       * @brief Get the icon of an application.
+      *
+      * The application does not need to be in the list of stored applications.
+      *
       * @param appId The ID of the application.
       * @returns The full path to the icon for the application.
       */
@@ -132,7 +141,7 @@ Q_SIGNALS:
     void countChanged(const QString &appId, int count);
 
 private:
-    QString resolveAppId(const QString &appId) const;
+    QSettings *parseDesktopFile(const QString &appId) const;
     bool loadDesktopFile(const QString &appId, bool isPinned);
     int findItem(const QString &appId) const;
     void syncFromAccounts();
