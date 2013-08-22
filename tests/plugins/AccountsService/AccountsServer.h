@@ -20,10 +20,10 @@
 #ifndef UNITY_ACCOUNTSSERVER_H
 #define UNITY_ACCOUNTSSERVER_H
 
-#include <QtCore/QObject>
-#include <QtCore/QString>
-#include <QtDBus/QDBusContext>
-#include <QtDBus/QDBusObjectPath>
+#include <QDBusContext>
+#include <QDBusObjectPath>
+#include <QObject>
+#include <QString>
 
 class AccountsServer: public QObject, protected QDBusContext
 {
@@ -32,7 +32,6 @@ class AccountsServer: public QObject, protected QDBusContext
 public:
     explicit AccountsServer(QObject *parent = 0);
 
-public Q_SLOTS:
     QDBusObjectPath FindUserByName(const QString &user);
 };
 

@@ -17,10 +17,10 @@
  */
 
 #include "AccountsService.h"
-#include <QtDBus/QDBusConnection>
-#include <QtDBus/QDBusConnectionInterface>
-#include <QtDBus/QDBusMessage>
-#include <QtDBus/QDBusVariant>
+#include <QDBusConnection>
+#include <QDBusConnectionInterface>
+#include <QDBusMessage>
+#include <QDBusVariant>
 
 AccountsService::AccountsService(QObject* parent)
   : QObject(parent),

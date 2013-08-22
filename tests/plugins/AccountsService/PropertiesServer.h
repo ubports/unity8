@@ -21,10 +21,10 @@
 #define UNITY_PROPERTIESSERVER_H
 
 #include "PropertiesServer.h"
-#include <QtCore/QObject>
-#include <QtCore/QString>
-#include <QtDBus/QDBusContext>
-#include <QtDBus/QDBusVariant>
+#include <QDBusContext>
+#include <QDBusVariant>
+#include <QObject>
+#include <QString>
 
 class PropertiesServer: public QObject, protected QDBusContext
 {
@@ -33,7 +33,6 @@ class PropertiesServer: public QObject, protected QDBusContext
 public:
     explicit PropertiesServer(QObject *parent = 0);
 
-public Q_SLOTS:
     QDBusVariant Get(const QString &interface, const QString &property);
     void Set(const QString &interface, const QString &property, const QDBusVariant &variant);
 

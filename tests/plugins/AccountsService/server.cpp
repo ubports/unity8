@@ -21,7 +21,7 @@
 #include "AccountsServer.h"
 #include "PropertiesAdaptor.h"
 #include "PropertiesServer.h"
-#include <QtCore/QCoreApplication>
+#include <QCoreApplication>
 
 int main(int argc, char *argv[])
 {

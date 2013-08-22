@@ -82,7 +82,6 @@ Showable {
     }
 
     Rectangle {
-        id: backgroundShade
         anchors.fill: parent
         color: "black"
         opacity: 0.8
@@ -155,7 +154,7 @@ Showable {
                 }
                 GradientStop {
                     position: 1.0
-                    color: "#00000000"
+                    color: "transparent"
                 }
             }
             anchors.fill: parent
@@ -250,11 +249,9 @@ Showable {
 
         onDisplayPowerStateChange: {
             if (status == Powerd.Off && wholeAnimation.running) {
-                wholeAnimation.paused = true;
-                //hintAnimation.paused = true;
+                wholeAnimation.pause();
             } else if (status == Powerd.On) {
-                wholeAnimation.paused = false;
-                //hintAnimation.paused = false;
+                wholeAnimation.pause();
             }
         }
     }

@@ -19,7 +19,7 @@
 #include "plugin.h"
 #include "AccountsService.h"
 
-#include <QtQml/QtQml>
+#include <QtQml>
 
 static QObject *service_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {

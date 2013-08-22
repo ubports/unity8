@@ -61,15 +61,16 @@ FocusScope {
     }
 
     property bool showEdgeDemo: false
-    property bool showEdgeDemoInGreeter: showEdgeDemo //AccountsService.getUserProperty("lightdm", "demo-edges")
+    property bool showEdgeDemoInGreeter: showEdgeDemo // TODO: AccountsService.getUserProperty("lightdm", "demo-edges")
 
     function hideEdgeDemo() {
         var user = LightDM.Users.data(greeter.currentIndex, LightDM.UserRoles.NameRole);
         AccountsService.setUserProperty(user, "demo-edges", false);
         shell.showEdgeDemo = false;
     }
+
     function hideEdgeDemoInGreeter() {
-        //AccountsService.setUserProperty("lightdm", "demo-edges", false);
+        // TODO: AccountsService.setUserProperty("lightdm", "demo-edges", false);
         shell.showEdgeDemoInGreeter = false;
     }
 

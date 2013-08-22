@@ -18,8 +18,8 @@
  */
 
 #include "AccountsService.h"
-#include <QtTest/QSignalSpy>
-#include <QtTest/QTest>
+#include <QSignalSpy>
+#include <QTest>
 
 class AccountsServiceTest : public QObject
 {
