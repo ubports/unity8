@@ -41,8 +41,8 @@ LauncherBackend::~LauncherBackend()
 
 void LauncherBackend::clearItems()
 {
-    for (int i = 0; i < m_storedApps.size(); i++) {
-        delete m_storedApps[i].settings;
+    for (LauncherBackendItem &app: m_storedApps) {
+        delete app.settings;
     }
     m_storedApps.clear();
 }
@@ -50,8 +50,8 @@ void LauncherBackend::clearItems()
 QStringList LauncherBackend::storedApplications() const
 {
     auto files = QStringList();
-    for (int i = 0; i < m_storedApps.size(); i++) {
-        files << m_storedApps[i].settings->fileName();
+    for (const LauncherBackendItem &app: m_storedApps) {
+        files << app.settings->fileName();
     }
     return files;
 }
@@ -61,12 +61,12 @@ void LauncherBackend::setStoredApplications(const QStringList &appIds)
     // Are we dropping any pinned apps?
     auto needToSync = false;
     auto pinnedItems = QStringList();
-    for (int i = 0; i < m_storedApps.size(); i++) {
-        if (m_storedApps[i].pinned) {
+    for (LauncherBackendItem &app: m_storedApps) {
+        if (app.pinned) {
             auto found = false;
-            for (int j = 0; j < appIds.size(); j++) {
-                auto fullAppId = desktopFile(appIds[j]);
-                if (m_storedApps[i].settings->fileName() == fullAppId) {
+            for (const QString &appId: appIds) {
+                auto fullAppId = desktopFile(appId);
+                if (app.settings->fileName() == fullAppId) {
                     found = true;
                     break;
                 }
@@ -74,13 +74,14 @@ void LauncherBackend::setStoredApplications(const QStringList &appIds)
             if (!found) {
                 needToSync = true;
             }
-            pinnedItems.append(m_storedApps[i].settings->fileName());
+            pinnedItems.append(app.settings->fileName());
         }
     }
 
     clearItems();
 
-    for (auto appId: appIds) {
+    
+    for (const QString &appId: appIds) {
         loadDesktopFile(appId, pinnedItems.contains(desktopFile(appId)));
     }
 
@@ -203,17 +204,17 @@ void LauncherBackend::syncFromAccounts()
     setStoredApplications(appIds);
 
     // Mark all apps as pinned (since we just refreshed the set)
-    for (int i = 0; i < m_storedApps.size(); i++) {
-        m_storedApps[i].pinned = true;
+    for (LauncherBackendItem &app: m_storedApps) {
+        app.pinned = true;
     }
 }
 
 void LauncherBackend::syncToAccounts()
 {
     auto pinnedItems = QStringList();
-    for (int i = 0; i < m_storedApps.size(); i++) {
-        if (m_storedApps[i].pinned) {
-            pinnedItems.append(m_storedApps[i].settings->fileName());
+    for (LauncherBackendItem &app: m_storedApps) {
+        if (app.pinned) {
+            pinnedItems.append(app.settings->fileName());
         }
     }
 
@@ -240,7 +241,7 @@ bool LauncherBackend::loadDesktopFile(const QString &appId, bool isPinned)
 int LauncherBackend::findItem(const QString &appId) const
 {
     auto fullAppId = desktopFile(appId);
-    for (int i = 0; i < m_storedApps.size(); i++) {
+    for (int i = 0; i < m_storedApps.size(); ++i) {
         if (m_storedApps[i].settings->fileName() == fullAppId) {
             return i;
         }
