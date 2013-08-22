@@ -48,23 +48,17 @@ Showable {
      */
     readonly property bool active: available && visible
 
-    property color __orange_transparent: Qt.hsla(16.0/360.0, 0.83, 0.47, 0.4)
-    property int __edge_margin: units.gu(4)
-    property int __text_margin: units.gu(3)
-    property bool __skip_on_hide: false
-    property int __anim_running: wholeAnimation.running // for testing
-
     signal skip()
 
     function doSkip() {
-        __skip_on_hide = true;
+        d.skipOnHide = true;
         hide();
     }
 
     function hideNow() {
         overlay.visible = false;
         overlay.available = false;
-        if (overlay.__skip_on_hide) {
+        if (d.skipOnHide) {
             overlay.skip();
         }
     }
@@ -79,6 +73,12 @@ Showable {
         to: 0
         duration: UbuntuAnimation.BriskDuration
         onRunningChanged: if (!running) overlay.hideNow()
+    }
+
+    QtObject {
+        id: d
+        property bool skipOnHide: false
+        property int edgeMargin: units.gu(4)
     }
 
     Rectangle {
@@ -105,10 +105,10 @@ Showable {
         Column {
             id: labelGroup
             layer.enabled: true // otherwise the underlining on "Skip intro" jumps
-            spacing: overlay.__text_margin
+            spacing: units.gu(3)
 
             anchors {
-                margins: overlay.__edge_margin
+                margins: d.edgeMargin
                 left: parent.left
                 top: overlay.edge == "bottom" ? undefined : parent.top
                 bottom: overlay.edge == "bottom" ? parent.bottom : undefined
@@ -150,7 +150,7 @@ Showable {
             gradient: Gradient {
                 GradientStop {
                     position: 0.0
-                    color: overlay.__orange_transparent
+                    color: Qt.hsla(16.0/360.0, 0.83, 0.47, 0.4) // UbuntuColors.orange, but transparent
                 }
                 GradientStop {
                     position: 1.0
@@ -185,6 +185,7 @@ Showable {
 
     SequentialAnimation {
         id: wholeAnimation
+        objectName: "wholeAnimation"
         running: overlay.active
 
         ParallelAnimation {
@@ -203,12 +204,12 @@ Showable {
                 }
                 from: {
                     if (overlay.edge == "right") {
-                        return overlay.__edge_margin + units.gu(3)
+                        return d.edgeMargin + units.gu(3)
                     } else {
-                        return overlay.__edge_margin - units.gu(3)
+                        return d.edgeMargin - units.gu(3)
                     }
                 }
-                to: overlay.__edge_margin
+                to: d.edgeMargin
                 duration: overlay.edge == "none" ? 0 : UbuntuAnimation.SleepyDuration
             }
             StandardAnimation {
@@ -251,7 +252,7 @@ Showable {
             if (status == Powerd.Off && wholeAnimation.running) {
                 wholeAnimation.pause();
             } else if (status == Powerd.On) {
-                wholeAnimation.pause();
+                wholeAnimation.resume();
             }
         }
     }
