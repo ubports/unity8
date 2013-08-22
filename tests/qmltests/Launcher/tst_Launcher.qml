@@ -261,8 +261,9 @@ Item {
 
         function test_dragndrop_data() {
             return [
-                {tag: "startDrag", fullDrag: false},
-                {tag: "fullDrag", fullDrag: true},
+                {tag: "startDrag", fullDrag: false },
+                {tag: "fullDrag horizontal", fullDrag: true, orientation: ListView.Horizontal },
+                {tag: "fullDrag vertical", fullDrag: true, orientation: ListView.Vertical },
             ];
         }
 
@@ -272,8 +273,8 @@ Item {
             var item0 = findChild(launcher, "launcherDelegate0")
             var fakeDragItem = findChild(launcher, "fakeDragItem")
             var initialItemHeight = draggedItem.height
-            var item5Name = LauncherModel.get(5).iconName
-            var item4Name = LauncherModel.get(4).iconName
+            var item5 = LauncherModel.get(5).appId
+            var item4 = LauncherModel.get(4).appId
 
             // Initial state
             compare(draggedItem.itemOpacity, 1, "Item's opacity is not 1 at beginning")
@@ -281,28 +282,49 @@ Item {
             tryCompare(findChild(draggedItem, "dropIndicator"), "opacity", 0)
 
             // Doing longpress
-            mousePress(draggedItem, draggedItem.width / 2, draggedItem.height / 2)
+            var currentMouseX = draggedItem.width / 2
+            var currentMouseY = draggedItem.height / 2
+            mousePress(draggedItem, currentMouseX, currentMouseY)
             // DraggedItem needs to hide and fakeDragItem become visible
             tryCompare(draggedItem, "itemOpacity", 0)
             tryCompare(fakeDragItem, "visible", true)
 
             // Dragging a bit (> 1.5 gu)
-            mouseMove(draggedItem, -units.gu(2), draggedItem.height / 2)
+            currentMouseX -= units.gu(2)
+            mouseMove(draggedItem, currentMouseX, currentMouseY)
             // Other items need to expand and become 0.6 opaque
             tryCompare(item0, "angle", 0)
             tryCompare(item0, "itemOpacity", 0.6)
 
             if (data.fullDrag) {
                 // Dragging a bit more
-                mouseMove(draggedItem, -units.gu(15), draggedItem.height / 2, 100)
-                tryCompare(findChild(draggedItem, "dropIndicator"), "opacity", 1)
-                tryCompare(draggedItem, "height", units.gu(1))
+                if (data.orientation == ListView.Horizontal) {
+                    currentMouseX -= units.gu(15)
+                    mouseMove(draggedItem, currentMouseX, currentMouseY, 100)
 
-                // Dragging downwards. Item needs to move in the model
-                mouseMove(draggedItem, -units.gu(15), -initialItemHeight)
+                    tryCompare(findChild(draggedItem, "dropIndicator"), "opacity", 1)
+                    tryCompare(draggedItem, "height", units.gu(1))
+
+                    // Dragging downwards. Item needs to move in the model
+                    currentMouseY -= initialItemHeight * 1.5
+                    mouseMove(draggedItem, currentMouseX, currentMouseY)
+                } else if (data.orientation == ListView.Vertical) {
+                    currentMouseY -= initialItemHeight * 1.5
+                    mouseMove(draggedItem, currentMouseX, currentMouseY, 100)
+
+                    tryCompare(findChild(draggedItem, "dropIndicator"), "opacity", 1)
+                    tryCompare(draggedItem, "height", units.gu(1))
+                }
+
                 waitForRendering(draggedItem)
-                compare(LauncherModel.get(5).iconName, item4Name)
-                compare(LauncherModel.get(5).iconName, item5Name)
+                print("item4 name", LauncherModel.get(4), LauncherModel.get(4).appId)
+                print("item5 name", LauncherModel.get(5), LauncherModel.get(5).appId)
+                print("item6 name", LauncherModel.get(6), LauncherModel.get(6).appId)
+//                tryCompareFunction(function() { LauncherModel.get(appId;},  0);
+                wait(200)
+
+                compare(LauncherModel.get(5).appId, item4)
+                compare(LauncherModel.get(4).appId, item5)
             }
 
             // Releasing and checking if initial values are restored
@@ -310,6 +332,10 @@ Item {
             tryCompare(findChild(draggedItem, "dropIndicator"), "opacity", 0)
             tryCompare(draggedItem, "itemOpacity", 1)
             tryCompare(fakeDragItem, "visible", false)
+
+            // Click somewhere in the empty space to make it hide in case it isn't
+            mouseClick(launcher, launcher.width - units.gu(1), units.gu(1));
+            revealer.waitUntilLauncherDisappears();
         }
 
         function test_quicklist_dismiss() {
