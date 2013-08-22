@@ -458,7 +458,7 @@ Item {
             // Remove popupMargin once the bug is fixed.
             property int popupMargin: root.inverted ? launcherListView.itemHeight : 0;
 
-            callerMargin: units.gu(1) + popupMargin
+            callerMargin: units.gu(2) + popupMargin
 
             Column {
                 id: quickListColumn
@@ -466,6 +466,7 @@ Item {
                 height: childrenRect.height
 
                 Repeater {
+                    id: popoverRepeater
                     model: popover.model
 
                     ListItems.Standard {
@@ -479,8 +480,8 @@ Item {
                             PopupUtils.close(popover);
                             // Unsetting model to prevent showing changing entries during fading out
                             // that may happen because of triggering an action.
-                            parent.model = undefined;
                             LauncherModel.quickListActionInvoked(appId, index);
+                            popoverRepeater.model = undefined;
                         }
                     }
                 }
