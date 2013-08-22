@@ -450,6 +450,7 @@ Item {
             property var model
             property string appId
             contentWidth: quickListColumn.width
+            foregroundStyle: QuicklistForegroundStyle {}
 
             // FIXME: There's a bug in the Popover positioning that it covers the item in case it is rotated.
             // https://bugs.launchpad.net/ubuntu-ui-toolkit/+bug/1204470
