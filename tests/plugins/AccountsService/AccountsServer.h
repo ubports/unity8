@@ -32,6 +32,7 @@ class AccountsServer: public QObject, protected QDBusContext
 public:
     explicit AccountsServer(QObject *parent = 0);
 
+public Q_SLOTS:
     QDBusObjectPath FindUserByName(const QString &user);
 };
 
