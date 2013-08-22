@@ -475,8 +475,11 @@ Item {
                             if (!model.clickable) {
                                 return;
                             }
-                            LauncherModel.quickListActionInvoked(appId, index);
                             PopupUtils.close(popover);
+                            // Unsetting model to prevent showing changing entries during fading out
+                            // that may happen because of triggering an action.
+                            parent.model = undefined;
+                            LauncherModel.quickListActionInvoked(appId, index);
                         }
                     }
                 }
