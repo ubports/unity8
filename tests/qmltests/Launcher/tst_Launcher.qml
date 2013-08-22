@@ -317,12 +317,6 @@ Item {
                 }
 
                 waitForRendering(draggedItem)
-                print("item4 name", LauncherModel.get(4), LauncherModel.get(4).appId)
-                print("item5 name", LauncherModel.get(5), LauncherModel.get(5).appId)
-                print("item6 name", LauncherModel.get(6), LauncherModel.get(6).appId)
-//                tryCompareFunction(function() { LauncherModel.get(appId;},  0);
-                wait(200)
-
                 compare(LauncherModel.get(5).appId, item4)
                 compare(LauncherModel.get(4).appId, item5)
             }
