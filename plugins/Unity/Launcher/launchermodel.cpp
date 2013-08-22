@@ -177,6 +177,12 @@ void LauncherModel::quickListActionInvoked(const QString &appId, int actionIndex
     }
 }
 
+void LauncherModel::setUser(const QString &username)
+{
+    Q_UNUSED(username)
+    // TODO: Implement this...
+}
+
 void LauncherModel::storeAppList()
 {
     QStringList appIds;
