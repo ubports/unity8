@@ -17,7 +17,7 @@
  *      Michael Zanetti <michael.zanetti@canonical.com>
  */
 
-#ifndef LAUNCHERMODELH
+#ifndef LAUNCHERMODEL_H
 #define LAUNCHERMODEL_H
 
 // unity-api
@@ -48,6 +48,7 @@ public:
     Q_INVOKABLE void pin(const QString &appId, int index = -1);
     Q_INVOKABLE void requestRemove(const QString &appId);
     Q_INVOKABLE void quickListActionInvoked(const QString &appId, int actionIndex);
+    Q_INVOKABLE void setUser(const QString &username);
 
 private:
     void storeAppList();

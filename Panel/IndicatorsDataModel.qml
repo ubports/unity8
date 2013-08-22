@@ -33,7 +33,7 @@ Indicators.IndicatorsModel {
             'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorWidget2.qml',
             'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorPage2.qml'
         },
-        'indicator-messaging' : {
+        'indicator-messages' : {
             'title': 'Messaging',
             'description' : '',
             'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/MessagingIndicatorWidget.qml',

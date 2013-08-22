@@ -27,12 +27,12 @@ MockLauncherItem::MockLauncherItem(const QString &appId, const QString& desktopF
     m_appId(appId),
     m_desktopFile(desktopFile),
     m_name(name),
-    m_icon(icon),
+    m_icon(TOP_SRCDIR "/graphics/applicationIcons/" + icon + ".png"),
     m_pinned(false),
     m_running(false),
     m_recent(false),
-    m_progress(8),
-    m_count(8),
+    m_progress(-1),
+    m_count(0),
     m_quickList(new MockQuickListModel(this))
 {
 

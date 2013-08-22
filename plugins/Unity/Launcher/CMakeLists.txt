@@ -1,8 +1,11 @@
 include(FindPkgConfig)
 pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=2)
 
+add_definitions(-DSM_BUSNAME=systemBus)
+
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_SOURCE_DIR}/plugins/AccountsService
 )
 
 set(QMLLAUNCHERPLUGIN_SRC
@@ -12,6 +15,7 @@ set(QMLLAUNCHERPLUGIN_SRC
     quicklistmodel.cpp
     common/quicklistentry.cpp
     backend/launcherbackend.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/AccountsService/AccountsService.cpp
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherItemInterface.h
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherModelInterface.h
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/QuickListModelInterface.h
@@ -21,7 +25,7 @@ add_library(UnityLauncher-qml MODULE
     ${QMLLAUNCHERPLUGIN_SRC}
     )
 
-qt5_use_modules(UnityLauncher-qml Qml)
+qt5_use_modules(UnityLauncher-qml DBus Qml)
 
 # export the qmldir and qmltypes files
 export_qmlfiles(Unity.Launcher Unity/Launcher)

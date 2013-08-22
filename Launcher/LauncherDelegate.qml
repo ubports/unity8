@@ -21,7 +21,8 @@ Item {
     id: root
 
     property string iconName
-
+    property int count: -1
+    property int progress: -1
     property bool highlighted: false
     property real maxAngle: 0
     property bool inverted: false
@@ -37,6 +38,11 @@ Item {
     property real offset: 0
     property real itemOpacity: 1
     property real brightness: 0
+
+    onIconNameChanged: shaderEffectSource.scheduleUpdate();
+    onCountChanged: shaderEffectSource.scheduleUpdate();
+    onProgressChanged: shaderEffectSource.scheduleUpdate();
+    onHighlightedChanged: shaderEffectSource.scheduleUpdate();
 
     Item {
         id: iconItem
@@ -54,9 +60,7 @@ Item {
                 id: iconImage
                 sourceSize.width: iconShape.width
                 sourceSize.height: iconShape.height
-                source: "../graphics/applicationIcons/" + iconName + ".png"
-                property string iconName: root.iconName
-                onIconNameChanged: shaderEffectSource.scheduleUpdate();
+                source: root.iconName
             }
         }
 
@@ -64,11 +68,73 @@ Item {
             id: overlayHighlight
             anchors.centerIn: iconItem
             rotation: inverted ? 180 : 0
-            source: isSelected ? "graphics/selected.sci" : "graphics/non-selected.sci"
+            source: root.highlighted ? "graphics/selected.sci" : "graphics/non-selected.sci"
             width: root.itemWidth + units.gu(0.5)
             height: root.itemHeight + units.gu(0.5)
-            property bool isSelected: root.highlighted
-            onIsSelectedChanged: shaderEffectSource.scheduleUpdate();
+        }
+
+        BorderImage {
+            objectName: "countEmblem"
+            anchors {
+                right: parent.right
+                top: parent.top
+                margins: -units.dp(1)
+            }
+            width: Math.min(units.gu(7.5), Math.max(units.gu(3), countLabel.implicitWidth + units.gu(2.5)))
+            height: units.gu(3)
+            source: "graphics/notification.sci"
+            visible: root.count > 0
+
+            Label {
+                id: countLabel
+                text: root.count
+                anchors.centerIn: parent
+                width: units.gu(6)
+                horizontalAlignment: Text.AlignHCenter
+                elide: Text.ElideRight
+                color: "white"
+                fontSize: "small"
+                font.bold: true
+            }
+        }
+
+        BorderImage {
+            id: progressOverlay
+            objectName: "progressOverlay"
+            anchors {
+                left: iconItem.left
+                right: iconItem.right
+                bottom: iconItem.bottom
+                leftMargin: units.gu(0.5)
+                rightMargin: units.gu(0.5)
+                bottomMargin: units.gu(0.5)
+            }
+            height: units.gu(1.5)
+            visible: root.progress > -1
+            source: "graphics/progressbar-trough.sci"
+
+            // For fill calculation we need to remove the 2 units of border defined in .sci file
+            property int adjustedWidth: width - units.gu(2)
+
+            Item {
+                anchors {
+                    left: parent.left
+                    top: parent.top
+                    bottom: parent.bottom
+                }
+                width: Math.min(100, root.progress) / 100 * parent.adjustedWidth + units.gu(1)
+                clip: true
+
+                BorderImage {
+                    anchors {
+                        left: parent.left
+                        top: parent.top
+                        bottom: parent.bottom
+                    }
+                    width: progressOverlay.width
+                    source: "graphics/progressbar-fill.sci"
+                }
+            }
         }
     }
 

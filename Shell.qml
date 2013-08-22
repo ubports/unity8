@@ -19,7 +19,9 @@ import GSettings 1.0
 import Ubuntu.Application 0.1
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
+import Unity.Launcher 0.1
 import LightDM 0.1 as LightDM
+import AccountsService 0.1
 import Powerd 0.1
 import "Dash"
 import "Greeter"
@@ -57,6 +59,19 @@ FocusScope {
         } else {
             return mainStage.usingScreenshots;
         }
+    }
+
+    property bool showEdgeDemo: false
+    property bool showEdgeDemoInGreeter: showEdgeDemo //AccountsService.getUserProperty("lightdm", "demo-edges")
+
+    function hideEdgeDemo() {
+        var user = LightDM.Users.data(greeter.currentIndex, LightDM.UserRoles.NameRole);
+        AccountsService.setUserProperty(user, "demo-edges", false);
+        shell.showEdgeDemo = false;
+    }
+    function hideEdgeDemoInGreeter() {
+        //AccountsService.setUserProperty("lightdm", "demo-edges", false);
+        shell.showEdgeDemoInGreeter = false;
     }
 
     property ListModel searchHistory: SearchHistoryModel {}
@@ -191,7 +206,7 @@ FocusScope {
             available: !greeter.shown && !lockscreen.shown
             hides: [stages, launcher, panel.indicators]
             shown: disappearingAnimationProgress !== 1.0
-            enabled: disappearingAnimationProgress === 0.0
+            enabled: disappearingAnimationProgress === 0.0 && !leftEdgeDemo.active && !topEdgeDemo.active && !finalEdgeDemo.active
             // FIXME: unfocus all applications when going back to the dash
             onEnabledChanged: {
                 if (enabled) {
@@ -217,6 +232,50 @@ FocusScope {
             // FIXME: only necessary because stagesOuterContainer.showProgress and
             // greeterRevealer.animatedProgress are not animated
             Behavior on disappearingAnimationProgress { SmoothedAnimation { velocity: 5 }}
+        }
+
+        DemoOverlay {
+            id: topEdgeDemo
+
+            edge: "top"
+            title: i18n.tr("Top edge")
+            text: i18n.tr("Try swiping from the top edge to access the indicators")
+            anchors.fill: dash
+            visible: false
+            enabled: shell.showEdgeDemo
+            onSkip: shell.hideEdgeDemo()
+
+            Connections {
+                target: greeter
+                onShownChanged: if (!greeter.shown) topEdgeDemo.visible = true
+            }
+
+            Connections {
+                target: panel.indicators
+                onFullyOpenedChanged: if (panel.indicators.fullyOpened) topEdgeDemo.enabled = false
+            }
+        }
+
+        DemoOverlay {
+            id: leftEdgeDemo
+
+            edge: "left"
+            title: i18n.tr("Left edge")
+            text: i18n.tr("Swipe from the left to reveal the launcher for quick access to apps")
+            anchors.fill: dash
+            visible: false
+            enabled: shell.showEdgeDemo
+            onSkip: shell.hideEdgeDemo()
+
+            Connections {
+                target: bottomEdgeDemo
+                onActiveChanged: if (!bottomEdgeDemo.active) leftEdgeDemo.visible = true
+            }
+
+            Connections {
+                target: launcher
+                onProgressChanged: if (launcher.progress >= 1.0) leftEdgeDemo.enabled = false
+            }
         }
     }
 
@@ -410,6 +469,7 @@ FocusScope {
         Component.onCompleted: {
             if (LightDM.Users.count == 1) {
                 LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole))
+                greeter.selected(0)
             }
         }
     }
@@ -452,16 +512,52 @@ FocusScope {
                 // If there are more users, the Greeter will handle that
                 if (LightDM.Users.count == 1) {
                     LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
+                    greeter.selected(0);
                 }
                 greeter.forceActiveFocus();
             }
         }
 
         onUnlocked: greeter.hide()
+        onSelected: {
+            // Update edge demo hint
+            var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole)
+            shell.showEdgeDemo = AccountsService.getUserProperty(user, "demo-edges")
+            // Update launcher items for new user
+            LauncherModel.setUser(user);
+        }
 
         onLeftTeaserPressedChanged: {
             if (leftTeaserPressed) {
                 launcher.tease();
+            }
+        }
+
+        DemoOverlay {
+            id: rightEdgeDemo
+
+            edge: "right"
+            title: i18n.tr("Right edge")
+            text: i18n.tr("Try swiping from the right edge to unlock the phone")
+            anchors.fill: parent
+            visible: shell.showEdgeDemoInGreeter
+            onSkip: {
+                shell.hideEdgeDemoInGreeter()
+                shell.hideEdgeDemo()
+            }
+
+            Connections {
+                target: greeter
+
+                function hide() {
+                    if (rightEdgeDemo.active) {
+                        rightEdgeDemo.enabled = false
+                        shell.hideEdgeDemoInGreeter()
+                    }
+                }
+
+                onUnlocked: hide()
+                onShownChanged: if (!greeter.shown) hide()
             }
         }
     }
@@ -518,6 +614,7 @@ FocusScope {
             indicatorsMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
             indicators {
                 hides: [launcher]
+                available: !rightEdgeDemo.active && !leftEdgeDemo.active && !finalEdgeDemo.active
             }
             fullscreenMode: shell.fullscreenMode
             searchVisible: !greeter.shown && !lockscreen.shown
@@ -525,6 +622,24 @@ FocusScope {
             InputFilterArea {
                 anchors.fill: parent
                 blockInput: panel.indicators.shown
+            }
+
+            DemoOverlay {
+                id: bottomEdgeDemo
+
+                edge: "bottom"
+                title: i18n.tr("Close")
+                text: i18n.tr("Swipe up again to close the settings screen")
+                anchors.fill: panel.indicators
+                visible: false
+                enabled: shell.showEdgeDemo
+                onSkip: shell.hideEdgeDemo()
+
+                Connections {
+                    target: panel.indicators
+                    onFullyOpenedChanged: if (panel.indicators.fullyOpened) bottomEdgeDemo.visible = true
+                    onPartiallyOpenedChanged: if (!panel.indicators.partiallyOpened && !panel.indicators.fullyOpened) bottomEdgeDemo.enabled = false
+                }
             }
         }
 
@@ -534,7 +649,7 @@ FocusScope {
             width: parent.width > units.gu(60) ? units.gu(40) : parent.width
             height: parent.height
 
-            available: !greeter.shown && !panel.indicators.shown && !lockscreen.shown
+            available: !greeter.shown && !panel.indicators.shown && !lockscreen.shown && !topEdgeDemo.active
             shown: false
             showAnimation: StandardAnimation { property: "y"; duration: hud.showableAnimationDuration; to: 0; easing.type: Easing.Linear }
             hideAnimation: StandardAnimation { property: "y"; duration: hud.showableAnimationDuration; to: hudRevealer.closedValue; easing.type: Easing.Linear }
@@ -592,7 +707,7 @@ FocusScope {
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
-            available: !greeter.shown || greeter.narrowMode
+            available: (!greeter.shown || greeter.narrowMode) && !rightEdgeDemo.active && !topEdgeDemo.active && !bottomEdgeDemo.active && !finalEdgeDemo.active
             onDashItemSelected: {
                 greeter.hide()
                 // Animate if moving between application and dash
@@ -647,6 +762,27 @@ FocusScope {
                     PropertyChanges { target: notifications; width: units.gu(38) }
                 }
             ]
+        }
+    }
+
+    DemoOverlay {
+        id: finalEdgeDemo
+
+        edge: "none"
+        title: i18n.tr("Well done")
+        text: i18n.tr("You have now mastered the edge gestures and can start using the phone")
+        skipText: i18n.tr("Finish")
+        anchors.fill: overlay
+        visible: false
+        enabled: shell.showEdgeDemo
+        onSkip: {
+            launcher.hide();
+            shell.hideEdgeDemo();
+        }
+
+        Connections {
+            target: leftEdgeDemo
+            onActiveChanged: if (!leftEdgeDemo.active) finalEdgeDemo.visible = true
         }
     }
 

@@ -143,6 +143,7 @@ Item {
     LauncherPanel {
         id: panel
         objectName: "launcherPanel"
+        enabled: root.available
         width: root.panelWidth
         anchors {
             top: parent.top

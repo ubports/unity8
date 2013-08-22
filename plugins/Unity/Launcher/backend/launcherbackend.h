@@ -22,8 +22,10 @@
 #include "common/quicklistentry.h"
 
 #include <QObject>
+#include <QSettings>
 #include <QStringList>
-#include <QHash>
+
+class AccountsService;
 
 /**
   * @brief An interface that provides all the data needed by the launcher.
@@ -35,7 +37,7 @@ class LauncherBackend : public QObject
 
 
 public:
-    LauncherBackend(QObject *parent = 0);
+    LauncherBackend(bool useStorage = true, QObject *parent = 0);
     virtual ~LauncherBackend();
 
     /**
@@ -118,15 +120,35 @@ public:
       */
     int count(const QString &appId) const;
 
+    /**
+      * @brief Sets the username for which to look up launcher items.
+      * @param username The username to use.
+      */
+    void setUser(const QString &username);
+
 Q_SIGNALS:
     void quickListChanged(const QString &appId, const QList<QuickListEntry> &quickList);
     void progressChanged(const QString &appId, int progress);
     void countChanged(const QString &appId, int count);
 
 private:
-    QStringList m_storedApps;
-    QHash<QString, QString> m_displayNameMap;
-    QHash<QString, QString> m_iconMap;
+    QString resolveAppId(const QString &appId) const;
+    bool loadDesktopFile(const QString &appId, bool isPinned);
+    int findItem(const QString &appId) const;
+    void syncFromAccounts();
+    void syncToAccounts();
+    void clearItems();
+
+    class LauncherBackendItem
+    {
+    public:
+        QSettings *settings;
+        bool pinned;
+    };
+
+    QList<LauncherBackendItem> m_storedApps;
+    AccountsService *m_accounts;
+    QString m_user;
 };
 
 #endif // LAUNCHERBACKEND_H
