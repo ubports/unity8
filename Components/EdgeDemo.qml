@@ -123,7 +123,7 @@ Item {
 
         onSelected: {
             var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole)
-            d.showEdgeDemo = true;//AccountsService.getUserProperty(user, "demo-edges")
+            d.showEdgeDemo = AccountsService.getUserProperty(user, "demo-edges")
         }
     }
 
