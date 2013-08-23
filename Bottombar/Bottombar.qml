@@ -126,8 +126,10 @@ Item {
                         hudButton.clicked()
                     }
                 }
-            } else if (status === DirectionalDragArea.Undecided && !hudButton.centeredHud) {
-                touchStartX = touchX
+            } else if (status === DirectionalDragArea.Undecided) {
+                if (!hudButton.centeredHud) {
+                    touchStartX = touchX
+                }
             } else if (status === DirectionalDragArea.Recognized) {
                 bottombar.state = "shown"
             }
