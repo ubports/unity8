@@ -33,7 +33,6 @@ Item {
 
     Item {
         id: hudButton
-        property alias actionButton: actionButton
 
         anchors.centerIn: parent
         height: units.gu(12)
@@ -43,14 +42,14 @@ Item {
         Behavior on opacity {NumberAnimation{duration: 200; easing.type: Easing.OutQuart}}
         Behavior on scale {NumberAnimation{duration: 200; easing.type: Easing.OutQuart}}
 
-        UbuntuShape {
-            id: actionButton
+        AbstractButton {
             anchors.fill: parent
-
-            borderSource: ""
-            image: Image {
+            style: Image {
+                anchors.fill: parent
                 source: "graphics/hud_invoke_button_active.png"
             }
+
+            onClicked: item.clicked()
         }
 
         Image {
