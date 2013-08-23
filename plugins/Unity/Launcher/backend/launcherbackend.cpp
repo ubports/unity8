@@ -22,6 +22,7 @@
 #include "launcherbackend.h"
 
 #include <QDir>
+#include <QDBusArgument>
 #include <QFileInfo>
 
 LauncherBackend::LauncherBackend(bool useStorage, QObject *parent):
@@ -69,7 +70,7 @@ void LauncherBackend::setStoredApplications(const QStringList &appIds)
     clearItems();
 
     for (const QString &appId: appIds) {
-        loadDesktopFile(appId, pinnedItems.contains(desktopFile(appId)));
+        loadApp(makeAppDetails(appId, pinnedItems.contains(desktopFile(appId))));
     }
 
     syncToAccounts();
@@ -165,46 +166,45 @@ void LauncherBackend::triggerQuickListAction(const QString &appId, const QString
 
 void LauncherBackend::syncFromAccounts()
 {
-    auto appIds = QStringList();
+    QList<QVariantMap> apps;
+
+    clearItems();
 
     if (m_user != "" && m_accounts != nullptr) {
-        appIds = m_accounts->getUserProperty(m_user, "launcher-items").toStringList();
+        auto variant = m_accounts->getUserProperty(m_user, "launcher-items");
+        variant.value<QDBusArgument>() >> apps;
     }
 
     // TODO: load default pinned ones from default config, instead of hardcoding here...
-    if (appIds.isEmpty()) {
-        appIds <<
-            "phone-app.desktop" <<
-            "camera-app.desktop" <<
-            "gallery-app.desktop" <<
-            "facebook-webapp.desktop" <<
-            "webbrowser-app.desktop" <<
-            "twitter-webapp.desktop" <<
-            "gmail-webapp.desktop" <<
-            "ubuntu-weather-app.desktop" <<
-            "notes-app.desktop" <<
-            "calendar-app.desktop";
+    if (apps.isEmpty()) {
+        apps <<
+            makeAppDetails("phone-app.desktop", true) <<
+            makeAppDetails("camera-app.desktop", true) <<
+            makeAppDetails("gallery-app.desktop", true) <<
+            makeAppDetails("facebook-webapp.desktop", true) <<
+            makeAppDetails("webbrowser-app.desktop", true) <<
+            makeAppDetails("twitter-webapp.desktop", true) <<
+            makeAppDetails("gmail-webapp.desktop", true) <<
+            makeAppDetails("ubuntu-weather-app.desktop", true) <<
+            makeAppDetails("notes-app.desktop", true) <<
+            makeAppDetails("calendar-app.desktop", true);
     }
 
-    setStoredApplications(appIds);
-
-    // Mark all apps as pinned (since we just refreshed the set)
-    for (LauncherBackendItem &app: m_storedApps) {
-        app.pinned = true;
+    for (const QVariant &app: apps) {
+        loadApp(app.toMap());
     }
 }
 
 void LauncherBackend::syncToAccounts()
 {
-    auto pinnedItems = QStringList();
-    for (LauncherBackendItem &app: m_storedApps) {
-        if (app.pinned) {
-            pinnedItems.append(app.settings->fileName());
-        }
-    }
-
     if (m_user != "" && m_accounts != nullptr) {
-        m_accounts->setUserProperty(m_user, "launcher-items", QVariant(pinnedItems));
+        QList<QVariantMap> items;
+
+        for (LauncherBackendItem &app: m_storedApps) {
+            items << makeAppDetails(app.settings->fileName(), app.pinned);
+        }
+
+        m_accounts->setUserProperty(m_user, "launcher-items", QVariant::fromValue(items));
     }
 }
 
@@ -214,13 +214,27 @@ QSettings *LauncherBackend::parseDesktopFile(const QString &appId) const
     return new QSettings(fullAppId, QSettings::IniFormat);
 }
 
-bool LauncherBackend::loadDesktopFile(const QString &appId, bool isPinned)
+void LauncherBackend::loadApp(const QVariantMap &details)
 {
-    auto item = LauncherBackendItem();
+    auto appId = details.value("id").toString();
+    auto isPinned = details.value("is-pinned").toBool();
+
+    if (appId.isEmpty()) {
+        return;
+    }
+
+    LauncherBackendItem item;
     item.settings = parseDesktopFile(appId);
     item.pinned = isPinned;
     m_storedApps.append(item);
-    return true; // QSettings doesn't really indicate a failure mode right now
+}
+
+QVariantMap LauncherBackend::makeAppDetails(const QString &appId, bool pinned) const
+{
+    QVariantMap details;
+    details.insert("id", appId);
+    details.insert("is-pinned", pinned);
+    return details;
 }
 
 int LauncherBackend::findItem(const QString &appId) const

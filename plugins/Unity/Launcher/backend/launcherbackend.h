@@ -142,7 +142,8 @@ Q_SIGNALS:
 
 private:
     QSettings *parseDesktopFile(const QString &appId) const;
-    bool loadDesktopFile(const QString &appId, bool isPinned);
+    QVariantMap makeAppDetails(const QString &appId, bool pinned) const;
+    void loadApp(const QVariantMap &details);
     int findItem(const QString &appId) const;
     void syncFromAccounts();
     void syncToAccounts();

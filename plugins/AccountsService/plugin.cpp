@@ -19,6 +19,7 @@
 #include "plugin.h"
 #include "AccountsService.h"
 
+#include <QDBusMetaType>
 #include <QtQml/QtQml>
 
 static QObject *service_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
@@ -31,5 +32,6 @@ static QObject *service_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 void AccountsServicePlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("AccountsService"));
+    qDBusRegisterMetaType<QList<QVariantMap>>();
     qmlRegisterSingletonType<AccountsService>(uri, 0, 1, "AccountsService", service_provider);
 }
