@@ -48,10 +48,15 @@ public:
     Q_INVOKABLE void pin(const QString &appId, int index = -1);
     Q_INVOKABLE void requestRemove(const QString &appId);
     Q_INVOKABLE void quickListActionInvoked(const QString &appId, int actionIndex);
+    Q_INVOKABLE void setUser(const QString &username);
 
 private:
     void storeAppList();
     int findApplication(const QString &appId);
+
+private Q_SLOTS:
+    void progressChanged(const QString &appId, int progress);
+    void countChanged(const QString &appId, int count);
 
 private:
     QList<LauncherItem*> m_list;
