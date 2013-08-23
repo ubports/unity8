@@ -145,6 +145,7 @@ private:
     QVariantMap makeAppDetails(const QString &appId, bool pinned) const;
     void loadApp(const QVariantMap &details);
     int findItem(const QString &appId) const;
+    bool isDefaultsItem(const QList<QVariantMap> &apps) const;
     void syncFromAccounts();
     void syncToAccounts();
     void clearItems();

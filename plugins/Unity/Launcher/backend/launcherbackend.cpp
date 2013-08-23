@@ -167,16 +167,18 @@ void LauncherBackend::triggerQuickListAction(const QString &appId, const QString
 void LauncherBackend::syncFromAccounts()
 {
     QList<QVariantMap> apps;
+    bool defaults = true;
 
     clearItems();
 
     if (m_user != "" && m_accounts != nullptr) {
         auto variant = m_accounts->getUserProperty(m_user, "launcher-items");
-        variant.value<QDBusArgument>() >> apps;
+        apps = qdbus_cast<QList<QVariantMap>>(variant.value<QDBusArgument>());
+        defaults = isDefaultsItem(apps);
     }
 
     // TODO: load default pinned ones from default config, instead of hardcoding here...
-    if (apps.isEmpty()) {
+    if (defaults) {
         apps <<
             makeAppDetails("phone-app.desktop", true) <<
             makeAppDetails("camera-app.desktop", true) <<
@@ -235,6 +237,14 @@ QVariantMap LauncherBackend::makeAppDetails(const QString &appId, bool pinned) c
     details.insert("id", appId);
     details.insert("is-pinned", pinned);
     return details;
+}
+
+bool LauncherBackend::isDefaultsItem(const QList<QVariantMap> &apps) const
+{
+    // To differentiate between an empty list and a list that hasn't been set
+    // yet (and should thus be populated with the defaults), we use a special
+    // list of one item with the 'defaults' field set to true.
+    return (apps.size() == 1 && apps[0].value("defaults").toBool());
 }
 
 int LauncherBackend::findItem(const QString &appId) const
