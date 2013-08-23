@@ -21,29 +21,14 @@
 #include <unitymenumodel.h>
 
 UnityMenuModelCache::UnityMenuModelCache(QObject* parent)
-    : QObject(parent),
-      m_ref(0)
+    : QObject(parent)
 {
 }
 
 UnityMenuModelCache::~UnityMenuModelCache()
 {
-    qDeleteAll(m_menuModels);
 }
 
-void UnityMenuModelCache::ref()
-{
-    m_ref++;
-}
-
-void UnityMenuModelCache::deref()
-{
-    --m_ref;
-    if (m_ref == 0) {
-        qDeleteAll(m_menuModels);
-        m_menuModels.clear();
-    }
-}
 
 UnityMenuModel* UnityMenuModelCache::model(const QString& path) const
 {
