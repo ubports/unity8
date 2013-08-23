@@ -54,6 +54,10 @@ private:
     void storeAppList();
     int findApplication(const QString &appId);
 
+private Q_SLOTS:
+    void progressChanged(const QString &appId, int progress);
+    void countChanged(const QString &appId, int count);
+
 private:
     QList<LauncherItem*> m_list;
     LauncherBackend *m_backend;
