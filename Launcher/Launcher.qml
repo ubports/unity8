@@ -149,6 +149,7 @@ Item {
             bottom: parent.bottom
         }
         x: -width
+        visible: x > -width
         model: LauncherModel
 
         property bool animate: true
