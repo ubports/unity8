@@ -92,7 +92,7 @@ Item {
 
         InputFilterArea {
             anchors.fill: parent
-            blockInput: dismissTimer.running
+            blockInput: !dragArea.dragging
         }
     }
 

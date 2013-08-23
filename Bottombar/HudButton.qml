@@ -37,12 +37,13 @@ Item {
         anchors.centerIn: parent
         height: units.gu(12)
         width: height
-        opacity: item.mouseOver ? 1 : 0.7
-        scale: item.mouseOver ? scaleOnMouseOver : 1
+        opacity: item.mouseOver || abstractButton.pressed ? 1 : 0.7
+        scale: item.mouseOver || abstractButton.pressed ? scaleOnMouseOver : 1
         Behavior on opacity {NumberAnimation{duration: 200; easing.type: Easing.OutQuart}}
         Behavior on scale {NumberAnimation{duration: 200; easing.type: Easing.OutQuart}}
 
         AbstractButton {
+            id: abstractButton
             anchors.fill: parent
             style: Image {
                 anchors.fill: parent
@@ -50,7 +51,6 @@ Item {
             }
 
             onClicked: item.clicked()
-            onPressedChanged: item.mouseOver = pressed
         }
 
         Image {
