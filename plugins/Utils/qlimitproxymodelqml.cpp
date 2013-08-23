@@ -25,6 +25,8 @@ QLimitProxyModelQML::QLimitProxyModelQML(QObject *parent)
     , m_limit(-1)
     , m_sourceInserting(false)
     , m_sourceRemoving(false)
+    , m_dataChangedBegin(-1)
+    , m_dataChangedEnd(-1)
 {
     connect(this, SIGNAL(modelReset()), SIGNAL(countChanged()));
     connect(this, SIGNAL(rowsInserted(QModelIndex,int,int)), SIGNAL(countChanged()));
@@ -130,8 +132,45 @@ QLimitProxyModelQML::sourceRowsAboutToBeInserted(const QModelIndex &parent, int 
         beginInsertRows(mapFromSource(parent), start, end);
         m_sourceInserting = true;
     } else if (start < m_limit) {
-        beginInsertRows(mapFromSource(parent), start, qMin(m_limit - 1, end));
-        m_sourceInserting = true;
+        const int nSourceAddedItems = end - start + 1;
+        const int currentCount = QIdentityProxyModel::rowCount();
+        if (currentCount + nSourceAddedItems <= m_limit) {
+            // After Inserting items we will be under the limit
+            // so just proceed with the insertion normally
+            beginInsertRows(mapFromSource(parent), start, end);
+            m_sourceInserting = true;
+        } else if (currentCount >= m_limit) {
+            // We are already over the limit so to our users we are not adding items, just
+            // changing it's data, i.e we had something like
+            // A B C D E
+            // with a limit of 5
+            // after inserting (let's say three 'F' at position 1) we will have
+            // A F F F B
+            // so we just need to signal a dataChanged from 1 to 4
+            m_dataChangedBegin = start;
+            m_dataChangedEnd = m_limit - 1;
+        } else { // currentCount < m_limit && currentCount + nSourceAddedItems > m_limit
+            // We have less items than the limit but after adding them we will be over
+            // To our users this means we need to insert some items and change the
+            // data of some others, i.e we had something like
+            // A B C
+            // with a limit of 5
+            // after inserting (let's say three 'F' at position 1) we will have
+            // A F F F B
+            // so we need to signal an insetion from position 1 to 2, instead of from
+            // position 1 to 3 and a after that a data changed from 3 to 4
+            const int nItemsToInsert = m_limit - currentCount;
+            beginInsertRows(mapFromSource(parent), start, start + nItemsToInsert - 1);
+            m_sourceInserting = true;
+            m_dataChangedBegin = start + nItemsToInsert;
+            m_dataChangedEnd = m_limit - 1;
+            if (m_dataChangedBegin > m_dataChangedEnd) {
+                // Just in case we were empty and insert 6 items with a limit of 5
+                // We don't want to signal a dataChanged from 5 to 4
+                m_dataChangedBegin = -1;
+                m_dataChangedEnd = -1;
+            }
+        }
     }
 }
 
@@ -142,8 +181,45 @@ QLimitProxyModelQML::sourceRowsAboutToBeRemoved(const QModelIndex &parent, int s
         beginRemoveRows(mapFromSource(parent), start, end);
         m_sourceRemoving = true;
     } else if (start < m_limit) {
-        beginRemoveRows(mapFromSource(parent), start, qMin(m_limit - 1, end));
-        m_sourceRemoving = true;
+        const int nSourceRemovedItems = end - start + 1;
+        const int currentCount = QIdentityProxyModel::rowCount();
+        if (currentCount <= m_limit) {
+            // We are already under the limit so
+            // so just proceed with the removal normally
+            beginRemoveRows(mapFromSource(parent), start, end);
+            m_sourceRemoving = true;
+        } else if (currentCount - nSourceRemovedItems >= m_limit) {
+            // Even after removing items we will be at or over the limit
+            // So to our users we are not removing anything, just changing the data
+            // i.e. we had a internal model with
+            // A B C D E F G H
+            // and a limit of 5, our users just see
+            // A B C D E
+            // so if we remove 3 items starting at 1 we have to expose
+            // A E F G H
+            // that is, a dataChanged from 1 to 4
+            m_dataChangedBegin = start;
+            m_dataChangedEnd = m_limit - 1;
+        } else { // currentCount > m_limit && currentCount - nSourceRemovedItems < m_limit
+            // We have more items than the limit but after removing we will be below it
+            // So to our users we both removing and changing the data
+            // i.e. we had a internal model with
+            // A B C D E F G
+            // and a limit of 5, our users just see
+            // A B C D E
+            // so if we remove items from 1 to 3 we have to expose
+            // A E F G
+            // that is, a remove from 4 to 4 and a dataChanged from 1 to 3
+            const int nItemsToRemove = m_limit - (currentCount - nSourceRemovedItems);
+            beginRemoveRows(mapFromSource(parent), m_limit - nItemsToRemove, m_limit - 1);
+            m_sourceRemoving = true;
+            m_dataChangedBegin = start;
+            m_dataChangedEnd = m_limit - nItemsToRemove - 1;
+            if (m_dataChangedBegin > m_dataChangedEnd) {
+                m_dataChangedBegin = -1;
+                m_dataChangedEnd = -1;
+            }
+        }
     }
 }
 
@@ -154,6 +230,11 @@ QLimitProxyModelQML::sourceRowsInserted(const QModelIndex & /*parent*/, int /*st
         endInsertRows();
         m_sourceInserting = false;
     }
+    if (m_dataChangedBegin != -1 && m_dataChangedEnd != -1) {
+        dataChanged(index(m_dataChangedBegin, 0), index(m_dataChangedEnd, 0));
+        m_dataChangedBegin = -1;
+        m_dataChangedEnd = -1;
+    }
 }
 
 void
@@ -162,5 +243,10 @@ QLimitProxyModelQML::sourceRowsRemoved(const QModelIndex & /*parent*/, int /*sta
     if (m_sourceRemoving) {
         endRemoveRows();
         m_sourceRemoving = false;
+    }
+    if (m_dataChangedBegin != -1 && m_dataChangedEnd != -1) {
+        dataChanged(index(m_dataChangedBegin, 0), index(m_dataChangedEnd, 0));
+        m_dataChangedBegin = -1;
+        m_dataChangedEnd = -1;
     }
 }

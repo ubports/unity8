@@ -80,6 +80,19 @@ void FlatMenuProxyModel::setSourceModel(QAbstractItemModel *source)
                 SIGNAL(modelReset()),
                 SLOT(onModelReset()), Qt::QueuedConnection);
 
+        //Connection args
+        connect(source,
+                SIGNAL(busTypeChanged(DBusEnums::BusType)),
+                SIGNAL(busTypeChanged()));
+
+        connect(source,
+                SIGNAL(busNameChanged(const QString&)),
+                SIGNAL(busNameChanged()));
+
+        connect(source,
+                SIGNAL(objectPathChanged(const QString&)),
+                SIGNAL(objectPathChanged()));
+
         connect(source,
                 SIGNAL(statusChanged(DBusEnums::ConnectionStatus)),
                 SIGNAL(statusChanged()), Qt::QueuedConnection);

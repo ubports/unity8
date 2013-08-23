@@ -25,6 +25,9 @@ LauncherModel::LauncherModel(QObject *parent):
     LauncherModelInterface(parent),
     m_backend(new LauncherBackend(this))
 {
+    connect(m_backend, SIGNAL(countChanged(QString,int)), SLOT(countChanged(QString,int)));
+    connect(m_backend, SIGNAL(progressChanged(QString,int)), SLOT(progressChanged(QString,int)));
+
     Q_FOREACH (const QString &entry, m_backend->storedApplications()) {
         LauncherItem *item = new LauncherItem(entry,
                                               m_backend->desktopFile(entry),
@@ -67,6 +70,10 @@ QVariant LauncherModel::data(const QModelIndex &index, int role) const
             return item->icon();
         case RolePinned:
             return item->pinned();
+        case RoleCount:
+            return item->count();
+        case RoleProgress:
+            return item->progress();
     }
 
     return QVariant();
@@ -82,8 +89,25 @@ unity::shell::launcher::LauncherItemInterface *LauncherModel::get(int index) con
 
 void LauncherModel::move(int oldIndex, int newIndex)
 {
-    // Perform the move in our list
-    beginMoveRows(QModelIndex(), oldIndex, oldIndex, QModelIndex(), newIndex);
+    // Make sure its not moved outside the lists
+    if (newIndex < 0) {
+        newIndex = 0;
+    }
+    if (newIndex >= m_list.count()) {
+        newIndex = m_list.count()-1;
+    }
+
+    // Nothing to do?
+    if (oldIndex == newIndex) {
+        return;
+    }
+
+    // QList's and QAbstractItemModel's move implementation differ when moving an item up the list :/
+    // While QList needs the index in the resulting list, beginMoveRows expects it to be in the current list
+    // adjust the model's index by +1 in case we're moving upwards
+    int newModelIndex = newIndex > oldIndex ? newIndex+1 : newIndex;
+
+    beginMoveRows(QModelIndex(), oldIndex, oldIndex, QModelIndex(), newModelIndex);
     m_list.move(oldIndex, newIndex);
     endMoveRows();
 
@@ -140,11 +164,30 @@ void LauncherModel::quickListActionInvoked(const QString &appId, int actionIndex
         return;
     }
 
-    QuickListModel *model = qobject_cast<QuickListModel*>(m_list.at(index)->quickList());
+    LauncherItem *item = m_list.at(index);
+    QuickListModel *model = qobject_cast<QuickListModel*>(item->quickList());
     if (model) {
         QString actionId = model->get(actionIndex).actionId();
-        m_backend->triggerQuickListAction(appId, actionId);
+
+        // Check if this is one of the launcher actions we handle ourselves
+        if (actionId == "pin_item") {
+            if (item->pinned()) {
+                requestRemove(appId);
+            } else {
+                pin(appId);
+            }
+
+        // Nope, we don't know this action, let the backend forward it to the application
+        } else {
+            m_backend->triggerQuickListAction(appId, actionId);
+        }
     }
+}
+
+void LauncherModel::setUser(const QString &username)
+{
+    Q_UNUSED(username)
+    // TODO: Implement this...
 }
 
 void LauncherModel::storeAppList()
@@ -167,4 +210,25 @@ int LauncherModel::findApplication(const QString &appId)
         }
     }
     return -1;
+}
+
+void LauncherModel::progressChanged(const QString &appId, int progress)
+{
+    int idx = findApplication(appId);
+    if (idx >= 0) {
+        LauncherItem *item = m_list.at(idx);
+        item->setProgress(progress);
+        Q_EMIT dataChanged(index(idx), index(idx), QVector<int>() << RoleProgress);
+    }
+}
+
+
+void LauncherModel::countChanged(const QString &appId, int count)
+{
+    int idx = findApplication(appId);
+    if (idx >= 0) {
+        LauncherItem *item = m_list.at(idx);
+        item->setCount(count);
+        Q_EMIT dataChanged(index(idx), index(idx), QVector<int>() << RoleCount);
+    }
 }
