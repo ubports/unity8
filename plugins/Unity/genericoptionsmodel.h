@@ -49,7 +49,7 @@ public:
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 
-    Q_INVOKABLE void setActive(unsigned int idx, bool value);
+    Q_INVOKABLE void setActive(int idx, bool value);
     Q_INVOKABLE void setActive(const QString &id, bool value);
 
     AbstractFilterOption* getRawOption(QVector<AbstractFilterOption *>::size_type idx) const;
