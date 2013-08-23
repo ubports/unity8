@@ -19,7 +19,7 @@
 #include "plugin.h"
 #include "Powerd.h"
 
-#include <QtQml/QtQml>
+#include <QtQml/qqml.h>
 
 static QObject *powerd_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {

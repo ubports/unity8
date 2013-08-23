@@ -17,8 +17,9 @@
  */
 
 // Qt
-#include <QtQml>
 #include <QDBusConnection>
+#include <QQmlContext>
+#include <qqml.h>
 
 // self
 #include "plugin.h"
