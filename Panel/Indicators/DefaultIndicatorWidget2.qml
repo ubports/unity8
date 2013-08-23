@@ -57,7 +57,7 @@ Indicators.IndicatorWidget {
                 top: parent.top
                 bottom: parent.bottom
             }
-            spacing: units.gu(0.7)
+            spacing: units.gu(0.5)
 
             Repeater {
                 model: indicatorWidget.icons
