@@ -92,7 +92,7 @@ Item {
 
         InputFilterArea {
             anchors.fill: parent
-            blockInput: !dragArea.dragging
+            blockInput: hudButton.visible
         }
     }
 
