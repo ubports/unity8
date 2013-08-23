@@ -50,6 +50,7 @@ Item {
             }
 
             onClicked: item.clicked()
+            onPressedChanged: item.mouseOver = pressed
         }
 
         Image {
