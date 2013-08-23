@@ -58,36 +58,21 @@ QStringList LauncherBackend::storedApplications() const
 
 void LauncherBackend::setStoredApplications(const QStringList &appIds)
 {
-    // Are we dropping any pinned apps?
-    auto needToSync = false;
+    // Record all existing pinned apps, so we can notice them in new list
     auto pinnedItems = QStringList();
     for (LauncherBackendItem &app: m_storedApps) {
         if (app.pinned) {
-            auto found = false;
-            for (const QString &appId: appIds) {
-                auto fullAppId = desktopFile(appId);
-                if (app.settings->fileName() == fullAppId) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                needToSync = true;
-            }
             pinnedItems.append(app.settings->fileName());
         }
     }
 
     clearItems();
 
-    
     for (const QString &appId: appIds) {
         loadDesktopFile(appId, pinnedItems.contains(desktopFile(appId)));
     }
 
-    if (needToSync) {
-        syncToAccounts();
-    }
+    syncToAccounts();
 }
 
 QString LauncherBackend::desktopFile(const QString &appId) const
