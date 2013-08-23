@@ -18,6 +18,7 @@ import QtQuick 2.0
 import "../Components"
 import "../Components/Math.js" as MathLocal
 import Unity 0.1
+import Ubuntu.Application 0.1
 import Ubuntu.Gestures 0.1
 
 Item {
@@ -87,6 +88,11 @@ Item {
 
         Behavior on opacity {
             NumberAnimation{duration: 200; easing.type: Easing.OutCubic}
+        }
+
+        InputFilterArea {
+            anchors.fill: parent
+            blockInput: visible
         }
     }
 
