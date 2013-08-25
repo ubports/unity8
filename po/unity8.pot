@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-09 12:18+0200\n"
+"POT-Creation-Date: 2013-08-22 09:59-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -86,25 +86,29 @@ msgstr ""
 msgid "YouTube"
 msgstr ""
 
+#: Components/DemoOverlay.qml:44
+msgid "Skip intro"
+msgstr ""
+
 #: Components/PageHeader.qml:298
 msgid "Recent searches"
 msgstr ""
 
 #. TRANSLATORS: Number of persons who rated this app
-#: Dash/Apps/AppInfo.qml:72
+#: Dash/Apps/AppInfo.qml:73
 #, qt-format
 msgid "(%1)"
 msgstr ""
 
 #. TRANSLATORS: Number of persons who wrote reviews for this app
-#: Dash/Apps/AppInfo.qml:84 tests/qmltests/Dash/Apps/tst_AppPreview.qml:115
+#: Dash/Apps/AppInfo.qml:85
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
 msgstr[0] ""
 msgstr[1] ""
 
-#: Dash/Apps/AppPreview.qml:181
+#: Dash/Apps/AppPreview.qml:175
 msgid "Rate this"
 msgstr ""
 
@@ -122,42 +126,6 @@ msgstr ""
 
 #: Dash/Apps/AppReviews.qml:136
 msgid "Comments:"
-msgstr ""
-
-#: Dash/DashApps.qml:65
-msgid "Running apps"
-msgstr ""
-
-#: Dash/DashApps.qml:68
-msgid "Frequently used"
-msgstr ""
-
-#: Dash/DashApps.qml:71
-msgid "Installed"
-msgstr ""
-
-#: Dash/DashApps.qml:74
-msgid "Available for download"
-msgstr ""
-
-#: Dash/DashApps.qml:168
-msgid "Apps"
-msgstr ""
-
-#: Dash/DashHome.qml:41
-msgid "Frequent Apps"
-msgstr ""
-
-#: Dash/DashHome.qml:44
-msgid "Recent Music"
-msgstr ""
-
-#: Dash/DashHome.qml:47
-msgid "Videos Popular Online"
-msgstr ""
-
-#: Dash/DashHome.qml:151
-msgid "Home"
 msgstr ""
 
 #: Dash/DashMusic.qml:27 Dash/DashVideos.qml:28
@@ -200,7 +168,7 @@ msgstr ""
 msgid "Author:"
 msgstr ""
 
-#: Greeter/Lockscreen.qml:133
+#: Greeter/Lockscreen.qml:134
 msgid "Emergency Call"
 msgstr ""
 
@@ -237,11 +205,55 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: plugins/Unity/scope.cpp:298
+#: plugins/Unity/scope.cpp:317
 msgid "Sorry, there is nothing that matches your search."
 msgstr ""
 
-#: Shell.qml:399
+#: Shell.qml:240
+msgid "Top edge"
+msgstr ""
+
+#: Shell.qml:241
+msgid "Try swiping from the top edge to access the indicators"
+msgstr ""
+
+#: Shell.qml:262
+msgid "Left edge"
+msgstr ""
+
+#: Shell.qml:263
+msgid "Swipe from the left to reveal the launcher for quick access to apps"
+msgstr ""
+
+#: Shell.qml:487
 #, qt-format
 msgid "Please enter %1"
+msgstr ""
+
+#: Shell.qml:537
+msgid "Right edge"
+msgstr ""
+
+#: Shell.qml:538
+msgid "Try swiping from the right edge to unlock the phone"
+msgstr ""
+
+#: Shell.qml:630
+msgid "Close"
+msgstr ""
+
+#: Shell.qml:631
+msgid "Swipe up again to close the settings screen"
+msgstr ""
+
+#: Shell.qml:771
+msgid "Well done"
+msgstr ""
+
+#: Shell.qml:772
+msgid "You have now mastered the edge gestures and can start using the phone"
+msgstr ""
+
+#: Shell.qml:773
+msgid "Finish"
 msgstr ""

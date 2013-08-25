@@ -17,19 +17,23 @@
  */
 
 #include "AccountsService.h"
-#include <QtDBus/QDBusConnection>
-#include <QtDBus/QDBusMessage>
-#include <QtDBus/QDBusVariant>
+#include <QDBusConnection>
+#include <QDBusConnectionInterface>
+#include <QDBusMessage>
+#include <QDBusVariant>
 
 AccountsService::AccountsService(QObject* parent)
   : QObject(parent),
     accounts_manager(NULL),
     users()
 {
+    auto connection = QDBusConnection::SM_BUSNAME();
+    auto interface = connection.interface();
+    interface->startService("org.freedesktop.Accounts");
     accounts_manager = new QDBusInterface("org.freedesktop.Accounts",
                                           "/org/freedesktop/Accounts",
                                           "org.freedesktop.Accounts",
-                                          QDBusConnection::SM_BUSNAME(), this);
+                                          connection, this);
 }
 
 QVariant AccountsService::getUserProperty(const QString &user, const QString &property)

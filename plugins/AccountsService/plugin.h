@@ -19,8 +19,8 @@
 #ifndef ACCOUNTSSERVICE_PLUGIN_H
 #define ACCOUNTSSERVICE_PLUGIN_H
 
-#include <QtQml/QQmlEngine>
-#include <QtQml/QQmlExtensionPlugin>
+#include <QQmlEngine>
+#include <QQmlExtensionPlugin>
 
 class AccountsServicePlugin : public QQmlExtensionPlugin
 {

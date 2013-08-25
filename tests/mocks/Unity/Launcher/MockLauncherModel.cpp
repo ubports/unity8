@@ -174,3 +174,9 @@ int MockLauncherModel::findApp(const QString &appId)
     }
     return -1;
 }
+
+void MockLauncherModel::setUser(const QString &username)
+{
+    Q_UNUSED(username)
+    // TODO: implement this...
+}
