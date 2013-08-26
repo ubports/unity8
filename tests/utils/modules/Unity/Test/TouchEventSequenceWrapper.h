@@ -19,7 +19,7 @@
 
 #include <QtCore/QObject>
 #include <QtTest/QTest>
-#include <QtQml/QtQml>
+#include <QtQml/qqml.h>
 
 class TouchEventSequenceWrapper : public QObject
 {

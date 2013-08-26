@@ -17,7 +17,7 @@
 #include "plugin.h"
 #include "fake_gsettings.h"
 
-#include <QtQml>
+#include <QtQml/qqml.h>
 
 static QObject* controllerProvider(QQmlEngine* /* engine */, QJSEngine* /* scriptEngine */)
 {
