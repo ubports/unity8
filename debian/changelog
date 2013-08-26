@@ -1,3 +1,13 @@
+unity8 (7.81.3+13.10.20130826.2-0ubuntu1) saucy; urgency=low
+
+  [ Albert Astals ]
+  * Don't include QtQML It includes LOTS of files we don't need.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 243
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 26 Aug 2013 10:08:52 +0000
+
 unity8 (7.81.3+13.10.20130826.1-0ubuntu1) saucy; urgency=low
 
   * Automatic snapshot from revision 241
