@@ -1,3 +1,21 @@
+unity8 (7.81.3+13.10.20130826-0ubuntu1) saucy; urgency=low
+
+  [ Michael Zanetti ]
+  * delay move operations if the start dragging operation is running
+    This prevents items to left in wrong places when transitions clash.
+  * add empty setUser to allow compiling in jenkins again until the
+    branch that matches unity-api is ready to land. .
+  * add count and progress overlay information to real model too.
+
+  [ Pawel Stolowski ]
+  * Changed the type of setActive argument from
+    QVector<AbstractFilterOption *>::size_type to unsigned int.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 240
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 26 Aug 2013 02:31:42 +0000
+
 unity8 (7.81.3+13.10.20130821.2-0ubuntu1) saucy; urgency=low
 
   [ Michael Terry ]
