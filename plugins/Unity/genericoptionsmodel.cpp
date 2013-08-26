@@ -22,10 +22,18 @@
 
 // local
 #include "abstractfilteroption.h"
+#include "showallfilteroption.h"
 
-GenericOptionsModel::GenericOptionsModel(QObject *parent)
+GenericOptionsModel::GenericOptionsModel(bool showAllOption, QObject *parent)
     : QAbstractListModel(parent)
 {
+    if (showAllOption)
+    {
+        auto showAll = ShowAllFilterOption("TODO", this);
+        connect(showAll, SIGNAL(activeChanged(bool)), this, SLOT(onOptionChanged()));
+        connect(showAll, SIGNAL(activeChanged(bool)), this, SLOT(onShowAllClicked(bool)));
+        addOption(showAll, 0);
+    }
 }
 
 GenericOptionsModel::~GenericOptionsModel()
@@ -52,7 +60,7 @@ QVariant GenericOptionsModel::data(const QModelIndex& index, int role) const
         return QVariant();
     }
 
-    auto filterOption = m_options[index.row()];
+    auto filterOption = (m_showAll != nullptr && index.row() == 0) ? m_showAll : m_options[index.row()];
     switch (role)
     {
         case GenericOptionsModel::RoleId:
@@ -73,7 +81,7 @@ QVariant GenericOptionsModel::data(const QModelIndex& index, int role) const
 
 int GenericOptionsModel::rowCount(const QModelIndex& /* parent */) const
 {
-    return m_options.size ();
+    return m_options.size;
 }
 
 void GenericOptionsModel::setActive(int idx, bool value)
@@ -101,6 +109,11 @@ AbstractFilterOption* GenericOptionsModel::getRawOption(QVector<AbstractFilterOp
         return m_options[idx];
     }
     return nullptr;
+}
+
+void GenericOptionsModel::onShowAllClicked(bool active)
+{
+    ensureTheOnlyActive(m_options[0]);
 }
 
 void GenericOptionsModel::ensureTheOnlyActive(AbstractFilterOption *activeOption)

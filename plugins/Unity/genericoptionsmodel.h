@@ -35,7 +35,7 @@ class Q_DECL_EXPORT GenericOptionsModel : public QAbstractListModel
     Q_ENUMS(Roles)
 
 public:
-    GenericOptionsModel(QObject *parent = nullptr);
+    GenericOptionsModel(bool showAllOption = false, QObject *parent = nullptr);
     ~GenericOptionsModel();
 
     enum Roles {
@@ -63,6 +63,7 @@ Q_SIGNALS:
 protected Q_SLOTS:
     void onOptionChanged();
     void onActiveChanged();
+    void onShowAllClicked(bool active);
 
 protected:
     void addOption(AbstractFilterOption *option, int index);
