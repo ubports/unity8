@@ -31,9 +31,9 @@ class AccountsService: public QObject
 public:
     explicit AccountsService(QObject *parent = 0);
 
-public Q_SLOTS:
-    QVariant getUserProperty(const QString &user, const QString &property);
-    void setUserProperty(const QString &user, const QString &property, const QVariant &value);
+public:
+    Q_INVOKABLE QVariant getUserProperty(const QString &user, const QString &property);
+    Q_INVOKABLE void setUserProperty(const QString &user, const QString &property, const QVariant &value);
 };
 
 #endif
