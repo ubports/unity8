@@ -59,7 +59,8 @@ mk_build_deps() {
 
 if [ -f "/usr/bin/ninja" ] ; then
   GENERATOR="-G Ninja"
-  BUILD_COMMAND="ninja -j$NUM_JOBS"
+  # Ninja does not need -j, it parallelizes automatically.
+  BUILD_COMMAND="ninja"
 else
   GENERATOR=
   BUILD_COMMAND="make -j$NUM_JOBS"
