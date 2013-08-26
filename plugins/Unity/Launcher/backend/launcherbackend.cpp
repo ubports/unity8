@@ -28,18 +28,18 @@ LauncherBackend::LauncherBackend(QObject *parent):
     // TODO: load default pinned ones from default config, instead of hardcoding here...
 
     m_storedApps <<
-        QLatin1String("calendar-app.desktop") <<
-        QLatin1String("notes-app.desktop") <<
-        QLatin1String("ubuntu-weather-app.desktop") <<
-        QLatin1String("gmail-webapp.desktop") <<
-        QLatin1String("twitter-webapp.desktop") <<
-        QLatin1String("webbrowser-app.desktop") <<
-        QLatin1String("facebook-webapp.desktop") <<
-        QLatin1String("gallery-app.desktop") <<
-        QLatin1String("camera-app.desktop") <<
-        QLatin1String("address-book-app.desktop") <<
+        QLatin1String("dialer-app.desktop") <<
         QLatin1String("messaging-app.desktop") <<
-        QLatin1String("dialer-app.desktop");
+        QLatin1String("address-book-app.desktop") <<
+        QLatin1String("camera-app.desktop") <<
+        QLatin1String("gallery-app.desktop") <<
+        QLatin1String("facebook-webapp.desktop") <<
+        QLatin1String("webbrowser-app.desktop") <<
+        QLatin1String("twitter-webapp.desktop") <<
+        QLatin1String("gmail-webapp.desktop") <<
+        QLatin1String("ubuntu-weather-app.desktop") <<
+        QLatin1String("notes-app.desktop") <<
+        QLatin1String("calendar-app.desktop");
 
     // TODO: get stuff from desktop files instead this hardcoded map
     m_displayNameMap.insert("dialer-app.desktop", "Dialer");
