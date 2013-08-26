@@ -22,15 +22,15 @@ import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
 
 BaseMenuItem {
-    property string label: menu && menu.label ? menu.label : ""
+    id: menuItem
+    property alias text: header.text
     property bool busy: false
 
-    implicitHeight: label !== "" ? header.height : 0
+    implicitHeight: text !== "" ? header.height : 0
 
     ListItem.Header {
         id: header
 
-        text: label
         height: units.gu(4)
         anchors {
             left: parent.left
