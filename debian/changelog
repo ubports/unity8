@@ -1,3 +1,38 @@
+unity8 (7.81.3+13.10.20130826.4-0ubuntu1) saucy; urgency=low
+
+  [ Michał Sawicz ]
+  * Add module entry in HudClient's qmldir.
+
+  [ Jussi Pakkanen ]
+  * Let Ninja parallelize itself.
+
+  [ Nick Dedekind ]
+  * Abstraction of indicator menu item properties prior to move into
+    common components library.
+
+  [ Christopher Lee ]
+  * Added autopilot-tests for ephemeral, interactive and snap-decision
+    notifications.
+
+  [ Mirco Müller ]
+  * Added autopilot-tests for ephemeral, interactive and snap-decision
+    notifications.
+
+  [ Michael Zanetti ]
+  * only search visible children in findChild, add findInvisibleChild
+    for others.
+  * Added autopilot-tests for ephemeral, interactive and snap-decision
+    notifications.
+
+  [ Thomi Richards ]
+  * Added autopilot-tests for ephemeral, interactive and snap-decision
+    notifications.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 249
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 26 Aug 2013 18:34:44 +0000
+
 unity8 (7.81.3+13.10.20130826.2-0ubuntu1) saucy; urgency=low
 
   [ Albert Astals ]
