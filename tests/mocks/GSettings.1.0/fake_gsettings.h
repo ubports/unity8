@@ -18,7 +18,7 @@
 #define FAKE_GSETTINGS_H
 
 #include <QList>
-#include <QtQml>
+#include <QObject>
 
 class GSettingsSchemaQml: public QObject
 {

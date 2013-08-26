@@ -18,7 +18,6 @@
  */
 
 // Qt
-#include <QtQml>
 #include <QtQuick/QQuickView>
 #include <QtGui/QIcon>
 #include <QtGui/QGuiApplication>

@@ -23,10 +23,8 @@ import Unity.Indicators 0.1 as Indicators
 
 FramedMenuItem {
     id: menuItem
-    objectName: menuAction.name
-    enabled: menuAction.active
 
-    property int value : menuAction.state
+    property int value : 0.0
 
     control: Label {
         id: progress
@@ -36,10 +34,5 @@ FramedMenuItem {
         text: menuItem.value + " %"
         fontSize: "medium"
         color: "#e8e1d0"
-    }
-
-    Indicators.MenuAction {
-        id: menuAction
-        menu: menuItem.menu
     }
 }

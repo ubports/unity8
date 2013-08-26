@@ -357,11 +357,13 @@ BasicShell {
             }
         }
 
-        onPowerStateChange: {
-            if (state == 0) { // suspend
+        onDisplayPowerStateChange: {
+            // We ignore any display-off signals when the proximity sensor
+            // is active.  This usually indicates something like a phone call.
+            if (status == Powerd.Off && (flags & Powerd.UseProximity) == 0) {
                 powerConnection.setFocused(false);
                 SessionManager.lock();
-            } else if (state == 1) { // active
+            } else if (status == Powerd.On) {
                 powerConnection.setFocused(true);
             }
         }

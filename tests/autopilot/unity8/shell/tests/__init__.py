@@ -52,26 +52,25 @@ UNITYSHELL_GSETTINGS_PATH = "/org/compiz/profiles/unity/plugins/unityshell/"
 UNITYSHELL_LAUNCHER_KEY = "launcher-hide-mode"
 UNITYSHELL_LAUNCHER_MODE = 1 # launcher hidden
 
-def _get_device_emulation_scenarios():
-    if model() == 'Desktop':
-        return [
-            (
-                'Desktop Nexus 4',
-                dict(app_width=768, app_height=1280, grid_unit_px=18)
-            ),
-            (
-                'Desktop Nexus 10',
-                dict(app_width=2560, app_height=1600, grid_unit_px=20)
-            ),
-        ]
-    else:
-        return [
-            (
-                'Native Device',
-                dict(app_width=0, app_height=0, grid_unit_px=0)
-            )
-        ]
+def _get_device_emulation_scenarios(devices='All'):
+    nexus4 = ('Desktop Nexus 4',
+              dict(app_width=768, app_height=1280, grid_unit_px=18))
+    nexus10 = ('Desktop Nexus 10',
+               dict(app_width=2560, app_height=1600, grid_unit_px=20))
+    native = ('Native Device',
+              dict(app_width=0, app_height=0, grid_unit_px=0))
 
+    if model() == 'Desktop':
+        if devices == 'All':
+            return [nexus4, nexus10]
+        elif devices == 'Nexus4':
+            return [nexus4]
+        elif devices == 'Nexus10':
+            return [nexus10]
+        else:
+            raise RuntimeException('Unrecognized device-option "%s" passed.' % devices)
+    else:
+        return [native]
 
 class UnityTestCase(AutopilotTestCase):
 
@@ -149,7 +148,7 @@ class UnityTestCase(AutopilotTestCase):
             divisor = divisor * 2
         return divisor
 
-    def _launch(self, executable, ready_func):
+    def _launch(self, executable, ready_func, **kwargs):
         binary_path = get_binary_path(executable)
         lib_path = get_lib_path()
 
@@ -167,7 +166,8 @@ class UnityTestCase(AutopilotTestCase):
             binary_path,
             *self.unity_geometry_args,
             app_type='qt',
-            emulator_base=UnityEmulatorBase
+            emulator_base=UnityEmulatorBase,
+            **kwargs
         )
         self._set_proxy(app_proxy)
 
@@ -178,13 +178,13 @@ class UnityTestCase(AutopilotTestCase):
 
         return app_proxy
 
-    def launch_unity(self):
+    def launch_unity(self, **kwargs):
         """Launch the unity shell, return a proxy object for it."""
-        return self._launch("unity8", self.assertUnityReady)
+        return self._launch("unity8", self.assertUnityReady, **kwargs)
 
-    def launch_greeter(self):
+    def launch_greeter(self, **kwargs):
         """Launch the unity shell, return a proxy object for it."""
-        return self._launch("unity8-greeter", self.assertGreeterReady)
+        return self._launch("unity8-greeter", self.assertGreeterReady, **kwargs)
 
     def patch_lightdm_mock(self, mock_type='single'):
         self._lightdm_mock_type = mock_type
