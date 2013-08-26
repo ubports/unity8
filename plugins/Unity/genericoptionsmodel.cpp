@@ -29,7 +29,7 @@ GenericOptionsModel::GenericOptionsModel(bool showAllOption, QObject *parent)
 {
     if (showAllOption)
     {
-        auto showAll = ShowAllFilterOption("TODO", this);
+        auto showAll = new ShowAllFilterOption(this);
         connect(showAll, SIGNAL(activeChanged(bool)), this, SLOT(onOptionChanged()));
         connect(showAll, SIGNAL(activeChanged(bool)), this, SLOT(onShowAllClicked(bool)));
         addOption(showAll, 0);
@@ -60,7 +60,7 @@ QVariant GenericOptionsModel::data(const QModelIndex& index, int role) const
         return QVariant();
     }
 
-    auto filterOption = (m_showAll != nullptr && index.row() == 0) ? m_showAll : m_options[index.row()];
+    auto filterOption = m_options[index.row()];
     switch (role)
     {
         case GenericOptionsModel::RoleId:
@@ -81,7 +81,7 @@ QVariant GenericOptionsModel::data(const QModelIndex& index, int role) const
 
 int GenericOptionsModel::rowCount(const QModelIndex& /* parent */) const
 {
-    return m_options.size;
+    return m_options.size();
 }
 
 void GenericOptionsModel::setActive(int idx, bool value)

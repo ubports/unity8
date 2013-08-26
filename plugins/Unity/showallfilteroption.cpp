@@ -22,11 +22,13 @@
 
 #include <libintl.h>
 
-ShowAllFilterOption::ShowAllFilterOption(const QString &id, QObject *parent) :
+unsigned int ShowAllFilterOption::m_showAllCount = 0;
+
+ShowAllFilterOption::ShowAllFilterOption(QObject *parent) :
     AbstractFilterOption(parent),
-    m_active(false),
-    m_id(id)
+    m_active(false)
 {
+    m_id = QString("show_all::%1").arg(m_showAllCount++);
 }
 
 QString ShowAllFilterOption::id() const
@@ -36,7 +38,7 @@ QString ShowAllFilterOption::id() const
 
 QString ShowAllFilterOption::name() const
 {
-    QString::fromUtf8(dgettext("unity", "All"));
+    return QString::fromUtf8(dgettext("unity", "All"));
 }
 
 QString ShowAllFilterOption::iconHint() const

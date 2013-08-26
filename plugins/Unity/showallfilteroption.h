@@ -28,7 +28,7 @@ class Q_DECL_EXPORT ShowAllFilterOption : public AbstractFilterOption
     Q_OBJECT
 
 public:
-    explicit ShowAllFilterOption(const QString &id, QObject *parent = nullptr);
+    explicit ShowAllFilterOption(QObject *parent = nullptr);
 
     /* getters */
     QString id() const override;
@@ -42,6 +42,8 @@ public:
 private:
     bool m_active;
     QString m_id;
+
+    static unsigned int m_showAllCount;
 };
 
 Q_DECLARE_METATYPE(ShowAllFilterOption*)
