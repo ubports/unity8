@@ -28,19 +28,23 @@ LauncherBackend::LauncherBackend(QObject *parent):
     // TODO: load default pinned ones from default config, instead of hardcoding here...
 
     m_storedApps <<
-        QLatin1String("phone-app.desktop") <<
-        QLatin1String("camera-app.desktop") <<
-        QLatin1String("gallery-app.desktop") <<
-        QLatin1String("facebook-webapp.desktop") <<
-        QLatin1String("webbrowser-app.desktop") <<
-        QLatin1String("twitter-webapp.desktop") <<
-        QLatin1String("gmail-webapp.desktop") <<
-        QLatin1String("ubuntu-weather-app.desktop") <<
+        QLatin1String("calendar-app.desktop") <<
         QLatin1String("notes-app.desktop") <<
-        QLatin1String("calendar-app.desktop");
+        QLatin1String("ubuntu-weather-app.desktop") <<
+        QLatin1String("gmail-webapp.desktop") <<
+        QLatin1String("twitter-webapp.desktop") <<
+        QLatin1String("webbrowser-app.desktop") <<
+        QLatin1String("facebook-webapp.desktop") <<
+        QLatin1String("gallery-app.desktop") <<
+        QLatin1String("camera-app.desktop") <<
+        QLatin1String("address-book-app.desktop") <<
+        QLatin1String("messaging-app.desktop") <<
+        QLatin1String("dialer-app.desktop");
 
     // TODO: get stuff from desktop files instead this hardcoded map
-    m_displayNameMap.insert("phone-app.desktop", "Phone");
+    m_displayNameMap.insert("dialer-app.desktop", "Dialer");
+    m_displayNameMap.insert("messaging-app.desktop", "Messaging");
+    m_displayNameMap.insert("address-book-app.desktop", "Contacts");
     m_displayNameMap.insert("camera-app.desktop", "Camera");
     m_displayNameMap.insert("gallery-app.desktop", "Gallery");
     m_displayNameMap.insert("facebook-webapp.desktop", "Facebook");
@@ -52,7 +56,9 @@ LauncherBackend::LauncherBackend(QObject *parent):
     m_displayNameMap.insert("calendar-app.desktop", "Calendar");
 
     // TODO: get stuff from desktop files instead this hardcoded map
-    m_iconMap.insert("phone-app.desktop", "phone-app");
+    m_iconMap.insert("dialer-app.desktop", "phone-app");
+    m_iconMap.insert("messaging-app.desktop", "messages-app");
+    m_iconMap.insert("address-book-app.desktop", "contacts-app");
     m_iconMap.insert("camera-app.desktop", "camera");
     m_iconMap.insert("gallery-app.desktop", "gallery");
     m_iconMap.insert("facebook-webapp.desktop", "facebook");
