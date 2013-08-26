@@ -1,3 +1,18 @@
+unity8 (7.81.3+13.10.20130826.5-0ubuntu1) saucy; urgency=low
+
+  [ Michael Zanetti ]
+  * tweak launcher folding and visuals according to feedback from
+    design: - increase foldingStartHeight - Introduces a
+    foldingStopHeight. Folding only happens between the
+    foldingStartHeight and the foldingStopHeight. - Only change
+    brightness while folding - remove highlight of pressed icon -
+    decrease launcher's width by half a grid unit.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 251
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 26 Aug 2013 22:09:43 +0000
+
 unity8 (7.81.3+13.10.20130826.4-0ubuntu1) saucy; urgency=low
 
   [ Michał Sawicz ]
