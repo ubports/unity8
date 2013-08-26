@@ -85,6 +85,7 @@ private:
     QMap<QString, QAbstractItemModel*> m_overriddenCategories;
     mutable QMap<int, DeeListModel*> m_results;
     SignalsList m_signals;
+    mutable QList<unsigned int> m_categoryOrder;
 };
 
 #endif // CATEGORIES_H

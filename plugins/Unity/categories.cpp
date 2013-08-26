@@ -22,6 +22,9 @@
 #include "categories.h"
 #include "categoryresults.h"
 
+// Qt
+#include <QDebug>
+
 // TODO: use something from libunity once it's public
 enum CategoryColumn {
     ID,
@@ -79,13 +82,28 @@ void Categories::onCategoriesModelChanged(unity::glib::Object<DeeModel> model)
       delete model;
     }
     m_results.clear();
+    
     setModel(model);
 }
 
 void Categories::onCategoryOrderChanged(std::vector<unsigned int> cat_order)
 {
-    const QList<QPersistentModelIndex> pindex = QList<QPersistentModelIndex>();
-    Q_EMIT layoutChanged(pindex, QAbstractItemModel::VerticalSortHint);
+    for (unsigned int pos = 0; pos<cat_order.size(); pos++)
+    {
+        unsigned int cat = cat_order[pos];
+        const int old_pos = m_categoryOrder.indexOf(cat);
+
+        if (old_pos < 0) {
+            qWarning() << "No such category index:" << cat;
+            continue;
+        }
+        
+        if (static_cast<int>(pos) != old_pos) {
+            beginMoveRows(QModelIndex(), old_pos, old_pos, QModelIndex(), pos);
+            m_categoryOrder.move(old_pos, pos);
+            endMoveRows();
+        }
+    }
 }
 
 void
@@ -120,9 +138,10 @@ void Categories::onRowCountChanged()
             for (int i = 0; i < rowCount(); i++) {
                 auto id = data(index(i), RoleCategoryId).toString();
                 if (id != iter.key()) continue;
+                const int realIndex = m_categoryOrder.indexOf(i);
                 QVector<int> roles;
                 roles.append(RoleCount);
-                QModelIndex changedIndex = index(i);
+                QModelIndex changedIndex = index(realIndex);
                 Q_EMIT dataChanged(changedIndex, changedIndex, roles);
                 break;
             }
@@ -137,7 +156,8 @@ Categories::onEmitCountChanged()
     roles.append(Categories::RoleCount);
     Q_FOREACH(int categoryIndex, m_updatedCategories) {
         if (!m_results.contains(categoryIndex)) continue;
-        QModelIndex changedIndex = index(categoryIndex);
+        const int realIndex = m_categoryOrder.indexOf(categoryIndex);
+        const QModelIndex changedIndex = index(realIndex);
         Q_EMIT dataChanged(changedIndex, changedIndex, roles);
     }
     m_updatedCategories.clear();
@@ -191,7 +211,24 @@ Categories::data(const QModelIndex& index, int role) const
         return QVariant();
     }
 
-    auto realRow = m_unityScope->category_order()[index.row()];
+    if (m_categoryOrder.size() != rowCount())
+    {
+        // populate category order vector with 0..n
+        m_categoryOrder.clear();
+        const unsigned int lim = rowCount();
+        for (unsigned int i = 0; i<lim; i++) {
+            m_categoryOrder.append(i);
+        }
+    }
+
+    int realRow = index.row();
+    if (index.row() < m_categoryOrder.size()) {
+        realRow = m_categoryOrder[index.row()];
+    } else {
+        qWarning() << "Invalid index" << index.row();
+        return QVariant();
+    }
+    
     const QModelIndex realIndex = createIndex(realRow, index.column());
 
     switch (role) {
@@ -222,7 +259,7 @@ Categories::data(const QModelIndex& index, int role) const
                 if (m_overriddenCategories.find(id) != m_overriddenCategories.end())
                     return QVariant::fromValue(m_overriddenCategories[id]);
             }
-            return QVariant::fromValue(getResults(realIndex.row()));
+            return QVariant::fromValue(getResults(realRow));
         case RoleCount:
             if (m_overriddenCategories.size() > 0)
             {
