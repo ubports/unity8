@@ -25,7 +25,7 @@
 #include <QLightDM/UsersModel>
 
 #include <QtCore/QAbstractItemModel>
-#include <QtQml>
+#include <QtQml/qqml.h>
 
 static QObject *greeter_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
