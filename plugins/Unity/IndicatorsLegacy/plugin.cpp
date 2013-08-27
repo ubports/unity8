@@ -17,7 +17,7 @@
  */
 
 // Qt
-#include <QtQml>
+#include <QtQml/qqml.h>
 
 // self
 #include "plugin.h"

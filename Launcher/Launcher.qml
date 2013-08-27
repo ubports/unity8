@@ -26,9 +26,11 @@ Item {
 
     property bool available: true // can be used to disable all interactions
 
-    property int panelWidth: units.gu(8.5)
+    property int panelWidth: units.gu(8)
     property int dragAreaWidth: units.gu(1)
-    property real progress: dragArea.dragging  && dragArea.touchX > panel.width ? dragArea.touchX : 0
+    property int minimizeDistance: panelWidth * 2.5
+    property real progress: dragArea.dragging  && dragArea.touchX > panelWidth ?
+                                (width * (dragArea.touchX-panelWidth) / (width - panelWidth)) : 0
 
     readonly property bool shown: panel.x > -panel.width
 
@@ -206,7 +208,7 @@ Item {
             if (!dragging) {
                 if (distance > panel.width / 2) {
                     root.switchToNextState("visible")
-                    if (distance > panel.width * 2) {
+                    if (distance > minimizeDistance) {
                         root.dash()
                     }
                 } else {

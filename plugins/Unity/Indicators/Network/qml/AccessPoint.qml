@@ -58,7 +58,6 @@ Indicators.FramedMenuItem {
         return "image://gicon/" + imageName;
     }
 
-
     iconFrame: false
     control: CheckBox {
         id: checkBoxActive

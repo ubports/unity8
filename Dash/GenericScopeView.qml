@@ -80,6 +80,12 @@ ScopeView {
                         item.model = results
                     }
                     item.objectName = categoryId
+                    if (item.expandable) {
+                        var shouldFilter = index != categoryView.expandedIndex;
+                        if (shouldFilter != item.filter) {
+                            item.filter = shouldFilter;
+                        }
+                    }
                 }
 
                 Connections {

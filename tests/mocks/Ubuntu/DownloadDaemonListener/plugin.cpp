@@ -17,7 +17,6 @@
 #include "plugin.h"
 #include "MockDownloadTracker.h"
 
-#include <QtQml>
 #include <QtQml/QQmlContext>
 #include <qqml.h>
 
