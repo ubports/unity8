@@ -110,7 +110,10 @@ Item {
                     // destroyed when dragging them outside the list. This needs to be at least
                     // itemHeight to prevent folded items from disappearing and DragArea limits
                     // need to be smaller than this size to avoid breakage.
-                    property int extensionSize: itemHeight * 3
+                    property int extensionSize: 0
+                    // Setting extensionSize after the list has been populated because it has
+                    // the potential to mess up with the intial positioning.
+                    Component.onCompleted: extensionSize = itemHeight * 3
 
                     // The height of the area where icons start getting folded
                     property int foldingStartHeight: units.gu(6.5)
