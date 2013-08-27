@@ -38,7 +38,7 @@ Page {
         }
 
         Indicators.SectionMenuItem {
-            label: "Authentication"
+            text: "Authentication"
         }
 
         Indicators.FramedMenuItem {

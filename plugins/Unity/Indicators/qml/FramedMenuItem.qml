@@ -23,10 +23,8 @@ import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
 
 BaseMenuItem {
-    text: menu && menu.label ? menu.label : ""
     implicitHeight: units.gu(7)
 
-    icon: menu ? menu.icon : ""
     iconFrame: false
 
     HLine {

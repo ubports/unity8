@@ -26,7 +26,7 @@ Item {
 
     property bool available: true // can be used to disable all interactions
 
-    property int panelWidth: units.gu(8.5)
+    property int panelWidth: units.gu(8)
     property int dragAreaWidth: units.gu(1)
     property real progress: dragArea.dragging  && dragArea.touchX > panel.width ? dragArea.touchX : 0
 

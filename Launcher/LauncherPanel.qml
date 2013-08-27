@@ -62,7 +62,7 @@ Item {
             z: 1
             Image {
                 objectName: "dashItem"
-                width: units.gu(5.5)
+                width: units.gu(5)
                 height: width
                 anchors.centerIn: parent
                 source: "graphics/home.png"
@@ -113,13 +113,21 @@ Item {
                     property int extensionSize: itemHeight * 3
 
                     // The height of the area where icons start getting folded
-                    property int foldingAreaHeight: itemHeight * 0.75
-                    property int itemWidth: width
-                    property int itemHeight: width * 7.5 / 8
+                    property int foldingStartHeight: units.gu(6.5)
+                    // The height of the area where the items reach the final folding angle
+                    property int foldingStopHeight: foldingStartHeight - itemHeight - spacing
+                    property int itemWidth: units.gu(7)
+                    property int itemHeight: units.gu(6.5)
                     property int clickFlickSpeed: units.gu(60)
                     property int draggedIndex: dndArea.draggedIndex
                     property real realContentY: contentY - originY + topMargin
                     property int realItemHeight: itemHeight + spacing
+
+                    // In case the start dragging transition is running, we need to delay the
+                    // move because the displaced transition would clash with it and cause items
+                    // to be moved to wrong places
+                    property bool draggingTransitionRunning: false
+                    property int scheduledMoveTo: -1
 
                     displaced: Transition {
                         NumberAnimation { properties: "x,y"; duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
@@ -136,9 +144,8 @@ Item {
                         count: model.count
                         progress: model.progress
                         inverted: root.inverted
-                        highlighted: dragging && index === root.highlightIndex
                         z: -Math.abs(offset)
-                        maxAngle: 60
+                        maxAngle: 55
                         property bool dragging: false
 
                         ThinDivider {
@@ -202,10 +209,26 @@ Item {
                                 UbuntuNumberAnimation { properties: "angle,offset" }
                             },
                             Transition {
+                                id: draggingTransition
                                 from: "selected"
                                 to: "dragging"
-                                UbuntuNumberAnimation { properties: "height" }
-                                NumberAnimation { target: dropIndicator; properties: "opacity"; duration: UbuntuAnimation.FastDuration }
+                                SequentialAnimation {
+                                    PropertyAction { target: launcherListView; property: "draggingTransitionRunning"; value: true }
+                                    ParallelAnimation {
+                                        UbuntuNumberAnimation { properties: "height" }
+                                        NumberAnimation { target: dropIndicator; properties: "opacity"; duration: UbuntuAnimation.FastDuration }
+                                    }
+                                    ScriptAction {
+                                        script: {
+                                            if (launcherListView.scheduledMoveTo > -1) {
+                                                launcherListView.model.move(dndArea.draggedIndex, launcherListView.scheduledMoveTo)
+                                                dndArea.draggedIndex = launcherListView.scheduledMoveTo
+                                                launcherListView.scheduledMoveTo = -1
+                                            }
+                                        }
+                                    }
+                                    PropertyAction { target: launcherListView; property: "draggingTransitionRunning"; value: false }
+                                }
                             },
                             Transition {
                                 from: "dragging"
@@ -213,7 +236,9 @@ Item {
                                 NumberAnimation { target: dropIndicator; properties: "opacity"; duration: UbuntuAnimation.FastDuration }
                                 NumberAnimation { properties: "itemOpacity"; duration: UbuntuAnimation.BriskDuration }
                                 SequentialAnimation {
+                                    ScriptAction { script: if (index == launcherListView.count-1) launcherListView.flick(0, -launcherListView.clickFlickSpeed); }
                                     UbuntuNumberAnimation { properties: "height" }
+                                    ScriptAction { script: if (index == launcherListView.count-1) launcherListView.flick(0, -launcherListView.clickFlickSpeed); }
                                     PropertyAction { target: dndArea; property: "postDragging"; value: false }
                                     PropertyAction { target: dndArea; property: "draggedIndex"; value: -1 }
                                 }
@@ -243,9 +268,6 @@ Item {
 
                         onPressed: {
                             selectedItem = launcherListView.itemAt(mouseX, mouseY + launcherListView.realContentY)
-                            if (selectedItem !== null) {
-                                selectedItem.highlighted = true
-                            }
                         }
 
                         onClicked: {
@@ -280,7 +302,6 @@ Item {
                         }
 
                         onCanceled: {
-                            selectedItem.highlighted = false
                             selectedItem = undefined;
                             preDragging = false;
                             postDragging = false;
@@ -298,7 +319,6 @@ Item {
                                 return;
                             }
 
-                            selectedItem.highlighted = false
                             selectedItem.dragging = false;
                             selectedItem = undefined;
                             preDragging = false;
@@ -309,6 +329,9 @@ Item {
                             launcherListView.interactive = true;
                             if (droppedIndex >= launcherListView.count - 2 && postDragging) {
                                 launcherListView.flick(0, -launcherListView.clickFlickSpeed);
+                            }
+                            if (droppedIndex == 0 && postDragging) {
+                                launcherListView.flick(0, launcherListView.clickFlickSpeed);
                             }
                         }
 
@@ -387,8 +410,12 @@ Item {
                                 }
 
                                 if (newIndex >= 0 && newIndex < launcherListView.count) {
-                                    launcherListView.model.move(draggedIndex, newIndex)
-                                    draggedIndex = newIndex
+                                    if (launcherListView.draggingTransitionRunning) {
+                                        launcherListView.scheduledMoveTo = newIndex
+                                    } else {
+                                        launcherListView.model.move(draggedIndex, newIndex)
+                                        draggedIndex = newIndex
+                                    }
                                 }
                             }
                         }
@@ -425,8 +452,7 @@ Item {
                 height: itemHeight
                 width: itemWidth
                 rotation: root.rotation
-                highlighted: true
-                itemOpacity: 0.8
+                itemOpacity: 0.9
 
                 function flatten() {
                     fakeDragItemAnimation.start();
