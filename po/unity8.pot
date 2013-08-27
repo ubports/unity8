@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-22 09:59-0400\n"
+"POT-Creation-Date: 2013-08-27 13:36-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -86,8 +86,48 @@ msgstr ""
 msgid "YouTube"
 msgstr ""
 
-#: Components/DemoOverlay.qml:44
+#: Components/EdgeDemoOverlay.qml:145
 msgid "Skip intro"
+msgstr ""
+
+#: Components/EdgeDemo.qml:98
+msgid "Right edge"
+msgstr ""
+
+#: Components/EdgeDemo.qml:99
+msgid "Try swiping from the right edge to unlock the phone"
+msgstr ""
+
+#: Components/EdgeDemo.qml:135
+msgid "Top edge"
+msgstr ""
+
+#: Components/EdgeDemo.qml:136
+msgid "Try swiping from the top edge to access the indicators"
+msgstr ""
+
+#: Components/EdgeDemo.qml:161
+msgid "Close"
+msgstr ""
+
+#: Components/EdgeDemo.qml:162
+msgid "Swipe up again to close the settings screen"
+msgstr ""
+
+#: Components/EdgeDemo.qml:189
+msgid "Left edge"
+msgstr ""
+
+#: Components/EdgeDemo.qml:190
+msgid "Swipe from the left to reveal the launcher for quick access to apps"
+msgstr ""
+
+#: Components/EdgeDemo.qml:217
+msgid "Well done"
+msgstr ""
+
+#: Components/EdgeDemo.qml:218
+msgid "You have now mastered the edge gestures and can start using the phone"
 msgstr ""
 
 #: Components/PageHeader.qml:298
@@ -209,51 +249,7 @@ msgstr ""
 msgid "Sorry, there is nothing that matches your search."
 msgstr ""
 
-#: Shell.qml:240
-msgid "Top edge"
-msgstr ""
-
-#: Shell.qml:241
-msgid "Try swiping from the top edge to access the indicators"
-msgstr ""
-
-#: Shell.qml:262
-msgid "Left edge"
-msgstr ""
-
-#: Shell.qml:263
-msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr ""
-
-#: Shell.qml:487
+#: Shell.qml:429
 #, qt-format
 msgid "Please enter %1"
-msgstr ""
-
-#: Shell.qml:537
-msgid "Right edge"
-msgstr ""
-
-#: Shell.qml:538
-msgid "Try swiping from the right edge to unlock the phone"
-msgstr ""
-
-#: Shell.qml:630
-msgid "Close"
-msgstr ""
-
-#: Shell.qml:631
-msgid "Swipe up again to close the settings screen"
-msgstr ""
-
-#: Shell.qml:771
-msgid "Well done"
-msgstr ""
-
-#: Shell.qml:772
-msgid "You have now mastered the edge gestures and can start using the phone"
-msgstr ""
-
-#: Shell.qml:773
-msgid "Finish"
 msgstr ""

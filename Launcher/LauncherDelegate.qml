@@ -80,7 +80,7 @@ Item {
                 top: parent.top
                 margins: -units.dp(1)
             }
-            width: Math.min(units.gu(7.5), Math.max(units.gu(3), countLabel.implicitWidth + units.gu(2.5)))
+            width: Math.min(root.itemWidth, Math.max(units.gu(3), countLabel.implicitWidth + units.gu(2.5)))
             height: units.gu(3)
             source: "graphics/notification.sci"
             visible: root.count > 0
@@ -89,7 +89,7 @@ Item {
                 id: countLabel
                 text: root.count
                 anchors.centerIn: parent
-                width: units.gu(6)
+                width: root.itemWidth - units.gu(1)
                 horizontalAlignment: Text.AlignHCenter
                 elide: Text.ElideRight
                 color: "white"

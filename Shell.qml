@@ -162,10 +162,14 @@ FocusScope {
         // Whether the underlay is fully covered by opaque UI elements.
         property bool fullyCovered: panel.indicators.fullyOpened && shell.width <= panel.indicatorsMenuWidth
 
+        readonly property bool applicationRunning: ((mainStage.applications && mainStage.applications.count > 0)
+                                           || (sideStage.applications && sideStage.applications.count > 0))
+
         // Whether the user should see the topmost application surface (if there's one at all).
-        property bool applicationSurfaceShouldBeSeen:
-                (mainStage.applications && mainStage.applications.count > 0)
-                && (!stages.fullyHidden && !mainStage.usingScreenshots)
+        readonly property bool applicationSurfaceShouldBeSeen: applicationRunning && !stages.fullyHidden
+                                           && !mainStage.usingScreenshots // but want sideStage animating over app surface
+
+
 
         // NB! Application surfaces are stacked behing the shell one. So they can only be seen by the user
         // through the translucent parts of the shell surface.

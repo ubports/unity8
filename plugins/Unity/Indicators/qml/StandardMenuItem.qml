@@ -23,16 +23,16 @@ import Unity.Indicators 0.1 as Indicators
 
 FramedMenuItem {
     id: menuItem
-    objectName: menuAction.name
-    enabled: menuAction.active
 
-    readonly property bool checkable: menu ? (menu.isCheck || menu.isRadio) : false
-    readonly property bool checked: checkable ? menu.isToggled : false
+    property bool checkable: false
+    property bool checked: false
+
+    signal activate()
 
     // FIXME : need a radio button from sdk
     // https://bugs.launchpad.net/ubuntu-ui-toolkit/+bug/1211866
     onCheckableChanged: {
-        if (menu && checkable) {
+        if (checkable) {
             icon = checkComponent.createObject(menuItem);
         }
     }
@@ -67,10 +67,5 @@ FramedMenuItem {
                 menuItem.activate();
             }
         }
-    }
-
-    Indicators.MenuAction {
-        id: menuAction
-        menu: menuItem.menu
     }
 }

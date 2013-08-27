@@ -92,13 +92,11 @@ Item {
         when: windowShown
 
         function test_animations() {
-            var rightAnim = findChild(right, "wholeAnimation")
-            compare(rightAnim.running, true)
+            compare(right.running, true)
 
-            var leftAnim = findChild(left, "wholeAnimation")
-            compare(leftAnim.running, false)
+            compare(left.running, false)
             left.available = true
-            compare(leftAnim.running, true)
+            compare(left.running, true)
         }
 
         function test_skip() {

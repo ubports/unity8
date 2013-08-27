@@ -53,6 +53,11 @@ Showable {
      */
     property alias paused: wholeAnimation.paused
 
+    /*
+     * Whether animations are running.
+     */
+    readonly property alias running: wholeAnimation.running
+
     signal skip()
 
     function doSkip() {
