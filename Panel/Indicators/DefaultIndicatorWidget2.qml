@@ -24,7 +24,7 @@ import Unity.Indicators 0.1 as Indicators
 Indicators.IndicatorWidget {
     id: indicatorWidget
 
-    width: itemRow.width + units.gu(0.7)
+    width: itemRow.width + units.gu(0.5)
 
     property alias leftLabel: itemLeftLabel.text
     property alias rightLabel: itemRightLabel.text

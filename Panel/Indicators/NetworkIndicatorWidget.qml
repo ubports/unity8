@@ -24,7 +24,7 @@ import Unity.IndicatorsLegacy 0.1 as Indicators
 Indicators.IndicatorWidget {
     id: indicatorWidget
 
-    width: networkIcon.width + units.gu(0.7)
+    width: networkIcon.width + units.gu(0.5)
 
     property int signalStrength: 0
     property int connectionState: Indicators.NetworkConnection.Initial
