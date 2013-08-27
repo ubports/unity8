@@ -52,9 +52,11 @@ void CheckOptionFilter::onOptionsChanged(unity::dash::CheckOptionFilter::CheckOp
 
     m_options = new UnityOptionsModel(this, options,
                                       m_unityCheckOptionFilter->option_added,
-                                      m_unityCheckOptionFilter->option_removed);
+                                      m_unityCheckOptionFilter->option_removed,
+                                      true);
 
     connect(m_options, SIGNAL(activeChanged(AbstractFilterOption *)), m_options, SLOT(ensureTheOnlyActive(AbstractFilterOption *)));
+    connect(m_options, SIGNAL(showAllActivated()), this, SLOT(clear()));
 
     /* Property change signals */
     m_signals << m_unityCheckOptionFilter->options.changed.connect(sigc::mem_fun(this, &CheckOptionFilter::onOptionsChanged));

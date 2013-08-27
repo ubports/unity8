@@ -59,6 +59,7 @@ public Q_SLOTS:
 
 Q_SIGNALS:
     void activeChanged(AbstractFilterOption *option);
+    void showAllActivated();
 
 protected Q_SLOTS:
     void onOptionChanged();
@@ -66,7 +67,7 @@ protected Q_SLOTS:
     void onShowAllClicked(bool active);
 
 protected:
-    void addOption(AbstractFilterOption *option, int index);
+    void addOption(AbstractFilterOption *option, int index = -1);
     void removeOption(int index);
     int indexOf(const QString &option_id);
 

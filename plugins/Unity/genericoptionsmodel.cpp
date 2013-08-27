@@ -32,7 +32,7 @@ GenericOptionsModel::GenericOptionsModel(bool showAllOption, QObject *parent)
         auto showAll = new ShowAllFilterOption(this);
         connect(showAll, SIGNAL(activeChanged(bool)), this, SLOT(onOptionChanged()));
         connect(showAll, SIGNAL(activeChanged(bool)), this, SLOT(onShowAllClicked(bool)));
-        addOption(showAll, 0);
+        addOption(showAll);
     }
 }
 
@@ -111,11 +111,6 @@ AbstractFilterOption* GenericOptionsModel::getRawOption(QVector<AbstractFilterOp
     return nullptr;
 }
 
-void GenericOptionsModel::onShowAllClicked(bool active)
-{
-    ensureTheOnlyActive(m_options[0]);
-}
-
 void GenericOptionsModel::ensureTheOnlyActive(AbstractFilterOption *activeOption)
 {
     if (activeOption->active()) {
@@ -180,4 +175,10 @@ void GenericOptionsModel::onActiveChanged()
     {
         Q_EMIT activeChanged(option);
     }
+}
+
+void GenericOptionsModel::onShowAllClicked(bool active)
+{
+    if (active)
+        Q_EMIT showAllActivated();
 }
