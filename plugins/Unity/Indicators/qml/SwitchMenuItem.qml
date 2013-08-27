@@ -24,10 +24,10 @@ import Unity.Indicators 0.1 as Indicators
 
 FramedMenuItem {
     id: menuItem
-    objectName: menuAction.name
-    enabled: menuAction.enabled
 
-    readonly property bool checked: menu ? menu.isToggled : false
+    property bool checked: false
+
+    signal activate()
 
     onCheckedChanged: {
         // Can't rely on binding. Checked is assigned on click.
@@ -49,10 +49,5 @@ FramedMenuItem {
         onClicked: {
             menuItem.activate();
         }
-    }
-
-    Indicators.MenuAction {
-        id: menuAction
-        menu: menuItem.menu
     }
 }

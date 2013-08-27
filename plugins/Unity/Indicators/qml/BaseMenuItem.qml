@@ -25,13 +25,9 @@ ListItem.Standard {
     id: baseMenu
 
     property bool menuActivated: false
-    property QtObject menu
 
     signal selectMenu()
     signal deselectMenu()
-
-    signal activate()
-    signal changeState(var value)
 
     showDivider: false
     __foregroundColor: "#e8e1d0" // FIXME not in palette yet

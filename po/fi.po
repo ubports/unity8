@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-08-09 12:18+0200\n"
-"PO-Revision-Date: 2013-08-12 17:45+0000\n"
-"Last-Translator: Aleksi Kinnunen <Unknown>\n"
+"PO-Revision-Date: 2013-08-23 16:15+0000\n"
+"Last-Translator: Timo Jyrinki <timo.jyrinki@canonical.com>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-08-22 06:11+0000\n"
-"X-Generator: Launchpad (build 16734)\n"
+"X-Launchpad-Export-Date: 2013-08-24 05:59+0000\n"
+"X-Generator: Launchpad (build 16738)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -94,35 +94,35 @@ msgstr "Viimeisimmät haut"
 #: Dash/Apps/AppInfo.qml:72
 #, qt-format
 msgid "(%1)"
-msgstr ""
+msgstr "(%1)"
 
 #. TRANSLATORS: Number of persons who wrote reviews for this app
 #: Dash/Apps/AppInfo.qml:84 tests/qmltests/Dash/Apps/tst_AppPreview.qml:115
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 arvostelu"
+msgstr[1] "%1 arvostelua"
 
 #: Dash/Apps/AppPreview.qml:181
 msgid "Rate this"
-msgstr ""
+msgstr "Arvioi tämä"
 
 #: Dash/Apps/AppReviews.qml:72
 msgid "Add a review"
-msgstr ""
+msgstr "Lisää arvostelu"
 
 #: Dash/Apps/AppReviews.qml:84
 msgid "Review"
-msgstr ""
+msgstr "Arvostelu"
 
 #: Dash/Apps/AppReviews.qml:118
 msgid "Send"
-msgstr ""
+msgstr "Lähetä"
 
 #: Dash/Apps/AppReviews.qml:136
 msgid "Comments:"
-msgstr ""
+msgstr "Kommentit:"
 
 #: Dash/DashApps.qml:65
 msgid "Running apps"
@@ -244,4 +244,4 @@ msgstr "Hakuun täsmääviä tuloksia ei löydy."
 #: Shell.qml:399
 #, qt-format
 msgid "Please enter %1"
-msgstr ""
+msgstr "Kirjoita %1"
