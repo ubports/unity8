@@ -492,6 +492,7 @@ Item {
                 height: childrenRect.height
 
                 Repeater {
+                    id: popoverRepeater
                     model: popover.model
 
                     ListItems.Standard {
@@ -502,8 +503,11 @@ Item {
                             if (!model.clickable) {
                                 return;
                             }
-                            LauncherModel.quickListActionInvoked(appId, index);
                             PopupUtils.close(popover);
+                            // Unsetting model to prevent showing changing entries during fading out
+                            // that may happen because of triggering an action.
+                            LauncherModel.quickListActionInvoked(appId, index);
+                            popoverRepeater.model = undefined;
                         }
                     }
                 }
