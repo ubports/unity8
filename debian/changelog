@@ -1,3 +1,17 @@
+unity8 (7.81.3+13.10.20130827-0ubuntu1) saucy; urgency=low
+
+  [ Michael Zanetti ]
+  * Theme the Quicklist Popover.
+
+  [ Albert Astals ]
+  * Apply expandedIndex on delegate creation bug #1213033. (LP:
+    #1213033)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 254
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 27 Aug 2013 02:10:43 +0000
+
 unity8 (7.81.3+13.10.20130826.5-0ubuntu1) saucy; urgency=low
 
   [ Michael Zanetti ]
