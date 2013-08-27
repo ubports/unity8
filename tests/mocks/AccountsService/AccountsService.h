@@ -20,9 +20,9 @@
 #ifndef UNITY_MOCK_ACCOUNTSSERVICE_H
 #define UNITY_MOCK_ACCOUNTSSERVICE_H
 
-#include <QtCore/QObject>
-#include <QtCore/QString>
-#include <QtCore/QVariant>
+#include <QObject>
+#include <QString>
+#include <QVariant>
 
 class AccountsService: public QObject
 {
