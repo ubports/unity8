@@ -125,7 +125,10 @@ void GenericOptionsModel::ensureTheOnlyActive(AbstractFilterOption *activeOption
 
 void GenericOptionsModel::addOption(AbstractFilterOption *option, int index)
 {
-    m_options.insert(index, option);
+    if (index >= 0)
+        m_options.insert(index, option);
+    else
+        m_options.append(option);
 
     connect(option, SIGNAL(idChanged(const QString &)), this, SLOT(onOptionChanged()));
     connect(option, SIGNAL(nameChanged(const QString &)), this, SLOT(onOptionChanged()));
