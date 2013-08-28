@@ -65,17 +65,17 @@ DeeModel* FiltersBindingsTest::createFilterModel()
 
 void FiltersBindingsTest::createMultiRangeFilter(DeeModel *model, const std::string &id, const std::string &name, int optionCount)
 {
-    createFilter(model, "filter-multirange", id, name, optionCount);
+    createFilter(model, "filter-multirange", id, name, optionCount, true);
 }
 
 void FiltersBindingsTest::createRadioOptionFilter(DeeModel *model, const std::string &id, const std::string &name, int optionCount)
 {
-    createFilter(model, "filter-radiooption", id, name, optionCount);
+    createFilter(model, "filter-radiooption", id, name, optionCount, true);
 }
 
 void FiltersBindingsTest::createCheckOptionFilter(DeeModel *model, const std::string &id, const std::string &name, int optionCount)
 {
-    createFilter(model, "filter-checkoption", id, name, optionCount);
+    createFilter(model, "filter-checkoption", id, name, optionCount, true);
 }
 
 void FiltersBindingsTest::createRatingsFilter(DeeModel *model, const std::string &id, const std::string &name)
@@ -90,7 +90,7 @@ void FiltersBindingsTest::createRatingsFilter(DeeModel *model, const std::string
     GVariant *children[2];
     GVariant *key1 = g_variant_new_string("show-all-button");
     GVariant *key2 = g_variant_new_string("rating");
-    children[0] = g_variant_new_dict_entry(key1, g_variant_new_variant(g_variant_new_boolean(false)));
+    children[0] = g_variant_new_dict_entry(key1, g_variant_new_variant(g_variant_new_boolean(true)));
     children[1] = g_variant_new_dict_entry(key2, g_variant_new_variant(g_variant_new_double(0.0f)));
     auto fhints = g_variant_new_array(G_VARIANT_TYPE("{sv}"), children, 2);
 
@@ -102,7 +102,7 @@ void FiltersBindingsTest::createRatingsFilter(DeeModel *model, const std::string
     dee_model_append_row(model, row);
 }
 
-void FiltersBindingsTest::createFilter(DeeModel *model, const std::string &renderer, const std::string &id, const std::string &name, int optionCount)
+void FiltersBindingsTest::createFilter(DeeModel *model, const std::string &renderer, const std::string &id, const std::string &name, int optionCount, bool showAll)
 {
     GVariant* row[8];
 
@@ -114,7 +114,7 @@ void FiltersBindingsTest::createFilter(DeeModel *model, const std::string &rende
     GVariant *children[2];
     GVariant *key1 = g_variant_new_string("show-all-button");
     GVariant *key2 = g_variant_new_string("options");
-    children[0] = g_variant_new_dict_entry(key1, g_variant_new_variant(g_variant_new_boolean(false)));
+    children[0] = g_variant_new_dict_entry(key1, g_variant_new_variant(g_variant_new_boolean(showAll)));
     children[1] = g_variant_new_dict_entry(key2, g_variant_new_variant(createOptions(optionCount)));
     auto fhints = g_variant_new_array(G_VARIANT_TYPE("{sv}"), children, 2);
 

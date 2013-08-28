@@ -52,7 +52,7 @@ void RadioOptionFilter::onOptionsChanged(unity::dash::RadioOptionFilter::RadioOp
     m_options = new UnityOptionsModel(this, m_unityRadioOptionFilter->options,
                                       m_unityRadioOptionFilter->option_added,
                                       m_unityRadioOptionFilter->option_removed,
-                                      this);
+                                      m_unityRadioOptionFilter->show_all_button);
     connect(m_options, SIGNAL(showAllActivated()), this, SLOT(clear()));
 
     m_signals << m_unityRadioOptionFilter->options.changed.connect(sigc::mem_fun(this, &RadioOptionFilter::onOptionsChanged));

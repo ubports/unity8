@@ -53,7 +53,7 @@ void RatingsFilter::setUnityFilter(unity::dash::Filter::Ptr filter)
 
     delete m_options;
 
-    m_options = new RatingOptionsModel(true, this);
+    m_options = new RatingOptionsModel(m_unityRatingsFilter->show_all_button, this);
     connect(m_options, SIGNAL(activeChanged(AbstractFilterOption *)), m_options, SLOT(ensureTheOnlyActive(AbstractFilterOption *)));
     connect(m_options, SIGNAL(activeChanged(AbstractFilterOption *)), this, SLOT(onActiveChanged(AbstractFilterOption *)));
     connect(m_options, SIGNAL(showAllActivated()), this, SLOT(clear()));

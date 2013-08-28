@@ -53,7 +53,7 @@ void CheckOptionFilter::onOptionsChanged(unity::dash::CheckOptionFilter::CheckOp
     m_options = new UnityOptionsModel(this, options,
                                       m_unityCheckOptionFilter->option_added,
                                       m_unityCheckOptionFilter->option_removed,
-                                      true);
+                                      m_unityCheckOptionFilter->show_all_button);
 
     connect(m_options, SIGNAL(activeChanged(AbstractFilterOption *)), m_options, SLOT(ensureTheOnlyActive(AbstractFilterOption *)));
     connect(m_options, SIGNAL(showAllActivated()), this, SLOT(clear()));

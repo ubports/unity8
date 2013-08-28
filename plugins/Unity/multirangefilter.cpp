@@ -53,7 +53,7 @@ void MultiRangeFilter::onOptionsChanged(unity::dash::MultiRangeFilter::Options o
     m_options = new UnityOptionsModel(this, options,
                                       m_unityMultiRangeFilter->option_added,
                                       m_unityMultiRangeFilter->option_removed,
-                                      true);
+                                      m_unityMultiRangeFilter->show_all_button);
 
     connect(m_options, SIGNAL(activeChanged(AbstractFilterOption *)), m_options, SLOT(ensureTheOnlyActive(AbstractFilterOption *)));
     connect(m_options, SIGNAL(showAllActivated()), this, SLOT(clear()));
