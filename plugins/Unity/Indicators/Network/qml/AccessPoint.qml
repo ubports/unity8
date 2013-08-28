@@ -22,16 +22,25 @@ import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
 import Unity.Indicators 0.1 as Indicators
 
-Indicators.MenuItem {
+Indicators.FramedMenuItem {
     id: accessPoint
-    property variant actionWifiApStrength : menu && actionGroup ? actionGroup.action(menu.extra.canonical_wifi_ap_strength_action) : null
-    property variant wifiApStrength : actionWifiApStrength && actionWifiApStrength.valid ? actionWifiApStrength.state : "0"
 
-    function getNetworkIcon(data) {
+    property bool checked: false
+    property bool secure: false
+    property bool adHoc: false
+    property int signalStrength: 0
+
+    signal activate()
+
+    onCheckedChanged: {
+        // Can't rely on binding. Checked is assigned on click.
+        checkBoxActive.checked = checked;
+    }
+
+    icon: {
         var imageName = "nm-signal-100"
-        var signalStrength = parseInt(wifiApStrength)
 
-        if (data.extra.canonical_wifi_ap_is_adhoc) {
+        if (adHoc) {
             imageName = "nm-adhoc";
         } else if (signalStrength == 0) {
             imageName = "nm-signal-00";
@@ -43,26 +52,21 @@ Indicators.MenuItem {
             imageName = "nm-signal-75";
         }
 
-        if (data.extra.canonical_wifi_ap_is_secure) {
+        if (secure) {
             imageName += "-secure";
         }
-
         return "image://gicon/" + imageName;
     }
 
-    icon: menu && wifiApStrength ? getNetworkIcon(menu) : "image://gicon/wifi-none"
     iconFrame: false
     control: CheckBox {
         id: checkBoxActive
         height: units.gu(4)
         width: units.gu(4)
         anchors.centerIn: parent
-    }
 
-    Indicators.MenuActionBinding {
-        actionGroup: accessPoint.actionGroup
-        action: menu ? menu.action : ""
-        target: checkBoxActive
-        property: "checked"
+        onClicked: {
+            accessPoint.activate();
+        }
     }
 }

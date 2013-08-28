@@ -19,8 +19,10 @@
 
 import QtQuick 2.0
 import QtTest 1.0
+import GSettings 1.0
 import Ubuntu.Application 0.1
 import Unity.Test 0.1 as UT
+import Powerd 0.1
 
 import "../.."
 
@@ -53,24 +55,28 @@ Item {
         when: windowShown
 
         function initTestCase() {
-            // swipe away the greeter/lockscreen
-            var touchX = shell.width - (shell.edgeSize / 2);
-            var touchY = shell.height / 2;
-            touchFlick(shell, touchX, touchY, shell.width * 0.1, touchY);
-
-            var dash = findChild(shell, "dash");
-            // wait until the animation has finished
-            tryCompare(dash, "contentScale", 1.0);
-            tryCompare(dash, "opacity", 1.0);
+            swipeAwayGreeter();
         }
 
         function cleanup() {
+            // If a test invoked the greeter, make sure we swipe it away again
+            var greeter = findChild(shell, "greeter");
+            if (greeter.shown) {
+                swipeAwayGreeter();
+            }
+
             // kill all (fake) running apps
-            ApplicationManager.mainStageApplications.clear();
-            ApplicationManager.sideStageApplications.clear();
+            killApps(ApplicationManager.mainStageApplications);
+            killApps(ApplicationManager.sideStageApplications);
 
             var dashHome = findChild(shell, "DashHome");
             swipeUntilScopeViewIsReached(dashHome);
+        }
+
+        function killApps(apps) {
+            while (apps.count > 0) {
+                ApplicationManager.stopProcess(apps.get(0));
+            }
         }
 
         /*
@@ -100,13 +106,50 @@ Item {
             // Minimize that application once again
             swipeFromLeftEdge();
 
-            // kill it
-            ApplicationManager.mainStageApplications.clear();
-
+            // Right edge behavior should now be the same as before that app,
+            // was launched.  Manually cleanup beforehand to get to initial
+            // state.
+            cleanup();
             waitForUIToSettle();
-
-            // Right edge behavior should now be the same as before that app was launched
             checkRightEdgeDragWithNoRunningApps();
+        }
+
+        function test_suspend() {
+            var greeter = findChild(shell, "greeter");
+
+            // Launch an app from the launcher
+            dragLauncherIntoView();
+            tapOnAppIconInLauncher();
+            waitUntilApplicationWindowIsFullyVisible();
+
+            var mainApp = ApplicationManager.mainStageFocusedApplication;
+            tryCompareFunction(function() { return mainApp != null; }, true);
+
+            // Try to suspend while proximity is engaged...
+            Powerd.displayPowerStateChange(Powerd.Off, Powerd.UseProximity);
+            tryCompare(greeter, "showProgress", 0);
+
+            // Now really suspend
+            Powerd.displayPowerStateChange(Powerd.Off, 0);
+            tryCompare(greeter, "showProgress", 1);
+            tryCompare(ApplicationManager, "mainStageFocusedApplication", null);
+
+            // And wake up
+            Powerd.displayPowerStateChange(Powerd.On, 0);
+            tryCompare(ApplicationManager, "mainStageFocusedApplication", mainApp);
+            tryCompare(greeter, "showProgress", 1);
+        }
+
+        function swipeAwayGreeter() {
+            var greeter = findChild(shell, "greeter");
+            tryCompare(greeter, "showProgress", 1);
+
+            var touchX = shell.width - (shell.edgeSize / 2);
+            var touchY = shell.height / 2;
+            touchFlick(shell, touchX, touchY, shell.width * 0.1, touchY);
+
+            // wait until the animation has finished
+            tryCompare(greeter, "showProgress", 0);
         }
 
         /*
@@ -123,8 +166,8 @@ Item {
 
             var dash = findChild(shell, "dash");
             // check that dash has normal scale and opacity
-            compare(dash.contentScale, 1.0);
-            compare(dash.opacity, 1.0);
+            tryCompare(dash.contentScale, 1.0);
+            tryCompare(dash.opacity, 1.0);
 
             touchFlick(shell, touchX, touchY, shell.width * 0.1, touchY,
                        true /* beginTouch */, false /* endTouch */);
@@ -276,6 +319,22 @@ Item {
                     previousY = itemRectInShell.y;
                 }
             } while (!isStill);
+        }
+
+        function test_wallpaper_data() {
+            return [
+                {tag: "red", url: "tests/data/unity/backgrounds/red.png", expectedUrl: "tests/data/unity/backgrounds/red.png"},
+                {tag: "blue", url: "tests/data/unity/backgrounds/blue.png", expectedUrl: "tests/data/unity/backgrounds/blue.png"},
+                {tag: "invalid", url: "invalid", expectedUrl: shell.defaultBackground},
+                {tag: "empty", url: "", expectedUrl: shell.defaultBackground}
+            ]
+        }
+
+        function test_wallpaper(data) {
+            var backgroundImage = findChild(shell, "backgroundImage")
+            GSettingsController.setPictureUri(data.url)
+            tryCompareFunction(function() { return backgroundImage.source.toString().indexOf(data.expectedUrl) !== -1; }, true)
+            tryCompare(backgroundImage, "status", Image.Ready)
         }
     }
 }

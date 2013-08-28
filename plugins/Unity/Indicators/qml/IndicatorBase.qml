@@ -14,46 +14,40 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * Authors:
- *      Renato Araujo Oliveira Filho <renato@canonical.com>
  *      Nick Dedekind <nick.dedekind@canonical.com>
  */
 
 import QtQuick 2.0
-import QMenuModel 0.1
+import QMenuModel 0.1 as QMenuModel
 import Unity.Indicators 0.1 as Indicators
 
 Item {
     id: indicatorItem
 
+    // FIXME : should be disabled until bus available when we have desktop indicators
+    // for now, disable when we dont habe the correct profile.
+    enabled: menuObjectPaths.hasOwnProperty(device)
+
     //const
     property string title
-    property int busType
     property string busName
     property string actionsObjectPath
     property var menuObjectPaths: undefined
     readonly property string device: "phone"
+    property string rootMenuType: "com.canonical.indicator.root"
+    property bool active: false
 
     property string deviceMenuObjectPath: menuObjectPaths.hasOwnProperty(device) ? menuObjectPaths[device] : ""
 
     signal actionGroupUpdated()
     signal modelUpdated()
 
-    property var actionGroup: QDBusActionGroup {
-        busType: indicatorItem.busType
-        busName: indicatorItem.busName
-        objectPath: indicatorItem.actionsObjectPath
+    property alias menuModel: cachedModel.model
 
-        onActionAppear: indicatorItem.actionGroupUpdated();
-    }
-
-    property var proxyModel: Indicators.FlatMenuProxyModel {
-        busType: indicatorItem.busType
-        busName: indicatorItem.busName
-        objectPath: indicatorItem.deviceMenuObjectPath
-
-        onStatusChanged: indicatorItem.modelUpdated();
-        onRowsInserted: indicatorItem.modelUpdated();
-        onRowsRemoved: indicatorItem.modelUpdated();
-        onDataChanged: indicatorItem.modelUpdated();
+    CachedUnityMenuModel {
+        id: cachedModel
+        busName: active ? indicatorItem.busName : ""
+        actionsObjectPath: active ? indicatorItem.actionsObjectPath : ""
+        menuObjectPath: active ? indicatorItem.deviceMenuObjectPath : ""
     }
 }

@@ -30,7 +30,14 @@ FocusScope {
 
     // FIXME delay the search so that daemons have time to settle, note that
     // removing this will break ScopeView::test_changeScope
-    onScopeChanged: timer.restart()
+    onScopeChanged: {
+        timer.restart();
+        scope.activateApplication.connect(activateApp);
+    }
+
+    function activateApp(desktopFilePath) {
+        shell.activateApplication(desktopFilePath);
+    }
 
     Timer {
         id: timer

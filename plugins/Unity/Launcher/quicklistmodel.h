@@ -36,6 +36,16 @@ public:
     ~QuickListModel();
 
     void appendAction(const QuickListEntry &entry);
+
+    /**
+     * @brief Update an existing action
+     * @param entry The new, updated entry
+     *
+     * This will only do something if entry.actionId is found in the model.
+     * To add a new entry, use appendAction().
+     */
+    void updateAction(const QuickListEntry &entry);
+
     QuickListEntry get(int index) const;
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;

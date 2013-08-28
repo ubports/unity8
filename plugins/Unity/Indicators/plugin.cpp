@@ -1,44 +1,54 @@
 /*
- * Copyright (C) 2012 Canonical, Ltd.
+ * Copyright 2013 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
+ * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation; version 3.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
+ * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Author: Nick Dedekind <nick.dedekind@canonical.com>
+ * Authors:
+ *      Nick Dedekind <nick.dedekind@canonical.com>
  */
 
 // Qt
-#include <QtQml>
+#include <QtQml/qqml.h>
 
 // self
 #include "plugin.h"
 
 // local
-#include "flatmenuproxymodel.h"
+#include "indicators.h"
 #include "indicatorsmanager.h"
 #include "indicatorsmodel.h"
-#include "indicators.h"
 #include "menucontentactivator.h"
 #include "modelprinter.h"
+#include "rootactionstate.h"
+#include "unitymenumodelcache.h"
+#include "unitymenumodelstack.h"
 
-void IndicatorsPlugin::registerTypes(const char *uri)
+static QObject* menuModelCacheSingleton(QQmlEngine* engine, QJSEngine* scriptEngine) {
+  Q_UNUSED(engine);
+  Q_UNUSED(scriptEngine);
+  return new UnityMenuModelCache;
+}
+
+void Indicators2Plugin::registerTypes(const char *uri)
 {
-    Q_INIT_RESOURCE(indicators);
-
     qmlRegisterType<IndicatorsManager>(uri, 0, 1, "IndicatorsManager");
-    qmlRegisterType<FlatMenuProxyModel>(uri, 0, 1, "FlatMenuProxyModel");
     qmlRegisterType<IndicatorsModel>(uri, 0, 1, "IndicatorsModel");
-    qmlRegisterType<ModelPrinter>(uri, 0, 1, "ModelPrinter");
     qmlRegisterType<MenuContentActivator>(uri, 0, 1, "MenuContentActivator");
+    qmlRegisterType<UnityMenuModelStack>(uri, 0, 1, "UnityMenuModelStack");
+    qmlRegisterType<RootActionState>(uri, 0, 1, "RootActionState");
+    qmlRegisterType<ModelPrinter>(uri, 0, 1, "ModelPrinter");
+
+    qmlRegisterSingletonType<UnityMenuModelCache>(uri, 0, 1, "UnityMenuModelCache", menuModelCacheSingleton);
 
     qmlRegisterUncreatableType<MenuContentState>(uri, 0, 1, "MenuContentState", "Can't create MenuContentState class");
     qmlRegisterUncreatableType<ActionState>(uri, 0, 1, "ActionState", "Can't create ActionState class");

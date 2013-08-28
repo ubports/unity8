@@ -1,3 +1,312 @@
+unity8 (7.81.3+13.10.20130828.1-0ubuntu1) saucy; urgency=low
+
+  [ Andrea Cimitan ]
+  * Hide the LauncherPanel when it's really hidden, by changing visible
+    to false.
+
+  [ Gerry Boland ]
+  * Fix sidestage applications - they were being ignored in the show-
+    application-surface logic. (LP: #1217027, #1210079)
+
+  [ Michał Sawicz ]
+  * Raise the exception if typing failed in autopilot.
+
+  [ Nick Dedekind ]
+  * Added location indicator defaults.
+
+  [ Michael Zanetti ]
+  * increase minimal dragging width for dismissing apps with left edge
+    make it a configurable parameter and adjust animation to look like
+    requested in the bug report . (LP: #1213153)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 262
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 28 Aug 2013 11:55:46 +0000
+
+unity8 (7.81.3+13.10.20130827.1-0ubuntu1) saucy; urgency=low
+
+  [ Michael Zanetti ]
+  * unset model in quicklist before closing it.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 256
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 27 Aug 2013 10:49:17 +0000
+
+unity8 (7.81.3+13.10.20130827-0ubuntu1) saucy; urgency=low
+
+  [ Michael Zanetti ]
+  * Theme the Quicklist Popover.
+
+  [ Albert Astals ]
+  * Apply expandedIndex on delegate creation bug #1213033. (LP:
+    #1213033)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 254
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 27 Aug 2013 02:10:43 +0000
+
+unity8 (7.81.3+13.10.20130826.5-0ubuntu1) saucy; urgency=low
+
+  [ Michael Zanetti ]
+  * tweak launcher folding and visuals according to feedback from
+    design: - increase foldingStartHeight - Introduces a
+    foldingStopHeight. Folding only happens between the
+    foldingStartHeight and the foldingStopHeight. - Only change
+    brightness while folding - remove highlight of pressed icon -
+    decrease launcher's width by half a grid unit.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 251
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 26 Aug 2013 22:09:43 +0000
+
+unity8 (7.81.3+13.10.20130826.4-0ubuntu1) saucy; urgency=low
+
+  [ Michał Sawicz ]
+  * Add module entry in HudClient's qmldir.
+
+  [ Jussi Pakkanen ]
+  * Let Ninja parallelize itself.
+
+  [ Nick Dedekind ]
+  * Abstraction of indicator menu item properties prior to move into
+    common components library.
+
+  [ Christopher Lee ]
+  * Added autopilot-tests for ephemeral, interactive and snap-decision
+    notifications.
+
+  [ Mirco Müller ]
+  * Added autopilot-tests for ephemeral, interactive and snap-decision
+    notifications.
+
+  [ Michael Zanetti ]
+  * only search visible children in findChild, add findInvisibleChild
+    for others.
+  * Added autopilot-tests for ephemeral, interactive and snap-decision
+    notifications.
+
+  [ Thomi Richards ]
+  * Added autopilot-tests for ephemeral, interactive and snap-decision
+    notifications.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 249
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 26 Aug 2013 18:34:44 +0000
+
+unity8 (7.81.3+13.10.20130826.2-0ubuntu1) saucy; urgency=low
+
+  [ Albert Astals ]
+  * Don't include QtQML It includes LOTS of files we don't need.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 243
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 26 Aug 2013 10:08:52 +0000
+
+unity8 (7.81.3+13.10.20130826.1-0ubuntu1) saucy; urgency=low
+
+  * Automatic snapshot from revision 241
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 26 Aug 2013 06:08:33 +0000
+
+unity8 (7.81.3+13.10.20130826-0ubuntu1) saucy; urgency=low
+
+  [ Michael Zanetti ]
+  * delay move operations if the start dragging operation is running
+    This prevents items to left in wrong places when transitions clash.
+  * add empty setUser to allow compiling in jenkins again until the
+    branch that matches unity-api is ready to land. .
+  * add count and progress overlay information to real model too.
+
+  [ Pawel Stolowski ]
+  * Changed the type of setActive argument from
+    QVector<AbstractFilterOption *>::size_type to unsigned int.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 240
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 26 Aug 2013 02:31:42 +0000
+
+unity8 (7.81.3+13.10.20130821.2-0ubuntu1) saucy; urgency=low
+
+  [ Michael Terry ]
+  * Listen to display-power-changed rather than system-power-changed
+    signals when showing the greeter; ignore such signals when the
+    proximity sensor is active. (LP: #1214477)
+
+  [ Pawel Stolowski ]
+  * Added a role for accessing progress-source property of categories.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 233
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 21 Aug 2013 22:09:53 +0000
+
+unity8 (7.81.3+13.10.20130821.1-0ubuntu1) saucy; urgency=low
+
+  [ Michael Zanetti ]
+  * allow testing at 11:13. Old code failed because the text actually
+    says "11:13 AM".
+  * add some checks if we actually clicked an item or in the spacing
+    between them gets rid of some warnings printed by the launcher .
+
+  [ Michał Sawicz ]
+  * Update runtime deps in the build script.
+
+  [ Nick Dedekind ]
+  * Added/Updated legacy network indicator components to use with new
+    indicator backend.
+
+  [ Albert Astals ]
+  * Fix insertions/removals on the qlimitproxymodel . (LP: #1213959)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 230
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 21 Aug 2013 15:04:59 +0000
+
+unity8 (7.81.3+13.10.20130821-0ubuntu1) saucy; urgency=low
+
+  [ Michael Zanetti ]
+  * added support for count emblems and progress overlays on the
+    launcher.
+
+  [ Pawel Stolowski ]
+  * Add role for getting filter options model. Add method to activate
+    option based on index or id.
+
+  [ Ted Gould ]
+  * Mark indicators-client as providing an indicator-renderer.
+
+  [ Nick Dedekind ]
+  * Added flatmenuproxymodel pass-through signals from qmenumodel.
+  * Renamed indicator-messaging to indicator-messages.
+
+  [ Gerry Boland ]
+  * Typo fix in FrequentlyUsedAppsModel.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 224
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 21 Aug 2013 08:05:13 +0000
+
+unity8 (7.81.3+13.10.20130820.2-0ubuntu1) saucy; urgency=low
+
+  [ Michael Zanetti ]
+  * initial support for quicklists For now they support pinning and
+    removing of items.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 217
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 20 Aug 2013 10:09:36 +0000
+
+unity8 (7.81.3+13.10.20130820-0ubuntu1) saucy; urgency=low
+
+  [ Andrea Cimitan ]
+  * Implement background changing through gsettings. Make sure it does
+    fallback to default background when needed.
+
+  [ Michael Zanetti ]
+  * Implement background changing through gsettings. Make sure it does
+    fallback to default background when needed.
+  * Add Drag'n'drop support to Launcher As dragging an item pins it to
+    the launcher this also contains initial quicklist and pinning
+    support in the plugin part.
+
+  [ Michał Sawicz ]
+  * Fix generic preview wrapping and force rich text parsing.
+
+  [ Michal Hruby ]
+  * Remove the override for Apps available for download, click scope
+    provides these now.
+  * Hide rating widgets when scope provides rating set to < 0.0. Also
+    fallback to regular preview image if there are no more_screenshots
+    specified.
+
+  [ Albert Astals ]
+  * Make sure minYExtent is updated before setting the new content
+    height Otherwise bad things can happen in the positioning .
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 215
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 20 Aug 2013 02:08:42 +0000
+
+unity8 (7.81.3+13.10.20130816.3-0ubuntu1) saucy; urgency=low
+
+  [ Michal Hruby ]
+  * Implement overrideResults() method, which allows us to seamlessly
+    combine real scope data with mocked data.
+
+  [ Michał Sawicz ]
+  * Wait for activeFocus before typing in autopilot tests. (LP:
+    #1212580)
+
+  [ Nick Dedekind ]
+  * Fixed network indicator password dialog not appearing. (LP:
+    #1212730)
+  * Remove time & battery indicator service info.
+
+  [ Albert Astals ]
+  * Dash category expansion.
+  * Fix crash in the shell test Give the item a parent, otherwise the
+    qml engine decides to adopt it and when we do the deleteLater on
+    them, they have been already deleted. Since we are the parents, we
+    don't need to call the deleteLAter eiether they'll be properly
+    deleted on our deletion.
+
+  [ Michael Zanetti ]
+  * make entering text in lockscreen tests more robust. (LP: #1212580)
+
+  [ Michael Terry ]
+  * Define the 'build' target as PHONY so make doesn't get confused by
+    our 'build' script.
+  * Add a test for the Powerd plugin shell support.
+
+  [ Pawel Stolowski ]
+  * Bindings for filters.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 208
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 16 Aug 2013 14:11:35 +0000
+
+unity8 (7.81.3+13.10.20130814.3-0ubuntu1) saucy; urgency=low
+
+  [ Ted Gould ]
+  * Upstart signals to control indicator services.
+
+  [ Nick Dedekind ]
+  * Replaced indicator menu listView with tabs view.
+  * Transition Unity.Indicators to UnityMenuModel.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 197
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 14 Aug 2013 14:33:39 +0000
+
+unity8 (7.81.3+13.10.20130814.1-0ubuntu1) saucy; urgency=low
+
+  [ Michał Sawicz ]
+  * Add AppPreview.
+
+  [ Nick Dedekind ]
+  * Use key from indicator service file to source indicator positions.
+
+  [ Diego Sarmentero ]
+  * Add AppPreview.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 193
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 14 Aug 2013 06:33:14 +0000
+
 unity8 (7.81.3+13.10.20130813.1-0ubuntu1) saucy; urgency=low
 
   [ Michael Zanetti ]

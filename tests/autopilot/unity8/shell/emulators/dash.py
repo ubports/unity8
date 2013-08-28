@@ -25,9 +25,9 @@ class Dash(UnityEmulatorBase):
     """An emulator that understands the Dash."""
 
     def get_home_applications_grid(self):
-        return self.select_single(
-            "ApplicationsFilterGrid",
-            objectName="dashHomeApplicationsGrid"
+        return self.get_scope('home').select_single(
+            "GenericFilterGrid",
+            objectName="applications.scope"
         )
 
     def get_application_icon(self, text):

@@ -18,7 +18,7 @@
  */
 
 // Qt
-#include <QtQml>
+#include <QtQml/qqml.h>
 
 // self
 #include "plugin.h"
@@ -41,7 +41,9 @@ void UnityLauncherPlugin::registerTypes(const char *uri)
 
     qmlRegisterUncreatableType<LauncherModelInterface>(uri, 0, 1, "LauncherModelInterface", "Abstract Interface. Cannot be instantiated.");
     qmlRegisterUncreatableType<LauncherItemInterface>(uri, 0, 1, "LauncherItemInterface", "Abstract Interface. Cannot be instantiated.");
+    qmlRegisterUncreatableType<QuickListModelInterface>(uri, 0, 1, "QuickListInterface", "Abstract Interface. Cannot be instantiated.");
 
     qmlRegisterSingletonType<LauncherModel>(uri, 0, 1, "LauncherModel", modelProvider);
     qmlRegisterUncreatableType<LauncherItem>(uri, 0, 1, "LauncherItem", "Can't create new Launcher Items in QML. Get them from the LauncherModel.");
+    qmlRegisterUncreatableType<QuickListModel>(uri, 0, 1, "QuickListModel", "Can't create a QuickListModel in QML. Get them from the LauncherItems.");
 }

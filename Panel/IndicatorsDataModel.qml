@@ -27,7 +27,19 @@ Indicators.IndicatorsModel {
     Component.onCompleted: load()
 
     indicatorData : {
-        'indicator-messaging' : {
+        'indicator-location' : {
+            'title': 'Location',
+            'description' : '',
+            'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorWidget2.qml',
+            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorPage2.qml'
+        },
+        'indicator-bluetooth' : {
+            'title': 'Bluetooth',
+            'description' : '',
+            'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorWidget2.qml',
+            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorPage2.qml'
+        },
+        'indicator-messages' : {
             'title': 'Messaging',
             'description' : '',
             'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/MessagingIndicatorWidget.qml',
@@ -36,26 +48,32 @@ Indicators.IndicatorsModel {
         'indicator-sound' : {
             'title': 'Sound',
             'description' : '',
-            'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/SoundIndicatorWidget.qml',
-            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorPage.qml'
+            'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorWidget2.qml',
+            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorPage2.qml'
         },
         'indicator-network' : {
             'title': 'Networks',
             'description' : '',
-            'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/NetworkIndicatorWidget.qml',
-            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/NetworkIndicatorPage.qml'
+            'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorWidget2.qml',
+            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/NetworkIndicatorPage2.qml'
         },
-        'indicator-battery' : {
+        'indicator-power' : {
             'title': 'Battery',
             'description' : '',
-            'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorWidget.qml',
-            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorPage.qml'
+            'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorWidget2.qml',
+            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorPage2.qml'
         },
-        'indicator-time' : {
+        'indicator-session' : {
+            'title': 'Session',
+            'description' : '',
+            'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorWidget2.qml',
+            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorPage2.qml'
+        },
+        'indicator-datetime' : {
             'title': 'Date and Time',
             'description' : '',
-            'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DatetimeIndicatorWidget.qml',
-            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DatetimeIndicatorPage.qml'
+            'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorWidget2.qml',
+            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorPage2.qml'
         }
     }
 }

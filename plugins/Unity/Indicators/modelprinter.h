@@ -21,6 +21,7 @@
 #define MODELPRINTER_H
 
 #include <QSortFilterProxyModel>
+class UnityMenuModel;
 
 // This class acts as a namespace only, with the addition that its enums
 // are registered to be exposed on the QML side.
@@ -28,23 +29,27 @@ class ModelPrinter : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(QAbstractItemModel* model READ sourceModel WRITE setSourceModel NOTIFY modelChanged)
+    Q_PROPERTY(UnityMenuModel* model READ sourceModel WRITE setSourceModel NOTIFY modelChanged)
     Q_PROPERTY(QString text READ text NOTIFY textChanged)
 public:
     ModelPrinter(QObject* parent=0);
 
-    void setSourceModel(QAbstractItemModel* sourceModel);
-    QAbstractItemModel* sourceModel() const;
+    void setSourceModel(UnityMenuModel* sourceModel);
+    UnityMenuModel* sourceModel() const;
 
-    Q_INVOKABLE QString text(const QModelIndex& index = QModelIndex()) const;
+    Q_INVOKABLE QString text();
 
 Q_SIGNALS:
     void modelChanged();
     void textChanged();
 
 private:
-  QString recurseString(const QModelIndex& index, int level) const;
-  QAbstractItemModel* m_model;
+    QString getModelDataString(UnityMenuModel* sourceModel, int level);
+    QString getRowSring(UnityMenuModel* sourceModel, int index, int depth) const;
+    QString getVariantString(const QString& roleName, const QVariant vData ) const;
+
+    UnityMenuModel* m_model;
+    QList<UnityMenuModel*> m_children;
 };
 
 #endif // MODELPRINTER_H

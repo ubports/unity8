@@ -30,7 +30,7 @@ Powerd::Powerd(QObject* parent)
     powerd->connection().connect("com.canonical.powerd",
                                  "/com/canonical/powerd",
                                  "com.canonical.powerd",
-                                 "SysPowerStateChange",
+                                 "DisplayPowerStateChange",
                                  this,
-                                 SIGNAL(powerStateChange(int)));
+                                 SIGNAL(displayPowerStateChange(int, unsigned int)));
 }

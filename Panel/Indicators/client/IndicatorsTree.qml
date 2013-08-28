@@ -27,8 +27,7 @@ Page {
     id: page
     anchors.fill: parent
 
-    property alias busType: menuModel.busType
-    property alias busName: menuModel.busName
+    property string busName: unityModel.busName
     property string actionsObjectPath
     property var menuObjectPaths: undefined
     readonly property string device: "phone"
@@ -36,17 +35,18 @@ Page {
     property string deviceMenuObjectPath: menuObjectPaths.hasOwnProperty(device) ? menuObjectPaths[device] : ""
 
     function start() {
-        menuModel.start();
     }
 
-    QDBusMenuModel {
-        id: menuModel
-        objectPath: page.deviceMenuObjectPath
+    UnityMenuModel {
+        id: unityModel
+        busName: page.busName
+        actions: { "indicator": page.actionsObjectPath }
+        menuObjectPath: page.deviceMenuObjectPath
     }
 
     Indicators.ModelPrinter {
         id: printer
-        model: menuModel
+        model: unityModel
     }
 
     Flickable {

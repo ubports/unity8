@@ -19,47 +19,20 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Unity.Indicators 0.1 as Indicators
 
-MenuItem {
-    id: progressMenu
-    property alias value : progressBar.value
+FramedMenuItem {
+    id: menuItem
 
-    // TODO: Replace this with the official ProgressBar component as soon as
-    // it is available. For now, this rebuilds the Mockup as close as possible.
-    UbuntuShape {
-        id: progressBar
-        anchors {
-            right: parent.right
-            rightMargin: units.gu(2)
-            left: parent.left
-            leftMargin: units.gu(2)
-        }
-        height: units.gu(4)
+    property int value : 0.0
+
+    control: Label {
+        id: progress
         anchors.verticalCenter: parent.verticalCenter
-        color: "transparent"
+        anchors.right: parent.right
 
-        property int minimumValue: 0
-        property int maximumValue: 100
-        property int value: 50
-
-        UbuntuShape {
-            anchors.fill: parent
-            anchors.rightMargin: parent.width - (parent.width * parent.value / parent.maximumValue)
-            color: "#c94212"
-        }
-
-        Label {
-            anchors.centerIn: parent
-            text: parent.value + " %"
-            fontSize: "medium"
-            color: "#e8e1d0"
-        }
-    }
-
-    MenuActionBinding {
-        actionGroup: progressMenu.actionGroup
-        action: menu ? menu.action : ""
-        target: progressBar
-        property: "value"
+        text: menuItem.value + " %"
+        fontSize: "medium"
+        color: "#e8e1d0"
     }
 }

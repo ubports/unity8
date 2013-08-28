@@ -44,7 +44,6 @@ MouseArea {
 
         source: shell.background
         anchors.fill: parent
-        crossFade: false
         fadeInFirst: false
     }
 

@@ -52,7 +52,6 @@ QSortFilterProxyModelQML::setModel(QAbstractItemModel *itemModel)
         connect(itemModel, SIGNAL(rowsInserted(QModelIndex,int,int)), SIGNAL(totalCountChanged()));
         connect(itemModel, SIGNAL(rowsRemoved(QModelIndex,int,int)), SIGNAL(totalCountChanged()));
         Q_EMIT totalCountChanged();
-        Q_EMIT countChanged();
         Q_EMIT modelChanged();
     }
 }
@@ -95,6 +94,7 @@ QSortFilterProxyModelQML::setInvertMatch(bool invertMatch)
     if (invertMatch != m_invertMatch) {
         m_invertMatch = invertMatch;
         Q_EMIT invertMatchChanged(invertMatch);
+        invalidateFilter();
     }
 }
 

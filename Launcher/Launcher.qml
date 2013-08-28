@@ -26,9 +26,11 @@ Item {
 
     property bool available: true // can be used to disable all interactions
 
-    property int panelWidth: units.gu(8.5)
+    property int panelWidth: units.gu(8)
     property int dragAreaWidth: units.gu(1)
-    property real progress: dragArea.dragging  && dragArea.touchX > panel.width ? dragArea.touchX : 0
+    property int minimizeDistance: panelWidth * 2.5
+    property real progress: dragArea.dragging  && dragArea.touchX > panelWidth ?
+                                (width * (dragArea.touchX-panelWidth) / (width - panelWidth)) : 0
 
     readonly property bool shown: panel.x > -panel.width
 
@@ -73,7 +75,7 @@ Item {
         id: dismissTimer
         interval: 5000
         onTriggered: {
-            if (!panel.moving) {
+            if (!panel.preventHiding) {
                 root.state = ""
             } else {
                 dismissTimer.restart()
@@ -135,9 +137,9 @@ Item {
         id: backgroundShade
         anchors.fill: parent
         color: "black"
-        opacity: root.state == "visible" ? 0.4 : 0
+        opacity: root.state == "visible" ? 0.6 : 0
 
-        Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.OutQuad} }
+        Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.BriskDuration } }
     }
 
     LauncherPanel {
@@ -149,6 +151,7 @@ Item {
             bottom: parent.bottom
         }
         x: -width
+        opacity: (x == -width && dragArea.status === DirectionalDragArea.WaitingForTouch) ? 0 : 1
         model: LauncherModel
 
         property bool animate: true
@@ -162,7 +165,7 @@ Item {
             root.dashItemSelected(index)
         }
 
-        onMovingChanged: {
+        onPreventHidingChanged: {
             if (dismissTimer.running) {
                 dismissTimer.restart();
             }
@@ -173,6 +176,12 @@ Item {
                 // Disabling animation when dragging
                 duration: dragArea.dragging || launcherDragArea.drag.active ?  0 : 300;
                 easing.type: Easing.OutCubic
+            }
+        }
+
+        Behavior on opacity {
+            NumberAnimation {
+                duration: UbuntuAnimation.FastDuration; easing.type: Easing.OutCubic
             }
         }
     }
@@ -206,7 +215,7 @@ Item {
             if (!dragging) {
                 if (distance > panel.width / 2) {
                     root.switchToNextState("visible")
-                    if (distance > panel.width * 2) {
+                    if (distance > minimizeDistance) {
                         root.dash()
                     }
                 } else {

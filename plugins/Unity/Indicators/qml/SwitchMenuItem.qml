@@ -15,29 +15,39 @@
  *
  * Authors:
  *      Renato Araujo Oliveira Filho <renato@canonical.com>
+ *      Nick Dedekind <nick.dedekind@canonical.com>
  */
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Unity.Indicators 0.1 as Indicators
 
-MenuItem {
-    id: switchMenu
+FramedMenuItem {
+    id: menuItem
 
-    property alias checked: switcher.checked
+    property bool checked: false
+
+    signal activate()
+
+    onCheckedChanged: {
+        // Can't rely on binding. Checked is assigned on click.
+        switcher.checked = checked;
+    }
 
     control: Switch {
         id: switcher
-        enabled: menuAction.valid
+
+        Component.onCompleted: {
+            checked = menuItem.checked;
+        }
 
         anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right
-    }
 
-    MenuActionBinding {
-        id: menuAction
-        actionGroup: switchMenu.actionGroup
-        action: menu ? menu.action : ""
-        target: switcher
-        property: "checked"
+        // FIXME : should use Checkbox.toggled signal
+        // lp:~nick-dedekind/ubuntu-ui-toolkit/checkbox.toggled
+        onClicked: {
+            menuItem.activate();
+        }
     }
 }

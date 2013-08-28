@@ -53,8 +53,13 @@ ScopeView {
         onAtYEndChanged: if (atYEnd) endReached()
         onMovingChanged: if (moving && atYEnd) endReached()
 
+        property int expandedIndex: -1
+
         delegate: ListItems.Base {
             highlightWhenPressed: false
+
+            readonly property bool expandable: rendererLoader.item ? rendererLoader.item.expandable : false
+            readonly property bool filtered: rendererLoader.item ? rendererLoader.item.filter : true
 
             Loader {
                 id: rendererLoader
@@ -67,7 +72,20 @@ ScopeView {
                 source: getRenderer(model.renderer, model.contentType)
 
                 onLoaded: {
-                    item.model = results
+                    if (source.toString().indexOf("Apps/RunningApplicationsGrid.qml") != -1) {
+                        // TODO: the running apps grid doesn't support standard scope results model yet
+                        item.firstModel = results.firstModel
+                        item.secondModel = results.secondModel
+                    } else {
+                        item.model = results
+                    }
+                    item.objectName = categoryId
+                    if (item.expandable) {
+                        var shouldFilter = index != categoryView.expandedIndex;
+                        if (shouldFilter != item.filter) {
+                            item.filter = shouldFilter;
+                        }
+                    }
                 }
 
                 Connections {
@@ -97,13 +115,47 @@ ScopeView {
                                                  delegateItem.model.metadata)
                     }
                 }
+                Connections {
+                    target: categoryView
+                    onExpandedIndexChanged: {
+                        var item = rendererLoader.item;
+                        if (item.expandable) {
+                            var shouldFilter = index != categoryView.expandedIndex;
+                            if (shouldFilter != item.filter) {
+                                // If the filter animation will be seen start it, otherwise, just flip the switch
+                                var shrinkingVisible = shouldFilter && y + item.collapsedHeight < categoryView.height;
+                                var growingVisible = !shouldFilter && y + height < categoryView.height;
+                                if (shrinkingVisible || growingVisible) {
+                                    item.startFilterAnimation(shouldFilter)
+                                } else {
+                                    item.filter = shouldFilter;
+                                }
+                                if (!shouldFilter) {
+                                    categoryView.maximizeVisibleArea(index, item.uncollapsedHeight);
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
 
         sectionProperty: "name"
         sectionDelegate: ListItems.Header {
+            property var delegate: categoryView.item(delegateIndex)
             width: categoryView.width
             text: section
+            image: {
+                if (delegate && delegate.expandable)
+                    return delegate.filtered ? "graphics/header_handlearrow.png" : "graphics/header_handlearrow2.png"
+                return "";
+            }
+            onClicked: {
+                if (categoryView.expandedIndex != delegateIndex)
+                    categoryView.expandedIndex = delegateIndex;
+                else
+                    categoryView.expandedIndex = -1;
+            }
         }
         pageHeader: PageHeader {
             id: pageHeader
@@ -132,6 +184,12 @@ ScopeView {
                 }
             }
             case "carousel": return "Generic/GenericCarousel.qml";
+            case "special": {
+                switch (contentType) {
+                    case "apps": return "Apps/RunningApplicationsGrid.qml";
+                    default: return "Generic/GenericFilterGrid.qml";
+                }
+            }
             default: return "Generic/GenericFilterGrid.qml";
         }
     }
