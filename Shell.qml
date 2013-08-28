@@ -467,6 +467,7 @@ FocusScope {
         onUnlocked: greeter.hide()
         onSelected: {
             // Update launcher items for new user
+            var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole);
             LauncherModel.setUser(user);
         }
 
