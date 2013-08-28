@@ -535,6 +535,7 @@ FocusScope {
             indicators {
                 hides: [launcher]
                 available: edgeDemo.panelEnabled
+                contentEnabled: edgeDemo.panelContentEnabled
             }
             fullscreenMode: shell.fullscreenMode
             searchVisible: !greeter.shown && !lockscreen.shown
@@ -725,6 +726,6 @@ FocusScope {
         launcher: launcher
         dash: dash
         indicators: panel.indicators
-        overlay: overlay
+        underlay: underlay
     }
 }
