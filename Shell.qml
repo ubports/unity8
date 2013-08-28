@@ -386,6 +386,7 @@ FocusScope {
 
                 width: shell.edgeSize
                 direction: Direction.Leftwards
+                enabled: edgeDemo.dashEnabled
                 property bool haveApps: mainStage.applications.count > 0 || sideStage.applications.count > 0
 
                 maxTotalDragDistance: haveApps ? parent.width : parent.width * 0.7
