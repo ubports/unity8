@@ -96,18 +96,13 @@ IndicatorBase {
                     }
                     if (item.hasOwnProperty("menu")) {
                         item.menu = Qt.binding(function() { return model; });
-
-                        item.activate.connect(onActivateMenu);
-                        item.changeState.connect(onChangeState);
                     }
                 }
 
-                function onActivateMenu(value) {
-                    mainMenu.model.activate(index, value);
-                }
-
-                function onChangeState(value) {
-                    mainMenu.model.changeState(index, value);
+                Binding {
+                    target: item ? item : null
+                    property: "objectName"
+                    value: model.action
                 }
             }
         }

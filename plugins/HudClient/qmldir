@@ -1,2 +1,3 @@
+module HudClient
 plugin HudClientQml
 typeinfo plugin.qmltypes

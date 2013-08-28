@@ -285,12 +285,16 @@ Item {
 
         function test_dragndrop(data) {
             revealer.dragLauncherIntoView();
-            var draggedItem = findChild(launcher, "launcherDelegate5")
+            var draggedItem = findChild(launcher, "launcherDelegate4")
             var item0 = findChild(launcher, "launcherDelegate0")
             var fakeDragItem = findChild(launcher, "fakeDragItem")
             var initialItemHeight = draggedItem.height
-            var item5 = LauncherModel.get(5).appId
             var item4 = LauncherModel.get(4).appId
+            var item3 = LauncherModel.get(3).appId
+
+            var listView = findChild(launcher, "launcherListView");
+            listView.flick(0, units.gu(200));
+            tryCompare(listView, "flicking", false);
 
             // Initial state
             compare(draggedItem.itemOpacity, 1, "Item's opacity is not 1 at beginning")
@@ -333,8 +337,8 @@ Item {
                 }
 
                 waitForRendering(draggedItem)
-                compare(LauncherModel.get(5).appId, item4)
-                compare(LauncherModel.get(4).appId, item5)
+                compare(LauncherModel.get(4).appId, item3)
+                compare(LauncherModel.get(3).appId, item4)
             }
 
             // Releasing and checking if initial values are restored

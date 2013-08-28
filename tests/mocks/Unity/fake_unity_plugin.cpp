@@ -26,7 +26,8 @@
 
 // External
 #include <glib-object.h>
-#include <QtQml>
+
+#include <QtQml/qqml.h>
 
 void FakeUnityPlugin::registerTypes(const char *uri)
 {

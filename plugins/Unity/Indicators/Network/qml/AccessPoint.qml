@@ -25,29 +25,39 @@ import Unity.Indicators 0.1 as Indicators
 Indicators.FramedMenuItem {
     id: accessPoint
 
-    readonly property bool checked: menu ? menu.isToggled : false
+    property bool checked: false
+    property bool secure: false
+    property bool adHoc: false
+    property int signalStrength: 0
+
+    signal activate()
 
     onCheckedChanged: {
         // Can't rely on binding. Checked is assigned on click.
         checkBoxActive.checked = checked;
     }
 
-    // FIXME - we need to get the strength from menu.ext.xCanonicalWifiApStrengthAction
-    // but UnityMenuModel doesnt support fetching actions not attached to menu item.
-    function getNetworkIcon(data) {
+    icon: {
         var imageName = "nm-signal-100"
 
-        if (data.ext.xCanonicalWifiApIsAdhoc) {
+        if (adHoc) {
             imageName = "nm-adhoc";
-        }
-        if (data.ext.xCanonicalWifiApIsSecure) {
-            imageName += "-secure";
+        } else if (signalStrength == 0) {
+            imageName = "nm-signal-00";
+        } else if (signalStrength <= 25) {
+            imageName = "nm-signal-25";
+        } else if (signalStrength <= 50) {
+            imageName = "nm-signal-50";
+        } else if (signalStrength <= 75) {
+            imageName = "nm-signal-75";
         }
 
+        if (secure) {
+            imageName += "-secure";
+        }
         return "image://gicon/" + imageName;
     }
 
-    icon: menu ? getNetworkIcon(menu) : "image://gicon/wifi-none"
     iconFrame: false
     control: CheckBox {
         id: checkBoxActive
