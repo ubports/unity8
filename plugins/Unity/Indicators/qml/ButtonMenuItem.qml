@@ -24,14 +24,14 @@ import Unity.Indicators 0.1 as Indicators
 
 BaseMenuItem {
     id: menuItem
-    objectName: menuAction.name
     implicitHeight: units.gu(7)
-    enabled: menuAction.active
+
+    property alias text: button.text
+
+    signal activate()
 
     Button {
         id: button
-        enabled: menuAction.enabled
-        text: menu ? menu.label : ""
         anchors.centerIn: parent
         height: units.gu(4)
         width: units.gu(16)
@@ -40,10 +40,5 @@ BaseMenuItem {
         onClicked: {
             menuItem.activate();
         }
-    }
-
-    Indicators.MenuAction {
-        id: menuAction
-        menu: menuItem.menu
     }
 }

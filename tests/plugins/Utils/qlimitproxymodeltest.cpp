@@ -58,10 +58,17 @@ public:
         m_roles = roles;
     }
 
+    void clear()
+    {
+        beginRemoveRows(QModelIndex(), 0, m_list.count() - 1);
+        m_list.clear();
+        endRemoveRows();
+    }
+
     bool insertRows(int row, int count, const QModelIndex &parent=QModelIndex()) {
         beginInsertRows(parent, row, row+count-1);
         for (int i=0; i<count; i++) {
-            m_list.insert(i+row, "test"+i);
+            m_list.insert(i+row, QString::number(i));
         }
         endInsertRows();
         return true;
@@ -86,6 +93,60 @@ public:
 private:
     QStringList m_list;
     QHash<int, QByteArray> m_roles;
+};
+
+class MirrorModel : public QObject
+{
+    Q_OBJECT
+
+public:
+    MirrorModel(QAbstractItemModel *model) : m_mirror(model)
+    {
+        connect(model, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(rowsInserted(QModelIndex,int,int)));
+        connect(model, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(rowsRemoved(QModelIndex,int,int)));
+        connect(model, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(dataChanged(QModelIndex,QModelIndex)));
+    }
+
+    void check()
+    {
+        QCOMPARE(m_list.count(), m_mirror->rowCount());
+        for (int i = 0; i < m_list.count(); ++i) {
+            QCOMPARE(m_list[i], m_mirror->data(m_mirror->index(i, 0)).toString());
+        }
+    }
+
+private Q_SLOTS:
+    void rowsInserted(const QModelIndex &parent, int start, int end)
+    {
+        QVERIFY(!parent.isValid());
+        for (int i = start; i <= end; ++i) {
+            m_list.insert(i, m_mirror->data(m_mirror->index(i, 0)).toString());
+        }
+    }
+
+    void rowsRemoved(const QModelIndex &parent, int start, int end)
+    {
+        QVERIFY(!parent.isValid());
+        for (int i = end; i >= start; --i) {
+            m_list.removeAt(i);
+        }
+    }
+
+    void dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight)
+    {
+        QVERIFY(topLeft.isValid());
+        QVERIFY(bottomRight.isValid());
+        QVERIFY(!topLeft.parent().isValid());
+        QVERIFY(!bottomRight.parent().isValid());
+        for (int i = topLeft.row(); i <= bottomRight.row(); ++i) {
+            m_list[i] = m_mirror->data(m_mirror->index(i, 0)).toString();
+        }
+    }
+
+
+private:
+    QStringList m_list;
+    QAbstractItemModel *m_mirror;
 };
 
 class QLimitProxyModelTest : public QObject
@@ -401,15 +462,10 @@ private Q_SLOTS:
         QCOMPARE(spyOnCountChanged.count(), 0);
 
         model.removeRows(2, 2);
-        QCOMPARE(spyOnRowsRemoved.count(), 1);
+        QCOMPARE(spyOnRowsRemoved.count(), 0);
         QCOMPARE(spyOnRowsInserted.count(), 0);
-        QCOMPARE(spyOnCountChanged.count(), 1);
-        arguments = spyOnRowsRemoved.takeFirst();
-        QCOMPARE(arguments.at(1).toInt(), 2);
-        QCOMPARE(arguments.at(2).toInt(), 3);
+        QCOMPARE(spyOnCountChanged.count(), 0);
         QCOMPARE(proxy.rowCount(), 7);
-        spyOnRowsInserted.clear();
-        spyOnCountChanged.clear();
 
         model.removeRows(0, 7);
         QCOMPARE(spyOnRowsRemoved.count(), 1);
@@ -478,6 +534,75 @@ private Q_SLOTS:
         model.insertRows(0, 5);
         QCOMPARE(proxy.rowCount(), 5);
         QCOMPARE(spyOnCountChanged.count(), 1);
+    }
+
+    void testMirrorModel() {
+        QLimitProxyModelQML proxy;
+        MockListModel model;
+        MirrorModel mirror(&proxy);
+
+        proxy.setModel(&model);
+        proxy.setLimit(5);
+
+        // Checks what happens when the model already has
+        // more items than the limit and we add stuff to
+        // the front
+        model.insertRows(0, 7);
+        mirror.check();
+        model.insertRows(1, 3);
+        mirror.check();
+        model.clear();
+        mirror.check();
+
+        // Checks what happens when the model does
+        // not has more items than limit but adding
+        // stuff to its front makes it go past the limit
+        model.insertRows(0, 3);
+        mirror.check();
+        model.insertRows(1, 3);
+        mirror.check();
+        model.clear();
+        mirror.check();
+
+        // Checks what happens when the model does
+        // not has more items than limit and adding
+        // stuff to its front makes it not go past the limit
+        model.insertRows(0, 1);
+        mirror.check();
+        model.insertRows(1, 3);
+        mirror.check();
+        model.clear();
+        mirror.check();
+
+        // Checks what happens when the model already has
+        // more items than the limit and we remove stuff from
+        // the front but it still has more than the limit
+        model.insertRows(0, 10);
+        mirror.check();
+        model.removeRows(1, 3);
+        mirror.check();
+        model.clear();
+        mirror.check();
+
+        // Checks what happens when the model already has
+        // more items than the limit and we remove stuff from
+        // the front but it has less than the limit
+        model.insertRows(0, 6);
+        mirror.check();
+        model.removeRows(1, 3);
+        mirror.check();
+        model.clear();
+        mirror.check();
+
+        // Checks what happens when the model has
+        // less items than the limit and we remove stuff from
+        // the front
+        model.insertRows(0, 4);
+        mirror.check();
+        model.removeRows(1, 3);
+        mirror.check();
+        model.clear();
+        mirror.check();
     }
 };
 

@@ -19,10 +19,10 @@
 #ifndef UNITY_ACCOUNTSSERVICE_H
 #define UNITY_ACCOUNTSSERVICE_H
 
-#include <QtDBus/QDBusInterface>
-#include <QtCore/QMap>
-#include <QtCore/QObject>
-#include <QtCore/QString>
+#include <QDBusInterface>
+#include <QMap>
+#include <QObject>
+#include <QString>
 
 class AccountsService: public QObject
 {
@@ -31,14 +31,12 @@ class AccountsService: public QObject
 public:
     explicit AccountsService(QObject *parent = 0);
 
-public Q_SLOTS:
-    QVariant getUserProperty(const QString &user, const QString &property);
-    void setUserProperty(const QString &user, const QString &property, const QVariant &value);
-
-private Q_SLOTS:
-    QDBusInterface *getUserInterface(const QString &user);
+    Q_INVOKABLE QVariant getUserProperty(const QString &user, const QString &property);
+    Q_INVOKABLE void setUserProperty(const QString &user, const QString &property, const QVariant &value);
 
 private:
+    QDBusInterface *getUserInterface(const QString &user);
+
     QDBusInterface *accounts_manager;
     QMap<QString, QDBusInterface *> users;
 };

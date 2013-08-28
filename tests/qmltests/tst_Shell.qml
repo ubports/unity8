@@ -125,13 +125,17 @@ Item {
             var mainApp = ApplicationManager.mainStageFocusedApplication;
             tryCompareFunction(function() { return mainApp != null; }, true);
 
-            // Now suspend
-            Powerd.powerStateChange(0);
+            // Try to suspend while proximity is engaged...
+            Powerd.displayPowerStateChange(Powerd.Off, Powerd.UseProximity);
+            tryCompare(greeter, "showProgress", 0);
+
+            // Now really suspend
+            Powerd.displayPowerStateChange(Powerd.Off, 0);
             tryCompare(greeter, "showProgress", 1);
             tryCompare(ApplicationManager, "mainStageFocusedApplication", null);
 
             // And wake up
-            Powerd.powerStateChange(1);
+            Powerd.displayPowerStateChange(Powerd.On, 0);
             tryCompare(ApplicationManager, "mainStageFocusedApplication", mainApp);
             tryCompare(greeter, "showProgress", 1);
         }

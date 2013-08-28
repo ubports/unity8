@@ -22,7 +22,7 @@
 #include "plugin.h"
 #include "DownloadTracker.h"
 
-#include <QtQml>
+#include <QtQml/qqml.h>
 #include <QtQml/QQmlContext>
 
 

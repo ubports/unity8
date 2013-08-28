@@ -14,12 +14,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import Powerd 0.1
 import QtQuick 2.0
 import QtGraphicalEffects 1.0
 import Ubuntu.Application 0.1
 import Ubuntu.Components 0.1
 
-Item {
+Showable {
     id: overlay
 
     /*
@@ -30,38 +31,69 @@ Item {
     /*
      * This is the header displayed, like "Right edge".
      */
-    property string title
+    property alias title: titleLabel.text
 
     /*
      * This is the block of text displayed below the header.
      */
-    property string text
+    property alias text: textLabel.text
 
     /*
      * This is the text for the skip button.
      */
-    property string skipText: i18n.tr("Skip intro")
-
-    /*
-     * Whether this demo is allowed to run.
-     */
-    property bool enabled: true
+    property alias skipText: skipLabel.text
 
     /*
      * Whether this demo is running currently.
      */
-    readonly property bool active: enabled && visible
+    readonly property bool active: available && visible
 
-    property color __orange: Qt.hsla(16.0/360.0, 0.83, 0.47, 1.0)
-    property color __orange_transparent: Qt.hsla(16.0/360.0, 0.83, 0.47, 0.4)
-    property int __edge_margin: units.gu(4)
-    property int __text_margin: units.gu(3)
-    property int __anim_running: wholeAnimation.running // for testing
+    /*
+     * Whether animations are paused.
+     */
+    property alias paused: wholeAnimation.paused
+
+    /*
+     * Whether animations are running.
+     */
+    readonly property alias running: wholeAnimation.running
 
     signal skip()
 
+    function doSkip() {
+        d.skipOnHide = true;
+        hide();
+    }
+
+    function hideNow() {
+        overlay.visible = false;
+        overlay.available = false;
+        if (d.skipOnHide) {
+            overlay.skip();
+        }
+    }
+
+    showAnimation: StandardAnimation {
+        property: "opacity"
+        to: 1
+        onRunningChanged: if (running) overlay.visible = true
+    }
+    hideAnimation: StandardAnimation {
+        property: "opacity"
+        to: 0
+        duration: UbuntuAnimation.BriskDuration
+        onRunningChanged: if (!running) overlay.hideNow()
+    }
+
+    QtObject {
+        id: d
+        property bool skipOnHide: false
+        property int edgeMargin: units.gu(4)
+    }
+
     Rectangle {
-        id: backgroundShade
+        objectName: "backgroundShade"
+
         anchors.fill: parent
         color: "black"
         opacity: 0.8
@@ -70,7 +102,7 @@ Item {
         MouseArea {
             anchors.fill: parent
             enabled: overlay.edge == "none" && overlay.opacity == 1.0
-            onClicked: fadeOutAnimation.running = true
+            onClicked: overlay.doSkip()
         }
     }
 
@@ -85,10 +117,10 @@ Item {
         Column {
             id: labelGroup
             layer.enabled: true // otherwise the underlining on "Skip intro" jumps
-            spacing: overlay.__text_margin
+            spacing: units.gu(3)
 
             anchors {
-                margins: overlay.__edge_margin
+                margins: d.edgeMargin
                 left: parent.left
                 top: overlay.edge == "bottom" ? undefined : parent.top
                 bottom: overlay.edge == "bottom" ? parent.bottom : undefined
@@ -96,7 +128,6 @@ Item {
 
             Label {
                 id: titleLabel
-                text: overlay.title
                 fontSize: "x-large"
                 width: units.gu(25)
                 wrapMode: Text.WordWrap
@@ -104,7 +135,6 @@ Item {
 
             Label {
                 id: textLabel
-                text: overlay.text
                 width: units.gu(25)
                 wrapMode: Text.WordWrap
             }
@@ -112,14 +142,14 @@ Item {
             Label {
                 id: skipLabel
                 objectName: "skipLabel"
-                text: overlay.skipText
-                color: overlay.__orange
+                text: i18n.tr("Skip intro")
+                color: UbuntuColors.orange
                 fontSize: "small"
                 font.underline: true
 
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: fadeOutAnimation.running = true
+                    onClicked: overlay.doSkip()
                 }
             }
         }
@@ -132,11 +162,11 @@ Item {
             gradient: Gradient {
                 GradientStop {
                     position: 0.0
-                    color: overlay.__orange_transparent
+                    color: Qt.hsla(16.0/360.0, 0.83, 0.47, 0.4) // UbuntuColors.orange, but transparent
                 }
                 GradientStop {
                     position: 1.0
-                    color: "#00000000"
+                    color: "transparent"
                 }
             }
             anchors.fill: parent
@@ -165,22 +195,9 @@ Item {
         }
     }
 
-    PropertyAnimation {
-        id: fadeOutAnimation
-        target: overlay
-        property: "opacity"
-        to: 0
-        duration: 250
-
-        onStopped: {
-            overlay.enabled = false;
-            overlay.visible = false;
-            skip()
-        }
-    }
-
     SequentialAnimation {
         id: wholeAnimation
+        objectName: "wholeAnimation"
         running: overlay.active
 
         ParallelAnimation {
@@ -199,20 +216,20 @@ Item {
                 }
                 from: {
                     if (overlay.edge == "right") {
-                        return overlay.__edge_margin + units.gu(3)
+                        return d.edgeMargin + units.gu(3)
                     } else {
-                        return overlay.__edge_margin - units.gu(3)
+                        return d.edgeMargin - units.gu(3)
                     }
                 }
-                to: overlay.__edge_margin
-                duration: overlay.edge == "none" ? 0 : 1000
+                to: d.edgeMargin
+                duration: overlay.edge == "none" ? 0 : UbuntuAnimation.SleepyDuration
             }
             StandardAnimation {
                 target: overlay
                 property: "opacity"
                 from: 0.0
                 to: 1.0
-                duration: 1000
+                duration: UbuntuAnimation.SleepyDuration
             }
         }
 
@@ -222,7 +239,7 @@ Item {
             property string prop: (overlay.edge == "left" || overlay.edge == "right") ? "x" : "y"
             property double endVal: units.dp(5) * ((overlay.edge == "left" || overlay.edge == "top") ? 1 : -1)
             property double maxGlow: units.dp(20)
-            property int duration: overlay.edge == "none" ? 0 : 1000
+            property int duration: overlay.edge == "none" ? 0 : UbuntuAnimation.SleepyDuration
 
             ParallelAnimation {
                 StandardAnimation { target: hintGroup; property: hintAnimation.prop; from: 0; to: hintAnimation.endVal; duration: hintAnimation.duration }

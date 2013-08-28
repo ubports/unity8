@@ -20,8 +20,8 @@
 #ifndef MOCK_ACCOUNTSSERVICE_PLUGIN_H
 #define MOCK_ACCOUNTSSERVICE_PLUGIN_H
 
-#include <QtQml/QQmlEngine>
-#include <QtQml/QQmlExtensionPlugin>
+#include <QQmlEngine>
+#include <QQmlExtensionPlugin>
 
 class AccountsServicePlugin : public QQmlExtensionPlugin
 {

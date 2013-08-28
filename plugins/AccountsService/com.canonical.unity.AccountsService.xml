@@ -16,8 +16,8 @@
       <annotation name="org.freedesktop.Accounts.DefaultValue" value="true"/>
     </property>
 
-    <property name="launcher-items" type="as" access="readwrite">
-      <annotation name="org.freedesktop.Accounts.DefaultValue" value="[]"/>
+    <property name="launcher-items" type="aa{sv}" access="readwrite">
+      <annotation name="org.freedesktop.Accounts.DefaultValue" value="[{'defaults': <true>}]"/>
     </property>
 
   </interface>

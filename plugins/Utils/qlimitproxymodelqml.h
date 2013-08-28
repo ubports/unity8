@@ -55,6 +55,8 @@ private:
     int m_limit;
     bool m_sourceInserting;
     bool m_sourceRemoving;
+    int m_dataChangedBegin;
+    int m_dataChangedEnd;
 };
 
 #endif // QLIMITPROXYMODELQML_H

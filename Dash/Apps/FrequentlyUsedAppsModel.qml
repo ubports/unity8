@@ -38,7 +38,7 @@ ListModel {
         metadata: ""
     }
     ListElement {
-        uri: "application:///usr/share/applications/galery-app.desktop"
+        uri: "application:///usr/share/applications/gallery-app.desktop"
         icon: "../../graphics/applicationIcons/gallery.png"
         category: 0
         mimetype: "application/x-desktop"
