@@ -108,6 +108,15 @@ FocusScope {
             // potentially only in connection with a notification
             greeter.hide();
             shell.activateApplication(desktopFile);
+
+        }
+
+        onMainStageFocusedApplicationChanged: {
+            var app = applicationManager.mainStageFocusedApplication
+            print("***********************************focusing app", app);
+            print("**************************************appId", app.icon, app.desktopFile);
+
+            LauncherModel.applicationFocused(app.desktopFile);
         }
     }
 

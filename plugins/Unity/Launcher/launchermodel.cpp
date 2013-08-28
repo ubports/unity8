@@ -184,6 +184,29 @@ void LauncherModel::setUser(const QString &username)
     m_backend->setUser(username);
 }
 
+void LauncherModel::applicationFocused(const QString &appId)
+{
+    int index = findApplication(appId);
+
+    if (index >= 0) {
+        // TODO: Mark application as focued
+    } else {
+        // FIXME: The backend does not yet support this stuff
+        // and currently the appId still is the desktopFile
+        //QString desktopFile = m_backend->desktopFile(appId);
+        QString desktopFile = appId;
+
+        QString appName = m_backend->displayName(appId);
+        QString icon = m_backend->icon(appId);
+
+        LauncherItem *item = new LauncherItem(appId, desktopFile, appName, icon);
+        beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+        m_list.append(item);
+        endInsertRows();
+        storeAppList();
+    }
+}
+
 void LauncherModel::storeAppList()
 {
     QStringList appIds;
