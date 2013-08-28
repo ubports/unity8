@@ -1,3 +1,29 @@
+unity8 (7.81.3+13.10.20130828.1-0ubuntu1) saucy; urgency=low
+
+  [ Andrea Cimitan ]
+  * Hide the LauncherPanel when it's really hidden, by changing visible
+    to false.
+
+  [ Gerry Boland ]
+  * Fix sidestage applications - they were being ignored in the show-
+    application-surface logic. (LP: #1217027, #1210079)
+
+  [ Michał Sawicz ]
+  * Raise the exception if typing failed in autopilot.
+
+  [ Nick Dedekind ]
+  * Added location indicator defaults.
+
+  [ Michael Zanetti ]
+  * increase minimal dragging width for dismissing apps with left edge
+    make it a configurable parameter and adjust animation to look like
+    requested in the bug report . (LP: #1213153)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 262
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 28 Aug 2013 11:55:46 +0000
+
 unity8 (7.81.3+13.10.20130827.1-0ubuntu1) saucy; urgency=low
 
   [ Michael Zanetti ]
