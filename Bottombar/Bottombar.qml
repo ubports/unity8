@@ -89,11 +89,6 @@ Item {
         Behavior on opacity {
             NumberAnimation{duration: 200; easing.type: Easing.OutCubic}
         }
-
-        InputFilterArea {
-            anchors.fill: parent
-            blockInput: hudButton.visible
-        }
     }
 
     Connections {
@@ -143,6 +138,11 @@ Item {
         onPressed: {
             bottombar.state = "hidden"
         }
+    }
+
+    InputFilterArea {
+        anchors.fill: parent
+        blockInput: hudButton.visible
     }
 
     states: [
