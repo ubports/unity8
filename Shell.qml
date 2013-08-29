@@ -19,6 +19,7 @@ import GSettings 1.0
 import Ubuntu.Application 0.1
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
+import Unity.Launcher 0.1
 import LightDM 0.1 as LightDM
 import Powerd 0.1
 import "Dash"
@@ -465,6 +466,11 @@ FocusScope {
         }
 
         onUnlocked: greeter.hide()
+        onSelected: {
+            // Update launcher items for new user
+            var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole);
+            LauncherModel.setUser(user);
+        }
 
         onLeftTeaserPressedChanged: {
             if (leftTeaserPressed) {
