@@ -324,16 +324,3 @@ QVariant IndicatorsModel::indicatorData() const
 {
     return m_indicator_data;
 }
-
-QAbstractItemModel* IndicatorsModel::getMenuModelForIndexProfile(const QModelIndex& index, const QString& device) const
-{
-    if (!index.isValid() || index.row() >= m_indicators.size())
-        return NULL;
-
-    Indicator::Ptr indicator = m_indicators[index.row()];
-    if (!indicator) {
-        return NULL;
-    }
-
-    return indicator->getMenuModel(device);
-}

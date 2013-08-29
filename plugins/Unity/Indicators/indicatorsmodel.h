@@ -55,8 +55,6 @@ public:
     void setIndicatorData(const QVariant& data);
     QVariant indicatorData() const;
 
-    QAbstractItemModel* getMenuModelForIndexProfile(const QModelIndex& index, const QString& profile) const;
-
 Q_SIGNALS:
     void countChanged();
     void indicatorDataChanged(const QVariant& data);

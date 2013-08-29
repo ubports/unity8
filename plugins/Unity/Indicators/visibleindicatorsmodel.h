@@ -24,15 +24,15 @@
 #include <QPersistentModelIndex>
 
 class RootActionState;
-class IndicatorsModel;
+class CachedUnityMenuModel;
 
 class VisibleIndicatorsModel : public QIdentityProxyModel
 {
     Q_OBJECT
 
-    Q_PROPERTY(IndicatorsModel* model READ model WRITE setModel NOTIFY modelChanged)
+    Q_PROPERTY(QAbstractItemModel* model READ sourceModel WRITE setModel NOTIFY modelChanged)
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
-    Q_PROPERTY(QByteArray profile READ profile WRITE setProfile NOTIFY profileChanged)
+    Q_PROPERTY(QString profile READ profile WRITE setProfile NOTIFY profileChanged)
 
 public:
     explicit VisibleIndicatorsModel(QObject *parent = 0);
@@ -40,12 +40,11 @@ public:
 
     /* getters */
     QHash<int, QByteArray> roleNames() const;
-    QByteArray profile() const;
-    IndicatorsModel* model() const;
+    QString profile() const;
 
     /* setters */
-    void setModel(IndicatorsModel *model);
-    void setProfile(const QByteArray& profile);
+    void setModel(QAbstractItemModel *model);
+    void setProfile(const QString& profile);
 
     virtual QVariant data(const QModelIndex &index, int role) const;
 
@@ -63,10 +62,12 @@ private Q_SLOTS:
     void onActionStateUpdated();
 
 private:
-    IndicatorsModel* m_model;
+    void updateCachedModel(const QModelIndex& index);
+
     QList<RootActionState*> m_rootActions;
+    QList<CachedUnityMenuModel*> m_cachedModels;
     QList<bool> m_visible;
-    QByteArray m_profile;
+    QString m_profile;
 };
 
 #endif // VISIBLEINDICATORSMODEL_H

@@ -31,8 +31,6 @@ Indicator::Indicator(QObject *parent)
 
 Indicator::~Indicator()
 {
-    qDeleteAll(m_cachedModels);
-    m_cachedModels.clear();
 }
 
 void Indicator::init(const QString& busName, const QSettings& settings)
@@ -102,32 +100,4 @@ void Indicator::setIndicatorProperties(const QVariant &properties)
         m_properties = properties;
         Q_EMIT indicatorPropertiesChanged(m_properties);
     }
-}
-
-QAbstractItemModel* Indicator::getMenuModel(const QString& profile)
-{
-    QVariantMap propMap = m_properties.toMap();
-    QString busName = propMap["busName"].toString();
-    QString actionsObjectPath = propMap["actionsObjectPath"].toString();
-
-    QVariantMap menuObjectPaths = propMap["menuObjectPaths"].toMap();
-    if (!menuObjectPaths.contains(profile)) {
-        return NULL;
-    }
-
-    QString menuObjectPath = menuObjectPaths[profile].toString();
-
-    CachedUnityMenuModel* cachedModel;
-    if (!m_cachedModels.contains(profile)) {
-        cachedModel = new CachedUnityMenuModel();
-        m_cachedModels[profile] = cachedModel;
-    } else {
-        cachedModel = m_cachedModels[profile];
-    }
-    cachedModel->setBusName(busName);
-    cachedModel->setMenuObjectPath(menuObjectPath);
-    QVariantMap actions; actions["indicator"] = actionsObjectPath;
-    cachedModel->setActions(actions);
-
-    return cachedModel->model();
 }

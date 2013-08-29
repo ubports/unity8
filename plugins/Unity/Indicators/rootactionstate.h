@@ -78,7 +78,6 @@ private:
 
     QPointer<UnityMenuModel> m_menu;
     QVariantMap m_cachedState;
-    bool m_manageParserParent;
 };
 
 #endif // ROOTACTIONSTATE_H

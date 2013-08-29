@@ -17,8 +17,8 @@
 // self
 #include "visibleindicatorsmodel.h"
 #include "rootactionstate.h"
-#include "indicatorsmodel.h"
 #include "indicators.h"
+#include "cachedunitymenumodel.h"
 
 #include <unitymenumodel.h>
 
@@ -26,8 +26,7 @@
 #include <QDebug>
 
 VisibleIndicatorsModel::VisibleIndicatorsModel(QObject *parent)
-    : QIdentityProxyModel(parent),
-      m_model(NULL)
+    : QIdentityProxyModel(parent)
 {
     connect(this, SIGNAL(modelReset()), SIGNAL(countChanged()));
     connect(this, SIGNAL(rowsInserted(QModelIndex,int,int)), SIGNAL(countChanged()));
@@ -38,6 +37,10 @@ VisibleIndicatorsModel::~VisibleIndicatorsModel()
 {
     qDeleteAll(m_rootActions);
     m_rootActions.clear();
+
+    qDeleteAll(m_cachedModels);
+    m_cachedModels.clear();
+
     m_visible.clear();
 }
 
@@ -46,12 +49,12 @@ QHash<int, QByteArray> VisibleIndicatorsModel::roleNames() const
     return sourceModel() ? sourceModel()->roleNames() : QHash<int, QByteArray>();
 }
 
-QByteArray VisibleIndicatorsModel::profile() const
+QString VisibleIndicatorsModel::profile() const
 {
     return m_profile;
 }
 
-void VisibleIndicatorsModel::setProfile(const QByteArray& profile)
+void VisibleIndicatorsModel::setProfile(const QString& profile)
 {
     if (m_profile != profile) {
         m_profile = profile;
@@ -59,15 +62,9 @@ void VisibleIndicatorsModel::setProfile(const QByteArray& profile)
     }
 }
 
-IndicatorsModel* VisibleIndicatorsModel::model() const
+void VisibleIndicatorsModel::setModel(QAbstractItemModel *itemModel)
 {
-    return m_model;
-}
-
-void VisibleIndicatorsModel::setModel(IndicatorsModel *itemModel)
-{
-    if (itemModel != m_model) {
-        m_model = itemModel;
+    if (itemModel != sourceModel()) {
         if (sourceModel() != NULL) {
             sourceModel()->disconnect(this);
         }
@@ -89,30 +86,20 @@ void VisibleIndicatorsModel::setModel(IndicatorsModel *itemModel)
 
 void VisibleIndicatorsModel::sourceRowsInserted(const QModelIndex&, int start, int end)
 {
-    if (!m_model) {
-        return;
-    }
-
     for (int row = start; row <= end; row++) {
-        const QModelIndex idx = sourceModel()->index(row, 0);
-        if (!idx.isValid()) {
-            continue;
-        }
-
         RootActionState* actionState = new RootActionState();
         connect(actionState, SIGNAL(updated()), SLOT(onActionStateUpdated()));
         m_rootActions.insert(row, actionState);
         m_visible.insert(row, false);
 
-        UnityMenuModel* unityModel = qobject_cast<UnityMenuModel*>(m_model->getMenuModelForIndexProfile(idx, profile()));
-        actionState->setMenu(unityModel);
+        m_cachedModels.insert(row, new CachedUnityMenuModel);
+        updateCachedModel(sourceModel()->index(row, 0));
     }
 }
 
 void VisibleIndicatorsModel::sourceRowsAboutToBeRemoved(const QModelIndex&, int start, int end)
 {
     for (int row = start; row <= end; row++) {
-
         if (m_rootActions.count() > start) {
             delete m_rootActions[start];
             m_rootActions.removeAt(start);
@@ -120,23 +107,17 @@ void VisibleIndicatorsModel::sourceRowsAboutToBeRemoved(const QModelIndex&, int 
         if (m_visible.count() > start) {
             m_visible.removeAt(start);
         }
+        if (m_cachedModels.count() > start) {
+            delete m_cachedModels[start];
+            m_cachedModels.removeAt(start);
+        }
     }
 }
 
 void VisibleIndicatorsModel::sourceDataChanged(const QModelIndex& topRight, const QModelIndex& bottomRight)
 {
     for (int row = topRight.row(); row <= bottomRight.row(); row++) {
-
-        const QModelIndex idx = sourceModel()->index(row, 0);
-        if (!idx.isValid()) {
-            continue;
-        }
-        if (m_rootActions.count() <= row) {
-            break;
-        }
-
-        UnityMenuModel* unityModel = qobject_cast<UnityMenuModel*>(m_model->getMenuModelForIndexProfile(idx, profile()));
-        m_rootActions[row]->setMenu(unityModel);
+        updateCachedModel(sourceModel()->index(row, 0));
     }
 }
 
@@ -170,4 +151,41 @@ QVariant VisibleIndicatorsModel::data(const QModelIndex &index, int role) const
         return false;
 
     return m_visible[index.row()];
+}
+
+void VisibleIndicatorsModel::updateCachedModel(const QModelIndex& index)
+{
+    if (!index.isValid()) {
+        return;
+    }
+    QVariant data = sourceModel()->data(index, IndicatorsModelRole::IndicatorProperties);
+    if (!data.isValid()) {
+        return;
+    }
+    int row = index.row();
+
+    if (m_cachedModels.count() <= row) {
+        return;
+    }
+    CachedUnityMenuModel* cachedModel = m_cachedModels[row];
+
+    QVariantMap properties = data.toMap();
+
+    QVariantMap menuObjectPaths = properties["menuObjectPaths"].toMap();
+    if (!menuObjectPaths.contains(m_profile)) {
+        return;
+    }
+
+    QString menuObjectPath = menuObjectPaths[m_profile].toString();
+    QString busName = properties["busName"].toString();
+    QString actionsObjectPath = properties["actionsObjectPath"].toString();
+
+    cachedModel->setBusName(busName);
+    cachedModel->setMenuObjectPath(menuObjectPath);
+    QVariantMap actions; actions["indicator"] = actionsObjectPath;
+    cachedModel->setActions(actions);
+
+    if (m_rootActions.count() > row) {
+        m_rootActions[row]->setMenu(cachedModel->model());
+    }
 }

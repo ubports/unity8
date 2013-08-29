@@ -43,8 +43,6 @@ public:
     int position() const;
     QVariant indicatorProperties() const;
 
-    QAbstractItemModel* getMenuModel(const QString& profile);
-
 Q_SIGNALS:
     void identifierChanged(const QString &identifier);
     void positionChanged(int position);
@@ -59,7 +57,6 @@ private:
     QString m_identifier;
     int m_position;
     QVariant m_properties;
-    QHash<QString, CachedUnityMenuModel*> m_cachedModels;
 };
 
 #endif // INDICATOR_H

@@ -30,8 +30,7 @@ extern "C" {
 }
 
 RootActionState::RootActionState(QObject *parent)
-    : ActionStateParser(parent),
-      m_manageParserParent(false)
+    : ActionStateParser(parent)
 {
 }
 
