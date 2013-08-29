@@ -44,13 +44,13 @@ Item {
 
     function hideEdgeDemoInShell() {
         var user = LightDM.Users.data(greeter.currentIndex, LightDM.UserRoles.NameRole);
-        AccountsService.setUserProperty(user, "demo-edges", false);
+        AccountsService.demoEdges = false;
         d.showEdgeDemo = false;
         stopDemo();
     }
 
     function hideEdgeDemoInGreeter() {
-        // TODO: AccountsService.setUserProperty("lightdm", "demo-edges", false);
+        // TODO: AccountsService.demoEdges = false as lightdm user
         d.showEdgeDemoInGreeter = false;
     }
 
@@ -80,7 +80,7 @@ Item {
         property QtObject leftEdgeDemo
         property QtObject finalEdgeDemo
         property bool showEdgeDemo: false
-        property bool showEdgeDemoInGreeter: d.showEdgeDemo // TODO: AccountsService.getUserProperty("lightdm", "demo-edges")
+        property bool showEdgeDemoInGreeter: d.showEdgeDemo // TODO: AccountsService.demoEdges as lightdm user
 
         onShowEdgeDemoInGreeterChanged: {
             if (!d.overlay && d.showEdgeDemoInGreeter) {
@@ -126,7 +126,7 @@ Item {
 
         onSelected: {
             var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole)
-            d.showEdgeDemo = AccountsService.getUserProperty(user, "demo-edges")
+            d.showEdgeDemo = AccountsService.demoEdges
         }
     }
 
