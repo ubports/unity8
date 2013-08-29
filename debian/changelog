@@ -1,3 +1,26 @@
+unity8 (7.81.3+13.10.20130829-0ubuntu1) saucy; urgency=low
+
+  [ Andrea Cimitan ]
+  * Streamline some new HUD interactions to be more consistent with the
+    Unity Launcher.
+
+  [ Michael Zanetti ]
+  * setting the launcher's extensionSize delayed to position the view
+    correctly at the beginning .
+
+  [ Bill Filler ]
+  * add new telephony apps (dialer, messaging, contacts) to launcher and
+    Home scope.
+
+  [ Michael Terry ]
+  * Implement edge demos on first boot. Build-Depends: +dbus-test-
+    runner, +qtbase5-dev-tools.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 267
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 29 Aug 2013 02:10:38 +0000
+
 unity8 (7.81.3+13.10.20130828.1-0ubuntu1) saucy; urgency=low
 
   [ Andrea Cimitan ]
