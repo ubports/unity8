@@ -214,14 +214,11 @@ void IndicatorsManager::unloadFile(const QFileInfo& file)
         IndicatorData* data = iter.value();
         if (data->m_fileInfo.absoluteFilePath() == file.absoluteFilePath())
         {
-            if (!data->m_verified)
-            {
-                QString name = data->m_name;
-                Q_EMIT indicatorAboutToBeUnloaded(name);
+            QString name = data->m_name;
+            Q_EMIT indicatorAboutToBeUnloaded(name);
 
-                delete data;
-                iter.remove();
-            }
+            delete data;
+            iter.remove();
         }
     }
 

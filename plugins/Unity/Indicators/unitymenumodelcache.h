@@ -37,6 +37,8 @@ public:
     Q_INVOKABLE UnityMenuModel* model(const QString& path) const;
     Q_INVOKABLE void registerModel(const QString& path, UnityMenuModel* menuModel);
 
+    static UnityMenuModelCache* cache();
+
 private:
     QHash<QString, UnityMenuModel*> m_menuModels;
 };

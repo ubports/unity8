@@ -25,6 +25,8 @@
 
 #include <QObject>
 #include <QSettings>
+class QAbstractItemModel;
+class CachedUnityMenuModel;
 
 class UNITYINDICATORS_EXPORT Indicator : public QObject
 {
@@ -40,15 +42,12 @@ public:
     QString identifier() const;
     int position() const;
     QVariant indicatorProperties() const;
-    bool isVisible() const;
 
-    // is set once we know if we're connected.
-    bool setVisible(bool visible);
+    QAbstractItemModel* getMenuModel(const QString& profile);
 
 Q_SIGNALS:
     void identifierChanged(const QString &identifier);
     void positionChanged(int position);
-    void visibleChanged(bool visible);
     void indicatorPropertiesChanged(const QVariant &properties);
 
 protected:
@@ -59,8 +58,8 @@ protected:
 private:
     QString m_identifier;
     int m_position;
-    bool m_visible;
     QVariant m_properties;
+    QHash<QString, CachedUnityMenuModel*> m_cachedModels;
 };
 
 #endif // INDICATOR_H

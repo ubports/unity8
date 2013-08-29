@@ -23,6 +23,7 @@
 #include "unityindicatorsglobal.h"
 
 #include <actionstateparser.h>
+#include <QPointer>
 
 class UnityMenuModel;
 
@@ -75,8 +76,9 @@ private Q_SLOTS:
 private:
     void updateActionState();
 
-    UnityMenuModel* m_menu;
+    QPointer<UnityMenuModel> m_menu;
     QVariantMap m_cachedState;
+    bool m_manageParserParent;
 };
 
 #endif // ROOTACTIONSTATE_H

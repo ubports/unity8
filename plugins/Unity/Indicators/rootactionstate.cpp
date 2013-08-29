@@ -31,7 +31,7 @@ extern "C" {
 
 RootActionState::RootActionState(QObject *parent)
     : ActionStateParser(parent),
-      m_menu(NULL)
+      m_manageParserParent(false)
 {
 }
 
@@ -47,18 +47,17 @@ UnityMenuModel* RootActionState::menu() const
 void RootActionState::setMenu(UnityMenuModel* menu)
 {
     if (m_menu != menu) {
-        if (m_menu) {
+        if (!m_menu.isNull()) {
             m_menu->disconnect(this);
         }
         m_menu = menu;
 
-        if (m_menu) {
-            connect(m_menu, SIGNAL(rowsInserted(const QModelIndex&, int, int)), SLOT(onModelRowsAdded(const QModelIndex&, int, int)));
-            connect(m_menu, SIGNAL(rowsRemoved(const QModelIndex&, int, int)), SLOT(onModelRowsRemoved(const QModelIndex&, int, int)));
-            connect(m_menu, SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&, const QVector<int>&)), SLOT(onModelDataChanged(const QModelIndex&, const QModelIndex&, const QVector<int>&)));
-
-            m_menu->setActionStateParser(this);
+        if (menu) {
+            connect(menu, SIGNAL(rowsInserted(const QModelIndex&, int, int)), SLOT(onModelRowsAdded(const QModelIndex&, int, int)));
+            connect(menu, SIGNAL(rowsRemoved(const QModelIndex&, int, int)), SLOT(onModelRowsRemoved(const QModelIndex&, int, int)));
+            connect(menu, SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&, const QVector<int>&)), SLOT(onModelDataChanged(const QModelIndex&, const QModelIndex&, const QVector<int>&)));
         }
+
         updateActionState();
         Q_EMIT menuChanged();
     }
@@ -94,8 +93,13 @@ void RootActionState::onModelDataChanged(const QModelIndex& topLeft, const QMode
 
 void RootActionState::updateActionState()
 {
-    if (m_menu && m_menu->rowCount() > 0) {
+    if (!m_menu.isNull() && m_menu->rowCount() > 0) {
+        ActionStateParser* oldParser = m_menu->actionStateParser();
+        m_menu->setActionStateParser(this);
+
         m_cachedState = m_menu->get(0, "actionState").toMap();
+
+        m_menu->setActionStateParser(oldParser);
     } else {
         m_cachedState.clear();
     }
@@ -105,7 +109,7 @@ void RootActionState::updateActionState()
 
 bool RootActionState::isValid() const
 {
-    return m_menu && m_menu->rowCount() > 0;
+    return !m_menu.isNull() && m_menu->rowCount() > 0;
 }
 
 QString RootActionState::label() const

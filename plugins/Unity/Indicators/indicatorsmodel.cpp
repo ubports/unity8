@@ -229,9 +229,9 @@ QVariant IndicatorsModel::defaultData(Indicator::Ptr indicator, int role)
         case IndicatorsModelRole::Description:
             return "";
         case IndicatorsModelRole::WidgetSource:
-            return shellAppDirectory()+"/Panel/Indicators/DefaultIndicatorWidget2.qml";
+            return shellAppDirectory()+"/Panel/Indicators/DefaultIndicatorWidget.qml";
         case IndicatorsModelRole::PageSource:
-            return shellAppDirectory()+"/Panel/Indicators/DefaultIndicatorPage2.qml";
+            return shellAppDirectory()+"/Panel/Indicators/DefaultIndicatorPage.qml";
     }
     return QVariant();
 }
@@ -270,7 +270,7 @@ QVariant IndicatorsModel::data(const QModelIndex &index, int role) const
             }
             break;
         case IndicatorsModelRole::IsVisible:
-            return (indicator ? indicator->isVisible() : false);
+            return true;
         case IndicatorsModelRole::Title:
         case IndicatorsModelRole::Description:
         case IndicatorsModelRole::WidgetSource:
@@ -280,34 +280,6 @@ QVariant IndicatorsModel::data(const QModelIndex &index, int role) const
             break;
     }
     return QVariant();
-}
-
-void IndicatorsModel::setData(int row, const QVariant& value, int role)
-{
-    setData(index(row, 0), value, role);
-}
-
-bool IndicatorsModel::setData(const QModelIndex & index, const QVariant & value, int role)
-{
-    if (!index.isValid() || index.row() >= m_indicators.size())
-        return false;
-
-    Indicator::Ptr indicator = m_indicators[index.row()];
-
-    switch (role)
-    {
-        case IndicatorsModelRole::IsVisible:
-            if (indicator) {
-                if (indicator->setVisible(value.toBool())) {
-                    dataChanged(index, index, QVector<int>() << role);
-                }
-                return true;
-            }
-            break;
-        default:
-            break;
-    }
-    return false;
 }
 
 QVariant IndicatorsModel::indicatorData(const Indicator::Ptr& indicator, int role) const
@@ -351,4 +323,17 @@ void IndicatorsModel::setIndicatorData(const QVariant& data)
 QVariant IndicatorsModel::indicatorData() const
 {
     return m_indicator_data;
+}
+
+QAbstractItemModel* IndicatorsModel::getMenuModelForIndexProfile(const QModelIndex& index, const QString& device) const
+{
+    if (!index.isValid() || index.row() >= m_indicators.size())
+        return NULL;
+
+    Indicator::Ptr indicator = m_indicators[index.row()];
+    if (!indicator) {
+        return NULL;
+    }
+
+    return indicator->getMenuModel(device);
 }

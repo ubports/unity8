@@ -17,6 +17,8 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
+import Unity.Indicators 0.1 as Indicators
+import Utils 0.1
 
 import "../Components"
 import "../Components/ListItems"
@@ -175,7 +177,7 @@ Showable {
             top: indicatorRow.bottom
             bottom: handle.top
         }
-        indicatorsModel: indicatorsModel
+        indicatorsModel: filteredIndicators
         clip: !indicators.fullyOpened
         activeHeader: indicators.state == "hint" || indicators.state == "reveal"
 
@@ -249,6 +251,18 @@ Showable {
         id: indicatorsModel
     }
 
+    SortFilterProxyModel {
+        id: filteredIndicators
+        model: Indicators.VisibleIndicatorsModel {
+            model: indicatorsModel
+            profile: "phone"
+        }
+        dynamicSortFilter: true
+
+        filterRole: Indicators.IndicatorsModelRole.IsVisible
+        filterRegExp: RegExp("^true$")
+    }
+
     IndicatorRow {
         id: indicatorRow
         objectName: "indicatorRow"
@@ -257,7 +271,7 @@ Showable {
             right: parent.right
         }
         height: indicators.panelHeight
-        indicatorsModel: indicatorsModel
+        indicatorsModel: filteredIndicators
         state: indicators.state
 
         Connections {

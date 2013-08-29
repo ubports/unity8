@@ -26,7 +26,6 @@ Item {
     property bool highlighted: false
     property bool dimmed: false
     property var indicatorProperties: undefined
-    property bool indicatorVisible: loader.item != undefined && loader.status == Loader.Ready ? loader.item.enabled : false
 
     opacity: dimmed ? 0.4 : 1
     Behavior on opacity { StandardAnimation {} }

@@ -24,6 +24,7 @@ include_directories(
 )
 
 set(IndicatorsQML_SOURCES
+    cachedunitymenumodel.cpp
     indicator.cpp
     indicators.h
     indicatorsmanager.cpp
@@ -34,6 +35,7 @@ set(IndicatorsQML_SOURCES
     rootactionstate.cpp
     unitymenumodelcache.cpp
     unitymenumodelstack.cpp
+    visibleindicatorsmodel.cpp
 )
 add_definitions(-DUNITYINDICATORS_LIBRARY)
 

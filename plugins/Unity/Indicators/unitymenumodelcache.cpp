@@ -40,3 +40,9 @@ void UnityMenuModelCache::registerModel(const QString& path, UnityMenuModel* men
     menuModel->setParent(this);
     m_menuModels[path] = menuModel;
 }
+
+UnityMenuModelCache* UnityMenuModelCache::cache()
+{
+    static UnityMenuModelCache* model = new UnityMenuModelCache;
+    return model;
+}

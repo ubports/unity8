@@ -4,7 +4,6 @@ typeinfo plugin.qmltypes
 
 BaseMenuItem 0.1 BaseMenuItem.qml
 ButtonMenuItem 0.1 ButtonMenuItem.qml
-CachedUnityMenuModel 0.1 CachedUnityMenuModel.qml
 DivMenuItem 0.1 DivMenuItem.qml
 FramedMenuItem 0.1 FramedMenuItem.qml
 HLine 0.1 HLine.qml

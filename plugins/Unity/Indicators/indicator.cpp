@@ -18,18 +18,21 @@
  */
 
 #include "indicator.h"
+#include "cachedunitymenumodel.h"
 
 #include <QStringList>
+#include <unitymenumodel.h>
 
 Indicator::Indicator(QObject *parent)
     : QObject(parent),
-      m_position(0),
-      m_visible(false)
+      m_position(0)
 {
 }
 
 Indicator::~Indicator()
 {
+    qDeleteAll(m_cachedModels);
+    m_cachedModels.clear();
 }
 
 void Indicator::init(const QString& busName, const QSettings& settings)
@@ -87,21 +90,6 @@ void Indicator::setPosition(int position)
     }
 }
 
-bool Indicator::isVisible() const
-{
-    return m_visible;
-}
-
-bool Indicator::setVisible(bool visible)
-{
-    if (visible != m_visible) {
-        m_visible = visible;
-        Q_EMIT visibleChanged(m_visible);
-        return true;
-    }
-    return false;
-}
-
 QVariant Indicator::indicatorProperties() const
 {
     return m_properties;
@@ -114,4 +102,32 @@ void Indicator::setIndicatorProperties(const QVariant &properties)
         m_properties = properties;
         Q_EMIT indicatorPropertiesChanged(m_properties);
     }
+}
+
+QAbstractItemModel* Indicator::getMenuModel(const QString& profile)
+{
+    QVariantMap propMap = m_properties.toMap();
+    QString busName = propMap["busName"].toString();
+    QString actionsObjectPath = propMap["actionsObjectPath"].toString();
+
+    QVariantMap menuObjectPaths = propMap["menuObjectPaths"].toMap();
+    if (!menuObjectPaths.contains(profile)) {
+        return NULL;
+    }
+
+    QString menuObjectPath = menuObjectPaths[profile].toString();
+
+    CachedUnityMenuModel* cachedModel;
+    if (!m_cachedModels.contains(profile)) {
+        cachedModel = new CachedUnityMenuModel();
+        m_cachedModels[profile] = cachedModel;
+    } else {
+        cachedModel = m_cachedModels[profile];
+    }
+    cachedModel->setBusName(busName);
+    cachedModel->setMenuObjectPath(menuObjectPath);
+    QVariantMap actions; actions["indicator"] = actionsObjectPath;
+    cachedModel->setActions(actions);
+
+    return cachedModel->model();
 }
