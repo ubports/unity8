@@ -85,6 +85,10 @@ private:
     QMap<QString, QAbstractItemModel*> m_overriddenCategories;
     mutable QMap<int, DeeListModel*> m_results;
     SignalsList m_signals;
+
+    /* Category order array contains indices of actual categories in the underlying DeeListModel.
+       It's used internally to reflect category order reported by scope.
+     */
     mutable QList<unsigned int> m_categoryOrder;
 };
 
