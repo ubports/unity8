@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.0
+import AccountsService 0.1
 import GSettings 1.0
 import Ubuntu.Application 0.1
 import Ubuntu.Components 0.1
@@ -469,6 +470,7 @@ FocusScope {
         onSelected: {
             // Update launcher items for new user
             var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole);
+            AccountsService.setUser(user);
             LauncherModel.setUser(user);
         }
 
