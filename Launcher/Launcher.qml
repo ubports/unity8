@@ -26,9 +26,11 @@ Item {
 
     property bool available: true // can be used to disable all interactions
 
-    property int panelWidth: units.gu(8.5)
+    property int panelWidth: units.gu(8)
     property int dragAreaWidth: units.gu(1)
-    property real progress: dragArea.dragging  && dragArea.touchX > panel.width ? dragArea.touchX : 0
+    property int minimizeDistance: panelWidth * 2.5
+    property real progress: dragArea.dragging  && dragArea.touchX > panelWidth ?
+                                (width * (dragArea.touchX-panelWidth) / (width - panelWidth)) : 0
 
     readonly property bool shown: panel.x > -panel.width
 
@@ -143,12 +145,14 @@ Item {
     LauncherPanel {
         id: panel
         objectName: "launcherPanel"
+        enabled: root.available
         width: root.panelWidth
         anchors {
             top: parent.top
             bottom: parent.bottom
         }
         x: -width
+        opacity: (x == -width && dragArea.status === DirectionalDragArea.WaitingForTouch) ? 0 : 1
         model: LauncherModel
 
         property bool animate: true
@@ -173,6 +177,12 @@ Item {
                 // Disabling animation when dragging
                 duration: dragArea.dragging || launcherDragArea.drag.active ?  0 : 300;
                 easing.type: Easing.OutCubic
+            }
+        }
+
+        Behavior on opacity {
+            NumberAnimation {
+                duration: UbuntuAnimation.FastDuration; easing.type: Easing.OutCubic
             }
         }
     }
@@ -206,7 +216,7 @@ Item {
             if (!dragging) {
                 if (distance > panel.width / 2) {
                     root.switchToNextState("visible")
-                    if (distance > panel.width * 2) {
+                    if (distance > minimizeDistance) {
                         root.dash()
                     }
                 } else {

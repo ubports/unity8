@@ -18,6 +18,36 @@ import QtQuick 2.0
 
 ListModel {
     ListElement {
+        uri: "application:///usr/share/applications/dialer-app.desktop"
+        icon: "../../graphics/applicationIcons/phone-app.png"
+        category: 0
+        mimetype: "application/x-desktop"
+        title: "Dialer"
+        comment: ""
+        dndUri: "file:///usr/share/applications/dialer-app.desktop"
+        metadata: ""
+    }
+    ListElement {
+        uri: "application:///usr/share/applications/messaging-app.desktop"
+        icon: "../../graphics/applicationIcons/messages-app.png"
+        category: 0
+        mimetype: "application/x-desktop"
+        title: "Messaging"
+        comment: ""
+        dndUri: "file:///usr/share/applications/messaging-app.desktop"
+        metadata: ""
+    }
+    ListElement {
+        uri: "application:///usr/share/applications/address-book-app.desktop"
+        icon: "../../graphics/applicationIcons/contacts-app.png"
+        category: 0
+        mimetype: "application/x-desktop"
+        title: "Contacts"
+        comment: ""
+        dndUri: "file:///usr/share/applications/address-book-app.desktop"
+        metadata: ""
+    }
+    ListElement {
         uri: "application:///usr/share/applications/camera-app.desktop"
         icon: "../../graphics/applicationIcons/camera.png"
         category: 0
@@ -25,16 +55,6 @@ ListModel {
         title: "Camera"
         comment: ""
         dndUri: "file:///usr/share/applications/camera-app.desktop"
-        metadata: ""
-    }
-    ListElement {
-        uri: "application:///usr/share/applications/phone-app.desktop"
-        icon: "../../graphics/applicationIcons/phone-app.png"
-        category: 0
-        mimetype: "application/x-desktop"
-        title: "Phone"
-        comment: ""
-        dndUri: "file:///usr/share/applications/phone-app.desktop"
         metadata: ""
     }
     ListElement {
@@ -75,6 +95,16 @@ ListModel {
         title: "GMail"
         comment: ""
         dndUri: "file:///usr/share/applications/gmail-webapp.desktop"
+        metadata: ""
+    }
+    ListElement {
+        uri: "application:///usr/share/applications/ubuntu-system-settings.desktop"
+        icon: "../../graphics/applicationIcons/system-settings.png"
+        category: 0
+        mimetype: "application/x-desktop"
+        title: "System Settings"
+        comment: ""
+        dndUri: "file:///usr/share/applications/ubuntu-system-settings.desktop"
         metadata: ""
     }
 }

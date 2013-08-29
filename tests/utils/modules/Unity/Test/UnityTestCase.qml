@@ -69,9 +69,28 @@ TestCase {
     }
 
 
-    // Find an object with the given name recursively, starting
-    // at the given object "obj"
+    // Find an object with the given name in the children tree of "obj"
     function findChild(obj,objectName) {
+        var childs = new Array(0);
+        childs.push(obj)
+        while (childs.length > 0) {
+            if (childs[0].objectName == objectName) {
+                return childs[0]
+            }
+            for (var i in childs[0].children) {
+                childs.push(childs[0].children[i])
+            }
+            childs.splice(0, 1);
+        }
+        return undefined;
+    }
+
+    // Find an object with the given name in the children tree of "obj"
+    // Including invisible children like animations, timers etc.
+    // Note: you should use findChild if you're not sure you need this
+    // as this tree is much bigger and might contain stuff that goes
+    // away randomly.
+    function findInvisibleChild(obj,objectName) {
         var childs = new Array(0);
         childs.push(obj)
         while (childs.length > 0) {

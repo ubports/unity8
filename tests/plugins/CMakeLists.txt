@@ -1,4 +1,5 @@
-add_subdirectory(Utils)
+add_subdirectory(AccountsService)
+add_subdirectory(ListViewWithPageHeader)
 add_subdirectory(Ubuntu)
 add_subdirectory(Unity)
-add_subdirectory(ListViewWithPageHeader)
+add_subdirectory(Utils)
