@@ -180,7 +180,9 @@ void LauncherBackend::syncFromAccounts()
     // TODO: load default pinned ones from default config, instead of hardcoding here...
     if (defaults) {
         apps <<
-            makeAppDetails("phone-app.desktop", true) <<
+            makeAppDetails("dialer-app.desktop", true) <<
+            makeAppDetails("messaging-app.desktop", true) <<
+            makeAppDetails("address-book-app.desktop", true) <<
             makeAppDetails("camera-app.desktop", true) <<
             makeAppDetails("gallery-app.desktop", true) <<
             makeAppDetails("facebook-webapp.desktop", true) <<

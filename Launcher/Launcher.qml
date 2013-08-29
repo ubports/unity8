@@ -152,6 +152,7 @@ Item {
             bottom: parent.bottom
         }
         x: -width
+        opacity: (x == -width && dragArea.status === DirectionalDragArea.WaitingForTouch) ? 0 : 1
         model: LauncherModel
 
         property bool animate: true
@@ -176,6 +177,12 @@ Item {
                 // Disabling animation when dragging
                 duration: dragArea.dragging || launcherDragArea.drag.active ?  0 : 300;
                 easing.type: Easing.OutCubic
+            }
+        }
+
+        Behavior on opacity {
+            NumberAnimation {
+                duration: UbuntuAnimation.FastDuration; easing.type: Easing.OutCubic
             }
         }
     }

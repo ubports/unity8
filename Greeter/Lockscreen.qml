@@ -53,7 +53,15 @@ Showable {
         pinPadLoader.resetting = false;
     }
 
+    Rectangle {
+        // In case wallpaper fails to load or is undefined
+        id: wallpaperBackup
+        anchors.fill: parent
+        color: "black"
+    }
+
     Image {
+        id: wallpaper
         anchors.fill: parent
         source: root.required ? root.background : ""
         fillMode: Image.PreserveAspectCrop
