@@ -31,6 +31,11 @@ CachedUnityMenuModel::CachedUnityMenuModel(QObject* parent)
 
 CachedUnityMenuModel::~CachedUnityMenuModel()
 {
+    // deref old model.
+    if (m_model) {
+        UnityMenuModelCache::cache()->deref(m_menuObjectPath);
+        m_model = NULL;
+    }
 }
 
 UnityMenuModel* CachedUnityMenuModel::model() const
@@ -80,7 +85,11 @@ QString CachedUnityMenuModel::menuObjectPath() const
 void CachedUnityMenuModel::setMenuObjectPath(const QString &path)
 {
     if (m_menuObjectPath != path) {
-        m_model = NULL;
+        // deref old model.
+        if (m_model) {
+            UnityMenuModelCache::cache()->deref(m_menuObjectPath);
+            m_model = NULL;
+        }
 
         m_menuObjectPath = path;
         Q_EMIT menuObjectPathChanged(m_menuObjectPath);
@@ -96,6 +105,7 @@ void CachedUnityMenuModel::setMenuObjectPath(const QString &path)
 
                 UnityMenuModelCache::cache()->registerModel(m_menuObjectPath, m_model);
             }
+            UnityMenuModelCache::cache()->ref(m_menuObjectPath);
         }
 
         Q_EMIT modelChanged(m_model);

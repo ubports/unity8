@@ -46,3 +46,25 @@ UnityMenuModelCache* UnityMenuModelCache::cache()
     static UnityMenuModelCache* model = new UnityMenuModelCache;
     return model;
 }
+
+void UnityMenuModelCache::ref(const QString& path)
+{
+    if (!m_refs.contains(path)) {
+        m_refs[path] = 1;
+    } else {
+        m_refs[path]++;
+    }
+}
+
+bool UnityMenuModelCache::deref(const QString& path)
+{
+    if (m_refs.contains(path)) {
+        if (--m_refs[path] <= 0) {
+            delete m_menuModels.value(path, NULL);
+            m_menuModels.remove(path);
+            m_refs.remove(path);
+            return false;
+        }
+    }
+    return true;
+}
