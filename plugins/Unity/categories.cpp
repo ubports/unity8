@@ -285,12 +285,12 @@ Categories::data(const QModelIndex& index, int role) const
                 auto id = DeeListModel::data(realIndex, CategoryColumn::ID).toString();
                 if (m_overriddenCategories.find(id) != m_overriddenCategories.end())
                 {
-                    qDebug() << "Get count of cat" << realRow << "at pos" << index.row() << "Count=" << m_overriddenCategories[id]->rowCount();
+                    qDebug() << "Get count of overriden cat" << realRow << id << "at pos" << index.row() << "Count=" << m_overriddenCategories[id]->rowCount();
                     return QVariant::fromValue(m_overriddenCategories[id]->rowCount());
                 }
             }
-            qDebug() << "Get count of cat" << realRow << "at pos" << index.row() << "Count=" << getResults(realIndex.row())->rowCount();
-            return QVariant::fromValue(getResults(realIndex.row())->rowCount());
+            qDebug() << "Get count of cat" << DeeListModel::data(realIndex, CategoryColumn::ID).toString() << realRow << "at pos" << index.row() << "Count=" << getResults(realIndex.row())->rowCount();
+            return QVariant::fromValue(getResults(realRow)->rowCount());
         case RoleCategoryIndex:
             return QVariant::fromValue(index.row()); // no remapping to realIndex
         default:
