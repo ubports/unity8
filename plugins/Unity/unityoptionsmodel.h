@@ -35,7 +35,8 @@ public:
     UnityOptionsModel(QObject *parent,
                       const std::vector<unity::dash::FilterOption::Ptr> options,
                       sigc::signal<void, unity::dash::FilterOption::Ptr> optionAdded,
-                      sigc::signal<void, unity::dash::FilterOption::Ptr> optionRemoved);
+                      sigc::signal<void, unity::dash::FilterOption::Ptr> optionRemoved,
+                      bool showAllOption);
 
 private:
     void setOptions(const std::vector<unity::dash::FilterOption::Ptr> options,

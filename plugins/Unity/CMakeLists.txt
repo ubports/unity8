@@ -43,6 +43,7 @@ set(QMLPLUGIN_SRC
     preview.cpp
     previewaction.cpp
     previewinfohint.cpp
+    showallfilteroption.cpp
     signalslist.cpp
     socialpreview.cpp
     socialpreviewcomment.cpp
