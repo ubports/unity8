@@ -19,6 +19,7 @@ import GSettings 1.0
 import Ubuntu.Application 0.1
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
+import Unity.Launcher 0.1
 import LightDM 0.1 as LightDM
 import Powerd 0.1
 import "Dash"
@@ -195,7 +196,7 @@ FocusScope {
             available: !greeter.shown && !lockscreen.shown
             hides: [stages, launcher, panel.indicators]
             shown: disappearingAnimationProgress !== 1.0
-            enabled: disappearingAnimationProgress === 0.0
+            enabled: disappearingAnimationProgress === 0.0 && edgeDemo.dashEnabled
             // FIXME: unfocus all applications when going back to the dash
             onEnabledChanged: {
                 if (enabled) {
@@ -386,6 +387,7 @@ FocusScope {
 
                 width: shell.edgeSize
                 direction: Direction.Leftwards
+                enabled: edgeDemo.dashEnabled
                 property bool haveApps: mainStage.applications.count > 0 || sideStage.applications.count > 0
 
                 maxTotalDragDistance: haveApps ? parent.width : parent.width * 0.7
@@ -414,6 +416,7 @@ FocusScope {
         Component.onCompleted: {
             if (LightDM.Users.count == 1) {
                 LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole))
+                greeter.selected(0)
             }
         }
     }
@@ -456,12 +459,18 @@ FocusScope {
                 // If there are more users, the Greeter will handle that
                 if (LightDM.Users.count == 1) {
                     LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
+                    greeter.selected(0);
                 }
                 greeter.forceActiveFocus();
             }
         }
 
         onUnlocked: greeter.hide()
+        onSelected: {
+            // Update launcher items for new user
+            var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole);
+            LauncherModel.setUser(user);
+        }
 
         onLeftTeaserPressedChanged: {
             if (leftTeaserPressed) {
@@ -510,6 +519,13 @@ FocusScope {
             } else if (status == Powerd.On) {
                 powerConnection.setFocused(true);
             }
+
+            // No reason to chew demo CPU when user isn't watching
+            if (status == Powerd.Off) {
+                edgeDemo.paused = true;
+            } else if (status == Powerd.On) {
+                edgeDemo.paused = false;
+            }
         }
     }
 
@@ -524,6 +540,8 @@ FocusScope {
             indicatorsMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
             indicators {
                 hides: [launcher]
+                available: edgeDemo.panelEnabled
+                contentEnabled: edgeDemo.panelContentEnabled
             }
             fullscreenMode: shell.fullscreenMode
             searchVisible: !greeter.shown && !lockscreen.shown
@@ -540,7 +558,7 @@ FocusScope {
             width: parent.width > units.gu(60) ? units.gu(40) : parent.width
             height: parent.height
 
-            available: !greeter.shown && !panel.indicators.shown && !lockscreen.shown
+            available: !greeter.shown && !panel.indicators.shown && !lockscreen.shown && edgeDemo.dashEnabled
             shown: false
             showAnimation: StandardAnimation { property: "y"; duration: hud.showableAnimationDuration; to: 0; easing.type: Easing.Linear }
             hideAnimation: StandardAnimation { property: "y"; duration: hud.showableAnimationDuration; to: hudRevealer.closedValue; easing.type: Easing.Linear }
@@ -598,7 +616,7 @@ FocusScope {
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
-            available: !greeter.shown || greeter.narrowMode
+            available: (!greeter.shown || greeter.narrowMode) && edgeDemo.launcherEnabled
             onDashItemSelected: {
                 greeter.hide()
                 // Animate if moving between application and dash
@@ -706,5 +724,14 @@ FocusScope {
         fontSizeMode: Text.Fit
         rotation: -45
         scale: Math.min(parent.width, parent.height) / width
+    }
+
+    EdgeDemo {
+        id: edgeDemo
+        greeter: greeter
+        launcher: launcher
+        dash: dash
+        indicators: panel.indicators
+        underlay: underlay
     }
 }

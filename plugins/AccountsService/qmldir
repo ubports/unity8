@@ -1,0 +1,3 @@
+module AccountsService
+plugin AccountsService-qml
+typeinfo plugin.qmltypes

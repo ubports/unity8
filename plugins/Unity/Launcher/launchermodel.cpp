@@ -23,7 +23,7 @@
 
 LauncherModel::LauncherModel(QObject *parent):
     LauncherModelInterface(parent),
-    m_backend(new LauncherBackend(this))
+    m_backend(new LauncherBackend(true, this))
 {
     connect(m_backend, SIGNAL(countChanged(QString,int)), SLOT(countChanged(QString,int)));
     connect(m_backend, SIGNAL(progressChanged(QString,int)), SLOT(progressChanged(QString,int)));
@@ -123,6 +123,7 @@ void LauncherModel::pin(const QString &appId, int index)
     if (currentIndex >= 0) {
         if (index == -1 || index == currentIndex) {
             m_list.at(currentIndex)->setPinned(true);
+            m_backend->setPinned(appId, true);
             QModelIndex modelIndex = this->index(currentIndex);
             Q_EMIT dataChanged(modelIndex, modelIndex);
         } else {
@@ -138,6 +139,7 @@ void LauncherModel::pin(const QString &appId, int index)
                                               m_backend->displayName(appId),
                                               m_backend->icon(appId));
         item->setPinned(true);
+        m_backend->setPinned(appId, true);
         m_list.insert(index, item);
         endInsertRows();
     }
@@ -186,8 +188,7 @@ void LauncherModel::quickListActionInvoked(const QString &appId, int actionIndex
 
 void LauncherModel::setUser(const QString &username)
 {
-    Q_UNUSED(username)
-    // TODO: Implement this...
+    m_backend->setUser(username);
 }
 
 void LauncherModel::storeAppList()

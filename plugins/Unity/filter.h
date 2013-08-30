@@ -56,10 +56,11 @@ public:
     bool filtering() const;
     virtual GenericOptionsModel* options() const = 0;
 
-    Q_INVOKABLE void clear();
-
     static Filter* newFromUnityFilter(unity::dash::Filter::Ptr unityFilter);
     bool hasUnityFilter(unity::dash::Filter::Ptr unityFilter) const;
+
+public Q_SLOTS:
+    void clear();
 
 Q_SIGNALS:
     void optionsChanged();

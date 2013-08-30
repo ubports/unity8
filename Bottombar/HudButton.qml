@@ -33,24 +33,24 @@ Item {
 
     Item {
         id: hudButton
-        property alias actionButton: actionButton
 
         anchors.centerIn: parent
         height: units.gu(12)
         width: height
-        opacity: item.mouseOver ? 1 : 0.7
-        scale: item.mouseOver ? scaleOnMouseOver : 1
+        opacity: item.mouseOver || abstractButton.pressed ? 1 : 0.7
+        scale: item.mouseOver || abstractButton.pressed ? scaleOnMouseOver : 1
         Behavior on opacity {NumberAnimation{duration: 200; easing.type: Easing.OutQuart}}
         Behavior on scale {NumberAnimation{duration: 200; easing.type: Easing.OutQuart}}
 
-        UbuntuShape {
-            id: actionButton
+        AbstractButton {
+            id: abstractButton
             anchors.fill: parent
-
-            borderSource: ""
-            image: Image {
+            style: Image {
+                anchors.fill: parent
                 source: "graphics/hud_invoke_button_active.png"
             }
+
+            onClicked: item.clicked()
         }
 
         Image {
