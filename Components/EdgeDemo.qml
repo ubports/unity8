@@ -218,7 +218,7 @@ Item {
             d.finalEdgeDemo = d.overlay.createObject(demo.underlay, {
                 "edge": "none",
                 "title": i18n.tr("Well done"),
-                "text": i18n.tr("You have now mastered the edge gestures and can start using the phone.  Tap anywhere to finish the tour"),
+                "text": i18n.tr("You have now mastered the edge gestures and can start using the phone. Tap anywhere to exit"),
                 "anchors.fill": demo.dash,
             });
         }
