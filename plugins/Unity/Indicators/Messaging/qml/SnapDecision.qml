@@ -30,7 +30,10 @@ HeroMessage {
     property string time: ""
     property string message: ""
 
+    property bool activateEnabled: true
     property alias actionButtonText: actionButton.text
+
+    property bool replyEnabled: true
     property alias replyMessages: quickreply.messages
     property alias replyButtonText: quickreply.buttonText
 
@@ -76,11 +79,12 @@ HeroMessage {
         Button {
             id: actionButton
             text: "Call back"
-            color: "#c94212"
+            color: enabled ? "#c94212" : "#bababa"
             anchors.right: parent.right
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             width: (parent.width - units.gu(1)) / 2
+            enabled: snapDecision.activateEnabled
 
             onClicked: {
                 snapDecision.activate();
@@ -123,6 +127,7 @@ HeroMessage {
         height: 0
         opacity: 0.0
         enabled: false
+        replyEnabled: snapDecision.replyEnabled
 
         states: State {
             name: "expanded"

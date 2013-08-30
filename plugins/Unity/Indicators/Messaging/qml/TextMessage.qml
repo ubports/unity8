@@ -25,6 +25,7 @@ import Unity.Indicators 0.1 as Indicators
 SimpleTextMessage {
     id: simpleMessage
 
+    property bool replyEnabled: false
     property string replyButtonText: "Send"
 
     signal reply(string value)
@@ -32,6 +33,7 @@ SimpleTextMessage {
     footer: ActionTextField {
         anchors.fill:  parent
 
+        activateEnabled: simpleMessage.replyEnabled
         buttonText: simpleMessage.replyButtonText
 
         onActivate: {

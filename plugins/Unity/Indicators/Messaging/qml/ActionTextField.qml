@@ -25,6 +25,7 @@ Item {
     id: textField
     property alias text: replyField.text
     property alias buttonText: sendButton.text
+    property bool activateEnabled: false
 
     signal activate(var value)
 
@@ -58,7 +59,7 @@ Item {
             right: parent.right
         }
         width: units.gu(9)
-        enabled: replyField.text !== ""
+        enabled: replyField.text !== "" && textField.activateEnabled
         color: enabled ? "#c94212" : "#bababa"
 
         onClicked: {

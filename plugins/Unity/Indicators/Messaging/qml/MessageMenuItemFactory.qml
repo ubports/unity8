@@ -91,11 +91,12 @@ Indicators.BaseMenuItem {
                 title: menu && menu.label ? menu.label : ""
                 time: menu ? Utils.formatDate(menu.ext.xCanonicalTime) : ""
                 message: menu && menu.ext.xCanonicalText ? menu.ext.xCanonicalText : ""
+                replyButtonText: actionsDescription && actionsDescription[0].label ? actionsDescription[0].label : "Send"
                 // icons
                 avatar: menu && menu.ext.xCanonicalIcon ? "image://gicon/" + encodeURI(menu.ext.xCanonicalIcon) : "qrc:/indicators/artwork/messaging/default_contact.png"
                 appIcon: menu && menu.ext.xCanonicalAppIcon ? "image://gicon/" + encodeURI(menu.ext.xCanonicalAppIcon) : ""
                 // actions
-                replyButtonText: actionsDescription && actionsDescription[0].label ? actionsDescription[0].label : "Send"
+                replyEnabled: replyAction.valid && replyAction.enabled
 
                 onActivateApp: {
                     menuItem.model.activate(modelIndex, true);
@@ -130,6 +131,9 @@ Indicators.BaseMenuItem {
                 // icons
                 avatar: menu && menu.ext.xCanonicalIcon ? "image://gicon/" + encodeURI(menu.ext.xCanonicalIcon) : "qrc:/indicators/artwork/messaging/default_contact.png"
                 appIcon: menu && menu.ext.xCanonicalAppIcon ? "image://gicon/" + encodeURI(menu.ext.xCanonicalAppIcon) : ""
+                // actions
+                activateEnabled: activateAction.valid && activateAction.enabled
+                replyEnabled: replyAction.valid && replyAction.enabled
 
                 onActivateApp: {
                     menuItem.model.activate(modelIndex, true);
