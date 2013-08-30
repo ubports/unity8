@@ -18,6 +18,7 @@ import QtQuick 2.0
 import Ubuntu.Application 0.1
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
+import Unity.Launcher 0.1
 import Powerd 0.1
 import SessionManager 0.1
 import "Dash"
@@ -109,10 +110,14 @@ BasicShell {
         // Whether the underlay is fully covered by opaque UI elements.
         property bool fullyCovered: panel.indicators.fullyOpened && shell.width <= panel.indicatorsMenuWidth
 
+        readonly property bool applicationRunning: ((mainStage.applications && mainStage.applications.count > 0)
+                                           || (sideStage.applications && sideStage.applications.count > 0))
+
         // Whether the user should see the topmost application surface (if there's one at all).
-        property bool applicationSurfaceShouldBeSeen:
-                (mainStage.applications && mainStage.applications.count > 0)
-                && (!stages.fullyHidden && !mainStage.usingScreenshots)
+        readonly property bool applicationSurfaceShouldBeSeen: applicationRunning && !stages.fullyHidden
+                                           && !mainStage.usingScreenshots // but want sideStage animating over app surface
+
+
 
         // NB! Application surfaces are stacked behing the shell one. So they can only be seen by the user
         // through the translucent parts of the shell surface.
@@ -138,7 +143,7 @@ BasicShell {
 
             hides: [stages, launcher, panel.indicators]
             shown: disappearingAnimationProgress !== 1.0
-            enabled: disappearingAnimationProgress === 0.0
+            enabled: disappearingAnimationProgress === 0.0 && edgeDemo.dashEnabled
             // FIXME: unfocus all applications when going back to the dash
             onEnabledChanged: {
                 if (enabled) {
@@ -322,6 +327,7 @@ BasicShell {
 
                 width: shell.edgeSize
                 direction: Direction.Leftwards
+                enabled: edgeDemo.dashEnabled
                 property bool haveApps: mainStage.applications.count > 0 || sideStage.applications.count > 0
 
                 maxTotalDragDistance: haveApps ? parent.width : parent.width * 0.7
@@ -366,6 +372,13 @@ BasicShell {
             } else if (status == Powerd.On) {
                 powerConnection.setFocused(true);
             }
+
+            // No reason to chew demo CPU when user isn't watching
+            if (status == Powerd.Off) {
+                edgeDemo.paused = true;
+            } else if (status == Powerd.On) {
+                edgeDemo.paused = false;
+            }
         }
     }
 
@@ -380,6 +393,8 @@ BasicShell {
             indicatorsMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
             indicators {
                 hides: [launcher]
+                available: edgeDemo.panelEnabled
+                contentEnabled: edgeDemo.panelContentEnabled
             }
             fullscreenMode: shell.fullscreenMode
 
@@ -395,7 +410,7 @@ BasicShell {
             width: parent.width > units.gu(60) ? units.gu(40) : parent.width
             height: parent.height
 
-            available: !panel.indicators.shown
+            available: !panel.indicators.shown && edgeDemo.dashEnabled
             shown: false
             showAnimation: StandardAnimation { property: "y"; duration: hud.showableAnimationDuration; to: 0; easing.type: Easing.Linear }
             hideAnimation: StandardAnimation { property: "y"; duration: hud.showableAnimationDuration; to: hudRevealer.closedValue; easing.type: Easing.Linear }
@@ -453,6 +468,7 @@ BasicShell {
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
+            available: edgeDemo.launcherEnabled
             onDashItemSelected: {
                 // Animate if moving between application and dash
                 if (!stages.shown) {
@@ -548,5 +564,13 @@ BasicShell {
         fontSizeMode: Text.Fit
         rotation: -45
         scale: Math.min(parent.width, parent.height) / width
+    }
+
+    EdgeDemo {
+        id: edgeDemo
+        launcher: launcher
+        dash: dash
+        indicators: panel.indicators
+        underlay: underlay
     }
 }

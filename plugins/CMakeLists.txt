@@ -1,3 +1,4 @@
+add_subdirectory(AccountsService)
 add_subdirectory(HudClient)
 add_subdirectory(LightDM)
 add_subdirectory(ListViewWithPageHeader)

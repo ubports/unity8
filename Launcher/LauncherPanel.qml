@@ -110,7 +110,20 @@ Item {
                     // destroyed when dragging them outside the list. This needs to be at least
                     // itemHeight to prevent folded items from disappearing and DragArea limits
                     // need to be smaller than this size to avoid breakage.
-                    property int extensionSize: itemHeight * 3
+                    property int extensionSize: 0
+
+                    // Setting extensionSize after the list has been populated because it has
+                    // the potential to mess up with the intial positioning in combination
+                    // with snapping to the center of the list. This catches all the cases
+                    // where the item would be outside the list for more than itemHeight / 2.
+                    // For the rest, give it a flick to scroll to the beginning. Note that
+                    // the flicking alone isn't enough because in some cases it's not strong
+                    // enough to overcome the snapping.
+                    // https://bugreports.qt-project.org/browse/QTBUG-32251
+                    Component.onCompleted: {
+                        extensionSize = itemHeight * 3
+                        flick(0, clickFlickSpeed)
+                    }
 
                     // The height of the area where icons start getting folded
                     property int foldingStartHeight: units.gu(6.5)
@@ -476,6 +489,7 @@ Item {
             property var model
             property string appId
             contentWidth: quickListColumn.width
+            foregroundStyle: QuicklistForegroundStyle {}
 
             // FIXME: There's a bug in the Popover positioning that it covers the item in case it is rotated.
             // https://bugs.launchpad.net/ubuntu-ui-toolkit/+bug/1204470
@@ -491,6 +505,7 @@ Item {
                 height: childrenRect.height
 
                 Repeater {
+                    id: popoverRepeater
                     model: popover.model
 
                     ListItems.Standard {
@@ -501,8 +516,11 @@ Item {
                             if (!model.clickable) {
                                 return;
                             }
-                            LauncherModel.quickListActionInvoked(appId, index);
                             PopupUtils.close(popover);
+                            // Unsetting model to prevent showing changing entries during fading out
+                            // that may happen because of triggering an action.
+                            LauncherModel.quickListActionInvoked(appId, index);
+                            popoverRepeater.model = undefined;
                         }
                     }
                 }

@@ -50,6 +50,7 @@ BasicShell {
         Component.onCompleted: {
             if (LightDM.Users.count == 1) {
                 LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole))
+                greeter.selected(0)
             }
         }
     }
@@ -97,6 +98,7 @@ BasicShell {
                 // If there are more users, the Greeter will handle that
                 if (LightDM.Users.count == 1) {
                     LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
+                    greeter.selected(0);
                 }
                 greeter.forceActiveFocus();
             }
@@ -105,6 +107,11 @@ BasicShell {
         }
 
         onUnlocked: login()
+        onSelected: {
+            // Update launcher items for new user
+            var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole);
+            LauncherModel.setUser(user);
+        }
 
         onLeftTeaserPressedChanged: {
             if (leftTeaserPressed) {
@@ -142,6 +149,7 @@ BasicShell {
             indicatorsMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
             indicators {
                 hides: [launcher]
+                available: !edgeDemo.active
             }
             fullscreenMode: false
             searchVisible: false
@@ -154,7 +162,7 @@ BasicShell {
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
-            available: greeter.narrowMode
+            available: greeter.narrowMode && !edgeDemo.active
             onLauncherApplicationSelected: {
                 shell.activateApplication(name)
             }
@@ -164,5 +172,10 @@ BasicShell {
                 }
             }
         }
+    }
+
+    GreeterEdgeDemo {
+        id: edgeDemo
+        greeter: greeter
     }
 }

@@ -31,6 +31,7 @@ add_qml_test(. Shell IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_
                      ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/liblightdm/single")
 add_manual_qml_test(Components DragHandle IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
 add_qml_test(Components DraggingArea)
+add_qml_test(Components EdgeDemoOverlay)
 add_qml_test(Components FilterGrid)
 add_qml_test(Components ResponsiveFlowView)
 add_qml_test(Components ResponsiveGridView)

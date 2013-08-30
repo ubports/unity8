@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-08-09 12:18+0200\n"
+"POT-Creation-Date: 2013-08-27 13:36-0400\n"
 "PO-Revision-Date: 2013-06-27 09:57+0000\n"
 "Last-Translator: Michał Sawicz <michal.sawicz@canonical.com>\n"
 "Language-Team: Telugu <te@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-08-22 06:11+0000\n"
-"X-Generator: Launchpad (build 16734)\n"
+"X-Launchpad-Export-Date: 2013-08-30 05:37+0000\n"
+"X-Generator: Launchpad (build 16750)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -86,25 +86,69 @@ msgstr ""
 msgid "YouTube"
 msgstr ""
 
+#: Components/EdgeDemoOverlay.qml:145
+msgid "Skip intro"
+msgstr ""
+
+#: Components/EdgeDemo.qml:98
+msgid "Right edge"
+msgstr ""
+
+#: Components/EdgeDemo.qml:99
+msgid "Try swiping from the right edge to unlock the phone"
+msgstr ""
+
+#: Components/EdgeDemo.qml:135
+msgid "Top edge"
+msgstr ""
+
+#: Components/EdgeDemo.qml:136
+msgid "Try swiping from the top edge to access the indicators"
+msgstr ""
+
+#: Components/EdgeDemo.qml:161
+msgid "Close"
+msgstr ""
+
+#: Components/EdgeDemo.qml:162
+msgid "Swipe up again to close the settings screen"
+msgstr ""
+
+#: Components/EdgeDemo.qml:189
+msgid "Left edge"
+msgstr ""
+
+#: Components/EdgeDemo.qml:190
+msgid "Swipe from the left to reveal the launcher for quick access to apps"
+msgstr ""
+
+#: Components/EdgeDemo.qml:217
+msgid "Well done"
+msgstr ""
+
+#: Components/EdgeDemo.qml:218
+msgid "You have now mastered the edge gestures and can start using the phone"
+msgstr ""
+
 #: Components/PageHeader.qml:298
 msgid "Recent searches"
 msgstr ""
 
 #. TRANSLATORS: Number of persons who rated this app
-#: Dash/Apps/AppInfo.qml:72
+#: Dash/Apps/AppInfo.qml:73
 #, qt-format
 msgid "(%1)"
 msgstr ""
 
 #. TRANSLATORS: Number of persons who wrote reviews for this app
-#: Dash/Apps/AppInfo.qml:84 tests/qmltests/Dash/Apps/tst_AppPreview.qml:115
+#: Dash/Apps/AppInfo.qml:85
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
 msgstr[0] ""
 msgstr[1] ""
 
-#: Dash/Apps/AppPreview.qml:181
+#: Dash/Apps/AppPreview.qml:175
 msgid "Rate this"
 msgstr ""
 
@@ -123,42 +167,6 @@ msgstr ""
 #: Dash/Apps/AppReviews.qml:136
 msgid "Comments:"
 msgstr ""
-
-#: Dash/DashApps.qml:65
-msgid "Running apps"
-msgstr ""
-
-#: Dash/DashApps.qml:68
-msgid "Frequently used"
-msgstr ""
-
-#: Dash/DashApps.qml:71
-msgid "Installed"
-msgstr ""
-
-#: Dash/DashApps.qml:74
-msgid "Available for download"
-msgstr ""
-
-#: Dash/DashApps.qml:168
-msgid "Apps"
-msgstr ""
-
-#: Dash/DashHome.qml:41
-msgid "Frequent Apps"
-msgstr ""
-
-#: Dash/DashHome.qml:44
-msgid "Recent Music"
-msgstr ""
-
-#: Dash/DashHome.qml:47
-msgid "Videos Popular Online"
-msgstr ""
-
-#: Dash/DashHome.qml:151
-msgid "Home"
-msgstr "నివాసం"
 
 #: Dash/DashMusic.qml:27 Dash/DashVideos.qml:28
 msgid "Featured"
@@ -200,7 +208,7 @@ msgstr ""
 msgid "Author:"
 msgstr ""
 
-#: Greeter/Lockscreen.qml:133
+#: Greeter/Lockscreen.qml:134
 msgid "Emergency Call"
 msgstr ""
 
@@ -237,11 +245,11 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: plugins/Unity/scope.cpp:298
+#: plugins/Unity/scope.cpp:317
 msgid "Sorry, there is nothing that matches your search."
 msgstr ""
 
-#: Shell.qml:399
+#: Shell.qml:429
 #, qt-format
 msgid "Please enter %1"
 msgstr ""
