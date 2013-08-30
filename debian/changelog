@@ -1,3 +1,13 @@
+unity8 (7.81.3+13.10.20130830-0ubuntu1) saucy; urgency=low
+
+  [ Pawel Stolowski ]
+  * Implement a virtual 'All' filter option.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 275
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 30 Aug 2013 12:44:40 +0000
+
 unity8 (7.81.3+13.10.20130829.2-0ubuntu1) saucy; urgency=low
 
   [ Michael Terry ]
