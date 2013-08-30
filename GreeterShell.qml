@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Application 0.1
 import LightDM 0.1 as LightDM
+import SessionBroadcast 0.1
 import "Greeter"
 import "Launcher"
 import "Panel"
@@ -27,8 +28,8 @@ BasicShell {
     id: shell
 
     function activateApplication(desktopFile, argument) {
-        greeter.login()
-        // TODO: support opening the app once inside user's session
+        SessionBroadcast.requestApplicationStart(LightDM.Greeter.authenticationUser, desktopFile)
+        greeter.hide()
     }
 
     Lockscreen {

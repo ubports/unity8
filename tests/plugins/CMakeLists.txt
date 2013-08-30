@@ -1,5 +1,6 @@
 add_subdirectory(AccountsService)
 add_subdirectory(ListViewWithPageHeader)
+add_subdirectory(SessionBroadcast)
 add_subdirectory(SessionManager)
 add_subdirectory(Ubuntu)
 add_subdirectory(Unity)
