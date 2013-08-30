@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-08-29 05:41+0000\n"
-"X-Generator: Launchpad (build 16738)\n"
+"X-Launchpad-Export-Date: 2013-08-30 05:37+0000\n"
+"X-Generator: Launchpad (build 16750)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -253,18 +253,3 @@ msgstr "Søket ga ingen treff."
 #, qt-format
 msgid "Please enter %1"
 msgstr ""
-
-#~ msgid "Frequently used"
-#~ msgstr "Ofte brukt"
-
-#~ msgid "Installed"
-#~ msgstr "Installert"
-
-#~ msgid "Available for download"
-#~ msgstr "Tilgjengelig for nedlasting"
-
-#~ msgid "Apps"
-#~ msgstr "Programmer"
-
-#~ msgid "Home"
-#~ msgstr "Hjem"

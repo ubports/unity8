@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-08-29 05:41+0000\n"
-"X-Generator: Launchpad (build 16738)\n"
+"X-Launchpad-Export-Date: 2013-08-30 05:37+0000\n"
+"X-Generator: Launchpad (build 16750)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -253,30 +253,3 @@ msgstr "Hakuun täsmääviä tuloksia ei löydy."
 #, qt-format
 msgid "Please enter %1"
 msgstr "Kirjoita %1"
-
-#~ msgid "Running apps"
-#~ msgstr "Käynnissä olevat sovellukset"
-
-#~ msgid "Frequently used"
-#~ msgstr "Usein käytetyt"
-
-#~ msgid "Installed"
-#~ msgstr "Asennetut"
-
-#~ msgid "Available for download"
-#~ msgstr "Ladattavissa"
-
-#~ msgid "Apps"
-#~ msgstr "Sovellukset"
-
-#~ msgid "Frequent Apps"
-#~ msgstr "Yleisimmät sovellukset"
-
-#~ msgid "Recent Music"
-#~ msgstr "Viimeisin musiikki"
-
-#~ msgid "Videos Popular Online"
-#~ msgstr "Suositut verkkovideot"
-
-#~ msgid "Home"
-#~ msgstr "Kotinäyttö"
