@@ -13,12 +13,12 @@ include_directories(
 
 add_definitions(-DSM_BUSNAME=sessionBus)
 
-add_executable(mock-server
+add_executable(sessionbroadcastmock
     ${CMAKE_CURRENT_BINARY_DIR}/BroadcastAdaptor.cpp
     server.cpp
     BroadcastServer.cpp
     )
-qt5_use_modules(mock-server Core DBus)
+qt5_use_modules(sessionbroadcastmock Core DBus)
 
 add_executable(sessionbroadcasttest
     ${CMAKE_SOURCE_DIR}/plugins/SessionBroadcast/SessionBroadcast.cpp
@@ -28,7 +28,7 @@ qt5_use_modules(sessionbroadcasttest Core DBus Test)
 
 add_test(NAME sessionbroadcasttest
     COMMAND dbus-test-runner
-        --task ${CMAKE_CURRENT_BINARY_DIR}/mock-server
+        --task ${CMAKE_CURRENT_BINARY_DIR}/sessionbroadcastmock
         --task-name server
         --ignore-return
         --task ${CMAKE_CURRENT_BINARY_DIR}/sessionbroadcasttest

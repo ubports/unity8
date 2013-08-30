@@ -1,0 +1,2 @@
+module SessionManager
+plugin MockSessionManager-qml

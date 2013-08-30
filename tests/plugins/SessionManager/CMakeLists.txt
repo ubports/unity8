@@ -16,7 +16,7 @@ include_directories(
 
 add_definitions(-DSM_BUSNAME=sessionBus)
 
-add_executable(mock-server
+add_executable(sessionmanagermock
     ${CMAKE_CURRENT_BINARY_DIR}/LightDMSessionAdaptor.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/LoginManagerAdaptor.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/LoginPropertiesAdaptor.cpp
@@ -26,23 +26,23 @@ add_executable(mock-server
     LoginManagerServer.cpp
     LoginSessionServer.cpp
     )
-qt5_use_modules(mock-server Core DBus)
+qt5_use_modules(sessionmanagermock Core DBus)
 
-add_executable(test-sessionmanager
+add_executable(sessionmanagertest
     ${CMAKE_SOURCE_DIR}/plugins/SessionManager/SessionManager.cpp
     client.cpp
     )
-qt5_use_modules(test-sessionmanager Core DBus Test)
+qt5_use_modules(sessionmanagertest Core DBus Test)
 
-add_test(NAME test-sessionmanager
+add_test(NAME sessionmanagertest
     COMMAND env
         XDG_SESSION_ID=sessionid
         XDG_SESSION_PATH=/mocksession/lightdm
         dbus-test-runner
-        --task ${CMAKE_CURRENT_BINARY_DIR}/mock-server
+        --task ${CMAKE_CURRENT_BINARY_DIR}/sessionmanagermock
         --task-name server
         --ignore-return
-        --task ${CMAKE_CURRENT_BINARY_DIR}/test-sessionmanager
+        --task ${CMAKE_CURRENT_BINARY_DIR}/sessionmanagertest
         --task-name client
         --wait-for org.freedesktop.login1
     )

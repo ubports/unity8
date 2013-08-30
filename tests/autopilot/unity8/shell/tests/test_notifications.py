@@ -119,8 +119,6 @@ class InteractiveNotificationBase(NotificationsBase):
     def test_interactive(self):
         """Interactive notification must react upon click on itself."""
         self.launch_unity()
-        greeter = self.main_window.get_greeter()
-        greeter.swipe()
 
         notify_list = self._get_notifications_list()
 
@@ -158,8 +156,6 @@ class InteractiveNotificationBase(NotificationsBase):
     def test_sd_incoming_call(self):
         """Rejecting a call should make notification expand and offer more options."""
         self.launch_unity()
-        greeter = self.main_window.get_greeter()
-        greeter.swipe()
 
         notify_list = self._get_notifications_list()
 
@@ -334,8 +330,6 @@ class EphemeralNotificationsTests(NotificationsBase):
     def test_icon_summary_body(self):
         """Notification must display the expected summary and body text."""
         self.launch_unity()
-        greeter = self.main_window.get_greeter()
-        greeter.swipe()
 
         notify_list = self._get_notifications_list()
 
@@ -368,8 +362,6 @@ class EphemeralNotificationsTests(NotificationsBase):
     def test_icon_summary(self):
         """Notification must display the expected summary and secondary icon."""
         self.launch_unity()
-        greeter = self.main_window.get_greeter()
-        greeter.swipe()
 
         notify_list = self._get_notifications_list()
 
@@ -406,8 +398,6 @@ class EphemeralNotificationsTests(NotificationsBase):
     def test_urgency_order(self):
         """Notifications must be displayed in order according to their urgency."""
         self.launch_unity()
-        greeter = self.main_window.get_greeter()
-        greeter.swipe()
 
         notify_list = self._get_notifications_list()
 
@@ -497,8 +487,6 @@ class EphemeralNotificationsTests(NotificationsBase):
     def test_summary_and_body(self):
         """Notification must display the expected summary- and body-text."""
         self.launch_unity()
-        greeter = self.main_window.get_greeter()
-        greeter.swipe()
 
         notify_list = self._get_notifications_list()
 
@@ -523,8 +511,6 @@ class EphemeralNotificationsTests(NotificationsBase):
     def test_summary_only(self):
         """Notification must display only the expected summary-text."""
         self.launch_unity()
-        greeter = self.main_window.get_greeter()
-        greeter.swipe()
 
         notify_list = self._get_notifications_list()
 
@@ -542,8 +528,6 @@ class EphemeralNotificationsTests(NotificationsBase):
     def test_update_notification_same_layout(self):
         """Notification must allow updating its contents while being displayed."""
         self.launch_unity()
-        greeter = self.main_window.get_greeter()
-        greeter.swipe()
 
         notify_list = self._get_notifications_list()
 
@@ -581,8 +565,6 @@ class EphemeralNotificationsTests(NotificationsBase):
     def test_update_notification_layout_change(self):
         """Notification must allow updating its contents and layout while being displayed."""
         self.launch_unity()
-        greeter = self.main_window.get_greeter()
-        greeter.swipe()
 
         notify_list = self._get_notifications_list()
 
@@ -627,8 +609,6 @@ class EphemeralNotificationsTests(NotificationsBase):
     def test_append_hint(self):
         """Notification has to accumulate body-text using append-hint."""
         self.launch_unity()
-        greeter = self.main_window.get_greeter()
-        greeter.swipe()
 
         notify_list = self._get_notifications_list()
 

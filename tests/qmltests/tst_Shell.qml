@@ -54,17 +54,7 @@ Item {
         name: "Shell"
         when: windowShown
 
-        function initTestCase() {
-            swipeAwayGreeter();
-        }
-
         function cleanup() {
-            // If a test invoked the greeter, make sure we swipe it away again
-            var greeter = findChild(shell, "greeter");
-            if (greeter.shown) {
-                swipeAwayGreeter();
-            }
-
             // kill all (fake) running apps
             killApps(ApplicationManager.mainStageApplications);
             killApps(ApplicationManager.sideStageApplications);
@@ -115,8 +105,6 @@ Item {
         }
 
         function test_suspend() {
-            var greeter = findChild(shell, "greeter");
-
             // Launch an app from the launcher
             dragLauncherIntoView();
             tapOnAppIconInLauncher();
@@ -127,29 +115,15 @@ Item {
 
             // Try to suspend while proximity is engaged...
             Powerd.displayPowerStateChange(Powerd.Off, Powerd.UseProximity);
-            tryCompare(greeter, "showProgress", 0);
+            tryCompare(ApplicationManager, "mainStageFocusedApplication", mainApp);
 
             // Now really suspend
             Powerd.displayPowerStateChange(Powerd.Off, 0);
-            tryCompare(greeter, "showProgress", 1);
             tryCompare(ApplicationManager, "mainStageFocusedApplication", null);
 
             // And wake up
             Powerd.displayPowerStateChange(Powerd.On, 0);
             tryCompare(ApplicationManager, "mainStageFocusedApplication", mainApp);
-            tryCompare(greeter, "showProgress", 1);
-        }
-
-        function swipeAwayGreeter() {
-            var greeter = findChild(shell, "greeter");
-            tryCompare(greeter, "showProgress", 1);
-
-            var touchX = shell.width - (shell.edgeSize / 2);
-            var touchY = shell.height / 2;
-            touchFlick(shell, touchX, touchY, shell.width * 0.1, touchY);
-
-            // wait until the animation has finished
-            tryCompare(greeter, "showProgress", 0);
         }
 
         /*
@@ -323,8 +297,8 @@ Item {
 
         function test_wallpaper_data() {
             return [
-                {tag: "red", url: "tests/data/unity/backgrounds/red.png", expectedUrl: "tests/data/unity/backgrounds/red.png"},
-                {tag: "blue", url: "tests/data/unity/backgrounds/blue.png", expectedUrl: "tests/data/unity/backgrounds/blue.png"},
+                {tag: "red", url: "../tests/data/unity/backgrounds/red.png", expectedUrl: "tests/data/unity/backgrounds/red.png"},
+                {tag: "blue", url: "../tests/data/unity/backgrounds/blue.png", expectedUrl: "tests/data/unity/backgrounds/blue.png"},
                 {tag: "invalid", url: "invalid", expectedUrl: shell.defaultBackground},
                 {tag: "empty", url: "", expectedUrl: shell.defaultBackground}
             ]
