@@ -30,14 +30,7 @@ DashPreview {
     title: root.ready ? previewData.title : ""
     previewWidthRatio: 0.6
 
-    onPreviewImageClicked: {
-        if (playable) {
-            //shell.activateApplication('/usr/share/applications/mediaplayer-app.desktop', previewData.imageSourceUri);
-        }
-    }
-
-    // TODO: replace this UbuntuShape with the Video component once that lands
-    // with the player.
+    // TODO: Need UbuntuShape support for Video component for create the round shape.
     header: Rectangle {
         anchors.left: parent.left
         anchors.right: parent.right
@@ -141,7 +134,7 @@ DashPreview {
                 color: "white"
                 horizontalAlignment: Text.AlignRight
                 width: parent.firstColWidth
-                text: i18n.tr("Subtitle:")
+                text: i18n.tr("Date:")
                 style: Text.Raised
                 styleColor: "black"
             }
