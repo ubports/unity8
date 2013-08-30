@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Unity.Indicators 0.1 as Indicators
+import Utils 0.1
 import "../Components"
 
 // FIXME : We dont want to use MainView.
@@ -27,7 +28,7 @@ MainView {
 
     property QtObject indicatorsModel: null
     property bool __contentActive: false
-    readonly property int currentMenuIndex : tabs.selectedTabIndex
+    readonly property int currentMenuIndex : filteredIndicators.mapToSource(tabs.selectedTabIndex)
     backgroundColor: "#221e1c" // FIXME not in palette yet
     property int contentReleaseInterval: 20000
     property bool activeHeader: false
@@ -36,11 +37,13 @@ MainView {
     height: units.gu(42)
 
     function setCurrentMenuIndex(index) {
-        if (tabs.selectedTabIndex !== index) {
+        var filteredIndex = filteredIndicators.mapFromSource(index)
+
+        if (tabs.selectedTabIndex !== filteredIndex) {
             if (tabs.selectedTabIndex == -1) {
                 tabs.tabBar.animate = false;
             }
-            tabs.selectedTabIndex = index;
+            tabs.selectedTabIndex = filteredIndex;
             tabs.tabBar.animate = true;
         }
     }
@@ -61,6 +64,15 @@ MainView {
         tabs.tabBar.alwaysSelectionMode = activeHeader;
     }
 
+    SortFilterProxyModel {
+        id: filteredIndicators
+        model: indicatorsModel
+        dynamicSortFilter: true
+
+        filterRole: Indicators.IndicatorsModelRole.IsVisible
+        filterRegExp: RegExp("^true$")
+    }
+
     Tabs {
         id: tabs
         objectName: "tabs"
@@ -69,8 +81,8 @@ MainView {
 
         Repeater {
             id: repeater
-            model: indicatorsModel
-            objectName: "tabsRepeater"
+            model: filteredIndicators
+            objectName: "menus"
 
             // FIXME: This is needed because tabs dont handle repeaters well.
             // Due to the child ordering happening after child insertion.
@@ -114,7 +126,7 @@ MainView {
                                     item[pName] = indicatorProperties[pName]
                                 }
                             }
-                            if (contentActive && tabs.visible) {
+                            if (contentActive && menus.visible) {
                                 item.start()
                             }
                         }

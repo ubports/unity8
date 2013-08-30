@@ -18,14 +18,13 @@
  */
 
 #include "indicator.h"
-#include "cachedunitymenumodel.h"
 
 #include <QStringList>
-#include <unitymenumodel.h>
 
 Indicator::Indicator(QObject *parent)
     : QObject(parent),
-      m_position(0)
+      m_position(0),
+      m_visible(false)
 {
 }
 
@@ -86,6 +85,21 @@ void Indicator::setPosition(int position)
         m_position = position;
         Q_EMIT positionChanged(m_position);
     }
+}
+
+bool Indicator::isVisible() const
+{
+    return m_visible;
+}
+
+bool Indicator::setVisible(bool visible)
+{
+    if (visible != m_visible) {
+        m_visible = visible;
+        Q_EMIT visibleChanged(m_visible);
+        return true;
+    }
+    return false;
 }
 
 QVariant Indicator::indicatorProperties() const

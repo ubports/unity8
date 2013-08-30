@@ -39,10 +39,10 @@ Item {
 
     property alias menuModel: cachedModel.model
 
-    Indicators.CachedUnityMenuModel {
+    CachedUnityMenuModel {
         id: cachedModel
-        busName: indicatorItem.busName
-        actions: { "indicator": indicatorItem.actionsObjectPath }
+        busName: active ? indicatorItem.busName : ""
+        actionsObjectPath: active ? indicatorItem.actionsObjectPath : ""
         menuObjectPath: active ? indicatorItem.deviceMenuObjectPath : ""
     }
 }

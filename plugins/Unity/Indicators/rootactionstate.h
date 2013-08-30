@@ -23,7 +23,6 @@
 #include "unityindicatorsglobal.h"
 
 #include <actionstateparser.h>
-#include <QPointer>
 
 class UnityMenuModel;
 
@@ -76,7 +75,7 @@ private Q_SLOTS:
 private:
     void updateActionState();
 
-    QPointer<UnityMenuModel> m_menu;
+    UnityMenuModel* m_menu;
     QVariantMap m_cachedState;
 };
 

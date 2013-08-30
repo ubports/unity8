@@ -53,16 +53,11 @@ Item {
             objectName: "rowRepeater"
             model: indicatorsModel ? indicatorsModel : undefined
 
-            onItemRemoved: {
-                if (currentItemIndex == -1) {
-                    setDefaultItem(0);
-                }
-            }
-
             Item {
                 id: itemWrapper
                 height: indicatorRow.height
                 width: indicatorItem.width
+                visible: indicatorItem.indicatorVisible
 
                 property int ownIndex: index
                 property alias highlighted: indicatorItem.highlighted
@@ -77,6 +72,13 @@ Item {
 
                    widgetSource: model.widgetSource
                    indicatorProperties : model.indicatorProperties
+
+                   Component.onCompleted: {
+                       indicatorsModel.setData(index, indicatorVisible, Indicators.IndicatorsModelRole.IsVisible);
+                   }
+                   onIndicatorVisibleChanged: {
+                       indicatorsModel.setData(index, indicatorVisible, Indicators.IndicatorsModelRole.IsVisible);
+                   }
                 }
 
                 opacity: {
