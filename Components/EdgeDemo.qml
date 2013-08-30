@@ -40,7 +40,7 @@ Item {
     }
 
     function hideEdgeDemoInShell() {
-        AccountsService.setUserProperty(user, "demo-edges", false);
+        AccountsService.demoEdges = false;
         d.showEdgeDemo = false;
         stopDemo();
     }
@@ -63,7 +63,7 @@ Item {
         property QtObject bottomEdgeDemo
         property QtObject leftEdgeDemo
         property QtObject finalEdgeDemo
-        property bool showEdgeDemo: AccountsService.getUserProperty(user, "demo-edges")
+        property bool showEdgeDemo: AccountsService.demoEdges
 
         onShowEdgeDemoChanged: {
             if (!d.overlay && d.showEdgeDemo) {

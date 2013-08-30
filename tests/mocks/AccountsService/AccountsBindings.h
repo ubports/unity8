@@ -17,22 +17,36 @@
  *          Michael Terry <michael.terry@canonical.com>
  */
 
-#ifndef UNITY_MOCK_ACCOUNTSSERVICE_H
-#define UNITY_MOCK_ACCOUNTSSERVICE_H
+#ifndef UNITY_MOCK_ACCOUNTSBINDINGS_H
+#define UNITY_MOCK_ACCOUNTSBINDINGS_H
 
 #include <QObject>
 #include <QString>
 #include <QVariant>
 
-class AccountsService: public QObject
+class AccountsBindings: public QObject
 {
     Q_OBJECT
+    Q_PROPERTY (bool demoEdges
+                READ getDemoEdges
+                WRITE setDemoEdges
+                NOTIFY demoEdgesChanged)
+    Q_PROPERTY (QString backgroundFile
+                READ getBackgroundFile
+                NOTIFY backgroundFileChanged)
 
 public:
-    explicit AccountsService(QObject *parent = 0);
+    explicit AccountsBindings(QObject *parent = 0);
 
-    Q_INVOKABLE QVariant getUserProperty(const QString &user, const QString &property);
-    Q_INVOKABLE void setUserProperty(const QString &user, const QString &property, const QVariant &value);
+    Q_INVOKABLE void setUser(const QString &user);
+
+    bool getDemoEdges();
+    void setDemoEdges(bool demoEdges);
+    QString getBackgroundFile();
+
+Q_SIGNALS:
+    void demoEdgesChanged();
+    void backgroundFileChanged();
 };
 
 #endif

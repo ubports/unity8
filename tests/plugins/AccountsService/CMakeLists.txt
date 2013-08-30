@@ -25,6 +25,7 @@ qt5_use_modules(mock-server Core DBus)
 
 add_executable(test-accountsservice
     ${CMAKE_SOURCE_DIR}/plugins/AccountsService/AccountsService.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/AccountsService/AccountsBindings.cpp
     client.cpp
     )
 qt5_use_modules(test-accountsservice Core DBus Test)

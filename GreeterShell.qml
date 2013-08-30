@@ -110,6 +110,7 @@ BasicShell {
         onSelected: {
             // Update launcher items for new user
             var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole);
+            AccountsService.setUser(user);
             LauncherModel.setUser(user);
         }
 
