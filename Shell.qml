@@ -21,6 +21,7 @@ import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
 import LightDM 0.1 as LightDM
 import Powerd 0.1
+import SessionBroadcast 0.1
 import "Dash"
 import "Greeter"
 import "Launcher"
@@ -612,9 +613,13 @@ FocusScope {
                     launcher.hide();
                 }
             }
-            onLauncherApplicationSelected:{
-                greeter.hide()
-                shell.activateApplication(desktopFile)
+            onLauncherApplicationSelected: {
+                if (greeter.shown) {
+                    SessionBroadcast.requestApplicationStart(LightDM.Greeter.authenticationUser, desktopFile)
+                    greeter.hide()
+                } else {
+                    shell.activateApplication(desktopFile)
+                }
             }
             onShownChanged: {
                 if (shown) {
