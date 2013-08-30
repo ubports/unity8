@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.0
+import QtMultimedia 5.0
 import Ubuntu.Components 0.1
 import ".."
 import "../../Components"
@@ -23,7 +24,7 @@ DashPreview {
     id: root
 
     property bool ready: previewData ? true : false
-    property bool playable: false
+    property bool playable: previewData.imageSourceUri != null
     property url url: ready ? previewData.image : ""
 
     title: root.ready ? previewData.title : ""
@@ -31,38 +32,52 @@ DashPreview {
 
     onPreviewImageClicked: {
         if (playable) {
-            shell.activateApplication('/usr/share/applications/mediaplayer-app.desktop', root.fileUri);
+            //shell.activateApplication('/usr/share/applications/mediaplayer-app.desktop', previewData.imageSourceUri);
         }
     }
 
     // TODO: replace this UbuntuShape with the Video component once that lands
     // with the player.
-    header: UbuntuShape {
-        id: urlLoader
+    header: Rectangle {
         anchors.left: parent.left
         anchors.right: parent.right
-        radius: "medium"
-        image: Image {
-            id: previewImage
-            asynchronous: true
-            source: root.url
-            fillMode: Image.PreserveAspectCrop
-        }
+        height: units.gu(16)
+        color: "black"
 
-        Image {
-            objectName: "playButton"
-            anchors.centerIn: parent
-            visible: root.playable
-            readonly property bool bigButton: parent.width > units.gu(40)
-            width: bigButton ? units.gu(8) : units.gu(4.5)
-            height: width
-            source: "../graphics/play_button%1%2.png".arg(previewImageMouseArea.pressed ? "_active" : "").arg(bigButton ? "_big" : "")
-        }
-
-        MouseArea {
-            id: previewImageMouseArea
+        Video {
+            id: video
             anchors.fill: parent
-            onClicked: root.previewImageClicked()
+
+            source: previewData.imageSourceUri
+            fillMode: VideoOutput.PreserveAspectCrop
+
+            Image {
+                objectName: "playButton"
+                anchors.centerIn: parent
+                visible: root.playable
+                readonly property bool bigButton: parent.width > units.gu(40)
+                width: bigButton ? units.gu(8) : units.gu(4.5)
+                height: width
+                source: "../graphics/play_button%1%2.png".arg(previewImageMouseArea.pressed ? "_active" : "").arg(bigButton ? "_big" : "")
+            }
+
+            MouseArea {
+                id: previewImageMouseArea
+                anchors.fill: parent
+                onClicked: {
+                    root.previewImageClicked();
+                    if (root.playable) {
+                        if (video.playbackState == MediaPlayer.PlayingState) {
+                            video.pause();
+                        } else if (video.playbackState
+                                    == MediaPlayer.PausedState) {
+                            video.play();
+                        } else {
+                            video.play();
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -126,7 +141,7 @@ DashPreview {
                 color: "white"
                 horizontalAlignment: Text.AlignRight
                 width: parent.firstColWidth
-                text: i18n.tr("Directed by:")
+                text: i18n.tr("Subtitle:")
                 style: Text.Raised
                 styleColor: "black"
             }
