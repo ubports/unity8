@@ -31,6 +31,10 @@ class AccountsBindings: public QObject
                 READ getDemoEdges
                 WRITE setDemoEdges
                 NOTIFY demoEdgesChanged)
+    Q_PROPERTY (bool demoEdgesForCurrentUser
+                READ getDemoEdgesForCurrentUser
+                WRITE setDemoEdgesForCurrentUser
+                NOTIFY demoEdgesForCurrentUserChanged)
     Q_PROPERTY (QString backgroundFile
                 READ getBackgroundFile
                 NOTIFY backgroundFileChanged)
@@ -42,13 +46,14 @@ public:
 
     bool getDemoEdges();
     void setDemoEdges(bool demoEdges);
-    Q_INVOKABLE bool getDemoEdgesForUser(const QString &user);
-    Q_INVOKABLE void setDemoEdgesForUser(const QString &user, bool demoEdges);
+    bool getDemoEdgesForCurrentUser();
+    void setDemoEdgesForCurrentUser(bool demoEdgesForCurrentUser);
 
     QString getBackgroundFile();
 
 Q_SIGNALS:
     void demoEdgesChanged();
+    void demoEdgesForCurrentUserChanged();
     void backgroundFileChanged();
 
 private Q_SLOTS:
@@ -57,11 +62,13 @@ private Q_SLOTS:
 
 private:
     void updateDemoEdges();
+    void updateDemoEdgesForCurrentUser();
     void updateBackgroundFile();
 
     AccountsService *m_service;
     QString m_user;
     bool m_demoEdges;
+    bool m_demoEdgesForCurrentUser;
     QString m_backgroundFile;
 };
 

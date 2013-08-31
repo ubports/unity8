@@ -30,6 +30,8 @@ AccountsBindings::AccountsBindings(QObject* parent)
             this, SLOT(propertiesChanged(const QString &, const QString &, const QStringList &)));
     connect(m_service, SIGNAL(maybeChanged(const QString &)),
             this, SLOT(maybeChanged(const QString &)));
+
+    updateDemoEdgesForCurrentUser();
 }
 
 void AccountsBindings::setUser(const QString &user)
@@ -50,22 +52,15 @@ void AccountsBindings::setDemoEdges(bool demoEdges)
     m_service->setUserProperty(m_user, "com.canonical.unity.AccountsService", "demo-edges", demoEdges);
 }
 
-bool AccountsBindings::getDemoEdgesForUser(const QString &user)
+bool AccountsBindings::getDemoEdgesForCurrentUser()
 {
-    if (m_user == user) {
-        return getDemoEdges();
-    } else {
-        return m_service->getUserProperty(user, "com.canonical.unity.AccountsService", "demo-edges").toBool();
-    }
+    return m_demoEdgesForCurrentUser;
 }
 
-void AccountsBindings::setDemoEdgesForUser(const QString &user, bool demoEdges)
+void AccountsBindings::setDemoEdgesForCurrentUser(bool demoEdgesForCurrentUser)
 {
-    if (m_user == user) {
-        setDemoEdges(demoEdges);
-    } else {
-        m_service->setUserProperty(user, "com.canonical.unity.AccountsService", "demo-edges", demoEdges);
-    }
+    m_demoEdgesForCurrentUser = demoEdgesForCurrentUser;
+    m_service->setUserProperty(qgetenv("USER"), "com.canonical.unity.AccountsService", "demo-edges", demoEdgesForCurrentUser);
 }
 
 QString AccountsBindings::getBackgroundFile()
@@ -82,6 +77,15 @@ void AccountsBindings::updateDemoEdges()
     }
 }
 
+void AccountsBindings::updateDemoEdgesForCurrentUser()
+{
+    auto demoEdgesForCurrentUser = m_service->getUserProperty(qgetenv("USER"), "com.canonical.unity.AccountsService", "demo-edges").toBool();
+    if (m_demoEdgesForCurrentUser != demoEdgesForCurrentUser) {
+        m_demoEdgesForCurrentUser = demoEdgesForCurrentUser;
+        Q_EMIT demoEdgesForCurrentUserChanged();
+    }
+}
+
 void AccountsBindings::updateBackgroundFile()
 {
     auto backgroundFile = m_service->getUserProperty(m_user, "org.freedesktop.Accounts.User", "BackgroundFile").toString();
@@ -93,23 +97,22 @@ void AccountsBindings::updateBackgroundFile()
 
 void AccountsBindings::propertiesChanged(const QString &user, const QString &interface, const QStringList &changed)
 {
-    if (m_user != user) {
-        return;
-    }
-
     if (interface == "com.canonical.unity.AccountsService") {
         if (changed.contains("demo-edges")) {
-            updateDemoEdges();
+            if (qgetenv("USER") == user) {
+                updateDemoEdgesForCurrentUser();
+            }
+            if (m_user != user) {
+                updateDemoEdges();
+            }
         }
     }
 }
 
 void AccountsBindings::maybeChanged(const QString &user)
 {
-    if (m_user != user) {
-        return;
+    if (m_user == user) {
+        // Standard properties might have changed
+        updateBackgroundFile();
     }
-
-    // Standard properties might have changed
-    updateBackgroundFile();
 }

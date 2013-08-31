@@ -23,7 +23,7 @@ Item {
 
     property Item greeter
 
-    property bool active: true
+    property bool active: false
     property bool paused: false
 
     onPausedChanged: {
@@ -35,7 +35,7 @@ Item {
     }
 
     function hideEdgeDemoInGreeter() {
-        AccountsService.setDemoEdgesForUser("lightdm", false);
+        AccountsService.demoEdgesForCurrentUser = false;
         d.showEdgeDemoInGreeter = false;
         stopDemo();
     }
@@ -54,7 +54,7 @@ Item {
         id: d
         property Component overlay
         property QtObject rightEdgeDemo
-        property bool showEdgeDemoInGreeter: AccountsService.getDemoEdgesForUser("lightdm")
+        property bool showEdgeDemoInGreeter: AccountsService.demoEdgesForCurrentUser
 
         onShowEdgeDemoInGreeterChanged: {
             if (!d.overlay && d.showEdgeDemoInGreeter) {

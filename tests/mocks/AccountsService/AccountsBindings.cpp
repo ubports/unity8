@@ -36,6 +36,15 @@ void AccountsBindings::setDemoEdges(bool)
 {
 }
 
+bool AccountsBindings::getDemoEdgesForCurrentUser()
+{
+    return false;
+}
+
+void AccountsBindings::setDemoEdgesForCurrentUser(bool)
+{
+}
+
 QString AccountsBindings::getBackgroundFile()
 {
     return TOP_SRCDIR "/graphics/phone_background.jpg";

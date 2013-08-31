@@ -31,6 +31,10 @@ class AccountsBindings: public QObject
                 READ getDemoEdges
                 WRITE setDemoEdges
                 NOTIFY demoEdgesChanged)
+    Q_PROPERTY (bool demoEdgesForCurrentUser
+                READ getDemoEdgesForCurrentUser
+                WRITE setDemoEdgesForCurrentUser
+                NOTIFY demoEdgesForCurrentUserChanged)
     Q_PROPERTY (QString backgroundFile
                 READ getBackgroundFile
                 NOTIFY backgroundFileChanged)
@@ -42,10 +46,13 @@ public:
 
     bool getDemoEdges();
     void setDemoEdges(bool demoEdges);
+    bool getDemoEdgesForCurrentUser();
+    void setDemoEdgesForCurrentUser(bool demoEdgesForCurrentUser);
     QString getBackgroundFile();
 
 Q_SIGNALS:
     void demoEdgesChanged();
+    void demoEdgesForCurrentUserChanged();
     void backgroundFileChanged();
 };
 
