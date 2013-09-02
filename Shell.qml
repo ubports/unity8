@@ -469,7 +469,7 @@ FocusScope {
         onSelected: {
             // Update launcher items for new user
             var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole);
-            LauncherModel.setUser(user);
+            //LauncherModel.setUser(user);
         }
 
         onLeftTeaserPressedChanged: {
