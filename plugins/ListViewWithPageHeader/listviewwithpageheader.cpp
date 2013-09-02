@@ -199,6 +199,7 @@ void ListViewWithPageHeader::setModel(QAbstractItemModel *model)
         connect(m_delegateModel, SIGNAL(modelUpdated(QQmlChangeSet,bool)), this, SLOT(onModelUpdated(QQmlChangeSet,bool)));
 #endif
         Q_EMIT modelChanged();
+        polish();
         // TODO?
 //         Q_EMIT contentHeightChanged();
 //         Q_EMIT contentYChanged();
@@ -1006,6 +1007,18 @@ void ListViewWithPageHeader::onModelUpdated(const QQmlChangeSet &changeSet, bool
         }
     }
 
+    Q_FOREACH(const QQuickChangeSet::Change &change, changeSet.changes()) {
+//         qDebug() << "ListViewWithPageHeader::onModelUpdated Change" << change.index << change.count;
+        for (int i = change.index; i < change.count; ++i) {
+            ListItem *item = itemAtIndex(i);
+            if (item && item->m_sectionItem) {
+                QQmlContext *context = QQmlEngine::contextForObject(item->m_sectionItem)->parentContext();
+                const QString sectionText = m_delegateModel->stringValue(i, m_sectionProperty);
+                context->setContextProperty(QLatin1String("section"), sectionText);
+            }
+        }
+    }
+
     if (m_firstVisibleIndex != oldFirstVisibleIndex) {
         adjustMinYExtent();
     }
@@ -1154,6 +1167,7 @@ void ListViewWithPageHeader::layout()
                         // Update the top sticky section header
                         const QString section = m_delegateModel->stringValue(modelIndex, m_sectionProperty);
                         QQmlContext *context = QQmlEngine::contextForObject(m_topSectionItem)->parentContext();
+                        qDebug() << modelIndex << section;
                         context->setContextProperty(QLatin1String("section"), section);
 
                         QQuickItemPrivate::get(m_topSectionItem)->setCulled(false);
