@@ -34,7 +34,7 @@ class Categories : public DeeListModel
 public:
     Categories(QObject* parent = 0);
     enum Roles {
-        RoleId,
+        RoleCategoryId,
         RoleName,
         RoleIcon,
         RoleRenderer,
@@ -45,6 +45,8 @@ public:
         RoleCategoryIndex
     };
 
+    Q_INVOKABLE void overrideResults(const QString& categoryId, QAbstractItemModel* model);
+
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
 
     QHash<int, QByteArray> roleNames() const;
@@ -54,7 +56,9 @@ public:
 
 private Q_SLOTS:
     void onCountChanged();
+    void onRowCountChanged();
     void onEmitCountChanged();
+    void onOverrideModelDestroyed();
 
 private:
     DeeModel* getResultsForCategory(unsigned index) const;
@@ -64,6 +68,7 @@ private:
     QTimer m_timer;
     QSet<DeeListModel*> m_timerFilters;
     QHash<int, QByteArray> m_roles;
+    QMap<QString, QAbstractItemModel*> m_overriddenCategories;
     mutable QMap<int, DeeListModel*> m_filters;
 };
 
