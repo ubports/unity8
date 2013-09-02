@@ -180,11 +180,10 @@ int LauncherBackend::count(const QString &appId) const
     Q_UNUSED(appId)
     return 0;
 }
-#include <QDebug>
+
 void LauncherBackend::setUser(const QString &username)
 {
     if (qgetenv("USER") == "lightdm" && m_user != username) {
-        qDebug() << "setting user";
         m_user = username;
         syncFromAccounts();
     }
