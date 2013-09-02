@@ -25,7 +25,6 @@
 #include <QDBusArgument>
 #include <QFileInfo>
 #include <QGSettings>
-#include <QDebug>
 
 class LauncherBackendItem
 {
@@ -107,10 +106,8 @@ QString LauncherBackend::displayName(const QString &appId) const
 
 QString LauncherBackend::icon(const QString &appId) const
 {
-    qDebug() << "searching for icon >>>>>>>>>>>>>>>>>>>>" << appId;
     QString iconName;
     if (m_itemCache.contains(appId)) {
-        qDebug() << "found icon in cache" << m_itemCache.value(appId)->icon;
         iconName = m_itemCache.value(appId)->icon;
     } else {
         QString df = findDesktopFile(appId);
@@ -147,7 +144,6 @@ bool LauncherBackend::isPinned(const QString &appId) const
 void LauncherBackend::setPinned(const QString &appId, bool pinned)
 {
     if (!m_storedApps.contains(appId)) {
-        qDebug() << "Cannot pin item. Unknown appId";
         return;
     }
 
@@ -204,25 +200,19 @@ void LauncherBackend::syncFromAccounts()
 
     m_storedApps.clear();
 
-    qDebug() << "syncing from accounts" << m_user << m_accounts;
     if (m_accounts && m_user.isEmpty()) {
-        qDebug() << "loading from user" << m_user << m_accounts;
         QVariant variant = m_accounts->getUserProperty(m_user, "launcher-items");
-        qDebug() << "loaded launcher-items" << variant;
         apps = qdbus_cast<QList<QVariantMap>>(variant.value<QDBusArgument>());
         defaults = isDefaultsItem(apps);
     }
 
     if (m_accounts && defaults) { // Checking accounts as it'll be null when !useStorage
         QGSettings gSettings("com.canonical.Unity.Launcher", "/com/canonical/unity/launcher/");
-        qDebug() << "Got launcher gSettings" << gSettings.get("favorites");
         Q_FOREACH(const QString &entry, gSettings.get("favorites").toStringList()) {
             if (entry.startsWith("application://")) {
                 QString appId = entry;
                 appId.remove("application://");
-                qDebug() << "searching for" << entry << appId;
                 QString df = findDesktopFile(appId);
-                qDebug() << "desktop file path" << df;
 
                 if (!df.isEmpty()) {
                     m_storedApps << appId;
@@ -243,7 +233,6 @@ void LauncherBackend::syncFromAccounts()
 
 void LauncherBackend::syncToAccounts()
 {
-    qDebug() << "syncing to accounts";
     if (m_accounts && !m_user.isEmpty()) {
         QList<QVariantMap> items;
 
@@ -286,7 +275,6 @@ LauncherBackendItem* LauncherBackend::parseDesktopFile(const QString &desktopFil
     item->displayName = settings.value("Desktop Entry/Name").toString();
     item->icon = settings.value("Desktop Entry/Icon").toString();
     item->pinned = false;
-    qDebug() << "reading file" << desktopFile << settings.value("Desktop Entry/Name") << item->icon;
     return item;
 }
 
@@ -329,9 +317,5 @@ bool LauncherBackend::isDefaultsItem(const QList<QVariantMap> &apps) const
     // To differentiate between an empty list and a list that hasn't been set
     // yet (and should thus be populated with the defaults), we use a special
     // list of one item with the 'defaults' field set to true.
-    qDebug() << apps.size();
-    if (apps.size() == 1)
-                qDebug() << apps[0].value("defaults").toBool();
-
     return (apps.size() == 1 && apps[0].value("defaults").toBool());
 }
