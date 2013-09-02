@@ -20,7 +20,6 @@
 #include <QQmlEngine>
 #include <QQuickView>
 #include <QSignalSpy>
-#include <QSortFilterProxyModel>
 #include <QtTestGui>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-pedantic"
