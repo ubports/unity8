@@ -29,6 +29,8 @@
 class LauncherBackendItem
 {
 public:
+    LauncherBackendItem(): pinned(false) {}
+
     QString desktopFile;
     QString displayName;
     QString icon;
@@ -71,19 +73,14 @@ void LauncherBackend::setStoredApplications(const QStringList &appIds)
         }
     }
     m_storedApps = appIds;
-    Q_FOREACH(const QString &appId, m_storedApps) {
-        if (!m_itemCache.contains(appId)) {
-            LauncherBackendItem *item = new LauncherBackendItem();
-            m_itemCache.insert(appId, item);
-        }
-    }
     syncToAccounts();
 }
 
 QString LauncherBackend::desktopFile(const QString &appId) const
 {
-    if (m_itemCache.contains(appId)) {
-        return m_itemCache.value(appId)->desktopFile;
+    LauncherBackendItem *item = m_itemCache.value(appId);
+    if (item) {
+        return item->desktopFile;
     }
 
     return findDesktopFile(appId);
@@ -91,8 +88,9 @@ QString LauncherBackend::desktopFile(const QString &appId) const
 
 QString LauncherBackend::displayName(const QString &appId) const
 {
-    if (m_itemCache.contains(appId)) {
-        return m_itemCache.value(appId)->displayName;
+    LauncherBackendItem *item = m_itemCache.value(appId);
+    if (item) {
+        return item->displayName;
     }
 
     QString df = findDesktopFile(appId);
@@ -108,8 +106,9 @@ QString LauncherBackend::displayName(const QString &appId) const
 QString LauncherBackend::icon(const QString &appId) const
 {
     QString iconName;
-    if (m_itemCache.contains(appId)) {
-        iconName = m_itemCache.value(appId)->icon;
+    LauncherBackendItem *item = m_itemCache.value(appId);
+    if (item) {
+        iconName = item->icon;
     } else {
         QString df = findDesktopFile(appId);
         if (!df.isEmpty()) {
@@ -128,17 +127,10 @@ QString LauncherBackend::icon(const QString &appId) const
 
 bool LauncherBackend::isPinned(const QString &appId) const
 {
-    if (m_itemCache.contains(appId)) {
-        return m_itemCache.value(appId)->pinned;
-    }
-
-    QString df = findDesktopFile(appId);
-    if (!df.isEmpty()) {
-        LauncherBackendItem *item = parseDesktopFile(df);
-        m_itemCache.insert(appId, item);
+    LauncherBackendItem *item = m_itemCache.value(appId);
+    if (item) {
         return item->pinned;
     }
-
     return false;
 }
 
@@ -149,6 +141,10 @@ void LauncherBackend::setPinned(const QString &appId, bool pinned)
     }
 
     LauncherBackendItem *item = m_itemCache.value(appId);
+    if (!item) {
+        item = new LauncherBackendItem();
+        m_itemCache.insert(appId, item);
+    }
     if (item->pinned != pinned) {
         item->pinned = pinned;
         syncToAccounts();
@@ -288,11 +284,12 @@ void LauncherBackend::loadFromVariant(const QVariantMap &details)
     }
     QString appId = details.value("id").toString();
 
-    if (m_itemCache.contains(appId)) {
-        delete m_itemCache.value(appId);
+    LauncherBackendItem *item = m_itemCache.value(appId);
+    if (item) {
+        delete item;
     }
 
-    LauncherBackendItem *item = new LauncherBackendItem();
+    item = new LauncherBackendItem();
 
     item->desktopFile = details.value("desktopFile").toString();
     item->displayName = details.value("name").toString();
