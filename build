@@ -58,8 +58,12 @@ mk_build_deps() {
 }
 
 if [ -f "/usr/bin/ccache" ] ; then
-  export CC='ccache gcc'
-  export CXX='ccache g++'
+  if [ "x$CC" = "x" ]; then
+    export CC='ccache gcc'
+  fi
+  if [ "x$CXX" = "x" ] ; then
+    export CXX='ccache g++'
+  fi
 fi
 
 if [ -f "/usr/bin/ninja" ] ; then
