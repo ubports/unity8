@@ -15,7 +15,6 @@
  *
  * Authors:
  *      Michael Terry <michael.terry@canonical.com>
- *      Michael Zanetti <michael.zanetti@canonical.com>
  */
 
 #include "launcherbackend.h"
