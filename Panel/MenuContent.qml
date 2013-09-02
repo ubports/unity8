@@ -32,6 +32,7 @@ MainView {
     backgroundColor: "#221e1c" // FIXME not in palette yet
     property int contentReleaseInterval: 20000
     property bool activeHeader: false
+    property alias visibleIndicators: visibleIndicatorsModel.visible
 
     width: units.gu(40)
     height: units.gu(42)
@@ -66,11 +67,16 @@ MainView {
 
     SortFilterProxyModel {
         id: filteredIndicators
-        model: indicatorsModel
+        model: visibleIndicatorsModel
         dynamicSortFilter: true
 
         filterRole: Indicators.IndicatorsModelRole.IsVisible
         filterRegExp: RegExp("^true$")
+    }
+
+    Indicators.VisibleIndicatorsModel {
+        id: visibleIndicatorsModel
+        model: indicatorsModel
     }
 
     Tabs {
@@ -82,7 +88,7 @@ MainView {
         Repeater {
             id: repeater
             model: filteredIndicators
-            objectName: "menus"
+            objectName: "tabsRepeater"
 
             // FIXME: This is needed because tabs dont handle repeaters well.
             // Due to the child ordering happening after child insertion.
@@ -126,7 +132,7 @@ MainView {
                                     item[pName] = indicatorProperties[pName]
                                 }
                             }
-                            if (contentActive && menus.visible) {
+                            if (contentActive && tabs.visible) {
                                 item.start()
                             }
                         }

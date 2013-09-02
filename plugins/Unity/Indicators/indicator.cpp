@@ -23,8 +23,7 @@
 
 Indicator::Indicator(QObject *parent)
     : QObject(parent),
-      m_position(0),
-      m_visible(false)
+      m_position(0)
 {
 }
 
@@ -85,21 +84,6 @@ void Indicator::setPosition(int position)
         m_position = position;
         Q_EMIT positionChanged(m_position);
     }
-}
-
-bool Indicator::isVisible() const
-{
-    return m_visible;
-}
-
-bool Indicator::setVisible(bool visible)
-{
-    if (visible != m_visible) {
-        m_visible = visible;
-        Q_EMIT visibleChanged(m_visible);
-        return true;
-    }
-    return false;
 }
 
 QVariant Indicator::indicatorProperties() const

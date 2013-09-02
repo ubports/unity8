@@ -178,6 +178,7 @@ Showable {
         indicatorsModel: indicatorsModel
         clip: !indicators.fullyOpened
         activeHeader: indicators.state == "hint" || indicators.state == "reveal"
+        visibleIndicators: indicatorRow.visibleIndicators
 
         Connections {
             property bool enableIndexChangeSignal: true

@@ -26,6 +26,7 @@ Item {
     readonly property int currentItemIndex: currentItem ? currentItem.ownIndex : -1
     property alias row: row
     property QtObject indicatorsModel: null
+    property var visibleIndicators: defined
 
     width: units.gu(40)
     height: units.gu(3)
@@ -74,10 +75,18 @@ Item {
                    indicatorProperties : model.indicatorProperties
 
                    Component.onCompleted: {
-                       indicatorsModel.setData(index, indicatorVisible, Indicators.IndicatorsModelRole.IsVisible);
+                       if (visibleIndicators == undefined) {
+                           visibleIndicators = {}
+                       }
+                       indicatorRow.visibleIndicators[model.identifier] = indicatorVisible;
+                       indicatorRow.visibleIndicatorsChanged();
                    }
                    onIndicatorVisibleChanged: {
-                       indicatorsModel.setData(index, indicatorVisible, Indicators.IndicatorsModelRole.IsVisible);
+                       if (visibleIndicators == undefined) {
+                           visibleIndicators = {}
+                       }
+                       indicatorRow.visibleIndicators[model.identifier] = indicatorVisible;
+                       indicatorRow.visibleIndicatorsChanged();
                    }
                 }
 
