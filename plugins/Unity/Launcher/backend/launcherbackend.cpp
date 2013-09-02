@@ -42,7 +42,8 @@ LauncherBackend::LauncherBackend(bool useStorage, QObject *parent):
     if (useStorage) {
         m_accounts = new AccountsService(this);
     }
-    setUser(qgetenv("USER"));
+    m_user = qgetenv("USER");
+    syncFromAccounts();
 }
 
 LauncherBackend::~LauncherBackend()
@@ -179,11 +180,14 @@ int LauncherBackend::count(const QString &appId) const
     Q_UNUSED(appId)
     return 0;
 }
-
+#include <QDebug>
 void LauncherBackend::setUser(const QString &username)
 {
-    m_user = username;
-    syncFromAccounts();
+    if (qgetenv("USER") == "lightdm" && m_user != username) {
+        qDebug() << "setting user";
+        m_user = username;
+        syncFromAccounts();
+    }
 }
 
 void LauncherBackend::triggerQuickListAction(const QString &appId, const QString &quickListId)
