@@ -159,8 +159,8 @@ void Categories::onRowCountChanged()
                 const int mappedIndex = m_categoryOrder.indexOf(i);
                 QVector<int> roles;
                 roles.append(RoleCount);
-                QModelIndex changedIndex = index(mappedIndex);
-                qDebug() << "Overriden model" << id << "count update at index" << mappedIndex;
+                QModelIndex changedIndex = index(i);
+                qDebug() << "Overriden model" << id << "count update at index" << i;
                 Q_EMIT dataChanged(changedIndex, changedIndex, roles);
                 break;
             }
