@@ -21,8 +21,6 @@
 #include "launcheritem.h"
 #include "backend/launcherbackend.h"
 
-#include <QDebug>
-
 LauncherModel::LauncherModel(QObject *parent):
     LauncherModelInterface(parent),
     m_backend(new LauncherBackend(true, this))
@@ -36,7 +34,6 @@ LauncherModel::LauncherModel(QObject *parent):
                                               m_backend->displayName(entry),
                                               m_backend->icon(entry),
                                               this);
-        qDebug() << "**************" << "got icon" << m_backend->icon(entry);
         if (m_backend->isPinned(entry)) {
             item->setPinned(true);
         } else {
@@ -44,7 +41,6 @@ LauncherModel::LauncherModel(QObject *parent):
         }
         m_list.append(item);
     }
-    qDebug() << "ctor done";
 }
 
 LauncherModel::~LauncherModel()
