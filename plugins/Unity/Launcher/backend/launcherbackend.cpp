@@ -63,7 +63,7 @@ QStringList LauncherBackend::storedApplications() const
 
 void LauncherBackend::setStoredApplications(const QStringList &appIds)
 {
-    if (appIds.count() << m_storedApps.count()) {
+    if (appIds.count() < m_storedApps.count()) {
         Q_FOREACH(const QString &appId, m_storedApps) {
             if (!appIds.contains(appId)) {
                 delete m_itemCache.take(appId);
