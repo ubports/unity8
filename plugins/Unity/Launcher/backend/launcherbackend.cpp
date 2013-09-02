@@ -71,6 +71,12 @@ void LauncherBackend::setStoredApplications(const QStringList &appIds)
         }
     }
     m_storedApps = appIds;
+    Q_FOREACH(const QString &appId, m_storedApps) {
+        if (!m_itemCache.contains(appId)) {
+            LauncherBackendItem *item = new LauncherBackendItem();
+            m_itemCache.insert(appId, item);
+        }
+    }
     syncToAccounts();
 }
 
@@ -199,7 +205,7 @@ void LauncherBackend::syncFromAccounts()
     m_storedApps.clear();
 
     qDebug() << "syncing from accounts" << m_user << m_accounts;
-    if (m_user != "" && m_accounts != nullptr) {
+    if (m_accounts && m_user.isEmpty()) {
         qDebug() << "loading from user" << m_user << m_accounts;
         QVariant variant = m_accounts->getUserProperty(m_user, "launcher-items");
         qDebug() << "loaded launcher-items" << variant;
@@ -207,7 +213,7 @@ void LauncherBackend::syncFromAccounts()
         defaults = isDefaultsItem(apps);
     }
 
-    if (defaults) {
+    if (m_accounts && defaults) { // Checking accounts as it'll be null when !useStorage
         QGSettings gSettings("com.canonical.Unity.Launcher", "/com/canonical/unity/launcher/");
         qDebug() << "Got launcher gSettings" << gSettings.get("favorites");
         Q_FOREACH(const QString &entry, gSettings.get("favorites").toStringList()) {
@@ -329,5 +335,3 @@ bool LauncherBackend::isDefaultsItem(const QList<QVariantMap> &apps) const
 
     return (apps.size() == 1 && apps[0].value("defaults").toBool());
 }
-
-
