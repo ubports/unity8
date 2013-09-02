@@ -29,9 +29,15 @@ VisibleIndicatorsModel::VisibleIndicatorsModel(QObject *parent)
 QHash<int, QByteArray> VisibleIndicatorsModel::roleNames() const
 {
     static QHash<int, QByteArray> roles;
-    if (roles.isEmpty() && sourceModel())
+    if (roles.isEmpty())
     {
-        roles = sourceModel()->roleNames();
+        roles[IndicatorsModelRole::Identifier] = "identifier";
+        roles[IndicatorsModelRole::Position] = "position";
+        roles[IndicatorsModelRole::Title] = "title";
+        roles[IndicatorsModelRole::Description] = "description";
+        roles[IndicatorsModelRole::WidgetSource] = "widgetSource";
+        roles[IndicatorsModelRole::PageSource] = "pageSource";
+        roles[IndicatorsModelRole::IndicatorProperties] = "indicatorProperties";
         roles[IndicatorsModelRole::IsVisible] = "isVisible";
     }
     return roles;

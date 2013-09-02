@@ -33,8 +33,8 @@ ListModel {
                     "description": "",
                     "widgetSource": "qrc:/tests/indciators/qml/fake_menu_widget1.qml",
                     "pageSource": "qrc:/tests/indciators/qml/fake_menu_page1.qml",
-                    "indicatorProperties": "",
-                    "isVisible": true});
+                    "indicatorProperties": ""
+        });
 
         append({    "identifier": "indicator-fake2",
                     "priority": 1,
@@ -42,8 +42,8 @@ ListModel {
                     "description": "",
                     "widgetSource": "qrc:/tests/indciators/qml/fake_menu_widget2.qml",
                     "pageSource": "qrc:/tests/indciators/qml/fake_menu_page2.qml",
-                    "indicatorProperties": "",
-                    "isVisible": true});
+                    "indicatorProperties": ""
+        });
 
         append({    "identifier": "indicator-fake3",
                     "priority": 2,
@@ -51,8 +51,8 @@ ListModel {
                     "description": "",
                     "widgetSource": "qrc:/tests/indciators/qml/fake_menu_widget3.qml",
                     "pageSource": "qrc:/tests/indciators/qml/fake_menu_page3.qml",
-                    "indicatorProperties": "",
-                    "isVisible": true});
+                    "indicatorProperties": ""
+        });
 
         append({    "identifier": "indicator-fake4",
                     "priority": 3,
@@ -60,8 +60,8 @@ ListModel {
                     "description": "",
                     "widgetSource": "qrc:/tests/indciators/qml/fake_menu_widget4.qml",
                     "pageSource": "qrc:/tests/indciators/qml/fake_menu_page4.qml",
-                    "indicatorProperties": "",
-                    "isVisible": true});
+                    "indicatorProperties": ""
+        });
 
         append({    "identifier": "indicator-fake5",
                     "priority": 4,
@@ -69,62 +69,7 @@ ListModel {
                     "description": "",
                     "widgetSource": "qrc:/tests/indciators/qml/fake_menu_widget5.qml",
                     "pageSource": "qrc:/tests/indciators/qml/fake_menu_page5.qml",
-                    "indicatorProperties": "",
-                    "isVisible": true});
+                    "indicatorProperties": ""
+        });
     }
-
-    function data(row, role) {
-        if (role == Indicators.IndicatorsModelRole.Identifier) {
-            return get(row).identifier;
-        }
-        else if (role == Indicators.IndicatorsModelRole.Priority) {
-            return get(row).priority;
-        }
-        else if (role == Indicators.IndicatorsModelRole.Title) {
-            return get(row).title;
-        }
-        else if (role == Indicators.IndicatorsModelRole.Description) {
-            return get(row).description;
-        }
-        else if (role == Indicators.IndicatorsModelRole.WidgetSource) {
-            return get(row).widgetSource;
-        }
-        else if (role == Indicators.IndicatorsModelRole.PageSource) {
-            return get(row).pageSource;
-        }
-        else if (role == Indicators.IndicatorsModelRole.IndicatorProperties) {
-            return get(row).indicatorProperties;
-        }
-        else if (role == Indicators.IndicatorsModelRole.IsVisible) {
-            return get(row).isVisible;
-        }
-    }
-
-    function setData(row, value, role) {
-        if (role == Indicators.IndicatorsModelRole.Identifier) {
-            return set(row, {"identifier": value});
-        }
-        else if (role == Indicators.IndicatorsModelRole.Priority) {
-            return set(row, {"priority": value});
-        }
-        else if (role == Indicators.IndicatorsModelRole.Title) {
-            return set(row, {"title": value});
-        }
-        else if (role == Indicators.IndicatorsModelRole.Description) {
-            return set(row, {"description": value});
-        }
-        else if (role == Indicators.IndicatorsModelRole.WidgetSource) {
-            return set(row, {"widgetSource": value});
-        }
-        else if (role == Indicators.IndicatorsModelRole.PageSource) {
-            return set(row, {"pageSource": value});
-        }
-        else if (role == Indicators.IndicatorsModelRole.IndicatorProperties) {
-            return set(row, {"indicatorProperties": value});
-        }
-        else if (role == Indicators.IndicatorsModelRole.IsVisible) {
-            return set(row, {"isVisible": value});
-        }
-    }
-
 }
