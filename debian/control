@@ -42,6 +42,7 @@ Build-Depends: cmake,
                qtdeclarative5-ubuntu-ui-toolkit-plugin,
                qtdeclarative5-xmllistmodel-plugin,
                ttf-ubuntu-font-family,
+               ubuntu-mobile-icons,
 Standards-Version: 3.9.4
 Homepage: http://launchpad.net/unity
 # If you aren't a member of ~unity-team but need to upload
