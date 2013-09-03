@@ -45,8 +45,8 @@ Indicators.BaseMenuItem {
 
     CheckBox {
         id: checkBoxActive
-        height: units.gu(2.5)
-        width: units.gu(2.5)
+        height: units.gu(3)
+        width: units.gu(3)
 
         anchors {
             left: parent.left
