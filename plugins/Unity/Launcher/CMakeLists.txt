@@ -1,11 +1,13 @@
 include(FindPkgConfig)
 pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=2)
+pkg_check_modules(GSETTINGS_QT REQUIRED gsettings-qt)
 
 add_definitions(-DSM_BUSNAME=systemBus)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/plugins/AccountsService
+    ${GSETTINGS_QT_INCLUDE_DIRS}
 )
 
 set(QMLLAUNCHERPLUGIN_SRC
@@ -24,6 +26,8 @@ set(QMLLAUNCHERPLUGIN_SRC
 add_library(UnityLauncher-qml MODULE
     ${QMLLAUNCHERPLUGIN_SRC}
     )
+
+target_link_libraries(UnityLauncher-qml ${GSETTINGS_QT_LDFLAGS})
 
 qt5_use_modules(UnityLauncher-qml DBus Qml)
 
