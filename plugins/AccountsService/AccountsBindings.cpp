@@ -32,9 +32,16 @@ AccountsBindings::AccountsBindings(QObject* parent)
             this, SLOT(maybeChanged(const QString &)));
 }
 
+QString AccountsBindings::getUser()
+{
+    return m_user;
+}
+
 void AccountsBindings::setUser(const QString &user)
 {
     m_user = user;
+    Q_EMIT userChanged();
+
     updateDemoEdges();
     updateBackgroundFile();
 }

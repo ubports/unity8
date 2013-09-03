@@ -27,6 +27,10 @@ class AccountsService;
 class AccountsBindings: public QObject
 {
     Q_OBJECT
+    Q_PROPERTY (QString user
+                READ getUser
+                WRITE setUser
+                NOTIFY userChanged)
     Q_PROPERTY (bool demoEdges
                 READ getDemoEdges
                 WRITE setDemoEdges
@@ -38,13 +42,14 @@ class AccountsBindings: public QObject
 public:
     explicit AccountsBindings(QObject *parent = 0);
 
-    Q_INVOKABLE void setUser(const QString &user);
-
+    QString getUser();
+    void setUser(const QString &user);
     bool getDemoEdges();
     void setDemoEdges(bool demoEdges);
     QString getBackgroundFile();
 
 Q_SIGNALS:
+    void userChanged();
     void demoEdgesChanged();
     void backgroundFileChanged();
 
