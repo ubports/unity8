@@ -88,8 +88,9 @@ Indicators.IndicatorWidget {
 
     onActionStateChanged: {
         if (actionState == undefined) {
-            label = "";
-            iconSource = "";
+            leftLabel = "";
+            rightLabel = "";
+            icons = undefined;
             enabled = false;
             return;
         }
