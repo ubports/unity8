@@ -91,7 +91,7 @@ MainView {
                         source: pageSource
                         asynchronous: true
 
-                        property bool contentActive: content.__contentActive
+                        property bool contentActive: content.__contentActive && menuActivator.content[index].active
 
                         onContentActiveChanged: {
                             if (contentActive && item) {
@@ -128,6 +128,16 @@ MainView {
         id: contentReleaseTimer
 
         interval: contentReleaseInterval
-        onTriggered: content.__contentActive = false
+        onTriggered: {
+            content.__contentActive = false;
+            menuActivator.clear();
+        }
+    }
+
+    Indicators.MenuContentActivator {
+        id:  menuActivator
+        running: content.__contentActive
+        baseIndex: content.currentMenuIndex
+        count: indicatorsModel.count
     }
 }
