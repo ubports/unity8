@@ -41,7 +41,7 @@ class FiltersBindingsTest : public QObject
         void createCheckOptionFilter(DeeModel *model, const std::string &id, const std::string &name, int optionCount);
         void createRadioOptionFilter(DeeModel *model, const std::string &id, const std::string &name, int optionCount);
         void createRatingsFilter(DeeModel *model, const std::string &id, const std::string &name);
-        void createFilter(DeeModel *model, const std::string &renderer, const std::string &id, const std::string &name, int optionCount);
+        void createFilter(DeeModel *model, const std::string &renderer, const std::string &id, const std::string &name, int optionCount, bool showAll);
 };
 
 #endif // FILTERSBINDINGSTEST_H

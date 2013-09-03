@@ -1,3 +1,94 @@
+unity8 (7.81.3+13.10.20130903.1-0ubuntu1) saucy; urgency=low
+
+  [ Michael Zanetti ]
+  * workaround quicklist text color.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 277
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 03 Sep 2013 06:09:36 +0000
+
+unity8 (7.81.3+13.10.20130830-0ubuntu1) saucy; urgency=low
+
+  [ Pawel Stolowski ]
+  * Implement a virtual 'All' filter option.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 275
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 30 Aug 2013 12:44:40 +0000
+
+unity8 (7.81.3+13.10.20130829.2-0ubuntu1) saucy; urgency=low
+
+  [ Michael Terry ]
+  * Implement launcher item backend via AccountsService.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 272
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 29 Aug 2013 19:09:44 +0000
+
+unity8 (7.81.3+13.10.20130829.1-0ubuntu1) saucy; urgency=low
+
+  [ Michael Terry ]
+  * Make sure greeter and lockscreen backgrounds are always defined,
+    even if the wallpaper preference string is bogus. (LP: #1208889,
+    #1208894)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 270
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 29 Aug 2013 11:09:43 +0000
+
+unity8 (7.81.3+13.10.20130829-0ubuntu1) saucy; urgency=low
+
+  [ Andrea Cimitan ]
+  * Streamline some new HUD interactions to be more consistent with the
+    Unity Launcher.
+
+  [ Michael Zanetti ]
+  * setting the launcher's extensionSize delayed to position the view
+    correctly at the beginning .
+
+  [ Bill Filler ]
+  * add new telephony apps (dialer, messaging, contacts) to launcher and
+    Home scope.
+
+  [ Michael Terry ]
+  * Implement edge demos on first boot. Build-Depends: +dbus-test-
+    runner, +qtbase5-dev-tools.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 267
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 29 Aug 2013 02:10:38 +0000
+
+unity8 (7.81.3+13.10.20130828.1-0ubuntu1) saucy; urgency=low
+
+  [ Andrea Cimitan ]
+  * Hide the LauncherPanel when it's really hidden, by changing visible
+    to false.
+
+  [ Gerry Boland ]
+  * Fix sidestage applications - they were being ignored in the show-
+    application-surface logic. (LP: #1217027, #1210079)
+
+  [ Michał Sawicz ]
+  * Raise the exception if typing failed in autopilot.
+
+  [ Nick Dedekind ]
+  * Added location indicator defaults.
+
+  [ Michael Zanetti ]
+  * increase minimal dragging width for dismissing apps with left edge
+    make it a configurable parameter and adjust animation to look like
+    requested in the bug report . (LP: #1213153)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 262
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 28 Aug 2013 11:55:46 +0000
+
 unity8 (7.81.3+13.10.20130827.1-0ubuntu1) saucy; urgency=low
 
   [ Michael Zanetti ]

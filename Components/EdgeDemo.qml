@@ -25,11 +25,12 @@ Item {
     property Item dash
     property Item launcher
     property Item indicators
-    property Item overlay
+    property Item underlay
 
     property bool launcherEnabled: true
     property bool dashEnabled: true
     property bool panelEnabled: true
+    property bool panelContentEnabled: true
 
     property bool paused: false
 
@@ -62,6 +63,7 @@ Item {
         launcherEnabled = true
         dashEnabled = true
         panelEnabled = true
+        panelContentEnabled = true
         if (d.rightEdgeDemo)  d.rightEdgeDemo.destroy()
         if (d.topEdgeDemo)    d.topEdgeDemo.destroy()
         if (d.bottomEdgeDemo) d.bottomEdgeDemo.destroy()
@@ -92,6 +94,7 @@ Item {
         launcherEnabled = false;
         demo.dashEnabled = false;
         demo.panelEnabled = false;
+        demo.panelContentEnabled = false;
         if (demo.greeter) {
             d.rightEdgeDemo = d.overlay.createObject(demo.greeter, {
                 "edge": "right",
@@ -111,7 +114,7 @@ Item {
         target: demo.greeter
 
         function hide() {
-            if (d.rightEdgeDemo && d.rightEdgeDemo.active) {
+            if (d.rightEdgeDemo && d.rightEdgeDemo.available) {
                 d.rightEdgeDemo.hide()
                 hideEdgeDemoInGreeter()
                 startTopEdgeDemo()
@@ -129,8 +132,8 @@ Item {
 
     function startTopEdgeDemo() {
         demo.panelEnabled = true;
-        if (demo.dash) {
-            d.topEdgeDemo = d.overlay.createObject(demo.dash, {
+        if (demo.dash && demo.underlay) {
+            d.topEdgeDemo = d.overlay.createObject(demo.underlay, {
                 "edge": "top",
                 "title": i18n.tr("Top edge"),
                 "text": i18n.tr("Try swiping from the top edge to access the indicators"),
@@ -147,7 +150,7 @@ Item {
     Connections {
         target: demo.indicators
         onFullyOpenedChanged: {
-            if (d.topEdgeDemo && d.topEdgeDemo.active && demo.indicators.fullyOpened) {
+            if (d.topEdgeDemo && d.topEdgeDemo.available && demo.indicators.fullyOpened) {
                 d.topEdgeDemo.hideNow()
                 startBottomEdgeDemo()
             }
@@ -173,7 +176,7 @@ Item {
     Connections {
         target: demo.indicators
         onPartiallyOpenedChanged: {
-            if (d.bottomEdgeDemo && d.bottomEdgeDemo.active && !demo.indicators.partiallyOpened && !demo.indicators.fullyOpened) {
+            if (d.bottomEdgeDemo && d.bottomEdgeDemo.available && !demo.indicators.partiallyOpened && !demo.indicators.fullyOpened) {
                 d.bottomEdgeDemo.hideNow()
                 startLeftEdgeDemo()
             }
@@ -183,8 +186,8 @@ Item {
     function startLeftEdgeDemo() {
         demo.panelEnabled = false;
         demo.launcherEnabled = true;
-        if (demo.dash) {
-            d.leftEdgeDemo = d.overlay.createObject(demo.dash, {
+        if (demo.dash && demo.underlay) {
+            d.leftEdgeDemo = d.overlay.createObject(demo.underlay, {
                 "edge": "left",
                 "title": i18n.tr("Left edge"),
                 "text": i18n.tr("Swipe from the left to reveal the launcher for quick access to apps"),
@@ -201,7 +204,7 @@ Item {
     Connections {
         target: demo.launcher
         onStateChanged: {
-            if (d.leftEdgeDemo && d.leftEdgeDemo.active && launcher.state == "visible") {
+            if (d.leftEdgeDemo && d.leftEdgeDemo.available && launcher.state == "visible") {
                 d.leftEdgeDemo.hide()
                 launcher.hide()
                 startFinalEdgeDemo()
@@ -211,12 +214,12 @@ Item {
 
     function startFinalEdgeDemo() {
         demo.launcherEnabled = false;
-        if (demo.dash) {
-            d.finalEdgeDemo = d.overlay.createObject(demo.overlay, {
+        if (demo.dash && demo.underlay) {
+            d.finalEdgeDemo = d.overlay.createObject(demo.underlay, {
                 "edge": "none",
                 "title": i18n.tr("Well done"),
                 "text": i18n.tr("You have now mastered the edge gestures and can start using the phone"),
-                "anchors.fill": demo.overlay,
+                "anchors.fill": demo.dash,
             });
         }
         if (d.finalEdgeDemo) {

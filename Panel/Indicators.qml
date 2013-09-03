@@ -34,6 +34,7 @@ Showable {
     property bool fullyOpened: height == openedHeight
     property bool partiallyOpened: height > panelHeight && !fullyOpened
     property real visualBottom: Math.max(y+height, y+indicatorRow.y+indicatorRow.height)
+    property bool contentEnabled: true
 
     // TODO: Perhaps we need a animation standard for showing/hiding? Each showable seems to
     // use its own values. Need to ask design about this.
@@ -178,6 +179,7 @@ Showable {
         indicatorsModel: indicatorsModel
         clip: !indicators.fullyOpened
         activeHeader: indicators.state == "hint" || indicators.state == "reveal"
+        enabled: contentEnabled
 
         Connections {
             target: indicatorRow
