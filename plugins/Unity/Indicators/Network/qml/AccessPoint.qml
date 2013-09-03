@@ -94,7 +94,7 @@ Indicators.BaseMenuItem {
             left: iconSignal.right
             leftMargin: units.gu(1)
             verticalCenter: parent.verticalCenter
-            right: secureIcon.visible ? iconSecure.left : parent.right
+            right: iconSecure.visible ? iconSecure.left : parent.right
             rightMargin: menuItem.__contentsMargins
         }
         elide: Text.ElideRight
