@@ -212,6 +212,7 @@ QVariant RootActionState::toQVariant(GVariant* state) const
                 GIcon *gicon = g_icon_deserialize (vvalue);
                 if (gicon) {
                     icons << iconUri(gicon);
+                    g_object_unref (gicon);
                 }
                 qmap.insert("icons", icons);
 
