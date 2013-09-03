@@ -46,7 +46,7 @@ private Q_SLOTS:
         LauncherBackend backend(false);
 
         QCOMPARE(backend.displayName(SRCDIR "/rel-icon.desktop"), QString("Relative Icon"));
-        QCOMPARE(backend.icon(SRCDIR "/rel-icon.desktop"), QString("image://gicon/rel-icon"));
+        QCOMPARE(backend.icon(SRCDIR "/rel-icon.desktop"), QString("image://theme/rel-icon"));
 
         QCOMPARE(backend.displayName(SRCDIR "/abs-icon.desktop"), QString("Absolute Icon"));
         QCOMPARE(backend.icon(SRCDIR "/abs-icon.desktop"), QString("/path/to/icon.png"));
@@ -55,7 +55,7 @@ private Q_SLOTS:
         QCOMPARE(backend.icon(SRCDIR "/no-icon.desktop"), QString(""));
 
         QCOMPARE(backend.displayName(SRCDIR "/no-name.desktop"), QString(""));
-        QCOMPARE(backend.icon(SRCDIR "/no-name.desktop"), QString("image://gicon/no-name"));
+        QCOMPARE(backend.icon(SRCDIR "/no-name.desktop"), QString("image://theme/no-name"));
 
         QCOMPARE(backend.displayName(SRCDIR "/no-exist.desktop"), QString(""));
         QCOMPARE(backend.icon(SRCDIR "/no-exist.desktop"), QString(""));

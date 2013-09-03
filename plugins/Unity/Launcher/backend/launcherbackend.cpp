@@ -99,7 +99,7 @@ QString LauncherBackend::icon(const QString &appId) const
     if (!iconName.isEmpty()) {
         QFileInfo iconFileInfo(iconName);
         if (iconFileInfo.isRelative()) {
-            iconName = "image://gicon/" + iconName;
+            iconName = "image://theme/" + iconName;
         }
     }
 

@@ -55,7 +55,7 @@ Indicators.FramedMenuItem {
         if (secure) {
             imageName += "-secure";
         }
-        return "image://gicon/" + imageName;
+        return "image://theme/" + imageName;
     }
 
     iconFrame: false

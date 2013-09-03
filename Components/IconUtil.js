@@ -25,17 +25,17 @@ function from_gicon(name) {
     if (annotated_re.test(name)) {
         var base_icon_re = /'base-icon':.+?'(.+?)'/;
         var base_icon = name.toString().match(base_icon_re);
-        icon_name = base_icon[1];
+        return from_gicon(unescape(base_icon[1]));
     } else {
-        var themed_re = /^. GThemedIcon\s*([^\s]+)\s*/;
+        var themed_re = /^. GThemedIcon (.+)/;
         var themed = name.match(themed_re);
         if (themed) {
-            return "image://gicon/" + themed[1];
+            return "image://theme/" + themed[1].replace(" ", ",");
         }
     }
     var name_re = /^[a-z0-9\._-]+$/;
     if (name_re.test(icon_name)) {
-        return "image://gicon/" + icon_name;
+        return "image://theme/" + icon_name;
     } else {
         return icon_name;
     }
