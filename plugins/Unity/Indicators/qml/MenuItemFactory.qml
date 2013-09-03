@@ -174,7 +174,7 @@ Item {
         id: accessPoint;
         ICNetwork.AccessPoint {
             property QtObject menu: null
-            property var strenthAction: QMenuModel.UnityMenuAction {
+            property var strengthAction: QMenuModel.UnityMenuAction {
                 model: menuFactory.model ? menuFactory.model : null
                 name: menu ? menu.ext.xCanonicalWifiApStrengthAction : ""
             }
@@ -184,7 +184,7 @@ Item {
             secure: menu ? menu.ext.xCanonicalWifiApIsSecure : false
             adHoc: menu ? menu.ext.xCanonicalWifiApIsAdhoc : false
             checked: menu ? menu.isToggled : false
-            signalStrength: strenthAction.valid ? strenthAction.state : 0
+            signalStrength: strengthAction.valid ? strengthAction.state : 0
             enabled: menu ? menu.sensitive : false
 
             Component.onCompleted: {
