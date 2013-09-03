@@ -23,6 +23,11 @@ AccountsBindings::AccountsBindings(QObject* parent)
 {
 }
 
+QString AccountsBindings::getUser()
+{
+    return "testuser";
+}
+
 void AccountsBindings::setUser(const QString &)
 {
 }

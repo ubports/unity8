@@ -34,9 +34,16 @@ AccountsBindings::AccountsBindings(QObject* parent)
     updateDemoEdgesForCurrentUser();
 }
 
+QString AccountsBindings::getUser()
+{
+    return m_user;
+}
+
 void AccountsBindings::setUser(const QString &user)
 {
     m_user = user;
+    Q_EMIT userChanged();
+
     updateDemoEdges();
     updateBackgroundFile();
 }
