@@ -191,6 +191,43 @@ void LauncherModel::setUser(const QString &username)
     m_backend->setUser(username);
 }
 
+void LauncherModel::applicationFocused(const QString &appId)
+{
+    int index = findApplication(appId);
+
+    if (index >= 0) {
+        // TODO: Mark application as focued
+    } else {
+        // Add app to recent apps
+        QString desktopFile = m_backend->desktopFile(appId);
+        QString appName = m_backend->displayName(appId);
+        QString icon = m_backend->icon(appId);
+
+        LauncherItem *item = new LauncherItem(appId, desktopFile, appName, icon);
+        item->setRecent(true);
+        beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+        m_list.append(item);
+        endInsertRows();
+
+        // Clean up old recent apps
+        QList<int> recentAppIndices;
+        for (int i = 0; i < m_list.count(); ++i) {
+            if (m_list.at(i)->recent()) {
+                recentAppIndices << i;
+            }
+        }
+        int run = 0;
+        while (recentAppIndices.count() > 5) {
+            beginRemoveRows(QModelIndex(), recentAppIndices.first() - run, recentAppIndices.first() - run);
+            m_list.takeAt(recentAppIndices.first() - run)->deleteLater();
+            endRemoveRows();
+            recentAppIndices.takeFirst();
+            ++run;
+        }
+        storeAppList();
+    }
+}
+
 void LauncherModel::storeAppList()
 {
     QStringList appIds;

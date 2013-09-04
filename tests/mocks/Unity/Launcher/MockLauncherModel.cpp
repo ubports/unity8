@@ -180,3 +180,8 @@ void MockLauncherModel::setUser(const QString &username)
     Q_UNUSED(username)
     // TODO: implement this...
 }
+
+void MockLauncherModel::applicationFocused(const QString &appId)
+{
+    Q_UNUSED(appId)
+}
