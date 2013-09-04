@@ -94,7 +94,6 @@ FocusScope {
             // potentially only in connection with a notification
             greeter.hide();
             shell.activateApplication(desktopFile);
-
         }
 
         onMainStageFocusedApplicationChanged: {
