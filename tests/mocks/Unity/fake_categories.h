@@ -41,8 +41,7 @@ public:
         RoleContentType,
         RoleHints,
         RoleResults,
-        RoleCount,
-        RoleCategoryIndex
+        RoleCount
     };
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;

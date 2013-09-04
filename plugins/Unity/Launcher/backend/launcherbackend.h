@@ -31,6 +31,8 @@ class AccountsService;
   * @brief An interface that provides all the data needed by the launcher.
   */
 
+class LauncherBackendItem;
+
 class LauncherBackend : public QObject
 {
     Q_OBJECT
@@ -141,23 +143,19 @@ Q_SIGNALS:
     void countChanged(const QString &appId, int count);
 
 private:
-    QSettings *parseDesktopFile(const QString &appId) const;
-    QVariantMap makeAppDetails(const QString &appId, bool pinned) const;
-    void loadApp(const QVariantMap &details);
-    int findItem(const QString &appId) const;
+    QString findDesktopFile(const QString &appId) const;
+    LauncherBackendItem* parseDesktopFile(const QString &desktopFile) const;
+
+    QVariantMap itemToVariant(const QString &appId) const;
+    void loadFromVariant(const QVariantMap &details);
+
     bool isDefaultsItem(const QList<QVariantMap> &apps) const;
     void syncFromAccounts();
     void syncToAccounts();
-    void clearItems();
 
-    class LauncherBackendItem
-    {
-    public:
-        QSettings *settings;
-        bool pinned;
-    };
+    QList<QString> m_storedApps;
+    mutable QHash<QString, LauncherBackendItem*> m_itemCache;
 
-    QList<LauncherBackendItem> m_storedApps;
     AccountsService *m_accounts;
     QString m_user;
 };

@@ -57,6 +57,15 @@ mk_build_deps() {
     [ ! -f unity8-build-deps*deb -o $CODE_DIR/debian/control -nt unity8-build-deps*deb ] && mk-build-deps --install --root-cmd sudo $CODE_DIR/debian/control
 }
 
+if [ -f "/usr/bin/ccache" ] ; then
+  if [ "x$CC" = "x" ]; then
+    export CC='ccache gcc'
+  fi
+  if [ "x$CXX" = "x" ] ; then
+    export CXX='ccache g++'
+  fi
+fi
+
 if [ -f "/usr/bin/ninja" ] ; then
   GENERATOR="-G Ninja"
   # Ninja does not need -j, it parallelizes automatically.
