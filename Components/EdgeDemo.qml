@@ -43,15 +43,12 @@ Item {
     }
 
     function hideEdgeDemoInShell() {
-        var user = LightDM.Users.data(greeter.currentIndex, LightDM.UserRoles.NameRole);
         AccountsService.demoEdges = false;
-        d.showEdgeDemo = false;
         stopDemo();
     }
 
     function hideEdgeDemoInGreeter() {
         // TODO: AccountsService.demoEdges = false as lightdm user
-        d.showEdgeDemoInGreeter = false;
     }
 
     function hideEdgeDemos() {
@@ -71,6 +68,24 @@ Item {
         if (d.finalEdgeDemo)  d.finalEdgeDemo.destroy()
     }
 
+    function startDemo() {
+        if (!d.overlay) {
+            d.overlay = Qt.createComponent("EdgeDemoOverlay.qml")
+        }
+
+        launcherEnabled = false;
+        dashEnabled = false;
+        panelEnabled = false;
+        panelContentEnabled = false;
+
+        // Begin with either greeter or dash, depending on which is visible
+        if (greeter && greeter.shown) {
+            startRightEdgeDemo()
+        } else {
+            startTopEdgeDemo()
+        }
+    }
+
     QtObject {
         id: d
         property Component overlay
@@ -79,22 +94,18 @@ Item {
         property QtObject bottomEdgeDemo
         property QtObject leftEdgeDemo
         property QtObject finalEdgeDemo
-        property bool showEdgeDemo: false
-        property bool showEdgeDemoInGreeter: d.showEdgeDemo // TODO: AccountsService.demoEdges as lightdm user
+        property bool showEdgeDemo: AccountsService.demoEdges
+        property bool showEdgeDemoInGreeter: AccountsService.demoEdges // TODO: AccountsService.demoEdges as lightdm user
 
-        onShowEdgeDemoInGreeterChanged: {
-            if (!d.overlay && d.showEdgeDemoInGreeter) {
-                d.overlay = Qt.createComponent("EdgeDemoOverlay.qml")
-                startRightEdgeDemo()
+        onShowEdgeDemoChanged: {
+            stopDemo()
+            if (d.showEdgeDemo) {
+                startDemo()
             }
         }
     }
 
     function startRightEdgeDemo() {
-        launcherEnabled = false;
-        demo.dashEnabled = false;
-        demo.panelEnabled = false;
-        demo.panelContentEnabled = false;
         if (demo.greeter) {
             d.rightEdgeDemo = d.overlay.createObject(demo.greeter, {
                 "edge": "right",
@@ -123,11 +134,6 @@ Item {
 
         onUnlocked: hide()
         onShownChanged: if (!greeter.shown) hide()
-
-        onSelected: {
-            var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole)
-            d.showEdgeDemo = AccountsService.demoEdges
-        }
     }
 
     function startTopEdgeDemo() {
