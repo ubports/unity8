@@ -82,7 +82,7 @@ void LauncherBackend::setStoredApplications(const QStringList &appIds)
                 m_itemCache.insert(appId, item);
             } else {
                 // Cannot find any data for that app... ignoring it.
-                qDebug() << "cannot find desktop file for" << appId << ". discarding app";
+                qWarning() << "cannot find desktop file for" << appId << ". discarding app.";
                 m_storedApps.removeAll(appId);
             }
         }
@@ -213,15 +213,11 @@ void LauncherBackend::syncFromAccounts()
 
     m_storedApps.clear();
 
-    qDebug() << "syncing from accounts" << m_accounts << m_user;
-
     if (m_accounts && !m_user.isEmpty()) {
         QVariant variant = m_accounts->getUserProperty(m_user, "launcher-items");
         apps = qdbus_cast<QList<QVariantMap>>(variant.value<QDBusArgument>());
         defaults = isDefaultsItem(apps);
     }
-
-    qDebug() << "--------------------- should load defaults?" << defaults;
 
     if (m_accounts && defaults) { // Checking accounts as it'll be null when !useStorage
         QGSettings gSettings("com.canonical.Unity.Launcher", "/com/canonical/unity/launcher/");
@@ -243,7 +239,6 @@ void LauncherBackend::syncFromAccounts()
         }
     } else {
         for (const QVariant &app: apps) {
-            qDebug() << "should load app" << app;
             loadFromVariant(app.toMap());
         }
     }
@@ -251,19 +246,15 @@ void LauncherBackend::syncFromAccounts()
 
 void LauncherBackend::syncToAccounts()
 {
-    qDebug() << "syncing to accounts" << m_accounts << m_user << m_storedApps;
     if (m_accounts && !m_user.isEmpty()) {
         QList<QVariantMap> items;
 
         Q_FOREACH(const QString &appId, m_storedApps) {
-            qDebug() << "appending item" << appId;
             items << itemToVariant(appId);
         }
 
-        qDebug() << "syncing apps" << items;
         m_accounts->setUserProperty(m_user, "launcher-items", QVariant::fromValue(items));
     }
-    qDebug() << "done synving";
 }
 
 QString LauncherBackend::findDesktopFile(const QString &appId) const
@@ -340,6 +331,5 @@ bool LauncherBackend::isDefaultsItem(const QList<QVariantMap> &apps) const
     // To differentiate between an empty list and a list that hasn't been set
     // yet (and should thus be populated with the defaults), we use a special
     // list of one item with the 'defaults' field set to true.
-    qDebug() << "checking isDefaults" << apps;
     return (apps.size() == 1 && apps[0].value("defaults").toBool());
 }

@@ -21,8 +21,6 @@
 #include "launcheritem.h"
 #include "backend/launcherbackend.h"
 
-#include <QDebug>
-
 LauncherModel::LauncherModel(QObject *parent):
     LauncherModelInterface(parent),
     m_backend(new LauncherBackend(true, this))
@@ -200,6 +198,8 @@ void LauncherModel::applicationFocused(const QString &appId)
     if (index >= 0) {
         // TODO: Mark application as focued
     } else {
+        // Add app to recent apps
+
         // FIXME: The backend does not yet support this stuff
         // and currently the appId still is the desktopFile
         //QString desktopFile = m_backend->desktopFile(appId);
@@ -213,6 +213,22 @@ void LauncherModel::applicationFocused(const QString &appId)
         beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
         m_list.append(item);
         endInsertRows();
+
+        // Clean up old recent apps
+        QList<int> recentAppIndices;
+        for (int i = 0; i < m_list.count(); ++i) {
+            if (m_list.at(i)->recent()) {
+                recentAppIndices << i;
+            }
+        }
+        int run = 0;
+        while (recentAppIndices.count() > 5) {
+            beginRemoveRows(QModelIndex(), recentAppIndices.first() - run, recentAppIndices.first() - run);
+            m_list.takeAt(recentAppIndices.first() - run)->deleteLater();
+            endRemoveRows();
+            recentAppIndices.takeFirst();
+            ++run;
+        }
         storeAppList();
     }
 }
@@ -221,13 +237,10 @@ void LauncherModel::storeAppList()
 {
     QStringList appIds;
     Q_FOREACH(LauncherItem *item, m_list) {
-        qDebug() << "shouldI store app" << item->appId();
         if (item->pinned() || item->recent()) {
-            qDebug() << "yes";
             appIds << item->appId();
         }
     }
-    qDebug() << "storing appids" << appIds;
     m_backend->setStoredApplications(appIds);
 }
 
