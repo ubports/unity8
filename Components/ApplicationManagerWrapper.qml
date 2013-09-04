@@ -21,10 +21,10 @@ import Utils 0.1
 Item {
     id: applicationManager
 
-    property var mainStageApplications: ApplicationManager.mainStageApplications
-    property var sideStageApplications: ApplicationManager.sideStageApplications
-    property var mainStageFocusedApplication: mainStageModel
-    property var sideStageFocusedApplication: sideStageModel
+    property var mainStageApplications: mainStageModel
+    property var sideStageApplications: sideStageModel
+    property var mainStageFocusedApplication: null
+    property var sideStageFocusedApplication: null
     property bool sideStageEnabled: true
     signal focusRequested(string desktopFile)
     property bool keyboardVisible: ApplicationManager.keyboardVisible
@@ -40,9 +40,11 @@ Item {
         filterRegExp: RegExp(ApplicationInfo.MainStage)
 
         onCountChanged: { print("MODEL Main:", count, ApplicationManager.RoleStage, ApplicationManager.RoleFocused)
-            mainStageFocusedApplication = mainStageModel.findFirst(ApplicationManager.RoleFocused, true);
+            mainStageFocusedApplication = ApplicationManager.get(mainStageModel.findFirst(ApplicationManager.RoleFocused, true));
             print("MS", mainStageFocusedApplication)
         }
+        onLayoutChanged: print("LAYOUT")
+        onDataChanged: print("DATA")
     }
 
     SortFilterProxyModel {
@@ -53,32 +55,46 @@ Item {
         filterRegExp: RegExp(ApplicationInfo.SideStage)
 
         onDataChanged: { print("MODEL Side", count)
-            sideStageFocusedApplication = sideStageModel.findFirst(ApplicationManager.RoleFocused, true);
+            sideStageFocusedApplication = ApplicationManager.get(sideStageModel.findFirst(ApplicationManager.RoleFocused, true));
             print("SS", sideStageFocusedApplication)
         }
     }
 
     function activateApplication(desktopFile, argument) {
-        var application;
-        application = getApplicationFromDesktopFile(desktopFile, ApplicationInfo.MainStage);
-        if (application == null) {
-            application = getApplicationFromDesktopFile(desktopFile, ApplicationInfo.SideStage);
+        var appId;
+
+        // HACK: might be called with appId, but mostly with desktopFile
+        if (desktopFile.indexOf(".desktop") = -1) {
+            appId = desktopFileToAppId(desktopFile);
+        } else {
+            appId = desktopFile;
         }
-        if (application != null) {
+
+        var application = ApplicationManager.findApplication(appId);
+        if (application !== null) {
             return application;
         }
 
         var execFlags = sideStageEnabled ? ApplicationManager.NoFlag : ApplicationManager.ForceMainStage;
 
         if (argument) {
-            return ApplicationManager.startProcess(desktopFile, execFlags, [argument]);
+            return ApplicationManager.startApplication(appId, execFlags, [argument]);
         } else {
-            return ApplicationManager.startProcess(desktopFile, execFlags);
+            return ApplicationManager.startApplication(appId, execFlags);
         }
     }
 
     function stopProcess(application) {
-        ApplicationManager.stopProcess(application)
+        var appId;
+
+        // HACK: might be called with appId, or else with Application object
+        if (typeof application == "string") {
+            appId = desktopFileToAppId(application.desktopFile);
+        } else {
+            appId = application;
+        }
+
+        ApplicationManager.stopProcess(appId);
     }
 
     function focusApplication(application) {
@@ -86,59 +102,39 @@ Item {
             return;
         }
 
-        ApplicationManager.focusApplication(application.handle);
+        ApplicationManager.focusApplication(application.appId);
     }
 
     function unfocusCurrentApplication() {
-        ApplicationManager.unfocusCurrentApplication(ApplicationInfo.MainStage);
+        ApplicationManager.unfocusCurrentApplication();
     }
 
-    function moveRunningApplicationStackPosition(from, to, stage) {
-        var applications;
-        if (stage == ApplicationInfo.SideStage) {
-            applications = ApplicationManager.sideStageApplications;
-        } else {
-            applications = ApplicationManager.mainStageApplications;
-        }
-        // FIXME: applications.move(0, 0) crashes
-        if (from !== to && from >= 0 && to >= 0) applications.move(from, to);
+    function moveRunningApplicationStackPosition(from, to, stage) { //FIXME: stage unused!
+        if (from !== to && from >= 0 && to >= 0) ApplicationManager.move(from, to);
     }
 
     function getApplicationFromDesktopFile(desktopFile, stage) {
         var foundSideStageApp, foundMainStageApp;
+        var appId = desktopFileToAppId(desktopFile);
 
-        foundMainStageApp = __find(desktopFile, ApplicationManager.mainStageApplications)
-        if (stage == ApplicationInfo.MainStage) {
-            return foundMainStageApp;
-        }
-        foundSideStageApp = __find(desktopFile, ApplicationManager.sideStageApplications)
-        if (stage == ApplicationInfo.SideStage) {
-            return foundSideStageApp;
-        }
+        for (var i = 0, len = ApplicationManager.count; i < len; i++ ) {
+            var app = ApplicationManager.get(i);
 
-        // if stage not specified, return whichever app running on either stage
-        return (foundMainStageApp) ? foundMainStageApp : foundSideStageApp;
-
-
-        function __find(desktopFile, applications) {
-            for (var i = 0; i < applications.count; i++ ) {
-                var application = applications.get(i);
-                if (application.desktopFile == desktopFile) {
-                    return application;
-                }
+            // if stage not specified, return whichever app running on either stage
+            if (app.appId == appId && (stage == undefined || app.stage == stage)) {
+                return app;
             }
-            return null;
         }
     }
 
     function desktopFileToAppId(desktopFile) {
-        var right = desktopFile.lastIndexOf(".desktop")
-        var left = desktopFile.lastIndexOf("/")
+        var right = desktopFile.lastIndexOf(".desktop");
+        var left = desktopFile.lastIndexOf("/");
         if (left == -1 || right == -1 || left == right) {
-            console.log("ApplicationManagerWrapper: unable to extract appId from " + desktopFile)
+            console.log("ApplicationManagerWrapper: unable to extract appId from '" + desktopFile + "'");
             return "";
         }
-        return desktopFile.substring(left+1, right)
+        return desktopFile.substring(left+1, right);
     }
 
     function appIdToDesktopFile(desktopFile) {
