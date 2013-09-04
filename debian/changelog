@@ -1,3 +1,13 @@
+unity8 (7.81.3+13.10.20130904.1-0ubuntu1) saucy; urgency=low
+
+  [ Nicolas d'Offay ]
+  * Switched infographic background at design's request.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 287
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 04 Sep 2013 07:34:57 +0000
+
 unity8 (7.81.3+13.10.20130904-0ubuntu1) saucy; urgency=low
 
   [ mhall119 ]
