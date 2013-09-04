@@ -262,14 +262,27 @@ QString LauncherBackend::findDesktopFile(const QString &appId) const
     int dashPos = -1;
     QString helper = appId;
 
+    QStringList searchDirs;
+    searchDirs << "/usr/share/applications";
+
+// FIXME: Right now the appId can be (or rather is) a full path
+// to a .desktop file. This will change in the future. Remove this
+// once the ApplicationManager has been switched over to use appIds.
+    searchDirs << "";
+//#if LAUNCHER_TESTING
+//    searchDirs << "";
+//#endif
+
     do {
         if (dashPos != -1) {
             helper = helper.replace(dashPos, 1, '/');
         }
 
-        QFileInfo fileInfo(QDir("/usr/share/applications"), helper);
-        if (fileInfo.exists()) {
-            return fileInfo.absoluteFilePath();
+        Q_FOREACH(const QString &searchDir, searchDirs) {
+            QFileInfo fileInfo(QDir(searchDir), helper);
+            if (fileInfo.exists()) {
+                return fileInfo.absoluteFilePath();
+            }
         }
 
         dashPos = helper.indexOf("-");

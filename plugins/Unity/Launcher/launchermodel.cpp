@@ -199,12 +199,7 @@ void LauncherModel::applicationFocused(const QString &appId)
         // TODO: Mark application as focued
     } else {
         // Add app to recent apps
-
-        // FIXME: The backend does not yet support this stuff
-        // and currently the appId still is the desktopFile
-        //QString desktopFile = m_backend->desktopFile(appId);
-        QString desktopFile = appId;
-
+        QString desktopFile = m_backend->desktopFile(appId);
         QString appName = m_backend->displayName(appId);
         QString icon = m_backend->icon(appId);
 
