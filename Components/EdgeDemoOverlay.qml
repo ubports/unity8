@@ -44,6 +44,11 @@ Showable {
     property alias skipText: skipLabel.text
 
     /*
+     * This is the visible status of the skip button.
+     */
+    property alias showSkip: skipLabel.visible
+
+    /*
      * Whether this demo is running currently.
      */
     readonly property bool active: available && visible
