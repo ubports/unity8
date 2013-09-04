@@ -28,8 +28,9 @@ QString AccountsBindings::getUser()
     return "testuser";
 }
 
-void AccountsBindings::setUser(const QString &)
+void AccountsBindings::setUser(const QString &user)
 {
+    Q_UNUSED(user)
 }
 
 bool AccountsBindings::getDemoEdges()
@@ -37,8 +38,9 @@ bool AccountsBindings::getDemoEdges()
     return false;
 }
 
-void AccountsBindings::setDemoEdges(bool)
+void AccountsBindings::setDemoEdges(bool demoEdges)
 {
+    Q_UNUSED(demoEdges)
 }
 
 QString AccountsBindings::getBackgroundFile()
