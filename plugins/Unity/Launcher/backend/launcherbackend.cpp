@@ -279,8 +279,6 @@ QString LauncherBackend::findDesktopFile(const QString &appId) const
     searchDirs << "";
 //#endif
 
-    qDebug() << "search dirs are:" << searchDirs;
-
     do {
         if (dashPos != -1) {
             helper = helper.replace(dashPos, 1, '/');
