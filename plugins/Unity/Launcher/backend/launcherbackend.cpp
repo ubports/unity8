@@ -200,7 +200,7 @@ void LauncherBackend::syncFromAccounts()
     m_storedApps.clear();
 
     if (m_accounts && m_user.isEmpty()) {
-        QVariant variant = m_accounts->getUserProperty(m_user, "launcher-items");
+        QVariant variant = m_accounts->getUserProperty(m_user, "com.canonical.unity.AccountsService", "launcher-items");
         apps = qdbus_cast<QList<QVariantMap>>(variant.value<QDBusArgument>());
         defaults = isDefaultsItem(apps);
     }
@@ -239,7 +239,7 @@ void LauncherBackend::syncToAccounts()
             items << itemToVariant(appId);
         }
 
-        m_accounts->setUserProperty(m_user, "launcher-items", QVariant::fromValue(items));
+        m_accounts->setUserProperty(m_user, "com.canonical.unity.AccountsService", "launcher-items", QVariant::fromValue(items));
     }
 }
 

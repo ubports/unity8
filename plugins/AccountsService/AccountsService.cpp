@@ -36,11 +36,11 @@ AccountsService::AccountsService(QObject* parent)
                                           connection, this);
 }
 
-QVariant AccountsService::getUserProperty(const QString &user, const QString &property)
+QVariant AccountsService::getUserProperty(const QString &user, const QString &interface, const QString &property)
 {
     auto iface = getUserInterface(user);
     if (iface != nullptr && iface->isValid()) {
-        auto answer = iface->call("Get", "com.canonical.unity.AccountsService", property);
+        auto answer = iface->call("Get", interface, property);
         if (answer.type() == QDBusMessage::ReplyMessage) {
             return answer.arguments()[0].value<QDBusVariant>().variant();
         }
@@ -48,13 +48,40 @@ QVariant AccountsService::getUserProperty(const QString &user, const QString &pr
     return QVariant();
 }
 
-void AccountsService::setUserProperty(const QString &user, const QString &property, const QVariant &value)
+void AccountsService::setUserProperty(const QString &user, const QString &interface, const QString &property, const QVariant &value)
 {
     auto iface = getUserInterface(user);
     if (iface != nullptr && iface->isValid()) {
         // The value needs to be carefully wrapped
-        iface->call("Set", "com.canonical.unity.AccountsService", property, QVariant::fromValue(QDBusVariant(value)));
+        iface->call("Set", interface, property, QVariant::fromValue(QDBusVariant(value)));
     }
+}
+
+void AccountsService::propertiesChangedSlot(const QString &interface, const QVariantMap &changed, const QStringList &invalid)
+{
+    // Merge changed and invalidated together
+    QStringList combined;
+    combined << invalid;
+    combined << changed.keys();
+    combined.removeDuplicates();
+
+    Q_EMIT propertiesChanged(getUserForPath(message().path()), interface, combined);
+}
+
+void AccountsService::maybeChangedSlot()
+{
+    Q_EMIT maybeChanged(getUserForPath(message().path()));
+}
+
+QString AccountsService::getUserForPath(const QString &path)
+{
+    QMap<QString, QDBusInterface *>::const_iterator i;
+    for (i = users.constBegin(); i != users.constEnd(); ++i) {
+        if (i.value()->path() == path) {
+            return i.key();
+        }
+    }
+    return QString();
 }
 
 QDBusInterface *AccountsService::getUserInterface(const QString &user)
@@ -63,10 +90,35 @@ QDBusInterface *AccountsService::getUserInterface(const QString &user)
     if (iface == nullptr && accounts_manager->isValid()) {
         auto answer = accounts_manager->call("FindUserByName", user);
         if (answer.type() == QDBusMessage::ReplyMessage) {
+            auto path = answer.arguments()[0].value<QDBusObjectPath>().path();
+
             iface = new QDBusInterface("org.freedesktop.Accounts",
-                                       answer.arguments()[0].value<QDBusObjectPath>().path(),
+                                       path,
                                        "org.freedesktop.DBus.Properties",
                                        accounts_manager->connection(), this);
+
+            // With its own pre-defined properties, AccountsService is oddly
+            // close-lipped.  It won't send out proper DBus.Properties notices,
+            // but it does have one catch-all Changed() signal.  So let's
+            // listen to that.
+            iface->connection().connect(
+                iface->service(),
+                path,
+                "org.freedesktop.Accounts.User",
+                "Changed",
+                this,
+                SLOT(maybeChangedSlot()));
+
+            // But custom properties do send out the right notifications, so
+            // let's still listen there.
+            iface->connection().connect(
+                iface->service(),
+                path,
+                "org.freedesktop.DBus.Properties",
+                "PropertiesChanged",
+                this,
+                SLOT(propertiesChangedSlot(QString, QVariantMap, QStringList)));
+
             users.insert(user, iface);
         }
     }

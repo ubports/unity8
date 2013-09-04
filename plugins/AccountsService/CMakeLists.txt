@@ -3,6 +3,7 @@ include(Plugins)
 add_definitions(-DSM_BUSNAME=systemBus)
 
 add_library(AccountsService-qml MODULE
+    AccountsBindings.cpp
     AccountsService.cpp
     plugin.cpp
     )
