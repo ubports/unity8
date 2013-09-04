@@ -89,7 +89,7 @@ Item {
                         height: dashBar.height
                         anchors.top: parent.top
 
-                        onTrigger: {
+                        onClicked: {
                             dashBar.itemSelected(index)
                             timeout.restart()
                         }
