@@ -1,3 +1,31 @@
+unity8 (7.81.3+13.10.20130904-0ubuntu1) saucy; urgency=low
+
+  [ mhall119 ]
+  * Add a little bit of text to the last step of the tour telling the
+    user how to end it and get to their phone.
+
+  [ Jussi Pakkanen ]
+  * Use CCache if it is installed.
+
+  [ Nick Dedekind ]
+  * Multiple icon/label support for indicators.
+
+  [ Albert Astals ]
+  * Remove unneeded role.
+
+  [ Lars Uebernickel ]
+  * Fall back to "ubuntu-mobile" icon theme if $UBUNTU_ICON_THEME is
+    unset.
+
+  [ Michael Zanetti ]
+  * Use MouseAreas in DashBar to enable clicking again.
+  * load launcher default config from existing dconf key.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 285
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 04 Sep 2013 03:02:57 +0000
+
 unity8 (7.81.3+13.10.20130903.1-0ubuntu1) saucy; urgency=low
 
   [ Michael Zanetti ]
