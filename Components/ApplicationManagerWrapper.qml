@@ -22,14 +22,17 @@ Item {
 
     property alias mainStageApplications: mainStageModel
     property alias sideStageApplications: sideStageModel
-    property alias mainStageFocusedApplication: mainStageModel.focusedApplication
-    property alias sideStageFocusedApplication: sideStageModel.focusedApplication
+    property variant mainStageFocusedApplication: null
+    property variant sideStageFocusedApplication: null
     property bool sideStageEnabled: true
     signal focusRequested(string desktopFile)
     property bool keyboardVisible: ApplicationManager.keyboardVisible
     property int keyboardHeight: ApplicationManager.keyboardHeight
 
     property bool fake: ApplicationManager.fake ? ApplicationManager.fake : false
+
+    onMainStageFocusedApplicationChanged: (mainStageFocusedApplication)?mainStageFocusedApplication.appId: "null"
+    onSideStageFocusedApplicationChanged: (sideStageFocusedApplication)?sideStageFocusedApplication.appId: "null"
 
     ApplicationsModelStageFiltered {
         id: mainStageModel
@@ -39,6 +42,29 @@ Item {
     ApplicationsModelStageFiltered {
         id: sideStageModel
         stage: ApplicationInfo.SideStage
+    }
+
+    Connections {
+        target: ApplicationManager
+        onFocusedApplicationIdChanged: {
+            var app = ApplicationManager.findApplication(ApplicationManager.focusedApplicationId)
+            if (!app) { //nothing at all focused, so clear all
+                mainStageFocusedApplication = null;
+                sideStageFocusedApplication = null;
+            } else {
+                if (app.stage == ApplicationInfo.MainStage) {
+                    mainStageFocusedApplication = app;
+                    // possible the side stage app being unfocused fired this signal, so check for it
+                    if (sideStageFocusedApplication && !sideStageFocusedApplication.focused)
+                        sideStageFocusedApplication = null;
+                } else {
+                    sideStageFocusedApplication = app;
+                    // possible the main stage app being unfocused fired this signal, so check for it
+                    if (mainStageFocusedApplication && !mainStageFocusedApplication.focused)
+                        mainStageFocusedApplication = null;
+                }
+            }
+        }
     }
 
     function activateApplication(desktopFile, argument) {
@@ -65,20 +91,20 @@ Item {
         }
     }
 
-    function stopProcess(application) {
+    function stopApplication(application) {
         var appId;
 
         // HACK: might be called with appId, or else with Application object
         if (typeof application == "string") {
-            appId = desktopFileToAppId(application.desktopFile);
-        } else {
             appId = application;
+        } else {
+            appId = desktopFileToAppId(application.desktopFile);
         }
 
-        ApplicationManager.stopProcess(appId);
+        ApplicationManager.stopApplication(appId);
     }
 
-    function focusApplication(application) {print("focusApplication", application.appId)
+    function focusApplication(application) {
         if (application == null || application == undefined) {
             return;
         }
@@ -90,7 +116,7 @@ Item {
         ApplicationManager.unfocusCurrentApplication();
     }
 
-    function moveRunningApplicationStackPosition(from, to, stage) { print("moveRunningApplicationStackPosition", from, to, stage)
+    function moveRunningApplicationStackPosition(from, to, stage) {
         if (from == to || from < 0 || to < 0) return;
 
         if (stage == ApplicationInfo.SideStage) {

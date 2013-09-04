@@ -21,10 +21,8 @@ import Unity.Application 0.1
 SortFilterProxyModel {
     id: root
     property int stage
-    property variant focusedApplication: null
 
     function get(index) {
-        print("GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG get", index)
         return ApplicationManager.get(mapRowToSource(index));
     }
 
@@ -39,6 +37,7 @@ SortFilterProxyModel {
             // assuming wanting to move to end of list
             realTo = ApplicationManager.count;
         }
+        if (realFrom == realTo) return;
         ApplicationManager.move(realFrom, realTo);
     }
 
@@ -47,8 +46,9 @@ SortFilterProxyModel {
     filterRole: ApplicationManager.RoleStage
     filterRegExp: RegExp(stage)
 
-    onLayoutChanged: {
-        focusedApplication = get(0);
-         print("LAYOUT CHANGED", focusedApplication.appId)
-    }
+//    onLayoutChanged: {
+//        for (var i=0, len=root.count; i<len; i++) {
+//            print(i, get(i).appId);
+//        }
+//    }
 }
