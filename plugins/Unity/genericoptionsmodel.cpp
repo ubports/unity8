@@ -22,10 +22,18 @@
 
 // local
 #include "abstractfilteroption.h"
+#include "showallfilteroption.h"
 
-GenericOptionsModel::GenericOptionsModel(QObject *parent)
+GenericOptionsModel::GenericOptionsModel(bool showAllOption, QObject *parent)
     : QAbstractListModel(parent)
 {
+    if (showAllOption)
+    {
+        auto showAll = new ShowAllFilterOption(this);
+        connect(showAll, SIGNAL(activeChanged(bool)), this, SLOT(onOptionChanged()));
+        connect(showAll, SIGNAL(activeChanged(bool)), this, SLOT(onShowAllClicked(bool)));
+        addOption(showAll);
+    }
 }
 
 GenericOptionsModel::~GenericOptionsModel()
@@ -73,7 +81,7 @@ QVariant GenericOptionsModel::data(const QModelIndex& index, int role) const
 
 int GenericOptionsModel::rowCount(const QModelIndex& /* parent */) const
 {
-    return m_options.size ();
+    return m_options.size();
 }
 
 void GenericOptionsModel::setActive(int idx, bool value)
@@ -117,7 +125,10 @@ void GenericOptionsModel::ensureTheOnlyActive(AbstractFilterOption *activeOption
 
 void GenericOptionsModel::addOption(AbstractFilterOption *option, int index)
 {
-    m_options.insert(index, option);
+    if (index >= 0)
+        m_options.insert(index, option);
+    else
+        m_options.append(option);
 
     connect(option, SIGNAL(idChanged(const QString &)), this, SLOT(onOptionChanged()));
     connect(option, SIGNAL(nameChanged(const QString &)), this, SLOT(onOptionChanged()));
@@ -167,4 +178,10 @@ void GenericOptionsModel::onActiveChanged()
     {
         Q_EMIT activeChanged(option);
     }
+}
+
+void GenericOptionsModel::onShowAllClicked(bool active)
+{
+    if (active)
+        Q_EMIT showAllActivated();
 }

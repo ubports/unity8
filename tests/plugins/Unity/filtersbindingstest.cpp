@@ -65,17 +65,17 @@ DeeModel* FiltersBindingsTest::createFilterModel()
 
 void FiltersBindingsTest::createMultiRangeFilter(DeeModel *model, const std::string &id, const std::string &name, int optionCount)
 {
-    createFilter(model, "filter-multirange", id, name, optionCount);
+    createFilter(model, "filter-multirange", id, name, optionCount, true);
 }
 
 void FiltersBindingsTest::createRadioOptionFilter(DeeModel *model, const std::string &id, const std::string &name, int optionCount)
 {
-    createFilter(model, "filter-radiooption", id, name, optionCount);
+    createFilter(model, "filter-radiooption", id, name, optionCount, true);
 }
 
 void FiltersBindingsTest::createCheckOptionFilter(DeeModel *model, const std::string &id, const std::string &name, int optionCount)
 {
-    createFilter(model, "filter-checkoption", id, name, optionCount);
+    createFilter(model, "filter-checkoption", id, name, optionCount, true);
 }
 
 void FiltersBindingsTest::createRatingsFilter(DeeModel *model, const std::string &id, const std::string &name)
@@ -90,7 +90,7 @@ void FiltersBindingsTest::createRatingsFilter(DeeModel *model, const std::string
     GVariant *children[2];
     GVariant *key1 = g_variant_new_string("show-all-button");
     GVariant *key2 = g_variant_new_string("rating");
-    children[0] = g_variant_new_dict_entry(key1, g_variant_new_variant(g_variant_new_boolean(false)));
+    children[0] = g_variant_new_dict_entry(key1, g_variant_new_variant(g_variant_new_boolean(true)));
     children[1] = g_variant_new_dict_entry(key2, g_variant_new_variant(g_variant_new_double(0.0f)));
     auto fhints = g_variant_new_array(G_VARIANT_TYPE("{sv}"), children, 2);
 
@@ -102,7 +102,7 @@ void FiltersBindingsTest::createRatingsFilter(DeeModel *model, const std::string
     dee_model_append_row(model, row);
 }
 
-void FiltersBindingsTest::createFilter(DeeModel *model, const std::string &renderer, const std::string &id, const std::string &name, int optionCount)
+void FiltersBindingsTest::createFilter(DeeModel *model, const std::string &renderer, const std::string &id, const std::string &name, int optionCount, bool showAll)
 {
     GVariant* row[8];
 
@@ -114,7 +114,7 @@ void FiltersBindingsTest::createFilter(DeeModel *model, const std::string &rende
     GVariant *children[2];
     GVariant *key1 = g_variant_new_string("show-all-button");
     GVariant *key2 = g_variant_new_string("options");
-    children[0] = g_variant_new_dict_entry(key1, g_variant_new_variant(g_variant_new_boolean(false)));
+    children[0] = g_variant_new_dict_entry(key1, g_variant_new_variant(g_variant_new_boolean(showAll)));
     children[1] = g_variant_new_dict_entry(key2, g_variant_new_variant(createOptions(optionCount)));
     auto fhints = g_variant_new_array(G_VARIANT_TYPE("{sv}"), children, 2);
 
@@ -143,9 +143,9 @@ void FiltersBindingsTest::testMultiRangeFilter()
         auto multi_filter = dynamic_cast<MultiRangeFilter*>(bind_filter);
         QVERIFY(multi_filter != nullptr);
         auto options = multi_filter->options();
-        QCOMPARE(options->rowCount(), 1);
+        QCOMPARE(options->rowCount(), 2);
 
-        auto idx = options->index(0);
+        auto idx = options->index(1);
         QVariant id_var = options->data(idx, GenericOptionsModel::RoleId);
         QVariant name_var = options->data(idx, GenericOptionsModel::RoleName);
         QVariant icon_var = options->data(idx, GenericOptionsModel::RoleIconHint);
@@ -168,9 +168,9 @@ void FiltersBindingsTest::testMultiRangeFilter()
         auto multi_filter = dynamic_cast<MultiRangeFilter*>(bind_filter);
         QVERIFY(multi_filter != nullptr);
         auto options = multi_filter->options();
-        QCOMPARE(options->rowCount(), 2);
+        QCOMPARE(options->rowCount(), 3);
 
-        auto idx = options->index(0);
+        auto idx = options->index(1);
         QVariant id_var = options->data(idx, GenericOptionsModel::RoleId);
         QVariant name_var = options->data(idx, GenericOptionsModel::RoleName);
         QVariant icon_var = options->data(idx, GenericOptionsModel::RoleIconHint);
@@ -181,10 +181,10 @@ void FiltersBindingsTest::testMultiRangeFilter()
         QCOMPARE(icon_var.toString(), QString(""));
         QCOMPARE(active_var.toBool(), false);
 
-        AbstractFilterOption* opt1 = options->getRawOption(0);
+        AbstractFilterOption* opt1 = options->getRawOption(1);
         QCOMPARE(opt1->id(), QString("opt0"));
 
-        AbstractFilterOption* opt2 = options->getRawOption(1);
+        AbstractFilterOption* opt2 = options->getRawOption(2);
         QCOMPARE(opt2->id(), QString("opt1"));
 
         delete multi_filter;
@@ -199,18 +199,21 @@ void FiltersBindingsTest::testMultiRangeFilter()
         auto multi_filter = dynamic_cast<MultiRangeFilter*>(bind_filter);
         QVERIFY(multi_filter != nullptr);
         auto options = multi_filter->options();
-        QCOMPARE(options->rowCount(), 3);
+        QCOMPARE(options->rowCount(), 4);
 
-        AbstractFilterOption* opt0 = options->getRawOption(0);
+        AbstractFilterOption* showAll = options->getRawOption(0);
+        QVERIFY(showAll->id().startsWith("show_all::"));
+
+        AbstractFilterOption* opt0 = options->getRawOption(1);
         QCOMPARE(opt0->id(), QString("opt0"));
 
-        AbstractFilterOption* opt1 = options->getRawOption(1);
+        AbstractFilterOption* opt1 = options->getRawOption(2);
         QCOMPARE(opt1->id(), QString("opt1"));
 
-        AbstractFilterOption* opt2 = options->getRawOption(2);
+        AbstractFilterOption* opt2 = options->getRawOption(3);
         QCOMPARE(opt2->id(), QString("opt2"));
 
-        // verify combined filter options are bound to correct underlying unity options
+        // verify filter options are bound to correct underlying unity options
         auto core_multi_filter = std::dynamic_pointer_cast<unity::dash::MultiRangeFilter>(core_filter);
         QCOMPARE(QString::fromStdString(core_multi_filter->options()[0]->id()), QString("opt0"));
         QCOMPARE(QString::fromStdString(core_multi_filter->options()[1]->id()), QString("opt1"));
@@ -274,7 +277,7 @@ void FiltersBindingsTest::testCheckOptionFilter()
         auto check_filter = dynamic_cast<CheckOptionFilter*>(bind_filter);
         QVERIFY(check_filter != nullptr);
         auto options = check_filter->options();
-        QCOMPARE(options->rowCount(), 3);
+        QCOMPARE(options->rowCount(), 4);
 
         QCOMPARE(check_filter->id(), QString("f1"));
         QCOMPARE(check_filter->name(), QString("Filter1"));
@@ -284,7 +287,7 @@ void FiltersBindingsTest::testCheckOptionFilter()
         QCOMPARE(check_filter->collapsed(), false);
         QCOMPARE(check_filter->filtering(), false);
 
-        auto idx = options->index(0);
+        auto idx = options->index(1);
         QVariant id_var = options->data(idx, GenericOptionsModel::RoleId);
         QVariant name_var = options->data(idx, GenericOptionsModel::RoleName);
         QVariant icon_var = options->data(idx, GenericOptionsModel::RoleIconHint);
@@ -295,7 +298,7 @@ void FiltersBindingsTest::testCheckOptionFilter()
         QCOMPARE(icon_var.toString(), QString(""));
         QCOMPARE(active_var.toBool(), false);
 
-        idx = options->index(1);
+        idx = options->index(2);
         id_var = options->data(idx, GenericOptionsModel::RoleId);
         name_var = options->data(idx, GenericOptionsModel::RoleName);
         icon_var = options->data(idx, GenericOptionsModel::RoleIconHint);
@@ -306,37 +309,54 @@ void FiltersBindingsTest::testCheckOptionFilter()
         QCOMPARE(icon_var.toString(), QString(""));
         QCOMPARE(active_var.toBool(), false);
 
-        AbstractFilterOption* opt0 = options->getRawOption(0);
-        AbstractFilterOption* opt1 = options->getRawOption(1);
-        AbstractFilterOption* opt2 = options->getRawOption(2);
+        AbstractFilterOption* showAll = options->getRawOption(0);
+        AbstractFilterOption* opt0 = options->getRawOption(1);
+        AbstractFilterOption* opt1 = options->getRawOption(2);
+        AbstractFilterOption* opt2 = options->getRawOption(3);
 
+        QSignalSpy showAllSpy(showAll, SIGNAL(activeChanged(bool)));
         QSignalSpy opt0spy(opt0, SIGNAL(activeChanged(bool)));
         QSignalSpy opt1spy(opt1, SIGNAL(activeChanged(bool)));
         QSignalSpy opt2spy(opt2, SIGNAL(activeChanged(bool)));
         QSignalSpy dataChangedSpy(options, SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&, const QVector<int>&)));
 
         // test active property changes
+        QCOMPARE(showAll->active(), false);
         QCOMPARE(opt0->active(), false);
         QCOMPARE(opt1->active(), false);
         QCOMPARE(opt2->active(), false);
 
         opt0->setActive(true);
+        QCOMPARE(showAllSpy.count(), 0);
         QCOMPARE(opt0spy.count(), 1);
         QCOMPARE(opt1spy.count(), 0);
         QCOMPARE(opt2spy.count(), 0);
+        QCOMPARE(showAll->active(), false);
         QCOMPARE(opt0->active(), true);
         QCOMPARE(opt1->active(), false);
         QCOMPARE(opt2->active(), false);
 
         opt1->setActive(true);
+        QCOMPARE(showAllSpy.count(), 0);
         QCOMPARE(opt0spy.count(), 2);
         QCOMPARE(opt1spy.count(), 1);
         QCOMPARE(opt2spy.count(), 0);
+        QCOMPARE(showAll->active(), false);
         QCOMPARE(opt0->active(), false);
         QCOMPARE(opt1->active(), true);
         QCOMPARE(opt2->active(), false);
 
         QCOMPARE(dataChangedSpy.count(), 3);
+
+        showAll->setActive(true);
+        QCOMPARE(showAllSpy.count(), 1);
+        QCOMPARE(opt0spy.count(), 2);
+        QCOMPARE(opt1spy.count(), 2);
+        QCOMPARE(opt2spy.count(), 0);
+        QCOMPARE(showAll->active(), true);
+        QCOMPARE(opt0->active(), false);
+        QCOMPARE(opt1->active(), false);
+        QCOMPARE(opt2->active(), false);
 
         delete check_filter;
     }
@@ -357,7 +377,7 @@ void FiltersBindingsTest::testRadioOptionFilter()
         auto radio_filter = dynamic_cast<RadioOptionFilter*>(bind_filter);
         QVERIFY(radio_filter != nullptr);
         auto options = radio_filter->options();
-        QCOMPARE(options->rowCount(), 3);
+        QCOMPARE(options->rowCount(), 4);
 
         auto idx = options->index(0);
         QVariant id_var = options->data(idx, GenericOptionsModel::RoleId);
@@ -365,12 +385,23 @@ void FiltersBindingsTest::testRadioOptionFilter()
         QVariant icon_var = options->data(idx, GenericOptionsModel::RoleIconHint);
         QVariant active_var = options->data(idx, GenericOptionsModel::RoleActive);
 
+        QVERIFY(id_var.toString().startsWith("show_all::"));
+        QVERIFY(name_var.toString().size() > 0);
+        QCOMPARE(icon_var.toString(), QString(""));
+        QCOMPARE(active_var.toBool(), false);
+
+        idx = options->index(1);
+        id_var = options->data(idx, GenericOptionsModel::RoleId);
+        name_var = options->data(idx, GenericOptionsModel::RoleName);
+        icon_var = options->data(idx, GenericOptionsModel::RoleIconHint);
+        active_var = options->data(idx, GenericOptionsModel::RoleActive);
+
         QCOMPARE(id_var.toString(), QString("opt0"));
         QCOMPARE(name_var.toString(), QString("Option 0"));
         QCOMPARE(icon_var.toString(), QString(""));
         QCOMPARE(active_var.toBool(), false);
 
-        idx = options->index(1);
+        idx = options->index(2);
         id_var = options->data(idx, GenericOptionsModel::RoleId);
         name_var = options->data(idx, GenericOptionsModel::RoleName);
         icon_var = options->data(idx, GenericOptionsModel::RoleIconHint);
@@ -381,9 +412,9 @@ void FiltersBindingsTest::testRadioOptionFilter()
         QCOMPARE(icon_var.toString(), QString(""));
         QCOMPARE(active_var.toBool(), false);
 
-        AbstractFilterOption* opt0 = options->getRawOption(0);
-        AbstractFilterOption* opt1 = options->getRawOption(1);
-        AbstractFilterOption* opt2 = options->getRawOption(2);
+        AbstractFilterOption* opt0 = options->getRawOption(1);
+        AbstractFilterOption* opt1 = options->getRawOption(2);
+        AbstractFilterOption* opt2 = options->getRawOption(3);
 
         QSignalSpy opt0spy(opt0, SIGNAL(activeChanged(bool)));
         QSignalSpy opt1spy(opt1, SIGNAL(activeChanged(bool)));
@@ -432,11 +463,11 @@ void FiltersBindingsTest::testRatingsFilter()
         auto rating_filter = dynamic_cast<RatingsFilter*>(bind_filter);
         QVERIFY(rating_filter != nullptr);
         auto options = rating_filter->options();
-        QCOMPARE(options->rowCount(), 5);
+        QCOMPARE(options->rowCount(), 6);
 
         RatingFilterOption* opt[5];
         for (int i = 0; i<5; i++) {
-            opt[i] = dynamic_cast<RatingFilterOption *>(options->getRawOption(i));
+            opt[i] = dynamic_cast<RatingFilterOption *>(options->getRawOption(i+1));
         }
 
         QSignalSpy opt0spy(opt[0], SIGNAL(activeChanged(bool)));

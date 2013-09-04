@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2013-08-29 05:41+0000\n"
-"X-Generator: Launchpad (build 16738)\n"
+"X-Launchpad-Export-Date: 2013-08-30 05:37+0000\n"
+"X-Generator: Launchpad (build 16750)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -254,30 +254,3 @@ msgstr "Извините, поиск не дал результатов."
 #, qt-format
 msgid "Please enter %1"
 msgstr "Пожалуйста, введите %1"
-
-#~ msgid "Running apps"
-#~ msgstr "Запущенные приложения"
-
-#~ msgid "Frequently used"
-#~ msgstr "Часто используемые"
-
-#~ msgid "Installed"
-#~ msgstr "Установленные"
-
-#~ msgid "Available for download"
-#~ msgstr "Доступно для загрузки"
-
-#~ msgid "Apps"
-#~ msgstr "Приложения"
-
-#~ msgid "Frequent Apps"
-#~ msgstr "Часто используемые приложения"
-
-#~ msgid "Recent Music"
-#~ msgstr "Недавно прослушанная музыка"
-
-#~ msgid "Videos Popular Online"
-#~ msgstr "Популярные видео из сети"
-
-#~ msgid "Home"
-#~ msgstr "Главная"

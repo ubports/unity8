@@ -17,17 +17,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// self
-#include "ratingoptionsmodel.h"
+#ifndef SHOWALLFILTEROPTION_H
+#define SHOWALLFILTEROPTION_H
 
 // local
-#include "ratingfilteroption.h"
+#include "abstractfilteroption.h"
 
-RatingOptionsModel::RatingOptionsModel(bool showAllOption, QObject *parent) :
-    GenericOptionsModel(showAllOption, parent)
+class Q_DECL_EXPORT ShowAllFilterOption : public AbstractFilterOption
 {
-    for (int i=1; i<=5; i++) {
-        auto opt = new RatingFilterOption(QString::number(i), i*0.2f, this);
-        addOption(opt);
-    }
-}
+    Q_OBJECT
+
+public:
+    explicit ShowAllFilterOption(QObject *parent = nullptr);
+
+    /* getters */
+    QString id() const override;
+    QString name() const override;
+    QString iconHint() const override;
+    bool active() const override;
+
+    /* setters */
+    void setActive(bool active) override;
+
+private:
+    bool m_active;
+    QString m_id;
+
+    static unsigned int m_showAllCount;
+};
+
+Q_DECLARE_METATYPE(ShowAllFilterOption*)
+
+#endif // SHOWALLFILTEROPTION_H
