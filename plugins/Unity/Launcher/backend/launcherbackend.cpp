@@ -263,8 +263,8 @@ QString LauncherBackend::findDesktopFile(const QString &appId) const
     QString helper = appId;
 
     QStringList searchDirs;
-    searchDirs << "/usr/share/applications";
     searchDirs << QDir::homePath() + "/.local/share/applications";
+    searchDirs << "/usr/share/applications";
 
 // FIXME: Right now the appId can be (or rather is) a full path
 // to a .desktop file. This will change in the future.
