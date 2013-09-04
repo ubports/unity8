@@ -59,8 +59,6 @@ Item {
         objectName: "panel"
         anchors.fill: parent
 
-        locked: true // TODO: remove this when lp bug #1179569 will be fixed
-
         Rectangle {
             color: "black"
             anchors.fill: parent
@@ -84,13 +82,13 @@ Item {
 
                 delegate:
                     Item {
-                        signal clicked()
+                        signal trigger()
 
                         width: itemSize
                         height: dashBar.height
                         anchors.top: parent.top
 
-                        onClicked: {
+                        onTrigger: {
                             dashBar.itemSelected(index)
                             timeout.restart()
                         }

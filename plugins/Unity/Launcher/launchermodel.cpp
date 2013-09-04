@@ -21,6 +21,8 @@
 #include "launcheritem.h"
 #include "backend/launcherbackend.h"
 
+#include <QDebug>
+
 LauncherModel::LauncherModel(QObject *parent):
     LauncherModelInterface(parent),
     m_backend(new LauncherBackend(true, this))
@@ -207,6 +209,7 @@ void LauncherModel::applicationFocused(const QString &appId)
         QString icon = m_backend->icon(appId);
 
         LauncherItem *item = new LauncherItem(appId, desktopFile, appName, icon);
+        item->setRecent(true);
         beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
         m_list.append(item);
         endInsertRows();
@@ -218,10 +221,13 @@ void LauncherModel::storeAppList()
 {
     QStringList appIds;
     Q_FOREACH(LauncherItem *item, m_list) {
+        qDebug() << "shouldI store app" << item->appId();
         if (item->pinned() || item->recent()) {
+            qDebug() << "yes";
             appIds << item->appId();
         }
     }
+    qDebug() << "storing appids" << appIds;
     m_backend->setStoredApplications(appIds);
 }
 
