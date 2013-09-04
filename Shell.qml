@@ -99,9 +99,6 @@ FocusScope {
 
         onMainStageFocusedApplicationChanged: {
             var app = applicationManager.mainStageFocusedApplication
-            print("***********************************focusing app", app);
-            print("**************************************appId", app.icon, app.desktopFile);
-
             LauncherModel.applicationFocused(app.desktopFile);
         }
     }
