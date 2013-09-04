@@ -73,23 +73,8 @@ Item {
                                                           'max-icon': 'icon'});
             }
 
-            // FIXME: The interval should be [0.0 - 1.0]. Unfortunately, when
-            // reaching the boundaries (0.0 or 1.0), the value is converted
-            // to an integer when automatically wrapped in a variant when
-            // passed to QStateAction::updateState(…). The server chokes on
-            // those values, complaining that they’re not of the right type…
             onChangeState: {
-                if (value == Math.round(value)) {
-                    if (value >= maximumValue) {
-                        model.changeState(modelIndex, maximumValue - 0.000001);
-                    } else if (value <= minimumValue) {
-                        model.changeState(modelIndex, minimumValue + 0.000001);
-                    } else {
-                        model.changeState(modelIndex, value * 1.000001);
-                    }
-                } else {
-                    model.changeState(modelIndex, value);
-                }
+                model.changeState(modelIndex, value);
             }
         }
     }
