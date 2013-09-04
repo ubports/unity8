@@ -21,8 +21,6 @@
 #include "launcheritem.h"
 #include "backend/launcherbackend.h"
 
-#include <QDebug>
-
 LauncherModel::LauncherModel(QObject *parent):
     LauncherModelInterface(parent),
     m_backend(new LauncherBackend(true, this))
@@ -217,11 +215,8 @@ void LauncherModel::applicationFocused(const QString &appId)
     }
 
     int index = findApplication(helper);
-    qDebug() << "################## found focused app index" << index << helper;
-
     if (index >= 0) {
         m_list.at(index)->setFocused(true);
-        qDebug() << "set focused to true on" << m_list.at(index)->name();
         Q_EMIT dataChanged(this->index(index), this->index(index), QVector<int>() << RoleFocused);
     } else {
         // Add app to recent apps
@@ -270,7 +265,6 @@ int LauncherModel::findApplication(const QString &appId)
 {
     for (int i = 0; i < m_list.count(); ++i) {
         LauncherItem *item = m_list.at(i);
-        qDebug() << "checking app" << item->appId();
         if (item->appId() == appId) {
             return i;
         }

@@ -224,6 +224,7 @@ void LauncherBackend::syncFromAccounts()
         Q_FOREACH(const QString &entry, gSettings.get("favorites").toStringList()) {
             if (entry.startsWith("application://")) {
                 QString appId = entry;
+                // Transform "application://foobar.desktop" to "foobar"
                 appId.remove("application://");
                 if (appId.endsWith(".desktop")) {
                     appId.chop(8);
@@ -278,7 +279,6 @@ QString LauncherBackend::findDesktopFile(const QString &appId) const
         }
 
         Q_FOREACH(const QString &searchDir, searchDirs) {
-            qDebug() << "searching for desktop file:" << searchDir << helper + ".desktop";
             QFileInfo fileInfo(QDir(searchDir), helper + ".desktop");
             if (fileInfo.exists()) {
                 return fileInfo.absoluteFilePath();
