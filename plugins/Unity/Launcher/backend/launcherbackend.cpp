@@ -266,11 +266,16 @@ QString LauncherBackend::findDesktopFile(const QString &appId) const
     searchDirs << "/usr/share/applications";
 
 // FIXME: Right now the appId can be (or rather is) a full path
-// to a .desktop file. This will change in the future. Remove this
-// once the ApplicationManager has been switched over to use appIds.
+// to a .desktop file. This will change in the future.
+// Once the ApplicationManager has been switched over to use appIds,
+// remove this chop() and enable the ifdef to only search the current
+// working dir for testing. Also, this is the place to add the search
+// paths for click apps in the next step.
+    if (helper.endsWith(".desktop")) {
+        helper.chop(8);
+    }
+//#ifdef LAUNCHER_TESTING
     searchDirs << "";
-//#if LAUNCHER_TESTING
-//    searchDirs << "";
 //#endif
 
     do {
@@ -279,7 +284,7 @@ QString LauncherBackend::findDesktopFile(const QString &appId) const
         }
 
         Q_FOREACH(const QString &searchDir, searchDirs) {
-            QFileInfo fileInfo(QDir(searchDir), helper);
+            QFileInfo fileInfo(QDir(searchDir), helper + ".desktop");
             if (fileInfo.exists()) {
                 return fileInfo.absoluteFilePath();
             }
