@@ -16,7 +16,7 @@
 
 import QtQuick 2.0
 import QtTest 1.0
-import Ubuntu.Application 0.1
+import Unity.Application 0.1
 import "../../../../Dash/Apps"
 import Unity.Test 0.1 as UT
 

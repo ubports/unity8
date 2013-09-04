@@ -1,4 +1,4 @@
-set(FakeUbuntuApplicationQml_SOURCES
+set(FakeUnityApplicationQml_SOURCES
     plugin.cpp
     ApplicationInfo.cpp
     ApplicationImage.cpp
@@ -6,12 +6,12 @@ set(FakeUbuntuApplicationQml_SOURCES
     ApplicationManager.cpp
 )
 
-add_library(FakeUbuntuApplicationQml MODULE ${FakeUbuntuApplicationQml_SOURCES})
+add_library(FakeUnityApplicationQml MODULE ${FakeUnityApplicationQml_SOURCES})
 
-qt5_use_modules(FakeUbuntuApplicationQml Core Quick)
+qt5_use_modules(FakeUnityApplicationQml Core Quick)
 
 # copy files into build directory for shadow builds
-add_custom_target(UbuntuAppQmlDirFile ALL
+add_custom_target(UnityAppQmlDirFile ALL
     COMMAND cp "${CMAKE_CURRENT_SOURCE_DIR}/qmldir" ${CMAKE_CURRENT_BINARY_DIR}
     DEPENDS qmldir
 )
@@ -20,10 +20,10 @@ add_custom_target(InputFilterAreaQmlFile ALL
     DEPENDS InputFilterArea.qml
 )
 
-install(TARGETS FakeUbuntuApplicationQml
-    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/mocks/Ubuntu/Application
+install(TARGETS FakeUnityApplicationQml
+    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/mocks/Unity/Application
     )
 
 install(FILES qmldir InputFilterArea.qml
-    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/mocks/Ubuntu/Application
+    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/mocks/Unity/Application
     )

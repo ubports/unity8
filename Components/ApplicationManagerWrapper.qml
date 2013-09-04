@@ -15,15 +15,16 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Application 0.1
+import Unity.Application 0.1
+import Utils 0.1
 
 Item {
     id: applicationManager
 
     property var mainStageApplications: ApplicationManager.mainStageApplications
     property var sideStageApplications: ApplicationManager.sideStageApplications
-    property var mainStageFocusedApplication: ApplicationManager.mainStageFocusedApplication
-    property var sideStageFocusedApplication: ApplicationManager.sideStageFocusedApplication
+    property var mainStageFocusedApplication: mainStageModel
+    property var sideStageFocusedApplication: sideStageModel
     property bool sideStageEnabled: true
     signal focusRequested(string desktopFile)
     property bool keyboardVisible: ApplicationManager.keyboardVisible
@@ -31,9 +32,30 @@ Item {
 
     property bool fake: ApplicationManager.fake ? ApplicationManager.fake : false
 
-    Component.onCompleted: {
-        // Start the watcher so that the ApplicationManager applications model can be populated.
-        ApplicationManager.startWatcher();
+    SortFilterProxyModel {
+        id: mainStageModel
+        model: ApplicationManager
+        dynamicSortFilter: true
+        filterRole: ApplicationManager.RoleStage
+        filterRegExp: RegExp(ApplicationInfo.MainStage)
+
+        onCountChanged: { print("MODEL Main:", count, ApplicationManager.RoleStage, ApplicationManager.RoleFocused)
+            mainStageFocusedApplication = mainStageModel.findFirst(ApplicationManager.RoleFocused, true);
+            print("MS", mainStageFocusedApplication)
+        }
+    }
+
+    SortFilterProxyModel {
+        id: sideStageModel
+        model: ApplicationManager
+        dynamicSortFilter: true
+        filterRole: ApplicationManager.RoleStage
+        filterRegExp: RegExp(ApplicationInfo.SideStage)
+
+        onDataChanged: { print("MODEL Side", count)
+            sideStageFocusedApplication = sideStageModel.findFirst(ApplicationManager.RoleFocused, true);
+            print("SS", sideStageFocusedApplication)
+        }
     }
 
     function activateApplication(desktopFile, argument) {
@@ -107,6 +129,20 @@ Item {
             }
             return null;
         }
+    }
+
+    function desktopFileToAppId(desktopFile) {
+        var right = desktopFile.lastIndexOf(".desktop")
+        var left = desktopFile.lastIndexOf("/")
+        if (left == -1 || right == -1 || left == right) {
+            console.log("ApplicationManagerWrapper: unable to extract appId from " + desktopFile)
+            return "";
+        }
+        return desktopFile.substring(left+1, right)
+    }
+
+    function appIdToDesktopFile(desktopFile) {
+        return "/usr/share/applications/" + desktopFile + ".desktop"
     }
 
     Connections {

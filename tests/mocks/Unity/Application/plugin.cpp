@@ -28,7 +28,7 @@ static QObject* applicationManagerSingleton(QQmlEngine* engine, QJSEngine* scrip
   return new ApplicationManager();
 }
 
-void FakeUbuntuApplicationQmlPlugin::registerTypes(const char *uri)
+void FakeUnityApplicationQmlPlugin::registerTypes(const char *uri)
 {
     qmlRegisterSingletonType<ApplicationManager>(
             uri, 0, 1, "ApplicationManager", applicationManagerSingleton);
