@@ -21,6 +21,8 @@
 #include "launcheritem.h"
 #include "backend/launcherbackend.h"
 
+#include <QDebug>
+
 LauncherModel::LauncherModel(QObject *parent):
     LauncherModelInterface(parent),
     m_backend(new LauncherBackend(true, this))
@@ -74,6 +76,8 @@ QVariant LauncherModel::data(const QModelIndex &index, int role) const
             return item->count();
         case RoleProgress:
             return item->progress();
+        case RoleFocused:
+            return item->focused();
     }
 
     return QVariant();
@@ -193,18 +197,41 @@ void LauncherModel::setUser(const QString &username)
 
 void LauncherModel::applicationFocused(const QString &appId)
 {
-    int index = findApplication(appId);
+    // Unfocus all apps
+    for(int i = 0; i < m_list.count(); ++i) {
+        LauncherItem *item = m_list.at(i);
+        if (item->focused()) {
+            item->setFocused(false);
+            Q_EMIT dataChanged(this->index(i), this->index(i), QVector<int>() << RoleFocused);
+        }
+    }
+
+    if (appId.isEmpty()) {
+        return;
+    }
+
+    // FIXME: drop this once we get real appIds from the AppManager
+    QString helper = appId.split('/').last();
+    if (helper.endsWith(".desktop")) {
+        helper.chop(8);
+    }
+
+    int index = findApplication(helper);
+    qDebug() << "################## found focused app index" << index << helper;
 
     if (index >= 0) {
-        // TODO: Mark application as focued
+        m_list.at(index)->setFocused(true);
+        qDebug() << "set focused to true on" << m_list.at(index)->name();
+        Q_EMIT dataChanged(this->index(index), this->index(index), QVector<int>() << RoleFocused);
     } else {
         // Add app to recent apps
-        QString desktopFile = m_backend->desktopFile(appId);
-        QString appName = m_backend->displayName(appId);
-        QString icon = m_backend->icon(appId);
+        QString desktopFile = m_backend->desktopFile(helper);
+        QString appName = m_backend->displayName(helper);
+        QString icon = m_backend->icon(helper);
 
-        LauncherItem *item = new LauncherItem(appId, desktopFile, appName, icon);
+        LauncherItem *item = new LauncherItem(helper, desktopFile, appName, icon);
         item->setRecent(true);
+        item->setFocused(true);
         beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
         m_list.append(item);
         endInsertRows();
@@ -243,6 +270,7 @@ int LauncherModel::findApplication(const QString &appId)
 {
     for (int i = 0; i < m_list.count(); ++i) {
         LauncherItem *item = m_list.at(i);
+        qDebug() << "checking app" << item->appId();
         if (item->appId() == appId) {
             return i;
         }
