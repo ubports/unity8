@@ -25,7 +25,7 @@ Item {
     property bool withBackground: false
     property bool ready: applicationImage.ready || withBackground
 
-    function setApplication(application) {
+    function setApplication(application) { print("SET APP", application, (application) ? application.appId : "")
         applicationScreenshot.application = application
     }
 

@@ -29,6 +29,17 @@ QSortFilterProxyModelQML::QSortFilterProxyModelQML(QObject *parent)
     connect(this, SIGNAL(rowsRemoved(QModelIndex,int,int)), SIGNAL(countChanged()));
 }
 
+/*
+ * Enter row index of filtered/sorted model, returns row index of source model
+ */
+int QSortFilterProxyModelQML::mapRowToSource(int row)
+{
+    if (sourceModel() == NULL)
+        return -1;
+
+    return QSortFilterProxyModel::mapToSource(index(row, 0)).row();
+}
+
 QHash<int, QByteArray> QSortFilterProxyModelQML::roleNames() const
 {
     return sourceModel() ? sourceModel()->roleNames() : QHash<int, QByteArray>();
@@ -51,7 +62,14 @@ QSortFilterProxyModelQML::setModel(QAbstractItemModel *itemModel)
         connect(itemModel, SIGNAL(modelReset()), SIGNAL(totalCountChanged()));
         connect(itemModel, SIGNAL(rowsInserted(QModelIndex,int,int)), SIGNAL(totalCountChanged()));
         connect(itemModel, SIGNAL(rowsRemoved(QModelIndex,int,int)), SIGNAL(totalCountChanged()));
+
+        connect(itemModel, SIGNAL(modelReset()), SIGNAL(layoutChanged()));
+        connect(itemModel, SIGNAL(rowsInserted(QModelIndex,int,int)), SIGNAL(layoutChanged()));
+        connect(itemModel, SIGNAL(rowsRemoved(QModelIndex,int,int)), SIGNAL(layoutChanged()));
+        connect(itemModel, SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)), SIGNAL(layoutChanged()));
+
         Q_EMIT totalCountChanged();
+        Q_EMIT layoutChanged();
         Q_EMIT modelChanged();
     }
 }

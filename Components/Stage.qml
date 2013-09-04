@@ -142,7 +142,7 @@ Showable {
         oldApplicationScreenshot.visible = false;
     }
 
-    function __focusApplication(application) {
+    function __focusApplication(application) { print("__focusApplication", application)
         if (!application) return
         if (shouldUseScreenshots) {
             stage.__focusApplicationUsingScreenshots(application);
@@ -267,7 +267,7 @@ Showable {
     SequentialAnimation {
         id: showStartingApplicationAnimation
 
-        function prepare(newApplication) {
+        function prepare(newApplication) { print("showStartingApplicationAnimation::prepare", newApplication)
             var oldApplication = stage.focusedApplication;
             newApplicationScreenshot.setApplication(newApplication);
             newApplicationScreenshot.updateFromCache();
@@ -336,7 +336,7 @@ Showable {
     SequentialAnimation {
         id: switchToApplicationAnimation
 
-        function prepare(newApplication) {
+        function prepare(newApplication) { print("switchToApplicationAnimation::prepare", newApplication)
             var oldApplication = stage.focusedApplication;
             newApplicationScreenshot.setApplication(newApplication);
             newApplicationScreenshot.updateFromCache();

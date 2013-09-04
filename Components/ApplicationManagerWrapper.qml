@@ -16,15 +16,14 @@
 
 import QtQuick 2.0
 import Unity.Application 0.1
-import Utils 0.1
 
 Item {
     id: applicationManager
 
-    property var mainStageApplications: mainStageModel
-    property var sideStageApplications: sideStageModel
-    property var mainStageFocusedApplication: null
-    property var sideStageFocusedApplication: null
+    property alias mainStageApplications: mainStageModel
+    property alias sideStageApplications: sideStageModel
+    property alias mainStageFocusedApplication: mainStageModel.focusedApplication
+    property alias sideStageFocusedApplication: sideStageModel.focusedApplication
     property bool sideStageEnabled: true
     signal focusRequested(string desktopFile)
     property bool keyboardVisible: ApplicationManager.keyboardVisible
@@ -32,39 +31,21 @@ Item {
 
     property bool fake: ApplicationManager.fake ? ApplicationManager.fake : false
 
-    SortFilterProxyModel {
+    ApplicationsModelStageFiltered {
         id: mainStageModel
-        model: ApplicationManager
-        dynamicSortFilter: true
-        filterRole: ApplicationManager.RoleStage
-        filterRegExp: RegExp(ApplicationInfo.MainStage)
-
-        onCountChanged: { print("MODEL Main:", count, ApplicationManager.RoleStage, ApplicationManager.RoleFocused)
-            mainStageFocusedApplication = ApplicationManager.get(mainStageModel.findFirst(ApplicationManager.RoleFocused, true));
-            print("MS", mainStageFocusedApplication)
-        }
-        onLayoutChanged: print("LAYOUT")
-        onDataChanged: print("DATA")
+        stage: ApplicationInfo.MainStage
     }
 
-    SortFilterProxyModel {
+    ApplicationsModelStageFiltered {
         id: sideStageModel
-        model: ApplicationManager
-        dynamicSortFilter: true
-        filterRole: ApplicationManager.RoleStage
-        filterRegExp: RegExp(ApplicationInfo.SideStage)
-
-        onDataChanged: { print("MODEL Side", count)
-            sideStageFocusedApplication = ApplicationManager.get(sideStageModel.findFirst(ApplicationManager.RoleFocused, true));
-            print("SS", sideStageFocusedApplication)
-        }
+        stage: ApplicationInfo.SideStage
     }
 
     function activateApplication(desktopFile, argument) {
         var appId;
 
         // HACK: might be called with appId, but mostly with desktopFile
-        if (desktopFile.indexOf(".desktop") = -1) {
+        if (desktopFile.indexOf(".desktop") >= 0) {
             appId = desktopFileToAppId(desktopFile);
         } else {
             appId = desktopFile;
@@ -97,7 +78,7 @@ Item {
         ApplicationManager.stopProcess(appId);
     }
 
-    function focusApplication(application) {
+    function focusApplication(application) {print("focusApplication", application.appId)
         if (application == null || application == undefined) {
             return;
         }
@@ -109,13 +90,25 @@ Item {
         ApplicationManager.unfocusCurrentApplication();
     }
 
-    function moveRunningApplicationStackPosition(from, to, stage) { //FIXME: stage unused!
-        if (from !== to && from >= 0 && to >= 0) ApplicationManager.move(from, to);
+    function moveRunningApplicationStackPosition(from, to, stage) { print("moveRunningApplicationStackPosition", from, to, stage)
+        if (from == to || from < 0 || to < 0) return;
+
+        if (stage == ApplicationInfo.SideStage) {
+            sideStageModel.move(from, to);
+        } else {
+            mainStageModel.move(from, to);
+        }
     }
 
     function getApplicationFromDesktopFile(desktopFile, stage) {
-        var foundSideStageApp, foundMainStageApp;
-        var appId = desktopFileToAppId(desktopFile);
+        var appId;
+
+        // HACK: might be called with appId, but mostly with desktopFile
+        if (desktopFile.indexOf(".desktop") >= 0) {
+            appId = desktopFileToAppId(desktopFile);
+        } else {
+            appId = desktopFile;
+        }
 
         for (var i = 0, len = ApplicationManager.count; i < len; i++ ) {
             var app = ApplicationManager.get(i);
