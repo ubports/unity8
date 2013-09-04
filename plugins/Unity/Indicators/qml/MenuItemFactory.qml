@@ -186,6 +186,7 @@ Item {
             property QtObject menu: null
             property var strenthAction: QMenuModel.UnityMenuAction {
                 model: menuFactory.model ? menuFactory.model : null
+                index: modelIndex
                 name: menu ? menu.ext.xCanonicalWifiApStrengthAction : ""
             }
 

@@ -84,6 +84,7 @@ Indicators.BaseMenuItem {
             TextMessage {
                 property var replyAction: QMenuModel.UnityMenuAction {
                     model: menuItem.model
+                    index: modelIndex
                     name: menu && actionsDescription[0].name ? actionsDescription[0].name : ""
                 }
 
@@ -114,10 +115,12 @@ Indicators.BaseMenuItem {
             SnapDecision {
                 property var activateAction: QMenuModel.UnityMenuAction {
                     model: menuItem.model
+                    index: modelIndex
                     name: menu && actionsDescription[0].name ? actionsDescription[0].name : ""
                 }
                 property var replyAction: QMenuModel.UnityMenuAction {
                     model: menuItem.model
+                    index: modelIndex
                     name: menu && actionsDescription[1].name ? actionsDescription[1].name : ""
                 }
 
@@ -142,7 +145,7 @@ Indicators.BaseMenuItem {
                     menuItem.model.activate(modelIndex, false);
                 }
                 onActivate: {
-                    callbackAction.activate();
+                    activateAction.activate();
                 }
                 onReply: {
                     replyAction.activate(value);
