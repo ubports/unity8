@@ -144,7 +144,7 @@ static QString iconUri(GIcon *icon)
         const gchar* const* iconNames = g_themed_icon_get_names (G_THEMED_ICON (icon));
 
         QStringList iconNameList;
-        for (guint index = 0; iconNames[index] != NULL; index++) {
+        for (uint index = 0; iconNames[index] != NULL; index++) {
             iconNameList << iconNames[index];
         }
 
