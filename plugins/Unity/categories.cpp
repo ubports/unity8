@@ -43,7 +43,6 @@ Categories::Categories(QObject* parent)
     m_roles[Categories::RoleHints] = "hints";
     m_roles[Categories::RoleResults] = "results";
     m_roles[Categories::RoleCount] = "count";
-    m_roles[Categories::RoleCategoryIndex] = "categoryIndex";
 
     // TODO This should not be needed but accumulatting the count changes
     // makes the visualization more stable and also makes crashes on fast
@@ -222,8 +221,6 @@ Categories::data(const QModelIndex& index, int role) const
                     return QVariant::fromValue(m_overriddenCategories[id]->rowCount());
             }
             return QVariant::fromValue(getResults(index.row())->rowCount());
-        case RoleCategoryIndex:
-            return QVariant::fromValue(index.row());
         default:
             return QVariant();
     }
