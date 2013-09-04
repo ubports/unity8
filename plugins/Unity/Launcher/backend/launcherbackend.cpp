@@ -25,6 +25,7 @@
 #include <QDBusArgument>
 #include <QFileInfo>
 #include <QGSettings>
+#include <QDebug>
 
 class LauncherBackendItem
 {
@@ -73,6 +74,19 @@ void LauncherBackend::setStoredApplications(const QStringList &appIds)
         }
     }
     m_storedApps = appIds;
+    Q_FOREACH(const QString &appId, appIds) {
+        if (!m_itemCache.contains(appId)) {
+            QString df = findDesktopFile(appId);
+            if (!df.isEmpty()) {
+                LauncherBackendItem *item = parseDesktopFile(df);
+                m_itemCache.insert(appId, item);
+            } else {
+                // Cannot find any data for that app... ignoring it.
+                qWarning() << "cannot find desktop file for" << appId << ". discarding app.";
+                m_storedApps.removeAll(appId);
+            }
+        }
+    }
     syncToAccounts();
 }
 
@@ -199,7 +213,7 @@ void LauncherBackend::syncFromAccounts()
 
     m_storedApps.clear();
 
-    if (m_accounts && m_user.isEmpty()) {
+    if (m_accounts && !m_user.isEmpty()) {
         QVariant variant = m_accounts->getUserProperty(m_user, "launcher-items");
         apps = qdbus_cast<QList<QVariantMap>>(variant.value<QDBusArgument>());
         defaults = isDefaultsItem(apps);
@@ -248,14 +262,32 @@ QString LauncherBackend::findDesktopFile(const QString &appId) const
     int dashPos = -1;
     QString helper = appId;
 
+    QStringList searchDirs;
+    searchDirs << "/usr/share/applications";
+
+// FIXME: Right now the appId can be (or rather is) a full path
+// to a .desktop file. This will change in the future.
+// Once the ApplicationManager has been switched over to use appIds,
+// remove this chop() and enable the ifdef to only search the current
+// working dir for testing. Also, this is the place to add the search
+// paths for click apps in the next step.
+    if (helper.endsWith(".desktop")) {
+        helper.chop(8);
+    }
+//#ifdef LAUNCHER_TESTING
+    searchDirs << "";
+//#endif
+
     do {
         if (dashPos != -1) {
             helper = helper.replace(dashPos, 1, '/');
         }
 
-        QFileInfo fileInfo(QDir("/usr/share/applications"), helper);
-        if (fileInfo.exists()) {
-            return fileInfo.absoluteFilePath();
+        Q_FOREACH(const QString &searchDir, searchDirs) {
+            QFileInfo fileInfo(QDir(searchDir), helper + ".desktop");
+            if (fileInfo.exists()) {
+                return fileInfo.absoluteFilePath();
+            }
         }
 
         dashPos = helper.indexOf("-");
