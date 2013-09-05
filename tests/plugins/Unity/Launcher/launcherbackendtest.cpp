@@ -30,8 +30,8 @@ private Q_SLOTS:
     {
         LauncherBackend backend(false);
 
-        backend.setStoredApplications(QStringList() << "rel-icon.desktop" << "abs-icon" << "invalid");
-        QCOMPARE(backend.storedApplications(), QStringList() << "rel-icon.desktop" << "abs-icon");
+        backend.setStoredApplications(QStringList() << "rel-icon" << "abs-icon" << "invalid");
+        QCOMPARE(backend.storedApplications(), QStringList() << "rel-icon" << "abs-icon");
     }
 
     void testPinning()

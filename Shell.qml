@@ -98,7 +98,11 @@ FocusScope {
 
         onMainStageFocusedApplicationChanged: {
             var app = applicationManager.mainStageFocusedApplication
-            LauncherModel.applicationFocused(app.desktopFile);
+            if (app != null) {
+                LauncherModel.applicationFocused(app.desktopFile);
+            } else {
+                LauncherModel.applicationFocused("");
+            }
         }
     }
 
