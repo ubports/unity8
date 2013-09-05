@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012,2013 Canonical, Ltd.
+ * Copyright (C) 2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,16 +17,20 @@
  *          Michael Terry <michael.terry@canonical.com>
  */
 
-#ifndef UNITY_MOCK_ACCOUNTSBINDINGS_H
-#define UNITY_MOCK_ACCOUNTSBINDINGS_H
+#ifndef UNITY_MOCK_ACCOUNTSSERVICE_H
+#define UNITY_MOCK_ACCOUNTSSERVICE_H
 
 #include <QObject>
 #include <QString>
 #include <QVariant>
 
-class AccountsBindings: public QObject
+class AccountsService: public QObject
 {
     Q_OBJECT
+    Q_PROPERTY (QString user
+                READ getUser
+                WRITE setUser
+                NOTIFY userChanged)
     Q_PROPERTY (bool demoEdges
                 READ getDemoEdges
                 WRITE setDemoEdges
@@ -40,10 +44,10 @@ class AccountsBindings: public QObject
                 NOTIFY statsWelcomeScreenChanged)
 
 public:
-    explicit AccountsBindings(QObject *parent = 0);
+    explicit AccountsService(QObject *parent = 0);
 
-    Q_INVOKABLE void setUser(const QString &user);
-
+    QString getUser();
+    void setUser(const QString &user);
     bool getDemoEdges();
     void setDemoEdges(bool demoEdges);
     QString getBackgroundFile();
@@ -51,6 +55,7 @@ public:
     void setStatsWelcomeScreen(bool statsWelcomeScreen);
 
 Q_SIGNALS:
+    void userChanged();
     void demoEdgesChanged();
     void backgroundFileChanged();
     void statsWelcomeScreenChanged();

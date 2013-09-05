@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
 "n%100==4 ? 3 : 0);\n"
-"X-Launchpad-Export-Date: 2013-08-29 05:41+0000\n"
-"X-Generator: Launchpad (build 16738)\n"
+"X-Launchpad-Export-Date: 2013-08-30 05:37+0000\n"
+"X-Generator: Launchpad (build 16750)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -254,24 +254,3 @@ msgstr "Nič se ne ujema z vašim iskalnim nizom."
 #, qt-format
 msgid "Please enter %1"
 msgstr ""
-
-#~ msgid "Frequently used"
-#~ msgstr "Pogosto uporabljano"
-
-#~ msgid "Installed"
-#~ msgstr "Nameščeno"
-
-#~ msgid "Available for download"
-#~ msgstr "Na voljo za prejem"
-
-#~ msgid "Apps"
-#~ msgstr "Programi"
-
-#~ msgid "Recent Music"
-#~ msgstr "Nedavna glasba"
-
-#~ msgid "Home"
-#~ msgstr "Domov"
-
-#~ msgid "Frequent Apps"
-#~ msgstr "Pogosto uporabljani programi"

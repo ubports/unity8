@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2013-08-29 05:41+0000\n"
-"X-Generator: Launchpad (build 16738)\n"
+"X-Launchpad-Export-Date: 2013-08-30 05:37+0000\n"
+"X-Generator: Launchpad (build 16750)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -253,30 +253,3 @@ msgstr "كەچۈرۈڭ، ئىزدىگىنىڭىزگە ماس نەتىجە تېپ
 #, qt-format
 msgid "Please enter %1"
 msgstr ""
-
-#~ msgid "Running apps"
-#~ msgstr "ئىجرا بولۇۋاتقان ئەپلەر"
-
-#~ msgid "Frequently used"
-#~ msgstr "كوپ ئىشلىتىلگەنلىرى"
-
-#~ msgid "Installed"
-#~ msgstr "ئورنىتىلغانلىرى"
-
-#~ msgid "Available for download"
-#~ msgstr "چۈشۈرگىلى بولىدىغانلىرى"
-
-#~ msgid "Apps"
-#~ msgstr "ئەپلەر"
-
-#~ msgid "Frequent Apps"
-#~ msgstr "دائىم ئىشلىتىلىدىغان ئەپلەر"
-
-#~ msgid "Recent Music"
-#~ msgstr "يېقىندا ئاڭلىغان مۇزىكىلار"
-
-#~ msgid "Videos Popular Online"
-#~ msgstr "توردىكى ئالقىشقا ئېرىشكەن سىنلار"
-
-#~ msgid "Home"
-#~ msgstr "ماكان"

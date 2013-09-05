@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-08-29 05:41+0000\n"
-"X-Generator: Launchpad (build 16738)\n"
+"X-Launchpad-Export-Date: 2013-08-30 05:37+0000\n"
+"X-Generator: Launchpad (build 16750)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -253,30 +253,3 @@ msgstr "No hi ha res que coincideixi amb la cerca"
 #, qt-format
 msgid "Please enter %1"
 msgstr ""
-
-#~ msgid "Running apps"
-#~ msgstr "Aplications actives"
-
-#~ msgid "Frequently used"
-#~ msgstr "Les més freqüents"
-
-#~ msgid "Installed"
-#~ msgstr "Instal·lades"
-
-#~ msgid "Available for download"
-#~ msgstr "Disponibles per baixar"
-
-#~ msgid "Apps"
-#~ msgstr "Aplicacions"
-
-#~ msgid "Frequent Apps"
-#~ msgstr "Aplicacions freqüents"
-
-#~ msgid "Recent Music"
-#~ msgstr "Música recent"
-
-#~ msgid "Videos Popular Online"
-#~ msgstr "Vídeos populars en línia"
-
-#~ msgid "Home"
-#~ msgstr "Inici"

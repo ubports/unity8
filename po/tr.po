@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-08-29 05:41+0000\n"
-"X-Generator: Launchpad (build 16738)\n"
+"X-Launchpad-Export-Date: 2013-08-30 05:37+0000\n"
+"X-Generator: Launchpad (build 16750)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -253,30 +253,3 @@ msgstr "Üzgünüz, aramanızla eşleşen hiçbir şey yok."
 #, qt-format
 msgid "Please enter %1"
 msgstr ""
-
-#~ msgid "Running apps"
-#~ msgstr "Çalışan uygulamalar"
-
-#~ msgid "Frequently used"
-#~ msgstr "Sıkça kullanılanlar"
-
-#~ msgid "Installed"
-#~ msgstr "Yüklenenler"
-
-#~ msgid "Available for download"
-#~ msgstr "İndirilebilir durumda"
-
-#~ msgid "Apps"
-#~ msgstr "Uygulamalar"
-
-#~ msgid "Frequent Apps"
-#~ msgstr "Sıkça Kullanılan Uygulamalar"
-
-#~ msgid "Recent Music"
-#~ msgstr "En Son Müzik"
-
-#~ msgid "Videos Popular Online"
-#~ msgstr "Çevrimiçi Yaygın Videolar"
-
-#~ msgid "Home"
-#~ msgstr "Ana Sayfa"

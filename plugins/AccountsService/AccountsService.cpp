@@ -17,110 +17,107 @@
  */
 
 #include "AccountsService.h"
-#include <QDBusConnection>
-#include <QDBusConnectionInterface>
-#include <QDBusMessage>
-#include <QDBusVariant>
+#include "AccountsServiceDBusAdaptor.h"
+
+#include <QStringList>
 
 AccountsService::AccountsService(QObject* parent)
   : QObject(parent),
-    accounts_manager(NULL),
-    users()
+    m_service(new AccountsServiceDBusAdaptor(this)),
+    m_user(qgetenv("USER"))
 {
-    auto connection = QDBusConnection::SM_BUSNAME();
-    auto interface = connection.interface();
-    interface->startService("org.freedesktop.Accounts");
-    accounts_manager = new QDBusInterface("org.freedesktop.Accounts",
-                                          "/org/freedesktop/Accounts",
-                                          "org.freedesktop.Accounts",
-                                          connection, this);
+    connect(m_service, SIGNAL(propertiesChanged(const QString &, const QString &, const QStringList &)),
+            this, SLOT(propertiesChanged(const QString &, const QString &, const QStringList &)));
+    connect(m_service, SIGNAL(maybeChanged(const QString &)),
+            this, SLOT(maybeChanged(const QString &)));
 }
 
-QVariant AccountsService::getUserProperty(const QString &user, const QString &interface, const QString &property)
+QString AccountsService::getUser()
 {
-    auto iface = getUserInterface(user);
-    if (iface != nullptr && iface->isValid()) {
-        auto answer = iface->call("Get", interface, property);
-        if (answer.type() == QDBusMessage::ReplyMessage) {
-            return answer.arguments()[0].value<QDBusVariant>().variant();
+    return m_user;
+}
+
+void AccountsService::setUser(const QString &user)
+{
+    m_user = user;
+    Q_EMIT userChanged();
+
+    updateDemoEdges();
+    updateBackgroundFile();
+    updateStatsWelcomeScreen();
+}
+
+bool AccountsService::getDemoEdges()
+{
+    return m_demoEdges;
+}
+
+void AccountsService::setDemoEdges(bool demoEdges)
+{
+    m_demoEdges = demoEdges;
+    m_service->setUserProperty(m_user, "com.canonical.unity.AccountsService", "demo-edges", demoEdges);
+}
+
+QString AccountsService::getBackgroundFile()
+{
+    return m_backgroundFile;
+}
+
+bool AccountsService::getStatsWelcomeScreen()
+{
+    return m_statsWelcomeScreen;
+}
+
+void AccountsService::updateDemoEdges()
+{
+    auto demoEdges = m_service->getUserProperty(m_user, "com.canonical.unity.AccountsService", "demo-edges").toBool();
+    if (m_demoEdges != demoEdges) {
+        m_demoEdges = demoEdges;
+        Q_EMIT demoEdgesChanged();
+    }
+}
+
+void AccountsService::updateBackgroundFile()
+{
+    auto backgroundFile = m_service->getUserProperty(m_user, "org.freedesktop.Accounts.User", "BackgroundFile").toString();
+    if (m_backgroundFile != backgroundFile) {
+        m_backgroundFile = backgroundFile;
+        Q_EMIT backgroundFileChanged();
+    }
+}
+
+void AccountsService::updateStatsWelcomeScreen()
+{
+    auto statsWelcomeScreen = m_service->getUserProperty(m_user, "com.ubuntu.touch.AccountsService.SecurityPrivacy", "StatsWelcomeScreen").toBool();
+    if (m_statsWelcomeScreen != statsWelcomeScreen) {
+        m_statsWelcomeScreen = statsWelcomeScreen;
+        Q_EMIT statsWelcomeScreenChanged();
+    }
+}
+
+void AccountsService::propertiesChanged(const QString &user, const QString &interface, const QStringList &changed)
+{
+    if (m_user != user) {
+        return;
+    }
+
+    if (interface == "com.canonical.unity.AccountsService") {
+        if (changed.contains("demo-edges")) {
+            updateDemoEdges();
+        }
+    } else if (interface == "com.ubuntu.touch.AccountsService.SecurityPrivacy") {
+        if (changed.contains("StatsWelcomeScreen")) {
+            updateStatsWelcomeScreen();
         }
     }
-    return QVariant();
 }
 
-void AccountsService::setUserProperty(const QString &user, const QString &interface, const QString &property, const QVariant &value)
+void AccountsService::maybeChanged(const QString &user)
 {
-    auto iface = getUserInterface(user);
-    if (iface != nullptr && iface->isValid()) {
-        // The value needs to be carefully wrapped
-        iface->call("Set", interface, property, QVariant::fromValue(QDBusVariant(value)));
+    if (m_user != user) {
+        return;
     }
-}
 
-void AccountsService::propertiesChangedSlot(const QString &interface, const QVariantMap &changed, const QStringList &invalid)
-{
-    // Merge changed and invalidated together
-    QStringList combined;
-    combined << invalid;
-    combined << changed.keys();
-    combined.removeDuplicates();
-
-    Q_EMIT propertiesChanged(getUserForPath(message().path()), interface, combined);
-}
-
-void AccountsService::maybeChangedSlot()
-{
-    Q_EMIT maybeChanged(getUserForPath(message().path()));
-}
-
-QString AccountsService::getUserForPath(const QString &path)
-{
-    QMap<QString, QDBusInterface *>::const_iterator i;
-    for (i = users.constBegin(); i != users.constEnd(); ++i) {
-        if (i.value()->path() == path) {
-            return i.key();
-        }
-    }
-    return QString();
-}
-
-QDBusInterface *AccountsService::getUserInterface(const QString &user)
-{
-    auto iface = users.value(user);
-    if (iface == nullptr && accounts_manager->isValid()) {
-        auto answer = accounts_manager->call("FindUserByName", user);
-        if (answer.type() == QDBusMessage::ReplyMessage) {
-            auto path = answer.arguments()[0].value<QDBusObjectPath>().path();
-
-            iface = new QDBusInterface("org.freedesktop.Accounts",
-                                       path,
-                                       "org.freedesktop.DBus.Properties",
-                                       accounts_manager->connection(), this);
-
-            // With its own pre-defined properties, AccountsService is oddly
-            // close-lipped.  It won't send out proper DBus.Properties notices,
-            // but it does have one catch-all Changed() signal.  So let's
-            // listen to that.
-            iface->connection().connect(
-                iface->service(),
-                path,
-                "org.freedesktop.Accounts.User",
-                "Changed",
-                this,
-                SLOT(maybeChangedSlot()));
-
-            // But custom properties do send out the right notifications, so
-            // let's still listen there.
-            iface->connection().connect(
-                iface->service(),
-                path,
-                "org.freedesktop.DBus.Properties",
-                "PropertiesChanged",
-                this,
-                SLOT(propertiesChangedSlot(QString, QVariantMap, QStringList)));
-
-            users.insert(user, iface);
-        }
-    }
-    return iface;
+    // Standard properties might have changed
+    updateBackgroundFile();
 }

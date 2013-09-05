@@ -74,6 +74,8 @@ QVariant LauncherModel::data(const QModelIndex &index, int role) const
             return item->count();
         case RoleProgress:
             return item->progress();
+        case RoleFocused:
+            return item->focused();
     }
 
     return QVariant();
@@ -189,6 +191,63 @@ void LauncherModel::quickListActionInvoked(const QString &appId, int actionIndex
 void LauncherModel::setUser(const QString &username)
 {
     m_backend->setUser(username);
+}
+
+void LauncherModel::applicationFocused(const QString &appId)
+{
+    // Unfocus all apps
+    for(int i = 0; i < m_list.count(); ++i) {
+        LauncherItem *item = m_list.at(i);
+        if (item->focused()) {
+            item->setFocused(false);
+            Q_EMIT dataChanged(this->index(i), this->index(i), QVector<int>() << RoleFocused);
+        }
+    }
+
+    if (appId.isEmpty()) {
+        return;
+    }
+
+    // FIXME: drop this once we get real appIds from the AppManager
+    QString helper = appId.split('/').last();
+    if (helper.endsWith(".desktop")) {
+        helper.chop(8);
+    }
+
+    int index = findApplication(helper);
+    if (index >= 0) {
+        m_list.at(index)->setFocused(true);
+        Q_EMIT dataChanged(this->index(index), this->index(index), QVector<int>() << RoleFocused);
+    } else {
+        // Add app to recent apps
+        QString desktopFile = m_backend->desktopFile(helper);
+        QString appName = m_backend->displayName(helper);
+        QString icon = m_backend->icon(helper);
+
+        LauncherItem *item = new LauncherItem(helper, desktopFile, appName, icon);
+        item->setRecent(true);
+        item->setFocused(true);
+        beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+        m_list.append(item);
+        endInsertRows();
+
+        // Clean up old recent apps
+        QList<int> recentAppIndices;
+        for (int i = 0; i < m_list.count(); ++i) {
+            if (m_list.at(i)->recent()) {
+                recentAppIndices << i;
+            }
+        }
+        int run = 0;
+        while (recentAppIndices.count() > 5) {
+            beginRemoveRows(QModelIndex(), recentAppIndices.first() - run, recentAppIndices.first() - run);
+            m_list.takeAt(recentAppIndices.first() - run)->deleteLater();
+            endRemoveRows();
+            recentAppIndices.takeFirst();
+            ++run;
+        }
+        storeAppList();
+    }
 }
 
 void LauncherModel::storeAppList()

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012,2013 Canonical, Ltd.
+ * Copyright (C) 2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,36 +19,59 @@
 #ifndef UNITY_ACCOUNTSSERVICE_H
 #define UNITY_ACCOUNTSSERVICE_H
 
-#include <QDBusContext>
-#include <QDBusInterface>
-#include <QMap>
 #include <QObject>
 #include <QString>
 
-class AccountsService: public QObject, public QDBusContext
+class AccountsServiceDBusAdaptor;
+
+class AccountsService: public QObject
 {
     Q_OBJECT
+    Q_PROPERTY (QString user
+                READ getUser
+                WRITE setUser
+                NOTIFY userChanged)
+    Q_PROPERTY (bool demoEdges
+                READ getDemoEdges
+                WRITE setDemoEdges
+                NOTIFY demoEdgesChanged)
+    Q_PROPERTY (QString backgroundFile
+                READ getBackgroundFile
+                NOTIFY backgroundFileChanged)
+    Q_PROPERTY (bool statsWelcomeScreen
+                READ getStatsWelcomeScreen
+                NOTIFY statsWelcomeScreenChanged)
 
 public:
     explicit AccountsService(QObject *parent = 0);
 
-    Q_INVOKABLE QVariant getUserProperty(const QString &user, const QString &interface, const QString &property);
-    Q_INVOKABLE void setUserProperty(const QString &user, const QString &interface, const QString &property, const QVariant &value);
+    QString getUser();
+    void setUser(const QString &user);
+    bool getDemoEdges();
+    void setDemoEdges(bool demoEdges);
+    QString getBackgroundFile();
+    bool getStatsWelcomeScreen();
 
 Q_SIGNALS:
-    void propertiesChanged(const QString &user, const QString &interface, const QStringList &changed);
-    void maybeChanged(const QString &user); // Standard properties might have changed
+    void userChanged();
+    void demoEdgesChanged();
+    void backgroundFileChanged();
+    void statsWelcomeScreenChanged();
 
 private Q_SLOTS:
-    void propertiesChangedSlot(const QString &interface, const QVariantMap &changed, const QStringList &invalid);
-    void maybeChangedSlot();
+    void propertiesChanged(const QString &user, const QString &interface, const QStringList &changed);
+    void maybeChanged(const QString &user);
 
 private:
-    QDBusInterface *getUserInterface(const QString &user);
-    QString getUserForPath(const QString &path);
+    void updateDemoEdges();
+    void updateBackgroundFile();
+    void updateStatsWelcomeScreen();
 
-    QDBusInterface *accounts_manager;
-    QMap<QString, QDBusInterface *> users;
+    AccountsServiceDBusAdaptor *m_service;
+    QString m_user;
+    bool m_demoEdges;
+    QString m_backgroundFile;
+    bool m_statsWelcomeScreen;
 };
 
 #endif

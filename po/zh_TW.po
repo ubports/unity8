@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2013-08-29 05:41+0000\n"
-"X-Generator: Launchpad (build 16738)\n"
+"X-Launchpad-Export-Date: 2013-08-30 05:37+0000\n"
+"X-Generator: Launchpad (build 16750)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -253,30 +253,3 @@ msgstr "很抱歉，找不到符合您想搜尋的結果。"
 #, qt-format
 msgid "Please enter %1"
 msgstr ""
-
-#~ msgid "Running apps"
-#~ msgstr "執行中的程式"
-
-#~ msgid "Frequently used"
-#~ msgstr "最常使用"
-
-#~ msgid "Installed"
-#~ msgstr "已安裝"
-
-#~ msgid "Available for download"
-#~ msgstr "可供下載"
-
-#~ msgid "Apps"
-#~ msgstr "程式"
-
-#~ msgid "Frequent Apps"
-#~ msgstr "常用的程式"
-
-#~ msgid "Recent Music"
-#~ msgstr "最近聽過的音樂"
-
-#~ msgid "Videos Popular Online"
-#~ msgstr "線上熱門的影片"
-
-#~ msgid "Home"
-#~ msgstr "家屋"

@@ -21,6 +21,8 @@
 #include <QObject>
 #include "fake_categories.h"
 
+class Preview;
+
 class Scope : public QObject
 {
     Q_OBJECT
@@ -63,6 +65,13 @@ public:
     void setNoResultsHint(const QString& hint);
     void setFormFactor(const QString& form_factor);
 
+    Q_INVOKABLE void activate(const QVariant &uri, const QVariant &icon_hint, const QVariant &category,
+                              const QVariant &result_type, const QVariant &mimetype, const QVariant &title,
+                              const QVariant &comment, const QVariant &dnd_uri, const QVariant &metadata);
+    Q_INVOKABLE void preview(const QVariant &uri, const QVariant &icon_hint, const QVariant &category,
+                              const QVariant &result_type, const QVariant &mimetype, const QVariant &title,
+                              const QVariant &comment, const QVariant &dnd_uri, const QVariant &metadata);
+
 Q_SIGNALS:
     void idChanged(const QString&);
     void nameChanged(const QString&);
@@ -78,7 +87,12 @@ Q_SIGNALS:
     void noResultsHintChanged();
     void formFactorChanged();
 
-private:
+    // signals triggered by activate(..) or preview(..) requests.
+    void previewReady(Preview *preview);
+    void activateApplication(const QString &desktop);
+
+protected:
+
     QString m_id;
     QString m_iconHint;
     QString m_description;

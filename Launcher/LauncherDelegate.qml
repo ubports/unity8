@@ -24,6 +24,7 @@ Item {
     property int count: -1
     property int progress: -1
     property bool highlighted: false
+    property bool itemFocused: false
     property real maxAngle: 0
     property bool inverted: false
 
@@ -43,17 +44,18 @@ Item {
     onCountChanged: shaderEffectSource.scheduleUpdate();
     onProgressChanged: shaderEffectSource.scheduleUpdate();
     onHighlightedChanged: shaderEffectSource.scheduleUpdate();
+    onItemFocusedChanged: shaderEffectSource.scheduleUpdate();
 
     Item {
         id: iconItem
-        width: parent.itemWidth
-        height: parent.itemHeight
+        width: parent.itemWidth + units.gu(1)
+        height: parent.itemHeight + units.gu(1)
         anchors.centerIn: parent
 
         UbuntuShape {
             id: iconShape
             anchors.fill: parent
-            anchors.margins: units.gu(0.5)
+            anchors.margins: units.gu(1)
             radius: "medium"
 
             image: Image {
@@ -78,7 +80,7 @@ Item {
             anchors {
                 right: parent.right
                 top: parent.top
-                margins: -units.dp(1)
+                margins: units.dp(3)
             }
             width: Math.min(root.itemWidth, Math.max(units.gu(3), countLabel.implicitWidth + units.gu(2.5)))
             height: units.gu(3)
@@ -105,9 +107,9 @@ Item {
                 left: iconItem.left
                 right: iconItem.right
                 bottom: iconItem.bottom
-                leftMargin: units.gu(0.5)
-                rightMargin: units.gu(0.5)
-                bottomMargin: units.gu(0.5)
+                leftMargin: units.gu(1)
+                rightMargin: units.gu(1)
+                bottomMargin: units.gu(1)
             }
             height: units.gu(1.5)
             visible: root.progress > -1
@@ -136,14 +138,23 @@ Item {
                 }
             }
         }
+        Image {
+            objectName: "focusedHighlight"
+            anchors {
+                right: parent.right
+                verticalCenter: parent.verticalCenter
+            }
+            visible: root.itemFocused
+            source: "graphics/focused_app_arrow.png"
+        }
     }
 
     ShaderEffect {
         id: transformEffect
         anchors.centerIn: parent
         anchors.verticalCenterOffset: root.offset
-        width: parent.itemWidth
-        height: parent.itemHeight
+        width: iconItem.width
+        height: iconItem.height
         property real itemOpacity: root.itemOpacity
         property real brightness: Math.max(-1, root.brightness)
         property real angle: root.angle

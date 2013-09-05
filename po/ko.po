@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2013-08-29 05:41+0000\n"
-"X-Generator: Launchpad (build 16738)\n"
+"X-Launchpad-Export-Date: 2013-08-30 05:37+0000\n"
+"X-Generator: Launchpad (build 16750)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -253,24 +253,3 @@ msgstr ""
 #, qt-format
 msgid "Please enter %1"
 msgstr ""
-
-#~ msgid "Running apps"
-#~ msgstr "돌아가고 있는 앱"
-
-#~ msgid "Frequently used"
-#~ msgstr "자주 쓰는 것들"
-
-#~ msgid "Installed"
-#~ msgstr "깔림"
-
-#~ msgid "Available for download"
-#~ msgstr "내려받을 수 있음"
-
-#~ msgid "Apps"
-#~ msgstr "앱"
-
-#~ msgid "Frequent Apps"
-#~ msgstr "자주 쓰는 앱"
-
-#~ msgid "Recent Music"
-#~ msgstr "요즈음 찾는 음악"

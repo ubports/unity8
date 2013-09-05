@@ -96,6 +96,15 @@ FocusScope {
             greeter.hide();
             shell.activateApplication(desktopFile);
         }
+
+        onMainStageFocusedApplicationChanged: {
+            var app = applicationManager.mainStageFocusedApplication
+            if (app != null) {
+                LauncherModel.applicationFocused(app.desktopFile);
+            } else {
+                LauncherModel.applicationFocused("");
+            }
+        }
     }
 
     function activateApplication(desktopFile, argument) {
@@ -470,7 +479,7 @@ FocusScope {
         onSelected: {
             // Update launcher items for new user
             var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole);
-            AccountsService.setUser(user);
+            AccountsService.user = user;
             LauncherModel.setUser(user);
         }
 

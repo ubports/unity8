@@ -16,38 +16,45 @@
  * Author: Michael Terry <michael.terry@canonical.com>
  */
 
-#include "AccountsBindings.h"
+#include "AccountsService.h"
 
-AccountsBindings::AccountsBindings(QObject* parent)
+AccountsService::AccountsService(QObject* parent)
   : QObject(parent),
     m_statsWelcomeScreen(true)
 {
 }
 
-void AccountsBindings::setUser(const QString &)
+QString AccountsService::getUser()
 {
+    return "testuser";
 }
 
-bool AccountsBindings::getDemoEdges()
+void AccountsService::setUser(const QString &user)
+{
+    Q_UNUSED(user)
+}
+
+bool AccountsService::getDemoEdges()
 {
     return false;
 }
 
-void AccountsBindings::setDemoEdges(bool)
+void AccountsService::setDemoEdges(bool demoEdges)
 {
+    Q_UNUSED(demoEdges)
 }
 
-QString AccountsBindings::getBackgroundFile()
+QString AccountsService::getBackgroundFile()
 {
     return TOP_SRCDIR "/graphics/phone_background.jpg";
 }
 
-bool AccountsBindings::getStatsWelcomeScreen()
+bool AccountsService::getStatsWelcomeScreen()
 {
     return m_statsWelcomeScreen;
 }
 
-void AccountsBindings::setStatsWelcomeScreen(bool statsWelcomeScreen)
+void AccountsService::setStatsWelcomeScreen(bool statsWelcomeScreen)
 {
     m_statsWelcomeScreen = statsWelcomeScreen;
     statsWelcomeScreenChanged();

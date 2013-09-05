@@ -18,7 +18,7 @@
  */
 
 #include "plugin.h"
-#include "AccountsBindings.h"
+#include "AccountsService.h"
 
 #include <QtQml>
 
@@ -26,11 +26,11 @@ static QObject *service_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
     Q_UNUSED(engine)
     Q_UNUSED(scriptEngine)
-    return new AccountsBindings();
+    return new AccountsService();
 }
 
 void AccountsServicePlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("AccountsService"));
-    qmlRegisterSingletonType<AccountsBindings>(uri, 0, 1, "AccountsService", service_provider);
+    qmlRegisterSingletonType<AccountsService>(uri, 0, 1, "AccountsService", service_provider);
 }
