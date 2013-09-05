@@ -76,7 +76,7 @@ void resolveIconTheme() {
 }
 } // namespace {
 
-int startShell(int argc, char** argv, ShellServerConfiguration* server)
+int startShell(int argc, const char** argv, ShellServerConfiguration* server)
 {
     /* Workaround Qt platform integration plugin not advertising itself
        as having the following capabilities:
@@ -152,9 +152,7 @@ int startShell(int argc, char** argv, ShellServerConfiguration* server)
     appendImportPaths(view->engine(), ::fallbackImportPaths());
 
     QStringList importPath = view->engine()->importPathList().filter("qt5/imports");
-    qDebug << "Import list is: " << importPath.first();
-    
-    if (isUbuntuMirServer)
+    if (isUbuntuMirServer) {
         importPath.first().append("/Unity-Mir");
         view->engine()->addImportPath(importPath.first());
     } 
