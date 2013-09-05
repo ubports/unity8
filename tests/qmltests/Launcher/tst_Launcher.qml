@@ -198,6 +198,14 @@ Item {
                 compare(findChild(delegate, "progressOverlay").visible, LauncherModel.get(i).progress >= 0)
             }
         }
+
+        function test_focusedHighlight() {
+            var launcherListView = findChild(launcher, "launcherListView");
+            for (var i = 0; i < launcherListView.count; ++i) {
+                var delegate = findChild(launcherListView, "launcherDelegate" + i)
+                compare(findChild(delegate, "focusedHighlight").visible, LauncherModel.get(i).focused)
+            }
+        }
     }
 
     UT.UnityTestCase {

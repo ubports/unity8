@@ -1,4 +1,5 @@
 pkg_check_modules(GSETTINGS_QT REQUIRED gsettings-qt)
+pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=2)
 
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
@@ -10,12 +11,14 @@ include_directories(
 
 add_definitions(-DSM_BUSNAME=sessionBus)
 add_definitions(-DSRCDIR="${CMAKE_CURRENT_SOURCE_DIR}")
+add_definitions(-DLAUNCHER_TESTING)
 
-set(testCommand ${CMAKE_CURRENT_BINARY_DIR}/launcherbackendtestExec
+### LauncherBackendTest
+set(testBackendCommand ${CMAKE_CURRENT_BINARY_DIR}/launcherbackendtestExec
       -o ${CMAKE_BINARY_DIR}/launcherbackendtest.xml,xunitxml
       -o -,txt)
-add_test(NAME launcherbackendtest COMMAND ${testCommand})
-add_custom_target(launcherbackendtest ${testCommand})
+add_test(NAME launcherbackendtest COMMAND ${testBackendCommand})
+add_custom_target(launcherbackendtest ${testBackendCommand})
 add_executable(launcherbackendtestExec
     launcherbackendtest.cpp
     ${CMAKE_SOURCE_DIR}/plugins/AccountsService/AccountsService.cpp
@@ -24,3 +27,33 @@ add_executable(launcherbackendtestExec
     )
 target_link_libraries(launcherbackendtestExec ${GSETTINGS_QT_LDFLAGS})
 qt5_use_modules(launcherbackendtestExec Test Core DBus)
+
+### LauncherModelTest
+set(testModelCommand ${CMAKE_CURRENT_BINARY_DIR}/launchermodeltestExec
+      -o ${CMAKE_BINARY_DIR}/launchermodeltest.xml,xunitxml
+      -o -,txt)
+add_test(NAME launchermodeltest COMMAND ${testModelCommand})
+add_custom_target(launchermodeltest ${testModelCommand})
+add_executable(launchermodeltestExec
+    launchermodeltest.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/launchermodel.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/launcheritem.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/quicklistmodel.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/AccountsService/AccountsService.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/backend/launcherbackend.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/common/quicklistentry.cpp
+    ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherItemInterface.h
+    ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherModelInterface.h
+    ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/QuickListModelInterface.h
+    )
+target_link_libraries(launchermodeltestExec ${GSETTINGS_QT_LDFLAGS} )
+qt5_use_modules(launchermodeltestExec Test Core DBus)
+
+# copy .desktop files into build directory for shadow builds
+file(GLOB DESKTOP_FILES *.desktop)
+
+foreach(DESKTOP_FILE ${DESKTOP_FILES})
+    file(COPY "${DESKTOP_FILE}"
+        DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
+        )
+endforeach()
