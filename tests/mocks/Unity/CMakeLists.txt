@@ -17,6 +17,7 @@ add_definitions(-DQT_NO_KEYWORDS)
 
 set(UnityQML_SOURCES
   ${CMAKE_SOURCE_DIR}/plugins/Unity/categoryresults.cpp
+  ${CMAKE_SOURCE_DIR}/plugins/Unity/iconutils.cpp
   fake_scope.cpp
   fake_scopes.cpp
   fake_categories.cpp

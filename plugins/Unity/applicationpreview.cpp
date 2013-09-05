@@ -19,6 +19,7 @@
 
 // local
 #include "applicationpreview.h"
+#include "iconutils.h"
 
 #include <QDebug>
 
@@ -61,7 +62,10 @@ QString ApplicationPreview::license() const
 QString ApplicationPreview::appIcon() const
 {
     if (m_unityAppPreview) {
-        return QString::fromUtf8(g_icon_to_string(m_unityAppPreview->app_icon()));
+        auto giconString = g_icon_to_string(m_unityAppPreview->app_icon());
+        QString result(convertIconString(QString::fromUtf8(giconString)));
+        g_free(giconString);
+        return result;
     } else {
         qWarning() << "Preview not set";
     }
