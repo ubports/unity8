@@ -19,7 +19,8 @@
 #include "AccountsBindings.h"
 
 AccountsBindings::AccountsBindings(QObject* parent)
-  : QObject(parent)
+  : QObject(parent),
+    m_statsWelcomeScreen(true)
 {
 }
 
@@ -39,4 +40,15 @@ void AccountsBindings::setDemoEdges(bool)
 QString AccountsBindings::getBackgroundFile()
 {
     return TOP_SRCDIR "/graphics/phone_background.jpg";
+}
+
+bool AccountsBindings::getStatsWelcomeScreen()
+{
+    return m_statsWelcomeScreen;
+}
+
+void AccountsBindings::setStatsWelcomeScreen(bool statsWelcomeScreen)
+{
+    m_statsWelcomeScreen = statsWelcomeScreen;
+    statsWelcomeScreenChanged();
 }

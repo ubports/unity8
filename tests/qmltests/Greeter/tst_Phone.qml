@@ -21,6 +21,7 @@ import "../../../Greeter"
 import Ubuntu.Components 0.1
 import LightDM 0.1 as LightDM
 import Unity.Test 0.1 as UT
+import AccountsService 0.1
 
 Item {
     width: units.gu(60)
@@ -50,6 +51,10 @@ Item {
     UT.UnityTestCase {
         name: "Greeter"
         when: windowShown
+
+        function cleanup() {
+            AccountsService.statsWelcomeScreen = true
+        }
 
         function test_properties() {
             compare(greeter.multiUser, false)
@@ -101,6 +106,16 @@ Item {
             }
             // Wait until we're back to 0
             tryCompareFunction(function() { return greeter.x;},  0);
+        }
+
+        function test_statsWelcomeScreen() {
+            // Test logic in greeter that turns statsWelcomeScreen setting into infographic changes
+            compare(AccountsService.statsWelcomeScreen, true)
+            tryCompare(LightDM.Infographic, "username", "single")
+            AccountsService.statsWelcomeScreen = false
+            tryCompare(LightDM.Infographic, "username", "")
+            AccountsService.statsWelcomeScreen = true
+            tryCompare(LightDM.Infographic, "username", "single")
         }
     }
 }

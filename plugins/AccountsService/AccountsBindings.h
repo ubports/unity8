@@ -34,6 +34,9 @@ class AccountsBindings: public QObject
     Q_PROPERTY (QString backgroundFile
                 READ getBackgroundFile
                 NOTIFY backgroundFileChanged)
+    Q_PROPERTY (bool statsWelcomeScreen
+                READ getStatsWelcomeScreen
+                NOTIFY statsWelcomeScreenChanged)
 
 public:
     explicit AccountsBindings(QObject *parent = 0);
@@ -43,10 +46,12 @@ public:
     bool getDemoEdges();
     void setDemoEdges(bool demoEdges);
     QString getBackgroundFile();
+    bool getStatsWelcomeScreen();
 
 Q_SIGNALS:
     void demoEdgesChanged();
     void backgroundFileChanged();
+    void statsWelcomeScreenChanged();
 
 private Q_SLOTS:
     void propertiesChanged(const QString &user, const QString &interface, const QStringList &changed);
@@ -55,11 +60,13 @@ private Q_SLOTS:
 private:
     void updateDemoEdges();
     void updateBackgroundFile();
+    void updateStatsWelcomeScreen();
 
     AccountsService *m_service;
     QString m_user;
     bool m_demoEdges;
     QString m_backgroundFile;
+    bool m_statsWelcomeScreen;
 };
 
 #endif

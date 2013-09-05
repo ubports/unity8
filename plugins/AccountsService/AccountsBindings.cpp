@@ -37,6 +37,7 @@ void AccountsBindings::setUser(const QString &user)
     m_user = user;
     updateDemoEdges();
     updateBackgroundFile();
+    updateStatsWelcomeScreen();
 }
 
 bool AccountsBindings::getDemoEdges()
@@ -53,6 +54,11 @@ void AccountsBindings::setDemoEdges(bool demoEdges)
 QString AccountsBindings::getBackgroundFile()
 {
     return m_backgroundFile;
+}
+
+bool AccountsBindings::getStatsWelcomeScreen()
+{
+    return m_statsWelcomeScreen;
 }
 
 void AccountsBindings::updateDemoEdges()
@@ -73,6 +79,15 @@ void AccountsBindings::updateBackgroundFile()
     }
 }
 
+void AccountsBindings::updateStatsWelcomeScreen()
+{
+    auto statsWelcomeScreen = m_service->getUserProperty(m_user, "com.ubuntu.touch.AccountsService.SecurityPrivacy", "StatsWelcomeScreen").toBool();
+    if (m_statsWelcomeScreen != statsWelcomeScreen) {
+        m_statsWelcomeScreen = statsWelcomeScreen;
+        Q_EMIT statsWelcomeScreenChanged();
+    }
+}
+
 void AccountsBindings::propertiesChanged(const QString &user, const QString &interface, const QStringList &changed)
 {
     if (m_user != user) {
@@ -82,6 +97,10 @@ void AccountsBindings::propertiesChanged(const QString &user, const QString &int
     if (interface == "com.canonical.unity.AccountsService") {
         if (changed.contains("demo-edges")) {
             updateDemoEdges();
+        }
+    } else if (interface == "com.ubuntu.touch.AccountsService.SecurityPrivacy") {
+        if (changed.contains("StatsWelcomeScreen")) {
+            updateStatsWelcomeScreen();
         }
     }
 }

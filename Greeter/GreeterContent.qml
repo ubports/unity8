@@ -134,18 +134,23 @@ MouseArea {
 
     Infographics {
         id: infographics
+        objectName: "infographics"
         height: narrowMode ? parent.height : 0.75 * parent.height
         model: greeterContentLoader.infographicModel
 
-        Component.onCompleted: infographics.updateUsername(greeterContentLoader.currentIndex)
+        property string selectedUser
+        property string infographicUser: AccountsService.statsWelcomeScreen ? selectedUser : ""
+        onInfographicUserChanged: updateUsername()
+
+        Component.onCompleted: selectedUser = greeterContentLoader.model.data(greeterContentLoader.currentIndex, LightDM.UserRoles.NameRole)
 
         Connections {
             target: root
-            onSelected: infographics.updateUsername(uid)
+            onSelected: infographics.selectedUser = greeterContentLoader.model.data(uid, LightDM.UserRoles.NameRole)
         }
 
-        function updateUsername(uid) {
-            greeterContentLoader.infographicModel.username = greeterContentLoader.model.data(uid, LightDM.UserRoles.NameRole)
+        function updateUsername() {
+            greeterContentLoader.infographicModel.username = infographicUser;
             greeterContentLoader.infographicModel.readyForDataChangeSlot();
         }
 

@@ -29,13 +29,20 @@ Item {
     Connections {
         target: model
 
+        property bool appeared: false
+
+        onDataAboutToAppear: {
+            // Don't 'hide' on first appearance, since there is no content yet
+            if (appeared) startHideAnimation() // hide "no data" label
+            appeared = true
+        }
         onDataAppeared: startShowAnimation()
 
         onDataAboutToChange: startHideAnimation()
-
         onDataChanged: startShowAnimation()
 
         onDataAboutToDisappear: startHideAnimation()
+        onDataDisappeared: startShowAnimation() // show "no data" label
     }
 
     function startShowAnimation() {

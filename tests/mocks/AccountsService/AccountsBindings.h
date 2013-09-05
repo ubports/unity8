@@ -34,6 +34,10 @@ class AccountsBindings: public QObject
     Q_PROPERTY (QString backgroundFile
                 READ getBackgroundFile
                 NOTIFY backgroundFileChanged)
+    Q_PROPERTY (bool statsWelcomeScreen
+                READ getStatsWelcomeScreen
+                WRITE setStatsWelcomeScreen // addition for testing
+                NOTIFY statsWelcomeScreenChanged)
 
 public:
     explicit AccountsBindings(QObject *parent = 0);
@@ -43,10 +47,16 @@ public:
     bool getDemoEdges();
     void setDemoEdges(bool demoEdges);
     QString getBackgroundFile();
+    bool getStatsWelcomeScreen();
+    void setStatsWelcomeScreen(bool statsWelcomeScreen);
 
 Q_SIGNALS:
     void demoEdgesChanged();
     void backgroundFileChanged();
+    void statsWelcomeScreenChanged();
+
+private:
+    bool m_statsWelcomeScreen;
 };
 
 #endif
