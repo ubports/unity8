@@ -66,16 +66,16 @@ Item {
             }
 
             // kill all (fake) running apps
-            killApps(ApplicationManager.mainStageApplications);
-            killApps(ApplicationManager.sideStageApplications);
+            killApps(ApplicationManager.applications);
 
             var dashHome = findChild(shell, "DashHome");
             swipeUntilScopeViewIsReached(dashHome);
         }
 
         function killApps(apps) {
+            if (!apps) return;
             while (apps.count > 0) {
-                ApplicationManager.stopProcess(apps.get(0));
+                ApplicationManager.stopApplication(apps.get(0));
             }
         }
 
@@ -122,8 +122,8 @@ Item {
             tapOnAppIconInLauncher();
             waitUntilApplicationWindowIsFullyVisible();
 
-            var mainApp = ApplicationManager.mainStageFocusedApplication;
-            tryCompareFunction(function() { return mainApp != null; }, true);
+            var mainApp = ApplicationManager.focusedApplicationId;
+            tryCompareFunction(function() { return mainApp != ""; }, true);
 
             // Try to suspend while proximity is engaged...
             Powerd.displayPowerStateChange(Powerd.Off, Powerd.UseProximity);
@@ -132,11 +132,11 @@ Item {
             // Now really suspend
             Powerd.displayPowerStateChange(Powerd.Off, 0);
             tryCompare(greeter, "showProgress", 1);
-            tryCompare(ApplicationManager, "mainStageFocusedApplication", null);
+            tryCompare(ApplicationManager, "focusedApplicationId", "");
 
             // And wake up
             Powerd.displayPowerStateChange(Powerd.On, 0);
-            tryCompare(ApplicationManager, "mainStageFocusedApplication", mainApp);
+            tryCompare(ApplicationManager, "focusedApplicationId", mainApp);
             tryCompare(greeter, "showProgress", 1);
         }
 
