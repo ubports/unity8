@@ -95,6 +95,11 @@ FocusScope {
             greeter.hide();
             shell.activateApplication(desktopFile);
         }
+
+        onMainStageFocusedApplicationChanged: {
+            var app = applicationManager.mainStageFocusedApplication
+            LauncherModel.applicationFocused(app.desktopFile);
+        }
     }
 
     function activateApplication(desktopFile, argument) {
