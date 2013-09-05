@@ -35,7 +35,7 @@ class TestHud(UnityTestCase):
     def test_show_hud_button_appears(self):
         """Swiping up while an app is active must show the 'show hud' button.
            The button must disappear not opening the HUD when releasing the
-           mouse again somewhere on the screen except on the button itself. 
+           mouse again somewhere on the screen except on the button itself.
 
         """
         self.launch_unity()
