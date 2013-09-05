@@ -10,6 +10,7 @@ include_directories(
 
 add_definitions(-DSM_BUSNAME=sessionBus)
 add_definitions(-DSRCDIR="${CMAKE_CURRENT_SOURCE_DIR}")
+add_definitions(-DLAUNCHER_TESTING)
 
 set(testCommand ${CMAKE_CURRENT_BINARY_DIR}/launcherbackendtestExec
       -o ${CMAKE_BINARY_DIR}/launcherbackendtest.xml,xunitxml
@@ -24,3 +25,12 @@ add_executable(launcherbackendtestExec
     )
 target_link_libraries(launcherbackendtestExec ${GSETTINGS_QT_LDFLAGS})
 qt5_use_modules(launcherbackendtestExec Test Core DBus)
+
+# copy .desktop files into build directory for shadow builds
+file(GLOB DESKTOP_FILES *.desktop)
+
+foreach(DESKTOP_FILE ${DESKTOP_FILES})
+    file(COPY "${DESKTOP_FILE}"
+        DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
+        )
+endforeach()
