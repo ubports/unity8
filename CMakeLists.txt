@@ -111,7 +111,7 @@ add_executable(${SHELL_APP}
     MouseTouchAdaptor.cpp
     )
 
-qt5_use_modules(${SHELL_APP} Qml Quick Test)
+qt5_use_modules(${SHELL_APP} Qml Quick Test Multimedia)
 pkg_check_modules(XCB REQUIRED xcb)
 
 if (NOT "${XCB_INCLUDE_DIRS}" STREQUAL "")
