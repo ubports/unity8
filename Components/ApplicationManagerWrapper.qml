@@ -31,9 +31,6 @@ Item {
 
     property bool fake: ApplicationManager.fake ? ApplicationManager.fake : false
 
-    onMainStageFocusedApplicationChanged: (mainStageFocusedApplication)?mainStageFocusedApplication.appId: "null"
-    onSideStageFocusedApplicationChanged: (sideStageFocusedApplication)?sideStageFocusedApplication.appId: "null"
-
     ApplicationsModelStageFiltered {
         id: mainStageModel
         stage: ApplicationInfo.MainStage
