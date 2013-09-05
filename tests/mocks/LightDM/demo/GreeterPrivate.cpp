@@ -55,11 +55,13 @@ void GreeterPrivate::handleRespond(const QString &response)
     QSettings settings(QDir::homePath() + "/.unity8-greeter-demo", QSettings::NativeFormat);
     QVariant password = settings.value("password", "none");
 
+    QString passwordValue;
     if (password == "pin") {
-        authenticated = (response == "1234");
+        passwordValue = settings.value("passwordValue", "1234").toString();
     } else {
-        authenticated = (response == "password");
+        passwordValue = settings.value("passwordValue", "password").toString();
     }
+    authenticated = (response == passwordValue);
     Q_EMIT q->authenticationComplete();
 }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012,2013 Canonical, Ltd.
+ * Copyright (C) 2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,25 +12,22 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors: Gerry Boland <gerry.boland@canonical.com>
- *          Michael Terry <michael.terry@canonical.com>
  */
 
-#include "plugin.h"
-#include "AccountsService.h"
+#ifndef FAKE_APPLICATIONS_SCOPE_H
+#define FAKE_APPLICATIONS_SCOPE_H
 
-#include <QtQml>
+#include "fake_scope.h"
 
-static QObject *service_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
+class ApplicationsScope : public Scope
 {
-    Q_UNUSED(engine)
-    Q_UNUSED(scriptEngine)
-    return new AccountsService();
-}
+    Q_OBJECT
 
-void AccountsServicePlugin::registerTypes(const char *uri)
-{
-    Q_ASSERT(uri == QLatin1String("AccountsService"));
-    qmlRegisterSingletonType<AccountsService>(uri, 0, 1, "AccountsService", service_provider);
-}
+public:
+    ApplicationsScope(bool visible, QObject* parent = 0);
+
+private:
+    DeeModel* createCategoriesModel();
+};
+
+#endif // FAKE_APPLICATIONS_SCOPE_H

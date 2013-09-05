@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012,2013 Canonical, Ltd.
+ * Copyright (C) 2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -13,18 +13,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Authors: Michael Terry <michael.terry@canonical.com>
+ * Authors: Gerry Boland <gerry.boland@canonical.com>
+ *          Michael Terry <michael.terry@canonical.com>
  */
 
-#ifndef UNITY_ACCOUNTSBINDINGS_H
-#define UNITY_ACCOUNTSBINDINGS_H
+#ifndef UNITY_MOCK_ACCOUNTSSERVICE_H
+#define UNITY_MOCK_ACCOUNTSSERVICE_H
 
 #include <QObject>
 #include <QString>
+#include <QVariant>
 
-class AccountsService;
-
-class AccountsBindings: public QObject
+class AccountsService: public QObject
 {
     Q_OBJECT
     Q_PROPERTY (QString user
@@ -40,7 +40,7 @@ class AccountsBindings: public QObject
                 NOTIFY backgroundFileChanged)
 
 public:
-    explicit AccountsBindings(QObject *parent = 0);
+    explicit AccountsService(QObject *parent = 0);
 
     QString getUser();
     void setUser(const QString &user);
@@ -52,19 +52,6 @@ Q_SIGNALS:
     void userChanged();
     void demoEdgesChanged();
     void backgroundFileChanged();
-
-private Q_SLOTS:
-    void propertiesChanged(const QString &user, const QString &interface, const QStringList &changed);
-    void maybeChanged(const QString &user);
-
-private:
-    void updateDemoEdges();
-    void updateBackgroundFile();
-
-    AccountsService *m_service;
-    QString m_user;
-    bool m_demoEdges;
-    QString m_backgroundFile;
 };
 
 #endif

@@ -12,38 +12,55 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Author: Michael Terry <michael.terry@canonical.com>
  */
 
-#include "AccountsBindings.h"
+#include "fake_preview.h"
 
-AccountsBindings::AccountsBindings(QObject* parent)
-  : QObject(parent)
+QString Preview::rendererName() const
 {
+    return "foo";
 }
 
-QString AccountsBindings::getUser()
+QString Preview::title() const
 {
-    return "testuser";
+    return "Title";
 }
 
-void AccountsBindings::setUser(const QString &user)
+QString Preview::subtitle() const
 {
-    Q_UNUSED(user)
+    return "Subtitle";
 }
 
-bool AccountsBindings::getDemoEdges()
+QString Preview::description() const
 {
-    return false;
+    return "Description";
 }
 
-void AccountsBindings::setDemoEdges(bool demoEdges)
+QVariant Preview::actions()
 {
-    Q_UNUSED(demoEdges)
+    return QVariant();
 }
 
-QString AccountsBindings::getBackgroundFile()
+QVariant Preview::infoHints()
 {
-    return TOP_SRCDIR "/graphics/phone_background.jpg";
+    return QVariant();
+}
+
+QVariantMap Preview::infoHintsHash() const
+{
+    return QVariantMap();
+}
+
+QString Preview::image() const
+{
+    return "";
+}
+
+QString Preview::imageSourceUri() const
+{
+    return "";
+}
+
+void Preview::execute(const QString& actionId, const QHash<QString, QVariant>& hints)
+{
 }

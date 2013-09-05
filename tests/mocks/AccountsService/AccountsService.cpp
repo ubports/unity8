@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012,2013 Canonical, Ltd.
+ * Copyright (C) 2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -13,25 +13,37 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Authors: Michael Terry <michael.terry@canonical.com>
+ * Author: Michael Terry <michael.terry@canonical.com>
  */
 
-#include "plugin.h"
 #include "AccountsService.h"
 
-#include <QDBusMetaType>
-#include <QtQml>
-
-static QObject *service_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
+AccountsService::AccountsService(QObject* parent)
+  : QObject(parent)
 {
-    Q_UNUSED(engine)
-    Q_UNUSED(scriptEngine)
-    return new AccountsService();
 }
 
-void AccountsServicePlugin::registerTypes(const char *uri)
+QString AccountsService::getUser()
 {
-    Q_ASSERT(uri == QLatin1String("AccountsService"));
-    qDBusRegisterMetaType<QList<QVariantMap>>();
-    qmlRegisterSingletonType<AccountsService>(uri, 0, 1, "AccountsService", service_provider);
+    return "testuser";
+}
+
+void AccountsService::setUser(const QString &user)
+{
+    Q_UNUSED(user)
+}
+
+bool AccountsService::getDemoEdges()
+{
+    return false;
+}
+
+void AccountsService::setDemoEdges(bool demoEdges)
+{
+    Q_UNUSED(demoEdges)
+}
+
+QString AccountsService::getBackgroundFile()
+{
+    return TOP_SRCDIR "/graphics/phone_background.jpg";
 }

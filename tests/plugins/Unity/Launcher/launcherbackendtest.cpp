@@ -20,7 +20,6 @@
 #include "launcherbackend.h"
 
 #include <QtTest>
-#include <QDebug>
 
 class LauncherBackendTest : public QObject
 {
@@ -31,29 +30,29 @@ private Q_SLOTS:
     {
         LauncherBackend backend(false);
 
-        backend.setStoredApplications(QStringList() << "relative.path" << "/full/path");
-        QCOMPARE(backend.storedApplications(), QStringList() << "relative.path" << "/full/path");
+        backend.setStoredApplications(QStringList() << "rel-icon" << "abs-icon" << "invalid");
+        QCOMPARE(backend.storedApplications(), QStringList() << "rel-icon" << "abs-icon");
     }
 
     void testPinning()
     {
         LauncherBackend backend(false);
 
-        backend.setStoredApplications(QStringList() << "one" << "two");
-        QCOMPARE(backend.isPinned("one"), false);
-        QCOMPARE(backend.isPinned("two"), false);
+        backend.setStoredApplications(QStringList() << "rel-icon" << "abs-icon");
+        QCOMPARE(backend.isPinned("rel-icon"), false);
+        QCOMPARE(backend.isPinned("abs-icon"), false);
 
-        backend.setPinned("two", true);
-        QCOMPARE(backend.isPinned("two"), true);
+        backend.setPinned("rel-icon", true);
+        QCOMPARE(backend.isPinned("rel-icon"), true);
 
-        backend.setStoredApplications(QStringList() << "one" << "two" << "three");
-        QCOMPARE(backend.isPinned("two"), true);
-        QCOMPARE(backend.isPinned("three"), false);
+        backend.setStoredApplications(QStringList() << "rel-icon" << "abs-icon" << "no-name");
+        QCOMPARE(backend.isPinned("rel-icon"), true);
+        QCOMPARE(backend.isPinned("no-name"), false);
 
-        backend.setPinned("three", true);
-        backend.setStoredApplications(QStringList() << "one" << "two");
-        QCOMPARE(backend.isPinned("two"), true);
-        QCOMPARE(backend.isPinned("three"), false); // doesn't exist anymore!
+        backend.setPinned("no-name", true);
+        backend.setStoredApplications(QStringList() << "rel-icon" << "abs-icon");
+        QCOMPARE(backend.isPinned("rel-icon"), true);
+        QCOMPARE(backend.isPinned("no-name"), false); // doesn't exist anymore!
     }
 };
 
