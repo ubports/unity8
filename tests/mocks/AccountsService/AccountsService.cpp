@@ -16,34 +16,34 @@
  * Author: Michael Terry <michael.terry@canonical.com>
  */
 
-#include "AccountsBindings.h"
+#include "AccountsService.h"
 
-AccountsBindings::AccountsBindings(QObject* parent)
+AccountsService::AccountsService(QObject* parent)
   : QObject(parent)
 {
 }
 
-QString AccountsBindings::getUser()
+QString AccountsService::getUser()
 {
     return "testuser";
 }
 
-void AccountsBindings::setUser(const QString &user)
+void AccountsService::setUser(const QString &user)
 {
     Q_UNUSED(user)
 }
 
-bool AccountsBindings::getDemoEdges()
+bool AccountsService::getDemoEdges()
 {
     return false;
 }
 
-void AccountsBindings::setDemoEdges(bool demoEdges)
+void AccountsService::setDemoEdges(bool demoEdges)
 {
     Q_UNUSED(demoEdges)
 }
 
-QString AccountsBindings::getBackgroundFile()
+QString AccountsService::getBackgroundFile()
 {
     return TOP_SRCDIR "/graphics/phone_background.jpg";
 }

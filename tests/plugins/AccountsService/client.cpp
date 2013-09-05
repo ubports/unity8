@@ -17,8 +17,8 @@
  * Authored by: Michael Terry <michael.terry@canonical.com>
  */
 
-#include "AccountsBindings.h"
 #include "AccountsService.h"
+#include "AccountsServiceDBusAdaptor.h"
 #include <QSignalSpy>
 #include <QTest>
 
@@ -31,28 +31,28 @@ private Q_SLOTS:
     void testInvalids()
     {
         // Test various invalid calls
-        AccountsService session;
+        AccountsServiceDBusAdaptor session;
         QCOMPARE(session.getUserProperty("NOPE", "com.canonical.unity.AccountsService", "demo-edges"), QVariant());
         QCOMPARE(session.getUserProperty("testuser", "com.canonical.unity.AccountsService", "NOPE"), QVariant());
     }
 
-    void testGetSetService()
+    void testGetSetServiceDBusAdaptor()
     {
-        AccountsService session;
+        AccountsServiceDBusAdaptor session;
         session.setUserProperty("testuser", "com.canonical.unity.AccountsService", "demo-edges", QVariant(true));
         QCOMPARE(session.getUserProperty("testuser", "com.canonical.unity.AccountsService", "demo-edges"), QVariant(true));
         session.setUserProperty("testuser", "com.canonical.unity.AccountsService", "demo-edges", QVariant(false));
         QCOMPARE(session.getUserProperty("testuser", "com.canonical.unity.AccountsService", "demo-edges"), QVariant(false));
     }
 
-    void testGetSetBindings()
+    void testGetSetService()
     {
-        AccountsBindings bindings;
-        bindings.setUser("testuser");
-        bindings.setDemoEdges(true);
-        QCOMPARE(bindings.getDemoEdges(), true);
-        bindings.setDemoEdges(false);
-        QCOMPARE(bindings.getDemoEdges(), false);
+        AccountsService session;
+        session.setUser("testuser");
+        session.setDemoEdges(true);
+        QCOMPARE(session.getDemoEdges(), true);
+        session.setDemoEdges(false);
+        QCOMPARE(session.getDemoEdges(), false);
     }
 };
 
