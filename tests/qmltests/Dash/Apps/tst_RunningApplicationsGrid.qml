@@ -29,7 +29,7 @@ Item {
 
         property bool sideStageEnabled: false
 
-        function stopProcess(application) {
+        function stopApplication(application) {
             fakeRunningAppsModel.remove(application)
         }
     }
