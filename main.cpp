@@ -27,6 +27,10 @@
 #include <QLibrary>
 #include <libintl.h>
 
+// Unity-Mir
+#include <unity-mir/qmirserver.h>
+#include <unity-mir/qmirserverapplication.h>
+
 // local
 #include "paths.h"
 #include "MouseTouchAdaptor.h"
@@ -72,7 +76,7 @@ void resolveIconTheme() {
 }
 } // namespace {
 
-int main(int argc, char** argv)
+int startShell(int argc, char** argv, ShellServerConfiguration* server)
 {
     /* Workaround Qt platform integration plugin not advertising itself
        as having the following capabilities:
@@ -82,12 +86,19 @@ int main(int argc, char** argv)
     setenv("QML_FORCE_THREADED_RENDERER", "1", 1);
     setenv("QML_FIXED_ANIMATION_STEP", "1", 1);
 
+    const bool isUbuntuMirServer = qgetenv("QT_QPA_PLATFORM") == "ubuntumirserver";
+    
     QGuiApplication::setApplicationName("Unity 8");
-    QGuiApplication application(argc, argv);
+    QGuiApplication *application;
+    if (isUbuntuMirServer) {
+        application = new QMirServerApplication(argc, (char**)argv, server);
+    } else {
+        application = new QGuiApplication(argc, (char**)argv);
+    }
 
     resolveIconTheme();
 
-    QStringList args = application.arguments();
+    QStringList args = application->arguments();
     ApplicationArguments qmlArgs(args);
 
     // The testability driver is only loaded by QApplication but not by QGuiApplication.
@@ -124,7 +135,7 @@ int main(int argc, char** argv)
     if (args.contains(QLatin1String("-mousetouch"))) {
         mouseTouchAdaptor = new MouseTouchAdaptor;
         mouseTouchAdaptor->setTargetWindow(view);
-        application.installNativeEventFilter(mouseTouchAdaptor);
+        application->installNativeEventFilter(mouseTouchAdaptor);
     }
 
     QPlatformNativeInterface* nativeInterface = QGuiApplication::platformNativeInterface();
@@ -140,24 +151,38 @@ int main(int argc, char** argv)
     prependImportPaths(view->engine(), ::overrideImportPaths());
     appendImportPaths(view->engine(), ::fallbackImportPaths());
 
-    if (qgetenv("QT_QPAPLATFORM") != "ubuntu") {
-        QString mirPath("/usr/lib/arm-linux-gnueabihf/qt5/imports/Unity-Mir");
-        qsetenv("QT_QPA_PLATFORM", "ubuntumirserver");
-        view->engine()->addImportPath(mirPath);
-    }
+    QStringList importPath = view->engine()->importPathList().filter("qt5/imports");
+    qDebug << "Import list is: " << importPath.first();
+    
+    if (isUbuntuMirServer)
+        importPath.first().append("/Unity-Mir");
+        view->engine()->addImportPath(importPath.first());
+    } 
 
     view->setSource(source);
     view->setColor("transparent");
 
-    if (qgetenv("QT_QPA_PLATFORM") == "ubuntu" || args.contains(QLatin1String("-fullscreen"))) {
+    if (qgetenv("QT_QPA_PLATFORM") == "ubuntu" || isUbuntuMirServer || args.contains(QLatin1String("-fullscreen"))) {
         view->showFullScreen();
     } else {
         view->show();
     }
 
-    int result = application.exec();
+    int result = application->exec();
 
     delete mouseTouchAdaptor;
+    delete application;
 
     return result;
+}
+
+int main(int argc, const char *argv[])
+{
+    if (qgetenv("QT_QPA_PLATFORM") != "ubuntu") {
+        setenv("QT_QPA_PLATFORM", "ubuntumirserver", 1);
+        QMirServer mirServer(argc, argv);
+        return mirServer.runWithClient(startShell);
+    } else {
+        return startShell(argc, argv, nullptr);
+    }
 }
