@@ -1,9 +1,13 @@
+include(FindPkgConfig)
+pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application)
+
 set(FakeUnityApplicationQml_SOURCES
     plugin.cpp
     ApplicationInfo.cpp
     ApplicationImage.cpp
-    ApplicationListModel.cpp
     ApplicationManager.cpp
+    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
+    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
 )
 
 add_library(FakeUnityApplicationQml MODULE ${FakeUnityApplicationQml_SOURCES})

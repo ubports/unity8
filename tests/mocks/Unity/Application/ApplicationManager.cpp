@@ -16,7 +16,6 @@
 
 #include "ApplicationManager.h"
 #include "ApplicationInfo.h"
-#include "ApplicationListModel.h"
 #include "paths.h"
 
 #include <QDir>
@@ -26,11 +25,7 @@
 #include <QQmlComponent>
 
 ApplicationManager::ApplicationManager(QObject *parent)
-    : QObject(parent)
-    , m_mainStageApplications(new ApplicationListModel())
-    , m_sideStageApplications(new ApplicationListModel())
-    , m_mainStageFocusedApplication(0)
-    , m_sideStageFocusedApplication(0)
+    : ApplicationManagerInterface(parent)
     , m_mainStageComponent(0)
     , m_mainStage(0)
     , m_sideStageComponent(0)
@@ -41,8 +36,65 @@ ApplicationManager::ApplicationManager(QObject *parent)
 
 ApplicationManager::~ApplicationManager()
 {
-    delete m_mainStageApplications;
-    delete m_sideStageApplications;
+}
+
+int ApplicationManager::rowCount(const QModelIndex& parent) const {
+    return !parent.isValid() ? m_runningApplications.size() : 0;
+}
+
+QVariant ApplicationManager::data(const QModelIndex& index, int role) const {
+    if (index.row() < 0 || index.row() >= m_runningApplications.size())
+        return QVariant();
+
+    auto app = m_runningApplications.at(index.row());
+    switch(role) {
+    case RoleAppId:
+        return app->appId();
+    case RoleName:
+        return app->name();
+    case RoleComment:
+        return app->comment();
+    case RoleIcon:
+        return app->icon();
+    case RoleStage:
+        return app->stage();
+    case RoleState:
+        return app->state();
+    case RoleFocused:
+        return app->focused();
+    default:
+        return QVariant();
+    }
+}
+
+ApplicationInfo *ApplicationManager::get(int row) const {
+    if (row < 0 || row >= m_runningApplications.size())
+        return nullptr;
+
+    return m_runningApplications.at(row);
+}
+
+ApplicationInfo *ApplicationManager::findApplication(const QString &appId) const {
+    for (ApplicationInfo *app : m_runningApplications) {
+        if (app->appId() == appId) {
+            return app;
+        }
+    }
+    return nullptr;
+}
+
+void ApplicationManager::move(int from, int to) {
+    if (from == to) return;
+
+    if (from >= 0 && from < m_runningApplications.size() && to >= 0 && to < m_runningApplications.size()) {
+        QModelIndex parent;
+        /* When moving an item down, the destination index needs to be incremented
+         * by one, as explained in the documentation:
+         * http://qt-project.org/doc/qt-5.0/qtcore/qabstractitemmodel.html#beginMoveRows */
+        beginMoveRows(parent, from, from, parent, to + (to > from ? 1 : 0));
+        m_runningApplications.move(from, to);
+        endMoveRows();
+    }
 }
 
 int ApplicationManager::keyboardHeight() const
@@ -70,36 +122,22 @@ ApplicationManager::FormFactorHint ApplicationManager::formFactorHint() const
     return PhoneFormFactor;
 }
 
-ApplicationListModel* ApplicationManager::mainStageApplications() const
+ApplicationInfo* ApplicationManager::startApplication(const QString &appId,
+                                              const QStringList &arguments)
 {
-    return m_mainStageApplications;
+    return this->startApplication(appId, NoFlag, arguments);
 }
 
-ApplicationListModel* ApplicationManager::sideStageApplications() const
-{
-    return m_sideStageApplications;
-}
-
-ApplicationInfo* ApplicationManager::mainStageFocusedApplication() const
-{
-    return m_mainStageFocusedApplication;
-}
-
-ApplicationInfo* ApplicationManager::sideStageFocusedApplication() const
-{
-    return m_sideStageFocusedApplication;
-}
-
-ApplicationInfo* ApplicationManager::startProcess(QString desktopFile,
+ApplicationInfo* ApplicationManager::startApplication(const QString &appId,
                                               ExecFlags flags,
-                                              QStringList arguments)
+                                              const QStringList &arguments)
 {
     Q_UNUSED(arguments)
     ApplicationInfo *application = 0;
 
     for (int i = 0; i < m_availableApplications.count(); ++i) {
         ApplicationInfo *availableApp = m_availableApplications[i];
-        if (availableApp->desktopFile() == desktopFile) {
+        if (availableApp->appId() == appId) {
             application = availableApp;
             break;
         }
@@ -108,87 +146,88 @@ ApplicationInfo* ApplicationManager::startProcess(QString desktopFile,
     if (!application)
         return 0;
 
+    m_runningApplications.append(application);
     if (flags.testFlag(ApplicationManager::ForceMainStage)
-            || application->stage() == ApplicationInfo::MainStage) {
-        m_mainStageApplications->add(application);
-    } else {
-        m_sideStageApplications->add(application);
+            && application->stage() == ApplicationInfo::SideStage) {
+        application->setStage(ApplicationInfo::MainStage);
     }
 
+    application->setFocused(true);
+    Q_EMIT focusedApplicationIdChanged();
     return application;
 }
 
-void ApplicationManager::stopProcess(ApplicationInfo* application)
+bool ApplicationManager::stopApplication(const QString &appId)
 {
-    if (m_mainStageApplications->contains(application)) {
-        m_mainStageApplications->remove(application);
+    ApplicationInfo *application = this->findApplication(appId);
+    if (application == nullptr)
+        return false;
 
-        if (m_mainStageFocusedApplication == application) {
-            m_mainStageFocusedApplication = 0;
-            Q_EMIT mainStageFocusedApplicationChanged();
-        }
-    } else if (m_sideStageApplications->contains(application)){
-        m_sideStageApplications->remove(application);
-
-        if (m_sideStageFocusedApplication == application) {
-            m_sideStageFocusedApplication = 0;
-            Q_EMIT sideStageFocusedApplicationChanged();
-        }
-    }
+    application->setFocused(false);
+    m_runningApplications.removeAll(application);
+    Q_EMIT focusedApplicationIdChanged();
+    return true;
 }
 
-void ApplicationManager::focusApplication(int handle)
-{
-    for (int i = 0; i < m_mainStageApplications->m_applications.count(); ++i) {
-        ApplicationInfo *application = m_mainStageApplications->m_applications[i];
-        if (application->handle() == handle) {
-            if (m_mainStageFocusedApplication)
-                m_mainStageFocusedApplication->hideWindow();
-            m_mainStageFocusedApplication = application;
-            if (!m_mainStage)
-                createMainStage();
-            application->showWindow(m_mainStage);
-            m_mainStage->setZ(-1000);
-            if (m_sideStage)
-                m_sideStage->setZ(-2000);
-            Q_EMIT mainStageFocusedApplicationChanged();
-            return;
-        }
+QString ApplicationManager::focusedApplicationId() const {
+    for (ApplicationInfo *app : m_runningApplications) {
+        if (app->focused())
+            return app->appId();
     }
-
-    for (int i = 0; i < m_sideStageApplications->m_applications.count(); ++i) {
-        ApplicationInfo *application = m_sideStageApplications->m_applications[i];
-        if (application->handle() == handle) {
-            if (m_sideStageFocusedApplication)
-                m_sideStageFocusedApplication->hideWindow();
-            m_sideStageFocusedApplication = application;
-            if (!m_sideStage)
-                createSideStage();
-            application->showWindow(m_sideStage);
-            m_sideStage->setZ(-1000);
-            if (m_mainStage)
-                m_mainStage->setZ(-2000);
-            Q_EMIT sideStageFocusedApplicationChanged();
-            return;
-        }
-    }
+    return QString();
 }
 
-void ApplicationManager::unfocusCurrentApplication(StageHint stageHint)
+bool ApplicationManager::focusApplication(const QString &appId)
 {
-    if (stageHint == SideStage) {
-        if (m_sideStageFocusedApplication) {
-            m_sideStageFocusedApplication->hideWindow();
-            m_sideStageFocusedApplication = 0;
-            Q_EMIT sideStageFocusedApplicationChanged();
+    ApplicationInfo *application = this->findApplication(appId);
+    if (application == nullptr)
+        return false;
+
+    if (application->stage() == ApplicationInfo::MainStage) {
+        // unfocus currently focused mainstage app
+        for (ApplicationInfo *app : m_runningApplications) {
+            if (app->focused() && app->stage() == ApplicationInfo::MainStage)
+                app->setFocused(false);
         }
-    } else {
-        if (m_mainStageFocusedApplication) {
-            m_mainStageFocusedApplication->hideWindow();
-            m_mainStageFocusedApplication = 0;
-            Q_EMIT mainStageFocusedApplicationChanged();
+
+        // focus this app
+        application->setFocused(true);
+        if (!m_mainStage)
+            createMainStage();
+        application->showWindow(m_mainStage);
+        m_mainStage->setZ(-1000);
+        if (m_sideStage)
+            m_sideStage->setZ(-2000);
+    } else if (application->stage() == ApplicationInfo::SideStage) {
+        // unfocus currently focused sidestage app
+        for (ApplicationInfo *app : m_runningApplications) {
+            if (app->focused() && app->stage() == ApplicationInfo::SideStage)
+                app->setFocused(false);
         }
+
+        // focus this app
+        application->setFocused(true);
+        if (!m_sideStage)
+            createSideStage();
+        application->showWindow(m_sideStage);
+        m_sideStage->setZ(-1000);
+        if (m_mainStage)
+            m_mainStage->setZ(-2000);
     }
+
+    // move app to top of stack
+    this->move(m_runningApplications.indexOf(application), 0);
+    Q_EMIT focusedApplicationIdChanged();
+    return true;
+}
+
+void ApplicationManager::unfocusCurrentApplication()
+{
+    for (ApplicationInfo *app : m_runningApplications) {
+        if (app->focused())
+            app->setFocused(false);
+    }
+    Q_EMIT focusedApplicationIdChanged();
 }
 
 void ApplicationManager::generateQmlStrings(ApplicationInfo *application)
@@ -213,7 +252,7 @@ void ApplicationManager::generateQmlStrings(ApplicationInfo *application)
         "   fillMode: Image.PreserveAspectCrop\n"
         "}").arg(topMargin)
             .arg(shellAppDirectory())
-            .arg(application->icon());
+            .arg(application->icon().toString());
     application->setWindowQml(windowQml);
 
     QString imageQml = QString(
@@ -224,159 +263,130 @@ void ApplicationManager::generateQmlStrings(ApplicationInfo *application)
         "   smooth: true\n"
         "   fillMode: Image.PreserveAspectCrop\n"
         "}").arg(shellAppDirectory())
-            .arg(application->icon());
+            .arg(application->icon().toString());
     application->setImageQml(imageQml);
 }
 
 void ApplicationManager::buildListOfAvailableApplications()
 {
     ApplicationInfo *application;
-    qint64 nextHandle = 1;
 
     application = new ApplicationInfo(this);
-    application->setDesktopFile("/usr/share/applications/phone-app.desktop");
+    application->setAppId("phone-app");
     application->setName("Phone");
-    application->setIcon("phone");
-    application->setExec("/usr/bin/phone-app");
+    application->setIcon(QUrl("phone"));
     application->setStage(ApplicationInfo::SideStage);
-    application->setHandle(nextHandle++);
     generateQmlStrings(application);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
-    application->setDesktopFile("/usr/share/applications/camera-app.desktop");
+    application->setAppId("camera-app");
     application->setName("Camera");
-    application->setIcon("camera");
+    application->setIcon(QUrl("camera"));
     application->setFullscreen(true);
-    application->setExec("/usr/bin/camera-app --fullscreen");
-    application->setHandle(nextHandle++);
     generateQmlStrings(application);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
-    application->setDesktopFile("/usr/share/applications/gallery-app.desktop");
+    application->setAppId("gallery-app");
     application->setName("Gallery");
-    application->setIcon("gallery");
-    application->setExec("/usr/bin/gallery-app");
-    application->setHandle(nextHandle++);
+    application->setIcon(QUrl("gallery"));
     generateQmlStrings(application);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
-    application->setDesktopFile("/usr/share/applications/facebook-webapp.desktop");
+    application->setAppId("facebook-webapp");
     application->setName("Facebook");
-    application->setIcon("facebook");
-    application->setExec("/usr/bin/webbrowser-app --chromeless http://m.facebook.com");
+    application->setIcon(QUrl("facebook"));
     application->setStage(ApplicationInfo::SideStage);
-    application->setHandle(nextHandle++);
     generateQmlStrings(application);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
-    application->setDesktopFile("/usr/share/applications/webbrowser-app.desktop");
+    application->setAppId("webbrowser-app");
     application->setName("Browser");
-    application->setIcon("browser");
-    application->setExec("/usr/bin/webbrowser-app");
-    application->setHandle(nextHandle++);
+    application->setIcon(QUrl("browser"));
     generateQmlStrings(application);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
-    application->setDesktopFile("/usr/share/applications/twitter-webapp.desktop");
+    application->setAppId("twitter-webapp");
     application->setName("Twitter");
-    application->setIcon("twitter");
-    application->setExec("/usr/bin/webbrowser-app --chromeless http://www.twitter.com");
+    application->setIcon(QUrl("twitter"));
     application->setStage(ApplicationInfo::SideStage);
-    application->setHandle(nextHandle++);
     generateQmlStrings(application);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
-    application->setDesktopFile("/usr/share/applications/gmail-webapp.desktop");
+    application->setAppId("gmail-webapp");
     application->setName("GMail");
-    application->setIcon("gmail");
-    application->setExec("/usr/bin/webbrowser-app --chromeless http://m.gmail.com");
-    application->setHandle(nextHandle++);
+    application->setIcon(QUrl("gmail"));
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
-    application->setDesktopFile("/usr/share/applications/ubuntu-weather-app.desktop");
+    application->setAppId("ubuntu-weather-app");
     application->setName("Weather");
-    application->setIcon("weather");
-    application->setExec("/usr/bin/qmlscene /usr/share/ubuntu-weather-app/ubuntu-weather-app.qml");
+    application->setIcon(QUrl("weather"));
     application->setStage(ApplicationInfo::SideStage);
-    application->setHandle(nextHandle++);
     generateQmlStrings(application);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
-    application->setDesktopFile("/usr/share/applications/notes-app.desktop");
+    application->setAppId("notes-app");
     application->setName("Notepad");
-    application->setIcon("notepad");
-    application->setExec("/usr/bin/qmlscene /usr/share/notes-app/NotesApp.qml");
+    application->setIcon(QUrl("notepad"));
     application->setStage(ApplicationInfo::SideStage);
-    application->setHandle(nextHandle++);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
-    application->setDesktopFile("/usr/share/applications/calendar-app.desktop");
+    application->setAppId("calendar-app");
     application->setName("Calendar");
-    application->setIcon("calendar");
-    application->setExec("/usr/bin/qmlscene /usr/share/calendar-app/calendar.qml");
+    application->setIcon(QUrl("calendar"));
     application->setStage(ApplicationInfo::SideStage);
-    application->setHandle(nextHandle++);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
-    application->setDesktopFile("/usr/share/applications/mediaplayer-app.desktop");
+    application->setAppId("mediaplayer-app");
     application->setName("Media Player");
-    application->setIcon("mediaplayer-app");
+    application->setIcon(QUrl("mediaplayer-app"));
     application->setFullscreen(true);
-    application->setExec("/usr/bin/mediaplayer-app");
-    application->setHandle(nextHandle++);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
-    application->setDesktopFile("/usr/share/applications/evernote.desktop");
+    application->setAppId("evernote");
     application->setName("Evernote");
-    application->setIcon("evernote");
-    application->setHandle(nextHandle++);
+    application->setIcon(QUrl("evernote"));
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
-    application->setDesktopFile("/usr/share/applications/map.desktop");
+    application->setAppId("map");
     application->setName("Map");
-    application->setIcon("map");
-    application->setHandle(nextHandle++);
+    application->setIcon(QUrl("map"));
     generateQmlStrings(application);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
-    application->setDesktopFile("/usr/share/applications/pinterest.desktop");
+    application->setAppId("pinterest");
     application->setName("Pinterest");
-    application->setIcon("pinterest");
-    application->setHandle(nextHandle++);
+    application->setIcon(QUrl("pinterest"));
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
-    application->setDesktopFile("/usr/share/applications/soundcloud.desktop");
+    application->setAppId("soundcloud");
     application->setName("SoundCloud");
-    application->setIcon("soundcloud");
-    application->setHandle(nextHandle++);
+    application->setIcon(QUrl("soundcloud"));
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
-    application->setDesktopFile("/usr/share/applications/wikipedia.desktop");
+    application->setAppId("wikipedia");
     application->setName("Wikipedia");
-    application->setIcon("wikipedia");
-    application->setHandle(nextHandle++);
+    application->setIcon(QUrl("wikipedia"));
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
-    application->setDesktopFile("/usr/share/applications/youtube.desktop");
+    application->setAppId("youtube");
     application->setName("YouTube");
-    application->setIcon("youtube");
-    application->setHandle(nextHandle++);
+    application->setIcon(QUrl("youtube"));
     m_availableApplications.append(application);
 }
 

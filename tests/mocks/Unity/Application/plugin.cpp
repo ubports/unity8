@@ -17,7 +17,6 @@
 #include "plugin.h"
 #include "ApplicationInfo.h"
 #include "ApplicationImage.h"
-#include "ApplicationListModel.h"
 #include "ApplicationManager.h"
 
 #include <qqml.h>
@@ -34,5 +33,4 @@ void FakeUnityApplicationQmlPlugin::registerTypes(const char *uri)
             uri, 0, 1, "ApplicationManager", applicationManagerSingleton);
     qmlRegisterType<ApplicationInfo>(uri, 0, 1, "ApplicationInfo");
     qmlRegisterType<ApplicationImage>(uri, 0, 1, "ApplicationImage");
-    qmlRegisterType<ApplicationListModel>(uri, 0, 1, "ApplicationListModel");
 }
