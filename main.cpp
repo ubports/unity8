@@ -139,6 +139,13 @@ int main(int argc, char** argv)
     QUrl source("Shell.qml");
     prependImportPaths(view->engine(), ::overrideImportPaths());
     appendImportPaths(view->engine(), ::fallbackImportPaths());
+
+    if (qgetenv("QT_QPAPLATFORM") != "ubuntu") {
+        QString mirPath("/usr/lib/arm-linux-gnueabihf/qt5/imports/Unity-Mir");
+        qsetenv("QT_QPA_PLATFORM", "ubuntumirserver");
+        view->engine()->addImportPath(mirPath);
+    }
+
     view->setSource(source);
     view->setColor("transparent");
 
