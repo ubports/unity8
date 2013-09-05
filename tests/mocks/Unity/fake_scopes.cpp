@@ -19,6 +19,9 @@
 // Self
 #include "fake_scopes.h"
 
+// Local
+#include "fake_applications_scope.h"
+
 // TODO: Implement remaining pieces, like Categories (i.e. LensView now gives warnings)
 
 // Qt
@@ -53,7 +56,7 @@ void Scopes::updateScopes()
     addScope(new Scope("MockScope1", "People", true, this));
     addScope(new Scope("MockScope2", "Music", false, this));
     addScope(new Scope("home.scope", "Home", true, this));
-    addScope(new Scope("applications.scope", "Applications", true, this));
+    addScope(new ApplicationsScope(true, this));
     addScope(new Scope("MockScope5", "Videos", true, this));
 
     if (!m_loaded) {
