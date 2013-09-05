@@ -604,8 +604,8 @@ FocusScope {
             theHud: hud
             anchors.fill: parent
             enabled: !panel.indicators.shown
-            applicationIsOnForeground: applicationManager.mainStageFocusedApplication
-                                    || applicationManager.sideStageFocusedApplication
+            applicationIsOnForeground: !!applicationManager.mainStageFocusedApplication
+                                    || !!applicationManager.sideStageFocusedApplication
         }
 
         InputFilterArea {
