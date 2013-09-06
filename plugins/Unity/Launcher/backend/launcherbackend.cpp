@@ -267,6 +267,7 @@ QString LauncherBackend::findDesktopFile(const QString &appId) const
     QString helper = appId;
 
     QStringList searchDirs;
+    searchDirs << QDir::homePath() + "/.local/share/applications";
     searchDirs << "/usr/share/applications";
 
 #ifdef LAUNCHER_TESTING
