@@ -87,7 +87,7 @@ int startShell(int argc, const char** argv, ShellServerConfiguration* server)
     setenv("QML_FIXED_ANIMATION_STEP", "1", 1);
 
     const bool isUbuntuMirServer = qgetenv("QT_QPA_PLATFORM") == "ubuntumirserver";
-    
+
     QGuiApplication::setApplicationName("Unity 8");
     QGuiApplication *application;
     if (isUbuntuMirServer) {
@@ -155,7 +155,7 @@ int startShell(int argc, const char** argv, ShellServerConfiguration* server)
     if (isUbuntuMirServer) {
         importPath.first().append("/Unity-Mir");
         view->engine()->addImportPath(importPath.first());
-    } 
+    }
 
     view->setSource(source);
     view->setColor("transparent");
