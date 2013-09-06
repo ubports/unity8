@@ -29,6 +29,8 @@ ScopeView {
 
     onMovementStarted: categoryView.showHeader()
 
+    onPositionedAtBeginning: categoryView.positionAtBeginning()
+
     Binding {
         target: scopeView.scope
         property: "searchQuery"

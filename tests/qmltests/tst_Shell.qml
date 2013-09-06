@@ -63,11 +63,6 @@ Item {
             var homeLoader = findChild(dashContentList, "home.scope loader");
             verify(homeLoader);
             tryCompareFunction(function() {return homeLoader.item !== undefined;}, true);
-
-            // FIXME: Desperate measure to ensure Jenkins has the scene graph fully loaded
-            // before it calls the test functions (otherwise findChild calls will fail).
-            // The code above just didn't solve it.
-            wait(2000);
         }
 
         function cleanup() {
@@ -247,6 +242,7 @@ Item {
 
             // swipe finger up until the running/recent apps section (which we assume
             // it's the first one) is as far from view as possible.
+            // We also assume that DashApps is tall enough that it's scrollable
             var appsCategoryListView = findChild(dashApps, "categoryListView");
             while (!appsCategoryListView.atYEnd) {
                 swipeUpFromCenter();
@@ -274,7 +270,9 @@ Item {
             tryCompare(appsCategoryListView, "moving", false);
 
             verify(itemIsOnScreen(dashApps));
-            var runningApplicationsGrid = findChild(dashApps, "runningApplicationsGrid");
+
+            var runningApplicationsGrid = findChild(appsCategoryListView, "recent");
+            verify(runningApplicationsGrid);
             verify(itemIsOnScreen(runningApplicationsGrid));
         }
 
