@@ -22,6 +22,6 @@
 
 #include <QString>
 
-QString convertIconString(QString const &giconString);
+QString gIconToDeclarativeImageProviderString(QString const &giconString);
 
 #endif

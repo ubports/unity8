@@ -53,7 +53,7 @@ QString SocialPreview::avatar() const
 {
     if (m_unitySocialPreview) {
         auto giconString = g_icon_to_string(m_unitySocialPreview->avatar());
-        QString result(convertIconString(QString::fromUtf8(giconString)));
+        QString result(gIconToDeclarativeImageProviderString(QString::fromUtf8(giconString)));
         g_free(giconString);
         return result;
     } else {

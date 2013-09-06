@@ -104,7 +104,7 @@ QString Preview::image() const
 {
     if (m_unityPreview) {
         auto giconString = g_icon_to_string(m_unityPreview->image());
-        QString result(convertIconString(QString::fromUtf8(giconString)));
+        QString result(gIconToDeclarativeImageProviderString(QString::fromUtf8(giconString)));
         g_free(giconString);
         return result;
     } else {

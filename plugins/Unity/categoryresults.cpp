@@ -79,7 +79,7 @@ CategoryResults::data(const QModelIndex& index, int role) const
             return DeeListModel::data(index, ResultsColumn::URI);
         case RoleIconHint: {
             QString giconString(DeeListModel::data(index, ResultsColumn::ICON_HINT).toString());
-            return QVariant::fromValue(convertIconString(giconString));
+            return QVariant::fromValue(gIconToDeclarativeImageProviderString(giconString));
         }
         case RoleCategory:
             return DeeListModel::data(index, ResultsColumn::CATEGORY);

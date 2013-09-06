@@ -25,16 +25,16 @@
 
 #define BASE_THEME_ICON_URI "image://theme/"
 
-QString convertIconString(QString const &giconString)
+QString gIconToDeclarativeImageProviderString(QString const &giconString)
 {
     if (giconString.isEmpty()) return giconString;
 
-    if (giconString.startsWith('/') || giconString.startsWith(QString("http")) ||
-            giconString.startsWith(QString("file:"))) {
+    if (giconString.startsWith('/') || giconString.startsWith(QLatin1String("http")) ||
+            giconString.startsWith(QLatin1String("file:"))) {
         return giconString;
     }
 
-    if (!giconString.startsWith(QString(". "))) {
+    if (!giconString.startsWith(QLatin1String(". "))) {
         // must be a themed icon
         QString themedIcon(BASE_THEME_ICON_URI);
         themedIcon.append(giconString);
@@ -42,13 +42,13 @@ QString convertIconString(QString const &giconString)
     }
 
     // special case annotated icon
-    if (giconString.startsWith(". UnityProtocolAnnotatedIcon ")) {
+    if (giconString.startsWith(QLatin1String(". UnityProtocolAnnotatedIcon "))) {
         QString annotatedIcon;
         QString serializedData(QUrl::fromPercentEncoding(giconString.mid(29).toUtf8()));
         GVariant *variant = g_variant_parse(G_VARIANT_TYPE_VARDICT, serializedData.toUtf8().constData(), NULL, NULL, NULL);
         gchar *baseUri;
         if (variant != NULL && g_variant_lookup(variant, "base-icon", "&s", &baseUri)) {
-            annotatedIcon = convertIconString(QString(baseUri));
+            annotatedIcon = gIconToDeclarativeImageProviderString(QString(baseUri));
             // FIXME: enclose in image://annotated/... once unity supports that
         }
         if (variant != NULL) g_variant_unref(variant);
@@ -72,7 +72,7 @@ QString convertIconString(QString const &giconString)
         const char* const *iconNames = g_themed_icon_get_names(G_THEMED_ICON(icon));
         if (iconNames != NULL) {
             for (const char * const *iter = iconNames; *iter != NULL; ++iter) {
-                list << QString(*iter);
+                list << QLatin1String(*iter);
             }
         }
         themedIcon.append(list.join(QString(",")));

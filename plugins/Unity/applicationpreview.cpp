@@ -63,7 +63,7 @@ QString ApplicationPreview::appIcon() const
 {
     if (m_unityAppPreview) {
         auto giconString = g_icon_to_string(m_unityAppPreview->app_icon());
-        QString result(convertIconString(QString::fromUtf8(giconString)));
+        QString result(gIconToDeclarativeImageProviderString(QString::fromUtf8(giconString)));
         g_free(giconString);
         return result;
     } else {
