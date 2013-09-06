@@ -15,11 +15,11 @@
  */
 
 import QtQuick 2.0
+import GSettings 1.0
 import Ubuntu.Application 0.1
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
 import Unity.Launcher 0.1
-import GSettings 1.0
 import Powerd 0.1
 import SessionManager 0.1
 import "Dash"

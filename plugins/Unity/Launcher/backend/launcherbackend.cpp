@@ -18,7 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "AccountsService.h"
+#include "AccountsServiceDBusAdaptor.h"
 #include "launcherbackend.h"
 
 #include <QDir>
@@ -43,7 +43,7 @@ LauncherBackend::LauncherBackend(bool useStorage, QObject *parent):
     m_accounts(nullptr)
 {
     if (useStorage) {
-        m_accounts = new AccountsService(this);
+        m_accounts = new AccountsServiceDBusAdaptor(this);
     }
     m_user = qgetenv("USER");
     syncFromAccounts();

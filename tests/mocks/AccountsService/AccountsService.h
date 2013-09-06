@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012,2013 Canonical, Ltd.
+ * Copyright (C) 2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,14 +17,14 @@
  *          Michael Terry <michael.terry@canonical.com>
  */
 
-#ifndef UNITY_MOCK_ACCOUNTSBINDINGS_H
-#define UNITY_MOCK_ACCOUNTSBINDINGS_H
+#ifndef UNITY_MOCK_ACCOUNTSSERVICE_H
+#define UNITY_MOCK_ACCOUNTSSERVICE_H
 
 #include <QObject>
 #include <QString>
 #include <QVariant>
 
-class AccountsBindings: public QObject
+class AccountsService: public QObject
 {
     Q_OBJECT
     Q_PROPERTY (QString user
@@ -44,7 +44,7 @@ class AccountsBindings: public QObject
                 NOTIFY backgroundFileChanged)
 
 public:
-    explicit AccountsBindings(QObject *parent = 0);
+    explicit AccountsService(QObject *parent = 0);
 
     QString getUser();
     void setUser(const QString &user);
