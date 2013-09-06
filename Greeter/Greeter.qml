@@ -26,6 +26,8 @@ Showable {
     enabled: shown
     created: greeterContentLoader.status == Loader.Ready
 
+    property url background
+
     // 1 when fully shown and 0 when fully hidden
     property real showProgress: MathLocal.clamp((width + x) / width, 0, 1)
 
@@ -53,6 +55,13 @@ Showable {
         if (rightTeaserPressed && !locked) {
             teasingTimer.start();
         }
+    }
+
+    CrossFadeImage {
+        id: backgroundImage
+        anchors.fill: parent
+        fadeInFirst: false
+        source: greeter.background
     }
 
     Loader {

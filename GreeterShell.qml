@@ -14,16 +14,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Application 0.1
 import AccountsService 0.1
 import LightDM 0.1 as LightDM
+import Powerd 0.1
+import QtQuick 2.0
 import SessionBroadcast 0.1
+import Ubuntu.Application 0.1
+import Unity.Launcher 0.1
+import "Components"
+import "Components/Math.js" as MathLocal
 import "Greeter"
 import "Launcher"
 import "Panel"
-import "Components"
-import "Components/Math.js" as MathLocal
 
 BasicShell {
     id: shell
@@ -34,13 +36,6 @@ BasicShell {
     }
 
     backgroundSource: AccountsService.backgroundFile
-
-    CrossFadeImage {
-        id: backgroundImage
-        anchors.fill: parent
-        fadeInFirst: false
-        source: shell.background
-    }
 
     Lockscreen {
         id: lockscreen
@@ -53,7 +48,6 @@ BasicShell {
         x: required ? 0 : - width
         width: parent.width
         height: parent.height - panel.panelHeight
-        background: shell.background
 
         onUnlocked: lockscreen.hide()
         onCancel: greeter.show()
@@ -90,6 +84,7 @@ BasicShell {
         available: true
         hides: [launcher, panel.indicators]
         shown: true
+        background: shell.background
 
         y: panel.panelHeight
         width: parent.width
@@ -182,6 +177,21 @@ BasicShell {
                 if (shown) {
                     panel.indicators.hide()
                 }
+            }
+            onDashItemSelected: greeter.show()
+        }
+    }
+
+    Connections {
+        id: powerConnection
+        target: Powerd
+
+        onDisplayPowerStateChange: {
+            if (status == Powerd.Off) {
+                greeter.show();
+                edgeDemo.paused = true;
+            } else if (status == Powerd.On) {
+                edgeDemo.paused = false;
             }
         }
     }
