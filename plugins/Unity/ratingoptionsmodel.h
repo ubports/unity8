@@ -27,7 +27,7 @@ class RatingOptionsModel : public GenericOptionsModel
     Q_OBJECT
 
 public:
-    RatingOptionsModel(QObject *parent);
+    RatingOptionsModel(bool showAllOption, QObject *parent);
 };
 
 #endif // RATINGOPTIONSMODEL_H

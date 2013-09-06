@@ -26,8 +26,9 @@
 UnityOptionsModel::UnityOptionsModel(QObject *parent,
                                      const std::vector<unity::dash::FilterOption::Ptr> options,
                                      sigc::signal<void, unity::dash::FilterOption::Ptr> optionAdded,
-                                     sigc::signal<void, unity::dash::FilterOption::Ptr> optionRemoved) :
-    GenericOptionsModel(parent)
+                                     sigc::signal<void, unity::dash::FilterOption::Ptr> optionRemoved,
+                                     bool showAllOption) :
+    GenericOptionsModel(showAllOption, parent)
 {
     setOptions(options, optionAdded, optionRemoved);
 }
@@ -38,7 +39,7 @@ void UnityOptionsModel::setOptions(const std::vector<unity::dash::FilterOption::
 {
     for (unsigned int i=0; i<options.size(); i++)
     {
-        addOption(new FilterOption(options[i], this), i);
+        addOption(new FilterOption(options[i], this));
     }
     optionAdded.connect(sigc::mem_fun(this, &UnityOptionsModel::onOptionAdded));
     optionRemoved.connect(sigc::mem_fun(this, &UnityOptionsModel::onOptionRemoved));
@@ -50,7 +51,7 @@ void UnityOptionsModel::onOptionAdded(unity::dash::FilterOption::Ptr option)
     if (index >= 0)
     {
         beginInsertRows(QModelIndex(), index, index);
-        addOption(new FilterOption(option, this), index);
+        addOption(new FilterOption(option, this));
         endInsertRows();
     }
 }

@@ -1,3 +1,4 @@
+usr/lib/*/unity8/qml/AccountsService
 usr/lib/*/unity8/qml/HudClient
 usr/lib/*/unity8/qml/LightDM
 usr/lib/*/unity8/qml/ListViewWithPageHeader
@@ -5,3 +6,7 @@ usr/lib/*/unity8/qml/Powerd
 usr/lib/*/unity8/qml/Ubuntu
 usr/lib/*/unity8/qml/Unity
 usr/lib/*/unity8/qml/Utils
+usr/share/accountsservice/interfaces
+usr/share/dbus-1/interfaces
+usr/share/polkit-1
+var/lib/polkit-1

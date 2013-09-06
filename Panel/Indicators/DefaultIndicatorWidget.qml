@@ -24,7 +24,7 @@ import Unity.IndicatorsLegacy 0.1 as Indicators
 Indicators.IndicatorWidget {
     id: indicatorWidget
 
-    width: itemRow.width + units.gu(1)
+    width: itemRow.width + units.gu(0.5)
 
     property alias label: itemLabel.text
     property alias iconSource: itemImage.source

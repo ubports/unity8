@@ -24,11 +24,20 @@
 
 #define CATEGORY_COLUMN 2
 
+// TODO: use something from libunity once it's public
+enum CategoryColumn {
+    ID,
+    DISPLAY_NAME,
+    ICON_HINT,
+    RENDERER_NAME,
+    HINTS
+};
+
 Categories::Categories(QObject* parent)
     : DeeListModel(parent)
 {
     // FIXME: need to clean up unused filters on countChanged
-    m_roles[Categories::RoleId] = "id";
+    m_roles[Categories::RoleCategoryId] = "categoryId";
     m_roles[Categories::RoleName] = "name";
     m_roles[Categories::RoleIcon] = "icon";
     m_roles[Categories::RoleRenderer] = "renderer";
@@ -36,7 +45,6 @@ Categories::Categories(QObject* parent)
     m_roles[Categories::RoleHints] = "hints";
     m_roles[Categories::RoleResults] = "results";
     m_roles[Categories::RoleCount] = "count";
-    m_roles[Categories::RoleCategoryIndex] = "categoryIndex";
 
     // TODO This should not be needed but accumulatting the count changes
     // makes the visualization more stable and also makes crashes on fast
@@ -74,6 +82,25 @@ Categories::onCountChanged()
     }
 }
 
+void Categories::onRowCountChanged()
+{
+    QAbstractItemModel* model = qobject_cast<QAbstractItemModel*>(sender());
+    // find the corresponding category index
+    for (auto iter = m_overriddenCategories.begin(); iter != m_overriddenCategories.end(); ++iter) {
+        if (iter.value() == model) {
+            for (int i = 0; i < rowCount(); i++) {
+                auto id = data(index(i), RoleCategoryId).toString();
+                if (id != iter.key()) continue;
+                QVector<int> roles;
+                roles.append(RoleCount);
+                QModelIndex changedIndex = index(i);
+                Q_EMIT dataChanged(changedIndex, changedIndex, roles);
+                break;
+            }
+        }
+    }
+}
+
 void
 Categories::onEmitCountChanged()
 {
@@ -91,6 +118,41 @@ QHash<int, QByteArray>
 Categories::roleNames() const
 {
     return m_roles;
+}
+
+void Categories::onOverrideModelDestroyed()
+{
+    QObject* model = sender();
+    auto iter = m_overriddenCategories.begin();
+    while (iter != m_overriddenCategories.end()) {
+        if (iter.value() == model) {
+            iter = m_overriddenCategories.erase(iter);
+            continue;
+        }
+        ++iter;
+    }
+}
+
+void Categories::overrideResults(const QString& categoryId, QAbstractItemModel* model)
+{
+    m_overriddenCategories[categoryId] = model;
+    // watch the model
+    connect(model, &QObject::destroyed, this, &Categories::onOverrideModelDestroyed);
+    connect(model, &QAbstractItemModel::rowsInserted, this, &Categories::onRowCountChanged);
+    connect(model, &QAbstractItemModel::rowsRemoved, this, &Categories::onRowCountChanged);
+    connect(model, &QAbstractItemModel::modelReset, this, &Categories::onRowCountChanged);
+
+    // emit the dataChanged signal if the category is already in the model
+    for (int i = 0; i < rowCount(); i++) {
+        auto id = data(index(i), RoleCategoryId).toString();
+        if (id != categoryId) continue;
+        QVector<int> roles;
+        roles.append(RoleCount);
+        roles.append(RoleResults);
+        QModelIndex changedIndex = index(i);
+        Q_EMIT dataChanged(changedIndex, changedIndex, roles);
+        break;
+    }
 }
 
 void Categories::setResultModel(DeeModel* model)
@@ -154,27 +216,37 @@ Categories::data(const QModelIndex& index, int role) const
     }
 
     switch (role) {
-        case RoleId:
-            return DeeListModel::data(index, 0); //ID
+        case RoleCategoryId:
+            return DeeListModel::data(index, CategoryColumn::ID);
         case RoleName:
-            return DeeListModel::data(index, 1); //DISPLAY_NAME
+            return DeeListModel::data(index, CategoryColumn::DISPLAY_NAME);
         case RoleIcon:
-            return DeeListModel::data(index, 2); //ICON_HINT
+            return DeeListModel::data(index, CategoryColumn::ICON_HINT);
         case RoleRenderer:
-            return DeeListModel::data(index, 3); //RENDERER_NAME
+            return DeeListModel::data(index, CategoryColumn::RENDERER_NAME);
         case RoleContentType:
         {
-            auto hints = DeeListModel::data(index, 4).toHash();
-            return hints.contains("content-type") ? hints["content-type"] : QVariant(QString("default"));
+            auto hints = DeeListModel::data(index, CategoryColumn::HINTS).toHash();
+            return  hints.contains("content-type") ? hints["content-type"] : QVariant(QString("default"));
         }
         case RoleHints:
-            return DeeListModel::data(index, 4); //HINTS
+            return DeeListModel::data(index, CategoryColumn::HINTS);
         case RoleResults:
+            if (m_overriddenCategories.size() > 0)
+            {
+                auto id = DeeListModel::data(index, CategoryColumn::ID).toString();
+                if (m_overriddenCategories.find(id) != m_overriddenCategories.end())
+                    return QVariant::fromValue(m_overriddenCategories[id]);
+            }
             return QVariant::fromValue(getFilter(index.row()));
         case RoleCount:
+            if (m_overriddenCategories.size() > 0)
+            {
+                auto id = DeeListModel::data(index, CategoryColumn::ID).toString();
+                if (m_overriddenCategories.find(id) != m_overriddenCategories.end())
+                    return QVariant::fromValue(m_overriddenCategories[id]->rowCount());
+            }
             return QVariant::fromValue(getFilter(index.row())->rowCount());
-        case RoleCategoryIndex:
-            return QVariant::fromValue(index.row());
         default:
             return QVariant();
     }

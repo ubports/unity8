@@ -2,6 +2,7 @@
  * Copyright (C) 2013 Canonical, Ltd.
  *
  * Authors:
+ *  Michael Terry <michael.terry@canonical.com>
  *  Michael Zanetti <michael.zanetti@canonical.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -17,57 +18,45 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "AccountsService.h"
 #include "launcherbackend.h"
 
-#include <QHash>
+#include <QDir>
+#include <QDBusArgument>
+#include <QFileInfo>
+#include <QGSettings>
+#include <QDebug>
 
-LauncherBackend::LauncherBackend(QObject *parent):
-    QObject(parent)
+class LauncherBackendItem
 {
+public:
+    LauncherBackendItem(): pinned(false) {}
 
-    // TODO: load default pinned ones from default config, instead of hardcoding here...
+    QString desktopFile;
+    QString displayName;
+    QString icon;
+    bool pinned;
+};
 
-    m_storedApps <<
-        QLatin1String("phone-app.desktop") <<
-        QLatin1String("camera-app.desktop") <<
-        QLatin1String("gallery-app.desktop") <<
-        QLatin1String("facebook-webapp.desktop") <<
-        QLatin1String("webbrowser-app.desktop") <<
-        QLatin1String("twitter-webapp.desktop") <<
-        QLatin1String("gmail-webapp.desktop") <<
-        QLatin1String("ubuntu-weather-app.desktop") <<
-        QLatin1String("notes-app.desktop") <<
-        QLatin1String("calendar-app.desktop");
-
-    // TODO: get stuff from desktop files instead this hardcoded map
-    m_displayNameMap.insert("phone-app.desktop", "Phone");
-    m_displayNameMap.insert("camera-app.desktop", "Camera");
-    m_displayNameMap.insert("gallery-app.desktop", "Gallery");
-    m_displayNameMap.insert("facebook-webapp.desktop", "Facebook");
-    m_displayNameMap.insert("webbrowser-app.desktop", "Browser");
-    m_displayNameMap.insert("twitter-webapp.desktop", "Twitter");
-    m_displayNameMap.insert("gmail-webapp.desktop", "GMail");
-    m_displayNameMap.insert("ubuntu-weather-app.desktop", "Weather");
-    m_displayNameMap.insert("notes-app.desktop", "Notes");
-    m_displayNameMap.insert("calendar-app.desktop", "Calendar");
-
-    // TODO: get stuff from desktop files instead this hardcoded map
-    m_iconMap.insert("phone-app.desktop", "phone-app");
-    m_iconMap.insert("camera-app.desktop", "camera");
-    m_iconMap.insert("gallery-app.desktop", "gallery");
-    m_iconMap.insert("facebook-webapp.desktop", "facebook");
-    m_iconMap.insert("webbrowser-app.desktop", "browser");
-    m_iconMap.insert("twitter-webapp.desktop", "twitter");
-    m_iconMap.insert("gmail-webapp.desktop", "gmail");
-    m_iconMap.insert("ubuntu-weather-app.desktop", "weather");
-    m_iconMap.insert("notes-app.desktop", "notepad");
-    m_iconMap.insert("calendar-app.desktop", "calendar");
-
+LauncherBackend::LauncherBackend(bool useStorage, QObject *parent):
+    QObject(parent),
+    m_accounts(nullptr)
+{
+    if (useStorage) {
+        m_accounts = new AccountsService(this);
+    }
+    m_user = qgetenv("USER");
+    syncFromAccounts();
 }
 
 LauncherBackend::~LauncherBackend()
 {
+    m_storedApps.clear();
 
+    Q_FOREACH(LauncherBackendItem *item, m_itemCache) {
+        delete item;
+    }
+    m_itemCache.clear();
 }
 
 QStringList LauncherBackend::storedApplications() const
@@ -77,38 +66,103 @@ QStringList LauncherBackend::storedApplications() const
 
 void LauncherBackend::setStoredApplications(const QStringList &appIds)
 {
+    if (appIds.count() < m_storedApps.count()) {
+        Q_FOREACH(const QString &appId, m_storedApps) {
+            if (!appIds.contains(appId)) {
+                delete m_itemCache.take(appId);
+            }
+        }
+    }
     m_storedApps = appIds;
-    // TODO: Cleanup pinned state from settings for apps not in list any more.
+    Q_FOREACH(const QString &appId, appIds) {
+        if (!m_itemCache.contains(appId)) {
+            QString df = findDesktopFile(appId);
+            if (!df.isEmpty()) {
+                LauncherBackendItem *item = parseDesktopFile(df);
+                m_itemCache.insert(appId, item);
+            } else {
+                // Cannot find any data for that app... ignoring it.
+                qWarning() << "cannot find desktop file for" << appId << ". discarding app.";
+                m_storedApps.removeAll(appId);
+            }
+        }
+    }
+    syncToAccounts();
 }
 
 QString LauncherBackend::desktopFile(const QString &appId) const
 {
-    // TODO: return real path instead of this hardcoded one
-    return QLatin1String("/usr/share/applications/") + appId;
+    LauncherBackendItem *item = m_itemCache.value(appId);
+    if (item) {
+        return item->desktopFile;
+    }
+
+    return findDesktopFile(appId);
 }
 
 QString LauncherBackend::displayName(const QString &appId) const
 {
-    return m_displayNameMap.value(appId);
+    LauncherBackendItem *item = m_itemCache.value(appId);
+    if (item) {
+        return item->displayName;
+    }
+
+    QString df = findDesktopFile(appId);
+    if (!df.isEmpty()) {
+        LauncherBackendItem *item = parseDesktopFile(df);
+        m_itemCache.insert(appId, item);
+        return item->displayName;
+    }
+
+    return QString();
 }
 
 QString LauncherBackend::icon(const QString &appId) const
 {
-    return m_iconMap.value(appId);
+    QString iconName;
+    LauncherBackendItem *item = m_itemCache.value(appId);
+    if (item) {
+        iconName = item->icon;
+    } else {
+        QString df = findDesktopFile(appId);
+        if (!df.isEmpty()) {
+            LauncherBackendItem *item = parseDesktopFile(df);
+            m_itemCache.insert(appId, item);
+            iconName = item->icon;
+        }
+    }
+
+    QFileInfo info(iconName);
+    if (info.exists()) {
+        return info.absoluteFilePath();
+    }
+    return "image://theme/" + iconName;
 }
 
 bool LauncherBackend::isPinned(const QString &appId) const
 {
-    // TODO: return app's pinned state from settings
-    Q_UNUSED(appId)
+    LauncherBackendItem *item = m_itemCache.value(appId);
+    if (item) {
+        return item->pinned;
+    }
     return false;
 }
 
 void LauncherBackend::setPinned(const QString &appId, bool pinned)
 {
-    // TODO: Store pinned state in settings.
-    Q_UNUSED(appId)
-    Q_UNUSED(pinned)
+    if (!m_storedApps.contains(appId)) {
+        return;
+    }
+
+    LauncherBackendItem *item = m_itemCache.value(appId);
+    if (!item) {
+        item = new LauncherBackendItem();
+        m_itemCache.insert(appId, item);
+    }
+    if (item->pinned != pinned) {
+        item->pinned = pinned;
+        syncToAccounts();
+    }
 }
 
 QList<QuickListEntry> LauncherBackend::quickList(const QString &appId) const
@@ -137,9 +191,159 @@ int LauncherBackend::count(const QString &appId) const
     return 0;
 }
 
+void LauncherBackend::setUser(const QString &username)
+{
+    if (qgetenv("USER") == "lightdm" && m_user != username) {
+        m_user = username;
+        syncFromAccounts();
+    }
+}
+
 void LauncherBackend::triggerQuickListAction(const QString &appId, const QString &quickListId)
 {
     // TODO: execute the given quicklist action
     Q_UNUSED(appId)
     Q_UNUSED(quickListId)
+}
+
+void LauncherBackend::syncFromAccounts()
+{
+    QList<QVariantMap> apps;
+    bool defaults = true;
+
+    m_storedApps.clear();
+
+    if (m_accounts && !m_user.isEmpty()) {
+        QVariant variant = m_accounts->getUserProperty(m_user, "launcher-items");
+        apps = qdbus_cast<QList<QVariantMap>>(variant.value<QDBusArgument>());
+        defaults = isDefaultsItem(apps);
+    }
+
+    if (m_accounts && defaults) { // Checking accounts as it'll be null when !useStorage
+        QGSettings gSettings("com.canonical.Unity.Launcher", "/com/canonical/unity/launcher/");
+        Q_FOREACH(const QString &entry, gSettings.get("favorites").toStringList()) {
+            if (entry.startsWith("application://")) {
+                QString appId = entry;
+                // Transform "application://foobar.desktop" to "foobar"
+                appId.remove("application://");
+                if (appId.endsWith(".desktop")) {
+                    appId.chop(8);
+                }
+                QString df = findDesktopFile(appId);
+
+                if (!df.isEmpty()) {
+                    m_storedApps << appId;
+
+                    if (!m_itemCache.contains(appId)) {
+                        m_itemCache.insert(appId, parseDesktopFile(df));
+                    }
+                    m_itemCache.value(appId)->pinned = true;
+                }
+            }
+        }
+    } else {
+        for (const QVariant &app: apps) {
+            loadFromVariant(app.toMap());
+        }
+    }
+}
+
+void LauncherBackend::syncToAccounts()
+{
+    if (m_accounts && !m_user.isEmpty()) {
+        QList<QVariantMap> items;
+
+        Q_FOREACH(const QString &appId, m_storedApps) {
+            items << itemToVariant(appId);
+        }
+
+        m_accounts->setUserProperty(m_user, "launcher-items", QVariant::fromValue(items));
+    }
+}
+
+QString LauncherBackend::findDesktopFile(const QString &appId) const
+{
+    int dashPos = -1;
+    QString helper = appId;
+
+    QStringList searchDirs;
+    searchDirs << QDir::homePath() + "/.local/share/applications";
+    searchDirs << "/usr/share/applications";
+
+#ifdef LAUNCHER_TESTING
+    searchDirs << "";
+#endif
+
+    do {
+        if (dashPos != -1) {
+            helper = helper.replace(dashPos, 1, '/');
+        }
+
+        Q_FOREACH(const QString &searchDir, searchDirs) {
+            QFileInfo fileInfo(QDir(searchDir), helper + ".desktop");
+            if (fileInfo.exists()) {
+                return fileInfo.absoluteFilePath();
+            }
+        }
+
+        dashPos = helper.indexOf("-");
+    } while (dashPos != -1);
+
+    return QString();
+}
+
+LauncherBackendItem* LauncherBackend::parseDesktopFile(const QString &desktopFile) const
+{
+    QSettings settings(desktopFile, QSettings::IniFormat);
+
+
+    LauncherBackendItem* item = new LauncherBackendItem();
+    item->desktopFile = desktopFile;
+    item->displayName = settings.value("Desktop Entry/Name").toString();
+    item->icon = settings.value("Desktop Entry/Icon").toString();
+    item->pinned = false;
+    return item;
+}
+
+void LauncherBackend::loadFromVariant(const QVariantMap &details)
+{
+    if (!details.contains("id")) {
+        return;
+    }
+    QString appId = details.value("id").toString();
+
+    LauncherBackendItem *item = m_itemCache.value(appId);
+    if (item) {
+        delete item;
+    }
+
+    item = new LauncherBackendItem();
+
+    item->desktopFile = details.value("desktopFile").toString();
+    item->displayName = details.value("name").toString();
+    item->icon = details.value("icon").toString();
+    item->pinned = details.value("is-pinned").toBool();
+
+    m_itemCache.insert(appId, item);
+    m_storedApps.append(appId);
+}
+
+QVariantMap LauncherBackend::itemToVariant(const QString &appId) const
+{
+    LauncherBackendItem *item = m_itemCache.value(appId);
+    QVariantMap details;
+    details.insert("id", appId);
+    details.insert("name", item->displayName);
+    details.insert("icon", item->icon);
+    details.insert("desktopFile", item->desktopFile);
+    details.insert("is-pinned", item->pinned);
+    return details;
+}
+
+bool LauncherBackend::isDefaultsItem(const QList<QVariantMap> &apps) const
+{
+    // To differentiate between an empty list and a list that hasn't been set
+    // yet (and should thus be populated with the defaults), we use a special
+    // list of one item with the 'defaults' field set to true.
+    return (apps.size() == 1 && apps[0].value("defaults").toBool());
 }

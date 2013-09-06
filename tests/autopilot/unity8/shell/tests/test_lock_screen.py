@@ -178,3 +178,5 @@ class TestLockscreen(UnityTestCase):
         except AssertionError:
             if retries > 0:
                 self._type_character(character, prompt, retries-1)
+            else:
+                raise

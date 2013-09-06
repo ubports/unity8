@@ -32,8 +32,9 @@ class UNITYINDICATORS_EXPORT RootActionState : public ActionStateParser
     Q_PROPERTY(UnityMenuModel* menu READ menu WRITE setMenu NOTIFY menuChanged)
 
     Q_PROPERTY(bool valid READ isValid NOTIFY validChanged)
-    Q_PROPERTY(QString label READ label NOTIFY labelChanged)
-    Q_PROPERTY(QString icon READ icon NOTIFY iconChanged)
+    Q_PROPERTY(QString leftLabel READ leftLabel NOTIFY leftLabelChanged)
+    Q_PROPERTY(QString rightLabel READ rightLabel NOTIFY rightLabelChanged)
+    Q_PROPERTY(QStringList icons READ icons NOTIFY iconsChanged)
     Q_PROPERTY(QString accessibleName READ accessibleName NOTIFY accessibleNameChanged)
     Q_PROPERTY(bool visible READ isVisible NOTIFY visibleChanged)
 public:
@@ -47,8 +48,9 @@ public:
     void setIndex(int index);
 
     bool isValid() const;
-    QString label() const;
-    QString icon() const;
+    QString leftLabel() const;
+    QString rightLabel() const;
+    QStringList icons() const;
     QString accessibleName() const;
     bool isVisible() const;
 
@@ -62,8 +64,9 @@ Q_SIGNALS:
     void indexChanged();
 
     void validChanged();
-    void labelChanged();
-    void iconChanged();
+    void leftLabelChanged();
+    void rightLabelChanged();
+    void iconsChanged();
     void accessibleNameChanged();
     void visibleChanged();
 

@@ -44,6 +44,8 @@ Showable {
     readonly property bool rightTeaserPressed: greeterContentLoader.status == Loader.Ready &&
                                                greeterContentLoader.item.rightTeaserPressed
 
+    readonly property int currentIndex: greeterContentLoader.currentIndex
+
     signal selected(int uid)
     signal unlocked(int uid)
 
@@ -63,11 +65,13 @@ Showable {
 
         source: required ? "GreeterContent.qml" : ""
 
-
         Connections {
             target: greeterContentLoader.item
 
-            onSelected: greeter.selected(uid);
+            onSelected: {
+                greeter.selected(uid);
+                greeterContentLoader.currentIndex = uid;
+            }
             onUnlocked: greeter.unlocked(uid);
         }
     }
