@@ -111,6 +111,8 @@ class ApplicationManager : public ApplicationManagerInterface {
     void focusRequested(FavoriteApplication favoriteApplication);
 
  private:
+    void add(ApplicationInfo *application);
+    void remove(ApplicationInfo* application);
     void showApplicationWindow(ApplicationInfo *application);
     void buildListOfAvailableApplications();
     void generateQmlStrings(ApplicationInfo *application);

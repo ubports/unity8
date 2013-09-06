@@ -70,7 +70,6 @@ QVariant ApplicationManager::data(const QModelIndex& index, int role) const {
 ApplicationInfo *ApplicationManager::get(int row) const {
     if (row < 0 || row >= m_runningApplications.size())
         return nullptr;
-
     return m_runningApplications.at(row);
 }
 
@@ -81,6 +80,26 @@ ApplicationInfo *ApplicationManager::findApplication(const QString &appId) const
         }
     }
     return nullptr;
+}
+
+void ApplicationManager::add(ApplicationInfo* application) {
+    if (!application)
+        return;
+
+    beginInsertRows(QModelIndex(), m_runningApplications.size(), m_runningApplications.size());
+    m_runningApplications.append(application);
+    endInsertRows();
+    Q_EMIT countChanged();
+}
+
+void ApplicationManager::remove(ApplicationInfo *application) {
+    int i = m_runningApplications.indexOf(application);
+    if (i != -1) {
+        beginRemoveRows(QModelIndex(), i, i);
+        m_runningApplications.removeAt(i);
+        endRemoveRows();
+        Q_EMIT countChanged();
+    }
 }
 
 void ApplicationManager::move(int from, int to) {
@@ -135,8 +154,7 @@ ApplicationInfo* ApplicationManager::startApplication(const QString &appId,
     Q_UNUSED(arguments)
     ApplicationInfo *application = 0;
 
-    for (int i = 0; i < m_availableApplications.count(); ++i) {
-        ApplicationInfo *availableApp = m_availableApplications[i];
+    for (ApplicationInfo *availableApp : m_availableApplications) {
         if (availableApp->appId() == appId) {
             application = availableApp;
             break;
@@ -146,40 +164,40 @@ ApplicationInfo* ApplicationManager::startApplication(const QString &appId,
     if (!application)
         return 0;
 
-    m_runningApplications.append(application);
+    add(application);
     if (flags.testFlag(ApplicationManager::ForceMainStage)
             && application->stage() == ApplicationInfo::SideStage) {
         application->setStage(ApplicationInfo::MainStage);
     }
 
-    application->setFocused(true);
+    focusApplication(application->appId());
     Q_EMIT focusedApplicationIdChanged();
     return application;
 }
 
 bool ApplicationManager::stopApplication(const QString &appId)
 {
-    ApplicationInfo *application = this->findApplication(appId);
+    ApplicationInfo *application = findApplication(appId);
     if (application == nullptr)
         return false;
 
-    application->setFocused(false);
-    m_runningApplications.removeAll(application);
+    remove(application);
     Q_EMIT focusedApplicationIdChanged();
     return true;
 }
 
 QString ApplicationManager::focusedApplicationId() const {
     for (ApplicationInfo *app : m_runningApplications) {
-        if (app->focused())
+        if (app->focused()) {
             return app->appId();
+        }
     }
     return QString();
 }
 
 bool ApplicationManager::focusApplication(const QString &appId)
 {
-    ApplicationInfo *application = this->findApplication(appId);
+    ApplicationInfo *application = findApplication(appId);
     if (application == nullptr)
         return false;
 
@@ -216,7 +234,7 @@ bool ApplicationManager::focusApplication(const QString &appId)
     }
 
     // move app to top of stack
-    this->move(m_runningApplications.indexOf(application), 0);
+    move(m_runningApplications.indexOf(application), 0);
     Q_EMIT focusedApplicationIdChanged();
     return true;
 }
@@ -224,8 +242,10 @@ bool ApplicationManager::focusApplication(const QString &appId)
 void ApplicationManager::unfocusCurrentApplication()
 {
     for (ApplicationInfo *app : m_runningApplications) {
-        if (app->focused())
+        if (app->focused()) {
+            app->hideWindow();
             app->setFocused(false);
+        }
     }
     Q_EMIT focusedApplicationIdChanged();
 }
