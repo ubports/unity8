@@ -16,6 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Application 0.1
+import AccountsService 0.1
 import LightDM 0.1 as LightDM
 import SessionBroadcast 0.1
 import "Greeter"
@@ -30,6 +31,15 @@ BasicShell {
     function activateApplication(desktopFile, argument) {
         SessionBroadcast.requestApplicationStart(LightDM.Greeter.authenticationUser, desktopFile)
         greeter.hide()
+    }
+
+    backgroundSource: AccountsService.backgroundFile
+
+    CrossFadeImage {
+        id: backgroundImage
+        anchors.fill: parent
+        fadeInFirst: false
+        source: shell.background
     }
 
     Lockscreen {

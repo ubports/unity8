@@ -24,7 +24,7 @@ import "../Components/Math.js" as MathLocal
 Showable {
     id: greeter
     enabled: shown
-    created: greeterContentLoader.status == Loader.Ready && greeterContentLoader.item.ready
+    created: greeterContentLoader.status == Loader.Ready
 
     // 1 when fully shown and 0 when fully hidden
     property real showProgress: MathLocal.clamp((width + x) / width, 0, 1)

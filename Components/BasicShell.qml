@@ -14,7 +14,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import GSettings 1.0
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import "../Components"
@@ -29,17 +28,12 @@ FocusScope {
     height: tablet ? units.gu(100) : applicationArguments.hasGeometry() ? applicationArguments.height() : units.gu(71)
 
     property real edgeSize: units.gu(2)
+
     property url defaultBackground: shell.width >= units.gu(60) ? "../graphics/tablet_background.jpg" : "../graphics/phone_background.jpg"
     property url background
-
-    GSettings {
-        id: backgroundSettings
-        schema.id: "org.gnome.desktop.background"
-    }
-    property url gSettingsPicture: backgroundSettings.pictureUri != undefined && backgroundSettings.pictureUri.length > 0 ? backgroundSettings.pictureUri : shell.defaultBackground
-    onGSettingsPictureChanged: {
-        shell.background = gSettingsPicture
-    }
+    property url backgroundSource
+    property url backgroundFinal: backgroundSource != undefined && backgroundSource != "" ? backgroundSource : shell.defaultBackground
+    onBackgroundFinalChanged: shell.background = backgroundFinal
 
     // This is a dummy image that is needed to determine if the picture url
     // in backgroundSettings points to a valid picture file.
@@ -56,8 +50,13 @@ FocusScope {
         sourceSize.height: 0
         sourceSize.width: 0
         onStatusChanged: {
-            if (status == Image.Error && source != shell.defaultBackground) {
-                shell.background = defaultBackground
+            if (status == Image.Error) {
+                if (source != shell.defaultBackground) {
+                    shell.background = defaultBackground
+                } else {
+                    // In case even our default background fails to load...
+                    shell.background = "data:image/svg+xml,<svg><rect width='100%' height='100%' fill='#000'/></svg>"
+                }
             }
         }
     }

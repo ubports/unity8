@@ -24,7 +24,6 @@ MouseArea {
     id: root
     anchors.fill: parent
 
-    property bool ready: wallpaper.source == "" || wallpaper.status == Image.Ready || wallpaper.status == Image.Error
     property bool leftTeaserPressed: teasingMouseArea.pressed &&
                                      teasingMouseArea.mouseX < teasingMouseArea.width / 2
     property bool rightTeaserPressed: teasingMouseArea.pressed &&
@@ -32,37 +31,6 @@ MouseArea {
 
     signal selected(int uid)
     signal unlocked(int uid)
-
-    Rectangle {
-        // In case wallpaper fails to load
-        id: wallpaperBackup
-        anchors.fill: parent
-        color: "black"
-    }
-
-    property url backgroundValue: AccountsService.backgroundFile != undefined && AccountsService.backgroundFile.length > 0 ? AccountsService.backgroundFile : shell.defaultBackground
-    onBackgroundValueChanged: wallpaper.source = backgroundValue
-
-    CrossFadeImage {
-        id: wallpaper
-        anchors.fill: parent
-        fadeInFirst: false
-    }
-
-    // See Shell.qml's backgroundSettings treatment for why we need a separate
-    // Image, but it boils down to avoiding binding loop detection.
-    Image {
-        source: wallpaper.source
-        height: 0
-        width: 0
-        sourceSize.height: 0
-        sourceSize.width: 0
-        onStatusChanged: {
-            if (status == Image.Error && source != shell.defaultBackground) {
-                wallpaper.source = shell.defaultBackground
-            }
-        }
-    }
 
     Rectangle {
         anchors.fill: parent

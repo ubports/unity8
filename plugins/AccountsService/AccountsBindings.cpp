@@ -23,14 +23,14 @@
 
 AccountsBindings::AccountsBindings(QObject* parent)
   : QObject(parent),
-    m_service(new AccountsService(this)),
-    m_user(qgetenv("USER"))
+    m_service(new AccountsService(this))
 {
     connect(m_service, SIGNAL(propertiesChanged(const QString &, const QString &, const QStringList &)),
             this, SLOT(propertiesChanged(const QString &, const QString &, const QStringList &)));
     connect(m_service, SIGNAL(maybeChanged(const QString &)),
             this, SLOT(maybeChanged(const QString &)));
 
+    setUser(qgetenv("USER"));
     updateDemoEdgesForCurrentUser();
 }
 
