@@ -156,6 +156,10 @@ FocusScope {
         }
     }
 
+    OSKController {
+        anchors.fill: parent // as needs to know the geometry of the shell
+    }
+
     VolumeControl {
         id: volumeControl
     }
