@@ -176,7 +176,8 @@ int startShell(int argc, const char** argv, ShellServerConfiguration* server)
 
 int main(int argc, const char *argv[])
 {
-    if (qgetenv("QT_QPA_PLATFORM") != "ubuntu") {
+    // For ubuntumirserver/ubuntumirclient
+    if (qgetenv("QT_QPA_PLATFORM").startsWith("ubuntumir")) {
         setenv("QT_QPA_PLATFORM", "ubuntumirserver", 1);
         QMirServer mirServer(argc, argv);
         return mirServer.runWithClient(startShell);
