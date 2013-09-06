@@ -50,8 +50,7 @@ public:
         RoleProgressSource,
         RoleHints,
         RoleResults,
-        RoleCount,
-        RoleCategoryIndex
+        RoleCount
     };
 
     Q_INVOKABLE void overrideResults(const QString& categoryId, QAbstractItemModel* model);

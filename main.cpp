@@ -66,9 +66,10 @@ void appendImportPaths(QQmlEngine *engine, const QStringList &paths)
 
 void resolveIconTheme() {
     const char *ubuntuIconTheme = getenv("UBUNTU_ICON_THEME");
-    if (ubuntuIconTheme != NULL) {
-        QIcon::setThemeName(ubuntuIconTheme);
+    if (ubuntuIconTheme == NULL) {
+        ubuntuIconTheme = "ubuntu-mobile";
     }
+    QIcon::setThemeName(ubuntuIconTheme);
 }
 } // namespace {
 

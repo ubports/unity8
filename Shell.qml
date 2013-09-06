@@ -80,6 +80,15 @@ BasicShell {
         onFocusRequested: {
             shell.activateApplication(desktopFile);
         }
+
+        onMainStageFocusedApplicationChanged: {
+            var app = applicationManager.mainStageFocusedApplication
+            if (app != null) {
+                LauncherModel.applicationFocused(app.desktopFile);
+            } else {
+                LauncherModel.applicationFocused("");
+            }
+        }
     }
 
     function activateApplication(desktopFile, argument) {

@@ -286,9 +286,8 @@ Item {
             objectName: "backgroundCircle"
 
             anchors.fill: parent
-            opacity: 0.9
 
-            source: "graphics/infographic_circle.png"
+            source: "graphics/infographic_circle_back.png"
         }
 
         Timer {

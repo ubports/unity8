@@ -1,3 +1,64 @@
+unity8 (7.81.3+13.10.20130905.2-0ubuntu1) saucy; urgency=low
+
+  [ Michael Zanetti ]
+  * Integrate Launcher with AppManager.
+
+  [ Nick Dedekind ]
+  * Removed FIXME from slider int->double conversion.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 291
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 05 Sep 2013 10:48:02 +0000
+
+unity8 (7.81.3+13.10.20130904.1-0ubuntu1) saucy; urgency=low
+
+  [ Nicolas d'Offay ]
+  * Switched infographic background at design's request.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 287
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 04 Sep 2013 07:34:57 +0000
+
+unity8 (7.81.3+13.10.20130904-0ubuntu1) saucy; urgency=low
+
+  [ mhall119 ]
+  * Add a little bit of text to the last step of the tour telling the
+    user how to end it and get to their phone.
+
+  [ Jussi Pakkanen ]
+  * Use CCache if it is installed.
+
+  [ Nick Dedekind ]
+  * Multiple icon/label support for indicators.
+
+  [ Albert Astals ]
+  * Remove unneeded role.
+
+  [ Lars Uebernickel ]
+  * Fall back to "ubuntu-mobile" icon theme if $UBUNTU_ICON_THEME is
+    unset.
+
+  [ Michael Zanetti ]
+  * Use MouseAreas in DashBar to enable clicking again.
+  * load launcher default config from existing dconf key.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 285
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 04 Sep 2013 03:02:57 +0000
+
+unity8 (7.81.3+13.10.20130903.1-0ubuntu1) saucy; urgency=low
+
+  [ Michael Zanetti ]
+  * workaround quicklist text color.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 277
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 03 Sep 2013 06:09:36 +0000
+
 unity8 (7.81.3+13.10.20130830-0ubuntu1) saucy; urgency=low
 
   [ Pawel Stolowski ]
