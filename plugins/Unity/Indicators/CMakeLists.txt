@@ -34,6 +34,7 @@ set(IndicatorsQML_SOURCES
     rootactionstate.cpp
     unitymenumodelcache.cpp
     unitymenumodelstack.cpp
+    visibleindicatorsmodel.cpp
 )
 add_definitions(-DUNITYINDICATORS_LIBRARY)
 

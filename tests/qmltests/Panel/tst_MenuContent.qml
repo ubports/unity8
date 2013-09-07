@@ -48,8 +48,15 @@ Item {
         id: menuContent
         indicatorsModel: indicatorsModel
         contentReleaseInterval: 50
-
         height: parent.height - 50
+
+        visibleIndicators: {
+           'indicator-fake1': true,
+           'indicator-fake2': true,
+           'indicator-fake3': true,
+           'indicator-fake4': true,
+           'indicator-fake5': true
+       }
     }
 
     Rectangle {
@@ -134,7 +141,7 @@ Item {
                 var menuIndex = i%menuCount;
 
                 activate_content(menuIndex);
-                testTabObjectName = indicatorsModel.data(menuIndex, Indicators.IndicatorsModelRole.Identifier);
+                testTabObjectName = indicatorsModel.get(menuIndex).identifier;
                 compare(tabs.selectedTabIndex, menuIndex, "Current tab index does not match selected tab index");
                 tryCompareFunction(selected_tab_equals_test_tab, true);
             }

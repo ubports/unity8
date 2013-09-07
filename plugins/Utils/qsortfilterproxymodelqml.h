@@ -45,6 +45,9 @@ public:
     void setModel(QAbstractItemModel *model);
     void setInvertMatch(bool invertMatch);
 
+    Q_INVOKABLE int mapFromSource(int row);
+    Q_INVOKABLE int mapToSource(int row);
+
 Q_SIGNALS:
     void totalCountChanged();
     void countChanged();
