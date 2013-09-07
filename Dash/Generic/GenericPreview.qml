@@ -18,7 +18,6 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import "../../Components"
 import "../../Components/ListItems" as ListItems
-import "../../Components/IconUtil.js" as IconUtil
 import ".."
 
 DashPreview {
@@ -27,7 +26,7 @@ DashPreview {
     title: previewData.title
     previewWidthRatio: 0.6
 
-    property url url: IconUtil.from_gicon(previewData.image)
+    property url url: previewData.image
 
     header: UbuntuShape {
         id: urlLoader

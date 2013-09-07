@@ -19,6 +19,7 @@
 
 #include "socialpreview.h"
 #include "socialpreviewcomment.h"
+#include "iconutils.h"
 
 #include <QDebug>
 
@@ -51,7 +52,10 @@ QString SocialPreview::content() const
 QString SocialPreview::avatar() const
 {
     if (m_unitySocialPreview) {
-        return QString::fromUtf8(g_icon_to_string(m_unitySocialPreview->avatar()));
+        auto giconString = g_icon_to_string(m_unitySocialPreview->avatar());
+        QString result(gIconToDeclarativeImageProviderString(QString::fromUtf8(giconString)));
+        g_free(giconString);
+        return result;
     } else {
         qWarning() << "Preview not set";
     }
