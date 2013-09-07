@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/indicators">
+        <file>artwork/network/secure.svg</file>
+    </qresource>
+</RCC>
