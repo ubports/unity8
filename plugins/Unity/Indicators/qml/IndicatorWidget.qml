@@ -24,6 +24,7 @@ IndicatorBase {
     id: indicatorWidget
 
     active: true
+    enabled: false
     property int iconSize: height - units.gu(0.5)
 
     property var actionState: Indicators.RootActionState {

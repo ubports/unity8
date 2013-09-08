@@ -100,26 +100,29 @@ Item {
         {
             // tests changing the lateral position of the revealer activates the correct indicator items.
 
-            var indicator_row = findChild(indicators, "indicatorRow")
-            var row_repeater = findChild(indicators, "rowRepeater")
+            var indicatorRow = findChild(indicators, "indicatorRow")
+            var rowRepeater = findChild(indicators, "rowRepeater")
 
-            for (var i = 0; i < row_repeater.count; i++) {
-                var indicator_item = row_repeater.itemAt(i);
+            for (var i = 0; i < rowRepeater.count; i++) {
+                var indicatorItem = rowRepeater.itemAt(i);
 
-                var indicator_position = indicators.mapFromItem(indicator_item,
-                        indicator_item.width/2, indicator_item.height/2)
+                if (!indicatorItem.visible)
+                    continue;
+
+                var indicatorPosition = indicators.mapFromItem(indicatorItem,
+                        indicatorItem.width/2, indicatorItem.height/2)
 
                 touchFlick(indicators,
-                           indicator_position.x, indicator_position.y,
-                           indicator_position.x, indicators.openedHeight * 0.4,
+                           indicatorPosition.x, indicatorPosition.y,
+                           indicatorPosition.x, indicators.openedHeight * 0.4,
                            true /* beginTouch */, false /* endTouch */)
 
-                compare(indicator_row.currentItem, indicator_item,
+                compare(indicatorRow.currentItem, indicatorItem,
                         "Incorrect item activated at position " + i);
 
                 touchFlick(indicators,
-                           indicator_position.x, indicators.openedHeight * 0.4,
-                           indicator_position.x, indicator_position.y,
+                           indicatorPosition.x, indicators.openedHeight * 0.4,
+                           indicatorPosition.x, indicatorPosition.y,
                            false /* beginTouch */, true /* endTouch */)
 
                 // wait until fully closed
@@ -158,5 +161,21 @@ Item {
             compare(indicators.fullyOpened, true);
         }
 
+        function test_row_visible_menuContent_visible_data() { return [
+             {tag: "visible", index: 0, name: "indicator-fake1", visible: true },
+             {tag: "invisible", index: 1, name: "indicator-fake2", visible: false }]
+        }
+
+        function test_row_visible_menuContent_visible(data) {
+            var indicatorTabs = findChild(indicators, "tabs");
+            var rowRepeater = findChild(indicators, "rowRepeater");
+
+            var indicatorItem = rowRepeater.itemAt(data.index);
+            tryCompareFunction(function() { return indicatorItem.width > 0}, true);
+            tryCompare(indicatorItem, "visible", data.visible);
+
+            var indicatorTab = findChild(indicatorTabs, data.name)
+            tryCompareFunction(function() { return indicatorTab !== undefined }, data.visible);
+        }
     }
 }

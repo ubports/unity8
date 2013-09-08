@@ -66,7 +66,7 @@ add_qml_test(Launcher Launcher IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltes
 add_qml_test(Notifications Notifications IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_SOURCE_DIR}/tests/mocks)
 add_qml_test(Panel IndicatorRow)
 add_qml_test(Panel Indicators IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
-add_qml_test(Panel MenuContent)
+add_qml_test(Panel MenuContent IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
 add_qml_test(Panel Panel IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
 add_qml_test(Panel SearchIndicator)
 add_qml_test(SideStage SideStage IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS}

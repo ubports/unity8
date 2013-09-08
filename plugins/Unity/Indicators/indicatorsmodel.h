@@ -44,7 +44,7 @@ public:
     Q_INVOKABLE void load();
     Q_INVOKABLE void unload();
 
-    Q_INVOKABLE QVariant data(int row, int role = Qt::DisplayRole) const;
+    Q_INVOKABLE QVariant data(int row, int role) const;
 
     /* QAbstractItemModel */
     QHash<int, QByteArray> roleNames() const;
@@ -55,6 +55,7 @@ public:
 
     void setIndicatorData(const QVariant& data);
     QVariant indicatorData() const;
+
 
 Q_SIGNALS:
     void countChanged();

@@ -29,10 +29,6 @@
 class UNITYINDICATORS_EXPORT Indicator : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString identifier READ identifier NOTIFY identifierChanged)
-    Q_PROPERTY(int position READ position NOTIFY positionChanged)
-    Q_PROPERTY(QVariant indicatorProperties READ indicatorProperties NOTIFY indicatorPropertiesChanged)
-
 public:
     typedef QSharedPointer<Indicator> Ptr;
 
