@@ -25,16 +25,16 @@
 #include <QtQml/QQmlContext>
 #include <qpa/qplatformnativeinterface.h>
 #include <QLibrary>
+#include <QDebug>
 #include <libintl.h>
-
-// Unity-Mir
-#include <unity-mir/qmirserver.h>
-#include <unity-mir/qmirserverapplication.h>
+#include <dlfcn.h>
 
 // local
 #include "paths.h"
 #include "MouseTouchAdaptor.h"
 #include "ApplicationArguments.h"
+
+#include <unity-mir/qmirserver.h>
 
 namespace {
 
@@ -76,7 +76,7 @@ void resolveIconTheme() {
 }
 } // namespace {
 
-int startShell(int argc, const char** argv, ShellServerConfiguration* server)
+int startShell(int argc, const char** argv, void* server)
 {
     /* Workaround Qt platform integration plugin not advertising itself
        as having the following capabilities:
@@ -91,7 +91,17 @@ int startShell(int argc, const char** argv, ShellServerConfiguration* server)
     QGuiApplication::setApplicationName("Unity 8");
     QGuiApplication *application;
     if (isUbuntuMirServer) {
-        application = new QMirServerApplication(argc, (char**)argv, server);
+        QLibrary unityMir("/usr/lib/arm-linux-gnueabihf/libunity-mir.so.1.0.0");
+        unityMir.load();
+
+        typedef QGuiApplication* (*createServerApplication_t)(int&, const char **, void*);
+        createServerApplication_t createQMirServerApplication = (createServerApplication_t) unityMir.resolve("createQMirServerApplication");
+        if (!createQMirServerApplication) {
+            qDebug() << "unable to resolve symbol: createQMirServerApplication";
+            return 4;
+        }
+
+        application = createQMirServerApplication(argc, argv, server);
     } else {
         application = new QGuiApplication(argc, (char**)argv);
     }
@@ -179,8 +189,35 @@ int main(int argc, const char *argv[])
     // For ubuntumirserver/ubuntumirclient
     if (qgetenv("QT_QPA_PLATFORM").startsWith("ubuntumir")) {
         setenv("QT_QPA_PLATFORM", "ubuntumirserver", 1);
-        QMirServer mirServer(argc, argv);
-        return mirServer.runWithClient(startShell);
+
+        // if we use unity-mir directly, we link straight to mirserver, which exports
+        // the same symbols as qtubuntu, so if running on SF, the linker finds the mir
+        // symbols first and uses them! Crash!
+        // load the triangle library
+        QLibrary unityMir("/usr/lib/arm-linux-gnueabihf/libunity-mir.so.1.0.0");
+        unityMir.load();
+        if (!unityMir.isLoaded()) {
+            qDebug() << "Library unity-mir not found/loaded";
+            return 1;
+        }
+
+        typedef QMirServer* (*createServer_t)(int, const char **);
+        createServer_t createQMirServer = (createServer_t) unityMir.resolve("createQMirServer");
+        if (!createQMirServer) {
+            qDebug() << "unable to resolve symbol: createQMirServer";
+            return 2;
+        }
+
+        QMirServer* mirServer = createQMirServer(argc, argv);
+
+        typedef int (*runWithClient_t)(QMirServer*, std::function<int(int, const char**, void*)>);
+        runWithClient_t runWithClient = (runWithClient_t) unityMir.resolve("runQMirServerWithClient");
+        if (!runWithClient) {
+            qDebug() << "unable to resolve symbol: runWithClient";
+            return 3;
+        }
+
+        return runWithClient(mirServer, startShell);
     } else {
         return startShell(argc, argv, nullptr);
     }

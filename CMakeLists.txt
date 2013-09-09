@@ -121,7 +121,7 @@ target_link_libraries(${SHELL_APP}
     ${Qt5Qml_LIBRARIES}
     ${Qt5Quick_LIBRARIES}
     ${XCB_LDFLAGS}
-    ${UNITY-MIR_LDFLAGS}
+    ${CMAKE_DL_LIBS}
     )
 
 # install binaries
