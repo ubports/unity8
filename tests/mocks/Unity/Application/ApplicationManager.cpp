@@ -171,7 +171,6 @@ ApplicationInfo* ApplicationManager::startApplication(const QString &appId,
     add(application);
 
     focusApplication(application->appId());
-    Q_EMIT focusedApplicationIdChanged();
     return application;
 }
 
