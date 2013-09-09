@@ -170,7 +170,6 @@ ApplicationInfo* ApplicationManager::startApplication(const QString &appId,
     }
     add(application);
 
-    focusApplication(application->appId());
     return application;
 }
 
