@@ -31,7 +31,6 @@ using namespace unity::shell::application;
 class ApplicationManager : public ApplicationManagerInterface {
     Q_OBJECT
     Q_ENUMS(Role)
-    Q_ENUMS(Roles) //inherited, but want to expose to QML
     Q_ENUMS(StageHint)
     Q_ENUMS(FormFactorHint)
     Q_ENUMS(FavoriteApplication)
@@ -70,15 +69,6 @@ class ApplicationManager : public ApplicationManagerInterface {
         ForceMainStage = 0x1,
     };
     Q_DECLARE_FLAGS(ExecFlags, Flag)
-    enum Roles { // Q_ENUM of inherited Roles doesn't work?!?!?!
-        RoleAppId = Qt::UserRole,
-        RoleName,
-        RoleComment,
-        RoleIcon,
-        RoleStage,
-        RoleState,
-        RoleFocused,
-    };
 
     int keyboardHeight() const;
     bool keyboardVisible() const;
