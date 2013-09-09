@@ -45,10 +45,4 @@ SortFilterProxyModel {
     dynamicSortFilter: true
     filterRole: ApplicationManager.RoleStage
     filterRegExp: RegExp(stage)
-
-//    onLayoutChanged: {
-//        for (var i=0, len=root.count; i<len; i++) {
-//            print(i, get(i).appId);
-//        }
-//    }
 }

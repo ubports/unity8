@@ -54,7 +54,6 @@ Q_SIGNALS:
     void countChanged();
     void invertMatchChanged(bool);
     void modelChanged();
-    void layoutChanged();
 
 private:
     bool m_invertMatch;

@@ -63,13 +63,7 @@ QSortFilterProxyModelQML::setModel(QAbstractItemModel *itemModel)
         connect(itemModel, SIGNAL(rowsInserted(QModelIndex,int,int)), SIGNAL(totalCountChanged()));
         connect(itemModel, SIGNAL(rowsRemoved(QModelIndex,int,int)), SIGNAL(totalCountChanged()));
 
-        connect(itemModel, SIGNAL(modelReset()), SIGNAL(layoutChanged()));
-        connect(itemModel, SIGNAL(rowsInserted(QModelIndex,int,int)), SIGNAL(layoutChanged()));
-        connect(itemModel, SIGNAL(rowsRemoved(QModelIndex,int,int)), SIGNAL(layoutChanged()));
-        connect(itemModel, SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)), SIGNAL(layoutChanged()));
-
         Q_EMIT totalCountChanged();
-        Q_EMIT layoutChanged();
         Q_EMIT modelChanged();
     }
 }
