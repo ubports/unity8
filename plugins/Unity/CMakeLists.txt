@@ -47,6 +47,7 @@ set(QMLPLUGIN_SRC
     signalslist.cpp
     socialpreview.cpp
     socialpreviewcomment.cpp
+    iconutils.cpp
     variantutils.cpp
 )
 
