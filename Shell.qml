@@ -74,6 +74,9 @@ FocusScope {
         applicationManager.unfocusCurrentApplication();
     }
 
+    readonly property bool applicationFocused: !!applicationManager.mainStageFocusedApplication
+                                               || !!applicationManager.shellStageFocusedApplication
+
     readonly property bool fullscreenMode: {
         if (greeter.shown || lockscreen.shown) {
             return false;
@@ -490,7 +493,8 @@ FocusScope {
 
     InputFilterArea {
         anchors.fill: parent
-        blockInput: greeter.shown || lockscreen.shown
+        blockInput: !applicationFocused || greeter.shown || lockscreen.shown || launcher.shown
+                    || panel.indicators.shown || hud.shown
     }
 
     Connections {
@@ -554,8 +558,13 @@ FocusScope {
             searchVisible: !greeter.shown && !lockscreen.shown
 
             InputFilterArea {
-                anchors.fill: parent
-                blockInput: panel.indicators.shown
+                anchors {
+                    top: parent.top
+                    left: parent.left
+                    right: parent.right
+                }
+                height: (panel.fullscreenMode) ? shell.edgeSize : panel.panelHeight
+                blockInput: true
             }
         }
 
@@ -577,8 +586,13 @@ FocusScope {
             }
 
             InputFilterArea {
-                anchors.fill: parent
-                blockInput: hud.shown
+                anchors {
+                    bottom: parent.bottom
+                    left: parent.left
+                    right: parent.right
+                }
+                height: shell.edgeSize
+                blockInput: true
             }
         }
 
@@ -602,8 +616,7 @@ FocusScope {
             theHud: hud
             anchors.fill: parent
             enabled: !panel.indicators.shown
-            applicationIsOnForeground: !!applicationManager.mainStageFocusedApplication
-                                    || !!applicationManager.sideStageFocusedApplication
+            applicationIsOnForeground: applicationFocused
         }
 
         InputFilterArea {
