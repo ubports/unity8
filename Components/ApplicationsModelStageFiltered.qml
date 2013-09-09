@@ -23,7 +23,7 @@ SortFilterProxyModel {
     property int stage
 
     function get(index) {
-        return ApplicationManager.get(mapRowToSource(index));
+        return model.get(mapRowToSource(index));
     }
 
     function move(from, to) {
@@ -35,10 +35,11 @@ SortFilterProxyModel {
         var realTo = mapRowToSource(to);
         if (realTo == -1) {
             // assuming wanting to move to end of list
-            realTo = ApplicationManager.count;
+            realTo = model.count - 1;
         }
+
         if (realFrom == realTo) return;
-        ApplicationManager.move(realFrom, realTo);
+        model.move(realFrom, realTo);
     }
 
     model: ApplicationManager
