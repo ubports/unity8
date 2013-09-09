@@ -31,6 +31,7 @@ LauncherItem::LauncherItem(const QString &appId, const QString &desktopFile, con
     m_recent(false),
     m_progress(-1),
     m_count(0),
+    m_focused(false),
     m_quickList(new QuickListModel(this))
 {
     QuickListEntry nameAction;
@@ -128,6 +129,19 @@ void LauncherItem::setCount(int count)
     if (m_count != count) {
         m_count = count;
         Q_EMIT countChanged(count);
+    }
+}
+
+bool LauncherItem::focused() const
+{
+    return m_focused;
+}
+
+void LauncherItem::setFocused(bool focused)
+{
+    if (m_focused != focused) {
+        m_focused = focused;
+        Q_EMIT focusedChanged(focused);
     }
 }
 

@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.0
+import AccountsService 0.1
 import GSettings 1.0
 import Ubuntu.Application 0.1
 import Ubuntu.Components 0.1
@@ -94,6 +95,15 @@ FocusScope {
             // potentially only in connection with a notification
             greeter.hide();
             shell.activateApplication(desktopFile);
+        }
+
+        onMainStageFocusedApplicationChanged: {
+            var app = applicationManager.mainStageFocusedApplication
+            if (app != null) {
+                LauncherModel.applicationFocused(app.desktopFile);
+            } else {
+                LauncherModel.applicationFocused("");
+            }
         }
     }
 
@@ -469,6 +479,7 @@ FocusScope {
         onSelected: {
             // Update launcher items for new user
             var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole);
+            AccountsService.user = user;
             LauncherModel.setUser(user);
         }
 

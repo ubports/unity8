@@ -17,7 +17,6 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import "../../Components"
-import "../../Components/IconUtil.js" as IconUtil
 
 Carousel {
     id: genericCarousel
@@ -42,7 +41,7 @@ Carousel {
                 image: Image {
                     asynchronous: true
                     sourceSize { width: item.width; height: item.height }
-                    source: model ? IconUtil.from_gicon(model.icon) : ""
+                    source: model ? model.icon : ""
                 }
             }
 

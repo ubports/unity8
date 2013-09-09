@@ -159,6 +159,9 @@ Item {
                 var indicatorItem = get_indicator_item(i);
                 verify(indicatorItem != undefined);
 
+                if (!indicatorItem.visible)
+                    continue;
+
                 var indicatorItemCoord = get_indicator_item_position(i);
 
                 touchPress(panel,

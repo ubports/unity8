@@ -17,58 +17,88 @@
  */
 
 #include "AccountsService.h"
-#include <QDBusConnection>
-#include <QDBusConnectionInterface>
-#include <QDBusMessage>
-#include <QDBusVariant>
+#include "AccountsServiceDBusAdaptor.h"
+
+#include <QStringList>
 
 AccountsService::AccountsService(QObject* parent)
   : QObject(parent),
-    accounts_manager(NULL),
-    users()
+    m_service(new AccountsServiceDBusAdaptor(this)),
+    m_user(qgetenv("USER"))
 {
-    auto connection = QDBusConnection::SM_BUSNAME();
-    auto interface = connection.interface();
-    interface->startService("org.freedesktop.Accounts");
-    accounts_manager = new QDBusInterface("org.freedesktop.Accounts",
-                                          "/org/freedesktop/Accounts",
-                                          "org.freedesktop.Accounts",
-                                          connection, this);
+    connect(m_service, SIGNAL(propertiesChanged(const QString &, const QString &, const QStringList &)),
+            this, SLOT(propertiesChanged(const QString &, const QString &, const QStringList &)));
+    connect(m_service, SIGNAL(maybeChanged(const QString &)),
+            this, SLOT(maybeChanged(const QString &)));
 }
 
-QVariant AccountsService::getUserProperty(const QString &user, const QString &property)
+QString AccountsService::getUser()
 {
-    auto iface = getUserInterface(user);
-    if (iface != nullptr && iface->isValid()) {
-        auto answer = iface->call("Get", "com.canonical.unity.AccountsService", property);
-        if (answer.type() == QDBusMessage::ReplyMessage) {
-            return answer.arguments()[0].value<QDBusVariant>().variant();
+    return m_user;
+}
+
+void AccountsService::setUser(const QString &user)
+{
+    m_user = user;
+    Q_EMIT userChanged();
+
+    updateDemoEdges();
+    updateBackgroundFile();
+}
+
+bool AccountsService::getDemoEdges()
+{
+    return m_demoEdges;
+}
+
+void AccountsService::setDemoEdges(bool demoEdges)
+{
+    m_demoEdges = demoEdges;
+    m_service->setUserProperty(m_user, "com.canonical.unity.AccountsService", "demo-edges", demoEdges);
+}
+
+QString AccountsService::getBackgroundFile()
+{
+    return m_backgroundFile;
+}
+
+void AccountsService::updateDemoEdges()
+{
+    auto demoEdges = m_service->getUserProperty(m_user, "com.canonical.unity.AccountsService", "demo-edges").toBool();
+    if (m_demoEdges != demoEdges) {
+        m_demoEdges = demoEdges;
+        Q_EMIT demoEdgesChanged();
+    }
+}
+
+void AccountsService::updateBackgroundFile()
+{
+    auto backgroundFile = m_service->getUserProperty(m_user, "org.freedesktop.Accounts.User", "BackgroundFile").toString();
+    if (m_backgroundFile != backgroundFile) {
+        m_backgroundFile = backgroundFile;
+        Q_EMIT backgroundFileChanged();
+    }
+}
+
+void AccountsService::propertiesChanged(const QString &user, const QString &interface, const QStringList &changed)
+{
+    if (m_user != user) {
+        return;
+    }
+
+    if (interface == "com.canonical.unity.AccountsService") {
+        if (changed.contains("demo-edges")) {
+            updateDemoEdges();
         }
     }
-    return QVariant();
 }
 
-void AccountsService::setUserProperty(const QString &user, const QString &property, const QVariant &value)
+void AccountsService::maybeChanged(const QString &user)
 {
-    auto iface = getUserInterface(user);
-    if (iface != nullptr && iface->isValid()) {
-        // The value needs to be carefully wrapped
-        iface->call("Set", "com.canonical.unity.AccountsService", property, QVariant::fromValue(QDBusVariant(value)));
+    if (m_user != user) {
+        return;
     }
-}
 
-QDBusInterface *AccountsService::getUserInterface(const QString &user)
-{
-    auto iface = users.value(user);
-    if (iface == nullptr && accounts_manager->isValid()) {
-        auto answer = accounts_manager->call("FindUserByName", user);
-        if (answer.type() == QDBusMessage::ReplyMessage) {
-            iface = new QDBusInterface("org.freedesktop.Accounts",
-                                       answer.arguments()[0].value<QDBusObjectPath>().path(),
-                                       "org.freedesktop.DBus.Properties",
-                                       accounts_manager->connection(), this);
-            users.insert(user, iface);
-        }
-    }
-    return iface;
+    // Standard properties might have changed
+    updateBackgroundFile();
 }

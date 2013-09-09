@@ -1,3 +1,16 @@
+unity8 (7.81.3+13.10.20130905.2-0ubuntu1) saucy; urgency=low
+
+  [ Michael Zanetti ]
+  * Integrate Launcher with AppManager.
+
+  [ Nick Dedekind ]
+  * Removed FIXME from slider int->double conversion.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 291
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 05 Sep 2013 10:48:02 +0000
+
 unity8 (7.81.3+13.10.20130904.1-0ubuntu1) saucy; urgency=low
 
   [ Nicolas d'Offay ]

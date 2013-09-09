@@ -20,6 +20,8 @@
 #include <dee.h>
 #include "paths.h"
 
+#include "fake_preview.h"
+
 static DeeModel* create_categories_model(unsigned category_count);
 static DeeModel* create_results_model(unsigned category_count, unsigned result_count);
 
@@ -127,6 +129,36 @@ void Scope::setNoResultsHint(const QString& str) {
     }
 }
 
+void Scope::activate(const QVariant &uri, const QVariant &icon_hint, const QVariant &category,
+                     const QVariant &result_type, const QVariant &mimetype, const QVariant &title,
+                     const QVariant &comment, const QVariant &dnd_uri, const QVariant &metadata)
+{
+    Q_UNUSED(uri);
+    Q_UNUSED(icon_hint);
+    Q_UNUSED(category);
+    Q_UNUSED(result_type);
+    Q_UNUSED(mimetype);
+    Q_UNUSED(title);
+    Q_UNUSED(comment);
+    Q_UNUSED(dnd_uri);
+    Q_UNUSED(metadata);
+}
+
+void Scope::preview(const QVariant &uri, const QVariant &icon_hint, const QVariant &category,
+                    const QVariant &result_type, const QVariant &mimetype, const QVariant &title,
+                    const QVariant &comment, const QVariant &dnd_uri, const QVariant &metadata)
+{
+    Q_UNUSED(uri);
+    Q_UNUSED(icon_hint);
+    Q_UNUSED(category);
+    Q_UNUSED(result_type);
+    Q_UNUSED(mimetype);
+    Q_UNUSED(title);
+    Q_UNUSED(comment);
+    Q_UNUSED(dnd_uri);
+    Q_UNUSED(metadata);
+}
+
 static const gchar * categories_model_schema[] = {
     "s", //ID
     "s", // DISPLAY_NAME
@@ -168,14 +200,6 @@ static const gchar * results_model_schema[] = {
     "a{sv}" // METADATA
 };
 
-static const gchar * icons[] = {
-    "Applications.png",
-    "Home.png",
-    "Music.png",
-    "People.png",
-    "Videos.png",
-};
-
 DeeModel* create_results_model(unsigned category_count, unsigned result_count) {
     DeeModel* results_model = dee_sequence_model_new();
     dee_model_set_schema_full(results_model, results_model_schema, G_N_ELEMENTS(results_model_schema));
@@ -187,7 +211,7 @@ DeeModel* create_results_model(unsigned category_count, unsigned result_count) {
 
         dee_model_append(results_model,
                          ("uri://result."+std::to_string(i)).c_str(),
-                         (shellAppDirectory() + "Dash/graphics/scopeIcons/" + (icons[i%G_N_ELEMENTS(icons)])).toLatin1().data(),
+                         (shellAppDirectory() + "graphics/applicationIcons/dash.png").toLatin1().data(),
                          category,
                          0,
                          "application/x-desktop",

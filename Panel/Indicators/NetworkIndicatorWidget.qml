@@ -43,14 +43,17 @@ Indicators.IndicatorWidget {
 
     onActionStateChanged: {
         if (action == undefined || !action.valid) {
+            enabled = false;
             return;
         }
 
         if (action.state == undefined) {
+            enabled = false;
             connectionState = 0;
             return;
         }
 
+        enabled = true;
         connectionState = action.state[Indicators.NetworkActionState.Connection];
         if (connectionState == Indicators.NetworkConnection.Activated) {
             signalStrength = action.state[Indicators.NetworkActionState.SignalStrength];
