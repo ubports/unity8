@@ -121,3 +121,23 @@ QSortFilterProxyModelQML::findFirst(int role, const QVariant& value) const
         return -1;
     }
 }
+
+int
+QSortFilterProxyModelQML::mapFromSource(int row)
+{
+    if (sourceModel() != NULL) {
+        return QSortFilterProxyModel::mapFromSource(sourceModel()->index(row, 0)).row();
+    } else {
+        return -1;
+    }
+}
+
+int
+QSortFilterProxyModelQML::mapToSource(int row)
+{
+    if (sourceModel() != NULL) {
+        return QSortFilterProxyModel::mapToSource(index(row, 0)).row();
+    } else {
+        return -1;
+    }
+}

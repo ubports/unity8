@@ -79,23 +79,8 @@ Item {
                                                           'max-icon': 'icon'});
             }
 
-            // FIXME: The interval should be [0.0 - 1.0]. Unfortunately, when
-            // reaching the boundaries (0.0 or 1.0), the value is converted
-            // to an integer when automatically wrapped in a variant when
-            // passed to QStateAction::updateState(…). The server chokes on
-            // those values, complaining that they’re not of the right type…
             onChangeState: {
-                if (value == Math.round(value)) {
-                    if (value >= maximumValue) {
-                        model.changeState(modelIndex, maximumValue - 0.000001);
-                    } else if (value <= minimumValue) {
-                        model.changeState(modelIndex, minimumValue + 0.000001);
-                    } else {
-                        model.changeState(modelIndex, value * 1.000001);
-                    }
-                } else {
-                    model.changeState(modelIndex, value);
-                }
+                model.changeState(modelIndex, value);
             }
         }
     }
@@ -184,7 +169,7 @@ Item {
         id: accessPoint;
         ICNetwork.AccessPoint {
             property QtObject menu: null
-            property var strenthAction: QMenuModel.UnityMenuAction {
+            property var strengthAction: QMenuModel.UnityMenuAction {
                 model: menuFactory.model ? menuFactory.model : null
                 index: modelIndex
                 name: menu ? menu.ext.xCanonicalWifiApStrengthAction : ""
@@ -194,7 +179,7 @@ Item {
             secure: menu ? menu.ext.xCanonicalWifiApIsSecure : false
             adHoc: menu ? menu.ext.xCanonicalWifiApIsAdhoc : false
             checked: menu ? menu.isToggled : false
-            signalStrength: strenthAction.valid ? strenthAction.state : 0
+            signalStrength: strengthAction.valid ? strengthAction.state : 0
             enabled: menu ? menu.sensitive : false
 
             Component.onCompleted: {

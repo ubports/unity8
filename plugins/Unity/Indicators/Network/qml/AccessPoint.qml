@@ -22,13 +22,15 @@ import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
 import Unity.Indicators 0.1 as Indicators
 
-Indicators.FramedMenuItem {
-    id: accessPoint
+Indicators.BaseMenuItem {
+    id: menuItem
+    implicitHeight: units.gu(5.5)
 
     property bool checked: false
     property bool secure: false
     property bool adHoc: false
     property int signalStrength: 0
+    property alias text: label.text
 
     signal activate()
 
@@ -37,36 +39,79 @@ Indicators.FramedMenuItem {
         checkBoxActive.checked = checked;
     }
 
-    icon: {
-        var imageName = "nm-signal-100"
-
-        if (adHoc) {
-            imageName = "nm-adhoc";
-        } else if (signalStrength == 0) {
-            imageName = "nm-signal-00";
-        } else if (signalStrength <= 25) {
-            imageName = "nm-signal-25";
-        } else if (signalStrength <= 50) {
-            imageName = "nm-signal-50";
-        } else if (signalStrength <= 75) {
-            imageName = "nm-signal-75";
-        }
-
-        if (secure) {
-            imageName += "-secure";
-        }
-        return "image://gicon/" + imageName;
+    onClicked: {
+        checkBoxActive.clicked();
     }
 
-    iconFrame: false
-    control: CheckBox {
+    CheckBox {
         id: checkBoxActive
-        height: units.gu(4)
-        width: units.gu(4)
-        anchors.centerIn: parent
+        height: units.gu(3)
+        width: units.gu(3)
+
+        anchors {
+            left: parent.left
+            leftMargin: menuItem.__contentsMargins
+            verticalCenter: parent.verticalCenter
+        }
 
         onClicked: {
-            accessPoint.activate();
+            menuItem.activate();
+        }
+    }
+
+    Image {
+        id: iconSignal
+
+        width: height
+        height: Math.min(units.gu(5), parent.height - units.gu(1))
+        anchors {
+            left: checkBoxActive.right
+            leftMargin: units.gu(1)
+            verticalCenter: parent.verticalCenter
+        }
+
+        source: {
+            var imageName = "nm-signal-100"
+
+            if (adHoc) {
+                imageName = "nm-adhoc";
+            } else if (signalStrength == 0) {
+                imageName = "nm-signal-00";
+            } else if (signalStrength <= 25) {
+                imageName = "nm-signal-25";
+            } else if (signalStrength <= 50) {
+                imageName = "nm-signal-50";
+            } else if (signalStrength <= 75) {
+                imageName = "nm-signal-75";
+            }
+            return "image://theme/" + imageName;
+        }
+    }
+
+    Label {
+        id: label
+        anchors {
+            left: iconSignal.right
+            leftMargin: units.gu(1)
+            verticalCenter: parent.verticalCenter
+            right: iconSecure.visible ? iconSecure.left : parent.right
+            rightMargin: menuItem.__contentsMargins
+        }
+        elide: Text.ElideRight
+        opacity: label.enabled ? 1.0 : 0.5
+    }
+
+    Image {
+        id: iconSecure
+        visible: secure
+        source: "qrc:/indicators/artwork/network/secure.svg"
+
+        width: height
+        height: Math.min(units.gu(4), parent.height - units.gu(1))
+        anchors {
+            right: parent.right
+            rightMargin: units.gu(1)
+            verticalCenter: parent.verticalCenter
         }
     }
 }

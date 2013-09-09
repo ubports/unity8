@@ -20,7 +20,6 @@
 #include "launcherbackend.h"
 
 #include <QtTest>
-#include <QDebug>
 
 class LauncherBackendTest : public QObject
 {
@@ -31,62 +30,29 @@ private Q_SLOTS:
     {
         LauncherBackend backend(false);
 
-        backend.setStoredApplications(QStringList() << "relative.path" << "/full/path");
-        QCOMPARE(backend.storedApplications(), QStringList() << "/usr/share/applications/relative.path" << "/full/path");
-
-        QCOMPARE(backend.desktopFile("one.desktop"), QString("/usr/share/applications/one.desktop"));
-        QCOMPARE(backend.desktopFile("two"), QString("/usr/share/applications/two"));
-        QCOMPARE(backend.desktopFile("/full"), QString("/full"));
-
-        QCOMPARE(backend.desktopFile("/usr/share/applications/one.desktop"), QString("/usr/share/applications/one.desktop"));
-    }
-
-    void testDesktopReading()
-    {
-        LauncherBackend backend(false);
-
-        QCOMPARE(backend.displayName(SRCDIR "/rel-icon.desktop"), QString("Relative Icon"));
-        QCOMPARE(backend.icon(SRCDIR "/rel-icon.desktop"), QString("image://gicon/rel-icon"));
-
-        QCOMPARE(backend.displayName(SRCDIR "/abs-icon.desktop"), QString("Absolute Icon"));
-        QCOMPARE(backend.icon(SRCDIR "/abs-icon.desktop"), QString("/path/to/icon.png"));
-
-        QCOMPARE(backend.displayName(SRCDIR "/no-icon.desktop"), QString("No Icon"));
-        QCOMPARE(backend.icon(SRCDIR "/no-icon.desktop"), QString(""));
-
-        QCOMPARE(backend.displayName(SRCDIR "/no-name.desktop"), QString(""));
-        QCOMPARE(backend.icon(SRCDIR "/no-name.desktop"), QString("image://gicon/no-name"));
-
-        QCOMPARE(backend.displayName(SRCDIR "/no-exist.desktop"), QString(""));
-        QCOMPARE(backend.icon(SRCDIR "/no-exist.desktop"), QString(""));
+        backend.setStoredApplications(QStringList() << "rel-icon" << "abs-icon" << "invalid");
+        QCOMPARE(backend.storedApplications(), QStringList() << "rel-icon" << "abs-icon");
     }
 
     void testPinning()
     {
         LauncherBackend backend(false);
 
-        // Confirm that default entries are all pinned
-        auto defaultApps = backend.storedApplications();
-        QVERIFY(defaultApps.size() > 0);
-        for (auto app: defaultApps) {
-            QCOMPARE(backend.isPinned(app), true);
-        }
+        backend.setStoredApplications(QStringList() << "rel-icon" << "abs-icon");
+        QCOMPARE(backend.isPinned("rel-icon"), false);
+        QCOMPARE(backend.isPinned("abs-icon"), false);
 
-        backend.setStoredApplications(QStringList() << "one" << "two");
-        QCOMPARE(backend.isPinned("one"), false);
-        QCOMPARE(backend.isPinned("two"), false);
+        backend.setPinned("rel-icon", true);
+        QCOMPARE(backend.isPinned("rel-icon"), true);
 
-        backend.setPinned("two", true);
-        QCOMPARE(backend.isPinned("two"), true);
+        backend.setStoredApplications(QStringList() << "rel-icon" << "abs-icon" << "no-name");
+        QCOMPARE(backend.isPinned("rel-icon"), true);
+        QCOMPARE(backend.isPinned("no-name"), false);
 
-        backend.setStoredApplications(QStringList() << "one" << "two" << "three");
-        QCOMPARE(backend.isPinned("two"), true);
-        QCOMPARE(backend.isPinned("three"), false);
-
-        backend.setPinned("three", true);
-        backend.setStoredApplications(QStringList() << "one" << "two");
-        QCOMPARE(backend.isPinned("two"), true);
-        QCOMPARE(backend.isPinned("three"), false); // doesn't exist anymore!
+        backend.setPinned("no-name", true);
+        backend.setStoredApplications(QStringList() << "rel-icon" << "abs-icon");
+        QCOMPARE(backend.isPinned("rel-icon"), true);
+        QCOMPARE(backend.isPinned("no-name"), false); // doesn't exist anymore!
     }
 };
 

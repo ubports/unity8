@@ -50,8 +50,6 @@ Item {
         id: mainColumn
         anchors {
             fill: parent
-            leftMargin: units.gu(0.5)
-            rightMargin: units.gu(0.5)
         }
 
         MouseArea {
@@ -94,6 +92,8 @@ Item {
                         fill: parent
                         topMargin: -extensionSize + units.gu(0.5)
                         bottomMargin: -extensionSize + units.gu(1)
+                        leftMargin: units.gu(0.5)
+                        rightMargin: units.gu(0.5)
                     }
                     topMargin: extensionSize
                     bottomMargin: extensionSize
@@ -156,6 +156,7 @@ Item {
                         iconName: model.icon
                         count: model.count
                         progress: model.progress
+                        itemFocused: model.focused
                         inverted: root.inverted
                         z: -Math.abs(offset)
                         maxAngle: 55
@@ -512,6 +513,12 @@ Item {
                         objectName: "quickListEntry" + index
                         text: (model.clickable ? "" : "<b>") + model.label + (model.clickable ? "" : "</b>")
                         highlightWhenPressed: model.clickable
+
+                        // FIXME: This is a workaround for the theme not being context sensitive. I.e. the
+                        // ListItems don't know that they are sitting in a themed Popover where the color
+                        // needs to be inverted.
+                        __foregroundColor: Theme.palette.selected.backgroundText
+
                         onClicked: {
                             if (!model.clickable) {
                                 return;
