@@ -23,11 +23,27 @@ AccountsService::AccountsService(QObject* parent)
 {
 }
 
-QVariant AccountsService::getUserProperty(const QString &, const QString &)
+QString AccountsService::getUser()
 {
-    return QVariant(false);
+    return "testuser";
 }
 
-void AccountsService::setUserProperty(const QString &, const QString &, const QVariant &)
+void AccountsService::setUser(const QString &user)
 {
+    Q_UNUSED(user)
+}
+
+bool AccountsService::getDemoEdges()
+{
+    return false;
+}
+
+void AccountsService::setDemoEdges(bool demoEdges)
+{
+    Q_UNUSED(demoEdges)
+}
+
+QString AccountsService::getBackgroundFile()
+{
+    return TOP_SRCDIR "/graphics/phone_background.jpg";
 }

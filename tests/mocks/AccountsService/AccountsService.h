@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012,2013 Canonical, Ltd.
+ * Copyright (C) 2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,12 +27,31 @@
 class AccountsService: public QObject
 {
     Q_OBJECT
+    Q_PROPERTY (QString user
+                READ getUser
+                WRITE setUser
+                NOTIFY userChanged)
+    Q_PROPERTY (bool demoEdges
+                READ getDemoEdges
+                WRITE setDemoEdges
+                NOTIFY demoEdgesChanged)
+    Q_PROPERTY (QString backgroundFile
+                READ getBackgroundFile
+                NOTIFY backgroundFileChanged)
 
 public:
     explicit AccountsService(QObject *parent = 0);
 
-    Q_INVOKABLE QVariant getUserProperty(const QString &user, const QString &property);
-    Q_INVOKABLE void setUserProperty(const QString &user, const QString &property, const QVariant &value);
+    QString getUser();
+    void setUser(const QString &user);
+    bool getDemoEdges();
+    void setDemoEdges(bool demoEdges);
+    QString getBackgroundFile();
+
+Q_SIGNALS:
+    void userChanged();
+    void demoEdgesChanged();
+    void backgroundFileChanged();
 };
 
 #endif

@@ -21,7 +21,7 @@ add_test(NAME launcherbackendtest COMMAND ${testBackendCommand})
 add_custom_target(launcherbackendtest ${testBackendCommand})
 add_executable(launcherbackendtestExec
     launcherbackendtest.cpp
-    ${CMAKE_SOURCE_DIR}/plugins/AccountsService/AccountsService.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/AccountsService/AccountsServiceDBusAdaptor.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/backend/launcherbackend.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/common/quicklistentry.cpp
     )
@@ -39,7 +39,7 @@ add_executable(launchermodeltestExec
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/launchermodel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/launcheritem.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/quicklistmodel.cpp
-    ${CMAKE_SOURCE_DIR}/plugins/AccountsService/AccountsService.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/AccountsService/AccountsServiceDBusAdaptor.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/backend/launcherbackend.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/common/quicklistentry.cpp
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherItemInterface.h
