@@ -63,6 +63,11 @@ Item {
             var homeLoader = findChild(dashContentList, "home.scope loader");
             verify(homeLoader);
             tryCompareFunction(function() {return homeLoader.item !== undefined;}, true);
+
+            // FIXME: Desperate measure to ensure Jenkins has the scene graph fully loaded
+            // before it calls the test functions (otherwise findChild calls will fail).
+            // The code above just didn't solve it.
+            wait(2000);
         }
 
         function cleanup() {
