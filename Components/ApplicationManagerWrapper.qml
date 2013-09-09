@@ -156,10 +156,6 @@ Item {
         return desktopFile.substring(left+1, right);
     }
 
-    function appIdToDesktopFile(desktopFile) {
-        return "/usr/share/applications/" + desktopFile + ".desktop"
-    }
-
     Connections {
         target: ApplicationManager
         onFocusRequested: {
