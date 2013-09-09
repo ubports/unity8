@@ -502,10 +502,8 @@ FocusScope {
 
         function setFocused(focused) {
             if (!focused) {
-                // FIXME: *FocusedApplication are not updated when unfocused, hence the need to check whether
-                // the stage was actually shown
-                if (mainStage.fullyShown) powerConnection.previousMainApp = applicationManager.mainStageFocusedApplication;
-                if (sideStage.fullyShown) powerConnection.previousSideApp = applicationManager.sideStageFocusedApplication;
+                powerConnection.previousMainApp = applicationManager.mainStageFocusedApplication;
+                powerConnection.previousSideApp = applicationManager.sideStageFocusedApplication;
                 applicationManager.unfocusCurrentApplication();
             } else {
                 if (powerConnection.previousMainApp) {
