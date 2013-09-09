@@ -263,6 +263,7 @@ void LauncherBackend::syncToAccounts()
 
 QString LauncherBackend::findDesktopFile(const QString &appId) const
 {
+    qDebug() << "searching for desktop file for " << appId;
     int dashPos = -1;
     QString helper = appId;
 
@@ -282,6 +283,7 @@ QString LauncherBackend::findDesktopFile(const QString &appId) const
         Q_FOREACH(const QString &searchDir, searchDirs) {
             QFileInfo fileInfo(QDir(searchDir), helper + ".desktop");
             if (fileInfo.exists()) {
+                qDebug() << "found desktop file at" << fileInfo.absoluteFilePath();
                 return fileInfo.absoluteFilePath();
             }
         }
@@ -289,18 +291,26 @@ QString LauncherBackend::findDesktopFile(const QString &appId) const
         dashPos = helper.indexOf("-");
     } while (dashPos != -1);
 
+    qDebug() << "couldn't find the desktop file";
     return QString();
 }
 
 LauncherBackendItem* LauncherBackend::parseDesktopFile(const QString &desktopFile) const
 {
+    qDebug() <<"parsing" << desktopFile;
     QSettings settings(desktopFile, QSettings::IniFormat);
 
 
     LauncherBackendItem* item = new LauncherBackendItem();
     item->desktopFile = desktopFile;
     item->displayName = settings.value("Desktop Entry/Name").toString();
-    item->icon = settings.value("Desktop Entry/Icon").toString();
+
+    if (settings.contains("Desktop Entry/Path")) {
+        qDebug() << "found a different specified path" << settings.value("Path");
+        item->icon = settings.value("Desktop Entry/Path").toString() + "/" + settings.value("Desktop Entry/Icon").toString();
+    } else {
+        item->icon = settings.value("Desktop Entry/Icon").toString();
+    }
     item->pinned = false;
     return item;
 }

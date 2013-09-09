@@ -54,6 +54,31 @@ private Q_SLOTS:
         QCOMPARE(backend.isPinned("rel-icon"), true);
         QCOMPARE(backend.isPinned("no-name"), false); // doesn't exist anymore!
     }
+
+    void testIcon_data() {
+        QTest::addColumn<QString>("appId");
+        QTest::addColumn<QString>("expectedIcon");
+
+        // Needs to expand a relative icon to the absolute path
+        QTest::newRow("relative icon path") << "rel-icon" << QDir::currentPath() + "/rel-icon.svg";
+
+        // In case an icon is not found on disk, it needs to fallback on image://theme/ for it
+        QTest::newRow("fallback on theme") << "abs-icon" << "image://theme//path/to/icon.png";
+
+        // Click packages have a relative icon path but an absolute path as a separate entry
+        // As we don't want to rely on a click app being installed for the test, accept it with the image://theme fallback
+        QTest::newRow("click package icon") << "click-icon" << "image://theme//path/to/some/click/app/click-icon.svg";
+    }
+
+    void testIcon() {
+        QFETCH(QString, appId);
+        QFETCH(QString, expectedIcon);
+
+        LauncherBackend backend(false);
+        backend.setStoredApplications(QStringList() << appId);
+
+        QCOMPARE(backend.icon(appId), expectedIcon);
+    }
 };
 
 QTEST_GUILESS_MAIN(LauncherBackendTest)

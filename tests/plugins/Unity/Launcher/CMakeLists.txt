@@ -57,3 +57,12 @@ foreach(DESKTOP_FILE ${DESKTOP_FILES})
         DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
         )
 endforeach()
+
+# copy .svg files into build directory for shadow builds
+file(GLOB DESKTOP_FILES *.svg)
+
+foreach(DESKTOP_FILE ${DESKTOP_FILES})
+    file(COPY "${DESKTOP_FILE}"
+        DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
+        )
+endforeach()
