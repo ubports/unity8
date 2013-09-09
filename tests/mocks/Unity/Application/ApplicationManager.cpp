@@ -144,7 +144,7 @@ ApplicationManager::FormFactorHint ApplicationManager::formFactorHint() const
 ApplicationInfo* ApplicationManager::startApplication(const QString &appId,
                                               const QStringList &arguments)
 {
-    return this->startApplication(appId, NoFlag, arguments);
+    return startApplication(appId, NoFlag, arguments);
 }
 
 ApplicationInfo* ApplicationManager::startApplication(const QString &appId,
@@ -164,11 +164,11 @@ ApplicationInfo* ApplicationManager::startApplication(const QString &appId,
     if (!application)
         return 0;
 
-    add(application);
     if (flags.testFlag(ApplicationManager::ForceMainStage)
             && application->stage() == ApplicationInfo::SideStage) {
         application->setStage(ApplicationInfo::MainStage);
     }
+    add(application);
 
     focusApplication(application->appId());
     Q_EMIT focusedApplicationIdChanged();
