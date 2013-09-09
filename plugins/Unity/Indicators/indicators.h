@@ -79,7 +79,7 @@ public:
         WidgetSource,
         PageSource,
         IndicatorProperties,
-        IsValid
+        IsVisible
     };
 
     IndicatorsModelRole(QObject*parent=0):QObject(parent) {}

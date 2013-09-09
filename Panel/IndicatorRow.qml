@@ -16,6 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Unity.Indicators 0.1 as Indicators
 import "../Components"
 
 Item {
@@ -25,6 +26,7 @@ Item {
     readonly property int currentItemIndex: currentItem ? currentItem.ownIndex : -1
     property alias row: row
     property QtObject indicatorsModel: null
+    property var visibleIndicators: defined
 
     width: units.gu(40)
     height: units.gu(3)
@@ -55,7 +57,8 @@ Item {
             Item {
                 id: itemWrapper
                 height: indicatorRow.height
-                width: childrenRect.width
+                width: indicatorItem.width
+                visible: indicatorItem.indicatorVisible
 
                 property int ownIndex: index
                 property alias highlighted: indicatorItem.highlighted
@@ -70,6 +73,21 @@ Item {
 
                    widgetSource: model.widgetSource
                    indicatorProperties : model.indicatorProperties
+
+                   Component.onCompleted: {
+                       if (visibleIndicators == undefined) {
+                           visibleIndicators = {}
+                       }
+                       indicatorRow.visibleIndicators[model.identifier] = indicatorVisible;
+                       indicatorRow.visibleIndicatorsChanged();
+                   }
+                   onIndicatorVisibleChanged: {
+                       if (visibleIndicators == undefined) {
+                           visibleIndicators = {}
+                       }
+                       indicatorRow.visibleIndicators[model.identifier] = indicatorVisible;
+                       indicatorRow.visibleIndicatorsChanged();
+                   }
                 }
 
                 opacity: {

@@ -18,7 +18,6 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import "../Components"
 import "../Components/ListItems" as ListItems
-import "../Components/IconUtil.js" as IconUtil
 
 ScopeView {
     id: scopeView
@@ -74,12 +73,12 @@ ScopeView {
                 onLoaded: {
                     if (source.toString().indexOf("Apps/RunningApplicationsGrid.qml") != -1) {
                         // TODO: the running apps grid doesn't support standard scope results model yet
-                        item.firstModel = results.firstModel
-                        item.secondModel = results.secondModel
+                        item.firstModel = Qt.binding(function() { return results.firstModel })
+                        item.secondModel = Qt.binding(function() { return results.secondModel })
                     } else {
-                        item.model = results
+                        item.model = Qt.binding(function() { return results })
                     }
-                    item.objectName = categoryId
+                    item.objectName = Qt.binding(function() { return categoryId })
                     if (item.expandable) {
                         var shouldFilter = index != categoryView.expandedIndex;
                         if (shouldFilter != item.filter) {
