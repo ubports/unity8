@@ -66,7 +66,7 @@ Item {
             }
 
             // kill all (fake) running apps
-            killApps(ApplicationManager.applications);
+            killApps(ApplicationManager);
 
             var dashHome = findChild(shell, "DashHome");
             swipeUntilScopeViewIsReached(dashHome);
@@ -75,7 +75,7 @@ Item {
         function killApps(apps) {
             if (!apps) return;
             while (apps.count > 0) {
-                ApplicationManager.stopApplication(apps.get(0));
+                ApplicationManager.stopApplication(apps.get(0).appId);
             }
         }
 
