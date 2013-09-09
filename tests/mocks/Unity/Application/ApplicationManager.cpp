@@ -203,8 +203,10 @@ bool ApplicationManager::focusApplication(const QString &appId)
     if (application->stage() == ApplicationInfo::MainStage) {
         // unfocus currently focused mainstage app
         for (ApplicationInfo *app : m_runningApplications) {
-            if (app->focused() && app->stage() == ApplicationInfo::MainStage)
+            if (app->focused() && app->stage() == ApplicationInfo::MainStage) {
                 app->setFocused(false);
+                app->hideWindow();
+            }
         }
 
         // focus this app
@@ -218,8 +220,10 @@ bool ApplicationManager::focusApplication(const QString &appId)
     } else if (application->stage() == ApplicationInfo::SideStage) {
         // unfocus currently focused sidestage app
         for (ApplicationInfo *app : m_runningApplications) {
-            if (app->focused() && app->stage() == ApplicationInfo::SideStage)
+            if (app->focused() && app->stage() == ApplicationInfo::SideStage) {
                 app->setFocused(false);
+                app->hideWindow();
+            }
         }
 
         // focus this app
