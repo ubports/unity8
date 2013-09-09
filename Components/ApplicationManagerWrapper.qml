@@ -67,7 +67,8 @@ Item {
     function activateApplication(desktopFile, argument) {
         var appId;
 
-        // HACK: might be called with appId, but mostly with desktopFile
+        // HACK: Applications identified sometimes with with appId, but mostly with desktopFile.
+        // TODO: convert entire shell to use appId only.
         if (desktopFile.indexOf(".desktop") >= 0) {
             appId = desktopFileToAppId(desktopFile);
         } else {
@@ -91,7 +92,8 @@ Item {
     function stopApplication(application) {
         var appId;
 
-        // HACK: might be called with appId, or else with Application object
+        // HACK: Applications identified sometimes with with appId, but mostly with desktopFile.
+        // TODO: convert entire shell to use appId only.
         if (typeof application == "string") {
             appId = application;
         } else {
@@ -126,7 +128,8 @@ Item {
     function getApplicationFromDesktopFile(desktopFile, stage) {
         var appId;
 
-        // HACK: might be called with appId, but mostly with desktopFile
+        // HACK: Applications identified sometimes with with appId, but mostly with desktopFile.
+        // TODO: convert entire shell to use appId only.
         if (desktopFile.indexOf(".desktop") >= 0) {
             appId = desktopFileToAppId(desktopFile);
         } else {
