@@ -494,7 +494,7 @@ FocusScope {
     InputFilterArea {
         anchors.fill: parent
         blockInput: !applicationFocused || greeter.shown || lockscreen.shown || launcher.shown
-                    || panel.indicators.shown || hud.shown
+                    || panel.indicators.shown
     }
 
     Connections {
@@ -589,9 +589,9 @@ FocusScope {
                 anchors {
                     bottom: parent.bottom
                     left: parent.left
-                    right: parent.right
                 }
-                height: shell.edgeSize
+                width: parent.width
+                height: (!hud.shown) ? shell.edgeSize : parent.height
                 blockInput: true
             }
         }
