@@ -82,7 +82,7 @@ ApplicationInfo *ApplicationManager::findApplication(const QString &appId) const
     return nullptr;
 }
 
-void ApplicationManager::add(ApplicationInfo* application) {
+void ApplicationManager::add(ApplicationInfo *application) {
     if (!application)
         return;
 
