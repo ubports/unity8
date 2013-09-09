@@ -18,7 +18,7 @@
  */
 
 import QtQuick 2.0
-import Unity.IndicatorsLegacy 0.1 as Indicators
+import Unity.Indicators 0.1 as Indicators
 
 Indicators.IndicatorPage {
       anchors.fill: parent
