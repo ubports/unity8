@@ -20,12 +20,15 @@
 #include <QObject>
 #include <QList>
 #include <QStringList>
-#include "ApplicationListModel.h"
 #include "ApplicationInfo.h"
 
-class QQuickItem;
+// unity-api
+#include <unity/shell/application/ApplicationManagerInterface.h>
 
-class ApplicationManager : public QObject {
+class QQuickItem;
+using namespace unity::shell::application;
+
+class ApplicationManager : public ApplicationManagerInterface {
     Q_OBJECT
     Q_ENUMS(Role)
     Q_ENUMS(StageHint)
@@ -39,12 +42,6 @@ class ApplicationManager : public QObject {
     Q_PROPERTY(int sideStageWidth READ sideStageWidth)
     Q_PROPERTY(StageHint stageHint READ stageHint)
     Q_PROPERTY(FormFactorHint formFactorHint READ formFactorHint)
-    Q_PROPERTY(ApplicationListModel* mainStageApplications READ mainStageApplications)
-    Q_PROPERTY(ApplicationListModel* sideStageApplications READ sideStageApplications)
-    Q_PROPERTY(ApplicationInfo* mainStageFocusedApplication READ mainStageFocusedApplication
-               NOTIFY mainStageFocusedApplicationChanged)
-    Q_PROPERTY(ApplicationInfo* sideStageFocusedApplication READ sideStageFocusedApplication
-               NOTIFY sideStageFocusedApplicationChanged)
 
     Q_PROPERTY(bool fake READ fake CONSTANT)
 
@@ -64,7 +61,8 @@ class ApplicationManager : public QObject {
         DesktopFormFactor, PhoneFormFactor, TabletFormFactor
     };
     enum FavoriteApplication {
-        CameraApplication, GalleryApplication, BrowserApplication, ShareApplication
+        CameraApplication, GalleryApplication, BrowserApplication, ShareApplication,
+        PhoneApplication, DialerApplication, MessagingApplication, AddressbookApplication
     };
     enum Flag {
         NoFlag = 0x0,
@@ -77,29 +75,34 @@ class ApplicationManager : public QObject {
     int sideStageWidth() const;
     StageHint stageHint() const;
     FormFactorHint formFactorHint() const;
-    ApplicationListModel* mainStageApplications() const;
-    ApplicationListModel* sideStageApplications() const;
-    ApplicationInfo* mainStageFocusedApplication() const;
-    ApplicationInfo* sideStageFocusedApplication() const;
 
     bool fake() { return true; }
 
-    Q_INVOKABLE void focusApplication(int handle);
-    Q_INVOKABLE void unfocusCurrentApplication(StageHint stageHint);
-    Q_INVOKABLE ApplicationInfo* startProcess(QString desktopFile,
-                                        ExecFlags flags,
-                                        QStringList arguments = QStringList());
-    Q_INVOKABLE void stopProcess(ApplicationInfo* application);
-    Q_INVOKABLE void startWatcher() {}
+    // QAbstractItemModel methods.
+    int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex& index, int role) const override;
+    Q_INVOKABLE ApplicationInfo *get(int index) const override;
+    Q_INVOKABLE ApplicationInfo *findApplication(const QString &appId) const override;
+
+    Q_INVOKABLE void move(int from, int to);
+
+    // Application control methods
+    Q_INVOKABLE bool focusApplication(const QString &appId) override;
+    Q_INVOKABLE void unfocusCurrentApplication() override;
+    Q_INVOKABLE ApplicationInfo *startApplication(const QString &appId, const QStringList &arguments = QStringList()) override;
+    Q_INVOKABLE ApplicationInfo *startApplication(const QString &appId, ExecFlags flags, const QStringList &arguments = QStringList());
+    Q_INVOKABLE bool stopApplication(const QString &appId) override;
+
+    QString focusedApplicationId() const override;
 
  Q_SIGNALS:
     void keyboardHeightChanged();
     void keyboardVisibleChanged();
-    void mainStageFocusedApplicationChanged();
-    void sideStageFocusedApplicationChanged();
     void focusRequested(FavoriteApplication favoriteApplication);
 
  private:
+    void add(ApplicationInfo *application);
+    void remove(ApplicationInfo* application);
     void showApplicationWindow(ApplicationInfo *application);
     void buildListOfAvailableApplications();
     void generateQmlStrings(ApplicationInfo *application);
@@ -109,10 +112,7 @@ class ApplicationManager : public QObject {
     void createSideStage();
     int m_keyboardHeight;
     bool m_keyboardVisible;
-    ApplicationListModel* m_mainStageApplications;
-    ApplicationListModel* m_sideStageApplications;
-    ApplicationInfo* m_mainStageFocusedApplication;
-    ApplicationInfo* m_sideStageFocusedApplication;
+    QList<ApplicationInfo*> m_runningApplications;
     QList<ApplicationInfo*> m_availableApplications;
     QQmlComponent *m_mainStageComponent;
     QQuickItem *m_mainStage;

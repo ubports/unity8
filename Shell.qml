@@ -17,7 +17,7 @@
 import QtQuick 2.0
 import AccountsService 0.1
 import GSettings 1.0
-import Ubuntu.Application 0.1
+import Unity.Application 0.1
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
 import Unity.Launcher 0.1
@@ -74,6 +74,9 @@ FocusScope {
         // We should detect already running applications on shell start and bring them to the front.
         applicationManager.unfocusCurrentApplication();
     }
+
+    readonly property bool applicationFocused: !!applicationManager.mainStageFocusedApplication
+                                               || !!applicationManager.shellStageFocusedApplication
 
     readonly property bool fullscreenMode: {
         if (greeter.shown || lockscreen.shown) {
@@ -492,7 +495,8 @@ FocusScope {
 
     InputFilterArea {
         anchors.fill: parent
-        blockInput: greeter.shown || lockscreen.shown
+        blockInput: !applicationFocused || greeter.shown || lockscreen.shown || launcher.shown
+                    || panel.indicators.shown
     }
 
     Connections {
@@ -504,10 +508,8 @@ FocusScope {
 
         function setFocused(focused) {
             if (!focused) {
-                // FIXME: *FocusedApplication are not updated when unfocused, hence the need to check whether
-                // the stage was actually shown
-                if (mainStage.fullyShown) powerConnection.previousMainApp = applicationManager.mainStageFocusedApplication;
-                if (sideStage.fullyShown) powerConnection.previousSideApp = applicationManager.sideStageFocusedApplication;
+                powerConnection.previousMainApp = applicationManager.mainStageFocusedApplication;
+                powerConnection.previousSideApp = applicationManager.sideStageFocusedApplication;
                 applicationManager.unfocusCurrentApplication();
             } else {
                 if (powerConnection.previousMainApp) {
@@ -558,8 +560,13 @@ FocusScope {
             searchVisible: !greeter.shown && !lockscreen.shown
 
             InputFilterArea {
-                anchors.fill: parent
-                blockInput: panel.indicators.shown
+                anchors {
+                    top: parent.top
+                    left: parent.left
+                    right: parent.right
+                }
+                height: (panel.fullscreenMode) ? shell.edgeSize : panel.panelHeight
+                blockInput: true
             }
         }
 
@@ -581,8 +588,13 @@ FocusScope {
             }
 
             InputFilterArea {
-                anchors.fill: parent
-                blockInput: hud.shown
+                anchors {
+                    bottom: parent.bottom
+                    left: parent.left
+                }
+                width: parent.width
+                height: (!hud.shown) ? shell.edgeSize : parent.height
+                blockInput: true
             }
         }
 
@@ -606,8 +618,7 @@ FocusScope {
             theHud: hud
             anchors.fill: parent
             enabled: !panel.indicators.shown
-            applicationIsOnForeground: applicationManager.mainStageFocusedApplication
-                                    || applicationManager.sideStageFocusedApplication
+            applicationIsOnForeground: applicationFocused
         }
 
         InputFilterArea {
