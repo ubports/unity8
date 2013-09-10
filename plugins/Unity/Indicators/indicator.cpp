@@ -51,7 +51,6 @@ void Indicator::init(const QString& busName, const QSettings& settings)
         }
     }
 
-
     QVariantMap properties;
     properties.clear();
     properties.insert("busType", 1);
@@ -86,7 +85,6 @@ void Indicator::setPosition(int position)
         Q_EMIT positionChanged(m_position);
     }
 }
-
 
 QVariant Indicator::indicatorProperties() const
 {

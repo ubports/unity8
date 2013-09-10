@@ -25,6 +25,7 @@ Indicators.IndicatorWidget {
     id: indicatorWidget
 
     width: timeLabel.width + units.gu(1)
+    rootMenuType: "com.canonical.indicator.root.time"
 
     property alias label: timeLabel.text
 
@@ -52,14 +53,15 @@ Indicators.IndicatorWidget {
 
     onActionStateChanged: {
         if (action == undefined || !action.valid) {
+            enabled = false;
             return;
         }
 
         if (action.state == undefined) {
-            visible = false;
+            enabled = false;
             return;
         }
 
-        indicatorWidget.visible = action.state[3];
+        enabled = action.state[3];
     }
 }

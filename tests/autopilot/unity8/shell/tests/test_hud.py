@@ -34,6 +34,8 @@ class TestHud(UnityTestCase):
 
     def test_show_hud_button_appears(self):
         """Swiping up while an app is active must show the 'show hud' button.
+           The button must disappear not opening the HUD when releasing the
+           mouse again somewhere on the screen except on the button itself.
 
         """
         self.launch_unity()
@@ -49,9 +51,12 @@ class TestHud(UnityTestCase):
             hud_show_button
         )
         self.touch.press(swipe_coords.start_x, swipe_coords.start_y)
-        self.addCleanup(self.touch.release)
-        self.touch._finger_move(swipe_coords.end_x, swipe_coords.end_y)
+        self.addCleanup(self._maybe_release_finger)
+        self.touch._finger_move(swipe_coords.end_x, swipe_coords.end_y + hud_show_button.height);
         self.assertThat(hud_show_button.opacity, Eventually(Equals(1.0)))
+        self.touch.release();
+        self.assertThat(hud_show_button.opacity, Eventually(Equals(0.0)))
+        self.assertThat(hud.shown, Equals(False))
 
     def test_show_hud_appears(self):
         """Releasing the touch on the 'show hud' button must display the hud.

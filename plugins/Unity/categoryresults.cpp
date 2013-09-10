@@ -19,6 +19,7 @@
 
 // self
 #include "categoryresults.h"
+#include "iconutils.h"
 
 // TODO: use something from libunity once it's public
 enum ResultsColumn {
@@ -76,8 +77,10 @@ CategoryResults::data(const QModelIndex& index, int role) const
     switch (role) {
         case RoleUri:
             return DeeListModel::data(index, ResultsColumn::URI);
-        case RoleIconHint:
-            return DeeListModel::data(index, ResultsColumn::ICON_HINT);
+        case RoleIconHint: {
+            QString giconString(DeeListModel::data(index, ResultsColumn::ICON_HINT).toString());
+            return QVariant::fromValue(gIconToDeclarativeImageProviderString(giconString));
+        }
         case RoleCategory:
             return DeeListModel::data(index, ResultsColumn::CATEGORY);
         case RoleMimetype:

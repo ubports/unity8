@@ -18,7 +18,7 @@ import QtQuick 2.0
 import "../Components"
 import "../Components/Math.js" as MathLocal
 import Unity 0.1
-import Ubuntu.Application 0.1
+import Unity.Application 0.1
 import Ubuntu.Gestures 0.1
 
 Item {
@@ -107,7 +107,7 @@ Item {
         height: distanceThreshold
         anchors.bottom: parent.bottom
 
-        distanceThreshold: units.gu(8)
+        distanceThreshold: units.gu(1)
         enabled: !theHud.shown && bottombar.enabled && applicationIsOnForeground
         direction: Direction.Upwards
 
@@ -119,6 +119,8 @@ Item {
                 if (previousStatus == DirectionalDragArea.Recognized) {
                     if (hudButton.mouseOver) {
                         hudButton.clicked()
+                    } else {
+                        bottombar.state = "hidden"
                     }
                 }
             } else if (status === DirectionalDragArea.Undecided) {

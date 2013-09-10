@@ -24,7 +24,7 @@
 // dee-qt
 #include "deelistmodel.h"
 
-class CategoryResults : public DeeListModel
+class Q_DECL_EXPORT CategoryResults : public DeeListModel
 {
     Q_OBJECT
 

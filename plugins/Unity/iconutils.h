@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright (C) 2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,14 +12,16 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authors:
+ *  Michal Hruby <michal.hruby@canonical.com>
  */
 
-import QtQuick 2.0
+#ifndef ICONUTILS_H
+#define ICONUTILS_H
 
-Rectangle {
-    width: 40
-    height: 40
-    color : "yellow"
+#include <QString>
 
-    enabled: false
-}
+QString gIconToDeclarativeImageProviderString(QString const &giconString);
+
+#endif

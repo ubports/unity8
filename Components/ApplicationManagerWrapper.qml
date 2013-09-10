@@ -15,15 +15,15 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Application 0.1
+import Unity.Application 0.1
 
 Item {
     id: applicationManager
 
-    property var mainStageApplications: ApplicationManager.mainStageApplications
-    property var sideStageApplications: ApplicationManager.sideStageApplications
-    property var mainStageFocusedApplication: ApplicationManager.mainStageFocusedApplication
-    property var sideStageFocusedApplication: ApplicationManager.sideStageFocusedApplication
+    property alias mainStageApplications: mainStageModel
+    property alias sideStageApplications: sideStageModel
+    property variant mainStageFocusedApplication: null
+    property variant sideStageFocusedApplication: null
     property bool sideStageEnabled: true
     signal focusRequested(string desktopFile)
     property bool keyboardVisible: ApplicationManager.keyboardVisible
@@ -31,32 +31,76 @@ Item {
 
     property bool fake: ApplicationManager.fake ? ApplicationManager.fake : false
 
-    Component.onCompleted: {
-        // Start the watcher so that the ApplicationManager applications model can be populated.
-        ApplicationManager.startWatcher();
+    ApplicationsModelStageFiltered {
+        id: mainStageModel
+        stage: ApplicationInfo.MainStage
+    }
+
+    ApplicationsModelStageFiltered {
+        id: sideStageModel
+        stage: ApplicationInfo.SideStage
+    }
+
+    Connections {
+        target: ApplicationManager
+        onFocusedApplicationIdChanged: {
+            var app = ApplicationManager.findApplication(ApplicationManager.focusedApplicationId)
+            if (!app) { //nothing at all focused, so clear all
+                mainStageFocusedApplication = null;
+                sideStageFocusedApplication = null;
+            } else {
+                if (app.stage == ApplicationInfo.MainStage) {
+                    mainStageFocusedApplication = app;
+                    // possible the side stage app being unfocused fired this signal, so check for it
+                    if (sideStageFocusedApplication && !sideStageFocusedApplication.focused)
+                        sideStageFocusedApplication = null;
+                } else {
+                    sideStageFocusedApplication = app;
+                    // possible the main stage app being unfocused fired this signal, so check for it
+                    if (mainStageFocusedApplication && !mainStageFocusedApplication.focused)
+                        mainStageFocusedApplication = null;
+                }
+            }
+        }
     }
 
     function activateApplication(desktopFile, argument) {
-        var application;
-        application = getApplicationFromDesktopFile(desktopFile, ApplicationInfo.MainStage);
-        if (application == null) {
-            application = getApplicationFromDesktopFile(desktopFile, ApplicationInfo.SideStage);
+        var appId;
+
+        // HACK: Applications identified sometimes with with appId, but mostly with desktopFile.
+        // TODO: convert entire shell to use appId only.
+        if (desktopFile.indexOf(".desktop") >= 0) {
+            appId = desktopFileToAppId(desktopFile);
+        } else {
+            appId = desktopFile;
         }
-        if (application != null) {
+
+        var application = ApplicationManager.findApplication(appId);
+        if (application !== null) {
             return application;
         }
 
         var execFlags = sideStageEnabled ? ApplicationManager.NoFlag : ApplicationManager.ForceMainStage;
 
         if (argument) {
-            return ApplicationManager.startProcess(desktopFile, execFlags, [argument]);
+            return ApplicationManager.startApplication(appId, execFlags, [argument]);
         } else {
-            return ApplicationManager.startProcess(desktopFile, execFlags);
+            return ApplicationManager.startApplication(appId, execFlags);
         }
     }
 
-    function stopProcess(application) {
-        ApplicationManager.stopProcess(application)
+    function stopApplication(application) {
+        var appId;
+
+        // HACK: Applications identified sometimes with with appId, but mostly with desktopFile.
+        // TODO: convert entire shell to use appId only.
+        if (typeof application == "string") {
+            appId = application;
+        } else {
+            appId = desktopFileToAppId(application.desktopFile);
+        }
+
+        ApplicationManager.stopApplication(appId);
     }
 
     function focusApplication(application) {
@@ -64,49 +108,52 @@ Item {
             return;
         }
 
-        ApplicationManager.focusApplication(application.handle);
+        ApplicationManager.focusApplication(application.appId);
     }
 
     function unfocusCurrentApplication() {
-        ApplicationManager.unfocusCurrentApplication(ApplicationInfo.MainStage);
+        ApplicationManager.unfocusCurrentApplication();
     }
 
     function moveRunningApplicationStackPosition(from, to, stage) {
-        var applications;
+        if (from == to || from < 0 || to < 0) return;
+
         if (stage == ApplicationInfo.SideStage) {
-            applications = ApplicationManager.sideStageApplications;
+            sideStageModel.move(from, to);
         } else {
-            applications = ApplicationManager.mainStageApplications;
+            mainStageModel.move(from, to);
         }
-        // FIXME: applications.move(0, 0) crashes
-        if (from !== to && from >= 0 && to >= 0) applications.move(from, to);
     }
 
     function getApplicationFromDesktopFile(desktopFile, stage) {
-        var foundSideStageApp, foundMainStageApp;
+        var appId;
 
-        foundMainStageApp = __find(desktopFile, ApplicationManager.mainStageApplications)
-        if (stage == ApplicationInfo.MainStage) {
-            return foundMainStageApp;
+        // HACK: Applications identified sometimes with with appId, but mostly with desktopFile.
+        // TODO: convert entire shell to use appId only.
+        if (desktopFile.indexOf(".desktop") >= 0) {
+            appId = desktopFileToAppId(desktopFile);
+        } else {
+            appId = desktopFile;
         }
-        foundSideStageApp = __find(desktopFile, ApplicationManager.sideStageApplications)
-        if (stage == ApplicationInfo.SideStage) {
-            return foundSideStageApp;
-        }
 
-        // if stage not specified, return whichever app running on either stage
-        return (foundMainStageApp) ? foundMainStageApp : foundSideStageApp;
+        for (var i = 0, len = ApplicationManager.count; i < len; i++ ) {
+            var app = ApplicationManager.get(i);
 
-
-        function __find(desktopFile, applications) {
-            for (var i = 0; i < applications.count; i++ ) {
-                var application = applications.get(i);
-                if (application.desktopFile == desktopFile) {
-                    return application;
-                }
+            // if stage not specified, return whichever app running on either stage
+            if (app.appId == appId && (stage == undefined || app.stage == stage)) {
+                return app;
             }
-            return null;
         }
+    }
+
+    function desktopFileToAppId(desktopFile) {
+        var right = desktopFile.lastIndexOf(".desktop");
+        var left = desktopFile.lastIndexOf("/");
+        if (left == -1 || right == -1 || left == right) {
+            console.log("ApplicationManagerWrapper: unable to extract appId from '" + desktopFile + "'");
+            return "";
+        }
+        return desktopFile.substring(left+1, right);
     }
 
     Connections {
