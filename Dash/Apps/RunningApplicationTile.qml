@@ -79,7 +79,6 @@ AbstractButton {
         source: ApplicationManager.findApplication((application) ? application.appId : "")
         width: shapedApplicationImage.width
         height: shapedApplicationImage.height
-        fillMode: ApplicationImage.PreserveAspectCrop
     }
 
     UbuntuShape {
