@@ -91,7 +91,7 @@ int startShell(int argc, const char** argv, void* server)
     QGuiApplication::setApplicationName("Unity 8");
     QGuiApplication *application;
     if (isUbuntuMirServer) {
-        QLibrary unityMir("/usr/lib/arm-linux-gnueabihf/libunity-mir.so.1.0.0");
+        QLibrary unityMir("unity-mir");
         unityMir.load();
 
         typedef QGuiApplication* (*createServerApplication_t)(int&, const char **, void*);
@@ -190,11 +190,10 @@ int main(int argc, const char *argv[])
     if (qgetenv("QT_QPA_PLATFORM").startsWith("ubuntumir")) {
         setenv("QT_QPA_PLATFORM", "ubuntumirserver", 1);
 
-        // if we use unity-mir directly, we link straight to mirserver, which exports
-        // the same symbols as qtubuntu, so if running on SF, the linker finds the mir
-        // symbols first and uses them! Crash!
-        // load the triangle library
-        QLibrary unityMir("/usr/lib/arm-linux-gnueabihf/libunity-mir.so.1.0.0");
+        // If we use unity-mir directly, we automatically link to the Mir-server
+        // platform-api bindings, which result in unexpected behaviour when
+        // running the non-Mir scenario.
+        QLibrary unityMir("unity-mir");
         unityMir.load();
         if (!unityMir.isLoaded()) {
             qDebug() << "Library unity-mir not found/loaded";
