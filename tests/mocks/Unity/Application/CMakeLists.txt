@@ -23,11 +23,15 @@ add_custom_target(InputFilterAreaQmlFile ALL
     COMMAND cp "${CMAKE_CURRENT_SOURCE_DIR}/InputFilterArea.qml" ${CMAKE_CURRENT_BINARY_DIR}
     DEPENDS InputFilterArea.qml
 )
+add_custom_target(OSKControllerQmlFile ALL
+    COMMAND cp "${CMAKE_CURRENT_SOURCE_DIR}/OSKController.qml" ${CMAKE_CURRENT_BINARY_DIR}
+    DEPENDS OSKController.qml
+)
 
 install(TARGETS FakeUnityApplicationQml
     DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/mocks/Unity/Application
     )
 
-install(FILES qmldir InputFilterArea.qml
+install(FILES qmldir InputFilterArea.qml OSKController.qml
     DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/mocks/Unity/Application
     )
