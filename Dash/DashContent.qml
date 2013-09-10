@@ -114,7 +114,6 @@ Item {
                 height: ListView.view.height
                 asynchronous: true
                 source: scopeMapper.map(scope.id)
-                objectName: scope.id + " loader"
 
                 // these are needed for autopilot tests
                 readonly property string scopeId: scope.id
