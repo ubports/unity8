@@ -131,7 +131,6 @@ Item {
             }
 
             swipeFromLeftEdge();
-            cleanup();
             waitForUIToSettle();
         }
 
