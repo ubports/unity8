@@ -195,7 +195,7 @@ UbuntuShape {
                     top: parent.top
                     bottom: parent.bottom
                 }
-                gradient: notification.hints == Notification.ButtonTint ? UbuntuColors.orangeGradient : UbuntuColors.greyGradient
+                gradient: notification.hints["x-canonical-private-button-tint"] == "true" ? UbuntuColors.orangeGradient : UbuntuColors.greyGradient
                 visible: width > 0
                 onClicked: notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
             }
