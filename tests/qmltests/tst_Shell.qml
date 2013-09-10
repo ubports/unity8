@@ -131,7 +131,7 @@ Item {
             }
 
             swipeFromLeftEdge();
-            waitForUIToSettle();
+            waitUntilApplicationWindowIsFullyHidden();
         }
 
         function test_suspend() {
