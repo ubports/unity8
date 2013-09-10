@@ -255,7 +255,7 @@ FocusScope {
             property bool fullyShown: shown && x == 0 && parent.x == 0
             property bool fullyHidden: !shown && x == width
             available: !greeter.shown
-            hides: [launcher, panel.indicators]
+            hides: [panel.indicators]
             shown: false
             opacity: 1.0
             showAnimation: StandardAnimation { property: "x"; duration: 350; to: 0; easing.type: Easing.OutCubic }
