@@ -24,7 +24,6 @@ import "Apps"
 
 GenericScopeView {
     id: scopeView
-    objectName: "DashApps"
 
     // FIXME: a way to aggregate these models would be ideal
     property var mainStageApplicationsModel: shell.applicationManager.mainStageApplications

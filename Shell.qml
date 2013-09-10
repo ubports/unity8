@@ -640,7 +640,7 @@ FocusScope {
             }
             onDash: {
                 if (stages.shown) {
-                    dash.setCurrentScope("applications.scope", true /* animate */, true /* reset */)
+                    dash.setCurrentScope("applications.scope", true, false)
                     stages.hide();
                     launcher.hide();
                 }

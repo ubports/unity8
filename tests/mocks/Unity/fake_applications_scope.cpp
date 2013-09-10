@@ -64,12 +64,5 @@ DeeModel* ApplicationsScope::createCategoriesModel()
                      "grid",
                      hints);
 
-    dee_model_append(category_model,
-                     "outdated",
-                     "Outdaded",
-                     "gtk-apply",
-                     "grid",
-                     hints);
-
     return category_model;
 }
