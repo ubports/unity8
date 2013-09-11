@@ -23,8 +23,6 @@
 
 #include <unity/shell/application/ApplicationInfoInterface.h>
 
-#include <QDebug>
-
 using namespace unity::shell::application;
 
 LauncherModel::LauncherModel(QObject *parent):
@@ -203,8 +201,6 @@ ApplicationManagerInterface *LauncherModel::applicationManager() const
 
 void LauncherModel::setApplicationManager(unity::shell::application::ApplicationManagerInterface *appManager)
 {
-    qDebug() << "setting appmanager" << appManager;
-
     // Is there already another appmanager set?
     if (m_appManager) {
         // Disconnect any signals
@@ -301,7 +297,6 @@ void LauncherModel::applicationAdded(const QModelIndex &parent, int row)
     if (found) {
         // Shall we paint some running/recent app highlight? If yes, do it here.
     } else {
-        qDebug() << "Adding app icon" << app->icon();
         LauncherItem *item = new LauncherItem(app->appId(), app->name(), app->icon().toString());
         item->setRecent(true);
         item->setFocused(app->focused());

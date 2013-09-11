@@ -26,6 +26,7 @@
 
 #include <QtTest>
 
+// This is a mock, specifically to test the LauncherModel
 class MockApp: public unity::shell::application::ApplicationInfoInterface
 {
     Q_OBJECT
@@ -46,6 +47,7 @@ private:
     bool m_focused;
 };
 
+// This is a mock, specifically to test the LauncherModel
 class MockAppManager: public unity::shell::application::ApplicationManagerInterface
 {
     Q_OBJECT
