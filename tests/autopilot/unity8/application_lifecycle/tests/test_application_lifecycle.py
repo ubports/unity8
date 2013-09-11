@@ -30,7 +30,7 @@ from autopilot.platform import model
 
 from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 
-from testtools.matchers import Equals
+from testtools.matchers import Equals, NotEquals
 
 
 logger = logging.getLogger(__name__)
@@ -122,29 +122,40 @@ X-Ubuntu-Touch=true""")
         self.launch_unity()
         self.main_window.get_greeter().swipe()
 
-        #import pdb; pdb.set_trace()
-
-        test_qml = self._get_qml_script()
+        test_qml = self._get_qml_script("TestApp")
         app = self._start_qml_script(test_qml)
-        main_window = app.select_single("Page")
+        main_window = app.select_single(
+            "QQuickRectangle",
+            objectName="TestApp"
+        )
 
-        self.assertThat(main_window.title, Equals("Test App"))
+        self.assertThat(main_window, NotEquals(None))
         self.assertThat(main_window.visible, Equals(True))
 
     def test_can_launch_multiple_applications(self):
         """A second application launched must be usable."""
         self.launch_unity()
         self.main_window.get_greeter().swipe()
-        first_app = self._start_qml_script(self._get_qml_script("App 1"))
-        second_app = self._start_qml_script(self._get_qml_script("App 2"))
+        first_app = self._start_qml_script(self._get_qml_script("App1"))
+        second_app = self._start_qml_script(self._get_qml_script("App2"))
 
-        first_main_window = first_app.select_single("Page")
-        second_main_window = second_app.select_single("Page")
+        first_main_window = first_app.select_single(
+            "QQuickRectangle",
+            objectName="App1"
+        )
+        second_main_window = second_app.select_single(
+            "QQuickRectangle",
+            objectName="App2"
+        )
 
+        import pdb; pdb.set_trace()
         self.assertThat(first_main_window.visible, Equals(False))
 
-        self.assertThat(second_main_window.title, Equals("App 2"))
         self.assertThat(second_main_window.visible, Equals(True))
+        self.assertThat(
+            second_main_window.select_single("Text").text,
+            Equals("App2")
+        )
 
     def test_app_moves_from_unfocused_to_focused(self):
         """An application that is in the unfocused state must be able to be
@@ -153,15 +164,21 @@ X-Ubuntu-Touch=true""")
         """
         self.launch_unity()
         self.main_window.get_greeter().swipe()
-        first_app = self._start_qml_script(self._get_qml_script("App 1"))
-        self._start_qml_script(self._get_qml_script("App 2"))
+        first_app = self._start_qml_script(self._get_qml_script("App1"))
+        self._start_qml_script(self._get_qml_script("App2"))
 
-        first_main_window = first_app.select_single("Page")
+        first_main_window = first_app.select_single(
+            "QQuickRectangle",
+            objectName="App1"
+        )
 
         self.swipe_from_right()
 
-        self.assertThat(first_main_window.title, Equals("App 1"))
         self.assertThat(first_main_window.visible, Equals(True))
+        self.assertThat(
+            first_main_window.select_single("Text").text,
+            Equals("App1")
+        )
 
         # interact with it . . .
         # self.assertThat(first_main_window.visible, Equals(True))
