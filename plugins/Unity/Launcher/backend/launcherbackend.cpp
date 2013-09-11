@@ -300,7 +300,12 @@ LauncherBackendItem* LauncherBackend::parseDesktopFile(const QString &desktopFil
     LauncherBackendItem* item = new LauncherBackendItem();
     item->desktopFile = desktopFile;
     item->displayName = settings.value("Desktop Entry/Name").toString();
-    item->icon = settings.value("Desktop Entry/Icon").toString();
+
+    if (settings.contains("Desktop Entry/Path")) {
+        item->icon = settings.value("Desktop Entry/Path").toString() + "/" + settings.value("Desktop Entry/Icon").toString();
+    } else {
+        item->icon = settings.value("Desktop Entry/Icon").toString();
+    }
     item->pinned = false;
     return item;
 }
