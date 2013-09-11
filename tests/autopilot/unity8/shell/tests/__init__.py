@@ -160,7 +160,7 @@ class UnityTestCase(AutopilotTestCase):
 
         if self._lightdm_mock_type is None:
             self.patch_lightdm_mock()
-        self._setup_extra_mock_environment_patch()
+        #self._setup_extra_mock_environment_patch()
 
         app_proxy = self.launch_test_application(
             binary_path,
