@@ -29,8 +29,11 @@ static QObject* applicationManagerSingleton(QQmlEngine* engine, QJSEngine* scrip
 
 void FakeUnityApplicationQmlPlugin::registerTypes(const char *uri)
 {
-    qmlRegisterSingletonType<ApplicationManager>(
-            uri, 0, 1, "ApplicationManager", applicationManagerSingleton);
+    qmlRegisterUncreatableType<unity::shell::application::ApplicationManagerInterface>(uri, 0, 1, "ApplicationManagerInterface", "Abstract interface. Cannot be created in QML");
+    qmlRegisterSingletonType<ApplicationManager>(uri, 0, 1, "ApplicationManager", applicationManagerSingleton);
+
+    qmlRegisterUncreatableType<unity::shell::application::ApplicationInfoInterface>(uri, 0, 1, "ApplicationInfoInterface", "Abstract interface. Cannot be created in QML");
     qmlRegisterType<ApplicationInfo>(uri, 0, 1, "ApplicationInfo");
+
     qmlRegisterType<ApplicationImage>(uri, 0, 1, "ApplicationImage");
 }

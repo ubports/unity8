@@ -34,7 +34,7 @@ Item {
     property bool preventHiding: moving || dndArea.draggedIndex >= 0 || dndArea.quickListPopover !== null || dndArea.pressed
     property int highlightIndex: -1
 
-    signal applicationSelected(string desktopFile)
+    signal applicationSelected(string appId)
     signal dashItemSelected(int index)
 
     BorderImage {
@@ -300,7 +300,7 @@ Item {
                                 } else if (clickedItem.angle < -12) {
                                     launcherListView.flick(0, launcherListView.clickFlickSpeed);
                                 } else {
-                                    root.applicationSelected(LauncherModel.get(index).desktopFile);
+                                    root.applicationSelected(LauncherModel.get(index).appId);
                                 }
                                 return;
                             }
@@ -311,7 +311,7 @@ Item {
                             } else if (clickedItem.angle < -30) {
                                 launcherListView.flick(0, launcherListView.clickFlickSpeed);
                             } else {
-                                root.applicationSelected(LauncherModel.get(index).desktopFile);
+                                root.applicationSelected(LauncherModel.get(index).appId);
                             }
                         }
 

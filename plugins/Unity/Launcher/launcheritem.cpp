@@ -20,10 +20,9 @@
 #include "launcheritem.h"
 #include "quicklistmodel.h"
 
-LauncherItem::LauncherItem(const QString &appId, const QString &desktopFile, const QString &name, const QString &icon, QObject *parent) :
+LauncherItem::LauncherItem(const QString &appId, const QString &name, const QString &icon, QObject *parent) :
     LauncherItemInterface(parent),
     m_appId(appId),
-    m_desktopFile(desktopFile),
     m_name(name),
     m_icon(icon),
     m_pinned(false),
@@ -46,11 +45,6 @@ LauncherItem::LauncherItem(const QString &appId, const QString &desktopFile, con
 QString LauncherItem::appId() const
 {
     return m_appId;
-}
-
-QString LauncherItem::desktopFile() const
-{
-    return m_desktopFile;
 }
 
 QString LauncherItem::name() const
