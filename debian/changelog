@@ -1,3 +1,52 @@
+unity8 (7.81.3+13.10.20130911-0ubuntu1) saucy; urgency=low
+
+  [ Michal Hruby ]
+  * Hide all gicon strings from the shell and use the image://theme icon
+    provider that was recently added to the SDK.
+
+  [ Gerry Boland ]
+  * Convert to new ApplicationManager API.
+
+  [ Nick Dedekind ]
+  * Updated access point design as per spec.
+  * Indicator visibility based on connection with backend service.
+
+  [ Albert Astals ]
+  * Dash: Make assignments bindings This way if the model changes the
+    item value also changes.
+
+  [ Michael Zanetti ]
+  * adds support for highlighting the currently focused application in
+    the launcher, adds tests.
+  * include ~/.local/share/applications in launcher's .desktop file
+    search path.
+  * shrink size of area for revealing the HUD button and make it
+    disappear on release again. fixes 1219035. (LP: #1219035)
+  * revert revision 304 as it makes the Shell crash.
+
+  [ Michael Terry ]
+  * Allow testers to set custom password or pin in demo mode, rather
+    than hardcoding them.
+  * Have the greeter use AccountsService to determine its background.
+    (LP: #1218402)
+  * Listen to changes in the "show edge demo" AccountsService setting.
+
+  [ Daniel d'Andrada ]
+  * Update fake/mock plugins so that "./run --fake" works well again -
+    You can now see the thumbnails of the fake running applications once
+    again. - You no longer get hundreds of warnings due to icons not
+    found.
+  * Reset apps scope when returning from app to dash (LP #1193419) If an
+    app is on foreground and you perform a long left-edge swipe to
+    minimize it, and therefore return to the dash, the dash should be in
+    the Applications scope and showing the running/recents applications.
+    (LP: #1193419)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 306
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 11 Sep 2013 00:54:31 +0000
+
 unity8 (7.81.3+13.10.20130905.2-0ubuntu1) saucy; urgency=low
 
   [ Michael Zanetti ]
