@@ -45,6 +45,8 @@ add_executable(launchermodeltestExec
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherItemInterface.h
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherModelInterface.h
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/QuickListModelInterface.h
+    ${LAUNCHER_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
+    ${LAUNCHER_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
     )
 target_link_libraries(launchermodeltestExec ${GSETTINGS_QT_LDFLAGS} )
 qt5_use_modules(launchermodeltestExec Test Core DBus)

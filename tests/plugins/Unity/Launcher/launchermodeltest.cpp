@@ -19,11 +19,74 @@
 
 // unity-api
 #include <unity/shell/launcher/LauncherModelInterface.h>
+#include <unity/shell/application/ApplicationInfoInterface.h>
 
 #include "launcheritem.h"
 #include "launchermodel.h"
 
 #include <QtTest>
+
+class MockApp: public unity::shell::application::ApplicationInfoInterface
+{
+    Q_OBJECT
+public:
+    MockApp(const QString &appId, QObject *parent = 0): ApplicationInfoInterface(appId, parent), m_appId(appId), m_focused(false) { }
+    QString appId() const { return m_appId; }
+    QString name() const { return "mock"; }
+    QString comment() const { return "this is a mock"; }
+    QUrl icon() const { return QUrl(); }
+    ApplicationInfoInterface::Stage stage() const { return ApplicationInfoInterface::MainStage; }
+    ApplicationInfoInterface::State state() const { return ApplicationInfoInterface::Running; }
+    bool focused() const { return m_focused; }
+
+    // Methods used for mocking (not in the interface)
+    void setFocused(bool focused) { m_focused = focused; Q_EMIT focusedChanged(focused); }
+private:
+    QString m_appId;
+    bool m_focused;
+};
+
+class MockAppManager: public unity::shell::application::ApplicationManagerInterface
+{
+    Q_OBJECT
+public:
+    MockAppManager(QObject *parent = 0): ApplicationManagerInterface(parent) {}
+    int rowCount(const QModelIndex &) const { return m_list.count(); }
+    QVariant data(const QModelIndex &, int ) const { return QVariant(); }
+    QString focusedApplicationId() const {
+        Q_FOREACH(MockApp *app, m_list) {
+            if (app->focused()) return app->appId();
+        }
+        return QString();
+    }
+    unity::shell::application::ApplicationInfoInterface *get(int index) const { return m_list.at(index); }
+    unity::shell::application::ApplicationInfoInterface *findApplication(const QString &) const { return nullptr; }
+    unity::shell::application::ApplicationInfoInterface *startApplication(const QString &, const QStringList &) { return nullptr; }
+    bool stopApplication(const QString &) { return false; }
+    bool focusApplication(const QString &appId) {
+        Q_FOREACH(MockApp* app, m_list) {
+            app->setFocused(app->appId() == appId);
+        }
+        Q_EMIT focusedApplicationIdChanged();
+        return true;
+    }
+
+    void unfocusCurrentApplication() { }
+
+    void addApplication(MockApp *app) {
+        beginInsertRows(QModelIndex(), count(), count());
+        m_list.append(app);
+        endInsertRows();
+    }
+    void removeApplication(int index) {
+        beginRemoveRows(QModelIndex(), index, index);
+        m_list.takeAt(index)->deleteLater();
+        endRemoveRows();
+    }
+
+private:
+    QList<MockApp*> m_list;
+};
 
 class LauncherModelTest : public QObject
 {
@@ -31,27 +94,32 @@ class LauncherModelTest : public QObject
 
 private:
     LauncherModel *launcherModel;
+    MockAppManager *appManager;
 
 private Q_SLOTS:
 
     void initTestCase() {
         launcherModel = new LauncherModel(this);
         QCOMPARE(launcherModel->rowCount(QModelIndex()), 0);
+
+        appManager = new MockAppManager(this);
+        launcherModel->setApplicationManager(appManager);
     }
 
+    // Adding 2 apps to the mock appmanager. Both should appear in the launcher.
     void init() {
-/*        qDebug() << "init";
-        launcherModel->applicationFocused("abs-icon");
+        appManager->addApplication(new MockApp("abs-icon"));
         QCOMPARE(launcherModel->rowCount(QModelIndex()), 1);
 
-        launcherModel->applicationFocused("no-icon.desktop");
+        appManager->addApplication(new MockApp("no-icon"));
         QCOMPARE(launcherModel->rowCount(QModelIndex()), 2);
-
-        launcherModel->applicationFocused(QString());
-        */
     }
 
+    // Removing apps from appmanager and launcher as pinned ones would stick
     void cleanup() {
+        while (appManager->count() > 0) {
+            appManager->removeApplication(0);
+        }
         while (launcherModel->rowCount(QModelIndex()) > 0) {
             launcherModel->requestRemove(launcherModel->get(0)->appId());
         }
@@ -115,32 +183,30 @@ private Q_SLOTS:
     }
 
     void testApplicationFocused() {
-/*        // all apps unfocused at beginning...
+        // all apps unfocused at beginning...
         QCOMPARE(launcherModel->get(0)->focused(), false);
         QCOMPARE(launcherModel->get(1)->focused(), false);
 
-        launcherModel->applicationFocused("abs-icon");
+        appManager->focusApplication("abs-icon");
         QCOMPARE(launcherModel->rowCount(QModelIndex()), 2);
         QCOMPARE(launcherModel->get(0)->focused(), true);
         QCOMPARE(launcherModel->get(1)->focused(), false);
 
-        launcherModel->applicationFocused("no-icon");
+        appManager->focusApplication("no-icon");
         QCOMPARE(launcherModel->rowCount(QModelIndex()), 2);
         QCOMPARE(launcherModel->get(0)->focused(), false);
         QCOMPARE(launcherModel->get(1)->focused(), true);
+    }
 
-        launcherModel->applicationFocused("rel-icon");
-        QCOMPARE(launcherModel->rowCount(QModelIndex()), 3);
-        QCOMPARE(launcherModel->get(0)->focused(), false);
-        QCOMPARE(launcherModel->get(1)->focused(), false);
-        QCOMPARE(launcherModel->get(2)->focused(), true);
-
-        launcherModel->applicationFocused(QString());
-        QCOMPARE(launcherModel->rowCount(QModelIndex()), 3);
-        QCOMPARE(launcherModel->get(0)->focused(), false);
-        QCOMPARE(launcherModel->get(1)->focused(), false);
-        QCOMPARE(launcherModel->get(2)->focused(), false);
-        */
+    void testClosingApps() {
+        // At the start there are 2 items. Let's pin one.
+        launcherModel->pin("abs-icon");
+        while (appManager->count() > 0) {
+            appManager->removeApplication(0);
+        }
+        // The pinned one needs to stay, the other needs to disappear
+        QCOMPARE(launcherModel->rowCount(QModelIndex()), 1);
+        QCOMPARE(launcherModel->get(0)->appId(), QLatin1String("abs-icon"));
     }
 };
 
