@@ -1,0 +1,4 @@
+module Unity.Application
+plugin FakeUnityApplicationQml
+InputFilterArea 0.1 InputFilterArea.qml
+OSKController 0.1 OSKController.qml

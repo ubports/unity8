@@ -18,7 +18,7 @@ import QtQuick 2.0
 import QtTest 1.0
 import ".."
 import "../../../Components"
-import Ubuntu.Application 0.1
+import Unity.Application 0.1
 import Ubuntu.Components 0.1
 import Unity.Test 0.1 as UT
 import "tst_Stage"
