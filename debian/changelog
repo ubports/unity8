@@ -1,3 +1,22 @@
+unity8 (7.81.3+13.10.20130911.1-0ubuntu1) saucy; urgency=low
+
+  [ Michael Terry ]
+  * Switch from deprecated image://gicon/ to new image://theme/.
+
+  [ Gerry Boland ]
+  * Add OSKController so shell can control OSK correctly on Mir.
+  * Remove InputFilterArea for bottom edge swipes, as applications also
+    listen for such swipes for Toolbar reveal.
+
+  [ Ricardo Mendoza ]
+  * Select the backend to use dynamically on runtime according to the
+    QPA selected by the system.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 311
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 11 Sep 2013 16:22:55 +0000
+
 unity8 (7.81.3+13.10.20130911-0ubuntu1) saucy; urgency=low
 
   [ Michal Hruby ]
