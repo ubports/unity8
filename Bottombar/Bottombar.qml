@@ -144,7 +144,7 @@ Item {
 
     InputFilterArea {
         anchors.fill: parent
-        blockInput: hudButton.visible
+        blockInput: (hudButton.opacity == 1)
     }
 
     states: [
