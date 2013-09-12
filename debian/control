@@ -71,7 +71,7 @@ Depends: gsettings-desktop-schemas,
          qtdeclarative5-ubuntu-ui-toolkit-plugin,
          qtdeclarative5-unity-notifications-plugin | unity-notifications-impl,
          qtdeclarative5-xmllistmodel-plugin,
-         unity-launcher-impl-2,
+         unity-launcher-impl-3,
          unity-notifications-impl-1,
          unity8-fake-env | qtubuntu-shell,
          unity8-private (= ${binary:Version}),
@@ -120,7 +120,7 @@ Pre-Depends: ${misc:Pre-Depends},
 Depends: ${misc:Depends},
          ${shlibs:Depends},
 Provides: unity-launcher-impl,
-          unity-launcher-impl-2,
+          unity-launcher-impl-3,
 Description: Unity 8 private libs
  The Unity 8 shell is the primary user interface for Ubuntu devices.
  .
