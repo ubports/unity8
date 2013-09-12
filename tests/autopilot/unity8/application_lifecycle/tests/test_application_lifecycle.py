@@ -21,17 +21,13 @@
 
 from __future__ import absolute_import
 
-import logging
-from textwrap import dedent
-import os
-from tempfile import mktemp
-
+from autopilot.matchers import Eventually
 from autopilot.platform import model
 
-from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
+import logging
 
 from testtools.matchers import Equals, NotEquals
-
+from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 
 logger = logging.getLogger(__name__)
 
@@ -46,139 +42,88 @@ class ApplicationLifecycleTests(UnityTestCase):
             self.skipTest("Test must be run on a device.")
 
     def swipe_from_right(self):
-        x, y, w, h = self.main_window.globalRect
-        start_x = w
-        start_y = int(h / 2)
-        end_x = int(w / 2)
+        qml_view = self.main_window.get_qml_view()
+        width = qml_view.width
+        height = qml_view.height
+        start_x = width
+        start_y = int(height/2)
+        end_x = int(width/2)
         end_y = start_y
 
         self.touch.drag(start_x, start_y, end_x, end_y)
 
-    def _start_qml_script(self, script_contents):
-        """Launch a qml script."""
-        qml_path = mktemp(suffix='.qml')
-        open(qml_path, 'w').write(script_contents)
-        self.addCleanup(os.remove, qml_path)
-
-        desktop_file = self._get_dummy_desktop_file()
-
-        return self.launch_test_application(
-            "qmlscene",
-            qml_path,
-            "--desktop_file_hint=%s" % desktop_file,
-            app_type='qt',
-        )
-
-    def _get_dummy_desktop_file(self):
-        """Create a temp desktop file with app name *app_name*.
-
-        Returns the full path to the file.
-
-        """
-        file_path = mktemp(suffix='.desktop')
-        script_contents = dedent(
-"""[Desktop Entry]
-Name=App1
-Comment=My project description
-Exec=true
-Icon=qmlscene
-Terminal=false
-Type=Application
-X-Ubuntu-Touch=true""")
-        open(file_path, 'w').write(script_contents)
-        self.addCleanup(os.remove, file_path)
-
-        print ">>> file path: ", file_path
-        return file_path
-
-    # def _get_qml_script(self, title="Test App"):
-    #     return dedent("""
-    #         import QtQuick 2.0
-    #         import Ubuntu.Components 0.1
-
-    #         Page {
-    #             title: "%s"
-    #             width: units.gu(48)
-    #             height: units.gu(60)
-    #         }
-    #     """ % title)
-    def _get_qml_script(self, name="TestApp"):
-        return dedent("""
-            import QtQuick 2.0
-            import Ubuntu.Components 0.1
-
-            Rectangle {
-                objectName: "%s"
-                color: "lightblue"
-                Text {
-                    text: "%s"
-                    font.pixelSize: units.gu(8)
-                }
-            }
-        """ % (name, name))
-
     def test_can_launch_application(self):
         """must be able to launch and interact with an application."""
-        self.launch_unity()
+        unity = self.launch_unity()
         self.main_window.get_greeter().swipe()
 
-        test_qml = self._get_qml_script("TestApp")
-        app = self._start_qml_script(test_qml)
-        main_window = app.select_single(
-            "QQuickRectangle",
-            objectName="TestApp"
+        app = self.launch_test_application(
+            "messaging-app",
+            "--desktop_file_hint="
+            "/usr/share/applications/messaging-app.desktop",
+            "--stage_hint=main_stage",
+            app_type='qt'
         )
+        shell = unity.select_single("Shell")
 
-        self.assertThat(main_window, NotEquals(None))
-        self.assertThat(main_window.visible, Equals(True))
+        self.assertThat(app, NotEquals(None))
+        self.assertThat(shell.currentFocusedAppId, Equals("messaging-app"))
 
     def test_can_launch_multiple_applications(self):
         """A second application launched must be usable."""
-        self.launch_unity()
+        unity = self.launch_unity()
         self.main_window.get_greeter().swipe()
-        first_app = self._start_qml_script(self._get_qml_script("App1"))
-        second_app = self._start_qml_script(self._get_qml_script("App2"))
 
-        first_main_window = first_app.select_single(
-            "QQuickRectangle",
-            objectName="App1"
-        )
-        second_main_window = second_app.select_single(
-            "QQuickRectangle",
-            objectName="App2"
+        first_app = self.launch_test_application(
+            "messaging-app",
+            "--desktop_file_hint="
+            "/usr/share/applications/messaging-app.desktop",
+            "--stage_hint=main_stage",
+            app_type='qt'
         )
 
-        import pdb; pdb.set_trace()
-        self.assertThat(first_main_window.visible, Equals(False))
-
-        self.assertThat(second_main_window.visible, Equals(True))
-        self.assertThat(
-            second_main_window.select_single("Text").text,
-            Equals("App2")
+        second_app = self.launch_test_application(
+            "address-book-app",
+            "--desktop_file_hint="
+            "/usr/share/applications/address-book-app.desktop",
+            "--stage_hint=main_stage",
+            app_type='qt'
         )
+
+        shell = unity.select_single("Shell")
+
+        # Required?
+        self.assertThat(shell.currentFocusedAppId, NotEquals("messaging-app"))
+        self.assertThat(shell.currentFocusedAppId, Equals("address-book-app"))
 
     def test_app_moves_from_unfocused_to_focused(self):
         """An application that is in the unfocused state must be able to be
         brought back to the focused state.
 
         """
-        self.launch_unity()
+        unity = self.launch_unity()
         self.main_window.get_greeter().swipe()
-        first_app = self._start_qml_script(self._get_qml_script("App1"))
-        self._start_qml_script(self._get_qml_script("App2"))
 
-        first_main_window = first_app.select_single(
-            "QQuickRectangle",
-            objectName="App1"
+        first_app = self.launch_test_application(
+            "messaging-app",
+            "--desktop_file_hint="
+            "/usr/share/applications/messaging-app.desktop",
+            "--stage_hint=main_stage",
+            app_type='qt'
+        )
+
+        second_app = self.launch_test_application(
+            "address-book-app",
+            "--desktop_file_hint="
+            "/usr/share/applications/address-book-app.desktop",
+            "--stage_hint=main_stage",
+            app_type='qt'
         )
 
         self.swipe_from_right()
 
-        self.assertThat(first_main_window.visible, Equals(True))
+        shell = unity.select_single("Shell")
         self.assertThat(
-            first_main_window.select_single("Text").text,
-            Equals("App1")
+            shell.currentFocusedAppId,
+            Eventually(Equals("messaging-app"))
         )
-
-        # interact with it . . .
-        # self.assertThat(first_main_window.visible, Equals(True))
