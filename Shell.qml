@@ -75,6 +75,7 @@ FocusScope {
         applicationManager.unfocusCurrentApplication();
     }
 
+    readonly property string currentFocusedAppId: applicationManager.currentFocusedAppId
     readonly property bool applicationFocused: !!applicationManager.mainStageFocusedApplication
                                                || !!applicationManager.sideStageFocusedApplication
 
