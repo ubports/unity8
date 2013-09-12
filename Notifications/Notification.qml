@@ -17,6 +17,8 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Unity.Notifications 1.0
+import QMenuModel 0.1
+import Utils 0.1
 
 UbuntuShape {
     id: notification
@@ -37,6 +39,22 @@ UbuntuShape {
     opacity: 0
 
     clip: true
+
+    UnityMenuModel {
+        id: menu
+
+        property UnityMenuModelPaths paths: UnityMenuModelPaths {
+            source: hints["x-canonical-private-menu-model"]
+
+            busNameHint: "busName"
+            actionsHint: "actions"
+            menuObjectPathHint: "menuPath"
+        }
+
+        busName: paths.busName
+        actions: paths.actions
+        menuObjectPath: paths.menuObjectPath
+    }
 
     Behavior on implicitHeight {
         id: heightBehavior
@@ -138,6 +156,35 @@ UbuntuShape {
                     maximumLineCount: 10
                     elide: Text.ElideRight
                 }
+            }
+        }
+
+        ListView {
+            id: dialogListView
+
+            objectName: "dialogListView"
+            spacing: units.gu(2)
+            interactive: false
+
+            visible: count > 0
+            height: childrenRect.height
+
+            anchors {
+                left: parent.left
+                right: parent.right
+            }
+
+            model: menu
+
+            delegate: NotificationMenuItemFactory {
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                }
+
+                menuModel: menu
+                menuData: model
+                menuIndex: index
             }
         }
 
