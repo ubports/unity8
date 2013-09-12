@@ -1,5 +1,6 @@
 include(FindPkgConfig)
-pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=2)
+pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=3)
+pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-application=1)
 pkg_check_modules(GSETTINGS_QT REQUIRED gsettings-qt)
 
 add_definitions(-DSM_BUSNAME=systemBus)

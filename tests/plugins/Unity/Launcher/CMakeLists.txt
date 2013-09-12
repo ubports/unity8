@@ -1,5 +1,6 @@
 pkg_check_modules(GSETTINGS_QT REQUIRED gsettings-qt)
-pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=2)
+pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=3)
+pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-application=1)
 
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
