@@ -460,6 +460,8 @@ FocusScope {
         hides: [launcher, panel.indicators, hud]
         shown: true
 
+        defaultBackground: shell.background
+
         y: panel.panelHeight
         width: parent.width
         height: parent.height - panel.panelHeight
