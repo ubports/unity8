@@ -29,9 +29,6 @@ Item {
     property bool keyboardVisible: ApplicationManager.keyboardVisible
     property int keyboardHeight: ApplicationManager.keyboardHeight
 
-    // Used for autopilot testing.
-    property string currentFocusedAppId: ApplicationManager.focusedApplicationId
-
     property bool fake: ApplicationManager.fake ? ApplicationManager.fake : false
 
     ApplicationsModelStageFiltered {
