@@ -83,7 +83,7 @@ class ApplicationLifecycleTests(UnityTestCase):
         self.assertThat(shell.currentFocusedAppId, Equals("messaging-app"))
 
     def test_can_launch_multiple_applications(self):
-        """A second application launched must be focused and usable."""
+        """A second application launched must be focused."""
         unity = self.launch_unity()
         self.main_window.get_greeter().swipe()
 
