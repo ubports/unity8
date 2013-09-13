@@ -65,6 +65,12 @@ FocusScope {
 
     property var applicationManager: ApplicationManagerWrapper {}
 
+    Binding {
+        target: LauncherModel
+        property: "applicationManager"
+        value: ApplicationManager
+    }
+
     Component.onCompleted: {
         Theme.name = "Ubuntu.Components.Themes.SuruGradient"
 
@@ -98,15 +104,6 @@ FocusScope {
             // potentially only in connection with a notification
             greeter.hide();
             shell.activateApplication(desktopFile);
-        }
-
-        onMainStageFocusedApplicationChanged: {
-            var app = applicationManager.mainStageFocusedApplication
-            if (app != null) {
-                LauncherModel.applicationFocused(app.desktopFile);
-            } else {
-                LauncherModel.applicationFocused("");
-            }
         }
     }
 
@@ -262,7 +259,7 @@ FocusScope {
             property bool fullyShown: shown && x == 0 && parent.x == 0
             property bool fullyHidden: !shown && x == width
             available: !greeter.shown
-            hides: [launcher, panel.indicators]
+            hides: [panel.indicators]
             shown: false
             opacity: 1.0
             showAnimation: StandardAnimation { property: "x"; duration: 350; to: 0; easing.type: Easing.OutCubic }
@@ -652,7 +649,7 @@ FocusScope {
             }
             onLauncherApplicationSelected:{
                 greeter.hide()
-                shell.activateApplication(desktopFile)
+                shell.activateApplication(appId)
             }
             onShownChanged: {
                 if (shown) {

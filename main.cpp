@@ -91,7 +91,7 @@ int startShell(int argc, const char** argv, void* server)
     QGuiApplication::setApplicationName("Unity 8");
     QGuiApplication *application;
     if (isUbuntuMirServer) {
-        QLibrary unityMir("unity-mir");
+        QLibrary unityMir("unity-mir", 1);
         unityMir.load();
 
         typedef QGuiApplication* (*createServerApplication_t)(int&, const char **, void*);
@@ -193,7 +193,7 @@ int main(int argc, const char *argv[])
         // If we use unity-mir directly, we automatically link to the Mir-server
         // platform-api bindings, which result in unexpected behaviour when
         // running the non-Mir scenario.
-        QLibrary unityMir("unity-mir");
+        QLibrary unityMir("unity-mir", 1);
         unityMir.load();
         if (!unityMir.isLoaded()) {
             qDebug() << "Library unity-mir not found/loaded";
