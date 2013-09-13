@@ -21,13 +21,13 @@
 
 from __future__ import absolute_import
 
+from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
+
 from autopilot.matchers import Eventually
 from autopilot.platform import model
+from testtools.matchers import Equals, NotEquals
 
 import logging
-
-from testtools.matchers import Equals, NotEquals
-from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 
 logger = logging.getLogger(__name__)
 
@@ -39,9 +39,9 @@ class ApplicationLifecycleTests(UnityTestCase):
     def setUp(self):
         super(ApplicationLifecycleTests, self).setUp()
         if model() == "Desktop":
-            self.skipTest("Test must be run on a device.")
+            self.skipTest("Test cannot be run on the desktop.")
 
-    def swipe_from_right(self):
+    def swipe_screen_from_right(self):
         qml_view = self.main_window.get_qml_view()
         width = qml_view.width
         height = qml_view.height
@@ -50,50 +50,48 @@ class ApplicationLifecycleTests(UnityTestCase):
         end_x = int(width/2)
         end_y = start_y
 
+        logger.info("Swiping screen from the right edge")
         self.touch.drag(start_x, start_y, end_x, end_y)
 
-    def test_can_launch_application(self):
-        """must be able to launch and interact with an application."""
-        unity = self.launch_unity()
-        self.main_window.get_greeter().swipe()
+    def _launch_default_app(self, app_name):
+        """Launches the default application *app_name*
 
-        app = self.launch_test_application(
-            "messaging-app",
-            "--desktop_file_hint="
-            "/usr/share/applications/messaging-app.desktop",
+        *app_name* must be the name of a default application i.e. messaging-app
+
+        """
+        desktop_file = "--desktop_file_hint="\
+            "/usr/share/applications/{app_name}.desktop".format(
+                app_name=app_name
+            )
+        return self.launch_test_application(
+            app_name,
+            desktop_file,
             "--stage_hint=main_stage",
             app_type='qt'
         )
+
+    def test_can_launch_application(self):
+        """Must be able to launch an application."""
+        unity = self.launch_unity()
+        self.main_window.get_greeter().swipe()
+
+        app = self._launch_default_app("messaging-app")
+
         shell = unity.select_single("Shell")
 
         self.assertThat(app, NotEquals(None))
         self.assertThat(shell.currentFocusedAppId, Equals("messaging-app"))
 
     def test_can_launch_multiple_applications(self):
-        """A second application launched must be usable."""
+        """A second application launched must be focused and usable."""
         unity = self.launch_unity()
         self.main_window.get_greeter().swipe()
 
-        first_app = self.launch_test_application(
-            "messaging-app",
-            "--desktop_file_hint="
-            "/usr/share/applications/messaging-app.desktop",
-            "--stage_hint=main_stage",
-            app_type='qt'
-        )
-
-        second_app = self.launch_test_application(
-            "address-book-app",
-            "--desktop_file_hint="
-            "/usr/share/applications/address-book-app.desktop",
-            "--stage_hint=main_stage",
-            app_type='qt'
-        )
+        self._launch_default_app("messaging-app")
+        self._launch_default_app("address-book-app")
 
         shell = unity.select_single("Shell")
 
-        # Required?
-        self.assertThat(shell.currentFocusedAppId, NotEquals("messaging-app"))
         self.assertThat(shell.currentFocusedAppId, Equals("address-book-app"))
 
     def test_app_moves_from_unfocused_to_focused(self):
@@ -104,23 +102,10 @@ class ApplicationLifecycleTests(UnityTestCase):
         unity = self.launch_unity()
         self.main_window.get_greeter().swipe()
 
-        first_app = self.launch_test_application(
-            "messaging-app",
-            "--desktop_file_hint="
-            "/usr/share/applications/messaging-app.desktop",
-            "--stage_hint=main_stage",
-            app_type='qt'
-        )
+        self._launch_default_app("messaging-app")
+        self._launch_default_app("address-book-app")
 
-        second_app = self.launch_test_application(
-            "address-book-app",
-            "--desktop_file_hint="
-            "/usr/share/applications/address-book-app.desktop",
-            "--stage_hint=main_stage",
-            app_type='qt'
-        )
-
-        self.swipe_from_right()
+        self.swipe_screen_from_right()
 
         shell = unity.select_single("Shell")
         self.assertThat(
