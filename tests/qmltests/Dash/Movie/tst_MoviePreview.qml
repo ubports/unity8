@@ -30,15 +30,15 @@ Item {
         var a1 = new Object();
         a1.id = 123;
         a1.displayName = "Play";
-        a1.iconHint = "image://gicon/gtk-yes";
+        a1.iconHint = "image://theme/search";
         var a2 = new Object();
         a2.id = 456;
         a2.displayName = "Buy";
-        a2.iconHint = "image://gicon/gtk-yes";
+        a2.iconHint = "image://theme/search";
         var a3 = new Object();
         a3.id = 789;
         a3.displayName = "Delete";
-        a3.iconHint = "image://gicon/gtk-yes";
+        a3.iconHint = "image://theme/search";
 
         return [a1, a2, a3];
     }
@@ -49,7 +49,7 @@ Item {
         objData.title = "Unity Movie";
         objData.subtitle = "Subtitle";
         objData.description = "This is the description";
-        objData.image = "image://gicon/gtk-stop";
+        objData.image = "image://theme/syncing";
         objData.actions = get_actions();
         objData.year = "2013"
         objData.rating = 3
