@@ -75,9 +75,10 @@ FocusScope {
         applicationManager.unfocusCurrentApplication();
     }
 
-    readonly property string currentFocusedAppId: applicationManager.currentFocusedAppId
     readonly property bool applicationFocused: !!applicationManager.mainStageFocusedApplication
                                                || !!applicationManager.sideStageFocusedApplication
+    // Used for autopilot testing.
+    readonly property string currentFocusedAppId: applicationManager.currentFocusedAppId
 
     readonly property bool fullscreenMode: {
         if (greeter.shown || lockscreen.shown) {
