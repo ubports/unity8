@@ -5,6 +5,7 @@ pkg_check_modules(UNITYCORE REQUIRED unity-core-6.0)
 pkg_check_modules(LIBUNITYPROTO REQUIRED unity-protocol-private)
 pkg_check_modules(LIBUNITY REQUIRED unity)
 pkg_check_modules(LIBSIGCPP REQUIRED sigc++-2.0)
+pkg_check_modules(QTDEE REQUIRED libdee-qt5>=3.2)
 
 include_directories(
     ${Unity-qml_SOURCE_DIR}
@@ -14,6 +15,7 @@ include_directories(
     ${LIBUNITY_INCLUDE_DIRS}
     ${LIBSIGCPP_INCLUDE_DIRS}
     ${UNITYCORE_INCLUDE_DIRS}
+    ${QTDEE_INCLUDE_DIRS}
     )
 
 macro(run_tests)
@@ -36,6 +38,7 @@ macro(run_tests)
             ${LIBUNITY_LDFLAGS}
             ${LIBUNITYPROTO_LDFLAGS}
             ${LIBSIGCPP_LDFLAGS}
+            ${QTDEE_LDFLAGS}
             )
 
         set(_test_list "${_test_list};${_test}")
@@ -46,4 +49,5 @@ run_tests(
     signalslisttest
     previewbindingstest
     filtersbindingstest
+    resultstest
     )

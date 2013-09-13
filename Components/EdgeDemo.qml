@@ -41,7 +41,6 @@ Item {
 
     function hideEdgeDemoInShell() {
         AccountsService.demoEdges = false;
-        d.showEdgeDemo = false;
         stopDemo();
     }
 
@@ -56,6 +55,19 @@ Item {
         if (d.finalEdgeDemo)  d.finalEdgeDemo.destroy()
     }
 
+    function startDemo() {
+        if (!d.overlay) {
+            d.overlay = Qt.createComponent("EdgeDemoOverlay.qml")
+        }
+
+        launcherEnabled = false;
+        dashEnabled = false;
+        panelEnabled = false;
+        panelContentEnabled = false;
+
+        startTopEdgeDemo()
+    }
+
     QtObject {
         id: d
         property Component overlay
@@ -66,9 +78,9 @@ Item {
         property bool showEdgeDemo: AccountsService.demoEdges
 
         onShowEdgeDemoChanged: {
-            if (!d.overlay && d.showEdgeDemo) {
-                d.overlay = Qt.createComponent("EdgeDemoOverlay.qml")
-                startTopEdgeDemo()
+            stopDemo()
+            if (d.showEdgeDemo) {
+                startDemo()
             }
         }
     }

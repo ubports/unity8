@@ -20,7 +20,6 @@ import Ubuntu.Components.ListItems 0.1 as ListItem
 import Ubuntu.DownloadDaemonListener 0.1
 import ".."
 import "../../Components"
-import "../../Components/IconUtil.js" as IconUtil
 
 DashPreview {
     id: root
@@ -137,7 +136,7 @@ DashPreview {
             anchors { left: parent.left; right: parent.right }
 
             appName: root.previewData.title
-            icon: IconUtil.from_gicon(root.previewData.appIcon)
+            icon: root.previewData.appIcon
             rating: Math.round(root.previewData.rating * 10)
             reviews: root.previewData.numRatings
             rated: root.previewData.infoMap["rated"] ? root.previewData.infoMap["rated"].value : 0

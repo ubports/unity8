@@ -16,7 +16,6 @@
 
 import QtQuick 2.0
 import "../../Components"
-import "../../Components/IconUtil.js" as IconUtil
 
 FilterGrid {
     id: filtergrid
@@ -41,7 +40,7 @@ FilterGrid {
         imageWidth: filtergrid.iconWidth
         imageHeight: filtergrid.iconHeight
 
-        source: IconUtil.from_gicon(model.icon)
+        source: model.icon
 
         fillMode: Image.PreserveAspectCrop
 

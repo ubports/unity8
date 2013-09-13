@@ -1,3 +1,0 @@
-module Ubuntu.Application
-plugin FakeUbuntuApplicationQml
-InputFilterArea 0.1 InputFilterArea.qml

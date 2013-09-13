@@ -19,7 +19,7 @@ import LightDM 0.1 as LightDM
 import Powerd 0.1
 import QtQuick 2.0
 import SessionBroadcast 0.1
-import Ubuntu.Application 0.1
+import Unity.Application 0.1
 import Unity.Launcher 0.1
 import "Components"
 import "Components/Math.js" as MathLocal

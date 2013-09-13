@@ -62,10 +62,13 @@ set(SHELL_PRIVATE_LIBDIR ${CMAKE_INSTALL_LIBDIR}/unity8)
 
 configure_file(paths.h.in ${CMAKE_CURRENT_BINARY_DIR}/paths.h @ONLY)
 
+pkg_check_modules(UNITY-MIR REQUIRED unity-mir)
+
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
+    ${UNITY-MIR_INCLUDE_DIRS}
     )
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden")
@@ -133,6 +136,7 @@ target_link_libraries(${SHELL_APP}
     ${Qt5Qml_LIBRARIES}
     ${Qt5Quick_LIBRARIES}
     ${XCB_LDFLAGS}
+    ${CMAKE_DL_LIBS}
     )
 target_link_libraries(${GREETER_APP}
     ${Qt5Qml_LIBRARIES}

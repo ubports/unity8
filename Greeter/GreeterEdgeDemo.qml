@@ -36,13 +36,19 @@ Item {
 
     function hideEdgeDemoInGreeter() {
         AccountsService.demoEdgesForCurrentUser = false;
-        d.showEdgeDemoInGreeter = false;
         stopDemo();
     }
 
     function hideEdgeDemos() {
         hideEdgeDemoInGreeter();
         hideEdgeDemoInShell();
+    }
+
+    function startDemo() {
+        if (!d.overlay) {
+            d.overlay = Qt.createComponent("EdgeDemoOverlay.qml")
+        }
+        startRightEdgeDemo()
     }
 
     function stopDemo() {
@@ -57,9 +63,9 @@ Item {
         property bool showEdgeDemoInGreeter: AccountsService.demoEdgesForCurrentUser
 
         onShowEdgeDemoInGreeterChanged: {
-            if (!d.overlay && d.showEdgeDemoInGreeter) {
-                d.overlay = Qt.createComponent("EdgeDemoOverlay.qml")
-                startRightEdgeDemo()
+            stopDemo()
+            if (d.showEdgeDemoInGreeter) {
+                startDemo()
             }
         }
     }

@@ -26,12 +26,16 @@
 #include <QtQml/QQmlContext>
 #include <qpa/qplatformnativeinterface.h>
 #include <QLibrary>
+#include <QDebug>
 #include <libintl.h>
+#include <dlfcn.h>
 
 // local
 #include "paths.h"
 #include "MouseTouchAdaptor.h"
 #include "ApplicationArguments.h"
+
+#include <unity-mir/qmirserver.h>
 
 namespace {
 
@@ -73,7 +77,7 @@ void resolveIconTheme() {
 }
 } // namespace {
 
-int main(int argc, char** argv)
+int startShell(int argc, const char** argv, void* server)
 {
     /* Workaround Qt platform integration plugin not advertising itself
        as having the following capabilities:
@@ -83,12 +87,29 @@ int main(int argc, char** argv)
     setenv("QML_FORCE_THREADED_RENDERER", "1", 1);
     setenv("QML_FIXED_ANIMATION_STEP", "1", 1);
 
+    const bool isUbuntuMirServer = qgetenv("QT_QPA_PLATFORM") == "ubuntumirserver";
+
     QGuiApplication::setApplicationName(APP_NAME);
-    QGuiApplication application(argc, argv);
+    QGuiApplication *application;
+    if (isUbuntuMirServer) {
+        QLibrary unityMir("unity-mir", 1);
+        unityMir.load();
+
+        typedef QGuiApplication* (*createServerApplication_t)(int&, const char **, void*);
+        createServerApplication_t createQMirServerApplication = (createServerApplication_t) unityMir.resolve("createQMirServerApplication");
+        if (!createQMirServerApplication) {
+            qDebug() << "unable to resolve symbol: createQMirServerApplication";
+            return 4;
+        }
+
+        application = createQMirServerApplication(argc, argv, server);
+    } else {
+        application = new QGuiApplication(argc, (char**)argv);
+    }
 
     resolveIconTheme();
 
-    QStringList args = application.arguments();
+    QStringList args = application->arguments();
     ApplicationArguments qmlArgs(args);
 
     // The testability driver is only loaded by QApplication but not by QGuiApplication.
@@ -125,7 +146,7 @@ int main(int argc, char** argv)
     if (args.contains(QLatin1String("-mousetouch"))) {
         mouseTouchAdaptor = new MouseTouchAdaptor;
         mouseTouchAdaptor->setTargetWindow(view);
-        application.installNativeEventFilter(mouseTouchAdaptor);
+        application->installNativeEventFilter(mouseTouchAdaptor);
     }
 
     QPlatformNativeInterface* nativeInterface = QGuiApplication::platformNativeInterface();
@@ -140,10 +161,17 @@ int main(int argc, char** argv)
     QUrl source(QML_FILE);
     prependImportPaths(view->engine(), ::overrideImportPaths());
     appendImportPaths(view->engine(), ::fallbackImportPaths());
+
+    QStringList importPath = view->engine()->importPathList().filter("qt5/imports");
+    if (isUbuntuMirServer) {
+        importPath.first().append("/Unity-Mir");
+        view->engine()->addImportPath(importPath.first());
+    }
+
     view->setSource(source);
     view->setColor("transparent");
 
-    if (qgetenv("QT_QPA_PLATFORM") == "ubuntu" || args.contains(QLatin1String("-fullscreen"))) {
+    if (qgetenv("QT_QPA_PLATFORM") == "ubuntu" || isUbuntuMirServer || args.contains(QLatin1String("-fullscreen"))) {
         // First, size window equal to screen (fake a real WM fullscreen mode).
         // Then, in case we are actually running inside a windowing system,
         // nicely set actual WM fullscreen hint for its benefit.
@@ -153,9 +181,48 @@ int main(int argc, char** argv)
         view->show();
     }
 
-    int result = application.exec();
+    int result = application->exec();
 
     delete mouseTouchAdaptor;
+    delete application;
 
     return result;
+}
+
+int main(int argc, const char *argv[])
+{
+    // For ubuntumirserver/ubuntumirclient
+    if (qgetenv("QT_QPA_PLATFORM").startsWith("ubuntumir")) {
+        setenv("QT_QPA_PLATFORM", "ubuntumirserver", 1);
+
+        // If we use unity-mir directly, we automatically link to the Mir-server
+        // platform-api bindings, which result in unexpected behaviour when
+        // running the non-Mir scenario.
+        QLibrary unityMir("unity-mir", 1);
+        unityMir.load();
+        if (!unityMir.isLoaded()) {
+            qDebug() << "Library unity-mir not found/loaded";
+            return 1;
+        }
+
+        typedef QMirServer* (*createServer_t)(int, const char **);
+        createServer_t createQMirServer = (createServer_t) unityMir.resolve("createQMirServer");
+        if (!createQMirServer) {
+            qDebug() << "unable to resolve symbol: createQMirServer";
+            return 2;
+        }
+
+        QMirServer* mirServer = createQMirServer(argc, argv);
+
+        typedef int (*runWithClient_t)(QMirServer*, std::function<int(int, const char**, void*)>);
+        runWithClient_t runWithClient = (runWithClient_t) unityMir.resolve("runQMirServerWithClient");
+        if (!runWithClient) {
+            qDebug() << "unable to resolve symbol: runWithClient";
+            return 3;
+        }
+
+        return runWithClient(mirServer, startShell);
+    } else {
+        return startShell(argc, argv, nullptr);
+    }
 }

@@ -63,6 +63,7 @@ Indicators.IndicatorWidget {
 
     onActionStateChanged: {
         if (action == undefined || !action.valid) {
+            enabled = false;
             return;
         }
 
@@ -74,7 +75,7 @@ Indicators.IndicatorWidget {
         }
 
         label = action.state[Indicators.ActionState.Label];
-        iconSource = "image://gicon/" + action.state[Indicators.ActionState.IconSource];
+        iconSource = "image://theme/" + action.state[Indicators.ActionState.IconSource];
         enabled = action.state[Indicators.ActionState.Visible];
     }
 }

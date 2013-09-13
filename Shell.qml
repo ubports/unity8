@@ -15,8 +15,9 @@
  */
 
 import QtQuick 2.0
+import AccountsService 0.1
 import GSettings 1.0
-import Ubuntu.Application 0.1
+import Unity.Application 0.1
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
 import Unity.Launcher 0.1
@@ -55,6 +56,12 @@ BasicShell {
 
     property var applicationManager: ApplicationManagerWrapper {}
 
+    Binding {
+        target: LauncherModel
+        property: "applicationManager"
+        value: ApplicationManager
+    }
+
     Component.onCompleted: {
         Theme.name = "Ubuntu.Components.Themes.SuruGradient"
 
@@ -64,6 +71,9 @@ BasicShell {
         // We should detect already running applications on shell start and bring them to the front.
         applicationManager.unfocusCurrentApplication();
     }
+
+    readonly property bool applicationFocused: !!applicationManager.mainStageFocusedApplication
+                                               || !!applicationManager.sideStageFocusedApplication
 
     readonly property bool fullscreenMode: {
         if (mainStage.usingScreenshots) { // Window Manager animating so want to re-evaluate fullscreen mode
@@ -80,15 +90,6 @@ BasicShell {
         ignoreUnknownSignals: true
         onFocusRequested: {
             shell.activateApplication(desktopFile);
-        }
-
-        onMainStageFocusedApplicationChanged: {
-            var app = applicationManager.mainStageFocusedApplication
-            if (app != null) {
-                LauncherModel.applicationFocused(app.desktopFile);
-            } else {
-                LauncherModel.applicationFocused("");
-            }
         }
     }
 
@@ -201,7 +202,7 @@ BasicShell {
 
             property bool fullyShown: shown && x == 0 && parent.x == 0
             property bool fullyHidden: !shown && x == width
-            hides: [launcher, panel.indicators]
+            hides: [panel.indicators]
             shown: false
             opacity: 1.0
             showAnimation: StandardAnimation { property: "x"; duration: 350; to: 0; easing.type: Easing.OutCubic }
@@ -362,10 +363,8 @@ BasicShell {
 
         function setFocused(focused) {
             if (!focused) {
-                // FIXME: *FocusedApplication are not updated when unfocused, hence the need to check whether
-                // the stage was actually shown
-                if (mainStage.fullyShown) powerConnection.previousMainApp = applicationManager.mainStageFocusedApplication;
-                if (sideStage.fullyShown) powerConnection.previousSideApp = applicationManager.sideStageFocusedApplication;
+                powerConnection.previousMainApp = applicationManager.mainStageFocusedApplication;
+                powerConnection.previousSideApp = applicationManager.sideStageFocusedApplication;
                 applicationManager.unfocusCurrentApplication();
             } else {
                 if (powerConnection.previousMainApp) {
@@ -415,8 +414,13 @@ BasicShell {
             fullscreenMode: shell.fullscreenMode
 
             InputFilterArea {
-                anchors.fill: parent
-                blockInput: panel.indicators.shown
+                anchors {
+                    top: parent.top
+                    left: parent.left
+                    right: parent.right
+                }
+                height: (panel.fullscreenMode) ? shell.edgeSize : panel.panelHeight
+                blockInput: true
             }
         }
 
@@ -435,11 +439,6 @@ BasicShell {
                 target: shell.applicationManager
                 onMainStageFocusedApplicationChanged: hud.hide()
                 onSideStageFocusedApplicationChanged: hud.hide()
-            }
-
-            InputFilterArea {
-                anchors.fill: parent
-                blockInput: hud.shown
             }
         }
 
@@ -463,8 +462,7 @@ BasicShell {
             theHud: hud
             anchors.fill: parent
             enabled: !panel.indicators.shown
-            applicationIsOnForeground: applicationManager.mainStageFocusedApplication
-                                    || applicationManager.sideStageFocusedApplication
+            applicationIsOnForeground: applicationFocused
         }
 
         InputFilterArea {
@@ -502,7 +500,7 @@ BasicShell {
                 }
             }
             onLauncherApplicationSelected:{
-                shell.activateApplication(desktopFile)
+                shell.activateApplication(appId)
             }
             onShownChanged: {
                 if (shown) {

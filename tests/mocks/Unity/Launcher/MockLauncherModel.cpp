@@ -71,8 +71,6 @@ QVariant MockLauncherModel::data(const QModelIndex& index, int role) const
     LauncherItemInterface *item = m_list.at(index.row());
     switch(role)
     {
-    case RoleDesktopFile:
-        return item->desktopFile();
     case RoleName:
         return item->name();
     case RoleIcon:
@@ -185,7 +183,12 @@ void MockLauncherModel::setUser(const QString &username)
     // TODO: implement this...
 }
 
-void MockLauncherModel::applicationFocused(const QString &appId)
+void MockLauncherModel::setApplicationManager(unity::shell::application::ApplicationManagerInterface *applicationManager)
 {
-    Q_UNUSED(appId)
+    Q_UNUSED(applicationManager)
+}
+
+unity::shell::application::ApplicationManagerInterface *MockLauncherModel::applicationManager() const
+{
+    return nullptr;
 }

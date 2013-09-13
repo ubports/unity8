@@ -20,7 +20,7 @@
 import QtQuick 2.0
 import QtTest 1.0
 import GSettings 1.0
-import Ubuntu.Application 0.1
+import Unity.Application 0.1
 import Unity.Test 0.1 as UT
 import Powerd 0.1
 
@@ -56,16 +56,16 @@ Item {
 
         function cleanup() {
             // kill all (fake) running apps
-            killApps(ApplicationManager.mainStageApplications);
-            killApps(ApplicationManager.sideStageApplications);
+            killApps(ApplicationManager);
 
             var dashHome = findChild(shell, "DashHome");
             swipeUntilScopeViewIsReached(dashHome);
         }
 
         function killApps(apps) {
+            if (!apps) return;
             while (apps.count > 0) {
-                ApplicationManager.stopProcess(apps.get(0));
+                ApplicationManager.stopApplication(apps.get(0).appId);
             }
         }
 
@@ -104,14 +104,34 @@ Item {
             checkRightEdgeDragWithNoRunningApps();
         }
 
+        function test_leftEdgeDrag_data() {
+            return [
+                {tag: "without launcher", revealLauncher: false},
+                {tag: "with launcher", revealLauncher: true},
+            ];
+        }
+
+        function test_leftEdgeDrag(data) {
+            dragLauncherIntoView();
+            tapOnAppIconInLauncher();
+            waitUntilApplicationWindowIsFullyVisible();
+
+            if (data.revealLauncher) {
+                dragLauncherIntoView();
+            }
+
+            swipeFromLeftEdge();
+            waitUntilApplicationWindowIsFullyHidden();
+        }
+
         function test_suspend() {
             // Launch an app from the launcher
             dragLauncherIntoView();
             tapOnAppIconInLauncher();
             waitUntilApplicationWindowIsFullyVisible();
 
-            var mainApp = ApplicationManager.mainStageFocusedApplication;
-            tryCompareFunction(function() { return mainApp != null; }, true);
+            var mainApp = ApplicationManager.focusedApplicationId;
+            tryCompareFunction(function() { return mainApp != ""; }, true);
 
             // Try to suspend while proximity is engaged...
             Powerd.displayPowerStateChange(Powerd.Off, Powerd.UseProximity);
@@ -119,11 +139,11 @@ Item {
 
             // Now really suspend
             Powerd.displayPowerStateChange(Powerd.Off, 0);
-            tryCompare(ApplicationManager, "mainStageFocusedApplication", null);
+            tryCompare(ApplicationManager, "focusedApplicationId", "");
 
             // And wake up
             Powerd.displayPowerStateChange(Powerd.On, 0);
-            tryCompare(ApplicationManager, "mainStageFocusedApplication", mainApp);
+            tryCompare(ApplicationManager, "focusedApplicationId", mainApp);
         }
 
         /*
@@ -197,7 +217,11 @@ Item {
         function dragLauncherIntoView() {
             var launcherPanel = findChild(shell, "launcherPanel");
             verify(launcherPanel.x = - launcherPanel.width);
-            swipeFromLeftEdge();
+
+            var touchStartX = 2;
+            var touchStartY = shell.height / 2;
+            touchFlick(shell, touchStartX, touchStartY, launcherPanel.width + units.gu(1), touchStartY);
+
             tryCompare(launcherPanel, "x", 0);
         }
 

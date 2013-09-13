@@ -21,11 +21,24 @@
 #include <QQuickView>
 #include <QQmlComponent>
 
+ApplicationInfo::ApplicationInfo(const QString &appId, QObject *parent)
+    : ApplicationInfoInterface(appId, parent)
+    ,m_appId(appId)
+    ,m_stage(MainStage)
+    ,m_state(Starting)
+    ,m_focused(false)
+    ,m_fullscreen(false)
+    ,m_windowItem(0)
+    ,m_windowComponent(0)
+    ,m_parentItem(0)
+{
+}
+
 ApplicationInfo::ApplicationInfo(QObject *parent)
-    : QObject(parent)
-     ,m_handle(0)
+    : ApplicationInfoInterface(QString(), parent)
      ,m_stage(MainStage)
      ,m_state(Starting)
+     ,m_focused(false)
      ,m_fullscreen(false)
      ,m_windowItem(0)
      ,m_windowComponent(0)
