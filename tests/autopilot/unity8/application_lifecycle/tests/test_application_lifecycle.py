@@ -21,6 +21,7 @@
 
 from __future__ import absolute_import
 
+from unity8.shell import disable_qml_mocking
 from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 
 from autopilot.matchers import Eventually
@@ -74,6 +75,7 @@ class ApplicationLifecycleTests(UnityTestCase):
             app_type='qt'
         )
 
+    @disable_qml_mocking
     def test_can_launch_application(self):
         """Must be able to launch an application."""
         self.launch_unity()
@@ -87,6 +89,7 @@ class ApplicationLifecycleTests(UnityTestCase):
             Eventually(Equals("messaging-app"))
         )
 
+    @disable_qml_mocking
     def test_can_launch_multiple_applications(self):
         """A second application launched must be focused."""
         self.launch_unity()
@@ -104,6 +107,7 @@ class ApplicationLifecycleTests(UnityTestCase):
             Eventually(Equals("address-book-app"))
         )
 
+    @disable_qml_mocking
     def test_app_moves_from_unfocused_to_focused(self):
         """An application that is in the unfocused state must be able to be
         brought back to the focused state.
