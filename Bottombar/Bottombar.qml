@@ -107,20 +107,22 @@ Item {
         height: distanceThreshold
         anchors.bottom: parent.bottom
 
-        distanceThreshold: units.gu(1)
+        distanceThreshold: units.gu(8)
         enabled: !theHud.shown && bottombar.enabled && applicationIsOnForeground
         direction: Direction.Upwards
 
         property int previousStatus: -1
         property real touchStartX: -1
 
+        readonly property real distanceFromThreshold: Math.max((-distance) - distanceThreshold, 0) // distance is negative
+        readonly property real commitDistance: units.gu(6)
+        readonly property real commitProgress: Math.min((distanceFromThreshold - commitDistance) / commitDistance, 1)
+
         onStatusChanged: {
             if (status === DirectionalDragArea.WaitingForTouch) {
                 if (previousStatus == DirectionalDragArea.Recognized) {
                     if (hudButton.mouseOver) {
                         hudButton.clicked()
-                    } else {
-                        bottombar.state = "hidden"
                     }
                 }
             } else if (status === DirectionalDragArea.Undecided) {
@@ -128,9 +130,16 @@ Item {
                     touchStartX = touchX
                 }
             } else if (status === DirectionalDragArea.Recognized) {
-                bottombar.state = "shown"
+                bottombar.state = "hint"
             }
             previousStatus = status
+        }
+
+        onDistanceChanged: {
+            if (status === DirectionalDragArea.Recognized) {
+                if (distanceFromThreshold > commitDistance)
+                    bottombar.state = "shown"
+            }
         }
     }
 
@@ -152,6 +161,17 @@ Item {
             name: "hidden"
             PropertyChanges { target: hudButton; opacity: 0}
             PropertyChanges { target: hudButton; bottomMargin: units.gu(-1)}
+        },
+        State {
+            name: "hint"
+            PropertyChanges {
+                target: hudButton;
+                opacity: 0.5 + 0.5 * dragArea.commitProgress
+            }
+            PropertyChanges {
+                target: hudButton;
+                bottomMargin: units.gu(-1) + units.gu(1) * dragArea.commitProgress
+            }
         },
         State {
             name: "shown"
