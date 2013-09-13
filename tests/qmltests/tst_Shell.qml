@@ -114,6 +114,26 @@ Item {
             checkRightEdgeDragWithNoRunningApps();
         }
 
+        function test_leftEdgeDrag_data() {
+            return [
+                {tag: "without launcher", revealLauncher: false},
+                {tag: "with launcher", revealLauncher: true},
+            ];
+        }
+
+        function test_leftEdgeDrag(data) {
+            dragLauncherIntoView();
+            tapOnAppIconInLauncher();
+            waitUntilApplicationWindowIsFullyVisible();
+
+            if (data.revealLauncher) {
+                dragLauncherIntoView();
+            }
+
+            swipeFromLeftEdge();
+            waitUntilApplicationWindowIsFullyHidden();
+        }
+
         function test_suspend() {
             var greeter = findChild(shell, "greeter");
 
@@ -223,7 +243,11 @@ Item {
         function dragLauncherIntoView() {
             var launcherPanel = findChild(shell, "launcherPanel");
             verify(launcherPanel.x = - launcherPanel.width);
-            swipeFromLeftEdge();
+
+            var touchStartX = 2;
+            var touchStartY = shell.height / 2;
+            touchFlick(shell, touchStartX, touchStartY, launcherPanel.width + units.gu(1), touchStartY);
+
             tryCompare(launcherPanel, "x", 0);
         }
 

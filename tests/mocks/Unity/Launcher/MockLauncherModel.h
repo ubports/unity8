@@ -44,7 +44,9 @@ public:
     Q_INVOKABLE void requestRemove(const QString &appId);
     Q_INVOKABLE void quickListActionInvoked(const QString &appId, int actionIndex);
     Q_INVOKABLE void setUser(const QString &username);
-    Q_INVOKABLE void applicationFocused(const QString &appId);
+
+    unity::shell::application::ApplicationManagerInterface *applicationManager() const;
+    void setApplicationManager(unity::shell::application::ApplicationManagerInterface *applicationManager);
 
 Q_SIGNALS:
     void quickListTriggered(const QString &appId, int index);

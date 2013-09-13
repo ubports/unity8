@@ -1,3 +1,23 @@
+unity8 (7.81.3+13.10.20130912-0ubuntu1) saucy; urgency=low
+
+  [ Michael Zanetti ]
+  * add support for finding icons from click package apps in the
+    launcher.
+  * update to latest launcher API for better integration with the
+    AppManager.
+
+  [ Ricardo Mendoza ]
+  * Fixes problems related to image 20130912.0, amongst: * Fix autopilot
+    tests by preventing blocking of input during HUD button animations,
+    only when fully visible * Fix loading of unity-mir library, major
+    version wasn't specified so unless the dev package was there it
+    would fail.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 316
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 12 Sep 2013 13:47:59 +0000
+
 unity8 (7.81.3+13.10.20130911.1-0ubuntu1) saucy; urgency=low
 
   [ Michael Terry ]

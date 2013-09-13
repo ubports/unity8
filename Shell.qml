@@ -65,6 +65,12 @@ FocusScope {
 
     property var applicationManager: ApplicationManagerWrapper {}
 
+    Binding {
+        target: LauncherModel
+        property: "applicationManager"
+        value: ApplicationManager
+    }
+
     Component.onCompleted: {
         Theme.name = "Ubuntu.Components.Themes.SuruGradient"
 
@@ -100,15 +106,6 @@ FocusScope {
             // potentially only in connection with a notification
             greeter.hide();
             shell.activateApplication(desktopFile);
-        }
-
-        onMainStageFocusedApplicationChanged: {
-            var app = applicationManager.mainStageFocusedApplication
-            if (app != null) {
-                LauncherModel.applicationFocused(app.desktopFile);
-            } else {
-                LauncherModel.applicationFocused("");
-            }
         }
     }
 
@@ -654,7 +651,7 @@ FocusScope {
             }
             onLauncherApplicationSelected:{
                 greeter.hide()
-                shell.activateApplication(desktopFile)
+                shell.activateApplication(appId)
             }
             onShownChanged: {
                 if (shown) {
