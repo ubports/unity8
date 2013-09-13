@@ -53,10 +53,14 @@ class ApplicationLifecycleTests(UnityTestCase):
         logger.info("Swiping screen from the right edge")
         self.touch.drag(start_x, start_y, end_x, end_y)
 
-    def _launch_default_app(self, app_name):
-        """Launches the default application *app_name*
+    def _get_current_focused_app_id(self):
+        return self._proxy.select_single("Shell").currentFocusedAppId
 
-        *app_name* must be the name of a default application i.e. messaging-app
+    def _launch_app(self, app_name):
+        """Launches the application *app_name*
+
+        Assumes that the desktop file resides at:
+        /usr/share/applications/{app_name}.desktop
 
         """
         desktop_file = "--desktop_file_hint="\
@@ -72,43 +76,57 @@ class ApplicationLifecycleTests(UnityTestCase):
 
     def test_can_launch_application(self):
         """Must be able to launch an application."""
-        unity = self.launch_unity()
+        self.launch_unity()
         self.main_window.get_greeter().swipe()
 
-        app = self._launch_default_app("messaging-app")
-
-        shell = unity.select_single("Shell")
+        app = self._launch_app("messaging-app")
 
         self.assertThat(app, NotEquals(None))
-        self.assertThat(shell.currentFocusedAppId, Equals("messaging-app"))
+        self.assertThat(
+            self._get_current_focused_app_id(),
+            Eventually(Equals("messaging-app"))
+        )
 
     def test_can_launch_multiple_applications(self):
         """A second application launched must be focused."""
-        unity = self.launch_unity()
+        self.launch_unity()
         self.main_window.get_greeter().swipe()
 
-        self._launch_default_app("messaging-app")
-        self._launch_default_app("address-book-app")
+        self._launch_app("messaging-app")
+        self.assertThat(
+            self._get_current_focused_app_id(),
+            Eventually(Equals("messaging-app"))
+        )
 
-        shell = unity.select_single("Shell")
-
-        self.assertThat(shell.currentFocusedAppId, Equals("address-book-app"))
+        self._launch_app("address-book-app")
+        self.assertThat(
+            self._get_current_focused_app_id(),
+            Eventually(Equals("address-book-app"))
+        )
 
     def test_app_moves_from_unfocused_to_focused(self):
         """An application that is in the unfocused state must be able to be
         brought back to the focused state.
 
         """
-        unity = self.launch_unity()
+        self.launch_unity()
         self.main_window.get_greeter().swipe()
 
-        self._launch_default_app("messaging-app")
-        self._launch_default_app("address-book-app")
+        self._launch_app("messaging-app")
+        self.assertThat(
+            self._get_current_focused_app_id(),
+            Eventually(Equals("messaging-app"))
+        )
+
+        self._launch_app("address-book-app")
+        self.assertThat(
+            self._get_current_focused_app_id(),
+            Eventually(Equals("address-book-app"))
+        )
 
         self.swipe_screen_from_right()
 
-        shell = unity.select_single("Shell")
         self.assertThat(
-            shell.currentFocusedAppId,
+            self._get_current_focused_app_id(),
             Eventually(Equals("messaging-app"))
         )
