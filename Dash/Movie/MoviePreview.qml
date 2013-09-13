@@ -78,14 +78,19 @@ DashPreview {
         id: buttons
         objectName: "gridButtons"
         model: root.previewData.actions
+        interactive: false
 
-        property int numOfRows: (count + 1) / 2
+        anchors.left: parent.left
+        anchors.right: parent.right
+
+        property int numOfRows: (count + numOfColumns - 1) / numOfColumns
+        property int numOfColumns: Math.max(1, Math.floor(width / (buttonWidth + spacing)))
         property int spacing: units.gu(1)
         height: Math.max(units.gu(4), units.gu(4)*numOfRows + spacing*(numOfRows - 1))
 
-        cellWidth: Math.max(units.gu(9), width / 2)
-        cellHeight: buttonHeight + spacing
-        property int buttonWidth: Math.max(0, width / 2 - spacing)
+        cellWidth: width / buttons.numOfColumns
+        cellHeight: buttonHeight + buttons.spacing
+        property int buttonWidth: units.gu(17) - spacing
         property int buttonHeight: units.gu(4)
 
         delegate: Button {
@@ -160,7 +165,6 @@ DashPreview {
                 var parts = []
                 if (ready) {
                     if (previewData.year) parts.push(previewData.year)
-                    //if (nfo.video.runtime) parts.push("%1 minutes".arg(nfo.video.runtime))
                 }
                 return parts.join(", ");
             }
