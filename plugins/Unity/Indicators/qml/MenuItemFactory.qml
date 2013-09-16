@@ -217,7 +217,7 @@ Item {
 
             title: menu && menu.label ? menu.label : ""
             count: menu && menu.actionState[0] ? menu.actionState[0] : "0"
-            appIcon: menu && (menu.ext.xCanonicalIcon.length > 0) ? "image://gicon/" + encodeURI(menu.ext.xCanonicalIcon) :
+            appIcon: menu && (menu.ext.xCanonicalIcon.length > 0) ? "image://theme/" + encodeURI(menu.ext.xCanonicalIcon) :
                                                                     "qrc:/indicators/artwork/messaging/default_app.svg"
 
             Component.onCompleted: {

@@ -25,7 +25,7 @@
 #include <QSettings>
 #include <QStringList>
 
-class AccountsService;
+class AccountsServiceDBusAdaptor;
 
 /**
   * @brief An interface that provides all the data needed by the launcher.
@@ -156,7 +156,7 @@ private:
     QList<QString> m_storedApps;
     mutable QHash<QString, LauncherBackendItem*> m_itemCache;
 
-    AccountsService *m_accounts;
+    AccountsServiceDBusAdaptor *m_accounts;
     QString m_user;
 };
 

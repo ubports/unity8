@@ -16,7 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import Ubuntu.Application 0.1
+import Unity.Application 0.1
 
 Item {
     id: applicationScreenshot
@@ -56,6 +56,6 @@ Item {
         width: applicationScreenshot.application ? parent.width : 0
         height: applicationScreenshot.application ? parent.height : 0
         visible: applicationScreenshot.application != null && ready
-        source: applicationScreenshot.application
+        source: ApplicationManager.findApplication((application) ? application.appId : "")
     }
 }

@@ -18,7 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "AccountsService.h"
+#include "AccountsServiceDBusAdaptor.h"
 #include "launcherbackend.h"
 
 #include <QDir>
@@ -43,7 +43,7 @@ LauncherBackend::LauncherBackend(bool useStorage, QObject *parent):
     m_accounts(nullptr)
 {
     if (useStorage) {
-        m_accounts = new AccountsService(this);
+        m_accounts = new AccountsServiceDBusAdaptor(this);
     }
     m_user = qgetenv("USER");
     syncFromAccounts();
@@ -214,7 +214,7 @@ void LauncherBackend::syncFromAccounts()
     m_storedApps.clear();
 
     if (m_accounts && !m_user.isEmpty()) {
-        QVariant variant = m_accounts->getUserProperty(m_user, "launcher-items");
+        QVariant variant = m_accounts->getUserProperty(m_user, "com.canonical.unity.AccountsService", "launcher-items");
         apps = qdbus_cast<QList<QVariantMap>>(variant.value<QDBusArgument>());
         defaults = isDefaultsItem(apps);
     }
@@ -257,7 +257,7 @@ void LauncherBackend::syncToAccounts()
             items << itemToVariant(appId);
         }
 
-        m_accounts->setUserProperty(m_user, "launcher-items", QVariant::fromValue(items));
+        m_accounts->setUserProperty(m_user, "com.canonical.unity.AccountsService", "launcher-items", QVariant::fromValue(items));
     }
 }
 
@@ -300,7 +300,12 @@ LauncherBackendItem* LauncherBackend::parseDesktopFile(const QString &desktopFil
     LauncherBackendItem* item = new LauncherBackendItem();
     item->desktopFile = desktopFile;
     item->displayName = settings.value("Desktop Entry/Name").toString();
-    item->icon = settings.value("Desktop Entry/Icon").toString();
+
+    if (settings.contains("Desktop Entry/Path")) {
+        item->icon = settings.value("Desktop Entry/Path").toString() + "/" + settings.value("Desktop Entry/Icon").toString();
+    } else {
+        item->icon = settings.value("Desktop Entry/Icon").toString();
+    }
     item->pinned = false;
     return item;
 }

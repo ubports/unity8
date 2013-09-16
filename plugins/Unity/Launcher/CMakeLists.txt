@@ -1,5 +1,6 @@
 include(FindPkgConfig)
-pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=2)
+pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=3)
+pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=1)
 pkg_check_modules(GSETTINGS_QT REQUIRED gsettings-qt)
 
 add_definitions(-DSM_BUSNAME=systemBus)
@@ -17,7 +18,7 @@ set(QMLLAUNCHERPLUGIN_SRC
     quicklistmodel.cpp
     common/quicklistentry.cpp
     backend/launcherbackend.cpp
-    ${CMAKE_SOURCE_DIR}/plugins/AccountsService/AccountsService.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/AccountsService/AccountsServiceDBusAdaptor.cpp
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherItemInterface.h
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherModelInterface.h
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/QuickListModelInterface.h

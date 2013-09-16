@@ -1,5 +1,6 @@
 pkg_check_modules(GSETTINGS_QT REQUIRED gsettings-qt)
-pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=2)
+pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=3)
+pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=1)
 
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
@@ -21,7 +22,7 @@ add_test(NAME launcherbackendtest COMMAND ${testBackendCommand})
 add_custom_target(launcherbackendtest ${testBackendCommand})
 add_executable(launcherbackendtestExec
     launcherbackendtest.cpp
-    ${CMAKE_SOURCE_DIR}/plugins/AccountsService/AccountsService.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/AccountsService/AccountsServiceDBusAdaptor.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/backend/launcherbackend.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/common/quicklistentry.cpp
     )
@@ -39,18 +40,29 @@ add_executable(launchermodeltestExec
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/launchermodel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/launcheritem.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/quicklistmodel.cpp
-    ${CMAKE_SOURCE_DIR}/plugins/AccountsService/AccountsService.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/AccountsService/AccountsServiceDBusAdaptor.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/backend/launcherbackend.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/common/quicklistentry.cpp
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherItemInterface.h
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherModelInterface.h
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/QuickListModelInterface.h
+    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
+    ${LAUNCHER_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
     )
 target_link_libraries(launchermodeltestExec ${GSETTINGS_QT_LDFLAGS} )
 qt5_use_modules(launchermodeltestExec Test Core DBus)
 
 # copy .desktop files into build directory for shadow builds
 file(GLOB DESKTOP_FILES *.desktop)
+
+foreach(DESKTOP_FILE ${DESKTOP_FILES})
+    file(COPY "${DESKTOP_FILE}"
+        DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
+        )
+endforeach()
+
+# copy .svg files into build directory for shadow builds
+file(GLOB DESKTOP_FILES *.svg)
 
 foreach(DESKTOP_FILE ${DESKTOP_FILES})
     file(COPY "${DESKTOP_FILE}"

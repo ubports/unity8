@@ -47,10 +47,10 @@ Indicators.MenuItem {
             imageName += "-secure";
         }
 
-        return "image://gicon/" + imageName;
+        return "image://theme/" + imageName;
     }
 
-    icon: menu && wifiApStrength ? getNetworkIcon(menu) : "image://gicon/wifi-none"
+    icon: menu && wifiApStrength ? getNetworkIcon(menu) : "image://theme/wifi-none"
     iconFrame: false
     control: CheckBox {
         id: checkBoxActive
