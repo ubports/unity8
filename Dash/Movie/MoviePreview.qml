@@ -34,7 +34,7 @@ DashPreview {
     header: Rectangle {
         anchors.left: parent.left
         anchors.right: parent.right
-        height: units.gu(16)
+        height: width * 9 / 16
         color: "black"
 
         Video {
@@ -62,8 +62,7 @@ DashPreview {
                     if (root.playable) {
                         if (video.playbackState == MediaPlayer.PlayingState) {
                             video.pause();
-                        } else if (video.playbackState
-                                    == MediaPlayer.PausedState) {
+                        } else if (video.playbackState == MediaPlayer.PausedState) {
                             video.play();
                         } else {
                             video.play();

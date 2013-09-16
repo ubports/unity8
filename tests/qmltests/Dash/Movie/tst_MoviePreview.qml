@@ -24,42 +24,18 @@ Item {
     width: units.gu(60)
     height: units.gu(80)
 
-    property var calls
+    property var calls: []
+    property int counter: 0
 
-    function get_actions() {
-        var a1 = new Object();
-        a1.id = 123;
-        a1.displayName = "Play";
-        a1.iconHint = "image://theme/search";
-        var a2 = new Object();
-        a2.id = 456;
-        a2.displayName = "Buy";
-        a2.iconHint = "image://theme/search";
-        var a3 = new Object();
-        a3.id = 789;
-        a3.displayName = "Delete";
-        a3.iconHint = "image://theme/search";
-
-        return [a1, a2, a3];
+    function get_actions_data() {
+        return [
+            { id: 123, displayName: "Play", iconHint: "image://theme/search" },
+            { id: 456, displayName: "Buy", iconHint: "image://theme/search" },
+            { id: 789, displayName: "Delete", iconHint: "image//theme/search" }
+        ]
     }
 
-    function get_data() {
-        var objData = new Object();
-        objData.rendererName = "preview-movie";
-        objData.title = "Unity Movie";
-        objData.subtitle = "Subtitle";
-        objData.description = "This is the description";
-        objData.image = "image://theme/syncing";
-        objData.actions = get_actions();
-        objData.year = "2013"
-        objData.rating = 3
-        objData.numRatings = 1
-        objData.execute = prueba;
-
-        return objData;
-    }
-
-    function prueba(id, data){
+    function fake_callback(id, data){
         root.calls[root.calls.length] = id;
     }
 
@@ -68,17 +44,30 @@ Item {
         id: moviePreview
         anchors.fill: parent
 
-        previewData: get_data()
+        previewData: QtObject {
+            property string rendererName: "preview-movie"
+            property string title: "Unity Movie"
+            property string subtitle: "Subtitle"
+            property string description: "This is the description"
+            property string image: "image://theme/syncing"
+            property var actions: get_actions_data()
+            property string year: "2013"
+            property int rating: 3
+            property int numRatings: 1
+            property var execute: fake_callback
+        }
     }
 
     UT.UnityTestCase {
         name: "MoviePreviewTest"
         when: windowShown
 
-        function test_actions() {
+        function init() {
             root.calls = new Array();
+        }
+
+        function test_numofbuttons() {
             var buttons = findChild(moviePreview, "gridButtons");
-            wait(10000);
             compare(buttons.count, 3);
 
             for(var i = 0; i < buttons.count; i++) {
@@ -86,7 +75,7 @@ Item {
                 buttons.currentItem.clicked();
             }
 
-            var actions = get_actions();
+            var actions = get_actions_data();
             for(var i = 0; i < actions.length; i++) {
                 compare(root.calls[i], actions[i].id);
             }
