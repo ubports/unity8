@@ -38,7 +38,7 @@ Item {
         property string lastSelectedApplication
 
         onLauncherApplicationSelected: {
-            lastSelectedApplication = desktopFile
+            lastSelectedApplication = appId
         }
 
         property int dashItemSelected_count: 0
@@ -131,7 +131,7 @@ Item {
             mouseClick(appIcon, appIcon.width/2, appIcon.height/2)
 
             tryCompare(launcher, "lastSelectedApplication",
-                       "/usr/share/applications/phone-app.desktop")
+                       "phone-app")
 
             // Tapping on an application icon also dismisses the launcher
             revealer.waitUntilLauncherDisappears()

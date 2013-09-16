@@ -12,38 +12,9 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Author: Michael Terry <michael.terry@canonical.com>
  */
 
-#include "AccountsService.h"
+import QtQuick 2.0;
 
-AccountsService::AccountsService(QObject* parent)
-  : QObject(parent)
-{
-}
-
-QString AccountsService::getUser()
-{
-    return "testuser";
-}
-
-void AccountsService::setUser(const QString &user)
-{
-    Q_UNUSED(user)
-}
-
-bool AccountsService::getDemoEdges()
-{
-    return false;
-}
-
-void AccountsService::setDemoEdges(bool demoEdges)
-{
-    Q_UNUSED(demoEdges)
-}
-
-QString AccountsService::getBackgroundFile()
-{
-    return TOP_SRCDIR "/graphics/phone_background.jpg";
+Item {
 }

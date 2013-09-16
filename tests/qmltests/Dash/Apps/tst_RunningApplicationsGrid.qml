@@ -16,7 +16,6 @@
 
 import QtQuick 2.0
 import QtTest 1.0
-import Ubuntu.Application 0.1
 import "../../../../Dash/Apps"
 import Unity.Test 0.1 as UT
 
@@ -29,8 +28,12 @@ Item {
 
         property bool sideStageEnabled: false
 
-        function stopProcess(application) {
-            fakeRunningAppsModel.remove(application)
+        function stopApplication(appId) {
+            for (var i=0, len=fakeRunningAppsModel.count; i<len; i++) {
+                if (appId == fakeRunningAppsModel.get(i).appId) {
+                    fakeRunningAppsModel.remove(i)
+                }
+            }
         }
     }
 
@@ -40,47 +43,62 @@ Item {
         property bool stageScreenshotsReady: false
         property var applicationManager: fakeApplicationManager
 
-        function activateApplication(desktopFile) {
+        function activateApplication(appId) {
         }
     }
 
-    ApplicationListModel { id: fakeRunningAppsModel }
+    ListModel {
+        id: fakeRunningAppsModel
 
-    ApplicationInfo {
-        id: phoneApp
-        name: "Phone"
-        icon: "phone-app"
-        exec: "/usr/bin/phone-app"
-        stage: ApplicationInfo.MainStage
-        desktopFile: "phone.desktop"
-        imageQml: "import QtQuick 2.0\n" +
-                  "Rectangle { \n" +
-                  "    anchors.fill:parent \n" +
-                  "    color:'darkgreen' \n" +
-                  "    Text { anchors.centerIn: parent; text: 'PHONE' } \n" +
-                  "}"
+        function contains(appId) {
+            for (var i=0, len=fakeRunningAppsModel.count; i<len; i++) {
+                if (appId == fakeRunningAppsModel.get(i).appId) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function rePopulate() {
+            for (var i=0, len=availableAppsModel.count; i<len; i++) {
+                fakeRunningAppsModel.append(availableAppsModel.get(i));
+            }
+        }
     }
 
-    ApplicationInfo {
-        id: calendarApp
-        name: "Calendar"
-        icon: "calendar-app"
-        exec: "/usr/bin/calendar-app"
-        stage: ApplicationInfo.MainStage
-        desktopFile: "calendar.desktop"
-        imageQml: "import QtQuick 2.0\n" +
-                  "Rectangle { \n" +
-                  "    anchors.fill:parent \n" +
-                  "    color:'darkblue' \n" +
-                  "    Text { anchors.centerIn: parent; text: 'CALENDAR'\n" +
-                  "           color:'white'} \n" +
-                  "}"
+    ListModel {
+        id: availableAppsModel
+        ListElement {
+            name: "Phone"
+            icon: "phone-app"
+            exec: "/usr/bin/phone-app"
+            appId: "phone"
+            imageQml: "import QtQuick 2.0\n \
+                       Rectangle { \n \
+                          anchors.fill:parent \n \
+                          color:'darkgreen' \n \
+                          Text { anchors.centerIn: parent; text: 'PHONE' } \n \
+                      }"
+        }
+
+        ListElement {
+            name: "Calendar"
+            icon: "calendar-app"
+            exec: "/usr/bin/calendar-app"
+            appId: "calendar"
+            imageQml: "import QtQuick 2.0\n \
+                       Rectangle { \n \
+                           anchors.fill:parent \n \
+                           color:'darkblue' \n \
+                           Text { anchors.centerIn: parent; text: 'CALENDAR'\n \
+                                  color:'white'} \n \
+                      }"
+        }
     }
 
     function resetRunningApplications() {
         fakeRunningAppsModel.clear()
-        fakeRunningAppsModel.add(phoneApp)
-        fakeRunningAppsModel.add(calendarApp)
+        fakeRunningAppsModel.rePopulate()
     }
 
     Component.onCompleted: {
@@ -185,11 +203,11 @@ Item {
             var calendarTile = findChild(runningApplicationsGrid, "runningAppTile Calendar")
             verify(calendarTile != undefined)
 
-            verify(fakeRunningAppsModel.contains(calendarApp))
+            verify(fakeRunningAppsModel.contains("calendar"))
 
             mouseClick(calendarTile, calendarTile.width/2, calendarTile.height/2)
 
-            verify(!fakeRunningAppsModel.contains(calendarApp))
+            verify(!fakeRunningAppsModel.contains("calendar"))
 
             // The tile for the Calendar app should eventually vanish since the
             // application has been terminated

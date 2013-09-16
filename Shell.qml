@@ -15,8 +15,9 @@
  */
 
 import QtQuick 2.0
+import AccountsService 0.1
 import GSettings 1.0
-import Ubuntu.Application 0.1
+import Unity.Application 0.1
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
 import Unity.Launcher 0.1
@@ -64,6 +65,12 @@ FocusScope {
 
     property var applicationManager: ApplicationManagerWrapper {}
 
+    Binding {
+        target: LauncherModel
+        property: "applicationManager"
+        value: ApplicationManager
+    }
+
     Component.onCompleted: {
         Theme.name = "Ubuntu.Components.Themes.SuruGradient"
 
@@ -73,6 +80,9 @@ FocusScope {
         // We should detect already running applications on shell start and bring them to the front.
         applicationManager.unfocusCurrentApplication();
     }
+
+    readonly property bool applicationFocused: !!applicationManager.mainStageFocusedApplication
+                                               || !!applicationManager.sideStageFocusedApplication
 
     readonly property bool fullscreenMode: {
         if (greeter.shown || lockscreen.shown) {
@@ -94,15 +104,6 @@ FocusScope {
             // potentially only in connection with a notification
             greeter.hide();
             shell.activateApplication(desktopFile);
-        }
-
-        onMainStageFocusedApplicationChanged: {
-            var app = applicationManager.mainStageFocusedApplication
-            if (app != null) {
-                LauncherModel.applicationFocused(app.desktopFile);
-            } else {
-                LauncherModel.applicationFocused("");
-            }
         }
     }
 
@@ -154,6 +155,10 @@ FocusScope {
                 shell.background = defaultBackground
             }
         }
+    }
+
+    OSKController {
+        anchors.fill: parent // as needs to know the geometry of the shell
     }
 
     VolumeControl {
@@ -254,7 +259,7 @@ FocusScope {
             property bool fullyShown: shown && x == 0 && parent.x == 0
             property bool fullyHidden: !shown && x == width
             available: !greeter.shown
-            hides: [launcher, panel.indicators]
+            hides: [panel.indicators]
             shown: false
             opacity: 1.0
             showAnimation: StandardAnimation { property: "x"; duration: 350; to: 0; easing.type: Easing.OutCubic }
@@ -478,6 +483,7 @@ FocusScope {
         onSelected: {
             // Update launcher items for new user
             var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole);
+            AccountsService.user = user;
             LauncherModel.setUser(user);
         }
 
@@ -490,7 +496,8 @@ FocusScope {
 
     InputFilterArea {
         anchors.fill: parent
-        blockInput: greeter.shown || lockscreen.shown
+        blockInput: !applicationFocused || greeter.shown || lockscreen.shown || launcher.shown
+                    || panel.indicators.shown || hud.shown
     }
 
     Connections {
@@ -502,10 +509,8 @@ FocusScope {
 
         function setFocused(focused) {
             if (!focused) {
-                // FIXME: *FocusedApplication are not updated when unfocused, hence the need to check whether
-                // the stage was actually shown
-                if (mainStage.fullyShown) powerConnection.previousMainApp = applicationManager.mainStageFocusedApplication;
-                if (sideStage.fullyShown) powerConnection.previousSideApp = applicationManager.sideStageFocusedApplication;
+                powerConnection.previousMainApp = applicationManager.mainStageFocusedApplication;
+                powerConnection.previousSideApp = applicationManager.sideStageFocusedApplication;
                 applicationManager.unfocusCurrentApplication();
             } else {
                 if (powerConnection.previousMainApp) {
@@ -556,8 +561,13 @@ FocusScope {
             searchVisible: !greeter.shown && !lockscreen.shown
 
             InputFilterArea {
-                anchors.fill: parent
-                blockInput: panel.indicators.shown
+                anchors {
+                    top: parent.top
+                    left: parent.left
+                    right: parent.right
+                }
+                height: (panel.fullscreenMode) ? shell.edgeSize : panel.panelHeight
+                blockInput: true
             }
         }
 
@@ -576,11 +586,6 @@ FocusScope {
                 target: shell.applicationManager
                 onMainStageFocusedApplicationChanged: hud.hide()
                 onSideStageFocusedApplicationChanged: hud.hide()
-            }
-
-            InputFilterArea {
-                anchors.fill: parent
-                blockInput: hud.shown
             }
         }
 
@@ -604,8 +609,7 @@ FocusScope {
             theHud: hud
             anchors.fill: parent
             enabled: !panel.indicators.shown
-            applicationIsOnForeground: applicationManager.mainStageFocusedApplication
-                                    || applicationManager.sideStageFocusedApplication
+            applicationIsOnForeground: applicationFocused
         }
 
         InputFilterArea {
@@ -645,7 +649,7 @@ FocusScope {
             }
             onLauncherApplicationSelected:{
                 greeter.hide()
-                shell.activateApplication(desktopFile)
+                shell.activateApplication(appId)
             }
             onShownChanged: {
                 if (shown) {

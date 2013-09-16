@@ -68,8 +68,8 @@ Indicators.BaseMenuItem {
                 time: menu ? Utils.formatDate(menu.ext.xCanonicalTime) : ""
                 message: menu && menu.ext.xCanonicalText ? menu.ext.xCanonicalText : ""
                 // icons
-                avatar: menu && menu.ext.xCanonicalIcon ? "image://gicon/" + encodeURI(menu.ext.xCanonicalIcon) : "qrc:/indicators/artwork/messaging/default_contact.png"
-                appIcon: menu && menu.ext.xCanonicalAppIcon ? "image://gicon/" + encodeURI(menu.ext.xCanonicalAppIcon) : ""
+                avatar: menu && menu.ext.xCanonicalIcon ? "image://theme/" + encodeURI(menu.ext.xCanonicalIcon) : "qrc:/indicators/artwork/messaging/default_contact.png"
+                appIcon: menu && menu.ext.xCanonicalAppIcon ? "image://theme/" + encodeURI(menu.ext.xCanonicalAppIcon) : ""
 
                 onActivateApp: {
                     menuItem.model.activate(modelIndex, true);
@@ -94,8 +94,8 @@ Indicators.BaseMenuItem {
                 message: menu && menu.ext.xCanonicalText ? menu.ext.xCanonicalText : ""
                 replyButtonText: actionsDescription && actionsDescription[0].label ? actionsDescription[0].label : "Send"
                 // icons
-                avatar: menu && menu.ext.xCanonicalIcon ? "image://gicon/" + encodeURI(menu.ext.xCanonicalIcon) : "qrc:/indicators/artwork/messaging/default_contact.png"
-                appIcon: menu && menu.ext.xCanonicalAppIcon ? "image://gicon/" + encodeURI(menu.ext.xCanonicalAppIcon) : ""
+                avatar: menu && menu.ext.xCanonicalIcon ? "image://theme/" + encodeURI(menu.ext.xCanonicalIcon) : "qrc:/indicators/artwork/messaging/default_contact.png"
+                appIcon: menu && menu.ext.xCanonicalAppIcon ? "image://theme/" + encodeURI(menu.ext.xCanonicalAppIcon) : ""
                 // actions
                 replyEnabled: replyAction.valid && replyAction.enabled
 
@@ -132,8 +132,8 @@ Indicators.BaseMenuItem {
                 replyButtonText: actionsDescription && actionsDescription[1].label ? actionsDescription[1].label : "Send"
                 replyMessages: actionsDescription && actionsDescription[1]["parameter-hint"] ? actionsDescription[1]["parameter-hint"] : ""
                 // icons
-                avatar: menu && menu.ext.xCanonicalIcon ? "image://gicon/" + encodeURI(menu.ext.xCanonicalIcon) : "qrc:/indicators/artwork/messaging/default_contact.png"
-                appIcon: menu && menu.ext.xCanonicalAppIcon ? "image://gicon/" + encodeURI(menu.ext.xCanonicalAppIcon) : ""
+                avatar: menu && menu.ext.xCanonicalIcon ? "image://theme/" + encodeURI(menu.ext.xCanonicalIcon) : "qrc:/indicators/artwork/messaging/default_contact.png"
+                appIcon: menu && menu.ext.xCanonicalAppIcon ? "image://theme/" + encodeURI(menu.ext.xCanonicalAppIcon) : ""
                 // actions
                 activateEnabled: activateAction.valid && activateAction.enabled
                 replyEnabled: replyAction.valid && replyAction.enabled

@@ -1,3 +1,5 @@
+add_definitions(-DTOP_SRCDIR="${CMAKE_SOURCE_DIR}")
+
 add_library(MockAccountsService-qml MODULE
     AccountsService.cpp
     plugin.cpp

@@ -32,10 +32,9 @@ class LauncherItem: public LauncherItemInterface
 {
     Q_OBJECT
 public:
-    LauncherItem(const QString &appId, const QString &desktopFile, const QString &name, const QString &icon, QObject *parent = 0);
+    LauncherItem(const QString &appId, const QString &name, const QString &icon, QObject *parent = 0);
 
     QString appId() const;
-    QString desktopFile() const;
     QString name() const;
     QString icon() const;
 
@@ -65,7 +64,6 @@ Q_SIGNALS:
 
 private:
     QString m_appId;
-    QString m_desktopFile;
     QString m_name;
     QString m_icon;
     bool m_pinned;
