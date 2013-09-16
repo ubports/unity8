@@ -160,16 +160,11 @@ private Q_SLOTS:
 
     void testRemove_data() {
 
-       QTest::addColumn<bool>("pinned");
-       QTest::addColumn<bool>("running");
+        QTest::addColumn<bool>("pinned");
+        QTest::addColumn<bool>("running");
 
-        // Needs to kepp the item as long as running and needs to remove it when app is closed
         QTest::newRow("non-pinned, running") << false << true;
-
-        // Needs to kepp the item as long as running and needs to remove it when app is closed
         QTest::newRow("pinned, running") << true << false;
-
-        // Needs to kepp the item as long as running and needs to remove it when app is closed
         QTest::newRow("pinned, non-running") << true << false;
     }
 
