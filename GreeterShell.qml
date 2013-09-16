@@ -15,6 +15,7 @@
  */
 
 import AccountsService 0.1
+import GSettings 1.0
 import LightDM 0.1 as LightDM
 import Powerd 0.1
 import QtQuick 2.0
@@ -35,6 +36,11 @@ BasicShell {
         greeter.hide()
     }
 
+    GSettings {
+        id: backgroundSettings
+        schema.id: "org.gnome.desktop.background"
+    }
+    backgroundFallbackSource: backgroundSettings.pictureUri // for ease of customization by system builders
     backgroundSource: AccountsService.backgroundFile
 
     Lockscreen {

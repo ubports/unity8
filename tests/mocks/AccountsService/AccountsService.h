@@ -41,6 +41,7 @@ class AccountsService: public QObject
                 NOTIFY demoEdgesForCurrentUserChanged)
     Q_PROPERTY (QString backgroundFile
                 READ getBackgroundFile
+                WRITE setBackgroundFile // only available in mock
                 NOTIFY backgroundFileChanged)
 
 public:
@@ -53,12 +54,16 @@ public:
     bool getDemoEdgesForCurrentUser();
     void setDemoEdgesForCurrentUser(bool demoEdgesForCurrentUser);
     QString getBackgroundFile();
+    void setBackgroundFile(const QString &backgroundFile);
 
 Q_SIGNALS:
     void userChanged();
     void demoEdgesChanged();
     void demoEdgesForCurrentUserChanged();
     void backgroundFileChanged();
+
+private:
+    QString m_backgroundFile;
 };
 
 #endif

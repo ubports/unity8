@@ -19,7 +19,6 @@ import QtTest 1.0
 import ".."
 import "../../../Greeter"
 import Ubuntu.Components 0.1
-import LightDM 0.1 as LightDM
 import Unity.Test 0.1 as UT
 
 Item {

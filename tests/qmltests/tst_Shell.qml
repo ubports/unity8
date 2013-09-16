@@ -135,7 +135,7 @@ Item {
 
             // Try to suspend while proximity is engaged...
             Powerd.displayPowerStateChange(Powerd.Off, Powerd.UseProximity);
-            tryCompare(ApplicationManager, "mainStageFocusedApplication", mainApp);
+            tryCompare(ApplicationManager, "focusedApplicationId", mainApp);
 
             // Now really suspend
             Powerd.displayPowerStateChange(Powerd.Off, 0);
@@ -321,8 +321,8 @@ Item {
 
         function test_wallpaper_data() {
             return [
-                {tag: "red", url: "../tests/data/unity/backgrounds/red.png", expectedUrl: "tests/data/unity/backgrounds/red.png"},
-                {tag: "blue", url: "../tests/data/unity/backgrounds/blue.png", expectedUrl: "tests/data/unity/backgrounds/blue.png"},
+                {tag: "red", url: "tests/data/unity/backgrounds/red.png", expectedUrl: "tests/data/unity/backgrounds/red.png"},
+                {tag: "blue", url: "tests/data/unity/backgrounds/blue.png", expectedUrl: "tests/data/unity/backgrounds/blue.png"},
                 {tag: "invalid", url: "invalid", expectedUrl: shell.defaultBackground},
                 {tag: "empty", url: "", expectedUrl: shell.defaultBackground}
             ]

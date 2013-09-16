@@ -33,7 +33,8 @@ FocusScope {
     property url defaultBackground: shell.width >= units.gu(60) ? "../graphics/tablet_background.jpg" : "../graphics/phone_background.jpg"
     property url background
     property url backgroundSource
-    property url backgroundFinal: backgroundSource != undefined && backgroundSource != "" ? backgroundSource : shell.defaultBackground
+    property url backgroundFallbackSource
+    property url backgroundFinal: (backgroundSource != undefined && backgroundSource != "") ? backgroundSource : (backgroundFallbackSource != undefined && backgroundFallbackSource != "") ? backgroundFallbackSource : shell.defaultBackground
     onBackgroundFinalChanged: shell.background = backgroundFinal
 
     // This is a dummy image that is needed to determine if the picture url
