@@ -172,7 +172,7 @@ private Q_SLOTS:
         QFETCH(bool, pinned);
         QFETCH(bool, running);
 
-        // In the beginning we always have to items
+        // In the beginning we always have two items
         QCOMPARE(launcherModel->rowCount(QModelIndex()), 2);
 
         // pin one if required
@@ -185,11 +185,11 @@ private Q_SLOTS:
             appManager->removeApplication(1);
         }
 
-        // Now remove one
+        // Now remove it
         launcherModel->requestRemove(launcherModel->get(1)->appId());
 
         if (running) {
-            // bot apps are running, both apps must still be here
+            // both apps are running, both apps must still be here
             QCOMPARE(launcherModel->rowCount(QModelIndex()), 2);
 
            // Item must be unpinned now
