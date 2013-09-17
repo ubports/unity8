@@ -16,7 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import Ubuntu.Application 0.1
+import Unity.Application 0.1
 import "../../Components/"
 import "../../Components/ListItems"
 
@@ -76,10 +76,9 @@ AbstractButton {
 
     ApplicationImage {
         id: applicationImage
-        source: application
+        source: ApplicationManager.findApplication((application) ? application.appId : "")
         width: shapedApplicationImage.width
         height: shapedApplicationImage.height
-        fillMode: ApplicationImage.PreserveAspectCrop
     }
 
     UbuntuShape {

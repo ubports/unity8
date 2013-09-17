@@ -26,6 +26,15 @@ class LauncherBackendTest : public QObject
     Q_OBJECT
 
 private Q_SLOTS:
+
+    void initTestCase()
+    {
+        // As we want to test absolute file paths in the .desktop file, we need to modify the
+        // sample file and replace the path in there with the current build dir.
+        QSettings settings(QDir::currentPath() + "/click-icon.desktop", QSettings::IniFormat);
+        settings.setValue("Desktop Entry/Path", QDir::currentPath());
+    }
+
     void testFileNames()
     {
         LauncherBackend backend(false);
@@ -53,6 +62,30 @@ private Q_SLOTS:
         backend.setStoredApplications(QStringList() << "rel-icon" << "abs-icon");
         QCOMPARE(backend.isPinned("rel-icon"), true);
         QCOMPARE(backend.isPinned("no-name"), false); // doesn't exist anymore!
+    }
+
+    void testIcon_data() {
+        QTest::addColumn<QString>("appId");
+        QTest::addColumn<QString>("expectedIcon");
+
+        // Needs to expand a relative icon to the absolute path
+        QTest::newRow("relative icon path") << "rel-icon" << QDir::currentPath() + "/rel-icon.svg";
+
+        // In case an icon is not found on disk, it needs to fallback on image://theme/ for it
+        QTest::newRow("fallback on theme") << "abs-icon" << "image://theme//path/to/icon.png";
+
+        // Click packages have a relative icon path but an absolute path as a separate entry
+        QTest::newRow("click package icon") << "click-icon" << QDir::currentPath() + "/click-icon.svg";
+    }
+
+    void testIcon() {
+        QFETCH(QString, appId);
+        QFETCH(QString, expectedIcon);
+
+        LauncherBackend backend(false);
+        backend.setStoredApplications(QStringList() << appId);
+
+        QCOMPARE(backend.icon(appId), expectedIcon);
     }
 };
 

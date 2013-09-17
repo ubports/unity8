@@ -18,8 +18,8 @@ import QtQuick 2.0
 import QtTest 1.0
 import ".."
 import "../../../Greeter"
+import AccountsService 0.1
 import Ubuntu.Components 0.1
-import LightDM 0.1 as LightDM
 import Unity.Test 0.1 as UT
 import AccountsService 0.1
 
@@ -32,6 +32,8 @@ Item {
         width: parent.width
         height: parent.height
         x: 0; y: 0
+
+        defaultBackground: "../../../graphics/phone_background.jpg"
 
         property int minX: 0
 
@@ -116,6 +118,22 @@ Item {
             tryCompare(LightDM.Infographic, "username", "")
             AccountsService.statsWelcomeScreen = true
             tryCompare(LightDM.Infographic, "username", "single")
+        }
+
+        function test_wallpaper_data() {
+            return [
+                {tag: "set", accounts: "../tests/data/unity/backgrounds/blue.png", expected: "blue.png"},
+                {tag: "unset", accounts: "", expected: "background.jpg"},
+                {tag: "invalid", accounts: "invalid", expected: "background.jpg"},
+            ]
+        }
+
+        function test_wallpaper(data) {
+            var loader = findChild(greeter, "greeterContentLoader")
+            var wallpaper = findChild(loader.item, "wallpaper")
+            AccountsService.backgroundFile = data.accounts
+            tryCompareFunction(function() { return wallpaper.source.toString().indexOf(data.expected) !== -1; }, true)
+            tryCompare(wallpaper, "status", Image.Ready)
         }
     }
 }

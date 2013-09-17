@@ -132,11 +132,7 @@ QString LauncherBackend::icon(const QString &appId) const
         }
     }
 
-    QFileInfo info(iconName);
-    if (info.exists()) {
-        return info.absoluteFilePath();
-    }
-    return "image://theme/" + iconName;
+    return iconName;
 }
 
 bool LauncherBackend::isPinned(const QString &appId) const
@@ -296,11 +292,19 @@ LauncherBackendItem* LauncherBackend::parseDesktopFile(const QString &desktopFil
 {
     QSettings settings(desktopFile, QSettings::IniFormat);
 
-
     LauncherBackendItem* item = new LauncherBackendItem();
     item->desktopFile = desktopFile;
     item->displayName = settings.value("Desktop Entry/Name").toString();
-    item->icon = settings.value("Desktop Entry/Icon").toString();
+
+    QString iconString = settings.value("Desktop Entry/Icon").toString();
+    QString pathString = settings.value("Desktop Entry/Path").toString();
+    if (QFileInfo(iconString).exists()) {
+        item->icon = QFileInfo(iconString).absoluteFilePath();
+    } else if (QFileInfo(pathString + '/' + iconString).exists()) {
+        item->icon = pathString + '/' + iconString;
+    } else {
+        item->icon =  "image://theme/" + iconString;
+    }
     item->pinned = false;
     return item;
 }

@@ -148,15 +148,15 @@ static QString iconUri(GIcon *icon)
     QString uri;
 
     if (G_IS_THEMED_ICON (icon)) {
-
         const gchar* const* iconNames = g_themed_icon_get_names (G_THEMED_ICON (icon));
-        guint index = 0;
-        while(iconNames[index] != NULL) {
-            if (QIcon::hasThemeIcon(iconNames[index])) {
-                uri = QString("image://theme/%1").arg(iconNames[index]);
-                break;
-            }
-            index++;
+
+        QStringList iconNameList;
+        for (uint index = 0; iconNames[index] != NULL; index++) {
+            iconNameList << iconNames[index];
+        }
+
+        if (!iconNameList.empty()) {
+            uri = QString("image://theme/%1").arg(iconNameList.join(","));
         }
     }
     else if (G_IS_FILE_ICON (icon)) {
