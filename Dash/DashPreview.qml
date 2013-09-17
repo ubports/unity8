@@ -129,6 +129,7 @@ Rectangle {
 
         Flickable {
             id: leftFlickable
+            objectName: "leftFlickable"
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             width: root.narrowMode ? contentRow.width : contentRow.width * root.previewWidthRatio

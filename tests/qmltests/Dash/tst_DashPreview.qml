@@ -151,5 +151,16 @@ Item {
             // reset to false in case any other test wants to use it
             root.helper = false
         }
+
+        function test_keyboard_present() {
+            var flick = findChild(preview, "leftFlickable");
+            var column = findChild(preview, "leftColumn");
+
+            compare(flick.contentHeight, column.height, "Column and Flickable area don't match");
+            var defaultValue = flick.contentHeight;
+            // Simulate that the keyboard is visible
+            preview.keyboardSize = 500;
+            compare(flick.contentHeight, defaultValue + 500, "Flickable wasn't expanded on keyboard shown");
+        }
     }
 }
