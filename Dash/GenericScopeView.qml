@@ -21,7 +21,7 @@ import "../Components/ListItems" as ListItems
 
 ScopeView {
     id: scopeView
-    property alias previewShown: previewLoader.onScreen
+    property alias previewShown: previewLoader.open
 
     onIsCurrentChanged: {
         pageHeader.resetSearch();

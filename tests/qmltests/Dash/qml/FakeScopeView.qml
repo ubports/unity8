@@ -21,6 +21,7 @@ FocusScope {
     id: fakeScopeView
     property Scope scope : null
     property bool isCurrent : false
+    property bool previewShown: false
 
     property ListModel searchHistory
 
