@@ -102,8 +102,8 @@ DashPreview {
     body: Column {
         spacing: units.gu(2)
         RatingStars {
-            maximumRating: 10 // FIXME: this should happen on the backend side
-            rating: ready ? previewData.rating: 0
+            visible: previewData.rating >= 0.0
+            rating: previewData.rating >= 0.0 ? previewData.rating * 5 : 0
         }
 
         Label {
