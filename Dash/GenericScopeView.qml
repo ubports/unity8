@@ -179,6 +179,7 @@ ScopeView {
             case "grid": {
                 switch (contentType) {
                     case "video": return "Generic/GenericFilterGridPotrait.qml";
+                    case "music": return "Music/MusicFilterGrid.qml";
                     default: return "Generic/GenericFilterGrid.qml";
                 }
             }
