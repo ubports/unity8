@@ -186,14 +186,15 @@ DashPreview {
 
             ListItem.ThinDivider { }
 
-            AppReviews {
-                objectName: "appReviews"
-                anchors { left: parent.left; right: parent.right }
+            // TODO: This should be added when the feature for reviews/comments is complete.
+//            AppReviews {
+//                objectName: "appReviews"
+//                anchors { left: parent.left; right: parent.right }
 
-                model: root.previewData.infoMap["comments"] ? root.previewData.infoMap["comments"].value : undefined
+//                model: root.previewData.infoMap["comments"] ? root.previewData.infoMap["comments"].value : undefined
 
-                onSendReview: root.sendUserReview(review);
-            }
+//                onSendReview: root.sendUserReview(review);
+//            }
         }
     }
 }
