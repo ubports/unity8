@@ -1,3 +1,17 @@
+unity8 (7.81.3+13.10.20130916-0ubuntu1) saucy; urgency=low
+
+  [ Michael Zanetti ]
+  * allow left edge gesture to minimize apps even when launcher is
+    already visible.
+  * Don't hide the launcher on changes in the stages.
+  * ssh is now installed per default, but it's set to manual in the
+    ssh.override.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 320
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 16 Sep 2013 11:49:28 +0000
+
 unity8 (7.81.3+13.10.20130912-0ubuntu1) saucy; urgency=low
 
   [ Michael Zanetti ]
