@@ -24,6 +24,7 @@ import Unity.IndicatorsLegacy 0.1 as Indicators
 Indicators.IndicatorWidget {
     id: indicatorWidget
 
+    enabled:true
     width: itemRow.width + units.gu(0.5)
 
     property alias label: itemLabel.text
@@ -63,19 +64,14 @@ Indicators.IndicatorWidget {
 
     onActionStateChanged: {
         if (action == undefined || !action.valid) {
-            enabled = false;
             return;
         }
 
         if (action.state == undefined) {
-            label = "";
-            iconSource = "";
-            enabled = false;
             return;
         }
 
         label = action.state[Indicators.ActionState.Label];
         iconSource = "image://theme/" + action.state[Indicators.ActionState.IconSource];
-        enabled = action.state[Indicators.ActionState.Visible];
     }
 }

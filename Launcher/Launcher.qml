@@ -192,12 +192,12 @@ Item {
 
         direction: Direction.Rightwards
 
-        enabled: root.available && root.state !== "visible"
+        enabled: root.available
         width: root.dragAreaWidth
         height: root.height
 
         onTouchXChanged: {
-            if (status !== DirectionalDragArea.Recognized)
+            if (status !== DirectionalDragArea.Recognized || launcher.state == "visible")
                 return;
 
             // When the gesture finally gets recognized, the finger will likely be
