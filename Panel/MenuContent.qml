@@ -100,10 +100,10 @@ MainView {
             Tab {
                 id: tab
                 objectName: model.identifier
-                title: model.title
 
                 page: Page {
                     Loader {
+                        id: loader
                         clip: true
                         anchors.fill: parent
                         source: pageSource
@@ -135,6 +135,12 @@ MainView {
                             if (contentActive && tabs.visible) {
                                 item.start()
                             }
+                        }
+
+                        Binding {
+                            target: tab
+                            property: "title"
+                            value: loader.item && loader.item.hasOwnProperty("title") && loader.item.title !== "" ? loader.item.title : model.identifier
                         }
                     }
                 }

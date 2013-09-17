@@ -201,8 +201,6 @@ QHash<int, QByteArray> IndicatorsModel::roleNames() const
     {
         roles[IndicatorsModelRole::Identifier] = "identifier";
         roles[IndicatorsModelRole::Position] = "position";
-        roles[IndicatorsModelRole::Title] = "title";
-        roles[IndicatorsModelRole::Description] = "description";
         roles[IndicatorsModelRole::WidgetSource] = "widgetSource";
         roles[IndicatorsModelRole::PageSource] = "pageSource";
         roles[IndicatorsModelRole::IndicatorProperties] = "indicatorProperties";
@@ -223,10 +221,6 @@ QVariant IndicatorsModel::defaultData(Indicator::Ptr indicator, int role)
     {
         case IndicatorsModelRole::Position:
             return 0;
-        case IndicatorsModelRole::Title:
-            return indicator ? indicator->identifier() : "Unknown";
-        case IndicatorsModelRole::Description:
-            return "";
         case IndicatorsModelRole::WidgetSource:
             return shellAppDirectory()+"/Panel/Indicators/DefaultIndicatorWidget2.qml";
         case IndicatorsModelRole::PageSource:
@@ -268,8 +262,6 @@ QVariant IndicatorsModel::data(const QModelIndex &index, int role) const
                 return QVariant(indicator->indicatorProperties());
             }
             break;
-        case IndicatorsModelRole::Title:
-        case IndicatorsModelRole::Description:
         case IndicatorsModelRole::WidgetSource:
         case IndicatorsModelRole::PageSource:
             return indicatorData(indicator, role);

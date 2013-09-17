@@ -66,14 +66,12 @@ private Q_SLOTS:
     {
         // Priority order. (2, 1, 4, 3)
         QVariantMap map;
-        QVariantMap map1; map1["title"] = "fake1";
-        QVariantMap map2; map2["title"] = "fake2";
-        QVariantMap map3; map3["title"] = "fake3";
-        QVariantMap map4; map4["title"] = "fake4";
+        QVariantMap map1; map1["widgetSource"] = "fake1.qml";
+        QVariantMap map2; map2["widgetSource"] = "fake2.qml";
+        QVariantMap map3; map3["widgetSource"] = "fake3.qml";
         map["indicator-fake1"] = map1;
         map["indicator-fake2"] = map2;
         map["indicator-fake3"] = map3;
-        map["indicator-fake4"] = map4;
 
         IndicatorsModel model;
         model.setIndicatorData(map);
@@ -83,24 +81,24 @@ private Q_SLOTS:
         // fake3, fake4, fake1, fake2
 
         QCOMPARE(model.data(0, IndicatorsModelRole::Identifier).toString(), QString("indicator-fake3"));
-        QCOMPARE(model.data(0, IndicatorsModelRole::Title).toString(), QString("fake3"));
         QCOMPARE(model.data(0, IndicatorsModelRole::Position).toInt(), 3);
         QCOMPARE(model.data(0, IndicatorsModelRole::IndicatorProperties).toMap()["busName"].toString(), QString("com.canonical.indicator.fake3"));
+        QCOMPARE(model.data(0, IndicatorsModelRole::WidgetSource).toString(), QString("fake3.qml"));
 
         QCOMPARE(model.data(1, IndicatorsModelRole::Identifier).toString(), QString("indicator-fake4"));
-        QCOMPARE(model.data(1, IndicatorsModelRole::Title).toString(), QString("fake4"));
         QCOMPARE(model.data(1, IndicatorsModelRole::Position).toInt(), 2);
         QCOMPARE(model.data(1, IndicatorsModelRole::IndicatorProperties).toMap()["busName"].toString(), QString("com.canonical.indicator.fake4"));
+        QCOMPARE(model.data(1, IndicatorsModelRole::WidgetSource).toString(), shellAppDirectory()+"/Panel/Indicators/DefaultIndicatorWidget2.qml");
 
         QCOMPARE(model.data(2, IndicatorsModelRole::Identifier).toString(), QString("indicator-fake1"));
-        QCOMPARE(model.data(2, IndicatorsModelRole::Title).toString(), QString("fake1"));
         QCOMPARE(model.data(2, IndicatorsModelRole::Position).toInt(), 1);
         QCOMPARE(model.data(2, IndicatorsModelRole::IndicatorProperties).toMap()["busName"].toString(), QString("com.canonical.indicator.fake1"));
+        QCOMPARE(model.data(2, IndicatorsModelRole::WidgetSource).toString(), QString("fake1.qml"));
 
         QCOMPARE(model.data(3, IndicatorsModelRole::Identifier).toString(), QString("indicator-fake2"));
-        QCOMPARE(model.data(3, IndicatorsModelRole::Title).toString(), QString("fake2"));
         QCOMPARE(model.data(3, IndicatorsModelRole::Position).toInt(), 0);
         QCOMPARE(model.data(3, IndicatorsModelRole::IndicatorProperties).toMap()["busName"].toString(), QString("com.canonical.indicator.fake2"));
+        QCOMPARE(model.data(3, IndicatorsModelRole::WidgetSource).toString(), QString("fake2.qml"));
     }
 };
 

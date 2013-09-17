@@ -27,7 +27,6 @@ Item {
     enabled: menuObjectPaths.hasOwnProperty(device)
 
     //const
-    property string title
     property string busName
     property string actionsObjectPath
     property var menuObjectPaths: undefined
@@ -44,5 +43,10 @@ Item {
         busName: active ? indicatorItem.busName : ""
         actionsObjectPath: active ? indicatorItem.actionsObjectPath : ""
         menuObjectPath: active ? indicatorItem.deviceMenuObjectPath : ""
+    }
+
+    property var rootActionState: Indicators.RootActionState {
+        menu: menuModel
+        onUpdated: indicatorItem.rootActionStateChanged()
     }
 }

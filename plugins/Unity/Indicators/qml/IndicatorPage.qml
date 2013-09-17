@@ -26,6 +26,7 @@ IndicatorBase {
     id: main
 
     //const
+    property string title: rootActionState.title
     property alias emptyText: emptyLabel.text
     property alias highlightFollowsCurrentItem : mainMenu.highlightFollowsCurrentItem
 
