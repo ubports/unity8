@@ -20,6 +20,7 @@ import Ubuntu.Components 0.1
 Rectangle {
     id: root
 
+    property int keyboardSize: Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.height : 0
     property var previewData
 
     property string title: ""
@@ -131,7 +132,7 @@ Rectangle {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             width: root.narrowMode ? contentRow.width : contentRow.width * root.previewWidthRatio
-            contentHeight: leftColumn.height
+            contentHeight: leftColumn.height + root.keyboardSize
             clip: true
 
             Column {
