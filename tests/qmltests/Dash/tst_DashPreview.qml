@@ -154,13 +154,11 @@ Item {
 
         function test_keyboard_present() {
             var flick = findChild(preview, "leftFlickable");
-            var column = findChild(preview, "leftColumn");
 
-            compare(flick.contentHeight, column.height, "Column and Flickable area don't match");
-            var defaultValue = flick.contentHeight;
+            compare(flick.anchors.bottomMargin, 0, "Bottom margin should be 0");
             // Simulate that the keyboard is visible
             preview.keyboardSize = 500;
-            compare(flick.contentHeight, defaultValue + 500, "Flickable wasn't expanded on keyboard shown");
+            compare(flick.anchors.bottomMargin, 500, "Bottom margin should be 500");
         }
     }
 }

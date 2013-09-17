@@ -133,7 +133,8 @@ Rectangle {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             width: root.narrowMode ? contentRow.width : contentRow.width * root.previewWidthRatio
-            contentHeight: leftColumn.height + root.keyboardSize
+            contentHeight: leftColumn.height
+            anchors.bottomMargin: root.keyboardSize
             clip: true
 
             Column {
