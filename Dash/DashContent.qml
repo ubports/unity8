@@ -64,13 +64,8 @@ Item {
         }
         set_current_index = undefined;
 
-        if (dashContentList.count > index) {
-
-            // collapse any currently shown preview
-            if (dashContentList.currentItem && dashContentList.currentItem.item.previewShown) {
-                dashContentList.currentItem.item.previewShown = false;
-            }
-
+        if (dashContentList.count > index)
+        {
             dashContentList.currentIndex = index
 
             if (reset) {

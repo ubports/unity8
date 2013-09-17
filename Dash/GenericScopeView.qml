@@ -21,10 +21,11 @@ import "../Components/ListItems" as ListItems
 
 ScopeView {
     id: scopeView
-    property alias previewShown: previewLoader.open
+    readonly property alias previewShown: previewLoader.onScreen
 
     onIsCurrentChanged: {
         pageHeader.resetSearch();
+        previewLoader.open = false;
     }
 
     onMovementStarted: categoryView.showHeader()
@@ -246,6 +247,7 @@ ScopeView {
     }
 
     Loader {
+        objectName: "previewLoader"
         id: previewLoader
         property var previewData
         height: effect.bottomGapPx - effect.topGapPx

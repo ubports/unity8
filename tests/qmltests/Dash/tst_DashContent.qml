@@ -178,24 +178,6 @@ Item {
             compare(dashContent.currentIndex, currentScopeIndex, "Scope should not change if changing to greater index than count");
         }
 
-        function test_set_current_scope_index_closes_preview() {
-            var dashContentList = findChild(dashContent, "dashContentList");
-            tryCompare(dashContentList, "count", 5);
-            dashContentList.currentIndex = 0;
-            tryCompare(dashContentList.currentItem, "progress", 1);
-            var itemBeforeSwitching = dashContentList.currentItem;
-
-            waitForRendering(itemBeforeSwitching)
-
-            itemBeforeSwitching.item.previewShown = true;
-
-            var next_index = 1;
-
-            dashContent.setCurrentScopeAtIndex(next_index, true, false);
-            tryCompare(dashContent, "currentIndex", next_index);
-            compare(itemBeforeSwitching.item.previewShown, false);
-        }
-
         function get_current_item_object_name() {
             var dashContentList = findChild(dashContent, "dashContentList");
             verify(dashContentList != undefined);
