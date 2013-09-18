@@ -20,19 +20,18 @@
 #include <QDBusConnection>
 #include <QDBusConnectionInterface>
 #include <QDBusInterface>
-#include <QFileInfo>
 
 SessionBroadcast::SessionBroadcast(QObject* parent)
   : QObject(parent),
-    broadcaster(NULL)
+    m_broadcaster(NULL)
 {
     auto connection = QDBusConnection::SM_BUSNAME();
     auto interface = connection.interface();
     interface->startService("com.canonical.Unity.Greeter.Broadcast");
-    broadcaster = new QDBusInterface("com.canonical.Unity.Greeter.Broadcast",
-                                     "/com/canonical/Unity/Greeter/Broadcast",
-                                     "com.canonical.Unity.Greeter.Broadcast",
-                                     connection, this);
+    m_broadcaster = new QDBusInterface("com.canonical.Unity.Greeter.Broadcast",
+                                       "/com/canonical/Unity/Greeter/Broadcast",
+                                       "com.canonical.Unity.Greeter.Broadcast",
+                                       connection, this);
 
     connection.connect("com.canonical.Unity.Greeter.Broadcast",
                        "/com/canonical/Unity/Greeter/Broadcast",
@@ -40,23 +39,18 @@ SessionBroadcast::SessionBroadcast(QObject* parent)
                        "StartApplication",
                        this,
                        SLOT(onStartApplication(const QString &, const QString &)));
+
+    connection.connect("com.canonical.Unity.Greeter.Broadcast",
+                       "/com/canonical/Unity/Greeter/Broadcast",
+                       "com.canonical.Unity.Greeter.Broadcast",
+                       "ShowHome",
+                       this,
+                       SLOT(onShowHome(const QString &)));
 }
 
 void SessionBroadcast::requestApplicationStart(const QString &username, const QString &appId)
 {
-    // unity-greeter-session-broadcast deals in short appIds.  That is,
-    // desktop file names without the ".desktop".  It doesn't really allow
-    // for arbitrary-path desktop files, for security reasons (hard to
-    // contain with apparmor and such).  So we need to mangle the names a bit.
-    // If incoming appId is random path like /hello/foobar.desktop, then just
-    // do our best and ask for foobar.
-    QString desktopSuffix = ".desktop";
-    QString mangled = appId;
-    if (mangled.endsWith(desktopSuffix))
-        mangled.chop(desktopSuffix.size());
-    mangled = QFileInfo(mangled).fileName(); // chop off path
-
-    broadcaster->asyncCall("RequestApplicationStart", username, mangled);
+    m_broadcaster->asyncCall("RequestApplicationStart", username, appId);
 }
 
 void SessionBroadcast::onStartApplication(const QString &username, const QString &appId)
@@ -66,5 +60,13 @@ void SessionBroadcast::onStartApplication(const QString &username, const QString
     // should only listen to our own requests.
     if (username == qgetenv("USER")) {
         Q_EMIT startApplication(appId);
+    }
+}
+
+void SessionBroadcast::onShowHome(const QString &username)
+{
+    // Only listen to requests meant for us
+    if (username == qgetenv("USER")) {
+        Q_EMIT showHome();
     }
 }

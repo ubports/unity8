@@ -31,8 +31,8 @@ import "Panel"
 BasicShell {
     id: shell
 
-    function activateApplication(desktopFile, argument) {
-        SessionBroadcast.requestApplicationStart(LightDM.Greeter.authenticationUser, desktopFile)
+    function activateApplication(appId) {
+        SessionBroadcast.requestApplicationStart(LightDM.Greeter.authenticationUser, appId)
         greeter.hide()
     }
 
@@ -177,7 +177,7 @@ BasicShell {
             dragAreaWidth: shell.edgeSize
             available: greeter.narrowMode && !edgeDemo.active
             onLauncherApplicationSelected: {
-                shell.activateApplication(name)
+                shell.activateApplication(appId)
             }
             onShownChanged: {
                 if (shown) {

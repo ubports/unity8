@@ -22,6 +22,7 @@ import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
 import Unity.Launcher 0.1
 import Powerd 0.1
+import SessionBroadcast 0.1
 import SessionManager 0.1
 import "Dash"
 import "Launcher"
@@ -74,6 +75,8 @@ BasicShell {
 
     readonly property bool applicationFocused: !!applicationManager.mainStageFocusedApplication
                                                || !!applicationManager.sideStageFocusedApplication
+    // Used for autopilot testing.
+    readonly property string currentFocusedAppId: ApplicationManager.focusedApplicationId
 
     readonly property bool fullscreenMode: {
         if (mainStage.usingScreenshots) { // Window Manager animating so want to re-evaluate fullscreen mode
@@ -397,6 +400,16 @@ BasicShell {
         }
     }
 
+    function showHome() {
+        // Animate if moving between application and dash
+        if (!stages.shown) {
+            dash.setCurrentScope("home.scope", true, false)
+        } else {
+            dash.setCurrentScope("home.scope", false, false)
+        }
+        stages.hide()
+    }
+
     Item {
         id: overlay
 
@@ -483,15 +496,7 @@ BasicShell {
             width: parent.width
             dragAreaWidth: shell.edgeSize
             available: edgeDemo.launcherEnabled
-            onDashItemSelected: {
-                // Animate if moving between application and dash
-                if (!stages.shown) {
-                    dash.setCurrentScope("home.scope", true, false)
-                } else {
-                    dash.setCurrentScope("home.scope", false, false)
-                }
-                stages.hide();
-            }
+            onDashItemSelected: showHome()
             onDash: {
                 if (stages.shown) {
                     dash.setCurrentScope("applications.scope", true, false)
@@ -586,5 +591,10 @@ BasicShell {
         dash: dash
         indicators: panel.indicators
         underlay: underlay
+    }
+
+    Connections {
+        target: SessionBroadcast
+        onShowHome: showHome()
     }
 }

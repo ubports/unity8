@@ -145,7 +145,6 @@ int startShell(int argc, const char** argv, void* server)
     MouseTouchAdaptor *mouseTouchAdaptor = 0;
     if (args.contains(QLatin1String("-mousetouch"))) {
         mouseTouchAdaptor = new MouseTouchAdaptor;
-        mouseTouchAdaptor->setTargetWindow(view);
         application->installNativeEventFilter(mouseTouchAdaptor);
     }
 

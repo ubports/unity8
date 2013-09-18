@@ -115,9 +115,11 @@ void LauncherModel::move(int oldIndex, int newIndex)
     m_list.move(oldIndex, newIndex);
     endMoveRows();
 
-    storeAppList();
-
-    pin(m_list.at(newIndex)->appId());
+    if (!m_list.at(newIndex)->pinned()) {
+        pin(m_list.at(newIndex)->appId());
+    } else {
+        storeAppList();
+    }
 }
 
 void LauncherModel::pin(const QString &appId, int index)
@@ -146,12 +148,19 @@ void LauncherModel::pin(const QString &appId, int index)
         m_list.insert(index, item);
         endInsertRows();
     }
+
+    storeAppList();
 }
 
 void LauncherModel::requestRemove(const QString &appId)
 {
     int index = findApplication(appId);
     if (index < 0) {
+        return;
+    }
+
+    if (m_appManager->findApplication(appId)) {
+        m_list.at(index)->setPinned(false);
         return;
     }
 

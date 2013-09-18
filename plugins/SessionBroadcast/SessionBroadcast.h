@@ -38,12 +38,14 @@ Q_SIGNALS:
     // (unity-greeter-session-broadcast handles launching an app for us), but
     // it's useful for testing the plugin.
     void startApplication(const QString &appId);
+    void showHome();
 
 private Q_SLOTS:
     void onStartApplication(const QString &username, const QString &appId);
+    void onShowHome(const QString &username);
 
 private:
-    QDBusInterface *broadcaster;
+    QDBusInterface *m_broadcaster;
 };
 
 #endif
