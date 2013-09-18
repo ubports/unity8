@@ -23,6 +23,7 @@ import Ubuntu.Gestures 0.1
 import Unity.Launcher 0.1
 import LightDM 0.1 as LightDM
 import Powerd 0.1
+import SessionBroadcast 0.1
 import "Dash"
 import "Greeter"
 import "Launcher"
@@ -545,6 +546,17 @@ FocusScope {
         }
     }
 
+    function showHome() {
+        greeter.hide()
+        // Animate if moving between application and dash
+        if (!stages.shown) {
+            dash.setCurrentScope("home.scope", true, false)
+        } else {
+            dash.setCurrentScope("home.scope", false, false)
+        }
+        stages.hide()
+    }
+
     Item {
         id: overlay
 
@@ -632,16 +644,7 @@ FocusScope {
             width: parent.width
             dragAreaWidth: shell.edgeSize
             available: (!greeter.shown || greeter.narrowMode) && edgeDemo.launcherEnabled
-            onDashItemSelected: {
-                greeter.hide()
-                // Animate if moving between application and dash
-                if (!stages.shown) {
-                    dash.setCurrentScope("home.scope", true, false)
-                } else {
-                    dash.setCurrentScope("home.scope", false, false)
-                }
-                stages.hide();
-            }
+            onDashItemSelected: showHome()
             onDash: {
                 if (stages.shown) {
                     dash.setCurrentScope("applications.scope", true, false)
@@ -748,5 +751,10 @@ FocusScope {
         dash: dash
         indicators: panel.indicators
         underlay: underlay
+    }
+
+    Connections {
+        target: SessionBroadcast
+        onShowHome: showHome()
     }
 }
