@@ -21,7 +21,7 @@ import "../Components"
 Item {
     id: search
 
-    width: units.gu(9)
+    width: container.width + units.gu(2)
     height: units.gu(3)
 
     property string headerText: i18n.tr("Search")
@@ -34,12 +34,17 @@ Item {
         onClicked: search.clicked()
     }
 
-    Item {
+    Row {
         id: container
         objectName: "container"
 
-        width: parent.width
         height: parent.height
+        width: childrenRect.width
+        anchors {
+            left: parent.left
+            leftMargin: units.gu(1)
+        }
+        spacing: units.gu(1)
 
         Behavior on opacity { StandardAnimation {} }
 
@@ -47,8 +52,6 @@ Item {
             id: icon
             source: "graphics/search.png"
             anchors.verticalCenter: parent.verticalCenter
-            anchors.left: parent.left
-            anchors.leftMargin: units.gu(1)
         }
 
         Label {
@@ -56,8 +59,6 @@ Item {
             color: Qt.rgba(0.8, 0.8, 0.8, 1.0)
             fontSize: "small"
             font.capitalization: Font.AllUppercase
-            anchors.left: icon.right
-            anchors.leftMargin: units.gu(1)
             anchors.verticalCenter: parent.verticalCenter
         }
     }

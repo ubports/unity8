@@ -31,6 +31,8 @@ Item {
 
     signal searchClicked
 
+    property real backgroundY: 0
+
     PanelBackground {
         id: panelBackground
         anchors {
@@ -38,7 +40,7 @@ Item {
             right: parent.right
         }
         height: __panelMinusSeparatorLineHeight
-        y: 0
+        y: backgroundY
 
         Behavior on y { StandardAnimation {} }
     }
@@ -109,6 +111,34 @@ Item {
         source: "graphics/rectangular_dropshadow.sci"
     }
 
+    PanelBackground {
+        id: backgroundSearch
+        height: __panelMinusSeparatorLineHeight
+        y: backgroundY
+        anchors {
+            left: parent.left
+            right: search.right
+        }
+        clip: false
+        opacity: search.state=="visible" ? 1.0 : 0.0
+
+        Rectangle {
+            id: backgroundGradient
+            anchors {
+                left: parent.right
+            }
+            width: __panelMinusSeparatorLineHeight
+            height: __panelMinusSeparatorLineHeight
+            rotation: 90
+            gradient: Gradient {
+                GradientStop { position: 0.0; color: "transparent" }
+                GradientStop { position: 1.0; color: backgroundSearch.color }
+            }
+        }
+        Behavior on y { StandardAnimation {} }
+        Behavior on opacity { StandardAnimation {} }
+    }
+
     SearchIndicator {
         id: search
         objectName: "search"
@@ -127,7 +157,6 @@ Item {
             return "hidden";
         }
 
-        width: units.gu(13)
         height: __panelMinusSeparatorLineHeight
         anchors {
             top: panelBackground.top
@@ -141,12 +170,12 @@ Item {
         State {
             name: "in" //fully opaque and visible at top edge of screen
             when: !fullscreenMode
-            PropertyChanges { target: panelBackground; y: 0 }
+            PropertyChanges { target: root; backgroundY: 0 }
         },
         State {
             name: "out" //pushed off screen
             when: fullscreenMode
-            PropertyChanges { target: panelBackground; y: -panelHeight }
+            PropertyChanges { target: root; backgroundY: -panelHeight }
         }
     ]
 }
