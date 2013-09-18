@@ -31,8 +31,6 @@ Item {
 
     signal searchClicked
 
-    property real backgroundY: 0
-
     PanelBackground {
         id: panelBackground
         anchors {
@@ -40,7 +38,7 @@ Item {
             right: parent.right
         }
         height: __panelMinusSeparatorLineHeight
-        y: backgroundY
+        y: 0
 
         Behavior on y { StandardAnimation {} }
     }
@@ -114,7 +112,7 @@ Item {
     PanelBackground {
         id: backgroundSearch
         height: __panelMinusSeparatorLineHeight
-        y: backgroundY
+        y: panelBackground.y
         anchors {
             left: parent.left
             right: search.right
@@ -135,7 +133,6 @@ Item {
                 GradientStop { position: 1.0; color: backgroundSearch.color }
             }
         }
-        Behavior on y { StandardAnimation {} }
         Behavior on opacity { StandardAnimation {} }
     }
 
@@ -170,12 +167,12 @@ Item {
         State {
             name: "in" //fully opaque and visible at top edge of screen
             when: !fullscreenMode
-            PropertyChanges { target: root; backgroundY: 0 }
+            PropertyChanges { target: panelBackground; y: 0 }
         },
         State {
             name: "out" //pushed off screen
             when: fullscreenMode
-            PropertyChanges { target: root; backgroundY: -panelHeight }
+            PropertyChanges { target: panelBackground; y: -panelHeight }
         }
     ]
 }
