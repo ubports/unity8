@@ -53,7 +53,6 @@ find_package(Qt5Qml)
 find_package(Qt5Quick)
 find_package(Qt5Gui)
 find_package(Qt5DBus)
-find_package(Qt5Multimedia)
 
 # Standard install paths
 include(GNUInstallDirs)
@@ -111,7 +110,7 @@ add_executable(${SHELL_APP}
     MouseTouchAdaptor.cpp
     )
 
-qt5_use_modules(${SHELL_APP} Qml Quick Test Multimedia)
+qt5_use_modules(${SHELL_APP} Qml Quick Test)
 pkg_check_modules(XCB REQUIRED xcb)
 
 if (NOT "${XCB_INCLUDE_DIRS}" STREQUAL "")

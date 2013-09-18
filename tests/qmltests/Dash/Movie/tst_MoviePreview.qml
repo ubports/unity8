@@ -52,7 +52,7 @@ Item {
             property string image: "image://theme/syncing"
             property var actions: get_actions_data()
             property string year: "2013"
-            property int rating: 3
+            property real rating: 0.3
             property int numRatings: 1
             property var execute: fake_callback
         }
