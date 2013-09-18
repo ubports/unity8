@@ -20,20 +20,17 @@
 #define MOUSE_TOUCH_ADAPTOR_H
 
 #include <QtCore/QAbstractNativeEventFilter>
+#include <QWindow>
 #include <xcb/xcb.h>
 
 class QMouseEvent;
 class QTouchDevice;
-class QWindow;
 
 // Transforms QMouseEvents into single-finger QTouchEvents.
 class MouseTouchAdaptor : public QAbstractNativeEventFilter {
 
 public:
     MouseTouchAdaptor();
-
-    // The window that will receive the generated QTouchEvents
-    void setTargetWindow(QWindow *window);
 
     // Filters mouse events and posts the equivalent QTouchEvents.
     virtual bool nativeEventFilter(const QByteArray & eventType, void *message, long *result);
@@ -43,8 +40,8 @@ private:
     bool handleButtonPress(xcb_button_press_event_t *pressEvent);
     bool handleButtonRelease(xcb_button_release_event_t *releaseEvent);
     bool handleMotionNotify(xcb_motion_notify_event_t *event);
+    QWindow *findQWindowWithXWindowID(WId windowId);
 
-    QWindow *m_targetWindow;
     QTouchDevice *m_touchDevice;
     bool m_leftButtonIsPressed;
 };
