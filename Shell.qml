@@ -624,7 +624,7 @@ FocusScope {
         Bottombar {
             theHud: hud
             anchors.fill: parent
-            enabled: !panel.indicators.shown
+            enabled: hud.available
             applicationIsOnForeground: applicationFocused
         }
 
