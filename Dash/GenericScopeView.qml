@@ -36,6 +36,12 @@ ScopeView {
         value: pageHeader.searchQuery
     }
 
+    Binding {
+        target: pageHeader
+        property: "searchQuery"
+        value: scopeView.scope.searchQuery
+    }
+
     Connections {
         target: panel
         onSearchClicked: if (isCurrent) {
