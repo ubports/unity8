@@ -320,7 +320,7 @@ void Scope::synchronizeStates()
     }
 }
 
-void Scope::onSearchFinished(std::string const& query, unity::glib::HintsMap const& hints, unity::glib::Error const& err)
+void Scope::onSearchFinished(std::string const& /* query */, unity::glib::HintsMap const& hints, unity::glib::Error const& err)
 {
     QString hint;
 
@@ -329,7 +329,6 @@ void Scope::onSearchFinished(std::string const& query, unity::glib::HintsMap con
     if (!err || !g_error_matches(error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
         m_searchInProgress = false;
         Q_EMIT searchInProgressChanged();
-        qWarning("search for %s finished", query.c_str());
     }
 
     if (!m_unityScope->results()->count()) {
