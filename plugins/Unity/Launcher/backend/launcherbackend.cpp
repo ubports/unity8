@@ -30,12 +30,9 @@
 class LauncherBackendItem
 {
 public:
-    LauncherBackendItem(): pinned(false) {}
-
     QString desktopFile;
     QString displayName;
     QString icon;
-    bool pinned;
 };
 
 LauncherBackend::LauncherBackend(bool useStorage, QObject *parent):
@@ -135,32 +132,6 @@ QString LauncherBackend::icon(const QString &appId) const
     return iconName;
 }
 
-bool LauncherBackend::isPinned(const QString &appId) const
-{
-    LauncherBackendItem *item = m_itemCache.value(appId);
-    if (item) {
-        return item->pinned;
-    }
-    return false;
-}
-
-void LauncherBackend::setPinned(const QString &appId, bool pinned)
-{
-    if (!m_storedApps.contains(appId)) {
-        return;
-    }
-
-    LauncherBackendItem *item = m_itemCache.value(appId);
-    if (!item) {
-        item = new LauncherBackendItem();
-        m_itemCache.insert(appId, item);
-    }
-    if (item->pinned != pinned) {
-        item->pinned = pinned;
-        syncToAccounts();
-    }
-}
-
 QList<QuickListEntry> LauncherBackend::quickList(const QString &appId) const
 {
     // TODO: Get static (from .desktop file) and dynamic (from the app itself)
@@ -233,7 +204,6 @@ void LauncherBackend::syncFromAccounts()
                     if (!m_itemCache.contains(appId)) {
                         m_itemCache.insert(appId, parseDesktopFile(df));
                     }
-                    m_itemCache.value(appId)->pinned = true;
                 }
             }
         }
@@ -305,7 +275,6 @@ LauncherBackendItem* LauncherBackend::parseDesktopFile(const QString &desktopFil
     } else {
         item->icon =  "image://theme/" + iconString;
     }
-    item->pinned = false;
     return item;
 }
 
@@ -326,7 +295,6 @@ void LauncherBackend::loadFromVariant(const QVariantMap &details)
     item->desktopFile = details.value("desktopFile").toString();
     item->displayName = details.value("name").toString();
     item->icon = details.value("icon").toString();
-    item->pinned = details.value("is-pinned").toBool();
 
     m_itemCache.insert(appId, item);
     m_storedApps.append(appId);
@@ -340,7 +308,6 @@ QVariantMap LauncherBackend::itemToVariant(const QString &appId) const
     details.insert("name", item->displayName);
     details.insert("icon", item->icon);
     details.insert("desktopFile", item->desktopFile);
-    details.insert("is-pinned", item->pinned);
     return details;
 }
 
