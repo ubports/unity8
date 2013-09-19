@@ -201,6 +201,8 @@ void Scope::onActivated(unity::dash::LocalResult const& result, unity::dash::Sco
             break;
         case unity::dash::PERFORM_SEARCH:
             if (hints.find("query") != hints.end()) {
+                // note: this will emit searchQueryChanged, and shell will call setSearchQuery back with a new query,
+                // but it will get ignored.
                 setSearchQuery(QString::fromStdString(g_variant_get_string(hints.at("query"), nullptr)));
             }
             break;
