@@ -497,8 +497,6 @@ int main(int argc, char ** argv)
             }
 
             if (window) {
-                mouseTouchAdaptor.setTargetWindow(window);
-
                 QSurfaceFormat surfaceFormat = window->requestedFormat();
                 if (options.multisample)
                     surfaceFormat.setSamples(16);

@@ -12,32 +12,24 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authors: Michael Terry <michael.terry@canonical.com>
  */
 
-import QtQuick 2.0
-import QMenuModel 0.1
+#include "plugin.h"
+#include "SessionBroadcast.h"
 
-Item {
-    id: root
-    objectName: "volumeControl"
-    visible: false
+#include <QtQml>
 
-    QDBusActionGroup {
-        id: actionGroup
-        busType: 1
-        busName: "com.canonical.indicator.sound"
-        objectPath: "/com/canonical/indicator/sound"
+static QObject *broadcast_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+    return new SessionBroadcast();
+}
 
-        property variant actionObject: action("scroll")
-    }
-
-    function volumeUp() {
-        actionGroup.actionObject.activate(1);
-    }
-
-    function volumeDown() {
-        actionGroup.actionObject.activate(-1);
-    }
-
-    Component.onCompleted: actionGroup.start()
+void SessionBroadcastPlugin::registerTypes(const char *uri)
+{
+    Q_ASSERT(uri == QLatin1String("SessionBroadcast"));
+    qmlRegisterSingletonType<SessionBroadcast>(uri, 0, 1, "SessionBroadcast", broadcast_provider);
 }
