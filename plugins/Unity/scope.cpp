@@ -199,6 +199,11 @@ void Scope::onActivated(unity::dash::LocalResult const& result, unity::dash::Sco
                 qWarning() << "Missing goto-uri hint for GOTO_DASH_URI activation reply";
             }
             break;
+        case unity::dash::PERFORM_SEARCH:
+            if (hints.find("query") != hints.end()) {
+                setSearchQuery(QString::fromStdString(g_variant_get_string(hints.at("query"), nullptr)));
+            }
+            break;
         default:
             qWarning() << "Unhandled activation response:" << type;
     }
