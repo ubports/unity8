@@ -34,15 +34,32 @@ Item {
 
     state: "hidden"
 
+    function hide() {
+        dismissTimer.stop()
+        bottombar.state = "hidden"
+    }
+
+    onApplicationIsOnForegroundChanged: {
+        if (!applicationIsOnForeground) {
+            hide()
+        }
+    }
+
     onStateChanged: {
         if (state == "hidden") {
             dismissTimer.stop()
+            bottomBarVisibilityCommunicatorShell.forceHidden = false
         } else {
             dismissTimer.restart()
         }
     }
 
     onPreventHidingChanged: {
+        if (!preventHiding) {
+            if (state == "hint")
+                hide()
+        }
+
         if (dismissTimer.running) {
             dismissTimer.restart();
         }
@@ -50,7 +67,7 @@ Item {
 
     Timer {
         id: dismissTimer
-        interval: 5000
+        interval: 1000
         onTriggered: {
             if (!bottombar.preventHiding) {
                 bottombar.state = "hidden"
@@ -114,7 +131,7 @@ Item {
         property int previousStatus: -1
         property real touchStartX: -1
 
-        readonly property real distanceFromThreshold: Math.max((-distance) - distanceThreshold, 0) // distance is negative
+        readonly property real distanceFromThreshold: Math.max((-distance) - distanceThreshold, units.gu(6)) // distance is negative
         readonly property real commitDistance: units.gu(6)
         readonly property real commitProgress: Math.min((distanceFromThreshold - commitDistance) / commitDistance, 1)
 
@@ -143,17 +160,27 @@ Item {
         }
     }
 
-    MouseArea {
-        anchors.fill: parent
-        enabled: bottombar.state == "shown"
-        onPressed: {
-            bottombar.state = "hidden"
+    Item {
+        anchors {
+            top: parent.top
+            left: parent.left
+            right: parent.right
         }
-    }
+        height: parent.height - bottomBarVisibilityCommunicatorShell.position
 
-    InputFilterArea {
-        anchors.fill: parent
-        blockInput: (hudButton.opacity == 1)
+        MouseArea {
+            anchors.fill: parent
+            enabled: bottombar.state == "shown"
+            onPressed: {
+                bottomBarVisibilityCommunicatorShell.forceHidden = true
+                bottombar.state = "hidden"
+            }
+        }
+
+        InputFilterArea {
+            anchors.fill: parent
+            blockInput: (hudButton.opacity == 1)
+        }
     }
 
     states: [
