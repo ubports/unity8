@@ -50,9 +50,9 @@ private Q_SLOTS:
         AccountsService session;
         session.setUser("testuser");
         session.setDemoEdges(true);
-        QCOMPARE(session.getDemoEdges(), true);
+        QCOMPARE(session.demoEdges(), true);
         session.setDemoEdges(false);
-        QCOMPARE(session.getDemoEdges(), false);
+        QCOMPARE(session.demoEdges(), false);
     }
 };
 
