@@ -56,7 +56,7 @@ void AccountsService::setBackgroundFile(const QString &backgroundFile)
     backgroundFileChanged();
 }
 
-bool AccountsService::getStatsWelcomeScreen()
+bool AccountsService::statsWelcomeScreen()
 {
     return m_statsWelcomeScreen;
 }

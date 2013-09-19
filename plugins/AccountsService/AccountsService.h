@@ -39,7 +39,7 @@ class AccountsService: public QObject
                 READ getBackgroundFile
                 NOTIFY backgroundFileChanged)
     Q_PROPERTY (bool statsWelcomeScreen
-                READ getStatsWelcomeScreen
+                READ statsWelcomeScreen
                 NOTIFY statsWelcomeScreenChanged)
 
 public:
@@ -50,7 +50,7 @@ public:
     bool getDemoEdges();
     void setDemoEdges(bool demoEdges);
     QString getBackgroundFile();
-    bool getStatsWelcomeScreen();
+    bool statsWelcomeScreen();
 
 Q_SIGNALS:
     void userChanged();

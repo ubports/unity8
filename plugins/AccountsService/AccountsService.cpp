@@ -63,7 +63,7 @@ QString AccountsService::getBackgroundFile()
     return m_backgroundFile;
 }
 
-bool AccountsService::getStatsWelcomeScreen()
+bool AccountsService::statsWelcomeScreen()
 {
     return m_statsWelcomeScreen;
 }

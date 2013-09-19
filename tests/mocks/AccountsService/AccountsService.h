@@ -40,7 +40,7 @@ class AccountsService: public QObject
                 WRITE setBackgroundFile // only available in mock
                 NOTIFY backgroundFileChanged)
     Q_PROPERTY (bool statsWelcomeScreen
-                READ getStatsWelcomeScreen
+                READ statsWelcomeScreen
                 WRITE setStatsWelcomeScreen // only available in mock
                 NOTIFY statsWelcomeScreenChanged)
 
@@ -53,7 +53,7 @@ public:
     void setDemoEdges(bool demoEdges);
     QString getBackgroundFile();
     void setBackgroundFile(const QString &backgroundFile);
-    bool getStatsWelcomeScreen();
+    bool statsWelcomeScreen();
     void setStatsWelcomeScreen(bool statsWelcomeScreen);
 
 Q_SIGNALS:
