@@ -131,9 +131,9 @@ Item {
         property int previousStatus: -1
         property real touchStartX: -1
 
-        readonly property real distanceFromThreshold: Math.max((-distance) - distanceThreshold, units.gu(6)) // distance is negative
+        readonly property real distanceFromThreshold: (-distance) - distanceThreshold // distance is negative
         readonly property real commitDistance: units.gu(6)
-        readonly property real commitProgress: Math.min((distanceFromThreshold - commitDistance) / commitDistance, 1)
+        readonly property real commitProgress: MathLocal.clamp(distanceFromThreshold / commitDistance, 0, 1)
 
         onStatusChanged: {
             if (status === DirectionalDragArea.WaitingForTouch) {
