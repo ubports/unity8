@@ -39,6 +39,23 @@ Rectangle {
     color: Qt.rgba(0, 0, 0, .3)
     clip: true
 
+    function ensureVisible(item) {
+//        console.log("leftFlickable.contentY: " + leftFlickable.mapToItem(null, 0, leftFlickable.contentY).y);
+        console.log("leftFlickable.height: " + leftFlickable.height);
+        root.keyboardSize = 200;
+        var y = leftFlickable.contentHeight - item.mapToItem(leftFlickable, 0, 0).y + item.height;
+        var visibleArea = leftFlickable.contentY + leftFlickable.height;
+        console.log("y: " + y);
+        console.log("visibleArea: " + visibleArea);
+        if(y > visibleArea) {
+            leftFlickable.contentY = leftFlickable.contentY + root.keyboardSize;
+        }
+
+        console.log("leftFlickable.contentHeight: " + leftFlickable.contentHeight);
+        console.log("leftFlickable.contentY: " + leftFlickable.contentY);
+        console.log("leftFlickable.height: " + leftFlickable.height);
+    }
+
     Connections {
         target: shell.applicationManager
         onMainStageFocusedApplicationChanged: {

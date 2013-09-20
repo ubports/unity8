@@ -142,6 +142,22 @@ DashPreview {
             rated: root.previewData.infoMap["rated"] ? root.previewData.infoMap["rated"].value : 0
         }
 
+        AppReviews {
+            id: appReviews2
+            objectName: "appReviews2"
+            // TODO: This should make this visible when the feature for reviews/comments is complete.
+//                visible: false
+            anchors { left: parent.left; right: parent.right }
+
+            model: root.previewData.infoMap["comments"] ? root.previewData.infoMap["comments"].value : undefined
+
+            onSendReview: root.sendUserReview(review);
+
+            onEditing: {
+                root.ensureVisible(appReviews);
+            }
+        }
+
         Label {
             anchors { left: parent.left; right: parent.right }
             text: root.previewData.description
@@ -186,16 +202,20 @@ DashPreview {
 
             ListItem.ThinDivider { }
 
-
             AppReviews {
+                id: appReviews
                 objectName: "appReviews"
                 // TODO: This should make this visible when the feature for reviews/comments is complete.
-                visible: false
+//                visible: false
                 anchors { left: parent.left; right: parent.right }
 
                 model: root.previewData.infoMap["comments"] ? root.previewData.infoMap["comments"].value : undefined
 
                 onSendReview: root.sendUserReview(review);
+
+                onEditing: {
+                    root.ensureVisible(appReviews.textArea);
+                }
             }
         }
     }
