@@ -34,6 +34,7 @@ public:
     Q_INVOKABLE QVariant data(int row, int role);
     Q_INVOKABLE int count();
     Q_INVOKABLE int findFirst(int role, const QVariant& value) const;
+    Q_INVOKABLE int mapRowToSource(int row);
     virtual bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const;
 
     /* getters */

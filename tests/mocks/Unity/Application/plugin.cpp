@@ -17,7 +17,6 @@
 #include "plugin.h"
 #include "ApplicationInfo.h"
 #include "ApplicationImage.h"
-#include "ApplicationListModel.h"
 #include "ApplicationManager.h"
 
 #include <qqml.h>
@@ -28,11 +27,13 @@ static QObject* applicationManagerSingleton(QQmlEngine* engine, QJSEngine* scrip
   return new ApplicationManager();
 }
 
-void FakeUbuntuApplicationQmlPlugin::registerTypes(const char *uri)
+void FakeUnityApplicationQmlPlugin::registerTypes(const char *uri)
 {
-    qmlRegisterSingletonType<ApplicationManager>(
-            uri, 0, 1, "ApplicationManager", applicationManagerSingleton);
+    qmlRegisterUncreatableType<unity::shell::application::ApplicationManagerInterface>(uri, 0, 1, "ApplicationManagerInterface", "Abstract interface. Cannot be created in QML");
+    qmlRegisterSingletonType<ApplicationManager>(uri, 0, 1, "ApplicationManager", applicationManagerSingleton);
+
+    qmlRegisterUncreatableType<unity::shell::application::ApplicationInfoInterface>(uri, 0, 1, "ApplicationInfoInterface", "Abstract interface. Cannot be created in QML");
     qmlRegisterType<ApplicationInfo>(uri, 0, 1, "ApplicationInfo");
+
     qmlRegisterType<ApplicationImage>(uri, 0, 1, "ApplicationImage");
-    qmlRegisterType<ApplicationListModel>(uri, 0, 1, "ApplicationListModel");
 }

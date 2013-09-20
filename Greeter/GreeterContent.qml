@@ -40,11 +40,12 @@ MouseArea {
         color: "black"
     }
 
-    property url backgroundValue: AccountsService.backgroundFile != undefined && AccountsService.backgroundFile.length > 0 ? AccountsService.backgroundFile : shell.defaultBackground
+    property url backgroundValue: AccountsService.backgroundFile != undefined && AccountsService.backgroundFile.length > 0 ? AccountsService.backgroundFile : greeter.defaultBackground
     onBackgroundValueChanged: wallpaper.source = backgroundValue
 
     CrossFadeImage {
         id: wallpaper
+        objectName: "wallpaper"
         anchors.fill: parent
         fadeInFirst: false
     }
@@ -58,8 +59,8 @@ MouseArea {
         sourceSize.height: 0
         sourceSize.width: 0
         onStatusChanged: {
-            if (status == Image.Error && source != shell.defaultBackground) {
-                wallpaper.source = shell.defaultBackground
+            if (status == Image.Error && source != greeter.defaultBackground) {
+                wallpaper.source = greeter.defaultBackground
             }
         }
     }

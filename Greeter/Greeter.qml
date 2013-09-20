@@ -26,6 +26,8 @@ Showable {
     enabled: shown
     created: greeterContentLoader.status == Loader.Ready && greeterContentLoader.item.ready
 
+    property url defaultBackground
+
     // 1 when fully shown and 0 when fully hidden
     property real showProgress: MathLocal.clamp((width + x) / width, 0, 1)
 

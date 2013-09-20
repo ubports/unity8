@@ -31,7 +31,6 @@ Loader {
 
     property var _map:  {
         "com.canonical.snapdecision.textfield": textfield,
-        "com.canonical.snapdecision.selectionlist": selectionlist,
         "com.canonical.snapdecision.pinlock" : pinLock,
     }
 
@@ -55,13 +54,17 @@ Loader {
         Column {
             spacing: units.gu(.5)
 
+            anchors {
+                left: parent.left
+                right: parent.right
+            }
+
             Component.onCompleted: {
                 menuModel.loadExtendedAttributes(menuIndex, {"x-echo-mode-password": "bool"});
                 textfield.echoMode = menuData.ext.xEchoModePassword ? TextInput.Password : TextInput.Normal
             }
 
             Label {
-                anchors.left: parent.left
                 fontSize: "medium"
                 color: "white"
                 text: menuData.label
@@ -69,28 +72,15 @@ Loader {
 
             TextField {
                 id: textfield
+
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                }
+
                 onTextChanged: {
                     menuModel.changeState(menuIndex, text);
                 }
-            }
-        }
-    }
-
-    Component {
-        id: selectionlist
-
-        Column {
-            spacing: units.gu(.5)
-            anchors {
-                left: parent.left
-                right: parent.right
-            }
-
-            Label {
-                anchors.horizontalCenter: parent.horizontalCenter
-                fontSize: "large"
-                color: "white"
-                text: "Selection List"
             }
         }
     }

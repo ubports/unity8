@@ -35,7 +35,7 @@ Item {
     readonly property bool shown: panel.x > -panel.width
 
     // emitted when an application is selected
-    signal launcherApplicationSelected(string desktopFile)
+    signal launcherApplicationSelected(string appId)
 
     // emitted when the apps dash should be shown because of a swipe gesture
     signal dash()
@@ -159,7 +159,7 @@ Item {
 
         onApplicationSelected: {
             root.state = ""
-            launcherApplicationSelected(desktopFile)
+            launcherApplicationSelected(appId)
         }
         onDashItemSelected: {
             root.state = ""
@@ -192,12 +192,12 @@ Item {
 
         direction: Direction.Rightwards
 
-        enabled: root.available && root.state !== "visible"
+        enabled: root.available
         width: root.dragAreaWidth
         height: root.height
 
         onTouchXChanged: {
-            if (status !== DirectionalDragArea.Recognized)
+            if (status !== DirectionalDragArea.Recognized || launcher.state == "visible")
                 return;
 
             // When the gesture finally gets recognized, the finger will likely be
