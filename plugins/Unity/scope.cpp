@@ -329,6 +329,9 @@ void Scope::onSearchFinished(std::string const& /* query */, unity::glib::HintsM
     if (!err || !g_error_matches(error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
         m_searchInProgress = false;
         Q_EMIT searchInProgressChanged();
+    } else {
+        // no need to check the results hint, we're still searching
+        return;
     }
 
     if (!m_unityScope->results()->count()) {
