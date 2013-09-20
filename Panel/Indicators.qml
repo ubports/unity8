@@ -296,7 +296,7 @@ Showable {
 
             onTouchXChanged: {
                 if (touchSceneY - panelHeight > 0) {
-                    indicators.calculateCurrentItem(touchX, true);
+                    indicators.calculateCurrentItem(touchX, initalizeItem==false);
                 }
             }
             onTouchSceneYChanged: {
@@ -304,7 +304,7 @@ Showable {
                 yVelocityCalculator.trackedPosition = touchSceneY;
 
                 if (initalizeItem && touchSceneY - panelHeight > 0) {
-                    indicators.calculateCurrentItem(touchX, true);
+                    indicators.calculateCurrentItem(touchX, false);
                 }
             }
         }
