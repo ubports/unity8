@@ -44,7 +44,7 @@ class Scope : public QObject
     Q_PROPERTY(QString iconHint READ iconHint NOTIFY iconHintChanged)
     Q_PROPERTY(QString description READ description NOTIFY descriptionChanged)
     Q_PROPERTY(QString searchHint READ searchHint NOTIFY searchHintChanged)
-    Q_PROPERTY(QString searchInProgress READ searchInProgress NOTIFY searchInProgressChanged)
+    Q_PROPERTY(bool searchInProgress READ searchInProgress NOTIFY searchInProgressChanged)
     Q_PROPERTY(bool visible READ visible NOTIFY visibleChanged)
     Q_PROPERTY(QString shortcut READ shortcut NOTIFY shortcutChanged)
     Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)

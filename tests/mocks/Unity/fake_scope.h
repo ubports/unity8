@@ -32,6 +32,7 @@ class Scope : public QObject
     Q_PROPERTY(QString iconHint READ iconHint NOTIFY iconHintChanged)
     Q_PROPERTY(QString description READ description NOTIFY descriptionChanged)
     Q_PROPERTY(QString searchHint READ searchHint NOTIFY searchHintChanged)
+    Q_PROPERTY(bool searchInProgress READ searchInProgress NOTIFY searchInProgressChanged)
     Q_PROPERTY(bool visible READ visible NOTIFY visibleChanged)
     Q_PROPERTY(QString shortcut READ shortcut NOTIFY shortcutChanged)
     Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
@@ -54,6 +55,7 @@ public:
     bool visible() const;
     QString shortcut() const;
     bool connected() const;
+    bool searchInProgress() const;
     Categories* categories() const;
     QString searchQuery() const;
     QString noResultsHint() const;
@@ -78,11 +80,11 @@ Q_SIGNALS:
     void iconHintChanged(const QString&);
     void descriptionChanged(const QString&);
     void searchHintChanged(const QString&);
+    void searchInProgressChanged();
     void visibleChanged(bool);
     void shortcutChanged(const QString&);
     void connectedChanged(bool);
     void categoriesChanged();
-    void searchFinished(const QString&);
     void searchQueryChanged();
     void noResultsHintChanged();
     void formFactorChanged();
@@ -101,6 +103,7 @@ protected:
     QString m_noResultsHint;
     QString m_formFactor;
     bool m_visible;
+    bool m_searching;
 
     Categories* m_categories;
     DeeListModel* m_results;
