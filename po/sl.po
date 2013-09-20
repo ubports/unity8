@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-08-27 13:36-0400\n"
-"PO-Revision-Date: 2013-07-02 12:59+0000\n"
+"PO-Revision-Date: 2013-09-19 19:48+0000\n"
 "Last-Translator: Damir Jerovšek <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
 "n%100==4 ? 3 : 0);\n"
-"X-Launchpad-Export-Date: 2013-08-30 05:37+0000\n"
-"X-Generator: Launchpad (build 16750)\n"
+"X-Launchpad-Export-Date: 2013-09-20 06:21+0000\n"
+"X-Generator: Launchpad (build 16765)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -25,7 +25,7 @@ msgstr "Telefon"
 
 #: Applications/applications.js:29
 msgid "Camera"
-msgstr ""
+msgstr "Fotoaparat"
 
 #: Applications/applications.js:35
 msgid "Gallery"
@@ -89,47 +89,50 @@ msgstr "YouTube"
 
 #: Components/EdgeDemoOverlay.qml:145
 msgid "Skip intro"
-msgstr ""
+msgstr "Preskoči uvod"
 
 #: Components/EdgeDemo.qml:98
 msgid "Right edge"
-msgstr ""
+msgstr "Desni rob"
 
 #: Components/EdgeDemo.qml:99
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr ""
+msgstr "Poskusite povleči od desnega roba za odklep telefona"
 
 #: Components/EdgeDemo.qml:135
 msgid "Top edge"
-msgstr ""
+msgstr "Zgornji rob"
 
 #: Components/EdgeDemo.qml:136
 msgid "Try swiping from the top edge to access the indicators"
-msgstr ""
+msgstr "Poskusite povleči od zgornjega roba za dostop do kazalnikov"
 
 #: Components/EdgeDemo.qml:161
 msgid "Close"
-msgstr ""
+msgstr "Zapri"
 
 #: Components/EdgeDemo.qml:162
 msgid "Swipe up again to close the settings screen"
-msgstr ""
+msgstr "Povlecite ponovno navzgor za zaprtje zaslona z nastavitvami"
 
 #: Components/EdgeDemo.qml:189
 msgid "Left edge"
-msgstr ""
+msgstr "Levi rob"
 
 #: Components/EdgeDemo.qml:190
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr ""
+"Poskusite povleči od leve za razkritje zaganjalnika za hiter dostop do "
+"programov"
 
 #: Components/EdgeDemo.qml:217
 msgid "Well done"
-msgstr ""
+msgstr "Odlično"
 
 #: Components/EdgeDemo.qml:218
 msgid "You have now mastered the edge gestures and can start using the phone"
 msgstr ""
+"Zdaj, ko ste osvojili kretnje z robovi, lahko začnete uporabljati telefon"
 
 #: Components/PageHeader.qml:298
 msgid "Recent searches"
@@ -139,35 +142,37 @@ msgstr "Nedavna iskanja"
 #: Dash/Apps/AppInfo.qml:73
 #, qt-format
 msgid "(%1)"
-msgstr ""
+msgstr "(%1)"
 
 #. TRANSLATORS: Number of persons who wrote reviews for this app
 #: Dash/Apps/AppInfo.qml:85
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 ocen"
+msgstr[1] "%1 ocena"
+msgstr[2] "%1 oceni"
+msgstr[3] "%1 ocene"
 
 #: Dash/Apps/AppPreview.qml:175
 msgid "Rate this"
-msgstr ""
+msgstr "Ocenite"
 
 #: Dash/Apps/AppReviews.qml:72
 msgid "Add a review"
-msgstr ""
+msgstr "Dodaj oceno"
 
 #: Dash/Apps/AppReviews.qml:84
 msgid "Review"
-msgstr ""
+msgstr "Ocena"
 
 #: Dash/Apps/AppReviews.qml:118
 msgid "Send"
-msgstr ""
+msgstr "Pošlji"
 
 #: Dash/Apps/AppReviews.qml:136
 msgid "Comments:"
-msgstr ""
+msgstr "Opombe:"
 
 #: Dash/DashMusic.qml:27 Dash/DashVideos.qml:28
 msgid "Featured"
@@ -211,7 +216,7 @@ msgstr ""
 
 #: Greeter/Lockscreen.qml:134
 msgid "Emergency Call"
-msgstr ""
+msgstr "Klic v sili"
 
 #: Greeter/PassphraseLockscreen.qml:59
 #, qt-format
@@ -220,7 +225,7 @@ msgstr "Pozdravljeni, %1"
 
 #: Greeter/PassphraseLockscreen.qml:59
 msgid "Hello"
-msgstr ""
+msgstr "Pozdravljeni"
 
 #: Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
@@ -253,4 +258,4 @@ msgstr "Nič se ne ujema z vašim iskalnim nizom."
 #: Shell.qml:429
 #, qt-format
 msgid "Please enter %1"
-msgstr ""
+msgstr "Vnesite %1"
