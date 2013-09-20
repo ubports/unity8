@@ -56,7 +56,7 @@ Item {
 
     onPreventHidingChanged: {
         if (!preventHiding) {
-            if (state == "hint")
+            if (state == "hint" || state == "reveal")
                 hide()
         }
 
@@ -132,6 +132,7 @@ Item {
         property real touchStartX: -1
 
         readonly property real distanceFromThreshold: (-distance) - distanceThreshold // distance is negative
+        readonly property real revealDistance: units.gu(2)
         readonly property real commitDistance: units.gu(6)
         readonly property real commitProgress: MathLocal.clamp(distanceFromThreshold / commitDistance, 0, 1)
 
@@ -156,6 +157,8 @@ Item {
             if (status === DirectionalDragArea.Recognized) {
                 if (distanceFromThreshold > commitDistance)
                     bottombar.state = "shown"
+                else if (distanceFromThreshold > revealDistance)
+                    bottombar.state = "reveal"
             }
         }
     }
@@ -186,24 +189,23 @@ Item {
     states: [
         State {
             name: "hidden"
-            PropertyChanges { target: hudButton; opacity: 0}
-            PropertyChanges { target: hudButton; bottomMargin: units.gu(-1)}
+            PropertyChanges { target: hudButton; opacity: 0 }
+            PropertyChanges { target: hudButton; bottomMargin: units.gu(-2) }
         },
         State {
             name: "hint"
-            PropertyChanges {
-                target: hudButton;
-                opacity: 0.5 + 0.5 * dragArea.commitProgress
-            }
-            PropertyChanges {
-                target: hudButton;
-                bottomMargin: units.gu(-1) + units.gu(1) * dragArea.commitProgress
-            }
+            extend: "hidden"
+            PropertyChanges { target: hudButton; opacity: 0.5 }
+        },
+        State {
+            name: "reveal"
+            extend: "hint"
+            PropertyChanges { target: hudButton; bottomMargin: units.gu(-2) + units.gu(2) * dragArea.commitProgress }
         },
         State {
             name: "shown"
-            PropertyChanges { target: hudButton; opacity: 1}
-            PropertyChanges { target: hudButton; bottomMargin: units.gu(0)}
+            PropertyChanges { target: hudButton; opacity: 1 }
+            PropertyChanges { target: hudButton; bottomMargin: units.gu(0) }
         }
     ]
 }
