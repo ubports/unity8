@@ -127,6 +127,7 @@ Item {
         distanceThreshold: units.gu(8)
         enabled: !theHud.shown && bottombar.enabled && applicationIsOnForeground
         direction: Direction.Upwards
+        maxSilenceTime: 2000
 
         property int previousStatus: -1
         property real touchStartX: -1
