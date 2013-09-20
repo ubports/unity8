@@ -88,7 +88,7 @@ void AccountsService::updateBackgroundFile()
 
 void AccountsService::updateStatsWelcomeScreen()
 {
-    auto statsWelcomeScreen = m_service->getUserProperty(m_user, "com.ubuntu.touch.AccountsService.SecurityPrivacy", "StatsWelcomeScreen").toBool();
+    bool statsWelcomeScreen = m_service->getUserProperty(m_user, "com.ubuntu.touch.AccountsService.SecurityPrivacy", "StatsWelcomeScreen").toBool();
     if (m_statsWelcomeScreen != statsWelcomeScreen) {
         m_statsWelcomeScreen = statsWelcomeScreen;
         Q_EMIT statsWelcomeScreenChanged();
