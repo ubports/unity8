@@ -70,6 +70,7 @@ private Q_SLOTS:
 
 private:
     void onCategoriesModelChanged(unity::glib::Object<DeeModel> model);
+    void onScopeResultsModelChanged(unity::glib::Object<DeeModel> model);
 
     DeeListModel* getResults(int index) const;
 
@@ -80,6 +81,7 @@ private:
     QMap<QString, QAbstractItemModel*> m_overriddenCategories;
     mutable QMap<int, DeeListModel*> m_results;
     sigc::connection m_categoriesChangedConnection;
+    sigc::connection m_resultshangedConnection;
 };
 
 #endif // CATEGORIES_H

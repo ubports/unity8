@@ -21,6 +21,7 @@
 // self
 #include "categories.h"
 #include "categoryresults.h"
+#include <QDebug>
 
 // TODO: use something from libunity once it's public
 enum CategoryColumn {
@@ -62,7 +63,16 @@ Categories::getResults(int index) const
 
         unsigned categoryIndex = static_cast<unsigned>(index);
         auto unity_results = m_unityScope->GetResultsForCategory(categoryIndex);
-        results->setModel(unity_results->model());
+        if (unity_results) {
+            results->setModel(unity_results->model());
+        } else {
+            // No results model returned by unity core; this can be the case when the global
+            // results model of this scope became invalid in unity core. Don't set backend
+            // model in DeeListModel - it will still beahve properly as an empty model. Since
+            // we're connected to the results model change signal, we'll reset category models
+            // when results model is set again.
+            qWarning() << "No results model for category" << categoryIndex;
+        }
 
         m_results.insert(index, results);
     }
@@ -81,6 +91,13 @@ void Categories::onCategoriesModelChanged(unity::glib::Object<DeeModel> model)
     setModel(model);
 }
 
+
+void Categories::onScopeResultsModelChanged(unity::glib::Object<DeeModel> /* model */)
+{
+    // if scope results model changes, we need to reset all category models
+    onCategoriesModelChanged(m_unityScope->categories()->model());
+}
+
 void
 Categories::setUnityScope(const unity::dash::Scope::Ptr& scope)
 {
@@ -92,6 +109,9 @@ Categories::setUnityScope(const unity::dash::Scope::Ptr& scope)
     m_categoriesChangedConnection.disconnect();
     m_categoriesChangedConnection =
         m_unityScope->categories()->model.changed.connect(sigc::mem_fun(this, &Categories::onCategoriesModelChanged));
+
+    m_resultshangedConnection.disconnect();
+    m_resultshangedConnection = m_unityScope->results()->model.changed.connect(sigc::mem_fun(this, &Categories::onScopeResultsModelChanged));
 }
 
 void
