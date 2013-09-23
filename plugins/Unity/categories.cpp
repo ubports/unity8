@@ -110,8 +110,8 @@ Categories::setUnityScope(const unity::dash::Scope::Ptr& scope)
     m_categoriesChangedConnection =
         m_unityScope->categories()->model.changed.connect(sigc::mem_fun(this, &Categories::onCategoriesModelChanged));
 
-    m_resultshangedConnection.disconnect();
-    m_resultshangedConnection = m_unityScope->results()->model.changed.connect(sigc::mem_fun(this, &Categories::onScopeResultsModelChanged));
+    m_resultsChangedConnection.disconnect();
+    m_resultsChangedConnection = m_unityScope->results()->model.changed.connect(sigc::mem_fun(this, &Categories::onScopeResultsModelChanged));
 }
 
 void
