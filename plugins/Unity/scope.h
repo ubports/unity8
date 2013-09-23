@@ -55,6 +55,7 @@ class Scope : public QObject
 
 public:
     explicit Scope(QObject *parent = 0);
+    ~Scope();
 
     /* getters */
     QString id() const;
@@ -131,6 +132,7 @@ private:
     QString m_searchQuery;
     QString m_noResultsHint;
     QString m_formFactor;
+    GCancellable* m_previewCancellable;
 };
 
 Q_DECLARE_METATYPE(Scope*)
