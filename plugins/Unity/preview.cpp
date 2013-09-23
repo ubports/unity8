@@ -26,6 +26,7 @@
 #include "moviepreview.h"
 #include "musicpreview.h"
 #include "socialpreview.h"
+#include "iconutils.h"
 #include "variantutils.h"
 
 // Qt
@@ -102,7 +103,10 @@ QVariantMap Preview::infoHintsHash() const
 QString Preview::image() const
 {
     if (m_unityPreview) {
-        return QString::fromUtf8(g_icon_to_string(m_unityPreview->image()));
+        auto giconString = g_icon_to_string(m_unityPreview->image());
+        QString result(gIconToDeclarativeImageProviderString(QString::fromUtf8(giconString)));
+        g_free(giconString);
+        return result;
     } else {
         qWarning() << "Preview not set";
     }

@@ -21,16 +21,20 @@
 #include "launcheritem.h"
 #include "backend/launcherbackend.h"
 
+#include <unity/shell/application/ApplicationInfoInterface.h>
+
+using namespace unity::shell::application;
+
 LauncherModel::LauncherModel(QObject *parent):
     LauncherModelInterface(parent),
-    m_backend(new LauncherBackend(true, this))
+    m_backend(new LauncherBackend(true, this)),
+    m_appManager(0)
 {
     connect(m_backend, SIGNAL(countChanged(QString,int)), SLOT(countChanged(QString,int)));
     connect(m_backend, SIGNAL(progressChanged(QString,int)), SLOT(progressChanged(QString,int)));
 
     Q_FOREACH (const QString &entry, m_backend->storedApplications()) {
         LauncherItem *item = new LauncherItem(entry,
-                                              m_backend->desktopFile(entry),
                                               m_backend->displayName(entry),
                                               m_backend->icon(entry),
                                               this);
@@ -61,9 +65,7 @@ QVariant LauncherModel::data(const QModelIndex &index, int role) const
     LauncherItem *item = m_list.at(index.row());
     switch(role) {
         case RoleAppId:
-            return item->desktopFile();
-        case RoleDesktopFile:
-            return item->desktopFile();
+            return item->appId();
         case RoleName:
             return item->name();
         case RoleIcon:
@@ -74,6 +76,8 @@ QVariant LauncherModel::data(const QModelIndex &index, int role) const
             return item->count();
         case RoleProgress:
             return item->progress();
+        case RoleFocused:
+            return item->focused();
     }
 
     return QVariant();
@@ -111,9 +115,11 @@ void LauncherModel::move(int oldIndex, int newIndex)
     m_list.move(oldIndex, newIndex);
     endMoveRows();
 
-    storeAppList();
-
-    pin(m_list.at(newIndex)->appId());
+    if (!m_list.at(newIndex)->pinned()) {
+        pin(m_list.at(newIndex)->appId());
+    } else {
+        storeAppList();
+    }
 }
 
 void LauncherModel::pin(const QString &appId, int index)
@@ -135,7 +141,6 @@ void LauncherModel::pin(const QString &appId, int index)
         }
         beginInsertRows(QModelIndex(), index, index);
         LauncherItem *item = new LauncherItem(appId,
-                                              m_backend->desktopFile(appId),
                                               m_backend->displayName(appId),
                                               m_backend->icon(appId));
         item->setPinned(true);
@@ -143,12 +148,19 @@ void LauncherModel::pin(const QString &appId, int index)
         m_list.insert(index, item);
         endInsertRows();
     }
+
+    storeAppList();
 }
 
 void LauncherModel::requestRemove(const QString &appId)
 {
     int index = findApplication(appId);
     if (index < 0) {
+        return;
+    }
+
+    if (m_appManager->findApplication(appId)) {
+        m_list.at(index)->setPinned(false);
         return;
     }
 
@@ -191,11 +203,55 @@ void LauncherModel::setUser(const QString &username)
     m_backend->setUser(username);
 }
 
+ApplicationManagerInterface *LauncherModel::applicationManager() const
+{
+    return m_appManager;
+}
+
+void LauncherModel::setApplicationManager(unity::shell::application::ApplicationManagerInterface *appManager)
+{
+    // Is there already another appmanager set?
+    if (m_appManager) {
+        // Disconnect any signals
+        disconnect(this, SLOT(applicationAdded(QModelIndex,int)));
+        disconnect(this, SLOT(applicationRemoved(QModelIndex,int)));
+        disconnect(this, SLOT(focusedAppIdChanged()));
+
+        // remove any recent/running apps from the launcher
+        QList<int> recentAppIndices;
+        for (int i = 0; i < m_list.count(); ++i) {
+            if (m_list.at(i)->recent()) {
+                recentAppIndices << i;
+            }
+        }
+        int run = 0;
+        while (recentAppIndices.count() > 0) {
+            beginRemoveRows(QModelIndex(), recentAppIndices.first() - run, recentAppIndices.first() - run);
+            m_list.takeAt(recentAppIndices.first() - run)->deleteLater();
+            endRemoveRows();
+            recentAppIndices.takeFirst();
+            ++run;
+        }
+    }
+
+    m_appManager = appManager;
+    connect(m_appManager, SIGNAL(rowsInserted(QModelIndex, int, int)), SLOT(applicationAdded(QModelIndex,int)));
+    connect(m_appManager, SIGNAL(rowsAboutToBeRemoved(QModelIndex,int,int)), SLOT(applicationRemoved(QModelIndex,int)));
+    connect(m_appManager, SIGNAL(focusedApplicationIdChanged()), SLOT(focusedAppIdChanged()));
+
+    Q_EMIT applicationManagerChanged();
+
+    for (int i = 0; i < appManager->count(); ++i) {
+        applicationAdded(QModelIndex(), i);
+    }
+}
+
+
 void LauncherModel::storeAppList()
 {
     QStringList appIds;
     Q_FOREACH(LauncherItem *item, m_list) {
-        if (item->pinned() || item->recent()) {
+        if (item->pinned()) {
             appIds << item->appId();
         }
     }
@@ -231,5 +287,65 @@ void LauncherModel::countChanged(const QString &appId, int count)
         LauncherItem *item = m_list.at(idx);
         item->setCount(count);
         Q_EMIT dataChanged(index(idx), index(idx), QVector<int>() << RoleCount);
+    }
+}
+
+void LauncherModel::applicationAdded(const QModelIndex &parent, int row)
+{
+    Q_UNUSED(parent);
+
+    ApplicationInfoInterface *app = m_appManager->get(row);
+
+    bool found = false;
+    Q_FOREACH(LauncherItem *item, m_list) {
+        if (app->appId() == item->appId()) {
+            found = true;
+            break;
+        }
+    }
+    if (found) {
+        // Shall we paint some running/recent app highlight? If yes, do it here.
+    } else {
+        LauncherItem *item = new LauncherItem(app->appId(), app->name(), app->icon().toString());
+        item->setRecent(true);
+        item->setFocused(app->focused());
+
+        beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+        m_list.append(item);
+        endInsertRows();
+    }
+}
+
+void LauncherModel::applicationRemoved(const QModelIndex &parent, int row)
+{
+    Q_UNUSED(parent)
+
+    int appIndex = -1;
+    for (int i = 0; i < m_list.count(); ++i) {
+        if (m_list.at(i)->appId() == m_appManager->get(row)->appId()) {
+            appIndex = i;
+            break;
+        }
+    }
+
+    if (appIndex > -1 && !m_list.at(appIndex)->pinned()) {
+        beginRemoveRows(QModelIndex(), appIndex, appIndex);
+        m_list.takeAt(appIndex)->deleteLater();
+        endRemoveRows();
+    }
+}
+
+void LauncherModel::focusedAppIdChanged()
+{
+    QString appId = m_appManager->focusedApplicationId();
+    for (int i = 0; i < m_list.count(); ++i) {
+        LauncherItem *item = m_list.at(i);
+        if (!item->focused() && item->appId() == appId) {
+            item->setFocused(true);
+            Q_EMIT dataChanged(index(i), index(i), QVector<int>() << RoleFocused);
+        } else if (item->focused() && item->appId() != appId) {
+            item->setFocused(false);
+            Q_EMIT dataChanged(index(i), index(i), QVector<int>() << RoleFocused);
+        }
     }
 }

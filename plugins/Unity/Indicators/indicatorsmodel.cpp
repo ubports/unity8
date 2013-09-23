@@ -206,7 +206,6 @@ QHash<int, QByteArray> IndicatorsModel::roleNames() const
         roles[IndicatorsModelRole::WidgetSource] = "widgetSource";
         roles[IndicatorsModelRole::PageSource] = "pageSource";
         roles[IndicatorsModelRole::IndicatorProperties] = "indicatorProperties";
-        roles[IndicatorsModelRole::IsValid] = "isValid";
     }
     return roles;
 }
@@ -269,8 +268,6 @@ QVariant IndicatorsModel::data(const QModelIndex &index, int role) const
                 return QVariant(indicator->indicatorProperties());
             }
             break;
-        case IndicatorsModelRole::IsValid:
-            return (indicator ? true : false);
         case IndicatorsModelRole::Title:
         case IndicatorsModelRole::Description:
         case IndicatorsModelRole::WidgetSource:

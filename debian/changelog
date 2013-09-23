@@ -1,3 +1,210 @@
+unity8 (7.81.3+13.10.20130919.3-0ubuntu1) saucy; urgency=low
+
+  [ Michal Hruby ]
+  * Add support for music grid renderer to GenericScopeView.
+
+  [ Nick Dedekind ]
+  * Fixed the removal of messaging widget due to incompatible action
+    state. (LP: #1225017)
+
+  [ Christopher Lee ]
+  * Addition of initial autopilot tests for the application lifecycle.
+
+  [ Lars Uebernickel ]
+  * VolumeControl: use action of the new indicator indicator-sound
+    recently gained an action to increase and decrease the volume. This
+    patch makes use of that to get rid of a bus round trip (to get the
+    current volume) and a race (when the volume gets set between
+    fetching the current volume and setting the new volume). (LP:
+    #1219057)
+
+  [ Michael Terry ]
+  * When AccountsService.backgroundFile is unset/invalid, have the
+    greeter fall back to whatever the shell background is.
+  * Add a tiny SessionBroadcast plugin that listens to unity-greeter-
+    session-broadcast for the ShowHome signal.
+
+  [ Daniel d'Andrada ]
+  * Remove obsolete, unused graphics.
+  * Make MouseTouchAdaptor work with multiple QWindows.
+
+  [ Michael Zanetti ]
+  * change how icons are searched a) try to find it the Icon as is b)
+    prepend with Path if a Path variable is given c) fall back to the
+    image://theme/ with just the icon name . (LP: #1225186)
+  * fix an issue with removing a running app from the launcher and
+    always store pinning to the config.
+  * collapse any open preview when programmatically switching current
+    dash index. (LP: #1221137)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 333
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 19 Sep 2013 15:15:07 +0000
+
+unity8 (7.81.3+13.10.20130916-0ubuntu1) saucy; urgency=low
+
+  [ Michael Zanetti ]
+  * allow left edge gesture to minimize apps even when launcher is
+    already visible.
+  * Don't hide the launcher on changes in the stages.
+  * ssh is now installed per default, but it's set to manual in the
+    ssh.override.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 320
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 16 Sep 2013 11:49:28 +0000
+
+unity8 (7.81.3+13.10.20130912-0ubuntu1) saucy; urgency=low
+
+  [ Michael Zanetti ]
+  * add support for finding icons from click package apps in the
+    launcher.
+  * update to latest launcher API for better integration with the
+    AppManager.
+
+  [ Ricardo Mendoza ]
+  * Fixes problems related to image 20130912.0, amongst: * Fix autopilot
+    tests by preventing blocking of input during HUD button animations,
+    only when fully visible * Fix loading of unity-mir library, major
+    version wasn't specified so unless the dev package was there it
+    would fail.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 316
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 12 Sep 2013 13:47:59 +0000
+
+unity8 (7.81.3+13.10.20130911.1-0ubuntu1) saucy; urgency=low
+
+  [ Michael Terry ]
+  * Switch from deprecated image://gicon/ to new image://theme/.
+
+  [ Gerry Boland ]
+  * Add OSKController so shell can control OSK correctly on Mir.
+  * Remove InputFilterArea for bottom edge swipes, as applications also
+    listen for such swipes for Toolbar reveal.
+
+  [ Ricardo Mendoza ]
+  * Select the backend to use dynamically on runtime according to the
+    QPA selected by the system.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 311
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 11 Sep 2013 16:22:55 +0000
+
+unity8 (7.81.3+13.10.20130911-0ubuntu1) saucy; urgency=low
+
+  [ Michal Hruby ]
+  * Hide all gicon strings from the shell and use the image://theme icon
+    provider that was recently added to the SDK.
+
+  [ Gerry Boland ]
+  * Convert to new ApplicationManager API.
+
+  [ Nick Dedekind ]
+  * Updated access point design as per spec.
+  * Indicator visibility based on connection with backend service.
+
+  [ Albert Astals ]
+  * Dash: Make assignments bindings This way if the model changes the
+    item value also changes.
+
+  [ Michael Zanetti ]
+  * adds support for highlighting the currently focused application in
+    the launcher, adds tests.
+  * include ~/.local/share/applications in launcher's .desktop file
+    search path.
+  * shrink size of area for revealing the HUD button and make it
+    disappear on release again. fixes 1219035. (LP: #1219035)
+  * revert revision 304 as it makes the Shell crash.
+
+  [ Michael Terry ]
+  * Allow testers to set custom password or pin in demo mode, rather
+    than hardcoding them.
+  * Have the greeter use AccountsService to determine its background.
+    (LP: #1218402)
+  * Listen to changes in the "show edge demo" AccountsService setting.
+
+  [ Daniel d'Andrada ]
+  * Update fake/mock plugins so that "./run --fake" works well again -
+    You can now see the thumbnails of the fake running applications once
+    again. - You no longer get hundreds of warnings due to icons not
+    found.
+  * Reset apps scope when returning from app to dash (LP #1193419) If an
+    app is on foreground and you perform a long left-edge swipe to
+    minimize it, and therefore return to the dash, the dash should be in
+    the Applications scope and showing the running/recents applications.
+    (LP: #1193419)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 306
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 11 Sep 2013 00:54:31 +0000
+
+unity8 (7.81.3+13.10.20130905.2-0ubuntu1) saucy; urgency=low
+
+  [ Michael Zanetti ]
+  * Integrate Launcher with AppManager.
+
+  [ Nick Dedekind ]
+  * Removed FIXME from slider int->double conversion.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 291
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 05 Sep 2013 10:48:02 +0000
+
+unity8 (7.81.3+13.10.20130904.1-0ubuntu1) saucy; urgency=low
+
+  [ Nicolas d'Offay ]
+  * Switched infographic background at design's request.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 287
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 04 Sep 2013 07:34:57 +0000
+
+unity8 (7.81.3+13.10.20130904-0ubuntu1) saucy; urgency=low
+
+  [ mhall119 ]
+  * Add a little bit of text to the last step of the tour telling the
+    user how to end it and get to their phone.
+
+  [ Jussi Pakkanen ]
+  * Use CCache if it is installed.
+
+  [ Nick Dedekind ]
+  * Multiple icon/label support for indicators.
+
+  [ Albert Astals ]
+  * Remove unneeded role.
+
+  [ Lars Uebernickel ]
+  * Fall back to "ubuntu-mobile" icon theme if $UBUNTU_ICON_THEME is
+    unset.
+
+  [ Michael Zanetti ]
+  * Use MouseAreas in DashBar to enable clicking again.
+  * load launcher default config from existing dconf key.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 285
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 04 Sep 2013 03:02:57 +0000
+
+unity8 (7.81.3+13.10.20130903.1-0ubuntu1) saucy; urgency=low
+
+  [ Michael Zanetti ]
+  * workaround quicklist text color.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 277
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 03 Sep 2013 06:09:36 +0000
+
 unity8 (7.81.3+13.10.20130830-0ubuntu1) saucy; urgency=low
 
   [ Pawel Stolowski ]

@@ -24,7 +24,7 @@ import Unity.IndicatorsLegacy 0.1 as Indicators
 Indicators.IndicatorWidget {
     id: indicatorWidget
 
-    width: networkIcon.width + units.gu(1)
+    width: networkIcon.width + units.gu(0.5)
 
     property int signalStrength: 0
     property int connectionState: Indicators.NetworkConnection.Initial
@@ -43,14 +43,17 @@ Indicators.IndicatorWidget {
 
     onActionStateChanged: {
         if (action == undefined || !action.valid) {
+            enabled = false;
             return;
         }
 
         if (action.state == undefined) {
+            enabled = false;
             connectionState = 0;
             return;
         }
 
+        enabled = true;
         connectionState = action.state[Indicators.NetworkActionState.Connection];
         if (connectionState == Indicators.NetworkConnection.Activated) {
             signalStrength = action.state[Indicators.NetworkActionState.SignalStrength];
@@ -94,16 +97,16 @@ Indicators.IndicatorWidget {
     function get_icon_for_signal(con_state, value) {
         if (con_state >= Indicators.NetworkConnection.Activating && con_state <= Indicators.NetworkConnection.Deactivating) {
             if (value == 0) {
-                return "image://gicon/nm-signal-00";
+                return "image://theme/nm-signal-00";
             } else if (value <= 25) {
-                return "image://gicon/nm-signal-25";
+                return "image://theme/nm-signal-25";
             } else if (value <= 50) {
-                return "image://gicon/nm-signal-50";
+                return "image://theme/nm-signal-50";
             } else if (value <= 75) {
-                return "image://gicon/nm-signal-75";
+                return "image://theme/nm-signal-75";
             }
-            return "image://gicon/nm-signal-100";
+            return "image://theme/nm-signal-100";
         }
-        return "image://gicon/wifi-none";
+        return "image://theme/wifi-none";
     }
 }

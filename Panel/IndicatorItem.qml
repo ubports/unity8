@@ -26,13 +26,12 @@ Item {
     property bool highlighted: false
     property bool dimmed: false
     property var indicatorProperties: undefined
+    property bool indicatorVisible: loader.item ? loader.item.enabled : false
 
     opacity: dimmed ? 0.4 : 1
     Behavior on opacity { StandardAnimation {} }
 
-    // only visible when non-empty
-    visible: loader.item != undefined && loader.status == Loader.Ready ? loader.item.enabled : false
-    width: visible ? loader.item.width : 0
+    width: loader.item ? loader.item.width : 0
 
     Loader {
         id: loader

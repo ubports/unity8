@@ -20,10 +20,9 @@
 #include "launcheritem.h"
 #include "quicklistmodel.h"
 
-LauncherItem::LauncherItem(const QString &appId, const QString &desktopFile, const QString &name, const QString &icon, QObject *parent) :
+LauncherItem::LauncherItem(const QString &appId, const QString &name, const QString &icon, QObject *parent) :
     LauncherItemInterface(parent),
     m_appId(appId),
-    m_desktopFile(desktopFile),
     m_name(name),
     m_icon(icon),
     m_pinned(false),
@@ -31,6 +30,7 @@ LauncherItem::LauncherItem(const QString &appId, const QString &desktopFile, con
     m_recent(false),
     m_progress(-1),
     m_count(0),
+    m_focused(false),
     m_quickList(new QuickListModel(this))
 {
     QuickListEntry nameAction;
@@ -45,11 +45,6 @@ LauncherItem::LauncherItem(const QString &appId, const QString &desktopFile, con
 QString LauncherItem::appId() const
 {
     return m_appId;
-}
-
-QString LauncherItem::desktopFile() const
-{
-    return m_desktopFile;
 }
 
 QString LauncherItem::name() const
@@ -128,6 +123,19 @@ void LauncherItem::setCount(int count)
     if (m_count != count) {
         m_count = count;
         Q_EMIT countChanged(count);
+    }
+}
+
+bool LauncherItem::focused() const
+{
+    return m_focused;
+}
+
+void LauncherItem::setFocused(bool focused)
+{
+    if (m_focused != focused) {
+        m_focused = focused;
+        Q_EMIT focusedChanged(focused);
     }
 }
 

@@ -25,6 +25,7 @@ MockLauncherModel::MockLauncherModel(QObject* parent): LauncherModelInterface(pa
     MockLauncherItem *item = new MockLauncherItem("phone-app", "/usr/share/applications/phone-app.desktop", "Phone", "phone-app", this);
     item->setProgress(0);
     m_list.append(item);
+    item->setFocused(true);
     item = new MockLauncherItem("camera-app", "/usr/share/applications/camera-app.desktop", "Camera", "camera", this);
     item->setProgress(10);
     m_list.append(item);
@@ -49,6 +50,7 @@ MockLauncherModel::MockLauncherModel(QObject* parent): LauncherModelInterface(pa
     item = new MockLauncherItem("notes-app", "/usr/share/applications/notes-app.desktop", "Notepad", "notepad", this);
     item->setProgress(50);
     item->setCount(5);
+    item->setFocused(true);
     m_list.append(item);
     item = new MockLauncherItem("calendar-app", "/usr/share/applications/calendar-app.desktop","Calendar", "calendar", this);
     m_list.append(item);
@@ -69,8 +71,6 @@ QVariant MockLauncherModel::data(const QModelIndex& index, int role) const
     LauncherItemInterface *item = m_list.at(index.row());
     switch(role)
     {
-    case RoleDesktopFile:
-        return item->desktopFile();
     case RoleName:
         return item->name();
     case RoleIcon:
@@ -85,6 +85,8 @@ QVariant MockLauncherModel::data(const QModelIndex& index, int role) const
         return item->progress();
     case RoleCount:
         return item->count();
+    case RoleFocused:
+        return item->focused();
     }
 
     return QVariant();
@@ -179,4 +181,14 @@ void MockLauncherModel::setUser(const QString &username)
 {
     Q_UNUSED(username)
     // TODO: implement this...
+}
+
+void MockLauncherModel::setApplicationManager(unity::shell::application::ApplicationManagerInterface *applicationManager)
+{
+    Q_UNUSED(applicationManager)
+}
+
+unity::shell::application::ApplicationManagerInterface *MockLauncherModel::applicationManager() const
+{
+    return nullptr;
 }

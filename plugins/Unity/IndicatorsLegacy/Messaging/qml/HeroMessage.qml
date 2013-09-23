@@ -48,8 +48,8 @@ Indicators.BasicMenuItem {
         anchors.left: parent.left
         anchors.right: parent.right
 
-        avatar: menu && (menu.extra.canonical_icon.length > 0) ? "image://gicon/" + encodeURI(menu.extra.canonical_icon) : "qrc:/indicators/artwork/messaging/default_contact.png"
-        icon: menu && (menu.extra.canonical_app_icon.length > 0) ? "image://gicon/" + encodeURI(menu.extra.canonical_app_icon) : ""
+        avatar: menu && (menu.extra.canonical_icon.length > 0) ? "image://theme/" + encodeURI(menu.extra.canonical_icon) : "qrc:/indicators/artwork/messaging/default_contact.png"
+        icon: menu && (menu.extra.canonical_app_icon.length > 0) ? "image://theme/" + encodeURI(menu.extra.canonical_app_icon) : ""
         appIcon: icon
 
         state: heroMessage.state

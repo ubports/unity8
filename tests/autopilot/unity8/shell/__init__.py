@@ -36,3 +36,13 @@ def with_lightdm_mock(mock_type):
             return fn(*args, **kwargs)
         return wrapper
     return with_lightdm_mock_internal
+
+
+def disable_qml_mocking(fn):
+    """Simple decorator that disables the QML mocks from being loaded."""
+    @wraps(fn)
+    def wrapper(*args, **kwargs):
+        tests_self = args[0]
+        tests_self._qml_mock_enabled = False
+        return fn(*args, **kwargs)
+    return wrapper

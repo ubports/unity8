@@ -22,21 +22,18 @@
 
 class QQuickItem;
 
+// unity-api
+#include <unity/shell/application/ApplicationInfoInterface.h>
+
 // A pretty dumb file. Just a container for properties.
 // Implemented in C++ instead of QML just because of the enumerations
 // See QTBUG-14861
-class ApplicationInfo : public QObject {
+
+using namespace unity::shell::application;
+
+class ApplicationInfo : public ApplicationInfoInterface {
     Q_OBJECT
-    Q_ENUMS(Stage)
-    Q_ENUMS(State)
-    Q_PROPERTY(QString desktopFile READ desktopFile WRITE setDesktopFile NOTIFY desktopFileChanged)
-    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
-    Q_PROPERTY(QString comment READ comment WRITE setComment NOTIFY commentChanged)
-    Q_PROPERTY(QString icon READ icon WRITE setIcon NOTIFY iconChanged)
-    Q_PROPERTY(QString exec READ exec WRITE setExec NOTIFY execChanged)
-    Q_PROPERTY(qint64 handle READ handle WRITE setHandle NOTIFY handleChanged)
-    Q_PROPERTY(Stage stage READ stage WRITE setStage NOTIFY stageChanged)
-    Q_PROPERTY(State state READ state WRITE setState NOTIFY stateChanged)
+
     Q_PROPERTY(bool fullscreen READ fullscreen WRITE setFullscreen NOTIFY fullscreenChanged)
 
     // Only exists in this fake implementation
@@ -48,10 +45,8 @@ class ApplicationInfo : public QObject {
     Q_PROPERTY(QString windowQml READ windowQml WRITE setWindowQml NOTIFY windowQmlChanged)
 
  public:
-    enum Stage { MainStage, SideStage };
-    enum State { Starting, Running };
-
     ApplicationInfo(QObject *parent = NULL);
+    ApplicationInfo(const QString &appId, QObject *parent = NULL);
 
     #define IMPLEMENT_PROPERTY(name, Name, type) \
     public: \
@@ -68,14 +63,13 @@ class ApplicationInfo : public QObject {
     private: \
     type m_##name;
 
-    IMPLEMENT_PROPERTY(desktopFile, DesktopFile, QString)
+    IMPLEMENT_PROPERTY(appId, AppId, QString)
     IMPLEMENT_PROPERTY(name, Name, QString)
     IMPLEMENT_PROPERTY(comment, Comment, QString)
-    IMPLEMENT_PROPERTY(icon, Icon, QString)
-    IMPLEMENT_PROPERTY(exec, Exec, QString)
-    IMPLEMENT_PROPERTY(handle, Handle, qint64)
+    IMPLEMENT_PROPERTY(icon, Icon, QUrl)
     IMPLEMENT_PROPERTY(stage, Stage, Stage)
     IMPLEMENT_PROPERTY(state, State, State)
+    IMPLEMENT_PROPERTY(focused, Focused, bool)
     IMPLEMENT_PROPERTY(fullscreen, Fullscreen, bool)
     IMPLEMENT_PROPERTY(imageQml, ImageQml, QString)
     IMPLEMENT_PROPERTY(windowQml, WindowQml, QString)

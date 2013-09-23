@@ -24,10 +24,11 @@ import Unity.Indicators 0.1 as Indicators
 Indicators.IndicatorWidget {
     id: indicatorWidget
 
-    width: itemRow.width + units.gu(1)
+    width: itemRow.width + units.gu(0.5)
 
-    property alias label: itemLabel.text
-    property alias iconSource: itemImage.source
+    property alias leftLabel: itemLeftLabel.text
+    property alias rightLabel: itemRightLabel.text
+    property var icons: undefined
 
     Row {
         id: itemRow
@@ -39,19 +40,43 @@ Indicators.IndicatorWidget {
         }
         spacing: units.gu(0.5)
 
-        // FIXME : Should us Ubuntu.Icon . results in low res images
-        Image {
-            id: itemImage
-            objectName: "itemImage"
-            visible: source != ""
-            height: indicatorWidget.iconSize
-            width: indicatorWidget.iconSize
+        Label {
+            id: itemLeftLabel
+            objectName: "leftLabel"
+            color: Theme.palette.selected.backgroundText
+            opacity: 0.8
+            font.family: "Ubuntu"
+            fontSize: "medium"
             anchors.verticalCenter: parent.verticalCenter
+            visible: text != ""
+        }
+
+        Row {
+            width: childrenRect.width
+            anchors {
+                top: parent.top
+                bottom: parent.bottom
+            }
+            spacing: units.gu(0.5)
+
+            Repeater {
+                model: indicatorWidget.icons
+
+                Image {
+                    id: itemImage
+                    objectName: "itemImage"
+                    visible: source != ""
+                    source: modelData
+                    height: indicatorWidget.iconSize
+                    width: indicatorWidget.iconSize
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+            }
         }
 
         Label {
-            id: itemLabel
-            objectName: "itemLabel"
+            id: itemRightLabel
+            objectName: "rightLabel"
             color: Theme.palette.selected.backgroundText
             opacity: 0.8
             font.family: "Ubuntu"
@@ -63,14 +88,16 @@ Indicators.IndicatorWidget {
 
     onActionStateChanged: {
         if (actionState == undefined) {
-            label = "";
-            iconSource = "";
+            leftLabel = "";
+            rightLabel = "";
+            icons = undefined;
             enabled = false;
             return;
         }
 
-        label = actionState.label;
-        iconSource = actionState.icon;
+        leftLabel = actionState.leftLabel ? actionState.leftLabel : "";
+        rightLabel = actionState.rightLabel ? actionState.rightLabel : "";
+        icons = actionState.icons;
         enabled = actionState.visible;
     }
 }

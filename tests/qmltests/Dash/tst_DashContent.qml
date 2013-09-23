@@ -106,7 +106,7 @@ Item {
             contentEndReachedSpy.clear()
             clear_scope_status();
 
-            // clear, wait for dahs to empty and load scopes.
+            // clear, wait for dash to empty and load scopes.
             var dashContentList = findChild(dashContent, "dashContentList");
             verify(dashContentList != undefined)
             scopesModel.clear();
