@@ -155,9 +155,8 @@ Showable {
                 MouseArea {
                     // Make clickable area bigger than just the link because
                     // otherwise, the edge demo will feel hard to dismiss.
-                    anchors.centerIn: parent
-                    width: parent.width + units.gu(10)
-                    height: parent.height + units.gu(10)
+                    anchors.fill: parent
+                    anchors.margins: -units.gu(5)
                     onClicked: overlay.doSkip()
                 }
             }
