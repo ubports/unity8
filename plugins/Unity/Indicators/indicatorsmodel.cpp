@@ -285,7 +285,7 @@ QVariant IndicatorsModel::indicatorData(const Indicator::Ptr& indicator, int rol
     {
         QVariantMap data = m_parsed_indicator_data[indicator->identifier()];
         if (data.contains(roleNames()[role])) {
-            data[roleNames()[role]];
+            return data[roleNames()[role]];
         };
     }
     return defaultData(indicator, role);
