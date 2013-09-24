@@ -92,13 +92,6 @@ void Categories::onCategoriesModelChanged(unity::glib::Object<DeeModel> model)
     setModel(model);
 }
 
-
-void Categories::onScopeResultsModelChanged(unity::glib::Object<DeeModel> /* model */)
-{
-    // if scope results model changes, we need to reset all category models
-    onCategoriesModelChanged(m_unityScope->categories()->model());
-}
-
 void
 Categories::setUnityScope(const unity::dash::Scope::Ptr& scope)
 {

@@ -70,7 +70,6 @@ private Q_SLOTS:
 
 private:
     void onCategoriesModelChanged(unity::glib::Object<DeeModel> model);
-    void onScopeResultsModelChanged(unity::glib::Object<DeeModel> model);
 
     DeeListModel* getResults(int index) const;
 
