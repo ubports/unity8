@@ -30,6 +30,7 @@ static DeeModel* create_results_model(unsigned category_count, unsigned result_c
 Scope::Scope(QObject* parent)
     : QObject(parent)
     , m_visible(false)
+    , m_isActive(false)
     , m_categories(new Categories(this))
     , m_results(new DeeListModel(this))
 {
@@ -44,6 +45,7 @@ Scope::Scope(QString const& id, QString const& name, bool visible, QObject* pare
     , m_id(id)
     , m_name(name)
     , m_visible(visible)
+    , m_isActive(false)
     , m_categories(new Categories(this))
     , m_results(new DeeListModel(this))
 {
@@ -101,6 +103,10 @@ bool Scope::visible() const {
     return m_visible;
 }
 
+bool Scope::isActive() const {
+    return m_isActive;
+}
+
 void Scope::setName(const QString &str) {
     if (str != m_name) {
         m_name = str;
@@ -119,6 +125,13 @@ void Scope::setFormFactor(const QString &str) {
     if (str != m_formFactor) {
         m_formFactor = str;
         Q_EMIT formFactorChanged();
+    }
+}
+
+void Scope::setActive(const bool active) {
+    if (active != m_isActive) {
+        m_isActive = active;
+        Q_EMIT isActiveChanged();
     }
 }
 
