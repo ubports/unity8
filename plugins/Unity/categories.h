@@ -81,7 +81,6 @@ private:
     QMap<QString, QAbstractItemModel*> m_overriddenCategories;
     mutable QMap<int, DeeListModel*> m_results;
     sigc::connection m_categoriesChangedConnection;
-    sigc::connection m_resultsChangedConnection;
 };
 
 #endif // CATEGORIES_H

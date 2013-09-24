@@ -67,10 +67,11 @@ Categories::getResults(int index) const
             results->setModel(unity_results->model());
         } else {
             // No results model returned by unity core; this can be the case when the global
-            // results model of this scope became invalid in unity core. Don't set backend
+            // results model of this scope is still not set in unity core. Don't set backend
             // model in DeeListModel - it will still beahve properly as an empty model. Since
-            // we're connected to the results model change signal, we'll reset category models
-            // when results model is set again.
+            // we're connected to the category model change signal, and it is set by unity core
+            // at the same time as results model (on channel opening), we'll reset category
+            // results models with proper models when we're notifed again.
             qWarning() << "No results model for category" << categoryIndex;
         }
 
@@ -109,9 +110,6 @@ Categories::setUnityScope(const unity::dash::Scope::Ptr& scope)
     m_categoriesChangedConnection.disconnect();
     m_categoriesChangedConnection =
         m_unityScope->categories()->model.changed.connect(sigc::mem_fun(this, &Categories::onCategoriesModelChanged));
-
-    m_resultsChangedConnection.disconnect();
-    m_resultsChangedConnection = m_unityScope->results()->model.changed.connect(sigc::mem_fun(this, &Categories::onScopeResultsModelChanged));
 }
 
 void
