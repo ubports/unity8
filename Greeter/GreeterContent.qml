@@ -47,7 +47,8 @@ MouseArea {
         id: wallpaper
         objectName: "wallpaper"
         anchors.fill: parent
-        fadeInFirst: false
+        onSourceChanged: print("source changed", source)
+        fillMode: Image.PreserveAspectCrop
     }
 
     // See Shell.qml's backgroundSettings treatment for why we need a separate
