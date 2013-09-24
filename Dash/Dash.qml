@@ -24,6 +24,8 @@ Showable {
     id: dash
     objectName: "dash"
 
+    visible: shown
+
     property alias contentProgress: dashContent.contentProgress
     property string showScopeOnLoaded: "home.scope"
     property real contentScale: 1.0
