@@ -404,7 +404,7 @@ Item {
             }
 
             if (data.indicators) {
-
+                showIndicators();
             }
 
             var dash = findChild(shell, "dash");
