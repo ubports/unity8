@@ -124,9 +124,9 @@ QString Preview::imageSourceUri() const
     return QString::null;
 }
 
-Result* Preview::result() const
+QVariant Preview::result() const
 {
-    return m_result;
+    return QVariant::fromValue(m_result);
 }
 
 Preview* Preview::newFromUnityPreview(unity::dash::Preview::Ptr unityPreview)
