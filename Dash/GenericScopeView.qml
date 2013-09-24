@@ -21,10 +21,11 @@ import "../Components/ListItems" as ListItems
 
 ScopeView {
     id: scopeView
-    property alias previewShown: previewLoader.onScreen
+    readonly property alias previewShown: previewLoader.onScreen
 
     onIsCurrentChanged: {
         pageHeader.resetSearch();
+        previewLoader.open = false;
     }
 
     onMovementStarted: categoryView.showHeader()
@@ -33,6 +34,12 @@ ScopeView {
         target: scopeView.scope
         property: "searchQuery"
         value: pageHeader.searchQuery
+    }
+
+    Binding {
+        target: pageHeader
+        property: "searchQuery"
+        value: scopeView.scope.searchQuery
     }
 
     Connections {
@@ -179,6 +186,7 @@ ScopeView {
             case "grid": {
                 switch (contentType) {
                     case "video": return "Generic/GenericFilterGridPotrait.qml";
+                    case "music": return "Music/MusicFilterGrid.qml";
                     default: return "Generic/GenericFilterGrid.qml";
                 }
             }
@@ -246,6 +254,7 @@ ScopeView {
     }
 
     Loader {
+        objectName: "previewLoader"
         id: previewLoader
         property var previewData
         height: effect.bottomGapPx - effect.topGapPx

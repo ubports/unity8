@@ -16,41 +16,26 @@
  * Author: Michael Terry <michael.terry@canonical.com>
  */
 
-#include "AccountsService.h"
+#include "SessionBroadcast.h"
+#include <QDBusConnection>
 
-AccountsService::AccountsService(QObject* parent)
-  : QObject(parent),
-    m_backgroundFile(TOP_SRCDIR "/graphics/phone_background.jpg")
+SessionBroadcast::SessionBroadcast(QObject* parent)
+  : QObject(parent)
 {
+    auto connection = QDBusConnection::SM_BUSNAME();
+
+    connection.connect("com.canonical.Unity.Greeter.Broadcast",
+                       "/com/canonical/Unity/Greeter/Broadcast",
+                       "com.canonical.Unity.Greeter.Broadcast",
+                       "ShowHome",
+                       this,
+                       SLOT(onShowHome(const QString &)));
 }
 
-QString AccountsService::user() const
+void SessionBroadcast::onShowHome(const QString &username)
 {
-    return "testuser";
-}
-
-void AccountsService::setUser(const QString &user)
-{
-    Q_UNUSED(user)
-}
-
-bool AccountsService::demoEdges() const
-{
-    return false;
-}
-
-void AccountsService::setDemoEdges(bool demoEdges)
-{
-    Q_UNUSED(demoEdges)
-}
-
-QString AccountsService::backgroundFile() const
-{
-    return m_backgroundFile;
-}
-
-void AccountsService::setBackgroundFile(const QString &backgroundFile)
-{
-    m_backgroundFile = backgroundFile;
-    backgroundFileChanged();
+    // Only listen to requests meant for us
+    if (username == qgetenv("USER")) {
+        Q_EMIT showHome();
+    }
 }

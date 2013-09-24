@@ -12,32 +12,30 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authors: Michael Terry <michael.terry@canonical.com>
  */
 
-import QtQuick 2.0
-import QMenuModel 0.1
+#ifndef UNITY_SESSIONBROADCAST_H
+#define UNITY_SESSIONBROADCAST_H
 
-Item {
-    id: root
-    objectName: "volumeControl"
-    visible: false
+#include <QObject>
+#include <QString>
 
-    QDBusActionGroup {
-        id: actionGroup
-        busType: 1
-        busName: "com.canonical.indicator.sound"
-        objectPath: "/com/canonical/indicator/sound"
+class QDBusInterface;
 
-        property variant actionObject: action("scroll")
-    }
+class SessionBroadcast: public QObject
+{
+    Q_OBJECT
 
-    function volumeUp() {
-        actionGroup.actionObject.activate(1);
-    }
+public:
+    explicit SessionBroadcast(QObject *parent = 0);
 
-    function volumeDown() {
-        actionGroup.actionObject.activate(-1);
-    }
+Q_SIGNALS:
+    void showHome();
 
-    Component.onCompleted: actionGroup.start()
-}
+private Q_SLOTS:
+    void onShowHome(const QString &username);
+};
+
+#endif
