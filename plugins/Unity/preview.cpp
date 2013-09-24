@@ -41,7 +41,8 @@
 
 Preview::Preview(QObject *parent):
     QObject(parent),
-    m_unityPreview(nullptr)
+    m_unityPreview(nullptr),
+    m_result(new Result(this))
 {
 }
 
@@ -123,6 +124,11 @@ QString Preview::imageSourceUri() const
     return QString::null;
 }
 
+Result* Preview::result() const
+{
+    return m_result;
+}
+
 Preview* Preview::newFromUnityPreview(unity::dash::Preview::Ptr unityPreview)
 {
     Preview* preview = nullptr;
@@ -151,6 +157,7 @@ Preview* Preview::newFromUnityPreview(unity::dash::Preview::Ptr unityPreview)
 void Preview::setUnityPreviewBase(unity::dash::Preview::Ptr unityPreview)
 {
     m_unityPreview = unityPreview;
+    m_result->setPreview(unityPreview);
 
     qDeleteAll(m_infoHints);
     m_infoHints.clear();

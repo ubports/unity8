@@ -31,6 +31,7 @@
 #include <UnityCore/Preview.h>
 
 // local
+#include "result.h"
 #include "previewaction.h"
 
 class Q_DECL_EXPORT Preview : public QObject
@@ -46,6 +47,7 @@ class Q_DECL_EXPORT Preview : public QObject
     Q_PROPERTY(QVariantMap infoMap READ infoHintsHash NOTIFY previewChanged)
     Q_PROPERTY(QString image READ image NOTIFY previewChanged)
     Q_PROPERTY(QString imageSourceUri READ imageSourceUri NOTIFY previewChanged)
+    Q_PROPERTY(Result result READ result NOTIFY previewChanged)
 
 public:
     explicit Preview(QObject *parent = 0);
@@ -60,6 +62,7 @@ public:
     QVariantMap infoHintsHash() const;
     QString image() const;
     QString imageSourceUri() const;
+    Result* result() const;
 
     Q_INVOKABLE void execute(const QString& actionId, const QHash<QString, QVariant>& hints);
 
@@ -70,6 +73,7 @@ protected:
     virtual void setUnityPreview(unity::dash::Preview::Ptr unityPreview);
 
     unity::dash::Preview::Ptr m_unityPreview;
+    Result* m_result;
 
 private:
     void setUnityPreviewBase(unity::dash::Preview::Ptr unityPreview);
