@@ -47,7 +47,6 @@ MouseArea {
         id: wallpaper
         objectName: "wallpaper"
         anchors.fill: parent
-        onSourceChanged: print("source changed", source)
         fillMode: Image.PreserveAspectCrop
     }
 
