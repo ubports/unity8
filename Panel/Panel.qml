@@ -73,6 +73,7 @@ Item {
 
     Indicators {
         id: indicatorsMenu
+        objectName: "indicators"
 
         anchors.right: parent.right
         y: panelBackground.y

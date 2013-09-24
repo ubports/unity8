@@ -70,6 +70,8 @@ Item {
 
             var dashHome = findChild(shell, "DashHome");
             swipeUntilScopeViewIsReached(dashHome);
+
+            hideIndicators();
         }
 
         function killApps(apps) {
@@ -268,6 +270,19 @@ Item {
             mouseClick(appIcon, appIcon.width / 2, appIcon.height / 2);
         }
 
+        function showIndicators() {
+            var indicators = findChild(shell, "indicators");
+            indicators.show();
+            tryCompare(indicators, "fullyOpened", true);
+        }
+
+        function hideIndicators() {
+            var indicators = findChild(shell, "indicators");
+            if (indicators.fullyOpened) {
+                indicators.hide();
+            }
+        }
+
         function waitUntilApplicationWindowIsFullyVisible() {
             var underlay = findChild(shell, "underlay");
             tryCompare(underlay, "visible", false);
@@ -359,6 +374,41 @@ Item {
             GSettingsController.setPictureUri(data.url)
             tryCompareFunction(function() { return backgroundImage.source.toString().indexOf(data.expectedUrl) !== -1; }, true)
             tryCompare(backgroundImage, "status", Image.Ready)
+        }
+
+        function test_DashShown_data() {
+            return [
+                {tag: "in focus", greeter: false, app: false, launcher: false, indicators: false, expectedShown: true},
+                {tag: "under greeter", greeter: true, app: false, launcher: false, indicators: false, expectedShown: false},
+                {tag: "under app", greeter: false, app: true, launcher: false, indicators: false, expectedShown: false},
+                {tag: "under launcher", greeter: false, app: false, launcher: true, indicators: false, expectedShown: true},
+                {tag: "under indicators", greeter: false, app: false, launcher: false, indicators: true, expectedShown: true},
+            ]
+        }
+
+        function test_DashShown(data) {
+            if (data.greeter) {
+                // Swipe the greeter in
+                var greeter = findChild(shell, "greeter");
+                Powerd.displayPowerStateChange(Powerd.Off, 0);
+                tryCompare(greeter, "showProgress", 1);
+            }
+
+            if (data.app) {
+                dragLauncherIntoView();
+                tapOnAppIconInLauncher();
+            }
+
+            if (data.launcher) {
+                dragLauncherIntoView();
+            }
+
+            if (data.indicators) {
+                showIndicators();
+            }
+
+            var dash = findChild(shell, "dash");
+            tryCompare(dash, "shown", data.expectedShown);
         }
     }
 }

@@ -110,6 +110,11 @@ QString Scope::formFactor() const
     return m_formFactor;
 }
 
+bool Scope::isActive() const
+{
+    return m_isActive;
+}
+
 Filters* Scope::filters() const
 {
     return m_filters.get();
@@ -149,6 +154,13 @@ void Scope::setFormFactor(const QString& form_factor) {
             synchronizeStates(); // will trigger a re-search
         }
         Q_EMIT formFactorChanged();
+    }
+}
+
+void Scope::setActive(const bool active) {
+    if (active != m_isActive) {
+        m_isActive = active;
+        Q_EMIT isActiveChanged(m_isActive);
     }
 }
 
