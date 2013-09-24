@@ -120,6 +120,7 @@ Item {
 
     EdgeDragArea {
         id: dragArea
+        objectName: "hudDragArea"
         width: parent.width
         height: distanceThreshold
         anchors.bottom: parent.bottom
@@ -165,6 +166,7 @@ Item {
     }
 
     Item {
+        id: dismissArea
         anchors {
             top: parent.top
             left: parent.left
@@ -184,6 +186,19 @@ Item {
         InputFilterArea {
             anchors.fill: parent
             blockInput: (hudButton.opacity == 1)
+        }
+    }
+
+    MouseArea {
+        anchors {
+            top: dismissArea.bottom
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+        }
+        enabled: bottombar.state == "shown" && bottomBarVisibilityCommunicatorShell.position > 0
+        onPressed: {
+            bottombar.state = "hidden"
         }
     }
 

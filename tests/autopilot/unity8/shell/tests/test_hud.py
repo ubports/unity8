@@ -42,6 +42,7 @@ class TestHud(UnityTestCase):
         self.main_window.get_greeter().swipe()
         window = self.main_window.get_qml_view()
         hud_show_button = self.main_window.get_hud_show_button()
+        edge_drag_area = self.main_window.get_hud_edge_drag_area()
         hud = self.main_window.get_hud()
 
         self._launch_test_app_from_app_screen()
@@ -50,10 +51,15 @@ class TestHud(UnityTestCase):
             window,
             hud_show_button
         )
+        initialBottomMargin = int(hud_show_button.bottomMargin)
         self.touch.press(swipe_coords.start_x, swipe_coords.start_y)
         self.addCleanup(self._maybe_release_finger)
-        self.touch._finger_move(swipe_coords.end_x, swipe_coords.end_y + hud_show_button.height);
+        self.touch._finger_move(swipe_coords.end_x, swipe_coords.start_y - int(edge_drag_area.distanceThreshold) - 5);
+        self.assertThat(hud_show_button.opacity, Eventually(Equals(0.5)))
+        self.assertThat(hud_show_button.bottomMargin, Eventually(Equals(initialBottomMargin)))
+        self.touch._finger_move(swipe_coords.end_x, swipe_coords.end_y - hud_show_button.height);
         self.assertThat(hud_show_button.opacity, Eventually(Equals(1.0)))
+#        self.assertThat(hud_show_button.bottomMargin, Eventually(Equals(0.0)))
         self.touch.release();
         self.assertThat(hud_show_button.opacity, Eventually(Equals(0.0)))
         self.assertThat(hud.shown, Equals(False))
