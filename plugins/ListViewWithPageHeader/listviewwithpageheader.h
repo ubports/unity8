@@ -63,6 +63,7 @@ class ListViewWithPageHeader : public QQuickFlickable, public QQuickItemChangeLi
 
     friend class ListViewWithPageHeaderTest;
     friend class ListViewWithPageHeaderTestSection;
+    friend class ListViewWithPageHeaderTestExternalModel;
 
 public:
     ListViewWithPageHeader();
