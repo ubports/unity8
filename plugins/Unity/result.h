@@ -27,7 +27,7 @@
 // libunity-core
 #include <UnityCore/Preview.h>
 
-class Result : public QObject
+class Q_DECL_EXPORT Result : public QObject
 {
     Q_OBJECT
 
