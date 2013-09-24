@@ -110,6 +110,10 @@ DashPreview {
                 onFinished: {
                     root.previewData.execute(progressBar.model[0].id, { })
                 }
+
+                onError: {
+                    root.previewData.execute(progressBar.model[1].id, { "error": error });
+                }
             }
 
         }
