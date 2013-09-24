@@ -198,6 +198,7 @@ FocusScope {
 
             anchors.fill: parent
             source: shell.background
+            fillMode: Image.PreserveAspectCrop
         }
 
         Rectangle {
