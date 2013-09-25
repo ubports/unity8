@@ -33,7 +33,6 @@ DashPreview {
         source: item ? item.nfoUri : ""
     }
 
-    title: nfo.ready ? nfo.video.title : ""
     previewWidthRatio: 0.6
 
     onPreviewImageClicked: {
@@ -72,6 +71,24 @@ DashPreview {
             anchors.fill: parent
             onClicked: root.previewImageClicked()
         }
+    }
+
+    title: Label {
+        id: title
+        objectName: "titleLabel"
+        anchors {
+            left: parent.left
+            right: parent.right
+        }
+
+        elide: Text.ElideRight
+        fontSize: "x-large"
+        font.weight: Font.Light
+        color: Theme.palette.selected.backgroundText
+        opacity: 0.9
+        text: nfo.ready ? nfo.video.title : ""
+        style: Text.Raised
+        styleColor: "black"
     }
 
     buttons: Row {

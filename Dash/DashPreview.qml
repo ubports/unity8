@@ -23,10 +23,10 @@ Rectangle {
     property int keyboardSize: Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.height : 0
     property var previewData
 
-    property string title: ""
     property real previewWidthRatio: 0.5
 
     property Component header
+    property Component title
     property Component buttons
     property Component body
 
@@ -62,64 +62,39 @@ Rectangle {
     }
 
     Item {
-        id: headerRow
-        height: units.gu(4)
+        id: headerIcon
         anchors {
-            top: parent.top
             left: parent.left
             right: parent.right
-            margins: root.contentSpacing
+            top: parent.top
+            leftMargin: root.contentSpacing
+            topMargin: root.contentSpacing
+            rightMargin: root.contentSpacing
         }
-
-        MouseArea {
-            anchors {
-                fill: parent
-                leftMargin: -root.contentSpacing
-                rightMargin: -root.contentSpacing
-                topMargin: -root.contentSpacing
-            }
-
-            onClicked: root.close();
+	height: childrenRect.height
+        Loader {
+            id: headerLoader
+            anchors.left: parent.left
+            anchors.right: parent.right
+            sourceComponent: root.header
         }
+    }
 
-        Item {
-            id: labelItem
-            anchors {
-                fill: parent
-                rightMargin: closePreviewImage.width + spacing
-            }
-
-            property int spacing: units.gu(2)
-
-            Label {
-                id: title
-                objectName: "titleLabel"
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                }
-
-                elide: Text.ElideRight
-                fontSize: "x-large"
-                font.weight: Font.Light
-                color: Theme.palette.selected.backgroundText
-                opacity: 0.9
-                text: root.title
-                style: Text.Raised
-                styleColor: "black"
-            }
-            Image {
-                id: closePreviewImage
-                source: "graphics/tablet/icon_close_preview.png"
-                width: units.gu(4)
-                height: units.gu(1.5)
-                anchors {
-                    bottom: title.bottom
-                    bottomMargin: units.dp(7)
-                    left: parent.left
-                    leftMargin: title.paintedWidth + labelItem.spacing
-                }
-            }
+    Item {
+        id: headerRow
+	height: childrenRect.height
+        anchors {
+            top: headerIcon.bottom
+            left: parent.left
+            right: parent.right
+            leftMargin: root.contentSpacing
+            rightMargin: root.contentSpacing
+        }
+        Loader {
+            id: titleLoader
+            anchors.left: parent.left
+            anchors.right: parent.right
+            sourceComponent: root.title
         }
     }
 
@@ -157,12 +132,6 @@ Rectangle {
                 height: childrenRect.height
                 spacing: units.gu(1)
 
-                Loader {
-                    id: headerLoader
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    sourceComponent: root.header
-                }
                 Loader {
                     id: buttonLoader
                     anchors.left: parent.left

@@ -26,8 +26,6 @@ DashPreview {
 
     signal sendUserReview(string review)
 
-    title: root.previewData.title
-
     header: ListView {
         spacing: units.gu(1)
         orientation: ListView.Horizontal
@@ -55,6 +53,24 @@ DashPreview {
                 fillMode: Image.PreserveAspectCrop
             }
         }
+    }
+
+    title: Label {
+        id: title
+        objectName: "titleLabel"
+        anchors {
+            left: parent.left
+            right: parent.right
+        }
+
+        elide: Text.ElideRight
+        fontSize: "x-large"
+        font.weight: Font.Light
+        color: Theme.palette.selected.backgroundText
+        opacity: 0.9
+        text: root.previewData.title
+        style: Text.Raised
+        styleColor: "black"
     }
 
     Component {

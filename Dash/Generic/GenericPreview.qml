@@ -23,7 +23,6 @@ import ".."
 DashPreview {
     id: genericPreview
 
-    title: previewData.title
     previewWidthRatio: 0.6
 
     property url url: previewData.image
@@ -40,6 +39,28 @@ DashPreview {
             source: genericPreview.url
             fillMode: Image.PreserveAspectCrop
         }
+    }
+
+    title: Label {
+        id: title
+        objectName: "titleLabel"
+        anchors {
+            top: parent.top
+            topMargin: units.gu(2)
+            left: parent.left
+            right: parent.right
+        }
+
+        elide: Text.ElideRight
+        fontSize: "x-large"
+        font.weight: Font.Light
+        color: Theme.palette.selected.backgroundText
+        opacity: 0.9
+        text: previewData.title
+        style: Text.Raised
+        styleColor: "black"
+        maximumLineCount: 2
+        wrapMode: Text.WordWrap
     }
 
     buttons: GridView {
@@ -69,6 +90,7 @@ DashPreview {
         }
         focus: false
     }
+
     body: Column {
         spacing: units.gu(2)
 
