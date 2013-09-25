@@ -204,8 +204,8 @@ Item {
                 model.loadExtendedAttributes(modelIndex, {'x-canonical-time': 'int64',
                                                           'x-canonical-text': 'string',
                                                           'x-canonical-message-actions': 'variant',
-                                                          'x-canonical-icon': 'string',
-                                                          'x-canonical-app-icon': 'string'});
+                                                          'icon': 'icon',
+                                                          'x-canonical-app-icon': 'icon'});
             }
         }
     }
@@ -217,11 +217,10 @@ Item {
 
             title: menu && menu.label ? menu.label : ""
             count: menu && menu.actionState[0] ? menu.actionState[0] : "0"
-            appIcon: menu && (menu.ext.xCanonicalIcon.length > 0) ? "image://theme/" + encodeURI(menu.ext.xCanonicalIcon) :
-                                                                    "qrc:/indicators/artwork/messaging/default_app.svg"
+            appIcon: menu && menu.ext.icon !== undefined ? menu.ext.icon : "qrc:/indicators/artwork/messaging/default_app.svg"
 
             Component.onCompleted: {
-                model.loadExtendedAttributes(modelIndex, {'x-canonical-icon': 'string'});
+                model.loadExtendedAttributes(modelIndex, {'icon': 'icon'});
             }
             onActivateApp: {
                 model.activate(modelIndex, true);
