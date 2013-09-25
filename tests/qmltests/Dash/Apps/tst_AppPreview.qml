@@ -45,6 +45,8 @@ Item {
             ["Unity User", 10, "10/02/2013", root.commentary],
         ]
     }
+    QtObject { id: showProgress; property bool value: true }
+    QtObject { id: progressSource; property string value: "service" }
 
     QtObject {
         id: data
@@ -66,8 +68,30 @@ Item {
         ]
     }
 
+    QtObject {
+        id: dataProgress
+        property string title: "Unity App"
+        property string appIcon: "fake_image.png"
+        property string description: "This is an Application description"
+        property real rating: rating.value
+        property int numRatings: reviews.value
+        property var execute: root.fake_call
+        property var infoMap: {
+            "show_progressbar": showProgress,
+            "more-screenshots": screenshots,
+            "rated": rated,
+            "comments": comments,
+            "progressbar_source": progressSource
+        }
+        property var actions: [
+            { "id": 123, "displayName": "action1" },
+            { "id": 456, "displayName": "action2" },
+            { "id": 789, "displayName": "action3" },
+        ]
+    }
+
     function fake_call(id, data){
-        root.calls[root.calls.length] = id;
+        root.calls[root.calls.length] = [id, data];
     }
 
     // The component under test
@@ -89,6 +113,7 @@ Item {
             reviewField.focus = false;
             reviewField.text = "";
             data.rating = rating.value;
+            dataProgress.infoMap["progressbar_source"].value = "service";
         }
 
         function test_actions() {
@@ -102,7 +127,7 @@ Item {
 
             var actions = data.actions;
             for(var i = 0; i < actions.length; i++) {
-                compare(root.calls[i], actions[i].id, "Id of action not found.");
+                compare(root.calls[i][0], actions[i].id, "Id of action not found.");
             }
         }
 
@@ -160,6 +185,32 @@ Item {
             verify(appReviews.visible == false);
             var buttons = findChild(appPreview, "gridButtons");
             verify(buttons.visible == true);
+        }
+
+        function test_progress_show() {
+            appPreview.previewData = dataProgress;
+            var progress = findChild(appPreview, "progressBar");
+            verify(progress.visible == true);
+        }
+
+        function test_progress_download_finish() {
+            appPreview.previewData = dataProgress;
+            var progress = findChild(appPreview, "progressBar");
+            dataProgress.infoMap["progressbar_source"].value = "finish";
+
+            var actions = dataProgress.actions;
+            compare(root.calls[0][0], actions[0].id, "Id of action not found.");
+            compare(root.calls[0][1], {}, "Data of action not found.");
+        }
+
+        function test_progress_download_error() {
+            appPreview.previewData = dataProgress;
+            var progress = findChild(appPreview, "progressBar");
+            dataProgress.infoMap["progressbar_source"].value = "error";
+
+            var actions = dataProgress.actions;
+            compare(root.calls[0][0], actions[1].id, "Id of action not found.");
+            compare(root.calls[0][1], {"error": "DOWNLOAD ERROR"}, "Data of action not found.");
         }
 
     }
