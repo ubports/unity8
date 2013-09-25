@@ -24,7 +24,7 @@ from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 
 from testtools.matchers import Equals
 from autopilot.matchers import Eventually
-
+from time import sleep
 
 class TestHud(UnityTestCase):
 
@@ -33,9 +33,10 @@ class TestHud(UnityTestCase):
     scenarios = _get_device_emulation_scenarios()
 
     def test_show_hud_button_appears(self):
-        """Swiping up while an app is active must show the 'show hud' button.
+        """Swiping up while an app is active must show the 'show hud' button, following some behaviours.
            The button must disappear not opening the HUD when releasing the
-           mouse again somewhere on the screen except on the button itself.
+           mouse again somewhere on the screen except on the button itself following a timeout.
+           The button must disappear when touching somewhere on the screen except the button itself.
 
         """
         self.launch_unity()
@@ -52,20 +53,32 @@ class TestHud(UnityTestCase):
             hud_show_button
         )
         initialBottomMargin = int(hud_show_button.bottomMargin)
+
         self.touch.press(swipe_coords.start_x, swipe_coords.start_y)
         self.addCleanup(self._maybe_release_finger)
-        self.touch._finger_move(swipe_coords.end_x, swipe_coords.start_y - int(edge_drag_area.distanceThreshold) - 5);
+        self._drag(swipe_coords.start_x, swipe_coords.start_y, swipe_coords.start_x, swipe_coords.start_y - int(edge_drag_area.distanceThreshold) - 5)
         self.assertThat(hud_show_button.opacity, Eventually(Equals(0.5)))
         self.assertThat(hud_show_button.bottomMargin, Eventually(Equals(initialBottomMargin)))
-        self.touch._finger_move(swipe_coords.end_x, swipe_coords.end_y - hud_show_button.height);
+        self._drag(swipe_coords.start_x, swipe_coords.start_y - int(edge_drag_area.distanceThreshold) - 5, swipe_coords.end_x, swipe_coords.start_y - int(edge_drag_area.distanceThreshold) - int(edge_drag_area.commitDistance) - 5)
         self.assertThat(hud_show_button.opacity, Eventually(Equals(1.0)))
-#        self.assertThat(hud_show_button.bottomMargin, Eventually(Equals(0.0)))
+        self.assertThat(hud_show_button.bottomMargin, Eventually(Equals(0.0)))
         self.touch.release();
-        self.assertThat(hud_show_button.opacity, Eventually(Equals(0.0)))
         self.assertThat(hud.shown, Equals(False))
+        self.assertThat(hud_show_button.opacity, Eventually(Equals(0.0)))
+
+        self.touch.press(swipe_coords.start_x, swipe_coords.start_y)
+        self._drag(swipe_coords.start_x, swipe_coords.start_y, swipe_coords.start_x, swipe_coords.end_y - int(hud_show_button.height))
+        self.assertThat(hud.shown, Equals(False))
+        self.assertThat(hud_show_button.opacity, Eventually(Equals(1.0)))
+        self.touch.release()
+        self.assertThat(hud_show_button.opacity, Eventually(Equals(1.0)))
+        self.touch.tap(swipe_coords.end_x, swipe_coords.end_y - int(hud_show_button.height))
+        self.assertThat(hud.shown, Equals(False))
+        self.assertThat(hud_show_button.opacity, Eventually(Equals(0.0), timeout=0.5))
 
     def test_show_hud_appears(self):
         """Releasing the touch on the 'show hud' button must display the hud.
+           Test that the hud button stays on screen and tapping it opens the hud.
 
         """
         self.launch_unity()
@@ -80,14 +93,28 @@ class TestHud(UnityTestCase):
             window,
             hud_show_button
         )
+
         self.touch.press(swipe_coords.start_x, swipe_coords.start_y)
         self.addCleanup(self._maybe_release_finger)
-        self.touch._finger_move(swipe_coords.end_x, swipe_coords.end_y)
-
+        self._drag(swipe_coords.start_x, swipe_coords.start_y, swipe_coords.start_x, swipe_coords.end_y)
         self.assertThat(hud.shown, Eventually(Equals(False)))
         self.assertThat(hud_show_button.opacity, Eventually(Equals(1.0)))
         self.touch.release()
         self.assertThat(hud.shown, Eventually(Equals(True)))
+        self.assertThat(hud_show_button.opacity, Eventually(Equals(0.0)))
+        x, y = hud.get_close_button_coords()
+        self.touch.tap(x, y)
+        self.assertThat(hud.shown, Eventually(Equals(False)))
+
+        self.touch.press(swipe_coords.start_x, swipe_coords.start_y)
+        self._drag(swipe_coords.start_x, swipe_coords.start_y, swipe_coords.start_x, swipe_coords.end_y - int(hud_show_button.height))
+        self.assertThat(hud.shown, Equals(False))
+        self.assertThat(hud_show_button.opacity, Eventually(Equals(1.0)))
+        self.touch.release()
+        self.assertThat(hud_show_button.opacity, Eventually(Equals(1.0)))
+        self.touch.tap(swipe_coords.end_x, swipe_coords.end_y)
+        self.assertThat(hud.shown, Eventually(Equals(True)))
+        self.assertThat(hud_show_button.opacity, Eventually(Equals(0.0)))
 
     def test_hide_hud_click(self):
         """Tapping the close button of the Hud must dismiss it."""
@@ -160,3 +187,16 @@ class TestHud(UnityTestCase):
         """Only release the finger if it is in fact down."""
         if self.touch._touch_finger is not None:
             self.touch.release()
+
+    def _drag(self, x1, y1, x2, y2):
+        cur_x = x1
+        cur_y = y1
+        dx = 1.0 * (x2 - x1) / 100
+        dy = 1.0 * (y2 - y1) / 100
+        for i in range(0, 100):
+            self.touch._finger_move(int(cur_x), int(cur_y))
+            sleep(0.002)
+            cur_x += dx
+            cur_y += dy
+        self.touch._finger_move(int(x2), int(y2))
+
