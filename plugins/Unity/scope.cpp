@@ -184,12 +184,18 @@ void Scope::preview(const QVariant &uri, const QVariant &icon_hint, const QVaria
 {
     auto res = createLocalResult(uri, icon_hint, category, result_type, mimetype, title, comment, dnd_uri, metadata);
 
+    cancelActivation();
+    m_previewCancellable = g_cancellable_new();
+    m_unityScope->Preview(res, nullptr, m_previewCancellable);
+}
+    
+void Scope::cancelActivation()
+{
     if (m_previewCancellable) {
         g_cancellable_cancel(m_previewCancellable);
         g_object_unref(m_previewCancellable);
+        m_previewCancellable = nullptr;
     }
-    m_previewCancellable = g_cancellable_new();
-    m_unityScope->Preview(res, nullptr, m_previewCancellable);
 }
 
 void Scope::onActivated(unity::dash::LocalResult const& result, unity::dash::ScopeHandledType type, unity::glib::HintsMap const& hints)

@@ -51,6 +51,7 @@ class Q_DECL_EXPORT Preview : public QObject
 
 public:
     explicit Preview(QObject *parent = 0);
+    ~Preview();
     static Preview* newFromUnityPreview(unity::dash::Preview::Ptr unityPreview);
 
     QString rendererName() const;
@@ -65,6 +66,7 @@ public:
     QVariant result() const;
 
     Q_INVOKABLE void execute(const QString& actionId, const QHash<QString, QVariant>& hints);
+    Q_INVOKABLE void cancelAction();
 
 Q_SIGNALS:
     void previewChanged();
@@ -81,6 +83,7 @@ private:
     QList<QObject *> m_actions;
     QList<QObject *> m_infoHints;
     QVariantMap m_infoHintsHash;
+    GCancellable* m_actionCancellable;
 };
 
 Q_DECLARE_METATYPE(Preview *)
