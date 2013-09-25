@@ -199,4 +199,3 @@ class TestHud(UnityTestCase):
             cur_x += dx
             cur_y += dy
         self.touch._finger_move(int(x2), int(y2))
-
