@@ -56,6 +56,7 @@ Item {
 
         function initTestCase() {
             swipeAwayGreeter();
+            waitForUIToSettle();
         }
 
         function cleanup() {
@@ -387,6 +388,7 @@ Item {
         }
 
         function test_DashShown(data) {
+
             if (data.greeter) {
                 // Swipe the greeter in
                 var greeter = findChild(shell, "greeter");
