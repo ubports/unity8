@@ -120,6 +120,7 @@ Q_SIGNALS:
 
 private Q_SLOTS:
     void synchronizeStates();
+    void scopeIsActiveChanged();
     void onSearchFinished(std::string const &, unity::glib::HintsMap const &, unity::glib::Error const&);
 
 private:
@@ -131,6 +132,7 @@ private:
     void onActivated(unity::dash::LocalResult const& result, unity::dash::ScopeHandledType type, unity::glib::HintsMap const& hints);
     void onPreviewReady(unity::dash::LocalResult const& result, unity::dash::Preview::Ptr const& preview);
     void fallbackActivate(const QString& uri);
+    void resultsDirtyToggled(bool);
 
     unity::dash::Scope::Ptr m_unityScope;
     std::unique_ptr<Categories> m_categories;
