@@ -71,6 +71,7 @@ void ResultsTest::testIconColumn_data()
     QTest::newRow("absolute path") << "/usr/share/icons/example.png" << "/usr/share/icons/example.png";
     QTest::newRow("file uri") << "file:///usr/share/icons/example.png" << "file:///usr/share/icons/example.png";
     QTest::newRow("http uri") << "http://images.ubuntu.com/example.jpg" << "http://images.ubuntu.com/example.jpg";
+    QTest::newRow("image uri") << "image://thumbnail/with/arguments?passed_to=ImageProvider" << "image://thumbnail/with/arguments?passed_to=ImageProvider";
     QTest::newRow("themed icon") << "accessories-other" << "image://theme/accessories-other";
     QTest::newRow("fileicon") << ". GFileIcon http://example.org/resource.gif" << "http://example.org/resource.gif";
     QTest::newRow("themedicon") << ". GThemedIcon accessories-other accessories generic" << "image://theme/accessories-other,accessories,generic";
