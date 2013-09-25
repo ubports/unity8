@@ -25,7 +25,6 @@ import Unity.Indicators 0.1 as Indicators
 Indicators.BaseMenuItem {
     id: heroMessage
 
-    property var actionsDescription: menu ? menu.ext.xCanonicalMessageActions : undefined
     property alias heroMessageHeader: __heroMessageHeader
     property real collapsedHeight: heroMessageHeader.y + heroMessageHeader.bodyBottom + units.gu(2)
     property real expandedHeight: collapsedHeight
