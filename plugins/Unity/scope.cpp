@@ -327,7 +327,6 @@ void Scope::synchronizeStates()
     using namespace std::placeholders;
 
     if (connected()) {
-        qWarning("refreshing scope %s... because of something", m_unityScope->id().c_str());
         /* Forward local states to m_unityScope */
         if (!m_searchQuery.isNull()) {
             m_cancellable.Renew();
