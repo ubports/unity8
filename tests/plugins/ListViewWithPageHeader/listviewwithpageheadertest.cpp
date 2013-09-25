@@ -1673,6 +1673,8 @@ private Q_SLOTS:
         verifyItem(0, 50., 392., false);
         verifyItem(1, 442., 100., false);
 
+        QCOMPARE(lvwph->contentHeight(), lvwph->height());
+
         QTest::mousePress(view, Qt::LeftButton, Qt::NoModifier, QPoint(0, 0));
         QTest::qWait(100);
         QTest::mouseMove(view, QPoint(0, 5));
