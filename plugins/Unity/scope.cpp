@@ -39,16 +39,8 @@
 
 Scope::Scope(QObject *parent) : QObject(parent)
     , m_formFactor("phone")
-    , m_previewCancellable(nullptr)
 {
     m_categories.reset(new Categories(this));
-}
-
-Scope::~Scope()
-{
-  if (m_previewCancellable) {
-    g_object_unref(m_previewCancellable);
-  }
 }
 
 QString Scope::id() const
@@ -183,13 +175,13 @@ void Scope::preview(const QVariant &uri, const QVariant &icon_hint, const QVaria
              const QVariant &comment, const QVariant &dnd_uri, const QVariant &metadata)
 {
     auto res = createLocalResult(uri, icon_hint, category, result_type, mimetype, title, comment, dnd_uri, metadata);
-
-    if (m_previewCancellable) {
-        g_cancellable_cancel(m_previewCancellable);
-        g_object_unref(m_previewCancellable);
-    }
-    m_previewCancellable = g_cancellable_new();
+    m_previewCancellable.Renew();
     m_unityScope->Preview(res, nullptr, m_previewCancellable);
+}
+    
+void Scope::cancelActivation()
+{
+    m_previewCancellable.Cancel();
 }
 
 void Scope::onActivated(unity::dash::LocalResult const& result, unity::dash::ScopeHandledType type, unity::glib::HintsMap const& hints)
@@ -220,10 +212,6 @@ void Scope::onActivated(unity::dash::LocalResult const& result, unity::dash::Sco
 
 void Scope::onPreviewReady(unity::dash::LocalResult const& /* result */, unity::dash::Preview::Ptr const& preview)
 {
-    if (m_previewCancellable) {
-        g_object_unref(m_previewCancellable);
-        m_previewCancellable = nullptr;
-    }
     auto prv = Preview::newFromUnityPreview(preview);
     // is this the best solution? QML may need to keep more than one preview instance around, so we can't own it.
     // passing it by value is not possible.

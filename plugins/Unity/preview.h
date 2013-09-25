@@ -33,6 +33,7 @@
 // local
 #include "result.h"
 #include "previewaction.h"
+#include <UnityCore/GLibWrapper.h>
 
 class Q_DECL_EXPORT Preview : public QObject
 {
@@ -65,6 +66,7 @@ public:
     QVariant result() const;
 
     Q_INVOKABLE void execute(const QString& actionId, const QHash<QString, QVariant>& hints);
+    Q_INVOKABLE void cancelAction();
 
 Q_SIGNALS:
     void previewChanged();
@@ -81,6 +83,7 @@ private:
     QList<QObject *> m_actions;
     QList<QObject *> m_infoHints;
     QVariantMap m_infoHintsHash;
+    unity::glib::Cancellable m_actionCancellable;
 };
 
 Q_DECLARE_METATYPE(Preview *)

@@ -39,6 +39,8 @@
 #include <UnityCore/MusicPreview.h>
 #include <UnityCore/SocialPreview.h>
 
+#include <UnityCore/GLibWrapper.h>
+
 Preview::Preview(QObject *parent):
     QObject(parent),
     m_unityPreview(nullptr),
@@ -188,8 +190,14 @@ void Preview::execute(const QString& actionId, const QHash<QString, QVariant>& h
 {
     if (m_unityPreview) {
         auto unityHints = convertToHintsMap(hints);
-        m_unityPreview->PerformAction(actionId.toStdString(), unityHints);
+        m_actionCancellable.Renew();
+        m_unityPreview->PerformAction(actionId.toStdString(), unityHints, nullptr, m_actionCancellable);
     } else {
         qWarning() << "Preview not set";
     }
+}
+    
+void Preview::cancelAction()
+{
+    m_actionCancellable.Cancel();
 }
