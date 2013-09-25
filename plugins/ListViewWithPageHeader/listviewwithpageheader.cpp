@@ -170,6 +170,8 @@ ListViewWithPageHeader::ListViewWithPageHeader()
     connect(this, SIGNAL(contentHeightChanged()), this, SLOT(onContentHeightChanged()));
     connect(this, SIGNAL(heightChanged()), this, SLOT(onHeightChanged()));
     connect(m_contentYAnimation, SIGNAL(stopped()), this, SLOT(onShowHeaderAnimationFinished()));
+
+    setFlickableDirection(VerticalFlick);
 }
 
 ListViewWithPageHeader::~ListViewWithPageHeader()
