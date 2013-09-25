@@ -33,6 +33,7 @@
 // local
 #include "result.h"
 #include "previewaction.h"
+#include <UnityCore/GLibWrapper.h>
 
 class Q_DECL_EXPORT Preview : public QObject
 {
@@ -51,7 +52,6 @@ class Q_DECL_EXPORT Preview : public QObject
 
 public:
     explicit Preview(QObject *parent = 0);
-    ~Preview();
     static Preview* newFromUnityPreview(unity::dash::Preview::Ptr unityPreview);
 
     QString rendererName() const;
@@ -83,7 +83,7 @@ private:
     QList<QObject *> m_actions;
     QList<QObject *> m_infoHints;
     QVariantMap m_infoHintsHash;
-    GCancellable* m_actionCancellable;
+    unity::glib::Cancellable m_actionCancellable;
 };
 
 Q_DECLARE_METATYPE(Preview *)

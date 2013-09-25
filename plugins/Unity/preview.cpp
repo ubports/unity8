@@ -48,13 +48,6 @@ Preview::Preview(QObject *parent):
 {
 }
 
-Preview::~Preview()
-{
-  if (m_actionCancellable) {
-    g_object_unref(m_actionCancellable);
-  }
-}
-
 QString Preview::rendererName() const
 {
     if (m_unityPreview) {
@@ -197,19 +190,8 @@ void Preview::execute(const QString& actionId, const QHash<QString, QVariant>& h
 {
     if (m_unityPreview) {
         auto unityHints = convertToHintsMap(hints);
-
-        // cancel previous action
-        cancelAction();
-
-        m_actionCancellable = g_cancellable_new();
-        m_unityPreview->PerformAction(actionId.toStdString(),
-                    unityHints,
-                    [this](unity::dash::LocalResult const&, unity::dash::ScopeHandledType, unity::glib::Error const&) {
-                        if (m_actionCancellable) {
-                            g_object_unref(m_actionCancellable);
-                            m_actionCancellable = nullptr;
-                        }
-                    }, m_actionCancellable);
+        m_actionCancellable.Renew();
+        m_unityPreview->PerformAction(actionId.toStdString(), unityHints, nullptr, m_actionCancellable);
     } else {
         qWarning() << "Preview not set";
     }
@@ -217,9 +199,5 @@ void Preview::execute(const QString& actionId, const QHash<QString, QVariant>& h
     
 void Preview::cancelAction()
 {
-    if (m_actionCancellable) {
-        g_cancellable_cancel(m_actionCancellable);
-        g_object_unref(m_actionCancellable);
-        m_actionCancellable = nullptr;
-    }
+    m_actionCancellable.Cancel();
 }
