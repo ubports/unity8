@@ -25,6 +25,9 @@ Item {
     width: units.gu(60)
     height: units.gu(80)
 
+    // Fake shell
+    QtObject { id: shell; property int height: appPreview.height }
+
     property var calls: []
 
     SignalSpy {
@@ -89,6 +92,9 @@ Item {
             reviewField.focus = false;
             reviewField.text = "";
             data.rating = rating.value;
+            var appReviews = findChild(appPreview, "appReviews");
+            appReviews.visible = false;
+            appPreview.keyboardSize = 0;
         }
 
         function test_actions() {
@@ -161,6 +167,21 @@ Item {
             verify(appReviews.visible == false);
             var buttons = findChild(appPreview, "gridButtons");
             verify(buttons.visible == true);
+        }
+
+        function test_automatic_scroll_on_keyboard_shown() {
+            waitForRendering(appPreview);
+            var appReviews = findChild(appPreview, "appReviews");
+            appReviews.visible = true;
+
+            var leftFlickable = findChild(appPreview, "leftFlickable");
+            leftFlickable.contentY = leftFlickable.contentHeight;
+            var reviewField = findChild(appReviews, "reviewField");
+            appPreview.keyboardSize = 400;
+            appReviews.editing(reviewField);
+            var newFlickPos = leftFlickable.contentY;
+            var keyboardY = shell.height - appPreview.keyboardSize;
+            verify(newFlickPos < keyboardY);
         }
 
     }
