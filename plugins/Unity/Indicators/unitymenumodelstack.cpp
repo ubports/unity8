@@ -32,7 +32,7 @@ public:
     {
         if (m_parentModel) {
             QObject::connect(m_parentModel, SIGNAL(rowsInserted(QModelIndex, int, int)), this, SLOT(onRowsInserted(QModelIndex, int, int)));
-            QObject::connect(m_parentModel, SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(countChanged(QModelIndex, int, int)));
+            QObject::connect(m_parentModel, SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(onRowsRemoved(QModelIndex, int, int)));
             QObject::connect(m_parentModel, SIGNAL(modelReset()), this, SLOT(onModelReset()));
         }
     }
