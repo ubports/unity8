@@ -67,13 +67,15 @@ DashPreview {
         id: buttons
         model: genericPreview.previewData.actions
 
-        property int numOfRows: (count + 1) / 2
+        property int buttonMaxWidth: units.gu(34)
+        property int numOfColumns: Math.ceil((width + spacing) / (buttonMaxWidth + spacing))
+        property int numOfRows: Math.ceil(count / numOfColumns)
         property int spacing: units.gu(1)
         height: Math.max(units.gu(4), units.gu(4)*numOfRows + spacing*(numOfRows - 1))
 
-        cellWidth: Math.max(units.gu(9), width / 2)
+        cellWidth: width / numOfColumns
         cellHeight: buttonHeight + spacing
-        property int buttonWidth: Math.max(0, width / 2 - spacing)
+        property int buttonWidth: cellWidth - spacing / 2
         property int buttonHeight: units.gu(4)
 
         delegate: Button {

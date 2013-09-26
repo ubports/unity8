@@ -63,6 +63,7 @@ Rectangle {
 
     Item {
         id: headerIcon
+        height: childrenRect.height
         anchors {
             left: parent.left
             right: parent.right
@@ -71,7 +72,6 @@ Rectangle {
             topMargin: root.contentSpacing
             rightMargin: root.contentSpacing
         }
-	height: childrenRect.height
         Loader {
             id: headerLoader
             anchors.left: parent.left
@@ -82,7 +82,7 @@ Rectangle {
 
     Item {
         id: headerRow
-	height: childrenRect.height
+        height: childrenRect.height
         anchors {
             top: headerIcon.bottom
             left: parent.left
