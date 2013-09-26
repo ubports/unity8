@@ -25,6 +25,9 @@ Item {
     width: units.gu(60)
     height: units.gu(80)
 
+    // Fake shell
+    QtObject { id: shell; property int height: appPreview.height }
+
     property var calls: []
 
     SignalSpy {
@@ -114,6 +117,9 @@ Item {
             reviewField.text = "";
             data.rating = rating.value;
             dataProgress.infoMap["progressbar_source"].value = "service";
+            var appReviews = findChild(appPreview, "appReviews");
+            appReviews.visible = false;
+            appPreview.keyboardSize = 0;
         }
 
         function test_actions() {
@@ -149,6 +155,7 @@ Item {
 
         function test_review_focus() {
             var appReviews = findChild(appPreview, "appReviews");
+            appReviews.visible = true;
             var sendButton = findChild(appReviews, "sendButton");
             var reviewField = findChild(appReviews, "reviewField");
 
@@ -211,6 +218,21 @@ Item {
             var actions = dataProgress.actions;
             compare(root.calls[0][0], actions[1].id, "Id of action not found.");
             compare(root.calls[0][1], {"error": "DOWNLOAD ERROR"}, "Data of action not found.");
+        }
+
+        function test_automatic_scroll_on_keyboard_shown() {
+            waitForRendering(appPreview);
+            var appReviews = findChild(appPreview, "appReviews");
+            appReviews.visible = true;
+
+            var leftFlickable = findChild(appPreview, "leftFlickable");
+            leftFlickable.contentY = leftFlickable.contentHeight;
+            var reviewField = findChild(appReviews, "reviewField");
+            appPreview.keyboardSize = 400;
+            appReviews.editing(reviewField);
+            var newFlickPos = leftFlickable.contentY;
+            var keyboardY = shell.height - appPreview.keyboardSize;
+            verify(newFlickPos < keyboardY);
         }
 
     }

@@ -191,12 +191,19 @@ DashPreview {
             ListItem.ThinDivider { }
 
             AppReviews {
+                id: appReviews
                 objectName: "appReviews"
+                // TODO: This should make this visible when the feature for reviews/comments is complete.
+                visible: false
                 anchors { left: parent.left; right: parent.right }
 
                 model: root.previewData.infoMap["comments"] ? root.previewData.infoMap["comments"].value : undefined
 
                 onSendReview: root.sendUserReview(review);
+
+                onEditing: {
+                    root.ensureVisible(appReviews.textArea);
+                }
             }
         }
     }
