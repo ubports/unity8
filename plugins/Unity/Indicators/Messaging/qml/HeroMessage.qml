@@ -38,6 +38,14 @@ Indicators.BaseMenuItem {
     removable: state !== "expanded"
     implicitHeight: collapsedHeight
 
+    Rectangle {
+        id: background
+        property real alpha: 0.0
+        anchors.fill: parent
+        color: Qt.rgba(1.0, 1.0, 1.0, alpha)
+        z: -1
+    }
+
     HeroMessageHeader {
         id: __heroMessageHeader
 
@@ -82,8 +90,11 @@ Indicators.BaseMenuItem {
 
         PropertyChanges {
             target: heroMessage
-            color: "#333130"
             implicitHeight: heroMessage.expandedHeight
+        }
+        PropertyChanges {
+            target: background
+            alpha: 0.05
         }
         PropertyChanges {
             target: __topHLine
