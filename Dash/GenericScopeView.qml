@@ -66,7 +66,7 @@ ScopeView {
 
             readonly property bool expandable: rendererLoader.item ? rendererLoader.item.expandable : false
             readonly property bool filtered: rendererLoader.item ? rendererLoader.item.filter : true
-            readonly property string category: rendererLoader.item ? rendererLoader.item.objectName : ""
+            readonly property string category: categoryId
 
             Loader {
                 id: rendererLoader
@@ -88,7 +88,7 @@ ScopeView {
                     }
                     item.objectName = Qt.binding(function() { return categoryId })
                     if (item.expandable) {
-                        var shouldFilter = item.objectName != categoryView.expandedCategoryId;
+                        var shouldFilter = categoryId != categoryView.expandedCategoryId;
                         if (shouldFilter != item.filter) {
                             item.filter = shouldFilter;
                         }
@@ -127,7 +127,7 @@ ScopeView {
                     onExpandedCategoryIdChanged: {
                         var item = rendererLoader.item;
                         if (item.expandable) {
-                            var shouldFilter = item.objectName != categoryView.expandedCategoryId;
+                            var shouldFilter = categoryId != categoryView.expandedCategoryId;
                             if (shouldFilter != item.filter) {
                                 // If the filter animation will be seen start it, otherwise, just flip the switch
                                 var shrinkingVisible = shouldFilter && y + item.collapsedHeight < categoryView.height;
