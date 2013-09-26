@@ -485,7 +485,7 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
             // or the header is partially shown and we are not doing a maximizeVisibleArea either
             const bool scrolledUp = m_previousContentY > contentY();
             const bool notRebounding = contentY() + height() < contentHeight();
-            const bool notShownByItsOwn = contentY() + diff > m_headerItem->y() + m_headerItem->height();
+            const bool notShownByItsOwn = contentY() + diff >= m_headerItem->y() + m_headerItem->height();
             const bool maximizeVisibleAreaRunning = m_contentYAnimation->isRunning() && contentYAnimationType == ContentYAnimationMaximizeVisibleArea;
 
             if (!scrolledUp && contentY() == -m_minYExtent) {
