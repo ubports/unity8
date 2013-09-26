@@ -196,7 +196,7 @@ void Preview::execute(const QString& actionId, const QHash<QString, QVariant>& h
         qWarning() << "Preview not set";
     }
 }
-    
+
 void Preview::cancelAction()
 {
     m_actionCancellable.Cancel();

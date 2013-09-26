@@ -184,7 +184,7 @@ void Scope::preview(const QVariant &uri, const QVariant &icon_hint, const QVaria
         m_unityScope->Preview(res);
     }
 }
-    
+
 void Scope::cancelActivation()
 {
     m_previewCancellable.Cancel();
