@@ -50,6 +50,12 @@ ScopeView {
         }
     }
 
+    Connections {
+        target: scopeView.scope
+        onShowDash: previewLoader.open = false;
+        onHideDash: previewLoader.open = false;
+    }
+
     ScopeListView {
         id: categoryView
         anchors.fill: parent
