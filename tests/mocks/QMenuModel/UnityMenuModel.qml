@@ -24,4 +24,3 @@ QtObject {
     property variant actions
     property variant menuObjectPath
 }
-
