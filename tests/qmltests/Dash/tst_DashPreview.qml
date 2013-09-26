@@ -151,14 +151,5 @@ Item {
             // reset to false in case any other test wants to use it
             root.helper = false
         }
-
-        function test_keyboard_present() {
-            var flick = findChild(preview, "leftFlickable");
-
-            compare(flick.anchors.bottomMargin, 0, "Bottom margin should be 0");
-            // Simulate that the keyboard is visible
-            preview.keyboardSize = 500;
-            compare(flick.anchors.bottomMargin, 500, "Bottom margin should be 500");
-        }
     }
 }
