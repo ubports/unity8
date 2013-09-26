@@ -20,17 +20,20 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import "utils.js" as Utils
 
 HeroMessage {
     id: __heroMessage
 
+    property string title: ""
+    property string time: ""
+    property string message: ""
+
     property alias footer: footerLoader.sourceComponent
 
     expandedHeight: fullMessage.y + fullMessage.height + units.gu(2)
-    heroMessageHeader.titleText.text: menu ? menu.label : ""
-    heroMessageHeader.subtitleText.text: menu ? Utils.formatDate(menu.extra.canonical_time) : ""
-    heroMessageHeader.bodyText.text: menu ? menu.extra.canonical_text : ""
+    heroMessageHeader.titleText.text: title
+    heroMessageHeader.subtitleText.text: time
+    heroMessageHeader.bodyText.text: message
 
     Item {
         id: fullMessage

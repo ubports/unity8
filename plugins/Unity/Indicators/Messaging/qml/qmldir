@@ -1,11 +1,11 @@
-module Unity.IndicatorsLegacy.Messaging
+module Unity.Indicators.Messaging
 
 ActionButton 0.1 ActionButton.qml
 ActionTextField 0.1 ActionTextField.qml
 GroupedMessage 0.1 GroupedMessage.qml
 HeroMessage 0.1 HeroMessage.qml
 HeroMessageHeader 0.1 HeroMessageHeader.qml
-MessageMenuItem 0.1 MessageMenuItem.qml
+MessageMenuItemFactory 0.1 MessageMenuItemFactory.qml
 QuickReply 0.1 QuickReply.qml
 SimpleTextMessage 0.1 SimpleTextMessage.qml
 SnapDecision 0.1 SnapDecision.qml
