@@ -41,7 +41,6 @@ Page {
         delegate: Indicators.MenuItem {
             anchors.left: parent.left
             anchors.right: parent.right
-            progression: isValid
             objectName: identifier
 
             Label {
@@ -52,10 +51,8 @@ Page {
             }
 
             onClicked: {
-                if (progression) {
-                    var new_page = Qt.createComponent("IndicatorsPage.qml");
-                    page.pageStack.push(new_page.createObject(pages), {"indicatorProperties" : model.indicatorProperties, "pageSource" : model.pageSource});
-                }
+                var new_page = Qt.createComponent("IndicatorsPage.qml");
+                page.pageStack.push(new_page.createObject(pages), {"indicatorProperties" : model.indicatorProperties, "pageSource" : model.pageSource});
             }
         }
     }

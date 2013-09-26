@@ -113,7 +113,7 @@ IndicatorBase {
 
                 onLoaded: {
                     if (model.type === rootMenuType) {
-                        menuStack.push(mainMenu.model.submenu(index));
+                        menuStack.push(mainMenu.model.submenu(index), index);
                     }
 
                     if (item.hasOwnProperty("menuSelected")) {
