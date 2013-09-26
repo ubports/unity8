@@ -129,8 +129,8 @@ Item {
         }
 
         function test_review_focus() {
-            skip();
             var appReviews = findChild(appPreview, "appReviews");
+            appReviews.visible = true;
             var sendButton = findChild(appReviews, "sendButton");
             var reviewField = findChild(appReviews, "reviewField");
 
