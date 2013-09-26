@@ -170,6 +170,8 @@ ListViewWithPageHeader::ListViewWithPageHeader()
     connect(this, SIGNAL(contentHeightChanged()), this, SLOT(onContentHeightChanged()));
     connect(this, SIGNAL(heightChanged()), this, SLOT(onHeightChanged()));
     connect(m_contentYAnimation, SIGNAL(stopped()), this, SLOT(onShowHeaderAnimationFinished()));
+
+    setFlickableDirection(VerticalFlick);
 }
 
 ListViewWithPageHeader::~ListViewWithPageHeader()
@@ -199,6 +201,7 @@ void ListViewWithPageHeader::setModel(QAbstractItemModel *model)
         connect(m_delegateModel, SIGNAL(modelUpdated(QQmlChangeSet,bool)), this, SLOT(onModelUpdated(QQmlChangeSet,bool)));
 #endif
         Q_EMIT modelChanged();
+        polish();
         // TODO?
 //         Q_EMIT contentHeightChanged();
 //         Q_EMIT contentYChanged();
@@ -1002,6 +1005,18 @@ void ListViewWithPageHeader::onModelUpdated(const QQmlChangeSet &changeSet, bool
             const int modelIndex = insert.index + i;
             if (modelIndex <= m_asyncRequestedIndex) {
                 m_asyncRequestedIndex++;
+            }
+        }
+    }
+
+    Q_FOREACH(const QQuickChangeSet::Change &change, changeSet.changes()) {
+//         qDebug() << "ListViewWithPageHeader::onModelUpdated Change" << change.index << change.count;
+        for (int i = change.index; i < change.count; ++i) {
+            ListItem *item = itemAtIndex(i);
+            if (item && item->m_sectionItem) {
+                QQmlContext *context = QQmlEngine::contextForObject(item->m_sectionItem)->parentContext();
+                const QString sectionText = m_delegateModel->stringValue(i, m_sectionProperty);
+                context->setContextProperty(QLatin1String("section"), sectionText);
             }
         }
     }

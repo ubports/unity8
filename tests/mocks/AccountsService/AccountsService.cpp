@@ -24,7 +24,7 @@ AccountsService::AccountsService(QObject* parent)
 {
 }
 
-QString AccountsService::getUser()
+QString AccountsService::user() const
 {
     return "testuser";
 }
@@ -34,7 +34,7 @@ void AccountsService::setUser(const QString &user)
     Q_UNUSED(user)
 }
 
-bool AccountsService::getDemoEdges()
+bool AccountsService::demoEdges() const
 {
     return false;
 }
@@ -44,7 +44,7 @@ void AccountsService::setDemoEdges(bool demoEdges)
     Q_UNUSED(demoEdges)
 }
 
-bool AccountsService::getDemoEdgesForCurrentUser()
+bool AccountsService::demoEdgesForCurrentUser() const
 {
     return false;
 }
@@ -53,7 +53,7 @@ void AccountsService::setDemoEdgesForCurrentUser(bool)
 {
 }
 
-QString AccountsService::getBackgroundFile()
+QString AccountsService::backgroundFile() const
 {
     return m_backgroundFile;
 }

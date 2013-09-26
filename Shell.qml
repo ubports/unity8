@@ -149,6 +149,7 @@ BasicShell {
 
             anchors.fill: parent
             source: shell.background
+            fillMode: Image.PreserveAspectCrop
         }
 
         Rectangle {
@@ -474,7 +475,7 @@ BasicShell {
         Bottombar {
             theHud: hud
             anchors.fill: parent
-            enabled: !panel.indicators.shown
+            enabled: hud.available
             applicationIsOnForeground: applicationFocused
         }
 

@@ -63,5 +63,10 @@ void MockDownloadTracker::startService()
     if(!m_service.isEmpty() && !m_dbusPath.isEmpty()) {
         m_active = true;
         Q_EMIT serviceReadyChanged(m_active);
+        if(m_dbusPath == "finish") {
+            Q_EMIT finished("downloadComplete");
+        }else if(m_dbusPath == "error") {
+            Q_EMIT error("DOWNLOAD ERROR");
+        }
     }
 }

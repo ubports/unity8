@@ -34,7 +34,7 @@ AccountsService::AccountsService(QObject* parent)
     updateDemoEdgesForCurrentUser();
 }
 
-QString AccountsService::getUser()
+QString AccountsService::user() const
 {
     return m_user;
 }
@@ -48,7 +48,7 @@ void AccountsService::setUser(const QString &user)
     updateBackgroundFile();
 }
 
-bool AccountsService::getDemoEdges()
+bool AccountsService::demoEdges() const
 {
     return m_demoEdges;
 }
@@ -59,7 +59,7 @@ void AccountsService::setDemoEdges(bool demoEdges)
     m_service->setUserProperty(m_user, "com.canonical.unity.AccountsService", "demo-edges", demoEdges);
 }
 
-bool AccountsService::getDemoEdgesForCurrentUser()
+bool AccountsService::demoEdgesForCurrentUser() const
 {
     return m_demoEdgesForCurrentUser;
 }
@@ -70,7 +70,7 @@ void AccountsService::setDemoEdgesForCurrentUser(bool demoEdgesForCurrentUser)
     m_service->setUserProperty(qgetenv("USER"), "com.canonical.unity.AccountsService", "demo-edges", demoEdgesForCurrentUser);
 }
 
-QString AccountsService::getBackgroundFile()
+QString AccountsService::backgroundFile() const
 {
     return m_backgroundFile;
 }

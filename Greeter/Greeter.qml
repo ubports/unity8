@@ -61,8 +61,8 @@ Showable {
         id: backgroundImage
         objectName: "backgroundImage"
         anchors.fill: parent
-        fadeInFirst: false
         source: greeter.background
+        fillMode: Image.PreserveAspectCrop
     }
 
     Loader {
