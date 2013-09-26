@@ -74,7 +74,7 @@ class TestHud(UnityTestCase):
         self.assertThat(hud_show_button.opacity, Eventually(Equals(1.0)))
         self.touch.tap(swipe_coords.end_x, swipe_coords.end_y - int(hud_show_button.height))
         self.assertThat(hud.shown, Equals(False))
-        self.assertThat(hud_show_button.opacity, Eventually(Equals(0.0), timeout=0.5))
+        self.assertThat(hud_show_button.opacity, Eventually(Equals(0.0)))
 
     def test_show_hud_appears(self):
         """Releasing the touch on the 'show hud' button must display the hud.
