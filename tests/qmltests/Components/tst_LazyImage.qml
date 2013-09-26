@@ -57,7 +57,8 @@ Rectangle {
 
             LazyImage {
                 id: lazy2
-                sourceSize.width: units.gu(30)
+                width: units.gu(30)
+                scaleTo: "width"
             }
 
             Label {
@@ -69,7 +70,8 @@ Rectangle {
 
             LazyImage {
                 id: lazy3
-                sourceSize.height: units.gu(10)
+                height: units.gu(10)
+                scaleTo: "height"
             }
         }
     }

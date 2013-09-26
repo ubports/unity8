@@ -24,11 +24,13 @@ Item {
     id: root
 
     property url source
+    // TODO convert into enums when available in QML
+    property string scaleTo
 
-    property real initialWidth: sourceSize.width > -1 ? sourceSize.width : units.gu(10)
-    property real initialHeight: sourceSize.height > -1 ? sourceSize.height : units.gu(10)
-    property size sourceSize
+    property real initialWidth: units.gu(10)
+    property real initialHeight: units.gu(10)
 
+    property alias sourceSize: image.sourceSize
     property alias fillMode: image.fillMode
     property alias asynchronous: image.asynchronous
     property alias cache: image.cache
@@ -87,23 +89,15 @@ Item {
 
             property url nextSource
 
-            width: {
-                if (root.sourceSize.width > -1) return root.sourceSize.width;
-                if (root.sourceSize.height > -1) return implicitWidth * root.sourceSize.height / implicitHeight
-                return implicitWidth
-            }
-            height: {
-                if (root.sourceSize.height > -1) return root.sourceSize.height;
-                if (root.sourceSize.width > -1) return implicitHeight* root.sourceSize.width / implicitWidth
-                return implicitHeight
-            }
+            width: root.scaleTo == "height" ? implicitWidth * root.height / implicitHeight : implicitWidth
+            height: root.scaleTo == "width" ? implicitHeight * root.width / implicitWidth : implicitHeight
             fillMode: Image.PreserveAspectCrop
             asynchronous: true
             cache: false
             horizontalAlignment: Image.AlignHCenter
             verticalAlignment: Image.AlignVCenter
-            sourceSize.width: root.sourceSize.width
-            sourceSize.height: root.sourceSize.height
+            sourceSize.width: root.scaleTo == "width" ? root.width : 0
+            sourceSize.height: root.scaleTo == "height" ? root.height : 0
         }
     }
 
