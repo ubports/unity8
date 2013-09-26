@@ -1,3 +1,27 @@
+unity8 (7.81.3+13.10.20130924.2-0ubuntu1) saucy; urgency=low
+
+  [ Michal Hruby ]
+  * Fix the signal prototypes on music grid renderer. (LP: #1228390)
+
+  [ Michael Zanetti ]
+  * use less auto variables, align coding style, constify and Qt'ify API
+    in AccountsService plugin.
+
+  [ Nick Dedekind ]
+  * Re-enable MenuContentActivator in Indicators.
+
+  [ Albert Astals ]
+  * LVWPH: Update the section header on list change events.
+
+  [ Pawel Stolowski ]
+  * Check results model ptr returned by GetResultsFromCategory method
+    from UnityCore. (LP: #1228097, #1211595)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 340
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 24 Sep 2013 14:40:01 +0000
+
 unity8 (7.81.3+13.10.20130919.3-0ubuntu1) saucy; urgency=low
 
   [ Michal Hruby ]

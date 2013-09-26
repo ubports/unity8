@@ -176,7 +176,13 @@ void Scope::preview(const QVariant &uri, const QVariant &icon_hint, const QVaria
 {
     auto res = createLocalResult(uri, icon_hint, category, result_type, mimetype, title, comment, dnd_uri, metadata);
     m_previewCancellable.Renew();
-    m_unityScope->Preview(res, nullptr, m_previewCancellable);
+
+    // canned queries don't have previews, must be activated
+    if (uri.toString().startsWith("x-unity-no-preview-scopes-query://")) {
+        m_unityScope->Activate(res);
+    } else {
+        m_unityScope->Preview(res);
+    }
 }
     
 void Scope::cancelActivation()
@@ -203,6 +209,13 @@ void Scope::onActivated(unity::dash::LocalResult const& result, unity::dash::Sco
                 Q_EMIT gotoUri(QString::fromStdString(g_variant_get_string(hints.at("goto-uri"), nullptr)));
             } else {
                 qWarning() << "Missing goto-uri hint for GOTO_DASH_URI activation reply";
+            }
+            break;
+        case unity::dash::PERFORM_SEARCH:
+            if (hints.find("query") != hints.end()) {
+                // note: this will emit searchQueryChanged, and shell will call setSearchQuery back with a new query,
+                // but it will get ignored.
+                setSearchQuery(QString::fromStdString(g_variant_get_string(hints.at("query"), nullptr)));
             }
             break;
         default:
