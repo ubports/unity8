@@ -1,6 +1,13 @@
+pkg_check_modules(GLIB REQUIRED glib-2.0>=2.32)
+pkg_check_modules(GIO REQUIRED gio-2.0>=2.32)
+pkg_check_modules(QMENUMODEL REQUIRED qmenumodel)
+
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/../../../../plugins/Unity/Indicators
+    ${GLIB_INCLUDE_DIRS}
+    ${GIO_INCLUDE_DIRS}
+    ${QMENUMODEL_INCLUDE_DIRS}
     )
 
 macro(run_tests)
@@ -16,6 +23,9 @@ macro(run_tests)
         qt5_use_modules(${_test}Exec Test Core Qml)
         target_link_libraries(${_test}Exec
             IndicatorsQml
+            ${GLIB_LIBRARIES}
+            ${GIO_LIBRARIES}
+            ${QMENUMODEL_LDFLAGS}
             )
         set(_test_list "${_test_list};${_test}")
     endforeach()
@@ -25,4 +35,5 @@ run_tests(
     indicatorsmanagertest
     indicatorsmodeltest
     menucontentactivatortest
+    unitymenumodelstacktest
     )
