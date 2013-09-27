@@ -31,6 +31,7 @@ add_manual_qml_test(Components DragHandle IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugi
 add_qml_test(Components DraggingArea)
 add_qml_test(Components EdgeDemoOverlay)
 add_qml_test(Components FilterGrid IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/plugins)
+add_qml_test(Components LazyImage)
 add_qml_test(Components ResponsiveFlowView)
 add_qml_test(Components ResponsiveGridView)
 add_qml_test(Components Revealer)
