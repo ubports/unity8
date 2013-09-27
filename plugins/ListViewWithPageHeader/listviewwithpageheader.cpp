@@ -1009,7 +1009,11 @@ void ListViewWithPageHeader::onModelUpdated(const QQmlChangeSet &changeSet, bool
         }
     }
 
+#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
     Q_FOREACH(const QQuickChangeSet::Change &change, changeSet.changes()) {
+#else
+    Q_FOREACH(const QQmlChangeSet::Change &change, changeSet.changes()) {
+#endif
 //         qDebug() << "ListViewWithPageHeader::onModelUpdated Change" << change.index << change.count;
         for (int i = change.index; i < change.count; ++i) {
             ListItem *item = itemAtIndex(i);
