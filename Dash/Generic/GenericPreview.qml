@@ -41,9 +41,7 @@ DashPreview {
         }
     }
 
-    title: Label {
-        id: title
-        objectName: "titleLabel"
+    title: Column {
         anchors {
             top: parent.top
             topMargin: units.gu(2)
@@ -51,18 +49,39 @@ DashPreview {
             right: parent.right
         }
 
-        elide: Text.ElideRight
-        fontSize: "x-large"
-        font.weight: Font.Light
-        color: Theme.palette.selected.backgroundText
-        opacity: 0.9
-        text: previewData.title
-        style: Text.Raised
-        styleColor: "black"
-        maximumLineCount: 2
-        wrapMode: Text.WordWrap
-    }
+        Label {
+            id: title
+            objectName: "titleLabel"
+            anchors { left: parent.left; right: parent.right }
 
+            elide: Text.ElideRight
+            fontSize: "x-large"
+            font.weight: Font.Light
+            color: Theme.palette.selected.backgroundText
+            opacity: 0.9
+            text: previewData.title
+            style: Text.Raised
+            styleColor: "black"
+            maximumLineCount: 2
+            wrapMode: Text.WordWrap
+        }
+
+        Label {
+            anchors { left: parent.left; right: parent.right }
+            visible: text != ""
+            fontSize: "medium"
+            opacity: 0.6
+            color: "white"
+            text: previewData.subtitle.replace(/[\r\n]+/g, "<br />")
+            style: Text.Raised
+            styleColor: "black"
+            wrapMode: Text.WordWrap
+            textFormat: Text.RichText
+            maximumLineCount: 1
+            // FIXME: workaround for https://bugreports.qt-project.org/browse/QTBUG-33020
+            onWidthChanged: { wrapMode = Text.NoWrap; wrapMode = Text.WordWrap }
+        }
+    }
     buttons: GridView {
         id: buttons
         model: genericPreview.previewData.actions
@@ -97,21 +116,7 @@ DashPreview {
         spacing: units.gu(2)
 
         Label {
-            anchors { left: parent.left; right: parent.right }
-            visible: text != ""
-            fontSize: "medium"
-            opacity: 0.6
-            color: "white"
-            text: previewData.subtitle.replace(/[\r\n]+/g, "<br />")
-            style: Text.Raised
-            styleColor: "black"
-            wrapMode: Text.WordWrap
-            textFormat: Text.RichText
-            // FIXME: workaround for https://bugreports.qt-project.org/browse/QTBUG-33020
-            onWidthChanged: { wrapMode = Text.NoWrap; wrapMode = Text.WordWrap }
-        }
-
-        Label {
+            id: descriptionLabel
             anchors { left: parent.left; right: parent.right }
             visible: text != ""
             fontSize: "small"
@@ -124,6 +129,48 @@ DashPreview {
             textFormat: Text.RichText
             // FIXME: workaround for https://bugreports.qt-project.org/browse/QTBUG-33020
             onWidthChanged: { wrapMode = Text.NoWrap; wrapMode = Text.WordWrap }
+        }
+
+        Column {
+            id: infoItem
+            anchors {
+                left: parent.left
+                right: parent.right
+            }
+            Repeater {
+                model: previewData.infoHints
+
+                delegate: Grid {
+                    columns: 2
+                    width: parent.width
+                    spacing: units.gu(1)
+
+                    Label {
+                        visible: directedLabel.visible
+                        fontSize: "small"
+                        opacity: 0.9
+                        color: "white"
+                        horizontalAlignment: Text.AlignLeft
+                        width: infoItem.width / 2
+                        text: modelData.displayName
+                        style: Text.Raised
+                        styleColor: "black"
+                    }
+                    Label {
+                        id: directedLabel
+                        visible: modelData.value != ""
+                        fontSize: "small"
+                        opacity: 0.6
+                        color: "white"
+                        horizontalAlignment: Text.AlignRight
+                        width: infoItem.width / 2
+                        text: modelData.value ? modelData.value : ""
+                        style: Text.Raised
+                        styleColor: "black"
+                        wrapMode: Text.WordWrap
+                    }
+                }
+            }
         }
     }
 }
