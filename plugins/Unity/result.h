@@ -58,6 +58,9 @@ public:
     QVariant metadata() const;
 
 private:
+    /* Keep reference to the original preview to access result attributes via it, rather than keeping copies of them;
+       this will save us a bit on copying, especially as UI is mostly interested in just uri.
+     */
     unity::dash::Preview::Ptr m_preview;
 };
 
