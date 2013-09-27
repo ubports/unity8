@@ -105,7 +105,9 @@ Rectangle {
             right: parent.right
             top: headerRow.bottom
             bottom: parent.bottom
-            margins: root.contentSpacing
+            topMargin: root.contentSpacing
+            leftMargin: root.contentSpacing
+            rightMargin: root.contentSpacing
         }
 
         spacing: units.gu(2)

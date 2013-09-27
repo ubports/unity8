@@ -55,22 +55,20 @@ DashPreview {
         }
     }
 
-    title: Label {
-        id: title
-        objectName: "titleLabel"
+    title: AppInfo {
+        objectName: "appInfo"
         anchors {
+            top: parent.top
+            topMargin: units.gu(2)
             left: parent.left
             right: parent.right
         }
 
-        elide: Text.ElideRight
-        fontSize: "x-large"
-        font.weight: Font.Light
-        color: Theme.palette.selected.backgroundText
-        opacity: 0.9
-        text: root.previewData.title
-        style: Text.Raised
-        styleColor: "black"
+        appName: root.previewData.title
+        icon: root.previewData.appIcon
+        rating: Math.round(root.previewData.rating * 10)
+        reviews: root.previewData.numRatings
+        rated: root.previewData.infoMap["rated"] ? root.previewData.infoMap["rated"].value : 0
     }
 
     Component {
@@ -150,17 +148,6 @@ DashPreview {
 
     body: Column {
         spacing: units.gu(1)
-
-        AppInfo {
-            objectName: "appInfo"
-            anchors { left: parent.left; right: parent.right }
-
-            appName: root.previewData.title
-            icon: root.previewData.appIcon
-            rating: Math.round(root.previewData.rating * 10)
-            reviews: root.previewData.numRatings
-            rated: root.previewData.infoMap["rated"] ? root.previewData.infoMap["rated"].value : 0
-        }
 
         Label {
             anchors { left: parent.left; right: parent.right }
