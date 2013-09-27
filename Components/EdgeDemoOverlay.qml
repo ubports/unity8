@@ -153,8 +153,8 @@ Showable {
                 Icon {
                     anchors.left: parent.right
                     anchors.verticalCenter: parent.verticalCenter
-                    height: 12
-                    width: 12
+                    height: units.dp(12)
+                    width: units.dp(12)
                     name: "chevron"
                     color: UbuntuColors.orange
                 }
