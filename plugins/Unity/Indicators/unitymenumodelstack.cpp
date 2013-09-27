@@ -110,6 +110,11 @@ UnityMenuModel* UnityMenuModelStack::tail() const
     return !m_menuModels.isEmpty() ? m_menuModels.last()->model() : NULL;
 }
 
+int UnityMenuModelStack::count() const
+{
+    return m_menuModels.count();
+}
+
 void UnityMenuModelStack::push(UnityMenuModel* model, int index)
 {
     UnityMenuModelEntry* entry = new UnityMenuModelEntry(model, tail(), index);
@@ -117,6 +122,7 @@ void UnityMenuModelStack::push(UnityMenuModel* model, int index)
 
     m_menuModels << entry;
     Q_EMIT tailChanged(model);
+    Q_EMIT countChanged(m_menuModels.count());
 }
 
 UnityMenuModel* UnityMenuModelStack::pop()
@@ -132,6 +138,7 @@ UnityMenuModel* UnityMenuModelStack::pop()
     if (m_menuModels.isEmpty()) {
         Q_EMIT headChanged(NULL);
     }
+    Q_EMIT countChanged(m_menuModels.count());
 
     return model;
 }
