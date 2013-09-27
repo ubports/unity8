@@ -23,18 +23,7 @@
 
 #include <QtTest>
 #include <QDebug>
-
-#include <glib.h>
-#include <gio/gio.h>
 #include <unitymenumodel.h>
-
- #define BUS_NAME       "com.canonical.unity8.unitymenumodelstacktest"
- #define OBJECT_PATH    "/com/canonical/unity8/unitymenumodelstack"
-
-static void on_bus_acquired (GDBusConnection *bus, const gchar *name, gpointer user_data);
-static void on_name_aquired (GDBusConnection *bus, const gchar *name, gpointer user_data);
-static void on_name_lost (GDBusConnection *bus, const gchar *name, gpointer user_data);
-
 
 class UnityMenuModelStackTest : public QObject
 {
@@ -43,25 +32,10 @@ private Q_SLOTS:
 
     void initTestCase()
     {
-        m_menuUid = 0;
-        m_connection = NULL;
-        m_connected = NULL;
-        m_failed = false;
-        m_menu = NULL;
-
-        GBusNameOwnerFlags flags;
-        flags = (GBusNameOwnerFlags) (G_BUS_NAME_OWNER_FLAGS_ALLOW_REPLACEMENT | G_BUS_NAME_OWNER_FLAGS_REPLACE);
-
-        g_bus_own_name (G_BUS_TYPE_SESSION, BUS_NAME, flags,
-                on_bus_acquired, on_name_aquired, on_name_lost, this, NULL);
     }
 
     void cleanupTestCase()
     {
-        if (m_connection) {
-            g_object_unref(m_connection);
-            m_connection = NULL;
-        }
     }
 
     void init()
@@ -70,30 +44,11 @@ private Q_SLOTS:
         QFETCH(int, menuDepth);
         QFETCH(int, subMenuCount);
 
-        waitFor([this]() { return this->m_connected || this->m_failed; }, 500);
-        QVERIFY(m_connected);
-
-        const QString& path = QString(OBJECT_PATH) + "/" + test;
-
-        m_menuUid = exportMenuModel(&m_menu, m_connection, path, subMenuCount, menuDepth);
-
-        m_model = new UnityMenuModel;
-        m_model->setBusName(BUS_NAME);
-        m_model->setMenuObjectPath(path.toUtf8());
+        m_model = new UnityMenuModel();
+        m_model->setModelData(recuseAddMenu(subMenuCount, menuDepth));
     }
 
     void cleanup() {
-        if (m_model) {
-            delete m_model;
-            m_model = NULL;
-        }
-        if (m_menuUid != 0) {
-            g_dbus_connection_unexport_menu_model(m_connection, m_menuUid);
-            m_menuUid = 0;
-        }
-        if (m_menu) {
-            g_object_unref(m_menu);
-        }
     }
 
 
@@ -177,7 +132,8 @@ private Q_SLOTS:
         }
 
         QCOMPARE(stack.count(), menuDepth+1);
-        g_menu_remove(m_menu, removeIndex);
+
+        m_model->removeRow(removeIndex);
 
         waitFor([&stack, resultCount]() { return stack.count() == resultCount; }, 1000);
         QCOMPARE(stack.count(), resultCount);
@@ -191,65 +147,32 @@ private:
         while(!functor() && timer.elapsed() < ms) { QTest::qWait(10); }
         return functor();
     }
-    guint exportMenuModel(GMenu** menu, GDBusConnection* connection, const QString& object_path, int submenuCount, int depth);
+
+    QVariant recuseAddMenu(int subMenuCount, int depth_remaining)
+    {
+        QVariantList rows;
+
+        for (int i = 0; i < subMenuCount; i ++) {
+            QVariantMap row;
+            QVariantMap rowData;
+
+            if (depth_remaining > 0) {
+                row["submenu"] = recuseAddMenu(subMenuCount, depth_remaining-1);
+            }
+
+            row["rowData"] = rowData;
+
+            rows << row;
+        }
+
+        return rows;
+    }
 
 public:
-    GDBusConnection* m_connection;
-    bool m_failed;
-    bool m_connected;
-    guint m_menuUid;
-    GMenu* m_menu;
     UnityMenuModel* m_model;
 };
 
-void recuseAddMenu(GMenu* menu, int subMenuCount, int depth_remaining)
-{
-    for (int i = 0; i < subMenuCount; i ++) {
-        GMenuItem* item = g_menu_item_new("", NULL);
 
-        if (depth_remaining > 0) {
-            GMenu* submenu = g_menu_new ();
-            recuseAddMenu(submenu, subMenuCount, depth_remaining-1);
-            g_menu_item_set_submenu (item, G_MENU_MODEL (submenu));
-        }
-
-        g_menu_append_item (menu, item);
-    }
-}
-
-guint UnityMenuModelStackTest::exportMenuModel(GMenu** menu, GDBusConnection* connection, const QString& object_path, int submenuCount, int depth)
-{
-    *menu=g_menu_new();
-    recuseAddMenu(*menu, submenuCount, depth);
-
-    QByteArray path = object_path.toUtf8();
-
-    return g_dbus_connection_export_menu_model (connection, path.constData(), G_MENU_MODEL (*menu), NULL);
-}
-
-static void
-on_bus_acquired (GDBusConnection *bus, const gchar *, gpointer user_data)
-{
-    UnityMenuModelStackTest* test = (UnityMenuModelStackTest*)user_data;
-    test->m_connection = bus;
-}
-
-static void
-on_name_aquired (GDBusConnection*, const gchar*, gpointer user_data)
-{
-    UnityMenuModelStackTest* test = (UnityMenuModelStackTest*)user_data;
-    test->m_connected = true;
-    test->m_failed = false;
-}
-
-
-static void
-on_name_lost (GDBusConnection*, const gchar*, gpointer user_data)
-{
-    UnityMenuModelStackTest* test = (UnityMenuModelStackTest*)user_data;
-    test->m_connected = false;
-    test->m_failed = true;
-}
 
 QTEST_GUILESS_MAIN(UnityMenuModelStackTest)
 #include "unitymenumodelstacktest.moc"

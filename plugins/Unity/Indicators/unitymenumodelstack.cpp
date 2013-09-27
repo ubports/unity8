@@ -52,7 +52,7 @@ private Q_SLOTS:
     {
         int delta = end-start + 1;
         if (start <= m_index) {
-            if (start + delta >= m_index) {
+            if (start + delta > m_index) {
                 // in the range removed
                 Q_EMIT remove();
                 disconnect(m_parentModel, 0, this, 0);
@@ -62,15 +62,14 @@ private Q_SLOTS:
         }
     }
 
-Q_SIGNALS:
-    void remove();
-
-private Q_SLOTS:
     void onModelReset()
     {
         Q_EMIT remove();
         disconnect(m_parentModel, 0, this, 0);
     }
+
+Q_SIGNALS:
+    void remove();
 
 private:
     UnityMenuModel* m_model;
