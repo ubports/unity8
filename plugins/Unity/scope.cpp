@@ -181,7 +181,7 @@ void Scope::preview(const QVariant &uri, const QVariant &icon_hint, const QVaria
     if (uri.toString().startsWith("x-unity-no-preview-scopes-query://")) {
         m_unityScope->Activate(res);
     } else {
-        m_unityScope->Preview(res);
+        m_unityScope->Preview(res, nullptr, m_previewCancellable);
     }
 }
 
