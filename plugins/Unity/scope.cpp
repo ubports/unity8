@@ -175,12 +175,19 @@ void Scope::preview(const QVariant &uri, const QVariant &icon_hint, const QVaria
              const QVariant &comment, const QVariant &dnd_uri, const QVariant &metadata)
 {
     auto res = createLocalResult(uri, icon_hint, category, result_type, mimetype, title, comment, dnd_uri, metadata);
+    m_previewCancellable.Renew();
+
     // canned queries don't have previews, must be activated
     if (uri.toString().startsWith("x-unity-no-preview-scopes-query://")) {
         m_unityScope->Activate(res);
     } else {
-        m_unityScope->Preview(res);
+        m_unityScope->Preview(res, nullptr, m_previewCancellable);
     }
+}
+
+void Scope::cancelActivation()
+{
+    m_previewCancellable.Cancel();
 }
 
 void Scope::onActivated(unity::dash::LocalResult const& result, unity::dash::ScopeHandledType type, unity::glib::HintsMap const& hints)
