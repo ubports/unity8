@@ -63,4 +63,6 @@ QString Preview::imageSourceUri() const
 
 void Preview::execute(const QString& actionId, const QHash<QString, QVariant>& hints)
 {
+    Q_UNUSED(actionId);
+    Q_UNUSED(hints);
 }
