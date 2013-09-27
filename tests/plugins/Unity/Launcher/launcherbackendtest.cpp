@@ -26,6 +26,15 @@ class LauncherBackendTest : public QObject
     Q_OBJECT
 
 private Q_SLOTS:
+
+    void initTestCase()
+    {
+        // As we want to test absolute file paths in the .desktop file, we need to modify the
+        // sample file and replace the path in there with the current build dir.
+        QSettings settings(QDir::currentPath() + "/click-icon.desktop", QSettings::IniFormat);
+        settings.setValue("Desktop Entry/Path", QDir::currentPath());
+    }
+
     void testFileNames()
     {
         LauncherBackend backend(false);
@@ -66,8 +75,7 @@ private Q_SLOTS:
         QTest::newRow("fallback on theme") << "abs-icon" << "image://theme//path/to/icon.png";
 
         // Click packages have a relative icon path but an absolute path as a separate entry
-        // As we don't want to rely on a click app being installed for the test, accept it with the image://theme fallback
-        QTest::newRow("click package icon") << "click-icon" << "image://theme//path/to/some/click/app/click-icon.svg";
+        QTest::newRow("click package icon") << "click-icon" << QDir::currentPath() + "/click-icon.svg";
     }
 
     void testIcon() {

@@ -19,11 +19,12 @@
 #include "AccountsService.h"
 
 AccountsService::AccountsService(QObject* parent)
-  : QObject(parent)
+  : QObject(parent),
+    m_backgroundFile(TOP_SRCDIR "/graphics/phone_background.jpg")
 {
 }
 
-QString AccountsService::getUser()
+QString AccountsService::user() const
 {
     return "testuser";
 }
@@ -33,7 +34,7 @@ void AccountsService::setUser(const QString &user)
     Q_UNUSED(user)
 }
 
-bool AccountsService::getDemoEdges()
+bool AccountsService::demoEdges() const
 {
     return false;
 }
@@ -43,7 +44,13 @@ void AccountsService::setDemoEdges(bool demoEdges)
     Q_UNUSED(demoEdges)
 }
 
-QString AccountsService::getBackgroundFile()
+QString AccountsService::backgroundFile() const
 {
-    return TOP_SRCDIR "/graphics/phone_background.jpg";
+    return m_backgroundFile;
+}
+
+void AccountsService::setBackgroundFile(const QString &backgroundFile)
+{
+    m_backgroundFile = backgroundFile;
+    backgroundFileChanged();
 }

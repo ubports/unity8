@@ -39,24 +39,16 @@ Qt::MouseButton translateMouseButton(xcb_button_t detail)
 } // end of anonymous namespace
 
 MouseTouchAdaptor::MouseTouchAdaptor()
-    : m_targetWindow(0)
-    , m_leftButtonIsPressed(false)
+    : m_leftButtonIsPressed(false)
 {
     m_touchDevice = new QTouchDevice;
     m_touchDevice->setType(QTouchDevice::TouchScreen);
     QWindowSystemInterface::registerTouchDevice(m_touchDevice);
 }
 
-void MouseTouchAdaptor::setTargetWindow(QWindow *window)
-{
-    m_targetWindow = window;
-}
-
 bool MouseTouchAdaptor::nativeEventFilter(const QByteArray & eventType,
                                           void * message, long * /*result*/)
 {
-    Q_ASSERT(m_targetWindow);
-
     if (eventType != "xcb_generic_event_t") {
         // wrong backend.
         qWarning("MouseTouchAdaptor: XCB backend not in use. Adaptor inoperative!");
@@ -91,7 +83,9 @@ bool MouseTouchAdaptor::handleButtonPress(xcb_button_press_event_t *pressEvent)
 
     QPoint windowPos(pressEvent->event_x, pressEvent->event_y);
 
-    QTouchEventSequence touchEvent = QTest::touchEvent(m_targetWindow, m_touchDevice,
+    QWindow *targetWindow = findQWindowWithXWindowID(static_cast<WId>(pressEvent->event));
+
+    QTouchEventSequence touchEvent = QTest::touchEvent(targetWindow, m_touchDevice,
                                                        false /* autoCommit */);
     touchEvent.press(0 /* touchId */, windowPos);
     touchEvent.commit(false /* processEvents */);
@@ -110,7 +104,9 @@ bool MouseTouchAdaptor::handleButtonRelease(xcb_button_release_event_t *releaseE
 
     QPoint windowPos(releaseEvent->event_x, releaseEvent->event_y);
 
-    QTouchEventSequence touchEvent = QTest::touchEvent(m_targetWindow, m_touchDevice,
+    QWindow *targetWindow = findQWindowWithXWindowID(static_cast<WId>(releaseEvent->event));
+
+    QTouchEventSequence touchEvent = QTest::touchEvent(targetWindow, m_touchDevice,
                                                        false /* autoCommit */);
     touchEvent.release(0 /* touchId */, windowPos);
     touchEvent.commit(false /* processEvents */);
@@ -127,10 +123,31 @@ bool MouseTouchAdaptor::handleMotionNotify(xcb_motion_notify_event_t *event)
 
     QPoint windowPos(event->event_x, event->event_y);
 
-    QTouchEventSequence touchEvent = QTest::touchEvent(m_targetWindow, m_touchDevice,
+    QWindow *targetWindow = findQWindowWithXWindowID(static_cast<WId>(event->event));
+
+    QTouchEventSequence touchEvent = QTest::touchEvent(targetWindow, m_touchDevice,
                                                        false /* autoCommit */);
     touchEvent.move(0 /* touchId */, windowPos);
     touchEvent.commit(false /* processEvents */);
 
     return true;
+}
+
+QWindow *MouseTouchAdaptor::findQWindowWithXWindowID(WId windowId)
+{
+    QWindowList windowList = QGuiApplication::topLevelWindows();
+    QWindow *foundWindow = nullptr;
+
+    int i = 0;
+    while (!foundWindow && i < windowList.count()) {
+        QWindow *window = windowList[i];
+        if (window->winId() == windowId) {
+            foundWindow = window;
+        } else {
+            ++i;
+        }
+    }
+
+    Q_ASSERT(foundWindow);
+    return foundWindow;
 }

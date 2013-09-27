@@ -169,7 +169,7 @@ Item {
                 "edge": "bottom",
                 "title": i18n.tr("Close"),
                 "text": i18n.tr("Swipe up again to close the settings screen"),
-                "anchors.fill": demo.indicators,
+                "anchors.fill": demo.indicators.content,
             });
         }
         if (d.bottomEdgeDemo) {

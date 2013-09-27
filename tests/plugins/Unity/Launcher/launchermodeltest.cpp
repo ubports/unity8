@@ -62,7 +62,14 @@ public:
         return QString();
     }
     unity::shell::application::ApplicationInfoInterface *get(int index) const { return m_list.at(index); }
-    unity::shell::application::ApplicationInfoInterface *findApplication(const QString &) const { return nullptr; }
+    unity::shell::application::ApplicationInfoInterface *findApplication(const QString &appId) const {
+        Q_FOREACH(MockApp* app, m_list) {
+            if (app->appId() == appId) {
+                return app;
+            }
+        }
+        return nullptr;
+    }
     unity::shell::application::ApplicationInfoInterface *startApplication(const QString &, const QStringList &) { return nullptr; }
     bool stopApplication(const QString &) { return false; }
     bool focusApplication(const QString &appId) {
@@ -151,9 +158,54 @@ private Q_SLOTS:
         QCOMPARE(launcherModel->get(1)->pinned(), false);
     }
 
+    void testRemove_data() {
+
+        QTest::addColumn<bool>("pinned");
+        QTest::addColumn<bool>("running");
+
+        QTest::newRow("non-pinned, running") << false << true;
+        QTest::newRow("pinned, running") << true << false;
+        QTest::newRow("pinned, non-running") << true << false;
+    }
+
     void testRemove() {
+        QFETCH(bool, pinned);
+        QFETCH(bool, running);
+
+        // In the beginning we always have two items
         QCOMPARE(launcherModel->rowCount(QModelIndex()), 2);
-        launcherModel->requestRemove(launcherModel->get(0)->appId());
+
+        // pin one if required
+        if (pinned) {
+            launcherModel->pin(launcherModel->get(1)->appId());
+        }
+
+        // stop it if required
+        if (!running) {
+            appManager->removeApplication(1);
+        }
+
+        // Now remove it
+        launcherModel->requestRemove(launcherModel->get(1)->appId());
+
+        if (running) {
+            // both apps are running, both apps must still be here
+            QCOMPARE(launcherModel->rowCount(QModelIndex()), 2);
+
+           // Item must be unpinned now
+           QCOMPARE(launcherModel->get(1)->pinned(), false);
+
+        } else if (pinned) {
+           // Item 1 must go away, item 0 is here to stay
+            QCOMPARE(launcherModel->rowCount(QModelIndex()), 1);
+        }
+
+        // done our checks. now stop the app if was still running
+        if (running) {
+            appManager->removeApplication(1);
+        }
+
+        // It needs to go away in any case now
         QCOMPARE(launcherModel->rowCount(QModelIndex()), 1);
     }
 
@@ -181,6 +233,13 @@ private Q_SLOTS:
 
         // quicklist needs to transform to remove item. trigger it and check it item goes away
         launcherModel->quickListActionInvoked(launcherModel->get(0)->appId(), pinActionIndex);
+        QCOMPARE(launcherModel->get(0)->pinned(), false);
+
+        // still needs to be here as the app is still here
+        QCOMPARE(launcherModel->rowCount(QModelIndex()), 2);
+        // close the app
+        appManager->removeApplication(0);
+        // Now it needs to go away
         QCOMPARE(launcherModel->rowCount(QModelIndex()), 1);
     }
 
