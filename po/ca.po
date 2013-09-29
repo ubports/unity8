@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-08-27 13:36-0400\n"
-"PO-Revision-Date: 2013-09-11 10:30+0000\n"
+"PO-Revision-Date: 2013-09-28 07:38+0000\n"
 "Last-Translator: David Planella <david.planella@ubuntu.com>\n"
 "Language-Team: Catalan <ca@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-09-12 08:06+0000\n"
-"X-Generator: Launchpad (build 16761)\n"
+"X-Launchpad-Export-Date: 2013-09-29 06:18+0000\n"
+"X-Generator: Launchpad (build 16774)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -88,7 +88,7 @@ msgstr "YouTube"
 
 #: Components/EdgeDemoOverlay.qml:145
 msgid "Skip intro"
-msgstr ""
+msgstr "Omet la introducció"
 
 #: Components/EdgeDemo.qml:98
 msgid "Right edge"
@@ -97,6 +97,7 @@ msgstr "Vora dreta"
 #: Components/EdgeDemo.qml:99
 msgid "Try swiping from the right edge to unlock the phone"
 msgstr ""
+"Proveu de lliscar el dit des de la vora dreta per desblocar el telèfon"
 
 #: Components/EdgeDemo.qml:135
 msgid "Top edge"
@@ -105,14 +106,17 @@ msgstr "Vora superior"
 #: Components/EdgeDemo.qml:136
 msgid "Try swiping from the top edge to access the indicators"
 msgstr ""
+"Proveu de lliscar el dit des de la vora superior per accedir als indicadors"
 
 #: Components/EdgeDemo.qml:161
 msgid "Close"
-msgstr ""
+msgstr "Tanca"
 
 #: Components/EdgeDemo.qml:162
 msgid "Swipe up again to close the settings screen"
 msgstr ""
+"Llisqueu el dit cap amunt una altra vegada per tancar la pantalla de "
+"configuració"
 
 #: Components/EdgeDemo.qml:189
 msgid "Left edge"
@@ -121,6 +125,8 @@ msgstr "Vora esquerra"
 #: Components/EdgeDemo.qml:190
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr ""
+"Llisqueu el dit des de la vora esquerra per mostrar el llançador i accedir "
+"ràpidament a les aplicacions"
 
 #: Components/EdgeDemo.qml:217
 msgid "Well done"
@@ -145,8 +151,8 @@ msgstr "(%1)"
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 ressenya"
+msgstr[1] "%1 ressenyes"
 
 #: Dash/Apps/AppPreview.qml:175
 msgid "Rate this"
@@ -154,7 +160,7 @@ msgstr ""
 
 #: Dash/Apps/AppReviews.qml:72
 msgid "Add a review"
-msgstr ""
+msgstr "Afegiu una ressenya"
 
 #: Dash/Apps/AppReviews.qml:84
 msgid "Review"
@@ -162,7 +168,7 @@ msgstr "Ressenya"
 
 #: Dash/Apps/AppReviews.qml:118
 msgid "Send"
-msgstr ""
+msgstr "Envia"
 
 #: Dash/Apps/AppReviews.qml:136
 msgid "Comments:"
@@ -178,11 +184,11 @@ msgstr "Recents"
 
 #: Dash/DashMusic.qml:29 Dash/DashVideos.qml:30
 msgid "New Releases"
-msgstr ""
+msgstr "Novetats"
 
 #: Dash/DashMusic.qml:30
 msgid "Top Charting"
-msgstr ""
+msgstr "El millor de les llistes"
 
 #: Dash/DashMusic.qml:91
 msgid "Music"
@@ -190,7 +196,7 @@ msgstr "Música"
 
 #: Dash/DashVideos.qml:31
 msgid "Popular Online"
-msgstr ""
+msgstr "Popular a la xarxa"
 
 #: Dash/DashVideos.qml:146
 msgid "Videos"
@@ -198,11 +204,11 @@ msgstr "Vídeos"
 
 #: Dash/Video/VideoPreview.qml:130
 msgid "Directed by:"
-msgstr ""
+msgstr "Dirigit per:"
 
 #: Dash/Video/VideoPreview.qml:153
 msgid "Starring:"
-msgstr ""
+msgstr "Protagonistes:"
 
 #: Dash/Video/VideoPreview.qml:176
 msgid "Author:"
@@ -210,12 +216,12 @@ msgstr "Autor:"
 
 #: Greeter/Lockscreen.qml:134
 msgid "Emergency Call"
-msgstr ""
+msgstr "Trucada d'emergència"
 
 #: Greeter/PassphraseLockscreen.qml:59
 #, qt-format
 msgid "Hello %1"
-msgstr ""
+msgstr "Hola %1"
 
 #: Greeter/PassphraseLockscreen.qml:59
 msgid "Hello"
@@ -252,4 +258,4 @@ msgstr "No hi ha res que coincideixi amb la cerca"
 #: Shell.qml:429
 #, qt-format
 msgid "Please enter %1"
-msgstr ""
+msgstr "Introduïu %1"
