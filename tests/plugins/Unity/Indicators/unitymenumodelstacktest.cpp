@@ -30,37 +30,47 @@ class UnityMenuModelStackTest : public QObject
     Q_OBJECT
 private Q_SLOTS:
 
-    void initTestCase()
-    {
-    }
-
-    void cleanupTestCase()
-    {
-    }
-
     void init()
     {
-        QFETCH(QString, test);
-        QFETCH(int, menuDepth);
-        QFETCH(int, subMenuCount);
-
         m_model = new UnityMenuModel();
-        m_model->setModelData(recuseAddMenu(subMenuCount, menuDepth));
+        m_headChanged = false;
+        m_tailChanged = false;
     }
 
-    void cleanup() {
+    void cleanup()
+    {
+        delete m_model;
+        m_model = NULL;
     }
 
+    void testHeadOnSetHead()
+    {
+        UnityMenuModelStack stack;
+        connect(&stack, SIGNAL(headChanged(UnityMenuModel*)), this, SLOT(onHeadChanged()));
+        stack.setHead(m_model);
+
+        QCOMPARE(stack.head(), m_model);
+        QCOMPARE(m_headChanged, true);
+    }
+
+    void testTailOnSetHead()
+    {
+        UnityMenuModelStack stack;
+        connect(&stack, SIGNAL(tailChanged(UnityMenuModel*)), this, SLOT(onTailChanged()));
+        stack.setHead(m_model);
+
+        QCOMPARE(stack.tail(), m_model);
+        QCOMPARE(m_tailChanged, true);
+    }
 
     void testPushPop_data() {
-        QTest::addColumn<QString>("test");
         QTest::addColumn<int>("menuDepth");
         QTest::addColumn<int>("subMenuCount");
         QTest::addColumn<int>("subMenuIndex");
 
-        QTest::newRow("depth=0") << "testPushPop1" << 0 << 1 << 0;
-        QTest::newRow("depth=1") << "testPushPop2" << 1 << 1 << 0;
-        QTest::newRow("depth=8") << "testPushPop3" << 8 << 2 << 1;
+        QTest::newRow("depth=0") << 0 << 1 << 0;
+        QTest::newRow("depth=1") << 1 << 1 << 0;
+        QTest::newRow("depth=8") << 8 << 2 << 1;
     }
 
     void testPushPop()
@@ -69,42 +79,48 @@ private Q_SLOTS:
         QFETCH(int, subMenuCount);
         QFETCH(int, subMenuIndex);
 
+        m_model->setModelData(recuseAddMenu(subMenuCount, menuDepth));
+
         UnityMenuModelStack stack;
+        connect(&stack, SIGNAL(tailChanged(UnityMenuModel*)), this, SLOT(onTailChanged()));
+
         QList<UnityMenuModel*> models;
 
-        UnityMenuModel* parent = m_model;
-        UnityMenuModel* child = m_model;
+        int count = 0;
+        auto foreachChild = [&](UnityMenuModel* child, int childIndex) {
+            stack.push(child, childIndex);
+            QCOMPARE(stack.count(), count+1);
 
-        while(child) {
-            // submenus aren't immediate
-            bool rows = waitFor([child, subMenuCount]() { return child->rowCount() == subMenuCount; }, 500);
-            QVERIFY(rows);
-
-            stack.push(child, subMenuIndex);
+            count++;
             models << child;
-
-            parent = child;
-            child = qobject_cast<UnityMenuModel*>(parent->submenu(subMenuIndex));
-        }
+        };
+        recuseSubmenus(m_model, subMenuIndex, foreachChild);
 
         QCOMPARE(stack.count(), models.count());
         QCOMPARE(stack.count(), menuDepth+1);
         while(stack.count() > 0) {
+            m_tailChanged = false;
+
             QCOMPARE(stack.pop(), models.takeLast());
+
+            QCOMPARE(m_tailChanged, true);
+            if (stack.count()) {
+                QCOMPARE(stack.tail(), models.last());
+            }
         }
+        QCOMPARE(m_tailChanged, true);
     }
 
     void testPopOnRemove_data() {
-        QTest::addColumn<QString>("test");
         QTest::addColumn<int>("menuDepth");
         QTest::addColumn<int>("subMenuCount");
         QTest::addColumn<int>("subMenuIndex");
         QTest::addColumn<int>("removeIndex");
         QTest::addColumn<int>("resultCount");
 
-        QTest::newRow("removeIndexBefore") << "removeIndexBefore" << 4 << 2 << 1 << 0 << 5;
-        QTest::newRow("removeCurrentIndex") << "removeCurrentIndex" << 4 << 2 << 0 << 0 << 1;
-        QTest::newRow("removeIndexAfter") << "removeIndexAfter" << 4 << 2 << 0 << 1 << 5;
+        QTest::newRow("removeIndexBefore") << 4 << 2 << 1 << 0 << 5;
+        QTest::newRow("removeCurrentIndex") << 4 << 2 << 0 << 0 << 1;
+        QTest::newRow("removeIndexAfter") << 4 << 2 << 0 << 1 << 5;
     }
 
     void testPopOnRemove()
@@ -115,21 +131,14 @@ private Q_SLOTS:
         QFETCH(int, removeIndex);
         QFETCH(int, resultCount);
 
+        m_model->setModelData(recuseAddMenu(subMenuCount, menuDepth));
+
         UnityMenuModelStack stack;
 
-        UnityMenuModel* parent = m_model;
-        UnityMenuModel* child = m_model;
-
-        while(child) {
-            // submenus aren't immediate
-            bool rows = waitFor([child, subMenuCount]() { return child->rowCount() == subMenuCount; }, 1000);
-            QVERIFY(rows);
-
-            stack.push(child, subMenuIndex);
-
-            parent = child;
-            child = qobject_cast<UnityMenuModel*>(parent->submenu(subMenuIndex));
-        }
+        auto foreachChild = [&](UnityMenuModel* child, int childIndex) {
+            stack.push(child, childIndex);
+        };
+        recuseSubmenus(m_model, subMenuIndex, foreachChild);
 
         QCOMPARE(stack.count(), menuDepth+1);
 
@@ -168,11 +177,30 @@ private:
         return rows;
     }
 
+    void recuseSubmenus(UnityMenuModel* model, int childIndex, std::function<void(UnityMenuModel*, int)> func) {
+        UnityMenuModel* parent = model;
+        UnityMenuModel* child = model;
+
+        while(child) {
+            if (func) {
+                func(child, childIndex);
+            }
+
+            parent = child;
+            child = qobject_cast<UnityMenuModel*>(parent->submenu(childIndex));
+        }
+
+    }
+
+private Q_SLOTS:
+    void onHeadChanged() { m_headChanged = true; }
+    void onTailChanged() { m_tailChanged = true; }
+
 public:
     UnityMenuModel* m_model;
+    bool m_headChanged;
+    bool m_tailChanged;
 };
-
-
 
 QTEST_GUILESS_MAIN(UnityMenuModelStackTest)
 #include "unitymenumodelstacktest.moc"
