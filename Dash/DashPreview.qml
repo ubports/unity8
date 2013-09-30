@@ -90,7 +90,7 @@ Rectangle {
             width: root.columnWidth
             contentHeight: leftColumn.height
             anchors.bottomMargin: root.keyboardSize
-            //clip: true
+            clip: true
 
             Behavior on contentY { NumberAnimation { duration: 300 } }
 

@@ -27,7 +27,7 @@ DashPreview {
 
     property url url: previewData.image
 
-    header: UbuntuShape {
+    previewImages: UbuntuShape {
         id: urlLoader
         anchors.left: parent.left
         anchors.right: parent.right
@@ -41,13 +41,8 @@ DashPreview {
         }
     }
 
-    title: Column {
-        anchors {
-            top: parent.top
-            topMargin: units.gu(2)
-            left: parent.left
-            right: parent.right
-        }
+    header: Column {
+        height: childrenRect.height
 
         Label {
             id: title
@@ -55,7 +50,7 @@ DashPreview {
             anchors { left: parent.left; right: parent.right }
 
             elide: Text.ElideRight
-            fontSize: "x-large"
+            fontSize: "large"
             font.weight: Font.Light
             color: Theme.palette.selected.backgroundText
             opacity: 0.9
@@ -69,7 +64,7 @@ DashPreview {
         Label {
             anchors { left: parent.left; right: parent.right }
             visible: text != ""
-            fontSize: "medium"
+            fontSize: "small"
             opacity: 0.6
             color: "white"
             text: previewData.subtitle.replace(/[\r\n]+/g, "<br />")
@@ -82,7 +77,7 @@ DashPreview {
             onWidthChanged: { wrapMode = Text.NoWrap; wrapMode = Text.WordWrap }
         }
     }
-    buttons: GridView {
+    actions: GridView {
         id: buttons
         model: genericPreview.previewData.actions
 
@@ -112,7 +107,7 @@ DashPreview {
         focus: false
     }
 
-    body: Column {
+    description: Column {
         spacing: units.gu(2)
 
         Label {

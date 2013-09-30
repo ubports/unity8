@@ -26,15 +26,10 @@ DashPreview {
 
     signal sendUserReview(string review)
 
-    header: ListView {
+    previewImages: ListView {
         spacing: units.gu(1)
         orientation: ListView.Horizontal
         height: units.gu(22)
-        anchors {
-            left: parent.left
-            right: parent.right
-            margins: units.gu(1)
-        }
         model: previewData.infoMap["more-screenshots"] != null ? previewData.infoMap["more-screenshots"].value : [previewData.image]
 
         delegate: UbuntuShape {
@@ -55,14 +50,8 @@ DashPreview {
         }
     }
 
-    title: AppInfo {
+    header: AppInfo {
         objectName: "appInfo"
-        anchors {
-            top: parent.top
-            topMargin: units.gu(2)
-            left: parent.left
-            right: parent.right
-        }
 
         appName: root.previewData.title
         icon: root.previewData.appIcon
@@ -133,7 +122,7 @@ DashPreview {
         }
     }
 
-    buttons: Loader {
+    actions: Loader {
         anchors {
             left: parent.left
             right: parent.right
@@ -146,7 +135,7 @@ DashPreview {
         }
     }
 
-    body: Column {
+    description: Column {
         spacing: units.gu(1)
 
         Label {
@@ -160,53 +149,54 @@ DashPreview {
             styleColor: "black"
         }
 
-        Column {
-            visible: root.previewData.rating >= 0
+    }
+    ratings: Column {
+        visible: root.previewData.rating >= 0
+        spacing: units.gu(1)
+        height: childrenRect.height
+
+        ListItem.ThinDivider { }
+
+        Item {
             anchors { left: parent.left; right: parent.right }
-            spacing: parent.spacing
+            height: rateLabel.height
 
-            ListItem.ThinDivider { }
+            Label {
+                id: rateLabel
+                fontSize: "medium"
+                color: "white"
+                style: Text.Raised
+                styleColor: "black"
+                opacity: .9
+                text: i18n.tr("Rate this")
 
-            Item {
-                anchors { left: parent.left; right: parent.right }
-                height: rateLabel.height
-
-                Label {
-                    id: rateLabel
-                    fontSize: "medium"
-                    color: "white"
-                    style: Text.Raised
-                    styleColor: "black"
-                    opacity: .9
-                    text: i18n.tr("Rate this")
-
-                    anchors.left: parent.left
-                    anchors.verticalCenter: parent.verticalCenter
-                }
-
-                // FIXME these need to be made interactive and connected to the scope
-                RatingStars {
-                    anchors.right: parent.right
-                    anchors.verticalCenter: parent.verticalCenter
-                }
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
             }
 
-            ListItem.ThinDivider { }
+            // FIXME these need to be made interactive and connected to the scope
+            RatingStars {
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+            }
+        }
 
-            AppReviews {
-                id: appReviews
-                objectName: "appReviews"
-                // TODO: This should make this visible when the feature for reviews/comments is complete.
-                visible: false
-                anchors { left: parent.left; right: parent.right }
+        ListItem.ThinDivider { }
 
-                model: root.previewData.infoMap["comments"] ? root.previewData.infoMap["comments"].value : undefined
+        AppReviews {
+            id: appReviews
+            objectName: "appReviews"
+            // TODO: This should make this visible when the feature for reviews/comments is complete.
+            visible: false; height: 0
 
-                onSendReview: root.sendUserReview(review);
+            anchors { left: parent.left; right: parent.right }
 
-                onEditing: {
-                    root.ensureVisible(appReviews.textArea);
-                }
+            model: root.previewData.infoMap["comments"] ? root.previewData.infoMap["comments"].value : undefined
+
+            onSendReview: root.sendUserReview(review);
+
+            onEditing: {
+                root.ensureVisible(appReviews.textArea);
             }
         }
     }
