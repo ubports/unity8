@@ -139,9 +139,20 @@ Item {
         }
 
         function test_search_indicator() {
+            var searchIndicator = findChild(pageHeader, "searchIndicator")
+            var primaryImage = findChild(pageHeader, "primaryImage")
+
+            scopeMock.searchInProgress = false
+            compare(searchIndicator.running, false, "Search indicator is running.")
+            tryCompare(primaryImage, "visible", true)
+
             pageHeader.triggerSearch()
             typeString("test")
-            tryCompare(pageHeader, "searchInProgress", true)
+
+            scopeMock.searchInProgress = true
+            compare(searchIndicator.running, true, "Search indicator isn't running.")
+            tryCompare(primaryImage, "visible", false)
+
             pageHeader.resetSearch()
         }
     }

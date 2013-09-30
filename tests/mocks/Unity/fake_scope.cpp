@@ -128,6 +128,13 @@ void Scope::setFormFactor(const QString &str) {
     }
 }
 
+void Scope::setSearchInProgress(const bool inProg) {
+    if (inProg != m_searching) {
+        m_searching = inProg;
+        Q_EMIT searchInProgressChanged();
+    }
+}
+
 void Scope::setNoResultsHint(const QString& str) {
     if (str != m_noResultsHint) {
         m_noResultsHint = str;

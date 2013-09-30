@@ -32,7 +32,6 @@ Item {
     property alias searchQuery: searchField.text
     property ListModel searchHistory: SearchHistoryModel {}
     property Scope scope
-    property bool searchInProgress: false
 
     height: units.gu(8.5)
     implicitHeight: units.gu(8.5)
@@ -47,11 +46,6 @@ Item {
         searchHistory.addQuery(searchField.text);
         searchField.text = "";
         searchField.focus = false;
-    }
-
-    Connections {
-        target: scope
-        onSearchInProgressChanged: searchInProgress = scope.searchInProgress
     }
 
     Connections {
@@ -176,7 +170,7 @@ Item {
                                 leftMargin: units.gu(0.5)
                             }
 
-                            running: searchInProgress && searchField.text !== ""
+                            running: scope.searchInProgress && searchField.text !== ""
                             opacity: running ? 1 : 0
 
                             Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration; easing.type: Easing.Linear } }
@@ -184,6 +178,7 @@ Item {
 
                         Image {
                             id: primaryImage
+                            objectName: "primaryImage"
                             anchors {
                                 verticalCenter: parent.verticalCenter
                                 left: parent.left
