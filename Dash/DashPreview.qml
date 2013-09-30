@@ -25,12 +25,14 @@ Rectangle {
 
     property real previewWidthRatio: 0.5
 
+    property Component previewImages
     property Component header
-    property Component title
-    property Component buttons
-    property Component body
+    property Component actions
+    property Component description
+    property Component ratings
 
     readonly property bool narrowMode: width <= height
+    readonly property int columnWidth: narrowMode ? contentRow.width : (contentRow.width / 3) - contentRow.spacing
     readonly property int contentSpacing: units.gu(3)
 
     signal close()
@@ -61,93 +63,78 @@ Rectangle {
         anchors.fill: parent
     }
 
-    Item {
-        id: headerIcon
-        height: childrenRect.height
-        anchors {
-            left: parent.left
-            right: parent.right
-            top: parent.top
-            leftMargin: root.contentSpacing
-            topMargin: root.contentSpacing
-            rightMargin: root.contentSpacing
-        }
-        Loader {
-            id: headerLoader
-            anchors.left: parent.left
-            anchors.right: parent.right
-            sourceComponent: root.header
-        }
-    }
-
-    Item {
-        id: headerRow
-        height: childrenRect.height
-        anchors {
-            top: headerIcon.bottom
-            left: parent.left
-            right: parent.right
-            leftMargin: root.contentSpacing
-            rightMargin: root.contentSpacing
-        }
-        Loader {
-            id: titleLoader
-            anchors.left: parent.left
-            anchors.right: parent.right
-            sourceComponent: root.title
-        }
-    }
 
     Row {
         id: contentRow
         anchors {
             left: parent.left
+            top: parent.top
             right: parent.right
-            top: headerRow.bottom
             bottom: parent.bottom
             topMargin: root.contentSpacing
             leftMargin: root.contentSpacing
             rightMargin: root.contentSpacing
         }
+        height: childrenRect.height
 
         spacing: units.gu(2)
+
 
         Flickable {
             id: leftFlickable
             objectName: "leftFlickable"
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            width: root.narrowMode ? contentRow.width : contentRow.width * root.previewWidthRatio
+            anchors {
+                top: parent.top
+                bottom: parent.bottom
+            }
+            width: root.columnWidth
             contentHeight: leftColumn.height
             anchors.bottomMargin: root.keyboardSize
-            clip: true
+            //clip: true
 
             Behavior on contentY { NumberAnimation { duration: 300 } }
 
             Column {
                 id: leftColumn
                 objectName: "leftColumn"
+                height: childrenRect.height
+                spacing: root.contentSpacing
                 anchors {
                     left: parent.left
                     right: parent.right
-                }
-                height: childrenRect.height
-                spacing: units.gu(1)
-
-                Loader {
-                    id: buttonLoader
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    sourceComponent: root.buttons
                 }
             }
         }
 
         Flickable {
+            id: centerFlickable
+            anchors {
+                top: parent.top
+                bottom: parent.bottom
+            }
+            width: root.columnWidth
+            contentHeight: centerColumn.height
+            clip: true
+
+            Column {
+                id: centerColumn
+                objectName: "centerColumn"
+                height: childrenRect.height
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                }
+                spacing: root.contentSpacing
+            }
+        }
+
+        Flickable {
             id: rightFlickable
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            width: narrowMode ? 0 : (contentRow.width - leftColumn.width - contentRow.spacing)
+            anchors {
+                top: parent.top
+                bottom: parent.bottom
+            }
+            width: root.columnWidth
             contentHeight: rightColumn.height
             clip: true
 
@@ -164,9 +151,53 @@ Rectangle {
     }
 
     Loader {
+        id: previewImageLoader
+        parent: leftColumn
+        sourceComponent: root.previewImages
+        anchors {
+            left: parent.left
+            right: parent.right
+        }
+        height: childrenRect.height
+    }
+
+    Loader {
+        id: ratingsLoader
         parent: root.narrowMode ? leftColumn : rightColumn
-        anchors.left: parent.left
-        anchors.right: parent.right
-        sourceComponent: root.body
+        anchors {
+            left: parent.left
+            right: parent.right
+        }
+        sourceComponent: root.ratings
+    }
+
+    Loader {
+        id: descriptionLoader
+        parent: root.narrowMode ? leftColumn : centerColumn
+        anchors {
+            left: parent.left
+            right: parent.right
+        }
+        sourceComponent: root.description
+    }
+
+    Loader {
+        id: actionsLoader
+        parent: root.narrowMode ? leftColumn : centerColumn
+        anchors {
+            left: parent.left
+            right: parent.right
+        }
+        sourceComponent: root.actions
+    }
+
+    Loader {
+        id: headerLoader
+        parent: root.narrowMode ? leftColumn : centerColumn
+        anchors {
+            left: parent.left
+            right: parent.right
+        }
+        sourceComponent: root.header
     }
 }
