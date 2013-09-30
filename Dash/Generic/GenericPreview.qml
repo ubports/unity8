@@ -51,9 +51,10 @@ DashPreview {
 
     Component {
         id: headerComponent
-        PreviewHeader {
+        Header {
             title: previewData.title
             rating: Math.round(root.previewData.rating * 10)
+            subtitle: previewData.subtitle.replace(/[\r\n]+/g, "<br />")
             reviews: root.previewData.numRatings
             rated: root.previewData.infoMap["rated"] ? root.previewData.infoMap["rated"].value : 0
         }
@@ -164,60 +165,6 @@ DashPreview {
                             }
                         }
                     }
-                }
-            }
-        }
-    }
-
-    Component {
-        id: ratingsComponent
-        Column {
-            visible: root.previewData.rating >= 0
-            spacing: units.gu(1)
-            height: childrenRect.height
-
-            ListItems.ThinDivider { }
-
-            Item {
-                anchors { left: parent.left; right: parent.right }
-                height: rateLabel.height
-
-                Label {
-                    id: rateLabel
-                    fontSize: "medium"
-                    color: "white"
-                    style: Text.Raised
-                    styleColor: "black"
-                    opacity: .9
-                    text: i18n.tr("Rate this")
-
-                    anchors.left: parent.left
-                    anchors.verticalCenter: parent.verticalCenter
-                }
-
-                // FIXME these need to be made interactive and connected to the scope
-                RatingStars {
-                    anchors.right: parent.right
-                    anchors.verticalCenter: parent.verticalCenter
-                }
-            }
-
-            ListItems.ThinDivider { }
-
-            Reviews {
-                id: appReviews
-                objectName: "appReviews"
-                // TODO: This should make this visible when the feature for reviews/comments is complete.
-                visible: false; height: 0
-
-                anchors { left: parent.left; right: parent.right }
-
-                model: root.previewData.infoMap["comments"] ? root.previewData.infoMap["comments"].value : undefined
-
-                onSendReview: root.sendUserReview(review);
-
-                onEditing: {
-                    root.ensureVisible(appReviews.textArea);
                 }
             }
         }

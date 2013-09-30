@@ -22,6 +22,7 @@ Row {
     id: root
     property alias icon: image.source
     property alias title: titleLabel.text
+    property alias subtitle: subtitleLabel.text
     property alias rating: ratingStars.rating
     property int rated: 0
     property int reviews: 0
@@ -51,10 +52,22 @@ Row {
             style: Text.Raised
             styleColor: "black"
             opacity: .9
+            width: parent.width
+            elide: Text.ElideRight
+        }
+
+        Label {
+            id: subtitleLabel
+            objectName: "subtitleLabel"
+            fontSize: "medium"
+            color: "white"
+            style: Text.Raised
+            styleColor: "black"
+            opacity: .6
         }
 
         Row {
-            visible: root.rating >= 0
+            visible: root.rating >= 0 && subtitleLabel.text.length == 0
             spacing: units.gu(1)
 
             RatingStars {

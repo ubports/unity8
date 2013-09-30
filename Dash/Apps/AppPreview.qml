@@ -16,7 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import Ubuntu.Components.ListItems 0.1 as ListItem
+import Ubuntu.Components.ListItems 0.1 as ListItems
 import Ubuntu.DownloadDaemonListener 0.1
 import ".."
 import "../Generic"
@@ -32,6 +32,7 @@ GenericPreview {
     actions: root.previewData.infoMap["show_progressbar"] ? progressComponent : buttonsComponent
     description: descriptionComponent
     header: headerComponent
+    ratings: ratingsComponent
 
     Component {
         id: previewImagesComponent
@@ -62,7 +63,7 @@ GenericPreview {
 
     Component {
         id: headerComponent
-        PreviewHeader {
+        Header {
             title: previewData.title
             icon: previewData.appIcon
             rating: Math.round(root.previewData.rating * 10)
@@ -149,6 +150,60 @@ GenericPreview {
                 wrapMode: Text.WordWrap
                 style: Text.Raised
                 styleColor: "black"
+            }
+        }
+    }
+
+    Component {
+        id: ratingsComponent
+        Column {
+            visible: root.previewData.rating >= 0
+            spacing: units.gu(1)
+            height: childrenRect.height
+
+            ListItems.ThinDivider { }
+
+            Item {
+                anchors { left: parent.left; right: parent.right }
+                height: rateLabel.height
+
+                Label {
+                    id: rateLabel
+                    fontSize: "medium"
+                    color: "white"
+                    style: Text.Raised
+                    styleColor: "black"
+                    opacity: .9
+                    text: i18n.tr("Rate this")
+
+                    anchors.left: parent.left
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+
+                // FIXME these need to be made interactive and connected to the scope
+                RatingStars {
+                    anchors.right: parent.right
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+            }
+
+            ListItems.ThinDivider { }
+
+            Reviews {
+                id: appReviews
+                objectName: "appReviews"
+                // TODO: This should make this visible when the feature for reviews/comments is complete.
+                visible: false; height: 0
+
+                anchors { left: parent.left; right: parent.right }
+
+                model: root.previewData.infoMap["comments"] ? root.previewData.infoMap["comments"].value : undefined
+
+                onSendReview: root.sendUserReview(review);
+
+                onEditing: {
+                    root.ensureVisible(appReviews.textArea);
+                }
             }
         }
     }
