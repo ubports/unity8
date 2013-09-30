@@ -19,8 +19,7 @@
 #ifndef UNITY_MENU_MODEL_PATHS_H
 #define UNITY_MENU_MODEL_PATHS_H
 
-#include <QtQml/QQmlEngine>
-#include <QtQml/QQmlExtensionPlugin>
+#include <QVariant>
 
 class UnityMenuModelPaths : public QObject
 {
