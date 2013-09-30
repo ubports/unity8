@@ -30,7 +30,7 @@ PageStack {
     // https://bugs.launchpad.net/ubuntu-ui-toolkit/+bug/1211704
     __propagated: null
 
-    property alias title: _mainPage.title
+    property alias title: pluginItem.title
     property alias emptyText: pluginItem.emptyText
     property alias busName: pluginItem.busName
     property alias actionsObjectPath : pluginItem.actionsObjectPath
