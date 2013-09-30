@@ -45,18 +45,24 @@ Item {
     property int drawBuffer: width / pathItemCount // an "ok" value - but values used from the listView cause loops
     /// The selected item can be shown in a different size controlled by selectedItemScaleFactor
     property real selectedItemScaleFactor: 1.1
+    /// The index of the item that should be highlighted
+    property alias highlightIndex: listView.highlightIndex
+    /// The column count is required for API compatibility with FilterGrids
+    readonly property int columns: listView.count
+    /// Indicates that this component automatically centers the highlighted item
+    readonly property bool highlightCentered: true
 
     /// Emitted when the user clicked on an item
     /// @param index is the index of the clicked item
-    /// @param delegateItem is the clicked component/delegate itself
+    /// @param model is the model of all the items in the carousel
     /// @param itemY is y of the clicked delegate
-    signal clicked(int index, var delegateItem, real itemY)
+    signal clicked(int index, var model, real itemY)
 
     /// Emitted when the user pressed and held on an item
     /// @param index is the index of the held item
-    /// @param delegateItem is the held component/delegate itself
+    /// @param model is the model of all the items in the carousel
     /// @param itemY is y of the held delegate
-    signal pressAndHold(int index, var delegateItem, real itemY)
+    signal pressAndHold(int index, var model, real itemY)
 
     implicitHeight: listView.tileHeight * selectedItemScaleFactor
 
@@ -75,6 +81,7 @@ Item {
         property real newContentX: -1
         property real pathItemCount: referenceWidth / referenceTileWidth
         property real tileAspectRatio: 1
+        property int highlightIndex: -1
 
         /* The positioning and scaling of the items in the carousel is based on the variable
            'continuousIndex', a continuous real variable between [0, 'carousel.model.count'],
@@ -140,6 +147,11 @@ Item {
         flickDeceleration: Math.max(1500 * Math.pow(realWidth / referenceWidth, 1.5), 1500) // 1500 is platform default
         maximumFlickVelocity: Math.max(2500 * Math.pow(realWidth / referenceWidth, 1.5), 2500) // 2500 is platform default
         orientation: ListView.Horizontal
+        currentIndex: highlightIndex
+        highlightFollowsCurrentItem: true
+        preferredHighlightBegin: (width - tileWidth) * 0.5
+        preferredHighlightEnd: (width - tileWidth) * 0.5
+        highlightRangeMode: highlightIndex != -1 ? ListView.StrictlyEnforceRange : ListView.NoHighlightRange
 
         function itemClicked(index, delegateItem) {
             var x = CarouselJS.getXFromContinuousIndex(index,
@@ -154,7 +166,7 @@ Item {
                 /* We're clicking the selected item and
                    we're in the neighbourhood of radius 1 pixel from it.
                    Let's emit the clicked signal. */
-                carousel.clicked(index, delegateItem, delegateItem.y)
+                carousel.clicked(index, listView.model, delegateItem.y)
                 return
             }
 
@@ -178,7 +190,7 @@ Item {
                 /* We're pressAndHold the selected item and
                    we're in the neighbourhood of radius 1 pixel from it.
                    Let's emit the pressAndHold signal. */
-                carousel.pressAndHold(index, delegateItem, delegateItem.y);
+                carousel.pressAndHold(index, listView.model, delegateItem.y);
                 return;
             }
 
@@ -277,6 +289,7 @@ Item {
             scale: itemScale * explicitScaleFactor
             sourceComponent: itemComponent
             z: cachedTiles - Math.abs(index - listView.selectedIndex)
+            opacity: highlightIndex == -1 ? 1 : (highlightIndex == index ? 0.6 : 0.2)
 
             transform: Translate {
                 x: listView.viewTranslation + translationX * listView.scaleFactor

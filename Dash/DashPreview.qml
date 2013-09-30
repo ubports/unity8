@@ -17,7 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 
-Rectangle {
+Item {
     id: root
 
     property int keyboardSize: Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.height : 0
@@ -36,7 +36,6 @@ Rectangle {
     signal close()
     signal previewImageClicked()
 
-    color: Qt.rgba(0, 0, 0, .3)
     clip: true
 
     function ensureVisible(item) {
@@ -119,6 +118,7 @@ Rectangle {
                     left: parent.left
                     leftMargin: title.paintedWidth + labelItem.spacing
                 }
+                visible: title.text !== ""
             }
         }
     }

@@ -44,25 +44,25 @@ Item {
 
             function test_isCurrent() {
                 var pageHeader = findChild(genericScopeView, "pageHeader");
-                var previewLoader = findChild(genericScopeView, "previewLoader");
+                var previewListView = findChild(genericScopeView, "previewListView");
                 genericScopeView.isCurrent = true
                 pageHeader.searchQuery = "test"
-                previewLoader.open = true
+                previewListView.open = true
                 genericScopeView.isCurrent = false
                 tryCompare(pageHeader, "searchQuery", "")
                 tryCompare(genericScopeView, "previewShown", false);
             }
 
             function test_showDash() {
-                var previewLoader = findChild(genericScopeView, "previewLoader");
-                previewLoader.open = true;
+                var previewListView = findChild(genericScopeView, "previewListView");
+                previewListView.open = true;
                 scopes.get(0).showDash();
                 tryCompare(genericScopeView, "previewShown", false);
             }
 
             function test_hideDash() {
-                var previewLoader = findChild(genericScopeView, "previewLoader");
-                previewLoader.open = true;
+                var previewListView = findChild(genericScopeView, "previewListView");
+                previewListView.open = true;
                 scopes.get(0).hideDash();
                 tryCompare(genericScopeView, "previewShown", false);
             }

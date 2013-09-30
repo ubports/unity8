@@ -26,6 +26,12 @@ AbstractButton {
     property alias text: label.text
     property int imageWidth
     property int imageHeight
+    opacity: GridView.view.highlightIndex === -1 ? 1 :
+                GridView.view.highlightIndex === index ? 0.6 : 0.2
+
+    Behavior on opacity {
+        UbuntuNumberAnimation {}
+    }
 
     UbuntuShape {
         id: icon

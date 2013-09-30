@@ -26,6 +26,7 @@ Item {
     property int maximumNumberOfColumns: 6
     readonly property int columns: gridView.columns
     property alias verticalSpacing: gridView.verticalSpacing
+    readonly property alias margins: gridView.margin
     property int delegateWidth
     property int delegateHeight
     property alias model: gridView.model
@@ -39,6 +40,7 @@ Item {
     readonly property alias flicking: gridView.flicking
     readonly property alias moving: gridView.moving
     readonly property alias pressDelay: gridView.pressDelay
+    property alias highlightIndex: gridView.highlightIndex
 
     function contentHeightForRows(rows) {
         return rows * cellHeight + verticalSpacing
@@ -54,6 +56,7 @@ Item {
             topMargin: verticalSpacing
         }
         clip: parent.height != totalContentHeight
+        property int highlightIndex: -1
 
         function pixelToGU(value) {
             return Math.floor(value / units.gu(1));
