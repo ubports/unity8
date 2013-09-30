@@ -19,9 +19,9 @@ import QtTest 1.0
 import ".."
 import "../../../Greeter"
 import AccountsService 0.1
+import LightDM 0.1 as LightDM
 import Ubuntu.Components 0.1
 import Unity.Test 0.1 as UT
-import AccountsService 0.1
 
 Item {
     width: units.gu(60)

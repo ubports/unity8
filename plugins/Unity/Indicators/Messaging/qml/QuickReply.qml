@@ -23,12 +23,13 @@ import Ubuntu.Components 0.1
 import Unity.IndicatorsLegacy 0.1 as Indicators
 
 Item {
-    property alias actionGroup: actionTextField.actionGroup
-    property alias action: actionTextField.action
-
+    id: quickReply
     property alias buttonText: actionTextField.buttonText
     property real expandedHeight: childrenRect.height
     property alias messages : messagelistRepeater.model
+    property alias replyEnabled: actionTextField.activateEnabled
+
+    signal reply(var value)
 
     Item {
         id: header
@@ -83,10 +84,9 @@ Item {
 
             height: childrenRect.height
 
-            Rectangle {
+            Item {
                 width: messagelist.width
                 height: units.gu(5)
-                color: "#333230"
 
                 Label {
                     id: __label
@@ -150,6 +150,11 @@ Item {
 
             anchors.fill: parent
             anchors.margins: units.gu(1)
+            activateEnabled: replyEnabled
+
+            onActivate: {
+                quickReply.reply(value)
+            }
         }
 
         Indicators.HLine {

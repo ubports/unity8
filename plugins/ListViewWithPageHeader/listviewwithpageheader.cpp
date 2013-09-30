@@ -170,6 +170,8 @@ ListViewWithPageHeader::ListViewWithPageHeader()
     connect(this, SIGNAL(contentHeightChanged()), this, SLOT(onContentHeightChanged()));
     connect(this, SIGNAL(heightChanged()), this, SLOT(onHeightChanged()));
     connect(m_contentYAnimation, SIGNAL(stopped()), this, SLOT(onShowHeaderAnimationFinished()));
+
+    setFlickableDirection(VerticalFlick);
 }
 
 ListViewWithPageHeader::~ListViewWithPageHeader()
@@ -483,7 +485,7 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
             // or the header is partially shown and we are not doing a maximizeVisibleArea either
             const bool scrolledUp = m_previousContentY > contentY();
             const bool notRebounding = contentY() + height() < contentHeight();
-            const bool notShownByItsOwn = contentY() + diff > m_headerItem->y() + m_headerItem->height();
+            const bool notShownByItsOwn = contentY() + diff >= m_headerItem->y() + m_headerItem->height();
             const bool maximizeVisibleAreaRunning = m_contentYAnimation->isRunning() && contentYAnimationType == ContentYAnimationMaximizeVisibleArea;
 
             if (!scrolledUp && contentY() == -m_minYExtent) {
@@ -1007,7 +1009,11 @@ void ListViewWithPageHeader::onModelUpdated(const QQmlChangeSet &changeSet, bool
         }
     }
 
+#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
     Q_FOREACH(const QQuickChangeSet::Change &change, changeSet.changes()) {
+#else
+    Q_FOREACH(const QQmlChangeSet::Change &change, changeSet.changes()) {
+#endif
 //         qDebug() << "ListViewWithPageHeader::onModelUpdated Change" << change.index << change.count;
         for (int i = change.index; i < change.count; ++i) {
             ListItem *item = itemAtIndex(i);

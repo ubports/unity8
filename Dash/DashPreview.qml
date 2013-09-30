@@ -20,6 +20,7 @@ import Ubuntu.Components 0.1
 Rectangle {
     id: root
 
+    property int keyboardSize: Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.height : 0
     property var previewData
 
     property string title: ""
@@ -37,6 +38,14 @@ Rectangle {
 
     color: Qt.rgba(0, 0, 0, .3)
     clip: true
+
+    function ensureVisible(item) {
+        var o = leftFlickable.mapFromItem(item, 0, 0, item.width, item.height);
+        var keyboardY = shell.height - root.keyboardSize;
+        if ((o.y + o.height) > keyboardY) {
+            leftFlickable.contentY += o.y + o.height - keyboardY;
+        }
+    }
 
     Connections {
         target: shell.applicationManager
@@ -128,11 +137,15 @@ Rectangle {
 
         Flickable {
             id: leftFlickable
+            objectName: "leftFlickable"
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             width: root.narrowMode ? contentRow.width : contentRow.width * root.previewWidthRatio
             contentHeight: leftColumn.height
+            anchors.bottomMargin: root.keyboardSize
             clip: true
+
+            Behavior on contentY { NumberAnimation { duration: 300 } }
 
             Column {
                 id: leftColumn

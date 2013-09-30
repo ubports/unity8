@@ -35,6 +35,7 @@
 #include "categoryresults.h"
 #include "bottombarvisibilitycommunicatorshell.h"
 #include "genericoptionsmodel.h"
+#include "result.h"
 
 // libqtdee
 #include "deelistmodel.h"
@@ -50,6 +51,7 @@ void UnityPlugin::registerTypes(const char *uri)
     qmlRegisterUncreatableType<PreviewInfoHint>(uri, 0, 1, "PreviewInfoHint", "Can't create PreviewInfoHint object in QML.");
     qmlRegisterUncreatableType<SocialPreviewComment>(uri, 0, 1, "SocialPreviewComment", "Can't create SocialPreviewComment object in QML.");
     qmlRegisterUncreatableType<GenericOptionsModel>(uri, 0, 1, "GenericOptionsModel", "Can't create options model in QML.");
+    qmlRegisterUncreatableType<Result>(uri, 0, 1, "Result", "Can't create result object in QML.");
     qmlRegisterType<Scope>(uri, 0, 1, "Scope");
     qmlRegisterType<Scopes>(uri, 0, 1, "Scopes");
     qmlRegisterType<Categories>(uri, 0, 1, "Categories");
