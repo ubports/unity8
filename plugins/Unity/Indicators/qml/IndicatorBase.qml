@@ -32,7 +32,6 @@ Item {
     property var menuObjectPaths: undefined
     readonly property string device: "phone"
     property string rootMenuType: "com.canonical.indicator.root"
-    property bool active: false
 
     property string deviceMenuObjectPath: menuObjectPaths.hasOwnProperty(device) ? menuObjectPaths[device] : ""
 
@@ -40,9 +39,9 @@ Item {
 
     CachedUnityMenuModel {
         id: cachedModel
-        busName: active ? indicatorItem.busName : ""
-        actionsObjectPath: active ? indicatorItem.actionsObjectPath : ""
-        menuObjectPath: active ? indicatorItem.deviceMenuObjectPath : ""
+        busName: indicatorItem.busName
+        actionsObjectPath: indicatorItem.actionsObjectPath
+        menuObjectPath: indicatorItem.deviceMenuObjectPath
     }
 
     property var rootActionState: Indicators.RootActionState {
