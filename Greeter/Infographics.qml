@@ -29,13 +29,7 @@ Item {
     Connections {
         target: model
 
-        property bool appeared: false
-
-        onDataAboutToAppear: {
-            // Don't 'hide' on first appearance, since there is no content yet
-            if (appeared) startHideAnimation() // hide "no data" label
-            appeared = true
-        }
+        onDataAboutToAppear: startHideAnimation() // hide "no data" label
         onDataAppeared: startShowAnimation()
 
         onDataAboutToChange: startHideAnimation()
@@ -46,11 +40,19 @@ Item {
     }
 
     function startShowAnimation() {
+        dotHideAnimTimer.stop()
+        circleShrinkAnimTimer.stop()
+        notification.hideAnim.stop()
+
         dotShowAnimTimer.startFromBeginning()
         notification.showAnim.start()
     }
 
     function startHideAnimation() {
+        dotShowAnimTimer.stop()
+        circleGrowAnimTimer.stop()
+        notification.showAnim.stop()
+
         dotHideAnimTimer.startFromBeginning()
         notification.hideAnim.start()
     }
