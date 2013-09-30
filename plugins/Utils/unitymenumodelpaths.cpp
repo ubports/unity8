@@ -19,29 +19,8 @@
 
 #include "unitymenumodelpaths.h"
 #include <QDBusArgument>
-#include <QDebug>
 
 static QVariant parseVariantData(const QVariant& var);
-
-UnityMenuModelPaths::UnityMenuModelPaths(QObject *parent)
-    : QObject(parent)
-{
-}
-
-QVariant UnityMenuModelPaths::source() const
-{
-    return m_sourceData;
-}
-
-void UnityMenuModelPaths::setSource(const QVariant& data)
-{
-    if (m_sourceData != data) {
-        m_sourceData = data;
-        Q_EMIT sourceChanged();
-
-        updateData();
-    }
-}
 
 const QDBusArgument &operator>>(const QDBusArgument &arg, QVariantMap &map)
 {
@@ -62,19 +41,37 @@ const QDBusArgument &operator>>(const QDBusArgument &arg, QVariantMap &map)
 }
 
 static QVariant parseVariantData(const QVariant& var) {
-    if ((int)var.type() == QMetaType::User) {
-        if (var.userType() == qMetaTypeId<QDBusArgument>()) {
-
-            QDBusArgument arg(var.value<QDBusArgument>());
-            if (arg.currentType() == QDBusArgument::MapType) {
-                QVariantMap map;
-                arg >> map;
-                return map;
-            }
-            return arg.asVariant();
+    if ((int)var.type() == QMetaType::User && var.userType() == qMetaTypeId<QDBusArgument>()) {
+        QDBusArgument arg(var.value<QDBusArgument>());
+        if (arg.currentType() == QDBusArgument::MapType) {
+            QVariantMap map;
+            arg >> map;
+            return map;
         }
+        return arg.asVariant();
     }
+
     return var;
+}
+
+UnityMenuModelPaths::UnityMenuModelPaths(QObject *parent)
+    : QObject(parent)
+{
+}
+
+QVariant UnityMenuModelPaths::source() const
+{
+    return m_sourceData;
+}
+
+void UnityMenuModelPaths::setSource(const QVariant& data)
+{
+    if (m_sourceData != data) {
+        m_sourceData = data;
+        Q_EMIT sourceChanged();
+
+        updateData();
+    }
 }
 
 void UnityMenuModelPaths::updateData()
@@ -121,7 +118,6 @@ QVariantMap UnityMenuModelPaths::actions() const
 void UnityMenuModelPaths::setActions(const QVariantMap &actions)
 {
     if (m_actions != actions) {
-        qDebug() << "UnityMenuModelPaths setActions " << actions;
         m_actions = actions;
         Q_EMIT actionsChanged();
     }

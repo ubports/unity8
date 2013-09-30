@@ -19,7 +19,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import "../Greeter"
+import "../Components"
 
 Loader {
     id: menuFactory
@@ -54,10 +54,7 @@ Loader {
         Column {
             spacing: units.gu(.5)
 
-            anchors {
-                left: parent.left
-                right: parent.right
-            }
+            anchors.left: parent.left; anchors.right: parent.right
 
             Component.onCompleted: {
                 menuModel.loadExtendedAttributes(menuIndex, {"x-echo-mode-password": "bool"});
@@ -73,10 +70,7 @@ Loader {
             TextField {
                 id: textfield
 
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                }
+                anchors.left: parent.left; anchors.right: parent.right
 
                 onTextChanged: {
                     menuModel.changeState(menuIndex, text);
@@ -88,10 +82,7 @@ Loader {
     Component {
         id: pinLock
         PinLockscreen {
-            anchors {
-                left: parent.left
-                right: parent.right
-            }
+            anchors.left: parent.left; anchors.right: parent.right
 
             onEntered: {
                 menuModel.changeState(menuIndex, passphrase);

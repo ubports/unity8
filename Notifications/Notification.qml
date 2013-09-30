@@ -40,16 +40,18 @@ UbuntuShape {
 
     clip: true
 
+    UnityMenuModelPaths {
+        id: paths
+
+        source: hints["x-canonical-private-menu-model"]
+
+        busNameHint: "busName"
+        actionsHint: "actions"
+        menuObjectPathHint: "menuPath"
+    }
+
     UnityMenuModel {
-        id: menu
-
-        property UnityMenuModelPaths paths: UnityMenuModelPaths {
-            source: hints["x-canonical-private-menu-model"]
-
-            busNameHint: "busName"
-            actionsHint: "actions"
-            menuObjectPathHint: "menuPath"
-        }
+        id: unityMenuModel
 
         busName: paths.busName
         actions: paths.actions
@@ -159,32 +161,24 @@ UbuntuShape {
             }
         }
 
-        ListView {
-            id: dialogListView
-
+        Column {
             objectName: "dialogListView"
             spacing: units.gu(2)
-            interactive: false
 
             visible: count > 0
-            height: childrenRect.height
 
-            anchors {
-                left: parent.left
-                right: parent.right
-            }
+            anchors.left: parent.left; anchors.right: parent.right
 
-            model: menu
+            Repeater {
+                model: unityMenuModel
 
-            delegate: NotificationMenuItemFactory {
-                anchors {
-                    left: parent.left
-                    right: parent.right
+                NotificationMenuItemFactory {
+                    anchors.left: parent.left; anchors.right: parent.right
+
+                    menuModel: unityMenuModel
+                    menuData: model
+                    menuIndex: index
                 }
-
-                menuModel: menu
-                menuData: model
-                menuIndex: index
             }
         }
 
