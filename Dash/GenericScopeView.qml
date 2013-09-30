@@ -30,6 +30,8 @@ ScopeView {
 
     onMovementStarted: categoryView.showHeader()
 
+    onPositionedAtBeginning: categoryView.positionAtBeginning()
+
     Binding {
         target: scopeView.scope
         property: "searchQuery"
@@ -58,6 +60,7 @@ ScopeView {
 
     ScopeListView {
         id: categoryView
+        objectName: "categoryListView"
         anchors.fill: parent
         model: scopeView.categories
         forceNoClip: previewLoader.onScreen
