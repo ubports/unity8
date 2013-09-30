@@ -16,154 +16,208 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Ubuntu.Components.ListItems 0.1 as ListItems
 import "../../Components"
-import "../../Components/ListItems" as ListItems
 import ".."
+import "../Previews"
 
 DashPreview {
     id: genericPreview
-
-    previewWidthRatio: 0.6
-
     property url url: previewData.image
 
-    previewImages: UbuntuShape {
-        id: urlLoader
-        anchors.left: parent.left
-        anchors.right: parent.right
-        height: width * previewImage.sourceSize.height / previewImage.sourceSize.width
-        radius: "medium"
-        image: Image {
-            id: previewImage
-            asynchronous: true
-            source: genericPreview.url
-            fillMode: Image.PreserveAspectCrop
-        }
-    }
+    previewImages: previewImagesComponent
+    header: headerComponent
+    actions: actionsComponent
+    description: descriptionComponent
+    ratings: ratingsComponent
 
-    header: Column {
-        height: childrenRect.height
-
-        Label {
-            id: title
-            objectName: "titleLabel"
-            anchors { left: parent.left; right: parent.right }
-
-            elide: Text.ElideRight
-            fontSize: "large"
-            font.weight: Font.Light
-            color: Theme.palette.selected.backgroundText
-            opacity: 0.9
-            text: previewData.title
-            style: Text.Raised
-            styleColor: "black"
-            maximumLineCount: 2
-            wrapMode: Text.WordWrap
-        }
-
-        Label {
-            anchors { left: parent.left; right: parent.right }
-            visible: text != ""
-            fontSize: "small"
-            opacity: 0.6
-            color: "white"
-            text: previewData.subtitle.replace(/[\r\n]+/g, "<br />")
-            style: Text.Raised
-            styleColor: "black"
-            wrapMode: Text.WordWrap
-            textFormat: Text.RichText
-            maximumLineCount: 1
-            // FIXME: workaround for https://bugreports.qt-project.org/browse/QTBUG-33020
-            onWidthChanged: { wrapMode = Text.NoWrap; wrapMode = Text.WordWrap }
-        }
-    }
-    actions: GridView {
-        id: buttons
-        model: genericPreview.previewData.actions
-
-        property int buttonMaxWidth: units.gu(34)
-        property int numOfColumns: Math.ceil((width + spacing) / (buttonMaxWidth + spacing))
-        property int numOfRows: Math.ceil(count / numOfColumns)
-        property int spacing: units.gu(1)
-        height: Math.max(units.gu(4), units.gu(4)*numOfRows + spacing*(numOfRows - 1))
-
-        cellWidth: width / numOfColumns
-        cellHeight: buttonHeight + spacing
-        property int buttonWidth: cellWidth - spacing / 2
-        property int buttonHeight: units.gu(4)
-
-        delegate: Button {
-            width: Math.max(units.gu(4), buttons.buttonWidth)
-            height: buttons.buttonHeight
-            color: "#dd4814"
-            text: modelData.displayName
-            iconSource: modelData.iconHint
-            iconPosition: "right"
-            visible: true
-            onClicked: {
-                genericPreview.previewData.execute(modelData.id, { })
+    Component {
+        id: previewImagesComponent
+        UbuntuShape {
+            id: urlLoader
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: width * previewImage.sourceSize.height / previewImage.sourceSize.width
+            radius: "medium"
+            visible: height > 0
+            image: Image {
+                id: previewImage
+                asynchronous: true
+                source: genericPreview.url
+                fillMode: Image.PreserveAspectCrop
             }
         }
-        focus: false
     }
 
-    description: Column {
-        spacing: units.gu(2)
-
-        Label {
-            id: descriptionLabel
-            anchors { left: parent.left; right: parent.right }
-            visible: text != ""
-            fontSize: "small"
-            opacity: 0.6
-            color: "white"
-            text: previewData.description.replace(/[\r\n]+/g, "<br />")
-            style: Text.Raised
-            styleColor: "black"
-            wrapMode: Text.WordWrap
-            textFormat: Text.RichText
-            // FIXME: workaround for https://bugreports.qt-project.org/browse/QTBUG-33020
-            onWidthChanged: { wrapMode = Text.NoWrap; wrapMode = Text.WordWrap }
+    Component {
+        id: headerComponent
+        PreviewHeader {
+            title: previewData.title
+            rating: Math.round(root.previewData.rating * 10)
+            reviews: root.previewData.numRatings
+            rated: root.previewData.infoMap["rated"] ? root.previewData.infoMap["rated"].value : 0
         }
+    }
 
+    Component {
+        id: actionsComponent
+        GridView {
+            id: buttons
+            model: genericPreview.previewData.actions
+
+            property int buttonMaxWidth: units.gu(34)
+            property int numOfColumns: Math.ceil((width + spacing) / (buttonMaxWidth + spacing))
+            property int numOfRows: Math.ceil(count / numOfColumns)
+            property int spacing: units.gu(1)
+            height: Math.max(units.gu(4), units.gu(4)*numOfRows + spacing*(numOfRows - 1))
+
+            cellWidth: width / numOfColumns
+            cellHeight: buttonHeight + spacing
+            property int buttonWidth: cellWidth - spacing / 2
+            property int buttonHeight: units.gu(4)
+
+            delegate: Button {
+                width: Math.max(units.gu(4), buttons.buttonWidth)
+                height: buttons.buttonHeight
+                color: "#dd4814"
+                text: modelData.displayName
+                iconSource: modelData.iconHint
+                iconPosition: "right"
+                visible: true
+                onClicked: {
+                    genericPreview.previewData.execute(modelData.id, { })
+                }
+            }
+            focus: false
+        }
+    }
+
+    Component {
+        id: descriptionComponent
         Column {
-            id: infoItem
-            anchors {
-                left: parent.left
-                right: parent.right
+            spacing: units.gu(2)
+
+            Label {
+                id: descriptionLabel
+                anchors { left: parent.left; right: parent.right }
+                visible: text != ""
+                fontSize: "small"
+                opacity: 0.6
+                color: "white"
+                text: previewData.description.replace(/[\r\n]+/g, "<br />")
+                style: Text.Raised
+                styleColor: "black"
+                wrapMode: Text.WordWrap
+                textFormat: Text.RichText
+                // FIXME: workaround for https://bugreports.qt-project.org/browse/QTBUG-33020
+                onWidthChanged: { wrapMode = Text.NoWrap; wrapMode = Text.WordWrap }
             }
-            Repeater {
-                model: previewData.infoHints
 
-                delegate: Grid {
-                    columns: 2
-                    width: parent.width
-                    spacing: units.gu(1)
+            Column {
+                id: infoItem
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                }
+                Repeater {
+                    model: previewData.infoHints
 
-                    Label {
-                        visible: directedLabel.visible
-                        fontSize: "small"
-                        opacity: 0.9
-                        color: "white"
-                        horizontalAlignment: Text.AlignLeft
-                        width: infoItem.width / 2
-                        text: modelData.displayName
-                        style: Text.Raised
-                        styleColor: "black"
+                    delegate: Item {
+                        width: parent.width
+                        height: units.gu(5)
+                        Row {
+                            width: parent.width
+                            spacing: units.gu(1)
+                            property int columnWidth: (width - spacing) / 2
+                            anchors.verticalCenter: parent.verticalCenter
+
+                            Label {
+                                visible: directedLabel.visible
+                                fontSize: "small"
+                                opacity: 0.9
+                                color: "white"
+                                horizontalAlignment: Text.AlignLeft
+                                width: parent.columnWidth
+                                text: modelData.displayName
+                                style: Text.Raised
+                                styleColor: "black"
+                            }
+                            Label {
+                                id: directedLabel
+                                visible: modelData.value != ""
+                                fontSize: "small"
+                                opacity: 0.6
+                                color: "white"
+                                horizontalAlignment: Text.AlignRight
+                                width: parent.columnWidth
+                                text: modelData.value ? modelData.value : ""
+                                style: Text.Raised
+                                styleColor: "black"
+                                wrapMode: Text.WordWrap
+                            }
+                        }
+                        ListItems.ThinDivider {
+                            anchors {
+                                left: parent.left
+                                bottom: parent.bottom
+                                right: parent.right
+                            }
+                        }
                     }
-                    Label {
-                        id: directedLabel
-                        visible: modelData.value != ""
-                        fontSize: "small"
-                        opacity: 0.6
-                        color: "white"
-                        horizontalAlignment: Text.AlignRight
-                        width: infoItem.width / 2
-                        text: modelData.value ? modelData.value : ""
-                        style: Text.Raised
-                        styleColor: "black"
-                        wrapMode: Text.WordWrap
-                    }
+                }
+            }
+        }
+    }
+
+    Component {
+        id: ratingsComponent
+        Column {
+            visible: root.previewData.rating >= 0
+            spacing: units.gu(1)
+            height: childrenRect.height
+
+            ListItems.ThinDivider { }
+
+            Item {
+                anchors { left: parent.left; right: parent.right }
+                height: rateLabel.height
+
+                Label {
+                    id: rateLabel
+                    fontSize: "medium"
+                    color: "white"
+                    style: Text.Raised
+                    styleColor: "black"
+                    opacity: .9
+                    text: i18n.tr("Rate this")
+
+                    anchors.left: parent.left
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+
+                // FIXME these need to be made interactive and connected to the scope
+                RatingStars {
+                    anchors.right: parent.right
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+            }
+
+            ListItems.ThinDivider { }
+
+            Reviews {
+                id: appReviews
+                objectName: "appReviews"
+                // TODO: This should make this visible when the feature for reviews/comments is complete.
+                visible: false; height: 0
+
+                anchors { left: parent.left; right: parent.right }
+
+                model: root.previewData.infoMap["comments"] ? root.previewData.infoMap["comments"].value : undefined
+
+                onSendReview: root.sendUserReview(review);
+
+                onEditing: {
+                    root.ensureVisible(appReviews.textArea);
                 }
             }
         }

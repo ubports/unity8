@@ -17,29 +17,23 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import ".."
+import "../Generic"
 import "../../Components"
 
-DashPreview {
+GenericPreview {
     id: root
 
     property bool ready: previewData ? true : false
     property bool playable: previewData.imageSourceUri != null
     property url url: ready ? previewData.image : ""
 
-    title: root.ready ? previewData.title : ""
-    previewWidthRatio: 0.6
-
-    onPreviewImageClicked: {
-        if (playable) {
-            shell.activateApplication('/usr/share/applications/mediaplayer-app.desktop', previewData.imageSourceUri);
-        }
-    }
-
-    header: UbuntuShape {
+    previewImages: UbuntuShape {
         id: urlLoader
         anchors.left: parent.left
         anchors.right: parent.right
+        height: width * previewImage.sourceSize.height / previewImage.sourceSize.width
         radius: "medium"
+        visible: height > 0
         image: Image {
             id: previewImage
             asynchronous: true
@@ -60,11 +54,11 @@ DashPreview {
         MouseArea {
             id: previewImageMouseArea
             anchors.fill: parent
-            onClicked: root.previewImageClicked()
+            onClicked: shell.activateApplication('/usr/share/applications/mediaplayer-app.desktop', previewData.imageSourceUri);
         }
     }
 
-    buttons: GridView {
+    actions: GridView {
         id: buttons
         objectName: "gridButtons"
         model: root.previewData.actions
@@ -96,70 +90,5 @@ DashPreview {
             }
         }
         focus: false
-    }
-
-    body: Column {
-        spacing: units.gu(2)
-        RatingStars {
-            visible: previewData.rating >= 0.0
-            rating: previewData.rating >= 0.0 ? previewData.rating * 5 : 0
-        }
-
-        Label {
-            text: ready ? previewData.description : ""
-            color: Theme.palette.selected.backgroundText
-            opacity: .6
-            fontSize: "medium"
-            width: parent.width
-            wrapMode: Text.WordWrap
-            style: Text.Raised
-            styleColor: "black"
-        }
-
-        Grid {
-            columns: 2
-            spacing: units.gu(1)
-            width: parent.width
-            property int firstColWidth: units.gu(9)
-            property int secondColWidth: width - firstColWidth - spacing
-            Label {
-                visible: directedLabel.visible
-                fontSize: "small"
-                opacity: 0.9
-                color: "white"
-                horizontalAlignment: Text.AlignRight
-                width: parent.firstColWidth
-                text: i18n.tr("Date:")
-                style: Text.Raised
-                styleColor: "black"
-            }
-            Label {
-                id: directedLabel
-                visible: text != ""
-                fontSize: "small"
-                opacity: 0.6
-                color: "white"
-                width: parent.secondColWidth
-                text: ready ? previewData.subtitle : ""
-                style: Text.Raised
-                styleColor: "black"
-                wrapMode: Text.WordWrap
-            }
-        }
-
-        Label {
-            fontSize: "small"
-            opacity: 0.6
-            color: "white"
-            text: {
-                var parts = []
-                if (ready) {
-                    if (previewData.year) parts.push(previewData.year)
-                }
-                return parts.join(", ");
-            }
-            style: Text.Raised
-            styleColor: "black"
-        }
     }
 }

@@ -35,9 +35,6 @@ Rectangle {
     readonly property int columnWidth: narrowMode ? contentRow.width : (contentRow.width / 3) - contentRow.spacing
     readonly property int contentSpacing: units.gu(3)
 
-    signal close()
-    signal previewImageClicked()
-
     color: Qt.rgba(0, 0, 0, .3)
     clip: true
 
@@ -88,7 +85,7 @@ Rectangle {
                 bottom: parent.bottom
             }
             width: root.columnWidth
-            contentHeight: leftColumn.height
+            contentHeight: leftColumn.height + root.contentSpacing
             anchors.bottomMargin: root.keyboardSize
             clip: true
 

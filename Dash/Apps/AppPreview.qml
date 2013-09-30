@@ -19,45 +19,56 @@ import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
 import Ubuntu.DownloadDaemonListener 0.1
 import ".."
+import "../Generic"
+import "../Previews"
 import "../../Components"
 
-DashPreview {
+GenericPreview {
     id: root
 
     signal sendUserReview(string review)
 
-    previewImages: ListView {
-        spacing: units.gu(1)
-        orientation: ListView.Horizontal
-        height: units.gu(22)
-        model: previewData.infoMap["more-screenshots"] != null ? previewData.infoMap["more-screenshots"].value : [previewData.image]
+    previewImages: previewImagesComponent
+    actions: root.previewData.infoMap["show_progressbar"] ? progressComponent : buttonsComponent
+    description: descriptionComponent
+    header: headerComponent
 
-        delegate: UbuntuShape {
-            id: shape
-            anchors {
-                top: parent.top
-                bottom: parent.bottom
-            }
-            width: units.gu(12)
-            radius: "medium"
-            borderSource: ""
-            image: Image {
-                asynchronous: true
-                sourceSize { width: shape.width; height: shape.height }
-                source: modelData ? modelData : ""
-                fillMode: Image.PreserveAspectCrop
+    Component {
+        id: previewImagesComponent
+        ListView {
+            spacing: units.gu(1)
+            orientation: ListView.Horizontal
+            height: units.gu(22)
+            model: previewData.infoMap["more-screenshots"] != null ? previewData.infoMap["more-screenshots"].value : [previewData.image]
+
+            delegate: UbuntuShape {
+                id: shape
+                anchors {
+                    top: parent.top
+                    bottom: parent.bottom
+                }
+                width: units.gu(12)
+                radius: "medium"
+                borderSource: ""
+                image: Image {
+                    asynchronous: true
+                    sourceSize { width: shape.width; height: shape.height }
+                    source: modelData ? modelData : ""
+                    fillMode: Image.PreserveAspectCrop
+                }
             }
         }
     }
 
-    header: AppInfo {
-        objectName: "appInfo"
-
-        appName: root.previewData.title
-        icon: root.previewData.appIcon
-        rating: Math.round(root.previewData.rating * 10)
-        reviews: root.previewData.numRatings
-        rated: root.previewData.infoMap["rated"] ? root.previewData.infoMap["rated"].value : 0
+    Component {
+        id: headerComponent
+        PreviewHeader {
+            title: previewData.title
+            icon: previewData.appIcon
+            rating: Math.round(root.previewData.rating * 10)
+            reviews: root.previewData.numRatings
+            rated: root.previewData.infoMap["rated"] ? root.previewData.infoMap["rated"].value : 0
+        }
     }
 
     Component {
@@ -66,6 +77,8 @@ DashPreview {
         GridView {
             id: buttonsGrid
             objectName: "gridButtons"
+
+            model: root.previewData.actions
 
             property int numOfRows: (count + 1) / 2
             property int spacing: units.gu(1)
@@ -99,7 +112,7 @@ DashPreview {
             maximumValue: 100
             height: units.gu(5)
 
-            property var model
+            property var model: root.previewData.actions
 
             DownloadTracker {
                 service: "com.canonical.applications.Downloader"
@@ -122,81 +135,20 @@ DashPreview {
         }
     }
 
-    actions: Loader {
-        anchors {
-            left: parent.left
-            right: parent.right
-        }
-
-        sourceComponent: root.previewData.infoMap["show_progressbar"] ? progressComponent : buttonsComponent
-
-        onLoaded: {
-            item.model = root.previewData.actions;
-        }
-    }
-
-    description: Column {
-        spacing: units.gu(1)
-
-        Label {
-            anchors { left: parent.left; right: parent.right }
-            text: root.previewData.description
-            fontSize: "medium"
-            color: Theme.palette.selected.backgroundText
-            opacity: .6
-            wrapMode: Text.WordWrap
-            style: Text.Raised
-            styleColor: "black"
-        }
-
-    }
-    ratings: Column {
-        visible: root.previewData.rating >= 0
-        spacing: units.gu(1)
-        height: childrenRect.height
-
-        ListItem.ThinDivider { }
-
-        Item {
-            anchors { left: parent.left; right: parent.right }
-            height: rateLabel.height
+    Component {
+        id: descriptionComponent
+        Column {
+            spacing: units.gu(1)
 
             Label {
-                id: rateLabel
+                anchors { left: parent.left; right: parent.right }
+                text: root.previewData.description
                 fontSize: "medium"
-                color: "white"
+                color: Theme.palette.selected.backgroundText
+                opacity: .6
+                wrapMode: Text.WordWrap
                 style: Text.Raised
                 styleColor: "black"
-                opacity: .9
-                text: i18n.tr("Rate this")
-
-                anchors.left: parent.left
-                anchors.verticalCenter: parent.verticalCenter
-            }
-
-            // FIXME these need to be made interactive and connected to the scope
-            RatingStars {
-                anchors.right: parent.right
-                anchors.verticalCenter: parent.verticalCenter
-            }
-        }
-
-        ListItem.ThinDivider { }
-
-        AppReviews {
-            id: appReviews
-            objectName: "appReviews"
-            // TODO: This should make this visible when the feature for reviews/comments is complete.
-            visible: false; height: 0
-
-            anchors { left: parent.left; right: parent.right }
-
-            model: root.previewData.infoMap["comments"] ? root.previewData.infoMap["comments"].value : undefined
-
-            onSendReview: root.sendUserReview(review);
-
-            onEditing: {
-                root.ensureVisible(appReviews.textArea);
             }
         }
     }
