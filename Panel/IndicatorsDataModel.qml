@@ -27,10 +27,6 @@ Indicators.IndicatorsModel {
     Component.onCompleted: load()
 
     indicatorData : {
-        'indicator-messages' : {
-            'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/MessagingIndicatorWidget.qml',
-            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/MessagingIndicatorPage.qml'
-        },
         'indicator-network' : {
             'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/NetworkIndicatorPage2.qml'
         },
