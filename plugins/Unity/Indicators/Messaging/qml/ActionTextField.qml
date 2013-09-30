@@ -22,11 +22,12 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 
 Item {
-    property alias actionGroup: sendButton.actionGroup
-    property alias action: sendButton.action
-
+    id: textField
     property alias text: replyField.text
     property alias buttonText: sendButton.text
+    property bool activateEnabled: false
+
+    signal activate(var value)
 
     TextField {
         id: replyField
@@ -50,17 +51,19 @@ Item {
         }
     }
 
-    ActionButton {
+    Button {
         id: sendButton
-
-        actionParameter: replyField.text
         anchors {
             top: parent.top
             bottom: parent.bottom
             right: parent.right
         }
         width: units.gu(9)
-        enabled: replyField.text !== ""
+        enabled: replyField.text !== "" && textField.activateEnabled
         color: enabled ? "#c94212" : "#bababa"
+
+        onClicked: {
+            textField.activate(replyField.text);
+        }
     }
 }

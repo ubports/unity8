@@ -24,13 +24,13 @@
 
 AccountsServiceDBusAdaptor::AccountsServiceDBusAdaptor(QObject* parent)
   : QObject(parent),
-    accounts_manager(NULL),
-    users()
+    m_accountsManager(NULL),
+    m_users()
 {
-    auto connection = QDBusConnection::SM_BUSNAME();
-    auto interface = connection.interface();
+    QDBusConnection connection = QDBusConnection::SM_BUSNAME();
+    QDBusConnectionInterface *interface = connection.interface();
     interface->startService("org.freedesktop.Accounts");
-    accounts_manager = new QDBusInterface("org.freedesktop.Accounts",
+    m_accountsManager = new QDBusInterface("org.freedesktop.Accounts",
                                           "/org/freedesktop/Accounts",
                                           "org.freedesktop.Accounts",
                                           connection, this);
@@ -38,9 +38,9 @@ AccountsServiceDBusAdaptor::AccountsServiceDBusAdaptor(QObject* parent)
 
 QVariant AccountsServiceDBusAdaptor::getUserProperty(const QString &user, const QString &interface, const QString &property)
 {
-    auto iface = getUserInterface(user);
+    QDBusInterface *iface = getUserInterface(user);
     if (iface != nullptr && iface->isValid()) {
-        auto answer = iface->call("Get", interface, property);
+        QDBusMessage answer = iface->call("Get", interface, property);
         if (answer.type() == QDBusMessage::ReplyMessage) {
             return answer.arguments()[0].value<QDBusVariant>().variant();
         }
@@ -50,7 +50,7 @@ QVariant AccountsServiceDBusAdaptor::getUserProperty(const QString &user, const 
 
 void AccountsServiceDBusAdaptor::setUserProperty(const QString &user, const QString &interface, const QString &property, const QVariant &value)
 {
-    auto iface = getUserInterface(user);
+    QDBusInterface *iface = getUserInterface(user);
     if (iface != nullptr && iface->isValid()) {
         // The value needs to be carefully wrapped
         iface->call("Set", interface, property, QVariant::fromValue(QDBusVariant(value)));
@@ -76,7 +76,7 @@ void AccountsServiceDBusAdaptor::maybeChangedSlot()
 QString AccountsServiceDBusAdaptor::getUserForPath(const QString &path)
 {
     QMap<QString, QDBusInterface *>::const_iterator i;
-    for (i = users.constBegin(); i != users.constEnd(); ++i) {
+    for (i = m_users.constBegin(); i != m_users.constEnd(); ++i) {
         if (i.value()->path() == path) {
             return i.key();
         }
@@ -86,16 +86,16 @@ QString AccountsServiceDBusAdaptor::getUserForPath(const QString &path)
 
 QDBusInterface *AccountsServiceDBusAdaptor::getUserInterface(const QString &user)
 {
-    auto iface = users.value(user);
-    if (iface == nullptr && accounts_manager->isValid()) {
-        auto answer = accounts_manager->call("FindUserByName", user);
+    QDBusInterface *iface = m_users.value(user);
+    if (iface == nullptr && m_accountsManager->isValid()) {
+        QDBusMessage answer = m_accountsManager->call("FindUserByName", user);
         if (answer.type() == QDBusMessage::ReplyMessage) {
-            auto path = answer.arguments()[0].value<QDBusObjectPath>().path();
+            QString path = answer.arguments()[0].value<QDBusObjectPath>().path();
 
             iface = new QDBusInterface("org.freedesktop.Accounts",
                                        path,
                                        "org.freedesktop.DBus.Properties",
-                                       accounts_manager->connection(), this);
+                                       m_accountsManager->connection(), this);
 
             // With its own pre-defined properties, AccountsService is oddly
             // close-lipped.  It won't send out proper DBus.Properties notices,
@@ -119,7 +119,7 @@ QDBusInterface *AccountsServiceDBusAdaptor::getUserInterface(const QString &user
                 this,
                 SLOT(propertiesChangedSlot(QString, QVariantMap, QStringList)));
 
-            users.insert(user, iface);
+            m_users.insert(user, iface);
         }
     }
     return iface;

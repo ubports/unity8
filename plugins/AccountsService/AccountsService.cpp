@@ -32,7 +32,7 @@ AccountsService::AccountsService(QObject* parent)
             this, SLOT(maybeChanged(const QString &)));
 }
 
-QString AccountsService::getUser()
+QString AccountsService::user() const
 {
     return m_user;
 }
@@ -46,7 +46,7 @@ void AccountsService::setUser(const QString &user)
     updateBackgroundFile();
 }
 
-bool AccountsService::getDemoEdges()
+bool AccountsService::demoEdges() const
 {
     return m_demoEdges;
 }
@@ -57,7 +57,7 @@ void AccountsService::setDemoEdges(bool demoEdges)
     m_service->setUserProperty(m_user, "com.canonical.unity.AccountsService", "demo-edges", demoEdges);
 }
 
-QString AccountsService::getBackgroundFile()
+QString AccountsService::backgroundFile() const
 {
     return m_backgroundFile;
 }

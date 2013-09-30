@@ -19,6 +19,7 @@
 
 #include <UnityCore/Preview.h>
 #include <UnityCore/GLibWrapper.h>
+#include <UnityCore/Variant.h>
 #include <unity-protocol.h>
 
 #include "genericpreview.h"
@@ -48,7 +49,23 @@ void PreviewBindingsTest::testGenericPreview()
                                       UNITY_PROTOCOL_LAYOUT_HINT_LEFT);
     unity::glib::Object<GObject> genPrv(rawPreview);
 
+    // create local result
+    unity::glib::HintsMap hints;
+    hints["a"] = unity::glib::Variant(g_variant_new_string("b"));
+    unity::dash::LocalResult localResult;
+    localResult.uri = "http://foo";
+    localResult.icon_hint = "xyz";
+    localResult.category_index = 1;
+    localResult.result_type = 2;
+    localResult.mimetype = "abc";
+    localResult.name = "baz";
+    localResult.comment = "qwerty";
+    localResult.dnd_uri = "zzz";
+    localResult.hints = hints;
+
     auto corePrv = unity::dash::Preview::PreviewForProtocolObject(genPrv);
+    corePrv->preview_result = localResult;
+
     auto prv = Preview::newFromUnityPreview(corePrv);
 
     QCOMPARE(prv != nullptr, true);
@@ -63,6 +80,16 @@ void PreviewBindingsTest::testGenericPreview()
     QCOMPARE(act->id(), QString("1"));
     QCOMPARE(act->displayName(), QString("Action1"));
     QCOMPARE(act->iconHint(), QString("/foo.png"));
+
+    Result* res = prv->result().value<Result*>();
+    QCOMPARE(res->uri(), QString("http://foo"));
+    QCOMPARE(res->iconHint(), QString("xyz"));
+    QCOMPARE(res->categoryIndex(), 1u);
+    QCOMPARE(res->resultType(), 2u);
+    QCOMPARE(res->mimeType(), QString("abc"));
+    QCOMPARE(res->title(), QString("baz"));
+    QCOMPARE(res->dndUri(), QString("zzz"));
+    QCOMPARE(res->metadata().toHash()["a"].toString(), QString("b"));
 
     g_object_unref(icon);
     g_object_unref(iconFile);
