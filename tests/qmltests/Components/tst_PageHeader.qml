@@ -26,174 +26,174 @@ Item {
     width: units.gu(110)
     height: units.gu(30)
 
-    Scopes {
-        id: scopes
+    Scope {
+        id: scopeMock
     }
 
-    ScopeView {
-        id: scopeView
+    UT.UnityTestCase {
+        name: "PageHeaderTest"
+        when: windowShown
+
+        property alias searchEnabled : pageHeader.searchEntryEnabled
+        property alias searchQuery : pageHeader.searchQuery
+
+        function test_search_disabled() {
+            searchEnabled = false
+            pageHeader.resetSearch()
+
+            pageHeader.triggerSearch()
+            keyClick(Qt.Key_S)
+
+            compare(searchQuery, "", "Search entry not disabled properly (could still type in textfield).")
+        }
+
+        function test_search_enable() {
+            searchEnabled = true
+            pageHeader.resetSearch()
+
+            pageHeader.triggerSearch()
+            typeString("test")
+
+            compare(searchQuery, "test", "Typing in the search field did not change searchQuery")
+        }
+
+        function test_search_hard_coded() {
+            searchEnabled = true
+            pageHeader.triggerSearch()
+            searchQuery = "test1"
+            typeString("test2")
+            compare(searchQuery, "test1test2", "Setting searchQuery text does not update the TextField")
+        }
+
+        function test_reset_search() {
+            searchEnabled = true
+            pageHeader.resetSearch()
+
+            pageHeader.triggerSearch()
+            keyClick(Qt.Key_S)
+
+            compare(searchQuery, "s", "Could not type in TextField.")
+
+            pageHeader.resetSearch()
+            compare(searchQuery, "", "Reset search did not reset searchQuery correctly.")
+        }
+
+        function test_move_search_by_width()
+        {
+            searchEnabled = true
+            pageHeader.resetSearch()
+
+            var searchContainer = findChild(pageHeader, "searchContainer")
+
+            parent.width = units.gu(40)
+
+            verify(searchContainer !== undefined)
+            verify(searchContainer.y <= 0)
+
+            pageHeader.triggerSearch()
+            verify(searchContainer.y >= 0)
+
+            pageHeader.resetSearch()
+            verify(searchContainer.y <= 0)
+
+            parent.width = units.gu(110)
+            verify(searchContainer.y >= 0)
+
+            pageHeader.triggerSearch()
+            tryCompare(searchContainer, "narrowMode", false)
+            tryCompare(searchContainer, "state", "active")
+            tryCompare(searchContainer, "width", units.gu(40))
+        }
+
+        function test_history() {
+            pageHeader.searchHistory.clear()
+            compare(pageHeader.searchHistory.count, 0)
+
+            pageHeader.triggerSearch()
+            typeString("humppa1")
+            pageHeader.resetSearch()
+
+            compare(pageHeader.searchHistory.count, 1)
+            compare(pageHeader.searchHistory.get(0).query, "humppa1")
+
+            pageHeader.triggerSearch()
+            typeString("humppa2")
+            pageHeader.resetSearch()
+
+            compare(pageHeader.searchHistory.count, 2)
+            compare(pageHeader.searchHistory.get(0).query, "humppa2")
+
+            pageHeader.triggerSearch()
+            typeString("humppa3")
+            pageHeader.resetSearch()
+
+            compare(pageHeader.searchHistory.count, 3)
+            compare(pageHeader.searchHistory.get(0).query, "humppa3")
+
+            pageHeader.triggerSearch()
+            typeString("humppa4")
+            pageHeader.resetSearch()
+
+            compare(pageHeader.searchHistory.count, 3)
+            compare(pageHeader.searchHistory.get(0).query, "humppa4")
+        }
+
+        function test_search_indicator() {
+            pageHeader.triggerSearch()
+            typeString("test")
+            tryCompare(pageHeader, "searchInProgress", true)
+            pageHeader.resetSearch()
+        }
+    }
+
+    Column {
         anchors.fill: parent
+        spacing: units.gu(1)
 
-        UT.UnityTestCase {
-            name: "PageHeaderTest"
-            when: scopes.loaded
-
-            property alias searchEnabled : pageHeader.searchEntryEnabled
-            property alias searchQuery : pageHeader.searchQuery
-
-            function init() {
-                scopeView.scope = scopes.get(0)
+        PageHeader {
+            id: pageHeader
+            anchors {
+                left: parent.left
+                right: parent.right
             }
 
-            function test_search_disabled() {
-                searchEnabled = false
-                pageHeader.resetSearch()
+            scope: scopeMock
 
-                pageHeader.triggerSearch()
-                keyClick(Qt.Key_S)
+            searchEntryEnabled: true
+            text: "%^$%^%^&%^&%^$%GHR%"
+        }
 
-                compare(searchQuery, "", "Search entry not disabled properly (could still type in textfield).")
+        Row {
+            spacing: units.gu(1)
+            anchors {
+                left: parent.left
+                right: parent.right
             }
-
-            function test_search_enable() {
-                searchEnabled = true
-                pageHeader.resetSearch()
-
-                pageHeader.triggerSearch()
-                typeString("test")
-
-                compare(searchQuery, "test", "Typing in the search field did not change searchQuery")
+            Button {
+                text: "Set search query programmatically"
+                onClicked: pageHeader.searchQuery = "testsearch"
+                width: units.gu(40)
             }
-
-            function test_search_hard_coded() {
-                searchEnabled = true
-                pageHeader.triggerSearch()
-                searchQuery = "test1"
-                typeString("test2")
-                compare(searchQuery, "test1test2", "Setting searchQuery text does not update the TextField")
-            }
-
-            function test_reset_search() {
-                searchEnabled = true
-                pageHeader.resetSearch()
-
-                pageHeader.triggerSearch()
-                keyClick(Qt.Key_S)
-
-                compare(searchQuery, "s", "Could not type in TextField.")
-
-                pageHeader.resetSearch()
-                compare(searchQuery, "", "Reset search did not reset searchQuery correctly.")
-            }
-
-            function test_move_search_by_width()
-            {
-                searchEnabled = true
-                pageHeader.resetSearch()
-
-                var searchContainer = findChild(pageHeader, "searchContainer")
-
-                parent.width = units.gu(40)
-
-                verify(searchContainer !== undefined)
-                verify(searchContainer.y <= 0)
-
-                pageHeader.triggerSearch()
-                verify(searchContainer.y >= 0)
-
-                pageHeader.resetSearch()
-                verify(searchContainer.y <= 0)
-
-                parent.width = units.gu(110)
-                verify(searchContainer.y >= 0)
-
-                pageHeader.triggerSearch()
-                tryCompare(searchContainer, "narrowMode", false)
-                tryCompare(searchContainer, "state", "active")
-                tryCompare(searchContainer, "width", units.gu(40))
-            }
-
-            function test_history() {
-                pageHeader.searchHistory.clear()
-                compare(pageHeader.searchHistory.count, 0)
-
-                pageHeader.triggerSearch()
-                typeString("humppa1")
-                pageHeader.resetSearch()
-
-                compare(pageHeader.searchHistory.count, 1)
-                compare(pageHeader.searchHistory.get(0).query, "humppa1")
-
-                pageHeader.triggerSearch()
-                typeString("humppa2")
-                pageHeader.resetSearch()
-
-                compare(pageHeader.searchHistory.count, 2)
-                compare(pageHeader.searchHistory.get(0).query, "humppa2")
-
-                pageHeader.triggerSearch()
-                typeString("humppa3")
-                pageHeader.resetSearch()
-
-                compare(pageHeader.searchHistory.count, 3)
-                compare(pageHeader.searchHistory.get(0).query, "humppa3")
-
-                pageHeader.triggerSearch()
-                typeString("humppa4")
-                pageHeader.resetSearch()
-
-                compare(pageHeader.searchHistory.count, 3)
-                compare(pageHeader.searchHistory.get(0).query, "humppa4")
+            Label {
+                text: "searchQuery: \"" + pageHeader.searchQuery + "\""
+                anchors.verticalCenter: parent.verticalCenter
             }
         }
 
-        Column {
-            anchors.fill: parent
+        Row {
             spacing: units.gu(1)
-
-            PageHeader {
-                id: pageHeader
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                }
-
-                searchEntryEnabled: true
-                text: "%^$%^%^&%^&%^$%GHR%"
+            anchors {
+                left: parent.left
+                right: parent.right
             }
-
-            Row {
-                spacing: units.gu(1)
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                }
-                Button {
-                    text: "Set search query programmatically"
-                    onClicked: pageHeader.searchQuery = "testsearch"
-                    width: units.gu(40)
-                }
-                Label {
-                    text: "searchQuery: \"" + pageHeader.searchQuery + "\""
-                    anchors.verticalCenter: parent.verticalCenter
-                }
+            Button {
+                text: "Clear history model"
+                onClicked: pageHeader.searchHistory.clear()
+                width: units.gu(40)
             }
-
-            Row {
-                spacing: units.gu(1)
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                }
-                Button {
-                    text: "Clear history model"
-                    onClicked: pageHeader.searchHistory.clear()
-                    width: units.gu(40)
-                }
-                Label {
-                    text: "History count: " + pageHeader.searchHistory.count
-                    anchors.verticalCenter: parent.verticalCenter
-                }
+            Label {
+                text: "History count: " + pageHeader.searchHistory.count
+                anchors.verticalCenter: parent.verticalCenter
             }
         }
     }

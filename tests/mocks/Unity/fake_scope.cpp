@@ -30,6 +30,7 @@ static DeeModel* create_results_model(unsigned category_count, unsigned result_c
 Scope::Scope(QObject* parent)
     : QObject(parent)
     , m_visible(false)
+    , m_searching(false)
     , m_categories(new Categories(this))
     , m_results(new DeeListModel(this))
 {
@@ -44,6 +45,7 @@ Scope::Scope(QString const& id, QString const& name, bool visible, QObject* pare
     , m_id(id)
     , m_name(name)
     , m_visible(visible)
+    , m_searching(false)
     , m_categories(new Categories(this))
     , m_results(new DeeListModel(this))
 {
@@ -83,6 +85,10 @@ QString Scope::shortcut() const {
 
 bool Scope::connected() const {
     return true;
+}
+
+bool Scope::searchInProgress() const {
+    return m_searching;
 }
 
 Categories* Scope::categories() const {
