@@ -46,8 +46,6 @@ Indicators.IndicatorsModel {
         'indicator-network' : {
             'title': 'Networks',
             'description' : '',
-            'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorWidget.qml',
-            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/NetworkIndicatorPage.qml'
         },
         'indicator-power' : {
             'title': 'Battery',
