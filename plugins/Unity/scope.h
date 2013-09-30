@@ -82,6 +82,8 @@ public:
     Q_INVOKABLE void preview(const QVariant &uri, const QVariant &icon_hint, const QVariant &category,
                               const QVariant &result_type, const QVariant &mimetype, const QVariant &title,
                               const QVariant &comment, const QVariant &dnd_uri, const QVariant &metadata);
+    Q_INVOKABLE void cancelActivation();
+
     void setUnityScope(const unity::dash::Scope::Ptr& scope);
     unity::dash::Scope::Ptr unityScope() const;
 
@@ -131,6 +133,7 @@ private:
     QString m_searchQuery;
     QString m_noResultsHint;
     QString m_formFactor;
+    unity::glib::Cancellable m_previewCancellable;
 };
 
 Q_DECLARE_METATYPE(Scope*)

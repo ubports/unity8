@@ -47,8 +47,8 @@ private:
     QDBusInterface *getUserInterface(const QString &user);
     QString getUserForPath(const QString &path);
 
-    QDBusInterface *accounts_manager;
-    QMap<QString, QDBusInterface *> users;
+    QDBusInterface *m_accountsManager;
+    QMap<QString, QDBusInterface *> m_users;
 };
 
 #endif

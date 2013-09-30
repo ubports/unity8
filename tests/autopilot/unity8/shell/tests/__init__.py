@@ -86,6 +86,7 @@ class UnityTestCase(AutopilotTestCase):
 
         self._proxy = None
         self._lightdm_mock_type = None
+        self._qml_mock_enabled = True
         self.touch = Touch.create()
         self._setup_display_details()
 
@@ -160,7 +161,9 @@ class UnityTestCase(AutopilotTestCase):
 
         if self._lightdm_mock_type is None:
             self.patch_lightdm_mock()
-        self._setup_extra_mock_environment_patch()
+
+        if self._qml_mock_enabled:
+            self._setup_extra_mock_environment_patch()
 
         app_proxy = self.launch_test_application(
             binary_path,

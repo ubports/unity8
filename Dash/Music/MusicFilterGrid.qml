@@ -29,19 +29,29 @@ FilterGrid {
     readonly property int iconWidth: (width / columns) * 0.8
     readonly property int iconHeight: iconWidth
 
-    signal clicked(int index)
+    signal clicked(int index, var delegateItem, real itemY)
+    signal pressAndHold(int index, var delegateItem, real itemY)
 
     delegate: AlbumTile {
+        id: tile
         objectName: "delegate" + index
         width: filterGrid.cellWidth
         height: filterGrid.cellHeight
         iconWidth: filterGrid.iconWidth
         iconHeight: filterGrid.iconHeight
+
         artist: model.title
         album: model.comment
         source: model.icon
+
         onClicked: {
-            filterGrid.clicked(index);
+            var data = { model: model }
+            filterGrid.clicked(index, data, tile.y)
+        }
+
+        onPressAndHold: {
+            var data = { model: model }
+            filterGrid.pressAndHold(index, data, tile.y)
         }
     }
 }

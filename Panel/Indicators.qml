@@ -35,6 +35,7 @@ Showable {
     property bool partiallyOpened: height > panelHeight && !fullyOpened
     property real visualBottom: Math.max(y+height, y+indicatorRow.y+indicatorRow.height)
     property bool contentEnabled: true
+    readonly property alias content: menuContent
 
     // TODO: Perhaps we need a animation standard for showing/hiding? Each showable seems to
     // use its own values. Need to ask design about this.

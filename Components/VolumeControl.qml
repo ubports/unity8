@@ -21,37 +21,22 @@ Item {
     id: root
     objectName: "volumeControl"
     visible: false
-    property int volume
 
     QDBusActionGroup {
         id: actionGroup
         busType: 1
-        busName: "com.canonical.settings.sound"
-        objectPath: "/com/canonical/settings/sound"
+        busName: "com.canonical.indicator.sound"
+        objectPath: "/com/canonical/indicator/sound"
 
-        property variant actionObject: action("volume")
-        property variant serverVolume: actionObject.valid ? actionObject.state: 0
-    }
-
-    Binding {
-        target: root
-        property: "volume"
-        value: actionGroup.serverVolume * 100
-    }
-
-    onVolumeChanged: {
-        if (actionGroup.serverVolume != volume) {
-            var targetVolume = Math.min(1, Math.max(0, volume / 100));
-            actionGroup.actionObject.updateState(targetVolume);
-        }
+        property variant actionObject: action("scroll")
     }
 
     function volumeUp() {
-        actionGroup.actionObject.updateState(Math.min(1, volume/100 + 0.10));
+        actionGroup.actionObject.activate(1);
     }
 
     function volumeDown() {
-        actionGroup.actionObject.updateState(Math.max(0, volume/100 - 0.10));
+        actionGroup.actionObject.activate(-1);
     }
 
     Component.onCompleted: actionGroup.start()

@@ -39,9 +39,12 @@
 #include <UnityCore/MusicPreview.h>
 #include <UnityCore/SocialPreview.h>
 
+#include <UnityCore/GLibWrapper.h>
+
 Preview::Preview(QObject *parent):
     QObject(parent),
-    m_unityPreview(nullptr)
+    m_unityPreview(nullptr),
+    m_result(new Result(this))
 {
 }
 
@@ -123,6 +126,11 @@ QString Preview::imageSourceUri() const
     return QString::null;
 }
 
+QVariant Preview::result() const
+{
+    return QVariant::fromValue(m_result);
+}
+
 Preview* Preview::newFromUnityPreview(unity::dash::Preview::Ptr unityPreview)
 {
     Preview* preview = nullptr;
@@ -151,6 +159,7 @@ Preview* Preview::newFromUnityPreview(unity::dash::Preview::Ptr unityPreview)
 void Preview::setUnityPreviewBase(unity::dash::Preview::Ptr unityPreview)
 {
     m_unityPreview = unityPreview;
+    m_result->setPreview(unityPreview);
 
     qDeleteAll(m_infoHints);
     m_infoHints.clear();
@@ -181,8 +190,14 @@ void Preview::execute(const QString& actionId, const QHash<QString, QVariant>& h
 {
     if (m_unityPreview) {
         auto unityHints = convertToHintsMap(hints);
-        m_unityPreview->PerformAction(actionId.toStdString(), unityHints);
+        m_actionCancellable.Renew();
+        m_unityPreview->PerformAction(actionId.toStdString(), unityHints, nullptr, m_actionCancellable);
     } else {
         qWarning() << "Preview not set";
     }
+}
+
+void Preview::cancelAction()
+{
+    m_actionCancellable.Cancel();
 }
