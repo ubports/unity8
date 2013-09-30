@@ -96,6 +96,8 @@ Q_SIGNALS:
     // signals triggered by activate(..) or preview(..) requests.
     void previewReady(Preview *preview);
     void activateApplication(const QString &desktop);
+    void showDash();
+    void hideDash();
 
 protected:
 

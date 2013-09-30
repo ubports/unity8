@@ -23,8 +23,10 @@ Column {
     id: root
 
     property var model
+    property alias textArea: reviewField
 
     signal sendReview(string review)
+    signal editing
 
     spacing: units.gu(2)
     state: ""
@@ -93,6 +95,7 @@ Column {
                 if(reviewField.focus){
                     root.state = "editing";
                     reviewField.selectAll();
+                    root.editing();
                 }
             }
 

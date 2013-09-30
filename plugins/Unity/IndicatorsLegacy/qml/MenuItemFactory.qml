@@ -19,7 +19,6 @@
 
 import QtQuick 2.0
 import Unity.IndicatorsLegacy 0.1 as Indicators
-import Unity.IndicatorsLegacy.Messaging 0.1 as ICMessaging
 import Unity.IndicatorsLegacy.Network 0.1 as ICNetwork
 
 Item {
@@ -47,10 +46,6 @@ Item {
         "com.canonical.indicator.slider"    : sliderMenu,
         "com.canonical.indicator.switch"    : switchMenu,
 
-        "com.canonical.indicator.messages.messageitem"  : messageItem,
-        "com.canonical.indicator.messages.snapdecision" : snapDecision,
-        "com.canonical.indicator.messages.sourceitem"   : groupedMessage,
-
         "unity.widget.systemsettings.tablet.sectiontitle" : wifiSection,
         "unity.widgets.systemsettings.tablet.wifisection" : wifiSection,
         "unity.widgets.systemsettings.tablet.accesspoint" : accessPoint,
@@ -62,9 +57,6 @@ Item {
     Component { id: divMenu; Indicators.DivMenuItem {} }
     Component { id: sectionMenu; Indicators.SectionMenuItem {} }
     Component { id: progressMenu; Indicators.ProgressMenuItem {} }
-    Component { id: messageItem; ICMessaging.MessageMenuItem {} }
-    Component { id: snapDecision; ICMessaging.SnapDecision {} }
-    Component { id: groupedMessage; ICMessaging.GroupedMessage {} }
     Component { id: wifiSection; ICNetwork.WifiSection {} }
     Component { id: accessPoint; ICNetwork.AccessPoint {} }
     Component { id: indicatorMenu; Indicators.MenuItem {} }
