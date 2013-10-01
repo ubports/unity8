@@ -109,7 +109,8 @@ MainView {
                         source: pageSource
                         asynchronous: true
 
-                        property bool contentActive: content.__contentActive && menuActivator.content[index].active
+                        readonly property bool indexActive: index >= 0 && index < menuActivator.count && menuActivator.content[index].active
+                        readonly property bool contentActive: content.__contentActive && indexActive
 
                         onContentActiveChanged: {
                             if (contentActive && item) {
@@ -154,6 +155,7 @@ MainView {
         interval: contentReleaseInterval
         onTriggered: {
             content.__contentActive = false;
+            console.log("CLEARED");
             menuActivator.clear();
         }
     }
