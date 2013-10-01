@@ -29,7 +29,10 @@ ResponsiveFlowView {
         onStageScreenshotsReadyChanged: if (shell.dashShown && shell.stageScreenshotsReady) updateScreenshots();
     }
 
-    Behavior on height { NumberAnimation { duration: 200; easing.type: Easing.InOutQuad } }
+    Behavior on height {
+        enabled: culled === 'undefined' || !culled;
+        NumberAnimation { duration: 200; easing.type: Easing.InOutQuad }
+    }
 
     property bool canEnableTerminationMode: true
 
