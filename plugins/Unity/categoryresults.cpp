@@ -81,9 +81,8 @@ CategoryResults::data(const QModelIndex& index, int role) const
             QString giconString(DeeListModel::data(index, ResultsColumn::ICON_HINT).toString());
             if (giconString.isEmpty()) {
                 QString uri(DeeListModel::data(index, ResultsColumn::URI).toString());
-                if (uri.startsWith(QLatin1String("file:///"))) {
-                    QString thumbnailerUri("image://thumbnailer/");
-                    thumbnailerUri.append(uri.midRef(7));
+                QString thumbnailerUri(uriToThumbnailerProviderString(uri));
+                if (!thumbnailerUri.isNull()) {
                     return QVariant::fromValue(thumbnailerUri);
                 }
             }

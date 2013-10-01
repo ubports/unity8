@@ -23,5 +23,6 @@
 #include <QString>
 
 QString gIconToDeclarativeImageProviderString(QString const &giconString);
+QString uriToThumbnailerProviderString(QString const &uri);
 
 #endif

@@ -24,6 +24,7 @@
 #include "iconutils.h"
 
 #define BASE_THEME_ICON_URI "image://theme/"
+#define BASE_THUMBNAILER_URI "image://thumbnailer/"
 
 QString gIconToDeclarativeImageProviderString(QString const &giconString)
 {
@@ -89,3 +90,15 @@ QString gIconToDeclarativeImageProviderString(QString const &giconString)
 
     return result;
 }
+
+QString uriToThumbnailerProviderString(QString const &uri)
+{
+    if (uri.startsWith(QLatin1String("file:///"))) {
+        QString thumbnailerUri(BASE_THUMBNAILER_URI);
+        thumbnailerUri.append(uri.midRef(7));
+        return thumbnailerUri;
+    }
+
+    return QString::null;
+}
+
