@@ -31,8 +31,8 @@ Row {
 
     UbuntuShape {
         id: imageShape
-        width: units.gu(6)
-        height: units.gu(6)
+        width: height
+        height: Math.max(units.gu(6), contentColumn.height)
         visible: image.source.toString().length > 0
         image: Image {
             id: image
@@ -43,10 +43,12 @@ Row {
     }
 
     Column {
+        id: contentColumn
         spacing: units.gu(1)
 
         Label {
             id: titleLabel
+            objectName: "titleLabel"
             fontSize: "large"
             color: "white"
             style: Text.Raised
@@ -64,15 +66,17 @@ Row {
             style: Text.Raised
             styleColor: "black"
             opacity: .6
+            visible: text.length > 0
         }
 
         Row {
-            visible: root.rating >= 0 && subtitleLabel.text.length == 0
+            visible: root.rating >= 0
             spacing: units.gu(1)
 
             RatingStars {
                 id: ratingStars
                 maximumRating: 10
+                rating: -1
             }
 
             Label {

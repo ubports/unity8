@@ -32,7 +32,9 @@ GenericPreview {
     actions: root.previewData.infoMap["show_progressbar"] ? progressComponent : buttonsComponent
     description: descriptionComponent
     header: headerComponent
-    ratings: ratingsComponent
+
+    // TODO: Ratings are not yet complete... enable this once they work
+    //ratings: ratingsComponent
 
     Component {
         id: previewImagesComponent
@@ -64,8 +66,10 @@ GenericPreview {
     Component {
         id: headerComponent
         Header {
+            objectName: "previewHeader"
             title: previewData.title
             icon: previewData.appIcon
+            subtitle: root.previewData.infoMap["publisher"] ? root.previewData.infoMap["publisher"].value : ""
             rating: Math.round(root.previewData.rating * 10)
             reviews: root.previewData.numRatings
             rated: root.previewData.infoMap["rated"] ? root.previewData.infoMap["rated"].value : 0
@@ -157,7 +161,10 @@ GenericPreview {
     Component {
         id: ratingsComponent
         Column {
+            id: columnReviewRating
+            objectName: "columnReviewRating"
             visible: root.previewData.rating >= 0
+
             spacing: units.gu(1)
             height: childrenRect.height
 
@@ -192,8 +199,6 @@ GenericPreview {
             Reviews {
                 id: appReviews
                 objectName: "appReviews"
-                // TODO: This should make this visible when the feature for reviews/comments is complete.
-                visible: false; height: 0
 
                 anchors { left: parent.left; right: parent.right }
 

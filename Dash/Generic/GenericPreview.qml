@@ -29,7 +29,6 @@ DashPreview {
     header: headerComponent
     actions: actionsComponent
     description: descriptionComponent
-    ratings: ratingsComponent
 
     Component {
         id: previewImagesComponent
