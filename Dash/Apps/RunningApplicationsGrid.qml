@@ -30,7 +30,7 @@ ResponsiveFlowView {
     }
 
     Behavior on height {
-        enabled: culled === 'undefined' || !culled;
+        enabled: culled === undefined || !culled;
         NumberAnimation { duration: 200; easing.type: Easing.InOutQuad }
     }
 
