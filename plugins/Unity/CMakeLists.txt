@@ -2,7 +2,6 @@
 include(Plugins)
 
 add_subdirectory(Indicators)
-add_subdirectory(IndicatorsLegacy)
 
 # Dependencies
 include(FindPkgConfig)
