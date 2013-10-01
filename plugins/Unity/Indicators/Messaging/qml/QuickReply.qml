@@ -84,10 +84,9 @@ Item {
 
             height: childrenRect.height
 
-            Rectangle {
+            Item {
                 width: messagelist.width
                 height: units.gu(5)
-                color: "#333230"
 
                 Label {
                     id: __label

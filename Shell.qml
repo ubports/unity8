@@ -198,6 +198,7 @@ FocusScope {
 
             anchors.fill: parent
             source: shell.background
+            fillMode: Image.PreserveAspectCrop
         }
 
         Rectangle {
@@ -624,7 +625,7 @@ FocusScope {
         Bottombar {
             theHud: hud
             anchors.fill: parent
-            enabled: !panel.indicators.shown
+            enabled: hud.available
             applicationIsOnForeground: applicationFocused
         }
 

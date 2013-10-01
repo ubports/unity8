@@ -1,34 +1,35 @@
-# Spanish translation for unity
+# Gaelic; Scottish translation for unity8
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the unity package.
+# This file is distributed under the same license as the unity8 package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity\n"
+"Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-08-27 13:36-0400\n"
-"PO-Revision-Date: 2013-09-28 07:35+0000\n"
-"Last-Translator: Paco Molinero <paco@byasl.com>\n"
-"Language-Team: Spanish <es@li.org>\n"
+"PO-Revision-Date: 2013-09-30 10:34+0000\n"
+"Last-Translator: Akerbeltz <fios@akerbeltz.org>\n"
+"Language-Team: Gaelic; Scottish <gd@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-09-29 06:18+0000\n"
+"Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
+"(n > 2 && n < 20) ? 2 : 3;\n"
+"X-Launchpad-Export-Date: 2013-10-01 05:53+0000\n"
 "X-Generator: Launchpad (build 16774)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
-msgstr "Teléfono"
+msgstr "Fòn"
 
 #: Applications/applications.js:29
 msgid "Camera"
-msgstr "Cámara"
+msgstr "Camara"
 
 #: Applications/applications.js:35
 msgid "Gallery"
-msgstr "Galería"
+msgstr "Gailearaidh"
 
 #: Applications/applications.js:40
 msgid "Facebook"
@@ -36,7 +37,7 @@ msgstr "Facebook"
 
 #: Applications/applications.js:46
 msgid "Browser"
-msgstr "Navegador"
+msgstr "Brabhsair"
 
 #: Applications/applications.js:51
 msgid "Twitter"
@@ -48,19 +49,19 @@ msgstr "GMail"
 
 #: Applications/applications.js:62
 msgid "Weather"
-msgstr "Meteorología"
+msgstr "An aimsir"
 
 #: Applications/applications.js:68
 msgid "Notepad"
-msgstr "Bloc de notas"
+msgstr "Pada nan nòtaichean"
 
 #: Applications/applications.js:74
 msgid "Calendar"
-msgstr "Calendario"
+msgstr "Am mìosachan"
 
 #: Applications/applications.js:80
 msgid "Media Player"
-msgstr "Reproductor multimedia"
+msgstr "Cluicheadair mheadhanan"
 
 #: Applications/applications.js:86
 msgid "Evernote"
@@ -80,7 +81,7 @@ msgstr "SoundCloud"
 
 #: Applications/applications.js:106
 msgid "Wikipedia"
-msgstr "Wikipedia"
+msgstr "An Uicipeid"
 
 #: Applications/applications.js:111
 msgid "YouTube"
@@ -88,53 +89,59 @@ msgstr "YouTube"
 
 #: Components/EdgeDemoOverlay.qml:145
 msgid "Skip intro"
-msgstr "Omitir la introducción"
+msgstr "Gearr leum thairis air an ro-ràdh"
 
 #: Components/EdgeDemo.qml:98
 msgid "Right edge"
-msgstr "Borde derecho"
+msgstr "An oir dheas"
 
 #: Components/EdgeDemo.qml:99
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr "Deslice el dedo desde el borde derecho para desbloquear el teléfono"
+msgstr ""
+"Feuch is dèan grad-shlaighdeadh a-steach on oir dheas gus a' ghlas a thoirt "
+"far an fhòn"
 
 #: Components/EdgeDemo.qml:135
 msgid "Top edge"
-msgstr "Borde superior"
+msgstr "An oir aig a' bharr"
 
 #: Components/EdgeDemo.qml:136
 msgid "Try swiping from the top edge to access the indicators"
-msgstr "Deslice el dedo desde el borde superior para acceder a los menús"
+msgstr ""
+"Feuch is dèan grad-shlaighdeadh a-steach on oir aig a' bharr gus greim "
+"fhaighinn air na taisbeanairean"
 
 #: Components/EdgeDemo.qml:161
 msgid "Close"
-msgstr "Cerrar"
+msgstr "Dùin"
 
 #: Components/EdgeDemo.qml:162
 msgid "Swipe up again to close the settings screen"
-msgstr "Deslice hacia arriba para cerrar la pantalla de configuración"
+msgstr "Dèan grad-shlaighdeadh a-nìos gus sgrìn nan roghainnean a dhùnadh"
 
 #: Components/EdgeDemo.qml:189
 msgid "Left edge"
-msgstr "Borde izquierdo"
+msgstr "An oir chlì"
 
 #: Components/EdgeDemo.qml:190
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr ""
-"Deslice el dedo desde la izquierda para mostrar el lanzador y acceder "
-"rápidamente a las aplicaciones"
+"Dèan grad-shlaighdeadh on oir chlì air an lòinseir a bheir dhut cothrom "
+"luath air na h-aplacaidean"
 
 #: Components/EdgeDemo.qml:217
 msgid "Well done"
-msgstr "Bien hecho"
+msgstr "Gasta!"
 
 #: Components/EdgeDemo.qml:218
 msgid "You have now mastered the edge gestures and can start using the phone"
-msgstr "Ahora domina el uso de gestos de los bordes. Puede usar el teléfono"
+msgstr ""
+"Dh'ionnsaich thu mar a dh'obraicheas na gluasadan air an oir agus is urrainn "
+"dhut am fòn a chleachdadh a-nis"
 
 #: Components/PageHeader.qml:298
 msgid "Recent searches"
-msgstr "Búsquedas recientes"
+msgstr "Na lorg thu o chionn goirid"
 
 #. TRANSLATORS: Number of persons who rated this app
 #: Dash/Apps/AppInfo.qml:73
@@ -147,111 +154,113 @@ msgstr "(%1)"
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
-msgstr[0] "%1 reseña"
-msgstr[1] "%1 reseñas"
+msgstr[0] "%1 lèirmheas"
+msgstr[1] "%1 lèirmheas"
+msgstr[2] "%1 lèirmheasan"
+msgstr[3] "%1 lèirmheas"
 
 #: Dash/Apps/AppPreview.qml:175
 msgid "Rate this"
-msgstr "Valorar esto"
+msgstr "Rangaich seo"
 
 #: Dash/Apps/AppReviews.qml:72
 msgid "Add a review"
-msgstr "Añadir una reseña"
+msgstr "Cuir lèirmheas ris"
 
 #: Dash/Apps/AppReviews.qml:84
 msgid "Review"
-msgstr "Reseñar"
+msgstr "Lèirmheas"
 
 #: Dash/Apps/AppReviews.qml:118
 msgid "Send"
-msgstr "Enviar"
+msgstr "Cuir"
 
 #: Dash/Apps/AppReviews.qml:136
 msgid "Comments:"
-msgstr "Comentarios:"
+msgstr "Beachdan"
 
 #: Dash/DashMusic.qml:27 Dash/DashVideos.qml:28
 msgid "Featured"
-msgstr "Destacados"
+msgstr "Brosnaichte"
 
 #: Dash/DashMusic.qml:28 Dash/DashVideos.qml:29
 msgid "Recent"
-msgstr "Recientes"
+msgstr "O chionn goirid"
 
 #: Dash/DashMusic.qml:29 Dash/DashVideos.qml:30
 msgid "New Releases"
-msgstr "Lanzamientos nuevos"
+msgstr "Air ùr-sgaoileadh"
 
 #: Dash/DashMusic.qml:30
 msgid "Top Charting"
-msgstr "Mejor posicionadas"
+msgstr "Gràinnean-mullaich nan cairt"
 
 #: Dash/DashMusic.qml:91
 msgid "Music"
-msgstr "Música"
+msgstr "Ceòl"
 
 #: Dash/DashVideos.qml:31
 msgid "Popular Online"
-msgstr "Populares en línea"
+msgstr "Fèill mhòr air air loidhne"
 
 #: Dash/DashVideos.qml:146
 msgid "Videos"
-msgstr "Vídeos"
+msgstr "Videothan"
 
 #: Dash/Video/VideoPreview.qml:130
 msgid "Directed by:"
-msgstr "Dirigida por:"
+msgstr "Air a stiùireadh le:"
 
 #: Dash/Video/VideoPreview.qml:153
 msgid "Starring:"
-msgstr "Protagonistas:"
+msgstr "Leis na daoine a leanas:"
 
 #: Dash/Video/VideoPreview.qml:176
 msgid "Author:"
-msgstr "Autor:"
+msgstr "Ùghdar:"
 
 #: Greeter/Lockscreen.qml:134
 msgid "Emergency Call"
-msgstr "Llamada de emergencia"
+msgstr "Gairm èiginn"
 
 #: Greeter/PassphraseLockscreen.qml:59
 #, qt-format
 msgid "Hello %1"
-msgstr "Hola %1"
+msgstr "Shin thu, %1"
 
 #: Greeter/PassphraseLockscreen.qml:59
 msgid "Hello"
-msgstr "Hola"
+msgstr "Shin thu"
 
 #: Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
-msgstr "Confirmar"
+msgstr "Dearbhaich"
 
 #: Hud/Hud.qml:61 Hud/Hud.qml:99 Hud/Hud.qml:372
 msgid "Type or say a command"
-msgstr "Escriba o diga una orden"
+msgstr "Sgrìobh no can àithne"
 
 #: Hud/Hud.qml:84
 msgid "Loading. Please Wait..."
-msgstr "Cargando, espere…"
+msgstr "'Ga luchdadh, fuirich ort..."
 
 #: Hud/Hud.qml:89
 msgid "Speak Now..."
-msgstr "Hable ahora…"
+msgstr "Can rud a-nis..."
 
 #: Hud/Hud.qml:94
 msgid "Speaking..."
-msgstr "Hablando…"
+msgstr "A' bruidhinn..."
 
 #: Panel/SearchIndicator.qml:27
 msgid "Search"
-msgstr "Buscar"
+msgstr "Lorg"
 
 #: plugins/Unity/scope.cpp:317
 msgid "Sorry, there is nothing that matches your search."
-msgstr "No hay nada que coincida con su búsqueda."
+msgstr "Tha sinn duilich ach chan eil dad a' freagairt ris na lorg thu."
 
 #: Shell.qml:429
 #, qt-format
 msgid "Please enter %1"
-msgstr "Introduzca %1"
+msgstr "Cuir a-steach %1"
