@@ -142,18 +142,21 @@ Item {
             var searchIndicator = findChild(pageHeader, "searchIndicator")
             var primaryImage = findChild(pageHeader, "primaryImage")
 
+            pageHeader.triggerSearch()
+
             scopeMock.searchInProgress = false
             compare(searchIndicator.running, false, "Search indicator is running.")
             tryCompare(primaryImage, "visible", true)
-
-            pageHeader.triggerSearch()
-            typeString("test")
 
             scopeMock.searchInProgress = true
             compare(searchIndicator.running, true, "Search indicator isn't running.")
             tryCompare(primaryImage, "visible", false)
 
             pageHeader.resetSearch()
+        }
+
+        function cleanup() {
+            scopeMock.searchInProgress = false
         }
     }
 
