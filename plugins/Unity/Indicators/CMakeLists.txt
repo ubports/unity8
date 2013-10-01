@@ -12,6 +12,7 @@ find_package(Qt5Core REQUIRED)
 find_package(Qt5Quick REQUIRED)
 
 add_subdirectory(qml)
+add_subdirectory(Messaging)
 add_subdirectory(Network)
 
 include_directories(
@@ -34,11 +35,20 @@ set(IndicatorsQML_SOURCES
     rootactionstate.cpp
     unitymenumodelcache.cpp
     unitymenumodelstack.cpp
+    visibleindicatorsmodel.cpp
 )
 add_definitions(-DUNITYINDICATORS_LIBRARY)
 
+set(IndicatorsQML_RESOURCES
+    resources/indicators.qrc
+)
+
+qt5_add_resources(IndicatorsQML_RESOURCES_RCC
+    ${IndicatorsQML_RESOURCES}
+)
 
 add_library(IndicatorsQml SHARED
+    ${IndicatorsQML_RESOURCES_RCC}
     ${IndicatorsQML_SOURCES}
 )
 

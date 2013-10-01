@@ -24,8 +24,6 @@ import Unity.Indicators 0.1 as Indicators
 Item {
     id: indicatorItem
 
-    // FIXME : should be disabled until bus available when we have desktop indicators
-    // for now, disable when we dont habe the correct profile.
     enabled: menuObjectPaths.hasOwnProperty(device)
 
     //const
@@ -38,9 +36,6 @@ Item {
     property bool active: false
 
     property string deviceMenuObjectPath: menuObjectPaths.hasOwnProperty(device) ? menuObjectPaths[device] : ""
-
-    signal actionGroupUpdated()
-    signal modelUpdated()
 
     property alias menuModel: cachedModel.model
 

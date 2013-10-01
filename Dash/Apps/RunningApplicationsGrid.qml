@@ -52,22 +52,22 @@ ResponsiveFlowView {
 
         RunningApplicationTile {
             id: runningAppTile
-            objectName: "runningAppTile " + model.application.name
+            objectName: "runningAppTile " + model.name
             anchors {
                 top: parent.top
                 horizontalCenter: parent.horizontalCenter
             }
-            application: model.application
+            application: model
             onRequestedActivationMode: { root.terminationModeEnabled = false }
             onRequestedTerminationMode: {
                 if (canEnableTerminationMode)
                     root.terminationModeEnabled = true
             }
             onRequestedApplicationTermination: {
-                shell.applicationManager.stopProcess(application)
+                shell.applicationManager.stopApplication(model.appId)
             }
             onRequestedApplicationActivation: {
-                shell.activateApplication(application.desktopFile)
+                shell.activateApplication(model.appId)
             }
 
             terminationModeEnabled: root.terminationModeEnabled

@@ -26,6 +26,7 @@
 #include "moviepreview.h"
 #include "musicpreview.h"
 #include "socialpreview.h"
+#include "iconutils.h"
 #include "variantutils.h"
 
 // Qt
@@ -38,9 +39,12 @@
 #include <UnityCore/MusicPreview.h>
 #include <UnityCore/SocialPreview.h>
 
+#include <UnityCore/GLibWrapper.h>
+
 Preview::Preview(QObject *parent):
     QObject(parent),
-    m_unityPreview(nullptr)
+    m_unityPreview(nullptr),
+    m_result(new Result(this))
 {
 }
 
@@ -102,7 +106,10 @@ QVariantMap Preview::infoHintsHash() const
 QString Preview::image() const
 {
     if (m_unityPreview) {
-        return QString::fromUtf8(g_icon_to_string(m_unityPreview->image()));
+        auto giconString = g_icon_to_string(m_unityPreview->image());
+        QString result(gIconToDeclarativeImageProviderString(QString::fromUtf8(giconString)));
+        g_free(giconString);
+        return result;
     } else {
         qWarning() << "Preview not set";
     }
@@ -117,6 +124,11 @@ QString Preview::imageSourceUri() const
         qWarning() << "Preview not set";
     }
     return QString::null;
+}
+
+QVariant Preview::result() const
+{
+    return QVariant::fromValue(m_result);
 }
 
 Preview* Preview::newFromUnityPreview(unity::dash::Preview::Ptr unityPreview)
@@ -147,6 +159,7 @@ Preview* Preview::newFromUnityPreview(unity::dash::Preview::Ptr unityPreview)
 void Preview::setUnityPreviewBase(unity::dash::Preview::Ptr unityPreview)
 {
     m_unityPreview = unityPreview;
+    m_result->setPreview(unityPreview);
 
     qDeleteAll(m_infoHints);
     m_infoHints.clear();
@@ -177,8 +190,14 @@ void Preview::execute(const QString& actionId, const QHash<QString, QVariant>& h
 {
     if (m_unityPreview) {
         auto unityHints = convertToHintsMap(hints);
-        m_unityPreview->PerformAction(actionId.toStdString(), unityHints);
+        m_actionCancellable.Renew();
+        m_unityPreview->PerformAction(actionId.toStdString(), unityHints, nullptr, m_actionCancellable);
     } else {
         qWarning() << "Preview not set";
     }
+}
+
+void Preview::cancelAction()
+{
+    m_actionCancellable.Cancel();
 }

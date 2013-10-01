@@ -9,6 +9,7 @@ Build-Depends: cmake,
                libgl1-mesa-dev[!armhf] | libgl-dev[!armhf],
                libgl1-mesa-dri,
                libgles2-mesa-dev[armhf],
+               libgsettings-qt-dev,
                libhud-client2-dev,
                libjson-perl,
                libnih-dbus-dev,
@@ -20,8 +21,9 @@ Build-Depends: cmake,
                libqt5v8-5-private-dev,
                libsigc++-2.0-dev,
                libunity-api-dev (>= 7.80.3),
-               libunity-core-6.0-dev (<< 7.80),
+               libunity-core-6.0-dev (>= 7.1.1),
                libunity-dev (>= 7.0.12),
+               libunity-mir-dev,
                libunity-scopes-json-def-phone,
                libupstart-dev,
                libusermetricsoutput1-dev,
@@ -53,7 +55,7 @@ Vcs-Browser: https://bazaar.launchpad.net/~unity-team/unity8/trunk
 Package: indicators-client
 Architecture: amd64 armhf i386
 Depends: qmenumodel-qml (>= 0.2.7),
-         qtdeclarative5-ubuntu-ui-toolkit-plugin | qt-components-ubuntu,
+         qtdeclarative5-ubuntu-ui-toolkit-plugin (>= 0.1.46+13.10.20130829.1-0ubuntu1),
          unity8 (= ${binary:Version}),
          ${misc:Depends},
          ${shlibs:Depends},
@@ -64,13 +66,14 @@ Package: unity8
 Architecture: any
 Provides: indicator-renderer,
 Depends: gsettings-desktop-schemas,
+         libunity-mir1,
          qmenumodel-qml (>= 0.2.7),
          qtdeclarative5-dee-plugin,
          qtdeclarative5-gsettings1.0,
-         qtdeclarative5-ubuntu-ui-toolkit-plugin,
+         qtdeclarative5-ubuntu-ui-toolkit-plugin  (>= 0.1.46+13.10.20130829.1-0ubuntu1),
          qtdeclarative5-unity-notifications-plugin | unity-notifications-impl,
          qtdeclarative5-xmllistmodel-plugin,
-         unity-launcher-impl-2,
+         unity-launcher-impl-3,
          unity-notifications-impl-1,
          unity8-fake-env | qtubuntu-shell,
          unity8-private (= ${binary:Version}),
@@ -86,18 +89,18 @@ Description: Unity 8 shell
 
 Package: unity8-autopilot
 Architecture: all
-Depends: indicators-client (>= ${source:Version}),
+Depends: gir1.2-glib-2.0,
+         indicators-client (>= ${source:Version}),
          libautopilot-qt,
          libqt5test5,
          libqt5widgets5,
          python-evdev,
+         python-gi,
          unity8 (>= ${source:Version}),
          unity8-fake-env (>= ${source:Version}),
          ${misc:Depends},
          ${python:Depends},
          ${shlibs:Depends},
-Recommends: gir1.2-glib-2.0,
-            python-gi,
 Description: Test package for Unity 8 shell
  Autopilot tests for the unity8 package
 
@@ -119,7 +122,7 @@ Pre-Depends: ${misc:Pre-Depends},
 Depends: ${misc:Depends},
          ${shlibs:Depends},
 Provides: unity-launcher-impl,
-          unity-launcher-impl-2,
+          unity-launcher-impl-3,
 Description: Unity 8 private libs
  The Unity 8 shell is the primary user interface for Ubuntu devices.
  .

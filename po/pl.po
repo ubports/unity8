@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2013-08-29 05:41+0000\n"
-"X-Generator: Launchpad (build 16738)\n"
+"X-Launchpad-Export-Date: 2013-08-30 05:37+0000\n"
+"X-Generator: Launchpad (build 16750)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -254,30 +254,3 @@ msgstr "Nie znaleziono pasujących wyników."
 #, qt-format
 msgid "Please enter %1"
 msgstr "Wprowadź %1"
-
-#~ msgid "Running apps"
-#~ msgstr "Uruchomione aplikacje"
-
-#~ msgid "Frequently used"
-#~ msgstr "Najczęściej używane"
-
-#~ msgid "Installed"
-#~ msgstr "Zainstalowane"
-
-#~ msgid "Available for download"
-#~ msgstr "Dostępne do pobrania"
-
-#~ msgid "Apps"
-#~ msgstr "Aplikacje"
-
-#~ msgid "Frequent Apps"
-#~ msgstr "Często używane aplikacje"
-
-#~ msgid "Recent Music"
-#~ msgstr "Najnowsza muzyka"
-
-#~ msgid "Videos Popular Online"
-#~ msgstr "Wideo popularne online"
-
-#~ msgid "Home"
-#~ msgstr "Dom"

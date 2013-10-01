@@ -27,12 +27,13 @@ MockLauncherItem::MockLauncherItem(const QString &appId, const QString& desktopF
     m_appId(appId),
     m_desktopFile(desktopFile),
     m_name(name),
-    m_icon(icon),
+    m_icon(TOP_SRCDIR "/graphics/applicationIcons/" + icon + ".png"),
     m_pinned(false),
     m_running(false),
     m_recent(false),
     m_progress(-1),
     m_count(0),
+    m_focused(false),
     m_quickList(new MockQuickListModel(this))
 {
 
@@ -127,6 +128,21 @@ void MockLauncherItem::setCount(int count)
         Q_EMIT countChanged(count);
     }
 }
+
+bool MockLauncherItem::focused() const
+{
+    return m_focused;
+}
+
+void MockLauncherItem::setFocused(bool focused)
+{
+    if (m_focused != focused)
+    {
+        m_focused = focused;
+        Q_EMIT focusedChanged(focused);
+    }
+}
+
 
 unity::shell::launcher::QuickListModelInterface *MockLauncherItem::quickList() const
 {

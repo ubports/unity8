@@ -21,6 +21,7 @@
 // self
 #include "categories.h"
 #include "categoryresults.h"
+#include <QDebug>
 
 // Qt
 #include <QDebug>
@@ -46,7 +47,6 @@ Categories::Categories(QObject* parent)
     m_roles[Categories::RoleHints] = "hints";
     m_roles[Categories::RoleResults] = "results";
     m_roles[Categories::RoleCount] = "count";
-    m_roles[Categories::RoleCategoryIndex] = "categoryIndex";
 
     // TODO This should not be needed but accumulatting the count changes
     // makes the visualization more stable and also makes crashes on fast
@@ -66,7 +66,17 @@ Categories::getResults(int index) const
 
         unsigned categoryIndex = static_cast<unsigned>(index);
         auto unity_results = m_unityScope->GetResultsForCategory(categoryIndex);
-        results->setModel(unity_results->model());
+        if (unity_results) {
+            results->setModel(unity_results->model());
+        } else {
+            // No results model returned by unity core; this can be the case when the global
+            // results model of this scope is still not set in unity core. Don't set backend
+            // model in DeeListModel - it will still beahve properly as an empty model. Since
+            // we're connected to the category model change signal, and it is set by unity core
+            // at the same time as results model (on channel opening), we'll reset category
+            // results models with proper models when we're notifed again.
+            qWarning() << "No results model for category" << categoryIndex;
+        }
 
         m_results.insert(index, results);
     }
@@ -291,8 +301,6 @@ Categories::data(const QModelIndex& index, int role) const
             }
             qDebug() << "Get count of cat" << DeeListModel::data(realIndex, CategoryColumn::ID).toString() << realRow << "at pos" << index.row() << "Count=" << getResults(realIndex.row())->rowCount();
             return QVariant::fromValue(getResults(realRow)->rowCount());
-        case RoleCategoryIndex:
-            return QVariant::fromValue(index.row()); // no remapping to realIndex
         default:
             return QVariant();
     }

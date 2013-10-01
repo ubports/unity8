@@ -83,9 +83,8 @@ Item {
                 }
 
                 delegate:
-                    Item {
-                        signal clicked()
-
+                    // FIXME: Use Panel's integrated trigger() once that works again.
+                    MouseArea {
                         width: itemSize
                         height: dashBar.height
                         anchors.top: parent.top

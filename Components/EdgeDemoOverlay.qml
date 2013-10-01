@@ -17,7 +17,7 @@
 import Powerd 0.1
 import QtQuick 2.0
 import QtGraphicalEffects 1.0
-import Ubuntu.Application 0.1
+import Unity.Application 0.1
 import Ubuntu.Components 0.1
 
 Showable {
@@ -42,6 +42,11 @@ Showable {
      * This is the text for the skip button.
      */
     property alias skipText: skipLabel.text
+
+    /*
+     * This is the visible status of the skip button.
+     */
+    property alias showSkip: skipLabel.visible
 
     /*
      * Whether this demo is running currently.
@@ -148,7 +153,10 @@ Showable {
                 font.underline: true
 
                 MouseArea {
+                    // Make clickable area bigger than just the link because
+                    // otherwise, the edge demo will feel hard to dismiss.
                     anchors.fill: parent
+                    anchors.margins: -units.gu(5)
                     onClicked: overlay.doSkip()
                 }
             }

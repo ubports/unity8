@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012,2013 Canonical, Ltd.
+ * Copyright (C) 2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,26 +19,52 @@
 #ifndef UNITY_ACCOUNTSSERVICE_H
 #define UNITY_ACCOUNTSSERVICE_H
 
-#include <QDBusInterface>
-#include <QMap>
 #include <QObject>
 #include <QString>
+
+class AccountsServiceDBusAdaptor;
 
 class AccountsService: public QObject
 {
     Q_OBJECT
+    Q_PROPERTY (QString user
+                READ user
+                WRITE setUser
+                NOTIFY userChanged)
+    Q_PROPERTY (bool demoEdges
+                READ demoEdges
+                WRITE setDemoEdges
+                NOTIFY demoEdgesChanged)
+    Q_PROPERTY (QString backgroundFile
+                READ backgroundFile
+                NOTIFY backgroundFileChanged)
 
 public:
     explicit AccountsService(QObject *parent = 0);
 
-    Q_INVOKABLE QVariant getUserProperty(const QString &user, const QString &property);
-    Q_INVOKABLE void setUserProperty(const QString &user, const QString &property, const QVariant &value);
+    QString user() const;
+    void setUser(const QString &user);
+    bool demoEdges() const;
+    void setDemoEdges(bool demoEdges);
+    QString backgroundFile() const;
+
+Q_SIGNALS:
+    void userChanged();
+    void demoEdgesChanged();
+    void backgroundFileChanged();
+
+private Q_SLOTS:
+    void propertiesChanged(const QString &user, const QString &interface, const QStringList &changed);
+    void maybeChanged(const QString &user);
 
 private:
-    QDBusInterface *getUserInterface(const QString &user);
+    void updateDemoEdges();
+    void updateBackgroundFile();
 
-    QDBusInterface *accounts_manager;
-    QMap<QString, QDBusInterface *> users;
+    AccountsServiceDBusAdaptor *m_service;
+    QString m_user;
+    bool m_demoEdges;
+    QString m_backgroundFile;
 };
 
 #endif

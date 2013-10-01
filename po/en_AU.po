@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-08-27 13:36-0400\n"
-"PO-Revision-Date: 2013-06-27 01:13+0000\n"
-"Last-Translator: Jackson Doak <Doak.jackson@gmail.com>\n"
+"PO-Revision-Date: 2013-09-28 07:46+0000\n"
+"Last-Translator: Jared Norris <jarednorris@ubuntu.com>\n"
 "Language-Team: English (Australia) <en_AU@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-08-29 05:41+0000\n"
-"X-Generator: Launchpad (build 16738)\n"
+"X-Launchpad-Export-Date: 2013-09-29 06:18+0000\n"
+"X-Generator: Launchpad (build 16774)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -88,47 +88,48 @@ msgstr "YouTube"
 
 #: Components/EdgeDemoOverlay.qml:145
 msgid "Skip intro"
-msgstr ""
+msgstr "Skip intro"
 
 #: Components/EdgeDemo.qml:98
 msgid "Right edge"
-msgstr ""
+msgstr "Right edge"
 
 #: Components/EdgeDemo.qml:99
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr ""
+msgstr "Try swiping from the right edge to unlock the phone"
 
 #: Components/EdgeDemo.qml:135
 msgid "Top edge"
-msgstr ""
+msgstr "Top edge"
 
 #: Components/EdgeDemo.qml:136
 msgid "Try swiping from the top edge to access the indicators"
-msgstr ""
+msgstr "Try swiping from the top edge to access the indicators"
 
 #: Components/EdgeDemo.qml:161
 msgid "Close"
-msgstr ""
+msgstr "Close"
 
 #: Components/EdgeDemo.qml:162
 msgid "Swipe up again to close the settings screen"
-msgstr ""
+msgstr "Swipe up again to close the settings screen"
 
 #: Components/EdgeDemo.qml:189
 msgid "Left edge"
-msgstr ""
+msgstr "Left edge"
 
 #: Components/EdgeDemo.qml:190
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr ""
+msgstr "Swipe from the left to reveal the launcher for quick access to apps"
 
 #: Components/EdgeDemo.qml:217
 msgid "Well done"
-msgstr ""
+msgstr "Well done"
 
 #: Components/EdgeDemo.qml:218
 msgid "You have now mastered the edge gestures and can start using the phone"
 msgstr ""
+"You have now mastered the edge gestures and can start using the phone"
 
 #: Components/PageHeader.qml:298
 msgid "Recent searches"
@@ -138,35 +139,35 @@ msgstr "Recent searches"
 #: Dash/Apps/AppInfo.qml:73
 #, qt-format
 msgid "(%1)"
-msgstr ""
+msgstr "(%1)"
 
 #. TRANSLATORS: Number of persons who wrote reviews for this app
 #: Dash/Apps/AppInfo.qml:85
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 review"
+msgstr[1] "%1 reviews"
 
 #: Dash/Apps/AppPreview.qml:175
 msgid "Rate this"
-msgstr ""
+msgstr "Rate this"
 
 #: Dash/Apps/AppReviews.qml:72
 msgid "Add a review"
-msgstr ""
+msgstr "Add a review"
 
 #: Dash/Apps/AppReviews.qml:84
 msgid "Review"
-msgstr ""
+msgstr "Review"
 
 #: Dash/Apps/AppReviews.qml:118
 msgid "Send"
-msgstr ""
+msgstr "Send"
 
 #: Dash/Apps/AppReviews.qml:136
 msgid "Comments:"
-msgstr ""
+msgstr "Comments:"
 
 #: Dash/DashMusic.qml:27 Dash/DashVideos.qml:28
 msgid "Featured"
@@ -210,16 +211,16 @@ msgstr "Author:"
 
 #: Greeter/Lockscreen.qml:134
 msgid "Emergency Call"
-msgstr ""
+msgstr "Emergency Call"
 
 #: Greeter/PassphraseLockscreen.qml:59
 #, qt-format
 msgid "Hello %1"
-msgstr ""
+msgstr "Hello %1"
 
 #: Greeter/PassphraseLockscreen.qml:59
 msgid "Hello"
-msgstr ""
+msgstr "Hello"
 
 #: Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
@@ -252,31 +253,4 @@ msgstr "Sorry, there is nothing that matches your search."
 #: Shell.qml:429
 #, qt-format
 msgid "Please enter %1"
-msgstr ""
-
-#~ msgid "Running apps"
-#~ msgstr "Running apps"
-
-#~ msgid "Frequently used"
-#~ msgstr "Frequently used"
-
-#~ msgid "Installed"
-#~ msgstr "Installed"
-
-#~ msgid "Available for download"
-#~ msgstr "Available for download"
-
-#~ msgid "Apps"
-#~ msgstr "Apps"
-
-#~ msgid "Frequent Apps"
-#~ msgstr "Frequent Apps"
-
-#~ msgid "Recent Music"
-#~ msgstr "Recent Music"
-
-#~ msgid "Videos Popular Online"
-#~ msgstr "Videos Popular Online"
-
-#~ msgid "Home"
-#~ msgstr "Home"
+msgstr "Please enter %1"

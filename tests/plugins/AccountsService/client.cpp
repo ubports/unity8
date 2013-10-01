@@ -18,6 +18,7 @@
  */
 
 #include "AccountsService.h"
+#include "AccountsServiceDBusAdaptor.h"
 #include <QSignalSpy>
 #include <QTest>
 
@@ -30,17 +31,28 @@ private Q_SLOTS:
     void testInvalids()
     {
         // Test various invalid calls
-        AccountsService session;
-        QCOMPARE(session.getUserProperty("NOPE", "demo-edges"), QVariant());
-        QCOMPARE(session.getUserProperty("testuser", "NOPE"), QVariant());
+        AccountsServiceDBusAdaptor session;
+        QCOMPARE(session.getUserProperty("NOPE", "com.canonical.unity.AccountsService", "demo-edges"), QVariant());
+        QCOMPARE(session.getUserProperty("testuser", "com.canonical.unity.AccountsService", "NOPE"), QVariant());
     }
 
-    void testGetSet()
+    void testGetSetServiceDBusAdaptor()
+    {
+        AccountsServiceDBusAdaptor session;
+        session.setUserProperty("testuser", "com.canonical.unity.AccountsService", "demo-edges", QVariant(true));
+        QCOMPARE(session.getUserProperty("testuser", "com.canonical.unity.AccountsService", "demo-edges"), QVariant(true));
+        session.setUserProperty("testuser", "com.canonical.unity.AccountsService", "demo-edges", QVariant(false));
+        QCOMPARE(session.getUserProperty("testuser", "com.canonical.unity.AccountsService", "demo-edges"), QVariant(false));
+    }
+
+    void testGetSetService()
     {
         AccountsService session;
-        QCOMPARE(session.getUserProperty("testuser", "demo-edges"), QVariant(true));
-        session.setUserProperty("testuser", "demo-edges", QVariant(false));
-        QCOMPARE(session.getUserProperty("testuser", "demo-edges"), QVariant(false));
+        session.setUser("testuser");
+        session.setDemoEdges(true);
+        QCOMPARE(session.demoEdges(), true);
+        session.setDemoEdges(false);
+        QCOMPARE(session.demoEdges(), false);
     }
 };
 

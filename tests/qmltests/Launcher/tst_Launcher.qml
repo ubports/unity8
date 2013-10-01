@@ -38,7 +38,7 @@ Item {
         property string lastSelectedApplication
 
         onLauncherApplicationSelected: {
-            lastSelectedApplication = desktopFile
+            lastSelectedApplication = appId
         }
 
         property int dashItemSelected_count: 0
@@ -131,7 +131,7 @@ Item {
             mouseClick(appIcon, appIcon.width/2, appIcon.height/2)
 
             tryCompare(launcher, "lastSelectedApplication",
-                       "/usr/share/applications/phone-app.desktop")
+                       "phone-app")
 
             // Tapping on an application icon also dismisses the launcher
             revealer.waitUntilLauncherDisappears()
@@ -196,6 +196,14 @@ Item {
             for (var i = 0; i < launcherListView.count; ++i) {
                 var delegate = findChild(launcherListView, "launcherDelegate" + i)
                 compare(findChild(delegate, "progressOverlay").visible, LauncherModel.get(i).progress >= 0)
+            }
+        }
+
+        function test_focusedHighlight() {
+            var launcherListView = findChild(launcher, "launcherListView");
+            for (var i = 0; i < launcherListView.count; ++i) {
+                var delegate = findChild(launcherListView, "launcherDelegate" + i)
+                compare(findChild(delegate, "focusedHighlight").visible, LauncherModel.get(i).focused)
             }
         }
     }

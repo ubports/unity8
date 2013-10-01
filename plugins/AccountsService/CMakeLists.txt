@@ -4,6 +4,7 @@ add_definitions(-DSM_BUSNAME=systemBus)
 
 add_library(AccountsService-qml MODULE
     AccountsService.cpp
+    AccountsServiceDBusAdaptor.cpp
     plugin.cpp
     )
 

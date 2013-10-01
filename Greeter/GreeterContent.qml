@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.0
+import AccountsService 0.1
 import Ubuntu.Components 0.1
 import LightDM 0.1 as LightDM
 import "../Components"
@@ -39,12 +40,29 @@ MouseArea {
         color: "black"
     }
 
+    property url backgroundValue: AccountsService.backgroundFile != undefined && AccountsService.backgroundFile.length > 0 ? AccountsService.backgroundFile : greeter.defaultBackground
+    onBackgroundValueChanged: wallpaper.source = backgroundValue
+
     CrossFadeImage {
         id: wallpaper
-
-        source: shell.background
+        objectName: "wallpaper"
         anchors.fill: parent
-        fadeInFirst: false
+        fillMode: Image.PreserveAspectCrop
+    }
+
+    // See Shell.qml's backgroundSettings treatment for why we need a separate
+    // Image, but it boils down to avoiding binding loop detection.
+    Image {
+        source: wallpaper.source
+        height: 0
+        width: 0
+        sourceSize.height: 0
+        sourceSize.width: 0
+        onStatusChanged: {
+            if (status == Image.Error && source != greeter.defaultBackground) {
+                wallpaper.source = greeter.defaultBackground
+            }
+        }
     }
 
     Rectangle {
