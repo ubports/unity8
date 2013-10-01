@@ -17,7 +17,6 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItems
-import Ubuntu.DownloadDaemonListener 0.1
 import ".."
 import "../Generic"
 import "../Previews"
@@ -29,7 +28,6 @@ GenericPreview {
     signal sendUserReview(string review)
 
     previewImages: previewImagesComponent
-    actions: root.previewData.infoMap["show_progressbar"] ? progressComponent : buttonsComponent
     description: descriptionComponent
     header: headerComponent
 
@@ -73,62 +71,6 @@ GenericPreview {
             rating: Math.round(root.previewData.rating * 10)
             reviews: root.previewData.numRatings
             rated: root.previewData.infoMap["rated"] ? root.previewData.infoMap["rated"].value : 0
-        }
-    }
-
-    Component {
-        id: buttonsComponent
-
-        Column {
-            id: buttonList
-            objectName: "gridButtons"
-            spacing: units.gu(1)
-            Repeater {
-                model: root.previewData.actions
-
-                delegate: Button {
-                    width: parent.width
-                    height: buttonList.buttonHeight
-                    color: Theme.palette.selected.foreground
-                    text: modelData.displayName
-                    iconSource: modelData.iconHint
-                    iconPosition: "right"
-                    onClicked: root.previewData.execute(modelData.id, { })
-                }
-            }
-        }
-    }
-
-    Component {
-        id: progressComponent
-
-        ProgressBar {
-            id: progressBar
-            objectName: "progressBar"
-            value: 0
-            maximumValue: 100
-            height: units.gu(5)
-
-            property var model: root.previewData.actions
-
-            DownloadTracker {
-                service: "com.canonical.applications.Downloader"
-                dbusPath: root.previewData.infoMap["progressbar_source"] ? root.previewData.infoMap["progressbar_source"].value : ""
-
-                onProgress: {
-                    var percentage = parseInt(received * 100 / total);
-                    progressBar.value = percentage;
-                }
-
-                onFinished: {
-                    root.previewData.execute(progressBar.model[0].id, { })
-                }
-
-                onError: {
-                    root.previewData.execute(progressBar.model[1].id, { "error": error });
-                }
-            }
-
         }
     }
 

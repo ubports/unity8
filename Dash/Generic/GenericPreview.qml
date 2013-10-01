@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItems
+import Ubuntu.DownloadDaemonListener 0.1
 import "../../Components"
 import ".."
 import "../Previews"
@@ -27,7 +28,7 @@ DashPreview {
 
     previewImages: previewImagesComponent
     header: headerComponent
-    actions: actionsComponent
+    actions: root.previewData.infoMap["show_progressbar"] ? progressComponent : actionsComponent
     description: descriptionComponent
 
     Component {
@@ -61,34 +62,57 @@ DashPreview {
 
     Component {
         id: actionsComponent
-        GridView {
-            id: buttons
-            model: genericPreview.previewData.actions
 
-            property int buttonMaxWidth: units.gu(34)
-            property int numOfColumns: Math.ceil((width + spacing) / (buttonMaxWidth + spacing))
-            property int numOfRows: Math.ceil(count / numOfColumns)
-            property int spacing: units.gu(1)
-            height: Math.max(units.gu(4), units.gu(4)*numOfRows + spacing*(numOfRows - 1))
+        Column {
+            id: buttonList
+            objectName: "buttonList"
+            spacing: units.gu(1)
+            Repeater {
+                model: root.previewData.actions
 
-            cellWidth: width / numOfColumns
-            cellHeight: buttonHeight + spacing
-            property int buttonWidth: cellWidth - spacing / 2
-            property int buttonHeight: units.gu(4)
-
-            delegate: Button {
-                width: Math.max(units.gu(4), buttons.buttonWidth)
-                height: buttons.buttonHeight
-                color: "#dd4814"
-                text: modelData.displayName
-                iconSource: modelData.iconHint
-                iconPosition: "right"
-                visible: true
-                onClicked: {
-                    genericPreview.previewData.execute(modelData.id, { })
+                delegate: Button {
+                    width: parent.width
+                    height: buttonList.buttonHeight
+                    color: Theme.palette.selected.foreground
+                    text: modelData.displayName
+                    iconSource: modelData.iconHint
+                    iconPosition: "right"
+                    onClicked: root.previewData.execute(modelData.id, { })
                 }
             }
-            focus: false
+        }
+    }
+
+    Component {
+        id: progressComponent
+
+        ProgressBar {
+            id: progressBar
+            objectName: "progressBar"
+            value: 0
+            maximumValue: 100
+            height: units.gu(5)
+
+            property var model: root.previewData.actions
+
+            DownloadTracker {
+                service: "com.canonical.applications.Downloader"
+                dbusPath: root.previewData.infoMap["progressbar_source"] ? root.previewData.infoMap["progressbar_source"].value : ""
+
+                onProgress: {
+                    var percentage = parseInt(received * 100 / total);
+                    progressBar.value = percentage;
+                }
+
+                onFinished: {
+                    root.previewData.execute(progressBar.model[0].id, { })
+                }
+
+                onError: {
+                    root.previewData.execute(progressBar.model[1].id, { "error": error });
+                }
+            }
+
         }
     }
 
