@@ -39,7 +39,7 @@ GenericPreview {
             id: urlLoader
             anchors.left: parent.left
             anchors.right: parent.right
-            height: width * previewImage.sourceSize.height / previewImage.sourceSize.width
+            height: previewImage.sourceSize.width != 0 ? width * previewImage.sourceSize.height / previewImage.sourceSize.width : 0
             radius: "medium"
             visible: height > 0
             image: Image {
@@ -62,7 +62,15 @@ GenericPreview {
             MouseArea {
                 id: previewImageMouseArea
                 anchors.fill: parent
-                onClicked: shell.activateApplication('/usr/share/applications/mediaplayer-app.desktop', previewData.imageSourceUri);
+                onClicked: {
+                    if (previewData.result.uri.indexOf("http") == 0) {
+                        Qt.openUrlExternally(previewData.result.uri);
+                    } else if (previewData.result.uri.indexOf("file") == 0) {
+                        shell.activateApplication('/usr/share/applications/mediaplayer-app.desktop', previewData.result.uri);
+                    } else {
+                        Qt.openUrlExternally(previewData.result.uri);
+                    }
+                }
             }
         }
     }
