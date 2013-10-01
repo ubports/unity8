@@ -40,8 +40,9 @@ public:
     }
 
     bool forceHidden() const;
-    double position() const;
     void setForceHidden(bool forceHidden);
+
+    double position() const;
     void setPosition(double position);
 
 Q_SIGNALS:
