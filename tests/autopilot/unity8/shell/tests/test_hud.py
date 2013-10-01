@@ -123,6 +123,7 @@ class TestHud(UnityTestCase):
         hud = self.main_window.get_hud()
 
         self._launch_test_app_from_app_screen()
+
         hud.show()
 
         x, y = hud.get_close_button_coords()
@@ -136,10 +137,11 @@ class TestHud(UnityTestCase):
         """
         self.launch_unity()
         self.main_window.get_greeter().swipe()
-        hud = self.main_window.get_hud()
         window = self.main_window.get_qml_view()
+        hud = self.main_window.get_hud()
 
         self._launch_test_app_from_app_screen()
+
         hud.show()
 
         start_x, start_y = hud.get_close_button_coords()
