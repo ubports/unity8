@@ -69,11 +69,9 @@ private Q_SLOTS:
         QVariantMap map1; map1["title"] = "fake1";
         QVariantMap map2; map2["title"] = "fake2";
         QVariantMap map3; map3["title"] = "fake3";
-        QVariantMap map4; map4["title"] = "fake4";
         map["indicator-fake1"] = map1;
         map["indicator-fake2"] = map2;
         map["indicator-fake3"] = map3;
-        map["indicator-fake4"] = map4;
 
         IndicatorsModel model;
         model.setIndicatorData(map);
@@ -88,7 +86,7 @@ private Q_SLOTS:
         QCOMPARE(model.data(0, IndicatorsModelRole::IndicatorProperties).toMap()["busName"].toString(), QString("com.canonical.indicator.fake3"));
 
         QCOMPARE(model.data(1, IndicatorsModelRole::Identifier).toString(), QString("indicator-fake4"));
-        QCOMPARE(model.data(1, IndicatorsModelRole::Title).toString(), QString("fake4"));
+        QCOMPARE(model.data(1, IndicatorsModelRole::Title).toString(), QString("indicator-fake4"));
         QCOMPARE(model.data(1, IndicatorsModelRole::Position).toInt(), 2);
         QCOMPARE(model.data(1, IndicatorsModelRole::IndicatorProperties).toMap()["busName"].toString(), QString("com.canonical.indicator.fake4"));
 
