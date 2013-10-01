@@ -79,30 +79,22 @@ GenericPreview {
     Component {
         id: buttonsComponent
 
-        GridView {
-            id: buttonsGrid
+        Column {
+            id: buttonList
             objectName: "gridButtons"
+            spacing: units.gu(1)
+            Repeater {
+                model: root.previewData.actions
 
-            model: root.previewData.actions
-
-            property int numOfRows: (count + 1) / 2
-            property int spacing: units.gu(1)
-            height: Math.max(units.gu(5), units.gu(5)*numOfRows + spacing*(numOfRows - 1))
-
-            interactive: false
-            cellWidth: Math.max(units.gu(9), width / 2)
-            cellHeight: buttonHeight + spacing
-            property int buttonWidth: count > 1 ? Math.max(0, width / 2 - spacing) : width
-            property int buttonHeight: units.gu(5)
-
-            delegate: Button {
-                width: Math.max(units.gu(4), buttonsGrid.buttonWidth)
-                height: buttonsGrid.buttonHeight
-                color: Theme.palette.selected.foreground
-                text: modelData.displayName
-                iconSource: modelData.iconHint
-                iconPosition: "right"
-                onClicked: root.previewData.execute(modelData.id, { })
+                delegate: Button {
+                    width: parent.width
+                    height: buttonList.buttonHeight
+                    color: Theme.palette.selected.foreground
+                    text: modelData.displayName
+                    iconSource: modelData.iconHint
+                    iconPosition: "right"
+                    onClicked: root.previewData.execute(modelData.id, { })
+                }
             }
         }
     }
