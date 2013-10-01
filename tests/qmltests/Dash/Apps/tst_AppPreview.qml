@@ -127,12 +127,12 @@ Item {
         }
 
         function test_actions() {
-            var buttons = findChild(appPreview, "gridButtons");
+            var buttons = findChild(appPreview, "buttonList");
             compare(buttons.count, 3, "Not the proper amount of actions detected.");
 
             for(var i = 0; i < buttons.count; i++) {
-                buttons.currentIndex = i;
-                buttons.currentItem.clicked();
+                var button = findChild(appPreview, "button" + i);
+                mouseClick(button, 1, 1);
             }
 
             var actions = data.actions;

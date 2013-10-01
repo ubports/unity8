@@ -62,12 +62,13 @@ DashPreview {
 
         Column {
             id: buttonList
-            objectName: "buttonList"
             spacing: units.gu(1)
             Repeater {
+                objectName: "buttonList"
                 model: previewData.actions
 
                 delegate: Button {
+                    objectName: "button" + index
                     width: parent.width
                     height: buttonList.buttonHeight
                     color: Theme.palette.selected.foreground
