@@ -53,10 +53,7 @@ DashPreview {
         id: headerComponent
         Header {
             title: previewData.title
-            rating: Math.round(previewData.rating * 10)
             subtitle: previewData.subtitle.replace(/[\r\n]+/g, "<br />")
-            reviews: previewData.numRatings
-            rated: previewData.infoMap["rated"] ? previewData.infoMap["rated"].value : 0
         }
     }
 
