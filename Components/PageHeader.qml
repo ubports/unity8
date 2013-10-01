@@ -18,6 +18,7 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
+import Unity 0.1
 
 Item {
     /*!
@@ -30,6 +31,7 @@ Item {
     property bool searchEntryEnabled: false
     property alias searchQuery: searchField.text
     property ListModel searchHistory: SearchHistoryModel {}
+    property Scope scope
 
     height: units.gu(8.5)
     implicitHeight: units.gu(8.5)
@@ -148,7 +150,7 @@ Item {
                     hasClearButton: false
 
                     primaryItem: AbstractButton {
-                        enabled: searchField.text != ""
+                        enabled: searchField.text != "" && !searchIndicator.running
                         onClicked: {
                             if (searchField.text != "") {
                                 searchHistory.addQuery(searchField.text)
@@ -158,8 +160,25 @@ Item {
                         height: parent.height
                         width: height
 
+                        ActivityIndicator {
+                            id: searchIndicator
+                            objectName: "searchIndicator"
+
+                            anchors {
+                                verticalCenter: parent.verticalCenter
+                                left: parent.left
+                                leftMargin: units.gu(0.5)
+                            }
+
+                            running: scope.searchInProgress && searchField.text !== ""
+                            opacity: running ? 1 : 0
+
+                            Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration; easing.type: Easing.Linear } }
+                        }
+
                         Image {
                             id: primaryImage
+                            objectName: "primaryImage"
                             anchors {
                                 verticalCenter: parent.verticalCenter
                                 left: parent.left
@@ -167,6 +186,10 @@ Item {
                             }
                             width: units.gu(3)
                             height: units.gu(3)
+                            visible: opacity > 0
+                            opacity: searchIndicator.running ? 0 : 1
+
+                            Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration; easing.type: Easing.Linear } }
                         }
 
                         Item {
