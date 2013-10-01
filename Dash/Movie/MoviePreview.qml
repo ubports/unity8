@@ -61,13 +61,7 @@ GenericPreview {
                 id: previewImageMouseArea
                 anchors.fill: parent
                 onClicked: {
-                    if (previewData.result.uri.indexOf("http") == 0) {
-                        Qt.openUrlExternally(previewData.result.uri);
-                    } else if (previewData.result.uri.indexOf("file") == 0) {
-                        shell.activateApplication('/usr/share/applications/mediaplayer-app.desktop', previewData.result.uri);
-                    } else {
-                        Qt.openUrlExternally(previewData.result.uri);
-                    }
+                    Qt.openUrlExternally(previewData.result.uri);
                 }
             }
         }
