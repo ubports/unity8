@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Unity.Indicators 0.1 as Indicators
+import Utils 0.1
 import "../Components"
 
 // FIXME : We dont want to use MainView.
@@ -27,20 +28,23 @@ MainView {
 
     property QtObject indicatorsModel: null
     property bool __contentActive: false
-    readonly property int currentMenuIndex : tabs.selectedTabIndex
+    readonly property int currentMenuIndex : filteredIndicators.mapToSource(tabs.selectedTabIndex)
     backgroundColor: "#221e1c" // FIXME not in palette yet
     property int contentReleaseInterval: 20000
     property bool activeHeader: false
+    property alias visibleIndicators: visibleIndicatorsModel.visible
 
     width: units.gu(40)
     height: units.gu(42)
 
     function setCurrentMenuIndex(index) {
-        if (currentMenuIndex !== index) {
-            if (currentMenuIndex == -1) {
+        var filteredIndex = filteredIndicators.mapFromSource(index)
+
+        if (tabs.selectedTabIndex !== filteredIndex) {
+            if (tabs.selectedTabIndex == -1) {
                 tabs.tabBar.animate = false;
             }
-            tabs.selectedTabIndex = index;
+            tabs.selectedTabIndex = filteredIndex;
             tabs.tabBar.animate = true;
         }
     }
@@ -61,6 +65,20 @@ MainView {
         tabs.tabBar.alwaysSelectionMode = activeHeader;
     }
 
+    SortFilterProxyModel {
+        id: filteredIndicators
+        model: visibleIndicatorsModel
+        dynamicSortFilter: true
+
+        filterRole: Indicators.IndicatorsModelRole.IsVisible
+        filterRegExp: RegExp("^true$")
+    }
+
+    Indicators.VisibleIndicatorsModel {
+        id: visibleIndicatorsModel
+        model: indicatorsModel
+    }
+
     Tabs {
         id: tabs
         objectName: "tabs"
@@ -69,8 +87,8 @@ MainView {
 
         Repeater {
             id: repeater
-            model: indicatorsModel
-            objectName: "menus"
+            model: filteredIndicators
+            objectName: "tabsRepeater"
 
             // FIXME: This is needed because tabs dont handle repeaters well.
             // Due to the child ordering happening after child insertion.
@@ -91,7 +109,7 @@ MainView {
                         source: pageSource
                         asynchronous: true
 
-                        property bool contentActive: content.__contentActive
+                        property bool contentActive: content.__contentActive && menuActivator.content[index].active
 
                         onContentActiveChanged: {
                             if (contentActive && item) {
@@ -114,7 +132,7 @@ MainView {
                                     item[pName] = indicatorProperties[pName]
                                 }
                             }
-                            if (contentActive && menus.visible) {
+                            if (contentActive && tabs.visible) {
                                 item.start()
                             }
                         }
@@ -128,6 +146,16 @@ MainView {
         id: contentReleaseTimer
 
         interval: contentReleaseInterval
-        onTriggered: content.__contentActive = false
+        onTriggered: {
+            content.__contentActive = false;
+            menuActivator.clear();
+        }
+    }
+
+    Indicators.MenuContentActivator {
+        id:  menuActivator
+        running: content.__contentActive
+        baseIndex: content.currentMenuIndex
+        count: indicatorsModel.count
     }
 }

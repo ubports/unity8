@@ -38,7 +38,7 @@ Item {
         property string lastSelectedApplication
 
         onLauncherApplicationSelected: {
-            lastSelectedApplication = desktopFile
+            lastSelectedApplication = appId
         }
 
         property int dashItemSelected_count: 0
@@ -131,7 +131,7 @@ Item {
             mouseClick(appIcon, appIcon.width/2, appIcon.height/2)
 
             tryCompare(launcher, "lastSelectedApplication",
-                       "/usr/share/applications/phone-app.desktop")
+                       "phone-app")
 
             // Tapping on an application icon also dismisses the launcher
             revealer.waitUntilLauncherDisappears()
@@ -198,6 +198,14 @@ Item {
                 compare(findChild(delegate, "progressOverlay").visible, LauncherModel.get(i).progress >= 0)
             }
         }
+
+        function test_focusedHighlight() {
+            var launcherListView = findChild(launcher, "launcherListView");
+            for (var i = 0; i < launcherListView.count; ++i) {
+                var delegate = findChild(launcherListView, "launcherDelegate" + i)
+                compare(findChild(delegate, "focusedHighlight").visible, LauncherModel.get(i).focused)
+            }
+        }
     }
 
     UT.UnityTestCase {
@@ -249,11 +257,10 @@ Item {
         name: "LauncherInit"
         when: windowShown
 
-        /*
-         * FIXME: There is a bug in ListView which makes it snap to an item
-         * instead of the edge at startup. Enable this test once our patch for
-         * ListView has landed upstream.
-         * https://bugreports.qt-project.org/browse/QTBUG-32251
+        function initTestCase() {
+            var listView = findChild(launcher, "launcherListView");
+            tryCompare(listView, "flicking", false)
+        }
 
         function test_initFirstUnfolded() {
 
@@ -267,7 +274,6 @@ Item {
             // Now do check that snapping is in fact enabled
             compare(listView.snapMode, ListView.SnapToItem, "Snapping is not enabled");
         }
-        */
     }
 
     UT.UnityTestCase {

@@ -16,7 +16,7 @@
 
 import QtQuick 2.0
 import "applications.js" as ApplicationsModel
-import Ubuntu.Application 0.1
+import Unity.Application 0.1
 
 /* This class is temporary. It is meant to be API compatible with qthybris' Application
    class.

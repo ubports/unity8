@@ -26,6 +26,8 @@ Showable {
     enabled: shown
     created: greeterContentLoader.status == Loader.Ready && greeterContentLoader.item.ready
 
+    property url defaultBackground
+
     // 1 when fully shown and 0 when fully hidden
     property real showProgress: MathLocal.clamp((width + x) / width, 0, 1)
 
@@ -43,6 +45,8 @@ Showable {
                                               greeterContentLoader.item.leftTeaserPressed
     readonly property bool rightTeaserPressed: greeterContentLoader.status == Loader.Ready &&
                                                greeterContentLoader.item.rightTeaserPressed
+
+    readonly property int currentIndex: greeterContentLoader.currentIndex
 
     signal selected(int uid)
     signal unlocked(int uid)
@@ -63,11 +67,13 @@ Showable {
 
         source: required ? "GreeterContent.qml" : ""
 
-
         Connections {
             target: greeterContentLoader.item
 
-            onSelected: greeter.selected(uid);
+            onSelected: {
+                greeter.selected(uid);
+                greeterContentLoader.currentIndex = uid;
+            }
             onUnlocked: greeter.unlocked(uid);
         }
     }

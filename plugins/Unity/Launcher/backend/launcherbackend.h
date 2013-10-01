@@ -22,12 +22,16 @@
 #include "common/quicklistentry.h"
 
 #include <QObject>
+#include <QSettings>
 #include <QStringList>
-#include <QHash>
+
+class AccountsServiceDBusAdaptor;
 
 /**
   * @brief An interface that provides all the data needed by the launcher.
   */
+
+class LauncherBackendItem;
 
 class LauncherBackend : public QObject
 {
@@ -35,7 +39,7 @@ class LauncherBackend : public QObject
 
 
 public:
-    LauncherBackend(QObject *parent = 0);
+    LauncherBackend(bool useStorage = true, QObject *parent = 0);
     virtual ~LauncherBackend();
 
     /**
@@ -57,12 +61,18 @@ public:
 
     /**
       * @brief Get the full path to the .desktop file.
+      *
+      * The application does not need to be in the list of stored applications.
+      *
       * @returns The full path to the .dekstop file.
       */
     QString desktopFile(const QString &appId) const;
 
     /**
       * @brief Get the user friendly name of an application.
+      *
+      * The application does not need to be in the list of stored applications.
+      *
       * @param appId The ID of the application.
       * @returns The user friendly name of the application.
       */
@@ -70,6 +80,9 @@ public:
 
     /**
       * @brief Get the icon of an application.
+      *
+      * The application does not need to be in the list of stored applications.
+      *
       * @param appId The ID of the application.
       * @returns The full path to the icon for the application.
       */
@@ -118,15 +131,33 @@ public:
       */
     int count(const QString &appId) const;
 
+    /**
+      * @brief Sets the username for which to look up launcher items.
+      * @param username The username to use.
+      */
+    void setUser(const QString &username);
+
 Q_SIGNALS:
     void quickListChanged(const QString &appId, const QList<QuickListEntry> &quickList);
     void progressChanged(const QString &appId, int progress);
     void countChanged(const QString &appId, int count);
 
 private:
-    QStringList m_storedApps;
-    QHash<QString, QString> m_displayNameMap;
-    QHash<QString, QString> m_iconMap;
+    QString findDesktopFile(const QString &appId) const;
+    LauncherBackendItem* parseDesktopFile(const QString &desktopFile) const;
+
+    QVariantMap itemToVariant(const QString &appId) const;
+    void loadFromVariant(const QVariantMap &details);
+
+    bool isDefaultsItem(const QList<QVariantMap> &apps) const;
+    void syncFromAccounts();
+    void syncToAccounts();
+
+    QList<QString> m_storedApps;
+    mutable QHash<QString, LauncherBackendItem*> m_itemCache;
+
+    AccountsServiceDBusAdaptor *m_accounts;
+    QString m_user;
 };
 
 #endif // LAUNCHERBACKEND_H

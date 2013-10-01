@@ -20,7 +20,6 @@ import Ubuntu.Components.ListItems 0.1 as ListItem
 import Ubuntu.DownloadDaemonListener 0.1
 import ".."
 import "../../Components"
-import "../../Components/IconUtil.js" as IconUtil
 
 DashPreview {
     id: root
@@ -111,6 +110,10 @@ DashPreview {
                 onFinished: {
                     root.previewData.execute(progressBar.model[0].id, { })
                 }
+
+                onError: {
+                    root.previewData.execute(progressBar.model[1].id, { "error": error });
+                }
             }
 
         }
@@ -137,7 +140,7 @@ DashPreview {
             anchors { left: parent.left; right: parent.right }
 
             appName: root.previewData.title
-            icon: IconUtil.from_gicon(root.previewData.appIcon)
+            icon: root.previewData.appIcon
             rating: Math.round(root.previewData.rating * 10)
             reviews: root.previewData.numRatings
             rated: root.previewData.infoMap["rated"] ? root.previewData.infoMap["rated"].value : 0
@@ -188,12 +191,19 @@ DashPreview {
             ListItem.ThinDivider { }
 
             AppReviews {
+                id: appReviews
                 objectName: "appReviews"
+                // TODO: This should make this visible when the feature for reviews/comments is complete.
+                visible: false
                 anchors { left: parent.left; right: parent.right }
 
                 model: root.previewData.infoMap["comments"] ? root.previewData.infoMap["comments"].value : undefined
 
                 onSendReview: root.sendUserReview(review);
+
+                onEditing: {
+                    root.ensureVisible(appReviews.textArea);
+                }
             }
         }
     }

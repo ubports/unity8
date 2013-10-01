@@ -27,6 +27,12 @@ Indicators.IndicatorsModel {
     Component.onCompleted: load()
 
     indicatorData : {
+        'indicator-location' : {
+            'title': 'Location',
+            'description' : '',
+            'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorWidget2.qml',
+            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorPage2.qml'
+        },
         'indicator-bluetooth' : {
             'title': 'Bluetooth',
             'description' : '',
@@ -36,8 +42,8 @@ Indicators.IndicatorsModel {
         'indicator-messages' : {
             'title': 'Messaging',
             'description' : '',
-            'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/MessagingIndicatorWidget.qml',
-            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/MessagingIndicatorPage.qml'
+            'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorWidget2.qml',
+            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorPage2.qml'
         },
         'indicator-sound' : {
             'title': 'Sound',

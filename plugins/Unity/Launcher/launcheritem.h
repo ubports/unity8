@@ -32,10 +32,9 @@ class LauncherItem: public LauncherItemInterface
 {
     Q_OBJECT
 public:
-    LauncherItem(const QString &appId, const QString &desktopFile, const QString &name, const QString &icon, QObject *parent = 0);
+    LauncherItem(const QString &appId, const QString &name, const QString &icon, QObject *parent = 0);
 
     QString appId() const;
-    QString desktopFile() const;
     QString name() const;
     QString icon() const;
 
@@ -54,6 +53,9 @@ public:
     int count() const;
     void setCount(int count);
 
+    bool focused() const;
+    void setFocused(bool focused);
+
     unity::shell::launcher::QuickListModelInterface *quickList() const;
 
 Q_SIGNALS:
@@ -62,7 +64,6 @@ Q_SIGNALS:
 
 private:
     QString m_appId;
-    QString m_desktopFile;
     QString m_name;
     QString m_icon;
     bool m_pinned;
@@ -70,6 +71,7 @@ private:
     bool m_recent;
     int m_progress;
     int m_count;
+    bool m_focused;
     QuickListModel *m_quickList;
 };
 

@@ -32,6 +32,7 @@
 #include "rootactionstate.h"
 #include "unitymenumodelcache.h"
 #include "unitymenumodelstack.h"
+#include "visibleindicatorsmodel.h"
 
 static QObject* menuModelCacheSingleton(QQmlEngine* engine, QJSEngine* scriptEngine) {
   Q_UNUSED(engine);
@@ -41,12 +42,15 @@ static QObject* menuModelCacheSingleton(QQmlEngine* engine, QJSEngine* scriptEng
 
 void Indicators2Plugin::registerTypes(const char *uri)
 {
+    Q_INIT_RESOURCE(indicators);
+
     qmlRegisterType<IndicatorsManager>(uri, 0, 1, "IndicatorsManager");
     qmlRegisterType<IndicatorsModel>(uri, 0, 1, "IndicatorsModel");
     qmlRegisterType<MenuContentActivator>(uri, 0, 1, "MenuContentActivator");
     qmlRegisterType<UnityMenuModelStack>(uri, 0, 1, "UnityMenuModelStack");
     qmlRegisterType<RootActionState>(uri, 0, 1, "RootActionState");
     qmlRegisterType<ModelPrinter>(uri, 0, 1, "ModelPrinter");
+    qmlRegisterType<VisibleIndicatorsModel>(uri, 0, 1, "VisibleIndicatorsModel");
 
     qmlRegisterSingletonType<UnityMenuModelCache>(uri, 0, 1, "UnityMenuModelCache", menuModelCacheSingleton);
 

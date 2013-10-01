@@ -21,6 +21,7 @@
 // self
 #include "categories.h"
 #include "categoryresults.h"
+#include <QDebug>
 
 // TODO: use something from libunity once it's public
 enum CategoryColumn {
@@ -43,7 +44,6 @@ Categories::Categories(QObject* parent)
     m_roles[Categories::RoleHints] = "hints";
     m_roles[Categories::RoleResults] = "results";
     m_roles[Categories::RoleCount] = "count";
-    m_roles[Categories::RoleCategoryIndex] = "categoryIndex";
 
     // TODO This should not be needed but accumulatting the count changes
     // makes the visualization more stable and also makes crashes on fast
@@ -63,7 +63,17 @@ Categories::getResults(int index) const
 
         unsigned categoryIndex = static_cast<unsigned>(index);
         auto unity_results = m_unityScope->GetResultsForCategory(categoryIndex);
-        results->setModel(unity_results->model());
+        if (unity_results) {
+            results->setModel(unity_results->model());
+        } else {
+            // No results model returned by unity core; this can be the case when the global
+            // results model of this scope is still not set in unity core. Don't set backend
+            // model in DeeListModel - it will still beahve properly as an empty model. Since
+            // we're connected to the category model change signal, and it is set by unity core
+            // at the same time as results model (on channel opening), we'll reset category
+            // results models with proper models when we're notifed again.
+            qWarning() << "No results model for category" << categoryIndex;
+        }
 
         m_results.insert(index, results);
     }
@@ -222,8 +232,6 @@ Categories::data(const QModelIndex& index, int role) const
                     return QVariant::fromValue(m_overriddenCategories[id]->rowCount());
             }
             return QVariant::fromValue(getResults(index.row())->rowCount());
-        case RoleCategoryIndex:
-            return QVariant::fromValue(index.row());
         default:
             return QVariant();
     }

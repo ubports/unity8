@@ -206,7 +206,6 @@ QHash<int, QByteArray> IndicatorsModel::roleNames() const
         roles[IndicatorsModelRole::WidgetSource] = "widgetSource";
         roles[IndicatorsModelRole::PageSource] = "pageSource";
         roles[IndicatorsModelRole::IndicatorProperties] = "indicatorProperties";
-        roles[IndicatorsModelRole::IsValid] = "isValid";
     }
     return roles;
 }
@@ -229,9 +228,9 @@ QVariant IndicatorsModel::defaultData(Indicator::Ptr indicator, int role)
         case IndicatorsModelRole::Description:
             return "";
         case IndicatorsModelRole::WidgetSource:
-            return shellAppDirectory()+"/Panel/Indicators/DefaultIndicatorWidget.qml";
+            return shellAppDirectory()+"/Panel/Indicators/DefaultIndicatorWidget2.qml";
         case IndicatorsModelRole::PageSource:
-            return shellAppDirectory()+"/Panel/Indicators/DefaultIndicatorPage.qml";
+            return shellAppDirectory()+"/Panel/Indicators/DefaultIndicatorPage2.qml";
     }
     return QVariant();
 }
@@ -269,8 +268,6 @@ QVariant IndicatorsModel::data(const QModelIndex &index, int role) const
                 return QVariant(indicator->indicatorProperties());
             }
             break;
-        case IndicatorsModelRole::IsValid:
-            return (indicator ? true : false);
         case IndicatorsModelRole::Title:
         case IndicatorsModelRole::Description:
         case IndicatorsModelRole::WidgetSource:

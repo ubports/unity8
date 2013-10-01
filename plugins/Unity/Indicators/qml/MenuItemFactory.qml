@@ -20,6 +20,7 @@
 import QtQuick 2.0
 import Unity.Indicators 0.1 as Indicators
 import Unity.Indicators.Network 0.1 as ICNetwork
+import Unity.Indicators.Messaging 0.1 as ICMessaging
 import QMenuModel 0.1 as QMenuModel
 
 Item {
@@ -38,6 +39,9 @@ Item {
         "com.canonical.indicator.slider"    : sliderMenu,
         "com.canonical.indicator.switch"    : switchMenu,
 
+        "com.canonical.indicator.messages.messageitem"  : messageItem,
+        "com.canonical.indicator.messages.sourceitem"   : groupedMessage,
+
         "com.canonical.unity.slider"    : sliderMenu,
         "com.canonical.unity.switch"    : switchMenu,
 
@@ -45,15 +49,17 @@ Item {
         "unity.widgets.systemsettings.tablet.accesspoint" : accessPoint,
     }
 
+    Component { id: divMenu; Indicators.DivMenuItem {} }
+
     Component {
         id: sliderMenu;
         Indicators.SliderMenuItem {
             property QtObject menu: null
 
             text: menu && menu.label ? menu.label : ""
-            icon: menu ? menu.icon : ""
-            minIcon: menu.ext.minIcon
-            maxIcon: menu.ext.maxIcon
+            icon: menu && menu.icon ? menu.icon : ""
+            minIcon: menu && menu.ext.minIcon ? menu.ext.minIcon : ""
+            maxIcon: menu && menu.ext.maxIcon ? menu.ext.maxIcon : ""
 
             minimumValue: menu.ext.minValue ? menu.ext.minValue : 0.0
             maximumValue: {
@@ -73,28 +79,11 @@ Item {
                                                           'max-icon': 'icon'});
             }
 
-            // FIXME: The interval should be [0.0 - 1.0]. Unfortunately, when
-            // reaching the boundaries (0.0 or 1.0), the value is converted
-            // to an integer when automatically wrapped in a variant when
-            // passed to QStateAction::updateState(…). The server chokes on
-            // those values, complaining that they’re not of the right type…
             onChangeState: {
-                if (value == Math.round(value)) {
-                    if (value >= maximumValue) {
-                        model.changeState(modelIndex, maximumValue - 0.000001);
-                    } else if (value <= minimumValue) {
-                        model.changeState(modelIndex, minimumValue + 0.000001);
-                    } else {
-                        model.changeState(modelIndex, value * 1.000001);
-                    }
-                } else {
-                    model.changeState(modelIndex, value);
-                }
+                model.changeState(modelIndex, value);
             }
         }
     }
-
-    Component { id: divMenu; Indicators.DivMenuItem {} }
 
     Component {
         id: buttonMenu;
@@ -104,7 +93,9 @@ Item {
             text: menu && menu.label ? menu.label : ""
             enabled: menu ? menu.sensitive : false
 
-            onActivate: model.activate(modelIndex);
+            onActivate: {
+                model.activate(modelIndex);
+            }
         }
     }
     Component {
@@ -133,12 +124,14 @@ Item {
             property QtObject menu: null
 
             text: menu && menu.label ? menu.label : ""
-            icon: menu ? menu.icon : ""
+            icon: menu && menu.icon ? menu.icon : ""
             checkable: menu ? (menu.isCheck || menu.isRadio) : false
             checked: checkable ? menu.isToggled : false
             enabled: menu ? menu.sensitive : false
 
-            onActivate: model.activate(modelIndex);
+            onActivate: {
+                model.activate(modelIndex);
+            }
         }
     }
 
@@ -148,11 +141,13 @@ Item {
             property QtObject menu: null
 
             text: menu && menu.label ? menu.label : ""
-            icon: menu ? menu.icon : ""
+            icon: menu && menu.icon ? menu.icon : ""
             checked: menu ? menu.isToggled : false
             enabled: menu ? menu.sensitive : false
 
-            onActivate: model.activate(modelIndex);
+            onActivate: {
+                model.activate(modelIndex);
+            }
         }
     }
 
@@ -174,17 +169,17 @@ Item {
         id: accessPoint;
         ICNetwork.AccessPoint {
             property QtObject menu: null
-//            property var strenthAction: QMenuModel.UnityMenuAction {
-//                model: menuFactory.model ? menuFactory.model : null
-//                name: menu ? menu.ext.xCanonicalWifiApStrengthAction : ""
-//            }
+            property var strengthAction: QMenuModel.UnityMenuAction {
+                model: menuFactory.model ? menuFactory.model : null
+                index: modelIndex
+                name: menu ? menu.ext.xCanonicalWifiApStrengthAction : ""
+            }
 
             text: menu && menu.label ? menu.label : ""
-            icon: menu ? menu.icon : ""
             secure: menu ? menu.ext.xCanonicalWifiApIsSecure : false
             adHoc: menu ? menu.ext.xCanonicalWifiApIsAdhoc : false
             checked: menu ? menu.isToggled : false
-//            signalStrength: strenthAction.valid ? strenthAction.state : 0
+            signalStrength: strengthAction.valid ? strengthAction.state : 0
             enabled: menu ? menu.sensitive : false
 
             Component.onCompleted: {
@@ -192,7 +187,47 @@ Item {
                                                           'x-canonical-wifi-ap-is-secure': 'bool',
                                                           'x-canonical-wifi-ap-strength-action': 'string'});
             }
-            onActivate: model.activate(modelIndex);
+            onActivate: {
+                model.activate(modelIndex);
+            }
+        }
+    }
+
+    Component {
+        id: messageItem
+        ICMessaging.MessageMenuItemFactory {
+
+            property QtObject menu: null
+            model: menuFactory.model ? menuFactory.model : null
+
+            Component.onCompleted: {
+                model.loadExtendedAttributes(modelIndex, {'x-canonical-time': 'int64',
+                                                          'x-canonical-text': 'string',
+                                                          'x-canonical-message-actions': 'variant',
+                                                          'icon': 'icon',
+                                                          'x-canonical-app-icon': 'icon'});
+            }
+        }
+    }
+
+    Component {
+        id: groupedMessage
+        ICMessaging.GroupedMessage {
+            property QtObject menu: null
+
+            title: menu && menu.label ? menu.label : ""
+            count: menu && menu.actionState[0] ? menu.actionState[0] : "0"
+            appIcon: menu && menu.ext.icon !== undefined ? menu.ext.icon : "qrc:/indicators/artwork/messaging/default_app.svg"
+
+            Component.onCompleted: {
+                model.loadExtendedAttributes(modelIndex, {'icon': 'icon'});
+            }
+            onActivateApp: {
+                model.activate(modelIndex, true);
+            }
+            onDismiss: {
+                model.activate(modelIndex, false);
+            }
         }
     }
 

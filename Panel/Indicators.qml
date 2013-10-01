@@ -34,6 +34,8 @@ Showable {
     property bool fullyOpened: height == openedHeight
     property bool partiallyOpened: height > panelHeight && !fullyOpened
     property real visualBottom: Math.max(y+height, y+indicatorRow.y+indicatorRow.height)
+    property bool contentEnabled: true
+    readonly property alias content: menuContent
 
     // TODO: Perhaps we need a animation standard for showing/hiding? Each showable seems to
     // use its own values. Need to ask design about this.
@@ -178,11 +180,20 @@ Showable {
         indicatorsModel: indicatorsModel
         clip: !indicators.fullyOpened
         activeHeader: indicators.state == "hint" || indicators.state == "reveal"
+        enabled: contentEnabled
+        visibleIndicators: indicatorRow.visibleIndicators
 
         Connections {
-            target: indicatorRow
+            property bool enableIndexChangeSignal: true
+
+            target: enableIndexChangeSignal ? indicatorRow : null
             onCurrentItemIndexChanged: {
+                var oldActive = enableIndexChangeSignal;
+                enableIndexChangeSignal = false;
+
                 menuContent.setCurrentMenuIndex(indicatorRow.currentItemIndex);
+
+                enableIndexChangeSignal = oldActive;
             }
         }
 
@@ -254,9 +265,16 @@ Showable {
         state: indicators.state
 
         Connections {
-            target: menuContent
+            property bool enableIndexChangeSignal: true
+
+            target: enableIndexChangeSignal ? menuContent : null
             onCurrentMenuIndexChanged: {
+                var oldActive = enableIndexChangeSignal;
+                enableIndexChangeSignal = false;
+
                 indicatorRow.setCurrentItem(menuContent.currentMenuIndex);
+
+                enableIndexChangeSignal = oldActive;
             }
         }
     }
@@ -301,7 +319,7 @@ Showable {
         anchors.right: parent.right
         height: panelHeight
         direction: Direction.Downwards
-        enabled: !indicators.shown
+        enabled: !indicators.shown && indicators.available
         hintDisplacement: pinnedMode ? indicators.hintValue : 0
         autoCompleteDragThreshold: maxTotalDragDistance / 2
         stretch: true
@@ -318,7 +336,7 @@ Showable {
         id: hideDragHandle
         anchors.fill: handle
         direction: Direction.Upwards
-        enabled: indicators.shown
+        enabled: indicators.shown && indicators.available
         hintDisplacement: indicators.hintValue
         autoCompleteDragThreshold: maxTotalDragDistance / 6
         stretch: true

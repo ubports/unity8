@@ -17,11 +17,12 @@
  *      Michael Zanetti <michael.zanetti@canonical.com>
  */
 
-#ifndef LAUNCHERMODELH
+#ifndef LAUNCHERMODEL_H
 #define LAUNCHERMODEL_H
 
 // unity-api
 #include <unity/shell/launcher/LauncherModelInterface.h>
+#include <unity/shell/application/ApplicationManagerInterface.h>
 
 // Qt
 #include <QAbstractListModel>
@@ -30,6 +31,7 @@ class LauncherItem;
 class LauncherBackend;
 
 using namespace unity::shell::launcher;
+using namespace unity::shell::application;
 
 class LauncherModel: public LauncherModelInterface
 {
@@ -50,6 +52,9 @@ public:
     Q_INVOKABLE void quickListActionInvoked(const QString &appId, int actionIndex);
     Q_INVOKABLE void setUser(const QString &username);
 
+    unity::shell::application::ApplicationManagerInterface* applicationManager() const;
+    void setApplicationManager(unity::shell::application::ApplicationManagerInterface *appManager);
+
 private:
     void storeAppList();
     int findApplication(const QString &appId);
@@ -58,9 +63,14 @@ private Q_SLOTS:
     void progressChanged(const QString &appId, int progress);
     void countChanged(const QString &appId, int count);
 
+    void applicationAdded(const QModelIndex &parent, int row);
+    void applicationRemoved(const QModelIndex &parent, int row);
+    void focusedAppIdChanged();
+
 private:
     QList<LauncherItem*> m_list;
     LauncherBackend *m_backend;
+    ApplicationManagerInterface *m_appManager;
 };
 
 #endif // LAUNCHERMODEL_H

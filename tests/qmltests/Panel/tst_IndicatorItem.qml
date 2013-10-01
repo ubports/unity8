@@ -53,9 +53,9 @@ Rectangle {
         }
 
         function test_empty() {
-            compare(indicatorItem.visible, false, "IndicatorItem should not be visible.");
+            compare(indicatorItem.indicatorVisible, false, "IndicatorItem should not be visible.");
             indicatorItem.widgetSource = "qrc:/tests/indciators/qml/fake_menu_widget1.qml";
-            tryCompare(indicatorItem, "visible", true);
+            tryCompare(indicatorItem, "indicatorVisible", true);
         }
     }
 }

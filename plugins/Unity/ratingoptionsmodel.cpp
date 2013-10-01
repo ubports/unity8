@@ -23,11 +23,11 @@
 // local
 #include "ratingfilteroption.h"
 
-RatingOptionsModel::RatingOptionsModel(QObject *parent) :
-    GenericOptionsModel(parent)
+RatingOptionsModel::RatingOptionsModel(bool showAllOption, QObject *parent) :
+    GenericOptionsModel(showAllOption, parent)
 {
     for (int i=1; i<=5; i++) {
         auto opt = new RatingFilterOption(QString::number(i), i*0.2f, this);
-        addOption(opt, i-1);
+        addOption(opt);
     }
 }

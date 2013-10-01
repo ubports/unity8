@@ -34,7 +34,7 @@ Item {
     property bool preventHiding: moving || dndArea.draggedIndex >= 0 || dndArea.quickListPopover !== null || dndArea.pressed
     property int highlightIndex: -1
 
-    signal applicationSelected(string desktopFile)
+    signal applicationSelected(string appId)
     signal dashItemSelected(int index)
 
     BorderImage {
@@ -50,8 +50,6 @@ Item {
         id: mainColumn
         anchors {
             fill: parent
-            leftMargin: units.gu(0.5)
-            rightMargin: units.gu(0.5)
         }
 
         MouseArea {
@@ -94,6 +92,8 @@ Item {
                         fill: parent
                         topMargin: -extensionSize + units.gu(0.5)
                         bottomMargin: -extensionSize + units.gu(1)
+                        leftMargin: units.gu(0.5)
+                        rightMargin: units.gu(0.5)
                     }
                     topMargin: extensionSize
                     bottomMargin: extensionSize
@@ -110,7 +110,20 @@ Item {
                     // destroyed when dragging them outside the list. This needs to be at least
                     // itemHeight to prevent folded items from disappearing and DragArea limits
                     // need to be smaller than this size to avoid breakage.
-                    property int extensionSize: itemHeight * 3
+                    property int extensionSize: 0
+
+                    // Setting extensionSize after the list has been populated because it has
+                    // the potential to mess up with the intial positioning in combination
+                    // with snapping to the center of the list. This catches all the cases
+                    // where the item would be outside the list for more than itemHeight / 2.
+                    // For the rest, give it a flick to scroll to the beginning. Note that
+                    // the flicking alone isn't enough because in some cases it's not strong
+                    // enough to overcome the snapping.
+                    // https://bugreports.qt-project.org/browse/QTBUG-32251
+                    Component.onCompleted: {
+                        extensionSize = itemHeight * 3
+                        flick(0, clickFlickSpeed)
+                    }
 
                     // The height of the area where icons start getting folded
                     property int foldingStartHeight: units.gu(6.5)
@@ -143,6 +156,7 @@ Item {
                         iconName: model.icon
                         count: model.count
                         progress: model.progress
+                        itemFocused: model.focused
                         inverted: root.inverted
                         z: -Math.abs(offset)
                         maxAngle: 55
@@ -286,7 +300,7 @@ Item {
                                 } else if (clickedItem.angle < -12) {
                                     launcherListView.flick(0, launcherListView.clickFlickSpeed);
                                 } else {
-                                    root.applicationSelected(LauncherModel.get(index).desktopFile);
+                                    root.applicationSelected(LauncherModel.get(index).appId);
                                 }
                                 return;
                             }
@@ -297,7 +311,7 @@ Item {
                             } else if (clickedItem.angle < -30) {
                                 launcherListView.flick(0, launcherListView.clickFlickSpeed);
                             } else {
-                                root.applicationSelected(LauncherModel.get(index).desktopFile);
+                                root.applicationSelected(LauncherModel.get(index).appId);
                             }
                         }
 
@@ -499,6 +513,12 @@ Item {
                         objectName: "quickListEntry" + index
                         text: (model.clickable ? "" : "<b>") + model.label + (model.clickable ? "" : "</b>")
                         highlightWhenPressed: model.clickable
+
+                        // FIXME: This is a workaround for the theme not being context sensitive. I.e. the
+                        // ListItems don't know that they are sitting in a themed Popover where the color
+                        // needs to be inverted.
+                        __foregroundColor: Theme.palette.selected.backgroundText
+
                         onClicked: {
                             if (!model.clickable) {
                                 return;

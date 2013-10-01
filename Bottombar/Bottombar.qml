@@ -18,6 +18,7 @@ import QtQuick 2.0
 import "../Components"
 import "../Components/Math.js" as MathLocal
 import Unity 0.1
+import Unity.Application 0.1
 import Ubuntu.Gestures 0.1
 
 Item {
@@ -28,15 +29,46 @@ Item {
 
     property variant theHud
     property bool enabled: false
+    property bool preventHiding: dragArea.dragging
     readonly property real bottomEdgeButtonCenterDistance: units.gu(34)
 
-    state: dragArea.status === DirectionalDragArea.Recognized ? "shown" : "hidden"
+    state: "hidden"
+
+    onStateChanged: {
+        if (state == "hidden") {
+            dismissTimer.stop()
+        } else {
+            dismissTimer.restart()
+        }
+    }
+
+    onPreventHidingChanged: {
+        if (dismissTimer.running) {
+            dismissTimer.restart();
+        }
+    }
+
+    Timer {
+        id: dismissTimer
+        interval: 5000
+        onTriggered: {
+            if (!bottombar.preventHiding) {
+                bottombar.state = "hidden"
+            } else {
+                dismissTimer.restart()
+            }
+        }
+    }
 
     HudButton {
         id: hudButton
 
-        x: MathLocal.clamp(dragArea.touchStartX - (width / 2), 0, bottombar.width - width)
+        readonly property bool centeredHud: parent.width < units.gu(68) // Nexus 7 has 67 gu width
+
+        x: centeredHud ? parent.width / 2 - width / 2 : MathLocal.clamp(dragArea.touchStartX - (width / 2), 0, bottombar.width - width)
         y: bottombar.height - bottomEdgeButtonCenterDistance - (height / 2) - bottomMargin
+        z: 1
+        visible: opacity != 0
 
         mouseOver: {
             if (dragArea.status === DirectionalDragArea.Recognized) {
@@ -55,13 +87,18 @@ Item {
         }
 
         Behavior on opacity {
-            NumberAnimation{ duration: 200; easing.type: Easing.OutCubic}
+            NumberAnimation{duration: 200; easing.type: Easing.OutCubic}
         }
     }
 
     Connections {
         target: theHud
-        onShownChanged: bottomBarVisibilityCommunicatorShell.forceHidden = theHud.shown
+        onShownChanged: {
+            bottomBarVisibilityCommunicatorShell.forceHidden = theHud.shown
+            if (theHud.shown) {
+                bottombar.state = "hidden"
+            }
+        }
     }
 
     EdgeDragArea {
@@ -70,6 +107,7 @@ Item {
         height: distanceThreshold
         anchors.bottom: parent.bottom
 
+        distanceThreshold: units.gu(1)
         enabled: !theHud.shown && bottombar.enabled && applicationIsOnForeground
         direction: Direction.Upwards
 
@@ -81,13 +119,32 @@ Item {
                 if (previousStatus == DirectionalDragArea.Recognized) {
                     if (hudButton.mouseOver) {
                         hudButton.clicked()
+                    } else {
+                        bottombar.state = "hidden"
                     }
                 }
             } else if (status === DirectionalDragArea.Undecided) {
-                touchStartX = touchX
+                if (!hudButton.centeredHud) {
+                    touchStartX = touchX
+                }
+            } else if (status === DirectionalDragArea.Recognized) {
+                bottombar.state = "shown"
             }
             previousStatus = status
         }
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        enabled: bottombar.state == "shown"
+        onPressed: {
+            bottombar.state = "hidden"
+        }
+    }
+
+    InputFilterArea {
+        anchors.fill: parent
+        blockInput: (hudButton.opacity == 1)
     }
 
     states: [
@@ -102,5 +159,4 @@ Item {
             PropertyChanges { target: hudButton; bottomMargin: units.gu(0)}
         }
     ]
-
 }

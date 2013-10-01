@@ -28,12 +28,14 @@ Item {
 
     property int panelWidth: units.gu(8)
     property int dragAreaWidth: units.gu(1)
-    property real progress: dragArea.dragging  && dragArea.touchX > panel.width ? dragArea.touchX : 0
+    property int minimizeDistance: panelWidth * 2.5
+    property real progress: dragArea.dragging  && dragArea.touchX > panelWidth ?
+                                (width * (dragArea.touchX-panelWidth) / (width - panelWidth)) : 0
 
     readonly property bool shown: panel.x > -panel.width
 
     // emitted when an application is selected
-    signal launcherApplicationSelected(string desktopFile)
+    signal launcherApplicationSelected(string appId)
 
     // emitted when the apps dash should be shown because of a swipe gesture
     signal dash()
@@ -143,19 +145,21 @@ Item {
     LauncherPanel {
         id: panel
         objectName: "launcherPanel"
+        enabled: root.available
         width: root.panelWidth
         anchors {
             top: parent.top
             bottom: parent.bottom
         }
         x: -width
+        opacity: (x == -width && dragArea.status === DirectionalDragArea.WaitingForTouch) ? 0 : 1
         model: LauncherModel
 
         property bool animate: true
 
         onApplicationSelected: {
             root.state = ""
-            launcherApplicationSelected(desktopFile)
+            launcherApplicationSelected(appId)
         }
         onDashItemSelected: {
             root.state = ""
@@ -175,6 +179,12 @@ Item {
                 easing.type: Easing.OutCubic
             }
         }
+
+        Behavior on opacity {
+            NumberAnimation {
+                duration: UbuntuAnimation.FastDuration; easing.type: Easing.OutCubic
+            }
+        }
     }
 
     EdgeDragArea {
@@ -182,12 +192,12 @@ Item {
 
         direction: Direction.Rightwards
 
-        enabled: root.available && root.state !== "visible"
+        enabled: root.available
         width: root.dragAreaWidth
         height: root.height
 
         onTouchXChanged: {
-            if (status !== DirectionalDragArea.Recognized)
+            if (status !== DirectionalDragArea.Recognized || launcher.state == "visible")
                 return;
 
             // When the gesture finally gets recognized, the finger will likely be
@@ -206,7 +216,7 @@ Item {
             if (!dragging) {
                 if (distance > panel.width / 2) {
                     root.switchToNextState("visible")
-                    if (distance > panel.width * 2) {
+                    if (distance > minimizeDistance) {
                         root.dash()
                     }
                 } else {

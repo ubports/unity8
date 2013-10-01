@@ -1,3 +1,4 @@
+add_subdirectory(Application)
 add_subdirectory(Indicators)
 
 pkg_search_module(DEE dee-1.0 REQUIRED)
@@ -17,6 +18,9 @@ add_definitions(-DQT_NO_KEYWORDS)
 
 set(UnityQML_SOURCES
   ${CMAKE_SOURCE_DIR}/plugins/Unity/categoryresults.cpp
+  ${CMAKE_SOURCE_DIR}/plugins/Unity/iconutils.cpp
+  fake_applications_scope.cpp
+  fake_preview.cpp
   fake_scope.cpp
   fake_scopes.cpp
   fake_categories.cpp
