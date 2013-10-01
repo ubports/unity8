@@ -349,12 +349,13 @@ ScopeView {
 
         onOpenChanged: {
             if (open) {
-                onScreen = true
-                categoryDelegate.highlightIndex = currentIndex
+                onScreen = true;
+                categoryDelegate.highlightIndex = currentIndex;
             } else {
-                model = undefined
+                model = undefined;
                 categoryView.correctExpandedCategory();
-                categoryDelegate.highlightIndex = -1
+                categoryDelegate.highlightIndex = -1;
+                scopeView.scope.cancelActivation();
             }
         }
 
