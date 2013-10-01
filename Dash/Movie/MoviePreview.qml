@@ -25,7 +25,6 @@ GenericPreview {
     id: root
 
     property bool ready: previewData ? true : false
-    property bool playable: previewData.imageSourceUri != null
     property url url: ready ? previewData.image : ""
 
     previewImages: previewImageComponent
@@ -52,7 +51,6 @@ GenericPreview {
             Image {
                 objectName: "playButton"
                 anchors.centerIn: parent
-                visible: root.playable
                 readonly property bool bigButton: parent.width > units.gu(40)
                 width: bigButton ? units.gu(8) : units.gu(4.5)
                 height: width
