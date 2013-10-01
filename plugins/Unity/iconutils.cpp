@@ -30,7 +30,7 @@ QString gIconToDeclarativeImageProviderString(QString const &giconString)
     if (giconString.isEmpty()) return giconString;
 
     if (giconString.startsWith('/') || giconString.startsWith(QLatin1String("http")) ||
-            giconString.startsWith(QLatin1String("file:"))) {
+            giconString.startsWith(QLatin1String("file:")) || giconString.startsWith(QLatin1String("image:"))) {
         return giconString;
     }
 

@@ -24,7 +24,7 @@ import Ubuntu.Components.ListItems 0.1 as ListItem
 ListItem.Standard {
     id: baseMenu
 
-    property bool menuActivated: false
+    property bool menuSelected: false
 
     signal selectMenu()
     signal deselectMenu()

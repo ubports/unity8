@@ -40,3 +40,12 @@ unity::glib::HintsMap convertToHintsMap(const QVariant &var)
     }
     return unity::glib::HintsMap();
 }
+
+QVariantHash convertToQVariantHash(const unity::glib::HintsMap& var)
+{
+    QVariantHash hash;
+    for (auto hint: var) {
+        hash.insert(QString::fromStdString(hint.first), DeeListModel::VariantForData(hint.second));
+    }
+    return hash;
+}

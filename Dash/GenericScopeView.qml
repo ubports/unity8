@@ -36,12 +36,24 @@ ScopeView {
         value: pageHeader.searchQuery
     }
 
+    Binding {
+        target: pageHeader
+        property: "searchQuery"
+        value: scopeView.scope.searchQuery
+    }
+
     Connections {
         target: panel
         onSearchClicked: if (isCurrent) {
             pageHeader.triggerSearch()
             categoryView.showHeader()
         }
+    }
+
+    Connections {
+        target: scopeView.scope
+        onShowDash: previewLoader.open = false;
+        onHideDash: previewLoader.open = false;
     }
 
     ScopeListView {
@@ -53,13 +65,14 @@ ScopeView {
         onAtYEndChanged: if (atYEnd) endReached()
         onMovingChanged: if (moving && atYEnd) endReached()
 
-        property int expandedIndex: -1
+        property string expandedCategoryId: ""
 
         delegate: ListItems.Base {
             highlightWhenPressed: false
 
             readonly property bool expandable: rendererLoader.item ? rendererLoader.item.expandable : false
             readonly property bool filtered: rendererLoader.item ? rendererLoader.item.filter : true
+            readonly property string category: categoryId
 
             Loader {
                 id: rendererLoader
@@ -81,7 +94,7 @@ ScopeView {
                     }
                     item.objectName = Qt.binding(function() { return categoryId })
                     if (item.expandable) {
-                        var shouldFilter = index != categoryView.expandedIndex;
+                        var shouldFilter = categoryId != categoryView.expandedCategoryId;
                         if (shouldFilter != item.filter) {
                             item.filter = shouldFilter;
                         }
@@ -117,10 +130,10 @@ ScopeView {
                 }
                 Connections {
                     target: categoryView
-                    onExpandedIndexChanged: {
+                    onExpandedCategoryIdChanged: {
                         var item = rendererLoader.item;
                         if (item.expandable) {
-                            var shouldFilter = index != categoryView.expandedIndex;
+                            var shouldFilter = categoryId != categoryView.expandedCategoryId;
                             if (shouldFilter != item.filter) {
                                 // If the filter animation will be seen start it, otherwise, just flip the switch
                                 var shrinkingVisible = shouldFilter && y + item.collapsedHeight < categoryView.height;
@@ -151,10 +164,10 @@ ScopeView {
                 return "";
             }
             onClicked: {
-                if (categoryView.expandedIndex != delegateIndex)
-                    categoryView.expandedIndex = delegateIndex;
+                if (categoryView.expandedCategoryId != delegate.category)
+                    categoryView.expandedCategoryId = delegate.category;
                 else
-                    categoryView.expandedIndex = -1;
+                    categoryView.expandedCategoryId = "";
             }
         }
         pageHeader: PageHeader {
