@@ -79,6 +79,14 @@ CategoryResults::data(const QModelIndex& index, int role) const
             return DeeListModel::data(index, ResultsColumn::URI);
         case RoleIconHint: {
             QString giconString(DeeListModel::data(index, ResultsColumn::ICON_HINT).toString());
+            if (giconString.isEmpty()) {
+                QString uri(DeeListModel::data(index, ResultsColumn::URI).toString());
+                if (uri.startsWith(QLatin1String("file:///"))) {
+                    QString thumbnailerUri("image://thumbnailer/");
+                    thumbnailerUri.append(uri.midRef(7));
+                    return QVariant::fromValue(thumbnailerUri);
+                }
+            }
             return QVariant::fromValue(gIconToDeclarativeImageProviderString(giconString));
         }
         case RoleCategory:
