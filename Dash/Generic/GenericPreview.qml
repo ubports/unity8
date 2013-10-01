@@ -28,7 +28,7 @@ DashPreview {
 
     previewImages: previewImagesComponent
     header: headerComponent
-    actions: root.previewData.infoMap["show_progressbar"] ? progressComponent : actionsComponent
+    actions: previewData.infoMap["show_progressbar"] ? progressComponent : actionsComponent
     description: descriptionComponent
 
     Component {
@@ -53,10 +53,10 @@ DashPreview {
         id: headerComponent
         Header {
             title: previewData.title
-            rating: Math.round(root.previewData.rating * 10)
+            rating: Math.round(previewData.rating * 10)
             subtitle: previewData.subtitle.replace(/[\r\n]+/g, "<br />")
-            reviews: root.previewData.numRatings
-            rated: root.previewData.infoMap["rated"] ? root.previewData.infoMap["rated"].value : 0
+            reviews: previewData.numRatings
+            rated: previewData.infoMap["rated"] ? previewData.infoMap["rated"].value : 0
         }
     }
 
@@ -68,7 +68,7 @@ DashPreview {
             objectName: "buttonList"
             spacing: units.gu(1)
             Repeater {
-                model: root.previewData.actions
+                model: previewData.actions
 
                 delegate: Button {
                     width: parent.width
@@ -77,7 +77,7 @@ DashPreview {
                     text: modelData.displayName
                     iconSource: modelData.iconHint
                     iconPosition: "right"
-                    onClicked: root.previewData.execute(modelData.id, { })
+                    onClicked: previewData.execute(modelData.id, { })
                 }
             }
         }
@@ -93,11 +93,11 @@ DashPreview {
             maximumValue: 100
             height: units.gu(5)
 
-            property var model: root.previewData.actions
+            property var model: previewData.actions
 
             DownloadTracker {
                 service: "com.canonical.applications.Downloader"
-                dbusPath: root.previewData.infoMap["progressbar_source"] ? root.previewData.infoMap["progressbar_source"].value : ""
+                dbusPath: previewData.infoMap["progressbar_source"] ? previewData.infoMap["progressbar_source"].value : ""
 
                 onProgress: {
                     var percentage = parseInt(received * 100 / total);
@@ -105,11 +105,11 @@ DashPreview {
                 }
 
                 onFinished: {
-                    root.previewData.execute(progressBar.model[0].id, { })
+                    previewData.execute(progressBar.model[0].id, { })
                 }
 
                 onError: {
-                    root.previewData.execute(progressBar.model[1].id, { "error": error });
+                    previewData.execute(progressBar.model[1].id, { "error": error });
                 }
             }
 

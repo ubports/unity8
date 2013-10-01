@@ -29,8 +29,6 @@ GenericPreview {
 
     previewImages: previewImageComponent
     header: headerComponent
-    actions: actionsComponent
-    ratings: ratingsComponent
 
     Component {
         id: previewImageComponent
@@ -71,46 +69,9 @@ GenericPreview {
         id: headerComponent
         Header {
             title: previewData.title
-            rating: Math.round(root.previewData.rating * 10)
-            reviews: root.previewData.numRatings
-            rated: root.previewData.infoMap["rated"] ? root.previewData.infoMap["rated"].value : 0
-        }
-    }
-
-    Component {
-        id: actionsComponent
-        GridView {
-            id: buttons
-            objectName: "gridButtons"
-            model: root.previewData.actions
-            interactive: false
-
-            anchors.left: parent.left
-            anchors.right: parent.right
-
-            property int numOfRows: (count + numOfColumns - 1) / numOfColumns
-            property int numOfColumns: Math.max(1, Math.floor(width / (buttonWidth + spacing)))
-            property int spacing: units.gu(1)
-            height: Math.max(units.gu(4), units.gu(4)*numOfRows + spacing*(numOfRows - 1))
-
-            cellWidth: width / buttons.numOfColumns
-            cellHeight: buttonHeight + buttons.spacing
-            property int buttonWidth: units.gu(17) - spacing
-            property int buttonHeight: units.gu(4)
-
-            delegate: Button {
-                width: Math.max(units.gu(4), buttons.buttonWidth)
-                height: buttons.buttonHeight
-                color: "#dd4814"
-                text: modelData.displayName
-                iconSource: modelData.iconHint
-                iconPosition: "right"
-                visible: true
-                onClicked: {
-                    root.previewData.execute(modelData.id, { })
-                }
-            }
-            focus: false
+            rating: Math.round(previewData.rating * 10)
+            reviews: previewData.numRatings
+            rated: previewData.infoMap["rated"] ? previewData.infoMap["rated"].value : 0
         }
     }
 }

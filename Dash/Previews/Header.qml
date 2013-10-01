@@ -28,6 +28,7 @@ Row {
     property int reviews: 0
 
     spacing: units.gu(2)
+    height: imageShape.visible ? imageShape.height : contentColumn.height
 
     UbuntuShape {
         id: imageShape
@@ -45,6 +46,7 @@ Row {
     Column {
         id: contentColumn
         spacing: units.gu(1)
+        width: parent.width - x
 
         Label {
             id: titleLabel
