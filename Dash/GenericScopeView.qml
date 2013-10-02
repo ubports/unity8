@@ -87,6 +87,8 @@ ScopeView {
                 onLoaded: {
                     if (source.toString().indexOf("Apps/RunningApplicationsGrid.qml") != -1) {
                         // TODO: the running apps grid doesn't support standard scope results model yet
+                        item.enableHeightBehavior = enableHeightBehavior;
+                        enableHeightBehavior = false;
                         item.firstModel = Qt.binding(function() { return results.firstModel })
                         item.secondModel = Qt.binding(function() { return results.secondModel })
                     } else {
@@ -97,6 +99,16 @@ ScopeView {
                         var shouldFilter = categoryId != categoryView.expandedCategoryId;
                         if (shouldFilter != item.filter) {
                             item.filter = shouldFilter;
+                        }
+                    }
+                }
+
+                Component.onDestruction: {
+                    if (source.toString().indexOf("Apps/RunningApplicationsGrid.qml") != -1) {
+                        if (results) {
+                            enableHeightBehavior = (results.firstModel.count + results.secondModel.count == 0)
+                        } else {
+                            enableHeightBehavior = true
                         }
                     }
                 }

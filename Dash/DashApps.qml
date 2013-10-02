@@ -28,6 +28,7 @@ GenericScopeView {
     // FIXME: a way to aggregate these models would be ideal
     property var mainStageApplicationsModel: shell.applicationManager.mainStageApplications
     property var sideStageApplicationModel: shell.applicationManager.sideStageApplications
+    property bool enableHeightBehavior: false
 
     ListModel {
         id: dummyVisibilityModifier
@@ -51,5 +52,6 @@ GenericScopeView {
 
     onScopeChanged: {
         scopeView.scope.categories.overrideResults("recent", runningApplicationsModel);
+        enableHeightBehavior = (mainStageApplicationsModel.count + sideStageApplicationModel.count == 0)
     }
 }

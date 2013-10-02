@@ -22,6 +22,7 @@ ResponsiveFlowView {
     clip: true
 
     signal updateScreenshots
+    property alias enableHeightBehavior: heightBehaviour.enabled
 
     Connections {
         target: shell
@@ -30,9 +31,22 @@ ResponsiveFlowView {
     }
 
     Behavior on height {
-        // FIXME Rethink how we pass down properties from the LVWPH to the interested parties
-        enabled: culled === undefined || !culled;
+        id: heightBehaviour
+        enabled: false
         NumberAnimation { duration: 200; easing.type: Easing.InOutQuad }
+    }
+
+    Connections {
+        target: root.firstModel
+        onCountChanged: {
+            heightBehaviour.enabled = true;
+        }
+    }
+    Connections {
+        target: root.secondModel
+        onCountChanged: {
+            heightBehaviour.enabled = true;
+        }
     }
 
     property bool canEnableTerminationMode: true
