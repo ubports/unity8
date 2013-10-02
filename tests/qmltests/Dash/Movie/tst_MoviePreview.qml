@@ -49,7 +49,7 @@ Item {
             property string title: "Unity Movie"
             property string subtitle: "Subtitle"
             property string description: "This is the description"
-            property string image: "image://theme/syncing"
+            property string image: "../../tests/qmltests/Components/tst_LazyImage/square.png"
             property var actions: get_actions_data()
             property string year: "2013"
             property real rating: 0.3

@@ -32,19 +32,13 @@ GenericPreview {
 
     Component {
         id: previewImageComponent
-        UbuntuShape {
-            id: urlLoader
+        LazyImage {
             anchors.left: parent.left
             anchors.right: parent.right
-            height: previewImage.sourceSize.width != 0 ? width * previewImage.sourceSize.height / previewImage.sourceSize.width : 0
-            radius: "medium"
+            scaleTo: "width"
             visible: height > 0
-            image: Image {
-                id: previewImage
-                asynchronous: true
-                source: root.url
-                fillMode: Image.PreserveAspectCrop
-            }
+            source: root.url
+            height: implicitHeight
 
             Image {
                 objectName: "playButton"
