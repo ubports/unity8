@@ -41,16 +41,13 @@ Page {
         delegate: Indicators.FramedMenuItem {
             anchors.left: parent.left
             anchors.right: parent.right
-            progression: true
             objectName: identifier
 
             text: title
 
             onClicked: {
-                if (progression) {
-                    var new_page = Qt.createComponent("IndicatorsPage.qml");
-                    page.pageStack.push(new_page.createObject(pages), {"indicatorProperties" : model.indicatorProperties, "pageSource" : model.pageSource});
-                }
+                var new_page = Qt.createComponent("IndicatorsPage.qml");
+                page.pageStack.push(new_page.createObject(pages), {"indicatorProperties" : model.indicatorProperties, "pageSource" : model.pageSource});
             }
 
             Rectangle {
