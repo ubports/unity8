@@ -169,11 +169,6 @@ Item {
                                 left: parent.left
                                 leftMargin: units.gu(0.5)
                             }
-
-                            running: scope.searchInProgress && searchField.text !== ""
-                            opacity: running ? 1 : 0
-
-                            Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration; easing.type: Easing.Linear } }
                         }
 
                         Image {
@@ -187,9 +182,6 @@ Item {
                             width: units.gu(3)
                             height: units.gu(3)
                             visible: opacity > 0
-                            opacity: searchIndicator.running ? 0 : 1
-
-                            Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration; easing.type: Easing.Linear } }
                         }
 
                         Item {
@@ -208,6 +200,35 @@ Item {
                     onActiveFocusChanged: {
                         if (!activeFocus) searchContainer.closePopover()
                     }
+
+                    states: [
+                        State {
+                            name: "searching"
+                            when: scope.searchInProgress && searchField.text !== ""
+                            PropertyChanges { target: searchIndicator; running: true; opacity: 1 }
+                            PropertyChanges { target: primaryImage; opacity: 0 }
+                        }, State {
+                            name: "idle"
+                            PropertyChanges { target: searchIndicator; running: true; opacity: 1 }
+                            PropertyChanges { target: primaryImage; opacity: 0 }
+                        }
+                    ]
+
+                    transitions: [
+                        Transition {
+                            to: "searching"
+                            SequentialAnimation {
+                                NumberAnimation { targets: primaryImage; property: opacity; duration: UbuntuAnimation.SlowDuration; easing.type: Easing.Linear }
+                                NumberAnimation { targets: searchIndicator; property: opacity; duration: UbuntuAnimation.SlowDuration; easing.type: Easing.Linear }
+                            }
+                        }, Transition {
+                            to: "idle"
+                            SequentialAnimation {
+                                NumberAnimation { targets: searchIndicator; property: opacity; duration: UbuntuAnimation.SlowDuration; easing.type: Easing.Linear }
+                                NumberAnimation { targets: primaryImage; property: opacity; duration: UbuntuAnimation.SlowDuration; easing.type: Easing.Linear }
+                            }
+                        }
+                    ]
                 }
 
                 states: [
