@@ -221,16 +221,16 @@ Item {
                             from: "idle"
                             to: "searching"
                             SequentialAnimation {
-                                NumberAnimation { target: primaryImage; property: opacity; duration: UbuntuAnimation.SlowDuration; easing.type: Easing.Linear }
-                                NumberAnimation { target: searchIndicator; property: opacity; duration: UbuntuAnimation.SlowDuration; easing.type: Easing.Linear }
+                                NumberAnimation { target: primaryImage; property: "opacity"; duration: UbuntuAnimation.SnapDuration; easing.type: Easing.Linear }
+                                NumberAnimation { target: searchIndicator; property: "opacity"; duration: UbuntuAnimation.SnapDuration; easing.type: Easing.Linear }
                             }
                         },
                         Transition {
                             from: "searching"
                             to: "idle"
                             SequentialAnimation {
-                                NumberAnimation { target: searchIndicator; property: opacity; duration: UbuntuAnimation.SlowDuration; easing.type: Easing.Linear }
-                                NumberAnimation { target: primaryImage; property: opacity; duration: UbuntuAnimation.SlowDuration; easing.type: Easing.Linear }
+                                NumberAnimation { target: searchIndicator; property: "opacity"; duration: UbuntuAnimation.SnapDuration; easing.type: Easing.Linear }
+                                NumberAnimation { target: primaryImage; property: "opacity"; duration: UbuntuAnimation.SnapDuration; easing.type: Easing.Linear }
                             }
                         }
                     ]
