@@ -29,7 +29,11 @@ ResponsiveFlowView {
         onStageScreenshotsReadyChanged: if (shell.dashShown && shell.stageScreenshotsReady) updateScreenshots();
     }
 
-    Behavior on height { NumberAnimation { duration: 200; easing.type: Easing.InOutQuad } }
+    Behavior on height {
+        // FIXME Rethink how we pass down properties from the LVWPH to the interested parties
+        enabled: culled === undefined || !culled;
+        NumberAnimation { duration: 200; easing.type: Easing.InOutQuad }
+    }
 
     property bool canEnableTerminationMode: true
 

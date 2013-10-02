@@ -228,9 +228,9 @@ QVariant IndicatorsModel::defaultData(Indicator::Ptr indicator, int role)
         case IndicatorsModelRole::Description:
             return "";
         case IndicatorsModelRole::WidgetSource:
-            return shellAppDirectory()+"/Panel/Indicators/DefaultIndicatorWidget2.qml";
+            return shellAppDirectory()+"/Panel/Indicators/DefaultIndicatorWidget.qml";
         case IndicatorsModelRole::PageSource:
-            return shellAppDirectory()+"/Panel/Indicators/DefaultIndicatorPage2.qml";
+            return shellAppDirectory()+"/Panel/Indicators/DefaultIndicatorPage.qml";
     }
     return QVariant();
 }
@@ -284,7 +284,9 @@ QVariant IndicatorsModel::indicatorData(const Indicator::Ptr& indicator, int rol
     if (indicator && m_parsed_indicator_data.contains(indicator->identifier()))
     {
         QVariantMap data = m_parsed_indicator_data[indicator->identifier()];
-        return data.value(roleNames()[role], QVariant());
+        if (data.contains(roleNames()[role])) {
+            return data[roleNames()[role]];
+        };
     }
     return defaultData(indicator, role);
 }
