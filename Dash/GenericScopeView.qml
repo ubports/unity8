@@ -105,11 +105,7 @@ ScopeView {
 
                 Component.onDestruction: {
                     if (source.toString().indexOf("Apps/RunningApplicationsGrid.qml") != -1) {
-                        if (results) {
-                            enableHeightBehavior = (results.firstModel.count + results.secondModel.count == 0)
-                        } else {
-                            enableHeightBehavior = true
-                        }
+                        enableHeightBehavior = (item.firstModel.count + item.secondModel.count == 0)
                     }
                 }
 
