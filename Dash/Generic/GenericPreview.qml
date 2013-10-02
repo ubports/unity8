@@ -24,22 +24,22 @@ import "../Previews"
 
 DashPreview {
     id: genericPreview
-    property url url: previewData.image
 
     previewImages: previewImagesComponent
     header: headerComponent
-    actions: previewData.infoMap["show_progressbar"] ? progressComponent : actionsComponent
+    actions: (previewData.infoMap !== undefined && previewData.infoMap["show_progressbar"]) ? progressComponent : actionsComponent
     description: descriptionComponent
 
     Component {
         id: previewImagesComponent
         LazyImage {
+            objectName: "genericPreviewImage"
             anchors {
                 left: parent.left
                 right: parent.right
             }
             scaleTo: "width"
-            source: genericPreview.url
+            source: genericPreview.previewData.image
             height: implicitHeight
         }
     }
@@ -131,15 +131,17 @@ DashPreview {
             }
 
             Column {
-                id: infoItem
+                objectName: "infoHintColumn"
                 anchors {
                     left: parent.left
                     right: parent.right
                 }
                 Repeater {
+                    objectName: "infoHintRepeater"
                     model: previewData.infoHints
 
                     delegate: Item {
+                        objectName: "infoHintItem" + index
                         width: parent.width
                         height: units.gu(5)
                         Row {
@@ -149,7 +151,8 @@ DashPreview {
                             anchors.verticalCenter: parent.verticalCenter
 
                             Label {
-                                visible: directedLabel.visible
+                                objectName: "displayNameLabel"
+                                visible: valueLabel.visible
                                 fontSize: "small"
                                 opacity: 0.9
                                 color: "white"
@@ -160,7 +163,8 @@ DashPreview {
                                 styleColor: "black"
                             }
                             Label {
-                                id: directedLabel
+                                id: valueLabel
+                                objectName: "valueLabel"
                                 visible: modelData.value != ""
                                 fontSize: "small"
                                 opacity: 0.6

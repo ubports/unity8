@@ -67,12 +67,12 @@ Item {
         }
 
         function test_numofbuttons() {
-            var buttons = findChild(moviePreview, "gridButtons");
+            var buttons = findChild(moviePreview, "buttonList");
             compare(buttons.count, 3);
 
             for(var i = 0; i < buttons.count; i++) {
-                buttons.currentIndex = i;
-                buttons.currentItem.clicked();
+                var button = findChild(appPreview, "button" + i);
+                mouseClick(button, 1, 1);
             }
 
             var actions = get_actions_data();
