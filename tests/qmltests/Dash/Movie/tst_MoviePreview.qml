@@ -71,7 +71,7 @@ Item {
             compare(buttons.count, 3);
 
             for(var i = 0; i < buttons.count; i++) {
-                var button = findChild(appPreview, "button" + i);
+                var button = findChild(moviePreview, "button" + i);
                 mouseClick(button, 1, 1);
             }
 
