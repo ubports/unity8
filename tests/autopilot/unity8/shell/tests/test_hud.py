@@ -19,14 +19,13 @@
 
 from __future__ import absolute_import
 
-from unity8.shell import with_lightdm_mock
+from unity8.shell import with_lightdm_mock, DragMixin
 from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 
 from testtools.matchers import Equals
 from autopilot.matchers import Eventually
-from time import sleep
 
-class TestHud(UnityTestCase):
+class TestHud(UnityTestCase, DragMixin):
 
     """Tests the Shell HUD."""
 
@@ -189,15 +188,3 @@ class TestHud(UnityTestCase):
         """Only release the finger if it is in fact down."""
         if self.touch._touch_finger is not None:
             self.touch.release()
-
-    def _drag(self, x1, y1, x2, y2):
-        cur_x = x1
-        cur_y = y1
-        dx = 1.0 * (x2 - x1) / 100
-        dy = 1.0 * (y2 - y1) / 100
-        for i in range(0, 100):
-            self.touch._finger_move(int(cur_x), int(cur_y))
-            sleep(0.002)
-            cur_x += dx
-            cur_y += dy
-        self.touch._finger_move(int(x2), int(y2))
