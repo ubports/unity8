@@ -207,25 +207,30 @@ Item {
                             when: scope.searchInProgress && searchField.text !== ""
                             PropertyChanges { target: searchIndicator; running: true; opacity: 1 }
                             PropertyChanges { target: primaryImage; opacity: 0 }
-                        }, State {
+                        },
+                        State {
                             name: "idle"
-                            PropertyChanges { target: searchIndicator; running: true; opacity: 1 }
-                            PropertyChanges { target: primaryImage; opacity: 0 }
+                            when: !scope.searchInProgress || searchField.text === ""
+                            PropertyChanges { target: searchIndicator; running: false; opacity: 0 }
+                            PropertyChanges { target: primaryImage; opacity: 1 }
                         }
                     ]
 
                     transitions: [
                         Transition {
+                            from: "idle"
                             to: "searching"
                             SequentialAnimation {
-                                NumberAnimation { targets: primaryImage; property: opacity; duration: UbuntuAnimation.SlowDuration; easing.type: Easing.Linear }
-                                NumberAnimation { targets: searchIndicator; property: opacity; duration: UbuntuAnimation.SlowDuration; easing.type: Easing.Linear }
+                                NumberAnimation { target: primaryImage; property: opacity; duration: UbuntuAnimation.SlowDuration; easing.type: Easing.Linear }
+                                NumberAnimation { target: searchIndicator; property: opacity; duration: UbuntuAnimation.SlowDuration; easing.type: Easing.Linear }
                             }
-                        }, Transition {
+                        },
+                        Transition {
+                            from: "searching"
                             to: "idle"
                             SequentialAnimation {
-                                NumberAnimation { targets: searchIndicator; property: opacity; duration: UbuntuAnimation.SlowDuration; easing.type: Easing.Linear }
-                                NumberAnimation { targets: primaryImage; property: opacity; duration: UbuntuAnimation.SlowDuration; easing.type: Easing.Linear }
+                                NumberAnimation { target: searchIndicator; property: opacity; duration: UbuntuAnimation.SlowDuration; easing.type: Easing.Linear }
+                                NumberAnimation { target: primaryImage; property: opacity; duration: UbuntuAnimation.SlowDuration; easing.type: Easing.Linear }
                             }
                         }
                     ]
