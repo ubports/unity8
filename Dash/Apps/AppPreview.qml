@@ -42,6 +42,7 @@ GenericPreview {
             orientation: ListView.Horizontal
             height: units.gu(22)
             model: previewData.infoMap["more-screenshots"] != null ? previewData.infoMap["more-screenshots"].value : [previewData.image]
+            cacheBuffer: width * 3
 
             LazyImage {
                 objectName: "placeholderScreenshot"
