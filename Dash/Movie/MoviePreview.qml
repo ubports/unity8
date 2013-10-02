@@ -38,7 +38,6 @@ GenericPreview {
             scaleTo: "width"
             visible: height > 0
             source: root.url
-            height: implicitHeight
             initialHeight: width * 10 / 16
 
             Image {

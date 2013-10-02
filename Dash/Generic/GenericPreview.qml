@@ -41,7 +41,6 @@ DashPreview {
             }
             scaleTo: "width"
             source: genericPreview.previewData.image
-            height: implicitHeight
             initialHeight: width
         }
     }

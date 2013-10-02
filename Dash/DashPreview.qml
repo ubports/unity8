@@ -155,7 +155,6 @@ Rectangle {
             left: parent.left
             right: parent.right
         }
-        height: childrenRect.height
     }
 
     Loader {
