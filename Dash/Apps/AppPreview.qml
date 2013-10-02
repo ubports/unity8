@@ -52,6 +52,7 @@ GenericPreview {
                 }
                 scaleTo: "height"
                 source: "broken_image"
+                initialWidth: units.gu(13)
                 visible: previewImageListView.count == 0
             }
 
@@ -63,6 +64,7 @@ GenericPreview {
                 }
                 source: modelData ? modelData : ""
                 scaleTo: "height"
+                initialWidth: units.gu(13)
             }
         }
     }

@@ -32,6 +32,7 @@ DashPreview {
 
     Component {
         id: previewImagesComponent
+
         LazyImage {
             objectName: "genericPreviewImage"
             anchors {
@@ -41,6 +42,7 @@ DashPreview {
             scaleTo: "width"
             source: genericPreview.previewData.image
             height: implicitHeight
+            initialHeight: width
         }
     }
 
