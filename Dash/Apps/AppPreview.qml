@@ -37,10 +37,22 @@ GenericPreview {
     Component {
         id: previewImagesComponent
         ListView {
+            id: previewImageListView
             spacing: units.gu(1)
             orientation: ListView.Horizontal
             height: units.gu(22)
             model: previewData.infoMap["more-screenshots"] != null ? previewData.infoMap["more-screenshots"].value : [previewData.image]
+
+            LazyImage {
+                objectName: "placeholderScreenshot"
+                anchors {
+                    top: parent.top
+                    bottom: parent.bottom
+                }
+                scaleTo: "height"
+                source: "broken_image"
+                visible: previewImageListView.count == 0
+            }
 
             delegate: LazyImage {
                 id: shape

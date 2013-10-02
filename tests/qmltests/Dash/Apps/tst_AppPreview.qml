@@ -254,5 +254,18 @@ Item {
             compare(root.calls[0][0], actions[1].id, "Id of action not found.");
             compare(root.calls[0][1], {"error": "DOWNLOAD ERROR"}, "Data of action not found.");
         }
+
+        function test_placeholderScreenshot() {
+            var placeholderScreenshot = findChild(appPreview, "placeholderScreenshot");
+            compare(placeholderScreenshot.visible, false);
+
+            data.infoMap["more-screenshots"] = [];
+            appPreview.previewData = data;
+            tryCompare(placeholderScreenshot, "visible", true);
+
+            data.infoMap["more-screenshots"] = screenshots;
+            appPreview.previewData = data;
+            tryCompare(placeholderScreenshot, "visible", false);
+        }
     }
 }
