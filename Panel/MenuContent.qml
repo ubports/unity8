@@ -155,7 +155,6 @@ MainView {
         interval: contentReleaseInterval
         onTriggered: {
             content.__contentActive = false;
-            console.log("CLEARED");
             menuActivator.clear();
         }
     }
