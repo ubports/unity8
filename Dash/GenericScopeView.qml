@@ -22,6 +22,7 @@ import "../Components/ListItems" as ListItems
 ScopeView {
     id: scopeView
     readonly property alias previewShown: previewLoader.onScreen
+    property bool enableHeightBehaviorOnNextCreation: false
 
     onIsCurrentChanged: {
         pageHeader.resetSearch();
@@ -85,10 +86,12 @@ ScopeView {
                 source: getRenderer(model.renderer, model.contentType)
 
                 onLoaded: {
+                    if (item.enableHeightBehavior !== undefined && item.enableHeightBehaviourOnNextCreation !== undefined) {
+                        item.enableHeightBehavior = scopeView.enableHeightBehaviorOnNextCreation;
+                        scopeView.enableHeightBehaviorOnNextCreation = false;
+                    }
                     if (source.toString().indexOf("Apps/RunningApplicationsGrid.qml") != -1) {
                         // TODO: the running apps grid doesn't support standard scope results model yet
-                        item.enableHeightBehavior = enableHeightBehavior;
-                        enableHeightBehavior = false;
                         item.firstModel = Qt.binding(function() { return results.firstModel })
                         item.secondModel = Qt.binding(function() { return results.secondModel })
                     } else {
@@ -104,8 +107,8 @@ ScopeView {
                 }
 
                 Component.onDestruction: {
-                    if (source.toString().indexOf("Apps/RunningApplicationsGrid.qml") != -1) {
-                        enableHeightBehavior = (item.firstModel.count + item.secondModel.count == 0)
+                    if (item.enableHeightBehavior !== undefined && item.enableHeightBehaviourOnNextCreation !== undefined) {
+                        scopeView.enableHeightBehaviorOnNextCreation = item.enableHeightBehaviourOnNextCreation;
                     }
                 }
 

@@ -23,6 +23,7 @@ ResponsiveFlowView {
 
     signal updateScreenshots
     property alias enableHeightBehavior: heightBehaviour.enabled
+    property bool enableHeightBehaviourOnNextCreation: firstModel.count + secondModel.count == 0
 
     Connections {
         target: shell
