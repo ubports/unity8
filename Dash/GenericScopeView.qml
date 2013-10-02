@@ -352,10 +352,12 @@ ScopeView {
                 onScreen = true;
                 categoryDelegate.highlightIndex = currentIndex;
             } else {
+                // Cancel any pending preview requests or actions
+                previewListView.currentItem.previewData.cancelAction();
+                scopeView.scope.cancelActivation();
                 model = undefined;
                 categoryView.correctExpandedCategory();
                 categoryDelegate.highlightIndex = -1;
-                scopeView.scope.cancelActivation();
             }
         }
 
