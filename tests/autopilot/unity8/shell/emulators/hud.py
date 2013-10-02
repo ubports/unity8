@@ -22,7 +22,7 @@ from collections import namedtuple
 from unity8 import get_grid_size
 from unity8.shell.emulators import UnityEmulatorBase
 from autopilot.input import Touch
-
+from time import sleep
 
 SwipeCoords = namedtuple('SwipeCoords', 'start_x end_x start_y end_y')
 
@@ -77,3 +77,15 @@ class Hud(UnityEmulatorBase):
         end_y = main_view.y + int(hud_show_button.y + (hud_show_button.height/2))
 
         return SwipeCoords(start_x, end_x, start_y, end_y)
+
+    def _drag(self, x1, y1, x2, y2):
+        cur_x = x1
+        cur_y = y1
+        dx = 1.0 * (x2 - x1) / 100
+        dy = 1.0 * (y2 - y1) / 100
+        for i in range(0, 100):
+            self.touch._finger_move(int(cur_x), int(cur_y))
+            sleep(0.002)
+            cur_x += dx
+            cur_y += dy
+        self.touch._finger_move(int(x2), int(y2))
