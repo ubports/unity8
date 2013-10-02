@@ -112,6 +112,10 @@ Item {
         name: "AppPreview"
         when: windowShown
 
+        function init() {
+            waitForRendering(appPreview)
+        }
+
         function cleanup() {
             root.calls = new Array();
             sendPreviewSpy.clear();
