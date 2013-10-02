@@ -85,7 +85,7 @@ ScopeView {
                     right: parent.right
                 }
 
-                source: getRenderer(model.renderer, model.contentType)
+                source: getRenderer(model.renderer, model.contentType, model.rendererHint)
 
                 onLoaded: {
                     if (source.toString().indexOf("Apps/RunningApplicationsGrid.qml") != -1) {
@@ -188,10 +188,11 @@ ScopeView {
         }
     }
 
-    function getRenderer(rendererId, contentType) {
+    function getRenderer(rendererId, contentType, rendererHint) {
         if (rendererId == "default") {
             rendererId = getDefaultRendererId(contentType);
         }
+        if (rendererHint) console.log("got a hint:", rendererHint);
         switch (rendererId) {
             case "grid": {
                 switch (contentType) {
