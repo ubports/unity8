@@ -33,19 +33,14 @@ DashPreview {
 
     Component {
         id: previewImagesComponent
-        UbuntuShape {
-            id: urlLoader
-            anchors.left: parent.left
-            anchors.right: parent.right
-            height: width * previewImage.sourceSize.height / previewImage.sourceSize.width
-            radius: "medium"
-            visible: height > 0
-            image: Image {
-                id: previewImage
-                asynchronous: true
-                source: genericPreview.url
-                fillMode: Image.PreserveAspectCrop
+        LazyImage {
+            anchors {
+                left: parent.left
+                right: parent.right
             }
+            scaleTo: "width"
+            source: genericPreview.url
+            height: implicitHeight
         }
     }
 

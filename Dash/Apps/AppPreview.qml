@@ -42,21 +42,14 @@ GenericPreview {
             height: units.gu(22)
             model: previewData.infoMap["more-screenshots"] != null ? previewData.infoMap["more-screenshots"].value : [previewData.image]
 
-            delegate: UbuntuShape {
+            delegate: LazyImage {
                 id: shape
                 anchors {
                     top: parent.top
                     bottom: parent.bottom
                 }
-                width: units.gu(12)
-                radius: "medium"
-                borderSource: ""
-                image: Image {
-                    asynchronous: true
-                    sourceSize { width: shape.width; height: shape.height }
-                    source: modelData ? modelData : ""
-                    fillMode: Image.PreserveAspectCrop
-                }
+                source: modelData ? modelData : ""
+                scaleTo: "height"
             }
         }
     }
