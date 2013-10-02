@@ -211,26 +211,25 @@ Item {
                         State {
                             name: "idle"
                             when: !scope.searchInProgress || searchField.text === ""
-                            PropertyChanges { target: searchIndicator; running: false; opacity: 0 }
+                            PropertyChanges { target: searchIndicator; opacity: 0 }
                             PropertyChanges { target: primaryImage; opacity: 1 }
                         }
                     ]
 
                     transitions: [
                         Transition {
-                            from: "idle"
                             to: "searching"
                             SequentialAnimation {
-                                NumberAnimation { target: primaryImage; property: "opacity"; duration: UbuntuAnimation.SnapDuration; easing.type: Easing.Linear }
-                                NumberAnimation { target: searchIndicator; property: "opacity"; duration: UbuntuAnimation.SnapDuration; easing.type: Easing.Linear }
+                                NumberAnimation { target: primaryImage; property: "opacity"; duration: UbuntuAnimation.FastDuration; easing.type: Easing.Linear }
+                                NumberAnimation { target: searchIndicator; property: "opacity"; duration: UbuntuAnimation.FastDuration; easing.type: Easing.Linear }
                             }
                         },
                         Transition {
-                            from: "searching"
                             to: "idle"
                             SequentialAnimation {
-                                NumberAnimation { target: searchIndicator; property: "opacity"; duration: UbuntuAnimation.SnapDuration; easing.type: Easing.Linear }
-                                NumberAnimation { target: primaryImage; property: "opacity"; duration: UbuntuAnimation.SnapDuration; easing.type: Easing.Linear }
+                                NumberAnimation { target: searchIndicator; property: "opacity"; duration: UbuntuAnimation.FastDuration; easing.type: Easing.Linear }
+                                NumberAnimation { target: primaryImage; property: "opacity"; duration: UbuntuAnimation.FastDuration; easing.type: Easing.Linear }
+                                PropertyAction { target: searchIndicator; property: "running"; value: false }
                             }
                         }
                     ]
