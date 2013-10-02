@@ -27,6 +27,7 @@ Item {
     property alias row: row
     property QtObject indicatorsModel: null
     property var visibleIndicators: defined
+    property int overFlowWidth: width
 
     width: units.gu(40)
     height: units.gu(3)
@@ -59,6 +60,8 @@ Item {
                 height: indicatorRow.height
                 width: indicatorItem.width
                 visible: indicatorItem.indicatorVisible
+                y: 0
+                state: "standard"
 
                 property int ownIndex: index
                 property alias highlighted: indicatorItem.highlighted
@@ -103,6 +106,34 @@ Item {
                          duration: (rowRepeater.count - Math.abs(indicatorRow.currentItemIndex - index)) * (500/rowRepeater.count)
                      }
                  }
+                states: [
+                    State {
+                        name: "standard"
+                        when: row.width - itemWrapper.x <= overFlowWidth
+                        PropertyChanges { target: itemWrapper; y: 0 }
+                    },
+                    State {
+                        name: "overflow"
+                        when: row.width - itemWrapper.x > overFlowWidth
+                        PropertyChanges { target: itemWrapper; y: -indicatorRow.height }
+                    }
+                ]
+                transitions: [
+                    Transition {
+                        from: "standard"; to: "overflow"
+                        StandardAnimation {
+                            target: itemWrapper
+                            property: "y"
+                        }
+                    },
+                    Transition {
+                        from: "overflow"; to: "standard"
+                        StandardAnimation {
+                            target: itemWrapper
+                            property: "y"
+                        }
+                    }
+                ]
             }
         }
     }

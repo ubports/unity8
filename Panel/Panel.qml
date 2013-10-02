@@ -82,6 +82,7 @@ Item {
         panelHeight: __panelMinusSeparatorLineHeight
         openedHeight: parent.height + (pinnedMode ? 0 : root.panelHeight)
         pinnedMode: !fullscreenMode
+        overFlowWidth: search.state=="hidden" ? parent.width : parent.width - search.width
 
         property real unitProgress: (height - panelHeight) / (openedHeight - panelHeight)
     }
@@ -107,33 +108,6 @@ Item {
         }
         visible: indicatorsMenu.height > indicatorsMenu.panelHeight
         source: "graphics/rectangular_dropshadow.sci"
-    }
-
-    PanelBackground {
-        id: backgroundSearch
-        height: __panelMinusSeparatorLineHeight
-        y: panelBackground.y
-        anchors {
-            left: parent.left
-            right: search.right
-        }
-        clip: false
-        opacity: search.state=="visible" ? 1.0 : 0.0
-
-        Rectangle {
-            id: backgroundGradient
-            anchors {
-                left: parent.right
-            }
-            width: __panelMinusSeparatorLineHeight
-            height: __panelMinusSeparatorLineHeight
-            rotation: 90
-            gradient: Gradient {
-                GradientStop { position: 0.0; color: "transparent" }
-                GradientStop { position: 1.0; color: backgroundSearch.color }
-            }
-        }
-        Behavior on opacity { StandardAnimation {} }
     }
 
     SearchIndicator {
