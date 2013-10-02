@@ -101,4 +101,3 @@ QString uriToThumbnailerProviderString(QString const &uri)
 
     return QString::null;
 }
-
