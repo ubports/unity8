@@ -264,6 +264,10 @@ ScopeView {
                 }
             }
         }
+        Behavior on positionPx {
+            enabled: previewListView.open
+            UbuntuNumberAnimation {}
+        }
     }
 
     Connections {
@@ -328,9 +332,15 @@ ScopeView {
                 scopeView.scope.preview( item.uri, item.icon, item.category, 0, item.mimetype, item.title, item.comment, item.dndUri, item.metadata)
                 if (oldRow != -1) {
                     if (row < oldRow) {
-                        categoryView.contentY -= categoryDelegate.cellHeight
+                        if (categoryView.contentY - categoryDelegate.cellHeight < 0) {
+                            effect.positionPx -= categoryDelegate.cellHeight - categoryView.contentY
+                        }
+                        categoryView.contentY = Math.max(0, categoryView.contentY - categoryDelegate.cellHeight)
                     } else if (row > oldRow){
-                        categoryView.contentY += categoryDelegate.cellHeight
+                        if (categoryView.contentY + categoryDelegate.cellHeight > categoryView.contentHeight - categoryView.height) {
+                            effect.positionPx += categoryDelegate.cellHeight - (categoryView.contentY - (categoryView.contentHeight - categoryView.height))
+                        }
+                        categoryView.contentY = Math.min(categoryView.contentHeight - categoryView.height, categoryView.contentY + categoryDelegate.cellHeight)
                     }
                 }
             }
@@ -353,7 +363,9 @@ ScopeView {
                 categoryDelegate.highlightIndex = currentIndex;
             } else {
                 // Cancel any pending preview requests or actions
-                previewListView.currentItem.previewData.cancelAction();
+                if (previewListView.currentItem.previewData !== undefined) {
+                    previewListView.currentItem.previewData.cancelAction();
+                }
                 scopeView.scope.cancelActivation();
                 model = undefined;
                 categoryView.correctExpandedCategory();
