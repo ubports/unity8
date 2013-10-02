@@ -222,9 +222,9 @@ QVariant IndicatorsModel::defaultData(Indicator::Ptr indicator, int role)
         case IndicatorsModelRole::Position:
             return 0;
         case IndicatorsModelRole::WidgetSource:
-            return shellAppDirectory()+"/Panel/Indicators/DefaultIndicatorWidget2.qml";
+            return shellAppDirectory()+"/Panel/Indicators/DefaultIndicatorWidget.qml";
         case IndicatorsModelRole::PageSource:
-            return shellAppDirectory()+"/Panel/Indicators/DefaultIndicatorPage2.qml";
+            return shellAppDirectory()+"/Panel/Indicators/DefaultIndicatorPage.qml";
     }
     return QVariant();
 }

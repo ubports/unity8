@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-08-27 13:36-0400\n"
+"POT-Creation-Date: 2013-10-01 09:43+0200\n"
 "PO-Revision-Date: 2013-09-28 10:05+0000\n"
 "Last-Translator: Claudio Arseni <claudio.arseni@gmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-09-29 06:18+0000\n"
+"X-Launchpad-Export-Date: 2013-10-02 06:03+0000\n"
 "X-Generator: Launchpad (build 16774)\n"
 
 #: Applications/applications.js:23
@@ -86,56 +86,56 @@ msgstr "Wikipedia"
 msgid "YouTube"
 msgstr "YouTube"
 
-#: Components/EdgeDemoOverlay.qml:145
+#: Components/EdgeDemoOverlay.qml:150
 msgid "Skip intro"
 msgstr "Salta introduzione"
 
-#: Components/EdgeDemo.qml:98
+#: Components/EdgeDemo.qml:112
 msgid "Right edge"
 msgstr "Bordo destro"
 
-#: Components/EdgeDemo.qml:99
+#: Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
 msgstr "Provare a far scorrere dal bordo destro per sbloccare il telefono"
 
-#: Components/EdgeDemo.qml:135
+#: Components/EdgeDemo.qml:144
 msgid "Top edge"
 msgstr "Bordo superiore"
 
-#: Components/EdgeDemo.qml:136
+#: Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
 msgstr ""
 "Provare a far scorrere dal bordo in alto per accedere agli indicatori"
 
-#: Components/EdgeDemo.qml:161
+#: Components/EdgeDemo.qml:170
 msgid "Close"
 msgstr "Chiudi"
 
-#: Components/EdgeDemo.qml:162
+#: Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
 msgstr ""
 "Far scorrere verso l'alto nuovamente per chiudere la schermata delle "
 "impostazioni"
 
-#: Components/EdgeDemo.qml:189
+#: Components/EdgeDemo.qml:198
 msgid "Left edge"
 msgstr "Bordo sinistro"
 
-#: Components/EdgeDemo.qml:190
+#: Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr ""
 "Far scorrere il bordo sinistro per mostrare il Launcher e avere un rapido "
 "accesso alle applicazioni"
 
-#: Components/EdgeDemo.qml:217
+#: Components/EdgeDemo.qml:226
 msgid "Well done"
 msgstr "Ben fatto"
 
-#: Components/EdgeDemo.qml:218
-msgid "You have now mastered the edge gestures and can start using the phone"
+#: Components/EdgeDemo.qml:227
+msgid ""
+"You have now mastered the edge gestures and can start using the "
+"phone<br><br>Tap anywhere to start"
 msgstr ""
-"I gesti sui bordi dello schermo sono ora configurato ed è possibile usare il "
-"telefono"
 
 #: Components/PageHeader.qml:298
 msgid "Recent searches"
@@ -155,23 +155,23 @@ msgid_plural "%1 reviews"
 msgstr[0] "%1 recensione"
 msgstr[1] "%1 recensioni"
 
-#: Dash/Apps/AppPreview.qml:175
+#: Dash/Apps/AppPreview.qml:178
 msgid "Rate this"
 msgstr "Valuta"
 
-#: Dash/Apps/AppReviews.qml:72
+#: Dash/Apps/AppReviews.qml:74
 msgid "Add a review"
 msgstr "Aggiungi una recensione"
 
-#: Dash/Apps/AppReviews.qml:84
+#: Dash/Apps/AppReviews.qml:86
 msgid "Review"
 msgstr "Recensisci"
 
-#: Dash/Apps/AppReviews.qml:118
+#: Dash/Apps/AppReviews.qml:121
 msgid "Send"
 msgstr "Invia"
 
-#: Dash/Apps/AppReviews.qml:136
+#: Dash/Apps/AppReviews.qml:139
 msgid "Comments:"
 msgstr "Commenti:"
 
@@ -215,7 +215,7 @@ msgstr "Valutazioni:"
 msgid "Author:"
 msgstr "Autore:"
 
-#: Greeter/Lockscreen.qml:134
+#: Greeter/Lockscreen.qml:142
 msgid "Emergency Call"
 msgstr "Chiamata di emergenza"
 
@@ -252,11 +252,15 @@ msgstr "Sto parlando..."
 msgid "Search"
 msgstr "Cerca"
 
-#: plugins/Unity/scope.cpp:317
+#: plugins/Unity/scope.cpp:336
 msgid "Sorry, there is nothing that matches your search."
 msgstr "Nessun risultato corrispondente alla ricerca."
 
-#: Shell.qml:429
+#: plugins/Unity/showallfilteroption.cpp:41
+msgid "All"
+msgstr ""
+
+#: Shell.qml:453
 #, qt-format
 msgid "Please enter %1"
 msgstr "Inserire %1"

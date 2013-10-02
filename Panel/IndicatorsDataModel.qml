@@ -28,7 +28,7 @@ Indicators.IndicatorsModel {
 
     indicatorData : {
         'indicator-network' : {
-            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/NetworkIndicatorPage2.qml'
+            'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/NetworkIndicatorPage.qml'
         },
     }
 }

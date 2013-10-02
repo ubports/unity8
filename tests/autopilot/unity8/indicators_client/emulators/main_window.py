@@ -24,4 +24,4 @@ class MainWindow(object):
 
     def get_battery_menu(self):
         """Get the battery menu from the list"""
-        return self.app.select_single("BasicMenuItem", objectName="indicator-battery");
+        return self.app.select_single("BaseMenuItem", objectName="indicator-battery");

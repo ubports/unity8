@@ -113,7 +113,7 @@ int startShell(int argc, const char** argv, void* server)
 
     // The testability driver is only loaded by QApplication but not by QGuiApplication.
     // However, QApplication depends on QWidget which would add some unneeded overhead => Let's load the testability driver on our own.
-    if (args.contains(QLatin1String("-testability"))) {
+    if (args.contains(QLatin1String("-testability")) || getenv("QT_LOAD_TESTABILITY")) {
         QLibrary testLib(QLatin1String("qttestability"));
         if (testLib.load()) {
             typedef void (*TasInitialize)(void);
