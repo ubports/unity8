@@ -192,7 +192,6 @@ ScopeView {
         if (rendererId == "default") {
             rendererId = getDefaultRendererId(contentType);
         }
-        if (rendererHint) console.log("got a hint:", rendererHint);
         switch (rendererId) {
             case "grid": {
                 switch (contentType) {
