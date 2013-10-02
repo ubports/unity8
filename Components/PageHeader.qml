@@ -169,6 +169,8 @@ Item {
                                 left: parent.left
                                 leftMargin: units.gu(0.5)
                             }
+
+                            running: opacity > 0
                         }
 
                         Image {
@@ -219,17 +221,10 @@ Item {
                     transitions: [
                         Transition {
                             to: "searching"
+                            reversible: true
                             SequentialAnimation {
                                 NumberAnimation { target: primaryImage; property: "opacity"; duration: UbuntuAnimation.FastDuration; easing.type: Easing.Linear }
                                 NumberAnimation { target: searchIndicator; property: "opacity"; duration: UbuntuAnimation.FastDuration; easing.type: Easing.Linear }
-                            }
-                        },
-                        Transition {
-                            to: "idle"
-                            SequentialAnimation {
-                                NumberAnimation { target: searchIndicator; property: "opacity"; duration: UbuntuAnimation.FastDuration; easing.type: Easing.Linear }
-                                NumberAnimation { target: primaryImage; property: "opacity"; duration: UbuntuAnimation.FastDuration; easing.type: Easing.Linear }
-                                PropertyAction { target: searchIndicator; property: "running"; value: false }
                             }
                         }
                     ]
