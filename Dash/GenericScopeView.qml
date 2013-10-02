@@ -86,7 +86,7 @@ ScopeView {
                 source: getRenderer(model.renderer, model.contentType)
 
                 onLoaded: {
-                    if (item.enableHeightBehavior !== undefined && item.enableHeightBehaviourOnNextCreation !== undefined) {
+                    if (item.enableHeightBehavior !== undefined && item.enableHeightBehaviorOnNextCreation !== undefined) {
                         item.enableHeightBehavior = scopeView.enableHeightBehaviorOnNextCreation;
                         scopeView.enableHeightBehaviorOnNextCreation = false;
                     }
@@ -107,8 +107,8 @@ ScopeView {
                 }
 
                 Component.onDestruction: {
-                    if (item.enableHeightBehavior !== undefined && item.enableHeightBehaviourOnNextCreation !== undefined) {
-                        scopeView.enableHeightBehaviorOnNextCreation = item.enableHeightBehaviourOnNextCreation;
+                    if (item.enableHeightBehavior !== undefined && item.enableHeightBehaviorOnNextCreation !== undefined) {
+                        scopeView.enableHeightBehaviorOnNextCreation = item.enableHeightBehaviorOnNextCreation;
                     }
                 }
 
