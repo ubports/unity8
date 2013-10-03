@@ -19,6 +19,7 @@
 
 """unity shell autopilot tests and emulators - sub level package."""
 
+from time import sleep
 from functools import wraps
 import logging
 
@@ -46,3 +47,16 @@ def disable_qml_mocking(fn):
         tests_self._qml_mock_enabled = False
         return fn(*args, **kwargs)
     return wrapper
+
+class DragMixin(object):
+    def _drag(self, x1, y1, x2, y2):
+        cur_x = x1
+        cur_y = y1
+        dx = 1.0 * (x2 - x1) / 100
+        dy = 1.0 * (y2 - y1) / 100
+        for i in range(0, 100):
+            self.touch._finger_move(int(cur_x), int(cur_y))
+            sleep(0.002)
+            cur_x += dx
+            cur_y += dy
+        self.touch._finger_move(int(x2), int(y2))
