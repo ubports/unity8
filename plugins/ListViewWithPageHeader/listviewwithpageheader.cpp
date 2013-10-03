@@ -330,6 +330,9 @@ void ListViewWithPageHeader::setForceNoClip(bool noClip)
 
 void ListViewWithPageHeader::positionAtBeginning()
 {
+    if (m_delegateModel->count() <= 0)
+        return;
+
     qreal headerHeight = (m_headerItem ? m_headerItem->height() : 0);
     if (m_firstVisibleIndex != 0) {
         // TODO This could be optimized by trying to reuse the interesection
