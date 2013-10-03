@@ -146,7 +146,7 @@ MouseArea {
         Component.onCompleted: {
             selectedUser = greeterContentLoader.model.data(greeterContentLoader.currentIndex, LightDM.UserRoles.NameRole)
             greeterContentLoader.infographicModel.username = infographicUser
-            greeterContentLoader.infographicModel.readyForDataChangeSlot()
+            greeterContentLoader.infographicModel.readyForDataChange()
         }
 
         Connections {

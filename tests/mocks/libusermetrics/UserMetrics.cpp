@@ -228,7 +228,7 @@ UserMetricsPrivate::~UserMetricsPrivate()
 
 void UserMetricsPrivate::setUsername(const QString &username)
 {
-    if (m_username == username) {
+    if (m_username == username && m_newData) {
         return;
     }
 
