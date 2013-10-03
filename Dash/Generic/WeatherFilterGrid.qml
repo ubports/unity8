@@ -21,6 +21,8 @@ import "../../Components"
 GenericFilterGrid {
     id: filtergrid
 
+    delegateHeight: units.gu(11.5)
+
     delegate: Tile {
         id: tile
         objectName: "delegate" + index
@@ -31,6 +33,7 @@ GenericFilterGrid {
         imageHeight: filtergrid.iconHeight
         source: model.icon
         fillMode: Image.PreserveAspectCrop
+        maximumLineCount: 2
 
         style: FlatTileStyle {}
 

@@ -55,33 +55,26 @@ Item {
         Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.OutQuint } }
     }
 
-    Item {
+    Label {
+        id: label
+        objectName: "label"
         anchors {
+            baseline: icon.bottom
+            baselineOffset: units.gu(2)
             left: parent.left
             right: parent.right
-            top: icon.bottom
+            leftMargin: units.gu(1)
+            rightMargin: units.gu(1)
         }
-        height: units.gu(2)
 
-        Label {
-            id: label
-            objectName: "label"
-            anchors {
-                baseline: parent.bottom
-                left: parent.left
-                right: parent.right
-                leftMargin: units.gu(1)
-                rightMargin: units.gu(1)
-            }
-
-            color: Theme.palette.selected.backgroundText
-            opacity: 0.9
-            style: Text.Raised
-            styleColor: "black"
-            fontSize: "small"
-            elide: Text.ElideMiddle
-            horizontalAlignment: Text.AlignHCenter
-            text: styledItem.text
-        }
+        color: Theme.palette.selected.backgroundText
+        opacity: 0.9
+        style: Text.Raised
+        styleColor: "black"
+        fontSize: "small"
+        elide: Text.ElideMiddle
+        horizontalAlignment: Text.AlignHCenter
+        text: styledItem.text
+        maximumLineCount: styledItem.maximumLineCount
     }
 }

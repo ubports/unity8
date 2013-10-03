@@ -19,12 +19,13 @@ import Ubuntu.Components 0.1
 
 AbstractButton {
     property url source
-    property int fillMode
-    property int horizontalAlignment
-    property int verticalAlignment
+    property int fillMode: Image.PreserveAspectCrop
+    property int horizontalAlignment: Image.AlignHCenter
+    property int verticalAlignment: Image.AlignVCenter
     property string text
     property int imageWidth
     property int imageHeight
+    property int maximumLineCount: 1
 
     style: TileStyle {}
 }
