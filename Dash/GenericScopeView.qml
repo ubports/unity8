@@ -199,10 +199,11 @@ ScopeView {
                     case "music": return "Music/MusicFilterGrid.qml";
                     case "apps": {
                         if (rendererHint == "toggled")
-                            return "Generic/GenericFilterGridDashPlugin.qml";
+                            return "Apps/DashPluginFilterGrid.qml";
                         else
                             return "Generic/GenericFilterGrid.qml";
                     }
+                    case "weather": return "Generic/WeatherFilterGrid.qml";
                     default: return "Generic/GenericFilterGrid.qml";
                 }
             }

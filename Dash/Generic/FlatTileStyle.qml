@@ -20,6 +20,8 @@ import Ubuntu.Components 0.1
 Item {
     id: tile
 
+    property bool disabled: false
+
     anchors.fill: parent
 
     Item {
@@ -39,6 +41,7 @@ Item {
             cache: false
             source: styledItem.source
             fillMode: styledItem.fillMode
+            opacity: tile.disabled ? 0.5 : 1.0
             horizontalAlignment: styledItem.horizontalAlignment
             verticalAlignment: styledItem.verticalAlignment
         }

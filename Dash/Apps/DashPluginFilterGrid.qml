@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import "../../Components"
+import "../Generic"
 
 GenericFilterGrid {
     id: filtergrid
@@ -32,7 +33,9 @@ GenericFilterGrid {
         source: model.icon
         fillMode: Image.PreserveAspectCrop
 
-        style: TileStyleDashPlugin {}
+        style: FlatTileStyle {
+            disabled: model.scopeDisabled
+        }
 
         onClicked: {
             var data = { model: model }
