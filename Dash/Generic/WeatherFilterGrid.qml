@@ -32,7 +32,6 @@ GenericFilterGrid {
         imageWidth: filtergrid.iconWidth
         imageHeight: filtergrid.iconHeight
         source: model.icon
-        fillMode: Image.PreserveAspectCrop
         maximumLineCount: 2
 
         style: FlatTileStyle {}

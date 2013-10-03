@@ -31,7 +31,6 @@ GenericFilterGrid {
         imageWidth: filtergrid.iconWidth
         imageHeight: filtergrid.iconHeight
         source: model.icon
-        fillMode: Image.PreserveAspectCrop
 
         style: FlatTileStyle {
             disabled: model.rendererHints['scope_disabled'] === 1;

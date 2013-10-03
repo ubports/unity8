@@ -40,7 +40,6 @@ FilterGrid {
         imageWidth: filtergrid.iconWidth
         imageHeight: filtergrid.iconHeight
         source: model.icon
-        fillMode: Image.PreserveAspectCrop
 
         onClicked: {
             var data = { model: model }
