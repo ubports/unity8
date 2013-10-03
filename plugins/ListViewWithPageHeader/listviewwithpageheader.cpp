@@ -139,9 +139,6 @@ void ListViewWithPageHeader::ListItem::setCulled(bool culled)
     QQuickItemPrivate::get(m_item)->setCulled(culled);
     if (m_sectionItem)
         QQuickItemPrivate::get(m_sectionItem)->setCulled(culled);
-
-    QQmlContext *itemContext = QQmlEngine::contextForObject(m_item)->parentContext();
-    itemContext->setContextProperty(QLatin1String("culled"), QVariant::fromValue<bool>(culled));
 }
 
 ListViewWithPageHeader::ListViewWithPageHeader()
@@ -855,7 +852,6 @@ void ListViewWithPageHeader::itemCreated(int modelIndex, QObject *object)
     QQmlContext *context = QQmlEngine::contextForObject(item)->parentContext();
     context->setContextProperty(QLatin1String("ListViewWithPageHeader"), this);
     context->setContextProperty(QLatin1String("heightToClip"), QVariant::fromValue<int>(0));
-    context->setContextProperty(QLatin1String("culled"), QVariant::fromValue<bool>(false));
     if (modelIndex == m_asyncRequestedIndex) {
         createItem(modelIndex, false);
         refill();

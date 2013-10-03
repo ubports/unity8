@@ -52,5 +52,6 @@ GenericScopeView {
 
     onScopeChanged: {
         scopeView.scope.categories.overrideResults("recent", runningApplicationsModel);
+        enableHeightBehaviorOnNextCreation = (mainStageApplicationsModel.count + sideStageApplicationModel.count == 0)
     }
 }

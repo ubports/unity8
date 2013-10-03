@@ -623,6 +623,7 @@ FocusScope {
         }
 
         Bottombar {
+            id: bottombar
             theHud: hud
             anchors.fill: parent
             enabled: hud.available
@@ -663,6 +664,7 @@ FocusScope {
                 if (shown) {
                     panel.indicators.hide()
                     hud.hide()
+                    bottombar.hide()
                 }
             }
         }
