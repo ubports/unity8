@@ -65,26 +65,30 @@ void ResultsTest::testAllColumns()
 
 void ResultsTest::testIconColumn_data()
 {
+    QTest::addColumn<QString>("uri");
     QTest::addColumn<QString>("giconString");
     QTest::addColumn<QString>("result");
 
-    QTest::newRow("absolute path") << "/usr/share/icons/example.png" << "/usr/share/icons/example.png";
-    QTest::newRow("file uri") << "file:///usr/share/icons/example.png" << "file:///usr/share/icons/example.png";
-    QTest::newRow("http uri") << "http://images.ubuntu.com/example.jpg" << "http://images.ubuntu.com/example.jpg";
-    QTest::newRow("image uri") << "image://thumbnail/with/arguments?passed_to=ImageProvider" << "image://thumbnail/with/arguments?passed_to=ImageProvider";
-    QTest::newRow("themed icon") << "accessories-other" << "image://theme/accessories-other";
-    QTest::newRow("fileicon") << ". GFileIcon http://example.org/resource.gif" << "http://example.org/resource.gif";
-    QTest::newRow("themedicon") << ". GThemedIcon accessories-other accessories generic" << "image://theme/accessories-other,accessories,generic";
-    QTest::newRow("annotatedicon") << ". UnityProtocolAnnotatedIcon %7B'base-icon':%20%3C'.%20GThemedIcon%20accessories-other%20accessories%20generic'%3E%7D" << "image://theme/accessories-other,accessories,generic";
+    QTest::newRow("unspecified") << "test:uri" << "" << "";
+    QTest::newRow("absolute path") << "test:uri" << "/usr/share/icons/example.png" << "/usr/share/icons/example.png";
+    QTest::newRow("file uri") << "test:uri" << "file:///usr/share/icons/example.png" << "file:///usr/share/icons/example.png";
+    QTest::newRow("http uri") << "test:uri" << "http://images.ubuntu.com/example.jpg" << "http://images.ubuntu.com/example.jpg";
+    QTest::newRow("image uri") << "test:uri" << "image://thumbnail/with/arguments?passed_to=ImageProvider" << "image://thumbnail/with/arguments?passed_to=ImageProvider";
+    QTest::newRow("themed icon") << "test:uri" << "accessories-other" << "image://theme/accessories-other";
+    QTest::newRow("fileicon") << "test:uri" << ". GFileIcon http://example.org/resource.gif" << "http://example.org/resource.gif";
+    QTest::newRow("themedicon") << "test:uri" << ". GThemedIcon accessories-other accessories generic" << "image://theme/accessories-other,accessories,generic";
+    QTest::newRow("annotatedicon") << "test:uri" << ". UnityProtocolAnnotatedIcon %7B'base-icon':%20%3C'.%20GThemedIcon%20accessories-other%20accessories%20generic'%3E%7D" << "image://theme/accessories-other,accessories,generic";
+    QTest::newRow("thumbnailer icon") << "file:///usr/share/samples/video/foo.avi" << "" << "image://thumbnailer//usr/share/samples/video/foo.avi";
 }
 
 void ResultsTest::testIconColumn()
 {
+    QFETCH(QString, uri);
     QFETCH(QString, giconString);
     QFETCH(QString, result);
     auto deeModel = createBackendModel();
     dee_model_append (deeModel,
-                      "test:uri",
+                      uri.toLocal8Bit().constData(),
                       giconString.toLocal8Bit().constData(),
                       0,
                       0,
