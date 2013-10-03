@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
+import Unity.Indicators 0.1 as Indicators
 
 import "../Components"
 import "../Components/ListItems"
@@ -249,8 +250,10 @@ Showable {
         anchors.fill: indicatorRow
     }
 
-    IndicatorsDataModel {
+    Indicators.IndicatorsModel {
         id: indicatorsModel
+
+        Component.onCompleted: load()
     }
 
     IndicatorRow {

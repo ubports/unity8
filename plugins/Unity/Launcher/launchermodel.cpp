@@ -27,7 +27,7 @@ using namespace unity::shell::application;
 
 LauncherModel::LauncherModel(QObject *parent):
     LauncherModelInterface(parent),
-    m_backend(new LauncherBackend(true, this)),
+    m_backend(new LauncherBackend(this)),
     m_appManager(0)
 {
     connect(m_backend, SIGNAL(countChanged(QString,int)), SLOT(countChanged(QString,int)));

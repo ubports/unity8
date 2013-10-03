@@ -228,7 +228,7 @@ UserMetricsPrivate::~UserMetricsPrivate()
 
 void UserMetricsPrivate::setUsername(const QString &username)
 {
-    if (m_username == username) {
+    if (m_username == username && m_newData) {
         return;
     }
 
@@ -407,7 +407,11 @@ UserMetrics::~UserMetrics()
 
 QString UserMetrics::label() const
 {
-    return d_ptr->m_label;
+    if (d_ptr->m_label.isEmpty()) {
+        return "No data";
+    } else {
+        return d_ptr->m_label;
+    }
 }
 
 QString UserMetrics::username() const

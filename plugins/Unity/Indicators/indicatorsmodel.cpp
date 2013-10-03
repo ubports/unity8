@@ -201,8 +201,6 @@ QHash<int, QByteArray> IndicatorsModel::roleNames() const
     {
         roles[IndicatorsModelRole::Identifier] = "identifier";
         roles[IndicatorsModelRole::Position] = "position";
-        roles[IndicatorsModelRole::Title] = "title";
-        roles[IndicatorsModelRole::Description] = "description";
         roles[IndicatorsModelRole::WidgetSource] = "widgetSource";
         roles[IndicatorsModelRole::PageSource] = "pageSource";
         roles[IndicatorsModelRole::IndicatorProperties] = "indicatorProperties";
@@ -214,25 +212,6 @@ QHash<int, QByteArray> IndicatorsModel::roleNames() const
 int IndicatorsModel::columnCount(const QModelIndex &) const
 {
     return 1;
-}
-
-/*! \internal */
-QVariant IndicatorsModel::defaultData(Indicator::Ptr indicator, int role)
-{
-    switch (role)
-    {
-        case IndicatorsModelRole::Position:
-            return 0;
-        case IndicatorsModelRole::Title:
-            return indicator ? indicator->identifier() : "Unknown";
-        case IndicatorsModelRole::Description:
-            return "";
-        case IndicatorsModelRole::WidgetSource:
-            return shellAppDirectory()+"/Panel/Indicators/DefaultIndicatorWidget.qml";
-        case IndicatorsModelRole::PageSource:
-            return shellAppDirectory()+"/Panel/Indicators/DefaultIndicatorPage.qml";
-    }
-    return QVariant();
 }
 
 Q_INVOKABLE QVariant IndicatorsModel::data(int row, int role) const
@@ -268,27 +247,14 @@ QVariant IndicatorsModel::data(const QModelIndex &index, int role) const
                 return QVariant(indicator->indicatorProperties());
             }
             break;
-        case IndicatorsModelRole::Title:
-        case IndicatorsModelRole::Description:
         case IndicatorsModelRole::WidgetSource:
+            return shellAppDirectory()+"/Panel/Indicators/DefaultIndicatorWidget.qml";
         case IndicatorsModelRole::PageSource:
-            return indicatorData(indicator, role);
+            return shellAppDirectory()+"/Panel/Indicators/DefaultIndicatorPage.qml";
         default:
             break;
     }
     return QVariant();
-}
-
-QVariant IndicatorsModel::indicatorData(const Indicator::Ptr& indicator, int role) const
-{
-    if (indicator && m_parsed_indicator_data.contains(indicator->identifier()))
-    {
-        QVariantMap data = m_parsed_indicator_data[indicator->identifier()];
-        if (data.contains(roleNames()[role])) {
-            return data[roleNames()[role]];
-        };
-    }
-    return defaultData(indicator, role);
 }
 
 /*! \internal */
@@ -301,25 +267,4 @@ QModelIndex IndicatorsModel::parent(const QModelIndex&) const
 int IndicatorsModel::rowCount(const QModelIndex&) const
 {
     return m_indicators.count();
-}
-
-void IndicatorsModel::setIndicatorData(const QVariant& data)
-{
-    m_indicator_data = data;
-
-    m_parsed_indicator_data.clear();
-    QMap<QString, QVariant> map = data.toMap();
-    QMapIterator<QString, QVariant> iter(map);
-    while(iter.hasNext())
-    {
-        iter.next();
-        m_parsed_indicator_data[iter.key()] = iter.value().toMap();
-    }
-
-    Q_EMIT indicatorDataChanged(m_indicator_data);
-}
-
-QVariant IndicatorsModel::indicatorData() const
-{
-    return m_indicator_data;
 }

@@ -39,7 +39,7 @@ class LauncherBackend : public QObject
 
 
 public:
-    LauncherBackend(bool useStorage = true, QObject *parent = 0);
+    LauncherBackend(QObject *parent = 0);
     virtual ~LauncherBackend();
 
     /**

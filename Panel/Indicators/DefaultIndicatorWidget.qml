@@ -86,8 +86,8 @@ Indicators.IndicatorWidget {
         }
     }
 
-    onActionStateChanged: {
-        if (actionState == undefined) {
+    onRootActionStateChanged: {
+        if (rootActionState == undefined) {
             leftLabel = "";
             rightLabel = "";
             icons = undefined;
@@ -95,9 +95,9 @@ Indicators.IndicatorWidget {
             return;
         }
 
-        leftLabel = actionState.leftLabel ? actionState.leftLabel : "";
-        rightLabel = actionState.rightLabel ? actionState.rightLabel : "";
-        icons = actionState.icons;
-        enabled = actionState.visible;
+        leftLabel = rootActionState.leftLabel ? rootActionState.leftLabel : "";
+        rightLabel = rootActionState.rightLabel ? rootActionState.rightLabel : "";
+        icons = rootActionState.icons;
+        enabled = rootActionState.visible;
     }
 }

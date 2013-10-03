@@ -30,6 +30,8 @@ ScopeView {
 
     onMovementStarted: categoryView.showHeader()
 
+    onPositionedAtBeginning: categoryView.positionAtBeginning()
+
     Binding {
         target: scopeView.scope
         property: "searchQuery"
@@ -58,6 +60,7 @@ ScopeView {
 
     ScopeListView {
         id: categoryView
+        objectName: "categoryListView"
         anchors.fill: parent
         model: scopeView.categories
         forceNoClip: previewLoader.onScreen
@@ -176,6 +179,7 @@ ScopeView {
             width: categoryView.width
             text: scopeView.scope.name
             searchEntryEnabled: true
+            scope: scopeView.scope
         }
     }
 
@@ -197,7 +201,12 @@ ScopeView {
                     default: return "Generic/GenericFilterGrid.qml";
                 }
             }
-            case "carousel": return "Generic/GenericCarousel.qml";
+            case "carousel": {
+                switch (contentType) {
+                    case "music": return "Music/MusicCarousel.qml";
+                    default: return "Generic/GenericCarousel.qml";
+                }
+            }
             case "special": {
                 switch (contentType) {
                     case "apps": return "Apps/RunningApplicationsGrid.qml";

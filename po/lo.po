@@ -1,63 +1,62 @@
-# Serbian translation for unity
+# Lao translation for unity8
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the unity package.
+# This file is distributed under the same license as the unity8 package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity\n"
+"Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-10-01 09:43+0200\n"
-"PO-Revision-Date: 2013-06-27 09:19+0000\n"
-"Last-Translator: Michał Sawicz <michal.sawicz@canonical.com>\n"
-"Language-Team: Serbian <sr@li.org>\n"
+"PO-Revision-Date: 2013-10-02 10:00+0000\n"
+"Last-Translator: Anousak <anousak@gmail.com>\n"
+"Language-Team: Lao <lo@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2013-10-02 06:03+0000\n"
-"X-Generator: Launchpad (build 16774)\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Launchpad-Export-Date: 2013-10-03 06:08+0000\n"
+"X-Generator: Launchpad (build 16791)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
-msgstr ""
+msgstr "ໂທລະສັບ"
 
 #: Applications/applications.js:29
 msgid "Camera"
-msgstr ""
+msgstr "ກ້ອງ"
 
 #: Applications/applications.js:35
 msgid "Gallery"
-msgstr ""
+msgstr "Gallery"
 
 #: Applications/applications.js:40
 msgid "Facebook"
-msgstr ""
+msgstr "Facebook"
 
 #: Applications/applications.js:46
 msgid "Browser"
-msgstr ""
+msgstr "ບາວເຊິ"
 
 #: Applications/applications.js:51
 msgid "Twitter"
-msgstr ""
+msgstr "Twitter"
 
 #: Applications/applications.js:57
 msgid "GMail"
-msgstr ""
+msgstr "GMail"
 
 #: Applications/applications.js:62
 msgid "Weather"
-msgstr ""
+msgstr "ສະພາບອາກາດ"
 
 #: Applications/applications.js:68
 msgid "Notepad"
-msgstr ""
+msgstr "Noetpad"
 
 #: Applications/applications.js:74
 msgid "Calendar"
-msgstr ""
+msgstr "ປະຕິທິນ"
 
 #: Applications/applications.js:80
 msgid "Media Player"
@@ -69,7 +68,7 @@ msgstr ""
 
 #: Applications/applications.js:91
 msgid "Map"
-msgstr ""
+msgstr "ເເຜນທີ່"
 
 #: Applications/applications.js:96
 msgid "Pinterest"
@@ -85,7 +84,7 @@ msgstr ""
 
 #: Applications/applications.js:111
 msgid "YouTube"
-msgstr ""
+msgstr "ິYouTube"
 
 #: Components/EdgeDemoOverlay.qml:150
 msgid "Skip intro"
@@ -109,7 +108,7 @@ msgstr ""
 
 #: Components/EdgeDemo.qml:170
 msgid "Close"
-msgstr ""
+msgstr "ປິດ"
 
 #: Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
@@ -125,7 +124,7 @@ msgstr ""
 
 #: Components/EdgeDemo.qml:226
 msgid "Well done"
-msgstr ""
+msgstr "ດີຫຼາຍ"
 
 #: Components/EdgeDemo.qml:227
 msgid ""
@@ -135,13 +134,13 @@ msgstr ""
 
 #: Components/PageHeader.qml:298
 msgid "Recent searches"
-msgstr "Скорашње претраге"
+msgstr ""
 
 #. TRANSLATORS: Number of persons who rated this app
 #: Dash/Apps/AppInfo.qml:73
 #, qt-format
 msgid "(%1)"
-msgstr ""
+msgstr "(%1)"
 
 #. TRANSLATORS: Number of persons who wrote reviews for this app
 #: Dash/Apps/AppInfo.qml:85
@@ -165,11 +164,11 @@ msgstr ""
 
 #: Dash/Apps/AppReviews.qml:121
 msgid "Send"
-msgstr ""
+msgstr "ສົ່ງ"
 
 #: Dash/Apps/AppReviews.qml:139
 msgid "Comments:"
-msgstr ""
+msgstr "ຄໍ່ເຫັນ"
 
 #: Dash/DashMusic.qml:27 Dash/DashVideos.qml:28
 msgid "Featured"
@@ -189,7 +188,7 @@ msgstr ""
 
 #: Dash/DashMusic.qml:91
 msgid "Music"
-msgstr "Музика"
+msgstr "ດົນຕີ"
 
 #: Dash/DashVideos.qml:31
 msgid "Popular Online"
@@ -197,7 +196,7 @@ msgstr ""
 
 #: Dash/DashVideos.qml:146
 msgid "Videos"
-msgstr "Видео"
+msgstr "ວິດີໂອ"
 
 #: Dash/Video/VideoPreview.qml:130
 msgid "Directed by:"
@@ -218,45 +217,45 @@ msgstr ""
 #: Greeter/PassphraseLockscreen.qml:59
 #, qt-format
 msgid "Hello %1"
-msgstr ""
+msgstr "ສະບາຍດີ %1"
 
 #: Greeter/PassphraseLockscreen.qml:59
 msgid "Hello"
-msgstr ""
+msgstr "ສະບາຍດີ"
 
 #: Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
-msgstr "Потврди"
+msgstr "ຢືນຢັນ"
 
 #: Hud/Hud.qml:61 Hud/Hud.qml:99 Hud/Hud.qml:372
 msgid "Type or say a command"
-msgstr "Укуцајте или изговорите наредбу"
+msgstr ""
 
 #: Hud/Hud.qml:84
 msgid "Loading. Please Wait..."
-msgstr "Учитавам. Сачекајте..."
+msgstr ""
 
 #: Hud/Hud.qml:89
 msgid "Speak Now..."
-msgstr "Изговорите сада..."
+msgstr "ເວົ້າໂລດ"
 
 #: Hud/Hud.qml:94
 msgid "Speaking..."
-msgstr "Говор..."
+msgstr "ກໍາລັງເວົ້າ"
 
 #: Panel/SearchIndicator.qml:27
 msgid "Search"
-msgstr "Претрага"
+msgstr "ຊອກຫາ"
 
 #: plugins/Unity/scope.cpp:336
 msgid "Sorry, there is nothing that matches your search."
-msgstr "Нажалост, претрага није наишла на икакво подударање."
+msgstr ""
 
 #: plugins/Unity/showallfilteroption.cpp:41
 msgid "All"
-msgstr ""
+msgstr "ທັງໝົດ"
 
 #: Shell.qml:453
 #, qt-format
 msgid "Please enter %1"
-msgstr ""
+msgstr "ກະລູນາປ້ອນ %1"
