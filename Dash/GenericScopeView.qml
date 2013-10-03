@@ -197,6 +197,12 @@ ScopeView {
                 switch (contentType) {
                     case "video": return "Generic/GenericFilterGridPotrait.qml";
                     case "music": return "Music/MusicFilterGrid.qml";
+                    case "apps": {
+                        if (rendererHint == "toggled")
+                            return "Generic/GenericFilterGridDashPlugin.qml";
+                        else
+                            return "Generic/GenericFilterGrid.qml";
+                    }
                     default: return "Generic/GenericFilterGrid.qml";
                 }
             }
