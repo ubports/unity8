@@ -94,9 +94,8 @@ CategoryResults::data(const QModelIndex& index, int role) const
             return DeeListModel::data(index, ResultsColumn::DND_URI);
         case RoleMetadata:
             return DeeListModel::data(index, ResultsColumn::METADATA);
-        // nasty hack while we don't support annotated icons
-        case RoleMetadataScopeDisabled:
-        {
+        // FIXME nasty hack while we don't support annotated icons
+        case RoleMetadataScopeDisabled: {
             QVariantHash hash(DeeListModel::data(index, ResultsColumn::METADATA).toHash());
             if (hash.contains("content")) {
                 QVariantHash innerHash(hash["content"].toHash());
