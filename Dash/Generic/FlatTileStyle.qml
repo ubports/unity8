@@ -24,27 +24,22 @@ Item {
 
     anchors.fill: parent
 
-    Item {
+    Image {
         id: icon
-        anchors {
-            top: parent.top
-            horizontalCenter: parent.horizontalCenter
-        }
+        objectName: "image"
         width: styledItem.imageWidth
         height: styledItem.imageHeight
 
-        Image {
-            id: image
-            objectName: "image"
-            sourceSize { width: icon.width; height: icon.height }
-            asynchronous: true
-            cache: false
-            source: styledItem.source
-            fillMode: styledItem.fillMode
-            opacity: tile.disabled ? 0.3 : 1.0
-            horizontalAlignment: styledItem.horizontalAlignment
-            verticalAlignment: styledItem.verticalAlignment
-        }
+        anchors.horizontalCenter: parent.horizontalCenter
+
+        sourceSize { width: width; height: height }
+        asynchronous: true
+        cache: false
+        source: styledItem.source
+        fillMode: styledItem.fillMode
+        opacity: tile.disabled ? 0.3 : 1.0
+        horizontalAlignment: styledItem.horizontalAlignment
+        verticalAlignment: styledItem.verticalAlignment
     }
 
     UbuntuShape {
