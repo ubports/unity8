@@ -34,7 +34,7 @@ GenericFilterGrid {
         fillMode: Image.PreserveAspectCrop
 
         style: FlatTileStyle {
-            disabled: model.scopeDisabled
+            disabled: model.rendererHints['scope_disabled'] === 1;
         }
 
         onClicked: {

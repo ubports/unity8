@@ -41,7 +41,7 @@ Item {
             cache: false
             source: styledItem.source
             fillMode: styledItem.fillMode
-            opacity: tile.disabled ? 0.5 : 1.0
+            opacity: tile.disabled ? 0.3 : 1.0
             horizontalAlignment: styledItem.horizontalAlignment
             verticalAlignment: styledItem.verticalAlignment
         }
