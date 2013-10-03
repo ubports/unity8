@@ -1,5 +1,4 @@
 module Unity.Indicators.Network
-plugin IndicatorsNetworkQml
 typeinfo plugin.qmltypes
 
 AccessPoint 0.1 AccessPoint.qml
