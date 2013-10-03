@@ -38,13 +38,6 @@ UnityMenuModel::UnityMenuModel(QObject *parent)
 {
 }
 
-UnityMenuModel::UnityMenuModel(const QVariant& data, QObject *parent)
-:   QAbstractListModel(parent)
-{
-    QVariantList li = data.toList();
-    m_modelData = li;
-}
-
 QVariant UnityMenuModel::modelData() const
 {
     return m_modelData;
@@ -201,9 +194,12 @@ QObject * UnityMenuModel::submenu(int position, QQmlComponent*)
     if (submenuData.type() == (int)QMetaType::QVariantList) {
         UnityMenuModel*& model = submenus[position];
         if (!model) {
-            model = new UnityMenuModel(submenuData, this);
-            return model;
+            model = new UnityMenuModel(this);
         }
+        if (model->modelData() != submenuData) {
+            model->setModelData(submenuData);
+        }
+        return model;
     }
 
     return NULL;

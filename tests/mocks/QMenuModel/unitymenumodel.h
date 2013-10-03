@@ -81,8 +81,6 @@ Q_SIGNALS:
     void modelDataChanged();
 
 private:
-    UnityMenuModel(const QVariant& data, QObject *parent = NULL);
-
     QVariantMap rowData(int row) const;
     QVariant subMenuData(int row) const;
 
