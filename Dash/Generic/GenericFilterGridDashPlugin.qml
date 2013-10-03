@@ -26,7 +26,7 @@ GenericFilterGrid {
         objectName: "delegate" + index
         width: filtergrid.cellWidth
         height: filtergrid.cellHeight
-        text: "model.title"
+        text: model.title
         imageWidth: filtergrid.iconWidth
         imageHeight: filtergrid.iconHeight
         source: model.icon
