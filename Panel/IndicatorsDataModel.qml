@@ -27,39 +27,8 @@ Indicators.IndicatorsModel {
     Component.onCompleted: load()
 
     indicatorData : {
-        'indicator-location' : {
-            'title': 'Location',
-            'description' : ''
-        },
-        'indicator-bluetooth' : {
-            'title': 'Bluetooth',
-            'description' : ''
-        },
-        'indicator-messages' : {
-            'title': 'Messaging',
-            'description' : ''
-        },
-        'indicator-sound' : {
-            'title': 'Sound',
-            'description' : ''
-        },
         'indicator-network' : {
-            'title': 'Networks',
-            'description' : '',
-            'widgetSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/DefaultIndicatorWidget.qml',
             'pageSource' : ApplicationPaths.shellAppDirectory()+'/Panel/Indicators/NetworkIndicatorPage.qml'
         },
-        'indicator-power' : {
-            'title': 'Battery',
-            'description' : ''
-        },
-        'indicator-session' : {
-            'title': 'Session',
-            'description' : ''
-        },
-        'indicator-datetime' : {
-            'title': 'Date and Time',
-            'description' : ''
-        }
     }
 }
