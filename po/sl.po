@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-10-01 09:43+0200\n"
-"PO-Revision-Date: 2013-09-28 09:53+0000\n"
+"PO-Revision-Date: 2013-10-02 10:55+0000\n"
 "Last-Translator: Damir Jerovšek <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
 "n%100==4 ? 3 : 0);\n"
-"X-Launchpad-Export-Date: 2013-10-02 06:03+0000\n"
-"X-Generator: Launchpad (build 16774)\n"
+"X-Launchpad-Export-Date: 2013-10-03 06:08+0000\n"
+"X-Generator: Launchpad (build 16791)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -134,6 +134,8 @@ msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap anywhere to start"
 msgstr ""
+"Sedaj ste osvojili poteze robov ter lahko začnete uporabljati "
+"telefon<br><br>Tapnite kjerkoli na začetek"
 
 #: Components/PageHeader.qml:298
 msgid "Recent searches"
@@ -258,7 +260,7 @@ msgstr "Nič se ne ujema z vašim iskalnim nizom."
 
 #: plugins/Unity/showallfilteroption.cpp:41
 msgid "All"
-msgstr ""
+msgstr "Vse"
 
 #: Shell.qml:453
 #, qt-format
