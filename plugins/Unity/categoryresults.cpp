@@ -46,7 +46,7 @@ CategoryResults::CategoryResults(QObject* parent)
     m_roles[CategoryResults::RoleComment] = "comment";
     m_roles[CategoryResults::RoleDndUri] = "dndUri";
     m_roles[CategoryResults::RoleMetadata] = "metadata";
-    m_roles[CategoryResults::RoleMetadataScopeDisabled] = "scopeDisabled";
+    m_roles[CategoryResults::RoleRendererHints] = "rendererHints";
 }
 
 int CategoryResults::categoryIndex() const
@@ -94,14 +94,16 @@ CategoryResults::data(const QModelIndex& index, int role) const
             return DeeListModel::data(index, ResultsColumn::DND_URI);
         case RoleMetadata:
             return DeeListModel::data(index, ResultsColumn::METADATA);
-        // FIXME nasty hack while we don't support annotated icons
-        case RoleMetadataScopeDisabled: {
+        case RoleRendererHints:
+        {
             QVariantHash hash(DeeListModel::data(index, ResultsColumn::METADATA).toHash());
             if (hash.contains("content")) {
+                QVariantMap hints;
                 QVariantHash innerHash(hash["content"].toHash());
                 if (innerHash.contains("scope_disabled")) {
-                    return innerHash["scope_disabled"];
+                    hints["scope_disabled"] = innerHash["scope_disabled"];
                 }
+                return hints.empty() ? QVariant() : QVariant::fromValue(hints);
             }
             return QVariant();
         }
