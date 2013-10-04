@@ -86,7 +86,7 @@ ScopeView {
                     right: parent.right
                 }
 
-                source: getRenderer(model.renderer, model.contentType)
+                source: getRenderer(model.renderer, model.contentType, model.rendererHint)
 
                 onLoaded: {
                     if (item.enableHeightBehavior !== undefined && item.enableHeightBehaviorOnNextCreation !== undefined) {
@@ -200,7 +200,7 @@ ScopeView {
         }
     }
 
-    function getRenderer(rendererId, contentType) {
+    function getRenderer(rendererId, contentType, rendererHint) {
         if (rendererId == "default") {
             rendererId = getDefaultRendererId(contentType);
         }
