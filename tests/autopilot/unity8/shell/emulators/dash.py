@@ -18,17 +18,22 @@
 #
 
 from unity8.shell.emulators import UnityEmulatorBase
-
+from time import sleep
 
 class Dash(UnityEmulatorBase):
 
     """An emulator that understands the Dash."""
 
     def get_home_applications_grid(self):
-        return self.get_scope('home').select_single(
-            "GenericFilterGrid",
-            objectName="applications.scope"
-        )
+        for i in range(1,10):
+            get_grid = self.get_scope('home').select_single(
+                "GenericFilterGrid",
+                objectName="applications.scope"
+            )
+            if get_grid != None:
+                break
+            sleep(1)
+        return get_grid
 
     def get_application_icon(self, text):
         """Returns a 'Tile' icon that has the text 'text' from the application
@@ -40,7 +45,11 @@ class Dash(UnityEmulatorBase):
 
         """
         app_grid = self.get_home_applications_grid()
-        resp_grid = app_grid.select_single('ResponsiveGridView')
+        for i in range(1,10):
+            resp_grid = app_grid.select_single('ResponsiveGridView')
+            if resp_grid != None:
+                break
+            sleep(1)
         return resp_grid.select_single('Tile', text=text)
 
     def get_scope(self, scope_name='home'):

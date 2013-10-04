@@ -34,7 +34,6 @@ class UNITYINDICATORS_EXPORT IndicatorsModel : public QAbstractListModel
     Q_OBJECT
     Q_ENUMS(Roles)
     Q_PROPERTY(int count READ count NOTIFY countChanged)
-    Q_PROPERTY(QVariant indicatorData READ indicatorData WRITE setIndicatorData NOTIFY indicatorDataChanged)
 
 public:
 
@@ -53,9 +52,6 @@ public:
     QModelIndex parent (const QModelIndex &index) const;
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
 
-    void setIndicatorData(const QVariant& data);
-    QVariant indicatorData() const;
-
 
 Q_SIGNALS:
     void countChanged();
@@ -71,13 +67,9 @@ private:
     IndicatorsManager *m_manager;
 
     QList<Indicator::Ptr> m_indicators;
-    QVariant m_indicator_data;
-    QMap<QString, QVariantMap> m_parsed_indicator_data;
 
     void notifyDataChanged(QObject *sender, int role);
     int count() const;
-    QVariant indicatorData(const Indicator::Ptr& indicator, int role) const;
-    static QVariant defaultData(Indicator::Ptr indicator, int role);
 };
 
 #endif // INDICATORSMODEL_H

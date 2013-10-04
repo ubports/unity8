@@ -26,12 +26,14 @@ IndicatorBase {
     id: main
 
     //const
+    property bool contentActive: false
+    property string title: rootActionState.title
     property alias emptyText: emptyLabel.text
     property alias highlightFollowsCurrentItem : mainMenu.highlightFollowsCurrentItem
 
     Indicators.UnityMenuModelStack {
         id: menuStack
-        head: main.menuModel
+        head: contentActive ? main.menuModel : null
     }
 
     ListView {
@@ -162,15 +164,15 @@ IndicatorBase {
     function start()
     {
         reset()
-        if (!active) {
-            active = true;
+        if (!contentActive) {
+            contentActive = true;
         }
     }
 
     function stop()
     {
-        if (active) {
-            active = false;
+        if (contentActive) {
+            contentActive = false;
         }
     }
 

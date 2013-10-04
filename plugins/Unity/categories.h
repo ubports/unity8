@@ -50,6 +50,7 @@ public:
         RoleIcon,
         RoleRenderer,
         RoleContentType,
+        RoleRendererHint,
         RoleProgressSource,
         RoleHints,
         RoleResults,

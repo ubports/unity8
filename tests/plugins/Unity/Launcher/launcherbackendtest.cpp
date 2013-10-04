@@ -37,7 +37,7 @@ private Q_SLOTS:
 
     void testFileNames()
     {
-        LauncherBackend backend(false);
+        LauncherBackend backend;
 
         backend.setStoredApplications(QStringList() << "rel-icon" << "abs-icon" << "invalid");
         QCOMPARE(backend.storedApplications(), QStringList() << "rel-icon" << "abs-icon");
@@ -45,7 +45,7 @@ private Q_SLOTS:
 
     void testPinning()
     {
-        LauncherBackend backend(false);
+        LauncherBackend backend;
 
         backend.setStoredApplications(QStringList() << "rel-icon" << "abs-icon");
         QCOMPARE(backend.isPinned("rel-icon"), false);
@@ -82,7 +82,7 @@ private Q_SLOTS:
         QFETCH(QString, appId);
         QFETCH(QString, expectedIcon);
 
-        LauncherBackend backend(false);
+        LauncherBackend backend;
         backend.setStoredApplications(QStringList() << appId);
 
         QCOMPARE(backend.icon(appId), expectedIcon);
