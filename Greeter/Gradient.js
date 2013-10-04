@@ -15,8 +15,12 @@
  */
 
 function threeColorByIndex(index, total, colors) {
-    var red, green, blue
-    var p = index / total
+    var red, green, blue;
+    var p = 0.0;
+
+    if(total > 0) {
+        p = index / total;
+    }
 
     if (p < 0.5) {
         red = (colors.main.r * p * 2.0) + colors.start.r * (0.5 - p) * 2.0;
@@ -28,5 +32,5 @@ function threeColorByIndex(index, total, colors) {
         blue = colors.end.b * (p - 0.5) * 2.0 + colors.main.b * (1.0 - p) * 2.0;
     }
 
-    return Qt.rgba(red, green, blue, 1)
+    return Qt.rgba(red, green, blue, 1);
 }

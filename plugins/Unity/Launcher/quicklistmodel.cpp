@@ -32,7 +32,7 @@ QuickListModel::~QuickListModel()
 
 void QuickListModel::appendAction(const QuickListEntry &entry)
 {
-    beginInsertRows(QModelIndex(), m_list.count() - 1, m_list.count() -1);
+    beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
     m_list.append(entry);
     endInsertRows();
 }

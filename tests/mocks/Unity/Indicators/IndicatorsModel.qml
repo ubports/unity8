@@ -28,45 +28,35 @@ ListModel {
     // which throws off the filter for non-visible indicators.
     Component.onCompleted: {
         append({    "identifier": "indicator-fake1",
-                    "priority": 0,
-                    "title": "Menu1",
-                    "description": "",
+                    "position": 0,
                     "widgetSource": "qrc:/tests/indciators/qml/fake_menu_widget1.qml",
                     "pageSource": "qrc:/tests/indciators/qml/fake_menu_page1.qml",
                     "indicatorProperties": ""
         });
 
         append({    "identifier": "indicator-fake2",
-                    "priority": 1,
-                    "title": "Menu2",
-                    "description": "",
+                    "position": 1,
                     "widgetSource": "qrc:/tests/indciators/qml/fake_menu_widget2.qml",
                     "pageSource": "qrc:/tests/indciators/qml/fake_menu_page2.qml",
                     "indicatorProperties": ""
         });
 
         append({    "identifier": "indicator-fake3",
-                    "priority": 2,
-                    "title": "Menu3",
-                    "description": "",
+                    "position": 2,
                     "widgetSource": "qrc:/tests/indciators/qml/fake_menu_widget3.qml",
                     "pageSource": "qrc:/tests/indciators/qml/fake_menu_page3.qml",
                     "indicatorProperties": ""
         });
 
         append({    "identifier": "indicator-fake4",
-                    "priority": 3,
-                    "title": "Menu4",
-                    "description": "",
+                    "position": 3,
                     "widgetSource": "qrc:/tests/indciators/qml/fake_menu_widget4.qml",
                     "pageSource": "qrc:/tests/indciators/qml/fake_menu_page4.qml",
                     "indicatorProperties": ""
         });
 
         append({    "identifier": "indicator-fake5",
-                    "priority": 4,
-                    "title": "Menu5",
-                    "description": "",
+                    "position": 4,
                     "widgetSource": "qrc:/tests/indciators/qml/fake_menu_widget5.qml",
                     "pageSource": "qrc:/tests/indciators/qml/fake_menu_page5.qml",
                     "indicatorProperties": ""

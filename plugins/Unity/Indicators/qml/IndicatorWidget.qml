@@ -23,12 +23,6 @@ import Unity.Indicators 0.1 as Indicators
 IndicatorBase {
     id: indicatorWidget
 
-    active: true
     enabled: false
     property int iconSize: height - units.gu(0.5)
-
-    property var actionState: Indicators.RootActionState {
-        menu: menuModel
-        onUpdated: indicatorWidget.actionStateChanged()
-    }
 }
