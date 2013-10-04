@@ -47,8 +47,6 @@ Item {
     property real selectedItemScaleFactor: 1.1
     /// The index of the item that should be highlighted
     property alias highlightIndex: listView.highlightIndex
-    /// The column count is required for API compatibility with FilterGrids
-    readonly property int columns: listView.count
     /// exposes the delegate of the currentItem
     readonly property alias currentItem: listView.currentItem
 
