@@ -1,16 +1,16 @@
-# Galician translation for unity
+# Asturian translation for unity8
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the unity package.
+# This file is distributed under the same license as the unity8 package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity\n"
+"Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-10-01 09:43+0200\n"
-"PO-Revision-Date: 2013-10-03 18:49+0000\n"
-"Last-Translator: Marcos Lans <Unknown>\n"
-"Language-Team: Galician <gl@li.org>\n"
+"PO-Revision-Date: 2013-10-03 14:02+0000\n"
+"Last-Translator: ivarela <ivarela@ubuntu.com>\n"
+"Language-Team: Asturian <ast@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: Applications/applications.js:23
 msgid "Phone"
-msgstr "Teléfono"
+msgstr "Teléfonu"
 
 #: Applications/applications.js:29
 msgid "Camera"
@@ -48,19 +48,19 @@ msgstr "GMail"
 
 #: Applications/applications.js:62
 msgid "Weather"
-msgstr "O tempo"
+msgstr "Meteoroloxía"
 
 #: Applications/applications.js:68
 msgid "Notepad"
-msgstr "Bloc de notas"
+msgstr "Bloc de notes"
 
 #: Applications/applications.js:74
 msgid "Calendar"
-msgstr "Calendario"
+msgstr "Calendariu"
 
 #: Applications/applications.js:80
 msgid "Media Player"
-msgstr "Reprodutor multimedia"
+msgstr "Reproductor multimedia"
 
 #: Applications/applications.js:86
 msgid "Evernote"
@@ -68,7 +68,7 @@ msgstr "Evernote"
 
 #: Applications/applications.js:91
 msgid "Map"
-msgstr "Mapa"
+msgstr "Map"
 
 #: Applications/applications.js:96
 msgid "Pinterest"
@@ -88,55 +88,57 @@ msgstr "YouTube"
 
 #: Components/EdgeDemoOverlay.qml:150
 msgid "Skip intro"
-msgstr "Saltar introdución"
+msgstr "Omitir la intro"
 
 #: Components/EdgeDemo.qml:112
 msgid "Right edge"
-msgstr "Bordo dereito"
+msgstr "Berbesu drechu"
 
 #: Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr "Probe o arrastre desde o bordo dereito para desbloquear o teléfono"
+msgstr "Esliza'l deu dende'l berbesu drechu pa desbloquiar el teléfonu"
 
 #: Components/EdgeDemo.qml:144
 msgid "Top edge"
-msgstr "Bordo superior"
+msgstr "Berbesu superior"
 
 #: Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
-msgstr "Esvare desde o bordo superior para acceder aos indicadores."
+msgstr "Esliza'l deu dende'l berbesu superior p'acceder a los menús"
 
 #: Components/EdgeDemo.qml:170
 msgid "Close"
-msgstr "Pechar"
+msgstr "Zarrar"
 
 #: Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
-msgstr "Esvare cara a arriba para pechar os axustes"
+msgstr "Esliza hacia arriba pa zarrar la pantalla d'axustes"
 
 #: Components/EdgeDemo.qml:198
 msgid "Left edge"
-msgstr "Bordo esquerdo"
+msgstr "Berbesu esquierdu"
 
 #: Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr "Esvare desde a esquerda para mostrar o iniciador de acceso rápido"
+msgstr ""
+"Esliza'l deu dende la esquierda p'amosar el llanzador y acceder rápidamente "
+"a les aplicaciones"
 
 #: Components/EdgeDemo.qml:226
 msgid "Well done"
-msgstr "Ben feito"
+msgstr "Bien fecho"
 
 #: Components/EdgeDemo.qml:227
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap anywhere to start"
 msgstr ""
-"Xa domina os xestos desde os bordos e pode comezar a usar o "
-"móbil<br><br>Toque en calquera sitio para comezar"
+"Agora domines los xestos de berbesos y pues usar el teléfonu<br><br>Toca la "
+"pantalla pa entamar"
 
 #: Components/PageHeader.qml:298
 msgid "Recent searches"
-msgstr "Buscas recentes"
+msgstr "Busques recientes"
 
 #. TRANSLATORS: Number of persons who rated this app
 #: Dash/Apps/AppInfo.qml:73
@@ -149,24 +151,24 @@ msgstr "(%1)"
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
-msgstr[0] "%1 opinión"
-msgstr[1] "%1 opinións"
+msgstr[0] "%1 reseña"
+msgstr[1] "%1 reseñes"
 
 #: Dash/Apps/AppPreview.qml:178
 msgid "Rate this"
-msgstr "Valore isto"
+msgstr "Valorar esto"
 
 #: Dash/Apps/AppReviews.qml:74
 msgid "Add a review"
-msgstr "Engadir unha opinión"
+msgstr "Amestar una reseña"
 
 #: Dash/Apps/AppReviews.qml:86
 msgid "Review"
-msgstr "Opinión"
+msgstr "Revisar"
 
 #: Dash/Apps/AppReviews.qml:121
 msgid "Send"
-msgstr "Enviar"
+msgstr "Unviar"
 
 #: Dash/Apps/AppReviews.qml:139
 msgid "Comments:"
@@ -174,19 +176,19 @@ msgstr "Comentarios:"
 
 #: Dash/DashMusic.qml:27 Dash/DashVideos.qml:28
 msgid "Featured"
-msgstr "Destacado"
+msgstr "Destacaos"
 
 #: Dash/DashMusic.qml:28 Dash/DashVideos.qml:29
 msgid "Recent"
-msgstr "Recentes"
+msgstr "Recientes"
 
 #: Dash/DashMusic.qml:29 Dash/DashVideos.qml:30
 msgid "New Releases"
-msgstr "Novas versións"
+msgstr "Llanzamientos nuevos"
 
 #: Dash/DashMusic.qml:30
 msgid "Top Charting"
-msgstr ""
+msgstr "Meyor posicionaes"
 
 #: Dash/DashMusic.qml:91
 msgid "Music"
@@ -194,7 +196,7 @@ msgstr "Música"
 
 #: Dash/DashVideos.qml:31
 msgid "Popular Online"
-msgstr "Populares en liña"
+msgstr "Populares en llinia"
 
 #: Dash/DashVideos.qml:146
 msgid "Videos"
@@ -202,11 +204,11 @@ msgstr "Vídeos"
 
 #: Dash/Video/VideoPreview.qml:130
 msgid "Directed by:"
-msgstr "Dirixido por"
+msgstr "Dirixida por:"
 
 #: Dash/Video/VideoPreview.qml:153
 msgid "Starring:"
-msgstr "Favoritos"
+msgstr "Protagonistes:"
 
 #: Dash/Video/VideoPreview.qml:176
 msgid "Author:"
@@ -214,16 +216,16 @@ msgstr "Autor:"
 
 #: Greeter/Lockscreen.qml:142
 msgid "Emergency Call"
-msgstr "Chamada de emerxencia"
+msgstr "Llamada d'emerxencia"
 
 #: Greeter/PassphraseLockscreen.qml:59
 #, qt-format
 msgid "Hello %1"
-msgstr "Ola %1"
+msgstr "Hola %1"
 
 #: Greeter/PassphraseLockscreen.qml:59
 msgid "Hello"
-msgstr "Ola"
+msgstr "Hola"
 
 #: Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
@@ -231,15 +233,15 @@ msgstr "Confirmar"
 
 #: Hud/Hud.qml:61 Hud/Hud.qml:99 Hud/Hud.qml:372
 msgid "Type or say a command"
-msgstr "Escriba ou diga unha orde"
+msgstr "Escribi o di una orde"
 
 #: Hud/Hud.qml:84
 msgid "Loading. Please Wait..."
-msgstr "Cargando. Agarde…"
+msgstr "Cargando, espera…"
 
 #: Hud/Hud.qml:89
 msgid "Speak Now..."
-msgstr "Fale agora…"
+msgstr "Fala agora…"
 
 #: Hud/Hud.qml:94
 msgid "Speaking..."
@@ -247,17 +249,17 @@ msgstr "Falando…"
 
 #: Panel/SearchIndicator.qml:27
 msgid "Search"
-msgstr "Buscar"
+msgstr "Guetar"
 
 #: plugins/Unity/scope.cpp:336
 msgid "Sorry, there is nothing that matches your search."
-msgstr "Sentímolo, non hai nada que coincida con esta busca."
+msgstr "Sentímoslo, nun hai res que concase cola gueta"
 
 #: plugins/Unity/showallfilteroption.cpp:41
 msgid "All"
-msgstr "Todo"
+msgstr "Too"
 
 #: Shell.qml:453
 #, qt-format
 msgid "Please enter %1"
-msgstr "Introduza %1"
+msgstr "Introduz %1"
