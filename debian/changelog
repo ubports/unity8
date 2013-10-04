@@ -1,8 +1,83 @@
-unity8 (7.82) UNRELEASED; urgency=low
+unity8 (7.82+13.10.20131004.1-0ubuntu1) saucy; urgency=low
 
+  [ Michał Sawicz ]
   * Bump to indicate support for extended snap decisions.
+  * Make Tile themeable, add renderers for Dash Plugins and weather.
+    (LP: #1231948)
+  * Drop network agents now that they're in indicator-network instead.
 
- -- Michał Sawicz <michal.sawicz@canonical.com>  Thu, 03 Oct 2013 14:20:23 +0200
+  [ Michal Hruby ]
+  * Differentiate generic and music carousels.
+  * Use the thumbnailer image provider for scope results that don't
+    specify icon as well as for previews.
+  * Added an indicator which is displayed in the search bar whenever a
+    search is in progress. Added accompanying test in tst_PageHeader.
+  * Expose rendererHint to shell.
+
+  [ Albert Astals ]
+  * Update pot file. (LP: #1232374)
+  * Only enable the animation when the item is on screen (i.e. !culled)
+    . (LP: #1200374)
+  * Do not crash on positionAtBeginning if the list is empty .
+  * Enable/disable running apps height animation in a less error prone
+    way.
+
+  [ Michael Terry ]
+  * Use a chevron after 'Skip intro' and drop the underlining.
+  * Load testability driver when QT_LOAD_TESTABILITY is set. (LP:
+    #1226234)
+  * Listen to the system setting StatsWelcomeScreen, which tells us
+    whether to show user-specific infographic data in the greeter. (LP:
+    #1207857)
+
+  [ Gerry Boland ]
+  * WM: ensure focusedApplicationWhenUsingScreenshots reset when unused,
+    and only used when set. Fixes window focus conflict between shell
+    and ApplicationManager.
+
+  [ Nick Dedekind ]
+  * Removed deprecated Unity.IndicatorsLegacy plugin.
+  * Added actionState parser to the indicators-client text printer so
+    that we get the icon.
+  * Moved indicator page titles to the root action state of menu model.
+    (LP: #1223635)
+
+  [ Mirco Müller ]
+  * Added rendering- and interaction-support for the first three
+    extended snap-decision dialog-cases password-entry, user-
+    authentication and simunlock.
+
+  [ Daniel d'Andrada ]
+  * Revert the reversion of r304 since it doesn't seem to crash anymore
+    Original commit was Reset apps scope when returning from app to dash
+    (LP #1193419) If an app is on foreground and you perform a long
+    left-edge swipe to minimize it, and therefore return to the dash,
+    the dash should be in the Applications scope and showing the
+    running/recents applications. (LP: #1193419)
+
+  [ Andrea Cimitan ]
+  * Add behaviours to the hud reveal. (LP: #1224480, #1224633)
+  * Make Tile themeable, add renderers for Dash Plugins and weather.
+    (LP: #1231948)
+
+  [ Michael Zanetti ]
+  * fix inserting into quicklistmodel.
+  * Drop useStorage argument and use exising LAUNCHER_TESTING define for
+    this decision.
+
+  [ Omer Akram ]
+  * Make the volume/brightness slider changes realtime. (LP: #1227595)
+
+  [ Nicolas d'Offay ]
+  * Fixed black colour on the first of the month due to division. (LP:
+    #1233657)
+  * Added an indicator which is displayed in the search bar whenever a
+    search is in progress. Added accompanying test in tst_PageHeader.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 390
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 04 Oct 2013 06:55:16 +0000
 
 unity8 (7.81.3+13.10.20130927.3-0ubuntu1) saucy; urgency=low
 
