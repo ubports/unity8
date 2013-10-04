@@ -170,10 +170,7 @@ Item {
                                 leftMargin: units.gu(0.5)
                             }
 
-                            running: scope.searchInProgress && searchField.text !== ""
-                            opacity: running ? 1 : 0
-
-                            Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration; easing.type: Easing.Linear } }
+                            running: opacity > 0
                         }
 
                         Image {
@@ -187,9 +184,6 @@ Item {
                             width: units.gu(3)
                             height: units.gu(3)
                             visible: opacity > 0
-                            opacity: searchIndicator.running ? 0 : 1
-
-                            Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration; easing.type: Easing.Linear } }
                         }
 
                         Item {
@@ -208,6 +202,32 @@ Item {
                     onActiveFocusChanged: {
                         if (!activeFocus) searchContainer.closePopover()
                     }
+
+                    states: [
+                        State {
+                            name: "searching"
+                            when: scope.searchInProgress && searchField.text !== ""
+                            PropertyChanges { target: searchIndicator; running: true; opacity: 1 }
+                            PropertyChanges { target: primaryImage; opacity: 0 }
+                        },
+                        State {
+                            name: "idle"
+                            when: !scope.searchInProgress || searchField.text === ""
+                            PropertyChanges { target: searchIndicator; opacity: 0 }
+                            PropertyChanges { target: primaryImage; opacity: 1 }
+                        }
+                    ]
+
+                    transitions: [
+                        Transition {
+                            to: "searching"
+                            reversible: true
+                            SequentialAnimation {
+                                NumberAnimation { target: primaryImage; property: "opacity"; duration: UbuntuAnimation.FastDuration; easing.type: Easing.Linear }
+                                NumberAnimation { target: searchIndicator; property: "opacity"; duration: UbuntuAnimation.FastDuration; easing.type: Easing.Linear }
+                            }
+                        }
+                    ]
                 }
 
                 states: [

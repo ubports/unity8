@@ -64,15 +64,15 @@ Item {
 
         function test_set_username_data() {
             return [
-                { username: "has-password" },
-                { username: "no-password" },
-                { username: "empty-name" }
+                { username: "has-password", label: "<b>19</b> minutes talk time" },
+                { username: "two-factor", label: "No data" },
+                { username: "", label: "No data" },
             ]
         }
 
         function test_set_username(data) {
             infographicModel.username = data.username
-            tryCompare(label, "text", "<b>19</b> minutes talk time")
+            tryCompare(label, "text", data.label)
         }
     }
 

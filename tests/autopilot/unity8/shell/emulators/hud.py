@@ -21,36 +21,35 @@ from collections import namedtuple
 
 from unity8 import get_grid_size
 from unity8.shell.emulators import UnityEmulatorBase
+from unity8.shell import DragMixin
 from autopilot.input import Touch
-
 
 SwipeCoords = namedtuple('SwipeCoords', 'start_x end_x start_y end_y')
 
-
-class Hud(UnityEmulatorBase):
+class Hud(UnityEmulatorBase, DragMixin):
 
     """An emulator that understands the Hud."""
 
     def show(self):
         """Swipes open the Hud."""
-        touch = Touch.create()
+        self.touch = Touch.create()
 
         window = self.get_root_instance().select_single('QQuickView')
         hud_show_button = window.select_single("HudButton")
 
         swipe_coords = self.get_button_swipe_coords(window, hud_show_button)
 
-        touch.press(swipe_coords.start_x, swipe_coords.start_y)
-        touch._finger_move(swipe_coords.end_x, swipe_coords.end_y)
+        self.touch.press(swipe_coords.start_x, swipe_coords.start_y)
+        self._drag(swipe_coords.start_x, swipe_coords.start_y, swipe_coords.start_x, swipe_coords.end_y)
         try:
             hud_show_button.opacity.wait_for(1.0)
-            touch.release()
+            self.touch.release()
             self.shown.wait_for(True)
         except AssertionError:
             raise
         finally:
-            if touch._touch_finger is not None:
-                touch.release()
+            if self.touch._touch_finger is not None:
+                self.touch.release()
 
     def dismiss(self):
         """Closes the open Hud."""

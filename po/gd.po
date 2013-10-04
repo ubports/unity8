@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-08-27 13:36-0400\n"
+"POT-Creation-Date: 2013-10-01 09:43+0200\n"
 "PO-Revision-Date: 2013-09-30 10:34+0000\n"
 "Last-Translator: Akerbeltz <fios@akerbeltz.org>\n"
 "Language-Team: Gaelic; Scottish <gd@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
 "(n > 2 && n < 20) ? 2 : 3;\n"
-"X-Launchpad-Export-Date: 2013-10-01 05:53+0000\n"
+"X-Launchpad-Export-Date: 2013-10-02 06:03+0000\n"
 "X-Generator: Launchpad (build 16774)\n"
 
 #: Applications/applications.js:23
@@ -87,57 +87,57 @@ msgstr "An Uicipeid"
 msgid "YouTube"
 msgstr "YouTube"
 
-#: Components/EdgeDemoOverlay.qml:145
+#: Components/EdgeDemoOverlay.qml:150
 msgid "Skip intro"
 msgstr "Gearr leum thairis air an ro-ràdh"
 
-#: Components/EdgeDemo.qml:98
+#: Components/EdgeDemo.qml:112
 msgid "Right edge"
 msgstr "An oir dheas"
 
-#: Components/EdgeDemo.qml:99
+#: Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
 msgstr ""
 "Feuch is dèan grad-shlaighdeadh a-steach on oir dheas gus a' ghlas a thoirt "
 "far an fhòn"
 
-#: Components/EdgeDemo.qml:135
+#: Components/EdgeDemo.qml:144
 msgid "Top edge"
 msgstr "An oir aig a' bharr"
 
-#: Components/EdgeDemo.qml:136
+#: Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
 msgstr ""
 "Feuch is dèan grad-shlaighdeadh a-steach on oir aig a' bharr gus greim "
 "fhaighinn air na taisbeanairean"
 
-#: Components/EdgeDemo.qml:161
+#: Components/EdgeDemo.qml:170
 msgid "Close"
 msgstr "Dùin"
 
-#: Components/EdgeDemo.qml:162
+#: Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
 msgstr "Dèan grad-shlaighdeadh a-nìos gus sgrìn nan roghainnean a dhùnadh"
 
-#: Components/EdgeDemo.qml:189
+#: Components/EdgeDemo.qml:198
 msgid "Left edge"
 msgstr "An oir chlì"
 
-#: Components/EdgeDemo.qml:190
+#: Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr ""
 "Dèan grad-shlaighdeadh on oir chlì air an lòinseir a bheir dhut cothrom "
 "luath air na h-aplacaidean"
 
-#: Components/EdgeDemo.qml:217
+#: Components/EdgeDemo.qml:226
 msgid "Well done"
 msgstr "Gasta!"
 
-#: Components/EdgeDemo.qml:218
-msgid "You have now mastered the edge gestures and can start using the phone"
+#: Components/EdgeDemo.qml:227
+msgid ""
+"You have now mastered the edge gestures and can start using the "
+"phone<br><br>Tap anywhere to start"
 msgstr ""
-"Dh'ionnsaich thu mar a dh'obraicheas na gluasadan air an oir agus is urrainn "
-"dhut am fòn a chleachdadh a-nis"
 
 #: Components/PageHeader.qml:298
 msgid "Recent searches"
@@ -159,23 +159,23 @@ msgstr[1] "%1 lèirmheas"
 msgstr[2] "%1 lèirmheasan"
 msgstr[3] "%1 lèirmheas"
 
-#: Dash/Apps/AppPreview.qml:175
+#: Dash/Apps/AppPreview.qml:178
 msgid "Rate this"
 msgstr "Rangaich seo"
 
-#: Dash/Apps/AppReviews.qml:72
+#: Dash/Apps/AppReviews.qml:74
 msgid "Add a review"
 msgstr "Cuir lèirmheas ris"
 
-#: Dash/Apps/AppReviews.qml:84
+#: Dash/Apps/AppReviews.qml:86
 msgid "Review"
 msgstr "Lèirmheas"
 
-#: Dash/Apps/AppReviews.qml:118
+#: Dash/Apps/AppReviews.qml:121
 msgid "Send"
 msgstr "Cuir"
 
-#: Dash/Apps/AppReviews.qml:136
+#: Dash/Apps/AppReviews.qml:139
 msgid "Comments:"
 msgstr "Beachdan"
 
@@ -219,7 +219,7 @@ msgstr "Leis na daoine a leanas:"
 msgid "Author:"
 msgstr "Ùghdar:"
 
-#: Greeter/Lockscreen.qml:134
+#: Greeter/Lockscreen.qml:142
 msgid "Emergency Call"
 msgstr "Gairm èiginn"
 
@@ -256,11 +256,15 @@ msgstr "A' bruidhinn..."
 msgid "Search"
 msgstr "Lorg"
 
-#: plugins/Unity/scope.cpp:317
+#: plugins/Unity/scope.cpp:336
 msgid "Sorry, there is nothing that matches your search."
 msgstr "Tha sinn duilich ach chan eil dad a' freagairt ris na lorg thu."
 
-#: Shell.qml:429
+#: plugins/Unity/showallfilteroption.cpp:41
+msgid "All"
+msgstr ""
+
+#: Shell.qml:453
 #, qt-format
 msgid "Please enter %1"
 msgstr "Cuir a-steach %1"
