@@ -215,7 +215,6 @@ ScopeView {
         if (rendererId == "default") {
             rendererId = getDefaultRendererId(contentType);
         }
-        return "Generic/GenericCarousel.qml";
         switch (rendererId) {
             case "grid": {
                 switch (contentType) {
@@ -433,7 +432,7 @@ ScopeView {
             top: previewListView.bottom
             left: parent.left
             leftMargin: previewListView.categoryDelegate.currentItem ?
-                            previewListView.categoryDelegate.currentItem.center - (width + margins) / 2 : 0
+                            previewListView.categoryDelegate.currentItem.center + (-width + margins) / 2 : 0
 
             Behavior on leftMargin {
                 UbuntuNumberAnimation {}
