@@ -212,7 +212,10 @@ class UnityTestCase(AutopilotTestCase):
         qml_import_path = [get_mocks_library_path()]
         if os.getenv('QML2_IMPORT_PATH') is not None:
             qml_import_path.insert(0, os.getenv('QML2_IMPORT_PATH'))
-        self.patch_environment('QML2_IMPORT_PATH', ':'.join(mocks_library_path))
+
+        qml_import_path = ':'.join(qml_import_path)
+        logger.info("New QML2 import path: %s", qml_import_path)
+        self.patch_environment('QML2_IMPORT_PATH', qml_import_path)
 
     def _set_proxy(self, proxy):
         """Keep a copy of the proxy object, so we can use it to get common
