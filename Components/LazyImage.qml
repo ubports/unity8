@@ -81,7 +81,6 @@ Item {
     UbuntuShape {
         id: shape
         objectName: "shape"
-        // w : h = i.w : i.h
         height: root.initialHeight
         width: root.initialWidth
 
