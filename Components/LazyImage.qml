@@ -52,7 +52,9 @@ Item {
         id: placeholder
         objectName: "placeholder"
         color: "#22FFFFFF"
-        anchors.fill: parent
+        width: shape.width
+        height: shape.height
+        anchors.centerIn: shape
         visible: opacity != 0
 
         ActivityIndicator {
@@ -79,7 +81,11 @@ Item {
     UbuntuShape {
         id: shape
         objectName: "shape"
-        anchors.fill: parent
+        // w : h = i.w : i.h
+        height: root.initialHeight
+        width: root.initialWidth
+
+        anchors.centerIn: root.scaleTo == "fit" ? parent : undefined
         opacity: 0
         visible: opacity != 0
 
@@ -88,16 +94,19 @@ Item {
             objectName: "image"
 
             property url nextSource
+            property string format: image.implicitWidth > image.implicitHeight ? "landscape" : "portrait"
 
-            width: root.scaleTo == "height" ? implicitWidth * root.height / implicitHeight : implicitWidth
-            height: root.scaleTo == "width" ? implicitHeight * root.width / implicitWidth : implicitHeight
-            fillMode: Image.PreserveAspectCrop
+            fillMode: Image.PreserveAspectFit
             asynchronous: true
             cache: false
             horizontalAlignment: Image.AlignHCenter
             verticalAlignment: Image.AlignVCenter
-            sourceSize.width: root.scaleTo == "width" ? root.width : 0
-            sourceSize.height: root.scaleTo == "height" ? root.height : 0
+            sourceSize.width: root.scaleTo == "width" ? root.width
+                                : root.scaleTo == "fit" && root.width < root.height ? root.width
+                                : undefined
+            sourceSize.height: root.scaleTo == "height" ? root.height
+                                : root.scale == "fit" && root.height < root.width ? root.height
+                                : undefined
         }
     }
 
@@ -107,6 +116,7 @@ Item {
             when: image.source == ""
             PropertyChanges { target: root; implicitWidth: root.initialWidth; implicitHeight: root.initialHeight }
             PropertyChanges { target: errorImage; opacity: 0 }
+            PropertyChanges { target: placeholder; width: root.initialWidth; height: root.initialHeight }
         },
         State {
             name: "loading"
@@ -117,9 +127,14 @@ Item {
         State {
             name: "ready"
             when: image.status === Image.Ready && image.source != ""
-            PropertyChanges { target: root; implicitWidth: image.width; implicitHeight: image.height }
-            PropertyChanges { target: shape; opacity: 1 }
+            PropertyChanges { target: root; implicitWidth: shape.width; implicitHeight: shape.height }
             PropertyChanges { target: placeholder; opacity: 0 }
+            PropertyChanges { target: shape; opacity: 1
+                width: root.scaleTo == "width" || (root.scaleTo == "fit" && image.format == "landscape") ? root.width
+                    : root.scaleTo == "" ?  image.implicitWidth : image.implicitWidth * height / image.implicitHeight
+                height: root.scaleTo == "height" || (root.scaleTo == "fit" && image.format == "portrait") ? root.height
+                    : root.scaleTo == "" ? image.implicitHeight : image.implicitHeight * width / image.implicitWidth
+            }
         },
         State {
             name: "error"
@@ -138,6 +153,8 @@ Item {
                 ParallelAnimation {
                     NumberAnimation { target: shape; property: "opacity"; easing.type: Easing.Linear }
                     UbuntuNumberAnimation { target: root; properties: "implicitWidth,implicitHeight" }
+                    UbuntuNumberAnimation { target: shape; properties: "width,height" }
+                    UbuntuNumberAnimation { target: placeholder; properties: "width,height" }
                     NumberAnimation {
                         targets: [placeholder, activity, errorImage]; property: "opacity";
                         easing.type: Easing.Linear; duration: UbuntuAnimation.SnapDuration
@@ -157,6 +174,8 @@ Item {
                         easing.type: Easing.Linear; duration: UbuntuAnimation.SnapDuration
                     }
                     UbuntuNumberAnimation { target: root; properties: "implicitWidth,implicitHeight" }
+                    UbuntuNumberAnimation { target: shape; properties: "width,height" }
+                    UbuntuNumberAnimation { target: placeholder; properties: "width,height" }
                 }
                 PropertyAction { target: shape; property: "visible" }
             }
