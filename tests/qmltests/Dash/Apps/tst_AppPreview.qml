@@ -42,6 +42,7 @@ Item {
     QtObject { id: rated; property int value: 120 }
     QtObject { id: reviews; property int value: 8 }
     QtObject { id: progress; property string value: "source" }
+    QtObject { id: publisher; property string value: "Ubuntu Developer" }
     QtObject { id: comments; property var value: [
             ["Unity User", 4, "08/20/2013", root.commentary],
             ["Unity User", 8, "01/15/2013", root.commentary],
@@ -62,7 +63,8 @@ Item {
         property var infoMap: {
             "more-screenshots": screenshots,
             "rated": rated,
-            "comments": comments
+            "comments": comments,
+            "publisher": publisher
         }
         property var actions: [
             { "id": 123, "displayName": "action1" },
@@ -84,6 +86,7 @@ Item {
             "more-screenshots": screenshots,
             "rated": rated,
             "comments": comments,
+            "publisher": publisher,
             "progressbar_source": progressSource
         }
         property var actions: [
@@ -109,32 +112,45 @@ Item {
         name: "AppPreview"
         when: windowShown
 
+        function init() {
+            waitForRendering(appPreview)
+        }
+
         function cleanup() {
             root.calls = new Array();
             sendPreviewSpy.clear();
-            var reviewField = findChild(appPreview, "reviewField");
-            reviewField.focus = false;
-            reviewField.text = "";
-            data.rating = rating.value;
+            // TODO: This doesn't work right now as Reviews are disabled
+            //var reviewField = findChild(appPreview, "reviewField");
+            //reviewField.focus = false;
+            //reviewField.text = "";
+            //data.rating = rating.value;
             dataProgress.infoMap["progressbar_source"].value = "service";
-            var appReviews = findChild(appPreview, "appReviews");
-            appReviews.visible = false;
-            appPreview.keyboardSize = 0;
+            //var appReviews = findChild(appPreview, "appReviews");
+            //appReviews.visible = false;
+            //appPreview.keyboardSize = 0;
         }
 
         function test_actions() {
-            var buttons = findChild(appPreview, "gridButtons");
+            var buttons = findChild(appPreview, "buttonList");
             compare(buttons.count, 3, "Not the proper amount of actions detected.");
 
             for(var i = 0; i < buttons.count; i++) {
-                buttons.currentIndex = i;
-                buttons.currentItem.clicked();
+                var button = findChild(appPreview, "button" + i);
+                mouseClick(button, 1, 1);
             }
 
             var actions = data.actions;
             for(var i = 0; i < actions.length; i++) {
                 compare(root.calls[i][0], actions[i].id, "Id of action not found.");
             }
+        }
+
+        function test_check_app_info() {
+            var appInfo = findChild(appPreview, "previewHeader");
+            var titleLabel = findChild(appInfo, "titleLabel");
+            var subtitleLabel = findChild(appInfo, "subtitleLabel");
+            compare(titleLabel.text, data.title, "App Title doesn't match.");
+            compare(subtitleLabel.text, publisher.value, "Publisher name doesn't match.");
         }
 
         function test_rated() {
@@ -147,13 +163,16 @@ Item {
             compare(rated.text, "8 reviews", "Reviews don't match");
         }
 
-        function test_send_review() {
+        // TODO: Disabled as reviewing and commenting is currently disabled
+/*        function test_send_review() {
             var appReviews = findChild(appPreview, "appReviews");
             appReviews.sendReview("review");
             sendPreviewSpy.wait();
         }
 
         function test_review_focus() {
+            var columnReviewRating = findChild(appPreview, "columnReviewRating");
+            columnReviewRating.visible = true;
             var appReviews = findChild(appPreview, "appReviews");
             appReviews.visible = true;
             var sendButton = findChild(appReviews, "sendButton");
@@ -194,6 +213,22 @@ Item {
             verify(buttons.visible == true);
         }
 
+        function test_automatic_scroll_on_keyboard_shown() {
+            waitForRendering(appPreview);
+            var appReviews = findChild(appPreview, "appReviews");
+            appReviews.visible = true;
+
+            var leftFlickable = findChild(appPreview, "leftFlickable");
+            leftFlickable.contentY = leftFlickable.contentHeight;
+            var reviewField = findChild(appReviews, "reviewField");
+            appPreview.keyboardSize = 400;
+            appReviews.editing(reviewField);
+            var newFlickPos = leftFlickable.contentY;
+            var keyboardY = shell.height - appPreview.keyboardSize;
+            verify(newFlickPos < keyboardY);
+        }
+
+*/
         function test_progress_show() {
             appPreview.previewData = dataProgress;
             var progress = findChild(appPreview, "progressBar");
@@ -220,20 +255,17 @@ Item {
             compare(root.calls[0][1], {"error": "DOWNLOAD ERROR"}, "Data of action not found.");
         }
 
-        function test_automatic_scroll_on_keyboard_shown() {
-            waitForRendering(appPreview);
-            var appReviews = findChild(appPreview, "appReviews");
-            appReviews.visible = true;
+        function test_placeholderScreenshot() {
+            var placeholderScreenshot = findChild(appPreview, "placeholderScreenshot");
+            compare(placeholderScreenshot.visible, false);
 
-            var leftFlickable = findChild(appPreview, "leftFlickable");
-            leftFlickable.contentY = leftFlickable.contentHeight;
-            var reviewField = findChild(appReviews, "reviewField");
-            appPreview.keyboardSize = 400;
-            appReviews.editing(reviewField);
-            var newFlickPos = leftFlickable.contentY;
-            var keyboardY = shell.height - appPreview.keyboardSize;
-            verify(newFlickPos < keyboardY);
+            data.infoMap["more-screenshots"] = [];
+            appPreview.previewData = data;
+            tryCompare(placeholderScreenshot, "visible", true);
+
+            data.infoMap["more-screenshots"] = screenshots;
+            appPreview.previewData = data;
+            tryCompare(placeholderScreenshot, "visible", false);
         }
-
     }
 }

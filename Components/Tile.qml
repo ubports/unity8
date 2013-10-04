@@ -25,10 +25,14 @@ AbstractButton {
     property string text
     property int imageWidth
     property int imageHeight
-    opacity: GridView.view.highlightIndex === -1 ? 1 :
-                GridView.view.highlightIndex === index ? 0.6 : 0.2
     readonly property int center: (index % GridView.view.columns * width) + (width / 2)
     property int maximumLineCount: 1
+    opacity: GridView.view.highlightIndex === -1 ? 1 :
+                GridView.view.highlightIndex === index ? 0.6 : 0.2
 
     style: TileStyle {}
+
+    Behavior on opacity {
+        UbuntuNumberAnimation {}
+    }
 }
