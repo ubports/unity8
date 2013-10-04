@@ -81,8 +81,8 @@ Item {
         objectName: "shape"
         height: root.initialHeight
         width: root.initialWidth
-
         anchors.centerIn: root.scaleTo == "fit" ? parent : undefined
+
         opacity: 0
         visible: opacity != 0
 
