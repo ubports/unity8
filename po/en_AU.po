@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-08-27 13:36-0400\n"
+"POT-Creation-Date: 2013-10-01 09:43+0200\n"
 "PO-Revision-Date: 2013-09-28 07:46+0000\n"
 "Last-Translator: Jared Norris <jarednorris@ubuntu.com>\n"
 "Language-Team: English (Australia) <en_AU@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-09-29 06:18+0000\n"
+"X-Launchpad-Export-Date: 2013-10-02 06:03+0000\n"
 "X-Generator: Launchpad (build 16774)\n"
 
 #: Applications/applications.js:23
@@ -86,50 +86,51 @@ msgstr "Wikipedia"
 msgid "YouTube"
 msgstr "YouTube"
 
-#: Components/EdgeDemoOverlay.qml:145
+#: Components/EdgeDemoOverlay.qml:150
 msgid "Skip intro"
 msgstr "Skip intro"
 
-#: Components/EdgeDemo.qml:98
+#: Components/EdgeDemo.qml:112
 msgid "Right edge"
 msgstr "Right edge"
 
-#: Components/EdgeDemo.qml:99
+#: Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
 msgstr "Try swiping from the right edge to unlock the phone"
 
-#: Components/EdgeDemo.qml:135
+#: Components/EdgeDemo.qml:144
 msgid "Top edge"
 msgstr "Top edge"
 
-#: Components/EdgeDemo.qml:136
+#: Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
 msgstr "Try swiping from the top edge to access the indicators"
 
-#: Components/EdgeDemo.qml:161
+#: Components/EdgeDemo.qml:170
 msgid "Close"
 msgstr "Close"
 
-#: Components/EdgeDemo.qml:162
+#: Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
 msgstr "Swipe up again to close the settings screen"
 
-#: Components/EdgeDemo.qml:189
+#: Components/EdgeDemo.qml:198
 msgid "Left edge"
 msgstr "Left edge"
 
-#: Components/EdgeDemo.qml:190
+#: Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr "Swipe from the left to reveal the launcher for quick access to apps"
 
-#: Components/EdgeDemo.qml:217
+#: Components/EdgeDemo.qml:226
 msgid "Well done"
 msgstr "Well done"
 
-#: Components/EdgeDemo.qml:218
-msgid "You have now mastered the edge gestures and can start using the phone"
+#: Components/EdgeDemo.qml:227
+msgid ""
+"You have now mastered the edge gestures and can start using the "
+"phone<br><br>Tap anywhere to start"
 msgstr ""
-"You have now mastered the edge gestures and can start using the phone"
 
 #: Components/PageHeader.qml:298
 msgid "Recent searches"
@@ -149,23 +150,23 @@ msgid_plural "%1 reviews"
 msgstr[0] "%1 review"
 msgstr[1] "%1 reviews"
 
-#: Dash/Apps/AppPreview.qml:175
+#: Dash/Apps/AppPreview.qml:178
 msgid "Rate this"
 msgstr "Rate this"
 
-#: Dash/Apps/AppReviews.qml:72
+#: Dash/Apps/AppReviews.qml:74
 msgid "Add a review"
 msgstr "Add a review"
 
-#: Dash/Apps/AppReviews.qml:84
+#: Dash/Apps/AppReviews.qml:86
 msgid "Review"
 msgstr "Review"
 
-#: Dash/Apps/AppReviews.qml:118
+#: Dash/Apps/AppReviews.qml:121
 msgid "Send"
 msgstr "Send"
 
-#: Dash/Apps/AppReviews.qml:136
+#: Dash/Apps/AppReviews.qml:139
 msgid "Comments:"
 msgstr "Comments:"
 
@@ -209,7 +210,7 @@ msgstr "Starring:"
 msgid "Author:"
 msgstr "Author:"
 
-#: Greeter/Lockscreen.qml:134
+#: Greeter/Lockscreen.qml:142
 msgid "Emergency Call"
 msgstr "Emergency Call"
 
@@ -246,11 +247,15 @@ msgstr "Speaking..."
 msgid "Search"
 msgstr "Search"
 
-#: plugins/Unity/scope.cpp:317
+#: plugins/Unity/scope.cpp:336
 msgid "Sorry, there is nothing that matches your search."
 msgstr "Sorry, there is nothing that matches your search."
 
-#: Shell.qml:429
+#: plugins/Unity/showallfilteroption.cpp:41
+msgid "All"
+msgstr ""
+
+#: Shell.qml:453
 #, qt-format
 msgid "Please enter %1"
 msgstr "Please enter %1"

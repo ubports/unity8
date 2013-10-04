@@ -103,9 +103,8 @@ class UnityTestCase(AutopilotTestCase):
         width = getattr(self, 'app_width', 0)
         height = getattr(self, 'app_height', 0)
         scale_divisor = 1
-        if width == 0 and width == 0:
-            self.unity_geometry_args = ['-fullscreen']
-        else:
+        self.unity_geometry_args = []
+        if width > 0 and height > 0:
             if self._geo_larger_than_display(width, height):
                 scale_divisor = self._get_scaled_down_geo(width, height)
                 width = width / scale_divisor

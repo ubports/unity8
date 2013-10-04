@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-08-27 13:36-0400\n"
+"POT-Creation-Date: 2013-10-01 09:43+0200\n"
 "PO-Revision-Date: 2013-09-28 07:54+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2013-09-29 06:18+0000\n"
+"X-Launchpad-Export-Date: 2013-10-02 06:03+0000\n"
 "X-Generator: Launchpad (build 16774)\n"
 
 #: Applications/applications.js:23
@@ -87,53 +87,54 @@ msgstr "Вікіпедія"
 msgid "YouTube"
 msgstr "YouTube"
 
-#: Components/EdgeDemoOverlay.qml:145
+#: Components/EdgeDemoOverlay.qml:150
 msgid "Skip intro"
 msgstr "Пропустити вступ"
 
-#: Components/EdgeDemo.qml:98
+#: Components/EdgeDemo.qml:112
 msgid "Right edge"
 msgstr "Правий край"
 
-#: Components/EdgeDemo.qml:99
+#: Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
 msgstr "Спробуйте провести пальцем від правою краю, щоб розблокувати телефон"
 
-#: Components/EdgeDemo.qml:135
+#: Components/EdgeDemo.qml:144
 msgid "Top edge"
 msgstr "Верхній край"
 
-#: Components/EdgeDemo.qml:136
+#: Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
 msgstr ""
 "Спробуйте провести пальцем від верхнього краю, щоб розблокувати телефон"
 
-#: Components/EdgeDemo.qml:161
+#: Components/EdgeDemo.qml:170
 msgid "Close"
 msgstr "Закрити"
 
-#: Components/EdgeDemo.qml:162
+#: Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
 msgstr "Проведіть пальцем ще раз, щоб закрити вікно параметрів"
 
-#: Components/EdgeDemo.qml:189
+#: Components/EdgeDemo.qml:198
 msgid "Left edge"
 msgstr "Лівий край"
 
-#: Components/EdgeDemo.qml:190
+#: Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr ""
 "Проведіть пальцем від лівого краю, щоб відкрити панель запуску для "
 "пришвидшення доступу до програм"
 
-#: Components/EdgeDemo.qml:217
+#: Components/EdgeDemo.qml:226
 msgid "Well done"
 msgstr "Добре"
 
-#: Components/EdgeDemo.qml:218
-msgid "You have now mastered the edge gestures and can start using the phone"
+#: Components/EdgeDemo.qml:227
+msgid ""
+"You have now mastered the edge gestures and can start using the "
+"phone<br><br>Tap anywhere to start"
 msgstr ""
-"Вами налаштовано жести від країв, ви можете почати користуватися телефоном"
 
 #: Components/PageHeader.qml:298
 msgid "Recent searches"
@@ -154,23 +155,23 @@ msgstr[0] "%1 рецензія"
 msgstr[1] "%1 рецензії"
 msgstr[2] "%1 рецензій"
 
-#: Dash/Apps/AppPreview.qml:175
+#: Dash/Apps/AppPreview.qml:178
 msgid "Rate this"
 msgstr "Оцінити"
 
-#: Dash/Apps/AppReviews.qml:72
+#: Dash/Apps/AppReviews.qml:74
 msgid "Add a review"
 msgstr "Додати рецензію"
 
-#: Dash/Apps/AppReviews.qml:84
+#: Dash/Apps/AppReviews.qml:86
 msgid "Review"
 msgstr "Рецензія"
 
-#: Dash/Apps/AppReviews.qml:118
+#: Dash/Apps/AppReviews.qml:121
 msgid "Send"
 msgstr "Надіслати"
 
-#: Dash/Apps/AppReviews.qml:136
+#: Dash/Apps/AppReviews.qml:139
 msgid "Comments:"
 msgstr "Коментарі:"
 
@@ -214,7 +215,7 @@ msgstr "Актори:"
 msgid "Author:"
 msgstr "Автор:"
 
-#: Greeter/Lockscreen.qml:134
+#: Greeter/Lockscreen.qml:142
 msgid "Emergency Call"
 msgstr "Терміновий виклик"
 
@@ -251,11 +252,15 @@ msgstr "Мовлення…"
 msgid "Search"
 msgstr "Пошук"
 
-#: plugins/Unity/scope.cpp:317
+#: plugins/Unity/scope.cpp:336
 msgid "Sorry, there is nothing that matches your search."
 msgstr "Вибачте, для вказаних вами ключових слів нічого не знайдено."
 
-#: Shell.qml:429
+#: plugins/Unity/showallfilteroption.cpp:41
+msgid "All"
+msgstr ""
+
+#: Shell.qml:453
 #, qt-format
 msgid "Please enter %1"
 msgstr "Будь ласка, введіть %1"

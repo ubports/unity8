@@ -102,10 +102,16 @@ void RootActionState::updateActionState()
     Q_EMIT updated();
 }
 
-
 bool RootActionState::isValid() const
 {
     return m_menu && m_menu->rowCount() > 0;
+}
+
+QString RootActionState::title() const
+{
+    if (!isValid()) return QString();
+
+    return m_cachedState.value("title", QVariant::fromValue(QString())).toString();
 }
 
 QString RootActionState::leftLabel() const

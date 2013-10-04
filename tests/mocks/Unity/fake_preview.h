@@ -36,7 +36,6 @@ class Q_DECL_EXPORT Preview : public QObject
     Q_PROPERTY(QVariant infoHints READ infoHints NOTIFY previewChanged)
     Q_PROPERTY(QVariantMap infoMap READ infoHintsHash NOTIFY previewChanged)
     Q_PROPERTY(QString image READ image NOTIFY previewChanged)
-    Q_PROPERTY(QString imageSourceUri READ imageSourceUri NOTIFY previewChanged)
 
 public:
     explicit Preview(QObject *parent = 0);
@@ -49,7 +48,6 @@ public:
     QVariant infoHints();
     QVariantMap infoHintsHash() const;
     QString image() const;
-    QString imageSourceUri() const;
 
     Q_INVOKABLE void execute(const QString& actionId, const QHash<QString, QVariant>& hints);
 

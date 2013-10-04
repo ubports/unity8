@@ -1816,6 +1816,14 @@ private Q_SLOTS:
         verifyItem(0, -50., 800., false);
     }
 
+    void positionAtBeginningEmpty()
+    {
+        QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 0), Q_ARG(QVariant, 6));
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 0);
+
+        lvwph->positionAtBeginning();
+    }
+
 private:
     QQuickView *view;
     ListViewWithPageHeader *lvwph;
