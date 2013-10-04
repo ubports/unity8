@@ -109,24 +109,14 @@ void Categories::onCategoryOrderChanged(std::vector<unsigned int> cat_order)
         }
         
         if (static_cast<int>(pos) != old_pos) {
-            m_categoryOrder.move(old_pos, pos);
             int target_pos = pos;
-            //if (pos > old_pos)
-            //    target_pos = target_pos - old_pos;
-            bool status = beginMoveRows(QModelIndex(), old_pos, old_pos, QModelIndex(), target_pos);
-            if (status != true)
-                qWarning("!!!!!!!!!!!!!!!!!!!!!!!");
-            
-            qDebug() << "Moving category" << cat <<
-                DeeListModel::data(createIndex(cat, 0),CategoryColumn::DISPLAY_NAME).toString()
-                     << ":" << old_pos << "->" << pos << target_pos << "g";
+            const bool status = beginMoveRows(QModelIndex(), old_pos, old_pos, QModelIndex(), target_pos);
+            if (status)
+                m_categoryOrder.move(old_pos, pos);
+            else
+                qWarning("beginMoveRows failed");         
             endMoveRows();
         }
-    }
-
-    Q_FOREACH(auto cat, m_categoryOrder)
-    {
-        qDebug() << "Category" <<  DeeListModel::data(createIndex(cat, 0),CategoryColumn::DISPLAY_NAME).toString();
     }
 }
 
@@ -150,7 +140,6 @@ Categories::onCountChanged()
     if (results) {
         if (!m_updatedCategories.contains(results->categoryIndex())) {
             m_updatedCategories << results->categoryIndex();
-            qDebug() << "Updated count of" << results->categoryIndex();
         }
         m_timer.start();
     }
@@ -158,7 +147,6 @@ Categories::onCountChanged()
 
 void Categories::onRowCountChanged()
 {
-    qDebug() << "Overriden model updated";
     QAbstractItemModel* model = qobject_cast<QAbstractItemModel*>(sender());
     // find the corresponding category index
     for (auto iter = m_overriddenCategories.begin(); iter != m_overriddenCategories.end(); ++iter) {
@@ -170,7 +158,6 @@ void Categories::onRowCountChanged()
                 QVector<int> roles;
                 roles.append(RoleCount);
                 QModelIndex changedIndex = index(i);
-                qDebug() << "Overriden model" << id << "count update at index" << i;
                 Q_EMIT dataChanged(changedIndex, changedIndex, roles);
                 break;
             }
@@ -295,11 +282,9 @@ Categories::data(const QModelIndex& index, int role) const
                 auto id = DeeListModel::data(realIndex, CategoryColumn::ID).toString();
                 if (m_overriddenCategories.find(id) != m_overriddenCategories.end())
                 {
-                    qDebug() << "Get count of overriden cat" << realRow << id << "at pos" << index.row() << "Count=" << m_overriddenCategories[id]->rowCount();
                     return QVariant::fromValue(m_overriddenCategories[id]->rowCount());
                 }
             }
-            qDebug() << "Get count of cat" << DeeListModel::data(realIndex, CategoryColumn::ID).toString() << realRow << "at pos" << index.row() << "Count=" << getResults(realIndex.row())->rowCount();
             return QVariant::fromValue(getResults(realRow)->rowCount());
         default:
             return QVariant();
