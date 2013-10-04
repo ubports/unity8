@@ -63,10 +63,11 @@ Item {
         when: windowShown
 
         function init() {
+            waitForRendering(moviePreview);
             root.calls = new Array();
         }
 
-        function test_numofbuttons() {
+        function test_actions() {
             var buttons = findChild(moviePreview, "buttonList");
             compare(buttons.count, 3);
 
