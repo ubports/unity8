@@ -93,7 +93,7 @@ void Categories::onCategoriesModelChanged(unity::glib::Object<DeeModel> model)
       delete model;
     }
     m_results.clear();
-    
+
     setModel(model);
 }
 
@@ -108,14 +108,14 @@ void Categories::onCategoryOrderChanged(std::vector<unsigned int> cat_order)
             qWarning() << "No such category index:" << cat;
             continue;
         }
-        
+
         if (static_cast<int>(pos) != old_pos) {
             int target_pos = pos;
             const bool status = beginMoveRows(QModelIndex(), old_pos, old_pos, QModelIndex(), target_pos);
             if (status)
                 m_categoryOrder.move(old_pos, pos);
             else
-                qWarning("beginMoveRows failed");         
+                qWarning("beginMoveRows failed");
             endMoveRows();
         }
     }
@@ -245,7 +245,7 @@ Categories::data(const QModelIndex& index, int role) const
         qWarning() << "Invalid index" << index.row();
         return QVariant();
     }
-    
+
     const QModelIndex realIndex = createIndex(realRow, index.column());
 
     switch (role) {
@@ -282,7 +282,7 @@ Categories::data(const QModelIndex& index, int role) const
                     return QVariant::fromValue(m_overriddenCategories[id]);
             }
             return QVariant::fromValue(getResults(realRow));
-        case RoleCount:            
+        case RoleCount:
             if (m_overriddenCategories.size() > 0)
             {
                 auto id = DeeListModel::data(realIndex, CategoryColumn::ID).toString();
