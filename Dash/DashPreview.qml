@@ -31,7 +31,7 @@ Rectangle {
     property Component description
     property Component ratings
 
-    readonly property bool narrowMode: width <= height
+    readonly property bool narrowMode: width <= height * 1.5
     readonly property int columnWidth: narrowMode ? contentRow.width : (contentRow.width / 3) - contentRow.spacing
     readonly property int contentSpacing: units.gu(3)
 
