@@ -28,8 +28,10 @@ Page {
     anchors.fill: parent
     title: "Plugin list"
 
-    IndicatorsDataModel {
+    Indicators.IndicatorsModel {
         id: indicatorsModel
+
+        Component.onCompleted: load()
     }
 
     ListView {
