@@ -188,7 +188,7 @@ class UnityTestCase(AutopilotTestCase):
             self._get_lightdm_mock_path(mock_type)
         ]
         if os.getenv('LD_LIBRARY_PATH') is not None:
-            new_ld_library_path.insert(0, os.getenv('LD_LIBRARY_PATH'))
+            new_ld_library_path.append(os.getenv('LD_LIBRARY_PATH'))
 
         new_ld_library_path = ':'.join(new_ld_library_path)
         logger.info("New library path: %s", new_ld_library_path)
@@ -211,7 +211,7 @@ class UnityTestCase(AutopilotTestCase):
     def _setup_extra_mock_environment_patch(self):
         qml_import_path = [get_mocks_library_path()]
         if os.getenv('QML2_IMPORT_PATH') is not None:
-            qml_import_path.insert(0, os.getenv('QML2_IMPORT_PATH'))
+            qml_import_path.append(os.getenv('QML2_IMPORT_PATH'))
 
         qml_import_path = ':'.join(qml_import_path)
         logger.info("New QML2 import path: %s", qml_import_path)
