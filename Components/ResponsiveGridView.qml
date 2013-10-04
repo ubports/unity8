@@ -41,6 +41,7 @@ Item {
     readonly property alias moving: gridView.moving
     readonly property alias pressDelay: gridView.pressDelay
     property alias highlightIndex: gridView.highlightIndex
+    readonly property alias currentItem: gridView.currentItem
 
     function contentHeightForRows(rows) {
         return rows * cellHeight + verticalSpacing
@@ -56,7 +57,6 @@ Item {
             topMargin: verticalSpacing
         }
         clip: parent.height != totalContentHeight
-        property int highlightIndex: -1
 
         function pixelToGU(value) {
             return Math.floor(value / units.gu(1));
@@ -78,8 +78,15 @@ Item {
         property real horizontalSpacing: spacingForColumns(columns)
         property real verticalSpacing: horizontalSpacing
         property int margin: allocatableHorizontalSpace - columns * horizontalSpacing
+        property int highlightIndex: -1
 
         cellWidth: delegateWidth + horizontalSpacing
         cellHeight: delegateHeight + verticalSpacing
+
+        onHighlightIndexChanged: {
+            if (highlightIndex != -1) {
+                currentIndex = highlightIndex
+            }
+        }
     }
 }

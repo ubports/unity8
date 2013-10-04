@@ -49,8 +49,8 @@ Item {
     property alias highlightIndex: listView.highlightIndex
     /// The column count is required for API compatibility with FilterGrids
     readonly property int columns: listView.count
-    /// Indicates that this component automatically centers the highlighted item
-    readonly property bool highlightCentered: true
+    /// exposes the delegate of the currentItem
+    readonly property alias currentItem: listView.currentItem
 
     /// Emitted when the user clicked on an item
     /// @param index is the index of the clicked item
@@ -147,13 +147,9 @@ Item {
         flickDeceleration: Math.max(1500 * Math.pow(realWidth / referenceWidth, 1.5), 1500) // 1500 is platform default
         maximumFlickVelocity: Math.max(2500 * Math.pow(realWidth / referenceWidth, 1.5), 2500) // 2500 is platform default
         orientation: ListView.Horizontal
-        currentIndex: highlightIndex
-        highlightFollowsCurrentItem: true
-        preferredHighlightBegin: (width - tileWidth) * 0.5
-        preferredHighlightEnd: (width - tileWidth) * 0.5
-        highlightRangeMode: highlightIndex != -1 ? ListView.StrictlyEnforceRange : ListView.NoHighlightRange
 
         function itemClicked(index, delegateItem) {
+            listView.currentIndex = index
             var x = CarouselJS.getXFromContinuousIndex(index,
                                                        realWidth,
                                                        realContentWidth,
@@ -199,6 +195,12 @@ Item {
 
             newContentX = x;
             newContentXAnimation.start();
+        }
+
+        onHighlightIndexChanged: {
+            if (highlightIndex != -1) {
+                itemClicked(highlightIndex)
+            }
         }
 
         onMovementStarted: {
@@ -284,6 +286,9 @@ Item {
                                                                                itemTranslationScale,
                                                                                listView.maximumItemTranslation)
 
+            readonly property real xTransform: listView.viewTranslation + translationX * listView.scaleFactor
+            readonly property real center: x - listView.contentX + xTransform - drawBuffer + (width/2)
+
             width: listView.tileWidth
             height: listView.tileHeight
             scale: itemScale * explicitScaleFactor
@@ -292,7 +297,7 @@ Item {
             opacity: highlightIndex == -1 ? 1 : (highlightIndex == index ? 0.6 : 0.2)
 
             transform: Translate {
-                x: listView.viewTranslation + translationX * listView.scaleFactor
+                x: xTransform
             }
 
             Behavior on explicitScaleFactor {

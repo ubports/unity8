@@ -215,6 +215,7 @@ ScopeView {
         if (rendererId == "default") {
             rendererId = getDefaultRendererId(contentType);
         }
+        return "Generic/GenericCarousel.qml";
         switch (rendererId) {
             case "grid": {
                 switch (contentType) {
@@ -431,18 +432,15 @@ ScopeView {
         anchors {
             top: previewListView.bottom
             left: parent.left
-            leftMargin: previewListView.categoryDelegate.highlightCentered ?
-                            (parent.width - width) / 2 :
-                            (highlightColumn * cellWidth) + (-width + cellWidth + margins) / 2
+            leftMargin: previewListView.categoryDelegate.currentItem ?
+                            previewListView.categoryDelegate.currentItem.center - (width + margins) / 2 : 0
+
             Behavior on leftMargin {
                 UbuntuNumberAnimation {}
             }
         }
         height: units.gu(1)
         width: units.gu(2)
-        property int columns: previewListView.categoryDelegate ? previewListView.categoryDelegate.columns : 1
-        property int highlightColumn: previewListView.currentIndex % columns
-        property int cellWidth: previewListView.categoryDelegate ? previewListView.categoryDelegate.cellWidth : 0
         property int margins: previewListView.categoryDelegate ? previewListView.categoryDelegate.margins : 0
         opacity: previewListView.open ? .5 : 0
 

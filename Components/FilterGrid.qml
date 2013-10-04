@@ -62,7 +62,7 @@ Item {
     readonly property alias moving: iconTileGrid.moving
     readonly property alias pressDelay: iconTileGrid.pressDelay
     property alias highlightIndex: iconTileGrid.highlightIndex
-    readonly property bool highlightCentered: false
+    readonly property alias currentItem: iconTileGrid.currentItem
 
     height: !filterAnimation.running ? childrenRect.height : height
     clip: filterAnimation.running
