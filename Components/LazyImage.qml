@@ -52,9 +52,7 @@ Item {
         id: placeholder
         objectName: "placeholder"
         color: "#22FFFFFF"
-        width: shape.width
-        height: shape.height
-        anchors.centerIn: shape
+        anchors.fill: shape
         visible: opacity != 0
 
         ActivityIndicator {
@@ -115,7 +113,6 @@ Item {
             when: image.source == ""
             PropertyChanges { target: root; implicitWidth: root.initialWidth; implicitHeight: root.initialHeight }
             PropertyChanges { target: errorImage; opacity: 0 }
-            PropertyChanges { target: placeholder; width: root.initialWidth; height: root.initialHeight }
         },
         State {
             name: "loading"
@@ -153,7 +150,6 @@ Item {
                     NumberAnimation { target: shape; property: "opacity"; easing.type: Easing.Linear }
                     UbuntuNumberAnimation { target: root; properties: "implicitWidth,implicitHeight" }
                     UbuntuNumberAnimation { target: shape; properties: "width,height" }
-                    UbuntuNumberAnimation { target: placeholder; properties: "width,height" }
                     NumberAnimation {
                         targets: [placeholder, activity, errorImage]; property: "opacity";
                         easing.type: Easing.Linear; duration: UbuntuAnimation.SnapDuration
@@ -174,7 +170,6 @@ Item {
                     }
                     UbuntuNumberAnimation { target: root; properties: "implicitWidth,implicitHeight" }
                     UbuntuNumberAnimation { target: shape; properties: "width,height" }
-                    UbuntuNumberAnimation { target: placeholder; properties: "width,height" }
                 }
                 PropertyAction { target: shape; property: "visible" }
             }
