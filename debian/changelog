@@ -1,3 +1,24 @@
+unity8 (7.82+13.10.20131005-0ubuntu1) saucy; urgency=low
+
+  [ Michał Sawicz ]
+  * Revert r376 that caused constant CPU usage due to the
+    ActivityIndicator.
+
+  [ Nick Dedekind ]
+  * Removed indicators-client autopilot tests. (LP: #1234736)
+
+  [ Albert Astals ]
+  * Revert r388. (LP: #1235268)
+
+  [ Christopher Lee ]
+  * Removes passing -fullscreen to unity8 when on the device (as per bug
+    #1235065). (LP: #1235065)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 396
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Sat, 05 Oct 2013 11:45:14 +0000
+
 unity8 (7.82+13.10.20131004.2-0ubuntu1) saucy; urgency=low
 
   * Revert 7.82+13.10.20131004.1-0ubuntu1 back to
