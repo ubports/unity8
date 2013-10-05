@@ -28,7 +28,6 @@
 // libunity-core
 #include <UnityCore/Scope.h>
 #include <UnityCore/Results.h>
-#include <UnityCore/GLibWrapper.h>
 
 #include "categories.h"
 #include "filters.h"
@@ -44,7 +43,6 @@ class Scope : public QObject
     Q_PROPERTY(QString iconHint READ iconHint NOTIFY iconHintChanged)
     Q_PROPERTY(QString description READ description NOTIFY descriptionChanged)
     Q_PROPERTY(QString searchHint READ searchHint NOTIFY searchHintChanged)
-    Q_PROPERTY(bool searchInProgress READ searchInProgress NOTIFY searchInProgressChanged)
     Q_PROPERTY(bool visible READ visible NOTIFY visibleChanged)
     Q_PROPERTY(QString shortcut READ shortcut NOTIFY shortcutChanged)
     Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
@@ -67,7 +65,6 @@ public:
     bool visible() const;
     QString shortcut() const;
     bool connected() const;
-    bool searchInProgress() const;
     Categories* categories() const;
     Filters* filters() const;
     QString searchQuery() const;
@@ -98,11 +95,11 @@ Q_SIGNALS:
     void iconHintChanged(const std::string&);
     void descriptionChanged(const std::string&);
     void searchHintChanged(const std::string&);
-    void searchInProgressChanged();
     void visibleChanged(bool);
     void shortcutChanged(const std::string&);
     void connectedChanged(bool);
     void categoriesChanged();
+    void searchFinished(const std::string&, unity::glib::HintsMap const&, unity::glib::Error const&);
     void searchQueryChanged();
     void noResultsHintChanged();
     void formFactorChanged();
@@ -118,7 +115,7 @@ Q_SIGNALS:
 
 private Q_SLOTS:
     void synchronizeStates();
-    void onSearchFinished(std::string const &, unity::glib::HintsMap const &, unity::glib::Error const&);
+    void onSearchFinished(const std::string &, unity::glib::HintsMap const &);
 
 private:
     unity::dash::LocalResult createLocalResult(const QVariant &uri, const QVariant &icon_hint,
@@ -136,8 +133,6 @@ private:
     QString m_searchQuery;
     QString m_noResultsHint;
     QString m_formFactor;
-    bool m_searchInProgress;
-    unity::glib::Cancellable m_cancellable;
     unity::glib::Cancellable m_previewCancellable;
 };
 
