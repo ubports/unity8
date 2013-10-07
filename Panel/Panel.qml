@@ -121,7 +121,7 @@ Item {
                     return "hidden";
                 }
             }
-            if (root.searchVisible) {
+            if (root.searchVisible && !indicatorsMenu.showAll) {
                 return "visible";
             }
 

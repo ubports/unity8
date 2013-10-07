@@ -46,7 +46,7 @@ Item {
         }
         spacing: units.gu(1)
 
-        Behavior on opacity { StandardAnimation {} }
+        Behavior on opacity { StandardAnimation { duration: 300 } }
 
         Image {
             id: icon
