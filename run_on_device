@@ -43,7 +43,6 @@ start_ssh() {
 
 exec_with_ssh() {
     start_ssh
-    
     ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -t $USER@$TARGET_IP -p $TARGET_SSH_PORT sudo -u $USER -i bash -ic \"$@\"
 }
 
@@ -146,8 +145,6 @@ if [[ $status_output == "ssh start/running, process "* ]]; then
     SSH_WAS_STARTED=1
 fi
 SSH_STARTED=$SSH_WAS_STARTED
-
-echo "$SSH_WAS_STARTED $SSH_STARTED"
 
 if $SETUP; then
     echo "Setting up environment for building shell.."
