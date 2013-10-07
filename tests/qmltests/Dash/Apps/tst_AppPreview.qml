@@ -164,13 +164,15 @@ Item {
         }
 
         // TODO: Disabled as reviewing and commenting is currently disabled
-/*        function test_send_review() {
+        function test_send_review() {
+            skip();
             var appReviews = findChild(appPreview, "appReviews");
             appReviews.sendReview("review");
             sendPreviewSpy.wait();
         }
 
         function test_review_focus() {
+            skip();
             var columnReviewRating = findChild(appPreview, "columnReviewRating");
             columnReviewRating.visible = true;
             var appReviews = findChild(appPreview, "appReviews");
@@ -187,6 +189,7 @@ Item {
         }
 
         function test_comments() {
+            skip();
             var commentsArea = findChild(appPreview, "commentsArea");
             compare(commentsArea.count, 3);
             for(var i = 0; i < 3; i++) {
@@ -202,6 +205,7 @@ Item {
         }
 
         function test_negative_rating() {
+            skip();
             data.rating = -1.0;
             var rated = findChild(appPreview, "reviewsLabel");
             verify(rated.visible == false);
@@ -214,6 +218,7 @@ Item {
         }
 
         function test_automatic_scroll_on_keyboard_shown() {
+            skip();
             waitForRendering(appPreview);
             var appReviews = findChild(appPreview, "appReviews");
             appReviews.visible = true;
@@ -228,7 +233,6 @@ Item {
             verify(newFlickPos < keyboardY);
         }
 
-*/
         function test_progress_show() {
             appPreview.previewData = dataProgress;
             var progress = findChild(appPreview, "progressBar");
