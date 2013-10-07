@@ -17,6 +17,7 @@ SUDO="echo $PASSWORD | sudo -S"
 NUM_JOBS='$(( `grep -c ^processor /proc/cpuinfo` + 1 ))'
 FLIPPED=false
 CHROOT_PREFIX="/data/ubuntu"
+SSH_STARTED=0
 
 usage() {
     echo "usage: run_on_device [OPTIONS]\n"
@@ -32,7 +33,16 @@ usage() {
     exit 1
 }
 
+start_ssh() {
+    if [ $SSH_STARTED -eq 0 ]; then
+        exec_with_adb service ssh start
+        SSH_STARTED=1
+    fi
+}
+
 exec_with_ssh() {
+    start_ssh
+    
     ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -t $USER@$TARGET_IP -p $TARGET_SSH_PORT sudo -u $USER -i bash -ic \"$@\"
 }
 
@@ -66,7 +76,6 @@ setup_adb_forwarding() {
 
 install_dependencies() {
     exec_with_adb rm /etc/init/ssh.override
-    exec_with_adb service ssh start
     exec_with_adb apt-get update
     exec_with_ssh $SUDO apt-get -y install build-essential rsync bzr ccache gdb ninja-build devscripts equivs
 }
@@ -74,6 +83,7 @@ install_dependencies() {
 sync_code() {
     [ -e .bzr ] && bzr export --uncommitted --format=dir /tmp/$CODE_DIR
     [ -e .git ] && git checkout-index -a -f --prefix=/tmp/$CODE_DIR/
+    start_ssh
     rsync -crlOzv --delete --exclude builddir -e "ssh -p $TARGET_SSH_PORT -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" /tmp/$CODE_DIR/ $USER@$TARGET_IP:$CODE_DIR/
     rm -rf /tmp/$CODE_DIR
 }
