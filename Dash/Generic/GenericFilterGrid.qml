@@ -39,7 +39,10 @@ FilterGrid {
         text: model.title
         imageWidth: filtergrid.iconWidth
         imageHeight: filtergrid.iconHeight
+
         source: model.icon
+
+        fillMode: Image.PreserveAspectCrop
 
         onClicked: {
             filtergrid.clicked(index, filtergrid.model, tile.y)
