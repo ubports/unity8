@@ -535,7 +535,7 @@ FocusScope {
             // is active.  This usually indicates something like a phone call.
             if (status == Powerd.Off && (flags & Powerd.UseProximity) == 0) {
                 powerConnection.setFocused(false);
-                greeter.show();
+                greeter.showNow();
             } else if (status == Powerd.On) {
                 powerConnection.setFocused(true);
             }
