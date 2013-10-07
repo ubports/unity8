@@ -1,3 +1,14 @@
+unity8 (7.82+13.10.20131007-0ubuntu1) saucy; urgency=low
+
+  [ Michał Sawicz ]
+  * Respect pre-set import and library paths and prevent segfault in
+    startShell.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 399
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 07 Oct 2013 07:10:46 +0000
+
 unity8 (7.82+13.10.20131005-0ubuntu1) saucy; urgency=low
 
   [ Michał Sawicz ]
