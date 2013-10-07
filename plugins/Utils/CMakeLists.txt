@@ -2,10 +2,17 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
+    ${GST_INCLUDE_DIRS}
 )
 
+# Dependencies
+include(FindPkgConfig)
+pkg_search_module(GST gstreamer-1.0 REQUIRED)
+
 set(QMLPLUGIN_SRC
+    albumartprovider.cpp
     applicationpaths.h
+    mediaartcache.cpp
     qlimitproxymodelqml.cpp
     qsortfilterproxymodelqml.cpp
     ubuntuwindow.cpp
@@ -16,13 +23,17 @@ set(QMLPLUGIN_SRC
 add_library(Utils-qml SHARED
     ${QMLPLUGIN_SRC}
     )
+
+target_link_libraries(Utils-qml
+    ${GST_LDFLAGS}
+    )
 # Because this is an internal support library, we want
 # to expose all symbols in it. Consider changing this
 # either to a static library or just using the
 # files directly in targets.
 set_target_properties(Utils-qml PROPERTIES COMPILE_FLAGS -fvisibility=default)
 
-qt5_use_modules(Utils-qml Qml Quick DBus)
+qt5_use_modules(Utils-qml Qml Quick DBus Network XmlPatterns)
 
 # export the qmldir qmltypes and plugin files
 export_qmlfiles(Utils Utils)

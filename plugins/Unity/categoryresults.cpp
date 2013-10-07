@@ -81,8 +81,9 @@ CategoryResults::data(const QModelIndex& index, int role) const
         case RoleIconHint: {
             QString giconString(DeeListModel::data(index, ResultsColumn::ICON_HINT).toString());
             if (giconString.isEmpty()) {
+                QString mimetype(DeeListModel::data(index, ResultsColumn::MIMETYPE).toString());
                 QString uri(DeeListModel::data(index, ResultsColumn::URI).toString());
-                QString thumbnailerUri(uriToThumbnailerProviderString(uri));
+                QString thumbnailerUri(uriToThumbnailerProviderString(uri, mimetype));
                 if (!thumbnailerUri.isNull()) {
                     return QVariant::fromValue(thumbnailerUri);
                 }

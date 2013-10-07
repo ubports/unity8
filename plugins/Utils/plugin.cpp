@@ -24,6 +24,7 @@
 #include "plugin.h"
 
 // local
+#include "albumartprovider.h"
 #include "applicationpaths.h"
 #include "qlimitproxymodelqml.h"
 #include "qsortfilterproxymodelqml.h"
@@ -45,4 +46,11 @@ void UtilsPlugin::registerTypes(const char *uri)
     qmlRegisterType<UnityMenuModelPaths>(uri, 0, 1, "UnityMenuModelPaths");
     qmlRegisterExtendedType<QQuickWindow, UbuntuWindow>(uri, 0, 1, "Window");
     qmlRegisterSingletonType<ApplicationPaths>(uri, 0, 1, "ApplicationPaths", applicationsPathsSingleton);
+}
+
+void UtilsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
+{
+    QQmlExtensionPlugin::initializeEngine(engine, uri);
+
+    engine->addImageProvider(QLatin1String("albumart"), new AlbumArtProvider);
 }

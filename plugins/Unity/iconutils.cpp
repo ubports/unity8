@@ -25,6 +25,7 @@
 
 #define BASE_THEME_ICON_URI "image://theme/"
 #define BASE_THUMBNAILER_URI "image://thumbnailer/"
+#define BASE_ALBUMART_URI "image://albumart/"
 
 QString gIconToDeclarativeImageProviderString(QString const &giconString)
 {
@@ -91,10 +92,10 @@ QString gIconToDeclarativeImageProviderString(QString const &giconString)
     return result;
 }
 
-QString uriToThumbnailerProviderString(QString const &uri)
+QString uriToThumbnailerProviderString(QString const &uri, QString const &mimetype)
 {
     if (uri.startsWith(QLatin1String("file:///"))) {
-        QString thumbnailerUri(BASE_THUMBNAILER_URI);
+        QString thumbnailerUri(mimetype.startsWith(QLatin1String("audio/")) ? BASE_ALBUMART_URI : BASE_THUMBNAILER_URI);
         thumbnailerUri.append(uri.midRef(7));
         return thumbnailerUri;
     }
