@@ -280,32 +280,28 @@ Showable {
 
         EdgeDragArea {
             id: rowDragArea
-            anchors.fill: parent
+            anchors.fill: indicatorRow
             direction: Direction.Downwards
             maxSilenceTime: 2000
+            distanceThreshold: 0
 
             enabled: fullyOpened
             onDraggingChanged: {
                 if (dragging) {
                     initalizeItem = true;
                     updateRevealProgressState(Math.max(touchSceneY - panelHeight, hintValue), false);
+                    indicators.calculateCurrentItem(touchX, false);
                 } else {
                     indicators.state = "commit";
                 }
             }
 
             onTouchXChanged: {
-                if (touchSceneY - panelHeight > 0) {
-                    indicators.calculateCurrentItem(touchX, initalizeItem==false);
-                }
+                indicators.calculateCurrentItem(touchX, true);
             }
             onTouchSceneYChanged: {
                 updateRevealProgressState(Math.max(touchSceneY - panelHeight, hintValue), false);
                 yVelocityCalculator.trackedPosition = touchSceneY;
-
-                if (initalizeItem && touchSceneY - panelHeight > 0) {
-                    indicators.calculateCurrentItem(touchX, false);
-                }
             }
         }
     }
