@@ -57,7 +57,7 @@ fi
 # Force icon theme if running on the desktop, otherwise gnome theme (if running
 # on Ubuntu Desktop) will be used and icons won't be found
 if [ -n "$DESKTOP_SESSION" ]; then
-  export UBUNTU_ICON_THEME=ubuntu-mobile
+  export UBUNTU_ICON_THEME=ubuntu-mono-dark
 fi
 
 QML_PHONE_SHELL_ARGS=""
