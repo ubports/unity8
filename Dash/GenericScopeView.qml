@@ -190,6 +190,7 @@ ScopeView {
             width: categoryView.width
             text: scopeView.scope.name
             searchEntryEnabled: true
+            scope: scopeView.scope
         }
     }
 
