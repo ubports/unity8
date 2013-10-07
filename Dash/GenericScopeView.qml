@@ -190,7 +190,6 @@ ScopeView {
             width: categoryView.width
             text: scopeView.scope.name
             searchEntryEnabled: true
-            scope: scopeView.scope
         }
     }
 
@@ -209,13 +208,6 @@ ScopeView {
                 switch (contentType) {
                     case "video": return "Generic/GenericFilterGridPotrait.qml";
                     case "music": return "Music/MusicFilterGrid.qml";
-                    case "apps": {
-                        if (rendererHint == "toggled")
-                            return "Apps/DashPluginFilterGrid.qml";
-                        else
-                            return "Generic/GenericFilterGrid.qml";
-                    }
-                    case "weather": return "Generic/WeatherFilterGrid.qml";
                     default: return "Generic/GenericFilterGrid.qml";
                 }
             }

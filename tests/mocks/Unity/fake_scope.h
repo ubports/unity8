@@ -37,7 +37,6 @@ class Scope : public QObject
     Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
     Q_PROPERTY(Categories* categories READ categories NOTIFY categoriesChanged)
 
-    Q_PROPERTY(bool searchInProgress READ searchInProgress WRITE setSearchInProgress NOTIFY searchInProgressChanged)
     Q_PROPERTY(QString searchQuery READ searchQuery WRITE setSearchQuery NOTIFY searchQueryChanged)
     Q_PROPERTY(QString noResultsHint READ noResultsHint WRITE setNoResultsHint NOTIFY noResultsHintChanged)
     Q_PROPERTY(QString formFactor READ formFactor WRITE setFormFactor NOTIFY formFactorChanged)
@@ -55,7 +54,6 @@ public:
     bool visible() const;
     QString shortcut() const;
     bool connected() const;
-    bool searchInProgress() const;
     Categories* categories() const;
     QString searchQuery() const;
     QString noResultsHint() const;
@@ -66,7 +64,6 @@ public:
     void setSearchQuery(const QString& search_query);
     void setNoResultsHint(const QString& hint);
     void setFormFactor(const QString& form_factor);
-    void setSearchInProgress(const bool inProg);
 
     Q_INVOKABLE void activate(const QVariant &uri, const QVariant &icon_hint, const QVariant &category,
                               const QVariant &result_type, const QVariant &mimetype, const QVariant &title,
@@ -81,11 +78,11 @@ Q_SIGNALS:
     void iconHintChanged(const QString&);
     void descriptionChanged(const QString&);
     void searchHintChanged(const QString&);
-    void searchInProgressChanged();
     void visibleChanged(bool);
     void shortcutChanged(const QString&);
     void connectedChanged(bool);
     void categoriesChanged();
+    void searchFinished(const QString&);
     void searchQueryChanged();
     void noResultsHintChanged();
     void formFactorChanged();
@@ -106,7 +103,6 @@ protected:
     QString m_noResultsHint;
     QString m_formFactor;
     bool m_visible;
-    bool m_searching;
 
     Categories* m_categories;
     DeeListModel* m_results;

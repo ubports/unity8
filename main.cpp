@@ -160,10 +160,10 @@ int startShell(int argc, const char** argv, void* server)
     prependImportPaths(view->engine(), ::overrideImportPaths());
     appendImportPaths(view->engine(), ::fallbackImportPaths());
 
-    QStringList importPath = view->engine()->importPathList().filter("qt5/imports");
     if (isUbuntuMirServer) {
-        importPath.first().append("/Unity-Mir");
-        view->engine()->addImportPath(importPath.first());
+        QStringList importPaths = view->engine()->importPathList();
+        importPaths.replaceInStrings(QRegExp("qt5/imports$"), "qt5/imports/Unity-Mir");
+        view->engine()->setImportPathList(importPaths);
     }
 
     view->setSource(source);

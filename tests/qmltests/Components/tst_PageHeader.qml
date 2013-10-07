@@ -19,16 +19,11 @@ import QtTest 1.0
 import ".."
 import "../../../Components"
 import Ubuntu.Components 0.1
-import Unity 0.1
 import Unity.Test 0.1 as UT
 
 Item {
     width: units.gu(110)
     height: units.gu(30)
-
-    Scope {
-        id: scopeMock
-    }
 
     UT.UnityTestCase {
         name: "PageHeaderTest"
@@ -137,27 +132,6 @@ Item {
             compare(pageHeader.searchHistory.count, 3)
             compare(pageHeader.searchHistory.get(0).query, "humppa4")
         }
-
-        function test_search_indicator() {
-            var searchIndicator = findChild(pageHeader, "searchIndicator")
-            var primaryImage = findChild(pageHeader, "primaryImage")
-
-            pageHeader.triggerSearch()
-
-            scopeMock.searchInProgress = false
-            compare(searchIndicator.running, false, "Search indicator is running.")
-            tryCompare(primaryImage, "visible", true)
-
-            scopeMock.searchInProgress = true
-            compare(searchIndicator.running, true, "Search indicator isn't running.")
-            tryCompare(primaryImage, "visible", false)
-
-            pageHeader.resetSearch()
-        }
-
-        function cleanup() {
-            scopeMock.searchInProgress = false
-        }
     }
 
     Column {
@@ -170,8 +144,6 @@ Item {
                 left: parent.left
                 right: parent.right
             }
-
-            scope: scopeMock
 
             searchEntryEnabled: true
             text: "%^$%^%^&%^&%^$%GHR%"
