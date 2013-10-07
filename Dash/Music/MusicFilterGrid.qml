@@ -18,7 +18,7 @@ import QtQuick 2.0
 import "../../Components"
 
 FilterGrid {
-    id: filterGrid
+    id: filtergrid
 
     minimumHorizontalSpacing: units.gu(2)
     maximumNumberOfColumns: 5
@@ -29,29 +29,26 @@ FilterGrid {
     readonly property int iconWidth: (width / columns) * 0.8
     readonly property int iconHeight: iconWidth
 
-    signal clicked(int index, var delegateItem, real itemY)
-    signal pressAndHold(int index, var delegateItem, real itemY)
+    signal clicked(int index, var model, real itemY)
+    signal pressAndHold(int index, var model, real itemY)
 
-    delegate: AlbumTile {
+    delegate: Tile {
         id: tile
         objectName: "delegate" + index
-        width: filterGrid.cellWidth
-        height: filterGrid.cellHeight
-        iconWidth: filterGrid.iconWidth
-        iconHeight: filterGrid.iconHeight
+        width: filtergrid.cellWidth
+        height: filtergrid.cellHeight
+        imageWidth: filtergrid.iconWidth
+        imageHeight: filtergrid.iconHeight
 
-        artist: model.title
-        album: model.comment
+        text: "%1<br />%2".arg(model.title).arg(model.comment)
         source: model.icon
 
         onClicked: {
-            var data = { model: model }
-            filterGrid.clicked(index, data, tile.y)
+            filtergrid.clicked(index, filtergrid.model, tile.y)
         }
 
         onPressAndHold: {
-            var data = { model: model }
-            filterGrid.pressAndHold(index, data, tile.y)
+            filtergrid.pressAndHold(index, filtergrid.model, tile.y)
         }
     }
 }
