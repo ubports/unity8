@@ -113,6 +113,11 @@ Item {
                        }
                        indicatorRow.visibleIndicators[model.identifier] = indicatorVisible;
                        indicatorRow.visibleIndicatorsChanged();
+
+                       if (visibleIndicators) {
+                           showAll = true;
+                           allVisible.start();
+                       }
                    }
                 }
 
