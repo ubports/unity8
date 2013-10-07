@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 CODE_DIR=shell
 USER=phablet
 USER_ID=32011
@@ -17,6 +17,7 @@ SUDO="echo $PASSWORD | sudo -S"
 NUM_JOBS='$(( `grep -c ^processor /proc/cpuinfo` + 1 ))'
 FLIPPED=false
 CHROOT_PREFIX="/data/ubuntu"
+SSH_WAS_STARTED=0
 SSH_STARTED=0
 
 usage() {
@@ -35,7 +36,7 @@ usage() {
 
 start_ssh() {
     if [ $SSH_STARTED -eq 0 ]; then
-        exec_with_adb service ssh start
+        exec_with_adb initctl start ssh
         SSH_STARTED=1
     fi
 }
@@ -140,6 +141,14 @@ if [ "`adb shell 'grep -q Ubuntu /etc/lsb-release 2> /dev/null && echo -n FLIPPE
     fi
 fi
 
+status_output=$(exec_with_adb initctl status ssh)
+if [[ $status_output == "ssh start/running, process "* ]]; then
+    SSH_WAS_STARTED=1
+fi
+SSH_STARTED=$SSH_WAS_STARTED
+
+echo "$SSH_WAS_STARTED $SSH_STARTED"
+
 if $SETUP; then
     echo "Setting up environment for building shell.."
     install_ssh_key
@@ -154,3 +163,6 @@ else
     run
 fi
 
+if [ $SSH_WAS_STARTED -eq 0 ]; then
+    exec_with_adb initctl stop ssh
+fi
