@@ -49,7 +49,7 @@ DashPreview {
         id: headerComponent
         Header {
             title: previewData.title
-            subtitle: previewData.subtitle.replace(/[\r\n]+/g, "<br />")
+            subtitle: previewData.subtitle
         }
     }
 
