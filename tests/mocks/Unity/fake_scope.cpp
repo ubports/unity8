@@ -30,6 +30,7 @@ static DeeModel* create_results_model(unsigned category_count, unsigned result_c
 Scope::Scope(QObject* parent)
     : QObject(parent)
     , m_visible(false)
+    , m_searching(false)
     , m_categories(new Categories(this))
     , m_results(new DeeListModel(this))
 {
@@ -44,6 +45,7 @@ Scope::Scope(QString const& id, QString const& name, bool visible, QObject* pare
     , m_id(id)
     , m_name(name)
     , m_visible(visible)
+    , m_searching(false)
     , m_categories(new Categories(this))
     , m_results(new DeeListModel(this))
 {
@@ -85,6 +87,10 @@ bool Scope::connected() const {
     return true;
 }
 
+bool Scope::searchInProgress() const {
+    return m_searching;
+}
+
 Categories* Scope::categories() const {
     return m_categories;
 }
@@ -119,6 +125,13 @@ void Scope::setFormFactor(const QString &str) {
     if (str != m_formFactor) {
         m_formFactor = str;
         Q_EMIT formFactorChanged();
+    }
+}
+
+void Scope::setSearchInProgress(const bool inProg) {
+    if (inProg != m_searching) {
+        m_searching = inProg;
+        Q_EMIT searchInProgressChanged();
     }
 }
 
