@@ -1,13 +1,13 @@
+# Dependencies
+include(FindPkgConfig)
+pkg_search_module(GST gstreamer-1.0 REQUIRED)
+
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     ${GST_INCLUDE_DIRS}
 )
-
-# Dependencies
-include(FindPkgConfig)
-pkg_search_module(GST gstreamer-1.0 REQUIRED)
 
 set(QMLPLUGIN_SRC
     albumartprovider.cpp
