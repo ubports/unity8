@@ -1,3 +1,247 @@
+unity8 (7.82+13.10.20131007-0ubuntu1) saucy; urgency=low
+
+  [ Michał Sawicz ]
+  * Respect pre-set import and library paths and prevent segfault in
+    startShell.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 399
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 07 Oct 2013 07:10:46 +0000
+
+unity8 (7.82+13.10.20131005-0ubuntu1) saucy; urgency=low
+
+  [ Michał Sawicz ]
+  * Revert r376 that caused constant CPU usage due to the
+    ActivityIndicator.
+
+  [ Nick Dedekind ]
+  * Removed indicators-client autopilot tests. (LP: #1234736)
+
+  [ Albert Astals ]
+  * Revert r388. (LP: #1235268)
+
+  [ Christopher Lee ]
+  * Removes passing -fullscreen to unity8 when on the device (as per bug
+    #1235065). (LP: #1235065)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 396
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Sat, 05 Oct 2013 11:45:14 +0000
+
+unity8 (7.82+13.10.20131004.2-0ubuntu1) saucy; urgency=low
+
+  * Revert 7.82+13.10.20131004.1-0ubuntu1 back to
+    7.81.3+13.10.20130927.3-0ubuntu1 due to CPU hogging issue with
+    7.82+13.10.20131004.1-0ubuntu1.
+
+ -- Loïc Minier <loic.minier@ubuntu.com>  Fri, 04 Oct 2013 21:22:29 +0200
+
+unity8 (7.82+13.10.20131004.1-0ubuntu1) saucy; urgency=low
+
+  [ Michał Sawicz ]
+  * Bump to indicate support for extended snap decisions.
+  * Make Tile themeable, add renderers for Dash Plugins and weather.
+    (LP: #1231948)
+  * Drop network agents now that they're in indicator-network instead.
+
+  [ Michal Hruby ]
+  * Differentiate generic and music carousels.
+  * Use the thumbnailer image provider for scope results that don't
+    specify icon as well as for previews.
+  * Added an indicator which is displayed in the search bar whenever a
+    search is in progress. Added accompanying test in tst_PageHeader.
+  * Expose rendererHint to shell.
+
+  [ Albert Astals ]
+  * Update pot file. (LP: #1232374)
+  * Only enable the animation when the item is on screen (i.e. !culled)
+    . (LP: #1200374)
+  * Do not crash on positionAtBeginning if the list is empty .
+  * Enable/disable running apps height animation in a less error prone
+    way.
+
+  [ Michael Terry ]
+  * Use a chevron after 'Skip intro' and drop the underlining.
+  * Load testability driver when QT_LOAD_TESTABILITY is set. (LP:
+    #1226234)
+  * Listen to the system setting StatsWelcomeScreen, which tells us
+    whether to show user-specific infographic data in the greeter. (LP:
+    #1207857)
+
+  [ Gerry Boland ]
+  * WM: ensure focusedApplicationWhenUsingScreenshots reset when unused,
+    and only used when set. Fixes window focus conflict between shell
+    and ApplicationManager.
+
+  [ Nick Dedekind ]
+  * Removed deprecated Unity.IndicatorsLegacy plugin.
+  * Added actionState parser to the indicators-client text printer so
+    that we get the icon.
+  * Moved indicator page titles to the root action state of menu model.
+    (LP: #1223635)
+
+  [ Mirco Müller ]
+  * Added rendering- and interaction-support for the first three
+    extended snap-decision dialog-cases password-entry, user-
+    authentication and simunlock.
+
+  [ Daniel d'Andrada ]
+  * Revert the reversion of r304 since it doesn't seem to crash anymore
+    Original commit was Reset apps scope when returning from app to dash
+    (LP #1193419) If an app is on foreground and you perform a long
+    left-edge swipe to minimize it, and therefore return to the dash,
+    the dash should be in the Applications scope and showing the
+    running/recents applications. (LP: #1193419)
+
+  [ Andrea Cimitan ]
+  * Add behaviours to the hud reveal. (LP: #1224480, #1224633)
+  * Make Tile themeable, add renderers for Dash Plugins and weather.
+    (LP: #1231948)
+
+  [ Michael Zanetti ]
+  * fix inserting into quicklistmodel.
+  * Drop useStorage argument and use exising LAUNCHER_TESTING define for
+    this decision.
+
+  [ Omer Akram ]
+  * Make the volume/brightness slider changes realtime. (LP: #1227595)
+
+  [ Nicolas d'Offay ]
+  * Fixed black colour on the first of the month due to division. (LP:
+    #1233657)
+  * Added an indicator which is displayed in the search bar whenever a
+    search is in progress. Added accompanying test in tst_PageHeader.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 390
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 04 Oct 2013 06:55:16 +0000
+
+unity8 (7.81.3+13.10.20130927.3-0ubuntu1) saucy; urgency=low
+
+  [ Michal Hruby ]
+  * Correctly handle image URI scheme in results.
+
+  [ Michał Sawicz ]
+  * Make SHOW_DASH and HIDE_DASH close the current preview. (LP:
+    #1231404)
+  * Add a LazyImage component that shows an activity spinner for long-
+    loading images and handles aspect ratio properly.
+  * Fix Qt 5.1 FTBFS and suppress some build warnings.
+
+  [ Albert Astals ]
+  * Make sure we always have least have one column in the gridview. (LP:
+    #1225391)
+  * LVWPH: Make sure we always overshoot vertically. (LP: #1229851)
+  * Remember the expanded categoryId and not the expanded index The
+    index can change on search, and we still want to maintain it
+    expanded in that case. (LP: #1230216)
+  * Fix showHeader in an edge case of notShownByItsOwn Not all the tests
+    i've added fail without the code fix, but i've added them just to be
+    more covered . (LP: #1230187)
+
+  [ Diego Sarmentero ]
+  * Handling error signal from the DownloadTracker plugin (BUG:
+    #1229744). (LP: #1229744)
+  * Remove "Reviews and Comments" section from Application Preview until
+    the feature is ready (BUG: #1226632) - Detect when the keyboard is
+    being shown to allow the user to scroll the Preview even more if
+    necessary to interact with the components at the bottom of that
+    preview, and don't leave those components obscured behind the
+    keyboard (BUG: #1226638). (LP: #1226632, #1224717, #1226638)
+
+  [ Nick Dedekind ]
+  * Brought messaging indicator inline with UnityMenuModel &
+    UnityMenuAction. (LP: #1217676, #1217678)
+
+  [ Pawel Stolowski ]
+  * Support canned search queries returned by Home Scope.
+  * Cancel previous actions and previews on new activation / preview.
+    Expose previewed data row in Preview object.
+
+  [ Michael Terry ]
+  * Only enable the Bottombar when the HUD is available. (LP: #1220306)
+  * Increase the "Skip intro" clickable area, making dismissing the edge
+    demo intro feel more natural. (LP: #1220632)
+
+  [ Michael Zanetti ]
+  * drop our CrossFadeImage in favor of the SDK one. (LP: #1227783)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 358
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 27 Sep 2013 14:13:22 +0000
+
+unity8 (7.81.3+13.10.20130924.2-0ubuntu1) saucy; urgency=low
+
+  [ Michal Hruby ]
+  * Fix the signal prototypes on music grid renderer. (LP: #1228390)
+
+  [ Michael Zanetti ]
+  * use less auto variables, align coding style, constify and Qt'ify API
+    in AccountsService plugin.
+
+  [ Nick Dedekind ]
+  * Re-enable MenuContentActivator in Indicators.
+
+  [ Albert Astals ]
+  * LVWPH: Update the section header on list change events.
+
+  [ Pawel Stolowski ]
+  * Check results model ptr returned by GetResultsFromCategory method
+    from UnityCore. (LP: #1228097, #1211595)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 340
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 24 Sep 2013 14:40:01 +0000
+
+unity8 (7.81.3+13.10.20130919.3-0ubuntu1) saucy; urgency=low
+
+  [ Michal Hruby ]
+  * Add support for music grid renderer to GenericScopeView.
+
+  [ Nick Dedekind ]
+  * Fixed the removal of messaging widget due to incompatible action
+    state. (LP: #1225017)
+
+  [ Christopher Lee ]
+  * Addition of initial autopilot tests for the application lifecycle.
+
+  [ Lars Uebernickel ]
+  * VolumeControl: use action of the new indicator indicator-sound
+    recently gained an action to increase and decrease the volume. This
+    patch makes use of that to get rid of a bus round trip (to get the
+    current volume) and a race (when the volume gets set between
+    fetching the current volume and setting the new volume). (LP:
+    #1219057)
+
+  [ Michael Terry ]
+  * When AccountsService.backgroundFile is unset/invalid, have the
+    greeter fall back to whatever the shell background is.
+  * Add a tiny SessionBroadcast plugin that listens to unity-greeter-
+    session-broadcast for the ShowHome signal.
+
+  [ Daniel d'Andrada ]
+  * Remove obsolete, unused graphics.
+  * Make MouseTouchAdaptor work with multiple QWindows.
+
+  [ Michael Zanetti ]
+  * change how icons are searched a) try to find it the Icon as is b)
+    prepend with Path if a Path variable is given c) fall back to the
+    image://theme/ with just the icon name . (LP: #1225186)
+  * fix an issue with removing a running app from the launcher and
+    always store pinning to the config.
+  * collapse any open preview when programmatically switching current
+    dash index. (LP: #1221137)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 333
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 19 Sep 2013 15:15:07 +0000
+
 unity8 (7.81.3+13.10.20130916-0ubuntu1) saucy; urgency=low
 
   [ Michael Zanetti ]

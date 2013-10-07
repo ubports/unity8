@@ -23,6 +23,7 @@ import Ubuntu.Gestures 0.1
 import Unity.Launcher 0.1
 import LightDM 0.1 as LightDM
 import Powerd 0.1
+import SessionBroadcast 0.1
 import "Dash"
 import "Greeter"
 import "Launcher"
@@ -83,6 +84,8 @@ FocusScope {
 
     readonly property bool applicationFocused: !!applicationManager.mainStageFocusedApplication
                                                || !!applicationManager.sideStageFocusedApplication
+    // Used for autopilot testing.
+    readonly property string currentFocusedAppId: ApplicationManager.focusedApplicationId
 
     readonly property bool fullscreenMode: {
         if (greeter.shown || lockscreen.shown) {
@@ -195,6 +198,7 @@ FocusScope {
 
             anchors.fill: parent
             source: shell.background
+            fillMode: Image.PreserveAspectCrop
         }
 
         Rectangle {
@@ -531,7 +535,7 @@ FocusScope {
             // is active.  This usually indicates something like a phone call.
             if (status == Powerd.Off && (flags & Powerd.UseProximity) == 0) {
                 powerConnection.setFocused(false);
-                greeter.show();
+                greeter.showNow();
             } else if (status == Powerd.On) {
                 powerConnection.setFocused(true);
             }
@@ -543,6 +547,17 @@ FocusScope {
                 edgeDemo.paused = false;
             }
         }
+    }
+
+    function showHome() {
+        greeter.hide()
+        // Animate if moving between application and dash
+        if (!stages.shown) {
+            dash.setCurrentScope("home.scope", true, false)
+        } else {
+            dash.setCurrentScope("home.scope", false, false)
+        }
+        stages.hide()
     }
 
     Item {
@@ -608,9 +623,10 @@ FocusScope {
         }
 
         Bottombar {
+            id: bottombar
             theHud: hud
             anchors.fill: parent
-            enabled: !panel.indicators.shown
+            enabled: hud.available
             applicationIsOnForeground: applicationFocused
         }
 
@@ -632,19 +648,10 @@ FocusScope {
             width: parent.width
             dragAreaWidth: shell.edgeSize
             available: (!greeter.shown || greeter.narrowMode) && edgeDemo.launcherEnabled
-            onDashItemSelected: {
-                greeter.hide()
-                // Animate if moving between application and dash
-                if (!stages.shown) {
-                    dash.setCurrentScope("home.scope", true, false)
-                } else {
-                    dash.setCurrentScope("home.scope", false, false)
-                }
-                stages.hide();
-            }
+            onDashItemSelected: showHome()
             onDash: {
                 if (stages.shown) {
-                    dash.setCurrentScope("applications.scope", true, false)
+                    dash.setCurrentScope("applications.scope", true /* animate */, true /* reset */)
                     stages.hide();
                     launcher.hide();
                 }
@@ -657,6 +664,7 @@ FocusScope {
                 if (shown) {
                     panel.indicators.hide()
                     hud.hide()
+                    bottombar.hide()
                 }
             }
         }
@@ -748,5 +756,10 @@ FocusScope {
         dash: dash
         indicators: panel.indicators
         underlay: underlay
+    }
+
+    Connections {
+        target: SessionBroadcast
+        onShowHome: showHome()
     }
 }

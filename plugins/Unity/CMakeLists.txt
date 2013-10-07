@@ -2,7 +2,6 @@
 include(Plugins)
 
 add_subdirectory(Indicators)
-add_subdirectory(IndicatorsLegacy)
 
 # Dependencies
 include(FindPkgConfig)
@@ -43,6 +42,7 @@ set(QMLPLUGIN_SRC
     preview.cpp
     previewaction.cpp
     previewinfohint.cpp
+    result.cpp
     showallfilteroption.cpp
     signalslist.cpp
     socialpreview.cpp

@@ -21,6 +21,7 @@
 // self
 #include "categories.h"
 #include "categoryresults.h"
+#include <QDebug>
 
 // TODO: use something from libunity once it's public
 enum CategoryColumn {
@@ -39,6 +40,7 @@ Categories::Categories(QObject* parent)
     m_roles[Categories::RoleIcon] = "icon";
     m_roles[Categories::RoleRenderer] = "renderer";
     m_roles[Categories::RoleContentType] = "contentType";
+    m_roles[Categories::RoleRendererHint] = "rendererHint";
     m_roles[Categories::RoleProgressSource] = "progressSource";
     m_roles[Categories::RoleHints] = "hints";
     m_roles[Categories::RoleResults] = "results";
@@ -62,7 +64,17 @@ Categories::getResults(int index) const
 
         unsigned categoryIndex = static_cast<unsigned>(index);
         auto unity_results = m_unityScope->GetResultsForCategory(categoryIndex);
-        results->setModel(unity_results->model());
+        if (unity_results) {
+            results->setModel(unity_results->model());
+        } else {
+            // No results model returned by unity core; this can be the case when the global
+            // results model of this scope is still not set in unity core. Don't set backend
+            // model in DeeListModel - it will still beahve properly as an empty model. Since
+            // we're connected to the category model change signal, and it is set by unity core
+            // at the same time as results model (on channel opening), we'll reset category
+            // results models with proper models when we're notifed again.
+            qWarning() << "No results model for category" << categoryIndex;
+        }
 
         m_results.insert(index, results);
     }
@@ -197,6 +209,11 @@ Categories::data(const QModelIndex& index, int role) const
         {
             auto hints = DeeListModel::data(index, CategoryColumn::HINTS).toHash();
             return hints.contains("content-type") ? hints["content-type"] : QVariant(QString("default"));
+        }
+        case RoleRendererHint:
+        {
+            auto hints = DeeListModel::data(index, CategoryColumn::HINTS).toHash();
+            return hints.contains("renderer-hint") ? hints["renderer-hint"] : QVariant(QString());
         }
         case RoleProgressSource:
         {

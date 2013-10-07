@@ -121,7 +121,6 @@ Showable {
 
         Column {
             id: labelGroup
-            layer.enabled: true // otherwise the underlining on "Skip intro" jumps
             spacing: units.gu(3)
 
             anchors {
@@ -150,10 +149,21 @@ Showable {
                 text: i18n.tr("Skip intro")
                 color: UbuntuColors.orange
                 fontSize: "small"
-                font.underline: true
+
+                Icon {
+                    anchors.left: parent.right
+                    anchors.verticalCenter: parent.verticalCenter
+                    height: units.dp(12)
+                    width: units.dp(12)
+                    name: "chevron"
+                    color: UbuntuColors.orange
+                }
 
                 MouseArea {
+                    // Make clickable area bigger than just the link because
+                    // otherwise, the edge demo will feel hard to dismiss.
                     anchors.fill: parent
+                    anchors.margins: -units.gu(5)
                     onClicked: overlay.doSkip()
                 }
             }

@@ -28,30 +28,35 @@ class AccountsService: public QObject
 {
     Q_OBJECT
     Q_PROPERTY (QString user
-                READ getUser
+                READ user
                 WRITE setUser
                 NOTIFY userChanged)
     Q_PROPERTY (bool demoEdges
-                READ getDemoEdges
+                READ demoEdges
                 WRITE setDemoEdges
                 NOTIFY demoEdgesChanged)
     Q_PROPERTY (QString backgroundFile
-                READ getBackgroundFile
+                READ backgroundFile
                 NOTIFY backgroundFileChanged)
+    Q_PROPERTY (bool statsWelcomeScreen
+                READ statsWelcomeScreen
+                NOTIFY statsWelcomeScreenChanged)
 
 public:
     explicit AccountsService(QObject *parent = 0);
 
-    QString getUser();
+    QString user() const;
     void setUser(const QString &user);
-    bool getDemoEdges();
+    bool demoEdges() const;
     void setDemoEdges(bool demoEdges);
-    QString getBackgroundFile();
+    QString backgroundFile() const;
+    bool statsWelcomeScreen() const;
 
 Q_SIGNALS:
     void userChanged();
     void demoEdgesChanged();
     void backgroundFileChanged();
+    void statsWelcomeScreenChanged();
 
 private Q_SLOTS:
     void propertiesChanged(const QString &user, const QString &interface, const QStringList &changed);
@@ -60,11 +65,13 @@ private Q_SLOTS:
 private:
     void updateDemoEdges();
     void updateBackgroundFile();
+    void updateStatsWelcomeScreen();
 
     AccountsServiceDBusAdaptor *m_service;
     QString m_user;
     bool m_demoEdges;
     QString m_backgroundFile;
+    bool m_statsWelcomeScreen;
 };
 
 #endif

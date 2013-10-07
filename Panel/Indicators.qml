@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
+import Unity.Indicators 0.1 as Indicators
 
 import "../Components"
 import "../Components/ListItems"
@@ -36,6 +37,7 @@ Showable {
     property real visualBottom: Math.max(y+height, y+indicatorRow.y+indicatorRow.height)
     property bool contentEnabled: true
     property bool initalizeItem: true
+    readonly property alias content: menuContent
 
     // TODO: Perhaps we need a animation standard for showing/hiding? Each showable seems to
     // use its own values. Need to ask design about this.
@@ -249,8 +251,10 @@ Showable {
         anchors.fill: indicatorRow
     }
 
-    IndicatorsDataModel {
+    Indicators.IndicatorsModel {
         id: indicatorsModel
+
+        Component.onCompleted: load()
     }
 
     IndicatorRow {

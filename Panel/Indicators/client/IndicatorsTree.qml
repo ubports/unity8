@@ -44,6 +44,10 @@ Page {
         menuObjectPath: page.deviceMenuObjectPath
     }
 
+    Indicators.RootActionState {
+        menu: unityModel
+    }
+
     Indicators.ModelPrinter {
         id: printer
         model: unityModel

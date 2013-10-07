@@ -43,7 +43,8 @@ public:
         RoleTitle,
         RoleComment,
         RoleDndUri,
-        RoleMetadata
+        RoleMetadata,
+        RoleRendererHints
     };
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;

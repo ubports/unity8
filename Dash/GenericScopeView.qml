@@ -21,18 +21,28 @@ import "../Components/ListItems" as ListItems
 
 ScopeView {
     id: scopeView
-    property alias previewShown: previewLoader.onScreen
+    readonly property alias previewShown: previewLoader.onScreen
+    property bool enableHeightBehaviorOnNextCreation: false
 
     onIsCurrentChanged: {
         pageHeader.resetSearch();
+        previewLoader.open = false;
     }
 
     onMovementStarted: categoryView.showHeader()
+
+    onPositionedAtBeginning: categoryView.positionAtBeginning()
 
     Binding {
         target: scopeView.scope
         property: "searchQuery"
         value: pageHeader.searchQuery
+    }
+
+    Binding {
+        target: pageHeader
+        property: "searchQuery"
+        value: scopeView.scope.searchQuery
     }
 
     Connections {
@@ -43,8 +53,15 @@ ScopeView {
         }
     }
 
+    Connections {
+        target: scopeView.scope
+        onShowDash: previewLoader.open = false;
+        onHideDash: previewLoader.open = false;
+    }
+
     ScopeListView {
         id: categoryView
+        objectName: "categoryListView"
         anchors.fill: parent
         model: scopeView.categories
         forceNoClip: previewLoader.onScreen
@@ -52,13 +69,14 @@ ScopeView {
         onAtYEndChanged: if (atYEnd) endReached()
         onMovingChanged: if (moving && atYEnd) endReached()
 
-        property int expandedIndex: -1
+        property string expandedCategoryId: ""
 
         delegate: ListItems.Base {
             highlightWhenPressed: false
 
             readonly property bool expandable: rendererLoader.item ? rendererLoader.item.expandable : false
             readonly property bool filtered: rendererLoader.item ? rendererLoader.item.filter : true
+            readonly property string category: categoryId
 
             Loader {
                 id: rendererLoader
@@ -68,9 +86,13 @@ ScopeView {
                     right: parent.right
                 }
 
-                source: getRenderer(model.renderer, model.contentType)
+                source: getRenderer(model.renderer, model.contentType, model.rendererHint)
 
                 onLoaded: {
+                    if (item.enableHeightBehavior !== undefined && item.enableHeightBehaviorOnNextCreation !== undefined) {
+                        item.enableHeightBehavior = scopeView.enableHeightBehaviorOnNextCreation;
+                        scopeView.enableHeightBehaviorOnNextCreation = false;
+                    }
                     if (source.toString().indexOf("Apps/RunningApplicationsGrid.qml") != -1) {
                         // TODO: the running apps grid doesn't support standard scope results model yet
                         item.firstModel = Qt.binding(function() { return results.firstModel })
@@ -80,10 +102,16 @@ ScopeView {
                     }
                     item.objectName = Qt.binding(function() { return categoryId })
                     if (item.expandable) {
-                        var shouldFilter = index != categoryView.expandedIndex;
+                        var shouldFilter = categoryId != categoryView.expandedCategoryId;
                         if (shouldFilter != item.filter) {
                             item.filter = shouldFilter;
                         }
+                    }
+                }
+
+                Component.onDestruction: {
+                    if (item.enableHeightBehavior !== undefined && item.enableHeightBehaviorOnNextCreation !== undefined) {
+                        scopeView.enableHeightBehaviorOnNextCreation = item.enableHeightBehaviorOnNextCreation;
                     }
                 }
 
@@ -116,10 +144,10 @@ ScopeView {
                 }
                 Connections {
                     target: categoryView
-                    onExpandedIndexChanged: {
+                    onExpandedCategoryIdChanged: {
                         var item = rendererLoader.item;
                         if (item.expandable) {
-                            var shouldFilter = index != categoryView.expandedIndex;
+                            var shouldFilter = categoryId != categoryView.expandedCategoryId;
                             if (shouldFilter != item.filter) {
                                 // If the filter animation will be seen start it, otherwise, just flip the switch
                                 var shrinkingVisible = shouldFilter && y + item.collapsedHeight < categoryView.height;
@@ -150,10 +178,10 @@ ScopeView {
                 return "";
             }
             onClicked: {
-                if (categoryView.expandedIndex != delegateIndex)
-                    categoryView.expandedIndex = delegateIndex;
+                if (categoryView.expandedCategoryId != delegate.category)
+                    categoryView.expandedCategoryId = delegate.category;
                 else
-                    categoryView.expandedIndex = -1;
+                    categoryView.expandedCategoryId = "";
             }
         }
         pageHeader: PageHeader {
@@ -162,6 +190,7 @@ ScopeView {
             width: categoryView.width
             text: scopeView.scope.name
             searchEntryEnabled: true
+            scope: scopeView.scope
         }
     }
 
@@ -171,7 +200,7 @@ ScopeView {
         }
     }
 
-    function getRenderer(rendererId, contentType) {
+    function getRenderer(rendererId, contentType, rendererHint) {
         if (rendererId == "default") {
             rendererId = getDefaultRendererId(contentType);
         }
@@ -179,10 +208,16 @@ ScopeView {
             case "grid": {
                 switch (contentType) {
                     case "video": return "Generic/GenericFilterGridPotrait.qml";
+                    case "music": return "Music/MusicFilterGrid.qml";
                     default: return "Generic/GenericFilterGrid.qml";
                 }
             }
-            case "carousel": return "Generic/GenericCarousel.qml";
+            case "carousel": {
+                switch (contentType) {
+                    case "music": return "Music/MusicCarousel.qml";
+                    default: return "Generic/GenericCarousel.qml";
+                }
+            }
             case "special": {
                 switch (contentType) {
                     case "apps": return "Apps/RunningApplicationsGrid.qml";
@@ -246,6 +281,7 @@ ScopeView {
     }
 
     Loader {
+        objectName: "previewLoader"
         id: previewLoader
         property var previewData
         height: effect.bottomGapPx - effect.topGapPx

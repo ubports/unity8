@@ -86,6 +86,7 @@ class UnityTestCase(AutopilotTestCase):
 
         self._proxy = None
         self._lightdm_mock_type = None
+        self._qml_mock_enabled = True
         self.touch = Touch.create()
         self._setup_display_details()
 
@@ -102,9 +103,8 @@ class UnityTestCase(AutopilotTestCase):
         width = getattr(self, 'app_width', 0)
         height = getattr(self, 'app_height', 0)
         scale_divisor = 1
-        if width == 0 and width == 0:
-            self.unity_geometry_args = ['-fullscreen']
-        else:
+        self.unity_geometry_args = []
+        if width > 0 and height > 0:
             if self._geo_larger_than_display(width, height):
                 scale_divisor = self._get_scaled_down_geo(width, height)
                 width = width / scale_divisor
@@ -160,7 +160,9 @@ class UnityTestCase(AutopilotTestCase):
 
         if self._lightdm_mock_type is None:
             self.patch_lightdm_mock()
-        self._setup_extra_mock_environment_patch()
+
+        if self._qml_mock_enabled:
+            self._setup_extra_mock_environment_patch()
 
         app_proxy = self.launch_test_application(
             binary_path,
@@ -181,10 +183,14 @@ class UnityTestCase(AutopilotTestCase):
     def patch_lightdm_mock(self, mock_type='single'):
         self._lightdm_mock_type = mock_type
         logger.info("Setting up LightDM mock type '%s'", mock_type)
-        new_ld_library_path = "%s:%s" % (
+        new_ld_library_path = [
             get_default_extra_mock_libraries(),
             self._get_lightdm_mock_path(mock_type)
-        )
+        ]
+        if os.getenv('LD_LIBRARY_PATH') is not None:
+            new_ld_library_path.append(os.getenv('LD_LIBRARY_PATH'))
+
+        new_ld_library_path = ':'.join(new_ld_library_path)
         logger.info("New library path: %s", new_ld_library_path)
 
         self.patch_environment('LD_LIBRARY_PATH', new_ld_library_path)
@@ -203,8 +209,13 @@ class UnityTestCase(AutopilotTestCase):
         return lightdm_mock_path
 
     def _setup_extra_mock_environment_patch(self):
-        mocks_library_path = get_mocks_library_path()
-        self.patch_environment('QML2_IMPORT_PATH', mocks_library_path)
+        qml_import_path = [get_mocks_library_path()]
+        if os.getenv('QML2_IMPORT_PATH') is not None:
+            qml_import_path.append(os.getenv('QML2_IMPORT_PATH'))
+
+        qml_import_path = ':'.join(qml_import_path)
+        logger.info("New QML2 import path: %s", qml_import_path)
+        self.patch_environment('QML2_IMPORT_PATH', qml_import_path)
 
     def _set_proxy(self, proxy):
         """Keep a copy of the proxy object, so we can use it to get common

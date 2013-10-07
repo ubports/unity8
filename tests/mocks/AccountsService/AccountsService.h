@@ -28,35 +28,43 @@ class AccountsService: public QObject
 {
     Q_OBJECT
     Q_PROPERTY (QString user
-                READ getUser
+                READ user
                 WRITE setUser
                 NOTIFY userChanged)
     Q_PROPERTY (bool demoEdges
-                READ getDemoEdges
+                READ demoEdges
                 WRITE setDemoEdges
                 NOTIFY demoEdgesChanged)
     Q_PROPERTY (QString backgroundFile
-                READ getBackgroundFile
+                READ backgroundFile
                 WRITE setBackgroundFile // only available in mock
                 NOTIFY backgroundFileChanged)
+    Q_PROPERTY (bool statsWelcomeScreen
+                READ statsWelcomeScreen
+                WRITE setStatsWelcomeScreen // only available in mock
+                NOTIFY statsWelcomeScreenChanged)
 
 public:
     explicit AccountsService(QObject *parent = 0);
 
-    QString getUser();
+    QString user() const;
     void setUser(const QString &user);
-    bool getDemoEdges();
+    bool demoEdges() const;
     void setDemoEdges(bool demoEdges);
-    QString getBackgroundFile();
+    QString backgroundFile() const;
     void setBackgroundFile(const QString &backgroundFile);
+    bool statsWelcomeScreen() const;
+    void setStatsWelcomeScreen(bool statsWelcomeScreen);
 
 Q_SIGNALS:
     void userChanged();
     void demoEdgesChanged();
     void backgroundFileChanged();
+    void statsWelcomeScreenChanged();
 
 private:
     QString m_backgroundFile;
+    bool m_statsWelcomeScreen;
 };
 
 #endif
