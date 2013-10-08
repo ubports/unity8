@@ -98,17 +98,6 @@ FocusScope {
         }
     }
 
-    onCurrentFocusedAppIdChanged: {
-        // If any app is focused when greeter is open, it's due to a user action
-        // like a snap decision (say, an incoming call).
-        // TODO: this should be protected to only unlock for certain applications / certain usecases
-        // potentially only in connection with a notification.
-        if (greeter.shown && currentFocusedAppId) {
-            greeter.hide()
-        }
-        hud.hide()
-    }
-
     function activateApplication(desktopFile, argument) {
         if (applicationManager) {
             // For newly started applications, as it takes them time to draw their first frame
@@ -476,17 +465,17 @@ FocusScope {
 
         function setFocused(focused) {
             if (!focused) {
-                previousMainApp = applicationManager.mainStageFocusedApplication;
-                previousSideApp = applicationManager.sideStageFocusedApplication;
+                greeter.previousMainApp = applicationManager.mainStageFocusedApplication;
+                greeter.previousSideApp = applicationManager.sideStageFocusedApplication;
                 applicationManager.unfocusCurrentApplication();
             } else {
-                if (previousMainApp) {
-                    applicationManager.focusApplication(previousMainApp);
-                    previousMainApp = null;
+                if (greeter.previousMainApp) {
+                    applicationManager.focusApplication(greeter.previousMainApp);
+                    greeter.previousMainApp = null;
                 }
-                if (previousSideApp) {
-                    applicationManager.focusApplication(previousSideApp);
-                    previousSideApp = null;
+                if (greeter.previousSideApp) {
+                    applicationManager.focusApplication(greeter.previousSideApp);
+                    greeter.previousSideApp = null;
                 }
             }
         }
@@ -518,6 +507,29 @@ FocusScope {
         onLeftTeaserPressedChanged: {
             if (leftTeaserPressed) {
                 launcher.tease();
+            }
+        }
+
+        Connections {
+            target: applicationManager
+            ignoreUnknownSignals: true
+            // If any app is focused when greeter is open, it's due to a user action
+            // like a snap decision (say, an incoming call).
+            // TODO: these should be protected to only unlock for certain applications / certain usecases
+            // potentially only in connection with a notification.
+            onMainStageFocusedApplicationChanged: {
+                if (greeter.shown && applicationManager.mainStageFocusedApplication) {
+                    greeter.previousMainApp = null // make way for new focused app
+                    greeter.previousSideApp = null
+                    greeter.hide()
+                }
+            }
+            onSideStageFocusedApplicationChanged: {
+                if (greeter.shown && applicationManager.sideStageFocusedApplication) {
+                    greeter.previousMainApp = null // make way for new focused app
+                    greeter.previousSideApp = null
+                    greeter.hide()
+                }
             }
         }
     }
@@ -597,6 +609,12 @@ FocusScope {
             shown: false
             showAnimation: StandardAnimation { property: "y"; duration: hud.showableAnimationDuration; to: 0; easing.type: Easing.Linear }
             hideAnimation: StandardAnimation { property: "y"; duration: hud.showableAnimationDuration; to: hudRevealer.closedValue; easing.type: Easing.Linear }
+
+            Connections {
+                target: shell.applicationManager
+                onMainStageFocusedApplicationChanged: hud.hide()
+                onSideStageFocusedApplicationChanged: hud.hide()
+            }
         }
 
         Revealer {
