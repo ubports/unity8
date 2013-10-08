@@ -149,7 +149,7 @@ std::string AlbumArtProvider::get_image(const std::string &artist, const std::st
         return cache.get_art_file(info.artist, info.album);
     }
 
-    if (m_settings != nullptr && g_settings_get_boolean(m_settings, "remote-content-search") == false) {
+    if (m_settings != nullptr && strcmp(g_settings_get_string(m_settings, "remote-content-search"), "all") !=0) {
         qDebug() << "Remote content disabled";
         return DEFAULT_ALBUM_ART;
     }
