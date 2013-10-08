@@ -170,8 +170,12 @@ Item {
 
             // And wake up
             Powerd.displayPowerStateChange(Powerd.On, 0);
-            tryCompare(ApplicationManager, "focusedApplicationId", mainApp);
+            tryCompare(ApplicationManager, "focusedApplicationId", "");
             tryCompare(greeter, "showProgress", 1);
+
+            // Swipe away greeter to focus app
+            swipeAwayGreeter();
+            tryCompare(ApplicationManager, "focusedApplicationId", mainApp);
         }
 
         function swipeAwayGreeter() {
