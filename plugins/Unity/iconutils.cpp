@@ -99,11 +99,17 @@ QString uriToThumbnailerProviderString(QString const &uri, QString const &mimety
         QString thumbnailerUri;
         if (isAudio) {
             thumbnailerUri = BASE_ALBUMART_URI;
-            const QString album = metadata["album"].toString();
-            const QString artist = metadata["artist"].toString();
-            thumbnailerUri.append(QUrl::toPercentEncoding(artist));
-            thumbnailerUri.append("/");
-            thumbnailerUri.append(QUrl::toPercentEncoding(album));
+            if (metadata.contains("content")) {
+                const QVariantHash contentHash = metadata["content"].toHash();
+                if (contentHash.contains("album") &&
+                    contentHash.contains("artist")) {
+                    const QString album = contentHash["album"].toString();
+                    const QString artist = contentHash["artist"].toString();
+                    thumbnailerUri.append(QUrl::toPercentEncoding(artist));
+                    thumbnailerUri.append("/");
+                    thumbnailerUri.append(QUrl::toPercentEncoding(album));
+                }
+            }
         } else {
             thumbnailerUri = BASE_THUMBNAILER_URI;
             thumbnailerUri.append(uri.midRef(7));
