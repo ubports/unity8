@@ -148,7 +148,7 @@ std::string AlbumArtProvider::get_lastfm_url(const albuminfo &ai) {
     loop.exec();
 
     if (reply->error() != QNetworkReply::NoError) {
-        qDebug() << "Error getting the XML:" << reply->errorString();
+        qWarning() << "Error getting the XML:" << reply->errorString();
         return "";
     }
 
@@ -161,6 +161,12 @@ std::string AlbumArtProvider::get_lastfm_url(const albuminfo &ai) {
     QString image;
     query.evaluateTo(&image);
     image = image.trimmed();
+
+    // return empty if last.fm tries to offer their default
+    // fallback artwork
+    if (image.contains("catalogue/noimage")) {
+        return "";
+    }
 
     return image.toStdString();
 }
@@ -176,17 +182,17 @@ bool AlbumArtProvider::download_and_store(const std::string &image_url, const st
     loop.exec();
 
     if (reply->error() != QNetworkReply::NoError) {
-        qDebug() << "Error getting the image:" << reply->errorString();
+        qWarning() << "Error getting the image:" << reply->errorString();
         return false;
     }
 
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-        qDebug() << "Could not open file for writing:" << file.errorString();
+        qWarning() << "Could not open file for writing:" << file.errorString();
         return false;
     }
     if (file.write(reply->readAll()) == -1){
-        qDebug() << "Could not write the image:" << file.error();
+        qWarning() << "Could not write the image:" << file.error();
         return false;
     }
 
