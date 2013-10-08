@@ -86,7 +86,7 @@ ScopeView {
                     right: parent.right
                 }
 
-                source: getRenderer(model.renderer, model.contentType, model.rendererHint)
+                source: getRenderer(model.renderer, model.contentType, model.rendererHint, categoryId)
 
                 onLoaded: {
                     if (item.enableHeightBehavior !== undefined && item.enableHeightBehaviorOnNextCreation !== undefined) {
@@ -200,7 +200,7 @@ ScopeView {
         }
     }
 
-    function getRenderer(rendererId, contentType, rendererHint) {
+    function getRenderer(rendererId, contentType, rendererHint, categoryId) {
         if (rendererId == "default") {
             rendererId = getDefaultRendererId(contentType);
         }
@@ -209,6 +209,14 @@ ScopeView {
                 switch (contentType) {
                     case "video": return "Generic/GenericFilterGridPotrait.qml";
                     case "music": return "Music/MusicFilterGrid.qml";
+                    case "apps": {
+                        console.log("rendererHint", categoryId, rendererHint);
+                        if (rendererHint == "toggled")
+                            return "Apps/DashPluginFilterGrid.qml";
+                        else
+                            return "Generic/GenericFilterGrid.qml";
+                    }
+                    case "weather": return "Generic/WeatherFilterGrid.qml";
                     default: return "Generic/GenericFilterGrid.qml";
                 }
             }
