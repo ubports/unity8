@@ -118,12 +118,12 @@ Item {
 
                 // these are needed for autopilot tests
                 readonly property string scopeId: scope.id
-                readonly property bool isCurrent: visible && ListView.isCurrentItem
+                readonly property bool isCurrent: ListView.isCurrentItem
                 readonly property bool isLoaded: status == Loader.Ready
 
                 onLoaded: {
                     item.scope = Qt.binding(function() { return scope })
-                    item.isCurrent = Qt.binding(function() { return isCurrent })
+                    item.isCurrent = Qt.binding(function() { return visible && ListView.isCurrentItem })
                     item.searchHistory = Qt.binding(function() { return shell.searchHistory })
                     dashContentList.movementStarted.connect(item.movementStarted)
                     dashContent.positionedAtBeginning.connect(item.positionedAtBeginning)
