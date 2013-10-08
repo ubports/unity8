@@ -41,6 +41,7 @@ Build-Depends: cmake,
                qtdeclarative5-test-plugin,
                qtdeclarative5-ubuntu-ui-toolkit-plugin,
                qtdeclarative5-xmllistmodel-plugin,
+               libqt5xmlpatterns5-dev,
                ttf-ubuntu-font-family,
 Standards-Version: 3.9.4
 Homepage: http://launchpad.net/unity
