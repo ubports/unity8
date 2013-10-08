@@ -84,7 +84,6 @@ FocusScope {
 
     readonly property bool applicationFocused: !!applicationManager.mainStageFocusedApplication
                                                || !!applicationManager.sideStageFocusedApplication
-    // Used for autopilot testing.
     readonly property string currentFocusedAppId: ApplicationManager.focusedApplicationId
 
     readonly property bool fullscreenMode: {
@@ -99,15 +98,12 @@ FocusScope {
         }
     }
 
-    Connections {
-        target: applicationManager
-        ignoreUnknownSignals: true
-        onFocusRequested: {
-            // TODO: this should be protected to only unlock for certain applications / certain usecases
-            // potentially only in connection with a notification
-            greeter.hide();
-            shell.activateApplication(desktopFile);
-        }
+    onCurrentFocusedAppIdChanged: {
+        // If any app is focused when greeter is open, it's due to a user action
+        // like a snap decision (say, an incoming call).
+        // TODO: this should be protected to only unlock for certain applications / certain usecases
+        // potentially only in connection with a notification.
+        greeter.hide()
     }
 
     function activateApplication(desktopFile, argument) {
