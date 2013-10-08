@@ -64,7 +64,7 @@ Item {
     height: !filterAnimation.running ? childrenRect.height : height
     clip: filterAnimation.running
 
-    NumberAnimation {
+    SmoothedAnimation {
         property bool filterEndValue
         id: filterAnimation
         target: root
@@ -73,7 +73,8 @@ Item {
         // Duration and easing here match the ListViewWithPageHeader::m_contentYAnimation
         // otherwise since both animations can run at the same time you'll get
         // some visual weirdness.
-        duration: 200
+        duration: -1
+        velocity: 800
         easing.type: Easing.InOutQuad
         onStopped: {
             root.filter = filterEndValue;
