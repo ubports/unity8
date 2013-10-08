@@ -101,9 +101,9 @@ QString uriToThumbnailerProviderString(QString const &uri, QString const &mimety
             thumbnailerUri = BASE_ALBUMART_URI;
             const QString album = metadata["album"].toString();
             const QString artist = metadata["artist"].toString();
-            thumbnailerUri.append(album);
-            thumbnailerUri.append("§"); //FIXME: change to proper escaping
-            thumbnailerUri.append(artist);
+            thumbnailerUri.append(QUrl::toPercentEncoding(album));
+            thumbnailerUri.append("/");
+            thumbnailerUri.append(QUrl::toPercentEncoding(artist));
         } else {
             thumbnailerUri = BASE_THUMBNAILER_URI;
             thumbnailerUri.append(uri.midRef(7));
