@@ -25,113 +25,19 @@
 #include <QNetworkReply>
 #include <QXmlQuery>
 #include <QBuffer>
-#include<cstdio>
-#include<QDebug>
-#include<QFile>
-#include<QByteArray>
-#include<gst/gst.h>
-#include<unistd.h>
-#include<memory>
-#include<QImage>
+#include <cstdio>
+#include <QDebug>
+#include <QFile>
+#include <QStringList>
+#include <QByteArray>
+#include <unistd.h>
+#include <memory>
+#include <QImage>
+#include <QUrl>
 
 using namespace std;
 
 const std::string AlbumArtProvider::DEFAULT_ALBUM_ART = "/usr/share/unity/icons/album_missing.png";
-
-static void on_new_pad (GstElement * /*dec*/, GstPad * pad, GstElement * fakesink) {
-    GstPad *sinkpad;
-
-    sinkpad = gst_element_get_static_pad (fakesink, "sink");
-    if (!gst_pad_is_linked (sinkpad)) {
-        if (gst_pad_link (pad, sinkpad) != GST_PAD_LINK_OK)
-            g_error ("Failed to link pads!");
-    }
-    gst_object_unref (sinkpad);
-}
-
-static void process_one_tag (const GstTagList * list, const gchar * tag, gpointer user_data) {
-    struct albuminfo *md = (struct albuminfo*) user_data;
-    int i, num;
-    string tagname(tag);
-
-    num = gst_tag_list_get_tag_size (list, tag);
-    for (i = 0; i < num; ++i) {
-        gchar *val;
-        if (gst_tag_get_type(tag) == G_TYPE_STRING) {
-        if (gst_tag_list_get_string_index (list, tag, i, &val)) {
-            if(tagname == "artist")
-                md->artist = std::string(val);
-            if(tagname == "album")
-                md->album = std::string(val);
-        }}
-    }
-}
-
-albuminfo AlbumArtProvider::get_album_info(const std::string &filename) throw (runtime_error)
-{
-    albuminfo ai;
-    // FIXME: Need to do quoting. Files with %'s in their names seem to confuse gstreamer.
-
-    const string uri = "file://" + filename;
-
-    GstElement *dec = gst_element_factory_make ("uridecodebin", NULL);
-    if (dec == nullptr)
-        throw runtime_error("Failed to create uridecodebin element");
-
-    GstElement *pipe = gst_pipeline_new ("pipeline");
-
-    g_object_set (dec, "uri", uri.c_str(), NULL);
-    gst_bin_add (GST_BIN (pipe), dec);
-
-    GstElement *sink = gst_element_factory_make ("fakesink", NULL);
-    gst_bin_add (GST_BIN (pipe), sink);
-    g_signal_connect (dec, "pad-added", G_CALLBACK (on_new_pad), sink);
-
-    gst_element_set_state (pipe, GST_STATE_PAUSED);
-
-    GstMessage *msg;
-    while (true) {
-      GstTagList *tags = NULL;
-
-      msg = gst_bus_timed_pop_filtered(GST_ELEMENT_BUS (pipe),
-          GST_CLOCK_TIME_NONE, (GstMessageType) (GST_MESSAGE_ASYNC_DONE | GST_MESSAGE_TAG | GST_MESSAGE_ERROR));
-
-      if (GST_MESSAGE_TYPE (msg) != GST_MESSAGE_TAG) /* error or async_done */
-        break;
-
-      gst_message_parse_tag (msg, &tags);
-      gst_tag_list_foreach (tags, process_one_tag, &ai);
-      gst_tag_list_unref (tags);
-
-      gst_message_unref (msg);
-    };
-
-    gst_element_set_state (pipe, GST_STATE_NULL);
-    gst_object_unref (pipe);
-
-    if (GST_MESSAGE_TYPE (msg) == GST_MESSAGE_ERROR) {
-        GError *err;
-        gchar *dbg_info;
-        gst_message_parse_error(msg, &err, &dbg_info);
-        string errortxt(err->message);
-        string dbtxt(dbg_info);
-        g_error_free(err);
-        g_free(dbg_info);
-
-        gst_message_unref (msg);
-        string msg = "Extracting metadata of file ";
-        msg += filename;
-        msg += " failed: ";
-        msg += errortxt;
-        msg += " ";
-        msg += dbg_info;
-        throw runtime_error(msg);
-    }
-
-    gst_message_unref (msg);
-
-    return ai;
-}
 
 std::string AlbumArtProvider::get_lastfm_url(const albuminfo &ai) {
     QString artist = QString::fromStdString(ai.artist);
@@ -153,8 +59,6 @@ std::string AlbumArtProvider::get_lastfm_url(const albuminfo &ai) {
         qDebug() << "Error getting the XML:" << reply->errorString();
         return "";
     }
-
-
 
     QXmlQuery query;
     QBuffer tmp;
@@ -212,14 +116,12 @@ void AlbumArtProvider::fix_format(const std::string &fname) {
     im.save(fname.c_str(), "JPEG");
 }
 
-std::string AlbumArtProvider::get_image(const std::string &filename) {
+std::string AlbumArtProvider::get_image(const std::string &artist, const std::string &album) {
     albuminfo info;
-    try {
-        info = get_album_info(filename);
-    } catch(std::exception &e) {
-        qDebug() << "Could not determine album info: " << e.what();
-        return DEFAULT_ALBUM_ART;
-    }
+
+    info.artist = artist;
+    info.album = album;
+
     if(info.album.empty() || info.artist.empty()) {
         return DEFAULT_ALBUM_ART;
     }
@@ -256,10 +158,17 @@ std::string AlbumArtProvider::get_image(const std::string &filename) {
 QImage AlbumArtProvider::requestImage(const QString &id, QSize *realSize, const QSize &requestedSize) {
     Q_UNUSED(requestedSize)
 
-    std::string src_path(id.toUtf8().data());
+    const QStringList parts = id.split("/");
+    if (parts.size() != 2) {
+        qWarning("Invalid albumart uri");
+        return QImage(QString::fromStdString(DEFAULT_ALBUM_ART));
+    }
+    const std::string artist = QUrl::fromPercentEncoding(parts[0].toUtf8()).toStdString();
+    const std::string album = QUrl::fromPercentEncoding(parts[1].toUtf8()).toStdString();
+    
     std::string tgt_path;
     try {
-        tgt_path = get_image(src_path);
+        tgt_path = get_image(artist, album);
         if(!tgt_path.empty()) {
             QString tgt(tgt_path.c_str());
             QImage image;
@@ -275,5 +184,5 @@ QImage AlbumArtProvider::requestImage(const QString &id, QSize *realSize, const 
     }
 
     *realSize = QSize(0, 0);
-    return QImage();
+    return QImage(QString::fromStdString(DEFAULT_ALBUM_ART));
 }
