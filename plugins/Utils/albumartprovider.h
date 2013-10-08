@@ -36,14 +36,12 @@ public:
     AlbumArtProvider() : QQuickImageProvider(QQmlImageProviderBase::Image, QQmlImageProviderBase::ForceAsynchronousImageLoading) {}
     QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize);
 
-    std::string get_image(const std::string &filename);
+    std::string get_image(const std::string &artist, const std::string &album);
 
 private:
     MediaArtCache cache;
 
     void fix_format(const std::string &fname);
-
-    albuminfo get_album_info(const std::string &filename) throw (std::runtime_error);
 
     std::string get_lastfm_url(const albuminfo &ai);
 
