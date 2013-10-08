@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-10-01 09:43+0200\n"
+"POT-Creation-Date: 2013-10-07 10:49+0200\n"
 "PO-Revision-Date: 2013-09-30 10:34+0000\n"
 "Last-Translator: Akerbeltz <fios@akerbeltz.org>\n"
 "Language-Team: Gaelic; Scottish <gd@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
 "(n > 2 && n < 20) ? 2 : 3;\n"
-"X-Launchpad-Export-Date: 2013-10-02 06:03+0000\n"
-"X-Generator: Launchpad (build 16774)\n"
+"X-Launchpad-Export-Date: 2013-10-08 07:01+0000\n"
+"X-Generator: Launchpad (build 16799)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -87,7 +87,7 @@ msgstr "An Uicipeid"
 msgid "YouTube"
 msgstr "YouTube"
 
-#: Components/EdgeDemoOverlay.qml:150
+#: Components/EdgeDemoOverlay.qml:149
 msgid "Skip intro"
 msgstr "Gearr leum thairis air an ro-ràdh"
 
@@ -139,18 +139,20 @@ msgid ""
 "phone<br><br>Tap anywhere to start"
 msgstr ""
 
-#: Components/PageHeader.qml:298
+#: Components/PageHeader.qml:341
 msgid "Recent searches"
 msgstr "Na lorg thu o chionn goirid"
 
 #. TRANSLATORS: Number of persons who rated this app
-#: Dash/Apps/AppInfo.qml:73
+#. TRANSLATORS: Number of persons who rated this app/video/whatever
+#: Dash/Apps/AppInfo.qml:73 Dash/Previews/Header.qml:93
 #, qt-format
 msgid "(%1)"
 msgstr "(%1)"
 
 #. TRANSLATORS: Number of persons who wrote reviews for this app
-#: Dash/Apps/AppInfo.qml:85
+#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
+#: Dash/Apps/AppInfo.qml:85 Dash/Previews/Header.qml:105
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
@@ -159,25 +161,9 @@ msgstr[1] "%1 lèirmheas"
 msgstr[2] "%1 lèirmheasan"
 msgstr[3] "%1 lèirmheas"
 
-#: Dash/Apps/AppPreview.qml:178
+#: Dash/Apps/AppPreview.qml:126
 msgid "Rate this"
 msgstr "Rangaich seo"
-
-#: Dash/Apps/AppReviews.qml:74
-msgid "Add a review"
-msgstr "Cuir lèirmheas ris"
-
-#: Dash/Apps/AppReviews.qml:86
-msgid "Review"
-msgstr "Lèirmheas"
-
-#: Dash/Apps/AppReviews.qml:121
-msgid "Send"
-msgstr "Cuir"
-
-#: Dash/Apps/AppReviews.qml:139
-msgid "Comments:"
-msgstr "Beachdan"
 
 #: Dash/DashMusic.qml:27 Dash/DashVideos.qml:28
 msgid "Featured"
@@ -207,17 +193,21 @@ msgstr "Fèill mhòr air air loidhne"
 msgid "Videos"
 msgstr "Videothan"
 
-#: Dash/Video/VideoPreview.qml:130
-msgid "Directed by:"
-msgstr "Air a stiùireadh le:"
+#: Dash/Previews/Reviews.qml:74
+msgid "Add a review"
+msgstr "Cuir lèirmheas ris"
 
-#: Dash/Video/VideoPreview.qml:153
-msgid "Starring:"
-msgstr "Leis na daoine a leanas:"
+#: Dash/Previews/Reviews.qml:86
+msgid "Review"
+msgstr "Lèirmheas"
 
-#: Dash/Video/VideoPreview.qml:176
-msgid "Author:"
-msgstr "Ùghdar:"
+#: Dash/Previews/Reviews.qml:121
+msgid "Send"
+msgstr "Cuir"
+
+#: Dash/Previews/Reviews.qml:139
+msgid "Comments:"
+msgstr "Beachdan"
 
 #: Greeter/Lockscreen.qml:142
 msgid "Emergency Call"
@@ -256,7 +246,7 @@ msgstr "A' bruidhinn..."
 msgid "Search"
 msgstr "Lorg"
 
-#: plugins/Unity/scope.cpp:336
+#: plugins/Unity/scope.cpp:361
 msgid "Sorry, there is nothing that matches your search."
 msgstr "Tha sinn duilich ach chan eil dad a' freagairt ris na lorg thu."
 
