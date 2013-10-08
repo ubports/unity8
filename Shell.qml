@@ -535,7 +535,7 @@ FocusScope {
             // is active.  This usually indicates something like a phone call.
             if (status == Powerd.Off && (flags & Powerd.UseProximity) == 0) {
                 powerConnection.setFocused(false);
-                greeter.show();
+                greeter.showNow();
             } else if (status == Powerd.On) {
                 powerConnection.setFocused(true);
             }
@@ -623,6 +623,7 @@ FocusScope {
         }
 
         Bottombar {
+            id: bottombar
             theHud: hud
             anchors.fill: parent
             enabled: hud.available
@@ -650,7 +651,7 @@ FocusScope {
             onDashItemSelected: showHome()
             onDash: {
                 if (stages.shown) {
-                    dash.setCurrentScope("applications.scope", true, false)
+                    dash.setCurrentScope("applications.scope", true /* animate */, true /* reset */)
                     stages.hide();
                     launcher.hide();
                 }
@@ -663,6 +664,7 @@ FocusScope {
                 if (shown) {
                     panel.indicators.hide()
                     hud.hide()
+                    bottombar.hide()
                 }
             }
         }
@@ -692,6 +694,12 @@ FocusScope {
                     PropertyChanges { target: notifications; width: units.gu(38) }
                 }
             ]
+
+            InputFilterArea {
+                anchors { left: parent.left; right: parent.right }
+                height: parent.contentHeight
+                blockInput: height > 0
+            }
         }
     }
 

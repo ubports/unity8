@@ -2,12 +2,11 @@
 include(Plugins)
 
 add_subdirectory(Indicators)
-add_subdirectory(IndicatorsLegacy)
 
 # Dependencies
 include(FindPkgConfig)
 pkg_check_modules(QTDEE REQUIRED libdee-qt5>=3.2)
-pkg_check_modules(UNITYCORE REQUIRED unity-core-6.0)
+pkg_check_modules(UNITYCORE REQUIRED unity-core-6.0>=7.1.1)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}

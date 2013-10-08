@@ -28,6 +28,7 @@
 #include "qlimitproxymodelqml.h"
 #include "qsortfilterproxymodelqml.h"
 #include "ubuntuwindow.h"
+#include "unitymenumodelpaths.h"
 
 static QObject* applicationsPathsSingleton(QQmlEngine* engine, QJSEngine* scriptEngine) {
   Q_UNUSED(engine);
@@ -41,6 +42,7 @@ void UtilsPlugin::registerTypes(const char *uri)
     qmlRegisterType<QAbstractItemModel>();
     qmlRegisterType<QLimitProxyModelQML>(uri, 0, 1, "LimitProxyModel");
     qmlRegisterType<QSortFilterProxyModelQML>(uri, 0, 1, "SortFilterProxyModel");
+    qmlRegisterType<UnityMenuModelPaths>(uri, 0, 1, "UnityMenuModelPaths");
     qmlRegisterExtendedType<QQuickWindow, UbuntuWindow>(uri, 0, 1, "Window");
     qmlRegisterSingletonType<ApplicationPaths>(uri, 0, 1, "ApplicationPaths", applicationsPathsSingleton);
 }

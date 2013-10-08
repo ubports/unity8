@@ -16,153 +16,101 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import Ubuntu.Components.ListItems 0.1 as ListItem
-import Ubuntu.DownloadDaemonListener 0.1
+import Ubuntu.Components.ListItems 0.1 as ListItems
 import ".."
+import "../Generic"
+import "../Previews"
 import "../../Components"
 
-DashPreview {
+GenericPreview {
     id: root
 
     signal sendUserReview(string review)
 
-    title: root.previewData.title
+    previewImages: previewImagesComponent
+    description: descriptionComponent
+    header: headerComponent
 
-    header: ListView {
-        spacing: units.gu(1)
-        orientation: ListView.Horizontal
-        height: units.gu(22)
-        anchors {
-            left: parent.left
-            right: parent.right
-            margins: units.gu(1)
-        }
-        model: previewData.infoMap["more-screenshots"] != null ? previewData.infoMap["more-screenshots"].value : [previewData.image]
+    // TODO: Ratings are not yet complete... enable this once they work
+    //ratings: ratingsComponent
 
-        delegate: UbuntuShape {
-            id: shape
-            anchors {
-                top: parent.top
-                bottom: parent.bottom
+    Component {
+        id: previewImagesComponent
+        ListView {
+            id: previewImageListView
+            spacing: units.gu(1)
+            orientation: ListView.Horizontal
+            height: units.gu(22)
+            model: previewData.infoMap["more-screenshots"] != null ? previewData.infoMap["more-screenshots"].value : [previewData.image]
+            cacheBuffer: width * 3
+
+            LazyImage {
+                objectName: "placeholderScreenshot"
+                anchors {
+                    top: parent.top
+                    bottom: parent.bottom
+                }
+                scaleTo: "height"
+                source: "broken_image"
+                initialWidth: units.gu(13)
+                visible: previewImageListView.count == 0
             }
-            width: units.gu(12)
-            radius: "medium"
-            borderSource: ""
-            image: Image {
-                asynchronous: true
-                sourceSize { width: shape.width; height: shape.height }
+
+            delegate: LazyImage {
+                id: shape
+                anchors {
+                    top: parent.top
+                    bottom: parent.bottom
+                }
                 source: modelData ? modelData : ""
-                fillMode: Image.PreserveAspectCrop
+                scaleTo: "height"
+                initialWidth: units.gu(13)
             }
         }
     }
 
     Component {
-        id: buttonsComponent
-
-        GridView {
-            id: buttonsGrid
-            objectName: "gridButtons"
-
-            property int numOfRows: (count + 1) / 2
-            property int spacing: units.gu(1)
-            height: Math.max(units.gu(5), units.gu(5)*numOfRows + spacing*(numOfRows - 1))
-
-            interactive: false
-            cellWidth: Math.max(units.gu(9), width / 2)
-            cellHeight: buttonHeight + spacing
-            property int buttonWidth: count > 1 ? Math.max(0, width / 2 - spacing) : width
-            property int buttonHeight: units.gu(5)
-
-            delegate: Button {
-                width: Math.max(units.gu(4), buttonsGrid.buttonWidth)
-                height: buttonsGrid.buttonHeight
-                color: Theme.palette.selected.foreground
-                text: modelData.displayName
-                iconSource: modelData.iconHint
-                iconPosition: "right"
-                onClicked: root.previewData.execute(modelData.id, { })
-            }
-        }
-    }
-
-    Component {
-        id: progressComponent
-
-        ProgressBar {
-            id: progressBar
-            objectName: "progressBar"
-            value: 0
-            maximumValue: 100
-            height: units.gu(5)
-
-            property var model
-
-            DownloadTracker {
-                service: "com.canonical.applications.Downloader"
-                dbusPath: root.previewData.infoMap["progressbar_source"] ? root.previewData.infoMap["progressbar_source"].value : ""
-
-                onProgress: {
-                    var percentage = parseInt(received * 100 / total);
-                    progressBar.value = percentage;
-                }
-
-                onFinished: {
-                    root.previewData.execute(progressBar.model[0].id, { })
-                }
-
-                onError: {
-                    root.previewData.execute(progressBar.model[1].id, { "error": error });
-                }
-            }
-
-        }
-    }
-
-    buttons: Loader {
-        anchors {
-            left: parent.left
-            right: parent.right
-        }
-
-        sourceComponent: root.previewData.infoMap["show_progressbar"] ? progressComponent : buttonsComponent
-
-        onLoaded: {
-            item.model = root.previewData.actions;
-        }
-    }
-
-    body: Column {
-        spacing: units.gu(1)
-
-        AppInfo {
-            objectName: "appInfo"
-            anchors { left: parent.left; right: parent.right }
-
-            appName: root.previewData.title
-            icon: root.previewData.appIcon
+        id: headerComponent
+        Header {
+            objectName: "previewHeader"
+            title: previewData.title
+            icon: previewData.appIcon
+            subtitle: root.previewData.infoMap["publisher"] ? root.previewData.infoMap["publisher"].value : ""
             rating: Math.round(root.previewData.rating * 10)
             reviews: root.previewData.numRatings
             rated: root.previewData.infoMap["rated"] ? root.previewData.infoMap["rated"].value : 0
         }
+    }
 
-        Label {
-            anchors { left: parent.left; right: parent.right }
-            text: root.previewData.description
-            fontSize: "medium"
-            color: Theme.palette.selected.backgroundText
-            opacity: .6
-            wrapMode: Text.WordWrap
-            style: Text.Raised
-            styleColor: "black"
-        }
-
+    Component {
+        id: descriptionComponent
         Column {
-            visible: root.previewData.rating >= 0
-            anchors { left: parent.left; right: parent.right }
-            spacing: parent.spacing
+            spacing: units.gu(1)
 
-            ListItem.ThinDivider { }
+            Label {
+                anchors { left: parent.left; right: parent.right }
+                text: root.previewData.description
+                fontSize: "medium"
+                color: Theme.palette.selected.backgroundText
+                opacity: .6
+                wrapMode: Text.WordWrap
+                style: Text.Raised
+                styleColor: "black"
+            }
+        }
+    }
+
+    Component {
+        id: ratingsComponent
+        Column {
+            id: columnReviewRating
+            objectName: "columnReviewRating"
+            visible: root.previewData.rating >= 0
+
+            spacing: units.gu(1)
+            height: childrenRect.height
+
+            ListItems.ThinDivider { }
 
             Item {
                 anchors { left: parent.left; right: parent.right }
@@ -188,13 +136,12 @@ DashPreview {
                 }
             }
 
-            ListItem.ThinDivider { }
+            ListItems.ThinDivider { }
 
-            AppReviews {
+            Reviews {
                 id: appReviews
                 objectName: "appReviews"
-                // TODO: This should make this visible when the feature for reviews/comments is complete.
-                visible: false
+
                 anchors { left: parent.left; right: parent.right }
 
                 model: root.previewData.infoMap["comments"] ? root.previewData.infoMap["comments"].value : undefined

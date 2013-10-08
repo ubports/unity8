@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-08-27 13:36-0400\n"
-"PO-Revision-Date: 2013-06-27 10:08+0000\n"
-"Last-Translator: Adar Cem EREN <adarcemeren34@gmail.com>\n"
+"POT-Creation-Date: 2013-10-07 10:49+0200\n"
+"PO-Revision-Date: 2013-10-01 13:21+0000\n"
+"Last-Translator: Volkan Gezer <Unknown>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-08-30 05:37+0000\n"
-"X-Generator: Launchpad (build 16750)\n"
+"X-Launchpad-Export-Date: 2013-10-08 07:01+0000\n"
+"X-Generator: Launchpad (build 16799)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -64,7 +64,7 @@ msgstr "Ortam Oynatıcı"
 
 #: Applications/applications.js:86
 msgid "Evernote"
-msgstr ""
+msgstr "Evernote"
 
 #: Applications/applications.js:91
 msgid "Map"
@@ -72,11 +72,11 @@ msgstr "Harita"
 
 #: Applications/applications.js:96
 msgid "Pinterest"
-msgstr ""
+msgstr "Pinterest"
 
 #: Applications/applications.js:101
 msgid "SoundCloud"
-msgstr ""
+msgstr "SoundCloud"
 
 #: Applications/applications.js:106
 msgid "Wikipedia"
@@ -86,87 +86,76 @@ msgstr "Vikipedi"
 msgid "YouTube"
 msgstr "YouTube"
 
-#: Components/EdgeDemoOverlay.qml:145
+#: Components/EdgeDemoOverlay.qml:149
 msgid "Skip intro"
-msgstr ""
+msgstr "İntro'yu geç"
 
-#: Components/EdgeDemo.qml:98
+#: Components/EdgeDemo.qml:112
 msgid "Right edge"
-msgstr ""
+msgstr "Sağ kenar"
 
-#: Components/EdgeDemo.qml:99
+#: Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr ""
+msgstr "Kilidi açmak için sağ kenara sürüklemeyi deneyin"
 
-#: Components/EdgeDemo.qml:135
+#: Components/EdgeDemo.qml:144
 msgid "Top edge"
-msgstr ""
+msgstr "Üst kenar"
 
-#: Components/EdgeDemo.qml:136
+#: Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
-msgstr ""
+msgstr "Bildiricilere erişmek için üst kenarı sürüklemeyi deneyin"
 
-#: Components/EdgeDemo.qml:161
+#: Components/EdgeDemo.qml:170
 msgid "Close"
-msgstr ""
+msgstr "Kapat"
 
-#: Components/EdgeDemo.qml:162
+#: Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
-msgstr ""
+msgstr "Ayarlar ekranını kapatmak için tekrar yukarı kaydırın"
 
-#: Components/EdgeDemo.qml:189
+#: Components/EdgeDemo.qml:198
 msgid "Left edge"
-msgstr ""
+msgstr "Sol kenar"
 
-#: Components/EdgeDemo.qml:190
+#: Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr ""
+"Uygulamalara hızlı erişim çalıştırıcısını açmak için sol kenarı sürükleyin"
 
-#: Components/EdgeDemo.qml:217
+#: Components/EdgeDemo.qml:226
 msgid "Well done"
+msgstr "Tebrikler"
+
+#: Components/EdgeDemo.qml:227
+msgid ""
+"You have now mastered the edge gestures and can start using the "
+"phone<br><br>Tap anywhere to start"
 msgstr ""
 
-#: Components/EdgeDemo.qml:218
-msgid "You have now mastered the edge gestures and can start using the phone"
-msgstr ""
-
-#: Components/PageHeader.qml:298
+#: Components/PageHeader.qml:341
 msgid "Recent searches"
 msgstr "Son Arananlar"
 
 #. TRANSLATORS: Number of persons who rated this app
-#: Dash/Apps/AppInfo.qml:73
+#. TRANSLATORS: Number of persons who rated this app/video/whatever
+#: Dash/Apps/AppInfo.qml:73 Dash/Previews/Header.qml:93
 #, qt-format
 msgid "(%1)"
-msgstr ""
+msgstr "(%1)"
 
 #. TRANSLATORS: Number of persons who wrote reviews for this app
-#: Dash/Apps/AppInfo.qml:85
+#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
+#: Dash/Apps/AppInfo.qml:85 Dash/Previews/Header.qml:105
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 inceleme"
+msgstr[1] "%1 inceleme"
 
-#: Dash/Apps/AppPreview.qml:175
+#: Dash/Apps/AppPreview.qml:126
 msgid "Rate this"
-msgstr ""
-
-#: Dash/Apps/AppReviews.qml:72
-msgid "Add a review"
-msgstr ""
-
-#: Dash/Apps/AppReviews.qml:84
-msgid "Review"
-msgstr ""
-
-#: Dash/Apps/AppReviews.qml:118
-msgid "Send"
-msgstr ""
-
-#: Dash/Apps/AppReviews.qml:136
-msgid "Comments:"
-msgstr ""
+msgstr "Oyla"
 
 #: Dash/DashMusic.qml:27 Dash/DashVideos.qml:28
 msgid "Featured"
@@ -178,11 +167,11 @@ msgstr "En Son"
 
 #: Dash/DashMusic.qml:29 Dash/DashVideos.qml:30
 msgid "New Releases"
-msgstr ""
+msgstr "Yeni Sürümler"
 
 #: Dash/DashMusic.qml:30
 msgid "Top Charting"
-msgstr ""
+msgstr "En Çok Beğenilenler"
 
 #: Dash/DashMusic.qml:91
 msgid "Music"
@@ -196,26 +185,30 @@ msgstr "Genellikle Çevrimiçi"
 msgid "Videos"
 msgstr "Videolar"
 
-#: Dash/Video/VideoPreview.qml:130
-msgid "Directed by:"
-msgstr "Yönetmen"
+#: Dash/Previews/Reviews.qml:74
+msgid "Add a review"
+msgstr "Bir inceleme ekle"
 
-#: Dash/Video/VideoPreview.qml:153
-msgid "Starring:"
-msgstr ""
+#: Dash/Previews/Reviews.qml:86
+msgid "Review"
+msgstr "İnceleme"
 
-#: Dash/Video/VideoPreview.qml:176
-msgid "Author:"
-msgstr "Yazar:"
+#: Dash/Previews/Reviews.qml:121
+msgid "Send"
+msgstr "Gönder"
 
-#: Greeter/Lockscreen.qml:134
+#: Dash/Previews/Reviews.qml:139
+msgid "Comments:"
+msgstr "Yorumlar:"
+
+#: Greeter/Lockscreen.qml:142
 msgid "Emergency Call"
-msgstr ""
+msgstr "Acil Arama"
 
 #: Greeter/PassphraseLockscreen.qml:59
 #, qt-format
 msgid "Hello %1"
-msgstr ""
+msgstr "Merhaba %1"
 
 #: Greeter/PassphraseLockscreen.qml:59
 msgid "Hello"
@@ -245,11 +238,15 @@ msgstr "Konuşuyor..."
 msgid "Search"
 msgstr "Ara"
 
-#: plugins/Unity/scope.cpp:317
+#: plugins/Unity/scope.cpp:361
 msgid "Sorry, there is nothing that matches your search."
 msgstr "Üzgünüz, aramanızla eşleşen hiçbir şey yok."
 
-#: Shell.qml:429
+#: plugins/Unity/showallfilteroption.cpp:41
+msgid "All"
+msgstr ""
+
+#: Shell.qml:453
 #, qt-format
 msgid "Please enter %1"
-msgstr ""
+msgstr "Lütfen %1 girin"

@@ -34,15 +34,32 @@ Item {
 
     state: "hidden"
 
+    function hide() {
+        dismissTimer.stop()
+        bottombar.state = "hidden"
+    }
+
+    onApplicationIsOnForegroundChanged: {
+        if (!applicationIsOnForeground) {
+            hide()
+        }
+    }
+
     onStateChanged: {
         if (state == "hidden") {
             dismissTimer.stop()
+            bottomBarVisibilityCommunicatorShell.forceHidden = false
         } else {
             dismissTimer.restart()
         }
     }
 
     onPreventHidingChanged: {
+        if (!preventHiding) {
+            if (state == "hint" || state == "reveal")
+                hide()
+        }
+
         if (dismissTimer.running) {
             dismissTimer.restart();
         }
@@ -50,7 +67,7 @@ Item {
 
     Timer {
         id: dismissTimer
-        interval: 5000
+        interval: 1000
         onTriggered: {
             if (!bottombar.preventHiding) {
                 bottombar.state = "hidden"
@@ -103,24 +120,29 @@ Item {
 
     EdgeDragArea {
         id: dragArea
+        objectName: "hudDragArea"
         width: parent.width
         height: distanceThreshold
         anchors.bottom: parent.bottom
 
-        distanceThreshold: units.gu(1)
+        distanceThreshold: units.gu(8)
         enabled: !theHud.shown && bottombar.enabled && applicationIsOnForeground
         direction: Direction.Upwards
+        maxSilenceTime: 2000
 
         property int previousStatus: -1
         property real touchStartX: -1
+
+        readonly property real distanceFromThreshold: (-distance) - distanceThreshold // distance is negative
+        readonly property real revealDistance: units.gu(2)
+        readonly property real commitDistance: units.gu(6)
+        readonly property real commitProgress: MathLocal.clamp(distanceFromThreshold / commitDistance, 0, 1)
 
         onStatusChanged: {
             if (status === DirectionalDragArea.WaitingForTouch) {
                 if (previousStatus == DirectionalDragArea.Recognized) {
                     if (hudButton.mouseOver) {
                         hudButton.clicked()
-                    } else {
-                        bottombar.state = "hidden"
                     }
                 }
             } else if (status === DirectionalDragArea.Undecided) {
@@ -128,35 +150,78 @@ Item {
                     touchStartX = touchX
                 }
             } else if (status === DirectionalDragArea.Recognized) {
-                bottombar.state = "shown"
+                bottombar.state = "hint"
             }
             previousStatus = status
+        }
+
+        onDistanceChanged: {
+            if (status === DirectionalDragArea.Recognized) {
+                if (distanceFromThreshold > commitDistance)
+                    bottombar.state = "shown"
+                else if (distanceFromThreshold > revealDistance)
+                    bottombar.state = "reveal"
+            }
+        }
+    }
+
+    Item {
+        id: dismissArea
+        anchors {
+            top: parent.top
+            left: parent.left
+            right: parent.right
+        }
+        height: parent.height - bottomBarVisibilityCommunicatorShell.position
+
+        MouseArea {
+            anchors.fill: parent
+            enabled: bottombar.state == "shown"
+            onPressed: {
+                bottomBarVisibilityCommunicatorShell.forceHidden = true
+                bottombar.state = "hidden"
+            }
+        }
+
+        InputFilterArea {
+            anchors.fill: parent
+            blockInput: (hudButton.opacity == 1)
         }
     }
 
     MouseArea {
-        anchors.fill: parent
-        enabled: bottombar.state == "shown"
+        anchors {
+            top: dismissArea.bottom
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+        }
+        enabled: bottombar.state == "shown" && bottomBarVisibilityCommunicatorShell.position > 0
         onPressed: {
             bottombar.state = "hidden"
         }
     }
 
-    InputFilterArea {
-        anchors.fill: parent
-        blockInput: (hudButton.opacity == 1)
-    }
-
     states: [
         State {
             name: "hidden"
-            PropertyChanges { target: hudButton; opacity: 0}
-            PropertyChanges { target: hudButton; bottomMargin: units.gu(-1)}
+            PropertyChanges { target: hudButton; opacity: 0 }
+            PropertyChanges { target: hudButton; bottomMargin: units.gu(-2) }
+        },
+        State {
+            name: "hint"
+            extend: "hidden"
+            PropertyChanges { target: hudButton; opacity: 0.5 }
+        },
+        State {
+            name: "reveal"
+            extend: "hint"
+            PropertyChanges { target: hudButton; bottomMargin: units.gu(-2) + units.gu(2) * dragArea.commitProgress }
         },
         State {
             name: "shown"
-            PropertyChanges { target: hudButton; opacity: 1}
-            PropertyChanges { target: hudButton; bottomMargin: units.gu(0)}
+            PropertyChanges { target: hudButton; opacity: 1 }
+            PropertyChanges { target: hudButton; bottomMargin: units.gu(0) }
         }
     ]
 }
