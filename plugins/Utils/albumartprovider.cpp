@@ -39,7 +39,7 @@ using namespace std;
 
 const std::string AlbumArtProvider::DEFAULT_ALBUM_ART = "/usr/share/unity/icons/album_missing.png";
 
-AlbumArtProvider::AlbumArtProvider() 
+AlbumArtProvider::AlbumArtProvider()
     : QQuickImageProvider(QQmlImageProviderBase::Image, QQmlImageProviderBase::ForceAsynchronousImageLoading)
 {
     m_settings = g_settings_new ("com.canonical.Unity.Lenses");
@@ -189,7 +189,7 @@ QImage AlbumArtProvider::requestImage(const QString &id, QSize *realSize, const 
     }
     const std::string artist = QUrl::fromPercentEncoding(parts[0].toUtf8()).toStdString();
     const std::string album = QUrl::fromPercentEncoding(parts[1].toUtf8()).toStdString();
-    
+
     std::string tgt_path;
     try {
         tgt_path = get_image(artist, album);
