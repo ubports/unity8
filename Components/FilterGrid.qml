@@ -74,7 +74,7 @@ Item {
         // otherwise since both animations can run at the same time you'll get
         // some visual weirdness.
         duration: -1
-        velocity: 800
+        velocity: units.gu(100)
         easing.type: Easing.InOutQuad
         onStopped: {
             root.filter = filterEndValue;
