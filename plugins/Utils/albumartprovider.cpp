@@ -184,7 +184,7 @@ QImage AlbumArtProvider::requestImage(const QString &id, QSize *realSize, const 
 
     const QStringList parts = id.split("/");
     if (parts.size() != 2) {
-        qWarning("Invalid albumart uri");
+        qWarning() << "Invalid albumart uri:" << id;
         return QImage(QString::fromStdString(DEFAULT_ALBUM_ART));
     }
     const std::string artist = QUrl::fromPercentEncoding(parts[0].toUtf8()).toStdString();
