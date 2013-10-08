@@ -129,7 +129,7 @@ UbuntuShape {
                 id: labelColumn
                 width: parent.width - x
 
-                anchors.verticalCenter: (icon.visible && !bodyLabel.visible) ? icon.verticalCenter : null
+                anchors.verticalCenter: (icon.visible && !bodyLabel.visible) ? icon.verticalCenter : undefined
 
                 Label {
                     id: summaryLabel
