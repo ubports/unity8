@@ -694,6 +694,12 @@ FocusScope {
                     PropertyChanges { target: notifications; width: units.gu(38) }
                 }
             ]
+
+            InputFilterArea {
+                anchors { left: parent.left; right: parent.right }
+                height: parent.contentHeight
+                blockInput: height > 0
+            }
         }
     }
 
