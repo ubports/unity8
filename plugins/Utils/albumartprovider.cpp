@@ -36,6 +36,8 @@
 
 using namespace std;
 
+const std::string AlbumArtProvider::DEFAULT_ALBUM_ART = "/usr/share/unity/icons/album_missing.png";
+
 static void on_new_pad (GstElement * /*dec*/, GstPad * pad, GstElement * fakesink) {
     GstPad *sinkpad;
 
@@ -65,7 +67,7 @@ static void process_one_tag (const GstTagList * list, const gchar * tag, gpointe
     }
 }
 
-albuminfo AlbumArtProvider::get_album_info(const std::string &filename) throw (runtime_error) 
+albuminfo AlbumArtProvider::get_album_info(const std::string &filename) throw (runtime_error)
 {
     albuminfo ai;
     // FIXME: Need to do quoting. Files with %'s in their names seem to confuse gstreamer.
@@ -152,6 +154,8 @@ std::string AlbumArtProvider::get_lastfm_url(const albuminfo &ai) {
         return "";
     }
 
+
+
     QXmlQuery query;
     QBuffer tmp;
     tmp.setData(reply->readAll());
@@ -214,10 +218,10 @@ std::string AlbumArtProvider::get_image(const std::string &filename) {
         info = get_album_info(filename);
     } catch(std::exception &e) {
         qDebug() << "Could not determine album info: " << e.what();
-        return "";
+        return DEFAULT_ALBUM_ART;
     }
     if(info.album.empty() || info.artist.empty()) {
-        return "";
+        return DEFAULT_ALBUM_ART;
     }
     if(cache.has_art(info.artist, info.album)) {
         // Image may have expired from cache between these two lines.
@@ -226,7 +230,7 @@ std::string AlbumArtProvider::get_image(const std::string &filename) {
     }
     std::string image_url = get_lastfm_url(info);
     if(image_url.empty()) {
-        return "";
+        return DEFAULT_ALBUM_ART;
     }
     char tmpname[] = "/tmp/path/to/some/file/somewhere/maybe.jpg";
     tmpnam(tmpname);

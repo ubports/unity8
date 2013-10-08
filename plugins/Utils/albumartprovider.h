@@ -38,6 +38,7 @@ public:
 
     std::string get_image(const std::string &filename);
 
+    const static std::string DEFAULT_ALBUM_ART;
 private:
     MediaArtCache cache;
 
