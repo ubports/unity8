@@ -704,6 +704,7 @@ FocusScope {
     }
 
     focus: true
+    onFocusChanged: if (!focus) forceActiveFocus();
 
     InputFilterArea {
         anchors {
