@@ -151,7 +151,7 @@ std::string AlbumArtProvider::get_image(const std::string &artist, const std::st
 
     if (m_settings != nullptr && g_settings_get_boolean(m_settings, "remote-content-search") == false) {
         qDebug() << "Remote content disabled";
-        return "";
+        return DEFAULT_ALBUM_ART;
     }
 
     std::string image_url = get_lastfm_url(info);
@@ -162,7 +162,7 @@ std::string AlbumArtProvider::get_image(const std::string &artist, const std::st
     tmpnam(tmpname);
     //std::unique_ptr<char, int(*)(const char*)> deleter(tmpname, unlink);
     if(!download_and_store(image_url, tmpname)) {
-        return "";
+        return DEFAULT_ALBUM_ART;
     }
     fix_format(tmpname);
     FILE *f = fopen(tmpname, "r");
