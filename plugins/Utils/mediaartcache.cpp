@@ -176,4 +176,3 @@ void MediaArtCache::prune() {
         }
     }
 }
-

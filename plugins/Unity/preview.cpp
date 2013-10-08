@@ -113,7 +113,7 @@ QString Preview::image() const
             return result;
         } else {
             QString sourceMedia(QString::fromStdString(m_unityPreview->image_source_uri()));
-            QString thumbnailUri(uriToThumbnailerProviderString(sourceMedia, m_result->mimeType()));
+            QString thumbnailUri(uriToThumbnailerProviderString(sourceMedia, m_result->mimeType(), m_result->metadata().toHash()));
             if (!thumbnailUri.isNull()) return thumbnailUri;
         }
     } else {

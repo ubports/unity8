@@ -83,7 +83,7 @@ CategoryResults::data(const QModelIndex& index, int role) const
             if (giconString.isEmpty()) {
                 QString mimetype(DeeListModel::data(index, ResultsColumn::MIMETYPE).toString());
                 QString uri(DeeListModel::data(index, ResultsColumn::URI).toString());
-                QString thumbnailerUri(uriToThumbnailerProviderString(uri, mimetype));
+                QString thumbnailerUri(uriToThumbnailerProviderString(uri, mimetype, DeeListModel::data(index, ResultsColumn::METADATA).toHash()));
                 if (!thumbnailerUri.isNull()) {
                     return QVariant::fromValue(thumbnailerUri);
                 }

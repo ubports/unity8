@@ -92,11 +92,22 @@ QString gIconToDeclarativeImageProviderString(QString const &giconString)
     return result;
 }
 
-QString uriToThumbnailerProviderString(QString const &uri, QString const &mimetype)
+QString uriToThumbnailerProviderString(QString const &uri, QString const &mimetype, QVariantHash const &metadata)
 {
     if (uri.startsWith(QLatin1String("file:///"))) {
-        QString thumbnailerUri(mimetype.startsWith(QLatin1String("audio/")) ? BASE_ALBUMART_URI : BASE_THUMBNAILER_URI);
-        thumbnailerUri.append(uri.midRef(7));
+        bool isAudio = mimetype.startsWith(QLatin1String("audio/"));
+        QString thumbnailerUri;
+        if (isAudio) {
+            thumbnailerUri = BASE_ALBUMART_URI;
+            const QString album = metadata["album"].toString();
+            const QString artist = metadata["artist"].toString();
+            thumbnailerUri.append(album);
+            thumbnailerUri.append("§"); //FIXME: change to proper escaping
+            thumbnailerUri.append(artist);
+        } else {
+            thumbnailerUri = BASE_THUMBNAILER_URI;
+            thumbnailerUri.append(uri.midRef(7));
+        }
         return thumbnailerUri;
     }
 
