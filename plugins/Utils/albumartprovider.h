@@ -22,6 +22,7 @@
 #include <string>
 #include <stdexcept>
 #include <QQuickImageProvider>
+#include <gio/gio.h>
 
 #include "mediaartcache.h"
 
@@ -33,7 +34,8 @@ struct albuminfo {
 class AlbumArtProvider : public QQuickImageProvider
 {
 public:
-    AlbumArtProvider() : QQuickImageProvider(QQmlImageProviderBase::Image, QQmlImageProviderBase::ForceAsynchronousImageLoading) {}
+    AlbumArtProvider();
+    ~AlbumArtProvider();
     QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize);
 
     std::string get_image(const std::string &artist, const std::string &album);
@@ -41,6 +43,7 @@ public:
     const static std::string DEFAULT_ALBUM_ART;
 private:
     MediaArtCache cache;
+    GSettings *m_settings;
 
     void fix_format(const std::string &fname);
 

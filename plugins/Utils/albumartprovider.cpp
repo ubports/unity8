@@ -39,6 +39,18 @@ using namespace std;
 
 const std::string AlbumArtProvider::DEFAULT_ALBUM_ART = "/usr/share/unity/icons/album_missing.png";
 
+AlbumArtProvider::AlbumArtProvider() 
+    : QQuickImageProvider(QQmlImageProviderBase::Image, QQmlImageProviderBase::ForceAsynchronousImageLoading)
+{
+    m_settings = g_settings_new ("com.canonical.Unity.Lenses");
+}
+
+AlbumArtProvider::~AlbumArtProvider()
+{
+    if (m_settings)
+        g_object_unref(m_settings);
+}
+
 std::string AlbumArtProvider::get_lastfm_url(const albuminfo &ai) {
     QString artist = QString::fromStdString(ai.artist);
     QString album = QString::fromStdString(ai.album);
@@ -130,6 +142,12 @@ std::string AlbumArtProvider::get_image(const std::string &artist, const std::st
         // It might expire before we return. C'est la vie.
         return cache.get_art_file(info.artist, info.album);
     }
+
+    if (m_settings != nullptr && g_settings_get_boolean(m_settings, "remote-content-search") == false) {
+        qDebug() << "Remote content disabled";
+        return "";
+    }
+
     std::string image_url = get_lastfm_url(info);
     if(image_url.empty()) {
         return DEFAULT_ALBUM_ART;
