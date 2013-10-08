@@ -103,7 +103,10 @@ FocusScope {
         // like a snap decision (say, an incoming call).
         // TODO: this should be protected to only unlock for certain applications / certain usecases
         // potentially only in connection with a notification.
-        greeter.hide()
+        if (greeter.shown && currentFocusedAppId) {
+            greeter.hide()
+        }
+        hud.hide()
     }
 
     function activateApplication(desktopFile, argument) {
@@ -468,6 +471,26 @@ FocusScope {
 
         dragHandleWidth: shell.edgeSize
 
+        property var previousMainApp: null
+        property var previousSideApp: null
+
+        function setFocused(focused) {
+            if (!focused) {
+                previousMainApp = applicationManager.mainStageFocusedApplication;
+                previousSideApp = applicationManager.sideStageFocusedApplication;
+                applicationManager.unfocusCurrentApplication();
+            } else {
+                if (previousMainApp) {
+                    applicationManager.focusApplication(previousMainApp);
+                    previousMainApp = null;
+                }
+                if (previousSideApp) {
+                    applicationManager.focusApplication(previousSideApp);
+                    previousSideApp = null;
+                }
+            }
+        }
+
         onShownChanged: {
             if (shown) {
                 lockscreen.reset();
@@ -478,6 +501,9 @@ FocusScope {
                     greeter.selected(0);
                 }
                 greeter.forceActiveFocus();
+                setFocused(false);
+            } else {
+                setFocused(true);
             }
         }
 
@@ -506,34 +532,11 @@ FocusScope {
         id: powerConnection
         target: Powerd
 
-        property var previousMainApp: null
-        property var previousSideApp: null
-
-        function setFocused(focused) {
-            if (!focused) {
-                powerConnection.previousMainApp = applicationManager.mainStageFocusedApplication;
-                powerConnection.previousSideApp = applicationManager.sideStageFocusedApplication;
-                applicationManager.unfocusCurrentApplication();
-            } else {
-                if (powerConnection.previousMainApp) {
-                    applicationManager.focusApplication(powerConnection.previousMainApp);
-                    powerConnection.previousMainApp = null;
-                }
-                if (powerConnection.previousSideApp) {
-                    applicationManager.focusApplication(powerConnection.previousSideApp);
-                    powerConnection.previousSideApp = null;
-                }
-            }
-        }
-
         onDisplayPowerStateChange: {
             // We ignore any display-off signals when the proximity sensor
             // is active.  This usually indicates something like a phone call.
             if (status == Powerd.Off && (flags & Powerd.UseProximity) == 0) {
-                powerConnection.setFocused(false);
                 greeter.showNow();
-            } else if (status == Powerd.On) {
-                powerConnection.setFocused(true);
             }
 
             // No reason to chew demo CPU when user isn't watching
@@ -594,12 +597,6 @@ FocusScope {
             shown: false
             showAnimation: StandardAnimation { property: "y"; duration: hud.showableAnimationDuration; to: 0; easing.type: Easing.Linear }
             hideAnimation: StandardAnimation { property: "y"; duration: hud.showableAnimationDuration; to: hudRevealer.closedValue; easing.type: Easing.Linear }
-
-            Connections {
-                target: shell.applicationManager
-                onMainStageFocusedApplicationChanged: hud.hide()
-                onSideStageFocusedApplicationChanged: hud.hide()
-            }
         }
 
         Revealer {
