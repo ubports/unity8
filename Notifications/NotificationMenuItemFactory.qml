@@ -41,12 +41,7 @@ Loader {
             if (component !== undefined) {
                 return component;
             }
-        } else {
-            if (menuData.isSeparator) {
-                return divMenu;
-            }
         }
-        return standardMenu;
     }
 
     Component {
