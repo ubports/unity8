@@ -41,19 +41,14 @@ Loader {
             if (component !== undefined) {
                 return component;
             }
-        } else {
-            if (menuData.isSeparator) {
-                return divMenu;
-            }
         }
-        return standardMenu;
     }
 
     Component {
         id: textfield
 
         Column {
-            spacing: units.gu(.5)
+            spacing: units.gu(2)
 
             anchors.left: parent.left; anchors.right: parent.right
 
@@ -63,8 +58,6 @@ Loader {
             }
 
             Label {
-                fontSize: "medium"
-                color: "white"
                 text: menuData.label
             }
 
@@ -72,7 +65,7 @@ Loader {
                 id: textfield
 
                 anchors.left: parent.left; anchors.right: parent.right
-
+                height: units.gu(5)
                 onTextChanged: {
                     menuModel.changeState(menuIndex, text);
                 }
