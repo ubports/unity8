@@ -52,5 +52,16 @@ void UtilsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
 {
     QQmlExtensionPlugin::initializeEngine(engine, uri);
 
-    engine->addImageProvider(QLatin1String("albumart"), new AlbumArtProvider);
+    try
+    {
+        engine->addImageProvider(QLatin1String("albumart"), new AlbumArtProvider);
+    }
+    catch (const std::runtime_error &e)
+    {
+        qWarning() << "Failed to register image provider for albumart:" << e.what();
+    }
+    catch (...)
+    {
+        qWarning() << "Failed to register image provider for albumart (unknown error)";
+    }
 }
