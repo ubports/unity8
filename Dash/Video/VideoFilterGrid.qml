@@ -37,6 +37,7 @@ GenericFilterGrid {
         imageHeight: filtergrid.iconHeight
         source: model.icon
         maximumLineCount: 2
+        horizontalAlignment: Text.AlignLeft
 
         style: VideoTileStyle {}
 
