@@ -206,13 +206,13 @@ Item {
                     states: [
                         State {
                             name: "searching"
-                            when: scope.searchInProgress && searchField.text !== ""
+                            when: scope && scope.searchInProgress
                             PropertyChanges { target: searchIndicator; running: true; opacity: 1 }
                             PropertyChanges { target: primaryImage; opacity: 0 }
                         },
                         State {
                             name: "idle"
-                            when: !scope.searchInProgress || searchField.text === ""
+                            when: !scope || !scope.searchInProgress
                             PropertyChanges { target: searchIndicator; opacity: 0 }
                             PropertyChanges { target: primaryImage; opacity: 1 }
                         }

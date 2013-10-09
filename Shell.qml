@@ -160,10 +160,6 @@ FocusScope {
         }
     }
 
-    OSKController {
-        anchors.fill: parent // as needs to know the geometry of the shell
-    }
-
     VolumeControl {
         id: volumeControl
     }
@@ -535,7 +531,7 @@ FocusScope {
             // is active.  This usually indicates something like a phone call.
             if (status == Powerd.Off && (flags & Powerd.UseProximity) == 0) {
                 powerConnection.setFocused(false);
-                greeter.show();
+                greeter.showNow();
             } else if (status == Powerd.On) {
                 powerConnection.setFocused(true);
             }
@@ -694,10 +690,17 @@ FocusScope {
                     PropertyChanges { target: notifications; width: units.gu(38) }
                 }
             ]
+
+            InputFilterArea {
+                anchors { left: parent.left; right: parent.right }
+                height: parent.contentHeight
+                blockInput: height > 0
+            }
         }
     }
 
     focus: true
+    onFocusChanged: if (!focus) forceActiveFocus();
 
     InputFilterArea {
         anchors {
@@ -723,6 +726,10 @@ FocusScope {
         target: i18n
         property: "domain"
         value: "unity8"
+    }
+
+    OSKController {
+        anchors.fill: parent // as needs to know the geometry of the shell
     }
 
     //FIXME: This should be handled in the input stack, keyboard shouldnt propagate

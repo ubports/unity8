@@ -123,7 +123,7 @@ Item {
 
                 onLoaded: {
                     item.scope = Qt.binding(function() { return scope })
-                    item.isCurrent = Qt.binding(function() { return ListView.isCurrentItem })
+                    item.isCurrent = Qt.binding(function() { return visible && ListView.isCurrentItem })
                     item.searchHistory = Qt.binding(function() { return shell.searchHistory })
                     dashContentList.movementStarted.connect(item.movementStarted)
                     dashContent.positionedAtBeginning.connect(item.positionedAtBeginning)

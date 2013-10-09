@@ -35,8 +35,9 @@ UbuntuShape {
 
     objectName: "background"
     implicitHeight: contentColumn.height + contentColumn.spacing * 2
-    color: Qt.rgba(0, 0, 0, 0.85)
+    color: Qt.rgba(0.132, 0.117, 0.109, 0.97)
     opacity: 0
+    radius: "medium"
 
     clip: true
 
@@ -128,6 +129,8 @@ UbuntuShape {
                 id: labelColumn
                 width: parent.width - x
 
+                anchors.verticalCenter: (icon.visible && !bodyLabel.visible) ? icon.verticalCenter : undefined
+
                 Label {
                     id: summaryLabel
 
@@ -191,7 +194,7 @@ UbuntuShape {
                 right: parent.right
             }
             visible: notification.type == Notification.SnapDecision
-            height: units.gu(4)
+            height: units.gu(5)
 
             property real buttonWidth: (width - contentColumn.spacing) / 2
             property bool expanded
@@ -282,7 +285,7 @@ UbuntuShape {
                             }
 
                             text: loader.actionLabel
-                            height: units.gu(4)
+                            height: units.gu(5)
                             gradient: UbuntuColors.greyGradient
                             onClicked: notification.notification.invokeAction(loader.actionId)
                         }

@@ -48,7 +48,7 @@ Row {
     function addSnapDecisionNotification() {
         var n = {
             type: Notification.SnapDecision,
-            hints: Notification.ButtonTint,
+            hints: {"x-canonical-private-button-tint": "true"},
             summary: "Tom Ato",
             body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
             icon: "../graphics/avatars/funky.png",
@@ -192,7 +192,7 @@ Row {
             {
                 tag: "Snap Decision with secondary icon and button-tint",
                 type: Notification.SnapDecision,
-                hints: Notification.ButtonTint,
+                hints: {"x-canonical-private-button-tint": "true"},
                 summary: "Tom Ato",
                 body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
                 icon: "../graphics/avatars/funky.png",
@@ -213,6 +213,7 @@ Row {
             {
                 tag: "Ephemeral notification - icon-summary layout",
                 type: Notification.Ephemeral,
+                hints: {"x-canonical-private-button-tint": "false"},
                 summary: "Photo upload completed",
                 body: "",
                 icon: "",
@@ -229,6 +230,7 @@ Row {
             {
                 tag: "Ephemeral notification - check suppression of secondary icon for icon-summary layout",
                 type: Notification.Ephemeral,
+                hints: {"x-canonical-private-button-tint": "false"},
                 summary: "New comment successfully published",
                 body: "",
                 icon: "",
@@ -245,6 +247,7 @@ Row {
             {
                 tag: "Interactive notification",
                 type: Notification.Interactive,
+                hints: {"x-canonical-private-button-tint": "false"},
                 summary: "Interactive notification",
                 body: "This is a notification that can be clicked",
                 icon: "../graphics/avatars/amanda.png",
@@ -261,6 +264,7 @@ Row {
             {
                 tag: "Snap Decision without secondary icon and no button-tint",
                 type: Notification.SnapDecision,
+                hints: {"x-canonical-private-button-tint": "false"},
                 summary: "Bro Coly",
                 body: "At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
                 icon: "../graphics/avatars/anna_olsson.png",
@@ -278,6 +282,7 @@ Row {
             {
                 tag: "Ephemeral notification",
                 type: Notification.Ephemeral,
+                hints: {"x-canonical-private-button-tint": "false"},
                 summary: "Cole Raby",
                 body: "I did not expect it to be that late.",
                 icon: "../graphics/avatars/funky.png",

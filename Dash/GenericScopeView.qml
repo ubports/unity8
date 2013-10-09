@@ -97,6 +97,7 @@ ScopeView {
                         // TODO: the running apps grid doesn't support standard scope results model yet
                         item.firstModel = Qt.binding(function() { return results.firstModel })
                         item.secondModel = Qt.binding(function() { return results.secondModel })
+                        item.canEnableTerminationMode = Qt.binding(function() { return scopeView.isCurrent })
                     } else {
                         item.model = Qt.binding(function() { return results })
                     }
@@ -209,13 +210,6 @@ ScopeView {
                 switch (contentType) {
                     case "video": return "Generic/GenericFilterGridPotrait.qml";
                     case "music": return "Music/MusicFilterGrid.qml";
-                    case "apps": {
-                        if (rendererHint == "toggled")
-                            return "Apps/DashPluginFilterGrid.qml";
-                        else
-                            return "Generic/GenericFilterGrid.qml";
-                    }
-                    case "weather": return "Generic/WeatherFilterGrid.qml";
                     default: return "Generic/GenericFilterGrid.qml";
                 }
             }

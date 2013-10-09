@@ -1,34 +1,34 @@
-# Catalan translation for unity
+# Czech translation for unity8
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the unity package.
+# This file is distributed under the same license as the unity8 package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity\n"
+"Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-10-07 10:49+0200\n"
-"PO-Revision-Date: 2013-09-28 07:38+0000\n"
-"Last-Translator: David Planella <david.planella@ubuntu.com>\n"
-"Language-Team: Catalan <ca@li.org>\n"
+"PO-Revision-Date: 2013-10-08 08:09+0000\n"
+"Last-Translator: Tadeáš Pařík <tadeas.parik@gmail.com>\n"
+"Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-10-08 07:01+0000\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Launchpad-Export-Date: 2013-10-09 06:24+0000\n"
 "X-Generator: Launchpad (build 16799)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
-msgstr "Telèfon"
+msgstr "Telefon"
 
 #: Applications/applications.js:29
 msgid "Camera"
-msgstr "Càmera"
+msgstr "Fotoaparát"
 
 #: Applications/applications.js:35
 msgid "Gallery"
-msgstr "Galeria"
+msgstr "Galerie"
 
 #: Applications/applications.js:40
 msgid "Facebook"
@@ -36,7 +36,7 @@ msgstr "Facebook"
 
 #: Applications/applications.js:46
 msgid "Browser"
-msgstr "Navegador"
+msgstr "Prohlížeč"
 
 #: Applications/applications.js:51
 msgid "Twitter"
@@ -48,19 +48,19 @@ msgstr "GMail"
 
 #: Applications/applications.js:62
 msgid "Weather"
-msgstr "El temps"
+msgstr "Počasí"
 
 #: Applications/applications.js:68
 msgid "Notepad"
-msgstr "Bloc de notes"
+msgstr "Poznámkový blok"
 
 #: Applications/applications.js:74
 msgid "Calendar"
-msgstr "Calendari"
+msgstr "Kalendář"
 
 #: Applications/applications.js:80
 msgid "Media Player"
-msgstr "Reproductor multimèdia"
+msgstr "Přehrávač multimédií"
 
 #: Applications/applications.js:86
 msgid "Evernote"
@@ -76,11 +76,11 @@ msgstr "Pinterest"
 
 #: Applications/applications.js:101
 msgid "SoundCloud"
-msgstr "SoundCloud"
+msgstr "Hudební Cloud"
 
 #: Applications/applications.js:106
 msgid "Wikipedia"
-msgstr "Viquipèdia"
+msgstr "Wikipedie"
 
 #: Applications/applications.js:111
 msgid "YouTube"
@@ -88,49 +88,43 @@ msgstr "YouTube"
 
 #: Components/EdgeDemoOverlay.qml:149
 msgid "Skip intro"
-msgstr "Omet la introducció"
+msgstr "Přeskočit intro"
 
 #: Components/EdgeDemo.qml:112
 msgid "Right edge"
-msgstr "Vora dreta"
+msgstr "Pravý okraj"
 
 #: Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr ""
-"Proveu de lliscar el dit des de la vora dreta per desblocar el telèfon"
+msgstr "Pokuste se odemknout telefon potažením prstu z pravého okraje."
 
 #: Components/EdgeDemo.qml:144
 msgid "Top edge"
-msgstr "Vora superior"
+msgstr "Horní okraj"
 
 #: Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
-msgstr ""
-"Proveu de lliscar el dit des de la vora superior per accedir als indicadors"
+msgstr "Pokuste se zpřístupnit indikátory potažením prstu z horního okraje"
 
 #: Components/EdgeDemo.qml:170
 msgid "Close"
-msgstr "Tanca"
+msgstr "Uzavřít"
 
 #: Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
 msgstr ""
-"Llisqueu el dit cap amunt una altra vegada per tancar la pantalla de "
-"configuració"
 
 #: Components/EdgeDemo.qml:198
 msgid "Left edge"
-msgstr "Vora esquerra"
+msgstr "Levý okraj"
 
 #: Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr ""
-"Llisqueu el dit des de la vora esquerra per mostrar el llançador i accedir "
-"ràpidament a les aplicacions"
+msgstr "Pro rychlý přístup k aplikacím potáhněte prst z levého okraje."
 
 #: Components/EdgeDemo.qml:226
 msgid "Well done"
-msgstr "Enhorabona!"
+msgstr "Výborně"
 
 #: Components/EdgeDemo.qml:227
 msgid ""
@@ -140,7 +134,7 @@ msgstr ""
 
 #: Components/PageHeader.qml:341
 msgid "Recent searches"
-msgstr "Cerques recents"
+msgstr "Poslední vyhledávání"
 
 #. TRANSLATORS: Number of persons who rated this app
 #. TRANSLATORS: Number of persons who rated this app/video/whatever
@@ -155,103 +149,104 @@ msgstr "(%1)"
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
-msgstr[0] "%1 ressenya"
-msgstr[1] "%1 ressenyes"
+msgstr[0] "%1 recenze"
+msgstr[1] "%1 recenze"
+msgstr[2] "%1 recenzí"
 
 #: Dash/Apps/AppPreview.qml:126
 msgid "Rate this"
-msgstr ""
+msgstr "Ohodnoťte to"
 
 #: Dash/DashMusic.qml:27 Dash/DashVideos.qml:28
 msgid "Featured"
-msgstr "Destacats"
+msgstr "Oblíbené"
 
 #: Dash/DashMusic.qml:28 Dash/DashVideos.qml:29
 msgid "Recent"
-msgstr "Recents"
+msgstr "Nedávné"
 
 #: Dash/DashMusic.qml:29 Dash/DashVideos.qml:30
 msgid "New Releases"
-msgstr "Novetats"
+msgstr ""
 
 #: Dash/DashMusic.qml:30
 msgid "Top Charting"
-msgstr "El millor de les llistes"
+msgstr ""
 
 #: Dash/DashMusic.qml:91
 msgid "Music"
-msgstr "Música"
+msgstr "Hudba"
 
 #: Dash/DashVideos.qml:31
 msgid "Popular Online"
-msgstr "Popular a la xarxa"
+msgstr "Oblíbené on-line"
 
 #: Dash/DashVideos.qml:146
 msgid "Videos"
-msgstr "Vídeos"
+msgstr "Videa"
 
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
-msgstr "Afegiu una ressenya"
+msgstr "Přidat recenzi"
 
 #: Dash/Previews/Reviews.qml:86
 msgid "Review"
-msgstr "Ressenya"
+msgstr "Recenze"
 
 #: Dash/Previews/Reviews.qml:121
 msgid "Send"
-msgstr "Envia"
+msgstr "Odeslat"
 
 #: Dash/Previews/Reviews.qml:139
 msgid "Comments:"
-msgstr "Comentaris:"
+msgstr "Komentáře:"
 
 #: Greeter/Lockscreen.qml:142
 msgid "Emergency Call"
-msgstr "Trucada d'emergència"
+msgstr "Tísňové volání"
 
 #: Greeter/PassphraseLockscreen.qml:59
 #, qt-format
 msgid "Hello %1"
-msgstr "Hola %1"
+msgstr "Ahoj %1"
 
 #: Greeter/PassphraseLockscreen.qml:59
 msgid "Hello"
-msgstr "Hola"
+msgstr "Ahoj"
 
 #: Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
-msgstr "Confirma"
+msgstr "Potvrdit"
 
 #: Hud/Hud.qml:61 Hud/Hud.qml:99 Hud/Hud.qml:372
 msgid "Type or say a command"
-msgstr "Escriviu o pronuncieu una ordre"
+msgstr "Napište nebo řekněte příkaz"
 
 #: Hud/Hud.qml:84
 msgid "Loading. Please Wait..."
-msgstr "S'està carregant. Espereu-vos un moment..."
+msgstr "Načítám. Čekejte prosím..."
 
 #: Hud/Hud.qml:89
 msgid "Speak Now..."
-msgstr "Parleu..."
+msgstr "Mluvte..."
 
 #: Hud/Hud.qml:94
 msgid "Speaking..."
-msgstr "S'està parlant..."
+msgstr "Mluvte..."
 
 #: Panel/SearchIndicator.qml:27
 msgid "Search"
-msgstr "Cerca"
+msgstr "Hledat"
 
 #: plugins/Unity/scope.cpp:361
 msgid "Sorry, there is nothing that matches your search."
-msgstr "No hi ha res que coincideixi amb la cerca"
+msgstr "Je nám líto, ale nic neodpovídá zadání"
 
 #: plugins/Unity/showallfilteroption.cpp:41
 msgid "All"
-msgstr ""
+msgstr "Vše"
 
 #: Shell.qml:453
 #, qt-format
 msgid "Please enter %1"
-msgstr "Introduïu %1"
+msgstr "Zadejte prosím %1"

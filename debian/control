@@ -86,7 +86,6 @@ Description: Unity 8 shell
 Package: unity8-autopilot
 Architecture: all
 Depends: gir1.2-glib-2.0,
-         indicators-client (>= ${source:Version}),
          libautopilot-qt,
          libqt5test5,
          libqt5widgets5,
