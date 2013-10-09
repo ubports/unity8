@@ -210,6 +210,7 @@ QImage AlbumArtProvider::requestImage(const QString &id, QSize *realSize, const 
         qDebug() << "Unknown error when generating image.";
     }
 
-    *realSize = QSize(0, 0);
-    return QImage(QString::fromStdString(DEFAULT_ALBUM_ART));
+    QImage fallback(QString::fromStdString(DEFAULT_ALBUM_ART));
+    *realSize = fallback.size();
+    return fallback;
 }
