@@ -21,6 +21,12 @@ import "../Generic"
 GenericFilterGrid {
     id: filtergrid
 
+    delegateWidth: units.gu(11)
+    delegateHeight: units.gu(14)
+
+    iconWidth: units.gu(11)
+    iconHeight: units.gu(11)
+
     delegate: Tile {
         id: tile
         objectName: "delegate" + index
@@ -30,7 +36,7 @@ GenericFilterGrid {
         imageWidth: filtergrid.iconWidth
         imageHeight: filtergrid.iconHeight
         source: model.icon
-        fillMode: Image.PreserveAspectFit
+        maximumLineCount: 2
 
         style: VideoTileStyle {}
 

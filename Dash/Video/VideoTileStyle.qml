@@ -22,18 +22,24 @@ Item {
 
     anchors.fill: parent
 
-    UbuntuShape {
+    Image {
         id: icon
         anchors {
             top: parent.top
             horizontalCenter: parent.horizontalCenter
         }
-        radius: "medium"
         width: styledItem.imageWidth
         height: styledItem.imageHeight
-        image: Image {
+        source: "graphics/movie_icon_holder.png"
+
+        Image {
             id: image
             objectName: "image"
+            anchors {
+                fill: parent;
+                topMargin: units.gu(2);
+                bottomMargin: units.gu(2)
+            }
             sourceSize { width: icon.width; height: icon.height }
             asynchronous: true
             cache: false
@@ -42,23 +48,6 @@ Item {
             horizontalAlignment: Image.AlignHCenter
             verticalAlignment: Image.AlignVCenter
         }
-
-         /*Image {
-             source: "background.png";
-             width: foo
-             height: bar
-
-             Image {
-                 source: the_source
-                 anchors {
-                     fill: parent;
-                     topMargin: units.gu(5);
-                     bottomMargin: units.gu(5)
-                 }
-                 fillMode: Image.PreserveAspectCrop
-                 sourceSize.height: height
-             }
-         }*/
     }
 
     UbuntuShape {
