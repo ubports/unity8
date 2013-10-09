@@ -204,6 +204,7 @@ void Scope::cancelActivation()
 
 void Scope::onActivated(unity::dash::LocalResult const& result, unity::dash::ScopeHandledType type, unity::glib::HintsMap const& hints)
 {
+    Q_EMIT activated();
     // note: we will not get called on SHOW_PREVIEW, instead UnityCore will signal preview_ready.
     switch (type)
     {

@@ -66,6 +66,17 @@ Item {
                 scopes.get(0).hideDash();
                 tryCompare(genericScopeView, "previewShown", false);
             }
+
+            function test_show_spinner() {
+                var previewLoader = findChild(genericScopeView, "previewLoader");
+                previewLoader.open = true;
+                previewLoader.source = "../../../Dash/Generic/GenericPreview.qml";
+                previewLoader.item.showProcessingAction = true;
+                var waitingForAction = findChild(genericScopeView, "waitingForAction");
+                tryCompare(waitingForAction, "visible", true);
+                previewLoader.closePreviewSpinner();
+                tryCompare(waitingForAction, "visible", false);
+            }
         }
     }
 }

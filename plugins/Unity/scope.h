@@ -113,6 +113,7 @@ Q_SIGNALS:
     void showDash();
     void hideDash();
     void gotoUri(const QString &uri);
+    void activated();
 
     void activateApplication(const QString &desktop);
 

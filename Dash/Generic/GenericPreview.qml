@@ -71,7 +71,10 @@ DashPreview {
                     text: modelData.displayName
                     iconSource: modelData.iconHint
                     iconPosition: "right"
-                    onClicked: previewData.execute(modelData.id, { })
+                    onClicked: {
+                        previewData.execute(modelData.id, { })
+                        genericPreview.showProcessingAction = true;
+                    }
                 }
             }
         }
