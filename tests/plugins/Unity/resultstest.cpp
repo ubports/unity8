@@ -132,6 +132,7 @@ void ResultsTest::testSpecialIcons_data()
     QTest::addColumn<GVariantWrapper>("metadata");
     QTest::addColumn<QString>("result");
 
+    GVariant *inner;
     GVariantBuilder builder, inner_builder;
 
     g_variant_builder_init(&inner_builder, G_VARIANT_TYPE_VARDICT);
@@ -146,11 +147,25 @@ void ResultsTest::testSpecialIcons_data()
     g_variant_builder_init(&inner_builder, G_VARIANT_TYPE_VARDICT);
     g_variant_builder_add(&inner_builder, "{sv}", "artist", g_variant_new_string("U2"));
     g_variant_builder_add(&inner_builder, "{sv}", "album", g_variant_new_string("War/Joshua tree"));
+    inner = g_variant_builder_end(&inner_builder);
+
+    g_variant_builder_init(&builder, G_VARIANT_TYPE_VARDICT);
+    g_variant_builder_add(&builder, "{sv}", "content", inner);
+
+    QTest::newRow("with-slash") << "file:///foo.mp3" << GVariantWrapper(g_variant_builder_end(&builder)) << "image://albumart/U2/War%2FJoshua%20tree";
+
+    g_variant_builder_init(&inner_builder, G_VARIANT_TYPE_VARDICT);
+    g_variant_builder_add(&inner_builder, "{sv}", "artist", g_variant_new_string("U2"));
+    g_variant_builder_add(&inner_builder, "{sv}", "album", g_variant_new_string("War"));
+    inner = g_variant_builder_end(&inner_builder);
+
+    g_variant_builder_init(&inner_builder, G_VARIANT_TYPE_VARDICT);
+    g_variant_builder_add(&inner_builder, "{sv}", "content", inner);
 
     g_variant_builder_init(&builder, G_VARIANT_TYPE_VARDICT);
     g_variant_builder_add(&builder, "{sv}", "content", g_variant_builder_end(&inner_builder));
 
-    QTest::newRow("with-slash") << "file:///foo.mp3" << GVariantWrapper(g_variant_builder_end(&builder)) << "image://albumart/U2/War%2FJoshua%20tree";
+    QTest::newRow("nested") << "file:///foo.mp3" << GVariantWrapper(g_variant_builder_end(&builder)) << "image://albumart/U2/War";
 }
 
 void ResultsTest::testSpecialIcons()
