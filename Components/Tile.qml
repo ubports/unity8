@@ -20,8 +20,7 @@ import Ubuntu.Components 0.1
 AbstractButton {
     property url source
     property int fillMode: Image.PreserveAspectCrop
-    property int horizontalAlignment: Image.AlignHCenter
-    property int verticalAlignment: Image.AlignVCenter
+    property int horizontalAlignment: Text.AlignHCenter
     property string text
     property int imageWidth
     property int imageHeight

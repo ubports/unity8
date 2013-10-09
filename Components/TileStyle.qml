@@ -39,8 +39,8 @@ Item {
             cache: false
             source: styledItem.source
             fillMode: styledItem.fillMode
-            horizontalAlignment: styledItem.horizontalAlignment
-            verticalAlignment: styledItem.verticalAlignment
+            horizontalAlignment: Image.AlignHCenter
+            verticalAlignment: Image.AlignVCenter
         }
     }
 
@@ -73,8 +73,9 @@ Item {
         styleColor: "black"
         fontSize: "small"
         elide: Text.ElideMiddle
-        horizontalAlignment: Text.AlignHCenter
+        horizontalAlignment: styledItem.horizontalAlignment
         text: styledItem.text
+        wrapMode: Text.WordWrap
         maximumLineCount: styledItem.maximumLineCount
     }
 }

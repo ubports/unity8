@@ -20,26 +20,45 @@ import Ubuntu.Components 0.1
 Item {
     id: tile
 
-    property bool disabled: false
-
     anchors.fill: parent
 
-    Image {
+    UbuntuShape {
         id: icon
-        objectName: "image"
+        anchors {
+            top: parent.top
+            horizontalCenter: parent.horizontalCenter
+        }
+        radius: "medium"
         width: styledItem.imageWidth
         height: styledItem.imageHeight
+        image: Image {
+            id: image
+            objectName: "image"
+            sourceSize { width: icon.width; height: icon.height }
+            asynchronous: true
+            cache: false
+            source: styledItem.source
+            fillMode: styledItem.fillMode
+            horizontalAlignment: Image.AlignHCenter
+            verticalAlignment: Image.AlignVCenter
+        }
 
-        anchors.horizontalCenter: parent.horizontalCenter
+         /*Image {
+             source: "background.png";
+             width: foo
+             height: bar
 
-        sourceSize { width: width; height: height }
-        asynchronous: true
-        cache: false
-        source: styledItem.source
-        fillMode: styledItem.fillMode
-        opacity: tile.disabled ? 0.3 : 1.0
-        horizontalAlignment: Image.AlignHCenter
-        verticalAlignment: Image.AlignVCenter
+             Image {
+                 source: the_source
+                 anchors {
+                     fill: parent;
+                     topMargin: units.gu(5);
+                     bottomMargin: units.gu(5)
+                 }
+                 fillMode: Image.PreserveAspectCrop
+                 sourceSize.height: height
+             }
+         }*/
     }
 
     UbuntuShape {

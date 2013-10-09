@@ -20,26 +20,30 @@ import Ubuntu.Components 0.1
 Item {
     id: tile
 
-    property bool disabled: false
+    property alias artist: artistLabel.text
 
     anchors.fill: parent
 
-    Image {
+    UbuntuShape {
         id: icon
-        objectName: "image"
+        anchors {
+            top: parent.top
+            horizontalCenter: parent.horizontalCenter
+        }
+        radius: "medium"
         width: styledItem.imageWidth
         height: styledItem.imageHeight
-
-        anchors.horizontalCenter: parent.horizontalCenter
-
-        sourceSize { width: width; height: height }
-        asynchronous: true
-        cache: false
-        source: styledItem.source
-        fillMode: styledItem.fillMode
-        opacity: tile.disabled ? 0.3 : 1.0
-        horizontalAlignment: Image.AlignHCenter
-        verticalAlignment: Image.AlignVCenter
+        image: Image {
+            id: image
+            objectName: "image"
+            sourceSize { width: icon.width; height: icon.height }
+            asynchronous: true
+            cache: false
+            source: styledItem.source
+            fillMode: styledItem.fillMode
+            horizontalAlignment: Image.AlignHCenter
+            verticalAlignment: Image.AlignVCenter
+        }
     }
 
     UbuntuShape {
@@ -70,10 +74,30 @@ Item {
         style: Text.Raised
         styleColor: "black"
         fontSize: "small"
-        elide: Text.ElideMiddle
+        font.weight: Font.Bold
+        elide: Text.ElideRight
         horizontalAlignment: styledItem.horizontalAlignment
         text: styledItem.text
         wrapMode: Text.WordWrap
         maximumLineCount: styledItem.maximumLineCount
+    }
+
+    Label {
+        id: artistLabel
+        anchors {
+            top: label.bottom
+            left: parent.left
+            right: parent.right
+            leftMargin: units.gu(1)
+            rightMargin: units.gu(1)
+        }
+
+        color: Theme.palette.selected.backgroundText
+        opacity: 0.9
+        style: Text.Raised
+        styleColor: "black"
+        fontSize: "x-small"
+        elide: Text.ElideMiddle
+        horizontalAlignment: styledItem.horizontalAlignment
     }
 }
