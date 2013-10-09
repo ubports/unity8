@@ -38,11 +38,24 @@
 using namespace std;
 
 const std::string AlbumArtProvider::DEFAULT_ALBUM_ART = "/usr/share/unity/icons/album_missing.png";
+const std::string AlbumArtProvider::UNITY_LENS_SCHEMA = "com.canonical.Unity.Lenses";
 
 AlbumArtProvider::AlbumArtProvider()
-    : QQuickImageProvider(QQmlImageProviderBase::Image, QQmlImageProviderBase::ForceAsynchronousImageLoading)
+    : QQuickImageProvider(QQmlImageProviderBase::Image, QQmlImageProviderBase::ForceAsynchronousImageLoading),
+      m_settings(nullptr)
 {
-    m_settings = g_settings_new ("com.canonical.Unity.Lenses");
+    auto schemas = g_settings_list_schemas();
+    if (schemas) {
+        for (int i = 0; schemas[i]; i++) {
+            if (strcmp(schemas[i], UNITY_LENS_SCHEMA.c_str()) == 0) {
+                m_settings = g_settings_new("com.canonical.Unity.Lenses");
+                break;
+            }
+        }
+    }
+    if (m_settings == nullptr) {
+        qWarning() << "Missing" << QString::fromStdString(UNITY_LENS_SCHEMA) << "schema";
+    }
 }
 
 AlbumArtProvider::~AlbumArtProvider()

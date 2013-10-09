@@ -41,6 +41,7 @@ public:
     std::string get_image(const std::string &artist, const std::string &album);
 
     const static std::string DEFAULT_ALBUM_ART;
+    const static std::string UNITY_LENS_SCHEMA;
 private:
     MediaArtCache cache;
     GSettings *m_settings;
