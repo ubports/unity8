@@ -45,7 +45,7 @@ AlbumArtProvider::AlbumArtProvider()
     auto schemas = g_settings_list_schemas();
     if (schemas) {
         for (int i = 0; schemas[i]; i++) {
-            if (strcmp(schemas[i], UNITY_LENS_SCHEMA.c_str()) == 0) {
+            if (g_strcmp0(schemas[i], UNITY_LENS_SCHEMA.c_str()) == 0) {
                 m_settings = g_settings_new("com.canonical.Unity.Lenses");
                 break;
             }
@@ -160,7 +160,7 @@ std::string AlbumArtProvider::get_image(const std::string &artist, const std::st
         return cache.get_art_file(info.artist, info.album);
     }
 
-    if (m_settings != nullptr && strcmp(g_settings_get_string(m_settings, "remote-content-search"), "all") !=0) {
+    if (m_settings != nullptr && g_strcmp0(g_settings_get_string(m_settings, "remote-content-search"), "all") !=0) {
         qDebug() << "Remote content disabled";
         return DEFAULT_ALBUM_ART;
     }
