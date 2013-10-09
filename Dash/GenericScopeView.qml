@@ -309,7 +309,7 @@ ScopeView {
         }
 
         function closePreviewSpinner() {
-            if(open) {
+            if(item) {
                 item.showProcessingAction = false;
             }
         }
