@@ -176,8 +176,12 @@ std::string AlbumArtProvider::get_image(const std::string &artist, const std::st
     fread(buf, 1, s, f);
     fclose(f);
 
-    // Fixme, leaks buf if throws.
-    cache.add_art(info.artist, info.album, buf, s);
+    try {
+        cache.add_art(info.artist, info.album, buf, s);
+    } catch(...) {
+        delete []buf;
+        throw;
+    }
     delete []buf;
     return cache.get_art_file(info.artist, info.album);
 }
