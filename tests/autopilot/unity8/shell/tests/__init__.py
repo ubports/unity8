@@ -167,11 +167,7 @@ class UnityTestCase(AutopilotTestCase):
         # FIXME: we shouldn't be doing this
         # $MIR_SOCKET, fallback to $XDG_RUNTIME_DIR/mir_socket and /tmp/mir_socket as last resort
         try:
-            os.unlink(os.getenv('MIR_SOCKET', os.path.join(os.getenv('XDG_RUNTIME_DIR'), "mir_socket")))
-        except OSError:
-            pass
-        try:
-            os.unlink("/tmp/mir_socket")
+            os.unlink(os.getenv('MIR_SOCKET', os.path.join(os.getenv('XDG_RUNTIME_DIR', '/tmp'), "mir_socket")))
         except OSError:
             pass
 
