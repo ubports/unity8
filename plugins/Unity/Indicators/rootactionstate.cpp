@@ -37,6 +37,10 @@ RootActionState::RootActionState(QObject *parent)
 
 RootActionState::~RootActionState()
 {
+    if (m_menu) {
+        m_menu->disconnect(this);
+        m_menu->setActionStateParser(NULL);
+    }
 }
 
 UnityMenuModel* RootActionState::menu() const
@@ -49,6 +53,7 @@ void RootActionState::setMenu(UnityMenuModel* menu)
     if (m_menu != menu) {
         if (m_menu) {
             m_menu->disconnect(this);
+            m_menu->setActionStateParser(NULL);
         }
         m_menu = menu;
 
