@@ -81,11 +81,11 @@ Loader {
             Component.onCompleted: {
                 menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-pin-length': 'int'});
                 pinLength = menuData.ext.xCanonicalPinLength;
-                entryEnabled = false;
             }
 
             onEntered: {
                 menuModel.changeState(menuIndex, passphrase);
+                entryEnabled = false;
             }
 
             onCancel: {
