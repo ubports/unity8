@@ -100,7 +100,10 @@ QString uriToThumbnailerProviderString(QString const &uri, QString const &mimety
         if (isAudio) {
             thumbnailerUri = BASE_ALBUMART_URI;
             if (metadata.contains("content")) {
-                const QVariantHash contentHash = metadata["content"].toHash();
+                QVariantHash contentHash = metadata["content"].toHash();
+                if (contentHash.contains("content")) { // nested content in Home?
+                    contentHash = contentHash["content"].toHash();
+                }
                 if (contentHash.contains("album") &&
                     contentHash.contains("artist")) {
                     const QString album = contentHash["album"].toString();
