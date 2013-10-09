@@ -24,6 +24,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QXmlQuery>
+#include <QTemporaryFile>
 #include <QBuffer>
 #include <cstdio>
 #include <QDebug>
@@ -31,7 +32,6 @@
 #include <QStringList>
 #include <QByteArray>
 #include <unistd.h>
-#include <memory>
 #include <QImage>
 #include <QUrl>
 
@@ -158,14 +158,17 @@ std::string AlbumArtProvider::get_image(const std::string &artist, const std::st
     if(image_url.empty()) {
         return DEFAULT_ALBUM_ART;
     }
-    char tmpname[] = "/tmp/path/to/some/file/somewhere/maybe.jpg";
-    tmpnam(tmpname);
-    //std::unique_ptr<char, int(*)(const char*)> deleter(tmpname, unlink);
+    QTemporaryFile tempFile;
+    tempFile.open();
+    tempFile.setAutoRemove(true);
+    QString fname = tempFile.fileName();
+    std::string tmpname = fname.toUtf8().data();
+
     if(!download_and_store(image_url, tmpname)) {
         return DEFAULT_ALBUM_ART;
     }
-    fix_format(tmpname);
-    FILE *f = fopen(tmpname, "r");
+    fix_format(tmpname.c_str());
+    FILE *f = fopen(tmpname.c_str(), "r");
     fseek(f, 0, SEEK_END);
     long s = ftell(f);
     fseek(f, 0, SEEK_SET);
