@@ -164,6 +164,12 @@ class UnityTestCase(AutopilotTestCase):
         if self._qml_mock_enabled:
             self._setup_extra_mock_environment_patch()
 
+        # FIXME: we shouldn't be doing this
+        try:
+            os.unlink(os.getenv('MIR_SOCKET', "/tmp/mir_socket"))
+        except OSError:
+            pass
+
         app_proxy = self.launch_test_application(
             binary_path,
             *self.unity_geometry_args,
