@@ -160,7 +160,7 @@ std::string AlbumArtProvider::get_image(const std::string &artist, const std::st
     }
     char tmpname[] = "/tmp/path/to/some/file/somewhere/maybe.jpg";
     tmpnam(tmpname);
-    //std::unique_ptr<char, int(*)(const char*)> deleter(tmpname, unlink);
+    std::unique_ptr<char, int(*)(const char*)> deleter(tmpname, unlink);
     if(!download_and_store(image_url, tmpname)) {
         return DEFAULT_ALBUM_ART;
     }
@@ -207,6 +207,7 @@ QImage AlbumArtProvider::requestImage(const QString &id, QSize *realSize, const 
         qDebug() << "Unknown error when generating image.";
     }
 
-    *realSize = QSize(0, 0);
-    return QImage(QString::fromStdString(DEFAULT_ALBUM_ART));
+    QImage fallback(QString::fromStdString(DEFAULT_ALBUM_ART));
+    *realSize = fallback.size();
+    return fallback;
 }
