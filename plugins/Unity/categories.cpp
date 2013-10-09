@@ -94,7 +94,7 @@ void Categories::onCategoriesModelChanged(unity::glib::Object<DeeModel> model)
     setModel(model);
 }
 
-void Categories::onCategoryOrderChanged(std::vector<unsigned int> cat_order)
+void Categories::onCategoryOrderChanged(const std::vector<unsigned int>& cat_order)
 {
     for (unsigned int pos = 0; pos<cat_order.size(); pos++)
     {
@@ -152,7 +152,6 @@ void Categories::onRowCountChanged()
             for (int i = 0; i < rowCount(); i++) {
                 auto id = data(index(i), RoleCategoryId).toString();
                 if (id != iter.key()) continue;
-                const int mappedIndex = m_categoryOrder.indexOf(i);
                 QVector<int> roles;
                 roles.append(RoleCount);
                 QModelIndex changedIndex = index(i);

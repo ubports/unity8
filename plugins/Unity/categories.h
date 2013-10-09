@@ -74,7 +74,7 @@ private Q_SLOTS:
 
 private:
     void onCategoriesModelChanged(unity::glib::Object<DeeModel> model);
-    void onCategoryOrderChanged(std::vector<unsigned int> cat_order);
+    void onCategoryOrderChanged(const std::vector<unsigned int>& cat_order);
 
     DeeListModel* getResults(int index) const;
 
