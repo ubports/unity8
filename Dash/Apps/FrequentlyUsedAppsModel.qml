@@ -68,13 +68,13 @@ ListModel {
         metadata: ""
     }
     ListElement {
-        uri: "application:///usr/share/applications/facebook-webapp.desktop"
+        uri: "appid://com.ubuntu.developer.webapps.webapp-facebook/webapp-facebook/current-user-version"
         icon: "../../graphics/applicationIcons/facebook.png"
         category: 0
         mimetype: "application/x-desktop"
         title: "Facebook"
         comment: ""
-        dndUri: "file:///usr/share/applications/facebook-webapp.desktop"
+        dndUri: "appid://com.ubuntu.developer.webapps.webapp-facebook/webapp-facebook/current-user-version"
         metadata: ""
     }
     ListElement {
@@ -88,13 +88,13 @@ ListModel {
         metadata: ""
     }
     ListElement {
-        uri: "application:///usr/share/applications/gmail-webapp.desktop"
+        uri: "appid://com.ubuntu.developer.webapps.webapp-facebook/webapp-gmail/current-user-version"
         icon: "../../graphics/applicationIcons/gmail.png"
         category: 0
         mimetype: "application/x-desktop"
         title: "GMail"
         comment: ""
-        dndUri: "file:///usr/share/applications/gmail-webapp.desktop"
+        dndUri: "appid://com.ubuntu.developer.webapps.webapp-facebook/webapp-gmail/current-user-version"
         metadata: ""
     }
     ListElement {
