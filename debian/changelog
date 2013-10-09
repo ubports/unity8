@@ -1,3 +1,25 @@
+unity8 (7.82+13.10.20131008.1-0ubuntu1) saucy; urgency=low
+
+  [ Michal Hruby ]
+  * Add Scope::isActive property and corresponding tests. (LP: #1230352)
+
+  [ Daniel d'Andrada ]
+  * Move OSKController to the front as it will now also block input
+    meant to the OSK That's in the unity-mir implementation. The
+    SurfaceFlinger one is still an empty noop. Currently, when the OSK
+    is up, both shell and OSK get user input, thus we need the
+    OSKController to shield our shell components from them. (LP:
+    #1236773)
+
+  [ Michał Sawicz ]
+  * Add Scope::isActive property and corresponding tests. (LP: #1230352)
+  * Force focus back on shell in case it loses it for some reason.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 409
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 08 Oct 2013 19:14:20 +0000
+
 unity8 (7.82+13.10.20131008-0ubuntu1) saucy; urgency=low
 
   [ Michał Sawicz ]
