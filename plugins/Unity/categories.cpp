@@ -260,7 +260,7 @@ Categories::data(const QModelIndex& index, int role) const
         }
         case RoleRendererHint:
         {
-            auto hints = DeeListModel::data(index, CategoryColumn::HINTS).toHash();
+            auto hints = DeeListModel::data(realIndex, CategoryColumn::HINTS).toHash();
             return hints.contains("renderer-hint") ? hints["renderer-hint"] : QVariant(QString());
         }
         case RoleProgressSource:
