@@ -23,9 +23,6 @@
 #include "categoryresults.h"
 #include <QDebug>
 
-// Qt
-#include <QDebug>
-
 // TODO: use something from libunity once it's public
 enum CategoryColumn {
     ID,
