@@ -26,12 +26,10 @@
 #include <QXmlQuery>
 #include <QTemporaryFile>
 #include <QBuffer>
-#include <cstdio>
 #include <QDebug>
 #include <QFile>
 #include <QStringList>
 #include <QByteArray>
-#include <unistd.h>
 #include <QImage>
 #include <QUrl>
 
