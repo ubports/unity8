@@ -90,6 +90,7 @@ void Categories::onCategoriesModelChanged(unity::glib::Object<DeeModel> model)
       delete model;
     }
     m_results.clear();
+    m_categoryOrder.clear();
 
     setModel(model);
 }
