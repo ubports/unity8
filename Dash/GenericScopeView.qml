@@ -109,7 +109,7 @@ ScopeView {
                             item.filter = shouldFilter;
                         }
                     }
-                    updatedDelegateCreationRange();
+                    updateDelegateCreationRange();
                 }
 
                 Component.onDestruction: {
@@ -166,11 +166,11 @@ ScopeView {
                             }
                         }
                     }
-                    onContentYChanged: rendererLoader.updatedDelegateCreationRange();
-                    onHeightChanged: rendererLoader.updatedDelegateCreationRange();
+                    onContentYChanged: rendererLoader.updateDelegateCreationRange();
+                    onHeightChanged: rendererLoader.updateDelegateCreationRange();
                 }
 
-                function updatedDelegateCreationRange() {
+                function updateDelegateCreationRange() {
                     // Do not update the range if we are overshooting up or down, since we'll come back
                     // to the stable position and delete/create items without any reason
                     if (categoryView.contentY < categoryView.originY) {
