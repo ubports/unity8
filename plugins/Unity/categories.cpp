@@ -108,11 +108,13 @@ void Categories::onCategoryOrderChanged(const std::vector<unsigned int>& cat_ord
 
         if (static_cast<int>(pos) != old_pos) {
             int target_pos = pos;
+            if (target_pos > old_pos)
+                target_pos++;
             const bool status = beginMoveRows(QModelIndex(), old_pos, old_pos, QModelIndex(), target_pos);
             if (status)
                 m_categoryOrder.move(old_pos, pos);
             else
-                qWarning("beginMoveRows failed");
+                qWarning() << "beginMoveRows failed:" << old_pos << target_pos;
             endMoveRows();
         }
     }
