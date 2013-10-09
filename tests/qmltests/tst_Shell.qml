@@ -157,7 +157,7 @@ Item {
             waitUntilApplicationWindowIsFullyVisible();
 
             var mainApp = ApplicationManager.focusedApplicationId;
-            tryCompareFunction(function() { return mainApp != ""; }, true);
+            verify(mainApp != "");
 
             // Try to suspend while proximity is engaged...
             Powerd.displayPowerStateChange(Powerd.Off, Powerd.UseProximity);
