@@ -168,22 +168,22 @@ std::string AlbumArtProvider::get_image(const std::string &artist, const std::st
         return DEFAULT_ALBUM_ART;
     }
     fix_format(tmpname.c_str());
-    FILE *f = fopen(tmpname.c_str(), "r");
-    fseek(f, 0, SEEK_END);
-    long s = ftell(f);
-    fseek(f, 0, SEEK_SET);
-    char *buf = new char[s];
-    fread(buf, 1, s, f);
-    fclose(f);
-
-    try {
-        cache.add_art(info.artist, info.album, buf, s);
-    } catch(...) {
-        delete []buf;
-        throw;
+    QFile f(fname);
+    if(!f.open(QIODevice::ReadWrite)) {
+        return DEFAULT_ALBUM_ART;
     }
-    delete []buf;
-    return cache.get_art_file(info.artist, info.album);
+    QByteArray arr = f.readAll();
+    f.close();
+
+    cache.add_art(info.artist, info.album, arr.data(), arr.size());
+    try {
+        std::string res = cache.get_art_file(info.artist, info.album);
+        if(res.empty())
+            return DEFAULT_ALBUM_ART;
+        return res;
+    } catch(...) {
+    }
+    return DEFAULT_ALBUM_ART;
 }
 
 QImage AlbumArtProvider::requestImage(const QString &id, QSize *realSize, const QSize &requestedSize) {
