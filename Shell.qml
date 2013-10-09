@@ -464,20 +464,20 @@ FocusScope {
         property var previousMainApp: null
         property var previousSideApp: null
 
-        function setFocused(focused) {
-            if (!focused) {
-                greeter.previousMainApp = applicationManager.mainStageFocusedApplication;
-                greeter.previousSideApp = applicationManager.sideStageFocusedApplication;
-                applicationManager.unfocusCurrentApplication();
-            } else {
-                if (greeter.previousMainApp) {
-                    applicationManager.focusApplication(greeter.previousMainApp);
-                    greeter.previousMainApp = null;
-                }
-                if (greeter.previousSideApp) {
-                    applicationManager.focusApplication(greeter.previousSideApp);
-                    greeter.previousSideApp = null;
-                }
+        function removeApplicationFocus() {
+            greeter.previousMainApp = applicationManager.mainStageFocusedApplication;
+            greeter.previousSideApp = applicationManager.sideStageFocusedApplication;
+            applicationManager.unfocusCurrentApplication();
+        }
+
+        function restoreApplicationFocus() {
+            if (greeter.previousMainApp) {
+                applicationManager.focusApplication(greeter.previousMainApp);
+                greeter.previousMainApp = null;
+            }
+            if (greeter.previousSideApp) {
+                applicationManager.focusApplication(greeter.previousSideApp);
+                greeter.previousSideApp = null;
             }
         }
 
@@ -491,9 +491,9 @@ FocusScope {
                     greeter.selected(0);
                 }
                 greeter.forceActiveFocus();
-                setFocused(false);
+                removeApplicationFocus();
             } else {
-                setFocused(true);
+                restoreApplicationFocus();
             }
         }
 
