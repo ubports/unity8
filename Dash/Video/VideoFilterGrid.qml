@@ -22,7 +22,7 @@ GenericFilterGrid {
     id: filtergrid
 
     delegateWidth: units.gu(11)
-    delegateHeight: units.gu(14.5)
+    delegateHeight: units.gu(15)
 
     iconWidth: units.gu(11)
     iconHeight: units.gu(11)
