@@ -19,7 +19,7 @@
 // Qt
 #include <QtQml/qqml.h>
 #include <QtQuick/QQuickWindow>
-
+#include <QDebug>
 // self
 #include "plugin.h"
 

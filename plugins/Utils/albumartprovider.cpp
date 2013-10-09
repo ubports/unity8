@@ -46,7 +46,7 @@ AlbumArtProvider::AlbumArtProvider()
     if (schemas) {
         for (int i = 0; schemas[i]; i++) {
             if (g_strcmp0(schemas[i], UNITY_LENS_SCHEMA.c_str()) == 0) {
-                m_settings = g_settings_new(UNITY_LENS_SCHEMA);
+                m_settings = g_settings_new(UNITY_LENS_SCHEMA.c_str());
                 break;
             }
         }
