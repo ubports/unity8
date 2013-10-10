@@ -31,32 +31,20 @@ Indicator::~Indicator()
 {
 }
 
-void Indicator::init(const QString& busName, const QSettings& settings)
+void Indicator::init(const QString &profile, const QString& busName, const QSettings& settings)
 {
     setId(settings.value("Indicator Service/Name").toString());
     setPosition(settings.value("Indicator Service/Position", QVariant::fromValue(0)).toInt());
 
     QString actionObjectPath = settings.value("Indicator Service/ObjectPath").toString();
-
-    QVariantMap mapMenuObjectPaths;
-    Q_FOREACH(const QString& childGroup, settings.childGroups())
-    {
-        if (childGroup == "Indicator Service")
-            continue;
-
-        QString menuPath = childGroup+"/ObjectPath";
-        if (settings.contains(menuPath))
-        {
-            mapMenuObjectPaths[childGroup] = settings.value(menuPath).toString();
-        }
-    }
+    QString menuObjectPath = settings.value(profile + "/ObjectPath").toString();
 
     QVariantMap properties;
     properties.clear();
     properties.insert("busType", 1);
     properties.insert("busName", busName);
     properties.insert("actionsObjectPath", actionObjectPath);
-    properties.insert("menuObjectPaths", mapMenuObjectPaths);
+    properties.insert("menuObjectPath", menuObjectPath);
     setIndicatorProperties(properties);
 }
 
