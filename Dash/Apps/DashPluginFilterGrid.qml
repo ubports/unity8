@@ -15,21 +15,12 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 0.1
 import "../../Components"
+import "../Generic"
 
-FilterGrid {
+GenericFilterGrid {
     id: filtergrid
-
-    minimumHorizontalSpacing: units.gu(0.5)
-    delegateWidth: units.gu(11)
-    delegateHeight: units.gu(9.5)
-    verticalSpacing: units.gu(2)
-
-    property int iconWidth: units.gu(8)
-    property int iconHeight: units.gu(7.5)
-
-    signal clicked(int index, var delegateItem, real itemY)
-    signal pressAndHold(int index, var delegateItem, real itemY)
 
     delegate: Tile {
         id: tile
@@ -40,6 +31,10 @@ FilterGrid {
         imageWidth: filtergrid.iconWidth
         imageHeight: filtergrid.iconHeight
         source: model.icon
+
+        style: FlatTileStyle {
+            disabled: model.rendererHints['scope_disabled'] === 1;
+        }
 
         onClicked: {
             var data = { model: model }
