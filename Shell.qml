@@ -558,13 +558,10 @@ FocusScope {
     }
 
     function showHome() {
+        var animate = !greeter.shown && !stages.shown
+        console.log("Animating " + animate);
         greeter.hide()
-        // Animate if moving between application and dash
-        if (!stages.shown) {
-            dash.setCurrentScope("home.scope", true, false)
-        } else {
-            dash.setCurrentScope("home.scope", false, false)
-        }
+        dash.setCurrentScope("home.scope", animate, false)
         stages.hide()
     }
 
