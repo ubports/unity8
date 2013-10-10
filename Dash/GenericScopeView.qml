@@ -222,8 +222,8 @@ ScopeView {
             }
             case "carousel": {
                 switch (contentType) {
-                    case "music": return "Music/MusicCarousel.qml";
-                    default: return "Generic/GenericCarousel.qml";
+                    case "music": return "Music/MusicCarouselLoader.qml";
+                    default: return "Generic/GenericCarouselLoader.qml";
                 }
             }
             case "special": {

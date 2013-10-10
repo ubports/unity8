@@ -53,8 +53,8 @@ ScopeView {
 
     function getRenderer(categoryId) {
         switch (categoryId) {
-            case "featured": return "Video/VideosCarousel.qml"
-            default: return "Video/VideosFilterGrid.qml"
+            case "featured": return "Video/VideoCarouselLoader.qml"
+            default: return "Video/VideoFilterGrid.qml"
         }
     }
 
