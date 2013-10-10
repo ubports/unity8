@@ -122,7 +122,7 @@ Item {
         id: dragArea
         objectName: "hudDragArea"
         width: parent.width
-        height: distanceThreshold
+        height: shell.edgeSize
         anchors.bottom: parent.bottom
 
         distanceThreshold: units.gu(8)
