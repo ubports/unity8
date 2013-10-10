@@ -38,8 +38,8 @@ Item {
         source: styledItem.source
         fillMode: styledItem.fillMode
         opacity: tile.disabled ? 0.3 : 1.0
-        horizontalAlignment: styledItem.horizontalAlignment
-        verticalAlignment: styledItem.verticalAlignment
+        horizontalAlignment: Image.AlignHCenter
+        verticalAlignment: Image.AlignVCenter
     }
 
     UbuntuShape {
@@ -71,8 +71,9 @@ Item {
         styleColor: "black"
         fontSize: "small"
         elide: Text.ElideMiddle
-        horizontalAlignment: Text.AlignHCenter
+        horizontalAlignment: styledItem.horizontalAlignment
         text: styledItem.text
+        wrapMode: Text.Wrap
         maximumLineCount: styledItem.maximumLineCount
     }
 }

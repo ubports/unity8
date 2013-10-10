@@ -208,7 +208,7 @@ ScopeView {
         switch (rendererId) {
             case "grid": {
                 switch (contentType) {
-                    case "video": return "Generic/GenericFilterGridPotrait.qml";
+                    case "video": return "Video/VideoFilterGrid.qml";
                     case "music": return "Music/MusicFilterGrid.qml";
                     case "apps": {
                         if (rendererHint == "toggled")

@@ -20,6 +20,8 @@ import Ubuntu.Components 0.1
 Item {
     id: tile
 
+    property alias artist: artistLabel.text
+
     anchors.fill: parent
 
     UbuntuShape {
@@ -61,9 +63,8 @@ Item {
         anchors {
             baseline: icon.bottom
             baselineOffset: units.gu(2)
-            left: parent.left
+            left: icon.left
             right: parent.right
-            leftMargin: units.gu(1)
             rightMargin: units.gu(1)
         }
 
@@ -72,10 +73,29 @@ Item {
         style: Text.Raised
         styleColor: "black"
         fontSize: "small"
-        elide: Text.ElideMiddle
+        font.weight: Font.Bold
+        elide: Text.ElideRight
         horizontalAlignment: styledItem.horizontalAlignment
         text: styledItem.text
         wrapMode: Text.Wrap
         maximumLineCount: styledItem.maximumLineCount
+    }
+
+    Label {
+        id: artistLabel
+        anchors {
+            top: label.bottom
+            left: label.left
+            right: label.right
+            rightMargin: units.gu(1)
+        }
+
+        color: Theme.palette.selected.backgroundText
+        opacity: 0.9
+        style: Text.Raised
+        styleColor: "black"
+        fontSize: "x-small"
+        elide: Text.ElideMiddle
+        horizontalAlignment: styledItem.horizontalAlignment
     }
 }

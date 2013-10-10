@@ -22,18 +22,24 @@ Item {
 
     anchors.fill: parent
 
-    UbuntuShape {
+    Image {
         id: icon
         anchors {
             top: parent.top
             horizontalCenter: parent.horizontalCenter
         }
-        radius: "medium"
         width: styledItem.imageWidth
         height: styledItem.imageHeight
-        image: Image {
+        source: "graphics/movie_icon_holder.png"
+
+        Image {
             id: image
             objectName: "image"
+            anchors {
+                fill: parent;
+                topMargin: units.gu(2);
+                bottomMargin: units.gu(2)
+            }
             sourceSize { width: icon.width; height: icon.height }
             asynchronous: true
             cache: false
@@ -61,9 +67,8 @@ Item {
         anchors {
             baseline: icon.bottom
             baselineOffset: units.gu(2)
-            left: parent.left
+            left: icon.left
             right: parent.right
-            leftMargin: units.gu(1)
             rightMargin: units.gu(1)
         }
 
@@ -72,7 +77,7 @@ Item {
         style: Text.Raised
         styleColor: "black"
         fontSize: "small"
-        elide: Text.ElideMiddle
+        elide: Text.ElideRight
         horizontalAlignment: styledItem.horizontalAlignment
         text: styledItem.text
         wrapMode: Text.Wrap
