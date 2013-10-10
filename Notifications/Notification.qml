@@ -101,13 +101,24 @@ UbuntuShape {
                 right: parent.right
             }
 
+            Image {
+                id: noShapeIcon
+
+                fillMode: Image.PreserveAspectCrop
+                objectName: "noShapeIcon"
+                width: units.gu(6)
+                height: units.gu(6)
+                source: iconSource
+                visible: iconSource !== undefined && iconSource !== "" && notification.hints["x-canonical-noshape-icon"] == "true"
+            }
+
             UbuntuShape {
                 id: icon
 
                 objectName: "icon"
                 width: units.gu(6)
                 height: units.gu(6)
-                visible: iconSource !== undefined && iconSource != ""
+                visible: iconSource !== undefined && iconSource !== "" && notification.hints["x-canonical-noshape-icon"] !== "true"
                 image: Image {
                     id: avatarIcon
 
@@ -129,7 +140,7 @@ UbuntuShape {
                 id: labelColumn
                 width: parent.width - x
 
-                anchors.verticalCenter: (icon.visible && !bodyLabel.visible) ? icon.verticalCenter : undefined
+                anchors.verticalCenter: ((icon.visible || noShapeIcon.visible) && !bodyLabel.visible) ? (icon.visible ? icon.verticalCenter : noShapeIcon.verticalCenter) : undefined
 
                 Label {
                     id: summaryLabel
