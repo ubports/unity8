@@ -559,7 +559,6 @@ FocusScope {
 
     function showHome() {
         var animate = !greeter.shown && !stages.shown
-        console.log("Animating " + animate);
         greeter.hide()
         dash.setCurrentScope("home.scope", animate, false)
         stages.hide()
