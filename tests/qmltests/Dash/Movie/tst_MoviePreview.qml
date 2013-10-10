@@ -74,6 +74,7 @@ Item {
             for(var i = 0; i < buttons.count; i++) {
                 var button = findChild(moviePreview, "button" + i);
                 mouseClick(button, 1, 1);
+                moviePreview.showProcessingAction = false;
             }
 
             var actions = get_actions_data();
