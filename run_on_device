@@ -75,7 +75,6 @@ setup_adb_forwarding() {
 }
 
 install_dependencies() {
-    exec_with_adb rm /etc/init/ssh.override
     exec_with_adb apt-get update
     exec_with_ssh $SUDO apt-get -y install build-essential rsync bzr ccache gdb ninja-build devscripts equivs
 }
