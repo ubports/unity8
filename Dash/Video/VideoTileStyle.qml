@@ -67,9 +67,8 @@ Item {
         anchors {
             baseline: icon.bottom
             baselineOffset: units.gu(2)
-            left: parent.left
+            left: icon.left
             right: parent.right
-            leftMargin: units.gu(1)
             rightMargin: units.gu(1)
         }
 
