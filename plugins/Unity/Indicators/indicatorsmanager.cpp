@@ -215,7 +215,7 @@ void IndicatorsManager::setLoaded(bool loaded)
         Q_EMIT loadedChanged(m_loaded);
 
         auto upstartsession = qgetenv("UPSTART_SESSION");
-        NihDBusProxy * upstart;
+        NihDBusProxy * upstart = NULL;
 
         if (!upstartsession.isNull()) {
             DBusConnection * conn = NULL;
