@@ -88,13 +88,13 @@ ListModel {
         metadata: ""
     }
     ListElement {
-        uri: "appid://com.ubuntu.developer.webapps.webapp-facebook/webapp-gmail/current-user-version"
+        uri: "appid://com.ubuntu.developer.webapps.webapp-gmail/webapp-gmail/current-user-version"
         icon: "../../graphics/applicationIcons/gmail.png"
         category: 0
         mimetype: "application/x-desktop"
         title: "GMail"
         comment: ""
-        dndUri: "appid://com.ubuntu.developer.webapps.webapp-facebook/webapp-gmail/current-user-version"
+        dndUri: "appid://com.ubuntu.developer.webapps.webapp-gmail/webapp-gmail/current-user-version"
         metadata: ""
     }
     ListElement {
