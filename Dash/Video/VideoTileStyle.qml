@@ -77,10 +77,10 @@ Item {
         style: Text.Raised
         styleColor: "black"
         fontSize: "small"
-        elide: Text.ElideMiddle
+        elide: Text.ElideRight
         horizontalAlignment: styledItem.horizontalAlignment
         text: styledItem.text
-        wrapMode: Text.WordWrap
+        wrapMode: Text.Wrap
         maximumLineCount: styledItem.maximumLineCount
     }
 }
