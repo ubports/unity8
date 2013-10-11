@@ -38,11 +38,7 @@ LauncherModel::LauncherModel(QObject *parent):
                                               m_backend->displayName(entry),
                                               m_backend->icon(entry),
                                               this);
-        if (m_backend->isPinned(entry)) {
-            item->setPinned(true);
-        } else {
-            item->setRecent(true);
-        }
+        item->setPinned(true);
         m_list.append(item);
     }
 }
@@ -129,11 +125,12 @@ void LauncherModel::pin(const QString &appId, int index)
     if (currentIndex >= 0) {
         if (index == -1 || index == currentIndex) {
             m_list.at(currentIndex)->setPinned(true);
-            m_backend->setPinned(appId, true);
             QModelIndex modelIndex = this->index(currentIndex);
             Q_EMIT dataChanged(modelIndex, modelIndex);
         } else {
             move(currentIndex, index);
+            // move() will store the list to the backend itself, so just exit at this point.
+            return;
         }
     } else {
         if (index == -1) {
@@ -144,7 +141,6 @@ void LauncherModel::pin(const QString &appId, int index)
                                               m_backend->displayName(appId),
                                               m_backend->icon(appId));
         item->setPinned(true);
-        m_backend->setPinned(appId, true);
         m_list.insert(index, item);
         endInsertRows();
     }

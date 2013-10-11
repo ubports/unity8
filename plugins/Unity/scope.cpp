@@ -40,6 +40,7 @@
 
 Scope::Scope(QObject *parent) : QObject(parent)
     , m_formFactor("phone")
+    , m_isActive(false)
     , m_searchInProgress(false)
 {
     m_categories.reset(new Categories(this));

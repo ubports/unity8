@@ -23,6 +23,7 @@ FocusScope {
     property SortFilterProxyModel categories: categoryFilter
     property bool isCurrent
     property ListModel searchHistory
+    property bool moving: false
 
     signal endReached
     signal movementStarted

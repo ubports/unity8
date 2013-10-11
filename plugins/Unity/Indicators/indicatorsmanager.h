@@ -71,7 +71,6 @@ private:
     QHash<QString, IndicatorData*> m_indicatorsData;
     QSharedPointer<QFileSystemWatcher> m_fsWatcher;
     bool m_loaded;
-    NihDBusProxy * m_upstart;
 };
 
 #endif // INDICATORS_MANAGER_H

@@ -25,6 +25,7 @@
 
 #define BASE_THEME_ICON_URI "image://theme/"
 #define BASE_THUMBNAILER_URI "image://thumbnailer/"
+#define BASE_ALBUMART_URI "image://albumart/"
 
 QString gIconToDeclarativeImageProviderString(QString const &giconString)
 {
@@ -91,11 +92,31 @@ QString gIconToDeclarativeImageProviderString(QString const &giconString)
     return result;
 }
 
-QString uriToThumbnailerProviderString(QString const &uri)
+QString uriToThumbnailerProviderString(QString const &uri, QString const &mimetype, QVariantHash const &metadata)
 {
     if (uri.startsWith(QLatin1String("file:///"))) {
-        QString thumbnailerUri(BASE_THUMBNAILER_URI);
-        thumbnailerUri.append(uri.midRef(7));
+        bool isAudio = mimetype.startsWith(QLatin1String("audio/"));
+        QString thumbnailerUri;
+        if (isAudio) {
+            thumbnailerUri = BASE_ALBUMART_URI;
+            if (metadata.contains("content")) {
+                QVariantHash contentHash = metadata["content"].toHash();
+                if (contentHash.contains("content")) { // nested content in Home?
+                    contentHash = contentHash["content"].toHash();
+                }
+                if (contentHash.contains("album") &&
+                    contentHash.contains("artist")) {
+                    const QString album = contentHash["album"].toString();
+                    const QString artist = contentHash["artist"].toString();
+                    thumbnailerUri.append(QUrl::toPercentEncoding(artist));
+                    thumbnailerUri.append("/");
+                    thumbnailerUri.append(QUrl::toPercentEncoding(album));
+                }
+            }
+        } else {
+            thumbnailerUri = BASE_THUMBNAILER_URI;
+            thumbnailerUri.append(uri.midRef(7));
+        }
         return thumbnailerUri;
     }
 

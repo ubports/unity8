@@ -16,20 +16,16 @@
 
 import QtQuick 2.0
 import "../../Components"
+import "../Generic"
 
-FilterGrid {
+GenericFilterGrid {
     id: filtergrid
 
-    minimumHorizontalSpacing: units.gu(0.5)
     delegateWidth: units.gu(11)
-    delegateHeight: units.gu(9.5)
-    verticalSpacing: units.gu(2)
+    delegateHeight: units.gu(15)
 
-    property int iconWidth: units.gu(8)
-    property int iconHeight: units.gu(7.5)
-
-    signal clicked(int index, var delegateItem, real itemY)
-    signal pressAndHold(int index, var delegateItem, real itemY)
+    iconWidth: units.gu(11)
+    iconHeight: units.gu(11)
 
     delegate: Tile {
         id: tile
@@ -40,6 +36,10 @@ FilterGrid {
         imageWidth: filtergrid.iconWidth
         imageHeight: filtergrid.iconHeight
         source: model.icon
+        maximumLineCount: 2
+        horizontalAlignment: Text.AlignLeft
+
+        style: VideoTileStyle {}
 
         onClicked: {
             var data = { model: model }

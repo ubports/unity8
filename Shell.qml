@@ -99,17 +99,6 @@ FocusScope {
         }
     }
 
-    Connections {
-        target: applicationManager
-        ignoreUnknownSignals: true
-        onFocusRequested: {
-            // TODO: this should be protected to only unlock for certain applications / certain usecases
-            // potentially only in connection with a notification
-            greeter.hide();
-            shell.activateApplication(desktopFile);
-        }
-    }
-
     function activateApplication(desktopFile, argument) {
         if (applicationManager) {
             // For newly started applications, as it takes them time to draw their first frame
@@ -401,7 +390,7 @@ FocusScope {
 
                 width: shell.edgeSize
                 direction: Direction.Leftwards
-                enabled: edgeDemo.dashEnabled
+                enabled: greeter.showProgress == 0 && edgeDemo.dashEnabled
                 property bool haveApps: mainStage.applications.count > 0 || sideStage.applications.count > 0
 
                 maxTotalDragDistance: haveApps ? parent.width : parent.width * 0.7
@@ -468,6 +457,26 @@ FocusScope {
 
         dragHandleWidth: shell.edgeSize
 
+        property var previousMainApp: null
+        property var previousSideApp: null
+
+        function removeApplicationFocus() {
+            greeter.previousMainApp = applicationManager.mainStageFocusedApplication;
+            greeter.previousSideApp = applicationManager.sideStageFocusedApplication;
+            applicationManager.unfocusCurrentApplication();
+        }
+
+        function restoreApplicationFocus() {
+            if (greeter.previousMainApp) {
+                applicationManager.focusApplication(greeter.previousMainApp);
+                greeter.previousMainApp = null;
+            }
+            if (greeter.previousSideApp) {
+                applicationManager.focusApplication(greeter.previousSideApp);
+                greeter.previousSideApp = null;
+            }
+        }
+
         onShownChanged: {
             if (shown) {
                 lockscreen.reset();
@@ -478,6 +487,9 @@ FocusScope {
                     greeter.selected(0);
                 }
                 greeter.forceActiveFocus();
+                removeApplicationFocus();
+            } else {
+                restoreApplicationFocus();
             }
         }
 
@@ -494,6 +506,29 @@ FocusScope {
                 launcher.tease();
             }
         }
+
+        Connections {
+            target: applicationManager
+            ignoreUnknownSignals: true
+            // If any app is focused when greeter is open, it's due to a user action
+            // like a snap decision (say, an incoming call).
+            // TODO: these should be protected to only unlock for certain applications / certain usecases
+            // potentially only in connection with a notification.
+            onMainStageFocusedApplicationChanged: {
+                if (greeter.shown && applicationManager.mainStageFocusedApplication) {
+                    greeter.previousMainApp = null // make way for new focused app
+                    greeter.previousSideApp = null
+                    greeter.hide()
+                }
+            }
+            onSideStageFocusedApplicationChanged: {
+                if (greeter.shown && applicationManager.sideStageFocusedApplication) {
+                    greeter.previousMainApp = null // make way for new focused app
+                    greeter.previousSideApp = null
+                    greeter.hide()
+                }
+            }
+        }
     }
 
     InputFilterArea {
@@ -506,34 +541,11 @@ FocusScope {
         id: powerConnection
         target: Powerd
 
-        property var previousMainApp: null
-        property var previousSideApp: null
-
-        function setFocused(focused) {
-            if (!focused) {
-                powerConnection.previousMainApp = applicationManager.mainStageFocusedApplication;
-                powerConnection.previousSideApp = applicationManager.sideStageFocusedApplication;
-                applicationManager.unfocusCurrentApplication();
-            } else {
-                if (powerConnection.previousMainApp) {
-                    applicationManager.focusApplication(powerConnection.previousMainApp);
-                    powerConnection.previousMainApp = null;
-                }
-                if (powerConnection.previousSideApp) {
-                    applicationManager.focusApplication(powerConnection.previousSideApp);
-                    powerConnection.previousSideApp = null;
-                }
-            }
-        }
-
         onDisplayPowerStateChange: {
             // We ignore any display-off signals when the proximity sensor
             // is active.  This usually indicates something like a phone call.
             if (status == Powerd.Off && (flags & Powerd.UseProximity) == 0) {
-                powerConnection.setFocused(false);
                 greeter.showNow();
-            } else if (status == Powerd.On) {
-                powerConnection.setFocused(true);
             }
 
             // No reason to chew demo CPU when user isn't watching
@@ -546,13 +558,9 @@ FocusScope {
     }
 
     function showHome() {
+        var animate = !greeter.shown && !stages.shown
         greeter.hide()
-        // Animate if moving between application and dash
-        if (!stages.shown) {
-            dash.setCurrentScope("home.scope", true, false)
-        } else {
-            dash.setCurrentScope("home.scope", false, false)
-        }
+        dash.setCurrentScope("home.scope", animate, false)
         stages.hide()
     }
 

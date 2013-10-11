@@ -193,7 +193,7 @@ UbuntuShape {
                 left: parent.left
                 right: parent.right
             }
-            visible: notification.type == Notification.SnapDecision
+            visible: notification.type == Notification.SnapDecision && actionRepeater.count > 0
             height: units.gu(5)
 
             property real buttonWidth: (width - contentColumn.spacing) / 2

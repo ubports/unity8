@@ -83,6 +83,7 @@ Item {
         panelHeight: __panelMinusSeparatorLineHeight
         openedHeight: parent.height + (pinnedMode ? 0 : root.panelHeight)
         pinnedMode: !fullscreenMode
+        overFlowWidth: search.state=="hidden" ? parent.width : parent.width - search.width
 
         property real unitProgress: (height - panelHeight) / (openedHeight - panelHeight)
     }
@@ -121,14 +122,13 @@ Item {
                     return "hidden";
                 }
             }
-            if (root.searchVisible) {
+            if (root.searchVisible && !indicatorsMenu.showAll) {
                 return "visible";
             }
 
             return "hidden";
         }
 
-        width: units.gu(13)
         height: __panelMinusSeparatorLineHeight
         anchors {
             top: panelBackground.top
