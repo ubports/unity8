@@ -125,7 +125,7 @@ DashPreview {
                 fontSize: "small"
                 opacity: 0.6
                 color: "white"
-                text: previewData.description.replace(/[\r\n]+/g, "<br />")
+                text: previewData.description.replace(/[\r\n]/g, "<br />")
                 style: Text.Raised
                 styleColor: "black"
                 wrapMode: Text.WordWrap

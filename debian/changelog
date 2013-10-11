@@ -1,3 +1,94 @@
+unity8 (7.82+13.10.20131010-0ubuntu1) saucy; urgency=low
+
+  [ David Callé ]
+  * Small logic change in preview descriptions line breaks. Multiple new
+    lines are now replaced by multiple br tags.
+
+  [ Nick Dedekind ]
+  * Use indicator identifier for indicators-client list item label.
+  * Make sure overflow indicators are hidden and not the search label.
+
+  [ Mirco Müller ]
+  * Tweaks to notifications to improve spec-compliance. - updated
+    notifications-qmltest to reflect the use of a variant-map for the
+    hints - made text-fields as heigh as buttons - made the summary
+    align horizontally to the icon - updated button-height and bubble-
+    background.
+
+  [ Pawel Stolowski ]
+  * Handle category_order_changes signal from scopes (used in Home only)
+    and reorder categories accordingly.
+  * Implementation of albumart image provider for audio content.
+
+  [ Michael Terry ]
+  * Hide the greeter when an app is focused, fixing snap decisions
+    launching an app in the greeter (like receiving a call).
+
+  [ Michael Zanetti ]
+  * Launcher - remove support for pinning items in the backend After the
+    latest design changes, recent apps is everything that is contained
+    in the ApplicationManager. So no need for storing anything else than
+    pinned apps in the config.
+
+  [ Michał Sawicz ]
+  * Remove the mir socket before starting unity8 during autopilot tests.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 420
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 10 Oct 2013 04:15:13 +0000
+
+unity8 (7.82+13.10.20131008.1-0ubuntu1) saucy; urgency=low
+
+  [ Michal Hruby ]
+  * Add Scope::isActive property and corresponding tests. (LP: #1230352)
+
+  [ Daniel d'Andrada ]
+  * Move OSKController to the front as it will now also block input
+    meant to the OSK That's in the unity-mir implementation. The
+    SurfaceFlinger one is still an empty noop. Currently, when the OSK
+    is up, both shell and OSK get user input, thus we need the
+    OSKController to shield our shell components from them. (LP:
+    #1236773)
+
+  [ Michał Sawicz ]
+  * Add Scope::isActive property and corresponding tests. (LP: #1230352)
+  * Force focus back on shell in case it loses it for some reason.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 409
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 08 Oct 2013 19:14:20 +0000
+
+unity8 (7.82+13.10.20131008-0ubuntu1) saucy; urgency=low
+
+  [ Michał Sawicz ]
+  * update previews to match design. (LP: #1224555)
+  * Add an InputFilterArea in Notifications. (LP: #1233411, #1235215)
+
+  [ Ying-Chun Liu ]
+  * update previews to match design. (LP: #1224555)
+
+  [ Albert Astals ]
+  * Unrevert 376 by reverting r395 and a small fix to fix the cpu
+    hogging issue . (LP: #1124567)
+
+  [ Michael Terry ]
+  * Add Showable.showNow() method and use it in Shell to immediately
+    show greeter when we blank the screen rather than animating it. (LP:
+    #1233564)
+
+  [ Michael Zanetti ]
+  * update previews to match design. (LP: #1224555)
+
+  [ Diego Sarmentero ]
+  * update previews to match design. (LP: #1224555)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 404
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 08 Oct 2013 02:57:55 +0000
+
 unity8 (7.82+13.10.20131007-0ubuntu1) saucy; urgency=low
 
   [ Michał Sawicz ]

@@ -87,6 +87,12 @@ class UnityTestCase(AutopilotTestCase):
         self._proxy = None
         self._lightdm_mock_type = None
         self._qml_mock_enabled = True
+
+        #### FIXME: This is a work around re: lp:1238417 ####
+        from autopilot.input import _uinput
+        _uinput._touch_device = _uinput.create_touch_device()
+        ####
+
         self.touch = Touch.create()
         self._setup_display_details()
 
@@ -163,6 +169,17 @@ class UnityTestCase(AutopilotTestCase):
 
         if self._qml_mock_enabled:
             self._setup_extra_mock_environment_patch()
+
+        # FIXME: we shouldn't be doing this
+        # $MIR_SOCKET, fallback to $XDG_RUNTIME_DIR/mir_socket and /tmp/mir_socket as last resort
+        try:
+            os.unlink(os.getenv('MIR_SOCKET', os.path.join(os.getenv('XDG_RUNTIME_DIR', "/tmp"), "mir_socket")))
+        except OSError:
+            pass
+        try:
+            os.unlink("/tmp/mir_socket")
+        except OSError:
+            pass
 
         app_proxy = self.launch_test_application(
             binary_path,

@@ -17,16 +17,10 @@
 import QtQuick 2.0
 import Unity 0.1
 
-FocusScope {
+import "../../../../Dash"
+
+ScopeView {
     id: fakeScopeView
-    property Scope scope : null
-    property bool isCurrent : false
-
-    property ListModel searchHistory
-
-    signal endReached
-    signal movementStarted
-    signal positionedAtBeginning
 
     property alias backColor : back.color
 

@@ -25,7 +25,6 @@ Item {
     property variant mainStageFocusedApplication: null
     property variant sideStageFocusedApplication: null
     property bool sideStageEnabled: true
-    signal focusRequested(string desktopFile)
     property bool keyboardVisible: ApplicationManager.keyboardVisible
     property int keyboardHeight: ApplicationManager.keyboardHeight
 
@@ -154,33 +153,5 @@ Item {
             return "";
         }
         return desktopFile.substring(left+1, right);
-    }
-
-    Connections {
-        target: ApplicationManager
-        onFocusRequested: {
-            // FIXME: hardcoded mapping from ApplicationManager.FavoriteApplications
-            // enum to desktop files
-            var desktopFile
-            if (favoriteApplication == ApplicationManager.CameraApplication) {
-                desktopFile = "/usr/share/applications/camera-app.desktop"
-            } else if (favoriteApplication == ApplicationManager.GalleryApplication) {
-                desktopFile = "/usr/share/applications/gallery-app.desktop"
-            } else if (favoriteApplication == ApplicationManager.ShareApplication) {
-                desktopFile = "/usr/share/applications/share-app.desktop"
-            } else if (favoriteApplication == ApplicationManager.BrowserApplication) {
-                desktopFile = "/usr/share/applications/webbrowser-app.desktop"
-            } else if (favoriteApplication == ApplicationManager.PhoneApplication) {
-                desktopFile = "/usr/share/applications/phone-app.desktop"
-            } else if (favoriteApplication == ApplicationManager.DialerApplication) {
-                desktopFile = "/usr/share/applications/dialer-app.desktop"
-            } else if (favoriteApplication == ApplicationManager.MessagingApplication) {
-                desktopFile = "/usr/share/applications/messaging-app.desktop"
-            } else if (favoriteApplication == ApplicationManager.AddressbookApplication) {
-                desktopFile = "/usr/share/applications/address-book-app.desktop"
-            }
-
-            applicationManager.focusRequested(desktopFile);
-        }
     }
 }

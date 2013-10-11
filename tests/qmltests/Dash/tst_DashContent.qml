@@ -101,17 +101,21 @@ Item {
         when: windowShown
 
         function init() {
+            scopesModel.load();
+        }
+
+        function cleanup() {
             scopeLoadedSpy.clear();
             movementStartedSpy.clear();
-            contentEndReachedSpy.clear()
+            contentEndReachedSpy.clear();
             clear_scope_status();
+            dashContent.visible = true;
 
-            // clear, wait for dash to empty and load scopes.
-            var dashContentList = findChild(dashContent, "dashContentList");
-            verify(dashContentList != undefined)
             scopesModel.clear();
+            // wait for dash to empty scopes.
+            var dashContentList = findChild(dashContent, "dashContentList");
+            verify(dashContentList != undefined);
             tryCompare(dashContentList, "count", 0);
-            scopesModel.load();
         }
 
         function test_movement_started_signal() {
@@ -205,5 +209,25 @@ Item {
             tryCompareFunction(get_current_item_object_name, data.objectName)
         }
 
+        function test_is_active_data() {
+            return [
+                {tag: "select 0", select: 0, visible: true, active0: true, active1: false, active2: false, active3: false},
+                {tag: "select 2", select: 2, visible: true, active0: false, active1: false, active2: true, active3: false},
+                {tag: "invisible", select: 0, visible: false, active0: false, active1: false, active2: false, active3: false},
+            ]
+        }
+
+        function test_is_active(data) {
+            var dashContentList = findChild(dashContent, "dashContentList");
+
+            tryCompare(scopeLoadedSpy, "count", 5);
+
+            dashContent.setCurrentScopeAtIndex(data.select, true, false);
+            dashContent.visible = data.visible;
+
+            tryCompare(scopesModel.get(0), "isActive", data.active0);
+            tryCompare(scopesModel.get(1), "isActive", data.active1);
+            tryCompare(scopesModel.get(2), "isActive", data.active2);
+        }
     }
 }
