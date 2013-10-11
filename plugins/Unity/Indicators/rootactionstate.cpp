@@ -62,6 +62,8 @@ void RootActionState::setMenu(UnityMenuModel* menu)
             connect(m_menu, SIGNAL(rowsRemoved(const QModelIndex&, int, int)), SLOT(onModelRowsRemoved(const QModelIndex&, int, int)));
             connect(m_menu, SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&, const QVector<int>&)), SLOT(onModelDataChanged(const QModelIndex&, const QModelIndex&, const QVector<int>&)));
 
+            connect(m_menu, SIGNAL(destroyed()), SLOT(reset()));
+
             m_menu->setActionStateParser(this);
         }
         updateActionState();
@@ -95,6 +97,14 @@ void RootActionState::onModelDataChanged(const QModelIndex& topLeft, const QMode
     if (topLeft.row() <= 0 && bottomRight.row() >= 0) {
         updateActionState();
     }
+}
+
+void RootActionState::reset() {
+    m_cachedState.clear();
+    m_menu = NULL;
+
+    Q_EMIT menuChanged();
+    Q_EMIT updated();
 }
 
 void RootActionState::updateActionState()
