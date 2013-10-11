@@ -99,6 +99,7 @@ class ApplicationManager : public ApplicationManagerInterface {
     void keyboardHeightChanged();
     void keyboardVisibleChanged();
     void focusRequested(FavoriteApplication favoriteApplication);
+    void focusRequested(const QString &appId);
 
  private:
     void add(ApplicationInfo *application);
