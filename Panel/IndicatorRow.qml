@@ -27,6 +27,8 @@ Item {
     property alias row: row
     property QtObject indicatorsModel: null
     property var visibleIndicators: defined
+    property int overFlowWidth: width
+    property bool showAll: false
 
     width: units.gu(40)
     height: units.gu(3)
@@ -42,6 +44,15 @@ Item {
         }
     }
 
+    Timer {
+        id: allVisible
+        interval: 1000
+
+        onTriggered: {
+            showAll = false;
+        }
+    }
+
     Row {
         id: row
 
@@ -54,15 +65,30 @@ Item {
             objectName: "rowRepeater"
             model: indicatorsModel ? indicatorsModel : undefined
 
+            property int lastCount: 0
+            onCountChanged: {
+                if (lastCount < count) {
+                    showAll = true;
+                    allVisible.start();
+                }
+                lastCount = count;
+            }
+
             Item {
                 id: itemWrapper
                 height: indicatorRow.height
                 width: indicatorItem.width
                 visible: indicatorItem.indicatorVisible
+                opacity: 1.0
+                y: 0
+                state: "standard"
 
                 property int ownIndex: index
                 property alias highlighted: indicatorItem.highlighted
                 property alias dimmed: indicatorItem.dimmed
+
+                property bool hidden: !showAll && !indicatorItem.highlighted && (indicatorRow.state == "locked" || indicatorRow.state == "commit")
+                property bool overflow: row.width - itemWrapper.x > overFlowWidth
 
                 IndicatorItem {
                    id: indicatorItem
@@ -87,22 +113,35 @@ Item {
                        }
                        indicatorRow.visibleIndicators[model.identifier] = indicatorVisible;
                        indicatorRow.visibleIndicatorsChanged();
+
+                       if (indicatorVisible) {
+                           showAll = true;
+                           allVisible.start();
+                       }
                    }
                 }
 
-                opacity: {
-                    if (!indicatorItem.highlighted && (indicatorRow.state == "locked" || indicatorRow.state == "commit")) {
-                        return 0.0;
-                    } else {
-                        return 1.0;
+                states: [
+                    State {
+                        name: "standard"
+                        when: !hidden && !overflow
+                    },
+                    State {
+                        name: "overflow"
+                        when: hidden || overflow
+                        PropertyChanges { target: itemWrapper; opacity: 0.0 }
                     }
-                }
-                Behavior on opacity {
-                     StandardAnimation {
-                         // flow away from current index
-                         duration: (rowRepeater.count - Math.abs(indicatorRow.currentItemIndex - index)) * (500/rowRepeater.count)
-                     }
-                 }
+                ]
+
+                transitions: [
+                    Transition {
+                        StandardAnimation {
+                            target: itemWrapper
+                            property: "opacity"
+                            duration: 300
+                        }
+                    }
+                ]
             }
         }
     }
