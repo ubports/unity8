@@ -28,9 +28,11 @@ from autopilot.platform import model
 from autopilot.testcase import AutopilotTestCase
 from autopilot.matchers import Eventually
 from autopilot.input import Touch
+from autopilot.introspection import get_proxy_object_for_existing_process
 from autopilot.display import Display
 import logging
 import os.path
+import subprocess
 from testtools.matchers import Equals, NotEquals
 
 from unity8 import (
@@ -90,6 +92,10 @@ class UnityTestCase(AutopilotTestCase):
         self.touch = Touch.create()
         self._setup_display_details()
 
+        self._using_upstart = False
+        if model() != "Desktop": # or check env
+            self._using_upstart = True
+
     def _reset_launcher(self):
         """Reset Unity launcher hide mode"""
         self._unityshell_schema.set_int(UNITYSHELL_LAUNCHER_KEY, self._launcher_hide_mode)
@@ -129,7 +135,7 @@ class UnityTestCase(AutopilotTestCase):
             self.grid_size = int(os.getenv('GRID_UNIT_PX'))
         else:
             self.grid_size = int(self.grid_unit_px / scale_divisor)
-            self.patch_environment("GRID_UNIT_PX", str(self.grid_size))
+            self._patch_environment("GRID_UNIT_PX", str(self.grid_size))
 
     def _geo_larger_than_display(self, width, height):
         should_scale = getattr(self, 'scale_geo', True)
@@ -146,6 +152,41 @@ class UnityTestCase(AutopilotTestCase):
         while self._geo_larger_than_display(width / divisor, height / divisor):
             divisor = divisor * 2
         return divisor
+
+    def _patch_environment(self, key, value):
+        """Wrapper for patching env for either upstart or non-upstart
+        environments.
+
+        """
+        if self._using_upstart:
+            try:
+                current_value = subprocess.check_output([
+                    "/sbin/initctl",
+                    "get-env",
+                    key
+                ])
+            except subprocess.CalledProcessError:
+                current_value = None
+
+            subprocess.call([
+                "/sbin/initctl",
+                "set-env",
+                "%s=%s" % (key, value)
+            ])
+            self.addCleanup(self._upstart_reset_env, key, current_value)
+        else:
+            self.patch_environment(key, value)
+
+    def _upstart_reset_env(self, key, value):
+        logger.info("Resetting upstart env %s to %s", key, value)
+        if value is None:
+            subprocess.call(["/sbin/initctl", "unset-env", key])
+        else:
+            subprocess.call([
+                "/sbin/initctl",
+                "set-env",
+                "%s=%s" % (key, value)
+            ])
 
     def launch_unity(self, **kwargs):
         """Launch the unity shell, return a proxy object for it."""
@@ -175,13 +216,17 @@ class UnityTestCase(AutopilotTestCase):
         except OSError:
             pass
 
-        app_proxy = self.launch_test_application(
-            binary_path,
-            *self.unity_geometry_args,
-            app_type='qt',
-            emulator_base=UnityEmulatorBase,
-            **kwargs
-        )
+        if self._using_upstart:
+            app_proxy = self._launch_unity_with_upstart()
+        else:
+            app_proxy = self.launch_test_application(
+                binary_path,
+                *self.unity_geometry_args,
+                app_type='qt',
+                emulator_base=UnityEmulatorBase,
+                **kwargs
+            )
+
         self._set_proxy(app_proxy)
 
         # Ensure that the dash is visible before we return:
@@ -190,6 +235,54 @@ class UnityTestCase(AutopilotTestCase):
         logger.debug("Unity loaded and ready.")
 
         return app_proxy
+
+    def _launch_unity_with_upstart(self):
+        subprocess.call(["/sbin/initctl", "set-env", "QT_LOAD_TESTABILITY=1"])
+
+        output = subprocess.check_output([
+            "/sbin/initctl",
+            "status",
+            "unity8"
+        ])
+
+        unity_already_started = False
+        if "start/" in output:
+            unity_already_started = True
+            try:
+                subprocess.check_call(["/sbin/initctl", "stop", "unity8"])
+            except subprocess.CalledProcessError as e:
+                logger.warning("Unable to stop unity8")
+                e.args += ("Failed to stop existing unity8 process", )
+                raise
+
+        output = subprocess.check_output(["/sbin/initctl", "start", "unity8"])
+
+        self.addCleanup(
+            self._cleanup_launching_upstart_unity,
+            unity_already_started
+        )
+
+        pid = int(output.split()[-1])
+
+        return get_proxy_object_for_existing_process(
+            pid=pid,
+            emulator_base=UnityEmulatorBase,
+        )
+
+    def _cleanup_launching_upstart_unity(self, restart_unity):
+        logger.info("Cleaning up launching unity, unsetting env")
+        subprocess.call(["/sbin/initctl", "unset-env", "QT_LOAD_TESTABILITY"])
+
+        try:
+            logger.info("Stopping existing unity")
+            subprocess.check_call(["/sbin/initctl", "stop", "unity8"])
+        except subprocess.CalledProcessError:
+            logger.warning("Appears unity was already stopped")
+
+        # Actually, the previous env stuff will be still here right?
+        if restart_unity:
+            logger.info("Starting unity again with original env")
+            subprocess.check_call(["/sbin/initctl", "start", "unity8"])
 
     def patch_lightdm_mock(self, mock_type='single'):
         self._lightdm_mock_type = mock_type
@@ -204,7 +297,7 @@ class UnityTestCase(AutopilotTestCase):
         new_ld_library_path = ':'.join(new_ld_library_path)
         logger.info("New library path: %s", new_ld_library_path)
 
-        self.patch_environment('LD_LIBRARY_PATH', new_ld_library_path)
+        self._patch_environment('LD_LIBRARY_PATH', new_ld_library_path)
 
     def _get_lightdm_mock_path(self, mock_type):
         lib_path = get_mocks_library_path()
@@ -226,7 +319,7 @@ class UnityTestCase(AutopilotTestCase):
 
         qml_import_path = ':'.join(qml_import_path)
         logger.info("New QML2 import path: %s", qml_import_path)
-        self.patch_environment('QML2_IMPORT_PATH', qml_import_path)
+        self._patch_environment('QML2_IMPORT_PATH', qml_import_path)
 
     def _set_proxy(self, proxy):
         """Keep a copy of the proxy object, so we can use it to get common
