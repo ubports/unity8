@@ -346,27 +346,31 @@ ScopeView {
 
         onCurrentIndexChanged: {
             var row = Math.floor(currentIndex / categoryDelegate.columns);
+            if (categoryDelegate.collapsedRowCount <= row) {
+                categoryView.expandedCategoryId = categoryId
+            }
             if (!init && model !== undefined) {
                 var item = model.get(currentIndex)
                 scopeView.scope.preview( item.uri, item.icon, item.category, 0, item.mimetype, item.title, item.comment, item.dndUri, item.metadata)
                 if (oldRow != -1) {
                     if (row < oldRow) {
+                        var effectMove = 0;
                         if (categoryView.contentY - categoryDelegate.cellHeight < 0) {
-                            effect.positionPx -= categoryDelegate.cellHeight - categoryView.contentY
+                            effectMove = categoryDelegate.cellHeight - categoryView.contentY;
+                            effect.positionPx -= effectMove;
                         }
-                        categoryView.contentY = Math.max(0, categoryView.contentY - categoryDelegate.cellHeight)
+                        categoryView.contentY -= categoryDelegate.cellHeight - effectMove;
                     } else if (row > oldRow){
+                        var effectMove = 0;
                         if (categoryView.contentY + categoryDelegate.cellHeight > categoryView.contentHeight - categoryView.height) {
-                            effect.positionPx += categoryDelegate.cellHeight - (categoryView.contentY - (categoryView.contentHeight - categoryView.height))
+                            effectMove = (categoryView.contentY + categoryDelegate.cellHeight) - (categoryView.contentHeight - categoryView.height);
+                            effect.positionPx += effectMove;
                         }
-                        categoryView.contentY = Math.min(categoryView.contentHeight - categoryView.height, categoryView.contentY + categoryDelegate.cellHeight)
+                        categoryView.contentY += categoryDelegate.cellHeight - effectMove
                     }
                 }
             }
             oldRow = row;
-            if (categoryDelegate.collapsedRowCount <= row) {
-                categoryView.expandedCategoryId = categoryId
-            }
 
             if (open) {
                 categoryDelegate.highlightIndex = currentIndex
