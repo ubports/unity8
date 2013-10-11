@@ -28,7 +28,7 @@ Item {
 
     signal clicked(variant mouse)
 
-    height: units.gu(4.5)
+    height: units.gu(5)
 
     Item {
         anchors {

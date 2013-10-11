@@ -1,5 +1,6 @@
 pkg_check_modules(GLIB REQUIRED glib-2.0>=2.32)
 pkg_check_modules(GIO REQUIRED gio-2.0>=2.32)
+pkg_check_modules(QMENUMODEL REQUIRED qmenumodel)
 
 set(INDICATORS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../../../plugins/Unity/Indicators)
 set(TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../..)
@@ -30,6 +31,7 @@ macro(indicator_test TEST)
         ${test_ADDITIONAL_LIBS}
         ${GLIB_LIBRARIES}
         ${GIO_LIBRARIES}
+        ${QMENUMODEL_LDFLAGS}
         )
 endmacro(indicator_test)
 
@@ -37,3 +39,4 @@ indicator_test(indicatorsmanagertest ADDITIONAL_LIBS IndicatorsQml)
 indicator_test(indicatorsmodeltest ADDITIONAL_LIBS IndicatorsQml)
 indicator_test(menucontentactivatortest ADDITIONAL_CPPS ${INDICATORS_DIR}/menucontentactivator.cpp)
 indicator_test(unitymenumodelstacktest ADDITIONAL_CPPS ${TEST_DIR}/mocks/QMenuModel/unitymenumodel.cpp ${INDICATORS_DIR}/unitymenumodelstack.cpp)
+indicator_test(rootactionstatetest ADDITIONAL_LIBS IndicatorsQml)
