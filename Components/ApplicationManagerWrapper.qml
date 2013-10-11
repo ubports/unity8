@@ -18,7 +18,7 @@ import QtQuick 2.0
 import Unity.Application 0.1
 
 Item {
-    id: applicationManager
+    id: root
 
     property alias mainStageApplications: mainStageModel
     property alias sideStageApplications: sideStageModel
@@ -29,6 +29,8 @@ Item {
     property int keyboardHeight: ApplicationManager.keyboardHeight
 
     property bool fake: ApplicationManager.fake ? ApplicationManager.fake : false
+
+    signal focusRequested(string appId)
 
     ApplicationsModelStageFiltered {
         id: mainStageModel
@@ -48,7 +50,7 @@ Item {
                 mainStageFocusedApplication = null;
                 sideStageFocusedApplication = null;
             } else {
-                if (app.stage == ApplicationInfo.MainStage) {
+                if (app.stage == ApplicationInfo.MainStage || !sideStageEnabled) {
                     mainStageFocusedApplication = app;
                     // possible the side stage app being unfocused fired this signal, so check for it
                     if (sideStageFocusedApplication && !sideStageFocusedApplication.focused)
@@ -61,6 +63,8 @@ Item {
                 }
             }
         }
+
+        onFocusRequested: root.focusRequested(appId);
     }
 
     function activateApplication(desktopFile, argument) {
