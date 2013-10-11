@@ -69,13 +69,39 @@ def _get_device_emulation_scenarios(devices='All'):
         elif devices == 'Nexus10':
             return [nexus10]
         else:
-            raise RuntimeException('Unrecognized device-option "%s" passed.' % devices)
+            raise RuntimeError('Unrecognized device-option "%s" passed.' % devices)
     else:
         return [native]
 
 class UnityTestCase(AutopilotTestCase):
 
     """A test case base class for the Unity shell tests."""
+
+    __unity_was_running_before_tests = False
+
+    @classmethod
+    def setUpClass(cls):
+        output = subprocess.check_output([
+            "/sbin/initctl",
+            "status",
+            "unity8"
+        ])
+
+        if "start/" in output:
+            UnityTestCase.__unity_was_running_before_tests = True
+            logger.info("Stopping existing Unity")
+            try:
+                subprocess.check_call(["/sbin/initctl", "stop", "unity8"])
+            except subprocess.CalledProcessError as e:
+                logger.warning("Unable to stop unity8")
+                e.args += ("Failed to stop existing unity8 process", )
+                raise
+
+    @classmethod
+    def tearDownClass(cls):
+        if UnityTestCase.__unity_was_running_before_tests:
+            logger.info("Starting unity again with original env")
+            subprocess.check_call(["/sbin/initctl", "start", "unity8"])
 
     def setUp(self):
         super(UnityTestCase, self).setUp()
@@ -89,6 +115,12 @@ class UnityTestCase(AutopilotTestCase):
         self._proxy = None
         self._lightdm_mock_type = None
         self._qml_mock_enabled = True
+
+        #### This is a work around re: lp:1238417 ####
+        from autopilot.input import _uinput
+        _uinput._touch_device = _uinput.create_touch_device()
+        ####
+
         self.touch = Touch.create()
         self._setup_display_details()
 
@@ -164,7 +196,7 @@ class UnityTestCase(AutopilotTestCase):
                     "/sbin/initctl",
                     "get-env",
                     key
-                ])
+                ]).rstrip()
             except subprocess.CalledProcessError:
                 current_value = None
 
@@ -237,30 +269,12 @@ class UnityTestCase(AutopilotTestCase):
         return app_proxy
 
     def _launch_unity_with_upstart(self):
+
         subprocess.call(["/sbin/initctl", "set-env", "QT_LOAD_TESTABILITY=1"])
-
-        output = subprocess.check_output([
-            "/sbin/initctl",
-            "status",
-            "unity8"
-        ])
-
-        unity_already_started = False
-        if "start/" in output:
-            unity_already_started = True
-            try:
-                subprocess.check_call(["/sbin/initctl", "stop", "unity8"])
-            except subprocess.CalledProcessError as e:
-                logger.warning("Unable to stop unity8")
-                e.args += ("Failed to stop existing unity8 process", )
-                raise
 
         output = subprocess.check_output(["/sbin/initctl", "start", "unity8"])
 
-        self.addCleanup(
-            self._cleanup_launching_upstart_unity,
-            unity_already_started
-        )
+        self.addCleanup(self._cleanup_launching_upstart_unity)
 
         pid = int(output.split()[-1])
 
@@ -269,20 +283,15 @@ class UnityTestCase(AutopilotTestCase):
             emulator_base=UnityEmulatorBase,
         )
 
-    def _cleanup_launching_upstart_unity(self, restart_unity):
-        logger.info("Cleaning up launching unity, unsetting env")
+    def _cleanup_launching_upstart_unity(self):
+        logger.info("Cleaning up launching unity")
         subprocess.call(["/sbin/initctl", "unset-env", "QT_LOAD_TESTABILITY"])
 
         try:
-            logger.info("Stopping existing unity")
+            logger.info("Stopping unity")
             subprocess.check_call(["/sbin/initctl", "stop", "unity8"])
         except subprocess.CalledProcessError:
-            logger.warning("Appears unity was already stopped")
-
-        # Actually, the previous env stuff will be still here right?
-        if restart_unity:
-            logger.info("Starting unity again with original env")
-            subprocess.check_call(["/sbin/initctl", "start", "unity8"])
+            logger.warning("Appears unity was already stopped!")
 
     def patch_lightdm_mock(self, mock_type='single'):
         self._lightdm_mock_type = mock_type
