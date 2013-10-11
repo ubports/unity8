@@ -29,10 +29,9 @@ Page {
 
     property string busName: unityModel.busName
     property string actionsObjectPath
-    property var menuObjectPaths: undefined
-    readonly property string device: "phone"
+    property string menuObjectPath
 
-    property string deviceMenuObjectPath: menuObjectPaths.hasOwnProperty(device) ? menuObjectPaths[device] : ""
+    property string deviceMenuObjectPath: menuObjectPath
 
     function start() {
     }
