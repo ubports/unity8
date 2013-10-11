@@ -8,91 +8,91 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-10-07 10:49+0200\n"
-"PO-Revision-Date: 2013-06-27 05:59+0000\n"
-"Last-Translator: Michał Sawicz <michal.sawicz@canonical.com>\n"
+"PO-Revision-Date: 2013-10-10 07:04+0000\n"
+"Last-Translator: Kim Boram <boramism@gmail.com>\n"
 "Language-Team: Korean <ko@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2013-10-08 07:01+0000\n"
+"X-Launchpad-Export-Date: 2013-10-11 05:58+0000\n"
 "X-Generator: Launchpad (build 16799)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
-msgstr ""
+msgstr "전화"
 
 #: Applications/applications.js:29
 msgid "Camera"
-msgstr ""
+msgstr "카메라"
 
 #: Applications/applications.js:35
 msgid "Gallery"
-msgstr ""
+msgstr "갤러리"
 
 #: Applications/applications.js:40
 msgid "Facebook"
-msgstr ""
+msgstr "페이스북"
 
 #: Applications/applications.js:46
 msgid "Browser"
-msgstr ""
+msgstr "브라우저"
 
 #: Applications/applications.js:51
 msgid "Twitter"
-msgstr ""
+msgstr "트위터"
 
 #: Applications/applications.js:57
 msgid "GMail"
-msgstr ""
+msgstr "지메일"
 
 #: Applications/applications.js:62
 msgid "Weather"
-msgstr ""
+msgstr "날씨"
 
 #: Applications/applications.js:68
 msgid "Notepad"
-msgstr ""
+msgstr "메모장"
 
 #: Applications/applications.js:74
 msgid "Calendar"
-msgstr ""
+msgstr "달력"
 
 #: Applications/applications.js:80
 msgid "Media Player"
-msgstr ""
+msgstr "미디어 재생기"
 
 #: Applications/applications.js:86
 msgid "Evernote"
-msgstr ""
+msgstr "에버노트"
 
 #: Applications/applications.js:91
 msgid "Map"
-msgstr ""
+msgstr "지도"
 
 #: Applications/applications.js:96
 msgid "Pinterest"
-msgstr ""
+msgstr "핀터레스트"
 
 #: Applications/applications.js:101
 msgid "SoundCloud"
-msgstr ""
+msgstr "사운드클라우드"
 
 #: Applications/applications.js:106
 msgid "Wikipedia"
-msgstr ""
+msgstr "위키백과"
 
 #: Applications/applications.js:111
 msgid "YouTube"
-msgstr ""
+msgstr "유튜브"
 
 #: Components/EdgeDemoOverlay.qml:149
 msgid "Skip intro"
-msgstr ""
+msgstr "도입부 건너뛰기"
 
 #: Components/EdgeDemo.qml:112
 msgid "Right edge"
-msgstr ""
+msgstr "오른쪽 끝"
 
 #: Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
@@ -134,7 +134,7 @@ msgstr ""
 
 #: Components/PageHeader.qml:341
 msgid "Recent searches"
-msgstr "요즈음 찿은 것들"
+msgstr "최근 검색"
 
 #. TRANSLATORS: Number of persons who rated this app
 #. TRANSLATORS: Number of persons who rated this app/video/whatever
@@ -235,7 +235,7 @@ msgstr ""
 
 #: Panel/SearchIndicator.qml:27
 msgid "Search"
-msgstr "찾기"
+msgstr "검색"
 
 #: plugins/Unity/scope.cpp:361
 msgid "Sorry, there is nothing that matches your search."
