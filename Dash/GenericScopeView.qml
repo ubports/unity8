@@ -267,13 +267,14 @@ ScopeView {
         topOpacity: (1 - gap * 1.2)
         bottomGapPx: positionPx + gap * (targetBottomGapPx - positionPx)
         bottomOverflow: units.gu(20)
-        live: true
+        live: !expansionAnimation.running
 
         property int targetBottomGapPx: height - units.gu(8) - bottomOverflow
         property real gap: previewListView.open ? 1.0 : 0.0
 
         Behavior on gap {
             NumberAnimation {
+                id: expansionAnimation
                 duration: 200
                 easing.type: Easing.InOutQuad
                 onRunningChanged: {
