@@ -37,31 +37,10 @@ private Q_SLOTS:
 
     void testFileNames()
     {
-        LauncherBackend backend(false);
+        LauncherBackend backend;
 
         backend.setStoredApplications(QStringList() << "rel-icon" << "abs-icon" << "invalid");
         QCOMPARE(backend.storedApplications(), QStringList() << "rel-icon" << "abs-icon");
-    }
-
-    void testPinning()
-    {
-        LauncherBackend backend(false);
-
-        backend.setStoredApplications(QStringList() << "rel-icon" << "abs-icon");
-        QCOMPARE(backend.isPinned("rel-icon"), false);
-        QCOMPARE(backend.isPinned("abs-icon"), false);
-
-        backend.setPinned("rel-icon", true);
-        QCOMPARE(backend.isPinned("rel-icon"), true);
-
-        backend.setStoredApplications(QStringList() << "rel-icon" << "abs-icon" << "no-name");
-        QCOMPARE(backend.isPinned("rel-icon"), true);
-        QCOMPARE(backend.isPinned("no-name"), false);
-
-        backend.setPinned("no-name", true);
-        backend.setStoredApplications(QStringList() << "rel-icon" << "abs-icon");
-        QCOMPARE(backend.isPinned("rel-icon"), true);
-        QCOMPARE(backend.isPinned("no-name"), false); // doesn't exist anymore!
     }
 
     void testIcon_data() {
@@ -82,7 +61,7 @@ private Q_SLOTS:
         QFETCH(QString, appId);
         QFETCH(QString, expectedIcon);
 
-        LauncherBackend backend(false);
+        LauncherBackend backend;
         backend.setStoredApplications(QStringList() << appId);
 
         QCOMPARE(backend.icon(appId), expectedIcon);

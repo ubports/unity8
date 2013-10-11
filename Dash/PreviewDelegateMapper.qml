@@ -22,6 +22,7 @@ QtObject {
         readonly property string appPreview: "Apps/AppPreview.qml"
         property var previewDelegateMapping: {"preview-generic": genericPreview,
                                               "preview-application": appPreview,
+                                              "preview-movie": "Movie/MoviePreview.qml",
         }
     }
 

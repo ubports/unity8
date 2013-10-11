@@ -39,7 +39,7 @@ class LauncherBackend : public QObject
 
 
 public:
-    LauncherBackend(bool useStorage = true, QObject *parent = 0);
+    LauncherBackend(QObject *parent = 0);
     virtual ~LauncherBackend();
 
     /**
@@ -87,21 +87,6 @@ public:
       * @returns The full path to the icon for the application.
       */
     QString icon(const QString &appId) const;
-
-    /**
-      * @brief Is the app manually pinned?
-      * @returns true if pinned, otherwise false.
-      */
-    bool isPinned(const QString &appId) const;
-
-    /**
-      * @brief Change the pinned state of an application.
-      * @param appId The application where the pinned flag should be set.
-      * @param pinned true if pinned, otherwise false.
-      */
-    void setPinned(const QString &appId, bool pinned);
-
-    //TODO: Fill in getters for all the other things needed from the .desktop file.
 
     /**
       * @brief Get the QuickList for an application.

@@ -30,6 +30,7 @@ Item {
     property bool created: true
     property bool required
     property bool __shouldShow: false
+    property bool __skipShowAnimation: false
 
     property list<QtObject> hides
     property var showAnimation
@@ -58,6 +59,11 @@ Item {
         }
     }
 
+    function showNow() {
+        __skipShowAnimation = true;
+        show();
+    }
+
     onCreatedChanged: {
         if (created && __shouldShow) {
             __reallyShow();
@@ -67,6 +73,7 @@ Item {
 
     function __reallyShow() {
         if (!available) {
+            __skipShowAnimation = false;
             return false;
         }
 
@@ -80,11 +87,15 @@ Item {
             if (!showAnimation.running) {
                 showAnimation.restart()
             }
+            if (__skipShowAnimation) {
+                showAnimation.complete();
+            }
         } else {
             visible = true;
         }
 
         shown = true;
+        __skipShowAnimation = false;
         return true;
     }
 

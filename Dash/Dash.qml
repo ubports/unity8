@@ -22,6 +22,9 @@ import "../Components"
 
 Showable {
     id: dash
+    objectName: "dash"
+
+    visible: shown
 
     property alias contentProgress: dashContent.contentProgress
     property string showScopeOnLoaded: "home.scope"

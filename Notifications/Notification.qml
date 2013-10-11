@@ -17,6 +17,8 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Unity.Notifications 1.0
+import QMenuModel 0.1
+import Utils 0.1
 
 UbuntuShape {
     id: notification
@@ -33,10 +35,29 @@ UbuntuShape {
 
     objectName: "background"
     implicitHeight: contentColumn.height + contentColumn.spacing * 2
-    color: Qt.rgba(0, 0, 0, 0.85)
+    color: Qt.rgba(0.132, 0.117, 0.109, 0.97)
     opacity: 0
+    radius: "medium"
 
     clip: true
+
+    UnityMenuModelPaths {
+        id: paths
+
+        source: hints["x-canonical-private-menu-model"]
+
+        busNameHint: "busName"
+        actionsHint: "actions"
+        menuObjectPathHint: "menuPath"
+    }
+
+    UnityMenuModel {
+        id: unityMenuModel
+
+        busName: paths.busName
+        actions: paths.actions
+        menuObjectPath: paths.menuObjectPath
+    }
 
     Behavior on implicitHeight {
         id: heightBehavior
@@ -108,6 +129,8 @@ UbuntuShape {
                 id: labelColumn
                 width: parent.width - x
 
+                anchors.verticalCenter: (icon.visible && !bodyLabel.visible) ? icon.verticalCenter : undefined
+
                 Label {
                     id: summaryLabel
 
@@ -141,6 +164,27 @@ UbuntuShape {
             }
         }
 
+        Column {
+            objectName: "dialogListView"
+            spacing: units.gu(2)
+
+            visible: count > 0
+
+            anchors.left: parent.left; anchors.right: parent.right
+
+            Repeater {
+                model: unityMenuModel
+
+                NotificationMenuItemFactory {
+                    anchors.left: parent.left; anchors.right: parent.right
+
+                    menuModel: unityMenuModel
+                    menuData: model
+                    menuIndex: index
+                }
+            }
+        }
+
         Item {
             id: buttonRow
 
@@ -149,8 +193,8 @@ UbuntuShape {
                 left: parent.left
                 right: parent.right
             }
-            visible: notification.type == Notification.SnapDecision
-            height: units.gu(4)
+            visible: notification.type == Notification.SnapDecision && actionRepeater.count > 0
+            height: units.gu(5)
 
             property real buttonWidth: (width - contentColumn.spacing) / 2
             property bool expanded
@@ -195,7 +239,7 @@ UbuntuShape {
                     top: parent.top
                     bottom: parent.bottom
                 }
-                gradient: notification.hints == Notification.ButtonTint ? UbuntuColors.orangeGradient : UbuntuColors.greyGradient
+                gradient: notification.hints["x-canonical-private-button-tint"] == "true" ? UbuntuColors.orangeGradient : UbuntuColors.greyGradient
                 visible: width > 0
                 onClicked: notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
             }
@@ -241,7 +285,7 @@ UbuntuShape {
                             }
 
                             text: loader.actionLabel
-                            height: units.gu(4)
+                            height: units.gu(5)
                             gradient: UbuntuColors.greyGradient
                             onClicked: notification.notification.invokeAction(loader.actionId)
                         }

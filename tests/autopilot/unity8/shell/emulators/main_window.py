@@ -58,6 +58,9 @@ class MainWindow(object):
     def get_hud_show_button(self):
         return self.app.select_single("HudButton")
 
+    def get_hud_edge_drag_area(self):
+        return self.app.select_single(objectName="hudDragArea")
+
     def get_dash(self):
         return self.app.select_single(Dash)
 

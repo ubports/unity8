@@ -31,12 +31,20 @@ FocusScope {
     // FIXME delay the search so that daemons have time to settle, note that
     // removing this will break ScopeView::test_changeScope
     onScopeChanged: {
-        timer.restart();
-        scope.activateApplication.connect(activateApp);
+        if (scope) {
+            timer.restart();
+            scope.activateApplication.connect(activateApp);
+        }
     }
 
     function activateApp(desktopFilePath) {
         shell.activateApplication(desktopFilePath);
+    }
+
+    Binding {
+        target: scope
+        property: "isActive"
+        value: isCurrent
     }
 
     Timer {
@@ -47,7 +55,7 @@ FocusScope {
 
     SortFilterProxyModel {
         id: categoryFilter
-        model: scope.categories
+        model: scope ? scope.categories : null
         dynamicSortFilter: true
         filterRole: Categories.RoleCount
         filterRegExp: /^0$/

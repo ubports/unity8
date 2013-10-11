@@ -106,20 +106,16 @@ QVariantMap Preview::infoHintsHash() const
 QString Preview::image() const
 {
     if (m_unityPreview) {
-        auto giconString = g_icon_to_string(m_unityPreview->image());
-        QString result(gIconToDeclarativeImageProviderString(QString::fromUtf8(giconString)));
-        g_free(giconString);
-        return result;
-    } else {
-        qWarning() << "Preview not set";
-    }
-    return QString::null;
-}
-
-QString Preview::imageSourceUri() const
-{
-    if (m_unityPreview) {
-        return QString::fromStdString(m_unityPreview->image_source_uri());
+        if (m_unityPreview->image() != nullptr) {
+            auto giconString = g_icon_to_string(m_unityPreview->image());
+            QString result(gIconToDeclarativeImageProviderString(QString::fromUtf8(giconString)));
+            g_free(giconString);
+            return result;
+        } else {
+            QString sourceMedia(QString::fromStdString(m_unityPreview->image_source_uri()));
+            QString thumbnailUri(uriToThumbnailerProviderString(sourceMedia, m_result->mimeType(), m_result->metadata().toHash()));
+            if (!thumbnailUri.isNull()) return thumbnailUri;
+        }
     } else {
         qWarning() << "Preview not set";
     }

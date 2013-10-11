@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
+import Unity.Indicators 0.1 as Indicators
 
 import "../Components"
 import "../Components/ListItems"
@@ -28,6 +29,8 @@ Showable {
     property real openedHeight: units.gu(71)
     property int panelHeight: units.gu(3)
     property bool pinnedMode: true  //should be set true if indicators menu can cover whole screen
+    property alias overFlowWidth: indicatorRow.overFlowWidth
+    property alias showAll: indicatorRow.showAll
 
     property int hintValue
     readonly property int lockThreshold: openedHeight / 2
@@ -249,8 +252,10 @@ Showable {
         anchors.fill: indicatorRow
     }
 
-    IndicatorsDataModel {
+    Indicators.IndicatorsModel {
         id: indicatorsModel
+
+        Component.onCompleted: load()
     }
 
     IndicatorRow {
