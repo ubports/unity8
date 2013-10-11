@@ -50,7 +50,7 @@ Item {
                 mainStageFocusedApplication = null;
                 sideStageFocusedApplication = null;
             } else {
-                if (app.stage == ApplicationInfo.MainStage || !sideStageEnabled) {
+                if (app.stage == ApplicationInfo.MainStage) {
                     mainStageFocusedApplication = app;
                     // possible the side stage app being unfocused fired this signal, so check for it
                     if (sideStageFocusedApplication && !sideStageFocusedApplication.focused)
@@ -64,7 +64,15 @@ Item {
             }
         }
 
-        onFocusRequested: root.focusRequested(appId);
+        onFocusRequested: {
+            // if no side stage enabled, override application's stage parameter
+            var app = ApplicationManager.findApplication(appId);
+            if (app && app.stage === ApplicationInfo.SideStage && !sideStageEnabled) {
+                app.stage = ApplicationInfo.MainStage;
+            }
+
+            root.focusRequested(appId);
+        }
     }
 
     function activateApplication(desktopFile, argument) {
@@ -143,7 +151,7 @@ Item {
             var app = ApplicationManager.get(i);
 
             // if stage not specified and using sidestage, return whichever app running on either stage
-            if (app.appId == appId && (!sideStageEnabled || stage == undefined || app.stage == stage)) {
+            if (app.appId == appId && (stage == undefined || app.stage == stage)) {
                 return app;
             }
         }
