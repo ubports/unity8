@@ -38,6 +38,11 @@ AbstractButton {
 
     property bool terminationModeEnabled: false
 
+    onClicked: {
+        if (!terminationModeEnabled)
+            requestedApplicationActivation(application)
+    }
+
     onPressAndHold: {
         if (terminationModeEnabled) {
             requestedActivationMode()
