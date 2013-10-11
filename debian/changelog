@@ -1,3 +1,51 @@
+unity8 (7.82+13.10.20131011.1-0ubuntu1) saucy; urgency=low
+
+  [ Michał Sawicz ]
+  * Fix frequent application IDs and drop old AppsAvailableForDownload
+    model.
+  * Unrevert r388 now that we have fixed the infinite loop it was
+    causing in Qt.
+
+  [ Steve Langasek ]
+  * Don't keep a long-lived connection open to upstart when we only use
+    it for two events, one at load time and one at unload time.
+
+  [ Lars Uebernickel ]
+  * VolumeControl: use 'volume' instead of 'scroll' action The volume
+    action doesn't show a notification.
+
+  [ Michael Terry ]
+  * Disable DragHandle on right side of screen while the greeter is
+    animating
+
+  [ Marcus Tomlinson ]
+  * Added missing "enabled" property to "progressMenu" component in the
+    menu item factory.
+
+  [ Michael Zanetti ]
+  * Add scaleTo: "fit" mode support to LazyImage
+
+  [ Andrea Cimitan ]
+  * Add music and video renderers
+  * Use shell.edgeSize for BottomBar's EdgeDragArea, detecting gestures
+    only when they are within the edgeSize.
+
+  [ Nick Dedekind ]
+  * Removed greeter "toHome" animation (LP#1092976) (LP: #1092976)
+  * Only show Snap Decision notification actions when available.
+
+  [ Albert Astals ]
+  * Dash: Set delegate creation range for inner itemviewss If it's above
+    the list viewport we set it to the end of the list to precache the
+    last items It it's below the list viewport we set it to the
+    beginning to precache the first items Otherwise we set it to the
+    part of the viewport in the view Approved by: Michał Sawicz.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 435
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 11 Oct 2013 09:05:30 +0000
+
 unity8 (7.82+13.10.20131010-0ubuntu1) saucy; urgency=low
 
   [ David Callé ]
