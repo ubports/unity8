@@ -150,7 +150,7 @@ Item {
         for (var i = 0, len = ApplicationManager.count; i < len; i++ ) {
             var app = ApplicationManager.get(i);
 
-            // if stage not specified and using sidestage, return whichever app running on either stage
+            // if stage not specified, return whichever app running on either stage
             if (app.appId == appId && (stage == undefined || app.stage == stage)) {
                 return app;
             }
