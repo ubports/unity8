@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012,2013 Canonical, Ltd.
+ * Copyright (C) 2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,15 +16,20 @@
  * Authors: Nick Dedekind <nick.dedekind@canonical.com>
  */
 
-#include "plugin.h"
-#include "unitymenumodel.h"
-#include "actionstateparser.h"
+#ifndef MOCK_ACTIONSTATEPARSER_H
+#define MOCK_ACTIONSTATEPARSER_H
 
-#include <QtQml>
+#include <QObject>
+#include <QVariant>
 
-void QMenuModelPlugin::registerTypes(const char *uri)
+typedef struct _GVariant GVariant;
+
+class Q_DECL_EXPORT ActionStateParser : public QObject
 {
-    Q_ASSERT(uri == QLatin1String("QMenuModel"));
-    qmlRegisterType<UnityMenuModel>(uri, 0, 1, "UnityMenuModel");
-    qmlRegisterType<ActionStateParser>(uri, 0, 1, "ActionStateParser");
-}
+    Q_OBJECT
+public:
+    ActionStateParser(QObject* parent = 0):QObject(parent) {}
+    virtual QVariant toQVariant(GVariant*) const { return QVariant(); }
+};
+
+#endif // MOCK_ACTIONSTATEPARSER_H

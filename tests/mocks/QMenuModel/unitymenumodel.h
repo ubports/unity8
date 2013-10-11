@@ -24,7 +24,7 @@ class QQmlComponent;
 class UnityMenuAction;
 class ActionStateParser;
 
-class UnityMenuModel : public QAbstractListModel
+class Q_DECL_EXPORT UnityMenuModel : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(QVariant modelData READ modelData WRITE setModelData NOTIFY modelDataChanged)

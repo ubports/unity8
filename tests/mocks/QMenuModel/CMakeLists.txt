@@ -16,14 +16,19 @@ include_directories(
 )
 
 set(QMenuModelQml_SOURCES
+  actionstateparser.cpp
   plugin.cpp
   unitymenumodel.cpp
 )
 
-add_library(QMenuModelQml MODULE ${QMenuModelQml_SOURCES})
+add_library(QMenuModelQml SHARED ${QMenuModelQml_SOURCES})
 target_link_libraries(QMenuModelQml
   ${Qt5Core_LIBRARIES}
   ${Qt5Quick_LIBRARIES}
 )
 
 qt5_use_modules(QMenuModelQml Core Quick)
+
+set_target_properties(QMenuModelQml PROPERTIES
+                      OUTPUT_NAME qmenumodel
+                      VERSION 0)
