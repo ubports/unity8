@@ -72,6 +72,7 @@ ScopeView {
         property string expandedCategoryId: ""
 
         delegate: ListItems.Base {
+            id: baseItem
             highlightWhenPressed: false
 
             readonly property bool expandable: rendererLoader.item ? rendererLoader.item.expandable : false
@@ -108,6 +109,7 @@ ScopeView {
                             item.filter = shouldFilter;
                         }
                     }
+                    updateDelegateCreationRange();
                 }
 
                 Component.onDestruction: {
@@ -162,6 +164,33 @@ ScopeView {
                                     categoryView.maximizeVisibleArea(index, item.uncollapsedHeight);
                                 }
                             }
+                        }
+                    }
+                    onContentYChanged: rendererLoader.updateDelegateCreationRange();
+                    onHeightChanged: rendererLoader.updateDelegateCreationRange();
+                }
+
+                function updateDelegateCreationRange() {
+                    // Do not update the range if we are overshooting up or down, since we'll come back
+                    // to the stable position and delete/create items without any reason
+                    if (categoryView.contentY < categoryView.originY) {
+                        return;
+                    } else if (categoryView.contentY + categoryView.height > categoryView.contentHeight) {
+                        return;
+                    }
+
+                    if (item.hasOwnProperty("delegateCreationBegin")) {
+                        if (baseItem.y + baseItem.height <= 0) {
+                            // Not visible (item at top of the list)
+                            item.delegateCreationBegin = baseItem.height
+                            item.delegateCreationEnd = baseItem.height
+                        } else if (baseItem.y >= categoryView.height) {
+                            // Not visible (item at bottom of the list)
+                            item.delegateCreationBegin = 0
+                            item.delegateCreationEnd = 0
+                        } else {
+                            item.delegateCreationBegin = Math.max(-baseItem.y, 0)
+                            item.delegateCreationEnd = Math.min(categoryView.height + item.delegateCreationBegin, baseItem.height)
                         }
                     }
                 }
