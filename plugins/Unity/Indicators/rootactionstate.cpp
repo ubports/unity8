@@ -92,7 +92,8 @@ void RootActionState::onModelDataChanged(const QModelIndex& topLeft, const QMode
     }
 }
 
-void RootActionState::reset() {
+void RootActionState::reset()
+{
     m_cachedState.clear();
     m_menu = NULL;
 
@@ -103,7 +104,6 @@ void RootActionState::reset() {
 void RootActionState::updateActionState()
 {
     if (m_menu && m_menu->rowCount() > 0) {
-
         ActionStateParser* oldParser = m_menu->actionStateParser();
         m_menu->setActionStateParser(this);
 
