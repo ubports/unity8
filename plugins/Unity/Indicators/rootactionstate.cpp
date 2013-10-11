@@ -37,10 +37,6 @@ RootActionState::RootActionState(QObject *parent)
 
 RootActionState::~RootActionState()
 {
-    if (m_menu) {
-        m_menu->disconnect(this);
-        m_menu->setActionStateParser(NULL);
-    }
 }
 
 UnityMenuModel* RootActionState::menu() const
@@ -53,7 +49,6 @@ void RootActionState::setMenu(UnityMenuModel* menu)
     if (m_menu != menu) {
         if (m_menu) {
             m_menu->disconnect(this);
-            m_menu->setActionStateParser(NULL);
         }
         m_menu = menu;
 
@@ -63,8 +58,6 @@ void RootActionState::setMenu(UnityMenuModel* menu)
             connect(m_menu, SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&, const QVector<int>&)), SLOT(onModelDataChanged(const QModelIndex&, const QModelIndex&, const QVector<int>&)));
 
             connect(m_menu, SIGNAL(destroyed()), SLOT(reset()));
-
-            m_menu->setActionStateParser(this);
         }
         updateActionState();
         Q_EMIT menuChanged();
@@ -110,7 +103,13 @@ void RootActionState::reset() {
 void RootActionState::updateActionState()
 {
     if (m_menu && m_menu->rowCount() > 0) {
+
+        ActionStateParser* oldParser = m_menu->actionStateParser();
+        m_menu->setActionStateParser(this);
+
         m_cachedState = m_menu->get(0, "actionState").toMap();
+
+        m_menu->setActionStateParser(oldParser);
     } else {
         m_cachedState.clear();
     }

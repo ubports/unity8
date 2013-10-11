@@ -30,14 +30,13 @@ private Q_SLOTS:
     void testDeleteRootActionState()
     {
         UnityMenuModel* menuModel = new UnityMenuModel();
+        ActionStateParser* originalParser = menuModel->actionStateParser();
         RootActionState* rootState = new RootActionState();
 
         rootState->setMenu(menuModel);
 
-        QCOMPARE(menuModel->actionStateParser(), rootState);
         delete rootState;
-        QVERIFY(menuModel->actionStateParser() == NULL);
-
+        QCOMPARE(menuModel->actionStateParser(), originalParser);
         delete menuModel;
     }
 
