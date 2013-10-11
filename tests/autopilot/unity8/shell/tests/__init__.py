@@ -51,7 +51,8 @@ logger = logging.getLogger(__name__)
 UNITYSHELL_GSETTINGS_SCHEMA = "org.compiz.unityshell"
 UNITYSHELL_GSETTINGS_PATH = "/org/compiz/profiles/unity/plugins/unityshell/"
 UNITYSHELL_LAUNCHER_KEY = "launcher-hide-mode"
-UNITYSHELL_LAUNCHER_MODE = 1 # launcher hidden
+UNITYSHELL_LAUNCHER_MODE = 1  # launcher hidden
+
 
 def _get_device_emulation_scenarios(devices='All'):
     nexus4 = ('Desktop Nexus 4',
@@ -69,9 +70,12 @@ def _get_device_emulation_scenarios(devices='All'):
         elif devices == 'Nexus10':
             return [nexus10]
         else:
-            raise RuntimeError('Unrecognized device-option "%s" passed.' % devices)
+            raise RuntimeError(
+                'Unrecognized device-option "%s" passed.' % devices
+            )
     else:
         return [native]
+
 
 class UnityTestCase(AutopilotTestCase):
 
@@ -125,7 +129,7 @@ class UnityTestCase(AutopilotTestCase):
         self._setup_display_details()
 
         self._using_upstart = False
-        if model() != "Desktop": # or check env
+        if model() != "Desktop":  # or check env
             self._using_upstart = True
 
     def _reset_launcher(self):
