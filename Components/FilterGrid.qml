@@ -73,7 +73,6 @@ Item {
         // Duration and easing here match the ListViewWithPageHeader::m_contentYAnimation
         // otherwise since both animations can run at the same time you'll get
         // some visual weirdness.
-        duration: -1
         velocity: units.gu(100)
         easing.type: Easing.InOutQuad
         onStopped: {
@@ -103,6 +102,5 @@ Item {
             model: root.model
             limit: (filter && !filterAnimation.running) ? collapsedRowCount * iconTileGrid.columns : -1
         }
-
     }
 }
