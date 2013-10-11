@@ -208,5 +208,4 @@ EdgeDragArea {
 
         d.previousStatus = status;
     }
-
 }
