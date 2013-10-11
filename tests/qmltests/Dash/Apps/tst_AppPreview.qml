@@ -97,9 +97,6 @@ Item {
     }
 
     function fake_call(id, data){
-        console.log("\n");
-        console.log(data);
-        console.log("\n");
         root.calls[root.calls.length] = [id, data];
     }
 
