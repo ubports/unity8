@@ -138,12 +138,7 @@ AbstractButton {
             anchors.right: units.gu(1)
             anchors.top: units.gu(1)
             anchors.bottom: units.gu(1)
-            onClicked: {
-                if (terminationModeEnabled)
-                    requestedApplicationTermination(application)
-                else
-                    requestedApplicationActivation(application)
-            }
+            onClicked: requestedApplicationTermination(application)
         }
     }
 }
