@@ -24,6 +24,8 @@ ScopeView {
     readonly property alias previewShown: previewLoader.onScreen
     property bool enableHeightBehaviorOnNextCreation: false
 
+    moving: categoryView.moving
+
     onIsCurrentChanged: {
         pageHeader.resetSearch();
         previewLoader.open = false;
