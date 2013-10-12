@@ -133,11 +133,7 @@ AbstractButton {
         enabled: root.terminationModeEnabled
 
         MouseArea {
-            anchors.fill: parent
-            anchors.left: units.gu(1)
-            anchors.right: units.gu(1)
-            anchors.top: units.gu(1)
-            anchors.bottom: units.gu(1)
+            anchors { fill: parent; margins: -units.gu(1) }
             onClicked: requestedApplicationTermination(application)
         }
     }
