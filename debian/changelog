@@ -1,3 +1,73 @@
+unity8 (7.82+13.10.20131011.2-0ubuntu1) saucy; urgency=low
+
+  [ Michał Sawicz ]
+  * Work around Mir not delivering input to shell after restart, if the
+    device isn't reinitialized.
+
+  [ Albert Astals ]
+  * Remove unused DashMusic/DashVideos.
+  * Don't let the user change between scopes if the current one is
+    moving up/down.
+  * Fix two uninitialized variable uses reported by valgrind ==17988==
+    Conditional jump or move depends on uninitialised value(s) ==17988==
+    at 0x13839F3A: AccountsService::updateDemoEdges()
+    (AccountsService.cpp:74) ==17988== by 0x13839DA5:
+    AccountsService::setUser(QString const&) (AccountsService.cpp:45)
+    ==17988== by 0x1383F67B:
+    AccountsService::qt_metacall(QMetaObject::Call, int, void**)
+    (moc_AccountsService.cpp:192) ==17988== by 0x496143D:
+    StoreProperty(QV8Engine*, QObject*, QQmlPropertyData*,
+    v8::Handle<v8::Value>) (in /usr/lib/arm-linux-
+    gnueabihf/libQt5Qml.so.5.0.2) ==17988== ==17988== Conditional jump
+    or move depends on uninitialised value(s) ==17988== at 0x1383A0F6:
+    AccountsService::updateStatsWelcomeScreen() (AccountsService.cpp:92)
+    ==17988== by 0x13839DB1: AccountsService::setUser(QString const&)
+    (AccountsService.cpp:47) ==17988== by 0x1383F67B:
+    AccountsService::qt_metacall(QMetaObject::Call, int, void**)
+    (moc_AccountsService.cpp:192) ==17988== by 0x496143D:
+    StoreProperty(QV8Engine*, QObject*, QQmlPropertyData*,
+    v8::Handle<v8::Value>) (in /usr/lib/arm-linux-
+    gnueabihf/libQt5Qml.so.5.0.2)
+  * Fix unitialized variable in Scope ==18457== Conditional jump or move
+    depends on uninitialised value(s) ==18457== at 0x15AD1FD6:
+    Scope::setActive(bool) (scope.cpp:165) ==18457== by 0x15B0023D:
+    Scope::qt_metacall(QMetaObject::Call, int, void**)
+    (moc_scope.cpp:478) ==18457== by 0x48B709F:
+    QQmlPropertyPrivate::write(QObject*, QQmlPropertyData const&,
+    QVariant const&, QQmlContextData*,
+    QFlags<QQmlPropertyPrivate::WriteFlag>) (in /usr/lib/arm-linux-
+    gnueabihf/libQt5Qml.so.5.0.2)
+  * Fix crash on the phone For some reason i'm getting v8 crashes
+    without this when shuting down unity-mir
+
+  [ Gerry Boland ]
+  * Use focusRequested signal from AppManager. WM: AppManager has new
+    signal to ask shell to request focus for app - use it to properly
+    animate and focus the app. If app wants to be side stage, but no
+    side stage available, override the application stage.
+
+  [ Nick Dedekind ]
+  * Only use the root action state as a unitymenumodel ActionStateParser
+    when needed.
+
+  [ Andrea Cimitan ]
+  * Move the close app icon on top left.
+  * The header of category list is already on screen after unlock
+
+  [ Michael Zanetti ]
+  * Make the greeter's clock update in sync with the indicators.
+
+  [ Omer Akram ]
+  * Increase dash header height to 5gu.
+
+  [ Nicolas d'Offay ]
+  * Standardised expansion speed in scopes.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 449
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 11 Oct 2013 17:26:34 +0000
+
 unity8 (7.82+13.10.20131011.1-0ubuntu1) saucy; urgency=low
 
   [ Michał Sawicz ]
