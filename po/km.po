@@ -1,147 +1,152 @@
-# Sinhalese translation for unity
+# Khmer translation for unity8
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the unity package.
+# This file is distributed under the same license as the unity8 package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity\n"
+"Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-10-11 12:12+0200\n"
-"PO-Revision-Date: 2013-06-26 22:36+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: Sinhalese <si@li.org>\n"
+"PO-Revision-Date: 2013-10-11 08:49+0000\n"
+"Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
+"Language-Team: Khmer <km@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "X-Launchpad-Export-Date: 2013-10-13 05:43+0000\n"
 "X-Generator: Launchpad (build 16799)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
-msgstr ""
+msgstr "ទូរស័ព្ទ"
 
 #: Applications/applications.js:29
 msgid "Camera"
-msgstr ""
+msgstr "ម៉ាស៊ីន​ថ​ត"
 
 #: Applications/applications.js:35
 msgid "Gallery"
-msgstr ""
+msgstr "វិចិត្រសាល"
 
 #: Applications/applications.js:40
 msgid "Facebook"
-msgstr ""
+msgstr "Facebook"
 
 #: Applications/applications.js:46
 msgid "Browser"
-msgstr ""
+msgstr "កម្មវិធី​រុករក"
 
 #: Applications/applications.js:51
 msgid "Twitter"
-msgstr ""
+msgstr "Twitter"
 
 #: Applications/applications.js:57
 msgid "GMail"
-msgstr ""
+msgstr "GMail"
 
 #: Applications/applications.js:62
 msgid "Weather"
-msgstr ""
+msgstr "អាកាសធាតុ"
 
 #: Applications/applications.js:68
 msgid "Notepad"
-msgstr ""
+msgstr "Notepad"
 
 #: Applications/applications.js:74
 msgid "Calendar"
-msgstr ""
+msgstr "ប្រតិទិន"
 
 #: Applications/applications.js:80
 msgid "Media Player"
-msgstr ""
+msgstr "កម្មវិធី​ចាក់​មេឌៀ"
 
 #: Applications/applications.js:86
 msgid "Evernote"
-msgstr ""
+msgstr "Evernote"
 
 #: Applications/applications.js:91
 msgid "Map"
-msgstr ""
+msgstr "ផែនទី"
 
 #: Applications/applications.js:96
 msgid "Pinterest"
-msgstr ""
+msgstr "Pinterest"
 
 #: Applications/applications.js:101
 msgid "SoundCloud"
-msgstr ""
+msgstr "SoundCloud"
 
 #: Applications/applications.js:106
 msgid "Wikipedia"
-msgstr ""
+msgstr "វីគីភីឌៀ"
 
 #: Applications/applications.js:111
 msgid "YouTube"
-msgstr ""
+msgstr "YouTube"
 
 #: Components/EdgeDemoOverlay.qml:149
 msgid "Skip intro"
-msgstr ""
+msgstr "រំលង​ការ​ណែនាំ"
 
 #: Components/EdgeDemo.qml:112
 msgid "Right edge"
-msgstr ""
+msgstr "គែម​ស្ដាំ"
 
 #: Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr ""
+msgstr "សាកល្បង​​អូស​ពី​គែម​ស្ដាំ​ ដើម្បី​ដោះ​សោ​ទូរស័ព្ទ"
 
 #: Components/EdgeDemo.qml:144
 msgid "Top edge"
-msgstr ""
+msgstr "គែម​ខាង​លើ"
 
 #: Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
-msgstr ""
+msgstr "សាកល្បង​អូស​ពី​គែម​ខាង​លើ ដើម្បី​ចូល​ដំណើរការ​សញ្ញា"
 
 #: Components/EdgeDemo.qml:170
 msgid "Close"
-msgstr ""
+msgstr "បិទ"
 
 #: Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
-msgstr ""
+msgstr "អូស​ឡើង​លើ​ម្ដងទៀត ដើម្បី​បិទ​ការ​កំណត់​អេក្រង់"
 
 #: Components/EdgeDemo.qml:198
 msgid "Left edge"
-msgstr ""
+msgstr "គែមឆ្វេង"
 
 #: Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr ""
+"អូស​ពី​គែម​ឆ្វេង "
+"ដើម្បី​បង្ហាញ​កម្មវិធី​ចាប់ផ្ដើម​សម្រាប់​ចូល​ដំណើរ​ការ​កម្មវិធី​រហ័ស"
 
 #: Components/EdgeDemo.qml:226
 msgid "Well done"
-msgstr ""
+msgstr "ធ្វើ​បាន​ល្អ"
 
 #: Components/EdgeDemo.qml:227
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap anywhere to start"
 msgstr ""
+"ឥឡូវ​អ្នក​បាន​គ្រប់គ្រង​កាយវិការ​គែម "
+"និង​អាច​ចាប់ផ្ដើម​ប្រើ​ទូរស័ព្ទ​បាន<br><br>ប៉ះ​កន្លែង​ណា​មួយ​ "
+"ដើម្បី​ចាប់ផ្ដើម"
 
 #: Components/PageHeader.qml:341
 msgid "Recent searches"
-msgstr ""
+msgstr "ការ​ស្វែងរក​ថ្មី"
 
 #. TRANSLATORS: Number of persons who rated this app
 #. TRANSLATORS: Number of persons who rated this app/video/whatever
 #: Dash/Apps/AppInfo.qml:73 Dash/Previews/Header.qml:93
 #, qt-format
 msgid "(%1)"
-msgstr ""
+msgstr "(%1)"
 
 #. TRANSLATORS: Number of persons who wrote reviews for this app
 #. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
@@ -149,75 +154,95 @@ msgstr ""
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "ពិនិត្យ​មើល %1"
 
 #: Dash/Apps/AppPreview.qml:126
 msgid "Rate this"
-msgstr ""
+msgstr "វាយតម្លៃ​វា"
 
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
-msgstr ""
+msgstr "បន្ថែម​ការ​ពិនិត្យ"
 
 #: Dash/Previews/Reviews.qml:86
 msgid "Review"
-msgstr ""
+msgstr "ការ​ពិនិត្យ"
 
 #: Dash/Previews/Reviews.qml:121
 msgid "Send"
-msgstr ""
+msgstr "ផ្ញើ"
 
 #: Dash/Previews/Reviews.qml:139
 msgid "Comments:"
-msgstr ""
+msgstr "មតិយោបល់៖"
 
 #: Greeter/Lockscreen.qml:142
 msgid "Emergency Call"
-msgstr ""
+msgstr "ការ​ហៅ​ពេល​អាសន្ន"
 
 #: Greeter/PassphraseLockscreen.qml:59
 #, qt-format
 msgid "Hello %1"
-msgstr ""
+msgstr "សួស្ដី %1"
 
 #: Greeter/PassphraseLockscreen.qml:59
 msgid "Hello"
-msgstr ""
+msgstr "សួស្តី"
 
 #: Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
-msgstr ""
+msgstr "បញ្ជាក់"
 
 #: Hud/Hud.qml:61 Hud/Hud.qml:99 Hud/Hud.qml:372
 msgid "Type or say a command"
-msgstr ""
+msgstr "បញ្ចូល ឬ​និយាយ​ពាក្យ​បញ្ជា"
 
 #: Hud/Hud.qml:84
 msgid "Loading. Please Wait..."
-msgstr ""
+msgstr "សូម​រង់ចាំ កំពុង​ផ្ទុក..."
 
 #: Hud/Hud.qml:89
 msgid "Speak Now..."
-msgstr ""
+msgstr "និយាយ​ឥឡូវ..."
 
 #: Hud/Hud.qml:94
 msgid "Speaking..."
-msgstr ""
+msgstr "កំពុង​និយាយ..."
 
 #: Panel/SearchIndicator.qml:27
 msgid "Search"
-msgstr ""
+msgstr "ស្វែង​រក"
 
 #: plugins/Unity/scope.cpp:398
 msgid "Sorry, there is nothing that matches your search."
-msgstr ""
+msgstr "សូម​ទោស មិនមាន​ពាក្យ​ដែល​អ្នក​ស្វែងរក​ទេ​។"
 
 #: plugins/Unity/showallfilteroption.cpp:41
 msgid "All"
-msgstr ""
+msgstr "ទាំង​អស់"
 
 #: Shell.qml:438
 #, qt-format
 msgid "Please enter %1"
-msgstr ""
+msgstr "សូម​បញ្ចូល %1"
+
+#~ msgid "Popular Online"
+#~ msgstr "លើ​បណ្ដាញ​ប្រជាប្រិយ"
+
+#~ msgid "Music"
+#~ msgstr "តន្ត្រី"
+
+#~ msgid "New Releases"
+#~ msgstr "ការ​ចេញ​ផ្សាយ​ថ្មី"
+
+#~ msgid "Top Charting"
+#~ msgstr "តារាង​ខាង​លើ"
+
+#~ msgid "Featured"
+#~ msgstr "ដែល​ល្បី"
+
+#~ msgid "Recent"
+#~ msgstr "ថ្មីៗ"
+
+#~ msgid "Videos"
+#~ msgstr "វីដេអូ"

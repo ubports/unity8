@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-10-07 10:49+0200\n"
+"POT-Creation-Date: 2013-10-11 12:12+0200\n"
 "PO-Revision-Date: 2013-10-07 09:34+0000\n"
 "Last-Translator: Claudio Arseni <claudio.arseni@gmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-10-08 07:01+0000\n"
+"X-Launchpad-Export-Date: 2013-10-13 05:43+0000\n"
 "X-Generator: Launchpad (build 16799)\n"
 
 #: Applications/applications.js:23
@@ -163,34 +163,6 @@ msgstr[1] "%1 recensioni"
 msgid "Rate this"
 msgstr "Valuta"
 
-#: Dash/DashMusic.qml:27 Dash/DashVideos.qml:28
-msgid "Featured"
-msgstr "In evidenza"
-
-#: Dash/DashMusic.qml:28 Dash/DashVideos.qml:29
-msgid "Recent"
-msgstr "Recenti"
-
-#: Dash/DashMusic.qml:29 Dash/DashVideos.qml:30
-msgid "New Releases"
-msgstr "Nuovi rilasci"
-
-#: Dash/DashMusic.qml:30
-msgid "Top Charting"
-msgstr "Più votate"
-
-#: Dash/DashMusic.qml:91
-msgid "Music"
-msgstr "Musica"
-
-#: Dash/DashVideos.qml:31
-msgid "Popular Online"
-msgstr "Popolari online"
-
-#: Dash/DashVideos.qml:146
-msgid "Videos"
-msgstr "Video"
-
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
 msgstr "Aggiungi una recensione"
@@ -244,7 +216,7 @@ msgstr "Sto parlando..."
 msgid "Search"
 msgstr "Cerca"
 
-#: plugins/Unity/scope.cpp:361
+#: plugins/Unity/scope.cpp:398
 msgid "Sorry, there is nothing that matches your search."
 msgstr "Nessun risultato corrispondente alla ricerca."
 
@@ -252,7 +224,28 @@ msgstr "Nessun risultato corrispondente alla ricerca."
 msgid "All"
 msgstr "Tutto"
 
-#: Shell.qml:453
+#: Shell.qml:438
 #, qt-format
 msgid "Please enter %1"
 msgstr "Inserire %1"
+
+#~ msgid "Music"
+#~ msgstr "Musica"
+
+#~ msgid "Videos"
+#~ msgstr "Video"
+
+#~ msgid "Recent"
+#~ msgstr "Recenti"
+
+#~ msgid "New Releases"
+#~ msgstr "Nuovi rilasci"
+
+#~ msgid "Featured"
+#~ msgstr "In evidenza"
+
+#~ msgid "Popular Online"
+#~ msgstr "Popolari online"
+
+#~ msgid "Top Charting"
+#~ msgstr "Più votate"
