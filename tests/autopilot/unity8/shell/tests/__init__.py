@@ -121,16 +121,13 @@ class UnityTestCase(AutopilotTestCase):
         self._qml_mock_enabled = True
 
         #### This is a work around re: lp:1238417 ####
-        from autopilot.input import _uinput
-        _uinput._touch_device = _uinput.create_touch_device()
+        if model() != "Desktop":
+            from autopilot.input import _uinput
+            _uinput._touch_device = _uinput.create_touch_device()
         ####
 
         self.touch = Touch.create()
         self._setup_display_details()
-
-        self._using_upstart = False
-        if model() != "Desktop":  # or check env
-            self._using_upstart = True
 
     def _reset_launcher(self):
         """Reset Unity launcher hide mode"""
@@ -194,24 +191,22 @@ class UnityTestCase(AutopilotTestCase):
         environments.
 
         """
-        if self._using_upstart:
-            try:
-                current_value = subprocess.check_output([
-                    "/sbin/initctl",
-                    "get-env",
-                    key
-                ]).rstrip()
-            except subprocess.CalledProcessError:
-                current_value = None
-
-            subprocess.call([
+        try:
+            current_value = subprocess.check_output([
                 "/sbin/initctl",
-                "set-env",
-                "%s=%s" % (key, value)
-            ])
-            self.addCleanup(self._upstart_reset_env, key, current_value)
-        else:
-            self.patch_environment(key, value)
+                "get-env",
+                key
+            ]).rstrip()
+        except subprocess.CalledProcessError:
+            current_value = None
+
+        subprocess.call([
+            "/sbin/initctl",
+            "set-env",
+            "-g",
+            "%s=%s" % (key, value)
+        ])
+        self.addCleanup(self._upstart_reset_env, key, current_value)
 
     def _upstart_reset_env(self, key, value):
         logger.info("Resetting upstart env %s to %s", key, value)
@@ -252,16 +247,10 @@ class UnityTestCase(AutopilotTestCase):
         except OSError:
             pass
 
-        if self._using_upstart:
-            app_proxy = self._launch_unity_with_upstart()
-        else:
-            app_proxy = self.launch_test_application(
-                binary_path,
-                *self.unity_geometry_args,
-                app_type='qt',
-                emulator_base=UnityEmulatorBase,
-                **kwargs
-            )
+        app_proxy = self._launch_unity_with_upstart(
+            binary_path,
+            self.unity_geometry_args
+        )
 
         self._set_proxy(app_proxy)
 
@@ -272,11 +261,24 @@ class UnityTestCase(AutopilotTestCase):
 
         return app_proxy
 
-    def _launch_unity_with_upstart(self):
+    def _launch_unity_with_upstart(self, binary_path, args):
+        subprocess.call([
+            "/sbin/initctl",
+            "set-env",
+            "-g",
+            "QT_LOAD_TESTABILITY=1"
+        ])
 
-        subprocess.call(["/sbin/initctl", "set-env", "QT_LOAD_TESTABILITY=1"])
+        binary_arg = "BINARY=%s" % binary_path
+        extra_args = "ARGS=%s" % " ".join(args)
 
-        output = subprocess.check_output(["/sbin/initctl", "start", "unity8"])
+        output = subprocess.check_output([
+            "/sbin/initctl",
+            "start",
+            "unity8",
+            binary_arg,
+            extra_args,
+        ])
 
         self.addCleanup(self._cleanup_launching_upstart_unity)
 
