@@ -16,32 +16,32 @@
 
 import QtQuick 2.0
 import "../../Components"
+import "../Generic"
 
-FilterGrid {
+GenericFilterGrid {
     id: filtergrid
 
-    minimumHorizontalSpacing: units.gu(2)
-    maximumNumberOfColumns: 5
-    delegateWidth: units.gu(17)
-    delegateHeight: iconHeight + units.gu(3.5)
-    verticalSpacing: units.gu(2)
+    delegateWidth: units.gu(11)
+    delegateHeight: units.gu(16)
 
-    readonly property int iconWidth: (width / columns) * 0.8
-    readonly property int iconHeight: iconWidth
-
-    signal clicked(int index, var model, real itemY)
-    signal pressAndHold(int index, var model, real itemY)
+    iconWidth: units.gu(11)
+    iconHeight: units.gu(11)
 
     delegate: Tile {
         id: tile
         objectName: "delegate" + index
         width: filtergrid.cellWidth
         height: filtergrid.cellHeight
+        text: model.comment
         imageWidth: filtergrid.iconWidth
         imageHeight: filtergrid.iconHeight
-
-        text: "%1<br />%2".arg(model.title).arg(model.comment)
         source: model.icon
+        maximumLineCount: 2
+        horizontalAlignment: Text.AlignLeft
+
+        style: MusicTileStyle {
+            artist: model.title
+        }
 
         onClicked: {
             filtergrid.clicked(index, filtergrid.model, tile.y)

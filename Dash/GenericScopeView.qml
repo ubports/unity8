@@ -24,6 +24,8 @@ ScopeView {
     readonly property alias previewShown: previewListView.onScreen
     property bool enableHeightBehaviorOnNextCreation: false
 
+    moving: categoryView.moving
+
     onIsCurrentChanged: {
         pageHeader.resetSearch();
         previewListView.open = false;
@@ -78,7 +80,7 @@ ScopeView {
         }
 
         delegate: ListItems.Base {
-            id: rendererDelegate
+            id: baseItem
             highlightWhenPressed: false
 
             readonly property bool expandable: rendererLoader.item ? rendererLoader.item.expandable : false
@@ -104,6 +106,7 @@ ScopeView {
                         // TODO: the running apps grid doesn't support standard scope results model yet
                         item.firstModel = Qt.binding(function() { return results.firstModel })
                         item.secondModel = Qt.binding(function() { return results.secondModel })
+                        item.canEnableTerminationMode = Qt.binding(function() { return scopeView.isCurrent })
                     } else {
                         item.model = Qt.binding(function() { return results })
                     }
@@ -114,6 +117,7 @@ ScopeView {
                             item.filter = shouldFilter;
                         }
                     }
+                    updateDelegateCreationRange();
                 }
 
                 Component.onDestruction: {
@@ -155,6 +159,8 @@ ScopeView {
                         previewListView.currentIndex = index;
                         previewListView.open = true
 
+                        print("model is", model)
+
                         var item = model.get(index)
                         scopeView.scope.preview( item.uri, item.icon, item.category, 0, item.mimetype, item.title,
                                                 item.comment, item.dndUri, item.metadata)
@@ -189,6 +195,33 @@ ScopeView {
                             }
                         }
                     }
+                    onContentYChanged: rendererLoader.updateDelegateCreationRange();
+                    onHeightChanged: rendererLoader.updateDelegateCreationRange();
+                }
+
+                function updateDelegateCreationRange() {
+                    // Do not update the range if we are overshooting up or down, since we'll come back
+                    // to the stable position and delete/create items without any reason
+                    if (categoryView.contentY < categoryView.originY) {
+                        return;
+                    } else if (categoryView.contentY + categoryView.height > categoryView.contentHeight) {
+                        return;
+                    }
+
+                    if (item.hasOwnProperty("delegateCreationBegin")) {
+                        if (baseItem.y + baseItem.height <= 0) {
+                            // Not visible (item at top of the list)
+                            item.delegateCreationBegin = baseItem.height
+                            item.delegateCreationEnd = baseItem.height
+                        } else if (baseItem.y >= categoryView.height) {
+                            // Not visible (item at bottom of the list)
+                            item.delegateCreationBegin = 0
+                            item.delegateCreationEnd = 0
+                        } else {
+                            item.delegateCreationBegin = Math.max(-baseItem.y, 0)
+                            item.delegateCreationEnd = Math.min(categoryView.height + item.delegateCreationBegin, baseItem.height)
+                        }
+                    }
                 }
             }
         }
@@ -216,6 +249,7 @@ ScopeView {
             width: categoryView.width
             text: scopeView.scope.name
             searchEntryEnabled: true
+            scope: scopeView.scope
         }
     }
 
@@ -232,8 +266,15 @@ ScopeView {
         switch (rendererId) {
             case "grid": {
                 switch (contentType) {
-                    case "video": return "Generic/GenericFilterGridPotrait.qml";
+                    case "video": return "Video/VideoFilterGrid.qml";
                     case "music": return "Music/MusicFilterGrid.qml";
+                    case "apps": {
+                        if (rendererHint == "toggled")
+                            return "Apps/DashPluginFilterGrid.qml";
+                        else
+                            return "Generic/GenericFilterGrid.qml";
+                    }
+                    case "weather": return "Generic/WeatherFilterGrid.qml";
                     default: return "Generic/GenericFilterGrid.qml";
                 }
             }

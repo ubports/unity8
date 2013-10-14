@@ -19,6 +19,7 @@
 
 #include <QTest>
 #include <dee.h>
+#include <glib.h>
 
 #include "resultstest.h"
 #include "categoryresults.h"
@@ -97,6 +98,92 @@ void ResultsTest::testIconColumn()
                       "",
                       "test:dnd-uri",
                       g_variant_new_array(g_variant_type_element(G_VARIANT_TYPE_VARDICT), NULL, 0));
+
+    CategoryResults* results = new CategoryResults(this);
+    results->setModel(deeModel);
+
+    auto index = results->index(0, 0); // there's just one result
+    auto transformedIcon = index.data(CategoryResults::Roles::RoleIconHint).toString();
+    QCOMPARE(transformedIcon, result);
+}
+
+class GVariantWrapper
+{
+public:
+  GVariantWrapper() : variant(NULL) {}
+  GVariantWrapper(GVariant* v) {
+    variant = v ? g_variant_ref_sink(v) : NULL;
+  }
+  GVariantWrapper(const GVariantWrapper& other) {
+    variant = other.variant ? g_variant_ref(other.variant) : NULL;
+  }
+  ~GVariantWrapper() {
+    if (variant) g_variant_unref(variant);
+  }
+
+  GVariant* variant;
+};
+
+Q_DECLARE_METATYPE(GVariantWrapper)
+
+void ResultsTest::testSpecialIcons_data()
+{
+    QTest::addColumn<QString>("uri");
+    QTest::addColumn<GVariantWrapper>("metadata");
+    QTest::addColumn<QString>("result");
+
+    GVariant *inner;
+    GVariantBuilder builder, inner_builder;
+
+    g_variant_builder_init(&inner_builder, G_VARIANT_TYPE_VARDICT);
+    g_variant_builder_add(&inner_builder, "{sv}", "artist", g_variant_new_string("U2"));
+    g_variant_builder_add(&inner_builder, "{sv}", "album", g_variant_new_string("War"));
+
+    g_variant_builder_init(&builder, G_VARIANT_TYPE_VARDICT);
+    g_variant_builder_add(&builder, "{sv}", "content", g_variant_builder_end(&inner_builder));
+
+    QTest::newRow("simple") << "file:///foo.mp3" << GVariantWrapper(g_variant_builder_end(&builder)) << "image://albumart/U2/War";
+
+    g_variant_builder_init(&inner_builder, G_VARIANT_TYPE_VARDICT);
+    g_variant_builder_add(&inner_builder, "{sv}", "artist", g_variant_new_string("U2"));
+    g_variant_builder_add(&inner_builder, "{sv}", "album", g_variant_new_string("War/Joshua tree"));
+    inner = g_variant_builder_end(&inner_builder);
+
+    g_variant_builder_init(&builder, G_VARIANT_TYPE_VARDICT);
+    g_variant_builder_add(&builder, "{sv}", "content", inner);
+
+    QTest::newRow("with-slash") << "file:///foo.mp3" << GVariantWrapper(g_variant_builder_end(&builder)) << "image://albumart/U2/War%2FJoshua%20tree";
+
+    g_variant_builder_init(&inner_builder, G_VARIANT_TYPE_VARDICT);
+    g_variant_builder_add(&inner_builder, "{sv}", "artist", g_variant_new_string("U2"));
+    g_variant_builder_add(&inner_builder, "{sv}", "album", g_variant_new_string("War"));
+    inner = g_variant_builder_end(&inner_builder);
+
+    g_variant_builder_init(&inner_builder, G_VARIANT_TYPE_VARDICT);
+    g_variant_builder_add(&inner_builder, "{sv}", "content", inner);
+
+    g_variant_builder_init(&builder, G_VARIANT_TYPE_VARDICT);
+    g_variant_builder_add(&builder, "{sv}", "content", g_variant_builder_end(&inner_builder));
+
+    QTest::newRow("nested") << "file:///foo.mp3" << GVariantWrapper(g_variant_builder_end(&builder)) << "image://albumart/U2/War";
+}
+
+void ResultsTest::testSpecialIcons()
+{
+    QFETCH(QString, uri);
+    QFETCH(GVariantWrapper, metadata);
+    QFETCH(QString, result);
+    auto deeModel = createBackendModel();
+    dee_model_append (deeModel,
+                      uri.toLocal8Bit().constData(),
+                      "",
+                      0,
+                      0,
+                      "audio/mp3",
+                      "Test",
+                      "",
+                      uri.toLocal8Bit().constData(),
+                      metadata.variant);
 
     CategoryResults* results = new CategoryResults(this);
     results->setModel(deeModel);

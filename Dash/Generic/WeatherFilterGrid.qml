@@ -15,21 +15,13 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 0.1
 import "../../Components"
 
-FilterGrid {
+GenericFilterGrid {
     id: filtergrid
 
-    minimumHorizontalSpacing: units.gu(0.5)
-    maximumNumberOfColumns: 5
-    delegateWidth: units.gu(11)
-    delegateHeight: iconHeight + units.gu(2.5)
-    verticalSpacing: units.gu(2)
-
-    readonly property int iconWidth: (width / columns) * 0.8
-    readonly property int iconHeight: iconWidth * 16 / 11
-
-    signal clicked(int index, var data, real itemY)
+    delegateHeight: units.gu(11.5)
 
     delegate: Tile {
         id: tile
@@ -40,11 +32,16 @@ FilterGrid {
         imageWidth: filtergrid.iconWidth
         imageHeight: filtergrid.iconHeight
         source: model.icon
-        fillMode: Image.PreserveAspectCrop
+        maximumLineCount: 2
+
+        style: FlatTileStyle {}
+
         onClicked: {
-            var fileUri = model.uri.replace(/^[^:]+:/, "")
-            var data = {fileUri: fileUri, nfoUri: model.comment}
-            filtergrid.clicked(index, data, tile.y);
+            filtergrid.clicked(index, filtergrid.model, tile.y)
+        }
+
+        onPressAndHold: {
+            filtergrid.pressAndHold(index, filtergrid.model, tile.y)
         }
     }
 }

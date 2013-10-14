@@ -32,6 +32,8 @@ Column {
     signal entered(string passphrase)
     signal cancel()
 
+    property bool entryEnabled: true
+
     function clear(playAnimation) {
         pinentryField.text = "";
         if (playAnimation) {
@@ -140,6 +142,7 @@ Column {
                     width: root.padWidth / 3
                     height: root.padHeight / 4
                     text: index + 1
+                    enabled: entryEnabled
 
                     onClicked: {
                         pinentryField.text = pinentryField.text + text;
@@ -161,6 +164,7 @@ Column {
                 height: root.padHeight / 4
                 text: "0"
                 onClicked: pinentryField.text = pinentryField.text + text
+                enabled: entryEnabled
             }
 
             PinPadButton {
@@ -169,6 +173,7 @@ Column {
                 height: root.padHeight / 4
                 iconName: "erase"
                 onClicked: pinentryField.text = pinentryField.text.substring(0, pinentryField.text.length-1)
+                enabled: entryEnabled
             }
         }
     }

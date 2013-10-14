@@ -155,5 +155,32 @@ Item {
             show1.created = true;
             compare(show1.shown, true, "Showable should automatically show when created changes to true if attempted to show before.");
         }
+
+        // Test that showNow immediately shows showable
+        function test_showNow() {
+            init_test();
+
+            show1.opacity = 0.2;
+
+            show1.showNow();
+            compare(show1.shown, true, "Showable should be shown after showNow");
+            compare(show1.showAnimation.running, false, "Showable should be done running after showNow");
+            compare(show1.opacity, 1.0, "Showable should be at end of animation after showNow");
+        }
+
+        // Test the lazy showNow mechanism while waiting for the created flag.
+        function test_showNow_when_not_created() {
+            init_test();
+
+            show1.opacity = 0.2;
+            show1.created = false;
+
+            show1.showNow();
+            compare(show1.shown, false, "Showable should not showNow when created == false");
+            show1.created = true;
+            compare(show1.shown, true, "Showable should automatically show when created changes to true if attempted to showNow before.");
+            compare(show1.showAnimation.running, false, "Showable should be done running after delayed showNow");
+            compare(show1.opacity, 1.0, "Showable should be at end of animation after delayed showNow");
+        }
     }
 }

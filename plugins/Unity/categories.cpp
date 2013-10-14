@@ -90,7 +90,35 @@ void Categories::onCategoriesModelChanged(unity::glib::Object<DeeModel> model)
       delete model;
     }
     m_results.clear();
+    m_categoryOrder.clear();
+
     setModel(model);
+}
+
+void Categories::onCategoryOrderChanged(const std::vector<unsigned int>& cat_order)
+{
+    for (unsigned int pos = 0; pos<cat_order.size(); pos++)
+    {
+        unsigned int cat = cat_order[pos];
+        const int old_pos = m_categoryOrder.indexOf(cat);
+
+        if (old_pos < 0) {
+            qWarning() << "No such category index:" << cat;
+            continue;
+        }
+
+        if (static_cast<int>(pos) != old_pos) {
+            int target_pos = pos;
+            if (target_pos > old_pos)
+                target_pos++;
+            const bool status = beginMoveRows(QModelIndex(), old_pos, old_pos, QModelIndex(), target_pos);
+            if (status)
+                m_categoryOrder.move(old_pos, pos);
+            else
+                qWarning() << "beginMoveRows failed:" << old_pos << target_pos;
+            endMoveRows();
+        }
+    }
 }
 
 void
@@ -101,9 +129,9 @@ Categories::setUnityScope(const unity::dash::Scope::Ptr& scope)
     // no need to call this, we'll get notified
     //setModel(m_unityScope->categories()->model());
 
-    m_categoriesChangedConnection.disconnect();
-    m_categoriesChangedConnection =
-        m_unityScope->categories()->model.changed.connect(sigc::mem_fun(this, &Categories::onCategoriesModelChanged));
+    m_signals.disconnectAll();
+    m_signals << m_unityScope->categories()->model.changed.connect(sigc::mem_fun(this, &Categories::onCategoriesModelChanged));
+    m_signals << m_unityScope->category_order.changed.connect(sigc::mem_fun(this, &Categories::onCategoryOrderChanged));
 }
 
 void
@@ -111,7 +139,9 @@ Categories::onCountChanged()
 {
     CategoryResults* results = qobject_cast<CategoryResults*>(sender());
     if (results) {
-        m_updatedCategories << results->categoryIndex();
+        if (!m_updatedCategories.contains(results->categoryIndex())) {
+            m_updatedCategories << results->categoryIndex();
+        }
         m_timer.start();
     }
 }
@@ -142,7 +172,8 @@ Categories::onEmitCountChanged()
     roles.append(Categories::RoleCount);
     Q_FOREACH(int categoryIndex, m_updatedCategories) {
         if (!m_results.contains(categoryIndex)) continue;
-        QModelIndex changedIndex = index(categoryIndex);
+        const int realIndex = m_categoryOrder.indexOf(categoryIndex);
+        const QModelIndex changedIndex = index(realIndex);
         Q_EMIT dataChanged(changedIndex, changedIndex, roles);
     }
     m_updatedCategories.clear();
@@ -196,48 +227,70 @@ Categories::data(const QModelIndex& index, int role) const
         return QVariant();
     }
 
+    if (m_categoryOrder.size() != rowCount())
+    {
+        // populate category order vector with 0..n
+        m_categoryOrder.clear();
+        const unsigned int lim = rowCount();
+        for (unsigned int i = 0; i<lim; i++) {
+            m_categoryOrder.append(i);
+        }
+    }
+
+    int realRow = index.row();
+    if (index.row() < m_categoryOrder.size()) {
+        realRow = m_categoryOrder[index.row()];
+    } else {
+        qWarning() << "Invalid index" << index.row();
+        return QVariant();
+    }
+
+    const QModelIndex realIndex = createIndex(realRow, index.column());
+
     switch (role) {
         case RoleCategoryId:
-            return DeeListModel::data(index, CategoryColumn::ID);
+            return DeeListModel::data(realIndex, CategoryColumn::ID);
         case RoleName:
-            return DeeListModel::data(index, CategoryColumn::DISPLAY_NAME);
+            return DeeListModel::data(realIndex, CategoryColumn::DISPLAY_NAME);
         case RoleIcon:
-            return DeeListModel::data(index, CategoryColumn::ICON_HINT);
+            return DeeListModel::data(realIndex, CategoryColumn::ICON_HINT);
         case RoleRenderer:
-            return DeeListModel::data(index, CategoryColumn::RENDERER_NAME);
+            return DeeListModel::data(realIndex, CategoryColumn::RENDERER_NAME);
         case RoleContentType:
         {
-            auto hints = DeeListModel::data(index, CategoryColumn::HINTS).toHash();
+            auto hints = DeeListModel::data(realIndex, CategoryColumn::HINTS).toHash();
             return hints.contains("content-type") ? hints["content-type"] : QVariant(QString("default"));
         }
         case RoleRendererHint:
         {
-            auto hints = DeeListModel::data(index, CategoryColumn::HINTS).toHash();
+            auto hints = DeeListModel::data(realIndex, CategoryColumn::HINTS).toHash();
             return hints.contains("renderer-hint") ? hints["renderer-hint"] : QVariant(QString());
         }
         case RoleProgressSource:
         {
-            auto hints = DeeListModel::data(index, CategoryColumn::HINTS).toHash();
+            auto hints = DeeListModel::data(realIndex, CategoryColumn::HINTS).toHash();
             return hints.contains("progress-source") ? hints["progress-source"] : QVariant();
         }
         case RoleHints:
-            return DeeListModel::data(index, CategoryColumn::HINTS);
+            return DeeListModel::data(realIndex, CategoryColumn::HINTS);
         case RoleResults:
             if (m_overriddenCategories.size() > 0)
             {
-                auto id = DeeListModel::data(index, CategoryColumn::ID).toString();
+                auto id = DeeListModel::data(realIndex, CategoryColumn::ID).toString();
                 if (m_overriddenCategories.find(id) != m_overriddenCategories.end())
                     return QVariant::fromValue(m_overriddenCategories[id]);
             }
-            return QVariant::fromValue(getResults(index.row()));
+            return QVariant::fromValue(getResults(realRow));
         case RoleCount:
             if (m_overriddenCategories.size() > 0)
             {
-                auto id = DeeListModel::data(index, CategoryColumn::ID).toString();
+                auto id = DeeListModel::data(realIndex, CategoryColumn::ID).toString();
                 if (m_overriddenCategories.find(id) != m_overriddenCategories.end())
+                {
                     return QVariant::fromValue(m_overriddenCategories[id]->rowCount());
+                }
             }
-            return QVariant::fromValue(getResults(index.row())->rowCount());
+            return QVariant::fromValue(getResults(realRow)->rowCount());
         default:
             return QVariant();
     }
