@@ -286,22 +286,6 @@ class UnityTestCase(AutopilotTestCase):
         )
 
     def _cleanup_launching_upstart_unity(self):
-        logger.info("Cleaning up launching unity")
-
-        # FIXME: Workaround for issue: lp:1239491
-        if model() != "Desktop":
-            logger.info("Stopping maliit-server before unity.")
-            try:
-                subprocess.check_call([
-                    "/sbin/initctl",
-                    "stop",
-                    "maliit-server"
-                ], stderr=subprocess.STDOUT)
-            except subprocess.CalledProcessError:
-                logger.warning(
-                    "Appears that maliit-server was already stopped!"
-                )
-
         logger.info("Stopping unity")
         try:
             subprocess.check_call(["/sbin/initctl", "stop", "unity8"], stderr=subprocess.STDOUT)
