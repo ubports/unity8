@@ -306,7 +306,7 @@ class UnityTestCase(AutopilotTestCase):
 
         try:
             logger.info("Stopping unity")
-            subprocess.check_call(["/sbin/initctl", "stop", "unity8"])
+            subprocess.check_call(["/sbin/initctl", "stop", "unity8"], stderr=subprocess.STDOUT)
         except subprocess.CalledProcessError:
             logger.warning("Appears unity was already stopped!")
 
