@@ -84,20 +84,30 @@ class UnityTestCase(AutopilotTestCase):
 
     @classmethod
     def setUpClass(cls):
-        output = subprocess.check_output([
-            "/sbin/initctl",
-            "status",
-            "unity8"
-        ])
+        try:
+            output = subprocess.check_output([
+                "/sbin/initctl",
+                "status",
+                "unity8"
+            ],
+            stderr=subprocess.STDOUT)
+        except subprocess.CalledProcessError, e:
+            sys.stderr.write(
+                "Error: `initctl status unity8` failed, most probably the unity8 session could not be found:\n\n"
+                "{0}\n"
+                "Please install unity8 or copy data/unity8.conf to {1}\n".format(
+                    e.output,
+                    os.path.join(os.getenv("XDG_CONFIG_HOME", os.path.join(os.getenv("HOME"), ".config")), "upstart")
+            ))
+            sys.exit(1)
 
         if "start/" in output:
             sys.stderr.write(
-                "Error: Unity is currently running, these tests require it to "
-                "be 'stopped'.\n"
+                "Error: Unity is currently running, these tests require it to be 'stopped'.\n"
                 "Please run this command before running these tests: \n"
-                "initctl stop unity\n"
+                "initctl stop unity8\n"
             )
-            sys.exit(1)
+            sys.exit(2)
 
     def setUp(self):
         super(UnityTestCase, self).setUp()
