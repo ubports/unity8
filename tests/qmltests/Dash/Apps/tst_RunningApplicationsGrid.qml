@@ -197,7 +197,7 @@ Item {
 
         // While on termination mode, clicking a running application tile, outside of
         // the close icon should do nothing
-        function test_clickTileToTerminateApp() {
+        function test_clickTileNotClose() {
             runningApplicationsGrid.terminationModeEnabled = true
 
             var calendarTile = findChild(runningApplicationsGrid, "runningAppTile Calendar")
