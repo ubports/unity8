@@ -132,7 +132,7 @@ Categories::setUnityScope(const unity::dash::Scope::Ptr& scope)
     m_signals.disconnectAll();
     m_signals << m_unityScope->categories()->model.changed.connect(sigc::mem_fun(this, &Categories::onCategoriesModelChanged));
 
-    // Don't handle category order changes for now as it causes UI issues (https://bugs.launchpad.net/unity8/+bug/1239584).
+    // FIXME: Don't handle category order changes for now as it causes UI issues (https://bugs.launchpad.net/unity8/+bug/1239584).
     //m_signals << m_unityScope->category_order.changed.connect(sigc::mem_fun(this, &Categories::onCategoryOrderChanged));
 }
 
