@@ -737,6 +737,7 @@ FocusScope {
     }
 
     OSKController {
+        anchors.topMargin: panel.panelHeight
         anchors.fill: parent // as needs to know the geometry of the shell
     }
 
