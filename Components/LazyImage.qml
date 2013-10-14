@@ -27,8 +27,8 @@ Item {
     // TODO convert into enums when available in QML
     property string scaleTo
 
-    property real initialWidth: units.gu(10)
-    property real initialHeight: units.gu(10)
+    property real initialWidth: scaleTo == "width" || scaleTo == "fit" ? width : units.gu(10)
+    property real initialHeight: scaleTo == "height" || scaleTo == "fit" ? height : units.gu(10)
 
     property alias sourceSize: image.sourceSize
     property alias fillMode: image.fillMode
