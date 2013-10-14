@@ -190,14 +190,12 @@ class UnityTestCase(AutopilotTestCase):
         return divisor
 
     def _patch_environment(self, key, value):
-        """Wrapper for patching env for either upstart or non-upstart
-        environments.
-
-        """
+        """Wrapper for patching env for upstart environment."""
         try:
             current_value = subprocess.check_output([
                 "/sbin/initctl",
                 "get-env",
+                "--global",
                 key
             ]).rstrip()
         except subprocess.CalledProcessError:
@@ -206,7 +204,7 @@ class UnityTestCase(AutopilotTestCase):
         subprocess.call([
             "/sbin/initctl",
             "set-env",
-            "-g",
+            "--global",
             "%s=%s" % (key, value)
         ])
         self.addCleanup(self._upstart_reset_env, key, current_value)
@@ -219,6 +217,7 @@ class UnityTestCase(AutopilotTestCase):
             subprocess.call([
                 "/sbin/initctl",
                 "set-env",
+                "--global",
                 "%s=%s" % (key, value)
             ])
 
@@ -265,12 +264,7 @@ class UnityTestCase(AutopilotTestCase):
         return app_proxy
 
     def _launch_unity_with_upstart(self, binary_path, args):
-        subprocess.call([
-            "/sbin/initctl",
-            "set-env",
-            "-g",
-            "QT_LOAD_TESTABILITY=1"
-        ])
+        self._patch_environment("QT_LOAD_TESTABILITY", 1)
 
         binary_arg = "BINARY=%s" % binary_path
         extra_args = "ARGS=%s" % " ".join(args)
@@ -294,7 +288,6 @@ class UnityTestCase(AutopilotTestCase):
 
     def _cleanup_launching_upstart_unity(self):
         logger.info("Cleaning up launching unity")
-        subprocess.call(["/sbin/initctl", "unset-env", "QT_LOAD_TESTABILITY"])
 
         # Workaround for issue: lp:1239491
         if model() != "Desktop":
