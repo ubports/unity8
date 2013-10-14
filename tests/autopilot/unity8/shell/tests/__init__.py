@@ -33,6 +33,7 @@ from autopilot.display import Display
 import logging
 import os.path
 import subprocess
+import sys
 from testtools.matchers import Equals, NotEquals
 
 from unity8 import (
@@ -81,8 +82,6 @@ class UnityTestCase(AutopilotTestCase):
 
     """A test case base class for the Unity shell tests."""
 
-    __unity_was_running_before_tests = False
-
     @classmethod
     def setUpClass(cls):
         output = subprocess.check_output([
@@ -92,20 +91,13 @@ class UnityTestCase(AutopilotTestCase):
         ])
 
         if "start/" in output:
-            UnityTestCase.__unity_was_running_before_tests = True
-            logger.info("Stopping existing Unity")
-            try:
-                subprocess.check_call(["/sbin/initctl", "stop", "unity8"])
-            except subprocess.CalledProcessError as e:
-                logger.warning("Unable to stop unity8")
-                e.args += ("Failed to stop existing unity8 process", )
-                raise
-
-    @classmethod
-    def tearDownClass(cls):
-        if UnityTestCase.__unity_was_running_before_tests:
-            logger.info("Starting unity again with original env")
-            subprocess.check_call(["/sbin/initctl", "start", "unity8"])
+            sys.stderr.write(
+                "Error: Unity is currently running, these tests require it to "
+                "be 'stopped'.\n"
+                "Please run this command before running these tests: \n"
+                "initctl stop unity\n"
+            )
+            sys.exit(1)
 
     def setUp(self):
         super(UnityTestCase, self).setUp()
