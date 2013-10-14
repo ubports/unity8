@@ -232,7 +232,6 @@ Item {
             // The tile for the Calendar app should eventually vanish since the
             // application has been terminated.
             tryCompareFunction(checkCalendarTileExists, false)
-
         }
 
         function checkCalendarTileExists() {
