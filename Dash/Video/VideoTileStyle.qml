@@ -70,7 +70,7 @@ Item {
             left: icon.left
             right: parent.right
             rightMargin: units.gu(1)
-            leftMargin: units.gu(0.2)
+            leftMargin: units.dp(2)
         }
 
         color: Theme.palette.selected.backgroundText
