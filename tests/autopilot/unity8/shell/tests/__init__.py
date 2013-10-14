@@ -120,6 +120,7 @@ class UnityTestCase(AutopilotTestCase):
         self._proxy = None
         self._lightdm_mock_type = None
         self._qml_mock_enabled = True
+        self._environment = {}
 
         #### FIXME: This is a work around re: lp:1238417 ####
         if model() != "Desktop":
@@ -169,8 +170,7 @@ class UnityTestCase(AutopilotTestCase):
             self.grid_size = int(os.getenv('GRID_UNIT_PX'))
         else:
             self.grid_size = int(self.grid_unit_px / scale_divisor)
-            self._patch_environment("GRID_UNIT_PX", str(self.grid_size))
-            self.patch_environment("GRID_UNIT_PX", str(self.grid_size))
+            self._environment["GRID_UNIT_PX"] = str(self.grid_size)
 
     def _geo_larger_than_display(self, width, height):
         should_scale = getattr(self, 'scale_geo', True)
@@ -273,8 +273,9 @@ class UnityTestCase(AutopilotTestCase):
             "start",
             "unity8",
             binary_arg,
-            extra_args,
-        ], stderr=subprocess.STDOUT)
+            extra_args
+        ] + ["%s=%s" % (k,v) for k,v in self._environment.iteritems()],
+        stderr=subprocess.STDOUT)
 
         self.addCleanup(self._cleanup_launching_upstart_unity)
 
@@ -305,7 +306,7 @@ class UnityTestCase(AutopilotTestCase):
         new_ld_library_path = ':'.join(new_ld_library_path)
         logger.info("New library path: %s", new_ld_library_path)
 
-        self._patch_environment('LD_LIBRARY_PATH', new_ld_library_path)
+        self._environment['LD_LIBRARY_PATH'] = new_ld_library_path
 
     def _get_lightdm_mock_path(self, mock_type):
         lib_path = get_mocks_library_path()
@@ -327,7 +328,7 @@ class UnityTestCase(AutopilotTestCase):
 
         qml_import_path = ':'.join(qml_import_path)
         logger.info("New QML2 import path: %s", qml_import_path)
-        self._patch_environment('QML2_IMPORT_PATH', qml_import_path)
+        self._environment['QML2_IMPORT_PATH'] = qml_import_path
 
     def _set_proxy(self, proxy):
         """Keep a copy of the proxy object, so we can use it to get common
