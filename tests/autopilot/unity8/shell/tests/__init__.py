@@ -89,8 +89,7 @@ class UnityTestCase(AutopilotTestCase):
                 "/sbin/initctl",
                 "status",
                 "unity8"
-            ],
-            stderr=subprocess.STDOUT)
+            ], stderr=subprocess.STDOUT)
         except subprocess.CalledProcessError, e:
             sys.stderr.write(
                 "Error: `initctl status unity8` failed, most probably the unity8 session could not be found:\n\n"
@@ -197,8 +196,7 @@ class UnityTestCase(AutopilotTestCase):
                 "get-env",
                 "--global",
                 key
-            ],
-            stderr=subprocess.STDOUT).rstrip()
+            ], stderr=subprocess.STDOUT).rstrip()
         except subprocess.CalledProcessError:
             current_value = None
 
@@ -207,20 +205,20 @@ class UnityTestCase(AutopilotTestCase):
             "set-env",
             "--global",
             "%s=%s" % (key, value)
-        ])
+        ], stderr=subprocess.STDOUT)
         self.addCleanup(self._upstart_reset_env, key, current_value)
 
     def _upstart_reset_env(self, key, value):
         logger.info("Resetting upstart env %s to %s", key, value)
         if value is None:
-            subprocess.call(["/sbin/initctl", "unset-env", key])
+            subprocess.call(["/sbin/initctl", "unset-env", key], stderr=subprocess.STDOUT)
         else:
             subprocess.call([
                 "/sbin/initctl",
                 "set-env",
                 "--global",
                 "%s=%s" % (key, value)
-            ])
+            ], stderr=subprocess.STDOUT)
 
     def launch_unity(self, **kwargs):
         """Launch the unity shell, return a proxy object for it."""
@@ -276,7 +274,7 @@ class UnityTestCase(AutopilotTestCase):
             "unity8",
             binary_arg,
             extra_args,
-        ])
+        ], stderr=subprocess.STDOUT)
 
         self.addCleanup(self._cleanup_launching_upstart_unity)
 
@@ -292,20 +290,20 @@ class UnityTestCase(AutopilotTestCase):
 
         # FIXME: Workaround for issue: lp:1239491
         if model() != "Desktop":
+            logger.info("Stopping maliit-server before unity.")
             try:
-                logger.info("Stopping maliit-server before unity.")
                 subprocess.check_call([
                     "/sbin/initctl",
                     "stop",
                     "maliit-server"
-                ])
+                ], stderr=subprocess.STDOUT)
             except subprocess.CalledProcessError:
                 logger.warning(
                     "Appears that maliit-server was already stopped!"
                 )
 
+        logger.info("Stopping unity")
         try:
-            logger.info("Stopping unity")
             subprocess.check_call(["/sbin/initctl", "stop", "unity8"], stderr=subprocess.STDOUT)
         except subprocess.CalledProcessError:
             logger.warning("Appears unity was already stopped!")
