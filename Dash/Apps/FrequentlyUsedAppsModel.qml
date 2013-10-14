@@ -75,7 +75,7 @@ ListModel {
         title: "Facebook"
         comment: ""
         dndUri: "appid://com.ubuntu.developer.webapps.webapp-facebook/webapp-facebook/current-user-version"
-        metadata: "subscope:applications.scope/applications-click.scope"
+        metadata: "subscope:applications.scope/applications-click.scope?app_id=com.ubuntu.developer.webapps.webapp-facebook"
     }
     ListElement {
         uri: "application://webbrowser-app.desktop"
@@ -95,7 +95,7 @@ ListModel {
         title: "GMail"
         comment: ""
         dndUri: "appid://com.ubuntu.developer.webapps.webapp-gmail/webapp-gmail/current-user-version"
-        metadata: "subscope:applications.scope/applications-click.scope"
+        metadata: "subscope:applications.scope/applications-click.scope?app_id=com.ubuntu.developer.webapps.webapp-gmail"
     }
     ListElement {
         uri: "application://ubuntu-system-settings.desktop"
