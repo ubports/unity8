@@ -294,11 +294,27 @@ class UnityTestCase(AutopilotTestCase):
         logger.info("Cleaning up launching unity")
         subprocess.call(["/sbin/initctl", "unset-env", "QT_LOAD_TESTABILITY"])
 
+        if model() != "Desktop":
+            try:
+                logger.info("Stopping maliit-server before unity.")
+                subprocess.check_call(["/sbin/initctl", "stop", "maliit-server"])
+            except subprocess.CalledProcessError:
+                logger.warning("Appears that maliit-server was already stopped!")
+
         try:
             logger.info("Stopping unity")
             subprocess.check_call(["/sbin/initctl", "stop", "unity8"])
         except subprocess.CalledProcessError:
             logger.warning("Appears unity was already stopped!")
+
+
+        if model() != "Desktop":
+            try:
+                logger.info("Starting maliit-server again.")
+                subprocess.check_call(["/sbin/initctl", "start", "maliit-server"])
+            except subprocess.CalledProcessError as e:
+                e.args += ("Failed to restart maliit-server.", )
+                raise
 
     def patch_lightdm_mock(self, mock_type='single'):
         self._lightdm_mock_type = mock_type
