@@ -579,7 +579,7 @@ FocusScope {
                 contentEnabled: edgeDemo.panelContentEnabled
             }
             fullscreenMode: shell.fullscreenMode
-            searchVisible: !greeter.shown && !lockscreen.shown
+            searchVisible: !greeter.shown && !lockscreen.shown && dash.shown
 
             InputFilterArea {
                 anchors {
