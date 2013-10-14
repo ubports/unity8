@@ -441,6 +441,7 @@ ScopeView {
         Rectangle {
             anchors.fill: parent
             color: Qt.rgba(0, 0, 0, .3)
+            z: -1
         }
 
         delegate: Loader {
