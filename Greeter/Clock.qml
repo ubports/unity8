@@ -16,6 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Unity.Indicators 0.1 as Indicators
 
 Item {
     id: clock
@@ -23,17 +24,35 @@ Item {
     implicitWidth: childrenRect.width
     implicitHeight: childrenRect.height
 
-    property date __date
-    property alias __timerInterval: timer.interval
-    readonly property bool __timerRunning: timer.running
+    // Allows to set the current Date. Will be overwritten if active
+    property date currentDate
 
-    Timer {
-        id: timer
-        interval: 1000 * 60
-        running: clock.enabled && clock.visible && clock.opacity != 0
-        repeat: true
-        triggeredOnStart: true
-        onTriggered: __date = new Date
+    // If active, time will be updated through the indicators service
+    property bool active: clock.enabled && clock.visible
+
+    Component.onCompleted: {
+        if (active) {
+            currentDate = new Date()
+        }
+    }
+
+    Indicators.CachedUnityMenuModel {
+        id: timeModel
+        objectName: "timeModel"
+
+        busName: "com.canonical.indicator.datetime"
+        actionsObjectPath: "/com/canonical/indicator/datetime"
+        menuObjectPath: clock.active ? "/com/canonical/indicator/datetime/phone" : ""
+
+        Indicators.RootActionState {
+            menu: timeModel.model
+            onUpdated: {
+                if (timeLabel.text != rightLabel) {
+                    timeLabel.text = rightLabel;
+                    clock.currentDate = new Date();
+                }
+            }
+        }
     }
 
     Column {
@@ -47,7 +66,7 @@ Item {
             font.pixelSize: units.gu(7.5)
             color: "white"
             opacity: 0.5
-            text: Qt.formatTime(__date)
+            text: Qt.formatTime(clock.currentDate)
             font.weight: Font.Light
         }
 
@@ -59,7 +78,7 @@ Item {
             fontSize: "medium"
             color: "white"
             opacity: 0.5
-            text: Qt.formatDate(__date, Qt.DefaultLocaleLongDate)
+            text: Qt.formatDate(clock.currentDate, Qt.DefaultLocaleLongDate)
             font.weight: Font.Light
         }
     }

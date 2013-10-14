@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-10-07 10:49+0200\n"
+"POT-Creation-Date: 2013-10-11 12:12+0200\n"
 "PO-Revision-Date: 2013-10-02 04:59+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitoschido@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-10-08 07:01+0000\n"
+"X-Launchpad-Export-Date: 2013-10-13 05:43+0000\n"
 "X-Generator: Launchpad (build 16799)\n"
 
 #: Applications/applications.js:23
@@ -160,34 +160,6 @@ msgstr[1] "%1 reseñas"
 msgid "Rate this"
 msgstr "Valorar esto"
 
-#: Dash/DashMusic.qml:27 Dash/DashVideos.qml:28
-msgid "Featured"
-msgstr "Destacados"
-
-#: Dash/DashMusic.qml:28 Dash/DashVideos.qml:29
-msgid "Recent"
-msgstr "Recientes"
-
-#: Dash/DashMusic.qml:29 Dash/DashVideos.qml:30
-msgid "New Releases"
-msgstr "Lanzamientos nuevos"
-
-#: Dash/DashMusic.qml:30
-msgid "Top Charting"
-msgstr "Mejor posicionadas"
-
-#: Dash/DashMusic.qml:91
-msgid "Music"
-msgstr "Música"
-
-#: Dash/DashVideos.qml:31
-msgid "Popular Online"
-msgstr "Populares en línea"
-
-#: Dash/DashVideos.qml:146
-msgid "Videos"
-msgstr "Vídeos"
-
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
 msgstr "Añadir una reseña"
@@ -241,7 +213,7 @@ msgstr "Hablando…"
 msgid "Search"
 msgstr "Buscar"
 
-#: plugins/Unity/scope.cpp:361
+#: plugins/Unity/scope.cpp:398
 msgid "Sorry, there is nothing that matches your search."
 msgstr "No hay nada que coincida con su búsqueda."
 
@@ -249,7 +221,28 @@ msgstr "No hay nada que coincida con su búsqueda."
 msgid "All"
 msgstr "Todo"
 
-#: Shell.qml:453
+#: Shell.qml:438
 #, qt-format
 msgid "Please enter %1"
 msgstr "Introduzca %1"
+
+#~ msgid "Featured"
+#~ msgstr "Destacados"
+
+#~ msgid "Recent"
+#~ msgstr "Recientes"
+
+#~ msgid "New Releases"
+#~ msgstr "Lanzamientos nuevos"
+
+#~ msgid "Top Charting"
+#~ msgstr "Mejor posicionadas"
+
+#~ msgid "Music"
+#~ msgstr "Música"
+
+#~ msgid "Popular Online"
+#~ msgstr "Populares en línea"
+
+#~ msgid "Videos"
+#~ msgstr "Vídeos"

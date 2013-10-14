@@ -122,8 +122,8 @@ AbstractButton {
 
     CloseIcon {
         anchors {
-            right: shapedApplicationImage.right
-            rightMargin: -units.gu(1)
+            left: shapedApplicationImage.left
+            leftMargin: -units.gu(1)
             top: parent.top
             topMargin: -units.gu(1)
         }

@@ -18,7 +18,7 @@ import QtQuick 2.0
 import Unity.Application 0.1
 
 Item {
-    id: applicationManager
+    id: root
 
     property alias mainStageApplications: mainStageModel
     property alias sideStageApplications: sideStageModel
@@ -29,6 +29,8 @@ Item {
     property int keyboardHeight: ApplicationManager.keyboardHeight
 
     property bool fake: ApplicationManager.fake ? ApplicationManager.fake : false
+
+    signal focusRequested(string appId)
 
     ApplicationsModelStageFiltered {
         id: mainStageModel
@@ -60,6 +62,16 @@ Item {
                         mainStageFocusedApplication = null;
                 }
             }
+        }
+
+        onFocusRequested: {
+            // if no side stage enabled, override application's stage parameter
+            var app = ApplicationManager.findApplication(appId);
+            if (app && app.stage === ApplicationInfo.SideStage && !sideStageEnabled) {
+                app.stage = ApplicationInfo.MainStage;
+            }
+
+            root.focusRequested(appId);
         }
     }
 

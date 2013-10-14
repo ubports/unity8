@@ -87,6 +87,12 @@ class UnityTestCase(AutopilotTestCase):
         self._proxy = None
         self._lightdm_mock_type = None
         self._qml_mock_enabled = True
+
+        #### FIXME: This is a work around re: lp:1238417 ####
+        from autopilot.input import _uinput
+        _uinput._touch_device = _uinput.create_touch_device()
+        ####
+
         self.touch = Touch.create()
         self._setup_display_details()
 
