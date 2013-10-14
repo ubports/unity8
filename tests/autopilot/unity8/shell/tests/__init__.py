@@ -263,6 +263,7 @@ class UnityTestCase(AutopilotTestCase):
         return app_proxy
 
     def _launch_unity_with_upstart(self, binary_path, args):
+        logger.info("Starting unity")
         self._patch_environment("QT_LOAD_TESTABILITY", 1)
 
         binary_arg = "BINARY=%s" % binary_path
@@ -289,7 +290,7 @@ class UnityTestCase(AutopilotTestCase):
     def _cleanup_launching_upstart_unity(self):
         logger.info("Stopping unity")
         try:
-            subprocess.check_call(["/sbin/initctl", "stop", "unity8"], stderr=subprocess.STDOUT)
+            subprocess.check_output(["/sbin/initctl", "stop", "unity8"], stderr=subprocess.STDOUT)
         except subprocess.CalledProcessError:
             logger.warning("Appears unity was already stopped!")
 
