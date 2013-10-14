@@ -213,6 +213,28 @@ Item {
             tryCompareFunction(checkCalendarTileExists, true)
         }
 
+        // While in termination mode, clicking on a running application tile's close icon
+        // causes the corresponding application to be terminated
+        function test_clickCloseIconToTerminateApp() {
+            runningApplicationsGrid.terminationModeEnabled = true
+
+            var calendarTile = findChild(runningApplicationsGrid, "runningAppTile Calendar")
+            var calendarTileCloseButton = findChild(runningApplicationsGrid, "closeIcon Calendar")
+
+            verify(calendarTile != undefined)
+            verify(calendarTileCloseButton != undefined)
+            verify(fakeRunningAppsModel.contains("calendar"))
+
+            mouseClick(calendarTileCloseButton, calendarTileCloseButton.width/2, calendarTileCloseButton.height/2)
+
+            verify(!fakeRunningAppsModel.contains("calendar"))
+
+            // The tile for the Calendar app should eventually vanish since the
+            // application has been terminated.
+            tryCompareFunction(checkCalendarTileExists, false)
+
+        }
+
         function checkCalendarTileExists() {
             return findChild(runningApplicationsGrid, "runningAppTile Calendar")
                     != undefined

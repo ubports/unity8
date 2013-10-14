@@ -121,6 +121,7 @@ AbstractButton {
     }
 
     CloseIcon {
+        objectName: "closeIcon " + model.name
         anchors {
             left: shapedApplicationImage.left
             leftMargin: -units.gu(1)
