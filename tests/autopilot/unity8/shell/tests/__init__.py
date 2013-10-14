@@ -294,12 +294,19 @@ class UnityTestCase(AutopilotTestCase):
         logger.info("Cleaning up launching unity")
         subprocess.call(["/sbin/initctl", "unset-env", "QT_LOAD_TESTABILITY"])
 
+        # Workaround for issue: lp:1239491
         if model() != "Desktop":
             try:
                 logger.info("Stopping maliit-server before unity.")
-                subprocess.check_call(["/sbin/initctl", "stop", "maliit-server"])
+                subprocess.check_call([
+                    "/sbin/initctl",
+                    "stop",
+                    "maliit-server"
+                ])
             except subprocess.CalledProcessError:
-                logger.warning("Appears that maliit-server was already stopped!")
+                logger.warning(
+                    "Appears that maliit-server was already stopped!"
+                )
 
         try:
             logger.info("Stopping unity")
@@ -307,11 +314,15 @@ class UnityTestCase(AutopilotTestCase):
         except subprocess.CalledProcessError:
             logger.warning("Appears unity was already stopped!")
 
-
+        # Workaround for issue: lp:1238645 and lp:1239491
         if model() != "Desktop":
             try:
                 logger.info("Starting maliit-server again.")
-                subprocess.check_call(["/sbin/initctl", "start", "maliit-server"])
+                subprocess.check_call([
+                    "/sbin/initctl",
+                    "start",
+                    "maliit-server"
+                ])
             except subprocess.CalledProcessError as e:
                 e.args += ("Failed to restart maliit-server.", )
                 raise
