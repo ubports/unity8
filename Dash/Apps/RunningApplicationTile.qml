@@ -39,9 +39,7 @@ AbstractButton {
     property bool terminationModeEnabled: false
 
     onClicked: {
-        if (terminationModeEnabled)
-            requestedApplicationTermination(application)
-        else
+        if (!terminationModeEnabled)
             requestedApplicationActivation(application)
     }
 
@@ -133,5 +131,10 @@ AbstractButton {
         width: units.gu(6)
         id: closeIcon
         enabled: root.terminationModeEnabled
+
+        MouseArea {
+            anchors { fill: parent; margins: -units.gu(1) }
+            onClicked: requestedApplicationTermination(application)
+        }
     }
 }
