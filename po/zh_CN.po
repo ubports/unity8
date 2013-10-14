@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-10-07 10:49+0200\n"
+"POT-Creation-Date: 2013-10-11 12:12+0200\n"
 "PO-Revision-Date: 2013-10-09 13:51+0000\n"
 "Last-Translator: Aron Xu <Unknown>\n"
 "Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2013-10-10 05:50+0000\n"
+"X-Launchpad-Export-Date: 2013-10-13 05:43+0000\n"
 "X-Generator: Launchpad (build 16799)\n"
 
 #: Applications/applications.js:23
@@ -156,34 +156,6 @@ msgstr[1] ""
 msgid "Rate this"
 msgstr ""
 
-#: Dash/DashMusic.qml:27 Dash/DashVideos.qml:28
-msgid "Featured"
-msgstr "推荐"
-
-#: Dash/DashMusic.qml:28 Dash/DashVideos.qml:29
-msgid "Recent"
-msgstr "最近使用"
-
-#: Dash/DashMusic.qml:29 Dash/DashVideos.qml:30
-msgid "New Releases"
-msgstr "新版本"
-
-#: Dash/DashMusic.qml:30
-msgid "Top Charting"
-msgstr "排行榜图"
-
-#: Dash/DashMusic.qml:91
-msgid "Music"
-msgstr "音乐"
-
-#: Dash/DashVideos.qml:31
-msgid "Popular Online"
-msgstr "经常在线"
-
-#: Dash/DashVideos.qml:146
-msgid "Videos"
-msgstr "视频"
-
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
 msgstr ""
@@ -237,7 +209,7 @@ msgstr "讲话中..."
 msgid "Search"
 msgstr "搜索"
 
-#: plugins/Unity/scope.cpp:361
+#: plugins/Unity/scope.cpp:398
 msgid "Sorry, there is nothing that matches your search."
 msgstr "对不起，没有找到您想要的结果。"
 
@@ -245,7 +217,28 @@ msgstr "对不起，没有找到您想要的结果。"
 msgid "All"
 msgstr ""
 
-#: Shell.qml:453
+#: Shell.qml:438
 #, qt-format
 msgid "Please enter %1"
 msgstr ""
+
+#~ msgid "Featured"
+#~ msgstr "推荐"
+
+#~ msgid "New Releases"
+#~ msgstr "新版本"
+
+#~ msgid "Top Charting"
+#~ msgstr "排行榜图"
+
+#~ msgid "Music"
+#~ msgstr "音乐"
+
+#~ msgid "Popular Online"
+#~ msgstr "经常在线"
+
+#~ msgid "Videos"
+#~ msgstr "视频"
+
+#~ msgid "Recent"
+#~ msgstr "最近使用"

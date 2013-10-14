@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-10-07 10:49+0200\n"
+"POT-Creation-Date: 2013-10-11 12:12+0200\n"
 "PO-Revision-Date: 2013-10-03 18:49+0000\n"
 "Last-Translator: Marcos Lans <Unknown>\n"
 "Language-Team: Galician <gl@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-10-08 07:01+0000\n"
+"X-Launchpad-Export-Date: 2013-10-13 05:43+0000\n"
 "X-Generator: Launchpad (build 16799)\n"
 
 #: Applications/applications.js:23
@@ -158,34 +158,6 @@ msgstr[1] "%1 opinións"
 msgid "Rate this"
 msgstr "Valore isto"
 
-#: Dash/DashMusic.qml:27 Dash/DashVideos.qml:28
-msgid "Featured"
-msgstr "Destacado"
-
-#: Dash/DashMusic.qml:28 Dash/DashVideos.qml:29
-msgid "Recent"
-msgstr "Recentes"
-
-#: Dash/DashMusic.qml:29 Dash/DashVideos.qml:30
-msgid "New Releases"
-msgstr "Novas versións"
-
-#: Dash/DashMusic.qml:30
-msgid "Top Charting"
-msgstr ""
-
-#: Dash/DashMusic.qml:91
-msgid "Music"
-msgstr "Música"
-
-#: Dash/DashVideos.qml:31
-msgid "Popular Online"
-msgstr "Populares en liña"
-
-#: Dash/DashVideos.qml:146
-msgid "Videos"
-msgstr "Vídeos"
-
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
 msgstr "Engadir unha opinión"
@@ -239,7 +211,7 @@ msgstr "Falando…"
 msgid "Search"
 msgstr "Buscar"
 
-#: plugins/Unity/scope.cpp:361
+#: plugins/Unity/scope.cpp:398
 msgid "Sorry, there is nothing that matches your search."
 msgstr "Sentímolo, non hai nada que coincida con esta busca."
 
@@ -247,7 +219,25 @@ msgstr "Sentímolo, non hai nada que coincida con esta busca."
 msgid "All"
 msgstr "Todo"
 
-#: Shell.qml:453
+#: Shell.qml:438
 #, qt-format
 msgid "Please enter %1"
 msgstr "Introduza %1"
+
+#~ msgid "Music"
+#~ msgstr "Música"
+
+#~ msgid "Videos"
+#~ msgstr "Vídeos"
+
+#~ msgid "Featured"
+#~ msgstr "Destacado"
+
+#~ msgid "Recent"
+#~ msgstr "Recentes"
+
+#~ msgid "New Releases"
+#~ msgstr "Novas versións"
+
+#~ msgid "Popular Online"
+#~ msgstr "Populares en liña"

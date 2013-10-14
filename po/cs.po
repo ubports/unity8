@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-10-07 10:49+0200\n"
+"POT-Creation-Date: 2013-10-11 12:12+0200\n"
 "PO-Revision-Date: 2013-10-08 08:09+0000\n"
 "Last-Translator: Tadeáš Pařík <tadeas.parik@gmail.com>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2013-10-09 06:24+0000\n"
+"X-Launchpad-Export-Date: 2013-10-13 05:43+0000\n"
 "X-Generator: Launchpad (build 16799)\n"
 
 #: Applications/applications.js:23
@@ -157,34 +157,6 @@ msgstr[2] "%1 recenzí"
 msgid "Rate this"
 msgstr "Ohodnoťte to"
 
-#: Dash/DashMusic.qml:27 Dash/DashVideos.qml:28
-msgid "Featured"
-msgstr "Oblíbené"
-
-#: Dash/DashMusic.qml:28 Dash/DashVideos.qml:29
-msgid "Recent"
-msgstr "Nedávné"
-
-#: Dash/DashMusic.qml:29 Dash/DashVideos.qml:30
-msgid "New Releases"
-msgstr ""
-
-#: Dash/DashMusic.qml:30
-msgid "Top Charting"
-msgstr ""
-
-#: Dash/DashMusic.qml:91
-msgid "Music"
-msgstr "Hudba"
-
-#: Dash/DashVideos.qml:31
-msgid "Popular Online"
-msgstr "Oblíbené on-line"
-
-#: Dash/DashVideos.qml:146
-msgid "Videos"
-msgstr "Videa"
-
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
 msgstr "Přidat recenzi"
@@ -238,7 +210,7 @@ msgstr "Mluvte..."
 msgid "Search"
 msgstr "Hledat"
 
-#: plugins/Unity/scope.cpp:361
+#: plugins/Unity/scope.cpp:398
 msgid "Sorry, there is nothing that matches your search."
 msgstr "Je nám líto, ale nic neodpovídá zadání"
 
@@ -246,7 +218,22 @@ msgstr "Je nám líto, ale nic neodpovídá zadání"
 msgid "All"
 msgstr "Vše"
 
-#: Shell.qml:453
+#: Shell.qml:438
 #, qt-format
 msgid "Please enter %1"
 msgstr "Zadejte prosím %1"
+
+#~ msgid "Featured"
+#~ msgstr "Oblíbené"
+
+#~ msgid "Recent"
+#~ msgstr "Nedávné"
+
+#~ msgid "Videos"
+#~ msgstr "Videa"
+
+#~ msgid "Music"
+#~ msgstr "Hudba"
+
+#~ msgid "Popular Online"
+#~ msgstr "Oblíbené on-line"
