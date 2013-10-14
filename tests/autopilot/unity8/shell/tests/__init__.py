@@ -309,19 +309,6 @@ class UnityTestCase(AutopilotTestCase):
         except subprocess.CalledProcessError:
             logger.warning("Appears unity was already stopped!")
 
-        # Workaround for issue: lp:1238645 and lp:1239491
-        if model() != "Desktop":
-            try:
-                logger.info("Starting maliit-server again.")
-                subprocess.check_call([
-                    "/sbin/initctl",
-                    "start",
-                    "maliit-server"
-                ])
-            except subprocess.CalledProcessError as e:
-                e.args += ("Failed to restart maliit-server.", )
-                raise
-
     def patch_lightdm_mock(self, mock_type='single'):
         self._lightdm_mock_type = mock_type
         logger.info("Setting up LightDM mock type '%s'", mock_type)
