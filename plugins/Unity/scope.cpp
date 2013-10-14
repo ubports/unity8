@@ -203,7 +203,24 @@ void Scope::preview(const QVariant &uri, const QVariant &icon_hint, const QVaria
              const QVariant &result_type, const QVariant &mimetype, const QVariant &title,
              const QVariant &comment, const QVariant &dnd_uri, const QVariant &metadata)
 {
-    auto res = createLocalResult(uri, icon_hint, category, result_type, mimetype, title, comment, dnd_uri, metadata);
+    QVariant real_metadata(metadata);
+    // handle overridden results, since QML doesn't support defining maps
+    if (metadata.type() == QVariant::String) {
+        QString metadata_uri(metadata.toString());
+        if (metadata_uri.startsWith(QLatin1String("subscope:"))) {
+            QString subscope_uri(metadata_uri.mid(9));
+            QStringList parts(subscope_uri.split(QChar('/')));
+            QVariantHash new_metadata;
+            for (int i = parts.size() - 1; i >= 0; i--) {
+                QVariantHash inner;
+                inner["scope-id"] = QVariant::fromValue(parts[i]);
+                inner["content"] = QVariant::fromValue(new_metadata);
+                new_metadata = inner;
+            }
+            real_metadata = QVariant::fromValue(new_metadata);
+        }
+    }
+    auto res = createLocalResult(uri, icon_hint, category, result_type, mimetype, title, comment, dnd_uri, real_metadata);
     m_previewCancellable.Renew();
 
     // canned queries don't have previews, must be activated
