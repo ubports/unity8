@@ -52,7 +52,7 @@ logger = logging.getLogger(__name__)
 UNITYSHELL_GSETTINGS_SCHEMA = "org.compiz.unityshell"
 UNITYSHELL_GSETTINGS_PATH = "/org/compiz/profiles/unity/plugins/unityshell/"
 UNITYSHELL_LAUNCHER_KEY = "launcher-hide-mode"
-UNITYSHELL_LAUNCHER_MODE = 1  # launcher hidden
+UNITYSHELL_LAUNCHER_MODE = 1 # launcher hidden
 
 
 def _get_device_emulation_scenarios(devices='All'):
@@ -122,7 +122,7 @@ class UnityTestCase(AutopilotTestCase):
         self._lightdm_mock_type = None
         self._qml_mock_enabled = True
 
-        #### This is a work around re: lp:1238417 ####
+        #### FIXME: This is a work around re: lp:1238417 ####
         if model() != "Desktop":
             from autopilot.input import _uinput
             _uinput._touch_device = _uinput.create_touch_device()
@@ -290,7 +290,7 @@ class UnityTestCase(AutopilotTestCase):
     def _cleanup_launching_upstart_unity(self):
         logger.info("Cleaning up launching unity")
 
-        # Workaround for issue: lp:1239491
+        # FIXME: Workaround for issue: lp:1239491
         if model() != "Desktop":
             try:
                 logger.info("Stopping maliit-server before unity.")
