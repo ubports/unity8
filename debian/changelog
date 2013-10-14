@@ -1,3 +1,9 @@
+unity8 (7.83) UNRELEASED; urgency=low
+
+  * Replace ubuntu-touch-session's unity8.conf upstart job.
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Tue, 15 Oct 2013 01:12:45 +0200
+
 unity8 (7.82+13.10.20131011.2-0ubuntu1) saucy; urgency=low
 
   [ Michał Sawicz ]
