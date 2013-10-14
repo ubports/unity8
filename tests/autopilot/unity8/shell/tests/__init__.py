@@ -197,7 +197,8 @@ class UnityTestCase(AutopilotTestCase):
                 "get-env",
                 "--global",
                 key
-            ]).rstrip()
+            ],
+            stderr=subprocess.STDOUT).rstrip()
         except subprocess.CalledProcessError:
             current_value = None
 
