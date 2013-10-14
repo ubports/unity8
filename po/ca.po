@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-10-07 10:49+0200\n"
+"POT-Creation-Date: 2013-10-11 12:12+0200\n"
 "PO-Revision-Date: 2013-09-28 07:38+0000\n"
 "Last-Translator: David Planella <david.planella@ubuntu.com>\n"
 "Language-Team: Catalan <ca@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-10-08 07:01+0000\n"
+"X-Launchpad-Export-Date: 2013-10-13 05:43+0000\n"
 "X-Generator: Launchpad (build 16799)\n"
 
 #: Applications/applications.js:23
@@ -162,34 +162,6 @@ msgstr[1] "%1 ressenyes"
 msgid "Rate this"
 msgstr ""
 
-#: Dash/DashMusic.qml:27 Dash/DashVideos.qml:28
-msgid "Featured"
-msgstr "Destacats"
-
-#: Dash/DashMusic.qml:28 Dash/DashVideos.qml:29
-msgid "Recent"
-msgstr "Recents"
-
-#: Dash/DashMusic.qml:29 Dash/DashVideos.qml:30
-msgid "New Releases"
-msgstr "Novetats"
-
-#: Dash/DashMusic.qml:30
-msgid "Top Charting"
-msgstr "El millor de les llistes"
-
-#: Dash/DashMusic.qml:91
-msgid "Music"
-msgstr "Música"
-
-#: Dash/DashVideos.qml:31
-msgid "Popular Online"
-msgstr "Popular a la xarxa"
-
-#: Dash/DashVideos.qml:146
-msgid "Videos"
-msgstr "Vídeos"
-
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
 msgstr "Afegiu una ressenya"
@@ -243,7 +215,7 @@ msgstr "S'està parlant..."
 msgid "Search"
 msgstr "Cerca"
 
-#: plugins/Unity/scope.cpp:361
+#: plugins/Unity/scope.cpp:398
 msgid "Sorry, there is nothing that matches your search."
 msgstr "No hi ha res que coincideixi amb la cerca"
 
@@ -251,7 +223,28 @@ msgstr "No hi ha res que coincideixi amb la cerca"
 msgid "All"
 msgstr ""
 
-#: Shell.qml:453
+#: Shell.qml:438
 #, qt-format
 msgid "Please enter %1"
 msgstr "Introduïu %1"
+
+#~ msgid "Music"
+#~ msgstr "Música"
+
+#~ msgid "Videos"
+#~ msgstr "Vídeos"
+
+#~ msgid "Recent"
+#~ msgstr "Recents"
+
+#~ msgid "Featured"
+#~ msgstr "Destacats"
+
+#~ msgid "New Releases"
+#~ msgstr "Novetats"
+
+#~ msgid "Top Charting"
+#~ msgstr "El millor de les llistes"
+
+#~ msgid "Popular Online"
+#~ msgstr "Popular a la xarxa"

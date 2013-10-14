@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-10-07 10:49+0200\n"
+"POT-Creation-Date: 2013-10-11 12:12+0200\n"
 "PO-Revision-Date: 2013-10-01 13:21+0000\n"
 "Last-Translator: Volkan Gezer <Unknown>\n"
 "Language-Team: Turkish <tr@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-10-08 07:01+0000\n"
+"X-Launchpad-Export-Date: 2013-10-13 05:43+0000\n"
 "X-Generator: Launchpad (build 16799)\n"
 
 #: Applications/applications.js:23
@@ -157,34 +157,6 @@ msgstr[1] "%1 inceleme"
 msgid "Rate this"
 msgstr "Oyla"
 
-#: Dash/DashMusic.qml:27 Dash/DashVideos.qml:28
-msgid "Featured"
-msgstr "Öne Çıkanlar"
-
-#: Dash/DashMusic.qml:28 Dash/DashVideos.qml:29
-msgid "Recent"
-msgstr "En Son"
-
-#: Dash/DashMusic.qml:29 Dash/DashVideos.qml:30
-msgid "New Releases"
-msgstr "Yeni Sürümler"
-
-#: Dash/DashMusic.qml:30
-msgid "Top Charting"
-msgstr "En Çok Beğenilenler"
-
-#: Dash/DashMusic.qml:91
-msgid "Music"
-msgstr "Müzik"
-
-#: Dash/DashVideos.qml:31
-msgid "Popular Online"
-msgstr "Genellikle Çevrimiçi"
-
-#: Dash/DashVideos.qml:146
-msgid "Videos"
-msgstr "Videolar"
-
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
 msgstr "Bir inceleme ekle"
@@ -238,7 +210,7 @@ msgstr "Konuşuyor..."
 msgid "Search"
 msgstr "Ara"
 
-#: plugins/Unity/scope.cpp:361
+#: plugins/Unity/scope.cpp:398
 msgid "Sorry, there is nothing that matches your search."
 msgstr "Üzgünüz, aramanızla eşleşen hiçbir şey yok."
 
@@ -246,7 +218,28 @@ msgstr "Üzgünüz, aramanızla eşleşen hiçbir şey yok."
 msgid "All"
 msgstr ""
 
-#: Shell.qml:453
+#: Shell.qml:438
 #, qt-format
 msgid "Please enter %1"
 msgstr "Lütfen %1 girin"
+
+#~ msgid "Featured"
+#~ msgstr "Öne Çıkanlar"
+
+#~ msgid "Recent"
+#~ msgstr "En Son"
+
+#~ msgid "Music"
+#~ msgstr "Müzik"
+
+#~ msgid "Popular Online"
+#~ msgstr "Genellikle Çevrimiçi"
+
+#~ msgid "Videos"
+#~ msgstr "Videolar"
+
+#~ msgid "Top Charting"
+#~ msgstr "En Çok Beğenilenler"
+
+#~ msgid "New Releases"
+#~ msgstr "Yeni Sürümler"

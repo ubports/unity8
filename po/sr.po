@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-10-07 10:49+0200\n"
+"POT-Creation-Date: 2013-10-11 12:12+0200\n"
 "PO-Revision-Date: 2013-06-27 09:19+0000\n"
 "Last-Translator: Michał Sawicz <michal.sawicz@canonical.com>\n"
 "Language-Team: Serbian <sr@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2013-10-08 07:01+0000\n"
+"X-Launchpad-Export-Date: 2013-10-13 05:43+0000\n"
 "X-Generator: Launchpad (build 16799)\n"
 
 #: Applications/applications.js:23
@@ -157,34 +157,6 @@ msgstr[1] ""
 msgid "Rate this"
 msgstr ""
 
-#: Dash/DashMusic.qml:27 Dash/DashVideos.qml:28
-msgid "Featured"
-msgstr ""
-
-#: Dash/DashMusic.qml:28 Dash/DashVideos.qml:29
-msgid "Recent"
-msgstr ""
-
-#: Dash/DashMusic.qml:29 Dash/DashVideos.qml:30
-msgid "New Releases"
-msgstr ""
-
-#: Dash/DashMusic.qml:30
-msgid "Top Charting"
-msgstr ""
-
-#: Dash/DashMusic.qml:91
-msgid "Music"
-msgstr "Музика"
-
-#: Dash/DashVideos.qml:31
-msgid "Popular Online"
-msgstr ""
-
-#: Dash/DashVideos.qml:146
-msgid "Videos"
-msgstr "Видео"
-
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
 msgstr ""
@@ -238,7 +210,7 @@ msgstr "Говор..."
 msgid "Search"
 msgstr "Претрага"
 
-#: plugins/Unity/scope.cpp:361
+#: plugins/Unity/scope.cpp:398
 msgid "Sorry, there is nothing that matches your search."
 msgstr "Нажалост, претрага није наишла на икакво подударање."
 
@@ -246,7 +218,13 @@ msgstr "Нажалост, претрага није наишла на икакв
 msgid "All"
 msgstr ""
 
-#: Shell.qml:453
+#: Shell.qml:438
 #, qt-format
 msgid "Please enter %1"
 msgstr ""
+
+#~ msgid "Music"
+#~ msgstr "Музика"
+
+#~ msgid "Videos"
+#~ msgstr "Видео"

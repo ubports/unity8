@@ -43,8 +43,7 @@ Rectangle {
             var dateString = Qt.formatDate(dateObj, Qt.DefaultLocaleLongDate)
             var timeString = Qt.formatTime(dateObj)
 
-            clock.__timerInterval = 60000
-            clock.__date = dateObj
+            clock.currentDate = dateObj
             var dateLabel = findChild(clock, "dateLabel")
             compare(dateLabel.text, dateString, "Not the expected date")
             var timeLabel = findChild(clock, "timeLabel")
@@ -57,33 +56,20 @@ Rectangle {
             var timeString = Qt.formatTime(dateObj)
 
             clock.enabled = false
-            compare(clock.__timerRunning, false, "Timer should not be running")
-            clock.__date = dateObj
-            clock.__timerInterval = 5
-            wait(5) // spin event loop (only that would trigger the timer and reveal eventual bugs)
+            var timeModel = findInvisibleChild(clock, "timeModel")
+
+            compare(timeModel.menuObjectPath, "", "Clock shouldn't be connected to Indicators when not active.")
+
+            clock.currentDate = dateObj
+
             var dateLabel = findChild(clock, "dateLabel")
             compare(dateLabel.text, dateString, "Not the expected date")
             var timeLabel = findChild(clock, "timeLabel")
             compare(timeLabel.text, timeString, "Not the expected time")
 
             clock.enabled = true
-            compare(clock.__timerRunning, true, "Timer should be running")
-            wait(0) // spin event loop to trigger the timer
-            verify(dateLabel.text !== dateString)
-            if (timeLabel.text.indexOf("11:13") != -1) wait(60000) // next test will fail at 11:13, wait 1 minute
-            verify(timeLabel.text !== timeString)
-        }
 
-        function test_timerRunning() {
-            // tests for clock.enabled property are already in test_dateUpdate()
-            clock.opacity = 0.0
-            compare(clock.__timerRunning, false, "Timer should not be running")
-            clock.opacity = 1.0
-            compare(clock.__timerRunning, true, "Timer should be running")
-            clock.visible = false
-            compare(clock.__timerRunning, false, "Timer should not be running")
-            clock.visible = true
-            compare(clock.__timerRunning, true, "Timer should be running")
+            verify(timeModel.menuObjectPath != "", "Should be connected to Indicators.")
         }
     }
 }

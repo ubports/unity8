@@ -77,6 +77,7 @@ private Q_SLOTS:
     void onModelRowsAdded(const QModelIndex& parent, int start, int end);
     void onModelRowsRemoved(const QModelIndex& parent, int start, int end);
     void onModelDataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight, const QVector<int>&);
+    void reset();
 
 private:
     void updateActionState();
