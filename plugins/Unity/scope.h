@@ -28,6 +28,7 @@
 // libunity-core
 #include <UnityCore/Scope.h>
 #include <UnityCore/Results.h>
+#include <UnityCore/GLibWrapper.h>
 
 #include "categories.h"
 #include "filters.h"
@@ -43,6 +44,7 @@ class Scope : public QObject
     Q_PROPERTY(QString iconHint READ iconHint NOTIFY iconHintChanged)
     Q_PROPERTY(QString description READ description NOTIFY descriptionChanged)
     Q_PROPERTY(QString searchHint READ searchHint NOTIFY searchHintChanged)
+    Q_PROPERTY(bool searchInProgress READ searchInProgress NOTIFY searchInProgressChanged)
     Q_PROPERTY(bool visible READ visible NOTIFY visibleChanged)
     Q_PROPERTY(QString shortcut READ shortcut NOTIFY shortcutChanged)
     Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
@@ -52,6 +54,7 @@ class Scope : public QObject
     Q_PROPERTY(QString searchQuery READ searchQuery WRITE setSearchQuery NOTIFY searchQueryChanged)
     Q_PROPERTY(QString noResultsHint READ noResultsHint WRITE setNoResultsHint NOTIFY noResultsHintChanged)
     Q_PROPERTY(QString formFactor READ formFactor WRITE setFormFactor NOTIFY formFactorChanged)
+    Q_PROPERTY(bool isActive READ isActive WRITE setActive NOTIFY isActiveChanged)
 
 public:
     explicit Scope(QObject *parent = 0);
@@ -65,16 +68,19 @@ public:
     bool visible() const;
     QString shortcut() const;
     bool connected() const;
+    bool searchInProgress() const;
     Categories* categories() const;
     Filters* filters() const;
     QString searchQuery() const;
     QString noResultsHint() const;
     QString formFactor() const;
+    bool isActive() const;
 
     /* setters */
     void setSearchQuery(const QString& search_query);
     void setNoResultsHint(const QString& hint);
     void setFormFactor(const QString& form_factor);
+    void setActive(const bool);
 
     Q_INVOKABLE void activate(const QVariant &uri, const QVariant &icon_hint, const QVariant &category,
                               const QVariant &result_type, const QVariant &mimetype, const QVariant &title,
@@ -82,6 +88,8 @@ public:
     Q_INVOKABLE void preview(const QVariant &uri, const QVariant &icon_hint, const QVariant &category,
                               const QVariant &result_type, const QVariant &mimetype, const QVariant &title,
                               const QVariant &comment, const QVariant &dnd_uri, const QVariant &metadata);
+    Q_INVOKABLE void cancelActivation();
+
     void setUnityScope(const unity::dash::Scope::Ptr& scope);
     unity::dash::Scope::Ptr unityScope() const;
 
@@ -93,14 +101,15 @@ Q_SIGNALS:
     void iconHintChanged(const std::string&);
     void descriptionChanged(const std::string&);
     void searchHintChanged(const std::string&);
+    void searchInProgressChanged();
     void visibleChanged(bool);
     void shortcutChanged(const std::string&);
     void connectedChanged(bool);
     void categoriesChanged();
-    void searchFinished(const std::string&, unity::glib::HintsMap const&, unity::glib::Error const&);
     void searchQueryChanged();
     void noResultsHintChanged();
     void formFactorChanged();
+    void isActiveChanged(bool);
     void filtersChanged();
 
     // signals triggered by activate(..) or preview(..) requests.
@@ -113,7 +122,8 @@ Q_SIGNALS:
 
 private Q_SLOTS:
     void synchronizeStates();
-    void onSearchFinished(const std::string &, unity::glib::HintsMap const &);
+    void scopeIsActiveChanged();
+    void onSearchFinished(std::string const &, unity::glib::HintsMap const &, unity::glib::Error const&);
 
 private:
     unity::dash::LocalResult createLocalResult(const QVariant &uri, const QVariant &icon_hint,
@@ -124,6 +134,7 @@ private:
     void onActivated(unity::dash::LocalResult const& result, unity::dash::ScopeHandledType type, unity::glib::HintsMap const& hints);
     void onPreviewReady(unity::dash::LocalResult const& result, unity::dash::Preview::Ptr const& preview);
     void fallbackActivate(const QString& uri);
+    void resultsDirtyToggled(bool);
 
     unity::dash::Scope::Ptr m_unityScope;
     std::unique_ptr<Categories> m_categories;
@@ -131,6 +142,10 @@ private:
     QString m_searchQuery;
     QString m_noResultsHint;
     QString m_formFactor;
+    bool m_isActive;
+    bool m_searchInProgress;
+    unity::glib::Cancellable m_cancellable;
+    unity::glib::Cancellable m_previewCancellable;
 };
 
 Q_DECLARE_METATYPE(Scope*)

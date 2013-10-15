@@ -46,6 +46,7 @@ CategoryResults::CategoryResults(QObject* parent)
     m_roles[CategoryResults::RoleComment] = "comment";
     m_roles[CategoryResults::RoleDndUri] = "dndUri";
     m_roles[CategoryResults::RoleMetadata] = "metadata";
+    m_roles[CategoryResults::RoleRendererHints] = "rendererHints";
 }
 
 int CategoryResults::categoryIndex() const
@@ -79,6 +80,14 @@ CategoryResults::data(const QModelIndex& index, int role) const
             return DeeListModel::data(index, ResultsColumn::URI);
         case RoleIconHint: {
             QString giconString(DeeListModel::data(index, ResultsColumn::ICON_HINT).toString());
+            if (giconString.isEmpty()) {
+                QString mimetype(DeeListModel::data(index, ResultsColumn::MIMETYPE).toString());
+                QString uri(DeeListModel::data(index, ResultsColumn::URI).toString());
+                QString thumbnailerUri(uriToThumbnailerProviderString(uri, mimetype, DeeListModel::data(index, ResultsColumn::METADATA).toHash()));
+                if (!thumbnailerUri.isNull()) {
+                    return QVariant::fromValue(thumbnailerUri);
+                }
+            }
             return QVariant::fromValue(gIconToDeclarativeImageProviderString(giconString));
         }
         case RoleCategory:
@@ -93,6 +102,19 @@ CategoryResults::data(const QModelIndex& index, int role) const
             return DeeListModel::data(index, ResultsColumn::DND_URI);
         case RoleMetadata:
             return DeeListModel::data(index, ResultsColumn::METADATA);
+        case RoleRendererHints:
+        {
+            QVariantHash hash(DeeListModel::data(index, ResultsColumn::METADATA).toHash());
+            if (hash.contains("content")) {
+                QVariantMap hints;
+                QVariantHash innerHash(hash["content"].toHash());
+                if (innerHash.contains("scope_disabled")) {
+                    hints["scope_disabled"] = innerHash["scope_disabled"];
+                }
+                return hints.empty() ? QVariant() : QVariant::fromValue(hints);
+            }
+            return QVariant();
+        }
         default:
             return QVariant();
     }

@@ -29,21 +29,30 @@ Item {
     Connections {
         target: model
 
+        onDataAboutToAppear: startHideAnimation() // hide "no data" label
         onDataAppeared: startShowAnimation()
 
         onDataAboutToChange: startHideAnimation()
-
         onDataChanged: startShowAnimation()
 
         onDataAboutToDisappear: startHideAnimation()
+        onDataDisappeared: startShowAnimation() // show "no data" label
     }
 
     function startShowAnimation() {
+        dotHideAnimTimer.stop()
+        circleShrinkAnimTimer.stop()
+        notification.hideAnim.stop()
+
         dotShowAnimTimer.startFromBeginning()
         notification.showAnim.start()
     }
 
     function startHideAnimation() {
+        dotShowAnimTimer.stop()
+        circleGrowAnimTimer.stop()
+        notification.showAnim.stop()
+
         dotHideAnimTimer.startFromBeginning()
         notification.hideAnim.start()
     }
@@ -396,7 +405,7 @@ Item {
             }
         }
 
-        Text {
+        Label {
             id: notification
             objectName: "label"
 
@@ -410,13 +419,11 @@ Item {
             anchors.centerIn: parent
 
             text: infographic.model.label
-            font.pixelSize: notification.height / 12
 
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             color: "white"
-            font.weight: Font.Light
 
             PropertyAnimation {
                 id: increaseOpacity

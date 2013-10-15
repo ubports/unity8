@@ -42,6 +42,9 @@ class AccountsService: public QObject
     Q_PROPERTY (QString backgroundFile
                 READ backgroundFile
                 NOTIFY backgroundFileChanged)
+    Q_PROPERTY (bool statsWelcomeScreen
+                READ statsWelcomeScreen
+                NOTIFY statsWelcomeScreenChanged)
 
 public:
     explicit AccountsService(QObject *parent = 0);
@@ -53,12 +56,14 @@ public:
     bool demoEdgesForCurrentUser() const;
     void setDemoEdgesForCurrentUser(bool demoEdgesForCurrentUser);
     QString backgroundFile() const;
+    bool statsWelcomeScreen() const;
 
 Q_SIGNALS:
     void userChanged();
     void demoEdgesChanged();
     void demoEdgesForCurrentUserChanged();
     void backgroundFileChanged();
+    void statsWelcomeScreenChanged();
 
 private Q_SLOTS:
     void propertiesChanged(const QString &user, const QString &interface, const QStringList &changed);
@@ -68,12 +73,14 @@ private:
     void updateDemoEdges();
     void updateDemoEdgesForCurrentUser();
     void updateBackgroundFile();
+    void updateStatsWelcomeScreen();
 
     AccountsServiceDBusAdaptor *m_service;
     QString m_user;
     bool m_demoEdges;
     bool m_demoEdgesForCurrentUser;
     QString m_backgroundFile;
+    bool m_statsWelcomeScreen;
 };
 
 #endif

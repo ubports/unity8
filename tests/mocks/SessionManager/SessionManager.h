@@ -24,18 +24,26 @@
 class SessionManager: public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(bool active READ active NOTIFY activeChanged FINAL)
+    Q_PROPERTY(bool active
+               READ active
+               WRITE setActive // Only in mock
+               NOTIFY activeChanged
+               FINAL)
 
 public:
     explicit SessionManager(QObject *parent = 0);
 
     bool active() const;
+    void setActive(bool active);
 
 public Q_SLOTS:
     void lock();
 
 Q_SIGNALS:
     void activeChanged();
+
+private:
+    bool m_active;
 };
 
 #endif

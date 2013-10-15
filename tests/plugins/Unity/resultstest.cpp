@@ -19,6 +19,7 @@
 
 #include <QTest>
 #include <dee.h>
+#include <glib.h>
 
 #include "resultstest.h"
 #include "categoryresults.h"
@@ -65,26 +66,30 @@ void ResultsTest::testAllColumns()
 
 void ResultsTest::testIconColumn_data()
 {
+    QTest::addColumn<QString>("uri");
     QTest::addColumn<QString>("giconString");
     QTest::addColumn<QString>("result");
 
-    QTest::newRow("absolute path") << "/usr/share/icons/example.png" << "/usr/share/icons/example.png";
-    QTest::newRow("file uri") << "file:///usr/share/icons/example.png" << "file:///usr/share/icons/example.png";
-    QTest::newRow("http uri") << "http://images.ubuntu.com/example.jpg" << "http://images.ubuntu.com/example.jpg";
-    QTest::newRow("image uri") << "image://thumbnail/with/arguments?passed_to=ImageProvider" << "image://thumbnail/with/arguments?passed_to=ImageProvider";
-    QTest::newRow("themed icon") << "accessories-other" << "image://theme/accessories-other";
-    QTest::newRow("fileicon") << ". GFileIcon http://example.org/resource.gif" << "http://example.org/resource.gif";
-    QTest::newRow("themedicon") << ". GThemedIcon accessories-other accessories generic" << "image://theme/accessories-other,accessories,generic";
-    QTest::newRow("annotatedicon") << ". UnityProtocolAnnotatedIcon %7B'base-icon':%20%3C'.%20GThemedIcon%20accessories-other%20accessories%20generic'%3E%7D" << "image://theme/accessories-other,accessories,generic";
+    QTest::newRow("unspecified") << "test:uri" << "" << "";
+    QTest::newRow("absolute path") << "test:uri" << "/usr/share/icons/example.png" << "/usr/share/icons/example.png";
+    QTest::newRow("file uri") << "test:uri" << "file:///usr/share/icons/example.png" << "file:///usr/share/icons/example.png";
+    QTest::newRow("http uri") << "test:uri" << "http://images.ubuntu.com/example.jpg" << "http://images.ubuntu.com/example.jpg";
+    QTest::newRow("image uri") << "test:uri" << "image://thumbnail/with/arguments?passed_to=ImageProvider" << "image://thumbnail/with/arguments?passed_to=ImageProvider";
+    QTest::newRow("themed icon") << "test:uri" << "accessories-other" << "image://theme/accessories-other";
+    QTest::newRow("fileicon") << "test:uri" << ". GFileIcon http://example.org/resource.gif" << "http://example.org/resource.gif";
+    QTest::newRow("themedicon") << "test:uri" << ". GThemedIcon accessories-other accessories generic" << "image://theme/accessories-other,accessories,generic";
+    QTest::newRow("annotatedicon") << "test:uri" << ". UnityProtocolAnnotatedIcon %7B'base-icon':%20%3C'.%20GThemedIcon%20accessories-other%20accessories%20generic'%3E%7D" << "image://theme/accessories-other,accessories,generic";
+    QTest::newRow("thumbnailer icon") << "file:///usr/share/samples/video/foo.avi" << "" << "image://thumbnailer//usr/share/samples/video/foo.avi";
 }
 
 void ResultsTest::testIconColumn()
 {
+    QFETCH(QString, uri);
     QFETCH(QString, giconString);
     QFETCH(QString, result);
     auto deeModel = createBackendModel();
     dee_model_append (deeModel,
-                      "test:uri",
+                      uri.toLocal8Bit().constData(),
                       giconString.toLocal8Bit().constData(),
                       0,
                       0,
@@ -93,6 +98,92 @@ void ResultsTest::testIconColumn()
                       "",
                       "test:dnd-uri",
                       g_variant_new_array(g_variant_type_element(G_VARIANT_TYPE_VARDICT), NULL, 0));
+
+    CategoryResults* results = new CategoryResults(this);
+    results->setModel(deeModel);
+
+    auto index = results->index(0, 0); // there's just one result
+    auto transformedIcon = index.data(CategoryResults::Roles::RoleIconHint).toString();
+    QCOMPARE(transformedIcon, result);
+}
+
+class GVariantWrapper
+{
+public:
+  GVariantWrapper() : variant(NULL) {}
+  GVariantWrapper(GVariant* v) {
+    variant = v ? g_variant_ref_sink(v) : NULL;
+  }
+  GVariantWrapper(const GVariantWrapper& other) {
+    variant = other.variant ? g_variant_ref(other.variant) : NULL;
+  }
+  ~GVariantWrapper() {
+    if (variant) g_variant_unref(variant);
+  }
+
+  GVariant* variant;
+};
+
+Q_DECLARE_METATYPE(GVariantWrapper)
+
+void ResultsTest::testSpecialIcons_data()
+{
+    QTest::addColumn<QString>("uri");
+    QTest::addColumn<GVariantWrapper>("metadata");
+    QTest::addColumn<QString>("result");
+
+    GVariant *inner;
+    GVariantBuilder builder, inner_builder;
+
+    g_variant_builder_init(&inner_builder, G_VARIANT_TYPE_VARDICT);
+    g_variant_builder_add(&inner_builder, "{sv}", "artist", g_variant_new_string("U2"));
+    g_variant_builder_add(&inner_builder, "{sv}", "album", g_variant_new_string("War"));
+
+    g_variant_builder_init(&builder, G_VARIANT_TYPE_VARDICT);
+    g_variant_builder_add(&builder, "{sv}", "content", g_variant_builder_end(&inner_builder));
+
+    QTest::newRow("simple") << "file:///foo.mp3" << GVariantWrapper(g_variant_builder_end(&builder)) << "image://albumart/U2/War";
+
+    g_variant_builder_init(&inner_builder, G_VARIANT_TYPE_VARDICT);
+    g_variant_builder_add(&inner_builder, "{sv}", "artist", g_variant_new_string("U2"));
+    g_variant_builder_add(&inner_builder, "{sv}", "album", g_variant_new_string("War/Joshua tree"));
+    inner = g_variant_builder_end(&inner_builder);
+
+    g_variant_builder_init(&builder, G_VARIANT_TYPE_VARDICT);
+    g_variant_builder_add(&builder, "{sv}", "content", inner);
+
+    QTest::newRow("with-slash") << "file:///foo.mp3" << GVariantWrapper(g_variant_builder_end(&builder)) << "image://albumart/U2/War%2FJoshua%20tree";
+
+    g_variant_builder_init(&inner_builder, G_VARIANT_TYPE_VARDICT);
+    g_variant_builder_add(&inner_builder, "{sv}", "artist", g_variant_new_string("U2"));
+    g_variant_builder_add(&inner_builder, "{sv}", "album", g_variant_new_string("War"));
+    inner = g_variant_builder_end(&inner_builder);
+
+    g_variant_builder_init(&inner_builder, G_VARIANT_TYPE_VARDICT);
+    g_variant_builder_add(&inner_builder, "{sv}", "content", inner);
+
+    g_variant_builder_init(&builder, G_VARIANT_TYPE_VARDICT);
+    g_variant_builder_add(&builder, "{sv}", "content", g_variant_builder_end(&inner_builder));
+
+    QTest::newRow("nested") << "file:///foo.mp3" << GVariantWrapper(g_variant_builder_end(&builder)) << "image://albumart/U2/War";
+}
+
+void ResultsTest::testSpecialIcons()
+{
+    QFETCH(QString, uri);
+    QFETCH(GVariantWrapper, metadata);
+    QFETCH(QString, result);
+    auto deeModel = createBackendModel();
+    dee_model_append (deeModel,
+                      uri.toLocal8Bit().constData(),
+                      "",
+                      0,
+                      0,
+                      "audio/mp3",
+                      "Test",
+                      "",
+                      uri.toLocal8Bit().constData(),
+                      metadata.variant);
 
     CategoryResults* results = new CategoryResults(this);
     results->setModel(deeModel);

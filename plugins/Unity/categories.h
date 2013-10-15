@@ -32,6 +32,9 @@
 #include <QSet>
 #include <QTimer>
 
+// local
+#include "signalslist.h"
+
 class Categories : public DeeListModel
 {
     Q_OBJECT
@@ -47,6 +50,7 @@ public:
         RoleIcon,
         RoleRenderer,
         RoleContentType,
+        RoleRendererHint,
         RoleProgressSource,
         RoleHints,
         RoleResults,
@@ -70,6 +74,7 @@ private Q_SLOTS:
 
 private:
     void onCategoriesModelChanged(unity::glib::Object<DeeModel> model);
+    void onCategoryOrderChanged(const std::vector<unsigned int>& cat_order);
 
     DeeListModel* getResults(int index) const;
 
@@ -79,7 +84,12 @@ private:
     QHash<int, QByteArray> m_roles;
     QMap<QString, QAbstractItemModel*> m_overriddenCategories;
     mutable QMap<int, DeeListModel*> m_results;
-    sigc::connection m_categoriesChangedConnection;
+    SignalsList m_signals;
+
+    /* Category order array contains indices of actual categories in the underlying DeeListModel.
+       It's used internally to reflect category order reported by scope.
+     */
+    mutable QList<unsigned int> m_categoryOrder;
 };
 
 #endif // CATEGORIES_H

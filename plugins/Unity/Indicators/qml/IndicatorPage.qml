@@ -26,12 +26,14 @@ IndicatorBase {
     id: main
 
     //const
+    property bool contentActive: false
+    property string title: rootActionState.title
     property alias emptyText: emptyLabel.text
     property alias highlightFollowsCurrentItem : mainMenu.highlightFollowsCurrentItem
 
     Indicators.UnityMenuModelStack {
         id: menuStack
-        head: main.menuModel
+        head: contentActive ? main.menuModel : null
     }
 
     ListView {
@@ -60,7 +62,34 @@ IndicatorBase {
         // Only allow flicking if the content doesn't fit on the page
         interactive: contentHeight > height
 
-        currentIndex: -1
+        property int selectedIndex: -1
+        property bool blockCurrentIndexChange: false
+        // for count = 0
+        onCountChanged: {
+            if (count == 0 && selectedIndex != -1) {
+                selectedIndex = -1;
+            }
+        }
+        // for highlight following
+        onSelectedIndexChanged: {
+            if (currentIndex != selectedIndex) {
+                var blocked = blockCurrentIndexChange;
+                blockCurrentIndexChange = true;
+
+                currentIndex = selectedIndex;
+
+                blockCurrentIndexChange = blocked;
+            }
+        }
+        // for item addition/removal
+        onCurrentIndexChanged: {
+            if (!blockCurrentIndexChange) {
+                if (selectedIndex != -1 && selectedIndex != currentIndex) {
+                    selectedIndex = currentIndex;
+                }
+            }
+        }
+
         delegate: Item {
             id: menuDelegate
 
@@ -89,10 +118,10 @@ IndicatorBase {
                         menuStack.push(mainMenu.model.submenu(index));
                     }
 
-                    if (item.hasOwnProperty("menuActivated")) {
-                        item.menuActivated = Qt.binding(function() { return ListView.isCurrentItem; });
-                        item.selectMenu.connect(function() { ListView.view.currentIndex = index });
-                        item.deselectMenu.connect(function() { ListView.view.currentIndex = -1 });
+                    if (item.hasOwnProperty("menuSelected")) {
+                        item.menuSelected = Qt.binding(function() { return mainMenu.selectedIndex == index; });
+                        item.selectMenu.connect(function() { mainMenu.selectedIndex = index; });
+                        item.deselectMenu.connect(function() { mainMenu.selectedIndex = -1; });
                     }
                     if (item.hasOwnProperty("menu")) {
                         item.menu = Qt.binding(function() { return model; });
@@ -135,21 +164,21 @@ IndicatorBase {
     function start()
     {
         reset()
-        if (!active) {
-            active = true;
+        if (!contentActive) {
+            contentActive = true;
         }
     }
 
     function stop()
     {
-        if (active) {
-            active = false;
+        if (contentActive) {
+            contentActive = false;
         }
     }
 
     function reset()
     {
-        mainMenu.currentIndex = -1;
+        mainMenu.selectedIndex = -1;
         mainMenu.positionViewAtBeginning();
     }
 }

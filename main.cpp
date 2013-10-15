@@ -114,7 +114,7 @@ int startShell(int argc, const char** argv, void* server)
 
     // The testability driver is only loaded by QApplication but not by QGuiApplication.
     // However, QApplication depends on QWidget which would add some unneeded overhead => Let's load the testability driver on our own.
-    if (args.contains(QLatin1String("-testability"))) {
+    if (args.contains(QLatin1String("-testability")) || getenv("QT_LOAD_TESTABILITY")) {
         QLibrary testLib(QLatin1String("qttestability"));
         if (testLib.load()) {
             typedef void (*TasInitialize)(void);
@@ -161,10 +161,10 @@ int startShell(int argc, const char** argv, void* server)
     prependImportPaths(view->engine(), ::overrideImportPaths());
     appendImportPaths(view->engine(), ::fallbackImportPaths());
 
-    QStringList importPath = view->engine()->importPathList().filter("qt5/imports");
     if (isUbuntuMirServer) {
-        importPath.first().append("/Unity-Mir");
-        view->engine()->addImportPath(importPath.first());
+        QStringList importPaths = view->engine()->importPathList();
+        importPaths.replaceInStrings(QRegExp("qt5/imports$"), "qt5/imports/Unity-Mir");
+        view->engine()->setImportPathList(importPaths);
     }
 
     view->setSource(source);
@@ -182,6 +182,7 @@ int startShell(int argc, const char** argv, void* server)
 
     int result = application->exec();
 
+    delete view;
     delete mouseTouchAdaptor;
     delete application;
 

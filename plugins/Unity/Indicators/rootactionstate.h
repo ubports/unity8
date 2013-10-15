@@ -32,6 +32,7 @@ class UNITYINDICATORS_EXPORT RootActionState : public ActionStateParser
     Q_PROPERTY(UnityMenuModel* menu READ menu WRITE setMenu NOTIFY menuChanged)
 
     Q_PROPERTY(bool valid READ isValid NOTIFY validChanged)
+    Q_PROPERTY(QString title READ title NOTIFY titleChanged)
     Q_PROPERTY(QString leftLabel READ leftLabel NOTIFY leftLabelChanged)
     Q_PROPERTY(QString rightLabel READ rightLabel NOTIFY rightLabelChanged)
     Q_PROPERTY(QStringList icons READ icons NOTIFY iconsChanged)
@@ -48,6 +49,7 @@ public:
     void setIndex(int index);
 
     bool isValid() const;
+    QString title() const;
     QString leftLabel() const;
     QString rightLabel() const;
     QStringList icons() const;
@@ -64,6 +66,7 @@ Q_SIGNALS:
     void indexChanged();
 
     void validChanged();
+    void titleChanged();
     void leftLabelChanged();
     void rightLabelChanged();
     void iconsChanged();
@@ -74,6 +77,7 @@ private Q_SLOTS:
     void onModelRowsAdded(const QModelIndex& parent, int start, int end);
     void onModelRowsRemoved(const QModelIndex& parent, int start, int end);
     void onModelDataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight, const QVector<int>&);
+    void reset();
 
 private:
     void updateActionState();

@@ -28,7 +28,7 @@ Item {
         busName: "com.canonical.indicator.sound"
         objectPath: "/com/canonical/indicator/sound"
 
-        property variant actionObject: action("scroll")
+        property variant actionObject: action("volume")
     }
 
     function volumeUp() {

@@ -88,14 +88,6 @@ BasicShell {
         }
     }
 
-    Connections {
-        target: applicationManager
-        ignoreUnknownSignals: true
-        onFocusRequested: {
-            shell.activateApplication(desktopFile);
-        }
-    }
-
     function activateApplication(desktopFile, argument) {
         if (applicationManager) {
             // For newly started applications, as it takes them time to draw their first frame
@@ -348,7 +340,7 @@ BasicShell {
 
                 width: shell.edgeSize
                 direction: Direction.Leftwards
-                enabled: edgeDemo.dashEnabled
+                enabled: greeter.showProgress == 0 && edgeDemo.dashEnabled
                 property bool haveApps: mainStage.applications.count > 0 || sideStage.applications.count > 0
 
                 maxTotalDragDistance: haveApps ? parent.width : parent.width * 0.7
@@ -358,38 +350,54 @@ BasicShell {
         }
     }
 
+    InputFilterArea {
+        anchors.fill: parent
+        blockInput: !applicationFocused || launcher.shown
+                    || panel.indicators.shown || hud.shown
+    }
+
     Connections {
-        id: powerConnection
-        target: Powerd
+        id: sessionConnection
+        target: SessionManager
 
         property var previousMainApp: null
         property var previousSideApp: null
 
-        function setFocused(focused) {
-            if (!focused) {
-                powerConnection.previousMainApp = applicationManager.mainStageFocusedApplication;
-                powerConnection.previousSideApp = applicationManager.sideStageFocusedApplication;
-                applicationManager.unfocusCurrentApplication();
-            } else {
-                if (powerConnection.previousMainApp) {
-                    applicationManager.focusApplication(powerConnection.previousMainApp);
-                    powerConnection.previousMainApp = null;
-                }
-                if (powerConnection.previousSideApp) {
-                    applicationManager.focusApplication(powerConnection.previousSideApp);
-                    powerConnection.previousSideApp = null;
-                }
+        function removeApplicationFocus() {
+            sessionConnection.previousMainApp = applicationManager.mainStageFocusedApplication;
+            sessionConnection.previousSideApp = applicationManager.sideStageFocusedApplication;
+            applicationManager.unfocusCurrentApplication();
+        }
+
+        function restoreApplicationFocus() {
+            if (sessionConnection.previousMainApp) {
+                applicationManager.focusApplication(sessionConnection.previousMainApp);
+                sessionConnection.previousMainApp = null;
+            }
+            if (sessionConnection.previousSideApp) {
+                applicationManager.focusApplication(sessionConnection.previousSideApp);
+                sessionConnection.previousSideApp = null;
             }
         }
+
+        onActiveChanged: {
+            if (SessionManager.active) {
+                restoreApplicationFocus();
+            } else {
+                removeApplicationFocus();
+            }
+        }
+    }
+
+    Connections {
+        id: powerConnection
+        target: Powerd
 
         onDisplayPowerStateChange: {
             // We ignore any display-off signals when the proximity sensor
             // is active.  This usually indicates something like a phone call.
             if (status == Powerd.Off && (flags & Powerd.UseProximity) == 0) {
-                powerConnection.setFocused(false);
                 SessionManager.lock();
-            } else if (status == Powerd.On) {
-                powerConnection.setFocused(true);
             }
 
             // No reason to chew demo CPU when user isn't watching
@@ -401,13 +409,9 @@ BasicShell {
         }
     }
 
-    function showHome() {
-        // Animate if moving between application and dash
-        if (!stages.shown) {
-            dash.setCurrentScope("home.scope", true, false)
-        } else {
-            dash.setCurrentScope("home.scope", false, false)
-        }
+    function showHome(fromLauncher) {
+        var animate = fromLauncher && !stages.shown
+        dash.setCurrentScope("home.scope", animate, false)
         stages.hide()
     }
 
@@ -426,6 +430,7 @@ BasicShell {
                 contentEnabled: edgeDemo.panelContentEnabled
             }
             fullscreenMode: shell.fullscreenMode
+            searchVisible: dash.shown
 
             InputFilterArea {
                 anchors {
@@ -473,6 +478,7 @@ BasicShell {
         }
 
         Bottombar {
+            id: bottombar
             theHud: hud
             anchors.fill: parent
             enabled: hud.available
@@ -497,10 +503,10 @@ BasicShell {
             width: parent.width
             dragAreaWidth: shell.edgeSize
             available: edgeDemo.launcherEnabled
-            onDashItemSelected: showHome()
+            onDashItemSelected: showHome(true)
             onDash: {
                 if (stages.shown) {
-                    dash.setCurrentScope("applications.scope", true, false)
+                    dash.setCurrentScope("applications.scope", true /* animate */, true /* reset */)
                     stages.hide();
                     launcher.hide();
                 }
@@ -512,6 +518,7 @@ BasicShell {
                 if (shown) {
                     panel.indicators.hide()
                     hud.hide()
+                    bottombar.hide()
                 }
             }
         }
@@ -541,10 +548,17 @@ BasicShell {
                     PropertyChanges { target: notifications; width: units.gu(38) }
                 }
             ]
+
+            InputFilterArea {
+                anchors { left: parent.left; right: parent.right }
+                height: parent.contentHeight
+                blockInput: height > 0
+            }
         }
     }
 
     focus: true
+    onFocusChanged: if (!focus) forceActiveFocus();
 
     InputFilterArea {
         anchors {
@@ -560,6 +574,11 @@ BasicShell {
         target: i18n
         property: "domain"
         value: "unity8"
+    }
+
+    OSKController {
+        anchors.topMargin: panel.panelHeight
+        anchors.fill: parent // as needs to know the geometry of the shell
     }
 
     //FIXME: This should be handled in the input stack, keyboard shouldnt propagate
@@ -596,6 +615,6 @@ BasicShell {
 
     Connections {
         target: SessionBroadcast
-        onShowHome: showHome()
+        onShowHome: showHome(false)
     }
 }

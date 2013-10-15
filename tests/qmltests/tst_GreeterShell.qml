@@ -71,7 +71,7 @@ Item {
             var backgroundImage = findChild(shell, "backgroundImage")
             GSettingsController.setPictureUri(data.gsettings)
             AccountsService.backgroundFile = data.accounts
-            tryCompareFunction(function() { return backgroundImage.source.toString().indexOf(data.expected) !== -1; }, true)
+            verify(backgroundImage.source.toString().indexOf(data.expected) !== -1)
             tryCompare(backgroundImage, "status", Image.Ready)
         }
     }

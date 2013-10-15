@@ -20,7 +20,8 @@
 
 AccountsService::AccountsService(QObject* parent)
   : QObject(parent),
-    m_backgroundFile(TOP_SRCDIR "/graphics/phone_background.jpg")
+    m_backgroundFile(TOP_SRCDIR "/graphics/phone_background.jpg"),
+    m_statsWelcomeScreen(true)
 {
 }
 
@@ -62,4 +63,15 @@ void AccountsService::setBackgroundFile(const QString &backgroundFile)
 {
     m_backgroundFile = backgroundFile;
     backgroundFileChanged();
+}
+
+bool AccountsService::statsWelcomeScreen() const
+{
+    return m_statsWelcomeScreen;
+}
+
+void AccountsService::setStatsWelcomeScreen(bool statsWelcomeScreen)
+{
+    m_statsWelcomeScreen = statsWelcomeScreen;
+    statsWelcomeScreenChanged();
 }

@@ -19,15 +19,25 @@
 #include "SessionManager.h"
 
 SessionManager::SessionManager(QObject* parent)
-  : QObject(parent)
+  : QObject(parent),
+    m_active(true)
 {
 }
 
 bool SessionManager::active() const
 {
-    return true;
+    return m_active;
+}
+
+void SessionManager::setActive(bool active)
+{
+    if (m_active != active) {
+        m_active = active;
+        activeChanged();
+    }
 }
 
 void SessionManager::lock()
 {
+    setActive(false);
 }

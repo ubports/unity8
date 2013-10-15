@@ -33,14 +33,19 @@
 #include <QQmlEngine>
 
 #include <UnityCore/Variant.h>
+#include <UnityCore/GLibWrapper.h>
 
 #include <libintl.h>
 #include <glib.h>
 
 Scope::Scope(QObject *parent) : QObject(parent)
     , m_formFactor("phone")
+    , m_isActive(false)
+    , m_searchInProgress(false)
 {
     m_categories.reset(new Categories(this));
+
+    connect(this, &Scope::isActiveChanged, this, &Scope::scopeIsActiveChanged);
 }
 
 QString Scope::id() const
@@ -66,6 +71,11 @@ QString Scope::description() const
 QString Scope::searchHint() const
 {
     return QString::fromStdString(m_unityScope->search_hint());
+}
+
+bool Scope::searchInProgress() const
+{
+    return m_searchInProgress;
 }
 
 bool Scope::visible() const
@@ -103,6 +113,11 @@ QString Scope::formFactor() const
     return m_formFactor;
 }
 
+bool Scope::isActive() const
+{
+    return m_isActive;
+}
+
 Filters* Scope::filters() const
 {
     return m_filters.get();
@@ -115,10 +130,17 @@ void Scope::setSearchQuery(const QString& search_query)
        string ("") and m_searchQuery is the null string,
        search_query != m_searchQuery is still true.
     */
+    using namespace std::placeholders;
+
     if (m_searchQuery.isNull() || search_query != m_searchQuery) {
         m_searchQuery = search_query;
-        m_unityScope->Search(search_query.toStdString(), sigc::mem_fun(this, &Scope::searchFinished));
+        m_cancellable.Renew();
+        m_unityScope->Search(search_query.toStdString(), std::bind(&Scope::onSearchFinished, this, _1, _2, _3), m_cancellable);
         Q_EMIT searchQueryChanged();
+        if (!m_searchInProgress) {
+            m_searchInProgress = true;
+            Q_EMIT searchInProgressChanged();
+        }
     }
 }
 
@@ -137,6 +159,13 @@ void Scope::setFormFactor(const QString& form_factor) {
             synchronizeStates(); // will trigger a re-search
         }
         Q_EMIT formFactorChanged();
+    }
+}
+
+void Scope::setActive(const bool active) {
+    if (active != m_isActive) {
+        m_isActive = active;
+        Q_EMIT isActiveChanged(m_isActive);
     }
 }
 
@@ -175,12 +204,19 @@ void Scope::preview(const QVariant &uri, const QVariant &icon_hint, const QVaria
              const QVariant &comment, const QVariant &dnd_uri, const QVariant &metadata)
 {
     auto res = createLocalResult(uri, icon_hint, category, result_type, mimetype, title, comment, dnd_uri, metadata);
+    m_previewCancellable.Renew();
+
     // canned queries don't have previews, must be activated
     if (uri.toString().startsWith("x-unity-no-preview-scopes-query://")) {
         m_unityScope->Activate(res);
     } else {
-        m_unityScope->Preview(res);
+        m_unityScope->Preview(res, nullptr, m_previewCancellable);
     }
+}
+
+void Scope::cancelActivation()
+{
+    m_previewCancellable.Cancel();
 }
 
 void Scope::onActivated(unity::dash::LocalResult const& result, unity::dash::ScopeHandledType type, unity::glib::HintsMap const& hints)
@@ -287,8 +323,7 @@ void Scope::setUnityScope(const unity::dash::Scope::Ptr& scope)
     m_unityScope->visible.changed.connect(sigc::mem_fun(this, &Scope::visibleChanged));
     m_unityScope->shortcut.changed.connect(sigc::mem_fun(this, &Scope::shortcutChanged));
     m_unityScope->connected.changed.connect(sigc::mem_fun(this, &Scope::connectedChanged));
-    /* Signals forwarding */
-    connect(this, SIGNAL(searchFinished(const std::string &, unity::glib::HintsMap const &, unity::glib::Error const &)), SLOT(onSearchFinished(const std::string &, unity::glib::HintsMap const &)));
+    m_unityScope->results_dirty.changed.connect(sigc::mem_fun(this, &Scope::resultsDirtyToggled));
 
     /* FIXME: signal should be forwarded instead of calling the handler directly */
     m_unityScope->activated.connect(sigc::mem_fun(this, &Scope::onActivated));
@@ -309,17 +344,52 @@ unity::dash::Scope::Ptr Scope::unityScope() const
 
 void Scope::synchronizeStates()
 {
+    using namespace std::placeholders;
+
     if (connected()) {
         /* Forward local states to m_unityScope */
         if (!m_searchQuery.isNull()) {
-            m_unityScope->Search(m_searchQuery.toStdString());
+            m_cancellable.Renew();
+            m_unityScope->Search(m_searchQuery.toStdString(), std::bind(&Scope::onSearchFinished, this, _1, _2, _3), m_cancellable);
+            if (!m_searchInProgress) {
+                m_searchInProgress = true;
+                Q_EMIT searchInProgressChanged();
+            }
         }
     }
 }
 
-void Scope::onSearchFinished(const std::string& /* query */, unity::glib::HintsMap const &hints)
+void Scope::scopeIsActiveChanged()
+{
+    if (!isActive() || !m_unityScope || !m_unityScope->results_dirty()) return;
+
+    // force new search
+    synchronizeStates();
+}
+
+void Scope::resultsDirtyToggled(bool results_dirty)
+{
+    if (!results_dirty || !isActive()) return;
+
+    // force new search
+    synchronizeStates();
+}
+
+void Scope::onSearchFinished(std::string const& /* query */, unity::glib::HintsMap const& hints, unity::glib::Error const& err)
 {
     QString hint;
+
+    GError* error = const_cast<unity::glib::Error&>(err);
+
+    if (!err || !g_error_matches(error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+        if (m_searchInProgress) {
+            m_searchInProgress = false;
+            Q_EMIT searchInProgressChanged();
+        }
+    } else {
+        // no need to check the results hint, we're still searching
+        return;
+    }
 
     if (!m_unityScope->results()->count()) {
         unity::glib::HintsMap::const_iterator it = hints.find("no-results-hint");

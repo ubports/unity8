@@ -17,7 +17,8 @@
 #include "bottombarvisibilitycommunicatorshell.h"
 
 BottomBarVisibilityCommunicatorShell::BottomBarVisibilityCommunicatorShell()
- : m_forceHidden(false)
+ : m_forceHidden(false),
+   m_position(0)
 {
 }
 
@@ -26,10 +27,23 @@ bool BottomBarVisibilityCommunicatorShell::forceHidden() const
     return m_forceHidden;
 }
 
+double BottomBarVisibilityCommunicatorShell::position() const
+{
+    return m_position;
+}
+
 void BottomBarVisibilityCommunicatorShell::setForceHidden(bool forceHidden)
 {
     if (forceHidden != m_forceHidden) {
         m_forceHidden = forceHidden;
         Q_EMIT forceHiddenChanged(forceHidden);
+    }
+}
+
+void BottomBarVisibilityCommunicatorShell::setPosition(double position)
+{
+    if (position != m_position) {
+        m_position = position;
+        Q_EMIT positionChanged(position);
     }
 }

@@ -56,11 +56,8 @@ QString Preview::image() const
     return "";
 }
 
-QString Preview::imageSourceUri() const
-{
-    return "";
-}
-
 void Preview::execute(const QString& actionId, const QHash<QString, QVariant>& hints)
 {
+    Q_UNUSED(actionId);
+    Q_UNUSED(hints);
 }

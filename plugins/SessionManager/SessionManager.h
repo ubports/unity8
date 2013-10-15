@@ -30,8 +30,10 @@
 class SessionManager: public QObject
 {
     Q_OBJECT
-
-    Q_PROPERTY(bool active READ active NOTIFY activeChanged FINAL)
+    Q_PROPERTY(bool active
+               READ active
+               NOTIFY activeChanged
+               FINAL)
 
 public:
     explicit SessionManager(QObject *parent = 0);

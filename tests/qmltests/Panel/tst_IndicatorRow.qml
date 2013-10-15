@@ -62,13 +62,13 @@ Item {
         function test_set_current_item() {
             init_test();
             indicatorRow.setCurrentItem(0);
-            compare(indicatorRow.indicatorsModel.get(indicatorRow.currentItemIndex).title, "Menu1", "Incorrect item at position 0");
+            compare(indicatorRow.indicatorsModel.get(indicatorRow.currentItemIndex).identifier, "indicator-fake1", "Incorrect item at position 0");
 
             indicatorRow.setCurrentItem(1);
-            compare(indicatorRow.indicatorsModel.get(indicatorRow.currentItemIndex).title, "Menu2", "Incorrect item at position 1");
+            compare(indicatorRow.indicatorsModel.get(indicatorRow.currentItemIndex).identifier, "indicator-fake2", "Incorrect item at position 1");
 
             indicatorRow.setCurrentItem(2);
-            compare(indicatorRow.indicatorsModel.get(indicatorRow.currentItemIndex).title, "Menu3", "Incorrect item at position 2");
+            compare(indicatorRow.indicatorsModel.get(indicatorRow.currentItemIndex).identifier, "indicator-fake3", "Incorrect item at position 2");
         }
     }
 

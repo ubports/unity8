@@ -23,7 +23,10 @@
 
 AccountsService::AccountsService(QObject* parent)
   : QObject(parent),
-    m_service(new AccountsServiceDBusAdaptor(this))
+    m_service(new AccountsServiceDBusAdaptor(this)),
+    m_user(qgetenv("USER")),
+    m_demoEdges(false),
+    m_statsWelcomeScreen(false)
 {
     connect(m_service, SIGNAL(propertiesChanged(const QString &, const QString &, const QStringList &)),
             this, SLOT(propertiesChanged(const QString &, const QString &, const QStringList &)));
@@ -46,6 +49,7 @@ void AccountsService::setUser(const QString &user)
 
     updateDemoEdges();
     updateBackgroundFile();
+    updateStatsWelcomeScreen();
 }
 
 bool AccountsService::demoEdges() const
@@ -75,6 +79,11 @@ QString AccountsService::backgroundFile() const
     return m_backgroundFile;
 }
 
+bool AccountsService::statsWelcomeScreen() const
+{
+    return m_statsWelcomeScreen;
+}
+
 void AccountsService::updateDemoEdges()
 {
     auto demoEdges = m_service->getUserProperty(m_user, "com.canonical.unity.AccountsService", "demo-edges").toBool();
@@ -102,6 +111,15 @@ void AccountsService::updateBackgroundFile()
     }
 }
 
+void AccountsService::updateStatsWelcomeScreen()
+{
+    bool statsWelcomeScreen = m_service->getUserProperty(m_user, "com.ubuntu.touch.AccountsService.SecurityPrivacy", "StatsWelcomeScreen").toBool();
+    if (m_statsWelcomeScreen != statsWelcomeScreen) {
+        m_statsWelcomeScreen = statsWelcomeScreen;
+        Q_EMIT statsWelcomeScreenChanged();
+    }
+}
+
 void AccountsService::propertiesChanged(const QString &user, const QString &interface, const QStringList &changed)
 {
     if (interface == "com.canonical.unity.AccountsService") {
@@ -112,6 +130,10 @@ void AccountsService::propertiesChanged(const QString &user, const QString &inte
             if (m_user != user) {
                 updateDemoEdges();
             }
+        }
+    } else if (interface == "com.ubuntu.touch.AccountsService.SecurityPrivacy") {
+        if (changed.contains("StatsWelcomeScreen")) {
+            updateStatsWelcomeScreen();
         }
     }
 }

@@ -23,6 +23,7 @@ import GSettings 1.0
 import Unity.Application 0.1
 import Unity.Test 0.1 as UT
 import Powerd 0.1
+import SessionManager 0.1
 
 import "../.."
 
@@ -54,12 +55,28 @@ Item {
         name: "Shell"
         when: windowShown
 
+        function initTestCase() {
+            // Ensure DashHome is loaded before continuing
+            var dashContentList = findChild(shell, "dashContentList");
+            waitForRendering(dashContentList);
+            var homeLoader = findChild(dashContentList, "home.scope loader");
+            verify(homeLoader);
+            tryCompareFunction(function() {return homeLoader.item !== undefined;}, true);
+
+            // FIXME: Desperate measure to ensure Jenkins has the scene graph fully loaded
+            // before it calls the test functions (otherwise findChild calls will fail).
+            // The code above just didn't solve it.
+            wait(2000);
+        }
+
         function cleanup() {
             // kill all (fake) running apps
             killApps(ApplicationManager);
 
             var dashHome = findChild(shell, "DashHome");
             swipeUntilScopeViewIsReached(dashHome);
+
+            hideIndicators();
         }
 
         function killApps(apps) {
@@ -131,7 +148,7 @@ Item {
             waitUntilApplicationWindowIsFullyVisible();
 
             var mainApp = ApplicationManager.focusedApplicationId;
-            tryCompareFunction(function() { return mainApp != ""; }, true);
+            verify(mainApp != "");
 
             // Try to suspend while proximity is engaged...
             Powerd.displayPowerStateChange(Powerd.Off, Powerd.UseProximity);
@@ -143,6 +160,10 @@ Item {
 
             // And wake up
             Powerd.displayPowerStateChange(Powerd.On, 0);
+            tryCompare(ApplicationManager, "focusedApplicationId", "");
+
+            // Activate session to focus app
+            SessionManager.active = true;
             tryCompare(ApplicationManager, "focusedApplicationId", mainApp);
         }
 
@@ -207,6 +228,62 @@ Item {
             tryCompare(dash, "visible", false);
         }
 
+        /*
+          Regression test for bug https://bugs.launchpad.net/touch-preview-images/+bug/1193419
+
+          When the user minimizes an application (left-edge swipe) he should always end up in the "Running Apps"
+          category of the "Applications" scope view.
+
+          Steps:
+          - go to apps lens
+          - scroll to the bottom
+          - reveal launcher and launch an app
+          - perform long left edge swipe to go minimize the app and go back to the dash.
+
+          Expected Results
+          - apps lens shown and Running Apps visible on screen
+         */
+        function test_minimizingAppTakesToRunningApps() {
+            var dashApps = findChild(shell, "DashApps");
+
+            swipeUntilScopeViewIsReached(dashApps);
+
+            // swipe finger up until the running/recent apps section (which we assume
+            // it's the first one) is as far from view as possible.
+            // We also assume that DashApps is tall enough that it's scrollable
+            var appsCategoryListView = findChild(dashApps, "categoryListView");
+            while (!appsCategoryListView.atYEnd) {
+                swipeUpFromCenter();
+                tryCompare(appsCategoryListView, "moving", false);
+            }
+
+            // Switch away from the Applications scope.
+            swipeRightFromCenter();
+            waitUntilItemStopsMoving(dashApps);
+            verify(!itemIsOnScreen(dashApps));
+
+            dragLauncherIntoView();
+
+            // Launch an app from the launcher
+            tapOnAppIconInLauncher();
+
+            waitUntilApplicationWindowIsFullyVisible();
+
+            // Minimize the application we just launched
+            swipeFromLeftEdge();
+
+            // Wait for the whole UI to settle down
+            waitUntilApplicationWindowIsFullyHidden();
+            waitUntilItemStopsMoving(dashApps);
+            tryCompare(appsCategoryListView, "moving", false);
+
+            verify(itemIsOnScreen(dashApps));
+
+            var runningApplicationsGrid = findChild(appsCategoryListView, "recent");
+            verify(runningApplicationsGrid);
+            verify(itemIsOnScreen(runningApplicationsGrid));
+        }
+
         // Wait for the whole UI to settle down
         function waitForUIToSettle() {
             waitUntilApplicationWindowIsFullyHidden();
@@ -240,6 +317,19 @@ Item {
 
             // NB tapping (i.e., using touch events) doesn't activate the icon... go figure...
             mouseClick(appIcon, appIcon.width / 2, appIcon.height / 2);
+        }
+
+        function showIndicators() {
+            var indicators = findChild(shell, "indicators");
+            indicators.show();
+            tryCompare(indicators, "fullyOpened", true);
+        }
+
+        function hideIndicators() {
+            var indicators = findChild(shell, "indicators");
+            if (indicators.fullyOpened) {
+                indicators.hide();
+            }
         }
 
         function waitUntilApplicationWindowIsFullyVisible() {
@@ -333,6 +423,34 @@ Item {
             GSettingsController.setPictureUri(data.url)
             tryCompareFunction(function() { return backgroundImage.source.toString().indexOf(data.expectedUrl) !== -1; }, true)
             tryCompare(backgroundImage, "status", Image.Ready)
+        }
+
+        function test_DashShown_data() {
+            return [
+                {tag: "in focus", app: false, launcher: false, indicators: false, expectedShown: true},
+                {tag: "under app", app: true, launcher: false, indicators: false, expectedShown: false},
+                {tag: "under launcher", app: false, launcher: true, indicators: false, expectedShown: true},
+                {tag: "under indicators", app: false, launcher: false, indicators: true, expectedShown: true},
+            ]
+        }
+
+        function test_DashShown(data) {
+
+            if (data.app) {
+                dragLauncherIntoView();
+                tapOnAppIconInLauncher();
+            }
+
+            if (data.launcher) {
+                dragLauncherIntoView();
+            }
+
+            if (data.indicators) {
+                showIndicators();
+            }
+
+            var dash = findChild(shell, "dash");
+            tryCompare(dash, "shown", data.expectedShown);
         }
     }
 }

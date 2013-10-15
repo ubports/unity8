@@ -19,15 +19,17 @@
 // Qt
 #include <QtQml/qqml.h>
 #include <QtQuick/QQuickWindow>
-
+#include <QDebug>
 // self
 #include "plugin.h"
 
 // local
+#include "albumartprovider.h"
 #include "applicationpaths.h"
 #include "qlimitproxymodelqml.h"
 #include "qsortfilterproxymodelqml.h"
 #include "ubuntuwindow.h"
+#include "unitymenumodelpaths.h"
 
 static QObject* applicationsPathsSingleton(QQmlEngine* engine, QJSEngine* scriptEngine) {
   Q_UNUSED(engine);
@@ -41,6 +43,25 @@ void UtilsPlugin::registerTypes(const char *uri)
     qmlRegisterType<QAbstractItemModel>();
     qmlRegisterType<QLimitProxyModelQML>(uri, 0, 1, "LimitProxyModel");
     qmlRegisterType<QSortFilterProxyModelQML>(uri, 0, 1, "SortFilterProxyModel");
+    qmlRegisterType<UnityMenuModelPaths>(uri, 0, 1, "UnityMenuModelPaths");
     qmlRegisterExtendedType<QQuickWindow, UbuntuWindow>(uri, 0, 1, "Window");
     qmlRegisterSingletonType<ApplicationPaths>(uri, 0, 1, "ApplicationPaths", applicationsPathsSingleton);
+}
+
+void UtilsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
+{
+    QQmlExtensionPlugin::initializeEngine(engine, uri);
+
+    try
+    {
+        engine->addImageProvider(QLatin1String("albumart"), new AlbumArtProvider);
+    }
+    catch (const std::runtime_error &e)
+    {
+        qWarning() << "Failed to register image provider for albumart:" << e.what();
+    }
+    catch (...)
+    {
+        qWarning() << "Failed to register image provider for albumart (unknown error)";
+    }
 }

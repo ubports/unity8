@@ -35,6 +35,7 @@ class ApplicationInfo : public ApplicationInfoInterface {
     Q_OBJECT
 
     Q_PROPERTY(bool fullscreen READ fullscreen WRITE setFullscreen NOTIFY fullscreenChanged)
+    Q_PROPERTY(Stage stage READ stage WRITE setStage NOTIFY stageChanged)
 
     // Only exists in this fake implementation
 

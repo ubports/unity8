@@ -79,7 +79,6 @@ class ApplicationLifecycleTests(UnityTestCase):
     def test_can_launch_application(self):
         """Must be able to launch an application."""
         self.launch_unity()
-        self.main_window.get_greeter().swipe()
 
         app = self._launch_app("messaging-app")
 
@@ -93,7 +92,6 @@ class ApplicationLifecycleTests(UnityTestCase):
     def test_can_launch_multiple_applications(self):
         """A second application launched must be focused."""
         self.launch_unity()
-        self.main_window.get_greeter().swipe()
 
         self._launch_app("messaging-app")
         self.assertThat(
@@ -114,7 +112,6 @@ class ApplicationLifecycleTests(UnityTestCase):
 
         """
         self.launch_unity()
-        self.main_window.get_greeter().swipe()
 
         self._launch_app("messaging-app")
         self.assertThat(

@@ -327,6 +327,9 @@ void ListViewWithPageHeader::setForceNoClip(bool noClip)
 
 void ListViewWithPageHeader::positionAtBeginning()
 {
+    if (m_delegateModel->count() <= 0)
+        return;
+
     qreal headerHeight = (m_headerItem ? m_headerItem->height() : 0);
     if (m_firstVisibleIndex != 0) {
         // TODO This could be optimized by trying to reuse the interesection
@@ -485,7 +488,7 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
             // or the header is partially shown and we are not doing a maximizeVisibleArea either
             const bool scrolledUp = m_previousContentY > contentY();
             const bool notRebounding = contentY() + height() < contentHeight();
-            const bool notShownByItsOwn = contentY() + diff > m_headerItem->y() + m_headerItem->height();
+            const bool notShownByItsOwn = contentY() + diff >= m_headerItem->y() + m_headerItem->height();
             const bool maximizeVisibleAreaRunning = m_contentYAnimation->isRunning() && contentYAnimationType == ContentYAnimationMaximizeVisibleArea;
 
             if (!scrolledUp && contentY() == -m_minYExtent) {
@@ -1009,7 +1012,11 @@ void ListViewWithPageHeader::onModelUpdated(const QQmlChangeSet &changeSet, bool
         }
     }
 
+#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
     Q_FOREACH(const QQuickChangeSet::Change &change, changeSet.changes()) {
+#else
+    Q_FOREACH(const QQmlChangeSet::Change &change, changeSet.changes()) {
+#endif
 //         qDebug() << "ListViewWithPageHeader::onModelUpdated Change" << change.index << change.count;
         for (int i = change.index; i < change.count; ++i) {
             ListItem *item = itemAtIndex(i);

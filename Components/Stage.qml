@@ -84,6 +84,11 @@ Showable {
         }
     }
 
+    Connections {
+        target: applicationManager
+        onFocusRequested: activateApplication(appId)
+    }
+
     /* Keep a reference to the focused application so that we can safely
        unfocus it when the stage is not fully shown and refocus it when the stage
        is fully shown again.
@@ -97,7 +102,9 @@ Showable {
         if (shouldUseScreenshots) {
             stage.__focusApplicationUsingScreenshots(stage.focusedApplication);
         } else {
-            stage.__focusActualApplication(stage.focusedApplicationWhenUsingScreenshots);
+            if (stage.focusedApplicationWhenUsingScreenshots) {
+                stage.__focusActualApplication(stage.focusedApplicationWhenUsingScreenshots);
+            }
         }
     }
 
@@ -244,6 +251,7 @@ Showable {
                     */
                     delayedHideScreenshots.start();
                 } else {
+                    stage.focusedApplicationWhenUsingScreenshots = null;
                     stage.__hideScreenshots();
                 }
             }

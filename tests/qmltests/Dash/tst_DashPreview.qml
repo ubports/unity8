@@ -31,15 +31,38 @@ Item {
     DashPreview {
         id: preview
         anchors.fill: parent
-        title: "Testing rocks, debugging sucks!"
 
-        buttons: Row {
+        previewImages: Rectangle {
+            width: parent.width
+            height: units.gu(20)
+            color: "honeydew"
+            Label {
+                anchors.centerIn: parent
+                text: "Preview images"
+            }
+        }
+
+        header: Rectangle {
+            width: parent.width
+            height: units.gu(10)
+            color: "papayawhip"
+            Label {
+                anchors.centerIn: parent
+                text: "Caption label"
+            }
+        }
+
+        actions: Row {
             width: parent.width
             height: units.gu(5)
             Rectangle {
                 width: parent.width / 3
                 height: parent.height
                 color: "blue"
+                Label {
+                    anchors.centerIn: parent
+                    text: "Button 1"
+                }
                 MouseArea {
                     id: buttonMouseArea
                     objectName: "buttonMouseArea"
@@ -51,12 +74,15 @@ Item {
                 width: parent.width / 3
                 height: parent.height
                 color: "green"
+                Label {
+                    anchors.centerIn: parent
+                    text: "Button 2"
+                }
+
             }
         }
 
-        header: Label { text: "Caption label" }
-
-        body: Column {
+        description: Column {
             id: testContent
             objectName: "testContent"
             width: parent.width
@@ -65,16 +91,38 @@ Item {
                 width: parent.width
                 height: parent.height / 3
                 color: "green"
+                Label {
+                    anchors.centerIn: parent
+                    text: "Description part 1"
+                }
             }
             Rectangle {
                 width: parent.width
                 height: parent.height / 3
                 color: "red"
+                Label {
+                    anchors.centerIn: parent
+                    text: "Description part 2"
+                }
             }
             Rectangle {
                 width: parent.width
                 height: parent.height / 3
                 color: "blue"
+                Label {
+                    anchors.centerIn: parent
+                    text: "Description part 3"
+                }
+            }
+        }
+
+        ratings: Rectangle {
+            objectName: "ratings"
+            width: parent.width
+            height: units.gu(20)
+            Label {
+                anchors.centerIn: parent
+                text: "Ratings"
             }
         }
     }
@@ -95,42 +143,41 @@ Item {
         name: "DashPreview"
         when: windowShown
 
-        function test_close() {
-            var title = findChild(preview, "titleLabel")
-            mouseClick(title, 1, 1)
-            compare(closeSpy.count, 1, "Close signal not emitted")
-        }
-
         function test_columns_data() {
             return [
                 {tag: "1 columns", width: units.gu(5), height: units.gu(10), columns: 1},
-                {tag: "2 columns", width: units.gu(50), height: units.gu(10), columns: 2}
+                {tag: "3 columns", width: units.gu(50), height: units.gu(10), columns: 3}
             ]
         }
 
         function test_columns(data) {
             var leftCol = findChild(preview, "leftColumn")
+            var centerCol = findChild(preview, "centerColumn")
             var rightCol = findChild(preview, "rightColumn")
 
             root.width = data.width
             root.height = data.height
 
-            // there are 2 columns in DashPreview. On portrait form factors
-            // only the left one is used and the right one should be empty.
-            // to find out if the content is in the correct column, we get a
+            // there are 3 columns in DashPreview. On portrait form factors
+            // only the left one is used and the center and right ones should be empty.
+            // To find out if the content is in the correct column, we get a
             // reference to the column objects and search only the subtree
             // to see if the content is in the correct column.
-            // 1 colum  -> content should be in leftColumn
-            // 2 colums -> content should be in rightColumn
+            // 1 colum  -> all content should be in leftColumn
+            // 3 colums -> content should be in centerColumn, rating in rightColumn
 
             switch(data.columns) {
             case 1:
                 var testContent = findChild(leftCol, "testContent")
                 compare(testContent.objectName, "testContent")
+                testContent = findChild(leftCol, "ratings")
+                compare(testContent.objectName, "ratings")
                 break
-            case 2:
-                var testContent = findChild(rightCol, "testContent")
+            case 3:
+                var testContent = findChild(centerCol, "testContent")
                 compare(testContent.objectName, "testContent")
+                testContent = findChild(rightCol, "ratings")
+                compare(testContent.objectName, "ratings")
                 break
             }
 

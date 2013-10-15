@@ -16,8 +16,14 @@
 
 import QtQuick 2.0
 import ListViewWithPageHeader 0.1
+import SessionManager 0.1
 
 ListViewWithPageHeader {
     maximumFlickVelocity: height * 10
     flickDeceleration: height * 2
+
+    Connections {
+        target: SessionManager
+        onActiveChanged: if (!SessionManager.active) showHeader()
+    }
 }

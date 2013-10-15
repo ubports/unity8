@@ -1,6 +1,9 @@
+pkg_check_modules(QMENUMODEL REQUIRED qmenumodel)
+
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/../../../../plugins/Unity/Indicators
+    ${QMENUMODEL_INCLUDE_DIRS}
     )
 
 macro(run_tests)
@@ -16,6 +19,7 @@ macro(run_tests)
         qt5_use_modules(${_test}Exec Test Core Qml)
         target_link_libraries(${_test}Exec
             IndicatorsQml
+            ${QMENUMODEL_LDFLAGS}
             )
         set(_test_list "${_test_list};${_test}")
     endforeach()
@@ -25,4 +29,5 @@ run_tests(
     indicatorsmanagertest
     indicatorsmodeltest
     menucontentactivatortest
+    rootactionstatetest
     )
