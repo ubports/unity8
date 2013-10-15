@@ -29,6 +29,8 @@ Showable {
     property real openedHeight: units.gu(71)
     property int panelHeight: units.gu(3)
     property bool pinnedMode: true  //should be set true if indicators menu can cover whole screen
+    property alias overFlowWidth: indicatorRow.overFlowWidth
+    property alias showAll: indicatorRow.showAll
 
     property int hintValue
     readonly property int lockThreshold: openedHeight / 2

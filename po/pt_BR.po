@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-10-01 09:43+0200\n"
+"POT-Creation-Date: 2013-10-11 12:12+0200\n"
 "PO-Revision-Date: 2013-10-01 13:05+0000\n"
 "Last-Translator: Rafael Neri <Unknown>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2013-10-02 06:03+0000\n"
-"X-Generator: Launchpad (build 16774)\n"
+"X-Launchpad-Export-Date: 2013-10-13 05:43+0000\n"
+"X-Generator: Launchpad (build 16799)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -86,7 +86,7 @@ msgstr "Wikipédia"
 msgid "YouTube"
 msgstr "YouTube"
 
-#: Components/EdgeDemoOverlay.qml:150
+#: Components/EdgeDemoOverlay.qml:149
 msgid "Skip intro"
 msgstr "Pular introdução"
 
@@ -134,83 +134,45 @@ msgid ""
 "phone<br><br>Tap anywhere to start"
 msgstr ""
 
-#: Components/PageHeader.qml:298
+#: Components/PageHeader.qml:341
 msgid "Recent searches"
 msgstr "Pesquisas recentes"
 
 #. TRANSLATORS: Number of persons who rated this app
-#: Dash/Apps/AppInfo.qml:73
+#. TRANSLATORS: Number of persons who rated this app/video/whatever
+#: Dash/Apps/AppInfo.qml:73 Dash/Previews/Header.qml:93
 #, qt-format
 msgid "(%1)"
 msgstr "(%1)"
 
 #. TRANSLATORS: Number of persons who wrote reviews for this app
-#: Dash/Apps/AppInfo.qml:85
+#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
+#: Dash/Apps/AppInfo.qml:85 Dash/Previews/Header.qml:105
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
 msgstr[0] "%1 análise"
 msgstr[1] "%1 análises"
 
-#: Dash/Apps/AppPreview.qml:178
+#: Dash/Apps/AppPreview.qml:126
 msgid "Rate this"
 msgstr "Avaliar isto"
 
-#: Dash/Apps/AppReviews.qml:74
+#: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
 msgstr "Adicionar uma análise"
 
-#: Dash/Apps/AppReviews.qml:86
+#: Dash/Previews/Reviews.qml:86
 msgid "Review"
 msgstr "Revisão"
 
-#: Dash/Apps/AppReviews.qml:121
+#: Dash/Previews/Reviews.qml:121
 msgid "Send"
 msgstr "Enviar"
 
-#: Dash/Apps/AppReviews.qml:139
+#: Dash/Previews/Reviews.qml:139
 msgid "Comments:"
 msgstr "Comentários:"
-
-#: Dash/DashMusic.qml:27 Dash/DashVideos.qml:28
-msgid "Featured"
-msgstr "Em destaque"
-
-#: Dash/DashMusic.qml:28 Dash/DashVideos.qml:29
-msgid "Recent"
-msgstr "Recente"
-
-#: Dash/DashMusic.qml:29 Dash/DashVideos.qml:30
-msgid "New Releases"
-msgstr "Lançamentos"
-
-#: Dash/DashMusic.qml:30
-msgid "Top Charting"
-msgstr "Top gráficos"
-
-#: Dash/DashMusic.qml:91
-msgid "Music"
-msgstr "Músicas"
-
-#: Dash/DashVideos.qml:31
-msgid "Popular Online"
-msgstr "Popular Online"
-
-#: Dash/DashVideos.qml:146
-msgid "Videos"
-msgstr "Vídeos"
-
-#: Dash/Video/VideoPreview.qml:130
-msgid "Directed by:"
-msgstr "Realizado por:"
-
-#: Dash/Video/VideoPreview.qml:153
-msgid "Starring:"
-msgstr "Estrelando:"
-
-#: Dash/Video/VideoPreview.qml:176
-msgid "Author:"
-msgstr "Autor:"
 
 #: Greeter/Lockscreen.qml:142
 msgid "Emergency Call"
@@ -249,7 +211,7 @@ msgstr "Falando..."
 msgid "Search"
 msgstr "Pesquisar"
 
-#: plugins/Unity/scope.cpp:336
+#: plugins/Unity/scope.cpp:398
 msgid "Sorry, there is nothing that matches your search."
 msgstr "Desculpe, não há nada que corresponda à sua pesquisa."
 
@@ -257,7 +219,28 @@ msgstr "Desculpe, não há nada que corresponda à sua pesquisa."
 msgid "All"
 msgstr ""
 
-#: Shell.qml:453
+#: Shell.qml:438
 #, qt-format
 msgid "Please enter %1"
 msgstr "Por favor, digite %1"
+
+#~ msgid "Music"
+#~ msgstr "Músicas"
+
+#~ msgid "Videos"
+#~ msgstr "Vídeos"
+
+#~ msgid "New Releases"
+#~ msgstr "Lançamentos"
+
+#~ msgid "Recent"
+#~ msgstr "Recente"
+
+#~ msgid "Featured"
+#~ msgstr "Em destaque"
+
+#~ msgid "Top Charting"
+#~ msgstr "Top gráficos"
+
+#~ msgid "Popular Online"
+#~ msgstr "Popular Online"
