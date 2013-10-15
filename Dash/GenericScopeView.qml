@@ -488,7 +488,9 @@ ScopeView {
                             previewListView.categoryDelegate.currentItem.center + (-width + margins) / 2 : 0
 
             Behavior on leftMargin {
-                UbuntuNumberAnimation {}
+                SmoothedAnimation {
+                    duration: UbuntuAnimation.FastDuration
+                }
             }
         }
         height: units.gu(1)
