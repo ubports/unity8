@@ -158,7 +158,7 @@ Item {
                                                        gapToEndPhase,
                                                        carousel.drawBuffer)
 
-            if (Math.abs(x - contentX) < 1) {
+            if (Math.abs(x - contentX) < 1 && delegateItem !== undefined) {
                 /* We're clicking the selected item and
                    we're in the neighbourhood of radius 1 pixel from it.
                    Let's emit the clicked signal. */
@@ -182,7 +182,7 @@ Item {
                                                        gapToEndPhase,
                                                        carousel.drawBuffer);
 
-            if (Math.abs(x - contentX) < 1) {
+            if (Math.abs(x - contentX) < 1 && delegateItem !== undefined) {
                 /* We're pressAndHold the selected item and
                    we're in the neighbourhood of radius 1 pixel from it.
                    Let's emit the pressAndHold signal. */

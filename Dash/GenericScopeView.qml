@@ -484,7 +484,7 @@ ScopeView {
         anchors {
             top: previewListView.bottom
             left: parent.left
-            leftMargin: previewListView.categoryDelegate.currentItem ?
+            leftMargin: previewListView.categoryDelegate !== undefined && previewListView.categoryDelegate.currentItem ?
                             previewListView.categoryDelegate.currentItem.center + (-width + margins) / 2 : 0
 
             Behavior on leftMargin {
