@@ -162,7 +162,7 @@ Item {
                 /* We're clicking the selected item and
                    we're in the neighbourhood of radius 1 pixel from it.
                    Let's emit the clicked signal. */
-                carousel.clicked(index, listView.model, 0)
+                carousel.clicked(index, listView.model, delegateItem.y)
                 return
             }
 
@@ -186,7 +186,7 @@ Item {
                 /* We're pressAndHold the selected item and
                    we're in the neighbourhood of radius 1 pixel from it.
                    Let's emit the pressAndHold signal. */
-                carousel.pressAndHold(index, listView.model, 0);
+                carousel.pressAndHold(index, listView.model, delegateItem.y);
                 return;
             }
 

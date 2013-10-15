@@ -392,7 +392,6 @@ ScopeView {
             }
             var itemY = categoryView.contentItem.mapFromItem(categoryDelegate.currentItem).y;
             var newContentY = itemY - effect.positionPx - categoryDelegate.verticalSpacing;
-            print("newContentY", newContentY, categoryView.originY);
             var effectAdjust = effect.positionPx;
             if (newContentY < 0) {
                 effectAdjust += newContentY;
@@ -414,7 +413,6 @@ ScopeView {
             if (open) {
                 onScreen = true;
                 categoryDelegate.highlightIndex = currentIndex;
-                newContentY = categoryView.contentY;
             } else {
                 // Cancel any pending preview requests or actions
                 if (previewListView.currentItem.previewData !== undefined) {
