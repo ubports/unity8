@@ -219,8 +219,10 @@ int main(int argc, const char *argv[])
 
         return runWithClient(mirServer, startShell);
     } else {
-        // Emit SIGSTOP as expected by upstart, under Mir it's unity-mir that will raise it.
-        raise(SIGSTOP);
+        if (qgetenv("UPSTART_JOB") == "unity8") {
+            // Emit SIGSTOP as expected by upstart, under Mir it's unity-mir that will raise it.
+            raise(SIGSTOP);
+        }
         return startShell(argc, argv, nullptr);
     }
 }
