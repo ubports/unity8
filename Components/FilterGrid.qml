@@ -66,7 +66,7 @@ Item {
     height: !filterAnimation.running ? childrenRect.height : height
     clip: filterAnimation.running
 
-    SmoothedAnimation {
+    NumberAnimation {
         property bool filterEndValue
         id: filterAnimation
         target: root
@@ -75,7 +75,7 @@ Item {
         // Duration and easing here match the ListViewWithPageHeader::m_contentYAnimation
         // otherwise since both animations can run at the same time you'll get
         // some visual weirdness.
-        velocity: units.gu(100)
+        duration: 200
         easing.type: Easing.InOutQuad
         onStopped: {
             root.filter = filterEndValue;
@@ -104,5 +104,6 @@ Item {
             model: root.model
             limit: (filter && !filterAnimation.running) ? collapsedRowCount * iconTileGrid.columns : -1
         }
+
     }
 }
