@@ -54,6 +54,10 @@ QVariantHash convertToQVariantHash(const unity::glib::HintsMap& var)
     return hash;
 }
 
+/* This will translate uris in the form of:
+ *   "subscope:master.scope/sub.scope?foo=bar"
+ * into a QVariantHash that can be passed as a metadata field to scope.
+ */
 QVariantHash subscopeUriToMetadataHash(const QString &metadata_string)
 {
     QUrl metadata_url(metadata_string);
