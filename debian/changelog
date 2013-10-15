@@ -1,8 +1,50 @@
-unity8 (7.83) UNRELEASED; urgency=low
+unity8 (7.83+13.10.20131015.4-0ubuntu1) saucy; urgency=low
 
+  [ Michał Sawicz ]
   * Replace ubuntu-touch-session's unity8.conf upstart job.
+  * Revert r440 that made the dash collapse animation worse, rather than
+    better.
 
- -- Michał Sawicz <michal.sawicz@canonical.com>  Tue, 15 Oct 2013 01:12:45 +0200
+  [ om26er@ubuntu.com ]
+  * close the app only when the close button is tapped, not the entire
+    thumbnail
+
+  [ Nick Dedekind ]
+  * Added missing Unity.Indicator mock objects causing qmltests to fail.
+    Approved by: Michał Sawicz.
+
+  [ Christopher Lee ]
+  * Launch unity8 for autopilot with upstart, and bring unity8 session
+    over from session-manager-touch.
+
+  [ Pawel Stolowski ]
+  * Temporarily disable category_order changed signal handling.
+
+  [ Daniel d'Andrada ]
+  * OSKController area shouldn't cover the indicators' bar Since ubuntu-
+    keyboard surface area doesn't cover the indicators' bar,
+    OSKController should follow suit. Otherwise the OSKContoller's
+    internal InputFilterArea (and others) wouldn't perfectly overlap the
+    graphical keyboard rendered by ubuntu-keyboard (i.e. the opaque part
+    of ubuntu-keyboard's surface).
+
+  [ Michael Zanetti ]
+  * Initialize initialHeight/Width to height/width depending on scaleTo
+    add checks for initialWidth/Height in the tests change sizes in
+    tests to something else than the default for initialWidth/Height in
+    order to catch failures there more easily
+
+  [ Omer Akram ]
+  * Only show search indicator while the Dash is focued.
+  * Add 2dp left margin for music and video tiles' title.
+
+  [ Nicolas d'Offay ]
+  * Changed Infographics to use Ubuntu font.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 463
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 15 Oct 2013 11:05:04 +0000
 
 unity8 (7.82+13.10.20131011.2-0ubuntu1) saucy; urgency=low
 
