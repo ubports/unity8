@@ -28,6 +28,7 @@
 #include <QDebug>
 #include <libintl.h>
 #include <dlfcn.h>
+#include <csignal>
 
 // local
 #include "paths.h"
@@ -218,6 +219,7 @@ int main(int argc, const char *argv[])
 
         return runWithClient(mirServer, startShell);
     } else {
+        raise(SIGSTOP);
         return startShell(argc, argv, nullptr);
     }
 }
