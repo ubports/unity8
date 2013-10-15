@@ -388,8 +388,15 @@ ScopeView {
             }
 
             if (open) {
+                print("switching to new index", currentIndex)
                 categoryDelegate.highlightIndex = currentIndex
             }
+
+            if (!init && model !== undefined) {
+                var item = model.get(currentIndex)
+                scopeView.scope.preview( item.uri, item.icon, item.category, 0, item.mimetype, item.title, item.comment, item.dndUri, item.metadata)
+            }
+
             var itemY = categoryView.contentItem.mapFromItem(categoryDelegate.currentItem).y;
             var newContentY = itemY - effect.positionPx - categoryDelegate.verticalSpacing;
             var effectAdjust = effect.positionPx;
