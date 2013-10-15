@@ -17,6 +17,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QUrl>
+#include <QUrlQuery>
+#include <QStringList>
+
 #include <deelistmodel.h>
 #include "variantutils.h"
 
@@ -48,4 +52,27 @@ QVariantHash convertToQVariantHash(const unity::glib::HintsMap& var)
         hash.insert(QString::fromStdString(hint.first), DeeListModel::VariantForData(hint.second));
     }
     return hash;
+}
+
+QVariantHash subscopeUriToMetadataHash(const QString &metadata_string)
+{
+    QUrl metadata_url(metadata_string);
+    if (metadata_url.scheme() == QLatin1String("subscope")) {
+        QString subscope_uri(metadata_url.toString(QUrl::RemoveScheme | QUrl::RemoveQuery));
+        QVariantHash new_metadata;
+        QUrlQuery query(metadata_url.query());
+        QList<QPair<QString,QString>> queryItems(query.queryItems());
+        for (auto it = queryItems.begin(); it != queryItems.end(); ++it) {
+            new_metadata[it->first] = QVariant::fromValue(it->second);
+        }
+        QStringList parts(subscope_uri.split(QChar('/')));
+        for (int i = parts.size() - 1; i >= 0; i--) {
+            QVariantHash inner;
+            inner["scope-id"] = QVariant::fromValue(parts[i]);
+            inner["content"] = QVariant::fromValue(new_metadata);
+            new_metadata = inner;
+        }
+        return new_metadata;
+    }
+    return QVariantHash();
 }

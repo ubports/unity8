@@ -207,24 +207,7 @@ void Scope::preview(const QVariant &uri, const QVariant &icon_hint, const QVaria
     QVariant real_metadata(metadata);
     // handle overridden results, since QML doesn't support defining maps
     if (metadata.type() == QVariant::String) {
-        QUrl metadata_url(metadata.toString());
-        if (metadata_url.scheme() == QLatin1String("subscope")) {
-            QString subscope_uri(metadata_url.toString(QUrl::RemoveScheme | QUrl::RemoveQuery));
-            QVariantHash new_metadata;
-            QUrlQuery query(metadata_url.query());
-            QList<QPair<QString,QString>> queryItems(query.queryItems());
-            for (auto it = queryItems.begin(); it != queryItems.end(); ++it) {
-                new_metadata[it->first] = QVariant::fromValue(it->second);
-            }
-            QStringList parts(subscope_uri.split(QChar('/')));
-            for (int i = parts.size() - 1; i >= 0; i--) {
-                QVariantHash inner;
-                inner["scope-id"] = QVariant::fromValue(parts[i]);
-                inner["content"] = QVariant::fromValue(new_metadata);
-                new_metadata = inner;
-            }
-            real_metadata = QVariant::fromValue(new_metadata);
-        }
+        real_metadata = QVariant::fromValue(subscopeUriToMetadataHash(metadata.toString()));
     }
 
     auto res = createLocalResult(uri, icon_hint, category, result_type, mimetype, title, comment, dnd_uri, real_metadata);

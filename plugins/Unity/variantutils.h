@@ -28,6 +28,7 @@
 
 unity::glib::HintsMap convertToHintsMap(const QHash<QString, QVariant> &val);
 unity::glib::HintsMap convertToHintsMap(const QVariant &var);
-QVariantHash convertToQVariantHash(const unity::glib::HintsMap& var);
+QVariantHash convertToQVariantHash(const unity::glib::HintsMap &var);
+QVariantHash subscopeUriToMetadataHash(const QString &metadata_string);
 
 #endif
