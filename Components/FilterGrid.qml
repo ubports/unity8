@@ -104,6 +104,5 @@ Item {
             model: root.model
             limit: (filter && !filterAnimation.running) ? collapsedRowCount * iconTileGrid.columns : -1
         }
-
     }
 }
