@@ -381,42 +381,30 @@ ScopeView {
         // when the first preview is ready to be displayed.
         property bool init: true
 
-        // Used internally
-        property int oldRow: -1
-        property bool categoryWasFiltered: false
-        property int initialContenY: 0
-
         onCurrentIndexChanged: {
             var row = Math.floor(currentIndex / categoryDelegate.columns);
             if (categoryDelegate.collapsedRowCount <= row) {
                 categoryView.expandedCategoryId = categoryId
             }
-            if (!init && model !== undefined) {
-                var item = model.get(currentIndex)
-                scopeView.scope.preview( item.uri, item.icon, item.category, 0, item.mimetype, item.title, item.comment, item.dndUri, item.metadata)
-                if (oldRow != -1) {
-                    if (row < oldRow) {
-                        var effectMove = 0;
-                        if (categoryView.contentY - categoryDelegate.cellHeight < 0) {
-                            effectMove = categoryDelegate.cellHeight - categoryView.contentY;
-                            effect.positionPx -= effectMove;
-                        }
-                        categoryView.contentY -= categoryDelegate.cellHeight - effectMove;
-                    } else if (row > oldRow){
-                        var effectMove = 0;
-                        if (categoryView.contentY + categoryDelegate.cellHeight > categoryView.contentHeight - categoryView.height) {
-                            effectMove = (categoryView.contentY + categoryDelegate.cellHeight) - (categoryView.contentHeight - categoryView.height);
-                            effect.positionPx += effectMove;
-                        }
-                        categoryView.contentY += categoryDelegate.cellHeight - effectMove
-                    }
-                }
-            }
-            oldRow = row;
 
             if (open) {
                 categoryDelegate.highlightIndex = currentIndex
             }
+            var itemY = categoryView.contentItem.mapFromItem(categoryDelegate.currentItem).y;
+            var newContentY = itemY - effect.positionPx - categoryDelegate.verticalSpacing;
+            print("newContentY", newContentY, categoryView.originY);
+            var effectAdjust = effect.positionPx;
+            if (newContentY < 0) {
+                effectAdjust += newContentY;
+                newContentY = 0;
+            }
+            if (newContentY > categoryView.contentHeight - categoryView.height) {
+                effectAdjust += -(categoryView.contentHeight - categoryView.height) + newContentY
+                newContentY = categoryView.contentHeight - categoryView.height;
+            }
+
+            effect.positionPx = effectAdjust;
+            categoryView.contentY = newContentY;
         }
 
         property bool open: false
@@ -426,6 +414,7 @@ ScopeView {
             if (open) {
                 onScreen = true;
                 categoryDelegate.highlightIndex = currentIndex;
+                newContentY = categoryView.contentY;
             } else {
                 // Cancel any pending preview requests or actions
                 if (previewListView.currentItem.previewData !== undefined) {

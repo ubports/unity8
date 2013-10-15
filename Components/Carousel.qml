@@ -49,6 +49,8 @@ Item {
     property alias highlightIndex: listView.highlightIndex
     /// exposes the delegate of the currentItem
     readonly property alias currentItem: listView.currentItem
+    /// exposes the distance to the next row (only one row in carousel, so it's the topMargins
+    readonly property alias verticalSpacing: listView.verticalMargin
 
     /// Emitted when the user clicked on an item
     /// @param index is the index of the clicked item
@@ -160,7 +162,7 @@ Item {
                 /* We're clicking the selected item and
                    we're in the neighbourhood of radius 1 pixel from it.
                    Let's emit the clicked signal. */
-                carousel.clicked(index, listView.model, delegateItem.y)
+                carousel.clicked(index, listView.model, 0)
                 return
             }
 
@@ -184,7 +186,7 @@ Item {
                 /* We're pressAndHold the selected item and
                    we're in the neighbourhood of radius 1 pixel from it.
                    Let's emit the pressAndHold signal. */
-                carousel.pressAndHold(index, listView.model, delegateItem.y);
+                carousel.pressAndHold(index, listView.model, 0);
                 return;
             }
 
