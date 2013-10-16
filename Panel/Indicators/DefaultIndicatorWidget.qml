@@ -24,7 +24,7 @@ import Unity.Indicators 0.1 as Indicators
 Indicators.IndicatorWidget {
     id: indicatorWidget
 
-    width: itemRow.width + units.gu(0.5)
+    width: itemRow.width
 
     property alias leftLabel: itemLeftLabel.text
     property alias rightLabel: itemRightLabel.text
@@ -32,16 +32,17 @@ Indicators.IndicatorWidget {
 
     Row {
         id: itemRow
+        width: childrenRect.width
         objectName: "itemRow"
         anchors {
             top: parent.top
             bottom: parent.bottom
             horizontalCenter: parent.horizontalCenter
         }
-        spacing: units.gu(0.5)
 
         Label {
             id: itemLeftLabel
+            width: guRoundUp(implicitWidth)
             objectName: "leftLabel"
             color: Theme.palette.selected.backgroundText
             opacity: 0.8
@@ -57,25 +58,35 @@ Indicators.IndicatorWidget {
                 top: parent.top
                 bottom: parent.bottom
             }
-            spacing: units.gu(0.5)
 
             Repeater {
                 model: indicatorWidget.icons
 
-                Image {
-                    id: itemImage
-                    objectName: "itemImage"
-                    visible: source != ""
-                    source: modelData
+                Item {
+                    width: guRoundUp(itemImage.width)
                     height: indicatorWidget.iconSize
-                    width: indicatorWidget.iconSize
-                    anchors.verticalCenter: parent.verticalCenter
+
+                    Image {
+                        id: itemImage
+                        objectName: "itemImage"
+                        visible: source != ""
+                        source: modelData
+                        height: parent.height
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        fillMode: Image.PreserveAspectFit
+
+                        sourceSize {
+                            width: indicatorWidget.iconSize
+                            height: indicatorWidget.iconSize
+                        }
+                    }
                 }
             }
         }
 
         Label {
             id: itemRightLabel
+            width: guRoundUp(implicitWidth)
             objectName: "rightLabel"
             color: Theme.palette.selected.backgroundText
             opacity: 0.8
@@ -84,6 +95,16 @@ Indicators.IndicatorWidget {
             anchors.verticalCenter: parent.verticalCenter
             visible: text != ""
         }
+    }
+
+    function guRoundUp(width) {
+        if (width == 0) {
+            return 0;
+        }
+        var gu1 = units.gu(1.0);
+        var mod = (width % gu1);
+
+        return mod == 0 ? width : width + (gu1 - mod);
     }
 
     onRootActionStateChanged: {
