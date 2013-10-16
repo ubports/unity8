@@ -23,6 +23,7 @@
 
 #include "resultstest.h"
 #include "categoryresults.h"
+#include "variantutils.h"
 
 static DeeModel* createBackendModel()
 {
@@ -191,6 +192,57 @@ void ResultsTest::testSpecialIcons()
     auto index = results->index(0, 0); // there's just one result
     auto transformedIcon = index.data(CategoryResults::Roles::RoleIconHint).toString();
     QCOMPARE(transformedIcon, result);
+}
+
+void ResultsTest::testMetadataOverride_data()
+{
+    QTest::addColumn<QString>("uri");
+    QTest::addColumn<QVariantHash>("result");
+
+    QVariantHash expected_result;
+    QVariantHash inner_hash;
+
+    expected_result = QVariantHash();
+    expected_result["scope-id"] = QVariant::fromValue(QString("applications.scope"));
+    expected_result["content"] = QVariant::fromValue(QVariantHash());
+
+    QTest::newRow("single scope") << "subscope:applications.scope" << expected_result;
+
+    expected_result = QVariantHash();
+    expected_result["scope-id"] = QVariant::fromValue(QString("applications.scope"));
+    inner_hash = QVariantHash();
+    inner_hash["foo"] = QVariant::fromValue(QString("bar"));
+    inner_hash["qoo"] = QVariant::fromValue(QString("baz"));
+    expected_result["content"] = QVariant::fromValue(inner_hash);
+
+    QTest::newRow("single scope with data") << "subscope:applications.scope?foo=bar&qoo=baz" << expected_result;
+
+    expected_result = QVariantHash();
+    inner_hash = QVariantHash();
+    inner_hash["scope-id"] = QVariant::fromValue(QString("applications-local.scope"));
+    inner_hash["content"] = QVariant::fromValue(QVariantHash());
+    expected_result["scope-id"] = QVariant::fromValue(QString("applications.scope"));
+    expected_result["content"] = QVariant::fromValue(inner_hash);
+    QTest::newRow("master scope") << "subscope:applications.scope/applications-local.scope" << expected_result;
+
+    expected_result = QVariantHash();
+    expected_result["foo"] = QVariant::fromValue(QString("baz"));
+    expected_result["qoo"] = QVariant::fromValue(QString("baz"));
+    inner_hash = QVariantHash();
+    inner_hash["scope-id"] = QVariant::fromValue(QString("applications-local.scope"));
+    inner_hash["content"] = QVariant::fromValue(expected_result);
+    expected_result = QVariantHash();
+    expected_result["scope-id"] = QVariant::fromValue(QString("applications.scope"));
+    expected_result["content"] = QVariant::fromValue(inner_hash);
+    QTest::newRow("nested with data") << "subscope:applications.scope/applications-local.scope?foo=baz&qoo=baz" << expected_result;
+}
+
+void ResultsTest::testMetadataOverride()
+{
+    QFETCH(QString, uri);
+    QFETCH(QVariantHash, result);
+
+    QCOMPARE(subscopeUriToMetadataHash(uri), result);
 }
 
 QTEST_MAIN(ResultsTest)

@@ -195,9 +195,9 @@ Item {
                 !runningApplicationsGrid.terminationModeEnabled
         }
 
-        // While on termination mode, clicking a running application tile causes the
-        // corresponding application to be terminated.
-        function test_clickTileToTerminateApp() {
+        // While on termination mode, clicking a running application tile, outside of
+        // the close icon should do nothing
+        function test_clickTileNotClose() {
             runningApplicationsGrid.terminationModeEnabled = true
 
             var calendarTile = findChild(runningApplicationsGrid, "runningAppTile Calendar")
@@ -207,10 +207,30 @@ Item {
 
             mouseClick(calendarTile, calendarTile.width/2, calendarTile.height/2)
 
+            verify(fakeRunningAppsModel.contains("calendar"))
+
+            // The tile for the Calendar app should stay there
+            tryCompareFunction(checkCalendarTileExists, true)
+        }
+
+        // While in termination mode, clicking on a running application tile's close icon
+        // causes the corresponding application to be terminated
+        function test_clickCloseIconToTerminateApp() {
+            runningApplicationsGrid.terminationModeEnabled = true
+
+            var calendarTile = findChild(runningApplicationsGrid, "runningAppTile Calendar")
+            var calendarTileCloseButton = findChild(runningApplicationsGrid, "closeIcon Calendar")
+
+            verify(calendarTile != undefined)
+            verify(calendarTileCloseButton != undefined)
+            verify(fakeRunningAppsModel.contains("calendar"))
+
+            mouseClick(calendarTileCloseButton, calendarTileCloseButton.width/2, calendarTileCloseButton.height/2)
+
             verify(!fakeRunningAppsModel.contains("calendar"))
 
             // The tile for the Calendar app should eventually vanish since the
-            // application has been terminated
+            // application has been terminated.
             tryCompareFunction(checkCalendarTileExists, false)
         }
 
