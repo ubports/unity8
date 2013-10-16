@@ -1,11 +1,29 @@
-import subprocess
+# -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
+#
+# Unity Autopilot Utilities
+# Copyright (C) 2013 Canonical
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
 
 from autopilot.introspection import (
     get_proxy_object_for_existing_process,
     ProcessSearchError,
 )
-from unity8.shell.emulators.main_window import MainWindow
+import subprocess
 from unity8.shell.emulators import UnityEmulatorBase
+from unity8.shell.emulators.main_window import MainWindow
 
 
 class CannotAccessUnity(Exception):
@@ -40,15 +58,24 @@ def unlock_unity():
     except ProcessSearchError as e:
         raise CannotAccessUnity(
             "Cannot introspect unity, make sure that it has been started "
-            "with 'testability' (%s)" % e.message
+            "with testability. Perhaps use the function "
+            "'restart_unity_with_testability' this module provides."
+            "(%s)"
+            % str(e)
         )
 
 
 def restart_unity_with_testability():
+    """Restarts (or just starts) unity8 with the testability driver loaded
+
+    :raises: subprocess.CalledProcessError if unable to stop or start the
+      unity8 upstart job.
+
+    """
     status = _get_unity_status()
     if "start/" in status:
         try:
-            print "Stopping unity."
+            print("Stopping unity.")
             subprocess.check_call([
                 'initctl',
                 'stop',
@@ -59,7 +86,7 @@ def restart_unity_with_testability():
             raise
 
     try:
-        print "Stopping unity with testability."
+        print("Starting unity with testability.")
         subprocess.check_call([
             'initctl',
             'start',
@@ -79,7 +106,7 @@ def _get_unity_status():
             'unity8'
         ])
     except subprocess.CalledProcessError as e:
-        raise CannotAccessUnity("Unable to get unity's status: %s" % e.message)
+        raise CannotAccessUnity("Unable to get unity's status: %s" % str(e))
 
 
 def _get_unity_pid():
