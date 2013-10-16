@@ -73,9 +73,9 @@ Item {
                 previewLoader.source = "../../../Dash/Generic/GenericPreview.qml";
                 previewLoader.item.showProcessingAction = true;
                 var waitingForAction = findChild(genericScopeView, "waitingForActionMouseArea");
-                tryCompare(waitingForAction, "visible", true);
+                tryCompare(waitingForAction, "enabled", true);
                 previewLoader.closePreviewSpinner();
-                tryCompare(waitingForAction, "visible", false);
+                tryCompare(waitingForAction, "enabled", false);
             }
         }
     }
