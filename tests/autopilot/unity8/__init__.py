@@ -84,20 +84,16 @@ def get_binary_path(binary="unity8"):
     return binary_path
 
 def get_data_dirs():
-    """Prepend a local path to XDG_DATA_DIRS."""
+    """Prepend a mock data path to XDG_DATA_DIRS."""
+    data_path = os.path.abspath(
+        os.path.join(os.path.dirname(__file__),
+            running_installed_tests() and "../share/unity8/mocks/data" or "../../mocks/data"
+    ))
     xdg_path = os.getenv("XDG_DATA_DIRS")
-    if running_installed_tests():
-        return xdg_path or ""
+    if xdg_path:
+        return "{0}:{1}".format(data_path, xdg_path)
     else:
-        data_path = os.path.abspath(
-            os.path.join(os.path.dirname(__file__),
-                "../share"
-            )
-        )
-        if xdg_path:
-            return "{0}:{1}".format(data_path, xdg_path)
-        else:
-            return data_path
+        return data_path
 
 def get_grid_size():
     grid_size = os.getenv('GRID_UNIT_PX')
