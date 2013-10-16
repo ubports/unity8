@@ -368,7 +368,7 @@ Item {
                             var yOffset = draggedIndex > 0 ? (mouseY + launcherListView.realContentY) % (draggedIndex * launcherListView.realItemHeight) : mouseY + launcherListView.realContentY
 
                             fakeDragItem.iconName = launcherListView.model.get(draggedIndex).icon
-                            fakeDragItem.x = 0
+                            fakeDragItem.x = units.gu(0.5)
                             fakeDragItem.y = mouseY - yOffset + launcherListView.anchors.topMargin + launcherListView.topMargin
                             fakeDragItem.angle = selectedItem.angle * (root.inverted ? -1 : 1)
                             fakeDragItem.offset = selectedItem.offset * (root.inverted ? -1 : 1)
