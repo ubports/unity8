@@ -46,7 +46,10 @@ MouseArea {
     CrossFadeImage {
         id: wallpaper
         objectName: "wallpaper"
-        anchors.fill: parent
+        anchors {
+            fill: parent
+            topMargin: -panel.panelHeight
+        }
         fillMode: Image.PreserveAspectCrop
     }
 
