@@ -20,19 +20,20 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Unity.Indicators 0.1
 
 HeroMessage {
     id: __heroMessage
 
     property string title: ""
-    property string time: ""
+    property var time
     property string message: ""
 
     property alias footer: footerLoader.sourceComponent
 
     expandedHeight: fullMessage.y + fullMessage.height + units.gu(2)
     heroMessageHeader.titleText.text: title
-    heroMessageHeader.subtitleText.text: time
+    heroMessageHeader.subtitleText.text: timeFormatter.timeString
     heroMessageHeader.bodyText.text: message
 
     Item {
@@ -48,6 +49,12 @@ HeroMessage {
         height: childrenRect.height
         opacity: 0.0
         enabled: false
+
+        TimeFormatter {
+            id: timeFormatter
+            time: __heroMessage.time
+            format: "hh:mm - MMM dd"
+        }
 
         Label {
             id: bodyText
