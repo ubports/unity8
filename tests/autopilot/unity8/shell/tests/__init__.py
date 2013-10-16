@@ -41,7 +41,7 @@ from unity8 import (
     get_binary_path,
     get_mocks_library_path,
     get_default_extra_mock_libraries,
-    get_data_path
+    get_data_dirs
 )
 from unity8.shell.emulators import UnityEmulatorBase
 from unity8.shell.emulators.dash import Dash
@@ -122,7 +122,7 @@ class UnityTestCase(AutopilotTestCase):
         self._lightdm_mock_type = None
         self._qml_mock_enabled = True
         self._environment = {
-            'XDG_DATA_HOME': get_data_path()
+            'XDG_DATA_DIRS': get_data_dirs()
         }
 
         #### FIXME: This is a work around re: lp:1238417 ####

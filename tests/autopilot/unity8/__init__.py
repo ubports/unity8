@@ -83,16 +83,21 @@ def get_binary_path(binary="unity8"):
             raise RuntimeError("Unable to locate %s binary: %r" % (binary, e))
     return binary_path
 
-def get_data_path():
-    """Return the path to XDG_DATA_HOME."""
+def get_data_dirs():
+    """Prepend a local path to XDG_DATA_DIRS."""
+    xdg_path = os.getenv("XDG_DATA_DIRS")
     if running_installed_tests():
-        return ""
+        return xdg_path or ""
     else:
-        return os.path.abspath(
+        data_path = os.path.abspath(
             os.path.join(os.path.dirname(__file__),
                 "../share"
             )
         )
+        if xdg_path:
+            return "{0}:{1}".format(data_path, xdg_path)
+        else:
+            return data_path
 
 def get_grid_size():
     grid_size = os.getenv('GRID_UNIT_PX')
