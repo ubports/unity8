@@ -52,7 +52,11 @@ def get_mocks_library_path():
     if running_installed_tests():
         mock_path = "qml/mocks/"
     else:
-        mock_path = "../lib/x86_64-linux-gnu/unity8/qml/mocks/"
+        mock_path = os.path.join(
+            "../lib/",
+            sysconfig.get_config_var('MULTIARCH'),
+            "/unity8/qml/mocks/"
+        )
     lib_path = get_lib_path()
     ld_library_path = os.path.abspath(
         os.path.join(
@@ -83,6 +87,17 @@ def get_binary_path(binary="unity8"):
             raise RuntimeError("Unable to locate %s binary: %r" % (binary, e))
     return binary_path
 
+def get_data_dirs():
+    """Prepend a mock data path to XDG_DATA_DIRS."""
+    data_path = os.path.abspath(
+        os.path.join(os.path.dirname(__file__),
+            running_installed_tests() and "/usr/share/unity8/mocks/data" or "../../mocks/data"
+    ))
+    xdg_path = os.getenv("XDG_DATA_DIRS")
+    if xdg_path:
+        return "{0}:{1}".format(data_path, xdg_path)
+    else:
+        return data_path
 
 def get_grid_size():
     grid_size = os.getenv('GRID_UNIT_PX')
