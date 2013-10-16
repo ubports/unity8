@@ -1,3 +1,18 @@
+unity8 (7.83+13.10.20131016-0ubuntu1) saucy; urgency=low
+
+  [ Loïc Minier ]
+  * Add upstart job to copy unity8 to a new tmpfs, setcap it, and bind-
+    mount it back; this is an ugly hack to set CAP_SYS_RESOURCE until we
+    have a root-helper for it.
+
+  [ Michal Hruby ]
+  * Enable definition of scope back references in overridden results.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 466
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 16 Oct 2013 11:29:52 +0000
+
 unity8 (7.83+13.10.20131015.4-0ubuntu1) saucy; urgency=low
 
   [ Michał Sawicz ]
