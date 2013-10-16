@@ -21,6 +21,7 @@ import Unity 0.1
 import Unity.Launcher 0.1
 import Ubuntu.Components.Popups 0.1
 import "../Components/ListItems"
+import "../Components/"
 
 Item {
     id: root
@@ -28,10 +29,10 @@ Item {
     rotation: inverted ? 180 : 0
 
     property var model
-    property bool inverted: true
+    property bool inverted: false
     property bool dragging: false
     property bool moving: launcherListView.moving || launcherListView.flicking
-    property bool preventHiding: moving || dndArea.draggedIndex >= 0 || dndArea.quickListPopover !== null || dndArea.pressed
+    property bool preventHiding: moving || dndArea.draggedIndex >= 0 || quickList.state === "open" || dndArea.pressed
     property int highlightIndex: -1
 
     signal applicationSelected(string appId)
@@ -278,7 +279,6 @@ Item {
                         property bool postDragging: false
                         property int startX
                         property int startY
-                        property var quickListPopover: null
 
                         onPressed: {
                             selectedItem = launcherListView.itemAt(mouseX, mouseY + launcherListView.realContentY)
@@ -357,11 +357,10 @@ Item {
                             draggedIndex = Math.floor((mouseY + launcherListView.realContentY) / launcherListView.realItemHeight);
 
                             // Opening QuickList
-                            var quickListModel = launcherListView.model.get(draggedIndex).quickList
-                            var quickListAppId = launcherListView.model.get(draggedIndex).appId
-
-                            quickListPopover = PopupUtils.open(popoverComponent, selectedItem,
-                                                               {model: quickListModel, appId: quickListAppId})
+                            quickList.item = selectedItem;
+                            quickList.model = launcherListView.model.get(draggedIndex).quickList;
+                            quickList.appId = launcherListView.model.get(draggedIndex).appId;
+                            quickList.state = "open";
 
                             launcherListView.interactive = false
 
@@ -387,7 +386,7 @@ Item {
                                     var distance = Math.max(Math.abs(mouseX - startX), Math.abs(mouseY - startY))
                                     if (!preDragging && distance > units.gu(1.5)) {
                                         preDragging = true;
-                                        PopupUtils.close(quickListPopover)
+                                        quickList.state = "";
                                     }
                                     if (distance > launcherListView.itemHeight) {
                                         selectedItem.dragging = true
@@ -482,53 +481,93 @@ Item {
         }
     }
 
-    Component {
-        id: popoverComponent
+    UbuntuShapeForItem {
+        id: quickListShape
+        objectName: "quickListShape"
+        anchors.fill: quickList
+        opacity: quickList.state === "open" ? 0.8 : 0
+        visible: opacity > 0
 
-        Popover {
-            id: popover
-            property var model
-            property string appId
-            contentWidth: quickListColumn.width
-            foregroundStyle: QuicklistForegroundStyle {}
+        Behavior on opacity {
+            UbuntuNumberAnimation {}
+        }
 
-            // FIXME: There's a bug in the Popover positioning that it covers the item in case it is rotated.
-            // https://bugs.launchpad.net/ubuntu-ui-toolkit/+bug/1204470
-            // For now, let's move the Popover around with callerMargin.
-            // Remove popupMargin once the bug is fixed.
-            property int popupMargin: root.inverted ? launcherListView.itemHeight : 0;
+        image: quickList
 
-            callerMargin: units.gu(1) + popupMargin
+        Image {
+            anchors {
+                right: parent.left
+                rightMargin: -units.dp(4)
+                verticalCenter: parent.verticalCenter
+                verticalCenterOffset: -quickList.offset
+            }
+            height: units.gu(1)
+            width: units.gu(2)
+            source: "graphics/quicklist_tooltip.png"
+            rotation: 90
+        }
 
-            Column {
-                id: quickListColumn
-                width: units.gu(30)
-                height: childrenRect.height
+        InverseMouseArea {
+            anchors.fill: parent
+            enabled: quickList.state == "open"
+            onClicked: {
+                quickList.state = ""
+            }
+        }
 
-                Repeater {
-                    id: popoverRepeater
-                    model: popover.model
+    }
 
-                    ListItems.Standard {
-                        objectName: "quickListEntry" + index
-                        text: (model.clickable ? "" : "<b>") + model.label + (model.clickable ? "" : "</b>")
-                        highlightWhenPressed: model.clickable
+    Rectangle {
+        id: quickList
+        objectName: "quickList"
+        color: "#221e1c"
+        width: units.gu(30)
+        height: quickListColumn.height
+        anchors {
+            left: root.inverted ? undefined : parent.right
+            right: root.inverted ? parent.left : undefined
+            margins: units.gu(1)
 
-                        // FIXME: This is a workaround for the theme not being context sensitive. I.e. the
-                        // ListItems don't know that they are sitting in a themed Popover where the color
-                        // needs to be inverted.
-                        __foregroundColor: Theme.palette.selected.backgroundText
+        }
+        y: itemCenter - (height / 2) + offset
 
-                        onClicked: {
-                            if (!model.clickable) {
-                                return;
-                            }
-                            PopupUtils.close(popover);
-                            // Unsetting model to prevent showing changing entries during fading out
-                            // that may happen because of triggering an action.
-                            LauncherModel.quickListActionInvoked(appId, index);
-                            popoverRepeater.model = undefined;
+        property var model
+        property string appId
+        property var item
+
+        // internal
+        property int itemCenter: item ? root.mapFromItem(quickList.item).y + (item.height / 2) : units.gu(1)
+        property int offset: itemCenter + (height/2) + units.gu(1) > parent.height ? -itemCenter - (height/2) - units.gu(1) + parent.height :
+                             itemCenter - (height/2) < units.gu(1) ? (height/2) - itemCenter + units.gu(1) : 0
+
+        Column {
+            id: quickListColumn
+            width: parent.width
+            height: childrenRect.height
+
+            Repeater {
+                id: popoverRepeater
+                model: quickList.model
+
+                ListItems.Standard {
+                    objectName: "quickListEntry" + index
+                    text: (model.clickable ? "" : "<b>") + model.label + (model.clickable ? "" : "</b>")
+                    highlightWhenPressed: model.clickable
+
+                    // FIXME: This is a workaround for the theme not being context sensitive. I.e. the
+                    // ListItems don't know that they are sitting in a themed Popover where the color
+                    // needs to be inverted.
+                    __foregroundColor: Theme.palette.selected.backgroundText
+
+                    onClicked: {
+                        if (!model.clickable) {
+                            return;
                         }
+                        quickList.state = "";
+                        // Unsetting model to prevent showing changing entries during fading out
+                        // that may happen because of triggering an action.
+                        LauncherModel.quickListActionInvoked(quickList.appId, index);
+                        quickList.model = undefined;
                     }
                 }
             }
