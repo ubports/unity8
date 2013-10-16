@@ -29,7 +29,7 @@ Item {
     rotation: inverted ? 180 : 0
 
     property var model
-    property bool inverted: false
+    property bool inverted: true
     property bool dragging: false
     property bool moving: launcherListView.moving || launcherListView.flicking
     property bool preventHiding: moving || dndArea.draggedIndex >= 0 || quickList.state === "open" || dndArea.pressed
@@ -487,6 +487,7 @@ Item {
         anchors.fill: quickList
         opacity: quickList.state === "open" ? 0.8 : 0
         visible: opacity > 0
+        rotation: root.rotation
 
         Behavior on opacity {
             UbuntuNumberAnimation {}
@@ -530,6 +531,7 @@ Item {
 
         }
         y: itemCenter - (height / 2) + offset
+        rotation: root.rotation
 
         property var model
         property string appId
