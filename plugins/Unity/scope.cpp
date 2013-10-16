@@ -228,6 +228,7 @@ void Scope::cancelActivation()
 
 void Scope::onActivated(unity::dash::LocalResult const& result, unity::dash::ScopeHandledType type, unity::glib::HintsMap const& hints)
 {
+    Q_EMIT activated();
     // note: we will not get called on SHOW_PREVIEW, instead UnityCore will signal preview_ready.
     switch (type)
     {
@@ -261,6 +262,7 @@ void Scope::onActivated(unity::dash::LocalResult const& result, unity::dash::Sco
 
 void Scope::onPreviewReady(unity::dash::LocalResult const& /* result */, unity::dash::Preview::Ptr const& preview)
 {
+    Q_EMIT activated();
     auto prv = Preview::newFromUnityPreview(preview);
     // is this the best solution? QML may need to keep more than one preview instance around, so we can't own it.
     // passing it by value is not possible.

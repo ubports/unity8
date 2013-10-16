@@ -59,6 +59,7 @@ ScopeView {
         target: scopeView.scope
         onShowDash: previewLoader.open = false;
         onHideDash: previewLoader.open = false;
+        onActivated: previewLoader.closePreviewSpinner();
     }
 
     ScopeListView {
@@ -344,6 +345,12 @@ ScopeView {
 
         onLoaded: {
             item.previewData = Qt.binding(function() { return previewLoader.previewData })
+        }
+
+        function closePreviewSpinner() {
+            if(item) {
+                item.showProcessingAction = false;
+            }
         }
     }
 
