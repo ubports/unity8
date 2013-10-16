@@ -1,3 +1,21 @@
+unity8 (7.83+13.10.20131016.2-0ubuntu1) saucy; urgency=low
+
+  [ Loïc Minier ]
+  * Merge ~lool/unity8/drop-setcap-conf. Drop unity8-setcap.conf as this
+    breaks desktop installs (no boot-hook event is emitted, boot
+    stalls); add maintscript snippet to rm_conffile on upgrades; this
+    boot-hook is now shipped under a different name in lxc-android-
+    config.
+
+  [ Michał Sawicz ]
+  * Ship a camera-app.desktop file and use a custom XDG_DATA_DIRS for
+    testing.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 472
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 16 Oct 2013 23:15:48 +0000
+
 unity8 (7.83+13.10.20131016.1-0ubuntu1) saucy; urgency=low
 
   [ Diego Sarmentero ]
