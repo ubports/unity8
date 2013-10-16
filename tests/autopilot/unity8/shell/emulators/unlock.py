@@ -44,15 +44,46 @@ def unlock_unity():
         )
 
 
-def _get_unity_pid():
+def restart_unity_with_testability():
+    status = _get_unity_status()
+    if "start/" in status:
+        try:
+            print "Stopping unity."
+            subprocess.check_call([
+                'initctl',
+                'stop',
+                'unity8',
+            ])
+        except subprocess.CalledProcessError as e:
+            e.args += ("Failed to stop running instance of unity8", )
+            raise
+
     try:
-        status = subprocess.check_output([
+        print "Stopping unity with testability."
+        subprocess.check_call([
+            'initctl',
+            'start',
+            'unity8',
+            'QT_LOAD_TESTABILITY=1',
+        ])
+    except subprocess.CalledProcessError as e:
+        e.args += ("Failed to start unity8 with testability ", )
+        raise
+
+
+def _get_unity_status():
+    try:
+        return subprocess.check_output([
             'initctl',
             'status',
             'unity8'
         ])
-        if not "start/" in status:
-            raise CannotAccessUnity("Unity is not in the running state.")
-        return int(status.split()[-1])
     except subprocess.CalledProcessError as e:
         raise CannotAccessUnity("Unable to get unity's status: %s" % e.message)
+
+
+def _get_unity_pid():
+    status = _get_unity_status()
+    if not "start/" in status:
+        raise CannotAccessUnity("Unity is not in the running state.")
+    return int(status.split()[-1])
