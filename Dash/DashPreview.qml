@@ -22,7 +22,7 @@ Rectangle {
 
     property int keyboardSize: Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.height : 0
     property var previewData
-    property alias showProcessingAction: waitingForAction.visible
+    property alias showProcessingAction: waitingForActionMouseArea.visible
 
     property real previewWidthRatio: 0.5
 
@@ -198,22 +198,10 @@ Rectangle {
         sourceComponent: root.header
     }
 
-    Rectangle {
-        id: waitingForAction
-        objectName: "waitingForAction"
+    MouseArea {
+        id: waitingForActionMouseArea
+        objectName: "waitingForActionMouseArea"
         anchors.fill: parent
-        color: "black"
-        opacity: 0.6
         visible: false
-
-        MouseArea {
-            anchors.fill: parent
-        }
-    }
-
-    ActivityIndicator {
-        anchors.centerIn: waitingForAction
-        visible: waitingForAction.visible
-        running: waitingForAction.visible
     }
 }

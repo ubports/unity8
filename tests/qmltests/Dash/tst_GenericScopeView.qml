@@ -72,7 +72,7 @@ Item {
                 previewLoader.open = true;
                 previewLoader.source = "../../../Dash/Generic/GenericPreview.qml";
                 previewLoader.item.showProcessingAction = true;
-                var waitingForAction = findChild(genericScopeView, "waitingForAction");
+                var waitingForAction = findChild(genericScopeView, "waitingForActionMouseArea");
                 tryCompare(waitingForAction, "visible", true);
                 previewLoader.closePreviewSpinner();
                 tryCompare(waitingForAction, "visible", false);
