@@ -33,13 +33,13 @@ class CannotAccessUnity(Exception):
 def unlock_unity():
     """Helper function that attempts to unlock the unity greeter.
 
-    :raises: RuntimeError if the greeter attempts and fails to be unlocked.
+    :raises RuntimeError: if the greeter attempts and fails to be unlocked.
 
-    :raises: RuntimeWarning when the greeter cannot be found because it is
+    :raises RuntimeWarning: when the greeter cannot be found because it is
       already unlocked.
-    :raises: CannotAccessUnity if unity is not introspectable or cannot be
+    :raises CannotAccessUnity: if unity is not introspectable or cannot be
       found on dbus.
-    :raises: CannotAccessUnity if unity's upstart status is not "start" or the
+    :raises CannotAccessUnity: if unity's upstart status is not "start" or the
       upstart job cannot be found at all.
 
     """
@@ -68,7 +68,7 @@ def unlock_unity():
 def restart_unity_with_testability():
     """Restarts (or just starts) unity8 with the testability driver loaded
 
-    :raises: subprocess.CalledProcessError if unable to stop or start the
+    :raises subprocess.CalledProcessError: if unable to stop or start the
       unity8 upstart job.
 
     """
