@@ -1,3 +1,16 @@
+unity8 (7.83+13.10.20131016.1-0ubuntu1) saucy; urgency=low
+
+  [ Diego Sarmentero ]
+  * Disable Preview interaction until the scope responds.
+
+  [ Albert Astals ]
+  * Hide placeholder notification.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 469
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 16 Oct 2013 17:29:36 +0000
+
 unity8 (7.83+13.10.20131016-0ubuntu1) saucy; urgency=low
 
   [ Loïc Minier ]
