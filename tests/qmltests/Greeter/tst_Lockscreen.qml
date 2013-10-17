@@ -176,15 +176,17 @@ Rectangle {
 
         function test_unlock_data() {
             return [
-                {tag: "numeric", alphanumeric: false, username: "has-pin", password: "1234", unlockedSignal: true},
-                {tag: "alphanumeric",  alphanumeric: true, username: "has-password", password: "password", unlockedSignal: true},
-                {tag: "numeric (wrong)",  alphanumeric: false, username: "has-pin", password: "4321", unlockedSignal: false},
-                {tag: "alphanumeric (wrong)",  alphanumeric: true, username: "has-password", password: "drowssap", unlockedSignal: false},
+                {tag: "numeric", alphanumeric: false, username: "has-pin", password: "1234", unlockedSignal: true, pinLength: 4},
+                {tag: "alphanumeric",  alphanumeric: true, username: "has-password", password: "password", unlockedSignal: true, pinLength: -1},
+                {tag: "numeric (wrong)",  alphanumeric: false, username: "has-pin", password: "4321", unlockedSignal: false, pinLength: 4},
+                {tag: "alphanumeric (wrong)",  alphanumeric: true, username: "has-password", password: "drowssap", unlockedSignal: false, pinLength: -1},
+                {tag: "flexible length",  alphanumeric: false, username: "has-pin", password: "1234", unlockedSignal: true, pinLength: -1},
             ]
         }
 
         function test_unlock(data) {
             unlockedCheckBox.checked = false
+            pinLengthTextField.text = data.pinLength
             LightDM.Greeter.authenticate(data.username)
             waitForRendering(lockscreen)
 
@@ -199,7 +201,12 @@ Rectangle {
                     var button = findChild(lockscreen, "pinPadButton" + character)
                     mouseClick(button, units.gu(1), units.gu(1))
                 }
+                if (data.pinLength == -1) {
+                    var pinPadButtonErase = findChild(lockscreen, "pinPadButtonErase");
+                    mouseClick(pinPadButtonErase, units.gu(1), units.gu(1));
+                }
             }
+
             tryCompare(unlockedCheckBox, "checked", data.unlockedSignal)
             if (!data.unlockedSignal) {
                 // make sure the input is cleared on wrong input

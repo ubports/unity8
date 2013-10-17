@@ -27,7 +27,7 @@ Column {
     property alias placeholderText: pinentryField.placeholderText
     property int padWidth: units.gu(34)
     property int padHeight: units.gu(28)
-    property int pinLength: 4
+    property int pinLength: -1
 
     signal entered(string passphrase)
     signal cancel()
@@ -65,6 +65,9 @@ Column {
         Label {
             id: pinentryFieldLabel
             anchors.centerIn: parent
+            width: parent.width - (backspaceIcon.width + backspaceIcon.anchors.rightMargin) * 2
+            elide: Text.ElideMiddle
+            horizontalAlignment: Text.AlignHCenter
             font.pixelSize: units.dp(44)
             color: "#f3f3e7"
             opacity: 0.6
@@ -75,6 +78,25 @@ Column {
             color: "grey"
             text: parent.placeholderText
             visible: pinentryFieldLabel.text.length == 0
+        }
+
+        Icon {
+            id: backspaceIcon
+            anchors {
+                top: parent.top
+                topMargin: units.gu(1)
+                right: parent.right
+                rightMargin: units.gu(2)
+                bottom: parent.bottom
+                bottomMargin: units.gu(1)
+            }
+            visible: root.pinLength == -1
+            width: height
+            name: "erase"
+            MouseArea {
+                anchors.fill: parent
+                onClicked: pinentryField.text = pinentryField.text.substring(0, pinentryField.text.length-1);
+            }
         }
     }
 
@@ -154,7 +176,7 @@ Column {
                 objectName: "pinPadButtonBack"
                 width: root.padWidth / 3
                 height: root.padHeight / 4
-                iconName: "back"
+                subText: "CANCEL"
                 onClicked: root.cancel();
             }
 
@@ -171,8 +193,15 @@ Column {
                 objectName: "pinPadButtonErase"
                 width: root.padWidth / 3
                 height: root.padHeight / 4
-                iconName: "erase"
-                onClicked: pinentryField.text = pinentryField.text.substring(0, pinentryField.text.length-1)
+                iconName: root.pinLength == -1 ? "" : "erase"
+                subText: root.pinLength == -1 ? "DONE" : ""
+                onClicked: {
+                    if (root.pinLength !== -1) {
+                        pinentryField.text = pinentryField.text.substring(0, pinentryField.text.length-1);
+                    } else {
+                        root.entered(pinentryField.text);
+                    }
+                }
                 enabled: entryEnabled
             }
         }

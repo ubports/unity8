@@ -78,11 +78,6 @@ Loader {
         PinLockscreen {
             anchors.left: parent.left; anchors.right: parent.right
 
-            Component.onCompleted: {
-                menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-pin-length': 'int'});
-                pinLength = menuData.ext.xCanonicalPinLength;
-            }
-
             onEntered: {
                 menuModel.changeState(menuIndex, passphrase);
                 entryEnabled = false;
