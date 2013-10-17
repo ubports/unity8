@@ -215,5 +215,36 @@ Rectangle {
                 tryCompareFunction(function() {return inputField.text.length > 0}, true)
             }
         }
+
+        function test_backspace_data() {
+            return [
+                {tag: "fixed length", pinLength: 4},
+                {tag: "variable length", pinLength: -1}
+            ];
+        }
+
+        function test_backspace(data) {
+            LightDM.Greeter.authenticate("has-pin");
+            pinLengthTextField.text = data.pinLength
+            waitForRendering(lockscreen);
+
+            var pinPadButtonErase = findChild(lockscreen, "pinPadButtonErase");
+            var backspaceIcon = findChild(lockscreen, "backspaceIcon");
+            var pinEntryField = findChild(lockscreen, "pinentryField");
+
+            compare(pinPadButtonErase.iconName, data.pinLength == -1 ? "" : "erase");
+            compare(backspaceIcon.visible, data.pinLength == -1);
+
+            var pinPadButton5 = findChild(lockscreen, "pinPadButton5");
+            mouseClick(pinPadButton5, units.gu(1), units.gu(1));
+            compare(pinEntryField.text, "5");
+
+            if (data.pinLength == -1) {
+                mouseClick(backspaceIcon, units.gu(1), units.gu(1));
+            } else {
+                mouseClick(pinPadButtonErase, units.gu(1), units.gu(1));
+            }
+            compare(pinEntryField.text, "");
+        }
     }
 }

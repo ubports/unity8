@@ -82,6 +82,7 @@ Column {
 
         Icon {
             id: backspaceIcon
+            objectName: "backspaceIcon"
             anchors {
                 top: parent.top
                 topMargin: units.gu(1)
