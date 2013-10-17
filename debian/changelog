@@ -1,3 +1,215 @@
+unity8 (7.83+13.10.20131016.2-0ubuntu1) saucy; urgency=low
+
+  [ Loïc Minier ]
+  * Merge ~lool/unity8/drop-setcap-conf. Drop unity8-setcap.conf as this
+    breaks desktop installs (no boot-hook event is emitted, boot
+    stalls); add maintscript snippet to rm_conffile on upgrades; this
+    boot-hook is now shipped under a different name in lxc-android-
+    config.
+
+  [ Michał Sawicz ]
+  * Ship a camera-app.desktop file and use a custom XDG_DATA_DIRS for
+    testing.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 472
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 16 Oct 2013 23:15:48 +0000
+
+unity8 (7.83+13.10.20131016.1-0ubuntu1) saucy; urgency=low
+
+  [ Diego Sarmentero ]
+  * Disable Preview interaction until the scope responds.
+
+  [ Albert Astals ]
+  * Hide placeholder notification.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 469
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 16 Oct 2013 17:29:36 +0000
+
+unity8 (7.83+13.10.20131016-0ubuntu1) saucy; urgency=low
+
+  [ Loïc Minier ]
+  * Add upstart job to copy unity8 to a new tmpfs, setcap it, and bind-
+    mount it back; this is an ugly hack to set CAP_SYS_RESOURCE until we
+    have a root-helper for it.
+
+  [ Michal Hruby ]
+  * Enable definition of scope back references in overridden results.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 466
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 16 Oct 2013 11:29:52 +0000
+
+unity8 (7.83+13.10.20131015.4-0ubuntu1) saucy; urgency=low
+
+  [ Michał Sawicz ]
+  * Replace ubuntu-touch-session's unity8.conf upstart job.
+  * Revert r440 that made the dash collapse animation worse, rather than
+    better.
+
+  [ om26er@ubuntu.com ]
+  * close the app only when the close button is tapped, not the entire
+    thumbnail
+
+  [ Nick Dedekind ]
+  * Added missing Unity.Indicator mock objects causing qmltests to fail.
+    Approved by: Michał Sawicz.
+
+  [ Christopher Lee ]
+  * Launch unity8 for autopilot with upstart, and bring unity8 session
+    over from session-manager-touch.
+
+  [ Pawel Stolowski ]
+  * Temporarily disable category_order changed signal handling.
+
+  [ Daniel d'Andrada ]
+  * OSKController area shouldn't cover the indicators' bar Since ubuntu-
+    keyboard surface area doesn't cover the indicators' bar,
+    OSKController should follow suit. Otherwise the OSKContoller's
+    internal InputFilterArea (and others) wouldn't perfectly overlap the
+    graphical keyboard rendered by ubuntu-keyboard (i.e. the opaque part
+    of ubuntu-keyboard's surface).
+
+  [ Michael Zanetti ]
+  * Initialize initialHeight/Width to height/width depending on scaleTo
+    add checks for initialWidth/Height in the tests change sizes in
+    tests to something else than the default for initialWidth/Height in
+    order to catch failures there more easily
+
+  [ Omer Akram ]
+  * Only show search indicator while the Dash is focued.
+  * Add 2dp left margin for music and video tiles' title.
+
+  [ Nicolas d'Offay ]
+  * Changed Infographics to use Ubuntu font.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 463
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 15 Oct 2013 11:05:04 +0000
+
+unity8 (7.82+13.10.20131011.2-0ubuntu1) saucy; urgency=low
+
+  [ Michał Sawicz ]
+  * Work around Mir not delivering input to shell after restart, if the
+    device isn't reinitialized.
+
+  [ Albert Astals ]
+  * Remove unused DashMusic/DashVideos.
+  * Don't let the user change between scopes if the current one is
+    moving up/down.
+  * Fix two uninitialized variable uses reported by valgrind ==17988==
+    Conditional jump or move depends on uninitialised value(s) ==17988==
+    at 0x13839F3A: AccountsService::updateDemoEdges()
+    (AccountsService.cpp:74) ==17988== by 0x13839DA5:
+    AccountsService::setUser(QString const&) (AccountsService.cpp:45)
+    ==17988== by 0x1383F67B:
+    AccountsService::qt_metacall(QMetaObject::Call, int, void**)
+    (moc_AccountsService.cpp:192) ==17988== by 0x496143D:
+    StoreProperty(QV8Engine*, QObject*, QQmlPropertyData*,
+    v8::Handle<v8::Value>) (in /usr/lib/arm-linux-
+    gnueabihf/libQt5Qml.so.5.0.2) ==17988== ==17988== Conditional jump
+    or move depends on uninitialised value(s) ==17988== at 0x1383A0F6:
+    AccountsService::updateStatsWelcomeScreen() (AccountsService.cpp:92)
+    ==17988== by 0x13839DB1: AccountsService::setUser(QString const&)
+    (AccountsService.cpp:47) ==17988== by 0x1383F67B:
+    AccountsService::qt_metacall(QMetaObject::Call, int, void**)
+    (moc_AccountsService.cpp:192) ==17988== by 0x496143D:
+    StoreProperty(QV8Engine*, QObject*, QQmlPropertyData*,
+    v8::Handle<v8::Value>) (in /usr/lib/arm-linux-
+    gnueabihf/libQt5Qml.so.5.0.2)
+  * Fix unitialized variable in Scope ==18457== Conditional jump or move
+    depends on uninitialised value(s) ==18457== at 0x15AD1FD6:
+    Scope::setActive(bool) (scope.cpp:165) ==18457== by 0x15B0023D:
+    Scope::qt_metacall(QMetaObject::Call, int, void**)
+    (moc_scope.cpp:478) ==18457== by 0x48B709F:
+    QQmlPropertyPrivate::write(QObject*, QQmlPropertyData const&,
+    QVariant const&, QQmlContextData*,
+    QFlags<QQmlPropertyPrivate::WriteFlag>) (in /usr/lib/arm-linux-
+    gnueabihf/libQt5Qml.so.5.0.2)
+  * Fix crash on the phone For some reason i'm getting v8 crashes
+    without this when shuting down unity-mir
+
+  [ Gerry Boland ]
+  * Use focusRequested signal from AppManager. WM: AppManager has new
+    signal to ask shell to request focus for app - use it to properly
+    animate and focus the app. If app wants to be side stage, but no
+    side stage available, override the application stage.
+
+  [ Nick Dedekind ]
+  * Only use the root action state as a unitymenumodel ActionStateParser
+    when needed.
+
+  [ Andrea Cimitan ]
+  * Move the close app icon on top left.
+  * The header of category list is already on screen after unlock
+
+  [ Michael Zanetti ]
+  * Make the greeter's clock update in sync with the indicators.
+
+  [ Omer Akram ]
+  * Increase dash header height to 5gu.
+
+  [ Nicolas d'Offay ]
+  * Standardised expansion speed in scopes.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 449
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 11 Oct 2013 17:26:34 +0000
+
+unity8 (7.82+13.10.20131011.1-0ubuntu1) saucy; urgency=low
+
+  [ Michał Sawicz ]
+  * Fix frequent application IDs and drop old AppsAvailableForDownload
+    model.
+  * Unrevert r388 now that we have fixed the infinite loop it was
+    causing in Qt.
+
+  [ Steve Langasek ]
+  * Don't keep a long-lived connection open to upstart when we only use
+    it for two events, one at load time and one at unload time.
+
+  [ Lars Uebernickel ]
+  * VolumeControl: use 'volume' instead of 'scroll' action The volume
+    action doesn't show a notification.
+
+  [ Michael Terry ]
+  * Disable DragHandle on right side of screen while the greeter is
+    animating
+
+  [ Marcus Tomlinson ]
+  * Added missing "enabled" property to "progressMenu" component in the
+    menu item factory.
+
+  [ Michael Zanetti ]
+  * Add scaleTo: "fit" mode support to LazyImage
+
+  [ Andrea Cimitan ]
+  * Add music and video renderers
+  * Use shell.edgeSize for BottomBar's EdgeDragArea, detecting gestures
+    only when they are within the edgeSize.
+
+  [ Nick Dedekind ]
+  * Removed greeter "toHome" animation (LP#1092976) (LP: #1092976)
+  * Only show Snap Decision notification actions when available.
+
+  [ Albert Astals ]
+  * Dash: Set delegate creation range for inner itemviewss If it's above
+    the list viewport we set it to the end of the list to precache the
+    last items It it's below the list viewport we set it to the
+    beginning to precache the first items Otherwise we set it to the
+    part of the viewport in the view Approved by: Michał Sawicz.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 435
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 11 Oct 2013 09:05:30 +0000
+
 unity8 (7.82+13.10.20131010-0ubuntu1) saucy; urgency=low
 
   [ David Callé ]

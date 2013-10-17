@@ -83,7 +83,7 @@ Item {
         id: dashContentList
         objectName: "dashContentList"
 
-        interactive: dashContent.scopes.loaded
+        interactive: dashContent.scopes.loaded && !currentItem.previewShown && !currentItem.moving
 
         anchors.fill: parent
         model: dashContent.model
@@ -116,6 +116,9 @@ Item {
                 source: scopeMapper.map(scope.id)
                 objectName: scope.id + " loader"
 
+                readonly property bool previewShown: item.previewShown
+                readonly property bool moving: item.moving
+
                 // these are needed for autopilot tests
                 readonly property string scopeId: scope.id
                 readonly property bool isCurrent: ListView.isCurrentItem
@@ -135,10 +138,7 @@ Item {
                     onEndReached: contentEndReached()
                     onPreviewShownChanged: {
                         if (item.previewShown) {
-                            previewShown()
-                            dashContentList.interactive = false
-                        } else {
-                            dashContentList.interactive = true
+                            dashContent.previewShown()
                         }
                     }
                 }

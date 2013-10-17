@@ -405,7 +405,7 @@ Item {
             }
         }
 
-        Text {
+        Label {
             id: notification
             objectName: "label"
 
@@ -419,13 +419,11 @@ Item {
             anchors.centerIn: parent
 
             text: infographic.model.label
-            font.pixelSize: notification.height / 12
 
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             color: "white"
-            font.weight: Font.Light
 
             PropertyAnimation {
                 id: increaseOpacity

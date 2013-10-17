@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-10-07 10:49+0200\n"
-"PO-Revision-Date: 2013-06-27 08:52+0000\n"
-"Last-Translator: Michał Sawicz <michal.sawicz@canonical.com>\n"
+"POT-Creation-Date: 2013-10-11 12:12+0200\n"
+"PO-Revision-Date: 2013-10-13 13:44+0000\n"
+"Last-Translator: GTriderXC <gtriderxc@yahoo.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2013-10-08 07:01+0000\n"
+"X-Launchpad-Export-Date: 2013-10-14 05:47+0000\n"
 "X-Generator: Launchpad (build 16799)\n"
 
 #: Applications/applications.js:23
@@ -89,49 +89,53 @@ msgstr "YouTube"
 
 #: Components/EdgeDemoOverlay.qml:149
 msgid "Skip intro"
-msgstr ""
+msgstr "Pomiń intro"
 
 #: Components/EdgeDemo.qml:112
 msgid "Right edge"
-msgstr ""
+msgstr "Prawa krawędź"
 
 #: Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr ""
+msgstr "Aby odblokować telefon, przeciagnij w stronę prawej krawędzi"
 
 #: Components/EdgeDemo.qml:144
 msgid "Top edge"
-msgstr ""
+msgstr "Górna krawędź"
 
 #: Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
-msgstr ""
+msgstr "Przeciągnij od górnej krawędzi aby uzyskać wskazówki"
 
 #: Components/EdgeDemo.qml:170
 msgid "Close"
-msgstr ""
+msgstr "Zamknij"
 
 #: Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
-msgstr ""
+msgstr "Przeciągnij ponownie w górę, by zamknąć okno ustawień"
 
 #: Components/EdgeDemo.qml:198
 msgid "Left edge"
-msgstr ""
+msgstr "Lewa krawędź"
 
 #: Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr ""
+"Przeciągnięcie od lewej krawędzi, uruchamia aktywator szybkiego dostępu do "
+"aplikacji"
 
 #: Components/EdgeDemo.qml:226
 msgid "Well done"
-msgstr ""
+msgstr "Udało się!"
 
 #: Components/EdgeDemo.qml:227
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap anywhere to start"
 msgstr ""
+"Polecenia aktywatorów krawędzi ekranu zostały opanowane<br><br>Dotknij "
+"gdziekolwiek aby kontynuować"
 
 #: Components/PageHeader.qml:341
 msgid "Recent searches"
@@ -142,7 +146,7 @@ msgstr "Ostatnie wyszukiwania"
 #: Dash/Apps/AppInfo.qml:73 Dash/Previews/Header.qml:93
 #, qt-format
 msgid "(%1)"
-msgstr ""
+msgstr "(%1)"
 
 #. TRANSLATORS: Number of persons who wrote reviews for this app
 #. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
@@ -150,60 +154,33 @@ msgstr ""
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 opinia"
+msgstr[1] "%1 opinie"
+msgstr[2] "%1 opinii"
 
 #: Dash/Apps/AppPreview.qml:126
 msgid "Rate this"
-msgstr ""
-
-#: Dash/DashMusic.qml:27 Dash/DashVideos.qml:28
-msgid "Featured"
-msgstr "Polecane"
-
-#: Dash/DashMusic.qml:28 Dash/DashVideos.qml:29
-msgid "Recent"
-msgstr "Najnowsze"
-
-#: Dash/DashMusic.qml:29 Dash/DashVideos.qml:30
-msgid "New Releases"
-msgstr "Premiery"
-
-#: Dash/DashMusic.qml:30
-msgid "Top Charting"
-msgstr "Przeboje"
-
-#: Dash/DashMusic.qml:91
-msgid "Music"
-msgstr "Muzyka"
-
-#: Dash/DashVideos.qml:31
-msgid "Popular Online"
-msgstr "Popularne w sieci"
-
-#: Dash/DashVideos.qml:146
-msgid "Videos"
-msgstr "Filmy"
+msgstr "Oceń to"
 
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
-msgstr ""
+msgstr "Dodaj recenzję"
 
 #: Dash/Previews/Reviews.qml:86
 msgid "Review"
-msgstr ""
+msgstr "Recenzja"
 
 #: Dash/Previews/Reviews.qml:121
 msgid "Send"
-msgstr ""
+msgstr "Wyślij"
 
 #: Dash/Previews/Reviews.qml:139
 msgid "Comments:"
-msgstr ""
+msgstr "Komentarze:"
 
 #: Greeter/Lockscreen.qml:142
 msgid "Emergency Call"
-msgstr ""
+msgstr "Telefon ratunkowy"
 
 #: Greeter/PassphraseLockscreen.qml:59
 #, qt-format
@@ -238,15 +215,15 @@ msgstr "Rozpoznanie..."
 msgid "Search"
 msgstr "Szukaj"
 
-#: plugins/Unity/scope.cpp:361
+#: plugins/Unity/scope.cpp:398
 msgid "Sorry, there is nothing that matches your search."
 msgstr "Nie znaleziono pasujących wyników."
 
 #: plugins/Unity/showallfilteroption.cpp:41
 msgid "All"
-msgstr ""
+msgstr "Wszystko"
 
-#: Shell.qml:453
+#: Shell.qml:438
 #, qt-format
 msgid "Please enter %1"
 msgstr "Wprowadź %1"

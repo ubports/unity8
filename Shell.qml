@@ -579,7 +579,7 @@ FocusScope {
                 contentEnabled: edgeDemo.panelContentEnabled
             }
             fullscreenMode: shell.fullscreenMode
-            searchVisible: !greeter.shown && !lockscreen.shown
+            searchVisible: !greeter.shown && !lockscreen.shown && dash.shown
 
             InputFilterArea {
                 anchors {
@@ -737,6 +737,7 @@ FocusScope {
     }
 
     OSKController {
+        anchors.topMargin: panel.panelHeight
         anchors.fill: parent // as needs to know the geometry of the shell
     }
 

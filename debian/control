@@ -78,10 +78,13 @@ Depends: gsettings-desktop-schemas,
          unity8-fake-env | qtubuntu-shell,
          unity8-private (= ${binary:Version}),
          unity8-private | unity-launcher-impl,
+# for setcap:
+         libcap2-bin,
          ${misc:Depends},
          ${shlibs:Depends},
 Recommends: ${unity-default-masterscopes},
 Breaks: indicator-network (<< 0.5.1)
+Replaces: ubuntu-touch-session (<< 0.82~)
 Description: Unity 8 shell
  The Unity 8 shell is the primary user interface for Ubuntu devices.
 

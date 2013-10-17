@@ -115,6 +115,7 @@ Item {
             text: menu && menu.label ? menu.label : ""
             icon: menu ? menu.icon : ""
             value : menu ? menu.actionState : 0.0
+            enabled: menu ? menu.sensitive : false
         }
     }
 

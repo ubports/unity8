@@ -17,7 +17,7 @@ add_qml_test(Components MathLocal)
 add_qml_test(Components OpenEffect)
 add_qml_test(Components RatingStars)
 add_qml_test(Components TimeLocal)
-add_qml_test(Greeter Clock)
+add_qml_test(Greeter Clock IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/plugins)
 add_qml_test(Panel IndicatorItem)
 add_qml_test(utils/Unity/Test UnityTest)
 
