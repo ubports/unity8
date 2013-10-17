@@ -55,7 +55,7 @@ def get_mocks_library_path():
         mock_path = os.path.join(
             "../lib/",
             sysconfig.get_config_var('MULTIARCH'),
-            "/unity8/qml/mocks/"
+            "unity8/qml/mocks/"
         )
     lib_path = get_lib_path()
     ld_library_path = os.path.abspath(
@@ -87,17 +87,47 @@ def get_binary_path(binary="unity8"):
             raise RuntimeError("Unable to locate %s binary: %r" % (binary, e))
     return binary_path
 
+
 def get_data_dirs():
     """Prepend a mock data path to XDG_DATA_DIRS."""
-    data_path = os.path.abspath(
-        os.path.join(os.path.dirname(__file__),
-            running_installed_tests() and "/usr/share/unity8/mocks/data" or "../../mocks/data"
-    ))
-    xdg_path = os.getenv("XDG_DATA_DIRS")
-    if xdg_path:
-        return "{0}:{1}".format(data_path, xdg_path)
+    if running_installed_tests():
+        data_path = "/usr/share/unity8/mocks/data"
     else:
-        return data_path
+        data_path = "../../mocks/data"
+    full_data_path = os.path.abspath(
+        os.path.join(
+            os.path.dirname(__file__),
+            data_path
+        )
+    )
+
+    if os.path.exists(full_data_path):
+        xdg_path = _get_xdg_env_path()
+        if xdg_path is not None:
+            return "{0}:{1}".format(full_data_path, xdg_path)
+        else:
+            return full_data_path
+    else:
+        return None
+
+
+def _get_xdg_env_path():
+    path = os.getenv("XDG_DATA_DIRS")
+    if path is None:
+        path = _get_xdg_upstart_env()
+    return path
+
+
+def _get_xdg_upstart_env():
+    try:
+        return subprocess.check_output([
+            "/sbin/initctl",
+            "get-env",
+            "--global",
+            "XDG_DATA_DIRS"
+        ]).rstrip()
+    except subprocess.CalledProcessError:
+        return None
 
 def get_grid_size():
     grid_size = os.getenv('GRID_UNIT_PX')
