@@ -22,7 +22,7 @@ Loader {
     property url carouselUrl: "GenericCarousel.qml"
     property url filtergridUrl: "GenericFilterGrid.qml"
 
-    source: model.count > 6 ? carouselUrl : filtergridUrl
+    source: model.count > 6 ? carouselUrl : filtergridUrl // FIXME do not hardcode 6, but retrieve correct minimum required count
 
     onLoaded: {
         item.model = Qt.binding(function() { return model; })
