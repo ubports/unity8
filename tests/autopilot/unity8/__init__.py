@@ -55,7 +55,7 @@ def get_mocks_library_path():
         mock_path = os.path.join(
             "../lib/",
             sysconfig.get_config_var('MULTIARCH'),
-            "/unity8/qml/mocks/"
+            "unity8/qml/mocks/"
         )
     lib_path = get_lib_path()
     ld_library_path = os.path.abspath(
@@ -104,7 +104,7 @@ def get_data_dirs():
     if os.path.exists(full_data_path):
         xdg_path = _get_xdg_env_path()
         if xdg_path is not None:
-            return "{0}:{1}".format(data_path, xdg_path)
+            return "{0}:{1}".format(full_data_path, xdg_path)
         else:
             return full_data_path
     else:
