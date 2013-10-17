@@ -133,7 +133,7 @@ int startShell(int argc, const char** argv, void* server)
 
     QQuickView* view = new QQuickView();
     view->setResizeMode(QQuickView::SizeRootObjectToView);
-    view->setTitle(APP_NAME);
+    view->setTitle("Qml Phone Shell");
     view->engine()->setBaseUrl(QUrl::fromLocalFile(::shellAppDirectory()));
     view->rootContext()->setContextProperty("applicationArguments", &qmlArgs);
     if (args.contains(QLatin1String("-frameless"))) {
