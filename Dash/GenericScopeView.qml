@@ -388,7 +388,6 @@ ScopeView {
             }
 
             if (open) {
-                print("switching to new index", currentIndex)
                 categoryDelegate.highlightIndex = currentIndex
             }
 
@@ -404,13 +403,13 @@ ScopeView {
                 effectAdjust += newContentY;
                 newContentY = 0;
             }
-            if (newContentY > categoryView.contentHeight - categoryView.height) {
+            if (newContentY > Math.max(0, categoryView.contentHeight - categoryView.height)) {
                 effectAdjust += -(categoryView.contentHeight - categoryView.height) + newContentY
                 newContentY = categoryView.contentHeight - categoryView.height;
             }
 
             effect.positionPx = effectAdjust;
-            categoryView.contentY = newContentY;
+            categoryView.contentY = newContentY - categoryView.originY;
         }
 
         property bool open: false
@@ -420,6 +419,7 @@ ScopeView {
             if (open) {
                 onScreen = true;
                 categoryDelegate.highlightIndex = currentIndex;
+                pageHeader.unfocus();
             } else {
                 // Cancel any pending preview requests or actions
                 if (previewListView.currentItem.previewData !== undefined) {
