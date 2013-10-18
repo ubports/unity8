@@ -57,6 +57,8 @@ Item {
     property alias delegate: iconTileGrid.delegate
     property alias cellWidth: iconTileGrid.cellWidth
     property alias cellHeight: iconTileGrid.cellHeight
+    property alias delegateCreationBegin: iconTileGrid.delegateCreationBegin
+    property alias delegateCreationEnd: iconTileGrid.delegateCreationEnd
     readonly property alias flicking: iconTileGrid.flicking
     readonly property alias moving: iconTileGrid.moving
     readonly property alias pressDelay: iconTileGrid.pressDelay
@@ -102,6 +104,5 @@ Item {
             model: root.model
             limit: (filter && !filterAnimation.running) ? collapsedRowCount * iconTileGrid.columns : -1
         }
-
     }
 }

@@ -34,11 +34,13 @@ UbuntuShape {
     property var notification
 
     objectName: "background"
-    implicitHeight: contentColumn.height + contentColumn.spacing * 2
-    color: Qt.rgba(0, 0, 0, 0.85)
+    implicitHeight: type != Notification.PlaceHolder ? contentColumn.height + contentColumn.spacing * 2 : 0
+    color: Qt.rgba(0.132, 0.117, 0.109, 0.97)
     opacity: 0
+    radius: "medium"
 
     clip: true
+    visible: type != Notification.PlaceHolder
 
     UnityMenuModelPaths {
         id: paths
@@ -128,6 +130,8 @@ UbuntuShape {
                 id: labelColumn
                 width: parent.width - x
 
+                anchors.verticalCenter: (icon.visible && !bodyLabel.visible) ? icon.verticalCenter : undefined
+
                 Label {
                     id: summaryLabel
 
@@ -190,8 +194,8 @@ UbuntuShape {
                 left: parent.left
                 right: parent.right
             }
-            visible: notification.type == Notification.SnapDecision
-            height: units.gu(4)
+            visible: notification.type == Notification.SnapDecision && actionRepeater.count > 0
+            height: units.gu(5)
 
             property real buttonWidth: (width - contentColumn.spacing) / 2
             property bool expanded
@@ -282,7 +286,7 @@ UbuntuShape {
                             }
 
                             text: loader.actionLabel
-                            height: units.gu(4)
+                            height: units.gu(5)
                             gradient: UbuntuColors.greyGradient
                             onClicked: notification.notification.invokeAction(loader.actionId)
                         }

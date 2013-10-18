@@ -17,10 +17,8 @@
 import QtQuick 2.0
 
 QtObject {
-    property var scopeDelegateMapping: {"mockmusicmaster.scope": "DashMusic.qml",
-                                       "applications.scope": "DashApps.qml",
-                                       "home.scope": "DashHome.qml",
-                                       "mockvideosmaster.scope": "DashVideos.qml"
+    property var scopeDelegateMapping: {"applications.scope": "DashApps.qml",
+                                       "home.scope": "DashHome.qml"
                                       }
     property string genericScope: "GenericScopeView.qml"
 

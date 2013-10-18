@@ -177,6 +177,7 @@ int startShell(int argc, const char** argv, void* server)
 
     int result = application->exec();
 
+    delete view;
     delete mouseTouchAdaptor;
     delete application;
 

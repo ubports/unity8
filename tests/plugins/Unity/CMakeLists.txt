@@ -1,7 +1,7 @@
 add_subdirectory(Indicators)
 add_subdirectory(Launcher)
 
-pkg_check_modules(UNITYCORE REQUIRED unity-core-6.0)
+pkg_check_modules(UNITYCORE REQUIRED unity-core-6.0>=7.1.1)
 pkg_check_modules(LIBUNITYPROTO REQUIRED unity-protocol-private)
 pkg_check_modules(LIBUNITY REQUIRED unity)
 pkg_check_modules(LIBSIGCPP REQUIRED sigc++-2.0)

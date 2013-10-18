@@ -70,8 +70,22 @@ Rectangle {
 
             LazyImage {
                 id: lazy3
-                height: units.gu(10)
+                height: units.gu(12)
                 scaleTo: "height"
+            }
+
+            Label {
+                height: units.gu(4)
+                text: "Fit"
+                color: "white"
+                verticalAlignment: Text.AlignBottom
+            }
+
+            LazyImage {
+                id: lazy4
+                height: units.gu(12)
+                width: units.gu(12)
+                scaleTo: "fit"
             }
         }
     }
@@ -94,6 +108,7 @@ Rectangle {
             ImageControls { id: controls1; image: lazy1 }
             ImageControls { id: controls2; image: lazy2 }
             ImageControls { id: controls3; image: lazy3 }
+            ImageControls { id: controls4; image: lazy4 }
         }
     }
 
@@ -112,21 +127,26 @@ Rectangle {
 
         function test_lazyimage_data() {
             return [
-                {tag: "Unbound Blank", image: lazy1, func: controls1.blank, width: units.gu(10), height: units.gu(10), placeholder: true},
-                {tag: "Unbound Wide", image: lazy1, func: controls1.wide, transition: "readyTransition", width: 160, height: 80},
-                {tag: "Unbound Square", image: lazy1, func: controls1.square, transition: "readyTransition", width: 160, height: 160},
-                {tag: "Unbound Portrait", image: lazy1, func: controls1.portrait, transition: "readyTransition", width: 80, height: 160},
-                {tag: "Unbound Bad path", image: lazy1, func: controls1.badpath, transition: "genericTransition", width: units.gu(10), height: units.gu(10), placeholder: true, error: true},
-                {tag: "Width-bound Blank", image: lazy2, func: controls2.blank, width: units.gu(30), height: units.gu(10), placeholder: true},
-                {tag: "Width-bound Wide", image: lazy2, func: controls2.wide, transition: "readyTransition", width: units.gu(30), height: units.gu(15)},
-                {tag: "Width-bound Square", image: lazy2, func: controls2.square, transition: "readyTransition", width: units.gu(30), height: units.gu(30)},
-                {tag: "Width-bound Portrait", image: lazy2, func: controls2.portrait, transition: "readyTransition", width: units.gu(30), height: units.gu(60)},
-                {tag: "Width-bound Bad path", image: lazy2, func: controls2.badpath, transition: "genericTransition", width: units.gu(30), height: units.gu(10), placeholder: true, error: true},
-                {tag: "Height-bound Blank", image: lazy3, func: controls3.blank, width: units.gu(10), height: units.gu(10), placeholder: true},
-                {tag: "Height-bound Wide", image: lazy3, func: controls3.wide, transition: "readyTransition", width: units.gu(20), height: units.gu(10)},
-                {tag: "Height-bound Square", image: lazy3, func: controls3.square, transition: "readyTransition", width: units.gu(10), height: units.gu(10)},
-                {tag: "Height-bound Portrait", image: lazy3, func: controls3.portrait, transition: "readyTransition", width: units.gu(5), height: units.gu(10)},
-                {tag: "Height-bound Bad path", image: lazy3, func: controls3.badpath, transition: "genericTransition", width: units.gu(10), height: units.gu(10), placeholder: true, error: true},
+                {tag: "Unbound Blank", image: lazy1, func: controls1.blank, width: units.gu(10), height: units.gu(10), imageWidth: units.gu(10), imageHeight: units.gu(10), initialWidth: units.gu(10), initialHeight: units.gu(10), placeholder: true},
+                {tag: "Unbound Wide", image: lazy1, func: controls1.wide, transition: "readyTransition", width: 160, height: 80, imageWidth: 160, imageHeight: 80, initialWidth: units.gu(10), initialHeight: units.gu(10)},
+                {tag: "Unbound Square", image: lazy1, func: controls1.square, transition: "readyTransition", width: 160, height: 160, imageWidth: 160, imageHeight: 160, initialWidth: units.gu(10), initialHeight: units.gu(10)},
+                {tag: "Unbound Portrait", image: lazy1, func: controls1.portrait, transition: "readyTransition", width: 80, height: 160, imageWidth: 80, imageHeight: 160, initialWidth: units.gu(10), initialHeight: units.gu(10)},
+                {tag: "Unbound Bad path", image: lazy1, func: controls1.badpath, transition: "genericTransition", width: units.gu(10), height: units.gu(10), imageWidth: units.gu(10), imageHeight: units.gu(10), initialWidth: units.gu(10), initialHeight: units.gu(10), placeholder: true, error: true},
+                {tag: "Width-bound Blank", image: lazy2, func: controls2.blank, width: units.gu(30), height: units.gu(10), imageWidth: units.gu(30), imageHeight: units.gu(10), initialWidth: units.gu(30), initialHeight: units.gu(10), placeholder: true},
+                {tag: "Width-bound Wide", image: lazy2, func: controls2.wide, transition: "readyTransition", width: units.gu(30), height: units.gu(15), imageWidth: units.gu(30), imageHeight: units.gu(15), initialWidth: units.gu(30), initialHeight: units.gu(10)},
+                {tag: "Width-bound Square", image: lazy2, func: controls2.square, transition: "readyTransition", width: units.gu(30), height: units.gu(30), imageWidth: units.gu(30), imageHeight: units.gu(30), initialWidth: units.gu(30), initialHeight: units.gu(10)},
+                {tag: "Width-bound Portrait", image: lazy2, func: controls2.portrait, transition: "readyTransition", width: units.gu(30), height: units.gu(60), imageWidth: units.gu(30), imageHeight: units.gu(60), initialWidth: units.gu(30), initialHeight: units.gu(10)},
+                {tag: "Width-bound Bad path", image: lazy2, func: controls2.badpath, transition: "genericTransition", width: units.gu(30), height: units.gu(10), imageWidth: units.gu(30), imageHeight: units.gu(10), initialWidth: units.gu(30), initialHeight: units.gu(10), placeholder: true, error: true},
+                {tag: "Height-bound Blank", image: lazy3, func: controls3.blank, width: units.gu(10), height: units.gu(12), imageWidth: units.gu(10), imageHeight: units.gu(12), initialWidth: units.gu(10), initialHeight: units.gu(12), placeholder: true},
+                {tag: "Height-bound Wide", image: lazy3, func: controls3.wide, transition: "readyTransition", width: units.gu(24), height: units.gu(12), imageWidth: units.gu(24), imageHeight: units.gu(12), initialWidth: units.gu(10), initialHeight: units.gu(12)},
+                {tag: "Height-bound Square", image: lazy3, func: controls3.square, transition: "readyTransition", width: units.gu(12), height: units.gu(12), imageWidth: units.gu(12), imageHeight: units.gu(12), initialWidth: units.gu(10), initialHeight: units.gu(12)},
+                {tag: "Height-bound Portrait", image: lazy3, func: controls3.portrait, transition: "readyTransition", width: units.gu(6), height: units.gu(12), imageWidth: units.gu(6), imageHeight: units.gu(12), initialWidth: units.gu(10), initialHeight: units.gu(12)},
+                {tag: "Height-bound Bad path", image: lazy3, func: controls3.badpath, transition: "genericTransition", width: units.gu(10), height: units.gu(12), imageWidth: units.gu(10), imageHeight: units.gu(12), initialWidth: units.gu(10), initialHeight: units.gu(12), placeholder: true, error: true},
+                {tag: "Fit Blank", image: lazy4, func: controls4.blank, width: units.gu(12), height: units.gu(12), imageWidth: units.gu(12), imageHeight: units.gu(12), initialWidth: units.gu(12), initialHeight: units.gu(12), placeholder: true},
+                {tag: "Fit Wide", image: lazy4, func: controls4.wide, transition: "readyTransition", width: units.gu(12), height: units.gu(12), imageWidth: units.gu(12), imageHeight: units.gu(6), initialWidth: units.gu(12), initialHeight: units.gu(12)},
+                {tag: "Fit Square", image: lazy4, func: controls4.square, transition: "readyTransition", width: units.gu(12), height: units.gu(12), imageWidth: units.gu(12), imageHeight: units.gu(12), initialWidth: units.gu(12), initialHeight: units.gu(12)},
+                {tag: "Fit Portrait", image: lazy4, func: controls4.portrait, transition: "readyTransition", width: units.gu(12), height: units.gu(12), imageWidth: units.gu(6), imageHeight: units.gu(12), initialWidth: units.gu(12), initialHeight: units.gu(12)},
+                {tag: "Fit Bad path", image: lazy4, func: controls4.badpath, transition: "genericTransition", width: units.gu(12), height: units.gu(12), imageWidth: units.gu(12), imageHeight: units.gu(12), initialWidth: units.gu(12), initialHeight: units.gu(12), placeholder: true, error: true},
             ]
         }
 
@@ -143,6 +163,15 @@ Rectangle {
             // check the dimensions
             compare(data.image.width, data.width);
             compare(data.image.height, data.height);
+
+            // check initial dimensions
+            compare(data.image.initialHeight, data.initialHeight);
+            compare(data.image.initialWidth, data.initialWidth);
+
+            // check the shape dimensions
+            var shape = findChild(data.image, "shape");
+            compare(shape.width, data.imageWidth);
+            compare(shape.height, data.imageHeight);
 
             // check the placeholder
             var placeholder = findChild(data.image, "placeholder");

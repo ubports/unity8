@@ -22,19 +22,19 @@ Rectangle {
 
     property int keyboardSize: Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.height : 0
     property var previewData
+    property alias showProcessingAction: waitingForActionMouseArea.enabled
 
-    property string title: ""
     property real previewWidthRatio: 0.5
 
+    property Component previewImages
     property Component header
-    property Component buttons
-    property Component body
+    property Component actions
+    property Component description
+    property Component ratings
 
-    readonly property bool narrowMode: width <= height
+    readonly property bool narrowMode: width <= height * 1.5
+    readonly property int columnWidth: narrowMode ? contentRow.width : (contentRow.width / 3) - contentRow.spacing
     readonly property int contentSpacing: units.gu(3)
-
-    signal close()
-    signal previewImageClicked()
 
     color: Qt.rgba(0, 0, 0, .3)
     clip: true
@@ -61,87 +61,32 @@ Rectangle {
         anchors.fill: parent
     }
 
-    Item {
-        id: headerRow
-        height: units.gu(4)
-        anchors {
-            top: parent.top
-            left: parent.left
-            right: parent.right
-            margins: root.contentSpacing
-        }
-
-        MouseArea {
-            anchors {
-                fill: parent
-                leftMargin: -root.contentSpacing
-                rightMargin: -root.contentSpacing
-                topMargin: -root.contentSpacing
-            }
-
-            onClicked: root.close();
-        }
-
-        Item {
-            id: labelItem
-            anchors {
-                fill: parent
-                rightMargin: closePreviewImage.width + spacing
-            }
-
-            property int spacing: units.gu(2)
-
-            Label {
-                id: title
-                objectName: "titleLabel"
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                }
-
-                elide: Text.ElideRight
-                fontSize: "x-large"
-                font.weight: Font.Light
-                color: Theme.palette.selected.backgroundText
-                opacity: 0.9
-                text: root.title
-                style: Text.Raised
-                styleColor: "black"
-            }
-            Image {
-                id: closePreviewImage
-                source: "graphics/tablet/icon_close_preview.png"
-                width: units.gu(4)
-                height: units.gu(1.5)
-                anchors {
-                    bottom: title.bottom
-                    bottomMargin: units.dp(7)
-                    left: parent.left
-                    leftMargin: title.paintedWidth + labelItem.spacing
-                }
-            }
-        }
-    }
 
     Row {
         id: contentRow
         anchors {
             left: parent.left
+            top: parent.top
             right: parent.right
-            top: headerRow.bottom
             bottom: parent.bottom
-            margins: root.contentSpacing
+            topMargin: root.contentSpacing
+            leftMargin: root.contentSpacing
+            rightMargin: root.contentSpacing
         }
+        height: childrenRect.height
 
         spacing: units.gu(2)
+
 
         Flickable {
             id: leftFlickable
             objectName: "leftFlickable"
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            width: root.narrowMode ? contentRow.width : contentRow.width * root.previewWidthRatio
-            contentHeight: leftColumn.height
+            anchors {
+                top: parent.top
+                bottom: parent.bottom
+            }
+            width: root.columnWidth
+            contentHeight: leftColumn.height + root.contentSpacing
             anchors.bottomMargin: root.keyboardSize
             clip: true
 
@@ -150,33 +95,44 @@ Rectangle {
             Column {
                 id: leftColumn
                 objectName: "leftColumn"
+                height: childrenRect.height
+                spacing: root.contentSpacing
                 anchors {
                     left: parent.left
                     right: parent.right
-                }
-                height: childrenRect.height
-                spacing: units.gu(1)
-
-                Loader {
-                    id: headerLoader
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    sourceComponent: root.header
-                }
-                Loader {
-                    id: buttonLoader
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    sourceComponent: root.buttons
                 }
             }
         }
 
         Flickable {
+            id: centerFlickable
+            anchors {
+                top: parent.top
+                bottom: parent.bottom
+            }
+            width: root.columnWidth
+            contentHeight: centerColumn.height
+            clip: true
+
+            Column {
+                id: centerColumn
+                objectName: "centerColumn"
+                height: childrenRect.height
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                }
+                spacing: root.contentSpacing
+            }
+        }
+
+        Flickable {
             id: rightFlickable
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            width: narrowMode ? 0 : (contentRow.width - leftColumn.width - contentRow.spacing)
+            anchors {
+                top: parent.top
+                bottom: parent.bottom
+            }
+            width: root.columnWidth
             contentHeight: rightColumn.height
             clip: true
 
@@ -193,9 +149,59 @@ Rectangle {
     }
 
     Loader {
+        id: previewImageLoader
+        parent: leftColumn
+        sourceComponent: root.previewImages
+        anchors {
+            left: parent.left
+            right: parent.right
+        }
+    }
+
+    Loader {
+        id: ratingsLoader
         parent: root.narrowMode ? leftColumn : rightColumn
-        anchors.left: parent.left
-        anchors.right: parent.right
-        sourceComponent: root.body
+        anchors {
+            left: parent.left
+            right: parent.right
+        }
+        sourceComponent: root.ratings
+    }
+
+    Loader {
+        id: descriptionLoader
+        parent: root.narrowMode ? leftColumn : centerColumn
+        anchors {
+            left: parent.left
+            right: parent.right
+        }
+        sourceComponent: root.description
+    }
+
+    Loader {
+        id: actionsLoader
+        parent: root.narrowMode ? leftColumn : centerColumn
+        anchors {
+            left: parent.left
+            right: parent.right
+        }
+        sourceComponent: root.actions
+    }
+
+    Loader {
+        id: headerLoader
+        parent: root.narrowMode ? leftColumn : centerColumn
+        anchors {
+            left: parent.left
+            right: parent.right
+        }
+        sourceComponent: root.header
+    }
+
+    MouseArea {
+        id: waitingForActionMouseArea
+        objectName: "waitingForActionMouseArea"
+        anchors.fill: parent
+        enabled: false
     }
 }

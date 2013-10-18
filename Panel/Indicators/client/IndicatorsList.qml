@@ -45,7 +45,7 @@ Page {
             anchors.right: parent.right
             objectName: identifier
 
-            text: title
+            text: identifier
 
             onClicked: {
                 var new_page = Qt.createComponent("IndicatorsPage.qml");

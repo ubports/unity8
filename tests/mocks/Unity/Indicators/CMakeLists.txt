@@ -35,7 +35,7 @@ target_link_libraries(IndicatorsFakeQml)
 qt5_use_modules(IndicatorsFakeQml Core Qml Quick)
 
 file(GLOB IndicatorsFake_QMLFILES
-    IndicatorsModel.qml
+    *.qml
     qml/FakeMenuPage.qml
 )
 
