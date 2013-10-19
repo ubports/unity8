@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-10-11 12:12+0200\n"
-"PO-Revision-Date: 2013-10-06 10:57+0000\n"
-"Last-Translator: SaGrLand <sg@samuel-greef.de>\n"
+"PO-Revision-Date: 2013-10-18 12:26+0000\n"
+"Last-Translator: Phillip Sz <Unknown>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-10-13 05:43+0000\n"
-"X-Generator: Launchpad (build 16799)\n"
+"X-Launchpad-Export-Date: 2013-10-19 05:30+0000\n"
+"X-Generator: Launchpad (build 16807)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -96,7 +96,7 @@ msgstr "Rechter Rand"
 
 #: Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr ""
+msgstr "Vom rechten Rand her wischen, um das Gerät zu entsperren"
 
 #: Components/EdgeDemo.qml:144
 msgid "Top edge"
@@ -104,7 +104,7 @@ msgstr "Oberer Rand"
 
 #: Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
-msgstr ""
+msgstr "Vom oberen Rand her wischen, um die Statusmeldungen anzuzeigen"
 
 #: Components/EdgeDemo.qml:170
 msgid "Close"
@@ -112,7 +112,7 @@ msgstr "Schließen"
 
 #: Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
-msgstr ""
+msgstr "Nochmals nach oben wischen, um das Einstellungsmenü zu schließen"
 
 #: Components/EdgeDemo.qml:198
 msgid "Left edge"
@@ -121,6 +121,8 @@ msgstr "Linker Rand"
 #: Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr ""
+"Von links wischen, um die Seitenleiste für den Anwendungs-Schnellzugriff "
+"aufzurufen"
 
 #: Components/EdgeDemo.qml:226
 msgid "Well done"
@@ -131,6 +133,8 @@ msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap anywhere to start"
 msgstr ""
+"Sie haben nun die Einführung abgeschlossen und können Ihr Gerät nun "
+"verwenden<br><br>Antippen um zu starten"
 
 #: Components/PageHeader.qml:341
 msgid "Recent searches"
@@ -221,24 +225,3 @@ msgstr "Alle"
 #, qt-format
 msgid "Please enter %1"
 msgstr "Bitte geben Sie %1 ein"
-
-#~ msgid "Featured"
-#~ msgstr "Empfehlungen"
-
-#~ msgid "Recent"
-#~ msgstr "Zuletzt verwendet"
-
-#~ msgid "New Releases"
-#~ msgstr "Neue Veröffentlichungen"
-
-#~ msgid "Top Charting"
-#~ msgstr "Top Tabellenplatz"
-
-#~ msgid "Music"
-#~ msgstr "Musik"
-
-#~ msgid "Popular Online"
-#~ msgstr "Online Beliebt"
-
-#~ msgid "Videos"
-#~ msgstr "Videos"
