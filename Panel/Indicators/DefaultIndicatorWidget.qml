@@ -97,6 +97,7 @@ Indicators.IndicatorWidget {
         }
     }
 
+    // TODO: Use toolkit function https://bugs.launchpad.net/ubuntu-ui-toolkit/+bug/1242575
     function guRoundUp(width) {
         if (width == 0) {
             return 0;
