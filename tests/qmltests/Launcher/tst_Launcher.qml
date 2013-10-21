@@ -38,7 +38,6 @@ Item {
         property string lastSelectedApplication
 
         onLauncherApplicationSelected: {
-            print("sleected", appId)
             lastSelectedApplication = appId
         }
 
