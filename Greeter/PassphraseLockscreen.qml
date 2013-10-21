@@ -82,6 +82,7 @@ Item {
 
     WrongPasswordAnimation {
         id: wrongPasswordAnimation
+        objectName: "wrongPasswordAnimation"
         target: pinentryField
     }
 }

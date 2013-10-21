@@ -17,7 +17,6 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import "../Components"
-import LightDM 0.1 as LightDM
 
 Showable {
     id: root
@@ -37,7 +36,7 @@ Showable {
 
     property url background: ""
 
-    signal unlocked()
+    signal entered(string passphrase)
     signal cancel()
     signal emergencyCall()
 
@@ -51,6 +50,10 @@ Showable {
         // This causes the loader below to destry and recreate the source
         pinPadLoader.resetting = true;
         pinPadLoader.resetting = false;
+    }
+
+    function clear(showAnimation) {
+        pinPadLoader.item.clear(showAnimation);
     }
 
     Rectangle {
@@ -88,7 +91,7 @@ Showable {
             target: pinPadLoader.item
 
             onEntered: {
-                LightDM.Greeter.respond(passphrase);
+                root.entered(passphrase);
             }
 
             onCancel: {
@@ -144,21 +147,6 @@ Showable {
             opacity: 0.6
             fontSize: "medium"
             anchors.horizontalCenter: parent.horizontalCenter
-        }
-    }
-
-    Connections {
-        target: LightDM.Greeter
-
-        onAuthenticationComplete: {
-            if (LightDM.Greeter.promptless) {
-                return;
-            }
-            if (LightDM.Greeter.authenticated) {
-                root.unlocked();
-            } else {
-                pinPadLoader.item.clear(true);
-            }
         }
     }
 }

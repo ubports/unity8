@@ -41,7 +41,7 @@ Rectangle {
         target: lockscreen
 
         onEmergencyCall: emergencyCheckBox.checked = true
-        onUnlocked: unlockedCheckBox.checked = true
+        onEntered: enteredLabel.text = passphrase
     }
 
     Connections {
@@ -99,12 +99,11 @@ Rectangle {
                 anchors.verticalCenter: parent.verticalCenter
             }
             Row {
-                CheckBox {
-                    id: unlockedCheckBox
+                Label {
+                    text: "Entered:"
                 }
                 Label {
-                    text: "Unlocked signal"
-                    anchors.verticalCenter: parent.verticalCenter
+                    id: enteredLabel
                 }
             }
             Button {
@@ -176,15 +175,15 @@ Rectangle {
 
         function test_unlock_data() {
             return [
-                {tag: "numeric", alphanumeric: false, username: "has-pin", password: "1234", unlockedSignal: true},
-                {tag: "alphanumeric",  alphanumeric: true, username: "has-password", password: "password", unlockedSignal: true},
-                {tag: "numeric (wrong)",  alphanumeric: false, username: "has-pin", password: "4321", unlockedSignal: false},
-                {tag: "alphanumeric (wrong)",  alphanumeric: true, username: "has-password", password: "drowssap", unlockedSignal: false},
+                {tag: "numeric", alphanumeric: false, username: "has-pin", password: "1234"},
+                {tag: "alphanumeric",  alphanumeric: true, username: "has-password", password: "password"},
+                {tag: "numeric (wrong)",  alphanumeric: false, username: "has-pin", password: "4321"},
+                {tag: "alphanumeric (wrong)",  alphanumeric: true, username: "has-password", password: "drowssap"},
             ]
         }
 
         function test_unlock(data) {
-            unlockedCheckBox.checked = false
+            enteredLabel.text = ""
             LightDM.Greeter.authenticate(data.username)
             waitForRendering(lockscreen)
 
@@ -200,13 +199,43 @@ Rectangle {
                     mouseClick(button, units.gu(1), units.gu(1))
                 }
             }
-            tryCompare(unlockedCheckBox, "checked", data.unlockedSignal)
-            if (!data.unlockedSignal) {
-                // make sure the input is cleared on wrong input
-                tryCompareFunction(function() {return inputField.text.length == 0}, true)
+            tryCompare(enteredLabel, "text", data.password)
+        }
+
+        function test_clear_data() {
+            return [
+                {tag: "animated PIN", animation: true, alphanumeric: false},
+                {tag: "not animated PIN", animation: false, alphanumeric: false},
+                {tag: "animated passphrase", animation: true, alphanumeric: true},
+                {tag: "not animated passphrase", animation: false, alphanumeric: true}
+            ];
+        }
+
+        function test_clear(data) {
+            pinPadCheckBox.checked = data.alphanumeric
+            waitForRendering(lockscreen)
+
+            var inputField = findChild(lockscreen, "pinentryField")
+            if (data.alphanumeric) {
+                mouseClick(inputField, units.gu(1), units.gu(1))
+                typeString("1")
             } else {
-                tryCompareFunction(function() {return inputField.text.length > 0}, true)
+                var button = findChild(lockscreen, "pinPadButton1")
+                mouseClick(button, units.gu(1), units.gu(1))
             }
+
+            var animation = findInvisibleChild(lockscreen, "wrongPasswordAnimation")
+
+            tryCompare(inputField, "text", "1")
+
+            lockscreen.clear(data.animation)
+            tryCompare(inputField, "text", "")
+
+            wait(0) // Trigger event loop to make sure the animation would start running
+            compare(animation.running, data.animation)
+
+            // wait for animation to finish to not disturb other tests
+            tryCompare(animation, "running", false)
         }
     }
 }
