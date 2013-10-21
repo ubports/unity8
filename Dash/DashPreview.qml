@@ -22,6 +22,7 @@ Item {
 
     property int keyboardSize: Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.height : 0
     property var previewData
+    property alias showProcessingAction: waitingForActionMouseArea.enabled
 
     property real previewWidthRatio: 0.5
 
@@ -193,5 +194,12 @@ Item {
             right: parent.right
         }
         sourceComponent: root.header
+    }
+
+    MouseArea {
+        id: waitingForActionMouseArea
+        objectName: "waitingForActionMouseArea"
+        anchors.fill: parent
+        enabled: false
     }
 }

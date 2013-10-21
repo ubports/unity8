@@ -59,6 +59,7 @@ ScopeView {
         target: scopeView.scope
         onShowDash: previewListView.open = false;
         onHideDash: previewListView.open = false;
+        onActivated: previewLoader.closePreviewSpinner();
     }
 
     ScopeListView {
@@ -482,6 +483,12 @@ ScopeView {
                 target: item
                 onClose: {
                     previewListView.open = false
+                }
+            }
+
+            function closePreviewSpinner() {
+                if(item) {
+                    item.showProcessingAction = false;
                 }
             }
         }

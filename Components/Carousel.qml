@@ -78,7 +78,7 @@ Item {
         id: listView
 
         property real minimumTileWidth: 0
-        property real newContentX: -1
+        property real newContentX: disabledNewContentX
         property real pathItemCount: referenceWidth / referenceTileWidth
         property real tileAspectRatio: 1
         property int highlightIndex: -1
@@ -107,6 +107,7 @@ Item {
         readonly property real kMiddleIndex: (realWidth / 2) / tileWidth - 0.5
         readonly property real kXBeginningEnd: 1 / tileWidth + kMiddleIndex / gapToMiddlePhase
         readonly property real maximumItemTranslation: (listView.tileWidth * 3) / listView.scaleFactor
+        readonly property real disabledNewContentX: -carousel.drawBuffer - 1
         readonly property real realContentWidth: contentWidth - 2 * carousel.drawBuffer
         readonly property real realContentX: contentX + carousel.drawBuffer
         readonly property real realPathItemCount: Math.min(realWidth / tileWidth, pathItemCount)
@@ -206,7 +207,7 @@ Item {
         onMovementStarted: {
             stepAnimation.stop()
             newContentXAnimation.stop()
-            newContentX = -1
+            newContentX = disabledNewContentX
         }
         onMovementEnded: {
             if (realContentX > 0 && realContentX < realContentWidth - realWidth)
@@ -242,7 +243,7 @@ Item {
                 easing.type: Easing.InOutQuad
             }
             ScriptAction {
-                script: listView.newContentX = -1
+                script: listView.newContentX = listView.disabledNewContentX
             }
         }
 
@@ -267,7 +268,7 @@ Item {
             readonly property bool explicitScale: (!listView.moving ||
                                                    listView.realContentX <= 0 ||
                                                    listView.realContentX >= listView.realContentWidth - listView.realWidth) &&
-                                                  listView.newContentX < 0 &&
+                                                  listView.newContentX === listView.disabledNewContentX &&
                                                   index === listView.selectedIndex
             readonly property real cachedTiles: listView.realPathItemCount + carousel.drawBuffer / listView.tileWidth
             readonly property real distance: listView.continuousIndex - index
