@@ -35,7 +35,7 @@ Item {
 
     function startNavigation() {
         timeout.stop()
-        panel.opened = true
+        panel.open()
     }
 
     function stopNavigation() {
@@ -43,7 +43,7 @@ Item {
     }
 
     function finishNavigation() {
-        panel.opened = false
+        panel.close()
     }
 
     Timer {
