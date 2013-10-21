@@ -105,7 +105,9 @@ run() {
     fi
 
     exec_with_ssh "stop unity8"
+    exec_with_ssh "start maliit-server"
     exec_with_ssh "cd $CODE_DIR/ && ./run $ARGS -- $RUN_OPTIONS"
+    exec_with_ssh "stop maliit-server"
     exec_with_ssh "start unity8"
 }
 
