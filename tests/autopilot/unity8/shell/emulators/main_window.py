@@ -93,3 +93,33 @@ class MainWindow(object):
 
     def get_pinentryField(self):
         return self.app.select_single(objectName="pinentryField")
+
+    def get_network_indicator(self):
+        return self.app.select_single(
+            "Tab",
+            objectName="indicator-network")
+
+    def get_location_indicator(self):
+        return self.app.select_single(
+            "Tab",
+            objectName="indicator-location")
+
+    def get_messaging_indicator(self):
+        return self.app.select_single(
+            "Tab",
+            objectName="indicator-messages")
+
+    def get_power_indicator(self):
+        return self.app.select_single(
+            "Tab",
+            objectName="indicator-power")
+
+    def get_sound_indicator(self):
+        return self.app.select_single(
+            "Tab",
+            objectName="indicator-sound")
+
+    def get_datetime_indicator(self):
+        return self.app.select_single(
+            "Tab",
+            objectName="indicator-datetime")
