@@ -22,7 +22,7 @@ from __future__ import absolute_import
 from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 
 
-class TestLocationIndicator(UnityTestCase):
+class LocationIndicatorTestCase(UnityTestCase):
 
     def test_location_indicator_exists(self):
         """The 'indicator-location' tab can be found."""
