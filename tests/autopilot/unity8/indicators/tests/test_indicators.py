@@ -20,7 +20,7 @@
 from __future__ import absolute_import
 
 from unity8.shell.tests import UnityTestCase
-from unity8.shell.emulators import Indicators
+from unity8.shell.emulators.main_window import Indicators
 
 class IndicatorTestCase(UnityTestCase):
 
