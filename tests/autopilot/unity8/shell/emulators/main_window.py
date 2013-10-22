@@ -123,3 +123,9 @@ class MainWindow(object):
         return self.app.select_single(
             "Tab",
             objectName="indicator-datetime")
+
+    def get_indicator(self, indicator_name):
+        return self.app.select_single(
+            "Tab",
+            objectName=indicator_name
+        )
