@@ -34,7 +34,7 @@ public:
           m_timeSource(timeSource)
     {}
 
-    int interval() const override { return m_interval; } 
+    int interval() const override { return m_interval; }
     void setInterval(int msecs) override { m_interval = msecs; }
     void start() override {
         AbstractTimer::start();
