@@ -432,7 +432,7 @@ Item {
             } while (!isStill);
         }
 
-        function test_wallpaper_data() {
+        function test_background_data() {
             return [
                 {tag: "red", url: "tests/data/unity/backgrounds/red.png", expectedUrl: "tests/data/unity/backgrounds/red.png"},
                 {tag: "blue", url: "tests/data/unity/backgrounds/blue.png", expectedUrl: "tests/data/unity/backgrounds/blue.png"},
@@ -441,7 +441,7 @@ Item {
             ]
         }
 
-        function test_wallpaper(data) {
+        function test_background(data) {
             var backgroundImage = findChild(shell, "backgroundImage")
             GSettingsController.setPictureUri(data.url)
             tryCompareFunction(function() { return backgroundImage.source.toString().indexOf(data.expectedUrl) !== -1; }, true)

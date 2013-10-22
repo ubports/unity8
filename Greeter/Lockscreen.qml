@@ -54,14 +54,14 @@ Showable {
     }
 
     Rectangle {
-        // In case wallpaper fails to load or is undefined
-        id: wallpaperBackup
+        // In case background fails to load or is undefined
+        id: backgroundBackup
         anchors.fill: parent
         color: "black"
     }
 
     Image {
-        id: wallpaper
+        id: backgroundImage
         anchors.fill: parent
         source: root.required ? root.background : ""
         fillMode: Image.PreserveAspectCrop
