@@ -20,6 +20,8 @@
 #include "launcheritem.h"
 #include "quicklistmodel.h"
 
+#include <libintl.h>
+
 LauncherItem::LauncherItem(const QString &appId, const QString &name, const QString &icon, QObject *parent) :
     LauncherItemInterface(parent),
     m_appId(appId),
@@ -38,7 +40,7 @@ LauncherItem::LauncherItem(const QString &appId, const QString &name, const QStr
     m_quickList->appendAction(nameAction);
     QuickListEntry pinningAction;
     pinningAction.setActionId("pin_item");
-    pinningAction.setText("Pin to Launcher");
+    pinningAction.setText(gettext("Lock to Launcher"));
     m_quickList->appendAction(pinningAction);
 }
 
@@ -68,7 +70,7 @@ void LauncherItem::setPinned(bool pinned)
         m_pinned = pinned;
         QuickListEntry entry;
         entry.setActionId("pin_item");
-        entry.setText(pinned ? "Remove from Launcher": "Pin to Launcher");
+        entry.setText(pinned ? gettext("Unlock from Launcher"): gettext("Lock to Launcher"));
         m_quickList->updateAction(entry);
         Q_EMIT pinnedChanged(pinned);
     }
