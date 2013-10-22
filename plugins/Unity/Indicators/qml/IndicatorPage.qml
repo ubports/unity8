@@ -129,6 +129,12 @@ IndicatorBase {
                     }
                 }
 
+                Binding {
+                    target: item ? item : null
+                    property: "objectName"
+                    value: model.action
+                }
+
                 Connections {
                     target: mainMenu
                     onSelectedIndexChanged: {
