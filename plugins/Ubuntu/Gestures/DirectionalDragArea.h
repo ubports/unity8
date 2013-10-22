@@ -117,8 +117,16 @@ class UBUNTUGESTURES_EXPORT DirectionalDragArea : public QQuickItem {
     Q_PROPERTY(int maxSilenceTime READ maxSilenceTime
                                   WRITE setMaxSilenceTime
                                   NOTIFY maxSilenceTimeChanged)
+
     //
     /////
+
+    // Maximum time (in milliseconds) after the start of a given touch point where
+    // subsequent touch starts are grouped with the first one into an N-touches gesture
+    // (e.g. a two-fingers tap or drag).
+    Q_PROPERTY(int compositionTime READ compositionTime
+                                   WRITE setCompositionTime
+                                   NOTIFY compositionTimeChanged)
 
     Q_ENUMS(Direction)
     Q_ENUMS(Status)
@@ -130,26 +138,23 @@ public:
 
     // Describes the state of the directional drag gesture.
     enum Status {
-        // There's no touch point over this area.
+        // Waiting for a new touch point to land on this area. No gesture is being processed
+        // or tracked.
         WaitingForTouch,
 
         // A touch point has landed on this area but it's not know yet whether it is
         // performing a drag in the correct direction.
+        // If it's decided that the touch point is not performing a directional drag gesture,
+        // it will be rejected/ignored and status will return to WaitingForTouch.
         Undecided, //Recognizing,
 
         // There's a touch point in this area and it performed a drag in the correct
         // direction.
         //
-        // Once recognized, the gesture state will move back to Absent only once
+        // Once recognized, the gesture state will move back to WaitingForTouch only once
         // that touch point ends. The gesture will remain in the Recognized state even if
         // the touch point starts moving in other directions or halts.
         Recognized,
-
-        // A gesture was performed but it wasn't a single-touch drag in the correct
-        // direction.
-        // It will remain in this state until there are no more touch points over this
-        // area, at which point it will move to Absent state.
-        Rejected
     };
     Status status() const { return m_status; }
 
@@ -164,7 +169,7 @@ public:
 
     bool dragging() const { return (m_status == Undecided) || (m_status == Recognized); }
 
-    qreal maxDeviation() const { return m_dampedPos.maxDelta(); }
+    qreal maxDeviation() const { return m_dampedScenePos.maxDelta(); }
     void setMaxDeviation(qreal value);
 
     qreal wideningAngle() const;
@@ -179,13 +184,16 @@ public:
     int maxSilenceTime() const { return m_maxSilenceTime; }
     void setMaxSilenceTime(int value);
 
+    int compositionTime() const { return m_compositionTime; }
+    void setCompositionTime(int value);
+
     // Replaces the existing Timer with the given one.
     //
     // Useful for providing a fake timer when testing.
     void setRecognitionTimer(UbuntuGestures::AbstractTimer *timer);
 
     // Useful for testing, where a fake time source can be supplied
-    void setTimeSource(UbuntuGestures::TimeSource *timeSource);
+    void setTimeSource(UbuntuGestures::SharedTimeSource timeSource);
 
 Q_SIGNALS:
     void directionChanged(Direction::Type direction);
@@ -198,6 +206,7 @@ Q_SIGNALS:
     void distanceThresholdChanged(qreal value);
     void minSpeedChanged(qreal value);
     void maxSilenceTimeChanged(int value);
+    void compositionTimeChanged(int value);
     void touchXChanged(qreal value);
     void touchYChanged(qreal value);
     void touchSceneXChanged(qreal value);
@@ -213,7 +222,6 @@ private:
     void touchEvent_absent(QTouchEvent *event);
     void touchEvent_undecided(QTouchEvent *event);
     void touchEvent_recognized(QTouchEvent *event);
-    void touchEvent_rejected(QTouchEvent *event);
     bool pointInsideAllowedArea() const;
     bool movingInRightDirection() const;
     bool movedFarEnough(const QPointF &point) const;
@@ -222,6 +230,7 @@ private:
     void setPreviousPos(const QPointF &point);
     void setPreviousScenePos(const QPointF &point);
     void updateVelocityCalculator(const QPointF &point);
+    bool isWithinTouchCompositionWindow();
 
     Status m_status;
 
@@ -233,8 +242,8 @@ private:
 
     // A movement damper is used in some of the gesture recognition calculations
     // to get rid of noise or small oscillations in the touch position.
-    DampedPointF m_dampedPos;
-    QPointF m_previousDampedPos;
+    DampedPointF m_dampedScenePos;
+    QPointF m_previousDampedScenePos;
 
     Direction::Type m_direction;
     qreal m_wideningAngle; // in degrees
@@ -243,9 +252,31 @@ private:
     qreal m_minSpeed;
     int m_maxSilenceTime; // in milliseconds
     int m_silenceTime; // in milliseconds
+    int m_compositionTime; // in milliseconds
     int m_numSamplesOnLastSpeedCheck;
     UbuntuGestures::AbstractTimer *m_recognitionTimer;
     AxisVelocityCalculator *m_velocityCalculator;
+
+    UbuntuGestures::SharedTimeSource m_timeSource;
+
+    // Information about an active touch point
+    struct ActiveTouchInfo {
+        ActiveTouchInfo() : id(-1), startTime(-1) {}
+        bool isValid() const { return id != -1; }
+        int id;
+        qint64 startTime;
+    };
+    class ActiveTouchesInfo : public QVector<struct ActiveTouchInfo> {
+    public:
+        ActiveTouchesInfo(UbuntuGestures::SharedTimeSource timeSource);
+        void update(QTouchEvent *event);
+        ActiveTouchInfo &touchInfo(int id);
+        qint64 mostRecentStartTime();
+        UbuntuGestures::SharedTimeSource m_timeSource;
+    private:
+        void addTouchPoint(const QTouchEvent::TouchPoint &touchPoint);
+        void removeTouchPoint(const QTouchEvent::TouchPoint &touchPoint);
+    } m_activeTouches;
 };
 
 #endif // DIRECTIONAL_DRAG_AREA_H
