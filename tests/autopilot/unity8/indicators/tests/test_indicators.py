@@ -1,6 +1,6 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
-# Unity - Indicatosr Autopilot Test Suite
+# Unity - Indicators Autopilot Test Suite
 # Copyright (C) 2013 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
@@ -19,18 +19,19 @@
 
 from __future__ import absolute_import
 
+from unity8.shell.emulators.main_window import IndicatorType
 from unity8.shell.tests import UnityTestCase
-from unity8.shell.emulators.main_window import Indicators
+
 
 class IndicatorTestCase(UnityTestCase):
 
     scenarios = [
-        ('Network', dict(indicator_name=Indicators.network)),
-        ('Location', dict(indicator_name=Indicators.location)),
-        ('Messaging', dict(indicator_name=Indicators.messaging)),
-        ('Power', dict(indicator_name=Indicators.power)),
-        ('Sound', dict(indicator_name=Indicators.sound)),
-        ('Datetime', dict(indicator_name=Indicators.datetime)),
+        ('Network', dict(indicator_name=IndicatorType.network)),
+        ('Location', dict(indicator_name=IndicatorType.location)),
+        ('Messaging', dict(indicator_name=IndicatorType.messaging)),
+        ('Power', dict(indicator_name=IndicatorType.power)),
+        ('Sound', dict(indicator_name=IndicatorType.sound)),
+        ('Datetime', dict(indicator_name=IndicatorType.datetime)),
     ]
 
     def test_indicator_exists(self):
@@ -38,6 +39,5 @@ class IndicatorTestCase(UnityTestCase):
 
         self.launch_unity()
         self.main_window.get_greeter().swipe()
-        window = self.main_window.get_qml_view()
         indicator = self.main_window.get_indicator(self.indicator_name)
         self.assertIsNotNone(indicator)

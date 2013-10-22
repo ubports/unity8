@@ -101,7 +101,7 @@ class MainWindow(object):
         )
 
 
-class Indicators:
+class IndicatorType:
     network = 'indicator-network'
     location = 'indicator-location'
     messaging = 'indicator-messages'
