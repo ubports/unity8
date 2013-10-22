@@ -119,19 +119,23 @@ IndicatorBase {
                     }
 
                     if (item.hasOwnProperty("menuSelected")) {
-                        item.menuSelected = Qt.binding(function() { return mainMenu.selectedIndex == index; });
+                        item.menuSelected = mainMenu.selectedIndex == index;
                         item.selectMenu.connect(function() { mainMenu.selectedIndex = index; });
                         item.deselectMenu.connect(function() { mainMenu.selectedIndex = -1; });
                     }
+
                     if (item.hasOwnProperty("menu")) {
                         item.menu = Qt.binding(function() { return model; });
                     }
                 }
 
-                Binding {
-                    target: item ? item : null
-                    property: "objectName"
-                    value: model.action
+                Connections {
+                    target: mainMenu
+                    onSelectedIndexChanged: {
+                        if (loader.item && loader.item.hasOwnProperty("menuSelected")) {
+                            loader.item.menuSelected = mainMenu.selectedIndex == index;
+                        }
+                    }
                 }
             }
         }

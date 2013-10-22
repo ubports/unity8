@@ -35,30 +35,9 @@ Indicators.BaseMenuItem {
     Loader {
         id: contents
         anchors.fill: parent
+        asynchronous: false
 
         sourceComponent: loadMessage(actionsDescription);
-
-        // Binding all properties for the item, to make sure that any change in the
-        // property will be propagated to the contents.item at any time
-        Binding {
-            target: contents.item
-            property: "menuSelected"
-            value: menuSelected
-            when: (contents.status == Loader.Ready)
-        }
-
-        Binding {
-            target: contents.item
-            property: "menu"
-            value: menu
-            when: (contents.status == Loader.Ready)
-        }
-
-        Connections {
-            target: contents.item ? contents.item : null
-            onSelectMenu: selectMenu()
-            onDeselectMenu: deselectMenu()
-        }
 
         Component {
             id: simpleTextMessage
@@ -77,6 +56,10 @@ Indicators.BaseMenuItem {
                 onDismiss: {
                     menuItem.model.activate(modelIndex, false);
                 }
+
+                menuSelected: menuItem.menuSelected
+                onSelectMenu: menuItem.selectMenu()
+                onDeselectMenu: menuItem.deselectMenu()
             }
         }
         Component {
@@ -108,6 +91,10 @@ Indicators.BaseMenuItem {
                 onReply: {
                     replyAction.activate(value);
                 }
+
+                menuSelected: menuItem.menuSelected
+                onSelectMenu: menuItem.selectMenu()
+                onDeselectMenu: menuItem.deselectMenu()
             }
         }
         Component {
@@ -150,6 +137,10 @@ Indicators.BaseMenuItem {
                 onReply: {
                     replyAction.activate(value);
                 }
+
+                menuSelected: menuItem.menuSelected
+                onSelectMenu: menuItem.selectMenu()
+                onDeselectMenu: menuItem.deselectMenu()
             }
         }
     }
