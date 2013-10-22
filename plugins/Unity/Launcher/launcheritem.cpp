@@ -70,7 +70,7 @@ void LauncherItem::setPinned(bool pinned)
         m_pinned = pinned;
         QuickListEntry entry;
         entry.setActionId("pin_item");
-        entry.setText(pinned ? gettext("Unlock from Launcher"): gettext("Lock to Launcher"));
+        entry.setText(pinned ? gettext("Unlock from Launcher") : gettext("Lock to Launcher"));
         m_quickList->updateAction(entry);
         Q_EMIT pinnedChanged(pinned);
     }
