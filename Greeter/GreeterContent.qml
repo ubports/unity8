@@ -48,7 +48,7 @@ MouseArea {
         objectName: "greeterBackground"
         anchors {
             fill: parent
-            topMargin: -panel.panelHeight
+            topMargin: backgroundTopMargin
         }
         fillMode: Image.PreserveAspectCrop
     }
