@@ -99,3 +99,12 @@ class MainWindow(object):
             "Tab",
             objectName=indicator_name
         )
+
+
+class Indicators:
+    network = 'indicator-network'
+    location = 'indicator-location'
+    messaging = 'indicator-messages'
+    power = 'indicator-power'
+    sound = 'indicator-sound'
+    datetime = 'indicator-datetime'

@@ -20,21 +20,21 @@
 from __future__ import absolute_import
 
 from unity8.shell.tests import UnityTestCase
-
+from unity8.shell.emulators import Indicators
 
 class IndicatorTestCase(UnityTestCase):
 
     scenarios = [
-        ('Network', dict(indicator_name='indicator-network')),
-        ('Location', dict(indicator_name='indicator-location')),
-        ('Messaging', dict(indicator_name='indicator-messages')),
-        ('Power', dict(indicator_name='indicator-power')),
-        ('Sound', dict(indicator_name='indicator-sound')),
-        ('Datetime', dict(indicator_name='indicator-datetime')),
+        ('Network', dict(indicator_name=Indicators.network)),
+        ('Location', dict(indicator_name=Indicators.location)),
+        ('Messaging', dict(indicator_name=Indicators.messaging)),
+        ('Power', dict(indicator_name=Indicators.power)),
+        ('Sound', dict(indicator_name=Indicators.sound)),
+        ('Datetime', dict(indicator_name=Indicators.datetime)),
     ]
 
     def test_indicator_exists(self):
-        """The specific indicators tab can be found."""
+        """The tab of a given indicator can be found."""
 
         self.launch_unity()
         self.main_window.get_greeter().swipe()
