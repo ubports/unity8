@@ -647,19 +647,22 @@ FocusScope {
         Launcher {
             id: launcher
 
+            readonly property bool dashSwipe: progress > 0
+
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
             available: (!greeter.shown || greeter.narrowMode) && edgeDemo.launcherEnabled
+
             onDashItemSelected: showHome()
             onDash: {
                 if (stages.shown) {
-                    dash.setCurrentScope("applications.scope", true /* animate */, true /* reset */)
                     stages.hide();
                     launcher.hide();
                 }
             }
+            onDashSwipeChanged: if (dashSwipe && stages.shown) dash.setCurrentScope("applications.scope", false, true)
             onLauncherApplicationSelected:{
                 greeter.hide()
                 shell.activateApplication(appId)
