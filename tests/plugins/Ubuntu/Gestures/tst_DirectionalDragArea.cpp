@@ -29,7 +29,7 @@ class FakeTimer : public AbstractTimer
 {
     Q_OBJECT
 public:
-    FakeTimer(SharedTimeSource timeSource, QObject *parent = 0)
+    FakeTimer(const SharedTimeSource &timeSource, QObject *parent = 0)
         : UbuntuGestures::AbstractTimer(parent),
           m_timeSource(timeSource)
     {}

@@ -68,7 +68,7 @@ public:
     /*
       Constructor that takes a TimeSource
      */
-    AxisVelocityCalculator(UbuntuGestures::SharedTimeSource timeSource, QObject *parent = 0);
+    AxisVelocityCalculator(const UbuntuGestures::SharedTimeSource &timeSource, QObject *parent = 0);
 
     virtual ~AxisVelocityCalculator();
 
@@ -90,7 +90,7 @@ public:
     /*
         Replaces the TimeSource with the given one. Useful for testing purposes.
      */
-    void setTimeSource(UbuntuGestures::SharedTimeSource timeSource);
+    void setTimeSource(const UbuntuGestures::SharedTimeSource &timeSource);
 
     /*
         The minimum amount of samples needed for a velocity calculation.

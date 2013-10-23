@@ -28,7 +28,7 @@ AxisVelocityCalculator::AxisVelocityCalculator(QObject *parent)
 {
 }
 
-AxisVelocityCalculator::AxisVelocityCalculator(SharedTimeSource timeSource,
+AxisVelocityCalculator::AxisVelocityCalculator(const SharedTimeSource &timeSource,
                                                QObject *parent)
     : QObject(parent)
     , m_timeSource(timeSource)
@@ -136,7 +136,7 @@ int AxisVelocityCalculator::numSamples() const
     }
 }
 
-void AxisVelocityCalculator::setTimeSource(SharedTimeSource timeSource)
+void AxisVelocityCalculator::setTimeSource(const SharedTimeSource &timeSource)
 {
     m_timeSource = timeSource;
 

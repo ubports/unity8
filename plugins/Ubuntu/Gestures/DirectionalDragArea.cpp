@@ -221,7 +221,7 @@ void DirectionalDragArea::setRecognitionTimer(UbuntuGestures::AbstractTimer *tim
     }
 }
 
-void DirectionalDragArea::setTimeSource(UbuntuGestures::SharedTimeSource timeSource)
+void DirectionalDragArea::setTimeSource(const SharedTimeSource &timeSource)
 {
     m_timeSource = timeSource;
     m_velocityCalculator->setTimeSource(timeSource);
@@ -601,7 +601,7 @@ bool DirectionalDragArea::isWithinTouchCompositionWindow()
 
 //**************************  ActiveTouchesInfo **************************
 
-DirectionalDragArea::ActiveTouchesInfo::ActiveTouchesInfo(UbuntuGestures::SharedTimeSource timeSource)
+DirectionalDragArea::ActiveTouchesInfo::ActiveTouchesInfo(const SharedTimeSource &timeSource)
     : m_timeSource(timeSource)
 {
     // Estimate of the maximum number of active touches we might reach.

@@ -193,7 +193,7 @@ public:
     void setRecognitionTimer(UbuntuGestures::AbstractTimer *timer);
 
     // Useful for testing, where a fake time source can be supplied
-    void setTimeSource(UbuntuGestures::SharedTimeSource timeSource);
+    void setTimeSource(const UbuntuGestures::SharedTimeSource &timeSource);
 
 Q_SIGNALS:
     void directionChanged(Direction::Type direction);
@@ -268,7 +268,7 @@ private:
     };
     class ActiveTouchesInfo : public QVector<struct ActiveTouchInfo> {
     public:
-        ActiveTouchesInfo(UbuntuGestures::SharedTimeSource timeSource);
+        ActiveTouchesInfo(const UbuntuGestures::SharedTimeSource &timeSource);
         void update(QTouchEvent *event);
         ActiveTouchInfo &touchInfo(int id);
         qint64 mostRecentStartTime();
