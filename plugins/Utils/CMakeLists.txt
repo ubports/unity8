@@ -16,6 +16,7 @@ set(QMLPLUGIN_SRC
     mediaartcache.cpp
     qlimitproxymodelqml.cpp
     qsortfilterproxymodelqml.cpp
+    timeformatter.cpp
     ubuntuwindow.cpp
     unitymenumodelpaths.cpp
     plugin.cpp

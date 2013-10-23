@@ -30,5 +30,4 @@ run_tests(
     indicatorsmodeltest
     menucontentactivatortest
     rootactionstatetest
-    timeformattertest
     )

@@ -28,6 +28,7 @@
 #include "applicationpaths.h"
 #include "qlimitproxymodelqml.h"
 #include "qsortfilterproxymodelqml.h"
+#include "timeformatter.h"
 #include "ubuntuwindow.h"
 #include "unitymenumodelpaths.h"
 
@@ -46,6 +47,8 @@ void UtilsPlugin::registerTypes(const char *uri)
     qmlRegisterType<UnityMenuModelPaths>(uri, 0, 1, "UnityMenuModelPaths");
     qmlRegisterExtendedType<QQuickWindow, UbuntuWindow>(uri, 0, 1, "Window");
     qmlRegisterSingletonType<ApplicationPaths>(uri, 0, 1, "ApplicationPaths", applicationsPathsSingleton);
+    qmlRegisterType<TimeFormatter>(uri, 0, 1, "TimeFormatter");
+    qmlRegisterType<StrFTimeFormatter>(uri, 0, 1, "StrFTimeFormatter");
 }
 
 void UtilsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
