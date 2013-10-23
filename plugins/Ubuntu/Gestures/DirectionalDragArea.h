@@ -263,19 +263,25 @@ private:
     struct ActiveTouchInfo {
         ActiveTouchInfo() : id(-1), startTime(-1) {}
         bool isValid() const { return id != -1; }
+        void reset() { id = -1; }
         int id;
         qint64 startTime;
     };
-    class ActiveTouchesInfo : public QVector<struct ActiveTouchInfo> {
+    class ActiveTouchesInfo {
     public:
         ActiveTouchesInfo(const UbuntuGestures::SharedTimeSource &timeSource);
         void update(QTouchEvent *event);
         ActiveTouchInfo &touchInfo(int id);
         qint64 mostRecentStartTime();
         UbuntuGestures::SharedTimeSource m_timeSource;
+        bool isEmpty() const { return m_lastUsedIndex == -1; }
     private:
         void addTouchPoint(const QTouchEvent::TouchPoint &touchPoint);
+        ActiveTouchInfo &getEmptySlot();
+        void freeSlot(int index);
         void removeTouchPoint(const QTouchEvent::TouchPoint &touchPoint);
+        QVector<struct ActiveTouchInfo> m_vector;
+        int m_lastUsedIndex;
     } m_activeTouches;
 };
 

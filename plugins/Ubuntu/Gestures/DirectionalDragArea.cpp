@@ -602,12 +602,12 @@ bool DirectionalDragArea::isWithinTouchCompositionWindow()
 //**************************  ActiveTouchesInfo **************************
 
 DirectionalDragArea::ActiveTouchesInfo::ActiveTouchesInfo(const SharedTimeSource &timeSource)
-    : m_timeSource(timeSource)
+    : m_timeSource(timeSource), m_lastUsedIndex(-1)
 {
     // Estimate of the maximum number of active touches we might reach.
     // Not a problem if it ends up being an underestimate as this is just
     // an optimization.
-    reserve(10);
+    m_vector.resize(3);
 }
 
 void DirectionalDragArea::ActiveTouchesInfo::update(QTouchEvent *event)
@@ -630,33 +630,65 @@ void DirectionalDragArea::ActiveTouchesInfo::update(QTouchEvent *event)
 
 void DirectionalDragArea::ActiveTouchesInfo::addTouchPoint(const QTouchEvent::TouchPoint &touchPoint)
 {
-    ActiveTouchInfo activeTouchInfo;
+    ActiveTouchInfo &activeTouchInfo = getEmptySlot();
     activeTouchInfo.id = touchPoint.id();
     activeTouchInfo.startTime = m_timeSource->msecsSinceReference();
-    append(activeTouchInfo);
 }
 
 void DirectionalDragArea::ActiveTouchesInfo::removeTouchPoint(const QTouchEvent::TouchPoint &touchPoint)
 {
-    for (int i = 0; i < count(); ++i) {
-        if (touchPoint.id() == at(i).id) {
-            remove(i);
+    for (int i = 0; i <= m_lastUsedIndex; ++i) {
+        if (touchPoint.id() == m_vector.at(i).id) {
+            freeSlot(i);
             return;
         }
     }
     Q_ASSERT(false); // shouldn't reach this point
 }
 
+DirectionalDragArea::ActiveTouchInfo &DirectionalDragArea::ActiveTouchesInfo::getEmptySlot()
+{
+    Q_ASSERT(m_lastUsedIndex < m_vector.size());
+
+    // Look for an in-between vacancy first
+    for (int i = 0; i < m_lastUsedIndex; ++i) {
+        ActiveTouchInfo &activeTouchInfo = m_vector[i];
+        if (!activeTouchInfo.isValid()) {
+            return activeTouchInfo;
+        }
+    }
+
+    ++m_lastUsedIndex;
+    if (m_lastUsedIndex >= m_vector.size()) {
+        m_vector.resize(m_lastUsedIndex + 1);
+    }
+
+    return m_vector[m_lastUsedIndex];
+}
+
+void DirectionalDragArea::ActiveTouchesInfo::freeSlot(int index)
+{
+    m_vector[index].reset();
+    if (index == m_lastUsedIndex) {
+        do {
+            --m_lastUsedIndex;
+        } while (m_lastUsedIndex >= 0 && !m_vector.at(m_lastUsedIndex).isValid());
+    }
+}
+
 qint64 DirectionalDragArea::ActiveTouchesInfo::mostRecentStartTime()
 {
-    Q_ASSERT(count() > 0);
+    Q_ASSERT(m_lastUsedIndex >= 0);
 
-    qint64 highestStartTime;
-    int i = 0;
+    qint64 highestStartTime = m_vector.at(0).startTime;
+    int i = 1;
     do {
-        highestStartTime = at(i).startTime;
+        const ActiveTouchInfo &activeTouchInfo = m_vector.at(i);
+        if (activeTouchInfo.isValid() && activeTouchInfo.startTime > highestStartTime) {
+            highestStartTime = activeTouchInfo.startTime;
+        }
         ++i;
-    } while (i < count());
+    } while (i < m_lastUsedIndex);
 
     return highestStartTime;
 }
