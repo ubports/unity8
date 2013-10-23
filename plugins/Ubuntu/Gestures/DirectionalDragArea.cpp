@@ -269,6 +269,7 @@ qreal DirectionalDragArea::touchSceneY() const
 void DirectionalDragArea::touchEvent(QTouchEvent *event)
 {
     #if DIRECTIONALDRAGAREA_DEBUG
+    // TODO Consider using qCDebug() when available (Qt 5.2)
     qDebug() << "[DDA]" << m_timeSource->msecsSinceReference()
         << qPrintable(touchEventToString(event));
     #endif
