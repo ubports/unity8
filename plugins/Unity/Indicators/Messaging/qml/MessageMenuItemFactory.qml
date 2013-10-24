@@ -35,7 +35,6 @@ Indicators.BaseMenuItem {
     Loader {
         id: contents
         anchors.fill: parent
-        asynchronous: false
 
         sourceComponent: loadMessage(actionsDescription);
 
