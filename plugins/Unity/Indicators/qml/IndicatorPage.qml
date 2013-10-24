@@ -135,6 +135,8 @@ IndicatorBase {
                     value: model.action
                 }
 
+                // TODO: Fixes lp#1243146
+                // This is a workaround for a Qt bug which will be filed. See bug for deatils.
                 Connections {
                     target: mainMenu
                     onSelectedIndexChanged: {
