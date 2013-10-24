@@ -26,12 +26,13 @@ from unity8.shell.tests import UnityTestCase
 class IndicatorTestCase(UnityTestCase):
 
     scenarios = [
-        ('Network', dict(indicator_name=IndicatorType.network)),
-        ('Location', dict(indicator_name=IndicatorType.location)),
-        ('Messaging', dict(indicator_name=IndicatorType.messaging)),
-        ('Power', dict(indicator_name=IndicatorType.power)),
-        ('Sound', dict(indicator_name=IndicatorType.sound)),
-        ('Datetime', dict(indicator_name=IndicatorType.datetime)),
+        ('Network', dict(indicator_name='indicator-network')),
+        ('Location', dict(indicator_name='indicator-location')),
+        ('Messaging', dict(indicator_name='indicator-messaging')),
+        ('Power', dict(indicator_name='indicator-power')),
+        ('Sound', dict(indicator_name='indicator-sound')),
+        ('Datetime', dict(indicator_name='indicator-datetime')),
+        ('Bluetooth', dict(indicator_name='indicator-bluetooth')),
     ]
 
     def test_indicator_exists(self):
