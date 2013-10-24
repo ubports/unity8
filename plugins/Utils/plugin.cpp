@@ -48,7 +48,7 @@ void UtilsPlugin::registerTypes(const char *uri)
     qmlRegisterExtendedType<QQuickWindow, UbuntuWindow>(uri, 0, 1, "Window");
     qmlRegisterSingletonType<ApplicationPaths>(uri, 0, 1, "ApplicationPaths", applicationsPathsSingleton);
     qmlRegisterType<TimeFormatter>(uri, 0, 1, "TimeFormatter");
-    qmlRegisterType<StrFTimeFormatter>(uri, 0, 1, "StrFTimeFormatter");
+    qmlRegisterType<GDateTimeFormatter>(uri, 0, 1, "GDateTimeFormatter");
 }
 
 void UtilsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)

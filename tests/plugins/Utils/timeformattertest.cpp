@@ -55,7 +55,7 @@ private Q_SLOTS:
 
         QDateTime time = QDateTime::currentDateTime();
 
-        StrFTimeFormatter formatter;
+        GDateTimeFormatter formatter;
         formatter.setTime(time.toMSecsSinceEpoch() / 1000); // strftime in seconds since epoc
         formatter.setFormat(format);
 

@@ -53,10 +53,10 @@ private:
     struct TimeFormatterPrivate *priv;
 };
 
-class StrFTimeFormatter : public TimeFormatter
+class GDateTimeFormatter : public TimeFormatter
 {
 public:
-    StrFTimeFormatter(QObject *parent = 0);
+    GDateTimeFormatter(QObject *parent = 0);
 
 protected:
     virtual QString formatTime() const;

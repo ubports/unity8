@@ -176,22 +176,26 @@ QString TimeFormatter::formatTime() const
     return QDateTime::fromMSecsSinceEpoch(time() / 1000).toString(format());
 }
 
-StrFTimeFormatter::StrFTimeFormatter(QObject* parent)
+GDateTimeFormatter::GDateTimeFormatter(QObject* parent)
 : TimeFormatter(parent)
 {
 }
 
-QString StrFTimeFormatter::formatTime() const
+QString GDateTimeFormatter::formatTime() const
 {
-    time_t rawtime;
-    struct tm * timeinfo;
-    char buffer [80];
-
-    rawtime = time();
-    timeinfo = localtime (&rawtime);
-
+    gchar* time_string;
+    GDateTime* datetime;
     QByteArray formatBytes = format().toUtf8();
 
-    strftime (buffer, 80, formatBytes.constData(), timeinfo);
-    return QString(buffer);
+    datetime = g_date_time_new_from_unix_local(time());
+    if (!datetime) {
+        return "";
+    }
+
+    time_string = g_date_time_format(datetime, formatBytes.constData());
+    QString formattedTime(time_string);
+
+    g_free(time_string);
+    g_date_time_unref(datetime);
+    return formattedTime;
 }
