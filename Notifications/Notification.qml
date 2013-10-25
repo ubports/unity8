@@ -37,7 +37,7 @@ Item {
 
     fullscreen: notification.hints["x-canonical-private-fullscreen"] == "true" ? true : false
     objectName: "background"
-    implicitHeight: type != Notification.PlaceHolder ? (fullscreen ? notificationList.fullHeight : contentColumn.height + contentColumn.spacing * 2) : 0
+    implicitHeight: type != Notification.PlaceHolder ? (fullscreen ? notificationList.fullHeight : contentColumn.height + contentColumn.spacing * 3) : 0
 
     color: Qt.rgba(0.132, 0.117, 0.109, 0.97)
     opacity: 0
@@ -50,9 +50,7 @@ Item {
 
         visible: !fullscreen
         anchors.fill: parent
-        anchors.leftMargin: notificationList.margin
-        anchors.rightMargin: notificationList.margin
-        //anchors.topMargin: notificationList.margin
+        anchors.margins: notificationList.margin
         color: parent.color
         opacity: parent.opacity
         radius: "medium"

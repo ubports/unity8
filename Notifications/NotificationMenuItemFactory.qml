@@ -79,7 +79,7 @@ Loader {
         Lockscreen {
             anchors.left: parent.left; anchors.right: parent.right
             height: units.gu(60)
-            background: shell.background
+            skipBackground: true
 
             Component.onCompleted: {
                 menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-pin-length': 'int'});

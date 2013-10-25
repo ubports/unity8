@@ -35,6 +35,7 @@ Showable {
     property int pinLength: 4
 
     property url background: ""
+    property bool skipBackground: false
 
     signal entered(string passphrase)
     signal cancel()
@@ -59,12 +60,14 @@ Showable {
     Rectangle {
         // In case wallpaper fails to load or is undefined
         id: wallpaperBackup
+        visible: !skipBackground
         anchors.fill: parent
         color: "black"
     }
 
     Image {
         id: wallpaper
+        visible: !skipBackground
         anchors.fill: parent
         source: root.required ? root.background : ""
         fillMode: Image.PreserveAspectCrop
