@@ -226,6 +226,7 @@ Item {
             verify(fakeRunningAppsModel.contains("calendar"))
 
             mouseClick(calendarTileCloseButton, calendarTileCloseButton.width/2, calendarTileCloseButton.height/2)
+            wait(0) // sping event loop to start any pending animation
 
             verify(!fakeRunningAppsModel.contains("calendar"))
 
