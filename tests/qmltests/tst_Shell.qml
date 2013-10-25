@@ -483,5 +483,17 @@ Item {
             var dash = findChild(shell, "dash");
             tryCompare(dash, "shown", data.expectedShown);
         }
+
+        function test_searchIndicatorHidesOnAppFocus() {
+            var searchIndicator = findChild(shell, "container")
+            tryCompare(searchIndicator, "opacity", 1)
+            dragLauncherIntoView();
+
+            // Launch an app from the launcher
+            tapOnAppIconInLauncher();
+            waitUntilApplicationWindowIsFullyVisible();
+
+            tryCompare(searchIndicator, "opacity", 0);
+        }
     }
 }
