@@ -39,10 +39,6 @@ Item {
     objectName: "background"
     implicitHeight: type != Notification.PlaceHolder ? (fullscreen ? notificationList.fullHeight : contentColumn.height + contentColumn.spacing * 2) : 0
 
-    //parent.anchors.leftMargin: fullscreen ? 0 : notificationList.margin
-    //parent.anchors.rightMargin: fullscreen ? 0 : notificationList.margin
-    //parent.anchors.topMargin: fullscreen ? notificationList.panelHeight : notificationList.panelHeight + notificationList.margin
-
     color: Qt.rgba(0.132, 0.117, 0.109, 0.97)
     opacity: 0
 
@@ -54,6 +50,9 @@ Item {
 
         visible: !fullscreen
         anchors.fill: parent
+        anchors.leftMargin: notificationList.margin
+        anchors.rightMargin: notificationList.margin
+        //anchors.topMargin: notificationList.margin
         color: parent.color
         opacity: parent.opacity
         radius: "medium"
@@ -70,7 +69,7 @@ Item {
 
     Item {
         id: contents
-        anchors.fill: parent
+        anchors.fill: fullscreen ? nonShapedBack : shapedBack
 
         UnityMenuModelPaths {
             id: paths
