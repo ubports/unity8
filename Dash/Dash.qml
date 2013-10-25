@@ -29,6 +29,7 @@ Showable {
     property alias contentProgress: dashContent.contentProgress
     property string showScopeOnLoaded: "home.scope"
     property real contentScale: 1.0
+    readonly property alias previewShown: previewLoader.onScreen
 
     function setCurrentScope(scopeId, animate, reset) {
         var scopeIndex = filteredScopes.findFirst(Scopes.RoleId, scopeId)

@@ -494,7 +494,6 @@ Item {
             waitUntilApplicationWindowIsFullyVisible();
 
             tryCompare(searchIndicator, "opacity", 0);
-            cleanup();
         }
 
         function test_searchIndicatorHidesOnGreeterShown() {
