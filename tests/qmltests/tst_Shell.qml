@@ -448,6 +448,14 @@ Item {
             tryCompare(backgroundImage, "status", Image.Ready)
         }
 
+        function test_lockscreen_background() {
+            var backgroundImage = findChild(shell, "backgroundImage")
+            var lockscreen = findChild(shell, "lockscreen")
+            var lockscreenBackground = findChild(lockscreen, "lockscreenBackground")
+            var lockscreenBackgroundMapped = lockscreenBackground.mapToItem(shell, 0, 0)
+            compare(backgroundImage.y, lockscreenBackgroundMapped.y)
+        }
+
         function test_DashShown_data() {
             return [
                 {tag: "in focus", greeter: false, app: false, launcher: false, indicators: false, expectedShown: true},

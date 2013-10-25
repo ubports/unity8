@@ -62,7 +62,11 @@ Showable {
 
     Image {
         id: backgroundImage
-        anchors.fill: parent
+        objectName: "lockscreenBackground"
+        anchors {
+            fill: parent
+            topMargin: backgroundTopMargin
+        }
         source: root.required ? root.background : ""
         fillMode: Image.PreserveAspectCrop
     }
