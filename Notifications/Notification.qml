@@ -20,7 +20,7 @@ import Unity.Notifications 1.0
 import QMenuModel 0.1
 import Utils 0.1
 
-UbuntuShape {
+Item {
     id: notification
 
     property alias iconSource: avatarIcon.source
@@ -32,266 +32,297 @@ UbuntuShape {
     property var type
     property var hints
     property var notification
+    property color color
+    property bool fullscreen
 
+    fullscreen: notification.hints["x-canonical-private-fullscreen"] == "true" ? true : false
     objectName: "background"
-    implicitHeight: type != Notification.PlaceHolder ? contentColumn.height + contentColumn.spacing * 2 : 0
+    implicitHeight: type != Notification.PlaceHolder ? (fullscreen ? notificationList.fullHeight : contentColumn.height + contentColumn.spacing * 2) : 0
+
+    //parent.anchors.leftMargin: fullscreen ? 0 : notificationList.margin
+    //parent.anchors.rightMargin: fullscreen ? 0 : notificationList.margin
+    //parent.anchors.topMargin: fullscreen ? notificationList.panelHeight : notificationList.panelHeight + notificationList.margin
+
     color: Qt.rgba(0.132, 0.117, 0.109, 0.97)
     opacity: 0
-    radius: "medium"
 
     clip: true
     visible: type != Notification.PlaceHolder
 
-    UnityMenuModelPaths {
-        id: paths
+    UbuntuShape {
+        id: shapedBack
 
-        source: hints["x-canonical-private-menu-model"]
-
-        busNameHint: "busName"
-        actionsHint: "actions"
-        menuObjectPathHint: "menuPath"
+        visible: !fullscreen
+        anchors.fill: parent
+        color: parent.color
+        opacity: parent.opacity
+        radius: "medium"
     }
 
-    UnityMenuModel {
-        id: unityMenuModel
+    Rectangle {
+        id: nonShapedBack
 
-        busName: paths.busName
-        actions: paths.actions
-        menuObjectPath: paths.menuObjectPath
+        visible: fullscreen
+        anchors.fill: parent
+        color: parent.color
+        opacity: parent.opacity
     }
 
-    Behavior on implicitHeight {
-        id: heightBehavior
+    Item {
+        id: contents
+        anchors.fill: parent
 
-        enabled: false
-        UbuntuNumberAnimation {
-            duration: UbuntuAnimation.SnapDuration
-        }
-    }
+        UnityMenuModelPaths {
+            id: paths
 
-    // delay enabling height behavior until the add transition is complete
-    onOpacityChanged: if (opacity == 1) heightBehavior.enabled = true
+            source: hints["x-canonical-private-menu-model"]
 
-    MouseArea {
-        id: interactiveArea
-
-        anchors.fill: contentColumn
-        objectName: "interactiveArea"
-        enabled: notification.type == Notification.Interactive
-        onClicked: notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
-    }
-
-    Column {
-        id: contentColumn
-
-        anchors {
-            left: parent.left
-            right: parent.right
-            top: parent.top
-            margins: spacing
+            busNameHint: "busName"
+            actionsHint: "actions"
+            menuObjectPathHint: "menuPath"
         }
 
-        spacing: units.gu(1)
+        UnityMenuModel {
+            id: unityMenuModel
 
-        Row {
-            id: topRow
+            busName: paths.busName
+            actions: paths.actions
+            menuObjectPath: paths.menuObjectPath
+        }
 
-            spacing: contentColumn.spacing
+        Behavior on implicitHeight {
+            id: heightBehavior
+
+            enabled: false
+            UbuntuNumberAnimation {
+                duration: UbuntuAnimation.SnapDuration
+            }
+        }
+
+        // delay enabling height behavior until the add transition is complete
+        onOpacityChanged: if (opacity == 1) heightBehavior.enabled = true
+
+        MouseArea {
+            id: interactiveArea
+
+            anchors.fill: contentColumn
+            objectName: "interactiveArea"
+            enabled: notification.type == Notification.Interactive
+            onClicked: notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
+        }
+
+        Column {
+            id: contentColumn
+
             anchors {
                 left: parent.left
                 right: parent.right
+                top: parent.top
+                margins: spacing
             }
 
-            UbuntuShape {
-                id: icon
+            spacing: units.gu(1)
 
-                objectName: "icon"
-                width: units.gu(6)
-                height: units.gu(6)
-                visible: iconSource !== undefined && iconSource != ""
-                image: Image {
-                    id: avatarIcon
+            Row {
+                id: topRow
 
+                spacing: contentColumn.spacing
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                }
+
+                UbuntuShape {
+                    id: icon
+
+                    objectName: "icon"
+                    width: units.gu(6)
+                    height: units.gu(6)
+                    visible: iconSource !== undefined && iconSource != ""
+                    image: Image {
+                        id: avatarIcon
+
+                        fillMode: Image.PreserveAspectCrop
+                    }
+                }
+
+                Image {
+                    id: secondaryIcon
+
+                    objectName: "secondaryIcon"
+                    width: units.gu(2)
+                    height: units.gu(2)
+                    visible: source !== undefined && source != ""
                     fillMode: Image.PreserveAspectCrop
                 }
-            }
 
-            Image {
-                id: secondaryIcon
+                Column {
+                    id: labelColumn
+                    width: parent.width - x
 
-                objectName: "secondaryIcon"
-                width: units.gu(2)
-                height: units.gu(2)
-                visible: source !== undefined && source != ""
-                fillMode: Image.PreserveAspectCrop
+                    anchors.verticalCenter: (icon.visible && !bodyLabel.visible) ? icon.verticalCenter : undefined
+
+                    Label {
+                        id: summaryLabel
+
+                        objectName: "summaryLabel"
+                        anchors {
+                            left: parent.left
+                            right: parent.right
+                        }
+                        fontSize: "medium"
+                        font.bold: true
+                        color: Theme.palette.selected.backgroundText
+                        elide: Text.ElideRight
+                    }
+
+                    Label {
+                        id: bodyLabel
+
+                        objectName: "bodyLabel"
+                        anchors {
+                            left: parent.left
+                            right: parent.right
+                        }
+                        visible: body != ""
+                        fontSize: "small"
+                        color: Theme.palette.selected.backgroundText
+                        opacity: 0.6
+                        wrapMode: Text.WordWrap
+                        maximumLineCount: 10
+                        elide: Text.ElideRight
+                    }
+                }
             }
 
             Column {
-                id: labelColumn
-                width: parent.width - x
+                objectName: "dialogListView"
+                spacing: units.gu(2)
 
-                anchors.verticalCenter: (icon.visible && !bodyLabel.visible) ? icon.verticalCenter : undefined
+                visible: count > 0
 
-                Label {
-                    id: summaryLabel
+                anchors.left: parent.left; anchors.right: parent.right
 
-                    objectName: "summaryLabel"
-                    anchors {
-                        left: parent.left
-                        right: parent.right
+                Repeater {
+                    model: unityMenuModel
+
+                    NotificationMenuItemFactory {
+                        anchors.left: parent.left; anchors.right: parent.right
+
+                        menuModel: unityMenuModel
+                        menuData: model
+                        menuIndex: index
                     }
-                    fontSize: "medium"
-                    font.bold: true
-                    color: Theme.palette.selected.backgroundText
-                    elide: Text.ElideRight
-                }
-
-                Label {
-                    id: bodyLabel
-
-                    objectName: "bodyLabel"
-                    anchors {
-                        left: parent.left
-                        right: parent.right
-                    }
-                    visible: body != ""
-                    fontSize: "small"
-                    color: Theme.palette.selected.backgroundText
-                    opacity: 0.6
-                    wrapMode: Text.WordWrap
-                    maximumLineCount: 10
-                    elide: Text.ElideRight
                 }
             }
-        }
 
-        Column {
-            objectName: "dialogListView"
-            spacing: units.gu(2)
+            Item {
+                id: buttonRow
 
-            visible: count > 0
-
-            anchors.left: parent.left; anchors.right: parent.right
-
-            Repeater {
-                model: unityMenuModel
-
-                NotificationMenuItemFactory {
-                    anchors.left: parent.left; anchors.right: parent.right
-
-                    menuModel: unityMenuModel
-                    menuData: model
-                    menuIndex: index
-                }
-            }
-        }
-
-        Item {
-            id: buttonRow
-
-            objectName: "buttonRow"
-            anchors {
-                left: parent.left
-                right: parent.right
-            }
-            visible: notification.type == Notification.SnapDecision && actionRepeater.count > 0
-            height: units.gu(5)
-
-            property real buttonWidth: (width - contentColumn.spacing) / 2
-            property bool expanded
-
-            Button {
-                id: leftButton
-
-                objectName: "button1"
-                width: parent.expanded ? parent.width : parent.buttonWidth
+                objectName: "buttonRow"
                 anchors {
-                    top: parent.top
-                    bottom: parent.bottom
-                }
-                text: notification.type == Notification.SnapDecision && actionRepeater.count >= 2 ? actionRepeater.itemAt(1).actionLabel : ""
-                gradient: UbuntuColors.greyGradient
-                onClicked: {
-                    if (actionRepeater.count > 2) {
-                        buttonRow.expanded = !buttonRow.expanded
-                    } else {
-                        notification.notification.invokeAction(actionRepeater.itemAt(1).actionId)
-                    }
-                }
-
-                Behavior on width {
-                    UbuntuNumberAnimation {
-                        duration: UbuntuAnimation.SnapDuration
-                    }
-                }
-            }
-
-            Button {
-                id: rightButton
-
-                objectName: "button0"
-                anchors {
-                    left: leftButton.right
-                    leftMargin: contentColumn.spacing
+                    left: parent.left
                     right: parent.right
                 }
-                text: notification.type == Notification.SnapDecision && actionRepeater.count >= 1 ? actionRepeater.itemAt(0).actionLabel : ""
-                anchors {
-                    top: parent.top
-                    bottom: parent.bottom
-                }
-                gradient: notification.hints["x-canonical-private-button-tint"] == "true" ? UbuntuColors.orangeGradient : UbuntuColors.greyGradient
-                visible: width > 0
-                onClicked: notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
-            }
-        }
+                visible: notification.type == Notification.SnapDecision && actionRepeater.count > 0
+                height: units.gu(5)
 
-        Column {
-            objectName: "buttonColumn"
-            spacing: contentColumn.spacing
-            anchors {
-                left: parent.left
-                right: parent.right
-            }
+                property real buttonWidth: (width - contentColumn.spacing) / 2
+                property bool expanded
 
-            // calculate initial position before Column takes over
-            y: buttonRow.y + buttonRow.height + contentColumn.spacing
+                Button {
+                    id: leftButton
 
-            visible: notification.type == Notification.SnapDecision
-            height: buttonRow.expanded ? implicitHeight : 0
-
-            Repeater {
-                id: actionRepeater
-
-                model: notification.actions
-                delegate: Loader {
-                    id: loader
-
-                    property string actionId: id
-                    property string actionLabel: label
-
+                    objectName: "button1"
+                    width: parent.expanded ? parent.width : parent.buttonWidth
                     anchors {
-                        left: parent.left
-                        right: parent.right
+                        top: parent.top
+                        bottom: parent.bottom
                     }
-
-                    Component {
-                        id: actionButton
-
-                        Button {
-                            objectName: "button" + index
-                            anchors {
-                                left: parent.left
-                                right: parent.right
-                            }
-
-                            text: loader.actionLabel
-                            height: units.gu(5)
-                            gradient: UbuntuColors.greyGradient
-                            onClicked: notification.notification.invokeAction(loader.actionId)
+                    text: notification.type == Notification.SnapDecision && actionRepeater.count >= 2 ? actionRepeater.itemAt(1).actionLabel : ""
+                    gradient: UbuntuColors.greyGradient
+                    onClicked: {
+                        if (actionRepeater.count > 2) {
+                            buttonRow.expanded = !buttonRow.expanded
+                        } else {
+                            notification.notification.invokeAction(actionRepeater.itemAt(1).actionId)
                         }
                     }
-                    sourceComponent: (index == 0 || index == 1) ? undefined : actionButton
+
+                    Behavior on width {
+                        UbuntuNumberAnimation {
+                            duration: UbuntuAnimation.SnapDuration
+                        }
+                    }
+                }
+
+                Button {
+                    id: rightButton
+
+                    objectName: "button0"
+                    anchors {
+                        left: leftButton.right
+                        leftMargin: contentColumn.spacing
+                        right: parent.right
+                    }
+                    text: notification.type == Notification.SnapDecision && actionRepeater.count >= 1 ? actionRepeater.itemAt(0).actionLabel : ""
+                    anchors {
+                        top: parent.top
+                        bottom: parent.bottom
+                    }
+                    gradient: notification.hints["x-canonical-private-button-tint"] == "true" ? UbuntuColors.orangeGradient : UbuntuColors.greyGradient
+                    visible: width > 0
+                    onClicked: notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
+                }
+            }
+
+            Column {
+                objectName: "buttonColumn"
+                spacing: contentColumn.spacing
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                }
+
+                // calculate initial position before Column takes over
+                y: buttonRow.y + buttonRow.height + contentColumn.spacing
+
+                visible: notification.type == Notification.SnapDecision
+                height: buttonRow.expanded ? implicitHeight : 0
+
+                Repeater {
+                    id: actionRepeater
+
+                    model: notification.actions
+                    delegate: Loader {
+                        id: loader
+
+                        property string actionId: id
+                        property string actionLabel: label
+
+                        anchors {
+                            left: parent.left
+                            right: parent.right
+                        }
+
+                        Component {
+                            id: actionButton
+
+                            Button {
+                                objectName: "button" + index
+                                anchors {
+                                    left: parent.left
+                                    right: parent.right
+                                }
+
+                                text: loader.actionLabel
+                                height: units.gu(5)
+                                gradient: UbuntuColors.greyGradient
+                                onClicked: notification.notification.invokeAction(loader.actionId)
+                            }
+                        }
+                        sourceComponent: (index == 0 || index == 1) ? undefined : actionButton
+                    }
                 }
             }
         }

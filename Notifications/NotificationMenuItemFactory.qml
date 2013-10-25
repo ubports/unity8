@@ -75,8 +75,11 @@ Loader {
 
     Component {
         id: pinLock
-        PinLockscreen {
+
+        Lockscreen {
             anchors.left: parent.left; anchors.right: parent.right
+            height: units.gu(60)
+            background: shell.background
 
             Component.onCompleted: {
                 menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-pin-length': 'int'});
