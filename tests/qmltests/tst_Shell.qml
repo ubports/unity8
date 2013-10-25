@@ -494,6 +494,18 @@ Item {
             waitUntilApplicationWindowIsFullyVisible();
 
             tryCompare(searchIndicator, "opacity", 0);
+            cleanup();
+        }
+
+        function test_searchIndicatorHidesOnGreeterShown() {
+            var searchIndicator = findChild(shell, "container")
+            var greeter = findChild(shell, "greeter");
+
+            tryCompare(searchIndicator, "opacity", 1)
+
+            greeter.show()
+            tryCompare(greeter, "shown", true)
+            tryCompare(searchIndicator, "opacity", 0)
         }
     }
 }
