@@ -17,7 +17,6 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
-import "Math.js" as MathLocal
 
 /*
  Put a DragHandle inside a Showable to enable the user to drag it from that handle.
@@ -114,7 +113,7 @@ EdgeDragArea {
         }
 
         function limitMovement(step) {
-            var targetValue = MathLocal.clamp(dragParent[targetProp] + step, minValue, maxValue);
+            var targetValue = MathUtils.clamp(dragParent[targetProp] + step, minValue, maxValue);
             var step = targetValue - dragParent[targetProp];
 
             if (hintDisplacement == 0) {
