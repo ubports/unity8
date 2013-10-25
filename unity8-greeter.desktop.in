@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Application
 Name=Unity 8 Greeter
-Exec=ubuntu-touch-session @CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_BINDIR@/unity8-greeter -fullscreen
+Exec=ubuntu-touch-session @CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_BINDIR@/unity8-greeter
 Icon=unity8
 X-LightDM-Session-Type=mir
