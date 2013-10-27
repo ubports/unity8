@@ -17,7 +17,6 @@ add_qml_test(Components MathLocal)
 add_qml_test(Components OpenEffect)
 add_qml_test(Components RatingStars)
 add_qml_test(Components TimeLocal)
-add_qml_test(Greeter Clock IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/plugins)
 add_qml_test(Panel IndicatorItem)
 add_qml_test(utils/Unity/Test UnityTest)
 
@@ -61,10 +60,12 @@ add_qml_test(Greeter Phone IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DE
                            ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics:${CMAKE_BINARY_DIR}/tests/mocks/LightDM/single")
 add_qml_test(Greeter Infographics IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS}
                                   ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics:${CMAKE_BINARY_DIR}/tests/mocks/LightDM/full")
+add_qml_test(Greeter Clock IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/plugins
+                           ENVIRONMENT "QT_QPA_PLATFORM=minimal" "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel")
 add_qml_test(Hud Hud)
 add_qml_test(Hud Result)
 add_qml_test(Launcher Launcher IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
-add_qml_test(Notifications Notifications IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_SOURCE_DIR}/tests/mocks)
+add_qml_test(Notifications Notifications IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/plugins)
 add_qml_test(Panel IndicatorRow)
 add_qml_test(Panel Indicators IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
 add_qml_test(Panel MenuContent IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
