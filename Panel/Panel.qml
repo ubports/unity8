@@ -31,6 +31,30 @@ Item {
 
     signal searchClicked
 
+    function hideIndicatorMenu(delay) {
+        if (delay !== undefined) {
+            hideTimer.interval = delay;
+            hideTimer.start();
+        } else if (indicatorsMenu.shown){
+            indicatorsMenu.hide();
+        }
+    }
+
+    Timer {
+        id: hideTimer
+        running: false
+        onTriggered: {
+            if (indicatorsMenu.shown) {
+                indicatorsMenu.hide();
+            }
+        }
+    }
+
+    Connections {
+        target: indicatorsMenu
+        onShown: hideTimer.stop()
+    }
+
     PanelBackground {
         id: panelBackground
         anchors {

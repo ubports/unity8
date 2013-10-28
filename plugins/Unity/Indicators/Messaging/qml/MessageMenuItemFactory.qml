@@ -73,6 +73,7 @@ Indicators.BaseMenuItem {
 
                 onActivateApp: {
                     menuItem.model.activate(modelIndex, true);
+                    shell.hideIndicatorMenu(UbuntuAnimation.FastDuration);
                 }
                 onDismiss: {
                     menuItem.model.activate(modelIndex, false);
@@ -101,6 +102,7 @@ Indicators.BaseMenuItem {
 
                 onActivateApp: {
                     menuItem.model.activate(modelIndex, true);
+                    shell.hideIndicatorMenu(UbuntuAnimation.FastDuration);
                 }
                 onDismiss: {
                     menuItem.model.activate(modelIndex, false);
@@ -140,6 +142,7 @@ Indicators.BaseMenuItem {
 
                 onActivateApp: {
                     menuItem.model.activate(modelIndex, true);
+                    shell.hideIndicatorMenu(UbuntuAnimation.FastDuration);
                 }
                 onDismiss: {
                     menuItem.model.activate(modelIndex, false);
