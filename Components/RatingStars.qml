@@ -15,27 +15,44 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 0.1
 
 Row {
     id: root
+
+    /*!
+      True if it accepts user input.
+     */
+    property bool interactive: true
+
+    /*!
+      Current rating.
+     */
     property int rating
+
+    /*!
+      Maximum rating.
+     */
     property int maximumRating: 5
-    property int starCount: 5
+
+    readonly property int starCount: 5
+    readonly property int effectiveRating: Math.max(0, Math.min(starCount * rating / maximumRating, maximumRating))
+
     height: childrenRect.height
     width: childrenRect.width
 
-    readonly property int effectiveRating: Math.max(0, Math.min(root.starCount * root.rating / root.maximumRating, root.maximumRating))
+    Repeater {
+        model: root.starCount
 
-    Repeater {
-        model: root.effectiveRating
         Image {
-            source: "graphics/icon_star_on.png"
-        }
-    }
-    Repeater {
-        model: root.starCount - root.effectiveRating
-        Image {
-            source: "graphics/icon_star_off.png"
+            objectName: "ratingStar" + index
+            source: index < root.effectiveRating ? "graphics/icon_star_on.png" : "graphics/icon_star_off.png"
+
+            MouseArea {
+                anchors.fill: parent
+                enabled: root.interactive
+                onClicked: root.rating = (index + 1) * root.maximumRating / root.starCount
+            }
         }
     }
 }

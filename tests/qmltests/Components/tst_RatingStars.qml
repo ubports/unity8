@@ -17,46 +17,78 @@
 import QtQuick 2.0
 import QtTest 1.0
 import "../../../Components"
+import Ubuntu.Components 0.1
+import Unity.Test 0.1 as UT
 
-TestCase {
-    name: "RatingStars"
-
-    property int maximumRating: 5
-    property int rating: 3
-    property alias effectiveRating: ratingStars.effectiveRating
+Rectangle {
+    id: root
+    width: units.gu(20)
+    height: units.gu(10)
+    color: "black"
 
     RatingStars {
         id: ratingStars
-        maximumRating: parent.maximumRating
-        rating: parent.rating
+        anchors.centerIn: parent
+        maximumRating: 5
+        rating: 3
     }
 
-    function test_rating_init() {
-        compare(effectiveRating, rating, "EffectiveRating not initialized properly")
-    }
+    UT.UnityTestCase {
+        name: "RatingStars"
+        when: windowShown
 
-    function test_rating_negative() {
-        rating = -3
-        compare(effectiveRating, 0, "EffectiveRating not calculated correctly")
-    }
+        function init() {
+            ratingStars.maximumRating = 5
+            ratingStars.rating = 3
+        }
 
-    function test_rating_set_ok() {
-        rating = 2
-        compare(effectiveRating, rating, "EffectiveRating not calculated correctly")
-    }
+        function test_interactive_rating_data() {
+            return [
+                {tag: "first star without interactive", interactive: false, maximumRating: 5, index: 0, rating: 3},
+                {tag: "first star", interactive: true, maximumRating: 5, index: 0, rating: 1},
+                {tag: "second star with big maximumRating", interactive: true, maximumRating: 100, index: 1, rating: 40},
+                {tag: "last star", interactive: true, maximumRating: 5, index: 4, rating: 5},
+            ];
+        }
 
-    function test_rating_set_too_big() {
-        rating = 200
-        compare(effectiveRating, maximumRating, "EffectiveRating not calculated correctly")
-    }
+        function test_interactive_rating(data) {
+            ratingStars.interactive = data.interactive
+            ratingStars.maximumRating = data.maximumRating
 
-    function test_rating_set_min() {
-        rating = 0
-        compare(effectiveRating, 0, "EffectiveRating not calculated correctly")
-    }
+            var ratingStar = findChild(ratingStars, "ratingStar"+data.index)
+            mouseClick(ratingStar, ratingStar.width / 2, ratingStar.height / 2)
+            compare(ratingStars.rating, data.rating)
 
-    function test_rating_set_max() {
-        rating = maximumRating
-        compare(effectiveRating, maximumRating, "EffectiveRating not calculated correctly")
+            ratingStars.interactive = false
+        }
+
+        function test_rating_init() {
+            compare(ratingStars.effectiveRating, ratingStars.rating, "EffectiveRating not initialized properly")
+        }
+
+        function test_rating_negative() {
+            ratingStars.rating = -3
+            compare(ratingStars.effectiveRating, 0, "EffectiveRating not calculated correctly")
+        }
+
+        function test_rating_set_ok() {
+            ratingStars.rating = 2
+            compare(ratingStars.effectiveRating, ratingStars.rating, "EffectiveRating not calculated correctly")
+        }
+
+        function test_rating_set_too_big() {
+            ratingStars.rating = 200
+            compare(ratingStars.effectiveRating, ratingStars.maximumRating, "EffectiveRating not calculated correctly")
+        }
+
+        function test_rating_set_min() {
+            ratingStars.rating = 0
+            compare(ratingStars.effectiveRating, 0, "EffectiveRating not calculated correctly")
+        }
+
+        function test_rating_set_max() {
+            ratingStars.rating = ratingStars.maximumRating
+            compare(ratingStars.effectiveRating, ratingStars.maximumRating, "EffectiveRating not calculated correctly")
+        }
     }
 }
