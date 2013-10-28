@@ -51,7 +51,7 @@ FramedMenuItem {
 
     control: Item {
         id: row
-        width: sliderMenu.text ? units.gu(20) : menuItem.width - (2 * menuItem.__contentsMargins)
+        width: menuItem.text ? units.gu(20) : menuItem.width - (2 * menuItem.__contentsMargins)
         height: slider.height
 
         Image {
@@ -96,6 +96,7 @@ FramedMenuItem {
 
         Image {
             id: rightImage
+            visible: source != ""
             anchors.right: row.right
             anchors.verticalCenter: row.verticalCenter
             height: units.gu(4)
