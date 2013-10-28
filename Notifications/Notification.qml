@@ -37,12 +37,12 @@ Item {
 
     fullscreen: notification.hints["x-canonical-private-fullscreen"] == "true" ? true : false
     objectName: "background"
-    implicitHeight: type != Notification.PlaceHolder ? (fullscreen ? notificationList.fullHeight : contentColumn.height + contentColumn.spacing * 3) : 0
+    implicitHeight: type != Notification.PlaceHolder ? (fullscreen ? notificationList.fullHeight : contentColumn.height + contentColumn.spacing * 2) : 0
 
     color: Qt.rgba(0.132, 0.117, 0.109, 0.97)
     opacity: 0
 
-    clip: true
+    clip: fullscreen ? false : true
     visible: type != Notification.PlaceHolder
 
     UbuntuShape {
@@ -61,6 +61,7 @@ Item {
 
         visible: fullscreen
         anchors.fill: parent
+        anchors.topMargin: -notificationList.spacing
         color: parent.color
         opacity: parent.opacity
     }
