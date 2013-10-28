@@ -17,7 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 
-Row {
+Item {
     id: root
 
     /*!
@@ -35,24 +35,36 @@ Row {
      */
     property int maximumRating: 5
 
-    readonly property int starCount: 5
-    readonly property int effectiveRating: Math.max(0, Math.min(starCount * rating / maximumRating, maximumRating))
+    /*!
+      Number of rating stars.
+     */
+    property int starCount: 5
 
-    height: childrenRect.height
-    width: childrenRect.width
+    readonly property int effectiveRating: MathUtils.clamp(starCount * rating / maximumRating, 0, maximumRating)
 
-    Repeater {
-        model: root.starCount
+    Row {
+        id: row
+        anchors.centerIn: parent
+        height: childrenRect.height
+        width: childrenRect.width
 
-        Image {
-            objectName: "ratingStar" + index
-            source: index < root.effectiveRating ? "graphics/icon_star_on.png" : "graphics/icon_star_off.png"
+        Repeater {
+            id: repeater
 
-            MouseArea {
-                anchors.fill: parent
-                enabled: root.interactive
-                onClicked: root.rating = (index + 1) * root.maximumRating / root.starCount
+            property int averageDelegateWidth: row.width / root.starCount
+
+            model: root.starCount
+
+            Image {
+                objectName: "ratingStar" + index
+                source: index < root.effectiveRating ? "graphics/icon_star_on.png" : "graphics/icon_star_off.png"
             }
         }
+    }
+
+    MouseArea {
+        anchors.fill: row
+        enabled: root.interactive
+        onClicked: root.rating = Math.ceil((mouse.x / repeater.averageDelegateWidth)) * root.maximumRating / root.starCount
     }
 }
