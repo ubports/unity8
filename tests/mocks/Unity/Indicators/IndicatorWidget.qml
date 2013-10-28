@@ -24,5 +24,5 @@ IndicatorBase {
     id: indicatorWidget
 
     enabled: false
-    property int iconSize: height - units.gu(0.5)
+    property int iconSize: height
 }

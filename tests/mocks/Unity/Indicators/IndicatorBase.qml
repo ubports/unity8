@@ -21,18 +21,17 @@ import QtQuick 2.0
 import QMenuModel 0.1
 
 Item {
+    id: indicatorBase
+
     //const
     property string busName
     property string actionsObjectPath
     property string rootMenuType: "com.canonical.indicator.root"
     property string deviceMenuObjectPath
 
-    property var menuModel: QMenuModel {}
+    property var menuModel: UnityMenuModel {}
 
-    property var rootActionState: {
-        leftLabel: ""
-        rightLabel: ""
-        icons: []
-        enabled: true
+    property RootActionState rootActionState: RootActionState {
+        onUpdated: indicatorBase.rootActionStateChanged()
     }
 }
