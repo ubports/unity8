@@ -38,9 +38,9 @@ Item {
     /*!
       Number of rating stars.
      */
-    property int starsCount: 5
+    property int starCount: 5
 
-    readonly property int effectiveRating: MathUtils.clamp(starsCount * rating / maximumRating, 0, maximumRating)
+    readonly property int effectiveRating: MathUtils.clamp(starCount * rating / maximumRating, 0, maximumRating)
 
     Row {
         id: row
@@ -51,9 +51,9 @@ Item {
         Repeater {
             id: repeater
 
-            property int averageDelegateWidth: row.width / root.starsCount
+            property int averageDelegateWidth: row.width / root.starCount
 
-            model: root.starsCount
+            model: root.starCount
 
             Image {
                 objectName: "ratingStar" + index
@@ -65,6 +65,6 @@ Item {
     MouseArea {
         anchors.fill: row
         enabled: root.interactive
-        onClicked: root.rating = Math.ceil(mouse.x / repeater.averageDelegateWidth) * root.maximumRating / root.starsCount
+        onClicked: root.rating = Math.ceil(mouse.x / repeater.averageDelegateWidth) * root.maximumRating / root.starCount
     }
 }
