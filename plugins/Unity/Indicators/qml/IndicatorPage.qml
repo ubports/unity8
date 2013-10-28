@@ -136,7 +136,7 @@ IndicatorBase {
                 }
 
                 // TODO: Fixes lp#1243146
-                // This is a workaround for a Qt bug which will be filed. See bug for deatils.
+                // This is a workaround for a Qt bug. https://bugreports.qt-project.org/browse/QTBUG-34351
                 Connections {
                     target: mainMenu
                     onSelectedIndexChanged: {
