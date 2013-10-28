@@ -1,3 +1,10 @@
+unity8 (7.83+14.04.20131028.1-0ubuntu1) trusty; urgency=low
+
+  * New rebuild forced
+  * Automatic snapshot from revision 480
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 28 Oct 2013 22:42:07 +0000
+
 unity8 (7.83+14.04.20131028-0ubuntu1) trusty; urgency=low
 
   [ Andrea Cimitan ]
