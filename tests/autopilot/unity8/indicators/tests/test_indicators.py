@@ -28,7 +28,7 @@ class IndicatorTestCase(UnityTestCase):
     scenarios = [
         ('Network', dict(indicator_name='indicator-network')),
         ('Location', dict(indicator_name='indicator-location')),
-        ('Messaging', dict(indicator_name='indicator-messaging')),
+        ('Messaging', dict(indicator_name='indicator-messages')),
         ('Power', dict(indicator_name='indicator-power')),
         ('Sound', dict(indicator_name='indicator-sound')),
         ('Datetime', dict(indicator_name='indicator-datetime')),
