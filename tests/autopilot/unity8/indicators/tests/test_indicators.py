@@ -20,8 +20,10 @@
 from __future__ import absolute_import
 
 from autopilot import platform
-from unity8.shell.tests import UnityTestCase
 from testtools import skipIf
+
+from unity8.shell.tests import UnityTestCase
+
 
 class IndicatorTestCase(UnityTestCase):
 
