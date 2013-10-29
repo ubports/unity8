@@ -19,7 +19,6 @@
 
 from __future__ import absolute_import
 
-from unity8.shell.emulators.main_window import IndicatorType
 from unity8.shell.tests import UnityTestCase
 
 
