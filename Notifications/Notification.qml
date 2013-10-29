@@ -37,7 +37,7 @@ Item {
 
     fullscreen: notification.hints["x-canonical-private-fullscreen"] == "true" ? true : false
     objectName: "background"
-    implicitHeight: type != Notification.PlaceHolder ? (fullscreen ? notificationList.fullHeight : contentColumn.height + contentColumn.spacing * 2) + units.gu(.5) : 0
+    implicitHeight: type != Notification.PlaceHolder ? (fullscreen ? notificationList.fullHeight : contentColumn.height + contentColumn.spacing * 4) : 0
 
     color: Qt.rgba(0.132, 0.117, 0.109, 0.97)
     opacity: 0
@@ -284,7 +284,7 @@ Item {
                 // calculate initial position before Column takes over
                 y: buttonRow.y + buttonRow.height + contentColumn.spacing
 
-                visible: notification.type == Notification.SnapDecision
+                visible: notification.type == Notification.SnapDecision && buttonRow.expanded
                 height: buttonRow.expanded ? implicitHeight : 0
 
                 Repeater {
