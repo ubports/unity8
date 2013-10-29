@@ -18,44 +18,35 @@
 #
 
 from unity8.shell.emulators import UnityEmulatorBase
-from time import sleep
+
 
 class Dash(UnityEmulatorBase):
 
     """An emulator that understands the Dash."""
 
     def get_home_applications_grid(self):
-        for i in range(1,10):
-            get_grid = self.get_scope('home').select_single(
-                "GenericFilterGrid",
-                objectName="applications.scope"
-            )
-            if get_grid != None:
-                break
-            sleep(1)
+        get_grid = self.get_scope('home').wait_select_single(
+            "GenericFilterGrid",
+            objectName="applications.scope"
+        )
         return get_grid
 
     def get_application_icon(self, text):
         """Returns a 'Tile' icon that has the text 'text' from the application
         grid.
 
-        Will return None if the icon isn't found.
-
         :param text: String containing the text of the icon to search for.
 
         """
         app_grid = self.get_home_applications_grid()
-        for i in range(1,10):
-            resp_grid = app_grid.select_single('ResponsiveGridView')
-            if resp_grid != None:
-                break
-            sleep(1)
+        resp_grid = app_grid.wait_select_single('ResponsiveGridView')
         return resp_grid.select_single('Tile', text=text)
 
     def get_scope(self, scope_name='home'):
-        dash_content = self.select_single(
+        dash_content = self.wait_select_single(
             'QQuickListView',
             objectName='dashContentList'
         )
         scope_id = "%s.scope" % scope_name
-        return dash_content.select_single('QQuickLoader', scopeId=scope_id)
+        return dash_content.wait_select_single(
+            'QQuickLoader', scopeId=scope_id)

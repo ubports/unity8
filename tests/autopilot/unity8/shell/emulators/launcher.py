@@ -29,7 +29,7 @@ class Launcher(UnityEmulatorBase):
         """Swipes open the launcher."""
         touch = Touch.create()
 
-        view = self.get_root_instance().select_single('QQuickView')
+        view = self.get_root_instance().wait_select_single('QQuickView')
         start_x = view.x + 1
         start_y = view.y + view.height / 2
         stop_x = start_x + self.panelWidth + 1
