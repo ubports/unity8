@@ -92,6 +92,7 @@ Item {
 
                 IndicatorItem {
                    id: indicatorItem
+                   identifier: model.identifier
                    height: parent.height
 
                    highlighted: indicatorRow.state != "initial" ? itemWrapper.ownIndex == indicatorRow.currentItemIndex : false
