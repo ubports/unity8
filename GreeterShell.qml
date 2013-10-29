@@ -114,9 +114,9 @@ BasicShell {
                 }
                 greeter.forceActiveFocus();
             }
-            else if (LightDM.Greeter.promptless)
-                login();
         }
+
+        onShowProgressChanged: if (LightDM.Greeter.promptless && showProgress == 0) login()
 
         onUnlocked: login()
         onSelected: {
@@ -186,11 +186,6 @@ BasicShell {
             }
             onDashItemSelected: greeter.show()
         }
-    }
-
-    OSKController {
-        anchors.topMargin: panel.panelHeight
-        anchors.fill: parent // as needs to know the geometry of the shell
     }
 
     Connections {

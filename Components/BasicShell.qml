@@ -71,4 +71,16 @@ FocusScope {
     Keys.onVolumeDownPressed: volumeControl.volumeDown()
 
     focus: true
+    onFocusChanged: if (!focus) forceActiveFocus();
+
+    Binding {
+        target: i18n
+        property: "domain"
+        value: "unity8"
+    }
+
+    OSKController {
+        anchors.topMargin: panel.panelHeight
+        anchors.fill: parent // as needs to know the geometry of the shell
+    }
 }

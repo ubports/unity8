@@ -340,7 +340,7 @@ BasicShell {
 
                 width: shell.edgeSize
                 direction: Direction.Leftwards
-                enabled: greeter.showProgress == 0 && edgeDemo.dashEnabled
+                enabled: edgeDemo.dashEnabled
                 property bool haveApps: mainStage.applications.count > 0 || sideStage.applications.count > 0
 
                 maxTotalDragDistance: haveApps ? parent.width : parent.width * 0.7
@@ -557,9 +557,6 @@ BasicShell {
         }
     }
 
-    focus: true
-    onFocusChanged: if (!focus) forceActiveFocus();
-
     InputFilterArea {
         anchors {
             top: parent.top
@@ -568,17 +565,6 @@ BasicShell {
         }
         width: shell.edgeSize
         blockInput: true
-    }
-
-    Binding {
-        target: i18n
-        property: "domain"
-        value: "unity8"
-    }
-
-    OSKController {
-        anchors.topMargin: panel.panelHeight
-        anchors.fill: parent // as needs to know the geometry of the shell
     }
 
     //FIXME: This should be handled in the input stack, keyboard shouldnt propagate
