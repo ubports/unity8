@@ -111,9 +111,10 @@ Item {
             } else {
                 // waiting 100ms to make sure nothing moves
                 wait(100);
-                compare(greeter.minX, 0, "Greeter moved even tho its locked");
+                compare(greeter.minX, 0, "Greeter teasing not disabled even though it's locked or moving.");
             }
 
+            // Restore position in case we moved it for the test
             if (data.moved) {
                 greeter.x = 0;
             }
