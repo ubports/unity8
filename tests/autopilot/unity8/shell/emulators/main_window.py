@@ -95,20 +95,7 @@ class MainWindow(object):
         return self.app.select_single(objectName="pinentryField")
 
     def get_indicator(self, indicator_name):
-        # TODO this is temporary until proper objectNames can be added
-        indicator_bus_names = {
-            'indicator-network': 'com.canonical.indicator.network',
-            'indicator-power': 'com.canonical.indicator.power',
-            'indicator-bluetooth': 'com.canonical.indicator.bluetooth',
-            'indicator-sound': 'com.canonical.indicator.sound',
-            'indicator-location': 'com.canonical.indicator.location',
-            'indicator-datetime': 'com.canonical.indicator.datetime',
-            'indicator-location': 'com.canonical.indicator.location'
-        }
-        try:
-            return self.app.select_single(
-                'DefaultIndicatorWidget',
-                busName=indicator_bus_names[indicator_name]
-            )
-        except IndexError:
-            return None
+        return self.app.select_single(
+            'DefaultIndicatorWidget',
+            objectName=indicator_name+'-widget'
+        )
