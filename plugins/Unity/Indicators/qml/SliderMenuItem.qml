@@ -56,7 +56,7 @@ FramedMenuItem {
 
         Image {
             id: leftImage
-            visible: source != ""
+            visible: status === Image.Ready
             anchors.left: row.left
             anchors.verticalCenter: row.verticalCenter
             height: units.gu(4)
@@ -96,7 +96,7 @@ FramedMenuItem {
 
         Image {
             id: rightImage
-            visible: source != ""
+            visible: status === Image.Ready
             anchors.right: row.right
             anchors.verticalCenter: row.verticalCenter
             height: units.gu(4)
