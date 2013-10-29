@@ -19,8 +19,9 @@
 
 from __future__ import absolute_import
 
+from autopilot import platform
 from unity8.shell.tests import UnityTestCase
-
+from testtools import skipIf
 
 class IndicatorTestCase(UnityTestCase):
 
@@ -34,6 +35,7 @@ class IndicatorTestCase(UnityTestCase):
         ('Bluetooth', dict(indicator_name='indicator-bluetooth')),
     ]
 
+    @skipIf(platform.image_codename()=='Desktop', "phablet-only test")
     def test_indicator_exists(self):
         """The tab of a given indicator can be found."""
 
