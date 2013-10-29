@@ -168,7 +168,13 @@ int startShell(int argc, const char** argv, void* server)
     }
 
     view->setSource(source);
-    view->setColor("transparent");
+
+    // Make background transparent, so that the greeter can bleed through.
+    // In normal shell, the background is never seen.
+    QSurfaceFormat format;
+    format.setAlphaBufferSize(8);
+    view->setFormat(format);
+    view->setColor(Qt::transparent);
 
     if (qgetenv("QT_QPA_PLATFORM") == "ubuntu" || isUbuntuMirServer || args.contains(QLatin1String("-fullscreen"))) {
         // First, size window equal to screen (fake a real WM fullscreen mode).
