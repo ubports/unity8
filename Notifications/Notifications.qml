@@ -24,7 +24,6 @@ ListView {
     objectName: "notificationList"
     interactive: false
 
-    spacing: units.gu(.5)
     delegate: Notification {
         objectName: "notification" + index
         anchors {
