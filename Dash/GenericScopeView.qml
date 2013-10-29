@@ -59,7 +59,6 @@ ScopeView {
         target: scopeView.scope
         onShowDash: previewListView.open = false;
         onHideDash: previewListView.open = false;
-        onActivated: previewLoader.closePreviewSpinner();
     }
 
     ScopeListView {
