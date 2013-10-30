@@ -688,8 +688,8 @@ FocusScope {
             id: notifications
 
             model: NotificationBackend.Model
-            property real margin: units.gu(1)
-            property real fullHeight: parent.height
+            margin: units.gu(1)
+            fullHeight: parent.height
 
             anchors {
                 top: parent.top

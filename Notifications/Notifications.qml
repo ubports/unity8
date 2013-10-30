@@ -24,6 +24,9 @@ ListView {
     objectName: "notificationList"
     interactive: false
 
+    property real margin
+    property real fullHeight
+
     delegate: Notification {
         objectName: "notification" + index
         anchors {

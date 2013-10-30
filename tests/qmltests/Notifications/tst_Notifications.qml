@@ -126,8 +126,10 @@ Row {
         Notifications {
             id: notifications
 
+            margin: units.gu(1)
+            fullHeight: parent.height
+
             anchors.fill: parent
-            anchors.margins: units.gu(1)
             model: mockModel
         }
     }
