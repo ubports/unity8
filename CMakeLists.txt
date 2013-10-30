@@ -103,17 +103,18 @@ set(GREETER_APP unity8-greeter)
 set(shell_app_HDRS
     )
 
-add_executable(${SHELL_APP}
-    ${shellapplication_MOC_SRCS}
+set(COMMON_SRCS
     ApplicationArguments.h
     main.cpp
     MouseTouchAdaptor.cpp
     )
+add_executable(${SHELL_APP}
+    ${shellapplication_MOC_SRCS}
+    ${COMMON_SRCS}
+    )
 add_executable(${GREETER_APP}
     ${greeterapplication_MOC_SRCS}
-    ApplicationArguments.h
-    main.cpp
-    MouseTouchAdaptor.cpp
+    ${COMMON_SRCS}
     )
 
 set_target_properties(${SHELL_APP} PROPERTIES
@@ -131,16 +132,17 @@ if (NOT "${XCB_INCLUDE_DIRS}" STREQUAL "")
     set_target_properties(${SHELL_APP} PROPERTIES INCLUDE_DIRECTORIES ${XCB_INCLUDE_DIRS})
 endif()
 
-target_link_libraries(${SHELL_APP}
+set(COMMON_LIBS
     ${Qt5Qml_LIBRARIES}
     ${Qt5Quick_LIBRARIES}
     ${XCB_LDFLAGS}
     ${CMAKE_DL_LIBS}
     )
+target_link_libraries(${SHELL_APP}
+    ${COMMON_LIBS}
+    )
 target_link_libraries(${GREETER_APP}
-    ${Qt5Qml_LIBRARIES}
-    ${Qt5Quick_LIBRARIES}
-    ${XCB_LDFLAGS}
+    ${COMMON_LIBS}
     )
 
 # install binaries

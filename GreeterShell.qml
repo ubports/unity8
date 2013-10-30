@@ -202,6 +202,7 @@ BasicShell {
         }
     }
 
+/*
     Connections {
         target: applicationManager
         ignoreUnknownSignals: true
@@ -213,6 +214,7 @@ BasicShell {
         onMainStageFocusedApplicationChanged: greeter.hide()
         onSideStageFocusedApplicationChanged: greeter.hide()
     }
+*/
 
     GreeterEdgeDemo {
         id: edgeDemo
