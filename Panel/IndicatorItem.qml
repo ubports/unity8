@@ -50,7 +50,7 @@ Item {
         Binding {
             target: loader.item
             property: "objectName"
-            value: model.identifier + "-widget"
+            value: identifier + "-widget"
         }
     }
 
