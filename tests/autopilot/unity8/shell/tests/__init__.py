@@ -41,6 +41,7 @@ from unity8 import (
     get_binary_path,
     get_mocks_library_path,
     get_default_extra_mock_libraries,
+    get_data_dirs
 )
 from unity8.shell.emulators import UnityEmulatorBase
 from unity8.shell.emulators.dash import Dash
@@ -122,6 +123,8 @@ class UnityTestCase(AutopilotTestCase):
         self._lightdm_mock_type = None
         self._qml_mock_enabled = True
         self._environment = {}
+
+        self._patch_data_dirs()
 
         #### FIXME: This is a work around re: lp:1238417 ####
         if model() != "Desktop":
@@ -305,6 +308,11 @@ class UnityTestCase(AutopilotTestCase):
             subprocess.check_output(["/sbin/initctl", "stop", "unity8"], stderr=subprocess.STDOUT)
         except subprocess.CalledProcessError:
             logger.warning("Appears unity was already stopped!")
+
+    def _patch_data_dirs(self):
+        data_dirs = get_data_dirs()
+        if data_dirs is not None:
+            self._environment['XDG_DATA_DIRS'] = data_dirs
 
     def patch_lightdm_mock(self, mock_type='single'):
         self._lightdm_mock_type = mock_type

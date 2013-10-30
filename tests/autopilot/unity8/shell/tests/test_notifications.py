@@ -143,7 +143,7 @@ class InteractiveNotificationBase(NotificationsBase):
             hints,
         )
 
-        get_notification = lambda: notify_list.select_single('Notification')
+        get_notification = lambda: notify_list.select_single('Notification', objectName='notification1')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
 
@@ -187,7 +187,7 @@ class InteractiveNotificationBase(NotificationsBase):
             hints
         )
 
-        get_notification = lambda: notify_list.select_single('Notification')
+        get_notification = lambda: notify_list.select_single('Notification', objectName='notification1')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
         self._assert_notification(notification, None, None, True, True, 1.0)
@@ -354,7 +354,7 @@ class EphemeralNotificationsTests(NotificationsBase):
 
         notification.show()
 
-        get_notification = lambda: notify_list.select_single('Notification')
+        get_notification = lambda: notify_list.select_single('Notification', objectName='notification1')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
         self._assert_notification(notification, summary, body, True, True, 1.0)
@@ -383,7 +383,7 @@ class EphemeralNotificationsTests(NotificationsBase):
 
         notification.show()
 
-        get_notification = lambda: notify_list.select_single('Notification')
+        get_notification = lambda: notify_list.select_single('Notification', objectName='notification1')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
         self._assert_notification(
@@ -496,7 +496,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         notification = self._create_ephemeral_notification(summary, body)
         notification.show()
 
-        get_notification = lambda: notify_list.select_single('Notification')
+        get_notification = lambda: notify_list.select_single('Notification', objectName='notification1')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
         self._assert_notification(
@@ -519,7 +519,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         notification = self._create_ephemeral_notification(summary)
         notification.show()
 
-        get_notification = lambda: notify_list.select_single('Notification')
+        get_notification = lambda: notify_list.select_single('Notification', objectName='notification1')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
 
@@ -585,7 +585,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         )
         notification.show()
 
-        get_notification = lambda: notify_list.select_single('Notification')
+        get_notification = lambda: notify_list.select_single('Notification', objectName='notification1')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         self._assert_notification(
             get_notification(),
@@ -625,7 +625,7 @@ class EphemeralNotificationsTests(NotificationsBase):
 
         notification.show()
 
-        get_notification = lambda: notify_list.select_single('Notification')
+        get_notification = lambda: notify_list.select_single('Notification', objectName='notification1')
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         notification = get_notification()
         self._assert_notification(
@@ -658,7 +658,8 @@ class EphemeralNotificationsTests(NotificationsBase):
             )
             notification.show()
             get_notification = lambda: notify_list.select_single(
-                'Notification'
+                'Notification',
+                objectName='notification1'
             )
             self.assertThat(get_notification, Eventually(NotEquals(None)))
             notification = get_notification()

@@ -8,3 +8,8 @@ add_subdirectory(QMenuModel)
 add_subdirectory(SessionManager)
 add_subdirectory(Ubuntu)
 add_subdirectory(Unity)
+
+install(
+  DIRECTORY data
+  DESTINATION ${SHELL_APP_DIR}/mocks
+)

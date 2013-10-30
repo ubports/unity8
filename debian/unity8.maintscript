@@ -1,0 +1,1 @@
+rm_conffile /etc/init/boot-hooks/unity8-setcap.conf
