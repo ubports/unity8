@@ -28,13 +28,13 @@ from unity8.shell.tests import UnityTestCase
 class IndicatorTestCase(UnityTestCase):
 
     scenarios = [
-        ('Network', dict(indicator_name='indicator-network')),
+        ('Bluetooth', dict(indicator_name='indicator-bluetooth')),
+        ('Datetime', dict(indicator_name='indicator-datetime')),
         ('Location', dict(indicator_name='indicator-location')),
         ('Messaging', dict(indicator_name='indicator-messages')),
+        ('Network', dict(indicator_name='indicator-network')),
         ('Power', dict(indicator_name='indicator-power')),
         ('Sound', dict(indicator_name='indicator-sound')),
-        ('Datetime', dict(indicator_name='indicator-datetime')),
-        ('Bluetooth', dict(indicator_name='indicator-bluetooth')),
     ]
 
     @skipIf(platform.image_codename()=='Desktop', "phablet-only test")
