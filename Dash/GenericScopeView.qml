@@ -159,8 +159,6 @@ ScopeView {
                         previewListView.currentIndex = index;
                         previewListView.open = true
 
-                        print("model is", model)
-
                         var item = model.get(index)
                         scopeView.scope.preview( item.uri, item.icon, item.category, 0, item.mimetype, item.title,
                                                 item.comment, item.dndUri, item.metadata)
