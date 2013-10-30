@@ -31,6 +31,7 @@ Item {
 
     ShaderEffectSource {
         id: source
+        anchors.centerIn: parent
         width: 1
         height: 1
         hideSource: true
