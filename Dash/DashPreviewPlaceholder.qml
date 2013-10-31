@@ -16,32 +16,10 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import "../../Components"
 
-GenericFilterGrid {
-    id: filtergrid
-
-    delegateHeight: units.gu(11.5)
-
-    delegate: Tile {
-        id: tile
-        objectName: "delegate" + index
-        width: filtergrid.cellWidth
-        height: filtergrid.cellHeight
-        text: model.title
-        imageWidth: filtergrid.iconWidth
-        imageHeight: filtergrid.iconHeight
-        source: model.icon
-        maximumLineCount: 2
-
-        style: FlatTileStyle {}
-
-        onClicked: {
-            filtergrid.clicked(index, filtergrid.model, tile.y)
-        }
-
-        onPressAndHold: {
-            filtergrid.pressAndHold(index, filtergrid.model, tile.y)
-        }
+DashPreview {
+    ActivityIndicator {
+        anchors.centerIn: parent
+        running: true
     }
 }

@@ -21,14 +21,14 @@ import "../Components/ListItems" as ListItems
 
 ScopeView {
     id: scopeView
-    readonly property alias previewShown: previewLoader.onScreen
+    readonly property alias previewShown: previewListView.onScreen
     property bool enableHeightBehaviorOnNextCreation: false
 
     moving: categoryView.moving
 
     onIsCurrentChanged: {
         pageHeader.resetSearch();
-        previewLoader.open = false;
+        previewListView.open = false;
     }
 
     onMovementStarted: categoryView.showHeader()
@@ -57,9 +57,8 @@ ScopeView {
 
     Connections {
         target: scopeView.scope
-        onShowDash: previewLoader.open = false;
-        onHideDash: previewLoader.open = false;
-        onActivated: previewLoader.closePreviewSpinner();
+        onShowDash: previewListView.open = false;
+        onHideDash: previewListView.open = false;
     }
 
     ScopeListView {
@@ -67,12 +66,18 @@ ScopeView {
         objectName: "categoryListView"
         anchors.fill: parent
         model: scopeView.categories
-        forceNoClip: previewLoader.onScreen
+        forceNoClip: previewListView.onScreen
 
         onAtYEndChanged: if (atYEnd) endReached()
         onMovingChanged: if (moving && atYEnd) endReached()
 
         property string expandedCategoryId: ""
+        signal correctExpandedCategory();
+
+        Behavior on contentY {
+            enabled: previewListView.open
+            UbuntuNumberAnimation {}
+        }
 
         delegate: ListItems.Base {
             id: baseItem
@@ -124,33 +129,50 @@ ScopeView {
                 Connections {
                     target: rendererLoader.item
                     onClicked: {
+                        // Prepare the preview in case activate() triggers a preview only
                         effect.positionPx = mapToItem(categoryView, 0, itemY).y
-                        scopeView.scope.activate(delegateItem.model.uri,
-                                                 delegateItem.model.icon,
-                                                 delegateItem.model.category,
-                                                 0,
-                                                 delegateItem.model.mimetype,
-                                                 delegateItem.model.title,
-                                                 delegateItem.model.comment,
-                                                 delegateItem.model.dndUri,
-                                                 delegateItem.model.metadata)
+                        previewListView.categoryId = categoryId
+                        previewListView.categoryDelegate = rendererLoader.item
+                        previewListView.model = model;
+                        previewListView.init = true;
+                        previewListView.currentIndex = index;
+
+                        var item = model.get(index);
+
+                        if ((scopeView.scope.id == "applications.scope" && categoryId == "installed")
+                                || (scopeView.scope.id == "home.scope" && categoryId == "applications.scope")) {
+                            scopeView.scope.activate(item.uri, item.icon, item.category, 0, item.mimetype, item.title,
+                                                     item.comment, item.dndUri, item.metadata)
+                        } else {
+                            previewListView.open = true
+
+                            scopeView.scope.preview( item.uri, item.icon, item.category, 0, item.mimetype, item.title,
+                                                     item.comment, item.dndUri, item.metadata)
+                        }
                     }
                     onPressAndHold: {
                         effect.positionPx = mapToItem(categoryView, 0, itemY).y
-                        scopeView.scope.preview( delegateItem.model.uri,
-                                                 delegateItem.model.icon,
-                                                 delegateItem.model.category,
-                                                 0,
-                                                 delegateItem.model.mimetype,
-                                                 delegateItem.model.title,
-                                                 delegateItem.model.comment,
-                                                 delegateItem.model.dndUri,
-                                                 delegateItem.model.metadata)
+                        previewListView.categoryId = categoryId
+                        previewListView.categoryDelegate = rendererLoader.item
+                        previewListView.model = model;
+                        previewListView.init = true;
+                        previewListView.currentIndex = index;
+                        previewListView.open = true
+
+                        var item = model.get(index)
+                        scopeView.scope.preview( item.uri, item.icon, item.category, 0, item.mimetype, item.title,
+                                                item.comment, item.dndUri, item.metadata)
                     }
                 }
                 Connections {
                     target: categoryView
                     onExpandedCategoryIdChanged: {
+                        collapseAllButExpandedCategory();
+                    }
+                    onCorrectExpandedCategory: {
+                        collapseAllButExpandedCategory();
+                    }
+                    function collapseAllButExpandedCategory() {
                         var item = rendererLoader.item;
                         if (item.expandable) {
                             var shouldFilter = categoryId != categoryView.expandedCategoryId;
@@ -158,13 +180,15 @@ ScopeView {
                                 // If the filter animation will be seen start it, otherwise, just flip the switch
                                 var shrinkingVisible = shouldFilter && y + item.collapsedHeight < categoryView.height;
                                 var growingVisible = !shouldFilter && y + height < categoryView.height;
-                                if (shrinkingVisible || growingVisible) {
-                                    item.startFilterAnimation(shouldFilter)
-                                } else {
-                                    item.filter = shouldFilter;
-                                }
-                                if (!shouldFilter) {
-                                    categoryView.maximizeVisibleArea(index, item.uncollapsedHeight);
+                                if (!previewListView.open || !shouldFilter) {
+                                    if (shrinkingVisible || growingVisible) {
+                                        item.startFilterAnimation(shouldFilter)
+                                    } else {
+                                        item.filter = shouldFilter;
+                                    }
+                                    if (!shouldFilter && !previewListView.open) {
+                                        categoryView.maximizeVisibleArea(index, item.uncollapsedHeight);
+                                    }
                                 }
                             }
                         }
@@ -270,6 +294,7 @@ ScopeView {
 
     OpenEffect {
         id: effect
+        objectName: "openEffect"
         anchors {
             fill: parent
             bottomMargin: -bottomOverflow
@@ -282,29 +307,44 @@ ScopeView {
         topOpacity: (1 - gap * 1.2)
         bottomGapPx: positionPx + gap * (targetBottomGapPx - positionPx)
         bottomOverflow: units.gu(20)
-        bottomOpacity: 1 - (gap * 0.8)
+        live: !expansionAnimation.running
 
         property int targetBottomGapPx: height - units.gu(8) - bottomOverflow
-        property real gap: previewLoader.open ? 1.0 : 0.0
+        property real gap: previewListView.open ? 1.0 : 0.0
 
         Behavior on gap {
             NumberAnimation {
+                id: expansionAnimation
                 duration: 200
                 easing.type: Easing.InOutQuad
                 onRunningChanged: {
-                    if (!previewLoader.open && !running) {
-                        previewLoader.onScreen = false
+                    if (!previewListView.open && !running) {
+                        previewListView.onScreen = false
                     }
                 }
             }
+        }
+        Behavior on positionPx {
+            enabled: previewListView.open
+            UbuntuNumberAnimation {}
         }
     }
 
     Connections {
         target: scopeView.scope
         onPreviewReady: {
-            previewLoader.previewData = preview
-            previewLoader.open = true
+            if (previewListView.init) {
+                // Preview was triggered because of a click on the item. Need to expand now.
+                if (!previewListView.open) {
+                    previewListView.open = true
+                }
+
+                var index = previewListView.currentIndex
+                previewListView.currentIndex = -1
+                previewListView.currentIndex = index
+                previewListView.init = false
+            }
+            previewListView.currentItem.previewData = preview
         }
     }
 
@@ -312,18 +352,9 @@ ScopeView {
         id: previewDelegateMapper
     }
 
-    Connections {
-        ignoreUnknownSignals: true
-        target: previewLoader.valid ? previewLoader.item : null
-        onClose: {
-            previewLoader.open = false
-        }
-    }
-
-    Loader {
-        objectName: "previewLoader"
-        id: previewLoader
-        property var previewData
+    ListView  {
+        id: previewListView
+        objectName: "previewListView"
         height: effect.bottomGapPx - effect.topGapPx
         anchors {
             top: parent.top
@@ -331,38 +362,168 @@ ScopeView {
             left: parent.left
             right: parent.right
         }
-        source: onScreen ? previewDelegateMapper.map(previewLoader.previewData.rendererName) : ""
+        orientation: ListView.Horizontal
+        highlightRangeMode: ListView.StrictlyEnforceRange
+        snapMode: ListView.SnapOneItem
+        boundsBehavior: Flickable.DragAndOvershootBounds
+        highlightMoveDuration: 250
+        flickDeceleration: units.gu(625)
+        maximumFlickVelocity: width * 5
+        cacheBuffer: 0
+
+        // To be set before opening the preview
+        property string categoryId: ""
+        property var categoryDelegate
+
+        // because the ListView is built asynchronous, setting the
+        // currentIndex directly won't work. We need to refresh it
+        // when the first preview is ready to be displayed.
+        property bool init: true
+
+        onCurrentIndexChanged: {
+            var row = Math.floor(currentIndex / categoryDelegate.columns);
+            if (categoryDelegate.collapsedRowCount <= row) {
+                categoryView.expandedCategoryId = categoryId
+            }
+
+            if (open) {
+                categoryDelegate.highlightIndex = currentIndex
+            }
+
+            if (!init && model !== undefined) {
+                var item = model.get(currentIndex)
+                scopeView.scope.preview( item.uri, item.icon, item.category, 0, item.mimetype, item.title, item.comment, item.dndUri, item.metadata)
+            }
+
+            var itemY = categoryView.contentItem.mapFromItem(categoryDelegate.currentItem).y;
+            var newContentY = itemY - effect.positionPx - categoryDelegate.verticalSpacing;
+            var effectAdjust = effect.positionPx;
+            if (newContentY < 0) {
+                effectAdjust += newContentY;
+                newContentY = 0;
+            }
+            if (newContentY > Math.max(0, categoryView.contentHeight - categoryView.height)) {
+                effectAdjust += -(categoryView.contentHeight - categoryView.height) + newContentY
+                newContentY = categoryView.contentHeight - categoryView.height;
+            }
+
+            effect.positionPx = effectAdjust;
+            categoryView.contentY = newContentY - categoryView.originY;
+        }
 
         property bool open: false
         property bool onScreen: false
-        property bool valid: item !== null
 
         onOpenChanged: {
             if (open) {
-                onScreen = true
+                onScreen = true;
+                categoryDelegate.highlightIndex = currentIndex;
+                pageHeader.unfocus();
+            } else {
+                // Cancel any pending preview requests or actions
+                if (previewListView.currentItem.previewData !== undefined) {
+                    previewListView.currentItem.previewData.cancelAction();
+                }
+                scopeView.scope.cancelActivation();
+                model = undefined;
+                categoryView.correctExpandedCategory();
+                categoryDelegate.highlightIndex = -1;
             }
         }
 
-        onLoaded: {
-            item.previewData = Qt.binding(function() { return previewLoader.previewData })
+        Rectangle {
+            anchors.fill: parent
+            color: Qt.rgba(0, 0, 0, .3)
+            z: -1
         }
 
-        function closePreviewSpinner() {
-            if(item) {
-                item.showProcessingAction = false;
+        delegate: Loader {
+            id: previewLoader
+            objectName: "previewLoader" + index
+            height: previewListView.height
+            width: previewListView.width
+            asynchronous: true
+            source: previewListView.onScreen ?
+                         (previewData !== undefined ? previewDelegateMapper.map(previewData.rendererName) : "DashPreviewPlaceholder.qml") : ""
+
+            onPreviewDataChanged: {
+                if (previewData !== undefined && source.toString().indexOf("DashPreviewPlaceholder.qml") != -1) {
+                    previewLoader.opacity = 0;
+                }
+            }
+
+            onSourceChanged: {
+                if (previewData !== undefined) {
+                    fadeIn.start()
+                }
+            }
+
+            PropertyAnimation {
+                id: fadeIn
+                target: previewLoader
+                property: "opacity"
+                from: 0.0
+                to: 1.0
+                duration: UbuntuAnimation.BriskDuration
+            }
+
+            property var previewData
+            property bool valid: item !== null
+
+            onLoaded: {
+                if (previewListView.onScreen && previewData !== undefined) {
+                    item.previewData = Qt.binding(function() { return previewData })
+                }
+            }
+
+            Connections {
+                ignoreUnknownSignals: true
+                target: item
+                onClose: {
+                    previewListView.open = false
+                }
+            }
+
+            function closePreviewSpinner() {
+                if(item) {
+                    item.showProcessingAction = false;
+                }
             }
         }
     }
 
+    Image {
+        objectName: "pointerArrow"
+        anchors {
+            top: previewListView.bottom
+            left: parent.left
+            leftMargin: previewListView.categoryDelegate !== undefined && previewListView.categoryDelegate.currentItem ?
+                            previewListView.categoryDelegate.currentItem.center + (-width + margins) / 2 : 0
+
+            Behavior on leftMargin {
+                SmoothedAnimation {
+                    duration: UbuntuAnimation.FastDuration
+                }
+            }
+        }
+        height: units.gu(1)
+        width: units.gu(2)
+        property int margins: previewListView.categoryDelegate ? previewListView.categoryDelegate.margins : 0
+        opacity: previewListView.open ? .5 : 0
+
+        source: "graphics/tooltip_arrow.png"
+    }
+
     // TODO: Move as InverseMouseArea to DashPreview
     MouseArea {
-        enabled: previewLoader.onScreen
+        objectName: "closePreviewMouseArea"
+        enabled: previewListView.onScreen
         anchors {
             fill: parent
             topMargin: effect.bottomGapPx
         }
         onClicked: {
-            previewLoader.open = false;
+            previewListView.open = false;
         }
     }
 }

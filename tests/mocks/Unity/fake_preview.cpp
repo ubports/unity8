@@ -22,7 +22,7 @@ Preview::Preview(QObject *parent): QObject(parent)
 
 QString Preview::rendererName() const
 {
-    return "foo";
+    return "generic-preview";
 }
 
 QString Preview::title() const
@@ -64,4 +64,8 @@ void Preview::execute(const QString& actionId, const QHash<QString, QVariant>& h
 {
     Q_UNUSED(actionId);
     Q_UNUSED(hints);
+}
+
+void Preview::cancelAction()
+{
 }
