@@ -27,7 +27,6 @@ QtObject {
     }
 
     function map(rendererName) {
-        print("should map preview", rendererName);
         var customPreview = d.previewDelegateMapping[rendererName]
         if (customPreview != undefined) {
             return customPreview

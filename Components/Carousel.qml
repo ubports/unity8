@@ -49,7 +49,7 @@ Item {
     property alias highlightIndex: listView.highlightIndex
     /// exposes the delegate of the currentItem
     readonly property alias currentItem: listView.currentItem
-    /// exposes the distance to the next row (only one row in carousel, so it's the topMargins
+    /// exposes the distance to the next row (only one row in carousel, so it's the topMargins)
     readonly property alias verticalSpacing: listView.verticalMargin
 
     /// Emitted when the user clicked on an item
