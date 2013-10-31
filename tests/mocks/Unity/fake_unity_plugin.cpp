@@ -41,4 +41,5 @@ void FakeUnityPlugin::registerTypes(const char *uri)
     qmlRegisterType<Scope>(uri, 0, 1, "Scope");
     qmlRegisterType<Categories>(uri, 0, 1, "Categories");
     qmlRegisterUncreatableType<CategoryResults>(uri, 0, 1, "CategoryResults", "Can't create");
+    qmlRegisterType<DeeListModel>(uri, 0, 1, "DeeListModel");
 }

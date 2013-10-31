@@ -28,6 +28,10 @@ Item {
 
     Scopes {
         id: scopes
+
+        onLoadedChanged: {
+            genericScopeView.scope = scopes.get(0)
+        }
     }
 
     GenericScopeView {
@@ -37,10 +41,6 @@ Item {
         UT.UnityTestCase {
             name: "GenericScopeView"
             when: scopes.loaded
-
-            function init() {
-                genericScopeView.scope = scopes.get(0)
-            }
 
             function test_isCurrent() {
                 var pageHeader = findChild(genericScopeView, "pageHeader");
