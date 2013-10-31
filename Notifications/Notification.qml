@@ -23,7 +23,7 @@ import Utils 0.1
 UbuntuShape {
     id: notification
 
-    property alias iconSource: avatarIcon.source
+    property alias iconSource: icon.fileSource
     property alias secondaryIconSource: secondaryIcon.source
     property alias summary: summaryLabel.text
     property alias body: bodyLabel.text
@@ -101,29 +101,14 @@ UbuntuShape {
                 right: parent.right
             }
 
-            Image {
-                id: noShapeIcon
-
-                fillMode: Image.PreserveAspectCrop
-                objectName: "noShapeIcon"
-                width: units.gu(6)
-                height: units.gu(6)
-                source: iconSource
-                visible: iconSource !== undefined && iconSource !== "" && notification.hints["x-canonical-noshape-icon"] == "true"
-            }
-
-            UbuntuShape {
+            ShapedIcon {
                 id: icon
 
                 objectName: "icon"
                 width: units.gu(6)
                 height: units.gu(6)
-                visible: iconSource !== undefined && iconSource !== "" && notification.hints["x-canonical-noshape-icon"] !== "true"
-                image: Image {
-                    id: avatarIcon
-
-                    fillMode: Image.PreserveAspectCrop
-                }
+                shaped: notification.hints["x-canonical-non-shaped-icon"] == "true" ? false : true
+                visible: iconSource !== undefined && iconSource != ""
             }
 
             Image {
@@ -140,7 +125,8 @@ UbuntuShape {
                 id: labelColumn
                 width: parent.width - x
 
-                anchors.verticalCenter: ((icon.visible || noShapeIcon.visible) && !bodyLabel.visible) ? (icon.visible ? icon.verticalCenter : noShapeIcon.verticalCenter) : undefined
+                //anchors.verticalCenter: ((icon.visible || noShapeIcon.visible) && !bodyLabel.visible) ? (icon.visible ? icon.verticalCenter : noShapeIcon.verticalCenter) : undefined
+                anchors.verticalCenter: (icon.visible && !bodyLabel.visible) ? icon.verticalCenter : undefined
 
                 Label {
                     id: summaryLabel

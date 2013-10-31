@@ -76,6 +76,20 @@ Row {
         mockModel.append(n)
     }
 
+    function addEphemeralNonShapedIconNotification() {
+        var n = {
+            type: Notification.Ephemeral,
+            hints: {"x-canonical-non-shaped-icon": "true"},
+            summary: "Contacts",
+            body: "Synchronised contacts-database with cloud-storage.",
+            icon: "../graphics/applicationIcons/contacts-app.png",
+            secondaryIcon: "",
+            actions: []
+        }
+
+        mockModel.append(n)
+    }
+
     function addEphemeralIconSummaryNotification() {
         var n = {
             type: Notification.Ephemeral,
@@ -154,6 +168,12 @@ Row {
                 width: parent.width
                 text: "add an ephemeral"
                 onClicked: addEphemeralNotification()
+            }
+
+            Button {
+                width: parent.width
+                text: "add an non-shaped-icon-summary-body"
+                onClicked: addEphemeralNonShapedIconNotification()
             }
 
             Button {
@@ -293,6 +313,24 @@ Row {
                 interactiveAreaEnabled: false,
                 iconVisible: true,
                 secondaryIconVisible: true,
+                buttonRowVisible: false,
+                buttonTinted: false
+            },
+            {
+                tag: "Ephemeral notification with non-shaped icon",
+                type: Notification.Ephemeral,
+                hints: {"x-canonical-private-button-tint": "false",
+                        "x-canonical-non-shaped-icon": "true"},
+                summary: "Contacts",
+                body: "Synchronised contacts-database with cloud-storage.",
+                icon: "../graphics/applicationIcons/contacts-app.png",
+                secondaryIcon: "",
+                actions: [],
+                summaryVisible: true,
+                bodyVisible: true,
+                interactiveAreaEnabled: false,
+                iconVisible: true,
+                secondaryIconVisible: false,
                 buttonRowVisible: false,
                 buttonTinted: false
             }
