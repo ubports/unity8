@@ -35,7 +35,7 @@ Item {
         if (delay !== undefined) {
             hideTimer.interval = delay;
             hideTimer.start();
-        } else if (indicatorsMenu.shown){
+        } else {
             indicatorsMenu.hide();
         }
     }
@@ -44,9 +44,7 @@ Item {
         id: hideTimer
         running: false
         onTriggered: {
-            if (indicatorsMenu.shown) {
-                indicatorsMenu.hide();
-            }
+            indicatorsMenu.hide();
         }
     }
 
