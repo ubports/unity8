@@ -126,7 +126,6 @@ UbuntuShape {
                 id: labelColumn
                 width: parent.width - x
 
-                //anchors.verticalCenter: ((icon.visible || noShapeIcon.visible) && !bodyLabel.visible) ? (icon.visible ? icon.verticalCenter : noShapeIcon.verticalCenter) : undefined
                 anchors.verticalCenter: (icon.visible && !bodyLabel.visible) ? icon.verticalCenter : undefined
 
                 Label {
