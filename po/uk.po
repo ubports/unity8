@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-10-07 10:49+0200\n"
-"PO-Revision-Date: 2013-09-28 07:54+0000\n"
+"POT-Creation-Date: 2013-10-11 12:12+0200\n"
+"PO-Revision-Date: 2013-10-19 16:44+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2013-10-08 07:01+0000\n"
-"X-Generator: Launchpad (build 16799)\n"
+"X-Launchpad-Export-Date: 2013-10-20 05:20+0000\n"
+"X-Generator: Launchpad (build 16807)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -135,6 +135,8 @@ msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap anywhere to start"
 msgstr ""
+"Тепер жести налаштовано, ви можете почати користуватися "
+"телефоном.<br><br>Натисніть у довільному місці екрана."
 
 #: Components/PageHeader.qml:341
 msgid "Recent searches"
@@ -160,34 +162,6 @@ msgstr[2] "%1 рецензій"
 #: Dash/Apps/AppPreview.qml:126
 msgid "Rate this"
 msgstr "Оцінити"
-
-#: Dash/DashMusic.qml:27 Dash/DashVideos.qml:28
-msgid "Featured"
-msgstr "Рекомендовані"
-
-#: Dash/DashMusic.qml:28 Dash/DashVideos.qml:29
-msgid "Recent"
-msgstr "Нещодавні"
-
-#: Dash/DashMusic.qml:29 Dash/DashVideos.qml:30
-msgid "New Releases"
-msgstr "Нові випуски"
-
-#: Dash/DashMusic.qml:30
-msgid "Top Charting"
-msgstr "З високими оцінками"
-
-#: Dash/DashMusic.qml:91
-msgid "Music"
-msgstr "Музика"
-
-#: Dash/DashVideos.qml:31
-msgid "Popular Online"
-msgstr "Популярне у мережі"
-
-#: Dash/DashVideos.qml:146
-msgid "Videos"
-msgstr "Відео"
 
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
@@ -242,15 +216,15 @@ msgstr "Мовлення…"
 msgid "Search"
 msgstr "Пошук"
 
-#: plugins/Unity/scope.cpp:361
+#: plugins/Unity/scope.cpp:398
 msgid "Sorry, there is nothing that matches your search."
 msgstr "Вибачте, для вказаних вами ключових слів нічого не знайдено."
 
 #: plugins/Unity/showallfilteroption.cpp:41
 msgid "All"
-msgstr ""
+msgstr "Усе"
 
-#: Shell.qml:453
+#: Shell.qml:438
 #, qt-format
 msgid "Please enter %1"
 msgstr "Будь ласка, введіть %1"

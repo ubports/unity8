@@ -16,42 +16,41 @@
 
 import QtQuick 2.0
 import "../../Components"
+import "../Generic"
 
-FilterGrid {
-    id: filterGrid
+GenericFilterGrid {
+    id: filtergrid
 
-    minimumHorizontalSpacing: units.gu(2)
-    maximumNumberOfColumns: 5
-    delegateWidth: units.gu(17)
-    delegateHeight: iconHeight + units.gu(3.5)
-    verticalSpacing: units.gu(2)
+    delegateWidth: units.gu(11)
+    delegateHeight: units.gu(16)
 
-    readonly property int iconWidth: (width / columns) * 0.8
-    readonly property int iconHeight: iconWidth
+    iconWidth: units.gu(11)
+    iconHeight: units.gu(11)
 
-    signal clicked(int index, var delegateItem, real itemY)
-    signal pressAndHold(int index, var delegateItem, real itemY)
-
-    delegate: AlbumTile {
+    delegate: Tile {
         id: tile
         objectName: "delegate" + index
-        width: filterGrid.cellWidth
-        height: filterGrid.cellHeight
-        iconWidth: filterGrid.iconWidth
-        iconHeight: filterGrid.iconHeight
-
-        artist: model.title
-        album: model.comment
+        width: filtergrid.cellWidth
+        height: filtergrid.cellHeight
+        text: model.comment
+        imageWidth: filtergrid.iconWidth
+        imageHeight: filtergrid.iconHeight
         source: model.icon
+        maximumLineCount: 2
+        horizontalAlignment: Text.AlignLeft
+
+        style: MusicTileStyle {
+            artist: model.title
+        }
 
         onClicked: {
             var data = { model: model }
-            filterGrid.clicked(index, data, tile.y)
+            filtergrid.clicked(index, data, tile.y)
         }
 
         onPressAndHold: {
             var data = { model: model }
-            filterGrid.pressAndHold(index, data, tile.y)
+            filtergrid.pressAndHold(index, data, tile.y)
         }
     }
 }

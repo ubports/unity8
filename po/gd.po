@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-10-07 10:49+0200\n"
+"POT-Creation-Date: 2013-10-11 12:12+0200\n"
 "PO-Revision-Date: 2013-09-30 10:34+0000\n"
 "Last-Translator: Akerbeltz <fios@akerbeltz.org>\n"
 "Language-Team: Gaelic; Scottish <gd@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
 "(n > 2 && n < 20) ? 2 : 3;\n"
-"X-Launchpad-Export-Date: 2013-10-08 07:01+0000\n"
+"X-Launchpad-Export-Date: 2013-10-13 05:43+0000\n"
 "X-Generator: Launchpad (build 16799)\n"
 
 #: Applications/applications.js:23
@@ -165,34 +165,6 @@ msgstr[3] "%1 lèirmheas"
 msgid "Rate this"
 msgstr "Rangaich seo"
 
-#: Dash/DashMusic.qml:27 Dash/DashVideos.qml:28
-msgid "Featured"
-msgstr "Brosnaichte"
-
-#: Dash/DashMusic.qml:28 Dash/DashVideos.qml:29
-msgid "Recent"
-msgstr "O chionn goirid"
-
-#: Dash/DashMusic.qml:29 Dash/DashVideos.qml:30
-msgid "New Releases"
-msgstr "Air ùr-sgaoileadh"
-
-#: Dash/DashMusic.qml:30
-msgid "Top Charting"
-msgstr "Gràinnean-mullaich nan cairt"
-
-#: Dash/DashMusic.qml:91
-msgid "Music"
-msgstr "Ceòl"
-
-#: Dash/DashVideos.qml:31
-msgid "Popular Online"
-msgstr "Fèill mhòr air air loidhne"
-
-#: Dash/DashVideos.qml:146
-msgid "Videos"
-msgstr "Videothan"
-
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
 msgstr "Cuir lèirmheas ris"
@@ -246,7 +218,7 @@ msgstr "A' bruidhinn..."
 msgid "Search"
 msgstr "Lorg"
 
-#: plugins/Unity/scope.cpp:361
+#: plugins/Unity/scope.cpp:398
 msgid "Sorry, there is nothing that matches your search."
 msgstr "Tha sinn duilich ach chan eil dad a' freagairt ris na lorg thu."
 
@@ -254,7 +226,28 @@ msgstr "Tha sinn duilich ach chan eil dad a' freagairt ris na lorg thu."
 msgid "All"
 msgstr ""
 
-#: Shell.qml:453
+#: Shell.qml:438
 #, qt-format
 msgid "Please enter %1"
 msgstr "Cuir a-steach %1"
+
+#~ msgid "Top Charting"
+#~ msgstr "Gràinnean-mullaich nan cairt"
+
+#~ msgid "Featured"
+#~ msgstr "Brosnaichte"
+
+#~ msgid "Recent"
+#~ msgstr "O chionn goirid"
+
+#~ msgid "New Releases"
+#~ msgstr "Air ùr-sgaoileadh"
+
+#~ msgid "Videos"
+#~ msgstr "Videothan"
+
+#~ msgid "Music"
+#~ msgstr "Ceòl"
+
+#~ msgid "Popular Online"
+#~ msgstr "Fèill mhòr air air loidhne"

@@ -18,93 +18,93 @@ import QtQuick 2.0
 
 ListModel {
     ListElement {
-        uri: "application:///usr/share/applications/dialer-app.desktop"
+        uri: "application://dialer-app.desktop"
         icon: "../../graphics/applicationIcons/phone-app.png"
         category: 0
         mimetype: "application/x-desktop"
         title: "Dialer"
         comment: ""
         dndUri: "file:///usr/share/applications/dialer-app.desktop"
-        metadata: ""
+        metadata: "subscope:applications.scope/applications-non-click.scope"
     }
     ListElement {
-        uri: "application:///usr/share/applications/messaging-app.desktop"
+        uri: "application://messaging-app.desktop"
         icon: "../../graphics/applicationIcons/messages-app.png"
         category: 0
         mimetype: "application/x-desktop"
         title: "Messaging"
         comment: ""
         dndUri: "file:///usr/share/applications/messaging-app.desktop"
-        metadata: ""
+        metadata: "subscope:applications.scope/applications-non-click.scope"
     }
     ListElement {
-        uri: "application:///usr/share/applications/address-book-app.desktop"
+        uri: "application://address-book-app.desktop"
         icon: "../../graphics/applicationIcons/contacts-app.png"
         category: 0
         mimetype: "application/x-desktop"
         title: "Contacts"
         comment: ""
         dndUri: "file:///usr/share/applications/address-book-app.desktop"
-        metadata: ""
+        metadata: "subscope:applications.scope/applications-non-click.scope"
     }
     ListElement {
-        uri: "application:///usr/share/applications/camera-app.desktop"
+        uri: "application://camera-app.desktop"
         icon: "../../graphics/applicationIcons/camera.png"
         category: 0
         mimetype: "application/x-desktop"
         title: "Camera"
         comment: ""
         dndUri: "file:///usr/share/applications/camera-app.desktop"
-        metadata: ""
+        metadata: "subscope:applications.scope/applications-non-click.scope"
     }
     ListElement {
-        uri: "application:///usr/share/applications/gallery-app.desktop"
+        uri: "application://gallery-app.desktop"
         icon: "../../graphics/applicationIcons/gallery.png"
         category: 0
         mimetype: "application/x-desktop"
         title: "Gallery"
         comment: ""
         dndUri: "file:///usr/share/applications/gallery.desktop"
-        metadata: ""
+        metadata: "subscope:applications.scope/applications-non-click.scope"
     }
     ListElement {
-        uri: "application:///usr/share/applications/facebook-webapp.desktop"
+        uri: "appid://com.ubuntu.developer.webapps.webapp-facebook/webapp-facebook/current-user-version"
         icon: "../../graphics/applicationIcons/facebook.png"
         category: 0
         mimetype: "application/x-desktop"
         title: "Facebook"
         comment: ""
-        dndUri: "file:///usr/share/applications/facebook-webapp.desktop"
-        metadata: ""
+        dndUri: "appid://com.ubuntu.developer.webapps.webapp-facebook/webapp-facebook/current-user-version"
+        metadata: "subscope:applications.scope/applications-click.scope?app_id=com.ubuntu.developer.webapps.webapp-facebook"
     }
     ListElement {
-        uri: "application:///usr/share/applications/webbrowser-app.desktop"
+        uri: "application://webbrowser-app.desktop"
         icon: "../../graphics/applicationIcons/browser.png"
         category: 0
         mimetype: "application/x-desktop"
         title: "Browser"
         comment: ""
         dndUri: "file:///usr/share/applications/webbrowser-app.desktop"
-        metadata: ""
+        metadata: "subscope:applications.scope/applications-non-click.scope"
     }
     ListElement {
-        uri: "application:///usr/share/applications/gmail-webapp.desktop"
+        uri: "appid://com.ubuntu.developer.webapps.webapp-gmail/webapp-gmail/current-user-version"
         icon: "../../graphics/applicationIcons/gmail.png"
         category: 0
         mimetype: "application/x-desktop"
         title: "GMail"
         comment: ""
-        dndUri: "file:///usr/share/applications/gmail-webapp.desktop"
-        metadata: ""
+        dndUri: "appid://com.ubuntu.developer.webapps.webapp-gmail/webapp-gmail/current-user-version"
+        metadata: "subscope:applications.scope/applications-click.scope?app_id=com.ubuntu.developer.webapps.webapp-gmail"
     }
     ListElement {
-        uri: "application:///usr/share/applications/ubuntu-system-settings.desktop"
+        uri: "application://ubuntu-system-settings.desktop"
         icon: "../../graphics/applicationIcons/system-settings.png"
         category: 0
         mimetype: "application/x-desktop"
         title: "System Settings"
         comment: ""
         dndUri: "file:///usr/share/applications/ubuntu-system-settings.desktop"
-        metadata: ""
+        metadata: "subscope:applications.scope/applications-non-click.scope"
     }
 }

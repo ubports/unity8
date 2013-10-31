@@ -558,13 +558,9 @@ FocusScope {
     }
 
     function showHome() {
+        var animate = !greeter.shown && !stages.shown
         greeter.hide()
-        // Animate if moving between application and dash
-        if (!stages.shown) {
-            dash.setCurrentScope("home.scope", true, false)
-        } else {
-            dash.setCurrentScope("home.scope", false, false)
-        }
+        dash.setCurrentScope("home.scope", animate, false)
         stages.hide()
     }
 
@@ -583,7 +579,7 @@ FocusScope {
                 contentEnabled: edgeDemo.panelContentEnabled
             }
             fullscreenMode: shell.fullscreenMode
-            searchVisible: !greeter.shown && !lockscreen.shown
+            searchVisible: !greeter.shown && !lockscreen.shown && dash.shown
 
             InputFilterArea {
                 anchors {
@@ -741,6 +737,7 @@ FocusScope {
     }
 
     OSKController {
+        anchors.topMargin: panel.panelHeight
         anchors.fill: parent // as needs to know the geometry of the shell
     }
 

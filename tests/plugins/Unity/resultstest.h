@@ -32,6 +32,8 @@ class ResultsTest : public QObject
         void testIconColumn();
         void testSpecialIcons_data();
         void testSpecialIcons();
+        void testMetadataOverride_data();
+        void testMetadataOverride();
 };
 
 #endif

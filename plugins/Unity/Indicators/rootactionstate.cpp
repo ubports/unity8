@@ -57,7 +57,7 @@ void RootActionState::setMenu(UnityMenuModel* menu)
             connect(m_menu, SIGNAL(rowsRemoved(const QModelIndex&, int, int)), SLOT(onModelRowsRemoved(const QModelIndex&, int, int)));
             connect(m_menu, SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&, const QVector<int>&)), SLOT(onModelDataChanged(const QModelIndex&, const QModelIndex&, const QVector<int>&)));
 
-            m_menu->setActionStateParser(this);
+            connect(m_menu, SIGNAL(destroyed()), SLOT(reset()));
         }
         updateActionState();
         Q_EMIT menuChanged();
@@ -92,10 +92,24 @@ void RootActionState::onModelDataChanged(const QModelIndex& topLeft, const QMode
     }
 }
 
+void RootActionState::reset()
+{
+    m_cachedState.clear();
+    m_menu = NULL;
+
+    Q_EMIT menuChanged();
+    Q_EMIT updated();
+}
+
 void RootActionState::updateActionState()
 {
     if (m_menu && m_menu->rowCount() > 0) {
+        ActionStateParser* oldParser = m_menu->actionStateParser();
+        m_menu->setActionStateParser(this);
+
         m_cachedState = m_menu->get(0, "actionState").toMap();
+
+        m_menu->setActionStateParser(oldParser);
     } else {
         m_cachedState.clear();
     }
