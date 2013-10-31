@@ -27,18 +27,8 @@ static DeeModel* create_results_model(unsigned category_count, unsigned result_c
 
 // TODO: Implement remaining pieces
 
-Scope::Scope(QObject* parent)
-    : QObject(parent)
-    , m_visible(false)
-    , m_searching(false)
-    , m_isActive(false)
-    , m_categories(new Categories(this))
-    , m_results(new DeeListModel(this))
+Scope::Scope(QObject* parent) : Scope(QString(), QString(), false, parent)
 {
-    DeeModel* results_model = create_results_model(4, 30);
-    m_categories->setResultModel(results_model);
-    m_categories->setModel(create_categories_model(4));
-    m_results->setModel(results_model);
 }
 
 Scope::Scope(QString const& id, QString const& name, bool visible, QObject* parent)
@@ -51,9 +41,9 @@ Scope::Scope(QString const& id, QString const& name, bool visible, QObject* pare
     , m_categories(new Categories(this))
     , m_results(new DeeListModel(this))
 {
-    DeeModel* results_model = create_results_model(4, 30);
+    DeeModel* results_model = create_results_model(20, 300);
     m_categories->setResultModel(results_model);
-    m_categories->setModel(create_categories_model(4));
+    m_categories->setModel(create_categories_model(20));
     m_results->setModel(results_model);
 }
 
