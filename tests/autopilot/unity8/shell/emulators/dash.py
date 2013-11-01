@@ -48,5 +48,4 @@ class Dash(UnityEmulatorBase):
             objectName='dashContentList'
         )
         scope_id = "%s.scope" % scope_name
-        return dash_content.wait_select_single(
-            'QQuickLoader', scopeId=scope_id)
+        return dash_content.select_single('QQuickLoader', scopeId=scope_id)

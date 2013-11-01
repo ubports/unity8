@@ -63,7 +63,7 @@ class NotificationsBase(UnityTestCase):
 
     def _get_notifications_list(self):
         main_view = self.main_window.get_qml_view()
-        return main_view.wait_select_single(
+        return main_view.select_single(
             "QQuickListView",
             objectName='notificationList'
         )
@@ -365,7 +365,14 @@ class EphemeralNotificationsTests(NotificationsBase):
 
         notification = lambda: notify_list.wait_select_single(
             'Notification', objectName='notification1')
-        self._assert_notification(notification(), summary, body, True, True, 1.0)
+        self._assert_notification(
+            notification(),
+            summary,
+            body,
+            True,
+            True,
+            1.0,
+        )
 
     def test_icon_summary(self):
         """Notification must display the expected summary and secondary

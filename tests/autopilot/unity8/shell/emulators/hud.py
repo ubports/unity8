@@ -41,10 +41,12 @@ class Hud(UnityEmulatorBase, DragMixin):
         swipe_coords = self.get_button_swipe_coords(window, hud_show_button)
 
         self.touch.press(swipe_coords.start_x, swipe_coords.start_y)
-        self._drag(swipe_coords.start_x,
-                   swipe_coords.start_y,
-                   swipe_coords.start_x,
-                   swipe_coords.end_y)
+        self._drag(
+            swipe_coords.start_x,
+            swipe_coords.start_y,
+            swipe_coords.start_x,
+            swipe_coords.end_y
+        )
         try:
             hud_show_button.opacity.wait_for(1.0)
             self.touch.release()
@@ -79,6 +81,7 @@ class Hud(UnityEmulatorBase, DragMixin):
         end_x = start_x
         start_y = main_view.y + (main_view.height - 3)
         end_y = main_view.y + int(
-            hud_show_button.y + (hud_show_button.height/2))
+            hud_show_button.y + (hud_show_button.height/2)
+        )
 
         return SwipeCoords(start_x, end_x, start_y, end_y)

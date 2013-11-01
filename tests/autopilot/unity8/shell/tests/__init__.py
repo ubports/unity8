@@ -125,11 +125,16 @@ class UnityTestCase(AutopilotTestCase):
 
             # Hide Unity launcher
             self._unityshell_schema = Gio.Settings.new_with_path(
-                UNITYSHELL_GSETTINGS_SCHEMA, UNITYSHELL_GSETTINGS_PATH)
+                UNITYSHELL_GSETTINGS_SCHEMA,
+                UNITYSHELL_GSETTINGS_PATH,
+            )
             self._launcher_hide_mode = self._unityshell_schema.get_int(
-                UNITYSHELL_LAUNCHER_KEY)
+                UNITYSHELL_LAUNCHER_KEY,
+            )
             self._unityshell_schema.set_int(
-                UNITYSHELL_LAUNCHER_KEY, UNITYSHELL_LAUNCHER_MODE)
+                UNITYSHELL_LAUNCHER_KEY,
+                UNITYSHELL_LAUNCHER_MODE,
+            )
             self.addCleanup(self._reset_launcher)
 
         self._proxy = None
@@ -151,7 +156,9 @@ class UnityTestCase(AutopilotTestCase):
     def _reset_launcher(self):
         """Reset Unity launcher hide mode"""
         self._unityshell_schema.set_int(
-            UNITYSHELL_LAUNCHER_KEY, self._launcher_hide_mode)
+            UNITYSHELL_LAUNCHER_KEY,
+            self._launcher_hide_mode,
+        )
 
     def _setup_display_details(self):
         scale_divisor = self._determine_geometry()
@@ -233,7 +240,9 @@ class UnityTestCase(AutopilotTestCase):
         logger.info("Resetting upstart env %s to %s", key, value)
         if value is None:
             subprocess.call(
-                ["/sbin/initctl", "unset-env", key], stderr=subprocess.STDOUT)
+                ["/sbin/initctl", "unset-env", key],
+                stderr=subprocess.STDOUT,
+            )
         else:
             subprocess.call([
                 "/sbin/initctl",
@@ -276,7 +285,7 @@ class UnityTestCase(AutopilotTestCase):
 
         app_proxy = self._launch_unity_with_upstart(
             binary_path,
-            self.unity_geometry_args
+            self.unity_geometry_args,
         )
 
         self._set_proxy(app_proxy)
@@ -295,14 +304,16 @@ class UnityTestCase(AutopilotTestCase):
         binary_arg = "BINARY=%s" % binary_path
         extra_args = "ARGS=%s" % " ".join(args)
 
-        output = subprocess.check_output([
-            "/sbin/initctl",
-            "start",
-            "unity8",
-            binary_arg,
-            extra_args
-        ] + ["%s=%s" % (k, v) for k, v in self._environment.iteritems()],
-            stderr=subprocess.STDOUT)
+        output = subprocess.check_output(
+            [
+                "/sbin/initctl",
+                "start",
+                "unity8",
+                binary_arg,
+                extra_args,
+            ] + ["%s=%s" % (k, v) for k, v in self._environment.iteritems()],
+            stderr=subprocess.STDOUT,
+        )
 
         self.addCleanup(self._cleanup_launching_upstart_unity)
 
@@ -387,7 +398,7 @@ class UnityTestCase(AutopilotTestCase):
         self.assertThat(home_scope.isCurrent, Eventually(Equals(True)))
 
     def get_dash(self):
-        dash = self._proxy.select_single(Dash)
+        dash = self._proxy.wait_select_single(Dash)
         return dash
 
     @property
