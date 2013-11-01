@@ -32,64 +32,66 @@ class MainWindow(object):
 
     def get_qml_view(self):
         """Get the main QML view"""
-        return self.app.select_single("QQuickView")
+        return self.app.wait_select_single("QQuickView")
 
     def get_greeter(self):
         return self.app.select_single(Greeter)
 
     def get_greeter_content_loader(self):
-        return self.app.select_single(
+        return self.app.wait_select_single(
             "QQuickLoader",
             objectName="greeterContentLoader"
         )
 
     def get_login_loader(self):
-        return self.app.select_single("QQuickLoader", objectName="loginLoader")
+        return self.app.wait_select_single(
+            "QQuickLoader", objectName="loginLoader")
 
     def get_login_list(self):
-        return self.app.select_single("LoginList")
+        return self.app.wait_select_single("LoginList")
 
     def get_hud(self):
-        return self.app.select_single(Hud)
+        return self.app.wait_select_single(Hud)
 
     def get_hud_showable(self):
-        return self.app.select_single("Showable", objectName="hudShowable")
+        return self.app.wait_select_single(
+            "Showable", objectName="hudShowable")
 
     def get_hud_show_button(self):
-        return self.app.select_single("HudButton")
+        return self.app.wait_select_single("HudButton")
 
     def get_hud_edge_drag_area(self):
-        return self.app.select_single(objectName="hudDragArea")
+        return self.app.wait_select_single(objectName="hudDragArea")
 
     def get_dash(self):
-        return self.app.select_single(Dash)
+        return self.app.wait_select_single(Dash)
 
     def get_dash_home_applications_grid(self):
-        return self.app.select_single(
+        return self.app.wait_select_single(
             "ApplicationsFilterGrid",
             objectName="dashHomeApplicationsGrid"
         )
 
     def get_bottombar(self):
-        return self.app.select_single("Bottombar")
+        return self.app.wait_select_single("Bottombar")
 
     def get_launcher(self):
-        return self.app.select_single(Launcher)
+        return self.app.wait_select_single(Launcher)
 
     def get_pinPadLoader(self):
-        return self.app.select_single(
+        return self.app.wait_select_single(
             "QQuickLoader",
             objectName="pinPadLoader"
         )
 
     def get_pinPadButton(self, buttonId):
-        return self.app.select_single(
+        return self.app.wait_select_single(
             "PinPadButton",
             objectName="pinPadButton%i" % buttonId
         )
 
     def get_lockscreen(self):
-        return self.app.select_single("Lockscreen")
+        return self.app.wait_select_single("Lockscreen")
 
     def get_pinentryField(self):
-        return self.app.select_single(objectName="pinentryField")
+        return self.app.wait_select_single(objectName="pinentryField")

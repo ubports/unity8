@@ -40,4 +40,5 @@ class Greeter(UnityEmulatorBase):
         self.created.wait_for(False)
 
     def get_prompt(self):
-        return self.select_single("TextField", objectName="passwordInput")
+        return self.wait_select_single(
+            "TextField", objectName="passwordInput")
