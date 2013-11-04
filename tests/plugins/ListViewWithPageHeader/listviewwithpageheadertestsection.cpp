@@ -1734,7 +1734,25 @@ private Q_SLOTS:
         QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 50), Q_ARG(QVariant, "Agressive"));
         QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 50), Q_ARG(QVariant, "Agressive"));
 
-        changeContentY(140);
+        changeContentY(5);
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 5);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, 45., 90., false, "Agressive", false);
+        verifyItem(1, 135., 50., false, QString(), false);
+        verifyItem(2, 185., 150., false, QString(), false);
+        verifyItem(3, 335., 240., false, "Regular", false);
+        verifyItem(4, 575., 390., true, "Mild", true);
+        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_clipItem->y(), 5.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 5.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+        QVERIFY(QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
+
+        changeContentY(135);
 
         QTRY_COMPARE(lvwph->m_visibleItems.count(), 5);
         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
