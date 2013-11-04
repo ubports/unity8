@@ -113,8 +113,8 @@ EdgeDragArea {
             }
         }
 
-        function limitMovement(step) {
-            var targetValue = MathLocal.clamp(dragParent[targetProp] + step, minValue, maxValue);
+        function limitMovement(inputStep) {
+            var targetValue = MathLocal.clamp(dragParent[targetProp] + inputStep, minValue, maxValue);
             var step = targetValue - dragParent[targetProp];
 
             if (hintDisplacement == 0) {
