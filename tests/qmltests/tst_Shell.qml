@@ -68,6 +68,8 @@ Item {
             // before it calls the test functions (otherwise findChild calls will fail).
             // The code above just didn't solve it.
             wait(2000);
+
+            removeTimeConstraintsFromDirectionalDragAreas(shell);
         }
 
         function cleanup() {

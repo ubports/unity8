@@ -297,4 +297,29 @@ TestCase {
         event.release(0 /* touchId */, x, y)
         event.commit()
     }
+
+    /*
+      In qmltests, sequences of touch events are sent all at once, unlike in "real life".
+      Also qmltests might run really slowly, e.g. when run from inside virtual machines.
+      Thus to remove a variable that qmltests cannot really control, namely time, this
+      function removes all constraints from DirectionalDragAreas that are sensible to
+      elapsed time.
+
+      This effectively makes DirectionalDragAreas easier to fool.
+     */
+    function removeTimeConstraintsFromDirectionalDragAreas(item) {
+
+        // use duck-typing to identify a DirectionalDragArea
+        if (item.minSpeed != undefined
+                && item.maxSilenceTime != undefined
+                && item.compositionTime != undefined) {
+            item.minSpeed = 0;
+            item.maxSilenceTime = 60 * 60 * 1000;
+            item.compositionTime = 0;
+        } else {
+            for (var i in item.children) {
+                removeTimeConstraintsFromDirectionalDragAreas(item.children[i]);
+            }
+        }
+    }
 }

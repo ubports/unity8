@@ -52,6 +52,9 @@ Item {
             {tag: "fullscreen", fullscreenFlag: true }
         ]}
 
+        function initTestCase() {
+            removeTimeConstraintsFromDirectionalDragAreas(shell);
+        }
 
         function init() {
             searchClicked = false;
