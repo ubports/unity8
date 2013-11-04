@@ -491,7 +491,7 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
             const bool notShownByItsOwn = contentY() + diff >= m_headerItem->y() + m_headerItem->height();
             const bool maximizeVisibleAreaRunning = m_contentYAnimation->isRunning() && contentYAnimationType == ContentYAnimationMaximizeVisibleArea;
 
-            if (!scrolledUp && (contentY() == -m_minYExtent || m_previousContentY == m_headerItem->y())) {
+            if (!scrolledUp && (contentY() == -m_minYExtent || (m_headerItemShownHeight == 0 && m_previousContentY == m_headerItem->y()))) {
                 m_headerItemShownHeight = 0;
                 m_headerItem->setY(-m_minYExtent);
             } else if ((scrolledUp && notRebounding && notShownByItsOwn && !maximizeVisibleAreaRunning) || (m_headerItemShownHeight > 0)) {
