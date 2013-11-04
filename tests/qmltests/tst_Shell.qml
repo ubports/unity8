@@ -55,8 +55,6 @@ Item {
         when: windowShown
 
         function initTestCase() {
-            swipeAwayGreeter();
-
             // Ensure DashHome is loaded before continuing
             var dashContentList = findChild(shell, "dashContentList");
             waitForRendering(dashContentList);
@@ -70,6 +68,7 @@ Item {
             wait(2000);
 
             removeTimeConstraintsFromDirectionalDragAreas(shell);
+            swipeAwayGreeter();
         }
 
         function cleanup() {
