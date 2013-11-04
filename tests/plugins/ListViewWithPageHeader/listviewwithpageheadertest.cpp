@@ -1829,13 +1829,12 @@ private Q_SLOTS:
         scrollToBottom();
         lvwph->showHeader();
         QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
-        QTest::qWait(100);
+        QTest::qWait(500); // Make sure stuff is stable
         QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 100));
         model->setProperty(3, "size", 10);
         model->setProperty(4, "size", 10);
         model->setProperty(5, "size", 10);
         model->setProperty(6, "size", 10);
-        QTest::qWait(100);
         QTRY_COMPARE(lvwph->m_minYExtent, 210.);
         QTRY_COMPARE(lvwph->m_headerItem->y(), -lvwph->m_minYExtent);
     }
