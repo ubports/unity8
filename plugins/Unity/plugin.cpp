@@ -36,6 +36,7 @@
 #include "bottombarvisibilitycommunicatorshell.h"
 #include "genericoptionsmodel.h"
 #include "result.h"
+#include "musicpreviewtrackmodel.h"
 
 // libqtdee
 #include "deelistmodel.h"
@@ -58,6 +59,7 @@ void UnityPlugin::registerTypes(const char *uri)
     qmlRegisterUncreatableType<CategoryResults>(uri, 0, 1, "CategoryResults", "Can't create new Category Results in QML. Get them from Categories instance.");
     qmlRegisterType<DeeListModel>(uri, 0, 1, "DeeListModel");
     qmlRegisterUncreatableType<BottomBarVisibilityCommunicatorShell>(uri, 0, 1, "BottomBarVisibilityCommunicatorShell", "Can't create BottomBarVisibilityCommunicatorShell");
+    qmlRegisterType<MusicPreviewTrackModel>(uri, 0, 1, "MusicPreviewTrackModel");
 }
 
 void UnityPlugin::initializeEngine(QQmlEngine *engine, const char *uri)

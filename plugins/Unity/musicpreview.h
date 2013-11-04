@@ -30,18 +30,18 @@
 // libunity-core
 #include <UnityCore/MusicPreview.h>
 
-class DeeListModel;
+class MusicPreviewTrackModel;
 
 class Q_DECL_EXPORT MusicPreview: public Preview
 {
     Q_OBJECT
 
-    Q_PROPERTY(DeeListModel* tracks READ tracks NOTIFY tracksChanged)
+    Q_PROPERTY(MusicPreviewTrackModel* tracks READ tracks NOTIFY tracksChanged)
 
 public:
     explicit MusicPreview(QObject *parent = 0);
 
-    DeeListModel* tracks() const;
+    MusicPreviewTrackModel* tracks() const;
 
 Q_SIGNALS:
     void tracksChanged();
@@ -54,7 +54,7 @@ private Q_SLOTS:
 
 private:
     unity::dash::MusicPreview::Ptr m_unityMusicPreview;
-    DeeListModel *m_tracks;
+    MusicPreviewTrackModel *m_tracks;
 };
 
 Q_DECLARE_METATYPE(MusicPreview *)

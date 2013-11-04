@@ -18,16 +18,15 @@
  */
 
 #include "musicpreview.h"
-#include <QDebug>
+#include "musicpreviewtrackmodel.h"
 
-// dee-qt
-#include "deelistmodel.h"
+#include <QDebug>
 
 MusicPreview::MusicPreview(QObject *parent):
     Preview(parent),
     m_unityMusicPreview(nullptr)
 {
-    m_tracks = new DeeListModel(this);
+    m_tracks = new MusicPreviewTrackModel(this);
 }
 
 void MusicPreview::setUnityPreview(unity::dash::Preview::Ptr unityPreview)
@@ -40,7 +39,7 @@ void MusicPreview::setUnityPreview(unity::dash::Preview::Ptr unityPreview)
     Q_EMIT tracksChanged();
 }
 
-DeeListModel* MusicPreview::tracks() const
+MusicPreviewTrackModel *MusicPreview::tracks() const
 {
     if (m_unityMusicPreview == nullptr) {
         qWarning() << "Preview not set";
