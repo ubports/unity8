@@ -48,6 +48,10 @@ Item {
         searchField.focus = false;
     }
 
+    function unfocus() {
+        searchField.focus = false;
+    }
+
     Connections {
         target: greeter
         onShownChanged: if (shown) resetSearch()
