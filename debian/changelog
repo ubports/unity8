@@ -1,3 +1,39 @@
+unity8 (7.83+14.04.20131031-0ubuntu1) trusty; urgency=low
+
+  [ Michał Sawicz ]
+  * Use setenv as early as possible to avoid setenv and getenv clashing
+    in multi-threaded situations. (LP: #1240866)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 482
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 31 Oct 2013 20:10:56 +0000
+
+unity8 (7.83+14.04.20131028.1-0ubuntu1) trusty; urgency=low
+
+  * New rebuild forced
+  * Automatic snapshot from revision 480
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 28 Oct 2013 22:42:07 +0000
+
+unity8 (7.83+14.04.20131028-0ubuntu1) trusty; urgency=low
+
+  [ Andrea Cimitan ]
+  * Fix 1195349 by counting drawbuffer on the newContentX logic of the
+    carousel When we changed carousel from repeater to listview, we
+    added drawbuffer. this breaks the logic of newContentX, which was
+    considered disabled and set to -1. The correct disabled value now
+    has to take into account the drawbuffer. (LP: #1195349)
+
+  [ Christopher Lee ]
+  * Checks both then env and upstart env for the currently set
+    XDG_DATA_DIRS so they can be set correctly for the test.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 479
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 28 Oct 2013 03:08:59 +0000
+
 unity8 (7.83+13.10.20131016.2-0ubuntu1) saucy; urgency=low
 
   [ Loïc Minier ]
