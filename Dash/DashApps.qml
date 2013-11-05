@@ -30,6 +30,8 @@ GenericScopeView {
     property var mainStageApplicationsModel: shell.applicationManager.mainStageApplications
     property var sideStageApplicationModel: shell.applicationManager.sideStageApplications
 
+    property alias searchHistory: scopeView.searchHistory
+
     ListModel {
         id: dummyVisibilityModifier
 

@@ -21,6 +21,9 @@ import "../Components/ListItems" as ListItems
 
 ScopeView {
     id: scopeView
+
+    property ListModel searchHistory
+
     readonly property alias previewShown: previewListView.onScreen
     property bool enableHeightBehaviorOnNextCreation: false
 
@@ -248,6 +251,7 @@ ScopeView {
             text: scopeView.scope.name
             searchEntryEnabled: true
             scope: scopeView.scope
+            searchHistory: scopeView.searchHistory
         }
     }
 
