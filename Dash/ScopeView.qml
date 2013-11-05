@@ -17,17 +17,23 @@
 import QtQuick 2.0
 import Utils 0.1
 import Unity 0.1
+import "../Components"
 
 FocusScope {
     property Scope scope
     property SortFilterProxyModel categories: categoryFilter
     property bool isCurrent
-    property ListModel searchHistory
     property bool moving: false
+    property int tabBarHeight: 0
+    property PageHeader pageHeader: null
+    property OpenEffect openEffect: null
+    property Item previewListView: null
 
     signal endReached
     signal movementStarted
     signal positionedAtBeginning
+    signal headerPositionChanged(int position)
+    signal headerHeightChanged(int height)
 
     // FIXME delay the search so that daemons have time to settle, note that
     // removing this will break ScopeView::test_changeScope

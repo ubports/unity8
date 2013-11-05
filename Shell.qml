@@ -62,8 +62,6 @@ FocusScope {
         }
     }
 
-    property ListModel searchHistory: SearchHistoryModel {}
-
     property var applicationManager: ApplicationManagerWrapper {}
 
     Binding {

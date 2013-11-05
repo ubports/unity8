@@ -26,14 +26,18 @@ Item {
     width: units.gu(40)
     height: units.gu(80)
 
-    property ListModel searchHistory: ListModel {}
-
     property var scopeStatus: {
         'MockScope1': { 'movementStarted': 0, 'positionedAtBeginning': 0 },
         'MockScope2': { 'movementStarted': 0, 'positionedAtBeginning': 0 },
         'home.scope': { 'movementStarted': 0, 'positionedAtBeginning': 0 },
         'applications.scope': { 'movementStarted': 0, 'positionedAtBeginning': 0 },
         'MockScope5': { 'movementStarted': 0, 'positionedAtBeginning': 0 }
+    }
+
+    Item {
+        // make PageHeader happy
+        id: greeter
+        signal shownChanged
     }
 
     Scopes {
@@ -157,7 +161,7 @@ Item {
             var dashContentList = findChild(dashContent, "dashContentList");
             verify(dashContentList != undefined);
 
-            tryCompare(scopeLoadedSpy, "count", 5);
+            tryCompareFunction(function() {return dashContentList.currentItem.item !== null;}, true);
             dashContent.setCurrentScopeAtIndex(0, true, false);
             dashContentList.currentItem.item.endReached();
 
@@ -228,6 +232,22 @@ Item {
             tryCompare(scopesModel.get(0), "isActive", data.active0);
             tryCompare(scopesModel.get(1), "isActive", data.active1);
             tryCompare(scopesModel.get(2), "isActive", data.active2);
+        }
+
+        function test_tabBar_index_change() {
+            compare(dashContent.currentIndex, 0);
+            mouseClick(dashContent, units.gu(5), units.gu(5))
+            wait(1000);
+            mouseClick(dashContent, units.gu(20), units.gu(5))
+            compare(dashContent.currentIndex, 1);
+        }
+
+        function test_tabBar_listens_to_index_change() {
+            var tabbar = findChild(dashContent, "tabbar");
+            tryCompare(dashContent, "currentIndex", 0);
+            compare(tabbar.selectedTabIndex, 0);
+            dashContent.currentIndex = 1;
+            compare(tabbar.selectedTabIndex, 1);
         }
     }
 }

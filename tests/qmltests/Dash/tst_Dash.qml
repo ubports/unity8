@@ -25,8 +25,6 @@ Item {
     width: units.gu(40)
     height: units.gu(80)
 
-    property ListModel searchHistory : ListModel {}
-
     Dash {
         id: dash
         anchors.fill: parent
@@ -83,14 +81,14 @@ Item {
             // wait for scopes to load
             tryCompare(scopes, "loaded", true);
 
-            var dashbar = findChild(dash, "dashbar");
-            verify(dashbar != undefined)
+            var tabbar = findChild(dash, "tabbar");
+            verify(tabbar != undefined)
             var dashContent = findChild(dash, "dashContent");
             var current_index = dashContent.currentIndex;
 
             dash.setCurrentScope(data.tag, true /* animate */, false /* reset */);
             compare(dashContent.currentIndex, data.shouldBeVisible ? data.visualIndex : current_index);
-            compare(dashbar.currentIndex, data.shouldBeVisible ? data.visualIndex : current_index);
+            compare(tabbar.selectedTabIndex, data.shouldBeVisible ? data.visualIndex : current_index);
         }
 
         function test_show_scope_on_load_data() {
@@ -121,12 +119,12 @@ Item {
             // wait for scopes to load
             tryCompare(scopes, "loaded", true);
 
-            var dashbar = findChild(dash, "dashbar");
-            verify(dashbar != undefined)
+            var tabbar = findChild(dash, "tabbar");
+            verify(tabbar != undefined)
             var dashContent = findChild(dash, "dashContent");
             var current_index = dashContent.currentIndex;
 
-            dashbar.itemSelected(data.visualIndex);
+            tabbar.selectedTabIndex = data.visualIndex;
             compare(dashContent.currentIndex, data.shouldBeVisible ? data.visualIndex : current_index);
         }
     }
