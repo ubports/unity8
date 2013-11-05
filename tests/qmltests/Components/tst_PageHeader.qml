@@ -174,6 +174,7 @@ Item {
             scope: scopeMock
 
             searchEntryEnabled: true
+            searchHistory: SearchHistoryModel {}
             text: "%^$%^%^&%^&%^$%GHR%"
         }
 
