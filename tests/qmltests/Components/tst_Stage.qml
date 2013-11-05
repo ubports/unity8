@@ -24,7 +24,6 @@ import Unity.Test 0.1 as UT
 import "tst_Stage"
 
 Rectangle {
-    id: root
     width: units.gu(70)
     height: stageRect.height
 
@@ -204,10 +203,6 @@ Rectangle {
                 && oldAppScreenshot.scale < 0.99
                 && oldAppScreenshot.scale >= 0.1
                 && oldAppScreenshot.visible
-        }
-
-        function initTestCase() {
-            removeTimeConstraintsFromDirectionalDragAreas(root);
         }
 
         function init() {

@@ -82,10 +82,6 @@ Item {
         name: "Indicators"
         when: windowShown
 
-        function initTestCase() {
-            removeTimeConstraintsFromDirectionalDragAreas(shell);
-        }
-
         function init() {
             indicators.hide();
             tryCompare(indicators.hideAnimation, "running", false);

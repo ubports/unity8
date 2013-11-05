@@ -67,7 +67,6 @@ Item {
             // The code above just didn't solve it.
             wait(2000);
 
-            removeTimeConstraintsFromDirectionalDragAreas(shell);
             swipeAwayGreeter();
         }
 
