@@ -52,7 +52,7 @@ Showable {
     signal unlocked(int uid)
 
     onRightTeaserPressedChanged: {
-        if (rightTeaserPressed && !locked) {
+        if (rightTeaserPressed && !locked && x == 0) {
             teasingTimer.start();
         }
     }

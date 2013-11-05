@@ -14,13 +14,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Self
 #include "fake_scope.h"
-
-#include <dee.h>
+#include "fake_preview.h"
 #include "paths.h"
 
-#include "fake_preview.h"
+#include <dee.h>
 
 static DeeModel* create_categories_model(unsigned category_count);
 static DeeModel* create_results_model(unsigned category_count, unsigned result_count);
@@ -45,6 +43,13 @@ Scope::Scope(QString const& id, QString const& name, bool visible, QObject* pare
     m_categories->setResultModel(results_model);
     m_categories->setModel(create_categories_model(20));
     m_results->setModel(results_model);
+
+    m_timer.setInterval(1000);
+    m_timer.setSingleShot(true);
+    connect(&m_timer, &QTimer::timeout, [this]() {
+                                    Preview *p = new Preview(this);
+                                    Q_EMIT previewReady(p);
+                                });
 }
 
 QString Scope::id() const {
@@ -158,6 +163,8 @@ void Scope::activate(const QVariant &uri, const QVariant &icon_hint, const QVari
     Q_UNUSED(comment);
     Q_UNUSED(dnd_uri);
     Q_UNUSED(metadata);
+
+    m_timer.start();
 }
 
 void Scope::preview(const QVariant &uri, const QVariant &icon_hint, const QVariant &category,
@@ -173,6 +180,8 @@ void Scope::preview(const QVariant &uri, const QVariant &icon_hint, const QVaria
     Q_UNUSED(comment);
     Q_UNUSED(dnd_uri);
     Q_UNUSED(metadata);
+
+    m_timer.start();
 }
 
 static const gchar * categories_model_schema[] = {
@@ -237,4 +246,9 @@ DeeModel* create_results_model(unsigned category_count, unsigned result_count) {
                          hints);
     }
     return results_model;
+}
+
+void Scope::cancelActivation()
+{
+    m_timer.stop();
 }
