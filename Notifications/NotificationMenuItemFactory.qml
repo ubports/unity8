@@ -86,7 +86,7 @@ Loader {
 
                 Label {
                     anchors.verticalCenter: checkBox.verticalCenter
-                    text: "Show password"
+                    text: i18n.tr("Show password")
                 }
             }
         }
