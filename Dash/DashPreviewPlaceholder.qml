@@ -14,10 +14,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Ubuntu.Components.Themes.Ambiance 0.1
+import QtQuick 2.0
+import Ubuntu.Components 0.1
 
-PopoverForegroundStyle {
-    bubbleColor: "#221e1c"
-    bubbleOpacity: 0.9
-    arrowSource: "graphics/quicklist_tooltip.png"
+DashPreview {
+    ActivityIndicator {
+        anchors.centerIn: parent
+        running: true
+    }
 }

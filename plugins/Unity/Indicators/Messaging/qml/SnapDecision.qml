@@ -21,13 +21,13 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Unity.Indicators 0.1 as Indicators
-import "utils.js" as Utils
+import Unity.Indicators 0.1
 
 HeroMessage {
     id: snapDecision
 
     property string title: ""
-    property string time: ""
+    property var time
     property string message: ""
 
     property bool activateEnabled: true
@@ -41,7 +41,7 @@ HeroMessage {
     heroMessageHeader.titleText.text:  title
     heroMessageHeader.subtitleText.text: message
     heroMessageHeader.subtitleText.color: "#e8e1d0"
-    heroMessageHeader.bodyText.text: time
+    heroMessageHeader.bodyText.text: timeFormatter.timeString
     heroMessageHeader.bodyText.color: "#8f8f88"
 
     signal activate
@@ -58,6 +58,12 @@ HeroMessage {
         anchors.topMargin: units.gu(1)
         height: units.gu(4)
         opacity: 0.0
+
+        TimeFormatter {
+            id: timeFormatter
+            time: snapDecision.time
+            format: "hh:mm - MMM dd"
+        }
 
         Button {
             text: "Message"
