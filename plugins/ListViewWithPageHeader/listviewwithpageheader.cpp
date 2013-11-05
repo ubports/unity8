@@ -476,7 +476,7 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
     qreal diff = m_previousContentY - contentY();
     const bool showHeaderAnimationRunning = m_contentYAnimation->isRunning() && contentYAnimationType == ContentYAnimationShowHeader;
     if (m_headerItem) {
-        auto oldHeaderItemShownHeight = m_headerItemShownHeight;
+        const auto oldHeaderItemShownHeight = m_headerItemShownHeight;
         if (contentY() < -m_minYExtent) {
             // Stick the header item to the top when dragging down
             m_headerItem->setY(contentY());
@@ -980,7 +980,6 @@ void ListViewWithPageHeader::onModelUpdated(const QQmlChangeSet &changeSet, bool
                 if (growUp) {
                     ListItem *firstItem = m_visibleItems.first();
                     firstItem->setY(firstItem->y() - item->height());
-                    adjustMinYExtent();
                 }
                 // Adding an item may break a "same section" chain, so check
                 // if we need adding a new section item
@@ -991,7 +990,6 @@ void ListViewWithPageHeader::onModelUpdated(const QQmlChangeSet &changeSet, bool
                         if (growUp && nextItem->m_sectionItem) {
                             ListItem *firstItem = m_visibleItems.first();
                             firstItem->setY(firstItem->y() - nextItem->m_sectionItem->height());
-                            adjustMinYExtent();
                         }
                     }
                 }
@@ -1000,6 +998,7 @@ void ListViewWithPageHeader::onModelUpdated(const QQmlChangeSet &changeSet, bool
                 ListItem *firstItem = m_visibleItems.first();
                 firstItem->setY(oldFirstValidIndexPos);
             }
+            adjustMinYExtent();
         } else if (insert.index <= m_firstVisibleIndex) {
             m_firstVisibleIndex += insert.count;
         }
