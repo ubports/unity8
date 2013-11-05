@@ -34,12 +34,6 @@ Item {
         'MockScope5': { 'movementStarted': 0, 'positionedAtBeginning': 0 }
     }
 
-    Item {
-        // make PageHeader happy
-        id: greeter
-        signal shownChanged
-    }
-
     Scopes {
         id: scopesModel
     }
@@ -105,6 +99,7 @@ Item {
         when: windowShown
 
         function init() {
+            scopesModel.clear();
             scopesModel.load();
         }
 
@@ -161,7 +156,7 @@ Item {
             var dashContentList = findChild(dashContent, "dashContentList");
             verify(dashContentList != undefined);
 
-            tryCompareFunction(function() {return dashContentList.currentItem.item !== null;}, true);
+            tryCompare(scopeLoadedSpy, "count", 5);
             dashContent.setCurrentScopeAtIndex(0, true, false);
             dashContentList.currentItem.item.endReached();
 
