@@ -488,5 +488,28 @@ Item {
             var dash = findChild(shell, "dash");
             tryCompare(dash, "shown", data.expectedShown);
         }
+
+        function test_searchIndicatorHidesOnAppFocus() {
+            var searchIndicator = findChild(shell, "container")
+            tryCompare(searchIndicator, "opacity", 1)
+            dragLauncherIntoView();
+
+            // Launch an app from the launcher
+            tapOnAppIconInLauncher();
+            waitUntilApplicationWindowIsFullyVisible();
+
+            tryCompare(searchIndicator, "opacity", 0);
+        }
+
+        function test_searchIndicatorHidesOnGreeterShown() {
+            var searchIndicator = findChild(shell, "container")
+            var greeter = findChild(shell, "greeter");
+
+            tryCompare(searchIndicator, "opacity", 1)
+
+            greeter.show()
+            tryCompare(greeter, "shown", true)
+            tryCompare(searchIndicator, "opacity", 0)
+        }
     }
 }
