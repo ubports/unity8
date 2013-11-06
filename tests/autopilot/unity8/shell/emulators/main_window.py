@@ -38,7 +38,7 @@ class MainWindow(object):
         return self.app.select_single(Greeter)
 
     def get_greeter_content_loader(self):
-        return self.app.select_single(
+        return self.app.wait_select_single(
             "QQuickLoader",
             objectName="greeterContentLoader"
         )
