@@ -26,8 +26,6 @@ Item {
     width: units.gu(40)
     height: units.gu(80)
 
-    property ListModel searchHistory: ListModel {}
-
     property var scopeStatus: {
         'MockScope1': { 'movementStarted': 0, 'positionedAtBeginning': 0 },
         'MockScope2': { 'movementStarted': 0, 'positionedAtBeginning': 0 },
@@ -48,6 +46,7 @@ Item {
         scopes : scopesModel
 
         scopeMapper : scopeDelegateMapper
+        searchHistory: ListModel {}
     }
 
     ScopeDelegateMapper {
@@ -228,6 +227,20 @@ Item {
             tryCompare(scopesModel.get(0), "isActive", data.active0);
             tryCompare(scopesModel.get(1), "isActive", data.active1);
             tryCompare(scopesModel.get(2), "isActive", data.active2);
+        }
+
+        function test_persistant_search_history() {
+            dashContent.setCurrentScopeAtIndex(0, true, false);
+
+            dashContent.searchHistory.append({"test": "test0"});
+            dashContent.searchHistory.append({"test": "test1"});
+            dashContent.searchHistory.append({"test": "test2"});
+
+            dashContent.setCurrentScopeAtIndex(0, true, false);
+
+            compare(dashContent.searchHistory.get(0).test, "test0", "First search entry differs.");
+            compare(dashContent.searchHistory.get(1).test, "test1", "Second search entry differs.");
+            compare(dashContent.searchHistory.get(2).test, "test2", "Third search entry differs.");
         }
     }
 }
