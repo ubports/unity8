@@ -111,14 +111,14 @@ Item {
             waitUntilApplicationWindowIsFullyVisible();
 
             // Minimize the application we just launched
-            swipeFromLeftEdge();
+            swipeFromLeftEdge(units.gu(27));
 
             waitForUIToSettle();
 
             checkRightEdgeDragWithMinimizedApp();
 
             // Minimize that application once again
-            swipeFromLeftEdge();
+            swipeFromLeftEdge(units.gu(27));
 
             // Right edge behavior should now be the same as before that app,
             // was launched.  Manually cleanup beforehand to get to initial
@@ -130,8 +130,10 @@ Item {
 
         function test_leftEdgeDrag_data() {
             return [
-                {tag: "without launcher", revealLauncher: false},
-                {tag: "with launcher", revealLauncher: true},
+                {tag: "without launcher", revealLauncher: false, swipeLength: units.gu(27), appHides: true},
+                {tag: "with launcher", revealLauncher: true, swipeLength: units.gu(27), appHides: true},
+                {tag: "small swipe", revealLauncher: false, swipeLength: units.gu(25), appHides: false},
+                {tag: "long swipe", revealLauncher: false, swipeLength: units.gu(27), appHides: true}
             ];
         }
 
@@ -144,8 +146,11 @@ Item {
                 dragLauncherIntoView();
             }
 
-            swipeFromLeftEdge();
-            waitUntilApplicationWindowIsFullyHidden();
+            swipeFromLeftEdge(data.swipeLength);
+            if (data.appHides)
+                waitUntilApplicationWindowIsFullyHidden();
+            else
+                waitUntilApplicationWindowIsFullyVisible();
         }
 
         function test_suspend() {
@@ -293,7 +298,7 @@ Item {
             waitUntilApplicationWindowIsFullyVisible();
 
             // Minimize the application we just launched
-            swipeFromLeftEdge();
+            swipeFromLeftEdge(units.gu(27));
 
             // Wait for the whole UI to settle down
             waitUntilApplicationWindowIsFullyHidden();
@@ -376,10 +381,10 @@ Item {
             }
         }
 
-        function swipeFromLeftEdge() {
+        function swipeFromLeftEdge(swipeLength) {
             var touchStartX = 2;
             var touchStartY = shell.height / 2;
-            touchFlick(shell, touchStartX, touchStartY, shell.width * 0.75, touchStartY);
+            touchFlick(shell, touchStartX, touchStartY, swipeLength, touchStartY);
         }
 
         function swipeLeftFromCenter() {
@@ -482,6 +487,29 @@ Item {
 
             var dash = findChild(shell, "dash");
             tryCompare(dash, "shown", data.expectedShown);
+        }
+
+        function test_searchIndicatorHidesOnAppFocus() {
+            var searchIndicator = findChild(shell, "container")
+            tryCompare(searchIndicator, "opacity", 1)
+            dragLauncherIntoView();
+
+            // Launch an app from the launcher
+            tapOnAppIconInLauncher();
+            waitUntilApplicationWindowIsFullyVisible();
+
+            tryCompare(searchIndicator, "opacity", 0);
+        }
+
+        function test_searchIndicatorHidesOnGreeterShown() {
+            var searchIndicator = findChild(shell, "container")
+            var greeter = findChild(shell, "greeter");
+
+            tryCompare(searchIndicator, "opacity", 1)
+
+            greeter.show()
+            tryCompare(greeter, "shown", true)
+            tryCompare(searchIndicator, "opacity", 0)
         }
     }
 }

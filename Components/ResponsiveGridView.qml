@@ -26,6 +26,7 @@ Item {
     property int maximumNumberOfColumns: 6
     readonly property int columns: gridView.columns
     property alias verticalSpacing: gridView.verticalSpacing
+    readonly property alias margins: gridView.margin
     property int delegateWidth
     property int delegateHeight
     property alias model: gridView.model
@@ -41,6 +42,8 @@ Item {
     readonly property alias pressDelay: gridView.pressDelay
     property alias delegateCreationBegin: gridView.delegateCreationBegin
     property alias delegateCreationEnd: gridView.delegateCreationEnd
+    property alias highlightIndex: gridView.highlightIndex
+    readonly property alias currentItem: gridView.currentItem
 
     function contentHeightForRows(rows) {
         return rows * cellHeight + verticalSpacing
@@ -77,8 +80,15 @@ Item {
         property real horizontalSpacing: spacingForColumns(columns)
         property real verticalSpacing: horizontalSpacing
         property int margin: allocatableHorizontalSpace - columns * horizontalSpacing
+        property int highlightIndex: -1
 
         cellWidth: delegateWidth + horizontalSpacing
         cellHeight: delegateHeight + verticalSpacing
+
+        onHighlightIndexChanged: {
+            if (highlightIndex != -1) {
+                currentIndex = highlightIndex
+            }
+        }
     }
 }

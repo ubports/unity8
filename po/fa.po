@@ -1,151 +1,147 @@
-# German translation for unity
+# Persian translation for unity8
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the unity package.
+# This file is distributed under the same license as the unity8 package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity\n"
+"Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-10-11 12:12+0200\n"
-"PO-Revision-Date: 2013-10-18 12:26+0000\n"
-"Last-Translator: Phillip Sz <Unknown>\n"
-"Language-Team: German <de@li.org>\n"
+"PO-Revision-Date: 2013-10-31 19:02+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Persian <fa@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-10-19 05:30+0000\n"
-"X-Generator: Launchpad (build 16807)\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Launchpad-Export-Date: 2013-11-01 06:44+0000\n"
+"X-Generator: Launchpad (build 16820)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
-msgstr "Telefon"
+msgstr ""
 
 #: Applications/applications.js:29
 msgid "Camera"
-msgstr "Kamera"
+msgstr ""
 
 #: Applications/applications.js:35
 msgid "Gallery"
-msgstr "Galerie"
+msgstr ""
 
 #: Applications/applications.js:40
 msgid "Facebook"
-msgstr "Facebook"
+msgstr ""
 
 #: Applications/applications.js:46
 msgid "Browser"
-msgstr "Browser"
+msgstr ""
 
 #: Applications/applications.js:51
 msgid "Twitter"
-msgstr "Twitter"
+msgstr ""
 
 #: Applications/applications.js:57
 msgid "GMail"
-msgstr "GMail"
+msgstr ""
 
 #: Applications/applications.js:62
 msgid "Weather"
-msgstr "Wetter"
+msgstr ""
 
 #: Applications/applications.js:68
 msgid "Notepad"
-msgstr "Notizen"
+msgstr ""
 
 #: Applications/applications.js:74
 msgid "Calendar"
-msgstr "Kalender"
+msgstr ""
 
 #: Applications/applications.js:80
 msgid "Media Player"
-msgstr "Medienwiedergabe"
+msgstr ""
 
 #: Applications/applications.js:86
 msgid "Evernote"
-msgstr "Evernote"
+msgstr ""
 
 #: Applications/applications.js:91
 msgid "Map"
-msgstr "Karte"
+msgstr ""
 
 #: Applications/applications.js:96
 msgid "Pinterest"
-msgstr "Pinterest"
+msgstr ""
 
 #: Applications/applications.js:101
 msgid "SoundCloud"
-msgstr "SoundCloud"
+msgstr ""
 
 #: Applications/applications.js:106
 msgid "Wikipedia"
-msgstr "Wikipedia"
+msgstr ""
 
 #: Applications/applications.js:111
 msgid "YouTube"
-msgstr "YouTube"
+msgstr ""
 
 #: Components/EdgeDemoOverlay.qml:149
 msgid "Skip intro"
-msgstr "Überspringe Einführung"
+msgstr ""
 
 #: Components/EdgeDemo.qml:112
 msgid "Right edge"
-msgstr "Rechter Rand"
+msgstr ""
 
 #: Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr "Vom rechten Rand her wischen, um das Gerät zu entsperren"
+msgstr ""
 
 #: Components/EdgeDemo.qml:144
 msgid "Top edge"
-msgstr "Oberer Rand"
+msgstr ""
 
 #: Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
-msgstr "Vom oberen Rand her wischen, um die Statusmeldungen anzuzeigen"
+msgstr ""
 
 #: Components/EdgeDemo.qml:170
 msgid "Close"
-msgstr "Schließen"
+msgstr ""
 
 #: Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
-msgstr "Nochmals nach oben wischen, um das Einstellungsmenü zu schließen"
+msgstr ""
 
 #: Components/EdgeDemo.qml:198
 msgid "Left edge"
-msgstr "Linker Rand"
+msgstr ""
 
 #: Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr ""
-"Von links wischen, um die Seitenleiste für den Anwendungs-Schnellzugriff "
-"aufzurufen"
 
 #: Components/EdgeDemo.qml:226
 msgid "Well done"
-msgstr "Gut gemacht"
+msgstr ""
 
 #: Components/EdgeDemo.qml:227
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap anywhere to start"
 msgstr ""
-"Sie haben nun die Einführung abgeschlossen und können Ihr Gerät nun "
-"verwenden<br><br>Antippen um zu starten"
 
 #: Components/PageHeader.qml:341
 msgid "Recent searches"
-msgstr "Letzte Suchbegriffe"
+msgstr ""
 
 #. TRANSLATORS: Number of persons who rated this app
 #. TRANSLATORS: Number of persons who rated this app/video/whatever
 #: Dash/Apps/AppInfo.qml:73 Dash/Previews/Header.qml:93
 #, qt-format
 msgid "(%1)"
-msgstr "(%1)"
+msgstr ""
 
 #. TRANSLATORS: Number of persons who wrote reviews for this app
 #. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
@@ -153,75 +149,75 @@ msgstr "(%1)"
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
-msgstr[0] "%1 Bewertung"
-msgstr[1] "%1 Bewertungen"
+msgstr[0] ""
+msgstr[1] ""
 
 #: Dash/Apps/AppPreview.qml:126
 msgid "Rate this"
-msgstr "Bewerten"
+msgstr ""
 
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
-msgstr "Bewertung hinzufügen"
+msgstr ""
 
 #: Dash/Previews/Reviews.qml:86
 msgid "Review"
-msgstr "Bewertung"
+msgstr ""
 
 #: Dash/Previews/Reviews.qml:121
 msgid "Send"
-msgstr "Senden"
+msgstr ""
 
 #: Dash/Previews/Reviews.qml:139
 msgid "Comments:"
-msgstr "Kommentare:"
+msgstr ""
 
 #: Greeter/Lockscreen.qml:142
 msgid "Emergency Call"
-msgstr "Notruf"
+msgstr ""
 
 #: Greeter/PassphraseLockscreen.qml:59
 #, qt-format
 msgid "Hello %1"
-msgstr "Hallo %1"
+msgstr ""
 
 #: Greeter/PassphraseLockscreen.qml:59
 msgid "Hello"
-msgstr "Hallo"
+msgstr ""
 
 #: Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
-msgstr "Bestätigen"
+msgstr ""
 
 #: Hud/Hud.qml:61 Hud/Hud.qml:99 Hud/Hud.qml:372
 msgid "Type or say a command"
-msgstr "Geben Sie einen Befehl ein oder sprechen Sie ihn"
+msgstr ""
 
 #: Hud/Hud.qml:84
 msgid "Loading. Please Wait..."
-msgstr "Wird geladen. Bitte warten …"
+msgstr ""
 
 #: Hud/Hud.qml:89
 msgid "Speak Now..."
-msgstr "Sprechen Sie jetzt …"
+msgstr ""
 
 #: Hud/Hud.qml:94
 msgid "Speaking..."
-msgstr "Sie sprechen …"
+msgstr ""
 
 #: Panel/SearchIndicator.qml:27
 msgid "Search"
-msgstr "Suchen"
+msgstr ""
 
 #: plugins/Unity/scope.cpp:398
 msgid "Sorry, there is nothing that matches your search."
-msgstr "Entschuldigung, es wurden keine Treffer erzielt."
+msgstr ""
 
 #: plugins/Unity/showallfilteroption.cpp:41
 msgid "All"
-msgstr "Alle"
+msgstr ""
 
 #: Shell.qml:438
 #, qt-format
 msgid "Please enter %1"
-msgstr "Bitte geben Sie %1 ein"
+msgstr ""

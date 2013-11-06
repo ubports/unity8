@@ -137,11 +137,12 @@ Item {
             for(var i = 0; i < buttons.count; i++) {
                 var button = findChild(appPreview, "button" + i);
                 mouseClick(button, 1, 1);
+                appPreview.showProcessingAction = false;
             }
 
             var actions = data.actions;
-            for(var i = 0; i < actions.length; i++) {
-                compare(root.calls[i][0], actions[i].id, "Id of action not found.");
+            for(var j = 0; j < actions.length; j++) {
+                compare(root.calls[j][0], actions[j].id, "Id of action not found.");
             }
         }
 

@@ -34,11 +34,36 @@ IndicatorBase {
     Indicators.UnityMenuModelStack {
         id: menuStack
         head: contentActive ? main.menuModel : null
+
+        property var rootMenu: null
+
+        onTailChanged: {
+            if (!tail) {
+                rootMenu = null;
+            } else if (rootMenu != tail) {
+                if (tail.get(0, "type") === rootMenuType) {
+                    rootMenu = menuStack.tail.submenu(0);
+                    push(rootMenu, 0);
+                } else {
+                    rootMenu = null;
+                }
+            }
+        }
+    }
+
+    Connections {
+        target: menuStack.tail
+        onRowsInserted: {
+            if (menuStack.rootMenu !== menuStack.tail && menuStack.tail.get(0, "type") === rootMenuType) {
+                menuStack.rootMenu = menuStack.tail.submenu(0);
+                menuStack.push(menuStack.rootMenu, 0);
+            }
+        }
     }
 
     ListView {
         id: mainMenu
-        model: menuStack.tail ? menuStack.tail : null
+        model: menuStack.rootMenu
 
         anchors {
             fill: parent
@@ -102,7 +127,7 @@ IndicatorBase {
 
             Loader {
                 id: loader
-                asynchronous: true
+                asynchronous: false
 
                 property int modelIndex: index
 
@@ -114,10 +139,6 @@ IndicatorBase {
                 sourceComponent: factory.load(model)
 
                 onLoaded: {
-                    if (model.type === rootMenuType) {
-                        menuStack.push(mainMenu.model.submenu(index), index);
-                    }
-
                     if (item.hasOwnProperty("menuSelected")) {
                         item.menuSelected = Qt.binding(function() { return mainMenu.selectedIndex == index; });
                         item.selectMenu.connect(function() { mainMenu.selectedIndex = index; });

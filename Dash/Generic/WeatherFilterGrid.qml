@@ -37,13 +37,11 @@ GenericFilterGrid {
         style: FlatTileStyle {}
 
         onClicked: {
-            var data = { model: model }
-            filtergrid.clicked(index, data, tile.y)
+            filtergrid.clicked(index, filtergrid.model, tile.y)
         }
 
         onPressAndHold: {
-            var data = { model: model }
-            filtergrid.pressAndHold(index, data, tile.y)
+            filtergrid.pressAndHold(index, filtergrid.model, tile.y)
         }
     }
 }
