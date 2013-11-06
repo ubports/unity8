@@ -1,3 +1,24 @@
+unity8 (7.83+14.04.20131106-0ubuntu1) trusty; urgency=low
+
+  [ Andrea Cimitan ]
+  * Place ShaderEffectSource of UbuntuShapeForItem under the Shape Item.
+    (LP: #1239317)
+
+  [ Omer Akram ]
+  * test: make sure the search indicator hides when an app has focus.
+
+  [ Nick Dedekind ]
+  * Fixed indicator slider menu item alignment to label field and icon.
+    (LP: #1240756)
+
+  [ chris.gagnon ]
+  * Update to autopilot 1.4.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 500
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 06 Nov 2013 03:37:02 +0000
+
 unity8 (7.83+14.04.20131105.1-0ubuntu1) trusty; urgency=low
 
   [ Michał Sawicz ]
