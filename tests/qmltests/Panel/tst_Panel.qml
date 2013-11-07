@@ -52,7 +52,6 @@ Item {
             {tag: "fullscreen", fullscreenFlag: true }
         ]}
 
-
         function init() {
             searchClicked = false;
             panel.indicators.hide();

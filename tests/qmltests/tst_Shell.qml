@@ -55,19 +55,42 @@ Item {
         when: windowShown
 
         function initTestCase() {
+            var ok = false;
+            var attempts = 0;
+            var maxAttempts = 1000;
+
+            // Qt loads a qml scene asynchronously. So early on, some findChild() calls made in
+            // tests may fail because the desired child item wasn't loaded yet.
+            // Thus here we try to ensure the scene has been fully loaded before proceeding with the tests.
+            // As I couldn't find an API in QQuickView & friends to tell me that the scene is 100% loaded
+            // (all items instantiated, etc), I resort to checking the existence of some key items until
+            // repeatedly until they're all there.
+            do {
+                var dashContentList = findChild(shell, "dashContentList");
+                waitForRendering(dashContentList);
+                var homeLoader = findChild(dashContentList, "home.scope loader");
+                ok = homeLoader !== undefined
+                    && homeLoader.item !== undefined;
+
+                var greeter = findChild(shell, "greeter");
+                ok &= greeter !== undefined;
+
+                var launcherPanel = findChild(shell, "launcherPanel");
+                ok &= launcherPanel !== undefined;
+
+                attempts++;
+                if (!ok) {
+                    console.log("Attempt " + attempts + " failed. Waiting a bit before trying again.");
+                    // wait a bit before retrying
+                    wait(100);
+                } else {
+                    console.log("All seem fine after " + attempts + " attempts.");
+                }
+            } while (!ok && attempts <= maxAttempts);
+
+            verify(ok);
+
             swipeAwayGreeter();
-
-            // Ensure DashHome is loaded before continuing
-            var dashContentList = findChild(shell, "dashContentList");
-            waitForRendering(dashContentList);
-            var homeLoader = findChild(dashContentList, "home.scope loader");
-            verify(homeLoader);
-            tryCompareFunction(function() {return homeLoader.item !== undefined;}, true);
-
-            // FIXME: Desperate measure to ensure Jenkins has the scene graph fully loaded
-            // before it calls the test functions (otherwise findChild calls will fail).
-            // The code above just didn't solve it.
-            wait(2000);
         }
 
         function cleanup() {

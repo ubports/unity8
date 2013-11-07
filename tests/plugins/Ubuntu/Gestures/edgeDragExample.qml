@@ -33,7 +33,13 @@ Rectangle {
         }
     }
 
-    RightwardsLauncher { id: hpLauncher; anchors.fill: parent }
+    // NB: Do not anchor it as we will move it programmatically from the test
+    RightwardsLauncher {
+        id: hpLauncher;
+        width: parent.width
+        height: parent.height
+    }
+
     LeftwardsLauncher { id: hnLauncher; anchors.fill: parent }
     DownwardsLauncher { id: vpLauncher; anchors.fill: parent }
     UpwardsLauncher { id: vnLauncher; anchors.fill: parent }
