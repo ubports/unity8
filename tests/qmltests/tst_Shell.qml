@@ -297,6 +297,10 @@ Item {
 
             waitUntilApplicationWindowIsFullyVisible();
 
+            // Dragging launcher into view with a little bit of gap (units.gu(1)) should switch to Apps scope
+            dragLauncherIntoView();
+            verify(itemIsOnScreen(dashApps));
+
             // Minimize the application we just launched
             swipeFromLeftEdge(units.gu(27));
 
