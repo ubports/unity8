@@ -80,6 +80,7 @@ MouseArea {
             topMargin: units.gu(2)
             horizontalCenter: parent.horizontalCenter
         }
+        z: 1
     }
 
     MouseArea {
