@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-10-11 12:12+0200\n"
+"POT-Creation-Date: 2013-11-05 17:53+0100\n"
 "PO-Revision-Date: 2013-10-09 13:51+0000\n"
 "Last-Translator: Aron Xu <Unknown>\n"
 "Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2013-10-13 05:43+0000\n"
-"X-Generator: Launchpad (build 16799)\n"
+"X-Launchpad-Export-Date: 2013-11-08 06:38+0000\n"
+"X-Generator: Launchpad (build 16820)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -205,11 +205,15 @@ msgstr "现在请讲..."
 msgid "Speaking..."
 msgstr "讲话中..."
 
+#: Notifications/NotificationMenuItemFactory.qml:89
+msgid "Show password"
+msgstr ""
+
 #: Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "搜索"
 
-#: plugins/Unity/scope.cpp:398
+#: plugins/Unity/scope.cpp:408
 msgid "Sorry, there is nothing that matches your search."
 msgstr "对不起，没有找到您想要的结果。"
 
@@ -221,24 +225,3 @@ msgstr ""
 #, qt-format
 msgid "Please enter %1"
 msgstr ""
-
-#~ msgid "Featured"
-#~ msgstr "推荐"
-
-#~ msgid "New Releases"
-#~ msgstr "新版本"
-
-#~ msgid "Top Charting"
-#~ msgstr "排行榜图"
-
-#~ msgid "Music"
-#~ msgstr "音乐"
-
-#~ msgid "Popular Online"
-#~ msgstr "经常在线"
-
-#~ msgid "Videos"
-#~ msgstr "视频"
-
-#~ msgid "Recent"
-#~ msgstr "最近使用"
