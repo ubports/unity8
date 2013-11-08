@@ -26,7 +26,6 @@ GenericScopeView {
 
     onEndReached: {
         if (scope != undefined && shell != undefined && shell.scopeStatus != undefined) {
-            console.log("scope", scope)
             shell.scopeStatus[scope.id].endReached++;
         }
     }
