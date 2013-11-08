@@ -71,6 +71,8 @@ add_qml_test(Panel Indicators IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest
 add_qml_test(Panel MenuContent IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
 add_qml_test(Panel Panel IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
 add_qml_test(Panel SearchIndicator)
+add_qml_test(Panel/Indicators DefaultIndicatorWidget IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS}
+                                                  ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel")
 add_qml_test(SideStage SideStage IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS}
                                               ${CMAKE_BINARY_DIR}/tests/mocks
                                               ${CMAKE_BINARY_DIR}/plugins)
