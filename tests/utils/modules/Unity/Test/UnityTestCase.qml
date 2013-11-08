@@ -14,6 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import QtQuick 2.0
 import QtTest 1.0
 import Ubuntu.Components 0.1
 import Unity.Test 0.1 as UT
@@ -296,5 +297,38 @@ TestCase {
         event = touchEvent()
         event.release(0 /* touchId */, x, y)
         event.commit()
+    }
+
+    Component.onCompleted: {
+        var rootItem = parent;
+        while (rootItem.parent != undefined) {
+            rootItem = rootItem.parent;
+        }
+        removeTimeConstraintsFromDirectionalDragAreas(rootItem);
+    }
+
+    /*
+      In qmltests, sequences of touch events are sent all at once, unlike in "real life".
+      Also qmltests might run really slowly, e.g. when run from inside virtual machines.
+      Thus to remove a variable that qmltests cannot really control, namely time, this
+      function removes all constraints from DirectionalDragAreas that are sensible to
+      elapsed time.
+
+      This effectively makes DirectionalDragAreas easier to fool.
+     */
+    function removeTimeConstraintsFromDirectionalDragAreas(item) {
+
+        // use duck-typing to identify a DirectionalDragArea
+        if (item.minSpeed != undefined
+                && item.maxSilenceTime != undefined
+                && item.compositionTime != undefined) {
+            item.minSpeed = 0;
+            item.maxSilenceTime = 60 * 60 * 1000;
+            item.compositionTime = 0;
+        } else {
+            for (var i in item.children) {
+                removeTimeConstraintsFromDirectionalDragAreas(item.children[i]);
+            }
+        }
     }
 }

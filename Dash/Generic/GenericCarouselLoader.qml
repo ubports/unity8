@@ -17,30 +17,14 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 
-Rectangle {
-    //width: units.gu(40)
-    //height: units.gu(71)
-    color: "white"
+Loader {
+    property var model: null
+    property url carouselUrl: "GenericCarousel.qml"
+    property url filtergridUrl: "GenericFilterGrid.qml"
 
-    MouseArea {
-        id: mouseArea
-        anchors.fill: parent
-        onClicked: {
-            hpLauncher.reset()
-            hnLauncher.reset()
-            vpLauncher.reset()
-            vnLauncher.reset()
-        }
+    source: model.count > 6 ? carouselUrl : filtergridUrl // FIXME do not hardcode 6, but retrieve correct minimum required count
+
+    onLoaded: {
+        item.model = Qt.binding(function() { return model; })
     }
-
-    // NB: Do not anchor it as we will move it programmatically from the test
-    RightwardsLauncher {
-        id: hpLauncher;
-        width: parent.width
-        height: parent.height
-    }
-
-    LeftwardsLauncher { id: hnLauncher; anchors.fill: parent }
-    DownwardsLauncher { id: vpLauncher; anchors.fill: parent }
-    UpwardsLauncher { id: vnLauncher; anchors.fill: parent }
 }

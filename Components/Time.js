@@ -16,15 +16,15 @@
 
 .pragma library
 
-var factors = {
-    "second": [ 1000, "a second ago", "in a second", "%1 seconds ago", "in %1 seconds" ],
-    "minute": [ 60, "a minute ago", "in a minute", "%1 minutes ago", "in %1 minutes" ],
-    "hour":   [ 60, "an hour ago", "in an hour", "%1 hours ago", "in %1 hours" ],
-    "day":    [ 24, "yesterday", "tomorrow", "%1 days ago", "in %1 days" ],
-    "week":   [ 7, "a week ago", "in a week", "about %1 weeks ago", "in about %1 weeks" ],
-    "month":  [ 4.35, "a month ago", "in a month", "%1 months ago", "in %1 months" ], // == 365.25 days / 12 months / 7 days
-    "year":   [ 12, "a year ago", "in a year", "%1 years ago", "in %1 years" ]
-}
+var factors = [
+    [ 1000, "a second ago", "in a second", "%1 seconds ago", "in %1 seconds" ],
+    [ 60, "a minute ago", "in a minute", "%1 minutes ago", "in %1 minutes" ],
+    [ 60, "an hour ago", "in an hour", "%1 hours ago", "in %1 hours" ],
+    [ 24, "yesterday", "tomorrow", "%1 days ago", "in %1 days" ],
+    [ 7, "a week ago", "in a week", "about %1 weeks ago", "in about %1 weeks" ],
+    [ 4.35, "a month ago", "in a month", "%1 months ago", "in %1 months" ], // == 365.25 days / 12 months / 7 days
+    [ 12, "a year ago", "in a year", "%1 years ago", "in %1 years" ]
+]
 
 function readableFromNow(date, now) {
     var then = new Date(date);
