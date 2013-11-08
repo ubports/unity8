@@ -28,6 +28,18 @@ Item {
 
     property ListModel searchHistory: ListModel {}
 
+    Item {
+        // Fake. Make a few components less noisy
+        id: greeter
+        signal shownChanged
+    }
+
+    Item {
+        // Fake. Make a few components less noisy
+        id: panel
+        signal searchClicked
+    }
+
     property var scopeStatus: {
         'MockScope1': { 'movementStarted': 0, 'positionedAtBeginning': 0 },
         'MockScope2': { 'movementStarted': 0, 'positionedAtBeginning': 0 },

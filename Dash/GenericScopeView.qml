@@ -16,15 +16,60 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Utils 0.1
+import Unity 0.1
 import "../Components"
 import "../Components/ListItems" as ListItems
 
-ScopeView {
+FocusScope {
     id: scopeView
+
+    property Scope scope
+    property SortFilterProxyModel categories: categoryFilter
+    property bool isCurrent
+    property ListModel searchHistory
+    property alias moving: categoryView.moving
+
+    signal endReached
+    signal movementStarted
+    signal positionedAtBeginning
+
     readonly property alias previewShown: previewListView.onScreen
     property bool enableHeightBehaviorOnNextCreation: false
 
-    moving: categoryView.moving
+    // FIXME delay the search so that daemons have time to settle, note that
+    // removing this will break ScopeView::test_changeScope
+    onScopeChanged: {
+        if (scope) {
+            timer.restart();
+            scope.activateApplication.connect(activateApp);
+        }
+    }
+
+    function activateApp(desktopFilePath) {
+        shell.activateApplication(desktopFilePath);
+    }
+
+    Binding {
+        target: scope
+        property: "isActive"
+        value: isCurrent
+    }
+
+    Timer {
+        id: timer
+        interval: 2000
+        onTriggered: scope.searchQuery = ""
+    }
+
+    SortFilterProxyModel {
+        id: categoryFilter
+        model: scope ? scope.categories : null
+        dynamicSortFilter: true
+        filterRole: Categories.RoleCount
+        filterRegExp: /^0$/
+        invertMatch: true
+    }
 
     onIsCurrentChanged: {
         pageHeader.resetSearch();

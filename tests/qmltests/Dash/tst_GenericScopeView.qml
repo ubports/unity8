@@ -187,6 +187,13 @@ Item {
 
                 closePreview();
             }
+
+            function test_changeScope() {
+                genericScopeView.scope.searchQuery = "test"
+                genericScopeView.scope = scopes.get(1)
+                genericScopeView.scope = scopes.get(0)
+                tryCompare(genericScopeView.scope, "searchQuery", "")
+            }
         }
     }
 }
