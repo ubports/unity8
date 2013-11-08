@@ -402,6 +402,10 @@ FocusScope {
 
     Lockscreen {
         id: lockscreen
+        objectName: "lockscreen"
+
+        readonly property int backgroundTopMargin: -panel.panelHeight
+
         hides: [launcher, panel.indicators, hud]
         shown: false
         enabled: true

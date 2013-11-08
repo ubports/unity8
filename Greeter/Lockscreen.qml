@@ -54,15 +54,19 @@ Showable {
     }
 
     Rectangle {
-        // In case wallpaper fails to load or is undefined
-        id: wallpaperBackup
+        // In case background fails to load or is undefined
+        id: backgroundBackup
         anchors.fill: parent
         color: "black"
     }
 
     Image {
-        id: wallpaper
-        anchors.fill: parent
+        id: backgroundImage
+        objectName: "lockscreenBackground"
+        anchors {
+            fill: parent
+            topMargin: backgroundTopMargin
+        }
         source: root.required ? root.background : ""
         fillMode: Image.PreserveAspectCrop
     }

@@ -43,6 +43,9 @@ class MainWindow(object):
             objectName="greeterContentLoader"
         )
 
+    def get_greeter_background(self):
+        return self.app.select_single("CrossFadeImage", objectName="greeterBackground")
+
     def get_login_loader(self):
         return self.app.select_single("QQuickLoader", objectName="loginLoader")
 
@@ -93,3 +96,6 @@ class MainWindow(object):
 
     def get_pinentryField(self):
         return self.app.select_single(objectName="pinentryField")
+
+    def get_shell_background(self):
+        return self.app.select_single("CrossFadeImage", objectName="backgroundImage")

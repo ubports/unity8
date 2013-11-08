@@ -464,7 +464,7 @@ Item {
             } while (!isStill);
         }
 
-        function test_wallpaper_data() {
+        function test_background_data() {
             return [
                 {tag: "red", url: "tests/data/unity/backgrounds/red.png", expectedUrl: "tests/data/unity/backgrounds/red.png"},
                 {tag: "blue", url: "tests/data/unity/backgrounds/blue.png", expectedUrl: "tests/data/unity/backgrounds/blue.png"},
@@ -473,11 +473,19 @@ Item {
             ]
         }
 
-        function test_wallpaper(data) {
+        function test_background(data) {
             var backgroundImage = findChild(shell, "backgroundImage")
             GSettingsController.setPictureUri(data.url)
             tryCompareFunction(function() { return backgroundImage.source.toString().indexOf(data.expectedUrl) !== -1; }, true)
             tryCompare(backgroundImage, "status", Image.Ready)
+        }
+
+        function test_lockscreen_background() {
+            var backgroundImage = findChild(shell, "backgroundImage")
+            var lockscreen = findChild(shell, "lockscreen")
+            var lockscreenBackground = findChild(lockscreen, "lockscreenBackground")
+            var lockscreenBackgroundMapped = lockscreenBackground.mapToItem(shell, 0, 0)
+            compare(backgroundImage.y, lockscreenBackgroundMapped.y)
         }
 
         function test_DashShown_data() {

@@ -64,6 +64,7 @@ Showable {
         property var model: LightDM.Users
         property int currentIndex: 0
         property var infographicModel: LightDM.Infographic
+        readonly property int backgroundTopMargin: -greeter.y
 
         source: required ? "GreeterContent.qml" : ""
 
