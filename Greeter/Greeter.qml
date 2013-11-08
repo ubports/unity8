@@ -19,7 +19,6 @@ import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
 import LightDM 0.1 as LightDM
 import "../Components"
-import "../Components/Math.js" as MathLocal
 
 Showable {
     id: greeter
@@ -29,7 +28,7 @@ Showable {
     property url defaultBackground
 
     // 1 when fully shown and 0 when fully hidden
-    property real showProgress: MathLocal.clamp((width + x) / width, 0, 1)
+    property real showProgress: MathUtils.clamp((width + x) / width, 0, 1)
 
     showAnimation: StandardAnimation { property: "x"; to: 0 }
     hideAnimation: StandardAnimation { property: "x"; to: -width }
