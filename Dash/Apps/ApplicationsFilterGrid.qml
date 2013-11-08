@@ -18,18 +18,11 @@ import QtQuick 2.0
 import "../../Components"
 import "../../Applications"
 
-FilterGrid {
+GenericFilterGrid {
     id: filtergrid
 
     filter: false
-    minimumHorizontalSpacing: units.gu(0.5)
     maximumNumberOfColumns: 6
-    delegateWidth: units.gu(11)
-    delegateHeight: units.gu(9.5)
-    verticalSpacing: units.gu(2)
-
-    signal clicked(int index, var model, real itemY)
-    signal pressAndHold(int index, var model, real itemY)
 
     delegate: Tile {
         id: tile
