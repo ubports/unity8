@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-10-11 12:12+0200\n"
+"POT-Creation-Date: 2013-11-05 17:53+0100\n"
 "PO-Revision-Date: 2013-10-02 10:55+0000\n"
 "Last-Translator: Damir Jerovšek <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
 "n%100==4 ? 3 : 0);\n"
-"X-Launchpad-Export-Date: 2013-10-13 05:43+0000\n"
-"X-Generator: Launchpad (build 16799)\n"
+"X-Launchpad-Export-Date: 2013-11-08 06:38+0000\n"
+"X-Generator: Launchpad (build 16820)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -212,11 +212,15 @@ msgstr "Govorite zdaj ..."
 msgid "Speaking..."
 msgstr "Govorjenje ..."
 
+#: Notifications/NotificationMenuItemFactory.qml:89
+msgid "Show password"
+msgstr ""
+
 #: Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Iskanje"
 
-#: plugins/Unity/scope.cpp:398
+#: plugins/Unity/scope.cpp:408
 msgid "Sorry, there is nothing that matches your search."
 msgstr "Nič se ne ujema z vašim iskalnim nizom."
 
@@ -228,24 +232,3 @@ msgstr "Vse"
 #, qt-format
 msgid "Please enter %1"
 msgstr "Vnesite %1"
-
-#~ msgid "Music"
-#~ msgstr "Glasba"
-
-#~ msgid "Videos"
-#~ msgstr "Videi"
-
-#~ msgid "New Releases"
-#~ msgstr "Nove izdaje"
-
-#~ msgid "Top Charting"
-#~ msgstr "Najvišje na lestvici"
-
-#~ msgid "Featured"
-#~ msgstr "Predstavljeno"
-
-#~ msgid "Recent"
-#~ msgstr "Nedavno"
-
-#~ msgid "Popular Online"
-#~ msgstr "Priljubljeno na spletu"

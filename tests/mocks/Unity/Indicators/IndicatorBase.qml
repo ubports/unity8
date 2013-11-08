@@ -14,14 +14,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * Authors:
- *      Renato Araujo Oliveira Filho <renato@canonical.com>
- *      Olivier Tilloy <olivier.tilloy@canonical.com>
+ *      Nick Dedekind <nick.dedekind@canonical.com>
  */
 
-.pragma library
+import QtQuick 2.0
+import QMenuModel 0.1
 
-function formatDate(timestamp) {
-    // timestamp is in microseconds since epoch
-    var date = new Date(timestamp / 1000);
-    return Qt.formatDateTime(date, "hh:mm - MMM dd");
+Item {
+    id: indicatorBase
+
+    //const
+    property string busName
+    property string actionsObjectPath
+    property string rootMenuType: "com.canonical.indicator.root"
+    property string deviceMenuObjectPath
+
+    property var menuModel: UnityMenuModel {}
+
+    property RootActionState rootActionState: RootActionState {
+        onUpdated: indicatorBase.rootActionStateChanged()
+    }
 }

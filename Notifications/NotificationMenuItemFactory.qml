@@ -54,7 +54,8 @@ Loader {
 
             Component.onCompleted: {
                 menuModel.loadExtendedAttributes(menuIndex, {"x-echo-mode-password": "bool"});
-                textfield.echoMode = menuData.ext.xEchoModePassword ? TextInput.Password : TextInput.Normal
+                checkBox.checked = menuData.ext.xEchoModePassword ? false : true
+                checkBoxRow.visible = menuData.ext.xEchoModePassword
             }
 
             Label {
@@ -65,9 +66,27 @@ Loader {
                 id: textfield
 
                 anchors.left: parent.left; anchors.right: parent.right
+                echoMode: checkBox.checked ? TextInput.Normal : TextInput.Password
                 height: units.gu(5)
                 onTextChanged: {
                     menuModel.changeState(menuIndex, text);
+                }
+            }
+
+            Row {
+                id: checkBoxRow
+
+                spacing: units.gu(.5)
+
+                CheckBox {
+                    id: checkBox
+
+                    checked: false
+                }
+
+                Label {
+                    anchors.verticalCenter: checkBox.verticalCenter
+                    text: i18n.tr("Show password")
                 }
             }
         }
@@ -80,11 +99,6 @@ Loader {
             anchors.left: parent.left; anchors.right: parent.right
             height: units.gu(60)
             skipBackground: true
-
-            Component.onCompleted: {
-                menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-pin-length': 'int'});
-                pinLength = menuData.ext.xCanonicalPinLength;
-            }
 
             onEntered: {
                 menuModel.changeState(menuIndex, passphrase);

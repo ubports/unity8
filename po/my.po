@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-10-11 12:12+0200\n"
+"POT-Creation-Date: 2013-11-05 17:53+0100\n"
 "PO-Revision-Date: 2013-10-09 11:35+0000\n"
 "Last-Translator: Pyae Sone <Unknown>\n"
 "Language-Team: Burmese <my@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2013-10-13 05:43+0000\n"
-"X-Generator: Launchpad (build 16799)\n"
+"X-Launchpad-Export-Date: 2013-11-08 06:37+0000\n"
+"X-Generator: Launchpad (build 16820)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -205,11 +205,15 @@ msgstr "ယခုပြောပါ"
 msgid "Speaking..."
 msgstr "ပြောနေသည်"
 
+#: Notifications/NotificationMenuItemFactory.qml:89
+msgid "Show password"
+msgstr ""
+
 #: Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "ရှာဖွေ"
 
-#: plugins/Unity/scope.cpp:398
+#: plugins/Unity/scope.cpp:408
 msgid "Sorry, there is nothing that matches your search."
 msgstr "ဆောရီး၊ သင်၏ရှာဖွေမူနှင့်တူညီတာဘာမှမရှိပါ။"
 
@@ -221,18 +225,3 @@ msgstr ""
 #, qt-format
 msgid "Please enter %1"
 msgstr ""
-
-#~ msgid "Music"
-#~ msgstr "တေးဂီတ"
-
-#~ msgid "Videos"
-#~ msgstr "ဗီဒီယိုများ"
-
-#~ msgid "New Releases"
-#~ msgstr "အသစ်ထွက်ရှိသော"
-
-#~ msgid "Recent"
-#~ msgstr "မကြာသေးခင်က"
-
-#~ msgid "Popular Online"
-#~ msgstr "အွန်လိုင်းတွင်ပေါ်ပြူလာဖြစ်သော"
