@@ -52,7 +52,7 @@ Showable {
     signal unlocked(int uid)
 
     onRightTeaserPressedChanged: {
-        if (rightTeaserPressed && !locked) {
+        if (rightTeaserPressed && !locked && x == 0) {
             teasingTimer.start();
         }
     }
@@ -64,6 +64,7 @@ Showable {
         property var model: LightDM.Users
         property int currentIndex: 0
         property var infographicModel: LightDM.Infographic
+        readonly property int backgroundTopMargin: -greeter.y
 
         source: required ? "GreeterContent.qml" : ""
 

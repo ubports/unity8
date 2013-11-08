@@ -482,19 +482,20 @@ Showable {
             switchToApplicationAnimationController.progress += 0.4 * delta
         }
 
-        property bool gotRejected: false
+        property int lastStatus: -1
 
         onStatusChanged: {
             if (status == DirectionalDragArea.Undecided) {
-                gotRejected = false
                 onUndecided();
-            } else if (status == DirectionalDragArea.Rejected) {
-                switchToApplicationAnimationController.completeToBeginningWithSignal();
-                gotRejected = true;
             } else if (status == DirectionalDragArea.WaitingForTouch) {
-                if (!gotRejected)
-                    onGestureEnded()
+                if (lastStatus == DirectionalDragArea.Undecided) {
+                    // got rejected
+                    switchToApplicationAnimationController.completeToBeginningWithSignal();
+                } else {
+                    onGestureEnded();
+                }
             }
+            lastStatus = status;
         }
 
         function onUndecided() {

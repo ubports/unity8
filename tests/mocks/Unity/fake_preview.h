@@ -51,6 +51,8 @@ public:
 
     Q_INVOKABLE void execute(const QString& actionId, const QHash<QString, QVariant>& hints);
 
+    Q_INVOKABLE void cancelAction();
+
 Q_SIGNALS:
     void previewChanged();
 };
