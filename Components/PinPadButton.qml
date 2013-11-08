@@ -21,24 +21,51 @@ Item {
     id: root
 
     property alias text: label.text
-    property alias iconName: icon.name
+    property alias subText: subTextLabel.text
+    property string iconName
 
     signal clicked()
 
-    Label {
-        id: label
+    Column {
         anchors.centerIn: parent
-        color: "#f3f3e7"
-        fontSize: "large"
-        font.weight: Font.DemiBold
-    }
+        width: parent.width
+        height: childrenRect.height
 
-    Icon {
-        id: icon
-        height: units.gu(3)
-        width: height
-        anchors.centerIn: parent
-        color: "#f3f3e7"
+        Item {
+            anchors {
+                left: parent.left
+                right: parent.right
+            }
+            height: label.visible || icon.visible ? Math.max(label.height, icon.height) : 0
+
+            Label {
+                id: label
+                anchors.centerIn: parent
+                width: parent.width
+                horizontalAlignment: Text.AlignHCenter
+                color: "#f3f3e7"
+                fontSize: "large"
+                font.weight: Font.DemiBold
+                visible: text.length > 0
+            }
+
+            Icon {
+                id: icon
+                height: units.gu(3)
+                width: height
+                anchors.centerIn: parent
+                name: root.iconName
+                color: "#f3f3e7"
+                visible: name.length > 0
+            }
+        }
+        Label {
+            id: subTextLabel
+            fontSize: "small"
+            color: "grey"
+            anchors.horizontalCenter: parent.horizontalCenter
+            visible: text.length > 0
+        }
     }
 
     MouseArea {

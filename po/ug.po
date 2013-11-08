@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-10-11 12:12+0200\n"
+"POT-Creation-Date: 2013-11-05 17:53+0100\n"
 "PO-Revision-Date: 2013-10-09 22:38+0000\n"
 "Last-Translator: Gheyret T.Kenji <Unknown>\n"
 "Language-Team: Uyghur <ug@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2013-10-13 05:43+0000\n"
-"X-Generator: Launchpad (build 16799)\n"
+"X-Launchpad-Export-Date: 2013-11-08 06:38+0000\n"
+"X-Generator: Launchpad (build 16820)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -204,11 +204,15 @@ msgstr "ئەمدى سۆزلەڭ…"
 msgid "Speaking..."
 msgstr "سۆزلەۋاتىسىز…"
 
+#: Notifications/NotificationMenuItemFactory.qml:89
+msgid "Show password"
+msgstr ""
+
 #: Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "ئىزدە"
 
-#: plugins/Unity/scope.cpp:398
+#: plugins/Unity/scope.cpp:408
 msgid "Sorry, there is nothing that matches your search."
 msgstr "كەچۈرۈڭ، ئىزدىگىنىڭىزگە ماس نەتىجە تېپىلمىدى."
 
@@ -220,18 +224,3 @@ msgstr "ھەممىسى"
 #, qt-format
 msgid "Please enter %1"
 msgstr "%1 نى كىرگۈزۈڭ"
-
-#~ msgid "Featured"
-#~ msgstr "داڭلىق"
-
-#~ msgid "Recent"
-#~ msgstr "يېقىنقى"
-
-#~ msgid "New Releases"
-#~ msgstr "يېڭى ئېلان قىلىنغانلىرى"
-
-#~ msgid "Music"
-#~ msgstr "مۇزىكا"
-
-#~ msgid "Videos"
-#~ msgstr "سىنلار"

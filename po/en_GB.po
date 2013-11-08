@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-10-11 12:12+0200\n"
+"POT-Creation-Date: 2013-11-05 17:53+0100\n"
 "PO-Revision-Date: 2013-06-27 08:53+0000\n"
 "Last-Translator: Michał Sawicz <michal.sawicz@canonical.com>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-10-13 05:43+0000\n"
-"X-Generator: Launchpad (build 16799)\n"
+"X-Launchpad-Export-Date: 2013-11-08 06:38+0000\n"
+"X-Generator: Launchpad (build 16820)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -205,11 +205,15 @@ msgstr "Speak Now..."
 msgid "Speaking..."
 msgstr "Speaking..."
 
+#: Notifications/NotificationMenuItemFactory.qml:89
+msgid "Show password"
+msgstr ""
+
 #: Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Search"
 
-#: plugins/Unity/scope.cpp:398
+#: plugins/Unity/scope.cpp:408
 msgid "Sorry, there is nothing that matches your search."
 msgstr "Sorry, there is nothing that matches your search."
 
@@ -221,24 +225,3 @@ msgstr ""
 #, qt-format
 msgid "Please enter %1"
 msgstr "Please enter %1"
-
-#~ msgid "Featured"
-#~ msgstr "Featured"
-
-#~ msgid "Recent"
-#~ msgstr "Recent"
-
-#~ msgid "New Releases"
-#~ msgstr "New Releases"
-
-#~ msgid "Top Charting"
-#~ msgstr "Top Charting"
-
-#~ msgid "Music"
-#~ msgstr "Music"
-
-#~ msgid "Popular Online"
-#~ msgstr "Popular Online"
-
-#~ msgid "Videos"
-#~ msgstr "Videos"

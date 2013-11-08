@@ -14,10 +14,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Ubuntu.Components.Themes.Ambiance 0.1
+import QtQuick 2.0
+import Ubuntu.Components 0.1
 
-PopoverForegroundStyle {
-    bubbleColor: "#221e1c"
-    bubbleOpacity: 0.9
-    arrowSource: "graphics/quicklist_tooltip.png"
+Loader {
+    property var model: null
+    property url carouselUrl: "GenericCarousel.qml"
+    property url filtergridUrl: "GenericFilterGrid.qml"
+
+    source: model.count > 6 ? carouselUrl : filtergridUrl // FIXME do not hardcode 6, but retrieve correct minimum required count
+
+    onLoaded: {
+        item.model = Qt.binding(function() { return model; })
+    }
 }
