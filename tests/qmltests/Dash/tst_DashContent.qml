@@ -249,7 +249,7 @@ Item {
 
             var startX = dashContentList.width/2;
             var startY = dashContentList.height/2;
-            touchFlick(dashContentList, startX, startY, startX, startY - units.gu(800));
+            touchFlick(dashContentList, startX, startY, startX, startY - units.gu(80));
 
             tryCompare(dashContentList.currentItem, "moving", true);
 
