@@ -86,12 +86,12 @@ class UnityTestCase(AutopilotTestCase):
     @classmethod
     def setUpClass(cls):
         try:
-            output = subprocess.check_output([
-                "/sbin/initctl",
-                "status",
-                "unity8"
-            ], stderr=subprocess.STDOUT)
-        except subprocess.CalledProcessError, e:
+            output = subprocess.check_output(
+                ["/sbin/initctl", "status", "unity8"],
+                stderr=subprocess.STDOUT,
+                universal_newlines=True,
+            )
+        except subprocess.CalledProcessError as e:
             sys.stderr.write(
                 "Error: `initctl status unity8` failed, most probably the "
                 "unity8 session could not be found:\n\n"
@@ -219,12 +219,11 @@ class UnityTestCase(AutopilotTestCase):
     def _patch_environment(self, key, value):
         """Wrapper for patching env for upstart environment."""
         try:
-            current_value = subprocess.check_output([
-                "/sbin/initctl",
-                "get-env",
-                "--global",
-                key
-            ], stderr=subprocess.STDOUT).rstrip()
+            current_value = subprocess.check_output(
+                ["/sbin/initctl", "get-env", "--global", key],
+                stderr=subprocess.STDOUT,
+                universal_newlines=True,
+            ).rstrip()
         except subprocess.CalledProcessError:
             current_value = None
 
@@ -299,7 +298,7 @@ class UnityTestCase(AutopilotTestCase):
 
     def _launch_unity_with_upstart(self, binary_path, args):
         logger.info("Starting unity")
-        self._patch_environment("QT_LOAD_TESTABILITY", 1)
+        self._patch_environment(u"QT_LOAD_TESTABILITY", 1)
 
         binary_arg = "BINARY=%s" % binary_path
         extra_args = "ARGS=%s" % " ".join(args)
@@ -311,7 +310,7 @@ class UnityTestCase(AutopilotTestCase):
                 "unity8",
                 binary_arg,
                 extra_args,
-            ] + ["%s=%s" % (k, v) for k, v in self._environment.iteritems()],
+            ] + ["%s=%s" % (k, v) for k, v in self._environment.items()],
             stderr=subprocess.STDOUT,
         )
 

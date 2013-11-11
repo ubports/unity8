@@ -123,8 +123,11 @@ class TestLockscreen(UnityTestCase):
 
         """
 
-        if not isinstance(code, basestring):
-            raise TypeError("'code' parameter must be a string.")
+        if not isinstance(code, str):
+            raise TypeError(
+                "'code' parameter must be a string, not %r."
+                % type(passphrase)
+            )
         for num in code:
             if not num.isdigit():
                 raise ValueError(
@@ -140,8 +143,11 @@ class TestLockscreen(UnityTestCase):
         :raises: TypeError if passphrase is not a string.
 
         """
-        if not isinstance(passphrase, basestring):
-            raise TypeError("'passphrase' parameter must be a string.")
+        if not isinstance(passphrase, str):
+            raise TypeError(
+                "'passphrase' parameter must be a string, not %r."
+                % type(passphrase)
+            )
 
         pinentryField = self.main_window.get_pinentryField()
         self.touch.tap_object(pinentryField)
@@ -159,8 +165,11 @@ class TestLockscreen(UnityTestCase):
         :raises: TypeError if passphrase is not a string.
 
         """
-        if not isinstance(passphrase, basestring):
-            raise TypeError("'passphrase' parameter must be a string.")
+        if not isinstance(passphrase, str):
+            raise TypeError(
+                "'passphrase' parameter must be a string, not %r."
+                % type(passphrase)
+            )
 
         prompt = self.main_window.get_greeter().get_prompt()
         self.touch.tap_object(prompt)

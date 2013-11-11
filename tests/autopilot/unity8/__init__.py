@@ -82,7 +82,10 @@ def get_binary_path(binary="unity8"):
     )
     if not os.path.exists(binary_path):
         try:
-            binary_path = subprocess.check_output(['which', binary]).strip()
+            binary_path = subprocess.check_output(
+                ['which', binary],
+                universal_newlines=True,
+            ).strip()
         except subprocess.CalledProcessError as e:
             raise RuntimeError("Unable to locate %s binary: %r" % (binary, e))
     return binary_path
@@ -91,9 +94,9 @@ def get_binary_path(binary="unity8"):
 def get_data_dirs():
     """Prepend a mock data path to XDG_DATA_DIRS."""
     if running_installed_tests():
-        data_path = "/usr/share/unity8/mocks/data"
+        data_path = u"/usr/share/unity8/mocks/data"
     else:
-        data_path = "../../mocks/data"
+        data_path = u"../../mocks/data"
     full_data_path = os.path.abspath(
         os.path.join(
             os.path.dirname(__file__),
@@ -104,7 +107,7 @@ def get_data_dirs():
     if os.path.exists(full_data_path):
         xdg_path = _get_xdg_env_path()
         if xdg_path is not None:
-            return "{0}:{1}".format(full_data_path, xdg_path)
+            return u"{0}:{1}".format(full_data_path, xdg_path)
         else:
             return full_data_path
     else:
