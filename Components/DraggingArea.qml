@@ -16,7 +16,6 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import "Math.js" as MathLocal
 
 MouseArea {
     id: draggingArea
@@ -26,7 +25,7 @@ MouseArea {
     property real dragVelocity: 0
     property real dragValue: (orientation == Qt.Vertical ? (mouseY - __pressedPosition.y)
                                                             : (mouseX - __pressedPosition.x))
-    property real lateralPosition: orientation == Qt.Horizontal ? MathLocal.clamp(mouseY, 0, height) : MathLocal.clamp(mouseX, 0, width)
+    property real lateralPosition: orientation == Qt.Horizontal ? MathUtils.clamp(mouseY, 0, height) : MathUtils.clamp(mouseX, 0, width)
     property point __pressedPosition: Qt.point(0, 0)
     property var __dragEvents: []
     property bool clickValidated: true

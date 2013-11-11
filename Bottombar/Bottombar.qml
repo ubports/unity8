@@ -16,10 +16,10 @@
 
 import QtQuick 2.0
 import "../Components"
-import "../Components/Math.js" as MathLocal
 import Unity 0.1
 import Unity.Application 0.1
 import Ubuntu.Gestures 0.1
+import Ubuntu.Components 0.1
 
 Item {
     id: bottombar
@@ -82,7 +82,7 @@ Item {
 
         readonly property bool centeredHud: parent.width < units.gu(68) // Nexus 7 has 67 gu width
 
-        x: centeredHud ? parent.width / 2 - width / 2 : MathLocal.clamp(dragArea.touchStartX - (width / 2), 0, bottombar.width - width)
+        x: centeredHud ? parent.width / 2 - width / 2 : MathUtils.clamp(dragArea.touchStartX - (width / 2), 0, bottombar.width - width)
         y: bottombar.height - bottomEdgeButtonCenterDistance - (height / 2) - bottomMargin
         z: 1
         visible: opacity != 0
@@ -136,7 +136,7 @@ Item {
         readonly property real distanceFromThreshold: (-distance) - distanceThreshold // distance is negative
         readonly property real revealDistance: units.gu(2)
         readonly property real commitDistance: units.gu(6)
-        readonly property real commitProgress: MathLocal.clamp(distanceFromThreshold / commitDistance, 0, 1)
+        readonly property real commitProgress: MathUtils.clamp(distanceFromThreshold / commitDistance, 0, 1)
 
         onStatusChanged: {
             if (status === DirectionalDragArea.WaitingForTouch) {

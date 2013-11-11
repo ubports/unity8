@@ -12,15 +12,19 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authors:
+ *   Nick Dedekind <nick.dedekind@canonical.com>
  */
 
-.pragma library
+import QtQuick 2.0
+import QMenuModel 0.1
 
-function clamp(value, min, max) {
-    if (min <= max) {
-        return Math.max(min, Math.min(max, value))
-    } else {
-        // swap min/max if min > max
-        return clamp(value, max, min)
-    }
+QtObject {
+    property string name
+    property UnityMenuModel model
+    property int index
+
+    readonly property var state: undefined
+    readonly property bool valid: false
 }

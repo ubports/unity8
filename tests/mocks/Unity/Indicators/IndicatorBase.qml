@@ -18,11 +18,20 @@
  */
 
 import QtQuick 2.0
-import Unity.Indicators 0.1 as Indicators
+import QMenuModel 0.1
 
-IndicatorBase {
-    id: indicatorWidget
+Item {
+    id: indicatorBase
 
-    enabled: false
-    property int iconSize: height
+    //const
+    property string busName
+    property string actionsObjectPath
+    property string rootMenuType: "com.canonical.indicator.root"
+    property string deviceMenuObjectPath
+
+    property var menuModel: UnityMenuModel {}
+
+    property RootActionState rootActionState: RootActionState {
+        onUpdated: indicatorBase.rootActionStateChanged()
+    }
 }

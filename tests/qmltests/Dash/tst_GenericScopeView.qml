@@ -74,6 +74,9 @@ Item {
             }
 
             function openPreview() {
+                var categoryListView = findChild(genericScopeView, "categoryListView");
+                categoryListView.positionAtBeginning();
+
                 var tile = findChild(genericScopeView, "delegate0");
                 mouseClick(tile, tile.width / 2, tile.height / 2);
                 var openEffect = findChild(genericScopeView, "openEffect");

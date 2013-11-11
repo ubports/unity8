@@ -16,7 +16,6 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import "Math.js" as MathLocal
 
 Item {
     id: revealer
@@ -95,7 +94,7 @@ Item {
     onClosedValueChanged: if (!__opened && !dragging) target[boundProperty] = closedValue
 
     function __computeValue(dragPosition) {
-        return MathLocal.clamp(dragToValue(dragPosition), __hintValue, openedValue)
+        return MathUtils.clamp(dragToValue(dragPosition), __hintValue, openedValue)
     }
 
     function __open() {

@@ -30,7 +30,6 @@ import "Launcher"
 import "Panel"
 import "Hud"
 import "Components"
-import "Components/Math.js" as MathLocal
 import "Bottombar"
 import "SideStage"
 import "Notifications"
@@ -237,7 +236,7 @@ FocusScope {
         Behavior on x {SmoothedAnimation{velocity: 600}}
 
         property real showProgress:
-            MathLocal.clamp(1 - (x + stages.x) / shell.width, 0, 1)
+            MathUtils.clamp(1 - (x + stages.x) / shell.width, 0, 1)
 
         Showable {
             id: stages
