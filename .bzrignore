@@ -8,3 +8,6 @@
 /.settings
 /.pydevproject
 message.txt
+# tox/python/autopilot
+tests/autopilot/unity.egg-info
+tests/autopilot/.tox
