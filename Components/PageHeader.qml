@@ -113,6 +113,7 @@ Item {
 
                 visible: searchEntryEnabled
                 property bool popoverShouldOpen: false
+                property bool popoverShouldClose: false
 
                 property bool narrowMode: parent.width < label.contentWidth + units.gu(50)
 
@@ -131,8 +132,10 @@ Item {
                 onStateChanged: {
                     if (state == "active" || state == "narrowActive") {
                         popoverShouldOpen = true;
+                        popoverShouldClose = false;
                     } else {
                         popoverShouldOpen = false;
+                        popoverShouldClose = true;
                     }
                 }
 
@@ -146,7 +149,8 @@ Item {
                                                                   }
                                                                  )
                     }
-                    popoverShouldOpen = true;
+                    popoverShouldOpen = false;
+                    popoverShouldClose = false;
                 }
 
                 function closePopover() {
@@ -155,6 +159,7 @@ Item {
                         searchContainer.popover = null;
                     }
                     popoverShouldOpen = false;
+                    popoverShouldClose = false;
                 }
 
                 onActiveFocusChanged: if (!activeFocus) { searchHistory.addQuery(searchField.text) }
@@ -302,7 +307,7 @@ Item {
                     },
                     Transition {
                         to: "inactive"
-                        ScriptAction { script: if (!searchContainer.popoverShouldOpen) { searchContainer.closePopover(); } }
+                        ScriptAction { script: if (searchContainer.popoverShouldClose) { searchContainer.closePopover(); } }
                         NumberAnimation { targets: [searchContainer, searchField] ; property: "width"; duration: 200; easing.type: Easing.InOutQuad }
                         AnchorAnimation { targets: [searchContainer, textContainer]; duration: 200; easing.type: Easing.InOutQuad }
                     },
@@ -318,7 +323,7 @@ Item {
                     },
                     Transition {
                         to: "narrowInactive"
-                        ScriptAction { script: if (!searchContainer.popoverShouldOpen) { searchContainer.closePopover(); } }
+                        ScriptAction { script: if (searchContainer.popoverShouldClose) { searchContainer.closePopover(); } }
                         NumberAnimation { targets: [searchContainer, searchField] ; property: "width"; duration: 200; easing.type: Easing.OutQuad }
                         AnchorAnimation { targets: [searchContainer, textContainer]; duration: 200; easing.type: Easing.InOutQuad }
                     }
