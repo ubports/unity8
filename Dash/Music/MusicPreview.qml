@@ -52,153 +52,173 @@ GenericPreview {
     Component {
         id: descriptionComponent
 
-        Column {
+        Item {
             height: childrenRect.height
+            Audio {
+                id: audioPlayer
+                objectName: "audioPlayer"
+                property real percent: audioPlayer.position * 100 / audioPlayer.duration
+                property string uri
+                source: uri
 
-            ThinDivider {
-                objectName: "topDivider"
+                Component.onDestruction: {
+                    audioPlayer.stop();
+                }
+
+                onErrorStringChanged: print("Audio player error:", errorString)
+
+            }
+            Connections {
+                target: root
+                onIsCurrentChanged: {
+                    if (!root.isCurrent) {
+                        audioPlayer.stop();
+                    }
+                }
+            }
+
+            Column {
                 anchors {
                     left: parent.left
                     right: parent.right
                 }
-                visible: trackRepeater.count > 0
-            }
 
-            Repeater {
-                id: trackRepeater
-                objectName: "trackRepeater"
+                height: childrenRect.height
 
-                model: previewData.tracks
+                ThinDivider {
+                    objectName: "topDivider"
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                    }
+                    visible: trackRepeater.count > 0
+                }
 
-                signal stopPlayback()
+                Repeater {
+                    id: trackRepeater
+                    objectName: "trackRepeater"
 
-                delegate: Item {
-                    objectName: "trackItem" + index
-                    width: parent.width
-                    height: units.gu(5)
-                    Row {
-                        id: trackRow
+                    model: previewData.tracks
+
+                    delegate: Item {
+                        id: trackItem
+                        objectName: "trackItem" + index
                         width: parent.width
-                        spacing: units.gu(1)
-                        property int column1Width: units.gu(3)
-                        property int column2Width: width - (2 * spacing) - column1Width - column3Width
-                        property int column3Width: units.gu(4)
-                        anchors.verticalCenter: parent.verticalCenter
+                        height: units.gu(5)
+                        property bool isPlayingItem: false
 
-                        UbuntuShape {
-                            id: playButtonShape
-                            objectName: "playButton"
-                            width: trackRow.column1Width
-                            height: width
-                            Icon {
-                                width: units.gu(2)
+                        Connections {
+                            target:  audioPlayer
+                            onUriChanged: trackItem.isPlayingItem = false;
+                        }
+
+                        function play() {
+                            audioPlayer.stop();
+                            audioPlayer.uri = "";
+                            audioPlayer.uri = model.uri;
+                            isPlayingItem = true;
+                            audioPlayer.play();
+                        }
+
+                        Row {
+                            id: trackRow
+                            width: parent.width
+                            spacing: units.gu(1)
+                            property int column1Width: units.gu(3)
+                            property int column2Width: width - (2 * spacing) - column1Width - column3Width
+                            property int column3Width: units.gu(4)
+                            anchors.verticalCenter: parent.verticalCenter
+
+                            UbuntuShape {
+                                id: playButtonShape
+                                objectName: "playButton"
+                                width: trackRow.column1Width
                                 height: width
-                                anchors.centerIn: playButtonShape
-                                name: audioPlayer.playbackState == Audio.PlayingState ? "media-playback-pause" : "media-playback-start"
-                                color: "white"
-                                opacity: .9
-                            }
-                            MouseArea {
-                                anchors.fill: parent
-                                onClicked: {
-                                    if (audioPlayer.playbackState == Audio.PlayingState) {
-                                        audioPlayer.pause();
-                                    } else if (audioPlayer.playbackState == Audio.PausedState){
-                                        audioPlayer.play();
-                                    } else {
-                                        trackRepeater.stopPlayback();
-                                        audioPlayer.play();
+                                Icon {
+                                    width: units.gu(2)
+                                    height: width
+                                    anchors.centerIn: playButtonShape
+                                    name: audioPlayer.playbackState == Audio.PlayingState && trackItem.isPlayingItem ? "media-playback-pause" : "media-playback-start"
+                                    color: "white"
+                                    opacity: .9
+                                }
+                                MouseArea {
+                                    anchors.fill: parent
+                                    onClicked: {
+                                        if (trackItem.isPlayingItem) {
+                                            if (audioPlayer.playbackState == Audio.PlayingState) {
+                                                audioPlayer.pause();
+                                            } else if (audioPlayer.playbackState == Audio.PausedState){
+                                                audioPlayer.play();
+                                            }
+                                        } else {
+                                            trackItem.play();
+                                        }
                                     }
                                 }
                             }
-                        }
 
-                        Label {
-                            objectName: "trackTitleLabel"
-                            fontSize: "small"
-                            opacity: 0.9
-                            color: "white"
-                            horizontalAlignment: Text.AlignLeft
-                            anchors.verticalCenter: parent.verticalCenter
-                            width: parent.column2Width
-                            text: title
-                            style: Text.Raised
-                            styleColor: "black"
-                            elide: Text.ElideRight
+                            Label {
+                                objectName: "trackTitleLabel"
+                                fontSize: "small"
+                                opacity: 0.9
+                                color: "white"
+                                horizontalAlignment: Text.AlignLeft
+                                anchors.verticalCenter: parent.verticalCenter
+                                width: parent.column2Width
+                                text: title
+                                style: Text.Raised
+                                styleColor: "black"
+                                elide: Text.ElideRight
 
-                            UbuntuShape {
-                                id: progressBarFill
-                                objectName: "progressBarFill"
-                                color: UbuntuColors.orange
-                                anchors.left: progressBarImage.left
-                                anchors.right: progressBarImage.right
-                                anchors.verticalCenter: progressBarImage.verticalCenter
-                                height: units.dp(2)
-                                anchors.margins: units.dp(2)
-                                anchors.rightMargin: maxWidth - (maxWidth * audioPlayer.percent / 100) + units.dp(2)
-                                visible: progressBarImage.visible
-                                property int maxWidth: progressBarImage.width - units.dp(4)
-                            }
-                            Image {
-                                id: progressBarImage
-                                anchors {
-                                    left: parent.left
-                                    top: parent.bottom
-                                    right: parent.right
+                                UbuntuShape {
+                                    id: progressBarFill
+                                    objectName: "progressBarFill"
+                                    color: UbuntuColors.orange
+                                    anchors.left: progressBarImage.left
+                                    anchors.right: progressBarImage.right
+                                    anchors.verticalCenter: progressBarImage.verticalCenter
+                                    height: units.dp(2)
+                                    anchors.margins: units.dp(2)
+                                    anchors.rightMargin: maxWidth - (maxWidth * audioPlayer.percent / 100) + units.dp(2)
+                                    visible: progressBarImage.visible
+                                    property int maxWidth: progressBarImage.width - units.dp(4)
                                 }
-                                height: units.dp(6)
-                                visible: audioPlayer.playbackState != Audio.StoppedState
-                                source: "graphics/music_progress_bg.png"
+                                Image {
+                                    id: progressBarImage
+                                    anchors {
+                                        left: parent.left
+                                        top: parent.bottom
+                                        right: parent.right
+                                    }
+                                    height: units.dp(6)
+                                    visible: audioPlayer.playbackState != Audio.StoppedState && trackItem.isPlayingItem
+                                    source: "graphics/music_progress_bg.png"
 
+                                }
+                            }
+                            Label {
+                                id: valueLabel
+                                objectName: "timeLabel"
+                                fontSize: "small"
+                                opacity: 0.9
+                                color: "white"
+                                anchors.verticalCenter: parent.verticalCenter
+                                horizontalAlignment: Text.AlignRight
+                                width: parent.column3Width
+                                text: length
+                                style: Text.Raised
+                                styleColor: "black"
                             }
                         }
-                        Label {
-                            id: valueLabel
-                            objectName: "timeLabel"
-                            fontSize: "small"
-                            opacity: 0.9
-                            color: "white"
-                            anchors.verticalCenter: parent.verticalCenter
-                            horizontalAlignment: Text.AlignRight
-                            width: parent.column3Width
-                            text: length
-                            style: Text.Raised
-                            styleColor: "black"
-                        }
-                    }
 
-                    ThinDivider {
-                        anchors {
-                            left: parent.left
-                            bottom: parent.bottom
-                            right: parent.right
-                        }
-                    }
-
-                    Audio {
-                        id: audioPlayer
-                        objectName: "audioPlayer"
-                        source: uri
-                        property real percent: audioPlayer.position * 100 / audioPlayer.duration
-
-                        Component.onDestruction: {
-                            audioPlayer.stop();
-                        }
-
-                        onErrorStringChanged: print("Audio player error:", errorString)
-
-                    }
-                    Connections {
-                        target: root
-                        onIsCurrentChanged: {
-                            if (!root.isCurrent) {
-                                audioPlayer.stop();
+                        ThinDivider {
+                            anchors {
+                                left: parent.left
+                                bottom: parent.bottom
+                                right: parent.right
                             }
                         }
-                    }
-                    Connections {
-                        target: trackRepeater
-                        onStopPlayback: audioPlayer.stop();
                     }
                 }
             }

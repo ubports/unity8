@@ -112,9 +112,7 @@ Rectangle {
             var track1PlayButton = findChild(track1Item, "playButton");
             var track2PlayButton = findChild(track2Item, "playButton");
 
-            var track0AudioPlayer = findInvisibleChild(track0Item, "audioPlayer");
-            var track1AudioPlayer = findInvisibleChild(track1Item, "audioPlayer");
-            var track2AudioPlayer = findInvisibleChild(track1Item, "audioPlayer");
+            var audioPlayer = findInvisibleChild(musicPreview, "audioPlayer");
 
             // All progress bars must be hidden in the beginning
             compare(track0ProgressBar.visible, false);
@@ -124,7 +122,8 @@ Rectangle {
             // Playing track 0 should make progress bar 0 visible
             mouseClick(track0PlayButton, track0PlayButton.width / 2, track0PlayButton.height / 2);
 
-            tryCompare(track0AudioPlayer, "playbackState", Audio.PlayingState);
+            tryCompare(audioPlayer, "playbackState", Audio.PlayingState);
+            compare(audioPlayer.uri, musicPreview.previewData.tracks.get(0).uri)
 
             tryCompare(track0ProgressBar, "visible", true);
             tryCompare(track1ProgressBar, "visible", false);
@@ -132,18 +131,20 @@ Rectangle {
 
             // Clicking the button again should pause it. The progress bar should stay visible
             mouseClick(track0PlayButton, track0PlayButton.width / 2, track0PlayButton.height / 2);
-            tryCompare(track0AudioPlayer, "playbackState", Audio.PausedState);
+            tryCompare(audioPlayer, "playbackState", Audio.PausedState);
+            compare(audioPlayer.uri, musicPreview.previewData.tracks.get(0).uri)
             tryCompare(track0ProgressBar, "visible", true);
 
             // Continue playback
             mouseClick(track0PlayButton, track0PlayButton.width / 2, track0PlayButton.height / 2);
-            tryCompare(track0AudioPlayer, "playbackState", Audio.PlayingState);
+            tryCompare(audioPlayer, "playbackState", Audio.PlayingState);
+            compare(audioPlayer.uri, musicPreview.previewData.tracks.get(0).uri)
 
             // Playing track 1 should make progress bar 1 visible and hide progress bar 0 again
             mouseClick(track1PlayButton, track1PlayButton.width / 2, track1PlayButton.height / 2);
 
-            tryCompare(track0AudioPlayer, "playbackState", Audio.StoppedState)
-            tryCompare(track1AudioPlayer, "playbackState", Audio.PlayingState)
+            tryCompare(audioPlayer, "playbackState", Audio.PlayingState);
+            compare(audioPlayer.uri, musicPreview.previewData.tracks.get(1).uri)
 
             tryCompare(track0ProgressBar, "visible", false);
             tryCompare(track1ProgressBar, "visible", true);
@@ -151,9 +152,7 @@ Rectangle {
 
             // Switching away from this preview should make all players shut up!
             musicPreview.isCurrent = false
-            tryCompare(track0AudioPlayer, "playbackState", Audio.StoppedState)
-            tryCompare(track1AudioPlayer, "playbackState", Audio.StoppedState)
-            tryCompare(track2AudioPlayer, "playbackState", Audio.StoppedState)
+            tryCompare(audioPlayer, "playbackState", Audio.StoppedState);
         }
     }
 }
