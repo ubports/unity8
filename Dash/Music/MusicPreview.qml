@@ -58,8 +58,6 @@ GenericPreview {
                 id: audioPlayer
                 objectName: "audioPlayer"
                 property real percent: audioPlayer.position * 100 / audioPlayer.duration
-                property string uri
-                source: uri
 
                 Component.onDestruction: {
                     audioPlayer.stop();
@@ -109,14 +107,14 @@ GenericPreview {
 
                         Connections {
                             target:  audioPlayer
-                            onUriChanged: trackItem.isPlayingItem = false;
+                            onSourceChanged: trackItem.isPlayingItem = false;
                         }
 
                         function play() {
                             audioPlayer.stop();
-                            // Make sure we change the uri, even if two items point to the same uri location
-                            audioPlayer.uri = "";
-                            audioPlayer.uri = model.uri;
+                            // Make sure we change the source, even if two items point to the same uri location
+                            audioPlayer.source = "";
+                            audioPlayer.source = model.uri;
                             isPlayingItem = true;
                             audioPlayer.play();
                         }
