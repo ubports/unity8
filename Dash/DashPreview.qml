@@ -37,7 +37,6 @@ Item {
     readonly property int columnWidth: narrowMode ? contentRow.width : (contentRow.width / 3) - contentRow.spacing
     readonly property int contentSpacing: units.gu(3)
 
-
     clip: true
 
     function ensureVisible(item) {
