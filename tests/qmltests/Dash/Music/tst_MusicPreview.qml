@@ -52,7 +52,7 @@ Rectangle {
     }
     ListModel {
         id: tracksModel1
-        ListElement { uri: "../../tests/qmltests/Dash/Music/data/testsound.ogg"; trackNo: 1; title: "Some track name"; length: "0:30"}
+        ListElement { uri: "../../tests/qmltests/Dash/Music/data/testsound1.ogg"; trackNo: 1; title: "Some track name"; length: "0:30"}
     }
     ListModel {
         id: tracksModel2
