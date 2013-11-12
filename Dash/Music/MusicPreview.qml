@@ -56,14 +56,17 @@ GenericPreview {
             height: childrenRect.height
 
             ThinDivider {
+                objectName: "topDivider"
                 anchors {
                     left: parent.left
                     right: parent.right
                 }
+                visible: trackRepeater.count > 0
             }
 
             Repeater {
                 id: trackRepeater
+                objectName: "trackRepeater"
 
                 model: previewData.tracks
 
@@ -84,6 +87,7 @@ GenericPreview {
 
                         UbuntuShape {
                             id: playButtonShape
+                            objectName: "playButton"
                             width: trackRow.column1Width
                             height: width
                             Icon {
@@ -124,6 +128,7 @@ GenericPreview {
 
                             UbuntuShape {
                                 id: progressBarFill
+                                objectName: "progressBarFill"
                                 color: UbuntuColors.orange
                                 anchors.left: progressBarImage.left
                                 anchors.right: progressBarImage.right
@@ -172,6 +177,7 @@ GenericPreview {
 
                     Audio {
                         id: audioPlayer
+                        objectName: "audioPlayer"
                         source: uri
                         property real percent: audioPlayer.position * 100 / audioPlayer.duration
 

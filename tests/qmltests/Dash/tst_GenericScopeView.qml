@@ -169,6 +169,14 @@ Item {
                     waitForRendering(nextPreviewItem);
 
                     checkArrowPosition(i);
+
+                    // Make sure only the new one has isCurrent set to true
+                    if (currentPreviewItem.item) {
+                        compare(currentPreviewItem.item.isCurrent, false);
+                    }
+                    compare(nextPreviewItem.item.isCurrent, true);
+
+                    currentPreviewItem = nextPreviewItem;
                 }
 
                 closePreview();
