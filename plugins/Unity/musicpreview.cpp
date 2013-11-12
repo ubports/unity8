@@ -39,7 +39,7 @@ void MusicPreview::setUnityPreview(unity::dash::Preview::Ptr unityPreview)
     Q_EMIT tracksChanged();
 }
 
-MusicPreviewTrackModel *MusicPreview::tracks() const
+MusicPreviewTrackModel* MusicPreview::tracks() const
 {
     if (m_unityMusicPreview == nullptr) {
         qWarning() << "Preview not set";

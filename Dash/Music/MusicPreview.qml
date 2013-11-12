@@ -55,6 +55,13 @@ GenericPreview {
         Column {
             height: childrenRect.height
 
+            ThinDivider {
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                }
+            }
+
             Repeater {
                 id: trackRepeater
 
@@ -115,23 +122,29 @@ GenericPreview {
                             styleColor: "black"
                             elide: Text.ElideRight
 
-                            // FIXME: get color values from design
                             UbuntuShape {
-                                color: "#66000000"
+                                id: progressBarFill
+                                color: UbuntuColors.orange
+                                anchors.left: progressBarImage.left
+                                anchors.right: progressBarImage.right
+                                anchors.verticalCenter: progressBarImage.verticalCenter
+                                height: units.dp(2)
+                                anchors.margins: units.dp(2)
+                                anchors.rightMargin: maxWidth - (maxWidth * audioPlayer.percent / 100) + units.dp(2)
+                                visible: progressBarImage.visible
+                                property int maxWidth: progressBarImage.width - units.dp(4)
+                            }
+                            Image {
+                                id: progressBarImage
                                 anchors {
                                     left: parent.left
                                     top: parent.bottom
                                     right: parent.right
-                                    topMargin: units.dp(3)
                                 }
-                                height: units.dp(2)
+                                height: units.dp(6)
                                 visible: audioPlayer.playbackState != Audio.StoppedState
+                                source: "graphics/music_progress_bg.png"
 
-                                UbuntuShape {
-                                    color: "#dd4814"
-                                    anchors.fill: parent
-                                    anchors.rightMargin: parent.width - (parent.width * audioPlayer.percent / 100)
-                                }
                             }
                         }
                         Label {
@@ -161,8 +174,21 @@ GenericPreview {
                         id: audioPlayer
                         source: uri
                         property real percent: audioPlayer.position * 100 / audioPlayer.duration
-                        onPositionChanged: print("got percent", percent, position, duration)
 
+                        Component.onDestruction: {
+                            audioPlayer.stop();
+                        }
+
+                        onErrorStringChanged: print("Audio player error:", errorString)
+
+                    }
+                    Connections {
+                        target: root
+                        onIsCurrentChanged: {
+                            if (!root.isCurrent) {
+                                audioPlayer.stop();
+                            }
+                        }
                     }
                     Connections {
                         target: trackRepeater
