@@ -43,7 +43,7 @@ Rectangle {
             ]
             property var execute: fake_callback
 
-            property var tracks: tracksModel3
+            property var tracks: tracksModel2
         }
     }
 
@@ -55,7 +55,7 @@ Rectangle {
         ListElement { uri: "../../tests/qmltests/Dash/Music/data/testsound.ogg"; trackNo: 1; title: "Some track name"; length: "0:30"}
     }
     ListModel {
-        id: tracksModel3
+        id: tracksModel2
         ListElement { uri: "../../tests/qmltests/Dash/Music/data/testsound1.ogg"; trackNo: 1; title: "Some track name"; length: "0:30"}
         ListElement { uri: "../../tests/qmltests/Dash/Music/data/testsound1.ogg"; trackNo: 2; title: "Some track name"; length: "0:30"}
         ListElement { uri: "../../tests/qmltests/Dash/Music/data/testsound2.ogg"; trackNo: 3; title: "Some other track name"; length: "1:23"}
@@ -74,7 +74,7 @@ Rectangle {
             return [
                         {tag: "0 tracks", tracksModel: tracksModel0, dividerVisible: false},
                         {tag: "1 track", tracksModel: tracksModel1, dividerVisible: true},
-                        {tag: "3 track", tracksModel: tracksModel1, dividerVisible: true}
+                        {tag: "4 track", tracksModel: tracksModel2, dividerVisible: true}
             ];
         }
 
@@ -105,7 +105,7 @@ Rectangle {
         }
 
         function test_playback() {
-            musicPreview.previewData.tracks = tracksModel3;
+            musicPreview.previewData.tracks = tracksModel2;
             waitForRendering(musicPreview);
 
             var track0Item = findChild(musicPreview, "trackItem0");
