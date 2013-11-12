@@ -74,6 +74,9 @@ Item {
             }
 
             function openPreview() {
+                var categoryListView = findChild(genericScopeView, "categoryListView");
+                categoryListView.positionAtBeginning();
+
                 var tile = findChild(genericScopeView, "delegate0");
                 mouseClick(tile, tile.width / 2, tile.height / 2);
                 var openEffect = findChild(genericScopeView, "openEffect");
@@ -167,14 +170,16 @@ Item {
                                        true);
                     tryCompare(nextPreviewItem, "progress", 1);
                     waitForRendering(nextPreviewItem);
+                    tryCompareFunction(function() {return nextPreviewItem.item !== null}, true);
 
                     checkArrowPosition(i);
 
                     // Make sure only the new one has isCurrent set to true
-                    if (currentPreviewItem.item) {
+                    compare(nextPreviewItem.item.isCurrent, true);
+
+                    if (currentPreviewItem.item !== undefined && currentPreviewItem.item !== null) {
                         compare(currentPreviewItem.item.isCurrent, false);
                     }
-                    compare(nextPreviewItem.item.isCurrent, true);
 
                     currentPreviewItem = nextPreviewItem;
                 }
