@@ -17,7 +17,6 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
-import "Math.js" as MathLocal
 
 /*
  Put a DragHandle inside a Showable to enable the user to drag it from that handle.
@@ -48,9 +47,12 @@ EdgeDragArea {
     id: dragArea
     objectName: "dragHandle"
 
-    // Disable gesture detection by default when hinting is used.
-    // It doesn't make sense to have both.
-    distanceThreshold: hintDisplacement > 0 ? 0 : units.gu(1.5)
+    // Disable most of the gesture recognition parameters by default when hinting is used as
+    // it conflicts with the hinting idea.
+    // The only part we keep in this situation is that it must be a single-finger gesture.
+    distanceThreshold: hintDisplacement > 0 ? 0 : defaultDistanceThreshold
+    maxSilenceTime: hintDisplacement > 0 ? 60*60*1000 : defaultMaxSilenceTime
+    maxDeviation: hintDisplacement > 0 ? 999999 : defaultMaxDeviation
 
     property bool stretch: false
 
@@ -113,8 +115,8 @@ EdgeDragArea {
             }
         }
 
-        function limitMovement(step) {
-            var targetValue = MathLocal.clamp(dragParent[targetProp] + step, minValue, maxValue);
+        function limitMovement(inputStep) {
+            var targetValue = MathUtils.clamp(dragParent[targetProp] + inputStep, minValue, maxValue);
             var step = targetValue - dragParent[targetProp];
 
             if (hintDisplacement == 0) {
@@ -181,29 +183,25 @@ EdgeDragArea {
         }
     }
 
-    onDraggingChanged: {
-        if (dragging) {
+    onStatusChanged: {
+        if (status === DirectionalDragArea.WaitingForTouch) {
+            hintingAnimation.stop();
+            if (d.previousStatus === DirectionalDragArea.Recognized) {
+                d.onFinishedRecognizedGesture();
+            } else /* d.previousStatus === DirectionalDragArea.Undecided */ {
+                // Gesture was rejected.
+                d.rollbackDrag();
+            }
+        } else /* Undecided || Recognized */ {
+            if (d.previousStatus === DirectionalDragArea.WaitingForTouch ||
+                    d.previousStatus === undefined) {
+                dragEvaluator.reset();
+                d.startValue = parent[d.targetProp];
+            }
             if (hintDisplacement > 0) {
                 hintingAnimation.targetValue = d.startValue;
                 hintingAnimation.start();
             }
-        } else {
-            hintingAnimation.stop();
-        }
-    }
-
-    onStatusChanged: {
-        if (status === DirectionalDragArea.WaitingForTouch) {
-            if (d.previousStatus === DirectionalDragArea.Recognized) {
-                d.onFinishedRecognizedGesture();
-            }
-            d.startValue = parent[d.targetProp];
-        }
-
-        if (d.previousStatus === DirectionalDragArea.WaitingForTouch ||
-                d.previousStatus === undefined) {
-            dragEvaluator.reset();
-            d.startValue = parent[d.targetProp];
         }
 
         d.previousStatus = status;

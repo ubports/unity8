@@ -1724,6 +1724,9 @@ private Q_SLOTS:
 
     void testMaximizeVisibleAreaMoveUpAndShowHeader()
     {
+#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
+        QSKIP("This test is extremely unstable in 5.0.x");
+#endif
         model->setProperty(0, "size", 800);
         verifyItem(0, 50., 800., false);
 

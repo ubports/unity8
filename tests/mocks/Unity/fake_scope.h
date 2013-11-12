@@ -17,9 +17,10 @@
 #ifndef FAKE_SCOPE_H
 #define FAKE_SCOPE_H
 
-// Qt
-#include <QObject>
 #include "fake_categories.h"
+
+#include <QObject>
+#include <QDebug>
 
 class Preview;
 
@@ -78,6 +79,8 @@ public:
                               const QVariant &result_type, const QVariant &mimetype, const QVariant &title,
                               const QVariant &comment, const QVariant &dnd_uri, const QVariant &metadata);
 
+    Q_INVOKABLE void cancelActivation();
+
 Q_SIGNALS:
     void idChanged(const QString&);
     void nameChanged(const QString&);
@@ -115,6 +118,8 @@ protected:
 
     Categories* m_categories;
     DeeListModel* m_results;
+
+    QTimer m_timer;
 };
 
 #endif // FAKE_SCOPE_H

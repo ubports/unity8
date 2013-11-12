@@ -54,12 +54,12 @@ private Q_SLOTS:
 
 private:
     AxisVelocityCalculator *velCalc;
-    FakeTimeSource *fakeTimeSource;
+    QSharedPointer<FakeTimeSource> fakeTimeSource;
 };
 
 void tst_AxisVelocityCalculator::init()
 {
-    fakeTimeSource = new FakeTimeSource;
+    fakeTimeSource.reset(new FakeTimeSource);
 
     velCalc = new AxisVelocityCalculator;
     velCalc->setTimeSource(fakeTimeSource);
@@ -68,7 +68,7 @@ void tst_AxisVelocityCalculator::init()
 void tst_AxisVelocityCalculator::cleanup()
 {
     delete velCalc;
-    delete fakeTimeSource;
+    fakeTimeSource.reset();
 }
 
 void tst_AxisVelocityCalculator::simpleSamples()

@@ -21,25 +21,19 @@
 #include "AxisVelocityCalculator.h"
 #include <QtCore/QElapsedTimer>
 
-class RealTimeSource : public UbuntuGestures::TimeSource {
-public:
-    RealTimeSource()
-        : UbuntuGestures::TimeSource() {
-        m_timer.start();
-    }
-    virtual qint64 msecsSinceReference() {
-        return m_timer.elapsed();
-    }
-private:
-    QElapsedTimer m_timer;
-};
+using namespace UbuntuGestures;
 
 AxisVelocityCalculator::AxisVelocityCalculator(QObject *parent)
+    : AxisVelocityCalculator(SharedTimeSource(new RealTimeSource), parent)
+{
+}
+
+AxisVelocityCalculator::AxisVelocityCalculator(const SharedTimeSource &timeSource,
+                                               QObject *parent)
     : QObject(parent)
-    , m_timeSource(new RealTimeSource)
+    , m_timeSource(timeSource)
     , m_trackedPosition(0.0)
 {
-    m_timeSource->setParent(this);
     reset();
 }
 
@@ -142,11 +136,8 @@ int AxisVelocityCalculator::numSamples() const
     }
 }
 
-void AxisVelocityCalculator::setTimeSource(UbuntuGestures::TimeSource *timeSource)
+void AxisVelocityCalculator::setTimeSource(const SharedTimeSource &timeSource)
 {
-    if (m_timeSource && m_timeSource->parent() == this)
-        delete m_timeSource;
-
     m_timeSource = timeSource;
 
     if (numSamples() > 0) {
