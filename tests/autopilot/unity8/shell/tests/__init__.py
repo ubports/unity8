@@ -298,7 +298,7 @@ class UnityTestCase(AutopilotTestCase):
 
     def _launch_unity_with_upstart(self, binary_path, args):
         logger.info("Starting unity")
-        self._patch_environment(u"QT_LOAD_TESTABILITY", 1)
+        self._patch_environment("QT_LOAD_TESTABILITY", 1)
 
         binary_arg = "BINARY=%s" % binary_path
         extra_args = "ARGS=%s" % " ".join(args)

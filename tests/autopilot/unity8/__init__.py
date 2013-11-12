@@ -94,9 +94,9 @@ def get_binary_path(binary="unity8"):
 def get_data_dirs():
     """Prepend a mock data path to XDG_DATA_DIRS."""
     if running_installed_tests():
-        data_path = u"/usr/share/unity8/mocks/data"
+        data_path = "/usr/share/unity8/mocks/data"
     else:
-        data_path = u"../../mocks/data"
+        data_path = "../../mocks/data"
     full_data_path = os.path.abspath(
         os.path.join(
             os.path.dirname(__file__),
@@ -107,7 +107,7 @@ def get_data_dirs():
     if os.path.exists(full_data_path):
         xdg_path = _get_xdg_env_path()
         if xdg_path is not None:
-            return u"{0}:{1}".format(full_data_path, xdg_path)
+            return "{0}:{1}".format(full_data_path, xdg_path)
         else:
             return full_data_path
     else:
