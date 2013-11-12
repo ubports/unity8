@@ -114,6 +114,7 @@ GenericPreview {
 
                         function play() {
                             audioPlayer.stop();
+                            // Make sure we change the uri, even if two items point to the same uri location
                             audioPlayer.uri = "";
                             audioPlayer.uri = model.uri;
                             isPlayingItem = true;
