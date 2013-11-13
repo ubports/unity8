@@ -130,9 +130,10 @@ ScopeView {
                     target: rendererLoader.item
                     onClicked: {
                         // Prepare the preview in case activate() triggers a preview only
-                        effect.positionPx = mapToItem(categoryView, 0, itemY).y
+                        effect.positionPx = Math.max(mapToItem(categoryView, 0, itemY).y, pageHeader.height + sectionHeaderHeight);
                         previewListView.categoryId = categoryId
                         previewListView.categoryDelegate = rendererLoader.item
+                        previewListView.sectionHeaderHeight = sectionHeaderHeight;
                         previewListView.model = model;
                         previewListView.init = true;
                         previewListView.currentIndex = index;
@@ -151,9 +152,10 @@ ScopeView {
                         }
                     }
                     onPressAndHold: {
-                        effect.positionPx = Math.max(mapToItem(categoryView, 0, itemY).y, pageHeader.height + units.gu(5));
+                        effect.positionPx = Math.max(mapToItem(categoryView, 0, itemY).y, pageHeader.height + sectionHeaderHeight);
                         previewListView.categoryId = categoryId
                         previewListView.categoryDelegate = rendererLoader.item
+                        previewListView.sectionHeaderHeight = sectionHeaderHeight;
                         previewListView.model = model;
                         previewListView.init = true;
                         previewListView.currentIndex = index;
@@ -375,6 +377,7 @@ ScopeView {
         // To be set before opening the preview
         property string categoryId: ""
         property var categoryDelegate
+        property int sectionHeaderHeight
 
         // because the ListView is built asynchronous, setting the
         // currentIndex directly won't work. We need to refresh it
@@ -402,7 +405,7 @@ ScopeView {
             var newContentY = itemY - effect.positionPx - categoryDelegate.verticalSpacing;
 
             // Make sure the item is not covered by a header. Move the effect split down if necessary
-            var headerHeight = pageHeader.height + units.gu(5); // sectionHeader's height
+            var headerHeight = pageHeader.height + previewListView.sectionHeaderHeight;
             var effectAdjust = Math.max(effect.positionPx, headerHeight);
 
             // Make sure we don't overscroll the listview. If yes, adjust effect position
