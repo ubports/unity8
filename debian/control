@@ -78,7 +78,7 @@ Depends: gsettings-desktop-schemas,
          unity8-fake-env | qtubuntu-shell,
          unity8-private (= ${binary:Version}),
          unity8-private | unity-launcher-impl,
-         unity8-plugin-scopes,
+         unity-plugin-scopes | unity-scopes-impl | unity-scopes-impl-0,
 # for setcap:
          libcap2-bin,
          ${misc:Depends},
