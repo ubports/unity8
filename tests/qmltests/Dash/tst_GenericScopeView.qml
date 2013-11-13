@@ -132,7 +132,23 @@ Item {
                 tryCompare(previewListView, "open", false);
             }
 
-            function test_previewCycleOne() {
+            function test_hiddenPreviewOpen() {
+                var categoryListView = findChild(genericScopeView, "categoryListView");
+                categoryListView.positionAtBeginning();
+                waitForRendering(categoryListView);
+                categoryListView.flick(0, -units.gu(80));
+                tryCompare(categoryListView.flicking, false);
+
+                var tile = findChild(genericScopeView, "delegate0");
+                mouseClick(tile, tile.width / 2, tile.height - 1);
+                var openEffect = findChild(genericScopeView, "openEffect");
+                tryCompare(openEffect, "gap", 1);
+
+                var pageHeader = findChild(genericScopeView, "pageHeader");
+                verify(openEffect.positionPx >= pageHeader.height + units.gu(5));
+            }
+
+            function test_previewCycle() {
                 var previewListView = findChild(genericScopeView, "previewListView");
                 tryCompare(previewListView, "open", false);
 
@@ -173,7 +189,6 @@ Item {
 
                     checkArrowPosition(i);
                 }
-
                 closePreview();
             }
 
