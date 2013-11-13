@@ -59,6 +59,8 @@ GenericPreview {
                 objectName: "audioPlayer"
                 property real percent: audioPlayer.position * 100 / audioPlayer.duration
 
+                property Item playingItem
+
                 Component.onDestruction: {
                     audioPlayer.stop();
                 }
@@ -78,11 +80,11 @@ GenericPreview {
 
             Column {
                 anchors { left: parent.left; right: parent.right }
+                visible: trackRepeater.count > 0
 
                 ThinDivider {
                     objectName: "topDivider"
                     anchors { left: parent.left; right: parent.right }
-                    visible: trackRepeater.count > 0
                 }
 
                 Repeater {
@@ -96,19 +98,14 @@ GenericPreview {
                         objectName: "trackItem" + index
                         width: parent.width
                         height: units.gu(5)
-                        property bool isPlayingItem: false
-
-                        Connections {
-                            target:  audioPlayer
-                            onSourceChanged: trackItem.isPlayingItem = false;
-                        }
+                        property bool isPlayingItem: audioPlayer.playingItem == trackItem
 
                         function play() {
                             audioPlayer.stop();
                             // Make sure we change the source, even if two items point to the same uri location
                             audioPlayer.source = "";
                             audioPlayer.source = model.uri;
-                            isPlayingItem = true;
+                            audioPlayer.playingItem = trackItem;
                             audioPlayer.play();
                         }
 
