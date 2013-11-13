@@ -63,7 +63,7 @@ GenericPreview {
                     audioPlayer.stop();
                 }
 
-                onErrorStringChanged: print("Audio player error:", errorString)
+                onErrorStringChanged: console.warn("Audio player error:", errorString)
 
             }
             Connections {
