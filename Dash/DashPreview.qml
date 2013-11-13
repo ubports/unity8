@@ -25,7 +25,7 @@ Item {
     property alias showProcessingAction: waitingForActionMouseArea.enabled
 
     property real previewWidthRatio: 0.5
-    property bool isCurrent: false
+    property bool isCurrent: ListView.isCurrentItem
 
     property Component previewImages
     property Component header
