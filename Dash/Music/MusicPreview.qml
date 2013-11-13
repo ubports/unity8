@@ -66,6 +66,7 @@ GenericPreview {
                 onErrorStringChanged: console.warn("Audio player error:", errorString)
 
             }
+
             Connections {
                 target: root
                 onIsCurrentChanged: {
@@ -76,19 +77,11 @@ GenericPreview {
             }
 
             Column {
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                }
-
-                height: childrenRect.height
+                anchors { left: parent.left; right: parent.right }
 
                 ThinDivider {
                     objectName: "topDivider"
-                    anchors {
-                        left: parent.left
-                        right: parent.right
-                    }
+                    anchors { left: parent.left; right: parent.right }
                     visible: trackRepeater.count > 0
                 }
 
@@ -141,6 +134,7 @@ GenericPreview {
                                     color: "white"
                                     opacity: .9
                                 }
+
                                 MouseArea {
                                     anchors.fill: parent
                                     onClicked: {
@@ -183,19 +177,17 @@ GenericPreview {
                                     visible: progressBarImage.visible
                                     property int maxWidth: progressBarImage.width - units.dp(4)
                                 }
+
                                 Image {
                                     id: progressBarImage
-                                    anchors {
-                                        left: parent.left
-                                        top: parent.bottom
-                                        right: parent.right
-                                    }
+                                    anchors { left: parent.left; top: parent.bottom; right: parent.right }
                                     height: units.dp(6)
                                     visible: audioPlayer.playbackState != Audio.StoppedState && trackItem.isPlayingItem
                                     source: "graphics/music_progress_bg.png"
 
                                 }
                             }
+
                             Label {
                                 id: valueLabel
                                 objectName: "timeLabel"
@@ -212,11 +204,7 @@ GenericPreview {
                         }
 
                         ThinDivider {
-                            anchors {
-                                left: parent.left
-                                bottom: parent.bottom
-                                right: parent.right
-                            }
+                            anchors { left: parent.left; bottom: parent.bottom; right: parent.right }
                         }
                     }
                 }
