@@ -181,7 +181,6 @@ GenericPreview {
                                     height: units.dp(6)
                                     visible: audioPlayer.playbackState != Audio.StoppedState && trackItem.isPlayingItem
                                     source: "graphics/music_progress_bg.png"
-
                                 }
                             }
 
