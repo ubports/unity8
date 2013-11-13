@@ -96,7 +96,7 @@ GenericPreview {
                     delegate: Item {
                         id: trackItem
                         objectName: "trackItem" + index
-                        width: parent.width
+                        anchors { left: parent.left; right: parent.right }
                         height: units.gu(5)
                         property bool isPlayingItem: audioPlayer.playingItem == trackItem
 
