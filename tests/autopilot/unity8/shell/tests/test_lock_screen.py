@@ -25,11 +25,17 @@ from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 
 from autopilot.matchers import Eventually
 from autopilot.platform import model
+import sys
 from testtools import skipUnless
 from testtools.matchers import Equals
 import logging
 
 logger = logging.getLogger(__name__)
+
+# py2 compatible alias for py3
+if sys.version >= '3':
+    basestring = str
+
 
 class TestLockscreen(UnityTestCase):
 
@@ -123,7 +129,7 @@ class TestLockscreen(UnityTestCase):
 
         """
 
-        if not isinstance(code, str):
+        if not isinstance(code, basestring):
             raise TypeError(
                 "'code' parameter must be a string, not %r."
                 % type(passphrase)
@@ -143,7 +149,7 @@ class TestLockscreen(UnityTestCase):
         :raises: TypeError if passphrase is not a string.
 
         """
-        if not isinstance(passphrase, str):
+        if not isinstance(passphrase, basestring):
             raise TypeError(
                 "'passphrase' parameter must be a string, not %r."
                 % type(passphrase)
@@ -165,7 +171,7 @@ class TestLockscreen(UnityTestCase):
         :raises: TypeError if passphrase is not a string.
 
         """
-        if not isinstance(passphrase, str):
+        if not isinstance(passphrase, basestring):
             raise TypeError(
                 "'passphrase' parameter must be a string, not %r."
                 % type(passphrase)
