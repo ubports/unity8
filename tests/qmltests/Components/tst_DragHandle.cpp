@@ -41,7 +41,7 @@ class FakeTimeSource : public UbuntuGestures::TimeSource
 {
 public:
     FakeTimeSource() { m_msecsSinceReference = 0; }
-    virtual qint64 msecsSinceReference() {return m_msecsSinceReference;}
+    qint64 msecsSinceReference() override {return m_msecsSinceReference;}
     qint64 m_msecsSinceReference;
 };
 
@@ -73,7 +73,7 @@ private:
     QQuickView *m_view;
     QTouchDevice *m_device;
     FakeTimer *m_fakeTimer;
-    FakeTimeSource *m_fakeTimeSource;
+    QSharedPointer<FakeTimeSource> m_fakeTimeSource;
 };
 
 
@@ -102,7 +102,7 @@ void tst_DragHandle::init()
     qApp->processEvents();
 
     m_fakeTimer = new FakeTimer;
-    m_fakeTimeSource = new FakeTimeSource;
+    m_fakeTimeSource.reset(new FakeTimeSource);
 }
 
 void tst_DragHandle::cleanup()
@@ -113,8 +113,7 @@ void tst_DragHandle::cleanup()
     delete m_fakeTimer;
     m_fakeTimer = 0;
 
-    delete m_fakeTimeSource;
-    m_fakeTimeSource = 0;
+    m_fakeTimeSource.reset();
 }
 
 QQuickView *tst_DragHandle::createView()

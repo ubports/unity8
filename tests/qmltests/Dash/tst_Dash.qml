@@ -103,6 +103,8 @@ Item {
                 return;
             }
             dash.showScopeOnLoaded = data.tag
+            scopes.clear();
+            scopes.load();
 
             var dashContentList = findChild(dash, "dashContentList");
             verify(dashContentList != undefined);

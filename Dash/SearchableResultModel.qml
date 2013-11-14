@@ -25,6 +25,10 @@ SortFilterProxyModel {
 
     filterRole: CategoryResults.RoleTitle
 
+    function get(index) {
+        return model.get(mapToSource(index))
+    }
+
     onSearchQueryChanged: {
         if (searchQuery.length == 0) {
             filterRegExp = RegExp("");
