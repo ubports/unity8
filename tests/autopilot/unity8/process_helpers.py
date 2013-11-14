@@ -33,6 +33,10 @@ class CannotAccessUnity(Exception):
 def unlock_unity(unity_proxy_obj=None):
     """Helper function that attempts to unlock the unity greeter.
 
+    If unity_proxy_object is None create a proxy object by querying for the
+    running unity process.
+    Otherwise re-use the passed proxy object.
+
     :raises RuntimeError: if the greeter attempts and fails to be unlocked.
 
     :raises RuntimeWarning: when the greeter cannot be found because it is
@@ -65,12 +69,15 @@ def unlock_unity(unity_proxy_obj=None):
     greeter.swipe()
 
 
-def restart_unity_with_testability(args=None):
+def restart_unity_with_testability(*args):
+    """Restarts (or starts) unity with testability enabled.
+
+    Passes *args arguments to the launched process.
+
+    """
     print("Retarting unity with testability.")
-    if args is None:
-        args = []
-    args.append("QT_LOAD_TESTABILITY=1")
-    return restart_unity(args)
+    args += ("QT_LOAD_TESTABILITY=1",)
+    return restart_unity(*args)
 
 
 def restart_unity_normally():
@@ -78,8 +85,10 @@ def restart_unity_normally():
     restart_unity()
 
 
-def restart_unity(args=None):
-    """Restarts (or just starts) unity8 with the testability driver loaded
+def restart_unity(*args):
+    """Restarts (or starts) unity8 with the testability driver loaded.
+
+    Passes *args arguments to the launched process.
 
     :raises subprocess.CalledProcessError: if unable to stop or start the
       unity8 upstart job.
@@ -95,12 +104,10 @@ def restart_unity(args=None):
             raise
 
     try:
-        if args is None:
-            args = []
-        command = ['initctl', 'start', 'unity8'] + args
+        command = ['initctl', 'start', 'unity8'] + list(args)
         subprocess.check_call(
             command,
-            stderr=subprocess.STDOUT
+            stderr=subprocess.STDOUT,
         )
 
         pid = _get_unity_pid()

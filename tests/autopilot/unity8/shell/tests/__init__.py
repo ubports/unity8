@@ -307,7 +307,7 @@ class UnityTestCase(AutopilotTestCase):
 
         self.addCleanup(self._cleanup_launching_upstart_unity)
 
-        return restart_unity_with_testability(all_args)
+        return restart_unity_with_testability(*all_args)
 
     def _cleanup_launching_upstart_unity(self):
         logger.info("Stopping unity")
