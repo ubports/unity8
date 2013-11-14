@@ -46,15 +46,6 @@ Rectangle {
         ListElement { type: "Lazy"; size: 350 }
     }
 
-    Component {
-        id: otherRect
-        Rectangle {
-            height: 35
-            width: parent.width
-            color: index % 2 == 0 ? "yellow" : "purple"
-        }
-    }
-
     ListViewWithPageHeader {
         id: listView
         width: parent.width
@@ -66,19 +57,9 @@ Rectangle {
             width: parent.width - 20
             x: 10
             color: index % 2 == 0 ? "red" : "blue"
-            height: timerDone ? size : 350
+            height: size
             Text {
                 text: index
-            }
-            Timer {
-                id: sizeTimer
-                interval: 10;
-                onTriggered: {
-                    timerDone = true
-                }
-            }
-            Component.onCompleted: {
-                sizeTimer.start()
             }
         }
 
