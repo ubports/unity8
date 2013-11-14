@@ -21,6 +21,7 @@
 
 #include <QObject>
 #include <QUrl>
+#include <QTimer>
 
 class Audio: public QObject
 {
@@ -28,6 +29,8 @@ class Audio: public QObject
     Q_ENUMS(PlaybackState)
     Q_PROPERTY(QUrl source READ source WRITE setSource NOTIFY sourceChanged)
     Q_PROPERTY(PlaybackState playbackState READ playbackState NOTIFY playbackStateChanged)
+    Q_PROPERTY(int position READ position NOTIFY positionChanged)
+    Q_PROPERTY(int duration READ duration NOTIFY durationChanged)
     Q_PROPERTY(QString errorString READ errorString NOTIFY errorStringChanged)
 public:
     enum PlaybackState {
@@ -43,6 +46,10 @@ public:
 
     PlaybackState playbackState() const;
 
+    int position() const;
+
+    int duration() const;
+
     QString errorString() const;
 
 public Q_SLOTS:
@@ -52,12 +59,20 @@ public Q_SLOTS:
 
 Q_SIGNALS:
     void sourceChanged(const QUrl &source);
-    void playbackStateChanged();
+    void playbackStateChanged(PlaybackState playbackState);
+    void positionChanged(int position);
+    void durationChanged(int duration);
     void errorStringChanged(const QString &errorString);
+
+private Q_SLOTS:
+    void timerEvent();
 
 private:
     QUrl m_source;
     PlaybackState m_playbackState;
+    QTimer m_timer;
+    int m_position;
+    int m_duration;
 };
 
 #endif

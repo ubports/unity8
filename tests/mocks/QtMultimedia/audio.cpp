@@ -22,6 +22,9 @@ Audio::Audio(QObject* parent):
     QObject(parent),
     m_playbackState(StoppedState)
 {
+    qsrand(time(NULL));
+    m_timer.setInterval(1000);
+    connect(&m_timer, SIGNAL(timeout()), SLOT(timerEvent()));
 }
 
 QUrl Audio::source() const
@@ -34,12 +37,28 @@ void Audio::setSource(const QUrl &source)
     if (m_source != source) {
         m_source = source;
         Q_EMIT sourceChanged(source);
+
+        m_position = 0;
+        Q_EMIT positionChanged(m_position);
+
+        m_duration = (qrand() % 20000) + 10000;
+        Q_EMIT durationChanged(m_duration);
     }
 }
 
 Audio::PlaybackState Audio::playbackState() const
 {
     return m_playbackState;
+}
+
+int Audio::position() const
+{
+    return m_position;
+}
+
+int Audio::duration() const
+{
+    return m_duration;
 }
 
 QString Audio::errorString() const
@@ -51,7 +70,8 @@ void Audio::pause()
 {
     if (m_playbackState == PlayingState) {
         m_playbackState = PausedState;
-        Q_EMIT playbackStateChanged();
+        Q_EMIT playbackStateChanged(m_playbackState);
+        m_timer.stop();
     }
 }
 
@@ -59,7 +79,9 @@ void Audio::play()
 {
     if (m_playbackState != PlayingState && m_source.isValid()) {
         m_playbackState = PlayingState;
-        Q_EMIT playbackStateChanged();
+        Q_EMIT playbackStateChanged(m_playbackState);
+
+        m_timer.start();
     }
 }
 
@@ -67,6 +89,19 @@ void Audio::stop()
 {
     if (m_playbackState != StoppedState) {
         m_playbackState = StoppedState;
-        Q_EMIT playbackStateChanged();
+        Q_EMIT playbackStateChanged(m_playbackState);
+        m_timer.stop();
+        m_position = 0;
+        Q_EMIT positionChanged(m_position);
+    }
+}
+
+void Audio::timerEvent()
+{
+    if (m_position + 1000 < m_duration) {
+        m_position += 1000;
+        Q_EMIT positionChanged(m_position);
+    } else {
+        stop();
     }
 }
