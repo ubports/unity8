@@ -41,8 +41,6 @@ Rectangle {
                 { id: 123, displayName: "Play"},
                 { id: 456, displayName: "Show in folder"}
             ]
-            property var execute: fake_callback
-
             property var tracks: tracksModel2
         }
     }
