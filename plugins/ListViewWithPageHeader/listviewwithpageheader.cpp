@@ -1196,15 +1196,11 @@ void ListViewWithPageHeader::layout()
                 }
             }
             QQmlContext *context = QQmlEngine::contextForObject(item->m_item)->parentContext();
-            if (context) {
-                const qreal clipFrom = visibleFrom + (!item->m_sectionItem && m_topSectionItem && !QQuickItemPrivate::get(m_topSectionItem)->culled ? m_topSectionItem->height() : 0);
-                if (!cull && pos < clipFrom) {
-                    context->setContextProperty(QLatin1String("heightToClip"), clipFrom - pos);
-                } else {
-                    context->setContextProperty(QLatin1String("heightToClip"), QVariant::fromValue<int>(0));
-                }
+            const qreal clipFrom = visibleFrom + (!item->m_sectionItem && m_topSectionItem && !QQuickItemPrivate::get(m_topSectionItem)->culled ? m_topSectionItem->height() : 0);
+            if (!cull && pos < clipFrom) {
+                context->setContextProperty(QLatin1String("heightToClip"), clipFrom - pos);
             } else {
-                qWarning() << "ListViewWithPageHeader::layout::No context for item found, if you see this outside tests please report";
+                context->setContextProperty(QLatin1String("heightToClip"), QVariant::fromValue<int>(0));
             }
 //             qDebug() << "ListViewWithPageHeader::layout" << item->m_item;
             pos += item->height();
