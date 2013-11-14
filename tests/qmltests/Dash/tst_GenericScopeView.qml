@@ -144,9 +144,8 @@ Item {
                 var openEffect = findChild(genericScopeView, "openEffect");
                 tryCompare(openEffect, "gap", 1);
 
-                var previewListView = findChild(genericScopeView, "previewListView");
                 var pageHeader = findChild(genericScopeView, "pageHeader");
-                verify(openEffect.positionPx >= pageHeader.height + previewListView.sectionHeaderHeight);
+                verify(openEffect.positionPx >= pageHeader.height + categoryListView.stickyHeaderHeight);
             }
 
             function test_previewCycle() {
