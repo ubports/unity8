@@ -40,8 +40,10 @@ qt5_use_modules(listviewwithpageheadertestsectionexternalmodelExec Test Core Qml
 target_link_libraries(listviewwithpageheadertestsectionexternalmodelExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
 add_custom_target(testlistviewwithpageheadersectionexternalmodel ${CMAKE_CURRENT_BINARY_DIR}/listviewwithpageheadertestsectionexternalmodelExec -o ${CMAKE_BINARY_DIR}/testlistviewwithpageheadersectionexternalmodel.xml,xunitxml -o -,txt)
 
+set(qmltest_DEFAULT_NO_ADD_TEST TRUE)
 add_qml_test(. listviewwithpageheaderqml IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
 
 add_dependencies(qmluitests testlistviewwithpageheader)
 add_dependencies(qmluitests testlistviewwithpageheadersection)
 add_dependencies(qmluitests testlistviewwithpageheadersectionexternalmodel)
+add_dependencies(qmluitests testlistviewwithpageheaderqml)
