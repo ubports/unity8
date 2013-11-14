@@ -21,9 +21,12 @@ from autopilot.introspection import (
     get_proxy_object_for_existing_process,
     ProcessSearchError,
 )
+import logging
 import subprocess
 from unity8.shell.emulators import UnityEmulatorBase
 from unity8.shell.emulators.main_window import MainWindow
+
+logger = logging.getLogger(__name__)
 
 
 class CannotAccessUnity(Exception):
@@ -75,13 +78,11 @@ def restart_unity_with_testability(*args):
     Passes *args arguments to the launched process.
 
     """
-    print("Retarting unity with testability.")
     args += ("QT_LOAD_TESTABILITY=1",)
     return restart_unity(*args)
 
 
 def restart_unity_normally():
-    print("Restarting unity normally.")
     restart_unity()
 
 
@@ -97,22 +98,25 @@ def restart_unity(*args):
     status = _get_unity_status()
     if "start/" in status:
         try:
-            print("Stopping unity.")
-            subprocess.check_call(['initctl', 'stop', 'unity8'])
+            output = subprocess.check_output(['initctl', 'stop', 'unity8'])
+            logger.info(output)
         except subprocess.CalledProcessError as e:
-            e.args += ("Failed to stop running instance of unity8", )
+            e.args += (
+                "Failed to stop running instance of unity8: %s" % e.output,
+            )
             raise
 
     try:
         command = ['initctl', 'start', 'unity8'] + list(args)
-        subprocess.check_call(
+        output = subprocess.check_output(
             command,
             stderr=subprocess.STDOUT,
+            universal_newlines=False,
         )
-
+        logger.info(output)
         pid = _get_unity_pid()
     except subprocess.CalledProcessError as e:
-        e.args += ("Failed to start unity8 with", )
+        e.args += ("Failed to start unity8: %s" % e.output,)
         raise
     else:
         return _get_unity_proxy_object(pid)
