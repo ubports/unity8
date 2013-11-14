@@ -1,3 +1,6 @@
+# add_qml_test macro
+include(QmlTest)
+
 # There's no cmake var for v8 include path :-/
 # so create one
 LIST(GET Qt5Core_INCLUDE_DIRS 0 QtCoreDir0)
@@ -36,6 +39,8 @@ add_executable(listviewwithpageheadertestsectionexternalmodelExec listviewwithpa
 qt5_use_modules(listviewwithpageheadertestsectionexternalmodelExec Test Core Qml)
 target_link_libraries(listviewwithpageheadertestsectionexternalmodelExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
 add_custom_target(testlistviewwithpageheadersectionexternalmodel ${CMAKE_CURRENT_BINARY_DIR}/listviewwithpageheadertestsectionexternalmodelExec -o ${CMAKE_BINARY_DIR}/testlistviewwithpageheadersectionexternalmodel.xml,xunitxml -o -,txt)
+
+add_qml_test(. listviewwithpageheaderqml IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
 
 add_dependencies(qmluitests testlistviewwithpageheader)
 add_dependencies(qmluitests testlistviewwithpageheadersection)
