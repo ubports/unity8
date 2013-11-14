@@ -128,8 +128,6 @@ ScopeView {
 
                 Connections {
                     target: rendererLoader.item
-                    ignoreUnknownSignals: true
-
                     onClicked: {
                         // Prepare the preview in case activate() triggers a preview only
                         effect.positionPx = Math.max(mapToItem(categoryView, 0, itemY).y, pageHeader.height + categoryView.stickyHeaderHeight);
