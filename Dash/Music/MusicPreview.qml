@@ -118,23 +118,12 @@ GenericPreview {
                             property int column3Width: units.gu(4)
                             anchors.verticalCenter: parent.verticalCenter
 
-                            AbstractButton {
+                            Button {
                                 objectName: "playButton"
                                 width: trackRow.column1Width
                                 height: width
-
-                                UbuntuShape {
-                                    id: playButtonShape
-                                    anchors.fill: parent
-                                    Icon {
-                                        width: units.gu(2)
-                                        height: width
-                                        anchors.centerIn: playButtonShape
-                                        name: audioPlayer.playbackState == Audio.PlayingState && trackItem.isPlayingItem ? "media-playback-pause" : "media-playback-start"
-                                        color: "white"
-                                        opacity: .9
-                                    }
-                                }
+                                iconSource: audioPlayer.playbackState == Audio.PlayingState && trackItem.isPlayingItem ? "image://theme/media-playback-pause" : "image://theme/media-playback-start"
+                                color: "#01000000" // Can't be "transparent" or "#00xxxxxx" as the button optimizes away the surrounding shape
 
                                 onClicked: {
                                     if (trackItem.isPlayingItem) {
