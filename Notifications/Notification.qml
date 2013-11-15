@@ -39,6 +39,28 @@ UbuntuShape {
     opacity: 0
     radius: "medium"
 
+    state: type != Notification.PlaceHolder && type == Notification.SnapDecision ? notificationList.currentIndex == index ? "default" : "contracted" : undefined
+
+    Behavior on height {
+        id: normalHeightBehavior
+
+        enabled: true
+        UbuntuNumberAnimation {
+            duration: UbuntuAnimation.FastDuration
+        }
+    }
+
+    states:[
+        State {
+            name: "contracted"
+            PropertyChanges {target: notification; height: units.gu(8)}
+        },
+        State {
+            name: "default"
+            PropertyChanges {target: notification; height: implicitHeight}
+        }
+    ]
+
     clip: true
     visible: type != Notification.PlaceHolder
 
@@ -77,8 +99,13 @@ UbuntuShape {
 
         anchors.fill: contentColumn
         objectName: "interactiveArea"
-        enabled: notification.type == Notification.Interactive
-        onClicked: notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
+        onClicked: {
+            if (notification.type == Notification.Interactive) {
+                notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
+            } else {
+                notificationList.currentIndex = index
+            }
+        }
     }
 
     Column {
