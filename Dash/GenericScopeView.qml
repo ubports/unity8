@@ -474,6 +474,7 @@ ScopeView {
             onLoaded: {
                 if (previewListView.onScreen && previewData !== undefined) {
                     item.previewData = Qt.binding(function() { return previewData })
+                    item.isCurrent = Qt.binding(function() { return ListView.isCurrentItem })
                 }
             }
 
@@ -483,12 +484,6 @@ ScopeView {
                 onClose: {
                     previewListView.open = false
                 }
-            }
-
-            Binding {
-                target: item
-                property: "isCurrent"
-                value: previewListView.currentIndex == index
             }
 
             function closePreviewSpinner() {
