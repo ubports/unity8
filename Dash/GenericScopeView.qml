@@ -485,6 +485,12 @@ ScopeView {
                 }
             }
 
+            Binding {
+                target: item
+                property: "isCurrent"
+                value: previewListView.currentIndex == index
+            }
+
             function closePreviewSpinner() {
                 if(item) {
                     item.showProcessingAction = false;
