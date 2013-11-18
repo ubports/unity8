@@ -123,7 +123,10 @@ GenericPreview {
                                 width: trackRow.column1Width
                                 height: width
                                 iconSource: audioPlayer.playbackState == Audio.PlayingState && trackItem.isPlayingItem ? "image://theme/media-playback-pause" : "image://theme/media-playback-start"
-                                color: "#01000000" // Can't be "transparent" or "#00xxxxxx" as the button optimizes away the surrounding shape
+
+                                // Can't be "transparent" or "#00xxxxxx" as the button optimizes away the surrounding shape
+                                // FIXME when this is resolved: https://bugs.launchpad.net/ubuntu-ui-toolkit/+bug/1251685
+                                color: "#01000000"
 
                                 onClicked: {
                                     if (trackItem.isPlayingItem) {
