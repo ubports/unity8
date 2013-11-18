@@ -18,6 +18,8 @@
 
 // Qt
 #include <QtQml/qqml.h>
+#include <QDBusConnection>
+#include <QQmlContext>
 #include <QtQuick/QQuickWindow>
 #include <QDebug>
 // self
@@ -26,10 +28,14 @@
 // local
 #include "albumartprovider.h"
 #include "applicationpaths.h"
+#include "bottombarvisibilitycommunicatorshell.h"
 #include "qlimitproxymodelqml.h"
 #include "qsortfilterproxymodelqml.h"
 #include "ubuntuwindow.h"
 #include "unitymenumodelpaths.h"
+
+static const char* BOTTOM_BAR_VISIBILITY_COMMUNICATOR_DBUS_PATH = "/BottomBarVisibilityCommunicator";
+static const char* DBUS_SERVICE = "com.canonical.Shell.BottomBarVisibilityCommunicator";
 
 static QObject* applicationsPathsSingleton(QQmlEngine* engine, QJSEngine* scriptEngine) {
   Q_UNUSED(engine);
@@ -46,6 +52,7 @@ void UtilsPlugin::registerTypes(const char *uri)
     qmlRegisterType<UnityMenuModelPaths>(uri, 0, 1, "UnityMenuModelPaths");
     qmlRegisterExtendedType<QQuickWindow, UbuntuWindow>(uri, 0, 1, "Window");
     qmlRegisterSingletonType<ApplicationPaths>(uri, 0, 1, "ApplicationPaths", applicationsPathsSingleton);
+    qmlRegisterUncreatableType<BottomBarVisibilityCommunicatorShell>(uri, 0, 1, "BottomBarVisibilityCommunicatorShell", "Can't create BottomBarVisibilityCommunicatorShell");
 }
 
 void UtilsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
@@ -64,4 +71,9 @@ void UtilsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
     {
         qWarning() << "Failed to register image provider for albumart (unknown error)";
     }
+
+    QDBusConnection::sessionBus().registerService(DBUS_SERVICE);
+    BottomBarVisibilityCommunicatorShell *bottomBarVisibilityCommunicator = &BottomBarVisibilityCommunicatorShell::instance();
+    QDBusConnection::sessionBus().registerObject(BOTTOM_BAR_VISIBILITY_COMMUNICATOR_DBUS_PATH, bottomBarVisibilityCommunicator, QDBusConnection::ExportAllContents);
+    engine->rootContext()->setContextProperty("bottomBarVisibilityCommunicatorShell", bottomBarVisibilityCommunicator);
 }

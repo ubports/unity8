@@ -44,13 +44,11 @@ GenericFilterGrid {
         }
 
         onClicked: {
-            var data = { model: model }
-            filtergrid.clicked(index, data, tile.y)
+            filtergrid.clicked(index, tile.y)
         }
 
         onPressAndHold: {
-            var data = { model: model }
-            filtergrid.pressAndHold(index, data, tile.y)
+            filtergrid.pressAndHold(index, tile.y)
         }
     }
 }

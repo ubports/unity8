@@ -30,7 +30,6 @@ import "Launcher"
 import "Panel"
 import "Hud"
 import "Components"
-import "Components/Math.js" as MathLocal
 import "Bottombar"
 import "SideStage"
 import "Notifications"
@@ -237,7 +236,7 @@ FocusScope {
         Behavior on x {SmoothedAnimation{velocity: 600}}
 
         property real showProgress:
-            MathLocal.clamp(1 - (x + stages.x) / shell.width, 0, 1)
+            MathUtils.clamp(1 - (x + stages.x) / shell.width, 0, 1)
 
         Showable {
             id: stages
@@ -402,6 +401,10 @@ FocusScope {
 
     Lockscreen {
         id: lockscreen
+        objectName: "lockscreen"
+
+        readonly property int backgroundTopMargin: -panel.panelHeight
+
         hides: [launcher, panel.indicators, hud]
         shown: false
         enabled: true
@@ -658,19 +661,22 @@ FocusScope {
         Launcher {
             id: launcher
 
+            readonly property bool dashSwipe: progress > 0
+
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
             available: (!greeter.shown || greeter.narrowMode) && edgeDemo.launcherEnabled
+
             onDashItemSelected: showHome()
             onDash: {
                 if (stages.shown) {
-                    dash.setCurrentScope("applications.scope", true /* animate */, true /* reset */)
                     stages.hide();
                     launcher.hide();
                 }
             }
+            onDashSwipeChanged: if (dashSwipe && stages.shown) dash.setCurrentScope("applications.scope", false, true)
             onLauncherApplicationSelected:{
                 greeter.hide()
                 shell.activateApplication(appId)
