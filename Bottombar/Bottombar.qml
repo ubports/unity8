@@ -16,7 +16,7 @@
 
 import QtQuick 2.0
 import "../Components"
-import Unity 0.1
+import Utils 0.1
 import Unity.Application 0.1
 import Ubuntu.Gestures 0.1
 import Ubuntu.Components 0.1
