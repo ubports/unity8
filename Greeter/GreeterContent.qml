@@ -74,17 +74,6 @@ MouseArea {
         opacity: 0.4
     }
 
-    Clock {
-        id: clock
-        visible: narrowMode
-
-        anchors {
-            top: parent.top
-            topMargin: units.gu(2)
-            horizontalCenter: parent.horizontalCenter
-        }
-    }
-
     MouseArea {
         id: teasingMouseArea
         anchors.fill: parent
@@ -161,6 +150,17 @@ MouseArea {
             verticalCenter: parent.verticalCenter
             left: narrowMode ? root.left : loginLoader.right
             right: root.right
+        }
+    }
+
+    Clock {
+        id: clock
+        visible: narrowMode
+
+        anchors {
+            top: parent.top
+            topMargin: units.gu(2)
+            horizontalCenter: parent.horizontalCenter
         }
     }
 }

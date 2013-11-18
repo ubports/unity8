@@ -133,11 +133,11 @@ ScopeView {
                         effect.positionPx = mapToItem(categoryView, 0, itemY).y
                         previewListView.categoryId = categoryId
                         previewListView.categoryDelegate = rendererLoader.item
-                        previewListView.model = model;
+                        previewListView.model = target.model;
                         previewListView.init = true;
                         previewListView.currentIndex = index;
 
-                        var item = model.get(index);
+                        var item = target.model.get(index);
 
                         if ((scopeView.scope.id == "applications.scope" && categoryId == "installed")
                                 || (scopeView.scope.id == "home.scope" && categoryId == "applications.scope")) {
@@ -154,12 +154,12 @@ ScopeView {
                         effect.positionPx = mapToItem(categoryView, 0, itemY).y
                         previewListView.categoryId = categoryId
                         previewListView.categoryDelegate = rendererLoader.item
-                        previewListView.model = model;
+                        previewListView.model = target.model;
                         previewListView.init = true;
                         previewListView.currentIndex = index;
                         previewListView.open = true
 
-                        var item = model.get(index)
+                        var item = target.model.get(index)
                         scopeView.scope.preview( item.uri, item.icon, item.category, 0, item.mimetype, item.title,
                                                 item.comment, item.dndUri, item.metadata)
                     }

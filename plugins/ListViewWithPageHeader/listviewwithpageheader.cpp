@@ -155,6 +155,7 @@ ListViewWithPageHeader::ListViewWithPageHeader()
  , m_topSectionItem(nullptr)
  , m_forceNoClip(false)
  , m_inLayout(false)
+ , m_inContentHeightKeepHeaderShown(false)
 {
     m_clipItem = new QQuickItem(contentItem());
 //     m_clipItem = new QQuickRectangle(contentItem());
@@ -494,7 +495,7 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
             if (!scrolledUp && contentY() == -m_minYExtent) {
                 m_headerItemShownHeight = 0;
                 m_headerItem->setY(contentY());
-            } else if ((scrolledUp && notRebounding && notShownByItsOwn && !maximizeVisibleAreaRunning) || (m_headerItemShownHeight > 0)) {
+            } else if ((scrolledUp && notRebounding && notShownByItsOwn && !maximizeVisibleAreaRunning) || (m_headerItemShownHeight > 0) || m_inContentHeightKeepHeaderShown) {
                 if (maximizeVisibleAreaRunning && diff > 0) // If we are maximizing and the header was shown, make sure we hide it
                     m_headerItemShownHeight -= diff;
                 else
@@ -1267,7 +1268,9 @@ void ListViewWithPageHeader::updatePolish()
 
         m_contentHeightDirty = false;
         adjustMinYExtent();
+        m_inContentHeightKeepHeaderShown = m_headerItem && m_headerItem->y() == contentY();
         setContentHeight(contentHeight);
+        m_inContentHeightKeepHeaderShown = false;
     }
 }
 

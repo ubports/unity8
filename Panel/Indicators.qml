@@ -21,7 +21,6 @@ import Unity.Indicators 0.1 as Indicators
 
 import "../Components"
 import "../Components/ListItems"
-import "../Components/Math.js" as MathLocal
 
 Showable {
     id: indicators
@@ -100,7 +99,7 @@ Showable {
           Otherwise it contains the bar's location as a fraction of the distance between hintValue (is 0) and lockThreshold (is 1).
         */
         var verticalProgress =
-            MathLocal.clamp((indicators.height - handle.height - hintValue) /
+            MathUtils.clamp((indicators.height - handle.height - hintValue) /
                             (lockThreshold - hintValue), 0, 1);
 
         /*

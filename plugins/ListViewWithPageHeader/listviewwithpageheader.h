@@ -202,6 +202,7 @@ private:
 
     bool m_forceNoClip;
     bool m_inLayout;
+    bool m_inContentHeightKeepHeaderShown;
 
     // Qt 5.0 doesn't like releasing the items just after itemCreated
     // so we delay the releasing until the next updatePolish
