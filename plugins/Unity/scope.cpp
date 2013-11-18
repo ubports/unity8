@@ -28,6 +28,7 @@
 
 // Qt
 #include <QUrl>
+#include <QUrlQuery>
 #include <QDebug>
 #include <QtGui/QDesktopServices>
 #include <QQmlEngine>
@@ -203,7 +204,13 @@ void Scope::preview(const QVariant &uri, const QVariant &icon_hint, const QVaria
              const QVariant &result_type, const QVariant &mimetype, const QVariant &title,
              const QVariant &comment, const QVariant &dnd_uri, const QVariant &metadata)
 {
-    auto res = createLocalResult(uri, icon_hint, category, result_type, mimetype, title, comment, dnd_uri, metadata);
+    QVariant real_metadata(metadata);
+    // handle overridden results, since QML doesn't support defining maps
+    if (metadata.type() == QVariant::String) {
+        real_metadata = QVariant::fromValue(subscopeUriToMetadataHash(metadata.toString()));
+    }
+
+    auto res = createLocalResult(uri, icon_hint, category, result_type, mimetype, title, comment, dnd_uri, real_metadata);
     m_previewCancellable.Renew();
 
     // canned queries don't have previews, must be activated
@@ -221,6 +228,7 @@ void Scope::cancelActivation()
 
 void Scope::onActivated(unity::dash::LocalResult const& result, unity::dash::ScopeHandledType type, unity::glib::HintsMap const& hints)
 {
+    Q_EMIT activated();
     // note: we will not get called on SHOW_PREVIEW, instead UnityCore will signal preview_ready.
     switch (type)
     {
@@ -254,6 +262,7 @@ void Scope::onActivated(unity::dash::LocalResult const& result, unity::dash::Sco
 
 void Scope::onPreviewReady(unity::dash::LocalResult const& /* result */, unity::dash::Preview::Ptr const& preview)
 {
+    Q_EMIT activated();
     auto prv = Preview::newFromUnityPreview(preview);
     // is this the best solution? QML may need to keep more than one preview instance around, so we can't own it.
     // passing it by value is not possible.

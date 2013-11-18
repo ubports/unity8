@@ -100,10 +100,10 @@ Item {
             verticalAlignment: Image.AlignVCenter
             sourceSize.width: root.scaleTo == "width" ? root.width
                                 : root.scaleTo == "fit" && root.width < root.height ? root.width
-                                : undefined
+                                : 0
             sourceSize.height: root.scaleTo == "height" ? root.height
                                 : root.scale == "fit" && root.height < root.width ? root.height
-                                : undefined
+                                : 0
         }
     }
 

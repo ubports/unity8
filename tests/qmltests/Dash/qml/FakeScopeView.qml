@@ -23,6 +23,7 @@ ScopeView {
     id: fakeScopeView
 
     property alias backColor : back.color
+    moving: listView.moving
 
     onEndReached: {
         if (shell != undefined && shell.scopeStatus != undefined) {

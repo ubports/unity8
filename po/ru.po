@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-10-11 12:12+0200\n"
+"POT-Creation-Date: 2013-11-05 17:53+0100\n"
 "PO-Revision-Date: 2013-10-01 05:55+0000\n"
 "Last-Translator: Zonov Roman <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2013-10-13 05:43+0000\n"
-"X-Generator: Launchpad (build 16799)\n"
+"X-Launchpad-Export-Date: 2013-11-08 06:38+0000\n"
+"X-Generator: Launchpad (build 16820)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -210,11 +210,15 @@ msgstr "Говорите..."
 msgid "Speaking..."
 msgstr "Говорите..."
 
+#: Notifications/NotificationMenuItemFactory.qml:89
+msgid "Show password"
+msgstr ""
+
 #: Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Поиск"
 
-#: plugins/Unity/scope.cpp:398
+#: plugins/Unity/scope.cpp:408
 msgid "Sorry, there is nothing that matches your search."
 msgstr "Извините, поиск не дал результатов."
 
@@ -226,24 +230,3 @@ msgstr ""
 #, qt-format
 msgid "Please enter %1"
 msgstr "Пожалуйста, введите %1"
-
-#~ msgid "New Releases"
-#~ msgstr "Новые релизы"
-
-#~ msgid "Music"
-#~ msgstr "Музыка"
-
-#~ msgid "Videos"
-#~ msgstr "Видео"
-
-#~ msgid "Recent"
-#~ msgstr "Недавние"
-
-#~ msgid "Top Charting"
-#~ msgstr "Наиболее популярное"
-
-#~ msgid "Popular Online"
-#~ msgstr "Популярное в Интернете"
-
-#~ msgid "Featured"
-#~ msgstr "Рекомендованное"

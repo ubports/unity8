@@ -1,8 +1,198 @@
-unity8 (7.83) UNRELEASED; urgency=low
+unity8 (7.83+14.04.20131106-0ubuntu1) trusty; urgency=low
 
+  [ Andrea Cimitan ]
+  * Place ShaderEffectSource of UbuntuShapeForItem under the Shape Item.
+    (LP: #1239317)
+
+  [ Omer Akram ]
+  * test: make sure the search indicator hides when an app has focus.
+
+  [ Nick Dedekind ]
+  * Fixed indicator slider menu item alignment to label field and icon.
+    (LP: #1240756)
+
+  [ chris.gagnon ]
+  * Update to autopilot 1.4.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 500
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 06 Nov 2013 03:37:02 +0000
+
+unity8 (7.83+14.04.20131105.1-0ubuntu1) trusty; urgency=low
+
+  [ Michał Sawicz ]
+  * Implement switching between previews by swiping. (LP: #1220651,
+    #1088572)
+
+  [ Nick Dedekind ]
+  * Faster loading of indicator menus. (LP: #1226650)
+
+  [ Albert Astals ]
+  * Make sure we have ssh started when we need it .
+  * Fix a few warnings in DashContent.qml on shutdown
+    Dash/DashContent.qml:119: TypeError: Cannot read property
+    'previewShown' of null Dash/DashContent.qml:120: TypeError: Cannot
+    read property 'moving' of null .
+  * Don't use deprecated Panel methods.
+
+  [ Christopher Lee ]
+  * Adds an easy to consume function that attempts to unlock the unity
+    greeter. (LP: #1240261)
+
+  [ Lars Uebernickel ]
+  * Indicators: add TimeFormatter and use it in the messaging menu This
+    component can be used to turn a timestamp and a format string into a
+    string with the corresponding time and format. The string will
+    change whenever the timezone changes. (LP: #1236413)
+
+  [ Andrea Cimitan ]
+  * Allow drag over bounds, but not overshoot. (LP: #1204300)
+  * Threshold to activate the left edge swipe to reveal dash is now 26
+    GU. (LP: #1236286)
+
+  [ Michael Zanetti ]
+  * replace the launcher quicklist's Popover with an own quicklist
+    implementation The Popover probably won't ever support what the
+    launcher needs.
+  * Implement switching between previews by swiping. (LP: #1220651,
+    #1088572)
+  * don't trigger the greeter teasing during a movement of the greeter.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 495
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 05 Nov 2013 12:22:04 +0000
+
+unity8 (7.83+14.04.20131031-0ubuntu1) trusty; urgency=low
+
+  [ Michał Sawicz ]
+  * Use setenv as early as possible to avoid setenv and getenv clashing
+    in multi-threaded situations. (LP: #1240866)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 482
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 31 Oct 2013 20:10:56 +0000
+
+unity8 (7.83+14.04.20131028.1-0ubuntu1) trusty; urgency=low
+
+  * New rebuild forced
+  * Automatic snapshot from revision 480
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 28 Oct 2013 22:42:07 +0000
+
+unity8 (7.83+14.04.20131028-0ubuntu1) trusty; urgency=low
+
+  [ Andrea Cimitan ]
+  * Fix 1195349 by counting drawbuffer on the newContentX logic of the
+    carousel When we changed carousel from repeater to listview, we
+    added drawbuffer. this breaks the logic of newContentX, which was
+    considered disabled and set to -1. The correct disabled value now
+    has to take into account the drawbuffer. (LP: #1195349)
+
+  [ Christopher Lee ]
+  * Checks both then env and upstart env for the currently set
+    XDG_DATA_DIRS so they can be set correctly for the test.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 479
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 28 Oct 2013 03:08:59 +0000
+
+unity8 (7.83+13.10.20131016.2-0ubuntu1) saucy; urgency=low
+
+  [ Loïc Minier ]
+  * Merge ~lool/unity8/drop-setcap-conf. Drop unity8-setcap.conf as this
+    breaks desktop installs (no boot-hook event is emitted, boot
+    stalls); add maintscript snippet to rm_conffile on upgrades; this
+    boot-hook is now shipped under a different name in lxc-android-
+    config.
+
+  [ Michał Sawicz ]
+  * Ship a camera-app.desktop file and use a custom XDG_DATA_DIRS for
+    testing.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 472
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 16 Oct 2013 23:15:48 +0000
+
+unity8 (7.83+13.10.20131016.1-0ubuntu1) saucy; urgency=low
+
+  [ Diego Sarmentero ]
+  * Disable Preview interaction until the scope responds.
+
+  [ Albert Astals ]
+  * Hide placeholder notification.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 469
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 16 Oct 2013 17:29:36 +0000
+
+unity8 (7.83+13.10.20131016-0ubuntu1) saucy; urgency=low
+
+  [ Loïc Minier ]
+  * Add upstart job to copy unity8 to a new tmpfs, setcap it, and bind-
+    mount it back; this is an ugly hack to set CAP_SYS_RESOURCE until we
+    have a root-helper for it.
+
+  [ Michal Hruby ]
+  * Enable definition of scope back references in overridden results.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 466
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 16 Oct 2013 11:29:52 +0000
+
+unity8 (7.83+13.10.20131015.4-0ubuntu1) saucy; urgency=low
+
+  [ Michał Sawicz ]
   * Replace ubuntu-touch-session's unity8.conf upstart job.
+  * Revert r440 that made the dash collapse animation worse, rather than
+    better.
 
- -- Michał Sawicz <michal.sawicz@canonical.com>  Tue, 15 Oct 2013 01:12:45 +0200
+  [ om26er@ubuntu.com ]
+  * close the app only when the close button is tapped, not the entire
+    thumbnail
+
+  [ Nick Dedekind ]
+  * Added missing Unity.Indicator mock objects causing qmltests to fail.
+    Approved by: Michał Sawicz.
+
+  [ Christopher Lee ]
+  * Launch unity8 for autopilot with upstart, and bring unity8 session
+    over from session-manager-touch.
+
+  [ Pawel Stolowski ]
+  * Temporarily disable category_order changed signal handling.
+
+  [ Daniel d'Andrada ]
+  * OSKController area shouldn't cover the indicators' bar Since ubuntu-
+    keyboard surface area doesn't cover the indicators' bar,
+    OSKController should follow suit. Otherwise the OSKContoller's
+    internal InputFilterArea (and others) wouldn't perfectly overlap the
+    graphical keyboard rendered by ubuntu-keyboard (i.e. the opaque part
+    of ubuntu-keyboard's surface).
+
+  [ Michael Zanetti ]
+  * Initialize initialHeight/Width to height/width depending on scaleTo
+    add checks for initialWidth/Height in the tests change sizes in
+    tests to something else than the default for initialWidth/Height in
+    order to catch failures there more easily
+
+  [ Omer Akram ]
+  * Only show search indicator while the Dash is focued.
+  * Add 2dp left margin for music and video tiles' title.
+
+  [ Nicolas d'Offay ]
+  * Changed Infographics to use Ubuntu font.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 463
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 15 Oct 2013 11:05:04 +0000
 
 unity8 (7.82+13.10.20131011.2-0ubuntu1) saucy; urgency=low
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2012,2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,15 +12,19 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authors: Nick Dedekind <nick.dedekind@canonical.com>
  */
 
-.pragma library
+#include "plugin.h"
+#include "unitymenumodel.h"
+#include "actionstateparser.h"
 
-function clamp(value, min, max) {
-    if (min <= max) {
-        return Math.max(min, Math.min(max, value))
-    } else {
-        // swap min/max if min > max
-        return clamp(value, max, min)
-    }
+#include <QtQml>
+
+void QMenuModelPlugin::registerTypes(const char *uri)
+{
+    Q_ASSERT(uri == QLatin1String("QMenuModel"));
+    qmlRegisterType<UnityMenuModel>(uri, 0, 1, "UnityMenuModel");
+    qmlRegisterType<ActionStateParser>(uri, 0, 1, "ActionStateParser");
 }

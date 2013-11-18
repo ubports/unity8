@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-10-11 12:12+0200\n"
+"POT-Creation-Date: 2013-11-05 17:53+0100\n"
 "PO-Revision-Date: 2013-09-28 07:38+0000\n"
 "Last-Translator: David Planella <david.planella@ubuntu.com>\n"
 "Language-Team: Catalan <ca@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-10-13 05:43+0000\n"
-"X-Generator: Launchpad (build 16799)\n"
+"X-Launchpad-Export-Date: 2013-11-08 06:37+0000\n"
+"X-Generator: Launchpad (build 16820)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -211,11 +211,15 @@ msgstr "Parleu..."
 msgid "Speaking..."
 msgstr "S'està parlant..."
 
+#: Notifications/NotificationMenuItemFactory.qml:89
+msgid "Show password"
+msgstr ""
+
 #: Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Cerca"
 
-#: plugins/Unity/scope.cpp:398
+#: plugins/Unity/scope.cpp:408
 msgid "Sorry, there is nothing that matches your search."
 msgstr "No hi ha res que coincideixi amb la cerca"
 
@@ -227,24 +231,3 @@ msgstr ""
 #, qt-format
 msgid "Please enter %1"
 msgstr "Introduïu %1"
-
-#~ msgid "Music"
-#~ msgstr "Música"
-
-#~ msgid "Videos"
-#~ msgstr "Vídeos"
-
-#~ msgid "Recent"
-#~ msgstr "Recents"
-
-#~ msgid "Featured"
-#~ msgstr "Destacats"
-
-#~ msgid "New Releases"
-#~ msgstr "Novetats"
-
-#~ msgid "Top Charting"
-#~ msgstr "El millor de les llistes"
-
-#~ msgid "Popular Online"
-#~ msgstr "Popular a la xarxa"

@@ -1,8 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
- *
- * Authors:
- *   Mirco Müller <mirco.mueller@canonical.com>
+ * Copyright (C) 2012,2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,12 +12,23 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authors: Nick Dedekind <nick.dedekind@canonical.com>
  */
 
-import QtQuick 2.0
+#ifndef MOCK_QMENUMODEL_PLUGIN_H
+#define MOCK_QMENUMODEL_PLUGIN_H
 
-QtObject {
-    property variant busName
-    property variant actions
-    property variant menuObjectPath
-}
+#include <QQmlEngine>
+#include <QQmlExtensionPlugin>
+
+class QMenuModelPlugin : public QQmlExtensionPlugin
+{
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
+
+public:
+    void registerTypes(const char *uri);
+};
+
+#endif
