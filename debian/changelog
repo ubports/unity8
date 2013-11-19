@@ -1,3 +1,69 @@
+unity8 (7.83+14.04.20131106-0ubuntu1) trusty; urgency=low
+
+  [ Andrea Cimitan ]
+  * Place ShaderEffectSource of UbuntuShapeForItem under the Shape Item.
+    (LP: #1239317)
+
+  [ Omer Akram ]
+  * test: make sure the search indicator hides when an app has focus.
+
+  [ Nick Dedekind ]
+  * Fixed indicator slider menu item alignment to label field and icon.
+    (LP: #1240756)
+
+  [ chris.gagnon ]
+  * Update to autopilot 1.4.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 500
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 06 Nov 2013 03:37:02 +0000
+
+unity8 (7.83+14.04.20131105.1-0ubuntu1) trusty; urgency=low
+
+  [ Michał Sawicz ]
+  * Implement switching between previews by swiping. (LP: #1220651,
+    #1088572)
+
+  [ Nick Dedekind ]
+  * Faster loading of indicator menus. (LP: #1226650)
+
+  [ Albert Astals ]
+  * Make sure we have ssh started when we need it .
+  * Fix a few warnings in DashContent.qml on shutdown
+    Dash/DashContent.qml:119: TypeError: Cannot read property
+    'previewShown' of null Dash/DashContent.qml:120: TypeError: Cannot
+    read property 'moving' of null .
+  * Don't use deprecated Panel methods.
+
+  [ Christopher Lee ]
+  * Adds an easy to consume function that attempts to unlock the unity
+    greeter. (LP: #1240261)
+
+  [ Lars Uebernickel ]
+  * Indicators: add TimeFormatter and use it in the messaging menu This
+    component can be used to turn a timestamp and a format string into a
+    string with the corresponding time and format. The string will
+    change whenever the timezone changes. (LP: #1236413)
+
+  [ Andrea Cimitan ]
+  * Allow drag over bounds, but not overshoot. (LP: #1204300)
+  * Threshold to activate the left edge swipe to reveal dash is now 26
+    GU. (LP: #1236286)
+
+  [ Michael Zanetti ]
+  * replace the launcher quicklist's Popover with an own quicklist
+    implementation The Popover probably won't ever support what the
+    launcher needs.
+  * Implement switching between previews by swiping. (LP: #1220651,
+    #1088572)
+  * don't trigger the greeter teasing during a movement of the greeter.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 495
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 05 Nov 2013 12:22:04 +0000
+
 unity8 (7.83+14.04.20131031-0ubuntu1) trusty; urgency=low
 
   [ Michał Sawicz ]

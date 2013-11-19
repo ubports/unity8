@@ -105,6 +105,8 @@ Showable {
         visible: overlay.active
 
         MouseArea {
+            objectName: "backgroundShadeMouseArea"
+
             anchors.fill: parent
             enabled: overlay.edge == "none" && overlay.opacity == 1.0
             onClicked: overlay.doSkip()

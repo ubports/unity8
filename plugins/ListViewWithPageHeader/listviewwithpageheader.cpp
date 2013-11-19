@@ -155,6 +155,7 @@ ListViewWithPageHeader::ListViewWithPageHeader()
  , m_topSectionItem(nullptr)
  , m_forceNoClip(false)
  , m_inLayout(false)
+ , m_inContentHeightKeepHeaderShown(false)
 {
     m_clipItem = new QQuickItem(contentItem());
 //     m_clipItem = new QQuickRectangle(contentItem());
@@ -286,10 +287,12 @@ void ListViewWithPageHeader::setSectionDelegate(QQmlComponent *delegate)
         m_topSectionItem = getSectionItem(QString());
         m_topSectionItem->setZ(3);
         QQuickItemPrivate::get(m_topSectionItem)->setCulled(true);
+        connect(m_topSectionItem, SIGNAL(heightChanged()), SIGNAL(stickyHeaderHeightChanged()));
 
         // TODO create sections for existing items
 
         Q_EMIT sectionDelegateChanged();
+        Q_EMIT stickyHeaderHeightChanged();
     }
 }
 
@@ -323,6 +326,11 @@ void ListViewWithPageHeader::setForceNoClip(bool noClip)
         updateClipItem();
         Q_EMIT forceNoClipChanged();
     }
+}
+
+int ListViewWithPageHeader::stickyHeaderHeight() const
+{
+    return m_topSectionItem ? m_topSectionItem->height() : 0;
 }
 
 void ListViewWithPageHeader::positionAtBeginning()
@@ -494,7 +502,7 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
             if (!scrolledUp && contentY() == -m_minYExtent) {
                 m_headerItemShownHeight = 0;
                 m_headerItem->setY(contentY());
-            } else if ((scrolledUp && notRebounding && notShownByItsOwn && !maximizeVisibleAreaRunning) || (m_headerItemShownHeight > 0)) {
+            } else if ((scrolledUp && notRebounding && notShownByItsOwn && !maximizeVisibleAreaRunning) || (m_headerItemShownHeight > 0) || m_inContentHeightKeepHeaderShown) {
                 if (maximizeVisibleAreaRunning && diff > 0) // If we are maximizing and the header was shown, make sure we hide it
                     m_headerItemShownHeight -= diff;
                 else
@@ -1267,7 +1275,9 @@ void ListViewWithPageHeader::updatePolish()
 
         m_contentHeightDirty = false;
         adjustMinYExtent();
+        m_inContentHeightKeepHeaderShown = m_headerItem && m_headerItem->y() == contentY();
         setContentHeight(contentHeight);
+        m_inContentHeightKeepHeaderShown = false;
     }
 }
 

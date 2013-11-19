@@ -60,6 +60,7 @@ class ListViewWithPageHeader : public QQuickFlickable, public QQuickItemChangeLi
     Q_PROPERTY(QQmlComponent *sectionDelegate READ sectionDelegate WRITE setSectionDelegate NOTIFY sectionDelegateChanged)
     Q_PROPERTY(QString sectionProperty READ sectionProperty WRITE setSectionProperty NOTIFY sectionPropertyChanged)
     Q_PROPERTY(bool forceNoClip READ forceNoClip WRITE setForceNoClip NOTIFY forceNoClipChanged)
+    Q_PROPERTY(int stickyHeaderHeight READ stickyHeaderHeight NOTIFY stickyHeaderHeightChanged)
 
     friend class ListViewWithPageHeaderTest;
     friend class ListViewWithPageHeaderTestSection;
@@ -87,6 +88,8 @@ public:
     bool forceNoClip() const;
     void setForceNoClip(bool noClip);
 
+    int stickyHeaderHeight() const;
+
     Q_INVOKABLE void positionAtBeginning();
     Q_INVOKABLE void showHeader();
     Q_INVOKABLE QQuickItem *item(int modelIndex) const;
@@ -104,6 +107,7 @@ Q_SIGNALS:
     void sectionDelegateChanged();
     void sectionPropertyChanged();
     void forceNoClipChanged();
+    void stickyHeaderHeightChanged();
 
 protected:
     void componentComplete();
@@ -202,6 +206,7 @@ private:
 
     bool m_forceNoClip;
     bool m_inLayout;
+    bool m_inContentHeightKeepHeaderShown;
 
     // Qt 5.0 doesn't like releasing the items just after itemCreated
     // so we delay the releasing until the next updatePolish

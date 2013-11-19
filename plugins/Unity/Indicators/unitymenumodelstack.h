@@ -25,6 +25,7 @@
 #include <QObject>
 #include <QList>
 
+class UnityMenuModelEntry;
 class UnityMenuModel;
 
 // A LIFO queue for storing the current submenu of a UnityMenuModel.
@@ -37,6 +38,7 @@ class UNITYINDICATORS_EXPORT UnityMenuModelStack : public QObject
     Q_OBJECT
     Q_PROPERTY(UnityMenuModel* head READ head WRITE setHead NOTIFY headChanged)
     Q_PROPERTY(UnityMenuModel* tail READ tail NOTIFY tailChanged)
+    Q_PROPERTY(int count READ count NOTIFY countChanged)
 public:
     UnityMenuModelStack(QObject*parent=NULL);
     ~UnityMenuModelStack();
@@ -46,15 +48,21 @@ public:
 
     UnityMenuModel* tail() const;
 
-    Q_INVOKABLE void push(UnityMenuModel* model);
+    int count() const;
+
+    Q_INVOKABLE void push(UnityMenuModel* model, int menuIndex);
     Q_INVOKABLE UnityMenuModel* pop();
 
 Q_SIGNALS:
     void headChanged(UnityMenuModel* head);
     void tailChanged(UnityMenuModel* tail);
+    void countChanged(int count);
+
+private Q_SLOTS:
+    void onRemove();
 
 private:
-    QList<UnityMenuModel*> m_menuModels;
+    QList<UnityMenuModelEntry*> m_menuModels;
 };
 
 #endif // UNITYMENUMODELSTACK_H

@@ -133,7 +133,7 @@ Item {
             tryCompare(LightDM.Infographic, "username", "single")
         }
 
-        function test_wallpaper_data() {
+        function test_background_data() {
             return [
                 {tag: "set", accounts: "../tests/data/unity/backgrounds/blue.png", expected: "blue.png"},
                 {tag: "unset", accounts: "", expected: "background.jpg"},
@@ -141,12 +141,12 @@ Item {
             ]
         }
 
-        function test_wallpaper(data) {
+        function test_background(data) {
             var loader = findChild(greeter, "greeterContentLoader")
-            var wallpaper = findChild(loader.item, "wallpaper")
+            var background = findChild(loader.item, "greeterBackground")
             AccountsService.backgroundFile = data.accounts
-            tryCompareFunction(function() { return wallpaper.source.toString().indexOf(data.expected) !== -1; }, true)
-            tryCompare(wallpaper, "status", Image.Ready)
+            tryCompareFunction(function() { return background.source.toString().indexOf(data.expected) !== -1; }, true)
+            tryCompare(background, "status", Image.Ready)
         }
     }
 }
