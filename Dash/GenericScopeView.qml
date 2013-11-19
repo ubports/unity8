@@ -175,7 +175,7 @@ FocusScope {
                     target: rendererLoader.item
                     onClicked: {
                         // Prepare the preview in case activate() triggers a preview only
-                        effect.positionPx = mapToItem(categoryView, 0, itemY).y
+                        effect.positionPx = Math.max(mapToItem(categoryView, 0, itemY).y, pageHeader.height + categoryView.stickyHeaderHeight);
                         previewListView.categoryId = categoryId
                         previewListView.categoryDelegate = rendererLoader.item
                         previewListView.model = target.model;
@@ -196,7 +196,7 @@ FocusScope {
                         }
                     }
                     onPressAndHold: {
-                        effect.positionPx = mapToItem(categoryView, 0, itemY).y
+                        effect.positionPx = Math.max(mapToItem(categoryView, 0, itemY).y, pageHeader.height + categoryView.stickyHeaderHeight);
                         previewListView.categoryId = categoryId
                         previewListView.categoryDelegate = rendererLoader.item
                         previewListView.model = target.model;
@@ -438,12 +438,19 @@ FocusScope {
 
             if (!init && model !== undefined) {
                 var item = model.get(currentIndex)
-                scopeView.scope.preview( item.uri, item.icon, item.category, 0, item.mimetype, item.title, item.comment, item.dndUri, item.metadata)
+                scopeView.scope.preview(item.uri, item.icon, item.category, 0, item.mimetype, item.title, item.comment, item.dndUri, item.metadata)
             }
 
             var itemY = categoryView.contentItem.mapFromItem(categoryDelegate.currentItem).y;
+
+            // Find new contentY and effect.postionPx
             var newContentY = itemY - effect.positionPx - categoryDelegate.verticalSpacing;
-            var effectAdjust = effect.positionPx;
+
+            // Make sure the item is not covered by a header. Move the effect split down if necessary
+            var headerHeight = pageHeader.height + categoryView.stickyHeaderHeight;
+            var effectAdjust = Math.max(effect.positionPx, headerHeight);
+
+            // Make sure we don't overscroll the listview. If yes, adjust effect position
             if (newContentY < 0) {
                 effectAdjust += newContentY;
                 newContentY = 0;
@@ -454,7 +461,7 @@ FocusScope {
             }
 
             effect.positionPx = effectAdjust;
-            categoryView.contentY = newContentY - categoryView.originY;
+            categoryView.contentY = newContentY;
         }
 
         property bool open: false

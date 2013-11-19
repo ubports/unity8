@@ -287,10 +287,12 @@ void ListViewWithPageHeader::setSectionDelegate(QQmlComponent *delegate)
         m_topSectionItem = getSectionItem(QString());
         m_topSectionItem->setZ(3);
         QQuickItemPrivate::get(m_topSectionItem)->setCulled(true);
+        connect(m_topSectionItem, SIGNAL(heightChanged()), SIGNAL(stickyHeaderHeightChanged()));
 
         // TODO create sections for existing items
 
         Q_EMIT sectionDelegateChanged();
+        Q_EMIT stickyHeaderHeightChanged();
     }
 }
 
@@ -324,6 +326,11 @@ void ListViewWithPageHeader::setForceNoClip(bool noClip)
         updateClipItem();
         Q_EMIT forceNoClipChanged();
     }
+}
+
+int ListViewWithPageHeader::stickyHeaderHeight() const
+{
+    return m_topSectionItem ? m_topSectionItem->height() : 0;
 }
 
 void ListViewWithPageHeader::positionAtBeginning()
