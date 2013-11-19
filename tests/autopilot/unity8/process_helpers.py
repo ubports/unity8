@@ -82,12 +82,8 @@ def restart_unity_with_testability(*args):
     return restart_unity(*args)
 
 
-def restart_unity_normally():
-    restart_unity()
-
-
 def restart_unity(*args):
-    """Restarts (or starts) unity8 with the testability driver loaded.
+    """Restarts (or starts) unity8 using the provided arguments.
 
     Passes *args arguments to the launched process.
 
@@ -111,7 +107,7 @@ def restart_unity(*args):
         output = subprocess.check_output(
             command,
             stderr=subprocess.STDOUT,
-            universal_newlines=False,
+            universal_newlines=True,
         )
         logger.info(output)
         pid = _get_unity_pid()
