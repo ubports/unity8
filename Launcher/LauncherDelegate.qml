@@ -57,6 +57,7 @@ Item {
             anchors.fill: parent
             anchors.margins: units.gu(1)
             radius: "medium"
+            borderSource: "none"
 
             image: Image {
                 id: iconImage
