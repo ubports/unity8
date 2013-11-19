@@ -19,6 +19,7 @@ import QtTest 1.0
 import ".."
 import "../../../Greeter"
 import Ubuntu.Components 0.1
+import QMenuModel 0.1
 import Unity.Test 0.1 as UT
 
 Rectangle {
@@ -35,8 +36,23 @@ Rectangle {
         }
     }
 
+    UnityMenuModel {
+        id: menuModel
+        modelData: [{
+            "rowData": {
+                "actionState": { "label": Qt.formatTime(new Date("October 13, 1975 11:13:00")) }
+            }
+        }]
+    }
+
     UT.UnityTestCase {
         name: "Clock"
+
+        function init() {
+            var cachedModel = findChild(clock, "timeModel");
+            verify(cachedModel !== undefined);
+            cachedModel.model = menuModel;
+        }
 
         function test_customDate() {
             var dateObj = new Date("October 13, 1975 11:13:00")

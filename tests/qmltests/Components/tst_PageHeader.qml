@@ -37,6 +37,10 @@ Item {
         property alias searchEnabled : pageHeader.searchEntryEnabled
         property alias searchQuery : pageHeader.searchQuery
 
+        function init() {
+            searchEnabled = true;
+        }
+
         function test_search_disabled() {
             searchEnabled = false
             pageHeader.resetSearch()
@@ -151,12 +155,48 @@ Item {
             scopeMock.searchInProgress = true
             compare(searchIndicator.running, true, "Search indicator isn't running.")
             tryCompare(primaryImage, "visible", false)
-
-            pageHeader.resetSearch()
         }
 
         function cleanup() {
-            scopeMock.searchInProgress = false
+            scopeMock.searchInProgress = false;
+            pageHeader.resetSearch();
+        }
+
+        function test_popover() {
+            searchEnabled = true;
+            pageHeader.searchHistory.clear();
+
+            pageHeader.searchHistory.addQuery("Search1");
+            pageHeader.searchHistory.addQuery("Search2");
+
+            pageHeader.triggerSearch();
+
+            var searchContainer = findChild(pageHeader, "searchContainer");
+            verify(searchContainer !== undefined, "searchContainer != undefined");
+            tryCompareFunction(function() { return searchContainer.popover !== null; }, true);
+
+            tryCompare(searchContainer.popover, "visible", true);
+        }
+
+        function test_resetSearch_onPopupClose() {
+            searchEnabled = true;
+            pageHeader.searchHistory.clear();
+
+            pageHeader.searchHistory.addQuery("Search1");
+            pageHeader.searchHistory.addQuery("Search2");
+
+            pageHeader.triggerSearch();
+
+            var searchContainer = findChild(pageHeader, "searchContainer");
+            verify(searchContainer !== undefined, "searchContainer != undefined");
+            tryCompareFunction(function() { return searchContainer.popover !== null; }, true);
+            compare(searchContainer.popover.visible, true);
+
+            pageHeader.searchQuery = "test";
+            tryCompareFunction( function() { return (searchContainer.popover===null || !searchContainer.popover.visible) }, true);
+
+            pageHeader.resetSearch();
+            compare((searchContainer.popover===null || !searchContainer.popover.visible), true);
         }
     }
 

@@ -74,6 +74,9 @@ Item {
             }
 
             function openPreview() {
+                var categoryListView = findChild(genericScopeView, "categoryListView");
+                categoryListView.positionAtBeginning();
+
                 var tile = findChild(genericScopeView, "delegate0");
                 mouseClick(tile, tile.width / 2, tile.height / 2);
                 var openEffect = findChild(genericScopeView, "openEffect");
@@ -186,6 +189,13 @@ Item {
                 tryCompare(waitingForAction, "enabled", false);
 
                 closePreview();
+            }
+
+            function test_changeScope() {
+                genericScopeView.scope.searchQuery = "test"
+                genericScopeView.scope = scopes.get(1)
+                genericScopeView.scope = scopes.get(0)
+                tryCompare(genericScopeView.scope, "searchQuery", "")
             }
         }
     }
