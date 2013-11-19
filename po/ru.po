@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-11-05 17:53+0100\n"
+"POT-Creation-Date: 2013-11-12 16:10+0100\n"
 "PO-Revision-Date: 2013-10-01 05:55+0000\n"
 "Last-Translator: Zonov Roman <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2013-11-08 06:38+0000\n"
-"X-Generator: Launchpad (build 16820)\n"
+"X-Launchpad-Export-Date: 2013-11-19 05:59+0000\n"
+"X-Generator: Launchpad (build 16831)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -87,7 +87,7 @@ msgstr "Википедия"
 msgid "YouTube"
 msgstr "YouTube"
 
-#: Components/EdgeDemoOverlay.qml:149
+#: Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
 msgstr "Пропустить обучение"
 
@@ -138,7 +138,7 @@ msgid ""
 "phone<br><br>Tap anywhere to start"
 msgstr ""
 
-#: Components/PageHeader.qml:341
+#: Components/PageHeader.qml:345
 msgid "Recent searches"
 msgstr "Последние поисковые запросы"
 
@@ -157,7 +157,7 @@ msgid "%1 review"
 msgid_plural "%1 reviews"
 msgstr[0] "%1 отзыв"
 
-#: Dash/Apps/AppPreview.qml:126
+#: Dash/Apps/AppPreview.qml:135
 msgid "Rate this"
 msgstr "Оцените это"
 
@@ -177,7 +177,7 @@ msgstr "Отправить"
 msgid "Comments:"
 msgstr "Комментарии:"
 
-#: Greeter/Lockscreen.qml:142
+#: Greeter/Lockscreen.qml:146
 msgid "Emergency Call"
 msgstr "Экстренный вызов"
 
@@ -218,6 +218,15 @@ msgstr ""
 msgid "Search"
 msgstr "Поиск"
 
+#: plugins/Unity/Launcher/launcheritem.cpp:43
+#: plugins/Unity/Launcher/launcheritem.cpp:73
+msgid "Lock to Launcher"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:73
+msgid "Unlock from Launcher"
+msgstr ""
+
 #: plugins/Unity/scope.cpp:408
 msgid "Sorry, there is nothing that matches your search."
 msgstr "Извините, поиск не дал результатов."
@@ -226,7 +235,7 @@ msgstr "Извините, поиск не дал результатов."
 msgid "All"
 msgstr ""
 
-#: Shell.qml:438
+#: Shell.qml:441
 #, qt-format
 msgid "Please enter %1"
 msgstr "Пожалуйста, введите %1"

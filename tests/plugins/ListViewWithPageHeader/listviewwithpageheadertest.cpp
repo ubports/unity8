@@ -1827,6 +1827,23 @@ private Q_SLOTS:
         lvwph->positionAtBeginning();
     }
 
+    void testHeaderPositionBug1240118()
+    {
+        scrollToBottom();
+        lvwph->showHeader();
+        QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
+        QTest::qWait(100); // Make sure stuff is stable
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 100));
+        model->setProperty(3, "size", 10);
+        model->setProperty(4, "size", 10);
+        model->setProperty(5, "size", 10);
+        model->setProperty(6, "size", 10);
+#if (QT_VERSION > QT_VERSION_CHECK(5, 0, 3))
+        QTRY_COMPARE(lvwph->m_minYExtent, 210.);
+#endif
+        QTRY_COMPARE(lvwph->m_headerItem->y(), -lvwph->m_minYExtent);
+    }
+
 private:
     QQuickView *view;
     ListViewWithPageHeader *lvwph;

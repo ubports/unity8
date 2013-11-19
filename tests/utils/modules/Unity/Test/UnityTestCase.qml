@@ -214,6 +214,8 @@ TestCase {
 
     // speed is in pixels/second
     function touchFlick(item, x, y, toX, toY, beginTouch, endTouch, speed, iterations) {
+        // Make sure the item is rendered
+        waitForRendering(item);
 
         // Default to true for beginTouch if not present
         beginTouch = (beginTouch !== undefined) ? beginTouch : true

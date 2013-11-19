@@ -28,8 +28,8 @@ FilterGrid {
     property int iconWidth: units.gu(8)
     property int iconHeight: units.gu(7.5)
 
-    signal clicked(int index, var model, real itemY)
-    signal pressAndHold(int index, var model, real itemY)
+    signal clicked(int index, real itemY)
+    signal pressAndHold(int index, real itemY)
 
     delegate: Tile {
         id: tile
@@ -42,11 +42,11 @@ FilterGrid {
         source: model.icon
 
         onClicked: {
-            filtergrid.clicked(index, filtergrid.model, tile.y)
+            filtergrid.clicked(index, tile.y)
         }
 
         onPressAndHold: {
-            filtergrid.pressAndHold(index, filtergrid.model, tile.y)
+            filtergrid.pressAndHold(index, tile.y)
         }
     }
 }
