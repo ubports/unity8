@@ -67,12 +67,6 @@ class MainWindow(object):
     def get_dash(self):
         return self.app.select_single(Dash)
 
-    def get_dash_home_applications_grid(self):
-        return self.app.select_single(
-            "ApplicationsFilterGrid",
-            objectName="dashHomeApplicationsGrid"
-        )
-
     def get_bottombar(self):
         return self.app.select_single("Bottombar")
 
