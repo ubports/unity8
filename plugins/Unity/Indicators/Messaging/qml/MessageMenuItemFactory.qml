@@ -22,7 +22,6 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Unity.Indicators 0.1 as Indicators
 import QMenuModel 0.1 as QMenuModel
-import "utils.js" as Utils
 
 Indicators.BaseMenuItem {
     id: menuItem
@@ -43,7 +42,7 @@ Indicators.BaseMenuItem {
             SimpleTextMessage {
                 // text
                 title: menu && menu.label ? menu.label : ""
-                time: menu ? Utils.formatDate(menu.ext.xCanonicalTime) : ""
+                time: menu ? menu.ext.xCanonicalTime : 0
                 message: menu && menu.ext.xCanonicalText ? menu.ext.xCanonicalText : ""
                 // icons
                 avatar: menu && menu.ext.icon !== undefined ? menu.ext.icon : "qrc:/indicators/artwork/messaging/default_contact.png"
@@ -72,7 +71,7 @@ Indicators.BaseMenuItem {
 
                 // text
                 title: menu && menu.label ? menu.label : ""
-                time: menu ? Utils.formatDate(menu.ext.xCanonicalTime) : ""
+                time: menu ? menu.ext.xCanonicalTime : 0
                 message: menu && menu.ext.xCanonicalText ? menu.ext.xCanonicalText : ""
                 replyButtonText: actionsDescription && actionsDescription[0].label ? actionsDescription[0].label : "Send"
                 // icons
@@ -112,7 +111,7 @@ Indicators.BaseMenuItem {
 
                 // text
                 title: menu && menu.label ? menu.label : ""
-                time: menu ? Utils.formatDate(menu.ext.xCanonicalTime) : ""
+                time: menu ? menu.ext.xCanonicalTime : ""
                 message: menu && menu.ext.xCanonicalText ? menu.ext.xCanonicalText : ""
                 actionButtonText: actionsDescription && actionsDescription[0].label ?  actionsDescription[0].label : "Call back"
                 replyButtonText: actionsDescription && actionsDescription[1].label ? actionsDescription[1].label : "Send"

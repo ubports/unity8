@@ -17,7 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 
-Rectangle {
+Item {
     id: root
 
     property int keyboardSize: Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.height : 0
@@ -36,7 +36,6 @@ Rectangle {
     readonly property int columnWidth: narrowMode ? contentRow.width : (contentRow.width / 3) - contentRow.spacing
     readonly property int contentSpacing: units.gu(3)
 
-    color: Qt.rgba(0, 0, 0, .3)
     clip: true
 
     function ensureVisible(item) {
@@ -60,7 +59,6 @@ Rectangle {
     MouseArea {
         anchors.fill: parent
     }
-
 
     Row {
         id: contentRow
