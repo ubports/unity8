@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-11-05 17:53+0100\n"
+"POT-Creation-Date: 2013-11-12 16:10+0100\n"
 "PO-Revision-Date: 2013-10-02 10:55+0000\n"
 "Last-Translator: Damir Jerovšek <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
 "n%100==4 ? 3 : 0);\n"
-"X-Launchpad-Export-Date: 2013-11-08 06:38+0000\n"
-"X-Generator: Launchpad (build 16820)\n"
+"X-Launchpad-Export-Date: 2013-11-19 05:59+0000\n"
+"X-Generator: Launchpad (build 16831)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -87,7 +87,7 @@ msgstr "Wikipedija"
 msgid "YouTube"
 msgstr "YouTube"
 
-#: Components/EdgeDemoOverlay.qml:149
+#: Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
 msgstr "Preskoči uvod"
 
@@ -137,7 +137,7 @@ msgstr ""
 "Sedaj ste osvojili poteze robov ter lahko začnete uporabljati "
 "telefon<br><br>Tapnite kjerkoli na začetek"
 
-#: Components/PageHeader.qml:341
+#: Components/PageHeader.qml:345
 msgid "Recent searches"
 msgstr "Nedavna iskanja"
 
@@ -159,7 +159,7 @@ msgstr[1] "%1 ocena"
 msgstr[2] "%1 oceni"
 msgstr[3] "%1 ocene"
 
-#: Dash/Apps/AppPreview.qml:126
+#: Dash/Apps/AppPreview.qml:135
 msgid "Rate this"
 msgstr "Ocenite"
 
@@ -179,7 +179,7 @@ msgstr "Pošlji"
 msgid "Comments:"
 msgstr "Opombe:"
 
-#: Greeter/Lockscreen.qml:142
+#: Greeter/Lockscreen.qml:146
 msgid "Emergency Call"
 msgstr "Klic v sili"
 
@@ -220,6 +220,15 @@ msgstr ""
 msgid "Search"
 msgstr "Iskanje"
 
+#: plugins/Unity/Launcher/launcheritem.cpp:43
+#: plugins/Unity/Launcher/launcheritem.cpp:73
+msgid "Lock to Launcher"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:73
+msgid "Unlock from Launcher"
+msgstr ""
+
 #: plugins/Unity/scope.cpp:408
 msgid "Sorry, there is nothing that matches your search."
 msgstr "Nič se ne ujema z vašim iskalnim nizom."
@@ -228,7 +237,7 @@ msgstr "Nič se ne ujema z vašim iskalnim nizom."
 msgid "All"
 msgstr "Vse"
 
-#: Shell.qml:438
+#: Shell.qml:441
 #, qt-format
 msgid "Please enter %1"
 msgstr "Vnesite %1"

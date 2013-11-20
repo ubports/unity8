@@ -32,6 +32,7 @@
 #include <QByteArray>
 #include <QImage>
 #include <QUrl>
+#include <QUrlQuery>
 
 using namespace std;
 
@@ -65,6 +66,9 @@ AlbumArtProvider::~AlbumArtProvider()
 std::string AlbumArtProvider::get_lastfm_url(const albuminfo &ai) {
     QString artist = QString::fromStdString(ai.artist);
     QString album = QString::fromStdString(ai.album);
+    // audioscrobbler wants it without any / (as it would break the URL)
+    artist.remove('/');
+    album.remove('/');
 
     /// @todo: this is the old API which will probably get axed at some point in the future
     ///        The new 2.0 API requires an API key, but supports JSON output, etc, so switching
@@ -200,21 +204,20 @@ std::string AlbumArtProvider::get_image(const std::string &artist, const std::st
 QImage AlbumArtProvider::requestImage(const QString &id, QSize *realSize, const QSize &requestedSize) {
     Q_UNUSED(requestedSize)
 
-    const QStringList parts = id.split("/");
-    if (parts.size() != 2) {
+    QUrlQuery query(id);
+    if (!query.hasQueryItem(QStringLiteral("artist")) || !query.hasQueryItem(QStringLiteral("album"))) {
         qWarning() << "Invalid albumart uri:" << id;
         return QImage(QString::fromStdString(DEFAULT_ALBUM_ART));
     }
-    const std::string artist = QUrl::fromPercentEncoding(parts[0].toUtf8()).toStdString();
-    const std::string album = QUrl::fromPercentEncoding(parts[1].toUtf8()).toStdString();
+    const QString artist = query.queryItemValue(QStringLiteral("artist"), QUrl::FullyEncoded);
+    const QString album = query.queryItemValue(QStringLiteral("album"), QUrl::FullyEncoded);
 
     std::string tgt_path;
     try {
-        tgt_path = get_image(artist, album);
+        tgt_path = get_image(artist.toStdString(), album.toStdString());
         if(!tgt_path.empty()) {
-            QString tgt(tgt_path.c_str());
             QImage image;
-            image.load(tgt);
+            image.load(QString::fromStdString(tgt_path));
             // FIXME: Rescale to requested size preserving aspect.
             *realSize = image.size();
             return image;
