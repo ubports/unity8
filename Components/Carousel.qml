@@ -335,7 +335,6 @@ Item {
                 onPressAndHold: {
                     listView.itemPressAndHold(index, item)
                 }
-
             }
         }
     }

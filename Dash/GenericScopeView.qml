@@ -95,7 +95,7 @@ ScopeView {
                     right: parent.right
                 }
 
-                source: getRenderer(model.renderer, model.contentType, model.rendererHint)
+                source: getRenderer(model.renderer, model.contentType, model.rendererHint, results)
 
                 onLoaded: {
                     if (item.enableHeightBehavior !== undefined && item.enableHeightBehaviorOnNextCreation !== undefined) {
@@ -146,8 +146,8 @@ ScopeView {
                         } else {
                             previewListView.open = true
 
-                            scopeView.scope.preview( item.uri, item.icon, item.category, 0, item.mimetype, item.title,
-                                                     item.comment, item.dndUri, item.metadata)
+                            scopeView.scope.preview(item.uri, item.icon, item.category, 0, item.mimetype, item.title,
+                                                    item.comment, item.dndUri, item.metadata)
                         }
                     }
                     onPressAndHold: {
@@ -160,7 +160,7 @@ ScopeView {
                         previewListView.open = true
 
                         var item = model.get(index)
-                        scopeView.scope.preview( item.uri, item.icon, item.category, 0, item.mimetype, item.title,
+                        scopeView.scope.preview(item.uri, item.icon, item.category, 0, item.mimetype, item.title,
                                                 item.comment, item.dndUri, item.metadata)
                     }
                 }
@@ -257,16 +257,21 @@ ScopeView {
         }
     }
 
-    function getRenderer(rendererId, contentType, rendererHint) {
+    function getRenderer(rendererId, contentType, rendererHint, results) {
         if (rendererId == "default") {
             rendererId = getDefaultRendererId(contentType);
+        }
+        if (rendererId == "carousel") {
+            // Selectively disable carousel, 6 is fixed for now, should change on the form factor
+            if (results.count <= 6)
+                rendererId = "grid"
         }
         switch (rendererId) {
             case "carousel": {
                 switch (contentType) {
-                    case "music": return "Music/MusicCarouselLoader.qml";
-                    case "video": return "Video/VideoCarouselLoader.qml";
-                    default: return "Generic/GenericCarouselLoader.qml";
+                    case "music": return "Music/MusicCarousel.qml";
+                    case "video": return "Video/VideoCarousel.qml";
+                    default: return "Generic/GenericCarousel.qml";
                 }
             }
             case "grid": {
