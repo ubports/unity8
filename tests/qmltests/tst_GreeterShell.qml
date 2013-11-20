@@ -68,11 +68,11 @@ Item {
         }
 
         function test_wallpaper(data) {
-            var backgroundImage = findChild(shell, "backgroundImage")
+            var greeterBackground = findChild(shell, "greeterBackground")
             GSettingsController.setPictureUri(data.gsettings)
             AccountsService.backgroundFile = data.accounts
-            verify(backgroundImage.source.toString().indexOf(data.expected) !== -1)
-            tryCompare(backgroundImage, "status", Image.Ready)
+            verify(greeterBackground.source.toString().indexOf(data.expected) !== -1)
+            tryCompare(greeterBackground, "status", Image.Ready)
         }
     }
 }

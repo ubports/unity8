@@ -20,10 +20,10 @@ import LightDM 0.1 as LightDM
 import Powerd 0.1
 import QtQuick 2.0
 import SessionBroadcast 0.1
+import Ubuntu.Components 0.1
 import Unity.Application 0.1
 import Unity.Launcher 0.1
 import "Components"
-import "Components/Math.js" as MathLocal
 import "Greeter"
 import "Launcher"
 import "Panel"
@@ -45,6 +45,8 @@ BasicShell {
 
     Lockscreen {
         id: lockscreen
+        objectName: "lockscreen"
+
         hides: [launcher, panel.indicators]
         shown: false
         enabled: true
@@ -142,7 +144,7 @@ BasicShell {
         id: greeterRevealer
         objectName: "greeterRevealer"
 
-        property real animatedProgress: MathLocal.clamp(-dragPosition / closedValue, 0, 1)
+        property real animatedProgress: MathUtils.clamp(-dragPosition / closedValue, 0, 1)
         target: greeter
         width: greeter.width
         height: greeter.height

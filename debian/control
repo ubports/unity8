@@ -103,7 +103,7 @@ Description: Ubuntu QML greeter
 Package: unity8-autopilot
 Architecture: all
 Depends: gir1.2-glib-2.0,
-         libautopilot-qt,
+         libautopilot-qt (>= 1.4),
          libqt5test5,
          libqt5widgets5,
          python-evdev,

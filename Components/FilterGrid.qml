@@ -54,6 +54,7 @@ Item {
     property alias delegateWidth: iconTileGrid.delegateWidth
     property alias delegateHeight: iconTileGrid.delegateHeight
     property alias verticalSpacing: iconTileGrid.verticalSpacing
+    readonly property alias margins: iconTileGrid.margins
     property alias delegate: iconTileGrid.delegate
     property alias cellWidth: iconTileGrid.cellWidth
     property alias cellHeight: iconTileGrid.cellHeight
@@ -62,6 +63,8 @@ Item {
     readonly property alias flicking: iconTileGrid.flicking
     readonly property alias moving: iconTileGrid.moving
     readonly property alias pressDelay: iconTileGrid.pressDelay
+    property alias highlightIndex: iconTileGrid.highlightIndex
+    readonly property alias currentItem: iconTileGrid.currentItem
 
     height: !filterAnimation.running ? childrenRect.height : height
     clip: filterAnimation.running

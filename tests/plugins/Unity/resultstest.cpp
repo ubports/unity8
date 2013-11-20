@@ -143,7 +143,7 @@ void ResultsTest::testSpecialIcons_data()
     g_variant_builder_init(&builder, G_VARIANT_TYPE_VARDICT);
     g_variant_builder_add(&builder, "{sv}", "content", g_variant_builder_end(&inner_builder));
 
-    QTest::newRow("simple") << "file:///foo.mp3" << GVariantWrapper(g_variant_builder_end(&builder)) << "image://albumart/U2/War";
+    QTest::newRow("simple") << "file:///foo.mp3" << GVariantWrapper(g_variant_builder_end(&builder)) << "image://albumart/artist=U2&album=War";
 
     g_variant_builder_init(&inner_builder, G_VARIANT_TYPE_VARDICT);
     g_variant_builder_add(&inner_builder, "{sv}", "artist", g_variant_new_string("U2"));
@@ -153,7 +153,7 @@ void ResultsTest::testSpecialIcons_data()
     g_variant_builder_init(&builder, G_VARIANT_TYPE_VARDICT);
     g_variant_builder_add(&builder, "{sv}", "content", inner);
 
-    QTest::newRow("with-slash") << "file:///foo.mp3" << GVariantWrapper(g_variant_builder_end(&builder)) << "image://albumart/U2/War%2FJoshua%20tree";
+    QTest::newRow("with-slash") << "file:///foo.mp3" << GVariantWrapper(g_variant_builder_end(&builder)) << "image://albumart/artist=U2&album=War/Joshua tree";
 
     g_variant_builder_init(&inner_builder, G_VARIANT_TYPE_VARDICT);
     g_variant_builder_add(&inner_builder, "{sv}", "artist", g_variant_new_string("U2"));
@@ -166,7 +166,7 @@ void ResultsTest::testSpecialIcons_data()
     g_variant_builder_init(&builder, G_VARIANT_TYPE_VARDICT);
     g_variant_builder_add(&builder, "{sv}", "content", g_variant_builder_end(&inner_builder));
 
-    QTest::newRow("nested") << "file:///foo.mp3" << GVariantWrapper(g_variant_builder_end(&builder)) << "image://albumart/U2/War";
+    QTest::newRow("nested") << "file:///foo.mp3" << GVariantWrapper(g_variant_builder_end(&builder)) << "image://albumart/artist=U2&album=War";
 }
 
 void ResultsTest::testSpecialIcons()

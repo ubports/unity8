@@ -53,13 +53,6 @@ Showable {
         pinPadLoader.resetting = false;
     }
 
-    Image {
-        id: wallpaper
-        anchors.fill: parent
-        source: root.required ? root.background : ""
-        fillMode: Image.PreserveAspectCrop
-    }
-
     MouseArea {
         anchors.fill: root
     }
