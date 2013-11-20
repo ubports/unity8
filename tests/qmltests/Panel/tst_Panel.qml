@@ -48,10 +48,12 @@ Item {
 
         function get_window_data() {
             return [
-            {tag: "pinned", fullscreenFlag: false },
-            {tag: "fullscreen", fullscreenFlag: true }
-        ]}
-
+                {tag: "pinned", fullscreenFlag: false, alreadyOpen: false },
+                {tag: "fullscreen", fullscreenFlag: true, alreadyOpen: false },
+                {tag: "pinned-alreadyOpen", fullscreenFlag: false, alreadyOpen: true },
+                {tag: "fullscreen-alreadyOpen", fullscreenFlag: true, alreadyOpen: true }
+            ];
+        }
 
         function init() {
             searchClicked = false;
@@ -135,6 +137,10 @@ Item {
         // expose more of the panel, binding it to the selected indicator and opening it's menu.
         function test_drag_show(data) {
             panel.fullscreenMode = data.fullscreenFlag;
+            if (data.alreadyOpen) {
+                panel.indicators.show();
+                tryCompare(panel.indicators, "fullyOpened", true);
+            }
 
             var indicatorRow = findChild(panel.indicators, "indicatorRow");
             verify(indicatorRow != undefined);
@@ -186,7 +192,9 @@ Item {
                 compare(menuContent.currentMenuIndex, i, "Menu conetent should be enabled for item at position " + i);
 
                 // init for next indicatorItem
-                init();
+                if (!data.alreadyOpen) {
+                    init();
+                }
             }
         }
 

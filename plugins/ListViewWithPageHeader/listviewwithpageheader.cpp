@@ -155,6 +155,7 @@ ListViewWithPageHeader::ListViewWithPageHeader()
  , m_topSectionItem(nullptr)
  , m_forceNoClip(false)
  , m_inLayout(false)
+ , m_inContentHeightKeepHeaderShown(false)
 {
     m_clipItem = new QQuickItem(contentItem());
 //     m_clipItem = new QQuickRectangle(contentItem());
@@ -286,10 +287,12 @@ void ListViewWithPageHeader::setSectionDelegate(QQmlComponent *delegate)
         m_topSectionItem = getSectionItem(QString());
         m_topSectionItem->setZ(3);
         QQuickItemPrivate::get(m_topSectionItem)->setCulled(true);
+        connect(m_topSectionItem, SIGNAL(heightChanged()), SIGNAL(stickyHeaderHeightChanged()));
 
         // TODO create sections for existing items
 
         Q_EMIT sectionDelegateChanged();
+        Q_EMIT stickyHeaderHeightChanged();
     }
 }
 
@@ -323,6 +326,11 @@ void ListViewWithPageHeader::setForceNoClip(bool noClip)
         updateClipItem();
         Q_EMIT forceNoClipChanged();
     }
+}
+
+int ListViewWithPageHeader::stickyHeaderHeight() const
+{
+    return m_topSectionItem ? m_topSectionItem->height() : 0;
 }
 
 void ListViewWithPageHeader::positionAtBeginning()
@@ -476,7 +484,7 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
     qreal diff = m_previousContentY - contentY();
     const bool showHeaderAnimationRunning = m_contentYAnimation->isRunning() && contentYAnimationType == ContentYAnimationShowHeader;
     if (m_headerItem) {
-        auto oldHeaderItemShownHeight = m_headerItemShownHeight;
+        const auto oldHeaderItemShownHeight = m_headerItemShownHeight;
         if (contentY() < -m_minYExtent) {
             // Stick the header item to the top when dragging down
             m_headerItem->setY(contentY());
@@ -491,10 +499,10 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
             const bool notShownByItsOwn = contentY() + diff >= m_headerItem->y() + m_headerItem->height();
             const bool maximizeVisibleAreaRunning = m_contentYAnimation->isRunning() && contentYAnimationType == ContentYAnimationMaximizeVisibleArea;
 
-            if (!scrolledUp && contentY() == -m_minYExtent) {
+            if (!scrolledUp && (contentY() == -m_minYExtent || (m_headerItemShownHeight == 0 && m_previousContentY == m_headerItem->y()))) {
                 m_headerItemShownHeight = 0;
-                m_headerItem->setY(contentY());
-            } else if ((scrolledUp && notRebounding && notShownByItsOwn && !maximizeVisibleAreaRunning) || (m_headerItemShownHeight > 0)) {
+                m_headerItem->setY(-m_minYExtent);
+            } else if ((scrolledUp && notRebounding && notShownByItsOwn && !maximizeVisibleAreaRunning) || (m_headerItemShownHeight > 0) || m_inContentHeightKeepHeaderShown) {
                 if (maximizeVisibleAreaRunning && diff > 0) // If we are maximizing and the header was shown, make sure we hide it
                     m_headerItemShownHeight -= diff;
                 else
@@ -980,7 +988,6 @@ void ListViewWithPageHeader::onModelUpdated(const QQmlChangeSet &changeSet, bool
                 if (growUp) {
                     ListItem *firstItem = m_visibleItems.first();
                     firstItem->setY(firstItem->y() - item->height());
-                    adjustMinYExtent();
                 }
                 // Adding an item may break a "same section" chain, so check
                 // if we need adding a new section item
@@ -991,7 +998,6 @@ void ListViewWithPageHeader::onModelUpdated(const QQmlChangeSet &changeSet, bool
                         if (growUp && nextItem->m_sectionItem) {
                             ListItem *firstItem = m_visibleItems.first();
                             firstItem->setY(firstItem->y() - nextItem->m_sectionItem->height());
-                            adjustMinYExtent();
                         }
                     }
                 }
@@ -1000,6 +1006,7 @@ void ListViewWithPageHeader::onModelUpdated(const QQmlChangeSet &changeSet, bool
                 ListItem *firstItem = m_visibleItems.first();
                 firstItem->setY(oldFirstValidIndexPos);
             }
+            adjustMinYExtent();
         } else if (insert.index <= m_firstVisibleIndex) {
             m_firstVisibleIndex += insert.count;
         }
@@ -1267,7 +1274,9 @@ void ListViewWithPageHeader::updatePolish()
 
         m_contentHeightDirty = false;
         adjustMinYExtent();
+        m_inContentHeightKeepHeaderShown = m_headerItem && m_headerItem->y() == contentY();
         setContentHeight(contentHeight);
+        m_inContentHeightKeepHeaderShown = false;
     }
 }
 

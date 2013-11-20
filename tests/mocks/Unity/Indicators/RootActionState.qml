@@ -20,14 +20,22 @@
 import QtQuick 2.0
 
 QtObject {
-  property var menu
-  property bool valid: false
-  property string title
-  property string leftLabel
-  property string rightLabel
-  property var icons
-  property string accessibleName
-  property bool visible: true
+    property var menu
+    property bool valid: false
+    property string title
+    property string leftLabel
+    property string rightLabel
+    property var icons
+    property string accessibleName
+    property bool visible: true
 
-  signal updated
+    signal updated
+
+    onValidChanged: updated()
+    onTitleChanged: updated()
+    onLeftLabelChanged: updated()
+    onRightLabelChanged: updated()
+    onIconsChanged: updated()
+    onAccessibleNameChanged: updated()
+    onVisibleChanged: updated()
 }

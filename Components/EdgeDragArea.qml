@@ -29,8 +29,16 @@ DirectionalDragArea {
     //
     // The idea here is that it's better having lax rules than false negatives.
     // False negatives are very frustrating to the user.
-    maxDeviation: units.gu(3)
-    wideningAngle: 50
-    distanceThreshold: units.gu(1.5)
-    minSpeed: units.gu(0) // some people were getting false negatives with it enabled.
+    maxDeviation: defaultMaxDeviation
+    wideningAngle: defaultWideningAngle
+    distanceThreshold: defaultDistanceThreshold
+    minSpeed: defaultMinSpeed
+    maxSilenceTime: defaultMaxSilenceTime
+
+    readonly property real defaultMaxDeviation: units.gu(3)
+    readonly property real defaultWideningAngle: 50
+    readonly property real defaultDistanceThreshold: units.gu(1.5)
+    // some people were getting false negatives with it enabled.
+    readonly property real defaultMinSpeed: units.gu(0)
+    readonly property int defaultMaxSilenceTime: 200
 }

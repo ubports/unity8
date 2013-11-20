@@ -32,13 +32,10 @@ Item {
         y: root.height
 
         function followDragArea() {
-            if (dragArea.status === DirectionalDragArea.Rejected)
-                return root.height
-            else
-                return dragArea.distance > -height ?
-                            root.height + dragArea.distance
-                        :
-                            root.height - height
+            return dragArea.distance > -height ?
+                        root.height + dragArea.distance
+                    :
+                        root.height - height
         }
     }
 
@@ -69,14 +66,9 @@ Item {
                     dragAreaRect.opacity = 0.3
                     launcher.y = Qt.binding(launcher.followDragArea)
                     break;
-                case DirectionalDragArea.Recognized:
+                default: //case DirectionalDragArea.Recognized:
                     dragAreaRect.color = "green"
                     dragAreaRect.opacity = 0.5
-                    break;
-                default: //case DirectionalDragArea.Rejected:
-                    dragAreaRect.color = "red"
-                    dragAreaRect.opacity = 0.5
-                    launcher.y = -launcher.height
                     break;
             }
         }
