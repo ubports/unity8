@@ -52,7 +52,7 @@ def unlock_unity():
         main_window = MainWindow(unity)
 
         greeter = main_window.get_greeter()
-        if greeter.created == False:
+        if greeter is None:
             raise RuntimeWarning("Greeter appears to be already unlocked.")
         greeter.swipe()
     except ProcessSearchError as e:
