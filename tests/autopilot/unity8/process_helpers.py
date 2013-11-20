@@ -67,7 +67,7 @@ def unlock_unity(unity_proxy_obj=None):
         main_window = MainWindow(unity_proxy_obj)
 
     greeter = main_window.get_greeter()
-    if greeter is None:
+    if greeter.created == False:
         raise RuntimeWarning("Greeter appears to be already unlocked.")
     greeter.swipe()
 
