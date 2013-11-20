@@ -42,7 +42,7 @@ Item {
 
         busName: "com.canonical.indicator.datetime"
         actionsObjectPath: "/com/canonical/indicator/datetime"
-        menuObjectPath: clock.active ? "/com/canonical/indicator/datetime/phone" : ""
+        menuObjectPath: clock.active ? "/com/canonical/indicator/datetime/phone_greeter" : ""
 
         Indicators.RootActionState {
             menu: timeModel.model

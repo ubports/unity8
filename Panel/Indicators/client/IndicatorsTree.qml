@@ -30,7 +30,7 @@ Page {
     property string busName: unityModel.busName
     property string actionsObjectPath
     property var menuObjectPaths: undefined
-    readonly property string device: "phone"
+    readonly property string device: unity8IndicatorMode
 
     property string deviceMenuObjectPath: menuObjectPaths.hasOwnProperty(device) ? menuObjectPaths[device] : ""
 

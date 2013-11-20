@@ -128,6 +128,7 @@ int startShell(int argc, const char** argv, void* server)
     view->setTitle("Qml Phone Shell");
     view->engine()->setBaseUrl(QUrl::fromLocalFile(::shellAppDirectory()));
     view->rootContext()->setContextProperty("applicationArguments", &qmlArgs);
+    view->rootContext()->setContextProperty("unity8IndicatorMode", INDICATOR_MODE);
     if (args.contains(QLatin1String("-frameless"))) {
         view->setFlags(Qt::FramelessWindowHint);
     }
