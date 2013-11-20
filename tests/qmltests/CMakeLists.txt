@@ -15,7 +15,6 @@ add_qml_test(Components AnimationControllerWithSignals)
 add_qml_test(Components Carousel)
 add_qml_test(Components OpenEffect)
 add_qml_test(Components RatingStars)
-add_qml_test(Components TimeLocal)
 add_qml_test(Panel IndicatorItem)
 add_qml_test(utils/Unity/Test UnityTest)
 
