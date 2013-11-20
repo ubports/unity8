@@ -1589,6 +1589,28 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
     }
 
+    void testMaximizeVisibleAreaTopWithHalfPageHeaderUpDown()
+    {
+        testMaximizeVisibleAreaTopWithHalfPageHeader();
+
+        changeContentY(-60);
+        changeContentY(15);
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, -140., 150., false);
+        verifyItem(1, 10., 200., false);
+        verifyItem(2, 210, 350., false);
+        verifyItem(3, 560, 350., true);
+        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_clipItem->y(), 190.);
+        QCOMPARE(lvwph->m_clipItem->clip(), true);
+        QCOMPARE(lvwph->m_headerItem->y(), 140.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 155.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 35.);
+    }
+
     void testMaximizeVisibleAreaBottomWithHalfPageHeader()
     {
         changeContentY(430);
