@@ -22,15 +22,16 @@ Item {
     property bool shaped
 
     UbuntuShape {
+        objectName: "shapedIcon"
         anchors.fill: parent
         visible: shaped
-        image: Image {
-            source: fileSource
-            fillMode: Image.PreserveAspectCrop
-        }
+        image: realImage
     }
 
     Image {
+        id: realImage
+
+        objectName: "nonShapedIcon"
         anchors.fill: parent
         visible: !shaped
         source: fileSource
