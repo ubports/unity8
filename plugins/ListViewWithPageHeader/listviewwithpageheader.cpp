@@ -479,6 +479,12 @@ void ListViewWithPageHeader::componentComplete()
 
 void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
 {
+    // Check we are not being taken down and don't paint anything
+    // TODO Check if we still need this in 5.2
+    // For reproduction just inifnite loop testDash or testDashContent
+    if (!QQmlEngine::contextForObject(this)->parentContext())
+        return;
+
     QQuickFlickable::viewportMoved(orient);
 //     qDebug() << "ListViewWithPageHeader::viewportMoved" << contentY();
     qreal diff = m_previousContentY - contentY();
@@ -855,6 +861,11 @@ void ListViewWithPageHeader::itemCreated(int modelIndex, QObject *object)
     }
 #endif
 //     qDebug() << "ListViewWithPageHeader::itemCreated" << modelIndex << item;
+    // Check we are not being taken down and don't paint anything
+    // TODO Check if we still need this in 5.2
+    // For reproduction just inifnite loop testDash or testDashContent
+    if (!QQmlEngine::contextForObject(this)->parentContext())
+        return;
 
     item->setParentItem(m_clipItem);
     QQmlContext *context = QQmlEngine::contextForObject(item)->parentContext();
@@ -1235,6 +1246,12 @@ void ListViewWithPageHeader::layout()
 
 void ListViewWithPageHeader::updatePolish()
 {
+    // Check we are not being taken down and don't paint anything
+    // TODO Check if we still need this in 5.2
+    // For reproduction just inifnite loop testDash or testDashContent
+    if (!QQmlEngine::contextForObject(this)->parentContext())
+        return;
+
     Q_FOREACH(ListItem *item, m_itemsToRelease)
         reallyReleaseItem(item);
     m_itemsToRelease.clear();

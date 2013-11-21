@@ -125,13 +125,6 @@ Item {
 
             var dashContentList = findChild(dashContent, "dashContentList");
             verify(dashContentList != undefined);
-            // TODO For Qt 5.2 remove this wait
-            // and the tryCompare and see if it still crashes when
-            // looping the test
-            wait(1000);
-            if (dashContentList.currentItem !== null) {
-                tryCompare(dashContentList.currentItem, "moving", false);
-            }
             scopesModel.clear();
             // wait for dash to empty scopes.
             tryCompare(dashContentList, "count", 0);
