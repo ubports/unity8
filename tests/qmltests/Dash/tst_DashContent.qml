@@ -242,18 +242,27 @@ Item {
             tryCompare(scopesModel.get(2), "isActive", data.active2);
         }
 
+        function checkFlickMovingAndNotInteractive()
+        {
+            var dashContentList = findChild(dashContent, "dashContentList");
+
+            if (dashContentList.currentItem.moving && !dashContentList.interactive)
+                return true;
+
+            var startX = dashContentList.width/2;
+            var startY = dashContentList.height/2;
+            touchFlick(dashContentList, startX, startY, startX, startY - units.gu(40));
+
+            return dashContentList.currentItem.moving && !dashContentList.interactive;
+        }
+
+
         function test_hswipe_disabled_vswipe() {
             var dashContentList = findChild(dashContent, "dashContentList");
 
             tryCompare(dashContentList, "interactive", true);
 
-            var startX = dashContentList.width/2;
-            var startY = dashContentList.height/2;
-            touchFlick(dashContentList, startX, startY, startX, startY - units.gu(80));
-
-            tryCompare(dashContentList.currentItem, "moving", true);
-
-            compare(dashContentList.interactive, false);
+            tryCompareFunction(checkFlickMovingAndNotInteractive, true);
         }
     }
 }
