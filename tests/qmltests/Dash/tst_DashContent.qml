@@ -26,8 +26,6 @@ Item {
     width: units.gu(40)
     height: units.gu(80)
 
-    property ListModel searchHistory: ListModel {}
-
     Item {
         // Fake. Make a few components less noisy
         id: greeter
@@ -60,6 +58,7 @@ Item {
         scopes : scopesModel
 
         scopeMapper : scopeDelegateMapper
+        searchHistory: ListModel {}
     }
 
     ScopeDelegateMapper {
