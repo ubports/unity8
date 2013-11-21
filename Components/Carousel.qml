@@ -65,6 +65,7 @@ Item {
     signal pressAndHold(int index, var model, real itemY)
 
     implicitHeight: listView.tileHeight * selectedItemScaleFactor
+    opacity: listView.highlightIndex === -1 ? 1 : 0.6
 
     /* Basic idea behind the carousel effect is to move the items of the delegates (compacting /stuffing them).
        One drawback is, that more delegates have to be drawn than usually. As some items are moved from the
@@ -77,11 +78,11 @@ Item {
     ListView {
         id: listView
 
+        property int highlightIndex: -1
         property real minimumTileWidth: 0
         property real newContentX: disabledNewContentX
         property real pathItemCount: referenceWidth / referenceTileWidth
         property real tileAspectRatio: 1
-        property int highlightIndex: -1
 
         /* The positioning and scaling of the items in the carousel is based on the variable
            'continuousIndex', a continuous real variable between [0, 'carousel.model.count'],
@@ -295,7 +296,6 @@ Item {
             scale: itemScale * explicitScaleFactor
             sourceComponent: itemComponent
             z: cachedTiles - Math.abs(index - listView.selectedIndex)
-            opacity: highlightIndex == -1 ? 1 : (highlightIndex == index ? 0.6 : 0.2)
 
             transform: Translate {
                 x: xTransform
