@@ -414,7 +414,7 @@ FocusScope {
         height: parent.height - panel.panelHeight
         background: shell.background
 
-        onUnlocked: lockscreen.hide()
+        onEntered: LightDM.Greeter.respond(passphrase);
         onCancel: greeter.show()
 
         Component.onCompleted: {
@@ -438,6 +438,17 @@ FocusScope {
                 }
                 lockscreen.placeholderText = i18n.tr("Please enter %1").arg(text);
                 lockscreen.show();
+            }
+        }
+
+        onAuthenticationComplete: {
+            if (LightDM.Greeter.promptless) {
+                return;
+            }
+            if (LightDM.Greeter.authenticated) {
+                lockscreen.hide();
+            } else {
+                lockscreen.clear(true);
             }
         }
     }
