@@ -34,7 +34,6 @@ set(QMLPLUGIN_SRC
     radiooptionfilter.cpp
     ratingsfilter.cpp
     ratingfilteroption.cpp
-    bottombarvisibilitycommunicatorshell.cpp
     applicationpreview.cpp
     genericpreview.cpp
     moviepreview.cpp

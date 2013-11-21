@@ -17,8 +17,6 @@
  */
 
 // Qt
-#include <QDBusConnection>
-#include <QQmlContext>
 #include <qqml.h>
 
 // self
@@ -33,16 +31,12 @@
 #include "scopes.h"
 #include "categories.h"
 #include "categoryresults.h"
-#include "bottombarvisibilitycommunicatorshell.h"
 #include "genericoptionsmodel.h"
 #include "result.h"
 #include "musicpreviewtrackmodel.h"
 
 // libqtdee
 #include "deelistmodel.h"
-
-static const char* BOTTOM_BAR_VISIBILITY_COMMUNICATOR_DBUS_PATH = "/BottomBarVisibilityCommunicator";
-static const char* DBUS_SERVICE = "com.canonical.Shell.BottomBarVisibilityCommunicator";
 
 void UnityPlugin::registerTypes(const char *uri)
 {
@@ -58,7 +52,6 @@ void UnityPlugin::registerTypes(const char *uri)
     qmlRegisterType<Categories>(uri, 0, 1, "Categories");
     qmlRegisterUncreatableType<CategoryResults>(uri, 0, 1, "CategoryResults", "Can't create new Category Results in QML. Get them from Categories instance.");
     qmlRegisterType<DeeListModel>(uri, 0, 1, "DeeListModel");
-    qmlRegisterUncreatableType<BottomBarVisibilityCommunicatorShell>(uri, 0, 1, "BottomBarVisibilityCommunicatorShell", "Can't create BottomBarVisibilityCommunicatorShell");
     qmlRegisterType<MusicPreviewTrackModel>(uri, 0, 1, "MusicPreviewTrackModel");
 }
 
@@ -68,9 +61,4 @@ void UnityPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
 #ifndef GLIB_VERSION_2_36
     g_type_init();
 #endif
-
-    QDBusConnection::sessionBus().registerService(DBUS_SERVICE);
-    BottomBarVisibilityCommunicatorShell *bottomBarVisibilityCommunicator = &BottomBarVisibilityCommunicatorShell::instance();
-    QDBusConnection::sessionBus().registerObject(BOTTOM_BAR_VISIBILITY_COMMUNICATOR_DBUS_PATH, bottomBarVisibilityCommunicator, QDBusConnection::ExportAllContents);
-    engine->rootContext()->setContextProperty("bottomBarVisibilityCommunicatorShell", bottomBarVisibilityCommunicator);
 }

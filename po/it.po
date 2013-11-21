@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-11-05 17:53+0100\n"
+"POT-Creation-Date: 2013-11-12 16:10+0100\n"
 "PO-Revision-Date: 2013-10-07 09:34+0000\n"
 "Last-Translator: Claudio Arseni <claudio.arseni@gmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-11-08 06:37+0000\n"
-"X-Generator: Launchpad (build 16820)\n"
+"X-Launchpad-Export-Date: 2013-11-19 05:59+0000\n"
+"X-Generator: Launchpad (build 16831)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -86,7 +86,7 @@ msgstr "Wikipedia"
 msgid "YouTube"
 msgstr "YouTube"
 
-#: Components/EdgeDemoOverlay.qml:149
+#: Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
 msgstr "Salta introduzione"
 
@@ -139,7 +139,7 @@ msgstr ""
 "I gesti sui bordi sono stati configurati ed è possibile iniziare a usare il "
 "telefono<br><br>Toccare in un punto qualunque per iniziare"
 
-#: Components/PageHeader.qml:341
+#: Components/PageHeader.qml:345
 msgid "Recent searches"
 msgstr "Ricerche recenti"
 
@@ -159,7 +159,7 @@ msgid_plural "%1 reviews"
 msgstr[0] "%1 recensione"
 msgstr[1] "%1 recensioni"
 
-#: Dash/Apps/AppPreview.qml:126
+#: Dash/Apps/AppPreview.qml:135
 msgid "Rate this"
 msgstr "Valuta"
 
@@ -179,7 +179,7 @@ msgstr "Invia"
 msgid "Comments:"
 msgstr "Commenti:"
 
-#: Greeter/Lockscreen.qml:142
+#: Greeter/Lockscreen.qml:146
 msgid "Emergency Call"
 msgstr "Chiamata di emergenza"
 
@@ -220,6 +220,15 @@ msgstr ""
 msgid "Search"
 msgstr "Cerca"
 
+#: plugins/Unity/Launcher/launcheritem.cpp:43
+#: plugins/Unity/Launcher/launcheritem.cpp:73
+msgid "Lock to Launcher"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:73
+msgid "Unlock from Launcher"
+msgstr ""
+
 #: plugins/Unity/scope.cpp:408
 msgid "Sorry, there is nothing that matches your search."
 msgstr "Nessun risultato corrispondente alla ricerca."
@@ -228,7 +237,7 @@ msgstr "Nessun risultato corrispondente alla ricerca."
 msgid "All"
 msgstr "Tutto"
 
-#: Shell.qml:438
+#: Shell.qml:441
 #, qt-format
 msgid "Please enter %1"
 msgstr "Inserire %1"

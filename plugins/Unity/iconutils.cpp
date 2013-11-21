@@ -17,11 +17,13 @@
  *  Michal Hruby <michal.hruby@canonical.com>
  */
 
-#include <QStringList>
-#include <QUrl>
+#include "iconutils.h"
 
 #include <gio/gio.h>
-#include "iconutils.h"
+
+#include <QStringList>
+#include <QUrl>
+#include <QUrlQuery>
 
 #define BASE_THEME_ICON_URI "image://theme/"
 #define BASE_THUMBNAILER_URI "image://thumbnailer/"
@@ -104,13 +106,11 @@ QString uriToThumbnailerProviderString(QString const &uri, QString const &mimety
                 if (contentHash.contains("content")) { // nested content in Home?
                     contentHash = contentHash["content"].toHash();
                 }
-                if (contentHash.contains("album") &&
-                    contentHash.contains("artist")) {
-                    const QString album = contentHash["album"].toString();
-                    const QString artist = contentHash["artist"].toString();
-                    thumbnailerUri.append(QUrl::toPercentEncoding(artist));
-                    thumbnailerUri.append("/");
-                    thumbnailerUri.append(QUrl::toPercentEncoding(album));
+                if (contentHash.contains("album") && contentHash.contains("artist")) {
+                    QUrlQuery query;
+                    query.addQueryItem(QStringLiteral("artist"), contentHash["artist"].toString());
+                    query.addQueryItem(QStringLiteral("album"), contentHash["album"].toString());
+                    thumbnailerUri.append(query.toString());
                 }
             }
         } else {

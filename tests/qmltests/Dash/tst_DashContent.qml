@@ -28,6 +28,18 @@ Item {
 
     property ListModel searchHistory: ListModel {}
 
+    Item {
+        // Fake. Make a few components less noisy
+        id: greeter
+        signal shownChanged
+    }
+
+    Item {
+        // Fake. Make a few components less noisy
+        id: panel
+        signal searchClicked
+    }
+
     property var scopeStatus: {
         'MockScope1': { 'movementStarted': 0, 'positionedAtBeginning': 0 },
         'MockScope2': { 'movementStarted': 0, 'positionedAtBeginning': 0 },
@@ -111,10 +123,17 @@ Item {
             clear_scope_status();
             dashContent.visible = true;
 
-            scopesModel.clear();
-            // wait for dash to empty scopes.
             var dashContentList = findChild(dashContent, "dashContentList");
             verify(dashContentList != undefined);
+            // TODO For Qt 5.2 remove this wait
+            // and the tryCompare and see if it still crashes when
+            // looping the test
+            wait(1000);
+            if (dashContentList.currentItem !== null) {
+                tryCompare(dashContentList.currentItem, "moving", false);
+            }
+            scopesModel.clear();
+            // wait for dash to empty scopes.
             tryCompare(dashContentList, "count", 0);
         }
 
@@ -237,7 +256,7 @@ Item {
 
             var startX = dashContentList.width/2;
             var startY = dashContentList.height/2;
-            touchFlick(dashContentList, startX, startY, startX, startY - units.gu(800));
+            touchFlick(dashContentList, startX, startY, startX, startY - units.gu(80));
 
             tryCompare(dashContentList.currentItem, "moving", true);
 
