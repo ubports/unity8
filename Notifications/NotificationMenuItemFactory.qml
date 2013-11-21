@@ -98,7 +98,7 @@ Loader {
         Lockscreen {
             anchors.left: parent.left; anchors.right: parent.right
             height: units.gu(60)
-            skipBackground: true
+            background: shell.background
 
             onEntered: {
                 menuModel.changeState(menuIndex, passphrase);

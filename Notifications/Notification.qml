@@ -115,7 +115,7 @@ Item {
                 left: parent.left
                 right: parent.right
                 top: parent.top
-                margins: spacing
+                margins: fullscreen ? 0 : spacing
             }
 
             spacing: units.gu(1)
@@ -199,6 +199,8 @@ Item {
                 visible: count > 0
 
                 anchors.left: parent.left; anchors.right: parent.right
+                anchors.top: fullscreen ? parent.top : undefined
+                anchors.bottom: fullscreen ? parent.bottom : undefined
 
                 Repeater {
                     model: unityMenuModel
