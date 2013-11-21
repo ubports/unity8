@@ -398,10 +398,10 @@ ScopeView {
 
             if (!init && model !== undefined) {
                 var item = model.get(currentIndex)
-                scopeView.scope.preview( item.uri, item.icon, item.category, 0, item.mimetype, item.title, item.comment, item.dndUri, item.metadata)
+                scopeView.scope.preview(item.uri, item.icon, item.category, 0, item.mimetype, item.title, item.comment, item.dndUri, item.metadata)
             }
 
-            var itemY = categoryView.contentItem.mapFromItem(categoryDelegate.currentItem).y;
+            var itemY = categoryView.contentItem.mapFromItem(categoryDelegate.currentItem).y; //XXX not working fine with carousel, shift in y after first
             var newContentY = itemY - effect.positionPx - categoryDelegate.verticalSpacing;
             var effectAdjust = effect.positionPx;
             if (newContentY < 0) {
@@ -491,7 +491,7 @@ ScopeView {
             }
 
             function closePreviewSpinner() {
-                if(item) {
+                if (item) {
                     item.showProcessingAction = false;
                 }
             }

@@ -23,24 +23,30 @@ Item {
     // In case it can be expanded, should we filter it
     property bool filter: true
 
+    property int collapsedRowCount: 1
+
+    property int collapsedHeight: height
+
+    property int columns: 1
+
     // Index of the highlighted item
-    property int highlightIndex: 0
+    property int highlightIndex: -1
 
     property int margins: 0
+
+    property int uncollapsedHeight: height
+
+    property real delegateCreationBegin
+
+    property real delegateCreationEnd
+
+    property real verticalSpacing: 0
 
     // The current item of the renderer
     property var currentItem
 
     // The model to renderer
     property var model
-
-    property int collapsedHeight
-
-    property int uncollapsedHeight
-
-    property real delegateCreationBegin
-
-    property real delegateCreationEnd
 
     /// Emitted when the user clicked on an item
     /// @param index is the index of the clicked item

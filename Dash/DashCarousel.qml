@@ -27,11 +27,9 @@ DashRenderer {
     property alias selectedItemScaleFactor: carousel.selectedItemScaleFactor
     property alias tileAspectRatio: carousel.tileAspectRatio
 
-    collapsedHeight: carousel.height
     currentItem: carousel.currentItem
-    highlightIndex: carousel.highlightIndex
     height: carousel.implicitHeight + units.gu(6)
-    uncollapsedHeight: carousel.height
+    verticalSpacing: units.gu(3)
 
     Carousel {
         id: carousel
@@ -41,6 +39,7 @@ DashRenderer {
         selectedItemScaleFactor: 1.14
         cacheBuffer: 1404 // 18px * 13gu * 6
         model: dashCarousel.model
+        highlightIndex: dashCarousel.highlightIndex
 
         onClicked: dashCarousel.clicked(index, model, itemY)
         onPressAndHold: dashCarousel.pressAndHold(index, model, itemY)

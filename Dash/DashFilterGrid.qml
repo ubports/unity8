@@ -23,23 +23,23 @@ DashRenderer {
 
     property alias cellWidth: filterGrid.cellWidth
     property alias cellHeight: filterGrid.cellHeight
-    property alias columns: filterGrid.columns
     property alias delegate: filterGrid.delegate
     property alias delegateWidth: filterGrid.delegateWidth
     property alias delegateHeight: filterGrid.delegateHeight
     property alias maximumNumberOfColumns: filterGrid.maximumNumberOfColumns
     property alias minimumHorizontalSpacing: filterGrid.minimumHorizontalSpacing
-    property alias verticalSpacing: filterGrid.verticalSpacing
 
     collapsedHeight: filterGrid.collapsedHeight
+    collapsedRowCount: filterGrid.collapsedRowCount
+    columns: filterGrid.columns
     currentItem: filterGrid.currentItem
     expandable: filterGrid.expandable
     delegateCreationBegin: filterGrid.delegateCreationBegin
     delegateCreationEnd: filterGrid.delegateCreationEnd
-    highlightIndex: filterGrid.highlightIndex
     implicitHeight: filterGrid.implicitHeight
     margins: filterGrid.margins
     uncollapsedHeight: filterGrid.uncollapsedHeight
+    verticalSpacing: filterGrid.verticalSpacing
 
     function startFilterAnimation(filter) {
         filterGrid.startFilterAnimation(filter)
@@ -54,5 +54,6 @@ DashRenderer {
         verticalSpacing: units.gu(2)
         model: dashFilterGrid.model
         filter: dashFilterGrid.filter
+        highlightIndex: dashFilterGrid.highlightIndex
     }
 }
