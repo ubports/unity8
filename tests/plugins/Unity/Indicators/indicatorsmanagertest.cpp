@@ -80,9 +80,7 @@ private Q_SLOTS:
         QCOMPARE(props["busName"].toString(), QString("com.canonical.indicator.fake1"));
         QCOMPARE(props["actionsObjectPath"].toString(), QString("/com/canonical/indicator/fake1"));
 
-        QVariantMap objectPaths = props["menuObjectPaths"].toMap();
-        QCOMPARE(objectPaths["phone"].toString(), QString("/com/canonical/indicator/fake1/phone"));
-        QCOMPARE(objectPaths["desktop"].toString(), QString("/com/canonical/indicator/fake1/desktop"));
+        QCOMPARE(props["menuObjectPath"].toString(), QString("/com/canonical/indicator/fake1/phone"));
     }
 
     /*
