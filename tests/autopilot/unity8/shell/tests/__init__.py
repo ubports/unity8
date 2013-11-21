@@ -28,7 +28,6 @@ from autopilot.platform import model
 from autopilot.testcase import AutopilotTestCase
 from autopilot.matchers import Eventually
 from autopilot.input import Touch
-from autopilot.introspection import get_proxy_object_for_existing_process
 from autopilot.display import Display
 import logging
 import os.path
@@ -43,7 +42,7 @@ from unity8 import (
     get_default_extra_mock_libraries,
     get_data_dirs
 )
-from unity8.shell.emulators import UnityEmulatorBase
+from unity8.process_helpers import restart_unity_with_testability
 from unity8.shell.emulators.dash import Dash
 from unity8.shell.emulators.main_window import MainWindow
 
@@ -105,7 +104,7 @@ class UnityTestCase(AutopilotTestCase):
                                            ),
                                  "upstart")
                     )
-                )
+            )
             sys.exit(1)
 
         if "start/" in output:
@@ -303,32 +302,20 @@ class UnityTestCase(AutopilotTestCase):
 
         binary_arg = "BINARY=%s" % binary_path
         extra_args = "ARGS=%s" % " ".join(args)
-
-        output = subprocess.check_output(
-            [
-                "/sbin/initctl",
-                "start",
-                "unity8",
-                binary_arg,
-                extra_args,
-            ] + ["%s=%s" % (k, v) for k, v in self._environment.iteritems()],
-            stderr=subprocess.STDOUT,
-        )
+        env_args = ["%s=%s" % (k, v) for k, v in self._environment.iteritems()]
+        all_args = [binary_arg, extra_args] + env_args
 
         self.addCleanup(self._cleanup_launching_upstart_unity)
 
-        pid = int(output.split()[-1])
-
-        return get_proxy_object_for_existing_process(
-            pid=pid,
-            emulator_base=UnityEmulatorBase,
-        )
+        return restart_unity_with_testability(*all_args)
 
     def _cleanup_launching_upstart_unity(self):
         logger.info("Stopping unity")
         try:
             subprocess.check_output(
-                ["/sbin/initctl", "stop", "unity8"], stderr=subprocess.STDOUT)
+                ["/sbin/initctl", "stop", "unity8"],
+                stderr=subprocess.STDOUT
+            )
         except subprocess.CalledProcessError:
             logger.warning("Appears unity was already stopped!")
 

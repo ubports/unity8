@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-11-05 17:53+0100\n"
+"POT-Creation-Date: 2013-11-12 16:10+0100\n"
 "PO-Revision-Date: 2013-10-24 11:36+0000\n"
 "Last-Translator: Thangamani Arun - தங்கமணி அருண் <thangam.arunx@gmail.com>\n"
 "Language-Team: Ubuntu Tamil Team/Free Tamil Computing/Thamizha\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-11-08 06:38+0000\n"
-"X-Generator: Launchpad (build 16820)\n"
+"X-Launchpad-Export-Date: 2013-11-19 05:59+0000\n"
+"X-Generator: Launchpad (build 16831)\n"
 "Language: ta\n"
 
 #: Applications/applications.js:23
@@ -87,7 +87,7 @@ msgstr "விக்கிப்பீடியா"
 msgid "YouTube"
 msgstr "யூட்யுப்"
 
-#: Components/EdgeDemoOverlay.qml:149
+#: Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
 msgstr "அறிமுகத்தை தவிர்"
 
@@ -138,7 +138,7 @@ msgstr ""
 "பயன்படுத்த தொடங்கவும் <br> <br>தட்டுவதன் மூலம் எங்க வேண்டுமானாலும் "
 "தொடங்கலாம்."
 
-#: Components/PageHeader.qml:341
+#: Components/PageHeader.qml:345
 msgid "Recent searches"
 msgstr "கடையாக தேடப்பட்டவைகள்"
 
@@ -158,7 +158,7 @@ msgid_plural "%1 reviews"
 msgstr[0] "%1 பரிசீலனை"
 msgstr[1] "%1 பரிசீலனைகள்"
 
-#: Dash/Apps/AppPreview.qml:126
+#: Dash/Apps/AppPreview.qml:135
 msgid "Rate this"
 msgstr "இதை மதிப்பிடு"
 
@@ -178,7 +178,7 @@ msgstr "அனுப்பு"
 msgid "Comments:"
 msgstr "கருத்துகள்:"
 
-#: Greeter/Lockscreen.qml:142
+#: Greeter/Lockscreen.qml:146
 msgid "Emergency Call"
 msgstr "அவசர அழைப்பு"
 
@@ -219,6 +219,15 @@ msgstr ""
 msgid "Search"
 msgstr "தெடு"
 
+#: plugins/Unity/Launcher/launcheritem.cpp:43
+#: plugins/Unity/Launcher/launcheritem.cpp:73
+msgid "Lock to Launcher"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:73
+msgid "Unlock from Launcher"
+msgstr ""
+
 #: plugins/Unity/scope.cpp:408
 msgid "Sorry, there is nothing that matches your search."
 msgstr "மன்னிக்கவும், உங்களுடைய தேடலுக்கு தகுந்த பொருத்தம் கிடைக்கவில்லை."
@@ -227,7 +236,7 @@ msgstr "மன்னிக்கவும், உங்களுடைய தே
 msgid "All"
 msgstr "அனைத்தும்"
 
-#: Shell.qml:438
+#: Shell.qml:441
 #, qt-format
 msgid "Please enter %1"
 msgstr "தயவுச்செய்து %1 உள்ளிடு"

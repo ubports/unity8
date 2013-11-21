@@ -37,6 +37,7 @@ Showable {
     property bool partiallyOpened: height > panelHeight && !fullyOpened
     property real visualBottom: Math.max(y+height, y+indicatorRow.y+indicatorRow.height)
     property bool contentEnabled: true
+    property bool initalizeItem: true
     readonly property alias content: menuContent
 
     // TODO: Perhaps we need a animation standard for showing/hiding? Each showable seems to
@@ -63,14 +64,13 @@ Showable {
     }
 
     height: panelHeight
+    onHeightChanged: updateRevealProgressState(indicators.height - panelHeight, true)
 
-    onHeightChanged: {
-        // need to use handle.get_height(). As the handle height depends on indicators.height changes (but this is called first!)
-        var revealProgress = indicators.height - panelHeight
+    function updateRevealProgressState(revealProgress, enableRelease) {
         if (!showAnimation.running && !hideAnimation.running) {
-            if (revealProgress == 0) {
+            if (revealProgress === 0) {
                 indicators.state = "initial";
-            } else if (revealProgress <= hintValue) {
+            } else if (revealProgress > 0 && revealProgress <= hintValue) {
                 indicators.state = "hint";
             } else if (revealProgress > hintValue && revealProgress < lockThreshold) {
                 indicators.state = "reveal";
@@ -79,7 +79,7 @@ Showable {
             }
         }
 
-        if (revealProgress == 0) {
+        if (enableRelease && revealProgress === 0) {
             menuContent.releaseContent();
         }
     }
@@ -106,7 +106,7 @@ Showable {
           Vertical velocity check. Don't change the indicator if we're moving too quickly.
         */
         var verticalSpeed = Math.abs(yVelocityCalculator.calculate());
-        if (verticalSpeed >= 0.05 && indicatorRow.currentItem!=null) {
+        if (verticalSpeed >= 0.05 && !initalizeItem) {
             return;
         }
 
@@ -146,6 +146,7 @@ Showable {
         } else if (!currentItem) {
             indicatorRow.setDefaultItem();
         }
+        initalizeItem = indicatorRow.currentItem == null;
     }
 
     // eater
@@ -281,6 +282,33 @@ Showable {
                 enableIndexChangeSignal = oldActive;
             }
         }
+
+        EdgeDragArea {
+            id: rowDragArea
+            anchors.fill: indicatorRow
+            direction: Direction.Downwards
+            maxSilenceTime: 2000
+            distanceThreshold: 0
+
+            enabled: fullyOpened
+            onDraggingChanged: {
+                if (dragging) {
+                    initalizeItem = true;
+                    updateRevealProgressState(Math.max(touchSceneY - panelHeight, hintValue), false);
+                    indicators.calculateCurrentItem(touchX, false);
+                } else {
+                    indicators.state = "commit";
+                }
+            }
+
+            onTouchXChanged: {
+                indicators.calculateCurrentItem(touchX, true);
+            }
+            onTouchSceneYChanged: {
+                updateRevealProgressState(Math.max(touchSceneY - panelHeight, hintValue), false);
+                yVelocityCalculator.trackedPosition = touchSceneY;
+            }
+        }
     }
 
     Connections {
@@ -297,7 +325,7 @@ Showable {
         onRunningChanged: {
             if (hideAnimation.running) {
                 indicators.state = "initial";
-                indicatorRow.currentItem = null;
+                initalizeItem = true;
             }
         }
     }
