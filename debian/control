@@ -97,6 +97,8 @@ Depends: lightdm,
          unity8 (>= ${source:Version}),
          ${misc:Depends},
          ${shlibs:Depends},
+Replaces: unity8 (<< 7.84),
+Breaks: unity8 (<< 7.84),
 Description: Ubuntu QML greeter
  The Ubuntu QML greeter is the primary greeter for Ubuntu devices.
 

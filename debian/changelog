@@ -1,3 +1,9 @@
+unity8 (7.84-0ubuntu1) UNRELEASED; urgency=low
+
+  * Bump version so it can be referenced in debian/control
+
+ -- Michael Terry <mterry@ubuntu.com>  Thu, 21 Nov 2013 17:12:26 -0500
+
 unity8 (7.83+14.04.20131106-0ubuntu1) trusty; urgency=low
 
   [ Andrea Cimitan ]
