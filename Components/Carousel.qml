@@ -54,15 +54,13 @@ Item {
 
     /// Emitted when the user clicked on an item
     /// @param index is the index of the clicked item
-    /// @param model is the model of all the items in the carousel
     /// @param itemY is y of the clicked delegate
-    signal clicked(int index, var model, real itemY)
+    signal clicked(int index, real itemY)
 
     /// Emitted when the user pressed and held on an item
     /// @param index is the index of the held item
-    /// @param model is the model of all the items in the carousel
     /// @param itemY is y of the held delegate
-    signal pressAndHold(int index, var model, real itemY)
+    signal pressAndHold(int index, real itemY)
 
     implicitHeight: listView.tileHeight * selectedItemScaleFactor
     opacity: listView.highlightIndex === -1 ? 1 : 0.6
@@ -164,7 +162,7 @@ Item {
                 /* We're clicking the selected item and
                    we're in the neighbourhood of radius 1 pixel from it.
                    Let's emit the clicked signal. */
-                carousel.clicked(index, listView.model, delegateItem.y)
+                carousel.clicked(index, delegateItem.y)
                 return
             }
 
@@ -188,7 +186,7 @@ Item {
                 /* We're pressAndHold the selected item and
                    we're in the neighbourhood of radius 1 pixel from it.
                    Let's emit the pressAndHold signal. */
-                carousel.pressAndHold(index, listView.model, delegateItem.y);
+                carousel.pressAndHold(index, delegateItem.y);
                 return;
             }
 

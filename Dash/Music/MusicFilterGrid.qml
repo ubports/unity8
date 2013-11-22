@@ -42,7 +42,7 @@ GenericFilterGrid {
             artist: model.title
         }
 
-        onClicked: musicFilterGrid.clicked(index, musicFilterGrid.model, tile.y)
-        onPressAndHold: musicFilterGrid.pressAndHold(index, musicFilterGrid.model, tile.y)
+        onClicked: musicFilterGrid.clicked(index, tile.y)
+        onPressAndHold: musicFilterGrid.pressAndHold(index, tile.y)
     }
 }

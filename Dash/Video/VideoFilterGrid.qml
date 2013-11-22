@@ -41,7 +41,7 @@ GenericFilterGrid {
 
         style: VideoTileStyle {}
 
-        onClicked: videoFilterGrid.clicked(index, videoFilterGrid.model, tile.y)
-        onPressAndHold: videoFilterGrid.pressAndHold(index, videoFilterGrid.model, tile.y)
+        onClicked: videoFilterGrid.clicked(index, tile.y)
+        onPressAndHold: videoFilterGrid.pressAndHold(index, tile.y)
     }
 }

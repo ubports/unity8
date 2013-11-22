@@ -40,7 +40,7 @@ DashFilterGrid {
         imageHeight: genericFilterGrid.iconHeight
         source: model.icon
 
-        onClicked: genericFilterGrid.clicked(index, genericFilterGrid.model, tile.y)
-        onPressAndHold: genericFilterGrid.pressAndHold(index, genericFilterGrid.model, tile.y)
+        onClicked: genericFilterGrid.clicked(index, tile.y)
+        onPressAndHold: genericFilterGrid.pressAndHold(index, tile.y)
     }
 }

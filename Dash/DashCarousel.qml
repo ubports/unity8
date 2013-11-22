@@ -41,7 +41,7 @@ DashRenderer {
         model: dashCarousel.model
         highlightIndex: dashCarousel.highlightIndex
 
-        onClicked: dashCarousel.clicked(index, model, itemY)
-        onPressAndHold: dashCarousel.pressAndHold(index, model, itemY)
+        onClicked: dashCarousel.clicked(index, itemY)
+        onPressAndHold: dashCarousel.pressAndHold(index, itemY)
     }
 }

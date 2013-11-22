@@ -30,7 +30,7 @@ Item {
 
     property bool searchEntryEnabled: false
     property alias searchQuery: searchField.text
-    property ListModel searchHistory: SearchHistoryModel {}
+    property ListModel searchHistory
     property Scope scope
 
     height: units.gu(8.5)
@@ -44,8 +44,8 @@ Item {
         if (!searchHistory) return;
 
         searchHistory.addQuery(searchField.text);
+        unfocus();
         searchField.text = "";
-        searchField.focus = false;
     }
 
     function unfocus() {
@@ -112,6 +112,8 @@ Item {
                 objectName: "searchContainer"
 
                 visible: searchEntryEnabled
+                property bool popoverShouldOpen: false
+                property bool popoverShouldClose: false
 
                 property bool narrowMode: parent.width < label.contentWidth + units.gu(50)
 
@@ -127,6 +129,16 @@ Item {
                     else if (active && !narrowMode) "active"
                     else if (!active && !narrowMode) "inactive"
 
+                onStateChanged: {
+                    if (state == "active" || state == "narrowActive") {
+                        popoverShouldOpen = true;
+                        popoverShouldClose = false;
+                    } else {
+                        popoverShouldOpen = false;
+                        popoverShouldClose = true;
+                    }
+                }
+
                 function openPopover() {
                     if (searchHistory.count > 0) {
                         searchContainer.popover = PopupUtils.open(popoverComponent, searchField,
@@ -137,10 +149,17 @@ Item {
                                                                   }
                                                                  )
                     }
+                    popoverShouldOpen = false;
+                    popoverShouldClose = false;
                 }
 
                 function closePopover() {
-                    if (searchContainer.popover) PopupUtils.close(searchContainer.popover)
+                    if (searchContainer.popover) {
+                        PopupUtils.close(searchContainer.popover);
+                        searchContainer.popover = null;
+                    }
+                    popoverShouldOpen = false;
+                    popoverShouldClose = false;
                 }
 
                 onActiveFocusChanged: if (!activeFocus) { searchHistory.addQuery(searchField.text) }
@@ -283,12 +302,12 @@ Item {
                                 PropertyAction  { target: primaryImage; property: "source" }
                                 AnchorAnimation { targets: [searchContainer, textContainer]; duration: 200; easing.type: Easing.InOutQuad }
                             }
-                            ScriptAction { script: searchContainer.openPopover() }
+                            ScriptAction { script: if (searchContainer.popoverShouldOpen) { searchContainer.openPopover(); } }
                         }
                     },
                     Transition {
                         to: "inactive"
-                        ScriptAction { script: searchContainer.closePopover() }
+                        ScriptAction { script: if (searchContainer.popoverShouldClose) { searchContainer.closePopover(); } }
                         NumberAnimation { targets: [searchContainer, searchField] ; property: "width"; duration: 200; easing.type: Easing.InOutQuad }
                         AnchorAnimation { targets: [searchContainer, textContainer]; duration: 200; easing.type: Easing.InOutQuad }
                     },
@@ -299,12 +318,12 @@ Item {
                                 NumberAnimation { targets: [searchContainer, searchField] ; property: "width"; duration: 200; easing.type: Easing.OutQuad }
                                 AnchorAnimation { targets: [searchContainer, textContainer]; duration: 200; easing.type: Easing.InOutQuad }
                             }
-                            ScriptAction { script: searchContainer.openPopover() }
+                            ScriptAction { script: if (searchContainer.popoverShouldOpen) { searchContainer.openPopover(); } }
                         }
                     },
                     Transition {
                         to: "narrowInactive"
-                        ScriptAction { script: searchContainer.closePopover() }
+                        ScriptAction { script: if (searchContainer.popoverShouldClose) { searchContainer.closePopover(); } }
                         NumberAnimation { targets: [searchContainer, searchField] ; property: "width"; duration: 200; easing.type: Easing.OutQuad }
                         AnchorAnimation { targets: [searchContainer, textContainer]; duration: 200; easing.type: Easing.InOutQuad }
                     }

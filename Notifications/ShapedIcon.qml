@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright (C) 2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,38 +15,26 @@
  */
 
 import QtQuick 2.0
-import QtTest 1.0
-import Unity 0.1
-import ".."
-import "../../../Dash"
 import Ubuntu.Components 0.1
 
 Item {
-    width: units.gu(120)
-    height: units.gu(80)
+    property string fileSource
+    property bool shaped
 
-    Scopes {
-        id: scopes
+    UbuntuShape {
+        objectName: "shapedIcon"
+        anchors.fill: parent
+        visible: shaped
+        image: realImage
     }
 
-    ScopeView {
-        id: scopeView
+    Image {
+        id: realImage
+
+        objectName: "nonShapedIcon"
         anchors.fill: parent
-
-        TestCase {
-            name: "ScopeView"
-            when: scopes.loaded
-
-            function init() {
-                scopeView.scope = scopes.get(0)
-            }
-
-            function test_changeScope() {
-                scopeView.scope.searchQuery = "test"
-                scopeView.scope = scopes.get(1)
-                scopeView.scope = scopes.get(0)
-                tryCompare(scopeView.scope, "searchQuery", "")
-            }
-        }
+        visible: !shaped
+        source: fileSource
+        fillMode: Image.PreserveAspectCrop
     }
 }

@@ -50,15 +50,13 @@ Item {
 
     /// Emitted when the user clicked on an item
     /// @param index is the index of the clicked item
-    /// @param model is the model of all the items
     /// @param itemY is y of the clicked delegate
-    signal clicked(int index, var model, real itemY)
+    signal clicked(int index, real itemY)
 
     /// Emitted when the user pressed and held on an item
     /// @param index is the index of the held item
-    /// @param model is the model of all the items
     /// @param itemY is y of the held delegate
-    signal pressAndHold(int index, var model, real itemY)
+    signal pressAndHold(int index, real itemY)
 
     function startFilterAnimation(filter) {
     }
