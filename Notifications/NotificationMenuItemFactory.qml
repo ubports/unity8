@@ -97,7 +97,7 @@ Loader {
 
         Lockscreen {
             anchors.left: parent.left; anchors.right: parent.right
-            height: units.gu(60)
+            height: units.gu(70)
             background: shell.background
 
             onEntered: {
