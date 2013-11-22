@@ -17,6 +17,8 @@
 import QtQuick 2.0
 import "../../Components"
 
+import Ubuntu.Gestures 0.1
+
 ResponsiveFlowView {
     id: root
     clip: true
@@ -50,13 +52,6 @@ ResponsiveFlowView {
         }
     }
 
-    property bool canEnableTerminationMode: true
-
-    onCanEnableTerminationModeChanged: {
-        if (!canEnableTerminationMode)
-            terminationModeEnabled = false
-    }
-
     // when false, it means it's on activation mode
     property bool terminationModeEnabled: false
 
@@ -78,10 +73,7 @@ ResponsiveFlowView {
             }
             application: model
             onRequestedActivationMode: { root.terminationModeEnabled = false }
-            onRequestedTerminationMode: {
-                if (canEnableTerminationMode)
-                    root.terminationModeEnabled = true
-            }
+            onRequestedTerminationMode: { root.terminationModeEnabled = true }
             onRequestedApplicationTermination: {
                 shell.applicationManager.stopApplication(model.appId)
             }
@@ -99,5 +91,20 @@ ResponsiveFlowView {
 
     move: Transition {
         NumberAnimation { properties: "x,y"; duration: 400; easing.type: Easing.OutCubic }
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        z: -1 // behind all RunningApplicationTiles
+        enabled: root.terminationModeEnabled
+        onPressed: { root.terminationModeEnabled = false; }
+    }
+
+    PressedOutsideNotifier {
+        anchors.fill: parent
+        enabled: root.terminationModeEnabled
+        onPressedOutside: {
+            root.terminationModeEnabled = false;
+        }
     }
 }

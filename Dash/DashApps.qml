@@ -44,7 +44,6 @@ GenericScopeView {
 
         property var firstModel: mainStageApplicationsModel
         property var secondModel: sideStageApplicationModel
-        property bool canEnableTerminationMode: scopeView.isCurrent
 
         model: dummyVisibilityModifier
         filterRole: 0
