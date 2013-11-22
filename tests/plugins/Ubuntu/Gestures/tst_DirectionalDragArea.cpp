@@ -66,7 +66,7 @@ class tst_DirectionalDragArea: public GestureTest
 {
     Q_OBJECT
 public:
-    tst_DirectionalDragArea() : GestureTest("tst_DirectionalDragArea.qml") {}
+    tst_DirectionalDragArea();
 private Q_SLOTS:
     void init(); // called right before each and every test function is executed
     void cleanup(); // called right after each and every test function is executed
@@ -89,6 +89,11 @@ private:
     FakeTimer *fakeTimer;
     QSharedPointer<FakeTimeSource> fakeTimeSource;
 };
+
+tst_DirectionalDragArea::tst_DirectionalDragArea()
+    : GestureTest(QStringLiteral("tst_DirectionalDragArea.qml"))
+{
+}
 
 void tst_DirectionalDragArea::init()
 {

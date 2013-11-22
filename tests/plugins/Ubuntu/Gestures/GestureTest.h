@@ -29,8 +29,8 @@ class GestureTest : public QObject
 {
     Q_OBJECT
 public:
-    // \param qmlFile name of the qml file to be loaded by the QQuickView
-    GestureTest(const char *qmlFile);
+    // \param qmlFilename name of the qml file to be loaded by the QQuickView
+    GestureTest(const QString &qmlFilename);
 
 protected Q_SLOTS:
     void initTestCase(); // will be called before the first test function is executed
