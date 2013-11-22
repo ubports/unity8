@@ -66,6 +66,7 @@ class tst_DirectionalDragArea: public GestureTest
 {
     Q_OBJECT
 public:
+    tst_DirectionalDragArea() : GestureTest("tst_DirectionalDragArea.qml") {}
 private Q_SLOTS:
     void init(); // called right before each and every test function is executed
     void cleanup(); // called right after each and every test function is executed
@@ -92,11 +93,6 @@ private:
 void tst_DirectionalDragArea::init()
 {
     GestureTest::init();
-    m_view->setSource(QUrl::fromLocalFile("edgeDragExample.qml"));
-    m_view->show();
-    QVERIFY(QTest::qWaitForWindowExposed(m_view));
-    QVERIFY(m_view->rootObject() != 0);
-    qApp->processEvents();
 
     fakeTimeSource.reset(new FakeTimeSource);
     fakeTimer = new FakeTimer(fakeTimeSource);

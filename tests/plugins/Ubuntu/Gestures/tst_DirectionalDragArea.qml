@@ -18,8 +18,8 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 
 Rectangle {
-    //width: units.gu(40)
-    //height: units.gu(71)
+    width: units.gu(40)
+    height: units.gu(71)
     color: "white"
 
     MouseArea {

@@ -29,7 +29,8 @@ class GestureTest : public QObject
 {
     Q_OBJECT
 public:
-    GestureTest() : QObject(), m_device(nullptr), m_view(nullptr) {}
+    // \param qmlFile name of the qml file to be loaded by the QQuickView
+    GestureTest(const char *qmlFile);
 
 protected Q_SLOTS:
     void initTestCase(); // will be called before the first test function is executed
@@ -39,6 +40,7 @@ protected Q_SLOTS:
 protected:
     QTouchDevice *m_device;
     QQuickView *m_view;
+    QString m_qmlFilename;
 };
 
 #define GESTURETEST_H

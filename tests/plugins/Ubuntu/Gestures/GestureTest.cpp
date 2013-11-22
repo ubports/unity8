@@ -19,6 +19,12 @@
 #include <qpa/qwindowsysteminterface.h>
 #include <QQmlEngine>
 #include <QQuickView>
+#include <QtTest>
+
+GestureTest::GestureTest(const char *qmlFile)
+    : QObject(), m_device(nullptr), m_view(nullptr), m_qmlFilename(qmlFile)
+{
+}
 
 void GestureTest::initTestCase()
 {
@@ -31,10 +37,14 @@ void GestureTest::initTestCase()
 
 void GestureTest::init()
 {
-    m_view = new QQuickView(0);
-    m_view->setResizeMode(QQuickView::SizeRootObjectToView);
-    m_view->resize(600, 600);
+    m_view = new QQuickView;
+    m_view->setResizeMode(QQuickView::SizeViewToRootObject);
     m_view->engine()->addImportPath(QLatin1String(UBUNTU_GESTURES_PLUGIN_DIR));
+    m_view->setSource(QUrl::fromLocalFile(m_qmlFilename));
+    m_view->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_view));
+    QVERIFY(m_view->rootObject() != 0);
+    qApp->processEvents();
 }
 
 void GestureTest::cleanup()

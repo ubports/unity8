@@ -1,3 +1,5 @@
+include(QmlTest)
+
 include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/Ubuntu/Gestures
     ${CMAKE_CURRENT_BINARY_DIR}
@@ -25,6 +27,7 @@ macro(add_gesture_ui_test CLASSNAME)
     add_executable(${CLASSNAME}TestExec tst_${CLASSNAME}.cpp GestureTest.cpp)
     qt5_use_modules(${CLASSNAME}TestExec Test Core Qml Gui Quick)
     target_link_libraries(${CLASSNAME}TestExec UbuntuGestureQml)
+    add_manual_qml_test(. ${CLASSNAME} IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
 endmacro(add_gesture_ui_test)
 
 macro(add_gesture_test CLASSNAME)
