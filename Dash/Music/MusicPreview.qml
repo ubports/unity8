@@ -57,7 +57,7 @@ GenericPreview {
             Audio {
                 id: audioPlayer
                 objectName: "audioPlayer"
-                property real percent: audioPlayer.position * 100 / audioPlayer.duration
+                property real progress: audioPlayer.position / audioPlayer.duration
 
                 property Item playingItem
 
@@ -163,7 +163,7 @@ GenericPreview {
                                     anchors.verticalCenter: progressBarImage.verticalCenter
                                     height: units.dp(2)
                                     anchors.margins: units.dp(2)
-                                    anchors.rightMargin: maxWidth - (maxWidth * audioPlayer.percent / 100) + units.dp(2)
+                                    anchors.rightMargin: maxWidth - (maxWidth * audioPlayer.progress) + units.dp(2)
                                     visible: progressBarImage.visible
                                     property int maxWidth: progressBarImage.width - units.dp(4)
                                 }
