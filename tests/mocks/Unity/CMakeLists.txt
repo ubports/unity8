@@ -6,7 +6,6 @@ pkg_search_module(GOBJECT gobject-2.0 REQUIRED)
 pkg_search_module(DEEQT libdee-qt5 REQUIRED)
 
 include_directories(
-  ${CMAKE_SOURCE_DIR}/plugins/Unity
   ${CMAKE_CURRENT_BINARY_DIR}
   ${Qt5Core_INCLUDE_DIRS}
   ${Qt5Quick_INCLUDE_DIRS}
@@ -17,8 +16,8 @@ include_directories(
 add_definitions(-DQT_NO_KEYWORDS)
 
 set(UnityQML_SOURCES
-  ${CMAKE_SOURCE_DIR}/plugins/Unity/categoryresults.cpp
-  ${CMAKE_SOURCE_DIR}/plugins/Unity/iconutils.cpp
+  categoryresults.cpp
+  iconutils.cpp
   fake_applications_scope.cpp
   fake_preview.cpp
   fake_scope.cpp
