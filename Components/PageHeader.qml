@@ -31,7 +31,7 @@ Item {
 
     property bool searchEntryEnabled: false
     property alias searchQuery: searchField.text
-    property ListModel searchHistory: SearchHistoryModel {}
+    property ListModel searchHistory
     property Scope scope
 
     height: units.gu(8.5)

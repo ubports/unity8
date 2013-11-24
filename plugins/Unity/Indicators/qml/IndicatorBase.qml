@@ -24,16 +24,15 @@ import Unity.Indicators 0.1 as Indicators
 Item {
     id: indicatorItem
 
-    enabled: menuObjectPaths.hasOwnProperty(device)
+    enabled: menuObjectPath != ""
 
     //const
     property string busName
     property string actionsObjectPath
-    property var menuObjectPaths: undefined
-    readonly property string device: unity8IndicatorMode
+    property string menuObjectPath
     property string rootMenuType: "com.canonical.indicator.root"
 
-    property string deviceMenuObjectPath: menuObjectPaths.hasOwnProperty(device) ? menuObjectPaths[device] : ""
+    property string deviceMenuObjectPath: menuObjectPath
 
     property alias menuModel: cachedModel.model
 

@@ -1,8 +1,8 @@
 unity8 (7.84-0ubuntu1) UNRELEASED; urgency=low
 
-  * Bump version so it can be referenced in debian/control
+  * Depend on the separate scopes plugin
 
- -- Michael Terry <mterry@ubuntu.com>  Thu, 21 Nov 2013 17:12:26 -0500
+ -- Michal Hruby <michal.hruby@canonical.com>  Wed, 13 Nov 2013 12:43:39 +0000
 
 unity8 (7.83+14.04.20131106-0ubuntu1) trusty; urgency=low
 

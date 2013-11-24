@@ -27,6 +27,7 @@ Item {
     property alias currentIndex: dashContentList.currentIndex
 
     property ScopeDelegateMapper scopeMapper : ScopeDelegateMapper {}
+    property ListModel searchHistory
 
     signal movementStarted()
     signal movementEnded()
@@ -127,7 +128,7 @@ Item {
                 onLoaded: {
                     item.scope = Qt.binding(function() { return scope })
                     item.isCurrent = Qt.binding(function() { return visible && ListView.isCurrentItem })
-                    item.searchHistory = Qt.binding(function() { return shell.searchHistory })
+                    item.searchHistory = Qt.binding(function() { return dashContent.searchHistory })
                     dashContentList.movementStarted.connect(item.movementStarted)
                     dashContent.positionedAtBeginning.connect(item.positionedAtBeginning)
                     dashContent.scopeLoaded(item.scope.id)

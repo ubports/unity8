@@ -123,12 +123,14 @@ int startShell(int argc, const char** argv, void* server)
 
     bindtextdomain("unity8", translationDirectory().toUtf8().data());
 
+    // Tell indicator plugin what profile to use
+    qputenv("UNITY8_INDICATOR_PROFILE", INDICATOR_PROFILE);
+
     QQuickView* view = new QQuickView();
     view->setResizeMode(QQuickView::SizeRootObjectToView);
     view->setTitle("Qml Phone Shell");
     view->engine()->setBaseUrl(QUrl::fromLocalFile(::shellAppDirectory()));
     view->rootContext()->setContextProperty("applicationArguments", &qmlArgs);
-    view->rootContext()->setContextProperty("unity8IndicatorMode", INDICATOR_MODE);
     if (args.contains(QLatin1String("-frameless"))) {
         view->setFlags(Qt::FramelessWindowHint);
     }

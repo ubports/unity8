@@ -57,7 +57,7 @@ BasicShell {
         width: parent.width
         height: parent.height - panel.panelHeight
 
-        onUnlocked: lockscreen.hide()
+        onEntered: LightDM.Greeter.respond(passphrase);
         onCancel: greeter.show()
 
         Component.onCompleted: {
@@ -81,6 +81,17 @@ BasicShell {
                 }
                 lockscreen.placeholderText = i18n.tr("Please enter %1").arg(text);
                 lockscreen.show();
+            }
+        }
+
+        onAuthenticationComplete: {
+            if (LightDM.Greeter.promptless) {
+                return;
+            }
+            if (LightDM.Greeter.authenticated) {
+                lockscreen.hide();
+            } else {
+                lockscreen.clear(true);
             }
         }
     }

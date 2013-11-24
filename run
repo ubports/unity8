@@ -44,6 +44,8 @@ done
 if $FAKE; then
   export QML2_IMPORT_PATH=$PWD/builddir/tests/mocks:$PWD/builddir/plugins:$PWD/builddir/modules
   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/tests/mocks/libusermetrics:$PWD/builddir/tests/mocks/liblightdm/single
+else
+  export QML2_IMPORT_PATH=`pkg-config --variable=plugindir unity-shell-api`
 fi
 
 if $PINLOCK; then

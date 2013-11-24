@@ -118,10 +118,10 @@ add_executable(${GREETER_APP}
     )
 
 set_target_properties(${SHELL_APP} PROPERTIES
-    COMPILE_DEFINITIONS "APP_NAME=\"Unity 8\";QML_FILE=\"Shell.qml\";INDICATOR_MODE=\"phone\""
+    COMPILE_DEFINITIONS "APP_NAME=\"Unity 8\";QML_FILE=\"Shell.qml\";INDICATOR_PROFILE=\"phone\""
     )
 set_target_properties(${GREETER_APP} PROPERTIES
-    COMPILE_DEFINITIONS "APP_NAME=\"Unity 8 Greeter\";QML_FILE=\"GreeterShell.qml\";INDICATOR_MODE=\"phone_greeter\""
+    COMPILE_DEFINITIONS "APP_NAME=\"Unity 8 Greeter\";QML_FILE=\"GreeterShell.qml\";INDICATOR_PROFILE=\"phone_greeter\""
     )
 
 qt5_use_modules(${SHELL_APP} Qml Quick Test)

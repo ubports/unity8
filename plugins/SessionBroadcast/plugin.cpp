@@ -19,7 +19,7 @@
 #include "plugin.h"
 #include "SessionBroadcast.h"
 
-#include <QtQml>
+#include <QtQml/qqml.h>
 
 static QObject *broadcast_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
