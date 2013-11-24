@@ -347,6 +347,12 @@ BasicShell {
         }
     }
 
+    InputFilterArea {
+        anchors.fill: parent
+        blockInput: !applicationFocused || launcher.shown
+                    || panel.indicators.shown || hud.shown
+    }
+
     Connections {
         id: sessionConnection
         target: SessionManager
