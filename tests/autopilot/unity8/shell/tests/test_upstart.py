@@ -65,7 +65,7 @@ class UpstartIntegrationTests(UnityTestCase):
                 pass
             else:
                 self.process.kill()
-            
+
             self.process.wait()
 
         self.addCleanup(ensure_stopped)
