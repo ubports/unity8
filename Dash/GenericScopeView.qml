@@ -27,7 +27,6 @@ FocusScope {
     property Scope scope
     property SortFilterProxyModel categories: categoryFilter
     property bool isCurrent
-    property ListModel searchHistory
     property alias moving: categoryView.moving
     property int tabBarHeight: 0
     property PageHeader pageHeader: null

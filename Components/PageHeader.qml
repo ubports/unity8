@@ -91,16 +91,7 @@ Item {
                 property bool popoverShouldOpen: false
                 property bool popoverShouldClose: false
 
-                property bool narrowMode: {
-                    if (root.childItem.length == 0)
-                        return false;
-                    if (root.childItem.length > 1) {
-                        console.log("ERROR: PageHeader childItem must be a single item");
-                        return false;
-                    }
-                    var item = root.childItem[0];
-                    return parent.width < item.implicitWidth + units.gu(50)
-                }
+                property bool narrowMode: parent.width < units.gu(60)
 
                 property bool active: searchField.text != "" || searchField.activeFocus
                 property var popover: null

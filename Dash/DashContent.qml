@@ -161,11 +161,16 @@ Item {
             searchHistory: dashContent.searchHistory
 
             childItem: TabBar {
+                Rectangle {
+                    anchors.fill: parent
+                    color: "red"
+                    opacity: 0.5
+                }
                 id: tabbar
                 objectName: "tabbar"
                 height: units.gu(7)
                 width: parent.width
-                implicitWidth: 400
+                selectionMode: false
 
                 model: dashContentList.model
 
@@ -177,6 +182,14 @@ Item {
                     target: dashContentList
                     onCurrentIndexChanged: {
                         tabbar.selectedIndex = dashContentList.currentIndex
+                    }
+                }
+
+                Connections {
+                    target: model
+                    onCountChanged: {
+                        if (tabbar.selectedIndex < 0 && model.count > 0)
+                            tabbar.selectedIndex = 0;
                     }
                 }
 

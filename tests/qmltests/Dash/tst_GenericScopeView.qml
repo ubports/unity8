@@ -45,7 +45,7 @@ Item {
         id: previewListView
         anchors.fill: parent
         openEffect: openEffect
-        categoryView: genericScopeView
+        categoryView: genericScopeView.categoryView
         scope: genericScopeView.scope
     }
 
@@ -56,14 +56,16 @@ Item {
 
     PageHeaderLabel {
         id: pageHeader
+        searchHistory: SearchHistoryModel {}
     }
 
     GenericScopeView {
         id: genericScopeView
         anchors.fill: parent
-        previewListView: previewListView;
-        openEffect: openEffect;
-        pageHeader: pageHeader;
+        previewListView: previewListView
+        openEffect: openEffect
+        pageHeader: pageHeader
+        tabBarHeight: pageHeader.implicitHeight
 
         UT.UnityTestCase {
             name: "GenericScopeView"
@@ -161,15 +163,13 @@ Item {
                 var categoryListView = findChild(genericScopeView, "categoryListView");
                 categoryListView.positionAtBeginning();
                 waitForRendering(categoryListView);
-                categoryListView.flick(0, -units.gu(80));
+                categoryListView.flick(0, -units.gu(60));
                 tryCompare(categoryListView.flicking, false);
 
                 var tile = findChild(genericScopeView, "delegate0");
                 mouseClick(tile, tile.width / 2, tile.height - 1);
-                var openEffect = findChild(genericScopeView, "openEffect");
                 tryCompare(openEffect, "gap", 1);
 
-                var pageHeader = findChild(genericScopeView, "pageHeader");
                 verify(openEffect.positionPx >= pageHeader.height + categoryListView.stickyHeaderHeight);
             }
 
