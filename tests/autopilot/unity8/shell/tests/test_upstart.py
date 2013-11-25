@@ -22,6 +22,7 @@
 import os
 import signal
 import subprocess
+import time
 
 from testtools.matchers._basic import Equals
 from autopilot.matchers import Eventually
@@ -49,7 +50,25 @@ class UpstartIntegrationTests(UnityTestCase):
     def _launch_unity(self):
         self.patch_environment("QT_LOAD_TESTABILITY", "1")
         self.process = subprocess.Popen([get_binary_path()] + self.unity_geometry_args)
-        self.addCleanup(lambda: self.process.terminate())
+        def ensure_stopped():
+            self.process.terminate()
+            for i in xrange(10):
+                try:
+                    self._get_status()
+                except OSError:
+                    break
+                else:
+                    time.sleep(1)
+            try:
+                self._get_status()
+            except OSError:
+                pass
+            else:
+                self.process.kill()
+            
+            self.process.wait()
+
+        self.addCleanup(ensure_stopped)
 
     def _set_proxy(self):
         super(UpstartIntegrationTests, self)._set_proxy(get_proxy_object_for_existing_process(
