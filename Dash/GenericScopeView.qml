@@ -40,7 +40,6 @@ FocusScope {
     signal headerPositionChanged(int position)
     signal headerHeightChanged(int height)
 
-    readonly property alias previewShown: previewListView.onScreen
     property bool enableHeightBehaviorOnNextCreation: false
     property var categoryView: categoryView
 
