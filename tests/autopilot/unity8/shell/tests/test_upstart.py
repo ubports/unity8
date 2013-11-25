@@ -37,43 +37,43 @@ logger = logging.getLogger(__name__)
 
 
 class UpstartIntegrationTests(UnityTestCase):
-    
+
     scenarios = _get_device_emulation_scenarios()
-    
+
     def _get_status(self):
         pid, status = os.waitpid(self.process.pid, os.WUNTRACED | os.WCONTINUED | os.WNOHANG)
         logger.debug("Got status: {0}; stopped: {1}; continued: {2}"\
                      .format(status, os.WIFSTOPPED(status), os.WIFCONTINUED(status)))
         return status
-    
+
     def _launch_unity(self):
         self.patch_environment("QT_LOAD_TESTABILITY", "1")
         self.process = subprocess.Popen([get_binary_path()] + self.unity_geometry_args)
         self.addCleanup(lambda: self.process.kill())
-    
+
     def _set_proxy(self):
         super(UpstartIntegrationTests, self)._set_proxy(get_proxy_object_for_existing_process(
             pid=self.process.pid,
             emulator_base=UnityEmulatorBase,
         ))
-    
+
     def test_no_sigstop(self):
         self.patch_environment("UPSTART_JOB", "foo")
         self._launch_unity()
         self._set_proxy()
-        
+
         logger.debug("Unity started, waiting for it to be ready.")
         self.assertUnityReady()
         logger.debug("Unity loaded and ready.")
-    
+
     def test_expect_sigstop(self):
         self.patch_environment("UPSTART_JOB", "unity8")
         self._launch_unity()
         self.assertThat(lambda: os.WIFSTOPPED(self._get_status()), Eventually(Equals(True)), "Unity8 should raise SIGSTOP when ready")
-        
+
         self.process.send_signal(signal.SIGCONT)
         self.assertThat(lambda: os.WIFCONTINUED(self._get_status()), Eventually(Equals(True)), "Unity8 should have resumed")
-        
+
         logger.debug("Unity started, waiting for it to be ready.")
         self._set_proxy()
         self.assertUnityReady()
