@@ -108,8 +108,7 @@ Rectangle {
         function test_clicked_signal_data() {
             return [
                 {tag: "VideoFilterGrid", component: "Video/VideoFilterGrid.qml"},
-                {tag: "MusicFilterGrid", component: "Music/MusicFilterGrid.qml"},
-                {tag: "ApplicationsFilterGrid", component: "Apps/ApplicationsFilterGrid.qml"}
+                {tag: "MusicFilterGrid", component: "Music/MusicFilterGrid.qml"}
             ]
         }
 

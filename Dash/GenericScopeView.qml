@@ -16,15 +16,67 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Utils 0.1
+import Unity 0.1
 import "../Components"
 import "../Components/ListItems" as ListItems
 
-ScopeView {
+FocusScope {
     id: scopeView
+
+    property Scope scope
+    property SortFilterProxyModel categories: categoryFilter
+    property bool isCurrent
+    property ListModel searchHistory
+    property alias moving: categoryView.moving
+    property int tabBarHeight: 0
+    property PageHeader pageHeader: null
+    property OpenEffect openEffect: null
+    property Item previewListView: null
+
+    signal endReached
+    signal movementStarted
+    signal positionedAtBeginning
+    signal headerPositionChanged(int position)
+    signal headerHeightChanged(int height)
+
+    readonly property alias previewShown: previewListView.onScreen
     property bool enableHeightBehaviorOnNextCreation: false
     property var categoryView: categoryView
 
-    moving: categoryView.moving
+    // FIXME delay the search so that daemons have time to settle, note that
+    // removing this will break ScopeView::test_changeScope
+    onScopeChanged: {
+        if (scope) {
+            timer.restart();
+            scope.activateApplication.connect(activateApp);
+        }
+    }
+
+    function activateApp(desktopFilePath) {
+        shell.activateApplication(desktopFilePath);
+    }
+
+    Binding {
+        target: scope
+        property: "isActive"
+        value: isCurrent
+    }
+
+    Timer {
+        id: timer
+        interval: 2000
+        onTriggered: scope.searchQuery = ""
+    }
+
+    SortFilterProxyModel {
+        id: categoryFilter
+        model: scope ? scope.categories : null
+        dynamicSortFilter: true
+        filterRole: Categories.RoleCount
+        filterRegExp: /^0$/
+        invertMatch: true
+    }
 
     onIsCurrentChanged: {
         pageHeader.resetSearch();
@@ -135,14 +187,14 @@ ScopeView {
                     target: rendererLoader.item
                     onClicked: {
                         // Prepare the preview in case activate() triggers a preview only
-                        openEffect.positionPx = mapToItem(categoryView, 0, itemY).y
+                        openEffect.positionPx = Math.max(mapToItem(categoryView, 0, itemY).y, pageHeader.height + categoryView.stickyHeaderHeight);
                         previewListView.categoryId = categoryId
                         previewListView.categoryDelegate = rendererLoader.item
-                        previewListView.model = model;
+                        previewListView.model = target.model;
                         previewListView.init = true;
                         previewListView.currentIndex = index;
 
-                        var item = model.get(index);
+                        var item = target.model.get(index);
 
                         if ((scopeView.scope.id == "applications.scope" && categoryId == "installed")
                                 || (scopeView.scope.id == "home.scope" && categoryId == "applications.scope")) {
@@ -156,15 +208,15 @@ ScopeView {
                         }
                     }
                     onPressAndHold: {
-                        openEffect.positionPx = mapToItem(categoryView, 0, itemY).y
+                        openEffect.positionPx = Math.max(mapToItem(categoryView, 0, itemY).y, pageHeader.height + categoryView.stickyHeaderHeight);
                         previewListView.categoryId = categoryId
                         previewListView.categoryDelegate = rendererLoader.item
-                        previewListView.model = model;
+                        previewListView.model = target.model;
                         previewListView.init = true;
                         previewListView.currentIndex = index;
                         previewListView.open = true
 
-                        var item = model.get(index)
+                        var item = target.model.get(index)
                         scopeView.scope.preview( item.uri, item.icon, item.category, 0, item.mimetype, item.title,
                                                 item.comment, item.dndUri, item.metadata)
                     }
@@ -268,24 +320,25 @@ ScopeView {
             rendererId = getDefaultRendererId(contentType);
         }
         switch (rendererId) {
+            case "carousel": {
+                switch (contentType) {
+                    case "music": return "Music/MusicCarouselLoader.qml";
+                    case "video": return "Video/VideoCarouselLoader.qml";
+                    default: return "Generic/GenericCarouselLoader.qml";
+                }
+            }
             case "grid": {
                 switch (contentType) {
-                    case "video": return "Video/VideoFilterGrid.qml";
-                    case "music": return "Music/MusicFilterGrid.qml";
                     case "apps": {
                         if (rendererHint == "toggled")
                             return "Apps/DashPluginFilterGrid.qml";
                         else
                             return "Generic/GenericFilterGrid.qml";
                     }
+                    case "music": return "Music/MusicFilterGrid.qml";
+                    case "video": return "Video/VideoFilterGrid.qml";
                     case "weather": return "Generic/WeatherFilterGrid.qml";
                     default: return "Generic/GenericFilterGrid.qml";
-                }
-            }
-            case "carousel": {
-                switch (contentType) {
-                    case "music": return "Music/MusicCarousel.qml";
-                    default: return "Generic/GenericCarousel.qml";
                 }
             }
             case "special": {

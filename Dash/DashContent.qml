@@ -28,6 +28,7 @@ Item {
     property alias currentIndex: dashContentList.currentIndex
 
     property ScopeDelegateMapper scopeMapper : ScopeDelegateMapper {}
+    property ListModel searchHistory
 
     signal movementStarted()
     signal movementEnded()
@@ -157,6 +158,7 @@ Item {
             id: pageHeader
             width: parent.width
             searchEntryEnabled: true
+            searchHistory: dashContent.searchHistory
 
             childItem: TabBar {
                 id: tabbar

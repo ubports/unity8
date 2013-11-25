@@ -55,19 +55,42 @@ Item {
         when: windowShown
 
         function initTestCase() {
+            var ok = false;
+            var attempts = 0;
+            var maxAttempts = 1000;
+
+            // Qt loads a qml scene asynchronously. So early on, some findChild() calls made in
+            // tests may fail because the desired child item wasn't loaded yet.
+            // Thus here we try to ensure the scene has been fully loaded before proceeding with the tests.
+            // As I couldn't find an API in QQuickView & friends to tell me that the scene is 100% loaded
+            // (all items instantiated, etc), I resort to checking the existence of some key items until
+            // repeatedly until they're all there.
+            do {
+                var dashContentList = findChild(shell, "dashContentList");
+                waitForRendering(dashContentList);
+                var homeLoader = findChild(dashContentList, "home.scope loader");
+                ok = homeLoader !== undefined
+                    && homeLoader.item !== undefined;
+
+                var greeter = findChild(shell, "greeter");
+                ok &= greeter !== undefined;
+
+                var launcherPanel = findChild(shell, "launcherPanel");
+                ok &= launcherPanel !== undefined;
+
+                attempts++;
+                if (!ok) {
+                    console.log("Attempt " + attempts + " failed. Waiting a bit before trying again.");
+                    // wait a bit before retrying
+                    wait(100);
+                } else {
+                    console.log("All seem fine after " + attempts + " attempts.");
+                }
+            } while (!ok && attempts <= maxAttempts);
+
+            verify(ok);
+
             swipeAwayGreeter();
-
-            // Ensure DashHome is loaded before continuing
-            var dashContentList = findChild(shell, "dashContentList");
-            waitForRendering(dashContentList);
-            var homeLoader = findChild(dashContentList, "home.scope loader");
-            verify(homeLoader);
-            tryCompareFunction(function() {return homeLoader.item !== undefined;}, true);
-
-            // FIXME: Desperate measure to ensure Jenkins has the scene graph fully loaded
-            // before it calls the test functions (otherwise findChild calls will fail).
-            // The code above just didn't solve it.
-            wait(2000);
         }
 
         function cleanup() {
@@ -297,6 +320,10 @@ Item {
 
             waitUntilApplicationWindowIsFullyVisible();
 
+            // Dragging launcher into view with a little bit of gap (units.gu(1)) should switch to Apps scope
+            dragLauncherIntoView();
+            verify(itemIsOnScreen(dashApps));
+
             // Minimize the application we just launched
             swipeFromLeftEdge(units.gu(27));
 
@@ -437,7 +464,7 @@ Item {
             } while (!isStill);
         }
 
-        function test_wallpaper_data() {
+        function test_background_data() {
             return [
                 {tag: "red", url: "tests/data/unity/backgrounds/red.png", expectedUrl: "tests/data/unity/backgrounds/red.png"},
                 {tag: "blue", url: "tests/data/unity/backgrounds/blue.png", expectedUrl: "tests/data/unity/backgrounds/blue.png"},
@@ -446,11 +473,19 @@ Item {
             ]
         }
 
-        function test_wallpaper(data) {
+        function test_background(data) {
             var backgroundImage = findChild(shell, "backgroundImage")
             GSettingsController.setPictureUri(data.url)
             tryCompareFunction(function() { return backgroundImage.source.toString().indexOf(data.expectedUrl) !== -1; }, true)
             tryCompare(backgroundImage, "status", Image.Ready)
+        }
+
+        function test_lockscreen_background() {
+            var backgroundImage = findChild(shell, "backgroundImage")
+            var lockscreen = findChild(shell, "lockscreen")
+            var lockscreenBackground = findChild(lockscreen, "lockscreenBackground")
+            var lockscreenBackgroundMapped = lockscreenBackground.mapToItem(shell, 0, 0)
+            compare(backgroundImage.y, lockscreenBackgroundMapped.y)
         }
 
         function test_DashShown_data() {
@@ -487,6 +522,29 @@ Item {
 
             var dash = findChild(shell, "dash");
             tryCompare(dash, "shown", data.expectedShown);
+        }
+
+        function test_searchIndicatorHidesOnAppFocus() {
+            var searchIndicator = findChild(shell, "container")
+            tryCompare(searchIndicator, "opacity", 1)
+            dragLauncherIntoView();
+
+            // Launch an app from the launcher
+            tapOnAppIconInLauncher();
+            waitUntilApplicationWindowIsFullyVisible();
+
+            tryCompare(searchIndicator, "opacity", 0);
+        }
+
+        function test_searchIndicatorHidesOnGreeterShown() {
+            var searchIndicator = findChild(shell, "container")
+            var greeter = findChild(shell, "greeter");
+
+            tryCompare(searchIndicator, "opacity", 1)
+
+            greeter.show()
+            tryCompare(greeter, "shown", true)
+            tryCompare(searchIndicator, "opacity", 0)
         }
     }
 }

@@ -20,7 +20,7 @@
 #include "AccountsService.h"
 
 #include <QDBusMetaType>
-#include <QtQml>
+#include <QtQml/qqml.h>
 
 static QObject *service_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {

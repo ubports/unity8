@@ -1734,7 +1734,25 @@ private Q_SLOTS:
         QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 50), Q_ARG(QVariant, "Agressive"));
         QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 50), Q_ARG(QVariant, "Agressive"));
 
-        changeContentY(140);
+        changeContentY(5);
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 5);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, 45., 90., false, "Agressive", false);
+        verifyItem(1, 135., 50., false, QString(), false);
+        verifyItem(2, 185., 150., false, QString(), false);
+        verifyItem(3, 335., 240., false, "Regular", false);
+        verifyItem(4, 575., 390., true, "Mild", true);
+        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_clipItem->y(), 5.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 5.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+        QVERIFY(QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
+
+        changeContentY(135);
 
         QTRY_COMPARE(lvwph->m_visibleItems.count(), 5);
         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
@@ -2074,6 +2092,68 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
 
         QCOMPARE(spy.count(), 0);
+    }
+
+    void testDownAndUp()
+    {
+        QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 1), Q_ARG(QVariant, 5));
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 1);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, 50., 190., false, "Agressive", false);
+        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_clipItem->y(), 0.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 0.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+        QVERIFY(QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
+
+        QTest::qWait(1);
+
+        changeContentY(-15);
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 1);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, 65., 190., false, "Agressive", false);
+        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_clipItem->y(), -15.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), -15.);
+        QCOMPARE(lvwph->m_headerItem->height(), 65.);
+        QCOMPARE(lvwph->contentY(), -15.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+        QVERIFY(QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
+
+        changeContentY(25);
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 1);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, 40., 190., false, "Agressive", false);
+        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_clipItem->y(), 10.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 10.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+        QVERIFY(QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
+
+
+        QTest::mouseClick(view, Qt::LeftButton, Qt::NoModifier, QPoint(0, 0));
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 1);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, 50., 190., false, "Agressive", false);
+        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_clipItem->y(), 0.);
+        QCOMPARE(lvwph->m_clipItem->clip(), false);
+        QCOMPARE(lvwph->m_headerItem->y(), 0.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 0.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
+        QVERIFY(QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
     }
 
 private:

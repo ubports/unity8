@@ -99,12 +99,20 @@ Item {
 
             if (!init && model !== undefined) {
                 var item = model.get(currentIndex)
-                scope.preview( item.uri, item.icon, item.category, 0, item.mimetype, item.title, item.comment, item.dndUri, item.metadata)
+                scope.preview(item.uri, item.icon, item.category, 0, item.mimetype, item.title, item.comment, item.dndUri, item.metadata)
             }
 
             var itemY = categoryView.contentItem.mapFromItem(categoryDelegate.currentItem).y;
+
+            // Find new contentY and effect.postionPx
             var newContentY = itemY - openEffect.positionPx - categoryDelegate.verticalSpacing;
-            var effectAdjust = openEffect.positionPx;
+
+            // TODO ALBERT ESTO VA?
+            // Make sure the item is not covered by a header. Move the effect split down if necessary
+            var headerHeight = pageHeader.height + categoryView.stickyHeaderHeight;
+            var effectAdjust = Math.max(effect.positionPx, headerHeight);
+
+            // Make sure we don't overscroll the listview. If yes, adjust effect position
             if (newContentY < 0) {
                 effectAdjust += newContentY;
                 newContentY = 0;
@@ -115,7 +123,7 @@ Item {
             }
 
             openEffect.positionPx = effectAdjust;
-            categoryView.contentY = newContentY - categoryView.originY;
+            categoryView.contentY = newContentY;
         }
 
         property bool open: false

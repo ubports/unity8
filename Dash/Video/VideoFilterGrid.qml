@@ -42,11 +42,11 @@ GenericFilterGrid {
         style: VideoTileStyle {}
 
         onClicked: {
-            filtergrid.clicked(index, filtergrid.model, tile.y)
+            filtergrid.clicked(index, tile.y)
         }
 
         onPressAndHold: {
-            filtergrid.pressAndHold(index, filtergrid.model, tile.y)
+            filtergrid.pressAndHold(index, tile.y)
         }
     }
 }

@@ -17,7 +17,6 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import "../Components"
-import LightDM 0.1 as LightDM
 
 Showable {
     id: root
@@ -37,7 +36,7 @@ Showable {
 
     property url background: ""
 
-    signal unlocked()
+    signal entered(string passphrase)
     signal cancel()
     signal emergencyCall()
 
@@ -53,16 +52,24 @@ Showable {
         pinPadLoader.resetting = false;
     }
 
+    function clear(showAnimation) {
+        pinPadLoader.item.clear(showAnimation);
+    }
+
     Rectangle {
-        // In case wallpaper fails to load or is undefined
-        id: wallpaperBackup
+        // In case background fails to load or is undefined
+        id: backgroundBackup
         anchors.fill: parent
         color: "black"
     }
 
     Image {
-        id: wallpaper
-        anchors.fill: parent
+        id: backgroundImage
+        objectName: "lockscreenBackground"
+        anchors {
+            fill: parent
+            topMargin: backgroundTopMargin
+        }
         source: root.required ? root.background : ""
         fillMode: Image.PreserveAspectCrop
     }
@@ -88,7 +95,7 @@ Showable {
             target: pinPadLoader.item
 
             onEntered: {
-                LightDM.Greeter.respond(passphrase);
+                root.entered(passphrase);
             }
 
             onCancel: {
@@ -144,21 +151,6 @@ Showable {
             opacity: 0.6
             fontSize: "medium"
             anchors.horizontalCenter: parent.horizontalCenter
-        }
-    }
-
-    Connections {
-        target: LightDM.Greeter
-
-        onAuthenticationComplete: {
-            if (LightDM.Greeter.promptless) {
-                return;
-            }
-            if (LightDM.Greeter.authenticated) {
-                root.unlocked();
-            } else {
-                pinPadLoader.item.clear(true);
-            }
         }
     }
 }
