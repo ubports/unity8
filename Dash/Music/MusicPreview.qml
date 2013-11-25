@@ -172,7 +172,7 @@ GenericPreview {
                                     id: progressBarImage
                                     anchors { left: parent.left; top: parent.bottom; right: parent.right }
                                     height: units.dp(6)
-                                    visible: audioPlayer.playbackState != Audio.StoppedState && trackItem.isPlayingItem
+                                    visible: audioPlayer.playbackState != Audio.StoppedState && trackItem.isPlayingItem && model.length.length > 0
                                     source: "graphics/music_progress_bg.png"
                                 }
                             }
