@@ -49,7 +49,7 @@ class UpstartIntegrationTests(UnityTestCase):
     def _launch_unity(self):
         self.patch_environment("QT_LOAD_TESTABILITY", "1")
         self.process = subprocess.Popen([get_binary_path()] + self.unity_geometry_args)
-        self.addCleanup(lambda: self.process.kill())
+        self.addCleanup(lambda: self.process.terminate())
 
     def _set_proxy(self):
         super(UpstartIntegrationTests, self)._set_proxy(get_proxy_object_for_existing_process(
