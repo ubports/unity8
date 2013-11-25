@@ -161,11 +161,6 @@ Item {
             searchHistory: dashContent.searchHistory
 
             childItem: TabBar {
-                Rectangle {
-                    anchors.fill: parent
-                    color: "red"
-                    opacity: 0.5
-                }
                 id: tabbar
                 objectName: "tabbar"
                 height: units.gu(7)
