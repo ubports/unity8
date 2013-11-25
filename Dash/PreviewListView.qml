@@ -107,10 +107,9 @@ Item {
             // Find new contentY and effect.postionPx
             var newContentY = itemY - openEffect.positionPx - categoryDelegate.verticalSpacing;
 
-            // TODO ALBERT ESTO VA?
             // Make sure the item is not covered by a header. Move the effect split down if necessary
             var headerHeight = pageHeader.height + categoryView.stickyHeaderHeight;
-            var effectAdjust = Math.max(effect.positionPx, headerHeight);
+            var effectAdjust = Math.max(openEffect.positionPx, headerHeight);
 
             // Make sure we don't overscroll the listview. If yes, adjust effect position
             if (newContentY < 0) {
