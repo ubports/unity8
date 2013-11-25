@@ -240,9 +240,9 @@ Item {
         function test_tabBar_listens_to_index_change() {
             var tabbar = findChild(dashContent, "tabbar");
             tryCompare(dashContent, "currentIndex", 0);
-            compare(tabbar.selectedTabIndex, 0);
+            compare(tabbar.selectedIndex, 0);
             dashContent.currentIndex = 1;
-            compare(tabbar.selectedTabIndex, 1);
+            compare(tabbar.selectedIndex, 1);
         }
     }
 }

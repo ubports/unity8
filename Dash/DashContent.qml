@@ -163,51 +163,24 @@ Item {
                 objectName: "tabbar"
                 height: units.gu(7)
                 width: parent.width
-                implicitWidth: currentButtonWidth
+                implicitWidth: 400
 
-                property alias selectedTabIndex: tabs.selectedTabIndex
+                model: dashContentList.model
+
+                onSelectedIndexChanged: {
+                    dashContentList.currentIndex = selectedIndex;
+                }
+
+                Connections {
+                    target: dashContentList
+                    onCurrentIndexChanged: {
+                        tabbar.selectedIndex = dashContentList.currentIndex
+                    }
+                }
 
                 Component.onCompleted: {
                     __styleInstance.headerTextStyle = Text.Raised
                     __styleInstance.headerTextStyleColor = "black"
-                }
-
-                tabsItem: TabsBase {
-                    id: tabs
-
-                    Repeater {
-                        model: dashContentList.model
-                        Tab {
-                            id: tab
-                            title: scope.name
-                            Component.onCompleted: {
-                                var aux = tabs.tabList;
-                                aux.push(tab)
-                                tabs.tabList = aux;
-                                tabs.modelChanged();
-                                if (tabs.selectedTabIndex == -1) {
-                                    tabs.selectedTabIndex = 0;
-                                }
-                            }
-                            Component.onDestruction: {
-                                var aux = tabs.tabList;
-                                aux.splice(aux.indexOf(tab), 1)
-                                tabs.tabList = aux;
-                                tabs.modelChanged();
-                            }
-                        }
-                    }
-
-                    onSelectedTabIndexChanged: {
-                        dashContentList.currentIndex = selectedTabIndex;
-                    }
-
-                    Connections {
-                        target: dashContentList
-                        onCurrentIndexChanged: {
-                            tabs.selectedTabIndex = dashContentList.currentIndex
-                        }
-                    }
                 }
             }
         }

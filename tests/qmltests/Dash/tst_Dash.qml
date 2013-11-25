@@ -88,7 +88,7 @@ Item {
 
             dash.setCurrentScope(data.tag, true /* animate */, false /* reset */);
             compare(dashContent.currentIndex, data.shouldBeVisible ? data.visualIndex : current_index);
-            compare(tabbar.selectedTabIndex, data.shouldBeVisible ? data.visualIndex : current_index);
+            compare(tabbar.selectedIndex, data.shouldBeVisible ? data.visualIndex : current_index);
         }
 
         function test_show_scope_on_load_data() {
@@ -124,7 +124,7 @@ Item {
             var dashContent = findChild(dash, "dashContent");
             var current_index = dashContent.currentIndex;
 
-            tabbar.selectedTabIndex = data.visualIndex;
+            tabbar.selectedIndex = data.visualIndex;
             compare(dashContent.currentIndex, data.shouldBeVisible ? data.visualIndex : current_index);
         }
     }
