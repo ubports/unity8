@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import QtTest 1.0
 import "../../../Dash"
+import "../../../Components"
 import Ubuntu.Components 0.1
 import Unity 0.1
 import Unity.Test 0.1 as UT
@@ -58,7 +59,7 @@ Item {
         scopes : scopesModel
 
         scopeMapper : scopeDelegateMapper
-        searchHistory: ListModel {}
+        searchHistory: SearchHistoryModel {}
     }
 
     ScopeDelegateMapper {
