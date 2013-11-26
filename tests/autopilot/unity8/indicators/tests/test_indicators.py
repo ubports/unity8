@@ -22,6 +22,7 @@ from __future__ import absolute_import
 from autopilot import platform
 from testtools import skipIf
 
+from unity8.process_helpers import unlock_unity
 from unity8.shell.tests import UnityTestCase
 
 
@@ -37,13 +38,15 @@ class IndicatorTestCase(UnityTestCase):
         ('Sound', dict(indicator_name='indicator-sound')),
     ]
 
-    @skipIf(platform.image_codename()=='Desktop', "Unity8/phablet-only test!")
+    @skipIf(platform.image_codename() == 'Desktop',
+            "Unity8/phablet-only test!")
     def setUp(self):
-        super(UnityTestCase, self).setUp()
+        super(IndicatorTestCase, self).setUp()
 
     def test_indicator_exists(self):
         """The tab of a given indicator can be found."""
-        self.launch_unity()
+        unity_proxy = self.launch_unity()
+        unlock_unity(unity_proxy)
         self.main_window.get_greeter().swipe()
         indicator = self.main_window.get_indicator(self.indicator_name)
         self.assertIsNotNone(indicator)
