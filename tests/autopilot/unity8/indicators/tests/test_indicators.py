@@ -37,10 +37,12 @@ class IndicatorTestCase(UnityTestCase):
         ('Sound', dict(indicator_name='indicator-sound')),
     ]
 
-    @skipIf(platform.image_codename()=='Desktop', "phablet-only test")
+    @skipIf(platform.image_codename()=='Desktop', "Unity8/phablet-only test!")
+    def setUp(self):
+        super(UnityTestCase, self).setUp()
+
     def test_indicator_exists(self):
         """The tab of a given indicator can be found."""
-
         self.launch_unity()
         self.main_window.get_greeter().swipe()
         indicator = self.main_window.get_indicator(self.indicator_name)
