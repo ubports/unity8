@@ -58,9 +58,11 @@ inline QStringList overrideImportPaths() {
 inline QStringList fallbackImportPaths() {
     QStringList paths;
     if (isRunningInstalled()) {
-        paths << QString("@CMAKE_INSTALL_PREFIX@/@SHELL_PRIVATE_LIBDIR@/qml");
-        paths << QString("@CMAKE_INSTALL_PREFIX@/@SHELL_PRIVATE_LIBDIR@/qml/mocks");
+        paths << QString("@CMAKE_INSTALL_PREFIX@/@SHELL_INSTALL_QML@");
+        paths << QString("@SHELL_PLUGINDIR@");
+        paths << QString("@CMAKE_INSTALL_PREFIX@/@SHELL_INSTALL_QML@/mocks");
     } else {
+        paths << QString("@SHELL_PLUGINDIR@");
         paths << QString("@CMAKE_BINARY_DIR@/tests/mocks");
     }
     return paths;
