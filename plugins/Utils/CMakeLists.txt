@@ -12,11 +12,10 @@ include_directories(
 
 set(QMLPLUGIN_SRC
     albumartprovider.cpp
-    applicationpaths.h
+    bottombarvisibilitycommunicatorshell.cpp
     mediaartcache.cpp
     qlimitproxymodelqml.cpp
     qsortfilterproxymodelqml.cpp
-    ubuntuwindow.cpp
     unitymenumodelpaths.cpp
     plugin.cpp
     )

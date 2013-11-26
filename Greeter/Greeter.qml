@@ -19,7 +19,6 @@ import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
 import LightDM 0.1 as LightDM
 import "../Components"
-import "../Components/Math.js" as MathLocal
 
 Showable {
     id: greeter
@@ -29,7 +28,7 @@ Showable {
     property url defaultBackground
 
     // 1 when fully shown and 0 when fully hidden
-    property real showProgress: MathLocal.clamp((width + x) / width, 0, 1)
+    property real showProgress: MathUtils.clamp((width + x) / width, 0, 1)
 
     showAnimation: StandardAnimation { property: "x"; to: 0 }
     hideAnimation: StandardAnimation { property: "x"; to: -width }
@@ -64,6 +63,7 @@ Showable {
         property var model: LightDM.Users
         property int currentIndex: 0
         property var infographicModel: LightDM.Infographic
+        readonly property int backgroundTopMargin: -greeter.y
 
         source: required ? "GreeterContent.qml" : ""
 
@@ -89,7 +89,7 @@ Showable {
             when: teasingTimer.running
             PropertyChanges {
                 target: greeter
-                x: -units.gu(2)
+                x: -dragHandle.hintDisplacement
             }
         }
     ]
@@ -113,10 +113,7 @@ Showable {
         anchors.bottom: parent.bottom
         anchors.right: parent.right
 
-        // no need for requiring a directional drag since we are covering the screen
-        // anyway (i.e., no change user could be trying to interact with some other
-        // UI element)
-        distanceThreshold: 0
+        hintDisplacement: units.gu(2)
 
         enabled: greeter.narrowMode || !greeter.locked
 

@@ -105,8 +105,6 @@ AbstractButton {
                 baseline: parent.bottom
                 left: parent.left
                 right: parent.right
-                leftMargin: units.gu(1)
-                rightMargin: units.gu(1)
             }
             text: (application) ? application.name : ""
 

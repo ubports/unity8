@@ -1589,6 +1589,28 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
     }
 
+    void testMaximizeVisibleAreaTopWithHalfPageHeaderUpDown()
+    {
+        testMaximizeVisibleAreaTopWithHalfPageHeader();
+
+        changeContentY(-60);
+        changeContentY(15);
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, -140., 150., false);
+        verifyItem(1, 10., 200., false);
+        verifyItem(2, 210, 350., false);
+        verifyItem(3, 560, 350., true);
+        QCOMPARE(lvwph->m_minYExtent, 0.);
+        QCOMPARE(lvwph->m_clipItem->y(), 190.);
+        QCOMPARE(lvwph->m_clipItem->clip(), true);
+        QCOMPARE(lvwph->m_headerItem->y(), 140.);
+        QCOMPARE(lvwph->m_headerItem->height(), 50.);
+        QCOMPARE(lvwph->contentY(), 155.);
+        QCOMPARE(lvwph->m_headerItemShownHeight, 35.);
+    }
+
     void testMaximizeVisibleAreaBottomWithHalfPageHeader()
     {
         changeContentY(430);
@@ -1724,6 +1746,9 @@ private Q_SLOTS:
 
     void testMaximizeVisibleAreaMoveUpAndShowHeader()
     {
+#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
+        QSKIP("This test is extremely unstable in 5.0.x");
+#endif
         model->setProperty(0, "size", 800);
         verifyItem(0, 50., 800., false);
 
@@ -1822,6 +1847,23 @@ private Q_SLOTS:
         QTRY_COMPARE(lvwph->m_visibleItems.count(), 0);
 
         lvwph->positionAtBeginning();
+    }
+
+    void testHeaderPositionBug1240118()
+    {
+        scrollToBottom();
+        lvwph->showHeader();
+        QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
+        QTest::qWait(100); // Make sure stuff is stable
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 100));
+        model->setProperty(3, "size", 10);
+        model->setProperty(4, "size", 10);
+        model->setProperty(5, "size", 10);
+        model->setProperty(6, "size", 10);
+#if (QT_VERSION > QT_VERSION_CHECK(5, 0, 3))
+        QTRY_COMPARE(lvwph->m_minYExtent, 210.);
+#endif
+        QTRY_COMPARE(lvwph->m_headerItem->y(), -lvwph->m_minYExtent);
     }
 
 private:

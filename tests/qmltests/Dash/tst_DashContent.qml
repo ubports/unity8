@@ -26,7 +26,17 @@ Item {
     width: units.gu(40)
     height: units.gu(80)
 
-    property ListModel searchHistory: ListModel {}
+    Item {
+        // Fake. Make a few components less noisy
+        id: greeter
+        signal shownChanged
+    }
+
+    Item {
+        // Fake. Make a few components less noisy
+        id: panel
+        signal searchClicked
+    }
 
     property var scopeStatus: {
         'MockScope1': { 'movementStarted': 0, 'positionedAtBeginning': 0 },
@@ -48,6 +58,7 @@ Item {
         scopes : scopesModel
 
         scopeMapper : scopeDelegateMapper
+        searchHistory: ListModel {}
     }
 
     ScopeDelegateMapper {
@@ -111,10 +122,10 @@ Item {
             clear_scope_status();
             dashContent.visible = true;
 
-            scopesModel.clear();
-            // wait for dash to empty scopes.
             var dashContentList = findChild(dashContent, "dashContentList");
             verify(dashContentList != undefined);
+            scopesModel.clear();
+            // wait for dash to empty scopes.
             tryCompare(dashContentList, "count", 0);
         }
 
@@ -228,6 +239,29 @@ Item {
             tryCompare(scopesModel.get(0), "isActive", data.active0);
             tryCompare(scopesModel.get(1), "isActive", data.active1);
             tryCompare(scopesModel.get(2), "isActive", data.active2);
+        }
+
+        function checkFlickMovingAndNotInteractive()
+        {
+            var dashContentList = findChild(dashContent, "dashContentList");
+
+            if (dashContentList.currentItem.moving && !dashContentList.interactive)
+                return true;
+
+            var startX = dashContentList.width/2;
+            var startY = dashContentList.height/2;
+            touchFlick(dashContentList, startX, startY, startX, startY - units.gu(40));
+
+            return dashContentList.currentItem.moving && !dashContentList.interactive;
+        }
+
+
+        function test_hswipe_disabled_vswipe() {
+            var dashContentList = findChild(dashContent, "dashContentList");
+
+            tryCompare(dashContentList, "interactive", true);
+
+            tryCompareFunction(checkFlickMovingAndNotInteractive, true);
         }
     }
 }

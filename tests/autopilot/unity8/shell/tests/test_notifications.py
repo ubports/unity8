@@ -21,6 +21,7 @@
 
 from __future__ import absolute_import
 
+from unity8.process_helpers import unlock_unity
 from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 
 from testtools.matchers import Equals, NotEquals
@@ -45,7 +46,7 @@ class NotificationsBase(UnityTestCase):
         """Given an icons file name returns the full path (either system or
         source tree.
 
-        Consider the graphics directory as root so for example (runnign tests
+        Consider the graphics directory as root so for example (running tests
         from installed unity8-autopilot package):
         >>> self.get_icon_path('clock.png')
         /usr/share/unity8/graphics/clock.png
@@ -118,9 +119,8 @@ class InteractiveNotificationBase(NotificationsBase):
 
     def test_interactive(self):
         """Interactive notification must react upon click on itself."""
-        self.launch_unity()
-        greeter = self.main_window.get_greeter()
-        greeter.swipe()
+        unity_proxy = self.launch_unity()
+        unlock_unity(unity_proxy)
 
         notify_list = self._get_notifications_list()
 
@@ -145,8 +145,8 @@ class InteractiveNotificationBase(NotificationsBase):
             hints,
         )
 
-        get_notification = lambda: notify_list.select_single('Notification', objectName='notification1')
-        self.assertThat(get_notification, Eventually(NotEquals(None)))
+        get_notification = lambda: notify_list.wait_select_single(
+            'Notification', objectName='notification1')
         notification = get_notification()
 
         self.touch.tap_object(
@@ -156,10 +156,10 @@ class InteractiveNotificationBase(NotificationsBase):
         self.assert_notification_action_id_was_called('action_id')
 
     def test_sd_incoming_call(self):
-        """Rejecting a call should make notification expand and offer more options."""
-        self.launch_unity()
-        greeter = self.main_window.get_greeter()
-        greeter.swipe()
+        """Rejecting a call should make notification expand and
+            offer more options."""
+        unity_proxy = self.launch_unity()
+        unlock_unity(unity_proxy)
 
         notify_list = self._get_notifications_list()
 
@@ -191,8 +191,8 @@ class InteractiveNotificationBase(NotificationsBase):
             hints
         )
 
-        get_notification = lambda: notify_list.select_single('Notification', objectName='notification1')
-        self.assertThat(get_notification, Eventually(NotEquals(None)))
+        get_notification = lambda: notify_list.wait_select_single(
+            'Notification', objectName='notification1')
         notification = get_notification()
         self._assert_notification(notification, None, None, True, True, 1.0)
         initial_height = notification.height
@@ -200,8 +200,10 @@ class InteractiveNotificationBase(NotificationsBase):
         self.assertThat(
             notification.height,
             Eventually(Equals(initial_height +
-                              3 * notification.select_single(objectName="buttonColumn").spacing +
-                              3 * notification.select_single(objectName="button4").height)))
+                              3 * notification.select_single(
+                                  objectName="buttonColumn").spacing +
+                              3 * notification.select_single(
+                                  objectName="button4").height)))
         self.touch.tap_object(notification.select_single(objectName="button4"))
         self.assert_notification_action_id_was_called("action_decline_4")
 
@@ -333,9 +335,8 @@ class EphemeralNotificationsTests(NotificationsBase):
 
     def test_icon_summary_body(self):
         """Notification must display the expected summary and body text."""
-        self.launch_unity()
-        greeter = self.main_window.get_greeter()
-        greeter.swipe()
+        unity_proxy = self.launch_unity()
+        unlock_unity(unity_proxy)
 
         notify_list = self._get_notifications_list()
 
@@ -360,16 +361,22 @@ class EphemeralNotificationsTests(NotificationsBase):
 
         notification.show()
 
-        get_notification = lambda: notify_list.select_single('Notification', objectName='notification1')
-        self.assertThat(get_notification, Eventually(NotEquals(None)))
-        notification = get_notification()
-        self._assert_notification(notification, summary, body, True, True, 1.0)
+        notification = lambda: notify_list.wait_select_single(
+            'Notification', objectName='notification1')
+        self._assert_notification(
+            notification(),
+            summary,
+            body,
+            True,
+            True,
+            1.0,
+        )
 
     def test_icon_summary(self):
-        """Notification must display the expected summary and secondary icon."""
-        self.launch_unity()
-        greeter = self.main_window.get_greeter()
-        greeter.swipe()
+        """Notification must display the expected summary and secondary
+        icon."""
+        unity_proxy = self.launch_unity()
+        unlock_unity(unity_proxy)
 
         notify_list = self._get_notifications_list()
 
@@ -391,11 +398,11 @@ class EphemeralNotificationsTests(NotificationsBase):
 
         notification.show()
 
-        get_notification = lambda: notify_list.select_single('Notification', objectName='notification1')
-        self.assertThat(get_notification, Eventually(NotEquals(None)))
-        notification = get_notification()
+        notification = lambda: notify_list.wait_select_single(
+            'Notification', objectName='notification1')
+
         self._assert_notification(
-            notification,
+            notification(),
             summary,
             None,
             False,
@@ -404,10 +411,10 @@ class EphemeralNotificationsTests(NotificationsBase):
         )
 
     def test_urgency_order(self):
-        """Notifications must be displayed in order according to their urgency."""
-        self.launch_unity()
-        greeter = self.main_window.get_greeter()
-        greeter.swipe()
+        """Notifications must be displayed in order according to their
+        urgency."""
+        unity_proxy = self.launch_unity()
+        unlock_unity(unity_proxy)
 
         notify_list = self._get_notifications_list()
 
@@ -448,11 +455,10 @@ class EphemeralNotificationsTests(NotificationsBase):
         )
         notification_critical.show()
 
-        get_notification = lambda: notify_list.select_single(
+        get_notification = lambda: notify_list.wait_select_single(
             'Notification',
             summary=summary_critical
         )
-        self.assertThat(get_notification, Eventually(NotEquals(None)))
 
         notification = get_notification()
         self._assert_notification(
@@ -464,11 +470,10 @@ class EphemeralNotificationsTests(NotificationsBase):
             1.0
         )
 
-        get_normal_notification = lambda: notify_list.select_single(
+        get_normal_notification = lambda: notify_list.wait_select_single(
             'Notification',
             summary=summary_normal
         )
-        self.assertThat(get_normal_notification, Eventually(NotEquals(None)))
         notification = get_normal_notification()
         self._assert_notification(
             notification,
@@ -479,11 +484,10 @@ class EphemeralNotificationsTests(NotificationsBase):
             1.0
         )
 
-        get_low_notification = lambda: notify_list.select_single(
+        get_low_notification = lambda: notify_list.wait_select_single(
             'Notification',
             summary=summary_low
         )
-        self.assertThat(get_low_notification, Eventually(NotEquals(None)))
         notification = get_low_notification()
         self._assert_notification(
             notification,
@@ -496,9 +500,8 @@ class EphemeralNotificationsTests(NotificationsBase):
 
     def test_summary_and_body(self):
         """Notification must display the expected summary- and body-text."""
-        self.launch_unity()
-        greeter = self.main_window.get_greeter()
-        greeter.swipe()
+        unity_proxy = self.launch_unity()
+        unlock_unity(unity_proxy)
 
         notify_list = self._get_notifications_list()
 
@@ -508,9 +511,9 @@ class EphemeralNotificationsTests(NotificationsBase):
         notification = self._create_ephemeral_notification(summary, body)
         notification.show()
 
-        get_notification = lambda: notify_list.select_single('Notification', objectName='notification1')
-        self.assertThat(get_notification, Eventually(NotEquals(None)))
-        notification = get_notification()
+        notification = notify_list.wait_select_single(
+            'Notification', objectName='notification1')
+
         self._assert_notification(
             notification,
             summary,
@@ -522,9 +525,8 @@ class EphemeralNotificationsTests(NotificationsBase):
 
     def test_summary_only(self):
         """Notification must display only the expected summary-text."""
-        self.launch_unity()
-        greeter = self.main_window.get_greeter()
-        greeter.swipe()
+        unity_proxy = self.launch_unity()
+        unlock_unity(unity_proxy)
 
         notify_list = self._get_notifications_list()
 
@@ -533,17 +535,16 @@ class EphemeralNotificationsTests(NotificationsBase):
         notification = self._create_ephemeral_notification(summary)
         notification.show()
 
-        get_notification = lambda: notify_list.select_single('Notification', objectName='notification1')
-        self.assertThat(get_notification, Eventually(NotEquals(None)))
-        notification = get_notification()
+        notification = notify_list.wait_select_single(
+            'Notification', objectName='notification1')
 
         self._assert_notification(notification, summary, '', False, False, 1.0)
 
     def test_update_notification_same_layout(self):
-        """Notification must allow updating its contents while being displayed."""
-        self.launch_unity()
-        greeter = self.main_window.get_greeter()
-        greeter.swipe()
+        """Notification must allow updating its contents while being
+        displayed."""
+        unity_proxy = self.launch_unity()
+        unlock_unity(unity_proxy)
 
         notify_list = self._get_notifications_list()
 
@@ -558,8 +559,8 @@ class EphemeralNotificationsTests(NotificationsBase):
         )
         notification.show()
 
-        get_notification = lambda: notify_list.select_single('Notification', summary=summary)
-        self.assertThat(get_notification, Eventually(NotEquals(None)))
+        get_notification = lambda: notify_list.wait_select_single(
+            'Notification', summary=summary)
         self._assert_notification(
             get_notification(),
             summary,
@@ -575,14 +576,13 @@ class EphemeralNotificationsTests(NotificationsBase):
         icon_path = self._get_icon_path('avatars/amanda.png')
         notification.update(summary, body, icon_path)
         notification.show()
-        self.assertThat(get_notification, Eventually(NotEquals(None)))
         self._assert_notification(get_notification(), summary, body)
 
     def test_update_notification_layout_change(self):
-        """Notification must allow updating its contents and layout while being displayed."""
-        self.launch_unity()
-        greeter = self.main_window.get_greeter()
-        greeter.swipe()
+        """Notification must allow updating its contents and layout while
+        being displayed."""
+        unity_proxy = self.launch_unity()
+        unlock_unity(unity_proxy)
 
         notify_list = self._get_notifications_list()
 
@@ -603,8 +603,9 @@ class EphemeralNotificationsTests(NotificationsBase):
         )
         notification.show()
 
-        get_notification = lambda: notify_list.select_single('Notification', objectName='notification1')
-        self.assertThat(get_notification, Eventually(NotEquals(None)))
+        get_notification = lambda: notify_list.wait_select_single(
+            'Notification', objectName='notification1')
+
         self._assert_notification(
             get_notification(),
             summary,
@@ -626,9 +627,8 @@ class EphemeralNotificationsTests(NotificationsBase):
 
     def test_append_hint(self):
         """Notification has to accumulate body-text using append-hint."""
-        self.launch_unity()
-        greeter = self.main_window.get_greeter()
-        greeter.swipe()
+        unity_proxy = self.launch_unity()
+        unlock_unity(unity_proxy)
 
         notify_list = self._get_notifications_list()
 
@@ -645,8 +645,9 @@ class EphemeralNotificationsTests(NotificationsBase):
 
         notification.show()
 
-        get_notification = lambda: notify_list.select_single('Notification', objectName='notification1')
-        self.assertThat(get_notification, Eventually(NotEquals(None)))
+        get_notification = lambda: notify_list.wait_select_single(
+            'Notification', objectName='notification1')
+
         notification = get_notification()
         self._assert_notification(
             notification,
@@ -662,7 +663,8 @@ class EphemeralNotificationsTests(NotificationsBase):
             'Did you watch the air-race in Oshkosh last week?',
             'Phil owned the place like no one before him!',
             'Did really everything in the race work according to regulations?',
-            'Somehow I think to remember Burt Williams did cut corners and was not punished for this.',
+            'Somehow I think to remember Burt Williams did cut corners and '
+            'was not punished for this.',
             'Hopefully the referees will watch the videos of the race.',
             'Burt could get fined with US$ 50000 for that rule-violation :)'
         ]
@@ -677,11 +679,11 @@ class EphemeralNotificationsTests(NotificationsBase):
                 hints=[('x-canonical-append', 'true')]
             )
             notification.show()
-            get_notification = lambda: notify_list.select_single(
+
+            get_notification = lambda: notify_list.wait_select_single(
                 'Notification',
                 objectName='notification1'
             )
-            self.assertThat(get_notification, Eventually(NotEquals(None)))
             notification = get_notification()
             self._assert_notification(
                 notification,
