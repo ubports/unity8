@@ -29,6 +29,8 @@ Item {
 
     property int columns: 1
 
+    property int rows: 1
+
     // Index of the highlighted item
     property int highlightIndex: -1
 

@@ -447,27 +447,30 @@ FocusScope {
                 scopeView.scope.preview(item.uri, item.icon, item.category, 0, item.mimetype, item.title, item.comment, item.dndUri, item.metadata)
             }
 
-            var itemY = categoryView.contentItem.mapFromItem(categoryDelegate.currentItem).y; //XXX not working fine with carousel, shift in y after first
+            // Adjust contentY in case we need to change to it to show the next row
+            if (categoryDelegate.rows > 1) {
+                var itemY = categoryView.contentItem.mapFromItem(categoryDelegate.currentItem).y;
 
-            // Find new contentY and effect.postionPx
-            var newContentY = itemY - effect.positionPx - categoryDelegate.verticalSpacing;
+                // Find new contentY and effect.postionPx
+                var newContentY = itemY - effect.positionPx - categoryDelegate.verticalSpacing;
 
-            // Make sure the item is not covered by a header. Move the effect split down if necessary
-            var headerHeight = pageHeader.height + categoryView.stickyHeaderHeight;
-            var effectAdjust = Math.max(effect.positionPx, headerHeight);
+                // Make sure the item is not covered by a header. Move the effect split down if necessary
+                var headerHeight = pageHeader.height + categoryView.stickyHeaderHeight;
+                var effectAdjust = Math.max(effect.positionPx, headerHeight);
 
-            // Make sure we don't overscroll the listview. If yes, adjust effect position
-            if (newContentY < 0) {
-                effectAdjust += newContentY;
-                newContentY = 0;
+                // Make sure we don't overscroll the listview. If yes, adjust effect position
+                if (newContentY < 0) {
+                    effectAdjust += newContentY;
+                    newContentY = 0;
+                }
+                if (newContentY > Math.max(0, categoryView.contentHeight - categoryView.height)) {
+                    effectAdjust += -(categoryView.contentHeight - categoryView.height) + newContentY
+                    newContentY = categoryView.contentHeight - categoryView.height;
+                }
+
+                effect.positionPx = effectAdjust;
+                categoryView.contentY = newContentY;
             }
-            if (newContentY > Math.max(0, categoryView.contentHeight - categoryView.height)) {
-                effectAdjust += -(categoryView.contentHeight - categoryView.height) + newContentY
-                newContentY = categoryView.contentHeight - categoryView.height;
-            }
-
-            effect.positionPx = effectAdjust;
-            categoryView.contentY = newContentY;
         }
 
         property bool open: false

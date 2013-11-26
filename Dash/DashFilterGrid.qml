@@ -32,6 +32,7 @@ DashRenderer {
     collapsedHeight: filterGrid.collapsedHeight
     collapsedRowCount: filterGrid.collapsedRowCount
     columns: filterGrid.columns
+    rows: filter ? filterGrid.collapsedRowCount : filterGrid.uncollapsedRowCount
     currentItem: filterGrid.currentItem
     expandable: filterGrid.expandable
     delegateCreationBegin: filterGrid.delegateCreationBegin
