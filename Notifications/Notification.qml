@@ -23,7 +23,7 @@ import Utils 0.1
 Item {
     id: notification
 
-    property alias iconSource: avatarIcon.source
+    property alias iconSource: icon.fileSource
     property alias secondaryIconSource: secondaryIcon.source
     property alias summary: summaryLabel.text
     property alias body: bodyLabel.text
@@ -129,29 +129,25 @@ Item {
                     right: parent.right
                 }
 
-                UbuntuShape {
+                ShapedIcon {
                     id: icon
 
                     objectName: "icon"
                     width: units.gu(6)
                     height: units.gu(6)
+                    shaped: notification.hints["x-canonical-non-shaped-icon"] == "true" ? false : true
                     visible: iconSource !== undefined && iconSource != ""
-                    image: Image {
-                        id: avatarIcon
+               }
 
-                        fillMode: Image.PreserveAspectCrop
-                    }
-                }
+               Image {
+                   id: secondaryIcon
 
-                Image {
-                    id: secondaryIcon
-
-                    objectName: "secondaryIcon"
-                    width: units.gu(2)
-                    height: units.gu(2)
-                    visible: source !== undefined && source != ""
-                    fillMode: Image.PreserveAspectCrop
-                }
+                   objectName: "secondaryIcon"
+                   width: units.gu(2)
+                   height: units.gu(2)
+                   visible: source !== undefined && source != ""
+                   fillMode: Image.PreserveAspectCrop
+               }
 
                 Column {
                     id: labelColumn

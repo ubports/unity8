@@ -175,16 +175,16 @@ Rectangle {
 
         function test_unlock_data() {
             return [
-                {tag: "numeric", alphanumeric: false, username: "has-pin", password: "1234", unlockedSignal: true, pinLength: 4},
-                {tag: "alphanumeric",  alphanumeric: true, username: "has-password", password: "password", unlockedSignal: true, pinLength: -1},
-                {tag: "numeric (wrong)",  alphanumeric: false, username: "has-pin", password: "4321", unlockedSignal: false, pinLength: 4},
-                {tag: "alphanumeric (wrong)",  alphanumeric: true, username: "has-password", password: "drowssap", unlockedSignal: false, pinLength: -1},
-                {tag: "flexible length",  alphanumeric: false, username: "has-pin", password: "1234", unlockedSignal: true, pinLength: -1},
+                {tag: "numeric", alphanumeric: false, username: "has-pin", password: "1234", pinLength: 4},
+                {tag: "alphanumeric",  alphanumeric: true, username: "has-password", password: "password", pinLength: -1},
+                {tag: "numeric (wrong)",  alphanumeric: false, username: "has-pin", password: "4321", pinLength: 4},
+                {tag: "alphanumeric (wrong)",  alphanumeric: true, username: "has-password", password: "drowssap", pinLength: -1},
+                {tag: "flexible length",  alphanumeric: false, username: "has-pin", password: "1234", pinLength: -1},
             ]
         }
 
         function test_unlock(data) {
-            unlockedCheckBox.checked = false
+            enteredLabel.text = ""
             pinLengthTextField.text = data.pinLength
             LightDM.Greeter.authenticate(data.username)
             waitForRendering(lockscreen)
@@ -205,11 +205,26 @@ Rectangle {
                     mouseClick(pinPadButtonErase, units.gu(1), units.gu(1));
                 }
             }
+            tryCompare(enteredLabel, "text", data.password)
+        }
 
-            tryCompare(unlockedCheckBox, "checked", data.unlockedSignal)
-            if (!data.unlockedSignal) {
-                // make sure the input is cleared on wrong input
-                tryCompareFunction(function() {return inputField.text.length == 0}, true)
+        function test_clear_data() {
+            return [
+                {tag: "animated PIN", animation: true, alphanumeric: false},
+                {tag: "not animated PIN", animation: false, alphanumeric: false},
+                {tag: "animated passphrase", animation: true, alphanumeric: true},
+                {tag: "not animated passphrase", animation: false, alphanumeric: true}
+            ];
+        }
+
+        function test_clear(data) {
+            pinPadCheckBox.checked = data.alphanumeric
+            waitForRendering(lockscreen)
+
+            var inputField = findChild(lockscreen, "pinentryField")
+            if (data.alphanumeric) {
+                mouseClick(inputField, units.gu(1), units.gu(1))
+                typeString("1")
             } else {
                 var button = findChild(lockscreen, "pinPadButton1")
                 mouseClick(button, units.gu(1), units.gu(1))
@@ -237,7 +252,7 @@ Rectangle {
         }
 
         function test_backspace(data) {
-            LightDM.Greeter.authenticate("has-pin");
+            pinPadCheckBox.checked = false
             pinLengthTextField.text = data.pinLength
             waitForRendering(lockscreen);
 

@@ -293,6 +293,7 @@ FocusScope {
             text: scopeView.scope.name
             searchEntryEnabled: true
             scope: scopeView.scope
+            searchHistory: scopeView.searchHistory
         }
     }
 
