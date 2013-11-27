@@ -72,6 +72,9 @@ Item {
                 ok = homeLoader !== undefined
                     && homeLoader.item !== undefined;
 
+                var dashHome = findChild(shell, "DashHome");
+                ok &= dashHome !== undefined;
+
                 var greeter = findChild(shell, "greeter");
                 ok &= greeter !== undefined;
 

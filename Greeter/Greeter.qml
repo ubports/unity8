@@ -89,7 +89,7 @@ Showable {
             when: teasingTimer.running
             PropertyChanges {
                 target: greeter
-                x: -units.gu(2)
+                x: -dragHandle.hintDisplacement
             }
         }
     ]
@@ -113,10 +113,7 @@ Showable {
         anchors.bottom: parent.bottom
         anchors.right: parent.right
 
-        // no need for requiring a directional drag since we are covering the screen
-        // anyway (i.e., no change user could be trying to interact with some other
-        // UI element)
-        distanceThreshold: 0
+        hintDisplacement: units.gu(2)
 
         enabled: greeter.narrowMode || !greeter.locked
 

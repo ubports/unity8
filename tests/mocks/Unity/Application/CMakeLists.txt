@@ -29,9 +29,9 @@ add_custom_target(OSKControllerQmlFile ALL
 )
 
 install(TARGETS FakeUnityApplicationQml
-    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/mocks/Unity/Application
+    DESTINATION ${SHELL_INSTALL_QML}/mocks/Unity/Application
     )
 
 install(FILES qmldir InputFilterArea.qml OSKController.qml
-    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/mocks/Unity/Application
+    DESTINATION ${SHELL_INSTALL_QML}/mocks/Unity/Application
     )

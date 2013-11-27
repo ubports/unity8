@@ -1,3 +1,0 @@
-module Unity
-plugin Unity-qml
-typeinfo plugin.qmltypes

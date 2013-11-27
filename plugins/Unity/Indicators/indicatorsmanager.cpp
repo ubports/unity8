@@ -26,6 +26,8 @@
 
 #include "paths.h"
 
+const QString profile = "phone";
+
 
 class IndicatorsManager::IndicatorData
 {
@@ -298,7 +300,7 @@ Indicator::Ptr IndicatorsManager::indicator(const QString& indicator_name)
     Indicator::Ptr new_indicator(new Indicator(this));
     data->m_indicator = new_indicator;
     QSettings settings(data->m_fileInfo.absoluteFilePath(), QSettings::IniFormat, this);
-    new_indicator->init(data->m_fileInfo.fileName(), settings);
+    new_indicator->init(profile, data->m_fileInfo.fileName(), settings);
     return new_indicator;
 }
 

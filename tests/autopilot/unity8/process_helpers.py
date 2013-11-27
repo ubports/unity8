@@ -21,17 +21,24 @@ from autopilot.introspection import (
     get_proxy_object_for_existing_process,
     ProcessSearchError,
 )
+import logging
 import subprocess
 from unity8.shell.emulators import UnityEmulatorBase
 from unity8.shell.emulators.main_window import MainWindow
+
+logger = logging.getLogger(__name__)
 
 
 class CannotAccessUnity(Exception):
     pass
 
 
-def unlock_unity():
+def unlock_unity(unity_proxy_obj=None):
     """Helper function that attempts to unlock the unity greeter.
+
+    If unity_proxy_object is None create a proxy object by querying for the
+    running unity process.
+    Otherwise re-use the passed proxy object.
 
     :raises RuntimeError: if the greeter attempts and fails to be unlocked.
 
@@ -43,30 +50,42 @@ def unlock_unity():
       upstart job cannot be found at all.
 
     """
-    pid = _get_unity_pid()
-    try:
-        unity = get_proxy_object_for_existing_process(
-            pid=pid,
-            emulator_base=UnityEmulatorBase,
-        )
-        main_window = MainWindow(unity)
+    if unity_proxy_obj is None:
+        try:
+            pid = _get_unity_pid()
+            unity = _get_unity_proxy_object(pid)
+            main_window = MainWindow(unity)
+        except ProcessSearchError as e:
+            raise CannotAccessUnity(
+                "Cannot introspect unity, make sure that it has been started "
+                "with testability. Perhaps use the function "
+                "'restart_unity_with_testability' this module provides."
+                "(%s)"
+                % str(e)
+            )
+    else:
+        main_window = MainWindow(unity_proxy_obj)
 
-        greeter = main_window.get_greeter()
-        if greeter is None:
-            raise RuntimeWarning("Greeter appears to be already unlocked.")
-        greeter.swipe()
-    except ProcessSearchError as e:
-        raise CannotAccessUnity(
-            "Cannot introspect unity, make sure that it has been started "
-            "with testability. Perhaps use the function "
-            "'restart_unity_with_testability' this module provides."
-            "(%s)"
-            % str(e)
-        )
+    greeter = main_window.get_greeter()
+    if greeter.created == False:
+        raise RuntimeWarning("Greeter appears to be already unlocked.")
+    greeter.swipe()
 
 
-def restart_unity_with_testability():
-    """Restarts (or just starts) unity8 with the testability driver loaded
+def restart_unity_with_testability(*args):
+    """Restarts (or starts) unity with testability enabled.
+
+    Passes *args arguments to the launched process.
+
+    """
+    args += ("QT_LOAD_TESTABILITY=1",)
+    return restart_unity(*args)
+
+
+def restart_unity(*args):
+    """Restarts (or starts) unity8 using the provided arguments.
+
+    Passes *args arguments to the launched process.
 
     :raises subprocess.CalledProcessError: if unable to stop or start the
       unity8 upstart job.
@@ -75,27 +94,28 @@ def restart_unity_with_testability():
     status = _get_unity_status()
     if "start/" in status:
         try:
-            print("Stopping unity.")
-            subprocess.check_call([
-                'initctl',
-                'stop',
-                'unity8',
-            ])
+            output = subprocess.check_output(['initctl', 'stop', 'unity8'])
+            logger.info(output)
         except subprocess.CalledProcessError as e:
-            e.args += ("Failed to stop running instance of unity8", )
+            e.args += (
+                "Failed to stop running instance of unity8: %s" % e.output,
+            )
             raise
 
     try:
-        print("Starting unity with testability.")
-        subprocess.check_call([
-            'initctl',
-            'start',
-            'unity8',
-            'QT_LOAD_TESTABILITY=1',
-        ])
+        command = ['initctl', 'start', 'unity8'] + list(args)
+        output = subprocess.check_output(
+            command,
+            stderr=subprocess.STDOUT,
+            universal_newlines=True,
+        )
+        logger.info(output)
+        pid = _get_unity_pid()
     except subprocess.CalledProcessError as e:
-        e.args += ("Failed to start unity8 with testability ", )
+        e.args += ("Failed to start unity8: %s" % e.output,)
         raise
+    else:
+        return _get_unity_proxy_object(pid)
 
 
 def _get_unity_status():
@@ -114,3 +134,10 @@ def _get_unity_pid():
     if not "start/" in status:
         raise CannotAccessUnity("Unity is not in the running state.")
     return int(status.split()[-1])
+
+
+def _get_unity_proxy_object(pid):
+    return get_proxy_object_for_existing_process(
+        pid=pid,
+        emulator_base=UnityEmulatorBase,
+    )
