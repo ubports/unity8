@@ -128,6 +128,7 @@ FocusScope {
 
         onContentYChanged: pageHeader.positionRealHeader();
         onOriginYChanged: pageHeader.positionRealHeader();
+        onContentHeightChanged: pageHeader.positionRealHeader();
 
         Behavior on contentY {
             enabled: previewListView.open
