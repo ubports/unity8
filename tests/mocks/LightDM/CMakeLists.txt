@@ -47,9 +47,9 @@ file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
     )
 
 install(TARGETS MockLightDM-qml
-    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/mocks/LightDM
+    DESTINATION ${SHELL_INSTALL_QML}/mocks/LightDM
     )
 
 install(FILES qmldir
-    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/mocks/LightDM
+    DESTINATION ${SHELL_INSTALL_QML}/mocks/LightDM
     )

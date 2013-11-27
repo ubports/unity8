@@ -11,9 +11,9 @@ file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
     )
 
 install(TARGETS QtMultimedia-qml
-    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/mocks/QtMultimedia
+    DESTINATION ${SHELL_INSTALL_QML}/mocks/QtMultimedia
     )
 
 install(FILES qmldir
-    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/mocks/QtMultimedia
+    DESTINATION ${SHELL_INSTALL_QML}/mocks/QtMultimedia
     )
