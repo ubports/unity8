@@ -13,9 +13,9 @@ file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
     )
 
 install(TARGETS MockAccountsService-qml
-    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/mocks/AccountsService
+    DESTINATION ${SHELL_INSTALL_QML}/mocks/AccountsService
     )
 
 install(FILES qmldir
-    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/mocks/AccountsService
+    DESTINATION ${SHELL_INSTALL_QML}/mocks/AccountsService
     )

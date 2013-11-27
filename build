@@ -50,6 +50,7 @@ install_dependencies() {
                          ubuntu-mobile-icons \
                          unity-scope-home \
                          unity-lens-applications \
+                         unity-plugin-scopes \
         || exit 5
 }
 
