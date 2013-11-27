@@ -20,7 +20,7 @@
 #include "unitymenumodel.h"
 #include "actionstateparser.h"
 
-#include <QtQml>
+#include <QtQml/qqml.h>
 
 void QMenuModelPlugin::registerTypes(const char *uri)
 {

@@ -16,15 +16,60 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Utils 0.1
+import Unity 0.1
 import "../Components"
 import "../Components/ListItems" as ListItems
 
-ScopeView {
+FocusScope {
     id: scopeView
+
+    property Scope scope
+    property SortFilterProxyModel categories: categoryFilter
+    property bool isCurrent
+    property ListModel searchHistory
+    property alias moving: categoryView.moving
+
+    signal endReached
+    signal movementStarted
+    signal positionedAtBeginning
+
     readonly property alias previewShown: previewListView.onScreen
     property bool enableHeightBehaviorOnNextCreation: false
 
-    moving: categoryView.moving
+    // FIXME delay the search so that daemons have time to settle, note that
+    // removing this will break ScopeView::test_changeScope
+    onScopeChanged: {
+        if (scope) {
+            timer.restart();
+            scope.activateApplication.connect(activateApp);
+        }
+    }
+
+    function activateApp(desktopFilePath) {
+        shell.activateApplication(desktopFilePath);
+    }
+
+    Binding {
+        target: scope
+        property: "isActive"
+        value: isCurrent
+    }
+
+    Timer {
+        id: timer
+        interval: 2000
+        onTriggered: scope.searchQuery = ""
+    }
+
+    SortFilterProxyModel {
+        id: categoryFilter
+        model: scope ? scope.categories : null
+        dynamicSortFilter: true
+        filterRole: Categories.RoleCount
+        filterRegExp: /^0$/
+        invertMatch: true
+    }
 
     onIsCurrentChanged: {
         pageHeader.resetSearch();
@@ -130,7 +175,7 @@ ScopeView {
                     target: rendererLoader.item
                     onClicked: {
                         // Prepare the preview in case activate() triggers a preview only
-                        effect.positionPx = mapToItem(categoryView, 0, itemY).y
+                        effect.positionPx = Math.max(mapToItem(categoryView, 0, itemY).y, pageHeader.height + categoryView.stickyHeaderHeight);
                         previewListView.categoryId = categoryId
                         previewListView.categoryDelegate = rendererLoader.item
                         previewListView.model = target.model;
@@ -151,7 +196,7 @@ ScopeView {
                         }
                     }
                     onPressAndHold: {
-                        effect.positionPx = mapToItem(categoryView, 0, itemY).y
+                        effect.positionPx = Math.max(mapToItem(categoryView, 0, itemY).y, pageHeader.height + categoryView.stickyHeaderHeight);
                         previewListView.categoryId = categoryId
                         previewListView.categoryDelegate = rendererLoader.item
                         previewListView.model = target.model;
@@ -248,6 +293,7 @@ ScopeView {
             text: scopeView.scope.name
             searchEntryEnabled: true
             scope: scopeView.scope
+            searchHistory: scopeView.searchHistory
         }
     }
 
@@ -393,12 +439,19 @@ ScopeView {
 
             if (!init && model !== undefined) {
                 var item = model.get(currentIndex)
-                scopeView.scope.preview( item.uri, item.icon, item.category, 0, item.mimetype, item.title, item.comment, item.dndUri, item.metadata)
+                scopeView.scope.preview(item.uri, item.icon, item.category, 0, item.mimetype, item.title, item.comment, item.dndUri, item.metadata)
             }
 
             var itemY = categoryView.contentItem.mapFromItem(categoryDelegate.currentItem).y;
+
+            // Find new contentY and effect.postionPx
             var newContentY = itemY - effect.positionPx - categoryDelegate.verticalSpacing;
-            var effectAdjust = effect.positionPx;
+
+            // Make sure the item is not covered by a header. Move the effect split down if necessary
+            var headerHeight = pageHeader.height + categoryView.stickyHeaderHeight;
+            var effectAdjust = Math.max(effect.positionPx, headerHeight);
+
+            // Make sure we don't overscroll the listview. If yes, adjust effect position
             if (newContentY < 0) {
                 effectAdjust += newContentY;
                 newContentY = 0;
@@ -409,7 +462,7 @@ ScopeView {
             }
 
             effect.positionPx = effectAdjust;
-            categoryView.contentY = newContentY - categoryView.originY;
+            categoryView.contentY = newContentY;
         }
 
         property bool open: false

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-11-05 17:53+0100\n"
+"POT-Creation-Date: 2013-11-12 16:10+0100\n"
 "PO-Revision-Date: 2013-11-15 12:29+0000\n"
 "Last-Translator: Ibrahim Saed <ibraheem5000@gmail.com>\n"
 "Language-Team: Arabic <ar@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n % 100 >= "
 "3 && n % 100 <= 10 ? 3 : n % 100 >= 11 && n % 100 <= 99 ? 4 : 5;\n"
-"X-Launchpad-Export-Date: 2013-11-16 06:27+0000\n"
+"X-Launchpad-Export-Date: 2013-11-19 05:59+0000\n"
 "X-Generator: Launchpad (build 16831)\n"
 
 #: Applications/applications.js:23
@@ -87,7 +87,7 @@ msgstr "ويكيبيديا"
 msgid "YouTube"
 msgstr "يوتيوب"
 
-#: Components/EdgeDemoOverlay.qml:149
+#: Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
 msgstr "تخطي المقدمة"
 
@@ -136,7 +136,7 @@ msgstr ""
 "لقد أتقنت الآن إيماءات الحواف ويمكنك البدء باستخدام الهاتف<br><br>انقر في أي "
 "مكان للبدء"
 
-#: Components/PageHeader.qml:341
+#: Components/PageHeader.qml:345
 msgid "Recent searches"
 msgstr "عمليات البحث الأخيرة"
 
@@ -160,7 +160,7 @@ msgstr[3] "%1 تعليقات"
 msgstr[4] "%1 تعليقا"
 msgstr[5] "%1 تعليق"
 
-#: Dash/Apps/AppPreview.qml:126
+#: Dash/Apps/AppPreview.qml:135
 msgid "Rate this"
 msgstr "قيّم ذلك"
 
@@ -180,7 +180,7 @@ msgstr "أرسل"
 msgid "Comments:"
 msgstr "التعليقات:"
 
-#: Greeter/Lockscreen.qml:142
+#: Greeter/Lockscreen.qml:146
 msgid "Emergency Call"
 msgstr "مكالمة طوارئ"
 
@@ -221,6 +221,15 @@ msgstr "عرض كلمة السر"
 msgid "Search"
 msgstr "ابحث"
 
+#: plugins/Unity/Launcher/launcheritem.cpp:43
+#: plugins/Unity/Launcher/launcheritem.cpp:73
+msgid "Lock to Launcher"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:73
+msgid "Unlock from Launcher"
+msgstr ""
+
 #: plugins/Unity/scope.cpp:408
 msgid "Sorry, there is nothing that matches your search."
 msgstr "عذراً، لا يوجد ما يطابق بحثك."
@@ -229,7 +238,7 @@ msgstr "عذراً، لا يوجد ما يطابق بحثك."
 msgid "All"
 msgstr "الكل"
 
-#: Shell.qml:438
+#: Shell.qml:441
 #, qt-format
 msgid "Please enter %1"
 msgstr "من فضلك أدخِل %1"

@@ -1,147 +1,151 @@
-# Hungarian translation for unity
+# Malayalam translation for unity8
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the unity package.
+# This file is distributed under the same license as the unity8 package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity\n"
+"Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-11-12 16:10+0100\n"
-"PO-Revision-Date: 2013-06-27 04:28+0000\n"
-"Last-Translator: Michał Sawicz <michal.sawicz@canonical.com>\n"
-"Language-Team: Hungarian <hu@li.org>\n"
+"PO-Revision-Date: 2013-11-23 11:44+0000\n"
+"Last-Translator: STyM Alfazz <Unknown>\n"
+"Language-Team: Malayalam <ml@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-11-19 05:59+0000\n"
+"X-Launchpad-Export-Date: 2013-11-24 05:50+0000\n"
 "X-Generator: Launchpad (build 16831)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
-msgstr ""
+msgstr "ഫോണ്‍"
 
 #: Applications/applications.js:29
 msgid "Camera"
-msgstr ""
+msgstr "ക്യാമറ"
 
 #: Applications/applications.js:35
 msgid "Gallery"
-msgstr ""
+msgstr "ഗ്യാലറി"
 
 #: Applications/applications.js:40
 msgid "Facebook"
-msgstr ""
+msgstr "ഫേസ്ബുക്ക്"
 
 #: Applications/applications.js:46
 msgid "Browser"
-msgstr ""
+msgstr "ബ്രൗസര്‍"
 
 #: Applications/applications.js:51
 msgid "Twitter"
-msgstr ""
+msgstr "ട്വിറ്റര്‍"
 
 #: Applications/applications.js:57
 msgid "GMail"
-msgstr ""
+msgstr "ജിമെയില്‍"
 
 #: Applications/applications.js:62
 msgid "Weather"
-msgstr ""
+msgstr "കാലാവസ്ഥ"
 
 #: Applications/applications.js:68
 msgid "Notepad"
-msgstr ""
+msgstr "നോട്പാഡ്"
 
 #: Applications/applications.js:74
 msgid "Calendar"
-msgstr ""
+msgstr "കലണ്ടര്‍"
 
 #: Applications/applications.js:80
 msgid "Media Player"
-msgstr ""
+msgstr "മീഡിയ പ്ലെയര്‍"
 
 #: Applications/applications.js:86
 msgid "Evernote"
-msgstr ""
+msgstr "എവര്‍നോട്ട്"
 
 #: Applications/applications.js:91
 msgid "Map"
-msgstr ""
+msgstr "ഭുപടം"
 
 #: Applications/applications.js:96
 msgid "Pinterest"
-msgstr ""
+msgstr "പിന്‍ട്രസ്റ്റ്"
 
 #: Applications/applications.js:101
 msgid "SoundCloud"
-msgstr ""
+msgstr "സൗണ്ട്ക്ലൗഡ്"
 
 #: Applications/applications.js:106
 msgid "Wikipedia"
-msgstr ""
+msgstr "വിക്കിപീഡിയ"
 
 #: Applications/applications.js:111
 msgid "YouTube"
-msgstr ""
+msgstr "യുട്യൂബ്"
 
 #: Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
-msgstr ""
+msgstr "ആമുഖം ഒഴിവാക്കുക"
 
 #: Components/EdgeDemo.qml:112
 msgid "Right edge"
-msgstr ""
+msgstr "വലത് മൂല"
 
 #: Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr ""
+msgstr "ഫോണ്‍ അണ്‍ലോക്ക് ചെയ്യാന്‍ വലതു വശത്തുനിന്ന് സ്വൈപ് ചെയ്ത് നോക്കുക"
 
 #: Components/EdgeDemo.qml:144
 msgid "Top edge"
-msgstr ""
+msgstr "മുകള്‍ വശം"
 
 #: Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
-msgstr ""
+msgstr "സൂചകങ്ങള്‍ ലഭ്യമാക്കാന്‍ മുകള്‍ വശത്തുനിന്നും സ്വൈപ് ചെയ്യുക"
 
 #: Components/EdgeDemo.qml:170
 msgid "Close"
-msgstr ""
+msgstr "അടക്കുക"
 
 #: Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
-msgstr ""
+msgstr "ക്രമീകരണങ്ങളുടെ സ്ക്രീന്‍ അടക്കാന്‍ മുകളിലേക്ക് സ്വൈപ് ചെയ്യുക"
 
 #: Components/EdgeDemo.qml:198
 msgid "Left edge"
-msgstr ""
+msgstr "ഇടത് വശം"
 
 #: Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr ""
+"പ്രയോഗങ്ങള്‍ പെട്ടെന്ന് ലഭ്യമാക്കുന്ന വിക്ഷേപിക ലഭ്യമാക്കാന്‍ ഇടതു വശത്ത് "
+"നിന്നും സ്വൈപ് ചെയ്യുക"
 
 #: Components/EdgeDemo.qml:226
 msgid "Well done"
-msgstr ""
+msgstr "നന്നായി ചെയ്തിരിക്കുന്നു"
 
 #: Components/EdgeDemo.qml:227
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap anywhere to start"
 msgstr ""
+"നിങ്ങളിപ്പോള്‍ സ്വൈപുകളും മറ്റും പഠിച്ചിരിക്കുന്നു<br><br>തുടങ്ങാന്‍ "
+"എവിടെയെങ്കിലും ടാപ് ചെയ്യുക"
 
 #: Components/PageHeader.qml:345
 msgid "Recent searches"
-msgstr "Legutóbbi keresések"
+msgstr "സമീപകാല തിരയലുകള്‍"
 
 #. TRANSLATORS: Number of persons who rated this app
 #. TRANSLATORS: Number of persons who rated this app/video/whatever
 #: Dash/Apps/AppInfo.qml:73 Dash/Previews/Header.qml:93
 #, qt-format
 msgid "(%1)"
-msgstr ""
+msgstr "(%1)"
 
 #. TRANSLATORS: Number of persons who wrote reviews for this app
 #. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
@@ -149,88 +153,88 @@ msgstr ""
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 അവലോകനം"
+msgstr[1] "%1 അവലോകനങ്ങള്‍"
 
 #: Dash/Apps/AppPreview.qml:135
 msgid "Rate this"
-msgstr ""
+msgstr "ഇത് അവലോകനം ചെയ്യുക"
 
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
-msgstr ""
+msgstr "ഒരു അവലോകനം ചേര്‍ക്കുക"
 
 #: Dash/Previews/Reviews.qml:86
 msgid "Review"
-msgstr ""
+msgstr "അവലോകനം"
 
 #: Dash/Previews/Reviews.qml:121
 msgid "Send"
-msgstr ""
+msgstr "അയയ്‌ക്കുക"
 
 #: Dash/Previews/Reviews.qml:139
 msgid "Comments:"
-msgstr ""
+msgstr "അഭിപ്രായങ്ങള്‍:"
 
 #: Greeter/Lockscreen.qml:146
 msgid "Emergency Call"
-msgstr ""
+msgstr "അടിയന്തിര വിളി"
 
 #: Greeter/PassphraseLockscreen.qml:59
 #, qt-format
 msgid "Hello %1"
-msgstr ""
+msgstr "ഹലോ %1"
 
 #: Greeter/PassphraseLockscreen.qml:59
 msgid "Hello"
-msgstr ""
+msgstr "ഹലോ"
 
 #: Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
-msgstr "Megerősítés"
+msgstr "സ്ഥിരീകരിക്കുക"
 
 #: Hud/Hud.qml:61 Hud/Hud.qml:99 Hud/Hud.qml:372
 msgid "Type or say a command"
-msgstr "Írjon be vagy mondjon ki egy parancsot"
+msgstr "ഒരു ആജ്ഞ പറയുകയോ ടൈപ്പുകയോ ചെയ്യുക"
 
 #: Hud/Hud.qml:84
 msgid "Loading. Please Wait..."
-msgstr "Betöltés, kis türelmet…"
+msgstr "വരുന്നു. ദയവായി കാത്തിരിക്കുക..."
 
 #: Hud/Hud.qml:89
 msgid "Speak Now..."
-msgstr "Beszéljen most…"
+msgstr "ഇപ്പോള്‍ സംസാരിക്കുക..."
 
 #: Hud/Hud.qml:94
 msgid "Speaking..."
-msgstr "Beszéd…"
+msgstr "സംസാരിക്കുന്നു..."
 
 #: Notifications/NotificationMenuItemFactory.qml:89
 msgid "Show password"
-msgstr ""
+msgstr "രഹസ്യവാക്ക് കാണിക്കുക"
 
 #: Panel/SearchIndicator.qml:27
 msgid "Search"
-msgstr "Keresés"
+msgstr "തിരയുക"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Lock to Launcher"
-msgstr ""
+msgstr "വിക്ഷേപികയില്‍ സ്ഥിരപ്പെടുത്തുക"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Unlock from Launcher"
-msgstr ""
+msgstr "വിക്ഷേപികാ സ്ഥിരപ്പെടുത്തല്‍ ഒഴിവാക്കുക"
 
 #: plugins/Unity/scope.cpp:408
 msgid "Sorry, there is nothing that matches your search."
-msgstr "Elnézést, nincs találat a keresésre."
+msgstr "ക്ഷമിക്കണം, താങ്കളുടെ തിരച്ചിലുമായി ഒത്തുപോകുന്ന ഒന്നും തന്നെയില്ല"
 
 #: plugins/Unity/showallfilteroption.cpp:41
 msgid "All"
-msgstr ""
+msgstr "എല്ലാം"
 
 #: Shell.qml:441
 #, qt-format
 msgid "Please enter %1"
-msgstr ""
+msgstr "ദയവായി %1 നല്‍കുക"

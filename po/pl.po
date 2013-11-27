@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-11-05 17:53+0100\n"
+"POT-Creation-Date: 2013-11-12 16:10+0100\n"
 "PO-Revision-Date: 2013-10-13 13:44+0000\n"
 "Last-Translator: GTriderXC <gtriderxc@yahoo.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2013-11-08 06:38+0000\n"
-"X-Generator: Launchpad (build 16820)\n"
+"X-Launchpad-Export-Date: 2013-11-19 05:59+0000\n"
+"X-Generator: Launchpad (build 16831)\n"
 
 #: Applications/applications.js:23
 msgid "Phone"
@@ -87,7 +87,7 @@ msgstr "Wikipedia"
 msgid "YouTube"
 msgstr "YouTube"
 
-#: Components/EdgeDemoOverlay.qml:149
+#: Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
 msgstr "Pomiń intro"
 
@@ -137,7 +137,7 @@ msgstr ""
 "Polecenia aktywatorów krawędzi ekranu zostały opanowane<br><br>Dotknij "
 "gdziekolwiek aby kontynuować"
 
-#: Components/PageHeader.qml:341
+#: Components/PageHeader.qml:345
 msgid "Recent searches"
 msgstr "Ostatnie wyszukiwania"
 
@@ -158,7 +158,7 @@ msgstr[0] "%1 opinia"
 msgstr[1] "%1 opinie"
 msgstr[2] "%1 opinii"
 
-#: Dash/Apps/AppPreview.qml:126
+#: Dash/Apps/AppPreview.qml:135
 msgid "Rate this"
 msgstr "Oceń to"
 
@@ -178,7 +178,7 @@ msgstr "Wyślij"
 msgid "Comments:"
 msgstr "Komentarze:"
 
-#: Greeter/Lockscreen.qml:142
+#: Greeter/Lockscreen.qml:146
 msgid "Emergency Call"
 msgstr "Telefon ratunkowy"
 
@@ -219,6 +219,15 @@ msgstr ""
 msgid "Search"
 msgstr "Szukaj"
 
+#: plugins/Unity/Launcher/launcheritem.cpp:43
+#: plugins/Unity/Launcher/launcheritem.cpp:73
+msgid "Lock to Launcher"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:73
+msgid "Unlock from Launcher"
+msgstr ""
+
 #: plugins/Unity/scope.cpp:408
 msgid "Sorry, there is nothing that matches your search."
 msgstr "Nie znaleziono pasujących wyników."
@@ -227,7 +236,7 @@ msgstr "Nie znaleziono pasujących wyników."
 msgid "All"
 msgstr "Wszystko"
 
-#: Shell.qml:438
+#: Shell.qml:441
 #, qt-format
 msgid "Please enter %1"
 msgstr "Wprowadź %1"
