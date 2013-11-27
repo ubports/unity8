@@ -23,10 +23,10 @@ from autopilot import platform
 from testtools import skipIf
 
 from unity8.process_helpers import unlock_unity
-from unity8.shell.tests import UnityTestCase
+from unity8.indicators.tests import IndicatorBaseTestCase
 
 
-class IndicatorTestCase(UnityTestCase):
+class IndicatorTestCase(IndicatorBaseTestCase):
 
     scenarios = [
         ('Bluetooth', dict(indicator_name='indicator-bluetooth')),
@@ -47,5 +47,49 @@ class IndicatorTestCase(UnityTestCase):
         """The tab of a given indicator can be found."""
         unity_proxy = self.launch_unity()
         unlock_unity(unity_proxy)
-        indicator = self.main_window.get_indicator(self.indicator_name)
-        self.assertIsNotNone(indicator)
+        widget = self.main_window.get_indicator_widget(
+            self.indicator_name
+        )
+        self.assertIsNotNone(widget)
+
+
+class IndicatorPageTitleMatchesWidgetTestCase(IndicatorBaseTestCase):
+
+    scenarios = [
+        ('Bluetooth', dict(indicator_name='indicator-bluetooth',
+                           title='Bluetooth')),
+        ('Datetime', dict(indicator_name='indicator-datetime',
+                          title='Upcoming')),
+        ('Location', dict(indicator_name='indicator-location',
+                          title='Location')),
+        ('Messaging', dict(indicator_name='indicator-messages',
+                           title='Incoming')),
+        ('Network', dict(indicator_name='indicator-network',
+                         title='Network')),
+        ('Power', dict(indicator_name='indicator-power',
+                       title='Battery')),
+        ('Sound', dict(indicator_name='indicator-sound',
+                       title='Sound')),
+    ]
+
+    @skipIf(platform.image_codename() == 'Desktop',
+            "Unity8/phablet-only test!")
+    def setUp(self):
+        super(IndicatorPageTitleMatchesWidgetTestCase, self).setUp()
+
+    def test_indicator_page_title_matches_widget(self):
+        """When I swipe open an indicator, I should see its correct title.
+
+        See https://bugs.launchpad.net/ubuntu-ux/+bug/1253804 .
+        """
+        unity_proxy = self.launch_unity()
+        unlock_unity(unity_proxy)
+        window = self.main_window.get_qml_view()
+        widget = self.main_window.get_indicator_widget(
+            self.indicator_name
+        )
+        self.assertIsNotNone(widget)
+        self.swipe_to_open_indicator(widget, window)
+        title = window.wait_select_single("IndicatorPage",
+                                          title=self.title)
+        self.assertIsNotNone(title)
