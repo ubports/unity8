@@ -68,6 +68,18 @@ QSortFilterProxyModelQML::setModel(QAbstractItemModel *itemModel)
     }
 }
 
+QVariantMap
+QSortFilterProxyModelQML::get(int row)
+{
+    QVariantMap res;
+    const QHash<int, QByteArray> roles = roleNames();
+    auto it = roles.begin();
+    for ( ; it != roles.end(); ++it) {
+        res[*it] = data(row, it.key());
+    }
+    return res;
+}
+
 QVariant
 QSortFilterProxyModelQML::data(int row, int role)
 {

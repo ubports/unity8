@@ -31,6 +31,7 @@ class QSortFilterProxyModelQML : public QSortFilterProxyModel
 public:
     explicit QSortFilterProxyModelQML(QObject *parent = 0);
 
+    Q_INVOKABLE QVariantMap get(int row); // Use with caution, it can be slow to query all the roles
     Q_INVOKABLE QVariant data(int row, int role);
     Q_INVOKABLE int count();
     Q_INVOKABLE int findFirst(int role, const QVariant& value) const;

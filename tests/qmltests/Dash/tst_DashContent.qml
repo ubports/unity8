@@ -21,6 +21,7 @@ import "../../../Components"
 import Ubuntu.Components 0.1
 import Unity 0.1
 import Unity.Test 0.1 as UT
+import Utils 0.1
 
 Item {
     id: shell
@@ -55,7 +56,9 @@ Item {
         id: dashContent
         anchors.fill: parent
 
-        model: scopesModel
+        model: SortFilterProxyModel {
+            model: scopesModel
+        }
         scopes : scopesModel
 
         scopeMapper : scopeDelegateMapper
@@ -110,7 +113,7 @@ Item {
 
     UT.UnityTestCase {
         name: "DashContent"
-        when: windowShown
+        when: scopesModel.loaded
 
         function init() {
             scopesModel.clear();
