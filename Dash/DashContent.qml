@@ -105,8 +105,12 @@ Item {
 
         // If the number of items is less than the current index, then need to reset to another item.
         onCountChanged: {
-            if (currentIndex >= count)
+            if (count > 0 && currentIndex >= count) {
                 dashContent.setCurrentScopeAtIndex(count-1, true, true)
+            } else if (count > 0 && currentIndex < 0) {
+                // setting currentIndex directly, cause we don't want to loose set_current_index
+                dashContent.currentIndex = 0
+            }
         }
 
         delegate:
