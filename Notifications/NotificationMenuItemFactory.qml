@@ -28,7 +28,6 @@ Loader {
     property QtObject menuModel: null
     property QtObject menuData: null
     property int menuIndex
-    property var notification
 
     property var _map:  {
         "com.canonical.snapdecision.textfield": textfield,
@@ -42,6 +41,10 @@ Loader {
                 return component;
             }
         }
+    }
+
+    Component.onCompleted: {
+        notification.fullscreen = menuData.type == "com.canonical.snapdecision.pinlock"
     }
 
     Component {

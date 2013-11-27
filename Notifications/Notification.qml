@@ -35,7 +35,7 @@ Item {
     property color color
     property bool fullscreen
 
-    fullscreen: notification.hints["x-canonical-private-fullscreen"] == "true" ? true : false
+    fullscreen: false
     objectName: "background"
     implicitHeight: type != Notification.PlaceHolder ? (fullscreen ? notificationList.fullHeight : contentColumn.height + contentColumn.spacing * 4) : 0
 
