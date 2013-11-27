@@ -47,6 +47,5 @@ class IndicatorTestCase(UnityTestCase):
         """The tab of a given indicator can be found."""
         unity_proxy = self.launch_unity()
         unlock_unity(unity_proxy)
-        self.main_window.get_greeter().swipe()
         indicator = self.main_window.get_indicator(self.indicator_name)
         self.assertIsNotNone(indicator)
