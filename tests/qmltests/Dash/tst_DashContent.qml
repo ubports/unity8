@@ -136,7 +136,7 @@ Item {
             verify(dashContentList != undefined)
 
             compare(dashContentList.count, 0, "DashContent should have 0 items when it starts");
-            compare(dashContentList.currentIndex, -1, "DashContent's currentIndex should be -1 while there are no items in the model");
+            compare(dashContentList.currentIndex, -1, "DashContent's currentIndex should be -1 while there have been no items in the model");
 
             tryCompare(scopeLoadedSpy, "count", 5);
 
