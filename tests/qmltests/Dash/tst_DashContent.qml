@@ -143,6 +143,19 @@ Item {
             verify(dashContentList.currentIndex >= 0);
         }
 
+        function test_current_index_after_reset() {
+            var dashContentList = findChild(dashContent, "dashContentList");
+            verify(dashContentList != undefined)
+
+            compare(dashContentList.count, 0, "DashContent should have 0 items when it starts");
+            // pretend we're running after a model reset
+            dashContentList.currentIndex = 27;
+
+            tryCompare(scopeLoadedSpy, "count", 5);
+
+            verify(dashContentList.currentIndex >= 0 && dashContentList.currentIndex < 5);
+        }
+
         function test_movement_started_signal() {
             dashContent.setCurrentScopeAtIndex(3, true, false);
 
