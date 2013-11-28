@@ -63,7 +63,7 @@ Package: unity8
 Architecture: any
 Provides: indicator-renderer,
 Depends: gsettings-desktop-schemas,
-         libunity-mir1,
+         libunity-mir1 (>= 0.2),
          qmenumodel-qml (>= 0.2.7),
          qtdeclarative5-dee-plugin,
          qtdeclarative5-gsettings1.0,
