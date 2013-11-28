@@ -1,8 +1,143 @@
-unity8 (7.84-0ubuntu1) UNRELEASED; urgency=low
+unity8 (7.84+14.04.20131128.2-0ubuntu1) trusty; urgency=low
 
+  [ Michal Hruby ]
   * Depend on the separate scopes plugin
+  * Move the BottomBar* DBus communicator to the Utils plugin.
 
- -- Michal Hruby <michal.hruby@canonical.com>  Wed, 13 Nov 2013 12:43:39 +0000
+  [ Michał Sawicz ]
+  * Wait for DashHome to be available in tst_Shell. (LP: #1254898)
+  * Use plugindir from unity-shell-api.pc.
+  * Expect stop in upstart job and raise in case of surfaceflinger. (LP:
+    #1239876)
+
+  [ Albert Astals ]
+  * Fix time test in Qt 5.2 Make factors an array instead of a
+    object/dict Objects/dicts are unordered by definition, it happened
+    that Qt 5.0 gave them in the orrder we wanted, but with Qt 5.2 is
+    failing, and we don't even need the "key", so array works as well
+    :).
+  * Test that the dash hswipe is disabled while the inner stuff is
+    moving .
+  * Skip restMaximizeVisibleAreaMoveUpAndShowHeader, it's causing too
+    many failed runs And we are confident it's failing because of the
+    suboptimal scenegraph run in 5.0.x.
+  * Make Dash::test_show_scope_on_load more robust If we are testing
+    showScopeOnLoaded make sure we force a scope reload after we set it,
+    otherwise it may just happen that the scope has already been loaded
+    and the expectaction that we'll change the list to it is just wrong.
+  * Dash renderer signals: No need to pass the model up and down Whoever
+    is listening to the signal has access to the item that emits the
+    signal and has the model right there accessible if needs it.
+  * LVWPH: Fix header going bad when setContentHeight ends up moving the
+    viewport How to reproduce the bug easily without the patch: * In the
+    Dash Home, search for london * Scroll to the bottom * Start moving
+    to the apps scope very slowly * At around 3/4 of the move you'll see
+    the header in the home scope went to a bad position * Go back to the
+    Dash Home. (LP: #1237942, #1246351)
+  * Remove unused AppInfo and VideoInfo files .
+  * Kill unused ApplicationsFilterGrid.qml .
+  * Unify ScopeView and GenericScopeView .
+  * Fix header getting lost as per bug 1245824. (LP: #1245824)
+  * Remove unused Time.js and its test .
+  * Do not include the QtQml megaheader Include only qqml.h which is
+    what we need in these files.
+  * Don't do stuff if our parent context is gone We'll be gone soon too
+    (and crash probably) so don't do anything. This looks a bit like a
+    workaround, wait for 5.2 better painting/dispatching loop to see if
+    this is not needed anymore, we find a better way to do it, or we
+    decide this is fine.
+
+  [ Lars Uebernickel ]
+  * Allow setting different indicator positions for different profiles.
+
+  [ Mirco Müller ]
+  * Added checkbox for toggling between echo-modes of password-
+    entryfields in ext. snap-decisions.
+  * Fixes bug #1200569. (LP: #1200569)
+
+  [ Andrea Cimitan ]
+  * Switch to application scope when a dash swipe is taking place and an
+    app is on foreground. (LP: #1231996)
+  * Shifts wallpaper rendering for greeter lockscreen to be inline with
+    shell. (LP: #1231731)
+  * Dinamically load the Carousel/Filtergrid with more than 6 items.
+    (LP: #1226288, #1234105)
+  * Removes Math.js and its usage. Use SDK ones.
+
+  [ Gerry Boland ]
+  * DragHandle: javascript argument name clashes with local variable.
+    Yes it works, but is a little unsafe.
+
+  [ Nick Dedekind ]
+  * Added UnityMenuModel submenu row removal awareness in
+    UnityMenuModelStack.
+  * Round indicator widget icon/label width up to closest gu for
+    alignment. (LP: #1236267)
+  * Indicator re-select by dragging from top when fully opened. (LP:
+    #1213164)
+  * Fixed a race condition causing search history popup to show up when
+    it shouldn't. (LP: #1249369)
+
+  [ Christopher Lee ]
+  * Unity8 tests now make use of the helper functions (added in the pre-
+    req branch) so that the helper functions are tested as part of daily
+    business.
+
+  [ Daniel d'Andrada ]
+  * Improve DirectionalDragArea Removed Rejected status, simplifying
+    state machine. Added compositionTime property. Multi-finger
+    scenarios are better handled now. Refactored TimeSource in
+    Ubuntu.Gestures plugin. Added an easy way to debug
+    DirectionalDragArea by having switchable debug prints. Updated tests
+    to also simulate the passage of time. Use touch point scene
+    coordinates for gesture recognition so that moving the.
+    DirectionalDragArea (as in a hinting DragHandle) won't affect it.
+    (LP: #1228336)
+  * Add right-edge drag hinting to Greeter To match with the existing
+    teasing animation when you tap on the right half of the Greeter.
+    Also has the side benefit of making the code look a bit nicer.
+  * Refactor Ubuntu.Gesture tests to share common logic Take the common
+    part out of tst_DirectionalDragArea and put it into a separate base
+    class, GestureTest, so that it can be shared with other, future,
+    tests. In CMakeLists.txt, create a macro out of DirectionalDragArea
+    build script to be used by future tests with similar requirements
+    and structure. Also add the "m_" prefix to member variables.
+  * Remove dead code from Utils plugin They are not being used anywhere.
+
+  [ Michael Terry ]
+  * Make EdgeDemoOverlay test more reliable by testing for what we
+    really care about, not an indirect indicator of it. (LP: #1248232)
+  * Explicitly set MIR_SOCKET for other upstart jobs, rather than
+    relying on the default socket, since that won't work once we move to
+    a nested Mir.
+
+  [ Michael Zanetti ]
+  * don't add margins to RunningApplicationTile's label. (LP: #1245482)
+  * allow SIM PIN entry to have a variable pin length (by adding a done-
+    button). (LP: #1240561)
+  * fix launcher wording for pinning actions. (LP: #1240891)
+  * fix preview background positioning don't explicitly take originY
+    into account as it's already in there implicitly. make sure we don't
+    split the openeffect in a place where it can be covered by the
+    header.
+  * fix album artwork containing / in the name. (LP: #1237829)
+  * small launcher tweaks fix fakeDragItem's initial position to match
+    with real item. remove UbuntuShape's border glow. .
+  * drop all references to LighDM from the Lockscreen This should make
+    it generic enough to allow reusing it for SIM PIN entry .
+
+  [ Omer Akram ]
+  * make the non working code in the screen unlocker helper work.
+
+  [ Nicolas d'Offay ]
+  * Pushed up the z order of the clock in GreeterContent. (LP: #1233146)
+  * Search history is now persistent across all scopes and remains in
+    QML. (LP: #1226221)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 556
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 28 Nov 2013 18:09:17 +0000
 
 unity8 (7.83+14.04.20131106-0ubuntu1) trusty; urgency=low
 
