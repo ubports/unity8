@@ -46,8 +46,8 @@ FocusScope {
         }
     }
 
-    function activateApp(desktopFilePath) {
-        shell.activateApplication(desktopFilePath);
+    function activateApp(appId) {
+        shell.activateApplication(appId);
     }
 
     Binding {
