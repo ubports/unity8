@@ -52,6 +52,13 @@ ResponsiveFlowView {
         }
     }
 
+    property bool canEnableTerminationMode: true
+
+    onCanEnableTerminationModeChanged: {
+        if (!canEnableTerminationMode)
+            terminationModeEnabled = false
+    }
+
     // when false, it means it's on activation mode
     property bool terminationModeEnabled: false
 
@@ -73,7 +80,10 @@ ResponsiveFlowView {
             }
             application: model
             onRequestedActivationMode: { root.terminationModeEnabled = false }
-            onRequestedTerminationMode: { root.terminationModeEnabled = true }
+            onRequestedTerminationMode: {
+                if (canEnableTerminationMode)
+                    root.terminationModeEnabled = true
+            }
             onRequestedApplicationTermination: {
                 shell.applicationManager.stopApplication(model.appId)
             }

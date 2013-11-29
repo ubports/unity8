@@ -151,6 +151,7 @@ FocusScope {
                         // TODO: the running apps grid doesn't support standard scope results model yet
                         item.firstModel = Qt.binding(function() { return results.firstModel })
                         item.secondModel = Qt.binding(function() { return results.secondModel })
+                        item.canEnableTerminationMode = Qt.binding(function() { return scopeView.isCurrent })
                     } else {
                         item.model = Qt.binding(function() { return results })
                     }
