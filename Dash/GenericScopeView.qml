@@ -527,6 +527,7 @@ FocusScope {
             onLoaded: {
                 if (previewListView.onScreen && previewData !== undefined) {
                     item.previewData = Qt.binding(function() { return previewData })
+                    item.isCurrent = Qt.binding(function() { return ListView.isCurrentItem })
                 }
             }
 
