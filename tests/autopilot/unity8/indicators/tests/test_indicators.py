@@ -20,13 +20,13 @@
 from __future__ import absolute_import
 
 from autopilot import platform
-from testtools import skipIf
 
+from unity8.indicators.emulators.widget import DefaultIndicatorWidget
 from unity8.process_helpers import unlock_unity
-from unity8.indicators.tests import IndicatorBaseTestCase
+from unity8.shell.tests import UnityTestCase
 
 
-class IndicatorTestCase(IndicatorBaseTestCase):
+class IndicatorTestCase(UnityTestCase):
 
     scenarios = [
         ('Bluetooth', dict(indicator_name='indicator-bluetooth')),
@@ -38,9 +38,9 @@ class IndicatorTestCase(IndicatorBaseTestCase):
         ('Sound', dict(indicator_name='indicator-sound')),
     ]
 
-    @skipIf(platform.image_codename() == 'Desktop',
-            "Unity8/phablet-only test!")
     def setUp(self):
+        if model() == "Desktop":
+            self.skipTest("Test cannot be run on the desktop.")
         super(IndicatorTestCase, self).setUp()
 
     def test_indicator_exists(self):
@@ -53,7 +53,7 @@ class IndicatorTestCase(IndicatorBaseTestCase):
         self.assertIsNotNone(widget)
 
 
-class IndicatorPageTitleMatchesWidgetTestCase(IndicatorBaseTestCase):
+class IndicatorPageTitleMatchesWidgetTestCase(UnityTestCase):
 
     scenarios = [
         ('Bluetooth', dict(indicator_name='indicator-bluetooth',
@@ -72,24 +72,25 @@ class IndicatorPageTitleMatchesWidgetTestCase(IndicatorBaseTestCase):
                        title='Sound')),
     ]
 
-    @skipIf(platform.image_codename() == 'Desktop',
-            "Unity8/phablet-only test!")
     def setUp(self):
+        if model() == "Desktop":
+            self.skipTest("Test cannot be run on the desktop.")
         super(IndicatorPageTitleMatchesWidgetTestCase, self).setUp()
 
     def test_indicator_page_title_matches_widget(self):
-        """When I swipe open an indicator, I should see its correct title.
+        """Swiping open an indicator must show its correct title.
 
         See https://bugs.launchpad.net/ubuntu-ux/+bug/1253804 .
         """
         unity_proxy = self.launch_unity()
         unlock_unity(unity_proxy)
         window = self.main_window.get_qml_view()
-        widget = self.main_window.get_indicator_widget(
-            self.indicator_name
+        widget = DefaultIndicatorWidget(
+            self.main_window.get_indicator_widget(
+                self.indicator_name
+            )
         )
         self.assertIsNotNone(widget)
         self.swipe_to_open_indicator(widget, window)
         title = window.wait_select_single("IndicatorPage",
                                           title=self.title)
-        self.assertIsNotNone(title)
