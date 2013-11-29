@@ -84,6 +84,7 @@ void PressedOutsideNotifier::setupOrTearDownEventFiltering()
 void PressedOutsideNotifier::setupEventFiltering()
 {
     QQuickWindow *currentWindow = window();
+    Q_ASSERT(currentWindow != nullptr);
 
     if (currentWindow == m_filteredWindow)
         return;
