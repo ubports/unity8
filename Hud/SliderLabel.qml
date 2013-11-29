@@ -36,7 +36,7 @@ Item {
         label.text = sliderData["label"]
         slider.minimumValue = sliderData["min"]
         slider.maximumValue = sliderData["max"]
-        if("live" in sliderData) 
+        if("live" in sliderData)
             slider.live = sliderData["live"]
         // SDK Slider does not support step yet
 //         slider.step = sliderData["step"]
