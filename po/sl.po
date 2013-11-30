@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-11-12 16:10+0100\n"
+"POT-Creation-Date: 2013-11-29 09:21+0100\n"
 "PO-Revision-Date: 2013-10-02 10:55+0000\n"
 "Last-Translator: Damir Jerovšek <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
@@ -16,76 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
 "n%100==4 ? 3 : 0);\n"
-"X-Launchpad-Export-Date: 2013-11-19 05:59+0000\n"
-"X-Generator: Launchpad (build 16831)\n"
-
-#: Applications/applications.js:23
-msgid "Phone"
-msgstr "Telefon"
-
-#: Applications/applications.js:29
-msgid "Camera"
-msgstr "Fotoaparat"
-
-#: Applications/applications.js:35
-msgid "Gallery"
-msgstr "Galerija"
-
-#: Applications/applications.js:40
-msgid "Facebook"
-msgstr "Facebook"
-
-#: Applications/applications.js:46
-msgid "Browser"
-msgstr "Brskalnik"
-
-#: Applications/applications.js:51
-msgid "Twitter"
-msgstr "Twitter"
-
-#: Applications/applications.js:57
-msgid "GMail"
-msgstr "GMail"
-
-#: Applications/applications.js:62
-msgid "Weather"
-msgstr "Vreme"
-
-#: Applications/applications.js:68
-msgid "Notepad"
-msgstr "Beležnica"
-
-#: Applications/applications.js:74
-msgid "Calendar"
-msgstr "Koledar"
-
-#: Applications/applications.js:80
-msgid "Media Player"
-msgstr "Predvajalnik predstavnosti"
-
-#: Applications/applications.js:86
-msgid "Evernote"
-msgstr "Evernote"
-
-#: Applications/applications.js:91
-msgid "Map"
-msgstr "Zemljevid"
-
-#: Applications/applications.js:96
-msgid "Pinterest"
-msgstr "Pinterest"
-
-#: Applications/applications.js:101
-msgid "SoundCloud"
-msgstr "SoundCloud"
-
-#: Applications/applications.js:106
-msgid "Wikipedia"
-msgstr "Wikipedija"
-
-#: Applications/applications.js:111
-msgid "YouTube"
-msgstr "YouTube"
+"X-Launchpad-Export-Date: 2013-11-30 05:33+0000\n"
+"X-Generator: Launchpad (build 16856)\n"
 
 #: Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -137,20 +69,22 @@ msgstr ""
 "Sedaj ste osvojili poteze robov ter lahko začnete uporabljati "
 "telefon<br><br>Tapnite kjerkoli na začetek"
 
-#: Components/PageHeader.qml:345
+#: Components/PageHeader.qml:364
 msgid "Recent searches"
 msgstr "Nedavna iskanja"
 
-#. TRANSLATORS: Number of persons who rated this app
+#: Dash/Apps/AppPreview.qml:135
+msgid "Rate this"
+msgstr "Ocenite"
+
 #. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: Dash/Apps/AppInfo.qml:73 Dash/Previews/Header.qml:93
+#: Dash/Previews/Header.qml:93
 #, qt-format
 msgid "(%1)"
 msgstr "(%1)"
 
-#. TRANSLATORS: Number of persons who wrote reviews for this app
 #. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: Dash/Apps/AppInfo.qml:85 Dash/Previews/Header.qml:105
+#: Dash/Previews/Header.qml:105
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
@@ -158,10 +92,6 @@ msgstr[0] "%1 ocen"
 msgstr[1] "%1 ocena"
 msgstr[2] "%1 oceni"
 msgstr[3] "%1 ocene"
-
-#: Dash/Apps/AppPreview.qml:135
-msgid "Rate this"
-msgstr "Ocenite"
 
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
@@ -179,7 +109,7 @@ msgstr "Pošlji"
 msgid "Comments:"
 msgstr "Opombe:"
 
-#: Greeter/Lockscreen.qml:146
+#: Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
 msgstr "Klic v sili"
 
@@ -229,15 +159,7 @@ msgstr ""
 msgid "Unlock from Launcher"
 msgstr ""
 
-#: plugins/Unity/scope.cpp:408
-msgid "Sorry, there is nothing that matches your search."
-msgstr "Nič se ne ujema z vašim iskalnim nizom."
-
-#: plugins/Unity/showallfilteroption.cpp:41
-msgid "All"
-msgstr "Vse"
-
-#: Shell.qml:441
+#: Shell.qml:439
 #, qt-format
 msgid "Please enter %1"
 msgstr "Vnesite %1"
