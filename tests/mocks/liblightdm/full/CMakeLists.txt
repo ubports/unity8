@@ -15,5 +15,5 @@ set_target_properties(MockLightDM-full PROPERTIES
                       SOVERSION 0)
 
 install(TARGETS MockLightDM-full
-    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/mocks/liblightdm/full
+    DESTINATION ${SHELL_INSTALL_QML}/mocks/liblightdm/full
     )

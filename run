@@ -1,5 +1,8 @@
 #!/bin/sh
 
+. /etc/environment
+export QML2_IMPORT_PATH
+
 QML_PHONE_SHELL_PATH=./builddir/unity8
 GDB=false
 FAKE=false
@@ -42,19 +45,17 @@ do
 done
 
 if $FAKE; then
-  export QML2_IMPORT_PATH=$PWD/builddir/tests/mocks:$PWD/builddir/plugins:$PWD/builddir/modules
+  export QML2_IMPORT_PATH=$QML2_IMPORT_PATH:$PWD/builddir/tests/mocks:$PWD/builddir/plugins:$PWD/builddir/modules
   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/tests/mocks/libusermetrics:$PWD/builddir/tests/mocks/liblightdm/single
-else
-  export QML2_IMPORT_PATH=`pkg-config --variable=plugindir unity-shell-api`
 fi
 
 if $PINLOCK; then
-  export QML2_IMPORT_PATH=$PWD/builddir/tests/mocks:$PWD/builddir/plugins:$PWD/builddir/modules
+  export QML2_IMPORT_PATH=$QML2_IMPORT_PATH:$PWD/builddir/tests/mocks:$PWD/builddir/plugins:$PWD/builddir/modules
   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/tests/mocks/libusermetrics:$PWD/builddir/tests/mocks/liblightdm/single-pin
 fi
 
 if $KEYLOCK; then
-  export QML2_IMPORT_PATH=$PWD/builddir/tests/mocks:$PWD/builddir/plugins:$PWD/builddir/modules
+  export QML2_IMPORT_PATH=$QML2_IMPORT_PATH:$PWD/builddir/tests/mocks:$PWD/builddir/plugins:$PWD/builddir/modules
   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/builddir/tests/mocks/libusermetrics:$PWD/builddir/tests/mocks/liblightdm/single-passphrase
 fi
 

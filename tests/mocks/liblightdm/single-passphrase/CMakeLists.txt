@@ -16,5 +16,5 @@ set_target_properties(MockLightDM-single-passphrase PROPERTIES
                       SOVERSION 0)
 
 install(TARGETS MockLightDM-single-passphrase
-    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/mocks/liblightdm/single-passphrase
+    DESTINATION ${SHELL_INSTALL_QML}/mocks/liblightdm/single-passphrase
     )

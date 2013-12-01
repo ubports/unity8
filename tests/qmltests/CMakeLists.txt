@@ -47,6 +47,7 @@ add_qml_test(Dash FilterGrids IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMA
 add_qml_test(Dash/Apps RunningApplicationsGrid)
 add_qml_test(Dash/Apps AppPreview)
 add_qml_test(Dash/Movie MoviePreview)
+add_qml_test(Dash/Movie MusicPreview)
 add_qml_test(Greeter Lockscreen ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics:${CMAKE_BINARY_DIR}/tests/mocks/liblightdm/full")
 add_qml_test(Greeter Tablet ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics:${CMAKE_BINARY_DIR}/tests/mocks/liblightdm/full")
 add_qml_test(Greeter Phone ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics:${CMAKE_BINARY_DIR}/tests/mocks/liblightdm/single")

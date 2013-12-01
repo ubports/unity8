@@ -19,7 +19,6 @@ import Ubuntu.Components 0.1
 import Utils 0.1
 import "../Components"
 import "../Components/ListItems"
-import "../Applications"
 import "Apps"
 
 GenericScopeView {

@@ -16,5 +16,5 @@ set_target_properties(MockLightDM-single-pin PROPERTIES
                       SOVERSION 0)
 
 install(TARGETS MockLightDM-single-pin
-    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/mocks/liblightdm/single-pin
+    DESTINATION ${SHELL_INSTALL_QML}/mocks/liblightdm/single-pin
     )

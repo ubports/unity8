@@ -29,6 +29,7 @@
 #include <QDebug>
 #include <libintl.h>
 #include <dlfcn.h>
+#include <csignal>
 
 // local
 #include "paths.h"
@@ -232,6 +233,11 @@ int main(int argc, const char *argv[])
 
         return runWithClient(mirServer, startShell);
     } else {
+        if (qgetenv("UPSTART_JOB") == "unity8") {
+            // Emit SIGSTOP as expected by upstart, under Mir it's unity-mir that will raise it.
+            // see http://upstart.ubuntu.com/cookbook/#expect-stop
+            raise(SIGSTOP);
+        }
         return startShell(argc, argv, nullptr);
     }
 }

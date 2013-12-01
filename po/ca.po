@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-11-12 16:10+0100\n"
+"POT-Creation-Date: 2013-11-29 09:21+0100\n"
 "PO-Revision-Date: 2013-09-28 07:38+0000\n"
 "Last-Translator: David Planella <david.planella@ubuntu.com>\n"
 "Language-Team: Catalan <ca@li.org>\n"
@@ -15,76 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-11-19 05:59+0000\n"
-"X-Generator: Launchpad (build 16831)\n"
-
-#: Applications/applications.js:23
-msgid "Phone"
-msgstr "Telèfon"
-
-#: Applications/applications.js:29
-msgid "Camera"
-msgstr "Càmera"
-
-#: Applications/applications.js:35
-msgid "Gallery"
-msgstr "Galeria"
-
-#: Applications/applications.js:40
-msgid "Facebook"
-msgstr "Facebook"
-
-#: Applications/applications.js:46
-msgid "Browser"
-msgstr "Navegador"
-
-#: Applications/applications.js:51
-msgid "Twitter"
-msgstr "Twitter"
-
-#: Applications/applications.js:57
-msgid "GMail"
-msgstr "GMail"
-
-#: Applications/applications.js:62
-msgid "Weather"
-msgstr "El temps"
-
-#: Applications/applications.js:68
-msgid "Notepad"
-msgstr "Bloc de notes"
-
-#: Applications/applications.js:74
-msgid "Calendar"
-msgstr "Calendari"
-
-#: Applications/applications.js:80
-msgid "Media Player"
-msgstr "Reproductor multimèdia"
-
-#: Applications/applications.js:86
-msgid "Evernote"
-msgstr "Evernote"
-
-#: Applications/applications.js:91
-msgid "Map"
-msgstr "Mapa"
-
-#: Applications/applications.js:96
-msgid "Pinterest"
-msgstr "Pinterest"
-
-#: Applications/applications.js:101
-msgid "SoundCloud"
-msgstr "SoundCloud"
-
-#: Applications/applications.js:106
-msgid "Wikipedia"
-msgstr "Viquipèdia"
-
-#: Applications/applications.js:111
-msgid "YouTube"
-msgstr "YouTube"
+"X-Launchpad-Export-Date: 2013-11-30 05:33+0000\n"
+"X-Generator: Launchpad (build 16856)\n"
 
 #: Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -138,29 +70,27 @@ msgid ""
 "phone<br><br>Tap anywhere to start"
 msgstr ""
 
-#: Components/PageHeader.qml:345
+#: Components/PageHeader.qml:364
 msgid "Recent searches"
 msgstr "Cerques recents"
 
-#. TRANSLATORS: Number of persons who rated this app
+#: Dash/Apps/AppPreview.qml:135
+msgid "Rate this"
+msgstr ""
+
 #. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: Dash/Apps/AppInfo.qml:73 Dash/Previews/Header.qml:93
+#: Dash/Previews/Header.qml:93
 #, qt-format
 msgid "(%1)"
 msgstr "(%1)"
 
-#. TRANSLATORS: Number of persons who wrote reviews for this app
 #. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: Dash/Apps/AppInfo.qml:85 Dash/Previews/Header.qml:105
+#: Dash/Previews/Header.qml:105
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
 msgstr[0] "%1 ressenya"
 msgstr[1] "%1 ressenyes"
-
-#: Dash/Apps/AppPreview.qml:135
-msgid "Rate this"
-msgstr ""
 
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
@@ -178,7 +108,7 @@ msgstr "Envia"
 msgid "Comments:"
 msgstr "Comentaris:"
 
-#: Greeter/Lockscreen.qml:146
+#: Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
 msgstr "Trucada d'emergència"
 
@@ -228,15 +158,7 @@ msgstr ""
 msgid "Unlock from Launcher"
 msgstr ""
 
-#: plugins/Unity/scope.cpp:408
-msgid "Sorry, there is nothing that matches your search."
-msgstr "No hi ha res que coincideixi amb la cerca"
-
-#: plugins/Unity/showallfilteroption.cpp:41
-msgid "All"
-msgstr ""
-
-#: Shell.qml:441
+#: Shell.qml:439
 #, qt-format
 msgid "Please enter %1"
 msgstr "Introduïu %1"

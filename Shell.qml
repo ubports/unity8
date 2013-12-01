@@ -85,21 +85,21 @@ BasicShell {
         }
     }
 
-    function activateApplication(desktopFile, argument) {
+    function activateApplication(appId, argument) {
         if (applicationManager) {
             // For newly started applications, as it takes them time to draw their first frame
             // we add a delay before we hide the animation screenshots to compensate.
-            var addDelay = !applicationManager.getApplicationFromDesktopFile(desktopFile);
+            var addDelay = !applicationManager.getApplicationFromDesktopFile(appId);
 
             var application;
-            application = applicationManager.activateApplication(desktopFile, argument);
+            application = applicationManager.activateApplication(appId, argument);
             if (application == null) {
                 return;
             }
             if (application.stage == ApplicationInfo.MainStage || !sideStage.enabled) {
-                mainStage.activateApplication(desktopFile, addDelay);
+                mainStage.activateApplication(appId, addDelay);
             } else {
-                sideStage.activateApplication(desktopFile, addDelay);
+                sideStage.activateApplication(appId, addDelay);
             }
             stages.show();
         }

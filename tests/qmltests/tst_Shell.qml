@@ -73,6 +73,9 @@ Item {
                 ok = homeLoader !== undefined
                     && homeLoader.item !== undefined;
 
+                var dashHome = findChild(shell, "DashHome");
+                ok &= dashHome !== undefined;
+
                 var launcherPanel = findChild(shell, "launcherPanel");
                 ok &= launcherPanel !== undefined;
 

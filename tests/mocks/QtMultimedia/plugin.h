@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Canonical, Ltd.
+ * Copyright (C) 2012,2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,31 +12,23 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authors: Michael Zanetti <michael.zanetti@canonical.com>
  */
 
-#ifndef UBUNTUWINDOW_H
-#define UBUNTUWINDOW_H
+#ifndef MOCK_QTMULTIMEDIA_PLUGIN_H
+#define MOCK_QTMULTIMEDIA_PLUGIN_H
 
-#include <QtCore/QObject>
-#include <QtQuick/QQuickWindow>
+#include <QtQml/QQmlEngine>
+#include <QtQml/QQmlExtensionPlugin>
 
-class UbuntuWindow : public QObject
+class MockQtMultimediaPlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
-
-    Q_PROPERTY(int ubuntuSurfaceRole READ ubuntuSurfaceRole WRITE setUbuntuSurfaceRole NOTIFY ubuntuSurfaceRoleChanged)
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
 
 public:
-    explicit UbuntuWindow(QObject *parent = 0);
-
-    int ubuntuSurfaceRole() const;
-    void setUbuntuSurfaceRole(int ubuntuSurfaceRole);
-
-Q_SIGNALS:
-    void ubuntuSurfaceRoleChanged(int);
-
-private:
-    QQuickWindow* m_window;
+    void registerTypes(const char *uri);
 };
 
-#endif // UBUNTUWINDOW_H
+#endif

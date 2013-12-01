@@ -14,5 +14,5 @@ add_custom_target(UbuntuDownloadQmlDirFile ALL
 )
 
 install(TARGETS FakeUbuntuDownloadDaemonListenerQml
-    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/mocks/Ubuntu/DownloadDaemonListener
+    DESTINATION ${SHELL_INSTALL_QML}/mocks/Ubuntu/DownloadDaemonListener
     )

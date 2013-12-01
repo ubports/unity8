@@ -8,6 +8,7 @@ add_subdirectory(QMenuModel)
 add_subdirectory(SessionManager)
 add_subdirectory(Ubuntu)
 add_subdirectory(Unity)
+add_subdirectory(QtMultimedia)
 
 install(
   DIRECTORY data

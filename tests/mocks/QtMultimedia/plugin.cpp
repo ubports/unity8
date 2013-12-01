@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Canonical, Ltd.
+ * Copyright (C) 2012,2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,25 +12,17 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authors: Michael Zanetti <michael.zanetti@canonical.com>
  */
 
-#include "ubuntuwindow.h"
-#include <QDebug>
+#include "plugin.h"
+#include "audio.h"
 
+#include <QtQml/qqml.h>
 
-UbuntuWindow::UbuntuWindow(QObject *parent)
-    : QObject(parent),
-      m_window(static_cast<QQuickWindow*>(parent))
+void MockQtMultimediaPlugin::registerTypes(const char *uri)
 {
-}
-
-int UbuntuWindow::ubuntuSurfaceRole() const
-{
-    return m_window->property("UbuntuSurfaceRole").toInt();
-}
-
-void UbuntuWindow::setUbuntuSurfaceRole(int ubuntuSurfaceRole)
-{
-    qDebug() << "setUbuntuSurfaceRole" << ubuntuSurfaceRole;
-    m_window->setProperty("UbuntuSurfaceRole", ubuntuSurfaceRole);
+    Q_ASSERT(uri == QLatin1String("QtMultimedia"));
+    qmlRegisterType<Audio>(uri, 5, 0, "Audio");
 }

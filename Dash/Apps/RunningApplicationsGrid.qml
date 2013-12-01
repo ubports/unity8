@@ -17,6 +17,8 @@
 import QtQuick 2.0
 import "../../Components"
 
+import Ubuntu.Gestures 0.1
+
 ResponsiveFlowView {
     id: root
     clip: true
@@ -99,5 +101,20 @@ ResponsiveFlowView {
 
     move: Transition {
         NumberAnimation { properties: "x,y"; duration: 400; easing.type: Easing.OutCubic }
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        z: -1 // behind all RunningApplicationTiles
+        enabled: root.terminationModeEnabled
+        onPressed: { root.terminationModeEnabled = false; }
+    }
+
+    PressedOutsideNotifier {
+        anchors.fill: parent
+        enabled: root.terminationModeEnabled
+        onPressedOutside: {
+            root.terminationModeEnabled = false;
+        }
     }
 }
