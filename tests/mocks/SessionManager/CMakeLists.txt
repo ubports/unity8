@@ -11,9 +11,9 @@ file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
     )
 
 install(TARGETS MockSessionManager-qml
-    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/mocks/SessionManager
+    DESTINATION ${SHELL_INSTALL_QML}/mocks/SessionManager
     )
 
 install(FILES qmldir
-    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/mocks/SessionManager
+    DESTINATION ${SHELL_INSTALL_QML}/mocks/SessionManager
     )
