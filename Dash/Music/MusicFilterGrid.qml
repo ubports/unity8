@@ -19,22 +19,21 @@ import "../../Components"
 import "../Generic"
 
 GenericFilterGrid {
-    id: filtergrid
+    id: musicFilterGrid
 
     delegateWidth: units.gu(11)
     delegateHeight: units.gu(16)
-
     iconWidth: units.gu(11)
     iconHeight: units.gu(11)
 
     delegate: Tile {
         id: tile
         objectName: "delegate" + index
-        width: filtergrid.cellWidth
-        height: filtergrid.cellHeight
+        width: musicFilterGrid.cellWidth
+        height: musicFilterGrid.cellHeight
         text: model.comment
-        imageWidth: filtergrid.iconWidth
-        imageHeight: filtergrid.iconHeight
+        imageWidth: musicFilterGrid.iconWidth
+        imageHeight: musicFilterGrid.iconHeight
         source: model.icon
         maximumLineCount: 2
         horizontalAlignment: Text.AlignLeft
@@ -43,12 +42,7 @@ GenericFilterGrid {
             artist: model.title
         }
 
-        onClicked: {
-            filtergrid.clicked(index, tile.y)
-        }
-
-        onPressAndHold: {
-            filtergrid.pressAndHold(index, tile.y)
-        }
+        onClicked: musicFilterGrid.clicked(index, tile.y)
+        onPressAndHold: musicFilterGrid.pressAndHold(index, tile.y)
     }
 }

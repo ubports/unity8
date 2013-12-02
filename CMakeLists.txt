@@ -151,7 +151,6 @@ add_subdirectory(src)
 
 # install subdirectories
 set(QML_DIRS
-    Applications
     Bottombar
     Components
     Dash

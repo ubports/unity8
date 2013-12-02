@@ -102,27 +102,30 @@ Item {
                 scope.preview(item.uri, item.icon, item.category, 0, item.mimetype, item.title, item.comment, item.dndUri, item.metadata)
             }
 
-            var itemY = categoryView.contentItem.mapFromItem(categoryDelegate.currentItem).y;
+            // Adjust contentY in case we need to change to it to show the next row
+            if (categoryDelegate.rows > 1) {
+                var itemY = categoryView.contentItem.mapFromItem(categoryDelegate.currentItem).y;
 
-            // Find new contentY and effect.postionPx
-            var newContentY = itemY - openEffect.positionPx - categoryDelegate.verticalSpacing;
+                // Find new contentY and effect.postionPx
+                var newContentY = itemY - openEffect.positionPx - categoryDelegate.verticalSpacing;
 
-            // Make sure the item is not covered by a header. Move the effect split down if necessary
-            var headerHeight = pageHeader.height + categoryView.stickyHeaderHeight;
-            var effectAdjust = Math.max(openEffect.positionPx, headerHeight);
+                // Make sure the item is not covered by a header. Move the effect split down if necessary
+                var headerHeight = pageHeader.height + categoryView.stickyHeaderHeight;
+                var effectAdjust = Math.max(openEffect.positionPx, headerHeight);
 
-            // Make sure we don't overscroll the listview. If yes, adjust effect position
-            if (newContentY < 0) {
-                effectAdjust += newContentY;
-                newContentY = 0;
+                // Make sure we don't overscroll the listview. If yes, adjust effect position
+                if (newContentY < 0) {
+                    effectAdjust += newContentY;
+                    newContentY = 0;
+                }
+                if (newContentY > Math.max(0, categoryView.contentHeight - categoryView.height)) {
+                    effectAdjust += -(categoryView.contentHeight - categoryView.height) + newContentY
+                    newContentY = categoryView.contentHeight - categoryView.height;
+                }
+
+                openEffect.positionPx = effectAdjust;
+                categoryView.contentY = newContentY;
             }
-            if (newContentY > Math.max(0, categoryView.contentHeight - categoryView.height)) {
-                effectAdjust += -(categoryView.contentHeight - categoryView.height) + newContentY
-                newContentY = categoryView.contentHeight - categoryView.height;
-            }
-
-            openEffect.positionPx = effectAdjust;
-            categoryView.contentY = newContentY;
         }
 
         property bool open: false
@@ -187,6 +190,7 @@ Item {
             onLoaded: {
                 if (previewListView.onScreen && previewData !== undefined) {
                     item.previewData = Qt.binding(function() { return previewData })
+                    item.isCurrent = Qt.binding(function() { return ListView.isCurrentItem })
                 }
             }
 
@@ -199,7 +203,7 @@ Item {
             }
 
             function closePreviewSpinner() {
-                if(item) {
+                if (item) {
                     item.showProcessingAction = false;
                 }
             }

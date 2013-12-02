@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2012,2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,19 +12,23 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authors: Michael Zanetti <michael.zanetti@canonical.com>
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
+#ifndef MOCK_QTMULTIMEDIA_PLUGIN_H
+#define MOCK_QTMULTIMEDIA_PLUGIN_H
 
-Loader {
-    property var model: null
-    property url carouselUrl: "GenericCarousel.qml"
-    property url filtergridUrl: "GenericFilterGrid.qml"
+#include <QtQml/QQmlEngine>
+#include <QtQml/QQmlExtensionPlugin>
 
-    source: model.count > 6 ? carouselUrl : filtergridUrl // FIXME do not hardcode 6, but retrieve correct minimum required count
+class MockQtMultimediaPlugin : public QQmlExtensionPlugin
+{
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
 
-    onLoaded: {
-        item.model = Qt.binding(function() { return model; })
-    }
-}
+public:
+    void registerTypes(const char *uri);
+};
+
+#endif

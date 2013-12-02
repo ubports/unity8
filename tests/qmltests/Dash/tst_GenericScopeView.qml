@@ -210,8 +210,18 @@ Item {
                                        true);
                     tryCompare(nextPreviewItem, "progress", 1);
                     waitForRendering(nextPreviewItem);
+                    tryCompareFunction(function() {return nextPreviewItem.item !== null}, true);
 
                     checkArrowPosition(i);
+
+                    // Make sure only the new one has isCurrent set to true
+                    compare(nextPreviewItem.item.isCurrent, true);
+
+                    if (currentPreviewItem.item !== undefined && currentPreviewItem.item !== null) {
+                        compare(currentPreviewItem.item.isCurrent, false);
+                    }
+
+                    currentPreviewItem = nextPreviewItem;
                 }
                 closePreview();
             }

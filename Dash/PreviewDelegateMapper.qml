@@ -23,6 +23,7 @@ QtObject {
         property var previewDelegateMapping: {"preview-generic": genericPreview,
                                               "preview-application": appPreview,
                                               "preview-movie": "Movie/MoviePreview.qml",
+                                              "preview-music": "Music/MusicPreview.qml",
         }
     }
 

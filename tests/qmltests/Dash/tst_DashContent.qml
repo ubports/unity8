@@ -132,6 +132,33 @@ Item {
             scopesModel.clear();
             // wait for dash to empty scopes.
             tryCompare(dashContentList, "count", 0);
+            // this is the default state for empty model
+            dashContentList.currentIndex = -1;
+        }
+
+        function test_current_index() {
+            var dashContentList = findChild(dashContent, "dashContentList");
+            verify(dashContentList != undefined)
+
+            compare(dashContentList.count, 0, "DashContent should have 0 items when it starts");
+            compare(dashContentList.currentIndex, -1, "DashContent's currentIndex should be -1 while there have been no items in the model");
+
+            tryCompare(scopeLoadedSpy, "count", 5);
+
+            verify(dashContentList.currentIndex >= 0);
+        }
+
+        function test_current_index_after_reset() {
+            var dashContentList = findChild(dashContent, "dashContentList");
+            verify(dashContentList != undefined)
+
+            compare(dashContentList.count, 0, "DashContent should have 0 items when it starts");
+            // pretend we're running after a model reset
+            dashContentList.currentIndex = 27;
+
+            tryCompare(scopeLoadedSpy, "count", 5);
+
+            verify(dashContentList.currentIndex >= 0 && dashContentList.currentIndex < 5);
         }
 
         function test_movement_started_signal() {
