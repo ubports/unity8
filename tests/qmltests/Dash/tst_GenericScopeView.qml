@@ -82,8 +82,10 @@ Item {
 
             function test_showDash() {
                 previewListView.open = true;
+                tryCompare(openEffect, "live", true);
                 scopes.get(0).showDash();
                 tryCompare(previewListView, "open", false);
+                tryCompare(openEffect, "live", true);
             }
 
             function test_hideDash() {
@@ -102,7 +104,6 @@ Item {
                                    },
                                    true);
                 var tile = findChild(genericScopeView, "delegate0");
-                wait(1000);
                 mouseClick(tile, tile.width / 2, tile.height / 2);
                 tryCompare(previewListView, "open", true);
                 tryCompare(openEffect, "gap", 1);
