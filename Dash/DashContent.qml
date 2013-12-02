@@ -167,11 +167,12 @@ Item {
             searchHistory: dashContent.searchHistory
 
             childItem: TabBar {
-                id: tabbar
+                id: tabBar
                 objectName: "tabbar"
                 height: units.gu(7)
                 width: parent.width
                 selectionMode: false
+                style: DashContentTabBarStyle {}
 
                 model: dashContentList.model
 
@@ -182,15 +183,15 @@ Item {
                 Connections {
                     target: dashContentList
                     onCurrentIndexChanged: {
-                        tabbar.selectedIndex = dashContentList.currentIndex
+                        tabBar.selectedIndex = dashContentList.currentIndex
                     }
                 }
 
                 Connections {
                     target: model
                     onCountChanged: {
-                        if (tabbar.selectedIndex < 0 && model.count > 0)
-                            tabbar.selectedIndex = 0;
+                        if (tabBar.selectedIndex < 0 && model.count > 0)
+                            tabBar.selectedIndex = 0;
                     }
                 }
 
