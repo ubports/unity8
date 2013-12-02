@@ -274,6 +274,8 @@ Item {
         }
 
         function test_tabBar_index_change() {
+            tryCompare(scopesModel, "loaded", true);
+
             compare(dashContent.currentIndex, 0);
             mouseClick(dashContent, units.gu(5), units.gu(5))
             wait(1000);
