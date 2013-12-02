@@ -7,6 +7,7 @@ add_subdirectory(Powerd)
 add_subdirectory(QMenuModel)
 add_subdirectory(Ubuntu)
 add_subdirectory(Unity)
+add_subdirectory(QtMultimedia)
 
 install(
   DIRECTORY data

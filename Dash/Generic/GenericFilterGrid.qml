@@ -15,38 +15,32 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 0.1
 import "../../Components"
+import ".."
 
-FilterGrid {
-    id: filtergrid
+DashFilterGrid {
+    id: genericFilterGrid
+
+    property int iconWidth: units.gu(8)
+    property int iconHeight: units.gu(7.5)
 
     minimumHorizontalSpacing: units.gu(0.5)
     delegateWidth: units.gu(11)
     delegateHeight: units.gu(9.5)
     verticalSpacing: units.gu(2)
 
-    property int iconWidth: units.gu(8)
-    property int iconHeight: units.gu(7.5)
-
-    signal clicked(int index, var model, real itemY)
-    signal pressAndHold(int index, var model, real itemY)
-
     delegate: Tile {
         id: tile
         objectName: "delegate" + index
-        width: filtergrid.cellWidth
-        height: filtergrid.cellHeight
+        width: genericFilterGrid.cellWidth
+        height: genericFilterGrid.cellHeight
         text: model.title
-        imageWidth: filtergrid.iconWidth
-        imageHeight: filtergrid.iconHeight
+        imageWidth: genericFilterGrid.iconWidth
+        imageHeight: genericFilterGrid.iconHeight
         source: model.icon
 
-        onClicked: {
-            filtergrid.clicked(index, filtergrid.model, tile.y)
-        }
-
-        onPressAndHold: {
-            filtergrid.pressAndHold(index, filtergrid.model, tile.y)
-        }
+        onClicked: genericFilterGrid.clicked(index, tile.y)
+        onPressAndHold: genericFilterGrid.pressAndHold(index, tile.y)
     }
 }

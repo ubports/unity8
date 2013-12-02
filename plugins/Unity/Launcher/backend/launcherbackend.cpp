@@ -26,6 +26,7 @@
 #include <QFileInfo>
 #include <QGSettings>
 #include <QDebug>
+#include <QStandardPaths>
 
 class LauncherBackendItem
 {
@@ -232,10 +233,7 @@ QString LauncherBackend::findDesktopFile(const QString &appId) const
     int dashPos = -1;
     QString helper = appId;
 
-    QStringList searchDirs;
-    searchDirs << QDir::homePath() + "/.local/share/applications";
-    searchDirs << "/usr/share/applications";
-
+    QStringList searchDirs = QStandardPaths::standardLocations(QStandardPaths::ApplicationsLocation);
 #ifdef LAUNCHER_TESTING
     searchDirs << "";
 #endif

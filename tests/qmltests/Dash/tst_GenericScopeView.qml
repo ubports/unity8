@@ -132,7 +132,23 @@ Item {
                 tryCompare(previewListView, "open", false);
             }
 
-            function test_previewCycleOne() {
+            function test_hiddenPreviewOpen() {
+                var categoryListView = findChild(genericScopeView, "categoryListView");
+                categoryListView.positionAtBeginning();
+                waitForRendering(categoryListView);
+                categoryListView.flick(0, -units.gu(80));
+                tryCompare(categoryListView.flicking, false);
+
+                var tile = findChild(genericScopeView, "delegate0");
+                mouseClick(tile, tile.width / 2, tile.height - 1);
+                var openEffect = findChild(genericScopeView, "openEffect");
+                tryCompare(openEffect, "gap", 1);
+
+                var pageHeader = findChild(genericScopeView, "pageHeader");
+                verify(openEffect.positionPx >= pageHeader.height + categoryListView.stickyHeaderHeight);
+            }
+
+            function test_previewCycle() {
                 var previewListView = findChild(genericScopeView, "previewListView");
                 tryCompare(previewListView, "open", false);
 
@@ -170,10 +186,19 @@ Item {
                                        true);
                     tryCompare(nextPreviewItem, "progress", 1);
                     waitForRendering(nextPreviewItem);
+                    tryCompareFunction(function() {return nextPreviewItem.item !== null}, true);
 
                     checkArrowPosition(i);
-                }
 
+                    // Make sure only the new one has isCurrent set to true
+                    compare(nextPreviewItem.item.isCurrent, true);
+
+                    if (currentPreviewItem.item !== undefined && currentPreviewItem.item !== null) {
+                        compare(currentPreviewItem.item.isCurrent, false);
+                    }
+
+                    currentPreviewItem = nextPreviewItem;
+                }
                 closePreview();
             }
 
@@ -189,6 +214,13 @@ Item {
                 tryCompare(waitingForAction, "enabled", false);
 
                 closePreview();
+            }
+
+            function test_changeScope() {
+                genericScopeView.scope.searchQuery = "test"
+                genericScopeView.scope = scopes.get(1)
+                genericScopeView.scope = scopes.get(0)
+                tryCompare(genericScopeView.scope, "searchQuery", "")
             }
         }
     }

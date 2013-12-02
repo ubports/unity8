@@ -61,8 +61,6 @@ FocusScope {
         }
     }
 
-    property ListModel searchHistory: SearchHistoryModel {}
-
     property var applicationManager: ApplicationManagerWrapper {}
 
     Binding {
@@ -98,21 +96,21 @@ FocusScope {
         }
     }
 
-    function activateApplication(desktopFile, argument) {
+    function activateApplication(appId, argument) {
         if (applicationManager) {
             // For newly started applications, as it takes them time to draw their first frame
             // we add a delay before we hide the animation screenshots to compensate.
-            var addDelay = !applicationManager.getApplicationFromDesktopFile(desktopFile);
+            var addDelay = !applicationManager.getApplicationFromDesktopFile(appId);
 
             var application;
-            application = applicationManager.activateApplication(desktopFile, argument);
+            application = applicationManager.activateApplication(appId, argument);
             if (application == null) {
                 return;
             }
             if (application.stage == ApplicationInfo.MainStage || !sideStage.enabled) {
-                mainStage.activateApplication(desktopFile, addDelay);
+                mainStage.activateApplication(appId, addDelay);
             } else {
-                sideStage.activateApplication(desktopFile, addDelay);
+                sideStage.activateApplication(appId, addDelay);
             }
             stages.show();
         }
@@ -416,7 +414,7 @@ FocusScope {
         height: parent.height - panel.panelHeight
         background: shell.background
 
-        onUnlocked: lockscreen.hide()
+        onEntered: LightDM.Greeter.respond(passphrase);
         onCancel: greeter.show()
 
         Component.onCompleted: {
@@ -440,6 +438,17 @@ FocusScope {
                 }
                 lockscreen.placeholderText = i18n.tr("Please enter %1").arg(text);
                 lockscreen.show();
+            }
+        }
+
+        onAuthenticationComplete: {
+            if (LightDM.Greeter.promptless) {
+                return;
+            }
+            if (LightDM.Greeter.authenticated) {
+                lockscreen.hide();
+            } else {
+                lockscreen.clear(true);
             }
         }
     }

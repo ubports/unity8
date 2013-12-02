@@ -76,7 +76,7 @@ setup_adb_forwarding() {
 
 install_dependencies() {
     exec_with_adb apt-get update
-    exec_with_ssh $SUDO apt-get -y install build-essential rsync bzr ccache gdb ninja-build devscripts equivs
+    exec_with_ssh $SUDO apt-get -y install build-essential rsync bzr ccache gdb ninja-build devscripts equivs unity-plugin-scopes
 }
 
 sync_code() {
@@ -88,7 +88,6 @@ sync_code() {
 }
 
 build() {
-    exec_with_ssh "[ $CODE_DIR/debian/control -nt unity8-build-deps*deb ] && $SUDO mk-build-deps --tool=\\\"apt-get -y --no-install-recommends\\\" --build-dep --install $CODE_DIR/debian/control"
     exec_with_ssh PATH=/usr/lib/ccache:$PATH "cd $CODE_DIR/ && PATH=/usr/lib/ccache:$PATH ./build"
 }
 

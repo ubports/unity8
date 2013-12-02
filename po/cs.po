@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-11-05 17:53+0100\n"
+"POT-Creation-Date: 2013-11-29 09:21+0100\n"
 "PO-Revision-Date: 2013-10-08 08:09+0000\n"
 "Last-Translator: Tadeáš Pařík <tadeas.parik@gmail.com>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -15,78 +15,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2013-11-08 06:37+0000\n"
-"X-Generator: Launchpad (build 16820)\n"
+"X-Launchpad-Export-Date: 2013-11-30 05:33+0000\n"
+"X-Generator: Launchpad (build 16856)\n"
 
-#: Applications/applications.js:23
-msgid "Phone"
-msgstr "Telefon"
-
-#: Applications/applications.js:29
-msgid "Camera"
-msgstr "Fotoaparát"
-
-#: Applications/applications.js:35
-msgid "Gallery"
-msgstr "Galerie"
-
-#: Applications/applications.js:40
-msgid "Facebook"
-msgstr "Facebook"
-
-#: Applications/applications.js:46
-msgid "Browser"
-msgstr "Prohlížeč"
-
-#: Applications/applications.js:51
-msgid "Twitter"
-msgstr "Twitter"
-
-#: Applications/applications.js:57
-msgid "GMail"
-msgstr "GMail"
-
-#: Applications/applications.js:62
-msgid "Weather"
-msgstr "Počasí"
-
-#: Applications/applications.js:68
-msgid "Notepad"
-msgstr "Poznámkový blok"
-
-#: Applications/applications.js:74
-msgid "Calendar"
-msgstr "Kalendář"
-
-#: Applications/applications.js:80
-msgid "Media Player"
-msgstr "Přehrávač multimédií"
-
-#: Applications/applications.js:86
-msgid "Evernote"
-msgstr "Evernote"
-
-#: Applications/applications.js:91
-msgid "Map"
-msgstr "Mapa"
-
-#: Applications/applications.js:96
-msgid "Pinterest"
-msgstr "Pinterest"
-
-#: Applications/applications.js:101
-msgid "SoundCloud"
-msgstr "Hudební Cloud"
-
-#: Applications/applications.js:106
-msgid "Wikipedia"
-msgstr "Wikipedie"
-
-#: Applications/applications.js:111
-msgid "YouTube"
-msgstr "YouTube"
-
-#: Components/EdgeDemoOverlay.qml:149
+#: Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
 msgstr "Přeskočit intro"
 
@@ -132,30 +64,28 @@ msgid ""
 "phone<br><br>Tap anywhere to start"
 msgstr ""
 
-#: Components/PageHeader.qml:341
+#: Components/PageHeader.qml:364
 msgid "Recent searches"
 msgstr "Poslední vyhledávání"
 
-#. TRANSLATORS: Number of persons who rated this app
+#: Dash/Apps/AppPreview.qml:135
+msgid "Rate this"
+msgstr "Ohodnoťte to"
+
 #. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: Dash/Apps/AppInfo.qml:73 Dash/Previews/Header.qml:93
+#: Dash/Previews/Header.qml:93
 #, qt-format
 msgid "(%1)"
 msgstr "(%1)"
 
-#. TRANSLATORS: Number of persons who wrote reviews for this app
 #. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: Dash/Apps/AppInfo.qml:85 Dash/Previews/Header.qml:105
+#: Dash/Previews/Header.qml:105
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
 msgstr[0] "%1 recenze"
 msgstr[1] "%1 recenze"
 msgstr[2] "%1 recenzí"
-
-#: Dash/Apps/AppPreview.qml:126
-msgid "Rate this"
-msgstr "Ohodnoťte to"
 
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
@@ -173,7 +103,7 @@ msgstr "Odeslat"
 msgid "Comments:"
 msgstr "Komentáře:"
 
-#: Greeter/Lockscreen.qml:142
+#: Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
 msgstr "Tísňové volání"
 
@@ -214,15 +144,16 @@ msgstr ""
 msgid "Search"
 msgstr "Hledat"
 
-#: plugins/Unity/scope.cpp:408
-msgid "Sorry, there is nothing that matches your search."
-msgstr "Je nám líto, ale nic neodpovídá zadání"
+#: plugins/Unity/Launcher/launcheritem.cpp:43
+#: plugins/Unity/Launcher/launcheritem.cpp:73
+msgid "Lock to Launcher"
+msgstr ""
 
-#: plugins/Unity/showallfilteroption.cpp:41
-msgid "All"
-msgstr "Vše"
+#: plugins/Unity/Launcher/launcheritem.cpp:73
+msgid "Unlock from Launcher"
+msgstr ""
 
-#: Shell.qml:438
+#: Shell.qml:439
 #, qt-format
 msgid "Please enter %1"
 msgstr "Zadejte prosím %1"

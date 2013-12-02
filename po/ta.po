@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-11-05 17:53+0100\n"
+"POT-Creation-Date: 2013-11-29 09:21+0100\n"
 "PO-Revision-Date: 2013-10-24 11:36+0000\n"
 "Last-Translator: Thangamani Arun - தங்கமணி அருண் <thangam.arunx@gmail.com>\n"
 "Language-Team: Ubuntu Tamil Team/Free Tamil Computing/Thamizha\n"
@@ -15,79 +15,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-11-08 06:38+0000\n"
-"X-Generator: Launchpad (build 16820)\n"
+"X-Launchpad-Export-Date: 2013-11-30 05:33+0000\n"
+"X-Generator: Launchpad (build 16856)\n"
 "Language: ta\n"
 
-#: Applications/applications.js:23
-msgid "Phone"
-msgstr "தொலைபேசி"
-
-#: Applications/applications.js:29
-msgid "Camera"
-msgstr "புகைப்பட கருவி"
-
-#: Applications/applications.js:35
-msgid "Gallery"
-msgstr "படத்தொகுப்பு"
-
-#: Applications/applications.js:40
-msgid "Facebook"
-msgstr "முகநுல்"
-
-#: Applications/applications.js:46
-msgid "Browser"
-msgstr "உலாவி"
-
-#: Applications/applications.js:51
-msgid "Twitter"
-msgstr "ட்விட்டர்"
-
-#: Applications/applications.js:57
-msgid "GMail"
-msgstr "ஜிமெயில்"
-
-#: Applications/applications.js:62
-msgid "Weather"
-msgstr "வானிலை"
-
-#: Applications/applications.js:68
-msgid "Notepad"
-msgstr "குறிப்புபலகை"
-
-#: Applications/applications.js:74
-msgid "Calendar"
-msgstr "நாள்காட்டி"
-
-#: Applications/applications.js:80
-msgid "Media Player"
-msgstr "ஊடக இயக்கி"
-
-#: Applications/applications.js:86
-msgid "Evernote"
-msgstr "எப்போதும்குறிப்பெடு"
-
-#: Applications/applications.js:91
-msgid "Map"
-msgstr "வரைபடம்"
-
-#: Applications/applications.js:96
-msgid "Pinterest"
-msgstr "விசைத்தட்டு"
-
-#: Applications/applications.js:101
-msgid "SoundCloud"
-msgstr "ஒலி கிளவுட்"
-
-#: Applications/applications.js:106
-msgid "Wikipedia"
-msgstr "விக்கிப்பீடியா"
-
-#: Applications/applications.js:111
-msgid "YouTube"
-msgstr "யூட்யுப்"
-
-#: Components/EdgeDemoOverlay.qml:149
+#: Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
 msgstr "அறிமுகத்தை தவிர்"
 
@@ -138,29 +70,27 @@ msgstr ""
 "பயன்படுத்த தொடங்கவும் <br> <br>தட்டுவதன் மூலம் எங்க வேண்டுமானாலும் "
 "தொடங்கலாம்."
 
-#: Components/PageHeader.qml:341
+#: Components/PageHeader.qml:364
 msgid "Recent searches"
 msgstr "கடையாக தேடப்பட்டவைகள்"
 
-#. TRANSLATORS: Number of persons who rated this app
+#: Dash/Apps/AppPreview.qml:135
+msgid "Rate this"
+msgstr "இதை மதிப்பிடு"
+
 #. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: Dash/Apps/AppInfo.qml:73 Dash/Previews/Header.qml:93
+#: Dash/Previews/Header.qml:93
 #, qt-format
 msgid "(%1)"
 msgstr "(%1)"
 
-#. TRANSLATORS: Number of persons who wrote reviews for this app
 #. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: Dash/Apps/AppInfo.qml:85 Dash/Previews/Header.qml:105
+#: Dash/Previews/Header.qml:105
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
 msgstr[0] "%1 பரிசீலனை"
 msgstr[1] "%1 பரிசீலனைகள்"
-
-#: Dash/Apps/AppPreview.qml:126
-msgid "Rate this"
-msgstr "இதை மதிப்பிடு"
 
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
@@ -178,7 +108,7 @@ msgstr "அனுப்பு"
 msgid "Comments:"
 msgstr "கருத்துகள்:"
 
-#: Greeter/Lockscreen.qml:142
+#: Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
 msgstr "அவசர அழைப்பு"
 
@@ -219,15 +149,16 @@ msgstr ""
 msgid "Search"
 msgstr "தெடு"
 
-#: plugins/Unity/scope.cpp:408
-msgid "Sorry, there is nothing that matches your search."
-msgstr "மன்னிக்கவும், உங்களுடைய தேடலுக்கு தகுந்த பொருத்தம் கிடைக்கவில்லை."
+#: plugins/Unity/Launcher/launcheritem.cpp:43
+#: plugins/Unity/Launcher/launcheritem.cpp:73
+msgid "Lock to Launcher"
+msgstr ""
 
-#: plugins/Unity/showallfilteroption.cpp:41
-msgid "All"
-msgstr "அனைத்தும்"
+#: plugins/Unity/Launcher/launcheritem.cpp:73
+msgid "Unlock from Launcher"
+msgstr ""
 
-#: Shell.qml:438
+#: Shell.qml:439
 #, qt-format
 msgid "Please enter %1"
 msgstr "தயவுச்செய்து %1 உள்ளிடு"

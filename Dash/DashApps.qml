@@ -19,7 +19,6 @@ import Ubuntu.Components 0.1
 import Utils 0.1
 import "../Components"
 import "../Components/ListItems"
-import "../Applications"
 import "Apps"
 
 GenericScopeView {
@@ -29,6 +28,9 @@ GenericScopeView {
     // FIXME: a way to aggregate these models would be ideal
     property var mainStageApplicationsModel: shell.applicationManager.mainStageApplications
     property var sideStageApplicationModel: shell.applicationManager.sideStageApplications
+
+    //FIXME an alias to itself shouldn't be required. More than likely a Qt bug. Try removing with newer Qt.
+    property alias searchHistory: scopeView.searchHistory
 
     ListModel {
         id: dummyVisibilityModifier

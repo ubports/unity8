@@ -15,7 +15,6 @@ add_qml_test(Components AnimationControllerWithSignals)
 add_qml_test(Components Carousel)
 add_qml_test(Components OpenEffect)
 add_qml_test(Components RatingStars)
-add_qml_test(Components TimeLocal)
 add_qml_test(Panel IndicatorItem)
 add_qml_test(utils/Unity/Test UnityTest)
 
@@ -45,12 +44,14 @@ add_qml_test(Dash DashContent IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest
 add_qml_test(Dash DashPreview)
 add_qml_test(Dash GenericPreview)
 add_qml_test(Dash GenericScopeView IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
-add_qml_test(Dash ScopeView IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
 add_qml_test(Dash FilterGrids IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/plugins ${CMAKE_CURRENT_SOURCE_DIR}/plugins
                                            ${CMAKE_BINARY_DIR}/tests/mocks)
-add_qml_test(Dash/Apps RunningApplicationsGrid IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/tests/mocks)
+add_qml_test(Dash/Apps RunningApplicationsGrid IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS}
+                                                            ${CMAKE_BINARY_DIR}/tests/mocks
+                                                            ${CMAKE_BINARY_DIR}/plugins)
 add_qml_test(Dash/Apps AppPreview IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/tests/mocks)
 add_qml_test(Dash/Movie MoviePreview IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/tests/mocks)
+add_qml_test(Dash/Music MusicPreview IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/tests/mocks)
 add_qml_test(Greeter Lockscreen IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS}
                              PROPERTIES ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics:${CMAKE_BINARY_DIR}/tests/mocks/LightDM/full")
 add_qml_test(Greeter Tablet IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS}

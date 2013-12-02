@@ -54,17 +54,16 @@ Item {
 
     /// Emitted when the user clicked on an item
     /// @param index is the index of the clicked item
-    /// @param model is the model of all the items in the carousel
     /// @param itemY is y of the clicked delegate
-    signal clicked(int index, var model, real itemY)
+    signal clicked(int index, real itemY)
 
     /// Emitted when the user pressed and held on an item
     /// @param index is the index of the held item
-    /// @param model is the model of all the items in the carousel
     /// @param itemY is y of the held delegate
-    signal pressAndHold(int index, var model, real itemY)
+    signal pressAndHold(int index, real itemY)
 
     implicitHeight: listView.tileHeight * selectedItemScaleFactor
+    opacity: listView.highlightIndex === -1 ? 1 : 0.6
 
     /* Basic idea behind the carousel effect is to move the items of the delegates (compacting /stuffing them).
        One drawback is, that more delegates have to be drawn than usually. As some items are moved from the
@@ -77,11 +76,11 @@ Item {
     ListView {
         id: listView
 
+        property int highlightIndex: -1
         property real minimumTileWidth: 0
         property real newContentX: disabledNewContentX
         property real pathItemCount: referenceWidth / referenceTileWidth
         property real tileAspectRatio: 1
-        property int highlightIndex: -1
 
         /* The positioning and scaling of the items in the carousel is based on the variable
            'continuousIndex', a continuous real variable between [0, 'carousel.model.count'],
@@ -163,7 +162,7 @@ Item {
                 /* We're clicking the selected item and
                    we're in the neighbourhood of radius 1 pixel from it.
                    Let's emit the clicked signal. */
-                carousel.clicked(index, listView.model, delegateItem.y)
+                carousel.clicked(index, delegateItem.y)
                 return
             }
 
@@ -187,7 +186,7 @@ Item {
                 /* We're pressAndHold the selected item and
                    we're in the neighbourhood of radius 1 pixel from it.
                    Let's emit the pressAndHold signal. */
-                carousel.pressAndHold(index, listView.model, delegateItem.y);
+                carousel.pressAndHold(index, delegateItem.y);
                 return;
             }
 
@@ -295,7 +294,6 @@ Item {
             scale: itemScale * explicitScaleFactor
             sourceComponent: itemComponent
             z: cachedTiles - Math.abs(index - listView.selectedIndex)
-            opacity: highlightIndex == -1 ? 1 : (highlightIndex == index ? 0.6 : 0.2)
 
             transform: Translate {
                 x: xTransform
@@ -335,7 +333,6 @@ Item {
                 onPressAndHold: {
                     listView.itemPressAndHold(index, item)
                 }
-
             }
         }
     }
