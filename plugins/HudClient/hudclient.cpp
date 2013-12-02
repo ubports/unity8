@@ -243,28 +243,13 @@ void HudClient::modelReady(bool needDisconnect)
     }
 }
 
-static QVariant QVariantFromGVariant(GVariant *value)
-{
-    // Only handle the cases we care for now
-    switch (g_variant_classify(value)) {
-        case G_VARIANT_CLASS_BOOLEAN:
-            return QVariant((bool) g_variant_get_boolean(value));
-        case G_VARIANT_CLASS_DOUBLE:
-            return QVariant(g_variant_get_double(value));
-        case G_VARIANT_CLASS_STRING:
-            return QVariant(QString::fromUtf8(g_variant_get_string(value, NULL)));
-        default:
-            return QVariant();
-    }
-}
-
 static void addAttribute(QVariantMap &properties, GMenuModel *menuModel, int item, const char *attribute) {
     GVariant *v = g_menu_model_get_item_attribute_value(menuModel, item, attribute, NULL);
 
     if (v == NULL)
         return;
 
-    properties.insert(attribute, QVariantFromGVariant(v));
+    properties.insert(attribute, DeeListModel::VariantForData(v));
     g_variant_unref(v);
 }
 
