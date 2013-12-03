@@ -18,20 +18,31 @@
  */
 
 #include "plugin.h"
+#include "DBusGreeterList.h"
 #include "Greeter.h"
 #include "UsersModel.h"
 #include <libusermetricsoutput/ColorTheme.h>
 #include <libusermetricsoutput/UserMetrics.h>
 #include <QLightDM/UsersModel>
 
-#include <QtCore/QAbstractItemModel>
-#include <QtQml/qqml.h>
+#include <QAbstractItemModel>
+#include <QDBusConnection>
+#include <QtQml>
+
+static const char* GREETER_LIST_DBUS_PATH = "/list";
+static const char* GREETER_DBUS_SERVICE = "com.canonical.UnityGreeter";
 
 static QObject *greeter_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
     Q_UNUSED(engine)
     Q_UNUSED(scriptEngine)
-    return new Greeter();
+
+    Greeter *greeter = new Greeter();
+    DBusGreeterList *list = new DBusGreeterList(greeter);
+    QDBusConnection::sessionBus().registerObject(GREETER_LIST_DBUS_PATH, list, QDBusConnection::ExportScriptableContents);
+    QDBusConnection::sessionBus().registerService(GREETER_DBUS_SERVICE);
+
+    return greeter;
 }
 
 static QObject *users_provider(QQmlEngine *engine, QJSEngine *scriptEngine)

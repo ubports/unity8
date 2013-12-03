@@ -289,5 +289,16 @@ Item {
             }
             passwordInput.text = "";
         }
+
+        onRequestAuthenticationUser: {
+            // Find index for requested user, if it exists
+            for (var i = 0; i < userList.model.count; i++) {
+                if (user == userList.model.data(i, LightDM.UserRoles.NameRole)) {
+                    moveTimer.start();
+                    userList.currentIndex = i;
+                    return;
+                }
+            }
+        }
     }
 }
