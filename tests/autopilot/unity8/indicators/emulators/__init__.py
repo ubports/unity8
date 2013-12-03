@@ -18,7 +18,7 @@
 #
 
 
-from autopilot.introspection import CustomEmulatorBase
+from autopilot.introspection.dbus import CustomEmulatorBase
 
 
 class IndicatorEmulatorBase(CustomEmulatorBase):
