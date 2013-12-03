@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
-# Unity - Indicators Autopilot Test Suite
-# Copyright (C) 2013 Canonical
+# Unity Indicators Autopilot Test Suite
+# Copyright (C) 2012-2013 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,3 +15,11 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+
+from autopilot.introspection import CustomEmulatorBase
+
+
+class IndicatorEmulatorBase(CustomEmulatorBase):
+    """A base class for indicator emulators."""

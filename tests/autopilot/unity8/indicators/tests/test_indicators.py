@@ -1,6 +1,6 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
-# Unity - Indicators Autopilot Test Suite
+# Unity Indicators Autopilot Test Suite
 # Copyright (C) 2013 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
@@ -19,7 +19,7 @@
 
 from __future__ import absolute_import
 
-from autopilot import platform
+from autopilot.platform import model
 
 from unity8.indicators.emulators.widget import DefaultIndicatorWidget
 from unity8.process_helpers import unlock_unity
@@ -39,7 +39,7 @@ class IndicatorTestCase(UnityTestCase):
     ]
 
     def setUp(self):
-        if model() == "Desktop":
+        if self.model() == "Desktop":
             self.skipTest("Test cannot be run on the desktop.")
         super(IndicatorTestCase, self).setUp()
 
@@ -56,20 +56,20 @@ class IndicatorTestCase(UnityTestCase):
 class IndicatorPageTitleMatchesWidgetTestCase(UnityTestCase):
 
     scenarios = [
-        ('Bluetooth', dict(indicator_name='indicator-bluetooth',
-                           title='Bluetooth')),
-        ('Datetime', dict(indicator_name='indicator-datetime',
-                          title='Upcoming')),
-        ('Location', dict(indicator_name='indicator-location',
-                          title='Location')),
-        ('Messaging', dict(indicator_name='indicator-messages',
-                           title='Incoming')),
-        ('Network', dict(indicator_name='indicator-network',
-                         title='Network')),
+        #('Bluetooth', dict(indicator_name='indicator-bluetooth',
+        #                   title='Bluetooth')),
+        #('Datetime', dict(indicator_name='indicator-datetime',
+        #                  title='Upcoming')),
+        #('Location', dict(indicator_name='indicator-location',
+        #                  title='Location')),
+        #('Messaging', dict(indicator_name='indicator-messages',
+        #                   title='Incoming')),
+        #('Network', dict(indicator_name='indicator-network',
+        #                 title='Network')),
         ('Power', dict(indicator_name='indicator-power',
                        title='Battery')),
-        ('Sound', dict(indicator_name='indicator-sound',
-                       title='Sound')),
+        #('Sound', dict(indicator_name='indicator-sound',
+        #               title='Sound')),
     ]
 
     def setUp(self):
@@ -85,12 +85,8 @@ class IndicatorPageTitleMatchesWidgetTestCase(UnityTestCase):
         unity_proxy = self.launch_unity()
         unlock_unity(unity_proxy)
         window = self.main_window.get_qml_view()
-        widget = DefaultIndicatorWidget(
-            self.main_window.get_indicator_widget(
-                self.indicator_name
-            )
-        )
+        widget = self.main_window.get_indicator_widget(self.indicator_name)
         self.assertIsNotNone(widget)
-        self.swipe_to_open_indicator(widget, window)
+        widget.swipe_to_open_indicator(window)
         title = window.wait_select_single("IndicatorPage",
                                           title=self.title)

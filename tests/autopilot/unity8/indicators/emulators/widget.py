@@ -16,31 +16,33 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from autopilot.introspection import CustomEmulatorBase
 from autopilot.input import Touch
 
-
-# TODO: submit to autopilot.introspection.types.Rectangle
-def get_center(global_rect):
-    """Returns (x, y) representing the center of a globalRect."""
-    return (global_rect[0]+int(global_rect[2]/2),
-            global_rect[1]+int(global_rect[3]/2))
+from unity8.indicators.emulators import IndicatorEmulatorBase
 
 
-class DefaultIndicatorWidget(CustomEmulatorBase):
+class DefaultIndicatorWidget(IndicatorEmulatorBase):
 
-    def swipe_to_open_indicator(self, indicator_widget, window):
+    """The indicator's icon in the menu-bar."""
+
+    # TODO: submit to autopilot.introspection.types.Rectangle
+    def get_center(global_rect):
+        """Returns (x, y) representing the center of a globalRect."""
+        return (self.global_rect[0]+int(self.global_rect[2]/2),
+                self.global_rect[1]+int(self.global_rect[3]/2))
+
+    def swipe_to_open_indicator(self, window):
         """Swipe to open the indicator, wait until it's open."""
-        start_x, start_y = get_center(indicator_widget.globalRect)
+        start_x, start_y = self.get_center()
         end_x = start_x
         end_y = window.height
         self.pointer.drag(start_x, start_y,
                           end_x, end_y)
         # TODO: assert that the indicator page opened
 
-    def swipe_to_close_indicator(self, indicator_widget, window):
+    def swipe_to_close_indicator(self, window):
         """Swipe to close the indicator, wait until it's closed."""
-        end_x, end_y = get_center(indicator_widget.globalRect)
+        end_x, end_y = self.get_center()
         start_x = end_x
         start_y = window.height
         self.pointer.drag(start_x, start_y,

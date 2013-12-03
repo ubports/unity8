@@ -22,6 +22,7 @@ from unity8.shell.emulators.greeter import Greeter
 from unity8.shell.emulators.hud import Hud
 from unity8.shell.emulators.dash import Dash
 from unity8.shell.emulators.launcher import Launcher
+from unity8.indicators.emulators.widget import DefaultIndicatorWidget
 
 
 class MainWindow(object):
@@ -93,7 +94,7 @@ class MainWindow(object):
 
     def get_indicator_widget(self, indicator_name):
         return self.app.select_single(
-            'DefaultIndicatorWidget',
+            DefaultIndicatorWidget,
             objectName=indicator_name+'-widget'
         )
 
