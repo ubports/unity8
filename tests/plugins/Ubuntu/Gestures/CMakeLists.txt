@@ -45,5 +45,6 @@ macro(add_gesture_test CLASSNAME)
 endmacro(add_gesture_test)
 
 add_gesture_ui_test(DirectionalDragArea)
+add_gesture_ui_test(PressedOutsideNotifier)
 add_gesture_test(Damper)
 add_gesture_test(AxisVelocityCalculator)

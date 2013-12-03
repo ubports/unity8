@@ -16,15 +16,15 @@
 
 import QtQuick 2.0
 import "../../Components"
+import ".."
 
-Carousel {
+DashCarousel {
     id: videosCarousel
     tileAspectRatio: 198 / 288
     minimumTileWidth: units.gu(13)
     itemComponent: carouselDelegateVideo
     selectedItemScaleFactor: 1.14
     cacheBuffer: 1404 // 18px * 13gu * 6
-    height: implicitHeight + units.gu(6)
 
     Component {
         id: carouselDelegateVideo
