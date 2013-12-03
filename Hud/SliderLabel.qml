@@ -36,10 +36,12 @@ Item {
         label.text = sliderData["label"]
         slider.minimumValue = sliderData["min"]
         slider.maximumValue = sliderData["max"]
-        slider.live = sliderData["live"]
+        if("live" in sliderData)
+            slider.live = sliderData["live"]
         // SDK Slider does not support step yet
 //         slider.step = sliderData["step"]
-        slider.value = sliderData["value"]
+        if("value" in sliderData)
+            slider.value = sliderData["value"]
         action = sliderData["action"]
     }
 
