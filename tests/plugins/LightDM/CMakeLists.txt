@@ -7,6 +7,7 @@ qt5_use_modules(testLightDMDBus Core DBus Quick Test)
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_SOURCE_DIR}/plugins/LightDM
+    ${CMAKE_SOURCE_DIR}/tests/mocks/LightDM
     ${LIBLIGHTDM_INCLUDE_DIRS}
     )
 
