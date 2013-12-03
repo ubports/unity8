@@ -27,7 +27,7 @@
 
 #include <QAbstractItemModel>
 #include <QDBusConnection>
-#include <QtQml>
+#include <QtQml/qqml.h>
 
 static const char* GREETER_LIST_DBUS_PATH = "/list";
 static const char* GREETER_DBUS_SERVICE = "com.canonical.UnityGreeter";

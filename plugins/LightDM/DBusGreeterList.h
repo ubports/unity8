@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef UNITY_DBUSLIST_H
-#define UNITY_DBUSLIST_H
+#ifndef UNITY_DBUSGREETERLIST_H
+#define UNITY_DBUSGREETERLIST_H
 
 #include <QObject>
 
