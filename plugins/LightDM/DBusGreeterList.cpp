@@ -17,12 +17,17 @@
 #include "DBusGreeterList.h"
 #include "Greeter.h"
 
-DBusGreeterList::DBusGreeterList(Greeter *greeter)
+#include <QDBusMessage>
+#include <QStringList>
+
+DBusGreeterList::DBusGreeterList(Greeter *greeter, const QDBusConnection &connection, const QString &path)
  : QObject(greeter),
-   m_greeter(greeter)
+   m_greeter(greeter),
+   m_connection(connection),
+   m_path(path)
 {
-    connect(m_greeter, SIGNAL(authenticationUserChanged(const QString &)), this, SIGNAL(EntrySelected(const QString &)));
-    connect(m_greeter, SIGNAL(promptlessChanged()), this, SIGNAL(entryIsLockedChanged()));
+    connect(m_greeter, SIGNAL(authenticationUserChanged(const QString &)), this, SLOT(authenticationUserChangedHandler(const QString &)));
+    connect(m_greeter, SIGNAL(promptlessChanged()), this, SLOT(promptlessChangedHandler()));
 }
 
 QString DBusGreeterList::GetActiveEntry() const
@@ -38,4 +43,35 @@ void DBusGreeterList::SetActiveEntry(const QString &entry)
 bool DBusGreeterList::entryIsLocked() const
 {
     return !m_greeter->promptless();
+}
+
+void DBusGreeterList::authenticationUserChangedHandler(const QString &user)
+{
+    notifyPropertyChanged("ActiveEntry", user);
+    Q_EMIT EntrySelected(user);
+}
+
+void DBusGreeterList::promptlessChangedHandler()
+{
+    notifyPropertyChanged("EntryIsLocked", entryIsLocked());
+    Q_EMIT entryIsLockedChanged();
+}
+
+// Manually emit a PropertiesChanged signal over DBus, because QtDBus
+// doesn't do it for us on Q_PROPERTIES, oddly enough.
+void DBusGreeterList::notifyPropertyChanged(const QString& propertyName, const QVariant &value)
+{
+    QDBusMessage message;
+    QVariantMap changedProps;
+
+    changedProps.insert(propertyName, value);
+
+    message = QDBusMessage::createSignal(m_path,
+                                         "org.freedesktop.DBus.Properties",
+                                         "PropertiesChanged");
+    message << "com.canonical.UnityGreeter.List";
+    message << changedProps;
+    message << QStringList();
+
+    m_connection.send(message);
 }

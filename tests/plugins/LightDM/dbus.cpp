@@ -27,7 +27,25 @@ class GreeterDBusTest : public QObject
 {
     Q_OBJECT
 
+Q_SIGNALS:
+    void PropertiesChangedRelay(const QString &interface, const QVariantMap &changed, const QStringList &invalidated);
+
 private Q_SLOTS:
+
+    void initTestCase()
+    {
+        // Qt doesn't like us connecting to PropertiesChanged using normal
+        // SIGNAL method, because QtDBus doesn't know about PropertiesChanged.
+        // So we connect the hard way for the benefit of any tests that want
+        // to watch.
+        QDBusConnection::sessionBus().connect(
+            "com.canonical.UnityGreeter",
+            "/list",
+            "org.freedesktop.DBus.Properties",
+            "PropertiesChanged",
+            this,
+            SIGNAL(PropertiesChangedRelay(const QString&, const QVariantMap&, const QStringList&)));
+    }
 
     void init()
     {
@@ -100,13 +118,41 @@ private Q_SLOTS:
         QVERIFY(arguments.at(0).toString() == "has-password");
     }
 
+    void testActiveEntryChanged()
+    {
+        QSignalSpy spy(this, SIGNAL(PropertiesChangedRelay(QString, QVariantMap, QStringList)));
+        greeter->authenticate("has-password");
+        spy.wait();
+
+        QCOMPARE(spy.count(), 1);
+        QList<QVariant> arguments = spy.takeFirst();
+        QVERIFY(arguments.at(0).toString() == "com.canonical.UnityGreeter.List");
+        QVERIFY(arguments.at(1).toMap().contains("ActiveEntry"));
+        QVERIFY(arguments.at(1).toMap()["ActiveEntry"] == "has-password");
+    }
+
     void testEntryIsLockedGet()
     {
-        greeter->authenticate("has-password");
         QVERIFY(dbusList->property("EntryIsLocked").toBool());
 
         greeter->authenticate("no-password");
         QVERIFY(!dbusList->property("EntryIsLocked").toBool());
+
+        greeter->authenticate("has-password");
+        QVERIFY(dbusList->property("EntryIsLocked").toBool());
+    }
+
+    void testEntryIsLockedChanged()
+    {
+        QSignalSpy spy(this, SIGNAL(PropertiesChangedRelay(QString, QVariantMap, QStringList)));
+        greeter->authenticate("no-password");
+        spy.wait();
+
+        QCOMPARE(spy.count(), 2); // once for locked, once for user; first will be locked mode
+        QList<QVariant> arguments = spy.takeFirst();
+        QVERIFY(arguments.at(0).toString() == "com.canonical.UnityGreeter.List");
+        QVERIFY(arguments.at(1).toMap().contains("EntryIsLocked"));
+        QVERIFY(arguments.at(1).toMap()["EntryIsLocked"] == false);
     }
 
 private:

@@ -38,9 +38,10 @@ static QObject *greeter_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
     Q_UNUSED(scriptEngine)
 
     Greeter *greeter = new Greeter();
-    DBusGreeterList *list = new DBusGreeterList(greeter);
-    QDBusConnection::sessionBus().registerObject(GREETER_LIST_DBUS_PATH, list, QDBusConnection::ExportScriptableContents);
-    QDBusConnection::sessionBus().registerService(GREETER_DBUS_SERVICE);
+    QDBusConnection connection = QDBusConnection::sessionBus();
+    DBusGreeterList *list = new DBusGreeterList(greeter, connection, GREETER_LIST_DBUS_PATH);
+    connection.registerObject(GREETER_LIST_DBUS_PATH, list, QDBusConnection::ExportScriptableContents);
+    connection.registerService(GREETER_DBUS_SERVICE);
 
     return greeter;
 }

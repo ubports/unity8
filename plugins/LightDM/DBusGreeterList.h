@@ -17,6 +17,7 @@
 #ifndef UNITY_DBUSGREETERLIST_H
 #define UNITY_DBUSGREETERLIST_H
 
+#include <QDBusConnection>
 #include <QObject>
 
 class Greeter;
@@ -34,7 +35,7 @@ class DBusGreeterList : public QObject
     Q_PROPERTY(bool EntryIsLocked READ entryIsLocked NOTIFY entryIsLockedChanged) // since 14.04
 
 public:
-    explicit DBusGreeterList(Greeter *greeter);
+    explicit DBusGreeterList(Greeter *greeter, const QDBusConnection &connection, const QString &path);
 
     Q_SCRIPTABLE void SetActiveEntry(const QString &entry); // since 13.04
     Q_SCRIPTABLE QString GetActiveEntry() const; // since 13.10
@@ -46,8 +47,15 @@ Q_SIGNALS:
 
     void entryIsLockedChanged();
 
+private Q_SLOTS:
+    void authenticationUserChangedHandler(const QString &user);
+    void promptlessChangedHandler();
+    void notifyPropertyChanged(const QString &propertyName, const QVariant &value);
+
 private:
     Greeter *m_greeter;
+    QDBusConnection m_connection;
+    QString m_path;
 };
 
 #endif
