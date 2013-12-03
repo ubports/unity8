@@ -1,8 +1,8 @@
-add_executable(testLightDMDBus
+add_executable(test-lightdm-dbus
     dbus.cpp
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/Greeter.cpp
     )
-qt5_use_modules(testLightDMDBus Core DBus Quick Test)
+qt5_use_modules(test-lightdm-dbus Core DBus Quick Test)
 
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
@@ -11,7 +11,7 @@ include_directories(
     ${LIBLIGHTDM_INCLUDE_DIRS}
     )
 
-target_link_libraries(testLightDMDBus
+target_link_libraries(test-lightdm-dbus
     -L${CMAKE_BINARY_DIR}/tests/mocks/LightDM/full
     -llightdm-qt5-2
     )
@@ -19,5 +19,5 @@ target_link_libraries(testLightDMDBus
 add_definitions(-DCURRENT_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
 
 add_test(NAME testLightDMDBus
-    COMMAND dbus-launch env QML2_IMPORT_PATH=${CMAKE_BINARY_DIR}/tests/mocks LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/LightDM/full ${CMAKE_CURRENT_BINARY_DIR}/testLightDMDBus
+    COMMAND dbus-launch env QML2_IMPORT_PATH=${CMAKE_BINARY_DIR}/tests/mocks LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/LightDM/full ${CMAKE_CURRENT_BINARY_DIR}/test-lightdm-dbus
     )
