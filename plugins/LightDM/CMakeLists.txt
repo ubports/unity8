@@ -17,6 +17,7 @@ set(QMLPLUGIN_SRC
     ${CMAKE_SOURCE_DIR}/plugins/Utils/qsortfilterproxymodelqml.cpp # FIXME evaluate a more generic approach for using other plugins
     Greeter.cpp
     plugin.cpp
+    URLDispatcher.cpp
     UsersModel.cpp
     )
 
@@ -29,7 +30,7 @@ target_link_libraries(LightDM-qml
     ${LIBUSERMETRICSOUTPUT_LDFLAGS}
     )
 
-qt5_use_modules(LightDM-qml Qml)
+qt5_use_modules(LightDM-qml DBus Qml)
 
 # export the qmldir qmltypes and plugin files
 export_qmlfiles(LightDM LightDM)

@@ -229,6 +229,11 @@ BasicShell {
     }
 */
 
+    Connections {
+        target: LightDM.URLDispatcher
+        onDispatchURL: shell.activateApplication(url)
+    }
+
     GreeterEdgeDemo {
         id: edgeDemo
         greeter: greeter
