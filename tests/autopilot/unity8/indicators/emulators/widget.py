@@ -16,20 +16,24 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from autopilot.input import Touch
+from autopilot.input import Pointer, Touch
 
-from unity8.indicators.emulators import IndicatorEmulatorBase
+from unity8.shell.emulators import UnityEmulatorBase
 
 
-class DefaultIndicatorWidget(IndicatorEmulatorBase):
+class DefaultIndicatorWidget(UnityEmulatorBase):
 
     """The indicator's icon in the menu-bar."""
 
+    def __init__(self, *args, **kwargs):
+        super(DefaultIndicatorWidget, self).__init__(*args, **kwargs)
+        self.pointer = Pointer(Touch.create())
+    
     # TODO: submit to autopilot.introspection.types.Rectangle
-    def get_center(global_rect):
+    def get_center(self):
         """Returns (x, y) representing the center of a globalRect."""
-        return (self.global_rect[0]+int(self.global_rect[2]/2),
-                self.global_rect[1]+int(self.global_rect[3]/2))
+        return (self.globalRect[0]+int(self.globalRect[2]/2),
+                self.globalRect[1]+int(self.globalRect[3]/2))
 
     def swipe_to_open_indicator(self, window):
         """Swipe to open the indicator, wait until it's open."""
