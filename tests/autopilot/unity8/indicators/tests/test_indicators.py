@@ -19,7 +19,7 @@
 
 from __future__ import absolute_import
 
-import autopilot.platform
+from autopilot import platform
 
 from unity8.indicators.emulators.widget import DefaultIndicatorWidget
 from unity8.process_helpers import unlock_unity
@@ -39,7 +39,7 @@ class IndicatorTestCase(UnityTestCase):
     ]
 
     def setUp(self):
-        if self.model() == "Desktop":
+        if platform.model() == "Desktop":
             self.skipTest("Test cannot be run on the desktop.")
         super(IndicatorTestCase, self).setUp()
 
