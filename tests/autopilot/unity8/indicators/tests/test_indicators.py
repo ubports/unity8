@@ -19,7 +19,7 @@
 
 from __future__ import absolute_import
 
-from autopilot.platform import model
+import autopilot.platform
 
 from unity8.indicators.emulators.widget import DefaultIndicatorWidget
 from unity8.process_helpers import unlock_unity
@@ -73,7 +73,7 @@ class IndicatorPageTitleMatchesWidgetTestCase(UnityTestCase):
     ]
 
     def setUp(self):
-        if model() == "Desktop":
+        if platform.model() == "Desktop":
             self.skipTest("Test cannot be run on the desktop.")
         super(IndicatorPageTitleMatchesWidgetTestCase, self).setUp()
 
@@ -88,5 +88,7 @@ class IndicatorPageTitleMatchesWidgetTestCase(UnityTestCase):
         widget = self.main_window.get_indicator_widget(self.indicator_name)
         self.assertIsNotNone(widget)
         widget.swipe_to_open_indicator(window)
-        title = window.wait_select_single("IndicatorPage",
-                                          title=self.title)
+        title = window.wait_select_single(
+            "IndicatorPage",
+            title=self.title
+        )

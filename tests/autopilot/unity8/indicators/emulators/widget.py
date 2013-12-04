@@ -32,16 +32,20 @@ class DefaultIndicatorWidget(UnityEmulatorBase):
     # TODO: submit to autopilot.introspection.types.Rectangle
     def get_center(self):
         """Returns (x, y) representing the center of a globalRect."""
-        return (self.globalRect[0]+int(self.globalRect[2]/2),
-                self.globalRect[1]+int(self.globalRect[3]/2))
+        return (
+            self.globalRect[0]+int(self.globalRect[2]/2),
+            self.globalRect[1]+int(self.globalRect[3]/2)
+        )
 
     def swipe_to_open_indicator(self, window):
         """Swipe to open the indicator, wait until it's open."""
         start_x, start_y = self.get_center()
         end_x = start_x
         end_y = window.height
-        self.pointer.drag(start_x, start_y,
-                          end_x, end_y)
+        self.pointer.drag(
+            start_x, start_y,
+            end_x, end_y
+        )
         # TODO: assert that the indicator page opened
 
     def swipe_to_close_indicator(self, window):
@@ -49,6 +53,8 @@ class DefaultIndicatorWidget(UnityEmulatorBase):
         end_x, end_y = self.get_center()
         start_x = end_x
         start_y = window.height
-        self.pointer.drag(start_x, start_y,
-                          end_x, end_y)
+        self.pointer.drag(
+            start_x, start_y,
+            end_x, end_y
+        )
         # TODO: assert that the indicator page closed
