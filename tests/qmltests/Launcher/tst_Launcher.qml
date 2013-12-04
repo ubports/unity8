@@ -41,9 +41,9 @@ Item {
             lastSelectedApplication = appId
         }
 
-        property int dashItemSelected_count: 0
-        onDashItemSelected: {
-            dashItemSelected_count++;
+        property int showDashHome_count: 0
+        onShowDashHome: {
+            showDashHome_count++;
         }
 
         property int maxPanelX: 0
@@ -138,9 +138,9 @@ Item {
         }
 
         /* If I click on the dash icon on the launcher
-           Launcher::dashItemSelected signal should be emitted */
+           Launcher::showDashHome signal should be emitted */
         function test_clickingOnDashIconCausesSignalEmission() {
-            launcher.dashItemSelected_count = 0
+            launcher.showDashHome_count = 0
 
             revealer.dragLauncherIntoView()
 
@@ -149,7 +149,7 @@ Item {
 
             mouseClick(dashIcon, dashIcon.width/2, dashIcon.height/2)
 
-            tryCompare(launcher, "dashItemSelected_count", 1)
+            tryCompare(launcher, "showDashHome_count", 1)
 
             // Tapping on the dash icon also dismisses the launcher
             revealer.waitUntilLauncherDisappears()

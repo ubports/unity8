@@ -667,7 +667,7 @@ FocusScope {
             dragAreaWidth: shell.edgeSize
             available: (!greeter.shown || greeter.narrowMode) && edgeDemo.launcherEnabled
 
-            onDashItemSelected: showHome()
+            onShowDashHome: showHome()
             onDash: {
                 if (stages.shown) {
                     stages.hide();
