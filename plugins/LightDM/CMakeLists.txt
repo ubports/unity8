@@ -17,6 +17,7 @@ include_directories(
 
 set(QMLPLUGIN_SRC
     ../Utils/qsortfilterproxymodelqml.cpp # FIXME evaluate a more generic approach for using other plugins
+    DBusGreeterList.cpp
     Greeter.cpp
     plugin.cpp
     UsersModel.cpp
@@ -33,7 +34,7 @@ target_link_libraries(LightDM-qml
     ${LIBUSERMETRICSOUTPUT_LDFLAGS}
     )
 
-qt5_use_modules(LightDM-qml Gui Qml)
+qt5_use_modules(LightDM-qml DBus Gui Qml)
 
 # export the qmldir qmltypes and plugin files
 export_qmlfiles(LightDM LightDM)
