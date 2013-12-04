@@ -1,4 +1,4 @@
-unity8 (7.84+14.04.20131128.2-0ubuntu1) trusty; urgency=low
+unity8 (1:7.84+14.04.20131128.2~qt52-0ubuntu1~qt52~test1) trusty; urgency=low
 
   [ Michal Hruby ]
   * Depend on the separate scopes plugin
@@ -137,7 +137,7 @@ unity8 (7.84+14.04.20131128.2-0ubuntu1) trusty; urgency=low
   [ Ubuntu daily release ]
   * Automatic snapshot from revision 556
 
- -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 28 Nov 2013 18:09:17 +0000
+ -- Timo Jyrinki <timo-jyrinki@ubuntu.com>  Mon, 02 Dec 2013 08:19:22 +0200
 
 unity8 (7.83+14.04.20131106-0ubuntu1) trusty; urgency=low
 
