@@ -56,20 +56,20 @@ class IndicatorTestCase(UnityTestCase):
 class IndicatorPageTitleMatchesWidgetTestCase(UnityTestCase):
 
     scenarios = [
-        #('Bluetooth', dict(indicator_name='indicator-bluetooth',
-        #                   title='Bluetooth')),
-        #('Datetime', dict(indicator_name='indicator-datetime',
-        #                  title='Upcoming')),
-        #('Location', dict(indicator_name='indicator-location',
-        #                  title='Location')),
-        #('Messaging', dict(indicator_name='indicator-messages',
-        #                   title='Incoming')),
-        #('Network', dict(indicator_name='indicator-network',
-        #                 title='Network')),
+        ('Bluetooth', dict(indicator_name='indicator-bluetooth',
+                           title='Bluetooth')),
+        ('Datetime', dict(indicator_name='indicator-datetime',
+                          title='Upcoming')),
+        ('Location', dict(indicator_name='indicator-location',
+                          title='Location')),
+        ('Messaging', dict(indicator_name='indicator-messages',
+                           title='Incoming')),
+        ('Network', dict(indicator_name='indicator-network',
+                         title='Network')),
         ('Power', dict(indicator_name='indicator-power',
                        title='Battery')),
-        #('Sound', dict(indicator_name='indicator-sound',
-        #               title='Sound')),
+        ('Sound', dict(indicator_name='indicator-sound',
+                       title='Sound')),
     ]
 
     def setUp(self):
