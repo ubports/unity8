@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-11-12 16:10+0100\n"
+"POT-Creation-Date: 2013-11-29 09:21+0100\n"
 "PO-Revision-Date: 2013-11-23 12:37+0000\n"
 "Last-Translator: Ignat Kizenko <Unknown>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -16,76 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2013-11-24 05:50+0000\n"
-"X-Generator: Launchpad (build 16831)\n"
-
-#: Applications/applications.js:23
-msgid "Phone"
-msgstr "Телефон"
-
-#: Applications/applications.js:29
-msgid "Camera"
-msgstr "Фотоапарат"
-
-#: Applications/applications.js:35
-msgid "Gallery"
-msgstr "Галерея"
-
-#: Applications/applications.js:40
-msgid "Facebook"
-msgstr "Facebook"
-
-#: Applications/applications.js:46
-msgid "Browser"
-msgstr "Навігатор"
-
-#: Applications/applications.js:51
-msgid "Twitter"
-msgstr "Twitter"
-
-#: Applications/applications.js:57
-msgid "GMail"
-msgstr "GMail"
-
-#: Applications/applications.js:62
-msgid "Weather"
-msgstr "Погода"
-
-#: Applications/applications.js:68
-msgid "Notepad"
-msgstr "Блокнот"
-
-#: Applications/applications.js:74
-msgid "Calendar"
-msgstr "Календар"
-
-#: Applications/applications.js:80
-msgid "Media Player"
-msgstr "Програвач"
-
-#: Applications/applications.js:86
-msgid "Evernote"
-msgstr "Evernote"
-
-#: Applications/applications.js:91
-msgid "Map"
-msgstr "Карта"
-
-#: Applications/applications.js:96
-msgid "Pinterest"
-msgstr "Pinterest"
-
-#: Applications/applications.js:101
-msgid "SoundCloud"
-msgstr "SoundCloud"
-
-#: Applications/applications.js:106
-msgid "Wikipedia"
-msgstr "Вікіпедія"
-
-#: Applications/applications.js:111
-msgid "YouTube"
-msgstr "YouTube"
+"X-Launchpad-Export-Date: 2013-11-30 05:33+0000\n"
+"X-Generator: Launchpad (build 16856)\n"
 
 #: Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -138,30 +70,28 @@ msgstr ""
 "Тепер жести налаштовано, ви можете почати користуватися "
 "телефоном.<br><br>Натисніть у довільному місці екрана."
 
-#: Components/PageHeader.qml:345
+#: Components/PageHeader.qml:364
 msgid "Recent searches"
 msgstr "Нещодавні пошуки"
 
-#. TRANSLATORS: Number of persons who rated this app
+#: Dash/Apps/AppPreview.qml:135
+msgid "Rate this"
+msgstr "Оцінити"
+
 #. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: Dash/Apps/AppInfo.qml:73 Dash/Previews/Header.qml:93
+#: Dash/Previews/Header.qml:93
 #, qt-format
 msgid "(%1)"
 msgstr "(%1)"
 
-#. TRANSLATORS: Number of persons who wrote reviews for this app
 #. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: Dash/Apps/AppInfo.qml:85 Dash/Previews/Header.qml:105
+#: Dash/Previews/Header.qml:105
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
 msgstr[0] "%1 рецензія"
 msgstr[1] "%1 рецензії"
 msgstr[2] "%1 рецензій"
-
-#: Dash/Apps/AppPreview.qml:135
-msgid "Rate this"
-msgstr "Оцінити"
 
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
@@ -179,7 +109,7 @@ msgstr "Надіслати"
 msgid "Comments:"
 msgstr "Коментарі:"
 
-#: Greeter/Lockscreen.qml:146
+#: Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
 msgstr "Терміновий виклик"
 
@@ -229,15 +159,7 @@ msgstr "Зафіксувати на панелі запуску"
 msgid "Unlock from Launcher"
 msgstr "Від’єднати від панелі запуску"
 
-#: plugins/Unity/scope.cpp:408
-msgid "Sorry, there is nothing that matches your search."
-msgstr "Вибачте, для вказаних вами ключових слів нічого не знайдено."
-
-#: plugins/Unity/showallfilteroption.cpp:41
-msgid "All"
-msgstr "Усе"
-
-#: Shell.qml:441
+#: Shell.qml:439
 #, qt-format
 msgid "Please enter %1"
 msgstr "Будь ласка, введіть %1"

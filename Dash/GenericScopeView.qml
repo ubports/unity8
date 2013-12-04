@@ -46,8 +46,8 @@ FocusScope {
         }
     }
 
-    function activateApp(desktopFilePath) {
-        shell.activateApplication(desktopFilePath);
+    function activateApp(appId) {
+        shell.activateApplication(appId);
     }
 
     Binding {
@@ -140,7 +140,7 @@ FocusScope {
                     right: parent.right
                 }
 
-                source: getRenderer(model.renderer, model.contentType, model.rendererHint)
+                source: getRenderer(model.renderer, model.contentType, model.rendererHint, results)
 
                 onLoaded: {
                     if (item.enableHeightBehavior !== undefined && item.enableHeightBehaviorOnNextCreation !== undefined) {
@@ -191,8 +191,8 @@ FocusScope {
                         } else {
                             previewListView.open = true
 
-                            scopeView.scope.preview( item.uri, item.icon, item.category, 0, item.mimetype, item.title,
-                                                     item.comment, item.dndUri, item.metadata)
+                            scopeView.scope.preview(item.uri, item.icon, item.category, 0, item.mimetype, item.title,
+                                                    item.comment, item.dndUri, item.metadata)
                         }
                     }
                     onPressAndHold: {
@@ -205,7 +205,7 @@ FocusScope {
                         previewListView.open = true
 
                         var item = target.model.get(index)
-                        scopeView.scope.preview( item.uri, item.icon, item.category, 0, item.mimetype, item.title,
+                        scopeView.scope.preview(item.uri, item.icon, item.category, 0, item.mimetype, item.title,
                                                 item.comment, item.dndUri, item.metadata)
                     }
                 }
@@ -303,16 +303,21 @@ FocusScope {
         }
     }
 
-    function getRenderer(rendererId, contentType, rendererHint) {
+    function getRenderer(rendererId, contentType, rendererHint, results) {
         if (rendererId == "default") {
             rendererId = getDefaultRendererId(contentType);
+        }
+        if (rendererId == "carousel") {
+            // Selectively disable carousel, 6 is fixed for now, should change on the form factor
+            if (results.count <= 6)
+                rendererId = "grid"
         }
         switch (rendererId) {
             case "carousel": {
                 switch (contentType) {
-                    case "music": return "Music/MusicCarouselLoader.qml";
-                    case "video": return "Video/VideoCarouselLoader.qml";
-                    default: return "Generic/GenericCarouselLoader.qml";
+                    case "music": return "Music/MusicCarousel.qml";
+                    case "video": return "Video/VideoCarousel.qml";
+                    default: return "Generic/GenericCarousel.qml";
                 }
             }
             case "grid": {
@@ -442,27 +447,30 @@ FocusScope {
                 scopeView.scope.preview(item.uri, item.icon, item.category, 0, item.mimetype, item.title, item.comment, item.dndUri, item.metadata)
             }
 
-            var itemY = categoryView.contentItem.mapFromItem(categoryDelegate.currentItem).y;
+            // Adjust contentY in case we need to change to it to show the next row
+            if (categoryDelegate.rows > 1) {
+                var itemY = categoryView.contentItem.mapFromItem(categoryDelegate.currentItem).y;
 
-            // Find new contentY and effect.postionPx
-            var newContentY = itemY - effect.positionPx - categoryDelegate.verticalSpacing;
+                // Find new contentY and effect.postionPx
+                var newContentY = itemY - effect.positionPx - categoryDelegate.verticalSpacing;
 
-            // Make sure the item is not covered by a header. Move the effect split down if necessary
-            var headerHeight = pageHeader.height + categoryView.stickyHeaderHeight;
-            var effectAdjust = Math.max(effect.positionPx, headerHeight);
+                // Make sure the item is not covered by a header. Move the effect split down if necessary
+                var headerHeight = pageHeader.height + categoryView.stickyHeaderHeight;
+                var effectAdjust = Math.max(effect.positionPx, headerHeight);
 
-            // Make sure we don't overscroll the listview. If yes, adjust effect position
-            if (newContentY < 0) {
-                effectAdjust += newContentY;
-                newContentY = 0;
+                // Make sure we don't overscroll the listview. If yes, adjust effect position
+                if (newContentY < 0) {
+                    effectAdjust += newContentY;
+                    newContentY = 0;
+                }
+                if (newContentY > Math.max(0, categoryView.contentHeight - categoryView.height)) {
+                    effectAdjust += -(categoryView.contentHeight - categoryView.height) + newContentY
+                    newContentY = categoryView.contentHeight - categoryView.height;
+                }
+
+                effect.positionPx = effectAdjust;
+                categoryView.contentY = newContentY;
             }
-            if (newContentY > Math.max(0, categoryView.contentHeight - categoryView.height)) {
-                effectAdjust += -(categoryView.contentHeight - categoryView.height) + newContentY
-                newContentY = categoryView.contentHeight - categoryView.height;
-            }
-
-            effect.positionPx = effectAdjust;
-            categoryView.contentY = newContentY;
         }
 
         property bool open: false
@@ -540,7 +548,7 @@ FocusScope {
             }
 
             function closePreviewSpinner() {
-                if(item) {
+                if (item) {
                     item.showProcessingAction = false;
                 }
             }
