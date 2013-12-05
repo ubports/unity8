@@ -667,7 +667,12 @@ FocusScope {
             dragAreaWidth: shell.edgeSize
             available: (!greeter.shown || greeter.narrowMode) && edgeDemo.launcherEnabled
 
-            onDashItemSelected: showHome()
+            onDashItemSelected: {
+                if (edgeDemo.running)
+                    return;
+
+                showHome()
+            }
             onDash: {
                 if (stages.shown) {
                     stages.hide();
@@ -676,6 +681,9 @@ FocusScope {
             }
             onDashSwipeChanged: if (dashSwipe && stages.shown) dash.setCurrentScope("applications.scope", false, true)
             onLauncherApplicationSelected:{
+                if (edgeDemo.running)
+                    return;
+
                 greeter.hide()
                 shell.activateApplication(appId)
             }
