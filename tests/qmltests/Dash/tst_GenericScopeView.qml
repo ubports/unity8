@@ -222,6 +222,26 @@ Item {
                 genericScopeView.scope = scopes.get(0)
                 tryCompare(genericScopeView.scope, "searchQuery", "")
             }
+
+            function test_filter_expand_collapse() {
+                // wait for the item to be there
+                tryCompareFunction(function() { return findChild(genericScopeView, "dashSectionHeader0") != undefined; }, true);
+
+                var header = findChild(genericScopeView, "dashSectionHeader0")
+                var category = findChild(genericScopeView, "dashCategory0")
+
+                waitForRendering(header);
+                verify(category.expandable);
+                verify(category.filtered);
+
+                mouseClick(header, header.width / 2, header.height / 2);
+                verify(category.expandable);
+                tryCompare(category, "filtered", false);
+
+                mouseClick(header, header.width / 2, header.height / 2);
+                verify(category.expandable);
+                tryCompare(category, "filtered", true);
+            }
         }
     }
 }

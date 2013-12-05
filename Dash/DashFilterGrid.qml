@@ -56,5 +56,9 @@ DashRenderer {
         model: dashFilterGrid.model
         filter: dashFilterGrid.filter
         highlightIndex: dashFilterGrid.highlightIndex
+
+        onFilterChanged: {
+            dashFilterGrid.filter = filter
+        }
     }
 }
