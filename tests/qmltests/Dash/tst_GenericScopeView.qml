@@ -235,10 +235,9 @@ Item {
                 verify(category.filtered);
 
                 var initialHeight = category.height;
+                var middleHeight;
                 mouseClick(header, header.width / 2, header.height / 2);
-                wait(100);
-                verify(category.height > initialHeight);
-                var middleHeight = category.height;
+                tryCompareFunction(function() { middleHeight = category.height; return category.height > initialHeight; }, true);
                 tryCompare(category, "filtered", false);
                 verify(category.height > middleHeight);
 
