@@ -237,10 +237,10 @@ Item {
                 var initialHeight = category.height;
                 mouseClick(header, header.width / 2, header.height / 2);
                 wait(100);
-                verify(category.height != initialHeight);
+                verify(category.height > initialHeight);
                 var middleHeight = category.height;
                 tryCompare(category, "filtered", false);
-                verify(category.height != middleHeight);
+                verify(category.height > middleHeight);
 
                 mouseClick(header, header.width / 2, header.height / 2);
                 verify(category.expandable);
