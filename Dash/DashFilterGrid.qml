@@ -37,7 +37,7 @@ DashRenderer {
     expandable: filterGrid.expandable
     delegateCreationBegin: filterGrid.delegateCreationBegin
     delegateCreationEnd: filterGrid.delegateCreationEnd
-    implicitHeight: filterGrid.implicitHeight
+    height: filterGrid.height
     margins: filterGrid.margins
     uncollapsedHeight: filterGrid.uncollapsedHeight
     verticalSpacing: filterGrid.verticalSpacing
@@ -48,7 +48,7 @@ DashRenderer {
 
     FilterGrid {
         id: filterGrid
-        anchors.fill: parent
+        width: dashFilterGrid.width
         minimumHorizontalSpacing: units.gu(0.5)
         delegateWidth: units.gu(11)
         delegateHeight: units.gu(9.5)
