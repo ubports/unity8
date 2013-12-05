@@ -183,7 +183,7 @@ void LauncherBackend::syncFromAccounts()
 
     if (m_accounts && !m_user.isEmpty()) {
         QVariant variant = m_accounts->getUserProperty(m_user, "com.canonical.unity.AccountsService", "launcher-items");
-        if (variant.isValid()) {
+        if (variant.isValid() && variant.canConvert<QDBusArgument>()) {
             apps = qdbus_cast<QList<QVariantMap>>(variant.value<QDBusArgument>());
             defaults = isDefaultsItem(apps);
         }
