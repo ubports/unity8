@@ -15,6 +15,7 @@ include_directories(
 
 set(QMLPLUGIN_SRC
     ${CMAKE_SOURCE_DIR}/plugins/Utils/qsortfilterproxymodelqml.cpp # FIXME evaluate a more generic approach for using other plugins
+    DBusGreeterList.cpp
     Greeter.cpp
     plugin.cpp
     URLDispatcher.cpp

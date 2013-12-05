@@ -1,4 +1,5 @@
 add_subdirectory(AccountsService)
+add_subdirectory(LightDM)
 add_subdirectory(ListViewWithPageHeader)
 add_subdirectory(SessionManager)
 add_subdirectory(Ubuntu)
