@@ -183,8 +183,10 @@ void LauncherBackend::syncFromAccounts()
 
     if (m_accounts && !m_user.isEmpty()) {
         QVariant variant = m_accounts->getUserProperty(m_user, "com.canonical.unity.AccountsService", "launcher-items");
-        apps = qdbus_cast<QList<QVariantMap>>(variant.value<QDBusArgument>());
-        defaults = isDefaultsItem(apps);
+        if (variant.isValid()) {
+            apps = qdbus_cast<QList<QVariantMap>>(variant.value<QDBusArgument>());
+            defaults = isDefaultsItem(apps);
+        }
     }
 
     if (m_accounts && defaults) { // Checking accounts as it'll be null when !useStorage
