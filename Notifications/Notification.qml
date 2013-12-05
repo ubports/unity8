@@ -39,7 +39,24 @@ UbuntuShape {
     opacity: 0
     radius: "medium"
 
-    state: type != Notification.PlaceHolder && type == Notification.SnapDecision ? notificationList.currentIndex == index ? "default" : "contracted" : undefined
+    state: {
+        var result = undefined;
+
+        if (type == Notification.SnapDecision) {
+            if (notificationList.expandedNotification == notification) {
+                result = "default";
+            } else {
+                if (notificationList.count > 2) {
+                    result = "contracted";
+                }
+                else {
+                    result = "default";                    
+                }
+            }
+        }
+
+        return result;
+    }
 
     Behavior on height {
         id: normalHeightBehavior
@@ -103,7 +120,7 @@ UbuntuShape {
             if (notification.type == Notification.Interactive) {
                 notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
             } else {
-                notificationList.currentIndex = index
+                notificationList.expandedNotification = notification;
             }
         }
     }

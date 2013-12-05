@@ -24,6 +24,8 @@ ListView {
     objectName: "notificationList"
     interactive: false
 
+    property var expandedNotification: undefined
+
     spacing: units.gu(.5)
     delegate: Notification {
         objectName: "notification" + index
