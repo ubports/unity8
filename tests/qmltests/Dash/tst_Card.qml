@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtTest 1.0
 import Ubuntu.Components 0.1
+import Unity.Test 0.1 as UT
 import "../../../Dash"
 import "CardHelpers.js" as Helpers
 
@@ -155,7 +156,7 @@ Rectangle {
         }
     }
 
-    TestCase {
+    UT.UnityTestCase {
         id: testCase
 
         when: windowShown
@@ -164,22 +165,6 @@ Rectangle {
         property Item art: findChild(card, "artShape")
         property Item artImage: findChild(card, "artImage")
         property Item summary: findChild(card, "summaryLabel")
-
-        // Find an object with the given name in the children tree of "obj"
-        function findChild(obj,objectName) {
-            var childs = new Array(0);
-            childs.push(obj)
-            while (childs.length > 0) {
-                if (childs[0].objectName == objectName) {
-                    return childs[0]
-                }
-                for (var i in childs[0].children) {
-                    childs.push(childs[0].children[i])
-                }
-                childs.splice(0, 1);
-            }
-            return null;
-        }
 
         function initTestCase() {
             verify(testCase.header !== undefined, "Couldn't find header object.");
