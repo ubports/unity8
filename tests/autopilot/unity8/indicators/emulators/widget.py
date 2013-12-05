@@ -28,7 +28,7 @@ class DefaultIndicatorWidget(UnityEmulatorBase):
     def __init__(self, *args, **kwargs):
         super(DefaultIndicatorWidget, self).__init__(*args, **kwargs)
         self.pointer = Pointer(Touch.create())
-    
+
     # TODO: submit to autopilot.introspection.types.Rectangle
     def get_center(self):
         """Returns (x, y) representing the center of a globalRect."""
