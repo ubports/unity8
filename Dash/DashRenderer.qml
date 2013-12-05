@@ -62,4 +62,10 @@ Item {
 
     function startFilterAnimation(filter) {
     }
+
+    /// Category template definition from the scope
+    property var template
+
+    /// Component mapping and configuration from the scope
+    property var components
 }

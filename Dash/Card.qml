@@ -31,7 +31,8 @@ Item {
             width: root.width
             height: width / artShape.aspect
             objectName: "artImage"
-            source: cardData && cardData["art"] || ""
+            // FIXME should be no need for "icon"
+            source: cardData && cardData["art"] || cardData["icon"] || ""
             //sourceSize.width: width > height ? width : 0
             //sourceSize.height: height > width ? height : -1
             fillMode: components["art"]["fill-mode"] == "fit" ? Image.PreserveAspectFit: Image.PreserveAspectCrop
