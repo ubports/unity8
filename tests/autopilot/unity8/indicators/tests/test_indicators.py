@@ -15,7 +15,6 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
 
 from __future__ import absolute_import
 
@@ -50,7 +49,6 @@ class IndicatorTestCase(UnityTestCase):
         widget = self.main_window.get_indicator_widget(
             self.indicator_name
         )
-        self.assertIsNotNone(widget)
 
 
 class IndicatorPageTitleMatchesWidgetTestCase(UnityTestCase):
@@ -86,7 +84,6 @@ class IndicatorPageTitleMatchesWidgetTestCase(UnityTestCase):
         unlock_unity(unity_proxy)
         window = self.main_window.get_qml_view()
         widget = self.main_window.get_indicator_widget(self.indicator_name)
-        self.assertIsNotNone(widget)
         widget.swipe_to_open_indicator(window)
         title = window.wait_select_single(
             "IndicatorPage",

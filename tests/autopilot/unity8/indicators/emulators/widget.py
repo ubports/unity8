@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
-# Unity Autopilot Test Suite
-# Copyright (C) 2012-2013 Canonical
+# Unity Indicators Autopilot Test Suite
+# Copyright (C) 2013 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,12 +29,12 @@ class DefaultIndicatorWidget(UnityEmulatorBase):
         super(DefaultIndicatorWidget, self).__init__(*args, **kwargs)
         self.pointer = Pointer(Touch.create())
 
-    # TODO: submit to autopilot.introspection.types.Rectangle
+    # TODO: submit to autopilot.introspection.types.Rectangle [alesage 2013-12-06]
     def get_center(self):
         """Returns (x, y) representing the center of a globalRect."""
         return (
-            self.globalRect[0]+int(self.globalRect[2]/2),
-            self.globalRect[1]+int(self.globalRect[3]/2)
+            self.globalRect.x+int(self.globalRect.width/2),
+            self.globalRect.y+int(self.globalRect.height/2)
         )
 
     def swipe_to_open_indicator(self, window):
@@ -46,7 +46,7 @@ class DefaultIndicatorWidget(UnityEmulatorBase):
             start_x, start_y,
             end_x, end_y
         )
-        # TODO: assert that the indicator page opened
+        # TODO: assert that the indicator page opened [alesage 2013-12-06]
 
     def swipe_to_close_indicator(self, window):
         """Swipe to close the indicator, wait until it's closed."""
@@ -57,4 +57,4 @@ class DefaultIndicatorWidget(UnityEmulatorBase):
             start_x, start_y,
             end_x, end_y
         )
-        # TODO: assert that the indicator page closed
+        # TODO: assert that the indicator page closed [alesage 2013-12-06]
