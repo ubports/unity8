@@ -693,7 +693,7 @@ FocusScope {
 
             model: NotificationBackend.Model
             margin: units.gu(1)
-            fullHeight: parent.height
+            fullHeight: parent.height - panel.panelHeight
 
             anchors {
                 top: parent.top

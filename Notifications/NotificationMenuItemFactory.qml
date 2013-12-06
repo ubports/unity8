@@ -101,6 +101,7 @@ Loader {
         Lockscreen {
             anchors.left: parent.left; anchors.right: parent.right
             height: notificationList.fullHeight
+            placeholderText: i18n.tr("Please enter SIM PIN")
             background: shell.background
 
             onEntered: {
