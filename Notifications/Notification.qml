@@ -43,14 +43,17 @@ UbuntuShape {
         var result = undefined;
 
         if (type == Notification.SnapDecision) {
-            if (notificationList.expandedNotification == notification) {
+            if (notificationList.currentIndex == index) {
                 result = "default";
             } else {
                 if (notificationList.count > 2) {
-                    result = "contracted";
-                }
-                else {
-                    result = "default";                    
+                    if (notificationList.currentIndex == -1 && index == 1) {
+                        result = "default";
+                    } else {
+                        result = "contracted";
+                    }
+                } else {
+                    result = "default";
                 }
             }
         }
@@ -61,6 +64,7 @@ UbuntuShape {
     Behavior on height {
         id: normalHeightBehavior
 
+        //enabled: menuItemFactory.progress == 1
         enabled: true
         UbuntuNumberAnimation {
             duration: UbuntuAnimation.FastDuration
@@ -75,6 +79,7 @@ UbuntuShape {
         State {
             name: "default"
             PropertyChanges {target: notification; height: implicitHeight}
+            PropertyChanges {target: notificationList; currentIndex: index}
         }
     ]
 
@@ -120,7 +125,7 @@ UbuntuShape {
             if (notification.type == Notification.Interactive) {
                 notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
             } else {
-                notificationList.expandedNotification = notification;
+                notificationList.currentIndex = index;
             }
         }
     }
@@ -217,6 +222,8 @@ UbuntuShape {
                 model: unityMenuModel
 
                 NotificationMenuItemFactory {
+                    id: menuItemFactory
+
                     anchors.left: parent.left; anchors.right: parent.right
 
                     menuModel: unityMenuModel
