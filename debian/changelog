@@ -1,3 +1,65 @@
+unity8 (7.84+14.04.20131206.1-0ubuntu1) trusty; urgency=low
+
+  [ Michal Hruby ]
+  * Ensure DashContent's ListView's currentItem is set if the model is
+    not empty.
+
+  [ Michał Sawicz ]
+  * Don't generate build-deps .deb twice and allow overriding
+    QML2_IMPORT_PATH in ./run.
+
+  [ Albert Astals ]
+  * Remove unused Applications/ folder .
+  * Implement an 'interface' for Dash Renderers.
+  * Use deelistmodel's conversion method Instead of a copy of the code .
+  * Remove icons we don't use .
+  * Do not start apps or go to dash on demo If you are pulling the
+    launcher out while in demo mode it doesn't make sense to let you
+    start applications. Besides it locks you out because it starts the
+    app and the demo is still not finished so you can't really use any
+    of the edges to escape Bug #1233696. (LP: #1233696)
+  * Add a test for the carousel showing the preview when being clicked .
+  * Fix collapsing of categories not working and the
+    expansion/collapsing animation +test.
+
+  [ Timo Jyrinki ]
+  * Depend on either Qt 5.2 or libqt5v8-5-private-dev.
+  * qtdeclarative5-private-dev 5.0.2-6ubuntu5 now depends directly on Qt
+    V8 private headers. The remaining "qtdeclarative5-private-dev"
+    dependency is enough now both when compiling against 5.0.2 or 5.2.
+
+  [ Pete Woods ]
+  * Handle optional parameterized action properties. (LP: #1256258)
+
+  [ Andrea Cimitan ]
+  * Implement an 'interface' for Dash Renderers.
+
+  [ Michael Zanetti ]
+  * Added music preview.
+  * rename some parameters from desktopFile to appId as scopes are now
+    changed to give us the appId.
+  * unhardcode launcher's search paths for .desktop files.
+  * Enable teasing of the phone greeter even though we have a
+    lockscreen.
+  * check if variant is valid to avoid asserting in debug mode when the
+    connection to AccountsService doesn't work for some reason .
+
+  [ Michael Terry ]
+  * Add the DBus greeter API from the desktop greeter into the unity8
+    greeter.
+
+  [ Daniel d'Andrada ]
+  * Dash: disable close mode when you click outside app thumbnails To
+    leave the termination mode you can now just mouse/touch press
+    anywhere outside the running applications' thumbnails The other way,
+    which still works, is long-pressing a thumbnail once more. (LP:
+    #1193414)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 579
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 06 Dec 2013 13:15:57 +0000
+
 unity8 (7.84+14.04.20131128.2-0ubuntu1) trusty; urgency=low
 
   [ Michal Hruby ]
