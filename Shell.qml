@@ -413,6 +413,7 @@ FocusScope {
         width: parent.width
         height: parent.height - panel.panelHeight
         background: shell.background
+        pinLength: 4
 
         onEntered: LightDM.Greeter.respond(passphrase);
         onCancel: greeter.show()
