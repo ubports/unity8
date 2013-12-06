@@ -26,14 +26,14 @@ Rectangle {
 
         when: windowShown
 
-        property Item avatar: findChild(cardHeader, "avatarShape")
+        property Item mascot: findChild(cardHeader, "mascotShape")
         property Item titleLabel: findChild(cardHeader, "titleLabel")
         property Item subtitleLabel: findChild(cardHeader, "subtitleLabel")
         property Item prices: findChild(cardHeader, "prices")
         property Item oldPriceLabel: findChild(cardHeader, "oldPriceLabel")
 
         function initTestCase() {
-            verify(testCase.avatar !== undefined, "Couldn't find avatar object.");
+            verify(testCase.mascot !== undefined, "Couldn't find mascot object.");
             verify(testCase.titleLabel !== undefined, "Couldn't find titleLabel object.");
             verify(testCase.subtitleLabel !== undefined, "Couldn't find subtitleLabel object.");
             verify(testCase.prices !== undefined, "Couldn't find prices object.");
@@ -49,7 +49,7 @@ Rectangle {
             cardHeader.altPrice = "";
         }
 
-        function test_avatar_data() {
+        function test_mascot_data() {
             return [
                         { tag: "Empty", source: "", visible: false },
                         { tag: "Invalid", source: "bad_path", visible: false },
@@ -57,9 +57,9 @@ Rectangle {
             ]
         }
 
-        function test_avatar(data) {
+        function test_mascot(data) {
             cardHeader.mascot = data.source;
-            tryCompare(testCase.avatar, "visible", data.visible);
+            tryCompare(testCase.mascot, "visible", data.visible);
         }
 
         function test_labels_data() {

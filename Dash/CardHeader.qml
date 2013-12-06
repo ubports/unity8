@@ -3,14 +3,14 @@ import Ubuntu.Components 0.1
 
 Item {
     id: root
-    property alias mascot: avatarImage.source
+    property alias mascot: mascotImage.source
     property alias title: titleLabel.text
     property alias subtitle: subtitleLabel.text
     property alias price: priceLabel.text
     property alias oldPrice: oldPriceLabel.text
     property alias altPrice: altPriceLabel.text
 
-    visible: avatarImage.status === Image.Ready || title || price
+    visible: mascotImage.status === Image.Ready || title || price
     height: row.height > 0 ? row.height + row.spacing * 2 : 0
 
     Row {
@@ -20,16 +20,16 @@ Item {
         spacing: units.gu(1)
 
         UbuntuShape {
-            id: avatarShape
-            objectName: "avatarShape"
+            id: mascotShape
+            objectName: "mascotShape"
 
             width: units.gu(8)
             height: units.gu(8)
             visible: image.status === Image.Ready
 
             image: Image {
-                id: avatarImage
-                sourceSize { width: avatarShape.width; height: avatarShape.height }
+                id: mascotImage
+                sourceSize { width: mascotShape.width; height: mascotShape.height }
             }
         }
 
