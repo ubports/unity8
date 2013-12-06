@@ -15,6 +15,7 @@ Item {
 
     Row {
         id: row
+        objectName: "outerRow"
 
         anchors { top: parent.top; left: parent.left; right: parent.right; margins: spacing }
         spacing: units.gu(1)
@@ -34,7 +35,8 @@ Item {
         }
 
         Column {
-            width: parent.width - x - row.spacing
+            objectName: "column"
+            width: parent.width - x
 
             Label {
                 id: titleLabel

@@ -31,6 +31,8 @@ Rectangle {
         property Item subtitleLabel: findChild(cardHeader, "subtitleLabel")
         property Item prices: findChild(cardHeader, "prices")
         property Item oldPriceLabel: findChild(cardHeader, "oldPriceLabel")
+        property Item outerRow: findChild(cardHeader, "outerRow")
+        property Item column: findChild(cardHeader, "column")
 
         function initTestCase() {
             verify(testCase.mascot !== undefined, "Couldn't find mascot object.");
@@ -99,6 +101,23 @@ Rectangle {
             tryCompare(cardHeader, "visible", data.visible);
             if (data.oldAlign !== undefined) {
                 compare(testCase.oldPriceLabel.horizontalAlignment, data.oldAlign, "Old price label is aligned wrong.")
+            }
+        }
+
+        function test_dimensions_data() {
+            return [
+                { tag: "Column width", object: column, width: cardHeader.width - testCase.outerRow.spacing * 2 },
+                { tag: "Column width", object: column, width: cardHeader.width - mascot.width - testCase.outerRow.spacing * 3, mascot: "artwork/avatar.png" }
+            ]
+        }
+
+        function test_dimensions(data) {
+            if (data.hasOwnProperty("mascot")) {
+                cardHeader.mascot = data.mascot;
+            }
+
+            if (data.hasOwnProperty("width")) {
+                tryCompare(data.object, "width", data.width);
             }
         }
     }
