@@ -92,7 +92,8 @@ Description: Unity 8 shell
 
 Package: unity8-greeter
 Architecture: any
-Depends: lightdm,
+Depends: dbus-x11,
+         lightdm,
          ubuntu-touch-session,
          unity8 (>= ${source:Version}),
          ${misc:Depends},

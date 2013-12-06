@@ -230,7 +230,7 @@ BasicShell {
 */
 
     Connections {
-        target: LightDM.URLDispatcher
+        target: LightDM.Upstart
         onDispatchURL: shell.activateApplication(url)
     }
 

@@ -14,18 +14,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef UNITY_URLDISPATCHER_H
-#define UNITY_URLDISPATCHER_H
+#ifndef UNITY_UPSTART_H
+#define UNITY_UPSTART_H
 
 #include <QObject>
 #include <QString>
 
-class URLDispatcher : public QObject
+class Upstart : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit URLDispatcher(QObject *parent=0);
+    explicit Upstart(QObject *parent=0);
 
 Q_SIGNALS:
     void dispatchURL(const QString &url);
