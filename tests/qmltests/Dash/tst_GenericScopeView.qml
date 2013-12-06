@@ -19,6 +19,7 @@ import QtTest 1.0
 import Unity 0.1
 import ".."
 import "../../../Dash"
+import "../../../Components"
 import Ubuntu.Components 0.1
 import Unity.Test 0.1 as UT
 
@@ -43,6 +44,7 @@ Item {
     GenericScopeView {
         id: genericScopeView
         anchors.fill: parent
+        searchHistory: SearchHistoryModel {}
 
         UT.UnityTestCase {
             name: "GenericScopeView"
