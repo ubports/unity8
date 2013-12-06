@@ -19,6 +19,7 @@ import QtTest 1.0
 import Unity 0.1
 import ".."
 import "../../../Dash"
+import "../../../Components"
 import Ubuntu.Components 0.1
 import Unity.Test 0.1 as UT
 
@@ -43,6 +44,7 @@ Item {
     GenericScopeView {
         id: genericScopeView
         anchors.fill: parent
+        searchHistory: SearchHistoryModel {}
 
         UT.UnityTestCase {
             name: "GenericScopeView"
@@ -221,6 +223,29 @@ Item {
                 genericScopeView.scope = scopes.get(1)
                 genericScopeView.scope = scopes.get(0)
                 tryCompare(genericScopeView.scope, "searchQuery", "")
+            }
+
+            function test_filter_expand_collapse() {
+                // wait for the item to be there
+                tryCompareFunction(function() { return findChild(genericScopeView, "dashSectionHeader0") != undefined; }, true);
+
+                var header = findChild(genericScopeView, "dashSectionHeader0")
+                var category = findChild(genericScopeView, "dashCategory0")
+
+                waitForRendering(header);
+                verify(category.expandable);
+                verify(category.filtered);
+
+                var initialHeight = category.height;
+                var middleHeight;
+                mouseClick(header, header.width / 2, header.height / 2);
+                tryCompareFunction(function() { middleHeight = category.height; return category.height > initialHeight; }, true);
+                tryCompare(category, "filtered", false);
+                verify(category.height > middleHeight);
+
+                mouseClick(header, header.width / 2, header.height / 2);
+                verify(category.expandable);
+                tryCompare(category, "filtered", true);
             }
 
             function test_showPreviewCarousel() {

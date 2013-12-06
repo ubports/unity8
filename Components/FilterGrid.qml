@@ -67,7 +67,7 @@ Item {
     property alias highlightIndex: iconTileGrid.highlightIndex
     readonly property alias currentItem: iconTileGrid.currentItem
 
-    implicitHeight: !filterAnimation.running ? childrenRect.height : height
+    height: !filterAnimation.running ? childrenRect.height : height
     clip: filterAnimation.running
 
     NumberAnimation {
