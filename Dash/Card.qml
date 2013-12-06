@@ -33,8 +33,9 @@ Item {
             objectName: "artImage"
             // FIXME should be no need for "icon"
             source: cardData && cardData["art"] || cardData["icon"] || ""
+            // FIXME uncomment when having investigated / fixed the crash
             //sourceSize.width: width > height ? width : 0
-            //sourceSize.height: height > width ? height : -1
+            //sourceSize.height: height > width ? height : 0
             fillMode: components["art"]["fill-mode"] == "fit" ? Image.PreserveAspectFit: Image.PreserveAspectCrop
 
             property real aspect: implicitWidth / implicitHeight
