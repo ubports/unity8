@@ -28,6 +28,7 @@ DashCarousel {
 
         BaseCarouselDelegate {
             id: item
+            objectName: "carouselDelegate"
 
             UbuntuShape {
                 anchors.fill: parent
