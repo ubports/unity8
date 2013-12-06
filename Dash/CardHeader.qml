@@ -70,7 +70,7 @@ Item {
 
                 Label {
                     id: priceLabel
-                    width: parent.labelWidth;
+                    width: parent.labelWidth
                     elide: Text.ElideRight
                     font.weight: Font.DemiBold
                     color: Theme.palette.selected.foreground
@@ -79,14 +79,14 @@ Item {
                 Label {
                     id: oldPriceLabel
                     objectName: "oldPriceLabel"
-                    width: parent.labelWidth;
+                    width: parent.labelWidth
                     elide: Text.ElideRight
                     horizontalAlignment: parent.labels === 3 ? Text.AlignHCenter : Text.AlignRight
                 }
 
                 Label {
                     id: altPriceLabel
-                    width: parent.labelWidth;
+                    width: parent.labelWidth
                     elide: Text.ElideRight
                     horizontalAlignment: Text.AlignRight
                 }
