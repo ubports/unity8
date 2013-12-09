@@ -77,9 +77,6 @@ Rectangle {
             cardHeader.title = data.title !== undefined ? data.title : "";
             cardHeader.subtitle = data.subtitle !== undefined ? data.subtitle : "";
             tryCompare(cardHeader, "visible", data.visible);
-            if (data.hasOwnProperty("maxLineCount")) {
-                compare(testCase.titleLabel.maximumLineCount, data.maxLineCount, "titleLabel maximumLineCount should be %1".arg(data.maxLineCount));
-            }
         }
 
         function test_prices_data() {
