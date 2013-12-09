@@ -244,8 +244,8 @@ Rectangle {
                 { tag: "Medium", width: units.gu(18.5), fill: Image.PreserveAspectCrop, index: 0 },
                 { tag: "Small", width: units.gu(12), index: 1 },
                 { tag: "Large", width: units.gu(38), index: 2 },
-                { tag: "Wide", height: units.gu(9.25), index: 3 },
-                { tag: "Fit", height: units.gu(18.5), width: units.gu(9.25), index: 4 },
+                { tag: "Wide", height: units.gu(18.5), size: "large", index: 3 },
+                { tag: "Fit", height: units.gu(38), size: "large", width: units.gu(18.5), index: 4 },
             ]
         }
 
