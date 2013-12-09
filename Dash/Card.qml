@@ -31,8 +31,7 @@ Item {
             width: root.width
             height: width / artShape.aspect
             objectName: "artImage"
-            // FIXME should be no need for "icon"
-            source: cardData && cardData["art"] || cardData["icon"] || ""
+            source: cardData && cardData["art"] || ""
             // FIXME uncomment when having investigated / fixed the crash
             //sourceSize.width: width > height ? width : 0
             //sourceSize.height: height > width ? height : 0
