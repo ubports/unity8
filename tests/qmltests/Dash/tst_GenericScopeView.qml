@@ -276,6 +276,36 @@ Item {
                 closePreview();
                 tryCompare(previewListView, "open", false);
             }
+
+            function test_filter_expand_expand() {
+                // wait for the item to be there
+                tryCompareFunction(function() { return findChild(genericScopeView, "dashSectionHeader2") != undefined; }, true);
+
+                var categoryListView = findChild(genericScopeView, "categoryListView");
+                categoryListView.contentY = categoryListView.height;
+
+                var header2 = findChild(genericScopeView, "dashSectionHeader2")
+                var category2 = findChild(genericScopeView, "dashCategory2")
+                var category2FilterGrid = category2.children[0].children[0].children[0];
+                verify(UT.Util.isInstanceOf(category2FilterGrid, "FilterGrid"));
+
+                waitForRendering(header2);
+                verify(category2.expandable);
+                verify(category2.filtered);
+
+                mouseClick(header2, header2.width / 2, header2.height / 2);
+                tryCompare(category2, "filtered", false);
+                tryCompare(category2FilterGrid, "filter", false);
+
+                categoryListView.positionAtBeginning();
+
+                var header0 = findChild(genericScopeView, "dashSectionHeader0")
+                var category0 = findChild(genericScopeView, "dashCategory0")
+                mouseClick(header0, header0.width / 2, header0.height / 2);
+                tryCompare(category0, "filtered", false);
+                tryCompare(category2, "filtered", true);
+                tryCompare(category2FilterGrid, "filter", true);
+            }
         }
     }
 }
