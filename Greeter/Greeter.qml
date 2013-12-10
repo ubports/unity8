@@ -51,7 +51,7 @@ Showable {
     signal unlocked(int uid)
 
     onRightTeaserPressedChanged: {
-        if (rightTeaserPressed && !locked && x == 0) {
+        if (rightTeaserPressed && (!locked || narrowMode) && x == 0) {
             teasingTimer.start();
         }
     }

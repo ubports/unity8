@@ -199,7 +199,7 @@ BasicShell {
                     panel.indicators.hide()
                 }
             }
-            onDashItemSelected: greeter.show()
+            onShowDashHome: greeter.show()
         }
 
         Notifications {

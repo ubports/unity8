@@ -502,7 +502,13 @@ BasicShell {
             width: parent.width
             dragAreaWidth: shell.edgeSize
             available: edgeDemo.launcherEnabled
-            onDashItemSelected: showHome(true)
+            onShowDashHome: {
+                if (edgeDemo.running)
+                    return;
+
+                showHome(true)
+            }
+
             onDash: {
                 if (stages.shown) {
                     stages.hide();
@@ -511,6 +517,9 @@ BasicShell {
             }
             onDashSwipeChanged: if (dashSwipe && stages.shown) dash.setCurrentScope("applications.scope", false, true)
             onLauncherApplicationSelected:{
+                if (edgeDemo.running)
+                    return;
+
                 shell.activateApplication(appId)
             }
             onShownChanged: {

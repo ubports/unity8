@@ -29,6 +29,7 @@ Item {
     property bool dashEnabled: true
     property bool panelEnabled: true
     property bool panelContentEnabled: true
+    property bool running: !launcherEnabled || !dashEnabled || !panelEnabled || !panelContentEnabled
 
     property bool paused: false
 

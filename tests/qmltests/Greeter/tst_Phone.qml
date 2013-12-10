@@ -101,7 +101,7 @@ Item {
             mouseClick(greeter, greeter.width - units.gu(5), greeter.height - units.gu(1));
             greeter.minX = 0; // This is needed because the transition actually makes x jump once before animating
 
-            if (!data.locked && !data.moved) {
+            if (!data.moved) {
                 // Check if it has been moved over by 2 GUs. Give it a 2 pixel grace area
                 // because animation duration and teaseTimer are the same duration and
                 // might cause slight offsets
