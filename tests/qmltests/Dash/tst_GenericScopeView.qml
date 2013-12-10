@@ -274,12 +274,10 @@ Item {
                 tryCompareFunction(function() { return findChild(genericScopeView, "carouselDelegate") != undefined; }, true);
                 var tile = findChild(genericScopeView, "carouselDelegate");
                 mouseClick(tile, tile.width / 2, tile.height / 2);
-                var openEffect = findChild(genericScopeView, "openEffect");
                 tryCompare(openEffect, "gap", 1);
 
                 // check for it opening successfully
-                var previewListView = findChild(genericScopeView, "previewListView");
-                var currentPreviewItem = findChild(genericScopeView, "previewLoader0");
+                var currentPreviewItem = findChild(previewListView, "previewLoader0");
                 tryCompareFunction(function() {
                                        var parts = currentPreviewItem.source.toString().split("/");
                                        var name = parts[parts.length - 1];
