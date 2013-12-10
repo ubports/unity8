@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-10-11 12:12+0200\n"
-"PO-Revision-Date: 2013-06-26 23:26+0000\n"
+"POT-Creation-Date: 2013-11-29 09:21+0100\n"
+"PO-Revision-Date: 2013-12-05 06:55+0000\n"
 "Last-Translator: Ibrahim Saed <ibraheem5000@gmail.com>\n"
 "Language-Team: Arabic <ar@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,166 +16,103 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n % 100 >= "
 "3 && n % 100 <= 10 ? 3 : n % 100 >= 11 && n % 100 <= 99 ? 4 : 5;\n"
-"X-Launchpad-Export-Date: 2013-10-13 05:43+0000\n"
-"X-Generator: Launchpad (build 16799)\n"
+"X-Launchpad-Export-Date: 2013-12-06 06:30+0000\n"
+"X-Generator: Launchpad (build 16863)\n"
 
-#: Applications/applications.js:23
-msgid "Phone"
-msgstr "الهاتف"
-
-#: Applications/applications.js:29
-msgid "Camera"
-msgstr "الكاميرا"
-
-#: Applications/applications.js:35
-msgid "Gallery"
-msgstr "المعرض"
-
-#: Applications/applications.js:40
-msgid "Facebook"
-msgstr "فيسبوك"
-
-#: Applications/applications.js:46
-msgid "Browser"
-msgstr "المتصفح"
-
-#: Applications/applications.js:51
-msgid "Twitter"
-msgstr "تويتر"
-
-#: Applications/applications.js:57
-msgid "GMail"
-msgstr "جي ميل"
-
-#: Applications/applications.js:62
-msgid "Weather"
-msgstr "الطقس"
-
-#: Applications/applications.js:68
-msgid "Notepad"
-msgstr "المذكرة"
-
-#: Applications/applications.js:74
-msgid "Calendar"
-msgstr "التقويم"
-
-#: Applications/applications.js:80
-msgid "Media Player"
-msgstr "مشغّل الوسائط"
-
-#: Applications/applications.js:86
-msgid "Evernote"
-msgstr ""
-
-#: Applications/applications.js:91
-msgid "Map"
-msgstr "الخريطة"
-
-#: Applications/applications.js:96
-msgid "Pinterest"
-msgstr ""
-
-#: Applications/applications.js:101
-msgid "SoundCloud"
-msgstr ""
-
-#: Applications/applications.js:106
-msgid "Wikipedia"
-msgstr "ويكيبيديا"
-
-#: Applications/applications.js:111
-msgid "YouTube"
-msgstr "يوتيوب"
-
-#: Components/EdgeDemoOverlay.qml:149
+#: Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
-msgstr ""
+msgstr "تخطي المقدمة"
 
 #: Components/EdgeDemo.qml:112
 msgid "Right edge"
-msgstr ""
+msgstr "الحافة اليمنى"
 
 #: Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr ""
+msgstr "اسحب اصبعك من الحافة اليمنى لفتح قفل الهاتف"
 
 #: Components/EdgeDemo.qml:144
 msgid "Top edge"
-msgstr ""
+msgstr "الحافة العلوية"
 
 #: Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
-msgstr ""
+msgstr "اسحب اصبعك من الحافة العلوية للوصول إلى المؤشرات"
 
 #: Components/EdgeDemo.qml:170
 msgid "Close"
-msgstr ""
+msgstr "أغلق"
 
 #: Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
-msgstr ""
+msgstr "اسحب اصعبك لأعلى مرة أخرى لغلق شاشة الإعدادات"
 
 #: Components/EdgeDemo.qml:198
 msgid "Left edge"
-msgstr ""
+msgstr "الحافة اليسرى"
 
 #: Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr ""
+"اسحب أصبعك من الحافة اليسرى لإظهار شريط يونتي للوصول السريع للتطبيقات"
 
 #: Components/EdgeDemo.qml:226
 msgid "Well done"
-msgstr ""
+msgstr "أحسنت!"
 
 #: Components/EdgeDemo.qml:227
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap anywhere to start"
 msgstr ""
+"لقد أتقنت الآن إيماءات الحواف ويمكنك البدء باستخدام الهاتف<br><br>انقر في أي "
+"مكان للبدء"
 
-#: Components/PageHeader.qml:341
+#: Components/PageHeader.qml:364
 msgid "Recent searches"
 msgstr "عمليات البحث الأخيرة"
 
-#. TRANSLATORS: Number of persons who rated this app
+#: Dash/Apps/AppPreview.qml:135
+msgid "Rate this"
+msgstr "قيّم ذلك"
+
 #. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: Dash/Apps/AppInfo.qml:73 Dash/Previews/Header.qml:93
+#: Dash/Previews/Header.qml:93
 #, qt-format
 msgid "(%1)"
-msgstr ""
+msgstr "(%1)"
 
-#. TRANSLATORS: Number of persons who wrote reviews for this app
 #. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: Dash/Apps/AppInfo.qml:85 Dash/Previews/Header.qml:105
+#: Dash/Previews/Header.qml:105
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
-msgstr[0] ""
-msgstr[1] ""
-
-#: Dash/Apps/AppPreview.qml:126
-msgid "Rate this"
-msgstr ""
+msgstr[0] "لا تعليقات (%1)"
+msgstr[1] "تعليق واحد (%1)"
+msgstr[2] "تعليقان (%1)"
+msgstr[3] "%1 تعليقات"
+msgstr[4] "%1 تعليقا"
+msgstr[5] "%1 تعليق"
 
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
-msgstr ""
+msgstr "أضف تعليق"
 
 #: Dash/Previews/Reviews.qml:86
 msgid "Review"
-msgstr ""
+msgstr "التعليق"
 
 #: Dash/Previews/Reviews.qml:121
 msgid "Send"
-msgstr ""
+msgstr "أرسل"
 
 #: Dash/Previews/Reviews.qml:139
 msgid "Comments:"
-msgstr ""
+msgstr "التعليقات:"
 
-#: Greeter/Lockscreen.qml:142
+#: Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
-msgstr ""
+msgstr "مكالمة طوارئ"
 
 #: Greeter/PassphraseLockscreen.qml:59
 #, qt-format
@@ -206,37 +143,24 @@ msgstr "تكلم الآن..."
 msgid "Speaking..."
 msgstr "تتكلم الآن..."
 
+#: Notifications/NotificationMenuItemFactory.qml:89
+msgid "Show password"
+msgstr "عرض كلمة السر"
+
 #: Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "ابحث"
 
-#: plugins/Unity/scope.cpp:398
-msgid "Sorry, there is nothing that matches your search."
-msgstr "عذراً، لا يوجد ما يطابق بحثك."
+#: plugins/Unity/Launcher/launcheritem.cpp:43
+#: plugins/Unity/Launcher/launcheritem.cpp:73
+msgid "Lock to Launcher"
+msgstr "ثبّت في الشريط"
 
-#: plugins/Unity/showallfilteroption.cpp:41
-msgid "All"
-msgstr ""
+#: plugins/Unity/Launcher/launcheritem.cpp:73
+msgid "Unlock from Launcher"
+msgstr "فُك التثبيت من الشريط"
 
-#: Shell.qml:438
+#: Shell.qml:439
 #, qt-format
 msgid "Please enter %1"
-msgstr ""
-
-#~ msgid "Featured"
-#~ msgstr "المميز"
-
-#~ msgid "Recent"
-#~ msgstr "الحديث"
-
-#~ msgid "New Releases"
-#~ msgstr "الإصدارات الجديدة"
-
-#~ msgid "Music"
-#~ msgstr "موسيقى"
-
-#~ msgid "Popular Online"
-#~ msgstr "الشائع على الإنترنت"
-
-#~ msgid "Videos"
-#~ msgstr "فيديوهات"
+msgstr "من فضلك أدخِل %1"

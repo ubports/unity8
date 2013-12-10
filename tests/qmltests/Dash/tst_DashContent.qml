@@ -26,7 +26,17 @@ Item {
     width: units.gu(40)
     height: units.gu(80)
 
-    property ListModel searchHistory: ListModel {}
+    Item {
+        // Fake. Make a few components less noisy
+        id: greeter
+        signal shownChanged
+    }
+
+    Item {
+        // Fake. Make a few components less noisy
+        id: panel
+        signal searchClicked
+    }
 
     property var scopeStatus: {
         'MockScope1': { 'movementStarted': 0, 'positionedAtBeginning': 0 },
@@ -48,6 +58,7 @@ Item {
         scopes : scopesModel
 
         scopeMapper : scopeDelegateMapper
+        searchHistory: ListModel {}
     }
 
     ScopeDelegateMapper {
@@ -111,11 +122,38 @@ Item {
             clear_scope_status();
             dashContent.visible = true;
 
-            scopesModel.clear();
-            // wait for dash to empty scopes.
             var dashContentList = findChild(dashContent, "dashContentList");
             verify(dashContentList != undefined);
+            scopesModel.clear();
+            // wait for dash to empty scopes.
             tryCompare(dashContentList, "count", 0);
+            // this is the default state for empty model
+            dashContentList.currentIndex = -1;
+        }
+
+        function test_current_index() {
+            var dashContentList = findChild(dashContent, "dashContentList");
+            verify(dashContentList != undefined)
+
+            compare(dashContentList.count, 0, "DashContent should have 0 items when it starts");
+            compare(dashContentList.currentIndex, -1, "DashContent's currentIndex should be -1 while there have been no items in the model");
+
+            tryCompare(scopeLoadedSpy, "count", 5);
+
+            verify(dashContentList.currentIndex >= 0);
+        }
+
+        function test_current_index_after_reset() {
+            var dashContentList = findChild(dashContent, "dashContentList");
+            verify(dashContentList != undefined)
+
+            compare(dashContentList.count, 0, "DashContent should have 0 items when it starts");
+            // pretend we're running after a model reset
+            dashContentList.currentIndex = 27;
+
+            tryCompare(scopeLoadedSpy, "count", 5);
+
+            verify(dashContentList.currentIndex >= 0 && dashContentList.currentIndex < 5);
         }
 
         function test_movement_started_signal() {
@@ -228,6 +266,29 @@ Item {
             tryCompare(scopesModel.get(0), "isActive", data.active0);
             tryCompare(scopesModel.get(1), "isActive", data.active1);
             tryCompare(scopesModel.get(2), "isActive", data.active2);
+        }
+
+        function checkFlickMovingAndNotInteractive()
+        {
+            var dashContentList = findChild(dashContent, "dashContentList");
+
+            if (dashContentList.currentItem.moving && !dashContentList.interactive)
+                return true;
+
+            var startX = dashContentList.width/2;
+            var startY = dashContentList.height/2;
+            touchFlick(dashContentList, startX, startY, startX, startY - units.gu(40));
+
+            return dashContentList.currentItem.moving && !dashContentList.interactive;
+        }
+
+
+        function test_hswipe_disabled_vswipe() {
+            var dashContentList = findChild(dashContent, "dashContentList");
+
+            tryCompare(dashContentList, "interactive", true);
+
+            tryCompareFunction(checkFlickMovingAndNotInteractive, true);
         }
     }
 }

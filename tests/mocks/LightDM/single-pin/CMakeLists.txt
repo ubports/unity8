@@ -15,5 +15,5 @@ set_target_properties(MockLightDM-single-pin PROPERTIES
                       OUTPUT_NAME lightdm-qt5-2)
 
 install(TARGETS MockLightDM-single-pin
-    DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/mocks/LightDM/single-pin
+    DESTINATION ${SHELL_INSTALL_QML}/mocks/LightDM/single-pin
     )

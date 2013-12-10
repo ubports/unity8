@@ -15,16 +15,14 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 0.1
 import "../../Components"
 
 GenericFilterGrid {
-    id: filtergrid
-
     minimumHorizontalSpacing: units.gu(0.5)
     delegateWidth: units.gu(11)
     delegateHeight: units.gu(18)
     verticalSpacing: units.gu(2)
-
     iconWidth: (width / columns) * 0.8
     iconHeight: iconWidth * 16 / 11
 }

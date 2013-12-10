@@ -27,6 +27,7 @@ Item {
     property alias currentIndex: dashContentList.currentIndex
 
     property ScopeDelegateMapper scopeMapper : ScopeDelegateMapper {}
+    property ListModel searchHistory
 
     signal movementStarted()
     signal movementEnded()
@@ -104,8 +105,14 @@ Item {
 
         // If the number of items is less than the current index, then need to reset to another item.
         onCountChanged: {
-            if (currentIndex >= count)
-                dashContent.setCurrentScopeAtIndex(count-1, true, true)
+            if (count > 0) {
+                if (currentIndex >= count) {
+                    dashContent.setCurrentScopeAtIndex(count-1, true, true)
+                } else if (currentIndex < 0) {
+                    // setting currentIndex directly, cause we don't want to loose set_current_index
+                    dashContent.currentIndex = 0
+                }
+            }
         }
 
         delegate:
@@ -116,8 +123,8 @@ Item {
                 source: scopeMapper.map(scope.id)
                 objectName: scope.id + " loader"
 
-                readonly property bool previewShown: item.previewShown
-                readonly property bool moving: item.moving
+                readonly property bool previewShown: item ? item.previewShown : false
+                readonly property bool moving: item ? item.moving : false
 
                 // these are needed for autopilot tests
                 readonly property string scopeId: scope.id
@@ -127,7 +134,7 @@ Item {
                 onLoaded: {
                     item.scope = Qt.binding(function() { return scope })
                     item.isCurrent = Qt.binding(function() { return visible && ListView.isCurrentItem })
-                    item.searchHistory = Qt.binding(function() { return shell.searchHistory })
+                    item.searchHistory = Qt.binding(function() { return dashContent.searchHistory })
                     dashContentList.movementStarted.connect(item.movementStarted)
                     dashContent.positionedAtBeginning.connect(item.positionedAtBeginning)
                     dashContent.scopeLoaded(item.scope.id)

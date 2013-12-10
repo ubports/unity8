@@ -28,7 +28,7 @@ macro(export_qmlfiles PLUGIN PLUGIN_SUBPATH)
 
     # install the qmlfiles file.
     install(FILES ${QMLFILES}
-        DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/${PLUGIN_SUBPATH}
+        DESTINATION ${SHELL_INSTALL_QML}/${PLUGIN_SUBPATH}
     )
 endmacro(export_qmlfiles)
 
@@ -56,12 +56,12 @@ macro(export_qmlplugin PLUGIN VERSION PLUGIN_SUBPATH)
 
         # install the qmltypes file.
         install(FILES ${CMAKE_BINARY_DIR}/plugins/${PLUGIN_SUBPATH}/plugin.qmltypes
-            DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/${PLUGIN_SUBPATH}
+            DESTINATION ${SHELL_INSTALL_QML}/${PLUGIN_SUBPATH}
         )
     endif()
 
     # install the additional targets
     install(TARGETS ${qmlplugin_TARGETS}
-        DESTINATION ${SHELL_PRIVATE_LIBDIR}/qml/${PLUGIN_SUBPATH}
+        DESTINATION ${SHELL_INSTALL_QML}/${PLUGIN_SUBPATH}
     )
 endmacro(export_qmlplugin)

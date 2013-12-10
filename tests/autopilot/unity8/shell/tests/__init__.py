@@ -28,21 +28,21 @@ from autopilot.platform import model
 from autopilot.testcase import AutopilotTestCase
 from autopilot.matchers import Eventually
 from autopilot.input import Touch
-from autopilot.introspection import get_proxy_object_for_existing_process
 from autopilot.display import Display
 import logging
 import os.path
 import subprocess
 import sys
-from testtools.matchers import Equals, NotEquals
+from testtools.matchers import Equals
 
 from unity8 import (
     get_lib_path,
     get_binary_path,
     get_mocks_library_path,
     get_default_extra_mock_libraries,
+    get_data_dirs
 )
-from unity8.shell.emulators import UnityEmulatorBase
+from unity8.process_helpers import restart_unity_with_testability
 from unity8.shell.emulators.dash import Dash
 from unity8.shell.emulators.main_window import MainWindow
 
@@ -52,7 +52,7 @@ logger = logging.getLogger(__name__)
 UNITYSHELL_GSETTINGS_SCHEMA = "org.compiz.unityshell"
 UNITYSHELL_GSETTINGS_PATH = "/org/compiz/profiles/unity/plugins/unityshell/"
 UNITYSHELL_LAUNCHER_KEY = "launcher-hide-mode"
-UNITYSHELL_LAUNCHER_MODE = 1 # launcher hidden
+UNITYSHELL_LAUNCHER_MODE = 1  # launcher hidden
 
 
 def _get_device_emulation_scenarios(devices='All'):
@@ -92,17 +92,25 @@ class UnityTestCase(AutopilotTestCase):
             ], stderr=subprocess.STDOUT)
         except subprocess.CalledProcessError, e:
             sys.stderr.write(
-                "Error: `initctl status unity8` failed, most probably the unity8 session could not be found:\n\n"
+                "Error: `initctl status unity8` failed, most probably the "
+                "unity8 session could not be found:\n\n"
                 "{0}\n"
-                "Please install unity8 or copy data/unity8.conf to {1}\n".format(
+                "Please install unity8 or copy data/unity8.conf to "
+                "{1}\n".format(
                     e.output,
-                    os.path.join(os.getenv("XDG_CONFIG_HOME", os.path.join(os.getenv("HOME"), ".config")), "upstart")
-            ))
+                    os.path.join(os.getenv("XDG_CONFIG_HOME",
+                                           os.path.join(os.getenv("HOME"),
+                                                        ".config")
+                                           ),
+                                 "upstart")
+                    )
+            )
             sys.exit(1)
 
         if "start/" in output:
             sys.stderr.write(
-                "Error: Unity is currently running, these tests require it to be 'stopped'.\n"
+                "Error: Unity is currently running, these tests require it to "
+                "be 'stopped'.\n"
                 "Please run this command before running these tests: \n"
                 "initctl stop unity8\n"
             )
@@ -110,17 +118,30 @@ class UnityTestCase(AutopilotTestCase):
 
     def setUp(self):
         super(UnityTestCase, self).setUp()
-        if Gio is not None and UNITYSHELL_GSETTINGS_SCHEMA in Gio.Settings.list_relocatable_schemas():
+        if (Gio is not None and
+                UNITYSHELL_GSETTINGS_SCHEMA in
+                Gio.Settings.list_relocatable_schemas()):
+
             # Hide Unity launcher
-            self._unityshell_schema = Gio.Settings.new_with_path(UNITYSHELL_GSETTINGS_SCHEMA, UNITYSHELL_GSETTINGS_PATH)
-            self._launcher_hide_mode = self._unityshell_schema.get_int(UNITYSHELL_LAUNCHER_KEY)
-            self._unityshell_schema.set_int(UNITYSHELL_LAUNCHER_KEY, UNITYSHELL_LAUNCHER_MODE)
+            self._unityshell_schema = Gio.Settings.new_with_path(
+                UNITYSHELL_GSETTINGS_SCHEMA,
+                UNITYSHELL_GSETTINGS_PATH,
+            )
+            self._launcher_hide_mode = self._unityshell_schema.get_int(
+                UNITYSHELL_LAUNCHER_KEY,
+            )
+            self._unityshell_schema.set_int(
+                UNITYSHELL_LAUNCHER_KEY,
+                UNITYSHELL_LAUNCHER_MODE,
+            )
             self.addCleanup(self._reset_launcher)
 
         self._proxy = None
         self._lightdm_mock_type = None
         self._qml_mock_enabled = True
         self._environment = {}
+
+        self._patch_data_dirs()
 
         #### FIXME: This is a work around re: lp:1238417 ####
         if model() != "Desktop":
@@ -133,7 +154,10 @@ class UnityTestCase(AutopilotTestCase):
 
     def _reset_launcher(self):
         """Reset Unity launcher hide mode"""
-        self._unityshell_schema.set_int(UNITYSHELL_LAUNCHER_KEY, self._launcher_hide_mode)
+        self._unityshell_schema.set_int(
+            UNITYSHELL_LAUNCHER_KEY,
+            self._launcher_hide_mode,
+        )
 
     def _setup_display_details(self):
         scale_divisor = self._determine_geometry()
@@ -214,7 +238,10 @@ class UnityTestCase(AutopilotTestCase):
     def _upstart_reset_env(self, key, value):
         logger.info("Resetting upstart env %s to %s", key, value)
         if value is None:
-            subprocess.call(["/sbin/initctl", "unset-env", key], stderr=subprocess.STDOUT)
+            subprocess.call(
+                ["/sbin/initctl", "unset-env", key],
+                stderr=subprocess.STDOUT,
+            )
         else:
             subprocess.call([
                 "/sbin/initctl",
@@ -241,9 +268,13 @@ class UnityTestCase(AutopilotTestCase):
             self._setup_extra_mock_environment_patch()
 
         # FIXME: we shouldn't be doing this
-        # $MIR_SOCKET, fallback to $XDG_RUNTIME_DIR/mir_socket and /tmp/mir_socket as last resort
+        # $MIR_SOCKET, fallback to $XDG_RUNTIME_DIR/mir_socket and
+        # /tmp/mir_socket as last resort
         try:
-            os.unlink(os.getenv('MIR_SOCKET', os.path.join(os.getenv('XDG_RUNTIME_DIR', "/tmp"), "mir_socket")))
+            os.unlink(
+                os.getenv('MIR_SOCKET',
+                          os.path.join(os.getenv('XDG_RUNTIME_DIR', "/tmp"),
+                                       "mir_socket")))
         except OSError:
             pass
         try:
@@ -253,7 +284,7 @@ class UnityTestCase(AutopilotTestCase):
 
         app_proxy = self._launch_unity_with_upstart(
             binary_path,
-            self.unity_geometry_args
+            self.unity_geometry_args,
         )
 
         self._set_proxy(app_proxy)
@@ -271,31 +302,27 @@ class UnityTestCase(AutopilotTestCase):
 
         binary_arg = "BINARY=%s" % binary_path
         extra_args = "ARGS=%s" % " ".join(args)
-
-        output = subprocess.check_output([
-            "/sbin/initctl",
-            "start",
-            "unity8",
-            binary_arg,
-            extra_args
-        ] + ["%s=%s" % (k,v) for k,v in self._environment.iteritems()],
-        stderr=subprocess.STDOUT)
+        env_args = ["%s=%s" % (k, v) for k, v in self._environment.iteritems()]
+        all_args = [binary_arg, extra_args] + env_args
 
         self.addCleanup(self._cleanup_launching_upstart_unity)
 
-        pid = int(output.split()[-1])
-
-        return get_proxy_object_for_existing_process(
-            pid=pid,
-            emulator_base=UnityEmulatorBase,
-        )
+        return restart_unity_with_testability(*all_args)
 
     def _cleanup_launching_upstart_unity(self):
         logger.info("Stopping unity")
         try:
-            subprocess.check_output(["/sbin/initctl", "stop", "unity8"], stderr=subprocess.STDOUT)
+            subprocess.check_output(
+                ["/sbin/initctl", "stop", "unity8"],
+                stderr=subprocess.STDOUT
+            )
         except subprocess.CalledProcessError:
             logger.warning("Appears unity was already stopped!")
+
+    def _patch_data_dirs(self):
+        data_dirs = get_data_dirs()
+        if data_dirs is not None:
+            self._environment['XDG_DATA_DIRS'] = data_dirs
 
     def patch_lightdm_mock(self, mock_type='single'):
         self._lightdm_mock_type = mock_type
@@ -358,8 +385,7 @@ class UnityTestCase(AutopilotTestCase):
         self.assertThat(home_scope.isCurrent, Eventually(Equals(True)))
 
     def get_dash(self):
-        dash = self._proxy.select_single(Dash)
-        self.assertThat(dash, NotEquals(None))
+        dash = self._proxy.wait_select_single(Dash)
         return dash
 
     @property

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-10-11 12:12+0200\n"
+"POT-Creation-Date: 2013-11-29 09:21+0100\n"
 "PO-Revision-Date: 2013-10-09 11:35+0000\n"
 "Last-Translator: Pyae Sone <Unknown>\n"
 "Language-Team: Burmese <my@li.org>\n"
@@ -15,78 +15,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2013-10-13 05:43+0000\n"
-"X-Generator: Launchpad (build 16799)\n"
+"X-Launchpad-Export-Date: 2013-11-30 05:33+0000\n"
+"X-Generator: Launchpad (build 16856)\n"
 
-#: Applications/applications.js:23
-msgid "Phone"
-msgstr "ဖုန်း"
-
-#: Applications/applications.js:29
-msgid "Camera"
-msgstr "ကင်မရာ"
-
-#: Applications/applications.js:35
-msgid "Gallery"
-msgstr "ဓာတ်ပုံသိမ်းထားသည့်နေရာ"
-
-#: Applications/applications.js:40
-msgid "Facebook"
-msgstr "Facebook"
-
-#: Applications/applications.js:46
-msgid "Browser"
-msgstr "Browser"
-
-#: Applications/applications.js:51
-msgid "Twitter"
-msgstr "Twitter"
-
-#: Applications/applications.js:57
-msgid "GMail"
-msgstr "ဂျီမေးလ်"
-
-#: Applications/applications.js:62
-msgid "Weather"
-msgstr "ရာသီဥတု"
-
-#: Applications/applications.js:68
-msgid "Notepad"
-msgstr "Notepad"
-
-#: Applications/applications.js:74
-msgid "Calendar"
-msgstr "ပြက္ခဒိန်"
-
-#: Applications/applications.js:80
-msgid "Media Player"
-msgstr "မီဒီယာဖွင့်စက်"
-
-#: Applications/applications.js:86
-msgid "Evernote"
-msgstr "Evernote"
-
-#: Applications/applications.js:91
-msgid "Map"
-msgstr "မြေပုံ"
-
-#: Applications/applications.js:96
-msgid "Pinterest"
-msgstr "Pinterest"
-
-#: Applications/applications.js:101
-msgid "SoundCloud"
-msgstr "SoundCloud"
-
-#: Applications/applications.js:106
-msgid "Wikipedia"
-msgstr "ဝီကီပီဒီးယား"
-
-#: Applications/applications.js:111
-msgid "YouTube"
-msgstr "YouTube"
-
-#: Components/EdgeDemoOverlay.qml:149
+#: Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
 msgstr "မိတ်ဆက်ကိုကျော်မည်"
 
@@ -132,29 +64,27 @@ msgid ""
 "phone<br><br>Tap anywhere to start"
 msgstr ""
 
-#: Components/PageHeader.qml:341
+#: Components/PageHeader.qml:364
 msgid "Recent searches"
 msgstr "မကြာသေးခင်က ရှာဖွေခြင်း"
 
-#. TRANSLATORS: Number of persons who rated this app
+#: Dash/Apps/AppPreview.qml:135
+msgid "Rate this"
+msgstr "ဒီဟာကိုအမှတ်ပေးမည်"
+
 #. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: Dash/Apps/AppInfo.qml:73 Dash/Previews/Header.qml:93
+#: Dash/Previews/Header.qml:93
 #, qt-format
 msgid "(%1)"
 msgstr "(%1)"
 
-#. TRANSLATORS: Number of persons who wrote reviews for this app
 #. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: Dash/Apps/AppInfo.qml:85 Dash/Previews/Header.qml:105
+#: Dash/Previews/Header.qml:105
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
 msgstr[0] ""
 msgstr[1] ""
-
-#: Dash/Apps/AppPreview.qml:126
-msgid "Rate this"
-msgstr "ဒီဟာကိုအမှတ်ပေးမည်"
 
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
@@ -172,7 +102,7 @@ msgstr "ပို့မည်"
 msgid "Comments:"
 msgstr "မှတ်ချက်များ-"
 
-#: Greeter/Lockscreen.qml:142
+#: Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
 msgstr ""
 
@@ -205,34 +135,24 @@ msgstr "ယခုပြောပါ"
 msgid "Speaking..."
 msgstr "ပြောနေသည်"
 
+#: Notifications/NotificationMenuItemFactory.qml:89
+msgid "Show password"
+msgstr ""
+
 #: Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "ရှာဖွေ"
 
-#: plugins/Unity/scope.cpp:398
-msgid "Sorry, there is nothing that matches your search."
-msgstr "ဆောရီး၊ သင်၏ရှာဖွေမူနှင့်တူညီတာဘာမှမရှိပါ။"
-
-#: plugins/Unity/showallfilteroption.cpp:41
-msgid "All"
+#: plugins/Unity/Launcher/launcheritem.cpp:43
+#: plugins/Unity/Launcher/launcheritem.cpp:73
+msgid "Lock to Launcher"
 msgstr ""
 
-#: Shell.qml:438
+#: plugins/Unity/Launcher/launcheritem.cpp:73
+msgid "Unlock from Launcher"
+msgstr ""
+
+#: Shell.qml:439
 #, qt-format
 msgid "Please enter %1"
 msgstr ""
-
-#~ msgid "Music"
-#~ msgstr "တေးဂီတ"
-
-#~ msgid "Videos"
-#~ msgstr "ဗီဒီယိုများ"
-
-#~ msgid "New Releases"
-#~ msgstr "အသစ်ထွက်ရှိသော"
-
-#~ msgid "Recent"
-#~ msgstr "မကြာသေးခင်က"
-
-#~ msgid "Popular Online"
-#~ msgstr "အွန်လိုင်းတွင်ပေါ်ပြူလာဖြစ်သော"

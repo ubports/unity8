@@ -6,6 +6,8 @@ set(UbuntuGestureQml_SOURCES
     AxisVelocityCalculator.cpp
     Direction.cpp
     DirectionalDragArea.cpp
+    PressedOutsideNotifier.cpp
+    TimeSource.cpp
 )
 
 add_definitions(-DUBUNTUGESTURES_LIBRARY)

@@ -7,86 +7,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-10-11 12:12+0200\n"
-"PO-Revision-Date: 2013-10-01 09:19+0000\n"
+"POT-Creation-Date: 2013-11-29 09:21+0100\n"
+"PO-Revision-Date: 2013-11-20 08:30+0000\n"
 "Last-Translator: Yaron <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <he@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-10-13 05:43+0000\n"
-"X-Generator: Launchpad (build 16799)\n"
+"X-Launchpad-Export-Date: 2013-11-30 05:33+0000\n"
+"X-Generator: Launchpad (build 16856)\n"
 
-#: Applications/applications.js:23
-msgid "Phone"
-msgstr "טלפון"
-
-#: Applications/applications.js:29
-msgid "Camera"
-msgstr "מצלמה"
-
-#: Applications/applications.js:35
-msgid "Gallery"
-msgstr "גלריה"
-
-#: Applications/applications.js:40
-msgid "Facebook"
-msgstr "Facebook"
-
-#: Applications/applications.js:46
-msgid "Browser"
-msgstr "דפדפן"
-
-#: Applications/applications.js:51
-msgid "Twitter"
-msgstr "Twitter"
-
-#: Applications/applications.js:57
-msgid "GMail"
-msgstr "GMail"
-
-#: Applications/applications.js:62
-msgid "Weather"
-msgstr "מזג אוויר"
-
-#: Applications/applications.js:68
-msgid "Notepad"
-msgstr "פנקס רשימות"
-
-#: Applications/applications.js:74
-msgid "Calendar"
-msgstr "לוח שנה"
-
-#: Applications/applications.js:80
-msgid "Media Player"
-msgstr "נגן מדיה"
-
-#: Applications/applications.js:86
-msgid "Evernote"
-msgstr "Evernote"
-
-#: Applications/applications.js:91
-msgid "Map"
-msgstr "מפה"
-
-#: Applications/applications.js:96
-msgid "Pinterest"
-msgstr "Pinterest"
-
-#: Applications/applications.js:101
-msgid "SoundCloud"
-msgstr "SoundCloud"
-
-#: Applications/applications.js:106
-msgid "Wikipedia"
-msgstr "ויקיפדיה"
-
-#: Applications/applications.js:111
-msgid "YouTube"
-msgstr "YouTube"
-
-#: Components/EdgeDemoOverlay.qml:149
+#: Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
 msgstr "לדלג על הפתיחה"
 
@@ -131,30 +63,30 @@ msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap anywhere to start"
 msgstr ""
+"עתה מכשסיימת את ההשתלמות לשימוש במחוות קצה יש לך את הכלים להשתמש "
+"בטלפון<br><br>ניתן לגעת במקום כלשהו במסך כדי להתחיל"
 
-#: Components/PageHeader.qml:341
+#: Components/PageHeader.qml:364
 msgid "Recent searches"
 msgstr "חיפושים אחרונים"
 
-#. TRANSLATORS: Number of persons who rated this app
+#: Dash/Apps/AppPreview.qml:135
+msgid "Rate this"
+msgstr "דירוג היישום"
+
 #. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: Dash/Apps/AppInfo.qml:73 Dash/Previews/Header.qml:93
+#: Dash/Previews/Header.qml:93
 #, qt-format
 msgid "(%1)"
 msgstr "(%1)"
 
-#. TRANSLATORS: Number of persons who wrote reviews for this app
 #. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: Dash/Apps/AppInfo.qml:85 Dash/Previews/Header.qml:105
+#: Dash/Previews/Header.qml:105
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
 msgstr[0] "סקירה %1"
 msgstr[1] "%1 סקירות"
-
-#: Dash/Apps/AppPreview.qml:126
-msgid "Rate this"
-msgstr "דירוג היישום"
 
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
@@ -172,7 +104,7 @@ msgstr "שליחה"
 msgid "Comments:"
 msgstr "הערות:"
 
-#: Greeter/Lockscreen.qml:142
+#: Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
 msgstr "שיחת חירום"
 
@@ -205,40 +137,24 @@ msgstr "יש לדבר כעת..."
 msgid "Speaking..."
 msgstr "הדיבור מושמע…"
 
+#: Notifications/NotificationMenuItemFactory.qml:89
+msgid "Show password"
+msgstr "הצגת הססמה"
+
 #: Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "חיפוש"
 
-#: plugins/Unity/scope.cpp:398
-msgid "Sorry, there is nothing that matches your search."
-msgstr "שום דבר אינו תואם לחיפוש שלך, עמך הסליחה."
+#: plugins/Unity/Launcher/launcheritem.cpp:43
+#: plugins/Unity/Launcher/launcheritem.cpp:73
+msgid "Lock to Launcher"
+msgstr "נעילה למשגר"
 
-#: plugins/Unity/showallfilteroption.cpp:41
-msgid "All"
-msgstr ""
+#: plugins/Unity/Launcher/launcheritem.cpp:73
+msgid "Unlock from Launcher"
+msgstr "הפרדה מהמשגר"
 
-#: Shell.qml:438
+#: Shell.qml:439
 #, qt-format
 msgid "Please enter %1"
 msgstr "נא להזין %1"
-
-#~ msgid "Music"
-#~ msgstr "מוזיקה"
-
-#~ msgid "Videos"
-#~ msgstr "סרטונים"
-
-#~ msgid "Top Charting"
-#~ msgstr "בראש הטבלה"
-
-#~ msgid "Featured"
-#~ msgstr "מומלצים"
-
-#~ msgid "Recent"
-#~ msgstr "אחרונים"
-
-#~ msgid "New Releases"
-#~ msgstr "מהדורות חדשות"
-
-#~ msgid "Popular Online"
-#~ msgstr "פופולריים ברחבי הרשת"

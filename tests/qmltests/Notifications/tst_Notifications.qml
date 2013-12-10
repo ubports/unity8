@@ -76,6 +76,20 @@ Row {
         mockModel.append(n)
     }
 
+    function addEphemeralNonShapedIconNotification() {
+        var n = {
+            type: Notification.Ephemeral,
+            hints: {"x-canonical-non-shaped-icon": "true"},
+            summary: "Contacts",
+            body: "Synchronised contacts-database with cloud-storage.",
+            icon: "../graphics/applicationIcons/contacts-app.png",
+            secondaryIcon: "",
+            actions: []
+        }
+
+        mockModel.append(n)
+    }
+
     function addEphemeralIconSummaryNotification() {
         var n = {
             type: Notification.Ephemeral,
@@ -158,6 +172,12 @@ Row {
 
             Button {
                 width: parent.width
+                text: "add an non-shaped-icon-summary-body"
+                onClicked: addEphemeralNonShapedIconNotification()
+            }
+
+            Button {
+                width: parent.width
                 text: "add an icon-summary"
                 onClicked: addEphemeralIconSummaryNotification()
             }
@@ -206,6 +226,8 @@ Row {
                 bodyVisible: true,
                 interactiveAreaEnabled: false,
                 iconVisible: true,
+                shapedIcon: true,
+                nonShapedIcon: false,
                 secondaryIconVisible: true,
                 buttonRowVisible: true,
                 buttonTinted: true
@@ -223,6 +245,8 @@ Row {
                 bodyVisible: false,
                 interactiveAreaEnabled: false,
                 iconVisible: false,
+                shapedIcon: false,
+                nonShapedIcon: false,
                 secondaryIconVisible: true,
                 buttonRowVisible: false,
                 buttonTinted: false
@@ -240,6 +264,8 @@ Row {
                 bodyVisible: false,
                 interactiveAreaEnabled: false,
                 iconVisible: false,
+                shapedIcon: false,
+                nonShapedIcon: false,
                 secondaryIconVisible: true,
                 buttonRowVisible: false,
                 buttonTinted: false
@@ -257,6 +283,8 @@ Row {
                 bodyVisible: true,
                 interactiveAreaEnabled: true,
                 iconVisible: true,
+                shapedIcon: true,
+                nonShapedIcon: false,
                 secondaryIconVisible: false,
                 buttonRowVisible: false,
                 buttonTinted: false
@@ -275,6 +303,8 @@ Row {
                 bodyVisible: true,
                 interactiveAreaEnabled: false,
                 iconVisible: true,
+                shapedIcon: true,
+                nonShapedIcon: false,
                 secondaryIconVisible: false,
                 buttonRowVisible: true,
                 buttonTinted: false
@@ -292,7 +322,29 @@ Row {
                 bodyVisible: true,
                 interactiveAreaEnabled: false,
                 iconVisible: true,
+                shapedIcon: true,
+                nonShapedIcon: false,
                 secondaryIconVisible: true,
+                buttonRowVisible: false,
+                buttonTinted: false
+            },
+            {
+                tag: "Ephemeral notification with non-shaped icon",
+                type: Notification.Ephemeral,
+                hints: {"x-canonical-private-button-tint": "false",
+                        "x-canonical-non-shaped-icon": "true"},
+                summary: "Contacts",
+                body: "Synchronised contacts-database with cloud-storage.",
+                icon: "../graphics/applicationIcons/contacts-app.png",
+                secondaryIcon: "",
+                actions: [],
+                summaryVisible: true,
+                bodyVisible: true,
+                interactiveAreaEnabled: false,
+                iconVisible: true,
+                shapedIcon: false,
+                nonShapedIcon: true,
+                secondaryIconVisible: false,
                 buttonRowVisible: false,
                 buttonTinted: false
             }
@@ -330,6 +382,8 @@ Row {
             verify(notification !== undefined, "notification wasn't found");
 
             var icon = findChild(notification, "icon")
+            var shapedIcon = findChild(notification, "shapedIcon")
+            var nonShapedIcon = findChild(notification, "nonShapedIcon")
             var interactiveArea = findChild(notification, "interactiveArea")
             var secondaryIcon = findChild(notification, "secondaryIcon")
             var summaryLabel = findChild(notification, "summaryLabel")
@@ -338,6 +392,8 @@ Row {
             waitForRendering(buttonRow)
 
             compare(icon.visible, data.iconVisible, "avatar-icon visibility is incorrect")
+            compare(shapedIcon.visible, data.shapedIcon, "shaped-icon visibility is incorrect")
+            compare(nonShapedIcon.visible, data.nonShapedIcon, "non-shaped-icon visibility is incorrect")
             compare(interactiveArea.enabled, data.interactiveAreaEnabled, "check for interactive area")
 
             if(data.interactiveAreaEnabled) {

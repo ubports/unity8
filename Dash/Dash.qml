@@ -26,6 +26,8 @@ Showable {
 
     visible: shown
 
+    property ListModel searchHistory: SearchHistoryModel {}
+
     property alias contentProgress: dashContent.contentProgress
     property string showScopeOnLoaded: "home.scope"
     property real contentScale: 1.0
@@ -63,6 +65,7 @@ Showable {
         anchors.fill: parent
         model: filteredScopes
         scopes: scopes
+        searchHistory: dash.searchHistory
         onMovementStarted: dashbar.startNavigation()
         onMovementEnded: dashbar.stopNavigation()
         onContentFlickStarted: dashbar.finishNavigation()

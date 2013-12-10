@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-10-11 12:12+0200\n"
+"POT-Creation-Date: 2013-11-29 09:21+0100\n"
 "PO-Revision-Date: 2013-10-09 22:38+0000\n"
 "Last-Translator: Gheyret T.Kenji <Unknown>\n"
 "Language-Team: Uyghur <ug@li.org>\n"
@@ -15,78 +15,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2013-10-13 05:43+0000\n"
-"X-Generator: Launchpad (build 16799)\n"
+"X-Launchpad-Export-Date: 2013-11-30 05:33+0000\n"
+"X-Generator: Launchpad (build 16856)\n"
 
-#: Applications/applications.js:23
-msgid "Phone"
-msgstr "تېلېفون"
-
-#: Applications/applications.js:29
-msgid "Camera"
-msgstr "كامېرا"
-
-#: Applications/applications.js:35
-msgid "Gallery"
-msgstr ""
-
-#: Applications/applications.js:40
-msgid "Facebook"
-msgstr "فېيىسبۇك(Facebook)"
-
-#: Applications/applications.js:46
-msgid "Browser"
-msgstr "توركۆرگۈ"
-
-#: Applications/applications.js:51
-msgid "Twitter"
-msgstr "تىۋىتتېر(Twitter)"
-
-#: Applications/applications.js:57
-msgid "GMail"
-msgstr "GMail"
-
-#: Applications/applications.js:62
-msgid "Weather"
-msgstr "ھاۋا رايى"
-
-#: Applications/applications.js:68
-msgid "Notepad"
-msgstr "خاتىرە دەپتەر(Notepad)"
-
-#: Applications/applications.js:74
-msgid "Calendar"
-msgstr "يىلنامە"
-
-#: Applications/applications.js:80
-msgid "Media Player"
-msgstr "ۋاسىتە قويغۇ"
-
-#: Applications/applications.js:86
-msgid "Evernote"
-msgstr "Evernote"
-
-#: Applications/applications.js:91
-msgid "Map"
-msgstr "خەرىتە"
-
-#: Applications/applications.js:96
-msgid "Pinterest"
-msgstr "Pinterest"
-
-#: Applications/applications.js:101
-msgid "SoundCloud"
-msgstr "SoundCloud"
-
-#: Applications/applications.js:106
-msgid "Wikipedia"
-msgstr "ۋىكىپېدىيە"
-
-#: Applications/applications.js:111
-msgid "YouTube"
-msgstr "YouTube"
-
-#: Components/EdgeDemoOverlay.qml:149
+#: Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
 msgstr ""
 
@@ -132,28 +64,26 @@ msgid ""
 "phone<br><br>Tap anywhere to start"
 msgstr ""
 
-#: Components/PageHeader.qml:341
+#: Components/PageHeader.qml:364
 msgid "Recent searches"
 msgstr "يېقىنقى ئىزدەشلەر"
 
-#. TRANSLATORS: Number of persons who rated this app
+#: Dash/Apps/AppPreview.qml:135
+msgid "Rate this"
+msgstr ""
+
 #. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: Dash/Apps/AppInfo.qml:73 Dash/Previews/Header.qml:93
+#: Dash/Previews/Header.qml:93
 #, qt-format
 msgid "(%1)"
 msgstr "(%1)"
 
-#. TRANSLATORS: Number of persons who wrote reviews for this app
 #. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: Dash/Apps/AppInfo.qml:85 Dash/Previews/Header.qml:105
+#: Dash/Previews/Header.qml:105
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
 msgstr[0] "%1 باھا"
-
-#: Dash/Apps/AppPreview.qml:126
-msgid "Rate this"
-msgstr ""
 
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
@@ -171,7 +101,7 @@ msgstr "ئەۋەت"
 msgid "Comments:"
 msgstr "ئىنكاس:"
 
-#: Greeter/Lockscreen.qml:142
+#: Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
 msgstr ""
 
@@ -204,34 +134,24 @@ msgstr "ئەمدى سۆزلەڭ…"
 msgid "Speaking..."
 msgstr "سۆزلەۋاتىسىز…"
 
+#: Notifications/NotificationMenuItemFactory.qml:89
+msgid "Show password"
+msgstr ""
+
 #: Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "ئىزدە"
 
-#: plugins/Unity/scope.cpp:398
-msgid "Sorry, there is nothing that matches your search."
-msgstr "كەچۈرۈڭ، ئىزدىگىنىڭىزگە ماس نەتىجە تېپىلمىدى."
+#: plugins/Unity/Launcher/launcheritem.cpp:43
+#: plugins/Unity/Launcher/launcheritem.cpp:73
+msgid "Lock to Launcher"
+msgstr ""
 
-#: plugins/Unity/showallfilteroption.cpp:41
-msgid "All"
-msgstr "ھەممىسى"
+#: plugins/Unity/Launcher/launcheritem.cpp:73
+msgid "Unlock from Launcher"
+msgstr ""
 
-#: Shell.qml:438
+#: Shell.qml:439
 #, qt-format
 msgid "Please enter %1"
 msgstr "%1 نى كىرگۈزۈڭ"
-
-#~ msgid "Featured"
-#~ msgstr "داڭلىق"
-
-#~ msgid "Recent"
-#~ msgstr "يېقىنقى"
-
-#~ msgid "New Releases"
-#~ msgstr "يېڭى ئېلان قىلىنغانلىرى"
-
-#~ msgid "Music"
-#~ msgstr "مۇزىكا"
-
-#~ msgid "Videos"
-#~ msgstr "سىنلار"

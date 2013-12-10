@@ -102,9 +102,15 @@ Item {
                 console.log("Not testing " + data.tag + ": not visible");
                 return;
             }
-            dash.showScopeOnLoaded = data.tag
-
             var dashContentList = findChild(dash, "dashContentList");
+
+            dash.showScopeOnLoaded = data.tag
+            scopes.clear();
+            tryCompare(dashContentList, "count", 0);
+            scopes.load();
+            tryCompare(scopes, "loaded", true);
+            tryCompare(dashContentList, "count", 4);
+
             verify(dashContentList != undefined);
             tryCompare(dashContentList, "currentIndex", data.visualIndex);
         }

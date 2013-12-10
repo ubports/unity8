@@ -30,7 +30,6 @@ import "Launcher"
 import "Panel"
 import "Hud"
 import "Components"
-import "Components/Math.js" as MathLocal
 import "Bottombar"
 import "SideStage"
 import "Notifications"
@@ -61,8 +60,6 @@ FocusScope {
             return mainStage.usingScreenshots;
         }
     }
-
-    property ListModel searchHistory: SearchHistoryModel {}
 
     property var applicationManager: ApplicationManagerWrapper {}
 
@@ -99,21 +96,21 @@ FocusScope {
         }
     }
 
-    function activateApplication(desktopFile, argument) {
+    function activateApplication(appId, argument) {
         if (applicationManager) {
             // For newly started applications, as it takes them time to draw their first frame
             // we add a delay before we hide the animation screenshots to compensate.
-            var addDelay = !applicationManager.getApplicationFromDesktopFile(desktopFile);
+            var addDelay = !applicationManager.getApplicationFromDesktopFile(appId);
 
             var application;
-            application = applicationManager.activateApplication(desktopFile, argument);
+            application = applicationManager.activateApplication(appId, argument);
             if (application == null) {
                 return;
             }
             if (application.stage == ApplicationInfo.MainStage || !sideStage.enabled) {
-                mainStage.activateApplication(desktopFile, addDelay);
+                mainStage.activateApplication(appId, addDelay);
             } else {
-                sideStage.activateApplication(desktopFile, addDelay);
+                sideStage.activateApplication(appId, addDelay);
             }
             stages.show();
         }
@@ -237,7 +234,7 @@ FocusScope {
         Behavior on x {SmoothedAnimation{velocity: 600}}
 
         property real showProgress:
-            MathLocal.clamp(1 - (x + stages.x) / shell.width, 0, 1)
+            MathUtils.clamp(1 - (x + stages.x) / shell.width, 0, 1)
 
         Showable {
             id: stages
@@ -402,6 +399,10 @@ FocusScope {
 
     Lockscreen {
         id: lockscreen
+        objectName: "lockscreen"
+
+        readonly property int backgroundTopMargin: -panel.panelHeight
+
         hides: [launcher, panel.indicators, hud]
         shown: false
         enabled: true
@@ -413,7 +414,7 @@ FocusScope {
         height: parent.height - panel.panelHeight
         background: shell.background
 
-        onUnlocked: lockscreen.hide()
+        onEntered: LightDM.Greeter.respond(passphrase);
         onCancel: greeter.show()
 
         Component.onCompleted: {
@@ -437,6 +438,17 @@ FocusScope {
                 }
                 lockscreen.placeholderText = i18n.tr("Please enter %1").arg(text);
                 lockscreen.show();
+            }
+        }
+
+        onAuthenticationComplete: {
+            if (LightDM.Greeter.promptless) {
+                return;
+            }
+            if (LightDM.Greeter.authenticated) {
+                lockscreen.hide();
+            } else {
+                lockscreen.clear(true);
             }
         }
     }
@@ -647,20 +659,31 @@ FocusScope {
         Launcher {
             id: launcher
 
+            readonly property bool dashSwipe: progress > 0
+
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
             available: (!greeter.shown || greeter.narrowMode) && edgeDemo.launcherEnabled
-            onDashItemSelected: showHome()
+
+            onDashItemSelected: {
+                if (edgeDemo.running)
+                    return;
+
+                showHome()
+            }
             onDash: {
                 if (stages.shown) {
-                    dash.setCurrentScope("applications.scope", true /* animate */, true /* reset */)
                     stages.hide();
                     launcher.hide();
                 }
             }
+            onDashSwipeChanged: if (dashSwipe && stages.shown) dash.setCurrentScope("applications.scope", false, true)
             onLauncherApplicationSelected:{
+                if (edgeDemo.running)
+                    return;
+
                 greeter.hide()
                 shell.activateApplication(appId)
             }

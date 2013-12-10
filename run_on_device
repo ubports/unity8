@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 CODE_DIR=shell
 USER=phablet
 USER_ID=32011
@@ -17,6 +17,8 @@ SUDO="echo $PASSWORD | sudo -S"
 NUM_JOBS='$(( `grep -c ^processor /proc/cpuinfo` + 1 ))'
 FLIPPED=false
 CHROOT_PREFIX="/data/ubuntu"
+SSH_WAS_STARTED=0
+SSH_STARTED=0
 
 usage() {
     echo "usage: run_on_device [OPTIONS]\n"
@@ -32,7 +34,15 @@ usage() {
     exit 1
 }
 
+start_ssh() {
+    if [ $SSH_STARTED -eq 0 ]; then
+        exec_with_adb initctl start ssh
+        SSH_STARTED=1
+    fi
+}
+
 exec_with_ssh() {
+    start_ssh
     ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -t $USER@$TARGET_IP -p $TARGET_SSH_PORT sudo -u $USER -i bash -ic \"$@\"
 }
 
@@ -52,7 +62,7 @@ adb_root() {
 install_ssh_key() {
     ssh-keygen -R $TARGET_IP
     HOME_DIR="${CHROOT_PREFIX}/home/phablet"
-    adb push ~/.ssh/phone_rsa.pub $HOME_DIR/.ssh/authorized_keys
+    adb push ~/.ssh/id_rsa.pub $HOME_DIR/.ssh/authorized_keys
     adb shell chown $USER_ID:$USER_ID $HOME_DIR/.ssh
     adb shell chown $USER_ID:$USER_ID $HOME_DIR/.ssh/authorized_keys
     adb shell chmod 700 $HOME_DIR/.ssh
@@ -65,21 +75,19 @@ setup_adb_forwarding() {
 }
 
 install_dependencies() {
-    exec_with_adb rm /etc/init/ssh.override
-    exec_with_adb service ssh start
     exec_with_adb apt-get update
-    exec_with_ssh $SUDO apt-get -y install build-essential rsync bzr ccache gdb ninja-build devscripts equivs
+    exec_with_ssh $SUDO apt-get -y install build-essential rsync bzr ccache gdb ninja-build devscripts equivs unity-plugin-scopes
 }
 
 sync_code() {
     [ -e .bzr ] && bzr export --uncommitted --format=dir /tmp/$CODE_DIR
     [ -e .git ] && git checkout-index -a -f --prefix=/tmp/$CODE_DIR/
+    start_ssh
     rsync -crlOzv --delete --exclude builddir -e "ssh -p $TARGET_SSH_PORT -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" /tmp/$CODE_DIR/ $USER@$TARGET_IP:$CODE_DIR/
     rm -rf /tmp/$CODE_DIR
 }
 
 build() {
-    exec_with_ssh "[ $CODE_DIR/debian/control -nt unity8-build-deps*deb ] && $SUDO mk-build-deps --tool=\\\"apt-get -y --no-install-recommends\\\" --build-dep --install $CODE_DIR/debian/control"
     exec_with_ssh PATH=/usr/lib/ccache:$PATH "cd $CODE_DIR/ && PATH=/usr/lib/ccache:$PATH ./build"
 }
 
@@ -96,7 +104,9 @@ run() {
     fi
 
     exec_with_ssh "stop unity8"
+    exec_with_ssh "start maliit-server"
     exec_with_ssh "cd $CODE_DIR/ && ./run $ARGS -- $RUN_OPTIONS"
+    exec_with_ssh "stop maliit-server"
     exec_with_ssh "start unity8"
 }
 
@@ -130,6 +140,12 @@ if [ "`adb shell 'grep -q Ubuntu /etc/lsb-release 2> /dev/null && echo -n FLIPPE
     fi
 fi
 
+status_output=$(exec_with_adb initctl status ssh)
+if [[ $status_output == "ssh start/running, process "* ]]; then
+    SSH_WAS_STARTED=1
+fi
+SSH_STARTED=$SSH_WAS_STARTED
+
 if $SETUP; then
     echo "Setting up environment for building shell.."
     install_ssh_key
@@ -144,3 +160,6 @@ else
     run
 fi
 
+if [ $SSH_WAS_STARTED -eq 0 ]; then
+    exec_with_adb initctl stop ssh
+fi

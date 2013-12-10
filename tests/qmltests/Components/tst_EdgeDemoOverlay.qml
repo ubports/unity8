@@ -112,8 +112,8 @@ Item {
             // Test that the 'none' edge skips anywhere
             signalSpy.target = none
             signalSpy.clear()
-            var backgroundShade = findChild(none, "backgroundShade")
-            tryCompare(none, "opacity", 1)
+            var backgroundShade = findChild(none, "backgroundShadeMouseArea")
+            tryCompare(backgroundShade, "enabled", true)
             mousePress(backgroundShade, 1, 1)
             mouseRelease(backgroundShade, 1, 1)
             signalSpy.wait()

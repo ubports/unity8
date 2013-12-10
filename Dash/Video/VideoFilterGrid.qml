@@ -15,40 +15,33 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 0.1
 import "../../Components"
 import "../Generic"
 
 GenericFilterGrid {
-    id: filtergrid
+    id: videoFilterGrid
 
     delegateWidth: units.gu(11)
     delegateHeight: units.gu(15)
-
     iconWidth: units.gu(11)
     iconHeight: units.gu(11)
 
     delegate: Tile {
         id: tile
         objectName: "delegate" + index
-        width: filtergrid.cellWidth
-        height: filtergrid.cellHeight
+        width: videoFilterGrid.cellWidth
+        height: videoFilterGrid.cellHeight
         text: model.title
-        imageWidth: filtergrid.iconWidth
-        imageHeight: filtergrid.iconHeight
+        imageWidth: videoFilterGrid.iconWidth
+        imageHeight: videoFilterGrid.iconHeight
         source: model.icon
         maximumLineCount: 2
         horizontalAlignment: Text.AlignLeft
 
         style: VideoTileStyle {}
 
-        onClicked: {
-            var data = { model: model }
-            filtergrid.clicked(index, data, tile.y)
-        }
-
-        onPressAndHold: {
-            var data = { model: model }
-            filtergrid.pressAndHold(index, data, tile.y)
-        }
+        onClicked: videoFilterGrid.clicked(index, tile.y)
+        onPressAndHold: videoFilterGrid.pressAndHold(index, tile.y)
     }
 }

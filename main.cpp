@@ -28,6 +28,7 @@
 #include <QDebug>
 #include <libintl.h>
 #include <dlfcn.h>
+#include <csignal>
 
 // local
 #include "paths.h"
@@ -78,14 +79,6 @@ void resolveIconTheme() {
 
 int startShell(int argc, const char** argv, void* server)
 {
-    /* Workaround Qt platform integration plugin not advertising itself
-       as having the following capabilities:
-        - QPlatformIntegration::ThreadedOpenGL
-        - QPlatformIntegration::BufferQueueingOpenGL
-    */
-    setenv("QML_FORCE_THREADED_RENDERER", "1", 1);
-    setenv("QML_FIXED_ANIMATION_STEP", "1", 1);
-
     const bool isUbuntuMirServer = qgetenv("QT_QPA_PLATFORM") == "ubuntumirserver";
 
     QGuiApplication::setApplicationName("Unity 8");
@@ -186,6 +179,14 @@ int startShell(int argc, const char** argv, void* server)
 
 int main(int argc, const char *argv[])
 {
+    /* Workaround Qt platform integration plugin not advertising itself
+       as having the following capabilities:
+        - QPlatformIntegration::ThreadedOpenGL
+        - QPlatformIntegration::BufferQueueingOpenGL
+    */
+    setenv("QML_FORCE_THREADED_RENDERER", "1", 1);
+    setenv("QML_FIXED_ANIMATION_STEP", "1", 1);
+
     // For ubuntumirserver/ubuntumirclient
     if (qgetenv("QT_QPA_PLATFORM").startsWith("ubuntumir")) {
         setenv("QT_QPA_PLATFORM", "ubuntumirserver", 1);
@@ -218,6 +219,11 @@ int main(int argc, const char *argv[])
 
         return runWithClient(mirServer, startShell);
     } else {
+        if (qgetenv("UPSTART_JOB") == "unity8") {
+            // Emit SIGSTOP as expected by upstart, under Mir it's unity-mir that will raise it.
+            // see http://upstart.ubuntu.com/cookbook/#expect-stop
+            raise(SIGSTOP);
+        }
         return startShell(argc, argv, nullptr);
     }
 }

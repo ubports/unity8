@@ -83,8 +83,9 @@ Item {
 
         function test_teaseLockedUnlocked_data() {
             return [
-                {tag: "unlocked", locked: false},
-                {tag: "locked", locked: true}
+                {tag: "unlocked", locked: false, moved: false},
+                {tag: "locked", locked: true, moved: false},
+                {tag: "moved", locked: false, moved: true}
             ];
         }
 
@@ -93,10 +94,16 @@ Item {
             tryCompare(greeter, "x", 0);
             greeter.locked = data.locked;
 
+            // simulate greeter being in the middle of a swipe
+            if (data.moved) {
+                greeter.x = -units.gu(4);
+                tryCompare(greeter, "x", -units.gu(4));
+            }
+
             mouseClick(greeter, greeter.width - units.gu(5), greeter.height - units.gu(1));
             greeter.minX = 0; // This is needed because the transition actually makes x jump once before animating
 
-            if (!data.locked) {
+            if (!data.moved) {
                 // Check if it has been moved over by 2 GUs. Give it a 2 pixel grace area
                 // because animation duration and teaseTimer are the same duration and
                 // might cause slight offsets
@@ -104,10 +111,16 @@ Item {
             } else {
                 // waiting 100ms to make sure nothing moves
                 wait(100);
-                compare(greeter.minX, 0, "Greeter moved even tho its locked");
+                compare(greeter.minX, 0, "Greeter teasing not disabled even though it's locked or moving.");
             }
+
+            // Restore position in case we moved it for the test
+            if (data.moved) {
+                greeter.x = 0;
+            }
+
             // Wait until we're back to 0
-            tryCompareFunction(function() { return greeter.x;},  0);
+            tryCompareFunction(function() { return greeter.x;}, 0);
         }
 
         function test_statsWelcomeScreen() {
@@ -120,7 +133,7 @@ Item {
             tryCompare(LightDM.Infographic, "username", "single")
         }
 
-        function test_wallpaper_data() {
+        function test_background_data() {
             return [
                 {tag: "set", accounts: "../tests/data/unity/backgrounds/blue.png", expected: "blue.png"},
                 {tag: "unset", accounts: "", expected: "background.jpg"},
@@ -128,12 +141,12 @@ Item {
             ]
         }
 
-        function test_wallpaper(data) {
+        function test_background(data) {
             var loader = findChild(greeter, "greeterContentLoader")
-            var wallpaper = findChild(loader.item, "wallpaper")
+            var background = findChild(loader.item, "greeterBackground")
             AccountsService.backgroundFile = data.accounts
-            tryCompareFunction(function() { return wallpaper.source.toString().indexOf(data.expected) !== -1; }, true)
-            tryCompare(wallpaper, "status", Image.Ready)
+            tryCompareFunction(function() { return background.source.toString().indexOf(data.expected) !== -1; }, true)
+            tryCompare(background, "status", Image.Ready)
         }
     }
 }
