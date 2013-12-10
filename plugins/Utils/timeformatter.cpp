@@ -193,7 +193,7 @@ QString GDateTimeFormatter::formatTime() const
     }
 
     time_string = g_date_time_format(datetime, formatBytes.constData());
-    QString formattedTime(time_string);
+    QString formattedTime(QString::fromUtf8(time_string));
 
     g_free(time_string);
     g_date_time_unref(datetime);
