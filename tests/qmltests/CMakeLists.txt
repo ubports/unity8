@@ -43,6 +43,8 @@ add_qml_test(Dash DashBar IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${CMAKE_CURRE
 add_qml_test(Dash DashContent IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
 add_qml_test(Dash DashPreview)
 add_qml_test(Dash GenericPreview)
+add_qml_test(Dash Card)
+add_qml_test(Dash CardHeader)
 add_qml_test(Dash GenericScopeView IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
 add_qml_test(Dash FilterGrids IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/plugins ${CMAKE_CURRENT_SOURCE_DIR}/plugins
                                            ${CMAKE_BINARY_DIR}/tests/mocks)

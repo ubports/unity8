@@ -164,6 +164,9 @@ FocusScope {
                         }
                     }
                     updateDelegateCreationRange();
+                    // FIXME: should be "template", not "renderer"
+                    item.template = Qt.binding(function() { return model.renderer });
+                    item.components = Qt.binding(function() { return model.components });
                 }
 
                 Component.onDestruction: {
@@ -342,7 +345,7 @@ FocusScope {
                     default: return "Generic/GenericFilterGrid.qml";
                 }
             }
-            default: return "Generic/GenericFilterGrid.qml";
+            default: return "CardFilterGrid.qml";
         }
     }
 
