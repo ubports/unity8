@@ -280,7 +280,7 @@ Item {
             mouseClick(dashContent, units.gu(5), units.gu(5))
             wait(1000);
             mouseClick(dashContent, units.gu(20), units.gu(5))
-            compare(dashContent.currentIndex, 1);
+            tryCompare(dashContent, "currentIndex", 1);
         }
 
         function test_tabBar_listens_to_index_change() {
