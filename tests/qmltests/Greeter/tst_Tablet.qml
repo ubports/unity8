@@ -324,5 +324,16 @@ Item {
             tryCompare(greeter, "rightTeaserPressed", false)
         }
 
+        function test_dbus_set_active_entry() {
+            select_user("no-password") // to guarantee a selected signal
+            selectionSpy.clear()
+            LightDM.Greeter.requestAuthenticationUser("has-password")
+
+            selectionSpy.wait()
+            tryCompare(selectionSpy, "count", 1)
+
+            var userlist = findChild(greeter, "userList")
+            compare(greeter.model.data(userlist.currentIndex, LightDM.UserRoles.NameRole), "has-password")
+        }
     }
 }

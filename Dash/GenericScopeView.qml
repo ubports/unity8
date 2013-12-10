@@ -137,6 +137,7 @@ FocusScope {
 
         delegate: ListItems.Base {
             id: baseItem
+            objectName: "dashCategory" + category
             highlightWhenPressed: false
 
             readonly property bool expandable: rendererLoader.item ? rendererLoader.item.expandable : false
@@ -282,6 +283,7 @@ FocusScope {
 
         sectionProperty: "name"
         sectionDelegate: ListItems.Header {
+            objectName: "dashSectionHeader" + delegate.category
             property var delegate: categoryView.item(delegateIndex)
             width: categoryView.width
             text: section

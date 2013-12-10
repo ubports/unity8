@@ -246,6 +246,58 @@ Item {
                 genericScopeView.scope = scopes.get(0)
                 tryCompare(genericScopeView.scope, "searchQuery", "")
             }
+
+            function test_filter_expand_collapse() {
+                // wait for the item to be there
+                tryCompareFunction(function() { return findChild(genericScopeView, "dashSectionHeader0") != undefined; }, true);
+
+                var header = findChild(genericScopeView, "dashSectionHeader0")
+                var category = findChild(genericScopeView, "dashCategory0")
+
+                waitForRendering(header);
+                verify(category.expandable);
+                verify(category.filtered);
+
+                var initialHeight = category.height;
+                var middleHeight;
+                mouseClick(header, header.width / 2, header.height / 2);
+                tryCompareFunction(function() { middleHeight = category.height; return category.height > initialHeight; }, true);
+                tryCompare(category, "filtered", false);
+                verify(category.height > middleHeight);
+
+                mouseClick(header, header.width / 2, header.height / 2);
+                verify(category.expandable);
+                tryCompare(category, "filtered", true);
+            }
+
+            function test_showPreviewCarousel() {
+                tryCompareFunction(function() { return findChild(genericScopeView, "carouselDelegate") != undefined; }, true);
+                var tile = findChild(genericScopeView, "carouselDelegate");
+                mouseClick(tile, tile.width / 2, tile.height / 2);
+                var openEffect = findChild(genericScopeView, "openEffect");
+                tryCompare(openEffect, "gap", 1);
+
+                // check for it opening successfully
+                var previewListView = findChild(genericScopeView, "previewListView");
+                var currentPreviewItem = findChild(genericScopeView, "previewLoader0");
+                tryCompareFunction(function() {
+                                       var parts = currentPreviewItem.source.toString().split("/");
+                                       var name = parts[parts.length - 1];
+                                       return name == "DashPreviewPlaceholder.qml";
+                                   },
+                                   true);
+                tryCompareFunction(function() {
+                                       var parts = currentPreviewItem.source.toString().split("/");
+                                       var name = parts[parts.length - 1];
+                                       return name == "GenericPreview.qml";
+                                   },
+                                   true);
+                tryCompare(currentPreviewItem, "progress", 1);
+                tryCompare(previewListView, "open", true);
+
+                closePreview();
+                tryCompare(previewListView, "open", false);
+            }
         }
     }
 }
