@@ -79,14 +79,14 @@ Item {
                 var categoryListView = findChild(genericScopeView, "categoryListView");
                 categoryListView.positionAtBeginning();
 
-                var tile = findChild(genericScopeView, "delegate0");
+                var tile = findChild(findChild(genericScopeView, "0"), "delegate0");
                 mouseClick(tile, tile.width / 2, tile.height / 2);
                 var openEffect = findChild(genericScopeView, "openEffect");
                 tryCompare(openEffect, "gap", 1);
             }
 
             function checkArrowPosition(index) {
-                var tile = findChild(genericScopeView, "delegate" + index);
+                var tile = findChild(findChild(genericScopeView, "0"), "delegate" + index);
                 var tileCenter = tile.x + tile.width/2;
                 var pointerArrow = findChild(genericScopeView, "pointerArrow");
                 var pointerArrowCenter = pointerArrow.x + pointerArrow.width/2;
@@ -141,7 +141,7 @@ Item {
                 categoryListView.flick(0, -units.gu(80));
                 tryCompare(categoryListView.flicking, false);
 
-                var tile = findChild(genericScopeView, "delegate0");
+                var tile = findChild(findChild(genericScopeView, "0"), "delegate0");
                 mouseClick(tile, tile.width / 2, tile.height - 1);
                 var openEffect = findChild(genericScopeView, "openEffect");
                 tryCompare(openEffect, "gap", 1);
