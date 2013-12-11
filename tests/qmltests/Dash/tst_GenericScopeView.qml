@@ -230,6 +230,8 @@ Item {
             function test_show_spinner() {
                 openPreview();
                 var previewLoader = findChild(previewListView, "previewLoader0");
+                tryCompare(previewLoader, "progress", 1.0);
+                tryCompareFunction(function() { return previewLoader.item != undefined; }, true);
 
                 previewLoader.item.showProcessingAction = true;
                 var waitingForAction = findChild(previewListView, "waitingForActionMouseArea");
