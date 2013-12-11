@@ -69,11 +69,11 @@ def unlock_unity(unity_proxy_obj=None):
     greeter = main_window.get_greeter()
     if greeter.created == False:
         raise RuntimeWarning("Greeter appears to be already unlocked.")
-    
+
     # Because of potential input jerkiness under heavy load,
     # retry unlocking the greeter two times.
     # https://bugs.launchpad.net/ubuntu/+bug/1260113
-    
+
     retries = 3
     while retries > 0:
         try:
