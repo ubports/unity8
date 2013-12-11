@@ -24,12 +24,32 @@ import Unity.Indicators 0.1 as Indicators
 import QMenuModel 0.1 as QMenuModel
 
 Indicators.BaseMenuItem {
-    id: menuItem
-    property var actionsDescription: menu ? menu.ext.xCanonicalMessageActions : undefined
+    id: messageFactoryItem
+    property var menuModel: null
+    property QtObject menuItem: null
+    property var menuIndex: undefined
+
+    property var extAttrib: menuItem && menuItem.ext ? menuItem.ext : undefined
+    property var actionsDescription: extAttrib && extAttrib.hasOwnProperty("xCanonicalMessageActions") ? extAttrib.xCanonicalMessageActions : undefined
+
+    onMenuModelChanged: {
+        loadAttributes();
+    }
+    onMenuIndexChanged: {
+        loadAttributes();
+    }
+
+    function loadAttributes() {
+        if (!menuModel || menuIndex == undefined) return;
+
+        menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-time': 'int64',
+                                                  'x-canonical-text': 'string',
+                                                  'x-canonical-message-actions': 'variant',
+                                                  'icon': 'icon',
+                                                  'x-canonical-app-icon': 'icon'});
+    }
 
     implicitHeight: contents.status == Loader.Ready ? contents.item.implicitHeight : 0
-
-    property var model: null
 
     Loader {
         id: contents
@@ -46,13 +66,6 @@ Indicators.BaseMenuItem {
             when: (contents.status == Loader.Ready)
         }
 
-        Binding {
-            target: contents.item
-            property: "menu"
-            value: menu
-            when: (contents.status == Loader.Ready)
-        }
-
         Connections {
             target: contents.item ? contents.item : null
             onSelectMenu: selectMenu()
@@ -63,46 +76,48 @@ Indicators.BaseMenuItem {
             id: simpleTextMessage
             SimpleTextMessage {
                 // text
-                title: menu && menu.label ? menu.label : ""
-                time: menu ? menu.ext.xCanonicalTime : 0
-                message: menu && menu.ext.xCanonicalText ? menu.ext.xCanonicalText : ""
+                title: menuItem && menuItem.label ? menuItem.label : ""
+                time: extAttrib && extAttrib.hasOwnProperty("xCanonicalTime") ? extAttrib.xCanonicalTime : 0
+                message: extAttrib && extAttrib.hasOwnProperty("xCanonicalText") ? extAttrib.xCanonicalText : ""
                 // icons
-                avatar: menu && menu.ext.icon !== undefined ? menu.ext.icon : "qrc:/indicators/artwork/messaging/default_contact.png"
-                appIcon: menu && menu.ext.xCanonicalAppIcon !== undefined ? menu.ext.xCanonicalAppIcon : "qrc:/indicators/artwork/messaging/default_app.svg"
+                avatar: extAttrib && extAttrib.hasOwnProperty("icon") ? extAttrib.icon : "qrc:/indicators/artwork/messaging/default_contact.png"
+                appIcon: extAttrib && extAttrib.hasOwnProperty("xCanonicalAppIcon") ? extAttrib.xCanonicalAppIcon : "qrc:/indicators/artwork/messaging/default_app.svg"
 
                 onActivateApp: {
-                    menuItem.model.activate(modelIndex, true);
+                    menuModel.activate(menuIndex, true);
                 }
                 onDismiss: {
-                    menuItem.model.activate(modelIndex, false);
+                    menuModel.activate(menuIndex, false);
                 }
             }
         }
         Component {
             id: textMessage
             TextMessage {
+                property var replyActionDescription: actionsDescription && actionsDescription.length > 0 ? actionsDescription[0] : undefined
+
                 property var replyAction: QMenuModel.UnityMenuAction {
-                    model: menuItem.model
-                    index: modelIndex
-                    name: menu && actionsDescription[0].name ? actionsDescription[0].name : ""
+                    model: menuModel
+                    index: menuIndex
+                    name: replyActionDescription !== undefined ? replyActionDescription.name : ""
                 }
 
                 // text
-                title: menu && menu.label ? menu.label : ""
-                time: menu ? menu.ext.xCanonicalTime : 0
-                message: menu && menu.ext.xCanonicalText ? menu.ext.xCanonicalText : ""
-                replyButtonText: actionsDescription && actionsDescription[0].label ? actionsDescription[0].label : "Send"
+                title: menuItem && menuItem.label ? menuItem.label : ""
+                time: extAttrib && extAttrib.hasOwnProperty("xCanonicalTime") ? extAttrib.xCanonicalTime : 0
+                message: extAttrib && extAttrib.hasOwnProperty("xCanonicalText") ? extAttrib.xCanonicalText : ""
+                replyButtonText: replyActionDescription !== undefined && replyActionDescription.hasOwnProperty("label") ? replyActionDescription.label : "Send"
                 // icons
-                avatar: menu && menu.ext.icon !== undefined ? menu.ext.icon : "qrc:/indicators/artwork/messaging/default_contact.png"
-                appIcon: menu && menu.ext.xCanonicalAppIcon !== undefined ? menu.ext.xCanonicalAppIcon : "qrc:/indicators/artwork/messaging/default_app.svg"
+                avatar: extAttrib && extAttrib.hasOwnProperty("icon") ? extAttrib.icon : "qrc:/indicators/artwork/messaging/default_contact.png"
+                appIcon: extAttrib && extAttrib.hasOwnProperty("xCanonicalAppIcon") ? extAttrib.xCanonicalAppIcon : "qrc:/indicators/artwork/messaging/default_app.svg"
                 // actions
                 replyEnabled: replyAction.valid && replyAction.enabled
 
                 onActivateApp: {
-                    menuItem.model.activate(modelIndex, true);
+                    menuModel.activate(menuIndex, true);
                 }
                 onDismiss: {
-                    menuItem.model.activate(modelIndex, false);
+                    menuModel.activate(menuIndex, false);
                 }
                 onReply: {
                     replyAction.activate(value);
@@ -112,36 +127,39 @@ Indicators.BaseMenuItem {
         Component {
             id: snapDecision
             SnapDecision {
+                property var activateActionDescription: actionsDescription && actionsDescription.length > 0 ? actionsDescription[0] : undefined
+                property var replyActionDescription: actionsDescription && actionsDescription.length > 1 ? actionsDescription[1] : undefined
+
                 property var activateAction: QMenuModel.UnityMenuAction {
-                    model: menuItem.model
-                    index: modelIndex
-                    name: menu && actionsDescription[0].name ? actionsDescription[0].name : ""
+                    model: menuModel
+                    index: menuIndex
+                    name: activateActionDescription !== undefined ? activateActionDescription.name : ""
                 }
                 property var replyAction: QMenuModel.UnityMenuAction {
-                    model: menuItem.model
-                    index: modelIndex
-                    name: menu && actionsDescription[1].name ? actionsDescription[1].name : ""
+                    model: menuModel
+                    index: menuIndex
+                    name: replyActionDescription !== undefined ? replyActionDescription.name : ""
                 }
 
                 // text
-                title: menu && menu.label ? menu.label : ""
-                time: menu ? menu.ext.xCanonicalTime : ""
-                message: menu && menu.ext.xCanonicalText ? menu.ext.xCanonicalText : ""
-                actionButtonText: actionsDescription && actionsDescription[0].label ?  actionsDescription[0].label : "Call back"
-                replyButtonText: actionsDescription && actionsDescription[1].label ? actionsDescription[1].label : "Send"
-                replyMessages: actionsDescription && actionsDescription[1]["parameter-hint"] ? actionsDescription[1]["parameter-hint"] : ""
+                title: menuItem && menuItem.label ? menuItem.label : ""
+                time: extAttrib && extAttrib.hasOwnProperty("xCanonicalTime") ? extAttrib.xCanonicalTime : ""
+                message: extAttrib && extAttrib.hasOwnProperty("xCanonicalText") ? extAttrib.xCanonicalText : ""
+                actionButtonText: activateActionDescription !== undefined && activateActionDescription.hasOwnProperty("label") ?  activateActionDescription.label : "Call back"
+                replyButtonText: replyActionDescription !== undefined && replyActionDescription.hasOwnProperty("label") ? replyActionDescription.label : "Send"
+                replyMessages: replyActionDescription !== undefined && replyActionDescription.hasOwnProperty("parameter-hint") ? replyActionDescription["parameter-hint"] : ""
                 // icons
-                avatar: menu && menu.ext.icon !== undefined ? menu.ext.icon : "qrc:/indicators/artwork/messaging/default_contact.png"
-                appIcon: menu && menu.ext.xCanonicalAppIcon !== undefined ? menu.ext.xCanonicalAppIcon : "qrc:/indicators/artwork/messaging/default_app.svg"
+                avatar: extAttrib && extAttrib.hasOwnProperty("icon") ? extAttrib.icon : "qrc:/indicators/artwork/messaging/default_contact.png"
+                appIcon: extAttrib && extAttrib.hasOwnProperty("xCanonicalAppIcon") ? extAttrib.xCanonicalAppIcon : "qrc:/indicators/artwork/messaging/default_app.svg"
                 // actions
                 activateEnabled: activateAction.valid && activateAction.enabled
                 replyEnabled: replyAction.valid && replyAction.enabled
 
                 onActivateApp: {
-                    menuItem.model.activate(modelIndex, true);
+                    menuModel.activate(menuIndex, true);
                 }
                 onDismiss: {
-                    menuItem.model.activate(modelIndex, false);
+                    menuModel.activate(menuIndex, false);
                 }
                 onActivate: {
                     activateAction.activate();
