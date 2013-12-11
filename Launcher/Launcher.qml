@@ -40,7 +40,7 @@ Item {
     signal dash()
 
     // emitted when the dash icon in the launcher has been tapped
-    signal dashItemSelected()
+    signal showDashHome()
 
     onStateChanged: {
         if (state == "") {
@@ -160,9 +160,9 @@ Item {
             root.state = ""
             launcherApplicationSelected(appId)
         }
-        onDashItemSelected: {
+        onShowDashHome: {
             root.state = ""
-            root.dashItemSelected(index)
+            root.showDashHome();
         }
 
         onPreventHidingChanged: {

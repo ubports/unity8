@@ -35,7 +35,7 @@ Item {
     property int highlightIndex: -1
 
     signal applicationSelected(string appId)
-    signal dashItemSelected(int index)
+    signal showDashHome()
 
     BorderImage {
         id: background
@@ -56,7 +56,7 @@ Item {
             id: dashItem
             width: parent.width
             height: units.gu(7)
-            onClicked: root.dashItemSelected(0)
+            onClicked: root.showDashHome()
             z: 1
             Image {
                 objectName: "dashItem"

@@ -38,9 +38,9 @@ Item {
 
     property int uncollapsedHeight: height
 
-    property real delegateCreationBegin
+    property var delegateCreationBegin: undefined
 
-    property real delegateCreationEnd
+    property var delegateCreationEnd: undefined
 
     property real verticalSpacing: 0
 

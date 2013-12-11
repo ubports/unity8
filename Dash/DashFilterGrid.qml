@@ -37,8 +37,6 @@ DashRenderer {
     rows: filter ? filterGrid.collapsedRowCount : filterGrid.uncollapsedRowCount
     currentItem: filterGrid.currentItem
     expandable: filterGrid.expandable
-    delegateCreationBegin: filterGrid.delegateCreationBegin
-    delegateCreationEnd: filterGrid.delegateCreationEnd
     height: filterGrid.height
     margins: filterGrid.margins
     uncollapsedHeight: filterGrid.uncollapsedHeight
@@ -58,9 +56,12 @@ DashRenderer {
         model: dashFilterGrid.model
         filter: dashFilterGrid.filter
         highlightIndex: dashFilterGrid.highlightIndex
+        delegateCreationBegin: dashFilterGrid.delegateCreationBegin
+        delegateCreationEnd: dashFilterGrid.delegateCreationEnd
 
         onFilterChanged: {
             dashFilterGrid.filter = filter
+            filter = Qt.binding(function() { return dashFilterGrid.filter })
         }
     }
 }

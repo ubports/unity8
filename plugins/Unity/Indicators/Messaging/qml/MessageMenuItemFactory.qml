@@ -37,28 +37,6 @@ Indicators.BaseMenuItem {
 
         sourceComponent: loadMessage(actionsDescription);
 
-        // Binding all properties for the item, to make sure that any change in the
-        // property will be propagated to the contents.item at any time
-        Binding {
-            target: contents.item
-            property: "menuSelected"
-            value: menuSelected
-            when: (contents.status == Loader.Ready)
-        }
-
-        Binding {
-            target: contents.item
-            property: "menu"
-            value: menu
-            when: (contents.status == Loader.Ready)
-        }
-
-        Connections {
-            target: contents.item ? contents.item : null
-            onSelectMenu: selectMenu()
-            onDeselectMenu: deselectMenu()
-        }
-
         Component {
             id: simpleTextMessage
             SimpleTextMessage {
@@ -72,10 +50,15 @@ Indicators.BaseMenuItem {
 
                 onActivateApp: {
                     menuItem.model.activate(modelIndex, true);
+                    shell.hideIndicatorMenu(UbuntuAnimation.FastDuration);
                 }
                 onDismiss: {
                     menuItem.model.activate(modelIndex, false);
                 }
+
+                menuSelected: menuItem.menuSelected
+                onSelectMenu: menuItem.selectMenu()
+                onDeselectMenu: menuItem.deselectMenu()
             }
         }
         Component {
@@ -100,6 +83,7 @@ Indicators.BaseMenuItem {
 
                 onActivateApp: {
                     menuItem.model.activate(modelIndex, true);
+                    shell.hideIndicatorMenu(UbuntuAnimation.FastDuration);
                 }
                 onDismiss: {
                     menuItem.model.activate(modelIndex, false);
@@ -107,6 +91,10 @@ Indicators.BaseMenuItem {
                 onReply: {
                     replyAction.activate(value);
                 }
+
+                menuSelected: menuItem.menuSelected
+                onSelectMenu: menuItem.selectMenu()
+                onDeselectMenu: menuItem.deselectMenu()
             }
         }
         Component {
@@ -139,6 +127,7 @@ Indicators.BaseMenuItem {
 
                 onActivateApp: {
                     menuItem.model.activate(modelIndex, true);
+                    shell.hideIndicatorMenu(UbuntuAnimation.FastDuration);
                 }
                 onDismiss: {
                     menuItem.model.activate(modelIndex, false);
@@ -149,6 +138,10 @@ Indicators.BaseMenuItem {
                 onReply: {
                     replyAction.activate(value);
                 }
+
+                menuSelected: menuItem.menuSelected
+                onSelectMenu: menuItem.selectMenu()
+                onDeselectMenu: menuItem.deselectMenu()
             }
         }
     }
