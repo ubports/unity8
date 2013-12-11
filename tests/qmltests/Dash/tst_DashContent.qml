@@ -281,7 +281,10 @@ Item {
             tryCompare(tabbar, "selectionMode", false);
             mouseClick(tabbar, units.gu(5), units.gu(5))
             tryCompare(tabbar, "selectionMode", true);
-            mouseClick(tabbar, units.gu(20), units.gu(5))
+            var button0 = tabbar.children[0].children[0].children[0].children[2].children[1];
+            waitForRendering(button0);
+            tryCompare(button0.children[3], "text", "Music");
+            mouseClick(button0, button0.width / 2, button0.height / 2)
             tryCompare(tabbar, "selectionMode", false);
             tryCompare(tabbar, "selectedIndex", 1);
             tryCompare(dashContent, "currentIndex", 1);
