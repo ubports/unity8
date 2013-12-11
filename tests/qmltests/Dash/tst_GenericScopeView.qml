@@ -79,14 +79,14 @@ Item {
                 var categoryListView = findChild(genericScopeView, "categoryListView");
                 categoryListView.positionAtBeginning();
 
-                var tile = findChild(genericScopeView, "delegate0");
+                var tile = findChild(findChild(genericScopeView, "0"), "delegate0");
                 mouseClick(tile, tile.width / 2, tile.height / 2);
                 var openEffect = findChild(genericScopeView, "openEffect");
                 tryCompare(openEffect, "gap", 1);
             }
 
             function checkArrowPosition(index) {
-                var tile = findChild(genericScopeView, "delegate" + index);
+                var tile = findChild(findChild(genericScopeView, "0"), "delegate" + index);
                 var tileCenter = tile.x + tile.width/2;
                 var pointerArrow = findChild(genericScopeView, "pointerArrow");
                 var pointerArrowCenter = pointerArrow.x + pointerArrow.width/2;
@@ -141,7 +141,7 @@ Item {
                 categoryListView.flick(0, -units.gu(80));
                 tryCompare(categoryListView.flicking, false);
 
-                var tile = findChild(genericScopeView, "delegate0");
+                var tile = findChild(findChild(genericScopeView, "0"), "delegate0");
                 mouseClick(tile, tile.width / 2, tile.height - 1);
                 var openEffect = findChild(genericScopeView, "openEffect");
                 tryCompare(openEffect, "gap", 1);
@@ -275,6 +275,36 @@ Item {
 
                 closePreview();
                 tryCompare(previewListView, "open", false);
+            }
+
+            function test_filter_expand_expand() {
+                // wait for the item to be there
+                tryCompareFunction(function() { return findChild(genericScopeView, "dashSectionHeader2") != undefined; }, true);
+
+                var categoryListView = findChild(genericScopeView, "categoryListView");
+                categoryListView.contentY = categoryListView.height;
+
+                var header2 = findChild(genericScopeView, "dashSectionHeader2")
+                var category2 = findChild(genericScopeView, "dashCategory2")
+                var category2FilterGrid = category2.children[0].children[0].children[0];
+                verify(UT.Util.isInstanceOf(category2FilterGrid, "FilterGrid"));
+
+                waitForRendering(header2);
+                verify(category2.expandable);
+                verify(category2.filtered);
+
+                mouseClick(header2, header2.width / 2, header2.height / 2);
+                tryCompare(category2, "filtered", false);
+                tryCompare(category2FilterGrid, "filter", false);
+
+                categoryListView.positionAtBeginning();
+
+                var header0 = findChild(genericScopeView, "dashSectionHeader0")
+                var category0 = findChild(genericScopeView, "dashCategory0")
+                mouseClick(header0, header0.width / 2, header0.height / 2);
+                tryCompare(category0, "filtered", false);
+                tryCompare(category2, "filtered", true);
+                tryCompare(category2FilterGrid, "filter", true);
             }
         }
     }

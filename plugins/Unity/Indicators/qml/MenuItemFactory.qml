@@ -22,6 +22,7 @@ import Unity.Indicators 0.1 as Indicators
 import Unity.Indicators.Network 0.1 as ICNetwork
 import Unity.Indicators.Messaging 0.1 as ICMessaging
 import QMenuModel 0.1 as QMenuModel
+import Ubuntu.Components 0.1
 
 Item {
     id: menuFactory
@@ -107,6 +108,7 @@ Item {
 
             onActivate: {
                 menuModel.activate(menuIndex);
+                shell.hideIndicatorMenu(UbuntuAnimation.FastDuration);
             }
         }
     }
@@ -147,6 +149,7 @@ Item {
 
             onActivate: {
                 menuModel.activate(menuIndex);
+                shell.hideIndicatorMenu(UbuntuAnimation.BriskDuration);
             }
         }
     }
@@ -164,6 +167,7 @@ Item {
 
             onActivate: {
                 menuModel.activate(menuIndex);
+                shell.hideIndicatorMenu(UbuntuAnimation.BriskDuration);
             }
         }
     }
@@ -222,6 +226,7 @@ Item {
             }
             onActivate: {
                 menuModel.activate(menuIndex);
+                shell.hideIndicatorMenu(UbuntuAnimation.BriskDuration);
             }
 
             function loadAttributes() {
@@ -260,6 +265,7 @@ Item {
             }
             onActivateApp: {
                 menuModel.activate(menuIndex, true);
+                shell.hideIndicatorMenu(UbuntuAnimation.FastDuration);
             }
             onDismiss: {
                 menuModel.activate(menuIndex, false);
