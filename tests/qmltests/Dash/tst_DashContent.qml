@@ -275,11 +275,14 @@ Item {
 
         function test_tabBar_index_change() {
             tryCompare(scopesModel, "loaded", true);
+            var tabbar = findChild(dashContent, "tabbar");
 
             compare(dashContent.currentIndex, 0);
-            mouseClick(dashContent, units.gu(5), units.gu(5))
-            wait(1000);
-            mouseClick(dashContent, units.gu(20), units.gu(5))
+            tryCompare(tabbar, "selectionMode", false);
+            mouseClick(tabbar, units.gu(5), units.gu(5))
+            tryCompare(tabbar, "selectionMode", true);
+            mouseClick(tabbar, units.gu(20), units.gu(5))
+            tryCompare(tabbar, "selectionMode", false);
             tryCompare(dashContent, "currentIndex", 1);
         }
 
