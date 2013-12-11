@@ -203,6 +203,9 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${GREETER_APP}.desktop
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/51-${GREETER_APP}.conf
     DESTINATION ${CMAKE_INSTALL_DATADIR}/lightdm/lightdm.conf.d
     )
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${GREETER_APP}-wrapper
+    DESTINATION ${CMAKE_INSTALL_BINDIR}
+    )
 
 #
 # Translation

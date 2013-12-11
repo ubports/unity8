@@ -1,0 +1,34 @@
+#!/bin/sh
+# -*- Mode: sh; indent-tabs-mode: nil; tab-width: 4 -*-
+#
+# Copyright (C) 2011,2013 Canonical Ltd
+# Author: Michael Terry <michael.terry@canonical.com>
+#
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, version 3 of the License.
+#
+# See http://www.gnu.org/copyleft/gpl.html the full text of the license.
+
+# This wrapper merely ensures that init and friends live only as long as this
+# script does.  Otherwise, it's very easy for some processes to not notice that
+# the session died.  We could try to do this in-process, but we want to do this
+# cleanup even if the greeter aborts.
+
+trap cleanup TERM EXIT
+
+cleanup()
+{
+    trap - TERM EXIT
+    # Kill upstart and indicators
+    killall -u lightdm /sbin/init
+    if [ -n "$CMD_PID" ]; then
+        kill "$CMD_PID"
+    fi
+    exit 0
+}
+
+exec $@ &
+CMD_PID=$!
+wait $CMD_PID
+CMD_PID=
