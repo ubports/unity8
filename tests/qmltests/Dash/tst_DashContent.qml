@@ -274,14 +274,18 @@ Item {
         }
 
         function test_tabBar_index_change() {
+            console.log("A");
             tryCompare(scopesModel, "loaded", true);
             var tabbar = findChild(dashContent, "tabbar");
+            console.log("B", tabbar);
 
             compare(dashContent.currentIndex, 0);
             tryCompare(tabbar, "selectedIndex", 0);
             tryCompare(tabbar, "selectionMode", false);
+            console.log("C");
 
             mouseClick(tabbar, units.gu(5), units.gu(5))
+            console.log("D");
 
             tryCompare(tabbar, "selectionMode", true);
             tryCompare(tabbar, "selectedIndex", 0);
@@ -293,13 +297,16 @@ Item {
             } else {
                 button0 = tabbar.children[0].children[0].children[0].children[2].children[1];
             }
+            console.log("E", button0);
             waitForRendering(button0);
 
             UT.Util.isInstanceOf(button0, "AbstractButton");
             UT.Util.isInstanceOf(button0.children[3], "Label");
             tryCompare(button0.children[3], "text", "Music");
+            console.log("F");
 
             mouseClick(button0, button0.width / 2, button0.height / 2)
+            console.log("G");
 
             tryCompare(tabbar, "selectionMode", false);
             tryCompare(tabbar, "selectedIndex", 1);
