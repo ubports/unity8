@@ -283,6 +283,7 @@ Item {
             tryCompare(tabbar, "selectionMode", true);
             mouseClick(tabbar, units.gu(20), units.gu(5))
             tryCompare(tabbar, "selectionMode", false);
+            tryCompare(tabbar, "selectedIndex", 1);
             tryCompare(dashContent, "currentIndex", 1);
         }
 
