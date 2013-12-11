@@ -26,10 +26,10 @@ import QMenuModel 0.1 as QMenuModel
 Indicators.BaseMenuItem {
     id: messageFactoryItem
     property var menuModel: null
-    property QtObject menuItem: null
+    property QtObject menuData: null
     property var menuIndex: undefined
 
-    property var extAttrib: menuItem && menuItem.ext ? menuItem.ext : undefined
+    property var extAttrib: menuData && menuData.ext ? menuData.ext : undefined
     property var actionsDescription: extAttrib && extAttrib.hasOwnProperty("xCanonicalMessageActions") ? extAttrib.xCanonicalMessageActions : undefined
 
     onMenuModelChanged: {
@@ -61,7 +61,7 @@ Indicators.BaseMenuItem {
             id: simpleTextMessage
             SimpleTextMessage {
                 // text
-                title: menuItem && menuItem.label ? menuItem.label : ""
+                title: menuData && menuData.label ? menuData.label : ""
                 time: extAttrib && extAttrib.hasOwnProperty("xCanonicalTime") ? extAttrib.xCanonicalTime : 0
                 message: extAttrib && extAttrib.hasOwnProperty("xCanonicalText") ? extAttrib.xCanonicalText : ""
                 // icons
@@ -93,7 +93,7 @@ Indicators.BaseMenuItem {
                 }
 
                 // text
-                title: menuItem && menuItem.label ? menuItem.label : ""
+                title: menuData && menuData.label ? menuData.label : ""
                 time: extAttrib && extAttrib.hasOwnProperty("xCanonicalTime") ? extAttrib.xCanonicalTime : 0
                 message: extAttrib && extAttrib.hasOwnProperty("xCanonicalText") ? extAttrib.xCanonicalText : ""
                 replyButtonText: replyActionDescription !== undefined && replyActionDescription.hasOwnProperty("label") ? replyActionDescription.label : "Send"
@@ -137,7 +137,7 @@ Indicators.BaseMenuItem {
                 }
 
                 // text
-                title: menuItem && menuItem.label ? menuItem.label : ""
+                title: menuData && menuData.label ? menuData.label : ""
                 time: extAttrib && extAttrib.hasOwnProperty("xCanonicalTime") ? extAttrib.xCanonicalTime : ""
                 message: extAttrib && extAttrib.hasOwnProperty("xCanonicalText") ? extAttrib.xCanonicalText : ""
                 actionButtonText: activateActionDescription !== undefined && activateActionDescription.hasOwnProperty("label") ?  activateActionDescription.label : "Call back"

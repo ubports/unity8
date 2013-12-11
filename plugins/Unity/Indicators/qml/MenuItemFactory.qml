@@ -55,13 +55,13 @@ Item {
     Component {
         id: sliderMenu;
         Indicators.SliderMenuItem {
-            property QtObject menuItem: null
+            property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
             property var menuIndex: undefined
-            property var extAttrib: menuItem && menuItem.ext ? menuItem.ext : undefined
+            property var extAttrib: menuData && menuData.ext ? menuData.ext : undefined
 
-            text: menuItem && menuItem.label ? menuItem.label : ""
-            icon: menuItem && menuItem.icon ? menuItem.icon : ""
+            text: menuData && menuData.label ? menuData.label : ""
+            icon: menuData && menuData.icon ? menuData.icon : ""
             minIcon: extAttrib && extAttrib.hasOwnProperty("minIcon") ? extAttrib.minIcon : ""
             maxIcon: extAttrib && extAttrib.hasOwnProperty("maxIcon") ? extAttrib.maxIcon : ""
 
@@ -73,8 +73,8 @@ Item {
                 }
                 return maximum;
             }
-            value: menuItem ? menuItem.actionState : 0.0
-            enabled: menuItem ? menuItem.sensitive : false
+            value: menuData ? menuData.actionState : 0.0
+            enabled: menuData ? menuData.sensitive : false
 
             onMenuModelChanged: {
                 loadAttributes();
@@ -99,12 +99,12 @@ Item {
     Component {
         id: buttonMenu;
         Indicators.ButtonMenuItem {
-            property QtObject menuItem: null
+            property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
             property var menuIndex: undefined
 
-            text: menuItem && menuItem.label ? menuItem.label : ""
-            enabled: menuItem ? menuItem.sensitive : false
+            text: menuData && menuData.label ? menuData.label : ""
+            enabled: menuData ? menuData.sensitive : false
 
             onActivate: {
                 menuModel.activate(menuIndex);
@@ -115,37 +115,37 @@ Item {
     Component {
         id: sectionMenu;
         Indicators.SectionMenuItem {
-            property QtObject menuItem: null
+            property QtObject menuData: null
             property var menuIndex: undefined
 
-            text: menuItem && menuItem.label ? menuItem.label : ""
+            text: menuData && menuData.label ? menuData.label : ""
         }
     }
 
     Component {
         id: progressMenu;
         Indicators.ProgressMenuItem {
-            property QtObject menuItem: null
+            property QtObject menuData: null
             property var menuIndex: undefined
 
-            text: menuItem && menuItem.label ? menuItem.label : ""
-            icon: menuItem ? menuItem.icon : ""
-            value : menuItem ? menuItem.actionState : 0.0
-            enabled: menuItem ? menuItem.sensitive : false
+            text: menuData && menuData.label ? menuData.label : ""
+            icon: menuData ? menuData.icon : ""
+            value : menuData ? menuData.actionState : 0.0
+            enabled: menuData ? menuData.sensitive : false
         }
     }
 
     Component {
         id: standardMenu;
         Indicators.StandardMenuItem {
-            property QtObject menuItem: null
+            property QtObject menuData: null
             property var menuIndex: undefined
 
-            text: menuItem && menuItem.label ? menuItem.label : ""
-            icon: menuItem && menuItem.icon ? menuItem.icon : ""
-            checkable: menuItem ? (menuItem.isCheck || menuItem.isRadio) : false
-            checked: checkable ? menuItem.isToggled : false
-            enabled: menuItem ? menuItem.sensitive : false
+            text: menuData && menuData.label ? menuData.label : ""
+            icon: menuData && menuData.icon ? menuData.icon : ""
+            checkable: menuData ? (menuData.isCheck || menuData.isRadio) : false
+            checked: checkable ? menuData.isToggled : false
+            enabled: menuData ? menuData.sensitive : false
 
             onActivate: {
                 menuModel.activate(menuIndex);
@@ -157,13 +157,13 @@ Item {
     Component {
         id: switchMenu;
         Indicators.SwitchMenuItem {
-            property QtObject menuItem: null
+            property QtObject menuData: null
             property var menuIndex: undefined
 
-            text: menuItem && menuItem.label ? menuItem.label : ""
-            icon: menuItem && menuItem.icon ? menuItem.icon : ""
-            checked: menuItem ? menuItem.isToggled : false
-            enabled: menuItem ? menuItem.sensitive : false
+            text: menuData && menuData.label ? menuData.label : ""
+            icon: menuData && menuData.icon ? menuData.icon : ""
+            checked: menuData ? menuData.isToggled : false
+            enabled: menuData ? menuData.sensitive : false
 
             onActivate: {
                 menuModel.activate(menuIndex);
@@ -175,12 +175,12 @@ Item {
     Component {
         id: wifiSection;
         Indicators.SectionMenuItem {
-            property QtObject menuItem: null
+            property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
             property var menuIndex: undefined
-            property var extAttrib: menuItem && menuItem.ext ? menuItem.ext : undefined
+            property var extAttrib: menuData && menuData.ext ? menuData.ext : undefined
 
-            text: menuItem && menuItem.label ? menuItem.label : ""
+            text: menuData && menuData.label ? menuData.label : ""
             busy: extAttrib && extAttrib.hasOwnProperty("xCanonicalBusyAction") ? extAttrib.xCanonicalBusyAction : false
 
             onMenuModelChanged: {
@@ -200,10 +200,10 @@ Item {
     Component {
         id: accessPoint;
         ICNetwork.AccessPoint {
-            property QtObject menuItem: null
+            property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
             property var menuIndex: undefined
-            property var extAttrib: menuItem && menuItem.ext ? menuItem.ext : undefined
+            property var extAttrib: menuData && menuData.ext ? menuData.ext : undefined
 
             property var strengthAction: QMenuModel.UnityMenuAction {
                 model: menuModel
@@ -211,12 +211,12 @@ Item {
                 name: extAttrib && extAttrib.hasOwnProperty("xCanonicalWifiApStrengthAction") ? extAttrib.xCanonicalWifiApStrengthAction : ""
             }
 
-            text: menuItem && menuItem.label ? menuItem.label : ""
+            text: menuData && menuData.label ? menuData.label : ""
             secure: extAttrib && extAttrib.hasOwnProperty("xCanonicalWifiApIsSecure") ? extAttrib.xCanonicalWifiApIsSecure : false
             adHoc: extAttrib && extAttrib.hasOwnProperty("xCanonicalWifiApIsAdhoc") ? extAttrib.xCanonicalWifiApIsAdhoc : false
-            checked: menuItem ? menuItem.isToggled : false
+            checked: menuData ? menuData.isToggled : false
             signalStrength: strengthAction.valid ? strengthAction.state : 0
-            enabled: menuItem ? menuItem.sensitive : false
+            enabled: menuData ? menuData.sensitive : false
 
             onMenuModelChanged: {
                 loadAttributes();
@@ -248,13 +248,13 @@ Item {
     Component {
         id: groupedMessage
         ICMessaging.GroupedMessage {
-            property QtObject menuItem: null
+            property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
             property var menuIndex: undefined
-            property var extAttrib: menuItem && menuItem.ext ? menuItem.ext : undefined
+            property var extAttrib: menuData && menuData.ext ? menuData.ext : undefined
 
-            title: menuItem && menuItem.label ? menuItem.label : ""
-            count: menuItem && menuItem.actionState.length > 0 ? menuItem.actionState[0] : "0"
+            title: menuData && menuData.label ? menuData.label : ""
+            count: menuData && menuData.actionState.length > 0 ? menuData.actionState[0] : "0"
             appIcon: extAttrib && extAttrib.hasOwnProperty("icon") ? extAttrib.icon : "qrc:/indicators/artwork/messaging/default_app.svg"
 
             onMenuModelChanged: {
