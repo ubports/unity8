@@ -27,7 +27,7 @@ Indicators.BaseMenuItem {
     id: messageFactoryItem
     property var menuModel: null
     property QtObject menuData: null
-    property var menuIndex: undefined
+    property int menuIndex: -1
 
     property var extendedData: menuData && menuData.ext || undefined
     property var actionsDescription: getExtendedProperty(extendedData, "xCanonicalMessageActions", undefined)
