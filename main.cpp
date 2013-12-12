@@ -19,7 +19,6 @@
 
 // Qt
 #include <QtQuick/QQuickView>
-#include <QtGui/QIcon>
 #include <QtGui/QGuiApplication>
 #include <QtQml/QQmlEngine>
 #include <QtQml/QQmlContext>
@@ -37,45 +36,6 @@
 
 #include <unity-mir/qmirserver.h>
 
-namespace {
-
-void prependImportPaths(QQmlEngine *engine, const QStringList &paths)
-{
-    QStringList importPathList = engine->importPathList();
-    for (int i = paths.count() -1; i >= 0; i--) {
-        // don't duplicate
-        const QString& path = paths[i];
-        QStringList::iterator iter = qFind(importPathList.begin(), importPathList.end(), path);
-        if (iter == importPathList.end()) {
-            engine->addImportPath(path);
-        }
-    }
-}
-
-/* When you append and import path to the list of import paths it will be the *last*
-   place where Qt will search for QML modules.
-   The usual QQmlEngine::addImportPath() actually prepends the given path.*/
-void appendImportPaths(QQmlEngine *engine, const QStringList &paths)
-{
-    QStringList importPathList = engine->importPathList();
-    Q_FOREACH(const QString& path, paths) {
-        // don't duplicate
-        QStringList::iterator iter = qFind(importPathList.begin(), importPathList.end(), path);
-        if (iter == importPathList.end()) {
-            importPathList.append(path);
-        }
-    }
-    engine->setImportPathList(importPathList);
-}
-
-void resolveIconTheme() {
-    const char *ubuntuIconTheme = getenv("UBUNTU_ICON_THEME");
-    if (ubuntuIconTheme == NULL) {
-        ubuntuIconTheme = "ubuntu-mobile";
-    }
-    QIcon::setThemeName(ubuntuIconTheme);
-}
-} // namespace {
 
 int startShell(int argc, const char** argv, void* server)
 {
