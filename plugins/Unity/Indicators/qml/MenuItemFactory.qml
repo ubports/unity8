@@ -50,6 +50,13 @@ Item {
         "unity.widgets.systemsettings.tablet.accesspoint" : accessPoint,
     }
 
+    function getExtendedProperty(object, propertyName, defaultValue) {
+        if (object && object.hasOwnProperty(propertyName)) {
+            return object[propertyName];
+        }
+        return defaultValue;
+    }
+
     Component { id: divMenu; Indicators.DivMenuItem {} }
 
     Component {
@@ -58,23 +65,23 @@ Item {
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
             property var menuIndex: undefined
-            property var extAttrib: menuData && menuData.ext ? menuData.ext : undefined
+            property var extendedData: menuData && menuData.ext || undefined
 
-            text: menuData && menuData.label ? menuData.label : ""
-            icon: menuData && menuData.icon ? menuData.icon : ""
-            minIcon: extAttrib && extAttrib.hasOwnProperty("minIcon") ? extAttrib.minIcon : ""
-            maxIcon: extAttrib && extAttrib.hasOwnProperty("maxIcon") ? extAttrib.maxIcon : ""
+            text: menuData && menuData.label || ""
+            iconSource: menuData && menuData.icon || ""
+            minIcon: getExtendedProperty(extendedData, "minIcon", "")
+            maxIcon: getExtendedProperty(extendedData, "minIcon", "")
 
-            minimumValue: extAttrib && extAttrib.hasOwnProperty("minValue") ? extAttrib.minValue : 0.0
+            minimumValue: getExtendedProperty(extendedData, "minValue", 0.0)
             maximumValue: {
-                var maximum = extAttrib && extAttrib.hasOwnProperty("maxValue") ? extAttrib.maxValue : 1.0
+                var maximum = getExtendedProperty(extendedData, "maxValue", 1.0);
                 if (maximum <= minimumValue) {
                         return minimumValue + 1;
                 }
                 return maximum;
             }
-            value: menuData ? menuData.actionState : 0.0
-            enabled: menuData ? menuData.sensitive : false
+            value: menuData && menuData.actionState || 0.0
+            enabled: menuData && menuData.sensitive || false
 
             onMenuModelChanged: {
                 loadAttributes();
@@ -89,9 +96,9 @@ Item {
             function loadAttributes() {
                 if (!menuModel || menuIndex == undefined) return;
                 menuModel.loadExtendedAttributes(menuIndex, {'min-value': 'double',
-                                                          'max-value': 'double',
-                                                          'min-icon': 'icon',
-                                                          'max-icon': 'icon'});
+                                                             'max-value': 'double',
+                                                             'min-icon': 'icon',
+                                                             'max-icon': 'icon'});
             }
         }
     }
@@ -103,8 +110,8 @@ Item {
             property var menuModel: menuFactory.menuModel
             property var menuIndex: undefined
 
-            text: menuData && menuData.label ? menuData.label : ""
-            enabled: menuData ? menuData.sensitive : false
+            text: menuData && menuData.label || ""
+            enabled: menuData && menuData.sensitive || false
 
             onActivate: {
                 menuModel.activate(menuIndex);
@@ -118,7 +125,7 @@ Item {
             property QtObject menuData: null
             property var menuIndex: undefined
 
-            text: menuData && menuData.label ? menuData.label : ""
+            text: menuData && menuData.label || ""
         }
     }
 
@@ -128,10 +135,10 @@ Item {
             property QtObject menuData: null
             property var menuIndex: undefined
 
-            text: menuData && menuData.label ? menuData.label : ""
-            icon: menuData ? menuData.icon : ""
-            value : menuData ? menuData.actionState : 0.0
-            enabled: menuData ? menuData.sensitive : false
+            text: menuData && menuData.label || ""
+            iconSource: menuData && menuData.icon || ""
+            value : menuData && menuData.actionState || 0.0
+            enabled: menuData && menuData.sensitive || false
         }
     }
 
@@ -141,11 +148,11 @@ Item {
             property QtObject menuData: null
             property var menuIndex: undefined
 
-            text: menuData && menuData.label ? menuData.label : ""
-            icon: menuData && menuData.icon ? menuData.icon : ""
+            text: menuData && menuData.label || ""
+            iconSource: menuData && menuData.icon || ""
+            enabled: menuData && menuData.sensitive || false
             checkable: menuData ? (menuData.isCheck || menuData.isRadio) : false
             checked: checkable ? menuData.isToggled : false
-            enabled: menuData ? menuData.sensitive : false
 
             onActivate: {
                 menuModel.activate(menuIndex);
@@ -160,10 +167,10 @@ Item {
             property QtObject menuData: null
             property var menuIndex: undefined
 
-            text: menuData && menuData.label ? menuData.label : ""
-            icon: menuData && menuData.icon ? menuData.icon : ""
+            text: menuData && menuData.label || ""
+            iconSource: menuData && menuData.icon || ""
+            enabled: menuData && menuData.sensitive || false
             checked: menuData ? menuData.isToggled : false
-            enabled: menuData ? menuData.sensitive : false
 
             onActivate: {
                 menuModel.activate(menuIndex);
@@ -178,10 +185,10 @@ Item {
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
             property var menuIndex: undefined
-            property var extAttrib: menuData && menuData.ext ? menuData.ext : undefined
+            property var extendedData: menuData && menuData.ext || undefined
 
-            text: menuData && menuData.label ? menuData.label : ""
-            busy: extAttrib && extAttrib.hasOwnProperty("xCanonicalBusyAction") ? extAttrib.xCanonicalBusyAction : false
+            text: menuData && menuData.label || ""
+            busy: getExtendedProperty(extendedData, "xCanonicalBusyAction", false)
 
             onMenuModelChanged: {
                 loadAttributes();
@@ -203,20 +210,20 @@ Item {
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
             property var menuIndex: undefined
-            property var extAttrib: menuData && menuData.ext ? menuData.ext : undefined
+            property var extendedData: menuData && menuData.ext || undefined
 
             property var strengthAction: QMenuModel.UnityMenuAction {
                 model: menuModel
                 index: menuIndex
-                name: extAttrib && extAttrib.hasOwnProperty("xCanonicalWifiApStrengthAction") ? extAttrib.xCanonicalWifiApStrengthAction : ""
+                name: getExtendedProperty(extendedData, "xCanonicalWifiApStrengthAction", "")
             }
 
-            text: menuData && menuData.label ? menuData.label : ""
-            secure: extAttrib && extAttrib.hasOwnProperty("xCanonicalWifiApIsSecure") ? extAttrib.xCanonicalWifiApIsSecure : false
-            adHoc: extAttrib && extAttrib.hasOwnProperty("xCanonicalWifiApIsAdhoc") ? extAttrib.xCanonicalWifiApIsAdhoc : false
+            text: menuData && menuData.label || ""
+            enabled: menuData && menuData.sensitive || false
+            secure: getExtendedProperty(extendedData, "xCanonicalWifiApIsSecure", false)
+            adHoc: getExtendedProperty(extendedData, "xCanonicalWifiApIsAdhoc", false)
             checked: menuData ? menuData.isToggled : false
             signalStrength: strengthAction.valid ? strengthAction.state : 0
-            enabled: menuData ? menuData.sensitive : false
 
             onMenuModelChanged: {
                 loadAttributes();
@@ -232,8 +239,8 @@ Item {
             function loadAttributes() {
                 if (!menuModel || menuIndex == undefined) return;
                 menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-wifi-ap-is-adhoc': 'bool',
-                                                          'x-canonical-wifi-ap-is-secure': 'bool',
-                                                          'x-canonical-wifi-ap-strength-action': 'string'});
+                                                             'x-canonical-wifi-ap-is-secure': 'bool',
+                                                             'x-canonical-wifi-ap-strength-action': 'string'});
             }
         }
     }
@@ -251,11 +258,11 @@ Item {
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
             property var menuIndex: undefined
-            property var extAttrib: menuData && menuData.ext ? menuData.ext : undefined
+            property var extendedData: menuData && menuData.ext || undefined
 
-            title: menuData && menuData.label ? menuData.label : ""
+            title: menuData && menuData.label || ""
+            appIcon: getExtendedProperty(extendedData, "icon", "qrc:/indicators/artwork/messaging/default_app.svg")
             count: menuData && menuData.actionState.length > 0 ? menuData.actionState[0] : "0"
-            appIcon: extAttrib && extAttrib.hasOwnProperty("icon") ? extAttrib.icon : "qrc:/indicators/artwork/messaging/default_app.svg"
 
             onMenuModelChanged: {
                 loadAttributes();
