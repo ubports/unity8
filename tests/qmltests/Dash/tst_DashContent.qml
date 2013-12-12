@@ -291,21 +291,24 @@ Item {
             tryCompare(tabbar, "selectedIndex", 0);
             tryCompare(dashContent, "currentIndex", 0);
 
-            var button0;
-            if (tabbar.children[0].children[0].children[0].children[1].x >= 0) {
-                button0 = tabbar.children[0].children[0].children[0].children[1].children[1];
-            } else {
-                button0 = tabbar.children[0].children[0].children[0].children[2].children[1];
-            }
-            console.log("E", button0);
-            waitForRendering(button0);
+            var button;
+            tryCompareFunction(function() {
+                    if (tabbar.children[0].children[0].children[0].children[1].x >= 0) {
+                        button = tabbar.children[0].children[0].children[0].children[1].children[1];
+                    } else {
+                        button = tabbar.children[0].children[0].children[0].children[2].children[1];
+                    }
+                    return button != undefined;
+                }, true);
+            console.log("E", button);
+            waitForRendering(button);
 
-            UT.Util.isInstanceOf(button0, "AbstractButton");
-            UT.Util.isInstanceOf(button0.children[3], "Label");
-            tryCompare(button0.children[3], "text", "Music");
+            UT.Util.isInstanceOf(button, "AbstractButton");
+            UT.Util.isInstanceOf(button.children[3], "Label");
+            tryCompare(button.children[3], "text", "Music");
             console.log("F");
 
-            mouseClick(button0, button0.width / 2, button0.height / 2)
+            mouseClick(button, button.width / 2, button.height / 2)
             console.log("G");
 
             tryCompare(tabbar, "selectionMode", false);
