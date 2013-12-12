@@ -43,7 +43,7 @@ Item {
     }
 
     UT.UnityTestCase {
-        name: "IndicatorPage"
+        name: "MenuItemFactory"
 
         property QtObject menuData: QtObject {
             property string label: "root"
