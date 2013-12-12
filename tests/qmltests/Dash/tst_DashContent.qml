@@ -273,6 +273,33 @@ Item {
             tryCompare(scopesModel.get(2), "isActive", data.active2);
         }
 
+        function doFindMusicButton(parent) {
+            console.log("P", parent);
+            for (var i = 0; i < parent.children.length; i++) {
+                var c = parent.children[i];
+                if (UT.Util.isInstanceOf(c, "AbstractButton") && parent.x >= 0) {
+                    for (var ii = 0; ii < c.children.length; ii++) {
+                        var cc = c.children[ii];
+                        if (UT.Util.isInstanceOf(cc, "Label") && cc.text == "Music") {
+                            return c;
+                        }
+                    }
+                }
+                var r = doFindMusicButton(c);
+                if (r !== undefined) {
+                    return r;
+                }
+            }
+            return undefined;
+        }
+
+        function findMusicButton() {
+            // We need to find a AbstractButton that has a Label child
+            // with text Music and it's parent x is >= 0
+            var tabbar = findChild(dashContent, "tabbar");
+            return doFindMusicButton(tabbar);
+        }
+
         function test_tabBar_index_change() {
             console.log("A");
             tryCompare(scopesModel, "loaded", true);
@@ -292,20 +319,10 @@ Item {
             tryCompare(dashContent, "currentIndex", 0);
 
             var button;
-            tryCompareFunction(function() {
-                    if (tabbar.children[0].children[0].children[0].children[1].x >= 0) {
-                        button = tabbar.children[0].children[0].children[0].children[1].children[1];
-                    } else {
-                        button = tabbar.children[0].children[0].children[0].children[2].children[1];
-                    }
-                    return button != undefined;
-                }, true);
+            tryCompareFunction(function() { button = findMusicButton(); return button != undefined; }, true);
             console.log("E", button);
             waitForRendering(button);
 
-            UT.Util.isInstanceOf(button, "AbstractButton");
-            UT.Util.isInstanceOf(button.children[3], "Label");
-            tryCompare(button.children[3], "text", "Music");
             console.log("F");
 
             mouseClick(button, button.width / 2, button.height / 2)
