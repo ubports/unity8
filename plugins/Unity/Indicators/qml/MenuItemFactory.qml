@@ -291,10 +291,9 @@ Item {
             if (component !== undefined) {
                 return component;
             }
-        } else {
-            if (modelData.isSeparator) {
-                return divMenu;
-            }
+        }
+        if (modelData.isSeparator) {
+            return divMenu;
         }
         return standardMenu;
     }
