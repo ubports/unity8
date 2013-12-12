@@ -50,7 +50,7 @@ Item {
         "unity.widgets.systemsettings.tablet.accesspoint" : accessPoint,
     }
 
-    function getProperty(object, propertyName, defaultValue) {
+    function getExtendedProperty(object, propertyName, defaultValue) {
         if (object && object.hasOwnProperty(propertyName)) {
             return object[propertyName];
         }
@@ -65,23 +65,23 @@ Item {
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
             property var menuIndex: undefined
-            property var extendedData: getProperty(menuData, "ext", undefined)
+            property var extendedData: menuData && menuData.ext || undefined
 
-            text: getProperty(menuData, "label", "")
-            icon: getProperty(menuData, "icon", "")
-            minIcon: getProperty(extendedData, "minIcon", "")
-            maxIcon: getProperty(extendedData, "minIcon", "")
+            text: menuData && menuData.label || ""
+            iconSource: menuData && menuData.icon || ""
+            minIcon: getExtendedProperty(extendedData, "minIcon", "")
+            maxIcon: getExtendedProperty(extendedData, "minIcon", "")
 
-            minimumValue: getProperty(extendedData, "minValue", 0.0)
+            minimumValue: getExtendedProperty(extendedData, "minValue", 0.0)
             maximumValue: {
-                var maximum = getProperty(extendedData, "maxValue", 1.0);
+                var maximum = getExtendedProperty(extendedData, "maxValue", 1.0);
                 if (maximum <= minimumValue) {
                         return minimumValue + 1;
                 }
                 return maximum;
             }
-            value: getProperty(menuData, "actionState", 0.0)
-            enabled: getProperty(menuData, "sensitive", false)
+            value: menuData && menuData.actionState || 0.0
+            enabled: menuData && menuData.sensitive || false
 
             onMenuModelChanged: {
                 loadAttributes();
@@ -110,8 +110,8 @@ Item {
             property var menuModel: menuFactory.menuModel
             property var menuIndex: undefined
 
-            text: getProperty(menuData, "label", "")
-            enabled: getProperty(menuData, "sensitive", false)
+            text: menuData && menuData.label || ""
+            enabled: menuData && menuData.sensitive || false
 
             onActivate: {
                 menuModel.activate(menuIndex);
@@ -125,7 +125,7 @@ Item {
             property QtObject menuData: null
             property var menuIndex: undefined
 
-            text: getProperty(menuData, "label", "")
+            text: menuData && menuData.label || ""
         }
     }
 
@@ -135,10 +135,10 @@ Item {
             property QtObject menuData: null
             property var menuIndex: undefined
 
-            text: getProperty(menuData, "label", "")
-            icon: getProperty(menuData, "icon", "")
-            value : getProperty(menuData, "actionState", 0.0)
-            enabled: getProperty(menuData, "sensitive", false)
+            text: menuData && menuData.label || ""
+            iconSource: menuData && menuData.icon || ""
+            value : menuData && menuData.actionState || 0.0
+            enabled: menuData && menuData.sensitive || false
         }
     }
 
@@ -148,9 +148,9 @@ Item {
             property QtObject menuData: null
             property var menuIndex: undefined
 
-            text: getProperty(menuData, "label", "")
-            icon: getProperty(menuData, "icon", "")
-            enabled: getProperty(menuData, "sensitive", false)
+            text: menuData && menuData.label || ""
+            iconSource: menuData && menuData.icon || ""
+            enabled: menuData && menuData.sensitive || false
             checkable: menuData ? (menuData.isCheck || menuData.isRadio) : false
             checked: checkable ? menuData.isToggled : false
 
@@ -167,9 +167,9 @@ Item {
             property QtObject menuData: null
             property var menuIndex: undefined
 
-            text: getProperty(menuData, "label", "")
-            icon: getProperty(menuData, "icon", "")
-            enabled: getProperty(menuData, "sensitive", false)
+            text: menuData && menuData.label || ""
+            iconSource: menuData && menuData.icon || ""
+            enabled: menuData && menuData.sensitive || false
             checked: menuData ? menuData.isToggled : false
 
             onActivate: {
@@ -185,10 +185,10 @@ Item {
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
             property var menuIndex: undefined
-            property var extendedData: getProperty(menuData, "ext", undefined)
+            property var extendedData: menuData && menuData.ext || undefined
 
-            text: getProperty(menuData, "label", "")
-            busy: getProperty(extendedData, "xCanonicalBusyAction", false)
+            text: menuData && menuData.label || ""
+            busy: getExtendedProperty(extendedData, "xCanonicalBusyAction", false)
 
             onMenuModelChanged: {
                 loadAttributes();
@@ -210,18 +210,18 @@ Item {
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
             property var menuIndex: undefined
-            property var extendedData: getProperty(menuData, "ext", undefined)
+            property var extendedData: menuData && menuData.ext || undefined
 
             property var strengthAction: QMenuModel.UnityMenuAction {
                 model: menuModel
                 index: menuIndex
-                name: getProperty(extendedData, "xCanonicalWifiApStrengthAction", "")
+                name: getExtendedProperty(extendedData, "xCanonicalWifiApStrengthAction", "")
             }
 
-            text: getProperty(menuData, "label", "")
-            enabled: getProperty(menuData, "sensitive", false)
-            secure: getProperty(extendedData, "xCanonicalWifiApIsSecure", false)
-            adHoc: getProperty(extendedData, "xCanonicalWifiApIsAdhoc", false)
+            text: menuData && menuData.label || ""
+            enabled: menuData && menuData.sensitive || false
+            secure: getExtendedProperty(extendedData, "xCanonicalWifiApIsSecure", false)
+            adHoc: getExtendedProperty(extendedData, "xCanonicalWifiApIsAdhoc", false)
             checked: menuData ? menuData.isToggled : false
             signalStrength: strengthAction.valid ? strengthAction.state : 0
 
@@ -258,10 +258,10 @@ Item {
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
             property var menuIndex: undefined
-            property var extendedData: getProperty(menuData, "ext", undefined)
+            property var extendedData: menuData && menuData.ext || undefined
 
-            title: getProperty(menuData, "label", "")
-            appIcon: getProperty(extendedData, "icon", "") && extendedData.hasOwnProperty("qrc:/indicators/artwork/messaging/default_app.svg")
+            title: menuData && menuData.label || ""
+            appIcon: getExtendedProperty(extendedData, "icon", "qrc:/indicators/artwork/messaging/default_app.svg")
             count: menuData && menuData.actionState.length > 0 ? menuData.actionState[0] : "0"
 
             onMenuModelChanged: {

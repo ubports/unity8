@@ -29,8 +29,8 @@ Indicators.BaseMenuItem {
     property QtObject menuData: null
     property var menuIndex: undefined
 
-    property var extendedData: getProperty(menuData, "ext", undefined)
-    property var actionsDescription: getProperty(extendedData, "xCanonicalMessageActions", undefined)
+    property var extendedData: menuData && menuData.ext || undefined
+    property var actionsDescription: getExtendedProperty(extendedData, "xCanonicalMessageActions", undefined)
 
     onMenuModelChanged: {
         loadAttributes();
@@ -49,7 +49,7 @@ Indicators.BaseMenuItem {
                                                      'x-canonical-app-icon': 'icon'});
     }
 
-    function getProperty(object, propertyName, defaultValue) {
+    function getExtendedProperty(object, propertyName, defaultValue) {
         if (object && object.hasOwnProperty(propertyName)) {
             return object[propertyName];
         }
@@ -68,12 +68,12 @@ Indicators.BaseMenuItem {
             id: simpleTextMessage
             SimpleTextMessage {
                 // text
-                title: getProperty(menuData, "label", "")
-                time: getProperty(extendedData, "xCanonicalTime", 0)
-                message: getProperty(extendedData, "xCanonicalText", "")
+                title: menuData && menuData.label || ""
+                time: getExtendedProperty(extendedData, "xCanonicalTime", 0)
+                message: getExtendedProperty(extendedData, "xCanonicalText", "")
                 // icons
-                avatar: getProperty(extendedData, "icon", "qrc:/indicators/artwork/messaging/default_contact.png")
-                appIcon: getProperty(extendedData, "xCanonicalAppIcon", "qrc:/indicators/artwork/messaging/default_app.svg")
+                avatar: getExtendedProperty(extendedData, "icon", "qrc:/indicators/artwork/messaging/default_contact.png")
+                appIcon: getExtendedProperty(extendedData, "xCanonicalAppIcon", "qrc:/indicators/artwork/messaging/default_app.svg")
 
                 onActivateApp: {
                     menuModel.activate(menuIndex, true);
@@ -96,17 +96,17 @@ Indicators.BaseMenuItem {
                 property var replyAction: QMenuModel.UnityMenuAction {
                     model: menuModel
                     index: menuIndex
-                    name: getProperty(replyActionDescription, "name", "")
+                    name: getExtendedProperty(replyActionDescription, "name", "")
                 }
 
                 // text
-                title: getProperty(menuData, "label", "")
-                time: getProperty(extendedData, "xCanonicalTime", 0)
-                message: getProperty(extendedData, "xCanonicalText", "")
-                replyButtonText: getProperty(replyActionDescription, "label", "Send")
+                title: menuData && menuData.label || ""
+                time: getExtendedProperty(extendedData, "xCanonicalTime", 0)
+                message: getExtendedProperty(extendedData, "xCanonicalText", "")
+                replyButtonText: getExtendedProperty(replyActionDescription, "label", "Send")
                 // icons
-                avatar: getProperty(extendedData, "icon", "qrc:/indicators/artwork/messaging/default_contact.png")
-                appIcon: getProperty(extendedData, "xCanonicalAppIcon", "qrc:/indicators/artwork/messaging/default_app.svg")
+                avatar: getExtendedProperty(extendedData, "icon", "qrc:/indicators/artwork/messaging/default_contact.png")
+                appIcon: getExtendedProperty(extendedData, "xCanonicalAppIcon", "qrc:/indicators/artwork/messaging/default_app.svg")
                 // actions
                 replyEnabled: replyAction.valid && replyAction.enabled
 
@@ -135,24 +135,24 @@ Indicators.BaseMenuItem {
                 property var activateAction: QMenuModel.UnityMenuAction {
                     model: menuModel
                     index: menuIndex
-                    name: getProperty(activateActionDescription, "name", "")
+                    name: getExtendedProperty(activateActionDescription, "name", "")
                 }
                 property var replyAction: QMenuModel.UnityMenuAction {
                     model: menuModel
                     index: menuIndex
-                    name: getProperty(replyActionDescription, "name", "")
+                    name: getExtendedProperty(replyActionDescription, "name", "")
                 }
 
                 // text
-                title: getProperty(menuData, "label", "")
-                time: getProperty(extendedData, "xCanonicalTime", 0)
-                message: getProperty(extendedData, "xCanonicalText", "")
-                actionButtonText: getProperty(activateActionDescription, "label", "Call back")
-                replyButtonText: getProperty(replyActionDescription, "label", "Send")
-                replyMessages: getProperty(replyActionDescription, "parameter-hint", "")
+                title: menuData && menuData.label || ""
+                time: getExtendedProperty(extendedData, "xCanonicalTime", 0)
+                message: getExtendedProperty(extendedData, "xCanonicalText", "")
+                actionButtonText: getExtendedProperty(activateActionDescription, "label", "Call back")
+                replyButtonText: getExtendedProperty(replyActionDescription, "label", "Send")
+                replyMessages: getExtendedProperty(replyActionDescription, "parameter-hint", "")
                 // icons
-                avatar: getProperty(extendedData, "icon", "qrc:/indicators/artwork/messaging/default_contact.png")
-                appIcon: getProperty(extendedData, "xCanonicalAppIcon", "qrc:/indicators/artwork/messaging/default_app.svg")
+                avatar: getExtendedProperty(extendedData, "icon", "qrc:/indicators/artwork/messaging/default_contact.png")
+                appIcon: getExtendedProperty(extendedData, "xCanonicalAppIcon", "qrc:/indicators/artwork/messaging/default_app.svg")
                 // actions
                 activateEnabled: activateAction.valid && activateAction.enabled
                 replyEnabled: replyAction.valid && replyAction.enabled
