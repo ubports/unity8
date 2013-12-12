@@ -162,7 +162,7 @@ Indicators.BaseMenuItem {
                 appIcon: getExtendedProperty(extendedData, "xCanonicalAppIcon", "qrc:/indicators/artwork/messaging/default_app.svg")
                 // actions
                 activateEnabled: activateAction.valid && activateAction.enabled
-                replyEnabled: replyAction.valid && replyAction.enabled                
+                replyEnabled: replyAction.valid && replyAction.enabled
                 enabled: menuData && menuData.sensitive || false
 
                 onActivateApp: {
