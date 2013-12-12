@@ -57,11 +57,17 @@ Item {
         return defaultValue;
     }
 
-    Component { id: divMenu; Indicators.DivMenuItem {} }
+    Component {
+        id: divMenu;
+        Indicators.DivMenuItem {
+            objectName: "divMenu"
+        }
+    }
 
     Component {
         id: sliderMenu;
         Indicators.SliderMenuItem {
+            objectName: "sliderMenu"
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
             property int menuIndex: -1
@@ -106,11 +112,12 @@ Item {
     Component {
         id: buttonMenu;
         Indicators.ButtonMenuItem {
+            objectName: "buttonMenu"
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
             property int menuIndex: -1
 
-            text: menuData && menuData.label || ""
+            buttonText: menuData && menuData.label || ""
             enabled: menuData && menuData.sensitive || false
 
             onActivate: {
@@ -122,6 +129,7 @@ Item {
     Component {
         id: sectionMenu;
         Indicators.SectionMenuItem {
+            objectName: "sectionMenu"
             property QtObject menuData: null
             property var menuIndex: undefined
 
@@ -132,6 +140,7 @@ Item {
     Component {
         id: progressMenu;
         Indicators.ProgressMenuItem {
+            objectName: "progressMenu"
             property QtObject menuData: null
             property int menuIndex: -1
 
@@ -145,6 +154,7 @@ Item {
     Component {
         id: standardMenu;
         Indicators.StandardMenuItem {
+            objectName: "standardMenu"
             property QtObject menuData: null
             property int menuIndex: -1
 
@@ -164,6 +174,7 @@ Item {
     Component {
         id: switchMenu;
         Indicators.SwitchMenuItem {
+            objectName: "switchMenu"
             property QtObject menuData: null
             property int menuIndex: -1
 
@@ -182,6 +193,7 @@ Item {
     Component {
         id: wifiSection;
         Indicators.SectionMenuItem {
+            objectName: "wifiSection"
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
             property int menuIndex: -1
@@ -207,6 +219,7 @@ Item {
     Component {
         id: accessPoint;
         ICNetwork.AccessPoint {
+            objectName: "accessPoint"
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
             property int menuIndex: -1
@@ -218,7 +231,7 @@ Item {
                 name: getExtendedProperty(extendedData, "xCanonicalWifiApStrengthAction", "")
             }
 
-            text: menuData && menuData.label || ""
+            label: menuData && menuData.label || ""
             enabled: menuData && menuData.sensitive || false
             secure: getExtendedProperty(extendedData, "xCanonicalWifiApIsSecure", false)
             adHoc: getExtendedProperty(extendedData, "xCanonicalWifiApIsAdhoc", false)
@@ -248,6 +261,7 @@ Item {
     Component {
         id: messageItem
         ICMessaging.MessageMenuItemFactory {
+            objectName: "messageItem"
             menuModel: menuFactory.menuModel
         }
     }
@@ -255,6 +269,7 @@ Item {
     Component {
         id: groupedMessage
         ICMessaging.GroupedMessage {
+            objectName: "groupedMessage"
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
             property int menuIndex: -1

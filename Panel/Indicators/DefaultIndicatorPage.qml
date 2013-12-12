@@ -59,10 +59,17 @@ Indicators.IndicatorBase {
                 menuStack.push(menuStack.rootMenu, 0);
             }
         }
+        onModelReset: {
+            if (menuStack.rootMenu !== menuStack.tail && menuStack.tail.get(0, "type") === rootMenuType) {
+                menuStack.rootMenu = menuStack.tail.submenu(0);
+                menuStack.push(menuStack.rootMenu, 0);
+            }
+        }
     }
 
     ListView {
         id: mainMenu
+        objectName: "mainMenu"
         model: menuStack.rootMenu
 
         anchors {
@@ -115,57 +122,48 @@ Indicators.IndicatorBase {
             }
         }
 
-        delegate: Item {
-            id: menuDelegate
+        delegate: Loader {
+            id: loader
+            objectName: "menuItem" + index
+            asynchronous: false
+            visible: height > 0
+
+            property int modelIndex: index
 
             anchors {
                 left: parent.left
                 right: parent.right
             }
-            height: loader.height
-            visible: height > 0
 
-            Loader {
-                id: loader
-                asynchronous: false
+            sourceComponent: factory.load(model)
 
-                property int modelIndex: index
-
-                anchors {
-                    left: parent.left
-                    right: parent.right
+            onLoaded: {
+                if (item.hasOwnProperty("menuSelected")) {
+                    item.menuSelected = mainMenu.selectedIndex == index;
+                    item.selectMenu.connect(function() { mainMenu.selectedIndex = index; });
+                    item.deselectMenu.connect(function() { mainMenu.selectedIndex = -1; });
                 }
-
-                sourceComponent: factory.load(model)
-
-                onLoaded: {
-                    if (item.hasOwnProperty("menuSelected")) {
-                        item.menuSelected = mainMenu.selectedIndex == index;
-                        item.selectMenu.connect(function() { mainMenu.selectedIndex = index; });
-                        item.deselectMenu.connect(function() { mainMenu.selectedIndex = -1; });
-                    }
-                    if (item.hasOwnProperty("menuData")) {
-                        item.menuData = Qt.binding(function() { return model; });
-                    }
-                    if (item.hasOwnProperty("menuIndex")) {
-                        item.menuIndex = Qt.binding(function() { return modelIndex; });
-                    }
+                if (item.hasOwnProperty("menuData")) {
+                    item.menuData = Qt.binding(function() { return model; });
                 }
-
-                Binding {
-                    target: item ? item : null
-                    property: "objectName"
-                    value: model.action
+                if (item.hasOwnProperty("menuIndex")) {
+                    item.menuIndex = Qt.binding(function() { return modelIndex; });
                 }
+            }
 
-                // TODO: Fixes lp#1243146
-                // This is a workaround for a Qt bug. https://bugreports.qt-project.org/browse/QTBUG-34351
-                Connections {
-                    target: mainMenu
-                    onSelectedIndexChanged: {
-                        if (loader.item && loader.item.hasOwnProperty("menuSelected")) {
-                            loader.item.menuSelected = mainMenu.selectedIndex == index;
-                        }
+            Binding {
+                target: item ? item : null
+                property: "objectName"
+                value: model.action
+            }
+
+            // TODO: Fixes lp#1243146
+            // This is a workaround for a Qt bug. https://bugreports.qt-project.org/browse/QTBUG-34351
+            Connections {
+                target: mainMenu
+                onSelectedIndexChanged: {
+                    if (loader.item && loader.item.hasOwnProperty("menuSelected")) {
+                        loader.item.menuSelected = mainMenu.selectedIndex == index;
                     }
                 }
             }
@@ -179,6 +177,7 @@ Indicators.IndicatorBase {
 
     Components.Label {
         id: emptyLabel
+        objectName: "emptyLabel"
         visible: mainMenu.count == 0
         anchors {
             top: parent.top
