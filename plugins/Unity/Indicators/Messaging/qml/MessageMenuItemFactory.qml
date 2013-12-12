@@ -43,10 +43,10 @@ Indicators.BaseMenuItem {
         if (!menuModel || menuIndex == undefined) return;
 
         menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-time': 'int64',
-                                                  'x-canonical-text': 'string',
-                                                  'x-canonical-message-actions': 'variant',
-                                                  'icon': 'icon',
-                                                  'x-canonical-app-icon': 'icon'});
+                                                     'x-canonical-text': 'string',
+                                                     'x-canonical-message-actions': 'variant',
+                                                     'icon': 'icon',
+                                                     'x-canonical-app-icon': 'icon'});
     }
 
     implicitHeight: contents.status == Loader.Ready ? contents.item.implicitHeight : 0

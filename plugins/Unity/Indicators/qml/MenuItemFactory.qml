@@ -89,9 +89,9 @@ Item {
             function loadAttributes() {
                 if (!menuModel || menuIndex == undefined) return;
                 menuModel.loadExtendedAttributes(menuIndex, {'min-value': 'double',
-                                                          'max-value': 'double',
-                                                          'min-icon': 'icon',
-                                                          'max-icon': 'icon'});
+                                                             'max-value': 'double',
+                                                             'min-icon': 'icon',
+                                                             'max-icon': 'icon'});
             }
         }
     }
@@ -232,8 +232,8 @@ Item {
             function loadAttributes() {
                 if (!menuModel || menuIndex == undefined) return;
                 menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-wifi-ap-is-adhoc': 'bool',
-                                                          'x-canonical-wifi-ap-is-secure': 'bool',
-                                                          'x-canonical-wifi-ap-strength-action': 'string'});
+                                                             'x-canonical-wifi-ap-is-secure': 'bool',
+                                                             'x-canonical-wifi-ap-strength-action': 'string'});
             }
         }
     }
