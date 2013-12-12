@@ -64,7 +64,7 @@ Item {
         Indicators.SliderMenuItem {
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
-            property var menuIndex: undefined
+            property int menuIndex: -1
             property var extendedData: menuData && menuData.ext || undefined
 
             text: menuData && menuData.label || ""
@@ -108,7 +108,7 @@ Item {
         Indicators.ButtonMenuItem {
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
-            property var menuIndex: undefined
+            property int menuIndex: -1
 
             text: menuData && menuData.label || ""
             enabled: menuData && menuData.sensitive || false
@@ -133,7 +133,7 @@ Item {
         id: progressMenu;
         Indicators.ProgressMenuItem {
             property QtObject menuData: null
-            property var menuIndex: undefined
+            property int menuIndex: -1
 
             text: menuData && menuData.label || ""
             iconSource: menuData && menuData.icon || ""
@@ -146,7 +146,7 @@ Item {
         id: standardMenu;
         Indicators.StandardMenuItem {
             property QtObject menuData: null
-            property var menuIndex: undefined
+            property int menuIndex: -1
 
             text: menuData && menuData.label || ""
             iconSource: menuData && menuData.icon || ""
@@ -165,7 +165,7 @@ Item {
         id: switchMenu;
         Indicators.SwitchMenuItem {
             property QtObject menuData: null
-            property var menuIndex: undefined
+            property int menuIndex: -1
 
             text: menuData && menuData.label || ""
             iconSource: menuData && menuData.icon || ""
@@ -184,7 +184,7 @@ Item {
         Indicators.SectionMenuItem {
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
-            property var menuIndex: undefined
+            property int menuIndex: -1
             property var extendedData: menuData && menuData.ext || undefined
 
             text: menuData && menuData.label || ""
@@ -209,7 +209,7 @@ Item {
         ICNetwork.AccessPoint {
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
-            property var menuIndex: undefined
+            property int menuIndex: -1
             property var extendedData: menuData && menuData.ext || undefined
 
             property var strengthAction: QMenuModel.UnityMenuAction {
@@ -257,7 +257,7 @@ Item {
         ICMessaging.GroupedMessage {
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
-            property var menuIndex: undefined
+            property int menuIndex: -1
             property var extendedData: menuData && menuData.ext || undefined
 
             title: menuData && menuData.label || ""
