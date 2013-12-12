@@ -58,16 +58,16 @@ Item {
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
             property var menuIndex: undefined
-            property var extAttrib: menuData && menuData.ext ? menuData.ext : undefined
+            property var extendedData: menuData && menuData.ext ? menuData.ext : undefined
 
             text: menuData && menuData.label ? menuData.label : ""
             icon: menuData && menuData.icon ? menuData.icon : ""
-            minIcon: extAttrib && extAttrib.hasOwnProperty("minIcon") ? extAttrib.minIcon : ""
-            maxIcon: extAttrib && extAttrib.hasOwnProperty("maxIcon") ? extAttrib.maxIcon : ""
+            minIcon: extendedData && extendedData.hasOwnProperty("minIcon") ? extendedData.minIcon : ""
+            maxIcon: extendedData && extendedData.hasOwnProperty("maxIcon") ? extendedData.maxIcon : ""
 
-            minimumValue: extAttrib && extAttrib.hasOwnProperty("minValue") ? extAttrib.minValue : 0.0
+            minimumValue: extendedData && extendedData.hasOwnProperty("minValue") ? extendedData.minValue : 0.0
             maximumValue: {
-                var maximum = extAttrib && extAttrib.hasOwnProperty("maxValue") ? extAttrib.maxValue : 1.0
+                var maximum = extendedData && extendedData.hasOwnProperty("maxValue") ? extendedData.maxValue : 1.0
                 if (maximum <= minimumValue) {
                         return minimumValue + 1;
                 }
@@ -178,10 +178,10 @@ Item {
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
             property var menuIndex: undefined
-            property var extAttrib: menuData && menuData.ext ? menuData.ext : undefined
+            property var extendedData: menuData && menuData.ext ? menuData.ext : undefined
 
             text: menuData && menuData.label ? menuData.label : ""
-            busy: extAttrib && extAttrib.hasOwnProperty("xCanonicalBusyAction") ? extAttrib.xCanonicalBusyAction : false
+            busy: extendedData && extendedData.hasOwnProperty("xCanonicalBusyAction") ? extendedData.xCanonicalBusyAction : false
 
             onMenuModelChanged: {
                 loadAttributes();
@@ -203,17 +203,17 @@ Item {
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
             property var menuIndex: undefined
-            property var extAttrib: menuData && menuData.ext ? menuData.ext : undefined
+            property var extendedData: menuData && menuData.ext ? menuData.ext : undefined
 
             property var strengthAction: QMenuModel.UnityMenuAction {
                 model: menuModel
                 index: menuIndex
-                name: extAttrib && extAttrib.hasOwnProperty("xCanonicalWifiApStrengthAction") ? extAttrib.xCanonicalWifiApStrengthAction : ""
+                name: extendedData && extendedData.hasOwnProperty("xCanonicalWifiApStrengthAction") ? extendedData.xCanonicalWifiApStrengthAction : ""
             }
 
             text: menuData && menuData.label ? menuData.label : ""
-            secure: extAttrib && extAttrib.hasOwnProperty("xCanonicalWifiApIsSecure") ? extAttrib.xCanonicalWifiApIsSecure : false
-            adHoc: extAttrib && extAttrib.hasOwnProperty("xCanonicalWifiApIsAdhoc") ? extAttrib.xCanonicalWifiApIsAdhoc : false
+            secure: extendedData && extendedData.hasOwnProperty("xCanonicalWifiApIsSecure") ? extendedData.xCanonicalWifiApIsSecure : false
+            adHoc: extendedData && extendedData.hasOwnProperty("xCanonicalWifiApIsAdhoc") ? extendedData.xCanonicalWifiApIsAdhoc : false
             checked: menuData ? menuData.isToggled : false
             signalStrength: strengthAction.valid ? strengthAction.state : 0
             enabled: menuData ? menuData.sensitive : false
@@ -251,11 +251,11 @@ Item {
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
             property var menuIndex: undefined
-            property var extAttrib: menuData && menuData.ext ? menuData.ext : undefined
+            property var extendedData: menuData && menuData.ext ? menuData.ext : undefined
 
             title: menuData && menuData.label ? menuData.label : ""
             count: menuData && menuData.actionState.length > 0 ? menuData.actionState[0] : "0"
-            appIcon: extAttrib && extAttrib.hasOwnProperty("icon") ? extAttrib.icon : "qrc:/indicators/artwork/messaging/default_app.svg"
+            appIcon: extendedData && extendedData.hasOwnProperty("icon") ? extendedData.icon : "qrc:/indicators/artwork/messaging/default_app.svg"
 
             onMenuModelChanged: {
                 loadAttributes();

@@ -29,8 +29,8 @@ Indicators.BaseMenuItem {
     property QtObject menuData: null
     property var menuIndex: undefined
 
-    property var extAttrib: menuData && menuData.ext ? menuData.ext : undefined
-    property var actionsDescription: extAttrib && extAttrib.hasOwnProperty("xCanonicalMessageActions") ? extAttrib.xCanonicalMessageActions : undefined
+    property var extendedData: menuData && menuData.ext ? menuData.ext : undefined
+    property var actionsDescription: extendedData && extendedData.hasOwnProperty("xCanonicalMessageActions") ? extendedData.xCanonicalMessageActions : undefined
 
     onMenuModelChanged: {
         loadAttributes();
@@ -62,11 +62,11 @@ Indicators.BaseMenuItem {
             SimpleTextMessage {
                 // text
                 title: menuData && menuData.label ? menuData.label : ""
-                time: extAttrib && extAttrib.hasOwnProperty("xCanonicalTime") ? extAttrib.xCanonicalTime : 0
-                message: extAttrib && extAttrib.hasOwnProperty("xCanonicalText") ? extAttrib.xCanonicalText : ""
+                time: extendedData && extendedData.hasOwnProperty("xCanonicalTime") ? extendedData.xCanonicalTime : 0
+                message: extendedData && extendedData.hasOwnProperty("xCanonicalText") ? extendedData.xCanonicalText : ""
                 // icons
-                avatar: extAttrib && extAttrib.hasOwnProperty("icon") ? extAttrib.icon : "qrc:/indicators/artwork/messaging/default_contact.png"
-                appIcon: extAttrib && extAttrib.hasOwnProperty("xCanonicalAppIcon") ? extAttrib.xCanonicalAppIcon : "qrc:/indicators/artwork/messaging/default_app.svg"
+                avatar: extendedData && extendedData.hasOwnProperty("icon") ? extendedData.icon : "qrc:/indicators/artwork/messaging/default_contact.png"
+                appIcon: extendedData && extendedData.hasOwnProperty("xCanonicalAppIcon") ? extendedData.xCanonicalAppIcon : "qrc:/indicators/artwork/messaging/default_app.svg"
 
                 onActivateApp: {
                     menuModel.activate(menuIndex, true);
@@ -94,12 +94,12 @@ Indicators.BaseMenuItem {
 
                 // text
                 title: menuData && menuData.label ? menuData.label : ""
-                time: extAttrib && extAttrib.hasOwnProperty("xCanonicalTime") ? extAttrib.xCanonicalTime : 0
-                message: extAttrib && extAttrib.hasOwnProperty("xCanonicalText") ? extAttrib.xCanonicalText : ""
+                time: extendedData && extendedData.hasOwnProperty("xCanonicalTime") ? extendedData.xCanonicalTime : 0
+                message: extendedData && extendedData.hasOwnProperty("xCanonicalText") ? extendedData.xCanonicalText : ""
                 replyButtonText: replyActionDescription !== undefined && replyActionDescription.hasOwnProperty("label") ? replyActionDescription.label : "Send"
                 // icons
-                avatar: extAttrib && extAttrib.hasOwnProperty("icon") ? extAttrib.icon : "qrc:/indicators/artwork/messaging/default_contact.png"
-                appIcon: extAttrib && extAttrib.hasOwnProperty("xCanonicalAppIcon") ? extAttrib.xCanonicalAppIcon : "qrc:/indicators/artwork/messaging/default_app.svg"
+                avatar: extendedData && extendedData.hasOwnProperty("icon") ? extendedData.icon : "qrc:/indicators/artwork/messaging/default_contact.png"
+                appIcon: extendedData && extendedData.hasOwnProperty("xCanonicalAppIcon") ? extendedData.xCanonicalAppIcon : "qrc:/indicators/artwork/messaging/default_app.svg"
                 // actions
                 replyEnabled: replyAction.valid && replyAction.enabled
 
@@ -138,14 +138,14 @@ Indicators.BaseMenuItem {
 
                 // text
                 title: menuData && menuData.label ? menuData.label : ""
-                time: extAttrib && extAttrib.hasOwnProperty("xCanonicalTime") ? extAttrib.xCanonicalTime : ""
-                message: extAttrib && extAttrib.hasOwnProperty("xCanonicalText") ? extAttrib.xCanonicalText : ""
+                time: extendedData && extendedData.hasOwnProperty("xCanonicalTime") ? extendedData.xCanonicalTime : ""
+                message: extendedData && extendedData.hasOwnProperty("xCanonicalText") ? extendedData.xCanonicalText : ""
                 actionButtonText: activateActionDescription !== undefined && activateActionDescription.hasOwnProperty("label") ?  activateActionDescription.label : "Call back"
                 replyButtonText: replyActionDescription !== undefined && replyActionDescription.hasOwnProperty("label") ? replyActionDescription.label : "Send"
                 replyMessages: replyActionDescription !== undefined && replyActionDescription.hasOwnProperty("parameter-hint") ? replyActionDescription["parameter-hint"] : ""
                 // icons
-                avatar: extAttrib && extAttrib.hasOwnProperty("icon") ? extAttrib.icon : "qrc:/indicators/artwork/messaging/default_contact.png"
-                appIcon: extAttrib && extAttrib.hasOwnProperty("xCanonicalAppIcon") ? extAttrib.xCanonicalAppIcon : "qrc:/indicators/artwork/messaging/default_app.svg"
+                avatar: extendedData && extendedData.hasOwnProperty("icon") ? extendedData.icon : "qrc:/indicators/artwork/messaging/default_contact.png"
+                appIcon: extendedData && extendedData.hasOwnProperty("xCanonicalAppIcon") ? extendedData.xCanonicalAppIcon : "qrc:/indicators/artwork/messaging/default_app.svg"
                 // actions
                 activateEnabled: activateAction.valid && activateAction.enabled
                 replyEnabled: replyAction.valid && replyAction.enabled
