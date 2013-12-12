@@ -70,7 +70,7 @@ Item {
             text: menuData && menuData.label || ""
             iconSource: menuData && menuData.icon || ""
             minIcon: getExtendedProperty(extendedData, "minIcon", "")
-            maxIcon: getExtendedProperty(extendedData, "minIcon", "")
+            maxIcon: getExtendedProperty(extendedData, "maxIcon", "")
 
             minimumValue: getExtendedProperty(extendedData, "minValue", 0.0)
             maximumValue: {
