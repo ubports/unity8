@@ -50,6 +50,13 @@ Item {
         "unity.widgets.systemsettings.tablet.accesspoint" : accessPoint,
     }
 
+    function getProperty(object, propertyName, defaultValue) {
+        if (object && object.hasOwnProperty(propertyName)) {
+            return object[propertyName];
+        }
+        return defaultValue;
+    }
+
     Component { id: divMenu; Indicators.DivMenuItem {} }
 
     Component {
@@ -58,23 +65,23 @@ Item {
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
             property var menuIndex: undefined
-            property var extendedData: menuData && menuData.ext ? menuData.ext : undefined
+            property var extendedData: getProperty(menuData, "ext", undefined)
 
-            text: menuData && menuData.label ? menuData.label : ""
-            icon: menuData && menuData.icon ? menuData.icon : ""
-            minIcon: extendedData && extendedData.hasOwnProperty("minIcon") ? extendedData.minIcon : ""
-            maxIcon: extendedData && extendedData.hasOwnProperty("maxIcon") ? extendedData.maxIcon : ""
+            text: getProperty(menuData, "label", "")
+            icon: getProperty(menuData, "icon", "")
+            minIcon: getProperty(extendedData, "minIcon", "")
+            maxIcon: getProperty(extendedData, "minIcon", "")
 
-            minimumValue: extendedData && extendedData.hasOwnProperty("minValue") ? extendedData.minValue : 0.0
+            minimumValue: getProperty(extendedData, "minValue", 0.0)
             maximumValue: {
-                var maximum = extendedData && extendedData.hasOwnProperty("maxValue") ? extendedData.maxValue : 1.0
+                var maximum = getProperty(extendedData, "maxValue", 1.0);
                 if (maximum <= minimumValue) {
                         return minimumValue + 1;
                 }
                 return maximum;
             }
-            value: menuData ? menuData.actionState : 0.0
-            enabled: menuData ? menuData.sensitive : false
+            value: getProperty(menuData, "actionState", 0.0)
+            enabled: getProperty(menuData, "sensitive", false)
 
             onMenuModelChanged: {
                 loadAttributes();
@@ -103,8 +110,8 @@ Item {
             property var menuModel: menuFactory.menuModel
             property var menuIndex: undefined
 
-            text: menuData && menuData.label ? menuData.label : ""
-            enabled: menuData ? menuData.sensitive : false
+            text: getProperty(menuData, "label", "")
+            enabled: getProperty(menuData, "sensitive", false)
 
             onActivate: {
                 menuModel.activate(menuIndex);
@@ -118,7 +125,7 @@ Item {
             property QtObject menuData: null
             property var menuIndex: undefined
 
-            text: menuData && menuData.label ? menuData.label : ""
+            text: getProperty(menuData, "label", "")
         }
     }
 
@@ -128,10 +135,10 @@ Item {
             property QtObject menuData: null
             property var menuIndex: undefined
 
-            text: menuData && menuData.label ? menuData.label : ""
-            icon: menuData ? menuData.icon : ""
-            value : menuData ? menuData.actionState : 0.0
-            enabled: menuData ? menuData.sensitive : false
+            text: getProperty(menuData, "label", "")
+            icon: getProperty(menuData, "icon", "")
+            value : getProperty(menuData, "actionState", 0.0)
+            enabled: getProperty(menuData, "sensitive", false)
         }
     }
 
@@ -141,11 +148,11 @@ Item {
             property QtObject menuData: null
             property var menuIndex: undefined
 
-            text: menuData && menuData.label ? menuData.label : ""
-            icon: menuData && menuData.icon ? menuData.icon : ""
+            text: getProperty(menuData, "label", "")
+            icon: getProperty(menuData, "icon", "")
+            enabled: getProperty(menuData, "sensitive", false)
             checkable: menuData ? (menuData.isCheck || menuData.isRadio) : false
             checked: checkable ? menuData.isToggled : false
-            enabled: menuData ? menuData.sensitive : false
 
             onActivate: {
                 menuModel.activate(menuIndex);
@@ -160,10 +167,10 @@ Item {
             property QtObject menuData: null
             property var menuIndex: undefined
 
-            text: menuData && menuData.label ? menuData.label : ""
-            icon: menuData && menuData.icon ? menuData.icon : ""
+            text: getProperty(menuData, "label", "")
+            icon: getProperty(menuData, "icon", "")
+            enabled: getProperty(menuData, "sensitive", false)
             checked: menuData ? menuData.isToggled : false
-            enabled: menuData ? menuData.sensitive : false
 
             onActivate: {
                 menuModel.activate(menuIndex);
@@ -178,10 +185,10 @@ Item {
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
             property var menuIndex: undefined
-            property var extendedData: menuData && menuData.ext ? menuData.ext : undefined
+            property var extendedData: getProperty(menuData, "ext", undefined)
 
-            text: menuData && menuData.label ? menuData.label : ""
-            busy: extendedData && extendedData.hasOwnProperty("xCanonicalBusyAction") ? extendedData.xCanonicalBusyAction : false
+            text: getProperty(menuData, "label", "")
+            busy: getProperty(extendedData, "xCanonicalBusyAction", false)
 
             onMenuModelChanged: {
                 loadAttributes();
@@ -203,20 +210,20 @@ Item {
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
             property var menuIndex: undefined
-            property var extendedData: menuData && menuData.ext ? menuData.ext : undefined
+            property var extendedData: getProperty(menuData, "ext", undefined)
 
             property var strengthAction: QMenuModel.UnityMenuAction {
                 model: menuModel
                 index: menuIndex
-                name: extendedData && extendedData.hasOwnProperty("xCanonicalWifiApStrengthAction") ? extendedData.xCanonicalWifiApStrengthAction : ""
+                name: getProperty(extendedData, "xCanonicalWifiApStrengthAction", "")
             }
 
-            text: menuData && menuData.label ? menuData.label : ""
-            secure: extendedData && extendedData.hasOwnProperty("xCanonicalWifiApIsSecure") ? extendedData.xCanonicalWifiApIsSecure : false
-            adHoc: extendedData && extendedData.hasOwnProperty("xCanonicalWifiApIsAdhoc") ? extendedData.xCanonicalWifiApIsAdhoc : false
+            text: getProperty(menuData, "label", "")
+            enabled: getProperty(menuData, "sensitive", false)
+            secure: getProperty(extendedData, "xCanonicalWifiApIsSecure", false)
+            adHoc: getProperty(extendedData, "xCanonicalWifiApIsAdhoc", false)
             checked: menuData ? menuData.isToggled : false
             signalStrength: strengthAction.valid ? strengthAction.state : 0
-            enabled: menuData ? menuData.sensitive : false
 
             onMenuModelChanged: {
                 loadAttributes();
@@ -251,11 +258,11 @@ Item {
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
             property var menuIndex: undefined
-            property var extendedData: menuData && menuData.ext ? menuData.ext : undefined
+            property var extendedData: getProperty(menuData, "ext", undefined)
 
-            title: menuData && menuData.label ? menuData.label : ""
+            title: getProperty(menuData, "label", "")
+            appIcon: getProperty(extendedData, "icon", "") && extendedData.hasOwnProperty("qrc:/indicators/artwork/messaging/default_app.svg")
             count: menuData && menuData.actionState.length > 0 ? menuData.actionState[0] : "0"
-            appIcon: extendedData && extendedData.hasOwnProperty("icon") ? extendedData.icon : "qrc:/indicators/artwork/messaging/default_app.svg"
 
             onMenuModelChanged: {
                 loadAttributes();

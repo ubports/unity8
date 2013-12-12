@@ -29,8 +29,8 @@ Indicators.BaseMenuItem {
     property QtObject menuData: null
     property var menuIndex: undefined
 
-    property var extendedData: menuData && menuData.ext ? menuData.ext : undefined
-    property var actionsDescription: extendedData && extendedData.hasOwnProperty("xCanonicalMessageActions") ? extendedData.xCanonicalMessageActions : undefined
+    property var extendedData: getProperty(menuData, "ext", undefined)
+    property var actionsDescription: getProperty(extendedData, "xCanonicalMessageActions", undefined)
 
     onMenuModelChanged: {
         loadAttributes();
@@ -49,6 +49,13 @@ Indicators.BaseMenuItem {
                                                      'x-canonical-app-icon': 'icon'});
     }
 
+    function getProperty(object, propertyName, defaultValue) {
+        if (object && object.hasOwnProperty(propertyName)) {
+            return object[propertyName];
+        }
+        return defaultValue;
+    }
+
     implicitHeight: contents.status == Loader.Ready ? contents.item.implicitHeight : 0
 
     Loader {
@@ -61,12 +68,12 @@ Indicators.BaseMenuItem {
             id: simpleTextMessage
             SimpleTextMessage {
                 // text
-                title: menuData && menuData.label ? menuData.label : ""
-                time: extendedData && extendedData.hasOwnProperty("xCanonicalTime") ? extendedData.xCanonicalTime : 0
-                message: extendedData && extendedData.hasOwnProperty("xCanonicalText") ? extendedData.xCanonicalText : ""
+                title: getProperty(menuData, "label", "")
+                time: getProperty(extendedData, "xCanonicalTime", 0)
+                message: getProperty(extendedData, "xCanonicalText", "")
                 // icons
-                avatar: extendedData && extendedData.hasOwnProperty("icon") ? extendedData.icon : "qrc:/indicators/artwork/messaging/default_contact.png"
-                appIcon: extendedData && extendedData.hasOwnProperty("xCanonicalAppIcon") ? extendedData.xCanonicalAppIcon : "qrc:/indicators/artwork/messaging/default_app.svg"
+                avatar: getProperty(extendedData, "icon", "qrc:/indicators/artwork/messaging/default_contact.png")
+                appIcon: getProperty(extendedData, "xCanonicalAppIcon", "qrc:/indicators/artwork/messaging/default_app.svg")
 
                 onActivateApp: {
                     menuModel.activate(menuIndex, true);
@@ -89,17 +96,17 @@ Indicators.BaseMenuItem {
                 property var replyAction: QMenuModel.UnityMenuAction {
                     model: menuModel
                     index: menuIndex
-                    name: replyActionDescription !== undefined ? replyActionDescription.name : ""
+                    name: getProperty(replyActionDescription, "name", "")
                 }
 
                 // text
-                title: menuData && menuData.label ? menuData.label : ""
-                time: extendedData && extendedData.hasOwnProperty("xCanonicalTime") ? extendedData.xCanonicalTime : 0
-                message: extendedData && extendedData.hasOwnProperty("xCanonicalText") ? extendedData.xCanonicalText : ""
-                replyButtonText: replyActionDescription !== undefined && replyActionDescription.hasOwnProperty("label") ? replyActionDescription.label : "Send"
+                title: getProperty(menuData, "label", "")
+                time: getProperty(extendedData, "xCanonicalTime", 0)
+                message: getProperty(extendedData, "xCanonicalText", "")
+                replyButtonText: getProperty(replyActionDescription, "label", "Send")
                 // icons
-                avatar: extendedData && extendedData.hasOwnProperty("icon") ? extendedData.icon : "qrc:/indicators/artwork/messaging/default_contact.png"
-                appIcon: extendedData && extendedData.hasOwnProperty("xCanonicalAppIcon") ? extendedData.xCanonicalAppIcon : "qrc:/indicators/artwork/messaging/default_app.svg"
+                avatar: getProperty(extendedData, "icon", "qrc:/indicators/artwork/messaging/default_contact.png")
+                appIcon: getProperty(extendedData, "xCanonicalAppIcon", "qrc:/indicators/artwork/messaging/default_app.svg")
                 // actions
                 replyEnabled: replyAction.valid && replyAction.enabled
 
@@ -128,24 +135,24 @@ Indicators.BaseMenuItem {
                 property var activateAction: QMenuModel.UnityMenuAction {
                     model: menuModel
                     index: menuIndex
-                    name: activateActionDescription !== undefined ? activateActionDescription.name : ""
+                    name: getProperty(activateActionDescription, "name", "")
                 }
                 property var replyAction: QMenuModel.UnityMenuAction {
                     model: menuModel
                     index: menuIndex
-                    name: replyActionDescription !== undefined ? replyActionDescription.name : ""
+                    name: getProperty(replyActionDescription, "name", "")
                 }
 
                 // text
-                title: menuData && menuData.label ? menuData.label : ""
-                time: extendedData && extendedData.hasOwnProperty("xCanonicalTime") ? extendedData.xCanonicalTime : ""
-                message: extendedData && extendedData.hasOwnProperty("xCanonicalText") ? extendedData.xCanonicalText : ""
-                actionButtonText: activateActionDescription !== undefined && activateActionDescription.hasOwnProperty("label") ?  activateActionDescription.label : "Call back"
-                replyButtonText: replyActionDescription !== undefined && replyActionDescription.hasOwnProperty("label") ? replyActionDescription.label : "Send"
-                replyMessages: replyActionDescription !== undefined && replyActionDescription.hasOwnProperty("parameter-hint") ? replyActionDescription["parameter-hint"] : ""
+                title: getProperty(menuData, "label", "")
+                time: getProperty(extendedData, "xCanonicalTime", 0)
+                message: getProperty(extendedData, "xCanonicalText", "")
+                actionButtonText: getProperty(activateActionDescription, "label", "Call back")
+                replyButtonText: getProperty(replyActionDescription, "label", "Send")
+                replyMessages: getProperty(replyActionDescription, "parameter-hint", "")
                 // icons
-                avatar: extendedData && extendedData.hasOwnProperty("icon") ? extendedData.icon : "qrc:/indicators/artwork/messaging/default_contact.png"
-                appIcon: extendedData && extendedData.hasOwnProperty("xCanonicalAppIcon") ? extendedData.xCanonicalAppIcon : "qrc:/indicators/artwork/messaging/default_app.svg"
+                avatar: getProperty(extendedData, "icon", "qrc:/indicators/artwork/messaging/default_contact.png")
+                appIcon: getProperty(extendedData, "xCanonicalAppIcon", "qrc:/indicators/artwork/messaging/default_app.svg")
                 // actions
                 activateEnabled: activateAction.valid && activateAction.enabled
                 replyEnabled: replyAction.valid && replyAction.enabled
