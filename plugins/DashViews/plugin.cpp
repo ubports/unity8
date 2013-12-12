@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Canonical, Ltd.
+ * Copyright (C) 2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,19 +15,15 @@
  *
  */
 
-#ifndef LISTVIEWWITHPAGEHEADER_PLUGIN_H
-#define LISTVIEWWITHPAGEHEADER_PLUGIN_H
+#include "plugin.h"
 
-#include <QtQml/QQmlEngine>
-#include <QtQml/QQmlExtensionPlugin>
+#include "listviewwithpageheader.h"
 
-class ListViewWithPageHeaderPlugin : public QQmlExtensionPlugin
+#include <QAbstractItemModel>
+
+void DashViewsPlugin::registerTypes(const char *uri)
 {
-    Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
-
-public:
-    void registerTypes(const char *uri);
-};
-
-#endif
+    Q_ASSERT(uri == QLatin1String("DashViews"));
+    qmlRegisterType<QAbstractItemModel>();
+    qmlRegisterType<ListViewWithPageHeader>(uri, 0, 1, "ListViewWithPageHeader");
+}

@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.0
-import ListViewWithPageHeader 0.1
+import DashViews 0.1
 
 ListViewWithPageHeader {
     maximumFlickVelocity: height * 10

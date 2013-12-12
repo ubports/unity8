@@ -15,12 +15,44 @@
  */
 
 import QtQuick 2.0
-import ListViewWithPageHeader 0.1
+import DashViews 0.1
 
 Rectangle {
     width: 300
     height: 542
     color: "lightblue"
+
+    ListModel {
+        id: model
+
+        function insertItem(index, size, type) {
+            insert(index, { size: size, type: type });
+        }
+
+        function removeItems(index, count) {
+            remove(index, count);
+        }
+
+        function moveItems(indexFrom, indexTo, count) {
+            move(indexFrom, indexTo, count);
+        }
+
+        ListElement { type: "Agressive"; size: 150 }
+        ListElement { type: "Regular"; size: 200 }
+        ListElement { type: "Mild"; size: 350 }
+        ListElement { type: "Bold"; size: 350 }
+        ListElement { type: "Bold"; size: 350 }
+        ListElement { type: "Lazy"; size: 350 }
+    }
+
+    Component {
+        id: otherRect
+        Rectangle {
+            height: 35
+            width: parent.width
+            color: index % 2 == 0 ? "yellow" : "purple"
+        }
+    }
 
     ListViewWithPageHeader {
         id: listView
