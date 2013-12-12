@@ -263,6 +263,7 @@ Item {
             title: menuData && menuData.label || ""
             appIcon: getExtendedProperty(extendedData, "icon", "qrc:/indicators/artwork/messaging/default_app.svg")
             count: menuData && menuData.actionState.length > 0 ? menuData.actionState[0] : "0"
+            enabled: menuData && menuData.sensitive || false
 
             onMenuModelChanged: {
                 loadAttributes();
