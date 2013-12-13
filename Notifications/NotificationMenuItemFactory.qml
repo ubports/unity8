@@ -28,7 +28,6 @@ Loader {
     property QtObject menuModel: null
     property QtObject menuData: null
     property int menuIndex
-    property var notification
 
     property var _map:  {
         "com.canonical.snapdecision.textfield": textfield,
@@ -42,6 +41,10 @@ Loader {
                 return component;
             }
         }
+    }
+
+    Component.onCompleted: {
+        notification.fullscreen = menuData.type == "com.canonical.snapdecision.pinlock"
     }
 
     Component {
@@ -94,8 +97,12 @@ Loader {
 
     Component {
         id: pinLock
-        PinLockscreen {
+
+        Lockscreen {
             anchors.left: parent.left; anchors.right: parent.right
+            height: notificationList.fullHeight
+            placeholderText: i18n.tr("Please enter SIM PIN")
+            background: shell.background
 
             onEntered: {
                 menuModel.changeState(menuIndex, passphrase);
