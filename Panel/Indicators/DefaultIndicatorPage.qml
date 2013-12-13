@@ -172,7 +172,7 @@ Indicators.IndicatorBase {
 
     Indicators.MenuItemFactory {
         id: factory
-        menuModel: mainMenu.model
+        menuModel: mainMenu.model ? mainMenu.model : null
     }
 
     Components.Label {
