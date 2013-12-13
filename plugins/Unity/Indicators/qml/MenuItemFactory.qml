@@ -420,6 +420,7 @@ Item {
             album: getExtendedProperty(actionState, "album", "unknown")
             running: getExtendedProperty(actionState, "running", false)
             state: getExtendedProperty(actionState, "state", "")
+            enabled: menuData && menuData.sensitive || false
 
             onTriggered: {
                 model.activate(modelIndex);
@@ -431,6 +432,7 @@ Item {
         id: playbackItemMenu;
         Menus.PlaybackItemMenu {
             objectName: "playbackItemMenu"
+            property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
             property int menuIndex: -1
             property var extendedData: menuData && menuData.ext || undefined
@@ -455,6 +457,7 @@ Item {
             canPlay: playAction.valid
             canGoNext: nextAction.valid
             canGoPrevious: previousAction.valid
+            enabled: menuData && menuData.sensitive || false
 
             onPlay: {
                 playAction.activate();
