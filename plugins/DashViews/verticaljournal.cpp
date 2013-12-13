@@ -266,7 +266,7 @@ void VerticalJournal::findBottomModelIndexToAdd(int *modelIndex, double *yPos)
     Q_FOREACH(const auto &column, m_columnVisibleItems) {
         if (!column.isEmpty()) {
             const ViewItem &item = column.last();
-            *yPos = qMin(*yPos, item.y() + item.height() + m_verticalSpacing);
+            *yPos = qMin(*yPos, static_cast<double>(item.y() + item.height() + m_verticalSpacing));
             *modelIndex = qMax(*modelIndex, item.m_modelIndex + 1);
         } else {
             *yPos = 0;
