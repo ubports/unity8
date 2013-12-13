@@ -2,20 +2,9 @@ module Unity.Indicators
 plugin IndicatorsQml
 typeinfo plugin.qmltypes
 
-BaseMenuItem 0.1 BaseMenuItem.qml
-ButtonMenuItem 0.1 ButtonMenuItem.qml
 CachedUnityMenuModel 0.1 CachedUnityMenuModel.qml
-DivMenuItem 0.1 DivMenuItem.qml
-FramedMenuItem 0.1 FramedMenuItem.qml
-HLine 0.1 HLine.qml
 IndicatorBase 0.1 IndicatorBase.qml
-MenuActionBinding 0.1 MenuActionBinding.qml
 MenuItemFactory 0.1 MenuItemFactory.qml
-ProgressMenuItem 0.1 ProgressMenuItem.qml
-SectionMenuItem 0.1 SectionMenuItem.qml
-SliderMenuItem 0.1 SliderMenuItem.qml
-StandardMenuItem 0.1 StandardMenuItem.qml
-SwitchMenuItem 0.1 SwitchMenuItem.qml
 
-
+internal MessageMenuItemFactory MessageMenuItemFactory.qml
 internal RemoveBackground RemoveBackground.qml

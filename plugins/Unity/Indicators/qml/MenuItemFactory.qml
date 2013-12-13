@@ -175,6 +175,25 @@ Item {
     }
 
     Component {
+        id: checkableMenu;
+        Menus.CheckableMenu {
+            objectName: "checkableMenu"
+            property QtObject menuData: null
+            property int menuIndex: -1
+
+            text: menuData && menuData.label || ""
+            enabled: menuData && menuData.sensitive || false
+            checked: menuData && menuData.isToggled || false
+
+            onTriggered: {
+                menuModel.activate(menuIndex);
+                shell.hideIndicatorMenu(UbuntuAnimation.BriskDuration);
+            }
+        }
+    }
+
+
+    Component {
         id: switchMenu;
         Menus.SwitchMenu {
             objectName: "switchMenu"
@@ -386,6 +405,7 @@ Item {
     Component {
         id: mediaPayerMenu;
         Menus.MediaPlayerMenu {
+            objectName: "mediaPayerMenu"
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
             property int menuIndex: -1
@@ -410,6 +430,7 @@ Item {
     Component {
         id: playbackItemMenu;
         Menus.PlaybackItemMenu {
+            objectName: "playbackItemMenu"
             property var menuModel: menuFactory.menuModel
             property int menuIndex: -1
             property var extendedData: menuData && menuData.ext || undefined
@@ -466,6 +487,9 @@ Item {
             if (component !== undefined) {
                 return component;
             }
+        }
+        if (modelData.isCheck || modelData.isRadio) {
+            return checkableMenu;
         }
         if (modelData.isSeparator) {
             return separatorMenu;
