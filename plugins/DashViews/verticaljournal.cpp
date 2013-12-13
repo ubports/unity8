@@ -21,9 +21,11 @@
  * based on a model and layouts them in columns following
  * a top-left most position rule.
  *
- * The number of rules is calculated using the width of
- * the item, the columnWidth and the horizontalSpacing between
- * columns.
+ * The number of columns is calculated using the width of
+ * the view itself, the columnWidth (i.e. the width of each individual delegate)
+ * and the horizontalSpacing between columns.
+ *
+ * All delegates are forced to columnWidth if they don't have it.
  *
  * The first nColumns items are layouted at row 0 from column 0
  * to column nColumns-1 in order. After that every new item
