@@ -27,7 +27,23 @@ class QQuickVisualDataModel;
 class QQmlDelegateModel;
 #endif
 
-class VerticalJournal : public QQuickItem
+ /** A vertical journal is a view that creates delegates
+   * based on a model and layouts them in columns following
+   * a top-left most position rule.
+   *
+   * The number of columns is calculated using the width of
+   * the view itself, the columnWidth (i.e. the width of each individual delegate)
+   * and the horizontalSpacing between columns.
+   *
+   * All delegates are forced to columnWidth if they don't have it.
+   *
+   * The first nColumns items are layouted at row 0 from column 0
+   * to column nColumns-1 in order. After that every new item
+   * is positioned in the column which provides the free topmost
+   * position as possible. If more than one column tie in providing
+   * the topmost free position the leftmost column will be used.
+   */
+ class VerticalJournal : public QQuickItem
 {
     Q_OBJECT
 

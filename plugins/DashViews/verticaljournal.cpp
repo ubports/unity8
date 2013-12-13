@@ -15,24 +15,6 @@
  */
 
 /*
- * Some documentation on how this thing works:
- *
- * A vertical journal is a view that creates delegates
- * based on a model and layouts them in columns following
- * a top-left most position rule.
- *
- * The number of columns is calculated using the width of
- * the view itself, the columnWidth (i.e. the width of each individual delegate)
- * and the horizontalSpacing between columns.
- *
- * All delegates are forced to columnWidth if they don't have it.
- *
- * The first nColumns items are layouted at row 0 from column 0
- * to column nColumns-1 in order. After that every new item
- * is positioned in the column which provides the topmost
- * position as possible. If more than one column tie in providing
- * the topmost position the leftmost column will be used.
- *
  * The implementation is centered around m_columnVisibleItems
  * that holds a vector of lists. There's a list for each of the
  * columns the view has. In the list the items of the column are
