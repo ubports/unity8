@@ -1,2 +1,2 @@
 usr/lib/python*/*/unity*
-usr/share/upstart/sessions
+data/unity8.override usr/share/upstart/sessions
