@@ -118,7 +118,7 @@ private Q_SLOTS:
     {
         view = new QQuickView();
         view->engine()->addImportPath(BUILT_PLUGINS_DIR);
-        view->setSource(QUrl::fromLocalFile(LISTVIEWWITHPAGEHEADER_FOLDER "/test.qml"));
+        view->setSource(QUrl::fromLocalFile(DASHVIEWSTEST_FOLDER "/test.qml"));
         lvwph = dynamic_cast<ListViewWithPageHeader*>(view->rootObject()->findChild<QQuickFlickable*>());
 #if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
         model = view->rootObject()->findChild<QQuickListModel*>();

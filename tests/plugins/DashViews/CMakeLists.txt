@@ -22,7 +22,7 @@ include_directories(
 
 remove_definitions(-DQT_NO_KEYWORDS)
 
-add_definitions(-DLISTVIEWWITHPAGEHEADER_FOLDER="${CMAKE_CURRENT_SOURCE_DIR}")
+add_definitions(-DDASHVIEWSTEST_FOLDER="${CMAKE_CURRENT_SOURCE_DIR}")
 add_definitions(-DBUILT_PLUGINS_DIR="${CMAKE_BINARY_DIR}/plugins")
 
 add_executable(listviewwithpageheadertestExec listviewwithpageheadertest.cpp ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/DashViews/listviewwithpageheader.cpp)
@@ -40,6 +40,11 @@ qt5_use_modules(listviewwithpageheadertestsectionexternalmodelExec Test Core Qml
 target_link_libraries(listviewwithpageheadertestsectionexternalmodelExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
 add_custom_target(testlistviewwithpageheadersectionexternalmodel ${CMAKE_CURRENT_BINARY_DIR}/listviewwithpageheadertestsectionexternalmodelExec -o ${CMAKE_BINARY_DIR}/testlistviewwithpageheadersectionexternalmodel.xml,xunitxml -o -,txt)
 
+add_executable(verticaljournaltestExec verticaljournaltest.cpp ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/DashViews/verticaljournal.cpp)
+qt5_use_modules(verticaljournaltestExec Test Core Qml)
+target_link_libraries(verticaljournaltestExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
+add_custom_target(testverticaljournal ${CMAKE_CURRENT_BINARY_DIR}/verticaljournaltestExec -o ${CMAKE_BINARY_DIR}/testverticaljournal.xml,xunitxml -o -,txt)
+
 set(qmltest_DEFAULT_NO_ADD_TEST TRUE)
 add_qml_test(. listviewwithpageheaderqml IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
 
@@ -47,3 +52,4 @@ add_dependencies(qmluitests testlistviewwithpageheader)
 add_dependencies(qmluitests testlistviewwithpageheadersection)
 add_dependencies(qmluitests testlistviewwithpageheadersectionexternalmodel)
 add_dependencies(qmluitests testlistviewwithpageheaderqml)
+add_dependencies(qmluitests testverticaljournal)

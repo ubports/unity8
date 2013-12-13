@@ -24,6 +24,7 @@ remove_definitions(-DQT_NO_KEYWORDS)
 set(QMLPLUGIN_SRC
     plugin.cpp
     listviewwithpageheader.cpp
+    verticaljournal.cpp
     )
 
 add_library(DashViews-qml MODULE
