@@ -14,6 +14,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/*
+ * Some documentation on how this thing works:
+ *
+ * A vertical journal is a view that creates delegates
+ * based on a model and layouts them in columns following
+ * a top-left most position rule.
+ *
+ * The number of rules is calculated using the width of
+ * the item, the columnWidth and the horizontalSpacing between
+ * columns.
+ *
+ * The first nColumns items are layouted at row 0 from column 0
+ * to column nColumns-1 in order. After that every new item
+ * is positioned in the column which provides the topmost
+ * position as possible. If more than one column tie in providing
+ * the topmost position the leftmost column will be used.
+ *
+ * The implementation is centered around m_columnVisibleItems
+ * that holds a vector of lists. There's a list for each of the
+ * columns the view has. In the list the items of the column are
+ * ordered as they appear topdown in the view. m_indexColumnMap is
+ * used when re-building the list up since given a position
+ * in the middle of the list and the need to create the previous does
+ * not give us enough information to know in which column we have
+ * to position the item so that when we reach the item the view is
+ * correctly layouted at 0 for all the columns
+ */
 #include "verticaljournal.h"
 
 #include <qqmlengine.h>
