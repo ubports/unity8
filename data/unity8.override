@@ -1,4 +1,1 @@
-description "Coredump collection before upstart kills unity8"
-author "Nicolas d'Offay <nicolas.doffay@canonical.com>"
-
 kill timeout 30
