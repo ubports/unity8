@@ -21,6 +21,7 @@
 
 #include <QObject>
 
+// TODO - bug #1260728
 class TimeFormatter : public QObject
 {
     Q_OBJECT
