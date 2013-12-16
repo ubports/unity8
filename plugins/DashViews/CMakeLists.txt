@@ -25,6 +25,7 @@ set(QMLPLUGIN_SRC
     plugin.cpp
     listviewwithpageheader.cpp
     verticaljournal.cpp
+    horizontaljournal.cpp
     )
 
 add_library(DashViews-qml MODULE
