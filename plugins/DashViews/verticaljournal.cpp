@@ -70,11 +70,7 @@ void VerticalJournal::setModel(QAbstractItemModel *model)
         if (!m_delegateModel) {
             createDelegateModel();
         }
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
         m_delegateModel->setModel(QVariant::fromValue<QAbstractItemModel *>(model));
-#else
-        m_delegateModel->setModel(QVariant::fromValue<QAbstractItemModel *>(model));
-#endif
         // Cleanup the existing items
         for (int i = 0; i < m_columnVisibleItems.count(); ++i)
         {
