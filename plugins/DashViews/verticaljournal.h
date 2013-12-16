@@ -50,10 +50,20 @@ class QQmlDelegateModel;
     Q_PROPERTY(QAbstractItemModel *model READ model WRITE setModel NOTIFY modelChanged)
     Q_PROPERTY(QQmlComponent *delegate READ delegate WRITE setDelegate NOTIFY delegateChanged)
     Q_PROPERTY(qreal columnWidth READ columnWidth WRITE setColumnWidth NOTIFY columnWidthChanged)
-    Q_PROPERTY(qreal horizontalSpacing READ horizontalSpacing WRITE setHorizontalSpacing NOTIFY horizontalSpacingChanged)
-    Q_PROPERTY(qreal verticalSpacing READ verticalSpacing WRITE setVerticalSpacing NOTIFY verticalSpacingChanged)
-    Q_PROPERTY(qreal delegateCreationBegin READ delegateCreationBegin WRITE setDelegateCreationBegin NOTIFY delegateCreationBeginChanged RESET resetDelegateCreationBegin)
-    Q_PROPERTY(qreal delegateCreationEnd READ delegateCreationEnd WRITE setDelegateCreationEnd NOTIFY delegateCreationEndChanged RESET resetDelegateCreationEnd)
+    Q_PROPERTY(qreal horizontalSpacing READ horizontalSpacing
+                                       WRITE setHorizontalSpacing
+                                       NOTIFY horizontalSpacingChanged)
+    Q_PROPERTY(qreal verticalSpacing READ verticalSpacing
+                                     WRITE setVerticalSpacing
+                                     NOTIFY verticalSpacingChanged)
+    Q_PROPERTY(qreal delegateCreationBegin READ delegateCreationBegin
+                                           WRITE setDelegateCreationBegin
+                                           NOTIFY delegateCreationBeginChanged
+                                           RESET resetDelegateCreationBegin)
+    Q_PROPERTY(qreal delegateCreationEnd READ delegateCreationEnd
+                                         WRITE setDelegateCreationEnd
+                                         NOTIFY delegateCreationEndChanged
+                                         RESET resetDelegateCreationEnd)
 
 friend class VerticalJournalTest;
 
