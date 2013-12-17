@@ -71,14 +71,8 @@ void VerticalJournal::setModel(QAbstractItemModel *model)
             createDelegateModel();
         }
         m_delegateModel->setModel(QVariant::fromValue<QAbstractItemModel *>(model));
-        // Cleanup the existing items
-        for (int i = 0; i < m_columnVisibleItems.count(); ++i) {
-            QList<ViewItem> &column = m_columnVisibleItems[i];
-            Q_FOREACH(const ViewItem &item, column)
-                releaseItem(item);
-            column.clear();
-        }
-        m_indexColumnMap.clear();
+
+        cleanupExistingItems();
 
         Q_EMIT modelChanged();
         polish();
@@ -97,14 +91,7 @@ void VerticalJournal::setDelegate(QQmlComponent *delegate)
             createDelegateModel();
         }
 
-        // Cleanup the existing items
-        for (int i = 0; i < m_columnVisibleItems.count(); ++i) {
-            QList<ViewItem> &column = m_columnVisibleItems[i];
-            Q_FOREACH(const ViewItem &item, column)
-                releaseItem(item);
-            column.clear();
-        }
-        m_indexColumnMap.clear();
+        cleanupExistingItems();
 
         m_delegateModel->setDelegate(delegate);
 
@@ -430,6 +417,18 @@ void VerticalJournal::positionItem(int modelIndex, QQuickItem *item)
 
         m_columnVisibleItems[columnToAddTo].prepend(ViewItem(item, modelIndex));
     }
+}
+
+void VerticalJournal::cleanupExistingItems()
+{
+    // Cleanup the existing items
+    for (int i = 0; i < m_columnVisibleItems.count(); ++i) {
+        QList<ViewItem> &column = m_columnVisibleItems[i];
+        Q_FOREACH(const ViewItem &item, column)
+            releaseItem(item);
+        column.clear();
+    }
+    m_indexColumnMap.clear();
 }
 
 void VerticalJournal::releaseItem(const ViewItem &item)

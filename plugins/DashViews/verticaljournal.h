@@ -138,7 +138,7 @@ private:
     QQuickItem *createItem(int modelIndex, bool asynchronous);
     void positionItem(int modelIndex, QQuickItem *item);
     void doRelayout();
-
+    void cleanupExistingItems();
     void releaseItem(const ViewItem &item);
 
 #if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
