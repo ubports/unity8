@@ -22,6 +22,7 @@
 #include <QtQml/qqml.h>
 #include <QStringListModel>
 #include <QQmlContext>
+#include <QQmlEngine>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-pedantic"
 #include <private/qquickitem_p.h>
@@ -81,16 +82,11 @@ private:
     }
 
 private Q_SLOTS:
-    void initTestCase()
-    {
-        qmlRegisterType<QAbstractItemModel>();
-        qmlRegisterType<VerticalJournal>("Journals", 0, 1, "VerticalJournal");
-    }
-
     void init()
     {
         view = new QQuickView();
         view->setResizeMode(QQuickView::SizeRootObjectToView);
+        view->engine()->addImportPath(BUILT_PLUGINS_DIR);
 
         model = new QHeightModel();
         heightList.clear();
@@ -105,7 +101,7 @@ private Q_SLOTS:
         view->resize(470, 400);
         QTest::qWaitForWindowExposed(view);
 
-        vj = view->rootObject()->findChild<VerticalJournal*>();
+        vj = dynamic_cast<VerticalJournal*>(view->rootObject()->findChild<QObject*>("vj"));
         vj->setModel(model);
 
         checkInitialPositions();
