@@ -18,6 +18,7 @@
 #include "plugin.h"
 
 #include "listviewwithpageheader.h"
+#include "verticaljournal.h"
 
 #include <QAbstractItemModel>
 
@@ -26,4 +27,5 @@ void DashViewsPlugin::registerTypes(const char *uri)
     Q_ASSERT(uri == QLatin1String("DashViews"));
     qmlRegisterType<QAbstractItemModel>();
     qmlRegisterType<ListViewWithPageHeader>(uri, 0, 1, "ListViewWithPageHeader");
+    qmlRegisterType<VerticalJournal>(uri, 0, 1, "VerticalJournal");
 }
