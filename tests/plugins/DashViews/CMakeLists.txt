@@ -45,6 +45,11 @@ qt5_use_modules(verticaljournaltestExec Test Core Qml)
 target_link_libraries(verticaljournaltestExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
 add_custom_target(testVerticalJournal ${CMAKE_CURRENT_BINARY_DIR}/verticaljournaltestExec -o ${CMAKE_BINARY_DIR}/testVerticalJournal.xml,xunitxml -o -,txt)
 
+add_executable(verticaljournaltryExec verticaljournaltry.cpp ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/DashViews/verticaljournal.cpp)
+qt5_use_modules(verticaljournaltryExec Test Core Qml)
+target_link_libraries(verticaljournaltryExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
+add_custom_target(tryVerticalJournal ${CMAKE_CURRENT_BINARY_DIR}/verticaljournaltryExec -o ${CMAKE_BINARY_DIR}/testVerticalJournal.xml,xunitxml -o -,txt)
+
 set(qmltest_DEFAULT_NO_ADD_TEST TRUE)
 add_qml_test(. listviewwithpageheaderqml IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
 

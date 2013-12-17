@@ -69,8 +69,18 @@ void VerticalJournal::setModel(QAbstractItemModel *model)
     if (model != this->model()) {
         if (!m_delegateModel) {
             createDelegateModel();
+        } else {
+#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
+            disconnect(m_delegateModel, SIGNAL(modelUpdated(QQuickChangeSet,bool)), this, SLOT(onModelUpdated(QQuickChangeSet,bool)));
         }
         m_delegateModel->setModel(QVariant::fromValue<QAbstractItemModel *>(model));
+        connect(m_delegateModel, SIGNAL(modelUpdated(QQuickChangeSet,bool)), this, SLOT(onModelUpdated(QQuickChangeSet,bool)));
+#else
+            disconnect(m_delegateModel, SIGNAL(modelUpdated(QQmlChangeSet,bool)), this, SLOT(onModelUpdated(QQmlChangeSet,bool)));
+        }
+        m_delegateModel->setModel(QVariant::fromValue<QAbstractItemModel *>(model));
+        connect(m_delegateModel, SIGNAL(modelUpdated(QQmlChangeSet,bool)), this, SLOT(onModelUpdated(QQmlChangeSet,bool)));
+#endif
 
         cleanupExistingItems();
 
@@ -477,7 +487,7 @@ void VerticalJournal::itemCreated(int modelIndex, QObject *object)
 {
     QQuickItem *item = qmlobject_cast<QQuickItem*>(object);
     if (!item) {
-        qWarning() << "ListViewWithPageHeader::itemCreated got a non item for index" << modelIndex;
+        qWarning() << "VerticalJournal::itemCreated got a non item for index" << modelIndex;
         return;
     }
 #endif
@@ -488,6 +498,21 @@ void VerticalJournal::itemCreated(int modelIndex, QObject *object)
         polish();
     }
 }
+
+#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
+void VerticalJournal::onModelUpdated(const QQuickChangeSet & /*changeSet*/, bool reset)
+#else
+void VerticalJournal::onModelUpdated(const QQmlChangeSet & /*changeSet*/, bool reset)
+#endif
+{
+    // TODO Add support for additions/removals at end that are not reset calls
+    // TODO Add a test for reset
+    if (reset) {
+        cleanupExistingItems();
+    }
+    polish();
+}
+
 
 void VerticalJournal::relayout()
 {
