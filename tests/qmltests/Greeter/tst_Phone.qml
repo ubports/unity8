@@ -17,7 +17,7 @@
 import QtQuick 2.0
 import QtTest 1.0
 import ".."
-import "../../../Greeter"
+import "../../../qml/Greeter"
 import AccountsService 0.1
 import LightDM 0.1 as LightDM
 import Ubuntu.Components 0.1

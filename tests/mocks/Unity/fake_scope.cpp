@@ -236,7 +236,7 @@ DeeModel* create_results_model(unsigned category_count, unsigned result_count) {
 
         dee_model_append(results_model,
                          ("uri://result."+std::to_string(i)).c_str(),
-                         (shellAppDirectory() + "graphics/applicationIcons/dash.png").toLatin1().data(),
+                         (qmlDirectory() + "graphics/applicationIcons/dash.png").toLatin1().data(),
                          category,
                          0,
                          "application/x-desktop",

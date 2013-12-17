@@ -24,7 +24,7 @@ import Unity.Application 0.1
 import Unity.Test 0.1 as UT
 import Powerd 0.1
 
-import "../.."
+import "../../qml"
 
 Item {
     width: shell.width

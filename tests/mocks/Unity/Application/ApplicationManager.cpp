@@ -274,7 +274,7 @@ void ApplicationManager::generateQmlStrings(ApplicationInfo *application)
         "   smooth: true\n"
         "   fillMode: Image.PreserveAspectCrop\n"
         "}").arg(topMargin)
-            .arg(shellAppDirectory())
+            .arg(qmlDirectory())
             .arg(application->icon().toString());
     application->setWindowQml(windowQml);
 
@@ -285,7 +285,7 @@ void ApplicationManager::generateQmlStrings(ApplicationInfo *application)
         "   source: \"file://%1/Dash/graphics/phone/screenshots/%2.png\"\n"
         "   smooth: true\n"
         "   fillMode: Image.PreserveAspectCrop\n"
-        "}").arg(shellAppDirectory())
+        "}").arg(qmlDirectory())
             .arg(application->icon().toString());
     application->setImageQml(imageQml);
 }

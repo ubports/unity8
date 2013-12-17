@@ -249,9 +249,9 @@ QVariant IndicatorsModel::data(const QModelIndex &index, int role) const
             }
             break;
         case IndicatorsModelRole::WidgetSource:
-            return shellAppDirectory()+"/Panel/Indicators/DefaultIndicatorWidget.qml";
+            return qmlDirectory()+"/Panel/Indicators/DefaultIndicatorWidget.qml";
         case IndicatorsModelRole::PageSource:
-            return shellAppDirectory()+"/Panel/Indicators/DefaultIndicatorPage.qml";
+            return qmlDirectory()+"/Panel/Indicators/DefaultIndicatorPage.qml";
         default:
             break;
     }
