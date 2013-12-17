@@ -142,8 +142,8 @@ private:
 
     void createDelegateModel();
     void refill();
-    void findBottomModelIndexToAdd(int *modelIndex, double *yPos);
-    void findTopModelIndexToAdd(int *modelIndex, double *yPos);
+    void findBottomModelIndexToAdd(int *modelIndex, qreal *yPos);
+    void findTopModelIndexToAdd(int *modelIndex, qreal *yPos);
     bool addVisibleItems(qreal fillFrom, qreal fillTo, bool asynchronous);
     bool removeNonVisibleItems(qreal bufferFrom, qreal bufferTo);
     QQuickItem *createItem(int modelIndex, bool asynchronous);

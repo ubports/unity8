@@ -250,15 +250,15 @@ void VerticalJournal::refill()
     }
 }
 
-void VerticalJournal::findBottomModelIndexToAdd(int *modelIndex, double *yPos)
+void VerticalJournal::findBottomModelIndexToAdd(int *modelIndex, qreal *yPos)
 {
     *modelIndex = 0;
-    *yPos = INT_MAX;
+    *yPos = std::numeric_limits<qreal>::max();
 
     Q_FOREACH(const auto &column, m_columnVisibleItems) {
         if (!column.isEmpty()) {
             const ViewItem &item = column.last();
-            *yPos = qMin(*yPos, static_cast<double>(item.y() + item.height() + m_rowSpacing));
+            *yPos = qMin(*yPos, item.y() + item.height() + m_rowSpacing);
             *modelIndex = qMax(*modelIndex, item.m_modelIndex + 1);
         } else {
             *yPos = 0;
@@ -266,10 +266,10 @@ void VerticalJournal::findBottomModelIndexToAdd(int *modelIndex, double *yPos)
     }
 }
 
-void VerticalJournal::findTopModelIndexToAdd(int *modelIndex, double *yPos)
+void VerticalJournal::findTopModelIndexToAdd(int *modelIndex, qreal *yPos)
 {
     *modelIndex = INT_MAX;
-    *yPos = INT_MIN;
+    *yPos = std::numeric_limits<qreal>::lowest();
     int columnToAddTo = -1;
 
     // Find the topmost free column
@@ -308,7 +308,7 @@ bool VerticalJournal::addVisibleItems(qreal fillFrom, qreal fillTo, bool asynchr
         return false;
 
     int modelIndex;
-    double yPos;
+    qreal yPos;
     findBottomModelIndexToAdd(&modelIndex, &yPos);
     bool changed = false;
     while (modelIndex < m_delegateModel->count() && yPos <= fillTo) {
