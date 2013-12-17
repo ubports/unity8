@@ -548,8 +548,7 @@ void VerticalJournal::componentComplete()
 
     QQuickItem::componentComplete();
 
-    const int nColumns = qMax(1., floor((double)(width() - m_horizontalSpacing) / (m_columnWidth + m_horizontalSpacing)));
-    m_columnVisibleItems.resize(nColumns);
+    m_needsRelayout = true;
 
     polish();
 }
