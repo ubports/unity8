@@ -469,8 +469,8 @@ Item {
 
         function test_background_data() {
             return [
-                {tag: "red", url: "tests/data/unity/backgrounds/red.png", expectedUrl: "tests/data/unity/backgrounds/red.png"},
-                {tag: "blue", url: "tests/data/unity/backgrounds/blue.png", expectedUrl: "tests/data/unity/backgrounds/blue.png"},
+                {tag: "red", url: Qt.resolvedUrl("../data/unity/backgrounds/red.png"), expectedUrl: "tests/data/unity/backgrounds/red.png"},
+                {tag: "blue", url: Qt.resolvedUrl("../data/unity/backgrounds/blue.png"), expectedUrl: "tests/data/unity/backgrounds/blue.png"},
                 {tag: "invalid", url: "invalid", expectedUrl: shell.defaultBackground},
                 {tag: "empty", url: "", expectedUrl: shell.defaultBackground}
             ]

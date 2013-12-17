@@ -64,12 +64,12 @@ Item {
     ScopeDelegateMapper {
         id: scopeDelegateMapper
         scopeDelegateMapping: {
-            "MockScope1": "../tests/qmltests/Dash/qml/fake_scopeView1.qml",
-            "MockScope2": "../tests/qmltests/Dash/qml/fake_scopeView2.qml",
-            "home.scope": "../tests/qmltests/Dash/qml/fake_scopeView3.qml",
-            "applications.scope": "../tests/qmltests/Dash/qml/fake_scopeView4.qml"
+            "MockScope1": Qt.resolvedUrl("qml/fake_scopeView1.qml"),
+            "MockScope2": Qt.resolvedUrl("qml/fake_scopeView2.qml"),
+            "home.scope": Qt.resolvedUrl("qml/fake_scopeView3.qml"),
+            "applications.scope": Qt.resolvedUrl("qml/fake_scopeView4.qml")
         }
-        genericScope: "../tests/qmltests/Dash/qml/fake_generic_scopeView.qml"
+        genericScope: Qt.resolvedUrl("qml/fake_generic_scopeView.qml")
     }
 
     function clear_scope_status() {

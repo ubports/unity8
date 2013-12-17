@@ -33,7 +33,7 @@ Item {
         height: parent.height
         x: 0; y: 0
 
-        defaultBackground: "../../../graphics/phone_background.jpg"
+        defaultBackground: Qt.resolvedUrl("../../../qml/graphics/phone_background.jpg")
 
         property int minX: 0
 
@@ -135,7 +135,7 @@ Item {
 
         function test_background_data() {
             return [
-                {tag: "set", accounts: "../tests/data/unity/backgrounds/blue.png", expected: "blue.png"},
+                {tag: "set", accounts: Qt.resolvedUrl("../../data/unity/backgrounds/blue.png"), expected: "blue.png"},
                 {tag: "unset", accounts: "", expected: "background.jpg"},
                 {tag: "invalid", accounts: "invalid", expected: "background.jpg"},
             ]
