@@ -506,6 +506,8 @@ void VerticalJournal::updatePolish()
         return;
 
     if (m_needsRelayout) {
+        m_implicitHeightDirty = true;
+
         QList<ViewItem> allItems;
         Q_FOREACH(const auto &column, m_columnVisibleItems)
             allItems << column;

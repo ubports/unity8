@@ -218,7 +218,7 @@ private Q_SLOTS:
         verifyItem(vj->m_columnVisibleItems[1][5], 15, 160, 435, false);
         verifyItem(vj->m_columnVisibleItems[0][4], 16,   0, 574, false);
         verifyItem(vj->m_columnVisibleItems[1][6], 17, 160, 576, false);
-        QCOMPARE(vj->implicitHeight(), 970. + 2. * 970. / 18.);
+        QCOMPARE(vj->implicitHeight(), 974. + 2. * 974. / 18.);
 
         vj->setRowSpacing(10);
         QTRY_COMPARE(vj->m_needsRelayout, false);
