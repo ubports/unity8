@@ -23,7 +23,7 @@
 #ifndef UNITY_USERSMODEL_H
 #define UNITY_USERSMODEL_H
 
-#include "plugins/Utils/qsortfilterproxymodelqml.h"
+#include <qsortfilterproxymodelqml.h>
 #include <QtCore/QObject>
 
 class UsersModel : public QSortFilterProxyModelQML

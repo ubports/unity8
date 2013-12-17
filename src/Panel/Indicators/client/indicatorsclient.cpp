@@ -19,7 +19,8 @@
  */
 
 #include "indicatorsclient.h"
-#include "paths.h"
+
+#include <paths.h>
 
 #include <QQuickView>
 #include <QQmlContext>

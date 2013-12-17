@@ -16,7 +16,8 @@
 
 #include "ApplicationManager.h"
 #include "ApplicationInfo.h"
-#include "paths.h"
+
+#include <paths.h>
 
 #include <QDir>
 #include <QGuiApplication>

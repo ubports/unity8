@@ -16,7 +16,7 @@
 
 #include "fake_scope.h"
 #include "fake_preview.h"
-#include "paths.h"
+#include <paths.h>
 
 #include <dee.h>
 

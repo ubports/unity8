@@ -21,7 +21,8 @@
 #include "indicatorsmanager.h"
 #include "indicator.h"
 #include "indicators.h"
-#include "paths.h"
+
+#include <paths.h>
 
 #include <QQmlContext>
 #include <QQmlEngine>
