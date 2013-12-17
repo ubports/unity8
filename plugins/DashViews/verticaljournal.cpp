@@ -444,6 +444,27 @@ void VerticalJournal::releaseItem(const ViewItem &item)
     }
 }
 
+void VerticalJournal::calculateImplicitHeight()
+{
+    m_implicitHeightDirty = false;
+
+    int lastModelIndex = -1;
+    qreal bottomMostY = 0;
+    Q_FOREACH(const auto &column, m_columnVisibleItems) {
+        if (!column.isEmpty()) {
+            const ViewItem &item = column.last();
+            lastModelIndex = qMax(lastModelIndex, item.m_modelIndex);
+            bottomMostY = qMax(bottomMostY, item.y() + item.height() + m_verticalSpacing);
+        }
+    }
+    if (lastModelIndex >= 0) {
+        const double averageHeight = bottomMostY / (lastModelIndex + 1);
+        setImplicitHeight(bottomMostY + averageHeight * (model()->rowCount() - lastModelIndex - 1));
+    } else {
+        setImplicitHeight(0);
+    }
+}
+
 #if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
 void VerticalJournal::itemCreated(int modelIndex, QQuickItem *item)
 {
@@ -521,23 +542,7 @@ void VerticalJournal::updatePolish()
     }
 
     if (m_implicitHeightDirty) {
-        m_implicitHeightDirty = false;
-
-        int lastModelIndex = -1;
-        qreal bottomMostY = 0;
-        Q_FOREACH(const auto &column, m_columnVisibleItems) {
-            if (!column.isEmpty()) {
-                const ViewItem &item = column.last();
-                lastModelIndex = qMax(lastModelIndex, item.m_modelIndex);
-                bottomMostY = qMax(bottomMostY, item.y() + item.height() + m_verticalSpacing);
-            }
-        }
-        if (lastModelIndex >= 0) {
-            const double averageHeight = bottomMostY / (lastModelIndex + 1);
-            setImplicitHeight(bottomMostY + averageHeight * (model()->rowCount() - lastModelIndex - 1));
-        } else {
-            setImplicitHeight(0);
-        }
+        calculateImplicitHeight();
     }
 }
 

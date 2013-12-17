@@ -154,6 +154,7 @@ private:
     void positionItem(int modelIndex, QQuickItem *item);
     void cleanupExistingItems();
     void releaseItem(const ViewItem &item);
+    void calculateImplicitHeight();
 
 #if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
     QQuickVisualDataModel *m_delegateModel;
