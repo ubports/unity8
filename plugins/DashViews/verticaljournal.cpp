@@ -392,16 +392,20 @@ QQuickItem *VerticalJournal::createItem(int modelIndex, bool asynchronous)
 void VerticalJournal::positionItem(int modelIndex, QQuickItem *item)
 {
     // Check if we add it to the bottom of existing column items
-    qreal columnToAddY = !m_columnVisibleItems[0].isEmpty() ? m_columnVisibleItems[0].last().y() + m_columnVisibleItems[0].last().height() : 0;
+    const QList<ViewItem> &firstColumn = m_columnVisibleItems[0];
+    qreal columnToAddY = !firstColumn.isEmpty() ? firstColumn.last().y() + firstColumn.last().height() : 0;
     int columnToAddTo = 0;
     for (int i = 1; i < m_columnVisibleItems.count(); ++i) {
-        const qreal iY = !m_columnVisibleItems[i].isEmpty() ? m_columnVisibleItems[i].last().y() + m_columnVisibleItems[i].last().height() : 0;
+        const QList<ViewItem> &column = m_columnVisibleItems[i];
+        const qreal iY = !column.isEmpty() ? column.last().y() + column.last().height() : 0;
         if (iY < columnToAddY) {
             columnToAddTo = i;
             columnToAddY = iY;
         }
     }
-    if (m_columnVisibleItems[columnToAddTo].isEmpty() || m_columnVisibleItems[columnToAddTo].last().m_modelIndex < modelIndex) {
+
+    const QList<ViewItem> &columnToAdd = m_columnVisibleItems[columnToAddTo];
+    if (columnToAdd.isEmpty() || columnToAdd.last().m_modelIndex < modelIndex) {
         item->setX(columnToAddTo * m_columnWidth + m_horizontalSpacing * (columnToAddTo + 1));
         item->setY(columnToAddY + m_verticalSpacing);
 
