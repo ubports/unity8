@@ -154,7 +154,7 @@ private Q_SLOTS:
         checkInitialPositions();
     }
 
-    void testHorizontalSpacing()
+    void testColumnSpacing()
     {
         vj->setColumnSpacing(11);
 
@@ -185,7 +185,7 @@ private Q_SLOTS:
         checkInitialPositions();
     }
 
-    void testVerticalSpacing()
+    void testRowSpacing()
     {
         vj->setRowSpacing(11);
 
