@@ -93,8 +93,6 @@ private Q_SLOTS:
         heightList << "100" << "50" << "125" << "10" << "40" << "70" << "200" << "110" << "160" << "20" << "20" << "65" << "80" << "200" << "300" << "130" << "400" << "300" << "500" << "10";
         model->setStringList(heightList);
 
-        view->rootContext()->setContextProperty("theModel", model);
-
         view->setSource(QUrl::fromLocalFile(DASHVIEWSTEST_FOLDER "/verticaljournaltest.qml"));
 
         view->show();
