@@ -92,6 +92,7 @@ class ApplicationManager : public ApplicationManagerInterface {
     Q_INVOKABLE ApplicationInfo *startApplication(const QString &appId, const QStringList &arguments = QStringList()) override;
     Q_INVOKABLE ApplicationInfo *startApplication(const QString &appId, ExecFlags flags, const QStringList &arguments = QStringList());
     Q_INVOKABLE bool stopApplication(const QString &appId) override;
+    Q_INVOKABLE void updateScreenshot(const QString &appId) override;
 
     QString focusedApplicationId() const override;
 

@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Utils 0.1
+import Unity.Application 0.1
 import "../Components"
 import "../Components/ListItems"
 import "Apps"
@@ -24,10 +25,6 @@ import "Apps"
 GenericScopeView {
     id: scopeView
     objectName: "DashApps"
-
-    // FIXME: a way to aggregate these models would be ideal
-    property var mainStageApplicationsModel: shell.applicationManager.mainStageApplications
-    property var sideStageApplicationModel: shell.applicationManager.sideStageApplications
 
     //FIXME an alias to itself shouldn't be required. More than likely a Qt bug. Try removing with newer Qt.
     property alias searchHistory: scopeView.searchHistory
@@ -41,19 +38,16 @@ GenericScopeView {
     SortFilterProxyModel {
         id: runningApplicationsModel
 
-        property var firstModel: mainStageApplicationsModel
-        property var secondModel: sideStageApplicationModel
         property bool canEnableTerminationMode: scopeView.isCurrent
 
-        model: dummyVisibilityModifier
+        model: ApplicationManager
         filterRole: 0
-        filterRegExp: invertMatch ? ((mainStageApplicationsModel.count === 0 &&
-                                      sideStageApplicationModel.count === 0) ? RegExp("running-apps") : RegExp("")) : RegExp("disabled")
+        filterRegExp: invertMatch ? (ApplicationManager.count === 0 ? RegExp("running-apps") : RegExp("")) : RegExp("disabled")
         invertMatch: scopeView.scope.searchQuery.length == 0
     }
 
     onScopeChanged: {
         scopeView.scope.categories.overrideResults("recent", runningApplicationsModel);
-        enableHeightBehaviorOnNextCreation = (mainStageApplicationsModel.count + sideStageApplicationModel.count == 0)
+        enableHeightBehaviorOnNextCreation = ApplicationManager.count === 0
     }
 }

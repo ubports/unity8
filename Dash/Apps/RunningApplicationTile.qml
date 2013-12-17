@@ -23,7 +23,6 @@ import "../../Components/ListItems"
 AbstractButton {
     id: root
     property var application
-    property bool __sideStageEnabled: shell.applicationManager.sideStageEnabled
 
     signal requestedApplicationActivation(var application)
     signal requestedApplicationTermination(var application)
@@ -51,33 +50,51 @@ AbstractButton {
         }
     }
 
-    function updateScreenshotFromCache() {
-        applicationImage.updateFromCache();
-    }
+    Component.onCompleted: print("---------------created apptile", application, application.source)
 
-    // FIXME: should use UbuntuShape from SDK
     UbuntuShapeForItem {
         id: shapedApplicationImage
-        anchors {
-            top: parent.top
-            horizontalCenter: parent.horizontalCenter
-        }
+        anchors { top: parent.top; horizontalCenter: parent.horizontalCenter }
 
         // FIXME: width and height should be defined according to the
         // application window's aspect ratio.
-        width: (application.stage === ApplicationInfo.MainStage && __sideStageEnabled) ?
-            units.gu(22) : units.gu(11)
-        height: (__sideStageEnabled) ? units.gu(22) : units.gu(19)
+        height: units.gu(19)
+        width: applicationImage.width
         radius: "medium"
-        image: applicationImage
+
+        image: Image {
+            id: applicationImage
+            source: application.screenshot
+            // height : width = ss.height : ss.width
+            height: shapedApplicationImage.height
+            width: height * sourceSize.width / sourceSize.height
+        }
+
     }
 
-    ApplicationImage {
-        id: applicationImage
-        source: ApplicationManager.findApplication((application) ? application.appId : "")
-        width: shapedApplicationImage.width
-        height: shapedApplicationImage.height
-    }
+//    // FIXME: should use UbuntuShape from SDK
+//    UbuntuShapeForItem {
+//        id: shapedApplicationImage
+//        anchors {
+//            top: parent.top
+//            horizontalCenter: parent.horizontalCenter
+//        }
+
+//        // FIXME: width and height should be defined according to the
+//        // application window's aspect ratio.
+//        width: (application.stage === ApplicationInfo.MainStage && __sideStageEnabled) ?
+//            units.gu(22) : units.gu(11)
+//        height: (__sideStageEnabled) ? units.gu(22) : units.gu(19)
+//        radius: "medium"
+//        image: applicationImage
+//    }
+
+//    ApplicationImage {
+//        id: applicationImage
+//        source: ApplicationManager.findApplication((application) ? application.appId : "")
+//        width: shapedApplicationImage.width
+//        height: shapedApplicationImage.height
+//    }
 
     UbuntuShape {
         id: borderPressed

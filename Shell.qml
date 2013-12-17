@@ -49,19 +49,21 @@ FocusScope {
     readonly property real panelHeight: panel.panelHeight
 
     property bool dashShown: dash.shown
-    property bool stageScreenshotsReady: {
-        if (sideStage.shown) {
-            if (mainStage.applications.count > 0) {
-                return mainStage.usingScreenshots && sideStage.usingScreenshots;
-            } else {
-                return sideStage.usingScreenshots;
-            }
+
+    function activateApplication(appId) {
+        if (ApplicationManager.findApplication(appId)) {
+            print("Shell.qml: activating app", appId);
+            ApplicationManager.activateApplication(appId);
         } else {
-            return mainStage.usingScreenshots;
+            print("starting app", appId);
+
+            // FIXME:
+//            var execFlags = sideStageEnabled ? ApplicationManager.NoFlag : ApplicationManager.ForceMainStage;
+            var execFlags = ApplicationManager.ForceMainStage;
+
+            ApplicationManager.startApplication(appId, execFlags);
         }
     }
-
-    property var applicationManager: ApplicationManagerWrapper {}
 
     Binding {
         target: LauncherModel
@@ -71,49 +73,6 @@ FocusScope {
 
     Component.onCompleted: {
         Theme.name = "Ubuntu.Components.Themes.SuruGradient"
-
-        applicationManager.sideStageEnabled = Qt.binding(function() { return sideStage.enabled })
-
-        // FIXME: if application focused before shell starts, shell draws on top of it only.
-        // We should detect already running applications on shell start and bring them to the front.
-        applicationManager.unfocusCurrentApplication();
-    }
-
-    readonly property bool applicationFocused: !!applicationManager.mainStageFocusedApplication
-                                               || !!applicationManager.sideStageFocusedApplication
-    // Used for autopilot testing.
-    readonly property string currentFocusedAppId: ApplicationManager.focusedApplicationId
-
-    readonly property bool fullscreenMode: {
-        if (greeter.shown || lockscreen.shown) {
-            return false;
-        } else if (mainStage.usingScreenshots) { // Window Manager animating so want to re-evaluate fullscreen mode
-            return mainStage.switchingFromFullscreenToFullscreen;
-        } else if (applicationManager.mainStageFocusedApplication) {
-            return applicationManager.mainStageFocusedApplication.fullscreen;
-        } else {
-            return false;
-        }
-    }
-
-    function activateApplication(appId, argument) {
-        if (applicationManager) {
-            // For newly started applications, as it takes them time to draw their first frame
-            // we add a delay before we hide the animation screenshots to compensate.
-            var addDelay = !applicationManager.getApplicationFromDesktopFile(appId);
-
-            var application;
-            application = applicationManager.activateApplication(appId, argument);
-            if (application == null) {
-                return;
-            }
-            if (application.stage == ApplicationInfo.MainStage || !sideStage.enabled) {
-                mainStage.activateApplication(appId, addDelay);
-            } else {
-                sideStage.activateApplication(appId, addDelay);
-            }
-            stages.show();
-        }
     }
 
     GSettings {
@@ -161,18 +120,17 @@ FocusScope {
         // Whether the underlay is fully covered by opaque UI elements.
         property bool fullyCovered: panel.indicators.fullyOpened && shell.width <= panel.indicatorsMenuWidth
 
-        readonly property bool applicationRunning: ((mainStage.applications && mainStage.applications.count > 0)
-                                           || (sideStage.applications && sideStage.applications.count > 0))
+        readonly property bool applicationRunning: ApplicationManager.focusedApplicationId.length > 0
 
         // Whether the user should see the topmost application surface (if there's one at all).
-        readonly property bool applicationSurfaceShouldBeSeen: applicationRunning && !stages.fullyHidden
-                                           && !mainStage.usingScreenshots // but want sideStage animating over app surface
-
-
+        readonly property bool applicationSurfaceShouldBeSeen: applicationRunning && !stages.painting
 
         // NB! Application surfaces are stacked behing the shell one. So they can only be seen by the user
         // through the translucent parts of the shell surface.
         visible: !fullyCovered && !applicationSurfaceShouldBeSeen
+
+        onVisibleChanged: print("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh", visible, fullyCovered, applicationSurfaceShouldBeSeen,
+                                applicationRunning, stages.fullyHidden, stages.usingScreenshots)
 
         CrossFadeImage {
             id: backgroundImage
@@ -197,12 +155,6 @@ FocusScope {
             hides: [stages, launcher, panel.indicators]
             shown: disappearingAnimationProgress !== 1.0
             enabled: disappearingAnimationProgress === 0.0 && edgeDemo.dashEnabled
-            // FIXME: unfocus all applications when going back to the dash
-            onEnabledChanged: {
-                if (enabled) {
-                    shell.applicationManager.unfocusCurrentApplication()
-                }
-            }
 
             anchors {
                 fill: parent
@@ -233,8 +185,7 @@ FocusScope {
         x: launcher.progress
         Behavior on x {SmoothedAnimation{velocity: 600}}
 
-        property real showProgress:
-            MathUtils.clamp(1 - (x + stages.x) / shell.width, 0, 1)
+        property real showProgress: MathUtils.clamp(1 - (x + stages.x) / shell.width, 0, 1)
 
         Showable {
             id: stages
@@ -244,6 +195,9 @@ FocusScope {
 
             property bool fullyShown: shown && x == 0 && parent.x == 0
             property bool fullyHidden: !shown && x == width
+
+            property bool painting: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.painting : false
+
             available: !greeter.shown
             hides: [panel.indicators]
             shown: false
@@ -254,145 +208,50 @@ FocusScope {
             width: parent.width
             height: parent.height
 
-            // close the stages when no focused application remains
-            Connections {
-                target: shell.applicationManager
-                onMainStageFocusedApplicationChanged: stages.closeIfNoApplications()
-                onSideStageFocusedApplicationChanged: stages.closeIfNoApplications()
-                ignoreUnknownSignals: true
-            }
-
-            function closeIfNoApplications() {
-                if (!shell.applicationManager.mainStageFocusedApplication
-                 && !shell.applicationManager.sideStageFocusedApplication
-                 && shell.applicationManager.mainStageApplications.count == 0
-                 && shell.applicationManager.sideStageApplications.count == 0) {
-                    stages.hide();
+            onShownChanged: {
+                print("stages shown", shown)
+                if (!shown) {
+                    ApplicationManager.unfocusCurrentApplication();
                 }
             }
 
-            // show the stages when an application gets the focus
+            onFullyShownChanged: {
+                print("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk", fullyShown)
+            }
+
             Connections {
-                target: shell.applicationManager
-                onMainStageFocusedApplicationChanged: {
-                    if (shell.applicationManager.mainStageFocusedApplication) {
-                        mainStage.show();
+                target: ApplicationManager
+                onFocusedApplicationIdChanged: {
+                    if (ApplicationManager.focusedApplicationId.length > 0) {
+                        print("should show stages")
                         stages.show();
                     }
                 }
-                onSideStageFocusedApplicationChanged: {
-                    if (shell.applicationManager.sideStageFocusedApplication) {
-                        sideStage.show();
-                        stages.show();
-                    }
-                }
-                ignoreUnknownSignals: true
-            }
 
-            Stage {
-                id: mainStage
-
-                anchors.fill: parent
-                fullyShown: stages.fullyShown
-                fullyHidden: stages.fullyHidden
-                shouldUseScreenshots: !fullyShown
-                rightEdgeEnabled: !sideStage.enabled
-
-                applicationManager: shell.applicationManager
-                rightEdgeDraggingAreaWidth: shell.edgeSize
-                normalApplicationY: shell.panelHeight
-
-                shown: true
-                function show() {
+                onApplicationAdded: {
                     stages.show();
                 }
-                function hide() {
-                }
-
-                // FIXME: workaround the fact that focusing a main stage application
-                // raises its surface on top of all other surfaces including the ones
-                // that belong to side stage applications.
-                onFocusedApplicationChanged: {
-                    if (focusedApplication && sideStage.focusedApplication && sideStage.fullyShown) {
-                        shell.applicationManager.focusApplication(sideStage.focusedApplication);
-                    }
-                }
             }
 
-            SideStage {
-                id: sideStage
+            Loader {
+                id: applicationsDisplayLoader
+                anchors.fill: parent
 
-                applicationManager: shell.applicationManager
-                rightEdgeDraggingAreaWidth: shell.edgeSize
-                normalApplicationY: shell.panelHeight
+//                source: "Stages/StageWithSideStage.qml"
+                source: "Stages/PhoneStage.qml"
 
-                onShownChanged: {
-                    if (!shown && mainStage.applications.count == 0) {
-                        stages.hide();
-                    }
+//                Rectangle { anchors.fill: parent; color: "blue"; opacity: .5 }
+
+                Binding {
+                    target: applicationsDisplayLoader.item
+                    property: "moving"
+                    value: !stages.fullyShown
                 }
-                // FIXME: when hiding the side stage, refocus the main stage
-                // application so that it goes in front of the side stage
-                // application and hides it
-                onFullyShownChanged: {
-                    if (!fullyShown && stages.fullyShown && sideStage.focusedApplication != null) {
-                        shell.applicationManager.focusApplication(mainStage.focusedApplication);
-                    }
+                Binding {
+                    target: applicationsDisplayLoader.item
+                    property: "shown"
+                    value: stages.shown
                 }
-
-                enabled: shell.width >= units.gu(60)
-                visible: enabled
-                fullyShown: stages.fullyShown && shown
-                            && sideStage[sideStageRevealer.boundProperty] == sideStageRevealer.openedValue
-                shouldUseScreenshots: !fullyShown || mainStage.usingScreenshots || sideStageRevealer.pressed
-
-                available: !greeter.shown && !lockscreen.shown && enabled
-                hides: [launcher, panel.indicators]
-                shown: false
-                showAnimation: StandardAnimation { property: "x"; duration: 350; to: sideStageRevealer.openedValue; easing.type: Easing.OutQuint }
-                hideAnimation: StandardAnimation { property: "x"; duration: 350; to: sideStageRevealer.closedValue; easing.type: Easing.OutQuint }
-
-                width: units.gu(40)
-                height: stages.height
-                handleExpanded: sideStageRevealer.pressed
-            }
-
-            Revealer {
-                id: sideStageRevealer
-
-                enabled: mainStage.applications.count > 0 && sideStage.applications.count > 0
-                         && sideStage.available
-                direction: Qt.RightToLeft
-                openedValue: parent.width - sideStage.width
-                hintDisplacement: units.gu(3)
-                /* The size of the sidestage handle needs to be bigger than the
-                   typical size used for edge detection otherwise it is really
-                   hard to grab.
-                */
-                handleSize: sideStage.shown ? units.gu(4) : shell.edgeSize
-                closedValue: parent.width + sideStage.handleSizeCollapsed
-                target: sideStage
-                x: parent.width - width
-                width: sideStage.width + handleSize * 0.7
-                height: sideStage.height
-                orientation: Qt.Horizontal
-            }
-
-            DragHandle {
-                id: stagesDragHandle
-
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                anchors.right: parent.left
-
-                width: shell.edgeSize
-                direction: Direction.Leftwards
-                enabled: greeter.showProgress == 0 && edgeDemo.dashEnabled
-                property bool haveApps: mainStage.applications.count > 0 || sideStage.applications.count > 0
-
-                maxTotalDragDistance: haveApps ? parent.width : parent.width * 0.7
-                // Make autocompletion impossible when !haveApps
-                edgeDragEvaluator.minDragDistance: haveApps ? maxTotalDragDistance * 0.1 : Number.MAX_VALUE
             }
         }
     }
@@ -472,23 +331,6 @@ FocusScope {
         property var previousMainApp: null
         property var previousSideApp: null
 
-        function removeApplicationFocus() {
-            greeter.previousMainApp = applicationManager.mainStageFocusedApplication;
-            greeter.previousSideApp = applicationManager.sideStageFocusedApplication;
-            applicationManager.unfocusCurrentApplication();
-        }
-
-        function restoreApplicationFocus() {
-            if (greeter.previousMainApp) {
-                applicationManager.focusApplication(greeter.previousMainApp);
-                greeter.previousMainApp = null;
-            }
-            if (greeter.previousSideApp) {
-                applicationManager.focusApplication(greeter.previousSideApp);
-                greeter.previousSideApp = null;
-            }
-        }
-
         onShownChanged: {
             if (shown) {
                 lockscreen.reset();
@@ -499,9 +341,6 @@ FocusScope {
                     greeter.selected(0);
                 }
                 greeter.forceActiveFocus();
-                removeApplicationFocus();
-            } else {
-                restoreApplicationFocus();
             }
         }
 
@@ -518,34 +357,11 @@ FocusScope {
                 launcher.tease();
             }
         }
-
-        Connections {
-            target: applicationManager
-            ignoreUnknownSignals: true
-            // If any app is focused when greeter is open, it's due to a user action
-            // like a snap decision (say, an incoming call).
-            // TODO: these should be protected to only unlock for certain applications / certain usecases
-            // potentially only in connection with a notification.
-            onMainStageFocusedApplicationChanged: {
-                if (greeter.shown && applicationManager.mainStageFocusedApplication) {
-                    greeter.previousMainApp = null // make way for new focused app
-                    greeter.previousSideApp = null
-                    greeter.hide()
-                }
-            }
-            onSideStageFocusedApplicationChanged: {
-                if (greeter.shown && applicationManager.sideStageFocusedApplication) {
-                    greeter.previousMainApp = null // make way for new focused app
-                    greeter.previousSideApp = null
-                    greeter.hide()
-                }
-            }
-        }
     }
 
     InputFilterArea {
         anchors.fill: parent
-        blockInput: !applicationFocused || greeter.shown || lockscreen.shown || launcher.shown
+        blockInput: ApplicationManager.focusedApplicationId.length === 0 || greeter.shown || lockscreen.shown || launcher.shown
                     || panel.indicators.shown || hud.shown
     }
 
@@ -590,7 +406,9 @@ FocusScope {
                 available: edgeDemo.panelEnabled
                 contentEnabled: edgeDemo.panelContentEnabled
             }
-            fullscreenMode: shell.fullscreenMode
+            property string focusedAppId: ApplicationManager.focusedApplicationId
+            property var focusedApplication: ApplicationManager.findApplication(focusedAppId)
+            fullscreenMode: focusedApplication && focusedApplication.fullscreen
             searchVisible: !greeter.shown && !lockscreen.shown && dash.shown
 
             InputFilterArea {
@@ -616,9 +434,8 @@ FocusScope {
             hideAnimation: StandardAnimation { property: "y"; duration: hud.showableAnimationDuration; to: hudRevealer.closedValue; easing.type: Easing.Linear }
 
             Connections {
-                target: shell.applicationManager
-                onMainStageFocusedApplicationChanged: hud.hide()
-                onSideStageFocusedApplicationChanged: hud.hide()
+                target: ApplicationManager
+                onFocusedApplicationIdChanged: hud.hide()
             }
         }
 
@@ -643,7 +460,7 @@ FocusScope {
             theHud: hud
             anchors.fill: parent
             enabled: hud.available
-            applicationIsOnForeground: applicationFocused
+            applicationIsOnForeground: ApplicationManager.focusedApplicationId
         }
 
         InputFilterArea {
@@ -667,7 +484,12 @@ FocusScope {
             dragAreaWidth: shell.edgeSize
             available: (!greeter.shown || greeter.narrowMode) && edgeDemo.launcherEnabled
 
-            onDashItemSelected: showHome()
+            onDashItemSelected: {
+                if (edgeDemo.running)
+                    return;
+
+                showHome()
+            }
             onDash: {
                 if (stages.shown) {
                     stages.hide();
@@ -676,6 +498,9 @@ FocusScope {
             }
             onDashSwipeChanged: if (dashSwipe && stages.shown) dash.setCurrentScope("applications.scope", false, true)
             onLauncherApplicationSelected:{
+                if (edgeDemo.running)
+                    return;
+
                 greeter.hide()
                 shell.activateApplication(appId)
             }
@@ -761,14 +586,14 @@ FocusScope {
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
-        height: shell.applicationManager ? shell.applicationManager.keyboardHeight : 0
+        height: ApplicationManager.keyboardVisible ? ApplicationManager.keyboardHeight : 0
 
-        enabled: shell.applicationManager && shell.applicationManager.keyboardVisible
+        enabled: ApplicationManager.keyboardVisible
     }
 
     Label {
         anchors.centerIn: parent
-        visible: applicationManager.fake
+        visible: ApplicationManager.fake ? ApplicationManager.fake : false
         text: "EARLY ALPHA\nNOT READY FOR USE"
         color: "lightgrey"
         opacity: 0.2

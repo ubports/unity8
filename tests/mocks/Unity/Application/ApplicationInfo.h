@@ -74,6 +74,7 @@ class ApplicationInfo : public ApplicationInfoInterface {
     IMPLEMENT_PROPERTY(fullscreen, Fullscreen, bool)
     IMPLEMENT_PROPERTY(imageQml, ImageQml, QString)
     IMPLEMENT_PROPERTY(windowQml, WindowQml, QString)
+    IMPLEMENT_PROPERTY(screenshot, Screenshot, QUrl)
 
     #undef IMPLEMENT_PROPERTY
 

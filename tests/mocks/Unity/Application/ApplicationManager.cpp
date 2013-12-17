@@ -23,6 +23,9 @@
 #include <QQuickItem>
 #include <QQuickView>
 #include <QQmlComponent>
+#include <QTimer>
+#include <QDateTime>
+#include <QDebug>
 
 ApplicationManager::ApplicationManager(QObject *parent)
     : ApplicationManagerInterface(parent)
@@ -170,6 +173,8 @@ ApplicationInfo* ApplicationManager::startApplication(const QString &appId,
     }
     add(application);
 
+    QMetaObject::invokeMethod(this, "focusApplication", Qt::QueuedConnection, Q_ARG(QString, appId));
+
     return application;
 }
 
@@ -181,7 +186,29 @@ bool ApplicationManager::stopApplication(const QString &appId)
 
     remove(application);
     Q_EMIT focusedApplicationIdChanged();
+    qDebug() << Q_FUNC_INFO << "emitting focusedAppChanged" << focusedApplicationId();
     return true;
+}
+
+void ApplicationManager::updateScreenshot(const QString &appId)
+{
+    int idx = -1;
+    ApplicationInfo *application = nullptr;
+    for (int i = 0; i < m_availableApplications.count(); ++i) {
+        application = m_availableApplications.at(i);
+        if (application->appId() == appId) {
+            idx = i;
+            break;
+        }
+    }
+
+    if (idx == -1) {
+        return;
+    }
+
+    application->setScreenshot(QString("image://application/%1/%2").arg(appId).arg(QDateTime::currentMSecsSinceEpoch()));
+    QModelIndex appIndex = index(idx);
+    Q_EMIT dataChanged(appIndex, appIndex, QVector<int>() << RoleScreenshot);
 }
 
 QString ApplicationManager::focusedApplicationId() const {
@@ -237,6 +264,7 @@ bool ApplicationManager::focusApplication(const QString &appId)
 
     // move app to top of stack
     move(m_runningApplications.indexOf(application), 0);
+    qDebug() << Q_FUNC_INFO << "emitting focusedAppChanged" << focusedApplicationId();
     Q_EMIT focusedApplicationIdChanged();
     return true;
 }
@@ -249,6 +277,7 @@ void ApplicationManager::unfocusCurrentApplication()
             app->setFocused(false);
         }
     }
+    qDebug() << Q_FUNC_INFO << "emitting focusedAppChanged" << focusedApplicationId();
     Q_EMIT focusedApplicationIdChanged();
 }
 

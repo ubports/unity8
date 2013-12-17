@@ -126,6 +126,7 @@ FocusScope {
 
         delegate: ListItems.Base {
             id: baseItem
+            objectName: "dashCategory" + category
             highlightWhenPressed: false
 
             readonly property bool expandable: rendererLoader.item ? rendererLoader.item.expandable : false
@@ -149,8 +150,7 @@ FocusScope {
                     }
                     if (source.toString().indexOf("Apps/RunningApplicationsGrid.qml") != -1) {
                         // TODO: the running apps grid doesn't support standard scope results model yet
-                        item.firstModel = Qt.binding(function() { return results.firstModel })
-                        item.secondModel = Qt.binding(function() { return results.secondModel })
+                        item.model = Qt.binding(function() { return results.model })
                         item.canEnableTerminationMode = Qt.binding(function() { return scopeView.isCurrent })
                     } else {
                         item.model = Qt.binding(function() { return results })
@@ -271,6 +271,7 @@ FocusScope {
 
         sectionProperty: "name"
         sectionDelegate: ListItems.Header {
+            objectName: "dashSectionHeader" + delegate.category
             property var delegate: categoryView.item(delegateIndex)
             width: categoryView.width
             text: section
