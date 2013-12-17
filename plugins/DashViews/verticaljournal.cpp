@@ -45,8 +45,8 @@ VerticalJournal::VerticalJournal()
  : m_delegateModel(nullptr)
  , m_asyncRequestedIndex(-1)
  , m_columnWidth(0)
- , m_horizontalSpacing(0)
- , m_verticalSpacing(0)
+ , m_columnSpacing(0)
+ , m_rowSpacing(0)
  , m_delegateCreationBegin(0)
  , m_delegateCreationEnd(0)
  , m_delegateCreationBeginValid(false)
@@ -123,16 +123,16 @@ void VerticalJournal::setColumnWidth(qreal columnWidth)
     }
 }
 
-qreal VerticalJournal::horizontalSpacing() const
+qreal VerticalJournal::columnSpacing() const
 {
-    return m_horizontalSpacing;
+    return m_columnSpacing;
 }
 
-void VerticalJournal::setHorizontalSpacing(qreal horizontalSpacing)
+void VerticalJournal::setColumnSpacing(qreal columnSpacing)
 {
-    if (horizontalSpacing != m_horizontalSpacing) {
-        m_horizontalSpacing = horizontalSpacing;
-        Q_EMIT horizontalSpacingChanged();
+    if (columnSpacing != m_columnSpacing) {
+        m_columnSpacing = columnSpacing;
+        Q_EMIT columnSpacingChanged();
 
         if (isComponentComplete()) {
             relayout();
@@ -140,16 +140,16 @@ void VerticalJournal::setHorizontalSpacing(qreal horizontalSpacing)
     }
 }
 
-qreal VerticalJournal::verticalSpacing() const
+qreal VerticalJournal::rowSpacing() const
 {
-    return m_verticalSpacing;
+    return m_rowSpacing;
 }
 
-void VerticalJournal::setVerticalSpacing(qreal verticalSpacing)
+void VerticalJournal::setRowSpacing(qreal rowSpacing)
 {
-    if (verticalSpacing != m_verticalSpacing) {
-        m_verticalSpacing = verticalSpacing;
-        Q_EMIT verticalSpacingChanged();
+    if (rowSpacing != m_rowSpacing) {
+        m_rowSpacing = rowSpacing;
+        Q_EMIT rowSpacingChanged();
 
         if (isComponentComplete()) {
             relayout();
@@ -258,7 +258,7 @@ void VerticalJournal::findBottomModelIndexToAdd(int *modelIndex, double *yPos)
     Q_FOREACH(const auto &column, m_columnVisibleItems) {
         if (!column.isEmpty()) {
             const ViewItem &item = column.last();
-            *yPos = qMin(*yPos, static_cast<double>(item.y() + item.height() + m_verticalSpacing));
+            *yPos = qMin(*yPos, static_cast<double>(item.y() + item.height() + m_rowSpacing));
             *modelIndex = qMax(*modelIndex, item.m_modelIndex + 1);
         } else {
             *yPos = 0;
@@ -277,7 +277,7 @@ void VerticalJournal::findTopModelIndexToAdd(int *modelIndex, double *yPos)
         const auto &column = m_columnVisibleItems[i];
         if (!column.isEmpty()) {
             const ViewItem &item = column.first();
-            const auto itemTopPos = item.y() - m_verticalSpacing;
+            const auto itemTopPos = item.y() - m_rowSpacing;
             if (itemTopPos > *yPos) {
                 *yPos = itemTopPos;
                 *modelIndex = item.m_modelIndex - 1;
@@ -393,11 +393,11 @@ void VerticalJournal::positionItem(int modelIndex, QQuickItem *item)
 {
     // Check if we add it to the bottom of existing column items
     const QList<ViewItem> &firstColumn = m_columnVisibleItems[0];
-    qreal columnToAddY = !firstColumn.isEmpty() ? firstColumn.last().y() + firstColumn.last().height() : 0;
+    qreal columnToAddY = !firstColumn.isEmpty() ? firstColumn.last().y() + firstColumn.last().height() : -m_rowSpacing;
     int columnToAddTo = 0;
     for (int i = 1; i < m_columnVisibleItems.count(); ++i) {
         const QList<ViewItem> &column = m_columnVisibleItems[i];
-        const qreal iY = !column.isEmpty() ? column.last().y() + column.last().height() : 0;
+        const qreal iY = !column.isEmpty() ? column.last().y() + column.last().height() : -m_rowSpacing;
         if (iY < columnToAddY) {
             columnToAddTo = i;
             columnToAddY = iY;
@@ -406,8 +406,8 @@ void VerticalJournal::positionItem(int modelIndex, QQuickItem *item)
 
     const QList<ViewItem> &columnToAdd = m_columnVisibleItems[columnToAddTo];
     if (columnToAdd.isEmpty() || columnToAdd.last().m_modelIndex < modelIndex) {
-        item->setX(columnToAddTo * m_columnWidth + m_horizontalSpacing * (columnToAddTo + 1));
-        item->setY(columnToAddY + m_verticalSpacing);
+        item->setX(columnToAddTo * (m_columnWidth + m_columnSpacing));
+        item->setY(columnToAddY + m_rowSpacing);
 
         m_columnVisibleItems[columnToAddTo] << ViewItem(item, modelIndex);
         m_indexColumnMap[modelIndex] = columnToAddTo;
@@ -416,8 +416,8 @@ void VerticalJournal::positionItem(int modelIndex, QQuickItem *item)
         columnToAddTo = m_indexColumnMap[modelIndex];
         columnToAddY = m_columnVisibleItems[columnToAddTo].first().y();
 
-        item->setX(columnToAddTo * m_columnWidth + m_horizontalSpacing * (columnToAddTo + 1));
-        item->setY(columnToAddY - m_verticalSpacing - item->height());
+        item->setX(columnToAddTo * (m_columnWidth + m_columnSpacing));
+        item->setY(columnToAddY - m_rowSpacing - item->height());
 
         m_columnVisibleItems[columnToAddTo].prepend(ViewItem(item, modelIndex));
     }
@@ -458,7 +458,7 @@ void VerticalJournal::calculateImplicitHeight()
         if (!column.isEmpty()) {
             const ViewItem &item = column.last();
             lastModelIndex = qMax(lastModelIndex, item.m_modelIndex);
-            bottomMostY = qMax(bottomMostY, item.y() + item.height() + m_verticalSpacing);
+            bottomMostY = qMax(bottomMostY, item.y() + item.height());
         }
     }
     if (lastModelIndex >= 0) {
@@ -512,7 +512,7 @@ void VerticalJournal::updatePolish()
 
         qSort(allItems);
 
-        const int nColumns = qMax(1., floor((double)(width() - m_horizontalSpacing) / (m_columnWidth + m_horizontalSpacing)));
+        const int nColumns = qMax(1., floor((double)(width() + m_columnSpacing) / (m_columnWidth + m_columnSpacing)));
         m_columnVisibleItems.resize(nColumns);
         m_indexColumnMap.clear();
         for (int i = 0; i < nColumns; ++i)

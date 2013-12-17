@@ -23,8 +23,8 @@ Item {
         id: vj
         anchors.fill: parent
         columnWidth: 150
-        horizontalSpacing: 10
-        verticalSpacing: 10
+        columnSpacing: 10
+        rowSpacing: 10
 
         delegate: Rectangle {
             property real randomValue: Math.random()

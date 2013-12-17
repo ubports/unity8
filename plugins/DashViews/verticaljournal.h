@@ -33,7 +33,7 @@ class QQmlDelegateModel;
    *
    * The number of columns is calculated using the width of
    * the view itself, the columnWidth (i.e. the width of each individual delegate)
-   * and the horizontalSpacing between columns.
+   * and the columnSpacing between columns.
    *
    * All delegates are forced to columnWidth if they don't have it.
    *
@@ -65,12 +65,8 @@ class QQmlDelegateModel;
     Q_PROPERTY(QAbstractItemModel *model READ model WRITE setModel NOTIFY modelChanged)
     Q_PROPERTY(QQmlComponent *delegate READ delegate WRITE setDelegate NOTIFY delegateChanged)
     Q_PROPERTY(qreal columnWidth READ columnWidth WRITE setColumnWidth NOTIFY columnWidthChanged)
-    Q_PROPERTY(qreal horizontalSpacing READ horizontalSpacing
-                                       WRITE setHorizontalSpacing
-                                       NOTIFY horizontalSpacingChanged)
-    Q_PROPERTY(qreal verticalSpacing READ verticalSpacing
-                                     WRITE setVerticalSpacing
-                                     NOTIFY verticalSpacingChanged)
+    Q_PROPERTY(qreal columnSpacing READ columnSpacing WRITE setColumnSpacing NOTIFY columnSpacingChanged)
+    Q_PROPERTY(qreal rowSpacing READ rowSpacing WRITE setRowSpacing NOTIFY rowSpacingChanged)
     Q_PROPERTY(qreal delegateCreationBegin READ delegateCreationBegin
                                            WRITE setDelegateCreationBegin
                                            NOTIFY delegateCreationBeginChanged
@@ -94,11 +90,11 @@ public:
     qreal columnWidth() const;
     void setColumnWidth(qreal columnWidth);
 
-    qreal horizontalSpacing() const;
-    void setHorizontalSpacing(qreal horizontalSpacing);
+    qreal columnSpacing() const;
+    void setColumnSpacing(qreal columnSpacing);
 
-    qreal verticalSpacing() const;
-    void setVerticalSpacing(qreal verticalSpacing);
+    qreal rowSpacing() const;
+    void setRowSpacing(qreal rowSpacing);
 
     qreal delegateCreationBegin() const;
     void setDelegateCreationBegin(qreal);
@@ -112,8 +108,8 @@ Q_SIGNALS:
     void modelChanged();
     void delegateChanged();
     void columnWidthChanged();
-    void horizontalSpacingChanged();
-    void verticalSpacingChanged();
+    void columnSpacingChanged();
+    void rowSpacingChanged();
     void delegateCreationBeginChanged();
     void delegateCreationEndChanged();
 
@@ -168,8 +164,8 @@ private:
     QVector<QList<ViewItem>> m_columnVisibleItems;
     QHash<int, int> m_indexColumnMap;
     int m_columnWidth;
-    int m_horizontalSpacing;
-    int m_verticalSpacing;
+    int m_columnSpacing;
+    int m_rowSpacing;
     qreal m_delegateCreationBegin;
     qreal m_delegateCreationEnd;
     bool m_delegateCreationBeginValid;
