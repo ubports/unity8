@@ -72,8 +72,7 @@ void VerticalJournal::setModel(QAbstractItemModel *model)
         }
         m_delegateModel->setModel(QVariant::fromValue<QAbstractItemModel *>(model));
         // Cleanup the existing items
-        for (int i = 0; i < m_columnVisibleItems.count(); ++i)
-        {
+        for (int i = 0; i < m_columnVisibleItems.count(); ++i) {
             QList<ViewItem> &column = m_columnVisibleItems[i];
             Q_FOREACH(const ViewItem &item, column)
                 releaseItem(item);
@@ -99,8 +98,7 @@ void VerticalJournal::setDelegate(QQmlComponent *delegate)
         }
 
         // Cleanup the existing items
-        for (int i = 0; i < m_columnVisibleItems.count(); ++i)
-        {
+        for (int i = 0; i < m_columnVisibleItems.count(); ++i) {
             QList<ViewItem> &column = m_columnVisibleItems[i];
             Q_FOREACH(const ViewItem &item, column)
                 releaseItem(item);
