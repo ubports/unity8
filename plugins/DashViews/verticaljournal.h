@@ -137,7 +137,6 @@ private:
     bool removeNonVisibleItems(qreal bufferFrom, qreal bufferTo);
     QQuickItem *createItem(int modelIndex, bool asynchronous);
     void positionItem(int modelIndex, QQuickItem *item);
-    void doRelayout();
     void cleanupExistingItems();
     void releaseItem(const ViewItem &item);
 
