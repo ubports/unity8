@@ -89,7 +89,7 @@ Item {
                 appIcon: getExtendedProperty(extendedData, "xCanonicalAppIcon", "qrc:/indicators/artwork/messaging/default_app.svg")
                 // actions
 //                enabled: menuData && menuData.sensitive || false
-				removable: !selected
+                removable: !selected
                 selected: messageFactoryItem.selected
 
                 onAppActivated: {
