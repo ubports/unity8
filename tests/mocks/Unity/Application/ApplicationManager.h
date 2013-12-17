@@ -88,6 +88,7 @@ class ApplicationManager : public ApplicationManagerInterface {
 
     // Application control methods
     Q_INVOKABLE bool focusApplication(const QString &appId) override;
+    Q_INVOKABLE void activateApplication(const QString &appId) override;
     Q_INVOKABLE void unfocusCurrentApplication() override;
     Q_INVOKABLE ApplicationInfo *startApplication(const QString &appId, const QStringList &arguments = QStringList()) override;
     Q_INVOKABLE ApplicationInfo *startApplication(const QString &appId, ExecFlags flags, const QStringList &arguments = QStringList());

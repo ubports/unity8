@@ -269,6 +269,11 @@ bool ApplicationManager::focusApplication(const QString &appId)
     return true;
 }
 
+void ApplicationManager::activateApplication(const QString &appId)
+{
+    QMetaObject::invokeMethod(this, "requestFocus", Qt::QueuedConnection, Q_ARG(QString, appId));
+}
+
 void ApplicationManager::unfocusCurrentApplication()
 {
     for (ApplicationInfo *app : m_runningApplications) {
