@@ -78,6 +78,7 @@ Item {
             waitingForScreenshot = false;
             if (root.moving) {
                 print("*** moving app", ApplicationManager.focusedApplicationId, "setting screenshot to", ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).screenshot)
+                mainScreenshotImage.anchors.leftMargin = 0;
                 mainScreenshotImage.src = ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).screenshot;
                 mainScreenshotImage.visible = true;
             }
