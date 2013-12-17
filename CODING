@@ -161,3 +161,7 @@ $ make tryComponentName
 So to try out, for instance, the DragHandle component, you would do:
 
 $ make tryDragHandle
+
+NB: Manual test or interation doesn't make sense for all components or classes,
+particularly the non-graphical ones. In such cases no "tryFoo" make target is
+provided.
