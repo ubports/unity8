@@ -22,7 +22,10 @@
 #include <QtQml/qqml.h>
 #include <QStringListModel>
 #include <QQmlContext>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-pedantic"
 #include <private/qquickitem_p.h>
+#pragma GCC diagnostic pop
 
 #include "verticaljournal.h"
 
@@ -56,25 +59,25 @@ private:
         QTRY_COMPARE(vj->m_columnVisibleItems[0].count(), 5);
         QTRY_COMPARE(vj->m_columnVisibleItems[1].count(), 7);
         QTRY_COMPARE(vj->m_columnVisibleItems[2].count(), 6);
-        verifyItem(vj->m_columnVisibleItems[0][0],  0,  10,  10, true);
-        verifyItem(vj->m_columnVisibleItems[1][0],  1, 170,  10, true);
-        verifyItem(vj->m_columnVisibleItems[2][0],  2, 330,  10, true);
-        verifyItem(vj->m_columnVisibleItems[1][1],  3, 170,  70, true);
-        verifyItem(vj->m_columnVisibleItems[1][2],  4, 170,  90, true);
-        verifyItem(vj->m_columnVisibleItems[0][1],  5,  10, 120, true);
-        verifyItem(vj->m_columnVisibleItems[1][3],  6, 170, 140, true);
-        verifyItem(vj->m_columnVisibleItems[2][1],  7, 330, 145, true);
-        verifyItem(vj->m_columnVisibleItems[0][2],  8,  10, 200, true);
-        verifyItem(vj->m_columnVisibleItems[2][2],  9, 330, 265, true);
-        verifyItem(vj->m_columnVisibleItems[2][3], 10, 330, 295, true);
-        verifyItem(vj->m_columnVisibleItems[2][4], 11, 330, 325, true);
-        verifyItem(vj->m_columnVisibleItems[1][4], 12, 170, 350, true);
-        verifyItem(vj->m_columnVisibleItems[0][3], 13, 10,  370, true);
-        verifyItem(vj->m_columnVisibleItems[2][5], 14, 330, 400, false);
-        verifyItem(vj->m_columnVisibleItems[1][5], 15, 170, 440, false);
-        verifyItem(vj->m_columnVisibleItems[0][4], 16,  10, 580, false);
-        verifyItem(vj->m_columnVisibleItems[1][6], 17, 170, 580, false);
-        QCOMPARE(vj->implicitHeight(), 990. + 2. * 990. / 18.);
+        verifyItem(vj->m_columnVisibleItems[0][0],  0,   0,   0, true);
+        verifyItem(vj->m_columnVisibleItems[1][0],  1, 160,   0, true);
+        verifyItem(vj->m_columnVisibleItems[2][0],  2, 320,   0, true);
+        verifyItem(vj->m_columnVisibleItems[1][1],  3, 160,  60, true);
+        verifyItem(vj->m_columnVisibleItems[1][2],  4, 160,  80, true);
+        verifyItem(vj->m_columnVisibleItems[0][1],  5,   0, 110, true);
+        verifyItem(vj->m_columnVisibleItems[1][3],  6, 160, 130, true);
+        verifyItem(vj->m_columnVisibleItems[2][1],  7, 320, 135, true);
+        verifyItem(vj->m_columnVisibleItems[0][2],  8,   0, 190, true);
+        verifyItem(vj->m_columnVisibleItems[2][2],  9, 320, 255, true);
+        verifyItem(vj->m_columnVisibleItems[2][3], 10, 320, 285, true);
+        verifyItem(vj->m_columnVisibleItems[2][4], 11, 320, 315, true);
+        verifyItem(vj->m_columnVisibleItems[1][4], 12, 160, 340, true);
+        verifyItem(vj->m_columnVisibleItems[0][3], 13,   0, 360, true);
+        verifyItem(vj->m_columnVisibleItems[2][5], 14, 320, 390, true);
+        verifyItem(vj->m_columnVisibleItems[1][5], 15, 160, 430, false);
+        verifyItem(vj->m_columnVisibleItems[0][4], 16,   0, 570, false);
+        verifyItem(vj->m_columnVisibleItems[1][6], 17, 160, 570, false);
+        QCOMPARE(vj->implicitHeight(), 970. + 2. * 970. / 18.);
     }
 
 private Q_SLOTS:
@@ -99,7 +102,7 @@ private Q_SLOTS:
         view->setSource(QUrl::fromLocalFile(DASHVIEWSTEST_FOLDER "/verticaljournaltest.qml"));
 
         view->show();
-        view->resize(490, 400);
+        view->resize(470, 400);
         QTest::qWaitForWindowExposed(view);
 
         vj = view->rootObject()->findChild<VerticalJournal*>();
@@ -116,41 +119,42 @@ private Q_SLOTS:
 
     void testWidthResize()
     {
-        view->resize(649, 400);
+        view->resize(629, 400);
+        QTRY_COMPARE(vj->width(), 629.);
 
         // This is exactly the same block as above as nothing changed, just white space on the right
         checkInitialPositions();
 
-        view->resize(650, 400);
+        view->resize(630, 400);
 
         QTRY_COMPARE(vj->m_columnVisibleItems.count(), 4);
         QTRY_COMPARE(vj->m_columnVisibleItems[0].count(), 4);
         QTRY_COMPARE(vj->m_columnVisibleItems[1].count(), 7);
         QTRY_COMPARE(vj->m_columnVisibleItems[2].count(), 4);
         QTRY_COMPARE(vj->m_columnVisibleItems[3].count(), 5);
-        verifyItem(vj->m_columnVisibleItems[0][0],  0,  10,  10, true);
-        verifyItem(vj->m_columnVisibleItems[1][0],  1, 170,  10, true);
-        verifyItem(vj->m_columnVisibleItems[2][0],  2, 330,  10, true);
-        verifyItem(vj->m_columnVisibleItems[3][0],  3, 490,  10, true);
-        verifyItem(vj->m_columnVisibleItems[3][1],  4, 490,  30, true);
-        verifyItem(vj->m_columnVisibleItems[1][1],  5, 170,  70, true);
-        verifyItem(vj->m_columnVisibleItems[3][2],  6, 490,  80, true);
-        verifyItem(vj->m_columnVisibleItems[0][1],  7,  10, 120, true);
-        verifyItem(vj->m_columnVisibleItems[2][1],  8, 330, 145, true);
-        verifyItem(vj->m_columnVisibleItems[1][2],  9, 170, 150, true);
-        verifyItem(vj->m_columnVisibleItems[1][3], 10, 170, 180, true);
-        verifyItem(vj->m_columnVisibleItems[1][4], 11, 170, 210, true);
-        verifyItem(vj->m_columnVisibleItems[0][2], 12,  10, 240, true);
-        verifyItem(vj->m_columnVisibleItems[1][5], 13, 170, 285, true);
-        verifyItem(vj->m_columnVisibleItems[3][3], 14, 490, 290, true);
-        verifyItem(vj->m_columnVisibleItems[2][2], 15, 330, 315, true);
-        verifyItem(vj->m_columnVisibleItems[0][3], 16,  10, 330, true);
-        verifyItem(vj->m_columnVisibleItems[2][3], 17, 330, 455, false);
-        verifyItem(vj->m_columnVisibleItems[1][6], 18, 170, 495, false);
-        verifyItem(vj->m_columnVisibleItems[3][4], 19, 490, 600, false);
-        QTRY_COMPARE(vj->implicitHeight(), 1005.);
+        verifyItem(vj->m_columnVisibleItems[0][0],  0,   0,   0, true);
+        verifyItem(vj->m_columnVisibleItems[1][0],  1, 160,   0, true);
+        verifyItem(vj->m_columnVisibleItems[2][0],  2, 320,   0, true);
+        verifyItem(vj->m_columnVisibleItems[3][0],  3, 480,   0, true);
+        verifyItem(vj->m_columnVisibleItems[3][1],  4, 480,  20, true);
+        verifyItem(vj->m_columnVisibleItems[1][1],  5, 160,  60, true);
+        verifyItem(vj->m_columnVisibleItems[3][2],  6, 480,  70, true);
+        verifyItem(vj->m_columnVisibleItems[0][1],  7,   0, 110, true);
+        verifyItem(vj->m_columnVisibleItems[2][1],  8, 320, 135, true);
+        verifyItem(vj->m_columnVisibleItems[1][2],  9, 160, 140, true);
+        verifyItem(vj->m_columnVisibleItems[1][3], 10, 160, 170, true);
+        verifyItem(vj->m_columnVisibleItems[1][4], 11, 160, 200, true);
+        verifyItem(vj->m_columnVisibleItems[0][2], 12,   0, 230, true);
+        verifyItem(vj->m_columnVisibleItems[1][5], 13, 160, 275, true);
+        verifyItem(vj->m_columnVisibleItems[3][3], 14, 480, 280, true);
+        verifyItem(vj->m_columnVisibleItems[2][2], 15, 320, 305, true);
+        verifyItem(vj->m_columnVisibleItems[0][3], 16,   0, 320, true);
+        verifyItem(vj->m_columnVisibleItems[2][3], 17, 320, 445, false);
+        verifyItem(vj->m_columnVisibleItems[1][6], 18, 160, 485, false);
+        verifyItem(vj->m_columnVisibleItems[3][4], 19, 480, 590, false);
+        QTRY_COMPARE(vj->implicitHeight(), 985.);
 
-        view->resize(490, 400);
+        view->resize(470, 400);
 
         // This is exactly the same block as the first again
         checkInitialPositions();
@@ -158,29 +162,29 @@ private Q_SLOTS:
 
     void testHorizontalSpacing()
     {
-        vj->setHorizontalSpacing(11);
+        vj->setColumnSpacing(11);
 
         QTRY_COMPARE(vj->m_needsRelayout, false);
         QTRY_COMPARE(vj->m_columnVisibleItems.count(), 2);
         QTRY_COMPARE(vj->m_columnVisibleItems[0].count(), 7);
         QTRY_COMPARE(vj->m_columnVisibleItems[1].count(), 7);
-        verifyItem(vj->m_columnVisibleItems[0][0],  0,  11,  10, true);
-        verifyItem(vj->m_columnVisibleItems[1][0],  1, 172,  10, true);
-        verifyItem(vj->m_columnVisibleItems[1][1],  2, 172,  70, true);
-        verifyItem(vj->m_columnVisibleItems[0][1],  3,  11, 120, true);
-        verifyItem(vj->m_columnVisibleItems[0][2],  4,  11, 140, true);
-        verifyItem(vj->m_columnVisibleItems[0][3],  5,  11, 190, true);
-        verifyItem(vj->m_columnVisibleItems[1][2],  6, 172, 205, true);
-        verifyItem(vj->m_columnVisibleItems[0][4],  7,  11, 270, true);
-        verifyItem(vj->m_columnVisibleItems[0][5],  8,  11, 390, true);
-        verifyItem(vj->m_columnVisibleItems[1][3],  9, 172, 415, false);
-        verifyItem(vj->m_columnVisibleItems[1][4], 10, 172, 445, false);
-        verifyItem(vj->m_columnVisibleItems[1][5], 11, 172, 475, false);
-        verifyItem(vj->m_columnVisibleItems[1][6], 12, 172, 550, false);
-        verifyItem(vj->m_columnVisibleItems[0][6], 13,  11, 560, false);
-        QCOMPARE(vj->implicitHeight(), 770. + 6. * 770. / 14.);
+        verifyItem(vj->m_columnVisibleItems[0][0],  0,   0,   0, true);
+        verifyItem(vj->m_columnVisibleItems[1][0],  1, 161,   0, true);
+        verifyItem(vj->m_columnVisibleItems[1][1],  2, 161,  60, true);
+        verifyItem(vj->m_columnVisibleItems[0][1],  3,   0, 110, true);
+        verifyItem(vj->m_columnVisibleItems[0][2],  4,   0, 130, true);
+        verifyItem(vj->m_columnVisibleItems[0][3],  5,   0, 180, true);
+        verifyItem(vj->m_columnVisibleItems[1][2],  6, 161, 195, true);
+        verifyItem(vj->m_columnVisibleItems[0][4],  7,   0, 260, true);
+        verifyItem(vj->m_columnVisibleItems[0][5],  8,   0, 380, true);
+        verifyItem(vj->m_columnVisibleItems[1][3],  9, 161, 405, false);
+        verifyItem(vj->m_columnVisibleItems[1][4], 10, 161, 435, false);
+        verifyItem(vj->m_columnVisibleItems[1][5], 11, 161, 465, false);
+        verifyItem(vj->m_columnVisibleItems[1][6], 12, 161, 540, false);
+        verifyItem(vj->m_columnVisibleItems[0][6], 13,   0, 550, false);
+        QCOMPARE(vj->implicitHeight(), 750. + 6. * 750. / 14.);
 
-        vj->setHorizontalSpacing(10);
+        vj->setColumnSpacing(10);
         QTRY_COMPARE(vj->m_needsRelayout, false);
 
         // This is exactly the same block as the first again
@@ -189,34 +193,34 @@ private Q_SLOTS:
 
     void testVerticalSpacing()
     {
-        vj->setVerticalSpacing(11);
+        vj->setRowSpacing(11);
 
         QTRY_COMPARE(vj->m_needsRelayout, false);
         QTRY_COMPARE(vj->m_columnVisibleItems.count(), 3);
         QTRY_COMPARE(vj->m_columnVisibleItems[0].count(), 5);
         QTRY_COMPARE(vj->m_columnVisibleItems[1].count(), 7);
         QTRY_COMPARE(vj->m_columnVisibleItems[2].count(), 6);
-        verifyItem(vj->m_columnVisibleItems[0][0],  0,  10,  11, true);
-        verifyItem(vj->m_columnVisibleItems[1][0],  1, 170,  11, true);
-        verifyItem(vj->m_columnVisibleItems[2][0],  2, 330,  11, true);
-        verifyItem(vj->m_columnVisibleItems[1][1],  3, 170,  72, true);
-        verifyItem(vj->m_columnVisibleItems[1][2],  4, 170,  93, true);
-        verifyItem(vj->m_columnVisibleItems[0][1],  5,  10, 122, true);
-        verifyItem(vj->m_columnVisibleItems[1][3],  6, 170, 144, true);
-        verifyItem(vj->m_columnVisibleItems[2][1],  7, 330, 147, true);
-        verifyItem(vj->m_columnVisibleItems[0][2],  8,  10, 203, true);
-        verifyItem(vj->m_columnVisibleItems[2][2],  9, 330, 268, true);
-        verifyItem(vj->m_columnVisibleItems[2][3], 10, 330, 299, true);
-        verifyItem(vj->m_columnVisibleItems[2][4], 11, 330, 330, true);
-        verifyItem(vj->m_columnVisibleItems[1][4], 12, 170, 355, true);
-        verifyItem(vj->m_columnVisibleItems[0][3], 13,  10, 374, true);
-        verifyItem(vj->m_columnVisibleItems[2][5], 14, 330, 406, false);
-        verifyItem(vj->m_columnVisibleItems[1][5], 15, 170, 446, false);
-        verifyItem(vj->m_columnVisibleItems[0][4], 16,  10, 585, false);
-        verifyItem(vj->m_columnVisibleItems[1][6], 17, 170, 587, false);
-        QCOMPARE(vj->implicitHeight(), 990. + 2. * 990. / 18.);
+        verifyItem(vj->m_columnVisibleItems[0][0],  0,   0,   0, true);
+        verifyItem(vj->m_columnVisibleItems[1][0],  1, 160,   0, true);
+        verifyItem(vj->m_columnVisibleItems[2][0],  2, 320,   0, true);
+        verifyItem(vj->m_columnVisibleItems[1][1],  3, 160,  61, true);
+        verifyItem(vj->m_columnVisibleItems[1][2],  4, 160,  82, true);
+        verifyItem(vj->m_columnVisibleItems[0][1],  5,   0, 111, true);
+        verifyItem(vj->m_columnVisibleItems[1][3],  6, 160, 133, true);
+        verifyItem(vj->m_columnVisibleItems[2][1],  7, 320, 136, true);
+        verifyItem(vj->m_columnVisibleItems[0][2],  8,   0, 192, true);
+        verifyItem(vj->m_columnVisibleItems[2][2],  9, 320, 257, true);
+        verifyItem(vj->m_columnVisibleItems[2][3], 10, 320, 288, true);
+        verifyItem(vj->m_columnVisibleItems[2][4], 11, 320, 319, true);
+        verifyItem(vj->m_columnVisibleItems[1][4], 12, 160, 344, true);
+        verifyItem(vj->m_columnVisibleItems[0][3], 13,   0, 363, true);
+        verifyItem(vj->m_columnVisibleItems[2][5], 14, 320, 395, true);
+        verifyItem(vj->m_columnVisibleItems[1][5], 15, 160, 435, false);
+        verifyItem(vj->m_columnVisibleItems[0][4], 16,   0, 574, false);
+        verifyItem(vj->m_columnVisibleItems[1][6], 17, 160, 576, false);
+        QCOMPARE(vj->implicitHeight(), 974. + 2. * 974. / 18.);
 
-        vj->setVerticalSpacing(10);
+        vj->setRowSpacing(10);
         QTRY_COMPARE(vj->m_needsRelayout, false);
 
         // This is exactly the same block as the first again
@@ -232,21 +236,21 @@ private Q_SLOTS:
         QTRY_COMPARE(vj->m_columnVisibleItems[0].count(), 4);
         QTRY_COMPARE(vj->m_columnVisibleItems[1].count(), 4);
         QTRY_COMPARE(vj->m_columnVisibleItems[2].count(), 6);
-        verifyItem(vj->m_columnVisibleItems[0][0],  0,  10,  10, false);
-        verifyItem(vj->m_columnVisibleItems[2][0],  2, 330,  10, false);
-        verifyItem(vj->m_columnVisibleItems[1][0],  4, 170,  90, false);
-        verifyItem(vj->m_columnVisibleItems[0][1],  5,  10, 120, false);
-        verifyItem(vj->m_columnVisibleItems[1][1],  6, 170, 140, true);
-        verifyItem(vj->m_columnVisibleItems[2][1],  7, 330, 145, true);
-        verifyItem(vj->m_columnVisibleItems[0][2],  8,  10, 200, true);
-        verifyItem(vj->m_columnVisibleItems[2][2],  9, 330, 265, true);
-        verifyItem(vj->m_columnVisibleItems[2][3], 10, 330, 295, true);
-        verifyItem(vj->m_columnVisibleItems[2][4], 11, 330, 325, true);
-        verifyItem(vj->m_columnVisibleItems[1][2], 12, 170, 350, true);
-        verifyItem(vj->m_columnVisibleItems[0][3], 13, 10,  370, true);
-        verifyItem(vj->m_columnVisibleItems[2][5], 14, 330, 400, false);
-        verifyItem(vj->m_columnVisibleItems[1][3], 15, 170, 440, false);
-        QCOMPARE(vj->implicitHeight(), 710. + 4. * 710. / 16.);
+        verifyItem(vj->m_columnVisibleItems[0][0],  0,   0,   0, false);
+        verifyItem(vj->m_columnVisibleItems[2][0],  2, 320,   0, false);
+        verifyItem(vj->m_columnVisibleItems[1][0],  4, 160,  80, false);
+        verifyItem(vj->m_columnVisibleItems[0][1],  5,   0, 110, false);
+        verifyItem(vj->m_columnVisibleItems[1][1],  6, 160, 130, true);
+        verifyItem(vj->m_columnVisibleItems[2][1],  7, 320, 135, true);
+        verifyItem(vj->m_columnVisibleItems[0][2],  8,   0, 190, true);
+        verifyItem(vj->m_columnVisibleItems[2][2],  9, 320, 255, true);
+        verifyItem(vj->m_columnVisibleItems[2][3], 10, 320, 285, true);
+        verifyItem(vj->m_columnVisibleItems[2][4], 11, 320, 315, true);
+        verifyItem(vj->m_columnVisibleItems[1][2], 12, 160, 340, true);
+        verifyItem(vj->m_columnVisibleItems[0][3], 13,  0,  360, true);
+        verifyItem(vj->m_columnVisibleItems[2][5], 14, 320, 390, true);
+        verifyItem(vj->m_columnVisibleItems[1][3], 15, 160, 430, false);
+        QCOMPARE(vj->implicitHeight(), 690. + 4. * 690. / 16.);
 
         vj->resetDelegateCreationBegin();
         vj->resetDelegateCreationEnd();
@@ -262,21 +266,21 @@ private Q_SLOTS:
         QTRY_COMPARE(vj->m_columnVisibleItems.count(), 2);
         QTRY_COMPARE(vj->m_columnVisibleItems[0].count(), 7);
         QTRY_COMPARE(vj->m_columnVisibleItems[1].count(), 7);
-        verifyItem(vj->m_columnVisibleItems[0][0],  0,  10,  10, true);
-        verifyItem(vj->m_columnVisibleItems[1][0],  1, 220,  10, true);
-        verifyItem(vj->m_columnVisibleItems[1][1],  2, 220,  70, true);
-        verifyItem(vj->m_columnVisibleItems[0][1],  3,  10, 120, true);
-        verifyItem(vj->m_columnVisibleItems[0][2],  4,  10, 140, true);
-        verifyItem(vj->m_columnVisibleItems[0][3],  5,  10, 190, true);
-        verifyItem(vj->m_columnVisibleItems[1][2],  6, 220, 205, true);
-        verifyItem(vj->m_columnVisibleItems[0][4],  7,  10, 270, true);
-        verifyItem(vj->m_columnVisibleItems[0][5],  8,  10, 390, true);
-        verifyItem(vj->m_columnVisibleItems[1][3],  9, 220, 415, false);
-        verifyItem(vj->m_columnVisibleItems[1][4], 10, 220, 445, false);
-        verifyItem(vj->m_columnVisibleItems[1][5], 11, 220, 475, false);
-        verifyItem(vj->m_columnVisibleItems[1][6], 12, 220, 550, false);
-        verifyItem(vj->m_columnVisibleItems[0][6], 13,  10, 560, false);
-        QCOMPARE(vj->implicitHeight(), 770. + 6. * 770. / 14.);
+        verifyItem(vj->m_columnVisibleItems[0][0],  0,   0,   0, true);
+        verifyItem(vj->m_columnVisibleItems[1][0],  1, 210,   0, true);
+        verifyItem(vj->m_columnVisibleItems[1][1],  2, 210,  60, true);
+        verifyItem(vj->m_columnVisibleItems[0][1],  3,   0, 110, true);
+        verifyItem(vj->m_columnVisibleItems[0][2],  4,   0, 130, true);
+        verifyItem(vj->m_columnVisibleItems[0][3],  5,   0, 180, true);
+        verifyItem(vj->m_columnVisibleItems[1][2],  6, 210, 195, true);
+        verifyItem(vj->m_columnVisibleItems[0][4],  7,   0, 260, true);
+        verifyItem(vj->m_columnVisibleItems[0][5],  8,   0, 380, true);
+        verifyItem(vj->m_columnVisibleItems[1][3],  9, 210, 405, false);
+        verifyItem(vj->m_columnVisibleItems[1][4], 10, 210, 435, false);
+        verifyItem(vj->m_columnVisibleItems[1][5], 11, 210, 465, false);
+        verifyItem(vj->m_columnVisibleItems[1][6], 12, 210, 540, false);
+        verifyItem(vj->m_columnVisibleItems[0][6], 13,   0, 550, false);
+        QCOMPARE(vj->implicitHeight(), 750. + 6. * 750. / 14.);
 
         vj->setColumnWidth(150);
 
@@ -297,12 +301,12 @@ private Q_SLOTS:
         QTRY_COMPARE(vj->m_columnVisibleItems[0].count(), 1);
         QTRY_COMPARE(vj->m_columnVisibleItems[1].count(), 2);
         QTRY_COMPARE(vj->m_columnVisibleItems[2].count(), 3);
-        verifyItem(vj->m_columnVisibleItems[0][0],  0,  10, 10, true);
-        verifyItem(vj->m_columnVisibleItems[1][0],  1, 170, 10, true);
-        verifyItem(vj->m_columnVisibleItems[2][0],  2, 330, 10, true);
-        verifyItem(vj->m_columnVisibleItems[2][1],  3, 330, 45, true);
-        verifyItem(vj->m_columnVisibleItems[1][1],  4, 170, 70, true);
-        verifyItem(vj->m_columnVisibleItems[2][2],  5, 330, 80, true);
+        verifyItem(vj->m_columnVisibleItems[0][0],  0,   0,  0, true);
+        verifyItem(vj->m_columnVisibleItems[1][0],  1, 160,  0, true);
+        verifyItem(vj->m_columnVisibleItems[2][0],  2, 320,  0, true);
+        verifyItem(vj->m_columnVisibleItems[2][1],  3, 320, 35, true);
+        verifyItem(vj->m_columnVisibleItems[1][1],  4, 160, 60, true);
+        verifyItem(vj->m_columnVisibleItems[2][2],  5, 320, 70, true);
     }
 
 private:

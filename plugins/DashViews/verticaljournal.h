@@ -33,7 +33,7 @@ class QQmlDelegateModel;
    *
    * The number of columns is calculated using the width of
    * the view itself, the columnWidth (i.e. the width of each individual delegate)
-   * and the horizontalSpacing between columns.
+   * and the columnSpacing between columns.
    *
    * All delegates are forced to columnWidth if they don't have it.
    *
@@ -42,6 +42,21 @@ class QQmlDelegateModel;
    * is positioned in the column which provides the free topmost
    * position as possible. If more than one column tie in providing
    * the topmost free position the leftmost column will be used.
+   *
+   * Example:
+   *
+   * +-----+ +-----+ +-----+
+   * |     | |  2  | |     |
+   * |     | |     | |     |
+   * |  1  | +-----+ |  3  |
+   * |     | +-----+ |     |
+   * |     | |     | +-----+
+   * +-----+ |  4  | +-----+
+   * +-----+ |     | |  5  |
+   * |  6  | +-----+ |     |
+   * |     |         +-----+
+   * +-----+
+   *
    */
  class VerticalJournal : public QQuickItem
 {
@@ -50,10 +65,16 @@ class QQmlDelegateModel;
     Q_PROPERTY(QAbstractItemModel *model READ model WRITE setModel NOTIFY modelChanged)
     Q_PROPERTY(QQmlComponent *delegate READ delegate WRITE setDelegate NOTIFY delegateChanged)
     Q_PROPERTY(qreal columnWidth READ columnWidth WRITE setColumnWidth NOTIFY columnWidthChanged)
-    Q_PROPERTY(qreal horizontalSpacing READ horizontalSpacing WRITE setHorizontalSpacing NOTIFY horizontalSpacingChanged)
-    Q_PROPERTY(qreal verticalSpacing READ verticalSpacing WRITE setVerticalSpacing NOTIFY verticalSpacingChanged)
-    Q_PROPERTY(qreal delegateCreationBegin READ delegateCreationBegin WRITE setDelegateCreationBegin NOTIFY delegateCreationBeginChanged RESET resetDelegateCreationBegin)
-    Q_PROPERTY(qreal delegateCreationEnd READ delegateCreationEnd WRITE setDelegateCreationEnd NOTIFY delegateCreationEndChanged RESET resetDelegateCreationEnd)
+    Q_PROPERTY(qreal columnSpacing READ columnSpacing WRITE setColumnSpacing NOTIFY columnSpacingChanged)
+    Q_PROPERTY(qreal rowSpacing READ rowSpacing WRITE setRowSpacing NOTIFY rowSpacingChanged)
+    Q_PROPERTY(qreal delegateCreationBegin READ delegateCreationBegin
+                                           WRITE setDelegateCreationBegin
+                                           NOTIFY delegateCreationBeginChanged
+                                           RESET resetDelegateCreationBegin)
+    Q_PROPERTY(qreal delegateCreationEnd READ delegateCreationEnd
+                                         WRITE setDelegateCreationEnd
+                                         NOTIFY delegateCreationEndChanged
+                                         RESET resetDelegateCreationEnd)
 
 friend class VerticalJournalTest;
 
@@ -69,11 +90,11 @@ public:
     qreal columnWidth() const;
     void setColumnWidth(qreal columnWidth);
 
-    qreal horizontalSpacing() const;
-    void setHorizontalSpacing(qreal horizontalSpacing);
+    qreal columnSpacing() const;
+    void setColumnSpacing(qreal columnSpacing);
 
-    qreal verticalSpacing() const;
-    void setVerticalSpacing(qreal verticalSpacing);
+    qreal rowSpacing() const;
+    void setRowSpacing(qreal rowSpacing);
 
     qreal delegateCreationBegin() const;
     void setDelegateCreationBegin(qreal);
@@ -87,8 +108,8 @@ Q_SIGNALS:
     void modelChanged();
     void delegateChanged();
     void columnWidthChanged();
-    void horizontalSpacingChanged();
-    void verticalSpacingChanged();
+    void columnSpacingChanged();
+    void rowSpacingChanged();
     void delegateCreationBeginChanged();
     void delegateCreationEndChanged();
 
@@ -121,15 +142,15 @@ private:
 
     void createDelegateModel();
     void refill();
-    void findBottomModelIndexToAdd(int *modelIndex, double *yPos);
-    void findTopModelIndexToAdd(int *modelIndex, double *yPos);
+    void findBottomModelIndexToAdd(int *modelIndex, qreal *yPos);
+    void findTopModelIndexToAdd(int *modelIndex, qreal *yPos);
     bool addVisibleItems(qreal fillFrom, qreal fillTo, bool asynchronous);
     bool removeNonVisibleItems(qreal bufferFrom, qreal bufferTo);
     QQuickItem *createItem(int modelIndex, bool asynchronous);
     void positionItem(int modelIndex, QQuickItem *item);
-    void doRelayout();
-
+    void cleanupExistingItems();
     void releaseItem(const ViewItem &item);
+    void calculateImplicitHeight();
 
 #if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
     QQuickVisualDataModel *m_delegateModel;
@@ -143,8 +164,8 @@ private:
     QVector<QList<ViewItem>> m_columnVisibleItems;
     QHash<int, int> m_indexColumnMap;
     int m_columnWidth;
-    int m_horizontalSpacing;
-    int m_verticalSpacing;
+    int m_columnSpacing;
+    int m_rowSpacing;
     qreal m_delegateCreationBegin;
     qreal m_delegateCreationEnd;
     bool m_delegateCreationBeginValid;
