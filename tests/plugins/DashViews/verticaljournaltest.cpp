@@ -120,6 +120,7 @@ private Q_SLOTS:
     void testWidthResize()
     {
         view->resize(629, 400);
+        QTRY_COMPARE(vj->width(), 629.);
 
         // This is exactly the same block as above as nothing changed, just white space on the right
         checkInitialPositions();
