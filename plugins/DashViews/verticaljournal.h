@@ -42,6 +42,21 @@ class QQmlDelegateModel;
    * is positioned in the column which provides the free topmost
    * position as possible. If more than one column tie in providing
    * the topmost free position the leftmost column will be used.
+   * 
+   * Example:
+   *
+   * +-----+ +-----+ +-----+
+   * |     | |  2  | |     |
+   * |     | |     | |     |
+   * |  1  | +-----+ |  3  |
+   * |     | +-----+ |     |
+   * |     | |     | +-----+
+   * +-----+ |  4  | +-----+
+   * +-----+ |     | |  5  |
+   * |  6  | +-----+ |     |
+   * |     |         +-----+
+   * +-----+
+   *
    */
  class VerticalJournal : public QQuickItem
 {
