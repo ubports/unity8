@@ -19,10 +19,10 @@
 #ifndef TIME_FORMATTER_H
 #define TIME_FORMATTER_H
 
-#include "unityindicatorsglobal.h"
 #include <QObject>
 
-class UNITYINDICATORS_EXPORT TimeFormatter : public QObject
+// TODO - bug #1260728
+class TimeFormatter : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString format READ format WRITE setFormat NOTIFY formatChanged)
@@ -31,7 +31,7 @@ class UNITYINDICATORS_EXPORT TimeFormatter : public QObject
 
 public:
     TimeFormatter(QObject *parent = 0);
-    ~TimeFormatter();
+    virtual ~TimeFormatter();
 
     QString format() const;
     QString timeString() const;
@@ -47,8 +47,20 @@ Q_SIGNALS:
     void timeStringChanged(const QString &timeString);
     void timeChanged(qint64 time);
 
+protected:
+    virtual QString formatTime() const;
+
 private:
     struct TimeFormatterPrivate *priv;
+};
+
+class GDateTimeFormatter : public TimeFormatter
+{
+public:
+    GDateTimeFormatter(QObject *parent = 0);
+
+protected:
+    virtual QString formatTime() const;
 };
 
 #endif

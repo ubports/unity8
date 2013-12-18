@@ -167,6 +167,35 @@ void TimeFormatter::setTime(qint64 time)
 
 void TimeFormatter::update()
 {
-    priv->timeString = QDateTime::fromMSecsSinceEpoch(priv->time / 1000).toString(priv->format);
+    priv->timeString = formatTime();
     Q_EMIT timeStringChanged(priv->timeString);
+}
+
+QString TimeFormatter::formatTime() const
+{
+    return QDateTime::fromMSecsSinceEpoch(time() / 1000).toString(format());
+}
+
+GDateTimeFormatter::GDateTimeFormatter(QObject* parent)
+: TimeFormatter(parent)
+{
+}
+
+QString GDateTimeFormatter::formatTime() const
+{
+    gchar* time_string;
+    GDateTime* datetime;
+    QByteArray formatBytes = format().toUtf8();
+
+    datetime = g_date_time_new_from_unix_local(time());
+    if (!datetime) {
+        return "";
+    }
+
+    time_string = g_date_time_format(datetime, formatBytes.constData());
+    QString formattedTime(QString::fromUtf8(time_string));
+
+    g_free(time_string);
+    g_date_time_unref(datetime);
+    return formattedTime;
 }
