@@ -1,4 +1,3 @@
-include(FindPkgConfig)
 pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application)
 
 set(FakeUnityApplicationQml_SOURCES

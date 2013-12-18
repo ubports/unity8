@@ -22,6 +22,7 @@
 #include <QtQml/qqml.h>
 #include <QStringListModel>
 #include <QQmlContext>
+#include <QQmlEngine>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-pedantic"
 #include <private/qquickitem_p.h>
@@ -29,7 +30,7 @@
 
 #include "verticaljournal.h"
 
-class QHeightModel : public QStringListModel {
+class QHeightModel : public QAbstractListModel {
 public:
     QHash<int, QByteArray> roleNames() const
     {
@@ -37,6 +38,45 @@ public:
         roles.insert(Qt::DisplayRole, "modelHeight");
         return roles;
     }
+
+    int rowCount(const QModelIndex & /*parent*/) const
+    {
+        return m_list.count();
+    }
+
+    QVariant data(const QModelIndex &index, int /*role*/) const
+    {
+        return m_list[index.row()];
+    }
+
+    QStringList stringList() const
+    {
+        return m_list;
+    }
+
+    void setStringList(const QStringList &list)
+    {
+        beginResetModel();
+        m_list = list;
+        endResetModel();
+    }
+
+    void addString(const QString& string)
+    {
+        beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
+        m_list << string;
+        endInsertRows();
+    }
+
+    void removeLast()
+    {
+        beginRemoveRows(QModelIndex(), m_list.count() - 1, m_list.count() - 1);
+        m_list.takeLast();
+        endRemoveRows();
+    }
+
+private:
+    QStringList m_list;
 };
 
 class VerticalJournalTest : public QObject
@@ -49,7 +89,7 @@ private:
         QTRY_COMPARE(item.m_modelIndex, modelIndex);
         QTRY_COMPARE(item.x(), x);
         QTRY_COMPARE(item.y(), y);
-        QTRY_COMPARE(item.height(), heightList[modelIndex].toDouble());
+        QTRY_COMPARE(item.height(), model->stringList()[modelIndex].toDouble());
         QTRY_COMPARE(QQuickItemPrivate::get(item.m_item)->culled, !visible);
     }
 
@@ -81,23 +121,16 @@ private:
     }
 
 private Q_SLOTS:
-    void initTestCase()
-    {
-        qmlRegisterType<QAbstractItemModel>();
-        qmlRegisterType<VerticalJournal>("Journals", 0, 1, "VerticalJournal");
-    }
-
     void init()
     {
         view = new QQuickView();
         view->setResizeMode(QQuickView::SizeRootObjectToView);
+        view->engine()->addImportPath(BUILT_PLUGINS_DIR);
 
         model = new QHeightModel();
-        heightList.clear();
+        QStringList heightList;
         heightList << "100" << "50" << "125" << "10" << "40" << "70" << "200" << "110" << "160" << "20" << "20" << "65" << "80" << "200" << "300" << "130" << "400" << "300" << "500" << "10";
         model->setStringList(heightList);
-
-        view->rootContext()->setContextProperty("theModel", model);
 
         view->setSource(QUrl::fromLocalFile(DASHVIEWSTEST_FOLDER "/verticaljournaltest.qml"));
 
@@ -105,7 +138,7 @@ private Q_SLOTS:
         view->resize(470, 400);
         QTest::qWaitForWindowExposed(view);
 
-        vj = view->rootObject()->findChild<VerticalJournal*>();
+        vj = dynamic_cast<VerticalJournal*>(view->rootObject()->findChild<QObject*>("vj"));
         vj->setModel(model);
 
         checkInitialPositions();
@@ -160,7 +193,7 @@ private Q_SLOTS:
         checkInitialPositions();
     }
 
-    void testHorizontalSpacing()
+    void testColumnSpacing()
     {
         vj->setColumnSpacing(11);
 
@@ -191,7 +224,7 @@ private Q_SLOTS:
         checkInitialPositions();
     }
 
-    void testVerticalSpacing()
+    void testRowSpacing()
     {
         vj->setRowSpacing(11);
 
@@ -290,12 +323,13 @@ private Q_SLOTS:
 
     void testChangeModel()
     {
-        QHeightModel model2;
+        QHeightModel *model2 = new QHeightModel();
         QStringList list2;
         list2 << "100" << "50" << "25" << "25" << "50" << "50";
-        model2.setStringList(list2);
-        vj->setModel(&model2);
-        heightList = list2;
+        model2->setStringList(list2);
+        vj->setModel(model2);
+        delete model;
+        model = model2;
 
         QTRY_COMPARE(vj->m_columnVisibleItems.count(), 3);
         QTRY_COMPARE(vj->m_columnVisibleItems[0].count(), 1);
@@ -309,10 +343,93 @@ private Q_SLOTS:
         verifyItem(vj->m_columnVisibleItems[2][2],  5, 320, 70, true);
     }
 
+    void testModelReset()
+    {
+        QStringList heightList;
+        heightList << "100" << "50" << "50" << "30";
+        model->setStringList(heightList);
+
+        QTRY_COMPARE(vj->m_columnVisibleItems.count(), 3);
+        QTRY_COMPARE(vj->m_columnVisibleItems[0].count(), 1);
+        QTRY_COMPARE(vj->m_columnVisibleItems[1].count(), 2);
+        QTRY_COMPARE(vj->m_columnVisibleItems[2].count(), 1);
+        verifyItem(vj->m_columnVisibleItems[0][0],  0,   0,  0, true);
+        verifyItem(vj->m_columnVisibleItems[1][0],  1, 160,  0, true);
+        verifyItem(vj->m_columnVisibleItems[2][0],  2, 320,  0, true);
+        verifyItem(vj->m_columnVisibleItems[1][1],  3, 160, 60, true);
+    }
+
+    void testModelAppendRemoveLast()
+    {
+        QHeightModel *model2 = new QHeightModel();
+        QStringList list2;
+        list2 << "100" << "50" << "25" << "25" << "50" << "50";
+        model2->setStringList(list2);
+        vj->setModel(model2);
+        delete model;
+        model = model2;
+
+        QTRY_COMPARE(vj->m_columnVisibleItems.count(), 3);
+        QTRY_COMPARE(vj->m_columnVisibleItems[0].count(), 1);
+        QTRY_COMPARE(vj->m_columnVisibleItems[1].count(), 2);
+        QTRY_COMPARE(vj->m_columnVisibleItems[2].count(), 3);
+        verifyItem(vj->m_columnVisibleItems[0][0],  0,   0,  0, true);
+        verifyItem(vj->m_columnVisibleItems[1][0],  1, 160,  0, true);
+        verifyItem(vj->m_columnVisibleItems[2][0],  2, 320,  0, true);
+        verifyItem(vj->m_columnVisibleItems[2][1],  3, 320, 35, true);
+        verifyItem(vj->m_columnVisibleItems[1][1],  4, 160, 60, true);
+        verifyItem(vj->m_columnVisibleItems[2][2],  5, 320, 70, true);
+
+        model2->addString("75");
+
+        QTRY_COMPARE(vj->m_columnVisibleItems.count(), 3);
+        QTRY_COMPARE(vj->m_columnVisibleItems[0].count(), 2);
+        QTRY_COMPARE(vj->m_columnVisibleItems[1].count(), 2);
+        QTRY_COMPARE(vj->m_columnVisibleItems[2].count(), 3);
+        verifyItem(vj->m_columnVisibleItems[0][0],  0,   0,  0, true);
+        verifyItem(vj->m_columnVisibleItems[1][0],  1, 160,  0, true);
+        verifyItem(vj->m_columnVisibleItems[2][0],  2, 320,  0, true);
+        verifyItem(vj->m_columnVisibleItems[2][1],  3, 320, 35, true);
+        verifyItem(vj->m_columnVisibleItems[1][1],  4, 160, 60, true);
+        verifyItem(vj->m_columnVisibleItems[2][2],  5, 320, 70, true);
+        verifyItem(vj->m_columnVisibleItems[0][1],  6,   0, 110, true);
+
+        model2->addString("50");
+        model2->addString("50");
+
+        QTRY_COMPARE(vj->m_columnVisibleItems.count(), 3);
+        QTRY_COMPARE(vj->m_columnVisibleItems[0].count(), 2);
+        QTRY_COMPARE(vj->m_columnVisibleItems[1].count(), 3);
+        QTRY_COMPARE(vj->m_columnVisibleItems[2].count(), 4);
+        verifyItem(vj->m_columnVisibleItems[0][0],  0,   0,  0, true);
+        verifyItem(vj->m_columnVisibleItems[1][0],  1, 160,  0, true);
+        verifyItem(vj->m_columnVisibleItems[2][0],  2, 320,  0, true);
+        verifyItem(vj->m_columnVisibleItems[2][1],  3, 320, 35, true);
+        verifyItem(vj->m_columnVisibleItems[1][1],  4, 160, 60, true);
+        verifyItem(vj->m_columnVisibleItems[2][2],  5, 320, 70, true);
+        verifyItem(vj->m_columnVisibleItems[0][1],  6,   0, 110, true);
+        verifyItem(vj->m_columnVisibleItems[1][2],  7, 160, 120, true);
+        verifyItem(vj->m_columnVisibleItems[2][3],  8, 320, 130, true);
+
+        model2->removeLast();
+
+        QTRY_COMPARE(vj->m_columnVisibleItems.count(), 3);
+        QTRY_COMPARE(vj->m_columnVisibleItems[0].count(), 2);
+        QTRY_COMPARE(vj->m_columnVisibleItems[1].count(), 3);
+        QTRY_COMPARE(vj->m_columnVisibleItems[2].count(), 3);
+        verifyItem(vj->m_columnVisibleItems[0][0],  0,   0,  0, true);
+        verifyItem(vj->m_columnVisibleItems[1][0],  1, 160,  0, true);
+        verifyItem(vj->m_columnVisibleItems[2][0],  2, 320,  0, true);
+        verifyItem(vj->m_columnVisibleItems[2][1],  3, 320, 35, true);
+        verifyItem(vj->m_columnVisibleItems[1][1],  4, 160, 60, true);
+        verifyItem(vj->m_columnVisibleItems[2][2],  5, 320, 70, true);
+        verifyItem(vj->m_columnVisibleItems[0][1],  6,   0, 110, true);
+        verifyItem(vj->m_columnVisibleItems[1][2],  7, 160, 120, true);
+    }
+
 private:
     QQuickView *view;
     VerticalJournal *vj;
-    QStringList heightList;
     QHeightModel *model;
 };
 

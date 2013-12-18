@@ -69,8 +69,18 @@ void VerticalJournal::setModel(QAbstractItemModel *model)
     if (model != this->model()) {
         if (!m_delegateModel) {
             createDelegateModel();
+        } else {
+#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
+            disconnect(m_delegateModel, SIGNAL(modelUpdated(QQuickChangeSet,bool)), this, SLOT(onModelUpdated(QQuickChangeSet,bool)));
         }
         m_delegateModel->setModel(QVariant::fromValue<QAbstractItemModel *>(model));
+        connect(m_delegateModel, SIGNAL(modelUpdated(QQuickChangeSet,bool)), this, SLOT(onModelUpdated(QQuickChangeSet,bool)));
+#else
+            disconnect(m_delegateModel, SIGNAL(modelUpdated(QQmlChangeSet,bool)), this, SLOT(onModelUpdated(QQmlChangeSet,bool)));
+        }
+        m_delegateModel->setModel(QVariant::fromValue<QAbstractItemModel *>(model));
+        connect(m_delegateModel, SIGNAL(modelUpdated(QQmlChangeSet,bool)), this, SLOT(onModelUpdated(QQmlChangeSet,bool)));
+#endif
 
         cleanupExistingItems();
 
@@ -477,7 +487,7 @@ void VerticalJournal::itemCreated(int modelIndex, QObject *object)
 {
     QQuickItem *item = qmlobject_cast<QQuickItem*>(object);
     if (!item) {
-        qWarning() << "ListViewWithPageHeader::itemCreated got a non item for index" << modelIndex;
+        qWarning() << "VerticalJournal::itemCreated got a non item for index" << modelIndex;
         return;
     }
 #endif
@@ -488,6 +498,40 @@ void VerticalJournal::itemCreated(int modelIndex, QObject *object)
         polish();
     }
 }
+
+#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
+void VerticalJournal::onModelUpdated(const QQuickChangeSet &changeSet, bool reset)
+#else
+void VerticalJournal::onModelUpdated(const QQmlChangeSet &changeSet, bool reset)
+#endif
+{
+    if (reset) {
+        cleanupExistingItems();
+    } else {
+#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
+        Q_FOREACH(const QQuickChangeSet::Remove &remove, changeSet.removes()) {
+#else
+        Q_FOREACH(const QQmlChangeSet::Remove &remove, changeSet.removes()) {
+#endif
+            for (int i = remove.count - 1; i >= 0; --i) {
+                const int indexToRemove = remove.index + i;
+                // We only support removing from the end so
+                // any of the last items of a column has to be indexToRemove
+                bool found = false;
+                for (int i = 0; !found && i < m_columnVisibleItems.count(); ++i) {
+                    QList<ViewItem> &column = m_columnVisibleItems[i];
+                    if (!column.isEmpty() && column.last().m_modelIndex == indexToRemove) {
+                        releaseItem(column.takeLast());
+                        found = true;
+                    }
+                }
+                Q_ASSERT(found);
+            }
+        }
+    }
+    polish();
+}
+
 
 void VerticalJournal::relayout()
 {

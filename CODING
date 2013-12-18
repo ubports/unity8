@@ -1,7 +1,7 @@
 Building Unity 8
 ================
 
-Only Ubuntu 13.10 (saucy) is supported as a developement environment.
+Only Ubuntu 14.04 (trusty) is supported as a developement environment.
 
 download source
 ---------------
@@ -68,7 +68,7 @@ Notes
 
 Running Unity 8 on devices
 ==========================
-- Ubuntu Touch builds are currently only available in 13.10 flavour
+- Ubuntu Touch builds are currently only available in 14.04 flavour
 - supported hardware should match one of those listed here
   https://wiki.ubuntu.com/Touch/Devices#Running_fine
 - follow the Ubuntu Touch install instructions for your chosen device

@@ -15,12 +15,13 @@
  */
 
 import QtQuick 2.1
-import Journals 0.1
+import DashViews 0.1
 
 Item {
 
     VerticalJournal {
         id: vj
+        objectName: "vj"
         anchors.fill: parent
         columnWidth: 150
         columnSpacing: 10

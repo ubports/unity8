@@ -22,8 +22,10 @@
 class QAbstractItemModel;
 class QQmlComponent;
 #if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
+class QQuickChangeSet;
 class QQuickVisualDataModel;
 #else
+class QQmlChangeSet;
 class QQmlDelegateModel;
 #endif
 
@@ -120,8 +122,10 @@ protected:
 private Q_SLOTS:
 #if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
     void itemCreated(int modelIndex, QQuickItem *item);
+    void onModelUpdated(const QQuickChangeSet &changeSet, bool reset);
 #else
     void itemCreated(int modelIndex, QObject *object);
+    void onModelUpdated(const QQmlChangeSet &changeSet, bool reset);
 #endif
     void relayout();
     void onHeightChanged();

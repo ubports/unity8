@@ -18,7 +18,6 @@
  */
 
 #include "indicatorsmanager.h"
-#include "paths.h"
 #include "unitymenumodelstack.h"
 
 #include <QtTest>

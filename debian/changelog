@@ -1,3 +1,29 @@
+unity8 (7.84+14.04.20131212-0ubuntu1) trusty; urgency=low
+
+  [ Michał Sawicz ]
+  * Add PyDev project files for autopilot tests. Also tweak .bzrignore
+    to not ignore generic Eclipse project definitions.
+  * Retry unlocking the greeter three times.
+  * Reduce code duplication and clean up CMakeLists and includes in
+    indicator tests.
+
+  [ Nick Dedekind ]
+  * Replaced indicator page dynamic menuSelected binding with Connection
+    to listview selectedIndex property. (LP: #1243146)
+  * Indicators close when menu items are activated. (LP: #1238182)
+  * Fixed up connections for changes to model data. (LP: #1253810)
+
+  [ Albert Astals ]
+  * dashItemSelected -> showDashHome Because we are not using the index
+    at all in the upper layers.
+  * Fix filtering colllapsing/expanding again Also the delegate creation
+    range stuff flows up->down not down->up so rearrange the bindings.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 590
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 12 Dec 2013 21:41:19 +0000
+
 unity8 (7.84+14.04.20131206.1-0ubuntu1) trusty; urgency=low
 
   [ Michal Hruby ]
