@@ -23,7 +23,6 @@ Item {
     id: indicatorItem
 
     property alias widgetSource: loader.source
-    property bool highlighted: false
     property bool dimmed: false
     property var indicatorProperties: undefined
     property bool indicatorVisible: loader.item ? loader.item.enabled : false
