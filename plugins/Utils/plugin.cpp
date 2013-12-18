@@ -30,6 +30,7 @@
 #include "bottombarvisibilitycommunicatorshell.h"
 #include "qlimitproxymodelqml.h"
 #include "qsortfilterproxymodelqml.h"
+#include "timeformatter.h"
 #include "unitymenumodelpaths.h"
 
 static const char* BOTTOM_BAR_VISIBILITY_COMMUNICATOR_DBUS_PATH = "/BottomBarVisibilityCommunicator";
@@ -42,6 +43,8 @@ void UtilsPlugin::registerTypes(const char *uri)
     qmlRegisterType<QLimitProxyModelQML>(uri, 0, 1, "LimitProxyModel");
     qmlRegisterType<QSortFilterProxyModelQML>(uri, 0, 1, "SortFilterProxyModel");
     qmlRegisterType<UnityMenuModelPaths>(uri, 0, 1, "UnityMenuModelPaths");
+    qmlRegisterType<TimeFormatter>(uri, 0, 1, "TimeFormatter");
+    qmlRegisterType<GDateTimeFormatter>(uri, 0, 1, "GDateTimeFormatter");
     qmlRegisterUncreatableType<BottomBarVisibilityCommunicatorShell>(uri, 0, 1, "BottomBarVisibilityCommunicatorShell", "Can't create BottomBarVisibilityCommunicatorShell");
 }
 

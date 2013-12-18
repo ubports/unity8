@@ -24,4 +24,5 @@ endmacro(run_tests)
 run_tests(
     qlimitproxymodeltest
     qsortfilterproxymodeltest
+    timeformattertest
     )
