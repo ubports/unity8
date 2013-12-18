@@ -500,14 +500,34 @@ void VerticalJournal::itemCreated(int modelIndex, QObject *object)
 }
 
 #if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-void VerticalJournal::onModelUpdated(const QQuickChangeSet & /*changeSet*/, bool reset)
+void VerticalJournal::onModelUpdated(const QQuickChangeSet &changeSet, bool reset)
 #else
-void VerticalJournal::onModelUpdated(const QQmlChangeSet & /*changeSet*/, bool reset)
+void VerticalJournal::onModelUpdated(const QQmlChangeSet &changeSet, bool reset)
 #endif
 {
-    // TODO Add support for additions/removals at end that are not reset calls
     if (reset) {
         cleanupExistingItems();
+    } else {
+#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
+        Q_FOREACH(const QQuickChangeSet::Remove &remove, changeSet.removes()) {
+#else
+        Q_FOREACH(const QQmlChangeSet::Remove &remove, changeSet.removes()) {
+#endif
+            for (int i = remove.count - 1; i >= 0; --i) {
+                const int indexToRemove = remove.index + i;
+                // We only support removing from the end so
+                // any of the last items of a column has to be indexToRemove
+                bool found = false;
+                for (int i = 0; !found && i < m_columnVisibleItems.count(); ++i) {
+                    QList<ViewItem> &column = m_columnVisibleItems[i];
+                    if (!column.isEmpty() && column.last().m_modelIndex == indexToRemove) {
+                        releaseItem(column.takeLast());
+                        found = true;
+                    }
+                }
+                Q_ASSERT(found);
+            }
+        }
     }
     polish();
 }
