@@ -303,6 +303,22 @@ private Q_SLOTS:
         verifyItem(vj->m_columnVisibleItems[2][2],  5, 320, 70, true);
     }
 
+    void testModelReset()
+    {
+        heightList.clear();
+        heightList << "100" << "50" << "50" << "30";
+        model->setStringList(heightList);
+
+        QTRY_COMPARE(vj->m_columnVisibleItems.count(), 3);
+        QTRY_COMPARE(vj->m_columnVisibleItems[0].count(), 1);
+        QTRY_COMPARE(vj->m_columnVisibleItems[1].count(), 2);
+        QTRY_COMPARE(vj->m_columnVisibleItems[2].count(), 1);
+        verifyItem(vj->m_columnVisibleItems[0][0],  0,   0,  0, true);
+        verifyItem(vj->m_columnVisibleItems[1][0],  1, 160,  0, true);
+        verifyItem(vj->m_columnVisibleItems[2][0],  2, 320,  0, true);
+        verifyItem(vj->m_columnVisibleItems[1][1],  3, 160, 60, true);
+    }
+
 private:
     QQuickView *view;
     VerticalJournal *vj;

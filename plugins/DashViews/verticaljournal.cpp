@@ -506,7 +506,6 @@ void VerticalJournal::onModelUpdated(const QQmlChangeSet & /*changeSet*/, bool r
 #endif
 {
     // TODO Add support for additions/removals at end that are not reset calls
-    // TODO Add a test for reset
     if (reset) {
         cleanupExistingItems();
     }
