@@ -141,7 +141,6 @@ Row {
             id: notifications
 
             margin: units.gu(1)
-            fullHeight: parent.height
 
             anchors.fill: parent
             model: mockModel
