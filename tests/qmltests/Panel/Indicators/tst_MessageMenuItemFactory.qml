@@ -19,6 +19,7 @@ import QtTest 1.0
 import Unity.Test 0.1 as UT
 import QMenuModel 0.1
 import Unity.Indicators 0.1 as Indicators
+import Utils 0.1 as Utils
 
 Item {
     id: testView
@@ -31,7 +32,7 @@ Item {
         menuIndex: 0
     }
 
-    Indicators.TimeFormatter {
+    Utils.TimeFormatter {
         id: timeFormatter
         format: "hh:mm - MMM dd"
     }
