@@ -16,7 +16,7 @@
 
 import QtQuick 2.0
 import QtTest 1.0
-import "../../../Dash/Video"
+import "../../../qml/Dash/Video"
 import Ubuntu.Components.ListItems 0.1 as ListItem
 import Ubuntu.Components 0.1
 import Unity.Test 0.1 as UT
@@ -46,7 +46,7 @@ Rectangle {
             Button {
                 anchors {left: parent.left; right: parent.right; margins: units.gu(1) }
                 text: testCase.test_clicked_signal_data()[index].tag
-                onClicked: gridLoader.source = "../../../Dash/" + testCase.test_clicked_signal_data()[index].component
+                onClicked: gridLoader.source = "../../../qml/Dash/" + testCase.test_clicked_signal_data()[index].component
             }
         }
     }
@@ -114,7 +114,7 @@ Rectangle {
 
         function test_clicked_signal(data) {
             gridLoader.source = "";
-            gridLoader.source = "../../../Dash/" + data.component;
+            gridLoader.source = "../../../qml/Dash/" + data.component;
 
             // Wait until the FilterGrid is loaded by the loader
             tryCompare(gridLoader, "status", Loader.Ready);

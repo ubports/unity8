@@ -18,7 +18,7 @@ import QtQuick 2.0
 import QtTest 1.0
 import Unity.Test 0.1 as UT
 import ".."
-import "../../../Launcher"
+import "../../../qml/Launcher"
 import Unity.Launcher 0.1
 
 /* Nothing is shown at first. If you drag from left edge you will bring up the

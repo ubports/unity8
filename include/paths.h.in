@@ -41,11 +41,11 @@ inline QString translationDirectory() {
     }
 }
 
-inline QString shellAppDirectory() {
+inline QString qmlDirectory() {
     if (isRunningInstalled()) {
         return QString("@CMAKE_INSTALL_PREFIX@/@SHELL_APP_DIR@/");
     } else {
-        return QString("@CMAKE_SOURCE_DIR@/");
+        return QString("@CMAKE_SOURCE_DIR@/qml/");
     }
 }
 
@@ -79,7 +79,7 @@ inline QStringList shellDataDirs() {
     }
     else {
         // append so by default we use xdg files.
-        dirs.append(shellAppDirectory());
+        dirs.append(qmlDirectory());
     }
     return dirs;
 }

@@ -17,7 +17,7 @@
 import QtQuick 2.0
 import QtTest 1.0
 import ".."
-import "../../../Notifications"
+import "../../../qml/Notifications"
 import Ubuntu.Components 0.1
 import Unity.Test 0.1
 import Unity.Notifications 1.0
