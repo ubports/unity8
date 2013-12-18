@@ -29,6 +29,7 @@ Item {
     property var visibleIndicators: defined
     property int overFlowWidth: width
     property bool showAll: false
+    property real currentItemOffset: 0.0
 
     width: units.gu(40)
     height: units.gu(3)
@@ -144,5 +145,28 @@ Item {
                 ]
             }
         }
+    }
+
+    Rectangle {
+        id: highlight
+        color: Theme.palette.selected.foreground
+        objectName: "highlight"
+        height: units.dp(2)
+        anchors.top: row.bottom
+        visible: indicatorRow.currentItem != null
+        x: row.x + (indicatorRow.currentItem != null ? indicatorRow.currentItem.x + centerOffset : 0)
+        width: indicatorRow.currentItem != null ? indicatorRow.currentItem.width : 0
+
+        property real centerOffset: {
+            if (indicatorRow.currentItemOffset > 0.2) {
+                return (indicatorRow.currentItemOffset - 0.2) * units.gu(0.4);
+            } else if (indicatorRow.currentItemOffset < -0.2) {
+                return (indicatorRow.currentItemOffset + 0.2) * units.gu(0.4);
+            }
+            return 0.0;
+        }
+
+        Behavior on width { UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration } }
+        Behavior on x { UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration } }
     }
 }
