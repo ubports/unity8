@@ -29,25 +29,13 @@ Item {
         target: ApplicationManager
 
         onFocusRequested: {
-            print("******focus requested*********", appId, "currently focused:", priv.focusedAppId, priv.focusedScreenshot)
-            mainScreenshotImage.src = priv.focusedScreenshot;
-            mainScreenshotImage.visible = true;
-            mainScreenshotImage.anchors.leftMargin = 0;
-            priv.grantFocus(appId);
+            priv.switchToApp(appId);
         }
 
         onFocusedApplicationIdChanged: {
-            print("*** ApplicationManager.focusedAppId changed appId:", priv.focusedAppId, "shown:", root.shown)
-
             if (ApplicationManager.focusedApplicationId.length > 0) {
                 priv.applicationStarting = false;
                 priv.secondApplicationStarting = false;
-
-                // There is a new focused one
-                if (root.shown){
-                    print("starting applicationSwitchingAnimation");
-                    applicationSwitchingAnimation.start();
-                }
             }
         }
 
@@ -74,10 +62,11 @@ Item {
         property bool applicationStarting: false
         property bool secondApplicationStarting: false
 
+        property string newFocusedAppId
+
         onFocusedScreenshotChanged: {
             waitingForScreenshot = false;
             if (root.moving) {
-                print("*** moving app", ApplicationManager.focusedApplicationId, "setting screenshot to", ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).screenshot)
                 mainScreenshotImage.anchors.leftMargin = 0;
                 mainScreenshotImage.src = ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).screenshot;
                 mainScreenshotImage.visible = true;
@@ -85,13 +74,13 @@ Item {
         }
 
         function requestNewScreenshot() {
-            print("requesting new screenshot for", ApplicationManager.focusedApplicationId);
             waitingForScreenshot = true;
             ApplicationManager.updateScreenshot(ApplicationManager.focusedApplicationId);
         }
 
-        function grantFocus(appId) {
-            grantFocusTimer.appId = appId;
+        function switchToApp(appId) {
+            priv.newFocusedAppId = appId;
+            applicationSwitchingAnimation.start();
             grantFocusTimer.start();
         }
 
@@ -99,12 +88,13 @@ Item {
 
     Timer {
         id: grantFocusTimer
-        interval: 1
+        // Delay the actual switch to be covered by the animation for sure.
+        // 1) If we switch before starting the animation, the Mir event loop paints before the Qt event loop => flickering
+        // 2) If we do the switch after the animation, the panel wouldn't fade in early enough.
+        interval: UbuntuAnimation.SlowDuration / 4
         repeat: false
-        property string appId
         onTriggered: {
-            print("*** Calling AppManager.focusApplication(", appId, "). Image is visible:", mainScreenshotImage.visible)
-            ApplicationManager.focusApplication(appId);
+            ApplicationManager.focusApplication(priv.newFocusedAppId);
         }
     }
 
@@ -112,10 +102,13 @@ Item {
         id: applicationSwitchingAnimation
         // setup
         PropertyAction { target: mainScreenshotImage; property: "anchors.leftMargin"; value: 0 }
-        PropertyAction { target: fadeInScreenshotImage; property: "source"; value: priv.focusedScreenshot }
+        PropertyAction { target: mainScreenshotImage; property: "src"; value: priv.focusedScreenshot }
+        PropertyAction { target: mainScreenshotImage; property: "visible"; value: true }
+        PropertyAction { target: fadeInScreenshotImage; property: "source"; value: ApplicationManager.findApplication(priv.newFocusedAppId).screenshot }
         PropertyAction { target: fadeInScreenshotImage; property: "visible"; value: true }
         PropertyAction { target: fadeInScreenshotImage; property: "opacity"; value: 0 }
         PropertyAction { target: fadeInScreenshotImage; property: "scale"; value: .8 }
+
 
         // The actual animation
         ParallelAnimation {
@@ -142,7 +135,6 @@ Item {
         width: parent.width
         scale: .7
         visible: false
-//        Rectangle { anchors.fill: mainScreenshotImage; color: "green"; opacity: .5 }
     }
 
     Rectangle {
@@ -159,31 +151,5 @@ Item {
         property string src
         source: src
         visible: false
-
-        onVisibleChanged: {
-            print("------------------------ image visible", visible)
-        }
-
-        onSrcChanged: {
-            print("*** Main image source changed", src, "visible:", visible)
-        }
-
-        onStatusChanged: {
-            print("*** Main image status changed", status, source)
-        }
-    }
-//    Rectangle { anchors.fill: mainScreenshotImage; color: "blue"; opacity: .5 }
-
-    Image {
-        anchors { top: parent.top; right: parent.right }
-        height: parent.height / 4
-        width: parent.width / 4
-        source: ApplicationManager.findApplication(priv.focusedAppId).screenshot
-    }
-    Image {
-        anchors { bottom: parent.bottom; right: parent.right }
-        height: parent.height / 4
-        width: parent.width / 4
-        source: mainScreenshotImage.src
     }
 }
