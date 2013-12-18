@@ -23,6 +23,8 @@
 // Qt
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
+#include <QtGui/QIcon>
+#include <QtQml/QQmlEngine>
 #include <QStandardPaths>
 
 inline bool isRunningInstalled() {
@@ -84,6 +86,43 @@ inline QStringList shellDataDirs() {
 
 inline QString sourceDirectory() {
     return QString("@CMAKE_SOURCE_DIR@/");
+}
+
+inline void prependImportPaths(QQmlEngine *engine, const QStringList &paths)
+{
+    QStringList importPathList = engine->importPathList();
+    for (int i = paths.count() -1; i >= 0; i--) {
+        // don't duplicate
+        const QString& path = paths[i];
+        QStringList::iterator iter = qFind(importPathList.begin(), importPathList.end(), path);
+        if (iter == importPathList.end()) {
+            engine->addImportPath(path);
+        }
+    }
+}
+
+/* When you append and import path to the list of import paths it will be the *last*
+   place where Qt will search for QML modules.
+   The usual QQmlEngine::addImportPath() actually prepends the given path.*/
+inline void appendImportPaths(QQmlEngine *engine, const QStringList &paths)
+{
+    QStringList importPathList = engine->importPathList();
+    Q_FOREACH(const QString& path, paths) {
+        // don't duplicate
+        QStringList::iterator iter = qFind(importPathList.begin(), importPathList.end(), path);
+        if (iter == importPathList.end()) {
+            importPathList.append(path);
+        }
+    }
+    engine->setImportPathList(importPathList);
+}
+
+inline void resolveIconTheme() {
+    const char *ubuntuIconTheme = getenv("UBUNTU_ICON_THEME");
+    if (ubuntuIconTheme == NULL) {
+        ubuntuIconTheme = "ubuntu-mobile";
+    }
+    QIcon::setThemeName(ubuntuIconTheme);
 }
 
 #endif

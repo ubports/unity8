@@ -108,11 +108,7 @@ declare_autopilot_test(shell unity8.shell ${CMAKE_SOURCE_DIR}/tests/autopilot/)
 
 set(SHELL_APP unity8)
 
-set(shell_app_HDRS
-    )
-
 add_executable(${SHELL_APP}
-    ${shellapplication_MOC_SRCS}
     ApplicationArguments.h
     main.cpp
     MouseTouchAdaptor.cpp
@@ -123,14 +119,10 @@ pkg_check_modules(XCB REQUIRED xcb)
 
 if (NOT "${XCB_INCLUDE_DIRS}" STREQUAL "")
     set_target_properties(${SHELL_APP} PROPERTIES INCLUDE_DIRECTORIES ${XCB_INCLUDE_DIRS})
+
+    target_link_libraries(${SHELL_APP} ${XCB_LDFLAGS})
 endif()
 
-target_link_libraries(${SHELL_APP}
-    ${Qt5Qml_LIBRARIES}
-    ${Qt5Quick_LIBRARIES}
-    ${XCB_LDFLAGS}
-    ${CMAKE_DL_LIBS}
-    )
 
 # install binaries
 install(TARGETS ${SHELL_APP}

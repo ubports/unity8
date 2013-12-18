@@ -144,9 +144,11 @@ IndicatorBase {
                         item.selectMenu.connect(function() { mainMenu.selectedIndex = index; });
                         item.deselectMenu.connect(function() { mainMenu.selectedIndex = -1; });
                     }
-
-                    if (item.hasOwnProperty("menu")) {
-                        item.menu = Qt.binding(function() { return model; });
+                    if (item.hasOwnProperty("menuData")) {
+                        item.menuData = Qt.binding(function() { return model; });
+                    }
+                    if (item.hasOwnProperty("menuIndex")) {
+                        item.menuIndex = Qt.binding(function() { return modelIndex; });
                     }
                 }
 
@@ -172,7 +174,7 @@ IndicatorBase {
 
     MenuItemFactory {
         id: factory
-        model: mainMenu.model
+        menuModel: mainMenu.model ? mainMenu.model : null
     }
 
     Components.Label {

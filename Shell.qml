@@ -704,13 +704,14 @@ FocusScope {
             id: notifications
 
             model: NotificationBackend.Model
+            margin: units.gu(1)
+            fullHeight: parent.height - panel.panelHeight
+
             anchors {
                 top: parent.top
                 right: parent.right
                 bottom: parent.bottom
-                leftMargin: units.gu(1)
-                rightMargin: units.gu(1)
-                topMargin: panel.panelHeight + units.gu(1)
+                topMargin: panel.panelHeight
             }
             states: [
                 State {
