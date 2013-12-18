@@ -20,7 +20,7 @@
 import QtQuick 2.0
 import Ubuntu.Settings.Menus 0.1 as Menus
 import QMenuModel 0.1 as QMenuModel
-import Unity.Indicators 0.1 as Indicators
+import Utils 0.1 as Utils
 import Ubuntu.Components.ListItems 0.1 as ListItems
 
 Item {
@@ -221,10 +221,9 @@ Item {
             property int menuIndex: -1
             property var extendedData: menuData && menuData.ext || undefined
             // TODO - bug #1260728
-            property var timeFormatter: Indicators.TimeFormatter {
+            property var timeFormatter: Utils.GDateTimeFormatter {
                 time: getExtendedProperty(extendedData, "xCanonicalTime", 0)
-//                format: getExtendedProperty(extendedData, "xCanonicalTimeFormat", "")
-                format: "hh:mm - MMM dd"
+                format: getExtendedProperty(extendedData, "xCanonicalTimeFormat", "")
             }
 
             text: menuData && menuData.label || ""
@@ -259,10 +258,9 @@ Item {
             property int menuIndex: -1
             property var extendedData: menuData && menuData.ext || undefined
             // TODO - bug #1260728
-            property var timeFormatter: Indicators.TimeFormatter {
+            property var timeFormatter: Utils.GDateTimeFormatter {
                 time: getExtendedProperty(extendedData, "xCanonicalTime", 0)
-//                format: getExtendedProperty(extendedData, "xCanonicalTimeFormat", "")
-                format: "hh:mm - MMM dd"
+                format: getExtendedProperty(extendedData, "xCanonicalTimeFormat", "")
             }
 
             text: menuData && menuData.label || ""
@@ -376,7 +374,7 @@ Item {
             property var extendedData: menuData && menuData.ext || undefined
 
             text: menuData && menuData.label || ""
-            icon: getExtendedProperty(extendedData, "icon", "qrc:/indicators/artwork/messaging/default_app.svg")
+            iconSource: getExtendedProperty(extendedData, "icon", "qrc:/indicators/artwork/messaging/default_app.svg")
             count: menuData && menuData.actionState.length > 0 ? menuData.actionState[0] : "0"
             enabled: menuData && menuData.sensitive || false
             removable: true

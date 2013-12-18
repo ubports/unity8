@@ -22,7 +22,7 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Settings.Menus 0.1 as Menus
 import QMenuModel 0.1 as QMenuModel
-import Unity.Indicators 0.1 as Indicators
+import Utils 0.1 as Utils
 
 Item {
     id: messageFactoryItem
@@ -38,7 +38,7 @@ Item {
     property var actionsDescription: getExtendedProperty(extendedData, "xCanonicalMessageActions", undefined)
 
     // TODO - bug #1260728
-    property var timeFormatter: Indicators.TimeFormatter {
+    property var timeFormatter: Utils.TimeFormatter {
         time: getExtendedProperty(extendedData, "xCanonicalTime", 0)
         format: "hh:mm - MMM dd"
     }
