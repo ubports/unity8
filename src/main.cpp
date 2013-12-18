@@ -30,7 +30,7 @@
 #include <csignal>
 
 // local
-#include "paths.h"
+#include <paths.h>
 #include "MouseTouchAdaptor.h"
 #include "ApplicationArguments.h"
 

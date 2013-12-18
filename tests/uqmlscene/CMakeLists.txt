@@ -8,6 +8,7 @@ qt5_use_modules(uqmlscene Qml Quick Test)
 pkg_check_modules(XCB REQUIRED xcb)
 
 include_directories(
+    ${CMAKE_SOURCE_DIR}/src
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
 )
 

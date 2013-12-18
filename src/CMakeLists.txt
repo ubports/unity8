@@ -6,7 +6,7 @@ include_directories(
 )
 
 add_executable(${SHELL_APP}
-    ${CMAKE_SOURCE_DIR}/include/ApplicationArguments.h
+    ApplicationArguments.h
     main.cpp
     MouseTouchAdaptor.cpp
     )
