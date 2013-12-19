@@ -7,84 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-11-12 16:10+0100\n"
-"PO-Revision-Date: 2013-10-01 13:21+0000\n"
-"Last-Translator: Volkan Gezer <Unknown>\n"
+"POT-Creation-Date: 2013-11-29 09:21+0100\n"
+"PO-Revision-Date: 2013-12-12 16:06+0000\n"
+"Last-Translator: Arda Ünlü <aarda.uunlu@gmail.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-11-19 05:59+0000\n"
-"X-Generator: Launchpad (build 16831)\n"
-
-#: Applications/applications.js:23
-msgid "Phone"
-msgstr "Telefon"
-
-#: Applications/applications.js:29
-msgid "Camera"
-msgstr "Kamera"
-
-#: Applications/applications.js:35
-msgid "Gallery"
-msgstr "Galeri"
-
-#: Applications/applications.js:40
-msgid "Facebook"
-msgstr "Facebook"
-
-#: Applications/applications.js:46
-msgid "Browser"
-msgstr "Tarayıcı"
-
-#: Applications/applications.js:51
-msgid "Twitter"
-msgstr "Twitter"
-
-#: Applications/applications.js:57
-msgid "GMail"
-msgstr "GMail"
-
-#: Applications/applications.js:62
-msgid "Weather"
-msgstr "Hava Durumu"
-
-#: Applications/applications.js:68
-msgid "Notepad"
-msgstr "Not Defteri"
-
-#: Applications/applications.js:74
-msgid "Calendar"
-msgstr "Takvim"
-
-#: Applications/applications.js:80
-msgid "Media Player"
-msgstr "Ortam Oynatıcı"
-
-#: Applications/applications.js:86
-msgid "Evernote"
-msgstr "Evernote"
-
-#: Applications/applications.js:91
-msgid "Map"
-msgstr "Harita"
-
-#: Applications/applications.js:96
-msgid "Pinterest"
-msgstr "Pinterest"
-
-#: Applications/applications.js:101
-msgid "SoundCloud"
-msgstr "SoundCloud"
-
-#: Applications/applications.js:106
-msgid "Wikipedia"
-msgstr "Vikipedi"
-
-#: Applications/applications.js:111
-msgid "YouTube"
-msgstr "YouTube"
+"X-Launchpad-Export-Date: 2013-12-13 06:46+0000\n"
+"X-Generator: Launchpad (build 16869)\n"
 
 #: Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -133,29 +65,27 @@ msgid ""
 "phone<br><br>Tap anywhere to start"
 msgstr ""
 
-#: Components/PageHeader.qml:345
+#: Components/PageHeader.qml:364
 msgid "Recent searches"
 msgstr "Son Arananlar"
 
-#. TRANSLATORS: Number of persons who rated this app
+#: Dash/Apps/AppPreview.qml:135
+msgid "Rate this"
+msgstr "Oyla"
+
 #. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: Dash/Apps/AppInfo.qml:73 Dash/Previews/Header.qml:93
+#: Dash/Previews/Header.qml:93
 #, qt-format
 msgid "(%1)"
 msgstr "(%1)"
 
-#. TRANSLATORS: Number of persons who wrote reviews for this app
 #. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: Dash/Apps/AppInfo.qml:85 Dash/Previews/Header.qml:105
+#: Dash/Previews/Header.qml:105
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
 msgstr[0] "%1 inceleme"
 msgstr[1] "%1 inceleme"
-
-#: Dash/Apps/AppPreview.qml:135
-msgid "Rate this"
-msgstr "Oyla"
 
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
@@ -173,7 +103,7 @@ msgstr "Gönder"
 msgid "Comments:"
 msgstr "Yorumlar:"
 
-#: Greeter/Lockscreen.qml:146
+#: Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
 msgstr "Acil Arama"
 
@@ -208,7 +138,7 @@ msgstr "Konuşuyor..."
 
 #: Notifications/NotificationMenuItemFactory.qml:89
 msgid "Show password"
-msgstr ""
+msgstr "Parolayı göster"
 
 #: Panel/SearchIndicator.qml:27
 msgid "Search"
@@ -217,21 +147,13 @@ msgstr "Ara"
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Lock to Launcher"
-msgstr ""
+msgstr "Başlatıcıya Sabitle"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Unlock from Launcher"
-msgstr ""
+msgstr "Başlatıcıdan Ayır"
 
-#: plugins/Unity/scope.cpp:408
-msgid "Sorry, there is nothing that matches your search."
-msgstr "Üzgünüz, aramanızla eşleşen hiçbir şey yok."
-
-#: plugins/Unity/showallfilteroption.cpp:41
-msgid "All"
-msgstr ""
-
-#: Shell.qml:441
+#: Shell.qml:439
 #, qt-format
 msgid "Please enter %1"
 msgstr "Lütfen %1 girin"

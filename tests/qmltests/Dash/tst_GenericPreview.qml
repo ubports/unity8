@@ -16,7 +16,7 @@
 
 import QtQuick 2.0
 import QtTest 1.0
-import "../../../Dash/Generic"
+import "../../../qml/Dash/Generic"
 import Unity.Test 0.1 as UT
 
 Item {

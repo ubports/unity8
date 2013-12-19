@@ -13,10 +13,12 @@ add_subdirectory(single-passphrase)
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_SOURCE_DIR}/plugins/Utils
     ${CMAKE_SOURCE_DIR}/tests/mocks/libusermetrics
 )
 
 set(QMLPLUGIN_SRC
+    ${CMAKE_SOURCE_DIR}/plugins/LightDM/DBusGreeterList.cpp
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/Greeter.cpp
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/plugin.cpp
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/UsersModel.cpp
@@ -39,7 +41,7 @@ target_link_libraries(MockLightDM-qml
     -lusermetricsoutput
     )
 
-qt5_use_modules(MockLightDM-qml Gui Qml)
+qt5_use_modules(MockLightDM-qml DBus Gui Qml)
 
 # copy qmldir file into build directory for shadow builds
 file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"

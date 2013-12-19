@@ -16,7 +16,7 @@
 
 import QtQuick 2.0
 import QtTest 1.0
-import "../../../Dash"
+import "../../../qml/Dash"
 import Ubuntu.Components 0.1
 import Unity 0.1
 import Unity.Test 0.1 as UT
@@ -64,12 +64,12 @@ Item {
     ScopeDelegateMapper {
         id: scopeDelegateMapper
         scopeDelegateMapping: {
-            "MockScope1": "../tests/qmltests/Dash/qml/fake_scopeView1.qml",
-            "MockScope2": "../tests/qmltests/Dash/qml/fake_scopeView2.qml",
-            "home.scope": "../tests/qmltests/Dash/qml/fake_scopeView3.qml",
-            "applications.scope": "../tests/qmltests/Dash/qml/fake_scopeView4.qml"
+            "MockScope1": Qt.resolvedUrl("qml/fake_scopeView1.qml"),
+            "MockScope2": Qt.resolvedUrl("qml/fake_scopeView2.qml"),
+            "home.scope": Qt.resolvedUrl("qml/fake_scopeView3.qml"),
+            "applications.scope": Qt.resolvedUrl("qml/fake_scopeView4.qml")
         }
-        genericScope: "../tests/qmltests/Dash/qml/fake_generic_scopeView.qml"
+        genericScope: Qt.resolvedUrl("qml/fake_generic_scopeView.qml")
     }
 
     function clear_scope_status() {
@@ -127,6 +127,33 @@ Item {
             scopesModel.clear();
             // wait for dash to empty scopes.
             tryCompare(dashContentList, "count", 0);
+            // this is the default state for empty model
+            dashContentList.currentIndex = -1;
+        }
+
+        function test_current_index() {
+            var dashContentList = findChild(dashContent, "dashContentList");
+            verify(dashContentList != undefined)
+
+            compare(dashContentList.count, 0, "DashContent should have 0 items when it starts");
+            compare(dashContentList.currentIndex, -1, "DashContent's currentIndex should be -1 while there have been no items in the model");
+
+            tryCompare(scopeLoadedSpy, "count", 5);
+
+            verify(dashContentList.currentIndex >= 0);
+        }
+
+        function test_current_index_after_reset() {
+            var dashContentList = findChild(dashContent, "dashContentList");
+            verify(dashContentList != undefined)
+
+            compare(dashContentList.count, 0, "DashContent should have 0 items when it starts");
+            // pretend we're running after a model reset
+            dashContentList.currentIndex = 27;
+
+            tryCompare(scopeLoadedSpy, "count", 5);
+
+            verify(dashContentList.currentIndex >= 0 && dashContentList.currentIndex < 5);
         }
 
         function test_movement_started_signal() {

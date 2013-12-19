@@ -88,6 +88,7 @@ void Greeter::authenticate(const QString &username)
     }
 
     d->m_greeter->authenticate(username);
+    Q_EMIT authenticationUserChanged(username);
 }
 
 void Greeter::respond(const QString &response)

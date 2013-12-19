@@ -140,12 +140,15 @@ IndicatorBase {
 
                 onLoaded: {
                     if (item.hasOwnProperty("menuSelected")) {
-                        item.menuSelected = Qt.binding(function() { return mainMenu.selectedIndex == index; });
+                        item.menuSelected = mainMenu.selectedIndex == index;
                         item.selectMenu.connect(function() { mainMenu.selectedIndex = index; });
                         item.deselectMenu.connect(function() { mainMenu.selectedIndex = -1; });
                     }
-                    if (item.hasOwnProperty("menu")) {
-                        item.menu = Qt.binding(function() { return model; });
+                    if (item.hasOwnProperty("menuData")) {
+                        item.menuData = Qt.binding(function() { return model; });
+                    }
+                    if (item.hasOwnProperty("menuIndex")) {
+                        item.menuIndex = Qt.binding(function() { return modelIndex; });
                     }
                 }
 
@@ -154,13 +157,24 @@ IndicatorBase {
                     property: "objectName"
                     value: model.action
                 }
+
+                // TODO: Fixes lp#1243146
+                // This is a workaround for a Qt bug. https://bugreports.qt-project.org/browse/QTBUG-34351
+                Connections {
+                    target: mainMenu
+                    onSelectedIndexChanged: {
+                        if (loader.item && loader.item.hasOwnProperty("menuSelected")) {
+                            loader.item.menuSelected = mainMenu.selectedIndex == index;
+                        }
+                    }
+                }
             }
         }
     }
 
     MenuItemFactory {
         id: factory
-        model: mainMenu.model
+        menuModel: mainMenu.model ? mainMenu.model : null
     }
 
     Components.Label {

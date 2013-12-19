@@ -26,6 +26,7 @@
 #include <QFileInfo>
 #include <QGSettings>
 #include <QDebug>
+#include <QStandardPaths>
 
 class LauncherBackendItem
 {
@@ -182,8 +183,10 @@ void LauncherBackend::syncFromAccounts()
 
     if (m_accounts && !m_user.isEmpty()) {
         QVariant variant = m_accounts->getUserProperty(m_user, "com.canonical.unity.AccountsService", "launcher-items");
-        apps = qdbus_cast<QList<QVariantMap>>(variant.value<QDBusArgument>());
-        defaults = isDefaultsItem(apps);
+        if (variant.isValid() && variant.canConvert<QDBusArgument>()) {
+            apps = qdbus_cast<QList<QVariantMap>>(variant.value<QDBusArgument>());
+            defaults = isDefaultsItem(apps);
+        }
     }
 
     if (m_accounts && defaults) { // Checking accounts as it'll be null when !useStorage
@@ -232,10 +235,7 @@ QString LauncherBackend::findDesktopFile(const QString &appId) const
     int dashPos = -1;
     QString helper = appId;
 
-    QStringList searchDirs;
-    searchDirs << QDir::homePath() + "/.local/share/applications";
-    searchDirs << "/usr/share/applications";
-
+    QStringList searchDirs = QStandardPaths::standardLocations(QStandardPaths::ApplicationsLocation);
 #ifdef LAUNCHER_TESTING
     searchDirs << "";
 #endif

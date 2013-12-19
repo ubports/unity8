@@ -18,7 +18,8 @@ import QtQuick 2.0
 import QtTest 1.0
 import Unity 0.1
 import ".."
-import "../../../Dash"
+import "../../../qml/Dash"
+import "../../../qml/Components"
 import Ubuntu.Components 0.1
 import Unity.Test 0.1 as UT
 
@@ -43,6 +44,7 @@ Item {
     GenericScopeView {
         id: genericScopeView
         anchors.fill: parent
+        searchHistory: SearchHistoryModel {}
 
         UT.UnityTestCase {
             name: "GenericScopeView"
@@ -77,14 +79,14 @@ Item {
                 var categoryListView = findChild(genericScopeView, "categoryListView");
                 categoryListView.positionAtBeginning();
 
-                var tile = findChild(genericScopeView, "delegate0");
+                var tile = findChild(findChild(genericScopeView, "0"), "delegate0");
                 mouseClick(tile, tile.width / 2, tile.height / 2);
                 var openEffect = findChild(genericScopeView, "openEffect");
                 tryCompare(openEffect, "gap", 1);
             }
 
             function checkArrowPosition(index) {
-                var tile = findChild(genericScopeView, "delegate" + index);
+                var tile = findChild(findChild(genericScopeView, "0"), "delegate" + index);
                 var tileCenter = tile.x + tile.width/2;
                 var pointerArrow = findChild(genericScopeView, "pointerArrow");
                 var pointerArrowCenter = pointerArrow.x + pointerArrow.width/2;
@@ -139,7 +141,7 @@ Item {
                 categoryListView.flick(0, -units.gu(80));
                 tryCompare(categoryListView.flicking, false);
 
-                var tile = findChild(genericScopeView, "delegate0");
+                var tile = findChild(findChild(genericScopeView, "0"), "delegate0");
                 mouseClick(tile, tile.width / 2, tile.height - 1);
                 var openEffect = findChild(genericScopeView, "openEffect");
                 tryCompare(openEffect, "gap", 1);
@@ -186,8 +188,18 @@ Item {
                                        true);
                     tryCompare(nextPreviewItem, "progress", 1);
                     waitForRendering(nextPreviewItem);
+                    tryCompareFunction(function() {return nextPreviewItem.item !== null}, true);
 
                     checkArrowPosition(i);
+
+                    // Make sure only the new one has isCurrent set to true
+                    compare(nextPreviewItem.item.isCurrent, true);
+
+                    if (currentPreviewItem.item !== undefined && currentPreviewItem.item !== null) {
+                        compare(currentPreviewItem.item.isCurrent, false);
+                    }
+
+                    currentPreviewItem = nextPreviewItem;
                 }
                 closePreview();
             }
@@ -211,6 +223,88 @@ Item {
                 genericScopeView.scope = scopes.get(1)
                 genericScopeView.scope = scopes.get(0)
                 tryCompare(genericScopeView.scope, "searchQuery", "")
+            }
+
+            function test_filter_expand_collapse() {
+                // wait for the item to be there
+                tryCompareFunction(function() { return findChild(genericScopeView, "dashSectionHeader0") != undefined; }, true);
+
+                var header = findChild(genericScopeView, "dashSectionHeader0")
+                var category = findChild(genericScopeView, "dashCategory0")
+
+                waitForRendering(header);
+                verify(category.expandable);
+                verify(category.filtered);
+
+                var initialHeight = category.height;
+                var middleHeight;
+                mouseClick(header, header.width / 2, header.height / 2);
+                tryCompareFunction(function() { middleHeight = category.height; return category.height > initialHeight; }, true);
+                tryCompare(category, "filtered", false);
+                verify(category.height > middleHeight);
+
+                mouseClick(header, header.width / 2, header.height / 2);
+                verify(category.expandable);
+                tryCompare(category, "filtered", true);
+            }
+
+            function test_showPreviewCarousel() {
+                tryCompareFunction(function() { return findChild(genericScopeView, "carouselDelegate") != undefined; }, true);
+                var tile = findChild(genericScopeView, "carouselDelegate");
+                mouseClick(tile, tile.width / 2, tile.height / 2);
+                var openEffect = findChild(genericScopeView, "openEffect");
+                tryCompare(openEffect, "gap", 1);
+
+                // check for it opening successfully
+                var previewListView = findChild(genericScopeView, "previewListView");
+                var currentPreviewItem = findChild(genericScopeView, "previewLoader0");
+                tryCompareFunction(function() {
+                                       var parts = currentPreviewItem.source.toString().split("/");
+                                       var name = parts[parts.length - 1];
+                                       return name == "DashPreviewPlaceholder.qml";
+                                   },
+                                   true);
+                tryCompareFunction(function() {
+                                       var parts = currentPreviewItem.source.toString().split("/");
+                                       var name = parts[parts.length - 1];
+                                       return name == "GenericPreview.qml";
+                                   },
+                                   true);
+                tryCompare(currentPreviewItem, "progress", 1);
+                tryCompare(previewListView, "open", true);
+
+                closePreview();
+                tryCompare(previewListView, "open", false);
+            }
+
+            function test_filter_expand_expand() {
+                // wait for the item to be there
+                tryCompareFunction(function() { return findChild(genericScopeView, "dashSectionHeader2") != undefined; }, true);
+
+                var categoryListView = findChild(genericScopeView, "categoryListView");
+                categoryListView.contentY = categoryListView.height;
+
+                var header2 = findChild(genericScopeView, "dashSectionHeader2")
+                var category2 = findChild(genericScopeView, "dashCategory2")
+                var category2FilterGrid = category2.children[0].children[0].children[0];
+                verify(UT.Util.isInstanceOf(category2FilterGrid, "FilterGrid"));
+
+                waitForRendering(header2);
+                verify(category2.expandable);
+                verify(category2.filtered);
+
+                mouseClick(header2, header2.width / 2, header2.height / 2);
+                tryCompare(category2, "filtered", false);
+                tryCompare(category2FilterGrid, "filter", false);
+
+                categoryListView.positionAtBeginning();
+
+                var header0 = findChild(genericScopeView, "dashSectionHeader0")
+                var category0 = findChild(genericScopeView, "dashCategory0")
+                mouseClick(header0, header0.width / 2, header0.height / 2);
+                tryCompare(category0, "filtered", false);
+                tryCompare(category2, "filtered", true);
+                tryCompare(category2FilterGrid, "filter", true);
             }
         }
     }

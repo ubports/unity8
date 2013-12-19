@@ -10,6 +10,7 @@ pkg_check_modules(LIBUSERMETRICSOUTPUT REQUIRED libusermetricsoutput-1)
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_SOURCE_DIR}/plugins/Utils
     ${CMAKE_SOURCE_DIR}/tests/mocks/LightDM
     #${LIBLIGHTDM_INCLUDE_DIRS}
     ${LIBUSERMETRICSOUTPUT_INCLUDE_DIRS}
@@ -17,6 +18,7 @@ include_directories(
 
 set(QMLPLUGIN_SRC
     ../Utils/qsortfilterproxymodelqml.cpp # FIXME evaluate a more generic approach for using other plugins
+    DBusGreeterList.cpp
     Greeter.cpp
     plugin.cpp
     UsersModel.cpp
@@ -33,7 +35,7 @@ target_link_libraries(LightDM-qml
     ${LIBUSERMETRICSOUTPUT_LDFLAGS}
     )
 
-qt5_use_modules(LightDM-qml Gui Qml)
+qt5_use_modules(LightDM-qml DBus Gui Qml)
 
 # export the qmldir qmltypes and plugin files
 export_qmlfiles(LightDM LightDM)
