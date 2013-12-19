@@ -359,6 +359,38 @@ private Q_SLOTS:
         verifyItem(vj->m_columnVisibleItems[1][1],  3, 160, 60, true);
     }
 
+    void testModelRemoveLastNonVisible()
+    {
+        model->removeLast();
+
+        // This is the same than checkInitialPositions but
+        // with a different implicitHeight since there's an item less
+        // in the model
+        QTRY_COMPARE(vj->m_columnVisibleItems.count(), 3);
+        QTRY_COMPARE(vj->m_columnVisibleItems[0].count(), 5);
+        QTRY_COMPARE(vj->m_columnVisibleItems[1].count(), 7);
+        QTRY_COMPARE(vj->m_columnVisibleItems[2].count(), 6);
+        verifyItem(vj->m_columnVisibleItems[0][0],  0,   0,   0, true);
+        verifyItem(vj->m_columnVisibleItems[1][0],  1, 160,   0, true);
+        verifyItem(vj->m_columnVisibleItems[2][0],  2, 320,   0, true);
+        verifyItem(vj->m_columnVisibleItems[1][1],  3, 160,  60, true);
+        verifyItem(vj->m_columnVisibleItems[1][2],  4, 160,  80, true);
+        verifyItem(vj->m_columnVisibleItems[0][1],  5,   0, 110, true);
+        verifyItem(vj->m_columnVisibleItems[1][3],  6, 160, 130, true);
+        verifyItem(vj->m_columnVisibleItems[2][1],  7, 320, 135, true);
+        verifyItem(vj->m_columnVisibleItems[0][2],  8,   0, 190, true);
+        verifyItem(vj->m_columnVisibleItems[2][2],  9, 320, 255, true);
+        verifyItem(vj->m_columnVisibleItems[2][3], 10, 320, 285, true);
+        verifyItem(vj->m_columnVisibleItems[2][4], 11, 320, 315, true);
+        verifyItem(vj->m_columnVisibleItems[1][4], 12, 160, 340, true);
+        verifyItem(vj->m_columnVisibleItems[0][3], 13,   0, 360, true);
+        verifyItem(vj->m_columnVisibleItems[2][5], 14, 320, 390, true);
+        verifyItem(vj->m_columnVisibleItems[1][5], 15, 160, 430, false);
+        verifyItem(vj->m_columnVisibleItems[0][4], 16,   0, 570, false);
+        verifyItem(vj->m_columnVisibleItems[1][6], 17, 160, 570, false);
+        QTRY_COMPARE(vj->implicitHeight(), 970. + 1. * 970. / 18.);
+    }
+
     void testModelAppendRemoveLast()
     {
         QHeightModel *model2 = new QHeightModel();
