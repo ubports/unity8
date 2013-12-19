@@ -516,7 +516,9 @@ void VerticalJournal::onModelUpdated(const QQmlChangeSet &changeSet, bool reset)
             for (int i = remove.count - 1; i >= 0; --i) {
                 const int indexToRemove = remove.index + i;
                 // Since we only support removing from the end, indexToRemove
-                // must refer to the last item of one of the columns.
+                // must refer to the last item of one of the columns or
+                // be bigger than them (because it's not in the viewport and
+                // thus we have not created a delegate for it)
                 bool found = false;
                 int lastCreatedIndex = INT_MIN;
                 for (int i = 0; !found && i < m_columnVisibleItems.count(); ++i) {
