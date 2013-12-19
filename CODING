@@ -130,7 +130,8 @@ https://github.com/peterhoeg/vim-qml
 Running tests
 =============
 
-Tests can be run from the build directory.
+Tests are run from the build directory (which will be ./builddir if you used
+the ./build script).
 
 To run the tests that do not require any graphical capability and therefore
 are pretty fast run:
