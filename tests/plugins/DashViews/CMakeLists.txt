@@ -50,6 +50,16 @@ qt5_use_modules(verticaljournaltryExec Test Core Qml)
 target_link_libraries(verticaljournaltryExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
 add_custom_target(tryVerticalJournal ${CMAKE_CURRENT_BINARY_DIR}/verticaljournaltryExec -o ${CMAKE_BINARY_DIR}/testVerticalJournal.xml,xunitxml -o -,txt)
 
+add_executable(horizontaljournaltestExec horizontaljournaltest.cpp ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/DashViews/horizontaljournal.cpp)
+qt5_use_modules(horizontaljournaltestExec Test Core Qml)
+target_link_libraries(horizontaljournaltestExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
+add_custom_target(testHorizontalJournal ${CMAKE_CURRENT_BINARY_DIR}/horizontaljournaltestExec -o ${CMAKE_BINARY_DIR}/testHorizontalJournal.xml,xunitxml -o -,txt)
+
+add_executable(horizontaljournaltryExec horizontaljournaltry.cpp ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/DashViews/horizontaljournal.cpp)
+qt5_use_modules(horizontaljournaltryExec Test Core Qml)
+target_link_libraries(horizontaljournaltryExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
+add_custom_target(tryHorizontalJournal ${CMAKE_CURRENT_BINARY_DIR}/horizontaljournaltryExec -o ${CMAKE_BINARY_DIR}/testHorizontalJournal.xml,xunitxml -o -,txt)
+
 set(qmltest_DEFAULT_NO_ADD_TEST TRUE)
 add_qml_test(. listviewwithpageheaderqml IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
 
@@ -58,3 +68,4 @@ add_dependencies(qmluitests testlistviewwithpageheadersection)
 add_dependencies(qmluitests testlistviewwithpageheadersectionexternalmodel)
 add_dependencies(qmluitests testlistviewwithpageheaderqml)
 add_dependencies(qmluitests testVerticalJournal)
+add_dependencies(qmluitests testHorizontalJournal)

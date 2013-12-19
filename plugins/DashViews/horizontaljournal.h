@@ -22,8 +22,10 @@
 class QAbstractItemModel;
 class QQmlComponent;
 #if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
+class QQuickChangeSet;
 class QQuickVisualDataModel;
 #else
+class QQmlChangeSet;
 class QQmlDelegateModel;
 #endif
 
@@ -41,10 +43,16 @@ class QQmlDelegateModel;
     Q_PROPERTY(QAbstractItemModel *model READ model WRITE setModel NOTIFY modelChanged)
     Q_PROPERTY(QQmlComponent *delegate READ delegate WRITE setDelegate NOTIFY delegateChanged)
     Q_PROPERTY(qreal rowHeight READ rowHeight WRITE setRowHeight NOTIFY rowHeightChanged)
-    Q_PROPERTY(qreal horizontalSpacing READ horizontalSpacing WRITE setHorizontalSpacing NOTIFY horizontalSpacingChanged)
-    Q_PROPERTY(qreal verticalSpacing READ verticalSpacing WRITE setVerticalSpacing NOTIFY verticalSpacingChanged)
-    Q_PROPERTY(qreal delegateCreationBegin READ delegateCreationBegin WRITE setDelegateCreationBegin NOTIFY delegateCreationBeginChanged RESET resetDelegateCreationBegin)
-    Q_PROPERTY(qreal delegateCreationEnd READ delegateCreationEnd WRITE setDelegateCreationEnd NOTIFY delegateCreationEndChanged RESET resetDelegateCreationEnd)
+    Q_PROPERTY(qreal columnSpacing READ columnSpacing WRITE setColumnSpacing NOTIFY columnSpacingChanged)
+    Q_PROPERTY(qreal rowSpacing READ rowSpacing WRITE setRowSpacing NOTIFY rowSpacingChanged)
+    Q_PROPERTY(qreal delegateCreationBegin READ delegateCreationBegin
+                                           WRITE setDelegateCreationBegin
+                                           NOTIFY delegateCreationBeginChanged
+                                           RESET resetDelegateCreationBegin)
+    Q_PROPERTY(qreal delegateCreationEnd READ delegateCreationEnd
+                                         WRITE setDelegateCreationEnd
+                                         NOTIFY delegateCreationEndChanged
+                                         RESET resetDelegateCreationEnd)
 
 friend class HorizontalJournalTest;
 
@@ -60,11 +68,11 @@ public:
     qreal rowHeight() const;
     void setRowHeight(qreal rowHeight);
 
-    qreal horizontalSpacing() const;
-    void setHorizontalSpacing(qreal horizontalSpacing);
+    qreal columnSpacing() const;
+    void setColumnSpacing(qreal columnSpacing);
 
-    qreal verticalSpacing() const;
-    void setVerticalSpacing(qreal verticalSpacing);
+    qreal rowSpacing() const;
+    void setRowSpacing(qreal rowSpacing);
 
     qreal delegateCreationBegin() const;
     void setDelegateCreationBegin(qreal);
@@ -78,8 +86,8 @@ Q_SIGNALS:
     void modelChanged();
     void delegateChanged();
     void rowHeightChanged();
-    void horizontalSpacingChanged();
-    void verticalSpacingChanged();
+    void columnSpacingChanged();
+    void rowSpacingChanged();
     void delegateCreationBeginChanged();
     void delegateCreationEndChanged();
 
@@ -90,8 +98,10 @@ protected:
 private Q_SLOTS:
 #if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
     void itemCreated(int modelIndex, QQuickItem *item);
+    void onModelUpdated(const QQuickChangeSet &changeSet, bool reset);
 #else
     void itemCreated(int modelIndex, QObject *object);
+    void onModelUpdated(const QQmlChangeSet &changeSet, bool reset);
 #endif
     void relayout();
     void onHeightChanged();
@@ -105,9 +115,9 @@ private:
     bool removeNonVisibleItems(qreal bufferFrom, qreal bufferTo);
     QQuickItem *createItem(int modelIndex, bool asynchronous);
     void positionItem(int modelIndex, QQuickItem *item);
-    void doRelayout();
-
+    void cleanupExistingItems();
     void releaseItem(QQuickItem *item);
+    void calculateImplicitHeight();
 
 #if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
     QQuickVisualDataModel *m_delegateModel;
@@ -122,8 +132,8 @@ private:
     QList<QQuickItem*> m_visibleItems;
     QMap<int, double> m_lastInRowIndexPosition;
     int m_rowHeight;
-    int m_horizontalSpacing;
-    int m_verticalSpacing;
+    int m_columnSpacing;
+    int m_rowSpacing;
     qreal m_delegateCreationBegin;
     qreal m_delegateCreationEnd;
     bool m_delegateCreationBeginValid;

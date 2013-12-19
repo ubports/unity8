@@ -47,8 +47,8 @@ HorizontalJournal::HorizontalJournal()
  , m_asyncRequestedIndex(-1)
  , m_firstVisibleIndex(-1)
  , m_rowHeight(0)
- , m_horizontalSpacing(0)
- , m_verticalSpacing(0)
+ , m_columnSpacing(0)
+ , m_rowSpacing(0)
  , m_delegateCreationBegin(0)
  , m_delegateCreationEnd(0)
  , m_delegateCreationBeginValid(false)
@@ -71,18 +71,20 @@ void HorizontalJournal::setModel(QAbstractItemModel *model)
     if (model != this->model()) {
         if (!m_delegateModel) {
             createDelegateModel();
-        }
+        } else {
 #if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
+            disconnect(m_delegateModel, SIGNAL(modelUpdated(QQuickChangeSet,bool)), this, SLOT(onModelUpdated(QQuickChangeSet,bool)));
+        }
         m_delegateModel->setModel(QVariant::fromValue<QAbstractItemModel *>(model));
+        connect(m_delegateModel, SIGNAL(modelUpdated(QQuickChangeSet,bool)), this, SLOT(onModelUpdated(QQuickChangeSet,bool)));
 #else
+            disconnect(m_delegateModel, SIGNAL(modelUpdated(QQmlChangeSet,bool)), this, SLOT(onModelUpdated(QQmlChangeSet,bool)));
+        }
         m_delegateModel->setModel(QVariant::fromValue<QAbstractItemModel *>(model));
+        connect(m_delegateModel, SIGNAL(modelUpdated(QQmlChangeSet,bool)), this, SLOT(onModelUpdated(QQmlChangeSet,bool)));
 #endif
-        // Cleanup the existing items
-        Q_FOREACH(QQuickItem *item, m_visibleItems)
-            releaseItem(item);
-        m_visibleItems.clear();
-        m_lastInRowIndexPosition.clear();
-        m_firstVisibleIndex = 0;
+
+        cleanupExistingItems();
 
         Q_EMIT modelChanged();
         polish();
@@ -101,12 +103,7 @@ void HorizontalJournal::setDelegate(QQmlComponent *delegate)
             createDelegateModel();
         }
 
-        // Cleanup the existing items
-        Q_FOREACH(QQuickItem *item, m_visibleItems)
-            releaseItem(item);
-        m_visibleItems.clear();
-        m_lastInRowIndexPosition.clear();
-        m_firstVisibleIndex = 0;
+        cleanupExistingItems();
 
         m_delegateModel->setDelegate(delegate);
 
@@ -136,16 +133,16 @@ void HorizontalJournal::setRowHeight(qreal rowHeight)
     }
 }
 
-qreal HorizontalJournal::horizontalSpacing() const
+qreal HorizontalJournal::columnSpacing() const
 {
-    return m_horizontalSpacing;
+    return m_columnSpacing;
 }
 
-void HorizontalJournal::setHorizontalSpacing(qreal horizontalSpacing)
+void HorizontalJournal::setColumnSpacing(qreal columnSpacing)
 {
-    if (horizontalSpacing != m_horizontalSpacing) {
-        m_horizontalSpacing = horizontalSpacing;
-        Q_EMIT horizontalSpacingChanged();
+    if (columnSpacing != m_columnSpacing) {
+        m_columnSpacing = columnSpacing;
+        Q_EMIT columnSpacingChanged();
 
         if (isComponentComplete()) {
             relayout();
@@ -153,16 +150,16 @@ void HorizontalJournal::setHorizontalSpacing(qreal horizontalSpacing)
     }
 }
 
-qreal HorizontalJournal::verticalSpacing() const
+qreal HorizontalJournal::rowSpacing() const
 {
-    return m_verticalSpacing;
+    return m_rowSpacing;
 }
 
-void HorizontalJournal::setVerticalSpacing(qreal verticalSpacing)
+void HorizontalJournal::setRowSpacing(qreal rowSpacing)
 {
-    if (verticalSpacing != m_verticalSpacing) {
-        m_verticalSpacing = verticalSpacing;
-        Q_EMIT verticalSpacingChanged();
+    if (rowSpacing != m_rowSpacing) {
+        m_rowSpacing = rowSpacing;
+        Q_EMIT rowSpacingChanged();
 
         if (isComponentComplete()) {
             relayout();
@@ -267,11 +264,11 @@ void HorizontalJournal::findBottomModelIndexToAdd(int *modelIndex, double *yPos)
 {
     if (m_visibleItems.isEmpty()) {
         *modelIndex = 0;
-        *yPos = m_verticalSpacing;
+        *yPos = 0;
     } else {
         *modelIndex = m_firstVisibleIndex + m_visibleItems.count();
         if (m_lastInRowIndexPosition.contains(*modelIndex - 1)) {
-            *yPos = m_visibleItems.last()->y() + m_rowHeight + m_verticalSpacing;
+            *yPos = m_visibleItems.last()->y() + m_rowHeight + m_rowSpacing;
         } else {
             *yPos = m_visibleItems.last()->y();
         }
@@ -286,7 +283,7 @@ void HorizontalJournal::findTopModelIndexToAdd(int *modelIndex, double *yPos)
     } else {
         *modelIndex = m_firstVisibleIndex - 1;
         if (m_lastInRowIndexPosition.contains(*modelIndex)) {
-            *yPos = m_visibleItems.first()->y() - m_verticalSpacing - m_rowHeight;
+            *yPos = m_visibleItems.first()->y() - m_rowSpacing - m_rowHeight;
         } else {
             *yPos = m_visibleItems.first()->y();
         }
@@ -302,7 +299,7 @@ bool HorizontalJournal::addVisibleItems(qreal fillFrom, qreal fillTo, bool async
         return false;
 
     int modelIndex;
-    double yPos;
+    qreal yPos;
     findBottomModelIndexToAdd(&modelIndex, &yPos);
     bool changed = false;
     while (modelIndex < m_delegateModel->count() && yPos <= fillTo) {
@@ -338,6 +335,7 @@ bool HorizontalJournal::removeNonVisibleItems(qreal bufferFrom, qreal bufferTo)
     while (!m_visibleItems.isEmpty() && m_visibleItems.last()->y() > bufferTo) {
         releaseItem(m_visibleItems.takeLast());
         changed = true;
+        m_lastInRowIndexPosition.remove(m_firstVisibleIndex + m_visibleItems.count());
     }
 
     if (m_visibleItems.isEmpty()) {
@@ -389,22 +387,22 @@ void HorizontalJournal::positionItem(int modelIndex, QQuickItem *item)
 {
     if (m_visibleItems.isEmpty()) {
         Q_ASSERT(modelIndex == 0);
-        item->setY(m_verticalSpacing);
-        item->setX(m_horizontalSpacing);
+        item->setY(0);
+        item->setX(0);
         m_visibleItems << item;
         m_firstVisibleIndex = 0;
     } else {
         // modelIndex has to be either m_firstVisibleIndex - 1 or m_firstVisibleIndex + m_visibleItems.count()
         if (modelIndex == m_firstVisibleIndex + m_visibleItems.count()) {
             QQuickItem *lastItem = m_visibleItems.last();
-            if (lastItem->x() + lastItem->width() + m_horizontalSpacing + item->width() + m_horizontalSpacing <= width()) {
+            if (lastItem->x() + lastItem->width() + m_columnSpacing + item->width() <= width()) {
                 // Fits in the row
                 item->setY(lastItem->y());
-                item->setX(lastItem->x() + lastItem->width() + m_horizontalSpacing);
+                item->setX(lastItem->x() + lastItem->width() + m_columnSpacing);
             } else {
                 // Starts a new row
-                item->setY(lastItem->y() + m_rowHeight + m_verticalSpacing);
-                item->setX(m_horizontalSpacing);
+                item->setY(lastItem->y() + m_rowHeight + m_rowSpacing);
+                item->setX(0);
                 m_lastInRowIndexPosition[modelIndex - 1] = lastItem->x();
             }
             m_visibleItems << item;
@@ -412,11 +410,11 @@ void HorizontalJournal::positionItem(int modelIndex, QQuickItem *item)
             QQuickItem *firstItem = m_visibleItems.first();
             if (m_lastInRowIndexPosition.contains(modelIndex)) {
                 // It is the last item of its row, so start a new one since we're going back
-                item->setY(firstItem->y() - m_verticalSpacing - m_rowHeight);
+                item->setY(firstItem->y() - m_rowSpacing - m_rowHeight);
                 item->setX(m_lastInRowIndexPosition[modelIndex]);
             } else {
                 item->setY(firstItem->y());
-                item->setX(firstItem->x() - m_horizontalSpacing - item->width());
+                item->setX(firstItem->x() - m_columnSpacing - item->width());
             }
             m_firstVisibleIndex = modelIndex;
             m_visibleItems.prepend(item);
@@ -424,6 +422,16 @@ void HorizontalJournal::positionItem(int modelIndex, QQuickItem *item)
             qWarning() << "HorizontalJournal::positionItem - Got unexpected modelIndex" << modelIndex << m_firstVisibleIndex << m_visibleItems.count();
         }
     }
+}
+
+void HorizontalJournal::cleanupExistingItems()
+{
+    // Cleanup the existing items
+    Q_FOREACH(QQuickItem *item, m_visibleItems)
+        releaseItem(item);
+    m_visibleItems.clear();
+    m_lastInRowIndexPosition.clear();
+    m_firstVisibleIndex = 0;
 }
 
 void HorizontalJournal::releaseItem(QQuickItem *item)
@@ -439,6 +447,20 @@ void HorizontalJournal::releaseItem(QQuickItem *item)
     }
 }
 
+void HorizontalJournal::calculateImplicitHeight()
+{
+    m_implicitHeightDirty = false;
+
+    if (m_firstVisibleIndex >= 0) {
+        const int nIndexes = m_firstVisibleIndex + m_visibleItems.count();
+        const double bottomMostY = m_visibleItems.last()->y() + m_rowHeight;
+        const double averageHeight = bottomMostY / nIndexes;
+        setImplicitHeight(bottomMostY + averageHeight * (model()->rowCount() - nIndexes));
+    } else {
+        setImplicitHeight(0);
+    }
+}
+
 #if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
 void HorizontalJournal::itemCreated(int modelIndex, QQuickItem *item)
 {
@@ -447,7 +469,7 @@ void HorizontalJournal::itemCreated(int modelIndex, QObject *object)
 {
     QQuickItem *item = qmlobject_cast<QQuickItem*>(object);
     if (!item) {
-        qWarning() << "ListViewWithPageHeader::itemCreated got a non item for index" << modelIndex;
+        qWarning() << "HorizontalJournal::itemCreated got a non item for index" << modelIndex;
         return;
     }
 #endif
@@ -457,6 +479,44 @@ void HorizontalJournal::itemCreated(int modelIndex, QObject *object)
         m_implicitHeightDirty = true;
         polish();
     }
+}
+
+#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
+void HorizontalJournal::onModelUpdated(const QQuickChangeSet &changeSet, bool reset)
+#else
+void HorizontalJournal::onModelUpdated(const QQmlChangeSet &changeSet, bool reset)
+#endif
+{
+    if (reset) {
+        cleanupExistingItems();
+    } else {
+#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
+        Q_FOREACH(const QQuickChangeSet::Remove &remove, changeSet.removes()) {
+#else
+        Q_FOREACH(const QQmlChangeSet::Remove &remove, changeSet.removes()) {
+#endif
+            for (int i = remove.count - 1; i >= 0; --i) {
+                const int indexToRemove = remove.index + i;
+                // We only support removing from the end so
+                // any of the last items of a column has to be indexToRemove
+                const int lastIndex = m_firstVisibleIndex + m_visibleItems.count() - 1;
+                if (indexToRemove == lastIndex) {
+                    releaseItem(m_visibleItems.takeLast());
+                    m_lastInRowIndexPosition.remove(indexToRemove);
+                } else {
+                    if (indexToRemove < lastIndex) {
+                        qFatal("HorizontalJournal only supports removal from the end of the model");
+                    } else {
+                        m_implicitHeightDirty = true;
+                    }
+                }
+            }
+        }
+        if (m_visibleItems.isEmpty()) {
+            m_firstVisibleIndex = -1;
+        }
+    }
+    polish();
 }
 
 void HorizontalJournal::relayout()
@@ -481,7 +541,10 @@ void HorizontalJournal::updatePolish()
 
         if (m_firstVisibleIndex == 0) {
             int i = 0;
-            Q_FOREACH(QQuickItem *item, m_visibleItems) {
+            const QList<QQuickItem*> allItems = m_visibleItems;
+            m_visibleItems.clear();
+            m_lastInRowIndexPosition.clear();
+            Q_FOREACH(QQuickItem *item, allItems) {
                 positionItem(i, item);
                 ++i;
             }
@@ -507,16 +570,7 @@ void HorizontalJournal::updatePolish()
     }
 
     if (m_implicitHeightDirty) {
-        m_implicitHeightDirty = false;
-
-        if (m_firstVisibleIndex >= 0) {
-            const int nIndexes = m_firstVisibleIndex + m_visibleItems.count();
-            const double bottomMostY = m_visibleItems.last()->y() + m_rowHeight + m_verticalSpacing;
-            const double averageHeight = bottomMostY / nIndexes;
-            setImplicitHeight(bottomMostY + averageHeight * (model()->rowCount() - nIndexes));
-        } else {
-            setImplicitHeight(0);
-        }
+        calculateImplicitHeight();
     }
 }
 
@@ -526,6 +580,8 @@ void HorizontalJournal::componentComplete()
         m_delegateModel->componentComplete();
 
     QQuickItem::componentComplete();
+
+    m_needsRelayout = true;
 
     polish();
 }
