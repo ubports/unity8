@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.0
-import "../../../Components"
+import "../../../qml/Components"
 import "tst_DragHandle"
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1

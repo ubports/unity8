@@ -94,6 +94,7 @@ public:
         endRemoveRows();
     }
     void updateScreenshot(const QString &appId) { Q_UNUSED(appId); }
+    void activateApplication(const QString &appId) { Q_UNUSED(appId); }
 
 private:
     QList<MockApp*> m_list;

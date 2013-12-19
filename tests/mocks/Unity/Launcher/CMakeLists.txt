@@ -1,4 +1,3 @@
-include(FindPkgConfig)
 pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=3)
 
 add_definitions(-DTOP_SRCDIR="${CMAKE_SOURCE_DIR}")
