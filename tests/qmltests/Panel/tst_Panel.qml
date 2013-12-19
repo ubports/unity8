@@ -18,7 +18,7 @@ import QtQuick 2.0
 import QtTest 1.0
 import Unity.Test 0.1 as UT
 import ".."
-import "../../../Panel"
+import "../../../qml/Panel"
 
 /*
   This tests the Panel component using a fake model to stage data in the indicators

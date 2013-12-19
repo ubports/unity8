@@ -10,6 +10,7 @@ pkg_check_modules(LIBUSERMETRICSOUTPUT REQUIRED libusermetricsoutput-1)
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_SOURCE_DIR}/plugins/Utils
     ${CMAKE_SOURCE_DIR}/tests/mocks/LightDM
     #${LIBLIGHTDM_INCLUDE_DIRS}
     ${LIBUSERMETRICSOUTPUT_INCLUDE_DIRS}

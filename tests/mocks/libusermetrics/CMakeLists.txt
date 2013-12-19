@@ -8,6 +8,10 @@ add_library(MockUserMetrics SHARED ${mock_SOURCES})
 
 qt5_use_modules(MockUserMetrics Gui)
 
+include_directories(
+    ${CMAKE_SOURCE_DIR}/plugins/Utils
+)
+
 set_target_properties(MockUserMetrics PROPERTIES
                       OUTPUT_NAME usermetricsoutput
                       VERSION 1)

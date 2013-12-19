@@ -3,6 +3,7 @@ include(QmlTest)
 include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/Ubuntu/Gestures
     ${CMAKE_CURRENT_BINARY_DIR}
+    ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     )
 
 file(GLOB qmlFiles *.qml)

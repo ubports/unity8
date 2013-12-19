@@ -16,7 +16,7 @@
 
 import QtQuick 2.0
 import QtTest 1.0
-import "../../../Components"
+import "../../../qml/Components"
 
 /*
  There will be a green rectangle in the center of the
