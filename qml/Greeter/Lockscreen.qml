@@ -30,9 +30,9 @@ Showable {
     // In case the Lockscreen can show a greeter message, this is the username
     property string username: ""
 
-    // As the numeric PIN pad doesn't have a OK button by design, we need to auto-confirm on a certain length.
+    // Set this to a value greater 0 to enable auto-confirm behavior for the lockscreen.
     // This is ignored by the alphaNumeric lockscreen as that one is confirmed with pressing enter on the OSK.
-    property int pinLength: 4
+    property int pinLength: -1
 
     property url background: ""
 

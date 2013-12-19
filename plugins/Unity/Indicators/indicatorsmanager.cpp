@@ -24,7 +24,7 @@
 #include <upstart.h>
 #include <nih/alloc.h>
 
-#include "paths.h"
+#include <paths.h>
 
 const QString profile = "phone";
 

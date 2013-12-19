@@ -48,6 +48,19 @@ private Q_SLOTS:
 
         QCOMPARE(formatter.timeString(), time.toString(format));
     }
+
+    void testFormatStrF()
+    {
+        const QString format = "%d-%m-%Y %I:%M%p";
+
+        QDateTime time = QDateTime::currentDateTime();
+
+        GDateTimeFormatter formatter;
+        formatter.setTime(time.toMSecsSinceEpoch() / 1000); // strftime in seconds since epoc
+        formatter.setFormat(format);
+
+        QCOMPARE(formatter.timeString(), time.toString("dd-MM-yyyy hh:mmAP"));
+    }
 };
 
 QTEST_GUILESS_MAIN(TimeFormatterTest)

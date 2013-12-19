@@ -19,7 +19,7 @@ import QtTest 1.0
 import Ubuntu.Components 0.1
 import Unity.Test 0.1 as UT
 import ".."
-import "../../../Components"
+import "../../../qml/Components"
 
 /*
   There will be 3 stacked rectangles, red, green & blue. Initially they

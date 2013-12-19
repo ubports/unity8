@@ -17,7 +17,7 @@
 import QtQuick 2.0
 import Unity 0.1
 
-import "../../../../Dash"
+import "../../../../qml/Dash"
 
 GenericScopeView {
     id: fakeScopeView
