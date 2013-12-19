@@ -26,19 +26,7 @@
 # floating point operations and xml writing is natively supported.
 
 
-if test -e Shell.qml; then
-  echo In-source build detected.
-  SRCDIR=`pwd`
-elif test -e ../Shell.qml; then
-  echo Out-of-source build detected. Found source dir at ..
-  SRCDIR=`pwd`/..
-else
-  echo Out-of-source build detected. Source dir not found at ..
-  echo Only in-source builds or out-of-source builds with source dir at .. are supported.
-  exit 1
-fi
-
-cd $SRCDIR
+SRCDIR=`dirname "$(readlink -f "$0")"`
 
 file_list=""
 
