@@ -19,47 +19,13 @@
  */
 
 #include "indicatorsclient.h"
-#include "paths.h"
+
+#include <paths.h>
 
 #include <QQuickView>
 #include <QQmlContext>
 #include <QQmlEngine>
 #include <QDebug>
-
-namespace {
-
-void prependImportPaths(QQmlEngine *engine, const QStringList &paths)
-{
-    QStringList importPathList = engine->importPathList();
-    for (int i = paths.count()-1; i >= 0; i--) {
-        importPathList.prepend(paths[i]);
-    }
-    engine->setImportPathList(importPathList);
-}
-
-/* When you append and import path to the list of import paths it will be the *last*
-   place where Qt will search for QML modules.
-   The usual QQmlEngine::addImportPath() actually prepends the given path.*/
-void appendImportPaths(QQmlEngine *engine, const QStringList &paths)
-{
-    QStringList importPathList = engine->importPathList();
-    Q_FOREACH(const QString& path, paths) {
-        // don't duplicate
-        QStringList::iterator iter = qFind(importPathList.begin(), importPathList.end(), path);
-        if (iter == importPathList.end()) {
-            importPathList.append(path);
-        }
-    }
-    engine->setImportPathList(importPathList);
-}
-
-void resolveIconTheme() {
-    QString ubuntuIconTheme = getenv("UBUNTU_ICON_THEME");
-    if (ubuntuIconTheme.isEmpty()) {
-        QIcon::setThemeName("ubuntu-mobile");
-    }
-}
-} // namespace
 
 IndicatorsClient::IndicatorsClient(int &argc, char **argv)
     : QObject(0),
@@ -71,7 +37,7 @@ IndicatorsClient::IndicatorsClient(int &argc, char **argv)
     QStringList args = m_application->arguments();
 
     m_view = new QQuickView;
-    m_view->engine()->setBaseUrl(QUrl::fromLocalFile(::shellAppDirectory()+"Panel/Indicators/client/"));
+    m_view->engine()->setBaseUrl(QUrl::fromLocalFile(::qmlDirectory()+"Panel/Indicators/client/"));
     prependImportPaths(m_view->engine(), ::overrideImportPaths());
     appendImportPaths(m_view->engine(), ::fallbackImportPaths());
 

@@ -18,8 +18,8 @@ import QtQuick 2.0
 import QtTest 1.0
 import Unity.Test 0.1 as UT
 import ".."
-import "../../../Panel"
-import "../../../Components"
+import "../../../qml/Panel"
+import "../../../qml/Components"
 
 /*
   This tests the Indicators component by using a fake model to stage data in the indicators
