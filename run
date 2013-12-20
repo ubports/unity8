@@ -3,7 +3,7 @@
 . /etc/environment
 export QML2_IMPORT_PATH
 
-QML_PHONE_SHELL_PATH=./builddir/unity8
+QML_PHONE_SHELL_PATH=./builddir/src/unity8
 GDB=false
 FAKE=false
 PINLOCK=false
@@ -36,7 +36,7 @@ do
        -p|--pinlock)  PINLOCK=true;;
        -k|--keylock)  KEYLOCK=true;;
        -g|--gdb)   GDB=true;;
-       -G|--greeter)  QML_PHONE_SHELL_PATH=./builddir/unity8-greeter;;
+       -G|--greeter)  QML_PHONE_SHELL_PATH=./builddir/src/unity8-greeter;;
        -h|--help)  usage;;
        -m|--nomousetouch)  MOUSE_TOUCH=false;;
        --)         shift;break;;

@@ -16,7 +16,7 @@
 
 import QtQuick 2.0
 import QtTest 1.0
-import "../../../Components/carousel.js" as Carousel
+import "../../../qml/Components/carousel.js" as Carousel
 
 TestCase {
     id: root

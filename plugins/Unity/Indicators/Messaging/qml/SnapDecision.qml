@@ -20,8 +20,8 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import Unity.Indicators 0.1 as Indicators
 import Unity.Indicators 0.1
+import Utils 0.1 as Utils
 
 HeroMessage {
     id: snapDecision
@@ -59,7 +59,7 @@ HeroMessage {
         height: units.gu(4)
         opacity: 0.0
 
-        TimeFormatter {
+        Utils.TimeFormatter {
             id: timeFormatter
             time: snapDecision.time
             format: "hh:mm - MMM dd"

@@ -1,1 +1,40 @@
+pkg_check_modules(UNITY-MIR REQUIRED unity-mir)
+
+include_directories(
+    ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
+    ${UNITY-MIR_INCLUDE_DIRS}
+)
+
+set(COMMON_SRCS
+    ApplicationArguments.h
+    main.cpp
+    MouseTouchAdaptor.cpp
+    )
+add_executable(${SHELL_APP} ${COMMON_SRCS})
+add_executable(${GREETER_APP} ${COMMON_SRCS})
+
+set_target_properties(${SHELL_APP} PROPERTIES
+    COMPILE_DEFINITIONS "APP_NAME=\"Unity 8\";QML_FILE=\"Shell.qml\";INDICATOR_PROFILE=\"phone\""
+    )
+set_target_properties(${GREETER_APP} PROPERTIES
+    COMPILE_DEFINITIONS "APP_NAME=\"Unity 8 Greeter\";QML_FILE=\"GreeterShell.qml\";INDICATOR_PROFILE=\"phone_greeter\""
+    )
+
+qt5_use_modules(${SHELL_APP} Gui Qml Quick Test)
+qt5_use_modules(${GREETER_APP} Gui Qml Quick Test)
+pkg_check_modules(XCB REQUIRED xcb)
+
+if (NOT "${XCB_INCLUDE_DIRS}" STREQUAL "")
+    set_target_properties(${SHELL_APP} PROPERTIES INCLUDE_DIRECTORIES ${XCB_INCLUDE_DIRS})
+    set_target_properties(${GREETER_APP} PROPERTIES INCLUDE_DIRECTORIES ${XCB_INCLUDE_DIRS})
+
+    target_link_libraries(${SHELL_APP} ${XCB_LDFLAGS})
+    target_link_libraries(${GREETER_APP} ${XCB_LDFLAGS})
+endif()
+
+# install binaries
+install(TARGETS ${SHELL_APP} ${GREETER_APP}
+     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+     )
+
 add_subdirectory(Panel)

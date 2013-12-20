@@ -69,17 +69,6 @@ if(SHELL_PLUGINDIR STREQUAL "")
     message(FATAL_ERROR "Could not determine plugin import dir.")
 endif()
 
-configure_file(paths.h.in ${CMAKE_CURRENT_BINARY_DIR}/paths.h @ONLY)
-
-pkg_check_modules(UNITY-MIR REQUIRED unity-mir)
-
-include_directories(
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
-    ${UNITY-MIR_INCLUDE_DIRS}
-    )
-
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fno-permissive -pedantic -Wall -Wextra")
@@ -109,103 +98,22 @@ declare_autopilot_test(shell unity8.shell ${CMAKE_SOURCE_DIR}/tests/autopilot/)
 set(SHELL_APP unity8)
 set(GREETER_APP unity8-greeter)
 
-set(shell_app_HDRS
-    )
-
-set(COMMON_SRCS
-    ApplicationArguments.h
-    main.cpp
-    MouseTouchAdaptor.cpp
-    )
-add_executable(${SHELL_APP}
-    ${shellapplication_MOC_SRCS}
-    ${COMMON_SRCS}
-    )
-add_executable(${GREETER_APP}
-    ${greeterapplication_MOC_SRCS}
-    ${COMMON_SRCS}
-    )
-
-set_target_properties(${SHELL_APP} PROPERTIES
-    COMPILE_DEFINITIONS "APP_NAME=\"Unity 8\";QML_FILE=\"Shell.qml\";INDICATOR_PROFILE=\"phone\""
-    )
-set_target_properties(${GREETER_APP} PROPERTIES
-    COMPILE_DEFINITIONS "APP_NAME=\"Unity 8 Greeter\";QML_FILE=\"GreeterShell.qml\";INDICATOR_PROFILE=\"phone_greeter\""
-    )
-
-qt5_use_modules(${SHELL_APP} Qml Quick Test)
-qt5_use_modules(${GREETER_APP} Qml Quick Test)
-pkg_check_modules(XCB REQUIRED xcb)
-
-if (NOT "${XCB_INCLUDE_DIRS}" STREQUAL "")
-    set_target_properties(${SHELL_APP} PROPERTIES INCLUDE_DIRECTORIES ${XCB_INCLUDE_DIRS})
-endif()
-
-set(COMMON_LIBS
-    ${Qt5Qml_LIBRARIES}
-    ${Qt5Quick_LIBRARIES}
-    ${XCB_LDFLAGS}
-    ${CMAKE_DL_LIBS}
-    )
-target_link_libraries(${SHELL_APP}
-    ${COMMON_LIBS}
-    )
-target_link_libraries(${GREETER_APP}
-    ${COMMON_LIBS}
-    )
-
-# install binaries
-install(TARGETS ${SHELL_APP} ${GREETER_APP}
-     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-     )
-
-# install top level qml and js files
-file(GLOB QML_JS_FILES *.qml *.js)
-
-install(FILES ${QML_JS_FILES}
-    DESTINATION ${SHELL_APP_DIR}
-    )
+include_directories(
+    ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_BINARY_DIR}/include
+)
 
 # add subdirectories to build
+add_subdirectory(include)
+add_subdirectory(src)
+add_subdirectory(qml)
 add_subdirectory(tests)
 add_subdirectory(plugins)
-add_subdirectory(src)
 
-# install subdirectories
-set(QML_DIRS
-    Bottombar
-    Components
-    Dash
-    graphics
-    Greeter
-    Hud
-    Panel
-    Launcher
-    SideStage
-    Notifications
-    )
-
-install(DIRECTORY ${QML_DIRS}
-    DESTINATION ${SHELL_APP_DIR}
-    )
-
-# generate desktop file
-configure_file(${SHELL_APP}.desktop.in ${CMAKE_CURRENT_BINARY_DIR}/${SHELL_APP}.desktop @ONLY)
-configure_file(${GREETER_APP}.desktop.in ${CMAKE_CURRENT_BINARY_DIR}/${GREETER_APP}.desktop @ONLY)
-
-# install desktop file
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${SHELL_APP}.desktop
-    DESTINATION ${CMAKE_INSTALL_DATADIR}/applications
-    )
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${GREETER_APP}.desktop
-    DESTINATION ${CMAKE_INSTALL_DATADIR}/lightdm/greeters
-    )
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/51-${GREETER_APP}.conf
-    DESTINATION ${CMAKE_INSTALL_DATADIR}/lightdm/lightdm.conf.d
-    )
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${GREETER_APP}-wrapper
-    DESTINATION ${CMAKE_INSTALL_BINDIR}
-    )
+#
+# Data files
+#
+add_subdirectory(data)
 
 #
 # Translation

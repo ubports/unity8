@@ -25,7 +25,7 @@ import Unity.Application 0.1
 import Unity.Test 0.1 as UT
 import Powerd 0.1
 
-import "../.."
+import "../../qml"
 
 Item {
     width: shell.width
@@ -49,6 +49,7 @@ Item {
 
     GreeterShell {
         id: shell
+        defaultBackground: Qt.resolvedUrl("../../qml/graphics/phone_background.jpg")
     }
 
     UT.UnityTestCase {
@@ -57,13 +58,13 @@ Item {
 
         function test_wallpaper_data() {
             return [
-                {tag: "both", accounts: "tests/data/unity/backgrounds/blue.png", gsettings: "tests/data/unity/backgrounds/red.png", expected: "blue.png"},
-                {tag: "accounts", accounts: "tests/data/unity/backgrounds/blue.png", gsettings: "", expected: "blue.png"},
-                {tag: "gsettings", accounts: "", gsettings: "tests/data/unity/backgrounds/red.png", expected: "red.png"},
+                {tag: "both", accounts: "../tests/data/unity/backgrounds/blue.png", gsettings: "../tests/data/unity/backgrounds/red.png", expected: "blue.png"},
+                {tag: "accounts", accounts: "../tests/data/unity/backgrounds/blue.png", gsettings: "", expected: "blue.png"},
+                {tag: "gsettings", accounts: "", gsettings: "../tests/data/unity/backgrounds/red.png", expected: "red.png"},
                 {tag: "none", accounts: "", gsettings: "", expected: shell.defaultBackground},
                 {tag: "invalid-both", accounts: "invalid", gsettings: "invalid", expected: shell.defaultBackground},
-                {tag: "invalid-accounts", accounts: "invalid", gsettings: "tests/data/unity/backgrounds/red.png", expected: shell.defaultBackground},
-                {tag: "invalid-gsettings", accounts: "tests/data/unity/backgrounds/blue.png", gsettings: "invalid", expected: "blue.png"},
+                {tag: "invalid-accounts", accounts: "invalid", gsettings: "../tests/data/unity/backgrounds/red.png", expected: shell.defaultBackground},
+                {tag: "invalid-gsettings", accounts: "../tests/data/unity/backgrounds/blue.png", gsettings: "invalid", expected: "blue.png"},
             ]
         }
 

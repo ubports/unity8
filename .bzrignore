@@ -3,8 +3,5 @@
 # QtCreator project files
 /*.user
 # Eclipse project files
-/.project
-/.cproject
-/.settings
-/.pydevproject
+.settings
 message.txt

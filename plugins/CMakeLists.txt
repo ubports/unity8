@@ -1,7 +1,7 @@
 add_subdirectory(AccountsService)
 add_subdirectory(HudClient)
 add_subdirectory(LightDM)
-add_subdirectory(ListViewWithPageHeader)
+add_subdirectory(DashViews)
 add_subdirectory(Powerd)
 add_subdirectory(SessionBroadcast)
 add_subdirectory(SessionManager)

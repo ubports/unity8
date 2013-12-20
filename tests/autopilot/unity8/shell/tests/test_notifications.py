@@ -64,7 +64,7 @@ class NotificationsBase(UnityTestCase):
     def _get_notifications_list(self):
         main_view = self.main_window.get_qml_view()
         return main_view.select_single(
-            "QQuickListView",
+            "Notifications",
             objectName='notificationList'
         )
 

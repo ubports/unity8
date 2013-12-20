@@ -17,7 +17,7 @@
 import QtQuick 2.0
 import QtTest 1.0
 import ".."
-import "../../../Notifications"
+import "../../../qml/Notifications"
 import Ubuntu.Components 0.1
 import Unity.Test 0.1
 import Unity.Notifications 1.0
@@ -140,8 +140,10 @@ Row {
         Notifications {
             id: notifications
 
+            margin: units.gu(1)
+            fullHeight: parent.height
+
             anchors.fill: parent
-            anchors.margins: units.gu(1)
             model: mockModel
         }
     }
@@ -401,9 +403,6 @@ Row {
                 actionSpy.wait()
                 compare(actionSpy.signalArguments[0][0], data.actions[0]["id"], "got wrong id for interactive action")
                 compare(clickThroughSpy.count, 0, "click on interactive notification fell through")
-            } else {
-                mouseClick(notification, notification.width / 2, notification.height / 2)
-                clickThroughSpy.wait()
             }
 
             compare(secondaryIcon.visible, data.secondaryIconVisible, "secondary-icon visibility is incorrect")

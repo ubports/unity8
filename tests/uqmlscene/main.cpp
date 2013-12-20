@@ -63,7 +63,7 @@
 #include <QtCore/QTranslator>
 #include <QtCore/QLibraryInfo>
 
-#include "../../MouseTouchAdaptor.h"
+#include <MouseTouchAdaptor.h>
 
 #ifdef QML_RUNTIME_TESTING
 class RenderStatistics

@@ -20,6 +20,7 @@
 
 from __future__ import absolute_import
 
+from unity8.process_helpers import unlock_unity
 from unity8.shell import with_lightdm_mock
 from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 
