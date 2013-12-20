@@ -17,17 +17,7 @@
 #ifndef HORIZONTALJOURNAL_H
 #define HORIZONTALJOURNAL_H
 
-#include <QQuickItem>
-
-class QAbstractItemModel;
-class QQmlComponent;
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-class QQuickChangeSet;
-class QQuickVisualDataModel;
-#else
-class QQmlChangeSet;
-class QQmlDelegateModel;
-#endif
+#include "abstractjournal.h"
 
  /** A horizontal journal is a view that creates delegates
    * based on a model and layouts them one after the other
@@ -36,111 +26,42 @@ class QQmlDelegateModel;
    *
    * All delegates are forced to rowHeight if they don't have it.
    */
- class HorizontalJournal : public QQuickItem
+ class HorizontalJournal : public AbstractJournal
 {
     Q_OBJECT
 
-    Q_PROPERTY(QAbstractItemModel *model READ model WRITE setModel NOTIFY modelChanged)
-    Q_PROPERTY(QQmlComponent *delegate READ delegate WRITE setDelegate NOTIFY delegateChanged)
     Q_PROPERTY(qreal rowHeight READ rowHeight WRITE setRowHeight NOTIFY rowHeightChanged)
-    Q_PROPERTY(qreal columnSpacing READ columnSpacing WRITE setColumnSpacing NOTIFY columnSpacingChanged)
-    Q_PROPERTY(qreal rowSpacing READ rowSpacing WRITE setRowSpacing NOTIFY rowSpacingChanged)
-    Q_PROPERTY(qreal delegateCreationBegin READ delegateCreationBegin
-                                           WRITE setDelegateCreationBegin
-                                           NOTIFY delegateCreationBeginChanged
-                                           RESET resetDelegateCreationBegin)
-    Q_PROPERTY(qreal delegateCreationEnd READ delegateCreationEnd
-                                         WRITE setDelegateCreationEnd
-                                         NOTIFY delegateCreationEndChanged
-                                         RESET resetDelegateCreationEnd)
 
 friend class HorizontalJournalTest;
 
 public:
     HorizontalJournal();
 
-    QAbstractItemModel *model() const;
-    void setModel(QAbstractItemModel *model);
-
-    QQmlComponent *delegate() const;
-    void setDelegate(QQmlComponent *delegate);
-
     qreal rowHeight() const;
     void setRowHeight(qreal rowHeight);
 
-    qreal columnSpacing() const;
-    void setColumnSpacing(qreal columnSpacing);
-
-    qreal rowSpacing() const;
-    void setRowSpacing(qreal rowSpacing);
-
-    qreal delegateCreationBegin() const;
-    void setDelegateCreationBegin(qreal);
-    void resetDelegateCreationBegin();
-
-    qreal delegateCreationEnd() const;
-    void setDelegateCreationEnd(qreal);
-    void resetDelegateCreationEnd();
-
 Q_SIGNALS:
-    void modelChanged();
-    void delegateChanged();
     void rowHeightChanged();
-    void columnSpacingChanged();
-    void rowSpacingChanged();
-    void delegateCreationBeginChanged();
-    void delegateCreationEndChanged();
-
-protected:
-    void updatePolish();
-    void componentComplete();
-
-private Q_SLOTS:
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-    void itemCreated(int modelIndex, QQuickItem *item);
-    void onModelUpdated(const QQuickChangeSet &changeSet, bool reset);
-#else
-    void itemCreated(int modelIndex, QObject *object);
-    void onModelUpdated(const QQmlChangeSet &changeSet, bool reset);
-#endif
-    void relayout();
-    void onHeightChanged();
 
 private:
-    void createDelegateModel();
-    void refill();
-    void findBottomModelIndexToAdd(int *modelIndex, double *yPos);
-    void findTopModelIndexToAdd(int *modelIndex, double *yPos);
-    bool addVisibleItems(qreal fillFrom, qreal fillTo, bool asynchronous);
-    bool removeNonVisibleItems(qreal bufferFrom, qreal bufferTo);
-    QQuickItem *createItem(int modelIndex, bool asynchronous);
-    void positionItem(int modelIndex, QQuickItem *item);
-    void cleanupExistingItems();
-    void releaseItem(QQuickItem *item);
-    void calculateImplicitHeight();
-
+    void findBottomModelIndexToAdd(int *modelIndex, qreal *yPos) override;
+    void findTopModelIndexToAdd(int *modelIndex, qreal *yPos) override;
+    bool removeNonVisibleItems(qreal bufferFrom, qreal bufferTo) override;
+    void positionItem(int modelIndex, QQuickItem *item) override;
+    void cleanupExistingItems() override;
+    void calculateImplicitHeight() override;
+    void doRelayout() override;
+    void updateItemCulling(qreal visibleFrom, qreal visibleTo) override;
 #if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-    QQuickVisualDataModel *m_delegateModel;
+    void processModelRemoves(const QVector<QQuickChangeSet::Remove> &removes) override;
 #else
-    QQmlDelegateModel *m_delegateModel;
+    void processModelRemoves(const QVector<QQmlChangeSet::Remove> &removes) override;
 #endif
-
-    // Index we are waiting because we requested it asynchronously
-    int m_asyncRequestedIndex;
 
     int m_firstVisibleIndex;
     QList<QQuickItem*> m_visibleItems;
     QMap<int, double> m_lastInRowIndexPosition;
     int m_rowHeight;
-    int m_columnSpacing;
-    int m_rowSpacing;
-    qreal m_delegateCreationBegin;
-    qreal m_delegateCreationEnd;
-    bool m_delegateCreationBeginValid;
-    bool m_delegateCreationEndValid;
-    bool m_needsRelayout;
-    bool m_delegateValidated;
-    bool m_implicitHeightDirty;
 };
 
 #endif

@@ -40,22 +40,22 @@ qt5_use_modules(listviewwithpageheadertestsectionexternalmodelExec Test Core Qml
 target_link_libraries(listviewwithpageheadertestsectionexternalmodelExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
 add_custom_target(testlistviewwithpageheadersectionexternalmodel ${CMAKE_CURRENT_BINARY_DIR}/listviewwithpageheadertestsectionexternalmodelExec -o ${CMAKE_BINARY_DIR}/testlistviewwithpageheadersectionexternalmodel.xml,xunitxml -o -,txt)
 
-add_executable(verticaljournaltestExec verticaljournaltest.cpp ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/DashViews/verticaljournal.cpp)
+add_executable(verticaljournaltestExec verticaljournaltest.cpp ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/DashViews/verticaljournal.cpp ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/DashViews/abstractjournal.cpp)
 qt5_use_modules(verticaljournaltestExec Test Core Qml)
 target_link_libraries(verticaljournaltestExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
 add_custom_target(testVerticalJournal ${CMAKE_CURRENT_BINARY_DIR}/verticaljournaltestExec -o ${CMAKE_BINARY_DIR}/testVerticalJournal.xml,xunitxml -o -,txt)
 
-add_executable(verticaljournaltryExec verticaljournaltry.cpp ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/DashViews/verticaljournal.cpp)
+add_executable(verticaljournaltryExec verticaljournaltry.cpp ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/DashViews/verticaljournal.cpp ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/DashViews/abstractjournal.cpp)
 qt5_use_modules(verticaljournaltryExec Test Core Qml)
 target_link_libraries(verticaljournaltryExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
 add_custom_target(tryVerticalJournal ${CMAKE_CURRENT_BINARY_DIR}/verticaljournaltryExec -o ${CMAKE_BINARY_DIR}/testVerticalJournal.xml,xunitxml -o -,txt)
 
-add_executable(horizontaljournaltestExec horizontaljournaltest.cpp ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/DashViews/horizontaljournal.cpp)
+add_executable(horizontaljournaltestExec horizontaljournaltest.cpp ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/DashViews/horizontaljournal.cpp ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/DashViews/abstractjournal.cpp)
 qt5_use_modules(horizontaljournaltestExec Test Core Qml)
 target_link_libraries(horizontaljournaltestExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
 add_custom_target(testHorizontalJournal ${CMAKE_CURRENT_BINARY_DIR}/horizontaljournaltestExec -o ${CMAKE_BINARY_DIR}/testHorizontalJournal.xml,xunitxml -o -,txt)
 
-add_executable(horizontaljournaltryExec horizontaljournaltry.cpp ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/DashViews/horizontaljournal.cpp)
+add_executable(horizontaljournaltryExec horizontaljournaltry.cpp ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/DashViews/horizontaljournal.cpp ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/DashViews/abstractjournal.cpp)
 qt5_use_modules(horizontaljournaltryExec Test Core Qml)
 target_link_libraries(horizontaljournaltryExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
 add_custom_target(tryHorizontalJournal ${CMAKE_CURRENT_BINARY_DIR}/horizontaljournaltryExec -o ${CMAKE_BINARY_DIR}/testHorizontalJournal.xml,xunitxml -o -,txt)
