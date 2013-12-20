@@ -28,12 +28,6 @@ ResponsiveFlowView {
     property alias enableHeightBehavior: heightBehaviour.enabled
     property bool enableHeightBehaviorOnNextCreation: model.count === 0
 
-    Connections {
-        target: shell
-        onDashShownChanged: if (shell.dashShown && shell.stageScreenshotsReady) updateScreenshots();
-        onStageScreenshotsReadyChanged: if (shell.dashShown && shell.stageScreenshotsReady) updateScreenshots();
-    }
-
     Behavior on height {
         id: heightBehaviour
         enabled: false
@@ -87,10 +81,6 @@ ResponsiveFlowView {
             }
 
             terminationModeEnabled: root.terminationModeEnabled
-
-            Component.onCompleted: {
-                root.updateScreenshots.connect(updateScreenshotFromCache);
-            }
         }
     }
 

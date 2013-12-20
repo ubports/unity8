@@ -208,15 +208,17 @@ FocusScope {
             width: parent.width
             height: parent.height
 
+            property string lastFocusedAppId
             onShownChanged: {
                 print("stages shown", shown)
-                if (!shown) {
+                if (shown) {
+                    if (!ApplicationManager.focusedApplicationId && lastFocusedAppId) {
+                        ApplicationManager.focusApplication(lastFocusedAppId);
+                    }
+                } else {
+                    lastFocusedAppId = ApplicationManager.focusedApplicationId;
                     ApplicationManager.unfocusCurrentApplication();
                 }
-            }
-
-            onFullyShownChanged: {
-                print("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk", fullyShown)
             }
 
             Connections {
@@ -240,8 +242,6 @@ FocusScope {
 //                source: "Stages/StageWithSideStage.qml"
                 source: "Stages/PhoneStage.qml"
 
-//                Rectangle { anchors.fill: parent; color: "blue"; opacity: .5 }
-
                 Binding {
                     target: applicationsDisplayLoader.item
                     property: "moving"
@@ -252,6 +252,23 @@ FocusScope {
                     property: "shown"
                     value: stages.shown
                 }
+            }
+
+            DragHandle {
+                id: stagesDragHandle
+
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.right: parent.left
+
+                width: shell.edgeSize
+                direction: Direction.Leftwards
+                enabled: greeter.showProgress == 0 && edgeDemo.dashEnabled
+                property bool haveApps: ApplicationManager.count > 0
+
+                maxTotalDragDistance: haveApps ? parent.width : parent.width * 0.7
+                // Make autocompletion impossible when !haveApps
+                edgeDragEvaluator.minDragDistance: haveApps ? maxTotalDragDistance * 0.1 : Number.MAX_VALUE
             }
         }
     }
@@ -413,7 +430,7 @@ FocusScope {
             }
             property string focusedAppId: ApplicationManager.focusedApplicationId
             property var focusedApplication: ApplicationManager.findApplication(focusedAppId)
-            fullscreenMode: focusedApplication && focusedApplication.fullscreen
+            fullscreenMode: focusedApplication && focusedApplication.fullscreen && !greeter.shown && !lockscreen.shown
             searchVisible: !greeter.shown && !lockscreen.shown && dash.shown
 
             InputFilterArea {

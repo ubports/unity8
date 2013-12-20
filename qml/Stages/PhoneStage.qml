@@ -15,7 +15,7 @@ Item {
     property bool moving: false
 
     // State information propagated to the outside
-    readonly property bool painting: mainScreenshotImage.visible || fadeInScreenshotImage.visible
+    readonly property bool painting: mainScreenshotImage.visible || fadeInScreenshotImage.visible || appSplash.visible
 
     onMovingChanged: {
         if (moving) {
@@ -34,18 +34,24 @@ Item {
 
         onFocusedApplicationIdChanged: {
             if (ApplicationManager.focusedApplicationId.length > 0) {
-                priv.applicationStarting = false;
-                priv.secondApplicationStarting = false;
+                if (priv.secondApplicationStarting || priv.applicationStarting) {
+                    appSplashTimer.start();
+                } else {
+                    mainScreenshotImage.src = ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).screenshot
+                }
             }
         }
 
         onApplicationAdded: {
             if (!priv.focusedApplication) {
-                print("*** applicationStarting")
+                mainScreenshotImage.src = "";
+                mainScreenshotImage.visible = false;
                 priv.applicationStarting = true;
             } else {
-                print("*** SECONDapplicationStarting")
+                mainScreenshotImage.src = "foobar";
+                priv.newFocusedAppId = appId;
                 priv.secondApplicationStarting = true;
+                priv.requestNewScreenshot();
             }
         }
     }
@@ -65,12 +71,14 @@ Item {
         property string newFocusedAppId
 
         onFocusedScreenshotChanged: {
-            waitingForScreenshot = false;
-            if (root.moving) {
+            if (root.moving && priv.waitingForScreenshot) {
                 mainScreenshotImage.anchors.leftMargin = 0;
                 mainScreenshotImage.src = ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).screenshot;
                 mainScreenshotImage.visible = true;
+            } else if (priv.secondApplicationStarting && priv.waitingForScreenshot) {
+                applicationSwitchingAnimation.start();
             }
+            waitingForScreenshot = false;
         }
 
         function requestNewScreenshot() {
@@ -98,11 +106,26 @@ Item {
         }
     }
 
+    Timer {
+        id: appSplashTimer
+        // This is to show the splash screen a bit longer.
+        // Mir signals us that the newly started app has gotten focus before it paints something on the screen
+        // This would result in the old app surface becoming visible for a bit.
+        // FIXME: change appManager to only change the focusedApplicationId when the surface is ready to be shown.
+        interval: 1500
+        repeat: false
+        onTriggered: {
+            priv.applicationStarting = false;
+            priv.secondApplicationStarting = false;
+        }
+    }
+
     SequentialAnimation {
         id: applicationSwitchingAnimation
         // setup
         PropertyAction { target: mainScreenshotImage; property: "anchors.leftMargin"; value: 0 }
-        PropertyAction { target: mainScreenshotImage; property: "src"; value: priv.focusedScreenshot }
+        // PropertyAction seems to fail when secondApplicationStarting and we didn't have another screenshot before
+        ScriptAction { script: mainScreenshotImage.src = priv.focusedScreenshot }
         PropertyAction { target: mainScreenshotImage; property: "visible"; value: true }
         PropertyAction { target: fadeInScreenshotImage; property: "source"; value: ApplicationManager.findApplication(priv.newFocusedAppId).screenshot }
         PropertyAction { target: fadeInScreenshotImage; property: "visible"; value: true }
@@ -124,7 +147,7 @@ Item {
 
     // FIXME: Drop this and make the imageprovider show a splashscreen instead
     Rectangle {
-        id: appSplash
+        id: appSplash2
         anchors.fill: parent
         color: "white"
         visible: priv.secondApplicationStarting
@@ -138,9 +161,9 @@ Item {
     }
 
     Rectangle {
-        id: appSplash2
+        id: appSplash
         anchors.fill: parent
-        color: "red"
+        color: "white"
         visible: priv.applicationStarting
     }
     Image {

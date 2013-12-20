@@ -50,9 +50,7 @@ AbstractButton {
         }
     }
 
-    Component.onCompleted: print("---------------created apptile", application, application.source)
-
-    UbuntuShapeForItem {
+    UbuntuShape {
         id: shapedApplicationImage
         anchors { top: parent.top; horizontalCenter: parent.horizontalCenter }
 
@@ -71,30 +69,6 @@ AbstractButton {
         }
 
     }
-
-//    // FIXME: should use UbuntuShape from SDK
-//    UbuntuShapeForItem {
-//        id: shapedApplicationImage
-//        anchors {
-//            top: parent.top
-//            horizontalCenter: parent.horizontalCenter
-//        }
-
-//        // FIXME: width and height should be defined according to the
-//        // application window's aspect ratio.
-//        width: (application.stage === ApplicationInfo.MainStage && __sideStageEnabled) ?
-//            units.gu(22) : units.gu(11)
-//        height: (__sideStageEnabled) ? units.gu(22) : units.gu(19)
-//        radius: "medium"
-//        image: applicationImage
-//    }
-
-//    ApplicationImage {
-//        id: applicationImage
-//        source: ApplicationManager.findApplication((application) ? application.appId : "")
-//        width: shapedApplicationImage.width
-//        height: shapedApplicationImage.height
-//    }
 
     UbuntuShape {
         id: borderPressed
