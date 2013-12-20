@@ -30,7 +30,7 @@
 #include <csignal>
 
 // local
-#include "paths.h"
+#include <paths.h>
 #include "MouseTouchAdaptor.h"
 #include "ApplicationArguments.h"
 
@@ -86,7 +86,7 @@ int startShell(int argc, const char** argv, void* server)
     QQuickView* view = new QQuickView();
     view->setResizeMode(QQuickView::SizeRootObjectToView);
     view->setTitle("Qml Phone Shell");
-    view->engine()->setBaseUrl(QUrl::fromLocalFile(::shellAppDirectory()));
+    view->engine()->setBaseUrl(QUrl::fromLocalFile(::qmlDirectory()));
     view->rootContext()->setContextProperty("applicationArguments", &qmlArgs);
     if (args.contains(QLatin1String("-frameless"))) {
         view->setFlags(Qt::FramelessWindowHint);
@@ -109,7 +109,7 @@ int startShell(int argc, const char** argv, void* server)
     nativeInterface->setProperty("ubuntuSessionType", 1);
     view->setProperty("role", 2); // INDICATOR_ACTOR_ROLE
 
-    QUrl source("Shell.qml");
+    QUrl source(::qmlDirectory()+"Shell.qml");
     prependImportPaths(view->engine(), ::overrideImportPaths());
     appendImportPaths(view->engine(), ::fallbackImportPaths());
 

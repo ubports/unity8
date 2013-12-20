@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.0
-import ListViewWithPageHeader 0.1
+import DashViews 0.1
 
 Rectangle {
     width: 300
@@ -25,8 +25,8 @@ Rectangle {
     ListModel {
         id: model
 
-        function insertItem(index, size, type) {
-            insert(index, { size: size, type: type });
+        function insertItem(index, size) {
+            insert(index, { size: size });
         }
 
         function removeItems(index, count) {
@@ -37,12 +37,12 @@ Rectangle {
             move(indexFrom, indexTo, count);
         }
 
-        ListElement { type: "Agressive"; size: 150 }
-        ListElement { type: "Regular"; size: 200 }
-        ListElement { type: "Mild"; size: 350 }
-        ListElement { type: "Bold"; size: 350 }
-        ListElement { type: "Bold"; size: 350 }
-        ListElement { type: "Lazy"; size: 350 }
+        ListElement { size: 150 }
+        ListElement { size: 200 }
+        ListElement { size: 350 }
+        ListElement { size: 350 }
+        ListElement { size: 350 }
+        ListElement { size: 350 }
     }
 
     Component {
@@ -90,16 +90,6 @@ Rectangle {
                 anchors.fill: parent
                 text: "APPS"
                 font.pixelSize: 40
-            }
-        }
-
-        sectionProperty: "type"
-        sectionDelegate: Component {
-            Rectangle {
-                color: "green"
-                height: 40
-                Text { text: section; font.pixelSize: 34 }
-                anchors { left: parent.left; right: parent.right }
             }
         }
     }

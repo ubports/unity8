@@ -15,8 +15,7 @@
  */
 
 import QtQuick 2.0
-import QtTest 1.0
-import ListViewWithPageHeader 0.1
+import DashViews 0.1
 
 Rectangle {
     width: 300
@@ -46,6 +45,15 @@ Rectangle {
         ListElement { type: "Lazy"; size: 350 }
     }
 
+    Component {
+        id: otherRect
+        Rectangle {
+            height: 35
+            width: parent.width
+            color: index % 2 == 0 ? "yellow" : "purple"
+        }
+    }
+
     ListViewWithPageHeader {
         id: listView
         width: parent.width
@@ -57,9 +65,19 @@ Rectangle {
             width: parent.width - 20
             x: 10
             color: index % 2 == 0 ? "red" : "blue"
-            height: size
+            height: timerDone ? size : 350
             Text {
                 text: index
+            }
+            Timer {
+                id: sizeTimer
+                interval: 10;
+                onTriggered: {
+                    timerDone = true
+                }
+            }
+            Component.onCompleted: {
+                sizeTimer.start()
             }
         }
 
@@ -76,63 +94,13 @@ Rectangle {
         }
 
         sectionProperty: "type"
-
-        property int sectionHeaderHeight: 40
         sectionDelegate: Component {
-            id: sectionHeaderComponent
             Rectangle {
                 color: "green"
-                height: listView.sectionHeaderHeight
+                height: 40
                 Text { text: section; font.pixelSize: 34 }
                 anchors { left: parent.left; right: parent.right }
             }
-        }
-    }
-
-    Component {
-        id: otherSectionHeaderComponent
-        Rectangle {
-            color: "green"
-            height: 50
-            Text { text: section; font.pixelSize: 34 }
-            anchors { left: parent.left; right: parent.right }
-        }
-    }
-
-    SignalSpy {
-        id: stickyHeaderHeigthSpy
-        target: listView
-        signalName: "stickyHeaderHeightChanged"
-    }
-
-    TestCase {
-        name: "ListViewWithPageHeaderTest"
-        when: windowShown
-
-        function test_stickyHeaderHeightNewHeader() {
-            stickyHeaderHeigthSpy.clear();
-            compare(listView.stickyHeaderHeight, 40);
-
-            listView.sectionDelegate = otherSectionHeaderComponent;
-            compare(listView.stickyHeaderHeight, 50);
-            compare(stickyHeaderHeigthSpy.count, 1);
-
-            listView.sectionDelegate = sectionHeaderComponent;
-            compare(listView.stickyHeaderHeight, 40);
-            compare(stickyHeaderHeigthSpy.count, 2);
-        }
-
-        function test_stickyHeaderHeightGrowingHeader() {
-            stickyHeaderHeigthSpy.clear();
-
-            compare(listView.stickyHeaderHeight, 40);
-
-            listView.sectionHeaderHeight = 60;
-            compare(listView.stickyHeaderHeight, 60);
-            compare(stickyHeaderHeigthSpy.count, 1);
-
-            // Restore height for other tests
-            listView.sectionHeaderHeight = 40;
         }
     }
 }

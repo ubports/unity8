@@ -14,15 +14,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import ListViewWithPageHeader 0.1
+import QtQuick 2.1
+import DashViews 0.1
 
-ListViewWithPageHeader {
-    maximumFlickVelocity: height * 10
-    flickDeceleration: height * 2
+Item {
 
-    Connections {
-        target: greeter
-        onShownChanged: if (greeter.shown) showHeader()
+    VerticalJournal {
+        id: vj
+        objectName: "vj"
+        anchors.fill: parent
+        columnWidth: 150
+        columnSpacing: 10
+        rowSpacing: 10
+
+        delegate: Rectangle {
+            property real randomValue: Math.random()
+            width: 150
+            color: randomValue < 0.3 ? "green" : randomValue < 0.6 ? "blue" : "red";
+            height: modelHeight
+            border.width: 3
+
+            Text {
+                text: index + "\ny: " + parent.y + "\nheight: " + parent.height
+                x: 10
+                y: 10
+            }
+        }
     }
 }

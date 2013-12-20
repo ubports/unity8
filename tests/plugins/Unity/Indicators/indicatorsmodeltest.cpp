@@ -19,7 +19,8 @@
 
 #include "indicatorsmodel.h"
 #include "indicators.h"
-#include "paths.h"
+
+#include <paths.h>
 
 #include <QtTest>
 #include <QDebug>

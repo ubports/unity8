@@ -24,19 +24,20 @@ remove_definitions(-DQT_NO_KEYWORDS)
 set(QMLPLUGIN_SRC
     plugin.cpp
     listviewwithpageheader.cpp
+    verticaljournal.cpp
     )
 
-add_library(ListViewWithPageHeader-qml MODULE
+add_library(DashViews-qml MODULE
     ${QMLPLUGIN_SRC}
     )
 
-target_link_libraries(ListViewWithPageHeader-qml
+target_link_libraries(DashViews-qml
     ${Qt5Gui_LIBRARIES}
     ${Qt5Quick_LIBRARIES}
     )
 
-qt5_use_modules(ListViewWithPageHeader-qml Qml Quick)
+qt5_use_modules(DashViews-qml Qml Quick)
 
 # export the qmldir qmltypes and plugin files
-export_qmlfiles(ListViewWithPageHeader ListViewWithPageHeader)
-export_qmlplugin(ListViewWithPageHeader 0.1 ListViewWithPageHeader TARGETS ListViewWithPageHeader-qml)
+export_qmlfiles(DashViews DashViews)
+export_qmlplugin(DashViews 0.1 DashViews TARGETS DashViews-qml)

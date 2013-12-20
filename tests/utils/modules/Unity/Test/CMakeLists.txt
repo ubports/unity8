@@ -1,5 +1,9 @@
 add_definitions(-DQT_NO_KEYWORDS)
 
+include_directories(
+    ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
+)
+
 set(UnityTestQML_SOURCES
     testutil.cpp
     plugin.cpp

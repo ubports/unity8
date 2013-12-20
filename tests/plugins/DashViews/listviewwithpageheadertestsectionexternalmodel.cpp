@@ -173,7 +173,7 @@ private Q_SLOTS:
     {
         view = new QQuickView();
         view->engine()->addImportPath(BUILT_PLUGINS_DIR);
-        view->setSource(QUrl::fromLocalFile(LISTVIEWWITHPAGEHEADER_FOLDER "/test_sectionexternalmodel.qml"));
+        view->setSource(QUrl::fromLocalFile(DASHVIEWSTEST_FOLDER "/listviewwithpageheadertestsectionexternalmodel.qml"));
         lvwph = dynamic_cast<ListViewWithPageHeader*>(view->rootObject()->findChild<QQuickFlickable*>());
         QVERIFY(lvwph);
         view->show();
