@@ -21,7 +21,7 @@ cleanup()
 {
     trap - TERM EXIT
     # Kill upstart and indicators
-    killall -u lightdm /sbin/init
+    pkill -u lightdm -x init
     if [ -n "$CMD_PID" ]; then
         kill "$CMD_PID"
     fi
