@@ -68,6 +68,7 @@ Loader {
             TextField {
                 id: textfield
 
+                inputMethodHints: Qt.ImhNoAutoUppercase
                 anchors.left: parent.left; anchors.right: parent.right
                 echoMode: checkBox.checked ? TextInput.Normal : TextInput.Password
                 height: units.gu(5)
