@@ -516,16 +516,29 @@ void VerticalJournal::onModelUpdated(const QQmlChangeSet &changeSet, bool reset)
             for (int i = remove.count - 1; i >= 0; --i) {
                 const int indexToRemove = remove.index + i;
                 // Since we only support removing from the end, indexToRemove
-                // must refer to the last item of one of the columns.
+                // must refer to the last item of one of the columns or
+                // be bigger than them (because it's not in the viewport and
+                // thus we have not created a delegate for it)
                 bool found = false;
+                int lastCreatedIndex = INT_MIN;
                 for (int i = 0; !found && i < m_columnVisibleItems.count(); ++i) {
                     QList<ViewItem> &column = m_columnVisibleItems[i];
-                    if (!column.isEmpty() && column.last().m_modelIndex == indexToRemove) {
-                        releaseItem(column.takeLast());
-                        found = true;
+                    if (!column.isEmpty()) {
+                        const int lastColumnIndex = column.last().m_modelIndex;
+                        if (lastColumnIndex == indexToRemove) {
+                            releaseItem(column.takeLast());
+                            found = true;
+                        }
+                        lastCreatedIndex = qMax(lastCreatedIndex, lastColumnIndex);
                     }
                 }
-                Q_ASSERT(found);
+                if (!found) {
+                    if (indexToRemove < lastCreatedIndex) {
+                        qFatal("VerticalJournal only supports removal from the end of the model");
+                    } else {
+                        m_implicitHeightDirty = true;
+                    }
+                }
             }
         }
     }
