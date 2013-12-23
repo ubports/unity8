@@ -159,10 +159,10 @@ Item {
         width: indicatorRow.currentItem != null ? indicatorRow.currentItem.width : 0
 
         property real centerOffset: {
-            if (indicatorRow.currentItemOffset > 0.2) {
-                return (indicatorRow.currentItemOffset - 0.2) * units.gu(0.4);
-            } else if (indicatorRow.currentItemOffset < -0.2) {
-                return (indicatorRow.currentItemOffset + 0.2) * units.gu(0.4);
+            if (indicatorRow.currentItemOffset > 0.1) {
+                return (indicatorRow.currentItemOffset - 0.1) * units.gu(0.4);
+            } else if (indicatorRow.currentItemOffset < -0.1) {
+                return (indicatorRow.currentItemOffset + 0.1) * units.gu(0.4);
             }
             return 0.0;
         }
