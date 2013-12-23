@@ -137,10 +137,10 @@ Item {
 
                 transitions: [
                     Transition {
-                        StandardAnimation {
+                        UbuntuNumberAnimation {
                             target: itemWrapper
                             property: "opacity"
-                            duration: 300
+                            duration: UbuntuAnimation.BriskDuration
                         }
                     }
                 ]
