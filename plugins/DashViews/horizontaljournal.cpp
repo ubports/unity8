@@ -16,7 +16,7 @@
 
 /*
  * The implementation is centered around m_visibleItems
- * that a list for each of the items in the view. 
+ * that a list for each of the items in the view.
  * m_firstVisibleIndex is the index of the first item in m_visibleItems
  * m_lastInRowIndexPosition is a map that contains the x position
  * of items that are the last ones of a row so we can reconstruct the rows
