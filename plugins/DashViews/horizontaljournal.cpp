@@ -68,7 +68,7 @@ void HorizontalJournal::setRowHeight(qreal rowHeight)
     }
 }
 
-void HorizontalJournal::findBottomModelIndexToAdd(int *modelIndex, double *yPos)
+void HorizontalJournal::findBottomModelIndexToAdd(int *modelIndex, qreal *yPos)
 {
     if (m_visibleItems.isEmpty()) {
         *modelIndex = 0;
@@ -83,7 +83,7 @@ void HorizontalJournal::findBottomModelIndexToAdd(int *modelIndex, double *yPos)
     }
 }
 
-void HorizontalJournal::findTopModelIndexToAdd(int *modelIndex, double *yPos)
+void HorizontalJournal::findTopModelIndexToAdd(int *modelIndex, qreal *yPos)
 {
     if (m_visibleItems.isEmpty()) {
         *modelIndex = -1;
