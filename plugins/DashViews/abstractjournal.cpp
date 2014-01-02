@@ -14,18 +14,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * The implementation is centered around m_columnVisibleItems
- * that holds a vector of lists. There's a list for each of the
- * columns the view has. In the list the items of the column are
- * ordered as they appear topdown in the view. m_indexColumnMap is
- * used when re-building the list up since given a position
- * in the middle of the list and the need to create the previous does
- * not give us enough information to know in which column we have
- * to position the item so that when we reach the item the view is
- * correctly layouted at 0 for all the columns
- */
-
 #include "abstractjournal.h"
 
 static const qreal bufferRatio = 0.5;
