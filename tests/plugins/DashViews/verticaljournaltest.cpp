@@ -363,7 +363,7 @@ private Q_SLOTS:
     {
         model->removeLast();
 
-        // This is the same than checkInitialPositions but
+        // This is the same as checkInitialPositions but
         // with a different implicitHeight since there's an item less
         // in the model
         QTRY_COMPARE(vj->m_columnVisibleItems.count(), 3);
