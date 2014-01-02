@@ -141,9 +141,8 @@ Item {
 
                 function openPopover() {
                     if (searchHistory.count > 0) {
-                        searchContainer.popover = PopupUtils.open(popoverComponent, searchField,
+                        searchContainer.popover = PopupUtils.open(popoverComponent, pointerPositioner,
                                                                   {
-                                                                      "pointerTarget": pointerPositioner,
                                                                       "contentWidth": searchField.width,
                                                                       "edgeMargins": units.gu(1)
                                                                   }

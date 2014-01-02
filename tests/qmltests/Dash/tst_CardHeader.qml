@@ -2,7 +2,7 @@ import QtQuick 2.0
 import QtTest 1.0
 import Ubuntu.Components 0.1
 import Unity.Test 0.1 as UT
-import "../../../Dash"
+import "../../../qml/Dash"
 
 
 Rectangle {
@@ -55,7 +55,7 @@ Rectangle {
             return [
                         { tag: "Empty", source: "", visible: false },
                         { tag: "Invalid", source: "bad_path", visible: false },
-                        { tag: "Valid", source: "artwork/avatar.png", visible: true },
+                        { tag: "Valid", source: Qt.resolvedUrl("artwork/avatar.png"), visible: true },
             ]
         }
 
