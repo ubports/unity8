@@ -56,8 +56,8 @@ class DashEmulatorTestCase(tests.UnityTestCase):
         self._assert_scope_is_opened(scope, scope_id)
 
     def _assert_scope_is_opened(self, scope, scope_id):
-        scope_loader = scope.get_parent()
         self.assertTrue(scope.isCurrent)
+        scope_loader = scope.get_parent()
         self.assertEqual(scope_loader.scopeId, scope_id)
 
     def _get_current_scope_id(self):
