@@ -150,6 +150,7 @@ Rectangle {
                 id: categoryJson
                 width: parent.width
                 autoSize: true
+                readOnly: true
 
                 function refreshText() {
                     if (categoryRepeater.count > categorySelector.selectedIndex) {
