@@ -121,29 +121,18 @@ Rectangle {
             OptionSelector {
                 id: categorySelector
                 anchors { left: parent.left; right: parent.right }
-
                 model: scopeView.scope ? scopeView.scope.categories : null
+
+                property Item selectedItem
+
                 delegate: OptionSelectorDelegate {
+                    id: categoryDelegate
                     text: model.name
-                }
+                    property string categoryId: model.categoryId
+                    property string template: JSON.stringify(JSON.parse(model.rawRendererTemplate), null, "  ");
 
-                onSelectedIndexChanged: {
-                    categoryJson.refreshText();
+                    onSelectedChanged: if (selected) categorySelector.selectedItem = categoryDelegate
                 }
-            }
-
-            Repeater {
-                id: categoryRepeater
-                model: categorySelector.model
-                Item {
-                    property var data: model.rawRendererTemplate
-                    property var categoryId: model.categoryId
-                    onDataChanged: {
-                        if (model.index != categorySelector.selectedIndex) return;
-                        categoryJson.refreshText();
-                    }
-                }
-                onItemAdded: categoryJson.refreshText()
             }
 
             TextArea {
@@ -151,14 +140,7 @@ Rectangle {
                 width: parent.width
                 autoSize: true
                 readOnly: true
-
-                function refreshText() {
-                    if (categoryRepeater.count > categorySelector.selectedIndex) {
-                        var item = categoryRepeater.itemAt(categorySelector.selectedIndex);
-                        if (item == null) return;
-                        categoryJson.text = JSON.stringify(JSON.parse(item.data), null, "    ");
-                    }
-                }
+                text: categorySelector.selectedItem && categorySelector.selectedItem.template
             }
 
             Button {
@@ -188,8 +170,7 @@ Rectangle {
             onCancelClicked: PopupUtils.close(sheet)
             onConfirmClicked: {
                 PopupUtils.close(sheet);
-                var categoryId = categoryRepeater.itemAt(categorySelector.selectedIndex).categoryId;
-                scopeView.scope.categories.overrideCategoryJson(categoryId, categoryEditorArea.text);
+                scopeView.scope.categories.overrideCategoryJson(categorySelector.selectedItem.categoryId, categoryEditorArea.text);
             }
         }
     }
