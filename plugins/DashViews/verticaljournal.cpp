@@ -232,7 +232,8 @@ void VerticalJournal::updateItemCulling(qreal visibleFrom, qreal visibleTo)
 {
     Q_FOREACH(const auto &column, m_columnVisibleItems) {
         Q_FOREACH(const ViewItem &item, column) {
-            QQuickItemPrivate::get(item.m_item)->setCulled(item.y() + item.height() <= visibleFrom || item.y() >= visibleTo);
+            const bool cull = item.y() + item.height() <= visibleFrom || item.y() >= visibleTo;
+            QQuickItemPrivate::get(item.m_item)->setCulled(cull);
         }
     }
 }

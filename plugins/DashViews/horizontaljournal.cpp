@@ -159,7 +159,8 @@ void HorizontalJournal::positionItem(int modelIndex, QQuickItem *item)
             m_firstVisibleIndex = modelIndex;
             m_visibleItems.prepend(item);
         } else {
-            qWarning() << "HorizontalJournal::positionItem - Got unexpected modelIndex" << modelIndex << m_firstVisibleIndex << m_visibleItems.count();
+            qWarning() << "HorizontalJournal::positionItem - Got unexpected modelIndex"
+                       << modelIndex << m_firstVisibleIndex << m_visibleItems.count();
         }
     }
 }
