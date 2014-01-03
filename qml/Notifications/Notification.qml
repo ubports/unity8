@@ -106,8 +106,11 @@ Item {
 
             anchors.fill: contentColumn
             objectName: "interactiveArea"
-            enabled: notification.type == Notification.Interactive
-            onClicked: notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
+            onClicked: {
+                if (notification.type == Notification.Interactive) {
+                    notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
+                }
+            }
         }
 
         Column {
