@@ -105,16 +105,16 @@ private Q_SLOTS:
 private:
     void createDelegateModel();
     void refill();
-    bool addVisibleItems(qreal fillFrom, qreal fillTo, bool asynchronous);
+    bool addVisibleItems(qreal fillFromY, qreal fillToY, bool asynchronous);
     QQuickItem *createItem(int modelIndex, bool asynchronous);
 
     virtual void findBottomModelIndexToAdd(int *modelIndex, qreal *yPos) = 0;
     virtual void findTopModelIndexToAdd(int *modelIndex, qreal *yPos) = 0;
     virtual void positionItem(int modelIndex, QQuickItem *item) = 0;
-    virtual bool removeNonVisibleItems(qreal bufferFrom, qreal bufferTo) = 0;
+    virtual bool removeNonVisibleItems(qreal bufferFromY, qreal bufferToY) = 0;
     virtual void cleanupExistingItems() = 0;
     virtual void doRelayout() = 0;
-    virtual void updateItemCulling(qreal visibleFrom, qreal visibleTo) = 0;
+    virtual void updateItemCulling(qreal visibleFromY, qreal visibleToY) = 0;
     virtual void calculateImplicitHeight() = 0;
 #if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
     virtual void processModelRemoves(const QVector<QQuickChangeSet::Remove> &removes) = 0;

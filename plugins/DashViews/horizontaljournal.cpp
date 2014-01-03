@@ -95,17 +95,17 @@ void HorizontalJournal::findTopModelIndexToAdd(int *modelIndex, qreal *yPos)
     }
 }
 
-bool HorizontalJournal::removeNonVisibleItems(qreal bufferFrom, qreal bufferTo)
+bool HorizontalJournal::removeNonVisibleItems(qreal bufferFromY, qreal bufferToY)
 {
     bool changed = false;
 
-    while (!m_visibleItems.isEmpty() && m_visibleItems.first()->y() + m_rowHeight < bufferFrom) {
+    while (!m_visibleItems.isEmpty() && m_visibleItems.first()->y() + m_rowHeight < bufferFromY) {
         releaseItem(m_visibleItems.takeFirst());
         changed = true;
         m_firstVisibleIndex++;
     }
 
-    while (!m_visibleItems.isEmpty() && m_visibleItems.last()->y() > bufferTo) {
+    while (!m_visibleItems.isEmpty() && m_visibleItems.last()->y() > bufferToY) {
         releaseItem(m_visibleItems.takeLast());
         changed = true;
         m_lastInRowIndexPosition.remove(m_firstVisibleIndex + m_visibleItems.count());
@@ -245,9 +245,9 @@ void HorizontalJournal::doRelayout()
     }
 }
 
-void HorizontalJournal::updateItemCulling(qreal visibleFrom, qreal visibleTo)
+void HorizontalJournal::updateItemCulling(qreal visibleFromY, qreal visibleToY)
 {
     Q_FOREACH(QQuickItem *item, m_visibleItems) {
-        QQuickItemPrivate::get(item)->setCulled(item->y() + m_rowHeight <= visibleFrom || item->y() >= visibleTo);
+        QQuickItemPrivate::get(item)->setCulled(item->y() + m_rowHeight <= visibleFromY || item->y() >= visibleToY);
     }
 }

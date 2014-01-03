@@ -214,7 +214,7 @@ void AbstractJournal::refill()
     }
 }
 
-bool AbstractJournal::addVisibleItems(qreal fillFrom, qreal fillTo, bool asynchronous)
+bool AbstractJournal::addVisibleItems(qreal fillFromY, qreal fillToY, bool asynchronous)
 {
     if (!delegate())
         return false;
@@ -226,7 +226,7 @@ bool AbstractJournal::addVisibleItems(qreal fillFrom, qreal fillTo, bool asynchr
     qreal yPos;
     findBottomModelIndexToAdd(&modelIndex, &yPos);
     bool changed = false;
-    while (modelIndex < m_delegateModel->count() && yPos <= fillTo) {
+    while (modelIndex < m_delegateModel->count() && yPos <= fillToY) {
         if (!createItem(modelIndex, asynchronous))
             break;
 
@@ -235,7 +235,7 @@ bool AbstractJournal::addVisibleItems(qreal fillFrom, qreal fillTo, bool asynchr
     }
 
     findTopModelIndexToAdd(&modelIndex, &yPos);
-    while (modelIndex >= 0 && yPos > fillFrom) {
+    while (modelIndex >= 0 && yPos > fillFromY) {
         if (!createItem(modelIndex, asynchronous))
             break;
 

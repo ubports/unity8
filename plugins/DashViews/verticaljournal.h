@@ -84,12 +84,12 @@ private:
 
     void findBottomModelIndexToAdd(int *modelIndex, qreal *yPos) override;
     void findTopModelIndexToAdd(int *modelIndex, qreal *yPos) override;
-    bool removeNonVisibleItems(qreal bufferFrom, qreal bufferTo) override;
+    bool removeNonVisibleItems(qreal bufferFromY, qreal bufferToY) override;
     void positionItem(int modelIndex, QQuickItem *item) override;
     void cleanupExistingItems() override;
     void calculateImplicitHeight() override;
     void doRelayout() override;
-    void updateItemCulling(qreal visibleFrom, qreal visibleTo) override;
+    void updateItemCulling(qreal visibleFromY, qreal visibleToY) override;
 #if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
     void processModelRemoves(const QVector<QQuickChangeSet::Remove> &removes) override;
 #else

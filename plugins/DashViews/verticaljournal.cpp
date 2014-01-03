@@ -110,18 +110,18 @@ void VerticalJournal::findTopModelIndexToAdd(int *modelIndex, qreal *yPos)
     }
 }
 
-bool VerticalJournal::removeNonVisibleItems(qreal bufferFrom, qreal bufferTo)
+bool VerticalJournal::removeNonVisibleItems(qreal bufferFromY, qreal bufferToY)
 {
     bool changed = false;
 
     for (int i = 0; i < m_columnVisibleItems.count(); ++i) {
         QList<ViewItem> &column = m_columnVisibleItems[i];
-        while (!column.isEmpty() && column.first().y() + column.first().height() < bufferFrom) {
+        while (!column.isEmpty() && column.first().y() + column.first().height() < bufferFromY) {
             releaseItem(column.takeFirst().m_item);
             changed = true;
         }
 
-        while (!column.isEmpty() && column.last().y() > bufferTo) {
+        while (!column.isEmpty() && column.last().y() > bufferToY) {
             releaseItem(column.takeLast().m_item);
             changed = true;
         }
@@ -228,11 +228,11 @@ void VerticalJournal::doRelayout()
     }
 }
 
-void VerticalJournal::updateItemCulling(qreal visibleFrom, qreal visibleTo)
+void VerticalJournal::updateItemCulling(qreal visibleFromY, qreal visibleToY)
 {
     Q_FOREACH(const auto &column, m_columnVisibleItems) {
         Q_FOREACH(const ViewItem &item, column) {
-            const bool cull = item.y() + item.height() <= visibleFrom || item.y() >= visibleTo;
+            const bool cull = item.y() + item.height() <= visibleFromY || item.y() >= visibleToY;
             QQuickItemPrivate::get(item.m_item)->setCulled(cull);
         }
     }
