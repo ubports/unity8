@@ -30,7 +30,7 @@
 
 #include "horizontaljournal.h"
 
-class QWidthModel : public QAbstractListModel {
+class WidthModel : public QAbstractListModel {
 public:
     QHash<int, QByteArray> roleNames() const
     {
@@ -125,7 +125,7 @@ private Q_SLOTS:
         view->setResizeMode(QQuickView::SizeRootObjectToView);
         view->engine()->addImportPath(BUILT_PLUGINS_DIR);
 
-        model = new QWidthModel();
+        model = new WidthModel();
         QStringList heightList;
         heightList << "100" << "50" << "125" << "10" << "40" << "70" << "200" << "110" << "160" << "20" << "20" << "65" << "80" << "200" << "300" << "130" << "400" << "300" << "500" << "10";
         model->setStringList(heightList);
@@ -314,7 +314,7 @@ private Q_SLOTS:
 
     void testChangeModel()
     {
-        QWidthModel *model2 = new QWidthModel();
+        WidthModel *model2 = new WidthModel();
         QStringList list2;
         list2 << "100" << "50" << "125" << "25" << "50" << "50";
         model2->setStringList(list2);
@@ -385,7 +385,7 @@ private Q_SLOTS:
 
     void testModelAppendRemoveLast()
     {
-        QWidthModel *model2 = new QWidthModel();
+        WidthModel *model2 = new WidthModel();
         QStringList heightList;
         heightList << "100" << "50" << "125" << "25" << "50" << "50";
         model2->setStringList(heightList);
@@ -457,7 +457,7 @@ private Q_SLOTS:
 private:
     QQuickView *view;
     HorizontalJournal *hj;
-    QWidthModel *model;
+    WidthModel *model;
 };
 
 QTEST_MAIN(HorizontalJournalTest)
