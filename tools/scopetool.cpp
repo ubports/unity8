@@ -32,7 +32,7 @@
 #include "registry-tracker.h"
 
 
-int main(int argc, const char *argv[])
+int main(int argc, char *argv[])
 {
     /* Workaround Qt platform integration plugin not advertising itself
        as having the following capabilities:
@@ -44,7 +44,7 @@ int main(int argc, const char *argv[])
 
     QGuiApplication::setApplicationName("Unity Scope Tool");
     QGuiApplication *application;
-    application = new QGuiApplication(argc, (char**)argv);
+    application = new QGuiApplication(argc, argv);
 
     QStringList arguments = application->arguments();
     QString scopesDir;
