@@ -34,6 +34,7 @@ class Dash(emulators.UnityEmulatorBase):
         super(Dash, self).__init__(*args)
         self.dash_content_list = self.wait_select_single(
             'QQuickListView', objectName='dashContentList')
+        self.scope_loaders = self.dash_content_list.select_many('QQuickLoader')
 
     def get_home_applications_grid(self):
         get_grid = self.get_scope('home').wait_select_single(
@@ -75,8 +76,7 @@ class Dash(emulators.UnityEmulatorBase):
             return self._open_scope_scrolling(scope_index)
 
     def _get_scope_index(self, scope_id):
-        scope_loaders = self.dash_content_list.select_many('QQuickLoader')
-        for index, loader in enumerate(scope_loaders):
+        for index, loader in enumerate(self.scope_loaders):
             try:
                 if loader.scopeId == scope_id:
                     return index
@@ -87,8 +87,7 @@ class Dash(emulators.UnityEmulatorBase):
                 'No scope found with id {0}'.format(scope_id))
 
     def _get_scope_by_index(self, scope_index):
-        scope_loaders = self.dash_content_list.select_many('QQuickLoader')
-        return self._get_scope_from_loader(scope_loaders[scope_index])
+        return self._get_scope_from_loader(self.scope_loaders[scope_index])
 
     def _get_scope_from_loader(self, loader):
         if loader.scopeId == 'applications.scope':
@@ -117,28 +116,26 @@ class Dash(emulators.UnityEmulatorBase):
     @autopilot_logging.log_action(logger.info)
     def _scroll_to_left_scope(self):
         original_index = self.dash_content_list.currentIndex
-        # Scroll on the dash bar, because some scopes have contents that can be
+        # Scroll on the header, because some scopes have contents that can be
         # scrolled horizontally.
-        panel = self.select_single('DashBar').select_single('Panel')
-        start_x = panel.width / 3
-        stop_x = panel.width / 3 * 2
-        start_y = stop_y = panel.globalRect.y + panel.height / 2
+        header = self.scope_loaders[original_index].select_single('PageHeader')
+        start_x = header.width / 3
+        stop_x = header.width / 3 * 2
+        start_y = stop_y = header.globalRect.y + header.height / 2
         self.pointing_device.drag(start_x, start_y, stop_x, stop_y)
         self.dash_content_list.currentIndex.wait_for(original_index - 1)
-        panel.opened.wait_for(False)
 
     @autopilot_logging.log_action(logger.info)
     def _scroll_to_right_scope(self):
         original_index = self.dash_content_list.currentIndex
-        # Scroll on the dash bar panel, because some scopes have contents that
-        # can be scrolled horizontally.
-        panel = self.select_single('DashBar').select_single('Panel')
-        start_x = panel.width / 3 * 2
-        stop_x = panel.width / 3
-        start_y = stop_y = panel.globalRect.y + panel.height / 2
+        # Scroll on the header, because some scopes have contents that can be
+        # scrolled horizontally.
+        header = self.scope_loaders[original_index].select_single('PageHeader')
+        start_x = header.width / 3 * 2
+        stop_x = header.width / 3
+        start_y = stop_y = header.globalRect.y + header.height / 2
         self.pointing_device.drag(start_x, start_y, stop_x, stop_y)
         self.dash_content_list.currentIndex.wait_for(original_index + 1)
-        panel.opened.wait_for(False)
 
 
 class GenericScopeView(emulators.UnityEmulatorBase):
