@@ -91,7 +91,7 @@ Item {
 
                 property bool hidden: !showAll && !highlighted && (indicatorRow.state == "locked" || indicatorRow.state == "commit")
                 property bool overflow: row.width - itemWrapper.x > overFlowWidth
-                property real opacityMultiplier: highlighted ? 1 : (1 -indicatorRow.unitProgress)
+                property real opacityMultiplier: highlighted ? 1 : (1 - indicatorRow.unitProgress)
 
                 IndicatorItem {
                    id: indicatorItem
