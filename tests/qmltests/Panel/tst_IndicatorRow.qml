@@ -174,11 +174,11 @@ Item {
             indicatorRow.unitProgress = 0.5;
             indicatorRow.setCurrentItem(2);
 
-            compare(get_indicator_item_at(0).opacity, 0.5, "Indicator should highlight when in locked state");
-            compare(get_indicator_item_at(1).opacity, 0.5, "Other indicators should not highlight when in locked state");
-            compare(get_indicator_item_at(2).opacity, 1.0, "Other indicators should not highlight when in locked state");
-            compare(get_indicator_item_at(3).opacity, 0.5, "Other indicators should not highlight when in locked state");
-            compare(get_indicator_item_at(4).opacity, 0.5, "Other indicators should not highlight when in locked state");
+            compare(get_indicator_item_at(0).opacity, 0.5, "Other indicator opacity should change in response to panel progress");
+            compare(get_indicator_item_at(1).opacity, 0.5, "Other indicator opacity should change in response to panel progress");
+            compare(get_indicator_item_at(2).opacity, 1.0, "Current indicator should not change in response to panel progress");
+            compare(get_indicator_item_at(3).opacity, 0.5, "Other indicator opacity should change in response to panel progress");
+            compare(get_indicator_item_at(4).opacity, 0.5, "Other indicator opacity should change in response to panel progress");
         }
     }
 
