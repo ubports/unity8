@@ -19,7 +19,8 @@
  */
 
 #include "indicatorsclient.h"
-#include "paths.h"
+
+#include <paths.h>
 
 #include <QQuickView>
 #include <QQmlContext>
@@ -36,7 +37,7 @@ IndicatorsClient::IndicatorsClient(int &argc, char **argv)
     QStringList args = m_application->arguments();
 
     m_view = new QQuickView;
-    m_view->engine()->setBaseUrl(QUrl::fromLocalFile(::shellAppDirectory()+"Panel/Indicators/client/"));
+    m_view->engine()->setBaseUrl(QUrl::fromLocalFile(::qmlDirectory()+"Panel/Indicators/client/"));
     prependImportPaths(m_view->engine(), ::overrideImportPaths());
     appendImportPaths(m_view->engine(), ::fallbackImportPaths());
 

@@ -21,6 +21,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Unity.Indicators 0.1
+import Utils 0.1 as Utils
 
 HeroMessage {
     id: __heroMessage
@@ -50,7 +51,7 @@ HeroMessage {
         opacity: 0.0
         enabled: false
 
-        TimeFormatter {
+        Utils.TimeFormatter {
             id: timeFormatter
             time: __heroMessage.time
             format: "hh:mm - MMM dd"

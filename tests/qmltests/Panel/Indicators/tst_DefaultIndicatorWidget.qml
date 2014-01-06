@@ -18,7 +18,7 @@ import QtQuick 2.0
 import QtTest 1.0
 import Unity.Test 0.1 as UT
 import QMenuModel 0.1
-import "../../../../Panel/Indicators"
+import "../../../../qml/Panel/Indicators"
 
 Item {
     id: testView
