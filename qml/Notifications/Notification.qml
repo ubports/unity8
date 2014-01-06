@@ -34,10 +34,12 @@ Item {
     property var notification
     property color color
     property bool fullscreen
+    property int maxHeight
+    property int margins
 
     fullscreen: false
     objectName: "background"
-    implicitHeight: type != Notification.PlaceHolder ? (fullscreen ? notificationList.fullHeight : contentColumn.height + contentColumn.spacing * 4) : 0
+    implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : contentColumn.height + contentColumn.spacing * 4) : 0
 
     color: Qt.rgba(0.132, 0.117, 0.109, 0.97)
     opacity: 0
@@ -50,7 +52,7 @@ Item {
 
         visible: !fullscreen
         anchors.fill: parent
-        anchors.margins: notificationList.margin
+        anchors.margins: notification.margins
         color: parent.color
         opacity: parent.opacity
         radius: "medium"
@@ -104,8 +106,11 @@ Item {
 
             anchors.fill: contentColumn
             objectName: "interactiveArea"
-            enabled: notification.type == Notification.Interactive
-            onClicked: notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
+            onClicked: {
+                if (notification.type == Notification.Interactive) {
+                    notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
+                }
+            }
         }
 
         Column {
@@ -207,6 +212,11 @@ Item {
                         menuModel: unityMenuModel
                         menuData: model
                         menuIndex: index
+                        maxHeight: notification.maxHeight
+
+                        onLoaded: {
+                            notification.fullscreen = Qt.binding(function() { return fullscreen; });
+                        }
                     }
                 }
             }

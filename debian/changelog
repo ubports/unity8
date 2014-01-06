@@ -1,3 +1,48 @@
+unity8 (7.84+14.04.20131220-0ubuntu1) trusty; urgency=low
+
+  [ Michał Sawicz ]
+  * Clean up root project file. Introduce include/ and qml/ and move
+    files around to be where they fit, also adapt everything else to
+    match.
+
+  [ Michael Hall ]
+  * Update CODING to reflect the fact that only 14.04 is supported
+    currently.
+
+  [ Christopher Lee ]
+  * Make use of helpers in all tests. (LP: #1260860). (LP: #1260860)
+
+  [ Nic ]
+  * Added kill time 30 to unity8 override. Added install path. (LP:
+    #1260379)
+
+  [ Nick Dedekind ]
+  * Added parser for strftime in TimeFormatter. Moved TimeFormatter to
+    Utils plugin.
+
+  [ Mirco Müller ]
+  * Support fullscreen for special-case extended snap-decision of the
+    pin-unlock dialog.
+
+  [ Michael Zanetti ]
+  * Change the default behaviour of the Lockscreen to have a variable
+    PIN length, requiring the user to confirm with OK.
+
+  [ Daniel d'Andrada ]
+  * Update CODING with instructions on how to run tests.
+
+  [ Dimitri John Ledkov ]
+  * Fix cross-compilation.
+
+  [ Albert Astals ]
+  * Vertical journal Comes from lp:~aacid/+junk/verticalJournal.
+  * Add code and tests for incremental inserting/removing from the end.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 603
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 20 Dec 2013 03:23:08 +0000
+
 unity8 (7.84+14.04.20131212-0ubuntu1) trusty; urgency=low
 
   [ Michał Sawicz ]
