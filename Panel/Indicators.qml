@@ -143,9 +143,6 @@ Showable {
                     }
                 }
                 if ((!useBuffer || (useBuffer && bufferExceeded)) || indicatorRow.currentItemIndex < 0 || indicatorRow.currentItem == null)  {
-                    if (initalizeItem) {
-                        indicatorRow.currentItem = null;
-                    }
                     indicatorRow.currentItem = currentItem;
                 }
 
@@ -155,9 +152,6 @@ Showable {
             }
             indicatorRow.currentItemOffset = 1 - (distanceFromRightEdge * 2);
         } else {
-            if (initalizeItem) {
-                indicatorRow.currentItem = null;
-            }
             indicatorRow.setDefaultItem();
             indicatorRow.currentItemOffset = 0;
         }
@@ -342,6 +336,7 @@ Showable {
             if (hideAnimation.running) {
                 indicators.state = "initial";
                 initalizeItem = true;
+                menuContent.animateNextMenuChange = false;
             }
         }
     }
