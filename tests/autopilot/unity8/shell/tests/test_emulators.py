@@ -45,7 +45,7 @@ class DashEmulatorTestCase(tests.UnityTestCase):
         self.assertEqual(
             'No scope found with id unexisting.scope', str(exception))
         self.assertFalse(mock_pointer.called)
-        
+
     def test_open_already_opened_scope(self):
         scope_id = self._get_current_scope_id()
         with mock.patch.object(self.dash, 'pointing_device') as mock_pointer:

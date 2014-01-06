@@ -98,7 +98,7 @@ class Dash(emulators.UnityEmulatorBase):
 
     def _open_scope_scrolling(self, scope_index):
         scroll = self._get_scroll_direction(scope_index)
-        
+
         while scope_index != self.dash_content_list.currentIndex:
             scroll()
         scope = self._get_scope_by_index(scope_index)
