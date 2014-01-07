@@ -91,7 +91,7 @@ Item {
                 property bool popoverShouldOpen: false
                 property bool popoverShouldClose: false
 
-                property bool narrowMode: parent.width < units.gu(60)
+                property bool narrowMode: parent.width < units.gu(80)
 
                 property bool active: searchField.text != "" || searchField.activeFocus
                 property var popover: null
