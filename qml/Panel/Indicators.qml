@@ -39,6 +39,7 @@ Showable {
     property bool contentEnabled: true
     property bool initalizeItem: true
     readonly property alias content: menuContent
+    property real unitProgress: 0.0
 
     // TODO: Perhaps we need a animation standard for showing/hiding? Each showable seems to
     // use its own values. Need to ask design about this.
@@ -128,23 +129,31 @@ Showable {
         rowCoordinates = indicatorRow.mapToItem(indicatorRow.row, xValue, 0);
         // get the current delegate
         currentItem = indicatorRow.row.childAt(rowCoordinates.x, 0);
-        if (currentItem && currentItem != indicatorRow.currentItem ) {
+        if (currentItem) {
             itemCoordinates = indicatorRow.row.mapToItem(currentItem, rowCoordinates.x, 0);
             distanceFromRightEdge = (currentItem.width - itemCoordinates.x) / (currentItem.width);
-            if (Math.abs(currentItem.ownIndex - indicatorRow.currentItemIndex) > 1) {
-                bufferExceeded = true;
-            } else {
-                if (indicatorRow.currentItemIndex < currentItem.ownIndex && distanceFromRightEdge < (1 - effectiveBufferThreshold)) {
+            if (currentItem != indicatorRow.currentItem) {
+                if (Math.abs(currentItem.ownIndex - indicatorRow.currentItemIndex) > 1) {
                     bufferExceeded = true;
-                } else if (indicatorRow.currentItemIndex > currentItem.ownIndex && distanceFromRightEdge > effectiveBufferThreshold) {
-                    bufferExceeded = true;
+                } else {
+                    if (indicatorRow.currentItemIndex < currentItem.ownIndex && distanceFromRightEdge < (1 - effectiveBufferThreshold)) {
+                        bufferExceeded = true;
+                    } else if (indicatorRow.currentItemIndex > currentItem.ownIndex && distanceFromRightEdge > effectiveBufferThreshold) {
+                        bufferExceeded = true;
+                    }
                 }
+                if ((!useBuffer || (useBuffer && bufferExceeded)) || indicatorRow.currentItemIndex < 0 || indicatorRow.currentItem == null)  {
+                    indicatorRow.currentItem = currentItem;
+                }
+
+                // need to re-init the distanceFromRightEdge for offset calculation
+                itemCoordinates = indicatorRow.row.mapToItem(indicatorRow.currentItem, rowCoordinates.x, 0);
+                distanceFromRightEdge = (indicatorRow.currentItem.width - itemCoordinates.x) / (indicatorRow.currentItem.width);
             }
-            if ((!useBuffer || (useBuffer && bufferExceeded)) || indicatorRow.currentItem < 0 || indicatorRow.currentItem == null)  {
-                indicatorRow.currentItem = currentItem;
-            }
-        } else if (!currentItem) {
+            indicatorRow.currentItemOffset = 1 - (distanceFromRightEdge * 2);
+        } else {
             indicatorRow.setDefaultItem();
+            indicatorRow.currentItemOffset = 0;
         }
         initalizeItem = indicatorRow.currentItem == null;
     }
@@ -268,6 +277,7 @@ Showable {
         height: indicators.panelHeight
         indicatorsModel: indicatorsModel
         state: indicators.state
+        unitProgress: indicators.unitProgress
 
         Connections {
             property bool enableIndexChangeSignal: true
@@ -326,6 +336,7 @@ Showable {
             if (hideAnimation.running) {
                 indicators.state = "initial";
                 initalizeItem = true;
+                menuContent.animateNextMenuChange = false;
             }
         }
     }

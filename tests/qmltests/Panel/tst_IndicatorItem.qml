@@ -41,17 +41,6 @@ Rectangle {
             tryCompareFunction(function(){return indicatorItem.opacity < 1.0}, true);
         }
 
-        function test_highlight() {
-            var itemHighlight = findChild(indicatorItem, "highlight");
-            verify(itemHighlight != undefined);
-
-            indicatorItem.highlighted = true;
-            compare(itemHighlight.visible, true, "Indicator should be highlighted");
-
-            indicatorItem.highlighted = false;
-            compare(itemHighlight.visible, false, "Indicator should not be highlighted");
-        }
-
         function test_empty() {
             compare(indicatorItem.indicatorVisible, false, "IndicatorItem should not be visible.");
             indicatorItem.widgetSource = "qrc:/tests/indciators/qml/fake_menu_widget1.qml";

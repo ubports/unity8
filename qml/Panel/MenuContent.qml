@@ -33,6 +33,7 @@ MainView {
     property int contentReleaseInterval: 20000
     property bool activeHeader: false
     property alias visibleIndicators: visibleIndicatorsModel.visible
+    property bool animateNextMenuChange: false
 
     width: units.gu(40)
     height: units.gu(42)
@@ -41,11 +42,12 @@ MainView {
         var filteredIndex = filteredIndicators.mapFromSource(index)
 
         if (tabs.selectedTabIndex !== filteredIndex) {
-            if (tabs.selectedTabIndex == -1) {
+            if (tabs.selectedTabIndex == -1 || !animateNextMenuChange) {
                 tabs.tabBar.animate = false;
             }
             tabs.selectedTabIndex = filteredIndex;
             tabs.tabBar.animate = true;
+            animateNextMenuChange = true;
         }
     }
 
