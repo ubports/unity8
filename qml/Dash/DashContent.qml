@@ -148,12 +148,6 @@ Item {
                         target: item
                         ignoreUnknownSignals: true
                         onEndReached: contentEndReached()
-                        onHeaderPositionChanged: {
-                            pageHeader.y = position;
-                        }
-                        onHeaderHeightChanged: {
-                            pageHeader.height = height;
-                        }
                     }
 
                     Component.onDestruction: active = false

@@ -36,8 +36,6 @@ FocusScope {
     signal endReached
     signal movementStarted
     signal positionedAtBeginning
-    signal headerPositionChanged(int position)
-    signal headerHeightChanged(int height)
 
     property bool enableHeightBehaviorOnNextCreation: false
     property var categoryView: categoryView
@@ -301,11 +299,11 @@ FocusScope {
         }
         pageHeader: Item {
             implicitHeight: scopeView.tabBarHeight
-            onHeightChanged: scopeView.headerHeightChanged(height)
+            onHeightChanged: scopeView.pageHeader.height = height;
             onYChanged: positionRealHeader();
 
             function positionRealHeader() {
-                scopeView.headerPositionChanged(y + parent.y)
+                scopeView.pageHeader.y = y + parent.y;
             }
         }
     }
