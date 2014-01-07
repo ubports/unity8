@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-11-29 09:21+0100\n"
-"PO-Revision-Date: 2013-10-01 05:55+0000\n"
-"Last-Translator: Zonov Roman <Unknown>\n"
+"PO-Revision-Date: 2014-01-07 05:21+0000\n"
+"Last-Translator: Ivlev Denis <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2013-12-29 06:04+0000\n"
+"X-Launchpad-Export-Date: 2014-01-07 05:33+0000\n"
 "X-Generator: Launchpad (build 16877)\n"
 
 #: Components/EdgeDemoOverlay.qml:151
@@ -89,7 +89,8 @@ msgstr "(%1)"
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
-msgstr[0] "%1 отзыв"
+msgstr[0] "%1 отзыва"
+msgstr[1] "%1 отзывов"
 
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
@@ -142,7 +143,7 @@ msgstr "Говорите..."
 
 #: Notifications/NotificationMenuItemFactory.qml:89
 msgid "Show password"
-msgstr ""
+msgstr "Показать пароль"
 
 #: Panel/SearchIndicator.qml:27
 msgid "Search"
@@ -151,11 +152,11 @@ msgstr "Поиск"
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Lock to Launcher"
-msgstr ""
+msgstr "Закрепить на панели"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Unlock from Launcher"
-msgstr ""
+msgstr "Убрать с панели"
 
 #: Shell.qml:439
 #, qt-format
