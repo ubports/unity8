@@ -299,11 +299,17 @@ FocusScope {
         }
         pageHeader: Item {
             implicitHeight: scopeView.tabBarHeight
-            onHeightChanged: scopeView.pageHeader.height = height;
+            onHeightChanged: {
+                if (scopeView.pageHeader) {
+                    scopeView.pageHeader.height = height;
+                }
+            }
             onYChanged: positionRealHeader();
 
             function positionRealHeader() {
-                scopeView.pageHeader.y = y + parent.y;
+                if (scopeView.pageHeader) {
+                    scopeView.pageHeader.y = y + parent.y;
+                }
             }
         }
     }
