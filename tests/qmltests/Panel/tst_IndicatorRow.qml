@@ -34,6 +34,7 @@ Item {
     {
         indicatorRow.state = "initial";
         indicatorRow.currentItem = null;
+        indicatorRow.unitProgress = 0.0;
     }
 
     PanelBackground {
@@ -83,14 +84,13 @@ Item {
         function test_current_item_commit() {
             init_test();
 
-            indicatorRow.setCurrentItem(1);
+            indicatorRow.setCurrentItem(2);
             indicatorRow.state = "commit";
             tryCompare(get_indicator_item_at(0), "opacity", 0.0);
-            tryCompare(get_indicator_item_at(1), "opacity", 1.0);
-            tryCompare(get_indicator_item_at(2), "opacity", 0.0);
+            tryCompare(get_indicator_item_at(1), "opacity", 0.0);
+            tryCompare(get_indicator_item_at(2), "opacity", 1.0);
             tryCompare(get_indicator_item_at(3), "opacity", 0.0);
             tryCompare(get_indicator_item_at(4), "opacity", 0.0);
-
         }
     }
 
@@ -165,6 +165,20 @@ Item {
             compare(get_indicator_item_at(2).highlighted, false, "Other indicators should not highlight when in locked state");
             compare(get_indicator_item_at(3).highlighted, false, "Other indicators should not highlight when in locked state");
             compare(get_indicator_item_at(4).highlighted, false, "Other indicators should not highlight when in locked state");
+        }
+
+        function test_opacity() {
+            init_test();
+
+            indicatorRow.state = "reveal";
+            indicatorRow.unitProgress = 0.5;
+            indicatorRow.setCurrentItem(2);
+
+            compare(get_indicator_item_at(0).opacity, 0.5, "Other indicator opacity should change in response to panel progress");
+            compare(get_indicator_item_at(1).opacity, 0.5, "Other indicator opacity should change in response to panel progress");
+            compare(get_indicator_item_at(2).opacity, 1.0, "Current indicator should not change in response to panel progress");
+            compare(get_indicator_item_at(3).opacity, 0.5, "Other indicator opacity should change in response to panel progress");
+            compare(get_indicator_item_at(4).opacity, 0.5, "Other indicator opacity should change in response to panel progress");
         }
     }
 

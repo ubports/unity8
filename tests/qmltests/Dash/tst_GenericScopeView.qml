@@ -321,6 +321,15 @@ Item {
 
                 categoryListView.positionAtBeginning();
 
+                // wait for the header0 to be on its position
+                tryCompareFunction(
+                    function() {
+                        var header0 = findChild(genericScopeView, "dashSectionHeader0")
+                        var pageHeader = findChild(genericScopeView, "pageHeader");
+                        return header0.y == pageHeader.height;
+                    },
+                    true);
+
                 var header0 = findChild(genericScopeView, "dashSectionHeader0")
                 var category0 = findChild(genericScopeView, "dashCategory0")
                 mouseClick(header0, header0.width / 2, header0.height / 2);
