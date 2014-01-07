@@ -211,6 +211,7 @@ void AbstractJournal::refill()
 
     if (added || removed) {
         m_implicitHeightDirty = true;
+        polish();
     }
 }
 
@@ -311,6 +312,12 @@ void AbstractJournal::itemCreated(int modelIndex, QObject *object)
     }
 #endif
     item->setParentItem(this);
+
+    // We only need to call createItem if we are here because of an asynchronous generation
+    // otherwise we are in this slot because createItem is creating the item sync
+    // and thus we don't need to call createItem again, nor need to set m_implicitHeightDirty
+    // and call polish because the sync createItem was called from addVisibleItems that
+    // is called from refill that will already do those if an item was added
     if (modelIndex == m_asyncRequestedIndex) {
         createItem(modelIndex, false);
         m_implicitHeightDirty = true;
