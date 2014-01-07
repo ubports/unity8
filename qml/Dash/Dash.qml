@@ -66,11 +66,6 @@ Showable {
         model: filteredScopes
         scopes: scopes
         searchHistory: dash.searchHistory
-        onMovementStarted: dashbar.startNavigation()
-        onMovementEnded: dashbar.stopNavigation()
-        onContentFlickStarted: dashbar.finishNavigation()
-        onContentEndReached: dashbar.finishNavigation()
-        onPreviewShown: dashbar.finishNavigation()
         onScopeLoaded: {
             if (scopeId == dash.showScopeOnLoaded) {
                 dash.setCurrentScope(scopeId, false, false)
@@ -79,18 +74,5 @@ Showable {
         }
         scale: dash.contentScale
         clip: scale != 1.0
-    }
-
-    DashBar {
-        id: dashbar
-        objectName: "dashbar"
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
-        model: filteredScopes
-        currentIndex: dashContent.currentIndex
-        onItemSelected: dashContent.setCurrentScopeAtIndex(index, true, false)
-        opacity: dash.contentScale == 1.0 ? 1.0 : 0.0
-        Behavior on opacity { NumberAnimation { easing.type: Easing.OutQuad; duration: 150 } }
     }
 }
