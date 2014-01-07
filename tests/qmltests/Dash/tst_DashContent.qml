@@ -274,7 +274,6 @@ Item {
         }
 
         function doFindMusicButton(parent) {
-            console.log("P", parent);
             for (var i = 0; i < parent.children.length; i++) {
                 var c = parent.children[i];
                 if (UT.Util.isInstanceOf(c, "AbstractButton") && parent.x >= 0) {
@@ -301,18 +300,14 @@ Item {
         }
 
         function test_tabBar_index_change() {
-            console.log("A");
             tryCompare(scopesModel, "loaded", true);
             var tabbar = findChild(dashContent, "tabbar");
-            console.log("B", tabbar);
 
             compare(dashContent.currentIndex, 0);
             tryCompare(tabbar, "selectedIndex", 0);
             tryCompare(tabbar, "selectionMode", false);
-            console.log("C");
 
             mouseClick(tabbar, units.gu(5), units.gu(5))
-            console.log("D");
 
             tryCompare(tabbar, "selectionMode", true);
             tryCompare(tabbar, "selectedIndex", 0);
@@ -320,13 +315,9 @@ Item {
 
             var button;
             tryCompareFunction(function() { button = findMusicButton(); return button != undefined; }, true);
-            console.log("E", button);
             waitForRendering(button);
 
-            console.log("F");
-
             mouseClick(button, button.width / 2, button.height / 2)
-            console.log("G");
 
             tryCompare(tabbar, "selectionMode", false);
             tryCompare(tabbar, "selectedIndex", 1);
