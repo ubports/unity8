@@ -325,7 +325,6 @@ Item {
                 tryCompareFunction(
                     function() {
                         var header0 = findChild(genericScopeView, "dashSectionHeader0")
-                        var pageHeader = findChild(genericScopeView, "pageHeader");
                         return header0.y == pageHeader.height;
                     },
                     true);
