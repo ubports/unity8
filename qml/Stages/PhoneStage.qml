@@ -187,7 +187,7 @@ Item {
         width: root.dragAreaWidth
 
         onTouchXChanged: {
-            print("touchX changed", touchX)
+//            print("touchX changed", touchX)
             coverFlip.progress = -(touchX - root.dragAreaWidth) / root.width
         }
 //        onDraggingChanged: {
@@ -217,41 +217,48 @@ Item {
         visible: progress > 0
 
         property real progress: 0
-        property int maxAngle: 70
-        onProgressChanged: print("CoverFlip progress changed", progress)
+        property int maxAngle: 45
+        property real minScale: .6
+//        onProgressChanged: print("CoverFlip progress changed", progress)
 
         Repeater {
             model: ApplicationManager
 
             Item {
                 height: parent.height
-                width: appImage.implicitWidth - (coverFlip.progress * appImage.implicitWidth)
+                width: Math.max(root.width / ApplicationManager.count, appImage.implicitWidth - (coverFlip.progress * appImage.implicitWidth))
 
                 Image {
                     id: appImage
                     height: parent.height
                     source: ApplicationManager.get(index).screenshot
+                    scale: 1
 
                     transform: [
                         Rotation {
                             origin { x: units.gu(5); y: height / 2 }
                             axis { x: 0; y: 1; z: 0 }
                             angle: {
+                                var newAngle = 0;
                                 switch (index) {
                                 case 0:
                                     if (coverFlip.progress < .5) {
-                                        return coverFlip.progress * coverFlip.maxAngle
+                                        newAngle = coverFlip.progress * coverFlip.maxAngle;
                                     } else {
-                                        return (coverFlip.progress - .5) * coverFlip.maxAngle * 2
+                                        newAngle = (coverFlip.progress - .5) * coverFlip.maxAngle * 2;
                                     }
+                                    break;
                                 case 1:
                                     if (coverFlip.progress < .5) {
-                                        return coverFlip.maxAngle - (coverFlip.progress * coverFlip.maxAngle * 2)
+                                        newAngle = coverFlip.maxAngle - (coverFlip.progress * coverFlip.maxAngle * 2);
                                     } else {
-                                        return (coverFlip.progress - .5) * coverFlip.maxAngle * 2
+                                        newAngle = (coverFlip.progress - .5) * coverFlip.maxAngle * 2;
                                     }
+                                    break;
+                                default:
+                                    newAngle = Math.min(coverFlip.progress, .75) * coverFlip.maxAngle;
                                 }
-                                return Math.min(coverFlip.progress, .75) * coverFlip.maxAngle
+                                return Math.min(newAngle, coverFlip.maxAngle);
                             }
                         },
                         Translate {
@@ -267,12 +274,32 @@ Item {
                                 }
                                 return 0;
                             }
+                        },
+                        Scale {
+                            origin { x: 0; y: root.height / 2 }
+                            xScale: {
+                                var scale = 1;
+                                // progress : 1 = x : root.width
+                                var progress = root.width / (root.width - x)
+                                if (coverFlip.progress > .5) {
+                                    // relation equation: scale : (1-minScale) = progress-.5 : 0.5
+                                    scale = 1 - (1 - coverFlip.minScale) * (coverFlip.progress - 0.5) / 0.5
+                                }
+                                scale = Math.max(coverFlip.minScale, scale);
+                                print("scaling to", scale)
+                                return scale;
+                            }
+                            yScale: xScale
                         }
                     ]
                 }
             }
         }
 
+    }
+    InputFilterArea {
+        anchors.fill: root
+        blockInput: coverFlip.visible
     }
     MouseArea {
         anchors.fill: root
