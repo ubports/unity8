@@ -214,7 +214,7 @@ Item {
         id: coverFlip
         height: parent.height
         x: 0
-        visible: coverFlipDragArea.dragging
+        visible: progress > 0
 
         property real progress: 0
         property int maxAngle: 70
@@ -271,6 +271,18 @@ Item {
                     ]
                 }
             }
+        }
+
+    }
+    MouseArea {
+        anchors.fill: root
+        enabled: coverFlip.visible
+        property int oldMouseX
+
+        onPressed: oldMouseX = mouseX
+        onMouseXChanged: {
+            coverFlip.progress += (oldMouseX - mouseX) * .001
+            oldMouseX = mouseX
         }
     }
 }
