@@ -27,88 +27,16 @@
  */
 #include "verticaljournal.h"
 
-#include <qqmlengine.h>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-pedantic"
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-#include <private/qquickvisualdatamodel_p.h>
-#else
-#include <private/qqmldelegatemodel_p.h>
-#include <qqmlinfo.h>
-#endif
 #include <private/qquickitem_p.h>
 #pragma GCC diagnostic pop
 
 static const qreal bufferRatio = 0.5;
 
 VerticalJournal::VerticalJournal()
- : m_delegateModel(nullptr)
- , m_asyncRequestedIndex(-1)
- , m_columnWidth(0)
- , m_columnSpacing(0)
- , m_rowSpacing(0)
- , m_delegateCreationBegin(0)
- , m_delegateCreationEnd(0)
- , m_delegateCreationBeginValid(false)
- , m_delegateCreationEndValid(false)
- , m_needsRelayout(false)
- , m_delegateValidated(false)
- , m_implicitHeightDirty(false)
+ : m_columnWidth(0)
 {
-    connect(this, SIGNAL(widthChanged()), this, SLOT(relayout()));
-    connect(this, SIGNAL(heightChanged()), this, SLOT(onHeightChanged()));
-}
-
-QAbstractItemModel *VerticalJournal::model() const
-{
-    return m_delegateModel ? m_delegateModel->model().value<QAbstractItemModel *>() : nullptr;
-}
-
-void VerticalJournal::setModel(QAbstractItemModel *model)
-{
-    if (model != this->model()) {
-        if (!m_delegateModel) {
-            createDelegateModel();
-        } else {
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-            disconnect(m_delegateModel, SIGNAL(modelUpdated(QQuickChangeSet,bool)), this, SLOT(onModelUpdated(QQuickChangeSet,bool)));
-        }
-        m_delegateModel->setModel(QVariant::fromValue<QAbstractItemModel *>(model));
-        connect(m_delegateModel, SIGNAL(modelUpdated(QQuickChangeSet,bool)), this, SLOT(onModelUpdated(QQuickChangeSet,bool)));
-#else
-            disconnect(m_delegateModel, SIGNAL(modelUpdated(QQmlChangeSet,bool)), this, SLOT(onModelUpdated(QQmlChangeSet,bool)));
-        }
-        m_delegateModel->setModel(QVariant::fromValue<QAbstractItemModel *>(model));
-        connect(m_delegateModel, SIGNAL(modelUpdated(QQmlChangeSet,bool)), this, SLOT(onModelUpdated(QQmlChangeSet,bool)));
-#endif
-
-        cleanupExistingItems();
-
-        Q_EMIT modelChanged();
-        polish();
-    }
-}
-
-QQmlComponent *VerticalJournal::delegate() const
-{
-    return m_delegateModel ? m_delegateModel->delegate() : nullptr;
-}
-
-void VerticalJournal::setDelegate(QQmlComponent *delegate)
-{
-    if (delegate != this->delegate()) {
-        if (!m_delegateModel) {
-            createDelegateModel();
-        }
-
-        cleanupExistingItems();
-
-        m_delegateModel->setDelegate(delegate);
-
-        Q_EMIT delegateChanged();
-        m_delegateValidated = false;
-        polish();
-    }
 }
 
 qreal VerticalJournal::columnWidth() const
@@ -133,133 +61,6 @@ void VerticalJournal::setColumnWidth(qreal columnWidth)
     }
 }
 
-qreal VerticalJournal::columnSpacing() const
-{
-    return m_columnSpacing;
-}
-
-void VerticalJournal::setColumnSpacing(qreal columnSpacing)
-{
-    if (columnSpacing != m_columnSpacing) {
-        m_columnSpacing = columnSpacing;
-        Q_EMIT columnSpacingChanged();
-
-        if (isComponentComplete()) {
-            relayout();
-        }
-    }
-}
-
-qreal VerticalJournal::rowSpacing() const
-{
-    return m_rowSpacing;
-}
-
-void VerticalJournal::setRowSpacing(qreal rowSpacing)
-{
-    if (rowSpacing != m_rowSpacing) {
-        m_rowSpacing = rowSpacing;
-        Q_EMIT rowSpacingChanged();
-
-        if (isComponentComplete()) {
-            relayout();
-        }
-    }
-}
-
-qreal VerticalJournal::delegateCreationBegin() const
-{
-    return m_delegateCreationBegin;
-}
-
-void VerticalJournal::setDelegateCreationBegin(qreal begin)
-{
-    m_delegateCreationBeginValid = true;
-    if (m_delegateCreationBegin == begin)
-        return;
-    m_delegateCreationBegin = begin;
-    if (isComponentComplete()) {
-        polish();
-    }
-    emit delegateCreationBeginChanged();
-}
-
-void VerticalJournal::resetDelegateCreationBegin()
-{
-    m_delegateCreationBeginValid = false;
-    if (m_delegateCreationBegin == 0)
-        return;
-    m_delegateCreationBegin = 0;
-    if (isComponentComplete()) {
-        polish();
-    }
-    emit delegateCreationBeginChanged();
-}
-
-qreal VerticalJournal::delegateCreationEnd() const
-{
-    return m_delegateCreationEnd;
-}
-
-void VerticalJournal::setDelegateCreationEnd(qreal end)
-{
-    m_delegateCreationEndValid = true;
-    if (m_delegateCreationEnd == end)
-        return;
-    m_delegateCreationEnd = end;
-    if (isComponentComplete()) {
-        polish();
-    }
-    emit delegateCreationEndChanged();
-}
-
-void VerticalJournal::resetDelegateCreationEnd()
-{
-    m_delegateCreationEndValid = false;
-    if (m_delegateCreationEnd == 0)
-        return;
-    m_delegateCreationEnd = 0;
-    if (isComponentComplete()) {
-        polish();
-    }
-    emit delegateCreationEndChanged();
-}
-
-void VerticalJournal::createDelegateModel()
-{
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-    m_delegateModel = new QQuickVisualDataModel(qmlContext(this), this);
-    connect(m_delegateModel, SIGNAL(createdItem(int,QQuickItem*)), this, SLOT(itemCreated(int,QQuickItem*)));
-#else
-    m_delegateModel = new QQmlDelegateModel(qmlContext(this), this);
-    connect(m_delegateModel, SIGNAL(createdItem(int,QObject*)), this, SLOT(itemCreated(int,QObject*)));
-#endif
-    if (isComponentComplete())
-        m_delegateModel->componentComplete();
-}
-
-void VerticalJournal::refill()
-{
-    if (!isComponentComplete()) {
-        return;
-    }
-
-    const bool delegateRangesValid = m_delegateCreationBeginValid && m_delegateCreationEndValid;
-    const qreal from = delegateRangesValid ? m_delegateCreationBegin : 0;
-    const qreal to = delegateRangesValid ? m_delegateCreationEnd : from + height();
-    const qreal buffer = (to - from) * bufferRatio;
-    const qreal bufferFrom = from - buffer;
-    const qreal bufferTo = to + buffer;
-
-    bool added = addVisibleItems(from, to, false);
-    bool removed = removeNonVisibleItems(bufferFrom, bufferTo);
-    added |= addVisibleItems(bufferFrom, bufferTo, true);
-
-    if (added || removed) {
-        m_implicitHeightDirty = true;
-    }
-}
-
 void VerticalJournal::findBottomModelIndexToAdd(int *modelIndex, qreal *yPos)
 {
     *modelIndex = 0;
@@ -268,7 +69,7 @@ void VerticalJournal::findBottomModelIndexToAdd(int *modelIndex, qreal *yPos)
     Q_FOREACH(const auto &column, m_columnVisibleItems) {
         if (!column.isEmpty()) {
             const ViewItem &item = column.last();
-            *yPos = qMin(*yPos, item.y() + item.height() + m_rowSpacing);
+            *yPos = qMin(*yPos, item.y() + item.height() + rowSpacing());
             *modelIndex = qMax(*modelIndex, item.m_modelIndex + 1);
         } else {
             *yPos = 0;
@@ -287,7 +88,7 @@ void VerticalJournal::findTopModelIndexToAdd(int *modelIndex, qreal *yPos)
         const auto &column = m_columnVisibleItems[i];
         if (!column.isEmpty()) {
             const ViewItem &item = column.first();
-            const auto itemTopPos = item.y() - m_rowSpacing;
+            const auto itemTopPos = item.y() - rowSpacing();
             if (itemTopPos > *yPos) {
                 *yPos = itemTopPos;
                 *modelIndex = item.m_modelIndex - 1;
@@ -309,51 +110,19 @@ void VerticalJournal::findTopModelIndexToAdd(int *modelIndex, qreal *yPos)
     }
 }
 
-bool VerticalJournal::addVisibleItems(qreal fillFrom, qreal fillTo, bool asynchronous)
-{
-    if (!delegate())
-        return false;
-
-    if (m_delegateModel->count() == 0)
-        return false;
-
-    int modelIndex;
-    qreal yPos;
-    findBottomModelIndexToAdd(&modelIndex, &yPos);
-    bool changed = false;
-    while (modelIndex < m_delegateModel->count() && yPos <= fillTo) {
-        if (!createItem(modelIndex, asynchronous))
-            break;
-
-        changed = true;
-        findBottomModelIndexToAdd(&modelIndex, &yPos);
-    }
-
-    findTopModelIndexToAdd(&modelIndex, &yPos);
-    while (modelIndex >= 0 && yPos > fillFrom) {
-        if (!createItem(modelIndex, asynchronous))
-            break;
-
-        changed = true;
-        findTopModelIndexToAdd(&modelIndex, &yPos);
-    }
-
-    return changed;
-}
-
-bool VerticalJournal::removeNonVisibleItems(qreal bufferFrom, qreal bufferTo)
+bool VerticalJournal::removeNonVisibleItems(qreal bufferFromY, qreal bufferToY)
 {
     bool changed = false;
 
     for (int i = 0; i < m_columnVisibleItems.count(); ++i) {
         QList<ViewItem> &column = m_columnVisibleItems[i];
-        while (!column.isEmpty() && column.first().y() + column.first().height() < bufferFrom) {
-            releaseItem(column.takeFirst());
+        while (!column.isEmpty() && column.first().y() + column.first().height() < bufferFromY) {
+            releaseItem(column.takeFirst().m_item);
             changed = true;
         }
 
-        while (!column.isEmpty() && column.last().y() > bufferTo) {
-            releaseItem(column.takeLast());
+        while (!column.isEmpty() && column.last().y() > bufferToY) {
+            releaseItem(column.takeLast().m_item);
             changed = true;
         }
     }
@@ -361,53 +130,20 @@ bool VerticalJournal::removeNonVisibleItems(qreal bufferFrom, qreal bufferTo)
     return changed;
 }
 
-QQuickItem *VerticalJournal::createItem(int modelIndex, bool asynchronous)
-{
-    if (asynchronous && m_asyncRequestedIndex != -1)
-        return nullptr;
-
-    m_asyncRequestedIndex = -1;
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-    QQuickItem *item = m_delegateModel->item(modelIndex, asynchronous);
-#else
-    QObject* object = m_delegateModel->object(modelIndex, asynchronous);
-    QQuickItem *item = qmlobject_cast<QQuickItem*>(object);
-#endif
-    if (!item) {
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-        m_asyncRequestedIndex = modelIndex;
-#else
-        if (object) {
-            m_delegateModel->release(object);
-            if (!m_delegateValidated) {
-                m_delegateValidated = true;
-                QObject* delegateObj = delegate();
-                qmlInfo(delegateObj ? delegateObj : this) << "Delegate must be of Item type";
-            }
-        } else {
-            m_asyncRequestedIndex = modelIndex;
-        }
-#endif
-        return nullptr;
-    } else {
-        if (item->width() != m_columnWidth) {
-            qWarning() << "Item" << modelIndex << "width is not the one that the columnWidth mandates, resetting it";
-            item->setWidth(m_columnWidth);
-        }
-        positionItem(modelIndex, item);
-        return item;
-    }
-}
-
 void VerticalJournal::positionItem(int modelIndex, QQuickItem *item)
 {
+    if (item->width() != m_columnWidth) {
+        qWarning() << "Item" << modelIndex << "width is not the one that the columnWidth mandates, resetting it";
+        item->setWidth(m_columnWidth);
+    }
+
     // Check if we add it to the bottom of existing column items
     const QList<ViewItem> &firstColumn = m_columnVisibleItems[0];
-    qreal columnToAddY = !firstColumn.isEmpty() ? firstColumn.last().y() + firstColumn.last().height() : -m_rowSpacing;
+    qreal columnToAddY = !firstColumn.isEmpty() ? firstColumn.last().y() + firstColumn.last().height() : -rowSpacing();
     int columnToAddTo = 0;
     for (int i = 1; i < m_columnVisibleItems.count(); ++i) {
         const QList<ViewItem> &column = m_columnVisibleItems[i];
-        const qreal iY = !column.isEmpty() ? column.last().y() + column.last().height() : -m_rowSpacing;
+        const qreal iY = !column.isEmpty() ? column.last().y() + column.last().height() : -rowSpacing();
         if (iY < columnToAddY) {
             columnToAddTo = i;
             columnToAddY = iY;
@@ -416,8 +152,8 @@ void VerticalJournal::positionItem(int modelIndex, QQuickItem *item)
 
     const QList<ViewItem> &columnToAdd = m_columnVisibleItems[columnToAddTo];
     if (columnToAdd.isEmpty() || columnToAdd.last().m_modelIndex < modelIndex) {
-        item->setX(columnToAddTo * (m_columnWidth + m_columnSpacing));
-        item->setY(columnToAddY + m_rowSpacing);
+        item->setX(columnToAddTo * (m_columnWidth + columnSpacing()));
+        item->setY(columnToAddY + rowSpacing());
 
         m_columnVisibleItems[columnToAddTo] << ViewItem(item, modelIndex);
         m_indexColumnMap[modelIndex] = columnToAddTo;
@@ -426,8 +162,8 @@ void VerticalJournal::positionItem(int modelIndex, QQuickItem *item)
         columnToAddTo = m_indexColumnMap[modelIndex];
         columnToAddY = m_columnVisibleItems[columnToAddTo].first().y();
 
-        item->setX(columnToAddTo * (m_columnWidth + m_columnSpacing));
-        item->setY(columnToAddY - m_rowSpacing - item->height());
+        item->setX(columnToAddTo * (m_columnWidth + columnSpacing()));
+        item->setY(columnToAddY - rowSpacing() - item->height());
 
         m_columnVisibleItems[columnToAddTo].prepend(ViewItem(item, modelIndex));
     }
@@ -439,29 +175,14 @@ void VerticalJournal::cleanupExistingItems()
     for (int i = 0; i < m_columnVisibleItems.count(); ++i) {
         QList<ViewItem> &column = m_columnVisibleItems[i];
         Q_FOREACH(const ViewItem &item, column)
-            releaseItem(item);
+            releaseItem(item.m_item);
         column.clear();
     }
     m_indexColumnMap.clear();
 }
 
-void VerticalJournal::releaseItem(const ViewItem &item)
-{
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-    QQuickVisualModel::ReleaseFlags flags = m_delegateModel->release(item.m_item);
-    if (flags & QQuickVisualModel::Destroyed) {
-#else
-    QQmlDelegateModel::ReleaseFlags flags = m_delegateModel->release(item.m_item);
-    if (flags & QQmlDelegateModel::Destroyed) {
-#endif
-        item.m_item->setParentItem(nullptr);
-    }
-}
-
 void VerticalJournal::calculateImplicitHeight()
 {
-    m_implicitHeightDirty = false;
-
     int lastModelIndex = -1;
     qreal bottomMostY = 0;
     Q_FOREACH(const auto &column, m_columnVisibleItems) {
@@ -479,144 +200,81 @@ void VerticalJournal::calculateImplicitHeight()
     }
 }
 
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-void VerticalJournal::itemCreated(int modelIndex, QQuickItem *item)
+void VerticalJournal::doRelayout()
 {
-#else
-void VerticalJournal::itemCreated(int modelIndex, QObject *object)
-{
-    QQuickItem *item = qmlobject_cast<QQuickItem*>(object);
-    if (!item) {
-        qWarning() << "VerticalJournal::itemCreated got a non item for index" << modelIndex;
-        return;
-    }
-#endif
-    item->setParentItem(this);
-    if (modelIndex == m_asyncRequestedIndex) {
-        createItem(modelIndex, false);
-        m_implicitHeightDirty = true;
-        polish();
-    }
-}
+    QList<ViewItem> allItems;
+    Q_FOREACH(const auto &column, m_columnVisibleItems)
+        allItems << column;
 
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-void VerticalJournal::onModelUpdated(const QQuickChangeSet &changeSet, bool reset)
-#else
-void VerticalJournal::onModelUpdated(const QQmlChangeSet &changeSet, bool reset)
-#endif
-{
-    if (reset) {
-        cleanupExistingItems();
-    } else {
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-        Q_FOREACH(const QQuickChangeSet::Remove &remove, changeSet.removes()) {
-#else
-        Q_FOREACH(const QQmlChangeSet::Remove &remove, changeSet.removes()) {
-#endif
-            for (int i = remove.count - 1; i >= 0; --i) {
-                const int indexToRemove = remove.index + i;
-                // Since we only support removing from the end, indexToRemove
-                // must refer to the last item of one of the columns or
-                // be bigger than them (because it's not in the viewport and
-                // thus we have not created a delegate for it)
-                bool found = false;
-                int lastCreatedIndex = INT_MIN;
-                for (int i = 0; !found && i < m_columnVisibleItems.count(); ++i) {
-                    QList<ViewItem> &column = m_columnVisibleItems[i];
-                    if (!column.isEmpty()) {
-                        const int lastColumnIndex = column.last().m_modelIndex;
-                        if (lastColumnIndex == indexToRemove) {
-                            releaseItem(column.takeLast());
-                            found = true;
-                        }
-                        lastCreatedIndex = qMax(lastCreatedIndex, lastColumnIndex);
-                    }
-                }
-                if (!found) {
-                    if (indexToRemove < lastCreatedIndex) {
-                        qFatal("VerticalJournal only supports removal from the end of the model");
-                    } else {
-                        m_implicitHeightDirty = true;
-                    }
-                }
-            }
+    qSort(allItems);
+
+    const int nColumns = qMax(1., floor((double)(width() + columnSpacing()) / (m_columnWidth + columnSpacing())));
+    m_columnVisibleItems.resize(nColumns);
+    m_indexColumnMap.clear();
+    for (int i = 0; i < nColumns; ++i)
+        m_columnVisibleItems[i].clear();
+
+    // If the first of allItems doesn't contain index 0 we need to drop them
+    // all since we can't consistently relayout without the first item being there
+
+    if (!allItems.isEmpty()) {
+        if (allItems.first().m_modelIndex == 0) {
+            Q_FOREACH(const ViewItem &item, allItems)
+                positionItem(item.m_modelIndex, item.m_item);
+        } else {
+            Q_FOREACH(const ViewItem &item, allItems)
+                releaseItem(item.m_item);
         }
     }
-    polish();
 }
 
-
-void VerticalJournal::relayout()
+void VerticalJournal::updateItemCulling(qreal visibleFromY, qreal visibleToY)
 {
-    m_needsRelayout = true;
-    polish();
-}
-
-void VerticalJournal::onHeightChanged()
-{
-    polish();
-}
-
-void VerticalJournal::updatePolish()
-{
-    if (!model())
-        return;
-
-    if (m_needsRelayout) {
-        m_implicitHeightDirty = true;
-
-        QList<ViewItem> allItems;
-        Q_FOREACH(const auto &column, m_columnVisibleItems)
-            allItems << column;
-
-        qSort(allItems);
-
-        const int nColumns = qMax(1., floor((double)(width() + m_columnSpacing) / (m_columnWidth + m_columnSpacing)));
-        m_columnVisibleItems.resize(nColumns);
-        m_indexColumnMap.clear();
-        for (int i = 0; i < nColumns; ++i)
-            m_columnVisibleItems[i].clear();
-
-        // If the first of allItems doesn't contain index 0 we need to drop them
-        // all since we can't consistently relayout without the first item being there
-
-        if (!allItems.isEmpty()) {
-            if (allItems.first().m_modelIndex == 0) {
-                Q_FOREACH(const ViewItem &item, allItems)
-                    positionItem(item.m_modelIndex, item.m_item);
-            } else {
-                Q_FOREACH(const ViewItem &item, allItems)
-                    releaseItem(item);
-            }
-        }
-
-        m_needsRelayout = false;
-    }
-
-    refill();
-
-    const bool delegateRangesValid = m_delegateCreationBeginValid && m_delegateCreationEndValid;
-    const qreal from = delegateRangesValid ? m_delegateCreationBegin : 0;
-    const qreal to = delegateRangesValid ? m_delegateCreationEnd : from + height();
     Q_FOREACH(const auto &column, m_columnVisibleItems) {
         Q_FOREACH(const ViewItem &item, column) {
-            QQuickItemPrivate::get(item.m_item)->setCulled(item.y() + item.height() <= from || item.y() >= to);
+            const bool cull = item.y() + item.height() <= visibleFromY || item.y() >= visibleToY;
+            QQuickItemPrivate::get(item.m_item)->setCulled(cull);
         }
-    }
-
-    if (m_implicitHeightDirty) {
-        calculateImplicitHeight();
     }
 }
 
-void VerticalJournal::componentComplete()
+#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
+void VerticalJournal::processModelRemoves(const QVector<QQuickChangeSet::Remove> &removes)
+#else
+void VerticalJournal::processModelRemoves(const QVector<QQmlChangeSet::Remove> &removes)
+#endif
 {
-    if (m_delegateModel)
-        m_delegateModel->componentComplete();
-
-    QQuickItem::componentComplete();
-
-    m_needsRelayout = true;
-
-    polish();
+#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
+    Q_FOREACH(const QQuickChangeSet::Remove &remove, removes) {
+#else
+    Q_FOREACH(const QQmlChangeSet::Remove &remove, removes) {
+#endif
+        for (int i = remove.count - 1; i >= 0; --i) {
+            const int indexToRemove = remove.index + i;
+            // Since we only support removing from the end, indexToRemove
+            // must refer to the last item of one of the columns or
+            // be bigger than them (because it's not in the viewport and
+            // thus we have not created a delegate for it)
+            bool found = false;
+            int lastCreatedIndex = INT_MIN;
+            for (int i = 0; !found && i < m_columnVisibleItems.count(); ++i) {
+                QList<ViewItem> &column = m_columnVisibleItems[i];
+                if (!column.isEmpty()) {
+                    const int lastColumnIndex = column.last().m_modelIndex;
+                    if (lastColumnIndex == indexToRemove) {
+                        releaseItem(column.takeLast().m_item);
+                        found = true;
+                    }
+                    lastCreatedIndex = qMax(lastCreatedIndex, lastColumnIndex);
+                }
+            }
+            if (!found) {
+                if (indexToRemove < lastCreatedIndex) {
+                    qFatal("VerticalJournal only supports removal from the end of the model");
+                } else {
+                    setImplicitHeightDirty();
+                }
+            }
+        }
+    }
 }
