@@ -16,24 +16,23 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import "../Components"
+import ".."
 
-DashFilterGrid {
-    id: genericFilterGrid
+DashCarousel {
+    id: cardCarousel
 
-    minimumHorizontalSpacing: units.gu(0.5)
-    // FIXME calculate the size correctly
-    delegateWidth: grid.currentItem.width
-    delegateHeight: grid.currentItem.height
-    verticalSpacing: units.gu(2)
-
-    delegate: Card {
-        id: tile
+    itemComponent: Card {
+        id: card
         objectName: "delegate" + index
         cardData: model
-        template: genericFilterGrid.template
-        components: genericFilterGrid.components
+        template: cardCarousel.template
+        components: cardCarousel.components
 
-        //onClicked: genericFilterGrid.clicked(index, tile.y)
-        //onPressAndHold: genericFilterGrid.pressAndHold(index, tile.y)
+        property bool explicitlyScaled
+        property var model
     }
+
+    // onClicked: cardCarousel.clicked(index, itemY)
+    // onPressAndHold: cardCarousel.pressAndHold(index, itemY)
 }

@@ -163,6 +163,7 @@ Rectangle {
 
     UT.UnityTestCase {
         id: testCase
+        name: "Card"
 
         when: windowShown
 
