@@ -89,7 +89,7 @@ Item {
             anchors.left: parent.left
             anchors.right: parent.right
 
-            PageHeader {
+            PageHeaderLabel {
                 id: header
                 anchors.top: parent.top
                 anchors.left: parent.left

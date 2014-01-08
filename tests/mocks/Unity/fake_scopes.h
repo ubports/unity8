@@ -41,7 +41,8 @@ public:
     enum Roles {
         RoleScope,
         RoleId,
-        RoleVisible
+        RoleVisible,
+        RoleTitle
     };
 
     Q_INVOKABLE int rowCount(const QModelIndex& parent = QModelIndex()) const;
