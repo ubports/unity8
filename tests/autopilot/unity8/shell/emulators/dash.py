@@ -113,8 +113,8 @@ class Dash(emulators.UnityEmulatorBase):
     @autopilot_logging.log_action(logger.info)
     def _scroll_to_left_scope(self):
         original_index = self.dash_content_list.currentIndex
-        # Scroll on the border of the page header panel, because some scopes
-        # have contents that can be scrolled horizontally.
+        # Scroll on the border of the page header, because some scopes have
+        # contents that can be scrolled horizontally.
         page_header = self.select_single('PageHeader')
         border = page_header.select_single('QQuickBorderImage')
         start_x = border.width / 3
@@ -126,8 +126,8 @@ class Dash(emulators.UnityEmulatorBase):
     @autopilot_logging.log_action(logger.info)
     def _scroll_to_right_scope(self):
         original_index = self.dash_content_list.currentIndex
-        # Scroll on the border of the page header panel, because some scopes
-        # have contents that can be scrolled horizontally.
+        # Scroll on the border of the page header, because some scopes have
+        # contents that can be scrolled horizontally.
         page_header = self.select_single('PageHeader')
         border = page_header.select_single('QQuickBorderImage')
         start_x = border.width / 3 * 2
