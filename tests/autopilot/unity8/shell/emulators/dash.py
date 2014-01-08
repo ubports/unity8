@@ -117,28 +117,28 @@ class Dash(emulators.UnityEmulatorBase):
     @autopilot_logging.log_action(logger.info)
     def _scroll_to_left_scope(self):
         original_index = self.dash_content_list.currentIndex
-        # Scroll on the dash bar, because some scopes have contents that can be
-        # scrolled horizontally.
-        panel = self.select_single('DashBar').select_single('Panel')
-        start_x = panel.width / 3
-        stop_x = panel.width / 3 * 2
-        start_y = stop_y = panel.globalRect.y + panel.height / 2
+        # Scroll on the border of the page header panel, because some scopes
+        # have contents that can be scrolled horizontally.
+        page_header = self.select_single('PageHeader')
+        border = page_header.select_single('QQuickBorderImage')
+        start_x = border.width / 3
+        stop_x = border.width / 3 * 2
+        start_y = stop_y = border.globalRect.y + border.height / 2
         self.pointing_device.drag(start_x, start_y, stop_x, stop_y)
         self.dash_content_list.currentIndex.wait_for(original_index - 1)
-        panel.opened.wait_for(False)
 
     @autopilot_logging.log_action(logger.info)
     def _scroll_to_right_scope(self):
         original_index = self.dash_content_list.currentIndex
-        # Scroll on the dash bar panel, because some scopes have contents that
-        # can be scrolled horizontally.
-        panel = self.select_single('DashBar').select_single('Panel')
-        start_x = panel.width / 3 * 2
-        stop_x = panel.width / 3
-        start_y = stop_y = panel.globalRect.y + panel.height / 2
+        # Scroll on the border of the page header panel, because some scopes
+        # have contents that can be scrolled horizontally.
+        page_header = self.select_single('PageHeader')
+        border = page_header.select_single('QQuickBorderImage')
+        start_x = border.width / 3 * 2
+        stop_x = border.width / 3
+        start_y = stop_y = border.globalRect.y + border.height / 2
         self.pointing_device.drag(start_x, start_y, stop_x, stop_y)
         self.dash_content_list.currentIndex.wait_for(original_index + 1)
-        panel.opened.wait_for(False)
 
 
 class GenericScopeView(emulators.UnityEmulatorBase):
