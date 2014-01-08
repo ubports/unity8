@@ -190,11 +190,12 @@ Item {
 //            print("touchX changed", touchX)
             coverFlip.progress = -(touchX - root.dragAreaWidth) / root.width
         }
-//        onDraggingChanged: {
-//            if (dragging) {
-//                coverFlip.visible = true
-//            }
-//        }
+
+        onDraggingChanged: {
+            if (!dragging) {
+                coverFlip.snap();
+            }
+        }
 
         Rectangle {
             anchors.fill: parent
@@ -210,6 +211,22 @@ Item {
         visible: coverFlip.visible
     }
 
+    InputFilterArea {
+        anchors.fill: root
+        blockInput: coverFlip.visible
+    }
+//    MouseArea {
+//        anchors.fill: root
+//        enabled: coverFlip.visible
+//        property int oldMouseX
+
+//        onPressed: oldMouseX = mouseX
+//        onMouseXChanged: {
+//            coverFlip.progress += (oldMouseX - mouseX) * .001
+//            oldMouseX = mouseX
+//        }
+//    }
+
     Row {
         id: coverFlip
         height: parent.height
@@ -220,6 +237,36 @@ Item {
         property int maxAngle: 45
         property real minScale: .6
 //        onProgressChanged: print("CoverFlip progress changed", progress)
+
+        function snap() {
+            if (coverFlip.progress < 0.25) {
+                snapAnimation.targetProgress = 0
+            } else if (coverFlip.progress < 0.75) {
+                snapAnimation.targetProgress = 0.5
+            } else {
+                snapAnimation.targetProgress = 1;
+            }
+            snapAnimation.start();
+        }
+
+        SequentialAnimation {
+            id: snapAnimation
+            property var targetProgress
+
+            UbuntuNumberAnimation {
+                target: coverFlip
+                properties: "progress"
+                to: snapAnimation.targetProgress
+            }
+            ScriptAction {
+                script: {
+                    if (snapAnimation.targetProgress == 0.5) {
+                        ApplicationManager.focusApplication(ApplicationManager.get(1).appId);
+                        coverFlip.progress = 0;
+                    }
+                }
+            }
+        }
 
         Repeater {
             model: ApplicationManager
@@ -234,6 +281,8 @@ Item {
                     source: ApplicationManager.get(index).screenshot
                     scale: 1
 
+                    property real progress: coverFlip.progress
+
                     transform: [
                         Rotation {
                             origin { x: units.gu(5); y: height / 2 }
@@ -242,21 +291,21 @@ Item {
                                 var newAngle = 0;
                                 switch (index) {
                                 case 0:
-                                    if (coverFlip.progress < .5) {
-                                        newAngle = coverFlip.progress * coverFlip.maxAngle;
+                                    if (appImage.progress < .5) {
+                                        newAngle = appImage.progress * coverFlip.maxAngle;
                                     } else {
-                                        newAngle = (coverFlip.progress - .5) * coverFlip.maxAngle * 2;
+                                        newAngle = (appImage.progress - .5) * coverFlip.maxAngle * 2;
                                     }
                                     break;
                                 case 1:
-                                    if (coverFlip.progress < .5) {
-                                        newAngle = coverFlip.maxAngle - (coverFlip.progress * coverFlip.maxAngle * 2);
+                                    if (appImage.progress < .5) {
+                                        newAngle = coverFlip.maxAngle - (appImage.progress * coverFlip.maxAngle * 2);
                                     } else {
-                                        newAngle = (coverFlip.progress - .5) * coverFlip.maxAngle * 2;
+                                        newAngle = (appImage.progress - .5) * coverFlip.maxAngle * 2;
                                     }
                                     break;
                                 default:
-                                    newAngle = Math.min(coverFlip.progress, .75) * coverFlip.maxAngle;
+                                    newAngle = Math.min(appImage.progress, .75) * coverFlip.maxAngle;
                                 }
                                 return Math.min(newAngle, coverFlip.maxAngle);
                             }
@@ -265,11 +314,11 @@ Item {
                             x: {
                                 switch (index) {
                                 case 1:
-                                    if (coverFlip.progress < .5) {
-                                        return -root.width * coverFlip.progress;
-                                    } else if (coverFlip.progress < .75) {
+                                    if (appImage.progress < .5) {
+                                        return -root.width * appImage.progress;
+                                    } else if (appImage.progress < .75) {
                                         // relation equation: x : width/2 = progress-.5 : 0.25
-                                        return (-root.width * .5) + (root.width/2) * (coverFlip.progress - .5) / 0.25
+                                        return (-root.width * .5) + (root.width/2) * (appImage.progress - .5) / 0.25
                                     }
                                 }
                                 return 0;
@@ -281,35 +330,51 @@ Item {
                                 var scale = 1;
                                 // progress : 1 = x : root.width
                                 var progress = root.width / (root.width - x)
-                                if (coverFlip.progress > .5) {
+                                if (appImage.progress > .5) {
                                     // relation equation: scale : (1-minScale) = progress-.5 : 0.5
-                                    scale = 1 - (1 - coverFlip.minScale) * (coverFlip.progress - 0.5) / 0.5
+                                    scale = 1 - (1 - coverFlip.minScale) * (appImage.progress - 0.5) / 0.5
                                 }
                                 scale = Math.max(coverFlip.minScale, scale);
-                                print("scaling to", scale)
                                 return scale;
                             }
                             yScale: xScale
                         }
                     ]
+
+                }
+                MouseArea {
+                    anchors.fill: parent
+
+                    property int oldMouseX
+
+                    onPressed: oldMouseX = mouseX
+                    onMouseXChanged: {
+                        coverFlip.progress += (oldMouseX - mouseX) * .001
+                        oldMouseX = mouseX
+                    }
+
+                    onClicked: {
+                        print("clicked item", index)
+                        switchToAppAnimation.start();
+                    }
+                }
+
+                SequentialAnimation {
+                    id: switchToAppAnimation
+                    ParallelAnimation {
+                        UbuntuNumberAnimation { target: appImage; property: "progress"; to: 0 }
+                        UbuntuNumberAnimation { target: appImage; property: "x"; to: -width * index }
+                    }
+                    ScriptAction {
+                        script: {
+                            ApplicationManager.focusApplication(ApplicationManager.get(index).appId);
+                            coverFlip.progress = 0;
+                            appImage.x = 0;
+                        }
+                    }
+
                 }
             }
-        }
-
-    }
-    InputFilterArea {
-        anchors.fill: root
-        blockInput: coverFlip.visible
-    }
-    MouseArea {
-        anchors.fill: root
-        enabled: coverFlip.visible
-        property int oldMouseX
-
-        onPressed: oldMouseX = mouseX
-        onMouseXChanged: {
-            coverFlip.progress += (oldMouseX - mouseX) * .001
-            oldMouseX = mouseX
         }
     }
 }
