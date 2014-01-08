@@ -141,7 +141,7 @@ FocusScope {
                     right: parent.right
                 }
 
-                source: getRenderer(model.renderer, model.contentType, model.rendererHint, results)
+                source: getRenderer(model.renderer, results)
 
                 onLoaded: {
                     if (item.enableHeightBehavior !== undefined && item.enableHeightBehaviorOnNextCreation !== undefined) {
@@ -302,49 +302,16 @@ FocusScope {
         }
     }
 
-    function getDefaultRendererId(contentType) {
-        switch (contentType) {
-            default: return "grid";
-        }
-    }
+    function getRenderer(template, results) {
+        var layout = template["category-layout"];
 
-    function getRenderer(rendererId, contentType, rendererHint, results) {
-        if (rendererId == "default") {
-            rendererId = getDefaultRendererId(contentType);
+        if (layout === "carousel") {
+            // TODO: Selectively disable carousel, 6 is fixed for now, should change depending on form factor
+            if (results.count <= 6) layout = "grid";
         }
-        if (rendererId == "carousel") {
-            // Selectively disable carousel, 6 is fixed for now, should change on the form factor
-            if (results.count <= 6)
-                rendererId = "grid"
-        }
-        switch (rendererId) {
-            case "carousel": {
-                switch (contentType) {
-                    case "music": return "Music/MusicCarousel.qml";
-                    case "video": return "Video/VideoCarousel.qml";
-                    default: return "Generic/GenericCarousel.qml";
-                }
-            }
-            case "grid": {
-                switch (contentType) {
-                    case "apps": {
-                        if (rendererHint == "toggled")
-                            return "Apps/DashPluginFilterGrid.qml";
-                        else
-                            return "Generic/GenericFilterGrid.qml";
-                    }
-                    case "music": return "Music/MusicFilterGrid.qml";
-                    case "video": return "Video/VideoFilterGrid.qml";
-                    case "weather": return "Generic/WeatherFilterGrid.qml";
-                    default: return "Generic/GenericFilterGrid.qml";
-                }
-            }
-            case "special": {
-                switch (contentType) {
-                    case "apps": return "Apps/RunningApplicationsGrid.qml";
-                    default: return "Generic/GenericFilterGrid.qml";
-                }
-            }
+        switch (layout) {
+            case "carousel": return "CardCarousel.qml";
+            case "grid":
             default: return "CardFilterGrid.qml";
         }
     }
