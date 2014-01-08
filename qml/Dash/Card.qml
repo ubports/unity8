@@ -8,13 +8,14 @@ Item {
     property var cardData
 
     width: {
-       if (template !== undefined) {
-           switch (template['card-size']) {
-               case "small": return units.gu(12);
-               case "large": return units.gu(38);
-           }
-       }
-       return units.gu(18.5);
+        if (template !== undefined) {
+            if (template["card-layout"] === "horizontal") return units.gu(38);
+            switch (template['card-size']) {
+                case "small": return units.gu(12);
+                case "large": return units.gu(38);
+            }
+        }
+        return units.gu(18.5);
     }
     height: childrenRect.height
 
@@ -23,19 +24,19 @@ Item {
         objectName: "artShape"
         width: image.fillMode === Image.PreserveAspectCrop || aspect < image.aspect ? image.width : height * image.aspect
         height: image.fillMode === Image.PreserveAspectCrop || aspect > image.aspect ? image.height : width / image.aspect
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.horizontalCenter: template && template["card-layout"] === "horizontal" ? undefined : parent.horizontalCenter
 
         property real aspect: components !== undefined ? components["art"]["aspect-ratio"] : 1
 
         image: Image {
-            width: root.width
-            height: width / artShape.aspect
+            width: template && template["card-layout"] === "horizontal" ? height * artShape.aspect : root.width
+            height: template && template["card-layout"] === "horizontal" ? header.height : width / artShape.aspect
             objectName: "artImage"
             source: cardData && cardData["art"] || ""
             // FIXME uncomment when having investigated / fixed the crash
             //sourceSize.width: width > height ? width : 0
             //sourceSize.height: height > width ? height : 0
-            fillMode: components["art"]["fill-mode"] == "fit" ? Image.PreserveAspectFit: Image.PreserveAspectCrop
+            fillMode: components["art"]["fill-mode"] === "fit" ? Image.PreserveAspectFit: Image.PreserveAspectCrop
 
             property real aspect: implicitWidth / implicitHeight
         }
@@ -45,8 +46,8 @@ Item {
         id: header
         objectName: "cardHeader"
         anchors {
-            top: artShape.bottom
-            left: parent.left
+            top: template && template["card-layout"] === "horizontal" ? artShape.top : artShape.bottom
+            left: template && template["card-layout"] === "horizontal" ? artShape.right : parent.left
             right: parent.right
         }
 

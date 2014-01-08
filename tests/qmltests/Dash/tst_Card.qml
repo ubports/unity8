@@ -84,7 +84,12 @@ Rectangle {
         {
             "name": "Art, title - vertical, fitted",
             "layout": { "components": Helpers.update(JSON.parse(root.fullMapping), { "art": { "fill-mode": "fit" } }) }
-        }
+        },
+        {
+            "name": "Art, header, summary - horizontal",
+            "layout": { "template": { "card-layout": "horizontal", "card-size": "medium" },
+                        "components": JSON.parse(fullMapping) }
+        },
     ]
 
     Card {
@@ -274,5 +279,68 @@ Rectangle {
                 tryCompare(artImage, "fillMode", data.fill);
             }
         }
+
+        function test_art_image_size_data() {
+            return [
+                { tag: "CardVerticalMedium", width: header.width, index: 0 },
+                { tag: "CardHorizontalMedium", height: header.height, index: 5 },
+            ]
+        }
+
+        function test_art_image_size(data) {
+            selector.selectedIndex = data.index;
+
+            if (data.hasOwnProperty("width")) {
+                tryCompare(artImage, "width", data.width);
+            }
+
+            if (data.hasOwnProperty("height")) {
+                tryCompare(artImage, "height", data.height);
+            }
+        }
+
+        function test_card_horizontal_layout_data() {
+            return [
+                { tag: "Horizontal", width: units.gu(38), index: 5 }
+            ]
+        }
+
+        function test_card_horizontal_layout(data) {
+            selector.selectedIndex = data.index;
+            
+            if (data.hasOwnProperty("width")) {
+                tryCompare(card, "width", data.width);
+            }
+        }
+        
+        function test_art_anchors_data() {
+            return [
+                { tag: "CardVertical", headerX: 0, index: 0 },
+                { tag: "CardHorizontal", headerX: artImage.width, index: 5 },
+            ];
+        }
+
+        function test_art_anchors(data) {
+            selector.selectedIndex = data.index;
+
+            if (data.hasOwnProperty("headerX")) {
+                tryCompare(testCase.header.x, data.headerLeft, data.value);
+            }
+        }
+
+        function test_header_anchors_data() {
+            return [
+                { tag: "CardVertical", top: art.bottom, left: card.left, index: 0 },
+                { tag: "CardHorizontal", top: art.top, left: art.right, index: 5 }
+            ]
+        }
+
+        function test_header_anchors(data) {
+            selector.selectedIndex = data.index;
+
+            tryCompare(testCase.header, "top", data.top);
+            tryCompare(testCase.header, "left", data.left);
+        }
+
     }
 }
