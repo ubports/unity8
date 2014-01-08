@@ -252,6 +252,7 @@ Rectangle {
                 { tag: "Large", width: units.gu(38), index: 2 },
                 { tag: "Wide", height: units.gu(19), size: "large", index: 3 },
                 { tag: "Fit", height: units.gu(38), size: "large", width: units.gu(19), index: 4 },
+                { tag: "Horizontal", height: function() { return header.height }, index: 5},
             ]
         }
 
@@ -269,11 +270,13 @@ Rectangle {
             }
 
             if (data.hasOwnProperty("width")) {
-                tryCompare(art, "width", data.width);
+                var width = typeof data.width === "function" ? data.width() : data.width;
+                tryCompare(art, "width", width);
             }
 
             if (data.hasOwnProperty("height")) {
-                tryCompare(art, "height", data.height);
+                var height = typeof data.height === "function" ? data.height() : data.height;
+                tryCompare(art, "height", height);
             }
 
             if (data.hasOwnProperty("fill")) {
@@ -281,54 +284,33 @@ Rectangle {
             }
         }
 
-        function test_art_image_size_data() {
-            return [
-                { tag: "CardVerticalMedium", width: header.width, index: 0 },
-                { tag: "CardHorizontalMedium", height: header.height, index: 5 },
-            ]
-        }
-
-        function test_art_image_size(data) {
-            selector.selectedIndex = data.index;
-
-            if (data.hasOwnProperty("width")) {
-                tryCompare(artImage, "width", data.width);
-            }
-
-            if (data.hasOwnProperty("height")) {
-                tryCompare(artImage, "height", data.height);
-            }
-        }
-        
         function test_art_layout_data() {
             return [
-                { tag: "CardVertical", headerX: 0, index: 0 },
-                { tag: "CardHorizontal", headerX: artImage.width, index: 5 },
+                { tag: "Vertical", left: function() { return 0 }, index: 0},
+                { tag: "Horizontal", left: function() { return art.width }, index: 5 }
             ];
         }
 
         function test_art_layout(data) {
             selector.selectedIndex = data.index;
 
-            if (data.hasOwnProperty("headerX")) {
-                tryCompare(testCase.header.x, data.headerLeft, data.value);
-            }
+            tryCompare(testCase.header, "x", data.left());
         }
 
         function test_header_layout_data() {
             return [
-                { tag: "CardVertical", top: art.y + art.height, left: card.x, index: 0 },
-                { tag: "CardHorizontal", top: art.x, left: art.x + art.width, index: 5 }
+                { tag: "Vertical", top: function() { return art.y + art.height },
+                  left: function() { return art.x }, index: 0 },
+                { tag: "Horizontal", top: function() { return art.y },
+                  left: function() { return art.x + art.width }, index: 5 }
             ]
         }
 
         function test_header_layout(data) {
             selector.selectedIndex = data.index;
 
-            tryCompare(testCase.header, "y", data.top);
-// XXX karni: Can't get this to pass:
-//            tryCompare(testCase.header, "x", data.left);
+            tryCompare(testCase.header, "y", data.top());
+            tryCompare(testCase.header, "x", data.left());
         }
-
     }
 }
