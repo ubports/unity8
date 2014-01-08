@@ -32,8 +32,6 @@ class DashEmulatorTestCase(tests.UnityTestCase):
         self.launch_unity()
         self.main_window.get_greeter().swipe()
         self.dash = self.main_window.get_dash()
-        self.scope_loaders = self.dash.dash_content_list.select_many(
-            'QQuickLoader')
 
     def test_open_unexisting_scope(self):
         scope_name = 'unexisting'
@@ -61,7 +59,8 @@ class DashEmulatorTestCase(tests.UnityTestCase):
         self.assertEqual(scope_loader.scopeId, scope_id)
 
     def _get_current_scope_id(self):
-        scope = self.scope_loaders[self.dash.dash_content_list.currentIndex]
+        scope = self.dash.dash_content_list.select_single(
+            'QQuickLoader', isCurrent=True)
         return scope.scopeId
 
     def test_open_scope_to_the_right(self):
@@ -74,16 +73,29 @@ class DashEmulatorTestCase(tests.UnityTestCase):
         self._assert_scope_is_opened(scope, scope_id)
 
     def _get_leftmost_scope_id(self):
-        scope = self.scope_loaders[0]
-        return scope.scopeId
+        scope_loaders = self._get_scope_loaders()
+        leftmost_scope_loader = scope_loaders[0]
+        for loader in scope_loaders[1:]:
+            if loader.globalRect.x < leftmost_scope_loader:
+                leftmost_scope_loader = loader
+        return leftmost_scope_loader.scopeId
+
+    def _get_scope_loaders(self):
+        item = self.dash.dash_content_list.get_children_by_type(
+            'QQuickItem')[0]
+        return item.get_children_by_type('QQuickLoader')
 
     def _get_scope_name_from_id(self, scope_id):
         if scope_id.endswith('.scope'):
             return scope_id[:-6]
 
     def _get_rightmost_scope_id(self):
-        scope = self.scope_loaders[self.dash.dash_content_list.count - 1]
-        return scope.scopeId
+        scope_loaders = self._get_scope_loaders()
+        rightmost_scope_loader = scope_loaders[0]
+        for loader in scope_loaders[1:]:
+            if loader.globalRect.x > rightmost_scope_loader:
+                rightmost_scope_loader = loader
+        return rightmost_scope_loader.scopeId
 
     def test_open_scope_to_the_left(self):
         rightmost_scope = self._get_scope_name_from_id(

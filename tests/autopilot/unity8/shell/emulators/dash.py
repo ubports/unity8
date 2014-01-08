@@ -22,6 +22,7 @@ import logging
 from unity8.shell import emulators
 
 from autopilot import logging as autopilot_logging
+from autopilot.introspection import dbus
 
 
 logger = logging.getLogger(__name__)
@@ -67,28 +68,20 @@ class Dash(emulators.UnityEmulatorBase):
 
         """
         scope_id = "%s.scope" % scope_name
-        scope_index = self._get_scope_index(scope_id)
-        if scope_index == self.dash_content_list.currentIndex:
+        scope_loader = self._get_scope_loader(scope_id)
+        if scope_loader.isCurrent:
             logger.info('The scope is already open.')
-            return self._get_scope_by_index(scope_index)
+            return self._get_scope_from_loader(scope_loader)
         else:
-            return self._open_scope_scrolling(scope_index)
+            return self._open_scope_scrolling(scope_loader)
 
-    def _get_scope_index(self, scope_id):
-        scope_loaders = self.dash_content_list.select_many('QQuickLoader')
-        for index, loader in enumerate(scope_loaders):
-            try:
-                if loader.scopeId == scope_id:
-                    return index
-            except AttributeError:
-                pass
-        else:
+    def _get_scope_loader(self, scope_id):
+        try:
+            return self.dash_content_list.select_single(
+                'QQuickLoader', scopeId=scope_id)
+        except dbus.StateNotFoundError:
             raise emulators.UnityEmulatorException(
                 'No scope found with id {0}'.format(scope_id))
-
-    def _get_scope_by_index(self, scope_index):
-        scope_loaders = self.dash_content_list.select_many('QQuickLoader')
-        return self._get_scope_from_loader(scope_loaders[scope_index])
 
     def _get_scope_from_loader(self, loader):
         if loader.scopeId == 'applications.scope':
@@ -96,20 +89,23 @@ class Dash(emulators.UnityEmulatorBase):
         else:
             return loader.select_single(GenericScopeView)
 
-    def _open_scope_scrolling(self, scope_index):
-        scroll = self._get_scroll_direction(scope_index)
+    def _open_scope_scrolling(self, scope_loader):
+        scroll = self._get_scroll_direction(scope_loader)
 
-        while scope_index != self.dash_content_list.currentIndex:
+        while not scope_loader.isCurrent:
             scroll()
-        scope = self._get_scope_by_index(scope_index)
+
+        scope = self._get_scope_from_loader(scope_loader)
         scope.moving.wait_for(False)
         scope.isCurrent.wait_for(True)
         return scope
 
-    def _get_scroll_direction(self, scope_index):
-        if scope_index < self.dash_content_list.currentIndex:
+    def _get_scroll_direction(self, scope_loader):
+        current_scope_loader = self.dash_content_list.select_single(
+            'QQuickLoader', isCurrent=True)
+        if scope_loader.globalRect.x < current_scope_loader.globalRect.x:
             return self._scroll_to_left_scope
-        elif scope_index > self.dash_content_list.currentIndex:
+        elif scope_loader.globalRect.x > current_scope_loader.globalRect.x:
             return self._scroll_to_right_scope
         else:
             raise emulators.UnityEmulatorException('The scope is already open')
