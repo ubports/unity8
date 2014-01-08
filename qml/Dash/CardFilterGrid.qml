@@ -31,12 +31,7 @@ DashFilterGrid {
         objectName: "delegate" + index
         cardData: model
         template: genericFilterGrid.template
-        components: {
-            "art": {
-                "aspect-ratio": 1.0,
-                "fill-mode": "crop"
-            }
-        }
+        components: genericFilterGrid.components
 
         //onClicked: genericFilterGrid.clicked(index, tile.y)
         //onPressAndHold: genericFilterGrid.pressAndHold(index, tile.y)
