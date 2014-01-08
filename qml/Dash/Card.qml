@@ -8,13 +8,13 @@ Item {
     property var cardData
 
     width: {
-       if (template !== undefined) {
-           switch (template['card-size']) {
-               case "small": return units.gu(12);
-               case "large": return units.gu(38);
-           }
-       }
-       return units.gu(18.5);
+        if (template !== undefined) {
+            switch (template['card-size']) {
+                case "small": return units.gu(12);
+                case "large": return units.gu(38);
+            }
+        }
+        return units.gu(18.5);
     }
     height: childrenRect.height
 
