@@ -252,6 +252,11 @@ FocusScope {
                     property: "shown"
                     value: stages.shown
                 }
+                Binding {
+                    target: applicationsDisplayLoader.item
+                    property: "dragAreaWidth"
+                    value: shell.edgeSize
+                }
             }
 
             DragHandle {

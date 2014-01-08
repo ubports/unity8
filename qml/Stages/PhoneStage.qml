@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Ubuntu.Gestures 0.1
 import Unity.Application 0.1
 import "../Components"
 
@@ -13,6 +14,7 @@ Item {
     // Controls to be set from outside
     property bool shown: false
     property bool moving: false
+    property int dragAreaWidth
 
     // State information propagated to the outside
     readonly property bool painting: mainScreenshotImage.visible || fadeInScreenshotImage.visible || appSplash.visible
@@ -174,5 +176,101 @@ Item {
         property string src
         source: src
         visible: false
+    }
+
+    EdgeDragArea {
+        id: coverFlipDragArea
+        direction: Direction.Rightwards
+
+        //enabled: root.available
+        anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
+        width: root.dragAreaWidth
+
+        onTouchXChanged: {
+            print("touchX changed", touchX)
+            coverFlip.progress = -(touchX - root.dragAreaWidth) / root.width
+        }
+//        onDraggingChanged: {
+//            if (dragging) {
+//                coverFlip.visible = true
+//            }
+//        }
+
+        Rectangle {
+            anchors.fill: parent
+            color: "green"
+            opacity: .4
+        }
+    }
+
+    Rectangle {
+        id: coverFlipBackground
+        anchors.fill: parent
+        color: "black"
+        visible: coverFlip.visible
+    }
+
+    Row {
+        id: coverFlip
+        height: parent.height
+        x: 0
+        visible: coverFlipDragArea.dragging
+
+        property real progress: 0
+        property int maxAngle: 70
+        onProgressChanged: print("CoverFlip progress changed", progress)
+
+        Repeater {
+            model: ApplicationManager
+
+            Item {
+                height: parent.height
+                width: appImage.implicitWidth - (coverFlip.progress * appImage.implicitWidth)
+
+                Image {
+                    id: appImage
+                    height: parent.height
+                    source: ApplicationManager.get(index).screenshot
+
+                    transform: [
+                        Rotation {
+                            origin { x: units.gu(5); y: height / 2 }
+                            axis { x: 0; y: 1; z: 0 }
+                            angle: {
+                                switch (index) {
+                                case 0:
+                                    if (coverFlip.progress < .5) {
+                                        return coverFlip.progress * coverFlip.maxAngle
+                                    } else {
+                                        return (coverFlip.progress - .5) * coverFlip.maxAngle * 2
+                                    }
+                                case 1:
+                                    if (coverFlip.progress < .5) {
+                                        return coverFlip.maxAngle - (coverFlip.progress * coverFlip.maxAngle * 2)
+                                    } else {
+                                        return (coverFlip.progress - .5) * coverFlip.maxAngle * 2
+                                    }
+                                }
+                                return Math.min(coverFlip.progress, .75) * coverFlip.maxAngle
+                            }
+                        },
+                        Translate {
+                            x: {
+                                switch (index) {
+                                case 1:
+                                    if (coverFlip.progress < .5) {
+                                        return -root.width * coverFlip.progress;
+                                    } else if (coverFlip.progress < .75) {
+                                        // relation equation: x : width/2 = progress-.5 : 0.25
+                                        return (-root.width * .5) + (root.width/2) * (coverFlip.progress - .5) / 0.25
+                                    }
+                                }
+                                return 0;
+                            }
+                        }
+                    ]
+                }
+            }
+        }
     }
 }
