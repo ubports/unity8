@@ -12,22 +12,30 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
-#include "plugin.h"
+import QtQuick 2.0
+import Ubuntu.Components 0.1
 
-#include "horizontaljournal.h"
-#include "listviewwithpageheader.h"
-#include "verticaljournal.h"
+PageHeader {
+    property alias text: label.text
 
-#include <QAbstractItemModel>
+    childItem: Label {
+        id: label
+        anchors {
+            left: parent.left
+            leftMargin: units.gu(2)
+            right: parent.right
+            verticalCenter: parent.verticalCenter
+        }
 
-void DashViewsPlugin::registerTypes(const char *uri)
-{
-    Q_ASSERT(uri == QLatin1String("DashViews"));
-    qmlRegisterType<QAbstractItemModel>();
-    qmlRegisterType<HorizontalJournal>(uri, 0, 1, "HorizontalJournal");
-    qmlRegisterType<ListViewWithPageHeader>(uri, 0, 1, "ListViewWithPageHeader");
-    qmlRegisterType<VerticalJournal>(uri, 0, 1, "VerticalJournal");
+        color: Theme.palette.selected.backgroundText
+        opacity: 0.8
+        font.family: "Ubuntu"
+        font.weight: Font.Light
+        fontSize: "x-large"
+        elide: Text.ElideRight
+        style: Text.Raised
+        styleColor: "black"
+    }
 }

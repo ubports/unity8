@@ -27,15 +27,18 @@ FocusScope {
     property Scope scope
     property SortFilterProxyModel categories: categoryFilter
     property bool isCurrent
-    property ListModel searchHistory
     property alias moving: categoryView.moving
+    property int tabBarHeight: 0
+    property PageHeader pageHeader: null
+    property OpenEffect openEffect: null
+    property Item previewListView: null
 
     signal endReached
     signal movementStarted
     signal positionedAtBeginning
 
-    readonly property alias previewShown: previewListView.onScreen
     property bool enableHeightBehaviorOnNextCreation: false
+    property var categoryView: categoryView
 
     // FIXME delay the search so that daemons have time to settle, note that
     // removing this will break ScopeView::test_changeScope
@@ -84,12 +87,14 @@ FocusScope {
         target: scopeView.scope
         property: "searchQuery"
         value: pageHeader.searchQuery
+        when: isCurrent
     }
 
     Binding {
         target: pageHeader
         property: "searchQuery"
         value: scopeView.scope.searchQuery
+        when: isCurrent
     }
 
     Connections {
@@ -118,6 +123,10 @@ FocusScope {
 
         property string expandedCategoryId: ""
         signal correctExpandedCategory();
+
+        onContentYChanged: pageHeader.positionRealHeader();
+        onOriginYChanged: pageHeader.positionRealHeader();
+        onContentHeightChanged: pageHeader.positionRealHeader();
 
         Behavior on contentY {
             enabled: previewListView.open
@@ -179,7 +188,7 @@ FocusScope {
                     target: rendererLoader.item
                     onClicked: {
                         // Prepare the preview in case activate() triggers a preview only
-                        effect.positionPx = Math.max(mapToItem(categoryView, 0, itemY).y, pageHeader.height + categoryView.stickyHeaderHeight);
+                        openEffect.positionPx = Math.max(mapToItem(categoryView, 0, itemY).y, pageHeader.height + categoryView.stickyHeaderHeight);
                         previewListView.categoryId = categoryId
                         previewListView.categoryDelegate = rendererLoader.item
                         previewListView.model = target.model;
@@ -200,7 +209,7 @@ FocusScope {
                         }
                     }
                     onPressAndHold: {
-                        effect.positionPx = Math.max(mapToItem(categoryView, 0, itemY).y, pageHeader.height + categoryView.stickyHeaderHeight);
+                        openEffect.positionPx = Math.max(mapToItem(categoryView, 0, itemY).y, pageHeader.height + categoryView.stickyHeaderHeight);
                         previewListView.categoryId = categoryId
                         previewListView.categoryDelegate = rendererLoader.item
                         previewListView.model = target.model;
@@ -291,14 +300,20 @@ FocusScope {
                     categoryView.expandedCategoryId = "";
             }
         }
-        pageHeader: PageHeader {
-            id: pageHeader
-            objectName: "pageHeader"
-            width: categoryView.width
-            text: scopeView.scope.name
-            searchEntryEnabled: true
-            scope: scopeView.scope
-            searchHistory: scopeView.searchHistory
+        pageHeader: Item {
+            implicitHeight: scopeView.tabBarHeight
+            onHeightChanged: {
+                if (scopeView.pageHeader) {
+                    scopeView.pageHeader.height = height;
+                }
+            }
+            onYChanged: positionRealHeader();
+
+            function positionRealHeader() {
+                if (scopeView.pageHeader) {
+                    scopeView.pageHeader.y = y + parent.y;
+                }
+            }
         }
     }
 
@@ -313,44 +328,6 @@ FocusScope {
             case "carousel": return "CardCarousel.qml";
             case "grid":
             default: return "CardFilterGrid.qml";
-        }
-    }
-
-    OpenEffect {
-        id: effect
-        objectName: "openEffect"
-        anchors {
-            fill: parent
-            bottomMargin: -bottomOverflow
-        }
-        sourceItem: categoryView
-
-        enabled: gap > 0.0
-
-        topGapPx: (1 - gap) * positionPx
-        topOpacity: (1 - gap * 1.2)
-        bottomGapPx: positionPx + gap * (targetBottomGapPx - positionPx)
-        bottomOverflow: units.gu(20)
-        live: !expansionAnimation.running
-
-        property int targetBottomGapPx: height - units.gu(8) - bottomOverflow
-        property real gap: previewListView.open ? 1.0 : 0.0
-
-        Behavior on gap {
-            NumberAnimation {
-                id: expansionAnimation
-                duration: 200
-                easing.type: Easing.InOutQuad
-                onRunningChanged: {
-                    if (!previewListView.open && !running) {
-                        previewListView.onScreen = false
-                    }
-                }
-            }
-        }
-        Behavior on positionPx {
-            enabled: previewListView.open
-            UbuntuNumberAnimation {}
         }
     }
 
@@ -372,190 +349,13 @@ FocusScope {
         }
     }
 
-    PreviewDelegateMapper {
-        id: previewDelegateMapper
-    }
-
-    ListView  {
-        id: previewListView
-        objectName: "previewListView"
-        height: effect.bottomGapPx - effect.topGapPx
-        anchors {
-            top: parent.top
-            topMargin: effect.topGapPx
-            left: parent.left
-            right: parent.right
-        }
-        orientation: ListView.Horizontal
-        highlightRangeMode: ListView.StrictlyEnforceRange
-        snapMode: ListView.SnapOneItem
-        boundsBehavior: Flickable.DragAndOvershootBounds
-        highlightMoveDuration: 250
-        flickDeceleration: units.gu(625)
-        maximumFlickVelocity: width * 5
-        cacheBuffer: 0
-
-        // To be set before opening the preview
-        property string categoryId: ""
-        property var categoryDelegate
-
-        // because the ListView is built asynchronous, setting the
-        // currentIndex directly won't work. We need to refresh it
-        // when the first preview is ready to be displayed.
-        property bool init: true
-
-        onCurrentIndexChanged: {
-            var row = Math.floor(currentIndex / categoryDelegate.columns);
-            if (categoryDelegate.collapsedRowCount <= row) {
-                categoryView.expandedCategoryId = categoryId
-            }
-
-            if (open) {
-                categoryDelegate.highlightIndex = currentIndex
-            }
-
-            if (!init && model !== undefined) {
-                var item = model.get(currentIndex)
-                scopeView.scope.preview(item.uri, item.icon, item.category, 0, item.mimetype, item.title, item.comment, item.dndUri, item.metadata)
-            }
-
-            // Adjust contentY in case we need to change to it to show the next row
-            if (categoryDelegate.rows > 1) {
-                var itemY = categoryView.contentItem.mapFromItem(categoryDelegate.currentItem).y;
-
-                // Find new contentY and effect.postionPx
-                var newContentY = itemY - effect.positionPx - categoryDelegate.verticalSpacing;
-
-                // Make sure the item is not covered by a header. Move the effect split down if necessary
-                var headerHeight = pageHeader.height + categoryView.stickyHeaderHeight;
-                var effectAdjust = Math.max(effect.positionPx, headerHeight);
-
-                // Make sure we don't overscroll the listview. If yes, adjust effect position
-                if (newContentY < 0) {
-                    effectAdjust += newContentY;
-                    newContentY = 0;
-                }
-                if (newContentY > Math.max(0, categoryView.contentHeight - categoryView.height)) {
-                    effectAdjust += -(categoryView.contentHeight - categoryView.height) + newContentY
-                    newContentY = categoryView.contentHeight - categoryView.height;
-                }
-
-                effect.positionPx = effectAdjust;
-                categoryView.contentY = newContentY;
-            }
-        }
-
-        property bool open: false
-        property bool onScreen: false
-
-        onOpenChanged: {
-            if (open) {
-                onScreen = true;
-                categoryDelegate.highlightIndex = currentIndex;
-                pageHeader.unfocus();
-            } else {
-                // Cancel any pending preview requests or actions
-                if (previewListView.currentItem.previewData !== undefined) {
-                    previewListView.currentItem.previewData.cancelAction();
-                }
-                scopeView.scope.cancelActivation();
-                model = undefined;
-                categoryView.correctExpandedCategory();
-                categoryDelegate.highlightIndex = -1;
-            }
-        }
-
-        Rectangle {
-            anchors.fill: parent
-            color: Qt.rgba(0, 0, 0, .3)
-            z: -1
-        }
-
-        delegate: Loader {
-            id: previewLoader
-            objectName: "previewLoader" + index
-            height: previewListView.height
-            width: previewListView.width
-            asynchronous: true
-            source: previewListView.onScreen ?
-                         (previewData !== undefined ? previewDelegateMapper.map(previewData.rendererName) : "DashPreviewPlaceholder.qml") : ""
-
-            onPreviewDataChanged: {
-                if (previewData !== undefined && source.toString().indexOf("DashPreviewPlaceholder.qml") != -1) {
-                    previewLoader.opacity = 0;
-                }
-            }
-
-            onSourceChanged: {
-                if (previewData !== undefined) {
-                    fadeIn.start()
-                }
-            }
-
-            PropertyAnimation {
-                id: fadeIn
-                target: previewLoader
-                property: "opacity"
-                from: 0.0
-                to: 1.0
-                duration: UbuntuAnimation.BriskDuration
-            }
-
-            property var previewData
-            property bool valid: item !== null
-
-            onLoaded: {
-                if (previewListView.onScreen && previewData !== undefined) {
-                    item.previewData = Qt.binding(function() { return previewData })
-                    item.isCurrent = Qt.binding(function() { return ListView.isCurrentItem })
-                }
-            }
-
-            Connections {
-                ignoreUnknownSignals: true
-                target: item
-                onClose: {
-                    previewListView.open = false
-                }
-            }
-
-            function closePreviewSpinner() {
-                if (item) {
-                    item.showProcessingAction = false;
-                }
-            }
-        }
-    }
-
-    Image {
-        objectName: "pointerArrow"
-        anchors {
-            top: previewListView.bottom
-            left: parent.left
-            leftMargin: previewListView.categoryDelegate !== undefined && previewListView.categoryDelegate.currentItem ?
-                            previewListView.categoryDelegate.currentItem.center + (-width + margins) / 2 : 0
-
-            Behavior on leftMargin {
-                SmoothedAnimation {
-                    duration: UbuntuAnimation.FastDuration
-                }
-            }
-        }
-        height: units.gu(1)
-        width: units.gu(2)
-        property int margins: previewListView.categoryDelegate ? previewListView.categoryDelegate.margins : 0
-        opacity: previewListView.open ? .5 : 0
-
-        source: "graphics/tooltip_arrow.png"
-    }
-
     // TODO: Move as InverseMouseArea to DashPreview
     MouseArea {
         objectName: "closePreviewMouseArea"
         enabled: previewListView.onScreen
         anchors {
             fill: parent
-            topMargin: effect.bottomGapPx
+            topMargin: openEffect.bottomGapPx
         }
         onClicked: {
             previewListView.open = false;

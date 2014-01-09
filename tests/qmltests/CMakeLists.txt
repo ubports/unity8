@@ -37,9 +37,8 @@ add_qml_test(Components Stage IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS}
                                            ${CMAKE_BINARY_DIR}/tests/mocks
                                            ${CMAKE_BINARY_DIR}/plugins)
 add_qml_test(Components Tile)
-add_qml_test(Components PageHeader)
+add_qml_test(Components PageHeaderLabel)
 add_qml_test(Dash Dash IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
-add_qml_test(Dash DashBar IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${CMAKE_CURRENT_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
 add_qml_test(Dash DashContent IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
 add_qml_test(Dash DashPreview)
 add_qml_test(Dash GenericPreview)
