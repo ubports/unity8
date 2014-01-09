@@ -39,6 +39,7 @@ Rectangle {
 
     UT.UnityTestCase {
         id: testCase
+        name: "CardHeader"
 
         when: windowShown
 
