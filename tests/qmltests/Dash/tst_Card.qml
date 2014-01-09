@@ -287,13 +287,15 @@ Rectangle {
             }
 
             if (data.hasOwnProperty("width")) {
-                var width = typeof data.width === "function" ? data.width() : data.width;
-                tryCompare(art, "width", width);
+                if (typeof data.width === "function") {
+                    tryCompareFunction(function() { return art.width === data.width() }, true);
+                } else tryCompare(art, "width", data.width);
             }
 
             if (data.hasOwnProperty("height")) {
-                var height = typeof data.height === "function" ? data.height() : data.height;
-                tryCompare(art, "height", height);
+                if (typeof data.height === "function") {
+                    tryCompareFunction(function() { return art.height === data.height() }, true);
+                } else tryCompare(art, "height", data.height);
             }
 
             if (data.hasOwnProperty("fill")) {
@@ -326,8 +328,8 @@ Rectangle {
         function test_header_layout(data) {
             selector.selectedIndex = data.index;
 
-            tryCompare(testCase.header, "y", data.top());
-            tryCompare(testCase.header, "x", data.left());
+            tryCompareFunction(function() { return testCase.header.y === data.top() }, true);
+            tryCompareFunction(function() { return testCase.header.x === data.left() }, true);
         }
     }
 }
