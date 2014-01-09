@@ -12,22 +12,32 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
-#include "plugin.h"
+import QtQuick 2.1
+import DashViews 0.1
 
-#include "horizontaljournal.h"
-#include "listviewwithpageheader.h"
-#include "verticaljournal.h"
+Item {
 
-#include <QAbstractItemModel>
+    HorizontalJournal {
+        objectName: "hj"
+        anchors.fill: parent
+        rowHeight: 150
+        columnSpacing: 10
+        rowSpacing: 10
 
-void DashViewsPlugin::registerTypes(const char *uri)
-{
-    Q_ASSERT(uri == QLatin1String("DashViews"));
-    qmlRegisterType<QAbstractItemModel>();
-    qmlRegisterType<HorizontalJournal>(uri, 0, 1, "HorizontalJournal");
-    qmlRegisterType<ListViewWithPageHeader>(uri, 0, 1, "ListViewWithPageHeader");
-    qmlRegisterType<VerticalJournal>(uri, 0, 1, "VerticalJournal");
+        delegate: Rectangle {
+            property real randomValue: Math.random()
+            height: 150
+            color: randomValue < 0.3 ? "green" : randomValue < 0.6 ? "blue" : "red";
+            width: modelWidth
+            border.width: 3
+
+            Text {
+                text: index + "\nx: " + parent.x + "\nwidth: " + parent.width
+                x: 10
+                y: 10
+            }
+        }
+    }
 }
