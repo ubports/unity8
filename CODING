@@ -170,20 +170,23 @@ provided.
 Running autopilot tests
 =======================
 
-Autopilot tests are run from the source directory.
+Autopilot tests are run from the build directory (which will be ./builddir if you used
+the ./build script).
 
-To run the test first you need to install
+$ make autopilot
 
-$ make -C builddir install
+If you want you can also run tests individually, for that you need to install first
 
-And then run autopilot
+$ make install
 
-$ PYTHONPATH=tests/autopilot autopilot run unity8
+To see the list of existing autopilot tests you can do
 
-If you want to see the list of existing autopilot tests you can do
-
-$ PYTHONPATH=tests/autopilot autopilot list unity8
+$ PYTHONPATH=../tests/autopilot autopilot list unity8
 
 And then run a single test with
 
-$ PYTHONPATH=tests/autopilot autopilot run unity8.some.very.long.test.name
+$ PYTHONPATH=../tests/autopilot autopilot run unity8.some.very.long.test.name
+
+or run them all with
+
+$ PYTHONPATH=../tests/autopilot autopilot run unity8
