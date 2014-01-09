@@ -31,7 +31,7 @@ Item {
     }
 
     UT.UnityTestCase {
-        name: "PageHeaderTest"
+        name: "PageHeaderLabelTest"
         when: windowShown
 
         property alias searchEnabled : pageHeader.searchEntryEnabled
@@ -204,7 +204,7 @@ Item {
         anchors.fill: parent
         spacing: units.gu(1)
 
-        PageHeader {
+        PageHeaderLabel {
             id: pageHeader
             anchors {
                 left: parent.left
