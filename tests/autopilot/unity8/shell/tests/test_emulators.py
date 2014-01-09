@@ -19,6 +19,7 @@
 
 import mock
 
+from unity8 import process_helpers
 from unity8.shell import emulators, tests
 from unity8.shell.emulators import dash as dash_emulators
 
@@ -29,8 +30,8 @@ class DashEmulatorTestCase(tests.UnityTestCase):
 
     def setUp(self):
         super(DashEmulatorTestCase, self).setUp()
-        self.launch_unity()
-        self.main_window.get_greeter().swipe()
+        unity_proxy = self.launch_unity()
+        process_helpers.unlock_unity(unity_proxy)
         self.dash = self.main_window.get_dash()
 
     def test_open_unexisting_scope(self):
