@@ -21,6 +21,15 @@
 #include <QtTest>
 #include <QDebug>
 
+class LCALLSetter
+{
+public:
+    LCALLSetter()
+    {
+        setenv("LC_ALL", "C", 1);
+    }
+};
+
 class TimeFormatterTest : public QObject
 {
     Q_OBJECT
@@ -62,6 +71,8 @@ private Q_SLOTS:
         QCOMPARE(formatter.timeString(), time.toString("dd-MM-yyyy hh:mmAP"));
     }
 };
+
+static LCALLSetter setter;
 
 QTEST_GUILESS_MAIN(TimeFormatterTest)
 
