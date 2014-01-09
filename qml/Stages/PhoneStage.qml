@@ -215,17 +215,47 @@ Item {
         anchors.fill: root
         blockInput: coverFlip.visible
     }
-//    MouseArea {
-//        anchors.fill: root
-//        enabled: coverFlip.visible
-//        property int oldMouseX
+    MouseArea {
+        anchors.fill: root
+        enabled: coverFlip.visible
+        property int oldMouseX
+        property int startX
 
-//        onPressed: oldMouseX = mouseX
-//        onMouseXChanged: {
-//            coverFlip.progress += (oldMouseX - mouseX) * .001
-//            oldMouseX = mouseX
-//        }
-//    }
+        property bool isDrag: false
+
+        onPressed: {
+            isDrag = false
+            oldMouseX = mouseX
+            startX = mouseX
+        }
+
+        onMouseXChanged: {
+            var diff = (oldMouseX - mouseX) * .001;
+            coverFlip.progress = Math.max(.8, coverFlip.progress + diff);
+            oldMouseX = mouseX
+            print("mousex changed", mouseX - startX)
+            if (Math.abs(mouseX - startX) > units.gu(.5)) {
+                isDrag = true;
+            }
+        }
+        onClicked: {
+            // From Qt docs:
+            // "A click is defined as a press followed by a release, both inside the
+            // MouseArea (pressing, moving outside the MouseArea, and then moving back
+            // inside and releasing is also considered a click)."
+            // This means, that pressing, moving the coverFlip around and then releasing
+            // will still be threated as a click. Let's add our own logic to not activate
+            // a tile if the user just wants to drag stuff around.
+            if (isDrag) {
+                return;
+            }
+
+            var index = Math.floor(mouseX / coverFlip.tileWidth)
+            index = Math.min(tileRepeater.count - 1, index)
+            print("clicked item", index)
+            coverFlip.selectItem(index);
+        }
+    }
 
     Row {
         id: coverFlip
@@ -236,17 +266,26 @@ Item {
         property real progress: 0
         property int maxAngle: 45
         property real minScale: .6
+        property bool animatingBack: false
+
+        property real tileWidth: Math.max(units.gu(2), root.width - (coverFlip.progress * root.width))
+
 //        onProgressChanged: print("CoverFlip progress changed", progress)
+        onXChanged: print("coverflip x changed", x)
 
         function snap() {
             if (coverFlip.progress < 0.25) {
                 snapAnimation.targetProgress = 0
-            } else if (coverFlip.progress < 0.75) {
+            } else if (coverFlip.progress < 0.6) {
                 snapAnimation.targetProgress = 0.5
             } else {
-                snapAnimation.targetProgress = 1;
+                snapAnimation.targetProgress = .8;
             }
             snapAnimation.start();
+        }
+
+        function selectItem(index) {
+            tileRepeater.itemAt(index).select();
         }
 
         SequentialAnimation {
@@ -269,15 +308,21 @@ Item {
         }
 
         Repeater {
+            id: tileRepeater
             model: ApplicationManager
 
             Item {
                 height: parent.height
-                width: Math.max(root.width / ApplicationManager.count, appImage.implicitWidth - (coverFlip.progress * appImage.implicitWidth))
+                width: coverFlip.tileWidth
+
+                function select() {
+                    switchToAppAnimation.start();
+                }
 
                 Image {
                     id: appImage
-                    height: parent.height
+                    anchors { left: parent.left; bottom: parent.bottom }
+                    width: root.width
                     source: ApplicationManager.get(index).screenshot
                     scale: 1
 
@@ -289,29 +334,37 @@ Item {
                             axis { x: 0; y: 1; z: 0 }
                             angle: {
                                 var newAngle = 0;
-                                switch (index) {
-                                case 0:
-                                    if (appImage.progress < .5) {
-                                        newAngle = appImage.progress * coverFlip.maxAngle;
-                                    } else {
-                                        newAngle = (appImage.progress - .5) * coverFlip.maxAngle * 2;
-                                    }
-                                    break;
-                                case 1:
-                                    if (appImage.progress < .5) {
-                                        newAngle = coverFlip.maxAngle - (appImage.progress * coverFlip.maxAngle * 2);
-                                    } else {
-                                        newAngle = (appImage.progress - .5) * coverFlip.maxAngle * 2;
-                                    }
-                                    break;
-                                default:
+                                if (coverFlip.animatingBack) {
                                     newAngle = Math.min(appImage.progress, .75) * coverFlip.maxAngle;
+                                } else {
+                                    switch (index) {
+                                    case 0:
+                                        if (appImage.progress < .5) {
+                                            newAngle = appImage.progress * coverFlip.maxAngle;
+                                        } else {
+                                            newAngle = (appImage.progress - .5) * coverFlip.maxAngle * 2;
+                                        }
+                                        break;
+                                    case 1:
+                                        if (appImage.progress < .5) {
+                                            newAngle = coverFlip.maxAngle - (appImage.progress * coverFlip.maxAngle * 2);
+                                        } else {
+                                            newAngle = (appImage.progress - .5) * coverFlip.maxAngle * 2;
+                                        }
+                                        break;
+                                    default:
+                                        newAngle = Math.min(appImage.progress, .75) * coverFlip.maxAngle;
+                                    }
                                 }
                                 return Math.min(newAngle, coverFlip.maxAngle);
                             }
                         },
                         Translate {
                             x: {
+                                if (coverFlip.animatingBack) {
+                                    return 0;
+                                }
+
                                 switch (index) {
                                 case 1:
                                     if (appImage.progress < .5) {
@@ -342,37 +395,23 @@ Item {
                     ]
 
                 }
-                MouseArea {
-                    anchors.fill: parent
-
-                    property int oldMouseX
-
-                    onPressed: oldMouseX = mouseX
-                    onMouseXChanged: {
-                        coverFlip.progress += (oldMouseX - mouseX) * .001
-                        oldMouseX = mouseX
-                    }
-
-                    onClicked: {
-                        print("clicked item", index)
-                        switchToAppAnimation.start();
-                    }
-                }
 
                 SequentialAnimation {
                     id: switchToAppAnimation
+                    PropertyAction { target: coverFlip; property: "animatingBack"; value: true }
                     ParallelAnimation {
-                        UbuntuNumberAnimation { target: appImage; property: "progress"; to: 0 }
-                        UbuntuNumberAnimation { target: appImage; property: "x"; to: -width * index }
+                        UbuntuNumberAnimation { target: coverFlip; property: "progress"; to: 0 }
+                        UbuntuNumberAnimation { target: coverFlip; property: "x"; to: -root.width * index }
                     }
                     ScriptAction {
                         script: {
                             ApplicationManager.focusApplication(ApplicationManager.get(index).appId);
                             coverFlip.progress = 0;
+                            coverFlip.x = 0;
+                            coverFlip.animatingBack = false;
                             appImage.x = 0;
                         }
                     }
-
                 }
             }
         }
