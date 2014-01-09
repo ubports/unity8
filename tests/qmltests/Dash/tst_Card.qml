@@ -269,7 +269,8 @@ Rectangle {
                 { tag: "Large", width: units.gu(38), index: 2 },
                 { tag: "Wide", height: units.gu(19), size: "large", index: 3 },
                 { tag: "Fit", height: units.gu(38), size: "large", width: units.gu(19), index: 4 },
-                { tag: "Horizontal", height: function() { return header.height }, index: 5},
+                { tag: "Horizontal", height: function() { return header.height }, index: 5 },
+                { tag: "Vertical", width: function() { return header.width }, index: 0 },
             ]
         }
 
