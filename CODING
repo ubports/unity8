@@ -166,3 +166,24 @@ $ make tryDragHandle
 NB: Manual test or interation doesn't make sense for all components or classes,
 particularly the non-graphical ones. In such cases no "tryFoo" make target is
 provided.
+
+Running autopilot tests
+=======================
+
+Autopilot tests are run from the source directory.
+
+To run the test first you need to install
+
+$ make -C builddir install
+
+And then run autopilot
+
+$ PYTHONPATH=tests/autopilot autopilot run unity8
+
+If you want to see the list of existing autopilot tests you can do
+
+$ PYTHONPATH=tests/autopilot autopilot list unity8
+
+And then run a single test with
+
+$ PYTHONPATH=tests/autopilot autopilot run unity8.some.very.long.test.name
