@@ -76,7 +76,7 @@ class DashEmulatorTestCase(tests.UnityTestCase):
         scope_loaders = self._get_scope_loaders()
         leftmost_scope_loader = scope_loaders[0]
         for loader in scope_loaders[1:]:
-            if loader.globalRect.x < leftmost_scope_loader:
+            if loader.globalRect.x < leftmost_scope_loader.globalRect.x:
                 leftmost_scope_loader = loader
         return leftmost_scope_loader.scopeId
 
@@ -93,7 +93,7 @@ class DashEmulatorTestCase(tests.UnityTestCase):
         scope_loaders = self._get_scope_loaders()
         rightmost_scope_loader = scope_loaders[0]
         for loader in scope_loaders[1:]:
-            if loader.globalRect.x > rightmost_scope_loader:
+            if loader.globalRect.x > rightmost_scope_loader.globalRect.x:
                 rightmost_scope_loader = loader
         return rightmost_scope_loader.scopeId
 
