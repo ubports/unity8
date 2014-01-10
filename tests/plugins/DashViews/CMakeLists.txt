@@ -55,7 +55,7 @@ macro(add_journal_try_test FILENAME)
     target_link_libraries(${FILENAME}testExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
     add_custom_target(test${CUSTOM_TARGET_NAME}
         ${CMAKE_CURRENT_BINARY_DIR}/${FILENAME}testExec
-        -o ${CMAKE_BINARY_DIR}/testVerticalJournal.xml,xunitxml
+        -o ${CMAKE_BINARY_DIR}/test${CUSTOM_TARGET_NAME}.xml,xunitxml
         -o -,txt
         DEPENDS ${FILENAME}testExec DashViews-qml
     )
