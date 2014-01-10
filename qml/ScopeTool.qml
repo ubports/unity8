@@ -17,7 +17,9 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 0.1
+import Utils 0.1
 import Unity 0.2
+import "Components"
 import "Dash"
 
 Rectangle {
@@ -43,18 +45,28 @@ Rectangle {
         signal searchClicked
     }
 
+    SortFilterProxyModel {
+        id: filteredScopes
+        model: Scopes {
+            id: scopes
+        }
+        dynamicSortFilter: true
 
-    Scopes {
-        id: scopes
+        filterRole: Scopes.RoleVisible
+        filterRegExp: RegExp("^true$")
     }
 
     Rectangle {
-        anchors.fill: scopeView
+        anchors.fill: dashContent
         color: "#FCFCFC"
     }
 
-    GenericScopeView {
-        id: scopeView
+    DashContent {
+        id: dashContent
+
+        model: filteredScopes
+        searchHistory: SearchHistoryModel { }
+        property Scope scope: scopes.get(currentIndex)
 
         anchors {
             top: parent.top
@@ -62,8 +74,6 @@ Rectangle {
             left: parent.left
             right: controls.left
         }
-
-        scope: scopes.loaded ? scopes.get(scopeSelector.selectedIndex) : undefined
     }
 
     Rectangle {
@@ -74,6 +84,10 @@ Rectangle {
             top: parent.top
             bottom: parent.bottom
             right: parent.right
+        }
+
+        MouseArea {
+            anchors.fill: parent
         }
 
         Column {
@@ -88,27 +102,11 @@ Rectangle {
                 id: searchField
                 anchors { left: parent.left; right: parent.right }
 
-                onTextChanged: scopeView.scope.searchQuery = text
+                onTextChanged: dashContent.scope.searchQuery = text
 
                 Connections {
-                    target: scopeView.scope
-                    onSearchQueryChanged: searchField.text = scopeView.scope.searchQuery
-                }
-            }
-
-            Label {
-                text: "Scope selection"
-                height: units.gu(4)
-                verticalAlignment: Text.AlignBottom
-            }
-
-            OptionSelector {
-                id: scopeSelector
-                anchors { left: parent.left; right: parent.right }
-
-                model: scopes
-                delegate: OptionSelectorDelegate {
-                    text: model.title
+                    target: dashContent.scope
+                    onSearchQueryChanged: searchField.text = dashContent.scope.searchQuery
                 }
             }
 
@@ -121,7 +119,7 @@ Rectangle {
             OptionSelector {
                 id: categorySelector
                 anchors { left: parent.left; right: parent.right }
-                model: scopeView.scope ? scopeView.scope.categories : null
+                model: dashContent.scope ? dashContent.scope.categories : null
 
                 property Item selectedItem
 
@@ -170,7 +168,7 @@ Rectangle {
             onCancelClicked: PopupUtils.close(sheet)
             onConfirmClicked: {
                 PopupUtils.close(sheet);
-                scopeView.scope.categories.overrideCategoryJson(categorySelector.selectedItem.categoryId, categoryEditorArea.text);
+                dashContent.scope.categories.overrideCategoryJson(categorySelector.selectedItem.categoryId, categoryEditorArea.text);
             }
         }
     }
