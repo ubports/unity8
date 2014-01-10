@@ -100,7 +100,12 @@ Rectangle {
         {
             "name": "Art, title - vertical, fitted",
             "layout": { "components": Helpers.update(JSON.parse(root.fullMapping), { "art": { "fill-mode": "fit" } }) }
-        }
+        },
+        {
+            "name": "Art, header, summary - horizontal",
+            "layout": { "template": { "card-layout": "horizontal" },
+                        "components": JSON.parse(fullMapping) }
+        },
     ]
 
     Card {
@@ -231,6 +236,7 @@ Rectangle {
                 { tag: "Small", width: units.gu(12), size: "small", index: 0 },
                 { tag: "Large", width: units.gu(38), size: "large", index: 0 },
                 { tag: "Wide", width: units.gu(18.5), aspect: 0.5, index: 0 },
+                { tag: "Horizontal", width: units.gu(38), index: 5 },
             ]
         }
 
@@ -263,6 +269,9 @@ Rectangle {
                 { tag: "Large", width: units.gu(38), index: 2 },
                 { tag: "Wide", height: units.gu(19), size: "large", index: 3 },
                 { tag: "Fit", height: units.gu(38), size: "large", width: units.gu(19), index: 4 },
+                { tag: "VerticalWidth", width: function() { return header.width }, index: 0 },
+                { tag: "HorizontalHeight", height: function() { return header.height }, index: 5 },
+                { tag: "HorizontalWidth", width: function() { return header.x }, index: 5 },
             ]
         }
 
@@ -280,16 +289,49 @@ Rectangle {
             }
 
             if (data.hasOwnProperty("width")) {
-                tryCompare(art, "width", data.width);
+                if (typeof data.width === "function") {
+                    tryCompareFunction(function() { return art.width === data.width() }, true);
+                } else tryCompare(art, "width", data.width);
             }
 
             if (data.hasOwnProperty("height")) {
-                tryCompare(art, "height", data.height);
+                if (typeof data.height === "function") {
+                    tryCompareFunction(function() { return art.height === data.height() }, true);
+                } else tryCompare(art, "height", data.height);
             }
 
             if (data.hasOwnProperty("fill")) {
                 tryCompare(artImage, "fillMode", data.fill);
             }
+        }
+
+        function test_art_layout_data() {
+            return [
+                { tag: "Vertical", left: function() { return 0 }, index: 0},
+                { tag: "Horizontal", left: function() { return art.width }, index: 5 }
+            ];
+        }
+
+        function test_art_layout(data) {
+            selector.selectedIndex = data.index;
+
+            tryCompare(testCase.header, "x", data.left());
+        }
+
+        function test_header_layout_data() {
+            return [
+                { tag: "Vertical", top: function() { return art.y + art.height },
+                  left: function() { return art.x }, index: 0 },
+                { tag: "Horizontal", top: function() { return art.y },
+                  left: function() { return art.x + art.width }, index: 5 }
+            ]
+        }
+
+        function test_header_layout(data) {
+            selector.selectedIndex = data.index;
+
+            tryCompareFunction(function() { return testCase.header.y === data.top() }, true);
+            tryCompareFunction(function() { return testCase.header.x === data.left() }, true);
         }
     }
 }
