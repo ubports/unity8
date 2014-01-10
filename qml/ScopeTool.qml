@@ -19,6 +19,7 @@ import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 0.1
 import Utils 0.1
 import Unity 0.1
+import "Components"
 import "Dash"
 
 Rectangle {
@@ -64,6 +65,7 @@ Rectangle {
         id: dashContent
 
         model: filteredScopes
+        searchHistory: SearchHistoryModel { }
         property Scope scope: scopes.get(currentIndex)
 
         anchors {
@@ -136,7 +138,7 @@ Rectangle {
                 width: parent.width
                 autoSize: true
                 readOnly: true
-                text: categorySelector.selectedItem > 0 && categorySelector.selectedItem.template
+                text: categorySelector.selectedItem && categorySelector.selectedItem.template
             }
 
             Button {
