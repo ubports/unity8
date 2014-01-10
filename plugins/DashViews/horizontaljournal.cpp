@@ -172,7 +172,7 @@ void HorizontalJournal::cleanupExistingItems()
         releaseItem(item);
     m_visibleItems.clear();
     m_lastInRowIndexPosition.clear();
-    m_firstVisibleIndex = 0;
+    m_firstVisibleIndex = -1;
 }
 
 void HorizontalJournal::calculateImplicitHeight()
@@ -241,7 +241,7 @@ void HorizontalJournal::doRelayout()
         }
         m_visibleItems.clear();
         m_lastInRowIndexPosition.clear();
-        m_firstVisibleIndex = 0;
+        m_firstVisibleIndex = -1;
     }
 }
 
