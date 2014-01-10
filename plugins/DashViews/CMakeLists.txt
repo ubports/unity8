@@ -27,6 +27,7 @@ set(QMLPLUGIN_SRC
     abstractjournal.cpp
     verticaljournal.cpp
     horizontaljournal.cpp
+    organicgrid.cpp
     )
 
 add_library(DashViews-qml MODULE
