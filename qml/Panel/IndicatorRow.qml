@@ -95,6 +95,7 @@ Item {
 
                 IndicatorItem {
                    id: indicatorItem
+                   identifier: model.identifier
                    height: parent.height
 
                    dimmed: itemWrapper.dimmed
