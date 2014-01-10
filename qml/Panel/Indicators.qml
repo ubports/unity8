@@ -195,20 +195,6 @@ Showable {
         enabled: contentEnabled
         visibleIndicators: indicatorRow.visibleIndicators
 
-        Connections {
-            property bool enableIndexChangeSignal: true
-
-            target: enableIndexChangeSignal ? indicatorRow : null
-            onCurrentItemIndexChanged: {
-                var oldActive = enableIndexChangeSignal;
-                enableIndexChangeSignal = false;
-
-                menuContent.setCurrentMenuIndex(indicatorRow.currentItemIndex);
-
-                enableIndexChangeSignal = oldActive;
-            }
-        }
-
         //small shadow gradient at bottom of menu
         Rectangle {
             anchors {
@@ -279,20 +265,6 @@ Showable {
         state: indicators.state
         unitProgress: indicators.unitProgress
 
-        Connections {
-            property bool enableIndexChangeSignal: true
-
-            target: enableIndexChangeSignal ? menuContent : null
-            onCurrentMenuIndexChanged: {
-                var oldActive = enableIndexChangeSignal;
-                enableIndexChangeSignal = false;
-
-                indicatorRow.setCurrentItem(menuContent.currentMenuIndex);
-
-                enableIndexChangeSignal = oldActive;
-            }
-        }
-
         EdgeDragArea {
             id: rowDragArea
             anchors.fill: indicatorRow
@@ -341,15 +313,45 @@ Showable {
         }
     }
 
-    property var activeDragHandle: showDragHandle.dragging ? showDragHandle : hideDragHandle.dragging ? hideDragHandle : null
+    QtObject {
+        id: d
+        property bool enableIndexChangeSignal: true
+        property var activeDragHandle: showDragHandle.dragging ? showDragHandle : hideDragHandle.dragging ? hideDragHandle : null
+    }
+
+    Connections {
+        target: menuContent
+        onCurrentMenuIndexChanged: {
+            var oldActive = d.enableIndexChangeSignal;
+            if (!oldActive) return;
+            d.enableIndexChangeSignal = false;
+
+            indicatorRow.setCurrentItem(menuContent.currentMenuIndex);
+
+            d.enableIndexChangeSignal = oldActive;
+        }
+    }
+
+    Connections {
+        target: indicatorRow
+        onCurrentItemIndexChanged: {
+            var oldActive = d.enableIndexChangeSignal;
+            if (!oldActive) return;
+            d.enableIndexChangeSignal = false;
+
+            menuContent.setCurrentMenuIndex(indicatorRow.currentItemIndex);
+
+            d.enableIndexChangeSignal = oldActive;
+        }
+    }
     // connections to the active drag handle
     Connections {
-        target: activeDragHandle
+        target: d.activeDragHandle
         onTouchXChanged: {
-            indicators.calculateCurrentItem(activeDragHandle.touchX, true);
+            indicators.calculateCurrentItem(d.activeDragHandle.touchX, true);
         }
         onTouchSceneYChanged: {
-            yVelocityCalculator.trackedPosition = activeDragHandle.touchSceneY;
+            yVelocityCalculator.trackedPosition = d.activeDragHandle.touchSceneY;
         }
     }
 
@@ -403,8 +405,8 @@ Showable {
             }
             StateChangeScript {
                 script: {
-                    if (activeDragHandle) {
-                        calculateCurrentItem(activeDragHandle.touchX, false);
+                    if (d.activeDragHandle) {
+                        calculateCurrentItem(d.activeDragHandle.touchX, false);
                     }
                 }
             }

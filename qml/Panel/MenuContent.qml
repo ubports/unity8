@@ -74,6 +74,10 @@ MainView {
 
         filterRole: Indicators.IndicatorsModelRole.IsVisible
         filterRegExp: RegExp("^true$")
+
+        onDataChanged: tabs.selectedTabIndexChanged();
+        onRowsInserted: tabs.selectedTabIndexChanged();
+        onRowsRemoved: tabs.selectedTabIndexChanged();
     }
 
     Indicators.VisibleIndicatorsModel {
