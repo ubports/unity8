@@ -26,9 +26,6 @@ GenericScopeView {
     id: scopeView
     objectName: "DashApps"
 
-    //FIXME an alias to itself shouldn't be required. More than likely a Qt bug. Try removing with newer Qt.
-    property alias searchHistory: scopeView.searchHistory
-
     ListModel {
         id: dummyVisibilityModifier
 

@@ -23,6 +23,7 @@ GenericScopeView {
     id: fakeScopeView
 
     property alias backColor : back.color
+    property var categoryView: null
 
     onEndReached: {
         if (scope != undefined && shell != undefined && shell.scopeStatus != undefined) {
