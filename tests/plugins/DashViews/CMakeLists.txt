@@ -55,7 +55,7 @@ macro(add_journal_try_test FILENAME)
     target_link_libraries(${FILENAME}testExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
     add_custom_target(test${CUSTOM_TARGET_NAME}
         ${CMAKE_CURRENT_BINARY_DIR}/${FILENAME}testExec
-        -o ${CMAKE_BINARY_DIR}/testVerticalJournal.xml,xunitxml
+        -o ${CMAKE_BINARY_DIR}/test${CUSTOM_TARGET_NAME}.xml,xunitxml
         -o -,txt
         DEPENDS ${FILENAME}testExec DashViews-qml
     )
@@ -69,8 +69,6 @@ macro(add_journal_try_test FILENAME)
     target_link_libraries(${FILENAME}tryExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
     add_custom_target(try${CUSTOM_TARGET_NAME}
         ${CMAKE_CURRENT_BINARY_DIR}/${FILENAME}tryExec
-        -o ${CMAKE_BINARY_DIR}/testVerticalJournal.xml,xunitxml
-        -o -,txt
         DEPENDS ${FILENAME}tryExec DashViews-qml
     )
 endmacro()
@@ -85,5 +83,5 @@ add_dependencies(qmluitests testlistviewwithpageheader)
 add_dependencies(qmluitests testlistviewwithpageheadersection)
 add_dependencies(qmluitests testlistviewwithpageheadersectionexternalmodel)
 add_dependencies(qmluitests testlistviewwithpageheaderqml)
-add_dependencies(qmluitests testVerticalJournal)
-add_dependencies(qmluitests testHorizontalJournal)
+add_dependencies(qmluitests testVerticaljournal)
+add_dependencies(qmluitests testHorizontaljournal)
