@@ -187,8 +187,12 @@ Item {
         width: root.dragAreaWidth
 
         onTouchXChanged: {
-//            print("touchX changed", touchX)
-            coverFlip.progress = -(touchX - root.dragAreaWidth) / root.width
+            if (!dragging && !priv.waitingForScreenshot) {
+                priv.requestNewScreenshot();
+            }
+            if (dragging && !priv.waitingForScreenshot) {
+                coverFlip.progress = -(touchX - root.dragAreaWidth) / root.width
+            }
         }
 
         onDraggingChanged: {
