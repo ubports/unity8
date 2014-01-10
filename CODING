@@ -175,7 +175,8 @@ the ./build script).
 
 $ make autopilot
 
-If you want you can also run tests individually, for that you need to install first
+If you want you can also run tests individually, for that you need to install first,
+otherwise the tests will run on the system-installed version
 
 $ make install
 
