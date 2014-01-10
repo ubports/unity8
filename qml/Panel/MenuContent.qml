@@ -34,6 +34,7 @@ MainView {
     property bool activeHeader: false
     property alias visibleIndicators: visibleIndicatorsModel.visible
     property bool animateNextMenuChange: false
+    property real headerHeight: tabs.tabBar.height
 
     width: units.gu(40)
     height: units.gu(42)

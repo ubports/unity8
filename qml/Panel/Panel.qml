@@ -101,7 +101,6 @@ Item {
         y: panelBackground.y
         width: root.indicatorsMenuWidth
         shown: false
-        hintValue: __panelMinusSeparatorLineHeight * 3
         panelHeight: __panelMinusSeparatorLineHeight
         openedHeight: parent.height + (pinnedMode ? 0 : root.panelHeight)
         pinnedMode: !fullscreenMode

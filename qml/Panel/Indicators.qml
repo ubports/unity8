@@ -31,7 +31,7 @@ Showable {
     property alias overFlowWidth: indicatorRow.overFlowWidth
     property alias showAll: indicatorRow.showAll
 
-    property int hintValue
+    readonly property real hintValue: panelHeight + menuContent.headerHeight
     readonly property int lockThreshold: openedHeight / 2
     property bool fullyOpened: height == openedHeight
     property bool partiallyOpened: height > panelHeight && !fullyOpened
@@ -128,7 +128,7 @@ Showable {
 
         rowCoordinates = indicatorRow.mapToItem(indicatorRow.row, xValue, 0);
         // get the current delegate
-        currentItem = indicatorRow.row.childAt(rowCoordinates.x, 0);
+        currentItem = indicatorRow.row.itemAt(rowCoordinates.x, 0);
         if (currentItem) {
             itemCoordinates = indicatorRow.row.mapToItem(currentItem, rowCoordinates.x, 0);
             distanceFromRightEdge = (currentItem.width - itemCoordinates.x) / (currentItem.width);
@@ -143,7 +143,7 @@ Showable {
                     }
                 }
                 if ((!useBuffer || (useBuffer && bufferExceeded)) || indicatorRow.currentItemIndex < 0 || indicatorRow.currentItem == null)  {
-                    indicatorRow.currentItem = currentItem;
+                    indicatorRow.setCurrentItem(currentItem);
                 }
 
                 // need to re-init the distanceFromRightEdge for offset calculation
@@ -151,7 +151,7 @@ Showable {
                 distanceFromRightEdge = (indicatorRow.currentItem.width - itemCoordinates.x) / (indicatorRow.currentItem.width);
             }
             indicatorRow.currentItemOffset = 1 - (distanceFromRightEdge * 2);
-        } else {
+        } else if (initalizeItem) {
             indicatorRow.setDefaultItem();
             indicatorRow.currentItemOffset = 0;
         }
@@ -298,6 +298,7 @@ Showable {
         onRunningChanged: {
             if (showAnimation.running) {
                 indicators.state = "commit";
+                indicatorRow.currentItemOffset = 0;
             }
         }
     }
@@ -308,6 +309,7 @@ Showable {
             if (hideAnimation.running) {
                 indicators.state = "initial";
                 initalizeItem = true;
+                indicatorRow.currentItemOffset = 0;
                 menuContent.animateNextMenuChange = false;
             }
         }
@@ -326,7 +328,7 @@ Showable {
             if (!oldActive) return;
             d.enableIndexChangeSignal = false;
 
-            indicatorRow.setCurrentItem(menuContent.currentMenuIndex);
+            indicatorRow.setCurrentItemIndex(menuContent.currentMenuIndex);
 
             d.enableIndexChangeSignal = oldActive;
         }

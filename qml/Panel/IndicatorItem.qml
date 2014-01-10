@@ -28,7 +28,7 @@ Item {
     property bool indicatorVisible: loader.item ? loader.item.enabled : false
 
     opacity: dimmed ? 0.4 : 1
-    Behavior on opacity { StandardAnimation {} }
+    Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.BriskDuration } }
 
     width: loader.item ? loader.item.width : 0
 

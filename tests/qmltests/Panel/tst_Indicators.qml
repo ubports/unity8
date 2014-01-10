@@ -101,10 +101,10 @@ Item {
             // tests changing the lateral position of the revealer activates the correct indicator items.
 
             var indicatorRow = findChild(indicators, "indicatorRow")
-            var rowRepeater = findChild(indicators, "rowRepeater")
+            verify(indicatorRow !== undefined)
 
-            for (var i = 0; i < rowRepeater.count; i++) {
-                var indicatorItem = rowRepeater.itemAt(i);
+            for (var i = 0; i < indicatorRow.row.count; i++) {
+                var indicatorItem = findChild(indicatorRow.row, "item" + i);
 
                 if (!indicatorItem.visible)
                     continue;
@@ -168,10 +168,14 @@ Item {
 
         function test_row_visible_menuContent_visible(data) {
             var indicatorTabs = findChild(indicators, "tabs");
-            var rowRepeater = findChild(indicators, "rowRepeater");
+            verify(indicatorTabs !== undefined)
 
-            var indicatorItem = rowRepeater.itemAt(data.index);
-            tryCompareFunction(function() { return indicatorItem.width > 0}, true);
+            var indicatorRow = findChild(indicators, "indicatorRow");
+            verify(indicatorRow !== undefined);
+            var indicatorItem = findChild(indicatorRow.row, "item" + data.index);
+            verify(indicatorItem !== undefined);
+
+            tryCompareFunction(function() { return indicatorItem.width > 0}, data.visible);
             tryCompare(indicatorItem, "visible", data.visible);
 
             var indicatorTab = findChild(indicatorTabs, data.name)

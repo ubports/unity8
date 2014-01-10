@@ -62,10 +62,14 @@ Item {
             tryCompare(panel.indicators, "state", "initial");
         }
 
+        function get_indicator_item_at(index) {
+        }
+
         function get_indicator_item(index) {
-            var rowRepeater = findChild(panel.indicators, "rowRepeater");
-            verify(rowRepeater != undefined);
-            return rowRepeater.itemAt(index);
+            var indicatorRow = findChild(panel.indicators, "indicatorRow");
+            verify(indicatorRow != undefined);
+
+            return findChild(indicatorRow.row, "item" + index);
         }
 
         function get_indicator_item_position(index) {
@@ -145,9 +149,6 @@ Item {
             var indicatorRow = findChild(panel.indicators, "indicatorRow");
             verify(indicatorRow != undefined);
 
-            var rowRepeater = findChild(panel.indicators, "rowRepeater");
-            verify(indicatorRow != undefined);
-
             var menuContent = findChild(panel.indicators, "menuContent");
             verify(indicatorRow != undefined);
 
@@ -160,7 +161,7 @@ Item {
             }
 
             // do this for each indicator item
-            for (var i = 0; i < rowRepeater.count; i++) {
+            for (var i = 0; i < indicatorRow.row.count; i++) {
 
                 var indicatorItem = get_indicator_item(i);
                 verify(indicatorItem != undefined);
@@ -234,15 +235,12 @@ Item {
             var indicatorRow = findChild(panel.indicators, "indicatorRow");
             verify(indicatorRow != undefined);
 
-            var rowRepeater = findChild(panel.indicators, "rowRepeater");
-            verify(indicatorRow != undefined);
-
             // Get the first indicator
             var indicatorItemFirst = get_indicator_item(0);
             verify(indicatorItemFirst != undefined);
 
             var indicatorItemCoordFirst = get_indicator_item_position(0);
-            var indicatorItemCoordNext = get_indicator_item_position(indicatorRow.count - 1);
+            var indicatorItemCoordNext = get_indicator_item_position(indicatorRow.row.count - 1);
 
             touchPress(panel,
                        indicatorItemCoordFirst.x, panel.panelHeight / 2);
