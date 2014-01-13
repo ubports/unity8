@@ -26,8 +26,9 @@ Item {
     //const
     property string busName
     property string actionsObjectPath
+    property string menuObjectPath
     property string rootMenuType: "com.canonical.indicator.root"
-    property string deviceMenuObjectPath
+    property string deviceMenuObjectPath: menuObjectPath
 
     property var menuModel: UnityMenuModel {}
 

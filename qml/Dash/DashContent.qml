@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Unity 0.1
+import "../Components"
 
 Item {
     id: dashContent
@@ -33,7 +34,6 @@ Item {
     signal movementEnded()
     signal contentFlickStarted()
     signal contentEndReached()
-    signal previewShown()
     signal scopeLoaded(string scopeId)
     signal positionedAtBeginning()
 
@@ -80,77 +80,138 @@ Item {
         }
     }
 
-    ListView {
-        id: dashContentList
-        objectName: "dashContentList"
-
-        interactive: dashContent.scopes.loaded && !currentItem.previewShown && !currentItem.moving
-
+    Item {
+        id: dashContentListHolder
         anchors.fill: parent
-        model: dashContent.model
-        orientation: ListView.Horizontal
-        boundsBehavior: Flickable.DragAndOvershootBounds
-        flickDeceleration: units.gu(625)
-        maximumFlickVelocity: width * 5
-        snapMode: ListView.SnapOneItem
-        highlightMoveDuration: 250
-        highlightRangeMode: ListView.StrictlyEnforceRange
-        /* FIXME: workaround rendering issue due to use of ShaderEffectSource in
-           UbuntuShape. While switching from the home scope to the People scope the
-           rendering would block midway.
-        */
-        cacheBuffer: 2147483647
-        onMovementStarted: dashContent.movementStarted()
-        onMovementEnded: dashContent.movementEnded()
 
-        // If the number of items is less than the current index, then need to reset to another item.
-        onCountChanged: {
-            if (count > 0) {
-                if (currentIndex >= count) {
-                    dashContent.setCurrentScopeAtIndex(count-1, true, true)
-                } else if (currentIndex < 0) {
-                    // setting currentIndex directly, cause we don't want to loose set_current_index
-                    dashContent.currentIndex = 0
+        ListView {
+            id: dashContentList
+            objectName: "dashContentList"
+
+            interactive: dashContent.scopes.loaded && !previewListView.onScreen && !currentItem.moving
+
+            anchors.fill: parent
+            model: dashContent.model
+            orientation: ListView.Horizontal
+            boundsBehavior: Flickable.DragAndOvershootBounds
+            flickDeceleration: units.gu(625)
+            maximumFlickVelocity: width * 5
+            snapMode: ListView.SnapOneItem
+            highlightMoveDuration: 250
+            highlightRangeMode: ListView.StrictlyEnforceRange
+            // TODO Investigate if we can switch to a smaller cache buffer when/if UbuntuShape gets more performant
+            cacheBuffer: 1073741823
+            onMovementStarted: dashContent.movementStarted()
+            onMovementEnded: dashContent.movementEnded()
+
+            // If the number of items is less than the current index, then need to reset to another item.
+            onCountChanged: {
+                if (count > 0) {
+                    if (currentIndex >= count) {
+                        dashContent.setCurrentScopeAtIndex(count-1, true, true)
+                    } else if (currentIndex < 0) {
+                        // setting currentIndex directly, cause we don't want to loose set_current_index
+                        dashContent.currentIndex = 0
+                    }
                 }
             }
+
+            delegate:
+                Loader {
+                    width: ListView.view.width
+                    height: ListView.view.height
+                    asynchronous: true
+                    source: scopeMapper.map(scope.id)
+                    objectName: scope.id + " loader"
+
+                    readonly property bool moving: item ? item.moving : false
+                    readonly property var categoryView: item ? item.categoryView : null
+                    readonly property Scope theScope: scope
+
+                    // these are needed for autopilot tests
+                    readonly property string scopeId: scope.id
+                    readonly property bool isCurrent: ListView.isCurrentItem
+                    readonly property bool isLoaded: status == Loader.Ready
+
+                    onLoaded: {
+                        item.scope = Qt.binding(function() { return scope })
+                        item.isCurrent = Qt.binding(function() { return visible && ListView.isCurrentItem })
+                        item.tabBarHeight = pageHeader.implicitHeight;
+                        item.pageHeader = pageHeader;
+                        item.openEffect = openEffect;
+                        item.previewListView = previewListView;
+                        dashContentList.movementStarted.connect(item.movementStarted)
+                        dashContent.positionedAtBeginning.connect(item.positionedAtBeginning)
+                        dashContent.scopeLoaded(item.scope.id)
+                    }
+                    Connections {
+                        target: item
+                        ignoreUnknownSignals: true
+                        onEndReached: contentEndReached()
+                    }
+
+                    Component.onDestruction: active = false
+                }
         }
 
-        delegate:
-            Loader {
-                width: ListView.view.width
-                height: ListView.view.height
-                asynchronous: true
-                source: scopeMapper.map(scope.id)
-                objectName: scope.id + " loader"
+        PageHeader {
+            id: pageHeader
+            width: parent.width
+            searchEntryEnabled: true
+            searchHistory: dashContent.searchHistory
 
-                readonly property bool previewShown: item ? item.previewShown : false
-                readonly property bool moving: item ? item.moving : false
+            childItem: TabBar {
+                id: tabBar
+                objectName: "tabbar"
+                height: units.gu(7)
+                width: parent.width
+                selectionMode: false
+                style: DashContentTabBarStyle {}
 
-                // these are needed for autopilot tests
-                readonly property string scopeId: scope.id
-                readonly property bool isCurrent: ListView.isCurrentItem
-                readonly property bool isLoaded: status == Loader.Ready
+                model: dashContentList.model
 
-                onLoaded: {
-                    item.scope = Qt.binding(function() { return scope })
-                    item.isCurrent = Qt.binding(function() { return visible && ListView.isCurrentItem })
-                    item.searchHistory = Qt.binding(function() { return dashContent.searchHistory })
-                    dashContentList.movementStarted.connect(item.movementStarted)
-                    dashContent.positionedAtBeginning.connect(item.positionedAtBeginning)
-                    dashContent.scopeLoaded(item.scope.id)
+                onSelectedIndexChanged: {
+                    dashContentList.currentIndex = selectedIndex;
                 }
+
                 Connections {
-                    target: item
-                    ignoreUnknownSignals: true
-                    onEndReached: contentEndReached()
-                    onPreviewShownChanged: {
-                        if (item.previewShown) {
-                            dashContent.previewShown()
-                        }
+                    target: dashContentList
+                    onCurrentIndexChanged: {
+                        tabBar.selectedIndex = dashContentList.currentIndex
                     }
                 }
 
-                Component.onDestruction: active = false
+                Connections {
+                    target: model
+                    onCountChanged: {
+                        if (tabBar.selectedIndex < 0 && model.count > 0)
+                            tabBar.selectedIndex = 0;
+                    }
+                }
+
+                Component.onCompleted: {
+                    __styleInstance.headerTextStyle = Text.Raised
+                    __styleInstance.headerTextStyleColor = "black"
+                }
             }
+        }
+    }
+
+    DashContentOpenEffect {
+        id: openEffect
+        anchors {
+            fill: parent
+            bottomMargin: -bottomOverflow
+        }
+        sourceItem: dashContentListHolder
+        previewListView: previewListView
+    }
+
+    PreviewListView {
+        id: previewListView
+        openEffect: openEffect
+        categoryView: dashContentList.currentItem ? dashContentList.currentItem.categoryView : null
+        scope: dashContentList.currentItem ? dashContentList.currentItem.theScope : null
+        anchors.fill: parent
     }
 }

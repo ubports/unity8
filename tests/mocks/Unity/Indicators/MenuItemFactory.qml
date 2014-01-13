@@ -18,11 +18,21 @@
  */
 
 import QtQuick 2.0
-import Unity.Indicators 0.1 as Indicators
+import Ubuntu.Components.ListItems 0.1 as ListItem
 
-IndicatorBase {
-    id: indicatorWidget
+Item {
+    id: menuFactory
 
-    enabled: false
-    property int iconSize: height
+    property var menuModel: null
+
+    Component {
+        id: standardMenu;
+        ListItem.Standard {
+            objectName: "standardMenu"
+        }
+    }
+
+    function load(modelData) {
+        return standardMenu;
+    }
 }

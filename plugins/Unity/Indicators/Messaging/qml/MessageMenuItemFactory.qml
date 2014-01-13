@@ -60,6 +60,7 @@ Indicators.BaseMenuItem {
 
     Loader {
         id: contents
+        objectName: "loader"
         anchors.fill: parent
 
         sourceComponent: loadMessage(actionsDescription);
@@ -67,6 +68,7 @@ Indicators.BaseMenuItem {
         Component {
             id: simpleTextMessage
             SimpleTextMessage {
+                objectName: "simpleTextMessage"
                 // text
                 title: menuData && menuData.label || ""
                 time: getExtendedProperty(extendedData, "xCanonicalTime", 0)
@@ -74,6 +76,8 @@ Indicators.BaseMenuItem {
                 // icons
                 avatar: getExtendedProperty(extendedData, "icon", "qrc:/indicators/artwork/messaging/default_contact.png")
                 appIcon: getExtendedProperty(extendedData, "xCanonicalAppIcon", "qrc:/indicators/artwork/messaging/default_app.svg")
+                // actions
+                enabled: menuData && menuData.sensitive || false
 
                 onActivateApp: {
                     menuModel.activate(menuIndex, true);
@@ -91,6 +95,7 @@ Indicators.BaseMenuItem {
         Component {
             id: textMessage
             TextMessage {
+                objectName: "textMessage"
                 property var replyActionDescription: actionsDescription && actionsDescription.length > 0 ? actionsDescription[0] : undefined
 
                 property var replyAction: QMenuModel.UnityMenuAction {
@@ -109,6 +114,7 @@ Indicators.BaseMenuItem {
                 appIcon: getExtendedProperty(extendedData, "xCanonicalAppIcon", "qrc:/indicators/artwork/messaging/default_app.svg")
                 // actions
                 replyEnabled: replyAction.valid && replyAction.enabled
+                enabled: menuData && menuData.sensitive || false
 
                 onActivateApp: {
                     menuModel.activate(menuIndex, true);
@@ -129,6 +135,7 @@ Indicators.BaseMenuItem {
         Component {
             id: snapDecision
             SnapDecision {
+                objectName: "snapDecision"
                 property var activateActionDescription: actionsDescription && actionsDescription.length > 0 ? actionsDescription[0] : undefined
                 property var replyActionDescription: actionsDescription && actionsDescription.length > 1 ? actionsDescription[1] : undefined
 
@@ -156,6 +163,7 @@ Indicators.BaseMenuItem {
                 // actions
                 activateEnabled: activateAction.valid && activateAction.enabled
                 replyEnabled: replyAction.valid && replyAction.enabled
+                enabled: menuData && menuData.sensitive || false
 
                 onActivateApp: {
                     menuModel.activate(menuIndex, true);

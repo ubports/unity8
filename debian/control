@@ -60,6 +60,15 @@ Depends: qmenumodel-qml (>= 0.2.7),
 Description: Indicators client test application
  This package contains the client application for indicators used by autopilot
 
+Package: unity-scope-tool
+Architecture: any
+Depends: unity8 (= ${binary:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends},
+Description: Development tool for Unity scopes
+ This package contains the development tool for new generation Unity scopes, based
+ on Unity8.
+
 Package: unity8
 Architecture: any
 Provides: indicator-renderer,
@@ -110,6 +119,7 @@ Depends: gir1.2-glib-2.0,
          libqt5widgets5,
          python-evdev,
          python-gi,
+         python-mock,
          unity8 (>= ${source:Version}),
          unity8-fake-env (>= ${source:Version}),
          unity8-greeter (>= ${source:Version}),
