@@ -39,10 +39,10 @@ MainView {
     height: units.gu(42)
 
     function setCurrentMenuIndex(index) {
-        var filteredIndex = filteredIndicators.mapFromSource(index)
+        var filteredIndex = filteredIndicators.mapFromSource(index);
 
         if (tabs.selectedTabIndex !== filteredIndex) {
-            if (tabs.selectedTabIndex == -1 || !animateNextMenuChange) {
+            if (tabs.selectedTabIndex === -1 || !animateNextMenuChange) {
                 tabs.tabBar.animate = false;
             }
             tabs.selectedTabIndex = filteredIndex;
@@ -74,10 +74,6 @@ MainView {
 
         filterRole: Indicators.IndicatorsModelRole.IsVisible
         filterRegExp: RegExp("^true$")
-
-        onDataChanged: tabs.selectedTabIndexChanged();
-        onRowsInserted: tabs.selectedTabIndexChanged();
-        onRowsRemoved: tabs.selectedTabIndexChanged();
     }
 
     Indicators.VisibleIndicatorsModel {
