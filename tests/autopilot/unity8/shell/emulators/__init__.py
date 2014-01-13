@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2012-2013 Canonical
+# Copyright (C) 2012, 2013, 2014 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,9 +17,16 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from autopilot import input, introspection
 
-from autopilot.introspection import CustomEmulatorBase
 
-
-class UnityEmulatorBase(CustomEmulatorBase):
+class UnityEmulatorBase(introspection.CustomEmulatorBase):
     """A base class for all unity emulators."""
+
+    def __init__(self, *args):
+        super(UnityEmulatorBase, self).__init__(*args)
+        self.pointing_device = input.Touch.create()
+
+
+class UnityEmulatorException(Exception):
+    """Exception raised when there is an error with the Unity emulators."""
