@@ -39,7 +39,7 @@ Showable {
     property bool contentEnabled: true
     property bool initalizeItem: true
     readonly property alias content: menuContent
-    property real unitProgress: 0.0
+    property real unitProgress: (height - panelHeight) / (openedHeight - panelHeight)
 
     // TODO: Perhaps we need a animation standard for showing/hiding? Each showable seems to
     // use its own values. Need to ask design about this.
@@ -193,7 +193,6 @@ Showable {
         clip: !indicators.fullyOpened
         activeHeader: indicators.state == "hint" || indicators.state == "reveal"
         enabled: contentEnabled
-        visibleIndicators: indicatorRow.visibleIndicators
 
         //small shadow gradient at bottom of menu
         Rectangle {
@@ -249,8 +248,6 @@ Showable {
 
     Indicators.IndicatorsModel {
         id: indicatorsModel
-
-        Component.onCompleted: load()
     }
 
     IndicatorRow {
@@ -264,6 +261,14 @@ Showable {
         indicatorsModel: indicatorsModel
         state: indicators.state
         unitProgress: indicators.unitProgress
+
+        onVisibleIndicatorsChanged: {
+            // need to do it here so we can control sequence
+            if (visibleIndicators !== undefined) {
+                menuContent.visibleIndicators = visibleIndicators;
+                menuContent.setCurrentMenuIndex(currentItemIndex);
+            }
+        }
 
         EdgeDragArea {
             id: rowDragArea
@@ -433,4 +438,9 @@ Showable {
             NumberAnimation {targets: [indicatorRow, menuContent]; property: "y"; duration: 300; easing.type: Easing.OutCubic}
         }
     ]
+
+    Component.onCompleted: initialise();
+    function initialise() {
+        indicatorsModel.load();
+    }
 }

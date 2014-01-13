@@ -105,8 +105,6 @@ Item {
         openedHeight: parent.height + (pinnedMode ? 0 : root.panelHeight)
         pinnedMode: !fullscreenMode
         overFlowWidth: search.state=="hidden" ? parent.width : parent.width - search.width
-
-        unitProgress: (height - panelHeight) / (openedHeight - panelHeight)
     }
 
     PanelSeparatorLine {

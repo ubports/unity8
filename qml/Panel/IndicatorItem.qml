@@ -26,6 +26,7 @@ Item {
     property bool dimmed: false
     property var indicatorProperties: undefined
     property bool indicatorVisible: loader.item ? loader.item.enabled : false
+    property string identifier
 
     opacity: dimmed ? 0.4 : 1
     Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.BriskDuration } }
@@ -43,6 +44,12 @@ Item {
                     item[pName] = indicatorProperties[pName];
                 }
             }
+        }
+
+        Binding {
+            target: loader.item
+            property: "objectName"
+            value: identifier + "-widget"
         }
     }
 }

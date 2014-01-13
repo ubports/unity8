@@ -99,33 +99,56 @@ Item {
             property bool overflow: row.width - itemWrapper.x > overFlowWidth
 
             IndicatorItem {
-               id: indicatorItem
-               height: parent.height
+                id: indicatorItem
+                identifier: model.identifier
+                height: parent.height
 
-               dimmed: itemWrapper.dimmed
+                dimmed: itemWrapper.dimmed
 
-               widgetSource: model.widgetSource
-               indicatorProperties : model.indicatorProperties
+                widgetSource: model.widgetSource
+                indicatorProperties : model.indicatorProperties
 
-               Component.onCompleted: {
-                   if (visibleIndicators == undefined) {
-                       visibleIndicators = {}
-                   }
-                   indicatorRow.visibleIndicators[model.identifier] = indicatorVisible;
-                   indicatorRow.visibleIndicatorsChanged();
-               }
-               onIndicatorVisibleChanged: {
-                   if (visibleIndicators == undefined) {
-                       visibleIndicators = {}
-                   }
-                   indicatorRow.visibleIndicators[model.identifier] = indicatorVisible;
-                   indicatorRow.visibleIndicatorsChanged();
+                Component.onCompleted: {
+                    updateVisiblility();
+                }
+                onIndicatorVisibleChanged: {
+                    updateVisiblility();
 
-                   if (indicatorVisible) {
-                       showAll = true;
-                       allVisible.start();
-                   }
-               }
+                    if (indicatorVisible) {
+                        showAll = true;
+                        allVisible.start();
+                    }
+                }
+
+                function updateVisiblility() {
+                    if (visibleIndicators == undefined) {
+                        visibleIndicators = {}
+                    }
+                    indicatorRow.visibleIndicators[model.identifier] = indicatorVisible;
+
+                    // removed current index?
+                    if (indicatorRow.currentItemIndex === index && !indicatorVisible) {
+                        // find the next closest visible indicator (after current, else before)
+                        var newIndex = -1;
+                        for (var i = index+1; i < itemView.count; i++) {
+                            if (indicatorRow.visibleIndicators[i] === undefined || indicatorRow.visibleIndicators[model.identifier]) {
+                                newIndex = i;
+                                break;
+                            }
+                        }
+                        if (newIndex === -1) {
+                            for (i = index - 1; i >= 0; i--) {
+                                if (indicatorRow.visibleIndicators[i] === undefined || indicatorRow.visibleIndicators[model.identifier]) {
+                                    newIndex = i;
+                                    break;
+                                }
+                            }
+                        }
+                        indicatorRow.setCurrentItemIndex(newIndex);
+                    }
+
+                    indicatorRow.visibleIndicatorsChanged();
+                }
             }
 
             states: [
@@ -148,6 +171,7 @@ Item {
             Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.BriskDuration } }
         }
     }
+
 
     Rectangle {
         id: highlight

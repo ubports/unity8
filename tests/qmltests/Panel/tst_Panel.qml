@@ -56,6 +56,8 @@ Item {
         }
 
         function init() {
+            panel.indicators.initialise();
+
             searchClicked = false;
             panel.indicators.hide();
             tryCompare(panel.indicators.hideAnimation, "running", false);
