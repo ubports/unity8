@@ -180,7 +180,7 @@ Showable {
         source: "graphics/VerticalDivider.png"
     }
 
-    VisibleIndicatorsModel {
+    VisibleIndicators {
         id: visibleIndicators
     }
 
