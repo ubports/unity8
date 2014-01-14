@@ -49,7 +49,7 @@ macro(add_dashview_try_test FILENAME)
     add_executable(${FILENAME}testExec
         ${FILENAME}test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/DashViews/${FILENAME}.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/DashViews/abstractjournal.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/DashViews/abstractdashview.cpp
     )
     qt5_use_modules(${FILENAME}testExec Test Core Qml)
     target_link_libraries(${FILENAME}testExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
@@ -63,7 +63,7 @@ macro(add_dashview_try_test FILENAME)
     add_executable(${FILENAME}tryExec
         ${FILENAME}try.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/DashViews/${FILENAME}.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/DashViews/abstractjournal.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/DashViews/abstractdashview.cpp
     )
     qt5_use_modules(${FILENAME}tryExec Test Core Qml)
     target_link_libraries(${FILENAME}tryExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})

@@ -17,7 +17,7 @@
 #ifndef VERTICALJOURNAL_H
 #define VERTICALJOURNAL_H
 
-#include "abstractjournal.h"
+#include "abstractdashview.h"
 
  /** A vertical journal is a view that creates delegates
    * based on a model and layouts them in columns following
@@ -51,7 +51,7 @@
    *
    */
 
-class VerticalJournal : public AbstractJournal
+class VerticalJournal : public AbstractDashView
 {
     Q_OBJECT
 

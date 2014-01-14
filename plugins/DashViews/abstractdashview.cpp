@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013, 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,11 +14,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "abstractjournal.h"
+#include "abstractdashview.h"
 
 static const qreal bufferRatio = 0.5;
 
-AbstractJournal::AbstractJournal()
+AbstractDashView::AbstractDashView()
  : m_delegateModel(nullptr)
  , m_asyncRequestedIndex(-1)
  , m_columnSpacing(0)
@@ -35,12 +35,12 @@ AbstractJournal::AbstractJournal()
     connect(this, SIGNAL(heightChanged()), this, SLOT(onHeightChanged()));
 }
 
-QAbstractItemModel *AbstractJournal::model() const
+QAbstractItemModel *AbstractDashView::model() const
 {
     return m_delegateModel ? m_delegateModel->model().value<QAbstractItemModel *>() : nullptr;
 }
 
-void AbstractJournal::setModel(QAbstractItemModel *model)
+void AbstractDashView::setModel(QAbstractItemModel *model)
 {
     if (model != this->model()) {
         if (!m_delegateModel) {
@@ -65,12 +65,12 @@ void AbstractJournal::setModel(QAbstractItemModel *model)
     }
 }
 
-QQmlComponent *AbstractJournal::delegate() const
+QQmlComponent *AbstractDashView::delegate() const
 {
     return m_delegateModel ? m_delegateModel->delegate() : nullptr;
 }
 
-void AbstractJournal::setDelegate(QQmlComponent *delegate)
+void AbstractDashView::setDelegate(QQmlComponent *delegate)
 {
     if (delegate != this->delegate()) {
         if (!m_delegateModel) {
@@ -87,12 +87,12 @@ void AbstractJournal::setDelegate(QQmlComponent *delegate)
     }
 }
 
-qreal AbstractJournal::columnSpacing() const
+qreal AbstractDashView::columnSpacing() const
 {
     return m_columnSpacing;
 }
 
-void AbstractJournal::setColumnSpacing(qreal columnSpacing)
+void AbstractDashView::setColumnSpacing(qreal columnSpacing)
 {
     if (columnSpacing != m_columnSpacing) {
         m_columnSpacing = columnSpacing;
@@ -104,12 +104,12 @@ void AbstractJournal::setColumnSpacing(qreal columnSpacing)
     }
 }
 
-qreal AbstractJournal::rowSpacing() const
+qreal AbstractDashView::rowSpacing() const
 {
     return m_rowSpacing;
 }
 
-void AbstractJournal::setRowSpacing(qreal rowSpacing)
+void AbstractDashView::setRowSpacing(qreal rowSpacing)
 {
     if (rowSpacing != m_rowSpacing) {
         m_rowSpacing = rowSpacing;
@@ -121,12 +121,12 @@ void AbstractJournal::setRowSpacing(qreal rowSpacing)
     }
 }
 
-qreal AbstractJournal::delegateCreationBegin() const
+qreal AbstractDashView::delegateCreationBegin() const
 {
     return m_delegateCreationBegin;
 }
 
-void AbstractJournal::setDelegateCreationBegin(qreal begin)
+void AbstractDashView::setDelegateCreationBegin(qreal begin)
 {
     m_delegateCreationBeginValid = true;
     if (m_delegateCreationBegin == begin)
@@ -138,7 +138,7 @@ void AbstractJournal::setDelegateCreationBegin(qreal begin)
     emit delegateCreationBeginChanged();
 }
 
-void AbstractJournal::resetDelegateCreationBegin()
+void AbstractDashView::resetDelegateCreationBegin()
 {
     m_delegateCreationBeginValid = false;
     if (m_delegateCreationBegin == 0)
@@ -150,12 +150,12 @@ void AbstractJournal::resetDelegateCreationBegin()
     emit delegateCreationBeginChanged();
 }
 
-qreal AbstractJournal::delegateCreationEnd() const
+qreal AbstractDashView::delegateCreationEnd() const
 {
     return m_delegateCreationEnd;
 }
 
-void AbstractJournal::setDelegateCreationEnd(qreal end)
+void AbstractDashView::setDelegateCreationEnd(qreal end)
 {
     m_delegateCreationEndValid = true;
     if (m_delegateCreationEnd == end)
@@ -167,7 +167,7 @@ void AbstractJournal::setDelegateCreationEnd(qreal end)
     emit delegateCreationEndChanged();
 }
 
-void AbstractJournal::resetDelegateCreationEnd()
+void AbstractDashView::resetDelegateCreationEnd()
 {
     m_delegateCreationEndValid = false;
     if (m_delegateCreationEnd == 0)
@@ -179,7 +179,7 @@ void AbstractJournal::resetDelegateCreationEnd()
     emit delegateCreationEndChanged();
 }
 
-void AbstractJournal::createDelegateModel()
+void AbstractDashView::createDelegateModel()
 {
 #if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
     m_delegateModel = new QQuickVisualDataModel(qmlContext(this), this);
@@ -192,7 +192,7 @@ void AbstractJournal::createDelegateModel()
         m_delegateModel->componentComplete();
 }
 
-void AbstractJournal::refill()
+void AbstractDashView::refill()
 {
     if (!isComponentComplete()) {
         return;
@@ -215,7 +215,7 @@ void AbstractJournal::refill()
     }
 }
 
-bool AbstractJournal::addVisibleItems(qreal fillFromY, qreal fillToY, bool asynchronous)
+bool AbstractDashView::addVisibleItems(qreal fillFromY, qreal fillToY, bool asynchronous)
 {
     if (!delegate())
         return false;
@@ -247,7 +247,7 @@ bool AbstractJournal::addVisibleItems(qreal fillFromY, qreal fillToY, bool async
     return changed;
 }
 
-QQuickItem *AbstractJournal::createItem(int modelIndex, bool asynchronous)
+QQuickItem *AbstractDashView::createItem(int modelIndex, bool asynchronous)
 {
     if (asynchronous && m_asyncRequestedIndex != -1)
         return nullptr;
@@ -281,7 +281,7 @@ QQuickItem *AbstractJournal::createItem(int modelIndex, bool asynchronous)
     }
 }
 
-void AbstractJournal::releaseItem(QQuickItem *item)
+void AbstractDashView::releaseItem(QQuickItem *item)
 {
 #if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
     QQuickVisualModel::ReleaseFlags flags = m_delegateModel->release(item);
@@ -294,20 +294,20 @@ void AbstractJournal::releaseItem(QQuickItem *item)
     }
 }
 
-void AbstractJournal::setImplicitHeightDirty()
+void AbstractDashView::setImplicitHeightDirty()
 {
     m_implicitHeightDirty = true;
 }
 
 #if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-void AbstractJournal::itemCreated(int modelIndex, QQuickItem *item)
+void AbstractDashView::itemCreated(int modelIndex, QQuickItem *item)
 {
 #else
-void AbstractJournal::itemCreated(int modelIndex, QObject *object)
+void AbstractDashView::itemCreated(int modelIndex, QObject *object)
 {
     QQuickItem *item = qmlobject_cast<QQuickItem*>(object);
     if (!item) {
-        qWarning() << "AbstractJournal::itemCreated got a non item for index" << modelIndex;
+        qWarning() << "AbstractDashView::itemCreated got a non item for index" << modelIndex;
         return;
     }
 #endif
@@ -326,9 +326,9 @@ void AbstractJournal::itemCreated(int modelIndex, QObject *object)
 }
 
 #if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-void AbstractJournal::onModelUpdated(const QQuickChangeSet &changeSet, bool reset)
+void AbstractDashView::onModelUpdated(const QQuickChangeSet &changeSet, bool reset)
 #else
-void AbstractJournal::onModelUpdated(const QQmlChangeSet &changeSet, bool reset)
+void AbstractDashView::onModelUpdated(const QQmlChangeSet &changeSet, bool reset)
 #endif
 {
     if (reset) {
@@ -340,18 +340,18 @@ void AbstractJournal::onModelUpdated(const QQmlChangeSet &changeSet, bool reset)
 }
 
 
-void AbstractJournal::relayout()
+void AbstractDashView::relayout()
 {
     m_needsRelayout = true;
     polish();
 }
 
-void AbstractJournal::onHeightChanged()
+void AbstractDashView::onHeightChanged()
 {
     polish();
 }
 
-void AbstractJournal::updatePolish()
+void AbstractDashView::updatePolish()
 {
     if (!model())
         return;
@@ -375,7 +375,7 @@ void AbstractJournal::updatePolish()
     }
 }
 
-void AbstractJournal::componentComplete()
+void AbstractDashView::componentComplete()
 {
     if (m_delegateModel)
         m_delegateModel->componentComplete();

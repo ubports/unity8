@@ -17,7 +17,7 @@
 #ifndef HORIZONTALJOURNAL_H
 #define HORIZONTALJOURNAL_H
 
-#include "abstractjournal.h"
+#include "abstractdashview.h"
 
  /** A horizontal journal is a view that creates delegates
    * based on a model and layouts them one after the other
@@ -26,7 +26,7 @@
    *
    * All delegates are forced to rowHeight if they don't have it.
    */
- class HorizontalJournal : public AbstractJournal
+ class HorizontalJournal : public AbstractDashView
 {
     Q_OBJECT
 
