@@ -104,9 +104,11 @@ Item {
 
             var indicatorRow = findChild(indicators, "indicatorRow")
             verify(indicatorRow !== undefined)
+            var indicatorRowItems = findChild(indicatorRow, "indicatorRowItems");
+            verify(indicatorRowItems !== undefined)
 
-            for (var i = 0; i < indicatorRow.row.count; i++) {
-                var indicatorItem = findChild(indicatorRow.row, "item" + i);
+            for (var i = 0; i < indicatorRowItems.count; i++) {
+                var indicatorItem = findChild(indicatorRowItems, "item" + i);
 
                 if (!indicatorItem.visible)
                     continue;
@@ -164,8 +166,8 @@ Item {
         }
 
         function init_invisible_indicator(identifier) {
-            tryCompareFunction(function() { return findChild(indicators, identifier+"-widget") !== undefined }, true);
-            var item = findChild(indicators, identifier+"-widget");
+            tryCompareFunction(function() { return findChild(indicators, identifier+"-delegate") !== undefined }, true);
+            var item = findChild(indicators, identifier+"-delegate");
 
             item.enabled = false;
         }
@@ -183,32 +185,36 @@ Item {
             indicators.show();
 
             var indicatorTabs = findChild(indicators, "tabs");
-            var indicatorRow = findChild(indicators, "indicatorRow");
+            var indicatorRowItems = findChild(indicators, "indicatorRowItems");
 
 
+            var count = data.visible.length
             for (var i = 0; i< data.visible.length; i++) {
-                if (data.visible[i] === false)
+                if (data.visible[i] === false) {
                     init_invisible_indicator("indicator-fake" + (i + 1));
+                    count--;
+                }
             }
 
+            tryCompare(indicatorRowItems, "count", count);
+
             for (i = 0; i < data.visible.length; i++) {
-                var shouldBeVisible = data.visible[i];
+                var widgetName = "indicator-fake" + (i + 1 + "-widget");
+                var pageName = "indicator-fake" + (i + 1 + "-page");
 
-                // check item visibility
-                var indicatorItem = findChild(indicatorRow.row, "item" + i);
-                verify(indicatorItem !== undefined);
-                tryCompare(indicatorItem, "visible", shouldBeVisible);
+                // check for item
+                tryCompareFunction(function() { return findChild(indicatorRowItems, widgetName) !== undefined }, data.visible[i]);
 
-                // check tab visibility
-                tryCompareFunction(function() { return findChild(indicatorTabs, "indicator-fake" + (i + 1)) !== undefined }, shouldBeVisible);
+                // check for tab
+                tryCompareFunction(function() { return findChild(indicatorTabs, pageName) !== undefined }, data.visible[i]);
             }
         }
 
         function test_indicator_visible_correct_tabs_data() { return [
-            {tag: "current-first", currentIndex: 0, visible: [false, true, true, true, true], expected: 1 },
-            {tag: "current-last", currentIndex: 4, visible: [true, true, true, true, false], expected: 3 },
-            {tag: "after", currentIndex: 0, visible: [true, false, true, true, true], expected: 0 },
-            {tag: "before", currentIndex: 1, visible: [false, true, true, true, true], expected: 1 }];
+            {tag: "current-first", currentIndex: 0, visible: [false, true, true, true, true], expectedIndex: 0, expectedTab: "indicator-fake2"  },
+            {tag: "current-last", currentIndex: 4, visible: [true, true, true, true, false], expectedIndex: 3, expectedTab: "indicator-fake4" },
+            {tag: "after", currentIndex: 0, visible: [true, false, true, true, true], expectedIndex: 0, expectedTab: "indicator-fake1" },
+            {tag: "before", currentIndex: 1, visible: [false, true, true, true, true], expectedIndex: 1, expectedTab: "indicator-fake2" }];
         }
 
         function test_indicator_visible_correct_tabs(data) {
@@ -221,15 +227,16 @@ Item {
             tryCompare(indicators, "fullyOpened", true);
 
             for (var i = 0; i< data.visible.length; i++) {
-                if (data.visible[i] === false)
+                if (data.visible[i] === false) {
                     init_invisible_indicator("indicator-fake" + (i + 1));
+                }
             }
 
             // check for current selected item
-            tryCompare(indicatorRow, "currentItemIndex", data.expected);
+            tryCompare(indicatorRow, "currentItemIndex", data.expectedIndex);
 
             // check for current selected tab
-            tryCompareFunction(function() { return findChild(indicatorTabs, "indicator-fake" + (data.expected + 1)) === indicatorTabs.selectedTab }, true);
+            tryCompareFunction(function() { return findChild(indicatorTabs, data.expectedTab) === indicatorTabs.selectedTab }, true);
 
         }
     }

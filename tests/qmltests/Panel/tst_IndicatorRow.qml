@@ -51,6 +51,8 @@ Item {
         }
 
         indicatorsModel: indicatorModel
+
+        Component.onCompleted: indicatorModel.load()
     }
 
     Indicators.IndicatorsModel {
@@ -122,7 +124,7 @@ Item {
             indicatorRow.unitProgress = data.progress;
             indicatorRow.setCurrentItemIndex(data.index);
 
-            compare(indicatorRow.currentItem.opacity, data.current, "Indicator opacity did not match for current item");
+            tryCompare(indicatorRow.currentItem, "opacity", data.current);
 
             for (var i = 0; i < indicatorRow.row.count; i++) {
                 tryCompare(get_indicator_item_at(i), "opacity", i === data.index ? data.current: data.other);

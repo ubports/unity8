@@ -181,7 +181,7 @@ Showable {
     }
 
     VisibleIndicatorsModel {
-        id: indicatorsModel
+        id: visibleIndicators
     }
 
     MenuContent {
@@ -194,7 +194,7 @@ Showable {
             top: indicatorRow.bottom
             bottom: handle.top
         }
-        indicatorsModel: indicatorsModel
+        indicatorsModel: visibleIndicators.model
         clip: !indicators.fullyOpened
         activeHeader: indicators.state == "hint" || indicators.state == "reveal"
         enabled: contentEnabled
@@ -255,7 +255,7 @@ Showable {
             right: parent.right
         }
         height: indicators.panelHeight
-        indicatorsModel: indicatorsModel
+        indicatorsModel: visibleIndicators.model
         state: indicators.state
         unitProgress: indicators.unitProgress
 
@@ -429,6 +429,6 @@ Showable {
 
     Component.onCompleted: initialise();
     function initialise() {
-        indicatorsModel.load();
+        visibleIndicators.load();
     }
 }

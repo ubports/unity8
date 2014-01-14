@@ -84,7 +84,7 @@ Item {
             id: itemWrapper
             objectName: "item" + index
             height: indicatorRow.height
-            width: visible ? indicatorItem.width : 0
+            width: indicatorItem.width
             opacity: 1 - indicatorRow.unitProgress
             y: 0
             state: "standard"

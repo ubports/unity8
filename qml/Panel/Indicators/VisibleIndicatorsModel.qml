@@ -21,56 +21,59 @@ import QtQuick 2.0
 import Unity.Indicators 0.1 as Indicators
 import Utils 0.1
 
-SortFilterProxyModel {
-    id: filteredIndicators
+Item {
+    property SortFilterProxyModel model: filterModel
 
-    model: Indicators.VisibleIndicatorsModel {
-        id: visibleIndicatorsModel
-        model: indicatorsModel
+    SortFilterProxyModel {
+        id: filterModel
+        filterRole: Indicators.IndicatorsModelRole.IsVisible
+        filterRegExp: RegExp("^true$")
+        dynamicSortFilter: true
+
+        model: Indicators.VisibleIndicatorsModel {
+            id: visibleIndicatorsModel
+            model: indicatorsModel
+        }
     }
 
-    filterRole: Indicators.IndicatorsModelRole.IsVisible
-    filterRegExp: RegExp("^true$")
-    dynamicSortFilter: true
 
-    property Item __container: Item {
-        Indicators.IndicatorsModel {
-            id: indicatorsModel
+    Indicators.IndicatorsModel {
+        id: indicatorsModel
+    }
+
+    Repeater {
+        id: repeater
+        model: indicatorsModel
+
+        property var visibleIndicators: undefined
+        onVisibleIndicatorsChanged: {
+            if (visibleIndicators !== undefined) {
+                visibleIndicatorsModel.visible = visibleIndicators;
+            }
         }
 
-        Repeater {
-            id: repeater
-            model: indicatorsModel
-
-            property var visibleIndicators: undefined
-            onVisibleIndicatorsChanged: {
-                if (visibleIndicators !== undefined) {
-                    visibleIndicatorsModel.visible = visibleIndicators;
+        delegate: IndicatorDelegate {
+            id: item
+            objectName: model.identifier + "-delegate"
+            Component.onCompleted: {
+                for(var pName in indicatorProperties) {
+                    if (item.hasOwnProperty(pName)) {
+                        item[pName] = indicatorProperties[pName];
+                    }
                 }
+                updateVisibility();
             }
 
-            delegate: IndicatorDelegate {
-                id: item
-                Component.onCompleted: {
-                    for(var pName in indicatorProperties) {
-                        if (item.hasOwnProperty(pName)) {
-                            item[pName] = indicatorProperties[pName];
-                        }
-                    }
-                    updateVisibility();
-                }
+            onEnabledChanged: {
+                updateVisibility()
+            }
 
-                onEnabledChanged: {
-                    updateVisibility()
+            function updateVisibility() {
+                if (repeater.visibleIndicators === undefined) {
+                    repeater.visibleIndicators = {}
                 }
-
-                function updateVisibility() {
-                    if (repeater.visibleIndicators === undefined) {
-                        repeater.visibleIndicators = {}
-                    }
-                    repeater.visibleIndicators[model.identifier] = enabled;
-                    repeater.visibleIndicatorsChanged();
-                }
+                repeater.visibleIndicators[model.identifier] = enabled;
+                repeater.visibleIndicatorsChanged();
             }
         }
     }

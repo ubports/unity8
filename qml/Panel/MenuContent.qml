@@ -70,7 +70,7 @@ MainView {
 
         Repeater {
             id: repeater
-            model: indicatorsModel ? indicatorsModel : null
+            model: content.indicatorsModel ? content.indicatorsModel : null
             objectName: "tabsRepeater"
 
             // FIXME: This is needed because tabs dont handle repeaters well.
@@ -125,6 +125,12 @@ MainView {
                             target: tab
                             property: "title"
                             value: loader.item && loader.item.hasOwnProperty("title") && loader.item.title !== "" ? loader.item.title : model.identifier
+                        }
+
+                        Binding {
+                            target: loader.item
+                            property: "objectName"
+                            value: identifier + "-page"
                         }
                     }
                 }

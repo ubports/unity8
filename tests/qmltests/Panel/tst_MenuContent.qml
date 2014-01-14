@@ -27,11 +27,11 @@ Item {
     height: units.gu(70)
 
     property var indicator_status: {
-        'menu_page1': { 'started': false, 'reset': 0 },
-        'menu_page2': { 'started': false, 'reset': 0 },
-        'menu_page3': { 'started': false, 'reset': 0 },
-        'menu_page4': { 'started': false, 'reset': 0 },
-        'menu_page5': { 'started': false, 'reset': 0 }
+        'indicator-fake1-page': { 'started': false, 'reset': 0 },
+        'indicator-fake2-page': { 'started': false, 'reset': 0 },
+        'indicator-fake3-page': { 'started': false, 'reset': 0 },
+        'indicator-fake4-page': { 'started': false, 'reset': 0 },
+        'indicator-fake5-page': { 'started': false, 'reset': 0 }
     }
 
     // Dummy objects
@@ -49,14 +49,6 @@ Item {
         indicatorsModel: indicatorsModel
         contentReleaseInterval: 50
         height: parent.height - 50
-
-        visibleIndicators: {
-           'indicator-fake1': true,
-           'indicator-fake2': true,
-           'indicator-fake3': true,
-           'indicator-fake4': true,
-           'indicator-fake5': true
-       }
     }
 
     Rectangle {
@@ -96,7 +88,7 @@ Item {
     }
 
     function get_test_menu_objecName(index) {
-        return "menu_page"+(index+1);
+        return "indicator-fake" + (index + 1) + "-page";
     }
 
     property string testTabObjectName : ""
