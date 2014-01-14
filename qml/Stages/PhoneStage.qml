@@ -191,7 +191,7 @@ Item {
                 priv.requestNewScreenshot();
             }
             if (dragging && !priv.waitingForScreenshot) {
-                coverFlip.progress = -(touchX - root.dragAreaWidth) / root.width
+                coverFlickable.contentX = -touchX
             }
         }
 
@@ -219,45 +219,23 @@ Item {
         anchors.fill: root
         blockInput: coverFlip.visible
     }
-    MouseArea {
+    Flickable {
+        id: coverFlickable
         anchors.fill: root
+        contentHeight: height
+        contentWidth: width * ApplicationManager.count
+        flickableDirection: Qt.Horizontal
         enabled: coverFlip.visible
-        property int oldMouseX
-        property int startX
 
-        property bool isDrag: false
-
-        onPressed: {
-            isDrag = false
-            oldMouseX = mouseX
-            startX = mouseX
-        }
-
-        onMouseXChanged: {
-            var diff = (oldMouseX - mouseX) * .001;
-            coverFlip.progress = Math.max(.8, coverFlip.progress + diff);
-            oldMouseX = mouseX
-            print("mousex changed", mouseX - startX)
-            if (Math.abs(mouseX - startX) > units.gu(.5)) {
-                isDrag = true;
-            }
-        }
-        onClicked: {
-            // From Qt docs:
-            // "A click is defined as a press followed by a release, both inside the
-            // MouseArea (pressing, moving outside the MouseArea, and then moving back
-            // inside and releasing is also considered a click)."
-            // This means, that pressing, moving the coverFlip around and then releasing
-            // will still be threated as a click. Let's add our own logic to not activate
-            // a tile if the user just wants to drag stuff around.
-            if (isDrag) {
-                return;
+        onContentXChanged: {
+//            print("contentX changed", contentX)
+            var progress = contentX / width
+            if (progress > .5) {
+                progress += progress - .5
             }
 
-            var index = Math.floor(mouseX / coverFlip.tileWidth)
-            index = Math.min(tileRepeater.count - 1, index)
-            print("clicked item", index)
-            coverFlip.selectItem(index);
+            coverFlip.progress = progress;
+//            print("progress is", coverFlip.progress)
         }
     }
 
@@ -268,22 +246,37 @@ Item {
         visible: progress > 0
 
         property real progress: 0
-        property int maxAngle: 45
+        property real startAngle: 45
+        property int endAngle: 10
+
+        property real maxScale: 1.4
         property real minScale: .6
+
+        // Markers: relative screen position from left to right
+        // marks the line where first application is finished moving in from the right
+        property real progressMarker1: 0.5
+
         property bool animatingBack: false
 
-        property real tileWidth: Math.max(units.gu(2), root.width - (coverFlip.progress * root.width))
+        property real tileWidth: root.width
 
-//        onProgressChanged: print("CoverFlip progress changed", progress)
-        onXChanged: print("coverflip x changed", x)
+        property real oldProgress: 0
+        onProgressChanged: {
+            if (oldProgress <= coverFlip.progressMarker1 && progress > coverFlip.progressMarker1) {
+                ApplicationManager.focusApplication(ApplicationManager.get(1).appId)
+            } else if (oldProgress >= 0.5 && progress < 0.5) {
+                ApplicationManager.focusApplication(ApplicationManager.get(1).appId)
+            }
+            oldProgress = progress;
+        }
 
         function snap() {
             if (coverFlip.progress < 0.25) {
-                snapAnimation.targetProgress = 0
+                snapAnimation.targetContentX = 0
             } else if (coverFlip.progress < 0.6) {
-                snapAnimation.targetProgress = 0.5
+                snapAnimation.targetContentX = root.width * coverFlip.progressMarker1
             } else {
-                snapAnimation.targetProgress = .8;
+                snapAnimation.targetContentX = root.width * .9;
             }
             snapAnimation.start();
         }
@@ -294,18 +287,17 @@ Item {
 
         SequentialAnimation {
             id: snapAnimation
-            property var targetProgress
+            property var targetContentX
 
             UbuntuNumberAnimation {
-                target: coverFlip
-                properties: "progress"
-                to: snapAnimation.targetProgress
+                target: coverFlickable
+                properties: "contentX"
+                to: snapAnimation.targetContentX
             }
             ScriptAction {
                 script: {
-                    if (snapAnimation.targetProgress == 0.5) {
-                        ApplicationManager.focusApplication(ApplicationManager.get(1).appId);
-                        coverFlip.progress = 0;
+                    if (snapAnimation.targetContentX == root.width * coverFlip.progressMarker1) {
+                        coverFlickable.contentX = 0;
                     }
                 }
             }
@@ -332,80 +324,157 @@ Item {
 
                     property real progress: coverFlip.progress
 
+                    property int xTranslation: {
+                        var xTranslate = 0;
+                        var minXTranslate = -index * root.width + index * units.dp(3);
+                        switch (index) {
+                        case 0:
+                            if (appImage.progress < coverFlip.progressMarker1) {
+                                var progress = appImage.progress
+                                var progressDiff = coverFlip.progressMarker1
+                                var translateDiff = -root.width * 0.25
+                                // progress : progressDiff = translate : translateDiff
+                                xTranslate = progress * translateDiff / progressDiff
+                            }
+                            break;
+                        case 1:
+                            if (appImage.progress < coverFlip.progressMarker1) {
+                                var progress = appImage.progress;
+                                var progressDiff = coverFlip.progressMarker1;
+                                var translateDiff = -root.width;
+                                // progress : progressDiff = translate : translateDiff
+                                xTranslate = progress * translateDiff / progressDiff;
+                                break;
+                            }
+                            // Intentionally no break here...
+                        default:
+                            if (appImage.progress > coverFlip.progressMarker1) {
+                                // Used to move all tiles directly to the right of the screen as starting position
+                                var mainTranslate = -root.width * (index - 1)
+                                // Used to add the offset to each tile so they are not on one stack
+                                var indexTranslate = (index - 1) * root.width / 4
+
+                                var progress = appImage.progress - coverFlip.progressMarker1
+                                var progressDiff = 1 - coverFlip.progressMarker1
+                                var translateDiff = -root.width * coverFlip.progressMarker1// -(coverFlip.progressMarker1 + index * root.width * 0.25 + root.width * 0.25)
+
+                                // progress : progressDiff = translate : translateDiff
+                                xTranslate = progress * translateDiff / progressDiff;
+
+                                // Add starting point and index translate
+                                xTranslate += mainTranslate + indexTranslate;
+
+                                // make sure we stop at the left screen edge
+                                xTranslate = Math.max(xTranslate, minXTranslate)
+                                break;
+                            }
+                        }
+                        return xTranslate;
+                    }
+
                     transform: [
                         Rotation {
-                            origin { x: units.gu(5); y: height / 2 }
+                            origin { x: 0; y: coverFlip.height / 2 }
                             axis { x: 0; y: 1; z: 0 }
                             angle: {
                                 var newAngle = 0;
                                 if (coverFlip.animatingBack) {
-                                    newAngle = Math.min(appImage.progress, .75) * coverFlip.maxAngle;
+                                    newAngle = Math.min(appImage.progress, .75) * coverFlip.endAngle;
                                 } else {
                                     switch (index) {
                                     case 0:
-                                        if (appImage.progress < .5) {
-                                            newAngle = appImage.progress * coverFlip.maxAngle;
+                                        if (appImage.progress <= coverFlip.progressMarker1) {
+                                            var progress = appImage.progress;
+                                            var angleDiff = coverFlip.endAngle;
+                                            var progressDiff = coverFlip.progressMarker1;
+                                            // progress : progressDiff = angle : angleDiff
+                                            newAngle = progress * angleDiff / progressDiff;
                                         } else {
-                                            newAngle = (appImage.progress - .5) * coverFlip.maxAngle * 2;
+                                            var progress = appImage.progress - coverFlip.progressMarker1;
+                                            var angleDiff = coverFlip.endAngle;
+                                            var progressDiff = 1 - coverFlip.progressMarker1;
+                                            // progress : progressDiff = angle : angleDiff
+                                            newAngle = progress * angleDiff / progressDiff;
+                                            newAngle = Math.min(coverFlip.endAngle, newAngle);
                                         }
                                         break;
                                     case 1:
-                                        if (appImage.progress < .5) {
-                                            newAngle = coverFlip.maxAngle - (appImage.progress * coverFlip.maxAngle * 2);
-                                        } else {
-                                            newAngle = (appImage.progress - .5) * coverFlip.maxAngle * 2;
+                                        if (appImage.progress < coverFlip.progressMarker1) {
+                                            var progress = coverFlip.progress;
+                                            var angleDiff = coverFlip.startAngle;
+                                            var progressDiff = coverFlip.progressMarker1;
+                                            // progress : progressDiff = angle : angleDiff
+                                            var angle = progress * angleDiff / progressDiff;
+                                            newAngle = coverFlip.startAngle - angle;
+                                            break;
                                         }
-                                        break;
+                                        // Intentionally no break here...
                                     default:
-                                        newAngle = Math.min(appImage.progress, .75) * coverFlip.maxAngle;
+                                        var progress = appImage.progress;
+                                        var angleDiff = coverFlip.startAngle - coverFlip.endAngle;
+                                        var progressDiff = coverFlip.progressMarker1 + index * 0.25 + 0.25
+                                        // progress : progressDiff = angle : angleDiff
+                                        newAngle = progress * angleDiff / progressDiff;
+                                        newAngle = Math.max(coverFlip.endAngle, coverFlip.startAngle - newAngle)
                                     }
                                 }
-                                return Math.min(newAngle, coverFlip.maxAngle);
+                                return newAngle;
                             }
                         },
                         Translate {
-                            x: {
-                                if (coverFlip.animatingBack) {
-                                    return 0;
-                                }
-
-                                switch (index) {
-                                case 1:
-                                    if (appImage.progress < .5) {
-                                        return -root.width * appImage.progress;
-                                    } else if (appImage.progress < .75) {
-                                        // relation equation: x : width/2 = progress-.5 : 0.25
-                                        return (-root.width * .5) + (root.width/2) * (appImage.progress - .5) / 0.25
-                                    }
-                                }
-                                return 0;
-                            }
+                            x: appImage.xTranslation
                         },
                         Scale {
-                            origin { x: 0; y: root.height / 2 }
+                            origin { x: appImage.xTranslation; y: root.height / 2 - (root.height - appImage.height)}
                             xScale: {
                                 var scale = 1;
-                                // progress : 1 = x : root.width
-                                var progress = root.width / (root.width - x)
-                                if (appImage.progress > .5) {
-                                    // relation equation: scale : (1-minScale) = progress-.5 : 0.5
-                                    scale = 1 - (1 - coverFlip.minScale) * (appImage.progress - 0.5) / 0.5
+
+                                switch (index) {
+                                case 0:
+                                    if (appImage.progress > coverFlip.progressMarker1) {
+                                        var scaleDiff = coverFlip.maxScale - 1;
+                                        var progressDiff = 1.5 - coverFlip.progressMarker1;
+                                        // progress : progressDiff = scale : scaleDiff
+                                        scale = 1 - (appImage.progress - coverFlip.progressMarker1) * scaleDiff / progressDiff;
+                                    }
+                                    break;
+                                case 1:
+                                    if (appImage.progress < coverFlip.progressMarker1) {
+                                        var scaleDiff = coverFlip.maxScale - 1
+                                        var progressDiff = coverFlip.progressMarker1
+                                        // progress : progressDiff = scale : scaleDiff
+                                        scale = coverFlip.maxScale - (appImage.progress * scaleDiff / progressDiff);
+                                        break;
+                                    }
+                                    // Intentionally no break
+                                default:
+                                    var scaleDiff = coverFlip.maxScale - coverFlip.minScale
+                                    var progressDiff = coverFlip.progressMarker1 + index * 0.25 + 0.25
+                                    // progress : progressDiff = scale : scaleDiff
+                                    scale = coverFlip.maxScale - (appImage.progress - coverFlip.progressMarker1) * scaleDiff / progressDiff
+                                    break;
                                 }
-                                scale = Math.max(coverFlip.minScale, scale);
-                                return scale;
+                                return Math.min(coverFlip.maxScale, Math.max(coverFlip.minScale, scale));
                             }
                             yScale: xScale
                         }
                     ]
 
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            print("clicked on index", index)
+                            select()
+                        }
+                    }
                 }
 
                 SequentialAnimation {
                     id: switchToAppAnimation
                     PropertyAction { target: coverFlip; property: "animatingBack"; value: true }
                     ParallelAnimation {
-                        UbuntuNumberAnimation { target: coverFlip; property: "progress"; to: 0 }
-                        UbuntuNumberAnimation { target: coverFlip; property: "x"; to: -root.width * index }
+                        UbuntuNumberAnimation { target: coverFlickable; property: "contentX"; to: 0; duration: 5000 }
+                        UbuntuNumberAnimation { target: coverFlip; property: "x"; to: -root.width * index; duration: 5000 }
                     }
                     ScriptAction {
                         script: {
