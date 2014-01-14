@@ -17,7 +17,7 @@
 import QtQuick 2.0
 import QtTest 1.0
 import ".."
-import "../../../Panel"
+import "../../../qml/Panel"
 import Ubuntu.Components 0.1
 import Unity.Test 0.1 as UT
 
@@ -39,17 +39,6 @@ Rectangle {
             tryCompareFunction(function(){return indicatorItem.opacity}, 1.0);
             indicatorItem.dimmed = true;
             tryCompareFunction(function(){return indicatorItem.opacity < 1.0}, true);
-        }
-
-        function test_highlight() {
-            var itemHighlight = findChild(indicatorItem, "highlight");
-            verify(itemHighlight != undefined);
-
-            indicatorItem.highlighted = true;
-            compare(itemHighlight.visible, true, "Indicator should be highlighted");
-
-            indicatorItem.highlighted = false;
-            compare(itemHighlight.visible, false, "Indicator should not be highlighted");
         }
 
         function test_empty() {

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-11-12 16:10+0100\n"
+"POT-Creation-Date: 2013-11-29 09:21+0100\n"
 "PO-Revision-Date: 2013-09-18 16:22+0000\n"
 "Last-Translator: Andri Thorlacius <Unknown>\n"
 "Language-Team: Icelandic <is@li.org>\n"
@@ -15,76 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-11-19 05:59+0000\n"
-"X-Generator: Launchpad (build 16831)\n"
-
-#: Applications/applications.js:23
-msgid "Phone"
-msgstr "Sími"
-
-#: Applications/applications.js:29
-msgid "Camera"
-msgstr "Myndavél"
-
-#: Applications/applications.js:35
-msgid "Gallery"
-msgstr "Myndasafn"
-
-#: Applications/applications.js:40
-msgid "Facebook"
-msgstr "Facebook"
-
-#: Applications/applications.js:46
-msgid "Browser"
-msgstr "Vafri"
-
-#: Applications/applications.js:51
-msgid "Twitter"
-msgstr "Twitter"
-
-#: Applications/applications.js:57
-msgid "GMail"
-msgstr "GMail"
-
-#: Applications/applications.js:62
-msgid "Weather"
-msgstr "Veður"
-
-#: Applications/applications.js:68
-msgid "Notepad"
-msgstr "Skrifblokk"
-
-#: Applications/applications.js:74
-msgid "Calendar"
-msgstr "Dagatal"
-
-#: Applications/applications.js:80
-msgid "Media Player"
-msgstr "Margmiðlunarspilari"
-
-#: Applications/applications.js:86
-msgid "Evernote"
-msgstr "Evernote"
-
-#: Applications/applications.js:91
-msgid "Map"
-msgstr "Kort"
-
-#: Applications/applications.js:96
-msgid "Pinterest"
-msgstr "Pinterest"
-
-#: Applications/applications.js:101
-msgid "SoundCloud"
-msgstr "SoundCloud"
-
-#: Applications/applications.js:106
-msgid "Wikipedia"
-msgstr "Wikipedia"
-
-#: Applications/applications.js:111
-msgid "YouTube"
-msgstr "YouTube"
+"X-Launchpad-Export-Date: 2013-12-29 06:04+0000\n"
+"X-Generator: Launchpad (build 16877)\n"
 
 #: Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -133,29 +65,27 @@ msgid ""
 "phone<br><br>Tap anywhere to start"
 msgstr ""
 
-#: Components/PageHeader.qml:345
+#: Components/PageHeader.qml:364
 msgid "Recent searches"
 msgstr "Nýlegar leitir"
 
-#. TRANSLATORS: Number of persons who rated this app
+#: Dash/Apps/AppPreview.qml:135
+msgid "Rate this"
+msgstr "Gefa þessu einkunn"
+
 #. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: Dash/Apps/AppInfo.qml:73 Dash/Previews/Header.qml:93
+#: Dash/Previews/Header.qml:93
 #, qt-format
 msgid "(%1)"
 msgstr "(%1)"
 
-#. TRANSLATORS: Number of persons who wrote reviews for this app
 #. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: Dash/Apps/AppInfo.qml:85 Dash/Previews/Header.qml:105
+#: Dash/Previews/Header.qml:105
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
 msgstr[0] "%1 ummæli"
 msgstr[1] "%1 ummæli"
-
-#: Dash/Apps/AppPreview.qml:135
-msgid "Rate this"
-msgstr "Gefa þessu einkunn"
 
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
@@ -173,7 +103,7 @@ msgstr "Senda"
 msgid "Comments:"
 msgstr "Athugasemdir:"
 
-#: Greeter/Lockscreen.qml:146
+#: Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
 msgstr "Neyðarsímtal"
 
@@ -223,15 +153,7 @@ msgstr ""
 msgid "Unlock from Launcher"
 msgstr ""
 
-#: plugins/Unity/scope.cpp:408
-msgid "Sorry, there is nothing that matches your search."
-msgstr "Því miður, það var ekkert sem passaði við leitarorðið þitt."
-
-#: plugins/Unity/showallfilteroption.cpp:41
-msgid "All"
-msgstr ""
-
-#: Shell.qml:441
+#: Shell.qml:439
 #, qt-format
 msgid "Please enter %1"
 msgstr ""

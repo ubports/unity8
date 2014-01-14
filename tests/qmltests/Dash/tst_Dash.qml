@@ -16,7 +16,7 @@
 
 import QtQuick 2.0
 import QtTest 1.0
-import "../../../Dash"
+import "../../../qml/Dash"
 import Ubuntu.Components 0.1
 import Unity.Test 0.1 as UT
 
@@ -24,8 +24,6 @@ Item {
     id: shell
     width: units.gu(40)
     height: units.gu(80)
-
-    property ListModel searchHistory : ListModel {}
 
     Dash {
         id: dash
@@ -36,12 +34,12 @@ Item {
     ScopeDelegateMapper {
         id: scopeDelegateMapper
         scopeDelegateMapping: {
-            "MockScope1": "../tests/qmltests/Dash/qml/fake_scopeView1.qml",
-            "MockScope2": "../tests/qmltests/Dash/qml/fake_scopeView2.qml",
-            "home.scope": "../tests/qmltests/Dash/qml/fake_scopeView3.qml",
-            "applications.scope": "../tests/qmltests/Dash/qml/fake_scopeView4.qml"
+            "MockScope1": Qt.resolvedUrl("qml/fake_scopeView1.qml"),
+            "MockScope2": Qt.resolvedUrl("qml/fake_scopeView2.qml"),
+            "home.scope": Qt.resolvedUrl("qml/fake_scopeView3.qml"),
+            "applications.scope": Qt.resolvedUrl("qml/fake_scopeView4.qml")
         }
-        genericScope: "../tests/qmltests/Dash/qml/fake_generic_scopeView.qml"
+        genericScope: Qt.resolvedUrl("qml/fake_generic_scopeView.qml")
     }
 
     UT.UnityTestCase {
@@ -83,14 +81,14 @@ Item {
             // wait for scopes to load
             tryCompare(scopes, "loaded", true);
 
-            var dashbar = findChild(dash, "dashbar");
-            verify(dashbar != undefined)
+            var tabbar = findChild(dash, "tabbar");
+            verify(tabbar != undefined)
             var dashContent = findChild(dash, "dashContent");
             var current_index = dashContent.currentIndex;
 
             dash.setCurrentScope(data.tag, true /* animate */, false /* reset */);
             compare(dashContent.currentIndex, data.shouldBeVisible ? data.visualIndex : current_index);
-            compare(dashbar.currentIndex, data.shouldBeVisible ? data.visualIndex : current_index);
+            compare(tabbar.selectedIndex, data.shouldBeVisible ? data.visualIndex : current_index);
         }
 
         function test_show_scope_on_load_data() {
@@ -127,12 +125,12 @@ Item {
             // wait for scopes to load
             tryCompare(scopes, "loaded", true);
 
-            var dashbar = findChild(dash, "dashbar");
-            verify(dashbar != undefined)
+            var tabbar = findChild(dash, "tabbar");
+            verify(tabbar != undefined)
             var dashContent = findChild(dash, "dashContent");
             var current_index = dashContent.currentIndex;
 
-            dashbar.itemSelected(data.visualIndex);
+            tabbar.selectedIndex = data.visualIndex;
             compare(dashContent.currentIndex, data.shouldBeVisible ? data.visualIndex : current_index);
         }
     }

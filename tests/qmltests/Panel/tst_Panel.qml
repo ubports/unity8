@@ -18,7 +18,7 @@ import QtQuick 2.0
 import QtTest 1.0
 import Unity.Test 0.1 as UT
 import ".."
-import "../../../Panel"
+import "../../../qml/Panel"
 
 /*
   This tests the Panel component using a fake model to stage data in the indicators
@@ -263,6 +263,20 @@ Item {
                        units.gu(10) /* speed */, 30 /* iterations */); // more samples needed for accurate velocity
 
             compare(indicatorRow.currentItem, indicatorItemFirst, "First indicator should still be the current item");
+        }
+
+        function test_hideIndicatorMenu_data() {
+            return [ {tag: "no-delay", delay: undefined },
+                     {tag: "delayed", delay: 200 }
+            ];
+        }
+
+        function test_hideIndicatorMenu(data) {
+            panel.indicators.show();
+            compare(panel.indicators.shown, true);
+
+            panel.hideIndicatorMenu(data.delay);
+            tryCompare(panel.indicators, "shown", false);
         }
     }
 }

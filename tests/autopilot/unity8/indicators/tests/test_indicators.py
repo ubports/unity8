@@ -43,7 +43,6 @@ class IndicatorTestCase(UnityTestCase):
         super(IndicatorTestCase, self).setUp()
 
     def test_indicator_exists(self):
-        """The tab of a given indicator can be found."""
         unity_proxy = self.launch_unity()
         unlock_unity(unity_proxy)
         widget = self.main_window.get_indicator_widget(

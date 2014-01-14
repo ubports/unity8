@@ -16,7 +16,6 @@ Build-Depends: cmake,
                libnih-dev,
                libpulse-dev,
                libqmenumodel-dev (>= 0.2.7),
-               libqt5v8-5-private-dev,
                libunity-api-dev (>= 7.80.4),
                libunity-mir-dev,
                libunity-scopes-json-def-phone,
@@ -34,6 +33,7 @@ Build-Depends: cmake,
                qtbase5-private-dev,
                qtdeclarative5-dev,
                qtdeclarative5-dev-tools,
+               qtdeclarative5-qtmultimedia-plugin,
                qtdeclarative5-private-dev,
                qtdeclarative5-qtquick2-plugin,
                qtdeclarative5-test-plugin,
@@ -59,11 +59,20 @@ Depends: qmenumodel-qml (>= 0.2.7),
 Description: Indicators client test application
  This package contains the client application for indicators used by autopilot
 
+Package: unity-scope-tool
+Architecture: any
+Depends: unity8 (= ${binary:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends},
+Description: Development tool for Unity scopes
+ This package contains the development tool for new generation Unity scopes, based
+ on Unity8.
+
 Package: unity8
 Architecture: any
 Provides: indicator-renderer,
 Depends: gsettings-desktop-schemas,
-         libunity-mir1,
+         libunity-mir1 (>= 0.2),
          qmenumodel-qml (>= 0.2.7),
          qtdeclarative5-dee-plugin,
          qtdeclarative5-gsettings1.0,
@@ -95,6 +104,7 @@ Depends: gir1.2-glib-2.0,
          libqt5widgets5,
          python-evdev,
          python-gi,
+         python-mock,
          unity8 (>= ${source:Version}),
          unity8-fake-env (>= ${source:Version}),
          ${misc:Depends},

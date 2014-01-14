@@ -22,11 +22,12 @@ import Unity.Indicators 0.1 as Indicators
 import Unity.Indicators.Network 0.1 as ICNetwork
 import Unity.Indicators.Messaging 0.1 as ICMessaging
 import QMenuModel 0.1 as QMenuModel
+import Ubuntu.Components 0.1
 
 Item {
     id: menuFactory
 
-    property var model: null
+    property var menuModel: null
 
     property var _map:  {
         "unity.widgets.systemsettings.tablet.volumecontrol" : sliderMenu,
@@ -49,38 +50,61 @@ Item {
         "unity.widgets.systemsettings.tablet.accesspoint" : accessPoint,
     }
 
-    Component { id: divMenu; Indicators.DivMenuItem {} }
+    function getExtendedProperty(object, propertyName, defaultValue) {
+        if (object && object.hasOwnProperty(propertyName)) {
+            return object[propertyName];
+        }
+        return defaultValue;
+    }
+
+    Component {
+        id: divMenu;
+        Indicators.DivMenuItem {
+            objectName: "divMenu"
+        }
+    }
 
     Component {
         id: sliderMenu;
         Indicators.SliderMenuItem {
-            property QtObject menu: null
+            objectName: "sliderMenu"
+            property QtObject menuData: null
+            property var menuModel: menuFactory.menuModel
+            property int menuIndex: -1
+            property var extendedData: menuData && menuData.ext || undefined
 
-            text: menu && menu.label ? menu.label : ""
-            icon: menu && menu.icon ? menu.icon : ""
-            minIcon: menu && menu.ext.minIcon ? menu.ext.minIcon : ""
-            maxIcon: menu && menu.ext.maxIcon ? menu.ext.maxIcon : ""
+            text: menuData && menuData.label || ""
+            iconSource: menuData && menuData.icon || ""
+            minIcon: getExtendedProperty(extendedData, "minIcon", "")
+            maxIcon: getExtendedProperty(extendedData, "maxIcon", "")
 
-            minimumValue: menu.ext.minValue ? menu.ext.minValue : 0.0
+            minimumValue: getExtendedProperty(extendedData, "minValue", 0.0)
             maximumValue: {
-                var maximum = menu.ext.maxValue ? menu.ext.maxValue : 1.0
+                var maximum = getExtendedProperty(extendedData, "maxValue", 1.0);
                 if (maximum <= minimumValue) {
                         return minimumValue + 1;
                 }
                 return maximum;
             }
-            value: menu ? menu.actionState : 0.0
-            enabled: menu ? menu.sensitive : false
+            value: menuData && menuData.actionState || 0.0
+            enabled: menuData && menuData.sensitive || false
 
-            Component.onCompleted: {
-                model.loadExtendedAttributes(modelIndex, {'min-value': 'double',
-                                                          'max-value': 'double',
-                                                          'min-icon': 'icon',
-                                                          'max-icon': 'icon'});
+            onMenuModelChanged: {
+                loadAttributes();
+            }
+            onMenuIndexChanged: {
+                loadAttributes();
+            }
+            onChangeState: {
+                menuModel.changeState(menuIndex, value);
             }
 
-            onChangeState: {
-                model.changeState(modelIndex, value);
+            function loadAttributes() {
+                if (!menuModel || menuIndex == undefined) return;
+                menuModel.loadExtendedAttributes(menuIndex, {'min-value': 'double',
+                                                             'max-value': 'double',
+                                                             'min-icon': 'icon',
+                                                             'max-icon': 'icon'});
             }
         }
     }
@@ -88,50 +112,61 @@ Item {
     Component {
         id: buttonMenu;
         Indicators.ButtonMenuItem {
-            property QtObject menu: null
+            objectName: "buttonMenu"
+            property QtObject menuData: null
+            property var menuModel: menuFactory.menuModel
+            property int menuIndex: -1
 
-            text: menu && menu.label ? menu.label : ""
-            enabled: menu ? menu.sensitive : false
+            buttonText: menuData && menuData.label || ""
+            enabled: menuData && menuData.sensitive || false
 
             onActivate: {
-                model.activate(modelIndex);
+                menuModel.activate(menuIndex);
+                shell.hideIndicatorMenu(UbuntuAnimation.FastDuration);
             }
         }
     }
     Component {
         id: sectionMenu;
         Indicators.SectionMenuItem {
-            property QtObject menu: null
+            objectName: "sectionMenu"
+            property QtObject menuData: null
+            property var menuIndex: undefined
 
-            text: menu && menu.label ? menu.label : ""
+            text: menuData && menuData.label || ""
         }
     }
 
     Component {
         id: progressMenu;
         Indicators.ProgressMenuItem {
-            property QtObject menu: null
+            objectName: "progressMenu"
+            property QtObject menuData: null
+            property int menuIndex: -1
 
-            text: menu && menu.label ? menu.label : ""
-            icon: menu ? menu.icon : ""
-            value : menu ? menu.actionState : 0.0
-            enabled: menu ? menu.sensitive : false
+            text: menuData && menuData.label || ""
+            iconSource: menuData && menuData.icon || ""
+            value : menuData && menuData.actionState || 0.0
+            enabled: menuData && menuData.sensitive || false
         }
     }
 
     Component {
         id: standardMenu;
         Indicators.StandardMenuItem {
-            property QtObject menu: null
+            objectName: "standardMenu"
+            property QtObject menuData: null
+            property int menuIndex: -1
 
-            text: menu && menu.label ? menu.label : ""
-            icon: menu && menu.icon ? menu.icon : ""
-            checkable: menu ? (menu.isCheck || menu.isRadio) : false
-            checked: checkable ? menu.isToggled : false
-            enabled: menu ? menu.sensitive : false
+            text: menuData && menuData.label || ""
+            iconSource: menuData && menuData.icon || ""
+            enabled: menuData && menuData.sensitive || false
+            checkable: menuData ? (menuData.isCheck || menuData.isRadio) : false
+            checked: checkable ? menuData.isToggled : false
 
             onActivate: {
-                model.activate(modelIndex);
+                menuModel.activate(menuIndex);
+                shell.hideIndicatorMenu(UbuntuAnimation.BriskDuration);
             }
         }
     }
@@ -139,15 +174,18 @@ Item {
     Component {
         id: switchMenu;
         Indicators.SwitchMenuItem {
-            property QtObject menu: null
+            objectName: "switchMenu"
+            property QtObject menuData: null
+            property int menuIndex: -1
 
-            text: menu && menu.label ? menu.label : ""
-            icon: menu && menu.icon ? menu.icon : ""
-            checked: menu ? menu.isToggled : false
-            enabled: menu ? menu.sensitive : false
+            text: menuData && menuData.label || ""
+            iconSource: menuData && menuData.icon || ""
+            enabled: menuData && menuData.sensitive || false
+            checked: menuData ? menuData.isToggled : false
 
             onActivate: {
-                model.activate(modelIndex);
+                menuModel.activate(menuIndex);
+                shell.hideIndicatorMenu(UbuntuAnimation.BriskDuration);
             }
         }
     }
@@ -155,13 +193,25 @@ Item {
     Component {
         id: wifiSection;
         Indicators.SectionMenuItem {
-            property QtObject menu: null
+            objectName: "wifiSection"
+            property QtObject menuData: null
+            property var menuModel: menuFactory.menuModel
+            property int menuIndex: -1
+            property var extendedData: menuData && menuData.ext || undefined
 
-            text: menu && menu.label ? menu.label : ""
-            busy: menu ? menu.ext.xCanonicalBusyAction : false
+            text: menuData && menuData.label || ""
+            busy: getExtendedProperty(extendedData, "xCanonicalBusyAction", false)
 
-            Component.onCompleted: {
-                model.loadExtendedAttributes(modelIndex, {'x-canonical-busy-action': 'bool'});
+            onMenuModelChanged: {
+                loadAttributes();
+            }
+            onMenuIndexChanged: {
+                loadAttributes();
+            }
+
+            function loadAttributes() {
+                if (!menuModel || menuIndex == undefined) return;
+                menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-busy-action': 'bool'})
             }
         }
     }
@@ -169,27 +219,41 @@ Item {
     Component {
         id: accessPoint;
         ICNetwork.AccessPoint {
-            property QtObject menu: null
+            objectName: "accessPoint"
+            property QtObject menuData: null
+            property var menuModel: menuFactory.menuModel
+            property int menuIndex: -1
+            property var extendedData: menuData && menuData.ext || undefined
+
             property var strengthAction: QMenuModel.UnityMenuAction {
-                model: menuFactory.model ? menuFactory.model : null
-                index: modelIndex
-                name: menu ? menu.ext.xCanonicalWifiApStrengthAction : ""
+                model: menuModel
+                index: menuIndex
+                name: getExtendedProperty(extendedData, "xCanonicalWifiApStrengthAction", "")
             }
 
-            text: menu && menu.label ? menu.label : ""
-            secure: menu ? menu.ext.xCanonicalWifiApIsSecure : false
-            adHoc: menu ? menu.ext.xCanonicalWifiApIsAdhoc : false
-            checked: menu ? menu.isToggled : false
+            label: menuData && menuData.label || ""
+            enabled: menuData && menuData.sensitive || false
+            secure: getExtendedProperty(extendedData, "xCanonicalWifiApIsSecure", false)
+            adHoc: getExtendedProperty(extendedData, "xCanonicalWifiApIsAdhoc", false)
+            checked: menuData ? menuData.isToggled : false
             signalStrength: strengthAction.valid ? strengthAction.state : 0
-            enabled: menu ? menu.sensitive : false
 
-            Component.onCompleted: {
-                model.loadExtendedAttributes(modelIndex, {'x-canonical-wifi-ap-is-adhoc': 'bool',
-                                                          'x-canonical-wifi-ap-is-secure': 'bool',
-                                                          'x-canonical-wifi-ap-strength-action': 'string'});
+            onMenuModelChanged: {
+                loadAttributes();
+            }
+            onMenuIndexChanged: {
+                loadAttributes();
             }
             onActivate: {
-                model.activate(modelIndex);
+                menuModel.activate(menuIndex);
+                shell.hideIndicatorMenu(UbuntuAnimation.BriskDuration);
+            }
+
+            function loadAttributes() {
+                if (!menuModel || menuIndex == undefined) return;
+                menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-wifi-ap-is-adhoc': 'bool',
+                                                             'x-canonical-wifi-ap-is-secure': 'bool',
+                                                             'x-canonical-wifi-ap-strength-action': 'string'});
             }
         }
     }
@@ -197,37 +261,42 @@ Item {
     Component {
         id: messageItem
         ICMessaging.MessageMenuItemFactory {
-
-            property QtObject menu: null
-            model: menuFactory.model ? menuFactory.model : null
-
-            Component.onCompleted: {
-                model.loadExtendedAttributes(modelIndex, {'x-canonical-time': 'int64',
-                                                          'x-canonical-text': 'string',
-                                                          'x-canonical-message-actions': 'variant',
-                                                          'icon': 'icon',
-                                                          'x-canonical-app-icon': 'icon'});
-            }
+            objectName: "messageItem"
+            menuModel: menuFactory.menuModel
         }
     }
 
     Component {
         id: groupedMessage
         ICMessaging.GroupedMessage {
-            property QtObject menu: null
+            objectName: "groupedMessage"
+            property QtObject menuData: null
+            property var menuModel: menuFactory.menuModel
+            property int menuIndex: -1
+            property var extendedData: menuData && menuData.ext || undefined
 
-            title: menu && menu.label ? menu.label : ""
-            count: menu && menu.actionState[0] ? menu.actionState[0] : "0"
-            appIcon: menu && menu.ext.icon !== undefined ? menu.ext.icon : "qrc:/indicators/artwork/messaging/default_app.svg"
+            title: menuData && menuData.label || ""
+            appIcon: getExtendedProperty(extendedData, "icon", "qrc:/indicators/artwork/messaging/default_app.svg")
+            count: menuData && menuData.actionState.length > 0 ? menuData.actionState[0] : "0"
+            enabled: menuData && menuData.sensitive || false
 
-            Component.onCompleted: {
-                model.loadExtendedAttributes(modelIndex, {'icon': 'icon'});
+            onMenuModelChanged: {
+                loadAttributes();
+            }
+            onMenuIndexChanged: {
+                loadAttributes();
             }
             onActivateApp: {
-                model.activate(modelIndex, true);
+                menuModel.activate(menuIndex, true);
+                shell.hideIndicatorMenu(UbuntuAnimation.FastDuration);
             }
             onDismiss: {
-                model.activate(modelIndex, false);
+                menuModel.activate(menuIndex, false);
+            }
+
+            function loadAttributes() {
+                if (!menuModel || menuIndex == undefined) return;
+                menuModel.loadExtendedAttributes(modelIndex, {'icon': 'icon'});
             }
         }
     }
@@ -238,10 +307,9 @@ Item {
             if (component !== undefined) {
                 return component;
             }
-        } else {
-            if (modelData.isSeparator) {
-                return divMenu;
-            }
+        }
+        if (modelData.isSeparator) {
+            return divMenu;
         }
         return standardMenu;
     }

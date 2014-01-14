@@ -16,7 +16,7 @@
 
 import QtQuick 2.0
 import QtTest 1.0
-import "../../../../Dash/Apps"
+import "../../../../qml/Dash/Apps"
 import Unity.Test 0.1 as UT
 
 Item {
@@ -238,6 +238,26 @@ Item {
         function checkCalendarTileExists() {
             return findChild(runningApplicationsGrid, "runningAppTile Calendar")
                     != undefined
+        }
+
+        // While in termination mode, if you click outside any of the tiles, the
+        // termination mode is disabled (i.e. we switch back to activation mode).
+        function test_clickOutsideTilesDisablesTerminationMode() {
+            runningApplicationsGrid.terminationModeEnabled = true
+
+            var calendarTile = findChild(runningApplicationsGrid, "runningAppTile Calendar")
+            verify(calendarTile != undefined)
+
+            verify(runningApplicationsGrid.terminationModeEnabled);
+
+            // Click on the bottom right corner of the grid, where there's no
+            // RunningApplicationTile lying around
+            mouseClick(runningApplicationsGrid,
+                       runningApplicationsGrid.width - 1, runningApplicationsGrid.height - 1);
+
+            wait(0) // spin event loop to ensure that any pending signal emission went through
+
+            verify(!runningApplicationsGrid.terminationModeEnabled);
         }
     }
 }
