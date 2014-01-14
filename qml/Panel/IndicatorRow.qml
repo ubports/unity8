@@ -26,7 +26,6 @@ Item {
     readonly property alias currentItemIndex: itemView.currentIndex
     readonly property alias row: itemView
     property QtObject indicatorsModel: null
-    property var visibleIndicators: undefined
     property int overFlowWidth: width
     property bool showAll: false
     property real currentItemOffset: 0.0
@@ -86,7 +85,6 @@ Item {
             objectName: "item" + index
             height: indicatorRow.height
             width: visible ? indicatorItem.width : 0
-            visible: indicatorItem.indicatorVisible
             opacity: 1 - indicatorRow.unitProgress
             y: 0
             state: "standard"
@@ -107,48 +105,6 @@ Item {
 
                 widgetSource: model.widgetSource
                 indicatorProperties : model.indicatorProperties
-
-                Component.onCompleted: {
-                    updateVisiblility();
-                }
-                onIndicatorVisibleChanged: {
-                    updateVisiblility();
-
-                    if (indicatorVisible) {
-                        showAll = true;
-                        allVisible.start();
-                    }
-                }
-
-                function updateVisiblility() {
-                    if (visibleIndicators == undefined) {
-                        visibleIndicators = {}
-                    }
-                    indicatorRow.visibleIndicators[model.identifier] = indicatorVisible;
-
-                    // removed current index?
-                    if (indicatorRow.currentItemIndex === index && !indicatorVisible) {
-                        // find the next closest visible indicator (after current, else before)
-                        var newIndex = -1;
-                        for (var i = index+1; i < itemView.count; i++) {
-                            if (indicatorRow.visibleIndicators[i] === undefined || indicatorRow.visibleIndicators[model.identifier]) {
-                                newIndex = i;
-                                break;
-                            }
-                        }
-                        if (newIndex === -1) {
-                            for (i = index - 1; i >= 0; i--) {
-                                if (indicatorRow.visibleIndicators[i] === undefined || indicatorRow.visibleIndicators[model.identifier]) {
-                                    newIndex = i;
-                                    break;
-                                }
-                            }
-                        }
-                        indicatorRow.setCurrentItemIndex(newIndex);
-                    }
-
-                    indicatorRow.visibleIndicatorsChanged();
-                }
             }
 
             states: [

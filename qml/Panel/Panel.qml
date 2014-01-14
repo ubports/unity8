@@ -50,7 +50,7 @@ Item {
 
     Connections {
         target: indicatorsMenu
-        onShown: hideTimer.stop()
+        onShownChanged: hideTimer.stop()
     }
 
     PanelBackground {

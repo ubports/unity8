@@ -28,27 +28,22 @@ MainView {
 
     property QtObject indicatorsModel: null
     property bool __contentActive: false
-    readonly property int currentMenuIndex : filteredIndicators.mapToSource(tabs.selectedTabIndex)
+    readonly property int currentMenuIndex: tabs.selectedTabIndex
     backgroundColor: "#221e1c" // FIXME not in palette yet
     property int contentReleaseInterval: 20000
     property bool activeHeader: false
-    property alias visibleIndicators: visibleIndicatorsModel.visible
-    property bool animateNextMenuChange: false
     property real headerHeight: tabs.tabBar.height
 
     width: units.gu(40)
     height: units.gu(42)
 
-    function setCurrentMenuIndex(index) {
-        var filteredIndex = filteredIndicators.mapFromSource(index);
-
-        if (tabs.selectedTabIndex !== filteredIndex) {
-            if (tabs.selectedTabIndex === -1 || !animateNextMenuChange) {
+    function setCurrentMenuIndex(index, animate) {
+        if (tabs.selectedTabIndex !== index) {
+            if (tabs.selectedTabIndex === -1 || !animate) {
                 tabs.tabBar.animate = false;
             }
-            tabs.selectedTabIndex = filteredIndex;
+            tabs.selectedTabIndex = index;
             tabs.tabBar.animate = true;
-            animateNextMenuChange = true;
         }
     }
 
@@ -68,29 +63,14 @@ MainView {
         tabs.tabBar.alwaysSelectionMode = activeHeader;
     }
 
-    SortFilterProxyModel {
-        id: filteredIndicators
-        model: visibleIndicatorsModel
-        dynamicSortFilter: true
-
-        filterRole: Indicators.IndicatorsModelRole.IsVisible
-        filterRegExp: RegExp("^true$")
-    }
-
-    Indicators.VisibleIndicatorsModel {
-        id: visibleIndicatorsModel
-        model: indicatorsModel
-    }
-
     Tabs {
         id: tabs
         objectName: "tabs"
         anchors.fill: parent
-        selectedTabIndex: -1
 
         Repeater {
             id: repeater
-            model: filteredIndicators
+            model: indicatorsModel ? indicatorsModel : null
             objectName: "tabsRepeater"
 
             // FIXME: This is needed because tabs dont handle repeaters well.

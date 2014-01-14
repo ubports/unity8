@@ -21,6 +21,7 @@ import Unity.Indicators 0.1 as Indicators
 
 import "../Components"
 import "../Components/ListItems"
+import "Indicators"
 
 Showable {
     id: indicators
@@ -179,6 +180,10 @@ Showable {
         source: "graphics/VerticalDivider.png"
     }
 
+    VisibleIndicatorsModel {
+        id: indicatorsModel
+    }
+
     MenuContent {
         id: menuContent
         objectName: "menuContent"
@@ -220,12 +225,8 @@ Showable {
             right: parent.right
             bottom: parent.bottom
         }
-        height: get_height()
+        height: Math.max(Math.min(handleImage.height, indicators.height - handleImage.height), 0)
         clip: height < handleImage.height
-
-        function get_height() {
-            return Math.max(Math.min(handleImage.height, indicators.height - handleImage.height), 0);
-        }
 
         BorderImage {
             id: handleImage
@@ -246,10 +247,6 @@ Showable {
         anchors.fill: indicatorRow
     }
 
-    Indicators.IndicatorsModel {
-        id: indicatorsModel
-    }
-
     IndicatorRow {
         id: indicatorRow
         objectName: "indicatorRow"
@@ -261,14 +258,6 @@ Showable {
         indicatorsModel: indicatorsModel
         state: indicators.state
         unitProgress: indicators.unitProgress
-
-        onVisibleIndicatorsChanged: {
-            // need to do it here so we can control sequence
-            if (visibleIndicators !== undefined) {
-                menuContent.visibleIndicators = visibleIndicators;
-                menuContent.setCurrentMenuIndex(currentItemIndex);
-            }
-        }
 
         EdgeDragArea {
             id: rowDragArea
@@ -315,7 +304,6 @@ Showable {
                 indicators.state = "initial";
                 initalizeItem = true;
                 indicatorRow.currentItemOffset = 0;
-                menuContent.animateNextMenuChange = false;
             }
         }
     }
@@ -346,7 +334,7 @@ Showable {
             if (!oldActive) return;
             d.enableIndexChangeSignal = false;
 
-            menuContent.setCurrentMenuIndex(indicatorRow.currentItemIndex);
+            menuContent.setCurrentMenuIndex(indicatorRow.currentItemIndex, fullyOpened || partiallyOpened);
 
             d.enableIndexChangeSignal = oldActive;
         }
