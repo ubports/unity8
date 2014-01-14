@@ -30,7 +30,7 @@ Indicators.BaseMenuItem {
     property bool secure: false
     property bool adHoc: false
     property int signalStrength: 0
-    property alias text: label.text
+    property alias label: _label.text
 
     signal activate()
 
@@ -89,7 +89,7 @@ Indicators.BaseMenuItem {
     }
 
     Label {
-        id: label
+        id: _label
         anchors {
             left: iconSignal.right
             leftMargin: units.gu(1)

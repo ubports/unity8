@@ -143,6 +143,9 @@ QVariant UnityMenuModel::data(const QModelIndex &index, int role) const
 
 QVariantMap UnityMenuModel::rowData(int row) const
 {
+    if (m_modelData.count() <= row) {
+        return QVariantMap();
+    }
     return m_modelData[row].toMap()["rowData"].toMap();
 }
 
