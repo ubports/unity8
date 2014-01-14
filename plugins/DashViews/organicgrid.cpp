@@ -265,4 +265,3 @@ void OrganicGrid::processModelRemoves(const QVector<QQmlChangeSet::Remove> &remo
     }
     setImplicitHeightDirty();
 }
-
