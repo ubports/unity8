@@ -50,8 +50,7 @@ class OrganicGrid : public QQuickItem
                                          NOTIFY delegateCreationEndChanged
                                          RESET resetDelegateCreationEnd)
 
-friend class VerticalJournalTest;
-friend class HorizontalJournalTest;
+friend class OrganicGridTest;
 
 public:
     OrganicGrid();
@@ -137,7 +136,8 @@ private:
 //     virtual void processModelRemoves(const QVector<QQmlChangeSet::Remove> &removes) = 0;
 // #endif
     
-    QPointF positionForIndex(int modelIndex);
+    QPointF positionForIndex(int modelIndex) const;
+    QSizeF sizeForIndex(int modelIndex) const;
 
     void findBottomModelIndexToAdd(int *modelIndex, qreal *yPos);
     void findTopModelIndexToAdd(int *modelIndex, qreal *yPos);

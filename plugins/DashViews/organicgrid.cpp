@@ -428,7 +428,7 @@ void OrganicGrid::componentComplete()
     polish();
 }
 
-QPointF OrganicGrid::positionForIndex(int modelIndex)
+QPointF OrganicGrid::positionForIndex(int modelIndex) const
 {
     const qreal moduleHeight = m_smallDelegateSize.height() + rowSpacing() + m_bigDelegateSize.height();
     const qreal moduleWidth = m_smallDelegateSize.width() * 2 + columnSpacing() * 2 + m_bigDelegateSize.width();
@@ -457,6 +457,16 @@ QPointF OrganicGrid::positionForIndex(int modelIndex)
     return QPointF(xPos, yPos);
 }
 
+QSizeF OrganicGrid::sizeForIndex(int modelIndex) const
+{
+    const int moduleIndex = modelIndex % 6;
+    if (moduleIndex == 0 || moduleIndex == 1 || moduleIndex == 3 || moduleIndex == 5) {
+        return m_smallDelegateSize;
+    } else {
+        return m_bigDelegateSize;
+    }
+}
+
 void OrganicGrid::findBottomModelIndexToAdd(int *modelIndex, qreal *yPos)
 {
     if (m_visibleItems.isEmpty()) {
@@ -464,7 +474,10 @@ void OrganicGrid::findBottomModelIndexToAdd(int *modelIndex, qreal *yPos)
         *yPos = 0;
     } else {
         *modelIndex = m_firstVisibleIndex + m_visibleItems.count();
-        *yPos = positionForIndex(*modelIndex).y();
+        // We create stuff in a 6-module basis, so always return back
+        // the y position of the first item
+        const int firstModuleIndex = ((*modelIndex) / 6) * 6;
+        *yPos = positionForIndex(firstModuleIndex).y();
     }
 }
 
@@ -475,7 +488,11 @@ void OrganicGrid::findTopModelIndexToAdd(int *modelIndex, qreal *yPos)
         *yPos = 0;
     } else {
         *modelIndex = m_firstVisibleIndex - 1;
-        *yPos = positionForIndex(*modelIndex).y();
+        // We create stuff in a 6-module basis, so always return back
+        // the y position of the last item bottom
+        const int lastModuleIndex = ((*modelIndex) / 6) * 6 + 5;
+        *yPos = positionForIndex(lastModuleIndex).y();
+        *yPos += sizeForIndex(lastModuleIndex).height();
     }
 }
 
@@ -500,18 +517,40 @@ void OrganicGrid::positionItem(int modelIndex, QQuickItem *item)
     item->setPosition(pos);
 
     // TODO Do we want warnings here in case the sizes are not the one we want like we have in the journals?
-    const int moduleIndex = modelIndex % 6;
-    if (moduleIndex == 0 || moduleIndex == 1 || moduleIndex == 3 || moduleIndex == 5) {
-        item->setSize(m_smallDelegateSize);
-    } else {
-        item->setSize(m_bigDelegateSize);
-    }
+    item->setSize(sizeForIndex(modelIndex));
 }
 
-bool OrganicGrid::removeNonVisibleItems(qreal /*bufferFromY*/, qreal /*bufferToY*/)
+bool OrganicGrid::removeNonVisibleItems(qreal bufferFromY, qreal bufferToY)
 {
-    // TODO
-    return false;
+    bool changed = false;
+
+    // As adding, we also remove in a 6-module basis
+    int lastModuleIndex = (m_firstVisibleIndex / 6) * 6 + 5;
+    bool removeIndex = positionForIndex(lastModuleIndex).y() + sizeForIndex(lastModuleIndex).height() < bufferFromY;
+    while (removeIndex && !m_visibleItems.isEmpty()) {
+        releaseItem(m_visibleItems.takeFirst());
+        changed = true;
+        m_firstVisibleIndex++;
+
+        lastModuleIndex = (m_firstVisibleIndex / 6) * 6 + 5;
+        removeIndex = positionForIndex(lastModuleIndex).y() + sizeForIndex(lastModuleIndex).height() < bufferFromY;
+    }
+
+    int firstModuleIndex = ((m_firstVisibleIndex + m_visibleItems.count() - 1) / 6) * 6;
+    removeIndex = positionForIndex(firstModuleIndex).y() > bufferToY;
+    while (removeIndex && !m_visibleItems.isEmpty()) {
+        releaseItem(m_visibleItems.takeLast());
+        changed = true;
+
+        firstModuleIndex = ((m_firstVisibleIndex + m_visibleItems.count() - 1) / 6) * 6;
+        removeIndex = positionForIndex(firstModuleIndex).y() > bufferToY;
+    }
+
+    if (m_visibleItems.isEmpty()) {
+        m_firstVisibleIndex = -1;
+    }
+
+    return changed;
 }
 
 void OrganicGrid::cleanupExistingItems()
@@ -520,6 +559,7 @@ void OrganicGrid::cleanupExistingItems()
         releaseItem(item);
     m_visibleItems.clear();
     m_firstVisibleIndex = -1;
+    m_implicitHeightDirty = true;
 }
 
 void OrganicGrid::doRelayout()
@@ -539,10 +579,8 @@ void OrganicGrid::doRelayout()
 
 void OrganicGrid::updateItemCulling(qreal visibleFromY, qreal visibleToY)
 {
-    int i = m_firstVisibleIndex;
     Q_FOREACH(QQuickItem *item, m_visibleItems) {
         QQuickItemPrivate::get(item)->setCulled(item->y() + item->height() <= visibleFromY || item->y() >= visibleToY);
-        ++i;
     }
 }
 
@@ -557,18 +595,39 @@ void OrganicGrid::calculateImplicitHeight()
     if (remainingItems == 0) {
         setImplicitHeight(fullRowsHeight);
     } else if (remainingItems <= 2) {
-        setImplicitHeight(m_smallDelegateSize.height() + rowSpacing());
+        setImplicitHeight(fullRowsHeight + m_smallDelegateSize.height() + rowSpacing());
     } else {
-        setImplicitHeight(m_bigDelegateSize.height() + rowSpacing());
+        setImplicitHeight(fullRowsHeight + rowSpacing() + moduleHeight);
     }
 }
 
 #if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-void OrganicGrid::processModelRemoves(const QVector<QQuickChangeSet::Remove> & /*removes*/)
+void OrganicGrid::processModelRemoves(const QVector<QQuickChangeSet::Remove> &removes)
 #else
-void OrganicGrid::processModelRemoves(const QVector<QQmlChangeSet::Remove> & /*removes*/)
+void OrganicGrid::processModelRemoves(const QVector<QQmlChangeSet::Remove> &removes)
 #endif
 {
-    // TODO
+#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
+    Q_FOREACH(const QQuickChangeSet::Remove &remove, removes) {
+#else
+    Q_FOREACH(const QQmlChangeSet::Remove &remove, removes) {
+#endif
+        for (int i = remove.count - 1; i >= 0; --i) {
+            const int indexToRemove = remove.index + i;
+            // We only support removing from the end
+            const int lastIndex = m_firstVisibleIndex + m_visibleItems.count() - 1;
+            if (indexToRemove == lastIndex) {
+                releaseItem(m_visibleItems.takeLast());
+            } else {
+                if (indexToRemove < lastIndex) {
+                    qFatal("OrganicGrid only supports removal from the end of the model");
+                }
+            }
+        }
+    }
+    if (m_visibleItems.isEmpty()) {
+        m_firstVisibleIndex = -1;
+    }
+    setImplicitHeightDirty();
 }
 
