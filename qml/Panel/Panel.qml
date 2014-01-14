@@ -107,7 +107,7 @@ Item {
         pinnedMode: !fullscreenMode
         overFlowWidth: search.state=="hidden" ? parent.width : parent.width - search.width
 
-        property real unitProgress: (height - panelHeight) / (openedHeight - panelHeight)
+        unitProgress: (height - panelHeight) / (openedHeight - panelHeight)
     }
 
     PanelSeparatorLine {

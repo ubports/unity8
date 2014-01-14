@@ -30,7 +30,7 @@
 
 #include "verticaljournal.h"
 
-class QHeightModel : public QAbstractListModel {
+class HeightModel : public QAbstractListModel {
 public:
     QHash<int, QByteArray> roleNames() const
     {
@@ -127,7 +127,7 @@ private Q_SLOTS:
         view->setResizeMode(QQuickView::SizeRootObjectToView);
         view->engine()->addImportPath(BUILT_PLUGINS_DIR);
 
-        model = new QHeightModel();
+        model = new HeightModel();
         QStringList heightList;
         heightList << "100" << "50" << "125" << "10" << "40" << "70" << "200" << "110" << "160" << "20" << "20" << "65" << "80" << "200" << "300" << "130" << "400" << "300" << "500" << "10";
         model->setStringList(heightList);
@@ -323,7 +323,7 @@ private Q_SLOTS:
 
     void testChangeModel()
     {
-        QHeightModel *model2 = new QHeightModel();
+        HeightModel *model2 = new HeightModel();
         QStringList list2;
         list2 << "100" << "50" << "25" << "25" << "50" << "50";
         model2->setStringList(list2);
@@ -393,7 +393,7 @@ private Q_SLOTS:
 
     void testModelAppendRemoveLast()
     {
-        QHeightModel *model2 = new QHeightModel();
+        HeightModel *model2 = new HeightModel();
         QStringList list2;
         list2 << "100" << "50" << "25" << "25" << "50" << "50";
         model2->setStringList(list2);
@@ -462,7 +462,7 @@ private Q_SLOTS:
 private:
     QQuickView *view;
     VerticalJournal *vj;
-    QHeightModel *model;
+    HeightModel *model;
 };
 
 QTEST_MAIN(VerticalJournalTest)
