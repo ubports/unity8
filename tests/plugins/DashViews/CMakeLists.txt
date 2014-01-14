@@ -40,12 +40,7 @@ qt5_use_modules(listviewwithpageheadertestsectionexternalmodelExec Test Core Qml
 target_link_libraries(listviewwithpageheadertestsectionexternalmodelExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
 add_custom_target(testlistviewwithpageheadersectionexternalmodel ${CMAKE_CURRENT_BINARY_DIR}/listviewwithpageheadertestsectionexternalmodelExec -o ${CMAKE_BINARY_DIR}/testlistviewwithpageheadersectionexternalmodel.xml,xunitxml -o -,txt)
 
-macro(add_dashview_try_test FILENAME)
-    # Capitalite the first letter for the test/try name targets
-    string(SUBSTRING ${FILENAME} 0 1 FIRST_LETTER)
-    string(TOUPPER ${FIRST_LETTER} FIRST_LETTER)
-    string(REGEX REPLACE "^.(.*)" "${FIRST_LETTER}\\1" CUSTOM_TARGET_NAME "${FILENAME}")
-
+macro(add_dashview_try_test FILENAME TESTNAME)
     add_executable(${FILENAME}testExec
         ${FILENAME}test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/DashViews/${FILENAME}.cpp
@@ -53,9 +48,9 @@ macro(add_dashview_try_test FILENAME)
     )
     qt5_use_modules(${FILENAME}testExec Test Core Qml)
     target_link_libraries(${FILENAME}testExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
-    add_custom_target(test${CUSTOM_TARGET_NAME}
+    add_custom_target(test${TESTNAME}
         ${CMAKE_CURRENT_BINARY_DIR}/${FILENAME}testExec
-        -o ${CMAKE_BINARY_DIR}/test${CUSTOM_TARGET_NAME}.xml,xunitxml
+        -o ${CMAKE_BINARY_DIR}/test${TESTNAME}.xml,xunitxml
         -o -,txt
         DEPENDS ${FILENAME}testExec DashViews-qml
     )
@@ -67,15 +62,15 @@ macro(add_dashview_try_test FILENAME)
     )
     qt5_use_modules(${FILENAME}tryExec Test Core Qml)
     target_link_libraries(${FILENAME}tryExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
-    add_custom_target(try${CUSTOM_TARGET_NAME}
+    add_custom_target(try${TESTNAME}
         ${CMAKE_CURRENT_BINARY_DIR}/${FILENAME}tryExec
         DEPENDS ${FILENAME}tryExec DashViews-qml
     )
 endmacro()
 
-add_dashview_try_test(verticaljournal)
-add_dashview_try_test(horizontaljournal)
-add_dashview_try_test(organicgrid)
+add_dashview_try_test(verticaljournal VerticalJournal)
+add_dashview_try_test(horizontaljournal HorizontalJournal)
+add_dashview_try_test(organicgrid OrganicGrid)
 
 set(qmltest_DEFAULT_NO_ADD_TEST TRUE)
 add_qml_test(. listviewwithpageheaderqml IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
@@ -84,6 +79,6 @@ add_dependencies(qmluitests testlistviewwithpageheader)
 add_dependencies(qmluitests testlistviewwithpageheadersection)
 add_dependencies(qmluitests testlistviewwithpageheadersectionexternalmodel)
 add_dependencies(qmluitests testlistviewwithpageheaderqml)
-add_dependencies(qmluitests testVerticaljournal)
-add_dependencies(qmluitests testHorizontaljournal)
-add_dependencies(qmluitests testOrganicgrid)
+add_dependencies(qmluitests testVerticalJournal)
+add_dependencies(qmluitests testHorizontalJournal)
+add_dependencies(qmluitests testOrganicGrid)
