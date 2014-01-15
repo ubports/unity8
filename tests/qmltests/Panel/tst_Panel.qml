@@ -166,7 +166,7 @@ Item {
             for (var i = 0; i < indicatorRow.row.count; i++) {
 
                 var indicatorItem = get_indicator_item(i);
-                verify(indicatorItem != undefined);
+                verify(indicatorItem !== null);
 
                 if (!indicatorItem.visible)
                     continue;
@@ -239,7 +239,7 @@ Item {
 
             // Get the first indicator
             var indicatorItemFirst = get_indicator_item(0);
-            verify(indicatorItemFirst !== undefined);
+            verify(indicatorItemFirst !== null);
 
             var indicatorItemCoordFirst = get_indicator_item_position(0);
             var indicatorItemCoordNext = get_indicator_item_position(indicatorRow.row.count - 1);
