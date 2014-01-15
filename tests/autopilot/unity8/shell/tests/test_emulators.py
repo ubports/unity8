@@ -17,22 +17,51 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+"""Tests for the Dash autopilot emulators.
+
+The autopilot emulators are helpers for tests that check a user journey that
+involves the dash. The code for some of those tests will not be inside this
+branch, but in projects that depend on unity or that test the whole system
+integration. So, we need to test the helpers in order to make sure that we
+don't break them for those external projects.
+
+"""
+
+import os
+
 import mock
+
+import fixtures
+from testtools.matchers import Contains, HasLength
 
 from unity8 import process_helpers
 from unity8.shell import emulators, tests
 from unity8.shell.emulators import dash as dash_emulators
 
 
-class DashEmulatorTestCase(tests.UnityTestCase):
+class DashBaseTestCase(tests.UnityTestCase):
 
     scenarios = tests._get_device_emulation_scenarios()
 
     def setUp(self):
-        super(DashEmulatorTestCase, self).setUp()
+        super(DashBaseTestCase, self).setUp()
+        self._use_scope_fakes()
         unity_proxy = self.launch_unity()
         process_helpers.unlock_unity(unity_proxy)
         self.dash = self.main_window.get_dash()
+
+    def _use_scope_fakes(self):
+        qml2_import_path = os.environ.get('QML2_IMPORT_PATH')
+        mocks_path = os.path.join(
+            os.getcwd(), '../..', 'builddir/tests/mocks')
+        qml_import_path_with_scope_fakes = '{0}:{1}'.format(
+            qml2_import_path, mocks_path)
+        self.useFixture(fixtures.EnvironmentVariable(
+            'QML2_IMPORT_PATH',
+            newvalue=qml_import_path_with_scope_fakes))
+
+
+class DashEmulatorTestCase(DashBaseTestCase):
 
     def test_open_unexisting_scope(self):
         scope_name = 'unexisting'
@@ -120,15 +149,15 @@ class DashEmulatorTestCase(tests.UnityTestCase):
         self.assertIsInstance(scope, dash_emulators.DashApps)
 
 
-class DashAppsEmulatorTestCase(tests.UnityTestCase):
+class DashAppsEmulatorTestCase(DashBaseTestCase):
 
-    scenarios = tests._get_device_emulation_scenarios()
-
+    available_applications = [
+        'Title.1', 'Title.21', 'Title.41',  'Title.61', 'Title.81',
+        'Title.101', 'Title.121', 'Title.141', 'Title.161', 'Title.181',
+        'Title.201', 'Title.221', 'Title.241', 'Title.261', 'Title.281',]
+    
     def setUp(self):
         super(DashAppsEmulatorTestCase, self).setUp()
-        unity_proxy = self.launch_unity()
-        process_helpers.unlock_unity(unity_proxy)
-        self.dash = self.main_window.get_dash()
         self.applications_scope = self.dash.open_scope('applications')
 
     def test_get_applications_with_unexisting_category(self):
@@ -141,11 +170,19 @@ class DashAppsEmulatorTestCase(tests.UnityTestCase):
             'No category found with name unexisting category', str(exception))
 
     def test_get_applications_should_return_list_with_names(self):
-        # FIXME The installed category comes from the scope click. This is the
-        # wrong way to test this emulator, because it shouldn't depend on the
-        # current implementation of the click scope. There can be many other
-        # scopes using DashApps as a base. In addition to this, we can't
-        # actually check the values returned, as they depend on the server that
-        # the click scope uses. What we need is to open a scope with hardcoded
-        # categories and values.
-        applications = self.applications_scope.get_applications('installed')
+        category = 'installed'
+        expected_apps_count = self._get_number_of_application_slots(category)
+        expected_applications = self.available_applications[
+            :expected_apps_count]
+
+        applications = self.applications_scope.get_applications(category)
+        
+        self.assertThat(applications, HasLength(expected_apps_count))
+        for expected in expected_applications:
+            self.assertThat(applications, Contains(expected))
+
+    def _get_number_of_application_slots(self, category):
+        category_element = self.applications_scope._get_category_element(
+            category)
+        grid = category_element.select_single('GenericFilterGrid')
+        return grid.columns * grid.rows

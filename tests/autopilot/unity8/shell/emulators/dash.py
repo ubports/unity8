@@ -152,6 +152,8 @@ class DashApps(emulators.UnityEmulatorBase):
         """
         category_element = self._get_category_element(category)
         application_tiles = category_element.select_many('Tile')
+        # TODO return them on the same order they are displayed.
+        # --elopio - 2014-1-15
         return [tile.text for tile in application_tiles]
 
     def _get_category_element(self, category):
