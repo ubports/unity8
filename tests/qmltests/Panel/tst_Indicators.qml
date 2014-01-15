@@ -175,7 +175,7 @@ Item {
             tryCompare(indicatorItem, "visible", data.visible);
 
             var indicatorTab = findChild(indicatorTabs, data.name)
-            tryCompareFunction(function() { return indicatorTab !== undefined }, data.visible);
+            tryCompareFunction(function() { return indicatorTab !== null }, data.visible);
         }
     }
 }
