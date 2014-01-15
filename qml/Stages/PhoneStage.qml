@@ -268,7 +268,7 @@ Item {
         onProgressChanged: {
             if (oldProgress <= coverFlip.progressMarker1 && progress > coverFlip.progressMarker1) {
                 ApplicationManager.focusApplication(ApplicationManager.get(1).appId)
-            } else if (oldProgress >= 0.5 && progress < 0.5) {
+            } else if (oldProgress >= coverFlip.progressMarker1 && progress <= coverFlip.progressMarker1) {
                 ApplicationManager.focusApplication(ApplicationManager.get(1).appId)
             }
             oldProgress = progress;
