@@ -280,7 +280,11 @@ Item {
             } else if (coverFlip.progress < 0.6) {
                 snapAnimation.targetContentX = root.width * coverFlip.progressMarker1
             } else {
-                snapAnimation.targetContentX = root.width * .9;
+                if (ApplicationManager.count == 3) {
+                    snapAnimation.targetContentX = root.width * .8;
+                } else {
+                    snapAnimation.targetContentX = root.width * .9;
+                }
             }
             snapAnimation.start();
         }
