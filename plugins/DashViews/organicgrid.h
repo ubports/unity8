@@ -19,17 +19,32 @@
 
 #include "abstractdashview.h"
 
-class QAbstractItemModel;
-class QQmlComponent;
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-pedantic"
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-#include <private/qquickvisualdatamodel_p.h>
-#else
-#include <private/qqmldelegatemodel_p.h>
-#include <qqmlinfo.h>
-#endif
-#pragma GCC diagnostic pop
+ /** An Organic Grid is is a view that creates delegates
+   * based on a model and layouts them in groups of six items (called module).
+   *
+   * In each module there are 4 items that are forced to the small delegate size
+   * and two that are forced to the big delegate size.
+   *
+   * Example:
+   *
+   * +---+ +---+ +-----+
+   * | 1 | | 2 | |     |
+   * +---+ +---+ |  5  |
+   * +-----+     |     |
+   * |     |     +-----+
+   * |  3  | +---+ +---+
+   * |     | | 4 | | 6 |
+   * +-----+ +---+ +---+
+   *
+   * Modules are positioned one after the other in a grid like fashion, i.e.
+   *
+   * +---+ +---+
+   * | 1 | | 2 |
+   * +---+ +---+
+   * +---+ +---+
+   * | 3 | | 4 |
+   * +---+ +---+
+   */
 
 class OrganicGrid : public AbstractDashView
 {
