@@ -1,0 +1,128 @@
+/*
+ * Copyright (C) 2012 Canonical, Ltd.
+ *
+ * Authors:
+ *  Ugo Riboni <ugo.riboni@canonical.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; version 3.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#ifndef PATHS_H
+#define PATHS_H
+
+// Qt
+#include <QtCore/QCoreApplication>
+#include <QtCore/QDir>
+#include <QtGui/QIcon>
+#include <QtQml/QQmlEngine>
+#include <QStandardPaths>
+
+inline bool isRunningInstalled() {
+    static bool installed = (QCoreApplication::applicationDirPath() ==
+                             QDir(("@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_BINDIR@")).canonicalPath());
+    return installed;
+}
+
+inline QString translationDirectory() {
+    if (isRunningInstalled()) {
+        return QString("@CMAKE_INSTALL_PREFIX@/share/locale");
+    } else {
+        return QString("@CMAKE_BINARY_DIR@/po/locale");
+    }
+}
+
+inline QString qmlDirectory() {
+    if (isRunningInstalled()) {
+        return QString("@CMAKE_INSTALL_PREFIX@/@SHELL_APP_DIR@/");
+    } else {
+        return QString("@CMAKE_SOURCE_DIR@/qml/");
+    }
+}
+
+inline QStringList overrideImportPaths() {
+    QStringList paths;
+    if (!isRunningInstalled()) {
+        paths << QString("@CMAKE_BINARY_DIR@/plugins");
+    }
+    return paths;
+}
+
+inline QStringList fallbackImportPaths() {
+    QStringList paths;
+    if (isRunningInstalled()) {
+        paths << QString("@CMAKE_INSTALL_PREFIX@/@SHELL_INSTALL_QML@");
+        paths << QString("@SHELL_PLUGINDIR@");
+        paths << QString("@CMAKE_INSTALL_PREFIX@/@SHELL_INSTALL_QML@/mocks");
+    } else {
+        paths << QString("@SHELL_PLUGINDIR@");
+        paths << QString("@CMAKE_BINARY_DIR@/tests/mocks");
+    }
+    return paths;
+}
+
+inline QStringList shellDataDirs() {
+    QStringList dirs = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
+    if (!isRunningInstalled()) {
+        if (getenv("UNITY_TEST_ENV")==NULL) {
+            dirs.prepend("@CMAKE_BINARY_DIR@/share");
+        }
+    }
+    else {
+        // append so by default we use xdg files.
+        dirs.append(qmlDirectory());
+    }
+    return dirs;
+}
+
+inline QString sourceDirectory() {
+    return QString("@CMAKE_SOURCE_DIR@/");
+}
+
+inline void prependImportPaths(QQmlEngine *engine, const QStringList &paths)
+{
+    QStringList importPathList = engine->importPathList();
+    for (int i = paths.count() -1; i >= 0; i--) {
+        // don't duplicate
+        const QString& path = paths[i];
+        QStringList::iterator iter = qFind(importPathList.begin(), importPathList.end(), path);
+        if (iter == importPathList.end()) {
+            engine->addImportPath(path);
+        }
+    }
+}
+
+/* When you append and import path to the list of import paths it will be the *last*
+   place where Qt will search for QML modules.
+   The usual QQmlEngine::addImportPath() actually prepends the given path.*/
+inline void appendImportPaths(QQmlEngine *engine, const QStringList &paths)
+{
+    QStringList importPathList = engine->importPathList();
+    Q_FOREACH(const QString& path, paths) {
+        // don't duplicate
+        QStringList::iterator iter = qFind(importPathList.begin(), importPathList.end(), path);
+        if (iter == importPathList.end()) {
+            importPathList.append(path);
+        }
+    }
+    engine->setImportPathList(importPathList);
+}
+
+inline void resolveIconTheme() {
+    const char *ubuntuIconTheme = getenv("UBUNTU_ICON_THEME");
+    if (ubuntuIconTheme == NULL) {
+        ubuntuIconTheme = "ubuntu-mobile";
+    }
+    QIcon::setThemeName(ubuntuIconTheme);
+}
+
+#endif

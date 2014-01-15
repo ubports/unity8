@@ -147,6 +147,7 @@ class UnityTestCase(AutopilotTestCase):
         if model() != "Desktop":
             from autopilot.input import _uinput
             _uinput._touch_device = _uinput.create_touch_device()
+            self.addCleanup(_uinput._touch_device.close)
         ####
 
         self.touch = Touch.create()

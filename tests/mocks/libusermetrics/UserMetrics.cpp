@@ -17,7 +17,7 @@
  */
 
 #include "UserMetrics.h"
-#include "plugins/Utils/qvariantlistmodel.h"
+#include <qvariantlistmodel.h>
 
 #include <QtCore/QDir>
 #include <QtCore/QString>

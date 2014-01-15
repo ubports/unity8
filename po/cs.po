@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-11-29 09:21+0100\n"
-"PO-Revision-Date: 2013-10-08 08:09+0000\n"
+"PO-Revision-Date: 2014-01-08 10:11+0000\n"
 "Last-Translator: Tadeáš Pařík <tadeas.parik@gmail.com>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2013-11-30 05:33+0000\n"
-"X-Generator: Launchpad (build 16856)\n"
+"X-Launchpad-Export-Date: 2014-01-09 05:41+0000\n"
+"X-Generator: Launchpad (build 16884)\n"
 
 #: Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -44,7 +44,7 @@ msgstr "Uzavřít"
 
 #: Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
-msgstr ""
+msgstr "Přetažením nahoru dojde k uzavření obrazovky nastavení"
 
 #: Components/EdgeDemo.qml:198
 msgid "Left edge"
@@ -63,6 +63,8 @@ msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap anywhere to start"
 msgstr ""
+"Nyní jste si osvojili gesta potřebná k ovládání telefonu, můžete ho začít "
+"používat <br><br>Klepnutím kdekoli začnete"
 
 #: Components/PageHeader.qml:364
 msgid "Recent searches"
@@ -138,7 +140,7 @@ msgstr "Mluvte..."
 
 #: Notifications/NotificationMenuItemFactory.qml:89
 msgid "Show password"
-msgstr ""
+msgstr "Zobrazit heslo"
 
 #: Panel/SearchIndicator.qml:27
 msgid "Search"
@@ -147,11 +149,11 @@ msgstr "Hledat"
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Lock to Launcher"
-msgstr ""
+msgstr "Přidat do Launcheru"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Unlock from Launcher"
-msgstr ""
+msgstr "Odebrat z Launcheru"
 
 #: Shell.qml:439
 #, qt-format
