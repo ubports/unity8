@@ -63,7 +63,7 @@ Item {
         name: "IndicatorRow"
         when: windowShown
 
-        function get_indicator_item_at(index) {
+        function get_indicator_item(index) {
             return findChild(indicatorRow.row, "item" + index);
         }
 
@@ -101,7 +101,7 @@ Item {
             compare(indicatorRow.currentItem.highlighted, data.current, "Indicator hightlight did not match for current item");
 
             for (var i = 0; i < indicatorRow.row.count; i++) {
-                compare(get_indicator_item_at(i).highlighted, i === data.index ? data.current: data.other, "Indicator hightlight did not match for item iter");
+                compare(get_indicator_item(i).highlighted, i === data.index ? data.current: data.other, "Indicator hightlight did not match for item iter");
             }
         }
 
@@ -127,7 +127,7 @@ Item {
             tryCompare(indicatorRow.currentItem, "opacity", data.current);
 
             for (var i = 0; i < indicatorRow.row.count; i++) {
-                tryCompare(get_indicator_item_at(i), "opacity", i === data.index ? data.current: data.other);
+                tryCompare(get_indicator_item(i), "opacity", i === data.index ? data.current: data.other);
             }
         }
 
@@ -153,7 +153,7 @@ Item {
             compare(indicatorRow.currentItem.dimmed, data.current, "Indicator dim did not match for current item");
 
             for (var i = 0; i < indicatorRow.row.count; i++) {
-                compare(get_indicator_item_at(i).dimmed, i === data.index ? data.current: data.other, "Indicator dim did not match for item iter");
+                compare(get_indicator_item(i).dimmed, i === data.index ? data.current: data.other, "Indicator dim did not match for item iter");
             }
         }
     }

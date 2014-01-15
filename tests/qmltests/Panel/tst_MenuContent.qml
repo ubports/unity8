@@ -95,13 +95,13 @@ Item {
 
     function selected_tab_equals_test_tab() {
         var currentTab = menu_content_test.findChild(menuContent, "tabs").selectedTab
-        if (currentTab == undefined) {
+        if (currentTab === null) {
             console.log("selected tab undefined");
             return false;
         }
 
         var testTab = menu_content_test.findChild(menuContent, testTabObjectName);
-        if (testTab == undefined) {
+        if (testTab === null) {
             console.log("test_tab " + testTabObjectName + " undefined");
             return false;
         }

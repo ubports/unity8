@@ -103,9 +103,9 @@ Item {
             // tests changing the lateral position of the revealer activates the correct indicator items.
 
             var indicatorRow = findChild(indicators, "indicatorRow")
-            verify(indicatorRow !== undefined)
+            verify(indicatorRow !== null)
             var indicatorRowItems = findChild(indicatorRow, "indicatorRowItems");
-            verify(indicatorRowItems !== undefined)
+            verify(indicatorRowItems !== null)
 
             for (var i = 0; i < indicatorRowItems.count; i++) {
                 var indicatorItem = findChild(indicatorRowItems, "item" + i);
@@ -181,7 +181,6 @@ Item {
         }
 
         function test_row_visible_menuContent_visible(data) {
-
             indicators.show();
 
             var indicatorTabs = findChild(indicators, "tabs");
@@ -203,10 +202,10 @@ Item {
                 var pageName = "indicator-fake" + (i + 1 + "-page");
 
                 // check for item
-                tryCompareFunction(function() { return findChild(indicatorRowItems, widgetName) !== undefined }, data.visible[i]);
+                tryCompareFunction(function() { return findChild(indicatorRowItems, widgetName) !== null }, data.visible[i]);
 
                 // check for tab
-                tryCompareFunction(function() { return findChild(indicatorTabs, pageName) !== undefined }, data.visible[i]);
+                tryCompareFunction(function() { return findChild(indicatorTabs, pageName) !== null }, data.visible[i]);
             }
         }
 
@@ -218,7 +217,6 @@ Item {
         }
 
         function test_indicator_visible_correct_tabs(data) {
-
             var indicatorTabs = findChild(indicators, "tabs");
             var indicatorRow = findChild(indicators, "indicatorRow");
 

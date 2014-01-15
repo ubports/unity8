@@ -26,7 +26,7 @@ BaseMenuItem {
     id: menuItem
     implicitHeight: units.gu(7)
 
-    property alias text: button.text
+    property alias buttonText: button.text
 
     signal activate()
 
