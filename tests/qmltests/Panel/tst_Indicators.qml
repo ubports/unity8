@@ -164,7 +164,7 @@ Item {
         }
 
         function init_invisible_indicator(identifier) {
-            tryCompareFunction(function() { return findChild(indicators, identifier+"-widget") !== undefined }, true);
+            tryCompareFunction(function() { return findChild(indicators, identifier+"-widget") !== null }, true);
             var item = findChild(indicators, identifier+"-widget");
 
             item.enabled = false;
@@ -198,7 +198,7 @@ Item {
                 var indicatorItem = rowRepeater.itemAt(i);
                 tryCompare(indicatorItem, "visible", shouldBeVisible);
                 // check tab visibility
-                tryCompareFunction(function() { return findChild(indicatorTabs, "indicator-fake" + (i + 1)) !== undefined }, shouldBeVisible);
+                tryCompareFunction(function() { return findChild(indicatorTabs, "indicator-fake" + (i + 1)) !== null }, shouldBeVisible);
             }
         }
 

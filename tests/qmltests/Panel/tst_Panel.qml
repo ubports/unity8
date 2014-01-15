@@ -66,16 +66,16 @@ Item {
 
         function get_indicator_item(index) {
             var rowRepeater = findChild(panel.indicators, "rowRepeater");
-            verify(rowRepeater != undefined);
+            verify(rowRepeater !== null);
             return rowRepeater.itemAt(index);
         }
 
         function get_indicator_item_position(index) {
             var indicatorRow = findChild(panel.indicators, "indicatorRow");
-            verify(indicatorRow != undefined);
+            verify(indicatorRow !== null);
 
             var indicatorItem = get_indicator_item(index);
-            verify(indicatorItem != undefined);
+            verify(indicatorItem !== null);
 
             return panel.mapFromItem(indicatorItem, indicatorItem.width/2, indicatorItem.height/2);
         }
@@ -120,7 +120,7 @@ Item {
             // no hint animation when fullscreen
             compare(panel.indicators.y, -panel.panelHeight);
             var indicatorRow = findChild(panel.indicators, "indicatorRow");
-            verify(indicatorRow != undefined);
+            verify(indicatorRow !== null);
             compare(indicatorRow.y, 0);
             compare(panel.indicators.height, panel.indicators.panelHeight);
             compare(panel.indicators.partiallyOpened, false,
@@ -145,13 +145,13 @@ Item {
             }
 
             var indicatorRow = findChild(panel.indicators, "indicatorRow");
-            verify(indicatorRow != undefined);
+            verify(indicatorRow !== null);
 
             var rowRepeater = findChild(panel.indicators, "rowRepeater");
-            verify(indicatorRow != undefined);
+            verify(indicatorRow !== null);
 
             var menuContent = findChild(panel.indicators, "menuContent");
-            verify(indicatorRow != undefined);
+            verify(indicatorRow !== null);
 
             // Wait for the indicators to get into position.
             // (switches between normal and fullscreen modes are animated)
@@ -205,7 +205,7 @@ Item {
             panel.searchVisible = true;
 
             var searchIndicator = findChild(panel, "search");
-            verify(searchIndicator != undefined);
+            verify(searchIndicator !== null);
 
             tap(searchIndicator, 1, 1);
 
@@ -218,7 +218,7 @@ Item {
             panel.searchVisible = false;
 
             var searchIndicator = findChild(panel, "search");
-            verify(searchIndicator != undefined);
+            verify(searchIndicator !== null);
 
             tap(searchIndicator, 1, 1);
 
@@ -234,14 +234,14 @@ Item {
             panel.searchVisible = false;
 
             var indicatorRow = findChild(panel.indicators, "indicatorRow");
-            verify(indicatorRow != undefined);
+            verify(indicatorRow !== null);
 
             var rowRepeater = findChild(panel.indicators, "rowRepeater");
-            verify(indicatorRow != undefined);
+            verify(indicatorRow !== null);
 
             // Get the first indicator
             var indicatorItemFirst = get_indicator_item(0);
-            verify(indicatorItemFirst != undefined);
+            verify(indicatorItemFirst !== undefined);
 
             var indicatorItemCoordFirst = get_indicator_item_position(0);
             var indicatorItemCoordNext = get_indicator_item_position(indicatorRow.count - 1);
