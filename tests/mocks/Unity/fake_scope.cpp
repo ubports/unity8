@@ -38,6 +38,7 @@ Scope::Scope(QString const& id, QString const& name, bool visible, QObject* pare
     , m_isActive(false)
     , m_categories(new Categories(this))
     , m_results(new DeeListModel(this))
+    , m_previewRendererName("preview-generic")
 {
     DeeModel* results_model = create_results_model(20, 300);
     m_categories->setResultModel(results_model);
@@ -47,7 +48,7 @@ Scope::Scope(QString const& id, QString const& name, bool visible, QObject* pare
     m_timer.setInterval(1000);
     m_timer.setSingleShot(true);
     connect(&m_timer, &QTimer::timeout, [this]() {
-                                    Preview *p = new Preview(this);
+                                    Preview *p = new Preview(m_previewRendererName, this);
                                     Q_EMIT previewReady(p);
                                 });
 }

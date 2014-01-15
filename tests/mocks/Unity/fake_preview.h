@@ -38,7 +38,7 @@ class Q_DECL_EXPORT Preview : public QObject
     Q_PROPERTY(QString image READ image NOTIFY previewChanged)
 
 public:
-    explicit Preview(QObject *parent = 0);
+    explicit Preview(const QString &rendererName, QObject *parent = 0);
 
     QString rendererName() const;
     QString title() const;
@@ -55,6 +55,9 @@ public:
 
 Q_SIGNALS:
     void previewChanged();
+
+private:
+    QString m_rendererName;
 };
 
 Q_DECLARE_METATYPE(Preview *)

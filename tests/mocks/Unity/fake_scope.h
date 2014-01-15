@@ -116,6 +116,8 @@ protected:
     bool m_searching;
     bool m_isActive;
 
+    QString m_previewRendererName;
+
     Categories* m_categories;
     DeeListModel* m_results;
 
