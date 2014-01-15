@@ -88,6 +88,7 @@ Item {
                 avatar: getExtendedProperty(extendedData, "icon", "qrc:/indicators/artwork/messaging/default_contact.png")
                 appIcon: getExtendedProperty(extendedData, "xCanonicalAppIcon", "qrc:/indicators/artwork/messaging/default_app.svg")
                 // actions
+                // FIXME: Waiting for lp:~larsu/indicator-messages/set-targets
 //                enabled: menuData && menuData.sensitive || false
                 removable: !selected
                 selected: messageFactoryItem.selected
@@ -136,6 +137,7 @@ Item {
                 appIcon: getExtendedProperty(extendedData, "xCanonicalAppIcon", "qrc:/indicators/artwork/messaging/default_app.svg")
                 // actions
                 replyEnabled: replyAction.valid && replyAction.enabled
+                // FIXME: Waiting for lp:~larsu/indicator-messages/set-targets
 //                enabled: menuData && menuData.sensitive || false
                 removable: !selected
                 selected: messageFactoryItem.selected

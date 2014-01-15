@@ -137,6 +137,7 @@ Item {
             compare(loader.item.message, data.message, "Message does not match data");
             compare(loader.item.avatar, data.avatar, "Avatar does not match data");
             compare(loader.item.appIcon, data.appIcon, "App icon does not match data");
+            // FIXME: Waiting for lp:~larsu/indicator-messages/set-targets
 //            compare(loader.item.enabled, data.enabled, "Enabled does not match data");
         }
 
@@ -179,6 +180,7 @@ Item {
             compare(loader.item.message, data.message, "Message does not match data");
             compare(loader.item.avatar, data.avatar, "Avatar does not match data");
             compare(loader.item.appIcon, data.appIcon, "App icon does not match data");
+            // FIXME: Waiting for lp:~larsu/indicator-messages/set-targets
 //            compare(loader.item.enabled, data.enabled, "Enabled does not match data");
         }
 

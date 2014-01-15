@@ -157,13 +157,13 @@ Item {
             menuData.type = "com.canonical.indicator.slider"
             menuData.label = data.label;
             menuData.sensitive = data.enabled;
-            menuData.actionState = data.value;
             menuData.ext = {
                 'minIcon': "file:///testMinIcon",
                 'maxIcon': "file:///testMaxIcon",
                 'minValue': data.minValue,
                 'maxValue': data.maxValue
             };
+            menuData.actionState = data.value;
 
             loader.data = menuData;
             loader.sourceComponent = factory.load(menuData);
