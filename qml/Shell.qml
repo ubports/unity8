@@ -107,6 +107,8 @@ FocusScope {
             if (application == null) {
                 return;
             }
+            edgeDemo.stopDemo();
+            greeter.hide();
             if (application.stage == ApplicationInfo.MainStage || !sideStage.enabled) {
                 mainStage.activateApplication(appId, addDelay);
             } else {
@@ -541,6 +543,7 @@ FocusScope {
                     greeter.hide()
                 }
             }
+            onFocusRequested: shell.activateApplication(appId)
         }
     }
 
@@ -685,12 +688,9 @@ FocusScope {
                 }
             }
             onDashSwipeChanged: if (dashSwipe && stages.shown) dash.setCurrentScope("applications.scope", false, true)
-            onLauncherApplicationSelected:{
-                if (edgeDemo.running)
-                    return;
-
-                greeter.hide()
-                shell.activateApplication(appId)
+            onLauncherApplicationSelected: {
+                if (!edgeDemo.running)
+                    shell.activateApplication(appId)
             }
             onShownChanged: {
                 if (shown) {
