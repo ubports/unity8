@@ -32,6 +32,7 @@
 #include "qsortfilterproxymodelqml.h"
 #include "timeformatter.h"
 #include "unitymenumodelpaths.h"
+#include "easingcurve.h"
 
 static const char* BOTTOM_BAR_VISIBILITY_COMMUNICATOR_DBUS_PATH = "/BottomBarVisibilityCommunicator";
 static const char* DBUS_SERVICE = "com.canonical.Shell.BottomBarVisibilityCommunicator";
@@ -46,6 +47,7 @@ void UtilsPlugin::registerTypes(const char *uri)
     qmlRegisterType<TimeFormatter>(uri, 0, 1, "TimeFormatter");
     qmlRegisterType<GDateTimeFormatter>(uri, 0, 1, "GDateTimeFormatter");
     qmlRegisterUncreatableType<BottomBarVisibilityCommunicatorShell>(uri, 0, 1, "BottomBarVisibilityCommunicatorShell", "Can't create BottomBarVisibilityCommunicatorShell");
+    qmlRegisterType<EasingCurve>(uri, 0, 1, "EasingCurve");
 }
 
 void UtilsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
