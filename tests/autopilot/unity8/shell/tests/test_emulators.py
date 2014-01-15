@@ -118,3 +118,34 @@ class DashEmulatorTestCase(tests.UnityTestCase):
         scope = self.dash.open_scope(self._get_scope_name_from_id(scope_id))
         self._assert_scope_is_opened(scope, scope_id)
         self.assertIsInstance(scope, dash_emulators.DashApps)
+
+
+class DashAppsEmulatorTestCase(tests.UnityTestCase):
+
+    scenarios = tests._get_device_emulation_scenarios()
+
+    def setUp(self):
+        super(DashAppsEmulatorTestCase, self).setUp()
+        unity_proxy = self.launch_unity()
+        process_helpers.unlock_unity(unity_proxy)
+        self.dash = self.main_window.get_dash()
+        self.applications_scope = self.dash.open_scope('applications')
+
+    def test_get_applications_with_unexisting_category(self):
+        exception = self.assertRaises(
+                emulators.UnityEmulatorException,
+                self.applications_scope.get_applications,
+                'unexisting category')
+
+        self.assertEqual(
+            'No category found with name unexisting category', str(exception))
+
+    def test_get_applications_should_return_list_with_names(self):
+        # FIXME The installed category comes from the scope click. This is the
+        # wrong way to test this emulator, because it shouldn't depend on the
+        # current implementation of the click scope. There can be many other
+        # scopes using DashApps as a base. In addition to this, we can't
+        # actually check the values returned, as they depend on the server that
+        # the click scope uses. What we need is to open a scope with hardcoded
+        # categories and values.
+        applications = self.applications_scope.get_applications('installed')

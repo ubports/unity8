@@ -138,8 +138,56 @@ class Dash(emulators.UnityEmulatorBase):
 
 
 class GenericScopeView(emulators.UnityEmulatorBase):
-    """Autopilot emulators for generic scopes."""
+    """Autopilot emulator for generic scopes."""
 
 
 class DashApps(emulators.UnityEmulatorBase):
-    """Autopilot emulators for the applications scope."""
+    """Autopilot emulator for the applications scope."""
+
+    def get_applications(self, category):
+        """Return the list of applications on a category.
+
+        :parameter category: The name of the category.
+
+        """
+        category_element = self._get_category_element(category)
+        application_tiles = category_element.select_many('Tile')
+        return [tile.text for tile in application_tiles]
+
+    def _get_category_element(self, category):
+        try:
+            return self.select_single(
+                'Base', objectName='dashCategory{}'.format(category))
+        except dbus.StateNotFoundError:
+            raise emulators.UnityEmulatorException(
+                'No category found with name {}'.format(category))
+
+    @autopilot_logging.log_action(logger.info)
+    def open_preview(self, category, app_name):
+        """Open the preview of an application.
+
+        :parameter category: The name of the category where the application is.
+        :app_name: The name of the application.
+
+        """
+        category_element = self._get_category_element(category)
+        icon = category_element.select_single('Tile', text=app_name)
+        # FIXME some categories need a long press in order to see the preview.         # Some categories no not show previews, like recent apps.
+        # --elopio - 2014-1-14
+        self.pointing_device.click_object(icon)
+        return self.get_root_instance.select_single(AppPreview)
+
+
+class AppPreview(emulators.UnityEmulatorBase):
+    """Autopilot emulator for the application preview."""
+
+    def get_details(self):
+        """Return the details of the application showed in its preview."""
+        title = self.select_single('Label', objectName='titleLabel').text
+        publisher = self.select_single(
+            'Label', objectName='subtitleLabel').text
+        description = self.select_single(
+            'Label', objectName='descriptionLabel').text
+        # TODO return screenshots, icon, rating and reviews.
+        # --elopio - 2014-1-15
+        return dict(title=title, publisher=publisher, description=description)
