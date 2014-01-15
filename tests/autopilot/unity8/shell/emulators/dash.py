@@ -172,7 +172,8 @@ class DashApps(emulators.UnityEmulatorBase):
         """
         category_element = self._get_category_element(category)
         icon = category_element.select_single('Tile', text=app_name)
-        # FIXME some categories need a long press in order to see the preview.         # Some categories no not show previews, like recent apps.
+        # FIXME some categories need a long press in order to see the preview.
+        # Some categories no not show previews, like recent apps.
         # --elopio - 2014-1-14
         self.pointing_device.click_object(icon)
         return self.get_root_instance.select_single(AppPreview)
