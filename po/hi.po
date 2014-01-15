@@ -1,166 +1,158 @@
-# Russian translation for unity
-# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the unity package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+# Hindi translation for unity8
+# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
+# This file is distributed under the same license as the unity8 package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity\n"
+"Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-11-29 09:21+0100\n"
-"PO-Revision-Date: 2014-01-14 19:17+0000\n"
-"Last-Translator: alex <sos987@gmail.com>\n"
-"Language-Team: Russian <ru@li.org>\n"
+"PO-Revision-Date: 2014-01-15 01:49+0000\n"
+"Last-Translator: Siddhanathan S. <Unknown>\n"
+"Language-Team: Hindi <hi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Launchpad-Export-Date: 2014-01-15 06:35+0000\n"
 "X-Generator: Launchpad (build 16890)\n"
 
 #: Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
-msgstr "Пропустить обучение"
+msgstr "परिचय छोड़"
 
 #: Components/EdgeDemo.qml:112
 msgid "Right edge"
-msgstr "Правый край"
+msgstr "दायाँ किनारा"
 
 #: Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
 msgstr ""
-"Попробуйте переместить палец от правого края к левому для разблокировки "
-"устройства"
 
 #: Components/EdgeDemo.qml:144
 msgid "Top edge"
-msgstr "Верхний край"
+msgstr "ऊपर किनारे"
 
 #: Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
 msgstr ""
-"Попробуйте переместить палец от верхнего края вниз для доступа к индикаторам"
 
 #: Components/EdgeDemo.qml:170
 msgid "Close"
-msgstr "Закрыть"
+msgstr "बंद करें"
 
 #: Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
-msgstr "Снова переместите палец вверх для закрытия экрана настроек"
+msgstr ""
 
 #: Components/EdgeDemo.qml:198
 msgid "Left edge"
-msgstr "Левый край"
+msgstr "बायाँ किनारा"
 
 #: Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr ""
-"Переместите палец от левого края вправо для открытия лаунчера для быстрого "
-"доступа к приложениям"
 
 #: Components/EdgeDemo.qml:226
 msgid "Well done"
-msgstr "Великолепно"
+msgstr "शाबाश"
 
 #: Components/EdgeDemo.qml:227
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap anywhere to start"
 msgstr ""
-"Теперь, когда вы изучили основные движения, вы можете начать использовать "
-"телефон.<br><br>Нажмите, чтобы начать"
 
 #: Components/PageHeader.qml:364
 msgid "Recent searches"
-msgstr "Последние поисковые запросы"
+msgstr "पिछले खोजों"
 
 #: Dash/Apps/AppPreview.qml:135
 msgid "Rate this"
-msgstr "Оцените это"
+msgstr ""
 
 #. TRANSLATORS: Number of persons who rated this app/video/whatever
 #: Dash/Previews/Header.qml:93
 #, qt-format
 msgid "(%1)"
-msgstr "(%1)"
+msgstr ""
 
 #. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
 #: Dash/Previews/Header.qml:105
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
-msgstr[0] "%1 отзыва"
-msgstr[1] "%1 отзывов"
+msgstr[0] ""
+msgstr[1] ""
 
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
-msgstr "Добавьте отзыв"
+msgstr "समीक्षा दे"
 
 #: Dash/Previews/Reviews.qml:86
 msgid "Review"
-msgstr "Отзыв"
+msgstr "समीक्षा"
 
 #: Dash/Previews/Reviews.qml:121
 msgid "Send"
-msgstr "Отправить"
+msgstr "भेजें"
 
 #: Dash/Previews/Reviews.qml:139
 msgid "Comments:"
-msgstr "Комментарии:"
+msgstr ""
 
 #: Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
-msgstr "Экстренный вызов"
+msgstr "आपातकालीन कॉल"
 
 #: Greeter/PassphraseLockscreen.qml:59
 #, qt-format
 msgid "Hello %1"
-msgstr "Привет, %1"
+msgstr ""
 
 #: Greeter/PassphraseLockscreen.qml:59
 msgid "Hello"
-msgstr "Привет"
+msgstr "नमस्ते"
 
 #: Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
-msgstr "Подтвердить"
+msgstr ""
 
 #: Hud/Hud.qml:61 Hud/Hud.qml:99 Hud/Hud.qml:372
 msgid "Type or say a command"
-msgstr "Введите или произнесите команду"
+msgstr ""
 
 #: Hud/Hud.qml:84
 msgid "Loading. Please Wait..."
-msgstr "Загрузка. Пожалуйста, подождите..."
+msgstr "काम कर रहा है | कृपया प्रतीक्षा करे |"
 
 #: Hud/Hud.qml:89
 msgid "Speak Now..."
-msgstr "Говорите..."
+msgstr "अब बात करें"
 
 #: Hud/Hud.qml:94
 msgid "Speaking..."
-msgstr "Говорите..."
+msgstr "अब बोल रहे हैं"
 
 #: Notifications/NotificationMenuItemFactory.qml:89
 msgid "Show password"
-msgstr "Показать пароль"
+msgstr ""
 
 #: Panel/SearchIndicator.qml:27
 msgid "Search"
-msgstr "Поиск"
+msgstr "खोजें"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Lock to Launcher"
-msgstr "Закрепить на панели"
+msgstr ""
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Unlock from Launcher"
-msgstr "Убрать с панели"
+msgstr ""
 
 #: Shell.qml:439
 #, qt-format
 msgid "Please enter %1"
-msgstr "Пожалуйста, введите %1"
+msgstr ""

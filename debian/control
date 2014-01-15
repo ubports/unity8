@@ -52,7 +52,7 @@ Vcs-Browser: https://bazaar.launchpad.net/~unity-team/unity8/trunk
 Package: indicators-client
 Architecture: amd64 armhf i386
 Depends: qmenumodel-qml (>= 0.2.7),
-         qtdeclarative5-ubuntu-ui-toolkit-plugin (>= 0.1.46+13.10.20130829.1-0ubuntu1),
+         qtdeclarative5-ubuntu-ui-toolkit-plugin,
          unity8 (= ${binary:Version}),
          ${misc:Depends},
          ${shlibs:Depends},
@@ -72,11 +72,10 @@ Package: unity8
 Architecture: any
 Provides: indicator-renderer,
 Depends: gsettings-desktop-schemas,
-         libunity-mir1 (>= 0.2),
          qmenumodel-qml (>= 0.2.7),
          qtdeclarative5-dee-plugin,
          qtdeclarative5-gsettings1.0,
-         qtdeclarative5-ubuntu-ui-toolkit-plugin  (>= 0.1.46+13.10.20130829.1-0ubuntu1),
+         qtdeclarative5-ubuntu-ui-toolkit-plugin,
          qtdeclarative5-unity-notifications-plugin | unity-notifications-impl,
          qtdeclarative5-xmllistmodel-plugin,
          unity-launcher-impl-3,

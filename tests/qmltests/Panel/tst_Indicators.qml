@@ -227,7 +227,6 @@ Item {
             tryCompare(indicatorRow, "currentItemIndex", data.expected);
             // check for current selected tab
             tryCompareFunction(function() { return findChild(indicatorTabs, "indicator-fake" + (data.expected + 1)) === indicatorTabs.selectedTab }, true);
-
         }
     }
 }
