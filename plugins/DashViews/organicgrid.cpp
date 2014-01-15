@@ -152,7 +152,6 @@ void OrganicGrid::positionItem(int modelIndex, QQuickItem *item)
     const QPointF pos = positionForIndex(modelIndex);
     item->setPosition(pos);
 
-    // TODO Do we want warnings here in case the sizes are not the one we want like we have in the journals?
     item->setSize(sizeForIndex(modelIndex));
 }
 
