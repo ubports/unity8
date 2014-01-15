@@ -261,10 +261,12 @@ Item {
 
             property real oldProgress: 0
             onProgressChanged: {
-                if (oldProgress <= coverFlip.progressMarker1 && progress > coverFlip.progressMarker1) {
-                    ApplicationManager.focusApplication(ApplicationManager.get(1).appId)
-                } else if (oldProgress >= coverFlip.progressMarker1 && progress <= coverFlip.progressMarker1) {
-                    ApplicationManager.focusApplication(ApplicationManager.get(1).appId)
+                if (coverFlipDragArea.dragging) {
+                    if (oldProgress <= coverFlip.progressMarker1 && progress > coverFlip.progressMarker1) {
+                        ApplicationManager.move(0, 1)
+                    } else if (oldProgress >= coverFlip.progressMarker1 && progress <= coverFlip.progressMarker1) {
+                        ApplicationManager.move(0, 1)
+                    }
                 }
                 oldProgress = progress;
             }
@@ -272,14 +274,20 @@ Item {
             function snap() {
                 if (coverFlip.progress < 0.25) {
                     snapAnimation.targetContentX = 0
+                    snapAnimation.targetAppId = ApplicationManager.get(0).appId;
+                } else if (coverFlip.progress < coverFlip.progressMarker1) {
+                    snapAnimation.targetContentX = root.width * coverFlip.progressMarker1
+                    snapAnimation.targetAppId = ApplicationManager.get(1).appId;
                 } else if (coverFlip.progress < 0.6) {
                     snapAnimation.targetContentX = root.width * coverFlip.progressMarker1
+                    snapAnimation.targetAppId = ApplicationManager.get(0).appId;
                 } else {
                     if (ApplicationManager.count == 3) {
                         snapAnimation.targetContentX = root.width * .8;
                     } else {
                         snapAnimation.targetContentX = root.width * .9;
                     }
+                    snapAnimation.targetAppId = "";
                 }
                 snapAnimation.start();
             }
@@ -291,6 +299,7 @@ Item {
             SequentialAnimation {
                 id: snapAnimation
                 property var targetContentX
+                property var targetAppId
 
                 UbuntuNumberAnimation {
                     target: coverFlickable
@@ -301,6 +310,9 @@ Item {
                     script: {
                         if (snapAnimation.targetContentX == root.width * coverFlip.progressMarker1) {
                             coverFlickable.contentX = 0;
+                        }
+                        if (snapAnimation.targetAppId) {
+                            ApplicationManager.focusApplication(snapAnimation.targetAppId);
                         }
                     }
                 }
@@ -332,6 +344,7 @@ Item {
                         // We need to remember some values when app is selected to be able to animate it to the foreground
                         property real selectedXTranslation: 0
                         property real selectedTranslatedProgress: 0
+                        property real selectedProgress: 0
                         property real selectedAngle: 0
                         property real selectedXScale: 0
 
@@ -339,8 +352,10 @@ Item {
                             appImage.selectedXTranslation = appImage.xTranslation;
                             appImage.selectedAngle = appImage.angle;
                             appImage.selectedXScale = appImage.xScale;
-                            appImage.selectedTranslatedProgress = appImage.translatedProgress;
+                            appImage.selectedTranslatedProgress = appImage.translatedProgress - coverFlip.progressMarker1;
+                            appImage.selectedProgress = appImage.progress - coverFlip.progressMarker1;
                             appImage.isSelected = true;
+                            switchToAppAnimation.targetContentX = coverFlip.progressMarker1 * root.width
                             switchToAppAnimation.start();
                         }
 
@@ -370,14 +385,18 @@ Item {
                             default:
                                 if (appImage.progress > coverFlip.progressMarker1) {
                                     xTranslate = xTranslateEasing.value * xTranslateEasing.period;
+                                    if (appImage.isSelected) {
+                                        var translateDiff = root.width * index + appImage.selectedXTranslation
+                                        var progressDiff = appImage.selectedProgress
+                                        var progress = progressDiff - (appImage.progress - coverFlip.progressMarker1);
+                                        // progress : progressDiff = translate : translateDiff
+                                        var newTranslate = progress * translateDiff / progressDiff;
+
+                                        xTranslate = appImage.selectedXTranslation - newTranslate;
+                                    }
                                     break;
                                 }
                             }
-                            if (appImage.isSelected) {
-                                var newTranslate = selectedXTranslateEasing.value * selectedXTranslateEasing.period
-                                xTranslate = appImage.selectedXTranslation + newTranslate;
-                            }
-
                             return xTranslate;
                         }
 
@@ -416,12 +435,17 @@ Item {
                                 // make sure we stop at the left screen edge
                                 newAngle = Math.max(newAngle, coverFlip.endAngle);
 
-                            }
-                            if (appImage.isSelected) {
-                                var selectedAngleTranslate = selectedAngleEasing.value * selectedAngleEasing.period
-                                newAngle = appImage.selectedAngle - selectedAngleTranslate;
-                            }
+                                if (appImage.isSelected) {
+//                                    var selectedAngleTranslate = selectedAngleEasing.value * selectedAngleEasing.period
+                                    var angleDiff = appImage.selectedAngle
+                                    var progressDiff = appImage.selectedProgress
+                                    var progress = progressDiff - (appImage.progress - coverFlip.progressMarker1);
+                                    // progress : progressDiff = angle : angleDiff
+                                    var selectedAngleTranslate = progress * angleDiff / progressDiff;
 
+                                    newAngle = appImage.selectedAngle - selectedAngleTranslate;
+                                }
+                            }
                             return newAngle;
                         }
 
@@ -448,14 +472,18 @@ Item {
                                 // Intentionally no break
                             default:
                                 scale = coverFlip.maxScale - scaleEasing.value * scaleEasing.period;
-                            }
-                            if (appImage.isSelected) {
-                                var selectedScaleTranslate = selectedScaleEasing.value * selectedScaleEasing.period
-                                scale = appImage.selectedXScale + selectedScaleTranslate;
+                                if (appImage.isSelected) {
+                                    var scaleDiff = -(1 - appImage.selectedXScale)
+                                    var progressDiff = appImage.selectedProgress
+                                    var progress = progressDiff - (appImage.progress - coverFlip.progressMarker1);
+                                    // progress : progressDiff = angle : angleDiff
+                                    var selectedScaleTranslate = progress * scaleDiff / progressDiff;
+
+                                    scale = appImage.selectedXScale - selectedScaleTranslate;
+                                }
                             }
                             return Math.min(coverFlip.maxScale, Math.max(coverFlip.minScale, scale));
                         }
-
 
                         EasingCurve {
                             id: xTranslateEasing
@@ -464,34 +492,16 @@ Item {
                             progress: appImage.translatedProgress
                         }
                         EasingCurve {
-                            id: selectedXTranslateEasing
-                            type: EasingCurve.Linear
-                            period: xTranslateEasing.period - appImage.selectedXTranslation
-                            progress: appImage.selectedTranslatedProgress - xTranslateEasing.progress
-                        }
-                        EasingCurve {
                             id: angleEasing
                             type: EasingCurve.InQuad
                             period: coverFlip.startAngle - coverFlip.endAngle
                             progress: appImage.translatedProgress
                         }
                         EasingCurve {
-                            id: selectedAngleEasing
-                            type: EasingCurve.Linear
-                            period: appImage.selectedAngle
-                            progress: appImage.selectedTranslatedProgress - angleEasing.progress
-                        }
-                        EasingCurve {
                             id: scaleEasing
                             type: EasingCurve.Linear
                             period: coverFlip.maxScale - coverFlip.minScale
                             progress: appImage.translatedProgress
-                        }
-                        EasingCurve {
-                            id: selectedScaleEasing
-                            type: EasingCurve.Linear
-                            period: 1 - appImage.selectedXScale
-                            progress: appImage.selectedTranslatedProgress - scaleEasing.progress
                         }
 
                         transform: [
@@ -520,8 +530,9 @@ Item {
 
                     SequentialAnimation {
                         id: switchToAppAnimation
+                        property int targetContentX
                         ParallelAnimation {
-                            UbuntuNumberAnimation { target: coverFlickable; property: "contentX"; to: 0}
+                            UbuntuNumberAnimation { target: coverFlickable; property: "contentX"; to: switchToAppAnimation.targetContentX }
                         }
                         ScriptAction {
                             script: {
