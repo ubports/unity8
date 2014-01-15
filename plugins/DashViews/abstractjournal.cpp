@@ -194,7 +194,7 @@ void AbstractJournal::createDelegateModel()
 
 void AbstractJournal::refill()
 {
-    if (!isComponentComplete()) {
+    if (!isComponentComplete() || height() < 0) {
         return;
     }
 
