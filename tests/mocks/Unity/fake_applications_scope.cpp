@@ -30,6 +30,7 @@ ApplicationsScope::ApplicationsScope(bool visible, QObject* parent)
     m_id = "applications.scope";
     m_name = "Applications";
     m_visible = visible;
+    m_previewRendererName = "preview-application";
     m_categories->setModel(createCategoriesModel());
 }
 

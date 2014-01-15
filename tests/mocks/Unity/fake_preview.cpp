@@ -16,13 +16,15 @@
 
 #include "fake_preview.h"
 
-Preview::Preview(QObject *parent): QObject(parent)
+Preview::Preview(const QString &rendererName, QObject *parent):
+    QObject(parent),
+    m_rendererName(rendererName)
 {
 }
 
 QString Preview::rendererName() const
 {
-    return "generic-preview";
+    return m_rendererName;
 }
 
 QString Preview::title() const
