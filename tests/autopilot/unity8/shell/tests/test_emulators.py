@@ -155,7 +155,7 @@ class DashAppsEmulatorTestCase(DashBaseTestCase):
         'Title.1', 'Title.21', 'Title.41',  'Title.61', 'Title.81',
         'Title.101', 'Title.121', 'Title.141', 'Title.161', 'Title.181',
         'Title.201', 'Title.221', 'Title.241', 'Title.261', 'Title.281',]
-    
+
     def setUp(self):
         super(DashAppsEmulatorTestCase, self).setUp()
         self.applications_scope = self.dash.open_scope('applications')
@@ -176,7 +176,7 @@ class DashAppsEmulatorTestCase(DashBaseTestCase):
             :expected_apps_count]
 
         applications = self.applications_scope.get_applications(category)
-        
+
         self.assertThat(applications, HasLength(expected_apps_count))
         for expected in expected_applications:
             self.assertThat(applications, Contains(expected))
@@ -186,3 +186,7 @@ class DashAppsEmulatorTestCase(DashBaseTestCase):
             category)
         grid = category_element.select_single('GenericFilterGrid')
         return grid.columns * grid.rows
+
+    def test_open_preview(self):
+        preview = self.applications_scope.open_preview('installed', 'Title.1')
+        self.assertIsInstance(preview, dash_emulators.AppPreview)
