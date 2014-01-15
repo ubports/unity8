@@ -17,9 +17,11 @@
 import QtQuick 2.0
 import QtTest 1.0
 import "../../../qml/Dash"
+import "../../../qml/Components"
 import Ubuntu.Components 0.1
 import Unity 0.1
 import Unity.Test 0.1 as UT
+import Utils 0.1
 
 Item {
     id: shell
@@ -54,11 +56,13 @@ Item {
         id: dashContent
         anchors.fill: parent
 
-        model: scopesModel
+        model: SortFilterProxyModel {
+            model: scopesModel
+        }
         scopes : scopesModel
 
         scopeMapper : scopeDelegateMapper
-        searchHistory: ListModel {}
+        searchHistory: SearchHistoryModel {}
     }
 
     ScopeDelegateMapper {
@@ -109,9 +113,10 @@ Item {
 
     UT.UnityTestCase {
         name: "DashContent"
-        when: windowShown
+        when: scopesModel.loaded
 
         function init() {
+            scopesModel.clear();
             scopesModel.load();
         }
 
@@ -268,6 +273,65 @@ Item {
             tryCompare(scopesModel.get(2), "isActive", data.active2);
         }
 
+        function doFindMusicButton(parent) {
+            for (var i = 0; i < parent.children.length; i++) {
+                var c = parent.children[i];
+                if (UT.Util.isInstanceOf(c, "AbstractButton") && parent.x >= 0) {
+                    for (var ii = 0; ii < c.children.length; ii++) {
+                        var cc = c.children[ii];
+                        if (UT.Util.isInstanceOf(cc, "Label") && cc.text == "Music") {
+                            return c;
+                        }
+                    }
+                }
+                var r = doFindMusicButton(c);
+                if (r !== undefined) {
+                    return r;
+                }
+            }
+            return undefined;
+        }
+
+        function findMusicButton() {
+            // We need to find a AbstractButton that has a Label child
+            // with text Music and it's parent x is >= 0
+            var tabbar = findChild(dashContent, "tabbar");
+            return doFindMusicButton(tabbar);
+        }
+
+        function test_tabBar_index_change() {
+            tryCompare(scopesModel, "loaded", true);
+            var tabbar = findChild(dashContent, "tabbar");
+
+            compare(dashContent.currentIndex, 0);
+            tryCompare(tabbar, "selectedIndex", 0);
+            tryCompare(tabbar, "selectionMode", false);
+
+            mouseClick(tabbar, units.gu(5), units.gu(5))
+
+            tryCompare(tabbar, "selectionMode", true);
+            tryCompare(tabbar, "selectedIndex", 0);
+            tryCompare(dashContent, "currentIndex", 0);
+
+            var button;
+            tryCompareFunction(function() { button = findMusicButton(); return button != undefined; }, true);
+            waitForRendering(button);
+
+            mouseClick(button, button.width / 2, button.height / 2)
+
+            tryCompare(tabbar, "selectionMode", false);
+            tryCompare(tabbar, "selectedIndex", 1);
+            tryCompare(dashContent, "currentIndex", 1);
+        }
+
+        function test_tabBar_listens_to_index_change() {
+            var tabbar = findChild(dashContent, "tabbar");
+            tryCompare(dashContent, "currentIndex", 0);
+            compare(tabbar.selectedIndex, 0);
+            dashContent.currentIndex = 1;
+            compare(tabbar.selectedIndex, 1);
+        }
+
         function checkFlickMovingAndNotInteractive()
         {
             var dashContentList = findChild(dashContent, "dashContentList");
@@ -281,7 +345,6 @@ Item {
 
             return dashContentList.currentItem.moving && !dashContentList.interactive;
         }
-
 
         function test_hswipe_disabled_vswipe() {
             var dashContentList = findChild(dashContent, "dashContentList");

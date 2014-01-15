@@ -29,6 +29,8 @@ Item {
     property var visibleIndicators: defined
     property int overFlowWidth: width
     property bool showAll: false
+    property real currentItemOffset: 0.0
+    property real unitProgress: 0.0
 
     width: units.gu(40)
     height: units.gu(3)
@@ -79,23 +81,24 @@ Item {
                 height: indicatorRow.height
                 width: indicatorItem.width
                 visible: indicatorItem.indicatorVisible
-                opacity: 1.0
+                opacity: 1.0 * opacityMultiplier
                 y: 0
                 state: "standard"
 
                 property int ownIndex: index
-                property alias highlighted: indicatorItem.highlighted
-                property alias dimmed: indicatorItem.dimmed
+                property bool highlighted: indicatorRow.state != "initial" ? ownIndex == indicatorRow.currentItemIndex : false
+                property bool dimmed: indicatorRow.state != "initial" ? ownIndex != indicatorRow.currentItemIndex : false
 
-                property bool hidden: !showAll && !indicatorItem.highlighted && (indicatorRow.state == "locked" || indicatorRow.state == "commit")
+                property bool hidden: !showAll && !highlighted && (indicatorRow.state == "locked" || indicatorRow.state == "commit")
                 property bool overflow: row.width - itemWrapper.x > overFlowWidth
+                property real opacityMultiplier: highlighted ? 1 : (1 - indicatorRow.unitProgress)
 
                 IndicatorItem {
                    id: indicatorItem
+                   identifier: model.identifier
                    height: parent.height
 
-                   highlighted: indicatorRow.state != "initial" ? itemWrapper.ownIndex == indicatorRow.currentItemIndex : false
-                   dimmed: indicatorRow.state != "initial" ? itemWrapper.ownIndex != indicatorRow.currentItemIndex : false
+                   dimmed: itemWrapper.dimmed
 
                    widgetSource: model.widgetSource
                    indicatorProperties : model.indicatorProperties
@@ -135,14 +138,43 @@ Item {
 
                 transitions: [
                     Transition {
-                        StandardAnimation {
+                        UbuntuNumberAnimation {
                             target: itemWrapper
                             property: "opacity"
-                            duration: 300
+                            duration: UbuntuAnimation.BriskDuration
                         }
                     }
                 ]
             }
+        }
+    }
+
+    Rectangle {
+        id: highlight
+        color: Theme.palette.selected.foreground
+        objectName: "highlight"
+        height: units.dp(2)
+        anchors.top: row.bottom
+        visible: indicatorRow.currentItem != null
+        x: row.x + (indicatorRow.currentItem != null ? indicatorRow.currentItem.x + centerOffset : 0)
+        width: indicatorRow.currentItem != null ? indicatorRow.currentItem.width : 0
+
+        property real centerOffset: {
+            if (indicatorRow.currentItemOffset > 0.1) {
+                return (indicatorRow.currentItemOffset - 0.1) * units.gu(0.4);
+            } else if (indicatorRow.currentItemOffset < -0.1) {
+                return (indicatorRow.currentItemOffset + 0.1) * units.gu(0.4);
+            }
+            return 0.0;
+        }
+
+        Behavior on width {
+            enabled: unitProgress > 0;
+            UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
+        }
+        Behavior on x {
+            enabled: unitProgress > 0;
+            UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
         }
     }
 }
