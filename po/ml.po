@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-11-12 16:10+0100\n"
+"POT-Creation-Date: 2013-11-29 09:21+0100\n"
 "PO-Revision-Date: 2013-11-23 11:44+0000\n"
 "Last-Translator: STyM Alfazz <Unknown>\n"
 "Language-Team: Malayalam <ml@li.org>\n"
@@ -15,76 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-11-24 05:50+0000\n"
-"X-Generator: Launchpad (build 16831)\n"
-
-#: Applications/applications.js:23
-msgid "Phone"
-msgstr "ഫോണ്‍"
-
-#: Applications/applications.js:29
-msgid "Camera"
-msgstr "ക്യാമറ"
-
-#: Applications/applications.js:35
-msgid "Gallery"
-msgstr "ഗ്യാലറി"
-
-#: Applications/applications.js:40
-msgid "Facebook"
-msgstr "ഫേസ്ബുക്ക്"
-
-#: Applications/applications.js:46
-msgid "Browser"
-msgstr "ബ്രൗസര്‍"
-
-#: Applications/applications.js:51
-msgid "Twitter"
-msgstr "ട്വിറ്റര്‍"
-
-#: Applications/applications.js:57
-msgid "GMail"
-msgstr "ജിമെയില്‍"
-
-#: Applications/applications.js:62
-msgid "Weather"
-msgstr "കാലാവസ്ഥ"
-
-#: Applications/applications.js:68
-msgid "Notepad"
-msgstr "നോട്പാഡ്"
-
-#: Applications/applications.js:74
-msgid "Calendar"
-msgstr "കലണ്ടര്‍"
-
-#: Applications/applications.js:80
-msgid "Media Player"
-msgstr "മീഡിയ പ്ലെയര്‍"
-
-#: Applications/applications.js:86
-msgid "Evernote"
-msgstr "എവര്‍നോട്ട്"
-
-#: Applications/applications.js:91
-msgid "Map"
-msgstr "ഭുപടം"
-
-#: Applications/applications.js:96
-msgid "Pinterest"
-msgstr "പിന്‍ട്രസ്റ്റ്"
-
-#: Applications/applications.js:101
-msgid "SoundCloud"
-msgstr "സൗണ്ട്ക്ലൗഡ്"
-
-#: Applications/applications.js:106
-msgid "Wikipedia"
-msgstr "വിക്കിപീഡിയ"
-
-#: Applications/applications.js:111
-msgid "YouTube"
-msgstr "യുട്യൂബ്"
+"X-Launchpad-Export-Date: 2013-12-29 06:04+0000\n"
+"X-Generator: Launchpad (build 16877)\n"
 
 #: Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -136,29 +68,27 @@ msgstr ""
 "നിങ്ങളിപ്പോള്‍ സ്വൈപുകളും മറ്റും പഠിച്ചിരിക്കുന്നു<br><br>തുടങ്ങാന്‍ "
 "എവിടെയെങ്കിലും ടാപ് ചെയ്യുക"
 
-#: Components/PageHeader.qml:345
+#: Components/PageHeader.qml:364
 msgid "Recent searches"
 msgstr "സമീപകാല തിരയലുകള്‍"
 
-#. TRANSLATORS: Number of persons who rated this app
+#: Dash/Apps/AppPreview.qml:135
+msgid "Rate this"
+msgstr "ഇത് അവലോകനം ചെയ്യുക"
+
 #. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: Dash/Apps/AppInfo.qml:73 Dash/Previews/Header.qml:93
+#: Dash/Previews/Header.qml:93
 #, qt-format
 msgid "(%1)"
 msgstr "(%1)"
 
-#. TRANSLATORS: Number of persons who wrote reviews for this app
 #. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: Dash/Apps/AppInfo.qml:85 Dash/Previews/Header.qml:105
+#: Dash/Previews/Header.qml:105
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
 msgstr[0] "%1 അവലോകനം"
 msgstr[1] "%1 അവലോകനങ്ങള്‍"
-
-#: Dash/Apps/AppPreview.qml:135
-msgid "Rate this"
-msgstr "ഇത് അവലോകനം ചെയ്യുക"
 
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
@@ -176,7 +106,7 @@ msgstr "അയയ്‌ക്കുക"
 msgid "Comments:"
 msgstr "അഭിപ്രായങ്ങള്‍:"
 
-#: Greeter/Lockscreen.qml:146
+#: Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
 msgstr "അടിയന്തിര വിളി"
 
@@ -226,15 +156,7 @@ msgstr "വിക്ഷേപികയില്‍ സ്ഥിരപ്പെ�
 msgid "Unlock from Launcher"
 msgstr "വിക്ഷേപികാ സ്ഥിരപ്പെടുത്തല്‍ ഒഴിവാക്കുക"
 
-#: plugins/Unity/scope.cpp:408
-msgid "Sorry, there is nothing that matches your search."
-msgstr "ക്ഷമിക്കണം, താങ്കളുടെ തിരച്ചിലുമായി ഒത്തുപോകുന്ന ഒന്നും തന്നെയില്ല"
-
-#: plugins/Unity/showallfilteroption.cpp:41
-msgid "All"
-msgstr "എല്ലാം"
-
-#: Shell.qml:441
+#: Shell.qml:439
 #, qt-format
 msgid "Please enter %1"
 msgstr "ദയവായി %1 നല്‍കുക"

@@ -17,7 +17,7 @@
 import QtQuick 2.0
 import QtTest 1.0
 import ".."
-import "../../../Greeter"
+import "../../../qml/Greeter"
 import AccountsService 0.1
 import LightDM 0.1 as LightDM
 import Ubuntu.Components 0.1
@@ -33,7 +33,7 @@ Item {
         height: parent.height
         x: 0; y: 0
 
-        defaultBackground: "../../../graphics/phone_background.jpg"
+        defaultBackground: Qt.resolvedUrl("../../../qml/graphics/phone_background.jpg")
 
         property int minX: 0
 
@@ -103,7 +103,7 @@ Item {
             mouseClick(greeter, greeter.width - units.gu(5), greeter.height - units.gu(1));
             greeter.minX = 0; // This is needed because the transition actually makes x jump once before animating
 
-            if (!data.locked && !data.moved) {
+            if (!data.moved) {
                 // Check if it has been moved over by 2 GUs. Give it a 2 pixel grace area
                 // because animation duration and teaseTimer are the same duration and
                 // might cause slight offsets
@@ -135,7 +135,7 @@ Item {
 
         function test_background_data() {
             return [
-                {tag: "set", accounts: "../tests/data/unity/backgrounds/blue.png", expected: "blue.png"},
+                {tag: "set", accounts: Qt.resolvedUrl("../../data/unity/backgrounds/blue.png"), expected: "blue.png"},
                 {tag: "unset", accounts: "", expected: "background.jpg"},
                 {tag: "invalid", accounts: "invalid", expected: "background.jpg"},
             ]

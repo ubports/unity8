@@ -17,12 +17,13 @@
 import QtQuick 2.0
 import Unity 0.1
 
-import "../../../../Dash"
+import "../../../../qml/Dash"
 
 GenericScopeView {
     id: fakeScopeView
 
     property alias backColor : back.color
+    property var categoryView: null
 
     onEndReached: {
         if (scope != undefined && shell != undefined && shell.scopeStatus != undefined) {

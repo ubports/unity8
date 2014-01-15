@@ -16,7 +16,7 @@
 
 #include "fake_scope.h"
 #include "fake_preview.h"
-#include "paths.h"
+#include <paths.h>
 
 #include <dee.h>
 
@@ -204,7 +204,7 @@ DeeModel* create_categories_model(unsigned category_count) {
                          std::to_string(i).c_str(),
                          ("Category "+std::to_string(i)).c_str(),
                          "gtk-apply",
-                         "grid",
+                         i % 2 == 0 ? "grid" : "carousel",
                          hints);
     }
     return category_model;
@@ -236,7 +236,7 @@ DeeModel* create_results_model(unsigned category_count, unsigned result_count) {
 
         dee_model_append(results_model,
                          ("uri://result."+std::to_string(i)).c_str(),
-                         (shellAppDirectory() + "graphics/applicationIcons/dash.png").toLatin1().data(),
+                         (qmlDirectory() + "graphics/applicationIcons/dash.png").toLatin1().data(),
                          category,
                          0,
                          "application/x-desktop",

@@ -1,7 +1,7 @@
 Building Unity 8
 ================
 
-Only Ubuntu 13.10 (saucy) is supported as a developement environment.
+Only Ubuntu 14.04 (trusty) is supported as a developement environment.
 
 download source
 ---------------
@@ -68,7 +68,7 @@ Notes
 
 Running Unity 8 on devices
 ==========================
-- Ubuntu Touch builds are currently only available in 13.10 flavour
+- Ubuntu Touch builds are currently only available in 14.04 flavour
 - supported hardware should match one of those listed here
   https://wiki.ubuntu.com/Touch/Devices#Running_fine
 - follow the Ubuntu Touch install instructions for your chosen device
@@ -127,3 +127,71 @@ Unity 8.
 If using VIM, make sure you install some syntax highlighting for QML, like
 https://github.com/peterhoeg/vim-qml
 
+Running tests
+=============
+
+Tests are run from the build directory (which will be ./builddir if you used
+the ./build script).
+
+To run the tests that do not require any graphical capability and therefore
+are pretty fast run:
+
+$ make test
+
+or, alternatively:
+
+$ ctest
+
+To run all graphical tests, which can take a couple of minutes:
+
+$ make qmluitests
+
+To run the tests for a single component/class:
+
+$ make testComponentName
+
+So, for the DragHandle component that would be:
+
+$ make testDragHandle
+
+To run a test application that allow you to manually test or to simply try out
+a given component:
+
+$ make tryComponentName
+
+So to try out, for instance, the DragHandle component, you would do:
+
+$ make tryDragHandle
+
+NB: Manual test or interation doesn't make sense for all components or classes,
+particularly the non-graphical ones. In such cases no "tryFoo" make target is
+provided.
+
+NB: The tests expect the locale to be the C locale, they may fail if run
+under a different locale, if you get failures others can not reproduce
+prepend 'LC_ALL=C' to the 'make test' command
+
+Running autopilot tests
+=======================
+
+Autopilot tests are run from the build directory (which will be ./builddir if you used
+the ./build script).
+
+$ make autopilot
+
+If you want you can also run tests individually, for that you need to install first,
+otherwise the tests will run on the system-installed version
+
+$ make install
+
+To see the list of existing autopilot tests you can do
+
+$ PYTHONPATH=../tests/autopilot autopilot list unity8
+
+And then run a single test with
+
+$ PYTHONPATH=../tests/autopilot autopilot run unity8.some.very.long.test.name
+
+or run them all with
+
+$ PYTHONPATH=../tests/autopilot autopilot run unity8

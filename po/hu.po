@@ -7,183 +7,117 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-11-12 16:10+0100\n"
-"PO-Revision-Date: 2013-06-27 04:28+0000\n"
-"Last-Translator: Michał Sawicz <michal.sawicz@canonical.com>\n"
+"POT-Creation-Date: 2013-11-29 09:21+0100\n"
+"PO-Revision-Date: 2014-01-07 18:02+0000\n"
+"Last-Translator: Gabor Kelemen <kelemeng@gnome.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-11-19 05:59+0000\n"
-"X-Generator: Launchpad (build 16831)\n"
-
-#: Applications/applications.js:23
-msgid "Phone"
-msgstr ""
-
-#: Applications/applications.js:29
-msgid "Camera"
-msgstr ""
-
-#: Applications/applications.js:35
-msgid "Gallery"
-msgstr ""
-
-#: Applications/applications.js:40
-msgid "Facebook"
-msgstr ""
-
-#: Applications/applications.js:46
-msgid "Browser"
-msgstr ""
-
-#: Applications/applications.js:51
-msgid "Twitter"
-msgstr ""
-
-#: Applications/applications.js:57
-msgid "GMail"
-msgstr ""
-
-#: Applications/applications.js:62
-msgid "Weather"
-msgstr ""
-
-#: Applications/applications.js:68
-msgid "Notepad"
-msgstr ""
-
-#: Applications/applications.js:74
-msgid "Calendar"
-msgstr ""
-
-#: Applications/applications.js:80
-msgid "Media Player"
-msgstr ""
-
-#: Applications/applications.js:86
-msgid "Evernote"
-msgstr ""
-
-#: Applications/applications.js:91
-msgid "Map"
-msgstr ""
-
-#: Applications/applications.js:96
-msgid "Pinterest"
-msgstr ""
-
-#: Applications/applications.js:101
-msgid "SoundCloud"
-msgstr ""
-
-#: Applications/applications.js:106
-msgid "Wikipedia"
-msgstr ""
-
-#: Applications/applications.js:111
-msgid "YouTube"
-msgstr ""
+"X-Launchpad-Export-Date: 2014-01-08 05:43+0000\n"
+"X-Generator: Launchpad (build 16877)\n"
 
 #: Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
-msgstr ""
+msgstr "A bemutató kihagyása"
 
 #: Components/EdgeDemo.qml:112
 msgid "Right edge"
-msgstr ""
+msgstr "Jobb szél"
 
 #: Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr ""
+msgstr "A telefon feloldásához csúsztassa ujját a jobb szélről"
 
 #: Components/EdgeDemo.qml:144
 msgid "Top edge"
-msgstr ""
+msgstr "Felső szél"
 
 #: Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
-msgstr ""
+msgstr "A jelzők eléréséhez csúsztassa ujját a felső szélről"
 
 #: Components/EdgeDemo.qml:170
 msgid "Close"
-msgstr ""
+msgstr "Bezárás"
 
 #: Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
-msgstr ""
+msgstr "A beállítások bezárásához csúsztassa ujját újra felfelé"
 
 #: Components/EdgeDemo.qml:198
 msgid "Left edge"
-msgstr ""
+msgstr "Bal szél"
 
 #: Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr ""
+"Csúsztassa ujját a bal szélről az indítón található alkalmazások gyors "
+"eléréséhez"
 
 #: Components/EdgeDemo.qml:226
 msgid "Well done"
-msgstr ""
+msgstr "Rendben"
 
 #: Components/EdgeDemo.qml:227
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap anywhere to start"
 msgstr ""
+"Miután megismerte a szélek használatát, nincs más hátra...<br><br>Koppintson "
+"a folytatáshoz!"
 
-#: Components/PageHeader.qml:345
+#: Components/PageHeader.qml:364
 msgid "Recent searches"
 msgstr "Legutóbbi keresések"
 
-#. TRANSLATORS: Number of persons who rated this app
+#: Dash/Apps/AppPreview.qml:135
+msgid "Rate this"
+msgstr "Osztályzás"
+
 #. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: Dash/Apps/AppInfo.qml:73 Dash/Previews/Header.qml:93
+#: Dash/Previews/Header.qml:93
 #, qt-format
 msgid "(%1)"
-msgstr ""
+msgstr "(%1)"
 
-#. TRANSLATORS: Number of persons who wrote reviews for this app
 #. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: Dash/Apps/AppInfo.qml:85 Dash/Previews/Header.qml:105
+#: Dash/Previews/Header.qml:105
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
-msgstr[0] ""
-msgstr[1] ""
-
-#: Dash/Apps/AppPreview.qml:135
-msgid "Rate this"
-msgstr ""
+msgstr[0] "%1 értékelés"
+msgstr[1] "%1 értékelés"
 
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
-msgstr ""
+msgstr "Értékelés hozzáadása"
 
 #: Dash/Previews/Reviews.qml:86
 msgid "Review"
-msgstr ""
+msgstr "Értékelés"
 
 #: Dash/Previews/Reviews.qml:121
 msgid "Send"
-msgstr ""
+msgstr "Küldés"
 
 #: Dash/Previews/Reviews.qml:139
 msgid "Comments:"
-msgstr ""
+msgstr "Hozzászólások:"
 
-#: Greeter/Lockscreen.qml:146
+#: Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
-msgstr ""
+msgstr "Vészhívás"
 
 #: Greeter/PassphraseLockscreen.qml:59
 #, qt-format
 msgid "Hello %1"
-msgstr ""
+msgstr "Szia %1"
 
 #: Greeter/PassphraseLockscreen.qml:59
 msgid "Hello"
-msgstr ""
+msgstr "Szia"
 
 #: Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
@@ -207,7 +141,7 @@ msgstr "Beszéd…"
 
 #: Notifications/NotificationMenuItemFactory.qml:89
 msgid "Show password"
-msgstr ""
+msgstr "Jelszó megjelenítése"
 
 #: Panel/SearchIndicator.qml:27
 msgid "Search"
@@ -216,21 +150,13 @@ msgstr "Keresés"
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Lock to Launcher"
-msgstr ""
+msgstr "Indítóban tartás"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Unlock from Launcher"
-msgstr ""
+msgstr "Eltávolítás az Indítóból"
 
-#: plugins/Unity/scope.cpp:408
-msgid "Sorry, there is nothing that matches your search."
-msgstr "Elnézést, nincs találat a keresésre."
-
-#: plugins/Unity/showallfilteroption.cpp:41
-msgid "All"
-msgstr ""
-
-#: Shell.qml:441
+#: Shell.qml:439
 #, qt-format
 msgid "Please enter %1"
-msgstr ""
+msgstr "Adja meg a következőt: %1"

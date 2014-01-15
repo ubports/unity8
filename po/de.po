@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-11-12 16:10+0100\n"
+"POT-Creation-Date: 2013-11-29 09:21+0100\n"
 "PO-Revision-Date: 2013-10-18 12:26+0000\n"
 "Last-Translator: Phillip Sz <Unknown>\n"
 "Language-Team: German <de@li.org>\n"
@@ -15,76 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-11-19 05:59+0000\n"
-"X-Generator: Launchpad (build 16831)\n"
-
-#: Applications/applications.js:23
-msgid "Phone"
-msgstr "Telefon"
-
-#: Applications/applications.js:29
-msgid "Camera"
-msgstr "Kamera"
-
-#: Applications/applications.js:35
-msgid "Gallery"
-msgstr "Galerie"
-
-#: Applications/applications.js:40
-msgid "Facebook"
-msgstr "Facebook"
-
-#: Applications/applications.js:46
-msgid "Browser"
-msgstr "Browser"
-
-#: Applications/applications.js:51
-msgid "Twitter"
-msgstr "Twitter"
-
-#: Applications/applications.js:57
-msgid "GMail"
-msgstr "GMail"
-
-#: Applications/applications.js:62
-msgid "Weather"
-msgstr "Wetter"
-
-#: Applications/applications.js:68
-msgid "Notepad"
-msgstr "Notizen"
-
-#: Applications/applications.js:74
-msgid "Calendar"
-msgstr "Kalender"
-
-#: Applications/applications.js:80
-msgid "Media Player"
-msgstr "Medienwiedergabe"
-
-#: Applications/applications.js:86
-msgid "Evernote"
-msgstr "Evernote"
-
-#: Applications/applications.js:91
-msgid "Map"
-msgstr "Karte"
-
-#: Applications/applications.js:96
-msgid "Pinterest"
-msgstr "Pinterest"
-
-#: Applications/applications.js:101
-msgid "SoundCloud"
-msgstr "SoundCloud"
-
-#: Applications/applications.js:106
-msgid "Wikipedia"
-msgstr "Wikipedia"
-
-#: Applications/applications.js:111
-msgid "YouTube"
-msgstr "YouTube"
+"X-Launchpad-Export-Date: 2013-12-29 06:04+0000\n"
+"X-Generator: Launchpad (build 16877)\n"
 
 #: Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -136,29 +68,27 @@ msgstr ""
 "Sie haben nun die Einführung abgeschlossen und können Ihr Gerät nun "
 "verwenden<br><br>Antippen um zu starten"
 
-#: Components/PageHeader.qml:345
+#: Components/PageHeader.qml:364
 msgid "Recent searches"
 msgstr "Letzte Suchbegriffe"
 
-#. TRANSLATORS: Number of persons who rated this app
+#: Dash/Apps/AppPreview.qml:135
+msgid "Rate this"
+msgstr "Bewerten"
+
 #. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: Dash/Apps/AppInfo.qml:73 Dash/Previews/Header.qml:93
+#: Dash/Previews/Header.qml:93
 #, qt-format
 msgid "(%1)"
 msgstr "(%1)"
 
-#. TRANSLATORS: Number of persons who wrote reviews for this app
 #. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: Dash/Apps/AppInfo.qml:85 Dash/Previews/Header.qml:105
+#: Dash/Previews/Header.qml:105
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
 msgstr[0] "%1 Bewertung"
 msgstr[1] "%1 Bewertungen"
-
-#: Dash/Apps/AppPreview.qml:135
-msgid "Rate this"
-msgstr "Bewerten"
 
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
@@ -176,7 +106,7 @@ msgstr "Senden"
 msgid "Comments:"
 msgstr "Kommentare:"
 
-#: Greeter/Lockscreen.qml:146
+#: Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
 msgstr "Notruf"
 
@@ -226,15 +156,7 @@ msgstr ""
 msgid "Unlock from Launcher"
 msgstr ""
 
-#: plugins/Unity/scope.cpp:408
-msgid "Sorry, there is nothing that matches your search."
-msgstr "Entschuldigung, es wurden keine Treffer erzielt."
-
-#: plugins/Unity/showallfilteroption.cpp:41
-msgid "All"
-msgstr "Alle"
-
-#: Shell.qml:441
+#: Shell.qml:439
 #, qt-format
 msgid "Please enter %1"
 msgstr "Bitte geben Sie %1 ein"
