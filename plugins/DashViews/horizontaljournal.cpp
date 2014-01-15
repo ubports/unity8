@@ -118,7 +118,7 @@ bool HorizontalJournal::removeNonVisibleItems(qreal bufferFromY, qreal bufferToY
     return changed;
 }
 
-void HorizontalJournal::positionItem(int modelIndex, QQuickItem *item)
+void HorizontalJournal::addItemToView(int modelIndex, QQuickItem *item)
 {
     if (item->height() != m_rowHeight) {
         qWarning() << "Item" << modelIndex << "height is not the one that the rowHeight mandates, resetting it";
@@ -159,7 +159,7 @@ void HorizontalJournal::positionItem(int modelIndex, QQuickItem *item)
             m_firstVisibleIndex = modelIndex;
             m_visibleItems.prepend(item);
         } else {
-            qWarning() << "HorizontalJournal::positionItem - Got unexpected modelIndex"
+            qWarning() << "HorizontalJournal::addItemToView - Got unexpected modelIndex"
                        << modelIndex << m_firstVisibleIndex << m_visibleItems.count();
         }
     }
@@ -232,7 +232,7 @@ void HorizontalJournal::doRelayout()
         m_visibleItems.clear();
         m_lastInRowIndexPosition.clear();
         Q_FOREACH(QQuickItem *item, allItems) {
-            positionItem(i, item);
+            addItemToView(i, item);
             ++i;
         }
     } else {

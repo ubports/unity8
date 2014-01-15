@@ -111,7 +111,7 @@ private:
 
     virtual void findBottomModelIndexToAdd(int *modelIndex, qreal *yPos) = 0;
     virtual void findTopModelIndexToAdd(int *modelIndex, qreal *yPos) = 0;
-    virtual void positionItem(int modelIndex, QQuickItem *item) = 0;
+    virtual void addItemToView(int modelIndex, QQuickItem *item) = 0;
     virtual bool removeNonVisibleItems(qreal bufferFromY, qreal bufferToY) = 0;
     virtual void cleanupExistingItems() = 0;
     virtual void doRelayout() = 0;

@@ -276,7 +276,7 @@ QQuickItem *AbstractDashView::createItem(int modelIndex, bool asynchronous)
 #endif
         return nullptr;
     } else {
-        positionItem(modelIndex, item);
+        addItemToView(modelIndex, item);
         return item;
     }
 }

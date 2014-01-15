@@ -130,7 +130,7 @@ bool VerticalJournal::removeNonVisibleItems(qreal bufferFromY, qreal bufferToY)
     return changed;
 }
 
-void VerticalJournal::positionItem(int modelIndex, QQuickItem *item)
+void VerticalJournal::addItemToView(int modelIndex, QQuickItem *item)
 {
     if (item->width() != m_columnWidth) {
         qWarning() << "Item" << modelIndex << "width is not the one that the columnWidth mandates, resetting it";
@@ -220,7 +220,7 @@ void VerticalJournal::doRelayout()
     if (!allItems.isEmpty()) {
         if (allItems.first().m_modelIndex == 0) {
             Q_FOREACH(const ViewItem &item, allItems)
-                positionItem(item.m_modelIndex, item.m_item);
+                addItemToView(item.m_modelIndex, item.m_item);
         } else {
             Q_FOREACH(const ViewItem &item, allItems)
                 releaseItem(item.m_item);

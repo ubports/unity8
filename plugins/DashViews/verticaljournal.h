@@ -85,7 +85,7 @@ private:
     void findBottomModelIndexToAdd(int *modelIndex, qreal *yPos) override;
     void findTopModelIndexToAdd(int *modelIndex, qreal *yPos) override;
     bool removeNonVisibleItems(qreal bufferFromY, qreal bufferToY) override;
-    void positionItem(int modelIndex, QQuickItem *item) override;
+    void addItemToView(int modelIndex, QQuickItem *item) override;
     void cleanupExistingItems() override;
     void calculateImplicitHeight() override;
     void doRelayout() override;

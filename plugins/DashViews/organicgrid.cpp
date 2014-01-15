@@ -132,7 +132,7 @@ void OrganicGrid::findTopModelIndexToAdd(int *modelIndex, qreal *yPos)
     }
 }
 
-void OrganicGrid::positionItem(int modelIndex, QQuickItem *item)
+void OrganicGrid::addItemToView(int modelIndex, QQuickItem *item)
 {
     // modelIndex has to be either m_firstVisibleIndex - 1 or m_firstVisibleIndex + m_visibleItems.count() or the first
     if (modelIndex == m_firstVisibleIndex + m_visibleItems.count()) {
@@ -144,7 +144,7 @@ void OrganicGrid::positionItem(int modelIndex, QQuickItem *item)
         m_firstVisibleIndex = 0;
         m_visibleItems << item;
     } else {
-        qWarning() << "OrganicGrid::positionItem - Got unexpected modelIndex"
+        qWarning() << "OrganicGrid::addItemToView - Got unexpected modelIndex"
                     << modelIndex << m_firstVisibleIndex << m_visibleItems.count();
         return;
     }
@@ -207,7 +207,7 @@ void OrganicGrid::doRelayout()
     const QList<QQuickItem*> allItems = m_visibleItems;
     m_visibleItems.clear();
     Q_FOREACH(QQuickItem *item, allItems) {
-        positionItem(i, item);
+        addItemToView(i, item);
         ++i;
     }
 }
