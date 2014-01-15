@@ -202,12 +202,6 @@ Item {
                 coverFlip.snap();
             }
         }
-
-        Rectangle {
-            anchors.fill: parent
-            color: "green"
-            opacity: .4
-        }
     }
 
     Rectangle {
@@ -226,7 +220,7 @@ Item {
         id: coverFlickable
         anchors.fill: root
         contentHeight: height
-        contentWidth: width * ApplicationManager.count * 0.5
+        contentWidth: width * ApplicationManager.count
         flickableDirection: Qt.Horizontal
         enabled: coverFlip.visible
 
@@ -342,12 +336,10 @@ Item {
                         property real selectedXScale: 0
 
                         function select() {
-                            print("selecting item, current translation:", appImage.xTranslation)
                             appImage.selectedXTranslation = appImage.xTranslation;
                             appImage.selectedAngle = appImage.angle;
                             appImage.selectedXScale = appImage.xScale;
                             appImage.selectedTranslatedProgress = appImage.translatedProgress;
-                            print("set selected x translation", appImage.selectedXTranslation)
                             appImage.isSelected = true;
                             switchToAppAnimation.start();
                         }
@@ -378,9 +370,6 @@ Item {
                             default:
                                 if (appImage.progress > coverFlip.progressMarker1) {
                                     xTranslate = xTranslateEasing.value * xTranslateEasing.period;
-
-                                    // make sure we stop at the left screen edge
-    //                                xTranslate = Math.max(xTranslate, minXTranslate)
                                     break;
                                 }
                             }
@@ -423,23 +412,13 @@ Item {
                                 }
                                 // Intentionally no break here...
                             default:
-    //                                        var progress = appImage.progress;
-    //                                        var angleDiff = coverFlip.startAngle - coverFlip.endAngle;
-    ////                                        var progressDiff = coverFlip.progressMarker1 + index * 0.25 + 0.25
-    //                                        var progressDiff = index
-    //                                        // progress : progressDiff = angle : angleDiff
-    //                                        newAngle = progress * angleDiff / progressDiff;
-    //                                        newAngle = Math.max(coverFlip.endAngle, coverFlip.startAngle - newAngle)
-
                                 newAngle = coverFlip.startAngle - (angleEasing.value * angleEasing.period);
-
                                 // make sure we stop at the left screen edge
                                 newAngle = Math.max(newAngle, coverFlip.endAngle);
 
                             }
                             if (appImage.isSelected) {
                                 var selectedAngleTranslate = selectedAngleEasing.value * selectedAngleEasing.period
-                                print("selectedAngle", appImage.selectedAngle, "translate", selectedAngleTranslate)
                                 newAngle = appImage.selectedAngle - selectedAngleTranslate;
                             }
 
@@ -468,21 +447,12 @@ Item {
                                 }
                                 // Intentionally no break
                             default:
-    //                                    var scaleDiff = coverFlip.maxScale - coverFlip.minScale
-    ////                                    var progressDiff = coverFlip.progressMarker1 + index * 0.25 + 0.25
-    //                                    var progressDiff = index
-    //                                    // progress : progressDiff = scale : scaleDiff
-    //                                    scale = coverFlip.maxScale - (appImage.progress - coverFlip.progressMarker1) * scaleDiff / progressDiff
-    //                                    break;
-
                                 scale = coverFlip.maxScale - scaleEasing.value * scaleEasing.period;
                             }
-
                             if (appImage.isSelected) {
                                 var selectedScaleTranslate = selectedScaleEasing.value * selectedScaleEasing.period
                                 scale = appImage.selectedXScale + selectedScaleTranslate;
                             }
-
                             return Math.min(coverFlip.maxScale, Math.max(coverFlip.minScale, scale));
                         }
 
@@ -543,7 +513,6 @@ Item {
                         MouseArea {
                             anchors.fill: parent
                             onClicked: {
-                                print("clicked on index", index)
                                 appImage.select()
                             }
                         }
@@ -566,5 +535,4 @@ Item {
             }
         }
     }
-
 }
