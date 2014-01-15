@@ -67,8 +67,9 @@ QPointF OrganicGrid::positionForIndex(int modelIndex) const
 {
     const qreal moduleHeight = m_smallDelegateSize.height() + rowSpacing() + m_bigDelegateSize.height();
     const qreal moduleWidth = m_smallDelegateSize.width() * 2 + columnSpacing() * 2 + m_bigDelegateSize.width();
-    const int rowIndex = floor(modelIndex / (m_numberOfModulesPerRow * 6));
-    const int columnIndex = floor((modelIndex - rowIndex * m_numberOfModulesPerRow * 6) / 6);
+    const int itemsPerRow = m_numberOfModulesPerRow * 6;
+    const int rowIndex = floor(modelIndex / itemsPerRow);
+    const int columnIndex = floor((modelIndex - rowIndex * itemsPerRow) / 6);
 
     qreal yPos = (moduleHeight + rowSpacing()) * rowIndex;
     const int moduleIndex = modelIndex % 6;
@@ -223,10 +224,11 @@ void OrganicGrid::calculateImplicitHeight()
 {
     const qreal moduleHeight = m_smallDelegateSize.height() + rowSpacing() + m_bigDelegateSize.height();
     const int itemCount = !model() ? 0 : model()->rowCount();
-    const int fullRows = floor(itemCount / (m_numberOfModulesPerRow * 6));
+    const int itemsPerRow = m_numberOfModulesPerRow * 6;
+    const int fullRows = floor(itemCount / itemsPerRow);
     const qreal fullRowsHeight = fullRows == 0 ? 0 : fullRows * moduleHeight + rowSpacing() * (fullRows - 1);
 
-    const int remainingItems = itemCount - fullRows * m_numberOfModulesPerRow * 6;
+    const int remainingItems = itemCount - fullRows * itemsPerRow;
     if (remainingItems == 0) {
         setImplicitHeight(fullRowsHeight);
     } else if (remainingItems <= 2) {
