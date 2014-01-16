@@ -224,14 +224,22 @@ Item {
         flickableDirection: Qt.Horizontal
         enabled: coverFlip.visible
 
+        property bool passedFirstStage: false
+
         onContentXChanged: {
-            var progress = contentX / width
-            if (progress > coverFlip.progressMarker1) {
-                progress += progress - coverFlip.progressMarker1
+            if (coverFlickable.passedFirstStage && contentX < width * coverFlip.progressMarker1) {
+                contentX = width * coverFlip.progressMarker1;
+                return;
             }
 
+            var progress = contentX / width
+            if (progress > coverFlip.progressMarker1) {
+                coverFlickable.passedFirstStage = true;
+                progress += progress - coverFlip.progressMarker1
+            }
             coverFlip.progress = progress;
         }
+
         Row {
             id: coverFlip
             height: parent.height
@@ -262,9 +270,9 @@ Item {
             property real oldProgress: 0
             onProgressChanged: {
                 if (coverFlipDragArea.dragging) {
-                    if (oldProgress <= coverFlip.progressMarker1 && progress > coverFlip.progressMarker1) {
+                    if (oldProgress < coverFlip.progressMarker1 && progress >= coverFlip.progressMarker1) {
                         ApplicationManager.move(0, 1)
-                    } else if (oldProgress >= coverFlip.progressMarker1 && progress <= coverFlip.progressMarker1) {
+                    } else if (oldProgress >= coverFlip.progressMarker1 && progress < coverFlip.progressMarker1) {
                         ApplicationManager.move(0, 1)
                     }
                 }
@@ -308,11 +316,12 @@ Item {
                 }
                 ScriptAction {
                     script: {
+                        if (snapAnimation.targetAppId) {
+                            coverFlickable.passedFirstStage = false;
+                            ApplicationManager.focusApplication(snapAnimation.targetAppId);
+                        }
                         if (snapAnimation.targetContentX == root.width * coverFlip.progressMarker1) {
                             coverFlickable.contentX = 0;
-                        }
-                        if (snapAnimation.targetAppId) {
-                            ApplicationManager.focusApplication(snapAnimation.targetAppId);
                         }
                     }
                 }
@@ -404,7 +413,7 @@ Item {
                             var newAngle = 0;
                             switch (index) {
                             case 0:
-                                if (appImage.progress <= coverFlip.progressMarker1) {
+                                if (appImage.progress < coverFlip.progressMarker1) {
                                     var progress = appImage.progress;
                                     var angleDiff = coverFlip.endAngle;
                                     var progressDiff = coverFlip.progressMarker1;
@@ -539,6 +548,7 @@ Item {
                                 ApplicationManager.focusApplication(ApplicationManager.get(index).appId);
                                 appImage.isSelected = false;
                                 coverFlip.progress = 0;
+                                coverFlickable.passedFirstStage = false;
                             }
                         }
                     }
