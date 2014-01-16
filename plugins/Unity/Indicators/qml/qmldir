@@ -9,8 +9,6 @@ DivMenuItem 0.1 DivMenuItem.qml
 FramedMenuItem 0.1 FramedMenuItem.qml
 HLine 0.1 HLine.qml
 IndicatorBase 0.1 IndicatorBase.qml
-IndicatorPage 0.1 IndicatorPage.qml
-IndicatorWidget 0.1 IndicatorWidget.qml
 MenuActionBinding 0.1 MenuActionBinding.qml
 MenuItemFactory 0.1 MenuItemFactory.qml
 ProgressMenuItem 0.1 ProgressMenuItem.qml

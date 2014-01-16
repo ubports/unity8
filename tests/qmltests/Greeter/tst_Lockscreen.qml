@@ -134,7 +134,7 @@ Rectangle {
             if (data.pinPadAvailable) {
                 compare(findChild(lockscreen, "pinPadButton8").text, "8", "Could not find number 8 on PinPad")
             } else {
-                compare(findChild(lockscreen, "pinPadButton8"), undefined, "Could find number 8 on PinPad even though it should be only OSK")
+                compare(findChild(lockscreen, "pinPadButton8"), null, "Could find number 8 on PinPad even though it should be only OSK")
             }
         }
 
