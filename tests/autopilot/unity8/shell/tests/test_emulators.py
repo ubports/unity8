@@ -47,32 +47,9 @@ class DashBaseTestCase(tests.UnityTestCase):
 
     def setUp(self):
         super(DashBaseTestCase, self).setUp()
-        self._use_scope_fakes()
         unity_proxy = self.launch_unity()
         process_helpers.unlock_unity(unity_proxy)
         self.dash = self.main_window.get_dash()
-
-    def _use_scope_fakes(self):
-        self.useFixture(
-            fixtures.EnvironmentVariable(
-                'QML2_IMPORT_PATH',
-                newvalue=self._get_fake_scopes_library_path()))
-
-    def _get_fake_scopes_library_path(self):
-        if unity8.running_installed_tests():
-            mock_path = 'qml/scopefakes/'
-        else:
-            mock_path = os.path.join(
-                '../lib/', sysconfig.get_config_var('MULTIARCH'),
-                'unity8/qml/scopefakes/')
-        lib_path = unity8.get_lib_path()
-        ld_library_path = os.path.abspath(os.path.join(lib_path, mock_path))
-
-        if not os.path.exists(ld_library_path):
-            raise RuntimeError(
-                'Expected library path does not exists: %s.' % (
-                    ld_library_path))
-        return ld_library_path
 
 
 class DashEmulatorTestCase(DashBaseTestCase):
@@ -171,8 +148,31 @@ class DashAppsEmulatorTestCase(DashBaseTestCase):
         'Title.201', 'Title.221', 'Title.241', 'Title.261', 'Title.281']
 
     def setUp(self):
+        self._use_scope_fakes()
         super(DashAppsEmulatorTestCase, self).setUp()
         self.applications_scope = self.dash.open_scope('applications')
+
+    def _use_scope_fakes(self):
+        self.useFixture(
+            fixtures.EnvironmentVariable(
+                'QML2_IMPORT_PATH',
+                newvalue=self._get_fake_scopes_library_path()))
+
+    def _get_fake_scopes_library_path(self):
+        if unity8.running_installed_tests():
+            mock_path = 'qml/scopefakes/'
+        else:
+            mock_path = os.path.join(
+                '../lib/', sysconfig.get_config_var('MULTIARCH'),
+                'unity8/qml/scopefakes/')
+        lib_path = unity8.get_lib_path()
+        ld_library_path = os.path.abspath(os.path.join(lib_path, mock_path))
+
+        if not os.path.exists(ld_library_path):
+            raise RuntimeError(
+                'Expected library path does not exists: %s.' % (
+                    ld_library_path))
+        return ld_library_path
 
     def test_get_applications_with_unexisting_category(self):
         exception = self.assertRaises(
