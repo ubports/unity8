@@ -140,7 +140,7 @@ class ApplicationLifecycleTests(UnityTestCase):
     def test_greeter_hides_on_app_open(self):
         """Greeter should hide when an app is opened"""
         unity_proxy = self.launch_unity()
-        greeter = main_window.get_greeter()
+        greeter = self.main_window.get_greeter()
         self.assertThat(greeter.created, Eventually(Equals(True)))
 
         app = self._launch_app("messaging-app")
