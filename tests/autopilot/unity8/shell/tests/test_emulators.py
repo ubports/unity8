@@ -28,12 +28,14 @@ don't break them for those external projects.
 """
 
 import os
+import sysconfig
 
 import mock
 
 import fixtures
 from testtools.matchers import Contains, HasLength
 
+import unity8
 from unity8 import process_helpers
 from unity8.shell import emulators, tests
 from unity8.shell.emulators import dash as dash_emulators
@@ -51,14 +53,26 @@ class DashBaseTestCase(tests.UnityTestCase):
         self.dash = self.main_window.get_dash()
 
     def _use_scope_fakes(self):
-        qml2_import_path = os.environ.get('QML2_IMPORT_PATH')
-        mocks_path = os.path.join(
-            os.getcwd(), '../..', 'builddir/tests/mocks')
-        qml_import_path_with_scope_fakes = '{0}:{1}'.format(
-            qml2_import_path, mocks_path)
-        self.useFixture(fixtures.EnvironmentVariable(
-            'QML2_IMPORT_PATH',
-            newvalue=qml_import_path_with_scope_fakes))
+        self.useFixture(
+            fixtures.EnvironmentVariable(
+                'QML2_IMPORT_PATH',
+                newvalue=self._get_fake_scopes_library_path()))
+
+    def _get_fake_scopes_library_path(self):
+        if unity8.running_installed_tests():
+            mock_path = 'qml/scopefakes/'
+        else:
+            mock_path = os.path.join(
+                '../lib/', sysconfig.get_config_var('MULTIARCH'),
+                'unity8/qml/scopefakes/')
+        lib_path = unity8.get_lib_path()
+        ld_library_path = os.path.abspath(os.path.join(lib_path, mock_path))
+
+        if not os.path.exists(ld_library_path):
+            raise RuntimeError(
+                'Expected library path does not exists: %s.' % (
+                    ld_library_path))
+        return ld_library_path
 
 
 class DashEmulatorTestCase(DashBaseTestCase):
