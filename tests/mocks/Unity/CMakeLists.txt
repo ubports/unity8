@@ -44,9 +44,9 @@ file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
     )
 
 install(TARGETS FakeUnityQml
-    DESTINATION ${SHELL_INSTALL_QML}/scopefakes
+    DESTINATION ${SHELL_INSTALL_QML}/scopefakes/Unity
     )
 
 install(FILES qmldir
-    DESTINATION ${SHELL_INSTALL_QML}/scopefakes
+    DESTINATION ${SHELL_INSTALL_QML}/scopefakes/Unity
     )
