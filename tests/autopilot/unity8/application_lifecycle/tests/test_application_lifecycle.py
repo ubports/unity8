@@ -135,3 +135,17 @@ class ApplicationLifecycleTests(UnityTestCase):
             self._get_current_focused_app_id(),
             Eventually(Equals("messaging-app"))
         )
+
+    @disable_qml_mocking
+    def test_greeter_hides_on_app_open(self):
+        """Greeter should hide when an app is opened"""
+        unity_proxy = self.launch_unity()
+        greeter = main_window.get_greeter()
+        self.assertThat(greeter.created, Eventually(Equals(True)))
+
+        app = self._launch_app("messaging-app")
+        self.assertThat(greeter.created, Eventually(Equals(False)))
+        self.assertThat(
+            self._get_current_focused_app_id(),
+            Eventually(Equals("messaging-app"))
+        )
