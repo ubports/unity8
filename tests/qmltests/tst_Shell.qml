@@ -69,7 +69,7 @@ Item {
                 var dashContentList = findChild(shell, "dashContentList");
                 waitForRendering(dashContentList);
                 var homeLoader = findChild(dashContentList, "home.scope loader");
-                ok = homeLoader !== null 
+                ok = homeLoader !== null
                     && homeLoader.item !== undefined;
 
                 var dashHome = findChild(shell, "DashHome");
