@@ -26,7 +26,7 @@ Item {
     readonly property int currentItemIndex: currentItem ? currentItem.ownIndex : -1
     property alias row: row
     property QtObject indicatorsModel: null
-    property var visibleIndicators: defined
+    property var visibleIndicators: undefined
     property int overFlowWidth: width
     property bool showAll: false
     property real currentItemOffset: 0.0
@@ -94,34 +94,56 @@ Item {
                 property real opacityMultiplier: highlighted ? 1 : (1 - indicatorRow.unitProgress)
 
                 IndicatorItem {
-                   id: indicatorItem
-                   identifier: model.identifier
-                   height: parent.height
+                    id: indicatorItem
+                    identifier: model.identifier
+                    height: parent.height
 
-                   dimmed: itemWrapper.dimmed
+                    dimmed: itemWrapper.dimmed
 
-                   widgetSource: model.widgetSource
-                   indicatorProperties : model.indicatorProperties
+                    widgetSource: model.widgetSource
+                    indicatorProperties : model.indicatorProperties
 
-                   Component.onCompleted: {
-                       if (visibleIndicators == undefined) {
-                           visibleIndicators = {}
-                       }
-                       indicatorRow.visibleIndicators[model.identifier] = indicatorVisible;
-                       indicatorRow.visibleIndicatorsChanged();
-                   }
-                   onIndicatorVisibleChanged: {
-                       if (visibleIndicators == undefined) {
-                           visibleIndicators = {}
-                       }
-                       indicatorRow.visibleIndicators[model.identifier] = indicatorVisible;
-                       indicatorRow.visibleIndicatorsChanged();
+                    Component.onCompleted: {
+                        updateVisiblility();
+                    }
+                    onIndicatorVisibleChanged: {
+                        updateVisiblility();
 
-                       if (indicatorVisible) {
-                           showAll = true;
-                           allVisible.start();
-                       }
-                   }
+                        if (indicatorVisible) {
+                            showAll = true;
+                            allVisible.start();
+                        }
+                    }
+
+                    function updateVisiblility() {
+                        if (visibleIndicators == undefined) {
+                            visibleIndicators = {}
+                        }
+                        indicatorRow.visibleIndicators[model.identifier] = indicatorVisible;
+
+                        // removed current index?
+                        if (indicatorRow.currentItemIndex === index && !indicatorVisible) {
+                            // find the next closest visible indicator (after current, else before)
+                            var newIndex = -1;
+                            for (var i = index+1; i < rowRepeater.count; i++) {
+                                if (indicatorRow.visibleIndicators[i] === undefined || indicatorRow.visibleIndicators[model.identifier]) {
+                                    newIndex = i;
+                                    break;
+                                }
+                            }
+                            if (newIndex === -1) {
+                                for (i = index - 1; i >= 0; i--) {
+                                    if (indicatorRow.visibleIndicators[i] === undefined || indicatorRow.visibleIndicators[model.identifier]) {
+                                        newIndex = i;
+                                        break;
+                                    }
+                                }
+                            }
+                            indicatorRow.setCurrentItem(newIndex);
+                        }
+
+                        indicatorRow.visibleIndicatorsChanged();
+                    }
                 }
 
                 states: [
