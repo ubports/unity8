@@ -7,12 +7,14 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Indicators
+    ${CMAKE_SOURCE_DIR}/tests/mocks/QMenuModel
 )
 
 set(IndicatorsFakeQml_SOURCES
     fakeplugin.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Indicators/indicators.h
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Indicators/menucontentactivator.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Unity/Indicators/unitymenumodelstack.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Indicators/visibleindicatorsmodel.cpp
 )
 
