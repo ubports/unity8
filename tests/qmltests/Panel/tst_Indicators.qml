@@ -103,9 +103,9 @@ Item {
             // tests changing the lateral position of the revealer activates the correct indicator items.
 
             var indicatorRow = findChild(indicators, "indicatorRow")
-            verify(indicatorRow !== null)
+            verify(indicatorRow !== null);
             var indicatorRowItems = findChild(indicatorRow, "indicatorRowItems");
-            verify(indicatorRowItems !== null)
+            verify(indicatorRowItems !== null);
 
             for (var i = 0; i < indicatorRowItems.count; i++) {
                 var indicatorItem = findChild(indicatorRowItems, "item" + i);
@@ -114,12 +114,12 @@ Item {
                     continue;
 
                 var indicatorPosition = indicators.mapFromItem(indicatorItem,
-                        indicatorItem.width/2, indicatorItem.height/2)
+                        indicatorItem.width/2, indicatorItem.height/2);
 
                 touchFlick(indicators,
                            indicatorPosition.x, indicatorPosition.y,
                            indicatorPosition.x, indicators.openedHeight * 0.4,
-                           true /* beginTouch */, false /* endTouch */)
+                           true /* beginTouch */, false /* endTouch */);
 
                 compare(indicatorRow.currentItem, indicatorItem,
                         "Incorrect item activated at position " + i);
@@ -127,10 +127,10 @@ Item {
                 touchFlick(indicators,
                            indicatorPosition.x, indicators.openedHeight * 0.4,
                            indicatorPosition.x, indicatorPosition.y,
-                           false /* beginTouch */, true /* endTouch */)
+                           false /* beginTouch */, true /* endTouch */);
 
                 // wait until fully closed
-                tryCompare(indicators, "height", indicators.panelHeight)
+                tryCompare(indicators, "height", indicators.panelHeight);
             }
         }
 
@@ -143,20 +143,20 @@ Item {
         function test_progress_changes_state_to_not_initial() {
             indicators.height = indicators.openedHeight / 2
             compare(indicators.state!="initial", true,
-                    "Indicators should not be in initial state when partially opened.")
+                    "Indicators should not be in initial state when partially opened.");
         }
 
         function test_progress_changes_state_to_locked() {
             indicators.height = indicators.openedHeight - indicators.panelHeight
-            compare(indicators.state, "locked", "Indicators should be locked when fully opened.")
+            compare(indicators.state, "locked", "Indicators should be locked when fully opened.");
         }
 
         function test_partially_open() {
             indicators.height = indicators.openedHeight / 2
             compare(indicators.partiallyOpened, true,
-                    "Indicator should show as partially opened when height is half of openedHeight")
+                    "Indicator should show as partially opened when height is half of openedHeight");
             compare(indicators.fullyOpened, false,
-                    "Indicator should not show as fully opened when height is half of openedHeight")
+                    "Indicator should not show as fully opened when height is half of openedHeight");
         }
 
         function test_fully_open() {
