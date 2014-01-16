@@ -168,7 +168,7 @@ class DashAppsEmulatorTestCase(DashBaseTestCase):
     available_applications = [
         'Title.1', 'Title.21', 'Title.41',  'Title.61', 'Title.81',
         'Title.101', 'Title.121', 'Title.141', 'Title.161', 'Title.181',
-        'Title.201', 'Title.221', 'Title.241', 'Title.261', 'Title.281',]
+        'Title.201', 'Title.221', 'Title.241', 'Title.261', 'Title.281']
 
     def setUp(self):
         super(DashAppsEmulatorTestCase, self).setUp()
@@ -176,9 +176,9 @@ class DashAppsEmulatorTestCase(DashBaseTestCase):
 
     def test_get_applications_with_unexisting_category(self):
         exception = self.assertRaises(
-                emulators.UnityEmulatorException,
-                self.applications_scope.get_applications,
-                'unexisting category')
+            emulators.UnityEmulatorException,
+            self.applications_scope.get_applications,
+            'unexisting category')
 
         self.assertEqual(
             'No category found with name unexisting category', str(exception))
