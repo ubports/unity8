@@ -190,3 +190,4 @@ class DashAppsEmulatorTestCase(DashBaseTestCase):
     def test_open_preview(self):
         preview = self.applications_scope.open_preview('installed', 'Title.1')
         self.assertIsInstance(preview, dash_emulators.AppPreview)
+        self.assertTrue(preview.isCurrent)

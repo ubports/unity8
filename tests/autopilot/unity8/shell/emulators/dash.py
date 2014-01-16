@@ -178,7 +178,6 @@ class DashApps(emulators.UnityEmulatorBase):
         # Some categories do not show previews, like recent apps.
         # --elopio - 2014-1-14
         self.pointing_device.click_object(icon)
-        import pdb; pdb.set_trace()
         return self.get_root_instance().wait_select_single(AppPreview)
 
 
