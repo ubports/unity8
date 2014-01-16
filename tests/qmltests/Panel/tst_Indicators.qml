@@ -186,7 +186,6 @@ Item {
             var indicatorTabs = findChild(indicators, "tabs");
             var indicatorRowItems = findChild(indicators, "indicatorRowItems");
 
-
             var count = data.visible.length
             for (var i = 0; i< data.visible.length; i++) {
                 if (data.visible[i] === false) {
