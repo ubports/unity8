@@ -179,6 +179,7 @@ void VerticalJournal::cleanupExistingItems()
         column.clear();
     }
     m_indexColumnMap.clear();
+    setImplicitHeightDirty();
 }
 
 void VerticalJournal::calculateImplicitHeight()

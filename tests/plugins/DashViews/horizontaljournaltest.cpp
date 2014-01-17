@@ -126,9 +126,9 @@ private Q_SLOTS:
         view->engine()->addImportPath(BUILT_PLUGINS_DIR);
 
         model = new WidthModel();
-        QStringList heightList;
-        heightList << "100" << "50" << "125" << "10" << "40" << "70" << "200" << "110" << "160" << "20" << "20" << "65" << "80" << "200" << "300" << "130" << "400" << "300" << "500" << "10";
-        model->setStringList(heightList);
+        QStringList widthList;
+        widthList << "100" << "50" << "125" << "10" << "40" << "70" << "200" << "110" << "160" << "20" << "20" << "65" << "80" << "200" << "300" << "130" << "400" << "300" << "500" << "10";
+        model->setStringList(widthList);
 
         view->setSource(QUrl::fromLocalFile(DASHVIEWSTEST_FOLDER "/horizontaljournaltest.qml"));
 
@@ -336,9 +336,9 @@ private Q_SLOTS:
 
     void testModelReset()
     {
-        QStringList heightList;
-        heightList << "100" << "50" << "125" << "25" << "50" << "50";
-        model->setStringList(heightList);
+        QStringList widthList;
+        widthList << "100" << "50" << "125" << "25" << "50" << "50";
+        model->setStringList(widthList);
 
         QTRY_COMPARE(hj->m_firstVisibleIndex, 0);
         QTRY_COMPARE(hj->m_visibleItems.count(), 6);
@@ -386,9 +386,9 @@ private Q_SLOTS:
     void testModelAppendRemoveLast()
     {
         WidthModel *model2 = new WidthModel();
-        QStringList heightList;
-        heightList << "100" << "50" << "125" << "25" << "50" << "50";
-        model2->setStringList(heightList);
+        QStringList widthList;
+        widthList << "100" << "50" << "125" << "25" << "50" << "50";
+        model2->setStringList(widthList);
         hj->setModel(model2);
         delete model;
         model = model2;
@@ -452,6 +452,32 @@ private Q_SLOTS:
         QTRY_COMPARE(hj->m_lastInRowIndexPosition.count(), 1);
         QTRY_COMPARE(hj->m_lastInRowIndexPosition[5], 400.);
         QCOMPARE(hj->implicitHeight(), 310.);
+    }
+
+    void testNegativeHeight()
+    {
+        QQuickItemPrivate::get(hj)->anchors()->resetFill();
+        hj->setHeight(-8);
+
+        QStringList widthList;
+        widthList << "100" << "50" << "125" << "25" << "50" << "50";
+        model->setStringList(widthList);
+
+        QTRY_COMPARE(hj->m_visibleItems.count(), 0);
+        QTRY_COMPARE(hj->implicitHeight(), 0.);
+    }
+
+    void testNegativeDelegateCreationRange()
+    {
+        hj->setDelegateCreationBegin(0);
+        hj->setDelegateCreationEnd(-100);
+
+        QStringList widthList;
+        widthList << "100" << "50" << "50" << "30";
+        model->setStringList(widthList);
+
+        QTRY_COMPARE(hj->m_visibleItems.count(), 0);
+        QTRY_COMPARE(hj->implicitHeight(), 0.);
     }
 
 private:

@@ -173,6 +173,7 @@ void HorizontalJournal::cleanupExistingItems()
     m_visibleItems.clear();
     m_lastInRowIndexPosition.clear();
     m_firstVisibleIndex = -1;
+    setImplicitHeightDirty();
 }
 
 void HorizontalJournal::calculateImplicitHeight()
