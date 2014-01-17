@@ -1,54 +1,55 @@
-# Chinese (Traditional) translation for unity
-# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the unity package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+# Bosnian translation for unity8
+# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
+# This file is distributed under the same license as the unity8 package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity\n"
+"Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-11-29 09:21+0100\n"
-"PO-Revision-Date: 2014-01-16 06:04+0000\n"
-"Last-Translator: Henry Yang <henry9846@hotmail.com>\n"
-"Language-Team: Chinese (Traditional) <zh_TW@li.org>\n"
+"PO-Revision-Date: 2014-01-16 22:33+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Bosnian <bs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Launchpad-Export-Date: 2014-01-17 07:08+0000\n"
 "X-Generator: Launchpad (build 16901)\n"
 
 #: Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
-msgstr "略過導覽"
+msgstr ""
 
 #: Components/EdgeDemo.qml:112
 msgid "Right edge"
-msgstr "右方邊界"
+msgstr ""
 
 #: Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr "向左滑動以解鎖手機"
+msgstr ""
 
 #: Components/EdgeDemo.qml:144
 msgid "Top edge"
-msgstr "頂部邊界"
+msgstr ""
 
 #: Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
-msgstr "向下滑動以開啟指引"
+msgstr ""
 
 #: Components/EdgeDemo.qml:170
 msgid "Close"
-msgstr "關閉"
+msgstr ""
 
 #: Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
-msgstr "再次向上滑動以關財設定頁面"
+msgstr ""
 
 #: Components/EdgeDemo.qml:198
 msgid "Left edge"
-msgstr "左方邊界"
+msgstr ""
 
 #: Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
@@ -66,86 +67,87 @@ msgstr ""
 
 #: Components/PageHeader.qml:364
 msgid "Recent searches"
-msgstr "最近搜尋"
+msgstr ""
 
 #: Dash/Apps/AppPreview.qml:135
 msgid "Rate this"
-msgstr "對此評比"
+msgstr ""
 
 #. TRANSLATORS: Number of persons who rated this app/video/whatever
 #: Dash/Previews/Header.qml:93
 #, qt-format
 msgid "(%1)"
-msgstr "(%1)"
+msgstr ""
 
 #. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
 #: Dash/Previews/Header.qml:105
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
-msgstr[0] "%1 回覆"
+msgstr[0] ""
+msgstr[1] ""
 
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
-msgstr "新增回覆"
+msgstr ""
 
 #: Dash/Previews/Reviews.qml:86
 msgid "Review"
-msgstr "回覆"
+msgstr ""
 
 #: Dash/Previews/Reviews.qml:121
 msgid "Send"
-msgstr "發送"
+msgstr ""
 
 #: Dash/Previews/Reviews.qml:139
 msgid "Comments:"
-msgstr "備註："
+msgstr ""
 
 #: Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
-msgstr "緊急連絡"
+msgstr ""
 
 #: Greeter/PassphraseLockscreen.qml:59
 #, qt-format
 msgid "Hello %1"
-msgstr "%1 您好"
+msgstr ""
 
 #: Greeter/PassphraseLockscreen.qml:59
 msgid "Hello"
-msgstr "您好"
+msgstr ""
 
 #: Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
-msgstr "確認"
+msgstr ""
 
 #: Hud/Hud.qml:61 Hud/Hud.qml:99 Hud/Hud.qml:372
 msgid "Type or say a command"
-msgstr "輸入或說出命令"
+msgstr ""
 
 #: Hud/Hud.qml:84
 msgid "Loading. Please Wait..."
-msgstr "載入中。請稍候..."
+msgstr ""
 
 #: Hud/Hud.qml:89
 msgid "Speak Now..."
-msgstr "請說..."
+msgstr ""
 
 #: Hud/Hud.qml:94
 msgid "Speaking..."
-msgstr "說話中..."
+msgstr ""
 
 #: Notifications/NotificationMenuItemFactory.qml:89
 msgid "Show password"
-msgstr "顯示密碼"
+msgstr ""
 
 #: Panel/SearchIndicator.qml:27
 msgid "Search"
-msgstr "搜尋"
+msgstr ""
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Lock to Launcher"
-msgstr "鎖定至啟動欄"
+msgstr ""
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Unlock from Launcher"
