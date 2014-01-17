@@ -177,16 +177,12 @@ Running autopilot tests
 Autopilot tests are run from the build directory (which will be ./builddir if you used
 the ./build script).
 
-Some tests need the fakes to be in the install library path
-
-$ make install
-
-To run all the tests
-
 $ make autopilot
 
-If run tests individually without install first, tests will run on the
-system-installed version
+If you want you can also run tests individually, for that you need to install first,
+otherwise the tests will run on the system-installed version
+
+$ make install
 
 To see the list of existing autopilot tests you can do
 
