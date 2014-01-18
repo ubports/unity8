@@ -1,76 +1,78 @@
-# Uyghur translation for unity
-# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the unity package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+# Malay translation for unity8
+# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
+# This file is distributed under the same license as the unity8 package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity\n"
+"Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-11-29 09:21+0100\n"
-"PO-Revision-Date: 2014-01-17 04:33+0000\n"
-"Last-Translator: Gheyret T.Kenji <Unknown>\n"
-"Language-Team: Uyghur <ug@li.org>\n"
+"PO-Revision-Date: 2014-01-17 09:05+0000\n"
+"Last-Translator: abuyop <Unknown>\n"
+"Language-Team: Malay <ms@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Launchpad-Export-Date: 2014-01-18 07:11+0000\n"
 "X-Generator: Launchpad (build 16901)\n"
 
 #: Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
-msgstr ""
+msgstr "Langkau pengenalan"
 
 #: Components/EdgeDemo.qml:112
 msgid "Right edge"
-msgstr "ئوڭ گىرۋەك"
+msgstr "Pinggir kanan"
 
 #: Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr ""
+msgstr "Cuba meleret dari pinggir kanan untuk buka aktifkan telefon"
 
 #: Components/EdgeDemo.qml:144
 msgid "Top edge"
-msgstr "ئۈستى گىرۋەك"
+msgstr "Pinggir atas"
 
 #: Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
-msgstr ""
+msgstr "Cuba meleret dari pinggir atas untuk buka aktifkan telefon"
 
 #: Components/EdgeDemo.qml:170
 msgid "Close"
-msgstr "ياپ"
+msgstr "Tutup"
 
 #: Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
-msgstr ""
+msgstr "Leret ke atas sekali lagi untuk menutup skrin tetapan"
 
 #: Components/EdgeDemo.qml:198
 msgid "Left edge"
-msgstr "سول گىرۋەك"
+msgstr "Pinggir kiri"
 
 #: Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr ""
+msgstr "Leret dari kiri untuk munculkan pelancar untuk capaian pantas ke apl"
 
 #: Components/EdgeDemo.qml:226
 msgid "Well done"
-msgstr ""
+msgstr "Bagus"
 
 #: Components/EdgeDemo.qml:227
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap anywhere to start"
 msgstr ""
+"Anda kini sudah mahir gerak isyarat pinggir dan boleh mulakan "
+"telefon<br><br>Ketik dimana shaja untuk mula"
 
 #: Components/PageHeader.qml:364
 msgid "Recent searches"
-msgstr "يېقىنقى ئىزدەشلەر"
+msgstr "Gelintar baru-baru ini"
 
 #: Dash/Apps/AppPreview.qml:135
 msgid "Rate this"
-msgstr ""
+msgstr "Kadar ini"
 
 #. TRANSLATORS: Number of persons who rated this app/video/whatever
 #: Dash/Previews/Header.qml:93
@@ -83,75 +85,76 @@ msgstr "(%1)"
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
-msgstr[0] "%1 باھا"
+msgstr[0] "%1 ulasan"
+msgstr[1] "%1 ulasan"
 
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
-msgstr ""
+msgstr "Tambah ulasan"
 
 #: Dash/Previews/Reviews.qml:86
 msgid "Review"
-msgstr "تەكشۈر"
+msgstr "Tinjauan"
 
 #: Dash/Previews/Reviews.qml:121
 msgid "Send"
-msgstr "ئەۋەت"
+msgstr "Hantar"
 
 #: Dash/Previews/Reviews.qml:139
 msgid "Comments:"
-msgstr "ئىنكاس:"
+msgstr "Ulasan:"
 
 #: Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
-msgstr ""
+msgstr "panggilan Kecemasan"
 
 #: Greeter/PassphraseLockscreen.qml:59
 #, qt-format
 msgid "Hello %1"
-msgstr "سالام %1"
+msgstr "Hai %1"
 
 #: Greeter/PassphraseLockscreen.qml:59
 msgid "Hello"
-msgstr "سالام"
+msgstr "Hello"
 
 #: Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
-msgstr "جەزملە"
+msgstr "Sahkan"
 
 #: Hud/Hud.qml:61 Hud/Hud.qml:99 Hud/Hud.qml:372
 msgid "Type or say a command"
-msgstr "بۇيرۇق كىرگۈزۈڭ ياكى دەڭ"
+msgstr "Taip atau sebut satu perintah"
 
 #: Hud/Hud.qml:84
 msgid "Loading. Please Wait..."
-msgstr "ئوقۇۋاتىدۇ، سەل كۈتۈڭ…"
+msgstr "Memuatkan. Tunggu Sebentar..."
 
 #: Hud/Hud.qml:89
 msgid "Speak Now..."
-msgstr "ئەمدى سۆزلەڭ…"
+msgstr "Cakap Sekarang..."
 
 #: Hud/Hud.qml:94
 msgid "Speaking..."
-msgstr "سۆزلەۋاتىسىز…"
+msgstr "Bercakap..."
 
 #: Notifications/NotificationMenuItemFactory.qml:89
 msgid "Show password"
-msgstr "ئىم كۆرسەت"
+msgstr "Tunjuk kata laluan"
 
 #: Panel/SearchIndicator.qml:27
 msgid "Search"
-msgstr "ئىزدە"
+msgstr "Gelintar"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Lock to Launcher"
-msgstr "ئىجراچىغا سولىۋەت"
+msgstr "Kunci ke Pelancar"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Unlock from Launcher"
-msgstr "ئىجراچىدىن چىقار"
+msgstr "Tanggalkan dari Pelancar"
 
 #: Shell.qml:439
 #, qt-format
 msgid "Please enter %1"
-msgstr "%1 نى كىرگۈزۈڭ"
+msgstr "Sila masukkan %1"
