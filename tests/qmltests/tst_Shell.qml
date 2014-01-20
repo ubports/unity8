@@ -117,6 +117,7 @@ Item {
             while (apps.count > 0) {
                 ApplicationManager.stopApplication(apps.get(0).appId);
             }
+            compare(ApplicationManager.count, 0)
         }
 
         /*
@@ -182,28 +183,34 @@ Item {
         function test_suspend() {
             var greeter = findChild(shell, "greeter");
 
+            print("step1")
             // Launch an app from the launcher
             dragLauncherIntoView();
             tapOnAppIconInLauncher();
             waitUntilApplicationWindowIsFullyVisible();
 
+            print("step2")
             var mainApp = ApplicationManager.focusedApplicationId;
             verify(mainApp != "");
 
+            print("step3")
             // Try to suspend while proximity is engaged...
             Powerd.displayPowerStateChange(Powerd.Off, Powerd.UseProximity);
             tryCompare(greeter, "showProgress", 0);
 
+            print("step4")
             // Now really suspend
             Powerd.displayPowerStateChange(Powerd.Off, 0);
             tryCompare(greeter, "showProgress", 1);
             tryCompare(ApplicationManager, "focusedApplicationId", "");
 
+            print("step5")
             // And wake up
             Powerd.displayPowerStateChange(Powerd.On, 0);
             tryCompare(ApplicationManager, "focusedApplicationId", "");
             tryCompare(greeter, "showProgress", 1);
 
+            print("step6")
             // Swipe away greeter to focus app
             swipeAwayGreeter();
             tryCompare(ApplicationManager, "focusedApplicationId", mainApp);
@@ -503,6 +510,8 @@ Item {
 
         function test_DashShown(data) {
 
+            print("step1")
+            // greeter: false,
             if (data.greeter) {
                 // Swipe the greeter in
                 var greeter = findChild(shell, "greeter");
@@ -510,21 +519,31 @@ Item {
                 tryCompare(greeter, "showProgress", 1);
             }
 
+            print("step2")
+            //app: false,
             if (data.app) {
                 dragLauncherIntoView();
                 tapOnAppIconInLauncher();
             }
 
+            print("step3")
+            // launcher: true,
             if (data.launcher) {
                 dragLauncherIntoView();
             }
 
+            print("step4")
+            // indicators: false,
             if (data.indicators) {
                 showIndicators();
             }
 
+            print("step5")
+            //expectedShown: true},
             var dash = findChild(shell, "dash");
+            print("step6", dash, dash.shown, data.expectedShown)
             tryCompare(dash, "shown", data.expectedShown);
+            print("step7")
         }
 
         function test_searchIndicatorHidesOnAppFocus() {

@@ -121,11 +121,12 @@ FocusScope {
         property bool fullyCovered: panel.indicators.fullyOpened && shell.width <= panel.indicatorsMenuWidth
 
         readonly property bool applicationRunning: ApplicationManager.focusedApplicationId.length > 0
+        onApplicationRunningChanged: print("***************+ application running", applicationRunning)
 
         // Whether the user should see the topmost application surface (if there's one at all).
         readonly property bool applicationSurfaceShouldBeSeen: applicationRunning && !stages.painting
 
-        // NB! Application surfaces are stacked behing the shell one. So they can only be seen by the user
+        // NB! Application surfaces are stacked behind the shell one. So they can only be seen by the user
         // through the translucent parts of the shell surface.
         visible: !fullyCovered && !applicationSurfaceShouldBeSeen
 
@@ -227,6 +228,8 @@ FocusScope {
                     if (ApplicationManager.focusedApplicationId.length > 0) {
                         print("should show stages")
                         stages.show();
+                    } else {
+                        stages.hide();
                     }
                 }
 
