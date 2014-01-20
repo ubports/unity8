@@ -19,6 +19,7 @@
 
 #include <QObject>
 #include <QQmlComponent>
+#include <QDebug>
 
 class QQuickItem;
 
@@ -56,6 +57,7 @@ class ApplicationInfo : public ApplicationInfoInterface {
     { \
         if (m_##name != value) { \
             m_##name = value; \
+    qDebug() << "emitting changed" << this << Q_FUNC_INFO; \
             Q_EMIT name##Changed(); \
         } \
     } \

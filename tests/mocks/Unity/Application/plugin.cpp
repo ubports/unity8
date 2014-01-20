@@ -18,13 +18,20 @@
 #include "ApplicationInfo.h"
 #include "ApplicationImage.h"
 #include "ApplicationManager.h"
+#include "ApplicationScreenshotProvider.h"
 
 #include <qqml.h>
+#include <QQmlEngine>
+
+ApplicationManager *s_appManager = 0;
 
 static QObject* applicationManagerSingleton(QQmlEngine* engine, QJSEngine* scriptEngine) {
-  Q_UNUSED(engine);
-  Q_UNUSED(scriptEngine);
-  return new ApplicationManager();
+    Q_UNUSED(engine);
+    Q_UNUSED(scriptEngine);
+    if (!s_appManager) {
+        s_appManager = new ApplicationManager();
+    }
+    return s_appManager;
 }
 
 void FakeUnityApplicationQmlPlugin::registerTypes(const char *uri)
@@ -36,4 +43,12 @@ void FakeUnityApplicationQmlPlugin::registerTypes(const char *uri)
     qmlRegisterType<ApplicationInfo>(uri, 0, 1, "ApplicationInfo");
 
     qmlRegisterType<ApplicationImage>(uri, 0, 1, "ApplicationImage");
+}
+
+void FakeUnityApplicationQmlPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
+{
+    QQmlExtensionPlugin::initializeEngine(engine, uri);
+
+    ApplicationManager* appManager = static_cast<ApplicationManager*>(applicationManagerSingleton(engine, NULL));
+    engine->addImageProvider(QLatin1String("application"), new ApplicationScreenshotProvider(appManager));
 }

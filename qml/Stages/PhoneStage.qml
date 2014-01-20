@@ -20,6 +20,7 @@ Item {
     // State information propagated to the outside
     readonly property bool painting: mainScreenshotImage.visible || fadeInScreenshotImage.visible || appSplash.visible
     onPaintingChanged: print("**********************+ painting changed", painting)
+    onShownChanged: print("*********************** shown changed", shown)
 
     onMovingChanged: {
         if (moving) {
@@ -37,6 +38,7 @@ Item {
         }
 
         onFocusedApplicationIdChanged: {
+            print("foooooooooooooo")
             if (ApplicationManager.focusedApplicationId.length > 0) {
                 if (priv.secondApplicationStarting || priv.applicationStarting) {
                     appSplashTimer.start();
@@ -65,7 +67,7 @@ Item {
 
         property string focusedAppId: ApplicationManager.focusedApplicationId
         property var focusedApplication: ApplicationManager.findApplication(focusedAppId)
-        property url focusedScreenshot: focusedApplication ? focusedApplication.screenshot : ""
+        property url focusedScreenshot: focusedApplication.screenshot
 
         property bool waitingForScreenshot: false
 
@@ -74,7 +76,10 @@ Item {
 
         property string newFocusedAppId
 
+        onFocusedAppIdChanged: print("focusedappidchanged")
+
         onFocusedScreenshotChanged: {
+            print("focusedscreenshotchanged")
             if (root.moving && priv.waitingForScreenshot) {
                 mainScreenshotImage.anchors.leftMargin = 0;
                 mainScreenshotImage.src = ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).screenshot;
@@ -86,6 +91,7 @@ Item {
         }
 
         function requestNewScreenshot() {
+            print("requesting new screenshot", focusedAppId, focusedScreenshot, focusedApplication, focusedApplication.screenshot)
             waitingForScreenshot = true;
             ApplicationManager.updateScreenshot(ApplicationManager.focusedApplicationId);
         }
@@ -306,8 +312,8 @@ Item {
 
             SequentialAnimation {
                 id: snapAnimation
-                property var targetContentX
-                property var targetAppId
+                property int targetContentX: 0
+                property string targetAppId
 
                 UbuntuNumberAnimation {
                     target: coverFlickable
@@ -508,7 +514,7 @@ Item {
                         }
                         EasingCurve {
                             id: scaleEasing
-                            type: EasingCurve.Linear
+                            type: EasingCurve.OutQuad
                             period: coverFlip.maxScale - coverFlip.minScale
                             progress: appImage.translatedProgress
                         }
@@ -555,5 +561,10 @@ Item {
                 }
             }
         }
+    }
+    Rectangle {
+        anchors.fill: parent
+        color: "green"
+        opacity: .5
     }
 }

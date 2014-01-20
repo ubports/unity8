@@ -130,7 +130,7 @@ FocusScope {
         visible: !fullyCovered && !applicationSurfaceShouldBeSeen
 
         onVisibleChanged: print("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh", visible, fullyCovered, applicationSurfaceShouldBeSeen,
-                                applicationRunning, stages.fullyHidden, stages.usingScreenshots)
+                                applicationRunning, stages.fullyHidden, stages.painting)
 
         CrossFadeImage {
             id: backgroundImage
