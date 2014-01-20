@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013, 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ABSTRACTJOURNAL_H
-#define ABSTRACTJOURNAL_H
+#ifndef ABSTRACTDASHVIEW_H
+#define ABSTRACTDASHVIEW_H
 
 #include <QQuickItem>
 
@@ -31,7 +31,7 @@ class QQmlComponent;
 #endif
 #pragma GCC diagnostic pop
 
-class AbstractJournal : public QQuickItem
+class AbstractDashView : public QQuickItem
 {
     Q_OBJECT
 
@@ -50,9 +50,10 @@ class AbstractJournal : public QQuickItem
 
 friend class VerticalJournalTest;
 friend class HorizontalJournalTest;
+friend class OrganicGridTest;
 
 public:
-    AbstractJournal();
+    AbstractDashView();
 
     QAbstractItemModel *model() const;
     void setModel(QAbstractItemModel *model);
@@ -110,7 +111,7 @@ private:
 
     virtual void findBottomModelIndexToAdd(int *modelIndex, qreal *yPos) = 0;
     virtual void findTopModelIndexToAdd(int *modelIndex, qreal *yPos) = 0;
-    virtual void positionItem(int modelIndex, QQuickItem *item) = 0;
+    virtual void addItemToView(int modelIndex, QQuickItem *item) = 0;
     virtual bool removeNonVisibleItems(qreal bufferFromY, qreal bufferToY) = 0;
     virtual void cleanupExistingItems() = 0;
     virtual void doRelayout() = 0;
