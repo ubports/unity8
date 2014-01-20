@@ -20,7 +20,6 @@ Item {
     // State information propagated to the outside
     readonly property bool painting: mainScreenshotImage.visible || fadeInScreenshotImage.visible || appSplash.visible
     onPaintingChanged: print("**********************+ painting changed", painting)
-    onShownChanged: print("*********************** shown changed", shown)
 
     onMovingChanged: {
         if (moving) {
@@ -38,7 +37,6 @@ Item {
         }
 
         onFocusedApplicationIdChanged: {
-            print("foooooooooooooo")
             if (ApplicationManager.focusedApplicationId.length > 0) {
                 if (priv.secondApplicationStarting || priv.applicationStarting) {
                     appSplashTimer.start();
@@ -67,7 +65,7 @@ Item {
 
         property string focusedAppId: ApplicationManager.focusedApplicationId
         property var focusedApplication: ApplicationManager.findApplication(focusedAppId)
-        property url focusedScreenshot: focusedApplication.screenshot
+        property url focusedScreenshot: focusedApplication ? focusedApplication.screenshot : ""
 
         property bool waitingForScreenshot: false
 
@@ -76,10 +74,7 @@ Item {
 
         property string newFocusedAppId
 
-        onFocusedAppIdChanged: print("focusedappidchanged")
-
         onFocusedScreenshotChanged: {
-            print("focusedscreenshotchanged")
             if (root.moving && priv.waitingForScreenshot) {
                 mainScreenshotImage.anchors.leftMargin = 0;
                 mainScreenshotImage.src = ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).screenshot;
@@ -91,7 +86,6 @@ Item {
         }
 
         function requestNewScreenshot() {
-            print("requesting new screenshot", focusedAppId, focusedScreenshot, focusedApplication, focusedApplication.screenshot)
             waitingForScreenshot = true;
             ApplicationManager.updateScreenshot(ApplicationManager.focusedApplicationId);
         }
@@ -102,6 +96,13 @@ Item {
             grantFocusTimer.start();
         }
 
+    }
+
+    // FIXME: the signal connection seems to get lost with the fake application manager.
+    // Check with Qt 5.2, see if we can remove this Connections object
+    Connections {
+        target: priv.focusedApplication
+        onScreenshotChanged: priv.focusedScreenshot = priv.focusedApplication.screenshot
     }
 
     Timer {
@@ -188,7 +189,7 @@ Item {
 
     EdgeDragArea {
         id: coverFlipDragArea
-        direction: Direction.Rightwards
+        direction: Direction.Leftwards
 
         //enabled: root.available
         anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
@@ -319,6 +320,7 @@ Item {
                     target: coverFlickable
                     properties: "contentX"
                     to: snapAnimation.targetContentX
+                    duration: UbuntuAnimation.SnapDuration
                 }
                 ScriptAction {
                     script: {
@@ -514,7 +516,7 @@ Item {
                         }
                         EasingCurve {
                             id: scaleEasing
-                            type: EasingCurve.OutQuad
+                            type: EasingCurve.Linear
                             period: coverFlip.maxScale - coverFlip.minScale
                             progress: appImage.translatedProgress
                         }
@@ -546,8 +548,11 @@ Item {
                     SequentialAnimation {
                         id: switchToAppAnimation
                         property int targetContentX
-                        ParallelAnimation {
-                            UbuntuNumberAnimation { target: coverFlickable; property: "contentX"; to: switchToAppAnimation.targetContentX }
+                        UbuntuNumberAnimation {
+                            target: coverFlickable;
+                            property: "contentX";
+                            to: switchToAppAnimation.targetContentX;
+                            duration: UbuntuAnimation.SnapDuration
                         }
                         ScriptAction {
                             script: {
@@ -561,10 +566,5 @@ Item {
                 }
             }
         }
-    }
-    Rectangle {
-        anchors.fill: parent
-        color: "green"
-        opacity: .5
     }
 }

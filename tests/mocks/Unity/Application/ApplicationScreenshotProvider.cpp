@@ -21,6 +21,9 @@
 #include "paths.h"
 
 #include <QDebug>
+#include <QGuiApplication>
+#include <QWindow>
+#include <QQuickWindow>
 
 ApplicationScreenshotProvider::ApplicationScreenshotProvider(ApplicationManager *appManager)
     : QQuickImageProvider(QQuickImageProvider::Image)
@@ -49,8 +52,18 @@ QImage ApplicationScreenshotProvider::requestImage(const QString &imageId, QSize
         qDebug() << "failed loading app image" << filePath;
     }
 
+    QGuiApplication *unity = qobject_cast<QGuiApplication*>(qApp);
+
+    Q_FOREACH (QWindow *win, unity->allWindows()) {
+        QQuickWindow *quickWin = qobject_cast<QQuickWindow*>(win);
+        if (quickWin) {
+            image = image.scaledToWidth(quickWin->width());
+        }
+    }
+
     size->setWidth(image.width());
     size->setHeight(image.height());
+    qDebug() << "got image of size" << size->width() << size->height() << requestedSize;
 
     return image;
 }
