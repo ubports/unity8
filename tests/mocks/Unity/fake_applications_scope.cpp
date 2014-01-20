@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013, 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,6 +30,7 @@ ApplicationsScope::ApplicationsScope(bool visible, QObject* parent)
     m_id = "applications.scope";
     m_name = "Applications";
     m_visible = visible;
+    m_previewRendererName = "preview-application";
     m_categories->setModel(createCategoriesModel());
 }
 

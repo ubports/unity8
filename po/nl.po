@@ -8,23 +8,23 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-11-29 09:21+0100\n"
-"PO-Revision-Date: 2013-06-27 07:19+0000\n"
-"Last-Translator: Michał Sawicz <michal.sawicz@canonical.com>\n"
+"PO-Revision-Date: 2014-01-15 16:42+0000\n"
+"Last-Translator: Hannie Dumoleyn <Unknown>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-11-30 05:33+0000\n"
-"X-Generator: Launchpad (build 16856)\n"
+"X-Launchpad-Export-Date: 2014-01-16 06:09+0000\n"
+"X-Generator: Launchpad (build 16901)\n"
 
 #: Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
-msgstr ""
+msgstr "Intro overslaan"
 
 #: Components/EdgeDemo.qml:112
 msgid "Right edge"
-msgstr ""
+msgstr "Rechterrand"
 
 #: Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
@@ -32,7 +32,7 @@ msgstr ""
 
 #: Components/EdgeDemo.qml:144
 msgid "Top edge"
-msgstr ""
+msgstr "Bovenrand"
 
 #: Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
@@ -40,29 +40,31 @@ msgstr ""
 
 #: Components/EdgeDemo.qml:170
 msgid "Close"
-msgstr ""
+msgstr "Sluiten"
 
 #: Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
-msgstr ""
+msgstr "Veeg nogmaals omhoog om het instellingenscherm te sluiten"
 
 #: Components/EdgeDemo.qml:198
 msgid "Left edge"
-msgstr ""
+msgstr "Linkerrand"
 
 #: Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr ""
+msgstr "Veeg vanaf links om de Starter te tonen voor snelle toegang tot apps"
 
 #: Components/EdgeDemo.qml:226
 msgid "Well done"
-msgstr ""
+msgstr "Goed gedaan"
 
 #: Components/EdgeDemo.qml:227
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap anywhere to start"
 msgstr ""
+"Nu je het vegen onder de knie hebt, kun je de telefoon gebruiken<br><br>Tik "
+"ergens om te beginnen"
 
 #: Components/PageHeader.qml:364
 msgid "Recent searches"
@@ -70,50 +72,50 @@ msgstr "Recente zoekopdrachten"
 
 #: Dash/Apps/AppPreview.qml:135
 msgid "Rate this"
-msgstr ""
+msgstr "Beoordeel dit"
 
 #. TRANSLATORS: Number of persons who rated this app/video/whatever
 #: Dash/Previews/Header.qml:93
 #, qt-format
 msgid "(%1)"
-msgstr ""
+msgstr "(%1)"
 
 #. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
 #: Dash/Previews/Header.qml:105
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 recensie"
+msgstr[1] "%1 recensies"
 
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
-msgstr ""
+msgstr "Voeg recensie toe"
 
 #: Dash/Previews/Reviews.qml:86
 msgid "Review"
-msgstr ""
+msgstr "Recensie"
 
 #: Dash/Previews/Reviews.qml:121
 msgid "Send"
-msgstr ""
+msgstr "Versturen"
 
 #: Dash/Previews/Reviews.qml:139
 msgid "Comments:"
-msgstr ""
+msgstr "Reacties:"
 
 #: Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
-msgstr ""
+msgstr "Noodoproep"
 
 #: Greeter/PassphraseLockscreen.qml:59
 #, qt-format
 msgid "Hello %1"
-msgstr ""
+msgstr "Hallo %1"
 
 #: Greeter/PassphraseLockscreen.qml:59
 msgid "Hello"
-msgstr ""
+msgstr "Hallo"
 
 #: Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
@@ -137,7 +139,7 @@ msgstr "Inspreken…"
 
 #: Notifications/NotificationMenuItemFactory.qml:89
 msgid "Show password"
-msgstr ""
+msgstr "Wachtwoord tonen"
 
 #: Panel/SearchIndicator.qml:27
 msgid "Search"
@@ -146,13 +148,13 @@ msgstr "Zoeken"
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Lock to Launcher"
-msgstr ""
+msgstr "In Starter vastzetten"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Unlock from Launcher"
-msgstr ""
+msgstr "Uit Starter verwijderen"
 
 #: Shell.qml:439
 #, qt-format
 msgid "Please enter %1"
-msgstr ""
+msgstr "Voer %1 in"

@@ -36,7 +36,6 @@ set(IndicatorsQML_SOURCES
     unitymenumodelcache.cpp
     unitymenumodelstack.cpp
     visibleindicatorsmodel.cpp
-    timeformatter.cpp
 )
 add_definitions(-DUNITYINDICATORS_LIBRARY)
 

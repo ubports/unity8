@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013, 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,13 +16,15 @@
 
 #include "fake_preview.h"
 
-Preview::Preview(QObject *parent): QObject(parent)
+Preview::Preview(const QString &rendererName, QObject *parent):
+    QObject(parent),
+    m_rendererName(rendererName)
 {
 }
 
 QString Preview::rendererName() const
 {
-    return "generic-preview";
+    return m_rendererName;
 }
 
 QString Preview::title() const

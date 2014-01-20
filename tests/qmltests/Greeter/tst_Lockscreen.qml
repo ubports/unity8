@@ -17,7 +17,7 @@
 import QtQuick 2.0
 import QtTest 1.0
 import ".."
-import "../../../Greeter"
+import "../../../qml/Greeter"
 import Ubuntu.Components 0.1
 import LightDM 0.1 as LightDM
 import Unity.Test 0.1 as UT
@@ -134,7 +134,7 @@ Rectangle {
             if (data.pinPadAvailable) {
                 compare(findChild(lockscreen, "pinPadButton8").text, "8", "Could not find number 8 on PinPad")
             } else {
-                compare(findChild(lockscreen, "pinPadButton8"), undefined, "Could find number 8 on PinPad even though it should be only OSK")
+                compare(findChild(lockscreen, "pinPadButton8"), null, "Could find number 8 on PinPad even though it should be only OSK")
             }
         }
 

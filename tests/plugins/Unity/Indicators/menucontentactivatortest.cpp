@@ -18,7 +18,6 @@
  */
 
 #include "menucontentactivator.h"
-#include "paths.h"
 
 #include <QtTest>
 #include <QDebug>

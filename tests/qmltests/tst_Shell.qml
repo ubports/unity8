@@ -24,7 +24,7 @@ import Unity.Application 0.1
 import Unity.Test 0.1 as UT
 import Powerd 0.1
 
-import "../.."
+import "../../qml"
 
 Item {
     width: shell.width
@@ -69,17 +69,17 @@ Item {
                 var dashContentList = findChild(shell, "dashContentList");
                 waitForRendering(dashContentList);
                 var homeLoader = findChild(dashContentList, "home.scope loader");
-                ok = homeLoader !== undefined
+                ok = homeLoader !== null
                     && homeLoader.item !== undefined;
 
                 var dashHome = findChild(shell, "DashHome");
-                ok &= dashHome !== undefined;
+                ok &= dashHome !== null;
 
                 var greeter = findChild(shell, "greeter");
-                ok &= greeter !== undefined;
+                ok &= greeter !== null;
 
                 var launcherPanel = findChild(shell, "launcherPanel");
-                ok &= launcherPanel !== undefined;
+                ok &= launcherPanel !== null;
 
                 attempts++;
                 if (!ok) {
@@ -469,8 +469,8 @@ Item {
 
         function test_background_data() {
             return [
-                {tag: "red", url: "tests/data/unity/backgrounds/red.png", expectedUrl: "tests/data/unity/backgrounds/red.png"},
-                {tag: "blue", url: "tests/data/unity/backgrounds/blue.png", expectedUrl: "tests/data/unity/backgrounds/blue.png"},
+                {tag: "red", url: Qt.resolvedUrl("../data/unity/backgrounds/red.png"), expectedUrl: "tests/data/unity/backgrounds/red.png"},
+                {tag: "blue", url: Qt.resolvedUrl("../data/unity/backgrounds/blue.png"), expectedUrl: "tests/data/unity/backgrounds/blue.png"},
                 {tag: "invalid", url: "invalid", expectedUrl: shell.defaultBackground},
                 {tag: "empty", url: "", expectedUrl: shell.defaultBackground}
             ]

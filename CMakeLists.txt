@@ -69,17 +69,6 @@ if(SHELL_PLUGINDIR STREQUAL "")
     message(FATAL_ERROR "Could not determine plugin import dir.")
 endif()
 
-configure_file(paths.h.in ${CMAKE_CURRENT_BINARY_DIR}/paths.h @ONLY)
-
-pkg_check_modules(UNITY-MIR REQUIRED unity-mir)
-
-include_directories(
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
-    ${UNITY-MIR_INCLUDE_DIRS}
-    )
-
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fno-permissive -pedantic -Wall -Wextra")
@@ -107,73 +96,25 @@ include(autopilot)
 declare_autopilot_test(shell unity8.shell ${CMAKE_SOURCE_DIR}/tests/autopilot/)
 
 set(SHELL_APP unity8)
+set(SCOPE_TOOL unity-scope-tool)
 
-set(shell_app_HDRS
-    )
-
-add_executable(${SHELL_APP}
-    ${shellapplication_MOC_SRCS}
-    ApplicationArguments.h
-    main.cpp
-    MouseTouchAdaptor.cpp
-    )
-
-qt5_use_modules(${SHELL_APP} Qml Quick Test)
-pkg_check_modules(XCB REQUIRED xcb)
-
-if (NOT "${XCB_INCLUDE_DIRS}" STREQUAL "")
-    set_target_properties(${SHELL_APP} PROPERTIES INCLUDE_DIRECTORIES ${XCB_INCLUDE_DIRS})
-endif()
-
-target_link_libraries(${SHELL_APP}
-    ${Qt5Qml_LIBRARIES}
-    ${Qt5Quick_LIBRARIES}
-    ${XCB_LDFLAGS}
-    ${CMAKE_DL_LIBS}
-    )
-
-# install binaries
-install(TARGETS ${SHELL_APP}
-     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-     )
-
-# install top level qml and js files
-file(GLOB QML_JS_FILES *.qml *.js)
-
-install(FILES ${QML_JS_FILES}
-    DESTINATION ${SHELL_APP_DIR}
-    )
+include_directories(
+    ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_BINARY_DIR}/include
+)
 
 # add subdirectories to build
+add_subdirectory(include)
+add_subdirectory(src)
+add_subdirectory(tools)
+add_subdirectory(qml)
 add_subdirectory(tests)
 add_subdirectory(plugins)
-add_subdirectory(src)
 
-# install subdirectories
-set(QML_DIRS
-    Bottombar
-    Components
-    Dash
-    graphics
-    Greeter
-    Hud
-    Panel
-    Launcher
-    SideStage
-    Notifications
-    )
-
-install(DIRECTORY ${QML_DIRS}
-    DESTINATION ${SHELL_APP_DIR}
-    )
-
-# generate desktop file
-configure_file(${SHELL_APP}.desktop.in ${CMAKE_CURRENT_BINARY_DIR}/${SHELL_APP}.desktop @ONLY)
-
-# install desktop file
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${SHELL_APP}.desktop
-    DESTINATION ${CMAKE_INSTALL_DATADIR}/applications
-    )
+#
+# Data files
+#
+add_subdirectory(data)
 
 #
 # Translation

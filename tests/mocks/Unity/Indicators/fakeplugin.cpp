@@ -25,6 +25,7 @@
 // local
 #include "indicators.h"
 #include "menucontentactivator.h"
+#include "unitymenumodelstack.h"
 #include "visibleindicatorsmodel.h"
 
 void IndicatorsFakePlugin::registerTypes(const char * uri)
@@ -32,6 +33,7 @@ void IndicatorsFakePlugin::registerTypes(const char * uri)
     Q_INIT_RESOURCE(indicators_fake);
 
     qmlRegisterType<MenuContentActivator>(uri, 0, 1, "MenuContentActivator");
+    qmlRegisterType<UnityMenuModelStack>(uri, 0, 1, "UnityMenuModelStack");
     qmlRegisterType<VisibleIndicatorsModel>(uri, 0, 1, "VisibleIndicatorsModel");
 
     qmlRegisterUncreatableType<MenuContentState>(uri, 0, 1, "MenuContentState", "Can't create MenuContentState class");

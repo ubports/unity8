@@ -18,7 +18,7 @@ import QtQuick 2.0
 import QtTest 1.0
 import Unity.Test 0.1 as UT
 import ".."
-import "../../../Panel"
+import "../../../qml/Panel"
 
 /*
   This tests the Panel component using a fake model to stage data in the indicators
@@ -56,6 +56,8 @@ Item {
         }
 
         function init() {
+            panel.indicators.initialise();
+
             searchClicked = false;
             panel.indicators.hide();
             tryCompare(panel.indicators.hideAnimation, "running", false);
@@ -64,16 +66,16 @@ Item {
 
         function get_indicator_item(index) {
             var rowRepeater = findChild(panel.indicators, "rowRepeater");
-            verify(rowRepeater != undefined);
+            verify(rowRepeater !== null);
             return rowRepeater.itemAt(index);
         }
 
         function get_indicator_item_position(index) {
             var indicatorRow = findChild(panel.indicators, "indicatorRow");
-            verify(indicatorRow != undefined);
+            verify(indicatorRow !== null);
 
             var indicatorItem = get_indicator_item(index);
-            verify(indicatorItem != undefined);
+            verify(indicatorItem !== null);
 
             return panel.mapFromItem(indicatorItem, indicatorItem.width/2, indicatorItem.height/2);
         }
@@ -118,7 +120,7 @@ Item {
             // no hint animation when fullscreen
             compare(panel.indicators.y, -panel.panelHeight);
             var indicatorRow = findChild(panel.indicators, "indicatorRow");
-            verify(indicatorRow != undefined);
+            verify(indicatorRow !== null);
             compare(indicatorRow.y, 0);
             compare(panel.indicators.height, panel.indicators.panelHeight);
             compare(panel.indicators.partiallyOpened, false,
@@ -143,13 +145,13 @@ Item {
             }
 
             var indicatorRow = findChild(panel.indicators, "indicatorRow");
-            verify(indicatorRow != undefined);
+            verify(indicatorRow !== null);
 
             var rowRepeater = findChild(panel.indicators, "rowRepeater");
-            verify(indicatorRow != undefined);
+            verify(indicatorRow !== null);
 
             var menuContent = findChild(panel.indicators, "menuContent");
-            verify(indicatorRow != undefined);
+            verify(indicatorRow !== null);
 
             // Wait for the indicators to get into position.
             // (switches between normal and fullscreen modes are animated)
@@ -203,7 +205,7 @@ Item {
             panel.searchVisible = true;
 
             var searchIndicator = findChild(panel, "search");
-            verify(searchIndicator != undefined);
+            verify(searchIndicator !== null);
 
             tap(searchIndicator, 1, 1);
 
@@ -216,7 +218,7 @@ Item {
             panel.searchVisible = false;
 
             var searchIndicator = findChild(panel, "search");
-            verify(searchIndicator != undefined);
+            verify(searchIndicator !== null);
 
             tap(searchIndicator, 1, 1);
 
@@ -232,14 +234,14 @@ Item {
             panel.searchVisible = false;
 
             var indicatorRow = findChild(panel.indicators, "indicatorRow");
-            verify(indicatorRow != undefined);
+            verify(indicatorRow !== null);
 
             var rowRepeater = findChild(panel.indicators, "rowRepeater");
-            verify(indicatorRow != undefined);
+            verify(indicatorRow !== null);
 
             // Get the first indicator
             var indicatorItemFirst = get_indicator_item(0);
-            verify(indicatorItemFirst != undefined);
+            verify(indicatorItemFirst !== undefined);
 
             var indicatorItemCoordFirst = get_indicator_item_position(0);
             var indicatorItemCoordNext = get_indicator_item_position(indicatorRow.count - 1);
@@ -263,6 +265,20 @@ Item {
                        units.gu(10) /* speed */, 30 /* iterations */); // more samples needed for accurate velocity
 
             compare(indicatorRow.currentItem, indicatorItemFirst, "First indicator should still be the current item");
+        }
+
+        function test_hideIndicatorMenu_data() {
+            return [ {tag: "no-delay", delay: undefined },
+                     {tag: "delayed", delay: 200 }
+            ];
+        }
+
+        function test_hideIndicatorMenu(data) {
+            panel.indicators.show();
+            compare(panel.indicators.shown, true);
+
+            panel.hideIndicatorMenu(data.delay);
+            tryCompare(panel.indicators, "shown", false);
         }
     }
 }
