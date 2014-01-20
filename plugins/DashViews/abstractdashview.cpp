@@ -194,7 +194,7 @@ void AbstractDashView::createDelegateModel()
 
 void AbstractDashView::refill()
 {
-    if (!isComponentComplete()) {
+    if (!isComponentComplete() || height() < 0) {
         return;
     }
 

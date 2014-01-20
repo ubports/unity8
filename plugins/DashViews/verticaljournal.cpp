@@ -79,7 +79,7 @@ void VerticalJournal::findBottomModelIndexToAdd(int *modelIndex, qreal *yPos)
 
 void VerticalJournal::findTopModelIndexToAdd(int *modelIndex, qreal *yPos)
 {
-    *modelIndex = INT_MAX;
+    *modelIndex = 0;
     *yPos = std::numeric_limits<qreal>::lowest();
     int columnToAddTo = -1;
 
@@ -179,6 +179,7 @@ void VerticalJournal::cleanupExistingItems()
         column.clear();
     }
     m_indexColumnMap.clear();
+    setImplicitHeightDirty();
 }
 
 void VerticalJournal::calculateImplicitHeight()
