@@ -340,208 +340,214 @@ Item {
                 model: ApplicationManager
 
                 Item {
+                    id: appItem
                     height: parent.height
                     width: coverFlip.tileWidth
 
+                    // This is the main progress, of the gesture, the same for every tile
+                    property real progress: coverFlip.progress
+                    // The progress, translated for the second stage of the animation, after the first app switch has happened
+                    // Additionally it speeds it up a bit, depending on the distance of the tile
+                    property real translatedProgress: appItem.progress - coverFlip.progressMarker1 - (coverFlip.tileDistance * (index-1))
+
+                    // Is this tile selected by a click?
+                    property bool isSelected: false
+                    // We need to remember some values when app is selected to be able to animate it to the foreground
+                    property real selectedXTranslation: 0
+                    property real selectedTranslatedProgress: 0
+                    property real selectedProgress: 0
+                    property real selectedAngle: 0
+                    property real selectedXScale: 0
+
+                    function select() {
+                        appItem.selectedXTranslation = appItem.xTranslation;
+                        appItem.selectedAngle = appItem.angle;
+                        appItem.selectedXScale = appItem.xScale;
+                        appItem.selectedTranslatedProgress = appItem.translatedProgress - coverFlip.progressMarker1;
+                        appItem.selectedProgress = appItem.progress - coverFlip.progressMarker1;
+                        appItem.isSelected = true;
+                        switchToAppAnimation.targetContentX = coverFlip.progressMarker1 * root.width
+                        switchToAppAnimation.start();
+                    }
+
+                    property int xTranslation: {
+                        var xTranslate = 0;
+                        var minXTranslate = -index * root.width + index * units.dp(3);
+                        switch (index) {
+                        case 0:
+                            if (appItem.progress < coverFlip.progressMarker1) {
+                                var progress = appItem.progress
+                                var progressDiff = coverFlip.progressMarker1
+                                var translateDiff = -root.width * 0.25
+                                // progress : progressDiff = translate : translateDiff
+                                xTranslate = progress * translateDiff / progressDiff
+                            }
+                            break;
+                        case 1:
+                            if (appItem.progress < coverFlip.progressMarker1) {
+                                var progress = appItem.progress;
+                                var progressDiff = coverFlip.progressMarker1;
+                                var translateDiff = -root.width;
+                                // progress : progressDiff = translate : translateDiff
+                                xTranslate = progress * translateDiff / progressDiff;
+                                break;
+                            }
+                            // Intentionally no break here...
+                        default:
+                            if (appItem.progress > coverFlip.progressMarker1) {
+                                xTranslate = xTranslateEasing.value * xTranslateEasing.period;
+                                if (appItem.isSelected) {
+                                    var translateDiff = root.width * index + appItem.selectedXTranslation
+                                    var progressDiff = appItem.selectedProgress
+                                    var progress = progressDiff - (appItem.progress - coverFlip.progressMarker1);
+                                    // progress : progressDiff = translate : translateDiff
+                                    var newTranslate = progress * translateDiff / progressDiff;
+
+                                    xTranslate = appItem.selectedXTranslation - newTranslate;
+                                }
+                                break;
+                            }
+                        }
+                        return xTranslate;
+                    }
+
+                    property real angle: {
+                        var newAngle = 0;
+                        switch (index) {
+                        case 0:
+                            if (appItem.progress < coverFlip.progressMarker1) {
+                                var progress = appItem.progress;
+                                var angleDiff = coverFlip.endAngle;
+                                var progressDiff = coverFlip.progressMarker1;
+                                // progress : progressDiff = angle : angleDiff
+                                newAngle = progress * angleDiff / progressDiff;
+                            } else {
+                                var progress = appItem.progress - coverFlip.progressMarker1;
+                                var angleDiff = coverFlip.endAngle;
+                                var progressDiff = 1 - coverFlip.progressMarker1;
+                                // progress : progressDiff = angle : angleDiff
+                                newAngle = progress * angleDiff / progressDiff;
+                                newAngle = Math.min(coverFlip.endAngle, newAngle);
+                            }
+                            break;
+                        case 1:
+                            if (appItem.progress < coverFlip.progressMarker1) {
+                                var progress = coverFlip.progress;
+                                var angleDiff = coverFlip.startAngle;
+                                var progressDiff = coverFlip.progressMarker1;
+                                // progress : progressDiff = angle : angleDiff
+                                var angle = progress * angleDiff / progressDiff;
+                                newAngle = coverFlip.startAngle - angle;
+                                break;
+                            }
+                            // Intentionally no break here...
+                        default:
+                            newAngle = coverFlip.startAngle - (angleEasing.value * angleEasing.period);
+                            // make sure we stop at the left screen edge
+                            newAngle = Math.max(newAngle, coverFlip.endAngle);
+
+                            if (appItem.isSelected) {
+//                                    var selectedAngleTranslate = selectedAngleEasing.value * selectedAngleEasing.period
+                                var angleDiff = appItem.selectedAngle
+                                var progressDiff = appItem.selectedProgress
+                                var progress = progressDiff - (appItem.progress - coverFlip.progressMarker1);
+                                // progress : progressDiff = angle : angleDiff
+                                var selectedAngleTranslate = progress * angleDiff / progressDiff;
+
+                                newAngle = appItem.selectedAngle - selectedAngleTranslate;
+                            }
+                        }
+                        return newAngle;
+                    }
+
+                    property real xScale: {
+                        var scale = 1;
+
+                        switch (index) {
+                        case 0:
+                            if (appItem.progress > coverFlip.progressMarker1) {
+                                var scaleDiff = coverFlip.maxScale - 1;
+                                var progressDiff = 1.5 - coverFlip.progressMarker1;
+                                // progress : progressDiff = scale : scaleDiff
+                                scale = 1 - (appItem.progress - coverFlip.progressMarker1) * scaleDiff / progressDiff;
+                            }
+                            break;
+                        case 1:
+                            if (appItem.progress < coverFlip.progressMarker1) {
+                                var scaleDiff = coverFlip.maxScale - 1
+                                var progressDiff = coverFlip.progressMarker1
+                                // progress : progressDiff = scale : scaleDiff
+                                scale = coverFlip.maxScale - (appItem.progress * scaleDiff / progressDiff);
+                                break;
+                            }
+                            // Intentionally no break
+                        default:
+                            scale = coverFlip.maxScale - scaleEasing.value * scaleEasing.period;
+                            if (appItem.isSelected) {
+                                var scaleDiff = -(1 - appItem.selectedXScale)
+                                var progressDiff = appItem.selectedProgress
+                                var progress = progressDiff - (appItem.progress - coverFlip.progressMarker1);
+                                // progress : progressDiff = angle : angleDiff
+                                var selectedScaleTranslate = progress * scaleDiff / progressDiff;
+
+                                scale = appItem.selectedXScale - selectedScaleTranslate;
+                            }
+                        }
+                        return Math.min(coverFlip.maxScale, Math.max(coverFlip.minScale, scale));
+                    }
+
+                    EasingCurve {
+                        id: xTranslateEasing
+                        type: EasingCurve.OutQuad
+                        period: index * -width
+                        progress: appItem.translatedProgress
+                    }
+                    EasingCurve {
+                        id: angleEasing
+                        type: EasingCurve.InQuad
+                        period: coverFlip.startAngle - coverFlip.endAngle
+                        progress: appItem.translatedProgress
+                    }
+                    EasingCurve {
+                        id: scaleEasing
+                        type: EasingCurve.Linear
+                        period: coverFlip.maxScale - coverFlip.minScale
+                        progress: appItem.translatedProgress
+                    }
+
+                    transform: [
+                        Rotation {
+                            origin { x: 0; y: coverFlip.height / 2 }
+                            axis { x: 0; y: 1; z: 0 }
+                            angle: appItem.angle
+                        },
+                        Translate {
+                            x: appItem.xTranslation
+                        },
+                        Scale {
+                            origin { x: appItem.xTranslation; y: root.height / 2 - (root.height - appImage.height)}
+                            xScale: appItem.xScale
+                            yScale: xScale
+                        }
+                    ]
+
+                    Image {
+                        id: dropShadow
+                        anchors.fill: appImage
+                        anchors.margins: -units.gu(2)
+                        source: "graphics/dropshadow.png"
+                    }
                     Image {
                         id: appImage
                         anchors { left: parent.left; bottom: parent.bottom }
                         width: root.width
                         source: ApplicationManager.get(index).screenshot
                         scale: 1
-
-                        // This is the main progress, of the gesture, the same for every tile
-                        property real progress: coverFlip.progress
-                        // The progress, translated for the second stage of the animation, after the first app switch has happened
-                        // Additionally it speeds it up a bit, depending on the distance of the tile
-                        property real translatedProgress: appImage.progress - coverFlip.progressMarker1 - (coverFlip.tileDistance * (index-1))
-
-                        // Is this tile selected by a click?
-                        property bool isSelected: false
-                        // We need to remember some values when app is selected to be able to animate it to the foreground
-                        property real selectedXTranslation: 0
-                        property real selectedTranslatedProgress: 0
-                        property real selectedProgress: 0
-                        property real selectedAngle: 0
-                        property real selectedXScale: 0
-
-                        function select() {
-                            appImage.selectedXTranslation = appImage.xTranslation;
-                            appImage.selectedAngle = appImage.angle;
-                            appImage.selectedXScale = appImage.xScale;
-                            appImage.selectedTranslatedProgress = appImage.translatedProgress - coverFlip.progressMarker1;
-                            appImage.selectedProgress = appImage.progress - coverFlip.progressMarker1;
-                            appImage.isSelected = true;
-                            switchToAppAnimation.targetContentX = coverFlip.progressMarker1 * root.width
-                            switchToAppAnimation.start();
-                        }
-
-                        property int xTranslation: {
-                            var xTranslate = 0;
-                            var minXTranslate = -index * root.width + index * units.dp(3);
-                            switch (index) {
-                            case 0:
-                                if (appImage.progress < coverFlip.progressMarker1) {
-                                    var progress = appImage.progress
-                                    var progressDiff = coverFlip.progressMarker1
-                                    var translateDiff = -root.width * 0.25
-                                    // progress : progressDiff = translate : translateDiff
-                                    xTranslate = progress * translateDiff / progressDiff
-                                }
-                                break;
-                            case 1:
-                                if (appImage.progress < coverFlip.progressMarker1) {
-                                    var progress = appImage.progress;
-                                    var progressDiff = coverFlip.progressMarker1;
-                                    var translateDiff = -root.width;
-                                    // progress : progressDiff = translate : translateDiff
-                                    xTranslate = progress * translateDiff / progressDiff;
-                                    break;
-                                }
-                                // Intentionally no break here...
-                            default:
-                                if (appImage.progress > coverFlip.progressMarker1) {
-                                    xTranslate = xTranslateEasing.value * xTranslateEasing.period;
-                                    if (appImage.isSelected) {
-                                        var translateDiff = root.width * index + appImage.selectedXTranslation
-                                        var progressDiff = appImage.selectedProgress
-                                        var progress = progressDiff - (appImage.progress - coverFlip.progressMarker1);
-                                        // progress : progressDiff = translate : translateDiff
-                                        var newTranslate = progress * translateDiff / progressDiff;
-
-                                        xTranslate = appImage.selectedXTranslation - newTranslate;
-                                    }
-                                    break;
-                                }
-                            }
-                            return xTranslate;
-                        }
-
-                        property real angle: {
-                            var newAngle = 0;
-                            switch (index) {
-                            case 0:
-                                if (appImage.progress < coverFlip.progressMarker1) {
-                                    var progress = appImage.progress;
-                                    var angleDiff = coverFlip.endAngle;
-                                    var progressDiff = coverFlip.progressMarker1;
-                                    // progress : progressDiff = angle : angleDiff
-                                    newAngle = progress * angleDiff / progressDiff;
-                                } else {
-                                    var progress = appImage.progress - coverFlip.progressMarker1;
-                                    var angleDiff = coverFlip.endAngle;
-                                    var progressDiff = 1 - coverFlip.progressMarker1;
-                                    // progress : progressDiff = angle : angleDiff
-                                    newAngle = progress * angleDiff / progressDiff;
-                                    newAngle = Math.min(coverFlip.endAngle, newAngle);
-                                }
-                                break;
-                            case 1:
-                                if (appImage.progress < coverFlip.progressMarker1) {
-                                    var progress = coverFlip.progress;
-                                    var angleDiff = coverFlip.startAngle;
-                                    var progressDiff = coverFlip.progressMarker1;
-                                    // progress : progressDiff = angle : angleDiff
-                                    var angle = progress * angleDiff / progressDiff;
-                                    newAngle = coverFlip.startAngle - angle;
-                                    break;
-                                }
-                                // Intentionally no break here...
-                            default:
-                                newAngle = coverFlip.startAngle - (angleEasing.value * angleEasing.period);
-                                // make sure we stop at the left screen edge
-                                newAngle = Math.max(newAngle, coverFlip.endAngle);
-
-                                if (appImage.isSelected) {
-//                                    var selectedAngleTranslate = selectedAngleEasing.value * selectedAngleEasing.period
-                                    var angleDiff = appImage.selectedAngle
-                                    var progressDiff = appImage.selectedProgress
-                                    var progress = progressDiff - (appImage.progress - coverFlip.progressMarker1);
-                                    // progress : progressDiff = angle : angleDiff
-                                    var selectedAngleTranslate = progress * angleDiff / progressDiff;
-
-                                    newAngle = appImage.selectedAngle - selectedAngleTranslate;
-                                }
-                            }
-                            return newAngle;
-                        }
-
-                        property real xScale: {
-                            var scale = 1;
-
-                            switch (index) {
-                            case 0:
-                                if (appImage.progress > coverFlip.progressMarker1) {
-                                    var scaleDiff = coverFlip.maxScale - 1;
-                                    var progressDiff = 1.5 - coverFlip.progressMarker1;
-                                    // progress : progressDiff = scale : scaleDiff
-                                    scale = 1 - (appImage.progress - coverFlip.progressMarker1) * scaleDiff / progressDiff;
-                                }
-                                break;
-                            case 1:
-                                if (appImage.progress < coverFlip.progressMarker1) {
-                                    var scaleDiff = coverFlip.maxScale - 1
-                                    var progressDiff = coverFlip.progressMarker1
-                                    // progress : progressDiff = scale : scaleDiff
-                                    scale = coverFlip.maxScale - (appImage.progress * scaleDiff / progressDiff);
-                                    break;
-                                }
-                                // Intentionally no break
-                            default:
-                                scale = coverFlip.maxScale - scaleEasing.value * scaleEasing.period;
-                                if (appImage.isSelected) {
-                                    var scaleDiff = -(1 - appImage.selectedXScale)
-                                    var progressDiff = appImage.selectedProgress
-                                    var progress = progressDiff - (appImage.progress - coverFlip.progressMarker1);
-                                    // progress : progressDiff = angle : angleDiff
-                                    var selectedScaleTranslate = progress * scaleDiff / progressDiff;
-
-                                    scale = appImage.selectedXScale - selectedScaleTranslate;
-                                }
-                            }
-                            return Math.min(coverFlip.maxScale, Math.max(coverFlip.minScale, scale));
-                        }
-
-                        EasingCurve {
-                            id: xTranslateEasing
-                            type: EasingCurve.OutQuad
-                            period: index * -width
-                            progress: appImage.translatedProgress
-                        }
-                        EasingCurve {
-                            id: angleEasing
-                            type: EasingCurve.InQuad
-                            period: coverFlip.startAngle - coverFlip.endAngle
-                            progress: appImage.translatedProgress
-                        }
-                        EasingCurve {
-                            id: scaleEasing
-                            type: EasingCurve.Linear
-                            period: coverFlip.maxScale - coverFlip.minScale
-                            progress: appImage.translatedProgress
-                        }
-
-                        transform: [
-                            Rotation {
-                                origin { x: 0; y: coverFlip.height / 2 }
-                                axis { x: 0; y: 1; z: 0 }
-                                angle: appImage.angle
-                            },
-                            Translate {
-                                x: appImage.xTranslation
-                            },
-                            Scale {
-                                origin { x: appImage.xTranslation; y: root.height / 2 - (root.height - appImage.height)}
-                                xScale: appImage.xScale
-                                yScale: xScale
-                            }
-                        ]
-
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: {
-                                appImage.select()
-                            }
+                    }
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            appItem.select()
                         }
                     }
 
@@ -557,7 +563,7 @@ Item {
                         ScriptAction {
                             script: {
                                 ApplicationManager.focusApplication(ApplicationManager.get(index).appId);
-                                appImage.isSelected = false;
+                                appItem.isSelected = false;
                                 coverFlip.progress = 0;
                                 coverFlickable.passedFirstStage = false;
                             }
