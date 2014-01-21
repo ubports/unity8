@@ -79,12 +79,11 @@ Item {
     states:[
         State {
             name: "contracted"
-            PropertyChanges {target: notification; height: units.gu(10)}
+            PropertyChanges {target: notification; height: units.gu(8)}
         },
         State {
             name: "default"
             PropertyChanges {target: notification; height: implicitHeight}
-            PropertyChanges {target: notificationList; currentIndex: index}
         }
     ]
 
@@ -149,7 +148,7 @@ Item {
         MouseArea {
             id: interactiveArea
 
-            anchors.fill: contentColumn
+            anchors.fill: parent
             objectName: "interactiveArea"
             onClicked: {
                 if (notification.type == Notification.Interactive) {
