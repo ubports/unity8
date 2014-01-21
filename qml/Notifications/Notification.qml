@@ -39,7 +39,7 @@ Item {
 
     fullscreen: false
     objectName: "background"
-    implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : contentColumn.height + contentColumn.spacing * 4) : 0
+    implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : contentColumn.height + contentColumn.spacing * 2) : 0
 
     color: Qt.rgba(0.132, 0.117, 0.109, 0.97)
     opacity: 0
@@ -96,7 +96,8 @@ Item {
 
         visible: !fullscreen
         anchors.fill: parent
-        anchors.margins: notification.margins
+        anchors.leftMargin: notification.margins
+        anchors.rightMargin: notification.margins
         color: parent.color
         opacity: parent.opacity
         radius: "medium"

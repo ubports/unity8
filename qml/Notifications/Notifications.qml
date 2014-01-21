@@ -25,6 +25,7 @@ ListView {
     interactive: false
 
     property real margin
+    spacing: units.gu(.5)
 
     delegate: Notification {
         objectName: "notification" + index
