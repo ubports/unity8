@@ -54,9 +54,7 @@ AbstractButton {
         id: shapedApplicationImage
         anchors { top: parent.top; horizontalCenter: parent.horizontalCenter }
 
-        // FIXME: width and height should be defined according to the
-        // application window's aspect ratio.
-        height: units.gu(19)
+        height: units.gu(17)
         width: applicationImage.width
         radius: "medium"
 
