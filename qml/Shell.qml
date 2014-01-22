@@ -50,6 +50,8 @@ FocusScope {
 
     property bool dashShown: dash.shown
 
+    property bool sideStageEnabled: shell.width >= units.gu(60)
+
     function activateApplication(appId) {
         if (ApplicationManager.findApplication(appId)) {
             print("Shell.qml: activating app", appId);
@@ -57,10 +59,7 @@ FocusScope {
         } else {
             print("starting app", appId);
 
-            // FIXME:
-//            var execFlags = sideStageEnabled ? ApplicationManager.NoFlag : ApplicationManager.ForceMainStage;
-            var execFlags = ApplicationManager.ForceMainStage;
-
+            var execFlags = shell.sideStageEnabled ? ApplicationManager.NoFlag : ApplicationManager.ForceMainStage;
             ApplicationManager.startApplication(appId, execFlags);
         }
     }
@@ -242,8 +241,7 @@ FocusScope {
                 id: applicationsDisplayLoader
                 anchors.fill: parent
 
-//                source: "Stages/StageWithSideStage.qml"
-                source: "Stages/PhoneStage.qml"
+                source: shell.sideStageEnabled ? "Stages/StageWithSideStage.qml" : "Stages/PhoneStage.qml"
 
                 Binding {
                     target: applicationsDisplayLoader.item
