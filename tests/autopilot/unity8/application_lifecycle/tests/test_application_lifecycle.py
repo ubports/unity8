@@ -21,7 +21,7 @@
 
 from __future__ import absolute_import
 
-from unity8.process_helpers import unlock_unity
+from unity8.process_helpers import lock_unity, unlock_unity
 from unity8.shell import disable_qml_mocking
 from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 
@@ -53,6 +53,18 @@ class ApplicationLifecycleTests(UnityTestCase):
         end_y = start_y
 
         logger.info("Swiping screen from the right edge")
+        self.touch.drag(start_x, start_y, end_x, end_y)
+
+    def swipe_screen_from_left(self):
+        qml_view = self.main_window.get_qml_view()
+        width = qml_view.width
+        height = qml_view.height
+        start_x = 0
+        start_y = int(height/2)
+        end_x = width
+        end_y = start_y
+
+        logger.info("Swiping screen from the left edge")
         self.touch.drag(start_x, start_y, end_x, end_y)
 
     def _get_current_focused_app_id(self):
@@ -140,6 +152,35 @@ class ApplicationLifecycleTests(UnityTestCase):
     def test_greeter_hides_on_app_open(self):
         """Greeter should hide when an app is opened"""
         unity_proxy = self.launch_unity()
+        greeter = self.main_window.get_greeter()
+        self.assertThat(greeter.created, Eventually(Equals(True)))
+
+        app = self._launch_app("messaging-app")
+        self.assertThat(greeter.created, Eventually(Equals(False)))
+        self.assertThat(
+            self._get_current_focused_app_id(),
+            Eventually(Equals("messaging-app"))
+        )
+
+    @disable_qml_mocking
+    def test_greeter_hides_on_app_focus(self):
+        """Greeter should hide when an app is re-focused"""
+        unity_proxy = self.launch_unity()
+        unlock_unity(unity_proxy)
+
+        app = self._launch_app("messaging-app")
+        self.assertThat(
+            self._get_current_focused_app_id(),
+            Eventually(Equals("messaging-app"))
+        )
+
+        self.swipe_screen_from_left()
+        self.assertThat(
+            self._get_current_focused_app_id(),
+            Eventually(Equals(''))
+        )
+
+        lock_unity()
         greeter = self.main_window.get_greeter()
         self.assertThat(greeter.created, Eventually(Equals(True)))
 
