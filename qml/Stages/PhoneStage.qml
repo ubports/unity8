@@ -406,6 +406,10 @@ Item {
                                 break;
                             }
                         }
+                        if (!appItem.isSelected) {
+                            xTranslate += index * units.dp(4);
+                        }
+
                         return xTranslate;
                     }
 
@@ -523,7 +527,7 @@ Item {
                             x: appItem.xTranslation
                         },
                         Scale {
-                            origin { x: appItem.xTranslation; y: root.height / 2 - (root.height - appImage.height)}
+                            origin { x: appItem.xTranslation; y: coverFlip.height / 2 }
                             xScale: appItem.xScale
                             yScale: xScale
                         }
