@@ -227,7 +227,7 @@ Item {
         id: coverFlickable
         anchors.fill: root
         contentHeight: height
-        contentWidth: width * ApplicationManager.count
+        contentWidth: width * 2 + ((ApplicationManager.count - 2) * root.width * coverFlip.tileDistance * 1.5)
         flickableDirection: Qt.Horizontal
         enabled: coverFlip.visible
 
@@ -238,11 +238,9 @@ Item {
                 contentX = width * coverFlip.progressMarker1;
                 return;
             }
-
             var progress = contentX / width
             if (progress > coverFlip.progressMarker1) {
                 coverFlickable.passedFirstStage = true;
-                progress += progress - coverFlip.progressMarker1
             }
             coverFlip.progress = progress;
         }
@@ -298,9 +296,9 @@ Item {
                     snapAnimation.targetAppId = ApplicationManager.get(0).appId;
                 } else {
                     if (ApplicationManager.count == 3) {
-                        snapAnimation.targetContentX = root.width * .8;
+                        snapAnimation.targetContentX = root.width * 1.1;
                     } else {
-                        snapAnimation.targetContentX = root.width * .9;
+                        snapAnimation.targetContentX = root.width * 1.25;
                     }
                     snapAnimation.targetAppId = "";
                 }
