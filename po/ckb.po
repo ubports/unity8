@@ -8,151 +8,153 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-11-29 09:21+0100\n"
-"PO-Revision-Date: 2014-01-14 20:05+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2014-01-21 11:05+0000\n"
+"Last-Translator: Aras <aras.noori@gmail.com>\n"
 "Language-Team: Kurdish (Sorani) <ckb@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-01-15 06:35+0000\n"
-"X-Generator: Launchpad (build 16890)\n"
+"X-Launchpad-Export-Date: 2014-01-22 06:16+0000\n"
+"X-Generator: Launchpad (build 16901)\n"
 
 #: Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
-msgstr ""
+msgstr "پێشەکیی بپەڕێنە"
 
 #: Components/EdgeDemo.qml:112
 msgid "Right edge"
-msgstr ""
+msgstr "لێواری ڕاست"
 
 #: Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr ""
+msgstr "لێواری ڕاست ڕابکێشە بۆ کردنەوەی مۆبایلەکە"
 
 #: Components/EdgeDemo.qml:144
 msgid "Top edge"
-msgstr ""
+msgstr "لێواری سەرەوە"
 
 #: Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
-msgstr ""
+msgstr "لێواری سەرەوە ڕابکێشە بۆ گەیشتن بە نیشاندەرەکان"
 
 #: Components/EdgeDemo.qml:170
 msgid "Close"
-msgstr ""
+msgstr "داخستن"
 
 #: Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
-msgstr ""
+msgstr "ڕایکێشەوە سەرەوە جارێکی تر بۆ داخستنی پەردەی ڕێکخستنەکان"
 
 #: Components/EdgeDemo.qml:198
 msgid "Left edge"
-msgstr ""
+msgstr "لێواری چەپ"
 
 #: Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr ""
+msgstr "لە چەپەوە بچۆرەوە سەر دەستپێک بۆئەوەی بتوانی هەموو ئەپەکان ببینی"
 
 #: Components/EdgeDemo.qml:226
 msgid "Well done"
-msgstr ""
+msgstr "دەستخۆش"
 
 #: Components/EdgeDemo.qml:227
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap anywhere to start"
 msgstr ""
+"ئێستا شارەزایییت پەیدا کرد لە جوڵەی لێوارەکان و دەتوانی مۆبایلەکە بەکار "
+"بهێنییت<br><br>پەنجە بە شوێنێکدا بنێ بۆ دەست پێ کردن"
 
 #: Components/PageHeader.qml:364
 msgid "Recent searches"
-msgstr ""
+msgstr "دوایین گەڕانەکان"
 
 #: Dash/Apps/AppPreview.qml:135
 msgid "Rate this"
-msgstr ""
+msgstr "پلە دابنی بۆی"
 
 #. TRANSLATORS: Number of persons who rated this app/video/whatever
 #: Dash/Previews/Header.qml:93
 #, qt-format
 msgid "(%1)"
-msgstr ""
+msgstr "(%1)"
 
 #. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
 #: Dash/Previews/Header.qml:105
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 پێداچوونەوە"
+msgstr[1] "%1 پێداچوونەوەکان"
 
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
-msgstr ""
+msgstr "پێداچوونەوە زۆر بکە"
 
 #: Dash/Previews/Reviews.qml:86
 msgid "Review"
-msgstr ""
+msgstr "پێداچوونەوە"
 
 #: Dash/Previews/Reviews.qml:121
 msgid "Send"
-msgstr ""
+msgstr "ناردن"
 
 #: Dash/Previews/Reviews.qml:139
 msgid "Comments:"
-msgstr ""
+msgstr "لێدوانەکان:"
 
 #: Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
-msgstr ""
+msgstr "هێڵی فریاگوزاری"
 
 #: Greeter/PassphraseLockscreen.qml:59
 #, qt-format
 msgid "Hello %1"
-msgstr ""
+msgstr "سڵاو %1"
 
 #: Greeter/PassphraseLockscreen.qml:59
 msgid "Hello"
-msgstr ""
+msgstr "سڵاو"
 
 #: Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
-msgstr ""
+msgstr "پشتڕاستکردنەوە"
 
 #: Hud/Hud.qml:61 Hud/Hud.qml:99 Hud/Hud.qml:372
 msgid "Type or say a command"
-msgstr ""
+msgstr "فەرمانێک بێژە یان بنووسە"
 
 #: Hud/Hud.qml:84
 msgid "Loading. Please Wait..."
-msgstr ""
+msgstr "لە بارکردندایە. تکایە چاوەڕێ بکە..."
 
 #: Hud/Hud.qml:89
 msgid "Speak Now..."
-msgstr ""
+msgstr "ئێستا قسە بکە"
 
 #: Hud/Hud.qml:94
 msgid "Speaking..."
-msgstr ""
+msgstr "قسە دەکات..."
 
 #: Notifications/NotificationMenuItemFactory.qml:89
 msgid "Show password"
-msgstr ""
+msgstr "تێپەڕەوشە پیشان بدە"
 
 #: Panel/SearchIndicator.qml:27
 msgid "Search"
-msgstr ""
+msgstr "گەڕان"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Lock to Launcher"
-msgstr ""
+msgstr "چەسباندن بە لانچرەوە"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Unlock from Launcher"
-msgstr ""
+msgstr "ھەڵکەندن لە لانچر"
 
 #: Shell.qml:439
 #, qt-format
 msgid "Please enter %1"
-msgstr ""
+msgstr "تکایە  %1 بنووسە"
