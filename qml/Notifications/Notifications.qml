@@ -84,6 +84,7 @@ ListView {
     displaced: Transition {
         UbuntuNumberAnimation {
             properties: "x,y"
+            duration: UbuntuAnimation.SnapDuration
         }
     }
 }

@@ -71,8 +71,13 @@ Item {
 
         //enabled: menuItemFactory.progress == 1
         enabled: true
-        UbuntuNumberAnimation {
-            duration: UbuntuAnimation.FastDuration
+        SequentialAnimation {
+            PauseAnimation {
+                duration: UbuntuAnimation.SnapDuration
+            }
+            UbuntuNumberAnimation {
+                duration: UbuntuAnimation.SnapDuration
+            }            
         }
     }
 
