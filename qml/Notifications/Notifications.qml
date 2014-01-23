@@ -45,6 +45,14 @@ ListView {
         maxHeight: notificationList.height
         margins: notificationList.margin
 
+        Component.onCompleted: {
+            if (fullscreen) {
+                notificationList.spacing = 0
+            } else {
+                notificationList.spacing = units.gu(.5)
+            }
+        }
+
         // make sure there's no opacity-difference between the several
         // elements in a notification
         layer.enabled: add.running || remove.running || populate.running
