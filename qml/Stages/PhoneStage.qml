@@ -234,12 +234,12 @@ Item {
         property bool passedFirstStage: false
 
         onContentXChanged: {
-            if (coverFlickable.passedFirstStage && contentX < width * coverFlip.progressMarker1) {
-                contentX = width * coverFlip.progressMarker1;
+            if (coverFlickable.passedFirstStage && contentX < width * coverFlip.progressMarker2) {
+                contentX = width * coverFlip.progressMarker2;
                 return;
             }
             var progress = contentX / width
-            if (progress > coverFlip.progressMarker1) {
+            if (progress > coverFlip.progressMarker2) {
                 coverFlickable.passedFirstStage = true;
             }
             coverFlip.progress = progress;
@@ -262,9 +262,10 @@ Item {
             property real maxScale: 1.4
             property real minScale: .6
 
-            // Markers: relative screen position from left to right
+            // Markers: relative screen position from right to left
             // marks the line where first application is finished moving in from the right
-            property real progressMarker1: 0.5
+            property real progressMarker1: 0.15
+            property real progressMarker2: 0.5
 
             property real tileDistance: 0.1
 
@@ -275,9 +276,9 @@ Item {
             property real oldProgress: 0
             onProgressChanged: {
                 if (coverFlipDragArea.dragging) {
-                    if (oldProgress < coverFlip.progressMarker1 && progress >= coverFlip.progressMarker1) {
+                    if (oldProgress < coverFlip.progressMarker2 && progress >= coverFlip.progressMarker2) {
                         ApplicationManager.move(0, 1)
-                    } else if (oldProgress >= coverFlip.progressMarker1 && progress < coverFlip.progressMarker1) {
+                    } else if (oldProgress >= coverFlip.progressMarker2 && progress < coverFlip.progressMarker2) {
                         ApplicationManager.move(0, 1)
                     }
                 }
@@ -285,14 +286,14 @@ Item {
             }
 
             function snap() {
-                if (coverFlip.progress < 0.25) {
+                if (coverFlip.progress < coverFlip.progressMarker1) {
                     snapAnimation.targetContentX = 0
                     snapAnimation.targetAppId = ApplicationManager.get(0).appId;
-                } else if (coverFlip.progress < coverFlip.progressMarker1) {
-                    snapAnimation.targetContentX = root.width * coverFlip.progressMarker1
+                } else if (coverFlip.progress < coverFlip.progressMarker2) {
+                    snapAnimation.targetContentX = root.width * coverFlip.progressMarker2
                     snapAnimation.targetAppId = ApplicationManager.get(1).appId;
                 } else if (coverFlip.progress < 0.6) {
-                    snapAnimation.targetContentX = root.width * coverFlip.progressMarker1
+                    snapAnimation.targetContentX = root.width * coverFlip.progressMarker2
                     snapAnimation.targetAppId = ApplicationManager.get(0).appId;
                 } else {
                     if (ApplicationManager.count == 3) {
@@ -326,7 +327,7 @@ Item {
                             coverFlickable.passedFirstStage = false;
                             ApplicationManager.focusApplication(snapAnimation.targetAppId);
                         }
-                        if (snapAnimation.targetContentX == root.width * coverFlip.progressMarker1) {
+                        if (snapAnimation.targetContentX == root.width * coverFlip.progressMarker2) {
                             coverFlickable.contentX = 0;
                         }
                     }
@@ -346,7 +347,7 @@ Item {
                     property real progress: coverFlip.progress
                     // The progress, translated for the second stage of the animation, after the first app switch has happened
                     // Additionally it speeds it up a bit, depending on the distance of the tile
-                    property real translatedProgress: appItem.progress - coverFlip.progressMarker1 - (coverFlip.tileDistance * (index-1))
+                    property real translatedProgress: appItem.progress - coverFlip.progressMarker2 - (coverFlip.tileDistance * (index-1))
 
                     // Is this tile selected by a click?
                     property bool isSelected: false
@@ -361,10 +362,10 @@ Item {
                         appItem.selectedXTranslation = appItem.xTranslation;
                         appItem.selectedAngle = appItem.angle;
                         appItem.selectedXScale = appItem.xScale;
-                        appItem.selectedTranslatedProgress = appItem.translatedProgress - coverFlip.progressMarker1;
-                        appItem.selectedProgress = appItem.progress - coverFlip.progressMarker1;
+                        appItem.selectedTranslatedProgress = appItem.translatedProgress - coverFlip.progressMarker2;
+                        appItem.selectedProgress = appItem.progress - coverFlip.progressMarker2;
                         appItem.isSelected = true;
-                        switchToAppAnimation.targetContentX = coverFlip.progressMarker1 * root.width
+                        switchToAppAnimation.targetContentX = coverFlip.progressMarker2 * root.width
                         switchToAppAnimation.start();
                     }
 
@@ -373,31 +374,34 @@ Item {
                         var minXTranslate = -index * root.width + index * units.dp(3);
                         switch (index) {
                         case 0:
-                            if (appItem.progress < coverFlip.progressMarker1) {
+                            if (appItem.progress < coverFlip.progressMarker2) {
                                 var progress = appItem.progress
-                                var progressDiff = coverFlip.progressMarker1
+                                var progressDiff = coverFlip.progressMarker2
                                 var translateDiff = -root.width * 0.25
                                 // progress : progressDiff = translate : translateDiff
                                 xTranslate = progress * translateDiff / progressDiff
                             }
                             break;
                         case 1:
-                            if (appItem.progress < coverFlip.progressMarker1) {
+                            if (appItem.progress < coverFlip.progressMarker2) {
                                 var progress = appItem.progress;
-                                var progressDiff = coverFlip.progressMarker1;
+                                var progressDiff = coverFlip.progressMarker2;
                                 var translateDiff = -root.width;
                                 // progress : progressDiff = translate : translateDiff
                                 xTranslate = progress * translateDiff / progressDiff;
                                 break;
+//                            } else if (appItem.progress < coverFlip.progressMarker2) {
+//                                xTranslate = -coverFlip.tileWidth
                             }
+
                             // Intentionally no break here...
                         default:
-                            if (appItem.progress > coverFlip.progressMarker1) {
+                            if (appItem.progress > coverFlip.progressMarker2) {
                                 xTranslate = xTranslateEasing.value * xTranslateEasing.period;
                                 if (appItem.isSelected) {
                                     var translateDiff = root.width * index + appItem.selectedXTranslation
                                     var progressDiff = appItem.selectedProgress
-                                    var progress = progressDiff - (appItem.progress - coverFlip.progressMarker1);
+                                    var progress = progressDiff - (appItem.progress - coverFlip.progressMarker2);
                                     // progress : progressDiff = translate : translateDiff
                                     var newTranslate = progress * translateDiff / progressDiff;
 
@@ -412,31 +416,40 @@ Item {
 
                         return xTranslate;
                     }
+//                    Behavior on xTranslation {
+//                        id: animatedProgressBehavior
+//                        enabled: appItem.progress >= coverFlip.progressMarker1 && appItem.progress <= coverFlip.progressMarker2
+//                        SmoothedAnimation {
+//                            velocity: 0.5;
+//                            duration: UbuntuAnimation.BriskDuration;
+//                            easing: UbuntuAnimation.StandardEasing
+//                        }
+//                    }
 
                     property real angle: {
                         var newAngle = 0;
                         switch (index) {
                         case 0:
-                            if (appItem.progress < coverFlip.progressMarker1) {
+                            if (appItem.progress < coverFlip.progressMarker2) {
                                 var progress = appItem.progress;
                                 var angleDiff = coverFlip.endAngle;
-                                var progressDiff = coverFlip.progressMarker1;
+                                var progressDiff = coverFlip.progressMarker2;
                                 // progress : progressDiff = angle : angleDiff
                                 newAngle = progress * angleDiff / progressDiff;
                             } else {
-                                var progress = appItem.progress - coverFlip.progressMarker1;
+                                var progress = appItem.progress - coverFlip.progressMarker2;
                                 var angleDiff = coverFlip.endAngle;
-                                var progressDiff = 1 - coverFlip.progressMarker1;
+                                var progressDiff = 1 - coverFlip.progressMarker2;
                                 // progress : progressDiff = angle : angleDiff
                                 newAngle = progress * angleDiff / progressDiff;
                                 newAngle = Math.min(coverFlip.endAngle, newAngle);
                             }
                             break;
                         case 1:
-                            if (appItem.progress < coverFlip.progressMarker1) {
+                            if (appItem.progress < coverFlip.progressMarker2) {
                                 var progress = coverFlip.progress;
                                 var angleDiff = coverFlip.startAngle;
-                                var progressDiff = coverFlip.progressMarker1;
+                                var progressDiff = coverFlip.progressMarker2;
                                 // progress : progressDiff = angle : angleDiff
                                 var angle = progress * angleDiff / progressDiff;
                                 newAngle = coverFlip.startAngle - angle;
@@ -452,7 +465,7 @@ Item {
 //                                    var selectedAngleTranslate = selectedAngleEasing.value * selectedAngleEasing.period
                                 var angleDiff = appItem.selectedAngle
                                 var progressDiff = appItem.selectedProgress
-                                var progress = progressDiff - (appItem.progress - coverFlip.progressMarker1);
+                                var progress = progressDiff - (appItem.progress - coverFlip.progressMarker2);
                                 // progress : progressDiff = angle : angleDiff
                                 var selectedAngleTranslate = progress * angleDiff / progressDiff;
 
@@ -467,17 +480,17 @@ Item {
 
                         switch (index) {
                         case 0:
-                            if (appItem.progress > coverFlip.progressMarker1) {
+                            if (appItem.progress > coverFlip.progressMarker2) {
                                 var scaleDiff = coverFlip.maxScale - 1;
-                                var progressDiff = 1.5 - coverFlip.progressMarker1;
+                                var progressDiff = 1.5 - coverFlip.progressMarker2;
                                 // progress : progressDiff = scale : scaleDiff
-                                scale = 1 - (appItem.progress - coverFlip.progressMarker1) * scaleDiff / progressDiff;
+                                scale = 1 - (appItem.progress - coverFlip.progressMarker2) * scaleDiff / progressDiff;
                             }
                             break;
                         case 1:
-                            if (appItem.progress < coverFlip.progressMarker1) {
+                            if (appItem.progress < coverFlip.progressMarker2) {
                                 var scaleDiff = coverFlip.maxScale - 1
-                                var progressDiff = coverFlip.progressMarker1
+                                var progressDiff = coverFlip.progressMarker2
                                 // progress : progressDiff = scale : scaleDiff
                                 scale = coverFlip.maxScale - (appItem.progress * scaleDiff / progressDiff);
                                 break;
@@ -488,7 +501,7 @@ Item {
                             if (appItem.isSelected) {
                                 var scaleDiff = -(1 - appItem.selectedXScale)
                                 var progressDiff = appItem.selectedProgress
-                                var progress = progressDiff - (appItem.progress - coverFlip.progressMarker1);
+                                var progress = progressDiff - (appItem.progress - coverFlip.progressMarker2);
                                 // progress : progressDiff = angle : angleDiff
                                 var selectedScaleTranslate = progress * scaleDiff / progressDiff;
 
