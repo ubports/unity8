@@ -120,6 +120,7 @@ DashPreview {
 
             Label {
                 id: descriptionLabel
+                objectName: "descriptionLabel"
                 anchors { left: parent.left; right: parent.right }
                 visible: text != ""
                 fontSize: "small"
