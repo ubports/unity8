@@ -31,5 +31,5 @@ class SystemIntegrationTests(UnityTestCase):
     scenarios = _get_device_emulation_scenarios()
 
     def test_networkmanager_integration(self):
-        retvalue = os.system("pkcheck --action-id org.freedesktop.NetworkManager.enable-disable-network --process $$")
+        retvalue = os.system("pkcheck --action-id org.freedesktop.NetworkManager.enable-disable-network --process `pidof -s unity8`")
         self.assertThat(retvalue, Equals(0))
