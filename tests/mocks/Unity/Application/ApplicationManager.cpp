@@ -80,9 +80,7 @@ ApplicationInfo *ApplicationManager::get(int row) const {
 }
 
 ApplicationInfo *ApplicationManager::findApplication(const QString &appId) const {
-    qDebug() << "findapp called";
     for (ApplicationInfo *app : m_runningApplications) {
-        qDebug() << "searching app"<< app->appId();
         if (app->appId() == appId) {
             return app;
         }
@@ -91,10 +89,10 @@ ApplicationInfo *ApplicationManager::findApplication(const QString &appId) const
 }
 
 void ApplicationManager::add(ApplicationInfo *application) {
-    qDebug() << "add() " << application->appId();
     if (!application) {
         return;
     }
+    qDebug() << "add() " << application->appId();
 
     beginInsertRows(QModelIndex(), m_runningApplications.size(), m_runningApplications.size());
     m_runningApplications.append(application);
@@ -341,7 +339,7 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setName("Phone");
     application->setIcon(QUrl("phone"));
     application->setStage(ApplicationInfo::SideStage);
-    application->setScreenshot(QString("image://application/%1/123456789").arg(application->appId()));
+    application->setScreenshot(QString("image://application/%1/%2").arg(application->appId()).arg(QDateTime::currentMSecsSinceEpoch()));
     generateQmlStrings(application);
     m_availableApplications.append(application);
 
@@ -350,7 +348,7 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setName("Camera");
     application->setIcon(QUrl("camera"));
     application->setFullscreen(true);
-    application->setScreenshot(QUrl("image://application/phone/123456789"));
+    application->setScreenshot(QString("image://application/%1/%2").arg(application->appId()).arg(QDateTime::currentMSecsSinceEpoch()));
     generateQmlStrings(application);
     m_availableApplications.append(application);
 
@@ -358,7 +356,7 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setAppId("gallery-app");
     application->setName("Gallery");
     application->setIcon(QUrl("gallery"));
-    application->setScreenshot(QUrl("image://application/phone/123456789"));
+    application->setScreenshot(QString("image://application/%1/%2").arg(application->appId()).arg(QDateTime::currentMSecsSinceEpoch()));
     generateQmlStrings(application);
     m_availableApplications.append(application);
 
@@ -367,7 +365,7 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setName("Facebook");
     application->setIcon(QUrl("facebook"));
     application->setStage(ApplicationInfo::SideStage);
-    application->setScreenshot(QUrl("image://application/phone/123456789"));
+    application->setScreenshot(QString("image://application/%1/%2").arg(application->appId()).arg(QDateTime::currentMSecsSinceEpoch()));
     generateQmlStrings(application);
     m_availableApplications.append(application);
 
@@ -375,7 +373,7 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setAppId("webbrowser-app");
     application->setName("Browser");
     application->setIcon(QUrl("browser"));
-    application->setScreenshot(QUrl("image://application/phone/123456789"));
+    application->setScreenshot(QString("image://application/%1/%2").arg(application->appId()).arg(QDateTime::currentMSecsSinceEpoch()));
     generateQmlStrings(application);
     m_availableApplications.append(application);
 
@@ -384,7 +382,7 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setName("Twitter");
     application->setIcon(QUrl("twitter"));
     application->setStage(ApplicationInfo::SideStage);
-    application->setScreenshot(QUrl("image://application/phone/123456789"));
+    application->setScreenshot(QString("image://application/%1/%2").arg(application->appId()).arg(QDateTime::currentMSecsSinceEpoch()));
     generateQmlStrings(application);
     m_availableApplications.append(application);
 
@@ -392,7 +390,7 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setAppId("gmail-webapp");
     application->setName("GMail");
     application->setIcon(QUrl("gmail"));
-    application->setScreenshot(QUrl("image://application/phone/123456789"));
+    application->setScreenshot(QString("image://application/%1/%2").arg(application->appId()).arg(QDateTime::currentMSecsSinceEpoch()));
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
@@ -400,7 +398,7 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setName("Weather");
     application->setIcon(QUrl("weather"));
     application->setStage(ApplicationInfo::SideStage);
-    application->setScreenshot(QUrl("image://application/phone/123456789"));
+    application->setScreenshot(QString("image://application/%1/%2").arg(application->appId()).arg(QDateTime::currentMSecsSinceEpoch()));
     generateQmlStrings(application);
     m_availableApplications.append(application);
 
@@ -409,7 +407,7 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setName("Notepad");
     application->setIcon(QUrl("notepad"));
     application->setStage(ApplicationInfo::SideStage);
-    application->setScreenshot(QUrl("image://application/phone/123456789"));
+    application->setScreenshot(QString("image://application/%1/%2").arg(application->appId()).arg(QDateTime::currentMSecsSinceEpoch()));
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
@@ -417,7 +415,7 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setName("Calendar");
     application->setIcon(QUrl("calendar"));
     application->setStage(ApplicationInfo::SideStage);
-    application->setScreenshot(QUrl("image://application/phone/123456789"));
+    application->setScreenshot(QString("image://application/%1/%2").arg(application->appId()).arg(QDateTime::currentMSecsSinceEpoch()));
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
@@ -425,21 +423,21 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setName("Media Player");
     application->setIcon(QUrl("mediaplayer-app"));
     application->setFullscreen(true);
-    application->setScreenshot(QUrl("image://application/phone/123456789"));
+    application->setScreenshot(QString("image://application/%1/%2").arg(application->appId()).arg(QDateTime::currentMSecsSinceEpoch()));
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
     application->setAppId("evernote");
     application->setName("Evernote");
     application->setIcon(QUrl("evernote"));
-    application->setScreenshot(QUrl("image://application/phone/123456789"));
+    application->setScreenshot(QString("image://application/%1/%2").arg(application->appId()).arg(QDateTime::currentMSecsSinceEpoch()));
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
     application->setAppId("map");
     application->setName("Map");
     application->setIcon(QUrl("map"));
-    application->setScreenshot(QUrl("image://application/phone/123456789"));
+    application->setScreenshot(QString("image://application/%1/%2").arg(application->appId()).arg(QDateTime::currentMSecsSinceEpoch()));
     generateQmlStrings(application);
     m_availableApplications.append(application);
 
@@ -447,24 +445,28 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setAppId("pinterest");
     application->setName("Pinterest");
     application->setIcon(QUrl("pinterest"));
+    application->setScreenshot(QString("image://application/%1/%2").arg(application->appId()).arg(QDateTime::currentMSecsSinceEpoch()));
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
     application->setAppId("soundcloud");
     application->setName("SoundCloud");
     application->setIcon(QUrl("soundcloud"));
+    application->setScreenshot(QString("image://application/%1/%2").arg(application->appId()).arg(QDateTime::currentMSecsSinceEpoch()));
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
     application->setAppId("wikipedia");
     application->setName("Wikipedia");
     application->setIcon(QUrl("wikipedia"));
+    application->setScreenshot(QString("image://application/%1/%2").arg(application->appId()).arg(QDateTime::currentMSecsSinceEpoch()));
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
     application->setAppId("youtube");
     application->setName("YouTube");
     application->setIcon(QUrl("youtube"));
+    application->setScreenshot(QString("image://application/%1/%2").arg(application->appId()).arg(QDateTime::currentMSecsSinceEpoch()));
     m_availableApplications.append(application);
 }
 
