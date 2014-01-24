@@ -17,7 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-"""Tests for mir integration."""
+"""Tests for system integration."""
 
 import os
 
@@ -26,11 +26,11 @@ from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 
 from testtools.matchers._basic import Equals
 
-class MirIntegrationTests(UnityTestCase):
+class SystemIntegrationTests(UnityTestCase):
 
     scenarios = _get_device_emulation_scenarios()
 
-    def test_nested_mir(self):
+    def test_networkmanager_integration(self):
         retvalue = os.system("pkcheck --action-id org.freedesktop.NetworkManager.enable-disable-network --process $$")
         self.assertThat(retvalue, Equals(0))
         
