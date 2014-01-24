@@ -33,4 +33,3 @@ class SystemIntegrationTests(UnityTestCase):
     def test_networkmanager_integration(self):
         retvalue = os.system("pkcheck --action-id org.freedesktop.NetworkManager.enable-disable-network --process $$")
         self.assertThat(retvalue, Equals(0))
-        
