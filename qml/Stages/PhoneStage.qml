@@ -256,8 +256,8 @@ Item {
             case 0:
                 if (contentX > width * positionMarker2) {
                     print("switching to app 1 .")
-                    ApplicationManager.focusApplication(ApplicationManager.get(1).appId)
                     stage = 1;
+                    ApplicationManager.focusApplication(ApplicationManager.get(1).appId)
                 }
                 break;
             case 1:
@@ -391,9 +391,11 @@ Item {
                     Connections {
                         target: spreadView
                         onStageChanged: {
-                            if (index == 1 && spreadView.stage == 0) {
+                            if (spreadView.stage == 0) {
+                                print("************************ enabling")
                                 enableAnimationTimer.start();
                             } else {
+                                print("************************ disabling")
                                 stage1Animation.enabled = false;
                             }
                         }
