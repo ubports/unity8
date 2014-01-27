@@ -1,4 +1,4 @@
-# Hindi translation for unity8
+# Amharic translation for unity8
 # Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
 # This file is distributed under the same license as the unity8 package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
@@ -8,23 +8,23 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-11-29 09:21+0100\n"
-"PO-Revision-Date: 2014-01-15 01:49+0000\n"
-"Last-Translator: Siddhanathan S. <Unknown>\n"
-"Language-Team: Hindi <hi@li.org>\n"
+"PO-Revision-Date: 2014-01-18 19:28+0000\n"
+"Last-Translator: samson <Unknown>\n"
+"Language-Team: Amharic <am@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-01-16 06:09+0000\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Launchpad-Export-Date: 2014-01-19 06:02+0000\n"
 "X-Generator: Launchpad (build 16901)\n"
 
 #: Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
-msgstr "परिचय छोड़"
+msgstr ""
 
 #: Components/EdgeDemo.qml:112
 msgid "Right edge"
-msgstr "दायाँ किनारा"
+msgstr "የቀኝ ጠርዝ"
 
 #: Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
@@ -32,7 +32,7 @@ msgstr ""
 
 #: Components/EdgeDemo.qml:144
 msgid "Top edge"
-msgstr "ऊपर किनारे"
+msgstr "የላይ ጠርዝ"
 
 #: Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
@@ -40,7 +40,7 @@ msgstr ""
 
 #: Components/EdgeDemo.qml:170
 msgid "Close"
-msgstr "बंद करें"
+msgstr "መዝጊያ"
 
 #: Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
@@ -48,7 +48,7 @@ msgstr ""
 
 #: Components/EdgeDemo.qml:198
 msgid "Left edge"
-msgstr "बायाँ किनारा"
+msgstr "የግራ ጠርዝ"
 
 #: Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
@@ -56,7 +56,7 @@ msgstr ""
 
 #: Components/EdgeDemo.qml:226
 msgid "Well done"
-msgstr "शाबाश"
+msgstr ""
 
 #: Components/EdgeDemo.qml:227
 msgid ""
@@ -66,7 +66,7 @@ msgstr ""
 
 #: Components/PageHeader.qml:364
 msgid "Recent searches"
-msgstr "पिछले खोजों"
+msgstr ""
 
 #: Dash/Apps/AppPreview.qml:135
 msgid "Rate this"
@@ -76,7 +76,7 @@ msgstr ""
 #: Dash/Previews/Header.qml:93
 #, qt-format
 msgid "(%1)"
-msgstr ""
+msgstr "(%1)"
 
 #. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
 #: Dash/Previews/Header.qml:105
@@ -88,71 +88,71 @@ msgstr[1] ""
 
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
-msgstr "समीक्षा दे"
+msgstr ""
 
 #: Dash/Previews/Reviews.qml:86
 msgid "Review"
-msgstr "समीक्षा"
+msgstr ""
 
 #: Dash/Previews/Reviews.qml:121
 msgid "Send"
-msgstr "भेजें"
+msgstr "መላኪያ"
 
 #: Dash/Previews/Reviews.qml:139
 msgid "Comments:"
-msgstr ""
+msgstr "አስተያየቶች:"
 
 #: Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
-msgstr "आपातकालीन कॉल"
+msgstr ""
 
 #: Greeter/PassphraseLockscreen.qml:59
 #, qt-format
 msgid "Hello %1"
-msgstr ""
+msgstr "ሰላም %1"
 
 #: Greeter/PassphraseLockscreen.qml:59
 msgid "Hello"
-msgstr "नमस्ते"
+msgstr "ሰላም"
 
 #: Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
-msgstr ""
+msgstr "ማረጋገጫ"
 
 #: Hud/Hud.qml:61 Hud/Hud.qml:99 Hud/Hud.qml:372
 msgid "Type or say a command"
-msgstr ""
+msgstr "ትእዛዝ ይናገሩ ወይንም ይጻፉ"
 
 #: Hud/Hud.qml:84
 msgid "Loading. Please Wait..."
-msgstr "काम कर रहा है | कृपया प्रतीक्षा करे |"
+msgstr "እባክዎን ይቆዩ በመጫን ላይ..."
 
 #: Hud/Hud.qml:89
 msgid "Speak Now..."
-msgstr "अब बात करें"
+msgstr "አሁን ይናገሩ..."
 
 #: Hud/Hud.qml:94
 msgid "Speaking..."
-msgstr "अब बोल रहे हैं"
+msgstr "በመናገር ላይ..."
 
 #: Notifications/NotificationMenuItemFactory.qml:89
 msgid "Show password"
-msgstr ""
+msgstr "የመግቢያ ቃል ማሳያ"
 
 #: Panel/SearchIndicator.qml:27
 msgid "Search"
-msgstr "खोजें"
+msgstr "መፈለጊያ"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Lock to Launcher"
-msgstr ""
+msgstr "ማስነሻው ላይ መቆለፊያ"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Unlock from Launcher"
-msgstr ""
+msgstr "ከማስነሻው ላይ ማላቀቂያ"
 
 #: Shell.qml:439
 #, qt-format
 msgid "Please enter %1"
-msgstr ""
+msgstr "እባክዎን ያስገቡ %1"

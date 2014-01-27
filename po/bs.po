@@ -1,4 +1,4 @@
-# Hindi translation for unity8
+# Bosnian translation for unity8
 # Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
 # This file is distributed under the same license as the unity8 package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
@@ -8,23 +8,24 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-11-29 09:21+0100\n"
-"PO-Revision-Date: 2014-01-15 01:49+0000\n"
-"Last-Translator: Siddhanathan S. <Unknown>\n"
-"Language-Team: Hindi <hi@li.org>\n"
+"PO-Revision-Date: 2014-01-16 22:33+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Bosnian <bs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-01-16 06:09+0000\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Launchpad-Export-Date: 2014-01-17 07:08+0000\n"
 "X-Generator: Launchpad (build 16901)\n"
 
 #: Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
-msgstr "परिचय छोड़"
+msgstr ""
 
 #: Components/EdgeDemo.qml:112
 msgid "Right edge"
-msgstr "दायाँ किनारा"
+msgstr ""
 
 #: Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
@@ -32,7 +33,7 @@ msgstr ""
 
 #: Components/EdgeDemo.qml:144
 msgid "Top edge"
-msgstr "ऊपर किनारे"
+msgstr ""
 
 #: Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
@@ -40,7 +41,7 @@ msgstr ""
 
 #: Components/EdgeDemo.qml:170
 msgid "Close"
-msgstr "बंद करें"
+msgstr ""
 
 #: Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
@@ -48,7 +49,7 @@ msgstr ""
 
 #: Components/EdgeDemo.qml:198
 msgid "Left edge"
-msgstr "बायाँ किनारा"
+msgstr ""
 
 #: Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
@@ -56,7 +57,7 @@ msgstr ""
 
 #: Components/EdgeDemo.qml:226
 msgid "Well done"
-msgstr "शाबाश"
+msgstr ""
 
 #: Components/EdgeDemo.qml:227
 msgid ""
@@ -66,7 +67,7 @@ msgstr ""
 
 #: Components/PageHeader.qml:364
 msgid "Recent searches"
-msgstr "पिछले खोजों"
+msgstr ""
 
 #: Dash/Apps/AppPreview.qml:135
 msgid "Rate this"
@@ -88,15 +89,15 @@ msgstr[1] ""
 
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
-msgstr "समीक्षा दे"
+msgstr ""
 
 #: Dash/Previews/Reviews.qml:86
 msgid "Review"
-msgstr "समीक्षा"
+msgstr ""
 
 #: Dash/Previews/Reviews.qml:121
 msgid "Send"
-msgstr "भेजें"
+msgstr ""
 
 #: Dash/Previews/Reviews.qml:139
 msgid "Comments:"
@@ -104,7 +105,7 @@ msgstr ""
 
 #: Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
-msgstr "आपातकालीन कॉल"
+msgstr ""
 
 #: Greeter/PassphraseLockscreen.qml:59
 #, qt-format
@@ -113,7 +114,7 @@ msgstr ""
 
 #: Greeter/PassphraseLockscreen.qml:59
 msgid "Hello"
-msgstr "नमस्ते"
+msgstr ""
 
 #: Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
@@ -125,15 +126,15 @@ msgstr ""
 
 #: Hud/Hud.qml:84
 msgid "Loading. Please Wait..."
-msgstr "काम कर रहा है | कृपया प्रतीक्षा करे |"
+msgstr ""
 
 #: Hud/Hud.qml:89
 msgid "Speak Now..."
-msgstr "अब बात करें"
+msgstr ""
 
 #: Hud/Hud.qml:94
 msgid "Speaking..."
-msgstr "अब बोल रहे हैं"
+msgstr ""
 
 #: Notifications/NotificationMenuItemFactory.qml:89
 msgid "Show password"
@@ -141,7 +142,7 @@ msgstr ""
 
 #: Panel/SearchIndicator.qml:27
 msgid "Search"
-msgstr "खोजें"
+msgstr ""
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73

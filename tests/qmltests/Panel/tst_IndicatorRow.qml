@@ -32,6 +32,8 @@ Item {
 
     function init_test()
     {
+        indicatorModel.load();
+
         indicatorRow.state = "initial";
         indicatorRow.currentItem = null;
         indicatorRow.unitProgress = 0.0;
@@ -53,7 +55,6 @@ Item {
 
     Indicators.IndicatorsModel {
         id: indicatorModel
-        Component.onCompleted: load()
     }
 
     UT.UnityTestCase {
