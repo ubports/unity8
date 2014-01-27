@@ -274,7 +274,9 @@ Rectangle {
 
             if (typeof data.height === "function") {
                 tryCompareFunction(function() { return card.height === data.height() }, true);
-            } else if (data.hasOwnProperty("height")) tryCompare(card, "height", data.height);
+            } else if (data.hasOwnProperty("height")) {
+                tryCompare(card, "height", data.height);
+            }
         }
 
         function test_art_size_data() {
