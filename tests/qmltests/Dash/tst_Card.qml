@@ -109,7 +109,7 @@ Rectangle {
         {
             "name": "Art, header - vertical",
             "layout": { "components": Helpers.update(JSON.parse(root.fullMapping), { "summary": undefined }) }
-        }
+        },
     ]
 
     Card {
