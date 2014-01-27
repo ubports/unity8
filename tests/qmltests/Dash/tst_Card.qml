@@ -106,6 +106,10 @@ Rectangle {
             "layout": { "template": { "card-layout": "horizontal" },
                         "components": JSON.parse(fullMapping) }
         },
+        {
+            "name": "Art, header - vertical",
+            "layout": { "components": Helpers.update(JSON.parse(root.fullMapping), { "summary": undefined }) }
+        }
     ]
 
     Card {
@@ -237,6 +241,9 @@ Rectangle {
                 { tag: "Large", width: units.gu(38), size: "large", index: 0 },
                 { tag: "Wide", width: units.gu(18.5), aspect: 0.5, index: 0 },
                 { tag: "Horizontal", width: units.gu(38), index: 5 },
+                // Make sure card ends with header when there's no summary
+                { tag: "NoSummary", height: function() { return header.y + header.height }, index: 6 },
+                { tag: "HorizontalNoSummary", height: function() { return header.height }, card_layout: "horizontal", index: 6 },
             ]
         }
 
@@ -245,6 +252,11 @@ Rectangle {
 
             if (data.hasOwnProperty("size")) {
                 card.template['card-size'] = data.size;
+                card.templateChanged();
+            }
+
+            if (data.hasOwnProperty("card_layout")) {
+                card.template['card-layout'] = data.card_layout;
                 card.templateChanged();
             }
 
@@ -257,9 +269,9 @@ Rectangle {
                 tryCompare(card, "width", data.width);
             }
 
-            if (data.hasOwnProperty("height")) {
-                tryCompare(card, "height", data.height);
-            }
+            if (typeof data.height === "function") {
+                tryCompareFunction(function() { return card.height === data.height() }, true);
+            } else if (data.hasOwnProperty("height")) tryCompare(card, "height", data.height);
         }
 
         function test_art_size_data() {
