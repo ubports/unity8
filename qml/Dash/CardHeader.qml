@@ -56,9 +56,9 @@ Item {
 
             Label {
                 id: titleLabel
+                objectName: "titleLabel"
                 anchors { left: parent.left; right: parent.right }
                 elide: Text.ElideRight
-                objectName: "titleLabel"
                 font.weight: Font.DemiBold
                 wrapMode: Text.Wrap
                 maximumLineCount: 2
@@ -66,6 +66,7 @@ Item {
 
             Label {
                 id: subtitleLabel
+                objectName: "subtitleLabel"
                 anchors { left: parent.left; right: parent.right }
                 elide: Text.ElideRight
                 visible: titleLabel.text && text

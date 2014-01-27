@@ -193,7 +193,10 @@ Rectangle {
         property Item summary: findChild(card, "summaryLabel")
 
         function initTestCase() {
-            verify(testCase.header !== undefined, "Couldn't find header object.");
+            verify(typeof testCase.header === "object", "Couldn't find header object.");
+            verify(typeof testCase.art === "object", "Couldn't find art object.");
+            verify(typeof testCase.artImage === "object", "Couldn't find artImage object.");
+            verify(typeof testCase.summary === "object", "Couldn't find summary object.");
         }
 
         function cleanup() {
@@ -320,7 +323,7 @@ Rectangle {
         function test_art_layout_data() {
             return [
                 { tag: "Vertical", left: function() { return 0 }, index: 0},
-                { tag: "Horizontal", left: function() { return art.width }, index: 5 }
+                { tag: "Horizontal", left: function() { return art.width }, index: 5 },
             ];
         }
 
@@ -335,7 +338,7 @@ Rectangle {
                 { tag: "Vertical", top: function() { return art.y + art.height },
                   left: function() { return art.x }, index: 0 },
                 { tag: "Horizontal", top: function() { return art.y },
-                  left: function() { return art.x + art.width }, index: 5 }
+                  left: function() { return art.x + art.width }, index: 5 },
             ]
         }
 
