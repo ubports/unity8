@@ -19,7 +19,7 @@
 
 """Tests for system integration."""
 
-import os
+import subprocess
 
 from unity8.shell.emulators import UnityEmulatorBase
 from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
@@ -31,5 +31,9 @@ class SystemIntegrationTests(UnityTestCase):
     scenarios = _get_device_emulation_scenarios()
 
     def test_networkmanager_integration(self):
-        retvalue = os.system("pkcheck --action-id org.freedesktop.NetworkManager.enable-disable-network --process `pidof -s unity8`")
+        self.launch_unity()
+
+        # invoke policykit to check permissions
+        pid = subprocess.check_output("pidof -s unity8", shell=True)
+        retvalue = subprocess.check_call("pkcheck --action-id org.freedesktop.NetworkManager.enable-disable-network --process " + pid, shell=True)
         self.assertThat(retvalue, Equals(0))
