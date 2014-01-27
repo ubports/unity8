@@ -89,7 +89,7 @@ Item {
                 appIcon: getExtendedProperty(extendedData, "xCanonicalAppIcon", "qrc:/indicators/artwork/messaging/default_app.svg")
                 // actions
                 // FIXME: Waiting for lp:~larsu/indicator-messages/set-targets
-//                enabled: menuData && menuData.sensitive || false
+                enabled: menuData && menuData.sensitive || false
                 removable: !selected
                 selected: messageFactoryItem.selected
 
@@ -138,7 +138,7 @@ Item {
                 // actions
                 replyEnabled: replyAction.valid && replyAction.enabled
                 // FIXME: Waiting for lp:~larsu/indicator-messages/set-targets
-//                enabled: menuData && menuData.sensitive || false
+                enabled: menuData && menuData.sensitive || false
                 removable: !selected
                 selected: messageFactoryItem.selected
 
@@ -197,7 +197,7 @@ Item {
                 // actions
                 activateEnabled: activateAction.valid && activateAction.enabled
                 replyEnabled: replyAction.valid && replyAction.enabled
-//                enabled: menuData && menuData.sensitive || false
+                enabled: menuData && menuData.sensitive || false
                 removable: !selected
                 selected: messageFactoryItem.selected
 
