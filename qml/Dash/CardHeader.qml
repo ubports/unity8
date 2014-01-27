@@ -90,6 +90,7 @@ Item {
                     elide: Text.ElideRight
                     font.weight: Font.DemiBold
                     color: Theme.palette.selected.foreground
+                    visible: text
                 }
 
                 Label {
@@ -98,6 +99,7 @@ Item {
                     width: parent.labelWidth
                     elide: Text.ElideRight
                     horizontalAlignment: parent.labels === 3 ? Text.AlignHCenter : Text.AlignRight
+                    visible: text
                 }
 
                 Label {
@@ -105,6 +107,7 @@ Item {
                     width: parent.labelWidth
                     elide: Text.ElideRight
                     horizontalAlignment: Text.AlignRight
+                    visible: text
                 }
             }
         }

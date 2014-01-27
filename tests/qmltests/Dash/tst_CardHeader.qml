@@ -121,7 +121,8 @@ Rectangle {
         function test_dimensions_data() {
             return [
                 { tag: "Column width", object: column, width: cardHeader.width - testCase.outerRow.spacing * 2 },
-                { tag: "Column width", object: column, width: cardHeader.width - mascot.width - testCase.outerRow.spacing * 3, mascot: "artwork/avatar.png" }
+                { tag: "Column width", object: column, width: cardHeader.width - mascot.width - testCase.outerRow.spacing * 3, mascot: "artwork/avatar.png" },
+                { tag: "Header height", object: cardHeader, height: function() { return subtitleLabel.y + subtitleLabel.height + outerRow.spacing * 2 } }
             ]
         }
 
@@ -132,6 +133,10 @@ Rectangle {
 
             if (data.hasOwnProperty("width")) {
                 tryCompare(data.object, "width", data.width);
+            }
+
+            if (data.hasOwnProperty("height")) {
+                tryCompareFunction(function() { return data.object.height === data.height() }, true);
             }
         }
     }
