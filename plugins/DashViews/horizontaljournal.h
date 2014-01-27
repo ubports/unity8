@@ -17,7 +17,7 @@
 #ifndef HORIZONTALJOURNAL_H
 #define HORIZONTALJOURNAL_H
 
-#include "abstractjournal.h"
+#include "abstractdashview.h"
 
  /** A horizontal journal is a view that creates delegates
    * based on a model and layouts them one after the other
@@ -26,7 +26,7 @@
    *
    * All delegates are forced to rowHeight if they don't have it.
    */
- class HorizontalJournal : public AbstractJournal
+ class HorizontalJournal : public AbstractDashView
 {
     Q_OBJECT
 
@@ -47,7 +47,7 @@ private:
     void findBottomModelIndexToAdd(int *modelIndex, qreal *yPos) override;
     void findTopModelIndexToAdd(int *modelIndex, qreal *yPos) override;
     bool removeNonVisibleItems(qreal bufferFromY, qreal bufferToY) override;
-    void positionItem(int modelIndex, QQuickItem *item) override;
+    void addItemToView(int modelIndex, QQuickItem *item) override;
     void cleanupExistingItems() override;
     void calculateImplicitHeight() override;
     void doRelayout() override;
