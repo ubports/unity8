@@ -149,6 +149,7 @@ Item {
                         ignoreUnknownSignals: true
                         onEndReached: contentEndReached()
                     }
+
                     Component.onDestruction: active = false
                 }
         }
