@@ -94,7 +94,6 @@ Item {
                     willOpen = true;
                 tryCompareFunction(function() {
                                         var filterGrid = findChild(genericScopeView, filterGridName);
-                                        console.log(filterGrid)
                                         if (filterGrid != null) {
                                             var tile = findChild(filterGrid, "delegate0");
                                             return tile != undefined;
@@ -103,7 +102,6 @@ Item {
                                    },
                                    true);
                 var tile = findChild(findChild(genericScopeView, filterGridName), "delegate0");
-                console.log(tile, tile.x, tile.y, tile.width, tile.height)
                 mouseClick(tile, tile.width / 2, tile.height / 2);
                 tryCompare(previewListView, "open", willOpen);
                 tryCompare(openEffect, "gap", willOpen ? 1 : 0);
