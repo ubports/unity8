@@ -149,7 +149,6 @@ Item {
                         ignoreUnknownSignals: true
                         onEndReached: contentEndReached()
                     }
-Component.onCompleted: console.log("SDFDFSD", scope.id)
                     Component.onDestruction: active = false
                 }
         }
