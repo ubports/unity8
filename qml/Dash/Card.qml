@@ -46,7 +46,6 @@ Item {
         property real aspect: components !== undefined ? components["art"]["aspect-ratio"] : 1
 
         image: Image {
-            id: artImage
             width: template && template["card-layout"] === "horizontal" ? height * artShape.aspect : root.width
             height: template && template["card-layout"] === "horizontal" ? header.height : width / artShape.aspect
             objectName: "artImage"
