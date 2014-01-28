@@ -71,7 +71,7 @@ class ApplicationLifecycleTests(UnityTestCase):
     def _get_current_focused_app_id(self):
         return self._proxy.select_single("Shell").currentFocusedAppId
 
-    def _launch_app(self, app_name):
+    def _launch_app_directly(self, app_name):
         """Launches the application *app_name*
 
         Assumes that the desktop file resides at:
@@ -89,15 +89,22 @@ class ApplicationLifecycleTests(UnityTestCase):
             app_type='qt'
         )
 
+    def _launch_app(self, app_name):
+        """Launches the application *app_name* via upstart."""
+        command = ['initctl', '--quiet', 'start', 'application',
+                   'APP_ID=%s' % app_name]
+        subprocess.check_call(command)
+
+        command = ['pkill', '-f', '-9', app_name]
+        self.addCleanup(subprocess.call, command)
+
     @disable_qml_mocking
     def test_can_launch_application(self):
         """Must be able to launch an application."""
         unity_proxy = self.launch_unity()
         unlock_unity(unity_proxy)
 
-        app = self._launch_app("messaging-app")
-
-        self.assertThat(app, NotEquals(None))
+        self._launch_app("messaging-app")
         self.assertThat(
             self._get_current_focused_app_id(),
             Eventually(Equals("messaging-app"))
@@ -136,7 +143,8 @@ class ApplicationLifecycleTests(UnityTestCase):
             Eventually(Equals("messaging-app"))
         )
 
-        self._launch_app("address-book-app")
+        # FIXME: this should be able to launch via upstart.  Bug #1273844
+        self._launch_app_directly("address-book-app")
         self.assertThat(
             self._get_current_focused_app_id(),
             Eventually(Equals("address-book-app"))
@@ -156,7 +164,7 @@ class ApplicationLifecycleTests(UnityTestCase):
         greeter = self.main_window.get_greeter()
         self.assertThat(greeter.created, Eventually(Equals(True)))
 
-        app = self._launch_app("messaging-app")
+        self._launch_app("messaging-app")
         self.assertThat(greeter.created, Eventually(Equals(False)))
         self.assertThat(
             self._get_current_focused_app_id(),
@@ -164,12 +172,12 @@ class ApplicationLifecycleTests(UnityTestCase):
         )
 
     @disable_qml_mocking
-    def test_greeter_hides_on_app_focus_via_upstart(self):
-        """Greeter should hide when an app is re-focused with upstart"""
+    def test_greeter_hides_on_app_focus(self):
+        """Greeter should hide when an app is re-focused"""
         unity_proxy = self.launch_unity()
         unlock_unity(unity_proxy)
 
-        app = self._launch_app("messaging-app")
+        self._launch_app("messaging-app")
         self.assertThat(
             self._get_current_focused_app_id(),
             Eventually(Equals("messaging-app"))
@@ -185,8 +193,7 @@ class ApplicationLifecycleTests(UnityTestCase):
         greeter = self.main_window.get_greeter()
         self.assertThat(greeter.created, Eventually(Equals(True)))
 
-        command = ['initctl', 'start', 'application', 'APP_ID=messaging-app']
-        subprocess.check_call(command)
+        self._launch_app("messaging-app")
         self.assertThat(greeter.created, Eventually(Equals(False)))
         self.assertThat(
             self._get_current_focused_app_id(),
