@@ -245,25 +245,26 @@ Item {
         property real positionMarker3: 0.7
         property real positionMarker4: 1.25
 
+        // This is where the first app snaps to when bringing it in to the right.
+        property real snapPosition: 0.75
+
         // Stage of the animation:
         // 0: Starting from right edge, a new app (index 1) comes in from the right
-        // 1: The app has reached fullscreen. The list is reordered and shifted to the right in order to have the new app the leftmost one
+        // 1: The app has reached the first snap position
         // 2: The list is dragged further and snaps into the spread view when entering stage 2
         property int stage: 0
+
+        onStageChanged: print("*******stage cahnged", stage)
 
         onContentXChanged: {
             switch (stage) {
             case 0:
                 if (contentX > width * positionMarker2) {
-                    print("switching to app 1 .")
                     stage = 1;
-                    ApplicationManager.focusApplication(ApplicationManager.get(1).appId)
                 }
                 break;
             case 1:
                 if (contentX < width * positionMarker2) {
-                    print("switching to app 1 -")
-                    ApplicationManager.focusApplication(ApplicationManager.get(1).appId)
                     stage = 0;
                 } else if (contentX >= width * positionMarker4) {
                     stage = 2;
@@ -324,8 +325,6 @@ Item {
             id: spreadRow
             width: implicitWidth + (spreadView.width * spreadView.positionMarker2) + (spreadView.width - spreadView.tileDistance)
 
-            x: spreadView.stage == 0 ? 0 : spreadView.width * spreadView.positionMarker2
-
             Repeater {
                 model: ApplicationManager
                 delegate: TransformedSpreadDelegate {
@@ -372,10 +371,12 @@ Item {
                     }
 
                     animatedProgress: {
-                        if (spreadView.stage < 2 && index == 1) {
+                        if (spreadView.stage < 2 && index < 2) {
                             if (spreadView.contentX < spreadView.width * spreadView.positionMarker1) {
+                                if (index == 0) print("*********************", spreadView.contentX / spreadView.width)
                                 return spreadView.contentX / spreadView.width
                             } else if (spreadView.stage == 0){
+                                if (index == 0) print("!!!!!!!!!!!!!!!11!", spreadView.positionMarker2)
                                 return spreadView.positionMarker2
                             }
                         }
