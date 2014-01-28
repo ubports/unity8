@@ -272,6 +272,21 @@ Item {
                 tryCompare(category, "filtered", true);
             }
 
+            function test_getRendererCarouselGridFallback() {
+                var template = new Object()
+                template["category-layout"] = "carousel"
+                var results = new Object()
+                var renderer
+
+                results.count = 5
+                renderer = genericScopeView.getRenderer(template, results)
+                compare(renderer, "CardCarousel.qml")
+
+                results.count = 4
+                renderer = genericScopeView.getRenderer(template, results)
+                compare(renderer, "CardFilterGrid.qml")
+            }
+
             function test_showPreviewCarousel() {
                 tryCompareFunction(function() { return findChild(genericScopeView, "carouselDelegate") != undefined; }, true);
                 var tile = findChild(genericScopeView, "carouselDelegate");

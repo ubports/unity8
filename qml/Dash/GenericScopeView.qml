@@ -321,8 +321,8 @@ FocusScope {
         var layout = template["category-layout"];
 
         if (layout === "carousel") {
-            // TODO: Selectively disable carousel, 6 is fixed for now, should change depending on form factor
-            if (results.count <= 6) layout = "grid";
+            // TODO: Selectively disable carousel, 4 is fixed for now, should change depending on form factor
+            if (results.count <= 4) layout = "grid";
         }
         switch (layout) {
             case "carousel": return "CardCarousel.qml";
