@@ -28,7 +28,7 @@ Item {
     property alias onScreen: previewListView.onScreen
     property alias categoryId: previewListView.categoryId
     property alias categoryDelegate: previewListView.categoryDelegate
-    property alias needsInit: previewListView.needsInit
+    property alias init: previewListView.init
     property alias model: previewListView.model
     property alias currentIndex: previewListView.currentIndex
     property alias currentItem: previewListView.currentItem
@@ -82,14 +82,16 @@ Item {
         // because the ListView is built asynchronous, setting the
         // currentIndex directly won't work. We need to refresh it
         // when the first preview is ready to be displayed.
-        property bool needsInit: true
+        property bool init: true
 
         PreviewDelegateMapper {
             id: previewDelegateMapper
         }
 
-        onCurrentIndexChanged: {
-            if (needsInit) {
+        onCurrentIndexChanged: positionListView();
+
+        function positionListView() {
+            if (!open) {
                 return;
             }
 
@@ -98,11 +100,9 @@ Item {
                 categoryView.expandedCategoryId = categoryId
             }
 
-            if (open) {
-                categoryDelegate.highlightIndex = currentIndex
-            }
+            categoryDelegate.highlightIndex = currentIndex
 
-            if (model !== undefined) {
+            if (!init && model !== undefined) {
                 var item = model.get(currentIndex)
                 scope.preview(item.uri, item.icon, item.category, 0, item.mimetype, item.title, item.comment, item.dndUri, item.metadata)
             }
@@ -141,6 +141,7 @@ Item {
                 onScreen = true;
                 categoryDelegate.highlightIndex = currentIndex;
                 pageHeader.unfocus();
+                positionListView();
             } else {
                 // Cancel any pending preview requests or actions
                 if (previewListView.currentItem.previewData !== undefined) {
