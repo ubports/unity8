@@ -43,7 +43,7 @@ Item {
     property int collapsedRowCount: 2
     /* Never show more rows than model would fill up. */
     readonly property int rowsWhenCollapsed: {
-        return Math.min(collapsedRowCount, Math.ceil(model.count, columns))
+        return Math.min(collapsedRowCount, Math.ceil(model.count /  columns))
     }
     property int uncollapsedRowCount: Math.ceil(model.count / columns)
     readonly property int collapsedHeight: {
