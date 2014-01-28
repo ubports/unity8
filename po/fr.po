@@ -8,23 +8,23 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-11-29 09:21+0100\n"
-"PO-Revision-Date: 2013-06-27 03:21+0000\n"
-"Last-Translator: Michał Sawicz <michal.sawicz@canonical.com>\n"
+"PO-Revision-Date: 2014-01-28 00:34+0000\n"
+"Last-Translator: Pierre <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2013-12-29 06:04+0000\n"
-"X-Generator: Launchpad (build 16877)\n"
+"X-Launchpad-Export-Date: 2014-01-28 07:06+0000\n"
+"X-Generator: Launchpad (build 16914)\n"
 
 #: Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
-msgstr ""
+msgstr "Passer l'intro"
 
 #: Components/EdgeDemo.qml:112
 msgid "Right edge"
-msgstr ""
+msgstr "Bord droit"
 
 #: Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
@@ -32,7 +32,7 @@ msgstr ""
 
 #: Components/EdgeDemo.qml:144
 msgid "Top edge"
-msgstr ""
+msgstr "Bord supérieur"
 
 #: Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
@@ -40,7 +40,7 @@ msgstr ""
 
 #: Components/EdgeDemo.qml:170
 msgid "Close"
-msgstr ""
+msgstr "Fermer"
 
 #: Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
@@ -48,7 +48,7 @@ msgstr ""
 
 #: Components/EdgeDemo.qml:198
 msgid "Left edge"
-msgstr ""
+msgstr "Bord gauche"
 
 #: Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
@@ -66,70 +66,70 @@ msgstr ""
 
 #: Components/PageHeader.qml:364
 msgid "Recent searches"
-msgstr ""
+msgstr "Recherches récentes"
 
 #: Dash/Apps/AppPreview.qml:135
 msgid "Rate this"
-msgstr ""
+msgstr "Evaluez ceci"
 
 #. TRANSLATORS: Number of persons who rated this app/video/whatever
 #: Dash/Previews/Header.qml:93
 #, qt-format
 msgid "(%1)"
-msgstr ""
+msgstr "(%1)"
 
 #. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
 #: Dash/Previews/Header.qml:105
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 avis"
+msgstr[1] "%1 avis"
 
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
-msgstr ""
+msgstr "Ajouter un avis"
 
 #: Dash/Previews/Reviews.qml:86
 msgid "Review"
-msgstr ""
+msgstr "Avis"
 
 #: Dash/Previews/Reviews.qml:121
 msgid "Send"
-msgstr ""
+msgstr "Envoyer"
 
 #: Dash/Previews/Reviews.qml:139
 msgid "Comments:"
-msgstr ""
+msgstr "Commentaires :"
 
 #: Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
-msgstr ""
+msgstr "Appel d'urgence"
 
 #: Greeter/PassphraseLockscreen.qml:59
 #, qt-format
 msgid "Hello %1"
-msgstr ""
+msgstr "Bonjour %1"
 
 #: Greeter/PassphraseLockscreen.qml:59
 msgid "Hello"
-msgstr ""
+msgstr "Bonjour"
 
 #: Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
-msgstr ""
+msgstr "Confirmez"
 
 #: Hud/Hud.qml:61 Hud/Hud.qml:99 Hud/Hud.qml:372
 msgid "Type or say a command"
-msgstr ""
+msgstr "Rédigez ou dictez une commande"
 
 #: Hud/Hud.qml:84
 msgid "Loading. Please Wait..."
-msgstr ""
+msgstr "Chargement. Veuillez patienter…"
 
 #: Hud/Hud.qml:89
 msgid "Speak Now..."
-msgstr ""
+msgstr "Parlez maintenant…"
 
 #: Hud/Hud.qml:94
 msgid "Speaking..."
@@ -137,16 +137,16 @@ msgstr ""
 
 #: Notifications/NotificationMenuItemFactory.qml:89
 msgid "Show password"
-msgstr ""
+msgstr "Afficher le mot de passe"
 
 #: Panel/SearchIndicator.qml:27
 msgid "Search"
-msgstr ""
+msgstr "Rechercher"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Lock to Launcher"
-msgstr ""
+msgstr "Conserver dans le lanceur"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Unlock from Launcher"
@@ -155,4 +155,4 @@ msgstr ""
 #: Shell.qml:439
 #, qt-format
 msgid "Please enter %1"
-msgstr ""
+msgstr "Veuillez saisir %1"
