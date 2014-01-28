@@ -79,5 +79,6 @@ Item {
         maximumLineCount: 5
         elide: Text.ElideRight
         text: cardData && cardData["summary"] || ""
+        height: text ? implicitHeight : 0
     }
 }
