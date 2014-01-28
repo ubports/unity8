@@ -325,8 +325,8 @@ FocusScope {
             rendererId = getDefaultRendererId(contentType);
         }
         if (rendererId == "carousel") {
-            // Selectively disable carousel, 6 is fixed for now, should change on the form factor
-            if (results.count <= 6)
+            // Selectively disable carousel, 5 is fixed for now, should change on the form factor
+            if (results.count <= 5)
                 rendererId = "grid"
         }
         switch (rendererId) {
