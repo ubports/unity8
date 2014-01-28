@@ -59,7 +59,7 @@ class NotificationsBase(UnityTestCase):
             return '/usr/share/unity8/graphics/' + icon_name
         else:
             return os.path.abspath(
-                os.getcwd() + "/../../graphics/" + icon_name
+                os.getcwd() + "../../qml/graphics/" + icon_name
             )
 
     def _get_notifications_list(self):
@@ -161,8 +161,6 @@ class InteractiveNotificationBase(NotificationsBase):
         unity_proxy = self.launch_unity()
         unlock_unity(unity_proxy)
 
-        notify_list = self._get_notifications_list()
-
         summary = "Incoming call"
         body = "Frank Zappa\n+44 (0)7736 027340"
         icon_path = self._get_icon_path('avatars/anna_olsson.png')
@@ -191,6 +189,7 @@ class InteractiveNotificationBase(NotificationsBase):
             hints
         )
 
+        notify_list = self._get_notifications_list()
         get_notification = lambda: notify_list.wait_select_single(
             'Notification', objectName='notification1')
         notification = get_notification()
