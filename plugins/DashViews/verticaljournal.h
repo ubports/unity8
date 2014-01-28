@@ -17,7 +17,7 @@
 #ifndef VERTICALJOURNAL_H
 #define VERTICALJOURNAL_H
 
-#include "abstractjournal.h"
+#include "abstractdashview.h"
 
  /** A vertical journal is a view that creates delegates
    * based on a model and layouts them in columns following
@@ -51,7 +51,7 @@
    *
    */
 
-class VerticalJournal : public AbstractJournal
+class VerticalJournal : public AbstractDashView
 {
     Q_OBJECT
 
@@ -85,7 +85,7 @@ private:
     void findBottomModelIndexToAdd(int *modelIndex, qreal *yPos) override;
     void findTopModelIndexToAdd(int *modelIndex, qreal *yPos) override;
     bool removeNonVisibleItems(qreal bufferFromY, qreal bufferToY) override;
-    void positionItem(int modelIndex, QQuickItem *item) override;
+    void addItemToView(int modelIndex, QQuickItem *item) override;
     void cleanupExistingItems() override;
     void calculateImplicitHeight() override;
     void doRelayout() override;

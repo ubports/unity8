@@ -25,7 +25,7 @@ class UnityEmulatorBase(introspection.CustomEmulatorBase):
 
     def __init__(self, *args):
         super(UnityEmulatorBase, self).__init__(*args)
-        self.pointing_device = input.Touch.create()
+        self.pointing_device = input.Pointer(device=input.Touch.create())
 
 
 class UnityEmulatorException(Exception):

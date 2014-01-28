@@ -83,7 +83,7 @@ TestCase {
             }
             childs.splice(0, 1);
         }
-        return undefined;
+        return null;
     }
 
     // Find an object with the given name in the children tree of "obj"
@@ -103,7 +103,7 @@ TestCase {
             }
             childs.splice(0, 1);
         }
-        return undefined;
+        return null;
     }
 
     // Type a full string instead of keyClick letter by letter

@@ -21,12 +21,9 @@ ListModel {
 
     property var indicatorData : undefined
 
-    function load() {}
+    function load() {
+        clear();
 
-    // Need to do this dynamically.
-    // Apparently ListModels dont order roles visually when using ListElement
-    // which throws off the filter for non-visible indicators.
-    Component.onCompleted: {
         append({    "identifier": "indicator-fake1",
                     "position": 0,
                     "widgetSource": "qrc:/tests/indciators/qml/fake_menu_widget1.qml",
