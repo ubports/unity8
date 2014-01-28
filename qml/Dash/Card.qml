@@ -38,9 +38,16 @@ Item {
     UbuntuShape {
         id: artShape
         objectName: "artShape"
-        width: image.fillMode === Image.PreserveAspectCrop || aspect < image.aspect ? image.width : height * image.aspect
-        height: image.fillMode === Image.PreserveAspectCrop || aspect > image.aspect ? image.height : width / image.aspect
+        width: {
+            if (!visible) return 0
+            return image.fillMode === Image.PreserveAspectCrop || aspect < image.aspect ? image.width : height * image.aspect
+        }
+        height: {
+            if (!visible) return 0
+            return image.fillMode === Image.PreserveAspectCrop || aspect > image.aspect ? image.height : width / image.aspect
+        }
         anchors.horizontalCenter: template && template["card-layout"] === "horizontal" ? undefined : parent.horizontalCenter
+        anchors.left: template && template["card-layout"] === "horizontal" ? parent.left : undefined
         visible: cardData && cardData["art"] || false
 
         property real aspect: components !== undefined ? components["art"]["aspect-ratio"] : 1

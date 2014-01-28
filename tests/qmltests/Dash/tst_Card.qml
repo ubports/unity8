@@ -298,6 +298,7 @@ Rectangle {
         }
 
         function test_art_size(data) {
+            wait(50) // Allow layout to settle.
             selector.selectedIndex = data.index;
 
             if (data.hasOwnProperty("size")) {
@@ -361,6 +362,8 @@ Rectangle {
 
             tryCompare(testCase.artImage, "source", "")
             compare(testCase.art.visible, false)
+            compare(testCase.art.height, 0)
+            compare(testCase.art.width, 0)
         }
     }
 }
