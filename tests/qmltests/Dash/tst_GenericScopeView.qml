@@ -278,11 +278,11 @@ Item {
                 var rendererHint = ""
                 var results = new Object()
 
-                results.count = 6
+                results.count = 5
                 var renderer = genericScopeView.getRenderer(rendererId, contentType, rendererHint, results)
                 compare(renderer, "Generic/GenericCarousel.qml")
 
-                results.count = 5
+                results.count = 4
                 var renderer = genericScopeView.getRenderer(rendererId, contentType, rendererHint, results)
                 compare(renderer, "Generic/GenericFilterGrid.qml")
             }
