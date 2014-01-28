@@ -298,7 +298,6 @@ Rectangle {
         }
 
         function test_art_size(data) {
-            wait(50) // Allow layout to settle.
             selector.selectedIndex = data.index;
 
             if (data.hasOwnProperty("size")) {
