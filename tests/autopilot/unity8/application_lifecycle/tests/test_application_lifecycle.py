@@ -30,6 +30,7 @@ from autopilot.platform import model
 from testtools.matchers import Equals, NotEquals
 
 import logging
+import subprocess
 
 logger = logging.getLogger(__name__)
 
@@ -163,8 +164,8 @@ class ApplicationLifecycleTests(UnityTestCase):
         )
 
     @disable_qml_mocking
-    def test_greeter_hides_on_app_focus(self):
-        """Greeter should hide when an app is re-focused"""
+    def test_greeter_hides_on_app_focus_via_upstart(self):
+        """Greeter should hide when an app is re-focused with upstart"""
         unity_proxy = self.launch_unity()
         unlock_unity(unity_proxy)
 
@@ -184,7 +185,8 @@ class ApplicationLifecycleTests(UnityTestCase):
         greeter = self.main_window.get_greeter()
         self.assertThat(greeter.created, Eventually(Equals(True)))
 
-        app = self._launch_app("messaging-app")
+        command = ['initctl', 'start', 'application', 'APP_ID=messaging-app']
+        subprocess.check_call(command)
         self.assertThat(greeter.created, Eventually(Equals(False)))
         self.assertThat(
             self._get_current_focused_app_id(),
