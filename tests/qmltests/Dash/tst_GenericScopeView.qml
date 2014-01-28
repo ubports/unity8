@@ -283,7 +283,7 @@ Item {
                 compare(renderer, "Generic/GenericCarousel.qml")
 
                 results.count = 6
-                var renderer = genericScopeView.getRenderer(rendererId, contentType, rendererHint, results)
+                renderer = genericScopeView.getRenderer(rendererId, contentType, rendererHint, results)
                 compare(renderer, "Generic/GenericFilterGrid.qml")
             }
 
