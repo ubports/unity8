@@ -272,6 +272,21 @@ Item {
                 tryCompare(category, "filtered", true);
             }
 
+            function test_getRendererCarouselGridFallback() {
+                var rendererId = "carousel"
+                var contentType = ""
+                var rendererHint = ""
+                var results = new Object()
+
+                results.count = 7
+                var renderer = genericScopeView.getRenderer(rendererId, contentType, rendererHint, results)
+                compare(renderer, "Generic/GenericCarousel.qml")
+
+                results.count = 6
+                renderer = genericScopeView.getRenderer(rendererId, contentType, rendererHint, results)
+                compare(renderer, "Generic/GenericFilterGrid.qml")
+            }
+
             function test_showPreviewCarousel() {
                 tryCompareFunction(function() { return findChild(genericScopeView, "carouselDelegate") != undefined; }, true);
                 var tile = findChild(genericScopeView, "carouselDelegate");
