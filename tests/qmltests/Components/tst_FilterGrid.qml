@@ -20,6 +20,7 @@ import "../../../qml/Components"
 import Ubuntu.Components.ListItems 0.1 as ListItem
 import Ubuntu.Components 0.1
 import Unity.Test 0.1 as UT
+import Utils 0.1
 
 /*
   You should see 6 green squares (from "A" to "F") and a button "View all (12)".
@@ -42,14 +43,25 @@ Rectangle {
             values: [1,2,3,4]
             selectedIndex: 1
         }
+        ListItem.ValueSelector {
+            id: modelCountLimitSelector
+            text: "model count limit"
+            values: [1, 3, 4, 7, 12]
+            selectedIndex: 4
+        }
         Row {
-            spacing: units.gu(1)
+            spacing: units.gu(3)
             Label { anchors.verticalCenter: parent.verticalCenter
                     text: "Filter" }
             CheckBox {
                 id: filterCheckBox
                 checked: true
             }
+        }
+        Row {
+            spacing: units.gu(3)
+            Label { text: "rowsWhenCollapsed"}
+            Label { text: filterGrid.rowsWhenCollapsed }
         }
     }
 
@@ -69,6 +81,12 @@ Rectangle {
         ListElement { name: "L" }
     }
 
+    LimitProxyModel {
+        id: limitedFakeModel
+        model: fakeModel
+        limit: modelCountLimitSelector.values[modelCountLimitSelector.selectedIndex]
+    }
+
     Rectangle {
         id: gridRect
         width: units.gu(30)
@@ -80,7 +98,7 @@ Rectangle {
         FilterGrid {
             id: filterGrid
             anchors.fill: parent
-            model: fakeModel
+            model: limitedFakeModel
             maximumNumberOfColumns: 3
             collapsedRowCount:
                 collapsedRowCountSelector.values[collapsedRowCountSelector.selectedIndex]
@@ -110,6 +128,7 @@ Rectangle {
         when: windowShown
 
         function test_turningFilterOffShowsAllElements() {
+            modelCountLimitSelector.selectedIndex = 4 // all items
             tryCompareFunction(countVisibleDelegates, 6)
 
             filterCheckBox.checked = false
@@ -121,6 +140,8 @@ Rectangle {
         }
 
         function test_collapsedRowCount() {
+            modelCountLimitSelector.selectedIndex = 4 // all items
+
             for (var i = 0; i < 4; ++i) {
                 collapsedRowCountSelector.selectedIndex = i
                 // We have 3 elements per row.
@@ -130,6 +151,24 @@ Rectangle {
 
             // back to initial state
             collapsedRowCountSelector.selectedIndex = 1
+        }
+
+        function test_modelSizeAffectsCollapsedRowCount_data() {
+            var data = new Array()
+            data.push({modelLimitIndex: 3, rowsWhenCollapsed: 2, visibleDelegates: 6})
+            data.push({modelLimitIndex: 2, rowsWhenCollapsed: 2, visibleDelegates: 4})
+            data.push({modelLimitIndex: 1, rowsWhenCollapsed: 1, visibleDelegates: 3})
+            data.push({modelLimitIndex: 1, rowsWhenCollapsed: 1, visibleDelegates: 3})
+            data.push({modelLimitIndex: 0, rowsWhenCollapsed: 1, visibleDelegates: 1})
+            return data
+        }
+
+        function test_modelSizeAffectsCollapsedRowCount(data) {
+            collapsedRowCountSelector.selectedIndex = 1 // 2 rows
+
+            modelCountLimitSelector.selectedIndex = data.modelLimitIndex
+            compare(filterGrid.rowsWhenCollapsed, data.rowsWhenCollapsed)
+            tryCompareFunction(countVisibleDelegates, data.visibleDelegates)
         }
 
         function countVisibleDelegates() {
