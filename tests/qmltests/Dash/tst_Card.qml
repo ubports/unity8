@@ -110,6 +110,11 @@ Rectangle {
             "name": "Art, header - vertical",
             "layout": { "components": Helpers.update(JSON.parse(root.fullMapping), { "summary": undefined }) }
         },
+        {
+            "name": "Header title only - horizontal",
+            "layout": { "template": { "card-layout": "horizontal" },
+                        "components": { "title": "title" } }
+        },
     ]
 
     Card {
@@ -349,6 +354,13 @@ Rectangle {
 
             tryCompareFunction(function() { return testCase.header.y === data.top() }, true);
             tryCompareFunction(function() { return testCase.header.x === data.left() }, true);
+        }
+
+        function test_art_visibility() {
+            selector.selectedIndex = 7
+
+            tryCompare(testCase.artImage, "source", "")
+            compare(testCase.art.visible, false)
         }
     }
 }
