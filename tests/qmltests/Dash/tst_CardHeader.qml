@@ -52,11 +52,11 @@ Rectangle {
         property Item column: findChild(cardHeader, "column")
 
         function initTestCase() {
-            verify(testCase.mascot !== undefined, "Couldn't find mascot object.");
-            verify(testCase.titleLabel !== undefined, "Couldn't find titleLabel object.");
-            verify(testCase.subtitleLabel !== undefined, "Couldn't find subtitleLabel object.");
-            verify(testCase.prices !== undefined, "Couldn't find prices object.");
-            verify(testCase.oldPriceLabel !== undefined, "Couldn't find oldPriceLabel object.");
+            verify(typeof testCase.mascot === "object", "Couldn't find mascot object.");
+            verify(typeof testCase.titleLabel === "object", "Couldn't find titleLabel object.");
+            verify(typeof testCase.subtitleLabel === "object", "Couldn't find subtitleLabel object.");
+            verify(typeof testCase.prices === "object", "Couldn't find prices object.");
+            verify(typeof testCase.oldPriceLabel === "object", "Couldn't find oldPriceLabel object.");
         }
 
         function cleanup() {
@@ -86,7 +86,7 @@ Rectangle {
                         { tag: "Empty", visible: false },
                         { tag: "Title only", title: "Foo", visible: true },
                         { tag: "Subtitle only", subtitle: "Bar", visible: false },
-                        { tag: "Both", title: "Foo", subtitle: "Bar", visible: true }
+                        { tag: "Both", title: "Foo", subtitle: "Bar", visible: true },
             ]
         }
 
@@ -104,7 +104,7 @@ Rectangle {
                         { tag: "Main and Alt", main: "$1.25", alt: "€1.00", visible: true },
                         { tag: "Main and Old", main: "$1.25", old: "$2.00", visible: true, oldAlign: Text.AlignRight },
                         { tag: "Alt and Old", alt: "€1.00", old: "$2.00", visible: false },
-                        { tag: "All", main: "$1.25", alt: "€1.00", old: "$2.00", visible: true, oldAlign: Text.AlignHCenter }
+                        { tag: "All", main: "$1.25", alt: "€1.00", old: "$2.00", visible: true, oldAlign: Text.AlignHCenter },
             ]
         }
 
@@ -121,7 +121,8 @@ Rectangle {
         function test_dimensions_data() {
             return [
                 { tag: "Column width", object: column, width: cardHeader.width - testCase.outerRow.spacing * 2 },
-                { tag: "Column width", object: column, width: cardHeader.width - mascot.width - testCase.outerRow.spacing * 3, mascot: "artwork/avatar.png" }
+                { tag: "Column width", object: column, width: cardHeader.width - mascot.width - testCase.outerRow.spacing * 3, mascot: "artwork/avatar.png" },
+                { tag: "Header height", object: cardHeader, height: function() { return subtitleLabel.y + subtitleLabel.height + outerRow.spacing * 2 } },
             ]
         }
 
@@ -132,6 +133,10 @@ Rectangle {
 
             if (data.hasOwnProperty("width")) {
                 tryCompare(data.object, "width", data.width);
+            }
+
+            if (data.hasOwnProperty("height")) {
+                tryCompareFunction(function() { return data.object.height === data.height() }, true);
             }
         }
     }
