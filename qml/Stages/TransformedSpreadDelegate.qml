@@ -14,6 +14,7 @@ SpreadDelegate {
 
     property real startScale: 1
     property real endScale: 1
+    property real tile1StartScale: startScale + .4
 
     property real startDistance: units.gu(5)
     property real endDistance: units.gu(.5)
@@ -210,36 +211,28 @@ SpreadDelegate {
             case 0:
                 if (spreadView.stage == 0) {
                     newScale = 1;
+                    break
                 } else if(spreadView.stage == 1) {
                     var progress = root.progress - spreadView.positionMarker2
                     var progressDiff = spreadView.positionMarker4 - spreadView.positionMarker2
                     var scaleDiff = 1 - root.endScale;
                     // progress : progressDiff = angle : angleDiff
                     newScale = 1 - (progress * scaleDiff / progressDiff);
-
-                } else {
-                    var progress = root.progress - spreadView.positionMarker2;
-                    var scaleDiff = 1 - root.endScale;
-                    var progressDiff = 1 - spreadView.positionMarker2;
-                    // progress : progressDiff = angle : angleDiff
-                    newScale = 1 - (progress * scaleDiff / progressDiff);
-                    newScale = Math.max(root.endScale, newScale);
+                    break;
                 }
-
-                break;
             case 1:
                 if (spreadView.stage == 0) {
                     var progress = root.animatedProgress;
                     var progressDiff = spreadView.positionMarker2;
-                    var scaleDiff = (root.startScale - 1) * spreadView.snapPosition
+                    var scaleDiff = (root.tile1StartScale - 1) * spreadView.snapPosition
 
                     // progress : progressDiff = angle : angleDiff
                     var scaleTranslate = progress * scaleDiff / progressDiff;
 
-                    newScale = root.startScale - scaleTranslate;
+                    newScale = root.tile1StartScale - scaleTranslate;
                     break;
                 } else if (spreadView.stage == 1) {
-                    var stage0Scale = root.startScale - (root.startScale - 1) * spreadView.snapPosition
+                    var stage0Scale = root.tile1StartScale - (root.tile1StartScale - 1) * spreadView.snapPosition
 
                     var progress = root.progress
                     var progressDiff = spreadView.positionMarker4 - spreadView.positionMarker2

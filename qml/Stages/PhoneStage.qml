@@ -206,10 +206,10 @@ Item {
             if (dragging && !priv.waitingForScreenshot && attachedToView) {
                 spreadView.contentX = -touchX
             }
-            if (attachedToView && spreadView.contentX >= spreadView.width * spreadView.positionMarker3) {
-                attachedToView = false;
-                spreadView.snap();
-            }
+//            if (attachedToView && spreadView.contentX >= spreadView.width * spreadView.positionMarker3) {
+//                attachedToView = false;
+//                spreadView.snap();
+//            }
         }
 
         onDraggingChanged: {
@@ -250,7 +250,7 @@ Item {
 
         // Stage of the animation:
         // 0: Starting from right edge, a new app (index 1) comes in from the right
-        // 1: The app has reached the first snap position
+        // 1: The app has reached the first snap position.
         // 2: The list is dragged further and snaps into the spread view when entering stage 2
         property int stage: 0
 
@@ -330,8 +330,8 @@ Item {
                 delegate: TransformedSpreadDelegate {
                     startAngle: 45
                     endAngle: 10
-                    startScale: 1.4
-                    endScale: 0.8
+                    startScale: 1
+                    endScale: 0.7
                     startDistance: spreadView.tileDistance
                     endDistance: units.gu(.5)
 
