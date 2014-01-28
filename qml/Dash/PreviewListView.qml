@@ -32,6 +32,7 @@ Item {
     property alias model: previewListView.model
     property alias currentIndex: previewListView.currentIndex
     property alias currentItem: previewListView.currentItem
+    property alias count: previewListView.count
 
     Image {
         objectName: "pointerArrow"

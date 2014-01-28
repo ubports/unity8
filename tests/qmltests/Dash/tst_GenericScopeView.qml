@@ -41,17 +41,10 @@ Item {
         signal mainStageFocusedApplicationChanged()
     }
 
-    PreviewListView {
-        id: previewListView
-        anchors.fill: parent
-        openEffect: openEffect
-        categoryView: genericScopeView.categoryView
-        scope: genericScopeView.scope
-    }
-
     DashContentOpenEffect {
         id: openEffect
         previewListView: previewListView
+        sourceItem: genericScopeView
     }
 
     PageHeaderLabel {
@@ -176,6 +169,7 @@ Item {
 
             function test_previewCycle() {
                 tryCompare(previewListView, "open", false);
+                tryCompare(openEffect, "gap", 0);
 
                 openPreview();
 
@@ -193,7 +187,7 @@ Item {
                 checkArrowPosition(0);
 
                 // flick to the next previews
-
+                tryCompare(previewListView, "count", 15);
                 for (var i = 1; i < previewListView.count; ++i) {
 
                     mouseFlick(previewListView, previewListView.width - units.gu(1),
@@ -337,5 +331,13 @@ Item {
                 tryCompare(category2FilterGrid, "filter", true);
             }
         }
+    }
+
+    PreviewListView {
+        id: previewListView
+        anchors.fill: parent
+        openEffect: openEffect
+        categoryView: genericScopeView.categoryView
+        scope: genericScopeView.scope
     }
 }
