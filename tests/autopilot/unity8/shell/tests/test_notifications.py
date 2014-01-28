@@ -191,7 +191,7 @@ class InteractiveNotificationBase(NotificationsBase):
 
         notify_list = self._get_notifications_list()
         get_notification = lambda: notify_list.wait_select_single(
-            'Notification', objectName='notification1')
+            'Notification', objectName='notification0')
         notification = get_notification()
         self._assert_notification(notification, None, None, True, True, 1.0)
         initial_height = notification.height
