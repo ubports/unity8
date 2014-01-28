@@ -186,10 +186,10 @@ FocusScope {
                     onClicked: {
                         // Prepare the preview in case activate() triggers a preview only
                         openEffect.positionPx = Math.max(mapToItem(categoryView, 0, itemY).y, pageHeader.height + categoryView.stickyHeaderHeight);
+                        previewListView.needsInit = true;
                         previewListView.categoryId = categoryId
                         previewListView.categoryDelegate = rendererLoader.item
                         previewListView.model = target.model;
-                        previewListView.init = true;
                         previewListView.currentIndex = index;
 
                         var item = target.model.get(index);
@@ -207,10 +207,10 @@ FocusScope {
                     }
                     onPressAndHold: {
                         openEffect.positionPx = Math.max(mapToItem(categoryView, 0, itemY).y, pageHeader.height + categoryView.stickyHeaderHeight);
+                        previewListView.needsInit = true;
                         previewListView.categoryId = categoryId
                         previewListView.categoryDelegate = rendererLoader.item
                         previewListView.model = target.model;
-                        previewListView.init = true;
                         previewListView.currentIndex = index;
                         previewListView.open = true
 
@@ -364,7 +364,7 @@ FocusScope {
     Connections {
         target: scopeView.scope
         onPreviewReady: {
-            if (previewListView.init) {
+            if (previewListView.needsInit) {
                 // Preview was triggered because of a click on the item. Need to expand now.
                 if (!previewListView.open) {
                     previewListView.open = true
@@ -372,8 +372,8 @@ FocusScope {
 
                 var index = previewListView.currentIndex
                 previewListView.currentIndex = -1
+                previewListView.needsInit = false
                 previewListView.currentIndex = index
-                previewListView.init = false
             }
             previewListView.currentItem.previewData = preview
         }

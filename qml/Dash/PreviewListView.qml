@@ -28,7 +28,7 @@ Item {
     property alias onScreen: previewListView.onScreen
     property alias categoryId: previewListView.categoryId
     property alias categoryDelegate: previewListView.categoryDelegate
-    property alias init: previewListView.init
+    property alias needsInit: previewListView.needsInit
     property alias model: previewListView.model
     property alias currentIndex: previewListView.currentIndex
     property alias currentItem: previewListView.currentItem
@@ -81,13 +81,17 @@ Item {
         // because the ListView is built asynchronous, setting the
         // currentIndex directly won't work. We need to refresh it
         // when the first preview is ready to be displayed.
-        property bool init: true
+        property bool needsInit: true
 
         PreviewDelegateMapper {
             id: previewDelegateMapper
         }
 
         onCurrentIndexChanged: {
+            if (needsInit) {
+                return;
+            }
+
             var row = Math.floor(currentIndex / categoryDelegate.columns);
             if (categoryDelegate.collapsedRowCount <= row) {
                 categoryView.expandedCategoryId = categoryId
@@ -97,7 +101,7 @@ Item {
                 categoryDelegate.highlightIndex = currentIndex
             }
 
-            if (!init && model !== undefined) {
+            if (model !== undefined) {
                 var item = model.get(currentIndex)
                 scope.preview(item.uri, item.icon, item.category, 0, item.mimetype, item.title, item.comment, item.dndUri, item.metadata)
             }
