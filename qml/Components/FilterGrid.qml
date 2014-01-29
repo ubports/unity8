@@ -46,12 +46,8 @@ Item {
         return Math.min(collapsedRowCount, Math.ceil(model.count / columns))
     }
     property int uncollapsedRowCount: Math.ceil(model.count / columns)
-    readonly property int collapsedHeight: {
-        return iconTileGrid.contentHeightForRows(rowsWhenCollapsed)
-    }
-    readonly property int uncollapsedHeight: {
-        return iconTileGrid.contentHeightForRows(uncollapsedRowCount)
-    }
+    readonly property int collapsedHeight: iconTileGrid.contentHeightForRows(rowsWhenCollapsed)
+    readonly property int uncollapsedHeight: iconTileGrid.contentHeightForRows(uncollapsedRowCount)
 
     property alias minimumHorizontalSpacing: iconTileGrid.minimumHorizontalSpacing
     property alias maximumNumberOfColumns: iconTileGrid.maximumNumberOfColumns
