@@ -47,11 +47,6 @@ Item {
         anchors { left: parent.left; right: parent.right }
         visible: trackRepeater.count > 0
 
-        ThinDivider {
-            objectName: "topDivider"
-            anchors { left: parent.left; right: parent.right }
-        }
-
         Repeater {
             id: trackRepeater
             objectName: "trackRepeater"

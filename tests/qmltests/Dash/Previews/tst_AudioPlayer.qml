@@ -56,9 +56,9 @@ Rectangle {
 
         function test_tracks_data() {
             return [
-                    {tag: "0 tracks", tracksModel: tracksModel0, dividerVisible: false},
-                    {tag: "1 track", tracksModel: tracksModel1, dividerVisible: true},
-                    {tag: "4 track", tracksModel: tracksModel2, dividerVisible: true}
+                    {tag: "0 tracks", tracksModel: tracksModel0},
+                    {tag: "1 track", tracksModel: tracksModel1},
+                    {tag: "3 tracks", tracksModel: tracksModel2}
             ];
         }
 
@@ -68,9 +68,6 @@ Rectangle {
 
             var trackRepeater = findChild(audioPlayer, "trackRepeater");
             compare(trackRepeater.count, data.tracksModel.length)
-
-            var topDivider = findChild(audioPlayer, "topDivider");
-            compare(topDivider.visible, data.dividerVisible);
 
             for (var i = 0; i < data.tracksModel.count; ++i) {
                 var trackItem = findChild(audioPlayer, "trackItem" + i);
