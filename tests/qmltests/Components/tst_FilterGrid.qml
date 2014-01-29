@@ -43,12 +43,6 @@ Rectangle {
             values: [1,2,3,4]
             selectedIndex: 1
         }
-        ListItem.ValueSelector {
-            id: modelCountLimitSelector
-            text: "model count limit"
-            values: [1, 3, 4, 7, 12]
-            selectedIndex: 4
-        }
         Row {
             spacing: units.gu(3)
             Label { anchors.verticalCenter: parent.verticalCenter
