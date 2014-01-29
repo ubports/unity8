@@ -365,6 +365,7 @@ Item {
                 waitForRendering(genericScopeView);
                 var categoryListView = findChild(genericScopeView, "categoryListView");
                 waitForRendering(categoryListView);
+                tryCompareFunction(function() { return findChild(genericScopeView, "dashCategoryapplications.scope") != null; }, true);
                 var category = findChild(genericScopeView, "dashCategoryapplications.scope")
                 categoryListView.contentY = category.y;
                 waitForRendering(categoryListView);
