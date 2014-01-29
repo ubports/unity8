@@ -277,19 +277,21 @@ Item {
                 snapAnimation.targetContentX = 0;
                 snapAnimation.start();
             } else if (contentX < positionMarker2 * width) {
+                print("selecting tile 1")
                 snapTo(1)
             } else if (contentX < positionMarker3 * width) {
                 print("snappoing to stage1")
-                snapAnimation.targetContentX = width * positionMarker2 + 1;
-                snapAnimation.start();
+                snapTo(1)
             } else if (stage < 2){
                 print("snappoing to stage2")
-                snapAnimation.targetContentX = width * positionMarker4;
+                // Add 1 pixel to make sure we definitely hit positionMarker4 even with rounding errors of the animation.
+                snapAnimation.targetContentX = width * positionMarker4 + 1;
                 snapAnimation.start();
             }
         }
         function snapTo(index) {
-            snapAnimation.targetContentX = width * positionMarker2;
+            spreadRepeater.itemAt(index).selected = true
+            snapAnimation.targetContentX = 0//width * positionMarker2;
             snapAnimation.toIndex = index;
             snapAnimation.start();
         }
@@ -303,18 +305,23 @@ Item {
                 target: spreadView
                 property: "contentX"
                 to: snapAnimation.targetContentX
-                duration: UbuntuAnimation.FastDuration
+//                duration: UbuntuAnimation.FastDuration
+                duration: UbuntuAnimation.SleepyDuration
             }
             ScriptAction {
                 script: {
                     print("animation finished: stage", spreadView.stage, "contentX", spreadView.contentX, "focused app", ApplicationManager.get(0).appId, ApplicationManager.get(1).appId)
                     if (snapAnimation.toIndex >= 0) {
                         print("switching to app", snapAnimation.toIndex, ApplicationManager.get(snapAnimation.toIndex).name)
+                        spreadRepeater.itemAt(snapAnimation.toIndex).selected = false;
                         ApplicationManager.focusApplication(ApplicationManager.get(snapAnimation.toIndex).appId);
+                        print("unselecting item", snapAnimation.toIndex);
+                        print("unselecting item", spreadRepeater.itemAt(snapAnimation.toIndex));
                         snapAnimation.toIndex = -1;
                         spreadView.contentX = 0;
                     }
                     if (spreadView.contentX == spreadView.width * spreadView.positionMarker2) {
+                        spreadView.stage = 4;
                         spreadView.stage = 0;
                         spreadView.contentX = 0;
                     }
@@ -331,6 +338,7 @@ Item {
             x: spreadView.contentX
 
             Repeater {
+                id: spreadRepeater
                 model: ApplicationManager
                 delegate: TransformedSpreadDelegate {
                     startAngle: 45
