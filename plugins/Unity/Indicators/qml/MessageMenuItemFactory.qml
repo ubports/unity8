@@ -20,17 +20,28 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import Unity.Indicators 0.1 as Indicators
+import Ubuntu.Settings.Menus 0.1 as Menus
 import QMenuModel 0.1 as QMenuModel
+import Utils 0.1 as Utils
 
-Indicators.BaseMenuItem {
+Item {
     id: messageFactoryItem
     property var menuModel: null
     property QtObject menuData: null
     property int menuIndex: -1
 
+    property bool selected: false
+    signal menuSelected
+    signal menuDeselected
+
     property var extendedData: menuData && menuData.ext || undefined
     property var actionsDescription: getExtendedProperty(extendedData, "xCanonicalMessageActions", undefined)
+
+    // TODO - bug #1260728
+    property var timeFormatter: Utils.TimeFormatter {
+        time: getExtendedProperty(extendedData, "xCanonicalTime", 0)
+        format: "hh:mm - MMM dd"
+    }
 
     onMenuModelChanged: {
         loadAttributes();
@@ -40,8 +51,7 @@ Indicators.BaseMenuItem {
     }
 
     function loadAttributes() {
-        if (!menuModel || menuIndex == undefined) return;
-
+        if (!menuModel || menuIndex == -1) return;
         menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-time': 'int64',
                                                      'x-canonical-text': 'string',
                                                      'x-canonical-message-actions': 'variant',
@@ -67,34 +77,46 @@ Indicators.BaseMenuItem {
 
         Component {
             id: simpleTextMessage
-            SimpleTextMessage {
+            Menus.SimpleTextMessageMenu {
+                id: message
                 objectName: "simpleTextMessage"
                 // text
                 title: menuData && menuData.label || ""
-                time: getExtendedProperty(extendedData, "xCanonicalTime", 0)
+                time: timeFormatter.timeString
                 message: getExtendedProperty(extendedData, "xCanonicalText", "")
                 // icons
                 avatar: getExtendedProperty(extendedData, "icon", "qrc:/indicators/artwork/messaging/default_contact.png")
                 appIcon: getExtendedProperty(extendedData, "xCanonicalAppIcon", "qrc:/indicators/artwork/messaging/default_app.svg")
                 // actions
                 enabled: menuData && menuData.sensitive || false
+                removable: !selected
+                selected: messageFactoryItem.selected
 
-                onActivateApp: {
+                onAppActivated: {
                     menuModel.activate(menuIndex, true);
                     shell.hideIndicatorMenu(UbuntuAnimation.FastDuration);
                 }
-                onDismiss: {
+                onDismissed: {
                     menuModel.activate(menuIndex, false);
                 }
+                onClicked: {
+                    if (selected) {
+                        menuDeselected();
+                    } else {
+                        menuSelected();
+                    }
+                }
 
-                menuSelected: messageFactoryItem.menuSelected
-                onSelectMenu: messageFactoryItem.selectMenu()
-                onDeselectMenu: messageFactoryItem.deselectMenu()
+                backgroundIndicator: RemoveBackground {
+                    state: message.swipingState
+                }
             }
         }
+
         Component {
             id: textMessage
-            TextMessage {
+            Menus.TextMessageMenu {
+                id: message
                 objectName: "textMessage"
                 property var replyActionDescription: actionsDescription && actionsDescription.length > 0 ? actionsDescription[0] : undefined
 
@@ -106,7 +128,7 @@ Indicators.BaseMenuItem {
 
                 // text
                 title: menuData && menuData.label || ""
-                time: getExtendedProperty(extendedData, "xCanonicalTime", 0)
+                time: timeFormatter.timeString
                 message: getExtendedProperty(extendedData, "xCanonicalText", "")
                 replyButtonText: getExtendedProperty(replyActionDescription, "label", "Send")
                 // icons
@@ -115,26 +137,36 @@ Indicators.BaseMenuItem {
                 // actions
                 replyEnabled: replyAction.valid && replyAction.enabled
                 enabled: menuData && menuData.sensitive || false
+                removable: !selected
+                selected: messageFactoryItem.selected
 
-                onActivateApp: {
+                onAppActivated: {
                     menuModel.activate(menuIndex, true);
                     shell.hideIndicatorMenu(UbuntuAnimation.FastDuration);
                 }
-                onDismiss: {
+                onDismissed: {
                     menuModel.activate(menuIndex, false);
                 }
-                onReply: {
+                onReplied: {
                     replyAction.activate(value);
                 }
+                onClicked: {
+                    if (selected) {
+                        menuDeselected();
+                    } else {
+                        menuSelected();
+                    }
+                }
 
-                menuSelected: messageFactoryItem.menuSelected
-                onSelectMenu: messageFactoryItem.selectMenu()
-                onDeselectMenu: messageFactoryItem.deselectMenu()
+                backgroundIndicator: RemoveBackground {
+                    state: message.swipingState
+                }
             }
         }
         Component {
             id: snapDecision
-            SnapDecision {
+            Menus.SnapDecisionMenu {
+                id: message
                 objectName: "snapDecision"
                 property var activateActionDescription: actionsDescription && actionsDescription.length > 0 ? actionsDescription[0] : undefined
                 property var replyActionDescription: actionsDescription && actionsDescription.length > 1 ? actionsDescription[1] : undefined
@@ -152,7 +184,7 @@ Indicators.BaseMenuItem {
 
                 // text
                 title: menuData && menuData.label || ""
-                time: getExtendedProperty(extendedData, "xCanonicalTime", 0)
+                time: timeFormatter.timeString
                 message: getExtendedProperty(extendedData, "xCanonicalText", "")
                 actionButtonText: getExtendedProperty(activateActionDescription, "label", "Call back")
                 replyButtonText: getExtendedProperty(replyActionDescription, "label", "Send")
@@ -164,24 +196,33 @@ Indicators.BaseMenuItem {
                 activateEnabled: activateAction.valid && activateAction.enabled
                 replyEnabled: replyAction.valid && replyAction.enabled
                 enabled: menuData && menuData.sensitive || false
+                removable: !selected
+                selected: messageFactoryItem.selected
 
-                onActivateApp: {
+                onAppActivated: {
                     menuModel.activate(menuIndex, true);
                     shell.hideIndicatorMenu(UbuntuAnimation.FastDuration);
                 }
-                onDismiss: {
+                onDismissed: {
                     menuModel.activate(menuIndex, false);
                 }
-                onActivate: {
+                onActivated: {
                     activateAction.activate();
                 }
-                onReply: {
+                onReplied: {
                     replyAction.activate(value);
                 }
+                onClicked: {
+                    if (selected) {
+                        menuDeselected();
+                    } else {
+                        menuSelected();
+                    }
+                }
 
-                menuSelected: messageFactoryItem.menuSelected
-                onSelectMenu: messageFactoryItem.selectMenu()
-                onDeselectMenu: messageFactoryItem.deselectMenu()
+                backgroundIndicator: RemoveBackground {
+                    state: message.swipingState
+                }
             }
         }
     }
