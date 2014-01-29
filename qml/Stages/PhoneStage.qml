@@ -303,7 +303,7 @@ Item {
                 target: spreadView
                 property: "contentX"
                 to: snapAnimation.targetContentX
-                duration: UbuntuAnimation.SnapDuration
+                duration: UbuntuAnimation.FastDuration
             }
             ScriptAction {
                 script: {
