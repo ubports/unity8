@@ -71,7 +71,13 @@ Item {
             name: "GenericScopeView"
             when: scopes.loaded
 
-             function test_isCurrent() {
+            function init() {
+                shell.width = units.gu(120)
+                genericScopeView.categoryView.positionAtBeginning();
+                tryCompare(genericScopeView.categoryView.contentY, 0)
+            }
+
+            function test_isCurrent() {
                 genericScopeView.isCurrent = true
                 pageHeader.searchQuery = "test"
                 previewListView.open = true
@@ -272,6 +278,21 @@ Item {
                 tryCompare(category, "filtered", true);
             }
 
+            function test_getRendererCarouselGridFallback() {
+                var rendererId = "carousel"
+                var contentType = ""
+                var rendererHint = ""
+                var results = new Object()
+
+                results.count = 7
+                var renderer = genericScopeView.getRenderer(rendererId, contentType, rendererHint, results)
+                compare(renderer, "Generic/GenericCarousel.qml")
+
+                results.count = 6
+                renderer = genericScopeView.getRenderer(rendererId, contentType, rendererHint, results)
+                compare(renderer, "Generic/GenericFilterGrid.qml")
+            }
+
             function test_showPreviewCarousel() {
                 tryCompareFunction(function() { return findChild(genericScopeView, "carouselDelegate") != undefined; }, true);
                 var tile = findChild(genericScopeView, "carouselDelegate");
@@ -335,6 +356,21 @@ Item {
                 tryCompare(category0, "filtered", false);
                 tryCompare(category2, "filtered", true);
                 tryCompare(category2FilterGrid, "filter", true);
+            }
+
+            function test_narrow_delegate_ranges_expand() {
+                tryCompareFunction(function() { return findChild(genericScopeView, "dashCategory0") != undefined; }, true);
+                var category = findChild(genericScopeView, "dashCategory0")
+
+                shell.width = units.gu(20)
+                var categoryListView = findChild(genericScopeView, "categoryListView");
+                categoryListView.contentY = units.gu(20);
+                var header0 = findChild(genericScopeView, "dashSectionHeader0")
+                mouseClick(header0, header0.width / 2, header0.height / 2);
+                tryCompare(category, "filtered", false);
+                tryCompare(category.item, "delegateCreationEnd", category.item.delegateCreationBegin + genericScopeView.height);
+                mouseClick(header0, header0.width / 2, header0.height / 2);
+                tryCompare(category, "filtered", true);
             }
         }
     }

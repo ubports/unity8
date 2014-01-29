@@ -106,6 +106,15 @@ Rectangle {
             "layout": { "template": { "card-layout": "horizontal" },
                         "components": JSON.parse(fullMapping) }
         },
+        {
+            "name": "Art, header - vertical",
+            "layout": { "components": Helpers.update(JSON.parse(root.fullMapping), { "summary": undefined }) }
+        },
+        {
+            "name": "Header title only - horizontal",
+            "layout": { "template": { "card-layout": "horizontal" },
+                        "components": { "title": "title" } }
+        },
     ]
 
     Card {
@@ -189,7 +198,10 @@ Rectangle {
         property Item summary: findChild(card, "summaryLabel")
 
         function initTestCase() {
-            verify(testCase.header !== undefined, "Couldn't find header object.");
+            verify(typeof testCase.header === "object", "Couldn't find header object.");
+            verify(typeof testCase.art === "object", "Couldn't find art object.");
+            verify(typeof testCase.artImage === "object", "Couldn't find artImage object.");
+            verify(typeof testCase.summary === "object", "Couldn't find summary object.");
         }
 
         function cleanup() {
@@ -237,6 +249,9 @@ Rectangle {
                 { tag: "Large", width: units.gu(38), size: "large", index: 0 },
                 { tag: "Wide", width: units.gu(18.5), aspect: 0.5, index: 0 },
                 { tag: "Horizontal", width: units.gu(38), index: 5 },
+                // Make sure card ends with header when there's no summary
+                { tag: "NoSummary", height: function() { return header.y + header.height }, index: 6 },
+                { tag: "HorizontalNoSummary", height: function() { return header.height }, card_layout: "horizontal", index: 6 },
             ]
         }
 
@@ -245,6 +260,11 @@ Rectangle {
 
             if (data.hasOwnProperty("size")) {
                 card.template['card-size'] = data.size;
+                card.templateChanged();
+            }
+
+            if (data.hasOwnProperty("card_layout")) {
+                card.template['card-layout'] = data.card_layout;
                 card.templateChanged();
             }
 
@@ -257,7 +277,9 @@ Rectangle {
                 tryCompare(card, "width", data.width);
             }
 
-            if (data.hasOwnProperty("height")) {
+            if (typeof data.height === "function") {
+                tryCompareFunction(function() { return card.height === data.height() }, true);
+            } else if (data.hasOwnProperty("height")) {
                 tryCompare(card, "height", data.height);
             }
         }
@@ -308,7 +330,7 @@ Rectangle {
         function test_art_layout_data() {
             return [
                 { tag: "Vertical", left: function() { return 0 }, index: 0},
-                { tag: "Horizontal", left: function() { return art.width }, index: 5 }
+                { tag: "Horizontal", left: function() { return art.width }, index: 5 },
             ];
         }
 
@@ -323,7 +345,7 @@ Rectangle {
                 { tag: "Vertical", top: function() { return art.y + art.height },
                   left: function() { return art.x }, index: 0 },
                 { tag: "Horizontal", top: function() { return art.y },
-                  left: function() { return art.x + art.width }, index: 5 }
+                  left: function() { return art.x + art.width }, index: 5 },
             ]
         }
 
@@ -332,6 +354,15 @@ Rectangle {
 
             tryCompareFunction(function() { return testCase.header.y === data.top() }, true);
             tryCompareFunction(function() { return testCase.header.x === data.left() }, true);
+        }
+
+        function test_art_visibility() {
+            selector.selectedIndex = 7
+
+            tryCompare(testCase.artImage, "source", "")
+            compare(testCase.art.visible, false)
+            compare(testCase.art.height, 0)
+            compare(testCase.art.width, 0)
         }
     }
 }

@@ -1,3 +1,141 @@
+unity8 (7.84+14.04.20140129-0ubuntu1) trusty; urgency=low
+
+  [ Nick Dedekind ]
+  * Added Panel/VisibleIndicatorsModel for use with both indicator row &
+    menuContent. This removes the need to hide indicators in the row and
+    map inicator indexes between row & content. Fixes the indicator
+    highlight line offset not bound by listView position.
+  * Ported indicators to using ubuntu-settings-components
+
+  [ Albert Astals ]
+  * Prepend /sbin/ to initctl calls My phablet user does not have /sbin/
+    in path and thus this calls fail
+  * Call updateDelegateCreationRange when it's needed It depends on
+    other variables than the ones we were using to call it, so need to
+    call it if these change too Device manual test, go to apps scope,
+    scroll down so that only part of the installed apps collapsed
+    category is shown, expand it, see how previously some icons were not
+    painted and now they are
+
+  [ Mirco Müller ]
+  * Fixed the failure of notification autopilot-test
+    test_sd_incoming_call.
+
+  [ Andrea Cimitan ]
+  * Add AP test for policykit/network manager, which was causing issues
+    with nested mir
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Michał Karnicki ]
+  * Don't display artShape when artImage source not set.
+  * Fix FilterGrid rendering issues.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 29 Jan 2014 16:11:20 +0000
+
+unity8 (7.84+14.04.20140128-0ubuntu1) trusty; urgency=low
+
+  [ Michal Hruby ]
+  * Added unity-scope-tool, which will help when developing scopes.
+
+  [ Michał Sawicz ]
+  * Added unity-scope-tool, which will help when developing scopes.
+  * Use full DashContent, not just GenericScopeView in ScopeTool.qml.
+  * Bring Card and CardHeader over from new-scopes.
+  * Work around bug #1268578. (LP: #1268578)
+  * Drop unnecessary version dependencies.
+  * Return null instead of undefined from findChild and
+    findInvisibleChild.
+  * Fix CardHeader and Card heights (empty Label does have non-zero
+    height apparently). Also improve test robustness and reduce future
+    diffs.
+
+  [ Albert Astals ]
+  * Do not assert if the item we are removing was not created yet
+    (because e.g. it's not in the viewport).
+  * Position correctly the pointer of the search history box .
+  * Make test_filter_expand_expand less unstable in CI VMs Make sure
+    header0 is the header0 we want to click On the CI VM stuff is a bit
+    slower than on real hw and we were clicking in the wrong place.
+  * Add TabBar to the Dash header navigation Changes this comes with: *
+    DashBar at the bottom is gone * PageHeader doesn't have a Label
+    anymore, it has the childItem property where you add which thing it
+    has to contain * New: PageHeaderLabel mimics the old behaviour of
+    PageHeader * The header of the LVWPH of GenericScopeView is now fake
+    and only used for positioning. There is a single global floating
+    header in DashContent (which is a PageHeader with a TabBar as
+    childItem) * The GenericScopeView previewLoader and OpenEffect have
+    been also moved to the DashContent so that the openEffect includes
+    the floating header in the "animation" .
+  * Introduce the HorizontalJournal.
+  * If there are no items m_firstVisibleIndex has to be -1 .
+  * Add some more documentation about tests to the CODING file.
+  * Fixes to the journal cmake tests code * Output to the correct
+    filename for the test * Don't output stuff from the tryXYZ targets.
+  * Adapt to findChild return value changes .
+  * Organic Grid for the Dash View.
+  * Misc journal fixes Don't init *modelIndex to INT_MAX Makes no sense
+    since we're not doing any qMin and the calling function also accepts
+    any index >= 0 as valid so in some cases it may end up wanting to
+    create an index that doesn't exist Don't refill if height() < 0,
+    that gives bad ranges for from/to and the code gets confused .
+
+  [ Michał Karnicki ]
+  * Fix grid view column count.
+  * Add test for minimum number of items in a carousel.
+
+  [ Allan LeSage ]
+  * Add stubs for indicators autopilot tests.
+
+  [ Andrea Cimitan ]
+  * Avoid input falling through notifications onto surfaces below, thus
+    fixing LP: #1257312. (LP: #1257312)
+
+  [ Leo Arias ]
+  * Close the Touch devices after the tests. (LP: #1267600)
+  * Added methods to scroll to other scopes on autopilot tests.
+  * Added autopilot helpers for the app scope and the app preview.
+    Install the fake scopes in order to use them on the tests. (LP:
+    #1269114)
+  * On autopilot helpers, wait for the scope category to appear.
+
+  [ Nick Dedekind ]
+  * Visual updates for indicator panel highlight and opening opacity.
+  * Added inidcator tests for page & item factories.
+  * Fixes visible indicator misalignment in indicator items/menus
+    (lp#1264678). (LP: #1264678)
+
+  [ Mirco Müller ]
+  * Fixed the failure of notification autopilot-test
+    test_sd_incoming_call.
+
+  [ Michael Zanetti ]
+  * clean up fullscreen notifications code.
+  * import qml files into cmake, drop qmlproject.
+  * also add qml files in tests directory.
+  * Added autopilot helpers for the app scope and the app preview.
+    Install the fake scopes in order to use them on the tests. (LP:
+    #1269114)
+
+  [ Michael Terry ]
+  * Fix failure to build when using the ./build script with ninja-build
+    installed. (LP: #1268525)
+  * Point DBus-activated processes at unity8's MIR_SOCKET rather than
+    the system socket.
+
+  [ Daniel d'Andrada ]
+  * DragHandle: Never restart hinting animation while still pressed (LP:
+    #1269022)
+
+  [ Bill Filler ]
+  * fix for lp:1259294, turn off auto capitalization for wifi password
+    field. (LP: #1259294)
+  * disable predictive text in Dash search field as it interferes with
+    built-in search (LP: #1273643)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 28 Jan 2014 15:58:45 +0000
+
 unity8 (7.84+14.04.20131220-0ubuntu1) trusty; urgency=low
 
   [ Michał Sawicz ]

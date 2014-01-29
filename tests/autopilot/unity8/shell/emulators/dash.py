@@ -158,7 +158,7 @@ class DashApps(emulators.UnityEmulatorBase):
 
     def _get_category_element(self, category):
         try:
-            return self.select_single(
+            return self.wait_select_single(
                 'Base', objectName='dashCategory{}'.format(category))
         except dbus.StateNotFoundError:
             raise emulators.UnityEmulatorException(
