@@ -152,10 +152,14 @@ Rectangle {
 
         function test_modelSizeAffectsCollapsedRowCount_data() {
             return [
-                { model: fakeModelTwoItems, collapsedRowCountIndex: 0, rowsWhenCollapsed: 1, visibleDelegates: 2 },
-                { model: fakeModelTwoItems, collapsedRowCountIndex: 1, rowsWhenCollapsed: 1, visibleDelegates: 2 },
-                { model: fakeModelFourItems, collapsedRowCountIndex: 0, rowsWhenCollapsed: 1, visibleDelegates: 3 },
-                { model: fakeModelFourItems, collapsedRowCountIndex: 1, rowsWhenCollapsed: 2, visibleDelegates: 4 },
+                { tag: "2 items, collapsedRows 1", model: fakeModelTwoItems, collapsedRowCountIndex: 0,
+                  rowsWhenCollapsed: 1, visibleDelegates: 2 },
+                { tag: "2 items, collapsedRows 2", model: fakeModelTwoItems, collapsedRowCountIndex: 1,
+                  rowsWhenCollapsed: 1, visibleDelegates: 2 },
+                { tag: "4 items, collapsedRows 1", model: fakeModelFourItems, collapsedRowCountIndex: 0,
+                  rowsWhenCollapsed: 1, visibleDelegates: 3 },
+                { tag: "4 items, collapsedRows 1", model: fakeModelFourItems, collapsedRowCountIndex: 1,
+                  rowsWhenCollapsed: 2, visibleDelegates: 4 },
             ]
         }
 
