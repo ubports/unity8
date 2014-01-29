@@ -1,3 +1,39 @@
+unity8 (7.84+14.04.20140129-0ubuntu1) trusty; urgency=low
+
+  [ Nick Dedekind ]
+  * Added Panel/VisibleIndicatorsModel for use with both indicator row &
+    menuContent. This removes the need to hide indicators in the row and
+    map inicator indexes between row & content. Fixes the indicator
+    highlight line offset not bound by listView position.
+  * Ported indicators to using ubuntu-settings-components
+
+  [ Albert Astals ]
+  * Prepend /sbin/ to initctl calls My phablet user does not have /sbin/
+    in path and thus this calls fail
+  * Call updateDelegateCreationRange when it's needed It depends on
+    other variables than the ones we were using to call it, so need to
+    call it if these change too Device manual test, go to apps scope,
+    scroll down so that only part of the installed apps collapsed
+    category is shown, expand it, see how previously some icons were not
+    painted and now they are
+
+  [ Mirco Müller ]
+  * Fixed the failure of notification autopilot-test
+    test_sd_incoming_call.
+
+  [ Andrea Cimitan ]
+  * Add AP test for policykit/network manager, which was causing issues
+    with nested mir
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Michał Karnicki ]
+  * Don't display artShape when artImage source not set.
+  * Fix FilterGrid rendering issues.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 29 Jan 2014 16:11:20 +0000
+
 unity8 (7.84+14.04.20140128-0ubuntu1) trusty; urgency=low
 
   [ Michal Hruby ]
