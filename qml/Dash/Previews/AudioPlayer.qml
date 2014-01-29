@@ -123,6 +123,7 @@ Item {
                             anchors.margins: units.dp(2)
                             anchors.rightMargin: maxWidth - (maxWidth * audio.progress) + units.dp(2)
                             visible: progressBarImage.visible
+
                             property int maxWidth: progressBarImage.width - units.dp(4)
                         }
 
@@ -144,9 +145,27 @@ Item {
                         anchors.verticalCenter: parent.verticalCenter
                         horizontalAlignment: Text.AlignRight
                         width: parent.column3Width
-                        text: modelData["length"]
+                        text: lengthToString(modelData["length"])
                         style: Text.Raised
                         styleColor: "black"
+
+                        function lengthToString(s) {
+                            if (s <= 0 || s == undefined) {
+                                return ""
+                            }
+                            var sec = "" + s % 60
+                            if (sec.length == 1)
+                                sec = "0" + sec
+                            var hour = Math.floor(s / 3600)
+                            if (hour < 1) {
+                                return Math.floor(s / 60) + ":" + sec
+                            } else {
+                                var min = "" + Math.floor(s / 60) % 60
+                                if (min.length == 1)
+                                    min = "0" + min
+                                return hour + ":" + min + ":" + sec
+                            }
+                        }
                     }
                 }
             }
