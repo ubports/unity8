@@ -52,11 +52,6 @@ Rectangle {
                 checked: true
             }
         }
-        Row {
-            spacing: units.gu(3)
-            Label { text: "rowsWhenCollapsed"}
-            Label { text: filterGrid.rowsWhenCollapsed }
-        }
     }
 
     ListModel {
@@ -129,30 +124,30 @@ Rectangle {
         name: "FilterGrid"
         when: windowShown
 
-        function test_turningFilterOffShowsAllElements() {
+        function init() {
             filterGrid.model = fakeModel
+        }
+
+        function cleanup() {
+            filterCheckBox.checked = true
+            collapsedRowCountSelector.selectedIndex = 1
+        }
+
+        function test_turningFilterOffShowsAllElements() {
             tryCompareFunction(countVisibleDelegates, 6)
 
             filterCheckBox.checked = false
 
             tryCompareFunction(countVisibleDelegates, 12)
-
-            // back to initial state
-            filterCheckBox.checked = true
         }
 
         function test_collapsedRowCount() {
-            filterGrid.model = fakeModel
-
             for (var i = 0; i < 4; ++i) {
                 collapsedRowCountSelector.selectedIndex = i
                 // We have 3 elements per row.
                 // row count == index + 1
                 tryCompareFunction(countVisibleDelegates, 3*(i+1))
             }
-
-            // back to initial state
-            collapsedRowCountSelector.selectedIndex = 1
         }
 
         function test_modelSizeAffectsCollapsedRowCount_data() {
