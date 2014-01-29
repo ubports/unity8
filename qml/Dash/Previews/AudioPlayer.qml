@@ -67,7 +67,7 @@ Item {
                     audio.stop();
                     // Make sure we change the source, even if two items point to the same uri location
                     audio.source = "";
-                    audio.source = modelData["uri"];
+                    audio.source = modelData["source"];
                     audio.playingItem = trackItem;
                     audio.play();
                 }
@@ -135,7 +135,7 @@ Item {
                             id: progressBarImage
                             anchors { left: parent.left; top: parent.bottom; right: parent.right }
                             height: units.dp(6)
-                            visible: audio.playbackState != Audio.StoppedState && trackItem.isPlayingItem && modelData["length"].length > 0
+                            visible: audio.playbackState != Audio.StoppedState && trackItem.isPlayingItem && modelData["length"] > 0
                             source: "graphics/music_progress_bg.png"
                         }
                     }
@@ -153,10 +153,6 @@ Item {
                         style: Text.Raised
                         styleColor: "black"
                     }
-                }
-
-                ThinDivider {
-                    anchors { left: parent.left; bottom: parent.bottom; right: parent.right }
                 }
             }
         }

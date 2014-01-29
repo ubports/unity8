@@ -25,25 +25,25 @@ Rectangle {
     id: root
     width: units.gu(60)
     height: units.gu(80)
-    color: "lightgrey"
+    color: "grey"
 
     property var tracksModel0: [
     ]
 
     property var tracksModel1: [
-        { title: "Some track name", length: "0:30", uri: "../../tests/qmltests/Dash/Music/data/testsound1.ogg" }
+        { title: "Some track name", length: "30", source: "../../tests/qmltests/Dash/Music/data/testsound1.ogg" }
     ]
 
     property var tracksModel2: [
-        { title: "Some track name", length: "0:30", uri: "../../tests/qmltests/Dash/Music/data/testsound1.ogg" },
-        { title: "Some other track name", length: "1:23", uri: "../../tests/qmltests/Dash/Music/data/testsound2.ogg" },
-        { title: "And another one", length: "123:45", uri: "../../tests/qmltests/Dash/Music/data/testsound3.ogg" }
+        { title: "Some track name", length: "30", source: "../../tests/qmltests/Dash/Music/data/testsound1.ogg" },
+        { title: "Some other track name", length: "83", source: "../../tests/qmltests/Dash/Music/data/testsound2.ogg" },
+        { title: "And another one", length: "7425", source: "../../tests/qmltests/Dash/Music/data/testsound3.ogg" }
     ]
 
     AudioPlayer {
         id: audioPlayer
         anchors.fill: parent
-        model: tracksModel0
+        model: tracksModel2
     }
 
     UT.UnityTestCase {
@@ -81,8 +81,8 @@ Rectangle {
             }
         }
 
-        function checkPlayerUri(index) {
-            var modelFilename = audioPlayer.model[index]["uri"].replace(/^.*[\\\/]/, '');
+        function checkPlayerSource(index) {
+            var modelFilename = audioPlayer.model[index]["source"].replace(/^.*[\\\/]/, '');
             var playerFilename = findInvisibleChild(audioPlayer, "audio").source.toString().replace(/^.*[\\\/]/, '');
 
             compare(modelFilename, playerFilename, "Player source is not set correctly.");
@@ -115,7 +115,7 @@ Rectangle {
             mouseClick(track0PlayButton, track0PlayButton.width / 2, track0PlayButton.height / 2);
 
             tryCompare(audio, "playbackState", Audio.PlayingState);
-            checkPlayerUri(0);
+            checkPlayerSource(0);
 
             tryCompare(track0ProgressBar, "visible", true);
             tryCompare(track1ProgressBar, "visible", false);
@@ -124,19 +124,19 @@ Rectangle {
             // Clicking the button again should pause it. The progress bar should stay visible
             mouseClick(track0PlayButton, track0PlayButton.width / 2, track0PlayButton.height / 2);
             tryCompare(audio, "playbackState", Audio.PausedState);
-            checkPlayerUri(0);
+            checkPlayerSource(0);
             tryCompare(track0ProgressBar, "visible", true);
 
             // Continue playback
             mouseClick(track0PlayButton, track0PlayButton.width / 2, track0PlayButton.height / 2);
             tryCompare(audio, "playbackState", Audio.PlayingState);
-            checkPlayerUri(0);
+            checkPlayerSource(0);
 
             // Playing track 1 should make progress bar 1 visible and hide progress bar 0 again
             mouseClick(track1PlayButton, track1PlayButton.width / 2, track1PlayButton.height / 2);
 
             tryCompare(audio, "playbackState", Audio.PlayingState);
-            checkPlayerUri(1);
+            checkPlayerSource(1);
 
             tryCompare(track0ProgressBar, "visible", false);
             tryCompare(track1ProgressBar, "visible", true);
@@ -146,7 +146,7 @@ Rectangle {
             mouseClick(track2PlayButton, track2PlayButton.width / 2, track2PlayButton.height / 2);
 
             tryCompare(audio, "playbackState", Audio.PlayingState);
-            checkPlayerUri(2);
+            checkPlayerSource(2);
 
             tryCompare(track0ProgressBar, "visible", false);
             tryCompare(track1ProgressBar, "visible", false);
