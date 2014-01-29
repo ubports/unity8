@@ -41,11 +41,9 @@ Item {
 
     /* Maximum number of rows to be show when filter=true. */
     property int collapsedRowCount: 2
-    /* Never show more rows than model would fill up. */
-    readonly property int rowsWhenCollapsed: {
-        return Math.min(collapsedRowCount, Math.ceil(model.count / columns))
-    }
     property int uncollapsedRowCount: Math.ceil(model.count / columns)
+    /* Never show more rows than model would fill up. */
+    readonly property int rowsWhenCollapsed: Math.min(collapsedRowCount, uncollapsedRowCount)
     readonly property int collapsedHeight: iconTileGrid.contentHeightForRows(rowsWhenCollapsed)
     readonly property int uncollapsedHeight: iconTileGrid.contentHeightForRows(uncollapsedRowCount)
 
