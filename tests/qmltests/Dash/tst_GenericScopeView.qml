@@ -273,18 +273,18 @@ Item {
             }
 
             function test_getRendererCarouselGridFallback() {
-                var rendererId = "carousel"
-                var contentType = ""
-                var rendererHint = ""
+                var template = new Object()
+                template["category-layout"] = "carousel"
                 var results = new Object()
+                var renderer
 
-                results.count = 7
-                var renderer = genericScopeView.getRenderer(rendererId, contentType, rendererHint, results)
-                compare(renderer, "Generic/GenericCarousel.qml")
+                results.count = 5
+                renderer = genericScopeView.getRenderer(template, results)
+                compare(renderer, "CardCarousel.qml")
 
-                results.count = 6
-                renderer = genericScopeView.getRenderer(rendererId, contentType, rendererHint, results)
-                compare(renderer, "Generic/GenericFilterGrid.qml")
+                results.count = 4
+                renderer = genericScopeView.getRenderer(template, results)
+                compare(renderer, "CardFilterGrid.qml")
             }
 
             function test_showPreviewCarousel() {
