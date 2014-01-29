@@ -81,10 +81,18 @@ Rectangle {
         ListElement { name: "L" }
     }
 
-    LimitProxyModel {
-        id: limitedFakeModel
-        model: fakeModel
-        limit: modelCountLimitSelector.values[modelCountLimitSelector.selectedIndex]
+    ListModel {
+        id: fakeModelTwoItems
+        ListElement { name: "A" }
+        ListElement { name: "B" }
+    }
+
+    ListModel {
+        id: fakeModelFourItems
+        ListElement { name: "A" }
+        ListElement { name: "B" }
+        ListElement { name: "C" }
+        ListElement { name: "D" }
     }
 
     Rectangle {
@@ -98,7 +106,7 @@ Rectangle {
         FilterGrid {
             id: filterGrid
             anchors.fill: parent
-            model: limitedFakeModel
+            model: fakeModel
             maximumNumberOfColumns: 3
             collapsedRowCount:
                 collapsedRowCountSelector.values[collapsedRowCountSelector.selectedIndex]
@@ -128,7 +136,7 @@ Rectangle {
         when: windowShown
 
         function test_turningFilterOffShowsAllElements() {
-            modelCountLimitSelector.selectedIndex = 4 // all items
+            filterGrid.model = fakeModel
             tryCompareFunction(countVisibleDelegates, 6)
 
             filterCheckBox.checked = false
@@ -140,7 +148,7 @@ Rectangle {
         }
 
         function test_collapsedRowCount() {
-            modelCountLimitSelector.selectedIndex = 4 // all items
+            filterGrid.model = fakeModel
 
             for (var i = 0; i < 4; ++i) {
                 collapsedRowCountSelector.selectedIndex = i
@@ -155,19 +163,22 @@ Rectangle {
 
         function test_modelSizeAffectsCollapsedRowCount_data() {
             var data = new Array()
-            data.push({modelLimitIndex: 3, rowsWhenCollapsed: 2, visibleDelegates: 6})
-            data.push({modelLimitIndex: 2, rowsWhenCollapsed: 2, visibleDelegates: 4})
-            data.push({modelLimitIndex: 1, rowsWhenCollapsed: 1, visibleDelegates: 3})
-            data.push({modelLimitIndex: 1, rowsWhenCollapsed: 1, visibleDelegates: 3})
-            data.push({modelLimitIndex: 0, rowsWhenCollapsed: 1, visibleDelegates: 1})
+            data.push({ model: fakeModelTwoItems, collapsedRowCountIndex: 0,
+                        rowsWhenCollapsed: 1, visibleDelegates: 2 })
+            data.push({ model: fakeModelTwoItems, collapsedRowCountIndex: 1,
+                       rowsWhenCollapsed: 1, visibleDelegates: 2 })
+            data.push({ model: fakeModelFourItems, collapsedRowCountIndex: 0,
+                       rowsWhenCollapsed: 1, visibleDelegates: 3 })
+            data.push({ model: fakeModelFourItems, collapsedRowCountIndex: 1,
+                       rowsWhenCollapsed: 2, visibleDelegates: 4 })
             return data
         }
 
         function test_modelSizeAffectsCollapsedRowCount(data) {
-            collapsedRowCountSelector.selectedIndex = 1 // 2 rows
+            filterGrid.model = data.model
+            collapsedRowCountSelector.selectedIndex = data.collapsedRowCountIndex
 
-            modelCountLimitSelector.selectedIndex = data.modelLimitIndex
-            compare(filterGrid.rowsWhenCollapsed, data.rowsWhenCollapsed)
+            tryCompare(filterGrid, "rowsWhenCollapsed", data.rowsWhenCollapsed)
             tryCompareFunction(countVisibleDelegates, data.visibleDelegates)
         }
 

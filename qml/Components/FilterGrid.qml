@@ -47,8 +47,7 @@ Item {
     }
     property int uncollapsedRowCount: Math.ceil(model.count / columns)
     readonly property int collapsedHeight: {
-        return iconTileGrid.contentHeightForRows(Math.min(
-                rowsWhenCollapsed, Math.ceil(model.count / columns)))
+        return iconTileGrid.contentHeightForRows(rowsWhenCollapsed)
     }
     readonly property int uncollapsedHeight: {
         return iconTileGrid.contentHeightForRows(uncollapsedRowCount)
