@@ -151,16 +151,12 @@ Rectangle {
         }
 
         function test_modelSizeAffectsCollapsedRowCount_data() {
-            var data = new Array()
-            data.push({ model: fakeModelTwoItems, collapsedRowCountIndex: 0,
-                        rowsWhenCollapsed: 1, visibleDelegates: 2 })
-            data.push({ model: fakeModelTwoItems, collapsedRowCountIndex: 1,
-                       rowsWhenCollapsed: 1, visibleDelegates: 2 })
-            data.push({ model: fakeModelFourItems, collapsedRowCountIndex: 0,
-                       rowsWhenCollapsed: 1, visibleDelegates: 3 })
-            data.push({ model: fakeModelFourItems, collapsedRowCountIndex: 1,
-                       rowsWhenCollapsed: 2, visibleDelegates: 4 })
-            return data
+            return [
+                { model: fakeModelTwoItems, collapsedRowCountIndex: 0, rowsWhenCollapsed: 1, visibleDelegates: 2 },
+                { model: fakeModelTwoItems, collapsedRowCountIndex: 1, rowsWhenCollapsed: 1, visibleDelegates: 2 },
+                { model: fakeModelFourItems, collapsedRowCountIndex: 0, rowsWhenCollapsed: 1, visibleDelegates: 3 },
+                { model: fakeModelFourItems, collapsedRowCountIndex: 1, rowsWhenCollapsed: 2, visibleDelegates: 4 },
+            ]
         }
 
         function test_modelSizeAffectsCollapsedRowCount(data) {
