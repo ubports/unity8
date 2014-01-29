@@ -18,16 +18,24 @@
 
 #include "../UsersModelPrivate.h"
 
+#include <QDir>
+#include <QSettings>
+#include <QStringList>
+
 namespace QLightDM
 {
 
 UsersModelPrivate::UsersModelPrivate(UsersModel* parent)
   : q_ptr(parent)
 {
-    entries =
+    QSettings settings(QDir::homePath() + "/.unity8-greeter-demo", QSettings::NativeFormat);
+    QStringList users = settings.value("users", QStringList() << "phablet").toStringList();
+
+    Q_FOREACH(QString user, users)
     {
-        { "phablet", "Guest", 0, 0, false, false, 0, 0 },
-    };
+        entries.append({user, user[0].toUpper() + user.mid(1),
+                        0, 0, false, false, 0, 0});
+    }
 }
 
 }
