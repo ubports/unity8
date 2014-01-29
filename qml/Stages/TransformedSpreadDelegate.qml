@@ -6,7 +6,6 @@ SpreadDelegate {
     id: root
 
     property real progress: 0
-//    onProgressChanged: if (index == 0) print("tile", index, "progress changed:", progress)
     property real animatedProgress: 0
 
     property real startAngle: 0
@@ -46,83 +45,52 @@ SpreadDelegate {
 
         property real negativeProgress: (index - 1) * spreadView.positionMarker1
 
+        function linearAnimation(startProgress, endProgress, startValue, endValue, progress) {
+            // progress : progressDiff = value : valueDiff
+            return (progress - startProgress) * (endValue - startValue) / (endProgress - startProgress) + startValue;
+        }
+
+        function easingAnimation(startProgress, endProgress, startValue, endValue, progress) {
+            helperEasingCurve.progress = progress - startProgress;
+            helperEasingCurve.period = endProgress - startProgress;
+            return helperEasingCurve.value * (endValue - startValue) + startValue;
+        }
 
         property real xTranslate: {
             var translation = 0;
             switch (index) {
             case 0:
                 if (spreadView.stage == 0) {
-                    // Need to compensate the flickable movement (fixing first tile at the left edge)
-                    var compensation = root.progress * spreadView.width
-
-                    // Calculating the small movement of the first tile
-                    var progress = root.animatedProgress
-                    var progressDiff = spreadView.positionMarker2
-                    var translateDiff = -spreadView.width * 0.25
-                    // progress : progressDiff = translate : translateDiff
-                    var movement = progress * translateDiff / progressDiff
-
-                    translation = compensation + movement;
+                    translation = linearAnimation(0, spreadView.positionMarker2, 0, -spreadView.width * .25, root.animatedProgress)
                 } else if (spreadView.stage == 1){
-                    // Need to compensate the flickable movement (fixing first tile at the left edge)
-                    var compensation = spreadView.contentX - spreadRow.x
-
-                    // When we start, we need to continue from where state 0 left
-                    var stage0Movement = -spreadView.width * 0.25
-
-                    var progress = root.progress - spreadView.positionMarker2
-                    var progressDiff = spreadView.positionMarker4 - spreadView.positionMarker2
-                    var translateDiff = -stage0Movement;
-
-                    var movement = progress * translateDiff / progressDiff
-
-                    translation = compensation + stage0Movement + movement;
+                    // find where the main easing would be when reaching stage 2
+                    var targetTranslate = easingAnimation(0, spreadView.positionMarker4, 0, -spreadView.width, spreadView.positionMarker4) + spreadView.width
+                    translation = linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, -spreadView.width * .25, targetTranslate, root.progress)
                 } else { // Stage 2
-                    // Move the first tile a bit to the left to be aligned with the others
-                    translation += spreadView.contentX - spreadRow.x + spreadView.width
+//                    // Move the first tile a bit to the right to be aligned with the others
+                    translation += spreadView.width
                     // apply the same animation as with the rest
                     translation += -easingCurve.value * spreadView.width
                 }
                 break;
             case 1:
                 if (spreadView.stage == 0) {
-                    // Need to compensate the flickable movement (fix it to the right edge)
-                    var compensation = root.progress * spreadView.width
-
-                    // Calculate movemoent for the first app coming from the right
-                    var progress = root.animatedProgress
-                    var progressDiff = spreadView.positionMarker2
-                    var translateDiff = -spreadView.width * spreadView.snapPosition
-                    // progress : progressDiff = translate : translateDiff
-                    var movement = progress * translateDiff / progressDiff
-
-                    translation = compensation + movement;
+                    translation = linearAnimation(0, spreadView.positionMarker2, 0, -spreadView.width * spreadView.snapPosition, root.animatedProgress)
                     break;
                 } else if (spreadView.stage == 1) {
-                    // Need to compensate the flickable movement (fix it to the right edge)
-                    var compensation = root.progress * spreadView.width + spreadView.width/2
+//                    // find where the main easing would be when reaching stage 2
+                    var stage2Progress = spreadView.positionMarker4 - spreadView.tileDistance / spreadView.width;
+                    targetTranslate = easingAnimation(0, stage2Progress, 0, -spreadView.width + root.endDistance, stage2Progress);
 
-                    // Add where stage 0 has moved it to
-                    var stage0Movement = -spreadView.width * spreadView.snapPosition;
+                    translation = linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4,
+                                                   -spreadView.width * spreadView.snapPosition, targetTranslate, root.progress);
 
-                    // Calclulate animation between stage0Movement and targetTranslate
-                    var progress = root.progress
-                    var progressDiff = spreadView.positionMarker4 - spreadView.positionMarker2
-
-                    // find where the main easing would be when reaching positionMarker4
-                    helperEasingCurve.progress = progressDiff;
-                    var targetTranslate = -helperEasingCurve.value * spreadView.width + root.endDistance
-
-                    var translateDiff = targetTranslate - stage0Movement;
-                    var movement = progress * translateDiff / progressDiff
-
-                    translation = compensation + stage0Movement + movement;
                     break;
                 }
 
             default:
-                // Fix it at the right edge...
-                translation += spreadView.contentX - spreadRow.x - ((index - 1) * root.startDistance)
+//                // Fix it at the right edge...
+                translation +=  -((index - 1) * root.startDistance)
                 // ...and use our easing to move them to the left. Stop a bit earlier for each tile
                 translation += -easingCurve.value * spreadView.width + (index * root.endDistance)
                 if (isSelected) {
@@ -149,44 +117,22 @@ SpreadDelegate {
             switch (index) {
             case 0:
                 if (spreadView.stage == 0) {
-                    var progress = root.animatedProgress;
-                    var progressDiff = spreadView.positionMarker2;
-                    var angleDiff = root.endAngle * spreadView.snapPosition;
-                    // progress : progressDiff = angle : angleDiff
-                    newAngle = progress * angleDiff / progressDiff;
+                    newAngle = linearAnimation(0, spreadView.positionMarker2, 0, root.endAngle * spreadView.snapPosition, root.animatedProgress)
                     break;
                 } else if (spreadView.stage == 1) {
-                    var stage0Angle = root.endAngle * spreadView.snapPosition;
-
-                    var progress = root.progress - spreadView.positionMarker2;
-                    var angleDiff = root.endAngle;
-                    var progressDiff = 1 - spreadView.positionMarker2;
-                    var angleTransform = progress * angleDiff / progressDiff;
-                    newAngle = stage0Angle + angleTransform;
-                    newAngle = Math.min(root.endAngle, newAngle);
+                    newAngle = linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, root.endAngle * spreadView.snapPosition, root.endAngle, root.progress)
                     break;
                 }
             case 1:
                 if (spreadView.stage == 0) {
-                    var progress = root.animatedProgress;
-                    var progressDiff = spreadView.positionMarker2;
-                    var angleDiff = root.startAngle * spreadView.snapPosition
-
-                    // progress : progressDiff = angle : angleDiff
-                    var angleTranslate = progress * angleDiff / progressDiff;
-
-                    newAngle = root.startAngle - angleTranslate;
+                    newAngle = linearAnimation(0, spreadView.positionMarker2, root.startAngle, root.startAngle * (1-spreadView.snapPosition), root.animatedProgress)
                     break;
                 } else if (spreadView.stage == 1) {
-                    var stage0Angle = root.startAngle - (root.startAngle * spreadView.snapPosition)
+                    // find where the main easing would be when reaching stage 2
+                    helperEasingCurve.progress = spreadView.positionMarker4 - spreadView.tileDistance / spreadView.width;
+                    var targetAngle = root.startAngle - helperEasingCurve.value * (root.startAngle - root.endAngle)
 
-                    var progress = root.progress
-                    var progressDiff = spreadView.positionMarker4 - spreadView.positionMarker2
-                    var angleDiff = root.endAngle - stage0Angle;
-
-                    // progress : progressDiff = angle : angleDiff
-                    var angleTranslate = progress * angleDiff / progressDiff;
-                    newAngle = stage0Angle + angleTranslate;
+                    newAngle = linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, root.startAngle * (1-spreadView.snapPosition), targetAngle, root.progress)
                     break;
                 }
 
@@ -213,40 +159,20 @@ SpreadDelegate {
                     newScale = 1;
                     break
                 } else if(spreadView.stage == 1) {
-                    var progress = root.progress - spreadView.positionMarker2
-                    var progressDiff = spreadView.positionMarker4 - spreadView.positionMarker2
-                    var scaleDiff = 1 - root.endScale;
-                    // progress : progressDiff = angle : angleDiff
-                    newScale = 1 - (progress * scaleDiff / progressDiff);
+                    newScale = linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, 1, root.endScale, root.progress)
                     break;
                 }
             case 1:
                 if (spreadView.stage == 0) {
-                    var progress = root.animatedProgress;
-                    var progressDiff = spreadView.positionMarker2;
-                    var scaleDiff = (root.tile1StartScale - 1) * spreadView.snapPosition
-
-                    // progress : progressDiff = angle : angleDiff
-                    var scaleTranslate = progress * scaleDiff / progressDiff;
-
-                    newScale = root.tile1StartScale - scaleTranslate;
+                    newScale = linearAnimation(0, spreadView.positionMarker2, root.tile1StartScale, 1, root.animatedProgress)
                     break;
                 } else if (spreadView.stage == 1) {
-                    var stage0Scale = root.tile1StartScale - (root.tile1StartScale - 1) * spreadView.snapPosition
-
-                    var progress = root.progress
-                    var progressDiff = spreadView.positionMarker4 - spreadView.positionMarker2
-
-                    // find where the main easing would be when reaching positionMarker4
-                    helperEasingCurve.progress = progressDiff;
-                    var targetScale = root.startScale - helperEasingCurve.value * (root.startScale - root.endScale)
-
-                    var scaleDiff = stage0Scale - targetScale;
-
-                    // progress : progressDiff = angle : angleDiff
-                    var scaleTranslate = progress * scaleDiff / progressDiff;
-
-                    return stage0Scale - scaleTranslate;
+//                    // find where the main easing would be when reaching positionMarker4
+//                    helperEasingCurve.progress = spreadView.positionMarker4;
+//                    var targetScale = root.startScale - helperEasingCurve.value * (root.startScale - root.endScale)
+                    var targetScale = easingAnimation(0, spreadView.positionMarker4, root.startScale, root.endScale, spreadView.positionMarker4);
+                    newScale = linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, 1, targetScale, root.progress)
+                    break;
                 }
 
             default:

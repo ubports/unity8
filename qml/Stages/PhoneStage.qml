@@ -206,10 +206,10 @@ Item {
             if (dragging && !priv.waitingForScreenshot && attachedToView) {
                 spreadView.contentX = -touchX
             }
-//            if (attachedToView && spreadView.contentX >= spreadView.width * spreadView.positionMarker3) {
-//                attachedToView = false;
-//                spreadView.snap();
-//            }
+            if (attachedToView && spreadView.contentX >= spreadView.width * spreadView.positionMarker3) {
+                attachedToView = false;
+                spreadView.snap();
+            }
         }
 
         onDraggingChanged: {
@@ -240,10 +240,10 @@ Item {
 
         property int tileDistance: width / 4
 
-        property real positionMarker1: 0.25
-        property real positionMarker2: 0.5
-        property real positionMarker3: 0.7
-        property real positionMarker4: 1.25
+        property real positionMarker1: 0.35
+        property real positionMarker2: 0.45
+        property real positionMarker3: 0.6
+        property real positionMarker4: .9
 
         // This is where the first app snaps to when bringing it in to the right.
         property real snapPosition: 0.75
@@ -279,9 +279,11 @@ Item {
             } else if (contentX < positionMarker2 * width) {
                 snapTo(1)
             } else if (contentX < positionMarker3 * width) {
+                print("snappoing to stage1")
                 snapAnimation.targetContentX = width * positionMarker2 + 1;
                 snapAnimation.start();
             } else if (stage < 2){
+                print("snappoing to stage2")
                 snapAnimation.targetContentX = width * positionMarker4;
                 snapAnimation.start();
             }
@@ -312,18 +314,21 @@ Item {
                         snapAnimation.toIndex = -1;
                         spreadView.contentX = 0;
                     }
-                    if (spreadView.stage == 1) {
+                    if (spreadView.contentX == spreadView.width * spreadView.positionMarker2) {
                         spreadView.stage = 0;
                         spreadView.contentX = 0;
                     }
+                    print("snapping done. stage:", spreadView.stage)
                 }
             }
         }
 
 
-        Row {
+        Item {
             id: spreadRow
-            width: implicitWidth + (spreadView.width * spreadView.positionMarker2) + (spreadView.width - spreadView.tileDistance)
+            width: ApplicationManager.count * spreadView.tileDistance + (spreadView.width - spreadView.tileDistance) * 1.5 //(spreadView.width * spreadView.positionMarker2) + (spreadView.width - spreadView.tileDistance)
+
+            x: spreadView.contentX
 
             Repeater {
                 model: ApplicationManager
@@ -334,16 +339,18 @@ Item {
                     endScale: 0.7
                     startDistance: spreadView.tileDistance
                     endDistance: units.gu(.5)
+                    height: spreadView.height
 
                     z: index
-                    height: spreadView.height
+                    x: index == 0 ? 0 : spreadView.width + (index - 1) * spreadView.tileDistance
+
                     width: {
                         switch (index) {
                         case 0:
                             return spreadView.width;
                         case 1:
                             if (spreadView.stage == 0) {
-                                return spreadView.width / 2;
+                                return spreadView.width * spreadView.positionMarker2;
                             }
                         default:
                             return spreadView.tileDistance;
@@ -353,30 +360,25 @@ Item {
                     progress: {
                         switch (index) {
                         case 0:
-                            var progress = spreadView.contentX / spreadView.width;
-                            if (spreadView.stage == 2) {
-                                progress -= spreadView.positionMarker1;
-                            }
-
-                            return progress;
+                            return spreadView.contentX / spreadView.width;
                         case 1:
                             var progress = spreadView.contentX / spreadView.width;
-                            if (spreadView.stage != 0) {
-                                 progress -= spreadView.positionMarker2;
+                            if (spreadView.stage == 2) {
+                                progress -= spreadView.tileDistance / spreadView.width;
                             }
-
                             return Math.max(0, progress);
                         }
-                        return (spreadView.contentX - (spreadView.positionMarker2 * spreadView.width) - spreadView.tileDistance * (index - 1)) / spreadView.width;
+                        // This delays the progress for all tiles > 1 for the duration of stage 1
+                        var stage1Distance = spreadView.positionMarker2 * spreadView.width;
+                        var tileDistance = (index - 2) * spreadView.tileDistance;
+                        return (spreadView.contentX - stage1Distance - tileDistance) / spreadView.width;
                     }
 
                     animatedProgress: {
                         if (spreadView.stage < 2 && index < 2) {
                             if (spreadView.contentX < spreadView.width * spreadView.positionMarker1) {
-                                if (index == 0) print("*********************", spreadView.contentX / spreadView.width)
                                 return spreadView.contentX / spreadView.width
                             } else if (spreadView.stage == 0){
-                                if (index == 0) print("!!!!!!!!!!!!!!!11!", spreadView.positionMarker2)
                                 return spreadView.positionMarker2
                             }
                         }
@@ -393,10 +395,8 @@ Item {
                         target: spreadView
                         onStageChanged: {
                             if (spreadView.stage == 0) {
-                                print("************************ enabling")
                                 enableAnimationTimer.start();
                             } else {
-                                print("************************ disabling")
                                 stage1Animation.enabled = false;
                             }
                         }
