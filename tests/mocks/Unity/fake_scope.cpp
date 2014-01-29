@@ -202,7 +202,7 @@ DeeModel* create_categories_model(unsigned category_count) {
     for(unsigned i = 0; i < category_count; ++i)
     {
         dee_model_append(category_model,
-                         (i == 2) ? "installed" : std::to_string(i).c_str(),
+                         (i == 2) ? "applications.scope" : std::to_string(i).c_str(),
                          ("Category "+std::to_string(i)).c_str(),
                          "gtk-apply",
                          i % 2 == 0 ? "grid" : "carousel",

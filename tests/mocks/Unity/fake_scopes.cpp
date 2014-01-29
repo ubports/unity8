@@ -54,7 +54,7 @@ Scopes::~Scopes()
 void Scopes::updateScopes()
 {
     clear();
-    addScope(new Scope("applications.scope", "People", true, this));
+    addScope(new Scope("MockScope1", "People", true, this));
     addScope(new Scope("MockScope2", "Music", false, this));
     addScope(new Scope("home.scope", "Home", true, this));
     addScope(new ApplicationsScope(true, this));
