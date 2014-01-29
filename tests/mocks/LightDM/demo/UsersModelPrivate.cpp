@@ -33,8 +33,8 @@ UsersModelPrivate::UsersModelPrivate(UsersModel* parent)
 
     Q_FOREACH(QString user, users)
     {
-        entries.append({user, user[0].toUpper() + user.mid(1),
-                        0, 0, false, false, 0, 0});
+        QString name = settings.value(user + "/name", user[0].toUpper() + user.mid(1)).toString();
+        entries.append({user, name, 0, 0, false, false, 0, 0});
     }
 }
 
