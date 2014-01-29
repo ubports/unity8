@@ -158,7 +158,7 @@ Rectangle {
                   rowsWhenCollapsed: 1, visibleDelegates: 2 },
                 { tag: "4 items, collapsedRows 1", model: fakeModelFourItems, collapsedRowCountIndex: 0,
                   rowsWhenCollapsed: 1, visibleDelegates: 3 },
-                { tag: "4 items, collapsedRows 1", model: fakeModelFourItems, collapsedRowCountIndex: 1,
+                { tag: "4 items, collapsedRows 2", model: fakeModelFourItems, collapsedRowCountIndex: 1,
                   rowsWhenCollapsed: 2, visibleDelegates: 4 },
             ]
         }
