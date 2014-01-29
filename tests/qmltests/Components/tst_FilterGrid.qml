@@ -44,7 +44,7 @@ Rectangle {
             selectedIndex: 1
         }
         Row {
-            spacing: units.gu(3)
+            spacing: units.gu(1)
             Label { anchors.verticalCenter: parent.verticalCenter
                     text: "Filter" }
             CheckBox {
