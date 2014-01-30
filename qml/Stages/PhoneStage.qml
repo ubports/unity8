@@ -197,6 +197,8 @@ Item {
 
         property bool attachedToView: true
 
+        property var gesturePoints: new Array()
+
         onTouchXChanged: {
             if (!dragging && !priv.waitingForScreenshot) {
                 priv.requestNewScreenshot();
@@ -210,10 +212,25 @@ Item {
                 attachedToView = false;
                 spreadView.snap();
             }
+            gesturePoints.push(touchX)
         }
 
         onDraggingChanged: {
-            print("Dragging changed", dragging)
+            var oneWayFlick = true;
+            var smallestX = spreadDragArea.width;
+            for (var i = 0; i < gesturePoints.length; i++) {
+                if (gesturePoints[i] >= smallestX) {
+                    oneWayFlick = false;
+                    break;
+                }
+                smallestX = gesturePoints[i];
+            }
+            gesturePoints = [];
+
+            if (oneWayFlick && distance < -units.gu(2) && distance > spreadView.positionMarker1 * -spreadView.width) {
+                spreadView.snapTo(1)
+            }
+
             if (!dragging && attachedToView) {
                 spreadView.snap();
             }
