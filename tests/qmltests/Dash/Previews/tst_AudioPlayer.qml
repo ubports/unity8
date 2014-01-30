@@ -36,7 +36,7 @@ Rectangle {
 
     property var tracksModel2: [
         { title: "Some track name", length: "30", source: "../../tests/qmltests/Dash/Music/data/testsound1.ogg" },
-        { title: "Some other track name", length: "83", source: "../../tests/qmltests/Dash/Music/data/testsound2.ogg" },
+        { title: "Some other track name", artist: "Artist name", length: "83", source: "../../tests/qmltests/Dash/Music/data/testsound2.ogg" },
         { title: "And another one", length: "7425", source: "../../tests/qmltests/Dash/Music/data/testsound3.ogg" }
     ]
 

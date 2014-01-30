@@ -99,18 +99,44 @@ Item {
                         }
                     }
 
-                    Label {
-                        objectName: "trackTitleLabel"
-                        fontSize: "small"
-                        opacity: 0.9
-                        color: "white"
-                        horizontalAlignment: Text.AlignLeft
+                    Item {
                         anchors.verticalCenter: parent.verticalCenter
                         width: parent.column2Width
-                        text: modelData["title"]
-                        style: Text.Raised
-                        styleColor: "black"
-                        elide: Text.ElideRight
+                        height: trackArtistLabel.visible ? trackTitleLabel.height + trackArtistLabel.height : trackTitleLabel.height
+
+                        Label {
+                            id: trackTitleLabel
+                            objectName: "trackTitleLabel"
+                            anchors.top: parent.top
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            fontSize: "small"
+                            opacity: 0.9
+                            color: "white"
+                            horizontalAlignment: Text.AlignLeft
+                            text: modelData["title"]
+                            style: Text.Raised
+                            styleColor: "black"
+                            elide: Text.ElideRight
+                        }
+
+                        Label {
+                            id: trackArtistLabel
+                            objectName: "trackArtistLabel"
+                            fontSize: "small"
+                            opacity: 0.9
+                            color: "white"
+                            horizontalAlignment: Text.AlignLeft
+                            anchors.top: trackTitleLabel.bottom
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            width: parent.column2Width
+                            text: modelData["artist"]
+                            style: Text.Raised
+                            styleColor: "black"
+                            elide: Text.ElideRight
+                            visible: modelData["artist"] !== undefined
+                        }
 
                         UbuntuShape {
                             id: progressBarFill
