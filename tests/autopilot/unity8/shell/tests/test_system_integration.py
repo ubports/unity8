@@ -20,6 +20,7 @@
 """Tests for system integration."""
 
 import subprocess
+import unittest
 
 from unity8.shell.emulators import UnityEmulatorBase
 from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
@@ -30,7 +31,8 @@ class SystemIntegrationTests(UnityTestCase):
 
     scenarios = _get_device_emulation_scenarios()
 
-    def disabled_test_networkmanager_integration(self):
+    @unittest.skip("Disabled until we can investigate jenkins failure")
+    def test_networkmanager_integration(self):
         self.launch_unity()
 
         # invoke policykit to check permissions
