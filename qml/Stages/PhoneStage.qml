@@ -359,7 +359,7 @@ Item {
                     id: appDelegate
                     startAngle: 45
                     endAngle: 5
-                    startScale: 1
+                    startScale: 1.2
                     endScale: 0.6
                     startDistance: spreadView.tileDistance
                     endDistance: units.gu(.5)

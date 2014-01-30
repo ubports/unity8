@@ -188,10 +188,12 @@ SpreadDelegate {
                 }
             case 1:
                 if (spreadView.stage == 0 && !priv.isSelected) {
-                    newScale = linearAnimation(0, spreadView.positionMarker2, root.tile1StartScale, 1, root.animatedProgress)
+                    var targetScale = tile1StartScale - ((tile1StartScale - 1) * spreadView.snapPosition);
+                    newScale = linearAnimation(0, spreadView.positionMarker2, root.tile1StartScale, targetScale, root.animatedProgress)
                     break;
                 } else if (spreadView.stage == 1 && !priv.isSelected) {
-                    newScale = linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, 1, priv.stage2startScale, root.progress)
+                    var startScale = tile1StartScale - ((tile1StartScale - 1) * spreadView.snapPosition);
+                    newScale = linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, startScale, priv.stage2startScale, root.progress)
                     break;
                 }
 
