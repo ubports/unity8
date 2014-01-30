@@ -4,8 +4,9 @@
 
 find_package(Doxygen)
 find_program(DOT_EXECUTABLE dot /usr/bin)
-if (NOT DOXYGEN_FOUND OR NOT DOT_EXECUTABLE)
-    message(WARNING "Cannot generate documentation: doxygen and/or graphviz not found")
+find_program(DOXYQML_EXECUTABLE doxyqml /usr/bin)
+if (NOT DOXYGEN_FOUND OR NOT DOT_EXECUTABLE OR NOT DOXYQML_EXECUTABLE)
+    message(WARNING "Cannot generate documentation: doxygen, doxyqml and/or graphviz not found")
 else()
     configure_file(${PROJECT_SOURCE_DIR}/doc/Doxyfile.in ${PROJECT_BINARY_DIR}/doc/Doxyfile @ONLY IMMEDIATE)
     add_custom_command(OUTPUT ${PROJECT_BINARY_DIR}/doc/${PROJECT_NAME}/index.html
