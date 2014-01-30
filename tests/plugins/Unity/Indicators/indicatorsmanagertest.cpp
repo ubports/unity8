@@ -50,7 +50,7 @@ private Q_SLOTS:
         QVERIFY(!manager.isLoaded());
         QCOMPARE(manager.indicators().count(), 0);
 
-        manager.load();
+        manager.load("test1");
 
         QVERIFY(manager.isLoaded());
         QCOMPARE(manager.indicators().count(), 4);
@@ -64,10 +64,10 @@ private Q_SLOTS:
     /*
      * Test the creation & initialising of the indicator data
      */
-    void testPluginInterface()
+    void testPluginInterfaceProfile1()
     {
         IndicatorsManager manager;
-        manager.load();
+        manager.load("test1");
 
         Indicator::Ptr indicator = manager.indicator("indicator-fake1");
         QVERIFY(indicator ? true : false);
@@ -81,7 +81,30 @@ private Q_SLOTS:
         QCOMPARE(props["busName"].toString(), QString("com.canonical.indicator.fake1"));
         QCOMPARE(props["actionsObjectPath"].toString(), QString("/com/canonical/indicator/fake1"));
 
-        QCOMPARE(props["menuObjectPath"].toString(), QString("/com/canonical/indicator/fake1/phone"));
+        QCOMPARE(props["menuObjectPath"].toString(), QString("/com/canonical/indicator/fake1/test1"));
+    }
+
+    /*
+     * Test the creation & initialising of the indicator data
+     */
+    void testPluginInterfaceProfile2()
+    {
+        IndicatorsManager manager;
+        manager.load("test2");
+
+        Indicator::Ptr indicator = manager.indicator("indicator-fake1");
+        QVERIFY(indicator ? true : false);
+
+        QCOMPARE(indicator->identifier(), QString("indicator-fake1"));
+        QCOMPARE(indicator->position(), 1);
+
+        // Check that the initial properties have been set.
+        QVariantMap props = indicator->indicatorProperties().toMap();
+        QCOMPARE(props.count(), 4);
+        QCOMPARE(props["busName"].toString(), QString("com.canonical.indicator.fake1"));
+        QCOMPARE(props["actionsObjectPath"].toString(), QString("/com/canonical/indicator/fake1"));
+
+        QCOMPARE(props["menuObjectPath"].toString(), QString("/com/canonical/indicator/fake1/test2"));
     }
 
     /*
@@ -90,7 +113,7 @@ private Q_SLOTS:
     void testPluginInstance()
     {
         IndicatorsManager manager;
-        manager.load();
+        manager.load("test2");
 
         Indicator::Ptr i0 = manager.indicator("indicator-fake1");
         Indicator::Ptr i1 = manager.indicator("indicator-fake1");
@@ -110,7 +133,7 @@ private Q_SLOTS:
     void testPluginInitAndShutdown()
     {
         IndicatorsManager manager;
-        manager.load();
+        manager.load("test1");
 
         QWeakPointer<Indicator> wp0;
         QWeakPointer<Indicator> wp1;

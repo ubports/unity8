@@ -52,7 +52,7 @@ Item {
 
         indicatorsModel: indicatorModel
 
-        Component.onCompleted: indicatorModel.load()
+        Component.onCompleted: indicatorModel.load("test")
     }
 
     Indicators.IndicatorsModel {

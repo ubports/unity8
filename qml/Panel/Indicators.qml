@@ -31,6 +31,7 @@ Showable {
     property bool pinnedMode: true  //should be set true if indicators menu can cover whole screen
     property alias overFlowWidth: indicatorRow.overFlowWidth
     property alias showAll: indicatorRow.showAll
+    property string profile: "phone"
 
     readonly property real hintValue: panelHeight + menuContent.headerHeight
     readonly property int lockThreshold: openedHeight / 2
@@ -429,6 +430,6 @@ Showable {
 
     Component.onCompleted: initialise();
     function initialise() {
-        visibleIndicators.load();
+        visibleIndicators.load(profile);
     }
 }
