@@ -95,7 +95,7 @@ Rectangle {
             if (data.hasOwnProperty("width")) {
                 tryCompare(testCase.mascotImage.sourceSize, "width", data.width)
             }
-            
+
             if (data.hasOwnProperty("height")) {
                 tryCompare(testCase.mascotImage.sourceSize, "height", data.height)
             }
