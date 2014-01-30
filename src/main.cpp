@@ -42,7 +42,7 @@ int startShell(int argc, const char** argv, void* server)
 {
     const bool isUbuntuMirServer = qgetenv("QT_QPA_PLATFORM") == "ubuntumirserver";
 
-    QGuiApplication::setApplicationName(APP_NAME);
+    QGuiApplication::setApplicationName(UNITY8_SHELL ? "Unity 8" : "Unity 8 Greeter");
     QGuiApplication *application;
     if (isUbuntuMirServer) {
         QLibrary unityMir("unity-mir", 1);
@@ -113,7 +113,7 @@ int startShell(int argc, const char** argv, void* server)
     nativeInterface->setProperty("ubuntuSessionType", 1);
     view->setProperty("role", 2); // INDICATOR_ACTOR_ROLE
 
-    QUrl source(::qmlDirectory()+QML_FILE);
+    QUrl source(::qmlDirectory() + (UNITY8_SHELL ? "Shell.qml" : "GreeterShell.qml"));
     prependImportPaths(view->engine(), ::overrideImportPaths());
     appendImportPaths(view->engine(), ::fallbackImportPaths());
 
@@ -121,16 +121,17 @@ int startShell(int argc, const char** argv, void* server)
         QStringList importPaths = view->engine()->importPathList();
         importPaths.replaceInStrings(QRegExp("qt5/imports$"), "qt5/imports/Unity-Mir");
         view->engine()->setImportPathList(importPaths);
+
+#if !UNITY8_SHELL
+        // Make background transparent, so that the greeter can bleed through.
+        QSurfaceFormat format;
+        format.setAlphaBufferSize(8);
+        view->setFormat(format);
+        view->setColor(Qt::transparent);
+#endif
     }
 
     view->setSource(source);
-
-    // Make background transparent, so that the greeter can bleed through.
-    // In normal shell, the background is never seen.
-    QSurfaceFormat format;
-    format.setAlphaBufferSize(8);
-    view->setFormat(format);
-    view->setColor(Qt::transparent);
 
     if (qgetenv("QT_QPA_PLATFORM") == "ubuntu" || isUbuntuMirServer || args.contains(QLatin1String("-fullscreen"))) {
         // First, size window equal to screen (fake a real WM fullscreen mode).
