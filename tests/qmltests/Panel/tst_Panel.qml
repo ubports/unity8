@@ -42,7 +42,7 @@ Item {
         anchors.fill: parent
 
         indicators {
-            profile: "test"
+            profile: "test1"
         }
     }
 

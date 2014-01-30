@@ -43,7 +43,7 @@ Item {
         width: (shell.width > units.gu(60)) ? units.gu(40) : shell.width
         y: 0
         shown: false
-        profile: "test"
+        profile: "test1"
 
         openedHeight: parent.height - click_me.height
     }
