@@ -366,7 +366,6 @@ Item {
                 tryCompare(category2, "filtered", true);
                 tryCompare(category2FilterGrid, "filter", true);
                 mouseClick(header0, header0.width / 2, header0.height / 2);
-                mouseClick(header0, header0.width / 2, header0.height / 2);
                 tryCompare(category0, "filtered", true);
                 tryCompare(category2, "filtered", true);
             }
