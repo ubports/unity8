@@ -52,7 +52,7 @@ Item {
                 sourceSize { width: mascotShape.maxSize; height: mascotShape.maxSize }
                 fillMode: Image.PreserveAspectCrop
                 horizontalAlignment: Image.AlignHCenter
-                verticalAlignmnent: Image.AlignVCenter
+                verticalAlignment: Image.AlignVCenter
             }
         }
 
