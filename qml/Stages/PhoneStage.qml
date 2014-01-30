@@ -254,6 +254,8 @@ Item {
         // 2: The list is dragged further and snaps into the spread view when entering stage 2
         property int stage: 0
 
+        property int selectedIndex: -1
+
         onStageChanged: print("*******stage cahnged", stage)
 
         onContentXChanged: {
@@ -290,34 +292,30 @@ Item {
             }
         }
         function snapTo(index) {
-            spreadRepeater.itemAt(index).selected = true
-            snapAnimation.targetContentX = 0//width * positionMarker2;
-            snapAnimation.toIndex = index;
+            spreadView.selectedIndex = index;
+
+            snapAnimation.targetContentX = 0;
             snapAnimation.start();
         }
 
         SequentialAnimation {
             id: snapAnimation
             property int targetContentX: 0
-            property int toIndex: -1
 
             UbuntuNumberAnimation {
                 target: spreadView
                 property: "contentX"
                 to: snapAnimation.targetContentX
-//                duration: UbuntuAnimation.FastDuration
-                duration: UbuntuAnimation.SleepyDuration
+                duration: UbuntuAnimation.FastDuration
+//                duration: UbuntuAnimation.SleepyDuration
             }
             ScriptAction {
                 script: {
                     print("animation finished: stage", spreadView.stage, "contentX", spreadView.contentX, "focused app", ApplicationManager.get(0).appId, ApplicationManager.get(1).appId)
-                    if (snapAnimation.toIndex >= 0) {
-                        print("switching to app", snapAnimation.toIndex, ApplicationManager.get(snapAnimation.toIndex).name)
-                        spreadRepeater.itemAt(snapAnimation.toIndex).selected = false;
-                        ApplicationManager.focusApplication(ApplicationManager.get(snapAnimation.toIndex).appId);
-                        print("unselecting item", snapAnimation.toIndex);
-                        print("unselecting item", spreadRepeater.itemAt(snapAnimation.toIndex));
-                        snapAnimation.toIndex = -1;
+                    if (spreadView.selectedIndex >= 0) {
+                        print("switching to app", snapAnimation.toIndex, ApplicationManager.get(spreadView.selectedIndex).name)
+                        ApplicationManager.focusApplication(ApplicationManager.get(spreadView.selectedIndex).appId);
+                        spreadView.selectedIndex = -1
                         spreadView.contentX = 0;
                     }
                     if (spreadView.contentX == spreadView.width * spreadView.positionMarker2) {
@@ -342,12 +340,14 @@ Item {
                 model: ApplicationManager
                 delegate: TransformedSpreadDelegate {
                     startAngle: 45
-                    endAngle: 10
+                    endAngle: 5
                     startScale: 1
-                    endScale: 0.7
+                    endScale: 0.6
                     startDistance: spreadView.tileDistance
                     endDistance: units.gu(.5)
                     height: spreadView.height
+                    selected: spreadView.selectedIndex == index
+                    otherSelected: spreadView.selectedIndex >= 0 && !selected
 
                     z: index
                     x: index == 0 ? 0 : spreadView.width + (index - 1) * spreadView.tileDistance
@@ -419,12 +419,10 @@ Item {
 
                     Behavior on animatedProgress {
                         id: stage1Animation
-                        SequentialAnimation {
-                            SmoothedAnimation {
-                                velocity: 2;
-                                duration: UbuntuAnimation.BriskDuration;
-                                easing: UbuntuAnimation.StandardEasing
-                            }
+                        SmoothedAnimation {
+                            velocity: .5;
+//                            duration: UbuntuAnimation.BriskDuration;
+//                            easing: UbuntuAnimation.StandardEasing
                         }
                     }
                 }

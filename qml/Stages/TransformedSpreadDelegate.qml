@@ -6,6 +6,7 @@ SpreadDelegate {
     id: root
 
     property bool selected: false
+    property bool otherSelected: false
 
     property real progress: 0
     property real animatedProgress: 0
@@ -22,24 +23,59 @@ SpreadDelegate {
 
     onSelectedChanged: {
         if (selected) {
-            priv.selectedProgress = root.progress
-            priv.selectedXTranslate = priv.xTranslate;
-            priv.selectedAngle = priv.angle;
-            priv.selectedScale = priv.scale;
-            priv.isSelected = true;
-            print("tile", index, "selected!!!!!!!!!!!!!!!!")
-        } else {
-            priv.isSelected = false;
+            priv.snapshot();
+        }
+        print("setting selected to", selected)
+        priv.isSelected = selected;
+    }
+
+    onOtherSelectedChanged: {
+        if (otherSelected) {
+            priv.snapshot();
+        }
+        priv.otherSelected = otherSelected;
+    }
+
+    Connections {
+        target: spreadView
+        onStageChanged: {
+            if (spreadView.stage == 1) {
+                if (index == 0) {
+                    priv.stage2startTranslate = priv.easingAnimation(0, spreadView.positionMarker4, 0, -spreadView.width, spreadView.positionMarker4) + spreadView.width;
+                } else if (index == 1) {
+                    // find where the main easing for Tile 1 would be when reaching stage 2
+                    var stage2Progress = spreadView.positionMarker4 - spreadView.tileDistance / spreadView.width;
+                    priv.stage2startTranslate = priv.easingAnimation(0, stage2Progress, 0, -spreadView.width + root.endDistance, stage2Progress);
+                    priv.stage2startAngle = priv.easingAnimation(0, stage2Progress, root.startAngle, root.endAngle, stage2Progress)
+                    priv.stage2startScale = priv.easingAnimation(0, stage2Progress, root.startScale, root.endScale, stage2Progress);
+                }
+            }
         }
     }
 
     QtObject {
         id: priv
         property bool isSelected: false
+        property bool otherSelected: false
         property real selectedProgress
         property real selectedXTranslate
         property real selectedAngle
         property real selectedScale
+        property real selectedOpacity
+
+        // Those values are needed as target values for the end of stage 1.
+        // As they are static values, lets caluclate them once when entering stage 1 instead of calculating them in each animation pass.
+        property real stage2startTranslate
+        property real stage2startAngle
+        property real stage2startScale
+
+        function snapshot() {
+            selectedProgress = root.progress;
+            selectedXTranslate = xTranslate;
+            selectedAngle = angle;
+            selectedScale = scale;
+            selectedOpacity = opacity;
+        }
 
         property real negativeProgress: {
             if (index < 2) {
@@ -63,14 +99,11 @@ SpreadDelegate {
             var translation = 0;
             switch (index) {
             case 0:
-                print("+++++++++++++++++++++++++++", spreadView.stage, priv.isSelected)
                 if (spreadView.stage == 0) {
                     translation = linearAnimation(0, spreadView.positionMarker2, 0, -spreadView.width * .25, root.animatedProgress)
                     break;
                 } else if (spreadView.stage == 1){
-                    // find where the main easing would be when reaching stage 2
-                    var targetTranslate = easingAnimation(0, spreadView.positionMarker4, 0, -spreadView.width, spreadView.positionMarker4) + spreadView.width
-                    translation = linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, -spreadView.width * .25, targetTranslate, root.progress)
+                    translation = linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, -spreadView.width * .25, priv.stage2startTranslate, root.progress)
                     break;
                 } else if (!priv.isSelected){ // Stage 2
                     // Move the first tile a bit to the right to be aligned with the others
@@ -88,13 +121,8 @@ SpreadDelegate {
                     translation = linearAnimation(0, spreadView.positionMarker2, 0, -spreadView.width * spreadView.snapPosition, root.animatedProgress)
                     break;
                 } else if (spreadView.stage == 1 && !priv.isSelected) {
-                    // find where the main easing would be when reaching stage 2
-                    var stage2Progress = spreadView.positionMarker4 - spreadView.tileDistance / spreadView.width;
-                    targetTranslate = easingAnimation(0, stage2Progress, 0, -spreadView.width + root.endDistance, stage2Progress);
-
                     translation = linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4,
-                                                   -spreadView.width * spreadView.snapPosition, targetTranslate, root.progress);
-
+                                                   -spreadView.width * spreadView.snapPosition, priv.stage2startTranslate, root.progress);
                     break;
                 }
 
@@ -106,7 +134,6 @@ SpreadDelegate {
                 if (priv.isSelected) {
                     // Distance to left edge
                     var targetTranslate = -spreadView.width - ((index - 1) * root.startDistance)
-                    print("selectedProgress:", selectedProgress, "negativeProgress:", negativeProgress, "progress", root.progress)
                     translation = linearAnimation(selectedProgress, negativeProgress, selectedXTranslate, targetTranslate, root.progress)
                 }
             }
@@ -128,10 +155,7 @@ SpreadDelegate {
                     newAngle = linearAnimation(0, spreadView.positionMarker2, root.startAngle, root.startAngle * (1-spreadView.snapPosition), root.animatedProgress)
                     break;
                 } else if (spreadView.stage == 1 && !priv.isSelected) {
-                    // find where the main easing would be when reaching stage 2
-                    var stage2Progress = spreadView.positionMarker4 - spreadView.tileDistance / spreadView.width;
-                    var targetAngle = easingAnimation(0, stage2Progress, root.startAngle, root.endAngle, stage2Progress)
-                    newAngle = linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, root.startAngle * (1-spreadView.snapPosition), targetAngle, root.progress)
+                    newAngle = linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, root.startAngle * (1-spreadView.snapPosition), priv.stage2startAngle, root.progress)
                     break;
                 }
 
@@ -160,9 +184,7 @@ SpreadDelegate {
                     newScale = linearAnimation(0, spreadView.positionMarker2, root.tile1StartScale, 1, root.animatedProgress)
                     break;
                 } else if (spreadView.stage == 1 && !priv.isSelected) {
-                    // find where the main easing would be when reaching positionMarker4
-                    var targetScale = easingAnimation(0, spreadView.positionMarker4, root.startScale, root.endScale, spreadView.positionMarker4);
-                    newScale = linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, 1, targetScale, root.progress)
+                    newScale = linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, 1, priv.stage2startScale, root.progress)
                     break;
                 }
 
@@ -173,6 +195,22 @@ SpreadDelegate {
                 }
             }
             return newScale;
+        }
+
+        property real opacity: {
+            if (otherSelected) {
+                return linearAnimation (selectedProgress, selectedProgress - .5, selectedOpacity, 0, root.progress)
+            }
+            if (index  == 0) {
+                switch (spreadView.stage) {
+                case 0:
+                    return linearAnimation(0, spreadView.positionMarker2, 1, .3, root.animatedProgress)
+                case 1:
+                    return linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, .3, 1, root.animatedProgress)
+                }
+            }
+
+            return 1;
         }
     }
 
@@ -191,6 +229,7 @@ SpreadDelegate {
             x: priv.xTranslate
         }
     ]
+    opacity: priv.opacity
 
     EasingCurve {
         id: easingCurve
