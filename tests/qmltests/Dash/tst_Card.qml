@@ -111,6 +111,10 @@ Rectangle {
             "layout": { "components": Helpers.update(JSON.parse(root.fullMapping), { "summary": undefined }) }
         },
         {
+            "name": "Art, summary - vertical",
+            "layout": { "components": { "art": "art", "summary": "summary" } }
+        },
+        {
             "name": "Header title only - horizontal",
             "layout": { "template": { "card-layout": "horizontal" },
                         "components": { "title": "title" } }
@@ -365,13 +369,26 @@ Rectangle {
             tryCompareFunction(function() { return testCase.header.x === data.left() }, true);
         }
 
-        function test_art_visibility() {
-            selector.selectedIndex = 7
+        function test_summary_layout_data() {
+            return [
+                { tag: "With header", top: function() { return header.y + header.height }, index: 0 },
+                { tag: "Without header", top: function() { return art.y + art.height }, index: 7 },
+            ]
+        }
 
-            tryCompare(testCase.artImage, "source", "")
-            compare(testCase.art.visible, false)
-            compare(testCase.art.height, 0)
-            compare(testCase.art.width, 0)
+        function test_summary_layout(data) {
+            selector.selectedIndex = data.index;
+
+            tryCompareFunction(function() { return testCase.summary.y === data.top() }, true);
+        }
+
+        function test_art_visibility() {
+            selector.selectedIndex = 8;
+
+            tryCompare(testCase.artImage, "source", "");
+            compare(testCase.art.visible, false);
+            compare(testCase.art.height, 0);
+            compare(testCase.art.width, 0);
         }
     }
 }

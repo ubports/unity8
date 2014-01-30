@@ -120,9 +120,9 @@ Rectangle {
 
         function test_dimensions_data() {
             return [
-                { tag: "Column width", object: column, width: cardHeader.width - testCase.outerRow.spacing * 2 },
-                { tag: "Column width", object: column, width: cardHeader.width - mascot.width - testCase.outerRow.spacing * 3, mascot: "artwork/avatar.png" },
-                { tag: "Header height", object: cardHeader, height: function() { return subtitleLabel.y + subtitleLabel.height + outerRow.spacing * 2 } },
+                { tag: "Column width", object: column, width: cardHeader.width },
+                { tag: "Column width with mascot", object: column, width: cardHeader.width - mascot.width - outerRow.margins * 3, mascot: "artwork/avatar.png" },
+                { tag: "Header height", object: cardHeader, height: function() { return subtitleLabel.y + subtitleLabel.height + outerRow.margins * 2 } },
             ]
         }
 

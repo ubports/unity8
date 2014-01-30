@@ -27,14 +27,21 @@ Item {
     property alias altPrice: altPriceLabel.text
 
     visible: mascotImage.status === Image.Ready || title || price
-    height: row.height > 0 ? row.height + row.spacing * 2 : 0
+    height: row.height > 0 ? row.height + row.margins * 2 : 0
 
     Row {
         id: row
         objectName: "outerRow"
 
-        anchors { top: parent.top; left: parent.left; right: parent.right; margins: spacing }
-        spacing: units.gu(1)
+        property real margins: units.gu(1)
+
+        anchors {
+            top: parent.top; left: parent.left; right: parent.right
+            margins: margins
+            leftMargin: spacing
+            rightMargin: spacing
+        }
+        spacing: mascotShape.visible ? margins : 0
 
         UbuntuShape {
             id: mascotShape
@@ -53,6 +60,7 @@ Item {
         Column {
             objectName: "column"
             width: parent.width - x
+            spacing: units.gu(0.5)
 
             Label {
                 id: titleLabel
@@ -62,6 +70,7 @@ Item {
                 font.weight: Font.DemiBold
                 wrapMode: Text.Wrap
                 maximumLineCount: 2
+                fontSize: "small"
             }
 
             Label {
@@ -69,7 +78,9 @@ Item {
                 objectName: "subtitleLabel"
                 anchors { left: parent.left; right: parent.right }
                 elide: Text.ElideRight
+                font.weight: Font.Light
                 visible: titleLabel.text && text
+                fontSize: "x-small"
             }
 
             Row {
