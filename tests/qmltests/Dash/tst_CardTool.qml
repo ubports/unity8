@@ -134,7 +134,7 @@ Rectangle {
             width: cardTool.cardWidth || implicitWidth
             height: cardTool.cardHeight || implicitHeight
 
-//            clip: true
+            clip: true
 
             Rectangle {
                 anchors.fill: parent
@@ -207,7 +207,7 @@ Rectangle {
                 id: dataArea
                 anchors { left: parent.left; right: parent.right }
                 height: units.gu(25)
-                text: JSON.stringify(cardTool.priv.card.cardData, undefined, 2)
+                text: JSON.stringify(cardTool.priv.cardData, undefined, 2)
             }
 
             Label {

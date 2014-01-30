@@ -16,10 +16,17 @@
 
 import QtQuick 2.0
 
-QtObject {
+Item {
     id: cardTool
     property var template
     property var components
+
+    // FIXME: Saviq
+    // Only way for the card below to actually be laid out completely.
+    // If invisible or in "data" array, some components are not taken into account.
+    width: 0
+    height: 0
+    clip: true
 
     property var cardWidth: {
         switch (template !== undefined && template["category-layout"]) {
@@ -45,7 +52,7 @@ QtObject {
                 if (template["card-size"] >= 12 && template["card-size"] <= 38) return units.gu(template["card-size"]);
                 return units.gu(18.5);
             case "grid":
-                return priv.card.implicitHeight
+                return card.implicitHeight
             case undefined:
             case "organic-grid":
             case "vertical-journal":
@@ -54,7 +61,16 @@ QtObject {
         }
     }
 
-    property QtObject priv: QtObject {
+    property QtObject priv: card
+
+    Card {
+        id: card
+        template: cardTool.template
+        components: cardTool.components
+
+        width: cardTool.cardWidth || implicitWidth
+        height: cardTool.cardHeight || implicitHeight
+
         property var fields: ["art", "mascot", "title", "subtitle", "summary"]
         property var maxData: {
             "art": Qt.resolvedUrl("graphics/checkers.png"),
@@ -64,26 +80,18 @@ QtObject {
             "summary": "—\n—\n—\n—\n—"
         }
 
-        property Item card: Card {
-            template: cardTool.template
-            components: cardTool.components
-
-            width: cardTool.cardWidth || implicitWidth
-            height: cardTool.cardHeight || implicitHeight
-
-            onComponentsChanged: {
-                var data = {};
-                for (var k in priv.fields) {
-                    var component = components[priv.fields[k]];
-                    var key = priv.fields[k];
-                    if ((typeof component === "string" && component.length > 0) ||
-                        (typeof component === "object" && component !== null
-                         && typeof component["field"] === "string" && component["field"].length > 0)) {
-                        data[key] = priv.maxData[key];
-                    }
+        onComponentsChanged: {
+            var data = {};
+            for (var k in fields) {
+                var component = components[fields[k]];
+                var key = fields[k];
+                if ((typeof component === "string" && component.length > 0) ||
+                    (typeof component === "object" && component !== null
+                     && typeof component["field"] === "string" && component["field"].length > 0)) {
+                    data[key] = maxData[key];
                 }
-                cardData = data;
             }
-        }        
+            cardData = data;
+        }
     }
 }

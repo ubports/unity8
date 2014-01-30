@@ -117,9 +117,18 @@ Rectangle {
         },
     ]
 
+    CardTool {
+        id: cardTool
+        template: card.template
+        components: card.components
+    }
+
     Card {
         id: card
         anchors { top: parent.top; left: parent.left; margins: units.gu(1) }
+
+        width: cardTool.cardWidth || implicitWidth
+        height: cardTool.cardHeight || implicitHeight
 
         template: Helpers.update(JSON.parse(root.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['template'];
         components: Helpers.update(JSON.parse(root.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['components'];
