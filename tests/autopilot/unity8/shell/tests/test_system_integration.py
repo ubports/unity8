@@ -37,4 +37,4 @@ class SystemIntegrationTests(UnityTestCase):
 
         # invoke policykit to check permissions
         pid = subprocess.check_output("pidof -s unity8", shell=True)
-        retvalue = subprocess.check_call("pkcheck --action-id org.freedesktop.NetworkManager.enable-disable-network --process " + pid, shell=True)
+        subprocess.check_call("pkcheck --action-id org.freedesktop.NetworkManager.enable-disable-network --process " + pid, shell=True)
