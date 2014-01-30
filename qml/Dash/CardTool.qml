@@ -16,9 +16,21 @@
 
 import QtQuick 2.0
 
+/*! \brief Tool for introspecting Card properties.
+
+    Some properties of Cards we need to determine category-wide (like card sizes in grid),
+    so we should not do them per-Card but in the category renderer.
+
+    This component creates an invisible card filled with maximum mapped data and calculates
+    or measures card properties for this configuration.
+ */
+
 Item {
     id: cardTool
+    /// Template supplied for the category.
     property var template
+
+    /// Component mapping supplied for the category.
     property var components
 
     // FIXME: Saviq
@@ -28,6 +40,9 @@ Item {
     height: 0
     clip: true
 
+    /// type:real \brief Width to be enforced on the card in this configuration.
+    ///
+    /// If undefined, should use implicit width of the actual card.
     property var cardWidth: {
         switch (template !== undefined && template["category-layout"]) {
             case "grid":
@@ -46,6 +61,9 @@ Item {
         }
     }
 
+    /// type:real \brief Height to be enforced on the card in this configuration.
+    ///
+    /// If undefined, should use implicit height of the actual card.
     property var cardHeight: {
         switch (template !== undefined && template["category-layout"]) {
             case "journal":
