@@ -32,7 +32,7 @@ Item {
 
     function init_test()
     {
-        indicatorModel.load();
+        indicatorModel.load("test");
 
         indicatorRow.state = "initial";
         indicatorRow.setCurrentItemIndex(-1);
