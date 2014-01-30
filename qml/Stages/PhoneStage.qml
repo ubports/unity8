@@ -240,7 +240,7 @@ Item {
 
         property int tileDistance: width / 4
 
-        property real positionMarker1: 0.35
+        property real positionMarker1: 0.3
         property real positionMarker2: 0.45
         property real positionMarker3: 0.6
         property real positionMarker4: .9
@@ -339,31 +339,20 @@ Item {
                 id: spreadRepeater
                 model: ApplicationManager
                 delegate: TransformedSpreadDelegate {
+                    id: appDelegate
                     startAngle: 45
                     endAngle: 5
                     startScale: 1
                     endScale: 0.6
                     startDistance: spreadView.tileDistance
                     endDistance: units.gu(.5)
+                    width: spreadView.width
                     height: spreadView.height
                     selected: spreadView.selectedIndex == index
                     otherSelected: spreadView.selectedIndex >= 0 && !selected
 
                     z: index
                     x: index == 0 ? 0 : spreadView.width + (index - 1) * spreadView.tileDistance
-
-                    width: {
-                        switch (index) {
-                        case 0:
-                            return spreadView.width;
-                        case 1:
-                            if (spreadView.stage == 0) {
-                                return spreadView.width * spreadView.positionMarker2;
-                            }
-                        default:
-                            return spreadView.tileDistance;
-                        }
-                    }
 
                     progress: {
                         switch (index) {
@@ -383,47 +372,27 @@ Item {
                     }
 
                     animatedProgress: {
-                        if (spreadView.stage < 2 && index < 2) {
-                            if (spreadView.contentX < spreadView.width * spreadView.positionMarker1) {
-                                return spreadView.contentX / spreadView.width
-                            } else if (spreadView.stage == 0){
+                        if (spreadView.stage == 0 && index < 2) {
+                            if (progress < spreadView.positionMarker1) {
+                                return progress;
+                            } else if (progress < spreadView.positionMarker1 + .05){
+                                return spreadView.positionMarker1 + snappingCurve.value * 3
+                            } else {
                                 return spreadView.positionMarker2
                             }
                         }
                         return progress;
                     }
 
+                    EasingCurve {
+                        id: snappingCurve
+                        type: EasingCurve.OutQuad
+                        period: 0.05//spreadView.positionMarker2 - spreadView.positionMarker1
+                        progress: appDelegate.progress - spreadView.positionMarker1
+                    }
+
                     onClicked: {
                         spreadView.snapTo(index);
-                    }
-
-                    // This timer is to decouple the application reordering with the enabling of the SmoothedAnimation
-                    // If both are done in same event loop pass, the reordering would animate.
-                    Connections {
-                        target: spreadView
-                        onStageChanged: {
-                            if (spreadView.stage == 0) {
-                                enableAnimationTimer.start();
-                            } else {
-                                stage1Animation.enabled = false;
-                            }
-                        }
-                    }
-                    Timer {
-                        id: enableAnimationTimer
-                        interval: 1
-                        onTriggered: {
-                            stage1Animation.enabled = true;
-                        }
-                    }
-
-                    Behavior on animatedProgress {
-                        id: stage1Animation
-                        SmoothedAnimation {
-                            velocity: .5;
-//                            duration: UbuntuAnimation.BriskDuration;
-//                            easing: UbuntuAnimation.StandardEasing
-                        }
                     }
                 }
             }

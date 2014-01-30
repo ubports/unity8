@@ -4,6 +4,7 @@ import Ubuntu.Components 0.1
 
 SpreadDelegate {
     id: root
+    clip: true
 
     property bool selected: false
     property bool otherSelected: false
@@ -42,12 +43,16 @@ SpreadDelegate {
             if (spreadView.stage == 1) {
                 if (index == 0) {
                     priv.stage2startTranslate = priv.easingAnimation(0, spreadView.positionMarker4, 0, -spreadView.width, spreadView.positionMarker4) + spreadView.width;
+                    priv.stage2startAngle = priv.easingAnimation(0, spreadView.positionMarker4, root.startAngle, root.endAngle, spreadView.positionMarker4)
+                    priv.stage2startScale = priv.easingAnimation(0, spreadView.positionMarker4, root.startScale, root.endScale, spreadView.positionMarker4)
+                    priv.stage2startTopMarginProgress = priv.linearAnimation(0, 1, 0, 1, spreadView.positionMarker4)
                 } else if (index == 1) {
                     // find where the main easing for Tile 1 would be when reaching stage 2
                     var stage2Progress = spreadView.positionMarker4 - spreadView.tileDistance / spreadView.width;
                     priv.stage2startTranslate = priv.easingAnimation(0, stage2Progress, 0, -spreadView.width + root.endDistance, stage2Progress);
                     priv.stage2startAngle = priv.easingAnimation(0, stage2Progress, root.startAngle, root.endAngle, stage2Progress)
                     priv.stage2startScale = priv.easingAnimation(0, stage2Progress, root.startScale, root.endScale, stage2Progress);
+                    priv.stage2startTopMarginProgress = priv.linearAnimation(0, 1, 0, spreadView.positionMarker4, stage2Progress)
                 }
             }
         }
@@ -62,12 +67,14 @@ SpreadDelegate {
         property real selectedAngle
         property real selectedScale
         property real selectedOpacity
+        property real selectedTopMarginProgress
 
         // Those values are needed as target values for the end of stage 1.
         // As they are static values, lets caluclate them once when entering stage 1 instead of calculating them in each animation pass.
         property real stage2startTranslate
         property real stage2startAngle
         property real stage2startScale
+        property real stage2startTopMarginProgress
 
         function snapshot() {
             selectedProgress = root.progress;
@@ -75,6 +82,7 @@ SpreadDelegate {
             selectedAngle = angle;
             selectedScale = scale;
             selectedOpacity = opacity;
+            selectedTopMarginProgress = topMarginProgress;
         }
 
         property real negativeProgress: {
@@ -85,7 +93,7 @@ SpreadDelegate {
         }
 
         function linearAnimation(startProgress, endProgress, startValue, endValue, progress) {
-            // progress : progressDiff = value : valueDiff
+            // progress : progressDiff = value : valueDiff => value = progress * valueDiff / progressDiff
             return (progress - startProgress) * (endValue - startValue) / (endProgress - startProgress) + startValue;
         }
 
@@ -147,7 +155,7 @@ SpreadDelegate {
                     newAngle = linearAnimation(0, spreadView.positionMarker2, 0, root.endAngle * spreadView.snapPosition, root.animatedProgress)
                     break;
                 } else if (spreadView.stage == 1) {
-                    newAngle = linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, root.endAngle * spreadView.snapPosition, root.endAngle, root.progress)
+                    newAngle = linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, root.endAngle * spreadView.snapPosition, stage2startAngle, root.progress)
                     break;
                 }
             case 1:
@@ -176,7 +184,7 @@ SpreadDelegate {
                     newScale = 1;
                     break
                 } else if(spreadView.stage == 1) {
-                    newScale = linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, 1, root.endScale, root.progress)
+                    newScale = linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, 1, stage2startScale, root.progress)
                     break;
                 }
             case 1:
@@ -212,6 +220,30 @@ SpreadDelegate {
 
             return 1;
         }
+
+        property real topMarginProgress: {
+            if (selected) {
+                return linearAnimation(selectedProgress, negativeProgress, selectedTopMarginProgress, 0, root.progress);
+            }
+
+            switch (index) {
+            case 0:
+                if (spreadView.stage == 0) {
+                    return 0;
+                } else if (spreadView.stage == 1) {
+                    return linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, 0, priv.stage2startTopMarginProgress, root.progress);
+                }
+                break;
+            case 1:
+                if (spreadView.stage == 0) {
+                    return 0;
+                } else if (spreadView.stage == 1) {
+                    return linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, 0, priv.stage2startTopMarginProgress, root.progress);
+                }
+            }
+
+            return root.progress;
+        }
     }
 
     transform: [
@@ -230,6 +262,7 @@ SpreadDelegate {
         }
     ]
     opacity: priv.opacity
+    topMarginProgress: priv.topMarginProgress
 
     EasingCurve {
         id: easingCurve
