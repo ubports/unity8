@@ -56,9 +56,9 @@ Item {
 
             Label {
                 id: titleLabel
+                objectName: "titleLabel"
                 anchors { left: parent.left; right: parent.right }
                 elide: Text.ElideRight
-                objectName: "titleLabel"
                 font.weight: Font.DemiBold
                 wrapMode: Text.Wrap
                 maximumLineCount: 2
@@ -66,6 +66,7 @@ Item {
 
             Label {
                 id: subtitleLabel
+                objectName: "subtitleLabel"
                 anchors { left: parent.left; right: parent.right }
                 elide: Text.ElideRight
                 visible: titleLabel.text && text
@@ -90,6 +91,7 @@ Item {
                     elide: Text.ElideRight
                     font.weight: Font.DemiBold
                     color: Theme.palette.selected.foreground
+                    visible: text
                 }
 
                 Label {
@@ -98,6 +100,7 @@ Item {
                     width: parent.labelWidth
                     elide: Text.ElideRight
                     horizontalAlignment: parent.labels === 3 ? Text.AlignHCenter : Text.AlignRight
+                    visible: text
                 }
 
                 Label {
@@ -105,6 +108,7 @@ Item {
                     width: parent.labelWidth
                     elide: Text.ElideRight
                     horizontalAlignment: Text.AlignRight
+                    visible: text
                 }
             }
         }
