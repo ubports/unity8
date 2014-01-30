@@ -48,6 +48,8 @@ Item {
 
             image: Image {
                 id: mascotImage
+                objectName: "mascotImage"
+
                 sourceSize {
                     width: mascotShape.maxSize
                     height: mascotShape.maxSize

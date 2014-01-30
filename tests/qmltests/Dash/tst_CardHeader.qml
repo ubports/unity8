@@ -44,6 +44,7 @@ Rectangle {
         when: windowShown
 
         property Item mascot: findChild(cardHeader, "mascotShape")
+        property Item mascotImage: findChild(cardHeader, "mascotImage")
         property Item titleLabel: findChild(cardHeader, "titleLabel")
         property Item subtitleLabel: findChild(cardHeader, "subtitleLabel")
         property Item prices: findChild(cardHeader, "prices")
@@ -79,6 +80,25 @@ Rectangle {
         function test_mascot(data) {
             cardHeader.mascot = data.source;
             tryCompare(testCase.mascot, "visible", data.visible);
+        }
+
+        function test_mascot_image_source_data() {
+            return [
+                    { tag: "Mascot source width", width: Math.max(mascot.width, mascot.height) },
+                    { tag: "Mascot source height", height: Math.max(mascot.width, mascot.height) },
+            ]
+        }
+
+        function test_mascot_image_source(data) {
+            cardHeader.mascot = Qt.resolvedUrl("artwork/avatar.png")
+
+            if (data.hasOwnProperty("width")) {
+                tryCompare(testCase.mascotImage.sourceSize, "width", data.width)
+            }
+            
+            if (data.hasOwnProperty("height")) {
+                tryCompare(testCase.mascotImage.sourceSize, "height", data.height)
+            }
         }
 
         function test_labels_data() {
@@ -123,6 +143,11 @@ Rectangle {
                 { tag: "Column width", object: column, width: cardHeader.width - testCase.outerRow.spacing * 2 },
                 { tag: "Column width", object: column, width: cardHeader.width - mascot.width - testCase.outerRow.spacing * 3, mascot: "artwork/avatar.png" },
                 { tag: "Header height", object: cardHeader, height: function() { return subtitleLabel.y + subtitleLabel.height + outerRow.spacing * 2 } },
+                { tag: "Mascot width", object: mascot,
+                  "mascot": Qt.resolvedUrl("artwork/avatar.png"), width: units.gu(6), },
+                { tag: "Mascot height", object: mascot,
+                  // mascot (icon) aspect-ratio is 8:7.5
+                  "mascot": Qt.resolvedUrl("artwork/avatar.png"), height: units.gu(6)*7.5/8.0 },
             ]
         }
 
@@ -136,7 +161,11 @@ Rectangle {
             }
 
             if (data.hasOwnProperty("height")) {
-                tryCompareFunction(function() { return data.object.height === data.height() }, true);
+                if (typeof data.height === "function") {
+                    tryCompareFunction(function() { return data.object.height === data.height() }, true)
+                } else {
+                    tryCompare(data.object, "height", data.height)
+                }
             }
         }
     }
