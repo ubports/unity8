@@ -21,6 +21,7 @@ import Ubuntu.Components.ListItems 0.1
 
 Item {
     id: root
+
     property alias model: trackRepeater.model
 
     implicitHeight: childrenRect.height
@@ -32,8 +33,8 @@ Item {
     Audio {
         id: audio
         objectName: "audio"
-        property real progress: audio.position / audio.duration
 
+        property real progress: audio.position / audio.duration
         property Item playingItem
 
         Component.onDestruction: {
@@ -54,9 +55,11 @@ Item {
             delegate: Item {
                 id: trackItem
                 objectName: "trackItem" + index
+
+                property bool isPlayingItem: audio.playingItem == trackItem
+
                 anchors { left: parent.left; right: parent.right }
                 height: units.gu(5)
-                property bool isPlayingItem: audio.playingItem == trackItem
 
                 function play() {
                     audio.stop();
@@ -69,12 +72,14 @@ Item {
 
                 Row {
                     id: trackRow
-                    width: parent.width
-                    spacing: units.gu(1)
+
                     property int column1Width: units.gu(3)
                     property int column2Width: width - (2 * spacing) - column1Width - column3Width
                     property int column3Width: units.gu(4)
+
                     anchors.verticalCenter: parent.verticalCenter
+                    width: parent.width
+                    spacing: units.gu(1)
 
                     Button {
                         objectName: "playButton"
@@ -102,17 +107,15 @@ Item {
                     Item {
                         anchors.verticalCenter: parent.verticalCenter
                         width: parent.column2Width
-                        height: trackArtistLabel.visible ? trackTitleLabel.height + trackArtistLabel.height : trackTitleLabel.height
+                        height: trackSubtitleLabel.visible ? trackTitleLabel.height + trackSubtitleLabel.height : trackTitleLabel.height
 
                         Label {
                             id: trackTitleLabel
                             objectName: "trackTitleLabel"
-                            anchors.top: parent.top
-                            anchors.left: parent.left
-                            anchors.right: parent.right
-                            fontSize: "small"
+                            anchors { top: parent.top; left: parent.left; right: parent.right }
                             opacity: 0.9
                             color: "white"
+                            fontSize: "small"
                             horizontalAlignment: Text.AlignLeft
                             text: modelData["title"]
                             style: Text.Raised
@@ -121,36 +124,36 @@ Item {
                         }
 
                         Label {
-                            id: trackArtistLabel
-                            objectName: "trackArtistLabel"
-                            fontSize: "small"
+                            id: trackSubtitleLabel
+                            objectName: "trackSubtitleLabel"
+                            anchors { top: trackTitleLabel.bottom; left: parent.left; right: parent.right }
+                            visible: text != ""
                             opacity: 0.9
                             color: "white"
+                            fontSize: "small"
                             horizontalAlignment: Text.AlignLeft
-                            anchors.top: trackTitleLabel.bottom
-                            anchors.left: parent.left
-                            anchors.right: parent.right
-                            width: parent.column2Width
-                            text: modelData["artist"]
+                            text: modelData["subtitle"] !== undefined ? modelData["subtitle"] : ""
                             style: Text.Raised
                             styleColor: "black"
                             elide: Text.ElideRight
-                            visible: modelData["artist"] !== undefined
                         }
 
                         UbuntuShape {
                             id: progressBarFill
                             objectName: "progressBarFill"
-                            color: UbuntuColors.orange
-                            anchors.left: progressBarImage.left
-                            anchors.right: progressBarImage.right
-                            anchors.verticalCenter: progressBarImage.verticalCenter
-                            height: units.dp(2)
-                            anchors.margins: units.dp(2)
-                            anchors.rightMargin: maxWidth - (maxWidth * audio.progress) + units.dp(2)
-                            visible: progressBarImage.visible
 
                             property int maxWidth: progressBarImage.width - units.dp(4)
+
+                            anchors {
+                                left: progressBarImage.left
+                                right: progressBarImage.right
+                                verticalCenter: progressBarImage.verticalCenter
+                                margins: units.dp(2)
+                                rightMargin: maxWidth - (maxWidth * audio.progress) + units.dp(2)
+                            }
+                            height: units.dp(2)
+                            visible: progressBarImage.visible
+                            color: UbuntuColors.orange
                         }
 
                         Image {
@@ -163,32 +166,29 @@ Item {
                     }
 
                     Label {
-                        id: valueLabel
+                        id: timeLabel
                         objectName: "timeLabel"
-                        fontSize: "small"
+                        anchors.verticalCenter: parent.verticalCenter
+                        width: parent.column3Width
                         opacity: 0.9
                         color: "white"
-                        anchors.verticalCenter: parent.verticalCenter
+                        fontSize: "small"
                         horizontalAlignment: Text.AlignRight
-                        width: parent.column3Width
                         text: lengthToString(modelData["length"])
                         style: Text.Raised
                         styleColor: "black"
 
                         function lengthToString(s) {
-                            if (s <= 0 || s == undefined) {
-                                return ""
-                            }
+                            if (s <= 0 || s === undefined) return ""
+
                             var sec = "" + s % 60
-                            if (sec.length == 1)
-                                sec = "0" + sec
+                            if (sec.length == 1) sec = "0" + sec
                             var hour = Math.floor(s / 3600)
                             if (hour < 1) {
                                 return Math.floor(s / 60) + ":" + sec
                             } else {
                                 var min = "" + Math.floor(s / 60) % 60
-                                if (min.length == 1)
-                                    min = "0" + min
+                                if (min.length == 1) min = "0" + min
                                 return hour + ":" + min + ":" + sec
                             }
                         }

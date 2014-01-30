@@ -36,7 +36,7 @@ Rectangle {
 
     property var tracksModel2: [
         { title: "Some track name", length: "30", source: "../../tests/qmltests/Dash/Music/data/testsound1.ogg" },
-        { title: "Some other track name", artist: "Artist name", length: "83", source: "../../tests/qmltests/Dash/Music/data/testsound2.ogg" },
+        { title: "Some other track name", subtitle: "Subtitle", length: "83", source: "../../tests/qmltests/Dash/Music/data/testsound2.ogg" },
         { title: "And another one", length: "7425", source: "../../tests/qmltests/Dash/Music/data/testsound3.ogg" }
     ]
 
@@ -69,12 +69,17 @@ Rectangle {
             var trackRepeater = findChild(audioPlayer, "trackRepeater");
             compare(trackRepeater.count, data.tracksModel.length)
 
-            for (var i = 0; i < data.tracksModel.count; ++i) {
+            for (var i = 0; i < data.tracksModel.length; ++i) {
                 var trackItem = findChild(audioPlayer, "trackItem" + i);
                 var titleLabel = findChild(trackItem, "trackTitleLabel");
                 compare(titleLabel.text, data.tracksModel[i]["title"])
-                var timeLabel = findChild(trackItem, "timeLabel");
-                compare(timeLabel.text, data.tracksModel[i]["length"])
+                var subtitleLabel = findChild(trackItem, "trackSubtitleLabel");
+                if (data.tracksModel[i]["subtitle"] !== undefined) {
+                    compare(subtitleLabel.text, data.tracksModel[i]["subtitle"])
+                } else {
+                    compare(subtitleLabel.visible, false)
+                }
+                // not checking time label because it's formatted, the models here only contains seconds
             }
         }
 
