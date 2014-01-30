@@ -245,8 +245,8 @@ Rectangle {
         function test_card_size_data() {
             return [
                 { tag: "Medium", width: units.gu(18.5), index: 0 },
-                { tag: "Small", width: units.gu(12), size: "small", index: 0 },
-                { tag: "Large", width: units.gu(38), size: "large", index: 0 },
+                { tag: "Small", width: units.gu(12), index: 1 },
+                { tag: "Large", width: units.gu(38), index: 2 },
                 { tag: "Wide", width: units.gu(18.5), aspect: 0.5, index: 0 },
                 { tag: "Horizontal", width: units.gu(38), index: 5 },
                 // Make sure card ends with header when there's no summary
