@@ -79,7 +79,7 @@ Rectangle {
                 } else {
                     compare(subtitleLabel.visible, false)
                 }
-                // not checking time label because it's formatted, the models here only contains seconds
+                // not checking time label because it's formatted, the model only contains seconds
             }
         }
 
