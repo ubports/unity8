@@ -1,3 +1,11 @@
+unity8 (7.84+14.04.20140130-0ubuntu1) trusty; urgency=low
+
+  [ Michał Sawicz ]
+  * Bring back libunity-mir1, it's dlopen'ed, so not linked to unity8,
+    so not in shlibs.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 30 Jan 2014 14:00:40 +0000
+
 unity8 (7.84+14.04.20140129-0ubuntu1) trusty; urgency=low
 
   [ Nick Dedekind ]
