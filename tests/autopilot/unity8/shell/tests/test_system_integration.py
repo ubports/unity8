@@ -30,7 +30,7 @@ class SystemIntegrationTests(UnityTestCase):
 
     scenarios = _get_device_emulation_scenarios()
 
-    def test_networkmanager_integration(self):
+    def disabled_test_networkmanager_integration(self):
         self.launch_unity()
 
         # invoke policykit to check permissions
