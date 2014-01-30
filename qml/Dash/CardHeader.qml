@@ -27,14 +27,21 @@ Item {
     property alias altPrice: altPriceLabel.text
 
     visible: mascotImage.status === Image.Ready || title || price
-    height: row.height > 0 ? row.height + row.spacing * 2 : 0
+    height: row.height > 0 ? row.height + row.margins * 2 : 0
 
     Row {
         id: row
         objectName: "outerRow"
 
-        anchors { top: parent.top; left: parent.left; right: parent.right; margins: spacing }
-        spacing: units.gu(1)
+        property real margins: units.gu(1)
+
+        anchors {
+            top: parent.top; left: parent.left; right: parent.right
+            margins: margins
+            leftMargin: spacing
+            rightMargin: spacing
+        }
+        spacing: mascotShape.visible ? margins : 0
 
         UbuntuShape {
             id: mascotShape
