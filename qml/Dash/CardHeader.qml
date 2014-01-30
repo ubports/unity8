@@ -40,13 +40,20 @@ Item {
             id: mascotShape
             objectName: "mascotShape"
 
-            width: units.gu(8)
-            height: units.gu(8)
+            // TODO karni: Icon aspect-ratio is 8:7.5. Revisit these values to avoid fraction of pixels.
+            width: units.gu(6)
+            height: units.gu(5.625)
             visible: image.status === Image.Ready
+            readonly property int maxSize: Math.max(width, height)
 
             image: Image {
                 id: mascotImage
-                sourceSize { width: mascotShape.width; height: mascotShape.height }
+                sourceSize {
+                    width: mascotShape.maxSize
+                    height: mascotShape.maxSize
+                }
+                fillMode: Image.PreserveAspectCrop
+                horizontalAlignment: Image.AlignHCenter
             }
         }
 
