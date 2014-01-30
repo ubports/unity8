@@ -89,5 +89,6 @@ Item {
         elide: Text.ElideRight
         text: cardData && cardData["summary"] || ""
         height: text ? implicitHeight : 0
+        fontSize: "small"
     }
 }
