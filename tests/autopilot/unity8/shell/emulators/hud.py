@@ -54,7 +54,7 @@ class Hud(UnityEmulatorBase, DragMixin):
         except AssertionError:
             raise
         finally:
-            if self.touch._touch_finger is not None:
+            if self.touch.pressed:
                 self.touch.release()
 
     def dismiss(self):

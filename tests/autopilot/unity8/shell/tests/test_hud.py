@@ -187,5 +187,5 @@ class TestHud(UnityTestCase, DragMixin):
     # we don't.
     def _maybe_release_finger(self):
         """Only release the finger if it is in fact down."""
-        if self.touch._touch_finger is not None:
+        if self.touch.pressed:
             self.touch.release()
