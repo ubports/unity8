@@ -141,6 +141,7 @@ FocusScope {
             readonly property bool expandable: rendererLoader.item ? rendererLoader.item.expandable : false
             readonly property bool filtered: rendererLoader.item ? rendererLoader.item.filter : true
             readonly property string category: categoryId
+            readonly property var item: rendererLoader.item
 
             Loader {
                 id: rendererLoader
@@ -248,8 +249,10 @@ FocusScope {
                             }
                         }
                     }
+                    onOriginYChanged: rendererLoader.updateDelegateCreationRange();
                     onContentYChanged: rendererLoader.updateDelegateCreationRange();
                     onHeightChanged: rendererLoader.updateDelegateCreationRange();
+                    onContentHeightChanged: rendererLoader.updateDelegateCreationRange();
                 }
 
                 function updateDelegateCreationRange() {
@@ -261,7 +264,7 @@ FocusScope {
                         return;
                     }
 
-                    if (item.hasOwnProperty("delegateCreationBegin")) {
+                    if (item && item.hasOwnProperty("delegateCreationBegin")) {
                         if (baseItem.y + baseItem.height <= 0) {
                             // Not visible (item at top of the list)
                             item.delegateCreationBegin = baseItem.height
@@ -277,6 +280,9 @@ FocusScope {
                     }
                 }
             }
+
+            onHeightChanged: rendererLoader.updateDelegateCreationRange();
+            onYChanged: rendererLoader.updateDelegateCreationRange();
         }
 
         sectionProperty: "name"
