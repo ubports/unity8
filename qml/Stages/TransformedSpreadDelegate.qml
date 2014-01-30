@@ -4,7 +4,6 @@ import Ubuntu.Components 0.1
 
 SpreadDelegate {
     id: root
-    clip: true
 
     property bool selected: false
     property bool otherSelected: false
