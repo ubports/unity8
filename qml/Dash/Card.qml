@@ -82,7 +82,7 @@ Item {
 
     Label {
         objectName: "summaryLabel"
-        anchors { top: header.bottom; left: parent.left; right: parent.right }
+        anchors { top: header.visible ? header.bottom : artShape.bottom; left: parent.left; right: parent.right }
         wrapMode: Text.Wrap
         maximumLineCount: 5
         elide: Text.ElideRight
