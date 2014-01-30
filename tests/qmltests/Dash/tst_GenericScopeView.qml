@@ -91,6 +91,7 @@ Item {
                 previewListView.open = true;
                 scopes.get(0).hideDash();
                 tryCompare(previewListView, "open", false);
+                tryCompare(openEffect, "gap", 0);
             }
 
             function openPreview() {
@@ -314,7 +315,7 @@ Item {
                 tryCompare(previewListView, "open", false);
             }
 
-            function test_filter_expand_expand() {
+            function test_filter_expand_expand_collapse() {
                 // wait for the item to be there
                 tryCompareFunction(function() { return findChild(genericScopeView, "dashSectionHeader2") != undefined; }, true);
 
@@ -350,11 +351,15 @@ Item {
                 tryCompare(category0, "filtered", false);
                 tryCompare(category2, "filtered", true);
                 tryCompare(category2FilterGrid, "filter", true);
+                mouseClick(header0, header0.width / 2, header0.height / 2);
+                tryCompare(category0, "filtered", true);
+                tryCompare(category2, "filtered", true);
             }
 
             function test_narrow_delegate_ranges_expand() {
                 tryCompareFunction(function() { return findChild(genericScopeView, "dashCategory0") != undefined; }, true);
                 var category = findChild(genericScopeView, "dashCategory0")
+                tryCompare(category, "filtered", true);
 
                 shell.width = units.gu(20)
                 var categoryListView = findChild(genericScopeView, "categoryListView");
