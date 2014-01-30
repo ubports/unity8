@@ -91,6 +91,7 @@ Item {
                 previewListView.open = true;
                 scopes.get(2).hideDash();
                 tryCompare(previewListView, "open", false);
+                tryCompare(openEffect, "gap", 0);
             }
 
             function openPreview(filterGridName, willOpen) {
