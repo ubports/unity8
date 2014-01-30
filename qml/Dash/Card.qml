@@ -37,6 +37,7 @@ Item {
 
     UbuntuShape {
         id: artShape
+        radius: "medium"
         objectName: "artShape"
         width: {
             if (!visible) return 0

@@ -60,6 +60,7 @@ Item {
         Column {
             objectName: "column"
             width: parent.width - x
+            spacing: units.gu(0.5)
 
             Label {
                 id: titleLabel
@@ -69,6 +70,7 @@ Item {
                 font.weight: Font.DemiBold
                 wrapMode: Text.Wrap
                 maximumLineCount: 2
+                fontSize: "small"
             }
 
             Label {
@@ -76,7 +78,9 @@ Item {
                 objectName: "subtitleLabel"
                 anchors { left: parent.left; right: parent.right }
                 elide: Text.ElideRight
+                font.weight: Font.Light
                 visible: titleLabel.text && text
+                fontSize: "x-small"
             }
 
             Row {
