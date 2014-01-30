@@ -48,14 +48,11 @@ Item {
 
             image: Image {
                 id: mascotImage
-                objectName: "mascotImage"
 
-                sourceSize {
-                    width: mascotShape.maxSize
-                    height: mascotShape.maxSize
-                }
+                sourceSize { width: mascotShape.maxSize; height: mascotShape.maxSize }
                 fillMode: Image.PreserveAspectCrop
                 horizontalAlignment: Image.AlignHCenter
+                verticalAlignmnent: Image.AlignVCenter
             }
         }
 
