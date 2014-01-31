@@ -85,6 +85,10 @@ Rectangle {
             "layout": { "template": { "card-size": "large" }, "components": JSON.parse(fullMapping) }
         },
         {
+            "name": "Art, header, summary - horizontal",
+            "layout": { "template": { "card-layout": "horizontal" }, "components": JSON.parse(fullMapping) }
+        },
+        {
             "name": "Header title only",
             "layout": { "components": { "title": "title" } }
         },
@@ -126,6 +130,7 @@ Rectangle {
         }
 
         Card {
+            id: card
             template: cardTool.template;
             components: cardTool.components;
             cardData: Helpers.mapData(dataArea.text, components, dataError)
@@ -244,12 +249,14 @@ Rectangle {
 
         function test_card_size_data() {
             return [
-                { tag: "Medium", width: units.gu(18.5), height: undefined, index: 0 },
-                { tag: "Small", width: units.gu(12), height: undefined, index: 1 },
-                { tag: "Large", width: units.gu(38), height: undefined, index: 2 },
-                { tag: "Horizontal", width: units.gu(38), height: undefined, index: 3 },
+                { tag: "Medium", width: units.gu(18.5), height: function() { return card.height }, index: 0 },
+                { tag: "Small", width: units.gu(12), height: function() { return card.height }, index: 1 },
+                { tag: "Large", width: units.gu(38), height: function() { return card.height }, index: 2 },
+                { tag: "Horizontal", width: units.gu(38), height: function() { return card.height }, index: 3 },
+                { tag: "OrganicGrid", width: undefined, height: undefined, index: 0, layout_index: 1},
                 { tag: "Journal", width: undefined, height: units.gu(20), size: 20, index: 0, layout_index: 2 },
                 { tag: "OversizedJournal", width: undefined, height: units.gu(18.5), size: 40, index: 0, layout_index: 2 },
+                { tag: "VerticalJournal", width: units.gu(18.5), height: undefined, index: 0, layout_index: 3 },
             ]
         }
 
@@ -265,11 +272,15 @@ Rectangle {
             }
 
             if (data.hasOwnProperty("width")) {
-                tryCompare(cardTool, "cardWidth", data.width);
+                if (typeof data.width === "function") {
+                    tryCompareFunction(function() { return cardTool.cardWidth === data.width() }, true);
+                } else tryCompare(cardTool, "cardWidth", data.width);
             }
 
             if (data.hasOwnProperty("height")) {
-                tryCompare(cardTool, "cardHeight", data.height);
+                if (typeof data.height === "function") {
+                    tryCompareFunction(function() { return cardTool.cardHeight === data.height() }, true);
+                } else tryCompare(cardTool, "cardHeight", data.height);
             }
         }
     }
