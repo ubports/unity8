@@ -38,6 +38,11 @@ Item {
      */
     property var components
 
+    /*!
+     Width of the view, based on which carousel width is calculated.
+     */
+    property var viewWidth
+
     // FIXME: Saviq
     // Only way for the card below to actually be laid out completely.
     // If invisible or in "data" array, some components are not taken into account.
@@ -60,6 +65,11 @@ Item {
                     case "large": return units.gu(38);
                 }
                 return units.gu(18.5);
+            case "carousel":
+                if (viewWidth === undefined) return undefined
+                if (viewWidth <= units.gu(40)) return units.gu(18)
+                if (viewWidth >= units.gu(128)) return units.gu(26)
+                return units.gu(18 + Math.round((viewWidth - units.gu(40))/ units.gu(11)))
             case undefined:
             case "organic-grid":
             case "journal":
@@ -80,6 +90,8 @@ Item {
                 return units.gu(18.5);
             case "grid":
                 return card.implicitHeight
+            case "carousel":
+                return cardWidth / (components ? components["art"]["aspect-ratio"] : 1)
             case undefined:
             case "organic-grid":
             case "vertical-journal":

@@ -67,7 +67,11 @@ Rectangle {
         {
             "name": "Art, header, summary - horizontal",
             "layout": { "template": { "card-layout": "horizontal" }, "components": JSON.parse(Helpers.fullMapping) }
-        }
+        },
+        {
+            "name": "Art, header - portrait",
+            "layout": { "components": Helpers.update(JSON.parse(Helpers.fullMapping), { "art": {"aspect-ratio": 0.5, "summary": undefined }}) }
+        },
     ]
 
     CardTool {
@@ -75,6 +79,7 @@ Rectangle {
 
         template: Helpers.update(JSON.parse(Helpers.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['template'];
         components: Helpers.update(JSON.parse(Helpers.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['components'];
+        viewWidth: units.gu(Math.round(widthSlider.value))
     }
 
     Column {
@@ -83,6 +88,7 @@ Rectangle {
 
         Repeater {
             model: [
+                { label: "View width", value: cardTool.viewWidth && cardTool.viewWidth / units.gu(1) },
                 { label: "Card width", value: cardTool.cardWidth && cardTool.cardWidth / units.gu(1) },
                 { label: "Card height", value: cardTool.cardHeight && cardTool.cardHeight / units.gu(1) },
             ]
@@ -158,6 +164,7 @@ Rectangle {
                     { label: "Organic Grid", layout: "organic-grid" },
                     { label: "Horizontal Journal", layout: "journal" },
                     { label: "Vertical Journal", layout: "vertical-journal" },
+                    { label: "Carousel", layout: "carousel" },
                 ]
                 delegate: OptionSelectorDelegate { text: modelData.label }
                 onSelectedIndexChanged: {
@@ -168,6 +175,21 @@ Rectangle {
                         layoutArea.text = JSON.stringify(Helpers.update(current, update), undefined, 2) || "{}";
                     }
                 }
+            }
+
+            Label {
+                anchors { left: parent.left; right: parent.right }
+                height: units.gu(3)
+                verticalAlignment: Text.AlignBottom
+                text: "View width:"
+            }
+
+            Slider {
+                id: widthSlider
+                minimumValue: 30
+                maximumValue: 140
+                live: true
+                value: 40
             }
 
             TextArea {
@@ -205,6 +227,7 @@ Rectangle {
                     case "organic-grid": layoutSelector.selectedIndex = 1; break;
                     case "journal": layoutSelector.selectedIndex = 2; break;
                     case "vertical-journal": layoutSelector.selectedIndex = 3; break;
+                    case "carousel": layoutSelector.selectedIndex = 4; break;
                     case "grid":
                     default: layoutSelector.selectedIndex = 0; break;
                 }
@@ -239,6 +262,10 @@ Rectangle {
                 { tag: "Journal", width: undefined, height: units.gu(20), size: 20, index: 0, layout_index: 2 },
                 { tag: "OversizedJournal", width: undefined, height: units.gu(18.5), size: 40, index: 0, layout_index: 2 },
                 { tag: "VerticalJournal", width: units.gu(18.5), height: undefined, index: 0, layout_index: 3 },
+                { tag: "SmallCarousel", width: units.gu(18), height: units.gu(18), viewWidth: 30, index: 0, layout_index: 4},
+                { tag: "MediumCarousel", width: units.gu(22), height: units.gu(22), viewWidth: 84, index: 0, layout_index: 4},
+                { tag: "LargeCarousel", width: units.gu(26), height: units.gu(26), viewWidth: 140, index: 0, layout_index: 4},
+                { tag: "PortraitCarousel", width: units.gu(22), height: units.gu(44), viewWidth: 84, index: 10, layout_index: 4},
             ]
         }
 
@@ -246,6 +273,10 @@ Rectangle {
             selector.selectedIndex = data.index;
             if (data.hasOwnProperty("layout_index")) {
                 layoutSelector.selectedIndex = data.layout_index;
+            }
+
+            if (data.hasOwnProperty("viewWidth")) {
+                widthSlider.value = data.viewWidth;
             }
 
             if (data.hasOwnProperty("size")) {
