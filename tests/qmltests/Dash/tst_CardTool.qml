@@ -234,6 +234,7 @@ Rectangle {
                 { tag: "Title and mascot", width: units.gu(18.5), height: function() { return card.height }, index: 6 },
                 { tag: "Small", width: units.gu(12), height: function() { return card.height }, index: 7 },
                 { tag: "Large", width: units.gu(38), height: function() { return card.height }, index: 8 },
+                { tag: "Horizontal", width: units.gu(38), height: function() { return card.height }, index: 9 },
                 { tag: "OrganicGrid", width: undefined, height: undefined, index: 0, layout_index: 1},
                 { tag: "Journal", width: undefined, height: units.gu(20), size: 20, index: 0, layout_index: 2 },
                 { tag: "OversizedJournal", width: undefined, height: units.gu(18.5), size: 40, index: 0, layout_index: 2 },
