@@ -21,7 +21,6 @@ import Ubuntu.Components.ListItems 0.1
 
 PreviewWidget {
     id: root
-
     implicitHeight: childrenRect.height
 
     onFocusedChanged: if (!focused) audio.stop()
@@ -47,7 +46,6 @@ PreviewWidget {
         Repeater {
             id: trackRepeater
             objectName: "trackRepeater"
-
             model: root.widgetData["tracks"]
 
             delegate: Item {
