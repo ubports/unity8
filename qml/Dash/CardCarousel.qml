@@ -17,22 +17,55 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import "../Components"
-import ".."
 
-DashCarousel {
+
+DashRenderer {
     id: cardCarousel
 
-    itemComponent: Card {
-        id: card
-        objectName: "delegate" + index
-        cardData: model
-        template: cardCarousel.template
-        components: cardCarousel.components
+    property alias cacheBuffer: carousel.cacheBuffer
+    property alias itemComponent: carousel.itemComponent
+    property alias minimumTileWidth: carousel.minimumTileWidth
+    property alias selectedItemScaleFactor: carousel.selectedItemScaleFactor
+    property alias tileAspectRatio: carousel.tileAspectRatio
 
-        property bool explicitlyScaled
-        property var model
+    currentItem: carousel.currentItem
+    height: carousel.implicitHeight + units.gu(6)
+    verticalSpacing: units.gu(3)
+
+    CardTool {
+        id: cardTool
+
+        template: genericFilterGrid.template
+        components: genericFilterGrid.components
+        viewWidth: cardCarousel.width
     }
 
-    // onClicked: cardCarousel.clicked(index, itemY)
-    // onPressAndHold: cardCarousel.pressAndHold(index, itemY)
+    Carousel {
+        id: carousel
+        anchors.fill: parent
+        tileAspectRatio: cardCarousel.components && cardCarousel.components["art"]["aspect-ratio"] || 1.0
+        // FIXME we need to "reverse" the carousel to make the selected item the size
+        // and push others back.
+        minimumTileWidth: cardTool.cardWidth / selectedItemScaleFactor
+        selectedItemScaleFactor: 1.38
+        cacheBuffer: 1404 // 18px * 13gu * 6
+        model: cardCarousel.model
+        highlightIndex: cardCarousel.highlightIndex
+
+        onClicked: cardCarousel.clicked(index, itemY)
+        onPressAndHold: cardCarousel.pressAndHold(index, itemY)
+
+        itemComponent: Card {
+            id: card
+            objectName: "delegate" + index
+            width: cardTool.cardWidth / carousel.selectedItemScaleFactor
+            height: cardTool.cardWidth / carousel.selectedItemScaleFactor
+            cardData: model
+            template: cardCarousel.template
+            components: cardCarousel.components
+
+            property bool explicitlyScaled
+            property var model
+        }
+    }
 }
