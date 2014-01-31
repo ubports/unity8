@@ -20,8 +20,6 @@ import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1
 
 PreviewWidget {
-    id: root
-
     implicitHeight: childrenRect.height
 
     function stop() {
