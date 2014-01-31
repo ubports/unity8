@@ -27,23 +27,24 @@ Rectangle {
     height: units.gu(80)
     color: "grey"
 
-    property var tracksModel0: [
-    ]
+    property var tracksModel0: {
+        "tracks": [ ]
+    }
 
-    property var tracksModel1: [
-        { title: "Some track name", length: "30", source: "../../tests/qmltests/Dash/Music/data/testsound1.ogg" }
-    ]
+    property var tracksModel1: {
+        "tracks": [ { title: "Some track name", length: "30", source: "../../tests/qmltests/Dash/Music/data/testsound1.ogg" } ]
+    }
 
-    property var tracksModel2: [
-        { title: "Some track name", length: "30", source: "../../tests/qmltests/Dash/Music/data/testsound1.ogg" },
-        { title: "Some other track name", subtitle: "Subtitle", length: "83", source: "../../tests/qmltests/Dash/Music/data/testsound2.ogg" },
-        { title: "And another one", length: "7425", source: "../../tests/qmltests/Dash/Music/data/testsound3.ogg" }
-    ]
+    property var tracksModel2: {
+        "tracks": [ { title: "Some track name", length: "30", source: "../../tests/qmltests/Dash/Music/data/testsound1.ogg" },
+                    { title: "Some other track name", subtitle: "Subtitle", length: "83", source: "../../tests/qmltests/Dash/Music/data/testsound2.ogg" },
+                    { title: "And another one", length: "7425", source: "../../tests/qmltests/Dash/Music/data/testsound3.ogg" } ]
+    }
 
     AudioPlayer {
         id: audioPlayer
         anchors.fill: parent
-        data: tracksModel2
+        widgetData: tracksModel2
     }
 
     UT.UnityTestCase {
@@ -63,19 +64,19 @@ Rectangle {
         }
 
         function test_tracks(data) {
-            audioPlayer.data = data.tracksModel;
+            audioPlayer.widgetData = data.tracksModel;
             waitForRendering(audioPlayer);
 
             var trackRepeater = findChild(audioPlayer, "trackRepeater");
-            compare(trackRepeater.count, data.tracksModel.length)
+            compare(trackRepeater.count, data.tracksModel["tracks"].length)
 
-            for (var i = 0; i < data.tracksModel.length; ++i) {
+            for (var i = 0; i < data.tracksModel["tracks"].length; ++i) {
                 var trackItem = findChild(audioPlayer, "trackItem" + i);
                 var titleLabel = findChild(trackItem, "trackTitleLabel");
-                compare(titleLabel.text, data.tracksModel[i]["title"])
+                compare(titleLabel.text, data.tracksModel["tracks"][i]["title"])
                 var subtitleLabel = findChild(trackItem, "trackSubtitleLabel");
-                if (data.tracksModel[i]["subtitle"] !== undefined) {
-                    compare(subtitleLabel.text, data.tracksModel[i]["subtitle"])
+                if (data.tracksModel["tracks"][i]["subtitle"] !== undefined) {
+                    compare(subtitleLabel.text, data.tracksModel["tracks"][i]["subtitle"])
                 } else {
                     compare(subtitleLabel.visible, false)
                 }
@@ -84,14 +85,14 @@ Rectangle {
         }
 
         function checkPlayerSource(index) {
-            var modelFilename = audioPlayer.data[index]["source"].replace(/^.*[\\\/]/, '');
+            var modelFilename = audioPlayer.widgetData["tracks"][index]["source"].replace(/^.*[\\\/]/, '');
             var playerFilename = findInvisibleChild(audioPlayer, "audio").source.toString().replace(/^.*[\\\/]/, '');
 
             compare(modelFilename, playerFilename, "Player source is not set correctly.");
         }
 
         function test_playback() {
-            audioPlayer.data = tracksModel2;
+            audioPlayer.widgetData = tracksModel2;
             waitForRendering(audioPlayer);
 
             var track0Item = findChild(audioPlayer, "trackItem0");
@@ -155,7 +156,7 @@ Rectangle {
             tryCompare(track2ProgressBar, "visible", true);
 
             // Calling stop() should make all players shut up!
-            audioPlayer.stop()
+            audioPlayer.focused = false
             tryCompare(audio, "playbackState", Audio.StoppedState);
         }
     }
