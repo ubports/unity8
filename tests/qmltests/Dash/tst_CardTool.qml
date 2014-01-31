@@ -73,21 +73,20 @@ Rectangle {
 
     property var cardsModel: [
         {
-            "name": "Art, header, summary - vertical",
+            "name": "Art, header, summary",
             "layout": { "components": JSON.parse(fullMapping) }
         },
         {
-            "name": "Art, header, summary - vertical, small",
+            "name": "Art, header, summary - small",
             "layout": { "template": { "card-size": "small" }, "components": JSON.parse(fullMapping) }
         },
         {
-            "name": "Art, header, summary - vertical, large",
+            "name": "Art, header, summary - large",
             "layout": { "template": { "card-size": "large" }, "components": JSON.parse(fullMapping) }
         },
         {
-            "name": "Header title only - horizontal",
-            "layout": { "template": { "card-layout": "horizontal" },
-                        "components": { "title": "title" } }
+            "name": "Header title only",
+            "layout": { "components": { "title": "title" } }
         },
     ]
 

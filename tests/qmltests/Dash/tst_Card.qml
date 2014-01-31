@@ -82,23 +82,23 @@ Rectangle {
 
     property var cardsModel: [
         {
-            "name": "Art, header, summary - vertical",
+            "name": "Art, header, summary",
             "layout": { "components": JSON.parse(fullMapping) }
         },
         {
-            "name": "Art, header, summary - vertical, small",
+            "name": "Art, header, summary - small",
             "layout": { "template": { "card-size": "small" }, "components": JSON.parse(fullMapping) }
         },
         {
-            "name": "Art, header, summary - vertical, large",
+            "name": "Art, header, summary - large",
             "layout": { "template": { "card-size": "large" }, "components": JSON.parse(fullMapping) }
         },
         {
-            "name": "Art, header, summary - vertical, wide",
+            "name": "Art, header, summary - wide",
             "layout": { "components": Helpers.update(JSON.parse(root.fullMapping), { "art": { "aspect-ratio": 2 } }) }
         },
         {
-            "name": "Art, title - vertical, fitted",
+            "name": "Art, title - fitted",
             "layout": { "components": Helpers.update(JSON.parse(root.fullMapping), { "art": { "fill-mode": "fit" } }) }
         },
         {
@@ -107,17 +107,16 @@ Rectangle {
                         "components": JSON.parse(fullMapping) }
         },
         {
-            "name": "Art, header - vertical",
+            "name": "Art, header",
             "layout": { "components": Helpers.update(JSON.parse(root.fullMapping), { "summary": undefined }) }
         },
         {
-            "name": "Art, summary - vertical",
+            "name": "Art, summary",
             "layout": { "components": { "art": "art", "summary": "summary" } }
         },
         {
-            "name": "Header title only - horizontal",
-            "layout": { "template": { "card-layout": "horizontal" },
-                        "components": { "title": "title" } }
+            "name": "Header title only",
+            "layout": { "components": { "title": "title" } }
         },
     ]
 
