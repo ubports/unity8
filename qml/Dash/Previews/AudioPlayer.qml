@@ -19,10 +19,8 @@ import QtMultimedia 5.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1
 
-Item {
+PreviewWidget {
     id: root
-
-    property alias model: trackRepeater.model
 
     implicitHeight: childrenRect.height
 
@@ -51,6 +49,8 @@ Item {
         Repeater {
             id: trackRepeater
             objectName: "trackRepeater"
+
+            model: data
 
             delegate: Item {
                 id: trackItem

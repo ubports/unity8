@@ -43,7 +43,7 @@ Rectangle {
     AudioPlayer {
         id: audioPlayer
         anchors.fill: parent
-        model: tracksModel2
+        data: tracksModel2
     }
 
     UT.UnityTestCase {
@@ -63,7 +63,7 @@ Rectangle {
         }
 
         function test_tracks(data) {
-            audioPlayer.model = data.tracksModel;
+            audioPlayer.data = data.tracksModel;
             waitForRendering(audioPlayer);
 
             var trackRepeater = findChild(audioPlayer, "trackRepeater");
@@ -84,14 +84,14 @@ Rectangle {
         }
 
         function checkPlayerSource(index) {
-            var modelFilename = audioPlayer.model[index]["source"].replace(/^.*[\\\/]/, '');
+            var modelFilename = audioPlayer.data[index]["source"].replace(/^.*[\\\/]/, '');
             var playerFilename = findInvisibleChild(audioPlayer, "audio").source.toString().replace(/^.*[\\\/]/, '');
 
             compare(modelFilename, playerFilename, "Player source is not set correctly.");
         }
 
         function test_playback() {
-            audioPlayer.model = tracksModel2;
+            audioPlayer.data = tracksModel2;
             waitForRendering(audioPlayer);
 
             var track0Item = findChild(audioPlayer, "trackItem0");
