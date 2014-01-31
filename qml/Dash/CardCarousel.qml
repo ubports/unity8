@@ -35,8 +35,8 @@ DashRenderer {
     CardTool {
         id: cardTool
 
-        template: genericFilterGrid.template
-        components: genericFilterGrid.components
+        template: cardCarousel.template
+        components: cardCarousel.components
         viewWidth: cardCarousel.width
     }
 
@@ -58,8 +58,6 @@ DashRenderer {
         itemComponent: Card {
             id: card
             objectName: "delegate" + index
-            width: cardTool.cardWidth / carousel.selectedItemScaleFactor
-            height: cardTool.cardWidth / carousel.selectedItemScaleFactor
             cardData: model
             template: cardCarousel.template
             components: cardCarousel.components
