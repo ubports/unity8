@@ -55,6 +55,21 @@ Rectangle {
             waitForRendering(audioPlayer);
         }
 
+        function test_time_formatter_data() {
+            return [
+                    { tag: "0", value: 0, result: "" },
+                    { tag: "-1", value: -1, result: "" },
+                    { tag: "30", value: 30, result: "0:30" },
+                    { tag: "60", value: 60, result: "1:00" },
+                    { tag: "3600", value: 3600, result: "1:00:00" }
+            ];
+        }
+
+        function test_time_formatter(data) {
+            var audio = findInvisibleChild(audioPlayer, "audio");
+            compare(audio.lengthToString(data.value), data.result)
+        }
+
         function test_tracks_data() {
             return [
                     {tag: "0 tracks", tracksModel: tracksModel0},

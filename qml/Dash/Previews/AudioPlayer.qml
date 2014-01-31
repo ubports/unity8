@@ -37,6 +37,21 @@ PreviewWidget {
         }
 
         onErrorStringChanged: console.warn("Audio player error:", errorString)
+
+        function lengthToString(s) {
+            if (s <= 0 || s === undefined) return ""
+
+            var sec = "" + s % 60
+            if (sec.length == 1) sec = "0" + sec
+            var hour = Math.floor(s / 3600)
+            if (hour < 1) {
+                return Math.floor(s / 60) + ":" + sec
+            } else {
+                var min = "" + Math.floor(s / 60) % 60
+                if (min.length == 1) min = "0" + min
+                return hour + ":" + min + ":" + sec
+            }
+        }
     }
 
     Column {
@@ -170,24 +185,9 @@ PreviewWidget {
                         color: "white"
                         fontSize: "small"
                         horizontalAlignment: Text.AlignRight
-                        text: lengthToString(modelData["length"])
+                        text: audio.lengthToString(modelData["length"])
                         style: Text.Raised
                         styleColor: "black"
-
-                        function lengthToString(s) {
-                            if (s <= 0 || s === undefined) return ""
-
-                            var sec = "" + s % 60
-                            if (sec.length == 1) sec = "0" + sec
-                            var hour = Math.floor(s / 3600)
-                            if (hour < 1) {
-                                return Math.floor(s / 60) + ":" + sec
-                            } else {
-                                var min = "" + Math.floor(s / 60) % 60
-                                if (min.length == 1) min = "0" + min
-                                return hour + ":" + min + ":" + sec
-                            }
-                        }
                     }
                 }
             }
