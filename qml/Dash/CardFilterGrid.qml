@@ -37,6 +37,8 @@ DashFilterGrid {
         height: genericFilterGrid.cellHeight
         Card {
             id: card
+            width: cardTool.cardWidth
+            height: cardTool.cardHeight
             anchors.horizontalCenter: parent.horizontalCenter
             objectName: "delegate" + index
             cardData: model
