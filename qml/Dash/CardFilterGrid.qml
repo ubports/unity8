@@ -27,13 +27,13 @@ DashFilterGrid {
     verticalSpacing: units.gu(2)
 
     delegate: Card {
-        id: tile
+        id: card
         objectName: "delegate" + index
         cardData: model
         template: genericFilterGrid.template
         components: genericFilterGrid.components
 
-        //onClicked: genericFilterGrid.clicked(index, tile.y)
-        //onPressAndHold: genericFilterGrid.pressAndHold(index, tile.y)
+        onClicked: genericFilterGrid.clicked(index, card.y)
+        onPressAndHold: genericFilterGrid.pressAndHold(index, card.y)
     }
 }

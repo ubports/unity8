@@ -200,13 +200,11 @@ FocusScope {
 
                         if ((scopeView.scope.id == "applications.scope" && categoryId == "installed")
                                 || (scopeView.scope.id == "home.scope" && categoryId == "applications.scope")) {
-                            scopeView.scope.activate(item.uri, item.icon, item.category, 0, item.mimetype, item.title,
-                                                     item.comment, item.dndUri, item.metadata)
+                            scopeView.scope.activate(item.result)
                         } else {
                             previewListView.open = true
 
-                            scopeView.scope.preview(item.uri, item.icon, item.category, 0, item.mimetype, item.title,
-                                                    item.comment, item.dndUri, item.metadata)
+                            scopeView.scope.preview(item.result)
                         }
                     }
                     onPressAndHold: {
