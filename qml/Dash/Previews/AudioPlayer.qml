@@ -19,16 +19,11 @@ import QtMultimedia 5.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1
 
-Item {
+PreviewWidget {
     id: root
-
-    property alias model: trackRepeater.model
-
     implicitHeight: childrenRect.height
 
-    function stop() {
-        audio.stop()
-    }
+    onFocusedChanged: if (!focused) audio.stop()
 
     Audio {
         id: audio
@@ -42,6 +37,21 @@ Item {
         }
 
         onErrorStringChanged: console.warn("Audio player error:", errorString)
+
+        function lengthToString(s) {
+            if (s <= 0 || s === undefined) return ""
+
+            var sec = "" + s % 60
+            if (sec.length == 1) sec = "0" + sec
+            var hour = Math.floor(s / 3600)
+            if (hour < 1) {
+                return Math.floor(s / 60) + ":" + sec
+            } else {
+                var min = "" + Math.floor(s / 60) % 60
+                if (min.length == 1) min = "0" + min
+                return hour + ":" + min + ":" + sec
+            }
+        }
     }
 
     Column {
@@ -51,6 +61,7 @@ Item {
         Repeater {
             id: trackRepeater
             objectName: "trackRepeater"
+            model: root.widgetData["tracks"]
 
             delegate: Item {
                 id: trackItem
@@ -174,24 +185,9 @@ Item {
                         color: "white"
                         fontSize: "small"
                         horizontalAlignment: Text.AlignRight
-                        text: lengthToString(modelData["length"])
+                        text: audio.lengthToString(modelData["length"])
                         style: Text.Raised
                         styleColor: "black"
-
-                        function lengthToString(s) {
-                            if (s <= 0 || s === undefined) return ""
-
-                            var sec = "" + s % 60
-                            if (sec.length == 1) sec = "0" + sec
-                            var hour = Math.floor(s / 3600)
-                            if (hour < 1) {
-                                return Math.floor(s / 60) + ":" + sec
-                            } else {
-                                var min = "" + Math.floor(s / 60) % 60
-                                if (min.length == 1) min = "0" + min
-                                return hour + ":" + min + ":" + sec
-                            }
-                        }
                     }
                 }
             }
