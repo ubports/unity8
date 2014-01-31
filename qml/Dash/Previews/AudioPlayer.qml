@@ -138,7 +138,7 @@ PreviewWidget {
                             id: trackSubtitleLabel
                             objectName: "trackSubtitleLabel"
                             anchors { top: trackTitleLabel.bottom; left: parent.left; right: parent.right }
-                            visible: text != ""
+                            visible: text !== ""
                             opacity: 0.9
                             color: "white"
                             fontSize: "small"
