@@ -27,66 +27,22 @@ Rectangle {
     height: units.gu(72)
     color: "#88FFFFFF"
 
-    property string defaultLayout: '
-    {
-      "schema-version": 1,
-      "template": {
-        "category-layout": "grid",
-        "card-layout": "vertical",
-        "card-size": "medium",
-        "overlay-mode": null,
-        "collapsed-rows": 2
-      },
-      "components": {
-        "title": null,
-        "art": {
-            "aspect-ratio": 1.0,
-            "fill-mode": "crop"
-        },
-        "subtitle": null,
-        "mascot": null,
-        "emblem": null,
-        "old-price": null,
-        "price": null,
-        "alt-price": null,
-        "rating": {
-          "type": "stars",
-          "range": [0, 5],
-          "full": "image://theme/rating-star-full",
-          "half": "image://theme/rating-star-half",
-          "empty": "image://theme/rating-star-empty"
-        },
-        "alt-rating": null,
-        "summary": null
-      },
-      "resources": {}
-    }'
-
-    property string fullMapping: '
-    {
-      "title": "title",
-      "art": "art",
-      "subtitle": "subtitle",
-      "mascot": "mascot",
-      "summary": "summary"
-    }'
-
     property var cardsModel: [
         {
             "name": "Art, header, summary",
-            "layout": { "components": JSON.parse(fullMapping) }
+            "layout": { "components": JSON.parse(Helpers.fullMapping) }
         },
         {
             "name": "Art, header, summary - small",
-            "layout": { "template": { "card-size": "small" }, "components": JSON.parse(fullMapping) }
+            "layout": { "template": { "card-size": "small" }, "components": JSON.parse(Helpers.fullMapping) }
         },
         {
             "name": "Art, header, summary - large",
-            "layout": { "template": { "card-size": "large" }, "components": JSON.parse(fullMapping) }
+            "layout": { "template": { "card-size": "large" }, "components": JSON.parse(Helpers.fullMapping) }
         },
         {
             "name": "Art, header, summary - horizontal",
-            "layout": { "template": { "card-layout": "horizontal" }, "components": JSON.parse(fullMapping) }
+            "layout": { "template": { "card-layout": "horizontal" }, "components": JSON.parse(Helpers.fullMapping) }
         },
         {
             "name": "Header title only",
@@ -97,8 +53,8 @@ Rectangle {
     CardTool {
         id: cardTool
 
-        template: Helpers.update(JSON.parse(root.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['template'];
-        components: Helpers.update(JSON.parse(root.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['components'];
+        template: Helpers.update(JSON.parse(Helpers.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['template'];
+        components: Helpers.update(JSON.parse(Helpers.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['components'];
     }
 
     Column {

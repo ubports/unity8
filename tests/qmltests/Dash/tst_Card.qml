@@ -27,41 +27,6 @@ Rectangle {
     height: units.gu(72)
     color: "#88FFFFFF"
 
-    property string defaultLayout: '
-    {
-      "schema-version": 1,
-      "template": {
-        "category-layout": "grid",
-        "card-layout": "vertical",
-        "card-size": "medium",
-        "overlay-mode": null,
-        "collapsed-rows": 2
-      },
-      "components": {
-        "title": null,
-        "art": {
-            "aspect-ratio": 1.0,
-            "fill-mode": "crop"
-        },
-        "subtitle": null,
-        "mascot": null,
-        "emblem": null,
-        "old-price": null,
-        "price": null,
-        "alt-price": null,
-        "rating": {
-          "type": "stars",
-          "range": [0, 5],
-          "full": "image://theme/rating-star-full",
-          "half": "image://theme/rating-star-half",
-          "empty": "image://theme/rating-star-empty"
-        },
-        "alt-rating": null,
-        "summary": null
-      },
-      "resources": {}
-    }'
-
     property string cardData: '
     {
       "art": "../../tests/qmltests/Dash/artwork/music-player-design.png",
@@ -71,44 +36,35 @@ Rectangle {
       "summary": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
     }'
 
-    property string fullMapping: '
-    {
-      "title": "title",
-      "art": "art",
-      "subtitle": "subtitle",
-      "mascot": "mascot",
-      "summary": "summary"
-    }'
-
     property var cardsModel: [
         {
             "name": "Art, header, summary",
-            "layout": { "components": JSON.parse(fullMapping) }
+            "layout": { "components": JSON.parse(Helpers.fullMapping) }
         },
         {
             "name": "Art, header, summary - small",
-            "layout": { "template": { "card-size": "small" }, "components": JSON.parse(fullMapping) }
+            "layout": { "template": { "card-size": "small" }, "components": JSON.parse(Helpers.fullMapping) }
         },
         {
             "name": "Art, header, summary - large",
-            "layout": { "template": { "card-size": "large" }, "components": JSON.parse(fullMapping) }
+            "layout": { "template": { "card-size": "large" }, "components": JSON.parse(Helpers.fullMapping) }
         },
         {
             "name": "Art, header, summary - wide",
-            "layout": { "components": Helpers.update(JSON.parse(root.fullMapping), { "art": { "aspect-ratio": 2 } }) }
+            "layout": { "components": Helpers.update(JSON.parse(Helpers.fullMapping), { "art": { "aspect-ratio": 2 } }) }
         },
         {
             "name": "Art, title - fitted",
-            "layout": { "components": Helpers.update(JSON.parse(root.fullMapping), { "art": { "fill-mode": "fit" } }) }
+            "layout": { "components": Helpers.update(JSON.parse(Helpers.fullMapping), { "art": { "fill-mode": "fit" } }) }
         },
         {
             "name": "Art, header, summary - horizontal",
             "layout": { "template": { "card-layout": "horizontal" },
-                        "components": JSON.parse(fullMapping) }
+                        "components": JSON.parse(Helpers.fullMapping) }
         },
         {
             "name": "Art, header",
-            "layout": { "components": Helpers.update(JSON.parse(root.fullMapping), { "summary": undefined }) }
+            "layout": { "components": Helpers.update(JSON.parse(Helpers.fullMapping), { "summary": undefined }) }
         },
         {
             "name": "Art, summary",
@@ -133,8 +89,8 @@ Rectangle {
         width: cardTool.cardWidth || implicitWidth
         height: cardTool.cardHeight || implicitHeight
 
-        template: Helpers.update(JSON.parse(root.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['template'];
-        components: Helpers.update(JSON.parse(root.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['components'];
+        template: Helpers.update(JSON.parse(Helpers.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['template'];
+        components: Helpers.update(JSON.parse(Helpers.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['components'];
         cardData: Helpers.mapData(dataArea.text, components, dataError)
     }
 
