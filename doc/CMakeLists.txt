@@ -33,5 +33,6 @@ else()
                        DEPENDS ${PROJECT_BINARY_DIR}/doc/Doxyfile ${DOC_FILES})
     add_custom_target(doc DEPENDS ${PROJECT_BINARY_DIR}/doc/${PROJECT_NAME}/index.html)
     install(DIRECTORY ${PROJECT_BINARY_DIR}/doc/${PROJECT_NAME}
-            DESTINATION ${CMAKE_INSTALL_PREFIX}/share/doc)
+            DESTINATION ${CMAKE_INSTALL_PREFIX}/share/doc
+            OPTIONAL)
 endif()
