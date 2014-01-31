@@ -33,6 +33,30 @@ Rectangle {
             "layout": { "components": JSON.parse(Helpers.fullMapping) }
         },
         {
+            "name": "Header, summary",
+            "layout": { "components": Helpers.update(JSON.parse(Helpers.fullMapping), { "art": undefined }) }
+        },
+        {
+            "name": "Art, header",
+            "layout": { "components": Helpers.update(JSON.parse(Helpers.fullMapping), { "summary": undefined }) }
+        },
+        {
+            "name": "Header only",
+            "layout": { "components": Helpers.update(JSON.parse(Helpers.fullMapping), { "art": undefined, "summary": undefined }) }
+        },
+        {
+            "name": "Header title only",
+            "layout": { "components": { "title": "title" } }
+        },
+        {
+            "name": "Header title and subtitle",
+            "layout": { "components": { "title": "title", "subtitle": "subtitle" } }
+        },
+        {
+            "name": "Header title and mascot",
+            "layout": { "components": { "title": "title", "mascot": "mascot" } }
+        },
+        {
             "name": "Art, header, summary - small",
             "layout": { "template": { "card-size": "small" }, "components": JSON.parse(Helpers.fullMapping) }
         },
@@ -43,11 +67,7 @@ Rectangle {
         {
             "name": "Art, header, summary - horizontal",
             "layout": { "template": { "card-layout": "horizontal" }, "components": JSON.parse(Helpers.fullMapping) }
-        },
-        {
-            "name": "Header title only",
-            "layout": { "components": { "title": "title" } }
-        },
+        }
     ]
 
     CardTool {
@@ -206,9 +226,14 @@ Rectangle {
         function test_card_size_data() {
             return [
                 { tag: "Medium", width: units.gu(18.5), height: function() { return card.height }, index: 0 },
-                { tag: "Small", width: units.gu(12), height: function() { return card.height }, index: 1 },
-                { tag: "Large", width: units.gu(38), height: function() { return card.height }, index: 2 },
-                { tag: "Horizontal", width: units.gu(38), height: function() { return card.height }, index: 3 },
+                { tag: "No art", width: units.gu(18.5), height: function() { return card.height }, index: 1 },
+                { tag: "No summary", width: units.gu(18.5), height: function() { return card.height }, index: 2 },
+                { tag: "Just header", width: units.gu(18.5), height: function() { return card.height }, index: 3 },
+                { tag: "Just title", width: units.gu(18.5), height: function() { return card.height }, index: 4 },
+                { tag: "Title and subtitle", width: units.gu(18.5), height: function() { return card.height }, index: 5 },
+                { tag: "Title and mascot", width: units.gu(18.5), height: function() { return card.height }, index: 6 },
+                { tag: "Small", width: units.gu(12), height: function() { return card.height }, index: 7 },
+                { tag: "Large", width: units.gu(38), height: function() { return card.height }, index: 8 },
                 { tag: "OrganicGrid", width: undefined, height: undefined, index: 0, layout_index: 1},
                 { tag: "Journal", width: undefined, height: units.gu(20), size: 20, index: 0, layout_index: 2 },
                 { tag: "OversizedJournal", width: undefined, height: units.gu(18.5), size: 40, index: 0, layout_index: 2 },
