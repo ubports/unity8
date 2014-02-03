@@ -110,115 +110,90 @@ SpreadDelegate {
                 return priv.selectedXTranslate;
             }
 
-            var translation = 0;
             switch (index) {
             case 0:
                 if (spreadView.stage == 0) {
-                    translation = linearAnimation(0, spreadView.positionMarker2, 0, -spreadView.width * .25, root.animatedProgress)
-                    break;
+                    return linearAnimation(0, spreadView.positionMarker2, 0, -spreadView.width * .25, root.animatedProgress)
                 } else if (spreadView.stage == 1){
-                    translation = linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, -spreadView.width * .25, priv.stage2startTranslate, root.progress)
-                    break;
+                    return linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, -spreadView.width * .25, priv.stage2startTranslate, root.progress)
                 } else if (!priv.isSelected){ // Stage 2
-                    // Move the first tile a bit to the right to be aligned with the others
-                    translation += spreadView.width
-                    // apply the same animation as with the rest
-                    translation += -easingCurve.value * spreadView.width
-                    break;
+                    // Apply the same animation as with the rest but add spreadView.width to align it with the others.
+                    return -easingCurve.value * spreadView.width + spreadView.width
                 } else if (priv.isSelected) {
-                    translation = linearAnimation(selectedProgress, negativeProgress, selectedXTranslate, 0, root.progress)
-                    break;
+                    return linearAnimation(selectedProgress, negativeProgress, selectedXTranslate, 0, root.progress)
                 }
 
             case 1:
                 if (spreadView.stage == 0 && !priv.isSelected) {
-                    translation = linearAnimation(0, spreadView.positionMarker2, 0, -spreadView.width * spreadView.snapPosition, root.animatedProgress)
-                    break;
+                    return linearAnimation(0, spreadView.positionMarker2, 0, -spreadView.width * spreadView.snapPosition, root.animatedProgress)
                 } else if (spreadView.stage == 1 && !priv.isSelected) {
-                    translation = linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4,
+                    return linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4,
                                                    -spreadView.width * spreadView.snapPosition, priv.stage2startTranslate, root.progress);
-                    break;
-                }
-
-            default:
-                // Fix it at the right edge...
-                translation +=  -((index - 1) * root.startDistance)
-                // ...and use our easing to move them to the left. Stop a bit earlier for each tile
-                translation += -easingCurve.value * spreadView.width + (index * root.endDistance)
-                if (priv.isSelected) {
-                    // Distance to left edge
-                    var targetTranslate = -spreadView.width - ((index - 1) * root.startDistance)
-                    translation = linearAnimation(selectedProgress, negativeProgress, selectedXTranslate, targetTranslate, root.progress)
                 }
             }
-            return translation;
+
+            if (priv.isSelected) {
+                // Distance to left edge
+                var targetTranslate = -spreadView.width - ((index - 1) * root.startDistance)
+                return linearAnimation(selectedProgress, negativeProgress, selectedXTranslate, targetTranslate, root.progress)
+            }
+
+            // Fix it at the right edge...
+            var rightEdgeOffset =  -((index - 1) * root.startDistance)
+            // ...and use our easing to move them to the left. Stop a bit earlier for each tile
+            return -easingCurve.value * spreadView.width + (index * root.endDistance) + rightEdgeOffset
+
         }
+
         property real angle: {
             if (priv.otherSelected) {
                 return priv.selectedAngle
             }
-
-            var newAngle = 0;
+            if (priv.isSelected) {
+                return linearAnimation(selectedProgress, negativeProgress, selectedAngle, 0, root.progress)
+            }
             switch (index) {
             case 0:
                 if (spreadView.stage == 0) {
-                    newAngle = linearAnimation(0, spreadView.positionMarker2, 0, root.tile0SnapAngle, root.animatedProgress)
-                    break;
+                    return linearAnimation(0, spreadView.positionMarker2, 0, root.tile0SnapAngle, root.animatedProgress)
                 } else if (spreadView.stage == 1) {
-                    newAngle = linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, root.tile0SnapAngle, stage2startAngle, root.progress)
-                    break;
+                    return linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, root.tile0SnapAngle, stage2startAngle, root.progress)
                 }
             case 1:
-                if (spreadView.stage == 0 && !priv.isSelected) {
-                    newAngle = linearAnimation(0, spreadView.positionMarker2, root.startAngle, root.startAngle * (1-spreadView.snapPosition), root.animatedProgress)
-                    break;
-                } else if (spreadView.stage == 1 && !priv.isSelected) {
-                    newAngle = linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, root.startAngle * (1-spreadView.snapPosition), priv.stage2startAngle, root.progress)
-                    break;
-                }
-
-            default:
-                newAngle = root.startAngle - easingCurve.value * (root.startAngle - root.endAngle)
-                if (priv.isSelected) {
-                    newAngle = linearAnimation(selectedProgress, negativeProgress, selectedAngle, 0, root.progress)
+                if (spreadView.stage == 0) {
+                    return linearAnimation(0, spreadView.positionMarker2, root.startAngle, root.startAngle * (1-spreadView.snapPosition), root.animatedProgress)
+                } else if (spreadView.stage == 1) {
+                    return linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, root.startAngle * (1-spreadView.snapPosition), priv.stage2startAngle, root.progress)
                 }
             }
-
-            return newAngle;
+            return root.startAngle - easingCurve.value * (root.startAngle - root.endAngle)
         }
+
         property real scale: {
             if (priv.otherSelected) {
                 return priv.selectedScale;
             }
+            if (priv.isSelected) {
+                return linearAnimation(selectedProgress, negativeProgress, selectedScale, 1, root.progress)
+            }
 
-            var newScale = 1;
             switch (index) {
             case 0:
                 if (spreadView.stage == 0) {
-                    newScale = 1;
-                    break
+                    return 1;
                 } else if(spreadView.stage == 1) {
-                    newScale = linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, 1, stage2startScale, root.progress)
-                    break;
+                    return linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, 1, stage2startScale, root.progress)
                 }
             case 1:
-                if (spreadView.stage == 0 && !priv.isSelected) {
+                if (spreadView.stage == 0) {
                     var targetScale = tile1StartScale - ((tile1StartScale - 1) * spreadView.snapPosition);
-                    newScale = linearAnimation(0, spreadView.positionMarker2, root.tile1StartScale, targetScale, root.animatedProgress)
-                    break;
-                } else if (spreadView.stage == 1 && !priv.isSelected) {
+                    return linearAnimation(0, spreadView.positionMarker2, root.tile1StartScale, targetScale, root.animatedProgress)
+                } else if (spreadView.stage == 1) {
                     var startScale = tile1StartScale - ((tile1StartScale - 1) * spreadView.snapPosition);
-                    newScale = linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, startScale, priv.stage2startScale, root.progress)
-                    break;
-                }
-
-            default:
-                newScale = root.startScale - easingCurve.value * (root.startScale - root.endScale)
-                if (priv.isSelected) {
-                    newScale = linearAnimation(selectedProgress, negativeProgress, selectedScale, 1, root.progress)
+                    return linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, startScale, priv.stage2startScale, root.progress)
                 }
             }
-            return newScale;
+            return root.startScale - easingCurve.value * (root.startScale - root.endScale)
         }
 
         property real opacity: {
