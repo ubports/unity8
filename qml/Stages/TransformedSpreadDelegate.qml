@@ -16,7 +16,10 @@ SpreadDelegate {
 
     property real startScale: 1
     property real endScale: 1
+
+    // Specific to just one tile
     property real tile1StartScale: startScale + .4
+    property real tile0SnapAngle: 10
 
     property real startDistance: units.gu(5)
     property real endDistance: units.gu(.5)
@@ -151,10 +154,10 @@ SpreadDelegate {
             switch (index) {
             case 0:
                 if (spreadView.stage == 0) {
-                    newAngle = linearAnimation(0, spreadView.positionMarker2, 0, root.endAngle * spreadView.snapPosition, root.animatedProgress)
+                    newAngle = linearAnimation(0, spreadView.positionMarker2, 0, root.tile0SnapAngle, root.animatedProgress)
                     break;
                 } else if (spreadView.stage == 1) {
-                    newAngle = linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, root.endAngle * spreadView.snapPosition, stage2startAngle, root.progress)
+                    newAngle = linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, root.tile0SnapAngle, stage2startAngle, root.progress)
                     break;
                 }
             case 1:
