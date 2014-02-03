@@ -28,7 +28,6 @@ SpreadDelegate {
         if (selected) {
             priv.snapshot();
         }
-        print("setting selected to", selected)
         priv.isSelected = selected;
     }
 
@@ -88,8 +87,11 @@ SpreadDelegate {
         }
 
         property real negativeProgress: {
-            if (index < 2) {
+            switch (index) {
+            case 0:
                 return 0;
+            case 1:
+                return -spreadView.tileDistance / spreadView.width
             }
             return -spreadView.positionMarker2 -(index - 2) * (spreadView.tileDistance / spreadView.width);
         }

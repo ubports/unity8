@@ -192,11 +192,12 @@ Item {
                 priv.requestNewScreenshot();
                 spreadView.stage = 0;
                 attachedToView = true;
+                spreadView.contentX = -spreadView.shift;
             }
             if (dragging && !priv.waitingForScreenshot && attachedToView) {
-                spreadView.contentX = -touchX
+                spreadView.contentX = -touchX - spreadView.shift
             }
-            if (attachedToView && spreadView.contentX >= spreadView.width * spreadView.positionMarker3) {
+            if (attachedToView && spreadView.shiftedContentX >= spreadView.width * spreadView.positionMarker3) {
                 attachedToView = false;
                 spreadView.snap();
             }
@@ -240,8 +241,17 @@ Item {
     Flickable {
         id: spreadView
         anchors.fill: parent
-        visible: contentX > 0
-        contentWidth: spreadRow.width
+        visible: spreadDragArea.dragging || stage > 0 || snapAnimation.running
+        contentWidth: spreadRow.width - shift
+        contentX: -shift
+
+        // The flickable needs to fill the screen in order to get touch events all over.
+        // However, we don't want to the user to be able to scroll back all the way. For
+        // that, the beginning of the gesture starts with a negative value for contentX
+        // so the flickable wants to pull it into the view already. "shift" tunes the
+        // distance where to "lock" the content.
+        property real shift: width / 2
+        property real shiftedContentX: contentX + shift
 
         property int tileDistance: width / 4
 
@@ -266,46 +276,46 @@ Item {
         onContentXChanged: {
             switch (stage) {
             case 0:
-                if (contentX > width * positionMarker2) {
+                if (shiftedContentX > width * positionMarker2) {
                     stage = 1;
                 }
                 break;
             case 1:
-                if (contentX < width * positionMarker2) {
+                if (shiftedContentX < width * positionMarker2) {
                     stage = 0;
-                } else if (contentX >= width * positionMarker4) {
+                } else if (shiftedContentX >= width * positionMarker4) {
                     stage = 2;
                 }
             }
         }
 
         function snap() {
-            if (contentX < positionMarker1 * width) {
-                snapAnimation.targetContentX = 0;
+            if (shiftedContentX < positionMarker1 * width) {
+                snapAnimation.targetContentX = -shift;
                 snapAnimation.start();
-            } else if (contentX < positionMarker2 * width) {
+            } else if (shiftedContentX < positionMarker2 * width) {
                 print("selecting tile 1")
                 snapTo(1)
-            } else if (contentX < positionMarker3 * width) {
+            } else if (shiftedContentX < positionMarker3 * width) {
                 print("snappoing to stage1")
                 snapTo(1)
             } else if (stage < 2){
                 print("snappoing to stage2")
                 // Add 1 pixel to make sure we definitely hit positionMarker4 even with rounding errors of the animation.
-                snapAnimation.targetContentX = width * positionMarker4 + 1;
+                snapAnimation.targetContentX = width * positionMarker4 + 1 - shift;
                 snapAnimation.start();
             }
         }
         function snapTo(index) {
             spreadView.selectedIndex = index;
 
-            snapAnimation.targetContentX = 0;
+            snapAnimation.targetContentX = -shift;
             snapAnimation.start();
         }
 
         SequentialAnimation {
             id: snapAnimation
-            property int targetContentX: 0
+            property int targetContentX: -shift
 
             UbuntuNumberAnimation {
                 target: spreadView
@@ -316,17 +326,18 @@ Item {
             }
             ScriptAction {
                 script: {
-                    print("animation finished: stage", spreadView.stage, "contentX", spreadView.contentX, "focused app", ApplicationManager.get(0).appId, ApplicationManager.get(1).appId)
+//                    print("animation finished: stage", spreadView.stage, "contentX", spreadView.contentX, "focused app", ApplicationManager.get(0).appId, ApplicationManager.get(1).appId)
                     if (spreadView.selectedIndex >= 0) {
                         print("switching to app", snapAnimation.toIndex, ApplicationManager.get(spreadView.selectedIndex).name)
                         ApplicationManager.focusApplication(ApplicationManager.get(spreadView.selectedIndex).appId);
                         spreadView.selectedIndex = -1
-                        spreadView.contentX = 0;
+                        spreadView.stage = 0;
+                        spreadView.contentX = -spreadView.shift;
                     }
-                    if (spreadView.contentX == spreadView.width * spreadView.positionMarker2) {
+                    if (spreadView.shiftedContentX == spreadView.width * spreadView.positionMarker2) {
                         spreadView.stage = 4;
                         spreadView.stage = 0;
-                        spreadView.contentX = 0;
+                        spreadView.contentX = -spreadView.shift;
                     }
                     print("snapping done. stage:", spreadView.stage)
                 }
@@ -362,18 +373,18 @@ Item {
                     progress: {
                         switch (index) {
                         case 0:
-                            return spreadView.contentX / spreadView.width;
+                            return spreadView.shiftedContentX / spreadView.width;
                         case 1:
-                            var progress = spreadView.contentX / spreadView.width;
+                            var progress = spreadView.shiftedContentX / spreadView.width;
                             if (spreadView.stage == 2) {
                                 progress -= spreadView.tileDistance / spreadView.width;
                             }
-                            return Math.max(0, progress);
+                            return progress;
                         }
                         // This delays the progress for all tiles > 1 for the duration of stage 1
                         var stage1Distance = spreadView.positionMarker2 * spreadView.width;
                         var tileDistance = (index - 2) * spreadView.tileDistance;
-                        return (spreadView.contentX - stage1Distance - tileDistance) / spreadView.width;
+                        return (spreadView.shiftedContentX - stage1Distance - tileDistance) / spreadView.width;
                     }
 
                     animatedProgress: {
