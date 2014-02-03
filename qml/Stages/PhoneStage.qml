@@ -241,7 +241,7 @@ Item {
     Flickable {
         id: spreadView
         anchors.fill: parent
-        visible: spreadDragArea.dragging || stage > 0 || snapAnimation.running
+        visible: spreadDragArea.status == DirectionalDragArea.Recognized || stage > 0 || snapAnimation.running
         contentWidth: spreadRow.width - shift
         contentX: -shift
 
@@ -371,20 +371,12 @@ Item {
                     x: index == 0 ? 0 : spreadView.width + (index - 1) * spreadView.tileDistance
 
                     progress: {
-                        switch (index) {
-                        case 0:
-                            return spreadView.shiftedContentX / spreadView.width;
-                        case 1:
-                            var progress = spreadView.shiftedContentX / spreadView.width;
-                            if (spreadView.stage == 2) {
-                                progress -= spreadView.tileDistance / spreadView.width;
-                            }
-                            return progress;
+                        var tileProgress = (spreadView.shiftedContentX - index * spreadView.tileDistance) / spreadView.width
+                        // Tile 1 needs to move directly from the beginning...
+                        if (index == 1 && spreadView.stage < 2) {
+                            tileProgress += spreadView.tileDistance / spreadView.width
                         }
-                        // This delays the progress for all tiles > 1 for the duration of stage 1
-                        var stage1Distance = spreadView.positionMarker2 * spreadView.width;
-                        var tileDistance = (index - 2) * spreadView.tileDistance;
-                        return (spreadView.shiftedContentX - stage1Distance - tileDistance) / spreadView.width;
+                        return tileProgress;
                     }
 
                     animatedProgress: {
