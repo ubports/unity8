@@ -25,7 +25,7 @@ Rectangle {
     id: root
     width: units.gu(60)
     height: units.gu(80)
-    color: "grey"
+    color: Theme.palette.selected.background
 
     property var tracksModel0: {
         "tracks": [ ]
