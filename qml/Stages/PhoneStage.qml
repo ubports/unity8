@@ -93,7 +93,6 @@ Item {
         function switchToApp(appId) {
             priv.newFocusedAppId = appId;
             applicationSwitchingAnimation.start();
-            grantFocusTimer.start();
         }
 
     }
@@ -103,18 +102,6 @@ Item {
     Connections {
         target: priv.focusedApplication
         onScreenshotChanged: priv.focusedScreenshot = priv.focusedApplication.screenshot
-    }
-
-    Timer {
-        id: grantFocusTimer
-        // Delay the actual switch to be covered by the animation for sure.
-        // 1) If we switch before starting the animation, the Mir event loop paints before the Qt event loop => flickering
-        // 2) If we do the switch after the animation, the panel wouldn't fade in early enough.
-        interval: UbuntuAnimation.SlowDuration / 4
-        repeat: false
-        onTriggered: {
-            ApplicationManager.focusApplication(priv.newFocusedAppId);
-        }
     }
 
     Timer {
@@ -152,6 +139,7 @@ Item {
         }
 
         // restore stuff
+        ScriptAction { script: ApplicationManager.focusApplication(priv.newFocusedAppId); }
         PropertyAction { target: fadeInScreenshotImage; property: "visible"; value: false }
         PropertyAction { target: mainScreenshotImage; property: "visible"; value: false }
     }
