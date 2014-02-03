@@ -106,6 +106,10 @@ SpreadDelegate {
         }
 
         property real xTranslate: {
+            if (priv.otherSelected) {
+                return priv.selectedXTranslate;
+            }
+
             var translation = 0;
             switch (index) {
             case 0:
@@ -150,6 +154,10 @@ SpreadDelegate {
             return translation;
         }
         property real angle: {
+            if (priv.otherSelected) {
+                return priv.selectedAngle
+            }
+
             var newAngle = 0;
             switch (index) {
             case 0:
@@ -179,6 +187,10 @@ SpreadDelegate {
             return newAngle;
         }
         property real scale: {
+            if (priv.otherSelected) {
+                return priv.selectedScale;
+            }
+
             var newScale = 1;
             switch (index) {
             case 0:
