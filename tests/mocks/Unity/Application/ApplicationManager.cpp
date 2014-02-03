@@ -371,6 +371,7 @@ void ApplicationManager::buildListOfAvailableApplications()
 
     application = new ApplicationInfo(this);
     application->setAppId("webbrowser-app");
+    application->setFullscreen(true);
     application->setName("Browser");
     application->setIcon(QUrl("browser"));
     application->setScreenshot(QString("image://application/%1/%2").arg(application->appId()).arg(QDateTime::currentMSecsSinceEpoch()));

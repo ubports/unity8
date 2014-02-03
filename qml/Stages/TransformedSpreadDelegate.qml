@@ -198,7 +198,7 @@ SpreadDelegate {
 
         property real opacity: {
             if (otherSelected) {
-                return linearAnimation (selectedProgress, selectedProgress - .5, selectedOpacity, 0, root.progress)
+                return linearAnimation (selectedProgress, Math.max(0, selectedProgress - .5), selectedOpacity, 0, root.progress)
             }
             if (index  == 0) {
                 switch (spreadView.stage) {
