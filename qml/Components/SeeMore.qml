@@ -16,15 +16,19 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Ubuntu.Components.ListItems 0.1
 
 Item {
     property bool more: false
+
+    implicitHeight: seeMoreLabel.height + units.gu(2)
 
     Row {
         anchors.centerIn: parent
         spacing: units.gu(2)
 
         Label {
+            id: seeMoreLabel
             objectName: "seeMoreLabel"
             text: i18n.tr("See more")
             opacity: !more ? 0.8 : 0.4
@@ -34,6 +38,22 @@ Item {
             MouseArea {
                 anchors.fill: parent
                 onClicked: more = true
+            }
+        }
+
+        Row {
+            height: parent.height
+
+            Rectangle {
+                width: units.dp(1)
+                height: parent.height
+                opacity: 0.2
+                color: Theme.palette.selected.backgroundText
+            }
+            Rectangle {
+                width: units.dp(1)
+                height: parent.height
+                color: Qt.rgba(1.0, 1.0, 1.0, 0.1)
             }
         }
 

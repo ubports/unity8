@@ -20,6 +20,9 @@ import "../../Components"
 
 PreviewWidget {
     id: root
+
+    readonly property int __maximumCollapsedLineCount: 7
+
     implicitHeight: titleLabel.visible ? titleLabel.height + textLabel.height : textLabel.height
 
     Label {
@@ -39,32 +42,34 @@ PreviewWidget {
 
     Label {
         id: textLabel
+        objectName: "textLabel"
         anchors {
             left: parent.left
             right: parent.right
             top: titleLabel.visible ? titleLabel.bottom : parent.top
         }
+        height: (!seeMore.visible || seeMore.more) ? contentHeight : contentHeight / lineCount * (__maximumCollapsedLineCount - 2)
+        clip: true
         fontSize: "medium"
         color: Theme.palette.selected.backgroundText
         opacity: .8
         text: widgetData["text"]
         wrapMode: Text.Wrap
 
-        clip: true
         Behavior on height {
-            NumberAnimation { duration: 300 }
+            UbuntuNumberAnimation {}
         }
-
-        height: seeMore.more ? contentHeight : contentHeight / lineCount * 5
     }
 
     SeeMore {
         id: seeMore
+        objectName: "seeMore"
         anchors {
             left: parent.left
             right: parent.right
             top: textLabel.bottom
-            topMargin: units.gu(2)
+            topMargin: units.gu(1)
         }
+        visible: textLabel.lineCount > __maximumCollapsedLineCount
     }
 }
