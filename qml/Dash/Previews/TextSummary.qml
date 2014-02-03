@@ -16,12 +16,55 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import "../../Components"
 
-Label {
-    fontSize: "medium"
-    color: Theme.palette.selected.backgroundText
-    opacity: .6
-    wrapMode: Text.WordWrap
-    style: Text.Raised
-    styleColor: "black"
+PreviewWidget {
+    id: root
+    implicitHeight: titleLabel.visible ? titleLabel.height + textLabel.height : textLabel.height
+
+    Label {
+        id: titleLabel
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: parent.top
+        }
+        fontSize: "large"
+        color: Theme.palette.selected.backgroundText
+        visible: text !== ""
+        opacity: .8
+        text: widgetData["title"]
+        wrapMode: Text.Wrap
+    }
+
+    Label {
+        id: textLabel
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: titleLabel.visible ? titleLabel.bottom : parent.top
+        }
+        fontSize: "medium"
+        color: Theme.palette.selected.backgroundText
+        opacity: .8
+        text: widgetData["text"]
+        wrapMode: Text.Wrap
+
+        clip: true
+        Behavior on height {
+            NumberAnimation { duration: 300 }
+        }
+
+        height: seeMore.more ? contentHeight : contentHeight / lineCount * 5
+    }
+
+    SeeMore {
+        id: seeMore
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: textLabel.bottom
+            topMargin: units.gu(2)
+        }
+    }
 }
