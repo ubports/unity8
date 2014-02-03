@@ -56,10 +56,15 @@ Rectangle {
             var titleLabel = findChild(textSummary, "titleLabel")
 
             textSummary.widgetData = widgetDataComplete
+
             compare(titleLabel.visible, true)
+            var mappedTextLabel = root.mapFromItem(textLabel, 0, 0)
+            compare(mappedTextLabel.y, titleLabel.height)
 
             textSummary.widgetData = widgetDataNoTitle
-            tryCompare(titleLabel, "visible", false)
+
+            compare(titleLabel.visible, false)
+            verify(mappedTextLabel.y, 0)
         }
 
         function test_see_more() {
@@ -74,6 +79,7 @@ Rectangle {
             verify(textLabel.height < textLabel.contentHeight)
 
             textSummary.widgetData = widgetDataShortText
+
             verify(textLabel.lineCount <= 7)
             compare(seeMore.visible, false)
             tryCompare(textLabel, "height", textLabel.contentHeight)

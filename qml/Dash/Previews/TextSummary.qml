@@ -18,6 +18,10 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import "../../Components"
 
+/*! \brief Preview widget for text.
+
+    This widget shows an array */
+
 PreviewWidget {
     id: root
 
