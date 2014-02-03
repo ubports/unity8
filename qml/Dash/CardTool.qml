@@ -55,7 +55,7 @@ Item {
 
      If undefined, should use implicit width of the actual card.
      */
-    property var cardWidth: {
+    readonly property var cardWidth: {
         switch (template !== undefined && template["category-layout"]) {
             case "grid":
             case "vertical-journal":
@@ -83,7 +83,7 @@ Item {
 
      If undefined, should use implicit height of the actual card.
      */
-    property var cardHeight: {
+    readonly property var cardHeight: {
         switch (template !== undefined && template["category-layout"]) {
             case "journal":
                 if (template["card-size"] >= 12 && template["card-size"] <= 38) return units.gu(template["card-size"]);
@@ -100,7 +100,7 @@ Item {
         }
     }
 
-    property QtObject priv: card
+    readonly property QtObject priv: card
 
     Card {
         id: card
