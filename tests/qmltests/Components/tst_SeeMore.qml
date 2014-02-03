@@ -24,7 +24,7 @@ Rectangle {
     id: root
     width: units.gu(40)
     height: units.gu(10)
-    color: "lightgrey"
+    color: Theme.palette.selected.background
 
     SeeMore {
         id: seeMore

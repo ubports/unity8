@@ -27,6 +27,7 @@ PreviewWidget {
 
     Label {
         id: titleLabel
+        objectName: "titleLabel"
         anchors {
             left: parent.left
             right: parent.right
@@ -36,7 +37,7 @@ PreviewWidget {
         color: Theme.palette.selected.backgroundText
         visible: text !== ""
         opacity: .8
-        text: widgetData["title"]
+        text: widgetData["title"] ? widgetData["title"] : ""
         wrapMode: Text.Wrap
     }
 

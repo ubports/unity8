@@ -24,25 +24,59 @@ Rectangle {
     id: root
     width: units.gu(40)
     height: units.gu(80)
-    color: "lightgrey"
+    color: Theme.palette.selected.background
 
-    property var widgetData0: {
+    property var widgetDataComplete: {
         "title": "Title here",
-        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus a mi vitae augue rhoncus lobortis ut rutrum metus. Curabitur tortor leo, tristique sed mollis quis, condimentum venenatis nibh. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus a mi vitae augue rhoncus lobortis ut rutrum metus. Curabitur tortor leo, tristique sed mollis quis, condimentum venenatis nibh."
+        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nPhasellus a mi vitae augue rhoncus lobortis ut rutrum metus.\nCurabitur tortor leo, tristique sed mollis quis, condimentum venenatis nibh.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit.\nPhasellus a mi vitae augue rhoncus lobortis ut rutrum metus.\nCurabitur tortor leo, tristique sed mollis quis, condimentum venenatis nibh."
     }
 
-    property var widgetData1: {
-        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus a mi vitae augue rhoncus lobortis ut rutrum metus. Curabitur tortor leo, tristique sed mollis quis, condimentum venenatis nibh. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus a mi vitae augue rhoncus lobortis ut rutrum metus. Curabitur tortor leo, tristique sed mollis quis, condimentum venenatis nibh."
+    property var widgetDataShortText: {
+        "title": "Title here",
+        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nPhasellus a mi vitae augue rhoncus lobortis ut rutrum metus.\nCurabitur tortor leo, tristique sed mollis quis, condimentum venenatis nibh."
+}
+
+    property var widgetDataNoTitle: {
+        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nPhasellus a mi vitae augue rhoncus lobortis ut rutrum metus.\nCurabitur tortor leo, tristique sed mollis quis, condimentum venenatis nibh.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit.\nPhasellus a mi vitae augue rhoncus lobortis ut rutrum metus.\nCurabitur tortor leo, tristique sed mollis quis, condimentum venenatis nibh."
     }
 
     TextSummary {
         id: textSummary
         anchors.fill: parent
-        widgetData: widgetData0
+        widgetData: widgetDataComplete
     }
 
     UT.UnityTestCase {
         name: "TextSummaryTest"
         when: windowShown
+
+        property var textLabel: findChild(textSummary, "textLabel")
+
+        function test_optional_title() {
+            var titleLabel = findChild(textSummary, "titleLabel")
+
+            textSummary.widgetData = widgetDataComplete
+            compare(titleLabel.visible, true)
+
+            textSummary.widgetData = widgetDataNoTitle
+            tryCompare(titleLabel, "visible", false)
+        }
+
+        function test_see_more() {
+            var seeMore = findChild(textSummary, "seeMore")
+
+            textSummary.widgetData = widgetDataComplete
+
+            // when it's more than 7 lines of text, show SeeMore component
+            verify(textLabel.lineCount > 7)
+            compare(seeMore.visible, true)
+            verify(seeMore.more === false)
+            verify(textLabel.height < textLabel.contentHeight)
+
+            textSummary.widgetData = widgetDataShortText
+            verify(textLabel.lineCount <= 7)
+            compare(seeMore.visible, false)
+            tryCompare(textLabel, "height", textLabel.contentHeight)
+        }
     }
 }
