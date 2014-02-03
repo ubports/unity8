@@ -250,7 +250,7 @@ Item {
         property real positionMarker3: 0.6
         property real positionMarker4: .9
 
-        // This is where the first app snaps to when bringing it in to the right.
+        // This is where the first app snaps to when bringing it in from the right edge.
         property real snapPosition: 0.75
 
         // Stage of the animation:
