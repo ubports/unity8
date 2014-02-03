@@ -29,17 +29,17 @@ import QtQuick 2.0
 Item {
     id: cardTool
     /*!
-     Template supplied for the category.
+     \brief Template supplied for the category.
      */
     property var template
 
     /*!
-     Component mapping supplied for the category.
+     \brief Component mapping supplied for the category.
      */
     property var components
 
     /*!
-     Width of the view, based on which carousel width is calculated.
+     \brief Width of the view, based on which carousel width is calculated.
      */
     property var viewWidth
 
