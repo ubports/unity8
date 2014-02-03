@@ -125,12 +125,10 @@ PreviewWidget {
                             objectName: "trackTitleLabel"
                             anchors { top: parent.top; left: parent.left; right: parent.right }
                             opacity: 0.9
-                            color: "white"
+                            color: Theme.palette.selected.backgroundText
                             fontSize: "small"
                             horizontalAlignment: Text.AlignLeft
                             text: modelData["title"]
-                            style: Text.Raised
-                            styleColor: "black"
                             elide: Text.ElideRight
                         }
 
@@ -140,12 +138,10 @@ PreviewWidget {
                             anchors { top: trackTitleLabel.bottom; left: parent.left; right: parent.right }
                             visible: text !== ""
                             opacity: 0.9
-                            color: "white"
+                            color: Theme.palette.selected.backgroundText
                             fontSize: "small"
                             horizontalAlignment: Text.AlignLeft
                             text: modelData["subtitle"] !== undefined ? modelData["subtitle"] : ""
-                            style: Text.Raised
-                            styleColor: "black"
                             elide: Text.ElideRight
                         }
 
@@ -182,12 +178,10 @@ PreviewWidget {
                         anchors.verticalCenter: parent.verticalCenter
                         width: parent.column3Width
                         opacity: 0.9
-                        color: "white"
+                        color: Theme.palette.selected.backgroundText
                         fontSize: "small"
                         horizontalAlignment: Text.AlignRight
                         text: audio.lengthToString(modelData["length"])
-                        style: Text.Raised
-                        styleColor: "black"
                     }
                 }
             }
