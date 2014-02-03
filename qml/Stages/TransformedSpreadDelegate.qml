@@ -91,6 +91,9 @@ SpreadDelegate {
             case 0:
                 return 0;
             case 1:
+                if (spreadView.stage < 2) {
+                    return 0;
+                }
                 return -spreadView.tileDistance / spreadView.width
             }
             return -spreadView.positionMarker2 -(index - 2) * (spreadView.tileDistance / spreadView.width);
