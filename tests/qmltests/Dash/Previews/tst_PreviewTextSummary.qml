@@ -40,37 +40,37 @@ Rectangle {
         "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nPhasellus a mi vitae augue rhoncus lobortis ut rutrum metus.\nCurabitur tortor leo, tristique sed mollis quis, condimentum venenatis nibh."
     }
 
-    TextWidget {
-        id: textWidget
+    PreviewTextSummary {
+        id: previewTextSummary
         anchors.fill: parent
         widgetData: widgetDataComplete
     }
 
     UT.UnityTestCase {
-        name: "TextWidgetTest"
+        name: "PreviewTextSummaryTest"
         when: windowShown
 
-        property var textLabel: findChild(textWidget, "textLabel")
+        property var textLabel: findChild(previewTextSummary, "textLabel")
 
         function test_optional_title() {
-            var titleLabel = findChild(textWidget, "titleLabel")
+            var titleLabel = findChild(previewTextSummary, "titleLabel")
 
-            textWidget.widgetData = widgetDataComplete
+            previewTextSummary.widgetData = widgetDataComplete
 
             compare(titleLabel.visible, true)
             var mappedTextLabel = root.mapFromItem(textLabel, 0, 0)
             compare(mappedTextLabel.y, titleLabel.height)
 
-            textWidget.widgetData = widgetDataNoTitle
+            previewTextSummary.widgetData = widgetDataNoTitle
 
             compare(titleLabel.visible, false)
             verify(mappedTextLabel.y, 0)
         }
 
         function test_see_more() {
-            var seeMore = findChild(textWidget, "seeMore")
+            var seeMore = findChild(previewTextSummary, "seeMore")
 
-            textWidget.widgetData = widgetDataComplete
+            previewTextSummary.widgetData = widgetDataComplete
 
             // when it's more than 7 lines of text, show SeeMore component
             verify(textLabel.lineCount > 7)
@@ -90,7 +90,7 @@ Rectangle {
             tryCompare(textLabel, "height", initialTextLabelHeight)
 
             // text SeeMore automatic hiding
-            textWidget.widgetData = widgetDataShortText
+            previewTextSummary.widgetData = widgetDataShortText
 
             verify(textLabel.lineCount <= 7)
             compare(seeMore.visible, false)
