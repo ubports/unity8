@@ -23,7 +23,8 @@ import Ubuntu.Components.ListItems 0.1
 
     This widget shows tracks contained in widgetData["tracks"],
     with source specified by widgetData["source"] along with a title that comes from widgetData["title"],
-    a subtitle coming from widgetData["subtitle"] and length from widgetData["length"]. */
+    a subtitle coming from widgetData["subtitle"] and length from widgetData["length"].
+ */
 
 PreviewWidget {
     id: root
