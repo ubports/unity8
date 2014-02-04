@@ -32,13 +32,13 @@ Rectangle {
     }
 
     property var tracksModel1: {
-        "tracks": [ { title: "Some track name", length: "30", source: "../../tests/qmltests/Dash/Music/data/testsound1.ogg" } ]
+        "tracks": [ { title: "Some track name", length: "30", source: "/not/existing/path/testsound1" } ]
     }
 
     property var tracksModel2: {
-        "tracks": [ { title: "Some track name", length: "30", source: "not-existing_testsound1.ogg" },
-                    { title: "Some other track name", subtitle: "Subtitle", length: "83", source: "not-existing_testsound2.ogg" },
-                    { title: "And another one", length: "7425", source: "not-existing_testsound3.ogg" } ]
+        "tracks": [ { title: "Some track name", length: "30", source: "/not/existing/path/testsound1" },
+                    { title: "Some other track name", subtitle: "Subtitle", length: "83", source: "/not/existing/path/testsound2" },
+                    { title: "And another one", length: "7425", source: "/not/existing/path/testsound3" } ]
     }
 
     AudioPlayer {
