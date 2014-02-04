@@ -120,7 +120,6 @@ FocusScope {
         property bool fullyCovered: panel.indicators.fullyOpened && shell.width <= panel.indicatorsMenuWidth
 
         readonly property bool applicationRunning: ApplicationManager.focusedApplicationId.length > 0
-        onApplicationRunningChanged: print("***************+ application running", applicationRunning)
 
         // Whether the user should see the topmost application surface (if there's one at all).
         readonly property bool applicationSurfaceShouldBeSeen: applicationRunning && !stages.painting
@@ -128,9 +127,6 @@ FocusScope {
         // NB! Application surfaces are stacked behind the shell one. So they can only be seen by the user
         // through the translucent parts of the shell surface.
         visible: !fullyCovered && !applicationSurfaceShouldBeSeen
-
-        onVisibleChanged: print("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh", visible, fullyCovered, applicationSurfaceShouldBeSeen,
-                                applicationRunning, stages.fullyHidden, stages.painting)
 
         CrossFadeImage {
             id: backgroundImage
@@ -197,6 +193,7 @@ FocusScope {
             property bool fullyHidden: !shown && x == width
 
             property bool painting: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.painting : false
+            property bool fullscreen: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.fullscreen : false
 
             available: !greeter.shown
             hides: [panel.indicators]
@@ -436,7 +433,8 @@ FocusScope {
             }
             property string focusedAppId: ApplicationManager.focusedApplicationId
             property var focusedApplication: ApplicationManager.findApplication(focusedAppId)
-            fullscreenMode: focusedApplication && focusedApplication.fullscreen && !greeter.shown && !lockscreen.shown
+            fullscreenMode: stages.painting ? stages.fullscreen :
+                                              focusedApplication && focusedApplication.fullscreen && !greeter.shown && !lockscreen.shown
             searchVisible: !greeter.shown && !lockscreen.shown && dash.shown
 
             InputFilterArea {

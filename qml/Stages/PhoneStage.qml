@@ -18,8 +18,8 @@ Item {
     property int dragAreaWidth
 
     // State information propagated to the outside
-    readonly property bool painting: mainScreenshotImage.visible || fadeInScreenshotImage.visible || appSplash.visible
-    onPaintingChanged: print("**********************+ painting changed", painting)
+    readonly property bool painting: mainScreenshotImage.visible || fadeInScreenshotImage.visible || appSplash.visible || spreadView.visible
+    property bool fullscreen: ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).fullscreen
 
     onMovingChanged: {
         if (moving) {
@@ -92,6 +92,7 @@ Item {
 
         function switchToApp(appId) {
             priv.newFocusedAppId = appId;
+            root.fullscreen = ApplicationManager.findApplication(appId).fullscreen;
             applicationSwitchingAnimation.start();
         }
 
@@ -307,7 +308,7 @@ Item {
         }
         function snapTo(index) {
             spreadView.selectedIndex = index;
-
+            root.fullscreen = ApplicationManager.get(index).fullscreen;
             snapAnimation.targetContentX = -shift;
             snapAnimation.start();
         }
@@ -320,8 +321,8 @@ Item {
                 target: spreadView
                 property: "contentX"
                 to: snapAnimation.targetContentX
-//                duration: UbuntuAnimation.FastDuration
-                duration: UbuntuAnimation.SleepyDuration
+                duration: UbuntuAnimation.FastDuration
+//                duration: UbuntuAnimation.SleepyDuration
             }
             ScriptAction {
                 script: {
