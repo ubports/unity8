@@ -23,20 +23,12 @@ AbstractButton {
     property var components
     property var cardData
 
-    width: {
-        if (template !== undefined) {
-            if (template["card-layout"] === "horizontal") return units.gu(38);
-            switch (template['card-size']) {
-                case "small": return units.gu(12);
-                case "large": return units.gu(38);
-            }
-        }
-        return units.gu(18.5);
-    }
-    height: childrenRect.height
+    implicitWidth: childrenRect.width
+    implicitHeight: childrenRect.height
 
     UbuntuShape {
         id: artShape
+        radius: "medium"
         objectName: "artShape"
         width: {
             if (!visible) return 0
@@ -60,7 +52,7 @@ AbstractButton {
             // FIXME uncomment when having investigated / fixed the crash
             //sourceSize.width: width > height ? width : 0
             //sourceSize.height: height > width ? height : 0
-            fillMode: components["art"]["fill-mode"] === "fit" ? Image.PreserveAspectFit: Image.PreserveAspectCrop
+            fillMode: components && components["art"]["fill-mode"] === "fit" ? Image.PreserveAspectFit: Image.PreserveAspectCrop
 
             property real aspect: implicitWidth / implicitHeight
         }
@@ -82,11 +74,12 @@ AbstractButton {
 
     Label {
         objectName: "summaryLabel"
-        anchors { top: header.bottom; left: parent.left; right: parent.right }
+        anchors { top: header.visible ? header.bottom : artShape.bottom; left: parent.left; right: parent.right }
         wrapMode: Text.Wrap
         maximumLineCount: 5
         elide: Text.ElideRight
         text: cardData && cardData["summary"] || ""
         height: text ? implicitHeight : 0
+        fontSize: "small"
     }
 }

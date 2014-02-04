@@ -56,7 +56,7 @@ FocusScope {
     Binding {
         target: scope
         property: "isActive"
-        value: isCurrent
+        value: isCurrent && !previewListView.onScreen
     }
 
     Timer {
