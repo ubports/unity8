@@ -47,7 +47,9 @@ Item {
                 if (priv.secondApplicationStarting || priv.applicationStarting) {
                     appSplashTimer.start();
                 } else {
-                    mainScreenshotImage.src = ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).screenshot
+                    var application = ApplicationManager.findApplication(ApplicationManager.focusedApplicationId)
+                    root.fullscreen = application.fullscreen
+                    mainScreenshotImage.src = application.screenshot
                 }
             }
         }
@@ -194,6 +196,7 @@ Item {
     EdgeDragArea {
         id: spreadDragArea
         direction: Direction.Leftwards
+        enabled: ApplicationManager.count > 1
 
         anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
         width: root.dragAreaWidth
