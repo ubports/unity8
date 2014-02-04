@@ -212,7 +212,11 @@ Item {
                 spreadView.contentX = -spreadView.shift;
             }
             if (dragging && attachedToView) {
-                spreadView.contentX = -touchX - spreadView.shift
+                if (spreadRepeater.count == 2) {
+                    spreadView.contentX = Math.min(-touchX - spreadView.shift, spreadView.width * spreadView.positionMarker2 - spreadView.shift)
+                } else {
+                    spreadView.contentX = -touchX - spreadView.shift
+                }
             }
             if (attachedToView && spreadView.shiftedContentX >= spreadView.width * spreadView.positionMarker3) {
                 attachedToView = false;
