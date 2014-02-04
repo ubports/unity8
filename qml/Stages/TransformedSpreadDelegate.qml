@@ -105,8 +105,12 @@ SpreadDelegate {
         }
 
         property real xTranslate: {
-            if (priv.otherSelected) {
-                return priv.selectedXTranslate;
+            if (otherSelected) {
+                if (spreadView.stage < 2 && index == 0) {
+                    return linearAnimation(selectedProgress, negativeProgress, selectedXTranslate, selectedXTranslate - spreadView.tileDistance, root.progress)
+                }
+
+                return selectedXTranslate;
             }
 
             switch (index) {
