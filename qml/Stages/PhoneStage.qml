@@ -179,7 +179,6 @@ Item {
         id: spreadDragArea
         direction: Direction.Leftwards
 
-        //enabled: root.available
         anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
         width: root.dragAreaWidth
 
@@ -191,7 +190,6 @@ Item {
             if (!dragging && !priv.waitingForScreenshot) {
                 priv.requestNewScreenshot();
                 spreadView.stage = 0;
-                attachedToView = true;
                 spreadView.contentX = -spreadView.shift;
             }
             if (dragging && !priv.waitingForScreenshot && attachedToView) {
@@ -202,6 +200,12 @@ Item {
                 spreadView.snap();
             }
             gesturePoints.push(touchX)
+        }
+
+        onStatusChanged: {
+            if (status == DirectionalDragArea.Recognized) {
+                attachedToView = true;
+            }
         }
 
         onDraggingChanged: {
@@ -241,7 +245,7 @@ Item {
     Flickable {
         id: spreadView
         anchors.fill: parent
-        visible: spreadDragArea.status == DirectionalDragArea.Recognized || stage > 0 || snapAnimation.running
+        visible: spreadDragArea.status == DirectionalDragArea.Recognized || stage > 1 || snapAnimation.running
         contentWidth: spreadRow.width - shift
         contentX: -shift
 
@@ -271,9 +275,7 @@ Item {
 
         property int selectedIndex: -1
 
-        onStageChanged: print("*******stage cahnged", stage)
-
-        onContentXChanged: {
+        onShiftedContentXChanged: {
             switch (stage) {
             case 0:
                 if (shiftedContentX > width * positionMarker2) {
@@ -294,13 +296,10 @@ Item {
                 snapAnimation.targetContentX = -shift;
                 snapAnimation.start();
             } else if (shiftedContentX < positionMarker2 * width) {
-                print("selecting tile 1")
                 snapTo(1)
             } else if (shiftedContentX < positionMarker3 * width) {
-                print("snappoing to stage1")
                 snapTo(1)
             } else if (stage < 2){
-                print("snappoing to stage2")
                 // Add 1 pixel to make sure we definitely hit positionMarker4 even with rounding errors of the animation.
                 snapAnimation.targetContentX = width * positionMarker4 + 1 - shift;
                 snapAnimation.start();
@@ -321,14 +320,12 @@ Item {
                 target: spreadView
                 property: "contentX"
                 to: snapAnimation.targetContentX
-                duration: UbuntuAnimation.FastDuration
-//                duration: UbuntuAnimation.SleepyDuration
+//                duration: UbuntuAnimation.FastDuration
+                duration: UbuntuAnimation.SleepyDuration
             }
             ScriptAction {
                 script: {
-//                    print("animation finished: stage", spreadView.stage, "contentX", spreadView.contentX, "focused app", ApplicationManager.get(0).appId, ApplicationManager.get(1).appId)
                     if (spreadView.selectedIndex >= 0) {
-                        print("switching to app", snapAnimation.toIndex, ApplicationManager.get(spreadView.selectedIndex).name)
                         ApplicationManager.focusApplication(ApplicationManager.get(spreadView.selectedIndex).appId);
                         spreadView.selectedIndex = -1
                         spreadView.stage = 0;
@@ -339,7 +336,6 @@ Item {
                         spreadView.stage = 0;
                         spreadView.contentX = -spreadView.shift;
                     }
-                    print("snapping done. stage:", spreadView.stage)
                 }
             }
         }
@@ -358,8 +354,8 @@ Item {
                     id: appDelegate
                     startAngle: 45
                     endAngle: 5
-                    startScale: 1.2
-                    endScale: 0.6
+                    startScale: 1.1
+                    endScale: 0.7
                     startDistance: spreadView.tileDistance
                     endDistance: units.gu(.5)
                     width: spreadView.width
@@ -383,7 +379,7 @@ Item {
                         if (spreadView.stage == 0 && index < 2) {
                             if (progress < spreadView.positionMarker1) {
                                 return progress;
-                            } else if (progress < spreadView.positionMarker1 + .05){
+                            } else if (progress < spreadView.positionMarker1 + snappingCurve.period){
                                 return spreadView.positionMarker1 + snappingCurve.value * 3
                             } else {
                                 return spreadView.positionMarker2
@@ -395,7 +391,7 @@ Item {
                     EasingCurve {
                         id: snappingCurve
                         type: EasingCurve.OutQuad
-                        period: 0.05//spreadView.positionMarker2 - spreadView.positionMarker1
+                        period: 0.05
                         progress: appDelegate.progress - spreadView.positionMarker1
                     }
 

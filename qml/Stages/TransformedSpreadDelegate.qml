@@ -87,16 +87,10 @@ SpreadDelegate {
         }
 
         property real negativeProgress: {
-            switch (index) {
-            case 0:
+            if (index == 1 && spreadView.stage < 2) {
                 return 0;
-            case 1:
-                if (spreadView.stage < 2) {
-                    return 0;
-                }
-                return -spreadView.tileDistance / spreadView.width
             }
-            return -spreadView.positionMarker2 -(index - 2) * (spreadView.tileDistance / spreadView.width);
+            return -index * spreadView.tileDistance / spreadView.width;
         }
 
         function linearAnimation(startProgress, endProgress, startValue, endValue, progress) {
@@ -262,7 +256,7 @@ SpreadDelegate {
 
     EasingCurve {
         id: easingCurve
-        type: EasingCurve.OutQuad
+        type: EasingCurve.OutSine
         period: 1 - spreadView.positionMarker2
         progress: root.animatedProgress
     }
