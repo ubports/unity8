@@ -193,7 +193,7 @@ Item {
                 spreadView.stage = 0;
                 spreadView.contentX = -spreadView.shift;
             }
-            if (dragging && !priv.waitingForScreenshot && attachedToView) {
+            if (dragging && attachedToView) {
                 spreadView.contentX = -touchX - spreadView.shift
             }
             if (attachedToView && spreadView.shiftedContentX >= spreadView.width * spreadView.positionMarker3) {
@@ -340,7 +340,6 @@ Item {
                 }
             }
         }
-
 
         Item {
             id: spreadRow
