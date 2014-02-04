@@ -346,6 +346,7 @@ Item {
                 duration: UbuntuAnimation.FastDuration
 //                duration: UbuntuAnimation.SleepyDuration
             }
+
             ScriptAction {
                 script: {
                     if (spreadView.selectedIndex >= 0) {
@@ -365,7 +366,7 @@ Item {
 
         Item {
             id: spreadRow
-            width: ApplicationManager.count * spreadView.tileDistance + (spreadView.width - spreadView.tileDistance) * 1.5 //(spreadView.width * spreadView.positionMarker2) + (spreadView.width - spreadView.tileDistance)
+            width: ApplicationManager.count * spreadView.tileDistance + (spreadView.width - spreadView.tileDistance) * 1.5
 
             x: spreadView.contentX
 
@@ -388,6 +389,8 @@ Item {
                     z: index
                     x: index == 0 ? 0 : spreadView.width + (index - 1) * spreadView.tileDistance
 
+                    // Each tile has a different progress value running from 0 to 1.
+                    // A progress value of 0 means the tile is at the right edge. 1 means the tile has reched the left edge.
                     progress: {
                         var tileProgress = (spreadView.shiftedContentX - index * spreadView.tileDistance) / spreadView.width
                         // Tile 1 needs to move directly from the beginning...
@@ -397,6 +400,7 @@ Item {
                         return tileProgress;
                     }
 
+                    // This mostly is the same as progress, just adds the snapping to stage 1 for tiles 0 and 1
                     animatedProgress: {
                         if (spreadView.stage == 0 && index < 2) {
                             if (progress < spreadView.positionMarker1) {
