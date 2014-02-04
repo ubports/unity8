@@ -113,14 +113,16 @@ Item {
         height: cardTool.cardHeight || implicitHeight
 
         property var titleHorizontalAlignment: {
-            // TODO karni: attribute-1 instead of price?
             var subtitle = components["subtitle"];
             var price = components["price"];
-            var isOnlyItem = (subtitle === undefined || subtitle === "") && (price === undefined || price === "");
-            var hasImage = (components["art"]["image"] && components["art"]["image"] !== "") ||
-                         (components["mascot"] && components["mascot"] !== "");
-            if (!isOnlyItem) return Text.AlignLeft;
-            return hasImage ? Text.AlignLeft : Text.AlignHCenter;
+
+            var hasSubtitle = subtitle && (typeof subtitle === "string" || subtitle["field"])
+            var hasPrice = price && (typeof price === "string" || subtitle["field"]);
+
+            var isOnlyTextComponent = !hasSubtitle && !hasPrice;
+            if (!isOnlyTextComponent) return Text.AlignLeft;
+
+            return (template["card-layout"] === "horizontal") ? Text.AlignHCenter : Text.AlignLeft;
         }
 
         property var fields: ["art", "mascot", "title", "subtitle", "summary"]
