@@ -36,9 +36,9 @@ Rectangle {
     }
 
     property var tracksModel2: {
-        "tracks": [ { title: "Some track name", length: "30", source: "../../tests/qmltests/Dash/Music/data/testsound1.ogg" },
-                    { title: "Some other track name", subtitle: "Subtitle", length: "83", source: "../../tests/qmltests/Dash/Music/data/testsound2.ogg" },
-                    { title: "And another one", length: "7425", source: "../../tests/qmltests/Dash/Music/data/testsound3.ogg" } ]
+        "tracks": [ { title: "Some track name", length: "30", source: "not-existing_testsound1.ogg" },
+                    { title: "Some other track name", subtitle: "Subtitle", length: "83", source: "not-existing_testsound2.ogg" },
+                    { title: "And another one", length: "7425", source: "not-existing_testsound3.ogg" } ]
     }
 
     AudioPlayer {
@@ -170,8 +170,8 @@ Rectangle {
             tryCompare(track1ProgressBar, "visible", false);
             tryCompare(track2ProgressBar, "visible", true);
 
-            // Calling stop() should make all players shut up!
-            audioPlayer.focused = false
+            // Changing preview should make all players shut up!
+            audioPlayer.isCurrentPreview = false
             tryCompare(audio, "playbackState", Audio.StoppedState);
         }
     }

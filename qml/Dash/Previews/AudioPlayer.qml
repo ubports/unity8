@@ -29,7 +29,7 @@ PreviewWidget {
     id: root
     implicitHeight: childrenRect.height
 
-    onFocusedChanged: if (!focused) audio.stop()
+    onIsCurrentPreviewChanged: if (!isCurrentPreview) audio.stop()
 
     Audio {
         id: audio
@@ -39,6 +39,7 @@ PreviewWidget {
         property Item playingItem
 
         Component.onDestruction: {
+            // destructing the component doesn't automatically send stop to the media service, probably a bug in QtMultimedia
             audio.stop();
         }
 
