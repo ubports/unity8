@@ -21,19 +21,32 @@ DashFilterGrid {
     id: genericFilterGrid
 
     minimumHorizontalSpacing: units.gu(0.5)
-    // FIXME calculate the size correctly
-    delegateWidth: grid.currentItem.width
-    delegateHeight: grid.currentItem.height
+    delegateWidth: cardTool.cardWidth
+    delegateHeight: cardTool.cardHeight
     verticalSpacing: units.gu(2)
 
-    delegate: Card {
-        id: card
-        objectName: "delegate" + index
-        cardData: model
+    CardTool {
+        id: cardTool
+
         template: genericFilterGrid.template
         components: genericFilterGrid.components
+    }
 
-        onClicked: genericFilterGrid.clicked(index, card.y)
-        onPressAndHold: genericFilterGrid.pressAndHold(index, card.y)
+    delegate: Item {
+        width: genericFilterGrid.cellWidth
+        height: genericFilterGrid.cellHeight
+        Card {
+            id: card
+            width: cardTool.cardWidth
+            height: cardTool.cardHeight
+            anchors.horizontalCenter: parent.horizontalCenter
+            objectName: "delegate" + index
+            cardData: model
+            template: genericFilterGrid.template
+            components: genericFilterGrid.components
+
+            onClicked: genericFilterGrid.clicked(index, card.y)
+            onPressAndHold: genericFilterGrid.pressAndHold(index, card.y)
+        }
     }
 }
