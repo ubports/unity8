@@ -21,9 +21,16 @@ import Ubuntu.Components.ListItems 0.1
 
 /*! \brief Preview widget for audio tracks.
 
-    This widget shows tracks contained in widgetData["tracks"],
-    with source specified by widgetData["source"] along with a title that comes from widgetData["title"],
-    a subtitle coming from widgetData["subtitle"] and length from widgetData["length"].
+    This widget shows tracks contained in widgetData["tracks"], each of which should be of the form:
+
+    \code{.json}
+    {
+      "source" "uri://to/file",
+      "title": "Title",
+      "subtitle": "Subtitle", // optional
+      "length": 125 // in seconds
+    }
+    \endcode
  */
 
 PreviewWidget {
