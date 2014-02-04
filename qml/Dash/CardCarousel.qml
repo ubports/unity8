@@ -66,6 +66,8 @@ DashRenderer {
             property var model
 
             enabled: false
+
+            fontScale: 1 / selectedItemScaleFactor
         }
     }
 }
