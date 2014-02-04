@@ -212,7 +212,7 @@ FocusScope {
 
         x: shown ? launcher.progress : stagesDragHandle.progress
 
-        Behavior on x { SmoothedAnimation { velocity: 600; duration: UbuntuAnimation.SlowDuration } }
+        Behavior on x { SmoothedAnimation { velocity: 600; duration: UbuntuAnimation.FastDuration } }
 
         property bool shown: false
 
