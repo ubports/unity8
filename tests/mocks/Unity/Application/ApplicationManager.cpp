@@ -280,7 +280,9 @@ bool ApplicationManager::focusApplication(const QString &appId)
 
 void ApplicationManager::activateApplication(const QString &appId)
 {
-    QMetaObject::invokeMethod(this, "focusRequested", Qt::QueuedConnection, Q_ARG(QString, appId));
+    if (appId != focusedApplicationId()) {
+        QMetaObject::invokeMethod(this, "focusRequested", Qt::QueuedConnection, Q_ARG(QString, appId));
+    }
 }
 
 void ApplicationManager::unfocusCurrentApplication()
