@@ -83,7 +83,6 @@ Item {
                 elide: Text.ElideRight
                 font.weight: Font.Light
                 visible: titleLabel.text && text
-                height: visible ? implicitHeight : 0
                 fontSize: "x-small"
             }
 
