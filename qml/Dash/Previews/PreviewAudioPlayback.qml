@@ -17,7 +17,6 @@
 import QtQuick 2.0
 import QtMultimedia 5.0
 import Ubuntu.Components 0.1
-import Ubuntu.Components.ListItems 0.1
 
 /*! \brief Preview widget for audio tracks.
 
