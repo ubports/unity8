@@ -52,25 +52,30 @@ Rectangle {
 
         property var textLabel: findChild(previewTextSummary, "textLabel")
 
+        function init() {
+            verify(typeof textLabel === "object", "TextLabel object could not be found.")
+        }
+
+        function cleanup() {
+            previewTextSummary.widgetData = widgetDataComplete
+        }
+
         function test_optional_title() {
             var titleLabel = findChild(previewTextSummary, "titleLabel")
 
-            previewTextSummary.widgetData = widgetDataComplete
-
+            // verify titleLabel is visible and textLabel is anchored below it
             compare(titleLabel.visible, true)
             var mappedTextLabel = root.mapFromItem(textLabel, 0, 0)
             compare(mappedTextLabel.y, titleLabel.height)
 
+            // verify titleLabel disappears and textLabel moves up
             previewTextSummary.widgetData = widgetDataNoTitle
-
             compare(titleLabel.visible, false)
             verify(mappedTextLabel.y, 0)
         }
 
         function test_see_more() {
             var seeMore = findChild(previewTextSummary, "seeMore")
-
-            previewTextSummary.widgetData = widgetDataComplete
 
             // when it's more than 7 lines of text, show SeeMore component
             verify(textLabel.lineCount > 7)
@@ -82,16 +87,13 @@ Rectangle {
             var seeMoreLabel = findChild(seeMore, "seeMoreLabel")
             var seeLessLabel = findChild(seeMore, "seeLessLabel")
             var initialTextLabelHeight = textLabel.height
-
             mouseClick(seeMoreLabel, seeMoreLabel.width / 2, seeMoreLabel.height / 2)
             tryCompare(textLabel, "height", textLabel.contentHeight)
-
             mouseClick(seeLessLabel, seeLessLabel.width / 2, seeLessLabel.height / 2)
             tryCompare(textLabel, "height", initialTextLabelHeight)
 
             // text SeeMore automatic hiding
             previewTextSummary.widgetData = widgetDataShortText
-
             verify(textLabel.lineCount <= 7)
             compare(seeMore.visible, false)
             tryCompare(textLabel, "height", textLabel.contentHeight)

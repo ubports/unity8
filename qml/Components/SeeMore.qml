@@ -43,20 +43,13 @@ Item {
             }
         }
 
-        Row {
-            height: parent.height
-
-            Rectangle {
-                width: units.dp(1)
-                height: parent.height
-                opacity: 0.2
-                color: Theme.palette.selected.backgroundText
+        Image {
+            anchors {
+                top: parent.top
+                bottom: parent.bottom
             }
-            Rectangle {
-                width: units.dp(1)
-                height: parent.height
-                color: Qt.rgba(1.0, 1.0, 1.0, 0.1)
-            }
+            width: units.dp(2)
+            source: "ListItems/graphics/ListItemDividerVertical.png"
         }
 
         Label {
