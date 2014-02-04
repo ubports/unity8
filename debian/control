@@ -5,6 +5,8 @@ Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
 Build-Depends: cmake,
                dbus-test-runner,
                debhelper (>= 9),
+               doxyqml,
+               graphviz,
                libdee-qt5-dev (>= 3.2),
                libgl1-mesa-dev[!armhf] | libgl-dev[!armhf],
                libgl1-mesa-dri,
@@ -141,3 +143,11 @@ Description: Unity 8 private libs
  .
  This package contains the private libraries for QML and other components
  only used by the shell.
+
+Package: unity8-doc
+Section: doc
+Architecture: all
+Multi-Arch: foreign
+Depends: ${misc:Depends},
+Description: Documentation for Unity8
+ The Unity 8 shell is the primary user interface for Ubuntu devices. (documentation)
