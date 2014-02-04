@@ -64,6 +64,8 @@ DashRenderer {
 
             property bool explicitlyScaled
             property var model
+
+            enabled: false
         }
     }
 }
