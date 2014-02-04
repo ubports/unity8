@@ -31,7 +31,7 @@ UsersModelPrivate::UsersModelPrivate(UsersModel* parent)
     QSettings settings(QDir::homePath() + "/.unity8-greeter-demo", QSettings::NativeFormat);
     QStringList users = settings.value("users", QStringList() << "phablet").toStringList();
 
-    Q_FOREACH(QString user, users)
+    Q_FOREACH(const QString &user, users)
     {
         QString name = settings.value(user + "/name", user[0].toUpper() + user.mid(1)).toString();
         entries.append({user, name, 0, 0, false, false, 0, 0});
