@@ -23,6 +23,8 @@ Item {
     property var components
     property var cardData
 
+    property alias fontScale: header.fontScale
+
     implicitWidth: childrenRect.width
     implicitHeight: summary.y + summary.height
 
@@ -117,6 +119,8 @@ Item {
                 return parent.left;
             }
             right: parent.right
+            margins: template && template["overlay"] ? units.gu(1) : 0
+            topMargin: 0
         }
 
         mascot: cardData && cardData["mascot"] || ""
