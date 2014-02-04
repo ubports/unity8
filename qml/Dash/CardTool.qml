@@ -102,6 +102,8 @@ Item {
 
     property QtObject priv: card
 
+    property var titleHorizontalAlignment: card.titleHorizontalAlignment
+
     Card {
         id: card
         template: cardTool.template
@@ -109,6 +111,17 @@ Item {
 
         width: cardTool.cardWidth || implicitWidth
         height: cardTool.cardHeight || implicitHeight
+
+        property var titleHorizontalAlignment: {
+            // TODO karni: attribute-1 instead of price?
+            var subtitle = components["subtitle"];
+            var price = components["price"];
+            var isOnlyItem = (subtitle === undefined || subtitle === "") && (price === undefined || price === "");
+            var hasImage = (components["art"]["image"] && components["art"]["image"] !== "") ||
+                         (components["mascot"] && components["mascot"] !== "");
+            if (!isOnlyItem) return Text.AlignLeft;
+            return hasImage ? Text.AlignLeft : Text.AlignHCenter;
+        }
 
         property var fields: ["art", "mascot", "title", "subtitle", "summary"]
         property var maxData: {

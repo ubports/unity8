@@ -26,6 +26,8 @@ Item {
     property alias oldPrice: oldPriceLabel.text
     property alias altPrice: altPriceLabel.text
 
+    property alias titleHorizontalAlignment: titleLabel.horizontalAlignment
+
     visible: mascotImage.status === Image.Ready || title || price
     height: row.height > 0 ? row.height + row.margins * 2 : 0
 
@@ -71,6 +73,7 @@ Item {
                 wrapMode: Text.Wrap
                 maximumLineCount: 2
                 fontSize: "small"
+                verticalAlignment: Text.AlignVCenter
             }
 
             Label {
@@ -80,6 +83,7 @@ Item {
                 elide: Text.ElideRight
                 font.weight: Font.Light
                 visible: titleLabel.text && text
+                height: visible ? implicitHeight : 0
                 fontSize: "x-small"
             }
 
