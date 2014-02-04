@@ -19,11 +19,25 @@ import QtMultimedia 5.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1
 
+/*! \brief Preview widget for audio tracks.
+
+    This widget shows tracks contained in widgetData["tracks"], each of which should be of the form:
+
+    \code{.json}
+    {
+      "source" "uri://to/file",
+      "title": "Title",
+      "subtitle": "Subtitle", // optional
+      "length": 125 // in seconds
+    }
+    \endcode
+ */
+
 PreviewWidget {
     id: root
     implicitHeight: childrenRect.height
 
-    onFocusedChanged: if (!focused) audio.stop()
+    onIsCurrentPreviewChanged: if (!isCurrentPreview) audio.stop()
 
     Audio {
         id: audio
@@ -33,6 +47,7 @@ PreviewWidget {
         property Item playingItem
 
         Component.onDestruction: {
+            // destructing the component doesn't automatically send stop to the media service, probably a bug in QtMultimedia
             audio.stop();
         }
 

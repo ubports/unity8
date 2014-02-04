@@ -19,8 +19,8 @@ import QtQuick 2.0
 /*! Interface for preview widgets. */
 
 Item {
-    /// type:bool Specifies the preview widget being focused or not
-    property bool focused: true
+    /// type:bool Specifies the preview widget being currently used or not
+    property bool isCurrentPreview: true
 
     /// Variable used to contain widget's data
     property var widgetData

@@ -32,27 +32,27 @@ Rectangle {
     }
 
     property var tracksModel1: {
-        "tracks": [ { title: "Some track name", length: "30", source: "../../tests/qmltests/Dash/Music/data/testsound1.ogg" } ]
+        "tracks": [ { title: "Some track name", length: "30", source: "/not/existing/path/testsound1" } ]
     }
 
     property var tracksModel2: {
-        "tracks": [ { title: "Some track name", length: "30", source: "../../tests/qmltests/Dash/Music/data/testsound1.ogg" },
-                    { title: "Some other track name", subtitle: "Subtitle", length: "83", source: "../../tests/qmltests/Dash/Music/data/testsound2.ogg" },
-                    { title: "And another one", length: "7425", source: "../../tests/qmltests/Dash/Music/data/testsound3.ogg" } ]
+        "tracks": [ { title: "Some track name", length: "30", source: "/not/existing/path/testsound1" },
+                    { title: "Some other track name", subtitle: "Subtitle", length: "83", source: "/not/existing/path/testsound2" },
+                    { title: "And another one", length: "7425", source: "/not/existing/path/testsound3" } ]
     }
 
-    AudioPlayer {
-        id: audioPlayer
+    AudioWidget {
+        id: audioWidget
         anchors.fill: parent
         widgetData: tracksModel2
     }
 
     UT.UnityTestCase {
-        name: "AudioPlayerTest"
+        name: "AudioWidgetTest"
         when: windowShown
 
         function init() {
-            waitForRendering(audioPlayer);
+            waitForRendering(audioWidget);
         }
 
         function test_time_formatter_data() {
@@ -66,7 +66,7 @@ Rectangle {
         }
 
         function test_time_formatter(data) {
-            var audio = findInvisibleChild(audioPlayer, "audio");
+            var audio = findInvisibleChild(audioWidget, "audio");
             compare(audio.lengthToString(data.value), data.result)
         }
 
@@ -79,14 +79,14 @@ Rectangle {
         }
 
         function test_tracks(data) {
-            audioPlayer.widgetData = data.tracksModel;
-            waitForRendering(audioPlayer);
+            audioWidget.widgetData = data.tracksModel;
+            waitForRendering(audioWidget);
 
-            var trackRepeater = findChild(audioPlayer, "trackRepeater");
+            var trackRepeater = findChild(audioWidget, "trackRepeater");
             compare(trackRepeater.count, data.tracksModel["tracks"].length)
 
             for (var i = 0; i < data.tracksModel["tracks"].length; ++i) {
-                var trackItem = findChild(audioPlayer, "trackItem" + i);
+                var trackItem = findChild(audioWidget, "trackItem" + i);
                 var titleLabel = findChild(trackItem, "trackTitleLabel");
                 compare(titleLabel.text, data.tracksModel["tracks"][i]["title"])
                 var subtitleLabel = findChild(trackItem, "trackSubtitleLabel");
@@ -100,19 +100,19 @@ Rectangle {
         }
 
         function checkPlayerSource(index) {
-            var modelFilename = audioPlayer.widgetData["tracks"][index]["source"].replace(/^.*[\\\/]/, '');
-            var playerFilename = findInvisibleChild(audioPlayer, "audio").source.toString().replace(/^.*[\\\/]/, '');
+            var modelFilename = audioWidget.widgetData["tracks"][index]["source"].replace(/^.*[\\\/]/, '');
+            var playerFilename = findInvisibleChild(audioWidget, "audio").source.toString().replace(/^.*[\\\/]/, '');
 
             compare(modelFilename, playerFilename, "Player source is not set correctly.");
         }
 
         function test_playback() {
-            audioPlayer.widgetData = tracksModel2;
-            waitForRendering(audioPlayer);
+            audioWidget.widgetData = tracksModel2;
+            waitForRendering(audioWidget);
 
-            var track0Item = findChild(audioPlayer, "trackItem0");
-            var track1Item = findChild(audioPlayer, "trackItem1");
-            var track2Item = findChild(audioPlayer, "trackItem2");
+            var track0Item = findChild(audioWidget, "trackItem0");
+            var track1Item = findChild(audioWidget, "trackItem1");
+            var track2Item = findChild(audioWidget, "trackItem2");
 
             var track0ProgressBar = findChild(track0Item, "progressBarFill");
             var track1ProgressBar = findChild(track1Item, "progressBarFill");
@@ -122,7 +122,7 @@ Rectangle {
             var track1PlayButton = findChild(track1Item, "playButton");
             var track2PlayButton = findChild(track2Item, "playButton");
 
-            var audio = findInvisibleChild(audioPlayer, "audio");
+            var audio = findInvisibleChild(audioWidget, "audio");
 
             // All progress bars must be hidden in the beginning
             compare(track0ProgressBar.visible, false);
@@ -170,8 +170,8 @@ Rectangle {
             tryCompare(track1ProgressBar, "visible", false);
             tryCompare(track2ProgressBar, "visible", true);
 
-            // Calling stop() should make all players shut up!
-            audioPlayer.focused = false
+            // Changing preview should make all players shut up!
+            audioWidget.isCurrentPreview = false
             tryCompare(audio, "playbackState", Audio.StoppedState);
         }
     }
