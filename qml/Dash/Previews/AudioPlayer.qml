@@ -19,6 +19,12 @@ import QtMultimedia 5.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1
 
+/*! \brief Preview widget for audio tracks.
+
+    This widget shows tracks contained in widgetData["tracks"],
+    with source specified by widgetData["source"] along with a title that comes from widgetData["title"],
+    a subtitle coming from widgetData["subtitle"] and length from widgetData["length"]. */
+
 PreviewWidget {
     id: root
     implicitHeight: childrenRect.height
