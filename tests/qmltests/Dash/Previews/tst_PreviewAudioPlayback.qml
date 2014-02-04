@@ -41,18 +41,18 @@ Rectangle {
                     { title: "And another one", length: "7425", source: "/not/existing/path/testsound3" } ]
     }
 
-    AudioWidget {
-        id: audioWidget
+    PreviewAudioPlayback {
+        id: previewAudioPlayback
         anchors.fill: parent
         widgetData: tracksModel2
     }
 
     UT.UnityTestCase {
-        name: "AudioWidgetTest"
+        name: "PreviewAudioPlaybackTest"
         when: windowShown
 
         function init() {
-            waitForRendering(audioWidget);
+            waitForRendering(previewAudioPlayback);
         }
 
         function test_time_formatter_data() {
@@ -66,7 +66,7 @@ Rectangle {
         }
 
         function test_time_formatter(data) {
-            var audio = findInvisibleChild(audioWidget, "audio");
+            var audio = findInvisibleChild(previewAudioPlayback, "audio");
             compare(audio.lengthToString(data.value), data.result)
         }
 
@@ -79,14 +79,14 @@ Rectangle {
         }
 
         function test_tracks(data) {
-            audioWidget.widgetData = data.tracksModel;
-            waitForRendering(audioWidget);
+            previewAudioPlayback.widgetData = data.tracksModel;
+            waitForRendering(previewAudioPlayback);
 
-            var trackRepeater = findChild(audioWidget, "trackRepeater");
+            var trackRepeater = findChild(previewAudioPlayback, "trackRepeater");
             compare(trackRepeater.count, data.tracksModel["tracks"].length)
 
             for (var i = 0; i < data.tracksModel["tracks"].length; ++i) {
-                var trackItem = findChild(audioWidget, "trackItem" + i);
+                var trackItem = findChild(previewAudioPlayback, "trackItem" + i);
                 var titleLabel = findChild(trackItem, "trackTitleLabel");
                 compare(titleLabel.text, data.tracksModel["tracks"][i]["title"])
                 var subtitleLabel = findChild(trackItem, "trackSubtitleLabel");
@@ -100,19 +100,19 @@ Rectangle {
         }
 
         function checkPlayerSource(index) {
-            var modelFilename = audioWidget.widgetData["tracks"][index]["source"].replace(/^.*[\\\/]/, '');
-            var playerFilename = findInvisibleChild(audioWidget, "audio").source.toString().replace(/^.*[\\\/]/, '');
+            var modelFilename = previewAudioPlayback.widgetData["tracks"][index]["source"].replace(/^.*[\\\/]/, '');
+            var playerFilename = findInvisibleChild(previewAudioPlayback, "audio").source.toString().replace(/^.*[\\\/]/, '');
 
             compare(modelFilename, playerFilename, "Player source is not set correctly.");
         }
 
         function test_playback() {
-            audioWidget.widgetData = tracksModel2;
-            waitForRendering(audioWidget);
+            previewAudioPlayback.widgetData = tracksModel2;
+            waitForRendering(previewAudioPlayback);
 
-            var track0Item = findChild(audioWidget, "trackItem0");
-            var track1Item = findChild(audioWidget, "trackItem1");
-            var track2Item = findChild(audioWidget, "trackItem2");
+            var track0Item = findChild(previewAudioPlayback, "trackItem0");
+            var track1Item = findChild(previewAudioPlayback, "trackItem1");
+            var track2Item = findChild(previewAudioPlayback, "trackItem2");
 
             var track0ProgressBar = findChild(track0Item, "progressBarFill");
             var track1ProgressBar = findChild(track1Item, "progressBarFill");
@@ -122,7 +122,7 @@ Rectangle {
             var track1PlayButton = findChild(track1Item, "playButton");
             var track2PlayButton = findChild(track2Item, "playButton");
 
-            var audio = findInvisibleChild(audioWidget, "audio");
+            var audio = findInvisibleChild(previewAudioPlayback, "audio");
 
             // All progress bars must be hidden in the beginning
             compare(track0ProgressBar.visible, false);
@@ -171,7 +171,7 @@ Rectangle {
             tryCompare(track2ProgressBar, "visible", true);
 
             // Changing preview should make all players shut up!
-            audioWidget.isCurrentPreview = false
+            previewAudioPlayback.isCurrentPreview = false
             tryCompare(audio, "playbackState", Audio.StoppedState);
         }
     }
