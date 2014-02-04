@@ -58,12 +58,64 @@ Item {
         }
     }
 
+    ShaderEffect {
+        id: overlay
+        anchors {
+            left: artShape.left
+            right: artShape.right
+            bottom: artShape.bottom
+        }
+
+        height: units.gu(8)
+        opacity: 0.6
+        visible: template && template["overlay"] && artShape.visible && artShape.image.status === Image.Ready || false
+
+        property var source: ShaderEffectSource {
+            id: shaderSource
+            sourceItem: artShape
+            onVisibleChanged: if (visible) scheduleUpdate()
+            live: false
+            sourceRect: Qt.rect(0, artShape.height - overlay.height, artShape.width, overlay.height)
+        }
+
+        vertexShader: "
+            uniform highp mat4 qt_Matrix;
+            attribute highp vec4 qt_Vertex;
+            attribute highp vec2 qt_MultiTexCoord0;
+            varying highp vec2 coord;
+            void main() {
+                coord = qt_MultiTexCoord0;
+                gl_Position = qt_Matrix * qt_Vertex;
+            }"
+
+        fragmentShader: "
+            varying highp vec2 coord;
+            uniform sampler2D source;
+            uniform lowp float qt_Opacity;
+            void main() {
+                lowp vec4 tex = texture2D(source, coord);
+                gl_FragColor = vec4(0, 0, 0, tex.a) * qt_Opacity;
+            }"
+
+    }
+
     CardHeader {
         id: header
         objectName: "cardHeader"
         anchors {
-            top: template && template["card-layout"] === "horizontal" ? artShape.top : artShape.bottom
-            left: template && template["card-layout"] === "horizontal" ? artShape.right : parent.left
+            top: {
+                if (template) {
+                    if (template["overlay"]) return overlay.top;
+                    if (template["card-layout"] === "horizontal") return artShape.top;
+                }
+                return artShape.bottom;
+            }
+            left: {
+                if (template) {
+                    if (!template["overlay"] && template["card-layout"] === "horizontal") return artShape.right;
+                }
+                return parent.left;
+            }
             right: parent.right
         }
 
@@ -73,6 +125,7 @@ Item {
     }
 
     Label {
+        id: summary
         objectName: "summaryLabel"
         anchors { top: header.visible ? header.bottom : artShape.bottom; left: parent.left; right: parent.right }
         wrapMode: Text.Wrap

@@ -224,6 +224,7 @@ Rectangle {
         }
 
         function test_card_size(data) {
+            waitForRendering(card);
             selector.selectedIndex = data.index;
 
             if (data.hasOwnProperty("size")) {
