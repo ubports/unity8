@@ -24,7 +24,7 @@ Item {
     property var cardData
 
     implicitWidth: childrenRect.width
-    implicitHeight: childrenRect.height
+    implicitHeight: summary.y + summary.height
 
     UbuntuShape {
         id: artShape
