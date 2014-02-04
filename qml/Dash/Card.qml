@@ -37,6 +37,7 @@ Item {
 
     UbuntuShape {
         id: artShape
+        radius: "medium"
         objectName: "artShape"
         width: {
             if (!visible) return 0
@@ -82,11 +83,12 @@ Item {
 
     Label {
         objectName: "summaryLabel"
-        anchors { top: header.bottom; left: parent.left; right: parent.right }
+        anchors { top: header.visible ? header.bottom : artShape.bottom; left: parent.left; right: parent.right }
         wrapMode: Text.Wrap
         maximumLineCount: 5
         elide: Text.ElideRight
         text: cardData && cardData["summary"] || ""
         height: text ? implicitHeight : 0
+        fontSize: "small"
     }
 }
