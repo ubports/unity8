@@ -78,6 +78,18 @@ Rectangle {
             verify(seeMore.more === false)
             verify(textLabel.height < textLabel.contentHeight)
 
+            // test interactions with SeeMore
+            var seeMoreLabel = findChild(seeMore, "seeMoreLabel")
+            var seeLessLabel = findChild(seeMore, "seeLessLabel")
+            var initialTextLabelHeight = textLabel.height
+
+            mouseClick(seeMoreLabel, seeMoreLabel.width / 2, seeMoreLabel.height / 2)
+            tryCompare(textLabel, "height", textLabel.contentHeight)
+
+            mouseClick(seeLessLabel, seeLessLabel.width / 2, seeLessLabel.height / 2)
+            tryCompare(textLabel, "height", initialTextLabelHeight)
+
+            // text SeeMore automatic hiding
             textSummary.widgetData = widgetDataShortText
 
             verify(textLabel.lineCount <= 7)

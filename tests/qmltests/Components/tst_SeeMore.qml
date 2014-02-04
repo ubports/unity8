@@ -37,15 +37,15 @@ Rectangle {
         when: windowShown
 
         function test_interaction() {
-            var seeMoreLabel = findChild(seeMore, "seeMoreLabel");
-            var seeLessLabel = findChild(seeMore, "seeLessLabel");
+            var seeMoreLabel = findChild(seeMore, "seeMoreLabel")
+            var seeLessLabel = findChild(seeMore, "seeLessLabel")
 
             compare(seeMore.more, false)
 
-            mouseClick(seeMoreLabel, seeMoreLabel.width / 2, seeMoreLabel.height / 2);
+            mouseClick(seeMoreLabel, seeMoreLabel.width / 2, seeMoreLabel.height / 2)
             compare(seeMore.more, true)
 
-            mouseClick(seeLessLabel, seeLessLabel.width / 2, seeLessLabel.height / 2);
+            mouseClick(seeLessLabel, seeLessLabel.width / 2, seeLessLabel.height / 2)
             compare(seeMore.more, false)
         }
     }
