@@ -28,9 +28,6 @@ import "../../Components"
 
 PreviewWidget {
     id: root
-
-    readonly property int __maximumCollapsedLineCount: 7
-
     implicitHeight: titleLabel.visible ? titleLabel.height + textLabel.height : textLabel.height
 
     Label {
@@ -52,12 +49,15 @@ PreviewWidget {
     Label {
         id: textLabel
         objectName: "textLabel"
+
+        readonly property int maximumCollapsedLineCount: 7
+
         anchors {
             left: parent.left
             right: parent.right
             top: titleLabel.visible ? titleLabel.bottom : parent.top
         }
-        height: (!seeMore.visible || seeMore.more) ? contentHeight : contentHeight / lineCount * (__maximumCollapsedLineCount - 2)
+        height: (!seeMore.visible || seeMore.more) ? contentHeight : contentHeight / lineCount * (maximumCollapsedLineCount - 2)
         clip: true
         fontSize: "medium"
         color: Theme.palette.selected.backgroundText
@@ -79,6 +79,6 @@ PreviewWidget {
             top: textLabel.bottom
             topMargin: units.gu(1)
         }
-        visible: textLabel.lineCount > __maximumCollapsedLineCount
+        visible: textLabel.lineCount > textLabel.maximumCollapsedLineCount
     }
 }
