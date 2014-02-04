@@ -40,37 +40,37 @@ Rectangle {
         "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nPhasellus a mi vitae augue rhoncus lobortis ut rutrum metus.\nCurabitur tortor leo, tristique sed mollis quis, condimentum venenatis nibh."
     }
 
-    TextSummary {
-        id: textSummary
+    TextWidget {
+        id: textWidget
         anchors.fill: parent
         widgetData: widgetDataComplete
     }
 
     UT.UnityTestCase {
-        name: "TextSummaryTest"
+        name: "TextWidgetTest"
         when: windowShown
 
-        property var textLabel: findChild(textSummary, "textLabel")
+        property var textLabel: findChild(textWidget, "textLabel")
 
         function test_optional_title() {
-            var titleLabel = findChild(textSummary, "titleLabel")
+            var titleLabel = findChild(textWidget, "titleLabel")
 
-            textSummary.widgetData = widgetDataComplete
+            textWidget.widgetData = widgetDataComplete
 
             compare(titleLabel.visible, true)
             var mappedTextLabel = root.mapFromItem(textLabel, 0, 0)
             compare(mappedTextLabel.y, titleLabel.height)
 
-            textSummary.widgetData = widgetDataNoTitle
+            textWidget.widgetData = widgetDataNoTitle
 
             compare(titleLabel.visible, false)
             verify(mappedTextLabel.y, 0)
         }
 
         function test_see_more() {
-            var seeMore = findChild(textSummary, "seeMore")
+            var seeMore = findChild(textWidget, "seeMore")
 
-            textSummary.widgetData = widgetDataComplete
+            textWidget.widgetData = widgetDataComplete
 
             // when it's more than 7 lines of text, show SeeMore component
             verify(textLabel.lineCount > 7)
@@ -90,7 +90,7 @@ Rectangle {
             tryCompare(textLabel, "height", initialTextLabelHeight)
 
             // text SeeMore automatic hiding
-            textSummary.widgetData = widgetDataShortText
+            textWidget.widgetData = widgetDataShortText
 
             verify(textLabel.lineCount <= 7)
             compare(seeMore.visible, false)
