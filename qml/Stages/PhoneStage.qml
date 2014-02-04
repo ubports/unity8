@@ -23,7 +23,13 @@ Item {
 
     onMovingChanged: {
         if (moving) {
-            priv.requestNewScreenshot();
+            if (ApplicationManager.focusedApplicationId) {
+                priv.requestNewScreenshot();
+            } else {
+                mainScreenshotImage.anchors.leftMargin = 0;
+                mainScreenshotImage.src = ApplicationManager.get(0).screenshot
+                mainScreenshotImage.visible = true;
+            }
         } else {
             mainScreenshotImage.visible = false;
         }
@@ -52,10 +58,19 @@ Item {
                 mainScreenshotImage.visible = false;
                 priv.applicationStarting = true;
             } else {
-                mainScreenshotImage.src = "foobar";
+                mainScreenshotImage.src = "";
                 priv.newFocusedAppId = appId;
                 priv.secondApplicationStarting = true;
                 priv.requestNewScreenshot();
+            }
+        }
+
+        onApplicationRemoved: {
+            if (ApplicationManager.count == 0) {
+                mainScreenshotImage.src = ""
+                mainScreenshotImage.visible = false;
+            } else {
+                mainScreenshotImage.src = ApplicationManager.get(0).screenshot
             }
         }
     }

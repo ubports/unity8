@@ -56,11 +56,13 @@ FocusScope {
         if (ApplicationManager.findApplication(appId)) {
             print("Shell.qml: activating app", appId);
             ApplicationManager.activateApplication(appId);
+            stages.show();
         } else {
             print("starting app", appId);
 
             var execFlags = shell.sideStageEnabled ? ApplicationManager.NoFlag : ApplicationManager.ForceMainStage;
             ApplicationManager.startApplication(appId, execFlags);
+            stages.show();
         }
     }
 
@@ -122,7 +124,7 @@ FocusScope {
         readonly property bool applicationRunning: ApplicationManager.focusedApplicationId.length > 0
 
         // Whether the user should see the topmost application surface (if there's one at all).
-        readonly property bool applicationSurfaceShouldBeSeen: applicationRunning && !stages.painting
+        readonly property bool applicationSurfaceShouldBeSeen: stages.shown && !stages.painting
 
         // NB! Application surfaces are stacked behind the shell one. So they can only be seen by the user
         // through the translucent parts of the shell surface.
@@ -163,115 +165,111 @@ FocusScope {
                 if (greeter.shown) {
                     return greeter.showProgress;
                 } else {
-                    return stagesOuterContainer.showProgress;
+                    return stages.showProgress;
                 }
             }
 
-            // FIXME: only necessary because stagesOuterContainer.showProgress and
+            // FIXME: only necessary because stages.showProgress and
             // greeterRevealer.animatedProgress are not animated
             Behavior on disappearingAnimationProgress { SmoothedAnimation { velocity: 5 }}
         }
     }
 
-    Item {
-        id: stagesOuterContainer
+    EdgeDragArea {
+        id: stagesDragHandle
+        direction: Direction.LeftWards
 
-        width: parent.width
-        height: parent.height
-        x: launcher.progress
-        Behavior on x {SmoothedAnimation{velocity: 600}}
+        anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
+        width: shell.edgeSize
 
-        property real showProgress: MathUtils.clamp(1 - (x + stages.x) / shell.width, 0, 1)
+        property real progress: stages.width
 
-        Showable {
-            id: stages
-            objectName: "stages"
-
-            x: width
-
-            property bool fullyShown: shown && x == 0 && parent.x == 0
-            property bool fullyHidden: !shown && x == width
-
-            property bool painting: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.painting : false
-            property bool fullscreen: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.fullscreen : false
-
-            available: !greeter.shown
-            hides: [panel.indicators]
-            shown: false
-            opacity: 1.0
-            showAnimation: StandardAnimation { property: "x"; duration: 350; to: 0; easing.type: Easing.OutCubic }
-            hideAnimation: StandardAnimation { property: "x"; duration: 350; to: width; easing.type: Easing.OutCubic }
-
-            width: parent.width
-            height: parent.height
-
-            property string lastFocusedAppId
-            onShownChanged: {
-                print("stages shown", shown)
-                if (shown) {
-                    if (!ApplicationManager.focusedApplicationId && lastFocusedAppId) {
-                        ApplicationManager.focusApplication(lastFocusedAppId);
-                    }
+        onTouchXChanged: {
+            if (status == DirectionalDragArea.Recognized) {
+                if (ApplicationManager.count == 0) {
+                    progress = Math.max(stages.width + touchX * 2, stages.width * .7)
                 } else {
-                    lastFocusedAppId = ApplicationManager.focusedApplicationId;
-                    ApplicationManager.unfocusCurrentApplication();
+                    progress = stages.width + touchX
                 }
             }
+        }
 
-            Connections {
-                target: ApplicationManager
-                onFocusedApplicationIdChanged: {
-                    if (ApplicationManager.focusedApplicationId.length > 0) {
-                        print("should show stages")
-                        stages.show();
-                    } else {
-                        stages.hide();
-                    }
+        onDraggingChanged: {
+            if (!dragging) {
+                if (ApplicationManager.count > 0 && progress < stages.width - units.gu(10)) {
+                    stages.show()
                 }
+                stagesDragHandle.progress = stages.width;
+            }
+        }
+    }
 
-                onApplicationAdded: {
+    Item {
+        id: stages
+        objectName: "stages"
+        width: parent.width
+        height: parent.height
+
+        x: shown ? launcher.progress : stagesDragHandle.progress
+
+        Behavior on x { SmoothedAnimation { velocity: 600; duration: UbuntuAnimation.SlowDuration } }
+
+        property bool shown: false
+
+        property real showProgress: MathUtils.clamp(1 - x / shell.width, 0, 1)
+
+        property bool fullyShown: x == 0
+        property bool fullyHidden: x == width
+
+        property bool painting: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.painting : false
+        property bool fullscreen: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.fullscreen : false
+
+        function show() {
+            shown = true;
+            panel.indicators.hide();
+            if (!ApplicationManager.focusedApplicationId && ApplicationManager.count > 0) {
+                ApplicationManager.focusApplication(ApplicationManager.get(0).appId);
+            }
+        }
+
+        function hide() {
+            shown = false;
+            ApplicationManager.unfocusCurrentApplication();
+        }
+
+        Connections {
+            target: ApplicationManager
+            onFocusedApplicationIdChanged: {
+                if (ApplicationManager.focusedApplicationId.length > 0) {
                     stages.show();
                 }
             }
 
-            Loader {
-                id: applicationsDisplayLoader
-                anchors.fill: parent
-
-                source: shell.sideStageEnabled ? "Stages/StageWithSideStage.qml" : "Stages/PhoneStage.qml"
-
-                Binding {
-                    target: applicationsDisplayLoader.item
-                    property: "moving"
-                    value: !stages.fullyShown
-                }
-                Binding {
-                    target: applicationsDisplayLoader.item
-                    property: "shown"
-                    value: stages.shown
-                }
-                Binding {
-                    target: applicationsDisplayLoader.item
-                    property: "dragAreaWidth"
-                    value: shell.edgeSize
-                }
+            onApplicationAdded: {
+                stages.show();
             }
+        }
 
-            DragHandle {
-                id: stagesDragHandle
+        Loader {
+            id: applicationsDisplayLoader
+            anchors.fill: parent
 
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                anchors.right: parent.left
+            source: shell.sideStageEnabled ? "Stages/StageWithSideStage.qml" : "Stages/PhoneStage.qml"
 
-                width: shell.edgeSize
-                direction: Direction.Leftwards
-                enabled: greeter.showProgress == 0 && edgeDemo.dashEnabled
-                property bool haveApps: ApplicationManager.count > 0
-
-                maxTotalDragDistance: haveApps ? parent.width : parent.width * 0.7
-                // Make autocompletion impossible when !haveApps
-                edgeDragEvaluator.minDragDistance: haveApps ? maxTotalDragDistance * 0.1 : Number.MAX_VALUE
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "moving"
+                value: !stages.fullyShown
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "shown"
+                value: stages.shown
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "dragAreaWidth"
+                value: shell.edgeSize
             }
         }
     }
@@ -433,8 +431,7 @@ FocusScope {
             }
             property string focusedAppId: ApplicationManager.focusedApplicationId
             property var focusedApplication: ApplicationManager.findApplication(focusedAppId)
-            fullscreenMode: stages.painting ? stages.fullscreen :
-                                              focusedApplication && focusedApplication.fullscreen && !greeter.shown && !lockscreen.shown
+            fullscreenMode: focusedApplication && stages.fullscreen && !greeter.shown && !lockscreen.shown
             searchVisible: !greeter.shown && !lockscreen.shown && dash.shown
 
             InputFilterArea {

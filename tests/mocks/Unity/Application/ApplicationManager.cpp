@@ -97,6 +97,7 @@ void ApplicationManager::add(ApplicationInfo *application) {
     beginInsertRows(QModelIndex(), m_runningApplications.size(), m_runningApplications.size());
     m_runningApplications.append(application);
     endInsertRows();
+    Q_EMIT applicationAdded(application->appId());
     Q_EMIT countChanged();
 }
 
@@ -106,6 +107,7 @@ void ApplicationManager::remove(ApplicationInfo *application) {
         beginRemoveRows(QModelIndex(), i, i);
         m_runningApplications.removeAt(i);
         endRemoveRows();
+        Q_EMIT applicationRemoved(application->appId());
         Q_EMIT countChanged();
     }
 }
