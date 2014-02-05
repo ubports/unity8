@@ -35,7 +35,7 @@ class URLDispatcherTestCase(tests.UnityTestCase):
 
     def setUp(self):
         if platform.model() == 'Desktop':
-            self.skipTest("URL dispatcher doesn't works on the desktop.")
+            self.skipTest("URL dispatcher doesn't work on the desktop.")
         super(URLDispatcherTestCase, self).setUp()
         unity_proxy = self.launch_unity()
         process_helpers.unlock_unity(unity_proxy)
