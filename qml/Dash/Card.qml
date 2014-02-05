@@ -25,6 +25,8 @@ AbstractButton {
 
     property alias fontScale: header.fontScale
 
+    property bool showHeader: true
+
     implicitWidth: childrenRect.width
     implicitHeight: summary.y + summary.height
 
@@ -69,7 +71,7 @@ AbstractButton {
         }
 
         height: header.height
-        opacity: 0.6
+        opacity: showHeader ? 0.6 : 0
         visible: template && template["overlay"] && artShape.visible && artShape.image.status === Image.Ready || false
 
         property var source: ShaderEffectSource {
@@ -99,6 +101,7 @@ AbstractButton {
                 gl_FragColor = vec4(0, 0, 0, tex.a) * qt_Opacity;
             }"
 
+        Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
     }
 
     CardHeader {
@@ -126,6 +129,10 @@ AbstractButton {
         mascot: cardData && cardData["mascot"] || ""
         title: cardData && cardData["title"] || ""
         subtitle: cardData && cardData["subtitle"] || ""
+
+        opacity: showHeader ? 1 : 0
+
+        Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
     }
 
     Label {

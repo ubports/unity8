@@ -66,6 +66,7 @@ DashRenderer {
             property var model
 
             enabled: false
+            showHeader: ListView.isCurrentItem // XXX doesn't work
 
             fontScale: 1 / selectedItemScaleFactor
         }
