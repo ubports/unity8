@@ -77,8 +77,8 @@ Rectangle {
         function test_see_more() {
             var seeMore = findChild(previewTextSummary, "seeMore")
 
-            // when it's more than 7 lines of text, show SeeMore component
-            verify(textLabel.lineCount > 7)
+            // when it's more than textLabel.maximumCollapsedLineCount lines of text, show SeeMore component
+            verify(textLabel.lineCount > textLabel.maximumCollapsedLineCount)
             compare(seeMore.visible, true)
             verify(seeMore.more === false)
             verify(textLabel.height < textLabel.contentHeight)
@@ -94,7 +94,7 @@ Rectangle {
 
             // text SeeMore automatic hiding
             previewTextSummary.widgetData = widgetDataShortText
-            verify(textLabel.lineCount <= 7)
+            verify(textLabel.lineCount <= textLabel.maximumCollapsedLineCount)
             compare(seeMore.visible, false)
             tryCompare(textLabel, "height", textLabel.contentHeight)
         }

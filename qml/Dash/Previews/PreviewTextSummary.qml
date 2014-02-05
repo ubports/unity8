@@ -36,13 +36,12 @@ PreviewWidget {
         anchors {
             left: parent.left
             right: parent.right
-            top: parent.top
         }
         fontSize: "large"
         color: Theme.palette.selected.backgroundText
         visible: text !== ""
         opacity: .8
-        text: widgetData["title"] ? widgetData["title"] : ""
+        text: widgetData["title"] || ""
         wrapMode: Text.Wrap
     }
 

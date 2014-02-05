@@ -20,7 +20,7 @@ import Ubuntu.Components 0.1
 /*! Widget that can be used in combination with a text area to allow easy 'expand/collapse' functionality. */
 
 Item {
-    /// type:bool Boolean set to true when it suggests expanded functionality
+    //! Boolean set to true when it suggests expanded functionality
     property bool more: false
 
     implicitHeight: seeMoreLabel.height + units.gu(2)
