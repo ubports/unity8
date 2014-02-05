@@ -206,7 +206,7 @@ Item {
         property var gesturePoints: new Array()
 
         onTouchXChanged: {
-            if (!dragging && !priv.waitingForScreenshot) {
+            if (!dragging && !priv.waitingForScreenshot && !spreadView.stage === 2) {
                 priv.requestNewScreenshot();
                 spreadView.stage = 0;
                 spreadView.contentX = -spreadView.shift;
