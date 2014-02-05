@@ -420,7 +420,9 @@ Item {
                     }
 
                     onClicked: {
-                        spreadView.snapTo(index);
+                        if (spreadView.stage == 2) {
+                            spreadView.snapTo(index);
+                        }
                     }
                 }
             }
