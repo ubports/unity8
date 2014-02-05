@@ -71,7 +71,7 @@ AbstractButton {
         }
 
         height: header.height
-        opacity: showHeader ? 0.6 : 0
+        opacity:  opacity: header.opacity * 0.6
         visible: template && template["overlay"] && artShape.visible && artShape.image.status === Image.Ready || false
 
         property var source: ShaderEffectSource {
@@ -100,8 +100,6 @@ AbstractButton {
                 lowp vec4 tex = texture2D(source, coord);
                 gl_FragColor = vec4(0, 0, 0, tex.a) * qt_Opacity;
             }"
-
-        Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
     }
 
     CardHeader {
