@@ -25,6 +25,8 @@ Item {
 
     property alias fontScale: header.fontScale
 
+    property bool showHeader: true
+
     implicitWidth: childrenRect.width
     implicitHeight: summary.y + summary.height
 
@@ -69,7 +71,7 @@ Item {
         }
 
         height: units.gu(8)
-        opacity: 0.6
+        opacity: header.opacity * 0.6
         visible: template && template["overlay"] && artShape.visible && artShape.image.status === Image.Ready || false
 
         property var source: ShaderEffectSource {
@@ -98,7 +100,6 @@ Item {
                 lowp vec4 tex = texture2D(source, coord);
                 gl_FragColor = vec4(0, 0, 0, tex.a) * qt_Opacity;
             }"
-
     }
 
     CardHeader {
@@ -119,13 +120,15 @@ Item {
                 return parent.left;
             }
             right: parent.right
-            margins: template && template["overlay"] ? units.gu(1) : 0
-            topMargin: 0
         }
 
         mascot: cardData && cardData["mascot"] || ""
         title: cardData && cardData["title"] || ""
         subtitle: cardData && cardData["subtitle"] || ""
+
+        opacity: showHeader ? 1 : 0
+
+        Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
     }
 
     Label {
