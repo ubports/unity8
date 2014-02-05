@@ -42,7 +42,7 @@ class URLDispatcherTestCase(tests.UnityTestCase):
 
     def test_swipe_out_application_started_by_url_dispatcher(self):
         self.assertEqual('', self.main_window.get_current_focused_app_id())
-        # XXX we shouldn't depend on external applictions; but the camera app
+        # XXX we shouldn't depend on external applications; but the camera app
         # is already a depedency for other tests, so it's not that bad to use
         # it while the url-dispatcher implements the testability features to
         # let us launch a fake app. --elopio - 2014-02-05
