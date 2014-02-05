@@ -44,7 +44,7 @@ Item {
             leftMargin: spacing
             rightMargin: spacing
         }
-        spacing: mascotShape.visible || template && template["overlay"] ? margins : 0
+        spacing: mascotShape.visible || (template && template["overlay"]) ? margins : 0
 
         UbuntuShape {
             id: mascotShape
