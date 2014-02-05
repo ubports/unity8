@@ -71,7 +71,7 @@ AbstractButton {
         }
 
         height: header.height
-        opacity:  opacity: header.opacity * 0.6
+        opacity: header.opacity * 0.6
         visible: template && template["overlay"] && artShape.visible && artShape.image.status === Image.Ready || false
 
         property var source: ShaderEffectSource {
