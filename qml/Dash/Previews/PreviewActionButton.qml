@@ -14,24 +14,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import Ubuntu.Components 0.1
 
-/*! Interface for preview widgets. */
+Button {
+    signal triggeredAction(var data)
 
-Item {
-    /// type:bool Specifies the preview widget being currently used or not
-    property bool isCurrentPreview: true
-
-    // The id of the widget
-    property string widgetId
-
-    /// Variable used to contain widget's data
-    property var widgetData
-
-    /*! \brief This signal should be emitted when a preview action was triggered.
-     *
-     *  \param widgetId,actionId Respective identifiers from widgetData.
-     *  \param data Optional widget-specific data sent to the scope.
-     */
-    signal triggered(string widgetId, string actionId, var data)
+    property var data: null
+    objectName: "button" + (data && data.id || "")
+    // TODO missing property for color
+    color: Theme.palette.selected.foreground
+    text: data && data.label || ""
+    iconSource: data && data.icon || ""
+    iconPosition: "left"
+    onClicked: triggeredAction(data)
 }
