@@ -17,10 +17,9 @@
 import QtQuick 2.0
 import "../../Components"
 
-/*! This preview widget shows an horizontal list of
-    images. The URIs for the images should be an
-    array in widgetData["sources"]
-*/
+/*! This preview widget shows a horizontal list of images.
+ *  The URIs for the images should be an array in widgetData["sources"].
+ */
 
 PreviewWidget {
     id: root
