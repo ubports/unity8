@@ -243,11 +243,9 @@ Item {
             }
             gesturePoints = [];
 
-            if (oneWayFlick && distance < -units.gu(2) && distance > spreadView.positionMarker1 * -spreadView.width) {
+            if (oneWayFlick && spreadView.shiftedContentX > units.gu(2) && spreadView.shiftedContentX < spreadView.positionMarker1 * spreadView.width) {
                 spreadView.snapTo(1)
-            }
-
-            if (!dragging && attachedToView) {
+            } else if (!dragging && attachedToView) {
                 spreadView.snap();
             }
         }
