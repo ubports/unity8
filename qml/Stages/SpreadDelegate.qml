@@ -17,6 +17,7 @@ Item {
         anchors.fill: appImage
         anchors.margins: -units.gu(2)
         source: "graphics/dropshadow.png"
+        opacity: .4
     }
     Image {
         id: appImage
