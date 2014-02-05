@@ -103,8 +103,12 @@ Item {
                 swipeAwayGreeter();
             }
 
+            print("killing apps in 5 secs")
+            wait(1000)
             // kill all (fake) running apps
             killApps(ApplicationManager);
+            print("killed apps")
+            wait(1000)
 
             var dashHome = findChild(shell, "DashHome");
             swipeUntilScopeViewIsReached(dashHome);
@@ -511,6 +515,7 @@ Item {
         function test_DashShown(data) {
 
             print("step1")
+//            wait(1000)
             // greeter: false,
             if (data.greeter) {
                 // Swipe the greeter in

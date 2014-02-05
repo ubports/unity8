@@ -191,8 +191,10 @@ bool ApplicationManager::stopApplication(const QString &appId)
     if (application == nullptr)
         return false;
 
+    if (application->appId() == focusedApplicationId()) {
+        unfocusCurrentApplication();
+    }
     remove(application);
-    Q_EMIT focusedApplicationIdChanged();
     qDebug() << Q_FUNC_INFO << "emitting focusedAppChanged" << focusedApplicationId();
     return true;
 }

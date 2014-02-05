@@ -234,7 +234,9 @@ FocusScope {
 
         function hide() {
             shown = false;
-            ApplicationManager.unfocusCurrentApplication();
+            if (ApplicationManager.focusedApplicationId) {
+                ApplicationManager.unfocusCurrentApplication();
+            }
         }
 
         Connections {
@@ -242,6 +244,8 @@ FocusScope {
             onFocusedApplicationIdChanged: {
                 if (ApplicationManager.focusedApplicationId.length > 0) {
                     stages.show();
+                } else {
+                    stages.hide();
                 }
             }
 
