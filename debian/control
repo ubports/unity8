@@ -103,7 +103,8 @@ Description: Unity 8 shell
 
 Package: unity8-autopilot
 Architecture: all
-Depends: gir1.2-glib-2.0,
+Depends: camera-app,
+         gir1.2-glib-2.0,
          libautopilot-qt (>= 1.4),
          libqt5test5,
          libqt5widgets5,
@@ -113,6 +114,7 @@ Depends: gir1.2-glib-2.0,
          python-mock,
          unity8 (>= ${source:Version}),
          unity8-fake-env (>= ${source:Version}),
+         url-dispatcher-tools,
          ${misc:Depends},
          ${python:Depends},
          ${shlibs:Depends},

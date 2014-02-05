@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2012-2013 Canonical
+# Copyright (C) 2012, 2013, 2014 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -43,8 +43,8 @@ from unity8 import (
     get_data_dirs
 )
 from unity8.process_helpers import restart_unity_with_testability
+from unity8.shell.emulators import main_window as main_window_emulator
 from unity8.shell.emulators.dash import Dash
-from unity8.shell.emulators.main_window import MainWindow
 
 
 logger = logging.getLogger(__name__)
@@ -391,4 +391,4 @@ class UnityTestCase(AutopilotTestCase):
 
     @property
     def main_window(self):
-        return MainWindow(self._proxy)
+        return self._proxy.select_single(main_window_emulator.QQuickView)

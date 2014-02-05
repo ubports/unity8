@@ -19,7 +19,6 @@
 
 from autopilot import input, introspection
 
-
 class UnityEmulatorBase(introspection.CustomEmulatorBase):
     """A base class for all unity emulators."""
 
