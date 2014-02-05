@@ -116,7 +116,7 @@ SpreadDelegate {
             switch (index) {
             case 0:
                 if (spreadView.stage == 0) {
-                    return linearAnimation(0, spreadView.positionMarker2, 0, -spreadView.width * .25, root.animatedProgress)
+                    return Math.min(0, linearAnimation(0, spreadView.positionMarker2, 0, -spreadView.width * .25, root.animatedProgress))
                 } else if (spreadView.stage == 1){
                     return linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, -spreadView.width * .25, priv.stage2startTranslate, root.progress)
                 } else if (!priv.isSelected){ // Stage 2
@@ -158,7 +158,7 @@ SpreadDelegate {
             switch (index) {
             case 0:
                 if (spreadView.stage == 0) {
-                    return linearAnimation(0, spreadView.positionMarker2, 0, root.tile0SnapAngle, root.animatedProgress)
+                    return Math.max(0, linearAnimation(0, spreadView.positionMarker2, 0, root.tile0SnapAngle, root.animatedProgress))
                 } else if (spreadView.stage == 1) {
                     return linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4, root.tile0SnapAngle, stage2startAngle, root.progress)
                 }
