@@ -57,6 +57,7 @@ Rectangle {
 
         function test_time_formatter_data() {
             return [
+                    { tag: "NaN", value: "not a number", result: "" },
                     { tag: "0", value: 0, result: "" },
                     { tag: "-1", value: -1, result: "" },
                     { tag: "30", value: 30, result: "0:30" },
