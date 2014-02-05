@@ -120,8 +120,6 @@ AbstractButton {
                 return parent.left;
             }
             right: parent.right
-            margins: template && template["overlay"] ? units.gu(1) : 0
-            topMargin: 0
         }
 
         mascot: cardData && cardData["mascot"] || ""
