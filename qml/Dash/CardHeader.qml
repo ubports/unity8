@@ -81,6 +81,7 @@ Item {
                 maximumLineCount: 2
                 fontSize: "small"
                 font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale)
+                color: template["overlay"] === true ? "white" : "grey"
             }
 
             Label {
@@ -92,6 +93,7 @@ Item {
                 visible: titleLabel.text && text
                 fontSize: "x-small"
                 font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale)
+                color: template["overlay"] === true ? "white" : "grey"
             }
 
             Row {
