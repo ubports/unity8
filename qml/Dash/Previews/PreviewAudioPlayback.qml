@@ -53,7 +53,7 @@ PreviewWidget {
         onErrorStringChanged: console.warn("Audio player error:", errorString)
 
         function lengthToString(s) {
-            if (s <= 0 || typeof(s) !== "number") return "";
+            if (typeof(s) !== "number" || s <= 0) return "";
 
             var sec = "" + s % 60;
             if (sec.length == 1) sec = "0" + sec;
@@ -155,7 +155,7 @@ PreviewWidget {
                             color: Theme.palette.selected.backgroundText
                             fontSize: "small"
                             horizontalAlignment: Text.AlignLeft
-                            text: (modelData["subtitle"] && modelData["subtitle"] !== undefined) ? modelData["subtitle"] : ""
+                            text: modelData["subtitle"] || ""
                             elide: Text.ElideRight
                         }
 
