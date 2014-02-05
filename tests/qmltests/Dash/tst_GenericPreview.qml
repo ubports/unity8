@@ -113,5 +113,13 @@ Item {
                 compare(value.text, dataObject.infoHints[i].value)
             }
         }
+
+        function test_showProcessing() {
+            var button = findChild(genericPreview, "button1");
+            mouseClick(button, 1, 1);
+            tryCompare(genericPreview, "showProcessingAction", true);
+            genericPreview.previewDataChanged();
+            tryCompare(genericPreview, "showProcessingAction", false);
+        }
     }
 }
