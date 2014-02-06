@@ -42,9 +42,9 @@ Item {
         id: column
         property real maxWidth: -1
         anchors.top: moreButton.bottom
-        anchors.topMargin: spacing
+        anchors.topMargin: height > 0 ? spacing : 0
         objectName: "buttonColumn"
-        spacing: height > 0 ? units.gu(1) : 0
+        spacing: units.gu(1)
         width: maxWidth
 
         Repeater {
