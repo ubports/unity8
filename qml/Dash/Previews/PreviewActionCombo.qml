@@ -39,7 +39,7 @@ Item {
     }
 
     Column {
-        id: c
+        id: column
         property real maxWidth: -1
         anchors.top: moreButton.bottom
         anchors.topMargin: spacing
@@ -59,7 +59,7 @@ Item {
                 width: implicitWidth < parent.width ? parent.width : implicitWidth
                 visible: height > 0
                 Component.onCompleted: {
-                    c.maxWidth = Math.max(c.maxWidth, implicitWidth);
+                    column.maxWidth = Math.max(column.maxWidth, implicitWidth);
                 }
                 onClicked: {
                     root.triggeredAction(modelData.id)
