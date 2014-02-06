@@ -1,0 +1,349 @@
+/*
+ * Copyright (C) 2014 Canonical, Ltd.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; version 3.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+import QtQuick 2.0
+import QtTest 1.0
+import ".."
+import "../../../qml/Notifications"
+import Ubuntu.Components 0.1
+import Unity.Test 0.1
+import Unity.Notifications 1.0
+
+Row {
+    id: rootRow
+
+    Component {
+        id: mockNotification
+
+        QtObject {
+            function invokeAction(actionId) {
+                mockModel.actionInvoked(actionId)
+            }
+        }
+    }
+
+    ListModel {
+        id: mockModel
+
+        signal actionInvoked(string actionId)
+
+        function getRaw(id) {
+            return mockNotification.createObject(mockModel)
+        }
+
+        // add the default/PlaceHolder notification to the model
+        Component.onCompleted: {
+            var n = {
+                type: Notification.PlaceHolder,
+                hints: {},
+                summary: "",
+                body: "",
+                icon: "",
+                secondaryIcon: "",
+                actions: []
+            }
+
+            append(n)
+        }
+    }
+
+    function addSomeSnapDecisionNotifications() {
+        var n = [{
+            type: Notification.SnapDecision,
+            hints: {"x-canonical-private-button-tint": "true"},
+            summary: "Incoming call",
+            body: "Frank Zappa\n+44 (0)7736 027340",
+            icon: "../graphics/avatars/funky.png",
+            secondaryIcon: "../graphics/applicationIcons/phone-app.png",
+            actions: [{ id: "pickup_id", label: "Pick up"},
+                      { id: "decline_1_id", label: "Decline"},
+                      { id: "decline_2_id", label: "Can't talk now, what's up?"},
+                      { id: "decline_3_id", label: "I call you back."},
+                      { id: "decline_4_id", label: "Send custom message..."}]
+        },
+        {
+            type: Notification.SnapDecision,
+            hints: {"x-canonical-private-button-tint": "true",
+                    "x-canonical-non-shaped-icon": "true"},
+            summary: "Incoming file",
+            body: "Frank would like to send you the file: essay.pdf.",
+            icon: "image://theme/document",
+            actions: [{ id: "accept_id", label: "Accept"},
+                      { id: "reject_id", label: "Reject"}]
+        },
+        {
+            type: Notification.SnapDecision,
+            hints: {"x-canonical-private-button-tint": "true",
+                    "x-canonical-non-shaped-icon": "true"},
+            summary: "Authentication error",
+            body: "Please authorise Ubuntu to access your Google account.",
+            icon: "image://theme/gnome-globe",
+            actions: [{ id: "settings_id", label: "Settings..."},
+                      { id: "cancel_id", label: "Cancel"}]
+        },
+        {
+            type: Notification.SnapDecision,
+            hints: {"x-canonical-private-button-tint": "true",
+                    "x-canonical-non-shaped-icon": "true"},
+            summary: "Morning alarm",
+            body: "It's 6:30... time to get up!",
+            icon: "image://theme/alarm-symbolic",
+            actions: [{ id: "ok_reply", label: "Ok"},
+                      { id: "snooze_id", label: "Snooze"}]
+        },
+        {
+            type: Notification.SnapDecision,
+            hints: {"x-canonical-private-button-tint": "true"},
+            summary: "Jenny Sample",
+            body: "Hey there! Have you been watching the latest episode of that TV-show I told you about last week?",
+            icon: "../graphics/avatars/amanda.png",
+            secondaryIcon: "../graphics/applicationIcons/messages-app.png",
+            actions: [{ id: "reply_id", label: "Reply"},
+                      { id: "ignore_id", label: "Ignore"}]
+        }]
+
+        mockModel.append(n)
+    }
+
+    function clearNotifications() {
+        // remove all but the first (PlaceHolder) notification
+        mockModel.remove(1, mockModel.count - 1)
+    }
+
+    function removeTopMostNotification() {
+        // leave real/first (PlaceHolder) notification untouched
+        if (mockModel.count > 1)
+            mockModel.remove(1)
+    }
+
+    Rectangle {
+        id: notificationsRect
+
+        width: units.gu(40)
+        height: units.gu(71)
+
+        MouseArea{
+            id: clickThroughCatcher
+
+            anchors.fill: parent
+        }
+
+        Notifications {
+            id: notifications
+
+            margin: units.gu(1)
+
+            anchors.fill: parent
+            model: mockModel
+        }
+    }
+
+    Rectangle {
+        id: interactiveControls
+
+        width: units.gu(30)
+        height: units.gu(81)
+        color: "grey"
+
+        Column {
+            spacing: units.gu(1)
+            anchors.fill: parent
+            anchors.margins: units.gu(1)
+
+            Button {
+                width: parent.width
+                text: "add some snap-decisions"
+                onClicked: addSomeSnapDecisionNotifications()
+            }
+
+            Button {
+                width: parent.width
+                text: "remove top-most notification"
+                onClicked: removeTopMostNotification()
+            }
+
+            Button {
+                width: parent.width
+                text: "clear model"
+                onClicked: clearNotifications()
+            }
+        }
+    }
+
+    UnityTestCase {
+        id: root
+        name: "VisualQueueTest"
+        when: windowShown
+
+        function test_VisualQueue_data() {
+            return [
+            {
+                tag: "Snap Decision 1",
+                type: Notification.SnapDecision,
+                hints: {"x-canonical-private-button-tint": "true"},
+                summary: "Incoming call",
+                body: "Frank Zappa\n+44 (0)7736 027340",
+                icon: "../graphics/avatars/funky.png",
+                secondaryIcon: "../graphics/applicationIcons/phone-app.png",
+                actions: [{ id: "pickup_id", label: "Pick up"},
+                          { id: "decline_1_id", label: "Decline"},
+                          { id: "decline_2_id", label: "Can't talk now, what's up?"},
+                          { id: "decline_3_id", label: "I call you back."},
+                          { id: "decline_4_id", label: "Send custom message..."}]
+            },
+            {
+                tag: "Snap Decision 2",
+                type: Notification.SnapDecision,
+                hints: {"x-canonical-private-button-tint": "true",
+                        "x-canonical-non-shaped-icon": "true"},
+                summary: "Incoming file",
+                body: "Frank would like to send you the file: essay.pdf.",
+                icon: "image://theme/document",
+                secondaryIcon: "",
+                actions: [{ id: "accept_id", label: "Accept"},
+                          { id: "reject_id", label: "Reject"}]
+            },
+            {
+                tag: "Snap Decision 3",
+                type: Notification.SnapDecision,
+                hints: {"x-canonical-private-button-tint": "true",
+                        "x-canonical-non-shaped-icon": "true"},
+                summary: "Authentication error",
+                body: "Please authorise Ubuntu to access your Google account.",
+                icon: "image://theme/gnome-globe",
+                secondaryIcon: "",
+                actions: [{ id: "settings_id", label: "Settings..."},
+                          { id: "cancel_id", label: "Cancel"}]
+            },
+            {
+                tag: "Snap Decision 4",
+                type: Notification.SnapDecision,
+                hints: {"x-canonical-private-button-tint": "true",
+                        "x-canonical-non-shaped-icon": "true"},
+                summary: "Morning alarm",
+                body: "It's 6:30... time to get up!",
+                icon: "image://theme/alarm-symbolic",
+                secondaryIcon: "",
+                actions: [{ id: "ok_reply", label: "Ok"},
+                          { id: "snooze_id", label: "Snooze"}]
+            },
+            {
+                tag: "Snap Decision 5",
+                type: Notification.SnapDecision,
+                hints: {"x-canonical-private-button-tint": "true"},
+                summary: "Jenny Sample",
+                body: "Hey there! Have you been watching the latest episode of that TV-show I told you about last week?",
+                icon: "../graphics/avatars/amanda.png",
+                secondaryIcon: "../graphics/applicationIcons/messages-app.png",
+                actions: [{ id: "reply_id", label: "Reply"},
+                          { id: "ignore_id", label: "Ignore"}]
+            }
+            ]
+        }
+
+        function test_VisualQueue(data) {
+            // populate model with some mock notifications
+            mockModel.append(data)
+
+            // make sure the view is properly updated before going on
+            waitForRendering(notifications);
+
+            if (mockModel.count > 5) {
+                var snap_decision_1 = findChild(notifications, "notification1")
+                var snap_decision_2 = findChild(notifications, "notification2")
+                var snap_decision_3 = findChild(notifications, "notification3")
+                var snap_decision_4 = findChild(notifications, "notification4")
+                var snap_decision_5 = findChild(notifications, "notification5")
+
+                verify(snap_decision_1 !== undefined, "first snap-decision wasn't found");
+                verify(snap_decision_2 !== undefined, "second snap-decision wasn't found");
+                verify(snap_decision_3 !== undefined, "third snap-decision wasn't found");
+                verify(snap_decision_4 !== undefined, "fourth snap-decision wasn't found");
+                verify(snap_decision_5 !== undefined, "fifth snap-decision wasn't found");
+
+                // check initial states once all five snap-decisions were appended to the model
+                compare(snap_decision_1.state, "expanded", "state of first snap-decision is not expanded")
+                compare(snap_decision_2.state, "contracted", "state of second snap-decision is not contracted")
+                compare(snap_decision_3.state, "contracted", "state of third snap-decision is not contracted")
+                compare(snap_decision_4.state, "contracted", "state of fourth snap-decision is not contracted")
+                compare(snap_decision_5.state, "contracted", "state of fifth snap-decision is not contracted")
+            }
+
+            // click/tap on each snap-decision and verify only one is in expanded-state at any time
+            if (mockModel.count > 5) {
+                mouseClick(snap_decision_1, snap_decision_1.width / 2, snap_decision_1.height / 2)
+                compare(snap_decision_1.state, "expanded", "state of first snap-decision is not expanded")
+                compare(snap_decision_2.state, "contracted", "state of second snap-decision is not contracted")
+                compare(snap_decision_3.state, "contracted", "state of third snap-decision is not contracted")
+                compare(snap_decision_4.state, "contracted", "state of fourth snap-decision is not contracted")
+                compare(snap_decision_5.state, "contracted", "state of fifth snap-decision is not contracted")
+
+                mouseClick(snap_decision_2, snap_decision_2.width / 2, snap_decision_2.height / 2)
+                compare(snap_decision_2.state, "expanded", "state of second snap-decision is not expanded")
+                compare(snap_decision_1.state, "contracted", "state of first snap-decision is not contracted")
+                compare(snap_decision_3.state, "contracted", "state of third snap-decision is not contracted")
+                compare(snap_decision_4.state, "contracted", "state of fourth snap-decision is not contracted")
+                compare(snap_decision_5.state, "contracted", "state of fifth snap-decision is not contracted")
+
+                mouseClick(snap_decision_3, snap_decision_3.width / 2, snap_decision_3.height / 2)
+                compare(snap_decision_3.state, "expanded", "state of third snap-decision is not expanded")
+                compare(snap_decision_1.state, "contracted", "state of first snap-decision is not contracted")
+                compare(snap_decision_2.state, "contracted", "state of second snap-decision is not contracted")
+                compare(snap_decision_4.state, "contracted", "state of fourth snap-decision is not contracted")
+                compare(snap_decision_5.state, "contracted", "state of fifth snap-decision is not contracted")
+
+                mouseClick(snap_decision_4, snap_decision_4.width / 2, snap_decision_4.height / 2)
+                compare(snap_decision_4.state, "expanded", "state of fourth snap-decision is not expanded")
+                compare(snap_decision_1.state, "contracted", "state of first snap-decision is not contracted")
+                compare(snap_decision_2.state, "contracted", "state of second snap-decision is not contracted")
+                compare(snap_decision_3.state, "contracted", "state of third snap-decision is not contracted")
+                compare(snap_decision_5.state, "contracted", "state of fourth snap-decision is not contracted")
+
+                mouseClick(snap_decision_5, snap_decision_5.width / 2, snap_decision_5.height / 2)
+                compare(snap_decision_5.state, "expanded", "state of fifth snap-decision is not expanded")
+                compare(snap_decision_1.state, "contracted", "state of first snap-decision is not contracted")
+                compare(snap_decision_2.state, "contracted", "state of second snap-decision is not contracted")
+                compare(snap_decision_3.state, "contracted", "state of third snap-decision is not contracted")
+                compare(snap_decision_4.state, "contracted", "state of fourth snap-decision is not contracted")
+            }
+
+            // once all five snap-decisions are appended to the model remove top-most and verify one of the remaining ones is still getting expanded
+            if (mockModel.count > 5) {
+                // make first snap-decision expand
+                mouseClick(snap_decision_1, snap_decision_1.width / 2, snap_decision_1.height / 2)
+
+                // remove it
+                removeTopMostNotification()
+                compare(snap_decision_2.state, "expanded", "state of second snap-decision is not expanded")
+
+                // remove next
+                removeTopMostNotification()
+                compare(snap_decision_3.state, "expanded", "state of second snap-decision is not expanded")
+
+                // remove next
+                removeTopMostNotification()
+                compare(snap_decision_4.state, "expanded", "state of second snap-decision is not expanded")
+
+                // remove next
+                removeTopMostNotification()
+                compare(snap_decision_5.state, "expanded", "state of second snap-decision is not expanded")
+
+                // remove last
+                removeTopMostNotification()
+            }
+        }
+    }
+}

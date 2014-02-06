@@ -45,20 +45,20 @@ Item {
     opacity: 0
 
     state: {
-        var result = undefined;
+        var result = "undefined";
 
         if (type == Notification.SnapDecision) {
             if (notificationList.currentIndex == index) {
-                result = "default";
+                result = "expanded";
             } else {
                 if (notificationList.count > 2) {
                     if (notificationList.currentIndex == -1 && index == 1) {
-                        result = "default";
+                        result = "expanded";
                     } else {
                         result = "contracted";
                     }
                 } else {
-                    result = "default";
+                    result = "expanded";
                 }
             }
         }
@@ -87,7 +87,7 @@ Item {
             PropertyChanges {target: notification; height: units.gu(8)}
         },
         State {
-            name: "default"
+            name: "expanded"
             PropertyChanges {target: notification; height: implicitHeight}
         }
     ]

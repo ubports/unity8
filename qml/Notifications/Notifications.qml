@@ -53,6 +53,12 @@ ListView {
             }
         }
 
+        ListView.onAdd: {
+            if (notificationList.currentIndex < 1 && notificationList.count > 1) {
+                notificationList.currentIndex = 1
+            }
+        }
+
         // make sure there's no opacity-difference between the several
         // elements in a notification
         layer.enabled: add.running || remove.running || populate.running
