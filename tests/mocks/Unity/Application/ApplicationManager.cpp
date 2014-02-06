@@ -30,6 +30,7 @@
 
 ApplicationManager::ApplicationManager(QObject *parent)
     : ApplicationManagerInterface(parent)
+    , m_suspended(false)
     , m_mainStageComponent(0)
     , m_mainStage(0)
     , m_sideStageComponent(0)
@@ -229,6 +230,25 @@ QString ApplicationManager::focusedApplicationId() const {
         }
     }
     return QString();
+}
+
+bool ApplicationManager::suspended() const
+{
+    return m_suspended;
+}
+
+void ApplicationManager::setSuspended(bool suspended)
+{
+    ApplicationInfo *focusedApp = findApplication(focusedApplicationId());
+    if (focusedApp) {
+        if (suspended) {
+            focusedApp->setState(ApplicationInfo::Suspended);
+        } else {
+            focusedApp->setState(ApplicationInfo::Running);
+        }
+    }
+    m_suspended = suspended;
+    Q_EMIT suspendedChanged();
 }
 
 bool ApplicationManager::focusApplication(const QString &appId)

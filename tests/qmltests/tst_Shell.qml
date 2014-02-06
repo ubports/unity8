@@ -188,26 +188,34 @@ Item {
             tapOnAppIconInLauncher();
             waitUntilApplicationWindowIsFullyVisible();
 
-            var mainApp = ApplicationManager.focusedApplicationId;
-            verify(mainApp != "");
+            var mainAppId = ApplicationManager.focusedApplicationId;
+            verify(mainAppId != "");
+            var mainApp = ApplicationManager.findApplication(mainAppId);
+            verify(mainApp);
+            tryCompare(mainApp.state, ApplicationInfo.Running);
 
             // Try to suspend while proximity is engaged...
             Powerd.displayPowerStateChange(Powerd.Off, Powerd.UseProximity);
             tryCompare(greeter, "showProgress", 0);
 
             // Now really suspend
+            print("suspending")
             Powerd.displayPowerStateChange(Powerd.Off, 0);
+            print("done suspending")
             tryCompare(greeter, "showProgress", 1);
-            tryCompare(ApplicationManager, "focusedApplicationId", "");
+
+            tryCompare(ApplicationManager, "suspended", true);
+            compare(mainApp.state, ApplicationInfo.Suspended);
 
             // And wake up
             Powerd.displayPowerStateChange(Powerd.On, 0);
-            tryCompare(ApplicationManager, "focusedApplicationId", "");
             tryCompare(greeter, "showProgress", 1);
 
             // Swipe away greeter to focus app
             swipeAwayGreeter();
-            tryCompare(ApplicationManager, "focusedApplicationId", mainApp);
+            tryCompare(ApplicationManager, "suspended", false);
+            compare(mainApp.state, ApplicationInfo.Running);
+            tryCompare(ApplicationManager, "focusedApplicationId", mainAppId);
         }
 
         function swipeAwayGreeter() {

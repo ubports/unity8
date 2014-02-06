@@ -95,6 +95,8 @@ public:
     }
     void updateScreenshot(const QString &appId) { Q_UNUSED(appId); }
     void activateApplication(const QString &appId) { Q_UNUSED(appId); }
+    bool suspended() const { return false; }
+    void setSuspended(bool) {}
 
 private:
     QList<MockApp*> m_list;

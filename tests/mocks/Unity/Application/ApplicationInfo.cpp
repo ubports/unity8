@@ -20,12 +20,13 @@
 #include <QQuickItem>
 #include <QQuickView>
 #include <QQmlComponent>
+#include <QTimer>
 
 ApplicationInfo::ApplicationInfo(const QString &appId, QObject *parent)
     : ApplicationInfoInterface(appId, parent)
     ,m_appId(appId)
     ,m_stage(MainStage)
-    ,m_state(Starting)
+    ,m_state(Running)
     ,m_focused(false)
     ,m_fullscreen(false)
     ,m_windowItem(0)
@@ -37,7 +38,7 @@ ApplicationInfo::ApplicationInfo(const QString &appId, QObject *parent)
 ApplicationInfo::ApplicationInfo(QObject *parent)
     : ApplicationInfoInterface(QString(), parent)
      ,m_stage(MainStage)
-     ,m_state(Starting)
+     ,m_state(Running)
      ,m_focused(false)
      ,m_fullscreen(false)
      ,m_windowItem(0)

@@ -345,9 +345,6 @@ FocusScope {
 
         dragHandleWidth: shell.edgeSize
 
-        property var previousMainApp: null
-        property var previousSideApp: null
-
         onShownChanged: {
             if (shown) {
                 lockscreen.reset();
@@ -373,6 +370,12 @@ FocusScope {
             if (leftTeaserPressed) {
                 launcher.tease();
             }
+        }
+
+        Binding {
+            target: ApplicationManager
+            property: "suspended"
+            value: greeter.shown
         }
     }
 

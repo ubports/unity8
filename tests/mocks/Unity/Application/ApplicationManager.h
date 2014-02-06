@@ -96,6 +96,8 @@ class ApplicationManager : public ApplicationManagerInterface {
     Q_INVOKABLE void updateScreenshot(const QString &appId) override;
 
     QString focusedApplicationId() const override;
+    bool suspended() const;
+    void setSuspended(bool suspended);
 
  Q_SIGNALS:
     void keyboardHeightChanged();
@@ -115,6 +117,7 @@ class ApplicationManager : public ApplicationManagerInterface {
     void createSideStage();
     int m_keyboardHeight;
     bool m_keyboardVisible;
+    bool m_suspended;
     QList<ApplicationInfo*> m_runningApplications;
     QList<ApplicationInfo*> m_availableApplications;
     QQmlComponent *m_mainStageComponent;
