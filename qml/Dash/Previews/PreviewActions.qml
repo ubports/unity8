@@ -16,7 +16,7 @@
 
 import QtQuick 2.1
 
-/*! This preview widget shows a either one button, two buttons or one button
+/*! This preview widget shows either one button, two buttons or one button
  *  and a combo button depending on the number of items in widgetData["actions"].
  *  For each of the items we recognize the fields "label", "icon" and "id".
  */
