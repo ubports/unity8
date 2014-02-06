@@ -41,7 +41,7 @@ PreviewWidget {
                 if (button) {
                     item.data = actions[1];
                 } else if (combo) {
-                    item.model = actions.slice(1)
+                    item.model = actions.slice(1);
                 }
             }
             Connections {
