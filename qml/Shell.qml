@@ -161,13 +161,7 @@ FocusScope {
 
             contentScale: 1.0 - 0.2 * disappearingAnimationProgress
             opacity: 1.0 - disappearingAnimationProgress
-            property real disappearingAnimationProgress: {
-                if (greeter.shown) {
-                    return greeter.showProgress;
-                } else {
-                    return stages.showProgress;
-                }
-            }
+            property real disappearingAnimationProgress: greeter.shown ? greeter.showProgress : stages.showProgress
 
             // FIXME: only necessary because stages.showProgress and
             // greeterRevealer.animatedProgress are not animated
@@ -187,9 +181,9 @@ FocusScope {
         onTouchXChanged: {
             if (status == DirectionalDragArea.Recognized) {
                 if (ApplicationManager.count == 0) {
-                    progress = Math.max(stages.width + touchX * 2, stages.width * .7)
+                    progress = Math.max(stages.width - stagesDragHandle.width + touchX, stages.width * .3)
                 } else {
-                    progress = stages.width + touchX
+                    progress = stages.width - stagesDragHandle.width + touchX
                 }
             }
         }

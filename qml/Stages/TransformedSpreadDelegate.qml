@@ -104,6 +104,8 @@ SpreadDelegate {
             return helperEasingCurve.value * (endValue - startValue) + startValue;
         }
 
+        property real animatedEndDistance: linearAnimation(0, 2, root.endDistance, 0, root.progress)
+
         property real xTranslate: {
             if (otherSelected) {
                 if (spreadView.stage < 2 && index == 0) {
@@ -144,7 +146,7 @@ SpreadDelegate {
             // Fix it at the right edge...
             var rightEdgeOffset =  -((index - 1) * root.startDistance)
             // ...and use our easing to move them to the left. Stop a bit earlier for each tile
-            return -easingCurve.value * spreadView.width + (index * root.endDistance) + rightEdgeOffset
+            return -easingCurve.value * spreadView.width + (index * animatedEndDistance) + rightEdgeOffset
 
         }
 
