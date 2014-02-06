@@ -39,13 +39,13 @@ PreviewWidget {
             readonly property bool button: row.actions && row.actions.length == 2
             readonly property bool combo: row.actions && row.actions.length > 2
             source: button ? "PreviewActionButton.qml" : (combo ? "PreviewActionCombo.qml" : "")
+            width: (root.width - units.gu(1)) / 2
             onLoaded: {
                 if (button) {
                     item.data = row.actions[1];
                 } else if (combo) {
                     item.model = row.actions.slice(1);
                 }
-                item.width = Qt.binding(function() { return (root.width - units.gu(1)) / 2; });
             }
             Connections {
                 target: loader.item
