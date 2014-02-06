@@ -93,12 +93,16 @@ Rectangle {
         name: "PreviewActionTest"
         when: windowShown
 
+        function cleanup()
+        {
+            spy.clear();
+        }
+
         function checkButtonPressSignal(target, id)
         {
             var button = findChild(root, "button" + id);
             verify(button != null);
             spy.target = target;
-            spy.clear();
             mouseClick(button, button.width / 2, button.height / 2);
             compare(spy.count, 1);
             compare(spy.signalArguments[0][0], target.widgetId);
