@@ -47,7 +47,7 @@ PreviewWidget {
             Connections {
                 target: loader.item
                 onTriggeredAction: {
-                    root.triggered(root.widgetId, data.id, data);
+                    root.triggered(root.widgetId, id, null);
                 }
             }
         }
@@ -55,7 +55,7 @@ PreviewWidget {
         PreviewActionButton {
             data: visible ? actions[0] : null
             visible: actions && actions.length > 0
-            onTriggeredAction: root.triggered(root.widgetId, data.id, data);
+            onTriggeredAction: root.triggered(root.widgetId, id, null);
         }
 
     }

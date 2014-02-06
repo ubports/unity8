@@ -79,7 +79,7 @@ Rectangle {
         name: "PreviewActionTest"
         when: windowShown
 
-        function checkButtonPressSignal(target, id, buttonNumber)
+        function checkButtonPressSignal(target, id)
         {
             var button = findChild(root, "button" + id);
             verify(button != null);
@@ -89,15 +89,14 @@ Rectangle {
             compare(spy.count, 1);
             compare(spy.signalArguments[0][0], target.widgetId);
             compare(spy.signalArguments[0][1], id);
-            compare(spy.signalArguments[0][2], target.widgetData["actions"][buttonNumber]);
         }
 
         function test_checkButtons_data() {
             return [
-                {tag: "oneActionButton", target: oneAction, id: "someid", buttonNumber: 0 },
-                {tag: "twobuttonsButton0", target: twoActions, id: "someid1", buttonNumber: 0 },
-                {tag: "twobuttonsButton1", target: twoActions, id: "someid2", buttonNumber: 1 },
-                {tag: "buttonAndComboButton0", target: buttonAndCombo, id: "someid3", buttonNumber: 0 }
+                {tag: "oneActionButton", target: oneAction, id: "someid" },
+                {tag: "twobuttonsButton0", target: twoActions, id: "someid1" },
+                {tag: "twobuttonsButton1", target: twoActions, id: "someid2" },
+                {tag: "buttonAndComboButton0", target: buttonAndCombo, id: "someid3" }
             ]
         }
 
@@ -107,10 +106,10 @@ Rectangle {
 
         function test_comboButton_data() {
             return [
-                {tag: "button1", id: "someid4", buttonNumber: 1 },
-                {tag: "button2", id: "someid5", buttonNumber: 2 },
-                {tag: "button3", id: "someid6", buttonNumber: 3 },
-                {tag: "button4", id: "someid7", buttonNumber: 4 }
+                {tag: "button1", id: "someid4" },
+                {tag: "button2", id: "someid5" },
+                {tag: "button3", id: "someid6" },
+                {tag: "button4", id: "someid7" }
             ]
         }
 

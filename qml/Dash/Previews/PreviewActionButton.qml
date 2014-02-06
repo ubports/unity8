@@ -18,7 +18,7 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 
 Button {
-    signal triggeredAction(var data)
+    signal triggeredAction(string id)
 
     property var data: null
     objectName: "button" + (data && data.id || "")
@@ -26,5 +26,5 @@ Button {
     text: data && data.label || ""
     iconSource: data && data.icon || ""
     iconPosition: "left"
-    onClicked: triggeredAction(data)
+    onClicked: triggeredAction(data.id)
 }

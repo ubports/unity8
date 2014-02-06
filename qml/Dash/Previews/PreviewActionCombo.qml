@@ -23,7 +23,7 @@ Item {
     width: childrenRect.width
     height: childrenRect.height
 
-    signal triggeredAction(var data)
+    signal triggeredAction(string id)
 
     property alias model: actionRepeater.model
 
@@ -62,7 +62,7 @@ Item {
                     c.maxWidth = Math.max(c.maxWidth, implicitWidth);
                 }
                 onClicked: {
-                    root.triggeredAction(modelData)
+                    root.triggeredAction(modelData.id)
                 }
             }
         }
