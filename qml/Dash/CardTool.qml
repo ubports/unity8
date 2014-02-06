@@ -100,7 +100,7 @@ Item {
         }
     }
 
-    property var titleAlignment: {
+    readonly property var titleAlignment: {
         var subtitle = components["subtitle"];
         var price = components["price"];
         var summary = components["summary"];
