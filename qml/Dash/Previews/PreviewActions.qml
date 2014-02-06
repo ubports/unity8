@@ -57,6 +57,5 @@ PreviewWidget {
             visible: actions && actions.length > 0
             onTriggeredAction: root.triggered(root.widgetId, id, null);
         }
-
     }
 }
