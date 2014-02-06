@@ -23,7 +23,7 @@ AbstractButton {
     property var components
     property var cardData
 
-    property alias titleAlignment: header.titleAlignment
+    property alias headerAlignment: header.headerAlignment
 
     implicitWidth: childrenRect.width
     implicitHeight: childrenRect.height

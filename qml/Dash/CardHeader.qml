@@ -26,7 +26,7 @@ Item {
     property alias oldPrice: oldPriceLabel.text
     property alias altPrice: altPriceLabel.text
 
-    property alias titleAlignment: titleLabel.horizontalAlignment
+    property alias headerAlignment: titleLabel.horizontalAlignment
 
     visible: mascotImage.status === Image.Ready || title || price
     height: row.height > 0 ? row.height + row.margins * 2 : 0
