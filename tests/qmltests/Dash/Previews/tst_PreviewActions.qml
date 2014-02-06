@@ -57,21 +57,21 @@ Rectangle {
             id: oneAction
             widgetId: "button"
             widgetData: actionDataOneAction
-            onTriggered: console.log("triggered", widgetId, actionId, data);
+            onTriggered: console.log("triggered", widgetId, actionId);
         }
 
         PreviewActions {
             id: buttonAndCombo
             widgetId: "buttonAndCombo"
             widgetData: actionDataFiveActions
-            onTriggered: console.log("triggered", widgetId, actionId, data);
+            onTriggered: console.log("triggered", widgetId, actionId);
         }
 
         PreviewActions {
             id: twoActions
             widgetId: "2buttons"
             widgetData: actionDataTwoActions
-            onTriggered: console.log("triggered", widgetId, actionId, data);
+            onTriggered: console.log("triggered", widgetId, actionId);
         }
     }
 

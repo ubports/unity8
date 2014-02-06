@@ -35,7 +35,7 @@ Item {
         text: !expanded ? i18n.tr("More...") : i18n.tr("Less...")
         gradient: UbuntuColors.orangeGradient
         onClicked: expanded = !expanded
-        width: c.maxWidth
+        width: column.maxWidth
     }
 
     Column {
@@ -50,11 +50,8 @@ Item {
         Repeater {
             id: actionRepeater
 
-            delegate: Button {
-                objectName: "button" + modelData.id
-                text: modelData.label || ""
-                iconSource: modelData.icon || ""
-                gradient: UbuntuColors.orangeGradient
+            delegate: PreviewActionButton {
+                data: modelData
                 height: moreButton.expanded ? implicitHeight : 0
                 width: implicitWidth < parent.width ? parent.width : implicitWidth
                 visible: height > 0
