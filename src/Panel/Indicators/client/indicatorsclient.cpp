@@ -42,7 +42,7 @@ IndicatorsClient::IndicatorsClient(int &argc, char **argv)
     appendImportPaths(m_view->engine(), ::fallbackImportPaths());
 
     QString profile = "phone";
-    if (args.contains(QLatin1String("-profile")) && args.size() > args.indexOf(QLatin1String("-geometry")) + 1) {
+    if (args.contains(QLatin1String("-profile")) && args.size() > args.indexOf(QLatin1String("-profile")) + 1) {
         profile = args.at(args.indexOf(QLatin1String("-profile")) + 1);
     }
     m_view->rootContext()->setContextProperty("indicatorProfile", profile);
