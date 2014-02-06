@@ -108,7 +108,7 @@ class QQuickView(emulators.UnityEmulatorBase):
         height = self.height
         start_x = 0
         start_y = height // 2
-        end_x = width // 2
+        end_x = width
         end_y = start_y
 
         self.pointing_device.drag(start_x, start_y, end_x, end_y)
