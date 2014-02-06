@@ -142,8 +142,6 @@ class UnityTestCase(AutopilotTestCase):
         self._data_dirs_mock_enabled = True
         self._environment = {}
 
-        self._patch_data_dirs()
-
         #### FIXME: This is a work around re: lp:1238417 ####
         if model() != "Desktop":
             from autopilot.input import _uinput
@@ -268,6 +266,9 @@ class UnityTestCase(AutopilotTestCase):
 
         if self._qml_mock_enabled:
             self._setup_extra_mock_environment_patch()
+
+        if self._data_dirs_mock_enabled:
+            self._patch_data_dirs()
 
         # FIXME: we shouldn't be doing this
         # $MIR_SOCKET, fallback to $XDG_RUNTIME_DIR/mir_socket and
