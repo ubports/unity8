@@ -65,13 +65,12 @@ Rectangle {
 
             // verify titleLabel is visible and textLabel is anchored below it
             compare(titleLabel.visible, true)
-            var mappedTextLabel = root.mapFromItem(textLabel, 0, 0)
-            compare(mappedTextLabel.y, titleLabel.height)
+            compare(textLabel.y, titleLabel.height)
 
             // verify titleLabel disappears and textLabel moves up
             previewTextSummary.widgetData = widgetDataNoTitle
             compare(titleLabel.visible, false)
-            verify(mappedTextLabel.y, 0)
+            compare(textLabel.y, 0)
         }
 
         function test_see_more() {

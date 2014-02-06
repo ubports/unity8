@@ -28,7 +28,7 @@ import "../../Components"
 
 PreviewWidget {
     id: root
-    implicitHeight: titleLabel.visible ? titleLabel.height + textLabel.height : textLabel.height
+    implicitHeight: childrenRect.height
 
     Label {
         id: titleLabel
