@@ -24,6 +24,7 @@ Item {
     property var cardData
 
     property alias fontScale: header.fontScale
+    property alias headerHeight: header.height
 
     property bool showHeader: true
 
