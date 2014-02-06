@@ -48,6 +48,7 @@ class URLDispatcherTestCase(tests.UnityTestCase):
         # is already a depedency for other tests, so it's not that bad to use
         # it until the url-dispatcher implements the testability features to
         # let us launch a fake app. --elopio - 2014-02-05
+        self.addCleanup(os.system, 'pkill camera-app')
         os.system('url-dispatcher application:///camera-app.desktop')
         self.assertThat(
             self.main_window.get_current_focused_app_id,
