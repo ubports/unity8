@@ -37,6 +37,8 @@ class URLDispatcherTestCase(tests.UnityTestCase):
         if platform.model() == 'Desktop':
             self.skipTest("URL dispatcher doesn't work on the desktop.")
         super(URLDispatcherTestCase, self).setUp()
+        self._qml_mock_enabled = False
+        self._data_dirs_mock_enabled = False
         unity_proxy = self.launch_unity()
         process_helpers.unlock_unity(unity_proxy)
 
