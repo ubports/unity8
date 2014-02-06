@@ -27,21 +27,22 @@ PreviewWidget {
     height: childrenRect.height
     width: childrenRect.width
 
-    readonly property var actions: root.widgetData ? root.widgetData["actions"] : null
-
     Row {
+        id: row
+        readonly property var actions: root.widgetData ? root.widgetData["actions"] : null
+
         spacing: units.gu(1)
 
         Loader {
             id: loader
-            readonly property bool button: actions && actions.length == 2
-            readonly property bool combo: actions && actions.length > 2
+            readonly property bool button: row.actions && row.actions.length == 2
+            readonly property bool combo: row.actions && row.actions.length > 2
             source: button ? "PreviewActionButton.qml" : (combo ? "PreviewActionCombo.qml" : "")
             onLoaded: {
                 if (button) {
-                    item.data = actions[1];
+                    item.data = row.actions[1];
                 } else if (combo) {
-                    item.model = actions.slice(1);
+                    item.model = row.actions.slice(1);
                 }
             }
             Connections {
@@ -53,8 +54,8 @@ PreviewWidget {
         }
 
         PreviewActionButton {
-            data: visible ? actions[0] : null
-            visible: actions && actions.length > 0
+            data: visible ? row.actions[0] : null
+            visible: row.actions && row.actions.length > 0
             onTriggeredAction: root.triggered(root.widgetId, id, null);
         }
     }
