@@ -29,17 +29,17 @@ import QtQuick 2.0
 Item {
     id: cardTool
     /*!
-     Template supplied for the category.
+     \brief Template supplied for the category.
      */
     property var template
 
     /*!
-     Component mapping supplied for the category.
+     \brief Component mapping supplied for the category.
      */
     property var components
 
     /*!
-     Width of the view, based on which carousel width is calculated.
+     \brief Width of the view, based on which carousel width is calculated.
      */
     property var viewWidth
 
@@ -55,7 +55,7 @@ Item {
 
      If undefined, should use implicit width of the actual card.
      */
-    property var cardWidth: {
+    readonly property var cardWidth: {
         switch (template !== undefined && template["category-layout"]) {
             case "grid":
             case "vertical-journal":
@@ -83,7 +83,7 @@ Item {
 
      If undefined, should use implicit height of the actual card.
      */
-    property var cardHeight: {
+    readonly property var cardHeight: {
         switch (template !== undefined && template["category-layout"]) {
             case "journal":
                 if (template["card-size"] >= 12 && template["card-size"] <= 38) return units.gu(template["card-size"]);
@@ -115,8 +115,7 @@ Item {
         return (template["card-layout"] === "horizontal") ? Text.AlignHCenter : Text.AlignLeft;
     }
 
-
-    property QtObject priv: card
+    readonly property QtObject priv: card
 
     Card {
         id: card

@@ -45,6 +45,7 @@ install_dependencies() {
                          qtdeclarative5-dee-plugin \
                          qtdeclarative5-gsettings1.0 \
                          qtdeclarative5-ubuntu-ui-toolkit-plugin \
+                         qtdeclarative5-ubuntu-settings-components \
                          unity-notifications-impl \
                          qtdeclarative5-xmllistmodel-plugin \
                          ubuntu-mobile-icons \

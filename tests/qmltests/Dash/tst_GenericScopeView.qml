@@ -86,6 +86,18 @@ Item {
                 tryCompare(previewListView, "open", false);
             }
 
+            function test_isActive() {
+                tryCompare(genericScopeView.scope, "isActive", false)
+                genericScopeView.isCurrent = true
+                tryCompare(genericScopeView.scope, "isActive", true)
+                previewListView.open = true
+                tryCompare(genericScopeView.scope, "isActive", false)
+                previewListView.open = false
+                tryCompare(genericScopeView.scope, "isActive", true)
+                genericScopeView.isCurrent = false
+                tryCompare(genericScopeView.scope, "isActive", false)
+            }
+
             function test_showDash() {
                 previewListView.open = true;
                 tryCompare(openEffect, "live", true);
