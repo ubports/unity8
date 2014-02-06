@@ -32,7 +32,7 @@ Item {
 
         objectName: "moreLessButton"
         text: !expanded ? i18n.tr("More...") : i18n.tr("Less...")
-        gradient: UbuntuColors.orangeGradient
+        color: Theme.palette.selected.foreground
         onClicked: expanded = !expanded
         width: parent.width
     }
