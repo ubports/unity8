@@ -100,6 +100,11 @@ Item {
         }
     }
 
+    /*!
+     type:real \brief Height of the card's header.
+    */
+    readonly property var headerHeight: card.headerHeight
+
     readonly property QtObject priv: card
 
     Card {
