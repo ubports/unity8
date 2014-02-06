@@ -24,8 +24,7 @@ import QtQuick 2.1
 PreviewWidget {
     id: root
 
-    implicitHeight: row.height
-    implicitWidth: row.width
+    height: row.height
 
     Row {
         id: row
