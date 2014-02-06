@@ -129,10 +129,12 @@ Rectangle {
 
         function test_comboButton(data) {
             var button = findChild(root, "moreLessButton");
+            var buttonColumn = findChild(root, "buttonColumn");
             verify(button != null);
             var twoActionsY = twoActions.y
             mouseClick(button, button.width / 2, button.height / 2);
             tryCompareFunction(function () { return twoActions.y <= twoActionsY; }, false);
+            tryCompare(buttonColumn, "height", buttonColumn.implicitHeight);
             checkButtonPressSignal(buttonAndCombo, data.id, data.buttonNumber);
             mouseClick(button, button.width / 2, button.height / 2);
             tryCompare(twoActions, "y", twoActionsY);
