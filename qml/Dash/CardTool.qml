@@ -102,7 +102,7 @@ Item {
 
     property QtObject priv: card
 
-    property var titleHorizontalAlignment: card.titleHorizontalAlignment
+    property var titleAlignment: card.titleAlignment
 
     Card {
         id: card
@@ -112,7 +112,7 @@ Item {
         width: cardTool.cardWidth || implicitWidth
         height: cardTool.cardHeight || implicitHeight
 
-        property var titleHorizontalAlignment: {
+        property var titleAlignment: {
             var subtitle = components["subtitle"];
             var price = components["price"];
 
