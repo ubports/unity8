@@ -58,6 +58,7 @@ DashRenderer {
         itemComponent: Card {
             id: card
             objectName: "delegate" + index
+            headerHeight: cardTool.headerHeight
             cardData: model
             template: cardCarousel.template
             components: cardCarousel.components
