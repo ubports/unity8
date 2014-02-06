@@ -41,8 +41,10 @@ Item {
     Column {
         id: column
         property real maxWidth: -1
-        anchors.top: moreButton.bottom
-        anchors.topMargin: height > 0 ? spacing : 0
+        anchors {
+            top: moreButton.bottom
+            topMargin: height > 0 ? spacing : 0
+        }
         objectName: "buttonColumn"
         spacing: units.gu(1)
         width: maxWidth
