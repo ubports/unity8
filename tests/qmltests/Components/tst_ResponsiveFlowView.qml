@@ -82,8 +82,7 @@ Item {
         ResponsiveFlowView {
             id: flow
             anchors.fill: parent
-            firstModel: fakeModel
-            secondModel: fakeModel
+            model: fakeModel
             minimumHorizontalSpacing:
                 minHSpacingSelector.values[minHSpacingSelector.selectedIndex]
             verticalSpacing: units.gu(2)
