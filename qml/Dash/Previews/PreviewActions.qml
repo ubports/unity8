@@ -24,12 +24,13 @@ import QtQuick 2.1
 PreviewWidget {
     id: root
 
-    height: childrenRect.height
-    width: childrenRect.width
+    implicitHeight: row.height
+    implicitWidth: row.width
 
     Row {
         id: row
         readonly property var actions: root.widgetData ? root.widgetData["actions"] : null
+        anchors.right: parent.right
 
         spacing: units.gu(1)
 

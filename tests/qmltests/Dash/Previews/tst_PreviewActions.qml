@@ -58,6 +58,13 @@ Rectangle {
             widgetId: "button"
             widgetData: actionDataOneAction
             onTriggered: console.log("triggered", widgetId, actionId);
+            width: implicitWidth + units.gu(10)
+
+            Rectangle {
+                anchors.fill: parent
+                color: "red"
+                opacity: 0.1
+            }
         }
 
         PreviewActions {
@@ -65,6 +72,13 @@ Rectangle {
             widgetId: "buttonAndCombo"
             widgetData: actionDataFiveActions
             onTriggered: console.log("triggered", widgetId, actionId);
+            width: implicitWidth + units.gu(5)
+
+            Rectangle {
+                anchors.fill: parent
+                color: "red"
+                opacity: 0.1
+            }
         }
 
         PreviewActions {
