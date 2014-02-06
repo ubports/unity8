@@ -27,48 +27,66 @@ Item {
     property alias altPrice: altPriceLabel.text
 
     visible: mascotImage.status === Image.Ready || title || price
-    height: row.height > 0 ? row.height + row.spacing * 2 : 0
+    height: row.height > 0 ? row.height + row.margins * 2 : 0
 
     Row {
         id: row
         objectName: "outerRow"
 
-        anchors { top: parent.top; left: parent.left; right: parent.right; margins: spacing }
-        spacing: units.gu(1)
+        property real margins: units.gu(1)
+
+        anchors {
+            top: parent.top; left: parent.left; right: parent.right
+            margins: margins
+            leftMargin: spacing
+            rightMargin: spacing
+        }
+        spacing: mascotShape.visible ? margins : 0
 
         UbuntuShape {
             id: mascotShape
             objectName: "mascotShape"
 
-            width: units.gu(8)
-            height: units.gu(8)
+            // TODO karni: Icon aspect-ratio is 8:7.5. Revisit these values to avoid fraction of pixels.
+            width: units.gu(6)
+            height: units.gu(5.625)
             visible: image.status === Image.Ready
+            readonly property int maxSize: Math.max(width, height)
 
             image: Image {
                 id: mascotImage
-                sourceSize { width: mascotShape.width; height: mascotShape.height }
+
+                sourceSize { width: mascotShape.maxSize; height: mascotShape.maxSize }
+                fillMode: Image.PreserveAspectCrop
+                horizontalAlignment: Image.AlignHCenter
+                verticalAlignment: Image.AlignVCenter
             }
         }
 
         Column {
             objectName: "column"
             width: parent.width - x
+            spacing: units.gu(0.5)
 
             Label {
                 id: titleLabel
+                objectName: "titleLabel"
                 anchors { left: parent.left; right: parent.right }
                 elide: Text.ElideRight
-                objectName: "titleLabel"
                 font.weight: Font.DemiBold
                 wrapMode: Text.Wrap
                 maximumLineCount: 2
+                fontSize: "small"
             }
 
             Label {
                 id: subtitleLabel
+                objectName: "subtitleLabel"
                 anchors { left: parent.left; right: parent.right }
                 elide: Text.ElideRight
+                font.weight: Font.Light
                 visible: titleLabel.text && text
+                fontSize: "x-small"
             }
 
             Row {
@@ -90,6 +108,7 @@ Item {
                     elide: Text.ElideRight
                     font.weight: Font.DemiBold
                     color: Theme.palette.selected.foreground
+                    visible: text
                 }
 
                 Label {
@@ -98,6 +117,7 @@ Item {
                     width: parent.labelWidth
                     elide: Text.ElideRight
                     horizontalAlignment: parent.labels === 3 ? Text.AlignHCenter : Text.AlignRight
+                    visible: text
                 }
 
                 Label {
@@ -105,6 +125,7 @@ Item {
                     width: parent.labelWidth
                     elide: Text.ElideRight
                     horizontalAlignment: Text.AlignRight
+                    visible: text
                 }
             }
         }

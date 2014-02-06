@@ -1,85 +1,76 @@
-# Bulgarian translation for unity
-# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the unity package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+# Chinese (Hong Kong) translation for unity8
+# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
+# This file is distributed under the same license as the unity8 package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity\n"
+"Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-11-29 09:21+0100\n"
-"PO-Revision-Date: 2014-01-28 19:22+0000\n"
-"Last-Translator: Atanas Kovachki <Unknown>\n"
-"Language-Team: Bulgarian <bg@li.org>\n"
+"PO-Revision-Date: 2014-01-25 13:32+0000\n"
+"Last-Translator: Daniel Cheung <daniel.2345@hotmail.com>\n"
+"Language-Team: Chinese (Hong Kong) <zh_HK@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-01-30 06:07+0000\n"
-"X-Generator: Launchpad (build 16916)\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Launchpad-Export-Date: 2014-01-26 05:18+0000\n"
+"X-Generator: Launchpad (build 16914)\n"
 
 #: Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
-msgstr "Пропусни интрото"
+msgstr "跳過介紹"
 
 #: Components/EdgeDemo.qml:112
 msgid "Right edge"
-msgstr "Десен край"
+msgstr "右邊緣"
 
 #: Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr ""
-"Опитайте се да приплъзнете пръста си от десния край към левия, за да "
-"отключите телефона"
+msgstr "試從右邊緣輕掃解鎖手機"
 
 #: Components/EdgeDemo.qml:144
 msgid "Top edge"
-msgstr "Горен край"
+msgstr "頂部邊緣"
 
 #: Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
-msgstr ""
-"Опитайте се да приплъзнете пръста си от горния край към долния, за да "
-"получите достъп до индикаторите"
+msgstr "試從頂部邊緣輕掃存取指示器"
 
 #: Components/EdgeDemo.qml:170
 msgid "Close"
-msgstr "Затвори"
+msgstr "關閉"
 
 #: Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
-msgstr ""
-"Отново приплъзнете пръста си нагоре за да затворите екрана с настройките"
+msgstr "再向上掃一次以關閉設定畫面"
 
 #: Components/EdgeDemo.qml:198
 msgid "Left edge"
-msgstr "Ляв край"
+msgstr "左邊緣"
 
 #: Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr ""
-"Приплъзнете пръста си от левия край към десния, за да отворите стартера за "
-"бърз достъп до приложенията"
+msgstr "從左邊緣輕掃以顯示啟動器快速訪問應用"
 
 #: Components/EdgeDemo.qml:226
 msgid "Well done"
-msgstr "Великолепно"
+msgstr "做得好"
 
 #: Components/EdgeDemo.qml:227
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap anywhere to start"
-msgstr ""
-"Сега, когато сте научили основните движения, можете да започнете да "
-"използвате телефона си.<br><br>Натиснете някъде за да започнете"
+msgstr "現在你已經掌握了邊緣手勢，可以開始使用手機<br><br>點擊任意位置以開始"
 
 #: Components/PageHeader.qml:364
 msgid "Recent searches"
-msgstr "Последни търсения"
+msgstr "最近的搜尋"
 
 #: Dash/Apps/AppPreview.qml:135
 msgid "Rate this"
-msgstr "Оценете това"
+msgstr "評價"
 
 #. TRANSLATORS: Number of persons who rated this app/video/whatever
 #: Dash/Previews/Header.qml:93
@@ -92,76 +83,75 @@ msgstr "(%1)"
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
-msgstr[0] "%1 отзив"
-msgstr[1] "%1 отзива"
+msgstr[0] "%1 評論"
 
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
-msgstr "Добави отзив"
+msgstr "新增評論"
 
 #: Dash/Previews/Reviews.qml:86
 msgid "Review"
-msgstr "Отзив"
+msgstr "評論"
 
 #: Dash/Previews/Reviews.qml:121
 msgid "Send"
-msgstr "Изпрати"
+msgstr "傳送"
 
 #: Dash/Previews/Reviews.qml:139
 msgid "Comments:"
-msgstr "Коментари:"
+msgstr "評論:"
 
 #: Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
-msgstr "Спешно повикване"
+msgstr "緊急電話"
 
 #: Greeter/PassphraseLockscreen.qml:59
 #, qt-format
 msgid "Hello %1"
-msgstr "Здравей, %1"
+msgstr "您好 %1"
 
 #: Greeter/PassphraseLockscreen.qml:59
 msgid "Hello"
-msgstr "Здравей"
+msgstr "您好"
 
 #: Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
-msgstr "Потвърди"
+msgstr "確認"
 
 #: Hud/Hud.qml:61 Hud/Hud.qml:99 Hud/Hud.qml:372
 msgid "Type or say a command"
-msgstr "Въведете или кажете команда"
+msgstr "輸入或說出指令"
 
 #: Hud/Hud.qml:84
 msgid "Loading. Please Wait..."
-msgstr "Зарежда се. Моля, почакайте..."
+msgstr "正載入。請稍候..."
 
 #: Hud/Hud.qml:89
 msgid "Speak Now..."
-msgstr "Говорете сега..."
+msgstr "馬上講..."
 
 #: Hud/Hud.qml:94
 msgid "Speaking..."
-msgstr "Говорете..."
+msgstr "正在講..."
 
 #: Notifications/NotificationMenuItemFactory.qml:89
 msgid "Show password"
-msgstr "Покажи паролата"
+msgstr "顯示密碼"
 
 #: Panel/SearchIndicator.qml:27
 msgid "Search"
-msgstr "Търсене"
+msgstr "搜尋"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Lock to Launcher"
-msgstr "Заключване към панела"
+msgstr "鎖定至啟動器"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Unlock from Launcher"
-msgstr "Отключи от панела за стартиране"
+msgstr "從啟動器解除鎖定"
 
 #: Shell.qml:439
 #, qt-format
 msgid "Please enter %1"
-msgstr "Моля, въведете %1"
+msgstr "請輸入 %1"

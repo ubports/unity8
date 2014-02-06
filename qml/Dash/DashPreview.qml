@@ -57,6 +57,8 @@ Item {
         }
     }
 
+    onPreviewDataChanged: showProcessingAction = false
+
     MouseArea {
         anchors.fill: parent
     }

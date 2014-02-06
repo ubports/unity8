@@ -18,6 +18,51 @@
 
 var components = ["title", "art", "subtitle", "mascot", "emblem", "old-price", "price", "alt-price", "rating", "alt-rating", "summary"]
 
+var defaultLayout = ' \
+{ \
+  "schema-version": 1, \
+  "template": { \
+    "category-layout": "grid", \
+    "card-layout": "vertical", \
+    "card-size": "medium", \
+    "overlay-mode": null, \
+    "collapsed-rows": 2 \
+  }, \
+  "components": { \
+    "title": null, \
+    "art": { \
+        "aspect-ratio": 1.0, \
+        "fill-mode": "crop" \
+    }, \
+    "subtitle": null, \
+    "mascot": null, \
+    "emblem": null, \
+    "old-price": null, \
+    "price": null, \
+    "alt-price": null, \
+    "rating": { \
+      "type": "stars", \
+      "range": [0, 5], \
+      "full": "image://theme/rating-star-full", \
+      "half": "image://theme/rating-star-half", \
+      "empty": "image://theme/rating-star-empty" \
+    }, \
+    "alt-rating": null, \
+    "summary": null \
+  }, \
+  "resources": {} \
+}'
+
+var fullMapping = ' \
+{ \
+  "title": "title", \
+  "art": "art", \
+  "subtitle": "subtitle", \
+  "mascot": "mascot", \
+  "summary": "summary" \
+}'
+
+
 function tryParse(json, errorLabel) {
     var o = undefined;
     if (errorLabel !== undefined) {
