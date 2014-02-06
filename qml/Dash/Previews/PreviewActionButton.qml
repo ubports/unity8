@@ -14,6 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import QtQuick 2.0
 import Ubuntu.Components 0.1
 
 Button {
@@ -21,7 +22,6 @@ Button {
 
     property var data: null
     objectName: "button" + (data && data.id || "")
-    // TODO missing property for color
     color: Theme.palette.selected.foreground
     text: data && data.label || ""
     iconSource: data && data.icon || ""

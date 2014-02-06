@@ -22,7 +22,7 @@ Item {
     /// type:bool Specifies the preview widget being currently used or not
     property bool isCurrentPreview: true
 
-    // The id of the widget
+    //! The id of the widget
     property string widgetId
 
     /// Variable used to contain widget's data

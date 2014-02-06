@@ -31,7 +31,7 @@ Item {
         id: moreButton
         property bool expanded: false
 
-        objectName: "button1"
+        objectName: "moreLessButton"
         text: !expanded ? i18n.tr("More...") : i18n.tr("Less...")
         gradient: UbuntuColors.orangeGradient
         onClicked: expanded = !expanded
@@ -51,7 +51,7 @@ Item {
             id: actionRepeater
 
             delegate: Button {
-                objectName: "button" + index
+                objectName: "button" + modelData.id
                 text: modelData.label || ""
                 iconSource: modelData.icon || ""
                 gradient: UbuntuColors.orangeGradient

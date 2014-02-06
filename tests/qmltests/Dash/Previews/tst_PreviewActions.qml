@@ -45,22 +45,30 @@ Rectangle {
         ]
     }
 
+    SignalSpy {
+        id: spy
+        signalName: "triggered"
+    }
+
     Column {
         spacing: units.gu(1)
 
         PreviewActions {
+            id: oneAction
             widgetId: "button"
             widgetData: actionDataOneAction
             onTriggered: console.log("triggered", widgetId, actionId, data);
         }
 
         PreviewActions {
+            id: buttonAndCombo
             widgetId: "buttonAndCombo"
             widgetData: actionDataFiveActions
             onTriggered: console.log("triggered", widgetId, actionId, data);
         }
 
         PreviewActions {
+            id: twoActions
             widgetId: "2buttons"
             widgetData: actionDataTwoActions
             onTriggered: console.log("triggered", widgetId, actionId, data);
@@ -71,11 +79,50 @@ Rectangle {
         name: "PreviewActionTest"
         when: windowShown
 
-        function test_changeEmptyModel() {
-            wait(5000);
-//             imageGallery.widgetData = sourcesModel0;
-//             var placeholderScreenshot = findChild(imageGallery, "placeholderScreenshot");
-//             compare(placeholderScreenshot.visible, true);
+        function checkButtonPressSignal(target, id, buttonNumber)
+        {
+            var button = findChild(root, "button" + id);
+            verify(button != null);
+            spy.target = target;
+            spy.clear();
+            mouseClick(button, button.width / 2, button.height / 2);
+            compare(spy.count, 1);
+            compare(spy.signalArguments[0][0], target.widgetId);
+            compare(spy.signalArguments[0][1], id);
+            compare(spy.signalArguments[0][2], target.widgetData["actions"][buttonNumber]);
+        }
+
+        function test_checkButtons_data() {
+            return [
+                {tag: "oneActionButton", target: oneAction, id: "someid", buttonNumber: 0 },
+                {tag: "twobuttonsButton0", target: twoActions, id: "someid1", buttonNumber: 0 },
+                {tag: "twobuttonsButton1", target: twoActions, id: "someid2", buttonNumber: 1 },
+                {tag: "buttonAndComboButton0", target: buttonAndCombo, id: "someid3", buttonNumber: 0 }
+            ]
+        }
+
+        function test_checkButtons(data) {
+            checkButtonPressSignal(data.target, data.id, data.buttonNumber)
+        }
+
+        function test_comboButton_data() {
+            return [
+                {tag: "button1", id: "someid4", buttonNumber: 1 },
+                {tag: "button2", id: "someid5", buttonNumber: 2 },
+                {tag: "button3", id: "someid6", buttonNumber: 3 },
+                {tag: "button4", id: "someid7", buttonNumber: 4 }
+            ]
+        }
+
+        function test_comboButton(data) {
+            var button = findChild(root, "moreLessButton");
+            verify(button != null);
+            var twoActionsY = twoActions.y
+            mouseClick(button, button.width / 2, button.height / 2);
+            tryCompareFunction(function () { return twoActions.y <= twoActionsY; }, false);
+            checkButtonPressSignal(buttonAndCombo, data.id, data.buttonNumber);
+            mouseClick(button, button.width / 2, button.height / 2);
+            tryCompare(twoActions, "y", twoActionsY);
         }
     }
 }

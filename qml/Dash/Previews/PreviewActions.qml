@@ -16,6 +16,11 @@
 
 import QtQuick 2.1
 
+/*! This preview widget shows a either one button, two buttons or one button
+ *  and a combo button depending on the number of items in widgetData["actions"].
+ *  For each of the items we recognize the fields "label", "icon" and "id".
+ */
+
 PreviewWidget {
     id: root
 
@@ -36,7 +41,7 @@ PreviewWidget {
                 if (button) {
                     item.data = actions[1];
                 } else if (combo) {
-                    item.model = actions.splice(1)
+                    item.model = actions.slice(1)
                 }
             }
             Connections {
