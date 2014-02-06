@@ -55,10 +55,13 @@ DashRenderer {
         onClicked: cardCarousel.clicked(index, itemY)
         onPressAndHold: cardCarousel.pressAndHold(index, itemY)
 
+        property real fontScale: 1 / selectedItemScaleFactor
+        property real headerHeight: cardTool.headerHeight / selectedItemScaleFactor
+
         itemComponent: Card {
             id: card
             objectName: "delegate" + index
-            headerHeight: cardTool.headerHeight
+            headerHeight: carousel.headerHeight
             cardData: model
             template: cardCarousel.template
             components: cardCarousel.components
@@ -69,7 +72,7 @@ DashRenderer {
             enabled: false
             showHeader: explicitlyScaled
 
-            fontScale: 1 / selectedItemScaleFactor
+            fontScale: carousel.fontScale
         }
     }
 }
