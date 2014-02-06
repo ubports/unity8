@@ -48,15 +48,20 @@ Item {
         objectName: "buttonColumn"
         spacing: units.gu(1)
         width: maxWidth
+        height: moreButton.expanded ? implicitHeight : 0
+        clip: true
+        Behavior on height {
+            UbuntuNumberAnimation {
+                duration: UbuntuAnimation.SnapDuration
+            }
+        }
 
         Repeater {
             id: actionRepeater
 
             delegate: PreviewActionButton {
                 data: modelData
-                height: moreButton.expanded ? implicitHeight : 0
                 width: implicitWidth < parent.width ? parent.width : implicitWidth
-                visible: height > 0
                 Component.onCompleted: {
                     column.maxWidth = Math.max(column.maxWidth, implicitWidth);
                 }
