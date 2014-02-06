@@ -58,7 +58,7 @@ Rectangle {
             widgetId: "button"
             widgetData: actionDataOneAction
             onTriggered: console.log("triggered", widgetId, actionId);
-            width: implicitWidth + units.gu(10)
+            width: units.gu(50)
 
             Rectangle {
                 anchors.fill: parent
@@ -72,7 +72,7 @@ Rectangle {
             widgetId: "buttonAndCombo"
             widgetData: actionDataFiveActions
             onTriggered: console.log("triggered", widgetId, actionId);
-            width: implicitWidth + units.gu(5)
+            width: units.gu(40)
 
             Rectangle {
                 anchors.fill: parent
@@ -86,6 +86,7 @@ Rectangle {
             widgetId: "2buttons"
             widgetData: actionDataTwoActions
             onTriggered: console.log("triggered", widgetId, actionId);
+            width: units.gu(60)
         }
     }
 

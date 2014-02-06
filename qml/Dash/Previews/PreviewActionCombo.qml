@@ -20,8 +20,7 @@ import Ubuntu.Components 0.1
 Item {
     id: root
 
-    width: childrenRect.width
-    height: childrenRect.height
+    implicitHeight: childrenRect.height
 
     signal triggeredAction(string id)
 
@@ -35,19 +34,17 @@ Item {
         text: !expanded ? i18n.tr("More...") : i18n.tr("Less...")
         gradient: UbuntuColors.orangeGradient
         onClicked: expanded = !expanded
-        width: column.maxWidth
+        width: parent.width
     }
 
     Column {
-        id: column
-        property real maxWidth: -1
         anchors {
             top: moreButton.bottom
             topMargin: height > 0 ? spacing : 0
         }
         objectName: "buttonColumn"
         spacing: units.gu(1)
-        width: maxWidth
+        width: parent.width
         height: moreButton.expanded ? implicitHeight : 0
         clip: true
         Behavior on height {
@@ -62,12 +59,7 @@ Item {
             delegate: PreviewActionButton {
                 data: modelData
                 width: implicitWidth < parent.width ? parent.width : implicitWidth
-                Component.onCompleted: {
-                    column.maxWidth = Math.max(column.maxWidth, implicitWidth);
-                }
-                onClicked: {
-                    root.triggeredAction(modelData.id)
-                }
+                onClicked: root.triggeredAction(modelData.id)
             }
         }
     }

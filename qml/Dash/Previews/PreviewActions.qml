@@ -45,6 +45,7 @@ PreviewWidget {
                 } else if (combo) {
                     item.model = row.actions.slice(1);
                 }
+                item.width = Qt.binding(function() { return (root.width - units.gu(1)) / 2; });
             }
             Connections {
                 target: loader.item
@@ -57,7 +58,8 @@ PreviewWidget {
         PreviewActionButton {
             data: visible ? row.actions[0] : null
             visible: row.actions && row.actions.length > 0
-            onTriggeredAction: root.triggered(root.widgetId, id, null);
+            onTriggeredAction: root.triggered(root.widgetId, id, null)
+            width: (root.width - units.gu(1)) / 2
         }
     }
 }
