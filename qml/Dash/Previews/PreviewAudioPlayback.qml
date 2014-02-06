@@ -17,7 +17,6 @@
 import QtQuick 2.0
 import QtMultimedia 5.0
 import Ubuntu.Components 0.1
-import Ubuntu.Components.ListItems 0.1
 
 /*! \brief Preview widget for audio tracks.
 
@@ -35,7 +34,7 @@ import Ubuntu.Components.ListItems 0.1
 
 PreviewWidget {
     id: root
-    implicitHeight: childrenRect.height
+    height: childrenRect.height
 
     onIsCurrentPreviewChanged: if (!isCurrentPreview) audio.stop()
 
@@ -47,24 +46,24 @@ PreviewWidget {
         property Item playingItem
 
         Component.onDestruction: {
-            // destructing the component doesn't automatically send stop to the media service, probably a bug in QtMultimedia
+            // destroying the component doesn't automatically send stop to the media service, probably a bug in QtMultimedia
             audio.stop();
         }
 
         onErrorStringChanged: console.warn("Audio player error:", errorString)
 
         function lengthToString(s) {
-            if (s <= 0 || s === undefined) return ""
+            if (typeof(s) !== "number" || s <= 0) return "";
 
-            var sec = "" + s % 60
-            if (sec.length == 1) sec = "0" + sec
-            var hour = Math.floor(s / 3600)
+            var sec = "" + s % 60;
+            if (sec.length == 1) sec = "0" + sec;
+            var hour = Math.floor(s / 3600);
             if (hour < 1) {
-                return Math.floor(s / 60) + ":" + sec
+                return Math.floor(s / 60) + ":" + sec;
             } else {
-                var min = "" + Math.floor(s / 60) % 60
-                if (min.length == 1) min = "0" + min
-                return hour + ":" + min + ":" + sec
+                var min = "" + Math.floor(s / 60) % 60;
+                if (min.length == 1) min = "0" + min;
+                return hour + ":" + min + ":" + sec;
             }
         }
     }
@@ -78,6 +77,15 @@ PreviewWidget {
             objectName: "trackRepeater"
             model: root.widgetData["tracks"]
 
+            function play(item, source) {
+                audio.stop();
+                // Make sure we change the source, even if two items point to the same uri location
+                audio.source = "";
+                audio.source = source;
+                audio.playingItem = item;
+                audio.play();
+            }
+
             delegate: Item {
                 id: trackItem
                 objectName: "trackItem" + index
@@ -86,15 +94,6 @@ PreviewWidget {
 
                 anchors { left: parent.left; right: parent.right }
                 height: units.gu(5)
-
-                function play() {
-                    audio.stop();
-                    // Make sure we change the source, even if two items point to the same uri location
-                    audio.source = "";
-                    audio.source = modelData["source"];
-                    audio.playingItem = trackItem;
-                    audio.play();
-                }
 
                 Row {
                     id: trackRow
@@ -121,11 +120,11 @@ PreviewWidget {
                             if (trackItem.isPlayingItem) {
                                 if (audio.playbackState == Audio.PlayingState) {
                                     audio.pause();
-                                } else if (audio.playbackState == Audio.PausedState){
+                                } else if (audio.playbackState == Audio.PausedState) {
                                     audio.play();
                                 }
                             } else {
-                                trackItem.play();
+                                trackRepeater.play(trackItem, modelData["source"]);
                             }
                         }
                     }
@@ -156,7 +155,7 @@ PreviewWidget {
                             color: Theme.palette.selected.backgroundText
                             fontSize: "small"
                             horizontalAlignment: Text.AlignLeft
-                            text: modelData["subtitle"] !== undefined ? modelData["subtitle"] : ""
+                            text: modelData["subtitle"] || ""
                             elide: Text.ElideRight
                         }
 

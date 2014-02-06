@@ -19,13 +19,13 @@ import QtQuick 2.0
 /*! Interface for preview widgets. */
 
 Item {
-    /// type:bool Specifies the preview widget being currently used or not
+    //! Specifies the preview widget being currently used or not
     property bool isCurrentPreview: true
 
     //! The widget identifier
     property string widgetId
 
-    /// Variable used to contain widget's data
+    //! Variable used to contain widget's data
     property var widgetData
 
     /*! \brief This signal should be emitted when a preview action was triggered.
