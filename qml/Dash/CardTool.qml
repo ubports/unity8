@@ -100,9 +100,23 @@ Item {
         }
     }
 
-    property QtObject priv: card
+    property var titleAlignment: {
+        var subtitle = components["subtitle"];
+        var price = components["price"];
+        var summary = components["summary"];
 
-    property var titleAlignment: card.titleAlignment
+        var hasSubtitle = subtitle && (typeof subtitle === "string" || subtitle["field"])
+        var hasPrice = price && (typeof price === "string" || subtitle["field"]);
+        var hasSummary = summary && (typeof summary === "string" || summary["field"])
+
+        var isOnlyTextComponent = !hasSubtitle && !hasPrice && !hasSummary;
+        if (!isOnlyTextComponent) return Text.AlignLeft;
+
+        return (template["card-layout"] === "horizontal") ? Text.AlignHCenter : Text.AlignLeft;
+    }
+
+
+    property QtObject priv: card
 
     Card {
         id: card
@@ -111,19 +125,6 @@ Item {
 
         width: cardTool.cardWidth || implicitWidth
         height: cardTool.cardHeight || implicitHeight
-
-        property var titleAlignment: {
-            var subtitle = components["subtitle"];
-            var price = components["price"];
-
-            var hasSubtitle = subtitle && (typeof subtitle === "string" || subtitle["field"])
-            var hasPrice = price && (typeof price === "string" || subtitle["field"]);
-
-            var isOnlyTextComponent = !hasSubtitle && !hasPrice;
-            if (!isOnlyTextComponent) return Text.AlignLeft;
-
-            return (template["card-layout"] === "horizontal") ? Text.AlignHCenter : Text.AlignLeft;
-        }
 
         property var fields: ["art", "mascot", "title", "subtitle", "summary"]
         property var maxData: {
