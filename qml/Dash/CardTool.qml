@@ -100,10 +100,9 @@ Item {
         }
     }
 
-    readonly property QtObject priv: card
-
     Card {
         id: card
+        objectName: "card"
         template: cardTool.template
         components: cardTool.components
 
