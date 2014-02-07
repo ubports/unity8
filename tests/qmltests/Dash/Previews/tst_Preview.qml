@@ -71,5 +71,18 @@ Rectangle {
             compare(args[1], "mockAction", "Action id not passed correctly.");
             compare(args[2]["mock"], "data", "Data not passed correctly.");
         }
+
+        function test_showProcessing() {
+            var widget = findChild(preview, "widget-3");
+            widget.triggered(widget.widgetId, "mockAction", {"mock": "data"});
+
+            var processing = findChild(preview, "processingMouseArea");
+
+            tryCompare(processing, "enabled", true);
+
+            preview.previewModelChanged();
+
+            tryCompare(processing, "enabled", false);
+        }
     }
 }

@@ -48,7 +48,7 @@ Item {
         }
     }
 
-    onPreviewModelChanged: processingMouseArea = false
+    onPreviewModelChanged: processingMouseArea.enabled = false
 
     MouseArea {
         anchors.fill: parent
@@ -92,7 +92,7 @@ Item {
 
     MouseArea {
         id: processingMouseArea
-        objectName: "waitingForActionMouseArea"
+        objectName: "processingMouseArea"
         anchors.fill: parent
         enabled: false
     }
