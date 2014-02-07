@@ -25,6 +25,9 @@
 #include "fake_preview.h"
 #include "categoryresults.h"
 
+// scopes-ng
+#include "scopes-ng/fake_preview_model.h"
+
 // External
 #include <glib-object.h>
 
@@ -52,4 +55,5 @@ void FakeUnityPlugin::registerTypes(const char *uri)
     qmlRegisterType<Categories>(uri, 0, 2, "Categories");
     qmlRegisterUncreatableType<CategoryResults>(uri, 0, 2, "CategoryResults", "Can't create");
     qmlRegisterType<DeeListModel>(uri, 0, 2, "DeeListModel");
+    qmlRegisterType<scopes_ng::PreviewModel>(uri, 0, 2, "FakePreviewModel");
 }
