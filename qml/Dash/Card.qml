@@ -81,5 +81,7 @@ AbstractButton {
         text: cardData && cardData["summary"] || ""
         height: text ? implicitHeight : 0
         fontSize: "small"
+        // TODO karni (for each Label): Update Ubuntu.Components.Themes.Palette and use theme color instead
+        color: "grey"
     }
 }
