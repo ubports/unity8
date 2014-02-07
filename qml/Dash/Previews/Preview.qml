@@ -36,10 +36,14 @@ Item {
     //! \brief Should be set to true if this preview is currently displayed.
     property bool isCurrent: false
 
+    //! \brief Will be changed to true when the initial preview widgets are in.
+    property bool ready: false
+
     clip: true
 
     Connections {
-        target: shell.applicationManager
+        target: shell.applicationManager || null
+        ignoreUnknownSignals: true
         onMainStageFocusedApplicationChanged: {
             root.close();
         }
@@ -71,6 +75,7 @@ Item {
                 bottomMargin: Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.height : 0
 
                 model: previewModel
+                onCountChanged: if (count > 0) root.ready = true
 
                 Behavior on contentY { UbuntuNumberAnimation { } }
 

@@ -193,7 +193,6 @@ FocusScope {
                         previewListView.categoryId = categoryId
                         previewListView.categoryDelegate = rendererLoader.item
                         previewListView.model = target.model;
-                        previewListView.init = true;
                         previewListView.currentIndex = index;
 
                         var item = target.model.get(index);
@@ -203,8 +202,6 @@ FocusScope {
                             scopeView.scope.activate(item.result)
                         } else {
                             previewListView.open = true
-
-                            scopeView.scope.preview(item.result)
                         }
                     }
                     onPressAndHold: {
@@ -212,13 +209,8 @@ FocusScope {
                         previewListView.categoryId = categoryId
                         previewListView.categoryDelegate = rendererLoader.item
                         previewListView.model = target.model;
-                        previewListView.init = true;
                         previewListView.currentIndex = index;
                         previewListView.open = true
-
-                        var item = target.model.get(index)
-                        scopeView.scope.preview(item.uri, item.icon, item.category, 0, item.mimetype, item.title,
-                                                item.comment, item.dndUri, item.metadata)
                     }
                 }
                 Connections {
@@ -332,24 +324,6 @@ FocusScope {
             case "carousel": return "CardCarousel.qml";
             case "grid":
             default: return "CardFilterGrid.qml";
-        }
-    }
-
-    Connections {
-        target: scopeView.scope
-        onPreviewReady: {
-            if (previewListView.init) {
-                // Preview was triggered because of a click on the item. Need to expand now.
-                if (!previewListView.open) {
-                    previewListView.open = true
-                }
-
-                var index = previewListView.currentIndex
-                previewListView.currentIndex = -1
-                previewListView.currentIndex = index
-                previewListView.init = false
-            }
-            previewListView.currentItem.previewData = preview
         }
     }
 
