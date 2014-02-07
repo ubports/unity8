@@ -79,6 +79,7 @@ Rectangle {
                 { tag: "Text", type: "text", source: "PreviewTextSummary.qml" },
                 { tag: "Gallery", type: "gallery", source: "PreviewImageGallery.qml" },
                 { tag: "Actions", type: "actions", source: "PreviewActions.qml" },
+                { tag: "Header", type: "header", source: "PreviewHeader.qml" },
             ];
         }
 
