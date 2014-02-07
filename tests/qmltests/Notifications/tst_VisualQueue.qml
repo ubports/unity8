@@ -262,87 +262,46 @@ Row {
             waitForRendering(notifications);
 
             if (mockModel.count > 5) {
-                var snap_decision_1 = findChild(notifications, "notification1")
-                var snap_decision_2 = findChild(notifications, "notification2")
-                var snap_decision_3 = findChild(notifications, "notification3")
-                var snap_decision_4 = findChild(notifications, "notification4")
-                var snap_decision_5 = findChild(notifications, "notification5")
+                var snap_decision = [findChild(notifications, "notification1"),
+                                     findChild(notifications, "notification2"),
+                                     findChild(notifications, "notification3"),
+                                     findChild(notifications, "notification4"),
+                                     findChild(notifications, "notification5")]
 
-                verify(snap_decision_1 !== undefined, "first snap-decision wasn't found");
-                verify(snap_decision_2 !== undefined, "second snap-decision wasn't found");
-                verify(snap_decision_3 !== undefined, "third snap-decision wasn't found");
-                verify(snap_decision_4 !== undefined, "fourth snap-decision wasn't found");
-                verify(snap_decision_5 !== undefined, "fifth snap-decision wasn't found");
+                for (var index = 0; index < snap_decision.length; index++) {
+                    verify(snap_decision[index] !== undefined, index + ". snap-decision wasn't found");
+                }
 
                 // check initial states once all five snap-decisions were appended to the model
-                compare(snap_decision_1.state, "expanded", "state of first snap-decision is not expanded")
-                compare(snap_decision_2.state, "contracted", "state of second snap-decision is not contracted")
-                compare(snap_decision_3.state, "contracted", "state of third snap-decision is not contracted")
-                compare(snap_decision_4.state, "contracted", "state of fourth snap-decision is not contracted")
-                compare(snap_decision_5.state, "contracted", "state of fifth snap-decision is not contracted")
+                compare(snap_decision[0].state, "expanded", "state of first snap-decision is not expanded");
+                for (var index = 1; index < snap_decision.length; index++) {
+                    compare(snap_decision[index].state, "contracted", "state of "+ index + ".snap-decision is not contracted");
+                }
             }
 
             // click/tap on each snap-decision and verify only one is in expanded-state at any time
             if (mockModel.count > 5) {
-                mouseClick(snap_decision_1, snap_decision_1.width / 2, snap_decision_1.height / 2)
-                compare(snap_decision_1.state, "expanded", "state of first snap-decision is not expanded")
-                compare(snap_decision_2.state, "contracted", "state of second snap-decision is not contracted")
-                compare(snap_decision_3.state, "contracted", "state of third snap-decision is not contracted")
-                compare(snap_decision_4.state, "contracted", "state of fourth snap-decision is not contracted")
-                compare(snap_decision_5.state, "contracted", "state of fifth snap-decision is not contracted")
-
-                mouseClick(snap_decision_2, snap_decision_2.width / 2, snap_decision_2.height / 2)
-                compare(snap_decision_2.state, "expanded", "state of second snap-decision is not expanded")
-                compare(snap_decision_1.state, "contracted", "state of first snap-decision is not contracted")
-                compare(snap_decision_3.state, "contracted", "state of third snap-decision is not contracted")
-                compare(snap_decision_4.state, "contracted", "state of fourth snap-decision is not contracted")
-                compare(snap_decision_5.state, "contracted", "state of fifth snap-decision is not contracted")
-
-                mouseClick(snap_decision_3, snap_decision_3.width / 2, snap_decision_3.height / 2)
-                compare(snap_decision_3.state, "expanded", "state of third snap-decision is not expanded")
-                compare(snap_decision_1.state, "contracted", "state of first snap-decision is not contracted")
-                compare(snap_decision_2.state, "contracted", "state of second snap-decision is not contracted")
-                compare(snap_decision_4.state, "contracted", "state of fourth snap-decision is not contracted")
-                compare(snap_decision_5.state, "contracted", "state of fifth snap-decision is not contracted")
-
-                mouseClick(snap_decision_4, snap_decision_4.width / 2, snap_decision_4.height / 2)
-                compare(snap_decision_4.state, "expanded", "state of fourth snap-decision is not expanded")
-                compare(snap_decision_1.state, "contracted", "state of first snap-decision is not contracted")
-                compare(snap_decision_2.state, "contracted", "state of second snap-decision is not contracted")
-                compare(snap_decision_3.state, "contracted", "state of third snap-decision is not contracted")
-                compare(snap_decision_5.state, "contracted", "state of fourth snap-decision is not contracted")
-
-                mouseClick(snap_decision_5, snap_decision_5.width / 2, snap_decision_5.height / 2)
-                compare(snap_decision_5.state, "expanded", "state of fifth snap-decision is not expanded")
-                compare(snap_decision_1.state, "contracted", "state of first snap-decision is not contracted")
-                compare(snap_decision_2.state, "contracted", "state of second snap-decision is not contracted")
-                compare(snap_decision_3.state, "contracted", "state of third snap-decision is not contracted")
-                compare(snap_decision_4.state, "contracted", "state of fourth snap-decision is not contracted")
+                for (var index = 0; index < snap_decision.length; index++) {
+                    mouseClick(snap_decision[index], snap_decision[index].width / 2, snap_decision[index].height / 2)
+                    for (var kindex = 0; kindex < snap_decision.length; kindex++) {
+                        if (kindex == index) {
+                            compare(snap_decision[kindex].state, "expanded", "state of "+ kindex + ".snap-decision is not expanded");
+                        } else {
+                            compare(snap_decision[kindex].state, "contracted", "state of "+ kindex + ".snap-decision is not contracted");
+                        }
+                    }
+                }
             }
 
             // once all five snap-decisions are appended to the model remove top-most and verify one of the remaining ones is still getting expanded
             if (mockModel.count > 5) {
                 // make first snap-decision expand
-                mouseClick(snap_decision_1, snap_decision_1.width / 2, snap_decision_1.height / 2)
+                mouseClick(snap_decision[0], snap_decision[0].width / 2, snap_decision[0].height / 2);
 
-                // remove it
-                removeTopMostNotification()
-                compare(snap_decision_2.state, "expanded", "state of second snap-decision is not expanded")
-
-                // remove next
-                removeTopMostNotification()
-                compare(snap_decision_3.state, "expanded", "state of second snap-decision is not expanded")
-
-                // remove next
-                removeTopMostNotification()
-                compare(snap_decision_4.state, "expanded", "state of second snap-decision is not expanded")
-
-                // remove next
-                removeTopMostNotification()
-                compare(snap_decision_5.state, "expanded", "state of second snap-decision is not expanded")
-
-                // remove last
-                removeTopMostNotification()
+                for (var index = 1; index < snap_decision.length; index++) {
+                    removeTopMostNotification();
+                    compare(snap_decision[index].state, "expanded", "state of " + index + ". snap-decision is not expanded");
+                }
             }
         }
     }
