@@ -16,10 +16,8 @@
 
 import QtQuick 2.0
 import QtTest 1.0
-import Ubuntu.Components 0.1
 import "../../../../qml/Dash/Previews"
 import Unity.Test 0.1 as UT
-import QtMultimedia 5.0
 import Unity 0.1 as Unity
 
 Rectangle {
