@@ -24,14 +24,23 @@ import Unity 0.1
 Loader {
     id: root
 
+    //! Identifier of the widget.
+    property string widgetId: ""
+
+    //! Type of the widget to display.
+    property string widgetType: ""
+
     //! Widget data, forwarded to the widget as is.
     property var widgetData: null
+
+    //! Set to true if the parent preview is displayed.
+    property bool isCurrentPreview: false
 
     //! Triggered signal forwarded from the widgets.
     signal triggered(string widgetId, string actionId, var data)
 
     source: {
-        switch (widgetData && widgetData["type"]) {
+        switch (type) {
             case "audio": return "PreviewAudioPlayback.qml";
             case "text": return "PreviewTextSummary.qml";
             case "gallery": return "PreviewImageGallery.qml";
@@ -40,11 +49,10 @@ Loader {
         }
     }
 
-    Binding {
-        target: root.item
-        when: root.status === Loader.Ready
-        property: "widgetData"
-        value: root.widgetData
+    onLoaded: {
+        item.widgetId = Qt.binding(function() { return root.widgetId } )
+        item.widgetData = Qt.binding(function() { return root.widgetData } )
+        item.isCurrentPreview = Qt.binding(function() { return root.isCurrentPreview } )
     }
 
     Connections {
