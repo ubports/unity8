@@ -26,6 +26,9 @@ Item {
     property alias oldPrice: oldPriceLabel.text
     property alias altPrice: altPriceLabel.text
 
+    // FIXME: Saviq, used to scale fonts down in Carousel
+    property real fontScale: 1.0
+
     property alias headerAlignment: titleLabel.horizontalAlignment
 
     visible: mascotImage.status === Image.Ready || title || price
@@ -43,7 +46,7 @@ Item {
             leftMargin: spacing
             rightMargin: spacing
         }
-        spacing: mascotShape.visible ? margins : 0
+        spacing: mascotShape.visible || (template && template["overlay"]) ? margins : 0
 
         UbuntuShape {
             id: mascotShape
@@ -79,6 +82,8 @@ Item {
                 wrapMode: Text.Wrap
                 maximumLineCount: 2
                 fontSize: "small"
+                font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale)
+                color: template["overlay"] === true ? "white" : Theme.palette.selected.backgroundText
             }
 
             Label {
@@ -89,6 +94,8 @@ Item {
                 font.weight: Font.Light
                 visible: titleLabel.text && text
                 fontSize: "x-small"
+                font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale)
+                color: template["overlay"] === true ? "white" : Theme.palette.selected.backgroundText
             }
 
             Row {

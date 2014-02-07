@@ -100,7 +100,15 @@ Item {
         }
     }
 
-    readonly property var headerAlignment: {
+    /*!
+     type:real \brief Height of the card's header.
+    */
+    readonly property alias headerHeight: card.headerHeight
+
+    /*!
+     \brief Desired alignment of header components.
+     */
+    readonly property int headerAlignment: {
         var subtitle = components["subtitle"];
         var price = components["price"];
         var summary = components["summary"];
@@ -115,10 +123,9 @@ Item {
         return (template["card-layout"] === "horizontal") ? Text.AlignHCenter : Text.AlignLeft;
     }
 
-    readonly property QtObject priv: card
-
     Card {
         id: card
+        objectName: "card"
         template: cardTool.template
         components: cardTool.components
 
