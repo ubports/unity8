@@ -100,15 +100,16 @@ Icon=Not important
 
     def test_swipe_out_application_started_by_url_dispatcher(self):
         _, desktop_file_path = self.create_test_application()
+        desktop_file_name = os.path.basename(desktop_file_path)
+        application_name, _ = os.path.splitext(desktop_file_name)
 
         self.assertEqual('', self.main_window.get_current_focused_app_id())
         self.addCleanup(os.system, 'pkill qmlscene')
-        os.system(
-            'url-dispatcher application:///{}'.format(
-                os.path.basename(desktop_file_path)))
+        os.system('url-dispatcher application:///{}'.format(desktop_file_name))
         self.assertThat(
             self.main_window.get_current_focused_app_id,
-            Eventually(Equals('test')))
+            Eventually(Equals(application_name)))
+
         self.main_window.show_dash_swiping()
         self.assertThat(
             self.main_window.get_current_focused_app_id,
