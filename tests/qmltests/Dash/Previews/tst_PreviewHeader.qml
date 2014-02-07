@@ -18,8 +18,6 @@ import QtQuick 2.0
 import QtTest 1.0
 import "../../../../qml/Dash/Previews"
 import Unity.Test 0.1 as UT
-import Ubuntu.Components 0.1
-
 
 Rectangle {
     id: root
