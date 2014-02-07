@@ -70,7 +70,7 @@ msgstr ""
 #: qml/Components/EdgeDemo.qml:228
 msgid ""
 "You have now mastered the edge gestures and can start using the "
-"phone<br><br>Tap anywhere to start"
+"phone<br><br>Tap on the screen to start"
 msgstr ""
 
 #: qml/Components/PageHeader.qml:339
