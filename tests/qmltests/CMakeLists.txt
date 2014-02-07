@@ -32,6 +32,7 @@ add_qml_test(Components LazyImage)
 add_qml_test(Components ResponsiveFlowView)
 add_qml_test(Components ResponsiveGridView)
 add_qml_test(Components Revealer)
+add_qml_test(Components SeeMore)
 add_qml_test(Components Showable)
 add_qml_test(Components Stage IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS}
                                            ${CMAKE_BINARY_DIR}/tests/mocks
@@ -55,6 +56,7 @@ add_qml_test(Dash/Apps AppPreview IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} $
 add_qml_test(Dash/Movie MoviePreview IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/tests/mocks)
 add_qml_test(Dash/Music MusicPreview IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/tests/mocks)
 add_qml_test(Dash/Previews PreviewAudioPlayback IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/tests/mocks)
+add_qml_test(Dash/Previews PreviewTextSummary IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/tests/mocks)
 add_qml_test(Greeter Lockscreen IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS}
                              PROPERTIES ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics:${CMAKE_BINARY_DIR}/tests/mocks/LightDM/full")
 add_qml_test(Greeter Tablet IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS}
