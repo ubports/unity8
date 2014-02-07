@@ -45,6 +45,8 @@ DashFilterGrid {
             template: genericFilterGrid.template
             components: genericFilterGrid.components
 
+            headerAlignment: cardTool.headerAlignment
+
             onClicked: genericFilterGrid.clicked(index, card.y)
             onPressAndHold: genericFilterGrid.pressAndHold(index, card.y)
         }
