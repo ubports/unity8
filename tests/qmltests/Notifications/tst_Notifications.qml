@@ -435,7 +435,6 @@ Row {
                 mouseClick(buttonAccept, buttonAccept.width / 2, buttonAccept.height / 2)
                 compare(actionSpy.signalArguments[0][0], data.actions[0]["id"], "got wrong id positive action")
                 actionSpy.clear()
-                wait(500);
 
                 // check if there's more than one negative choice
                 if (data.actions.length > 2) {
