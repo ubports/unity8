@@ -34,4 +34,6 @@ Item {
      *  \param data Optional widget-specific data sent to the scope.
      */
     signal triggered(string widgetId, string actionId, var data)
+
+    objectName: widgetId
 }
