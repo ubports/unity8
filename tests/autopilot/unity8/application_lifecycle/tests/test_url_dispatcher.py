@@ -94,7 +94,7 @@ Icon=Not important
         desktop_file.close()
         return desktop_file.name
 
-    def _get_local_desktop_file_directory():
+    def _get_local_desktop_file_directory(self):
         return os.path.join(
             os.environ.get('HOME'), '.local', 'share', 'applications')
 
