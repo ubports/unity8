@@ -105,7 +105,7 @@ Icon=Not important
         self.addCleanup(os.system, 'pkill qmlscene')
         os.system(
             'url-dispatcher application:///{}'.format(
-                os.basename(desktop_file_path)))
+                os.path.basename(desktop_file_path)))
         self.assertThat(
             self.main_window.get_current_focused_app_id,
             Eventually(Equals('test')))
