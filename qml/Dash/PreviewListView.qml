@@ -174,9 +174,9 @@ Item {
                 duration: UbuntuAnimation.BriskDuration
             }
 
-            DashPreviewPlaceholder {
-                anchors.fill: parent
-                visible: !parent.ready
+            ActivityIndicator {
+                anchors.centerIn: parent
+                running: visible
             }
         }
     }
