@@ -120,7 +120,7 @@ Item {
         var isOnlyTextComponent = !hasSubtitle && !hasPrice && !hasSummary;
         if (!isOnlyTextComponent) return Text.AlignLeft;
 
-        return (template["card-layout"] === "horizontal") ? Text.AlignHCenter : Text.AlignLeft;
+        return (template["card-layout"] === "horizontal") ? Text.AlignLeft : Text.AlignHCenter;
     }
 
     Card {

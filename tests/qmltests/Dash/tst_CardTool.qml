@@ -323,9 +323,9 @@ Rectangle {
         function test_card_header_component_alignment_data() {
             return [
                 { tag: "Title - vertical", component: "titleLabel", property: "headerAlignment",
-                  value: Text.AlignLeft, index: 11, layout_index: 0 },
+                  value: Text.AlignHCenter, index: 11, layout_index: 0 },
                 { tag: "Title - horizontal", component: "titleLabel", property: "headerAlignment",
-                  value: Text.AlignHCenter, index: 12, layout_index: 0},
+                  value: Text.AlignLeft, index: 12, layout_index: 0},
                 { tag: "Title, subtitle - vertical", component: "titleLabel", property: "headerAlignment",
                   value: Text.AlignLeft, index: 13, layout_index: 0},
                 { tag: "Title, price - horizontal", component: "titleLabel", property: "headerAlignment",
