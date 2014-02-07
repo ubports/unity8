@@ -26,7 +26,7 @@ import "../"
 PreviewWidget {
     id: root
 
-    implicitHeight: childrenRect.height
+    height: childrenRect.height
 
     CardHeader {
         objectName: "cardHeader"

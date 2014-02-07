@@ -46,7 +46,7 @@ Rectangle {
         name: "PreviewHeaderTest"
         when: windowShown
 
-        function test_something() {
+        function test_json() {
             var cardHeader = findChild(previewHeader, "cardHeader");
             compare(cardHeader.title, "THE TITLE");
             compare(cardHeader.subtitle, "Something catchy");
