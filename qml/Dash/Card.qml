@@ -71,7 +71,7 @@ Item {
             bottom: artShape.bottom
         }
 
-        height: units.gu(8)
+        height: header.height
         opacity: header.opacity * 0.6
         visible: template && template["overlay"] && artShape.visible && artShape.image.status === Image.Ready || false
 
