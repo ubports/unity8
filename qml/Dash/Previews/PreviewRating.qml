@@ -16,33 +16,17 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import "../../Components"
 
-/*! Rating widget bar. */
+/*! \brief Preview widget for rating.
 
-StyledItem {
-    id: root
+    This widget shows text contained in widgetData["text"]
+    along with a title that comes from widgetData["title"].
 
-    //! True if it accepts user input.
-    property bool interactive: true
+    In case the text does not fit in 7 lines a See More / Less widget is also shown.
+ */
 
-    //! Maximum rating.
-    property real maximumValue: 5
-
-    //! Number of rating icons.
-    property int size: 5
-
-    //! Current rating.
-    property real value: -1
-
-    readonly property int effectiveValue: MathUtils.clamp(size * value / maximumValue, 0, maximumValue)
-
-    style: RatingStyle {}
-
-    MouseArea {
-        anchors.fill: parent
-        enabled: root.interactive
-        onClicked: root.value = Math.ceil(mouse.x / averageIconWidth) * root.maximumValue / root.size
-
-        readonly property int averageIconWidth: width / root.size
-    }
+Rectangle {
+    width: 100
+    height: 62
 }
