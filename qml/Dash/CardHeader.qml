@@ -93,13 +93,8 @@ Item {
                 elide: Text.ElideRight
                 font.weight: Font.Light
                 visible: titleLabel.text && text
-                fontSize: "x-small"
-<<<<<<< TREE
-                color: template["overlay"] === true ? "white" : "grey" // Theme.palette.normal.backgroundText
-=======
                 font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale)
-                color: template["overlay"] === true ? "white" : Theme.palette.selected.backgroundText
->>>>>>> MERGE-SOURCE
+                color: template["overlay"] === true ? "white" : "grey" // Theme.palette.normal.backgroundText
             }
 
             Row {
