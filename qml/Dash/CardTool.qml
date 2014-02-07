@@ -29,17 +29,17 @@ import QtQuick 2.0
 Item {
     id: cardTool
     /*!
-     Template supplied for the category.
+     \brief Template supplied for the category.
      */
     property var template
 
     /*!
-     Component mapping supplied for the category.
+     \brief Component mapping supplied for the category.
      */
     property var components
 
     /*!
-     Width of the view, based on which carousel width is calculated.
+     \brief Width of the view, based on which carousel width is calculated.
      */
     property var viewWidth
 
@@ -55,7 +55,7 @@ Item {
 
      If undefined, should use implicit width of the actual card.
      */
-    property var cardWidth: {
+    readonly property var cardWidth: {
         switch (template !== undefined && template["category-layout"]) {
             case "grid":
             case "vertical-journal":
@@ -83,7 +83,7 @@ Item {
 
      If undefined, should use implicit height of the actual card.
      */
-    property var cardHeight: {
+    readonly property var cardHeight: {
         switch (template !== undefined && template["category-layout"]) {
             case "journal":
                 if (template["card-size"] >= 12 && template["card-size"] <= 38) return units.gu(template["card-size"]);
@@ -100,10 +100,32 @@ Item {
         }
     }
 
-    property QtObject priv: card
+    /*!
+     type:real \brief Height of the card's header.
+    */
+    readonly property alias headerHeight: card.headerHeight
+
+    /*!
+     \brief Desired alignment of header components.
+     */
+    readonly property int headerAlignment: {
+        var subtitle = components["subtitle"];
+        var price = components["price"];
+        var summary = components["summary"];
+
+        var hasSubtitle = subtitle && (typeof subtitle === "string" || subtitle["field"])
+        var hasPrice = price && (typeof price === "string" || subtitle["field"]);
+        var hasSummary = summary && (typeof summary === "string" || summary["field"])
+
+        var isOnlyTextComponent = !hasSubtitle && !hasPrice && !hasSummary;
+        if (!isOnlyTextComponent) return Text.AlignLeft;
+
+        return (template["card-layout"] === "horizontal") ? Text.AlignLeft : Text.AlignHCenter;
+    }
 
     Card {
         id: card
+        objectName: "card"
         template: cardTool.template
         components: cardTool.components
 

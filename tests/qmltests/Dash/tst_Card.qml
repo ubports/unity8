@@ -74,6 +74,11 @@ Rectangle {
             "name": "Header title only",
             "layout": { "components": { "title": "title" } }
         },
+        {
+            "name": "Art, header, summary - overlaid",
+            "layout": { "template": { "overlay": true },
+                        "components": JSON.parse(Helpers.fullMapping) }
+        },
     ]
 
     CardTool {
@@ -224,6 +229,7 @@ Rectangle {
         }
 
         function test_card_size(data) {
+            waitForRendering(card);
             selector.selectedIndex = data.index;
 
             if (data.hasOwnProperty("size")) {
@@ -314,6 +320,8 @@ Rectangle {
                   left: function() { return art.x }, index: 0 },
                 { tag: "Horizontal", top: function() { return art.y },
                   left: function() { return art.x + art.width }, index: 5 },
+                { tag: "Overlay", top: function() { return art.y + art.height - header.height },
+                  left: function() { return art.x }, index: 9 },
             ]
         }
 

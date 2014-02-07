@@ -26,6 +26,11 @@ Item {
     property alias oldPrice: oldPriceLabel.text
     property alias altPrice: altPriceLabel.text
 
+    // FIXME: Saviq, used to scale fonts down in Carousel
+    property real fontScale: 1.0
+
+    property alias headerAlignment: titleLabel.horizontalAlignment
+
     visible: mascotImage.status === Image.Ready || title || price
     height: row.height > 0 ? row.height + row.margins * 2 : 0
 
@@ -41,19 +46,25 @@ Item {
             leftMargin: spacing
             rightMargin: spacing
         }
-        spacing: mascotShape.visible ? margins : 0
+        spacing: mascotShape.visible || (template && template["overlay"]) ? margins : 0
 
         UbuntuShape {
             id: mascotShape
             objectName: "mascotShape"
 
-            width: units.gu(8)
-            height: units.gu(8)
+            // TODO karni: Icon aspect-ratio is 8:7.5. Revisit these values to avoid fraction of pixels.
+            width: units.gu(6)
+            height: units.gu(5.625)
             visible: image.status === Image.Ready
+            readonly property int maxSize: Math.max(width, height)
 
             image: Image {
                 id: mascotImage
-                sourceSize { width: mascotShape.width; height: mascotShape.height }
+
+                sourceSize { width: mascotShape.maxSize; height: mascotShape.maxSize }
+                fillMode: Image.PreserveAspectCrop
+                horizontalAlignment: Image.AlignHCenter
+                verticalAlignment: Image.AlignVCenter
             }
         }
 
@@ -70,7 +81,7 @@ Item {
                 font.weight: Font.DemiBold
                 wrapMode: Text.Wrap
                 maximumLineCount: 2
-                fontSize: "small"
+                font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale)
                 // TODO karni (for each Label): Update Ubuntu.Components.Themes.Palette and use theme color instead
                 color: template["overlay"] === true ? "white" : "grey" // Theme.palette.normal.backgroundText
             }
@@ -83,7 +94,12 @@ Item {
                 font.weight: Font.Light
                 visible: titleLabel.text && text
                 fontSize: "x-small"
+<<<<<<< TREE
                 color: template["overlay"] === true ? "white" : "grey" // Theme.palette.normal.backgroundText
+=======
+                font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale)
+                color: template["overlay"] === true ? "white" : Theme.palette.selected.backgroundText
+>>>>>>> MERGE-SOURCE
             }
 
             Row {

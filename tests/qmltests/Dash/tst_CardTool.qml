@@ -72,6 +72,22 @@ Rectangle {
             "name": "Art, header - portrait",
             "layout": { "components": Helpers.update(JSON.parse(Helpers.fullMapping), { "art": {"aspect-ratio": 0.5, "summary": undefined }}) }
         },
+        {
+            "name": "Title - vertical",
+            "layout": { "template": { "card-layout": "vertical" }, "components": { "title": "title" } }
+        },
+        {
+            "name": "Title - horizontal",
+            "layout": { "template": { "card-layout": "horizontal" }, "components": { "title": "title" } }
+        },
+        {
+            "name": "Title, subtitle - vertical",
+            "layout": { "template": { "card-layout": "vertical" }, "components": { "title": "title", "subtitle": "subtitle" } }
+        },
+        {
+            "name": "Title, price - horizontal",
+            "layout": { "template": { "card-layout": "horizontal" }, "components": { "title": "title", "price": "price" } }
+        },
     ]
 
     CardTool {
@@ -121,6 +137,7 @@ Rectangle {
             height: cardTool.cardHeight || implicitHeight
 
             clip: true
+            headerAlignment: cardTool.headerAlignment
 
             Rectangle {
                 anchors.fill: parent
@@ -209,7 +226,7 @@ Rectangle {
                 id: dataArea
                 anchors { left: parent.left; right: parent.right }
                 height: units.gu(25)
-                text: JSON.stringify(cardTool.priv.cardData, undefined, 2)
+                text: JSON.stringify(testCase.internalCard.cardData, undefined, 2)
             }
 
             Label {
@@ -239,7 +256,13 @@ Rectangle {
         id: testCase
         name: "Card"
 
+        property Card internalCard: findChild(cardTool, "card")
+
         when: windowShown
+
+        function init() {
+            verify(typeof testCase.internalCard === "object", "Couldn't find internal card object.");
+        }
 
         function cleanup() {
             selector.selectedIndex = -1;
@@ -294,6 +317,30 @@ Rectangle {
                 if (typeof data.height === "function") {
                     tryCompareFunction(function() { return cardTool.cardHeight === data.height() }, true);
                 } else tryCompare(cardTool, "cardHeight", data.height);
+            }
+        }
+
+        function test_card_header_component_alignment_data() {
+            return [
+                { tag: "Title - vertical", component: "titleLabel", property: "headerAlignment",
+                  value: Text.AlignHCenter, index: 11, layout_index: 0 },
+                { tag: "Title - horizontal", component: "titleLabel", property: "headerAlignment",
+                  value: Text.AlignLeft, index: 12, layout_index: 0},
+                { tag: "Title, subtitle - vertical", component: "titleLabel", property: "headerAlignment",
+                  value: Text.AlignLeft, index: 13, layout_index: 0},
+                { tag: "Title, price - horizontal", component: "titleLabel", property: "headerAlignment",
+                  value: Text.AlignLeft, index: 14, layout_index: 0},
+            ]
+        }
+
+        function test_card_header_component_alignment(data) {
+            selector.selectedIndex = data.index;
+            if (data.hasOwnProperty("layout_index")) {
+                layoutSelector.selectedIndex = data.layout_index;
+            }
+
+            if (data.hasOwnProperty("property")) {
+                tryCompare(cardTool, data.property, data.value);
             }
         }
     }

@@ -39,11 +39,14 @@ DashFilterGrid {
             id: card
             width: cardTool.cardWidth
             height: cardTool.cardHeight
+            headerHeight: cardTool.headerHeight
             anchors.horizontalCenter: parent.horizontalCenter
             objectName: "delegate" + index
             cardData: model
             template: genericFilterGrid.template
             components: genericFilterGrid.components
+
+            headerAlignment: cardTool.headerAlignment
 
             onClicked: genericFilterGrid.clicked(index, card.y)
             onPressAndHold: genericFilterGrid.pressAndHold(index, card.y)
