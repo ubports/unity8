@@ -74,6 +74,11 @@ Rectangle {
             "name": "Header title only",
             "layout": { "components": { "title": "title" } }
         },
+        {
+            "name": "Art, header, summary - overlaid",
+            "layout": { "template": { "overlay": true },
+                        "components": JSON.parse(Helpers.fullMapping) }
+        },
     ]
 
     CardTool {
