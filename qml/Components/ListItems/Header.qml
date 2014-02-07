@@ -47,7 +47,8 @@ Item {
                 verticalCenter: parent.verticalCenter
             }
 
-            color: Theme.palette.selected.backgroundText //at 60%
+            // TODO karni: Fix when Ubuntu color pallete is updated.
+            color: "grey" // Theme.palette.selected.backgroundText //at 60%
             opacity: 0.6
             font.family: "Ubuntu"
             fontSize: "medium"
