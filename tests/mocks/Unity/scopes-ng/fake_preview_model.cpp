@@ -51,17 +51,16 @@ void PreviewModel::populateWidgets()
 {
     beginResetModel();
     m_previewWidgets.clear();
-    endResetModel();
-    beginInsertRows(QModelIndex(), 0, 4);
-    for (int i = 0; i <= 5; ++i) {
+    for (int i = 0; i <= 20; i++) {
         // FIXME: the API will expose nicer getters soon, use those!
         QVariantMap attributes;
-        attributes["text"] = QVariant::fromValue(QString("Text"));
-        attributes["title"] = QVariant::fromValue(QString("Title"));
+        attributes["text"] = QVariant::fromValue(QString("Widget %1").arg(i));
+        attributes["title"] = QVariant::fromValue(QString("Title %1").arg(i));
         PreviewData* preview_data = new PreviewData(QString("widget-%1").arg(i), QString("text"), attributes);
         m_previewWidgets.append(QSharedPointer<PreviewData>(preview_data));
     }
-    endInsertRows();
+    endResetModel();
+
 }
 
 void PreviewModel::triggered(QString widgetId, QString actionId, QVariantMap data)

@@ -16,8 +16,6 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
-import Unity 0.1
 
 //! \brief This component loads the widgets based on widgetData["type"].
 
@@ -40,7 +38,7 @@ Loader {
     signal triggered(string widgetId, string actionId, var data)
 
     source: {
-        switch (type) {
+        switch (widgetType) {
             case "audio": return "PreviewAudioPlayback.qml";
             case "text": return "PreviewTextSummary.qml";
             case "gallery": return "PreviewImageGallery.qml";

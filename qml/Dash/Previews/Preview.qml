@@ -72,6 +72,8 @@ Item {
 
                 model: previewModel
 
+                Behavior on contentY { UbuntuNumberAnimation { } }
+
                 delegate: PreviewWidgetFactory {
                     widgetId: model.widgetId
                     widgetType: model.type
@@ -85,6 +87,8 @@ Item {
                     }
 
                     onFocusChanged: if (focus) column.positionViewAtIndex(index, ListView.Contain)
+
+                    onHeightChanged: if (focus) column.positionViewAtIndex(index, ListView.Contain)
                 }
             }
         }

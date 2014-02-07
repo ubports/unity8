@@ -57,6 +57,7 @@ Rectangle {
         when: windowShown
 
         function test_triggered() {
+            waitForRendering(preview);
             var widget = findChild(preview, "widget-3");
 
             compare(typeof widget, "object", "Could not find the widget object.");
@@ -73,6 +74,7 @@ Rectangle {
         }
 
         function test_showProcessing() {
+            waitForRendering(preview);
             var widget = findChild(preview, "widget-3");
             widget.triggered(widget.widgetId, "mockAction", {"mock": "data"});
 
@@ -83,6 +85,30 @@ Rectangle {
             preview.previewModelChanged();
 
             tryCompare(processing, "enabled", false);
+        }
+
+        function test_containOnFocus() {
+            waitForRendering(preview);
+            var widget = findChild(preview, "widget-13");
+
+            widget.forceActiveFocus();
+
+            var bottomLeft = preview.mapFromItem(widget, 0, widget.height);
+
+            tryCompareFunction(function () { return bottomLeft.y <= preview.height }, true);
+        }
+
+        function test_containOnGrow() {
+            waitForRendering(preview);
+            var widget = findChild(preview, "widget-13");
+
+            widget.forceActiveFocus();
+            widget.height += 200;
+
+            tryCompareFunction(function () {
+                var bottomLeft = preview.mapFromItem(widget, 0, widget.height);
+                return bottomLeft.y <= preview.height
+            }, true);
         }
     }
 }
