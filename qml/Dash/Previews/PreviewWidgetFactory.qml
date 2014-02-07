@@ -37,7 +37,10 @@ Loader {
     //! Triggered signal forwarded from the widgets.
     signal triggered(string widgetId, string actionId, var data)
 
-    source: {
+    source: widgetSource
+
+    //! \cond private
+    property url widgetSource: {
         switch (widgetType) {
             case "audio": return "PreviewAudioPlayback.qml";
             case "text": return "PreviewTextSummary.qml";
@@ -46,6 +49,7 @@ Loader {
             default: return "";
         }
     }
+    //! \endcond
 
     onLoaded: {
         item.widgetId = Qt.binding(function() { return root.widgetId } )

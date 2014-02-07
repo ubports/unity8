@@ -31,12 +31,6 @@ Rectangle {
             left: parent.left
             right: parent.right
         }
-
-        source: Qt.resolvedUrl("MockPreviewWidget.qml")
-
-        widgetData: {
-            "type": "mock"
-        }
     }
 
     SignalSpy {
@@ -51,15 +45,23 @@ Rectangle {
 
         property Item mockWidget: findChild(factory, "mockPreviewWidget")
 
-        function init() {
-            verify(typeof mockWidget === "object", "Could not find the mock preview widget.");
+        function cleanup() {
+            factory.source = Qt.binding(function() { return factory.widgetSource });
         }
 
         function test_previewData() {
+            factory.source = Qt.resolvedUrl("MockPreviewWidget.qml");
+
+            verify(typeof mockWidget === "object", "Could not find the mock preview widget.");
+
             tryCompare(mockWidget, "widgetData", factory.widgetData);
         }
 
         function test_triggered() {
+            factory.source = Qt.resolvedUrl("MockPreviewWidget.qml");
+
+            verify(typeof mockWidget === "object", "Could not find the mock preview widget.");
+
             mockWidget.trigger();
 
             triggeredSpy.wait();
@@ -69,6 +71,22 @@ Rectangle {
             compare(args[0], "mockWidget", "Widget id not passed correctly.");
             compare(args[1], "mockAction", "Action id not passed correctly.");
             compare(args[2]["mock"], "data", "Data not passed correctly.");
+        }
+
+        function test_mapping_data() {
+            return [
+                { tag: "Audio", type: "audio", source: "PreviewAudioPlayback.qml" },
+                { tag: "Text", type: "text", source: "PreviewTextSummary.qml" },
+                { tag: "Gallery", type: "gallery", source: "PreviewImageGallery.qml" },
+                { tag: "Actions", type: "actions", source: "PreviewActions.qml" },
+            ];
+        }
+
+        function test_mapping(data) {
+            factory.widgetData = { type: data.type };
+            factory.widgetType = data.type;
+
+            verify(("" + factory.source).indexOf(data.source) != -1);
         }
     }
 }
