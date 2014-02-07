@@ -92,7 +92,7 @@ class MainWindow(object):
         return self.app.select_single(objectName="pinentryField")
 
     def get_indicator(self, indicator_name):
-        return self.app.select_single(
+        return self.app.wait_select_single(
             'DefaultIndicatorWidget',
             objectName=indicator_name+'-widget'
         )
