@@ -18,6 +18,7 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Unity 0.2
 import "../Components"
+import "Previews" as Previews
 
 Item {
     property OpenEffect openEffect: null
@@ -28,7 +29,6 @@ Item {
     property alias onScreen: previewListView.onScreen
     property alias categoryId: previewListView.categoryId
     property alias categoryDelegate: previewListView.categoryDelegate
-    property alias init: previewListView.init
     property alias model: previewListView.model
     property alias currentIndex: previewListView.currentIndex
     property alias currentItem: previewListView.currentItem
@@ -83,11 +83,8 @@ Item {
         // when the first preview is ready to be displayed.
         property bool init: true
 
-        PreviewDelegateMapper {
-            id: previewDelegateMapper
-        }
-
         onCurrentIndexChanged: {
+            if (currentIndex < 0) return;
             var row = Math.floor(currentIndex / categoryDelegate.columns);
             if (categoryDelegate.collapsedRowCount <= row) {
                 categoryView.expandedCategoryId = categoryId
@@ -97,9 +94,9 @@ Item {
                 categoryDelegate.highlightIndex = currentIndex
             }
 
-            if (!init && model !== undefined) {
+            if (model !== undefined) {
                 var item = model.get(currentIndex)
-                scope.preview(item.uri, item.icon, item.category, 0, item.mimetype, item.title, item.comment, item.dndUri, item.metadata)
+                previewListView.currentItem.previewModel = scope.preview(item.result)
             }
 
             // Adjust contentY in case we need to change to it to show the next row
@@ -154,58 +151,32 @@ Item {
             z: -1
         }
 
-        delegate: Loader {
-            id: previewLoader
-            objectName: "previewLoader" + index
+        delegate: Previews.Preview {
+            id: preview
+            objectName: "preview" + index
             height: previewListView.height
             width: previewListView.width
-            asynchronous: true
-            source: previewListView.onScreen ?
-                            (previewData !== undefined ? previewDelegateMapper.map(previewData.rendererName) : "DashPreviewPlaceholder.qml") : ""
 
-            onPreviewDataChanged: {
-                if (previewData !== undefined && source.toString().indexOf("DashPreviewPlaceholder.qml") != -1) {
-                    previewLoader.opacity = 0;
-                }
-            }
+            isCurrent: ListView.isCurrentItem
 
-            onSourceChanged: {
-                if (previewData !== undefined) {
-                    fadeIn.start()
-                }
-            }
+            onPreviewModelChanged: preview.opacity = 0;
+            onReadyChanged: if (ready) fadeIn.start()
+//            onClose: {
+//                previewListView.open = false
+//            }
 
             PropertyAnimation {
                 id: fadeIn
-                target: previewLoader
+                target: preview
                 property: "opacity"
                 from: 0.0
                 to: 1.0
                 duration: UbuntuAnimation.BriskDuration
             }
 
-            property var previewData
-            property bool valid: item !== null
-
-            onLoaded: {
-                if (previewListView.onScreen && previewData !== undefined) {
-                    item.previewData = Qt.binding(function() { return previewData })
-                    item.isCurrent = Qt.binding(function() { return ListView.isCurrentItem })
-                }
-            }
-
-            Connections {
-                ignoreUnknownSignals: true
-                target: item
-                onClose: {
-                    previewListView.open = false
-                }
-            }
-
-            function closePreviewSpinner() {
-                if (item) {
-                    item.showProcessingAction = false;
-                }
+            DashPreviewPlaceholder {
+                anchors.fill: parent
+                visible: !parent.ready
             }
         }
     }

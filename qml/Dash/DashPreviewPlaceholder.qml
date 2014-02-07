@@ -20,6 +20,6 @@ import Ubuntu.Components 0.1
 DashPreview {
     ActivityIndicator {
         anchors.centerIn: parent
-        running: true
+        running: visible
     }
 }
