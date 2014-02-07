@@ -100,6 +100,11 @@ Item {
         }
     }
 
+    /*!
+     type:real \brief Height of the card's header.
+    */
+    readonly property alias headerHeight: card.headerHeight
+
     Card {
         id: card
         objectName: "card"
