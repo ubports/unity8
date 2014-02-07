@@ -320,6 +320,8 @@ Rectangle {
                   left: function() { return art.x }, index: 0 },
                 { tag: "Horizontal", top: function() { return art.y },
                   left: function() { return art.x + art.width }, index: 5 },
+                { tag: "Overlay", top: function() { return art.y + art.height - header.height },
+                  left: function() { return art.x }, index: 9 },
             ]
         }
 
