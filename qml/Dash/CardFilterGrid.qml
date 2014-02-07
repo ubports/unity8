@@ -39,6 +39,7 @@ DashFilterGrid {
             id: card
             width: cardTool.cardWidth
             height: cardTool.cardHeight
+            headerHeight: cardTool.headerHeight
             anchors.horizontalCenter: parent.horizontalCenter
             objectName: "delegate" + index
             cardData: model
