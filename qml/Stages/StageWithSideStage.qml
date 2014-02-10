@@ -26,7 +26,7 @@ Item {
     onOverlayModeChanged: print(";;;;;;;;;;;;;;;;;;;;;;;;;; overlayModeChanged:", overlayWidth)
 
     onShownChanged: {
-//        print("shown", shown)
+        print("___________________________shown", shown)
         if (!shown) {
             priv.mainStageAppId = "";
         }
@@ -58,7 +58,7 @@ Item {
         }
     }
 
-//    Rectangle { anchors.fill: parent; color: "blue"; opacity: 0.5 }
+    Rectangle { anchors.fill: parent; color: "blue"; opacity: 0.5 }
 
     QtObject {
         id: priv
@@ -92,6 +92,7 @@ Item {
             if (focusedApplication) {
                 if (focusedApplication.stage == ApplicationInfoInterface.MainStage) {
                     mainStageAppId = focusedApplicationId;
+                    priv.overlayOverride = false;
                 } else if (focusedApplication.stage == ApplicationInfoInterface.SideStage) {
                     sideStageAppId = focusedApplicationId;
                 }
@@ -203,19 +204,28 @@ Item {
                     sideStageImage.snapToApp(application)
                 }
             } else if (application.stage == ApplicationInfoInterface.MainStage) {
+                print("should focus a main stage app")
                 if (root.shown) {
+                    print("root is already shown")
                     priv.mainStageAppId = application.appId;
                     mainStageImage.switchTo(application)
                     if (sideStageImage.shown) {
+                        print("hiding side stage!")
                         sideStageImage.snapTo(root.width)
                     } else {
+                        print("focusing app", appId)
                         ApplicationManager.focusApplication(appId)
                     }
                 } else {
+                    if (sideStageImage.shown) {
+                        sideStageImage.visible = false;
+                        sideStageImage.x = root.width;
+                    }
+
                     ApplicationManager.focusApplication(appId)
                 }
             }
-            priv.overlayOverride = false;
+//            priv.overlayOverride = false;
         }
 
         onApplicationRemoved: {
