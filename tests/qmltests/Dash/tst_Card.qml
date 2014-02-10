@@ -85,6 +85,7 @@ Rectangle {
         id: cardTool
         template: card.template
         components: card.components
+        viewWidth: 48
     }
 
     Card {
