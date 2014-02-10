@@ -19,6 +19,7 @@ Item {
     readonly property bool painting: mainStageImage.visible || sideStageImage.visible || sideStageSnapAnimation.running
     property bool fullscreen: priv.focusedApplication ? priv.focusedApplication.fullscreen : false
     property bool overlayMode: (sideStageImage.shown && priv.mainStageAppId.length == 0) || priv.overlayOverride
+                               || (priv.mainStageAppId.length == 0 && sideStageSnapAnimation.running)
 
     readonly property int overlayWidth: priv.overlayOverride ? 0 : priv.sideStageWidth
 
@@ -84,6 +85,7 @@ Item {
         property bool waitingForSideScreenshot: false
         property bool waitingForScreenshots: waitingForMainScreenshot || waitingForSideScreenshot
 
+        property string startingAppId: ""
 
         // Keep overlayMode even if there is no focused app (to allow pulling in the sidestage from the right)
         property bool overlayOverride: false
@@ -93,10 +95,19 @@ Item {
                 if (focusedApplication.stage == ApplicationInfoInterface.MainStage) {
                     mainStageAppId = focusedApplicationId;
                     priv.overlayOverride = false;
+                    if (priv.startingAppId == focusedApplicationId && sideStageImage.shown) {
+                        sideStageImage.snapTo(root.width)
+                        priv.startingAppId = "";
+                    }
                 } else if (focusedApplication.stage == ApplicationInfoInterface.SideStage) {
                     sideStageAppId = focusedApplicationId;
+                    if (priv.startingAppId == focusedApplicationId && !sideStageImage.shown) {
+                        sideStageImage.snapToApp(focusedApplication);
+                        priv.startingAppId = "";
+                    }
                 }
             }
+            print("focused app changed", focusedApplicationId, mainStageAppId, sideStageAppId, sideStageImage.shown, priv.startingAppId)
         }
 
         onMainStageScreenshotChanged: {
@@ -175,7 +186,8 @@ Item {
     Connections {
         target: ApplicationManager
 
-//        onApplicationAdded: {
+        onApplicationAdded: {
+            priv.startingAppId = appId;
 //            var application = ApplicationManager.findApplication(appId)
 //            print("Application added:", appId, application.state)
 //            if (application.stage == ApplicationInfoInterface.SideStage) {
@@ -187,7 +199,7 @@ Item {
 //                sideStageImage.switchTo(application)
 //                sideStageImage.visible = true;
 //            }
-//        }
+        }
 
         onFocusRequested: {
             print("focus requested by", appId)
@@ -312,7 +324,7 @@ Item {
         x: root.width - width
         anchors.bottom: parent.bottom
         visible: true
-        property bool shown: false
+        property bool shown: true
 
 //        Rectangle { anchors.fill: parent; color: "green"; opacity: 0.5 }
 
@@ -321,7 +333,7 @@ Item {
         }
 
         function snapTo(targetX) {
-            print("snapping to... app:", sideStageImage.application.appId)
+//            print("snapping to... app:", sideStageImage.application.appId)
             sideStageSnapAnimation.targetX = targetX
             sideStageImage.visible = true;
             if (priv.mainStageAppId) {

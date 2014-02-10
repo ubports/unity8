@@ -236,7 +236,7 @@ FocusScope {
 
         property bool shown: false
 
-        property real showProgress: MathUtils.clamp(1 - x / shell.width, 0, 1)
+        property real showProgress: overlayMode ? 0 : MathUtils.clamp(1 - x / shell.width, 0, 1)
 
         property bool fullyShown: x == 0
         property bool fullyHidden: x == width
