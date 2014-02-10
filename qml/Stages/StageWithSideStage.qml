@@ -282,6 +282,9 @@ Item {
         onPressed: {
             print("sidestagehandle pressed. shown:", shown, "sidestageAppId:", priv.sideStageAppId)
             priv.requestNewScreenshot(ApplicationInfoInterface.SideStage)
+            if (priv.mainStageAppId) {
+                priv.requestNewScreenshot(ApplicationInfoInterface.MainStage)
+            }
         }
 
         onMouseXChanged: {
