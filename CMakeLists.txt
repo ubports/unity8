@@ -121,3 +121,8 @@ add_subdirectory(data)
 # Translation
 #
 add_subdirectory(po)
+
+#
+# Documentation
+#
+add_subdirectory(doc)

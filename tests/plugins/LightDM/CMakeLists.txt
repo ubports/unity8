@@ -13,6 +13,7 @@ include_directories(
     ${LIBLIGHTDM_INCLUDE_DIRS}
     )
 
+add_dependencies(test-lightdm-dbus MockLightDM-full)
 target_link_libraries(test-lightdm-dbus
     ${LIBLIGHTDM_LDFLAGS}
     )

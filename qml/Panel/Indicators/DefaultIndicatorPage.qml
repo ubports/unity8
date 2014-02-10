@@ -138,10 +138,14 @@ Indicators.IndicatorBase {
             sourceComponent: factory.load(model)
 
             onLoaded: {
+                if (item.hasOwnProperty("selected")) {
+                    item.selected = mainMenu.selectedIndex == index;
+                }
                 if (item.hasOwnProperty("menuSelected")) {
-                    item.menuSelected = mainMenu.selectedIndex == index;
-                    item.selectMenu.connect(function() { mainMenu.selectedIndex = index; });
-                    item.deselectMenu.connect(function() { mainMenu.selectedIndex = -1; });
+                    item.menuSelected.connect(function() { mainMenu.selectedIndex = index; });
+                }
+                if (item.hasOwnProperty("menuDeselected")) {
+                    item.menuDeselected.connect(function() { mainMenu.selectedIndex = -1; });
                 }
                 if (item.hasOwnProperty("menuData")) {
                     item.menuData = Qt.binding(function() { return model; });
@@ -162,8 +166,8 @@ Indicators.IndicatorBase {
             Connections {
                 target: mainMenu
                 onSelectedIndexChanged: {
-                    if (loader.item && loader.item.hasOwnProperty("menuSelected")) {
-                        loader.item.menuSelected = mainMenu.selectedIndex == index;
+                    if (loader.item && loader.item.hasOwnProperty("selected")) {
+                        loader.item.selected = mainMenu.selectedIndex == index;
                     }
                 }
             }

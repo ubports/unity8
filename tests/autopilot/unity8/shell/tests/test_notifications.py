@@ -57,9 +57,7 @@ class NotificationsBase(UnityTestCase):
         if os.path.abspath(__file__).startswith('/usr/'):
             return '/usr/share/unity8/graphics/' + icon_name
         else:
-            return os.path.abspath(
-                os.getcwd() + "/../../graphics/" + icon_name
-            )
+            return os.path.dirname(__file__) + "/../../../../../qml/graphics/" + icon_name
 
     def _get_notifications_list(self):
         main_view = self.main_window.get_qml_view()
@@ -158,8 +156,6 @@ class InteractiveNotificationBase(NotificationsBase):
             offer more options."""
         unity_proxy = self.launch_unity()
 
-        notify_list = self._get_notifications_list()
-
         summary = "Incoming call"
         body = "Frank Zappa\n+44 (0)7736 027340"
         icon_path = self._get_icon_path('avatars/anna_olsson.png')
@@ -188,8 +184,9 @@ class InteractiveNotificationBase(NotificationsBase):
             hints
         )
 
+        notify_list = self._get_notifications_list()
         get_notification = lambda: notify_list.wait_select_single(
-            'Notification', objectName='notification1')
+            'Notification', objectName='notification0')
         notification = get_notification()
         self._assert_notification(notification, None, None, True, True, 1.0)
         initial_height = notification.height

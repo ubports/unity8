@@ -55,7 +55,7 @@ def restart_unity(*args):
     status = _get_unity_status()
     if "start/" in status:
         try:
-            output = subprocess.check_output(['initctl', 'stop', 'unity8'])
+            output = subprocess.check_output(['/sbin/initctl', 'stop', 'unity8'])
             logger.info(output)
         except subprocess.CalledProcessError as e:
             e.args += (
@@ -64,7 +64,7 @@ def restart_unity(*args):
             raise
 
     try:
-        command = ['initctl', 'start', 'unity8'] + list(args)
+        command = ['/sbin/initctl', 'start', 'unity8'] + list(args)
         output = subprocess.check_output(
             command,
             stderr=subprocess.STDOUT,
@@ -82,7 +82,7 @@ def restart_unity(*args):
 def _get_unity_status():
     try:
         return subprocess.check_output([
-            'initctl',
+            '/sbin/initctl',
             'status',
             'unity8'
         ])

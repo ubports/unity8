@@ -146,6 +146,7 @@ Item {
                     anchors.fill: parent
                     anchors.margins: units.gu(1)
 
+                    inputMethodHints: Qt.ImhNoPredictiveText
                     hasClearButton: false
 
                     primaryItem: AbstractButton {

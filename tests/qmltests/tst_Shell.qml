@@ -71,14 +71,14 @@ Item {
                 var dashContentList = findChild(shell, "dashContentList");
                 waitForRendering(dashContentList);
                 var homeLoader = findChild(dashContentList, "home.scope loader");
-                ok = homeLoader !== undefined
+                ok = homeLoader !== null
                     && homeLoader.item !== undefined;
 
                 var dashHome = findChild(shell, "DashHome");
-                ok &= dashHome !== undefined;
+                ok &= dashHome !== null;
 
                 var launcherPanel = findChild(shell, "launcherPanel");
-                ok &= launcherPanel !== undefined;
+                ok &= launcherPanel !== null;
 
                 attempts++;
                 if (!ok) {

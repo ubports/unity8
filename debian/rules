@@ -21,6 +21,10 @@ override_dh_auto_configure:
 	# So until Debian bug 719148 is fixed, do it ourselves.
 	dh_auto_configure -- -DCMAKE_INSTALL_LOCALSTATEDIR="/var"
 
+override_dh_auto_build:
+	# doc is not a default target
+	dh_auto_build -- all doc
+
 override_dh_install:
 	# install autopilot tests
 	cd tests/autopilot; \

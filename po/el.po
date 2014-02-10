@@ -8,61 +8,65 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-11-29 09:21+0100\n"
-"PO-Revision-Date: 2013-06-27 00:53+0000\n"
-"Last-Translator: Michał Sawicz <michal.sawicz@canonical.com>\n"
+"PO-Revision-Date: 2014-01-15 16:34+0000\n"
+"Last-Translator: Filippos Kolyvas <Unknown>\n"
 "Language-Team: Greek <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-12-29 06:04+0000\n"
-"X-Generator: Launchpad (build 16877)\n"
+"X-Launchpad-Export-Date: 2014-01-16 06:09+0000\n"
+"X-Generator: Launchpad (build 16901)\n"
 
 #: Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
-msgstr ""
+msgstr "Παράλειψη εισαγωγής"
 
 #: Components/EdgeDemo.qml:112
 msgid "Right edge"
-msgstr ""
+msgstr "Δεξί άκρο"
 
 #: Components/EdgeDemo.qml:113
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr ""
+msgstr "Σύρετε από το δεξί άκρο για ξεκλείδωμα του τηλεφώνου"
 
 #: Components/EdgeDemo.qml:144
 msgid "Top edge"
-msgstr ""
+msgstr "Πάνω άκρο"
 
 #: Components/EdgeDemo.qml:145
 msgid "Try swiping from the top edge to access the indicators"
-msgstr ""
+msgstr "Σύρετε από το πάνω άκρο για πρόσβαση στις ρυθμίσεις"
 
 #: Components/EdgeDemo.qml:170
 msgid "Close"
-msgstr ""
+msgstr "Κλείσιμο"
 
 #: Components/EdgeDemo.qml:171
 msgid "Swipe up again to close the settings screen"
-msgstr ""
+msgstr "Σύρετε προς τα επάνω για κλείσιμο των ρυθμίσεων"
 
 #: Components/EdgeDemo.qml:198
 msgid "Left edge"
-msgstr ""
+msgstr "Αριστερό άκρο"
 
 #: Components/EdgeDemo.qml:199
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr ""
+"Σύρετε από τα αριστερό άκρο για εμφάνιση του εκκινητή για άμεση πρόσβαση "
+"στις εφαρμογές"
 
 #: Components/EdgeDemo.qml:226
 msgid "Well done"
-msgstr ""
+msgstr "Συγχαρητήρια"
 
 #: Components/EdgeDemo.qml:227
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap anywhere to start"
 msgstr ""
+"Τώρα γνωρίζετε τις χειρονομίες άκρων και μπορείτε να αρχίσετε να "
+"χρησιμοποιείτε το τηλέφωνο<br><br>Πατήστε οπουδήποτε για να ξεκινήσετε"
 
 #: Components/PageHeader.qml:364
 msgid "Recent searches"
@@ -70,50 +74,50 @@ msgstr "Πρόσφατες αναζητήσεις"
 
 #: Dash/Apps/AppPreview.qml:135
 msgid "Rate this"
-msgstr ""
+msgstr "Βαθμολογήστε το"
 
 #. TRANSLATORS: Number of persons who rated this app/video/whatever
 #: Dash/Previews/Header.qml:93
 #, qt-format
 msgid "(%1)"
-msgstr ""
+msgstr "(%1)"
 
 #. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
 #: Dash/Previews/Header.qml:105
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 αξιολόγηση"
+msgstr[1] "%1 αξιολογήσεις"
 
 #: Dash/Previews/Reviews.qml:74
 msgid "Add a review"
-msgstr ""
+msgstr "Προσθέστε την αξιολόγησή σας"
 
 #: Dash/Previews/Reviews.qml:86
 msgid "Review"
-msgstr ""
+msgstr "Αξιολόγηση"
 
 #: Dash/Previews/Reviews.qml:121
 msgid "Send"
-msgstr ""
+msgstr "Αποστολή"
 
 #: Dash/Previews/Reviews.qml:139
 msgid "Comments:"
-msgstr ""
+msgstr "Σχόλια:"
 
 #: Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
-msgstr ""
+msgstr "Κλήση έκτακτης ανάγκης"
 
 #: Greeter/PassphraseLockscreen.qml:59
 #, qt-format
 msgid "Hello %1"
-msgstr ""
+msgstr "Γεια σας %1"
 
 #: Greeter/PassphraseLockscreen.qml:59
 msgid "Hello"
-msgstr ""
+msgstr "Γεια σας"
 
 #: Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
@@ -137,7 +141,7 @@ msgstr "Ομιλία..."
 
 #: Notifications/NotificationMenuItemFactory.qml:89
 msgid "Show password"
-msgstr ""
+msgstr "Εμφάνιση κωδικού"
 
 #: Panel/SearchIndicator.qml:27
 msgid "Search"
@@ -146,13 +150,13 @@ msgstr "Αναζήτηση"
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Lock to Launcher"
-msgstr ""
+msgstr "Διατήρηση στον εκκινητή"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Unlock from Launcher"
-msgstr ""
+msgstr "Απομάκρυνση από τον εκκινητή"
 
 #: Shell.qml:439
 #, qt-format
 msgid "Please enter %1"
-msgstr ""
+msgstr "Πληκτρολογήστε %1"
