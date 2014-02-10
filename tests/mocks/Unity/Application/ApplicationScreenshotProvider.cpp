@@ -54,10 +54,15 @@ QImage ApplicationScreenshotProvider::requestImage(const QString &imageId, QSize
 
     QGuiApplication *unity = qobject_cast<QGuiApplication*>(qApp);
 
-    Q_FOREACH (QWindow *win, unity->allWindows()) {
-        QQuickWindow *quickWin = qobject_cast<QQuickWindow*>(win);
-        if (quickWin) {
-            image = image.scaledToWidth(quickWin->width());
+    if (app->stage() == ApplicationInfo::SideStage) {
+        QByteArray gus = qgetenv("GRID_UNIT_PX");
+        image = image.scaledToWidth(gus.toInt() * 48);
+    } else {
+        Q_FOREACH (QWindow *win, unity->allWindows()) {
+            QQuickWindow *quickWin = qobject_cast<QQuickWindow*>(win);
+            if (quickWin) {
+                image = image.scaledToWidth(quickWin->width());
+            }
         }
     }
 

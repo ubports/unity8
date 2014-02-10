@@ -86,7 +86,6 @@ macro(add_qml_test SUBPATH COMPONENT_NAME)
             ${qmltestrunner_imports}
             -o ${CMAKE_BINARY_DIR}/${qmltest_TARGET}.xml,xunitxml
             -o -,txt
-            $(TESTCASE)
     )
     add_custom_target(${qmltest_TARGET} ${qmltest_command})
 

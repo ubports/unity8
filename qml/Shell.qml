@@ -39,7 +39,7 @@ FocusScope {
     id: shell
 
     // this is only here to select the width / height of the window if not running fullscreen
-    property bool tablet: false
+    property bool tablet: true
     width: tablet ? units.gu(160) : applicationArguments.hasGeometry() ? applicationArguments.width() : units.gu(40)
     height: tablet ? units.gu(100) : applicationArguments.hasGeometry() ? applicationArguments.height() : units.gu(71)
 
@@ -114,9 +114,16 @@ FocusScope {
     Keys.onVolumeDownPressed: volumeControl.volumeDown()
 
     Item {
+        id: underlayClipper
+        anchors.fill: parent
+        anchors.rightMargin: stages.overlayWidth
+        clip: stages.overlayMode && !stages.painting
+
+    Item {
         id: underlay
         objectName: "underlay"
         anchors.fill: parent
+        anchors.rightMargin: -parent.anchors.rightMargin
 
         // Whether the underlay is fully covered by opaque UI elements.
         property bool fullyCovered: panel.indicators.fullyOpened && shell.width <= panel.indicatorsMenuWidth
@@ -124,7 +131,7 @@ FocusScope {
         readonly property bool applicationRunning: ApplicationManager.focusedApplicationId.length > 0
 
         // Whether the user should see the topmost application surface (if there's one at all).
-        readonly property bool applicationSurfaceShouldBeSeen: stages.shown && !stages.painting
+        readonly property bool applicationSurfaceShouldBeSeen: stages.shown && !stages.painting && !stages.overlayMode
 
         // NB! Application surfaces are stacked behind the shell one. So they can only be seen by the user
         // through the translucent parts of the shell surface.
@@ -161,12 +168,22 @@ FocusScope {
 
             contentScale: 1.0 - 0.2 * disappearingAnimationProgress
             opacity: 1.0 - disappearingAnimationProgress
-            property real disappearingAnimationProgress: greeter.shown ? greeter.showProgress : stages.showProgress
+            property real disappearingAnimationProgress: {
+                if (greeter.shown) {
+                    return greeter.showProgress;
+                } else {
+                    if (stages.overlayMode) {
+                        return 0;
+                    }
+                    return stages.showProgress
+                }
+            }
 
             // FIXME: only necessary because stages.showProgress and
             // greeterRevealer.animatedProgress are not animated
             Behavior on disappearingAnimationProgress { SmoothedAnimation { velocity: 5 }}
         }
+    }
     }
 
     EdgeDragArea {
@@ -204,9 +221,18 @@ FocusScope {
         width: parent.width
         height: parent.height
 
-        x: shown ? launcher.progress : stagesDragHandle.progress
+        x: {
+            if (shown) {
+                if (overlayMode) {
+                    return 0;
+                }
+                return launcher.progress
+            } else {
+                return stagesDragHandle.progress
+            }
+        }
 
-        Behavior on x { SmoothedAnimation { velocity: 600; duration: UbuntuAnimation.FastDuration } }
+        Behavior on x { SmoothedAnimation { velocity: 600; duration: UbuntuAnimation.SlowDuration } }
 
         property bool shown: false
 
@@ -217,6 +243,8 @@ FocusScope {
 
         property bool painting: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.painting : false
         property bool fullscreen: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.fullscreen : false
+        property bool overlayMode: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.overlayMode : false
+        property int overlayWidth: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.overlayWidth : false
 
         function show() {
             shown = true;
@@ -239,7 +267,10 @@ FocusScope {
                 if (ApplicationManager.focusedApplicationId.length > 0) {
                     stages.show();
                 } else {
-                    stages.hide();
+                    print("app unfocused", stages.overlayMode)
+                    if (!stages.overlayMode) {
+                        stages.hide();
+                    }
                 }
             }
 
@@ -515,7 +546,7 @@ FocusScope {
                 showHome()
             }
             onDash: {
-                if (stages.shown) {
+                if (stages.shown && !stages.overlayMode) {
                     stages.hide();
                     launcher.hide();
                 }

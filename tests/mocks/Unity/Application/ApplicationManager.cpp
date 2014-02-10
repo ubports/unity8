@@ -100,6 +100,7 @@ void ApplicationManager::add(ApplicationInfo *application) {
     endInsertRows();
     Q_EMIT applicationAdded(application->appId());
     Q_EMIT countChanged();
+    Q_EMIT focusRequested(application->appId());
 }
 
 void ApplicationManager::remove(ApplicationInfo *application) {
@@ -202,6 +203,7 @@ bool ApplicationManager::stopApplication(const QString &appId)
 
 void ApplicationManager::updateScreenshot(const QString &appId)
 {
+    qDebug() << "updating screenshot for" << appId;
     int idx = -1;
     ApplicationInfo *application = nullptr;
     for (int i = 0; i < m_availableApplications.count(); ++i) {
@@ -216,10 +218,9 @@ void ApplicationManager::updateScreenshot(const QString &appId)
         return;
     }
 
-    qDebug() << "setting new screenshot" << application->screenshot() << application;
     application->setScreenshot(QString("image://application/%1/%2").arg(appId).arg(QDateTime::currentMSecsSinceEpoch()));
-    qDebug() << "set new screenshot" << application->screenshot();
     QModelIndex appIndex = index(idx);
+    qDebug() << "emitting dataChanged for RoleScreenshot on" << appId;
     Q_EMIT dataChanged(appIndex, appIndex, QVector<int>() << RoleScreenshot);
 }
 
