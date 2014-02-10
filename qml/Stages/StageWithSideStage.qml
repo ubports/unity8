@@ -58,7 +58,7 @@ Item {
         }
     }
 
-    Rectangle { anchors.fill: parent; color: "blue"; opacity: 0.5 }
+//    Rectangle { anchors.fill: parent; color: "blue"; opacity: 0.5 }
 
     QtObject {
         id: priv
