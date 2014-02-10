@@ -22,6 +22,8 @@ Item {
 
     readonly property int overlayWidth: priv.overlayOverride ? 0 : priv.sideStageWidth
 
+    onPaintingChanged: print(":::::::::::::::::::::::::::::::: painting changed:", painting, "overlayMode:", overlayMode)
+    onOverlayModeChanged: print(";;;;;;;;;;;;;;;;;;;;;;;;;; overlayModeChanged:", overlayWidth)
 
     onShownChanged: {
 //        print("shown", shown)
@@ -330,6 +332,8 @@ Item {
             property int targetX: root.width
             property string snapToId
 
+            onRunningChanged: print("sideStageSnapAnimation running changed:", running, sideStageImage.visible, mainStageImage.visible, root.painting, mainStageImage.visible || sideStageImage.visible || sideStageSnapAnimation.running)
+
             UbuntuNumberAnimation { target: sideStageImage; property: "x"; to: sideStageSnapAnimation.targetX; duration: UbuntuAnimation.SlowDuration }
             ScriptAction {
                 script: {
@@ -349,10 +353,11 @@ Item {
                         ApplicationManager.focusApplication(sideStageSnapAnimation.snapToId)
                         sideStageSnapAnimation.snapToId = "";
                         sideStageImage.shown = true;
+                        priv.overlayOverride = false;
                     }
                     sideStageImage.visible = false;
                     mainStageImage.visible = false;
-                    print("snapped sidestage")
+                    print("snapped sidestage", root.overlayMode, root.painting)
                 }
             }
         }
