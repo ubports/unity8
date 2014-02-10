@@ -112,5 +112,6 @@ void RegistryTracker::runRegistry()
     QStringList arguments;
     arguments << m_runtime_config.fileName();
 
+    m_registry.setProcessChannelMode(QProcess::ForwardedChannels);
     m_registry.start(registryBin, arguments);
 }
