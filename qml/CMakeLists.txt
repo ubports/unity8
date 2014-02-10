@@ -13,7 +13,7 @@ set(QML_DIRS
     Hud
     Panel
     Launcher
-    SideStage
+    Stages
     Notifications
     )
 
