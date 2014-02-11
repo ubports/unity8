@@ -77,7 +77,7 @@ Item {
             }
             UbuntuNumberAnimation {
                 duration: UbuntuAnimation.SnapDuration
-            }            
+            }
         }
     }
 
