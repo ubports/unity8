@@ -81,9 +81,9 @@ Item {
                 font.weight: Font.DemiBold
                 wrapMode: Text.Wrap
                 maximumLineCount: 2
-                fontSize: "small"
                 font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale)
-                color: template["overlay"] === true ? "white" : Theme.palette.selected.backgroundText
+                // TODO karni (for each Label): Update Ubuntu.Components.Themes.Palette and use theme color instead
+                color: template["overlay"] === true ? "white" : "grey" // Theme.palette.normal.backgroundText
             }
 
             Label {
@@ -93,9 +93,8 @@ Item {
                 elide: Text.ElideRight
                 font.weight: Font.Light
                 visible: titleLabel.text && text
-                fontSize: "x-small"
                 font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale)
-                color: template["overlay"] === true ? "white" : Theme.palette.selected.backgroundText
+                color: template["overlay"] === true ? "white" : "grey" // Theme.palette.normal.backgroundText
             }
 
             Row {
@@ -116,7 +115,7 @@ Item {
                     width: parent.labelWidth
                     elide: Text.ElideRight
                     font.weight: Font.DemiBold
-                    color: Theme.palette.selected.foreground
+                    color: "grey" // Theme.palette.normal.backgroundText
                     visible: text
                 }
 
