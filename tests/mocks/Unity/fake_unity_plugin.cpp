@@ -22,11 +22,8 @@
 // local
 #include "fake_scopes.h"
 #include "fake_categories.h"
-#include "fake_preview.h"
-#include "categoryresults.h"
-
-// scopes-ng
-#include "scopes-ng/fake_preview_model.h"
+#include "fake_preview_model.h"
+#include "fake_resultsmodel.h"
 
 // External
 #include <glib-object.h>
@@ -41,19 +38,9 @@ void FakeUnityPlugin::registerTypes(const char *uri)
 
     Q_ASSERT(uri == QLatin1String("Unity"));
 
-    qmlRegisterUncreatableType<Preview>(uri, 0, 1, "Preview", "Can't create Preview object in QML.");
-    qmlRegisterType<Scopes>(uri, 0, 1, "Scopes");
-    qmlRegisterType<Scope>(uri, 0, 1, "Scope");
-    qmlRegisterType<Categories>(uri, 0, 1, "Categories");
-    qmlRegisterUncreatableType<CategoryResults>(uri, 0, 1, "CategoryResults", "Can't create");
-    qmlRegisterType<DeeListModel>(uri, 0, 1, "DeeListModel");
-
-    // same for version 0.2
-    qmlRegisterUncreatableType<Preview>(uri, 0, 2, "Preview", "Can't create Preview object in QML.");
     qmlRegisterType<Scopes>(uri, 0, 2, "Scopes");
     qmlRegisterType<Scope>(uri, 0, 2, "Scope");
-    qmlRegisterType<Categories>(uri, 0, 2, "Categories");
-    qmlRegisterUncreatableType<CategoryResults>(uri, 0, 2, "CategoryResults", "Can't create");
-    qmlRegisterType<DeeListModel>(uri, 0, 2, "DeeListModel");
-    qmlRegisterType<scopes_ng::PreviewModel>(uri, 0, 2, "FakePreviewModel");
+    qmlRegisterUncreatableType<Categories>(uri, 0, 2, "Categories", "Can't create Categories object in QML.");
+    qmlRegisterUncreatableType<ResultsModel>(uri, 0, 2, "ResultsModel", "Can't create ResultsModel object in QML.");
+    qmlRegisterType<PreviewModel>(uri, 0, 2, "FakePreviewModel");
 }

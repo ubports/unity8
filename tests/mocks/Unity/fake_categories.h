@@ -18,58 +18,38 @@
 #define FAKE_CATEGORIES_H
 
 // Qt
-#include <QObject>
-#include <QSet>
-#include <QTimer>
+#include <QAbstractListModel>
 
-#include <dee.h>
-#include <deelistmodel.h>
+class ResultsModel;
 
-class Categories : public DeeListModel
+class Categories : public QAbstractListModel
 {
     Q_OBJECT
 
     Q_ENUMS(Roles)
 
 public:
-    Categories(QObject* parent = 0);
+    Categories(int category_count, QObject* parent = 0);
     enum Roles {
         RoleCategoryId,
         RoleName,
         RoleIcon,
+        RoleRawRendererTemplate,
         RoleRenderer,
-        RoleContentType,
-        RoleRendererHint,
-        RoleHints,
+        RoleComponents,
+        RoleProgressSource, // maybe
         RoleResults,
         RoleCount
     };
 
-    Q_INVOKABLE void overrideResults(const QString& categoryId, QAbstractItemModel* model);
-
-    QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
-
-    QHash<int, QByteArray> roleNames() const;
-
-    /* setters */
-    void setResultModel(DeeModel* model);
-
-private Q_SLOTS:
-    void onCountChanged();
-    void onRowCountChanged();
-    void onEmitCountChanged();
-    void onOverrideModelDestroyed();
+    QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
+    QHash<int, QByteArray> roleNames() const override;
+    int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 
 private:
-    DeeModel* getResultsForCategory(unsigned index) const;
-    DeeListModel* getFilter(int index) const;
-
-    DeeModel* m_dee_results;
-    QTimer m_timer;
-    QSet<DeeListModel*> m_timerFilters;
+    mutable QHash<int, ResultsModel*> m_resultsModels;
     QHash<int, QByteArray> m_roles;
-    QMap<QString, QAbstractItemModel*> m_overriddenCategories;
-    mutable QMap<int, DeeListModel*> m_filters;
+    int m_category_count;
 };
 
 #endif // FAKE_CATEGORIES_H

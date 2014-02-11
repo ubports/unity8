@@ -39,7 +39,7 @@ Item {
             top: previewListView.bottom
             left: parent.left
             leftMargin: previewListView.categoryDelegate !== undefined && previewListView.categoryDelegate.currentItem ?
-                            previewListView.categoryDelegate.currentItem.center + (-width + margins) / 2 : 0
+                            previewListView.categoryDelegate.currentItem.x + previewListView.categoryDelegate.currentItem.width / 2 + (-width + margins) / 2 : 0
 
             Behavior on leftMargin {
                 SmoothedAnimation {

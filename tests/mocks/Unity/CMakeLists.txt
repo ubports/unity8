@@ -18,14 +18,12 @@ include_directories(
 add_definitions(-DQT_NO_KEYWORDS)
 
 set(UnityQML_SOURCES
-  categoryresults.cpp
   iconutils.cpp
-  fake_applications_scope.cpp
-  fake_preview.cpp
   fake_scope.cpp
   fake_scopes.cpp
   fake_categories.cpp
-  scopes-ng/fake_preview_model.cpp
+  fake_resultsmodel.cpp
+  fake_preview_model.cpp
   fake_unity_plugin.cpp
 )
 

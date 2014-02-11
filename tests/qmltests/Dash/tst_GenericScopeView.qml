@@ -16,7 +16,7 @@
 
 import QtQuick 2.0
 import QtTest 1.0
-import Unity 0.1
+import Unity 0.2
 import ".."
 import "../../../qml/Dash"
 import "../../../qml/Components"
@@ -26,7 +26,7 @@ import Unity.Test 0.1 as UT
 Item {
     id: shell
     width: units.gu(120)
-    height: units.gu(80)
+    height: units.gu(100)
 
     Scopes {
         id: scopes
@@ -39,14 +39,6 @@ Item {
     property Item applicationManager: Item {
         signal sideStageFocusedApplicationChanged()
         signal mainStageFocusedApplicationChanged()
-    }
-
-    PreviewListView {
-        id: previewListView
-        anchors.fill: parent
-        openEffect: openEffect
-        categoryView: genericScopeView.categoryView
-        scope: genericScopeView.scope
     }
 
     DashContentOpenEffect {
@@ -158,20 +150,6 @@ Item {
                 openPreview();
 
                 // check for it opening successfully
-                var currentPreviewItem = findChild(previewListView, "previewLoader0");
-                tryCompareFunction(function() {
-                                       var parts = currentPreviewItem.source.toString().split("/");
-                                       var name = parts[parts.length - 1];
-                                       return name == "DashPreviewPlaceholder.qml";
-                                   },
-                                   true);
-                tryCompareFunction(function() {
-                                       var parts = currentPreviewItem.source.toString().split("/");
-                                       var name = parts[parts.length - 1];
-                                       return name == "GenericPreview.qml";
-                                   },
-                                   true);
-                tryCompare(currentPreviewItem, "progress", 1);
                 tryCompare(previewListView, "open", true);
 
                 closePreview();
@@ -197,39 +175,15 @@ Item {
 
                 openPreview();
 
-                // wait for it to be loaded
-                var currentPreviewItem = findChild(previewListView, "previewLoader0");
-                tryCompareFunction(function() {
-                                       var parts = currentPreviewItem.source.toString().split("/");
-                                       var name = parts[parts.length - 1];
-                                       return name == "GenericPreview.qml";
-                                   },
-                                   true);
-                tryCompare(currentPreviewItem, "progress", 1);
-                waitForRendering(currentPreviewItem);
-
                 checkArrowPosition(0);
 
                 // flick to the next previews
-
                 for (var i = 1; i < previewListView.count; ++i) {
 
                     mouseFlick(previewListView, previewListView.width - units.gu(1),
                                                 previewListView.height / 2,
                                                 units.gu(2),
                                                 previewListView.height / 2);
-
-                    // wait for it to be loaded
-                    var nextPreviewItem = findChild(previewListView, "previewLoader" + i);
-                    tryCompareFunction(function() {
-                                           var parts = nextPreviewItem.source.toString().split("/");
-                                           var name = parts[parts.length - 1];
-                                           return name == "GenericPreview.qml";
-                                       },
-                                       true);
-                    tryCompare(nextPreviewItem, "progress", 1);
-                    waitForRendering(nextPreviewItem);
-                    tryCompareFunction(function() {return nextPreviewItem.item !== null}, true);
 
                     checkArrowPosition(i);
 
@@ -242,21 +196,6 @@ Item {
 
                     currentPreviewItem = nextPreviewItem;
                 }
-                closePreview();
-            }
-
-            function test_show_spinner() {
-                openPreview();
-                var previewLoader = findChild(previewListView, "previewLoader0");
-                tryCompare(previewLoader, "progress", 1.0);
-                tryCompareFunction(function() { return previewLoader.item != undefined; }, true);
-
-                previewLoader.item.showProcessingAction = true;
-                var waitingForAction = findChild(previewListView, "waitingForActionMouseArea");
-                tryCompare(waitingForAction, "enabled", true);
-                previewLoader.closePreviewSpinner();
-                tryCompare(waitingForAction, "enabled", false);
-
                 closePreview();
             }
 
@@ -306,26 +245,12 @@ Item {
             }
 
             function test_showPreviewCarousel() {
-                tryCompareFunction(function() { return findChild(genericScopeView, "carouselDelegate") != undefined; }, true);
-                var tile = findChild(genericScopeView, "carouselDelegate");
+                tryCompareFunction(function() { return findChild(genericScopeView, "carouselDelegate1") != undefined; }, true);
+                var tile = findChild(genericScopeView, "carouselDelegate1");
                 mouseClick(tile, tile.width / 2, tile.height / 2);
                 tryCompare(openEffect, "gap", 1);
 
                 // check for it opening successfully
-                var currentPreviewItem = findChild(previewListView, "previewLoader0");
-                tryCompareFunction(function() {
-                                       var parts = currentPreviewItem.source.toString().split("/");
-                                       var name = parts[parts.length - 1];
-                                       return name == "DashPreviewPlaceholder.qml";
-                                   },
-                                   true);
-                tryCompareFunction(function() {
-                                       var parts = currentPreviewItem.source.toString().split("/");
-                                       var name = parts[parts.length - 1];
-                                       return name == "GenericPreview.qml";
-                                   },
-                                   true);
-                tryCompare(currentPreviewItem, "progress", 1);
                 tryCompare(previewListView, "open", true);
 
                 closePreview();
@@ -385,5 +310,13 @@ Item {
                 tryCompare(category, "filtered", true);
             }
         }
+    }
+
+    PreviewListView {
+        id: previewListView
+        anchors.fill: parent
+        openEffect: openEffect
+        categoryView: genericScopeView.categoryView
+        scope: genericScopeView.scope
     }
 }

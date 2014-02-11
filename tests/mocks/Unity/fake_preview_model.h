@@ -22,12 +22,9 @@
 #include <QSharedPointer>
 #include <QVariantMap>
 
-namespace scopes_ng
-{
-
 class PreviewData;
 
-class Q_DECL_EXPORT PreviewModel : public QAbstractListModel
+class PreviewModel : public QAbstractListModel
 {
     Q_OBJECT
 
@@ -60,9 +57,6 @@ private:
 
 };
 
-} // namespace scopes_ng
-
-
-Q_DECLARE_METATYPE(scopes_ng::PreviewModel*)
+Q_DECLARE_METATYPE(PreviewModel*)
 
 #endif // NG_FAKE_PREVIW_H

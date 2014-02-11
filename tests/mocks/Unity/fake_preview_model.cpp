@@ -24,9 +24,6 @@
 // Qt
 #include <QVariantMap>
 
-namespace scopes_ng
-{
-
 struct PreviewData
 {
     QString id;
@@ -92,5 +89,3 @@ QVariant PreviewModel::data(const QModelIndex& index, int role) const
             return QVariant();
     }
 }
-
-} // namespace scopes_ng

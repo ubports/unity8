@@ -30,6 +30,7 @@ DashFilterGrid {
 
         template: genericFilterGrid.template
         components: genericFilterGrid.components
+        viewWidth: genericFilterGrid.width
     }
 
     delegate: Item {
