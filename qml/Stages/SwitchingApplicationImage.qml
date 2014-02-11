@@ -1,10 +1,11 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 
-Item {
+Rectangle {
     id: root
     implicitHeight: image.implicitHeight
     implicitWidth: image.implicitWidth
+    color: "black"
 
     property var application
     onApplicationChanged: print("setting app to", application.appId, application.screenshot)
@@ -42,6 +43,7 @@ Item {
         source: root.application ? root.application.screenshot : ""
         width: root.width
         height: sourceSize.height
+        anchors.bottom: parent.bottom
 
     }
 //    Rectangle { anchors.fill: parent; color: "yellow" }

@@ -288,7 +288,7 @@ FocusScope {
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "moving"
-                value: !stages.fullyShown
+                value: !stages.fullyShown || launcher.progress > 0
             }
             Binding {
                 target: applicationsDisplayLoader.item

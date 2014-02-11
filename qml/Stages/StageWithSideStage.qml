@@ -34,7 +34,7 @@ Item {
     }
 
     onMovingChanged: {
-//        print("moving", moving, priv.haveMainStageApp, priv.haveSideStageApp)
+        print("moving", moving, priv.haveMainStageApp, priv.haveSideStageApp)
         if (moving) {
             if (!priv.mainStageAppId && !priv.sideStageAppId) {
                 // Pulling in from the right, make the last used (topmost) app visible
@@ -253,7 +253,8 @@ Item {
 
     SwitchingApplicationImage {
         id: mainStageImage
-        height: parent.height
+//        height: parent.height
+        anchors.bottom: parent.bottom
         width: parent.width
         visible: false
 
@@ -289,6 +290,11 @@ Item {
 
         onMouseXChanged: {
             dragPoints.push(mouseX)
+            print("mouseX changed. waiting for screenshots", priv.waitingForScreenshots)
+            if (priv.waitingForScreenshots) {
+                return;
+            }
+
             var dragPoint = root.width + mouseX;
             if (sideStageImage.shown) {
                 dragPoint -= sideStageImage.width
@@ -323,7 +329,7 @@ Item {
     SwitchingApplicationImage {
         id: sideStageImage
         width: priv.sideStageWidth
-//        height: root.height
+        height: root.height
         x: root.width - width
         anchors.bottom: parent.bottom
         visible: true
