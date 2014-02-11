@@ -234,6 +234,7 @@ Item {
                         sideStageImage.x = root.width;
                     }
 
+                    mainStageImage.application = application;
                     ApplicationManager.focusApplication(appId)
                 }
             }
@@ -291,9 +292,9 @@ Item {
         onMouseXChanged: {
             dragPoints.push(mouseX)
             print("mouseX changed. waiting for screenshots", priv.waitingForScreenshots)
-            if (priv.waitingForScreenshots) {
-                return;
-            }
+//            if (priv.waitingForScreenshots) {
+//                return;
+//            }
 
             var dragPoint = root.width + mouseX;
             if (sideStageImage.shown) {
