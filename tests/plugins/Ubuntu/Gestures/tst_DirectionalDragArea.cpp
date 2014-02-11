@@ -131,18 +131,10 @@ void tst_DirectionalDragArea::passTime(qint64 timeSpan)
 }
 
 namespace {
-QPointF calculateInitialTouchPos(DirectionalDragArea *edgeDragArea, QQuickView *view)
+QPointF calculateInitialTouchPos(DirectionalDragArea *edgeDragArea)
 {
-    switch (edgeDragArea->direction()) {
-        case Direction::Upwards:
-            return QPointF(view->width()/2.0f, view->height() - (edgeDragArea->height()/2.0f));
-        case Direction::Downwards:
-            return QPointF(view->width()/2.0f, edgeDragArea->height()/2.0f);
-        case Direction::Leftwards:
-            return QPointF(view->width() - (edgeDragArea->width()/2.0f), view->height()/2.0f);
-        default: // Direction::Rightwards:
-            return QPointF(edgeDragArea->width()/2.0f, view->height()/2.0f);
-    }
+    QPointF localCenter(edgeDragArea->width() / 2., edgeDragArea->height() / 2.);
+    return edgeDragArea->mapToScene(localCenter);
 }
 
 QPointF calculateDirectionVector(DirectionalDragArea *edgeDragArea,
@@ -193,7 +185,7 @@ void tst_DirectionalDragArea::edgeDrag()
 
     QSignalSpy draggingSpy(edgeDragArea, SIGNAL(draggingChanged(bool)));
 
-    QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea, m_view);
+    QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea);
     QPointF touchPoint = initialTouchPos;
 
     qreal desiredDragDistance = edgeDragArea->distanceThreshold()*dragDistanceFactor;
@@ -300,7 +292,7 @@ void tst_DirectionalDragArea::dragWithShortDirectionChange()
     edgeDragArea->setRecognitionTimer(fakeTimer);
     edgeDragArea->setTimeSource(fakeTimeSource);
 
-    QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea, m_view);
+    QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea);
     QPointF touchPoint = initialTouchPos;
 
     qreal desiredDragDistance = edgeDragArea->distanceThreshold()*2.0;
@@ -360,7 +352,7 @@ void tst_DirectionalDragArea::minSpeed()
 
     edgeDragArea->setMinSpeed(minSpeed);
 
-    QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea, m_view);
+    QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea);
     QPointF touchPoint = initialTouchPos;
 
     QPointF dragDirectionVector(1.0, 0.0);
@@ -408,7 +400,7 @@ void tst_DirectionalDragArea::recognitionTimerUsage()
 
     int timeStepMs = 5; // some arbitrary small value.
 
-    QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea, m_view);
+    QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea);
     QPointF touchPoint = initialTouchPos;
 
     QPointF dragDirectionVector(1.0, 0.0);
@@ -452,7 +444,7 @@ void tst_DirectionalDragArea::maxSilenceTime()
     // Make sure this property is not disabled
     edgeDragArea->setMaxSilenceTime(100);
 
-    QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea, m_view);
+    QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea);
     QPointF touchPoint = initialTouchPos;
 
     QTest::touchEvent(m_view, m_device).press(0, touchPoint.toPoint());
@@ -620,7 +612,7 @@ void tst_DirectionalDragArea::movingDDA()
     edgeDragArea->setRecognitionTimer(fakeTimer);
     edgeDragArea->setTimeSource(fakeTimeSource);
 
-    QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea, m_view);
+    QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea);
     QPointF touchPoint = initialTouchPos;
 
     qreal desiredDragDistance = edgeDragArea->distanceThreshold()*2.0f;
