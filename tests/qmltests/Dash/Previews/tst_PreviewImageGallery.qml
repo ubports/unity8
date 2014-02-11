@@ -21,37 +21,36 @@ import Unity.Test 0.1 as UT
 
 Rectangle {
     id: root
-    width: units.gu(40)
+    width: units.gu(60)
     height: units.gu(80)
     color: "lightgrey"
 
-    property var widgetData0: {
-        "source": ""
+    property var sourcesModel0: {
+        "sources": []
     }
 
-    property var widgetData1: {
-        "source": "../../graphics/phone_background.jpg",
-        "zoomable": false
+    property var sourcesModel1: {
+        "sources": [
+                    "../../graphics/phone_background.jpg",
+                    "../../graphics/tablet_background.jpg",
+                    "../../graphics/clock@18.png"
+                   ]
     }
 
-    PreviewImage {
-        id: image
+    PreviewImageGallery {
+        id: imageGallery
         width: parent.width
-        widgetData: widgetData1
+        widgetData: sourcesModel1
     }
 
     UT.UnityTestCase {
-        name: "PreviewImageTest"
+        name: "PreviewImageGalleryTest"
         when: windowShown
 
-        function test_loadImage() {
-            var lazyImage = findChild(image, "lazyImage");
-
-            image.widgetData = widgetData0;
-            tryCompare(lazyImage.state, "default");
-
-            image.widgetData = widgetData1;
-            tryCompare(lazyImage.state, "ready");
+        function test_changeEmptyModel() {
+            imageGallery.widgetData = sourcesModel0;
+            var placeholderScreenshot = findChild(imageGallery, "placeholderScreenshot");
+            compare(placeholderScreenshot.visible, true);
         }
     }
 }
