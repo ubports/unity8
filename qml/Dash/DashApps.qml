@@ -38,10 +38,6 @@ GenericScopeView {
     SortFilterProxyModel {
         id: runningApplicationsModel
 
-        property var firstModel: mainStageApplicationsModel
-        property var secondModel: sideStageApplicationModel
-        property bool canEnableTerminationMode: scopeView.isCurrent
-
         model: dummyVisibilityModifier
         filterRole: 0
         filterRegExp: invertMatch ? ((mainStageApplicationsModel.count === 0 &&
@@ -49,8 +45,13 @@ GenericScopeView {
         invertMatch: scopeView.scope.searchQuery.length == 0
     }
 
+    QtObject {
+        id: countObject
+        property int count: runningApplicationsModel.count
+    }
+
     onScopeChanged: {
-        scopeView.scope.categories.overrideResults("recent", runningApplicationsModel);
+        scopeView.scope.categories.addSpecialCategory("running.apps.category", "Running Apps", "", "{ \"template\": { \"category-layout\": \"running-apps\" } }", countObject);
         enableHeightBehaviorOnNextCreation = (mainStageApplicationsModel.count + sideStageApplicationModel.count == 0)
     }
 }

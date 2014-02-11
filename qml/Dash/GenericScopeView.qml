@@ -159,9 +159,10 @@ FocusScope {
                         scopeView.enableHeightBehaviorOnNextCreation = false;
                     }
                     if (source.toString().indexOf("Apps/RunningApplicationsGrid.qml") != -1) {
-                        // TODO: the running apps grid doesn't support standard scope results model yet
-                        item.firstModel = Qt.binding(function() { return results.firstModel })
-                        item.secondModel = Qt.binding(function() { return results.secondModel })
+                        // TODO: this is still a kludge :D
+                        console.log("MOOOO", mainStageApplicationsModel, sideStageApplicationModel);
+                        item.firstModel = Qt.binding(function() { return mainStageApplicationsModel })
+                        item.secondModel = Qt.binding(function() { return sideStageApplicationModel })
                         item.canEnableTerminationMode = Qt.binding(function() { return scopeView.isCurrent })
                     } else {
                         item.model = Qt.binding(function() { return results })
@@ -315,6 +316,10 @@ FocusScope {
 
     function getRenderer(template, results) {
         var layout = template["category-layout"];
+
+        if (layout == "running-apps") {
+            return "Apps/RunningApplicationsGrid.qml";
+        }
 
         if (layout === "carousel") {
             // TODO: Selectively disable carousel, 4 is fixed for now, should change depending on form factor
