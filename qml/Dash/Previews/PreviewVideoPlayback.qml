@@ -21,19 +21,21 @@ import "../../Components"
 /*! \brief Preview widget for video.
 
     This widget shows video contained in widgetData["source"],
-    with a placeholder screenshow specified by widgetData["screenshot"].
+    with a placeholder screenshot specified by widgetData["screenshot"].
  */
 
 PreviewWidget {
     id: root
-    implicitHeight: units.gu(22)
+    implicitWidth: units.gu(35)
 
     LazyImage {
         objectName: "screenshot"
-        anchors.left: parent.left
-        anchors.right: parent.right
+        anchors {
+            left: parent.left
+            right: parent.right
+        }
         scaleTo: "width"
-        visible: height > 0
+        visible: state === "ready"
         source: widgetData["screenshot"]
         initialHeight: width * 10 / 16
 
