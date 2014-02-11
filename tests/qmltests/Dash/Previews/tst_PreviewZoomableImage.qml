@@ -34,24 +34,24 @@ Rectangle {
         "zoomable": false
     }
 
-    PreviewImage {
-        id: image
+    PreviewZoomableImage {
+        id: zoomableImage
         width: parent.width
         widgetData: widgetData1
     }
 
     UT.UnityTestCase {
-        name: "PreviewImageTest"
+        name: "PreviewZoomableImageTest"
         when: windowShown
 
         function test_loadImage() {
-            var lazyImage = findChild(image, "lazyImage");
+            var image = findChild(zoomableImage, "image");
 
-            image.widgetData = widgetData0;
-            tryCompare(lazyImage.state, "default");
+            zoomableImage.widgetData = widgetData0;
+            tryCompare(image.state, "default");
 
-            image.widgetData = widgetData1;
-            tryCompare(lazyImage.state, "ready");
+            zoomableImage.widgetData = widgetData1;
+            tryCompare(image.state, "ready");
         }
     }
 }

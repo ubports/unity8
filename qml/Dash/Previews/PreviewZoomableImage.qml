@@ -29,7 +29,7 @@ PreviewWidget {
     implicitHeight: units.gu(22)
 
     LazyImage {
-        objectName: "lazyImage"
+        objectName: "image"
         anchors.fill: parent
         scaleTo: "height"
         source: widgetData["source"]
