@@ -23,7 +23,7 @@ DashFilterGrid {
     minimumHorizontalSpacing: units.gu(0.5)
     delegateWidth: cardTool.cardWidth
     delegateHeight: cardTool.cardHeight
-    verticalSpacing: units.gu(2)
+    verticalSpacing: units.gu(1)
 
     CardTool {
         id: cardTool

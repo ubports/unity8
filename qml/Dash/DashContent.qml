@@ -80,6 +80,14 @@ Item {
         }
     }
 
+    Image {
+        anchors.fill: parent
+        source: shell.width > shell.height ? "graphics/paper_landscape.png" : "graphics/paper_portrait.png"
+        fillMode: Image.PreserveAspectCrop
+        horizontalAlignment: Image.AlignRight
+        verticalAlignment: Image.AlignTop
+    }
+
     Item {
         id: dashContentListHolder
         anchors.fill: parent

@@ -26,6 +26,7 @@ DashRenderer {
     property alias delegate: filterGrid.delegate
     property alias delegateWidth: filterGrid.delegateWidth
     property alias delegateHeight: filterGrid.delegateHeight
+    property alias verticalSpacing: filterGrid.verticalSpacing
     property alias maximumNumberOfColumns: filterGrid.maximumNumberOfColumns
     property alias minimumHorizontalSpacing: filterGrid.minimumHorizontalSpacing
 
@@ -40,7 +41,6 @@ DashRenderer {
     height: filterGrid.height
     margins: filterGrid.margins
     uncollapsedHeight: filterGrid.uncollapsedHeight
-    verticalSpacing: filterGrid.verticalSpacing
 
     function startFilterAnimation(filter) {
         filterGrid.startFilterAnimation(filter)
