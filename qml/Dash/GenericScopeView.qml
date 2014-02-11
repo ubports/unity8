@@ -160,7 +160,6 @@ FocusScope {
                     }
                     if (source.toString().indexOf("Apps/RunningApplicationsGrid.qml") != -1) {
                         // TODO: this is still a kludge :D
-                        console.log("MOOOO", mainStageApplicationsModel, sideStageApplicationModel);
                         item.firstModel = Qt.binding(function() { return mainStageApplicationsModel })
                         item.secondModel = Qt.binding(function() { return sideStageApplicationModel })
                         item.canEnableTerminationMode = Qt.binding(function() { return scopeView.isCurrent })
