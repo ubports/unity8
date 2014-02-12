@@ -63,7 +63,7 @@ Rectangle {
         when: windowShown
 
         function test_json() {
-            spy.target = previewProgress
+            spy.target = previewProgress;
 
             // The mock DownloadTracker triggers its signals when you pass
             // finish/error as dbus-object to it. Exercise it here
@@ -74,9 +74,11 @@ Rectangle {
             compare(args[1], "finished");
             compare(args[2], progressjsonFinish);
 
+            spy.clear();
+
             previewProgress.widgetData = progressjsonError;
-            compare(spy.count, 2);
-            var args = spy.signalArguments[1];
+            compare(spy.count, 1);
+            var args = spy.signalArguments[0];
             compare(args[0], "previewProgress");
             compare(args[1], "failed");
             compare(args[2], progressjsonError);
