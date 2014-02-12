@@ -88,15 +88,19 @@ Item {
             id: previewDelegateMapper
         }
 
-        onCurrentIndexChanged: {
+        onCurrentIndexChanged: positionListView();
+
+        function positionListView() {
+            if (!open) {
+                return;
+            }
+
             var row = Math.floor(currentIndex / categoryDelegate.columns);
             if (categoryDelegate.collapsedRowCount <= row) {
                 categoryView.expandedCategoryId = categoryId
             }
 
-            if (open) {
-                categoryDelegate.highlightIndex = currentIndex
-            }
+            categoryDelegate.highlightIndex = currentIndex
 
             if (!init && model !== undefined) {
                 var item = model.get(currentIndex)
@@ -137,6 +141,7 @@ Item {
                 onScreen = true;
                 categoryDelegate.highlightIndex = currentIndex;
                 pageHeader.unfocus();
+                positionListView();
             } else {
                 // Cancel any pending preview requests or actions
                 if (previewListView.currentItem.previewData !== undefined) {
