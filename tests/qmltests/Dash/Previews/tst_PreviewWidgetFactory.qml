@@ -81,6 +81,7 @@ Rectangle {
                 { tag: "Header", type: "header", source: "PreviewHeader.qml" },
                 { tag: "Image", type: "image", source: "PreviewZoomableImage.qml" },
                 { tag: "Text", type: "text", source: "PreviewTextSummary.qml" },
+                { tag: "Video", type: "video", source: "PreviewVideoPlayback.qml" },
             ];
         }
 
