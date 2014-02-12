@@ -27,6 +27,7 @@ import "../../Components"
 PreviewWidget {
     id: root
     implicitWidth: units.gu(35)
+    implicitHeight: childrenRect.height
 
     LazyImage {
         objectName: "screenshot"
