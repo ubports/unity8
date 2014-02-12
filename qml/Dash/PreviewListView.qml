@@ -32,6 +32,7 @@ Item {
     property alias model: previewListView.model
     property alias currentIndex: previewListView.currentIndex
     property alias currentItem: previewListView.currentItem
+    property alias count: previewListView.count
 
     Image {
         objectName: "pointerArrow"
@@ -83,16 +84,19 @@ Item {
         // when the first preview is ready to be displayed.
         property bool init: true
 
-        onCurrentIndexChanged: {
-            if (currentIndex < 0) return;
+        onCurrentIndexChanged: positionListView();
+
+        function positionListView() {
+            if (!open || currentIndex < 0) {
+                return;
+            }
+
             var row = Math.floor(currentIndex / categoryDelegate.columns);
             if (categoryDelegate.collapsedRowCount <= row) {
                 categoryView.expandedCategoryId = categoryId
             }
 
-            if (open) {
-                categoryDelegate.highlightIndex = currentIndex
-            }
+            categoryDelegate.highlightIndex = currentIndex
 
             if (model !== undefined) {
                 var item = model.get(currentIndex)
@@ -133,6 +137,7 @@ Item {
                 onScreen = true;
                 categoryDelegate.highlightIndex = currentIndex;
                 pageHeader.unfocus();
+                positionListView();
             } else {
                 // Cancel any pending preview requests or actions
                 if (previewListView.currentItem.previewData !== undefined) {

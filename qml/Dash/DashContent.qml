@@ -164,9 +164,11 @@ Item {
 
         PageHeader {
             id: pageHeader
+            objectName: "pageHeader"
             width: parent.width
             searchEntryEnabled: true
             searchHistory: dashContent.searchHistory
+            scope: dashContentList.currentItem.theScope
 
             childItem: TabBar {
                 id: tabBar

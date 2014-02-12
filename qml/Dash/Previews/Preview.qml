@@ -76,6 +76,7 @@ Item {
 
                 model: previewModel
                 onCountChanged: if (count > 0) root.ready = true
+                cacheBuffer: units.gu(40)
 
                 Behavior on contentY { UbuntuNumberAnimation { } }
 

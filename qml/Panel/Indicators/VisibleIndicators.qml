@@ -78,7 +78,7 @@ Item {
         }
     }
 
-    function load() {
-        indicatorsModel.load();
+    function load(profile) {
+        indicatorsModel.load(profile);
     }
 }
