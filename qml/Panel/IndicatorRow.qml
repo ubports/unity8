@@ -22,11 +22,10 @@ import "../Components"
 Item {
     id: indicatorRow
 
-    property QtObject currentItem : null
-    readonly property int currentItemIndex: currentItem ? currentItem.ownIndex : -1
-    property alias row: row
+    readonly property alias currentItem : itemView.currentItem
+    readonly property alias currentItemIndex: itemView.currentIndex
+    readonly property alias row: itemView
     property QtObject indicatorsModel: null
-    property var visibleIndicators: undefined
     property int overFlowWidth: width
     property bool showAll: false
     property real currentItemOffset: 0.0
@@ -40,9 +39,15 @@ Item {
         setCurrentItem(0);
     }
 
-    function setCurrentItem(index) {
-        if (currentItemIndex !== index) {
-            currentItem = rowRepeater.itemAt(index);
+    function setCurrentItemIndex(index) {
+        itemView.currentIndex = index;
+    }
+
+    function setCurrentItem(item) {
+        if (item && item.hasOwnProperty("ownIndex")) {
+            itemView.currentIndex = item.ownIndex;
+        } else {
+            itemView.currentIndex = -1;
         }
     }
 
@@ -55,121 +60,74 @@ Item {
         }
     }
 
-    Row {
-        id: row
+    ListView {
+        id: itemView
+        objectName: "indicatorRowItems"
+        interactive: false
+        model: indicatorsModel ? indicatorsModel : null
 
-        width: children.width
-        height: parent.height
+        width: childrenRect.width
+        height: indicatorRow.height
         anchors.right: parent.right
+        orientation: ListView.Horizontal
 
-        Repeater {
-            id: rowRepeater
-            objectName: "rowRepeater"
-            model: indicatorsModel ? indicatorsModel : undefined
+        property int lastCount: 0
+        onCountChanged: {
+            if (lastCount < count) {
+                showAll = true;
+                allVisible.start();
+            }
+            lastCount = count;
+        }
 
-            property int lastCount: 0
-            onCountChanged: {
-                if (lastCount < count) {
-                    showAll = true;
-                    allVisible.start();
-                }
-                lastCount = count;
+        delegate: Item {
+            id: itemWrapper
+            objectName: "item" + index
+            height: indicatorRow.height
+            width: indicatorItem.width
+            opacity: 1 - indicatorRow.unitProgress
+            y: 0
+            state: "standard"
+
+            property int ownIndex: index
+            property bool highlighted: indicatorRow.unitProgress > 0 ? ListView.isCurrentItem : false
+            property bool dimmed: indicatorRow.unitProgress > 0 ? !ListView.isCurrentItem : false
+
+            property bool hidden: !showAll && !highlighted && (indicatorRow.state == "locked" || indicatorRow.state == "commit")
+            property bool overflow: row.width - itemWrapper.x > overFlowWidth
+
+            IndicatorItem {
+                id: indicatorItem
+                identifier: model.identifier
+                height: parent.height
+
+                dimmed: itemWrapper.dimmed
+
+                widgetSource: model.widgetSource
+                indicatorProperties : model.indicatorProperties
             }
 
-            Item {
-                id: itemWrapper
-                height: indicatorRow.height
-                width: indicatorItem.width
-                visible: indicatorItem.indicatorVisible
-                opacity: 1.0 * opacityMultiplier
-                y: 0
-                state: "standard"
-
-                property int ownIndex: index
-                property bool highlighted: indicatorRow.state != "initial" ? ownIndex == indicatorRow.currentItemIndex : false
-                property bool dimmed: indicatorRow.state != "initial" ? ownIndex != indicatorRow.currentItemIndex : false
-
-                property bool hidden: !showAll && !highlighted && (indicatorRow.state == "locked" || indicatorRow.state == "commit")
-                property bool overflow: row.width - itemWrapper.x > overFlowWidth
-                property real opacityMultiplier: highlighted ? 1 : (1 - indicatorRow.unitProgress)
-
-                IndicatorItem {
-                    id: indicatorItem
-                    identifier: model.identifier
-                    height: parent.height
-
-                    dimmed: itemWrapper.dimmed
-
-                    widgetSource: model.widgetSource
-                    indicatorProperties : model.indicatorProperties
-
-                    Component.onCompleted: {
-                        updateVisiblility();
-                    }
-                    onIndicatorVisibleChanged: {
-                        updateVisiblility();
-
-                        if (indicatorVisible) {
-                            showAll = true;
-                            allVisible.start();
-                        }
-                    }
-
-                    function updateVisiblility() {
-                        if (visibleIndicators == undefined) {
-                            visibleIndicators = {}
-                        }
-                        indicatorRow.visibleIndicators[model.identifier] = indicatorVisible;
-
-                        // removed current index?
-                        if (indicatorRow.currentItemIndex === index && !indicatorVisible) {
-                            // find the next closest visible indicator (after current, else before)
-                            var newIndex = -1;
-                            for (var i = index+1; i < rowRepeater.count; i++) {
-                                if (indicatorRow.visibleIndicators[i] === undefined || indicatorRow.visibleIndicators[model.identifier]) {
-                                    newIndex = i;
-                                    break;
-                                }
-                            }
-                            if (newIndex === -1) {
-                                for (i = index - 1; i >= 0; i--) {
-                                    if (indicatorRow.visibleIndicators[i] === undefined || indicatorRow.visibleIndicators[model.identifier]) {
-                                        newIndex = i;
-                                        break;
-                                    }
-                                }
-                            }
-                            indicatorRow.setCurrentItem(newIndex);
-                        }
-
-                        indicatorRow.visibleIndicatorsChanged();
-                    }
+            states: [
+                State {
+                    name: "standard"
+                    when: !hidden && !overflow && !highlighted
+                },
+                State {
+                    name: "highlighted"
+                    when: highlighted
+                    PropertyChanges { target: itemWrapper; opacity: 1.0 }
+                },
+                State {
+                    name: "hidden"
+                    when: hidden || overflow
+                    PropertyChanges { target: itemWrapper; opacity: 0.0 }
                 }
+            ]
 
-                states: [
-                    State {
-                        name: "standard"
-                        when: !hidden && !overflow
-                    },
-                    State {
-                        name: "overflow"
-                        when: hidden || overflow
-                        PropertyChanges { target: itemWrapper; opacity: 0.0 }
-                    }
-                ]
-
-                transitions: [
-                    Transition {
-                        UbuntuNumberAnimation {
-                            target: itemWrapper
-                            property: "opacity"
-                            duration: UbuntuAnimation.BriskDuration
-                        }
-                    }
-                ]
-            }
+            Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.BriskDuration } }
         }
     }
+
 
     Rectangle {
         id: highlight
@@ -178,7 +136,9 @@ Item {
         height: units.dp(2)
         anchors.top: row.bottom
         visible: indicatorRow.currentItem != null
-        x: row.x + (indicatorRow.currentItem != null ? indicatorRow.currentItem.x + centerOffset : 0)
+
+        property real intendedX: row.x + (indicatorRow.currentItem != null ? indicatorRow.currentItem.x + centerOffset : 0)
+        x: intendedX >= row.x ? (intendedX + width <= row.x + row.width ? intendedX : row.x + row.width - width) : row.x // listview boundaries
         width: indicatorRow.currentItem != null ? indicatorRow.currentItem.width : 0
 
         property real centerOffset: {

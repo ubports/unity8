@@ -36,7 +36,19 @@ PreviewWidget {
         }
         scaleTo: "width"
         visible: state === "ready"
-        source: widgetData["screenshot"]
+        source: {
+            var screenshot = widgetData["screenshot"];
+            if (screenshot) return screenshot;
+
+            var source = widgetData["source"];
+            if (source) {
+                if (source.toString().indexOf("file://") === 0) {
+                    return "image://thumbnailer/" + source.toString().substr(7);
+                }
+            }
+
+            return "";
+        }
         initialHeight: width * 10 / 16
 
         Image {
@@ -53,9 +65,7 @@ PreviewWidget {
         MouseArea {
             id: previewImageMouseArea
             anchors.fill: parent
-            onClicked: {
-                //Qt.openUrlExternally(widgetData["source");
-            }
+            onClicked: Qt.openUrlExternally(widgetData["source"])
         }
     }
 }

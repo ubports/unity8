@@ -14,40 +14,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * Authors:
- *      Renato Araujo Oliveira Filho <renato@canonical.com>
  *      Nick Dedekind <nick.dedekind@canonical.com>
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
 import Unity.Indicators 0.1 as Indicators
 
-FramedMenuItem {
-    id: menuItem
+Indicators.IndicatorBase {
+    enabled: false
 
-    property bool checked: false
-
-    signal activate()
-
-    onCheckedChanged: {
-        // Can't rely on binding. Checked is assigned on click.
-        switcher.checked = checked;
-    }
-
-    control: Switch {
-        id: switcher
-
-        Component.onCompleted: {
-            checked = menuItem.checked;
+    onRootActionStateChanged: {
+        if (rootActionState == undefined) {
+            enabled = false;
+            return;
         }
 
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.right: parent.right
-
-        // FIXME : should use Checkbox.toggled signal
-        // lp:~nick-dedekind/ubuntu-ui-toolkit/checkbox.toggled
-        onClicked: {
-            menuItem.activate();
-        }
+        enabled = rootActionState.visible;
     }
 }

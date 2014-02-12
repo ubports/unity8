@@ -35,6 +35,11 @@ Rectangle {
         "screenshot": "../../../tests/qmltests/Components/tst_LazyImage/square.png"
     }
 
+    property var widgetData2: {
+        "source": "file:///path/to/local/file",
+        "screenshot": ""
+    }
+
     PreviewVideoPlayback {
         id: videoPlayback
         width: parent.width
@@ -53,6 +58,10 @@ Rectangle {
 
             videoPlayback.widgetData = widgetData1;
             tryCompare(screenshot.visible, true);
+
+            videoPlayback.widgetData = widgetData2;
+            var screenshotSource = screenshot.source
+            verify(screenshotSource.toString().indexOf("image://thumbnailer/") === 0)
         }
     }
 }

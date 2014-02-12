@@ -1,7 +1,6 @@
 [Desktop Entry]
 Type=Application
 Name=Unity 8
-GenericName=unity8
 Comment=The converged Unity shell
 Exec=@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_BINDIR@/unity8
 Terminal=false

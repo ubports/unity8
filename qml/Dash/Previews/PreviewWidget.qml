@@ -22,6 +22,18 @@ Item {
     //! Specifies the preview widget being currently used or not
     property bool isCurrentPreview: true
 
+    //! The widget identifier
+    property string widgetId
+
     //! Variable used to contain widget's data
     property var widgetData
+
+    /*! \brief This signal should be emitted when a preview action was triggered.
+     *
+     *  \param widgetId,actionId Respective identifiers from widgetData.
+     *  \param data Optional widget-specific data sent to the scope.
+     */
+    signal triggered(string widgetId, string actionId, var data)
+
+    objectName: widgetId
 }
