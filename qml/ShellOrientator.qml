@@ -30,7 +30,7 @@ Item {
     OrientationHelper {
         orientationAngle: Screen.angleBetween(nativeOrientation, Screen.primaryOrientation)
         transitionEnabled: false
-        ShellContents {
+        Shell {
             anchors.fill: parent
         }
     }
