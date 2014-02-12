@@ -71,6 +71,7 @@ Item {
                 bottomMargin: Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.height : 0
 
                 model: previewModel
+                cacheBuffer: units.gu(40)
 
                 Behavior on contentY { UbuntuNumberAnimation { } }
 
