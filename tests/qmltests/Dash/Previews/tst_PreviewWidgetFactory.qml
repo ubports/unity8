@@ -78,6 +78,7 @@ Rectangle {
                 { tag: "Audio", type: "audio", source: "PreviewAudioPlayback.qml" },
                 { tag: "Text", type: "text", source: "PreviewTextSummary.qml" },
                 { tag: "Gallery", type: "gallery", source: "PreviewImageGallery.qml" },
+                { tag: "Image", type: "image", source: "PreviewZoomableImage.qml" },
                 { tag: "Actions", type: "actions", source: "PreviewActions.qml" },
             ];
         }
