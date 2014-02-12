@@ -92,6 +92,16 @@ int startShell(int argc, const char** argv, void* server)
         view->setFlags(Qt::FramelessWindowHint);
     }
 
+    const QByteArray orientation = qgetenv("NATIVE_ORIENTATION");
+    Qt::ScreenOrientation orientationAngle = Qt::PortraitOrientation;
+    if (orientation == "landscape") {
+        orientationAngle = Qt::LandscapeOrientation;
+    } else if (!orientation.isEmpty() && orientation != "portrait") {
+        qDebug() << "Unknown NATIVE_ORIENTATION setting, ignoring";
+    }
+
+    view->rootContext()->setContextProperty("nativeOrientation", orientationAngle);
+
     // You will need this if you want to interact with touch-only components using a mouse
     // Needed only when manually testing on a desktop.
     MouseTouchAdaptor *mouseTouchAdaptor = 0;
@@ -109,7 +119,7 @@ int startShell(int argc, const char** argv, void* server)
     nativeInterface->setProperty("ubuntuSessionType", 1);
     view->setProperty("role", 2); // INDICATOR_ACTOR_ROLE
 
-    QUrl source(::qmlDirectory()+"Shell.qml");
+    QUrl source(::qmlDirectory()+"ShellOrientator.qml");
     prependImportPaths(view->engine(), ::overrideImportPaths());
     appendImportPaths(view->engine(), ::fallbackImportPaths());
 
