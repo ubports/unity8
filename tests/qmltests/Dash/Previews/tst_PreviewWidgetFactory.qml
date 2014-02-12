@@ -75,11 +75,12 @@ Rectangle {
 
         function test_mapping_data() {
             return [
-                { tag: "Audio", type: "audio", source: "PreviewAudioPlayback.qml" },
-                { tag: "Text", type: "text", source: "PreviewTextSummary.qml" },
-                { tag: "Gallery", type: "gallery", source: "PreviewImageGallery.qml" },
                 { tag: "Actions", type: "actions", source: "PreviewActions.qml" },
+                { tag: "Audio", type: "audio", source: "PreviewAudioPlayback.qml" },
+                { tag: "Gallery", type: "gallery", source: "PreviewImageGallery.qml" },
                 { tag: "Header", type: "header", source: "PreviewHeader.qml" },
+                { tag: "Image", type: "image", source: "PreviewZoomableImage.qml" },
+                { tag: "Text", type: "text", source: "PreviewTextSummary.qml" },
             ];
         }
 

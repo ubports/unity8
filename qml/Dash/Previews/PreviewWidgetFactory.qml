@@ -46,6 +46,7 @@ Loader {
             case "audio": return "PreviewAudioPlayback.qml";
             case "gallery": return "PreviewImageGallery.qml";
             case "header": return "PreviewHeader.qml";
+            case "image": return "PreviewZoomableImage.qml"
             case "text": return "PreviewTextSummary.qml";
             default: return "";
         }
