@@ -46,8 +46,9 @@ Loader {
             case "audio": return "PreviewAudioPlayback.qml";
             case "gallery": return "PreviewImageGallery.qml";
             case "header": return "PreviewHeader.qml";
-            case "image": return "PreviewZoomableImage.qml"
+            case "image": return "PreviewZoomableImage.qml";
             case "text": return "PreviewTextSummary.qml";
+            case "video": return "PreviewVideoPlayback.qml";
             default: return "";
         }
     }
