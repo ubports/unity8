@@ -246,13 +246,15 @@ qreal DirectionalDragArea::distance() const
     }
 }
 
+void DirectionalDragArea::updateSceneDistance()
+{
+    QPointF totalMovement = m_previousScenePos - m_startScenePos;
+    m_sceneDistance = projectOntoDirectionVector(totalMovement);
+}
+
 qreal DirectionalDragArea::sceneDistance() const
 {
-    if (Direction::isHorizontal(m_direction)) {
-        return m_previousScenePos.x() - m_startScenePos.x();
-    } else {
-        return m_previousScenePos.y() - m_startScenePos.y();
-    }
+    return m_sceneDistance;
 }
 
 qreal DirectionalDragArea::touchX() const
@@ -587,18 +589,23 @@ void DirectionalDragArea::setPreviousScenePos(const QPointF &point)
     bool xChanged = m_previousScenePos.x() != point.x();
     bool yChanged = m_previousScenePos.y() != point.y();
 
+    if (!xChanged && !yChanged)
+        return;
+
+    qreal oldSceneDistance = sceneDistance();
     m_previousScenePos = point;
+    updateSceneDistance();
+
+    if (oldSceneDistance != sceneDistance()) {
+        Q_EMIT sceneDistanceChanged(sceneDistance());
+    }
 
     if (xChanged) {
         Q_EMIT touchSceneXChanged(point.x());
-        if (Direction::isHorizontal(m_direction))
-            Q_EMIT sceneDistanceChanged(sceneDistance());
     }
 
     if (yChanged) {
         Q_EMIT touchSceneYChanged(point.y());
-        if (Direction::isVertical(m_direction))
-            Q_EMIT sceneDistanceChanged(sceneDistance());
     }
 }
 

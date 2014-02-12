@@ -160,6 +160,7 @@ public:
 
     qreal distance() const;
     qreal sceneDistance() const;
+    void updateSceneDistance();
 
     qreal touchX() const;
     qreal touchY() const;
@@ -242,6 +243,7 @@ private:
     QPointF m_startScenePos;
     QPointF m_previousPos;
     QPointF m_previousScenePos;
+    qreal m_sceneDistance;
     int m_touchId;
 
     // A movement damper is used in some of the gesture recognition calculations

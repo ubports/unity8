@@ -84,6 +84,8 @@ private Q_SLOTS:
     void movingDDA();
     void ignoreOldFinger();
     void rotated();
+    void sceneDistance();
+    void sceneDistance_data();
 
 private:
     void passTime(qint64 timeSpan);
@@ -738,6 +740,59 @@ void tst_DirectionalDragArea::rotated()
     QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::Recognized);
 
     QTest::touchEvent(m_view, m_device).release(0, touchPoint.toPoint());
+}
+
+void tst_DirectionalDragArea::sceneDistance()
+{
+    QQuickItem *baseItem =  m_view->rootObject()->findChild<QQuickItem*>("baseItem");
+    QFETCH(qreal, rotation);
+    QFETCH(QPointF, dragDirectionVector);
+    baseItem->setRotation(rotation);
+
+    QQuickItem *rightwardsLauncher =  m_view->rootObject()->findChild<QQuickItem*>("rightwardsLauncher");
+    Q_ASSERT(rightwardsLauncher != 0);
+
+    DirectionalDragArea *edgeDragArea =
+        rightwardsLauncher->findChild<DirectionalDragArea*>("hpDragArea");
+    Q_ASSERT(edgeDragArea != 0);
+    edgeDragArea->setRecognitionTimer(fakeTimer);
+    edgeDragArea->setTimeSource(fakeTimeSource);
+
+    QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea);
+    QPointF touchPoint = initialTouchPos;
+
+    qreal desiredDragDistance = edgeDragArea->distanceThreshold()*2.0f;
+
+    qreal movementStepDistance = edgeDragArea->distanceThreshold() * 0.1f;
+    QPointF touchMovement = dragDirectionVector * movementStepDistance;
+    int totalMovementSteps = qCeil(desiredDragDistance / movementStepDistance);
+    int movementTimeStepMs = (edgeDragArea->compositionTime() * 1.5f) / totalMovementSteps;
+
+    QTest::touchEvent(m_view, m_device).press(0, touchPoint.toPoint());
+
+    for (int i = 0; i < totalMovementSteps; ++i) {
+        touchPoint += touchMovement;
+        passTime(movementTimeStepMs);
+        QTest::touchEvent(m_view, m_device).move(0, touchPoint.toPoint());
+    }
+
+    qreal actualDragDistance = ((qreal)totalMovementSteps) * movementStepDistance;
+
+    // DirectionalDragArea::sceneDistance() must match the actual drag distance as the
+    // drag was aligned with the gesture direction
+    // NB: qFuzzyCompare(), used internally by QCOMPARE(), is broken.
+    QVERIFY(qAbs(edgeDragArea->sceneDistance() - actualDragDistance) < 0.001);
+
+    QTest::touchEvent(m_view, m_device).release(0, touchPoint.toPoint());
+}
+
+void tst_DirectionalDragArea::sceneDistance_data()
+{
+    QTest::addColumn<qreal>("rotation");
+    QTest::addColumn<QPointF>("dragDirectionVector");
+
+    QTest::newRow("not rotated")           << 0.  << QPointF(1., 0.);
+    QTest::newRow("rotated by 90 degrees") << 90. << QPointF(0., 1.);
 }
 
 QTEST_MAIN(tst_DirectionalDragArea)
