@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,17 +12,30 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Author: Pete Woods <pete.woods@canonical.com>
  */
 
-#include "../InfographicModelPrivate.h"
+import QtQuick 2.0
+import Ubuntu.Components 0.1
+import "../../Components"
 
-namespace QLightDM
-{
+/*! \brief Preview widget for image.
 
-void InfographicModelPrivate::generateFakeData()
-{
-}
+    This widget shows image contained in widgetData["source"],
+    can be zoomable accordingly with widgetData["zoomable"].
+ */
 
+PreviewWidget {
+    id: root
+    implicitHeight: units.gu(22)
+
+    LazyImage {
+        objectName: "image"
+        anchors {
+            top: parent.top
+            bottom: parent.bottom
+        }
+        scaleTo: "height"
+        source: widgetData["source"]
+        initialWidth: units.gu(13)
+    }
 }

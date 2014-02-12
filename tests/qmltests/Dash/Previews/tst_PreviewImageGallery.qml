@@ -23,7 +23,7 @@ Rectangle {
     id: root
     width: units.gu(60)
     height: units.gu(80)
-    color: "grey"
+    color: "lightgrey"
 
     property var sourcesModel0: {
         "sources": []
@@ -44,7 +44,7 @@ Rectangle {
     }
 
     UT.UnityTestCase {
-        name: "ImageGalleryTest"
+        name: "PreviewImageGalleryTest"
         when: windowShown
 
         function test_changeEmptyModel() {

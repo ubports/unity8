@@ -45,6 +45,7 @@ add_qml_test(Dash DashPreview)
 add_qml_test(Dash GenericPreview)
 add_qml_test(Dash Card)
 add_qml_test(Dash CardHeader)
+add_qml_test(Dash CardTool)
 add_qml_test(Dash GenericScopeView IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
 add_qml_test(Dash FilterGrids IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/plugins ${CMAKE_CURRENT_SOURCE_DIR}/plugins
                                            ${CMAKE_BINARY_DIR}/tests/mocks)
@@ -62,6 +63,8 @@ add_qml_test(Dash/Previews PreviewImageGallery IMPORT_PATHS ${qmltest_DEFAULT_IM
 add_qml_test(Dash/Previews PreviewHeader IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/tests/mocks)
 add_qml_test(Dash/Previews PreviewProgress IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/tests/mocks)
 add_qml_test(Dash/Previews PreviewTextSummary IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/tests/mocks)
+add_qml_test(Dash/Previews PreviewVideoPlayback IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/tests/mocks)
+add_qml_test(Dash/Previews PreviewZoomableImage IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/tests/mocks)
 add_qml_test(Greeter Lockscreen IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS}
                              PROPERTIES ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics:${CMAKE_BINARY_DIR}/tests/mocks/LightDM/full")
 add_qml_test(Greeter Tablet IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS}
