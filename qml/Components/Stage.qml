@@ -144,7 +144,7 @@ Showable {
 
     Timer {
         id: hideScreenshotsAfterBriefDelay
-        // Since Mir & Qt have independent event loops, Mir often applies a focus request a frame later than when Qt 
+        // Since Mir & Qt have independent event loops, Mir often applies a focus request a frame later than when Qt
         // asks for it. To work around, delay removing the screenshots a touch so Mir has definitely shown the app.
         interval: 10
         onTriggered: stage.__hideScreenshots();
