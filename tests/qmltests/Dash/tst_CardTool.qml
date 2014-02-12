@@ -209,7 +209,7 @@ Rectangle {
                 id: dataArea
                 anchors { left: parent.left; right: parent.right }
                 height: units.gu(25)
-                text: JSON.stringify(cardTool.priv.cardData, undefined, 2)
+                text: JSON.stringify(testCase.internalCard.cardData, undefined, 2)
             }
 
             Label {
@@ -239,7 +239,13 @@ Rectangle {
         id: testCase
         name: "Card"
 
+        property Card internalCard: findChild(cardTool, "card")
+
         when: windowShown
+
+        function init() {
+            verify(typeof testCase.internalCard === "object", "Couldn't find internal card object.");
+        }
 
         function cleanup() {
             selector.selectedIndex = -1;

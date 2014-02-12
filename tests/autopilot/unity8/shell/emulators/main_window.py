@@ -92,7 +92,7 @@ class QQuickView(emulators.UnityEmulatorBase):
         return self.select_single(objectName="pinentryField")
 
     def get_indicator(self, indicator_name):
-        return self.select_single(
+        return self.wait_select_single(
             'DefaultIndicatorWidget',
             objectName=indicator_name+'-widget'
         )

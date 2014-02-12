@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,17 +12,19 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Author: Pete Woods <pete.woods@canonical.com>
  */
 
-#include "../InfographicModelPrivate.h"
+import QtQuick 2.0
+import Ubuntu.Components 0.1
 
-namespace QLightDM
-{
+Button {
+    signal triggeredAction(string id)
 
-void InfographicModelPrivate::generateFakeData()
-{
-}
-
+    property var data: null
+    objectName: "button" + (data && data.id || "")
+    color: Theme.palette.selected.foreground
+    text: data && data.label || ""
+    iconSource: data && data.icon || ""
+    iconPosition: "left"
+    onClicked: triggeredAction(data.id)
 }

@@ -1,3 +1,35 @@
+unity8 (7.84+14.04.20140207.1-0ubuntu1) trusty; urgency=low
+
+  [ Ted Gould ]
+  * You can't tap anywhere
+
+  [ Michał Sawicz ]
+  * Wait for the indicator to appear.
+  * Add CardTool to determine category-wide card properties based on the
+    category template. Clean up test configurations, too.
+  * Actions Preview Widget
+  * Add Preview for new generation scopes.
+  * Add overlay to card. Fix implicit card height. .
+
+  [ Albert Astals ]
+  * Basic ImageGallery widget for Previews Mostly a copy of the code
+    used in AppPreview.qml but without the MouseArea hack that I'll wait
+    to introduce until we start using this somewhere were it is needed
+  * Actions Preview Widget
+
+  [ Andrea Cimitan ]
+  * First audio player widget for previews, with tests
+  * Adds TextSummary preview widget
+
+  [ Michał Karnicki ]
+  * Add overlay to card. Fix implicit card height. .
+
+  [ Michael Terry ]
+  * Expand greeter demo support to include listing multiple users and
+    specifying individual passwords and names.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 07 Feb 2014 10:46:46 +0000
+
 unity8 (7.84+14.04.20140204-0ubuntu1) trusty; urgency=low
 
   [ Michael Terry ]
