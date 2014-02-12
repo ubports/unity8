@@ -18,15 +18,64 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import "../../Components"
 
-/*! \brief Preview widget for rating.
+/*! \brief Preview widget for rating. */
 
-    This widget shows text contained in widgetData["text"]
-    along with a title that comes from widgetData["title"].
+PreviewWidget {
+    id: root
 
-    In case the text does not fit in 7 lines a See More / Less widget is also shown.
- */
+    function submit() {
+        // checks rating-input requirements
+        if ((widgetData["required"] === "both" ||
+             widgetData["required"] === "rating") &&
+            rating.value < 0) return;
+        if ((widgetData["required"] === "both" ||
+             widgetData["required"] === "review") &&
+            reviewTextArea.text === "") return;
 
-Rectangle {
-    width: 100
-    height: 62
+        var data = [{"rating": rating.value, "review": reviewTextArea.text, "author": null}]
+        triggered(root.widgetId, null, data)
+    }
+
+    Item {
+        id: ratingLabelAndWidgetContainer
+        anchors {
+            left: parent.left
+            right: parent.right
+            margins: units.gu(1)
+        }
+        height: childrenRect.height
+        visible: widgetData["visible"] !== "review"
+
+        Label {
+            anchors {
+                top: parent.top
+                left: parent.left
+            }
+            color: Theme.palette.selected.backgroundText
+            opacity: .8
+            text: widgetData["review-label"]
+        }
+
+        Rating {
+            id: rating
+            anchors {
+                top: parent.top
+                right: parent.right
+            }
+            size: 5
+            onValueChanged: submit()
+        }
+    }
+
+    TextArea {
+        id: reviewTextArea
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: ratingLabelAndWidgetContainer.visible ? ratingLabelAndWidgetContainer.bottom : parent.top
+            bottom: parent.bottom
+        }
+        visible: widgetData["visible"] !== "rating"
+        color: Theme.palette.selected.backgroundText
+    }
 }
