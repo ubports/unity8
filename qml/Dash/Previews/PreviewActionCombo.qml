@@ -22,7 +22,7 @@ Item {
 
     implicitHeight: childrenRect.height
 
-    signal triggeredAction(string id)
+    signal triggeredAction(var actionData)
 
     property alias model: actionRepeater.model
 
@@ -59,7 +59,7 @@ Item {
             delegate: PreviewActionButton {
                 data: modelData
                 width: implicitWidth < parent.width ? parent.width : implicitWidth
-                onClicked: root.triggeredAction(modelData.id)
+                onClicked: root.triggeredAction(modelData)
             }
         }
     }
