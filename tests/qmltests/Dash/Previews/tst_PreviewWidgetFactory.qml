@@ -80,6 +80,7 @@ Rectangle {
                 { tag: "Gallery", type: "gallery", source: "PreviewImageGallery.qml" },
                 { tag: "Image", type: "image", source: "PreviewZoomableImage.qml" },
                 { tag: "Actions", type: "actions", source: "PreviewActions.qml" },
+                { tag: "Header", type: "header", source: "PreviewHeader.qml" },
             ];
         }
 
