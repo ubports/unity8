@@ -152,7 +152,7 @@ Item {
             var data = new Array()
 
             data.push({selectedIndex: 0, minHSpacing:0, columnCount: 13})
-            data.push({selectedIndex: 1, minHSpacing:units.gu(2), columnCount: 9})
+            data.push({selectedIndex: 1, minHSpacing:units.gu(2), columnCount: 10})
             data.push({selectedIndex: 2, minHSpacing:units.gu(8), columnCount: 5})
             data.push({selectedIndex: 3, minHSpacing:units.gu(25), columnCount: 2})
 

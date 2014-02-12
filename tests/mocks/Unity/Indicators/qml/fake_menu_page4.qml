@@ -19,7 +19,6 @@ import Unity.Indicators 0.1 as Indicators
 
 Indicators.FakeMenuPage {
     id: menu_plugin4
-    objectName: "menu_page4"
 
     Rectangle {
         id: contents

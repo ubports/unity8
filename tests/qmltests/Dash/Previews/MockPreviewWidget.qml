@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2014 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -13,32 +13,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Authors:
- *      Renato Araujo Oliveira Filho <renato@canonical.com>
- *      Nick Dedekind <nick.dedekind@canonical.com>
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
-import Unity.Indicators 0.1 as Indicators
+import "../../../../qml/Dash/Previews"
 
-BaseMenuItem {
-    id: menuItem
-    implicitHeight: units.gu(7)
+PreviewWidget {
+    objectName: "mockPreviewWidget"
 
-    property alias buttonText: button.text
-
-    signal activate()
-
-    Button {
-        id: button
-        anchors.centerIn: parent
-        height: units.gu(4)
-        width: units.gu(16)
-        color: "#1b1817"
-
-        onClicked: {
-            menuItem.activate();
-        }
+    function trigger() {
+        triggered("mockWidget", "mockAction", {"mock": "data"})
     }
 }
