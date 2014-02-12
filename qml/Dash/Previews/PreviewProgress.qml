@@ -18,7 +18,6 @@ import QtQuick 2.1
 import Ubuntu.Components 0.1
 import Ubuntu.DownloadDaemonListener 0.1
 
-
 /*! This preview widget shows a progress bar.
  *  It feeds itself from the source determined in widgetData["source"]
  *  At the moment we only support the dbus source defined
@@ -61,6 +60,5 @@ PreviewWidget {
                 root.triggered(widgetId, "failed", widgetData)
             }
         }
-
     }
 }

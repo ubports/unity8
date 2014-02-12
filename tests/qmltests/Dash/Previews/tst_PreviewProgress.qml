@@ -45,7 +45,6 @@ Rectangle {
         signalName: "triggered"
     }
 
-
     PreviewProgress {
         id: previewProgress
         widgetId: "previewProgress"
