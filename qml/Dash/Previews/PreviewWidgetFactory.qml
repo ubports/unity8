@@ -42,11 +42,12 @@ Loader {
     //! \cond private
     property url widgetSource: {
         switch (widgetType) {
-            case "audio": return "PreviewAudioPlayback.qml";
-            case "text": return "PreviewTextSummary.qml";
-            case "gallery": return "PreviewImageGallery.qml";
-            case "image": return "PreviewZoomableImage.qml"
             case "actions": return "PreviewActions.qml";
+            case "audio": return "PreviewAudioPlayback.qml";
+            case "gallery": return "PreviewImageGallery.qml";
+            case "header": return "PreviewHeader.qml";
+            case "image": return "PreviewZoomableImage.qml"
+            case "text": return "PreviewTextSummary.qml";
             default: return "";
         }
     }
