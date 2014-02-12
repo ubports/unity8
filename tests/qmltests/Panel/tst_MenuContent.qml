@@ -41,7 +41,7 @@ Item {
 
     Indicators.IndicatorsModel {
         id: indicatorsModel
-        Component.onCompleted: load()
+        Component.onCompleted: load("test1")
     }
 
     MenuContent {
