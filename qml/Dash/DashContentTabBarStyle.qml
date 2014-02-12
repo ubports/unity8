@@ -18,4 +18,6 @@ import Ubuntu.Components.Themes.Ambiance 0.1
 
 TabBarStyle {
     indicatorImageSource: "graphics/tabbarchevron.png"
+    headerTextColor: "lightgrey"
+    headerTextSelectedColor: "grey"
 }
