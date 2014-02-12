@@ -199,8 +199,7 @@ FocusScope {
 
                         var item = target.model.get(index);
 
-                        if ((scopeView.scope.id == "applications.scope" && categoryId == "installed")
-                                || (scopeView.scope.id == "home.scope" && categoryId == "applications.scope")) {
+                        if (scopeView.scope.id == "clickscope" && categoryId == "local") {
                             scopeView.scope.activate(item.result)
                         } else {
                             previewListView.open = true
