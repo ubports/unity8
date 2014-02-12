@@ -39,6 +39,7 @@ Item {
 
     Item {
         id: baseItem
+        objectName: "baseItem"
         anchors.fill: parent
 
         VerticalShowable {
