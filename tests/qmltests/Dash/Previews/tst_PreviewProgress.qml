@@ -59,7 +59,7 @@ Rectangle {
     }
 
     UT.UnityTestCase {
-        name: "PreviewHeaderTest"
+        name: "PreviewProgressTest"
         when: windowShown
 
         function test_json() {
