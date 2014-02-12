@@ -445,7 +445,9 @@ FocusScope {
 
         function removeApplicationFocus() {
             greeter.previousMainApp = applicationManager.mainStageFocusedApplication;
-            greeter.previousSideApp = applicationManager.sideStageFocusedApplication;
+            if (sideStage.fullyShown) { // if side stage hidden, don't focus it on restore
+                greeter.previousSideApp = applicationManager.sideStageFocusedApplication;
+            }
             applicationManager.unfocusCurrentApplication();
         }
 
