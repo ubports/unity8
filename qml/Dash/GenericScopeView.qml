@@ -193,6 +193,7 @@ FocusScope {
                         previewListView.categoryId = categoryId
                         previewListView.categoryDelegate = rendererLoader.item
                         previewListView.model = target.model;
+                        previewListView.currentIndex = -1
                         previewListView.currentIndex = index;
 
                         var item = target.model.get(index);
@@ -209,6 +210,7 @@ FocusScope {
                         previewListView.categoryId = categoryId
                         previewListView.categoryDelegate = rendererLoader.item
                         previewListView.model = target.model;
+                        previewListView.currentIndex = -1
                         previewListView.currentIndex = index;
                         previewListView.open = true
                     }
