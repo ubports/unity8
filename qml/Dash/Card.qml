@@ -107,6 +107,7 @@ AbstractButton {
     CardHeader {
         id: header
         objectName: "cardHeader"
+        inOverlay: root.template && root.template["overlay"] === true
         anchors {
             top: {
                 if (template) {

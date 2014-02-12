@@ -30,6 +30,7 @@ Item {
     property real fontScale: 1.0
 
     property alias headerAlignment: titleLabel.horizontalAlignment
+    property bool inOverlay: false
 
     visible: mascotImage.status === Image.Ready || title || price
     height: row.height > 0 ? row.height + row.margins * 2 : 0
@@ -46,7 +47,7 @@ Item {
             leftMargin: spacing
             rightMargin: spacing
         }
-        spacing: mascotShape.visible || (template && template["overlay"]) ? margins : 0
+        spacing: mascotShape.visible || inOverlay ? margins : 0
 
         UbuntuShape {
             id: mascotShape
@@ -83,7 +84,7 @@ Item {
                 maximumLineCount: 2
                 font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale)
                 // TODO karni (for each Label): Update Ubuntu.Components.Themes.Palette and use theme color instead
-                color: template["overlay"] === true ? "white" : "grey" // Theme.palette.normal.backgroundText
+                color: inOverlay ? "white" : "grey" // Theme.palette.normal.backgroundText
             }
 
             Label {
@@ -94,7 +95,7 @@ Item {
                 font.weight: Font.Light
                 visible: titleLabel.text && text
                 font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale)
-                color: template["overlay"] === true ? "white" : "grey" // Theme.palette.normal.backgroundText
+                color: inOverlay ? "white" : "grey" // Theme.palette.normal.backgroundText
             }
 
             Row {
