@@ -66,6 +66,8 @@ Rectangle {
         function test_json() {
             spy.target = previewProgress
 
+            // The mock DownloadTracker triggers its signals when you pass
+            // finish/error as dbus-object to it. Exercise it here
             previewProgress.widgetData = progressjsonFinish;
             compare(spy.count, 1);
             var args = spy.signalArguments[0];
