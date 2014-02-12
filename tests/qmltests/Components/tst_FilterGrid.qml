@@ -20,6 +20,7 @@ import "../../../qml/Components"
 import Ubuntu.Components.ListItems 0.1 as ListItem
 import Ubuntu.Components 0.1
 import Unity.Test 0.1 as UT
+import Utils 0.1
 
 /*
   You should see 6 green squares (from "A" to "F") and a button "View all (12)".
@@ -69,6 +70,20 @@ Rectangle {
         ListElement { name: "L" }
     }
 
+    ListModel {
+        id: fakeModelTwoItems
+        ListElement { name: "A" }
+        ListElement { name: "B" }
+    }
+
+    ListModel {
+        id: fakeModelFourItems
+        ListElement { name: "A" }
+        ListElement { name: "B" }
+        ListElement { name: "C" }
+        ListElement { name: "D" }
+    }
+
     Rectangle {
         id: gridRect
         width: units.gu(30)
@@ -109,15 +124,21 @@ Rectangle {
         name: "FilterGrid"
         when: windowShown
 
+        function init() {
+            filterGrid.model = fakeModel
+        }
+
+        function cleanup() {
+            filterCheckBox.checked = true
+            collapsedRowCountSelector.selectedIndex = 1
+        }
+
         function test_turningFilterOffShowsAllElements() {
             tryCompareFunction(countVisibleDelegates, 6)
 
             filterCheckBox.checked = false
 
             tryCompareFunction(countVisibleDelegates, 12)
-
-            // back to initial state
-            filterCheckBox.checked = true
         }
 
         function test_collapsedRowCount() {
@@ -127,9 +148,27 @@ Rectangle {
                 // row count == index + 1
                 tryCompareFunction(countVisibleDelegates, 3*(i+1))
             }
+        }
 
-            // back to initial state
-            collapsedRowCountSelector.selectedIndex = 1
+        function test_modelSizeAffectsCollapsedRowCount_data() {
+            return [
+                { tag: "2 items, collapsedRows 1", model: fakeModelTwoItems, collapsedRowCountIndex: 0,
+                  rowsWhenCollapsed: 1, visibleDelegates: 2 },
+                { tag: "2 items, collapsedRows 2", model: fakeModelTwoItems, collapsedRowCountIndex: 1,
+                  rowsWhenCollapsed: 1, visibleDelegates: 2 },
+                { tag: "4 items, collapsedRows 1", model: fakeModelFourItems, collapsedRowCountIndex: 0,
+                  rowsWhenCollapsed: 1, visibleDelegates: 3 },
+                { tag: "4 items, collapsedRows 2", model: fakeModelFourItems, collapsedRowCountIndex: 1,
+                  rowsWhenCollapsed: 2, visibleDelegates: 4 },
+            ]
+        }
+
+        function test_modelSizeAffectsCollapsedRowCount(data) {
+            filterGrid.model = data.model
+            collapsedRowCountSelector.selectedIndex = data.collapsedRowCountIndex
+
+            tryCompare(filterGrid, "rowsWhenCollapsed", data.rowsWhenCollapsed)
+            tryCompareFunction(countVisibleDelegates, data.visibleDelegates)
         }
 
         function countVisibleDelegates() {

@@ -29,7 +29,7 @@ Item {
     property string identifier
 
     opacity: dimmed ? 0.4 : 1
-    Behavior on opacity { StandardAnimation {} }
+    Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.BriskDuration } }
 
     width: loader.item ? loader.item.width : 0
 

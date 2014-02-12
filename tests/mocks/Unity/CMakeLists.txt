@@ -25,6 +25,7 @@ set(UnityQML_SOURCES
   fake_scope.cpp
   fake_scopes.cpp
   fake_categories.cpp
+  scopes-ng/fake_preview_model.cpp
   fake_unity_plugin.cpp
 )
 
