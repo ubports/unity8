@@ -173,11 +173,6 @@ Item {
                 to: 1.0
                 duration: UbuntuAnimation.BriskDuration
             }
-
-            ActivityIndicator {
-                anchors.centerIn: parent
-                running: visible
-            }
         }
     }
 }
