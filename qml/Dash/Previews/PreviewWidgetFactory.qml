@@ -47,6 +47,7 @@ Loader {
             case "gallery": return "PreviewImageGallery.qml";
             case "header": return "PreviewHeader.qml";
             case "image": return "PreviewZoomableImage.qml";
+            case "progress": return "PreviewProgress.qml";
             case "text": return "PreviewTextSummary.qml";
             case "video": return "PreviewVideoPlayback.qml";
             default: return "";
