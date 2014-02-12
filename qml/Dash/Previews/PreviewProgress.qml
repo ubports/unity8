@@ -49,8 +49,13 @@ PreviewWidget {
             dbusPath: progressBar.source["dbus-object"] || ""
 
             onProgress: {
-                var percentage = parseInt(received * 100 / total);
-                progressBar.value = percentage;
+                if (total <= 0) {
+                    progressBar.indeterminate = true;
+                } else {
+                    progressBar.indeterminate = false;
+                    var percentage = parseInt(received * 100 / total);
+                    progressBar.value = percentage;
+                }
             }
 
             onFinished: {
