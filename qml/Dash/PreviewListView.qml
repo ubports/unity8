@@ -100,7 +100,8 @@ Item {
 
             if (model !== undefined) {
                 var item = model.get(currentIndex)
-                previewListView.currentItem.previewModel = scope.preview(item.result)
+                var previewStack = scope.preview(item.result)
+                previewListView.currentItem.previewModel = previewStack.get(0)
             }
 
             // Adjust contentY in case we need to change to it to show the next row

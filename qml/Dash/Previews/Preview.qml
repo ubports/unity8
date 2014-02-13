@@ -65,7 +65,7 @@ Item {
         anchors { fill: parent; margins: spacing }
 
         Repeater {
-            model: 1
+            model: previewModel
 
             delegate: ListView {
                 id: column
@@ -74,7 +74,7 @@ Item {
                 spacing: row.spacing
                 bottomMargin: Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.height : 0
 
-                model: previewModel
+                model: columnModel
                 onCountChanged: if (count > 0) root.ready = true
                 cacheBuffer: units.gu(40)
 
