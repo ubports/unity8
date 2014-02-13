@@ -43,6 +43,11 @@ Item {
      */
     property var viewWidth
 
+    /*!
+     \brief The category layout for this card tool
+     */
+    property string categoryLayout: template ? template["category-layout"] : ""
+
     // FIXME: Saviq
     // Only way for the card below to actually be laid out completely.
     // If invisible or in "data" array, some components are not taken into account.
@@ -56,7 +61,7 @@ Item {
      If undefined, should use implicit width of the actual card.
      */
     readonly property var cardWidth: {
-        switch (template !== undefined && template["category-layout"]) {
+        switch (categoryLayout) {
             case "grid":
             case "vertical-journal":
                 if (template["card-layout"] === "horizontal") return units.gu(38);
@@ -84,7 +89,7 @@ Item {
      If undefined, should use implicit height of the actual card.
      */
     readonly property var cardHeight: {
-        switch (template !== undefined && template["category-layout"]) {
+        switch (categoryLayout) {
             case "journal":
                 if (template["card-size"] >= 12 && template["card-size"] <= 38) return units.gu(template["card-size"]);
                 return units.gu(18.5);
