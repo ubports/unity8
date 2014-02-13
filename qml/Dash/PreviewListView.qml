@@ -164,6 +164,12 @@ Item {
             onPreviewModelChanged: preview.opacity = 0;
             onReadyChanged: if (ready) fadeIn.start()
             previewModel: {
+                // TODO
+                // We need the isCurrent because the scope fails to
+                // deliver the preview if we ask for one after other very quickly
+                // If we remove the isCurrent, we will have to think another way of
+                // doing the fadeIn or just don't do it at all or just decide
+                // this code is good enough and remove the TODO
                 if (isCurrent) {
                     var previewStack = root.scope.preview(result);
                     return previewStack.get(0);
