@@ -29,6 +29,9 @@ DashFilterGrid {
         id: cardTool
 
         template: genericFilterGrid.template
+        // We can't trust the template since it may happen it is carousel
+        // that is being should as a grid because of the lack of elements
+        categoryLayout: "grid"
         components: genericFilterGrid.components
     }
 
