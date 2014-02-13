@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2012-2013 Canonical
+# Copyright (C) 2012, 2013, 2014 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -41,7 +41,6 @@ class TestHud(UnityTestCase, DragMixin):
         """
         unity_proxy = self.launch_unity()
         unlock_unity(unity_proxy)
-        window = self.main_window.get_qml_view()
         hud_show_button = self.main_window.get_hud_show_button()
         edge_drag_area = self.main_window.get_hud_edge_drag_area()
         hud = self.main_window.get_hud()
@@ -49,7 +48,7 @@ class TestHud(UnityTestCase, DragMixin):
         self._launch_test_app_from_app_screen()
 
         swipe_coords = hud.get_button_swipe_coords(
-            window,
+            self.main_window,
             hud_show_button
         )
         initialBottomMargin = int(hud_show_button.bottomMargin)
@@ -83,14 +82,13 @@ class TestHud(UnityTestCase, DragMixin):
         """
         unity_proxy = self.launch_unity()
         unlock_unity(unity_proxy)
-        window = self.main_window.get_qml_view()
         hud_show_button = self.main_window.get_hud_show_button()
         hud = self.main_window.get_hud()
 
         self._launch_test_app_from_app_screen()
 
         swipe_coords = hud.get_button_swipe_coords(
-            window,
+            self.main_window,
             hud_show_button
         )
 
@@ -137,7 +135,6 @@ class TestHud(UnityTestCase, DragMixin):
         """
         unity_proxy = self.launch_unity()
         unlock_unity(unity_proxy)
-        window = self.main_window.get_qml_view()
         hud = self.main_window.get_hud()
 
         self._launch_test_app_from_app_screen()
@@ -146,7 +143,7 @@ class TestHud(UnityTestCase, DragMixin):
 
         start_x, start_y = hud.get_close_button_coords()
         end_x = start_x
-        end_y = int(window.height / 2)
+        end_y = int(self.main_window.height / 2)
 
         self.touch.drag(start_x, start_y, end_x, end_y)
         self.assertThat(hud.shown, Eventually(Equals(False)))

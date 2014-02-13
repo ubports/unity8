@@ -33,8 +33,7 @@ Rectangle {
         function reset() {
             clear();
             var component = Qt.createComponent("IndicatorsList.qml");
-            var page = component.createObject(pages);
-            console.log(component.errorString());
+            var page = component.createObject(pages, {"profile": indicatorProfile});
             push(page);
         }
     }

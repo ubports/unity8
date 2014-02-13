@@ -85,10 +85,10 @@ int IndicatorsModel::count() const
 
     Load all indicators.
 */
-void IndicatorsModel::load()
+void IndicatorsModel::load(const QString& profile)
 {
     m_indicators.clear();
-    m_manager->load();
+    m_manager->load(profile);
 }
 
 /*!

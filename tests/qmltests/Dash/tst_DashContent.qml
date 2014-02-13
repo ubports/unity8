@@ -250,6 +250,8 @@ Item {
         function test_scope_mapping(data) {
             dashContent.setCurrentScopeAtIndex(data.index, true, false);
             tryCompareFunction(get_current_item_object_name, data.objectName)
+            var pageHeader = findChild(dashContent, "pageHeader");
+            compare(pageHeader.scope, scopesModel.get(data.index));
         }
 
         function test_is_active_data() {
