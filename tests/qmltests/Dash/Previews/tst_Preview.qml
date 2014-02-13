@@ -87,21 +87,29 @@ Rectangle {
 
         function test_containOnFocus() {
             waitForRendering(preview);
-            var widget = findChild(preview, "widget-13");
+            tryCompareFunction(function () { return findChild(preview, "widget-9") != null }, true);
+            var widget = findChild(preview, "widget-9");
+
+            var bottomLeft = preview.mapFromItem(widget, 0, widget.height);
+            verify(bottomLeft.y > preview.height);
 
             widget.forceActiveFocus();
 
-            var bottomLeft = preview.mapFromItem(widget, 0, widget.height);
-
-            tryCompareFunction(function () { return bottomLeft.y <= preview.height }, true);
+            tryCompareFunction(function () {
+                var bottomLeft = preview.mapFromItem(widget, 0, widget.height);
+                return bottomLeft.y <= preview.height
+            }, true);
         }
 
         function test_containOnGrow() {
             waitForRendering(preview);
+            tryCompareFunction(function () { return findChild(preview, "widget-13") != null }, true);
             var widget = findChild(preview, "widget-13");
 
-            widget.forceActiveFocus();
-            widget.height += 200;
+            var bottomLeft = preview.mapFromItem(widget, 0, widget.height);
+            verify(bottomLeft.y > preview.height);
+
+            root.height += units.gu(50);
 
             tryCompareFunction(function () {
                 var bottomLeft = preview.mapFromItem(widget, 0, widget.height);

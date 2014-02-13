@@ -32,7 +32,7 @@ Item {
 
     function init_test()
     {
-        indicatorModel.load();
+        indicatorModel.load("test1");
 
         indicatorRow.state = "initial";
         indicatorRow.setCurrentItemIndex(-1);
@@ -52,7 +52,7 @@ Item {
 
         indicatorsModel: indicatorModel
 
-        Component.onCompleted: indicatorModel.load()
+        Component.onCompleted: indicatorModel.load("test1")
     }
 
     Indicators.IndicatorsModel {

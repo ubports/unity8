@@ -26,12 +26,13 @@ import "../.."
 Page {
     id: page
     anchors.fill: parent
+    property string profile: ""
     title: "Plugin list"
 
     Indicators.IndicatorsModel {
         id: indicatorsModel
 
-        Component.onCompleted: load()
+        Component.onCompleted: load(profile)
     }
 
     ListView {
