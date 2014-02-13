@@ -21,6 +21,8 @@ import "../Components"
 import "Previews" as Previews
 
 Item {
+    id: root
+
     property OpenEffect openEffect: null
     property ScopeListView categoryView: null
     property Scope scope: null
@@ -98,12 +100,6 @@ Item {
 
             categoryDelegate.highlightIndex = currentIndex
 
-            if (model !== undefined) {
-                var item = model.get(currentIndex)
-                var previewStack = scope.preview(item.result)
-                previewListView.currentItem.previewModel = previewStack.get(0)
-            }
-
             // Adjust contentY in case we need to change to it to show the next row
             if (categoryDelegate.rows > 1) {
                 var itemY = categoryView.contentItem.mapFromItem(categoryDelegate.currentItem).y;
@@ -167,6 +163,16 @@ Item {
 
             onPreviewModelChanged: preview.opacity = 0;
             onReadyChanged: if (ready) fadeIn.start()
+            previewModel: {
+                if (isCurrent) {
+                    var previewStack = root.scope.preview(result);
+                    return previewStack.get(0);
+                } else {
+                    ready = false;
+                    return null;
+                }
+            }
+
 //            onClose: {
 //                previewListView.open = false
 //            }
