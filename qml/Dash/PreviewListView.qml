@@ -147,12 +147,6 @@ Item {
             }
         }
 
-        Rectangle {
-            anchors.fill: parent
-            color: Qt.rgba(0, 0, 0, .3)
-            z: -1
-        }
-
         delegate: Previews.Preview {
             id: preview
             objectName: "preview" + index
