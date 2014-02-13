@@ -178,7 +178,11 @@ Item {
                 selectionMode: false
                 style: DashContentTabBarStyle {}
 
-                model: dashContentList.model
+                // TODO This together with the __styleInstance onModelChanged below
+                // are a workaround for the first tab sometimes not showing the text.
+                // But Tabs are going away in the future so not sure if makes
+                // sense invetigating what's the problem at this stage
+                model: dashContentList.model.count > 0 ? dashContentList.model : null
 
                 onSelectedIndexChanged: {
                     dashContentList.currentIndex = selectedIndex;
@@ -192,10 +196,10 @@ Item {
                 }
 
                 Connections {
-                    target: model
-                    onCountChanged: {
-                        if (tabBar.selectedIndex < 0 && model.count > 0)
-                            tabBar.selectedIndex = 0;
+                    target: __styleInstance
+                    onModelChanged: {
+                        tabBar.selectedIndex = -1;
+                        tabBar.selectedIndex = 0;
                     }
                 }
 
