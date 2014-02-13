@@ -1866,7 +1866,7 @@ private Q_SLOTS:
         QTRY_COMPARE(lvwph->m_headerItem->y(), -lvwph->m_minYExtent);
     }
 
-    void testBug1279434()
+    void testResizeRemoveInsertBug1279434()
     {
         QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 0), Q_ARG(QVariant, 6));
         QTRY_COMPARE(lvwph->m_visibleItems.count(), 0);
