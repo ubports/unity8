@@ -24,7 +24,7 @@ Rectangle {
     id: root
     width: units.gu(40)
     height: units.gu(10)
-    color: "black"
+    color: Theme.palette.selected.background
 
     Rating {
         id: rating
@@ -73,13 +73,13 @@ Rectangle {
                 {tag: "ranged value", value: 2, expectedValue: 2},
                 {tag: "big", value: 200, expectedValue: rating.maximumValue},
                 {tag: "min", value: 0, expectedValue: 0},
-                {tag: "max", value: rating.maximumValue, expectedValue: rating.maximumValue}
+                {tag: "max", value: rating.maximumValue, expectedValue: rating.maximumValue},
+                {tag: "half", value: 2.5, expectedValue: 2.5}
             ];
         }
 
         function test_effectiveValue(data) {
             rating.value = data.value;
-            wait(1000)
             compare(rating.effectiveValue, data.expectedValue, "effectiveValue not calculated correctly")
         }
     }

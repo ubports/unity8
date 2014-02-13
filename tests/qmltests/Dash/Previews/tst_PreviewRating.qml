@@ -24,15 +24,159 @@ Rectangle {
     id: root
     width: units.gu(40)
     height: units.gu(80)
-    color: "black" //Theme.palette.selected.background
+    color: Theme.palette.selected.background
+
+    property real validInputRating: 1
+    property real invalidInputRating: -1
+    property string validInputText: "Great!"
+    property string invalidInputText: ""
+
+    property var triggeredDataBoth: { "rating": validInputRating, "review": validInputText, "author": null }
+    property var triggeredDataRatingOnly: { "rating": validInputRating, "review": invalidInputText, "author": null }
+    property var triggeredDataReviewOnly: { "rating": invalidInputRating, "review": validInputText, "author": null }
+
+    property var widgetDataBoth: { "visible": "both", "required": "both" }
+    property var widgetDataRating: { "visible": "rating", "required": "rating" }
+    property var widgetDataRatingBroken: { "visible": "rating", "required": "review" }
+    property var widgetDataReview: { "visible": "review", "required": "review" }
+    property var widgetDataReviewBroken: { "visible": "review", "required": "rating" }
+
+    property var widgetDataNewLabels: { "visible": "both", "required": "both", "rating-label": "TestRatingLabel", "review-label": "TestReviewLabel", "submit-label": "TestSubmitLabel" }
 
     PreviewRating {
         id: previewRating
         anchors.fill: parent
+        widgetData: widgetDataBoth
+        widgetId: "previewRating"
+    }
+
+    SignalSpy {
+        id: spy
+        signalName: "triggered"
     }
 
     UT.UnityTestCase {
-        name: "PreviewTextSummaryTest"
+        name: "PreviewRatingTest"
         when: windowShown
+
+        property var rating: findChild(previewRating, "rating")
+        property var reviewField: findChild(previewRating, "reviewField")
+        property var submitButton: findChild(previewRating, "submitButton")
+
+        function init() {
+            rating.value = -1;
+            reviewField.text = "";
+        }
+
+        function test_labels() {
+            var ratingLabel = findChild(previewRating, "ratingLabel");
+            var reviewLabel = findChild(previewRating, "reviewLabel");
+
+            previewRating.widgetData = widgetDataNewLabels;
+            compare(ratingLabel.text, widgetDataNewLabels["rating-label"]);
+            compare(reviewLabel.text, widgetDataNewLabels["review-label"]);
+            compare(submitButton.text, widgetDataNewLabels["submit-label"]);
+        }
+
+        function test_submit_and_visibility_data() {
+            return [
+                {tag: "both, null review", widgetData: widgetDataBoth, inputRating: invalidInputRating, inputText: invalidInputText, emitted: false},
+                {tag: "both, rating-only review", widgetData: widgetDataBoth, inputRating: validInputRating, inputText: invalidInputText, emitted: false},
+                {tag: "both, review-only review", widgetData: widgetDataBoth, inputRating: invalidInputRating, inputText: validInputText, emitted: false},
+                {tag: "both, complete review", widgetData: widgetDataBoth, inputRating: validInputRating, inputText: validInputText, emitted: true},
+                {tag: "rating, null review", widgetData: widgetDataRating, inputRating: invalidInputRating, inputText: invalidInputText, emitted: false},
+                {tag: "rating, rating-only review", widgetData: widgetDataRating, inputRating: validInputRating, inputText: invalidInputText, emitted: true},
+                {tag: "rating, review-only review", widgetData: widgetDataRating, inputRating: invalidInputRating, inputText: validInputText, emitted: false},
+                {tag: "rating, complete review", widgetData: widgetDataRating, inputRating: validInputRating, inputText: validInputText, emitted: true},
+                {tag: "rating broken, null review", widgetData: widgetDataRatingBroken, inputRating: invalidInputRating, inputText: invalidInputText, emitted: false},
+                {tag: "rating broken, rating-only review", widgetData: widgetDataRatingBroken, inputRating: validInputRating, inputText: invalidInputText, emitted: false},
+                {tag: "rating broken, review-only review", widgetData: widgetDataRatingBroken, inputRating: invalidInputRating, inputText: validInputText, emitted: false},
+                {tag: "rating broken, complete review", widgetData: widgetDataRatingBroken, inputRating: validInputRating, inputText: validInputText, emitted: false},
+                {tag: "review, null review", widgetData: widgetDataReview, inputRating: invalidInputRating, inputText: invalidInputText, emitted: false},
+                {tag: "review, rating-only review", widgetData: widgetDataReview, inputRating: validInputRating, inputText: invalidInputText, emitted: false},
+                {tag: "review, review-only review", widgetData: widgetDataReview, inputRating: invalidInputRating, inputText: validInputText, emitted: true},
+                {tag: "review, complete review", widgetData: widgetDataReview, inputRating: validInputRating, inputText: validInputText, emitted: true},
+                {tag: "review broken, null review", widgetData: widgetDataReviewBroken, inputRating: invalidInputRating, inputText: invalidInputText, emitted: false},
+                {tag: "review broken, rating-only review", widgetData: widgetDataReviewBroken, inputRating: validInputRating, inputText: invalidInputText, emitted: false},
+                {tag: "review broken, review-only review", widgetData: widgetDataReviewBroken, inputRating: invalidInputRating, inputText: validInputText, emitted: false},
+                {tag: "review broken, complete review", widgetData: widgetDataReviewBroken, inputRating: validInputRating, inputText: validInputText, emitted: false},
+            ];
+        }
+
+        function test_submit_and_visibility(data) {
+            spy.clear();
+            spy.target = previewRating;
+
+            previewRating.widgetData = data.widgetData;
+
+            if (data.widgetData["visible"] !== "review") {
+                verify(rating.visible === true);
+
+                rating.value = data.inputRating;
+                if (data.widgetData["required"] !== "rating" || data.inputRating < 0) {
+                    compare(spy.count, 0);
+                } else {
+                    compare(spy.count, 1);
+                }
+            } else {
+                verify(rating.visible === false);
+            }
+
+            if (data.widgetData["visible"] !== "rating") {
+                verify(reviewField.visible === true);
+
+                reviewField.text = data.inputText;
+                mouseClick(submitButton, submitButton.width / 2, submitButton.height / 2);
+                switch (data.widgetData["required"]) {
+                    case "rating": compare(spy.count, 0); break;
+                    case "both":
+                    default: {
+                        if (data.inputRating < 0 || data.inputText === "") {
+                            compare(spy.count, 0); break;
+                        }
+                    }
+                    case "review": {
+                        if (data.inputText === "") {
+                            compare(spy.count, 0); break;
+                        } else {
+                            compare(spy.count, 1); break;
+                        }
+                    }
+                }
+            } else {
+                verify(reviewField.visible === false);
+            }
+
+            compare(spy.count === 1, data.emitted);
+        }
+
+        function test_triggered_data() {
+            return [
+                {tag: "complete review", widgetData: widgetDataBoth, inputRating: validInputRating, inputText: validInputText, triggeredData: triggeredDataBoth},
+                {tag: "rating-only review", widgetData: widgetDataRating, inputRating: validInputRating, inputText: invalidInputText, triggeredData: triggeredDataRatingOnly},
+                {tag: "review-only review", widgetData: widgetDataReview, inputRating: invalidInputRating, inputText: validInputText, triggeredData: triggeredDataReviewOnly}
+            ];
+        }
+
+        function test_triggered(data) {
+            spy.clear();
+            spy.target = previewRating;
+
+            previewRating.widgetData = data.widgetData;
+
+            if (data.inputRating > 0) rating.value = data.inputRating;
+            if (data.inputText !== "") {
+                reviewField.text = data.inputText;
+                mouseClick(submitButton, submitButton.width / 2, submitButton.height / 2);
+            }
+
+            compare(spy.count, 1);
+            var args = spy.signalArguments[0];
+            compare(args[0], previewRating.widgetId);
+            compare(args[1], data.widgetData["required"]);
+            compare(args[2]["rating"], data.triggeredData["rating"]);
+            compare(args[2]["review"], data.triggeredData["review"]);
+            verify(args[2]["author"]); // Just verifying it exists now
+        }
     }
 }

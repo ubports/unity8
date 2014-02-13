@@ -25,15 +25,15 @@ PreviewWidget {
 
     function submit() {
         // checks rating-input requirements
-        if ((widgetData["required"] === "both" ||
-             widgetData["required"] === "rating") &&
-            rating.value < 0) return;
-        if ((widgetData["required"] === "both" ||
-             widgetData["required"] === "review") &&
-            reviewTextArea.text === "") return;
+        if (((widgetData["required"] === "both" ||
+              widgetData["required"] === "rating") &&
+             rating.value < 0) ||
+            ((widgetData["required"] === "both" ||
+              widgetData["required"] === "review") &&
+             reviewField.text === "")) return;
 
-        var data = [{"rating": rating.value, "review": reviewTextArea.text, "author": null}]
-        triggered(root.widgetId, null, data)
+        var data = {"rating": rating.value, "review": reviewField.text, "author": null};
+        triggered(root.widgetId, widgetData["required"], data);
     }
 
     Item {
@@ -41,41 +41,106 @@ PreviewWidget {
         anchors {
             left: parent.left
             right: parent.right
-            margins: units.gu(1)
         }
         height: childrenRect.height
         visible: widgetData["visible"] !== "review"
 
         Label {
+            objectName: "ratingLabel"
             anchors {
-                top: parent.top
+                verticalCenter: parent.verticalCenter
                 left: parent.left
             }
             color: Theme.palette.selected.backgroundText
             opacity: .8
-            text: widgetData["review-label"]
+            text: widgetData["rating-label"] || i18n.tr("Rate this")
         }
 
         Rating {
             id: rating
+            objectName: "rating"
             anchors {
-                top: parent.top
+                verticalCenter: parent.verticalCenter
                 right: parent.right
             }
             size: 5
-            onValueChanged: submit()
+            onValueChanged: {
+                if (widgetData["visible"] === "rating") root.submit();
+            }
+
+            property var urlIconEmpty: widgetData["rating-icon-empty"]
+            property var urlIconFull: widgetData["rating-icon-full"]
         }
     }
 
-    TextArea {
-        id: reviewTextArea
+    Item {
+        id: reviewContainer
+
+        readonly property real innerMargin: units.gu(1)
+
         anchors {
             left: parent.left
             right: parent.right
             top: ratingLabelAndWidgetContainer.visible ? ratingLabelAndWidgetContainer.bottom : parent.top
             bottom: parent.bottom
+            topMargin: ratingLabelAndWidgetContainer.visible ? reviewContainer.innerMargin : 0
         }
         visible: widgetData["visible"] !== "rating"
-        color: Theme.palette.selected.backgroundText
+
+        Label {
+            objectName: "reviewLabel"
+            id: reviewLabel
+            anchors {
+                top: parent.top
+                left: parent.left
+                right: parent.right
+            }
+            color: Theme.palette.selected.backgroundText
+            opacity: .8
+            text: widgetData["review-label"] || i18n.tr("Add a review")
+        }
+
+        Item {
+            anchors {
+                top: reviewLabel.bottom
+                left: parent.left
+                right: parent.right
+                topMargin: reviewContainer.innerMargin
+            }
+            implicitHeight: childrenRect.height
+
+            TextField {
+                id: reviewField
+                objectName: "reviewField"
+                anchors {
+                    top: parent.top
+                    bottom: parent.bottom
+                    left: parent.left
+                    right: submitButton.left
+                    rightMargin: reviewContainer.innerMargin
+                }
+            }
+
+            Button {
+                id: submitButton
+                objectName: "submitButton"
+
+                readonly property bool readyToSubmit: {
+                    if (reviewField.text === "" ||
+                        (widgetData["visible"] === "both" && rating.value < 0)) return false;
+                    else return true;
+                }
+
+                anchors {
+                    top: parent.top
+                    right: parent.right
+                }
+                color: readyToSubmit ? Theme.palette.selected.base : Theme.palette.normal.base
+                text: widgetData["submit-label"] || i18n.tr("Send")
+                onClicked: {
+                    if (readyToSubmit) root.submit()
+                }
+            }
+        }
     }
 }

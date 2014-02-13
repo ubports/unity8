@@ -34,7 +34,7 @@ StyledItem {
     //! Current rating.
     property real value: -1
 
-    readonly property int effectiveValue: MathUtils.clamp(size * value / maximumValue, 0, maximumValue)
+    readonly property real effectiveValue: MathUtils.clamp(size * value / maximumValue, 0, maximumValue)
 
     style: RatingStyle {}
 

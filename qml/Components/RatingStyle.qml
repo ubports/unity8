@@ -21,11 +21,27 @@ Row {
     anchors.fill: parent
 
     Repeater {
+        id: repeater
         model: styledItem.size
+
+        property int indexHalfValue: {
+            var integerPart = Math.floor(styledItem.effectiveValue);
+            var fractionalPart = styledItem.effectiveValue - integerPart;
+
+            if (fractionalPart < 0.5) return -1;
+            else return integerPart;
+        }
+        property url urlIconEmpty: styledItem.urlIconEmpty || "graphics/icon_star_empty.png"
+        property url urlIconFull: styledItem.urlIconFull || "graphics/icon_star_full.png"
+        property url urlIconHalf: styledItem.urlIconHalf || "graphics/icon_star_half.png"
 
         Image {
             opacity: styledItem.value < 0 ? 0.4 : 1 // Let's make the stars look inactive for a not-set value
-            source: index < styledItem.effectiveValue ? "graphics/icon_star_on.png" : "graphics/icon_star_off.png"
+            source: {
+                if (index === repeater.indexHalfValue) return repeater.urlIconHalf;
+                else if (index < styledItem.effectiveValue) return repeater.urlIconFull;
+                else return repeater.urlIconEmpty;
+            }
         }
     }
 }
