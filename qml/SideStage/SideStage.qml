@@ -65,4 +65,9 @@ Stage {
         Behavior on width { NumberAnimation { easing.type: Easing.OutQuart} }
         z: -1
     }
+
+    InputFilterArea {
+        anchors.fill: handle
+        blockInput: visible
+    }
 }

@@ -40,6 +40,10 @@ Item {
     Panel {
         id: panel
         anchors.fill: parent
+
+        indicators {
+            profile: "test1"
+        }
     }
 
     UT.UnityTestCase {
