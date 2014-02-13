@@ -21,36 +21,37 @@ import Unity.Test 0.1 as UT
 
 Rectangle {
     id: root
-    width: units.gu(60)
+    width: units.gu(40)
     height: units.gu(80)
     color: "lightgrey"
 
-    property var sourcesModel0: {
-        "sources": []
+    property var widgetData0: {
+        "source": ""
     }
 
-    property var sourcesModel1: {
-        "sources": [
-                    "../../graphics/phone_background.jpg",
-                    "../../graphics/tablet_background.jpg",
-                    "../../graphics/clock@18.png"
-                   ]
+    property var widgetData1: {
+        "source": "../../graphics/phone_background.jpg",
+        "zoomable": false
     }
 
-    PreviewImageGallery {
-        id: imageGallery
+    PreviewZoomableImage {
+        id: zoomableImage
         width: parent.width
-        widgetData: sourcesModel1
+        widgetData: widgetData1
     }
 
     UT.UnityTestCase {
-        name: "PreviewImageGalleryTest"
+        name: "PreviewZoomableImageTest"
         when: windowShown
 
-        function test_changeEmptyModel() {
-            imageGallery.widgetData = sourcesModel0;
-            var placeholderScreenshot = findChild(imageGallery, "placeholderScreenshot");
-            compare(placeholderScreenshot.visible, true);
+        function test_loadImage() {
+            var image = findChild(zoomableImage, "image");
+
+            zoomableImage.widgetData = widgetData0;
+            tryCompare(image.state, "default");
+
+            zoomableImage.widgetData = widgetData1;
+            tryCompare(image.state, "ready");
         }
     }
 }

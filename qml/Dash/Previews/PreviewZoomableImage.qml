@@ -16,15 +16,26 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import "../../Components"
 
-Button {
-    signal triggeredAction(var actionData)
+/*! \brief Preview widget for image.
 
-    property var data: null
-    objectName: "button" + (data && data.id || "")
-    color: Theme.palette.selected.foreground
-    text: data && data.label || ""
-    iconSource: data && data.icon || ""
-    iconPosition: "left"
-    onClicked: triggeredAction(data)
+    This widget shows image contained in widgetData["source"],
+    can be zoomable accordingly with widgetData["zoomable"].
+ */
+
+PreviewWidget {
+    id: root
+    implicitHeight: units.gu(22)
+
+    LazyImage {
+        objectName: "image"
+        anchors {
+            top: parent.top
+            bottom: parent.bottom
+        }
+        scaleTo: "height"
+        source: widgetData["source"]
+        initialWidth: units.gu(13)
+    }
 }

@@ -94,9 +94,9 @@ class Dash(emulators.UnityEmulatorBase):
 
         while not scope_loader.isCurrent:
             scroll()
+            self.dash_content_list.moving.wait_for(False)
 
         scope = self._get_scope_from_loader(scope_loader)
-        scope.moving.wait_for(False)
         scope.isCurrent.wait_for(True)
         return scope
 

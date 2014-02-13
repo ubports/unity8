@@ -23,34 +23,34 @@ Rectangle {
     id: root
     width: units.gu(60)
     height: units.gu(80)
-    color: "lightgrey"
 
-    property var sourcesModel0: {
-        "sources": []
+    property var headerjson: {
+        "title": "THE TITLE",
+        "subtitle": "Something catchy",
+        "mascot": "../graphics/play_button.png"
     }
 
-    property var sourcesModel1: {
-        "sources": [
-                    "../../graphics/phone_background.jpg",
-                    "../../graphics/tablet_background.jpg",
-                    "../../graphics/clock@18.png"
-                   ]
-    }
+    PreviewHeader {
+        id: previewHeader
+        widgetData: headerjson
+        width: units.gu(30)
 
-    PreviewImageGallery {
-        id: imageGallery
-        width: parent.width
-        widgetData: sourcesModel1
+        Rectangle {
+            anchors.fill: parent
+            color: "red"
+            opacity: 0.1
+        }
     }
 
     UT.UnityTestCase {
-        name: "PreviewImageGalleryTest"
+        name: "PreviewHeaderTest"
         when: windowShown
 
-        function test_changeEmptyModel() {
-            imageGallery.widgetData = sourcesModel0;
-            var placeholderScreenshot = findChild(imageGallery, "placeholderScreenshot");
-            compare(placeholderScreenshot.visible, true);
+        function test_json() {
+            var cardHeader = findChild(previewHeader, "cardHeader");
+            compare(cardHeader.title, "THE TITLE");
+            compare(cardHeader.subtitle, "Something catchy");
+            compare(cardHeader.mascot.toString().slice(-24), "graphics/play_button.png");
         }
     }
 }

@@ -15,16 +15,24 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import "../"
 
-Button {
-    signal triggeredAction(var actionData)
+/*! This preview widget shows a header that is the same as the card header
+ *  The title comes in widgetData["title"]
+ *  The mascot comes in widgetData["mascot"]
+ *  The subtitle comes in widgetData["subtitle"]
+ */
 
-    property var data: null
-    objectName: "button" + (data && data.id || "")
-    color: Theme.palette.selected.foreground
-    text: data && data.label || ""
-    iconSource: data && data.icon || ""
-    iconPosition: "left"
-    onClicked: triggeredAction(data)
+PreviewWidget {
+    id: root
+
+    height: childrenRect.height
+
+    CardHeader {
+        objectName: "cardHeader"
+        mascot: root.widgetData["mascot"] || ""
+        title: root.widgetData["title"] || ""
+        subtitle: root.widgetData["subtitle"] || ""
+        width: parent.width
+    }
 }
