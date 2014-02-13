@@ -28,7 +28,13 @@ DashFilterGrid {
     CardTool {
         id: cardTool
 
-        template: genericFilterGrid.template
+        template: {
+            // We can't trust the parent template. It may happen that originally
+            // it was a carousel but it's now a grid because of the lack of elements
+            var t = genericFilterGrid.template
+            t["category-layout"] = "grid";
+            return t;
+        }
         components: genericFilterGrid.components
     }
 
