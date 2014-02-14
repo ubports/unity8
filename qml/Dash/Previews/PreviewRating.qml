@@ -125,7 +125,7 @@ PreviewWidget {
                 bottom: parent.bottom
                 topMargin: reviewContainer.innerMargin
             }
-            implicitHeight: submitButton.implicitHeight + anchors.topMargin
+            implicitHeight: reviewTextArea.implicitHeight + anchors.topMargin
 
             TextArea {
                 id: reviewTextArea
