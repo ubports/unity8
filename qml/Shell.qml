@@ -787,21 +787,6 @@ FocusScope {
         value: "unity8"
     }
 
-    OSKController {
-        anchors.topMargin: panel.panelHeight
-        anchors.fill: parent // as needs to know the geometry of the shell
-    }
-
-    //FIXME: This should be handled in the input stack, keyboard shouldnt propagate
-    MouseArea {
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
-        height: shell.applicationManager ? shell.applicationManager.keyboardHeight : 0
-
-        enabled: shell.applicationManager && shell.applicationManager.keyboardVisible
-    }
-
     Label {
         anchors.centerIn: parent
         visible: applicationManager.fake
