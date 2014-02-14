@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,11 +16,26 @@
 
 import QtQuick 2.0
 
-// FIXME this goes away when new scopes go in: compatibility layer with old RatingStars widget
-
-Rating {
+Row {
     id: root
-    property alias rating: root.value
-    property alias maximumRating: root.maximumValue
-    property alias starCount: root.size
+    property int rating
+    property int maximumRating: 5
+    property int starCount: 5
+    height: childrenRect.height
+    width: childrenRect.width
+
+    readonly property int effectiveRating: Math.max(0, Math.min(root.starCount * root.rating / root.maximumRating, root.maximumRating))
+
+    Repeater {
+        model: root.effectiveRating
+        Image {
+            source: "graphics/icon_star_on.png"
+        }
+    }
+    Repeater {
+        model: root.starCount - root.effectiveRating
+        Image {
+            source: "graphics/icon_star_off.png"
+        }
+    }
 }
