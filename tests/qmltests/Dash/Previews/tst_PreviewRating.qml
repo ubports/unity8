@@ -45,7 +45,8 @@ Rectangle {
 
     PreviewRating {
         id: previewRating
-        anchors.fill: parent
+        anchors.left: parent.left
+        anchors.right: parent.right
         widgetData: widgetDataBoth
         widgetId: "previewRating"
     }
@@ -60,12 +61,12 @@ Rectangle {
         when: windowShown
 
         property var rating: findChild(previewRating, "rating")
-        property var reviewField: findChild(previewRating, "reviewField")
+        property var reviewTextArea: findChild(previewRating, "reviewTextArea")
         property var submitButton: findChild(previewRating, "submitButton")
 
         function init() {
             rating.value = -1;
-            reviewField.text = "";
+            reviewTextArea.text = "";
         }
 
         function test_labels() {
@@ -123,9 +124,9 @@ Rectangle {
             }
 
             if (data.widgetData["visible"] !== "rating") {
-                verify(reviewField.visible === true);
+                verify(reviewTextArea.visible === true);
 
-                reviewField.text = data.inputText;
+                reviewTextArea.text = data.inputText;
                 mouseClick(submitButton, submitButton.width / 2, submitButton.height / 2);
                 switch (data.widgetData["required"]) {
                     case "rating": compare(spy.count, 0); break;
@@ -144,7 +145,7 @@ Rectangle {
                     }
                 }
             } else {
-                verify(reviewField.visible === false);
+                verify(reviewTextArea.visible === false);
             }
 
             compare(spy.count === 1, data.emitted);
@@ -166,7 +167,7 @@ Rectangle {
 
             if (data.inputRating > 0) rating.value = data.inputRating;
             if (data.inputText !== "") {
-                reviewField.text = data.inputText;
+                reviewTextArea.text = data.inputText;
                 mouseClick(submitButton, submitButton.width / 2, submitButton.height / 2);
             }
 

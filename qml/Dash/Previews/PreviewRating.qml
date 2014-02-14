@@ -36,7 +36,7 @@ import "../../Components"
 
 PreviewWidget {
     id: root
-    implicitHeight: childrenRect.height
+    implicitHeight: ratingLabelAndWidgetContainer.implicitHeight + reviewContainer.implicitHeight
 
     function submit() {
         // checks rating-input requirements
@@ -45,9 +45,9 @@ PreviewWidget {
              rating.value < 0) ||
             ((widgetData["required"] === "both" ||
               widgetData["required"] === "review") &&
-             reviewField.text === "")) return;
+             reviewTextArea.text === "")) return;
 
-        var data = {"rating": rating.value, "review": reviewField.text, "author": null};
+        var data = {"rating": rating.value, "review": reviewTextArea.text, "author": null};
         triggered(root.widgetId, widgetData["required"], data);
     }
 
@@ -90,6 +90,7 @@ PreviewWidget {
 
     Item {
         id: reviewContainer
+        implicitHeight: reviewLabel.implicitHeight + reviewSubmitContainer.implicitHeight + anchors.topMargin
 
         readonly property real innerMargin: units.gu(1)
 
@@ -116,20 +117,21 @@ PreviewWidget {
         }
 
         Item {
+            id: reviewSubmitContainer
             anchors {
                 top: reviewLabel.bottom
                 left: parent.left
                 right: parent.right
+                bottom: parent.bottom
                 topMargin: reviewContainer.innerMargin
             }
-            implicitHeight: childrenRect.height
+            implicitHeight: submitButton.implicitHeight + anchors.topMargin
 
-            TextField {
-                id: reviewField
-                objectName: "reviewField"
+            TextArea {
+                id: reviewTextArea
+                objectName: "reviewTextArea"
                 anchors {
                     top: parent.top
-                    bottom: parent.bottom
                     left: parent.left
                     right: submitButton.left
                     rightMargin: reviewContainer.innerMargin
@@ -141,7 +143,7 @@ PreviewWidget {
                 objectName: "submitButton"
 
                 readonly property bool readyToSubmit: {
-                    if (reviewField.text === "" ||
+                    if (reviewTextArea.text === "" ||
                         (widgetData["visible"] === "both" && rating.value < 0)) return false;
                     else return true;
                 }
