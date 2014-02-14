@@ -93,7 +93,7 @@ int startShell(int argc, const char** argv, void* server)
     }
 
     const QByteArray orientation = qgetenv("NATIVE_ORIENTATION");
-    Qt::ScreenOrientation orientationAngle = Qt::PortraitOrientation;
+    Qt::ScreenOrientation orientationAngle = Qt::PrimaryOrientation;
     if (orientation == "landscape") {
         orientationAngle = Qt::LandscapeOrientation;
     } else if (!orientation.isEmpty() && orientation != "portrait") {
