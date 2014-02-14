@@ -31,7 +31,6 @@ import "Panel"
 import "Hud"
 import "Components"
 import "Bottombar"
-import "SideStage"
 import "Notifications"
 import Unity.Notifications 1.0 as NotificationBackend
 
