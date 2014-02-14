@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.0
+import QtQuick.Window 2.0
 import Ubuntu.Components 0.1
 import Unity.Application 0.1
 
@@ -50,12 +51,15 @@ Item {
         visible: applicationScreenshot.withBackground
     }
 
-    ApplicationImage {
-        id: applicationImage
-        objectName: "screenshot image"
-        width: applicationScreenshot.application ? parent.width : 0
-        height: applicationScreenshot.application ? parent.height : 0
-        visible: applicationScreenshot.application != null && ready
-        source: ApplicationManager.findApplication((application) ? application.appId : "")
+    OrientationHelper {
+        orientationAngle: Screen.angleBetween(Screen.primaryOrientation, nativeOrientation) // compensate for Shell rotation
+        transitionEnabled: false
+        ApplicationImage {
+            id: applicationImage
+            objectName: "screenshot image"
+            anchors.fill: parent
+            visible: applicationScreenshot.application != null && ready
+            source: ApplicationManager.findApplication((application) ? application.appId : "")
+        }
     }
 }

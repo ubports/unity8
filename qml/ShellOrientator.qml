@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,27 +15,23 @@
  */
 
 import QtQuick 2.0
+import QtQuick.Window 2.0
 import Ubuntu.Components 0.1
+import Ubuntu.Gestures 0.1
 
-Rectangle {
-    id: rect
-    width: childrenRect.width
-    height: childrenRect.height
+Item {
+    id: orientator
 
-    property alias text: textComponent.text
+    // this is only here to select the width / height of the window if not running fullscreen
+    property bool tablet: false
+    width: tablet ? units.gu(160) : applicationArguments.hasGeometry() ? applicationArguments.width() : units.gu(40)
+    height: tablet ? units.gu(100) : applicationArguments.hasGeometry() ? applicationArguments.height() : units.gu(71)
 
-    signal clicked
-
-    color: "yellow"
-    Text {
-        id: textComponent
-        font.pixelSize: units.gu(2)
-        text: root.stretch ? "stretch" : "move"
-        MouseArea {
+    OrientationHelper {
+        orientationAngle: Screen.angleBetween(nativeOrientation, Screen.primaryOrientation)
+        transitionEnabled: false
+        Shell {
             anchors.fill: parent
-            onClicked: {
-                rect.clicked()
-            }
         }
     }
 }

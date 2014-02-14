@@ -77,6 +77,9 @@ FocusScope {
         // FIXME: if application focused before shell starts, shell draws on top of it only.
         // We should detect already running applications on shell start and bring them to the front.
         applicationManager.unfocusCurrentApplication();
+
+        applicationManager.setMainStageAppRect(mainStageAppRect);
+        applicationManager.setSideStageAppRect(sideStageAppRect);
     }
 
     readonly property bool applicationFocused: !!applicationManager.mainStageFocusedApplication
@@ -346,6 +349,26 @@ FocusScope {
                 width: sideStage.width + handleSize * 0.7
                 height: sideStage.height
                 orientation: Qt.Horizontal
+            }
+
+            // Defines the rectangle occupied by an application on the main or side stage.
+            // Used only to inform the ApplicationManager. Can be removed when the proper
+            // architecture is in place (unity8 as mir compositor).
+            Item {
+                id: mainStageAppRect
+                x: mainStage.x
+                y: mainStage.y + mainStage.normalApplicationY
+                width: mainStage.width
+                height: mainStage.height
+                visible: false; enabled: false
+            }
+            Item {
+                id: sideStageAppRect
+                x: sideStageRevealer.openedValue
+                y: sideStage.y + sideStage.normalApplicationY
+                width: sideStage.width
+                height: sideStage.height
+                visible: false; enabled: false
             }
 
             DragHandle {
