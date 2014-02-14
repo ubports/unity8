@@ -17,7 +17,7 @@
 import QtQuick 2.0
 import QtQuick.Window 2.0
 import Ubuntu.Components 0.1
-import Ubuntu.Gestures 0.1
+import Unity.Application 0.1
 
 Item {
     id: orientator
@@ -31,7 +31,12 @@ Item {
         orientationAngle: Screen.angleBetween(nativeOrientation, Screen.primaryOrientation)
         transitionEnabled: false
         Shell {
+            id: shell
             anchors.fill: parent
         }
+    }
+
+    OSKController {
+        anchors.fill: parent // as needs to know the geometry of the shell
     }
 }
