@@ -36,6 +36,7 @@ import "../../Components"
 
 PreviewWidget {
     id: root
+    implicitHeight: childrenRect.height
 
     function submit() {
         // checks rating-input requirements
