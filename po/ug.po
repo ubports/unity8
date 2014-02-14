@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-02-04 15:43+0000\n"
-"PO-Revision-Date: 2014-01-17 04:33+0000\n"
-"Last-Translator: Gheyret T.Kenji <Unknown>\n"
+"PO-Revision-Date: 2014-02-13 23:19+0000\n"
+"Last-Translator: volkhan <Unknown>\n"
 "Language-Team: Uyghur <ug@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2014-02-12 06:27+0000\n"
+"X-Launchpad-Export-Date: 2014-02-14 07:53+0000\n"
 "X-Generator: Launchpad (build 16916)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
@@ -29,7 +29,7 @@ msgstr "ئىجراچىدىن چىقار"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
-msgstr ""
+msgstr "قىسقىچە تونۇشتۇرۇشتىن ئاتلاش"
 
 #: qml/Components/EdgeDemo.qml:113
 msgid "Right edge"
@@ -37,7 +37,7 @@ msgstr "ئوڭ گىرۋەك"
 
 #: qml/Components/EdgeDemo.qml:114
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr ""
+msgstr "تېلېفوننى قۇلۇپتىن ئېچىش ئۈچۈن ئوڭ گىرۋەكتىن سىيرىڭ"
 
 #: qml/Components/EdgeDemo.qml:145
 msgid "Top edge"
@@ -45,7 +45,7 @@ msgstr "ئۈستى گىرۋەك"
 
 #: qml/Components/EdgeDemo.qml:146
 msgid "Try swiping from the top edge to access the indicators"
-msgstr ""
+msgstr "كۆرسەتكۈچلەرنى زىيارەت قىلىش ئۈچۈن ئۈستى گىرۋەكتىن سىيرىڭ"
 
 #: qml/Components/EdgeDemo.qml:171
 msgid "Close"
@@ -53,7 +53,7 @@ msgstr "ياپ"
 
 #: qml/Components/EdgeDemo.qml:172
 msgid "Swipe up again to close the settings screen"
-msgstr ""
+msgstr "تەڭشەش ئېكرانىنى يېپىش ئۈچۈن ئۈستىگە قايتا سىيرىڭ"
 
 #: qml/Components/EdgeDemo.qml:199
 msgid "Left edge"
@@ -61,11 +61,11 @@ msgstr "سول گىرۋەك"
 
 #: qml/Components/EdgeDemo.qml:200
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr ""
+msgstr "قوللىنىشلارنى تىز زىيارەت قىلىش ئۈچۈن سولدىن سىيرىپ ئىجراچىنى ئېچىڭ"
 
 #: qml/Components/EdgeDemo.qml:227
 msgid "Well done"
-msgstr ""
+msgstr "ياخشى بولدى"
 
 #: qml/Components/EdgeDemo.qml:228
 msgid ""
@@ -79,15 +79,15 @@ msgstr "يېقىنقى ئىزدەشلەر"
 
 #: qml/Components/SeeMore.qml:32
 msgid "See more"
-msgstr ""
+msgstr "جىقراق كۆرۈش"
 
 #: qml/Components/SeeMore.qml:61
 msgid "See less"
-msgstr ""
+msgstr "ئازراق كۆرۈش"
 
 #: qml/Dash/Apps/AppPreview.qml:136
 msgid "Rate this"
-msgstr ""
+msgstr "بۇنى باھالاڭ"
 
 #. TRANSLATORS: Number of persons who rated this app/video/whatever
 #: qml/Dash/Previews/Header.qml:93
@@ -104,7 +104,7 @@ msgstr[0] "%1 باھا"
 
 #: qml/Dash/Previews/Reviews.qml:74
 msgid "Add a review"
-msgstr ""
+msgstr "باھا قوشۇش"
 
 #: qml/Dash/Previews/Reviews.qml:86
 msgid "Review"
@@ -116,11 +116,11 @@ msgstr "ئەۋەت"
 
 #: qml/Dash/Previews/Reviews.qml:139
 msgid "Comments:"
-msgstr "ئىنكاس:"
+msgstr ":ئىنكاس"
 
 #: qml/Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
-msgstr ""
+msgstr "جىددىي تېلېفون"
 
 #: qml/Greeter/PassphraseLockscreen.qml:59
 #, qt-format
@@ -141,15 +141,15 @@ msgstr "بۇيرۇق كىرگۈزۈڭ ياكى دەڭ"
 
 #: qml/Hud/Hud.qml:84
 msgid "Loading. Please Wait..."
-msgstr "ئوقۇۋاتىدۇ، سەل كۈتۈڭ…"
+msgstr "…ئوقۇۋاتىدۇ، سەل كۈتۈڭ"
 
 #: qml/Hud/Hud.qml:89
 msgid "Speak Now..."
-msgstr "ئەمدى سۆزلەڭ…"
+msgstr "…ئەمدى سۆزلەڭ"
 
 #: qml/Hud/Hud.qml:94
 msgid "Speaking..."
-msgstr "سۆزلەۋاتىسىز…"
+msgstr "…سۆزلەۋاتىسىز"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:91
 msgid "Show password"
@@ -157,7 +157,7 @@ msgstr "ئىم كۆرسەت"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:103
 msgid "Please enter SIM PIN"
-msgstr ""
+msgstr "پارولىنى كىرگۈزۈڭPINكارتىڭىزنىڭ SIM"
 
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
