@@ -19,7 +19,8 @@ import QtQuick 2.0
 // FIXME this goes away when new scopes go in: compatibility layer with old RatingStars widget
 
 Rating {
-    property alias rating: value
-    property alias maximumRating: maximumValue
-    property alias starCount: size
+    id: root
+    property alias rating: root.value
+    property alias maximumRating: root.maximumValue
+    property alias starCount: root.size
 }
