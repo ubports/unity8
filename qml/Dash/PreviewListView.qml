@@ -42,7 +42,7 @@ Item {
             top: previewListView.bottom
             left: parent.left
             leftMargin: previewListView.categoryDelegate !== undefined && previewListView.categoryDelegate.currentItem ?
-                            previewListView.categoryDelegate.currentItem.center + (-width + margins) / 2 : 0
+                            previewListView.categoryDelegate.currentItem.x + previewListView.categoryDelegate.currentItem.width / 2 + (-width + margins) / 2 : 0
 
             Behavior on leftMargin {
                 SmoothedAnimation {
@@ -116,7 +116,7 @@ Item {
                     effectAdjust += newContentY;
                     newContentY = 0;
                 }
-                if (newContentY > Math.max(0, categoryView.contentHeight - categoryView.height)) {
+                if ((categoryView.contentHeight > categoryView.height) && (newContentY > categoryView.contentHeight - categoryView.height)) {
                     effectAdjust += -(categoryView.contentHeight - categoryView.height) + newContentY
                     newContentY = categoryView.contentHeight - categoryView.height;
                 }
