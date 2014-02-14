@@ -115,8 +115,11 @@ Item {
                 if (newContentY < 0) {
                     effectAdjust += newContentY;
                     newContentY = 0;
-                }
-                if ((categoryView.contentHeight > categoryView.height) && (newContentY > categoryView.contentHeight - categoryView.height)) {
+                } else if (categoryView.contentHeight < categoryView.height) {
+                    // We can't change contentY if the content is smaller than the view, so adjust effect position
+                    effectAdjust += newContentY;
+                    newContentY = 0;
+                } else if (newContentY > categoryView.contentHeight - categoryView.height) {
                     effectAdjust += -(categoryView.contentHeight - categoryView.height) + newContentY
                     newContentY = categoryView.contentHeight - categoryView.height;
                 }
