@@ -36,7 +36,17 @@ import "../../Components"
 
 PreviewWidget {
     id: root
-    implicitHeight: ratingLabelAndWidgetContainer.implicitHeight + reviewContainer.implicitHeight
+    implicitHeight: {
+        switch(widgetData["visible"]) {
+            default:
+            case "both":
+                return ratingLabelAndWidgetContainer.implicitHeight + reviewContainer.implicitHeight;
+            case "rating":
+                return ratingLabelAndWidgetContainer.implicitHeight;
+            case "review":
+                return reviewContainer.implicitHeight;
+            }
+    }
 
     function submit() {
         // checks rating-input requirements
