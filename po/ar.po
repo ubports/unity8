@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-02-04 15:43+0000\n"
-"PO-Revision-Date: 2013-12-05 06:55+0000\n"
+"PO-Revision-Date: 2014-02-16 09:56+0000\n"
 "Last-Translator: Ibrahim Saed <ibraheem5000@gmail.com>\n"
 "Language-Team: Arabic <ar@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n % 100 >= "
 "3 && n % 100 <= 10 ? 3 : n % 100 >= 11 && n % 100 <= 99 ? 4 : 5;\n"
-"X-Launchpad-Export-Date: 2014-02-12 06:27+0000\n"
+"X-Launchpad-Export-Date: 2014-02-17 06:07+0000\n"
 "X-Generator: Launchpad (build 16916)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
@@ -74,6 +74,8 @@ msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
 msgstr ""
+"أنت الآن بارع في إيماءات الحواف ويمكنك البدء باستخدام هاتفك<br><br>انقر على "
+"الشاشة للبدء"
 
 #: qml/Components/PageHeader.qml:339
 msgid "Recent searches"
@@ -81,11 +83,11 @@ msgstr "عمليات البحث الأخيرة"
 
 #: qml/Components/SeeMore.qml:32
 msgid "See more"
-msgstr ""
+msgstr "شاهد المزيد"
 
 #: qml/Components/SeeMore.qml:61
 msgid "See less"
-msgstr ""
+msgstr "شاهد أقل"
 
 #: qml/Dash/Apps/AppPreview.qml:136
 msgid "Rate this"
