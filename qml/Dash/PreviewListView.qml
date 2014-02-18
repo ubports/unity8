@@ -26,6 +26,7 @@ Item {
     property OpenEffect openEffect: null
     property ScopeListView categoryView: null
     property Scope scope: null
+    property var pageHeader: null
 
     property alias open: previewListView.open
     property alias onScreen: previewListView.onScreen

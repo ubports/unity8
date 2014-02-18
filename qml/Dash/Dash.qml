@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013, 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -62,10 +62,19 @@ Showable {
     DashContent {
         id: dashContent
         objectName: "dashContent"
-        anchors.fill: parent
+        width: parent.width
+        height: parent.height
         model: filteredScopes
         scopes: scopes
         searchHistory: dash.searchHistory
+        visible: x != -width
+        onGotoScope: {
+            dash.setCurrentScope(scopeId, true, false);
+        }
+        onOpenScope: {
+            scopeItem.scope = scope;
+            x = -width;
+        }
         onScopeLoaded: {
             if (scopeId == dash.showScopeOnLoaded) {
                 dash.setCurrentScope(scopeId, false, false)
@@ -74,5 +83,38 @@ Showable {
         }
         scale: dash.contentScale
         clip: scale != 1.0
+        Behavior on x {
+            UbuntuNumberAnimation {
+                onStopped: {
+                    if (dashContent.x == 0) {
+                        dashContent.closeScope(scopeItem.scope);
+                        scopeItem.scope = null;
+                    }
+                }
+            }
+        }
+    }
+
+    ScopeItem {
+        id: scopeItem
+        anchors.left: dashContent.right
+        width: parent.width
+        height: parent.height
+        searchHistory: dash.searchHistory
+        scale: dash.contentScale
+        clip: scale != 1.0
+        visible: scope != null
+        onBack: {
+            dashContent.x = 0;
+        }
+        onGotoScope: {
+            // TODO
+            console.log("gotoScope from an openScope scope is not implemented");
+        }
+        onOpenScope: {
+            // TODO
+            console.log("openScope from an openScope scope is not implemented");
+        }
+
     }
 }
