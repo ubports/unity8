@@ -57,7 +57,9 @@ Item {
             width: units.gu(6)
             height: units.gu(5.625)
             visible: image.status === Image.Ready
-            readonly property int maxSize: Math.max(width, height)
+            // FIXME the * 4 is a workaround to obtain crispness
+            // Find out the proper fix
+            readonly property int maxSize: Math.max(width, height) * 4
 
             image: Image {
                 id: mascotImage
