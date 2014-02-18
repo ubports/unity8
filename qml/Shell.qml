@@ -203,7 +203,7 @@ FocusScope {
         width: parent.width
         height: parent.height
 
-        x: shown ? launcher.progress : stagesDragHandle.progress
+        x: shown ? (locked ? 0 : launcher.progress) : stagesDragHandle.progress
 
         Behavior on x { SmoothedAnimation { velocity: 600; duration: UbuntuAnimation.FastDuration } }
 
@@ -216,6 +216,7 @@ FocusScope {
 
         property bool painting: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.painting : false
         property bool fullscreen: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.fullscreen : false
+        property bool locked: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.locked : false
 
         function show() {
             shown = true;
@@ -226,6 +227,10 @@ FocusScope {
         }
 
         function hide() {
+            if (locked) {
+                return;
+            }
+
             shown = false;
             if (ApplicationManager.focusedApplicationId) {
                 ApplicationManager.unfocusCurrentApplication();

@@ -20,6 +20,7 @@ Item {
     // State information propagated to the outside
     readonly property bool painting: mainScreenshotImage.visible || fadeInScreenshotImage.visible || appSplash.visible || spreadView.visible
     property bool fullscreen: ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).fullscreen
+    property bool locked: spreadView.visible
 
     onMovingChanged: {
         if (moving) {
@@ -395,6 +396,7 @@ Item {
                         if (index == 1 && spreadView.stage < 2) {
                             tileProgress += spreadView.tileDistance / spreadView.width
                         }
+                        print("returning tile progress!!!", tileProgress, spreadView.shiftedContentX, spreadView.shift, spreadView.contentX )
                         return tileProgress;
                     }
 
