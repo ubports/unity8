@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013, 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,6 +36,8 @@ Item {
     signal contentEndReached()
     signal scopeLoaded(string scopeId)
     signal positionedAtBeginning()
+    signal gotoScope(string scopeId)
+    signal openScope(var scope)
 
     // If we set the current scope index before the scopes have been added,
     // then we need to wait until the loaded signals gets emitted from the scopes
@@ -78,6 +80,10 @@ Item {
             dashContentList.highlightMoveDuration = storedMoveDuration
             dashContentList.highlightMoveVelocity = storedMoveSpeed
         }
+    }
+
+    function closeScope(scope) {
+        dashContentList.currentItem.theScope.closeScope(scope)
     }
 
     Item {
@@ -136,8 +142,8 @@ Item {
                     onLoaded: {
                         item.scope = Qt.binding(function() { return scope })
                         item.isCurrent = Qt.binding(function() { return visible && ListView.isCurrentItem })
-                        item.tabBarHeight = pageHeader.implicitHeight;
-                        item.pageHeader = pageHeader;
+                        item.tabBarHeight = dashPageHeader.implicitHeight;
+                        item.pageHeader = dashPageHeader;
                         item.openEffect = openEffect;
                         item.previewListView = previewListView;
                         dashContentList.movementStarted.connect(item.movementStarted)
@@ -149,13 +155,23 @@ Item {
                         ignoreUnknownSignals: true
                         onEndReached: contentEndReached()
                     }
+                    Connections {
+                        target: isCurrent ? scope : null
+                        onGotoScope: {
+                            // Note here scopeId is the signal parameter and not the loader property
+                            dashContent.gotoScope(scopeId);
+                        }
+                        onOpenScope: {
+                            dashContent.openScope(scope);
+                        }
+                    }
 
                     Component.onDestruction: active = false
                 }
         }
 
         PageHeader {
-            id: pageHeader
+            id: dashPageHeader
             objectName: "pageHeader"
             width: parent.width
             searchEntryEnabled: true
@@ -218,6 +234,7 @@ Item {
         openEffect: openEffect
         categoryView: dashContentList.currentItem ? dashContentList.currentItem.categoryView : null
         scope: dashContentList.currentItem ? dashContentList.currentItem.theScope : null
+        pageHeader: dashPageHeader
         anchors.fill: parent
     }
 }
