@@ -1,3 +1,28 @@
+unity8 (7.84+14.04.20140218-0ubuntu1) trusty; urgency=low
+
+  [ Michał Sawicz ]
+  * Center-align title when it's alone in the header.
+
+  [ Leo Arias ]
+  * Prepare unity8 to the _uinput refactors in autopilot.
+
+  [ Albert Astals ]
+  * Progress Preview Widget
+  * LWPH Fix crash from bug 1279434 (LP: #1279434)
+  * Show the loading indicator of the screenshot in video playback
+
+  [ Andrea Cimitan ]
+  * Adds rating preview widget. Work on the rating widget
+
+  [ Daniel d'Andrada ]
+  * Make DirectionalDragArea work when rotated The drag gesture
+    direction is in local coordinates, not in scene coordinates
+
+  [ Michał Karnicki ]
+  * Center-align title when it's alone in the header.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 18 Feb 2014 11:41:58 +0000
+
 unity8 (7.84+14.04.20140212-0ubuntu1) trusty; urgency=low
 
   [ Gerry Boland ]
