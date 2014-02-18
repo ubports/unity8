@@ -66,6 +66,10 @@ Item {
                 priv.secondApplicationStarting = true;
                 priv.requestNewScreenshot();
             }
+
+            if (spreadView.visible) {
+                spreadView.snapTo(0)
+            }
         }
 
         onApplicationRemoved: {
