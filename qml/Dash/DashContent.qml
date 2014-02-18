@@ -32,8 +32,6 @@ Item {
 
     signal movementStarted()
     signal movementEnded()
-    signal contentFlickStarted()
-    signal contentEndReached()
     signal scopeLoaded(string scopeId)
     signal positionedAtBeginning()
 
@@ -143,11 +141,6 @@ Item {
                         dashContentList.movementStarted.connect(item.movementStarted)
                         dashContent.positionedAtBeginning.connect(item.positionedAtBeginning)
                         dashContent.scopeLoaded(item.scope.id)
-                    }
-                    Connections {
-                        target: item
-                        ignoreUnknownSignals: true
-                        onEndReached: contentEndReached()
                     }
 
                     Component.onDestruction: active = false

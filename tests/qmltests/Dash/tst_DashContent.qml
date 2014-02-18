@@ -105,12 +105,6 @@ Item {
         signalName: "movementStarted"
     }
 
-    SignalSpy {
-        id: contentEndReachedSpy
-        target: dashContent
-        signalName: "contentEndReached"
-    }
-
     UT.UnityTestCase {
         name: "DashContent"
         when: scopesModel.loaded
@@ -123,7 +117,6 @@ Item {
         function cleanup() {
             scopeLoadedSpy.clear();
             movementStartedSpy.clear();
-            contentEndReachedSpy.clear();
             clear_scope_status();
             dashContent.visible = true;
 
@@ -194,17 +187,6 @@ Item {
 
         function test_scope_loaded() {
             tryCompare(scopeLoadedSpy, "count", 5);
-        }
-
-        function test_content_end_reached() {
-            var dashContentList = findChild(dashContent, "dashContentList");
-            verify(dashContentList != undefined);
-
-            tryCompare(scopeLoadedSpy, "count", 5);
-            dashContent.setCurrentScopeAtIndex(0, true, false);
-            dashContentList.currentItem.item.endReached();
-
-            compare(contentEndReachedSpy.count, 1);
         }
 
         // This tests that setting the current scope index will end up at the correct index even if
