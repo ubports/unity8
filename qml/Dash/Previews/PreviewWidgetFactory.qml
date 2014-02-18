@@ -48,6 +48,7 @@ Loader {
             case "header": return "PreviewHeader.qml";
             case "image": return "PreviewZoomableImage.qml";
             case "progress": return "PreviewProgress.qml";
+            case "rating-input": return "PreviewRating.qml";
             case "text": return "PreviewTextSummary.qml";
             case "video": return "PreviewVideoPlayback.qml";
             default: return "";
