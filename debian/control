@@ -95,10 +95,10 @@ Depends: gsettings-desktop-schemas,
          libcap2-bin,
          ${misc:Depends},
          ${shlibs:Depends},
-Recommends: unity-scope-scopes,
-            unity-scope-onlinemusic,
-            unity-scope-mediascanner2,
-            unity-scope-click,
+         unity-scope-scopes,
+         unity-scope-onlinemusic,
+         unity-scope-mediascanner2,
+         unity-scope-click,
 Breaks: indicator-network (<< 0.5.1)
 Replaces: ubuntu-touch-session (<< 0.82~)
 Description: Unity 8 shell
