@@ -37,7 +37,7 @@ Item {
         radius: "medium"
         visible: template["card-layout"] !== "horizontal" && (template["card-background"] || components["background"]
                                                               || artAndSummary)
-        property bool artAndSummary: typeof components["art"] === "string" || typeof components["art"]["field"] === "string" && components["summary"] || false
+        property bool artAndSummary: components["art"]["field"] && components["summary"] || false
         color: getColor(0) || "white"
         gradientColor: getColor(1) || color
         anchors.fill: parent
