@@ -29,7 +29,7 @@ Item {
     property bool showHeader: true
 
     implicitWidth: childrenRect.width
-    implicitHeight: summary.y + summary.height
+    implicitHeight: summary.y + summary.height + (background.visible ? units.gu(1) : 0)
 
     UbuntuShape {
         id: background
@@ -171,7 +171,7 @@ Item {
             top: header.visible ? header.bottom : artShape.bottom
             left: parent.left
             right: parent.right
-            margins: background.artAndSummary ? units.gu(1) : 0
+            margins: background.visible ? units.gu(1) : 0
             topMargin: 0
         }
         wrapMode: Text.Wrap
