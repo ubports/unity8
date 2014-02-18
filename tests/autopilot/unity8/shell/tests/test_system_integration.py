@@ -22,6 +22,7 @@
 import subprocess
 import unittest
 
+from autopilot import platform
 from unity8.shell.emulators import UnityEmulatorBase
 from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 
@@ -31,8 +32,10 @@ class SystemIntegrationTests(UnityTestCase):
 
     scenarios = _get_device_emulation_scenarios()
 
-    @unittest.skip("Disabled until we can investigate jenkins failure")
     def test_networkmanager_integration(self):
+        if platform.model() == 'Desktop':
+            self.skipTest("Test is broken on otto, see bug 1281634.")
+
         self.launch_unity()
 
         # invoke policykit to check permissions
