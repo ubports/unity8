@@ -576,7 +576,7 @@ FocusScope {
     function showHome() {
         var animate = !greeter.shown && !stages.shown
         greeter.hide()
-        dash.setCurrentScope("home.scope", animate, false)
+        dash.setCurrentScope("clickscope", animate, false)
         stages.hide()
     }
 
@@ -687,7 +687,7 @@ FocusScope {
                     launcher.hide();
                 }
             }
-            onDashSwipeChanged: if (dashSwipe && stages.shown) dash.setCurrentScope("applications.scope", false, true)
+            onDashSwipeChanged: if (dashSwipe && stages.shown) dash.setCurrentScope("clickscope", false, true)
             onLauncherApplicationSelected:{
                 if (edgeDemo.running)
                     return;

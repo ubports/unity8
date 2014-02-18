@@ -29,7 +29,7 @@ Showable {
     property ListModel searchHistory: SearchHistoryModel {}
 
     property alias contentProgress: dashContent.contentProgress
-    property string showScopeOnLoaded: "home.scope"
+    property string showScopeOnLoaded: "clickscope"
     property real contentScale: 1.0
 
     function setCurrentScope(scopeId, animate, reset) {
