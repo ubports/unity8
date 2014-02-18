@@ -168,8 +168,11 @@ Item {
         id: summary
         objectName: "summaryLabel"
         anchors {
-            top: header.visible ? header.bottom : artShape.bottom; left: parent.left; right: parent.right
-            margins: background.artAndSummary ? units.gu(1) : 0; topMargin: 0
+            top: header.visible ? header.bottom : artShape.bottom
+            left: parent.left
+            right: parent.right
+            margins: background.artAndSummary ? units.gu(1) : 0
+            topMargin: 0
         }
         wrapMode: Text.Wrap
         maximumLineCount: 5
