@@ -58,7 +58,9 @@ private Q_SLOTS:
     void cleanup(); // called right after each and every test function is executed
 
     void dragThreshold_horizontal();
+    void dragThreshold_horizontal_data();
     void dragThreshold_vertical();
+    void dragThreshold_vertical_data();
     void stretch_horizontal();
     void stretch_vertical();
     void hintingAnimation();
@@ -145,17 +147,29 @@ void tst_DragHandle::tryCompare(std::function<qreal ()> actualFunc,
 namespace {
 QPointF calculateDirectionVector(DirectionalDragArea *edgeDragArea)
 {
-
+    QPointF localOrigin(0., 0.);
+    QPointF localDirection;
     switch (edgeDragArea->direction()) {
         case Direction::Upwards:
-            return QPointF(0, -1);
+            localDirection.rx() = 0.;
+            localDirection.ry() = -1.;
+            break;
         case Direction::Downwards:
-            return QPointF(0, 1);
+            localDirection.rx() = 0.;
+            localDirection.ry() = 1;
+            break;
         case Direction::Leftwards:
-            return QPointF(-1, 0);
+            localDirection.rx() = -1.;
+            localDirection.ry() = 0.;
+            break;
         default: // Direction::Rightwards:
-            return QPointF(1, 0);
+            localDirection.rx() = 1.;
+            localDirection.ry() = 0.;
+            break;
     }
+    QPointF sceneOrigin = edgeDragArea->mapToScene(localOrigin);
+    QPointF sceneDirection = edgeDragArea->mapToScene(localDirection);
+    return sceneDirection - sceneOrigin;
 }
 }
 
@@ -222,6 +236,11 @@ qreal tst_DragHandle::fetchDragThreshold(DirectionalDragArea *dragHandle)
  */
 void tst_DragHandle::dragThreshold_horizontal()
 {
+    QFETCH(qreal, rotation);
+
+    QQuickItem *baseItem =  m_view->rootObject()->findChild<QQuickItem*>("baseItem");
+    baseItem->setRotation(rotation);
+
     DirectionalDragArea *dragHandle = fetchAndSetupDragHandle("rightwardsDragHandle");
 
     qreal dragThreshold = fetchDragThreshold(dragHandle);
@@ -260,8 +279,21 @@ void tst_DragHandle::dragThreshold_horizontal()
     QCOMPARE(parentItem->property("shown").toBool(), false);
 }
 
+void tst_DragHandle::dragThreshold_horizontal_data()
+{
+    QTest::addColumn<qreal>("rotation");
+
+    QTest::newRow("not rotated") << 0.;
+    QTest::newRow("rotated 90")  << 90.;
+}
+
 void tst_DragHandle::dragThreshold_vertical()
 {
+    QFETCH(qreal, rotation);
+
+    QQuickItem *baseItem =  m_view->rootObject()->findChild<QQuickItem*>("baseItem");
+    baseItem->setRotation(rotation);
+
     DirectionalDragArea *dragHandle = fetchAndSetupDragHandle("downwardsDragHandle");
 
     qreal dragThreshold = fetchDragThreshold(dragHandle);
@@ -298,6 +330,14 @@ void tst_DragHandle::dragThreshold_vertical()
     // should keep going until completion
     tryCompare([&](){ return parentItem->y(); }, -parentItem->height());
     QCOMPARE(parentItem->property("shown").toBool(), false);
+}
+
+void tst_DragHandle::dragThreshold_vertical_data()
+{
+    QTest::addColumn<qreal>("rotation");
+
+    QTest::newRow("not rotated") << 0.;
+    QTest::newRow("rotated 90")  << 90.;
 }
 
 /*
