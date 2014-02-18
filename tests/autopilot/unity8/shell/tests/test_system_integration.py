@@ -20,7 +20,6 @@
 """Tests for system integration."""
 
 import subprocess
-import unittest
 
 from autopilot import platform
 from unity8.shell.emulators import UnityEmulatorBase
