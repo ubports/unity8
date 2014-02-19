@@ -45,7 +45,7 @@ Item {
             previewListView: previewListView
 
             Connections {
-                target: isCurrent ? scope : null
+                target: scopeView.isCurrent ? scope : null
                 onGotoScope: root.gotoScope(scopeId);
                 onOpenScope: root.openScope(scope);
             }
@@ -58,34 +58,24 @@ Item {
             searchHistory: root.searchHistory
             scope: root.scope
             height: units.gu(7)
+            showBackButton: true
+            onBackClicked: root.back();
 
-            childItem: Row {
+            childItem: Label {
+                id: label
                 anchors {
-                    fill: parent
-                    leftMargin: units.gu(2)
+                    left: parent.left
+                    right: parent.right
+                    verticalCenter: parent.verticalCenter
                 }
-                MouseArea {
-                    height: parent.height
-                    width: childrenRect.width + units.gu(1)
-                    onClicked: root.back();
-                    Image {
-                        anchors.centerIn: parent
-                        source: "graphics/dashback.png"
-                    }
-                }
-                Label {
-                    id: label
-                    anchors.verticalCenter: parent.verticalCenter
-
-                    text: scope ? scope.name : ""
-                    color: "grey"
-                    font.family: "Ubuntu"
-                    font.weight: Font.Light
-                    fontSize: "x-large"
-                    elide: Text.ElideRight
-                    style: Text.Raised
-                    styleColor: "black"
-                }
+                text: scope ? scope.name : ""
+                color: "grey"
+                font.family: "Ubuntu"
+                font.weight: Font.Light
+                fontSize: "x-large"
+                elide: Text.ElideRight
+                style: Text.Raised
+                styleColor: "black"
             }
         }
     }

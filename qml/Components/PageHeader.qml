@@ -27,6 +27,9 @@ Item {
     property ListModel searchHistory
     property Scope scope
     property alias childItem: itemContainer.children
+    property alias showBackButton: backButton.visible
+
+    signal backClicked
 
     height: units.gu(8.5)
     implicitHeight: units.gu(8.5)
@@ -69,11 +72,32 @@ Item {
 
         Behavior on contentY { NumberAnimation { duration: 200; easing.type: Easing.OutQuad } }
 
+        MouseArea {
+            id: backButton
+            visible: false
+            height: header.height
+            y: header.contentY
+            anchors {
+                left: parent.left
+                leftMargin: visible ? units.gu(2) : 0
+            }
+            width: visible ? image.width + units.gu(2) : 0
+            onClicked: root.backClicked();
+            Image {
+                id: image
+                anchors.centerIn: parent
+                source: "graphics/headerback.png"
+            }
+        }
+
         // FIXME this could potentially be simplified to avoid all the containers
         Item {
             id: headerContainer
 
-            width: parent.width
+            anchors {
+                left: backButton.right
+                right: parent.right
+            }
             height: childrenRect.height
 
             Item {
