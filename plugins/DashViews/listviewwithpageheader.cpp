@@ -366,6 +366,14 @@ void ListViewWithPageHeader::positionAtBeginning()
         m_previousContentY = m_visibleItems.first()->y() - headerHeight;
     }
     setContentY(m_visibleItems.first()->y() + m_clipItem->y() - headerHeight);
+    if (m_headerItem) {
+        // TODO This should not be needed and the code that adjust the m_headerItem position
+        // in viewportMoved() should be enough but in some cases we have not found a way to reproduce
+        // yet the code of viewportMoved() fails so here we make sure that at least if we are calling
+        // positionAtBeginning the header item will be correctly positioned
+        qDebug() << (-m_minYExtent) << (m_visibleItems.first()->y() + m_clipItem->y() - headerHeight);
+        m_headerItem->setY(-m_minYExtent);
+    }
 }
 
 void ListViewWithPageHeader::showHeader()

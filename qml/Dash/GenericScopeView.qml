@@ -301,14 +301,14 @@ FocusScope {
         pageHeader: Item {
             implicitHeight: scopeView.tabBarHeight
             onHeightChanged: {
-                if (scopeView.pageHeader) {
+                if (scopeView.pageHeader && scopeView.isCurrent) {
                     scopeView.pageHeader.height = height;
                 }
             }
             onYChanged: positionRealHeader();
 
             function positionRealHeader() {
-                if (scopeView.pageHeader) {
+                if (scopeView.pageHeader && scopeView.isCurrent) {
                     scopeView.pageHeader.y = y + parent.y;
                 }
             }
