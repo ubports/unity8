@@ -340,7 +340,7 @@ FocusScope {
                     }
                 }
 
-                enabled: shell.width >= units.gu(60)
+                enabled: shell.width >= units.gu(100)
                 visible: enabled
                 fullyShown: stages.fullyShown && shown
                             && sideStage[sideStageRevealer.boundProperty] == sideStageRevealer.openedValue
