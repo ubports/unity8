@@ -80,7 +80,7 @@ Row {
                     "x-canonical-non-shaped-icon": "true"},
             summary: "Incoming file",
             body: "Frank would like to send you the file: essay.pdf.",
-            icon: "image://theme/document",
+            icon: "image://theme/search",
             actions: [{ id: "accept_id", label: "Accept"},
                       { id: "reject_id", label: "Reject"}]
         },
@@ -90,7 +90,7 @@ Row {
                     "x-canonical-non-shaped-icon": "true"},
             summary: "Authentication error",
             body: "Please authorise Ubuntu to access your Google account.",
-            icon: "image://theme/gnome-globe",
+            icon: "image://theme/search",
             actions: [{ id: "settings_id", label: "Settings..."},
                       { id: "cancel_id", label: "Cancel"}]
         },
@@ -211,7 +211,7 @@ Row {
                         "x-canonical-non-shaped-icon": "true"},
                 summary: "Incoming file",
                 body: "Frank would like to send you the file: essay.pdf.",
-                icon: "image://theme/document",
+                icon: "image://theme/search",
                 secondaryIcon: "",
                 actions: [{ id: "accept_id", label: "Accept"},
                           { id: "reject_id", label: "Reject"}]
@@ -223,7 +223,7 @@ Row {
                         "x-canonical-non-shaped-icon": "true"},
                 summary: "Authentication error",
                 body: "Please authorise Ubuntu to access your Google account.",
-                icon: "image://theme/gnome-globe",
+                icon: "image://theme/search",
                 secondaryIcon: "",
                 actions: [{ id: "settings_id", label: "Settings..."},
                           { id: "cancel_id", label: "Cancel"}]
