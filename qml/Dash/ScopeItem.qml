@@ -69,13 +69,11 @@ Item {
                     verticalCenter: parent.verticalCenter
                 }
                 text: scope ? scope.name : ""
-                color: "grey"
+                color: "#888888"
                 font.family: "Ubuntu"
                 font.weight: Font.Light
                 fontSize: "x-large"
                 elide: Text.ElideRight
-                style: Text.Raised
-                styleColor: "black"
             }
         }
     }

@@ -210,11 +210,6 @@ Item {
                         tabBar.selectedIndex = 0;
                     }
                 }
-
-                Component.onCompleted: {
-                    __styleInstance.headerTextStyle = Text.Raised
-                    __styleInstance.headerTextStyleColor = "black"
-                }
             }
         }
     }
