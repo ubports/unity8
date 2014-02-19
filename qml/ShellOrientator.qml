@@ -30,10 +30,10 @@ Item {
         anchors.fill: parent
         rotation: Screen.angleBetween(nativeOrientation, Screen.primaryOrientation)
         Shell {
-            x: (rotation != 0) ? 0 : (parent.width - parent.height) / 2
-            y: (rotation != 0) ? 0 : -(parent.width - parent.height) / 2
-            width: (rotation != 0) ? parent.width : parent.height
-            height: (rotation != 0) ? parent.height : parent.width
+            x: (parent.rotation == 0) ? 0 : (parent.width - parent.height) / 2
+            y: (parent.rotation == 0) ? 0 : -(parent.width - parent.height) / 2
+            width: (parent.rotation == 0) ? parent.width : parent.height
+            height: (parent.rotation == 0) ? parent.height : parent.width
         }
     }
 
