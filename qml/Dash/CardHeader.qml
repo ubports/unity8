@@ -30,6 +30,7 @@ Item {
     property real fontScale: 1.0
 
     property alias headerAlignment: titleLabel.horizontalAlignment
+    property bool hasBackground: template && template["card-background"] !== undefined
 
     visible: mascotImage.status === Image.Ready || title || price
     height: row.height > 0 ? row.height + row.margins * 2 : 0
@@ -40,13 +41,13 @@ Item {
 
         property real margins: units.gu(1)
 
+        spacing: mascotShape.visible || mascotImage.visible || inOverlay ? units.gu(0.5) : 0
         anchors {
             top: parent.top; left: parent.left; right: parent.right
             margins: margins
             leftMargin: spacing
             rightMargin: spacing
         }
-        spacing: mascotShape.visible || (template && template["overlay"]) ? margins : 0
 
         UbuntuShape {
             id: mascotShape
@@ -55,17 +56,23 @@ Item {
             // TODO karni: Icon aspect-ratio is 8:7.5. Revisit these values to avoid fraction of pixels.
             width: units.gu(6)
             height: units.gu(5.625)
-            visible: image.status === Image.Ready
+            visible: !hasBackground && image && image.status === Image.Ready
             readonly property int maxSize: Math.max(width, height)
 
-            image: Image {
-                id: mascotImage
+            image: hasBackground ? null : mascotImage
+        }
 
-                sourceSize { width: mascotShape.maxSize; height: mascotShape.maxSize }
-                fillMode: Image.PreserveAspectCrop
-                horizontalAlignment: Image.AlignHCenter
-                verticalAlignment: Image.AlignVCenter
-            }
+        Image {
+            id: mascotImage
+
+            width: source ? mascotShape.width : 0
+            height: mascotShape.height
+            visible: hasBackground && status === Image.Ready
+
+            sourceSize { width: mascotShape.maxSize; height: mascotShape.maxSize }
+            fillMode: Image.PreserveAspectCrop
+            horizontalAlignment: Image.AlignHCenter
+            verticalAlignment: Image.AlignVCenter
         }
 
         Column {
