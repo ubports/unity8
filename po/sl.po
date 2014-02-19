@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-02-04 15:43+0000\n"
+"POT-Creation-Date: 2014-02-13 18:37+0000\n"
 "PO-Revision-Date: 2013-11-30 08:20+0000\n"
 "Last-Translator: Damir Jerovšek <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
 "n%100==4 ? 3 : 0);\n"
-"X-Launchpad-Export-Date: 2014-02-12 06:27+0000\n"
+"X-Launchpad-Export-Date: 2014-02-19 05:44+0000\n"
 "X-Generator: Launchpad (build 16916)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
@@ -76,19 +76,19 @@ msgid ""
 "phone<br><br>Tap on the screen to start"
 msgstr ""
 
-#: qml/Components/PageHeader.qml:339
+#: qml/Components/PageHeader.qml:340
 msgid "Recent searches"
 msgstr "Nedavna iskanja"
 
-#: qml/Components/SeeMore.qml:32
+#: qml/Components/SeeMore.qml:35
 msgid "See more"
 msgstr ""
 
-#: qml/Components/SeeMore.qml:61
+#: qml/Components/SeeMore.qml:57
 msgid "See less"
 msgstr ""
 
-#: qml/Dash/Apps/AppPreview.qml:136
+#: qml/Dash/Apps/AppPreview.qml:136 qml/Dash/Previews/PreviewRating.qml:70
 msgid "Rate this"
 msgstr "Ocenite"
 
@@ -108,17 +108,25 @@ msgstr[1] "%1 ocena"
 msgstr[2] "%1 oceni"
 msgstr[3] "%1 ocene"
 
-#: qml/Dash/Previews/Reviews.qml:74
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "More..."
+msgstr ""
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "Less..."
+msgstr ""
+
+#: qml/Dash/Previews/PreviewRating.qml:114 qml/Dash/Previews/Reviews.qml:74
 msgid "Add a review"
 msgstr "Dodaj oceno"
+
+#: qml/Dash/Previews/PreviewRating.qml:153 qml/Dash/Previews/Reviews.qml:121
+msgid "Send"
+msgstr "Pošlji"
 
 #: qml/Dash/Previews/Reviews.qml:86
 msgid "Review"
 msgstr "Ocena"
-
-#: qml/Dash/Previews/Reviews.qml:121
-msgid "Send"
-msgstr "Pošlji"
 
 #: qml/Dash/Previews/Reviews.qml:139
 msgid "Comments:"

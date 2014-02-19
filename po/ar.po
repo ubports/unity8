@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-02-04 15:43+0000\n"
+"POT-Creation-Date: 2014-02-13 18:37+0000\n"
 "PO-Revision-Date: 2014-02-16 09:56+0000\n"
 "Last-Translator: Ibrahim Saed <ibraheem5000@gmail.com>\n"
 "Language-Team: Arabic <ar@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n % 100 >= "
 "3 && n % 100 <= 10 ? 3 : n % 100 >= 11 && n % 100 <= 99 ? 4 : 5;\n"
-"X-Launchpad-Export-Date: 2014-02-17 06:07+0000\n"
+"X-Launchpad-Export-Date: 2014-02-19 05:44+0000\n"
 "X-Generator: Launchpad (build 16916)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
@@ -77,19 +77,19 @@ msgstr ""
 "أنت الآن بارع في إيماءات الحواف ويمكنك البدء باستخدام هاتفك<br><br>انقر على "
 "الشاشة للبدء"
 
-#: qml/Components/PageHeader.qml:339
+#: qml/Components/PageHeader.qml:340
 msgid "Recent searches"
 msgstr "عمليات البحث الأخيرة"
 
-#: qml/Components/SeeMore.qml:32
+#: qml/Components/SeeMore.qml:35
 msgid "See more"
 msgstr "شاهد المزيد"
 
-#: qml/Components/SeeMore.qml:61
+#: qml/Components/SeeMore.qml:57
 msgid "See less"
 msgstr "شاهد أقل"
 
-#: qml/Dash/Apps/AppPreview.qml:136
+#: qml/Dash/Apps/AppPreview.qml:136 qml/Dash/Previews/PreviewRating.qml:70
 msgid "Rate this"
 msgstr "قيّم ذلك"
 
@@ -111,17 +111,25 @@ msgstr[3] "%1 تعليقات"
 msgstr[4] "%1 تعليقا"
 msgstr[5] "%1 تعليق"
 
-#: qml/Dash/Previews/Reviews.qml:74
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "More..."
+msgstr ""
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "Less..."
+msgstr ""
+
+#: qml/Dash/Previews/PreviewRating.qml:114 qml/Dash/Previews/Reviews.qml:74
 msgid "Add a review"
 msgstr "أضف تعليق"
+
+#: qml/Dash/Previews/PreviewRating.qml:153 qml/Dash/Previews/Reviews.qml:121
+msgid "Send"
+msgstr "أرسل"
 
 #: qml/Dash/Previews/Reviews.qml:86
 msgid "Review"
 msgstr "التعليق"
-
-#: qml/Dash/Previews/Reviews.qml:121
-msgid "Send"
-msgstr "أرسل"
 
 #: qml/Dash/Previews/Reviews.qml:139
 msgid "Comments:"
