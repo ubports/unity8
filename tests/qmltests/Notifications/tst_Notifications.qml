@@ -390,6 +390,8 @@ Row {
             var notification = findChild(notifications, "notification" + (mockModel.count - 1))
             verify(notification !== undefined, "notification wasn't found");
 
+            waitForRendering(notification);
+
             var icon = findChild(notification, "icon")
             var shapedIcon = findChild(notification, "shapedIcon")
             var nonShapedIcon = findChild(notification, "nonShapedIcon")
