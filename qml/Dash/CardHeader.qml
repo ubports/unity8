@@ -30,7 +30,9 @@ Item {
     property real fontScale: 1.0
 
     property alias headerAlignment: titleLabel.horizontalAlignment
+    property bool inOverlay: template["overlay"] === true
     property bool hasBackground: template && template["card-background"] !== undefined
+    property color fontColor: getFontColor(background.color)
 
     visible: mascotImage.status === Image.Ready || title || price
     height: row.height > 0 ? row.height + row.margins * 2 : 0
@@ -90,7 +92,7 @@ Item {
                 maximumLineCount: 2
                 fontSize: "small"
                 font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale)
-                color: template["overlay"] === true ? "white" : Theme.palette.selected.backgroundText
+                color: fontColor
             }
 
             Label {
@@ -102,7 +104,7 @@ Item {
                 visible: titleLabel.text && text
                 fontSize: "x-small"
                 font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale)
-                color: template["overlay"] === true ? "white" : Theme.palette.selected.backgroundText
+                color: fontColor
             }
 
             Row {
@@ -123,7 +125,7 @@ Item {
                     width: parent.labelWidth
                     elide: Text.ElideRight
                     font.weight: Font.DemiBold
-                    color: Theme.palette.selected.foreground
+                    color: "#ff990000"
                     visible: text
                 }
 
@@ -133,6 +135,8 @@ Item {
                     width: parent.labelWidth
                     elide: Text.ElideRight
                     horizontalAlignment: parent.labels === 3 ? Text.AlignHCenter : Text.AlignRight
+                    font.strikeout: true
+                    color: "black"
                     visible: text
                 }
 
@@ -141,9 +145,22 @@ Item {
                     width: parent.labelWidth
                     elide: Text.ElideRight
                     horizontalAlignment: Text.AlignRight
+                    color: fontColor
                     visible: text
                 }
             }
         }
+    }
+
+    function getLuminance(color) {
+        return 0.2126 * color.r + 0.7152 * color.g + 0.0722 * color.b;
+    }
+
+    // TODO karni: Change "grey" to Ubuntu.Components.Palette color once updated.
+    function getFontColor(backgroundColor) {
+        if (inOverlay) return "white";
+        if (backgroundColor === undefined) return "grey";
+        var luminance = getLuminance(backgroundColor);
+        return luminance < 0.7 ? "white" : "grey"
     }
 }
