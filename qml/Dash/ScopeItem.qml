@@ -64,13 +64,13 @@ Item {
                     fill: parent
                     leftMargin: units.gu(2)
                 }
-                spacing: units.gu(1)
-                Image {
-                    anchors.verticalCenter: parent.verticalCenter
-                    source: "graphics/dashback.png"
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: root.back();
+                MouseArea {
+                    height: parent.height
+                    width: childrenRect.width + units.gu(1)
+                    onClicked: root.back();
+                    Image {
+                        anchors.centerIn: parent
+                        source: "graphics/dashback.png"
                     }
                 }
                 Label {
