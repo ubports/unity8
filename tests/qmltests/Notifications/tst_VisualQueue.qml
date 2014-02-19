@@ -100,7 +100,7 @@ Row {
                     "x-canonical-non-shaped-icon": "true"},
             summary: "Morning alarm",
             body: "It's 6:30... time to get up!",
-            icon: "image://theme/alarm-symbolic",
+            icon: "image://theme/search",
             actions: [{ id: "ok_reply", label: "Ok"},
                       { id: "snooze_id", label: "Snooze"}]
         },
@@ -235,7 +235,7 @@ Row {
                         "x-canonical-non-shaped-icon": "true"},
                 summary: "Morning alarm",
                 body: "It's 6:30... time to get up!",
-                icon: "image://theme/alarm-symbolic",
+                icon: "image://theme/search",
                 secondaryIcon: "",
                 actions: [{ id: "ok_reply", label: "Ok"},
                           { id: "snooze_id", label: "Snooze"}]
