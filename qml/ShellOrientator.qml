@@ -16,7 +16,6 @@
 
 import QtQuick 2.0
 import QtQuick.Window 2.0
-import Ubuntu.Components 0.1
 import Unity.Application 0.1
 
 Item {
@@ -27,12 +26,14 @@ Item {
     width: tablet ? units.gu(160) : applicationArguments.hasGeometry() ? applicationArguments.width() : units.gu(40)
     height: tablet ? units.gu(100) : applicationArguments.hasGeometry() ? applicationArguments.height() : units.gu(71)
 
-    OrientationHelper {
-        orientationAngle: Screen.angleBetween(nativeOrientation, Screen.primaryOrientation)
-        transitionEnabled: false
+    Item {
+        anchors.fill: parent
+        rotation: Screen.angleBetween(nativeOrientation, Screen.primaryOrientation)
         Shell {
-            id: shell
-            anchors.fill: parent
+            x: (parent.rotation == 0) ? 0 : (parent.width - parent.height) / 2
+            y: (parent.rotation == 0) ? 0 : -(parent.width - parent.height) / 2
+            width: (parent.rotation == 0) ? parent.width : parent.height
+            height: (parent.rotation == 0) ? parent.height : parent.width
         }
     }
 
