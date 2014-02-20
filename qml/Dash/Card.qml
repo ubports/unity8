@@ -162,7 +162,7 @@ Item {
 
         opacity: showHeader ? 1 : 0
         inOverlay: template["overlay"] === true
-        fontColor: inOverlay ? "white" : summary.getFontColor(background.color)
+        fontColor: inOverlay ? "white" : summary.color
         useMascotShape: !background.visible && !inOverlay
 
         Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
