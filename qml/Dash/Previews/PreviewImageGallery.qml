@@ -32,6 +32,7 @@ PreviewWidget {
         orientation: ListView.Horizontal
         cacheBuffer: width * 3
         model: root.widgetData["sources"]
+        clip: true
 
         // FIXME: Because of ListViews inside ListViews inside Flickables inside ListViews (and some more)
         // we finally reached the point where this ListView doesn't correctly get swipe input any more but
