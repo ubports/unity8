@@ -161,8 +161,7 @@ FocusScope {
             clip: !parent.mainStageApplicationShown && parent.sideStageApplicationRunning && stagesOuterContainer.showProgress > 0
             width: {
                 if (clip) {
-                    var w = parent.width - sideStage.width;
-                    console.log("UCW", stagesOuterContainer.x, stages.x, "\n");
+                    var w = parent.width - sideStage.width
                     w += stagesOuterContainer.x + stages.x
                     return Math.min(w, parent.width);
                 } else {
@@ -225,11 +224,9 @@ FocusScope {
 
             AbstractButton {
                 enabled: stagesOuterContainer.showProgress == 1
-                onEnabledChanged: console.log("AbstractButton enabled", enabled, "\n");
                 anchors.fill: parent
                 onClicked: {
-                    console.log("CLICKED\n");
-                    stages.hide()
+                    stages.hide();
                 }
             }
         }
