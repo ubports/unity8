@@ -26,6 +26,7 @@ Item {
     property var scopes: null
     property real contentProgress: Math.max(0, Math.min(dashContentList.contentX / (dashContentList.contentWidth - dashContentList.width), units.dp(1)))
     property alias currentIndex: dashContentList.currentIndex
+    property alias previewOnScreen: previewListView.onScreen
 
     property ScopeDelegateMapper scopeMapper : ScopeDelegateMapper {}
     property ListModel searchHistory
