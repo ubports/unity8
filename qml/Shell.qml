@@ -170,13 +170,6 @@ FocusScope {
             }
             height: parent.height
 
-            Rectangle {
-                width: underlay.width
-                height: underlay.height
-                color: "black"
-                opacity: dash.disappearingAnimationProgress
-            }
-
             Image {
                 anchors.fill: dash
                 source: shell.width > shell.height ? "Dash/graphics/paper_landscape.png" : "Dash/graphics/paper_portrait.png"
@@ -211,7 +204,7 @@ FocusScope {
                         return greeter.showProgress;
                     } else {
                         if (underlayClipper.clip)
-                            return stagesOuterContainer.showProgress * 0.5;
+                            return 0;
                         else
                             return stagesOuterContainer.showProgress;
                     }
@@ -220,6 +213,13 @@ FocusScope {
                 // FIXME: only necessary because stagesOuterContainer.showProgress and
                 // greeterRevealer.animatedProgress are not animated
                 Behavior on disappearingAnimationProgress { SmoothedAnimation { velocity: 5 }}
+            }
+
+            Rectangle {
+                width: underlay.width
+                height: underlay.height
+                color: "black"
+                opacity: stagesOuterContainer.showProgress * 0.5
             }
 
             AbstractButton {
