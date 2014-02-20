@@ -37,6 +37,7 @@ import Unity.Notifications 1.0 as NotificationBackend
 
 FocusScope {
     id: shell
+    objectName: "shell"
 
     // this is only here to select the width / height of the window if not running fullscreen
     property bool tablet: false
