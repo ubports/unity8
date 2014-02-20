@@ -28,6 +28,9 @@ Item {
     readonly property alias headerHeight: header.height
 
     property bool showHeader: true
+    property bool inOverlay: template["overlay"] === true
+    property bool useMascotShape: !(template && template["card-background"] !== undefined)
+    property color fontColor: getFontColor(background.color)
 
     implicitWidth: childrenRect.width
     implicitHeight: summary.y + summary.height + (summary.text && background.visible ? units.gu(1) : 0)
@@ -161,6 +164,8 @@ Item {
         subtitle: cardData && cardData["subtitle"] || ""
 
         opacity: showHeader ? 1 : 0
+        fontColor: root.fontColor
+        useMascotShape: root.useMascotShape
 
         Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
     }
@@ -181,5 +186,18 @@ Item {
         text: cardData && cardData["summary"] || ""
         height: text ? implicitHeight : 0
         fontSize: "small"
+        color: fontColor
+    }
+
+    function getLuminance(color) {
+        return 0.2126 * color.r + 0.7152 * color.g + 0.0722 * color.b;
+    }
+
+    // TODO karni: Change "grey" to Ubuntu.Components.Palette color once updated.
+    function getFontColor(backgroundColor) {
+        if (inOverlay) return "white";
+        if (backgroundColor === undefined) return "grey";
+        var luminance = getLuminance(backgroundColor);
+        return luminance < 0.7 ? "white" : "grey"
     }
 }

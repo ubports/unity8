@@ -30,9 +30,8 @@ Item {
     property real fontScale: 1.0
 
     property alias headerAlignment: titleLabel.horizontalAlignment
-    property bool inOverlay: template["overlay"] === true
-    property bool hasBackground: template && template["card-background"] !== undefined
-    property color fontColor: getFontColor(background.color)
+    property bool useMascotShape: true
+    property color fontColor: "grey"
 
     visible: mascotImage.status === Image.Ready || title || price
     height: row.height > 0 ? row.height + row.margins * 2 : 0
@@ -43,7 +42,7 @@ Item {
 
         property real margins: units.gu(1)
 
-        spacing: mascotShape.visible || mascotImage.visible || inOverlay ? units.gu(0.5) : 0
+        spacing: mascotShape.visible || mascotImage.visible || inOverlay ? margins : 0
         anchors {
             top: parent.top; left: parent.left; right: parent.right
             margins: margins
@@ -58,10 +57,10 @@ Item {
             // TODO karni: Icon aspect-ratio is 8:7.5. Revisit these values to avoid fraction of pixels.
             width: units.gu(6)
             height: units.gu(5.625)
-            visible: !hasBackground && image && image.status === Image.Ready
+            visible: useMascotShape && image && image.status === Image.Ready
             readonly property int maxSize: Math.max(width, height)
 
-            image: hasBackground ? null : mascotImage
+            image: useMascotShape ? mascotImage : null
         }
 
         Image {
@@ -69,7 +68,7 @@ Item {
 
             width: source ? mascotShape.width : 0
             height: mascotShape.height
-            visible: hasBackground && status === Image.Ready
+            visible: !useMascotShape && status === Image.Ready
 
             sourceSize { width: mascotShape.maxSize; height: mascotShape.maxSize }
             fillMode: Image.PreserveAspectCrop
@@ -150,17 +149,5 @@ Item {
                 }
             }
         }
-    }
-
-    function getLuminance(color) {
-        return 0.2126 * color.r + 0.7152 * color.g + 0.0722 * color.b;
-    }
-
-    // TODO karni: Change "grey" to Ubuntu.Components.Palette color once updated.
-    function getFontColor(backgroundColor) {
-        if (inOverlay) return "white";
-        if (backgroundColor === undefined) return "grey";
-        var luminance = getLuminance(backgroundColor);
-        return luminance < 0.7 ? "white" : "grey"
     }
 }
