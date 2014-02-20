@@ -143,66 +143,95 @@ FocusScope {
         // Whether the underlay is fully covered by opaque UI elements.
         property bool fullyCovered: panel.indicators.fullyOpened && shell.width <= panel.indicatorsMenuWidth
 
-        readonly property bool applicationRunning: ((mainStage.applications && mainStage.applications.count > 0)
-                                           || (sideStage.applications && sideStage.applications.count > 0))
+        readonly property bool mainStageApplicationRunning: mainStage.applications && mainStage.applications.count > 0
+        readonly property bool sideStageApplicationRunning: sideStage.applications && sideStage.applications.count > 0
 
         // Whether the user should see the topmost application surface (if there's one at all).
-        readonly property bool applicationSurfaceShouldBeSeen: applicationRunning && !stages.fullyHidden
+        readonly property bool mainStageApplicationShown: mainStageApplicationRunning && !stages.fullyHidden
                                            && !mainStage.usingScreenshots // but want sideStage animating over app surface
 
 
 
         // NB! Application surfaces are stacked behing the shell one. So they can only be seen by the user
         // through the translucent parts of the shell surface.
-        visible: !fullyCovered && !applicationSurfaceShouldBeSeen
+        visible: !fullyCovered && !mainStageApplicationShown
 
-        Rectangle {
-            anchors.fill: parent
-            color: "black"
-            opacity: dash.disappearingAnimationProgress
-        }
-
-        Image {
-            anchors.fill: dash
-            source: shell.width > shell.height ? "Dash/graphics/paper_landscape.png" : "Dash/graphics/paper_portrait.png"
-            fillMode: Image.PreserveAspectCrop
-            horizontalAlignment: Image.AlignRight
-            verticalAlignment: Image.AlignTop
-        }
-
-        Dash {
-            id: dash
-            objectName: "dash"
-
-            available: !greeter.shown && !lockscreen.shown
-            hides: [stages, launcher, panel.indicators]
-            shown: disappearingAnimationProgress !== 1.0
-            enabled: disappearingAnimationProgress === 0.0 && edgeDemo.dashEnabled
-            // FIXME: unfocus all applications when going back to the dash
-            onEnabledChanged: {
-                if (enabled) {
-                    shell.applicationManager.unfocusCurrentApplication()
-                }
-            }
-
-            anchors {
-                fill: parent
-                topMargin: panel.panelHeight
-            }
-
-            contentScale: 1.0 - 0.2 * disappearingAnimationProgress
-            opacity: 1.0 - disappearingAnimationProgress
-            property real disappearingAnimationProgress: {
-                if (greeter.shown) {
-                    return greeter.showProgress;
+        Item {
+            id: underlayClipper
+            clip: !parent.mainStageApplicationShown && parent.sideStageApplicationRunning && stagesOuterContainer.showProgress > 0
+            width: {
+                if (clip) {
+                    var w = parent.width - sideStage.width;
+                    console.log("UCW", stagesOuterContainer.x, stages.x, "\n");
+                    w += stagesOuterContainer.x + stages.x
+                    return Math.min(w, parent.width);
                 } else {
-                    return stagesOuterContainer.showProgress;
+                    return parent.width;
                 }
             }
+            height: parent.height
 
-            // FIXME: only necessary because stagesOuterContainer.showProgress and
-            // greeterRevealer.animatedProgress are not animated
-            Behavior on disappearingAnimationProgress { SmoothedAnimation { velocity: 5 }}
+            Rectangle {
+                width: underlay.width
+                height: underlay.height
+                color: "black"
+                opacity: dash.disappearingAnimationProgress
+            }
+
+            Image {
+                anchors.fill: dash
+                source: shell.width > shell.height ? "Dash/graphics/paper_landscape.png" : "Dash/graphics/paper_portrait.png"
+                fillMode: Image.PreserveAspectCrop
+                horizontalAlignment: Image.AlignRight
+                verticalAlignment: Image.AlignTop
+            }
+
+            Dash {
+                id: dash
+                objectName: "dash"
+
+                available: !greeter.shown && !lockscreen.shown
+                hides: [stages, launcher, panel.indicators]
+                shown: disappearingAnimationProgress !== 1.0
+                enabled: disappearingAnimationProgress === 0.0 && edgeDemo.dashEnabled
+                // FIXME: unfocus all applications when going back to the dash
+                onEnabledChanged: {
+                    if (enabled) {
+                        shell.applicationManager.unfocusCurrentApplication()
+                    }
+                }
+
+                width: underlay.width
+                height: underlay.height - y
+                y: panel.panelHeight
+
+                contentScale: 1.0 - 0.2 * disappearingAnimationProgress
+                opacity: 1.0 - disappearingAnimationProgress
+                property real disappearingAnimationProgress: {
+                    if (greeter.shown) {
+                        return greeter.showProgress;
+                    } else {
+                        if (underlayClipper.clip)
+                            return stagesOuterContainer.showProgress * 0.5;
+                        else
+                            return stagesOuterContainer.showProgress;
+                    }
+                }
+
+                // FIXME: only necessary because stagesOuterContainer.showProgress and
+                // greeterRevealer.animatedProgress are not animated
+                Behavior on disappearingAnimationProgress { SmoothedAnimation { velocity: 5 }}
+            }
+
+            AbstractButton {
+                enabled: stagesOuterContainer.showProgress == 1
+                onEnabledChanged: console.log("AbstractButton enabled", enabled, "\n");
+                anchors.fill: parent
+                onClicked: {
+                    console.log("CLICKED\n");
+                    stages.hide()
+                }
+            }
         }
     }
 
@@ -548,8 +577,14 @@ FocusScope {
     }
 
     InputFilterArea {
-        anchors.fill: parent
-        blockInput: !applicationFocused || greeter.shown || lockscreen.shown || launcher.shown
+        width: {
+            if (applicationManager.sideStageFocusedApplication)
+                return parent.width - sideStage.width;
+            else
+                return parent.width;
+        }
+        height: parent.height
+        blockInput: !applicationManager.mainStageFocusedApplication || greeter.shown || lockscreen.shown || launcher.shown
                     || panel.indicators.shown || hud.shown
     }
 
