@@ -28,7 +28,6 @@ Item {
     readonly property alias headerHeight: header.height
 
     property bool showHeader: true
-    readonly property bool inOverlay: template["overlay"] === true
 
     implicitWidth: childrenRect.width
     implicitHeight: summary.y + summary.height + (summary.text && background.visible ? units.gu(1) : 0)
@@ -140,7 +139,6 @@ Item {
     CardHeader {
         id: header
         objectName: "cardHeader"
-        
         anchors {
             top: {
                 if (template) {
@@ -163,9 +161,9 @@ Item {
         subtitle: cardData && cardData["subtitle"] || ""
 
         opacity: showHeader ? 1 : 0
-        inOverlay: root.inOverlay
+        inOverlay: template["overlay"] === true
         fontColor: inOverlay ? "white" : summary.getFontColor(background.color)
-        useMascotShape: !background.visible
+        useMascotShape: !background.visible && !inOverlay
 
         Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
     }
