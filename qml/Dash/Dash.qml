@@ -82,7 +82,7 @@ Showable {
             }
         }
         scale: dash.contentScale
-        clip: scale != 1.0
+        clip: scale != 1.0 || scopeItem.visible
         Behavior on x {
             UbuntuNumberAnimation {
                 onStopped: {
