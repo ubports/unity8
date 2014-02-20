@@ -30,7 +30,10 @@ Item {
     property real fontScale: 1.0
 
     property alias headerAlignment: titleLabel.horizontalAlignment
+
     property bool inOverlay: false
+    property bool useMascotShape: true
+    property color fontColor: "grey"
 
     visible: mascotImage.status === Image.Ready || title || price
     height: row.height > 0 ? row.height + row.margins * 2 : 0
@@ -41,13 +44,13 @@ Item {
 
         property real margins: units.gu(1)
 
+        spacing: mascotShape.visible || mascotImage.visible || inOverlay ? margins : 0
         anchors {
             top: parent.top; left: parent.left; right: parent.right
             margins: margins
             leftMargin: spacing
             rightMargin: spacing
         }
-        spacing: mascotShape.visible || inOverlay ? margins : 0
 
         UbuntuShape {
             id: mascotShape
@@ -56,20 +59,23 @@ Item {
             // TODO karni: Icon aspect-ratio is 8:7.5. Revisit these values to avoid fraction of pixels.
             width: units.gu(6)
             height: units.gu(5.625)
-            visible: image.status === Image.Ready
-            // FIXME the * 4 is a workaround to obtain crispness
-            // Find out the proper fix
+            visible: useMascotShape && image && image.status === Image.Ready
             readonly property int maxSize: Math.max(width, height) * 4
 
-            image: Image {
-                id: mascotImage
-                cache: true
+            image: useMascotShape ? mascotImage : null
+        }
 
-                sourceSize { width: mascotShape.maxSize; height: mascotShape.maxSize }
-                fillMode: Image.PreserveAspectCrop
-                horizontalAlignment: Image.AlignHCenter
-                verticalAlignment: Image.AlignVCenter
-            }
+        Image {
+            id: mascotImage
+
+            width: source ? mascotShape.width : 0
+            height: mascotShape.height
+            visible: !useMascotShape && status === Image.Ready
+
+            sourceSize { width: mascotShape.maxSize; height: mascotShape.maxSize }
+            fillMode: Image.PreserveAspectCrop
+            horizontalAlignment: Image.AlignHCenter
+            verticalAlignment: Image.AlignVCenter
         }
 
         Column {
@@ -86,8 +92,7 @@ Item {
                 wrapMode: Text.Wrap
                 maximumLineCount: 2
                 font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale)
-                // TODO karni (for each Label): Update Ubuntu.Components.Themes.Palette and use theme color instead
-                color: inOverlay ? "white" : "grey" // Theme.palette.normal.backgroundText
+                color: fontColor
             }
 
             Label {
@@ -98,7 +103,7 @@ Item {
                 font.weight: Font.Light
                 visible: titleLabel.text && text
                 font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale)
-                color: inOverlay ? "white" : "grey" // Theme.palette.normal.backgroundText
+                color: fontColor
             }
 
             Row {
@@ -119,7 +124,7 @@ Item {
                     width: parent.labelWidth
                     elide: Text.ElideRight
                     font.weight: Font.DemiBold
-                    color: "grey" // Theme.palette.normal.backgroundText
+                    color: "#ff990000"
                     visible: text
                 }
 
@@ -129,6 +134,8 @@ Item {
                     width: parent.labelWidth
                     elide: Text.ElideRight
                     horizontalAlignment: parent.labels === 3 ? Text.AlignHCenter : Text.AlignRight
+                    font.strikeout: true
+                    color: "black"
                     visible: text
                 }
 
@@ -137,6 +144,7 @@ Item {
                     width: parent.labelWidth
                     elide: Text.ElideRight
                     horizontalAlignment: Text.AlignRight
+                    color: fontColor
                     visible: text
                 }
             }

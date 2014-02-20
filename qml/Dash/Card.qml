@@ -140,7 +140,6 @@ AbstractButton {
     CardHeader {
         id: header
         objectName: "cardHeader"
-        inOverlay: root.template && root.template["overlay"] === true
         anchors {
             top: {
                 if (template) {
@@ -163,6 +162,9 @@ AbstractButton {
         subtitle: cardData && cardData["subtitle"] || ""
 
         opacity: showHeader ? 1 : 0
+        inOverlay: root.template && root.template["overlay"] === true
+        fontColor: inOverlay ? "white" : summary.color
+        useMascotShape: !background.visible && !inOverlay
 
         Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
     }
@@ -183,7 +185,17 @@ AbstractButton {
         text: cardData && cardData["summary"] || ""
         height: text ? implicitHeight : 0
         fontSize: "small"
-        // TODO karni (for each Label): Update Ubuntu.Components.Themes.Palette and use theme color instead
-        color: "grey"
+        color: getFontColor(background.color)
+
+        function getLuminance(color) {
+            return 0.2126 * color.r + 0.7152 * color.g + 0.0722 * color.b;
+        }
+
+        // TODO karni: Change "grey" to Ubuntu.Components.Palette color once updated.
+        function getFontColor(backgroundColor) {
+            if (backgroundColor === undefined) return "grey";
+            var luminance = getLuminance(backgroundColor);
+            return luminance < 0.7 ? "white" : "grey"
+        }
     }
 }
