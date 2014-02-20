@@ -87,6 +87,7 @@ AbstractButton {
             height: template && template["card-layout"] === "horizontal" ? header.height : width / artShape.aspect
             objectName: "artImage"
             source: cardData && cardData["art"] || ""
+            cache: true
             // FIXME uncomment when having investigated / fixed the crash
             //sourceSize.width: width > height ? width : 0
             //sourceSize.height: height > width ? height : 0

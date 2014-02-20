@@ -63,6 +63,7 @@ Item {
 
             image: Image {
                 id: mascotImage
+                cache: true
 
                 sourceSize { width: mascotShape.maxSize; height: mascotShape.maxSize }
                 fillMode: Image.PreserveAspectCrop
