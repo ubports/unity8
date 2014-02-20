@@ -67,6 +67,10 @@ Showable {
 
         source: required ? "GreeterContent.qml" : ""
 
+        onLoaded: {
+            selected(currentIndex);
+        }
+
         Connections {
             target: greeterContentLoader.item
 
