@@ -54,6 +54,12 @@ Item {
 
     onPreviewModelChanged: processingMouseArea.enabled = false
 
+    Binding {
+        target: previewModel
+        property: "widgetColumnCount"
+        value: row.columns
+    }
+
     MouseArea {
         anchors.fill: parent
     }
@@ -64,19 +70,22 @@ Item {
         spacing: units.gu(1)
         anchors { fill: parent; margins: spacing }
 
+        property int columns: width >= units.gu(80) ? 2 : 1
+        property real columnWidth: width / columns
+
         Repeater {
             model: previewModel
 
             delegate: ListView {
                 id: column
                 anchors { top: parent.top; bottom: parent.bottom }
-                width: row.width
+                width: row.columnWidth
                 spacing: row.spacing
                 bottomMargin: Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.height : 0
 
                 model: columnModel
                 onCountChanged: if (count > 0) root.ready = true
-                cacheBuffer: units.gu(40)
+                cacheBuffer: height
 
                 Behavior on contentY { UbuntuNumberAnimation { } }
 
@@ -85,7 +94,12 @@ Item {
                     widgetType: model.type
                     widgetData: model.properties
                     isCurrentPreview: root.isCurrent
-                    anchors { left: parent.left; right: parent.right }
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        leftMargin: units.gu(1)
+                        rightMargin: units.gu(1)
+                    }
 
                     onTriggered: {
                         processingMouseArea.enabled = true;

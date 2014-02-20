@@ -37,6 +37,7 @@ import Unity.Notifications 1.0 as NotificationBackend
 
 FocusScope {
     id: shell
+    objectName: "shell"
 
     // this is only here to select the width / height of the window if not running fullscreen
     property bool tablet: false
@@ -117,6 +118,11 @@ FocusScope {
             }
             stages.show();
         }
+    }
+
+    Connections {
+        target: applicationManager
+        onFocusRequested: activateApplication(appId)
     }
 
     GSettings {
@@ -362,6 +368,15 @@ FocusScope {
                 width: units.gu(40)
                 height: stages.height
                 handleExpanded: sideStageRevealer.pressed
+
+                Connections {
+                    target: sideStage.applications
+                    onCountChanged: {
+                        if (sideStage.applications.count == 0 && sideStage.shown) { // if all SS app closed, hide side stage
+                            sideStage.hide();
+                        }
+                    }
+                }
             }
 
             Revealer {
@@ -631,7 +646,7 @@ FocusScope {
                 contentEnabled: edgeDemo.panelContentEnabled
             }
             fullscreenMode: shell.fullscreenMode
-            searchVisible: !greeter.shown && !lockscreen.shown && dash.shown
+            searchVisible: !greeter.shown && !lockscreen.shown && dash.shown && dash.searchable
 
             InputFilterArea {
                 anchors {

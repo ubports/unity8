@@ -23,6 +23,7 @@ Item {
     id: root
 
     property alias scope: scopeView.scope
+    property alias previewOnScreen: previewListView.onScreen
 
     property ListModel searchHistory
 

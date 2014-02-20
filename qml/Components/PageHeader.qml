@@ -72,7 +72,7 @@ Item {
 
         Behavior on contentY { NumberAnimation { duration: 200; easing.type: Easing.OutQuad } }
 
-        MouseArea {
+        AbstractButton {
             id: backButton
             visible: false
             height: header.height
