@@ -163,6 +163,7 @@ Item {
         subtitle: cardData && cardData["subtitle"] || ""
 
         opacity: showHeader ? 1 : 0
+        inOverlay: root.inOverlay
         fontColor: inOverlay ? "white" : summary.getFontColor(background.color)
         useMascotShape: background.visible
 

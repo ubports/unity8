@@ -30,6 +30,8 @@ Item {
     property real fontScale: 1.0
 
     property alias headerAlignment: titleLabel.horizontalAlignment
+
+    property bool inOverlay
     property bool useMascotShape: true
     property color fontColor: "grey"
 
