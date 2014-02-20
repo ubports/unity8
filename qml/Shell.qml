@@ -162,7 +162,7 @@ FocusScope {
             width: {
                 if (clip) {
                     var w = parent.width - sideStage.width
-                    w += stagesOuterContainer.x + stages.x
+                    w += stagesOuterContainer.x + stages.x + (sideStage.x - sideStageRevealer.openedValue)
                     return Math.min(w, parent.width);
                 } else {
                     return parent.width;
@@ -367,7 +367,7 @@ FocusScope {
             Revealer {
                 id: sideStageRevealer
 
-                enabled: mainStage.applications.count > 0 && sideStage.applications.count > 0
+                enabled: sideStage.applications.count > 0
                          && sideStage.available
                 direction: Qt.RightToLeft
                 openedValue: parent.width - sideStage.width
