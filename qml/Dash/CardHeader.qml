@@ -31,7 +31,7 @@ Item {
 
     property alias headerAlignment: titleLabel.horizontalAlignment
 
-    property bool inOverlay
+    property bool inOverlay: false
     property bool useMascotShape: true
     property color fontColor: "grey"
 
