@@ -36,9 +36,6 @@ Item {
     //! \brief Should be set to true if this preview is currently displayed.
     property bool isCurrent: false
 
-    //! \brief Will be changed to true when the initial preview widgets are in.
-    property bool ready: false
-
     clip: true
 
     Connections {
@@ -51,8 +48,6 @@ Item {
             root.close();
         }
     }
-
-    onPreviewModelChanged: processingMouseArea.enabled = false
 
     Binding {
         target: previewModel
@@ -84,7 +79,6 @@ Item {
                 bottomMargin: Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.height : 0
 
                 model: columnModel
-                onCountChanged: if (count > 0) root.ready = true
                 cacheBuffer: height
 
                 Behavior on contentY { UbuntuNumberAnimation { } }
@@ -112,12 +106,5 @@ Item {
                 }
             }
         }
-    }
-
-    MouseArea {
-        id: processingMouseArea
-        objectName: "processingMouseArea"
-        anchors.fill: parent
-        enabled: false
     }
 }
