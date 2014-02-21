@@ -27,7 +27,7 @@ Showable {
     visible: shown
 
     property ListModel searchHistory: SearchHistoryModel {}
-    property bool searchable: !dashContent.previewOnScreen && !scopeItem.previewOnScreen
+    property bool searchable: !dashContent.previewOpen && !scopeItem.previewOpen
 
     property alias contentProgress: dashContent.contentProgress
     property string showScopeOnLoaded: "clickscope"
@@ -88,8 +88,8 @@ Showable {
         clip: scale != 1.0 || scopeItem.visible
         Behavior on x {
             UbuntuNumberAnimation {
-                onStopped: {
-                    if (dashContent.x == 0) {
+                onRunningChanged: {
+                    if (!running && dashContent.x == 0) {
                         dashContent.closeScope(scopeItem.scope);
                         scopeItem.scope = null;
                     }

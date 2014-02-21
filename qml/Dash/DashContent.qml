@@ -26,7 +26,7 @@ Item {
     property var scopes: null
     property real contentProgress: Math.max(0, Math.min(dashContentList.contentX / (dashContentList.contentWidth - dashContentList.width), units.dp(1)))
     property alias currentIndex: dashContentList.currentIndex
-    property alias previewOnScreen: previewListView.onScreen
+    property alias previewOpen: previewListView.open
 
     property ScopeDelegateMapper scopeMapper : ScopeDelegateMapper {}
     property ListModel searchHistory
@@ -93,13 +93,17 @@ Item {
 
     Item {
         id: dashContentListHolder
-        anchors.fill: parent
+
+        x: previewListView.open ? -width : 0
+        Behavior on x { UbuntuNumberAnimation { } }
+        width: parent.width
+        height: parent.height
 
         ListView {
             id: dashContentList
             objectName: "dashContentList"
 
-            interactive: dashContent.scopes.loaded && !previewListView.onScreen && !currentItem.moving
+            interactive: dashContent.scopes.loaded && !previewListView.open && !currentItem.moving
 
             anchors.fill: parent
             model: dashContent.model
@@ -114,6 +118,7 @@ Item {
             cacheBuffer: 1073741823
             onMovementStarted: dashContent.movementStarted()
             onMovementEnded: dashContent.movementEnded()
+            clip: parent.x != 0
 
             // If the number of items is less than the current index, then need to reset to another item.
             onCountChanged: {
@@ -149,7 +154,6 @@ Item {
                         item.isCurrent = Qt.binding(function() { return visible && ListView.isCurrentItem })
                         item.tabBarHeight = dashPageHeader.implicitHeight;
                         item.pageHeader = dashPageHeader;
-                        item.openEffect = openEffect;
                         item.previewListView = previewListView;
                         dashContentList.movementStarted.connect(item.movementStarted)
                         dashContent.positionedAtBeginning.connect(item.positionedAtBeginning)
@@ -219,22 +223,13 @@ Item {
         }
     }
 
-    DashContentOpenEffect {
-        id: openEffect
-        anchors {
-            fill: parent
-            bottomMargin: -bottomOverflow
-        }
-        sourceItem: dashContentListHolder
-        previewListView: previewListView
-    }
-
     PreviewListView {
         id: previewListView
-        openEffect: openEffect
-        categoryView: dashContentList.currentItem ? dashContentList.currentItem.categoryView : null
+        visible: x != width
         scope: dashContentList.currentItem ? dashContentList.currentItem.theScope : null
         pageHeader: dashPageHeader
-        anchors.fill: parent
+        width: parent.width
+        height: parent.height
+        anchors.left: dashContentListHolder.right
     }
 }

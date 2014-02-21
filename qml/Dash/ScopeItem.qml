@@ -23,7 +23,7 @@ Item {
     id: root
 
     property alias scope: scopeView.scope
-    property alias previewOnScreen: previewListView.onScreen
+    property alias previewOpen: previewListView.open
 
     property ListModel searchHistory
 
@@ -33,7 +33,11 @@ Item {
 
     Item {
         id: scopeViewHolder
-        anchors.fill: parent
+
+        x: previewListView.open ? -width : 0
+        Behavior on x { UbuntuNumberAnimation { } }
+        width: parent.width
+        height: parent.height
 
         GenericScopeView {
             id: scopeView
@@ -42,7 +46,6 @@ Item {
             isCurrent: scope != null
             tabBarHeight: scopeItemPageHeader.implicitHeight
             pageHeader: scopeItemPageHeader
-            openEffect: openEffect
             previewListView: previewListView
 
             Connections {
@@ -58,7 +61,7 @@ Item {
             searchEntryEnabled: true
             searchHistory: root.searchHistory
             scope: root.scope
-            height: units.gu(7)
+            height: units.gu(8.5)
             showBackButton: true
             onBackClicked: root.back();
 
@@ -79,22 +82,13 @@ Item {
         }
     }
 
-    DashContentOpenEffect {
-        id: openEffect
-        anchors {
-            fill: parent
-            bottomMargin: -bottomOverflow
-        }
-        sourceItem: scopeViewHolder
-        previewListView: previewListView
-    }
-
     PreviewListView {
         id: previewListView
-        openEffect: openEffect
-        categoryView: scopeView.categoryView
+        visible: x != width
         pageHeader: scopeItemPageHeader
         scope: root.scope
-        anchors.fill: parent
+        width: parent.width
+        height: parent.height
+        anchors.left: scopeViewHolder.right
     }
 }

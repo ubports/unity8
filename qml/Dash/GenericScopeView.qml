@@ -30,7 +30,6 @@ FocusScope {
     property alias moving: categoryView.moving
     property int tabBarHeight: 0
     property PageHeader pageHeader: null
-    property OpenEffect openEffect: null
     property Item previewListView: null
 
     signal endReached
@@ -56,7 +55,7 @@ FocusScope {
     Binding {
         target: scope
         property: "isActive"
-        value: isCurrent && !previewListView.onScreen
+        value: isCurrent && !previewListView.open
     }
 
     Timer {
@@ -116,13 +115,12 @@ FocusScope {
         objectName: "categoryListView"
         anchors.fill: parent
         model: scopeView.categories
-        forceNoClip: previewListView.onScreen
+        forceNoClip: previewListView.open
 
         onAtYEndChanged: if (atYEnd) endReached()
         onMovingChanged: if (moving && atYEnd) endReached()
 
         property string expandedCategoryId: ""
-        signal correctExpandedCategory();
 
         onContentYChanged: pageHeader.positionRealHeader();
         onOriginYChanged: pageHeader.positionRealHeader();
@@ -191,9 +189,6 @@ FocusScope {
                     target: rendererLoader.item
                     onClicked: {
                         // Prepare the preview in case activate() triggers a preview only
-                        openEffect.positionPx = Math.max(mapToItem(categoryView, 0, itemY).y, pageHeader.height + categoryView.stickyHeaderHeight);
-                        previewListView.categoryId = categoryId
-                        previewListView.categoryDelegate = rendererLoader.item
                         previewListView.model = target.model;
                         previewListView.currentIndex = -1
                         previewListView.currentIndex = index;
@@ -207,9 +202,6 @@ FocusScope {
                         }
                     }
                     onPressAndHold: {
-                        openEffect.positionPx = Math.max(mapToItem(categoryView, 0, itemY).y, pageHeader.height + categoryView.stickyHeaderHeight);
-                        previewListView.categoryId = categoryId
-                        previewListView.categoryDelegate = rendererLoader.item
                         previewListView.model = target.model;
                         previewListView.currentIndex = -1
                         previewListView.currentIndex = index;
@@ -219,9 +211,6 @@ FocusScope {
                 Connections {
                     target: categoryView
                     onExpandedCategoryIdChanged: {
-                        collapseAllButExpandedCategory();
-                    }
-                    onCorrectExpandedCategory: {
                         collapseAllButExpandedCategory();
                     }
                     function collapseAllButExpandedCategory() {
@@ -331,19 +320,6 @@ FocusScope {
             case "carousel": return "CardCarousel.qml";
             case "grid":
             default: return "CardFilterGrid.qml";
-        }
-    }
-
-    // TODO: Move as InverseMouseArea to DashPreview
-    MouseArea {
-        objectName: "closePreviewMouseArea"
-        enabled: previewListView.onScreen
-        anchors {
-            fill: parent
-            topMargin: openEffect.bottomGapPx
-        }
-        onClicked: {
-            previewListView.open = false;
         }
     }
 }
