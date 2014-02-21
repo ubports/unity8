@@ -30,7 +30,39 @@ Item {
     property bool showHeader: true
 
     implicitWidth: childrenRect.width
-    implicitHeight: summary.y + summary.height
+    implicitHeight: summary.y + summary.height + (summary.text && background.visible ? units.gu(1) : 0)
+
+    UbuntuShape {
+        id: background
+        objectName: "background"
+        radius: "medium"
+        visible: template["card-layout"] !== "horizontal" && (template["card-background"] || components["background"]
+                                                              || artAndSummary)
+        property bool artAndSummary: components["art"]["field"] && components["summary"] || false
+        color: getColor(0) || "white"
+        gradientColor: getColor(1) || color
+        anchors.fill: parent
+        image: backgroundImage.source ? backgroundImage : null
+
+        property Image backgroundImage: Image {
+            objectName: "backgroundImage"
+            source: {
+                if (cardData && typeof cardData["background"] === "string") return cardData["background"]
+                else if (template && typeof template["card-background"] === "string") return template["card-background"]
+                else return ""
+            }
+        }
+
+        function getColor(index) {
+            if (cardData && typeof cardData["background"] === "object"
+                && (cardData["background"]["type"] === "color" || cardData["background"]["type"] === "gradient")) {
+                return cardData["background"]["elements"][index];
+            } else if (template && typeof template["card-background"] === "object"
+                       && (template["card-background"]["type"] === "color" || template["card-background"]["type"] === "gradient"))  {
+                return template["card-background"]["elements"][index];
+            } else return undefined;
+        }
+    }
 
     UbuntuShape {
         id: artShape
@@ -136,7 +168,13 @@ Item {
     Label {
         id: summary
         objectName: "summaryLabel"
-        anchors { top: header.visible ? header.bottom : artShape.bottom; left: parent.left; right: parent.right }
+        anchors {
+            top: header.visible ? header.bottom : artShape.bottom
+            left: parent.left
+            right: parent.right
+            margins: background.visible ? units.gu(1) : 0
+            topMargin: 0
+        }
         wrapMode: Text.Wrap
         maximumLineCount: 5
         elide: Text.ElideRight
