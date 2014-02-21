@@ -31,6 +31,17 @@ Item {
         anchors.fill: parent
     }
 
+    Component {
+        id: greeterComponent
+        Greeter {
+            SignalSpy {
+                objectName: "selectedSpy"
+                target: parent
+                signalName: "selected"
+            }
+        }
+    }
+
     SignalSpy {
         id: unlockSpy
         target: greeter
@@ -334,6 +345,14 @@ Item {
 
             var userlist = findChild(greeter, "userList")
             compare(greeter.model.data(userlist.currentIndex, LightDM.UserRoles.NameRole), "has-password")
+        }
+
+        function test_initial_selected_signal() {
+            var greeterObj = greeterComponent.createObject(this)
+            var spy = findChild(greeterObj, "selectedSpy")
+            spy.wait()
+            tryCompare(spy, "count", 1)
+            greeterObj.destroy()
         }
     }
 }

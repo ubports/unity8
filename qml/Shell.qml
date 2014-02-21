@@ -463,7 +463,6 @@ FocusScope {
         Component.onCompleted: {
             if (LightDM.Users.count == 1) {
                 LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole))
-                greeter.selected(0)
             }
         }
     }
@@ -504,7 +503,7 @@ FocusScope {
         hides: [launcher, panel.indicators, hud]
         shown: true
 
-        defaultBackground: shell.background
+        defaultBackground: shell.defaultBackground
 
         y: panel.panelHeight
         width: parent.width
@@ -541,7 +540,6 @@ FocusScope {
                 // If there are more users, the Greeter will handle that
                 if (LightDM.Users.count == 1) {
                     LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
-                    greeter.selected(0);
                 }
                 greeter.forceActiveFocus();
                 removeApplicationFocus();
@@ -720,7 +718,7 @@ FocusScope {
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
-            available: (!greeter.shown || greeter.narrowMode) && edgeDemo.launcherEnabled
+            available: !greeter.locked && edgeDemo.launcherEnabled
 
             onShowDashHome: {
                 if (edgeDemo.running)

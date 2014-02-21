@@ -151,43 +151,39 @@ Item {
             }
         }
 
-        delegate: Previews.Preview {
-            id: preview
-            objectName: "preview" + index
+        delegate: Item {
             height: previewListView.height
             width: previewListView.width
 
-            isCurrent: ListView.isCurrentItem
+            Previews.Preview {
+                id: preview
+                objectName: "preview" + index
+                anchors.fill: parent
 
-            onPreviewModelChanged: preview.opacity = 0;
-            onReadyChanged: if (ready) fadeIn.start()
-            previewModel: {
-                // TODO
-                // We need the isCurrent because the scope fails to
-                // deliver the preview if we ask for one after other very quickly
-                // If we remove the isCurrent, we will have to think another way of
-                // doing the fadeIn or just don't do it at all or just decide
-                // this code is good enough and remove the TODO
-                if (isCurrent) {
+                isCurrent: parent.ListView.isCurrentItem
+
+                previewModel: {
                     var previewStack = root.scope.preview(result);
                     return previewStack.get(0);
-                } else {
-                    ready = false;
-                    return null;
                 }
+
+    //            onClose: {
+    //                previewListView.open = false
+    //            }
+
             }
 
-//            onClose: {
-//                previewListView.open = false
-//            }
+            MouseArea {
+                id: processingMouseArea
+                objectName: "processingMouseArea"
+                anchors.fill: parent
+                enabled: !preview.previewModel.loaded || preview.previewModel.processingAction
 
-            PropertyAnimation {
-                id: fadeIn
-                target: preview
-                property: "opacity"
-                from: 0.0
-                to: 1.0
-                duration: UbuntuAnimation.BriskDuration
+                ActivityIndicator {
+                    anchors.centerIn: parent
+                    visible: parent.enabled
+                    running: visible
+                }
             }
         }
     }
