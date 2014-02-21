@@ -88,8 +88,8 @@ Showable {
         clip: scale != 1.0 || scopeItem.visible
         Behavior on x {
             UbuntuNumberAnimation {
-                onStopped: {
-                    if (dashContent.x == 0) {
+                onRunningChanged: {
+                    if (!running && dashContent.x == 0) {
                         dashContent.closeScope(scopeItem.scope);
                         scopeItem.scope = null;
                     }

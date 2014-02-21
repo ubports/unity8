@@ -84,6 +84,7 @@ Item {
 
     PreviewListView {
         id: previewListView
+        visible: x != width
         pageHeader: scopeItemPageHeader
         scope: root.scope
         width: parent.width
