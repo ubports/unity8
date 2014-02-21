@@ -23,7 +23,6 @@ import "Previews" as Previews
 Item {
     id: root
 
-    property OpenEffect openEffect: null
     property Scope scope: null
     property var pageHeader: null
 
@@ -36,19 +35,12 @@ Item {
 
     PageHeader {
         id: header
-        anchors.topMargin: openEffect.topGapPx
         width: parent.width
         searchEntryEnabled: false
         scope: root.scope
         height: units.gu(8.5)
         showBackButton: true
-        onBackClicked: {
-            visibleOnce = false;
-            root.open = false;
-        }
-        visible: previewListView.open && previewListView.currentItem && previewListView.currentItem.ready || visibleOnce
-        onVisibleChanged: visibleOnce = visible
-        property bool visibleOnce: false
+        onBackClicked: root.open = false
 
         childItem: Label {
             id: label
@@ -69,9 +61,9 @@ Item {
     ListView  {
         id: previewListView
         objectName: "previewListView"
-        height: openEffect.bottomGapPx - openEffect.topGapPx
         anchors {
             top: header.bottom
+            bottom: parent.bottom
             left: parent.left
             right: parent.right
         }
