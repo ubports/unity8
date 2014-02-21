@@ -65,7 +65,9 @@ Showable {
 
     function activateApplication(desktopFile, addDelay) {
         var application = applicationManager.getApplicationFromDesktopFile(desktopFile, stage.type);
-        if (application != null && application == stage.focusedApplication) {
+        if (application == null) {
+            return;
+        } else if (application == stage.focusedApplication) {
             stage.show();
             return;
         }
