@@ -145,6 +145,7 @@ FocusScope {
 
             Image { 
                 id: bottomGradient
+                visible: index == list.count - 1
                 anchors {
                     bottom: parent.bottom
                     left: parent.left
