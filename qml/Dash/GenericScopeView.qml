@@ -150,9 +150,12 @@ FocusScope {
                     left: parent.left
                     right: parent.right
                 }
-                fillMode: Image.TileHorizontally
+                sourceSize.width: 1
+                    
+                }
+                fillMode: Image.Stretch
                 verticalAlignment: Image.AlignBottom
-                source: Qt.resolvedUrl("graphics/dash_divider_top_darkgrad.png")
+                source: "graphics/dash_divider_top_darkgrad.png"
                 z: -1
             }
 
@@ -323,9 +326,10 @@ FocusScope {
                     left: parent.left
                     right: parent.right
                 }
-                fillMode: Image.TileHorizontally
+                sourceSize.width: 1
+                fillMode: Image.Strech
                 verticalAlignment: Image.AlignTop
-                source: Qt.resolvedUrl("graphics/dash_divider_top_lightgrad.png")
+                source: "graphics/dash_divider_top_lightgrad.png"
                 z: -1
             }
         }
