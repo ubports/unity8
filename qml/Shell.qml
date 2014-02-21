@@ -83,8 +83,6 @@ FocusScope {
         applicationManager.setSideStageAppRect(sideStageAppRect);
     }
 
-    readonly property bool applicationFocused: !!applicationManager.mainStageFocusedApplication
-                                               || !!applicationManager.sideStageFocusedApplication
     // Used for autopilot testing.
     readonly property string currentFocusedAppId: ApplicationManager.focusedApplicationId
 
@@ -711,7 +709,7 @@ FocusScope {
             theHud: hud
             anchors.fill: parent
             enabled: hud.available
-            applicationIsOnForeground: applicationFocused
+            applicationIsOnForeground: (stages.shown && mainStage.applications.count > 0) || (stages.shown && sideStage.shown)
         }
 
         InputFilterArea {
