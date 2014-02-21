@@ -55,7 +55,7 @@ FocusScope {
     Binding {
         target: scope
         property: "isActive"
-        value: isCurrent && !previewListView.onScreen
+        value: isCurrent && !previewListView.open
     }
 
     Timer {
@@ -115,7 +115,7 @@ FocusScope {
         objectName: "categoryListView"
         anchors.fill: parent
         model: scopeView.categories
-        forceNoClip: previewListView.onScreen
+        forceNoClip: previewListView.open
 
         onAtYEndChanged: if (atYEnd) endReached()
         onMovingChanged: if (moving && atYEnd) endReached()

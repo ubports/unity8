@@ -27,7 +27,6 @@ Item {
     property var pageHeader: null
 
     property alias open: previewListView.open
-    property alias onScreen: previewListView.onScreen
     property alias model: previewListView.model
     property alias currentIndex: previewListView.currentIndex
     property alias currentItem: previewListView.currentItem
@@ -85,11 +84,9 @@ Item {
         property bool init: true
 
         property bool open: false
-        property bool onScreen: false
 
         onOpenChanged: {
             if (open) {
-                onScreen = true;
                 pageHeader.unfocus();
             } else {
                 // Cancel any pending preview requests or actions
@@ -133,7 +130,7 @@ Item {
 
                 ActivityIndicator {
                     anchors.centerIn: parent
-                    visible: root.onScreen && parent.enabled
+                    visible: root.open && parent.enabled
                     running: visible
                 }
             }
