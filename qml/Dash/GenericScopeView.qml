@@ -142,7 +142,7 @@ FocusScope {
             readonly property string category: categoryId
             readonly property var item: rendererLoader.item
 
-            Image { 
+            Image {
                 id: bottomGradient
                 // FIXME Should not rely on count field of model, SortfilterProxyModel in this case.
                 visible: index !== categoryView.model.count - 1
