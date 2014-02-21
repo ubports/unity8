@@ -181,7 +181,7 @@ Item {
 
                 ActivityIndicator {
                     anchors.centerIn: parent
-                    visible: parent.enabled
+                    visible: root.onScreen && parent.enabled
                     running: visible
                 }
             }

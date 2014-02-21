@@ -30,11 +30,8 @@ PreviewWidget {
 
     LazyImage {
         objectName: "image"
-        anchors {
-            top: parent.top
-            bottom: parent.bottom
-        }
-        scaleTo: "height"
+        anchors.fill: parent
+        scaleTo: "fit"
         source: widgetData["source"]
         initialWidth: units.gu(13)
     }

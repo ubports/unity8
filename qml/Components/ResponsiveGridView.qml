@@ -56,7 +56,6 @@ Item {
             fill: parent
             leftMargin: margin/2
             rightMargin: margin/2
-            topMargin: verticalSpacing
         }
         clip: parent.height != totalContentHeight
 

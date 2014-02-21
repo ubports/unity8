@@ -41,6 +41,8 @@ Showable {
             return
         }
 
+        dashContent.closePreview();
+
         if (scopeIndex == dashContent.currentIndex && !reset) {
             // the scope is already the current one
             return
