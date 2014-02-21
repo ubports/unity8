@@ -151,8 +151,6 @@ FocusScope {
                     right: parent.right
                 }
                 sourceSize.width: 1
-                    
-                }
                 fillMode: Image.Stretch
                 verticalAlignment: Image.AlignBottom
                 source: "graphics/dash_divider_top_darkgrad.png"
@@ -327,7 +325,7 @@ FocusScope {
                     right: parent.right
                 }
                 sourceSize.width: 1
-                fillMode: Image.Strech
+                fillMode: Image.Stretch
                 verticalAlignment: Image.AlignTop
                 source: "graphics/dash_divider_top_lightgrad.png"
                 z: -1
