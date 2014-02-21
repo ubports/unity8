@@ -113,6 +113,8 @@ Item {
             height: previewListView.height
             width: previewListView.width
 
+            readonly property bool ready: preview.previewModel.loaded
+
             Previews.Preview {
                 id: preview
                 objectName: "preview" + index
