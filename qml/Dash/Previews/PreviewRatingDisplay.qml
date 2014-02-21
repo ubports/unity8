@@ -50,7 +50,7 @@ PreviewWidget {
             model: root.widgetData["reviews"]
 
             delegate: Column {
-                id: reviewColumn
+                id: reviewItem
                 objectName: "reviewItem" + index
                 anchors { left: parent.left; right: parent.right;}
                 spacing: units.gu(1)
@@ -59,7 +59,8 @@ PreviewWidget {
                     id: rating
                     objectName: "rating"
                     size: 5
-                    value: modelData["rating"]
+                    value: modelData["rating"] || -1
+                    visible: value >= 0
 
                     property var urlIconEmpty: widgetData["rating-icon-empty"]
                     property var urlIconFull: widgetData["rating-icon-full"]
@@ -72,7 +73,8 @@ PreviewWidget {
                     anchors { left: parent.left; right: parent.right }
                     color: Theme.palette.selected.backgroundText
                     opacity: .8
-                    text: modelData["author"]
+                    text: modelData["author"] || ""
+                    visible: text !== ""
                     wrapMode: Text.Wrap
                 }
 
@@ -82,13 +84,16 @@ PreviewWidget {
                     anchors { left: parent.left; right: parent.right }
                     color: Theme.palette.selected.backgroundText
                     opacity: .8
-                    text: modelData["review"]
+                    text: modelData["review"] || ""
+                    visible: text !== ""
                     wrapMode: Text.Wrap
                 }
 
                 Item {
+                    id: spacing
                     anchors { left: parent.left; right: parent.right }
                     height: units.gu(2)
+                    visible: rating.visible || authorLabel.visible || reviewLabel.visible
                 }
             }
         }
