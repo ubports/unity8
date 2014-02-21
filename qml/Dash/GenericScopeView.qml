@@ -142,6 +142,19 @@ FocusScope {
             readonly property string category: categoryId
             readonly property var item: rendererLoader.item
 
+            Image { 
+                id: bottomGradient
+                anchors {
+                    bottom: parent.bottom
+                    left: parent.left
+                    right: parent.right
+                }
+                fillMode: Image.Stretch
+                verticalAlignment: Image.AlignBottom
+                source: "graphics/dash_divider_top_darkgrad.png"
+                z: -1
+            }
+
             Loader {
                 id: rendererLoader
                 anchors {
@@ -286,6 +299,19 @@ FocusScope {
                     categoryView.expandedCategoryId = delegate.category;
                 else
                     categoryView.expandedCategoryId = "";
+            }
+
+            Image {
+                id: topGradient
+                anchors {
+                    top: parent.top
+                    left: parent.left
+                    right: parent.right
+                }
+                fillMode: Image.Stretch
+                verticalAlignment: Image.AlignTop
+                source: "graphics/dash_divider_top_lightgrad.png"
+                z: -1
             }
         }
         pageHeader: Item {
