@@ -144,6 +144,8 @@ FocusScope {
 
             Image { 
                 id: bottomGradient
+                // FIXME Should not rely on count field of model, SortfilterProxyModel in this case.
+                visible: index !== categoryView.model.count - 1
                 anchors {
                     bottom: parent.bottom
                     left: parent.left
