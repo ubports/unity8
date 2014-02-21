@@ -87,6 +87,10 @@ Item {
         dashContentList.currentItem.theScope.closeScope(scope)
     }
 
+    function closePreview() {
+        previewListView.open = false;
+    }
+
     Item {
         id: dashContentListHolder
         anchors.fill: parent
