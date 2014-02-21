@@ -20,7 +20,7 @@
 
 AccountsService::AccountsService(QObject* parent)
   : QObject(parent),
-    m_backgroundFile(TOP_SRCDIR "/graphics/phone_background.jpg"),
+    m_backgroundFile(TOP_SRCDIR "/qml/graphics/phone_background.jpg"),
     m_statsWelcomeScreen(true)
 {
 }

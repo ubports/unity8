@@ -136,6 +136,7 @@ FocusScope {
             id: baseItem
             objectName: "dashCategory" + category
             highlightWhenPressed: false
+            showDivider: false
 
             readonly property bool expandable: rendererLoader.item ? rendererLoader.item.expandable : false
             readonly property bool filtered: rendererLoader.item ? rendererLoader.item.filter : true
