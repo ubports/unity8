@@ -1,3 +1,15 @@
+unity8 (7.84+14.04.20140221-0ubuntu1) trusty; urgency=low
+
+  [ Michał Sawicz ]
+  * Add card background support.
+  * Increase the sidestage threshold.
+
+  [ Jussi Pakkanen ]
+  * Move downloads to their own threads so they don't muck about with
+    the parent thread's event loop. (LP: #1240408)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 21 Feb 2014 09:06:04 +0000
+
 unity8 (7.84+14.04.20140218-0ubuntu1) trusty; urgency=low
 
   [ Michał Sawicz ]
