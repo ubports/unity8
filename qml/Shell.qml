@@ -83,8 +83,6 @@ FocusScope {
         applicationManager.setSideStageAppRect(sideStageAppRect);
     }
 
-    readonly property bool applicationFocused: !!applicationManager.mainStageFocusedApplication
-                                               || !!applicationManager.sideStageFocusedApplication
     // Used for autopilot testing.
     readonly property string currentFocusedAppId: ApplicationManager.focusedApplicationId
 
@@ -149,66 +147,94 @@ FocusScope {
         // Whether the underlay is fully covered by opaque UI elements.
         property bool fullyCovered: panel.indicators.fullyOpened && shell.width <= panel.indicatorsMenuWidth
 
-        readonly property bool applicationRunning: ((mainStage.applications && mainStage.applications.count > 0)
-                                           || (sideStage.applications && sideStage.applications.count > 0))
+        readonly property bool mainStageApplicationRunning: mainStage.applications && mainStage.applications.count > 0
+        readonly property bool sideStageApplicationRunning: sideStage.applications && sideStage.applications.count > 0
 
         // Whether the user should see the topmost application surface (if there's one at all).
-        readonly property bool applicationSurfaceShouldBeSeen: applicationRunning && !stages.fullyHidden
+        readonly property bool mainStageApplicationShown: mainStageApplicationRunning && !stages.fullyHidden
                                            && !mainStage.usingScreenshots // but want sideStage animating over app surface
 
 
 
         // NB! Application surfaces are stacked behing the shell one. So they can only be seen by the user
         // through the translucent parts of the shell surface.
-        visible: !fullyCovered && !applicationSurfaceShouldBeSeen
+        visible: !fullyCovered && !mainStageApplicationShown
 
-        Rectangle {
-            anchors.fill: parent
-            color: "black"
-            opacity: dash.disappearingAnimationProgress
-        }
-
-        Image {
-            anchors.fill: dash
-            source: shell.width > shell.height ? "Dash/graphics/paper_landscape.png" : "Dash/graphics/paper_portrait.png"
-            fillMode: Image.PreserveAspectCrop
-            horizontalAlignment: Image.AlignRight
-            verticalAlignment: Image.AlignTop
-        }
-
-        Dash {
-            id: dash
-            objectName: "dash"
-
-            available: !greeter.shown && !lockscreen.shown
-            hides: [stages, launcher, panel.indicators]
-            shown: disappearingAnimationProgress !== 1.0
-            enabled: disappearingAnimationProgress === 0.0 && edgeDemo.dashEnabled
-            // FIXME: unfocus all applications when going back to the dash
-            onEnabledChanged: {
-                if (enabled) {
-                    shell.applicationManager.unfocusCurrentApplication()
-                }
-            }
-
-            anchors {
-                fill: parent
-                topMargin: panel.panelHeight
-            }
-
-            contentScale: 1.0 - 0.2 * disappearingAnimationProgress
-            opacity: 1.0 - disappearingAnimationProgress
-            property real disappearingAnimationProgress: {
-                if (greeter.shown) {
-                    return greeter.showProgress;
+        Item {
+            id: underlayClipper
+            clip: !parent.mainStageApplicationShown && parent.sideStageApplicationRunning && stagesOuterContainer.showProgress > 0
+            width: {
+                if (clip) {
+                    var w = parent.width - sideStage.width
+                    w += stagesOuterContainer.x + stages.x + (sideStage.x - sideStageRevealer.openedValue)
+                    return Math.min(w, parent.width);
                 } else {
-                    return stagesOuterContainer.showProgress;
+                    return parent.width;
                 }
             }
+            height: parent.height
 
-            // FIXME: only necessary because stagesOuterContainer.showProgress and
-            // greeterRevealer.animatedProgress are not animated
-            Behavior on disappearingAnimationProgress { SmoothedAnimation { velocity: 5 }}
+            Image {
+                anchors.fill: dash
+                source: shell.width > shell.height ? "Dash/graphics/paper_landscape.png" : "Dash/graphics/paper_portrait.png"
+                fillMode: Image.PreserveAspectCrop
+                horizontalAlignment: Image.AlignRight
+                verticalAlignment: Image.AlignTop
+            }
+
+            Dash {
+                id: dash
+                objectName: "dash"
+
+                available: !greeter.shown && !lockscreen.shown
+                hides: [stages, launcher, panel.indicators]
+                shown: disappearingAnimationProgress !== 1.0
+                enabled: disappearingAnimationProgress === 0.0 && edgeDemo.dashEnabled
+                // FIXME: unfocus all applications when going back to the dash
+                onEnabledChanged: {
+                    if (enabled) {
+                        shell.applicationManager.unfocusCurrentApplication()
+                    }
+                }
+
+                width: underlay.width
+                height: underlay.height - y
+                y: panel.panelHeight
+
+                contentScale: 1.0 - 0.2 * disappearingAnimationProgress
+                opacity: 1.0 - disappearingAnimationProgress
+                property real disappearingAnimationProgress: {
+                    if (greeter.shown) {
+                        return greeter.showProgress;
+                    } else {
+                        if (underlayClipper.clip)
+                            return 0;
+                        else
+                            return stagesOuterContainer.showProgress;
+                    }
+                }
+
+                // FIXME: only necessary because stagesOuterContainer.showProgress and
+                // greeterRevealer.animatedProgress are not animated
+                Behavior on disappearingAnimationProgress { SmoothedAnimation { velocity: 5 }}
+            }
+
+            Rectangle {
+                width: underlay.width
+                height: underlay.height
+                color: "black"
+                opacity: 0.5 * ((sideStage.x - sideStageRevealer.closedValue) / (sideStageRevealer.openedValue - sideStageRevealer.closedValue))
+                visible: sideStageHideButton.enabled
+            }
+
+            AbstractButton {
+                id: sideStageHideButton
+                enabled: mainStage.applications.count == 0 && sideStage.shown
+                anchors.fill: parent
+                onClicked: {
+                    sideStage.hide();
+                }
+            }
         }
     }
 
@@ -217,7 +243,7 @@ FocusScope {
 
         width: parent.width
         height: parent.height
-        x: launcher.progress
+        x: mainStage.applications.count > 0 ? launcher.progress : 0
         Behavior on x {SmoothedAnimation{velocity: 600}}
 
         property real showProgress:
@@ -228,6 +254,16 @@ FocusScope {
             objectName: "stages"
 
             x: width
+
+            function doLauncherHide() {
+                if (mainStage.applications.count > 0) {
+                    hide();
+                } else {
+                    if (sideStage.shown) {
+                        sideStage.hide();
+                    }
+                }
+            }
 
             property bool fullyShown: shown && x == 0 && parent.x == 0
             property bool fullyHidden: !shown && x == width
@@ -313,11 +349,6 @@ FocusScope {
                 rightEdgeDraggingAreaWidth: shell.edgeSize
                 normalApplicationY: shell.panelHeight
 
-                onShownChanged: {
-                    if (!shown && mainStage.applications.count == 0) {
-                        stages.hide();
-                    }
-                }
                 // FIXME: when hiding the side stage, refocus the main stage
                 // application so that it goes in front of the side stage
                 // application and hides it
@@ -346,8 +377,16 @@ FocusScope {
                 Connections {
                     target: sideStage.applications
                     onCountChanged: {
-                        if (sideStage.applications.count == 0 && sideStage.shown) { // if all SS app closed, hide side stage
-                            sideStage.hide();
+                        if (sideStage.applications.count == 0) {
+                            if (sideStage.shown) { // if all SS app closed, hide side stage
+                                sideStage.hide();
+                            } else {
+                                // Sidestage is hidden and there is no main app, make sure the
+                                // stages is totally hidden too
+                                if (mainStage.applications.count == 0) {
+                                    stages.hideNow();
+                                }
+                            }
                         }
                     }
                 }
@@ -356,7 +395,7 @@ FocusScope {
             Revealer {
                 id: sideStageRevealer
 
-                enabled: mainStage.applications.count > 0 && sideStage.applications.count > 0
+                enabled: sideStage.applications.count > 0
                          && sideStage.available
                 direction: Qt.RightToLeft
                 openedValue: parent.width - sideStage.width
@@ -561,8 +600,14 @@ FocusScope {
     }
 
     InputFilterArea {
-        anchors.fill: parent
-        blockInput: !applicationFocused || greeter.shown || lockscreen.shown || launcher.shown
+        width: {
+            if (applicationManager.sideStageFocusedApplication && sideStage.shown)
+                return parent.width - sideStage.width;
+            else
+                return parent.width;
+        }
+        height: parent.height
+        blockInput: !applicationManager.mainStageFocusedApplication || greeter.shown || lockscreen.shown || launcher.shown
                     || panel.indicators.shown || hud.shown
     }
 
@@ -664,7 +709,7 @@ FocusScope {
             theHud: hud
             anchors.fill: parent
             enabled: hud.available
-            applicationIsOnForeground: applicationFocused
+            applicationIsOnForeground: (stages.shown && mainStage.applications.count > 0) || (stages.shown && sideStage.shown)
         }
 
         InputFilterArea {
@@ -696,7 +741,7 @@ FocusScope {
             }
             onDash: {
                 if (stages.shown) {
-                    stages.hide();
+                    stages.doLauncherHide();
                     launcher.hide();
                 }
             }
