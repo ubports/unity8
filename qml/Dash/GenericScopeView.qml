@@ -143,7 +143,7 @@ FocusScope {
             readonly property string category: categoryId
             readonly property var item: rendererLoader.item
 
-            Image { 
+            Image {
                 id: bottomGradient
                 visible: index == list.count - 1
                 anchors {
