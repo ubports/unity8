@@ -229,10 +229,10 @@ FocusScope {
             }
 
             AbstractButton {
-                enabled: stagesOuterContainer.showProgress == 1
+                enabled: mainStage.applications.count == 0 && sideStage.shown
                 anchors.fill: parent
                 onClicked: {
-                    stages.hide();
+                    sideStage.hide();
                 }
             }
         }
@@ -243,7 +243,7 @@ FocusScope {
 
         width: parent.width
         height: parent.height
-        x: launcher.progress
+        x: mainStage.applications.count > 0 ? launcher.progress : 0
         Behavior on x {SmoothedAnimation{velocity: 600}}
 
         property real showProgress:
@@ -254,6 +254,16 @@ FocusScope {
             objectName: "stages"
 
             x: width
+
+            function doLauncherHide() {
+                if (mainStage.applications.count > 0) {
+                    hide();
+                } else {
+                    if (sideStage.shown) {
+                        sideStage.hide();
+                    }
+                }
+            }
 
             property bool fullyShown: shown && x == 0 && parent.x == 0
             property bool fullyHidden: !shown && x == width
@@ -339,11 +349,6 @@ FocusScope {
                 rightEdgeDraggingAreaWidth: shell.edgeSize
                 normalApplicationY: shell.panelHeight
 
-                onShownChanged: {
-                    if (!shown && mainStage.applications.count == 0) {
-                        stages.hide();
-                    }
-                }
                 // FIXME: when hiding the side stage, refocus the main stage
                 // application so that it goes in front of the side stage
                 // application and hides it
@@ -372,8 +377,16 @@ FocusScope {
                 Connections {
                     target: sideStage.applications
                     onCountChanged: {
-                        if (sideStage.applications.count == 0 && sideStage.shown) { // if all SS app closed, hide side stage
-                            sideStage.hide();
+                        if (sideStage.applications.count == 0) {
+                            if (sideStage.shown) { // if all SS app closed, hide side stage
+                                sideStage.hide();
+                            } else {
+                                // Sidestage is hidden and there is no main app, make sure the
+                                // stages is totally hidden too
+                                if (mainStage.applications.count == 0) {
+                                    stages.hideNow();
+                                }
+                            }
                         }
                     }
                 }
@@ -588,7 +601,7 @@ FocusScope {
 
     InputFilterArea {
         width: {
-            if (applicationManager.sideStageFocusedApplication)
+            if (applicationManager.sideStageFocusedApplication && sideStage.shown)
                 return parent.width - sideStage.width;
             else
                 return parent.width;
@@ -728,7 +741,7 @@ FocusScope {
             }
             onDash: {
                 if (stages.shown) {
-                    stages.hide();
+                    stages.doLauncherHide();
                     launcher.hide();
                 }
             }

@@ -107,12 +107,20 @@ Item {
             if (!hideAnimation.running) {
                 hideAnimation.restart()
             }
+            if (__skipShowAnimation) {
+                hideAnimation.complete();
+            }
         } else {
             visible = false
             required = false
         }
 
         shown = false
+    }
+
+    function hideNow() {
+        __skipShowAnimation = true;
+        hide();
     }
 
     Connections {
