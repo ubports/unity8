@@ -96,7 +96,6 @@ Item {
                     }
 
                     onTriggered: {
-                        processingMouseArea.enabled = true;
                         previewModel.triggered(widgetId, actionId, data);
                     }
 
