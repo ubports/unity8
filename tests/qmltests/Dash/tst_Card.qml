@@ -167,6 +167,7 @@ Rectangle {
         when: windowShown
 
         property Item header: findChild(card, "cardHeader")
+        property Item title: findChild(header, "titleLabel")
         property Item art: findChild(card, "artShape")
         property Item artImage: findChild(card, "artImage")
         property Item summary: findChild(card, "summaryLabel")
@@ -353,6 +354,19 @@ Rectangle {
             compare(testCase.art.visible, false);
             compare(testCase.art.height, 0);
             compare(testCase.art.width, 0);
+        }
+
+        function test_font_weights_data() {
+            return [
+                { tag: "Title only", index: 8, weight: Font.Normal },
+                { tag: "Title, subtitle", index: 0, weight: Font.DemiBold },
+            ]
+        }
+
+        function test_font_weights(data) {
+            selector.selectedIndex = data.index;
+
+            tryCompare(testCase.title.font, "weight", data.weight);
         }
     }
 }
