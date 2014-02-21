@@ -186,7 +186,7 @@ Item {
             childItem: TabBar {
                 id: tabBar
                 objectName: "tabbar"
-                height: units.gu(7)
+                height: units.gu(6.5)
                 width: parent.width
                 selectionMode: false
                 style: DashContentTabBarStyle {}
