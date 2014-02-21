@@ -24,39 +24,46 @@ Item {
     id: root
 
     property OpenEffect openEffect: null
-    property ScopeListView categoryView: null
     property Scope scope: null
     property var pageHeader: null
 
     property alias open: previewListView.open
     property alias onScreen: previewListView.onScreen
-    property alias categoryId: previewListView.categoryId
-    property alias categoryDelegate: previewListView.categoryDelegate
     property alias model: previewListView.model
     property alias currentIndex: previewListView.currentIndex
     property alias currentItem: previewListView.currentItem
     property alias count: previewListView.count
 
-    Image {
-        objectName: "pointerArrow"
-        anchors {
-            top: previewListView.bottom
-            left: parent.left
-            leftMargin: previewListView.categoryDelegate !== undefined && previewListView.categoryDelegate.currentItem ?
-                            previewListView.categoryDelegate.currentItem.x + previewListView.categoryDelegate.currentItem.width / 2 + (-width + margins) / 2 : 0
-
-            Behavior on leftMargin {
-                SmoothedAnimation {
-                    duration: UbuntuAnimation.FastDuration
-                }
-            }
+    PageHeader {
+        id: header
+        anchors.topMargin: openEffect.topGapPx
+        width: parent.width
+        searchEntryEnabled: false
+        scope: root.scope
+        height: units.gu(8.5)
+        showBackButton: true
+        onBackClicked: {
+            visibleOnce = false;
+            root.open = false;
         }
-        height: units.gu(1)
-        width: units.gu(2)
-        property int margins: previewListView.categoryDelegate ? previewListView.categoryDelegate.margins : 0
-        opacity: previewListView.open ? .5 : 0
+        visible: previewListView.open && previewListView.currentItem && previewListView.currentItem.ready || visibleOnce
+        onVisibleChanged: visibleOnce = visible
+        property bool visibleOnce: false
 
-        source: "graphics/tooltip_arrow.png"
+        childItem: Label {
+            id: label
+            anchors {
+                left: parent.left
+                right: parent.right
+                verticalCenter: parent.verticalCenter
+            }
+            text: scope ? i18n.tr("%1 Preview").arg(scope.name) : ""
+            color: "#888888"
+            font.family: "Ubuntu"
+            font.weight: Font.Light
+            fontSize: "x-large"
+            elide: Text.ElideRight
+        }
     }
 
     ListView  {
@@ -64,8 +71,7 @@ Item {
         objectName: "previewListView"
         height: openEffect.bottomGapPx - openEffect.topGapPx
         anchors {
-            top: parent.top
-            topMargin: openEffect.topGapPx
+            top: header.bottom
             left: parent.left
             right: parent.right
         }
@@ -80,55 +86,11 @@ Item {
 
         // To be set before opening the preview
         property string categoryId: ""
-        property var categoryDelegate
 
         // because the ListView is built asynchronous, setting the
         // currentIndex directly won't work. We need to refresh it
         // when the first preview is ready to be displayed.
         property bool init: true
-
-        onCurrentIndexChanged: positionListView();
-
-        function positionListView() {
-            if (!open || currentIndex < 0) {
-                return;
-            }
-
-            var row = Math.floor(currentIndex / categoryDelegate.columns);
-            if (categoryDelegate.collapsedRowCount <= row) {
-                categoryView.expandedCategoryId = categoryId
-            }
-
-            categoryDelegate.highlightIndex = currentIndex
-
-            // Adjust contentY in case we need to change to it to show the next row
-            if (categoryDelegate.rows > 1) {
-                var itemY = categoryView.contentItem.mapFromItem(categoryDelegate.currentItem).y;
-
-                // Find new contentY and effect.postionPx
-                var newContentY = itemY - openEffect.positionPx - categoryDelegate.verticalSpacing;
-
-                // Make sure the item is not covered by a header. Move the effect split down if necessary
-                var headerHeight = pageHeader.height + categoryView.stickyHeaderHeight;
-                var effectAdjust = Math.max(openEffect.positionPx, headerHeight);
-
-                // Make sure we don't overscroll the listview. If yes, adjust effect position
-                if (newContentY < 0) {
-                    effectAdjust += newContentY;
-                    newContentY = 0;
-                } else if (categoryView.contentHeight < categoryView.height) {
-                    // We can't change contentY if the content is smaller than the view, so adjust effect position
-                    effectAdjust += newContentY;
-                    newContentY = 0;
-                } else if (newContentY > categoryView.contentHeight - categoryView.height) {
-                    effectAdjust += -(categoryView.contentHeight - categoryView.height) + newContentY
-                    newContentY = categoryView.contentHeight - categoryView.height;
-                }
-
-                openEffect.positionPx = effectAdjust;
-                categoryView.contentY = newContentY;
-            }
-        }
 
         property bool open: false
         property bool onScreen: false
@@ -136,9 +98,7 @@ Item {
         onOpenChanged: {
             if (open) {
                 onScreen = true;
-                categoryDelegate.highlightIndex = currentIndex;
                 pageHeader.unfocus();
-                positionListView();
             } else {
                 // Cancel any pending preview requests or actions
                 if (previewListView.currentItem.previewData !== undefined) {
@@ -146,8 +106,6 @@ Item {
                 }
                 scope.cancelActivation();
                 model = undefined;
-                categoryView.correctExpandedCategory();
-                categoryDelegate.highlightIndex = -1;
             }
         }
 

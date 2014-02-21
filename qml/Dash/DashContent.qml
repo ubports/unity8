@@ -228,7 +228,6 @@ Item {
     PreviewListView {
         id: previewListView
         openEffect: openEffect
-        categoryView: dashContentList.currentItem ? dashContentList.currentItem.categoryView : null
         scope: dashContentList.currentItem ? dashContentList.currentItem.theScope : null
         pageHeader: dashPageHeader
         anchors.fill: parent

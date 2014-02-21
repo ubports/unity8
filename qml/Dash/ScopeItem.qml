@@ -92,7 +92,6 @@ Item {
     PreviewListView {
         id: previewListView
         openEffect: openEffect
-        categoryView: scopeView.categoryView
         pageHeader: scopeItemPageHeader
         scope: root.scope
         anchors.fill: parent

@@ -122,7 +122,6 @@ FocusScope {
         onMovingChanged: if (moving && atYEnd) endReached()
 
         property string expandedCategoryId: ""
-        signal correctExpandedCategory();
 
         onContentYChanged: pageHeader.positionRealHeader();
         onOriginYChanged: pageHeader.positionRealHeader();
@@ -191,8 +190,6 @@ FocusScope {
                     onClicked: {
                         // Prepare the preview in case activate() triggers a preview only
                         openEffect.positionPx = Math.max(mapToItem(categoryView, 0, itemY).y, pageHeader.height + categoryView.stickyHeaderHeight);
-                        previewListView.categoryId = categoryId
-                        previewListView.categoryDelegate = rendererLoader.item
                         previewListView.model = target.model;
                         previewListView.currentIndex = -1
                         previewListView.currentIndex = index;
@@ -207,8 +204,6 @@ FocusScope {
                     }
                     onPressAndHold: {
                         openEffect.positionPx = Math.max(mapToItem(categoryView, 0, itemY).y, pageHeader.height + categoryView.stickyHeaderHeight);
-                        previewListView.categoryId = categoryId
-                        previewListView.categoryDelegate = rendererLoader.item
                         previewListView.model = target.model;
                         previewListView.currentIndex = -1
                         previewListView.currentIndex = index;
@@ -218,9 +213,6 @@ FocusScope {
                 Connections {
                     target: categoryView
                     onExpandedCategoryIdChanged: {
-                        collapseAllButExpandedCategory();
-                    }
-                    onCorrectExpandedCategory: {
                         collapseAllButExpandedCategory();
                     }
                     function collapseAllButExpandedCategory() {

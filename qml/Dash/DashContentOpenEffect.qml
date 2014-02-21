@@ -24,7 +24,6 @@ OpenEffect {
     objectName: "openEffect"
     anchors {
         fill: parent
-        bottomMargin: -bottomOverflow
     }
 
     enabled: gap > 0.0
@@ -32,10 +31,9 @@ OpenEffect {
     topGapPx: (1 - gap) * positionPx
     topOpacity: (1 - gap * 1.2)
     bottomGapPx: positionPx + gap * (targetBottomGapPx - positionPx)
-    bottomOverflow: units.gu(20)
     live: !expansionAnimation.running
 
-    property int targetBottomGapPx: height - units.gu(8) - bottomOverflow
+    property int targetBottomGapPx: height
     property real gap: previewListView.open ? 1.0 : 0.0
 
     Behavior on gap {
