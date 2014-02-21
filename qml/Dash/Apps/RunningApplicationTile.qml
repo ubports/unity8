@@ -74,7 +74,7 @@ AbstractButton {
         id: applicationImage
         source: ApplicationManager.findApplication((application) ? application.appId : "")
         height: shapedApplicationImage.height
-        width: height * sourceSize.width / sourceSize.height
+        width: Math.min(height, height * sourceSize.width / sourceSize.height)
     }
 
     UbuntuShape {
