@@ -225,10 +225,12 @@ FocusScope {
                 width: underlay.width
                 height: underlay.height
                 color: "black"
-                opacity: stagesOuterContainer.showProgress * 0.5
+                opacity: 0.5 * ((sideStage.x - sideStageRevealer.closedValue) / (sideStageRevealer.openedValue - sideStageRevealer.closedValue))
+                visible: sideStageHideButton.enabled
             }
 
             AbstractButton {
+                id: sideStageHideButton
                 enabled: mainStage.applications.count == 0 && sideStage.shown
                 anchors.fill: parent
                 onClicked: {
