@@ -63,9 +63,11 @@ AbstractButton {
             horizontalCenter: parent.horizontalCenter
         }
 
+        // FIXME: width and height should be defined according to the
+        // application window's aspect ratio.
+        width: (application.stage === ApplicationInfo.MainStage && __sideStageEnabled) ?
+            units.gu(22) : units.gu(11)
         height: (__sideStageEnabled) ? units.gu(22) : units.gu(19)
-        width: applicationImage.width
-
         radius: "medium"
         image: applicationImage
     }
@@ -73,8 +75,8 @@ AbstractButton {
     ApplicationImage {
         id: applicationImage
         source: ApplicationManager.findApplication((application) ? application.appId : "")
+        width: shapedApplicationImage.width
         height: shapedApplicationImage.height
-        width: Math.min(height, height * sourceSize.width / sourceSize.height)
     }
 
     UbuntuShape {
