@@ -82,7 +82,10 @@ def get_binary_path(binary="unity8"):
     )
     if not os.path.exists(binary_path):
         try:
-            binary_path = subprocess.check_output(['which', binary]).strip()
+            binary_path = subprocess.check_output(
+                ['which', binary],
+                universal_newlines=True,
+            ).strip()
         except subprocess.CalledProcessError as e:
             raise RuntimeError("Unable to locate %s binary: %r" % (binary, e))
     return binary_path

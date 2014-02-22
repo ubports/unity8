@@ -33,8 +33,13 @@ import os
 import logging
 import signal
 import subprocess
+import sys
 
 logger = logging.getLogger(__name__)
+
+# backwards compatible alias for Python 3
+if sys.version > '3':
+    xrange = range
 
 
 class NotificationsBase(UnityTestCase):
@@ -261,6 +266,7 @@ class InteractiveNotificationBase(NotificationsBase):
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             close_fds=True,
+            universal_newlines=True,
         )
 
         self.addCleanup(self._tidy_up_script_process)
