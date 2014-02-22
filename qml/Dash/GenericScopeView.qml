@@ -142,21 +142,6 @@ FocusScope {
             readonly property string category: categoryId
             readonly property var item: rendererLoader.item
 
-            Image {
-                id: bottomGradient
-                // FIXME Should not rely on count field of model, SortfilterProxyModel in this case.
-                visible: index !== categoryView.model.count - 1
-                anchors {
-                    bottom: parent.bottom
-                    left: parent.left
-                    right: parent.right
-                }
-                fillMode: Image.Stretch
-                verticalAlignment: Image.AlignBottom
-                source: "graphics/dash_divider_top_darkgrad.png"
-                z: -1
-            }
-
             Loader {
                 id: rendererLoader
                 anchors {
@@ -168,6 +153,9 @@ FocusScope {
                 source: getRenderer(model.renderer, results)
 
                 onLoaded: {
+                    item.firstItem = Qt.binding(function() { return index === 0 });
+                    // FIXME Should not rely on count field of model, SortfilterProxyModel in this case.
+                    item.lastItem = Qt.binding(function() { return index === categoryView.model.count - 1 });
                     if (item.enableHeightBehavior !== undefined && item.enableHeightBehaviorOnNextCreation !== undefined) {
                         item.enableHeightBehavior = scopeView.enableHeightBehaviorOnNextCreation;
                         scopeView.enableHeightBehaviorOnNextCreation = false;
@@ -301,19 +289,6 @@ FocusScope {
                     categoryView.expandedCategoryId = delegate.category;
                 else
                     categoryView.expandedCategoryId = "";
-            }
-
-            Image {
-                id: topGradient
-                anchors {
-                    top: parent.top
-                    left: parent.left
-                    right: parent.right
-                }
-                fillMode: Image.Stretch
-                verticalAlignment: Image.AlignTop
-                source: "graphics/dash_divider_top_lightgrad.png"
-                z: -1
             }
         }
         pageHeader: Item {
