@@ -75,10 +75,6 @@ Item {
     /// Whether this is the last item in the list
     property bool lastItem: false
 
-    Component.onCompleted: console.log(firstItem, lastItem)
-    onFirstItemChanged: console.log(firstItem, lastItem)
-    onLastItemChanged: console.log(firstItem, lastItem)
-
     Image {
         visible: !firstItem
         anchors {
