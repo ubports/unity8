@@ -845,7 +845,7 @@ FocusScope {
         launcher: launcher
         dash: dash
         indicators: panel.indicators
-        underlay: underlay
+        underlay: underlayClipper
     }
 
     Connections {
