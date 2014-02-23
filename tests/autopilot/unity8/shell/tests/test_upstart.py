@@ -41,7 +41,7 @@ logger = logging.getLogger(__name__)
 import sys
 if sys.version_info < (3,):
     range = xrange
- 
+
 class UpstartIntegrationTests(UnityTestCase):
 
     scenarios = _get_device_emulation_scenarios()
