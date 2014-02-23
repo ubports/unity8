@@ -37,9 +37,10 @@ import sys
 
 logger = logging.getLogger(__name__)
 
-# backwards compatible alias for Python 3
-if sys.version > '3':
-    xrange = range
+# from __future__ import range
+# (python3's range, is same as python2's xrange)
+if sys.version_info < (3,):
+    range = xrange
 
 
 class NotificationsBase(UnityTestCase):
@@ -304,7 +305,7 @@ class InteractiveNotificationBase(NotificationsBase):
         if self._notify_proc is None:
             raise AssertionError("No interactive notification was created.")
 
-        for i in xrange(timeout):
+        for i in range(timeout):
             self._notify_proc.poll()
             if self._notify_proc.returncode is not None:
                 output = self._notify_proc.communicate()
