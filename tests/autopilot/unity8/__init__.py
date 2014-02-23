@@ -131,7 +131,7 @@ def _get_xdg_upstart_env():
             "get-env",
             "--global",
             "XDG_DATA_DIRS"
-        ]).rstrip()
+        ], universal_newlines=True).rstrip()
     except subprocess.CalledProcessError:
         return None
 
