@@ -72,26 +72,26 @@ Rectangle {
             var oldScale = image.scale;
             var event1 = touchEvent();
             var event2 = touchEvent();
-            var x1Start = zoomableImage.width*2/6;
-            var y1Start = zoomableImage.height*2/6;
-            var x1End = zoomableImage.width*1/6;
-            var y1End = zoomableImage.height*1/6;
-            var x2Start = zoomableImage.width*4/6;
-            var y2Start = zoomableImage.height*4/6;
-            var x2End = zoomableImage.width*5/6;
-            var y2End = zoomableImage.height*5/6;
+            var x1Start = zoomableImage.width * 2 / 6;
+            var y1Start = zoomableImage.height * 2 / 6;
+            var x1End = zoomableImage.width * 1 / 6;
+            var y1End = zoomableImage.height * 1 / 6;
+            var x2Start = zoomableImage.width * 4 / 6;
+            var y2Start = zoomableImage.height * 4 / 6;
+            var x2End = zoomableImage.width * 5 / 6;
+            var y2End = zoomableImage.height * 5 / 6;
 
-            mouseMove(zoomableImage, zoomableImage.width/2, zoomableImage.height/2);
-            mouseWheel(zoomableImage, zoomableImage.width/2, zoomableImage.height/2, 0, 10);
+            mouseMove(zoomableImage, zoomableImage.width / 2, zoomableImage.height / 2);
+            mouseWheel(zoomableImage, zoomableImage.width / 2, zoomableImage.height / 2, 0, 10);
 
             event1.press(0, x1Start, y1Start);
             event1.commit();
             event1.press(1, x2Start, y2Start);
             event1.commit();
 
-            for (var i=0.0; i<1.0; i+=0.02) {
-                event1.move(0, x1Start+(x1End-x1Start)*i, y1Start+(y1End-y1Start)*i);
-                event1.move(1, x2Start+(x2End-x2Start)*i, y2Start+(y2End-y2Start)*i);
+            for (var i = 0.0; i < 1.0; i += 0.02) {
+                event1.move(0, x1Start + (x1End - x1Start) * i, y1Start + (y1End - y1Start) * i);
+                event1.move(1, x2Start + (x2End - x2Start) * i, y2Start + (y2End - y2Start) * i);
                 event1.commit();
                 wait(30);
             }
