@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2012-2013 Canonical
+# Copyright (C) 2012, 2013, 2014 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -60,8 +60,7 @@ class NotificationsBase(UnityTestCase):
             return os.path.dirname(__file__) + "/../../../../../qml/graphics/" + icon_name
 
     def _get_notifications_list(self):
-        main_view = self.main_window.get_qml_view()
-        return main_view.select_single(
+        return self.main_window.select_single(
             "Notifications",
             objectName='notificationList'
         )

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,17 +12,27 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Author: Pete Woods <pete.woods@canonical.com>
  */
 
-#include "../InfographicModelPrivate.h"
+import QtQuick 2.0
+import "../"
 
-namespace QLightDM
-{
+/*! This preview widget shows a header that is the same as the card header
+ *  The title comes in widgetData["title"]
+ *  The mascot comes in widgetData["mascot"]
+ *  The subtitle comes in widgetData["subtitle"]
+ */
 
-void InfographicModelPrivate::generateFakeData()
-{
-}
+PreviewWidget {
+    id: root
 
+    height: childrenRect.height
+
+    CardHeader {
+        objectName: "cardHeader"
+        mascot: root.widgetData["mascot"] || ""
+        title: root.widgetData["title"] || ""
+        subtitle: root.widgetData["subtitle"] || ""
+        width: parent.width
+    }
 }

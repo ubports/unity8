@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-11-29 09:21+0100\n"
+"POT-Creation-Date: 2014-02-13 18:37+0000\n"
 "PO-Revision-Date: 2014-01-17 09:05+0000\n"
 "Last-Translator: abuyop <Unknown>\n"
 "Language-Team: Malay <ms@li.org>\n"
@@ -15,135 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-01-18 07:11+0000\n"
-"X-Generator: Launchpad (build 16901)\n"
-
-#: Components/EdgeDemoOverlay.qml:151
-msgid "Skip intro"
-msgstr "Langkau pengenalan"
-
-#: Components/EdgeDemo.qml:112
-msgid "Right edge"
-msgstr "Pinggir kanan"
-
-#: Components/EdgeDemo.qml:113
-msgid "Try swiping from the right edge to unlock the phone"
-msgstr "Cuba meleret dari pinggir kanan untuk buka aktifkan telefon"
-
-#: Components/EdgeDemo.qml:144
-msgid "Top edge"
-msgstr "Pinggir atas"
-
-#: Components/EdgeDemo.qml:145
-msgid "Try swiping from the top edge to access the indicators"
-msgstr "Cuba meleret dari pinggir atas untuk buka aktifkan telefon"
-
-#: Components/EdgeDemo.qml:170
-msgid "Close"
-msgstr "Tutup"
-
-#: Components/EdgeDemo.qml:171
-msgid "Swipe up again to close the settings screen"
-msgstr "Leret ke atas sekali lagi untuk menutup skrin tetapan"
-
-#: Components/EdgeDemo.qml:198
-msgid "Left edge"
-msgstr "Pinggir kiri"
-
-#: Components/EdgeDemo.qml:199
-msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr "Leret dari kiri untuk munculkan pelancar untuk capaian pantas ke apl"
-
-#: Components/EdgeDemo.qml:226
-msgid "Well done"
-msgstr "Bagus"
-
-#: Components/EdgeDemo.qml:227
-msgid ""
-"You have now mastered the edge gestures and can start using the "
-"phone<br><br>Tap anywhere to start"
-msgstr ""
-"Anda kini sudah mahir gerak isyarat pinggir dan boleh mulakan "
-"telefon<br><br>Ketik dimana shaja untuk mula"
-
-#: Components/PageHeader.qml:364
-msgid "Recent searches"
-msgstr "Gelintar baru-baru ini"
-
-#: Dash/Apps/AppPreview.qml:135
-msgid "Rate this"
-msgstr "Kadar ini"
-
-#. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: Dash/Previews/Header.qml:93
-#, qt-format
-msgid "(%1)"
-msgstr "(%1)"
-
-#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: Dash/Previews/Header.qml:105
-#, qt-format
-msgid "%1 review"
-msgid_plural "%1 reviews"
-msgstr[0] "%1 ulasan"
-msgstr[1] "%1 ulasan"
-
-#: Dash/Previews/Reviews.qml:74
-msgid "Add a review"
-msgstr "Tambah ulasan"
-
-#: Dash/Previews/Reviews.qml:86
-msgid "Review"
-msgstr "Tinjauan"
-
-#: Dash/Previews/Reviews.qml:121
-msgid "Send"
-msgstr "Hantar"
-
-#: Dash/Previews/Reviews.qml:139
-msgid "Comments:"
-msgstr "Ulasan:"
-
-#: Greeter/Lockscreen.qml:149
-msgid "Emergency Call"
-msgstr "panggilan Kecemasan"
-
-#: Greeter/PassphraseLockscreen.qml:59
-#, qt-format
-msgid "Hello %1"
-msgstr "Hai %1"
-
-#: Greeter/PassphraseLockscreen.qml:59
-msgid "Hello"
-msgstr "Hello"
-
-#: Hud/HudParametrizedActionsPage.qml:132
-msgid "Confirm"
-msgstr "Sahkan"
-
-#: Hud/Hud.qml:61 Hud/Hud.qml:99 Hud/Hud.qml:372
-msgid "Type or say a command"
-msgstr "Taip atau sebut satu perintah"
-
-#: Hud/Hud.qml:84
-msgid "Loading. Please Wait..."
-msgstr "Memuatkan. Tunggu Sebentar..."
-
-#: Hud/Hud.qml:89
-msgid "Speak Now..."
-msgstr "Cakap Sekarang..."
-
-#: Hud/Hud.qml:94
-msgid "Speaking..."
-msgstr "Bercakap..."
-
-#: Notifications/NotificationMenuItemFactory.qml:89
-msgid "Show password"
-msgstr "Tunjuk kata laluan"
-
-#: Panel/SearchIndicator.qml:27
-msgid "Search"
-msgstr "Gelintar"
+"X-Launchpad-Export-Date: 2014-02-19 05:44+0000\n"
+"X-Generator: Launchpad (build 16916)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -154,7 +27,152 @@ msgstr "Kunci ke Pelancar"
 msgid "Unlock from Launcher"
 msgstr "Tanggalkan dari Pelancar"
 
-#: Shell.qml:439
+#: qml/Components/EdgeDemoOverlay.qml:151
+msgid "Skip intro"
+msgstr "Langkau pengenalan"
+
+#: qml/Components/EdgeDemo.qml:113
+msgid "Right edge"
+msgstr "Pinggir kanan"
+
+#: qml/Components/EdgeDemo.qml:114
+msgid "Try swiping from the right edge to unlock the phone"
+msgstr "Cuba meleret dari pinggir kanan untuk buka aktifkan telefon"
+
+#: qml/Components/EdgeDemo.qml:145
+msgid "Top edge"
+msgstr "Pinggir atas"
+
+#: qml/Components/EdgeDemo.qml:146
+msgid "Try swiping from the top edge to access the indicators"
+msgstr "Cuba meleret dari pinggir atas untuk buka aktifkan telefon"
+
+#: qml/Components/EdgeDemo.qml:171
+msgid "Close"
+msgstr "Tutup"
+
+#: qml/Components/EdgeDemo.qml:172
+msgid "Swipe up again to close the settings screen"
+msgstr "Leret ke atas sekali lagi untuk menutup skrin tetapan"
+
+#: qml/Components/EdgeDemo.qml:199
+msgid "Left edge"
+msgstr "Pinggir kiri"
+
+#: qml/Components/EdgeDemo.qml:200
+msgid "Swipe from the left to reveal the launcher for quick access to apps"
+msgstr "Leret dari kiri untuk munculkan pelancar untuk capaian pantas ke apl"
+
+#: qml/Components/EdgeDemo.qml:227
+msgid "Well done"
+msgstr "Bagus"
+
+#: qml/Components/EdgeDemo.qml:228
+msgid ""
+"You have now mastered the edge gestures and can start using the "
+"phone<br><br>Tap on the screen to start"
+msgstr ""
+
+#: qml/Components/PageHeader.qml:340
+msgid "Recent searches"
+msgstr "Gelintar baru-baru ini"
+
+#: qml/Components/SeeMore.qml:35
+msgid "See more"
+msgstr ""
+
+#: qml/Components/SeeMore.qml:57
+msgid "See less"
+msgstr ""
+
+#: qml/Dash/Apps/AppPreview.qml:136 qml/Dash/Previews/PreviewRating.qml:70
+msgid "Rate this"
+msgstr "Kadar ini"
+
+#. TRANSLATORS: Number of persons who rated this app/video/whatever
+#: qml/Dash/Previews/Header.qml:93
+#, qt-format
+msgid "(%1)"
+msgstr "(%1)"
+
+#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
+#: qml/Dash/Previews/Header.qml:105
+#, qt-format
+msgid "%1 review"
+msgid_plural "%1 reviews"
+msgstr[0] "%1 ulasan"
+msgstr[1] "%1 ulasan"
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "More..."
+msgstr ""
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "Less..."
+msgstr ""
+
+#: qml/Dash/Previews/PreviewRating.qml:114 qml/Dash/Previews/Reviews.qml:74
+msgid "Add a review"
+msgstr "Tambah ulasan"
+
+#: qml/Dash/Previews/PreviewRating.qml:153 qml/Dash/Previews/Reviews.qml:121
+msgid "Send"
+msgstr "Hantar"
+
+#: qml/Dash/Previews/Reviews.qml:86
+msgid "Review"
+msgstr "Tinjauan"
+
+#: qml/Dash/Previews/Reviews.qml:139
+msgid "Comments:"
+msgstr "Ulasan:"
+
+#: qml/Greeter/Lockscreen.qml:149
+msgid "Emergency Call"
+msgstr "panggilan Kecemasan"
+
+#: qml/Greeter/PassphraseLockscreen.qml:59
+#, qt-format
+msgid "Hello %1"
+msgstr "Hai %1"
+
+#: qml/Greeter/PassphraseLockscreen.qml:59
+msgid "Hello"
+msgstr "Hello"
+
+#: qml/Hud/HudParametrizedActionsPage.qml:132
+msgid "Confirm"
+msgstr "Sahkan"
+
+#: qml/Hud/Hud.qml:61 qml/Hud/Hud.qml:99 qml/Hud/Hud.qml:372
+msgid "Type or say a command"
+msgstr "Taip atau sebut satu perintah"
+
+#: qml/Hud/Hud.qml:84
+msgid "Loading. Please Wait..."
+msgstr "Memuatkan. Tunggu Sebentar..."
+
+#: qml/Hud/Hud.qml:89
+msgid "Speak Now..."
+msgstr "Cakap Sekarang..."
+
+#: qml/Hud/Hud.qml:94
+msgid "Speaking..."
+msgstr "Bercakap..."
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:91
+msgid "Show password"
+msgstr "Tunjuk kata laluan"
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:103
+msgid "Please enter SIM PIN"
+msgstr ""
+
+#: qml/Panel/SearchIndicator.qml:27
+msgid "Search"
+msgstr "Gelintar"
+
+#: qml/Shell.qml:440
 #, qt-format
 msgid "Please enter %1"
 msgstr "Sila masukkan %1"

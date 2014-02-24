@@ -7,146 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-11-29 09:21+0100\n"
-"PO-Revision-Date: 2014-01-15 18:49+0000\n"
-"Last-Translator: Paco Molinero <paco@byasl.com>\n"
+"POT-Creation-Date: 2014-02-13 18:37+0000\n"
+"PO-Revision-Date: 2014-02-20 05:43+0000\n"
+"Last-Translator: Adolfo Jayme <fitoschido@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-01-16 06:09+0000\n"
-"X-Generator: Launchpad (build 16901)\n"
-
-#: Components/EdgeDemoOverlay.qml:151
-msgid "Skip intro"
-msgstr "Omitir la introducción"
-
-#: Components/EdgeDemo.qml:112
-msgid "Right edge"
-msgstr "Borde derecho"
-
-#: Components/EdgeDemo.qml:113
-msgid "Try swiping from the right edge to unlock the phone"
-msgstr "Deslice el dedo desde el borde derecho para desbloquear el teléfono"
-
-#: Components/EdgeDemo.qml:144
-msgid "Top edge"
-msgstr "Borde superior"
-
-#: Components/EdgeDemo.qml:145
-msgid "Try swiping from the top edge to access the indicators"
-msgstr ""
-"Deslice el dedo desde el borde superior para acceder a los indicadores"
-
-#: Components/EdgeDemo.qml:170
-msgid "Close"
-msgstr "Cerrar"
-
-#: Components/EdgeDemo.qml:171
-msgid "Swipe up again to close the settings screen"
-msgstr "Deslice hacia arriba para cerrar la pantalla de configuración"
-
-#: Components/EdgeDemo.qml:198
-msgid "Left edge"
-msgstr "Borde izquierdo"
-
-#: Components/EdgeDemo.qml:199
-msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr ""
-"Deslice el dedo desde la izquierda para mostrar el lanzador y acceder "
-"rápidamente a las aplicaciones"
-
-#: Components/EdgeDemo.qml:226
-msgid "Well done"
-msgstr "Bien hecho"
-
-#: Components/EdgeDemo.qml:227
-msgid ""
-"You have now mastered the edge gestures and can start using the "
-"phone<br><br>Tap anywhere to start"
-msgstr ""
-"Ahora domina los gestos de bordes y puede usar el teléfono<br><br>Toque la "
-"pantalla para comenzar"
-
-#: Components/PageHeader.qml:364
-msgid "Recent searches"
-msgstr "Búsquedas recientes"
-
-#: Dash/Apps/AppPreview.qml:135
-msgid "Rate this"
-msgstr "Valorar esto"
-
-#. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: Dash/Previews/Header.qml:93
-#, qt-format
-msgid "(%1)"
-msgstr "(%1)"
-
-#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: Dash/Previews/Header.qml:105
-#, qt-format
-msgid "%1 review"
-msgid_plural "%1 reviews"
-msgstr[0] "%1 reseña"
-msgstr[1] "%1 reseñas"
-
-#: Dash/Previews/Reviews.qml:74
-msgid "Add a review"
-msgstr "Añadir una reseña"
-
-#: Dash/Previews/Reviews.qml:86
-msgid "Review"
-msgstr "Reseñar"
-
-#: Dash/Previews/Reviews.qml:121
-msgid "Send"
-msgstr "Enviar"
-
-#: Dash/Previews/Reviews.qml:139
-msgid "Comments:"
-msgstr "Comentarios:"
-
-#: Greeter/Lockscreen.qml:149
-msgid "Emergency Call"
-msgstr "Llamada de emergencia"
-
-#: Greeter/PassphraseLockscreen.qml:59
-#, qt-format
-msgid "Hello %1"
-msgstr "Hola, %1"
-
-#: Greeter/PassphraseLockscreen.qml:59
-msgid "Hello"
-msgstr "Hola"
-
-#: Hud/HudParametrizedActionsPage.qml:132
-msgid "Confirm"
-msgstr "Confirmar"
-
-#: Hud/Hud.qml:61 Hud/Hud.qml:99 Hud/Hud.qml:372
-msgid "Type or say a command"
-msgstr "Escriba o diga una orden"
-
-#: Hud/Hud.qml:84
-msgid "Loading. Please Wait..."
-msgstr "Cargando, espere…"
-
-#: Hud/Hud.qml:89
-msgid "Speak Now..."
-msgstr "Hable ahora…"
-
-#: Hud/Hud.qml:94
-msgid "Speaking..."
-msgstr "Hablando…"
-
-#: Notifications/NotificationMenuItemFactory.qml:89
-msgid "Show password"
-msgstr "Mostrar contraseña"
-
-#: Panel/SearchIndicator.qml:27
-msgid "Search"
-msgstr "Buscar"
+"X-Launchpad-Export-Date: 2014-02-21 06:42+0000\n"
+"X-Generator: Launchpad (build 16916)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -157,7 +27,157 @@ msgstr "Mantener en el lanzador"
 msgid "Unlock from Launcher"
 msgstr "No mantener en el lanzador"
 
-#: Shell.qml:439
+#: qml/Components/EdgeDemoOverlay.qml:151
+msgid "Skip intro"
+msgstr "Omitir la introducción"
+
+#: qml/Components/EdgeDemo.qml:113
+msgid "Right edge"
+msgstr "Borde derecho"
+
+#: qml/Components/EdgeDemo.qml:114
+msgid "Try swiping from the right edge to unlock the phone"
+msgstr "Deslice el dedo desde el borde derecho para desbloquear el teléfono"
+
+#: qml/Components/EdgeDemo.qml:145
+msgid "Top edge"
+msgstr "Borde superior"
+
+#: qml/Components/EdgeDemo.qml:146
+msgid "Try swiping from the top edge to access the indicators"
+msgstr ""
+"Deslice el dedo desde el borde superior para acceder a los indicadores"
+
+#: qml/Components/EdgeDemo.qml:171
+msgid "Close"
+msgstr "Cerrar"
+
+#: qml/Components/EdgeDemo.qml:172
+msgid "Swipe up again to close the settings screen"
+msgstr "Deslice hacia arriba para cerrar la pantalla de configuración"
+
+#: qml/Components/EdgeDemo.qml:199
+msgid "Left edge"
+msgstr "Borde izquierdo"
+
+#: qml/Components/EdgeDemo.qml:200
+msgid "Swipe from the left to reveal the launcher for quick access to apps"
+msgstr ""
+"Deslice el dedo desde la izquierda para mostrar el lanzador y acceder "
+"rápidamente a las aplicaciones"
+
+#: qml/Components/EdgeDemo.qml:227
+msgid "Well done"
+msgstr "Bien hecho"
+
+#: qml/Components/EdgeDemo.qml:228
+msgid ""
+"You have now mastered the edge gestures and can start using the "
+"phone<br><br>Tap on the screen to start"
+msgstr ""
+"Ahora domina los gestos de los bordes y puede usar el teléfono<br><br>Toque "
+"la pantalla para comenzar"
+
+#: qml/Components/PageHeader.qml:340
+msgid "Recent searches"
+msgstr "Búsquedas recientes"
+
+#: qml/Components/SeeMore.qml:35
+msgid "See more"
+msgstr "Ver más"
+
+#: qml/Components/SeeMore.qml:57
+msgid "See less"
+msgstr "Ver menos"
+
+#: qml/Dash/Apps/AppPreview.qml:136 qml/Dash/Previews/PreviewRating.qml:70
+msgid "Rate this"
+msgstr "Valorar esto"
+
+#. TRANSLATORS: Number of persons who rated this app/video/whatever
+#: qml/Dash/Previews/Header.qml:93
+#, qt-format
+msgid "(%1)"
+msgstr "(%1)"
+
+#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
+#: qml/Dash/Previews/Header.qml:105
+#, qt-format
+msgid "%1 review"
+msgid_plural "%1 reviews"
+msgstr[0] "%1 reseña"
+msgstr[1] "%1 reseñas"
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "More..."
+msgstr "Más…"
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "Less..."
+msgstr "Menos…"
+
+#: qml/Dash/Previews/PreviewRating.qml:114 qml/Dash/Previews/Reviews.qml:74
+msgid "Add a review"
+msgstr "Añadir una reseña"
+
+#: qml/Dash/Previews/PreviewRating.qml:153 qml/Dash/Previews/Reviews.qml:121
+msgid "Send"
+msgstr "Enviar"
+
+#: qml/Dash/Previews/Reviews.qml:86
+msgid "Review"
+msgstr "Reseñar"
+
+#: qml/Dash/Previews/Reviews.qml:139
+msgid "Comments:"
+msgstr "Comentarios:"
+
+#: qml/Greeter/Lockscreen.qml:149
+msgid "Emergency Call"
+msgstr "Llamada de emergencia"
+
+#: qml/Greeter/PassphraseLockscreen.qml:59
+#, qt-format
+msgid "Hello %1"
+msgstr "Hola, %1"
+
+#: qml/Greeter/PassphraseLockscreen.qml:59
+msgid "Hello"
+msgstr "Hola"
+
+#: qml/Hud/HudParametrizedActionsPage.qml:132
+msgid "Confirm"
+msgstr "Confirmar"
+
+#: qml/Hud/Hud.qml:61 qml/Hud/Hud.qml:99 qml/Hud/Hud.qml:372
+msgid "Type or say a command"
+msgstr "Escriba o diga una orden"
+
+#: qml/Hud/Hud.qml:84
+msgid "Loading. Please Wait..."
+msgstr "Cargando, espere…"
+
+#: qml/Hud/Hud.qml:89
+msgid "Speak Now..."
+msgstr "Hable ahora…"
+
+#: qml/Hud/Hud.qml:94
+msgid "Speaking..."
+msgstr "Hablando…"
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:91
+msgid "Show password"
+msgstr "Mostrar contraseña"
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:103
+msgid "Please enter SIM PIN"
+msgstr "Escriba el PIN de la SIM"
+
+#: qml/Panel/SearchIndicator.qml:27
+msgid "Search"
+msgstr "Buscar"
+
+#: qml/Shell.qml:440
 #, qt-format
 msgid "Please enter %1"
 msgstr "Introduzca %1"

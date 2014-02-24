@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Utilities
-# Copyright (C) 2013 Canonical
+# Copyright (C) 2013, 2014 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,15 +23,14 @@ from autopilot.introspection import (
 )
 import logging
 import subprocess
-from unity8.shell.emulators import UnityEmulatorBase
-from unity8.shell.emulators.main_window import MainWindow
+from unity8.shell import emulators
+from unity8.shell.emulators import main_window as main_window_emulator
 
 logger = logging.getLogger(__name__)
 
 
 class CannotAccessUnity(Exception):
     pass
-
 
 def restart_unity_with_testability(*args):
     """Restarts (or starts) unity with testability enabled.
@@ -55,7 +54,8 @@ def restart_unity(*args):
     status = _get_unity_status()
     if "start/" in status:
         try:
-            output = subprocess.check_output(['/sbin/initctl', 'stop', 'unity8'])
+            output = subprocess.check_output(
+                ['/sbin/initctl', 'stop', 'unity8'])
             logger.info(output)
         except subprocess.CalledProcessError as e:
             e.args += (
@@ -100,5 +100,5 @@ def _get_unity_pid():
 def _get_unity_proxy_object(pid):
     return get_proxy_object_for_existing_process(
         pid=pid,
-        emulator_base=UnityEmulatorBase,
+        emulator_base=emulators.UnityEmulatorBase,
     )

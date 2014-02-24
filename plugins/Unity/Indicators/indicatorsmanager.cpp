@@ -28,7 +28,6 @@
 
 const QString default_profile = "phone";
 
-
 class IndicatorsManager::IndicatorData
 {
 public:
@@ -49,6 +48,7 @@ public:
 IndicatorsManager::IndicatorsManager(QObject* parent)
     : QObject(parent)
     , m_loaded(false)
+    , m_profile("phone")
 {
 }
 
@@ -58,9 +58,11 @@ IndicatorsManager::~IndicatorsManager()
 
 }
 
-void IndicatorsManager::load()
+void IndicatorsManager::load(const QString& profile)
 {
     unload();
+    m_profile = profile;
+
     QStringList xdgLocations = shellDataDirs();//QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
 
     m_fsWatcher.reset(new QFileSystemWatcher(this));
@@ -304,7 +306,7 @@ Indicator::Ptr IndicatorsManager::indicator(const QString& indicator_name)
     Indicator::Ptr new_indicator(new Indicator(this));
     data->m_indicator = new_indicator;
     QSettings settings(data->m_fileInfo.absoluteFilePath(), QSettings::IniFormat, this);
-    new_indicator->init(profile, data->m_fileInfo.fileName(), settings);
+    new_indicator->init(m_profile, data->m_fileInfo.fileName(), settings);
     return new_indicator;
 }
 

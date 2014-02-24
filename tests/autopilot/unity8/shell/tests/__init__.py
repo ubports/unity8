@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2012-2013 Canonical
+# Copyright (C) 2012, 2013, 2014 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -43,9 +43,8 @@ from unity8 import (
     get_data_dirs
 )
 from unity8.process_helpers import restart_unity_with_testability
+from unity8.shell.emulators import main_window as main_window_emulator
 from unity8.shell.emulators.dash import Dash
-from unity8.shell.emulators.greeter import Greeter
-from unity8.shell.emulators.main_window import MainWindow
 
 
 logger = logging.getLogger(__name__)
@@ -140,9 +139,8 @@ class UnityTestCase(AutopilotTestCase):
         self._proxy = None
         self._lightdm_mock_type = None
         self._qml_mock_enabled = True
+        self._data_dirs_mock_enabled = True
         self._environment = {}
-
-        self._patch_data_dirs()
 
         #### FIXME: This is a work around re: lp:1238417 ####
         if model() != "Desktop":
@@ -269,6 +267,9 @@ class UnityTestCase(AutopilotTestCase):
         if self._qml_mock_enabled:
             self._setup_extra_mock_environment_patch()
 
+        if self._data_dirs_mock_enabled:
+            self._patch_data_dirs()
+
         # FIXME: we shouldn't be doing this
         # $MIR_SOCKET, fallback to $XDG_RUNTIME_DIR/mir_socket and
         # /tmp/mir_socket as last resort
@@ -330,7 +331,7 @@ class UnityTestCase(AutopilotTestCase):
             logger.warning("Appears unity was already stopped!")
 
     def _patch_data_dirs(self):
-        data_dirs = get_data_dirs()
+        data_dirs = get_data_dirs(self._data_dirs_mock_enabled)
         if data_dirs is not None:
             self._environment['XDG_DATA_DIRS'] = data_dirs
 
@@ -395,18 +396,13 @@ class UnityTestCase(AutopilotTestCase):
         self.assertThat(home_scope.isCurrent, Eventually(Equals(True)))
 
     def assertGreeterReady(self):
-        greeter = self.get_greeter()
+        greeter = self.main_window().get_greeter()
         self.assertThat(greeter.created, Eventually(Equals(True)))
 
     def get_dash(self):
         dash = self._proxy.wait_select_single(Dash)
         return dash
 
-    def get_greeter(self):
-        greeter = self._proxy.select_single(Greeter)
-        self.assertThat(greeter, NotEquals(None))
-        return greeter
-
     @property
     def main_window(self):
-        return MainWindow(self._proxy)
+        return self._proxy.select_single(main_window_emulator.QQuickView)
