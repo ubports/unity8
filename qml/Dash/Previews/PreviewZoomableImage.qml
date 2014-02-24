@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,26 +16,26 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import "../../Components"
 
-Rectangle {
-    id: rect
-    width: childrenRect.width
-    height: childrenRect.height
+/*! \brief Preview widget for image.
 
-    property alias text: textComponent.text
+    This widget shows image contained in widgetData["source"],
+    can be zoomable accordingly with widgetData["zoomable"].
+ */
 
-    signal clicked
+PreviewWidget {
+    id: root
+    implicitHeight: units.gu(22)
 
-    color: "yellow"
-    Text {
-        id: textComponent
-        font.pixelSize: units.gu(2)
-        text: root.stretch ? "stretch" : "move"
-        MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                rect.clicked()
-            }
+    LazyImage {
+        objectName: "image"
+        anchors {
+            top: parent.top
+            bottom: parent.bottom
         }
+        scaleTo: "height"
+        source: widgetData["source"]
+        initialWidth: units.gu(13)
     }
 }

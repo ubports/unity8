@@ -1,3 +1,108 @@
+unity8 (7.84+14.04.20140221-0ubuntu1) trusty; urgency=low
+
+  [ Michał Sawicz ]
+  * Add card background support.
+  * Increase the sidestage threshold.
+
+  [ Jussi Pakkanen ]
+  * Move downloads to their own threads so they don't muck about with
+    the parent thread's event loop. (LP: #1240408)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 21 Feb 2014 09:06:04 +0000
+
+unity8 (7.84+14.04.20140218-0ubuntu1) trusty; urgency=low
+
+  [ Michał Sawicz ]
+  * Center-align title when it's alone in the header.
+
+  [ Leo Arias ]
+  * Prepare unity8 to the _uinput refactors in autopilot.
+
+  [ Albert Astals ]
+  * Progress Preview Widget
+  * LWPH Fix crash from bug 1279434 (LP: #1279434)
+  * Show the loading indicator of the screenshot in video playback
+
+  [ Andrea Cimitan ]
+  * Adds rating preview widget. Work on the rating widget
+
+  [ Daniel d'Andrada ]
+  * Make DirectionalDragArea work when rotated The drag gesture
+    direction is in local coordinates, not in scene coordinates
+
+  [ Michał Karnicki ]
+  * Center-align title when it's alone in the header.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 18 Feb 2014 11:41:58 +0000
+
+unity8 (7.84+14.04.20140212-0ubuntu1) trusty; urgency=low
+
+  [ Gerry Boland ]
+  * Add InputFilterArea to sidestage handle to block input to mainstage
+    app while moving sidestage (LP: #1275732)
+
+  [ Leo Arias ]
+  * On the autopilot helper to open a scope, wait for the dash content
+    list to stop moving. (LP: #1277591)
+  * Added a test to swipe out an application started by url-dispatcher.
+
+  [ Nick Dedekind ]
+  * Added a "-profile" option to the indicator-client to switch between
+    indicator service profiles.
+  * Fixed issue importing plugin qml files into qtcreator
+
+  [ Albert Astals ]
+  * Fix test_previewCycle
+  * Don't move the list contentY unless there's a preview to show (LP:
+    #1271676)
+  * Add overlay to card. Fix implicit card height. .
+  * PreviewHeader Is just a link of the widgetData with the CardHeader
+  * Fix tst_Preview.qml
+  * Scopes guys want the data back
+  * Link the pageheader scope with the current scope So that the
+    activity indicator on search works again (LP: #1279316)
+
+  [ Andrea Cimitan ]
+  * Add PreviewImage
+  * Preview widget for video playback
+
+  [ CI bot ]
+  * Add overlay to card. Fix implicit card height. .
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 12 Feb 2014 15:15:03 +0000
+
+unity8 (7.84+14.04.20140207.1-0ubuntu1) trusty; urgency=low
+
+  [ Ted Gould ]
+  * You can't tap anywhere
+
+  [ Michał Sawicz ]
+  * Wait for the indicator to appear.
+  * Add CardTool to determine category-wide card properties based on the
+    category template. Clean up test configurations, too.
+  * Actions Preview Widget
+  * Add Preview for new generation scopes.
+  * Add overlay to card. Fix implicit card height. .
+
+  [ Albert Astals ]
+  * Basic ImageGallery widget for Previews Mostly a copy of the code
+    used in AppPreview.qml but without the MouseArea hack that I'll wait
+    to introduce until we start using this somewhere were it is needed
+  * Actions Preview Widget
+
+  [ Andrea Cimitan ]
+  * First audio player widget for previews, with tests
+  * Adds TextSummary preview widget
+
+  [ Michał Karnicki ]
+  * Add overlay to card. Fix implicit card height. .
+
+  [ Michael Terry ]
+  * Expand greeter demo support to include listing multiple users and
+    specifying individual passwords and names.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 07 Feb 2014 10:46:46 +0000
+
 unity8 (7.84+14.04.20140204-0ubuntu1) trusty; urgency=low
 
   [ Michael Terry ]

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-11-29 09:21+0100\n"
+"POT-Creation-Date: 2014-02-13 18:37+0000\n"
 "PO-Revision-Date: 2013-10-24 11:36+0000\n"
 "Last-Translator: Thangamani Arun - தங்கமணி அருண் <thangam.arunx@gmail.com>\n"
 "Language-Team: Ubuntu Tamil Team/Free Tamil Computing/Thamizha\n"
@@ -15,139 +15,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-12-29 06:04+0000\n"
-"X-Generator: Launchpad (build 16877)\n"
+"X-Launchpad-Export-Date: 2014-02-19 05:44+0000\n"
+"X-Generator: Launchpad (build 16916)\n"
 "Language: ta\n"
-
-#: Components/EdgeDemoOverlay.qml:151
-msgid "Skip intro"
-msgstr "அறிமுகத்தை தவிர்"
-
-#: Components/EdgeDemo.qml:112
-msgid "Right edge"
-msgstr "வலது விளிம்பு"
-
-#: Components/EdgeDemo.qml:113
-msgid "Try swiping from the right edge to unlock the phone"
-msgstr "தொலைபேசியை திறக்க வலது முனையிலிருந்து தேய்த்து முயற்சி செய்"
-
-#: Components/EdgeDemo.qml:144
-msgid "Top edge"
-msgstr "மேல் விளிம்பு"
-
-#: Components/EdgeDemo.qml:145
-msgid "Try swiping from the top edge to access the indicators"
-msgstr "காட்டிகளை அனுக மேல் விளிம்பிலிருந்து தேய்த்து முயற்சி செய்"
-
-#: Components/EdgeDemo.qml:170
-msgid "Close"
-msgstr "மூடு"
-
-#: Components/EdgeDemo.qml:171
-msgid "Swipe up again to close the settings screen"
-msgstr "அமைவுகளின் திரையை மூட மறுபடியும் மேலே தேய்க்கவும்"
-
-#: Components/EdgeDemo.qml:198
-msgid "Left edge"
-msgstr "இடது விளிம்பு"
-
-#: Components/EdgeDemo.qml:199
-msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr ""
-"பயன்பாடுகளின் விரைவான அணுகலை பெறத்தேவையான தொடக்கியை இடமிருந்து தேய்த்தால் "
-"வெளிப்படும்"
-
-#: Components/EdgeDemo.qml:226
-msgid "Well done"
-msgstr "நன்றாக செய்தீர்கள்"
-
-#: Components/EdgeDemo.qml:227
-msgid ""
-"You have now mastered the edge gestures and can start using the "
-"phone<br><br>Tap anywhere to start"
-msgstr ""
-"நீங்கள் இப்போது விளிம்பு சைகைகளில் கைதேர்ந்தவர் மற்றும் தொலைபேசி "
-"பயன்படுத்த தொடங்கவும் <br> <br>தட்டுவதன் மூலம் எங்க வேண்டுமானாலும் "
-"தொடங்கலாம்."
-
-#: Components/PageHeader.qml:364
-msgid "Recent searches"
-msgstr "கடையாக தேடப்பட்டவைகள்"
-
-#: Dash/Apps/AppPreview.qml:135
-msgid "Rate this"
-msgstr "இதை மதிப்பிடு"
-
-#. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: Dash/Previews/Header.qml:93
-#, qt-format
-msgid "(%1)"
-msgstr "(%1)"
-
-#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: Dash/Previews/Header.qml:105
-#, qt-format
-msgid "%1 review"
-msgid_plural "%1 reviews"
-msgstr[0] "%1 பரிசீலனை"
-msgstr[1] "%1 பரிசீலனைகள்"
-
-#: Dash/Previews/Reviews.qml:74
-msgid "Add a review"
-msgstr "ஒரு பரிசீலனையை சேர்"
-
-#: Dash/Previews/Reviews.qml:86
-msgid "Review"
-msgstr "மறுஆய்வு"
-
-#: Dash/Previews/Reviews.qml:121
-msgid "Send"
-msgstr "அனுப்பு"
-
-#: Dash/Previews/Reviews.qml:139
-msgid "Comments:"
-msgstr "கருத்துகள்:"
-
-#: Greeter/Lockscreen.qml:149
-msgid "Emergency Call"
-msgstr "அவசர அழைப்பு"
-
-#: Greeter/PassphraseLockscreen.qml:59
-#, qt-format
-msgid "Hello %1"
-msgstr "வணக்கம் %1"
-
-#: Greeter/PassphraseLockscreen.qml:59
-msgid "Hello"
-msgstr "வணக்கம்"
-
-#: Hud/HudParametrizedActionsPage.qml:132
-msgid "Confirm"
-msgstr "உறுதிப்படுத்து"
-
-#: Hud/Hud.qml:61 Hud/Hud.qml:99 Hud/Hud.qml:372
-msgid "Type or say a command"
-msgstr "ஒரு கட்டளையை உச்சரி அல்லது தட்டச்சுசெய்"
-
-#: Hud/Hud.qml:84
-msgid "Loading. Please Wait..."
-msgstr "ஏற்றுகிறது. தயைசெய்து காத்திருக்கவும்..."
-
-#: Hud/Hud.qml:89
-msgid "Speak Now..."
-msgstr "இப்பொது பேசு..."
-
-#: Hud/Hud.qml:94
-msgid "Speaking..."
-msgstr "பேசுகிறது..."
-
-#: Notifications/NotificationMenuItemFactory.qml:89
-msgid "Show password"
-msgstr ""
-
-#: Panel/SearchIndicator.qml:27
-msgid "Search"
-msgstr "தெடு"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -158,7 +28,154 @@ msgstr ""
 msgid "Unlock from Launcher"
 msgstr ""
 
-#: Shell.qml:439
+#: qml/Components/EdgeDemoOverlay.qml:151
+msgid "Skip intro"
+msgstr "அறிமுகத்தை தவிர்"
+
+#: qml/Components/EdgeDemo.qml:113
+msgid "Right edge"
+msgstr "வலது விளிம்பு"
+
+#: qml/Components/EdgeDemo.qml:114
+msgid "Try swiping from the right edge to unlock the phone"
+msgstr "தொலைபேசியை திறக்க வலது முனையிலிருந்து தேய்த்து முயற்சி செய்"
+
+#: qml/Components/EdgeDemo.qml:145
+msgid "Top edge"
+msgstr "மேல் விளிம்பு"
+
+#: qml/Components/EdgeDemo.qml:146
+msgid "Try swiping from the top edge to access the indicators"
+msgstr "காட்டிகளை அனுக மேல் விளிம்பிலிருந்து தேய்த்து முயற்சி செய்"
+
+#: qml/Components/EdgeDemo.qml:171
+msgid "Close"
+msgstr "மூடு"
+
+#: qml/Components/EdgeDemo.qml:172
+msgid "Swipe up again to close the settings screen"
+msgstr "அமைவுகளின் திரையை மூட மறுபடியும் மேலே தேய்க்கவும்"
+
+#: qml/Components/EdgeDemo.qml:199
+msgid "Left edge"
+msgstr "இடது விளிம்பு"
+
+#: qml/Components/EdgeDemo.qml:200
+msgid "Swipe from the left to reveal the launcher for quick access to apps"
+msgstr ""
+"பயன்பாடுகளின் விரைவான அணுகலை பெறத்தேவையான தொடக்கியை இடமிருந்து தேய்த்தால் "
+"வெளிப்படும்"
+
+#: qml/Components/EdgeDemo.qml:227
+msgid "Well done"
+msgstr "நன்றாக செய்தீர்கள்"
+
+#: qml/Components/EdgeDemo.qml:228
+msgid ""
+"You have now mastered the edge gestures and can start using the "
+"phone<br><br>Tap on the screen to start"
+msgstr ""
+
+#: qml/Components/PageHeader.qml:340
+msgid "Recent searches"
+msgstr "கடையாக தேடப்பட்டவைகள்"
+
+#: qml/Components/SeeMore.qml:35
+msgid "See more"
+msgstr ""
+
+#: qml/Components/SeeMore.qml:57
+msgid "See less"
+msgstr ""
+
+#: qml/Dash/Apps/AppPreview.qml:136 qml/Dash/Previews/PreviewRating.qml:70
+msgid "Rate this"
+msgstr "இதை மதிப்பிடு"
+
+#. TRANSLATORS: Number of persons who rated this app/video/whatever
+#: qml/Dash/Previews/Header.qml:93
+#, qt-format
+msgid "(%1)"
+msgstr "(%1)"
+
+#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
+#: qml/Dash/Previews/Header.qml:105
+#, qt-format
+msgid "%1 review"
+msgid_plural "%1 reviews"
+msgstr[0] "%1 பரிசீலனை"
+msgstr[1] "%1 பரிசீலனைகள்"
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "More..."
+msgstr ""
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "Less..."
+msgstr ""
+
+#: qml/Dash/Previews/PreviewRating.qml:114 qml/Dash/Previews/Reviews.qml:74
+msgid "Add a review"
+msgstr "ஒரு பரிசீலனையை சேர்"
+
+#: qml/Dash/Previews/PreviewRating.qml:153 qml/Dash/Previews/Reviews.qml:121
+msgid "Send"
+msgstr "அனுப்பு"
+
+#: qml/Dash/Previews/Reviews.qml:86
+msgid "Review"
+msgstr "மறுஆய்வு"
+
+#: qml/Dash/Previews/Reviews.qml:139
+msgid "Comments:"
+msgstr "கருத்துகள்:"
+
+#: qml/Greeter/Lockscreen.qml:149
+msgid "Emergency Call"
+msgstr "அவசர அழைப்பு"
+
+#: qml/Greeter/PassphraseLockscreen.qml:59
+#, qt-format
+msgid "Hello %1"
+msgstr "வணக்கம் %1"
+
+#: qml/Greeter/PassphraseLockscreen.qml:59
+msgid "Hello"
+msgstr "வணக்கம்"
+
+#: qml/Hud/HudParametrizedActionsPage.qml:132
+msgid "Confirm"
+msgstr "உறுதிப்படுத்து"
+
+#: qml/Hud/Hud.qml:61 qml/Hud/Hud.qml:99 qml/Hud/Hud.qml:372
+msgid "Type or say a command"
+msgstr "ஒரு கட்டளையை உச்சரி அல்லது தட்டச்சுசெய்"
+
+#: qml/Hud/Hud.qml:84
+msgid "Loading. Please Wait..."
+msgstr "ஏற்றுகிறது. தயைசெய்து காத்திருக்கவும்..."
+
+#: qml/Hud/Hud.qml:89
+msgid "Speak Now..."
+msgstr "இப்பொது பேசு..."
+
+#: qml/Hud/Hud.qml:94
+msgid "Speaking..."
+msgstr "பேசுகிறது..."
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:91
+msgid "Show password"
+msgstr ""
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:103
+msgid "Please enter SIM PIN"
+msgstr ""
+
+#: qml/Panel/SearchIndicator.qml:27
+msgid "Search"
+msgstr "தெடு"
+
+#: qml/Shell.qml:440
 #, qt-format
 msgid "Please enter %1"
 msgstr "தயவுச்செய்து %1 உள்ளிடு"

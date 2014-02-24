@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-11-29 09:21+0100\n"
+"POT-Creation-Date: 2014-02-13 18:37+0000\n"
 "PO-Revision-Date: 2014-01-21 11:05+0000\n"
 "Last-Translator: Aras <aras.noori@gmail.com>\n"
 "Language-Team: Kurdish (Sorani) <ckb@li.org>\n"
@@ -15,135 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-01-22 06:16+0000\n"
-"X-Generator: Launchpad (build 16901)\n"
-
-#: Components/EdgeDemoOverlay.qml:151
-msgid "Skip intro"
-msgstr "پێشەکیی بپەڕێنە"
-
-#: Components/EdgeDemo.qml:112
-msgid "Right edge"
-msgstr "لێواری ڕاست"
-
-#: Components/EdgeDemo.qml:113
-msgid "Try swiping from the right edge to unlock the phone"
-msgstr "لێواری ڕاست ڕابکێشە بۆ کردنەوەی مۆبایلەکە"
-
-#: Components/EdgeDemo.qml:144
-msgid "Top edge"
-msgstr "لێواری سەرەوە"
-
-#: Components/EdgeDemo.qml:145
-msgid "Try swiping from the top edge to access the indicators"
-msgstr "لێواری سەرەوە ڕابکێشە بۆ گەیشتن بە نیشاندەرەکان"
-
-#: Components/EdgeDemo.qml:170
-msgid "Close"
-msgstr "داخستن"
-
-#: Components/EdgeDemo.qml:171
-msgid "Swipe up again to close the settings screen"
-msgstr "ڕایکێشەوە سەرەوە جارێکی تر بۆ داخستنی پەردەی ڕێکخستنەکان"
-
-#: Components/EdgeDemo.qml:198
-msgid "Left edge"
-msgstr "لێواری چەپ"
-
-#: Components/EdgeDemo.qml:199
-msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr "لە چەپەوە بچۆرەوە سەر دەستپێک بۆئەوەی بتوانی هەموو ئەپەکان ببینی"
-
-#: Components/EdgeDemo.qml:226
-msgid "Well done"
-msgstr "دەستخۆش"
-
-#: Components/EdgeDemo.qml:227
-msgid ""
-"You have now mastered the edge gestures and can start using the "
-"phone<br><br>Tap anywhere to start"
-msgstr ""
-"ئێستا شارەزایییت پەیدا کرد لە جوڵەی لێوارەکان و دەتوانی مۆبایلەکە بەکار "
-"بهێنییت<br><br>پەنجە بە شوێنێکدا بنێ بۆ دەست پێ کردن"
-
-#: Components/PageHeader.qml:364
-msgid "Recent searches"
-msgstr "دوایین گەڕانەکان"
-
-#: Dash/Apps/AppPreview.qml:135
-msgid "Rate this"
-msgstr "پلە دابنی بۆی"
-
-#. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: Dash/Previews/Header.qml:93
-#, qt-format
-msgid "(%1)"
-msgstr "(%1)"
-
-#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: Dash/Previews/Header.qml:105
-#, qt-format
-msgid "%1 review"
-msgid_plural "%1 reviews"
-msgstr[0] "%1 پێداچوونەوە"
-msgstr[1] "%1 پێداچوونەوەکان"
-
-#: Dash/Previews/Reviews.qml:74
-msgid "Add a review"
-msgstr "پێداچوونەوە زۆر بکە"
-
-#: Dash/Previews/Reviews.qml:86
-msgid "Review"
-msgstr "پێداچوونەوە"
-
-#: Dash/Previews/Reviews.qml:121
-msgid "Send"
-msgstr "ناردن"
-
-#: Dash/Previews/Reviews.qml:139
-msgid "Comments:"
-msgstr "لێدوانەکان:"
-
-#: Greeter/Lockscreen.qml:149
-msgid "Emergency Call"
-msgstr "هێڵی فریاگوزاری"
-
-#: Greeter/PassphraseLockscreen.qml:59
-#, qt-format
-msgid "Hello %1"
-msgstr "سڵاو %1"
-
-#: Greeter/PassphraseLockscreen.qml:59
-msgid "Hello"
-msgstr "سڵاو"
-
-#: Hud/HudParametrizedActionsPage.qml:132
-msgid "Confirm"
-msgstr "پشتڕاستکردنەوە"
-
-#: Hud/Hud.qml:61 Hud/Hud.qml:99 Hud/Hud.qml:372
-msgid "Type or say a command"
-msgstr "فەرمانێک بێژە یان بنووسە"
-
-#: Hud/Hud.qml:84
-msgid "Loading. Please Wait..."
-msgstr "لە بارکردندایە. تکایە چاوەڕێ بکە..."
-
-#: Hud/Hud.qml:89
-msgid "Speak Now..."
-msgstr "ئێستا قسە بکە"
-
-#: Hud/Hud.qml:94
-msgid "Speaking..."
-msgstr "قسە دەکات..."
-
-#: Notifications/NotificationMenuItemFactory.qml:89
-msgid "Show password"
-msgstr "تێپەڕەوشە پیشان بدە"
-
-#: Panel/SearchIndicator.qml:27
-msgid "Search"
-msgstr "گەڕان"
+"X-Launchpad-Export-Date: 2014-02-19 05:44+0000\n"
+"X-Generator: Launchpad (build 16916)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -154,7 +27,152 @@ msgstr "چەسباندن بە لانچرەوە"
 msgid "Unlock from Launcher"
 msgstr "ھەڵکەندن لە لانچر"
 
-#: Shell.qml:439
+#: qml/Components/EdgeDemoOverlay.qml:151
+msgid "Skip intro"
+msgstr "پێشەکیی بپەڕێنە"
+
+#: qml/Components/EdgeDemo.qml:113
+msgid "Right edge"
+msgstr "لێواری ڕاست"
+
+#: qml/Components/EdgeDemo.qml:114
+msgid "Try swiping from the right edge to unlock the phone"
+msgstr "لێواری ڕاست ڕابکێشە بۆ کردنەوەی مۆبایلەکە"
+
+#: qml/Components/EdgeDemo.qml:145
+msgid "Top edge"
+msgstr "لێواری سەرەوە"
+
+#: qml/Components/EdgeDemo.qml:146
+msgid "Try swiping from the top edge to access the indicators"
+msgstr "لێواری سەرەوە ڕابکێشە بۆ گەیشتن بە نیشاندەرەکان"
+
+#: qml/Components/EdgeDemo.qml:171
+msgid "Close"
+msgstr "داخستن"
+
+#: qml/Components/EdgeDemo.qml:172
+msgid "Swipe up again to close the settings screen"
+msgstr "ڕایکێشەوە سەرەوە جارێکی تر بۆ داخستنی پەردەی ڕێکخستنەکان"
+
+#: qml/Components/EdgeDemo.qml:199
+msgid "Left edge"
+msgstr "لێواری چەپ"
+
+#: qml/Components/EdgeDemo.qml:200
+msgid "Swipe from the left to reveal the launcher for quick access to apps"
+msgstr "لە چەپەوە بچۆرەوە سەر دەستپێک بۆئەوەی بتوانی هەموو ئەپەکان ببینی"
+
+#: qml/Components/EdgeDemo.qml:227
+msgid "Well done"
+msgstr "دەستخۆش"
+
+#: qml/Components/EdgeDemo.qml:228
+msgid ""
+"You have now mastered the edge gestures and can start using the "
+"phone<br><br>Tap on the screen to start"
+msgstr ""
+
+#: qml/Components/PageHeader.qml:340
+msgid "Recent searches"
+msgstr "دوایین گەڕانەکان"
+
+#: qml/Components/SeeMore.qml:35
+msgid "See more"
+msgstr ""
+
+#: qml/Components/SeeMore.qml:57
+msgid "See less"
+msgstr ""
+
+#: qml/Dash/Apps/AppPreview.qml:136 qml/Dash/Previews/PreviewRating.qml:70
+msgid "Rate this"
+msgstr "پلە دابنی بۆی"
+
+#. TRANSLATORS: Number of persons who rated this app/video/whatever
+#: qml/Dash/Previews/Header.qml:93
+#, qt-format
+msgid "(%1)"
+msgstr "(%1)"
+
+#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
+#: qml/Dash/Previews/Header.qml:105
+#, qt-format
+msgid "%1 review"
+msgid_plural "%1 reviews"
+msgstr[0] "%1 پێداچوونەوە"
+msgstr[1] "%1 پێداچوونەوەکان"
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "More..."
+msgstr ""
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "Less..."
+msgstr ""
+
+#: qml/Dash/Previews/PreviewRating.qml:114 qml/Dash/Previews/Reviews.qml:74
+msgid "Add a review"
+msgstr "پێداچوونەوە زۆر بکە"
+
+#: qml/Dash/Previews/PreviewRating.qml:153 qml/Dash/Previews/Reviews.qml:121
+msgid "Send"
+msgstr "ناردن"
+
+#: qml/Dash/Previews/Reviews.qml:86
+msgid "Review"
+msgstr "پێداچوونەوە"
+
+#: qml/Dash/Previews/Reviews.qml:139
+msgid "Comments:"
+msgstr "لێدوانەکان:"
+
+#: qml/Greeter/Lockscreen.qml:149
+msgid "Emergency Call"
+msgstr "هێڵی فریاگوزاری"
+
+#: qml/Greeter/PassphraseLockscreen.qml:59
+#, qt-format
+msgid "Hello %1"
+msgstr "سڵاو %1"
+
+#: qml/Greeter/PassphraseLockscreen.qml:59
+msgid "Hello"
+msgstr "سڵاو"
+
+#: qml/Hud/HudParametrizedActionsPage.qml:132
+msgid "Confirm"
+msgstr "پشتڕاستکردنەوە"
+
+#: qml/Hud/Hud.qml:61 qml/Hud/Hud.qml:99 qml/Hud/Hud.qml:372
+msgid "Type or say a command"
+msgstr "فەرمانێک بێژە یان بنووسە"
+
+#: qml/Hud/Hud.qml:84
+msgid "Loading. Please Wait..."
+msgstr "لە بارکردندایە. تکایە چاوەڕێ بکە..."
+
+#: qml/Hud/Hud.qml:89
+msgid "Speak Now..."
+msgstr "ئێستا قسە بکە"
+
+#: qml/Hud/Hud.qml:94
+msgid "Speaking..."
+msgstr "قسە دەکات..."
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:91
+msgid "Show password"
+msgstr "تێپەڕەوشە پیشان بدە"
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:103
+msgid "Please enter SIM PIN"
+msgstr ""
+
+#: qml/Panel/SearchIndicator.qml:27
+msgid "Search"
+msgstr "گەڕان"
+
+#: qml/Shell.qml:440
 #, qt-format
 msgid "Please enter %1"
 msgstr "تکایە  %1 بنووسە"

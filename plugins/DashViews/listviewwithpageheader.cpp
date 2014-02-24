@@ -1073,7 +1073,7 @@ void ListViewWithPageHeader::itemGeometryChanged(QQuickItem * /*item*/, const QR
 {
     const qreal heightDiff = newGeometry.height() - oldGeometry.height();
     if (heightDiff != 0) {
-        if (oldGeometry.y() + oldGeometry.height() + m_clipItem->y() < contentY() && !m_visibleItems.isEmpty()) {
+        if (oldGeometry.y() + oldGeometry.height() + m_clipItem->y() <= contentY() && !m_visibleItems.isEmpty()) {
             ListItem *firstItem = m_visibleItems.first();
             firstItem->setY(firstItem->y() - heightDiff);
             adjustMinYExtent();

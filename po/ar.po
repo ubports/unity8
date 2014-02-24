@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-11-29 09:21+0100\n"
-"PO-Revision-Date: 2013-12-05 06:55+0000\n"
+"POT-Creation-Date: 2014-02-13 18:37+0000\n"
+"PO-Revision-Date: 2014-02-21 11:19+0000\n"
 "Last-Translator: Ibrahim Saed <ibraheem5000@gmail.com>\n"
 "Language-Team: Arabic <ar@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,140 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n % 100 >= "
 "3 && n % 100 <= 10 ? 3 : n % 100 >= 11 && n % 100 <= 99 ? 4 : 5;\n"
-"X-Launchpad-Export-Date: 2013-12-29 06:04+0000\n"
-"X-Generator: Launchpad (build 16877)\n"
-
-#: Components/EdgeDemoOverlay.qml:151
-msgid "Skip intro"
-msgstr "تخطي المقدمة"
-
-#: Components/EdgeDemo.qml:112
-msgid "Right edge"
-msgstr "الحافة اليمنى"
-
-#: Components/EdgeDemo.qml:113
-msgid "Try swiping from the right edge to unlock the phone"
-msgstr "اسحب اصبعك من الحافة اليمنى لفتح قفل الهاتف"
-
-#: Components/EdgeDemo.qml:144
-msgid "Top edge"
-msgstr "الحافة العلوية"
-
-#: Components/EdgeDemo.qml:145
-msgid "Try swiping from the top edge to access the indicators"
-msgstr "اسحب اصبعك من الحافة العلوية للوصول إلى المؤشرات"
-
-#: Components/EdgeDemo.qml:170
-msgid "Close"
-msgstr "أغلق"
-
-#: Components/EdgeDemo.qml:171
-msgid "Swipe up again to close the settings screen"
-msgstr "اسحب اصعبك لأعلى مرة أخرى لغلق شاشة الإعدادات"
-
-#: Components/EdgeDemo.qml:198
-msgid "Left edge"
-msgstr "الحافة اليسرى"
-
-#: Components/EdgeDemo.qml:199
-msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr ""
-"اسحب أصبعك من الحافة اليسرى لإظهار شريط يونتي للوصول السريع للتطبيقات"
-
-#: Components/EdgeDemo.qml:226
-msgid "Well done"
-msgstr "أحسنت!"
-
-#: Components/EdgeDemo.qml:227
-msgid ""
-"You have now mastered the edge gestures and can start using the "
-"phone<br><br>Tap anywhere to start"
-msgstr ""
-"لقد أتقنت الآن إيماءات الحواف ويمكنك البدء باستخدام الهاتف<br><br>انقر في أي "
-"مكان للبدء"
-
-#: Components/PageHeader.qml:364
-msgid "Recent searches"
-msgstr "عمليات البحث الأخيرة"
-
-#: Dash/Apps/AppPreview.qml:135
-msgid "Rate this"
-msgstr "قيّم ذلك"
-
-#. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: Dash/Previews/Header.qml:93
-#, qt-format
-msgid "(%1)"
-msgstr "(%1)"
-
-#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: Dash/Previews/Header.qml:105
-#, qt-format
-msgid "%1 review"
-msgid_plural "%1 reviews"
-msgstr[0] "لا تعليقات (%1)"
-msgstr[1] "تعليق واحد (%1)"
-msgstr[2] "تعليقان (%1)"
-msgstr[3] "%1 تعليقات"
-msgstr[4] "%1 تعليقا"
-msgstr[5] "%1 تعليق"
-
-#: Dash/Previews/Reviews.qml:74
-msgid "Add a review"
-msgstr "أضف تعليق"
-
-#: Dash/Previews/Reviews.qml:86
-msgid "Review"
-msgstr "التعليق"
-
-#: Dash/Previews/Reviews.qml:121
-msgid "Send"
-msgstr "أرسل"
-
-#: Dash/Previews/Reviews.qml:139
-msgid "Comments:"
-msgstr "التعليقات:"
-
-#: Greeter/Lockscreen.qml:149
-msgid "Emergency Call"
-msgstr "مكالمة طوارئ"
-
-#: Greeter/PassphraseLockscreen.qml:59
-#, qt-format
-msgid "Hello %1"
-msgstr "مرحبا %1"
-
-#: Greeter/PassphraseLockscreen.qml:59
-msgid "Hello"
-msgstr "مرحبًا"
-
-#: Hud/HudParametrizedActionsPage.qml:132
-msgid "Confirm"
-msgstr "التأكيد"
-
-#: Hud/Hud.qml:61 Hud/Hud.qml:99 Hud/Hud.qml:372
-msgid "Type or say a command"
-msgstr "اكتب أو قُل أمرا"
-
-#: Hud/Hud.qml:84
-msgid "Loading. Please Wait..."
-msgstr "يجري التحميل. برجاء الانتظار..."
-
-#: Hud/Hud.qml:89
-msgid "Speak Now..."
-msgstr "تكلم الآن..."
-
-#: Hud/Hud.qml:94
-msgid "Speaking..."
-msgstr "تتكلم الآن..."
-
-#: Notifications/NotificationMenuItemFactory.qml:89
-msgid "Show password"
-msgstr "عرض كلمة السر"
-
-#: Panel/SearchIndicator.qml:27
-msgid "Search"
-msgstr "ابحث"
+"X-Launchpad-Export-Date: 2014-02-22 07:40+0000\n"
+"X-Generator: Launchpad (build 16926)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -160,7 +28,159 @@ msgstr "ثبّت في الشريط"
 msgid "Unlock from Launcher"
 msgstr "فُك التثبيت من الشريط"
 
-#: Shell.qml:439
+#: qml/Components/EdgeDemoOverlay.qml:151
+msgid "Skip intro"
+msgstr "تخطي المقدمة"
+
+#: qml/Components/EdgeDemo.qml:113
+msgid "Right edge"
+msgstr "الحافة اليمنى"
+
+#: qml/Components/EdgeDemo.qml:114
+msgid "Try swiping from the right edge to unlock the phone"
+msgstr "اسحب اصبعك من الحافة اليمنى لفتح قفل الهاتف"
+
+#: qml/Components/EdgeDemo.qml:145
+msgid "Top edge"
+msgstr "الحافة العلوية"
+
+#: qml/Components/EdgeDemo.qml:146
+msgid "Try swiping from the top edge to access the indicators"
+msgstr "اسحب اصبعك من الحافة العلوية للوصول إلى المؤشرات"
+
+#: qml/Components/EdgeDemo.qml:171
+msgid "Close"
+msgstr "أغلق"
+
+#: qml/Components/EdgeDemo.qml:172
+msgid "Swipe up again to close the settings screen"
+msgstr "اسحب اصعبك لأعلى مرة أخرى لغلق شاشة الإعدادات"
+
+#: qml/Components/EdgeDemo.qml:199
+msgid "Left edge"
+msgstr "الحافة اليسرى"
+
+#: qml/Components/EdgeDemo.qml:200
+msgid "Swipe from the left to reveal the launcher for quick access to apps"
+msgstr ""
+"اسحب أصبعك من الحافة اليسرى لإظهار شريط يونتي للوصول السريع للتطبيقات"
+
+#: qml/Components/EdgeDemo.qml:227
+msgid "Well done"
+msgstr "أحسنت!"
+
+#: qml/Components/EdgeDemo.qml:228
+msgid ""
+"You have now mastered the edge gestures and can start using the "
+"phone<br><br>Tap on the screen to start"
+msgstr ""
+"أنت الآن بارع في إيماءات الحواف ويمكنك البدء باستخدام هاتفك<br><br>انقر على "
+"الشاشة للبدء"
+
+#: qml/Components/PageHeader.qml:340
+msgid "Recent searches"
+msgstr "عمليات البحث الأخيرة"
+
+#: qml/Components/SeeMore.qml:35
+msgid "See more"
+msgstr "شاهد المزيد"
+
+#: qml/Components/SeeMore.qml:57
+msgid "See less"
+msgstr "شاهد أقل"
+
+#: qml/Dash/Apps/AppPreview.qml:136 qml/Dash/Previews/PreviewRating.qml:70
+msgid "Rate this"
+msgstr "قيّم ذلك"
+
+#. TRANSLATORS: Number of persons who rated this app/video/whatever
+#: qml/Dash/Previews/Header.qml:93
+#, qt-format
+msgid "(%1)"
+msgstr "(%1)"
+
+#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
+#: qml/Dash/Previews/Header.qml:105
+#, qt-format
+msgid "%1 review"
+msgid_plural "%1 reviews"
+msgstr[0] "لا تعليقات (%1)"
+msgstr[1] "تعليق واحد (%1)"
+msgstr[2] "تعليقان (%1)"
+msgstr[3] "%1 تعليقات"
+msgstr[4] "%1 تعليقا"
+msgstr[5] "%1 تعليق"
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "More..."
+msgstr "المزيد..."
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "Less..."
+msgstr "أقل..."
+
+#: qml/Dash/Previews/PreviewRating.qml:114 qml/Dash/Previews/Reviews.qml:74
+msgid "Add a review"
+msgstr "أضف تعليق"
+
+#: qml/Dash/Previews/PreviewRating.qml:153 qml/Dash/Previews/Reviews.qml:121
+msgid "Send"
+msgstr "أرسل"
+
+#: qml/Dash/Previews/Reviews.qml:86
+msgid "Review"
+msgstr "التعليق"
+
+#: qml/Dash/Previews/Reviews.qml:139
+msgid "Comments:"
+msgstr "التعليقات:"
+
+#: qml/Greeter/Lockscreen.qml:149
+msgid "Emergency Call"
+msgstr "مكالمة طوارئ"
+
+#: qml/Greeter/PassphraseLockscreen.qml:59
+#, qt-format
+msgid "Hello %1"
+msgstr "مرحبا %1"
+
+#: qml/Greeter/PassphraseLockscreen.qml:59
+msgid "Hello"
+msgstr "مرحبًا"
+
+#: qml/Hud/HudParametrizedActionsPage.qml:132
+msgid "Confirm"
+msgstr "التأكيد"
+
+#: qml/Hud/Hud.qml:61 qml/Hud/Hud.qml:99 qml/Hud/Hud.qml:372
+msgid "Type or say a command"
+msgstr "اكتب أو قُل أمرا"
+
+#: qml/Hud/Hud.qml:84
+msgid "Loading. Please Wait..."
+msgstr "يجري التحميل. برجاء الانتظار..."
+
+#: qml/Hud/Hud.qml:89
+msgid "Speak Now..."
+msgstr "تكلم الآن..."
+
+#: qml/Hud/Hud.qml:94
+msgid "Speaking..."
+msgstr "تتكلم الآن..."
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:91
+msgid "Show password"
+msgstr "عرض كلمة السر"
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:103
+msgid "Please enter SIM PIN"
+msgstr "من فضلك أدخِل رقم التعريف الشخصي لبطاقة SIM"
+
+#: qml/Panel/SearchIndicator.qml:27
+msgid "Search"
+msgstr "ابحث"
+
+#: qml/Shell.qml:440
 #, qt-format
 msgid "Please enter %1"
 msgstr "من فضلك أدخِل %1"

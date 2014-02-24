@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-11-29 09:21+0100\n"
+"POT-Creation-Date: 2014-02-13 18:37+0000\n"
 "PO-Revision-Date: 2014-01-16 06:04+0000\n"
 "Last-Translator: Henry Yang <henry9846@hotmail.com>\n"
 "Language-Team: Chinese (Traditional) <zh_TW@li.org>\n"
@@ -15,132 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2014-01-17 07:08+0000\n"
-"X-Generator: Launchpad (build 16901)\n"
-
-#: Components/EdgeDemoOverlay.qml:151
-msgid "Skip intro"
-msgstr "略過導覽"
-
-#: Components/EdgeDemo.qml:112
-msgid "Right edge"
-msgstr "右方邊界"
-
-#: Components/EdgeDemo.qml:113
-msgid "Try swiping from the right edge to unlock the phone"
-msgstr "向左滑動以解鎖手機"
-
-#: Components/EdgeDemo.qml:144
-msgid "Top edge"
-msgstr "頂部邊界"
-
-#: Components/EdgeDemo.qml:145
-msgid "Try swiping from the top edge to access the indicators"
-msgstr "向下滑動以開啟指引"
-
-#: Components/EdgeDemo.qml:170
-msgid "Close"
-msgstr "關閉"
-
-#: Components/EdgeDemo.qml:171
-msgid "Swipe up again to close the settings screen"
-msgstr "再次向上滑動以關財設定頁面"
-
-#: Components/EdgeDemo.qml:198
-msgid "Left edge"
-msgstr "左方邊界"
-
-#: Components/EdgeDemo.qml:199
-msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr ""
-
-#: Components/EdgeDemo.qml:226
-msgid "Well done"
-msgstr ""
-
-#: Components/EdgeDemo.qml:227
-msgid ""
-"You have now mastered the edge gestures and can start using the "
-"phone<br><br>Tap anywhere to start"
-msgstr ""
-
-#: Components/PageHeader.qml:364
-msgid "Recent searches"
-msgstr "最近搜尋"
-
-#: Dash/Apps/AppPreview.qml:135
-msgid "Rate this"
-msgstr "對此評比"
-
-#. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: Dash/Previews/Header.qml:93
-#, qt-format
-msgid "(%1)"
-msgstr "(%1)"
-
-#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: Dash/Previews/Header.qml:105
-#, qt-format
-msgid "%1 review"
-msgid_plural "%1 reviews"
-msgstr[0] "%1 回覆"
-
-#: Dash/Previews/Reviews.qml:74
-msgid "Add a review"
-msgstr "新增回覆"
-
-#: Dash/Previews/Reviews.qml:86
-msgid "Review"
-msgstr "回覆"
-
-#: Dash/Previews/Reviews.qml:121
-msgid "Send"
-msgstr "發送"
-
-#: Dash/Previews/Reviews.qml:139
-msgid "Comments:"
-msgstr "備註："
-
-#: Greeter/Lockscreen.qml:149
-msgid "Emergency Call"
-msgstr "緊急連絡"
-
-#: Greeter/PassphraseLockscreen.qml:59
-#, qt-format
-msgid "Hello %1"
-msgstr "%1 您好"
-
-#: Greeter/PassphraseLockscreen.qml:59
-msgid "Hello"
-msgstr "您好"
-
-#: Hud/HudParametrizedActionsPage.qml:132
-msgid "Confirm"
-msgstr "確認"
-
-#: Hud/Hud.qml:61 Hud/Hud.qml:99 Hud/Hud.qml:372
-msgid "Type or say a command"
-msgstr "輸入或說出命令"
-
-#: Hud/Hud.qml:84
-msgid "Loading. Please Wait..."
-msgstr "載入中。請稍候..."
-
-#: Hud/Hud.qml:89
-msgid "Speak Now..."
-msgstr "請說..."
-
-#: Hud/Hud.qml:94
-msgid "Speaking..."
-msgstr "說話中..."
-
-#: Notifications/NotificationMenuItemFactory.qml:89
-msgid "Show password"
-msgstr "顯示密碼"
-
-#: Panel/SearchIndicator.qml:27
-msgid "Search"
-msgstr "搜尋"
+"X-Launchpad-Export-Date: 2014-02-19 05:44+0000\n"
+"X-Generator: Launchpad (build 16916)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -151,7 +27,151 @@ msgstr "鎖定至啟動欄"
 msgid "Unlock from Launcher"
 msgstr ""
 
-#: Shell.qml:439
+#: qml/Components/EdgeDemoOverlay.qml:151
+msgid "Skip intro"
+msgstr "略過導覽"
+
+#: qml/Components/EdgeDemo.qml:113
+msgid "Right edge"
+msgstr "右方邊界"
+
+#: qml/Components/EdgeDemo.qml:114
+msgid "Try swiping from the right edge to unlock the phone"
+msgstr "向左滑動以解鎖手機"
+
+#: qml/Components/EdgeDemo.qml:145
+msgid "Top edge"
+msgstr "頂部邊界"
+
+#: qml/Components/EdgeDemo.qml:146
+msgid "Try swiping from the top edge to access the indicators"
+msgstr "向下滑動以開啟指引"
+
+#: qml/Components/EdgeDemo.qml:171
+msgid "Close"
+msgstr "關閉"
+
+#: qml/Components/EdgeDemo.qml:172
+msgid "Swipe up again to close the settings screen"
+msgstr "再次向上滑動以關財設定頁面"
+
+#: qml/Components/EdgeDemo.qml:199
+msgid "Left edge"
+msgstr "左方邊界"
+
+#: qml/Components/EdgeDemo.qml:200
+msgid "Swipe from the left to reveal the launcher for quick access to apps"
+msgstr ""
+
+#: qml/Components/EdgeDemo.qml:227
+msgid "Well done"
+msgstr ""
+
+#: qml/Components/EdgeDemo.qml:228
+msgid ""
+"You have now mastered the edge gestures and can start using the "
+"phone<br><br>Tap on the screen to start"
+msgstr ""
+
+#: qml/Components/PageHeader.qml:340
+msgid "Recent searches"
+msgstr "最近搜尋"
+
+#: qml/Components/SeeMore.qml:35
+msgid "See more"
+msgstr ""
+
+#: qml/Components/SeeMore.qml:57
+msgid "See less"
+msgstr ""
+
+#: qml/Dash/Apps/AppPreview.qml:136 qml/Dash/Previews/PreviewRating.qml:70
+msgid "Rate this"
+msgstr "對此評比"
+
+#. TRANSLATORS: Number of persons who rated this app/video/whatever
+#: qml/Dash/Previews/Header.qml:93
+#, qt-format
+msgid "(%1)"
+msgstr "(%1)"
+
+#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
+#: qml/Dash/Previews/Header.qml:105
+#, qt-format
+msgid "%1 review"
+msgid_plural "%1 reviews"
+msgstr[0] "%1 回覆"
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "More..."
+msgstr ""
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "Less..."
+msgstr ""
+
+#: qml/Dash/Previews/PreviewRating.qml:114 qml/Dash/Previews/Reviews.qml:74
+msgid "Add a review"
+msgstr "新增回覆"
+
+#: qml/Dash/Previews/PreviewRating.qml:153 qml/Dash/Previews/Reviews.qml:121
+msgid "Send"
+msgstr "發送"
+
+#: qml/Dash/Previews/Reviews.qml:86
+msgid "Review"
+msgstr "回覆"
+
+#: qml/Dash/Previews/Reviews.qml:139
+msgid "Comments:"
+msgstr "備註："
+
+#: qml/Greeter/Lockscreen.qml:149
+msgid "Emergency Call"
+msgstr "緊急連絡"
+
+#: qml/Greeter/PassphraseLockscreen.qml:59
+#, qt-format
+msgid "Hello %1"
+msgstr "%1 您好"
+
+#: qml/Greeter/PassphraseLockscreen.qml:59
+msgid "Hello"
+msgstr "您好"
+
+#: qml/Hud/HudParametrizedActionsPage.qml:132
+msgid "Confirm"
+msgstr "確認"
+
+#: qml/Hud/Hud.qml:61 qml/Hud/Hud.qml:99 qml/Hud/Hud.qml:372
+msgid "Type or say a command"
+msgstr "輸入或說出命令"
+
+#: qml/Hud/Hud.qml:84
+msgid "Loading. Please Wait..."
+msgstr "載入中。請稍候..."
+
+#: qml/Hud/Hud.qml:89
+msgid "Speak Now..."
+msgstr "請說..."
+
+#: qml/Hud/Hud.qml:94
+msgid "Speaking..."
+msgstr "說話中..."
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:91
+msgid "Show password"
+msgstr "顯示密碼"
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:103
+msgid "Please enter SIM PIN"
+msgstr ""
+
+#: qml/Panel/SearchIndicator.qml:27
+msgid "Search"
+msgstr "搜尋"
+
+#: qml/Shell.qml:440
 #, qt-format
 msgid "Please enter %1"
 msgstr ""

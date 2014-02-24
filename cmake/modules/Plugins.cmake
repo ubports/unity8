@@ -24,6 +24,7 @@ macro(export_qmlfiles PLUGIN PLUGIN_SUBPATH)
     add_custom_target(${PLUGIN}-qmlfiles ALL
                         COMMAND cp ${QMLFILES} ${CMAKE_BINARY_DIR}/plugins/${PLUGIN_SUBPATH}
                         DEPENDS ${QMLFILES}
+                        SOURCES ${QMLFILES}
     )
 
     # install the qmlfiles file.
