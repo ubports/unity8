@@ -49,8 +49,8 @@ MainView {
 """)
 
     def setUp(self):
-        #if platform.model() == 'Desktop':
-        #    self.skipTest("URL dispatcher doesn't work on the desktop.")
+        if platform.model() == 'Desktop':
+            self.skipTest("URL dispatcher doesn't work on the desktop.")
         super(URLDispatcherTestCase, self).setUp()
         self._qml_mock_enabled = False
         self._data_dirs_mock_enabled = False
