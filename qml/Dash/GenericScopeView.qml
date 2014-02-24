@@ -33,7 +33,6 @@ FocusScope {
     property OpenEffect openEffect: null
     property Item previewListView: null
 
-    signal endReached
     signal movementStarted
     signal positionedAtBeginning
 
@@ -117,9 +116,6 @@ FocusScope {
         anchors.fill: parent
         model: scopeView.categories
         forceNoClip: previewListView.onScreen
-
-        onAtYEndChanged: if (atYEnd) endReached()
-        onMovingChanged: if (moving && atYEnd) endReached()
 
         property string expandedCategoryId: ""
         signal correctExpandedCategory();
