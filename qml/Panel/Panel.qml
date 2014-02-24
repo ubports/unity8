@@ -21,7 +21,7 @@ import "../Components"
 Item {
     id: root
     readonly property real panelHeight: units.gu(3) + units.dp(2)
-    property real indicatorsMenuWidth: (shell.width > units.gu(60)) ? units.gu(40) : shell.width
+    property real indicatorsMenuWidth: (shell.width > units.gu(60)) ? units.gu(38) : shell.width - units.gu(2)
     property alias indicators: indicatorsMenu
     property bool fullscreenMode: false
     property bool searchVisible: true
@@ -98,6 +98,7 @@ Item {
         objectName: "indicators"
 
         anchors.right: parent.right
+        anchors.rightMargin: units.gu(1)
         y: panelBackground.y
         width: root.indicatorsMenuWidth
         shown: false

@@ -24,7 +24,7 @@ import Unity.Indicators 0.1 as Indicators
 Indicators.IndicatorBase {
     id: indicatorWidget
 
-    property int iconSize: height
+    property int iconSize: units.gu(2)
     property alias leftLabel: itemLeftLabel.text
     property alias rightLabel: itemRightLabel.text
     property var icons: undefined
@@ -34,7 +34,6 @@ Indicators.IndicatorBase {
 
     Row {
         id: itemRow
-        width: childrenRect.width
         objectName: "itemRow"
         anchors {
             top: parent.top
@@ -55,7 +54,6 @@ Indicators.IndicatorBase {
         }
 
         Row {
-            width: childrenRect.width
             anchors {
                 top: parent.top
                 bottom: parent.bottom
@@ -65,22 +63,20 @@ Indicators.IndicatorBase {
                 model: indicatorWidget.icons
 
                 Item {
-                    width: guRoundUp(itemImage.width)
-                    height: indicatorWidget.iconSize
+                    width: guRoundUp(itemImage.width) + units.gu(1)
+                    anchors { top: parent.top; bottom: parent.bottom }
 
-                    Image {
+                    Icon {
                         id: itemImage
                         objectName: "itemImage"
-                        visible: source != ""
-                        source: modelData
-                        height: parent.height
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        fillMode: Image.PreserveAspectFit
+                        // FIXME: Should be dynamic width, see http://pad.lv/1284235
+                        width: indicatorWidget.iconSize
+                        height: indicatorWidget.iconSize
+                        anchors.centerIn: parent
 
-                        sourceSize {
-                            width: indicatorWidget.iconSize
-                            height: indicatorWidget.iconSize
-                        }
+                        // FIXME: Icon needs to accept source, see http://pad.lv/1284233
+                        name: modelData.replace("image://theme/", "")
+                        color: "#CCCCCC"
                     }
                 }
             }
