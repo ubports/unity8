@@ -37,7 +37,7 @@ Showable {
     property alias model: greeterContentLoader.model
     property bool locked: shown && !LightDM.Greeter.promptless
 
-    readonly property bool narrowMode: !multiUser && width <= units.gu(60)
+    readonly property bool narrowMode: !multiUser && height > width
     readonly property bool multiUser: LightDM.Users.count > 1
 
     readonly property bool leftTeaserPressed: greeterContentLoader.status == Loader.Ready &&

@@ -54,7 +54,14 @@ class Hud(UnityEmulatorBase, DragMixin):
         except AssertionError:
             raise
         finally:
-            if self.touch._touch_finger is not None:
+            # XXX This ugly code is here just temporarily, waiting for uinput
+            # improvements to land on autopilot so we don't have to access
+            # device private internal attributes. --elopio - 2014-02-12
+            try:
+                pressed = self.touch._touch_finger is not None
+            except AttributeError:
+                pressed = self.touch.pressed
+            if pressed:
                 self.touch.release()
 
     def dismiss(self):
