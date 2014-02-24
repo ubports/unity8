@@ -55,7 +55,7 @@ ListModel {
         title: "Camera"
         comment: ""
         dndUri: "appid://com.ubuntu.camera/camera/current-user-version"
-        metadata: "subscope:applications.scope/applications-click.scope?app_id=com.ubuntu.camera/camera/current-user-version"
+        metadata: "subscope:applications.scope/applications-click.scope?app_id=com.ubuntu.camera"
     }
     ListElement {
         uri: "appid://com.ubuntu.gallery/gallery/current-user-version"
@@ -65,7 +65,7 @@ ListModel {
         title: "Gallery"
         comment: ""
         dndUri: "appid://com.ubuntu.gallery/gallery/current-user-version"
-        metadata: "subscope:applications.scope/applications-click.scope?app_id=com.ubuntu.gallery/gallery/current-user-version"
+        metadata: "subscope:applications.scope/applications-click.scope?app_id=com.ubuntu.gallery"
     }
     ListElement {
         uri: "appid://com.ubuntu.developer.webapps.webapp-facebook/webapp-facebook/current-user-version"
