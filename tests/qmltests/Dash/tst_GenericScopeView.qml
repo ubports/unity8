@@ -41,12 +41,6 @@ Item {
         signal mainStageFocusedApplicationChanged()
     }
 
-    DashContentOpenEffect {
-        id: openEffect
-        previewListView: previewListView
-        sourceItem: genericScopeView
-    }
-
     PageHeaderLabel {
         id: pageHeader
         searchHistory: SearchHistoryModel {}
