@@ -191,16 +191,16 @@ FocusScope {
                 Connections {
                     target: rendererLoader.item
                     onClicked: {
-                        // Prepare the preview in case activate() triggers a preview only
-                        previewListView.model = target.model;
-                        previewListView.currentIndex = -1
-                        previewListView.currentIndex = index;
-
-                        var item = target.model.get(index);
-
                         if (scopeView.scope.id === "scopes" || (scopeView.scope.id == "clickscope" && categoryId == "local")) {
+                            // TODO Techincally it is possible that calling activate() will make the scope emit
+                            // previewRequested so that we show a preview but there's no scope that does that yet
+                            // so it's not implemented
+                            var item = target.model.get(index);
                             scopeView.scope.activate(item.result)
                         } else {
+                            previewListView.model = target.model;
+                            previewListView.currentIndex = -1
+                            previewListView.currentIndex = index;
                             previewListView.open = true
                         }
                     }
