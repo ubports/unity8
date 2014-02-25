@@ -91,7 +91,7 @@ PreviewWidget {
 
             pinch.target: image
             pinch.minimumScale: minScale
-        
+
             onPinchFinished: flickable.returnToBounds()
         }
 
@@ -131,7 +131,7 @@ PreviewWidget {
                     var deltaX = (mouse.x / image.scale) - startX;
                     var deltaY = (mouse.y / image.scale) - startY;
 
-                    if (image.scale == pinchArea.minScale && 
+                    if (image.scale == pinchArea.minScale &&
                             (Math.abs(deltaX) > 50 || Math.abs(deltaY) > 50)) {
                         swipeDone = true;
                     }
