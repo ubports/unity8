@@ -103,7 +103,7 @@ Item {
             id: dashContentList
             objectName: "dashContentList"
 
-            interactive: dashContent.scopes.loaded && !previewListView.open && !currentItem.moving
+            interactive: dashContent.scopes.loaded && !previewListView.open && currentItem && !currentItem.moving
 
             anchors.fill: parent
             model: dashContent.model
@@ -150,11 +150,12 @@ Item {
                     readonly property bool isLoaded: status == Loader.Ready
 
                     onLoaded: {
+                        item.objectName = scope.id
+                        item.pageHeader = dashPageHeader;
+                        item.previewListView = previewListView;
                         item.scope = Qt.binding(function() { return scope })
                         item.isCurrent = Qt.binding(function() { return visible && ListView.isCurrentItem })
                         item.tabBarHeight = dashPageHeader.implicitHeight;
-                        item.pageHeader = dashPageHeader;
-                        item.previewListView = previewListView;
                         dashContentList.movementStarted.connect(item.movementStarted)
                         dashContent.positionedAtBeginning.connect(item.positionedAtBeginning)
                         dashContent.scopeLoaded(item.scope.id)
@@ -185,7 +186,7 @@ Item {
             width: parent.width
             searchEntryEnabled: true
             searchHistory: dashContent.searchHistory
-            scope: dashContentList.currentItem.theScope
+            scope: dashContentList.currentItem && dashContentList.currentItem.theScope
 
             childItem: TabBar {
                 id: tabBar
@@ -225,6 +226,7 @@ Item {
 
     PreviewListView {
         id: previewListView
+        objectName: "dashContentPreviewList"
         visible: x != width
         scope: dashContentList.currentItem ? dashContentList.currentItem.theScope : null
         pageHeader: dashPageHeader

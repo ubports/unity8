@@ -24,9 +24,9 @@ import "../Components/ListItems" as ListItems
 FocusScope {
     id: scopeView
 
-    property Scope scope
+    property Scope scope: null
     property SortFilterProxyModel categories: categoryFilter
-    property bool isCurrent
+    property bool isCurrent: false
     property alias moving: categoryView.moving
     property int tabBarHeight: 0
     property PageHeader pageHeader: null
@@ -92,7 +92,7 @@ FocusScope {
     Binding {
         target: pageHeader
         property: "searchQuery"
-        value: scopeView.scope.searchQuery
+        value: scopeView.scope ? scopeView.scope.searchQuery : ""
         when: isCurrent
     }
 
@@ -125,11 +125,6 @@ FocusScope {
         onContentYChanged: pageHeader.positionRealHeader();
         onOriginYChanged: pageHeader.positionRealHeader();
         onContentHeightChanged: pageHeader.positionRealHeader();
-
-        Behavior on contentY {
-            enabled: previewListView.open
-            UbuntuNumberAnimation {}
-        }
 
         delegate: ListItems.Base {
             id: baseItem
@@ -275,7 +270,7 @@ FocusScope {
 
         sectionProperty: "name"
         sectionDelegate: ListItems.Header {
-            objectName: "dashSectionHeader" + delegate.category
+            objectName: "dashSectionHeader" + (delegate ? delegate.category : "")
             property var delegate: categoryView.item(delegateIndex)
             width: categoryView.width
             text: section

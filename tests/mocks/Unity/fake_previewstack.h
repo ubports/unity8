@@ -15,54 +15,47 @@
  */
 
 
-#ifndef NG_FAKE_PREVIEW_H
-#define NG_FAKE_PREVIEW_H
+#ifndef FAKE_PREVIEWSTACK_H
+#define FAKE_PREVIEWSTACK_H
 
 #include <QAbstractListModel>
 #include <QSharedPointer>
 #include <QVariantMap>
 
-namespace scopes_ng
-{
+class PreviewModel;
 
-class PreviewData;
-
-class Q_DECL_EXPORT PreviewModel : public QAbstractListModel
+class PreviewStack : public QAbstractListModel
 {
     Q_OBJECT
 
     Q_ENUMS(Roles)
 
+    Q_PROPERTY(int widgetColumnCount READ widgetColumnCount WRITE setWidgetColumnCount NOTIFY widgetColumnCountChanged)
+
 public:
-    explicit PreviewModel(QObject* parent = 0);
+    explicit PreviewStack(QObject* parent = 0);
+    virtual ~PreviewStack();
 
     enum Roles {
-        RoleWidgetId,
-        RoleType,
-        RoleProperties
+        RolePreviewModel
     };
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 
-Q_SIGNALS:
-    void actionTriggered(QString widgetId, QString actionId, QVariantMap data);
+    Q_INVOKABLE PreviewModel* get(int index) const;
 
-public Q_SLOTS:
-    void triggered(QString widgetId, QString actionId, QVariantMap data);
+    void setWidgetColumnCount(int columnCount);
+    int widgetColumnCount() const;
+
+Q_SIGNALS:
+    void widgetColumnCountChanged();
 
 private:
-    QHash<int, QByteArray> m_roles;
-    QList<QSharedPointer<PreviewData>> m_previewWidgets;
-
-    void populateWidgets();
-
+    QList<PreviewModel*> m_previews;
 };
 
-} // namespace scopes_ng
+Q_DECLARE_METATYPE(PreviewStack*)
 
-
-Q_DECLARE_METATYPE(scopes_ng::PreviewModel*)
-
-#endif // NG_FAKE_PREVIW_H
+#endif // FAKE_PREVIEWSTACK_H
