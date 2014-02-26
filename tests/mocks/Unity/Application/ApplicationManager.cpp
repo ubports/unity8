@@ -35,6 +35,7 @@ ApplicationManager::ApplicationManager(QObject *parent)
     , m_mainStage(0)
     , m_sideStageComponent(0)
     , m_sideStage(0)
+    , m_rightMargin(0)
 {
     buildListOfAvailableApplications();
 }
@@ -336,10 +337,12 @@ void ApplicationManager::generateQmlStrings(ApplicationInfo *application)
         "Image {\n"
         "   anchors.fill: parent\n"
         "   anchors.topMargin: %1\n"
-        "   source: \"file://%2/Dash/graphics/phone/screenshots/%3.png\"\n"
+        "   anchors.rightMargin: %2\n"
+        "   source: \"file://%3/Dash/graphics/phone/screenshots/%4.png\"\n"
         "   smooth: true\n"
         "   fillMode: Image.PreserveAspectCrop\n"
         "}").arg(topMargin)
+            .arg(m_rightMargin)
             .arg(qmlDirectory())
             .arg(application->icon().toString());
     application->setWindowQml(windowQml);
@@ -567,4 +570,26 @@ void ApplicationManager::createSideStage()
     m_sideStage = qobject_cast<QQuickItem *>(m_sideStageComponent->create());
     m_sideStage->setParentItem(shell);
     m_sideStage->setFlag(QQuickItem::ItemHasContents, false);
+}
+
+QStringList ApplicationManager::availableApplications()
+{
+    QStringList appIds;
+    Q_FOREACH(ApplicationInfo *app, m_availableApplications) {
+        appIds << app->appId();
+    }
+    return appIds;
+}
+
+int ApplicationManager::rightMargin() const
+{
+    return m_rightMargin;
+}
+
+void ApplicationManager::setRightMargin(int rightMargin)
+{
+    m_rightMargin = rightMargin;
+    Q_FOREACH(ApplicationInfo *app, m_availableApplications) {
+        generateQmlStrings(app);
+    }
 }

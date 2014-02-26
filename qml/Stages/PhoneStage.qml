@@ -133,7 +133,7 @@ Item {
         // Mir signals us that the newly started app has gotten focus before it paints something on the screen
         // This would result in the old app surface becoming visible for a bit.
         // FIXME: change appManager to only change the focusedApplicationId when the surface is ready to be shown.
-        interval: 1500
+        interval: 0//1500
         repeat: false
         onTriggered: {
             priv.applicationStarting = false;
@@ -270,6 +270,7 @@ Item {
 
     Flickable {
         id: spreadView
+        objectName: "spreadView"
         anchors.fill: parent
         visible: spreadDragArea.status == DirectionalDragArea.Recognized || stage > 1 || snapAnimation.running
         contentWidth: spreadRow.width - shift
@@ -378,6 +379,7 @@ Item {
                 model: ApplicationManager
                 delegate: TransformedSpreadDelegate {
                     id: appDelegate
+                    objectName: "appDelegate" + index
                     startAngle: 45
                     endAngle: 5
                     startScale: 1.1
@@ -400,7 +402,6 @@ Item {
                         if (index == 1 && spreadView.stage < 2) {
                             tileProgress += spreadView.tileDistance / spreadView.width
                         }
-                        print("returning tile progress!!!", tileProgress, spreadView.shiftedContentX, spreadView.shift, spreadView.contentX )
                         return tileProgress;
                     }
 
