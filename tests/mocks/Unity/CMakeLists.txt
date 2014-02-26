@@ -1,5 +1,7 @@
 add_subdirectory(Application)
 add_subdirectory(Indicators)
+add_subdirectory(Launcher)
+add_subdirectory(Notifications)
 
 pkg_search_module(DEE dee-1.0 REQUIRED)
 pkg_search_module(GOBJECT gobject-2.0 REQUIRED)
@@ -23,6 +25,7 @@ set(UnityQML_SOURCES
   fake_scope.cpp
   fake_scopes.cpp
   fake_categories.cpp
+  scopes-ng/fake_preview_model.cpp
   fake_unity_plugin.cpp
 )
 
@@ -41,5 +44,10 @@ file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
     DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
     )
 
-add_subdirectory(Launcher)
-add_subdirectory(Notifications)
+install(TARGETS FakeUnityQml
+    DESTINATION ${SHELL_INSTALL_QML}/scopefakes/Unity
+    )
+
+install(FILES qmldir
+    DESTINATION ${SHELL_INSTALL_QML}/scopefakes/Unity
+    )

@@ -77,4 +77,11 @@ Item {
             bottom: parent.bottom
         }
     }
+
+    Label {
+        text: "Rightwards"
+        anchors.left: parent.left
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.leftMargin: units.gu(1)
+    }
 }

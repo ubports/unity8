@@ -459,6 +459,38 @@ private Q_SLOTS:
         verifyItem(vj->m_columnVisibleItems[1][2],  7, 160, 120, true);
     }
 
+    void testNegativeHeight()
+    {
+        QQuickItemPrivate::get(vj)->anchors()->resetFill();
+        vj->setHeight(-8);
+
+        QStringList heightList;
+        heightList << "100" << "50" << "50" << "30";
+        model->setStringList(heightList);
+
+        QTRY_COMPARE(vj->m_columnVisibleItems.count(), 3);
+        QTRY_COMPARE(vj->m_columnVisibleItems[0].count(), 0);
+        QTRY_COMPARE(vj->m_columnVisibleItems[1].count(), 0);
+        QTRY_COMPARE(vj->m_columnVisibleItems[2].count(), 0);
+        QTRY_COMPARE(vj->implicitHeight(), 0.);
+    }
+
+    void testNegativeDelegateCreationRange()
+    {
+        vj->setDelegateCreationBegin(0);
+        vj->setDelegateCreationEnd(-100);
+
+        QStringList heightList;
+        heightList << "100" << "50" << "50" << "30";
+        model->setStringList(heightList);
+
+        QTRY_COMPARE(vj->m_columnVisibleItems.count(), 3);
+        QTRY_COMPARE(vj->m_columnVisibleItems[0].count(), 0);
+        QTRY_COMPARE(vj->m_columnVisibleItems[1].count(), 0);
+        QTRY_COMPARE(vj->m_columnVisibleItems[2].count(), 0);
+        QTRY_COMPARE(vj->implicitHeight(), 0.);
+    }
+
 private:
     QQuickView *view;
     VerticalJournal *vj;

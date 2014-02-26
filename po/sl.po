@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-11-29 09:21+0100\n"
-"PO-Revision-Date: 2013-11-30 08:20+0000\n"
+"POT-Creation-Date: 2014-02-13 18:37+0000\n"
+"PO-Revision-Date: 2014-02-21 16:38+0000\n"
 "Last-Translator: Damir Jerovšek <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,139 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
 "n%100==4 ? 3 : 0);\n"
-"X-Launchpad-Export-Date: 2013-12-29 06:04+0000\n"
-"X-Generator: Launchpad (build 16877)\n"
-
-#: Components/EdgeDemoOverlay.qml:151
-msgid "Skip intro"
-msgstr "Preskoči uvod"
-
-#: Components/EdgeDemo.qml:112
-msgid "Right edge"
-msgstr "Desni rob"
-
-#: Components/EdgeDemo.qml:113
-msgid "Try swiping from the right edge to unlock the phone"
-msgstr "Poskusite povleči od desnega roba za odklep telefona"
-
-#: Components/EdgeDemo.qml:144
-msgid "Top edge"
-msgstr "Zgornji rob"
-
-#: Components/EdgeDemo.qml:145
-msgid "Try swiping from the top edge to access the indicators"
-msgstr "Poskusite povleči od zgornjega roba za dostop do kazalnikov"
-
-#: Components/EdgeDemo.qml:170
-msgid "Close"
-msgstr "Zapri"
-
-#: Components/EdgeDemo.qml:171
-msgid "Swipe up again to close the settings screen"
-msgstr "Povlecite ponovno navzgor za zaprtje zaslona z nastavitvami"
-
-#: Components/EdgeDemo.qml:198
-msgid "Left edge"
-msgstr "Levi rob"
-
-#: Components/EdgeDemo.qml:199
-msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr ""
-"Poskusite povleči od leve za razkritje zaganjalnika za hiter dostop do "
-"programov"
-
-#: Components/EdgeDemo.qml:226
-msgid "Well done"
-msgstr "Odlično"
-
-#: Components/EdgeDemo.qml:227
-msgid ""
-"You have now mastered the edge gestures and can start using the "
-"phone<br><br>Tap anywhere to start"
-msgstr ""
-"Sedaj ste osvojili poteze robov ter lahko začnete uporabljati "
-"telefon<br><br>Tapnite kjerkoli na začetek"
-
-#: Components/PageHeader.qml:364
-msgid "Recent searches"
-msgstr "Nedavna iskanja"
-
-#: Dash/Apps/AppPreview.qml:135
-msgid "Rate this"
-msgstr "Ocenite"
-
-#. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: Dash/Previews/Header.qml:93
-#, qt-format
-msgid "(%1)"
-msgstr "(%1)"
-
-#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: Dash/Previews/Header.qml:105
-#, qt-format
-msgid "%1 review"
-msgid_plural "%1 reviews"
-msgstr[0] "%1 ocen"
-msgstr[1] "%1 ocena"
-msgstr[2] "%1 oceni"
-msgstr[3] "%1 ocene"
-
-#: Dash/Previews/Reviews.qml:74
-msgid "Add a review"
-msgstr "Dodaj oceno"
-
-#: Dash/Previews/Reviews.qml:86
-msgid "Review"
-msgstr "Ocena"
-
-#: Dash/Previews/Reviews.qml:121
-msgid "Send"
-msgstr "Pošlji"
-
-#: Dash/Previews/Reviews.qml:139
-msgid "Comments:"
-msgstr "Opombe:"
-
-#: Greeter/Lockscreen.qml:149
-msgid "Emergency Call"
-msgstr "Klic v sili"
-
-#: Greeter/PassphraseLockscreen.qml:59
-#, qt-format
-msgid "Hello %1"
-msgstr "Pozdravljeni, %1"
-
-#: Greeter/PassphraseLockscreen.qml:59
-msgid "Hello"
-msgstr "Pozdravljeni"
-
-#: Hud/HudParametrizedActionsPage.qml:132
-msgid "Confirm"
-msgstr "Potrdi"
-
-#: Hud/Hud.qml:61 Hud/Hud.qml:99 Hud/Hud.qml:372
-msgid "Type or say a command"
-msgstr "Vnesite ali izrecite ukaz"
-
-#: Hud/Hud.qml:84
-msgid "Loading. Please Wait..."
-msgstr "Nalaganje. Prosimo počakajte ..."
-
-#: Hud/Hud.qml:89
-msgid "Speak Now..."
-msgstr "Govorite zdaj ..."
-
-#: Hud/Hud.qml:94
-msgid "Speaking..."
-msgstr "Govorjenje ..."
-
-#: Notifications/NotificationMenuItemFactory.qml:89
-msgid "Show password"
-msgstr "Pokaži geslo"
-
-#: Panel/SearchIndicator.qml:27
-msgid "Search"
-msgstr "Iskanje"
+"X-Launchpad-Export-Date: 2014-02-22 07:40+0000\n"
+"X-Generator: Launchpad (build 16926)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -159,7 +28,158 @@ msgstr "Zakleni na zaganjalnik"
 msgid "Unlock from Launcher"
 msgstr "Odkleni z zaganjalnika"
 
-#: Shell.qml:439
+#: qml/Components/EdgeDemoOverlay.qml:151
+msgid "Skip intro"
+msgstr "Preskoči uvod"
+
+#: qml/Components/EdgeDemo.qml:113
+msgid "Right edge"
+msgstr "Desni rob"
+
+#: qml/Components/EdgeDemo.qml:114
+msgid "Try swiping from the right edge to unlock the phone"
+msgstr "Poskusite povleči od desnega roba za odklep telefona"
+
+#: qml/Components/EdgeDemo.qml:145
+msgid "Top edge"
+msgstr "Zgornji rob"
+
+#: qml/Components/EdgeDemo.qml:146
+msgid "Try swiping from the top edge to access the indicators"
+msgstr "Poskusite povleči od zgornjega roba za dostop do kazalnikov"
+
+#: qml/Components/EdgeDemo.qml:171
+msgid "Close"
+msgstr "Zapri"
+
+#: qml/Components/EdgeDemo.qml:172
+msgid "Swipe up again to close the settings screen"
+msgstr "Povlecite ponovno navzgor za zaprtje zaslona z nastavitvami"
+
+#: qml/Components/EdgeDemo.qml:199
+msgid "Left edge"
+msgstr "Levi rob"
+
+#: qml/Components/EdgeDemo.qml:200
+msgid "Swipe from the left to reveal the launcher for quick access to apps"
+msgstr ""
+"Poskusite povleči od leve za razkritje zaganjalnika za hiter dostop do "
+"programov"
+
+#: qml/Components/EdgeDemo.qml:227
+msgid "Well done"
+msgstr "Odlično"
+
+#: qml/Components/EdgeDemo.qml:228
+msgid ""
+"You have now mastered the edge gestures and can start using the "
+"phone<br><br>Tap on the screen to start"
+msgstr ""
+"Sedaj, ko ste osvojili poteze robov, lahko začnete uporabljati "
+"telefon<br><br>Tapnite na zaslon za začetek"
+
+#: qml/Components/PageHeader.qml:340
+msgid "Recent searches"
+msgstr "Nedavna iskanja"
+
+#: qml/Components/SeeMore.qml:35
+msgid "See more"
+msgstr "Pokaži več"
+
+#: qml/Components/SeeMore.qml:57
+msgid "See less"
+msgstr "Pokaži manj"
+
+#: qml/Dash/Apps/AppPreview.qml:136 qml/Dash/Previews/PreviewRating.qml:70
+msgid "Rate this"
+msgstr "Ocenite"
+
+#. TRANSLATORS: Number of persons who rated this app/video/whatever
+#: qml/Dash/Previews/Header.qml:93
+#, qt-format
+msgid "(%1)"
+msgstr "(%1)"
+
+#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
+#: qml/Dash/Previews/Header.qml:105
+#, qt-format
+msgid "%1 review"
+msgid_plural "%1 reviews"
+msgstr[0] "%1 ocen"
+msgstr[1] "%1 ocena"
+msgstr[2] "%1 oceni"
+msgstr[3] "%1 ocene"
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "More..."
+msgstr "Več ..."
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "Less..."
+msgstr "Manj ..."
+
+#: qml/Dash/Previews/PreviewRating.qml:114 qml/Dash/Previews/Reviews.qml:74
+msgid "Add a review"
+msgstr "Dodaj oceno"
+
+#: qml/Dash/Previews/PreviewRating.qml:153 qml/Dash/Previews/Reviews.qml:121
+msgid "Send"
+msgstr "Pošlji"
+
+#: qml/Dash/Previews/Reviews.qml:86
+msgid "Review"
+msgstr "Ocena"
+
+#: qml/Dash/Previews/Reviews.qml:139
+msgid "Comments:"
+msgstr "Opombe:"
+
+#: qml/Greeter/Lockscreen.qml:149
+msgid "Emergency Call"
+msgstr "Klic v sili"
+
+#: qml/Greeter/PassphraseLockscreen.qml:59
+#, qt-format
+msgid "Hello %1"
+msgstr "Pozdravljeni, %1"
+
+#: qml/Greeter/PassphraseLockscreen.qml:59
+msgid "Hello"
+msgstr "Pozdravljeni"
+
+#: qml/Hud/HudParametrizedActionsPage.qml:132
+msgid "Confirm"
+msgstr "Potrdi"
+
+#: qml/Hud/Hud.qml:61 qml/Hud/Hud.qml:99 qml/Hud/Hud.qml:372
+msgid "Type or say a command"
+msgstr "Vnesite ali izrecite ukaz"
+
+#: qml/Hud/Hud.qml:84
+msgid "Loading. Please Wait..."
+msgstr "Nalaganje. Prosimo počakajte ..."
+
+#: qml/Hud/Hud.qml:89
+msgid "Speak Now..."
+msgstr "Govorite zdaj ..."
+
+#: qml/Hud/Hud.qml:94
+msgid "Speaking..."
+msgstr "Govorjenje ..."
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:91
+msgid "Show password"
+msgstr "Pokaži geslo"
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:103
+msgid "Please enter SIM PIN"
+msgstr "Vnesite PIN kartice SIM"
+
+#: qml/Panel/SearchIndicator.qml:27
+msgid "Search"
+msgstr "Iskanje"
+
+#: qml/Shell.qml:440
 #, qt-format
 msgid "Please enter %1"
 msgstr "Vnesite %1"

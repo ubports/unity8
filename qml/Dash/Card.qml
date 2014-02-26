@@ -23,24 +23,62 @@ Item {
     property var components
     property var cardData
 
-    width: {
-        if (template !== undefined) {
-            if (template["card-layout"] === "horizontal") return units.gu(38);
-            switch (template['card-size']) {
-                case "small": return units.gu(12);
-                case "large": return units.gu(38);
+    property alias fontScale: header.fontScale
+    property alias headerAlignment: header.headerAlignment
+    readonly property alias headerHeight: header.height
+
+    property bool showHeader: true
+
+    implicitWidth: childrenRect.width
+    implicitHeight: summary.y + summary.height + (summary.text && background.visible ? units.gu(1) : 0)
+
+    UbuntuShape {
+        id: background
+        objectName: "background"
+        radius: "medium"
+        visible: template["card-layout"] !== "horizontal" && (template["card-background"] || components["background"]
+                                                              || artAndSummary)
+        property bool artAndSummary: components["art"]["field"] && components["summary"] || false
+        color: getColor(0) || "white"
+        gradientColor: getColor(1) || color
+        anchors.fill: parent
+        image: backgroundImage.source ? backgroundImage : null
+
+        property Image backgroundImage: Image {
+            objectName: "backgroundImage"
+            source: {
+                if (cardData && typeof cardData["background"] === "string") return cardData["background"]
+                else if (template && typeof template["card-background"] === "string") return template["card-background"]
+                else return ""
             }
         }
-        return units.gu(18.5);
+
+        function getColor(index) {
+            if (cardData && typeof cardData["background"] === "object"
+                && (cardData["background"]["type"] === "color" || cardData["background"]["type"] === "gradient")) {
+                return cardData["background"]["elements"][index];
+            } else if (template && typeof template["card-background"] === "object"
+                       && (template["card-background"]["type"] === "color" || template["card-background"]["type"] === "gradient"))  {
+                return template["card-background"]["elements"][index];
+            } else return undefined;
+        }
     }
-    height: childrenRect.height
 
     UbuntuShape {
         id: artShape
+        radius: "medium"
         objectName: "artShape"
-        width: image.fillMode === Image.PreserveAspectCrop || aspect < image.aspect ? image.width : height * image.aspect
-        height: image.fillMode === Image.PreserveAspectCrop || aspect > image.aspect ? image.height : width / image.aspect
+        width: {
+            if (!visible) return 0
+            return image.fillMode === Image.PreserveAspectCrop || aspect < image.aspect ? image.width : height * image.aspect
+        }
+        height: {
+            if (!visible) return 0
+            return image.fillMode === Image.PreserveAspectCrop || aspect > image.aspect ? image.height : width / image.aspect
+        }
         anchors.horizontalCenter: template && template["card-layout"] === "horizontal" ? undefined : parent.horizontalCenter
+        anchors.left: template && template["card-layout"] === "horizontal" ? parent.left : undefined
+        visible: cardData && cardData["art"] || false
 
         property real aspect: components !== undefined ? components["art"]["aspect-ratio"] : 1
 
@@ -52,32 +90,96 @@ Item {
             // FIXME uncomment when having investigated / fixed the crash
             //sourceSize.width: width > height ? width : 0
             //sourceSize.height: height > width ? height : 0
-            fillMode: components["art"]["fill-mode"] === "fit" ? Image.PreserveAspectFit: Image.PreserveAspectCrop
+            fillMode: components && components["art"]["fill-mode"] === "fit" ? Image.PreserveAspectFit: Image.PreserveAspectCrop
 
             property real aspect: implicitWidth / implicitHeight
         }
+    }
+
+    ShaderEffect {
+        id: overlay
+        anchors {
+            left: artShape.left
+            right: artShape.right
+            bottom: artShape.bottom
+        }
+
+        height: header.height
+        opacity: header.opacity * 0.6
+        visible: template && template["overlay"] && artShape.visible && artShape.image.status === Image.Ready || false
+
+        property var source: ShaderEffectSource {
+            id: shaderSource
+            sourceItem: artShape
+            onVisibleChanged: if (visible) scheduleUpdate()
+            live: false
+            sourceRect: Qt.rect(0, artShape.height - overlay.height, artShape.width, overlay.height)
+        }
+
+        vertexShader: "
+            uniform highp mat4 qt_Matrix;
+            attribute highp vec4 qt_Vertex;
+            attribute highp vec2 qt_MultiTexCoord0;
+            varying highp vec2 coord;
+            void main() {
+                coord = qt_MultiTexCoord0;
+                gl_Position = qt_Matrix * qt_Vertex;
+            }"
+
+        fragmentShader: "
+            varying highp vec2 coord;
+            uniform sampler2D source;
+            uniform lowp float qt_Opacity;
+            void main() {
+                lowp vec4 tex = texture2D(source, coord);
+                gl_FragColor = vec4(0, 0, 0, tex.a) * qt_Opacity;
+            }"
     }
 
     CardHeader {
         id: header
         objectName: "cardHeader"
         anchors {
-            top: template && template["card-layout"] === "horizontal" ? artShape.top : artShape.bottom
-            left: template && template["card-layout"] === "horizontal" ? artShape.right : parent.left
+            top: {
+                if (template) {
+                    if (template["overlay"]) return overlay.top;
+                    if (template["card-layout"] === "horizontal") return artShape.top;
+                }
+                return artShape.bottom;
+            }
+            left: {
+                if (template) {
+                    if (!template["overlay"] && template["card-layout"] === "horizontal") return artShape.right;
+                }
+                return parent.left;
+            }
             right: parent.right
         }
 
         mascot: cardData && cardData["mascot"] || ""
         title: cardData && cardData["title"] || ""
         subtitle: cardData && cardData["subtitle"] || ""
+
+        opacity: showHeader ? 1 : 0
+
+        Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
     }
 
     Label {
+        id: summary
         objectName: "summaryLabel"
-        anchors { top: header.bottom; left: parent.left; right: parent.right }
+        anchors {
+            top: header.visible ? header.bottom : artShape.bottom
+            left: parent.left
+            right: parent.right
+            margins: background.visible ? units.gu(1) : 0
+            topMargin: 0
+        }
         wrapMode: Text.Wrap
         maximumLineCount: 5
         elide: Text.ElideRight
         text: cardData && cardData["summary"] || ""
+        height: text ? implicitHeight : 0
+        fontSize: "small"
     }
 }

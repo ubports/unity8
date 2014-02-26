@@ -7,143 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-11-29 09:21+0100\n"
-"PO-Revision-Date: 2013-11-20 08:09+0000\n"
+"POT-Creation-Date: 2014-02-13 18:37+0000\n"
+"PO-Revision-Date: 2014-02-21 19:36+0000\n"
 "Last-Translator: Jiri Grönroos <Unknown>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-12-29 06:04+0000\n"
-"X-Generator: Launchpad (build 16877)\n"
-
-#: Components/EdgeDemoOverlay.qml:151
-msgid "Skip intro"
-msgstr "Ohita esittely"
-
-#: Components/EdgeDemo.qml:112
-msgid "Right edge"
-msgstr "Oikea reuna"
-
-#: Components/EdgeDemo.qml:113
-msgid "Try swiping from the right edge to unlock the phone"
-msgstr "Vedä oikealta avataksesi puhelimen lukituksen"
-
-#: Components/EdgeDemo.qml:144
-msgid "Top edge"
-msgstr "Yläreuna"
-
-#: Components/EdgeDemo.qml:145
-msgid "Try swiping from the top edge to access the indicators"
-msgstr "Vedä yläreunasta käyttääksesi ilmaisimia"
-
-#: Components/EdgeDemo.qml:170
-msgid "Close"
-msgstr "Sulje"
-
-#: Components/EdgeDemo.qml:171
-msgid "Swipe up again to close the settings screen"
-msgstr "Vedä uudestaan sulkeaksesi asetusnäkymän"
-
-#: Components/EdgeDemo.qml:198
-msgid "Left edge"
-msgstr "Vasen reuna"
-
-#: Components/EdgeDemo.qml:199
-msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr "Vedä vasemmalta saattaaksesi sovellusten käynnistimen esiin"
-
-#: Components/EdgeDemo.qml:226
-msgid "Well done"
-msgstr "Hyvin tehty"
-
-#: Components/EdgeDemo.qml:227
-msgid ""
-"You have now mastered the edge gestures and can start using the "
-"phone<br><br>Tap anywhere to start"
-msgstr ""
-"Hallitset nyt reunaeleet, joten voit aloittaa puhelimen "
-"käytön<br><br>Napauta missä tahansa aloittaaksesi"
-
-#: Components/PageHeader.qml:364
-msgid "Recent searches"
-msgstr "Viimeisimmät haut"
-
-#: Dash/Apps/AppPreview.qml:135
-msgid "Rate this"
-msgstr "Arvioi tämä"
-
-#. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: Dash/Previews/Header.qml:93
-#, qt-format
-msgid "(%1)"
-msgstr "(%1)"
-
-#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: Dash/Previews/Header.qml:105
-#, qt-format
-msgid "%1 review"
-msgid_plural "%1 reviews"
-msgstr[0] "%1 arvostelu"
-msgstr[1] "%1 arvostelua"
-
-#: Dash/Previews/Reviews.qml:74
-msgid "Add a review"
-msgstr "Lisää arvostelu"
-
-#: Dash/Previews/Reviews.qml:86
-msgid "Review"
-msgstr "Arvostelu"
-
-#: Dash/Previews/Reviews.qml:121
-msgid "Send"
-msgstr "Lähetä"
-
-#: Dash/Previews/Reviews.qml:139
-msgid "Comments:"
-msgstr "Kommentit:"
-
-#: Greeter/Lockscreen.qml:149
-msgid "Emergency Call"
-msgstr "Hätäpuhelu"
-
-#: Greeter/PassphraseLockscreen.qml:59
-#, qt-format
-msgid "Hello %1"
-msgstr "Hei %1!"
-
-#: Greeter/PassphraseLockscreen.qml:59
-msgid "Hello"
-msgstr "Hei"
-
-#: Hud/HudParametrizedActionsPage.qml:132
-msgid "Confirm"
-msgstr "Hyväksy"
-
-#: Hud/Hud.qml:61 Hud/Hud.qml:99 Hud/Hud.qml:372
-msgid "Type or say a command"
-msgstr "Kirjoita tai sano komento"
-
-#: Hud/Hud.qml:84
-msgid "Loading. Please Wait..."
-msgstr "Ladataan, pieni hetki..."
-
-#: Hud/Hud.qml:89
-msgid "Speak Now..."
-msgstr "Puhu nyt..."
-
-#: Hud/Hud.qml:94
-msgid "Speaking..."
-msgstr "Puhutaan..."
-
-#: Notifications/NotificationMenuItemFactory.qml:89
-msgid "Show password"
-msgstr "Näytä salasana"
-
-#: Panel/SearchIndicator.qml:27
-msgid "Search"
-msgstr "Hae"
+"X-Launchpad-Export-Date: 2014-02-22 07:40+0000\n"
+"X-Generator: Launchpad (build 16926)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -154,7 +27,152 @@ msgstr "Kiinnitä käynnistimeen"
 msgid "Unlock from Launcher"
 msgstr "Poista käynnistimestä"
 
-#: Shell.qml:439
+#: qml/Components/EdgeDemoOverlay.qml:151
+msgid "Skip intro"
+msgstr "Ohita esittely"
+
+#: qml/Components/EdgeDemo.qml:113
+msgid "Right edge"
+msgstr "Oikea reuna"
+
+#: qml/Components/EdgeDemo.qml:114
+msgid "Try swiping from the right edge to unlock the phone"
+msgstr "Vedä oikealta avataksesi puhelimen lukituksen"
+
+#: qml/Components/EdgeDemo.qml:145
+msgid "Top edge"
+msgstr "Yläreuna"
+
+#: qml/Components/EdgeDemo.qml:146
+msgid "Try swiping from the top edge to access the indicators"
+msgstr "Vedä yläreunasta käyttääksesi ilmaisimia"
+
+#: qml/Components/EdgeDemo.qml:171
+msgid "Close"
+msgstr "Sulje"
+
+#: qml/Components/EdgeDemo.qml:172
+msgid "Swipe up again to close the settings screen"
+msgstr "Vedä uudestaan sulkeaksesi asetusnäkymän"
+
+#: qml/Components/EdgeDemo.qml:199
+msgid "Left edge"
+msgstr "Vasen reuna"
+
+#: qml/Components/EdgeDemo.qml:200
+msgid "Swipe from the left to reveal the launcher for quick access to apps"
+msgstr "Vedä vasemmalta saattaaksesi sovellusten käynnistimen esiin"
+
+#: qml/Components/EdgeDemo.qml:227
+msgid "Well done"
+msgstr "Hyvin tehty"
+
+#: qml/Components/EdgeDemo.qml:228
+msgid ""
+"You have now mastered the edge gestures and can start using the "
+"phone<br><br>Tap on the screen to start"
+msgstr ""
+
+#: qml/Components/PageHeader.qml:340
+msgid "Recent searches"
+msgstr "Viimeisimmät haut"
+
+#: qml/Components/SeeMore.qml:35
+msgid "See more"
+msgstr ""
+
+#: qml/Components/SeeMore.qml:57
+msgid "See less"
+msgstr ""
+
+#: qml/Dash/Apps/AppPreview.qml:136 qml/Dash/Previews/PreviewRating.qml:70
+msgid "Rate this"
+msgstr "Arvioi tämä"
+
+#. TRANSLATORS: Number of persons who rated this app/video/whatever
+#: qml/Dash/Previews/Header.qml:93
+#, qt-format
+msgid "(%1)"
+msgstr "(%1)"
+
+#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
+#: qml/Dash/Previews/Header.qml:105
+#, qt-format
+msgid "%1 review"
+msgid_plural "%1 reviews"
+msgstr[0] "%1 arvostelu"
+msgstr[1] "%1 arvostelua"
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "More..."
+msgstr "Lisää..."
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "Less..."
+msgstr ""
+
+#: qml/Dash/Previews/PreviewRating.qml:114 qml/Dash/Previews/Reviews.qml:74
+msgid "Add a review"
+msgstr "Lisää arvostelu"
+
+#: qml/Dash/Previews/PreviewRating.qml:153 qml/Dash/Previews/Reviews.qml:121
+msgid "Send"
+msgstr "Lähetä"
+
+#: qml/Dash/Previews/Reviews.qml:86
+msgid "Review"
+msgstr "Arvostelu"
+
+#: qml/Dash/Previews/Reviews.qml:139
+msgid "Comments:"
+msgstr "Kommentit:"
+
+#: qml/Greeter/Lockscreen.qml:149
+msgid "Emergency Call"
+msgstr "Hätäpuhelu"
+
+#: qml/Greeter/PassphraseLockscreen.qml:59
+#, qt-format
+msgid "Hello %1"
+msgstr "Hei %1!"
+
+#: qml/Greeter/PassphraseLockscreen.qml:59
+msgid "Hello"
+msgstr "Hei"
+
+#: qml/Hud/HudParametrizedActionsPage.qml:132
+msgid "Confirm"
+msgstr "Hyväksy"
+
+#: qml/Hud/Hud.qml:61 qml/Hud/Hud.qml:99 qml/Hud/Hud.qml:372
+msgid "Type or say a command"
+msgstr "Kirjoita tai sano komento"
+
+#: qml/Hud/Hud.qml:84
+msgid "Loading. Please Wait..."
+msgstr "Ladataan, pieni hetki..."
+
+#: qml/Hud/Hud.qml:89
+msgid "Speak Now..."
+msgstr "Puhu nyt..."
+
+#: qml/Hud/Hud.qml:94
+msgid "Speaking..."
+msgstr "Puhutaan..."
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:91
+msgid "Show password"
+msgstr "Näytä salasana"
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:103
+msgid "Please enter SIM PIN"
+msgstr "Anna SIM-kortin PIN-koodi"
+
+#: qml/Panel/SearchIndicator.qml:27
+msgid "Search"
+msgstr "Hae"
+
+#: qml/Shell.qml:440
 #, qt-format
 msgid "Please enter %1"
 msgstr "Kirjoita %1"
