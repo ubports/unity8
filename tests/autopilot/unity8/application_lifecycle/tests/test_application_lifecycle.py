@@ -56,9 +56,8 @@ class ApplicationLifecycleTests(UnityTestCase):
         self.touch.drag(start_x, start_y, end_x, end_y)
 
     def swipe_screen_from_left(self):
-        qml_view = self.main_window.get_qml_view()
-        width = qml_view.width
-        height = qml_view.height
+        width = self.main_window.width
+        height = self.main_window.height
         start_x = 0
         start_y = int(height/2)
         end_x = width
