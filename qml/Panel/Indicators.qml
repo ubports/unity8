@@ -32,7 +32,7 @@ Showable {
     property alias overFlowWidth: indicatorRow.overFlowWidth
     property alias showAll: indicatorRow.showAll
     // TODO: This should be sourced by device type (eg "desktop", "tablet", "phone"...)
-    property string profile: "phone"
+    property string profile: indicatorProfile
 
     readonly property real hintValue: panelHeight + menuContent.headerHeight
     readonly property int lockThreshold: openedHeight / 2
