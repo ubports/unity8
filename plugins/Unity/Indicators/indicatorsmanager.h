@@ -38,7 +38,7 @@ public:
     explicit IndicatorsManager(QObject* parent = 0);
     ~IndicatorsManager();
 
-    Q_INVOKABLE void load();
+    Q_INVOKABLE void load(const QString& profile);
     Q_INVOKABLE void unload();
 
     Indicator::Ptr indicator(const QString& indicator_name);
@@ -71,6 +71,7 @@ private:
     QHash<QString, IndicatorData*> m_indicatorsData;
     QSharedPointer<QFileSystemWatcher> m_fsWatcher;
     bool m_loaded;
+    QString m_profile;
 };
 
 #endif // INDICATORS_MANAGER_H

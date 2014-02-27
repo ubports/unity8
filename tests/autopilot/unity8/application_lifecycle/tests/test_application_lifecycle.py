@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2013 Canonical
+# Copyright (C) 2013, 2014 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -44,9 +44,8 @@ class ApplicationLifecycleTests(UnityTestCase):
             self.skipTest("Test cannot be run on the desktop.")
 
     def swipe_screen_from_right(self):
-        qml_view = self.main_window.get_qml_view()
-        width = qml_view.width
-        height = qml_view.height
+        width = self.main_window.width
+        height = self.main_window.height
         start_x = width
         start_y = int(height/2)
         end_x = int(width/2)
@@ -54,9 +53,6 @@ class ApplicationLifecycleTests(UnityTestCase):
 
         logger.info("Swiping screen from the right edge")
         self.touch.drag(start_x, start_y, end_x, end_y)
-
-    def _get_current_focused_app_id(self):
-        return self._proxy.select_single("Shell").currentFocusedAppId
 
     def _launch_app(self, app_name):
         """Launches the application *app_name*
@@ -86,7 +82,7 @@ class ApplicationLifecycleTests(UnityTestCase):
 
         self.assertThat(app, NotEquals(None))
         self.assertThat(
-            self._get_current_focused_app_id(),
+            self.main_window.get_current_focused_app_id(),
             Eventually(Equals("messaging-app"))
         )
 
@@ -98,13 +94,13 @@ class ApplicationLifecycleTests(UnityTestCase):
 
         self._launch_app("messaging-app")
         self.assertThat(
-            self._get_current_focused_app_id(),
+            self.main_window.get_current_focused_app_id(),
             Eventually(Equals("messaging-app"))
         )
 
         self._launch_app("address-book-app")
         self.assertThat(
-            self._get_current_focused_app_id(),
+            self.main_window.get_current_focused_app_id(),
             Eventually(Equals("address-book-app"))
         )
 
@@ -119,19 +115,19 @@ class ApplicationLifecycleTests(UnityTestCase):
 
         self._launch_app("messaging-app")
         self.assertThat(
-            self._get_current_focused_app_id(),
+            self.main_window.get_current_focused_app_id(),
             Eventually(Equals("messaging-app"))
         )
 
         self._launch_app("address-book-app")
         self.assertThat(
-            self._get_current_focused_app_id(),
+            self.main_window.get_current_focused_app_id(),
             Eventually(Equals("address-book-app"))
         )
 
         self.swipe_screen_from_right()
 
         self.assertThat(
-            self._get_current_focused_app_id(),
+            self.main_window.get_current_focused_app_id(),
             Eventually(Equals("messaging-app"))
         )

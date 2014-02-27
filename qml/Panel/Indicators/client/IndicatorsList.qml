@@ -26,12 +26,13 @@ import "../.."
 Page {
     id: page
     anchors.fill: parent
+    property string profile: ""
     title: "Plugin list"
 
     Indicators.IndicatorsModel {
         id: indicatorsModel
 
-        Component.onCompleted: load()
+        Component.onCompleted: load(profile)
     }
 
     ListView {
@@ -40,24 +41,25 @@ Page {
         anchors.fill: parent
         model: indicatorsModel
 
-        delegate: Indicators.FramedMenuItem {
+        delegate: Rectangle {
+            color: "#221e1c"
+
             anchors.left: parent.left
             anchors.right: parent.right
-            objectName: identifier
+            height: menuItem.height
 
-            text: identifier
+            ListItem.Standard {
+                id: menuItem
+                anchors.left: parent.left
+                anchors.right: parent.right
+                objectName: identifier
 
-            onClicked: {
-                var new_page = Qt.createComponent("IndicatorsPage.qml");
-                page.pageStack.push(new_page.createObject(pages), {"indicatorProperties" : model.indicatorProperties, "pageSource" : model.pageSource});
-            }
+                text: identifier
 
-            Rectangle {
-                id: background
-
-                anchors.fill: parent
-                color: "#221e1c"
-                z: -1
+                onClicked: {
+                    var new_page = Qt.createComponent("IndicatorsPage.qml");
+                    page.pageStack.push(new_page.createObject(pages), {"indicatorProperties" : model.indicatorProperties, "pageSource" : model.pageSource});
+                }
             }
         }
     }

@@ -79,4 +79,11 @@ Item {
             bottom: parent.bottom
         }
     }
+
+    Label {
+        text: "Upwards"
+        anchors.bottom: parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottomMargin: units.gu(1)
+    }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013, 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,6 +36,7 @@ Scope::Scope(QString const& id, QString const& name, bool visible, QObject* pare
     , m_visible(visible)
     , m_searching(false)
     , m_isActive(false)
+    , m_previewRendererName("preview-generic")
     , m_categories(new Categories(this))
     , m_results(new DeeListModel(this))
 {
@@ -47,7 +48,7 @@ Scope::Scope(QString const& id, QString const& name, bool visible, QObject* pare
     m_timer.setInterval(1000);
     m_timer.setSingleShot(true);
     connect(&m_timer, &QTimer::timeout, [this]() {
-                                    Preview *p = new Preview(this);
+                                    Preview *p = new Preview(m_previewRendererName, this);
                                     Q_EMIT previewReady(p);
                                 });
 }
@@ -154,7 +155,6 @@ void Scope::activate(const QVariant &uri, const QVariant &icon_hint, const QVari
                      const QVariant &result_type, const QVariant &mimetype, const QVariant &title,
                      const QVariant &comment, const QVariant &dnd_uri, const QVariant &metadata)
 {
-    Q_UNUSED(uri);
     Q_UNUSED(icon_hint);
     Q_UNUSED(category);
     Q_UNUSED(result_type);
@@ -164,7 +164,8 @@ void Scope::activate(const QVariant &uri, const QVariant &icon_hint, const QVari
     Q_UNUSED(dnd_uri);
     Q_UNUSED(metadata);
 
-    m_timer.start();
+    if (uri !=  "uri://result.2")
+        m_timer.start();
 }
 
 void Scope::preview(const QVariant &uri, const QVariant &icon_hint, const QVariant &category,
@@ -201,7 +202,7 @@ DeeModel* create_categories_model(unsigned category_count) {
     for(unsigned i = 0; i < category_count; ++i)
     {
         dee_model_append(category_model,
-                         std::to_string(i).c_str(),
+                         (i == 2) ? "applications.scope" : std::to_string(i).c_str(),
                          ("Category "+std::to_string(i)).c_str(),
                          "gtk-apply",
                          i % 2 == 0 ? "grid" : "carousel",

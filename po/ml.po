@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-11-29 09:21+0100\n"
+"POT-Creation-Date: 2014-02-13 18:37+0000\n"
 "PO-Revision-Date: 2013-11-23 11:44+0000\n"
 "Last-Translator: STyM Alfazz <Unknown>\n"
 "Language-Team: Malayalam <ml@li.org>\n"
@@ -15,137 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-12-29 06:04+0000\n"
-"X-Generator: Launchpad (build 16877)\n"
-
-#: Components/EdgeDemoOverlay.qml:151
-msgid "Skip intro"
-msgstr "ആമുഖം ഒഴിവാക്കുക"
-
-#: Components/EdgeDemo.qml:112
-msgid "Right edge"
-msgstr "വലത് മൂല"
-
-#: Components/EdgeDemo.qml:113
-msgid "Try swiping from the right edge to unlock the phone"
-msgstr "ഫോണ്‍ അണ്‍ലോക്ക് ചെയ്യാന്‍ വലതു വശത്തുനിന്ന് സ്വൈപ് ചെയ്ത് നോക്കുക"
-
-#: Components/EdgeDemo.qml:144
-msgid "Top edge"
-msgstr "മുകള്‍ വശം"
-
-#: Components/EdgeDemo.qml:145
-msgid "Try swiping from the top edge to access the indicators"
-msgstr "സൂചകങ്ങള്‍ ലഭ്യമാക്കാന്‍ മുകള്‍ വശത്തുനിന്നും സ്വൈപ് ചെയ്യുക"
-
-#: Components/EdgeDemo.qml:170
-msgid "Close"
-msgstr "അടക്കുക"
-
-#: Components/EdgeDemo.qml:171
-msgid "Swipe up again to close the settings screen"
-msgstr "ക്രമീകരണങ്ങളുടെ സ്ക്രീന്‍ അടക്കാന്‍ മുകളിലേക്ക് സ്വൈപ് ചെയ്യുക"
-
-#: Components/EdgeDemo.qml:198
-msgid "Left edge"
-msgstr "ഇടത് വശം"
-
-#: Components/EdgeDemo.qml:199
-msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr ""
-"പ്രയോഗങ്ങള്‍ പെട്ടെന്ന് ലഭ്യമാക്കുന്ന വിക്ഷേപിക ലഭ്യമാക്കാന്‍ ഇടതു വശത്ത് "
-"നിന്നും സ്വൈപ് ചെയ്യുക"
-
-#: Components/EdgeDemo.qml:226
-msgid "Well done"
-msgstr "നന്നായി ചെയ്തിരിക്കുന്നു"
-
-#: Components/EdgeDemo.qml:227
-msgid ""
-"You have now mastered the edge gestures and can start using the "
-"phone<br><br>Tap anywhere to start"
-msgstr ""
-"നിങ്ങളിപ്പോള്‍ സ്വൈപുകളും മറ്റും പഠിച്ചിരിക്കുന്നു<br><br>തുടങ്ങാന്‍ "
-"എവിടെയെങ്കിലും ടാപ് ചെയ്യുക"
-
-#: Components/PageHeader.qml:364
-msgid "Recent searches"
-msgstr "സമീപകാല തിരയലുകള്‍"
-
-#: Dash/Apps/AppPreview.qml:135
-msgid "Rate this"
-msgstr "ഇത് അവലോകനം ചെയ്യുക"
-
-#. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: Dash/Previews/Header.qml:93
-#, qt-format
-msgid "(%1)"
-msgstr "(%1)"
-
-#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: Dash/Previews/Header.qml:105
-#, qt-format
-msgid "%1 review"
-msgid_plural "%1 reviews"
-msgstr[0] "%1 അവലോകനം"
-msgstr[1] "%1 അവലോകനങ്ങള്‍"
-
-#: Dash/Previews/Reviews.qml:74
-msgid "Add a review"
-msgstr "ഒരു അവലോകനം ചേര്‍ക്കുക"
-
-#: Dash/Previews/Reviews.qml:86
-msgid "Review"
-msgstr "അവലോകനം"
-
-#: Dash/Previews/Reviews.qml:121
-msgid "Send"
-msgstr "അയയ്‌ക്കുക"
-
-#: Dash/Previews/Reviews.qml:139
-msgid "Comments:"
-msgstr "അഭിപ്രായങ്ങള്‍:"
-
-#: Greeter/Lockscreen.qml:149
-msgid "Emergency Call"
-msgstr "അടിയന്തിര വിളി"
-
-#: Greeter/PassphraseLockscreen.qml:59
-#, qt-format
-msgid "Hello %1"
-msgstr "ഹലോ %1"
-
-#: Greeter/PassphraseLockscreen.qml:59
-msgid "Hello"
-msgstr "ഹലോ"
-
-#: Hud/HudParametrizedActionsPage.qml:132
-msgid "Confirm"
-msgstr "സ്ഥിരീകരിക്കുക"
-
-#: Hud/Hud.qml:61 Hud/Hud.qml:99 Hud/Hud.qml:372
-msgid "Type or say a command"
-msgstr "ഒരു ആജ്ഞ പറയുകയോ ടൈപ്പുകയോ ചെയ്യുക"
-
-#: Hud/Hud.qml:84
-msgid "Loading. Please Wait..."
-msgstr "വരുന്നു. ദയവായി കാത്തിരിക്കുക..."
-
-#: Hud/Hud.qml:89
-msgid "Speak Now..."
-msgstr "ഇപ്പോള്‍ സംസാരിക്കുക..."
-
-#: Hud/Hud.qml:94
-msgid "Speaking..."
-msgstr "സംസാരിക്കുന്നു..."
-
-#: Notifications/NotificationMenuItemFactory.qml:89
-msgid "Show password"
-msgstr "രഹസ്യവാക്ക് കാണിക്കുക"
-
-#: Panel/SearchIndicator.qml:27
-msgid "Search"
-msgstr "തിരയുക"
+"X-Launchpad-Export-Date: 2014-02-19 05:44+0000\n"
+"X-Generator: Launchpad (build 16916)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -156,7 +27,154 @@ msgstr "വിക്ഷേപികയില്‍ സ്ഥിരപ്പെ�
 msgid "Unlock from Launcher"
 msgstr "വിക്ഷേപികാ സ്ഥിരപ്പെടുത്തല്‍ ഒഴിവാക്കുക"
 
-#: Shell.qml:439
+#: qml/Components/EdgeDemoOverlay.qml:151
+msgid "Skip intro"
+msgstr "ആമുഖം ഒഴിവാക്കുക"
+
+#: qml/Components/EdgeDemo.qml:113
+msgid "Right edge"
+msgstr "വലത് മൂല"
+
+#: qml/Components/EdgeDemo.qml:114
+msgid "Try swiping from the right edge to unlock the phone"
+msgstr "ഫോണ്‍ അണ്‍ലോക്ക് ചെയ്യാന്‍ വലതു വശത്തുനിന്ന് സ്വൈപ് ചെയ്ത് നോക്കുക"
+
+#: qml/Components/EdgeDemo.qml:145
+msgid "Top edge"
+msgstr "മുകള്‍ വശം"
+
+#: qml/Components/EdgeDemo.qml:146
+msgid "Try swiping from the top edge to access the indicators"
+msgstr "സൂചകങ്ങള്‍ ലഭ്യമാക്കാന്‍ മുകള്‍ വശത്തുനിന്നും സ്വൈപ് ചെയ്യുക"
+
+#: qml/Components/EdgeDemo.qml:171
+msgid "Close"
+msgstr "അടക്കുക"
+
+#: qml/Components/EdgeDemo.qml:172
+msgid "Swipe up again to close the settings screen"
+msgstr "ക്രമീകരണങ്ങളുടെ സ്ക്രീന്‍ അടക്കാന്‍ മുകളിലേക്ക് സ്വൈപ് ചെയ്യുക"
+
+#: qml/Components/EdgeDemo.qml:199
+msgid "Left edge"
+msgstr "ഇടത് വശം"
+
+#: qml/Components/EdgeDemo.qml:200
+msgid "Swipe from the left to reveal the launcher for quick access to apps"
+msgstr ""
+"പ്രയോഗങ്ങള്‍ പെട്ടെന്ന് ലഭ്യമാക്കുന്ന വിക്ഷേപിക ലഭ്യമാക്കാന്‍ ഇടതു വശത്ത് "
+"നിന്നും സ്വൈപ് ചെയ്യുക"
+
+#: qml/Components/EdgeDemo.qml:227
+msgid "Well done"
+msgstr "നന്നായി ചെയ്തിരിക്കുന്നു"
+
+#: qml/Components/EdgeDemo.qml:228
+msgid ""
+"You have now mastered the edge gestures and can start using the "
+"phone<br><br>Tap on the screen to start"
+msgstr ""
+
+#: qml/Components/PageHeader.qml:340
+msgid "Recent searches"
+msgstr "സമീപകാല തിരയലുകള്‍"
+
+#: qml/Components/SeeMore.qml:35
+msgid "See more"
+msgstr ""
+
+#: qml/Components/SeeMore.qml:57
+msgid "See less"
+msgstr ""
+
+#: qml/Dash/Apps/AppPreview.qml:136 qml/Dash/Previews/PreviewRating.qml:70
+msgid "Rate this"
+msgstr "ഇത് അവലോകനം ചെയ്യുക"
+
+#. TRANSLATORS: Number of persons who rated this app/video/whatever
+#: qml/Dash/Previews/Header.qml:93
+#, qt-format
+msgid "(%1)"
+msgstr "(%1)"
+
+#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
+#: qml/Dash/Previews/Header.qml:105
+#, qt-format
+msgid "%1 review"
+msgid_plural "%1 reviews"
+msgstr[0] "%1 അവലോകനം"
+msgstr[1] "%1 അവലോകനങ്ങള്‍"
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "More..."
+msgstr ""
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "Less..."
+msgstr ""
+
+#: qml/Dash/Previews/PreviewRating.qml:114 qml/Dash/Previews/Reviews.qml:74
+msgid "Add a review"
+msgstr "ഒരു അവലോകനം ചേര്‍ക്കുക"
+
+#: qml/Dash/Previews/PreviewRating.qml:153 qml/Dash/Previews/Reviews.qml:121
+msgid "Send"
+msgstr "അയയ്‌ക്കുക"
+
+#: qml/Dash/Previews/Reviews.qml:86
+msgid "Review"
+msgstr "അവലോകനം"
+
+#: qml/Dash/Previews/Reviews.qml:139
+msgid "Comments:"
+msgstr "അഭിപ്രായങ്ങള്‍:"
+
+#: qml/Greeter/Lockscreen.qml:149
+msgid "Emergency Call"
+msgstr "അടിയന്തിര വിളി"
+
+#: qml/Greeter/PassphraseLockscreen.qml:59
+#, qt-format
+msgid "Hello %1"
+msgstr "ഹലോ %1"
+
+#: qml/Greeter/PassphraseLockscreen.qml:59
+msgid "Hello"
+msgstr "ഹലോ"
+
+#: qml/Hud/HudParametrizedActionsPage.qml:132
+msgid "Confirm"
+msgstr "സ്ഥിരീകരിക്കുക"
+
+#: qml/Hud/Hud.qml:61 qml/Hud/Hud.qml:99 qml/Hud/Hud.qml:372
+msgid "Type or say a command"
+msgstr "ഒരു ആജ്ഞ പറയുകയോ ടൈപ്പുകയോ ചെയ്യുക"
+
+#: qml/Hud/Hud.qml:84
+msgid "Loading. Please Wait..."
+msgstr "വരുന്നു. ദയവായി കാത്തിരിക്കുക..."
+
+#: qml/Hud/Hud.qml:89
+msgid "Speak Now..."
+msgstr "ഇപ്പോള്‍ സംസാരിക്കുക..."
+
+#: qml/Hud/Hud.qml:94
+msgid "Speaking..."
+msgstr "സംസാരിക്കുന്നു..."
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:91
+msgid "Show password"
+msgstr "രഹസ്യവാക്ക് കാണിക്കുക"
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:103
+msgid "Please enter SIM PIN"
+msgstr ""
+
+#: qml/Panel/SearchIndicator.qml:27
+msgid "Search"
+msgstr "തിരയുക"
+
+#: qml/Shell.qml:440
 #, qt-format
 msgid "Please enter %1"
 msgstr "ദയവായി %1 നല്‍കുക"

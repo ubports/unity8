@@ -1,3 +1,285 @@
+unity8 (7.84+14.04.20140221-0ubuntu1) trusty; urgency=low
+
+  [ Michał Sawicz ]
+  * Add card background support.
+  * Increase the sidestage threshold.
+
+  [ Jussi Pakkanen ]
+  * Move downloads to their own threads so they don't muck about with
+    the parent thread's event loop. (LP: #1240408)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 21 Feb 2014 09:06:04 +0000
+
+unity8 (7.84+14.04.20140218-0ubuntu1) trusty; urgency=low
+
+  [ Michał Sawicz ]
+  * Center-align title when it's alone in the header.
+
+  [ Leo Arias ]
+  * Prepare unity8 to the _uinput refactors in autopilot.
+
+  [ Albert Astals ]
+  * Progress Preview Widget
+  * LWPH Fix crash from bug 1279434 (LP: #1279434)
+  * Show the loading indicator of the screenshot in video playback
+
+  [ Andrea Cimitan ]
+  * Adds rating preview widget. Work on the rating widget
+
+  [ Daniel d'Andrada ]
+  * Make DirectionalDragArea work when rotated The drag gesture
+    direction is in local coordinates, not in scene coordinates
+
+  [ Michał Karnicki ]
+  * Center-align title when it's alone in the header.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 18 Feb 2014 11:41:58 +0000
+
+unity8 (7.84+14.04.20140212-0ubuntu1) trusty; urgency=low
+
+  [ Gerry Boland ]
+  * Add InputFilterArea to sidestage handle to block input to mainstage
+    app while moving sidestage (LP: #1275732)
+
+  [ Leo Arias ]
+  * On the autopilot helper to open a scope, wait for the dash content
+    list to stop moving. (LP: #1277591)
+  * Added a test to swipe out an application started by url-dispatcher.
+
+  [ Nick Dedekind ]
+  * Added a "-profile" option to the indicator-client to switch between
+    indicator service profiles.
+  * Fixed issue importing plugin qml files into qtcreator
+
+  [ Albert Astals ]
+  * Fix test_previewCycle
+  * Don't move the list contentY unless there's a preview to show (LP:
+    #1271676)
+  * Add overlay to card. Fix implicit card height. .
+  * PreviewHeader Is just a link of the widgetData with the CardHeader
+  * Fix tst_Preview.qml
+  * Scopes guys want the data back
+  * Link the pageheader scope with the current scope So that the
+    activity indicator on search works again (LP: #1279316)
+
+  [ Andrea Cimitan ]
+  * Add PreviewImage
+  * Preview widget for video playback
+
+  [ CI bot ]
+  * Add overlay to card. Fix implicit card height. .
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 12 Feb 2014 15:15:03 +0000
+
+unity8 (7.84+14.04.20140207.1-0ubuntu1) trusty; urgency=low
+
+  [ Ted Gould ]
+  * You can't tap anywhere
+
+  [ Michał Sawicz ]
+  * Wait for the indicator to appear.
+  * Add CardTool to determine category-wide card properties based on the
+    category template. Clean up test configurations, too.
+  * Actions Preview Widget
+  * Add Preview for new generation scopes.
+  * Add overlay to card. Fix implicit card height. .
+
+  [ Albert Astals ]
+  * Basic ImageGallery widget for Previews Mostly a copy of the code
+    used in AppPreview.qml but without the MouseArea hack that I'll wait
+    to introduce until we start using this somewhere were it is needed
+  * Actions Preview Widget
+
+  [ Andrea Cimitan ]
+  * First audio player widget for previews, with tests
+  * Adds TextSummary preview widget
+
+  [ Michał Karnicki ]
+  * Add overlay to card. Fix implicit card height. .
+
+  [ Michael Terry ]
+  * Expand greeter demo support to include listing multiple users and
+    specifying individual passwords and names.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 07 Feb 2014 10:46:46 +0000
+
+unity8 (7.84+14.04.20140204-0ubuntu1) trusty; urgency=low
+
+  [ Michael Terry ]
+  * Disable NM integration test, jenkins has a problem with it because
+    logind isn't configured
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+  [ Michał Sawicz ]
+  * Add ubuntu-settings-components to build script. Revert workaround
+    for bug #1268578, got fixed upstream. Drop GenericName from
+    unity8.desktop. (LP: #1268578)
+  * Improve Card and CardHeader layouts: anchor summary to art when no
+    header. don't indent header when no mascot. reduce header and
+    summary font sizes and weights. increase art shape radius .
+  * Add doxygen-based documentation generator.
+  * Add CardTool to determine category-wide card properties based on the
+    category template. Clean up test configurations, too.
+  * Move upstart kill timeout to the unity8 job itself.
+  * Don't treat scope as active when preview open to inhibit model
+    updates and reset processing on previewData changes. (LP: #1275832)
+
+  [ Leo Arias ]
+  * Added the DashPreview autopilot helper.
+
+  [ Michał Karnicki ]
+  * CardHeader mascot improvements.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 04 Feb 2014 14:09:14 +0000
+
+unity8 (7.84+14.04.20140130-0ubuntu1) trusty; urgency=low
+
+  [ Michał Sawicz ]
+  * Bring back libunity-mir1, it's dlopen'ed, so not linked to unity8,
+    so not in shlibs.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 30 Jan 2014 14:00:40 +0000
+
+unity8 (7.84+14.04.20140129-0ubuntu1) trusty; urgency=low
+
+  [ Nick Dedekind ]
+  * Added Panel/VisibleIndicatorsModel for use with both indicator row &
+    menuContent. This removes the need to hide indicators in the row and
+    map inicator indexes between row & content. Fixes the indicator
+    highlight line offset not bound by listView position.
+  * Ported indicators to using ubuntu-settings-components
+
+  [ Albert Astals ]
+  * Prepend /sbin/ to initctl calls My phablet user does not have /sbin/
+    in path and thus this calls fail
+  * Call updateDelegateCreationRange when it's needed It depends on
+    other variables than the ones we were using to call it, so need to
+    call it if these change too Device manual test, go to apps scope,
+    scroll down so that only part of the installed apps collapsed
+    category is shown, expand it, see how previously some icons were not
+    painted and now they are
+
+  [ Mirco Müller ]
+  * Fixed the failure of notification autopilot-test
+    test_sd_incoming_call.
+
+  [ Andrea Cimitan ]
+  * Add AP test for policykit/network manager, which was causing issues
+    with nested mir
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Michał Karnicki ]
+  * Don't display artShape when artImage source not set.
+  * Fix FilterGrid rendering issues.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 29 Jan 2014 16:11:20 +0000
+
+unity8 (7.84+14.04.20140128-0ubuntu1) trusty; urgency=low
+
+  [ Michal Hruby ]
+  * Added unity-scope-tool, which will help when developing scopes.
+
+  [ Michał Sawicz ]
+  * Added unity-scope-tool, which will help when developing scopes.
+  * Use full DashContent, not just GenericScopeView in ScopeTool.qml.
+  * Bring Card and CardHeader over from new-scopes.
+  * Work around bug #1268578. (LP: #1268578)
+  * Drop unnecessary version dependencies.
+  * Return null instead of undefined from findChild and
+    findInvisibleChild.
+  * Fix CardHeader and Card heights (empty Label does have non-zero
+    height apparently). Also improve test robustness and reduce future
+    diffs.
+
+  [ Albert Astals ]
+  * Do not assert if the item we are removing was not created yet
+    (because e.g. it's not in the viewport).
+  * Position correctly the pointer of the search history box .
+  * Make test_filter_expand_expand less unstable in CI VMs Make sure
+    header0 is the header0 we want to click On the CI VM stuff is a bit
+    slower than on real hw and we were clicking in the wrong place.
+  * Add TabBar to the Dash header navigation Changes this comes with: *
+    DashBar at the bottom is gone * PageHeader doesn't have a Label
+    anymore, it has the childItem property where you add which thing it
+    has to contain * New: PageHeaderLabel mimics the old behaviour of
+    PageHeader * The header of the LVWPH of GenericScopeView is now fake
+    and only used for positioning. There is a single global floating
+    header in DashContent (which is a PageHeader with a TabBar as
+    childItem) * The GenericScopeView previewLoader and OpenEffect have
+    been also moved to the DashContent so that the openEffect includes
+    the floating header in the "animation" .
+  * Introduce the HorizontalJournal.
+  * If there are no items m_firstVisibleIndex has to be -1 .
+  * Add some more documentation about tests to the CODING file.
+  * Fixes to the journal cmake tests code * Output to the correct
+    filename for the test * Don't output stuff from the tryXYZ targets.
+  * Adapt to findChild return value changes .
+  * Organic Grid for the Dash View.
+  * Misc journal fixes Don't init *modelIndex to INT_MAX Makes no sense
+    since we're not doing any qMin and the calling function also accepts
+    any index >= 0 as valid so in some cases it may end up wanting to
+    create an index that doesn't exist Don't refill if height() < 0,
+    that gives bad ranges for from/to and the code gets confused .
+
+  [ Michał Karnicki ]
+  * Fix grid view column count.
+  * Add test for minimum number of items in a carousel.
+
+  [ Allan LeSage ]
+  * Add stubs for indicators autopilot tests.
+
+  [ Andrea Cimitan ]
+  * Avoid input falling through notifications onto surfaces below, thus
+    fixing LP: #1257312. (LP: #1257312)
+
+  [ Leo Arias ]
+  * Close the Touch devices after the tests. (LP: #1267600)
+  * Added methods to scroll to other scopes on autopilot tests.
+  * Added autopilot helpers for the app scope and the app preview.
+    Install the fake scopes in order to use them on the tests. (LP:
+    #1269114)
+  * On autopilot helpers, wait for the scope category to appear.
+
+  [ Nick Dedekind ]
+  * Visual updates for indicator panel highlight and opening opacity.
+  * Added inidcator tests for page & item factories.
+  * Fixes visible indicator misalignment in indicator items/menus
+    (lp#1264678). (LP: #1264678)
+
+  [ Mirco Müller ]
+  * Fixed the failure of notification autopilot-test
+    test_sd_incoming_call.
+
+  [ Michael Zanetti ]
+  * clean up fullscreen notifications code.
+  * import qml files into cmake, drop qmlproject.
+  * also add qml files in tests directory.
+  * Added autopilot helpers for the app scope and the app preview.
+    Install the fake scopes in order to use them on the tests. (LP:
+    #1269114)
+
+  [ Michael Terry ]
+  * Fix failure to build when using the ./build script with ninja-build
+    installed. (LP: #1268525)
+  * Point DBus-activated processes at unity8's MIR_SOCKET rather than
+    the system socket.
+
+  [ Daniel d'Andrada ]
+  * DragHandle: Never restart hinting animation while still pressed (LP:
+    #1269022)
+
+  [ Bill Filler ]
+  * fix for lp:1259294, turn off auto capitalization for wifi password
+    field. (LP: #1259294)
+  * disable predictive text in Dash search field as it interferes with
+    built-in search (LP: #1273643)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 28 Jan 2014 15:58:45 +0000
+
 unity8 (7.84+14.04.20131220-0ubuntu1) trusty; urgency=low
 
   [ Michał Sawicz ]

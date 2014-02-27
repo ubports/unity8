@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-11-29 09:21+0100\n"
+"POT-Creation-Date: 2014-02-13 18:37+0000\n"
 "PO-Revision-Date: 2013-11-23 12:37+0000\n"
 "Last-Translator: Ignat Kizenko <Unknown>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -16,139 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2013-12-29 06:04+0000\n"
-"X-Generator: Launchpad (build 16877)\n"
-
-#: Components/EdgeDemoOverlay.qml:151
-msgid "Skip intro"
-msgstr "Пропустити вступ"
-
-#: Components/EdgeDemo.qml:112
-msgid "Right edge"
-msgstr "Правий край"
-
-#: Components/EdgeDemo.qml:113
-msgid "Try swiping from the right edge to unlock the phone"
-msgstr "Спробуйте провести пальцем від правою краю, щоб розблокувати телефон"
-
-#: Components/EdgeDemo.qml:144
-msgid "Top edge"
-msgstr "Верхній край"
-
-#: Components/EdgeDemo.qml:145
-msgid "Try swiping from the top edge to access the indicators"
-msgstr ""
-"Спробуйте провести пальцем від верхнього краю, щоб розблокувати телефон"
-
-#: Components/EdgeDemo.qml:170
-msgid "Close"
-msgstr "Закрити"
-
-#: Components/EdgeDemo.qml:171
-msgid "Swipe up again to close the settings screen"
-msgstr "Проведіть пальцем ще раз, щоб закрити вікно параметрів"
-
-#: Components/EdgeDemo.qml:198
-msgid "Left edge"
-msgstr "Лівий край"
-
-#: Components/EdgeDemo.qml:199
-msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr ""
-"Проведіть пальцем від лівого краю, щоб відкрити панель запуску для "
-"пришвидшення доступу до програм"
-
-#: Components/EdgeDemo.qml:226
-msgid "Well done"
-msgstr "Добре"
-
-#: Components/EdgeDemo.qml:227
-msgid ""
-"You have now mastered the edge gestures and can start using the "
-"phone<br><br>Tap anywhere to start"
-msgstr ""
-"Тепер жести налаштовано, ви можете почати користуватися "
-"телефоном.<br><br>Натисніть у довільному місці екрана."
-
-#: Components/PageHeader.qml:364
-msgid "Recent searches"
-msgstr "Нещодавні пошуки"
-
-#: Dash/Apps/AppPreview.qml:135
-msgid "Rate this"
-msgstr "Оцінити"
-
-#. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: Dash/Previews/Header.qml:93
-#, qt-format
-msgid "(%1)"
-msgstr "(%1)"
-
-#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: Dash/Previews/Header.qml:105
-#, qt-format
-msgid "%1 review"
-msgid_plural "%1 reviews"
-msgstr[0] "%1 рецензія"
-msgstr[1] "%1 рецензії"
-msgstr[2] "%1 рецензій"
-
-#: Dash/Previews/Reviews.qml:74
-msgid "Add a review"
-msgstr "Додати рецензію"
-
-#: Dash/Previews/Reviews.qml:86
-msgid "Review"
-msgstr "Рецензія"
-
-#: Dash/Previews/Reviews.qml:121
-msgid "Send"
-msgstr "Надіслати"
-
-#: Dash/Previews/Reviews.qml:139
-msgid "Comments:"
-msgstr "Коментарі:"
-
-#: Greeter/Lockscreen.qml:149
-msgid "Emergency Call"
-msgstr "Терміновий виклик"
-
-#: Greeter/PassphraseLockscreen.qml:59
-#, qt-format
-msgid "Hello %1"
-msgstr "Привіт, %1"
-
-#: Greeter/PassphraseLockscreen.qml:59
-msgid "Hello"
-msgstr "Привіт!"
-
-#: Hud/HudParametrizedActionsPage.qml:132
-msgid "Confirm"
-msgstr "Підтвердити"
-
-#: Hud/Hud.qml:61 Hud/Hud.qml:99 Hud/Hud.qml:372
-msgid "Type or say a command"
-msgstr "Введіть або озвучте команду"
-
-#: Hud/Hud.qml:84
-msgid "Loading. Please Wait..."
-msgstr "Завантаження. Будь ласка, зачекайте…"
-
-#: Hud/Hud.qml:89
-msgid "Speak Now..."
-msgstr "Можна говорити…"
-
-#: Hud/Hud.qml:94
-msgid "Speaking..."
-msgstr "Мовлення…"
-
-#: Notifications/NotificationMenuItemFactory.qml:89
-msgid "Show password"
-msgstr "Показати пароль"
-
-#: Panel/SearchIndicator.qml:27
-msgid "Search"
-msgstr "Пошук"
+"X-Launchpad-Export-Date: 2014-02-19 05:44+0000\n"
+"X-Generator: Launchpad (build 16916)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -159,7 +28,156 @@ msgstr "Зафіксувати на панелі запуску"
 msgid "Unlock from Launcher"
 msgstr "Від’єднати від панелі запуску"
 
-#: Shell.qml:439
+#: qml/Components/EdgeDemoOverlay.qml:151
+msgid "Skip intro"
+msgstr "Пропустити вступ"
+
+#: qml/Components/EdgeDemo.qml:113
+msgid "Right edge"
+msgstr "Правий край"
+
+#: qml/Components/EdgeDemo.qml:114
+msgid "Try swiping from the right edge to unlock the phone"
+msgstr "Спробуйте провести пальцем від правою краю, щоб розблокувати телефон"
+
+#: qml/Components/EdgeDemo.qml:145
+msgid "Top edge"
+msgstr "Верхній край"
+
+#: qml/Components/EdgeDemo.qml:146
+msgid "Try swiping from the top edge to access the indicators"
+msgstr ""
+"Спробуйте провести пальцем від верхнього краю, щоб розблокувати телефон"
+
+#: qml/Components/EdgeDemo.qml:171
+msgid "Close"
+msgstr "Закрити"
+
+#: qml/Components/EdgeDemo.qml:172
+msgid "Swipe up again to close the settings screen"
+msgstr "Проведіть пальцем ще раз, щоб закрити вікно параметрів"
+
+#: qml/Components/EdgeDemo.qml:199
+msgid "Left edge"
+msgstr "Лівий край"
+
+#: qml/Components/EdgeDemo.qml:200
+msgid "Swipe from the left to reveal the launcher for quick access to apps"
+msgstr ""
+"Проведіть пальцем від лівого краю, щоб відкрити панель запуску для "
+"пришвидшення доступу до програм"
+
+#: qml/Components/EdgeDemo.qml:227
+msgid "Well done"
+msgstr "Добре"
+
+#: qml/Components/EdgeDemo.qml:228
+msgid ""
+"You have now mastered the edge gestures and can start using the "
+"phone<br><br>Tap on the screen to start"
+msgstr ""
+
+#: qml/Components/PageHeader.qml:340
+msgid "Recent searches"
+msgstr "Нещодавні пошуки"
+
+#: qml/Components/SeeMore.qml:35
+msgid "See more"
+msgstr ""
+
+#: qml/Components/SeeMore.qml:57
+msgid "See less"
+msgstr ""
+
+#: qml/Dash/Apps/AppPreview.qml:136 qml/Dash/Previews/PreviewRating.qml:70
+msgid "Rate this"
+msgstr "Оцінити"
+
+#. TRANSLATORS: Number of persons who rated this app/video/whatever
+#: qml/Dash/Previews/Header.qml:93
+#, qt-format
+msgid "(%1)"
+msgstr "(%1)"
+
+#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
+#: qml/Dash/Previews/Header.qml:105
+#, qt-format
+msgid "%1 review"
+msgid_plural "%1 reviews"
+msgstr[0] "%1 рецензія"
+msgstr[1] "%1 рецензії"
+msgstr[2] "%1 рецензій"
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "More..."
+msgstr ""
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "Less..."
+msgstr ""
+
+#: qml/Dash/Previews/PreviewRating.qml:114 qml/Dash/Previews/Reviews.qml:74
+msgid "Add a review"
+msgstr "Додати рецензію"
+
+#: qml/Dash/Previews/PreviewRating.qml:153 qml/Dash/Previews/Reviews.qml:121
+msgid "Send"
+msgstr "Надіслати"
+
+#: qml/Dash/Previews/Reviews.qml:86
+msgid "Review"
+msgstr "Рецензія"
+
+#: qml/Dash/Previews/Reviews.qml:139
+msgid "Comments:"
+msgstr "Коментарі:"
+
+#: qml/Greeter/Lockscreen.qml:149
+msgid "Emergency Call"
+msgstr "Терміновий виклик"
+
+#: qml/Greeter/PassphraseLockscreen.qml:59
+#, qt-format
+msgid "Hello %1"
+msgstr "Привіт, %1"
+
+#: qml/Greeter/PassphraseLockscreen.qml:59
+msgid "Hello"
+msgstr "Привіт!"
+
+#: qml/Hud/HudParametrizedActionsPage.qml:132
+msgid "Confirm"
+msgstr "Підтвердити"
+
+#: qml/Hud/Hud.qml:61 qml/Hud/Hud.qml:99 qml/Hud/Hud.qml:372
+msgid "Type or say a command"
+msgstr "Введіть або озвучте команду"
+
+#: qml/Hud/Hud.qml:84
+msgid "Loading. Please Wait..."
+msgstr "Завантаження. Будь ласка, зачекайте…"
+
+#: qml/Hud/Hud.qml:89
+msgid "Speak Now..."
+msgstr "Можна говорити…"
+
+#: qml/Hud/Hud.qml:94
+msgid "Speaking..."
+msgstr "Мовлення…"
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:91
+msgid "Show password"
+msgstr "Показати пароль"
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:103
+msgid "Please enter SIM PIN"
+msgstr ""
+
+#: qml/Panel/SearchIndicator.qml:27
+msgid "Search"
+msgstr "Пошук"
+
+#: qml/Shell.qml:440
 #, qt-format
 msgid "Please enter %1"
 msgstr "Будь ласка, введіть %1"
