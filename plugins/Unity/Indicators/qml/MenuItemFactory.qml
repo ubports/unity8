@@ -22,6 +22,7 @@ import Ubuntu.Settings.Menus 0.1 as Menus
 import QMenuModel 0.1 as QMenuModel
 import Utils 0.1 as Utils
 import Ubuntu.Components.ListItems 0.1 as ListItems
+import Ubuntu.Components 0.1
 
 Item {
     id: menuFactory
