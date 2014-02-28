@@ -287,7 +287,7 @@ FocusScope {
 
         sectionProperty: "name"
         sectionDelegate: ListItems.Header {
-            objectName: "dashSectionHeader" + delegate.category
+            objectName: "dashSectionHeader" + (delegate ? delegate.category : "")
             property var delegate: categoryView.item(delegateIndex)
             width: categoryView.width
             text: section
