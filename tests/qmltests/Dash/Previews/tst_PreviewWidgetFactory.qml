@@ -82,6 +82,7 @@ Rectangle {
                 { tag: "Image", type: "image", source: "PreviewZoomableImage.qml" },
                 { tag: "Progress", type: "progress", source: "PreviewProgress.qml" },
                 { tag: "Rating Input", type: "rating-input", source: "PreviewRatingInput.qml" },
+                { tag: "Rating Display", type: "reviews", source: "PreviewRatingDisplay.qml" },
                 { tag: "Text", type: "text", source: "PreviewTextSummary.qml" },
                 { tag: "Video", type: "video", source: "PreviewVideoPlayback.qml" },
             ];
