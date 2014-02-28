@@ -129,6 +129,8 @@ DirectionalDragArea::DirectionalDragArea(QQuickItem *parent)
     m_recognitionTimer->setInterval(60);
 
     m_velocityCalculator = new AxisVelocityCalculator(this);
+
+    connect(this, &QQuickItem::enabledChanged, this, &DirectionalDragArea::onEnabledChanged);
 }
 
 Direction::Type DirectionalDragArea::direction() const
@@ -526,6 +528,13 @@ void DirectionalDragArea::checkSpeed()
         m_silenceTime = 0;
     }
     m_numSamplesOnLastSpeedCheck = m_velocityCalculator->numSamples();
+}
+
+void DirectionalDragArea::onEnabledChanged()
+{
+    if (!isEnabled() && m_status != WaitingForTouch) {
+        setStatus(WaitingForTouch);
+    }
 }
 
 void DirectionalDragArea::setStatus(DirectionalDragArea::Status newStatus)
