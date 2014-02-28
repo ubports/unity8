@@ -59,6 +59,11 @@ int startShell(int argc, const char** argv, void* server)
         application = new QGuiApplication(argc, (char**)argv);
     }
 
+    QString indicatorProfile = qgetenv("UNITY_INDICATOR_PROFILE");
+    if (indicatorProfile.isEmpty()) {
+        indicatorProfile = "phone";
+    }
+
     resolveIconTheme();
 
     QStringList args = application->arguments();
@@ -88,6 +93,7 @@ int startShell(int argc, const char** argv, void* server)
     view->setTitle("Qml Phone Shell");
     view->engine()->setBaseUrl(QUrl::fromLocalFile(::qmlDirectory()));
     view->rootContext()->setContextProperty("applicationArguments", &qmlArgs);
+    view->rootContext()->setContextProperty("indicatorProfile", indicatorProfile);
     if (args.contains(QLatin1String("-frameless"))) {
         view->setFlags(Qt::FramelessWindowHint);
     }
