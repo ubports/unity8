@@ -86,6 +86,7 @@ private Q_SLOTS:
     void rotated();
     void sceneDistance();
     void sceneDistance_data();
+    void disabledWhileDragging();
 
 private:
     void passTime(qint64 timeSpan);
@@ -793,6 +794,51 @@ void tst_DirectionalDragArea::sceneDistance_data()
 
     QTest::newRow("not rotated")           << 0.  << QPointF(1., 0.);
     QTest::newRow("rotated by 90 degrees") << 90. << QPointF(0., 1.);
+}
+
+/*
+    Regression test for https://bugs.launchpad.net/unity8/+bug/1276122
+
+    The bug:
+    If setting "enabled: false" while the DirectionalDragArea's (DDA) dragging
+    property is true, the DDA stays in that state and doesn't recover any more.
+*/
+void tst_DirectionalDragArea::disabledWhileDragging()
+{
+    DirectionalDragArea *edgeDragArea =
+        m_view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
+    Q_ASSERT(edgeDragArea != 0);
+    edgeDragArea->setRecognitionTimer(fakeTimer);
+    edgeDragArea->setTimeSource(fakeTimeSource);
+
+    QPointF touchPoint = calculateInitialTouchPos(edgeDragArea);
+
+    qreal desiredDragDistance = edgeDragArea->distanceThreshold()*2.0f;
+    QPointF dragDirectionVector(1., 0.); // horizontal positive
+
+    qreal movementStepDistance = edgeDragArea->distanceThreshold() * 0.1f;
+    QPointF touchMovement = dragDirectionVector * movementStepDistance;
+    int totalMovementSteps = qCeil(desiredDragDistance / movementStepDistance);
+    int movementTimeStepMs = (edgeDragArea->compositionTime() * 1.5f) / totalMovementSteps;
+
+    QTest::touchEvent(m_view, m_device).press(0, touchPoint.toPoint());
+
+    for (int i = 0; i < totalMovementSteps; ++i) {
+        touchPoint += touchMovement;
+        passTime(movementTimeStepMs);
+        QTest::touchEvent(m_view, m_device).move(0, touchPoint.toPoint());
+    }
+
+    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::Recognized);
+    QCOMPARE(edgeDragArea->dragging(), true);
+
+    // disable the dragArea while it's being dragged.
+    edgeDragArea->setEnabled(false);
+
+    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::WaitingForTouch);
+    QCOMPARE(edgeDragArea->dragging(), false);
+
+    QTest::touchEvent(m_view, m_device).release(0, touchPoint.toPoint());
 }
 
 QTEST_MAIN(tst_DirectionalDragArea)
