@@ -36,11 +36,9 @@ class Dash(emulators.UnityEmulatorBase):
         self.dash_content_list = self.wait_select_single(
             'QQuickListView', objectName='dashContentList')
 
-    def get_home_applications_grid(self):
-        get_grid = self.get_scope('home').wait_select_single(
-            "GenericFilterGrid",
-            objectName="applications.scope"
-        )
+    def get_applications_grid(self):
+        get_grid = self.get_scope('clickscope').wait_select_single(
+            'DashFilterGrid', objectName='local')
         return get_grid
 
     def get_application_icon(self, text):
@@ -50,7 +48,7 @@ class Dash(emulators.UnityEmulatorBase):
         :param text: String containing the text of the icon to search for.
 
         """
-        app_grid = self.get_home_applications_grid()
+        app_grid = self.get_applications_grid()
         resp_grid = app_grid.wait_select_single('ResponsiveGridView')
         return resp_grid.select_single('Tile', text=text)
 
