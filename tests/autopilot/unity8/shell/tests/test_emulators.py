@@ -63,8 +63,7 @@ class DashEmulatorTestCase(DashBaseTestCase):
     def test_open_already_opened_scope(self):
         scope_id = self._get_current_scope_id()
         with mock.patch.object(self.dash, 'pointing_device') as mock_pointer:
-            scope = self.dash.open_scope(self._get_scope_name_from_id(
-                scope_id))
+            scope = self.dash.open_scope(scope_id)
 
         self.assertFalse(mock_pointer.called)
         self._assert_scope_is_opened(scope, scope_id)
@@ -85,7 +84,7 @@ class DashEmulatorTestCase(DashBaseTestCase):
         self.dash.open_scope(leftmost_scope)
 
         scope_id = self._get_rightmost_scope_id()
-        scope = self.dash.open_scope(self._get_scope_name_from_id(scope_id))
+        scope = self.dash.open_scope(scope_id)
         self._assert_scope_is_opened(scope, scope_id)
 
     def _get_leftmost_scope_id(self):
@@ -101,10 +100,6 @@ class DashEmulatorTestCase(DashBaseTestCase):
             'QQuickItem')[0]
         return item.get_children_by_type('QQuickLoader')
 
-    def _get_scope_name_from_id(self, scope_id):
-        if scope_id.endswith('.scope'):
-            return scope_id[:-6]
-
     def _get_rightmost_scope_id(self):
         scope_loaders = self._get_scope_loaders()
         rightmost_scope_loader = scope_loaders[0]
@@ -114,23 +109,22 @@ class DashEmulatorTestCase(DashBaseTestCase):
         return rightmost_scope_loader.scopeId
 
     def test_open_scope_to_the_left(self):
-        rightmost_scope = self._get_scope_name_from_id(
-            self._get_rightmost_scope_id())
+        rightmost_scope = self._get_rightmost_scope_id()
         self.dash.open_scope(rightmost_scope)
 
         scope_id = self._get_leftmost_scope_id()
-        scope = self.dash.open_scope(self._get_scope_name_from_id(scope_id))
+        scope = self.dash.open_scope(scope_id)
         self._assert_scope_is_opened(scope, scope_id)
 
     def test_open_generic_scope(self):
-        scope_id = 'home.scope'
-        scope = self.dash.open_scope(self._get_scope_name_from_id(scope_id))
+        scope_id = 'scopes'
+        scope = self.dash.open_scope(scope_id)
         self._assert_scope_is_opened(scope, scope_id)
         self.assertIsInstance(scope, dash_emulators.GenericScopeView)
 
     def test_open_applications_scope(self):
-        scope_id = 'applications.scope'
-        scope = self.dash.open_scope(self._get_scope_name_from_id(scope_id))
+        scope_id = 'clickscope'
+        scope = self.dash.open_scope(scope_id)
         self._assert_scope_is_opened(scope, scope_id)
         self.assertIsInstance(scope, dash_emulators.DashApps)
 

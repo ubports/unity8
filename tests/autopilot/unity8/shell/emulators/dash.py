@@ -59,14 +59,13 @@ class Dash(emulators.UnityEmulatorBase):
             'QQuickLoader', scopeId=scope_name)
 
     @autopilot_logging.log_action(logger.info)
-    def open_scope(self, scope_name):
+    def open_scope(self, scope_id):
         """Open a dash scope.
 
-        :parameter scope_name: The name of the scope.
+        :parameter scope_id: The id of the scope.
         :return: The scope.
 
         """
-        scope_id = "%s.scope" % scope_name
         scope_loader = self._get_scope_loader(scope_id)
         if scope_loader.isCurrent:
             logger.info('The scope is already open.')
@@ -83,7 +82,7 @@ class Dash(emulators.UnityEmulatorBase):
                 'No scope found with id {0}'.format(scope_id))
 
     def _get_scope_from_loader(self, loader):
-        if loader.scopeId == 'applications.scope':
+        if loader.scopeId == 'clickscope':
             return loader.select_single(DashApps)
         else:
             return loader.select_single(GenericScopeView)
