@@ -57,7 +57,7 @@ class DashEmulatorTestCase(DashBaseTestCase):
                 self.dash.open_scope, scope_name)
 
         self.assertEqual(
-            'No scope found with id unexisting.scope', str(exception))
+            'No scope found with id unexisting', str(exception))
         self.assertFalse(mock_pointer.called)
 
     def test_open_already_opened_scope(self):
