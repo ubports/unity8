@@ -134,10 +134,10 @@ class GenericScopeViewEmulatorTestCase(DashBaseTestCase):
         # Set up the fake scopes before launching unity.
         self.useFixture(fixture_setup.FakeScopes())
         super(GenericScopeViewEmulatorTestCase, self).setUp()
-        self.home_scope = self.dash.open_scope('home')
+        self.generic_scope = self.dash.open_scope('MockScope1')
 
     def test_open_preview(self):
-        preview = self.home_scope.open_preview('0', 'Title.0')
+        preview = self.generic_scope.open_preview('0', 'Title.0')
         self.assertIsInstance(preview, dash_emulators.DashPreview)
         self.assertTrue(preview.isCurrent)
         self.assertFalse(preview.showProcessingAction)
@@ -146,7 +146,7 @@ class GenericScopeViewEmulatorTestCase(DashBaseTestCase):
         expected_details = dict(
             title='Title', subtitle='Subtitle', description='Description')
 
-        preview = self.home_scope.open_preview('0', 'Title.0')
+        preview = self.generic_scope.open_preview('0', 'Title.0')
         details = preview.get_details()
 
         self.assertEqual(expected_details, details)
