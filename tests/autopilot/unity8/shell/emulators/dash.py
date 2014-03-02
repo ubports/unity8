@@ -54,8 +54,8 @@ class Dash(emulators.UnityEmulatorBase):
         resp_grid = app_grid.wait_select_single('ResponsiveGridView')
         return resp_grid.select_single('Tile', text=text)
 
-    def get_scope(self, scope_name='home'):
-        scope_id = "%s.scope" % scope_name
+    def get_scope(self, scope_name='clickscope'):
+        scope_id = '%s' % scope_name
         return self.dash_content_list.select_single(
             'QQuickLoader', scopeId=scope_id)
 
