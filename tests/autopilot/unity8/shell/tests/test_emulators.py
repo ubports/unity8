@@ -164,7 +164,7 @@ class DashAppsEmulatorTestCase(DashBaseTestCase):
         # Set up the fake scopes before launching unity.
         self.useFixture(fixture_setup.FakeScopes())
         super(DashAppsEmulatorTestCase, self).setUp()
-        self.applications_scope = self.dash.open_scope('applications')
+        self.applications_scope = self.dash.open_scope('clickscope')
 
     def test_get_applications_with_unexisting_category(self):
         exception = self.assertRaises(
