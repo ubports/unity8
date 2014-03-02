@@ -79,8 +79,7 @@ class DashEmulatorTestCase(DashBaseTestCase):
         return scope.scopeId
 
     def test_open_scope_to_the_right(self):
-        leftmost_scope = self._get_scope_name_from_id(
-            self._get_leftmost_scope_id())
+        leftmost_scope = self._get_leftmost_scope_id()
         self.dash.open_scope(leftmost_scope)
 
         scope_id = self._get_rightmost_scope_id()
