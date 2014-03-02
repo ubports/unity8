@@ -218,6 +218,7 @@ protected:
 
 private Q_SLOTS:
     void checkSpeed();
+    void onEnabledChanged();
 
 private:
     void touchEvent_absent(QTouchEvent *event);

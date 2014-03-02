@@ -43,12 +43,12 @@ Rectangle {
 
     property var widgetDataNewLabels: { "visible": "both", "required": "both", "rating-label": "TestRatingLabel", "review-label": "TestReviewLabel", "submit-label": "TestSubmitLabel" }
 
-    PreviewRating {
-        id: previewRating
+    PreviewRatingInput {
+        id: previewRatingInput
         anchors.left: parent.left
         anchors.right: parent.right
         widgetData: widgetDataBoth
-        widgetId: "previewRating"
+        widgetId: "previewRatingInput"
     }
 
     SignalSpy {
@@ -57,12 +57,12 @@ Rectangle {
     }
 
     UT.UnityTestCase {
-        name: "PreviewRatingTest"
+        name: "PreviewRatingInputTest"
         when: windowShown
 
-        property var rating: findChild(previewRating, "rating")
-        property var reviewTextArea: findChild(previewRating, "reviewTextArea")
-        property var submitButton: findChild(previewRating, "submitButton")
+        property var rating: findChild(previewRatingInput, "rating")
+        property var reviewTextArea: findChild(previewRatingInput, "reviewTextArea")
+        property var submitButton: findChild(previewRatingInput, "submitButton")
 
         function init() {
             rating.value = -1;
@@ -70,10 +70,10 @@ Rectangle {
         }
 
         function test_labels() {
-            var ratingLabel = findChild(previewRating, "ratingLabel");
-            var reviewLabel = findChild(previewRating, "reviewLabel");
+            var ratingLabel = findChild(previewRatingInput, "ratingLabel");
+            var reviewLabel = findChild(previewRatingInput, "reviewLabel");
 
-            previewRating.widgetData = widgetDataNewLabels;
+            previewRatingInput.widgetData = widgetDataNewLabels;
             compare(ratingLabel.text, widgetDataNewLabels["rating-label"]);
             compare(reviewLabel.text, widgetDataNewLabels["review-label"]);
             compare(submitButton.text, widgetDataNewLabels["submit-label"]);
@@ -106,9 +106,9 @@ Rectangle {
 
         function test_submit_and_visibility(data) {
             spy.clear();
-            spy.target = previewRating;
+            spy.target = previewRatingInput;
 
-            previewRating.widgetData = data.widgetData;
+            previewRatingInput.widgetData = data.widgetData;
 
             if (data.widgetData["visible"] !== "review") {
                 verify(rating.visible === true);
@@ -161,9 +161,9 @@ Rectangle {
 
         function test_triggered(data) {
             spy.clear();
-            spy.target = previewRating;
+            spy.target = previewRatingInput;
 
-            previewRating.widgetData = data.widgetData;
+            previewRatingInput.widgetData = data.widgetData;
 
             if (data.inputRating > 0) rating.value = data.inputRating;
             if (data.inputText !== "") {
@@ -173,7 +173,7 @@ Rectangle {
 
             compare(spy.count, 1);
             var args = spy.signalArguments[0];
-            compare(args[0], previewRating.widgetId);
+            compare(args[0], previewRatingInput.widgetId);
             compare(args[1], data.widgetData["required"]);
             compare(args[2]["rating"], data.triggeredData["rating"]);
             compare(args[2]["review"], data.triggeredData["review"]);

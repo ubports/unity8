@@ -33,7 +33,6 @@ FocusScope {
     property OpenEffect openEffect: null
     property Item previewListView: null
 
-    signal endReached
     signal movementStarted
     signal positionedAtBeginning
 
@@ -117,9 +116,6 @@ FocusScope {
         anchors.fill: parent
         model: scopeView.categories
         forceNoClip: previewListView.onScreen
-
-        onAtYEndChanged: if (atYEnd) endReached()
-        onMovingChanged: if (moving && atYEnd) endReached()
 
         property string expandedCategoryId: ""
         signal correctExpandedCategory();
@@ -287,7 +283,7 @@ FocusScope {
 
         sectionProperty: "name"
         sectionDelegate: ListItems.Header {
-            objectName: "dashSectionHeader" + delegate.category
+            objectName: "dashSectionHeader" + (delegate ? delegate.category : "")
             property var delegate: categoryView.item(delegateIndex)
             width: categoryView.width
             text: section
