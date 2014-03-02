@@ -55,9 +55,8 @@ class Dash(emulators.UnityEmulatorBase):
         return resp_grid.select_single('Tile', text=text)
 
     def get_scope(self, scope_name='clickscope'):
-        scope_id = '%s' % scope_name
         return self.dash_content_list.select_single(
-            'QQuickLoader', scopeId=scope_id)
+            'QQuickLoader', scopeId=scope_name)
 
     @autopilot_logging.log_action(logger.info)
     def open_scope(self, scope_name):
