@@ -22,8 +22,6 @@
 
 #include <QAbstractListModel>
 
-class IndicatorsManager;
-
 class FakeIndicatorsModel : public QAbstractListModel
 {
     Q_OBJECT
