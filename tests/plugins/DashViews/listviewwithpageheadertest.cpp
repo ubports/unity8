@@ -1281,9 +1281,8 @@ private Q_SLOTS:
 
     void testShowHeaderHalfShown()
     {
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
         QSKIP("This test is extremely unstable in 5.0.x");
-#endif
+
         changeContentY(20);
 
         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
@@ -1851,6 +1850,7 @@ private Q_SLOTS:
 
     void testHeaderPositionBug1240118()
     {
+        QSKIP("This test is unstable.");
         scrollToBottom();
         lvwph->showHeader();
         QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
