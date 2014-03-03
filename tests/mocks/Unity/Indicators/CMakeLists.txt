@@ -16,6 +16,7 @@ set(IndicatorsFakeQml_SOURCES
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Indicators/menucontentactivator.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Indicators/unitymenumodelstack.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Indicators/visibleindicatorsmodel.cpp
+    fakeindicatorsmodel.cpp
 )
 
 set(IndicatorsFakeQml_RESOURCES

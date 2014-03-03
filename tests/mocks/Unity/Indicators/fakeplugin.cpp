@@ -23,6 +23,7 @@
 #include "fakeplugin.h"
 
 // local
+#include "fakeindicatorsmodel.h"
 #include "indicators.h"
 #include "menucontentactivator.h"
 #include "unitymenumodelstack.h"
@@ -31,6 +32,8 @@
 void IndicatorsFakePlugin::registerTypes(const char * uri)
 {
     Q_INIT_RESOURCE(indicators_fake);
+
+    qmlRegisterType<FakeIndicatorsModel>(uri, 0, 1, "FakeIndicatorsModel");
 
     qmlRegisterType<MenuContentActivator>(uri, 0, 1, "MenuContentActivator");
     qmlRegisterType<UnityMenuModelStack>(uri, 0, 1, "UnityMenuModelStack");
