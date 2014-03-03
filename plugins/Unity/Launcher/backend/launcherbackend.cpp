@@ -31,7 +31,6 @@
 class LauncherBackendItem
 {
 public:
-    QString desktopFile;
     QString displayName;
     QString icon;
 };
@@ -90,11 +89,6 @@ void LauncherBackend::setStoredApplications(const QStringList &appIds)
 
 QString LauncherBackend::desktopFile(const QString &appId) const
 {
-    LauncherBackendItem *item = m_itemCache.value(appId);
-    if (item) {
-        return item->desktopFile;
-    }
-
     return findDesktopFile(appId);
 }
 
@@ -209,6 +203,21 @@ void LauncherBackend::syncFromAccounts()
                     }
                 }
             }
+            if (entry.startsWith("appid://")) {
+                QString appId = entry;
+                appId.remove("appid://");
+                // Strip hook name and current-user-version in case its there
+                appId = appId.split('/').first();
+                QString df = findDesktopFile(appId);
+
+                if (!df.isEmpty()) {
+                    m_storedApps << appId;
+
+                    if (!m_itemCache.contains(appId)) {
+                        m_itemCache.insert(appId, parseDesktopFile(df));
+                    }
+                }
+            }
         }
     } else {
         for (const QVariant &app: apps) {
@@ -245,10 +254,13 @@ QString LauncherBackend::findDesktopFile(const QString &appId) const
             helper = helper.replace(dashPos, 1, '/');
         }
 
-        Q_FOREACH(const QString &searchDir, searchDirs) {
-            QFileInfo fileInfo(QDir(searchDir), helper + ".desktop");
-            if (fileInfo.exists()) {
-                return fileInfo.absoluteFilePath();
+        Q_FOREACH(const QString &searchDirName, searchDirs) {
+            QDir searchDir(searchDirName);
+            Q_FOREACH(const QString &desktopFile, searchDir.entryList(QStringList() << "*.desktop")) {
+                if (desktopFile.startsWith(helper)) {
+                    QFileInfo fileInfo(searchDir, desktopFile);
+                    return fileInfo.absoluteFilePath();
+                }
             }
         }
 
@@ -263,7 +275,6 @@ LauncherBackendItem* LauncherBackend::parseDesktopFile(const QString &desktopFil
     QSettings settings(desktopFile, QSettings::IniFormat);
 
     LauncherBackendItem* item = new LauncherBackendItem();
-    item->desktopFile = desktopFile;
     item->displayName = settings.value("Desktop Entry/Name").toString();
 
     QString iconString = settings.value("Desktop Entry/Icon").toString();
@@ -292,7 +303,6 @@ void LauncherBackend::loadFromVariant(const QVariantMap &details)
 
     item = new LauncherBackendItem();
 
-    item->desktopFile = details.value("desktopFile").toString();
     item->displayName = details.value("name").toString();
     item->icon = details.value("icon").toString();
 
@@ -307,7 +317,6 @@ QVariantMap LauncherBackend::itemToVariant(const QString &appId) const
     details.insert("id", appId);
     details.insert("name", item->displayName);
     details.insert("icon", item->icon);
-    details.insert("desktopFile", item->desktopFile);
     return details;
 }
 
