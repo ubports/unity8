@@ -1,3 +1,36 @@
+unity8 (7.84+14.04.20140228-0ubuntu1) trusty; urgency=low
+
+  [ Michał Sawicz ]
+  * Fix CardHeader title font weight.
+  * Delete stale sockets. (LP: #1285215)
+
+  [ Dmitrijs Ledkovs ]
+  * Ship python3 autopilot modules.
+
+  [ Albert Astals ]
+  * Cleanup DashContent Remove unused signals and properties
+
+  [ Michał Karnicki ]
+  * Take it easy on the logging.
+  * Fix CardHeader title font weight.
+
+  [ Nick Dedekind ]
+  * Added ability to change indicator profile in shell (env
+    UNITY_INDICATOR_PROFILE)
+
+  [ Andrea Cimitan ]
+  * Rename PreviewRating to PreviewRatingInput
+  * Adds PreviewRatingDisplay
+
+  [ Daniel d'Andrada ]
+  * DirectionalDragArea: Reset status if disabled while dragging (LP:
+    #1276122)
+
+  [ Dimitri John Ledkov ]
+  * Ship python3 autopilot modules.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 28 Feb 2014 10:48:06 +0000
+
 unity8 (7.84+14.04.20140221-0ubuntu1) trusty; urgency=low
 
   [ Michał Sawicz ]

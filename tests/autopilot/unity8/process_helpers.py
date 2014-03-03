@@ -142,7 +142,7 @@ def _get_unity_status():
             '/sbin/initctl',
             'status',
             'unity8'
-        ])
+        ], universal_newlines=True)
     except subprocess.CalledProcessError as e:
         raise CannotAccessUnity("Unable to get unity's status: %s" % str(e))
 

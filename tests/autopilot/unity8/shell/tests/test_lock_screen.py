@@ -26,11 +26,17 @@ from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 
 from autopilot.matchers import Eventually
 from autopilot.platform import model
+import sys
 from testtools import skipUnless
 from testtools.matchers import Equals
 import logging
 
 logger = logging.getLogger(__name__)
+
+# py2 compatible alias for py3
+if sys.version >= '3':
+    basestring = str
+
 
 class TestLockscreen(UnityTestCase):
 
@@ -125,7 +131,10 @@ class TestLockscreen(UnityTestCase):
         """
 
         if not isinstance(code, basestring):
-            raise TypeError("'code' parameter must be a string.")
+            raise TypeError(
+                "'code' parameter must be a string, not %r."
+                % type(passphrase)
+            )
         for num in code:
             if not num.isdigit():
                 raise ValueError(
@@ -142,7 +151,10 @@ class TestLockscreen(UnityTestCase):
 
         """
         if not isinstance(passphrase, basestring):
-            raise TypeError("'passphrase' parameter must be a string.")
+            raise TypeError(
+                "'passphrase' parameter must be a string, not %r."
+                % type(passphrase)
+            )
 
         pinentryField = self.main_window.get_pinentryField()
         self.touch.tap_object(pinentryField)
@@ -161,7 +173,10 @@ class TestLockscreen(UnityTestCase):
 
         """
         if not isinstance(passphrase, basestring):
-            raise TypeError("'passphrase' parameter must be a string.")
+            raise TypeError(
+                "'passphrase' parameter must be a string, not %r."
+                % type(passphrase)
+            )
 
         prompt = self.main_window.get_greeter().get_prompt()
         self.touch.tap_object(prompt)

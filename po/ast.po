@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-02-13 18:37+0000\n"
-"PO-Revision-Date: 2013-12-11 20:45+0000\n"
-"Last-Translator: ivarela <ivarela@ubuntu.com>\n"
+"PO-Revision-Date: 2014-03-01 16:51+0000\n"
+"Last-Translator: Xuacu Saturio <xuacusk8@gmail.com>\n"
 "Language-Team: Asturian <ast@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-02-19 05:44+0000\n"
-"X-Generator: Launchpad (build 16916)\n"
+"X-Launchpad-Export-Date: 2014-03-02 05:30+0000\n"
+"X-Generator: Launchpad (build 16948)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -74,6 +74,8 @@ msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
 msgstr ""
+"Agora domina los xestos de los bordes y pue principiar a usar el "
+"teléfonu<br><br>Toque la pantalla pa comenzar"
 
 #: qml/Components/PageHeader.qml:340
 msgid "Recent searches"
@@ -81,11 +83,11 @@ msgstr "Busques recientes"
 
 #: qml/Components/SeeMore.qml:35
 msgid "See more"
-msgstr ""
+msgstr "Ver más"
 
 #: qml/Components/SeeMore.qml:57
 msgid "See less"
-msgstr ""
+msgstr "Ver menos"
 
 #: qml/Dash/Apps/AppPreview.qml:136 qml/Dash/Previews/PreviewRating.qml:70
 msgid "Rate this"
@@ -107,11 +109,11 @@ msgstr[1] "%1 reseñes"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
-msgstr ""
+msgstr "Más…"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "Less..."
-msgstr ""
+msgstr "Menos…"
 
 #: qml/Dash/Previews/PreviewRating.qml:114 qml/Dash/Previews/Reviews.qml:74
 msgid "Add a review"
@@ -168,7 +170,7 @@ msgstr "Amosar contraseña"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:103
 msgid "Please enter SIM PIN"
-msgstr ""
+msgstr "Escriba'l PIN de la SIM"
 
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"

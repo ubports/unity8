@@ -24,7 +24,6 @@ Item {
 
     property var model: null
     property var scopes: null
-    property real contentProgress: Math.max(0, Math.min(dashContentList.contentX / (dashContentList.contentWidth - dashContentList.width), units.dp(1)))
     property alias currentIndex: dashContentList.currentIndex
     property alias previewOpen: previewListView.open
 
@@ -33,8 +32,6 @@ Item {
 
     signal movementStarted()
     signal movementEnded()
-    signal contentFlickStarted()
-    signal contentEndReached()
     signal scopeLoaded(string scopeId)
     signal positionedAtBeginning()
     signal gotoScope(string scopeId)
@@ -158,11 +155,6 @@ Item {
                         dashContentList.movementStarted.connect(item.movementStarted)
                         dashContent.positionedAtBeginning.connect(item.positionedAtBeginning)
                         dashContent.scopeLoaded(item.scope.id)
-                    }
-                    Connections {
-                        target: item
-                        ignoreUnknownSignals: true
-                        onEndReached: contentEndReached()
                     }
                     Connections {
                         target: isCurrent ? scope : null
