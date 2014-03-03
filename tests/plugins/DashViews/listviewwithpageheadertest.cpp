@@ -1281,7 +1281,7 @@ private Q_SLOTS:
 
     void testShowHeaderHalfShown()
     {
-        QSKIP("This test is extremely unstable in 5.0.x");
+        QSKIP("This test is extremely unstable.");
 
         changeContentY(20);
 
