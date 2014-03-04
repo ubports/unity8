@@ -118,76 +118,76 @@ FocusScope {
         anchors.rightMargin: stages.overlayWidth
         clip: stages.overlayMode && !stages.painting
 
-    Item {
-        id: underlay
-        objectName: "underlay"
-        anchors.fill: parent
-        anchors.rightMargin: -parent.anchors.rightMargin
-
-        // Whether the underlay is fully covered by opaque UI elements.
-        property bool fullyCovered: panel.indicators.fullyOpened && shell.width <= panel.indicatorsMenuWidth
-
-        readonly property bool applicationRunning: ApplicationManager.focusedApplicationId.length > 0
-
-        // Whether the user should see the topmost application surface (if there's one at all).
-        readonly property bool applicationSurfaceShouldBeSeen: stages.shown && !stages.painting && !stages.overlayMode
-
-        // NB! Application surfaces are stacked behind the shell one. So they can only be seen by the user
-        // through the translucent parts of the shell surface.
-        visible: !fullyCovered && !applicationSurfaceShouldBeSeen
-
-        CrossFadeImage {
-            id: backgroundImage
-            objectName: "backgroundImage"
-
+        Item {
+            id: underlay
+            objectName: "underlay"
             anchors.fill: parent
-            source: shell.background
-            fillMode: Image.PreserveAspectCrop
-        }
+            anchors.rightMargin: -parent.anchors.rightMargin
 
-        Rectangle {
-            anchors.fill: parent
-            color: "black"
-            opacity: dash.disappearingAnimationProgress
-        }
+            // Whether the underlay is fully covered by opaque UI elements.
+            property bool fullyCovered: panel.indicators.fullyOpened && shell.width <= panel.indicatorsMenuWidth
 
-        Dash {
-            id: dash
-            objectName: "dash"
+            readonly property bool applicationRunning: ApplicationManager.focusedApplicationId.length > 0
 
-            available: !greeter.shown && !lockscreen.shown
-            hides: [stages, launcher, panel.indicators]
-            shown: disappearingAnimationProgress !== 1.0
-            enabled: disappearingAnimationProgress === 0.0 && edgeDemo.dashEnabled
+            // Whether the user should see the topmost application surface (if there's one at all).
+            readonly property bool applicationSurfaceShouldBeSeen: stages.shown && !stages.painting && !stages.overlayMode
 
-            anchors {
-                fill: parent
-                topMargin: panel.panelHeight
+            // NB! Application surfaces are stacked behind the shell one. So they can only be seen by the user
+            // through the translucent parts of the shell surface.
+            visible: !fullyCovered && !applicationSurfaceShouldBeSeen
+
+            CrossFadeImage {
+                id: backgroundImage
+                objectName: "backgroundImage"
+
+                anchors.fill: parent
+                source: shell.background
+                fillMode: Image.PreserveAspectCrop
             }
 
-            contentScale: 1.0 - 0.2 * disappearingAnimationProgress
-            opacity: 1.0 - disappearingAnimationProgress
-            property real disappearingAnimationProgress: {
-                if (greeter.shown) {
-                    return greeter.showProgress;
-                } else {
-                    if (stages.overlayMode) {
-                        return 0;
-                    }
-                    return stages.showProgress
+            Rectangle {
+                anchors.fill: parent
+                color: "black"
+                opacity: dash.disappearingAnimationProgress
+            }
+
+            Dash {
+                id: dash
+                objectName: "dash"
+
+                available: !greeter.shown && !lockscreen.shown
+                hides: [stages, launcher, panel.indicators]
+                shown: disappearingAnimationProgress !== 1.0
+                enabled: disappearingAnimationProgress === 0.0 && edgeDemo.dashEnabled
+
+                anchors {
+                    fill: parent
+                    topMargin: panel.panelHeight
                 }
-            }
 
-            // FIXME: only necessary because stages.showProgress and
-            // greeterRevealer.animatedProgress are not animated
-            Behavior on disappearingAnimationProgress { SmoothedAnimation { velocity: 5 }}
+                contentScale: 1.0 - 0.2 * disappearingAnimationProgress
+                opacity: 1.0 - disappearingAnimationProgress
+                property real disappearingAnimationProgress: {
+                    if (greeter.shown) {
+                        return greeter.showProgress;
+                    } else {
+                        if (stages.overlayMode) {
+                            return 0;
+                        }
+                        return stages.showProgress
+                    }
+                }
+
+                // FIXME: only necessary because stages.showProgress and
+                // greeterRevealer.animatedProgress are not animated
+                Behavior on disappearingAnimationProgress { SmoothedAnimation { velocity: 5 }}
+            }
         }
-    }
     }
 
     EdgeDragArea {
         id: stagesDragHandle
-        direction: Direction.LeftWards
+        direction: Direction.Leftwards
 
         anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
         width: shell.edgeSize
@@ -231,7 +231,7 @@ FocusScope {
             }
         }
 
-        Behavior on x { SmoothedAnimation { velocity: 600; duration: UbuntuAnimation.SlowDuration } }
+        Behavior on x { SmoothedAnimation { velocity: 600; duration: UbuntuAnimation.FastDuration } }
 
         property bool shown: false
 
@@ -267,7 +267,13 @@ FocusScope {
 
         Connections {
             target: ApplicationManager
+
+            onFocusRequested: {
+                stages.show();
+            }
+
             onFocusedApplicationIdChanged: {
+                print("focusedAppChanged:", ApplicationManager.focusedApplicationId);
                 if (ApplicationManager.focusedApplicationId.length > 0) {
                     stages.show();
                 } else {

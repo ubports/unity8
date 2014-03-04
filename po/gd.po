@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-02-04 15:43+0000\n"
+"POT-Creation-Date: 2014-02-13 18:37+0000\n"
 "PO-Revision-Date: 2013-09-30 10:34+0000\n"
 "Last-Translator: Akerbeltz <fios@akerbeltz.org>\n"
 "Language-Team: Gaelic; Scottish <gd@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
 "(n > 2 && n < 20) ? 2 : 3;\n"
-"X-Launchpad-Export-Date: 2014-02-12 06:27+0000\n"
+"X-Launchpad-Export-Date: 2014-02-19 05:44+0000\n"
 "X-Generator: Launchpad (build 16916)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
@@ -80,19 +80,19 @@ msgid ""
 "phone<br><br>Tap on the screen to start"
 msgstr ""
 
-#: qml/Components/PageHeader.qml:339
+#: qml/Components/PageHeader.qml:340
 msgid "Recent searches"
 msgstr "Na lorg thu o chionn goirid"
 
-#: qml/Components/SeeMore.qml:32
+#: qml/Components/SeeMore.qml:35
 msgid "See more"
 msgstr ""
 
-#: qml/Components/SeeMore.qml:61
+#: qml/Components/SeeMore.qml:57
 msgid "See less"
 msgstr ""
 
-#: qml/Dash/Apps/AppPreview.qml:136
+#: qml/Dash/Apps/AppPreview.qml:136 qml/Dash/Previews/PreviewRating.qml:70
 msgid "Rate this"
 msgstr "Rangaich seo"
 
@@ -112,17 +112,25 @@ msgstr[1] "%1 lèirmheas"
 msgstr[2] "%1 lèirmheasan"
 msgstr[3] "%1 lèirmheas"
 
-#: qml/Dash/Previews/Reviews.qml:74
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "More..."
+msgstr ""
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "Less..."
+msgstr ""
+
+#: qml/Dash/Previews/PreviewRating.qml:114 qml/Dash/Previews/Reviews.qml:74
 msgid "Add a review"
 msgstr "Cuir lèirmheas ris"
+
+#: qml/Dash/Previews/PreviewRating.qml:153 qml/Dash/Previews/Reviews.qml:121
+msgid "Send"
+msgstr "Cuir"
 
 #: qml/Dash/Previews/Reviews.qml:86
 msgid "Review"
 msgstr "Lèirmheas"
-
-#: qml/Dash/Previews/Reviews.qml:121
-msgid "Send"
-msgstr "Cuir"
 
 #: qml/Dash/Previews/Reviews.qml:139
 msgid "Comments:"

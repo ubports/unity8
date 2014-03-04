@@ -24,9 +24,11 @@ Item {
 
     // Not used for PhoneStage, only useful for SideStage and similar
     property bool overlayMode: false
-    property bool overlayWidth: 0
+    property int overlayWidth: 0
 
+    onShownChanged: print("***************************************** shown changed", shown)
     onMovingChanged: {
+        print("+++++++++++++++++++++++++++++++ moving changed", moving)
         if (moving) {
             if (ApplicationManager.focusedApplicationId) {
                 priv.requestNewScreenshot();
