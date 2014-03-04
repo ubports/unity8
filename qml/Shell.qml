@@ -53,12 +53,9 @@ FocusScope {
 
     function activateApplication(appId) {
         if (ApplicationManager.findApplication(appId)) {
-            print("Shell.qml: activating app", appId);
             ApplicationManager.activateApplication(appId);
             stages.show();
         } else {
-            print("starting app", appId);
-
             var execFlags = shell.sideStageEnabled ? ApplicationManager.NoFlag : ApplicationManager.ForceMainStage;
             ApplicationManager.startApplication(appId, execFlags);
             stages.show();
@@ -273,11 +270,9 @@ FocusScope {
             }
 
             onFocusedApplicationIdChanged: {
-                print("focusedAppChanged:", ApplicationManager.focusedApplicationId);
                 if (ApplicationManager.focusedApplicationId.length > 0) {
                     stages.show();
                 } else {
-                    print("app unfocused", stages.overlayMode)
                     if (!stages.overlayMode) {
                         stages.hide();
                     }

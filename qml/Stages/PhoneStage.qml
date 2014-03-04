@@ -5,10 +5,6 @@ import Unity.Application 0.1
 import Utils 0.1
 import "../Components"
 
-/*
-
-*/
-
 Item {
     id: root
 
@@ -26,9 +22,7 @@ Item {
     property bool overlayMode: false
     property int overlayWidth: 0
 
-    onShownChanged: print("***************************************** shown changed", shown)
     onMovingChanged: {
-        print("+++++++++++++++++++++++++++++++ moving changed", moving)
         if (moving) {
             if (ApplicationManager.focusedApplicationId) {
                 priv.requestNewScreenshot();
