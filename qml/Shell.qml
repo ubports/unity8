@@ -615,7 +615,8 @@ FocusScope {
             width: parent.width > units.gu(60) ? units.gu(40) : parent.width
             height: parent.height
 
-            available: !greeter.shown && !panel.indicators.shown && !lockscreen.shown && edgeDemo.dashEnabled
+            // FIXME: Temporarily disabling the hud as it'll change but we don't know how yet.
+            available: false // !greeter.shown && !panel.indicators.shown && !lockscreen.shown && edgeDemo.dashEnabled
             shown: false
             showAnimation: StandardAnimation { property: "y"; duration: hud.showableAnimationDuration; to: 0; easing.type: Easing.Linear }
             hideAnimation: StandardAnimation { property: "y"; duration: hud.showableAnimationDuration; to: hudRevealer.closedValue; easing.type: Easing.Linear }
