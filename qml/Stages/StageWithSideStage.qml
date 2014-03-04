@@ -206,6 +206,10 @@ Item {
 
             var application = ApplicationManager.findApplication(appId)
             if (application.stage == ApplicationInfoInterface.SideStage) {
+                if (!root.shown) {
+                    priv.mainStageAppId = "";
+                    mainStageImage.application = null
+                }
                 if (sideStageImage.shown) {
                     print("switching to:", appId)
                     sideStageImage.switchTo(application)
