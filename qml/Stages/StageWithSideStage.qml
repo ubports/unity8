@@ -38,18 +38,13 @@ Item {
 
     readonly property int overlayWidth: priv.overlayOverride ? 0 : priv.sideStageWidth
 
-    onPaintingChanged: print(":::::::::::::::::::::::::::::::: painting changed:", painting, "overlayMode:", overlayMode)
-    onOverlayModeChanged: print(";;;;;;;;;;;;;;;;;;;;;;;;;; overlayModeChanged:", overlayWidth)
-
     onShownChanged: {
-        print("___________________________shown", shown)
         if (!shown) {
             priv.mainStageAppId = "";
         }
     }
 
     onMovingChanged: {
-        print("moving", moving, priv.haveMainStageApp, priv.haveSideStageApp)
         if (moving) {
             if (!priv.mainStageAppId && !priv.sideStageAppId) {
                 // Pulling in from the right, make the last used (topmost) app visible
@@ -122,26 +117,21 @@ Item {
                     }
                 }
             }
-            print("focused app changed", focusedApplicationId, mainStageAppId, sideStageAppId, sideStageImage.shown, priv.startingAppId)
         }
 
         onMainStageScreenshotChanged: {
-            print("------------------------------------------0")
             waitingForMainScreenshot = false;
         }
 
         onSideStageScreenshotChanged: {
-            print("------------------------------------------1")
             waitingForSideScreenshot = false;
         }
 
         onFocusedScreenshotChanged: {
-            print("##########################################", root.overlayMode)
             waitingForSideScreenshot = false;
         }
 
         onWaitingForScreenshotsChanged: {
-            print("********************++ waitingForScreenshotsChanged:", waitingForScreenshots);
             if (waitingForScreenshots) {
                 return;
             }
@@ -154,16 +144,13 @@ Item {
                 if (sideStageAppId && focusedApplicationId == sideStageAppId) {
                     sideStageImage.application = sideStageApp;
                     sideStageImage.x = root.width - sideStageImage.width
-                    print("setting side stage screenshot visiblr")
                     sideStageImage.visible = true;
                 }
             }
             if (sideStageHandleMouseArea.pressed) {
                 if (sideStageAppId) {
-                    print("setting side stage screenshot to", sideStageAppId)
                     sideStageImage.application = sideStageApp;
                     sideStageImage.x = root.width - sideStageImage.width
-                    print("setting side stage screenshot visiblr")
                     sideStageImage.visible = true;
                 }
                 if (mainStageAppId) {
@@ -174,13 +161,10 @@ Item {
         }
 
         function requestNewScreenshot(stage) {
-            print("** requestNewScreenshot called for stage", stage, mainStageAppId, sideStageAppId)
             if (stage == ApplicationInfoInterface.MainStage && mainStageAppId) {
-                print("requesting new MainStage screenshot")
                 waitingForMainScreenshot = true;
                 ApplicationManager.updateScreenshot(mainStageAppId);
             } else if (stage == ApplicationInfoInterface.SideStage && sideStageAppId) {
-                print("requesting new SideStage screenshot")
                 waitingForSideScreenshot = true;
                 ApplicationManager.updateScreenshot(sideStageAppId);
             }
@@ -217,8 +201,6 @@ Item {
         }
 
         onFocusRequested: {
-            print("focus requested by", appId)
-
             var application = ApplicationManager.findApplication(appId)
             if (application.stage == ApplicationInfoInterface.SideStage) {
                 if (!root.shown) {
@@ -226,7 +208,6 @@ Item {
                     mainStageImage.application = null
                 }
                 if (sideStageImage.shown) {
-                    print("switching to:", appId)
                     sideStageImage.switchTo(application)
                     mainStageImage.visible = true;
                     ApplicationManager.focusApplication(appId)
@@ -235,16 +216,12 @@ Item {
                     sideStageImage.snapToApp(application)
                 }
             } else if (application.stage == ApplicationInfoInterface.MainStage) {
-                print("should focus a main stage app")
                 if (root.shown) {
-                    print("root is already shown")
                     priv.mainStageAppId = application.appId;
                     mainStageImage.switchTo(application)
                     if (sideStageImage.shown) {
-                        print("hiding side stage!")
                         sideStageImage.snapTo(root.width)
                     } else {
-                        print("focusing app", appId)
                         ApplicationManager.focusApplication(appId)
                     }
                 } else {
@@ -301,7 +278,6 @@ Item {
         property var dragPoints: new Array()
 
         onPressed: {
-            print("sidestagehandle pressed. shown:", shown, "sidestageAppId:", priv.sideStageAppId)
             priv.requestNewScreenshot(ApplicationInfoInterface.SideStage)
             if (priv.mainStageAppId) {
                 priv.requestNewScreenshot(ApplicationInfoInterface.MainStage)
@@ -310,7 +286,6 @@ Item {
 
         onMouseXChanged: {
             dragPoints.push(mouseX)
-            print("mouseX changed. waiting for screenshots", priv.waitingForScreenshots)
 //            if (priv.waitingForScreenshots) {
 //                return;
 //            }
@@ -338,7 +313,6 @@ Item {
             if (oneWayFlick || distance > sideStageImage.width / 2) {
                 sideStageImage.snapTo(root.width)
             } else {
-                print("should snap to:", priv.sideStageAppId)
                 sideStageImage.snapToApp(priv.sideStageApp)
             }
         }
@@ -362,7 +336,6 @@ Item {
         }
 
         function snapTo(targetX) {
-//            print("snapping to... app:", sideStageImage.application.appId)
             sideStageSnapAnimation.targetX = targetX
             sideStageImage.visible = true;
             if (priv.mainStageAppId) {
@@ -383,8 +356,6 @@ Item {
             property int targetX: root.width
             property string snapToId
 
-            onRunningChanged: print("sideStageSnapAnimation running changed:", running, sideStageImage.visible, mainStageImage.visible, root.painting, mainStageImage.visible || sideStageImage.visible || sideStageSnapAnimation.running)
-
             UbuntuNumberAnimation { target: sideStageImage; property: "x"; to: sideStageSnapAnimation.targetX; duration: UbuntuAnimation.SlowDuration }
             ScriptAction {
                 script: {
@@ -392,15 +363,12 @@ Item {
                         if (priv.mainStageAppId) {
                             ApplicationManager.focusApplication(priv.mainStageAppId)
                         } else {
-                            print("unfocusing current app")
                             priv.overlayOverride = true;
                             ApplicationManager.unfocusCurrentApplication();
                         }
                         sideStageImage.shown = false;
                     }
-                    print("snapped sidestage to app", sideStageSnapAnimation.snapToId)
                     if (sideStageSnapAnimation.snapToId) {
-                        print("focusing id", sideStageSnapAnimation.snapToId)
                         ApplicationManager.focusApplication(sideStageSnapAnimation.snapToId)
                         sideStageSnapAnimation.snapToId = "";
                         sideStageImage.shown = true;
@@ -408,7 +376,6 @@ Item {
                     }
                     sideStageImage.visible = false;
                     mainStageImage.visible = false;
-                    print("snapped sidestage", root.overlayMode, root.painting)
                 }
             }
         }
