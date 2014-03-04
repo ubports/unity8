@@ -44,6 +44,17 @@ Item {
         }
     }
 
+    Component {
+        id: greeterComponent
+        Greeter {
+            SignalSpy {
+                objectName: "selectedSpy"
+                target: parent
+                signalName: "selected"
+            }
+        }
+    }
+
     SignalSpy {
         id: unlockSpy
         target: greeter
@@ -147,6 +158,14 @@ Item {
             AccountsService.backgroundFile = data.accounts
             tryCompareFunction(function() { return background.source.toString().indexOf(data.expected) !== -1; }, true)
             tryCompare(background, "status", Image.Ready)
+        }
+
+        function test_initial_selected_signal() {
+            var greeterObj = greeterComponent.createObject(this)
+            var spy = findChild(greeterObj, "selectedSpy")
+            spy.wait()
+            tryCompare(spy, "count", 1)
+            greeterObj.destroy()
         }
     }
 }
