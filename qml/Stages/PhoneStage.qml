@@ -20,6 +20,11 @@ Item {
     // State information propagated to the outside
     readonly property bool painting: mainScreenshotImage.visible || fadeInScreenshotImage.visible || appSplash.visible || spreadView.visible
     property bool fullscreen: ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).fullscreen
+    property bool locked: spreadView.visible
+
+    // Not used for PhoneStage, only useful for SideStage and similar
+    property bool overlayMode: false
+    property bool overlayWidth: 0
 
     onMovingChanged: {
         if (moving) {
@@ -64,6 +69,10 @@ Item {
                 priv.newFocusedAppId = appId;
                 priv.secondApplicationStarting = true;
                 priv.requestNewScreenshot();
+            }
+
+            if (spreadView.visible) {
+                spreadView.snapTo(0)
             }
         }
 
@@ -128,7 +137,7 @@ Item {
         // Mir signals us that the newly started app has gotten focus before it paints something on the screen
         // This would result in the old app surface becoming visible for a bit.
         // FIXME: change appManager to only change the focusedApplicationId when the surface is ready to be shown.
-        interval: 1500
+        interval: 0//1500
         repeat: false
         onTriggered: {
             priv.applicationStarting = false;
@@ -265,6 +274,7 @@ Item {
 
     Flickable {
         id: spreadView
+        objectName: "spreadView"
         anchors.fill: parent
         visible: spreadDragArea.status == DirectionalDragArea.Recognized || stage > 1 || snapAnimation.running
         contentWidth: spreadRow.width - shift
@@ -373,6 +383,7 @@ Item {
                 model: ApplicationManager
                 delegate: TransformedSpreadDelegate {
                     id: appDelegate
+                    objectName: "appDelegate" + index
                     startAngle: 45
                     endAngle: 5
                     startScale: 1.1

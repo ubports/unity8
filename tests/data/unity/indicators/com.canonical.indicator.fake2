@@ -3,8 +3,8 @@ Name=indicator-fake2
 ObjectPath=/com/canonical/indicator/fake2
 Position=0
 
-[phone]
-ObjectPath=/com/canonical/indicator/fake2/phone
+[test1]
+ObjectPath=/com/canonical/indicator/fake2/test1
 
-[desktop]
-ObjectPath=/com/canonical/indicator/fake2/desktop
+[test2]
+ObjectPath=/com/canonical/indicator/fake2/test2

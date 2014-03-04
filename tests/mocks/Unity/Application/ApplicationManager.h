@@ -45,6 +45,10 @@ class ApplicationManager : public ApplicationManagerInterface {
 
     Q_PROPERTY(bool fake READ fake CONSTANT)
 
+    // Only for testing
+    // This can be used to place some controls to right, like make tryPhoneStage for example
+    Q_PROPERTY(int rightMargin READ rightMargin WRITE setRightMargin)
+
  public:
     ApplicationManager(QObject *parent = NULL);
     virtual ~ApplicationManager();
@@ -99,6 +103,11 @@ class ApplicationManager : public ApplicationManagerInterface {
     bool suspended() const;
     void setSuspended(bool suspended);
 
+    // Only for testing
+    Q_INVOKABLE QStringList availableApplications();
+    int rightMargin() const;
+    void setRightMargin(int rightMargin);
+
  Q_SIGNALS:
     void keyboardHeightChanged();
     void keyboardVisibleChanged();
@@ -124,6 +133,8 @@ class ApplicationManager : public ApplicationManagerInterface {
     QQuickItem *m_mainStage;
     QQmlComponent *m_sideStageComponent;
     QQuickItem *m_sideStage;
+
+    int m_rightMargin;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(ApplicationManager::ExecFlags)

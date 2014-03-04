@@ -31,7 +31,6 @@ import "Panel"
 import "Hud"
 import "Components"
 import "Bottombar"
-import "SideStage"
 import "Notifications"
 import Unity.Notifications 1.0 as NotificationBackend
 
@@ -223,7 +222,7 @@ FocusScope {
 
         x: {
             if (shown) {
-                if (overlayMode) {
+                if (overlayMode || locked) {
                     return 0;
                 }
                 return launcher.progress
@@ -245,6 +244,7 @@ FocusScope {
         property bool fullscreen: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.fullscreen : false
         property bool overlayMode: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.overlayMode : false
         property int overlayWidth: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.overlayWidth : false
+        property bool locked: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.locked : false
 
         function show() {
             shown = true;
@@ -255,6 +255,10 @@ FocusScope {
         }
 
         function hide() {
+            if (locked) {
+                return;
+            }
+
             shown = false;
             if (ApplicationManager.focusedApplicationId) {
                 ApplicationManager.unfocusCurrentApplication();

@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2012-2013 Canonical
+# Copyright (C) 2012, 2013, 2014 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,85 +17,103 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import logging
 
+from autopilot import logging as autopilot_logging
+
+from unity8.shell import emulators
 from unity8.shell.emulators.greeter import Greeter
 from unity8.shell.emulators.hud import Hud
 from unity8.shell.emulators.dash import Dash
 from unity8.shell.emulators.launcher import Launcher
 
+logger = logging.getLogger(__name__)
 
-class MainWindow(object):
+
+class QQuickView(emulators.UnityEmulatorBase):
     """An emulator class that makes it easy to interact with the shell"""
 
-    def __init__(self, app):
-        self.app = app
-
-    def get_qml_view(self):
-        """Get the main QML view"""
-        return self.app.select_single("QQuickView")
-
     def get_greeter(self):
-        return self.app.select_single(Greeter)
+        return self.select_single(Greeter)
 
     def get_greeter_content_loader(self):
-        return self.app.wait_select_single(
+        return self.wait_select_single(
             "QQuickLoader",
             objectName="greeterContentLoader"
         )
 
     def get_greeter_background(self):
-        return self.app.select_single("CrossFadeImage", objectName="greeterBackground")
+        return self.select_single(
+            "CrossFadeImage", objectName="greeterBackground")
 
     def get_login_loader(self):
-        return self.app.select_single("QQuickLoader", objectName="loginLoader")
+        return self.select_single("QQuickLoader", objectName="loginLoader")
 
     def get_login_list(self):
-        return self.app.select_single("LoginList")
+        return self.select_single("LoginList")
 
     def get_hud(self):
-        return self.app.select_single(Hud)
+        return self.select_single(Hud)
 
     def get_hud_showable(self):
-        return self.app.select_single("Showable", objectName="hudShowable")
+        return self.select_single("Showable", objectName="hudShowable")
 
     def get_hud_show_button(self):
-        return self.app.select_single("HudButton")
+        return self.select_single("HudButton")
 
     def get_hud_edge_drag_area(self):
-        return self.app.select_single(objectName="hudDragArea")
+        return self.select_single(objectName="hudDragArea")
 
     def get_dash(self):
-        return self.app.select_single(Dash)
+        return self.select_single(Dash)
 
     def get_bottombar(self):
-        return self.app.select_single("Bottombar")
+        return self.select_single("Bottombar")
 
     def get_launcher(self):
-        return self.app.select_single(Launcher)
+        return self.select_single(Launcher)
 
     def get_pinPadLoader(self):
-        return self.app.select_single(
+        return self.select_single(
             "QQuickLoader",
             objectName="pinPadLoader"
         )
 
     def get_pinPadButton(self, buttonId):
-        return self.app.select_single(
+        return self.select_single(
             "PinPadButton",
             objectName="pinPadButton%i" % buttonId
         )
 
     def get_lockscreen(self):
-        return self.app.select_single("Lockscreen")
+        return self.select_single("Lockscreen")
 
     def get_pinentryField(self):
-        return self.app.select_single(objectName="pinentryField")
+        return self.select_single(objectName="pinentryField")
 
     def get_indicator(self, indicator_name):
-        return self.app.select_single(
+        return self.wait_select_single(
             'DefaultIndicatorWidget',
             objectName=indicator_name+'-widget'
         )
 
     def get_shell_background(self):
-        return self.app.select_single("CrossFadeImage", objectName="backgroundImage")
+        return self.select_single(
+            "CrossFadeImage", objectName="backgroundImage")
+
+    @autopilot_logging.log_action(logger.info)
+    def show_dash_swiping(self):
+        """Show the dash swiping from the left."""
+        width = self.width
+        height = self.height
+        start_x = 0
+        start_y = height // 2
+        end_x = width
+        end_y = start_y
+
+        self.pointing_device.drag(start_x, start_y, end_x, end_y)
+        return self.get_dash()
+
+    def get_current_focused_app_id(self):
+        """Return the id of the focused application."""
+        return self.select_single('Shell').currentFocusedAppId
