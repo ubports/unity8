@@ -27,7 +27,10 @@ don't break them for those external projects.
 
 """
 
-import mock
+try:
+    from unittest import mock
+except ImportError:
+    import mock
 
 from testtools.matchers import Contains, HasLength
 

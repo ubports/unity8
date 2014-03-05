@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-02-13 18:37+0000\n"
-"PO-Revision-Date: 2013-11-30 08:20+0000\n"
+"PO-Revision-Date: 2014-02-21 16:38+0000\n"
 "Last-Translator: Damir Jerovšek <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
 "n%100==4 ? 3 : 0);\n"
-"X-Launchpad-Export-Date: 2014-02-19 05:44+0000\n"
-"X-Generator: Launchpad (build 16916)\n"
+"X-Launchpad-Export-Date: 2014-02-22 07:40+0000\n"
+"X-Generator: Launchpad (build 16926)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -75,6 +75,8 @@ msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
 msgstr ""
+"Sedaj, ko ste osvojili poteze robov, lahko začnete uporabljati "
+"telefon<br><br>Tapnite na zaslon za začetek"
 
 #: qml/Components/PageHeader.qml:340
 msgid "Recent searches"
@@ -82,11 +84,11 @@ msgstr "Nedavna iskanja"
 
 #: qml/Components/SeeMore.qml:35
 msgid "See more"
-msgstr ""
+msgstr "Pokaži več"
 
 #: qml/Components/SeeMore.qml:57
 msgid "See less"
-msgstr ""
+msgstr "Pokaži manj"
 
 #: qml/Dash/Apps/AppPreview.qml:136 qml/Dash/Previews/PreviewRating.qml:70
 msgid "Rate this"
@@ -110,11 +112,11 @@ msgstr[3] "%1 ocene"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
-msgstr ""
+msgstr "Več ..."
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "Less..."
-msgstr ""
+msgstr "Manj ..."
 
 #: qml/Dash/Previews/PreviewRating.qml:114 qml/Dash/Previews/Reviews.qml:74
 msgid "Add a review"
@@ -171,7 +173,7 @@ msgstr "Pokaži geslo"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:103
 msgid "Please enter SIM PIN"
-msgstr ""
+msgstr "Vnesite PIN kartice SIM"
 
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"

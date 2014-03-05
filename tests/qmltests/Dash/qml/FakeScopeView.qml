@@ -25,11 +25,6 @@ GenericScopeView {
     property alias backColor : back.color
     property var categoryView: null
 
-    onEndReached: {
-        if (scope != undefined && shell != undefined && shell.scopeStatus != undefined) {
-            shell.scopeStatus[scope.id].endReached++;
-        }
-    }
     onMovementStarted: {
         if (shell != undefined && shell.scopeStatus != undefined) {
             shell.scopeStatus[scope.id].movementStarted++;
