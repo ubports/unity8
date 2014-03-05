@@ -26,7 +26,6 @@ import "../Components"
 MainView {
     id: content
 
-    nativeOrientationAngle: 0 // stop contents being re-rotated when shell in landscape
     property QtObject indicatorsModel: null
     property bool __contentActive: false
     readonly property int currentMenuIndex: tabs.selectedTabIndex

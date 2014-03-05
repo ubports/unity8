@@ -166,12 +166,4 @@ Item {
         }
         return desktopFile.substring(left+1, right);
     }
-
-    function setMainStageAppRect(item) {
-        ApplicationManager.setMainStageAppRect(item);
-    }
-
-    function setSideStageAppRect(item) {
-        ApplicationManager.setSideStageAppRect(item);
-    }
 }
