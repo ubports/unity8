@@ -20,12 +20,6 @@
 #include "fakeindicatorsmodel.h"
 #include "indicators.h"
 
-#include <paths.h>
-
-#include <QQmlContext>
-#include <QQmlEngine>
-#include <QDebug>
-
 FakeIndicatorsModel::FakeIndicatorsModel(QObject *parent)
     : QAbstractListModel(parent)
 {

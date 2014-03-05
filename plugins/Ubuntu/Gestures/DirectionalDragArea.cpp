@@ -109,6 +109,7 @@ private:
 DirectionalDragArea::DirectionalDragArea(QQuickItem *parent)
     : QQuickItem(parent)
     , m_status(WaitingForTouch)
+    , m_sceneDistance(0)
     , m_touchId(-1)
     , m_direction(Direction::Rightwards)
     , m_wideningAngle(0)
