@@ -116,11 +116,6 @@ FocusScope {
         }
     }
 
-    Connections {
-        target: applicationManager
-        onFocusRequested: activateApplication(appId)
-    }
-
     GSettings {
         id: backgroundSettings
         schema.id: "org.gnome.desktop.background"
