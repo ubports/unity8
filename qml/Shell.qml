@@ -338,15 +338,6 @@ FocusScope {
                 width: units.gu(40)
                 height: stages.height
                 handleExpanded: sideStageRevealer.pressed
-
-                Connections {
-                    target: sideStage.applications
-                    onCountChanged: {
-                        if (sideStage.applications.count == 0 && sideStage.shown) { // if all SS app closed, hide side stage
-                            sideStage.hide();
-                        }
-                    }
-                }
             }
 
             Revealer {
