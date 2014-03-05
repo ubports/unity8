@@ -662,7 +662,7 @@ FocusScope {
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
-            available: !greeter.locked && edgeDemo.launcherEnabled
+            available: (!greeter.shown || greeter.narrowMode) && edgeDemo.launcherEnabled
 
             onShowDashHome: {
                 if (edgeDemo.running)
