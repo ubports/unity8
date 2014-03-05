@@ -29,7 +29,6 @@ Showable {
     property ListModel searchHistory: SearchHistoryModel {}
     property bool searchable: !dashContent.previewOpen && !scopeItem.previewOpen
 
-    property alias contentProgress: dashContent.contentProgress
     property string showScopeOnLoaded: "clickscope"
     property real contentScale: 1.0
 

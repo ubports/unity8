@@ -36,6 +36,11 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+# from __future__ import range
+# (python3's range, is same as python2's xrange)
+import sys
+if sys.version_info < (3,):
+    range = xrange
 
 class UpstartIntegrationTests(UnityTestCase):
 
@@ -52,7 +57,7 @@ class UpstartIntegrationTests(UnityTestCase):
         self.process = subprocess.Popen([get_binary_path()] + self.unity_geometry_args)
         def ensure_stopped():
             self.process.terminate()
-            for i in xrange(10):
+            for i in range(10):
                 try:
                     self._get_status()
                 except OSError:
