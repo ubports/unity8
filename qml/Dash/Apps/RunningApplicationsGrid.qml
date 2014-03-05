@@ -27,12 +27,6 @@ ResponsiveFlowView {
     property alias enableHeightBehavior: heightBehaviour.enabled
     property bool enableHeightBehaviorOnNextCreation: firstModel.count + secondModel.count == 0
 
-    /// Whether this is the first item in the list
-    property bool firstItem: false
-
-    /// Whether this is the last item in the list
-    property bool lastItem: false
-
     Connections {
         target: shell
         onDashShownChanged: if (shell.dashShown && shell.stageScreenshotsReady) updateScreenshots();
@@ -122,29 +116,5 @@ ResponsiveFlowView {
         onPressedOutside: {
             root.terminationModeEnabled = false;
         }
-    }
-
-    Image {
-        visible: !firstItem
-        anchors {
-            top: parent.top
-            left: parent.left
-            right: parent.right
-        }
-        fillMode: Image.Stretch
-        source: "../graphics/dash_divider_top_lightgrad.png"
-        z: -1
-    }
-
-    Image {
-        visible: !lastItem
-        anchors {
-            bottom: parent.bottom
-            left: parent.left
-            right: parent.right
-        }
-        fillMode: Image.Stretch
-        source: "../graphics/dash_divider_top_darkgrad.png"
-        z: -1
     }
 }
