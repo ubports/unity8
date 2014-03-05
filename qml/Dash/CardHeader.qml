@@ -90,7 +90,8 @@ Item {
                 objectName: "titleLabel"
                 anchors { left: parent.left; right: parent.right }
                 elide: Text.ElideRight
-                font.weight: Font.DemiBold
+                font.weight: Font.Normal
+                fontSize: "small"
                 wrapMode: Text.Wrap
                 maximumLineCount: 2
                 fontSize: "small"
@@ -103,6 +104,7 @@ Item {
                 objectName: "subtitleLabel"
                 anchors { left: parent.left; right: parent.right }
                 elide: Text.ElideRight
+                fontSize: "small"
                 font.weight: Font.Light
                 visible: titleLabel.text && text
                 fontSize: "x-small"
