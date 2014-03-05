@@ -26,6 +26,8 @@ Item {
     property alias oldPrice: oldPriceLabel.text
     property alias altPrice: altPriceLabel.text
 
+    property alias titleWeight: titleLabel.font.weight
+
     // FIXME: Saviq, used to scale fonts down in Carousel
     property real fontScale: 1.0
 

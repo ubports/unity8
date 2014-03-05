@@ -160,6 +160,8 @@ Item {
         title: cardData && cardData["title"] || ""
         subtitle: cardData && cardData["subtitle"] || ""
 
+        titleWeight: components && components["subtitle"] ? Font.DemiBold : Font.Normal
+
         opacity: showHeader ? 1 : 0
         inOverlay: template["overlay"] === true
         fontColor: inOverlay ? "white" : summary.color
