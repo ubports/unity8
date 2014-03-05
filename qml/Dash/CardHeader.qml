@@ -98,7 +98,6 @@ Item {
                 fontSize: "small"
                 wrapMode: Text.Wrap
                 maximumLineCount: 2
-                fontSize: "small"
                 font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale)
                 color: fontColor
             }
@@ -111,7 +110,6 @@ Item {
                 fontSize: "small"
                 font.weight: Font.Light
                 visible: titleLabel.text && text
-                fontSize: "x-small"
                 font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale)
                 color: fontColor
             }
