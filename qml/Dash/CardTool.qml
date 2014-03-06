@@ -30,12 +30,12 @@ Item {
     id: cardTool
 
     /*!
-     type:int \brief number of cards.
+     \brief Number of cards.
      */
     property int count
 
     /*!
-     type:real \brief width of the category view.
+     type:real \brief Width of the category view.
      */
     property real viewWidth
 
