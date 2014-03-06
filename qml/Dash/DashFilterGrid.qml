@@ -31,8 +31,6 @@ DashRenderer {
     property alias minimumHorizontalSpacing: filterGrid.minimumHorizontalSpacing
     property alias collapsedRowCount: filterGrid.collapsedRowCount
 
-    property FilterGrid grid: filterGrid
-
     collapsedHeight: filterGrid.collapsedHeight
     columns: filterGrid.columns
     rows: filter ? filterGrid.collapsedRowCount : filterGrid.uncollapsedRowCount

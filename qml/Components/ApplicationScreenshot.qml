@@ -53,7 +53,8 @@ Item {
     ApplicationImage {
         id: applicationImage
         objectName: "screenshot image"
-        anchors.fill: parent
+        width: applicationScreenshot.application ? parent.width : 0
+        height: applicationScreenshot.application ? parent.height : 0
         visible: applicationScreenshot.application != null && ready
         source: ApplicationManager.findApplication((application) ? application.appId : "")
     }

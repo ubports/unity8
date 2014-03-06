@@ -144,9 +144,6 @@ FocusScope {
                 source: getRenderer(model.renderer, results)
 
                 onLoaded: {
-                    item.firstItem = Qt.binding(function() { return index === 0 });
-                    // FIXME Should not rely on count field of model, SortfilterProxyModel in this case.
-                    item.lastItem = Qt.binding(function() { return index === categoryView.model.count - 1 });
                     if (item.enableHeightBehavior !== undefined && item.enableHeightBehaviorOnNextCreation !== undefined) {
                         item.enableHeightBehavior = scopeView.enableHeightBehaviorOnNextCreation;
                         scopeView.enableHeightBehaviorOnNextCreation = false;
@@ -257,6 +254,31 @@ FocusScope {
                             item.delegateCreationEnd = Math.min(categoryView.height + item.delegateCreationBegin, baseItem.height)
                         }
                     }
+                }
+
+                Image {
+                    visible: index != 0
+                    anchors {
+                        top: parent.top
+                        left: parent.left
+                        right: parent.right
+                    }
+                    fillMode: Image.Stretch
+                    source: "graphics/dash_divider_top_lightgrad.png"
+                    z: -1
+                }
+
+                Image {
+                    // FIXME Should not rely on count field of model, SortfilterProxyModel in this case.
+                    visible: index != categoryView.model.count - 1
+                    anchors {
+                        bottom: parent.bottom
+                        left: parent.left
+                        right: parent.right
+                    }
+                    fillMode: Image.Stretch
+                    source: "graphics/dash_divider_top_darkgrad.png"
+                    z: -1
                 }
             }
 
