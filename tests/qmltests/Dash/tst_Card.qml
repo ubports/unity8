@@ -427,5 +427,36 @@ Rectangle {
 
             tryCompare(testCase.title.font, "weight", data.weight);
         }
+
+        function test_fontColor_data() {
+            return [
+                { tag: "#ffffff", dark: true },
+                { tag: "#fdfdfd", dark: true },
+                { tag: "#f9f9f9", dark: true },
+                { tag: "#000000", dark: false },
+                { tag: "#ef814c", dark: false },
+                { tag: "#312f2c", dark: false },
+                { tag: "#be332d", dark: false },
+                { tag: "#52ace4", dark: false },
+                { tag: "#3a5897", dark: false },
+                { tag: "#1caeeb", dark: false },
+                { tag: "#87c341", dark: false },
+                { tag: "#50893b", dark: false },
+            ];
+        }
+
+        function test_fontColor(data) {
+            selector.selectedIndex = 10;
+
+            background.color = data.tag;
+
+            if (data.dark) {
+                verify(Qt.colorEqual(summary.color, "grey"), "Summary should be grey.");
+                verify(Qt.colorEqual(header.fontColor, "grey"), "Header color should be grey.");
+            } else {
+                verify(Qt.colorEqual(summary.color, "white"), "Summary should be white.");
+                verify(Qt.colorEqual(header.fontColor, "white"), "Header color should be white.");
+            }
+        }
     }
 }
