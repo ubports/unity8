@@ -44,6 +44,8 @@ Item {
         anchors.fill: parent
         image: backgroundImage.source ? backgroundImage : null
 
+        property real luminance: 0.2126 * color.r + 0.7152 * color.g + 0.0722 * color.b
+
         property Image backgroundImage: Image {
             objectName: "backgroundImage"
             source: {
@@ -186,17 +188,7 @@ Item {
         text: cardData && cardData["summary"] || ""
         height: text ? implicitHeight : 0
         fontSize: "small"
-        color: getFontColor(background.color)
-
-        function getLuminance(color) {
-            return 0.2126 * color.r + 0.7152 * color.g + 0.0722 * color.b;
-        }
-
         // TODO karni: Change "grey" to Ubuntu.Components.Palette color once updated.
-        function getFontColor(backgroundColor) {
-            if (backgroundColor === undefined) return "grey";
-            var luminance = getLuminance(backgroundColor);
-            return luminance < 0.7 ? "white" : "grey"
-        }
+        color: background.visible && background.luminance < 0.7 ? "white" : "grey"
     }
 }
