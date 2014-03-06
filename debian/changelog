@@ -1,3 +1,19 @@
+unity8 (7.84+14.04.20140304-0ubuntu1) trusty; urgency=low
+
+  [ Michael Terry ]
+  * Ensure that the selected() signal is emitted by the greeter on
+    startup, fixing the background on startup for the first user in
+    tablet mode.
+
+  [ Nick Dedekind ]
+  * Remocked IndicatorModel to fix qt5.2.1 changes.
+
+  [ Albert Astals ]
+  * Initialize m_distance (LP: #1285385)
+  * import Ubuntu.Components so we can use UbuntuAnimation
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 04 Mar 2014 11:43:04 +0000
+
 unity8 (7.84+14.04.20140228-0ubuntu1) trusty; urgency=low
 
   [ Michał Sawicz ]

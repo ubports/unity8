@@ -60,7 +60,6 @@ MouseArea {
 
         onLoaded: {
             item.currentIndex = greeterContentLoader.currentIndex;
-            selected(item.currentIndex);
             item.resetAuthentication();
         }
 

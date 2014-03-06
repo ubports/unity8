@@ -44,6 +44,17 @@ Item {
         }
     }
 
+    Component {
+        id: greeterComponent
+        Greeter {
+            SignalSpy {
+                objectName: "selectedSpy"
+                target: parent
+                signalName: "selected"
+            }
+        }
+    }
+
     SignalSpy {
         id: unlockSpy
         target: greeter
@@ -131,6 +142,14 @@ Item {
             tryCompare(LightDM.Infographic, "username", "")
             AccountsService.statsWelcomeScreen = true
             tryCompare(LightDM.Infographic, "username", "single")
+        }
+
+        function test_initial_selected_signal() {
+            var greeterObj = greeterComponent.createObject(this)
+            var spy = findChild(greeterObj, "selectedSpy")
+            spy.wait()
+            tryCompare(spy, "count", 1)
+            greeterObj.destroy()
         }
     }
 }

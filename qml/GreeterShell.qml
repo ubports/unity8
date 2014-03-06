@@ -66,7 +66,6 @@ BasicShell {
         Component.onCompleted: {
             if (LightDM.Users.count == 1) {
                 LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole))
-                greeter.selected(0)
             }
         }
     }
@@ -126,7 +125,6 @@ BasicShell {
                 // If there are more users, the Greeter will handle that
                 if (LightDM.Users.count == 1) {
                     LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
-                    greeter.selected(0);
                 }
                 greeter.forceActiveFocus();
             }
