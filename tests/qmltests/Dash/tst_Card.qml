@@ -450,13 +450,10 @@ Rectangle {
 
             background.color = data.tag;
 
-            if (data.dark) {
-                tryCompareFunction(function() { return Qt.colorEqual(summary.color, "grey"); }, true);
-                tryCompareFunction(function() { return Qt.colorEqual(header.fontColor, "grey"); }, true);
-            } else {
-                tryCompareFunction(function() { return Qt.colorEqual(summary.color, "white"); }, true);
-                tryCompareFunction(function() { return Qt.colorEqual(header.fontColor, "white"); }, true);
-            }
+            var fontColor = data.dark ? "grey" : "white";
+
+            tryCompareFunction(function() { return Qt.colorEqual(summary.color, fontColor); }, true);
+            tryCompareFunction(function() { return Qt.colorEqual(header.fontColor, fontColor); }, true);
         }
 
         function test_mascotShape_data() {
@@ -476,13 +473,8 @@ Rectangle {
             verify(shape, "Could not find shape.");
             verify(image, "Could not find image.");
 
-            if (data.shape) {
-                tryCompare(shape, "visible", true);
-                tryCompare(image, "visible", false);
-            } else {
-                tryCompare(shape, "visible", false);
-                tryCompare(image, "visible", true);
-            }
+            tryCompare(shape, "visible", data.shape);
+            tryCompare(image, "visible", !data.shape);
         }
     }
 }
