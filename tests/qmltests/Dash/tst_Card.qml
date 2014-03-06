@@ -451,11 +451,11 @@ Rectangle {
             background.color = data.tag;
 
             if (data.dark) {
-                verify(Qt.colorEqual(summary.color, "grey"), "Summary should be grey.");
-                verify(Qt.colorEqual(header.fontColor, "grey"), "Header color should be grey.");
+                tryCompareFunction(function() { return Qt.colorEqual(summary.color, "grey"); }, true);
+                tryCompareFunction(function() { return Qt.colorEqual(header.fontColor, "grey"); }, true);
             } else {
-                verify(Qt.colorEqual(summary.color, "white"), "Summary should be white.");
-                verify(Qt.colorEqual(header.fontColor, "white"), "Header color should be white.");
+                tryCompareFunction(function() { return Qt.colorEqual(summary.color, "white"); }, true);
+                tryCompareFunction(function() { return Qt.colorEqual(header.fontColor, "white"); }, true);
             }
         }
 
@@ -469,7 +469,6 @@ Rectangle {
 
         function test_mascotShape(data) {
             selector.selectedIndex = data.index;
-            wait(200)
 
             var shape = findChild(card, "mascotShape");
             var image = findChild(card, "mascotImage");
@@ -478,11 +477,11 @@ Rectangle {
             verify(image, "Could not find image.");
 
             if (data.shape) {
-                verify(shape.visible, "Shape should be visible");
-                verify(!image.visible, "Image should not be visible");
+                tryCompare(shape, "visible", true);
+                tryCompare(image, "visible", false);
             } else {
-                verify(!shape.visible, "Shape should not be visible");
-                verify(image.visible, "Image should be visible");
+                tryCompare(shape, "visible", false);
+                tryCompare(image, "visible", true);
             }
         }
     }
