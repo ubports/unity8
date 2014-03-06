@@ -35,12 +35,12 @@ Item {
     property int count
 
     /*!
-     type:real \brief Width of the category view.
+     \brief Width of the category view.
      */
     property real viewWidth
 
     /*!
-     type:real \brief Scaling factor of selected Carousel item.
+     \brief Scaling factor of selected Carousel item.
      */
     readonly property real carouselSelectedItemScaleFactor: 1.38  // XXX assuming 1.38 carousel scaling factor for cards
 
@@ -55,7 +55,7 @@ Item {
     property var components
 
     /*!
-     type:string \brief The category layout for this card tool.
+     \brief The category layout for this card tool.
      */
     property string categoryLayout: {
         var layout = template["category-layout"];
