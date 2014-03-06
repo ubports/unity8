@@ -458,5 +458,32 @@ Rectangle {
                 verify(Qt.colorEqual(header.fontColor, "white"), "Header color should be white.");
             }
         }
+
+        function test_mascotShape_data() {
+            return [
+                { tag: "Art and summary", shape: false, index: 0 },
+                { tag: "No Summary", shape: true, index: 6 },
+                { tag: "With background", shape: false, index: 10 },
+            ];
+        }
+
+        function test_mascotShape(data) {
+            selector.selectedIndex = data.index;
+            wait(200)
+
+            var shape = findChild(card, "mascotShape");
+            var image = findChild(card, "mascotImage");
+
+            verify(shape, "Could not find shape.");
+            verify(image, "Could not find image.");
+
+            if (data.shape) {
+                verify(shape.visible, "Shape should be visible");
+                verify(!image.visible, "Image should not be visible");
+            } else {
+                verify(!shape.visible, "Shape should not be visible");
+                verify(image.visible, "Image should be visible");
+            }
+        }
     }
 }

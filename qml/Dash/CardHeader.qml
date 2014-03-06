@@ -69,6 +69,7 @@ Item {
 
         Image {
             id: mascotImage
+            objectName: "mascotImage"
 
             width: source ? mascotShape.width : 0
             height: mascotShape.height
