@@ -439,7 +439,7 @@ FocusScope {
         hides: [launcher, panel.indicators, hud]
         shown: true
 
-        defaultBackground: shell.defaultBackground
+        defaultBackground: shell.background
 
         y: panel.panelHeight
         width: parent.width
