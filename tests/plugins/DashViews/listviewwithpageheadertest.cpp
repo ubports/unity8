@@ -1281,8 +1281,6 @@ private Q_SLOTS:
 
     void testShowHeaderHalfShown()
     {
-        QSKIP("This test is extremely unstable.");
-
         changeContentY(20);
 
         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
@@ -1850,7 +1848,6 @@ private Q_SLOTS:
 
     void testHeaderPositionBug1240118()
     {
-        QSKIP("This test is unstable.");
         scrollToBottom();
         lvwph->showHeader();
         QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
@@ -1860,9 +1857,6 @@ private Q_SLOTS:
         model->setProperty(4, "size", 10);
         model->setProperty(5, "size", 10);
         model->setProperty(6, "size", 10);
-#if (QT_VERSION > QT_VERSION_CHECK(5, 0, 3))
-        QTRY_COMPARE(lvwph->m_minYExtent, 210.);
-#endif
         QTRY_COMPARE(lvwph->m_headerItem->y(), -lvwph->m_minYExtent);
     }
 

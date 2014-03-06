@@ -1486,8 +1486,6 @@ private Q_SLOTS:
 
     void testShowHeaderHalfShown()
     {
-        QSKIP("This test is extremely unstable.");
-
         changeContentY(20);
 
         QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
@@ -2095,8 +2093,6 @@ private Q_SLOTS:
 
     void testDownAndUp()
     {
-        QSKIP("This test is unstable.");
-
         QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 1), Q_ARG(QVariant, 5));
 
         QTRY_COMPARE(lvwph->m_visibleItems.count(), 1);
