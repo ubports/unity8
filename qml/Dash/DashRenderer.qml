@@ -50,6 +50,11 @@ Item {
     // The model to renderer
     property var model
 
+    /*!
+     \brief CardTool component.
+     */
+    property var cardTool
+
     /// Emitted when the user clicked on an item
     /// @param index is the index of the clicked item
     /// @param itemY is y of the clicked delegate
@@ -62,10 +67,4 @@ Item {
 
     function startFilterAnimation(filter) {
     }
-
-    /// Category template definition from the scope
-    property var template
-
-    /// Component mapping and configuration from the scope
-    property var components
 }

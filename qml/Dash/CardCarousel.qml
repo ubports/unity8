@@ -32,14 +32,6 @@ DashRenderer {
     height: carousel.implicitHeight + units.gu(6)
     verticalSpacing: units.gu(3)
 
-    CardTool {
-        id: cardTool
-
-        template: cardCarousel.template
-        components: cardCarousel.components
-        viewWidth: cardCarousel.width
-    }
-
     Carousel {
         id: carousel
         anchors.fill: parent
@@ -47,7 +39,7 @@ DashRenderer {
         // FIXME we need to "reverse" the carousel to make the selected item the size
         // and push others back.
         minimumTileWidth: cardTool.cardWidth / selectedItemScaleFactor
-        selectedItemScaleFactor: 1.38
+        selectedItemScaleFactor: cardTool.carouselSelectedItemScaleFactor
         cacheBuffer: 1404 // 18px * 13gu * 6
         model: cardCarousel.model
         highlightIndex: cardCarousel.highlightIndex
@@ -63,8 +55,8 @@ DashRenderer {
             objectName: "delegate" + index
             headerHeight: carousel.headerHeight
             cardData: model
-            template: cardCarousel.template
-            components: cardCarousel.components
+            template: cardTool.template
+            components: cardTool.components
 
             property bool explicitlyScaled
             property var model

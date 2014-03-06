@@ -20,21 +20,10 @@ import Ubuntu.Components 0.1
 DashFilterGrid {
     id: genericFilterGrid
 
-    minimumHorizontalSpacing: units.gu(1)
+    minimumHorizontalSpacing: units.gu(0.5)
     delegateWidth: cardTool.cardWidth
     delegateHeight: cardTool.cardHeight
     verticalSpacing: units.gu(1)
-    collapsedRowCount: Math.min(2, template && template["collapsed-rows"] || 2)
-
-    CardTool {
-        id: cardTool
-
-        template: genericFilterGrid.template
-        // We can't trust the template since it may happen it is carousel
-        // that is being should as a grid because of the lack of elements
-        categoryLayout: "grid"
-        components: genericFilterGrid.components
-    }
 
     delegate: Item {
         width: genericFilterGrid.cellWidth
@@ -47,8 +36,8 @@ DashFilterGrid {
             anchors.horizontalCenter: parent.horizontalCenter
             objectName: "delegate" + index
             cardData: model
-            template: genericFilterGrid.template
-            components: genericFilterGrid.components
+            template: cardTool.template
+            components: cardTool.components
 
             headerAlignment: cardTool.headerAlignment
 
