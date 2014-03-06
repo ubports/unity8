@@ -28,10 +28,31 @@ import QtQuick 2.0
 
 Item {
     id: cardTool
+
+    /*!
+     type:int \brief number of cards.
+     */
+    property int count
+
+    /*!
+     type:real \brief width of the category view.
+     */
+    property real viewWidth
+
+    /*!
+     type:real \brief Scaling factor of selected Carousel item.
+     */
+    readonly property real carouselSelectedItemScaleFactor: 1.38  // XXX assuming 1.38 carousel scaling factor for cards
+
     /*!
      \brief Template supplied for the category.
      */
     property var template
+
+    /*!
+     \brief Tool component for Carousel.
+     */
+    property var carouselTool
 
     /*!
      \brief Component mapping supplied for the category.
@@ -39,9 +60,15 @@ Item {
     property var components
 
     /*!
-     \brief Width of the view, based on which carousel width is calculated.
+     type:string \brief The category layout for this card tool.
      */
-    property var viewWidth
+    property string categoryLayout: {
+        var layout = template["category-layout"];
+
+        // carousel fallback mode to grid
+        if (layout === "carousel" && count <= Math.ceil(carouselTool.realPathItemCount)) layout = "grid";
+        return layout;
+    }
 
     // FIXME: Saviq
     // Only way for the card below to actually be laid out completely.
@@ -56,7 +83,7 @@ Item {
      If undefined, should use implicit width of the actual card.
      */
     readonly property var cardWidth: {
-        switch (template !== undefined && template["category-layout"]) {
+        switch (categoryLayout) {
             case "grid":
             case "vertical-journal":
                 if (template["card-layout"] === "horizontal") return units.gu(38);
@@ -66,10 +93,7 @@ Item {
                 }
                 return units.gu(18.5);
             case "carousel":
-                if (viewWidth === undefined) return undefined
-                if (viewWidth <= units.gu(40)) return units.gu(18)
-                if (viewWidth >= units.gu(128)) return units.gu(26)
-                return units.gu(18 + Math.round((viewWidth - units.gu(40))/ units.gu(11)))
+                return carouselTool.minimumTileWidth;
             case undefined:
             case "organic-grid":
             case "journal":
@@ -84,7 +108,7 @@ Item {
      If undefined, should use implicit height of the actual card.
      */
     readonly property var cardHeight: {
-        switch (template !== undefined && template["category-layout"]) {
+        switch (categoryLayout) {
             case "journal":
                 if (template["card-size"] >= 12 && template["card-size"] <= 38) return units.gu(template["card-size"]);
                 return units.gu(18.5);
@@ -121,6 +145,25 @@ Item {
         if (!isOnlyTextComponent) return Text.AlignLeft;
 
         return (template["card-layout"] === "horizontal") ? Text.AlignLeft : Text.AlignHCenter;
+    }
+
+    QtObject {
+        id: carouselTool
+
+        property real minimumTileWidth: {
+            if (cardTool.viewWidth === undefined) return undefined;
+            if (cardTool.viewWidth <= units.gu(40)) return units.gu(18);
+            if (cardTool.viewWidth >= units.gu(128)) return units.gu(26);
+            return units.gu(18 + Math.round((cardTool.viewWidth - units.gu(40)) / units.gu(11)));
+        }
+
+        readonly property real pathItemCount: 4.8457 /// (848 / 175) reference values
+
+        property real realPathItemCount: {
+            var scaledMinimumTileWidth = minimumTileWidth / cardTool.carouselSelectedItemScaleFactor;
+            var tileWidth = Math.max(cardTool.viewWidth / pathItemCount, scaledMinimumTileWidth);
+            return Math.min(cardTool.viewWidth / tileWidth, pathItemCount);
+        }
     }
 
     Card {

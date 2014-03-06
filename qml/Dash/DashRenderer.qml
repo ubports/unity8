@@ -50,6 +50,11 @@ Item {
     // The model to renderer
     property var model
 
+    /*
+     \brief CardTool component.
+     */
+    property var cardTool
+
     /// Emitted when the user clicked on an item
     /// @param index is the index of the clicked item
     /// @param itemY is y of the clicked delegate
