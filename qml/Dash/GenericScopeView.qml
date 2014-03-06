@@ -139,15 +139,6 @@ FocusScope {
             readonly property string category: categoryId
             readonly property var item: rendererLoader.item
 
-            CardTool {
-                id: cardTool
-
-                count: results.count
-                template: model.renderer
-                components: model.components
-                viewWidth: parent.width
-            }
-
             Loader {
                 id: rendererLoader
                 anchors {
@@ -156,14 +147,7 @@ FocusScope {
                     right: parent.right
                 }
 
-                source: {
-                    switch (cardTool.categoryLayout) {
-                        case "carousel": return "CardCarousel.qml";
-                        case "running-apps": return "Apps/RunningApplicationsGrid.qml";
-                        case "grid":
-                        default: return "CardFilterGrid.qml";
-                    }
-                }
+                source: getRenderer(model.renderer, model.contentType, model.rendererHint, results)
 
                 onLoaded: {
                     if (item.enableHeightBehavior !== undefined && item.enableHeightBehaviorOnNextCreation !== undefined) {
@@ -186,7 +170,6 @@ FocusScope {
                         }
                     }
                     updateDelegateCreationRange();
-                    item.cardTool = cardTool;
                 }
 
                 Component.onDestruction: {
