@@ -112,7 +112,7 @@ Item {
             hideIndicators();
 
             var dashContent = findChild(shell, "dashContent");
-            dashContent.previewOpen = true;
+            dashContent.previewOpen = false;
         }
 
         function killApps(apps) {
