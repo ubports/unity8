@@ -20,10 +20,11 @@ import Ubuntu.Components 0.1
 DashFilterGrid {
     id: genericFilterGrid
 
-    minimumHorizontalSpacing: units.gu(0.5)
+    minimumHorizontalSpacing: units.gu(1)
     delegateWidth: cardTool.cardWidth
     delegateHeight: cardTool.cardHeight
     verticalSpacing: units.gu(1)
+    collapsedRowCount: Math.min(2, template && template["collapsed-rows"] || 2)
 
     delegate: Item {
         width: genericFilterGrid.cellWidth
