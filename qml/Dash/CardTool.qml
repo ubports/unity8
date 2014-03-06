@@ -50,11 +50,6 @@ Item {
     property var template
 
     /*!
-     \brief Tool component for Carousel.
-     */
-    property var carouselTool
-
-    /*!
      \brief Component mapping supplied for the category.
      */
     property var components
