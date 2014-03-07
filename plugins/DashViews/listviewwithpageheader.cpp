@@ -91,6 +91,7 @@
 
 #include "listviewwithpageheader.h"
 
+#include <QCoreApplication>
 #include <QDebug>
 #include <qqmlinfo.h>
 #include <qqmlengine.h>
@@ -1279,7 +1280,7 @@ void ListViewWithPageHeader::updatePolish()
         // We need to make sure all bindings have updated otherwise
         // we may end up with bindings updating when we call setContentHeight
         // and then everything gets out of sync, i.e. testHeaderPositionBug1240118
-        qApp->processEvents();
+        QCoreApplication::instance()->processEvents();
 
         qreal contentHeight;
         if (m_visibleItems.isEmpty()) {
