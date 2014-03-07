@@ -1,3 +1,16 @@
+unity8 (7.84+14.04.20140306-0ubuntu1) trusty; urgency=low
+
+  [ Bill Filler ]
+  * Convert gallery and camera to click
+
+  [ Michael Zanetti ]
+  * Just disable HUD tests, without really disabling the HUD itself
+
+  [ Sergio Schvezov ]
+  * Convert gallery and camera to click
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 06 Mar 2014 16:45:46 +0000
+
 unity8 (7.84+14.04.20140304-0ubuntu1) trusty; urgency=low
 
   [ Michael Terry ]
