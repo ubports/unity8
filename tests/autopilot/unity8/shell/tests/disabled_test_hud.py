@@ -163,7 +163,7 @@ class TestHud(UnityTestCase, DragMixin):
         self.assertThat(hud.shown, Eventually(Equals(False)))
 
     def _launch_test_app_from_app_screen(self):
-        """Launches the camera app using the Dash UI.
+        """Launches the browser app using the Dash UI.
 
         Because when testing on the desktop running
         self.launch_application() will launch the application on the desktop
@@ -171,7 +171,7 @@ class TestHud(UnityTestCase, DragMixin):
 
         """
         dash = self.main_window.get_dash()
-        icon = dash.get_application_icon('Camera')
+        icon = dash.get_application_icon('Browser')
         self.touch.tap_object(icon)
 
         # Ensure application is open
