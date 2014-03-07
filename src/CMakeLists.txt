@@ -25,10 +25,10 @@ add_executable(${SHELL_APP} ${COMMON_SRCS})
 add_executable(${GREETER_APP} ${COMMON_SRCS})
 
 set_target_properties(${SHELL_APP} PROPERTIES
-    COMPILE_DEFINITIONS "UNITY8_SHELL=1;INDICATOR_PROFILE=\"phone\""
+    COMPILE_DEFINITIONS "UNITY8_GREETER=0"
     )
 set_target_properties(${GREETER_APP} PROPERTIES
-    COMPILE_DEFINITIONS "UNITY8_SHELL=0;INDICATOR_PROFILE=\"phone_greeter\""
+    COMPILE_DEFINITIONS "UNITY8_GREETER=1"
     )
 
 qt5_use_modules(${SHELL_APP} Gui Qml Quick Test)

@@ -26,7 +26,6 @@
 
 #include <paths.h>
 
-const QString default_profile = "phone";
 
 class IndicatorsManager::IndicatorData
 {
@@ -298,10 +297,6 @@ Indicator::Ptr IndicatorsManager::indicator(const QString& indicator_name)
     {
         return data->m_indicator;
     }
-
-    QString profile = qgetenv("UNITY8_INDICATOR_PROFILE");
-    if (profile.isEmpty())
-        profile = default_profile;
 
     Indicator::Ptr new_indicator(new Indicator(this));
     data->m_indicator = new_indicator;

@@ -42,7 +42,7 @@ int startShell(int argc, const char** argv, void* server)
 {
     const bool isUbuntuMirServer = qgetenv("QT_QPA_PLATFORM") == "ubuntumirserver";
 
-    QGuiApplication::setApplicationName(UNITY8_SHELL ? "Unity 8" : "Unity 8 Greeter");
+    QGuiApplication::setApplicationName(UNITY8_GREETER ? "Unity 8 Greeter" : "Unity 8");
     QGuiApplication *application;
     if (isUbuntuMirServer) {
         QLibrary unityMir("unity-mir", 1);
@@ -62,7 +62,7 @@ int startShell(int argc, const char** argv, void* server)
 
     QString indicatorProfile = qgetenv("UNITY_INDICATOR_PROFILE");
     if (indicatorProfile.isEmpty()) {
-        indicatorProfile = "phone";
+        indicatorProfile = UNITY8_GREETER ? "phone_greeter" : "phone";
     }
 
     resolveIconTheme();
@@ -88,9 +88,6 @@ int startShell(int argc, const char** argv, void* server)
     }
 
     bindtextdomain("unity8", translationDirectory().toUtf8().data());
-
-    // Tell indicator plugin what profile to use
-    qputenv("UNITY8_INDICATOR_PROFILE", INDICATOR_PROFILE);
 
     QQuickView* view = new QQuickView();
     view->setResizeMode(QQuickView::SizeRootObjectToView);
@@ -119,7 +116,7 @@ int startShell(int argc, const char** argv, void* server)
     nativeInterface->setProperty("ubuntuSessionType", 1);
     view->setProperty("role", 2); // INDICATOR_ACTOR_ROLE
 
-    QUrl source(::qmlDirectory() + (UNITY8_SHELL ? "Shell.qml" : "GreeterShell.qml"));
+    QUrl source(::qmlDirectory() + (UNITY8_GREETER ? "GreeterShell.qml" : "Shell.qml"));
     prependImportPaths(view->engine(), ::overrideImportPaths());
     appendImportPaths(view->engine(), ::fallbackImportPaths());
 
@@ -128,16 +125,16 @@ int startShell(int argc, const char** argv, void* server)
         importPaths.replaceInStrings(QRegExp("qt5/imports$"), "qt5/imports/Unity-Mir");
         view->engine()->setImportPathList(importPaths);
 
-#if !UNITY8_SHELL
-        // Make background transparent, so that the greeter can bleed through.
+#if UNITY8_GREETER
+        // Add alpha to surface, so that the greeter can bleed through
         QSurfaceFormat format;
         format.setAlphaBufferSize(8);
         view->setFormat(format);
-        view->setColor(Qt::transparent);
 #endif
     }
 
     view->setSource(source);
+    view->setColor(Qt::transparent);
 
     if (qgetenv("QT_QPA_PLATFORM") == "ubuntu" || isUbuntuMirServer || args.contains(QLatin1String("-fullscreen"))) {
         // First, size window equal to screen (fake a real WM fullscreen mode).
