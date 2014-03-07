@@ -102,6 +102,9 @@ tst_DirectionalDragArea::tst_DirectionalDragArea()
 void tst_DirectionalDragArea::init()
 {
     GestureTest::init();
+    m_view->resize(m_view->rootObject()->width(), m_view->rootObject()->height());
+    QTRY_COMPARE(m_view->width(), (int)m_view->rootObject()->width());
+    QTRY_COMPARE(m_view->height(), (int)m_view->rootObject()->height());
 
     fakeTimeSource.reset(new FakeTimeSource);
     fakeTimer = new FakeTimer(fakeTimeSource);
