@@ -31,7 +31,7 @@ Showable {
     property real showProgress: MathUtils.clamp((width + x) / width, 0, 1)
 
     showAnimation: StandardAnimation { property: "x"; to: 0 }
-    hideAnimation: StandardAnimation { property: "x"; to: -width }
+    hideAnimation: __leftHideAnimation
 
     property alias dragHandleWidth: dragHandle.width
     property alias model: greeterContentLoader.model
@@ -40,20 +40,24 @@ Showable {
     readonly property bool narrowMode: !multiUser && height > width
     readonly property bool multiUser: LightDM.Users.count > 1
 
-    readonly property bool leftTeaserPressed: greeterContentLoader.status == Loader.Ready &&
-                                              greeterContentLoader.item.leftTeaserPressed
-    readonly property bool rightTeaserPressed: greeterContentLoader.status == Loader.Ready &&
-                                               greeterContentLoader.item.rightTeaserPressed
-
     readonly property int currentIndex: greeterContentLoader.currentIndex
+
+    property var __leftHideAnimation: StandardAnimation { property: "x"; to: -width }
+    property var __rightHideAnimation: StandardAnimation { property: "x"; to: width }
 
     signal selected(int uid)
     signal unlocked(int uid)
+    signal tease()
 
-    onRightTeaserPressedChanged: {
-        if (rightTeaserPressed && (!locked || narrowMode) && x == 0) {
-            teasingTimer.start();
-        }
+    function hideRight() {
+        hideAnimation = __rightHideAnimation
+        hide()
+    }
+
+    Connections {
+        target: __rightHideAnimation
+        // Reset hide animation to default once we're finished with it
+        onRunningChanged: if (!__rightHideAnimation.running) greeter.hideAnimation = __leftHideAnimation
     }
 
     Loader {
@@ -82,45 +86,100 @@ Showable {
         }
     }
 
-    Timer {
-        id: teasingTimer
-        interval: 200
+    onTease: showLabelAnimation.start()
+
+    UbuntuShape {
+        id: swipeHint
+        color: "#222222"
+
+        visible: greeter.shown
+        width: swipeLabel.width + units.gu(2)
+        height: swipeLabel.height + units.gu(2)
+        property real baseOpacity: 0.6
+        opacity: 0.0
+
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: units.gu(5)
+
+        Label {
+            id: swipeLabel
+            anchors.centerIn: parent
+            text: i18n.tr("Swipe to unlock")
+            color: "white"
+        }
     }
 
-    states: [
-        State {
-            name: "teasing"
-            when: teasingTimer.running
-            PropertyChanges {
-                target: greeter
-                x: -dragHandle.hintDisplacement
-            }
-        }
-    ]
-    transitions: [
-        Transition {
-            from: "*"
-            to: "*"
-            NumberAnimation {
-                target: greeter
-                property: "x"
-                duration: 300
-                easing.type: Easing.OutCubic
-            }
-        }
-    ]
+    SequentialAnimation {
+        id: showLabelAnimation
 
-    DragHandle {
+        PropertyAnimation {
+            target: swipeHint
+            property: "opacity"
+            from: 0.0
+            to: swipeHint.baseOpacity
+            duration: UbuntuAnimation.SlowDuration
+        }
+        PropertyAnimation {
+            duration: 10000
+        }
+        PropertyAnimation {
+            target: swipeHint
+            property: "opacity"
+            from: swipeHint.baseOpacity
+            to: 0.0
+            duration: UbuntuAnimation.SlowDuration
+        }
+    }
+
+    // Bi-directional revealer
+    DraggingArea {
         id: dragHandle
-
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        anchors.right: parent.right
-
-        hintDisplacement: units.gu(2)
-
+        anchors.fill: greeterContentLoader
         enabled: greeter.narrowMode || !greeter.locked
+        orientation: Qt.Horizontal
+        propagateComposedEvents: true
 
-        direction: Direction.Leftwards
+        Component.onCompleted: {
+            // set evaluators to baseline of dragValue == 0
+            leftEvaluator.reset()
+            rightEvaluator.reset()
+        }
+
+        function maybeTease() {
+            if ((!greeter.locked || greeter.narrowMode) && greeter.x == 0)
+                greeter.tease();
+        }
+
+        onPressAndHold: maybeTease()
+        onClicked: maybeTease()
+
+        onDragEnd: {
+            if (rightEvaluator.shouldAutoComplete())
+                greeter.hideRight()
+            else if (leftEvaluator.shouldAutoComplete())
+                greeter.hide();
+            else
+                greeter.show(); // undo drag
+        }
+
+        onDragValueChanged: {
+            // dragValue is kept as a "step" value since we do this x adjusting on the fly
+            greeter.x += dragValue
+        }
+
+        EdgeDragEvaluator {
+            id: rightEvaluator
+            trackedPosition: dragHandle.dragValue + greeter.x
+            maxDragDistance: parent.width
+            direction: Direction.Rightwards
+        }
+
+        EdgeDragEvaluator {
+            id: leftEvaluator
+            trackedPosition: dragHandle.dragValue + greeter.x
+            maxDragDistance: parent.width
+            direction: Direction.Leftwards
+        }
     }
 }

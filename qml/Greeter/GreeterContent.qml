@@ -25,10 +25,6 @@ MouseArea {
     anchors.fill: parent
 
     property bool ready: background.source == "" || background.status == Image.Ready || background.status == Image.Error
-    property bool leftTeaserPressed: teasingMouseArea.pressed &&
-                                     teasingMouseArea.mouseX < teasingMouseArea.width / 2
-    property bool rightTeaserPressed: teasingMouseArea.pressed &&
-                                     teasingMouseArea.mouseX > teasingMouseArea.width / 2
 
     signal selected(int uid)
     signal unlocked(int uid)
@@ -72,11 +68,6 @@ MouseArea {
         anchors.fill: parent
         color: "black"
         opacity: 0.4
-    }
-
-    MouseArea {
-        id: teasingMouseArea
-        anchors.fill: parent
     }
 
     Loader {

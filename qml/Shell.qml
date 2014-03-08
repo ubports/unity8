@@ -211,16 +211,10 @@ FocusScope {
 
             contentScale: 1.0 - 0.2 * disappearingAnimationProgress
             opacity: 1.0 - disappearingAnimationProgress
-            property real disappearingAnimationProgress: {
-                if (greeter.shown) {
-                    return greeter.showProgress;
-                } else {
-                    return stagesOuterContainer.showProgress;
-                }
-            }
+            property real disappearingAnimationProgress: stagesOuterContainer.showProgress
 
-            // FIXME: only necessary because stagesOuterContainer.showProgress and
-            // greeterRevealer.animatedProgress are not animated
+            // FIXME: only necessary because stagesOuterContainer.showProgress
+            // is not animated
             Behavior on disappearingAnimationProgress { SmoothedAnimation { velocity: 5 }}
         }
     }
@@ -453,90 +447,94 @@ FocusScope {
         }
     }
 
-    Greeter {
-        id: greeter
-        objectName: "greeter"
-
-        available: true
-        hides: [launcher, panel.indicators, hud]
-        shown: true
-
-        defaultBackground: shell.background
-
-        y: panel.panelHeight
+    Item {
+        // Just a tiny wrapper to adjust greeter's x without messing with its own dragging
         width: parent.width
-        height: parent.height - panel.panelHeight
+        height: parent.height
+        x: launcher.progress
+        Behavior on x {SmoothedAnimation{velocity: 600}}
 
-        dragHandleWidth: shell.edgeSize
+        Greeter {
+            id: greeter
+            objectName: "greeter"
 
-        property var previousMainApp: null
-        property var previousSideApp: null
+            available: true
+            hides: [launcher, panel.indicators, hud]
+            shown: true
 
-        function removeApplicationFocus() {
-            greeter.previousMainApp = applicationManager.mainStageFocusedApplication;
-            greeter.previousSideApp = applicationManager.sideStageFocusedApplication;
-            applicationManager.unfocusCurrentApplication();
-        }
+            defaultBackground: shell.background
 
-        function restoreApplicationFocus() {
-            if (greeter.previousMainApp) {
-                applicationManager.focusApplication(greeter.previousMainApp);
-                greeter.previousMainApp = null;
+            y: panel.panelHeight
+            width: parent.width
+            height: parent.height - panel.panelHeight
+
+            dragHandleWidth: shell.edgeSize
+
+            property var previousMainApp: null
+            property var previousSideApp: null
+
+            function removeApplicationFocus() {
+                greeter.previousMainApp = applicationManager.mainStageFocusedApplication;
+                greeter.previousSideApp = applicationManager.sideStageFocusedApplication;
+                applicationManager.unfocusCurrentApplication();
             }
-            if (greeter.previousSideApp) {
-                applicationManager.focusApplication(greeter.previousSideApp);
-                greeter.previousSideApp = null;
-            }
-        }
 
-        onShownChanged: {
-            if (shown) {
-                lockscreen.reset();
-                // If there is only one user, we start authenticating with that one here.
-                // If there are more users, the Greeter will handle that
-                if (LightDM.Users.count == 1) {
-                    LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
+            function restoreApplicationFocus() {
+                if (greeter.previousMainApp) {
+                    applicationManager.focusApplication(greeter.previousMainApp);
+                    greeter.previousMainApp = null;
                 }
-                greeter.forceActiveFocus();
-                removeApplicationFocus();
-            } else {
-                restoreApplicationFocus();
-            }
-        }
-
-        onUnlocked: greeter.hide()
-        onSelected: {
-            // Update launcher items for new user
-            var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole);
-            AccountsService.user = user;
-            LauncherModel.setUser(user);
-        }
-
-        onLeftTeaserPressedChanged: {
-            if (leftTeaserPressed) {
-                launcher.tease();
-            }
-        }
-
-        Connections {
-            target: applicationManager
-            ignoreUnknownSignals: true
-            // If any app is focused when greeter is open, it's due to a user action
-            // like a snap decision (say, an incoming call).
-            // TODO: these should be protected to only unlock for certain applications / certain usecases
-            // potentially only in connection with a notification.
-            onMainStageFocusedApplicationChanged: {
-                if (greeter.shown && applicationManager.mainStageFocusedApplication) {
-                    greeter.previousMainApp = null // make way for new focused app
-                    greeter.previousSideApp = null
-                    greeter.hide()
+                if (greeter.previousSideApp) {
+                    applicationManager.focusApplication(greeter.previousSideApp);
+                    greeter.previousSideApp = null;
                 }
             }
-            onSideStageFocusedApplicationChanged: {
-                if (greeter.shown && applicationManager.sideStageFocusedApplication) {
-                    greeter.previousMainApp = null // make way for new focused app
-                    greeter.previousSideApp = null
-                    greeter.hide()
+
+            onShownChanged: {
+                if (shown) {
+                    lockscreen.reset();
+                    // If there is only one user, we start authenticating with that one here.
+                    // If there are more users, the Greeter will handle that
+                    if (LightDM.Users.count == 1) {
+                        LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
+                    }
+                    greeter.forceActiveFocus();
+                    removeApplicationFocus();
+                } else {
+                    restoreApplicationFocus();
+                }
+            }
+
+            onUnlocked: greeter.hide()
+            onSelected: {
+                // Update launcher items for new user
+                var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole);
+                AccountsService.user = user;
+                LauncherModel.setUser(user);
+            }
+
+            onTease: launcher.tease() //launcher.state = "visible"
+
+            Connections {
+                target: applicationManager
+                ignoreUnknownSignals: true
+                // If any app is focused when greeter is open, it's due to a user action
+                // like a snap decision (say, an incoming call).
+                // TODO: these should be protected to only unlock for certain applications / certain usecases
+                // potentially only in connection with a notification.
+                onMainStageFocusedApplicationChanged: {
+                    if (greeter.shown && applicationManager.mainStageFocusedApplication) {
+                        greeter.previousMainApp = null // make way for new focused app
+                        greeter.previousSideApp = null
+                        greeter.hide()
+                    }
+                }
+                onSideStageFocusedApplicationChanged: {
+                    if (greeter.shown && applicationManager.sideStageFocusedApplication) {
+                        greeter.previousMainApp = null // make way for new focused app
+                        greeter.previousSideApp = null
+                        greeter.hide()
+                    }
                 }
             }
         }
@@ -681,6 +679,8 @@ FocusScope {
                     stages.hide();
                     launcher.hide();
                 }
+                if (greeter.shown)
+                    greeter.hideRight();
             }
             onDashSwipeChanged: if (dashSwipe && stages.shown) dash.setCurrentScope("applications.scope", false, true)
             onLauncherApplicationSelected:{
