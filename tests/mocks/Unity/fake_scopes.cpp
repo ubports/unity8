@@ -39,7 +39,7 @@ Scopes::Scopes(QObject *parent)
     QObject::connect(this, SIGNAL(modelReset()), this, SIGNAL(countChanged()));
 
     timer.setSingleShot(true);
-    timer.setInterval(100);
+    timer.setInterval(500);
     QObject::connect(&timer, SIGNAL(timeout()), this, SLOT(updateScopes()));
     load();
 }

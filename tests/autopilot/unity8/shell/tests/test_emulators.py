@@ -140,20 +140,8 @@ class GenericScopeViewEmulatorTestCase(DashBaseTestCase):
         self.generic_scope = self.dash.open_scope('MockScope1')
 
     def test_open_preview(self):
-        preview = self.generic_scope.open_preview('0', 'Title.0')
-        self.assertIsInstance(preview, dash_emulators.DashPreview)
-        self.assertTrue(preview.isCurrent)
-        self.assertFalse(preview.showProcessingAction)
-
-    def test_get_details(self):
-        expected_details = dict(
-            title='Title', subtitle='Subtitle', description='Description')
-
-        preview = self.generic_scope.open_preview('0', 'Title.0')
-        details = preview.get_details()
-
-        self.assertEqual(expected_details, details)
-
+        preview = self.generic_scope.open_preview('0', 'Title.0.0')
+        preview.x.wait_for(0)
 
 class DashAppsEmulatorTestCase(DashBaseTestCase):
 
@@ -200,16 +188,5 @@ class DashAppsEmulatorTestCase(DashBaseTestCase):
         return grid.columns * grid.rows
 
     def test_open_preview(self):
-        preview = self.applications_scope.open_preview('installed', 'Title.1')
-        self.assertIsInstance(preview, dash_emulators.AppPreview)
-        self.assertTrue(preview.isCurrent)
-        self.assertFalse(preview.showProcessingAction)
-
-    def test_get_details(self):
-        expected_details = dict(
-            title='Title', publisher='', description='Description')
-
-        preview = self.applications_scope.open_preview('installed', 'Title.1')
-        details = preview.get_details()
-
-        self.assertEqual(expected_details, details)
+        preview = self.applications_scope.open_preview('2', 'Title.2.1')
+        preview.x.wait_for(0)

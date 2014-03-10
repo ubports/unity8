@@ -26,6 +26,7 @@ AbstractButton {
     property alias fontScale: header.fontScale
     property alias headerAlignment: header.headerAlignment
     property alias headerHeight: header.height
+    readonly property alias title: header.title
 
     property bool showHeader: true
 

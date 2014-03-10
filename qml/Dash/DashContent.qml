@@ -24,7 +24,7 @@ Item {
 
     property var model: null
     property var scopes: null
-    property alias currentIndex: dashContentList.currentIndex
+    readonly property alias currentIndex: dashContentList.currentIndex
     property alias previewOpen: previewListView.open
 
     property ScopeDelegateMapper scopeMapper : ScopeDelegateMapper {}
@@ -51,6 +51,12 @@ Item {
     }
 
     function setCurrentScopeAtIndex(index, animate, reset) {
+        // if the scopes haven't loaded yet, then wait until they are.
+        if (!scopes.loaded) {
+            set_current_index = [ index, animate, reset ]
+            return;
+        }
+
         var storedMoveDuration = dashContentList.highlightMoveDuration
         var storedMoveSpeed = dashContentList.highlightMoveVelocity
         if (!animate) {
@@ -58,11 +64,6 @@ Item {
             dashContentList.highlightMoveDuration = 0
         }
 
-        // if the scopes haven't loaded yet, then wait until they are.
-        if (!scopes.loaded) {
-            set_current_index = [ index, animate, reset ]
-            return;
-        }
         set_current_index = undefined;
 
         if (dashContentList.count > index)
