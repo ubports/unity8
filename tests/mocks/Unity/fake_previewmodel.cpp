@@ -46,7 +46,7 @@ QHash<int, QByteArray> PreviewModel::roleNames() const
 void PreviewModel::setWidgetColumnCount(int count)
 {
     if (count != 1) {
-        qFatal("PreviewModel::setWidgetColumnCount != 1 not implemented");
+        qWarning("PreviewModel::setWidgetColumnCount != 1 not implemented");
     }
 }
 
