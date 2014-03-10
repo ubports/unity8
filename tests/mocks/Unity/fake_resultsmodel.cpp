@@ -90,15 +90,16 @@ QVariant ResultsModel::get(int row) const
 }
 
 QVariant
-ResultsModel::data(const QModelIndex& /*index*/, int role) const
+ResultsModel::data(const QModelIndex& index, int role) const
 {
     switch (role) {
         case RoleUri:
         case RoleCategoryId:
         case RoleDndUri:
         case RoleResult:
-        case RoleTitle:
             return QString();
+        case RoleTitle:
+            return QString("Title.%1.%2").arg(m_categoryId).arg(index.row());
         case RoleArt:
             return qmlDirectory() + "graphics/applicationIcons/dash.png";
         case RoleSubtitle:

@@ -158,9 +158,9 @@ class GenericScopeViewEmulatorTestCase(DashBaseTestCase):
 class DashAppsEmulatorTestCase(DashBaseTestCase):
 
     available_applications = [
-        'Title.1', 'Title.21', 'Title.41',  'Title.61', 'Title.81',
-        'Title.101', 'Title.121', 'Title.141', 'Title.161', 'Title.181',
-        'Title.201', 'Title.221', 'Title.241', 'Title.261', 'Title.281']
+        'Title.2.0', 'Title.2.1', 'Title.2.2',  'Title.2.3', 'Title.2.4',
+        'Title.2.5', 'Title.2.6', 'Title.2.7',  'Title.2.8', 'Title.2.9',
+        'Title.2.9', 'Title.2.10', 'Title.2.11']
 
     def setUp(self):
         # Set up the fake scopes before launching unity.
@@ -178,21 +178,25 @@ class DashAppsEmulatorTestCase(DashBaseTestCase):
             'No category found with name unexisting category', str(exception))
 
     def test_get_applications_should_return_list_with_names(self):
-        category = 'installed'
+        category = '2'
         expected_apps_count = self._get_number_of_application_slots(category)
         expected_applications = self.available_applications[
             :expected_apps_count]
 
         applications = self.applications_scope.get_applications(category)
+        applications_titles = []
+        for application in applications:
+            cardHeader = application.select_single('CardHeader')
+            applications_titles.append(cardHeader.title)
 
         self.assertThat(applications, HasLength(expected_apps_count))
         for expected in expected_applications:
-            self.assertThat(applications, Contains(expected))
+            self.assertThat(applications_titles, Contains(expected))
 
     def _get_number_of_application_slots(self, category):
         category_element = self.applications_scope._get_category_element(
             category)
-        grid = category_element.select_single('GenericFilterGrid')
+        grid = category_element.select_single('DashFilterGrid')
         return grid.columns * grid.rows
 
     def test_open_preview(self):

@@ -130,7 +130,7 @@ Item {
 
     Card {
         id: card
-        objectName: "card"
+        objectName: "cardToolCard"
         template: cardTool.template
         components: cardTool.components
 
