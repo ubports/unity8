@@ -362,6 +362,16 @@ Item {
         }
 
         function test_showPreviewCarousel() {
+            tryCompareFunction(function() {
+                                    var dashCategory1 = findChild(dashContent, "dashCategory1");
+                                    if (dashCategory1 != null) {
+                                        var tile = findChild(dashCategory1, "carouselDelegate1");
+                                        return tile != null;
+                                    }
+                                    return false;
+                                },
+                                true);
+
             tryCompare(scopeLoadedSpy, "count", 4);
 
             var previewListView = findChild(dashContent, "dashContentPreviewList");
