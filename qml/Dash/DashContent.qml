@@ -125,7 +125,7 @@ Item {
                         dashContent.setCurrentScopeAtIndex(count-1, true, true)
                     } else if (currentIndex < 0) {
                         // setting currentIndex directly, cause we don't want to loose set_current_index
-                        dashContent.currentIndex = 0
+                        dashContentList.currentIndex = 0
                     }
                 }
             }
