@@ -115,11 +115,6 @@ Item {
                     var previewStack = root.scope.preview(result);
                     return previewStack.get(0);
                 }
-
-    //            onClose: {
-    //                previewListView.open = false
-    //            }
-
             }
 
             MouseArea {
