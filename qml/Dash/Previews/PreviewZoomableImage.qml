@@ -44,7 +44,7 @@ PreviewWidget {
             width: Math.max(image.width * image.scale, flickable.width)
             height: Math.max(image.height * image.scale, flickable.height)
 
-            AnimatedImage {
+            LazyImage {
                 id: image
                 objectName: "image"
                 property real prevScale
@@ -54,9 +54,9 @@ PreviewWidget {
                 source: widgetData["source"]
 
                 function calculateSize() {
-                    scale = Math.min(flickable.width / width, flickable.height / height) * 0.98;
-                    pinchArea.minScale = scale;
-                    prevScale = Math.min(scale, 1);
+                    image.scale = Math.min(flickable.width / image.width, flickable.height / image.height) * 0.98;
+                    pinchArea.minScale = image.scale;
+                    prevScale = Math.min(image.scale, 1);
                 }
 
                 onScaleChanged: {
@@ -72,10 +72,11 @@ PreviewWidget {
                     prevScale = scale;
                 }
 
-                onStatusChanged: {
-                    if (status == Image.Ready) {
+                onStateChanged: {
+                    if (state == "ready") {
+                        image.width = flickable.width;
+                        image.height = flickable.height;
                         calculateSize();
-                        playing = true;
                     }
                 }
             }

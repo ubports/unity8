@@ -54,10 +54,14 @@ Rectangle {
             var image = findChild(zoomableImage, "image");
 
             zoomableImage.widgetData = widgetData0;
-            tryCompare(image.state, "default");
+            waitForRendering(zoomableImage);
+            tryCompare(image, "state", "default");
+
+            wait(3000);
 
             zoomableImage.widgetData = widgetData1;
-            tryCompare(image.state, "ready");
+            waitForRendering(zoomableImage);
+            tryCompare(image, "state", "ready");
         }
 
         function test_zoomable() {
@@ -65,11 +69,10 @@ Rectangle {
 
             zoomableImage.widgetData = widgetData2;
             waitForRendering(zoomableImage);
-            tryCompare(image.state, "ready");
 
+            tryCompare(image, "state", "ready");
             waitForRendering(image);
 
-            var oldScale = image.scale;
             var event1 = touchEvent();
             var event2 = touchEvent();
             var x1Start = zoomableImage.width * 2 / 6;
@@ -81,8 +84,12 @@ Rectangle {
             var x2End = zoomableImage.width * 5 / 6;
             var y2End = zoomableImage.height * 5 / 6;
 
+            var oldScale = image.scale;
+
             mouseMove(zoomableImage, zoomableImage.width / 2, zoomableImage.height / 2);
             mouseWheel(zoomableImage, zoomableImage.width / 2, zoomableImage.height / 2, 0, 10);
+
+            wait(300);
 
             event1.press(0, x1Start, y1Start);
             event1.commit();
@@ -102,6 +109,7 @@ Rectangle {
             event1.commit();
 
             var newScale = image.scale;
+
             compare(newScale > oldScale, true, "the image should be larger than before");
 
         }
