@@ -296,7 +296,8 @@ Item {
             var tabbar = findChild(dashContent, "tabbar");
             tryCompare(dashContent, "currentIndex", 0);
             compare(tabbar.selectedIndex, 0);
-            dashContent.currentIndex = 1;
+            var dashContentList = findChild(dashContent, "dashContentList");
+            dashContentList.currentIndex = 1;
             compare(tabbar.selectedIndex, 1);
         }
 
