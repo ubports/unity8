@@ -88,26 +88,16 @@ Showable {
 
     onTease: showLabelAnimation.start()
 
-    UbuntuShape {
+    Label {
         id: swipeHint
-        color: "#222222"
-
         visible: greeter.shown
-        width: swipeLabel.width + units.gu(2)
-        height: swipeLabel.height + units.gu(2)
         property real baseOpacity: 0.6
         opacity: 0.0
-
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
         anchors.bottomMargin: units.gu(5)
-
-        Label {
-            id: swipeLabel
-            anchors.centerIn: parent
-            text: i18n.tr("Swipe to unlock")
-            color: "white"
-        }
+        text: i18n.tr("Swipe to unlock")
+        color: "white"
     }
 
     SequentialAnimation {
