@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Unity 0.1
+import Utils 0.1
 import "../Components"
 
 Item {
@@ -162,24 +163,31 @@ Item {
                 selectionMode: false
                 style: DashContentTabBarStyle {}
 
-                model: dashContentList.model
+                SortFilterProxyModel {
+                    id: tabBarModel
 
-                onSelectedIndexChanged: {
-                    dashContentList.currentIndex = selectedIndex;
+                    model: dashContentList.model
+
+                    property int selectedIndex: -1
+                    onSelectedIndexChanged: {
+                        dashContentList.currentIndex = selectedIndex;
+                    }
                 }
+
+                model: tabBarModel.count > 0 ? tabBarModel : null
 
                 Connections {
                     target: dashContentList
                     onCurrentIndexChanged: {
-                        tabBar.selectedIndex = dashContentList.currentIndex
+                        tabBarModel.selectedIndex = dashContentList.currentIndex
                     }
                 }
 
                 Connections {
                     target: model
                     onCountChanged: {
-                        if (tabBar.selectedIndex < 0 && model.count > 0)
-                            tabBar.selectedIndex = 0;
+                        if (tabBarModel.selectedIndex < 0 && tabBarModel.count > 0)
+                            tabBarModel.selectedIndex = 0;
                     }
                 }
 
