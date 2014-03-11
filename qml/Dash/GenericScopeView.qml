@@ -133,6 +133,15 @@ FocusScope {
             readonly property string category: categoryId
             readonly property var item: rendererLoader.item
 
+            CardTool {
+                id: cardTool
+
+                count: results.count
+                template: model.renderer
+                components: model.components
+                viewWidth: parent.width
+            }
+
             Loader {
                 id: rendererLoader
                 anchors {
@@ -141,7 +150,14 @@ FocusScope {
                     right: parent.right
                 }
 
-                source: getRenderer(model.renderer, results)
+                source: {
+                    switch (cardTool.categoryLayout) {
+                        case "carousel": return "CardCarousel.qml";
+                        case "running-apps": return "Apps/RunningApplicationsGrid.qml";
+                        case "grid":
+                        default: return "CardFilterGrid.qml";
+                    }
+                }
 
                 onLoaded: {
                     if (item.enableHeightBehavior !== undefined && item.enableHeightBehaviorOnNextCreation !== undefined) {
@@ -165,9 +181,7 @@ FocusScope {
                         }
                     }
                     updateDelegateCreationRange();
-                    // FIXME: should be "template", not "renderer"
-                    item.template = Qt.binding(function() { return model.renderer });
-                    item.components = Qt.binding(function() { return model.components });
+                    item.cardTool = cardTool;
                 }
 
                 Component.onDestruction: {
@@ -318,24 +332,6 @@ FocusScope {
                     scopeView.pageHeader.y = y + parent.y;
                 }
             }
-        }
-    }
-
-    function getRenderer(template, results) {
-        var layout = template["category-layout"];
-
-        if (layout == "running-apps") {
-            return "Apps/RunningApplicationsGrid.qml";
-        }
-
-        if (layout === "carousel") {
-            // TODO: Selectively disable carousel, 4 is fixed for now, should change depending on form factor
-            if (results.count <= 4) layout = "grid";
-        }
-        switch (layout) {
-            case "carousel": return "CardCarousel.qml";
-            case "grid":
-            default: return "CardFilterGrid.qml";
         }
     }
 }
