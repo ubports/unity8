@@ -186,16 +186,18 @@ Item {
                 objectName: "tabbar"
                 height: units.gu(6.5)
                 width: parent.width
-                selectionMode: false
                 style: DashContentTabBarStyle {}
 
-                // TODO This together with the __styleInstance onModelChanged below
-                // are a workaround for the first tab sometimes not showing the text.
-                // But Tabs are going away in the future so not sure if makes
-                // sense invetigating what's the problem at this stage
-                model: dashContentList.model.count > 0 ? dashContentList.model : null
+                model: dashContentList.model
 
                 onSelectedIndexChanged: {
+                    if (dashContentList.currentIndex == -1 && tabBar.selectedIndex != -1) {
+                        // TODO This together with the Timer below
+                        // are a workaround for the first tab sometimes not showing the text.
+                        // But Tabs are going away in the future so not sure if makes
+                        // sense invetigating what's the problem at this stage
+                        selectionModeTimer.restart();
+                    }
                     dashContentList.currentIndex = selectedIndex;
                 }
 
@@ -206,12 +208,10 @@ Item {
                     }
                 }
 
-                Connections {
-                    target: __styleInstance
-                    onModelChanged: {
-                        tabBar.selectedIndex = -1;
-                        tabBar.selectedIndex = 0;
-                    }
+                Timer {
+                    id: selectionModeTimer
+                    interval: 1
+                    onTriggered: tabBar.selectionMode = false
                 }
             }
         }
