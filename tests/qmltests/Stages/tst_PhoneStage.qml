@@ -27,7 +27,7 @@ Item {
     height: units.gu(70)
 
     Rectangle {
-    
+
     }
 
     PhoneStage {
@@ -51,14 +51,14 @@ Item {
             anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
             spacing: units.gu(1)
             Button {
-		anchors { left: parent.left; right: parent.right }
+                anchors { left: parent.left; right: parent.right }
                 text: "Add App"
                 onClicked: {
                     testCase.addApps();
                 }
             }
             Button {
-		anchors { left: parent.left; right: parent.right }
+                anchors { left: parent.left; right: parent.right }
                 text: "Add App"
             }
         }
@@ -155,7 +155,6 @@ Item {
 
             tryCompare(phoneStage, "painting", false);
             tryCompare(ApplicationManager, "focusedApplicationId", newFocusedApp.appId);
-            
         }
 
         function test_selectAppFromSpread_data() {
@@ -176,8 +175,6 @@ Item {
 
             var spreadView = findChild(phoneStage, "spreadView");
 
-//            waitForRendering(phoneStage)
-                
             var startX = phoneStage.width;
             var startY = phoneStage.height / 2;
             var endY = startY;
