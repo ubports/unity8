@@ -91,13 +91,13 @@ class ApplicationManager : public ApplicationManagerInterface {
     Q_INVOKABLE void move(int from, int to);
 
     // Application control methods
+    Q_INVOKABLE bool requestFocusApplication(const QString &appId) override;
     Q_INVOKABLE bool focusApplication(const QString &appId) override;
-    Q_INVOKABLE void activateApplication(const QString &appId) override;
     Q_INVOKABLE void unfocusCurrentApplication() override;
     Q_INVOKABLE ApplicationInfo *startApplication(const QString &appId, const QStringList &arguments = QStringList()) override;
     Q_INVOKABLE ApplicationInfo *startApplication(const QString &appId, ExecFlags flags, const QStringList &arguments = QStringList());
     Q_INVOKABLE bool stopApplication(const QString &appId) override;
-    Q_INVOKABLE void updateScreenshot(const QString &appId) override;
+    Q_INVOKABLE bool updateScreenshot(const QString &appId) override;
 
     QString focusedApplicationId() const override;
     bool suspended() const;

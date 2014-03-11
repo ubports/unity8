@@ -202,7 +202,7 @@ bool ApplicationManager::stopApplication(const QString &appId)
     return true;
 }
 
-void ApplicationManager::updateScreenshot(const QString &appId)
+bool ApplicationManager::updateScreenshot(const QString &appId)
 {
     qDebug() << "updating screenshot for" << appId;
     int idx = -1;
@@ -216,13 +216,14 @@ void ApplicationManager::updateScreenshot(const QString &appId)
     }
 
     if (idx == -1) {
-        return;
+        return false;
     }
 
     application->setScreenshot(QString("image://application/%1/%2").arg(appId).arg(QDateTime::currentMSecsSinceEpoch()));
     QModelIndex appIndex = index(idx);
     qDebug() << "emitting dataChanged for RoleScreenshot on" << appId;
     Q_EMIT dataChanged(appIndex, appIndex, QVector<int>() << RoleScreenshot);
+    return true;
 }
 
 QString ApplicationManager::focusedApplicationId() const {
@@ -302,11 +303,13 @@ bool ApplicationManager::focusApplication(const QString &appId)
     return true;
 }
 
-void ApplicationManager::activateApplication(const QString &appId)
+bool ApplicationManager::requestFocusApplication(const QString &appId)
 {
     if (appId != focusedApplicationId()) {
         QMetaObject::invokeMethod(this, "focusRequested", Qt::QueuedConnection, Q_ARG(QString, appId));
+        return true;
     }
+    return false;
 }
 
 void ApplicationManager::unfocusCurrentApplication()
