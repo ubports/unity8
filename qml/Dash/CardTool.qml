@@ -65,11 +65,6 @@ Item {
         return layout;
     }
 
-    /*!
-     \brief The category layout for this card tool
-     */
-    property string categoryLayout: template ? template["category-layout"] : ""
-
     // FIXME: Saviq
     // Only way for the card below to actually be laid out completely.
     // If invisible or in "data" array, some components are not taken into account.

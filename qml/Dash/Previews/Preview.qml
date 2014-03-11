@@ -38,17 +38,6 @@ Item {
 
     clip: true
 
-    Connections {
-        target: shell.applicationManager || null
-        ignoreUnknownSignals: true
-        onMainStageFocusedApplicationChanged: {
-            root.close();
-        }
-        onSideStageFocusedApplicationChanged: {
-            root.close();
-        }
-    }
-
     Binding {
         target: previewModel
         property: "widgetColumnCount"
