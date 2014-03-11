@@ -24,7 +24,7 @@ DashFilterGrid {
     delegateWidth: cardTool.cardWidth
     delegateHeight: cardTool.cardHeight
     verticalSpacing: units.gu(1)
-    collapsedRowCount: Math.min(2, template && template["collapsed-rows"] || 2)
+    collapsedRowCount: Math.min(2, cardTool && cardTool.template && template["collapsed-rows"] || 2)
 
     delegate: Item {
         width: genericFilterGrid.cellWidth
