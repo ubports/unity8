@@ -108,7 +108,7 @@ AbstractButton {
             }
             text: (application) ? application.name : ""
 
-            // TODO karni (for each Label): Update Ubuntu.Components.Themes.Palette and use theme color instead
+            // TODO karni: Update Ubuntu.Components.Themes.Palette and use theme color instead
             color: "grey"
             opacity: 0.9
             fontSize: "small"
