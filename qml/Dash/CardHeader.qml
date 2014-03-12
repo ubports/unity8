@@ -84,7 +84,7 @@ Item {
         Column {
             objectName: "column"
             width: parent.width - x
-            spacing: units.gu(0.25)
+            spacing: units.dp(2)
             anchors.verticalCenter: parent.verticalCenter
 
             Label {
