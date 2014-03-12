@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-02-13 18:37+0000\n"
-"PO-Revision-Date: 2014-01-14 19:05+0000\n"
-"Last-Translator: Osman Coşkun <Unknown>\n"
+"PO-Revision-Date: 2014-03-05 08:54+0000\n"
+"Last-Translator: Muhammed Yüce <muhammedyuceee@gmail.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-02-19 05:44+0000\n"
-"X-Generator: Launchpad (build 16916)\n"
+"X-Launchpad-Export-Date: 2014-03-06 06:19+0000\n"
+"X-Generator: Launchpad (build 16948)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -29,7 +29,7 @@ msgstr "Başlatıcıdan Ayır"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
-msgstr "İntro'yu geç"
+msgstr "Tanıtımı geç"
 
 #: qml/Components/EdgeDemo.qml:113
 msgid "Right edge"
@@ -37,7 +37,7 @@ msgstr "Sağ kenar"
 
 #: qml/Components/EdgeDemo.qml:114
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr "Kilidi açmak için sağ kenara sürüklemeyi deneyin"
+msgstr "Kilidi açmak için sağ kenardan sürüklemeyi deneyin"
 
 #: qml/Components/EdgeDemo.qml:145
 msgid "Top edge"
@@ -45,7 +45,7 @@ msgstr "Üst kenar"
 
 #: qml/Components/EdgeDemo.qml:146
 msgid "Try swiping from the top edge to access the indicators"
-msgstr "Bildiricilere erişmek için üst kenarı sürüklemeyi deneyin"
+msgstr "Bildiricilere erişmek için üst kenarı sürükleyin"
 
 #: qml/Components/EdgeDemo.qml:171
 msgid "Close"
@@ -73,18 +73,20 @@ msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
 msgstr ""
+"Kenar haraketlerini öğrendiniz ve telefonu kullanmaya "
+"başlayabilirsiniz<br><br>Başlamak için ekrana dokunun"
 
 #: qml/Components/PageHeader.qml:340
 msgid "Recent searches"
-msgstr "Son Arananlar"
+msgstr "Son aramalar"
 
 #: qml/Components/SeeMore.qml:35
 msgid "See more"
-msgstr ""
+msgstr "Daha fazlası"
 
 #: qml/Components/SeeMore.qml:57
 msgid "See less"
-msgstr ""
+msgstr "Daha azını gör"
 
 #: qml/Dash/Apps/AppPreview.qml:136 qml/Dash/Previews/PreviewRating.qml:70
 msgid "Rate this"
@@ -106,11 +108,11 @@ msgstr[1] "%1 inceleme"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
-msgstr ""
+msgstr "Daha fazlası..."
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "Less..."
-msgstr ""
+msgstr "Daha az.."
 
 #: qml/Dash/Previews/PreviewRating.qml:114 qml/Dash/Previews/Reviews.qml:74
 msgid "Add a review"
@@ -167,7 +169,7 @@ msgstr "Parolayı göster"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:103
 msgid "Please enter SIM PIN"
-msgstr ""
+msgstr "Lütfen SIM PIN'inizi girin"
 
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
