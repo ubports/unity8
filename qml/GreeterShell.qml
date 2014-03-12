@@ -249,20 +249,6 @@ BasicShell {
         }
     }
 
-/*
-    Connections {
-        target: applicationManager
-        ignoreUnknownSignals: true
-        // If any app is focused when greeter is open, it's due to a user action
-        // like a snap decision (say, an incoming call).
-        // TODO: these should be protected to only unlock for certain applications / certain usecases
-        // potentially only in connection with a notification.
-        // TODO: what about the app the shell will restore focus to by itself?
-        onMainStageFocusedApplicationChanged: greeter.hide()
-        onSideStageFocusedApplicationChanged: greeter.hide()
-    }
-*/
-
     Connections {
         target: LightDM.Upstart
         onDispatchURL: shell.activateApplication(url)
