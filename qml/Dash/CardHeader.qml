@@ -22,9 +22,6 @@ Item {
     property alias mascot: mascotImage.source
     property alias title: titleLabel.text
     property alias subtitle: subtitleLabel.text
-    property alias price: priceLabel.text
-    property alias oldPrice: oldPriceLabel.text
-    property alias altPrice: altPriceLabel.text
 
     property alias titleWeight: titleLabel.font.weight
 
@@ -37,7 +34,7 @@ Item {
     property bool useMascotShape: true
     property color fontColor: "grey"
 
-    visible: mascotImage.status === Image.Ready || title || price
+    visible: mascotImage.status === Image.Ready || title
     height: row.height > 0 ? row.height + row.margins * 2 : 0
 
     Row {
@@ -109,49 +106,6 @@ Item {
                 fontSize: "x-small"
                 font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale)
                 color: fontColor
-            }
-
-            Row {
-                id: prices
-                objectName: "prices"
-                anchors { left: parent.left; right: parent.right }
-
-                property int labels: {
-                    var labels = 1; // price always visible
-                    if (oldPriceLabel.text !== "") labels += 1;
-                    if (altPriceLabel.text !== "") labels += 1;
-                    return labels;
-                }
-                property real labelWidth: width / labels
-
-                Label {
-                    id: priceLabel
-                    width: parent.labelWidth
-                    elide: Text.ElideRight
-                    font.weight: Font.DemiBold
-                    color: "#ff990000"
-                    visible: text
-                }
-
-                Label {
-                    id: oldPriceLabel
-                    objectName: "oldPriceLabel"
-                    width: parent.labelWidth
-                    elide: Text.ElideRight
-                    horizontalAlignment: parent.labels === 3 ? Text.AlignHCenter : Text.AlignRight
-                    font.strikeout: true
-                    color: "black"
-                    visible: text
-                }
-
-                Label {
-                    id: altPriceLabel
-                    width: parent.labelWidth
-                    elide: Text.ElideRight
-                    horizontalAlignment: Text.AlignRight
-                    color: fontColor
-                    visible: text
-                }
             }
         }
     }
