@@ -7,145 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-11-29 09:21+0100\n"
-"PO-Revision-Date: 2013-11-20 07:34+0000\n"
+"POT-Creation-Date: 2014-02-13 18:37+0000\n"
+"PO-Revision-Date: 2014-03-04 02:32+0000\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer <km@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2013-12-29 06:04+0000\n"
-"X-Generator: Launchpad (build 16877)\n"
-
-#: Components/EdgeDemoOverlay.qml:151
-msgid "Skip intro"
-msgstr "រំលង​ការ​ណែនាំ"
-
-#: Components/EdgeDemo.qml:112
-msgid "Right edge"
-msgstr "គែម​ស្ដាំ"
-
-#: Components/EdgeDemo.qml:113
-msgid "Try swiping from the right edge to unlock the phone"
-msgstr "សាកល្បង​​អូស​ពី​គែម​ស្ដាំ​ ដើម្បី​ដោះ​សោ​ទូរស័ព្ទ"
-
-#: Components/EdgeDemo.qml:144
-msgid "Top edge"
-msgstr "គែម​ខាង​លើ"
-
-#: Components/EdgeDemo.qml:145
-msgid "Try swiping from the top edge to access the indicators"
-msgstr "សាកល្បង​អូស​ពី​គែម​ខាង​លើ ដើម្បី​ចូល​ដំណើរការ​សញ្ញា"
-
-#: Components/EdgeDemo.qml:170
-msgid "Close"
-msgstr "បិទ"
-
-#: Components/EdgeDemo.qml:171
-msgid "Swipe up again to close the settings screen"
-msgstr "អូស​ឡើង​លើ​ម្ដងទៀត ដើម្បី​បិទ​ការ​កំណត់​អេក្រង់"
-
-#: Components/EdgeDemo.qml:198
-msgid "Left edge"
-msgstr "គែមឆ្វេង"
-
-#: Components/EdgeDemo.qml:199
-msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr ""
-"អូស​ពី​គែម​ឆ្វេង "
-"ដើម្បី​បង្ហាញ​កម្មវិធី​ចាប់ផ្ដើម​សម្រាប់​ចូល​ដំណើរ​ការ​កម្មវិធី​រហ័ស"
-
-#: Components/EdgeDemo.qml:226
-msgid "Well done"
-msgstr "ធ្វើ​បាន​ល្អ"
-
-#: Components/EdgeDemo.qml:227
-msgid ""
-"You have now mastered the edge gestures and can start using the "
-"phone<br><br>Tap anywhere to start"
-msgstr ""
-"ឥឡូវ​អ្នក​បាន​គ្រប់គ្រង​កាយវិការ​គែម "
-"និង​អាច​ចាប់ផ្ដើម​ប្រើ​ទូរស័ព្ទ​បាន<br><br>ប៉ះ​កន្លែង​ណា​មួយ​ "
-"ដើម្បី​ចាប់ផ្ដើម"
-
-#: Components/PageHeader.qml:364
-msgid "Recent searches"
-msgstr "ការ​ស្វែងរក​ថ្មី"
-
-#: Dash/Apps/AppPreview.qml:135
-msgid "Rate this"
-msgstr "វាយតម្លៃ​វា"
-
-#. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: Dash/Previews/Header.qml:93
-#, qt-format
-msgid "(%1)"
-msgstr "(%1)"
-
-#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: Dash/Previews/Header.qml:105
-#, qt-format
-msgid "%1 review"
-msgid_plural "%1 reviews"
-msgstr[0] "ពិនិត្យ​មើល %1"
-
-#: Dash/Previews/Reviews.qml:74
-msgid "Add a review"
-msgstr "បន្ថែម​ការ​ពិនិត្យ"
-
-#: Dash/Previews/Reviews.qml:86
-msgid "Review"
-msgstr "ការ​ពិនិត្យ"
-
-#: Dash/Previews/Reviews.qml:121
-msgid "Send"
-msgstr "ផ្ញើ"
-
-#: Dash/Previews/Reviews.qml:139
-msgid "Comments:"
-msgstr "មតិយោបល់៖"
-
-#: Greeter/Lockscreen.qml:149
-msgid "Emergency Call"
-msgstr "ការ​ហៅ​ពេល​អាសន្ន"
-
-#: Greeter/PassphraseLockscreen.qml:59
-#, qt-format
-msgid "Hello %1"
-msgstr "សួស្ដី %1"
-
-#: Greeter/PassphraseLockscreen.qml:59
-msgid "Hello"
-msgstr "សួស្តី"
-
-#: Hud/HudParametrizedActionsPage.qml:132
-msgid "Confirm"
-msgstr "បញ្ជាក់"
-
-#: Hud/Hud.qml:61 Hud/Hud.qml:99 Hud/Hud.qml:372
-msgid "Type or say a command"
-msgstr "បញ្ចូល ឬ​និយាយ​ពាក្យ​បញ្ជា"
-
-#: Hud/Hud.qml:84
-msgid "Loading. Please Wait..."
-msgstr "សូម​រង់ចាំ កំពុង​ផ្ទុក..."
-
-#: Hud/Hud.qml:89
-msgid "Speak Now..."
-msgstr "និយាយ​ឥឡូវ..."
-
-#: Hud/Hud.qml:94
-msgid "Speaking..."
-msgstr "កំពុង​និយាយ..."
-
-#: Notifications/NotificationMenuItemFactory.qml:89
-msgid "Show password"
-msgstr "បង្ហាញ​ពាក្យ​សម្ងាត់"
-
-#: Panel/SearchIndicator.qml:27
-msgid "Search"
-msgstr "ស្វែង​រក"
+"X-Launchpad-Export-Date: 2014-03-04 08:33+0000\n"
+"X-Generator: Launchpad (build 16948)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -156,7 +27,155 @@ msgstr "ចាក់​សោ​​ទៅ​កម្មវិធី​ចាប
 msgid "Unlock from Launcher"
 msgstr "ដោះសោ​ពី​កម្មវិធី​ចាប់ផ្ដើម"
 
-#: Shell.qml:439
+#: qml/Components/EdgeDemoOverlay.qml:151
+msgid "Skip intro"
+msgstr "រំលង​ការ​ណែនាំ"
+
+#: qml/Components/EdgeDemo.qml:113
+msgid "Right edge"
+msgstr "គែម​ស្ដាំ"
+
+#: qml/Components/EdgeDemo.qml:114
+msgid "Try swiping from the right edge to unlock the phone"
+msgstr "សាកល្បង​​អូស​ពី​គែម​ស្ដាំ​ ដើម្បី​ដោះ​សោ​ទូរស័ព្ទ"
+
+#: qml/Components/EdgeDemo.qml:145
+msgid "Top edge"
+msgstr "គែម​ខាង​លើ"
+
+#: qml/Components/EdgeDemo.qml:146
+msgid "Try swiping from the top edge to access the indicators"
+msgstr "សាកល្បង​អូស​ពី​គែម​ខាង​លើ ដើម្បី​ចូល​ដំណើរការ​សញ្ញា"
+
+#: qml/Components/EdgeDemo.qml:171
+msgid "Close"
+msgstr "បិទ"
+
+#: qml/Components/EdgeDemo.qml:172
+msgid "Swipe up again to close the settings screen"
+msgstr "អូស​ឡើង​លើ​ម្ដងទៀត ដើម្បី​បិទ​ការ​កំណត់​អេក្រង់"
+
+#: qml/Components/EdgeDemo.qml:199
+msgid "Left edge"
+msgstr "គែមឆ្វេង"
+
+#: qml/Components/EdgeDemo.qml:200
+msgid "Swipe from the left to reveal the launcher for quick access to apps"
+msgstr ""
+"អូស​ពី​គែម​ឆ្វេង "
+"ដើម្បី​បង្ហាញ​កម្មវិធី​ចាប់ផ្ដើម​សម្រាប់​ចូល​ដំណើរ​ការ​កម្មវិធី​រហ័ស"
+
+#: qml/Components/EdgeDemo.qml:227
+msgid "Well done"
+msgstr "ធ្វើ​បាន​ល្អ"
+
+#: qml/Components/EdgeDemo.qml:228
+msgid ""
+"You have now mastered the edge gestures and can start using the "
+"phone<br><br>Tap on the screen to start"
+msgstr ""
+"ឥឡូវ​អ្នក​បាន​ពិនិត្យ​កាយវិការ​គែម​ "
+"និង​អាច​ចាប់ផ្ដើម​ប្រើ​ទូរស័ព្ទ<br><br>ប៉ះ លើ​អេក្រង់​ដើម្បី​ចាប់ផ្ដើម"
+
+#: qml/Components/PageHeader.qml:340
+msgid "Recent searches"
+msgstr "ការ​ស្វែងរក​ថ្មី"
+
+#: qml/Components/SeeMore.qml:35
+msgid "See more"
+msgstr "មើល​ច្រើន​ទៀត"
+
+#: qml/Components/SeeMore.qml:57
+msgid "See less"
+msgstr "មើល​តិច​ជាង"
+
+#: qml/Dash/Apps/AppPreview.qml:136 qml/Dash/Previews/PreviewRating.qml:70
+msgid "Rate this"
+msgstr "វាយតម្លៃ​វា"
+
+#. TRANSLATORS: Number of persons who rated this app/video/whatever
+#: qml/Dash/Previews/Header.qml:93
+#, qt-format
+msgid "(%1)"
+msgstr "(%1)"
+
+#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
+#: qml/Dash/Previews/Header.qml:105
+#, qt-format
+msgid "%1 review"
+msgid_plural "%1 reviews"
+msgstr[0] "ពិនិត្យ​មើល %1"
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "More..."
+msgstr "ច្រើនជាង​..."
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "Less..."
+msgstr "តិច​ជាង..."
+
+#: qml/Dash/Previews/PreviewRating.qml:114 qml/Dash/Previews/Reviews.qml:74
+msgid "Add a review"
+msgstr "បន្ថែម​ការ​ពិនិត្យ"
+
+#: qml/Dash/Previews/PreviewRating.qml:153 qml/Dash/Previews/Reviews.qml:121
+msgid "Send"
+msgstr "ផ្ញើ"
+
+#: qml/Dash/Previews/Reviews.qml:86
+msgid "Review"
+msgstr "ការ​ពិនិត្យ"
+
+#: qml/Dash/Previews/Reviews.qml:139
+msgid "Comments:"
+msgstr "មតិយោបល់៖"
+
+#: qml/Greeter/Lockscreen.qml:149
+msgid "Emergency Call"
+msgstr "ការ​ហៅ​ពេល​អាសន្ន"
+
+#: qml/Greeter/PassphraseLockscreen.qml:59
+#, qt-format
+msgid "Hello %1"
+msgstr "សួស្ដី %1"
+
+#: qml/Greeter/PassphraseLockscreen.qml:59
+msgid "Hello"
+msgstr "សួស្តី"
+
+#: qml/Hud/HudParametrizedActionsPage.qml:132
+msgid "Confirm"
+msgstr "បញ្ជាក់"
+
+#: qml/Hud/Hud.qml:61 qml/Hud/Hud.qml:99 qml/Hud/Hud.qml:372
+msgid "Type or say a command"
+msgstr "បញ្ចូល ឬ​និយាយ​ពាក្យ​បញ្ជា"
+
+#: qml/Hud/Hud.qml:84
+msgid "Loading. Please Wait..."
+msgstr "សូម​រង់ចាំ កំពុង​ផ្ទុក..."
+
+#: qml/Hud/Hud.qml:89
+msgid "Speak Now..."
+msgstr "និយាយ​ឥឡូវ..."
+
+#: qml/Hud/Hud.qml:94
+msgid "Speaking..."
+msgstr "កំពុង​និយាយ..."
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:91
+msgid "Show password"
+msgstr "បង្ហាញ​ពាក្យ​សម្ងាត់"
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:103
+msgid "Please enter SIM PIN"
+msgstr "បញ្ចូល​កូដ PIN របស់​ស៊ីមកាត"
+
+#: qml/Panel/SearchIndicator.qml:27
+msgid "Search"
+msgstr "ស្វែង​រក"
+
+#: qml/Shell.qml:440
 #, qt-format
 msgid "Please enter %1"
 msgstr "សូម​បញ្ចូល %1"

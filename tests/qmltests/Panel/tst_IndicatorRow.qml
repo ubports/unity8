@@ -32,7 +32,7 @@ Item {
 
     function init_test()
     {
-        indicatorModel.load();
+        indicatorModel.load("test1");
 
         indicatorRow.state = "initial";
         indicatorRow.setCurrentItemIndex(-1);
@@ -52,7 +52,7 @@ Item {
 
         indicatorsModel: indicatorModel
 
-        Component.onCompleted: indicatorModel.load()
+        Component.onCompleted: indicatorModel.load("test1")
     }
 
     Indicators.IndicatorsModel {
@@ -70,13 +70,13 @@ Item {
         function test_set_current_item() {
             init_test();
             indicatorRow.setCurrentItemIndex(0);
-            compare(indicatorRow.indicatorsModel.get(indicatorRow.currentItemIndex).identifier, "indicator-fake1", "Incorrect item at position 0");
+            compare(indicatorRow.indicatorsModel.data(indicatorRow.currentItemIndex, Indicators.IndicatorsModelRole.Identifier), "indicator-fake1", "Incorrect item at position 0");
 
             indicatorRow.setCurrentItemIndex(1);
-            compare(indicatorRow.indicatorsModel.get(indicatorRow.currentItemIndex).identifier, "indicator-fake2", "Incorrect item at position 1");
+            compare(indicatorRow.indicatorsModel.data(indicatorRow.currentItemIndex, Indicators.IndicatorsModelRole.Identifier), "indicator-fake2", "Incorrect item at position 1");
 
             indicatorRow.setCurrentItemIndex(2);
-            compare(indicatorRow.indicatorsModel.get(indicatorRow.currentItemIndex).identifier, "indicator-fake3", "Incorrect item at position 2");
+            compare(indicatorRow.indicatorsModel.data(indicatorRow.currentItemIndex, Indicators.IndicatorsModelRole.Identifier), "indicator-fake3", "Incorrect item at position 2");
         }
 
         function test_highlight_data() {

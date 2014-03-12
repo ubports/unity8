@@ -74,12 +74,33 @@ Rectangle {
             "name": "Header title only",
             "layout": { "components": { "title": "title" } }
         },
+        {
+            "name": "Art, header, summary - overlaid",
+            "layout": { "template": { "overlay": true },
+                        "components": JSON.parse(Helpers.fullMapping) }
+        },
+        {
+            "name": "Art, header - grey background",
+            "layout": { "template": { "card-background": { "type": "color", "elements": ["grey"] } },
+                        "components": JSON.parse(Helpers.fullMapping) }
+        },
+        {
+            "name": "Art, header - gradient background",
+            "layout": { "template": { "card-background": { "type": "gradient", "elements": ["grey", "white"] } },
+                        "components": JSON.parse(Helpers.fullMapping) }
+        },
+        {
+            "name": "Art, header - image background",
+            "layout": { "template": { "card-background": Qt.resolvedUrl("artwork/checkers.png") },
+                        "components": JSON.parse(Helpers.fullMapping) }
+        },
     ]
 
     CardTool {
         id: cardTool
         template: card.template
         components: card.components
+        viewWidth: units.gu(48)
     }
 
     Card {
@@ -161,15 +182,20 @@ Rectangle {
         when: windowShown
 
         property Item header: findChild(card, "cardHeader")
+        property Item title: findChild(header, "titleLabel")
         property Item art: findChild(card, "artShape")
         property Item artImage: findChild(card, "artImage")
         property Item summary: findChild(card, "summaryLabel")
+        property Item background: findChild(card, "background")
+        property Item backgroundImage: findChild(card, "backgroundImage")
 
         function initTestCase() {
             verify(typeof testCase.header === "object", "Couldn't find header object.");
             verify(typeof testCase.art === "object", "Couldn't find art object.");
             verify(typeof testCase.artImage === "object", "Couldn't find artImage object.");
             verify(typeof testCase.summary === "object", "Couldn't find summary object.");
+            verify(typeof testCase.artImage === "object", "Couldn't find background object.");
+            verify(typeof testCase.summary === "object", "Couldn't find backgroundImage object.");
         }
 
         function cleanup() {
@@ -224,6 +250,7 @@ Rectangle {
         }
 
         function test_card_size(data) {
+            waitForRendering(card);
             selector.selectedIndex = data.index;
 
             if (data.hasOwnProperty("size")) {
@@ -314,6 +341,8 @@ Rectangle {
                   left: function() { return art.x }, index: 0 },
                 { tag: "Horizontal", top: function() { return art.y },
                   left: function() { return art.x + art.width }, index: 5 },
+                { tag: "Overlay", top: function() { return art.y + art.height - header.height },
+                  left: function() { return art.x }, index: 9 },
             ]
         }
 
@@ -344,6 +373,59 @@ Rectangle {
             compare(testCase.art.visible, false);
             compare(testCase.art.height, 0);
             compare(testCase.art.width, 0);
+        }
+
+        function test_background_data() {
+            return [
+                { tag: "Art and summary", visible: true, color: "#ffffff", index: 0 },
+                { tag: "No Summary", visible: false, index: 6 },
+                { tag: "Horizontal", visible: false, index: 5 },
+                { tag: "Grey background", visible: true, color: "#808080", index: 10 },
+                { tag: "Overriden Gradient background", visible: true, color: "#808080", gradientColor: "#ffffff",
+                  background: {type: "color", elements: ["grey", "white"]}, index: 10 },
+                { tag: "Overriden Image background", visible: true, image: Qt.resolvedUrl("artwork/checkers.png"),
+                  background: Qt.resolvedUrl("artwork/checkers.png"), index: 10 },
+                { tag: "Gradient background", visible: true, color: "#808080", gradientColor: "#ffffff", index: 11 },
+                { tag: "Image background", visible: true, image: Qt.resolvedUrl("artwork/checkers.png"), index: 12 },
+            ];
+        }
+
+        function test_background(data) {
+            selector.selectedIndex = data.index;
+
+            if (data.hasOwnProperty("background")) {
+                card.cardData["background"] = data.background;
+                card.cardDataChanged();
+            }
+
+            waitForRendering(card);
+
+            tryCompare(background, "visible", data.visible);
+
+            if (data.hasOwnProperty("color")) {
+                tryCompare(background, "color", data.color);
+            }
+
+            if (data.hasOwnProperty("gradientColor")) {
+                tryCompare(background, "gradientColor", data.gradientColor);
+            }
+
+            if (data.hasOwnProperty("image")) {
+                tryCompare(backgroundImage, "source", data.image);
+            }
+        }
+
+        function test_font_weights_data() {
+            return [
+                { tag: "Title only", index: 8, weight: Font.Normal },
+                { tag: "Title, subtitle", index: 0, weight: Font.DemiBold },
+            ]
+        }
+
+        function test_font_weights(data) {
+            selector.selectedIndex = data.index;
+
+            tryCompare(testCase.title.font, "weight", data.weight);
         }
     }
 }

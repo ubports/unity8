@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Utilities
-# Copyright (C) 2013 Canonical
+# Copyright (C) 2013, 2014 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,8 +23,8 @@ from autopilot.introspection import (
 )
 import logging
 import subprocess
-from unity8.shell.emulators import UnityEmulatorBase
-from unity8.shell.emulators.main_window import MainWindow
+from unity8.shell import emulators
+from unity8.shell.emulators import main_window as main_window_emulator
 
 logger = logging.getLogger(__name__)
 
@@ -54,7 +54,7 @@ def unlock_unity(unity_proxy_obj=None):
         try:
             pid = _get_unity_pid()
             unity = _get_unity_proxy_object(pid)
-            main_window = MainWindow(unity)
+            main_window = unity.select_single(main_window_emulator.QQuickView)
         except ProcessSearchError as e:
             raise CannotAccessUnity(
                 "Cannot introspect unity, make sure that it has been started "
@@ -64,7 +64,8 @@ def unlock_unity(unity_proxy_obj=None):
                 % str(e)
             )
     else:
-        main_window = MainWindow(unity_proxy_obj)
+        main_window = unity_proxy_obj.select_single(
+            main_window_emulator.QQuickView)
 
     greeter = main_window.get_greeter()
     if greeter.created == False:
@@ -110,7 +111,8 @@ def restart_unity(*args):
     status = _get_unity_status()
     if "start/" in status:
         try:
-            output = subprocess.check_output(['/sbin/initctl', 'stop', 'unity8'])
+            output = subprocess.check_output(
+                ['/sbin/initctl', 'stop', 'unity8'])
             logger.info(output)
         except subprocess.CalledProcessError as e:
             e.args += (
@@ -140,7 +142,7 @@ def _get_unity_status():
             '/sbin/initctl',
             'status',
             'unity8'
-        ])
+        ], universal_newlines=True)
     except subprocess.CalledProcessError as e:
         raise CannotAccessUnity("Unable to get unity's status: %s" % str(e))
 
@@ -155,5 +157,5 @@ def _get_unity_pid():
 def _get_unity_proxy_object(pid):
     return get_proxy_object_for_existing_process(
         pid=pid,
-        emulator_base=UnityEmulatorBase,
+        emulator_base=emulators.UnityEmulatorBase,
     )

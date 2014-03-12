@@ -340,7 +340,7 @@ FocusScope {
                     }
                 }
 
-                enabled: shell.width >= units.gu(60)
+                enabled: shell.width >= units.gu(100)
                 visible: enabled
                 fullyShown: stages.fullyShown && shown
                             && sideStage[sideStageRevealer.boundProperty] == sideStageRevealer.openedValue
@@ -421,7 +421,6 @@ FocusScope {
         Component.onCompleted: {
             if (LightDM.Users.count == 1) {
                 LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole))
-                greeter.selected(0)
             }
         }
     }
@@ -497,7 +496,6 @@ FocusScope {
                 // If there are more users, the Greeter will handle that
                 if (LightDM.Users.count == 1) {
                     LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
-                    greeter.selected(0);
                 }
                 greeter.forceActiveFocus();
                 removeApplicationFocus();

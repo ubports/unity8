@@ -7,145 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-11-29 09:21+0100\n"
-"PO-Revision-Date: 2014-01-15 16:34+0000\n"
-"Last-Translator: Filippos Kolyvas <Unknown>\n"
+"POT-Creation-Date: 2014-02-13 18:37+0000\n"
+"PO-Revision-Date: 2014-02-26 09:58+0000\n"
+"Last-Translator: j3lc <x_nikos@yahoo.gr>\n"
 "Language-Team: Greek <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-01-16 06:09+0000\n"
-"X-Generator: Launchpad (build 16901)\n"
-
-#: Components/EdgeDemoOverlay.qml:151
-msgid "Skip intro"
-msgstr "Παράλειψη εισαγωγής"
-
-#: Components/EdgeDemo.qml:112
-msgid "Right edge"
-msgstr "Δεξί άκρο"
-
-#: Components/EdgeDemo.qml:113
-msgid "Try swiping from the right edge to unlock the phone"
-msgstr "Σύρετε από το δεξί άκρο για ξεκλείδωμα του τηλεφώνου"
-
-#: Components/EdgeDemo.qml:144
-msgid "Top edge"
-msgstr "Πάνω άκρο"
-
-#: Components/EdgeDemo.qml:145
-msgid "Try swiping from the top edge to access the indicators"
-msgstr "Σύρετε από το πάνω άκρο για πρόσβαση στις ρυθμίσεις"
-
-#: Components/EdgeDemo.qml:170
-msgid "Close"
-msgstr "Κλείσιμο"
-
-#: Components/EdgeDemo.qml:171
-msgid "Swipe up again to close the settings screen"
-msgstr "Σύρετε προς τα επάνω για κλείσιμο των ρυθμίσεων"
-
-#: Components/EdgeDemo.qml:198
-msgid "Left edge"
-msgstr "Αριστερό άκρο"
-
-#: Components/EdgeDemo.qml:199
-msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr ""
-"Σύρετε από τα αριστερό άκρο για εμφάνιση του εκκινητή για άμεση πρόσβαση "
-"στις εφαρμογές"
-
-#: Components/EdgeDemo.qml:226
-msgid "Well done"
-msgstr "Συγχαρητήρια"
-
-#: Components/EdgeDemo.qml:227
-msgid ""
-"You have now mastered the edge gestures and can start using the "
-"phone<br><br>Tap anywhere to start"
-msgstr ""
-"Τώρα γνωρίζετε τις χειρονομίες άκρων και μπορείτε να αρχίσετε να "
-"χρησιμοποιείτε το τηλέφωνο<br><br>Πατήστε οπουδήποτε για να ξεκινήσετε"
-
-#: Components/PageHeader.qml:364
-msgid "Recent searches"
-msgstr "Πρόσφατες αναζητήσεις"
-
-#: Dash/Apps/AppPreview.qml:135
-msgid "Rate this"
-msgstr "Βαθμολογήστε το"
-
-#. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: Dash/Previews/Header.qml:93
-#, qt-format
-msgid "(%1)"
-msgstr "(%1)"
-
-#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: Dash/Previews/Header.qml:105
-#, qt-format
-msgid "%1 review"
-msgid_plural "%1 reviews"
-msgstr[0] "%1 αξιολόγηση"
-msgstr[1] "%1 αξιολογήσεις"
-
-#: Dash/Previews/Reviews.qml:74
-msgid "Add a review"
-msgstr "Προσθέστε την αξιολόγησή σας"
-
-#: Dash/Previews/Reviews.qml:86
-msgid "Review"
-msgstr "Αξιολόγηση"
-
-#: Dash/Previews/Reviews.qml:121
-msgid "Send"
-msgstr "Αποστολή"
-
-#: Dash/Previews/Reviews.qml:139
-msgid "Comments:"
-msgstr "Σχόλια:"
-
-#: Greeter/Lockscreen.qml:149
-msgid "Emergency Call"
-msgstr "Κλήση έκτακτης ανάγκης"
-
-#: Greeter/PassphraseLockscreen.qml:59
-#, qt-format
-msgid "Hello %1"
-msgstr "Γεια σας %1"
-
-#: Greeter/PassphraseLockscreen.qml:59
-msgid "Hello"
-msgstr "Γεια σας"
-
-#: Hud/HudParametrizedActionsPage.qml:132
-msgid "Confirm"
-msgstr "Επιβεβαίωση"
-
-#: Hud/Hud.qml:61 Hud/Hud.qml:99 Hud/Hud.qml:372
-msgid "Type or say a command"
-msgstr "Πληκτρολογήστε ή πείτε μια εντολή"
-
-#: Hud/Hud.qml:84
-msgid "Loading. Please Wait..."
-msgstr "Γίνεται φόρτωση, παρακαλώ περιμένετε..."
-
-#: Hud/Hud.qml:89
-msgid "Speak Now..."
-msgstr "Μιλήστε τώρα..."
-
-#: Hud/Hud.qml:94
-msgid "Speaking..."
-msgstr "Ομιλία..."
-
-#: Notifications/NotificationMenuItemFactory.qml:89
-msgid "Show password"
-msgstr "Εμφάνιση κωδικού"
-
-#: Panel/SearchIndicator.qml:27
-msgid "Search"
-msgstr "Αναζήτηση"
+"X-Launchpad-Export-Date: 2014-02-27 06:34+0000\n"
+"X-Generator: Launchpad (build 16935)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -156,7 +27,156 @@ msgstr "Διατήρηση στον εκκινητή"
 msgid "Unlock from Launcher"
 msgstr "Απομάκρυνση από τον εκκινητή"
 
-#: Shell.qml:439
+#: qml/Components/EdgeDemoOverlay.qml:151
+msgid "Skip intro"
+msgstr "Παράλειψη εισαγωγής"
+
+#: qml/Components/EdgeDemo.qml:113
+msgid "Right edge"
+msgstr "Δεξί άκρο"
+
+#: qml/Components/EdgeDemo.qml:114
+msgid "Try swiping from the right edge to unlock the phone"
+msgstr "Σύρετε από το δεξί άκρο για ξεκλείδωμα του τηλεφώνου"
+
+#: qml/Components/EdgeDemo.qml:145
+msgid "Top edge"
+msgstr "Πάνω άκρο"
+
+#: qml/Components/EdgeDemo.qml:146
+msgid "Try swiping from the top edge to access the indicators"
+msgstr "Σύρετε από το πάνω άκρο για πρόσβαση στις ρυθμίσεις"
+
+#: qml/Components/EdgeDemo.qml:171
+msgid "Close"
+msgstr "Κλείσιμο"
+
+#: qml/Components/EdgeDemo.qml:172
+msgid "Swipe up again to close the settings screen"
+msgstr "Σύρετε προς τα επάνω για κλείσιμο των ρυθμίσεων"
+
+#: qml/Components/EdgeDemo.qml:199
+msgid "Left edge"
+msgstr "Αριστερό άκρο"
+
+#: qml/Components/EdgeDemo.qml:200
+msgid "Swipe from the left to reveal the launcher for quick access to apps"
+msgstr ""
+"Σύρετε από τα αριστερό άκρο για εμφάνιση του εκκινητή για άμεση πρόσβαση "
+"στις εφαρμογές"
+
+#: qml/Components/EdgeDemo.qml:227
+msgid "Well done"
+msgstr "Συγχαρητήρια"
+
+#: qml/Components/EdgeDemo.qml:228
+msgid ""
+"You have now mastered the edge gestures and can start using the "
+"phone<br><br>Tap on the screen to start"
+msgstr ""
+"Πλέον γνωρίζετε τις χειρονομίες από τα άκρα και μπορείτε να ξεκινήσετε να "
+"χρησιμοποιείτε το τηλέφωνο<br><br>Αγγίξτε την οθόνη για να ξεκινήσετε"
+
+#: qml/Components/PageHeader.qml:340
+msgid "Recent searches"
+msgstr "Πρόσφατες αναζητήσεις"
+
+#: qml/Components/SeeMore.qml:35
+msgid "See more"
+msgstr "Περρισότερα"
+
+#: qml/Components/SeeMore.qml:57
+msgid "See less"
+msgstr "Λιγότερα"
+
+#: qml/Dash/Apps/AppPreview.qml:136 qml/Dash/Previews/PreviewRating.qml:70
+msgid "Rate this"
+msgstr "Βαθμολογήστε το"
+
+#. TRANSLATORS: Number of persons who rated this app/video/whatever
+#: qml/Dash/Previews/Header.qml:93
+#, qt-format
+msgid "(%1)"
+msgstr "(%1)"
+
+#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
+#: qml/Dash/Previews/Header.qml:105
+#, qt-format
+msgid "%1 review"
+msgid_plural "%1 reviews"
+msgstr[0] "%1 αξιολόγηση"
+msgstr[1] "%1 αξιολογήσεις"
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "More..."
+msgstr ""
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "Less..."
+msgstr ""
+
+#: qml/Dash/Previews/PreviewRating.qml:114 qml/Dash/Previews/Reviews.qml:74
+msgid "Add a review"
+msgstr "Προσθέστε την αξιολόγησή σας"
+
+#: qml/Dash/Previews/PreviewRating.qml:153 qml/Dash/Previews/Reviews.qml:121
+msgid "Send"
+msgstr "Αποστολή"
+
+#: qml/Dash/Previews/Reviews.qml:86
+msgid "Review"
+msgstr "Αξιολόγηση"
+
+#: qml/Dash/Previews/Reviews.qml:139
+msgid "Comments:"
+msgstr "Σχόλια:"
+
+#: qml/Greeter/Lockscreen.qml:149
+msgid "Emergency Call"
+msgstr "Κλήση έκτακτης ανάγκης"
+
+#: qml/Greeter/PassphraseLockscreen.qml:59
+#, qt-format
+msgid "Hello %1"
+msgstr "Γεια σας %1"
+
+#: qml/Greeter/PassphraseLockscreen.qml:59
+msgid "Hello"
+msgstr "Γεια σας"
+
+#: qml/Hud/HudParametrizedActionsPage.qml:132
+msgid "Confirm"
+msgstr "Επιβεβαίωση"
+
+#: qml/Hud/Hud.qml:61 qml/Hud/Hud.qml:99 qml/Hud/Hud.qml:372
+msgid "Type or say a command"
+msgstr "Πληκτρολογήστε ή πείτε μια εντολή"
+
+#: qml/Hud/Hud.qml:84
+msgid "Loading. Please Wait..."
+msgstr "Γίνεται φόρτωση. Παρακαλώ περιμένετε..."
+
+#: qml/Hud/Hud.qml:89
+msgid "Speak Now..."
+msgstr "Μιλήστε τώρα..."
+
+#: qml/Hud/Hud.qml:94
+msgid "Speaking..."
+msgstr "Ομιλία..."
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:91
+msgid "Show password"
+msgstr "Εμφάνιση κωδικού"
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:103
+msgid "Please enter SIM PIN"
+msgstr "Παρακαλώ εισάγετε το PIN της κάρτας SIM"
+
+#: qml/Panel/SearchIndicator.qml:27
+msgid "Search"
+msgstr "Αναζήτηση"
+
+#: qml/Shell.qml:440
 #, qt-format
 msgid "Please enter %1"
 msgstr "Πληκτρολογήστε %1"

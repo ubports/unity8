@@ -33,11 +33,26 @@
 #include <QImage>
 #include <QUrl>
 #include <QUrlQuery>
+#include <QtConcurrent>
 
 using namespace std;
 
 const std::string AlbumArtProvider::DEFAULT_ALBUM_ART = "/usr/share/unity/icons/album_missing.png";
 const std::string AlbumArtProvider::UNITY_LENS_SCHEMA = "com.canonical.Unity.Lenses";
+
+static QByteArray download(QString url) {
+    QScopedPointer<QNetworkAccessManager> am(new QNetworkAccessManager);
+    QNetworkReply *reply = am->get(QNetworkRequest(QUrl(url)));
+    QEventLoop loop;
+    QObject::connect(am.data(), &QNetworkAccessManager::finished, &loop, &QEventLoop::quit);
+    loop.exec();
+
+    if (reply->error() != QNetworkReply::NoError) {
+        qWarning() << "Error downloading from the network:" << reply->errorString();
+        return QByteArray();
+    }
+    return reply->readAll();
+}
 
 AlbumArtProvider::AlbumArtProvider()
     : QQuickImageProvider(QQmlImageProviderBase::Image, QQmlImageProviderBase::ForceAsynchronousImageLoading),
@@ -76,20 +91,14 @@ std::string AlbumArtProvider::get_lastfm_url(const albuminfo &ai) {
     QString request = QString("http://ws.audioscrobbler.com/1.0/album/%1/%2/info.xml").arg(artist)
                                                                                       .arg(album)
                                                                                       .toHtmlEscaped();
-    QScopedPointer<QNetworkAccessManager> am(new QNetworkAccessManager);
-    QNetworkReply *reply = am->get(QNetworkRequest(QUrl(request)));
-    QEventLoop loop;
-    QObject::connect(am.data(), &QNetworkAccessManager::finished, &loop, &QEventLoop::quit);
-    loop.exec();
-
-    if (reply->error() != QNetworkReply::NoError) {
-        qWarning() << "Error getting the XML:" << reply->errorString();
+    QFuture<QByteArray> future = QtConcurrent::run(download, request);
+    QByteArray arr = future.result();
+    if(arr.size() == 0) {
         return "";
     }
-
     QXmlQuery query;
     QBuffer tmp;
-    tmp.setData(reply->readAll());
+    tmp.setData(arr);
     tmp.open(QIODevice::ReadOnly);
     query.bindVariable("reply", &tmp);
     query.setQuery("doc($reply)/album/coverart/large[1]/text()");
@@ -109,24 +118,17 @@ std::string AlbumArtProvider::get_lastfm_url(const albuminfo &ai) {
 bool AlbumArtProvider::download_and_store(const std::string &image_url, const std::string &output_file) {
     QString url = QString::fromStdString(image_url);
     QString fileName = QString::fromStdString(output_file);
-
-    QScopedPointer<QNetworkAccessManager> am(new QNetworkAccessManager);
-    QNetworkReply *reply = am->get(QNetworkRequest(QUrl(url)));
-    QEventLoop loop;
-    QObject::connect(am.data(), &QNetworkAccessManager::finished, &loop, &QEventLoop::quit);
-    loop.exec();
-
-    if (reply->error() != QNetworkReply::NoError) {
-        qWarning() << "Error getting the image:" << reply->errorString();
+    QFuture<QByteArray> future = QtConcurrent::run(download, url);
+    QByteArray arr = future.result();
+    if (arr.size() == 0) {
         return false;
     }
-
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
         qWarning() << "Could not open file for writing:" << file.errorString();
         return false;
     }
-    if (file.write(reply->readAll()) == -1){
+    if (file.write(arr) == -1){
         qWarning() << "Could not write the image:" << file.error();
         return false;
     }

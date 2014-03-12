@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-11-29 09:21+0100\n"
+"POT-Creation-Date: 2014-02-13 18:37+0000\n"
 "PO-Revision-Date: 2014-01-15 09:50+0000\n"
 "Last-Translator: Turan Mahmudov <turan.mahmudov@gmail.com>\n"
 "Language-Team: Azerbaijani <az@li.org>\n"
@@ -15,136 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-01-16 06:09+0000\n"
-"X-Generator: Launchpad (build 16901)\n"
-
-#: Components/EdgeDemoOverlay.qml:151
-msgid "Skip intro"
-msgstr "Intro -nu keç"
-
-#: Components/EdgeDemo.qml:112
-msgid "Right edge"
-msgstr "Sağ Künc"
-
-#: Components/EdgeDemo.qml:113
-msgid "Try swiping from the right edge to unlock the phone"
-msgstr "Kilidi açmaq üçün sağ küncdən çəkin"
-
-#: Components/EdgeDemo.qml:144
-msgid "Top edge"
-msgstr "Yuxarı künc"
-
-#: Components/EdgeDemo.qml:145
-msgid "Try swiping from the top edge to access the indicators"
-msgstr "Göstəricilərə keçid üçün yuxarı küncdən çəkin"
-
-#: Components/EdgeDemo.qml:170
-msgid "Close"
-msgstr "Bağla"
-
-#: Components/EdgeDemo.qml:171
-msgid "Swipe up again to close the settings screen"
-msgstr "Nizamlamalar ekranını bağlamaq üçün yenidən yuxarı çəkin"
-
-#: Components/EdgeDemo.qml:198
-msgid "Left edge"
-msgstr "Sol künc"
-
-#: Components/EdgeDemo.qml:199
-msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr ""
-"Applikasiyalara sürətli keçid üçün paneli açmaq üçün sol küncdən çəkin"
-
-#: Components/EdgeDemo.qml:226
-msgid "Well done"
-msgstr "Təbriklər"
-
-#: Components/EdgeDemo.qml:227
-msgid ""
-"You have now mastered the edge gestures and can start using the "
-"phone<br><br>Tap anywhere to start"
-msgstr ""
-"Siz indi künc hərəkətlərini mənimsəmisiniz və telefonu işlətməyə başlaya "
-"bilərsiniz<br><br>Başlamaq üçün toxunun"
-
-#: Components/PageHeader.qml:364
-msgid "Recent searches"
-msgstr "Son axtarışlar"
-
-#: Dash/Apps/AppPreview.qml:135
-msgid "Rate this"
-msgstr "Qiymət ver"
-
-#. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: Dash/Previews/Header.qml:93
-#, qt-format
-msgid "(%1)"
-msgstr "(%1)"
-
-#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: Dash/Previews/Header.qml:105
-#, qt-format
-msgid "%1 review"
-msgid_plural "%1 reviews"
-msgstr[0] "%1 rəy"
-msgstr[1] "%1 rəy"
-
-#: Dash/Previews/Reviews.qml:74
-msgid "Add a review"
-msgstr "Rəy yaz"
-
-#: Dash/Previews/Reviews.qml:86
-msgid "Review"
-msgstr "Rəy"
-
-#: Dash/Previews/Reviews.qml:121
-msgid "Send"
-msgstr "Göndər"
-
-#: Dash/Previews/Reviews.qml:139
-msgid "Comments:"
-msgstr "Şərhlər:"
-
-#: Greeter/Lockscreen.qml:149
-msgid "Emergency Call"
-msgstr "Zərurət zəngi"
-
-#: Greeter/PassphraseLockscreen.qml:59
-#, qt-format
-msgid "Hello %1"
-msgstr "Xoş gördük %1"
-
-#: Greeter/PassphraseLockscreen.qml:59
-msgid "Hello"
-msgstr "Xoş gördük"
-
-#: Hud/HudParametrizedActionsPage.qml:132
-msgid "Confirm"
-msgstr "Təsdiqlə"
-
-#: Hud/Hud.qml:61 Hud/Hud.qml:99 Hud/Hud.qml:372
-msgid "Type or say a command"
-msgstr "Əmri söyləyin və ya yazın"
-
-#: Hud/Hud.qml:84
-msgid "Loading. Please Wait..."
-msgstr "Yüklənir. Zəhmət olmasa, gözləyin..."
-
-#: Hud/Hud.qml:89
-msgid "Speak Now..."
-msgstr "Danışın..."
-
-#: Hud/Hud.qml:94
-msgid "Speaking..."
-msgstr "Danışır..."
-
-#: Notifications/NotificationMenuItemFactory.qml:89
-msgid "Show password"
-msgstr "Parolu göstər"
-
-#: Panel/SearchIndicator.qml:27
-msgid "Search"
-msgstr "Axtar"
+"X-Launchpad-Export-Date: 2014-02-19 05:44+0000\n"
+"X-Generator: Launchpad (build 16916)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -155,7 +27,153 @@ msgstr "Panelə Bərkit"
 msgid "Unlock from Launcher"
 msgstr "Paneldən Qaldır"
 
-#: Shell.qml:439
+#: qml/Components/EdgeDemoOverlay.qml:151
+msgid "Skip intro"
+msgstr "Intro -nu keç"
+
+#: qml/Components/EdgeDemo.qml:113
+msgid "Right edge"
+msgstr "Sağ Künc"
+
+#: qml/Components/EdgeDemo.qml:114
+msgid "Try swiping from the right edge to unlock the phone"
+msgstr "Kilidi açmaq üçün sağ küncdən çəkin"
+
+#: qml/Components/EdgeDemo.qml:145
+msgid "Top edge"
+msgstr "Yuxarı künc"
+
+#: qml/Components/EdgeDemo.qml:146
+msgid "Try swiping from the top edge to access the indicators"
+msgstr "Göstəricilərə keçid üçün yuxarı küncdən çəkin"
+
+#: qml/Components/EdgeDemo.qml:171
+msgid "Close"
+msgstr "Bağla"
+
+#: qml/Components/EdgeDemo.qml:172
+msgid "Swipe up again to close the settings screen"
+msgstr "Nizamlamalar ekranını bağlamaq üçün yenidən yuxarı çəkin"
+
+#: qml/Components/EdgeDemo.qml:199
+msgid "Left edge"
+msgstr "Sol künc"
+
+#: qml/Components/EdgeDemo.qml:200
+msgid "Swipe from the left to reveal the launcher for quick access to apps"
+msgstr ""
+"Applikasiyalara sürətli keçid üçün paneli açmaq üçün sol küncdən çəkin"
+
+#: qml/Components/EdgeDemo.qml:227
+msgid "Well done"
+msgstr "Təbriklər"
+
+#: qml/Components/EdgeDemo.qml:228
+msgid ""
+"You have now mastered the edge gestures and can start using the "
+"phone<br><br>Tap on the screen to start"
+msgstr ""
+
+#: qml/Components/PageHeader.qml:340
+msgid "Recent searches"
+msgstr "Son axtarışlar"
+
+#: qml/Components/SeeMore.qml:35
+msgid "See more"
+msgstr ""
+
+#: qml/Components/SeeMore.qml:57
+msgid "See less"
+msgstr ""
+
+#: qml/Dash/Apps/AppPreview.qml:136 qml/Dash/Previews/PreviewRating.qml:70
+msgid "Rate this"
+msgstr "Qiymət ver"
+
+#. TRANSLATORS: Number of persons who rated this app/video/whatever
+#: qml/Dash/Previews/Header.qml:93
+#, qt-format
+msgid "(%1)"
+msgstr "(%1)"
+
+#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
+#: qml/Dash/Previews/Header.qml:105
+#, qt-format
+msgid "%1 review"
+msgid_plural "%1 reviews"
+msgstr[0] "%1 rəy"
+msgstr[1] "%1 rəy"
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "More..."
+msgstr ""
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "Less..."
+msgstr ""
+
+#: qml/Dash/Previews/PreviewRating.qml:114 qml/Dash/Previews/Reviews.qml:74
+msgid "Add a review"
+msgstr "Rəy yaz"
+
+#: qml/Dash/Previews/PreviewRating.qml:153 qml/Dash/Previews/Reviews.qml:121
+msgid "Send"
+msgstr "Göndər"
+
+#: qml/Dash/Previews/Reviews.qml:86
+msgid "Review"
+msgstr "Rəy"
+
+#: qml/Dash/Previews/Reviews.qml:139
+msgid "Comments:"
+msgstr "Şərhlər:"
+
+#: qml/Greeter/Lockscreen.qml:149
+msgid "Emergency Call"
+msgstr "Zərurət zəngi"
+
+#: qml/Greeter/PassphraseLockscreen.qml:59
+#, qt-format
+msgid "Hello %1"
+msgstr "Xoş gördük %1"
+
+#: qml/Greeter/PassphraseLockscreen.qml:59
+msgid "Hello"
+msgstr "Xoş gördük"
+
+#: qml/Hud/HudParametrizedActionsPage.qml:132
+msgid "Confirm"
+msgstr "Təsdiqlə"
+
+#: qml/Hud/Hud.qml:61 qml/Hud/Hud.qml:99 qml/Hud/Hud.qml:372
+msgid "Type or say a command"
+msgstr "Əmri söyləyin və ya yazın"
+
+#: qml/Hud/Hud.qml:84
+msgid "Loading. Please Wait..."
+msgstr "Yüklənir. Zəhmət olmasa, gözləyin..."
+
+#: qml/Hud/Hud.qml:89
+msgid "Speak Now..."
+msgstr "Danışın..."
+
+#: qml/Hud/Hud.qml:94
+msgid "Speaking..."
+msgstr "Danışır..."
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:91
+msgid "Show password"
+msgstr "Parolu göstər"
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:103
+msgid "Please enter SIM PIN"
+msgstr ""
+
+#: qml/Panel/SearchIndicator.qml:27
+msgid "Search"
+msgstr "Axtar"
+
+#: qml/Shell.qml:440
 #, qt-format
 msgid "Please enter %1"
 msgstr "Xahiş edirik daxil edin: %1"

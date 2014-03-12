@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-11-29 09:21+0100\n"
+"POT-Creation-Date: 2014-02-13 18:37+0000\n"
 "PO-Revision-Date: 2014-01-15 16:42+0000\n"
 "Last-Translator: Hannie Dumoleyn <Unknown>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -15,135 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-01-16 06:09+0000\n"
-"X-Generator: Launchpad (build 16901)\n"
-
-#: Components/EdgeDemoOverlay.qml:151
-msgid "Skip intro"
-msgstr "Intro overslaan"
-
-#: Components/EdgeDemo.qml:112
-msgid "Right edge"
-msgstr "Rechterrand"
-
-#: Components/EdgeDemo.qml:113
-msgid "Try swiping from the right edge to unlock the phone"
-msgstr ""
-
-#: Components/EdgeDemo.qml:144
-msgid "Top edge"
-msgstr "Bovenrand"
-
-#: Components/EdgeDemo.qml:145
-msgid "Try swiping from the top edge to access the indicators"
-msgstr ""
-
-#: Components/EdgeDemo.qml:170
-msgid "Close"
-msgstr "Sluiten"
-
-#: Components/EdgeDemo.qml:171
-msgid "Swipe up again to close the settings screen"
-msgstr "Veeg nogmaals omhoog om het instellingenscherm te sluiten"
-
-#: Components/EdgeDemo.qml:198
-msgid "Left edge"
-msgstr "Linkerrand"
-
-#: Components/EdgeDemo.qml:199
-msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr "Veeg vanaf links om de Starter te tonen voor snelle toegang tot apps"
-
-#: Components/EdgeDemo.qml:226
-msgid "Well done"
-msgstr "Goed gedaan"
-
-#: Components/EdgeDemo.qml:227
-msgid ""
-"You have now mastered the edge gestures and can start using the "
-"phone<br><br>Tap anywhere to start"
-msgstr ""
-"Nu je het vegen onder de knie hebt, kun je de telefoon gebruiken<br><br>Tik "
-"ergens om te beginnen"
-
-#: Components/PageHeader.qml:364
-msgid "Recent searches"
-msgstr "Recente zoekopdrachten"
-
-#: Dash/Apps/AppPreview.qml:135
-msgid "Rate this"
-msgstr "Beoordeel dit"
-
-#. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: Dash/Previews/Header.qml:93
-#, qt-format
-msgid "(%1)"
-msgstr "(%1)"
-
-#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: Dash/Previews/Header.qml:105
-#, qt-format
-msgid "%1 review"
-msgid_plural "%1 reviews"
-msgstr[0] "%1 recensie"
-msgstr[1] "%1 recensies"
-
-#: Dash/Previews/Reviews.qml:74
-msgid "Add a review"
-msgstr "Voeg recensie toe"
-
-#: Dash/Previews/Reviews.qml:86
-msgid "Review"
-msgstr "Recensie"
-
-#: Dash/Previews/Reviews.qml:121
-msgid "Send"
-msgstr "Versturen"
-
-#: Dash/Previews/Reviews.qml:139
-msgid "Comments:"
-msgstr "Reacties:"
-
-#: Greeter/Lockscreen.qml:149
-msgid "Emergency Call"
-msgstr "Noodoproep"
-
-#: Greeter/PassphraseLockscreen.qml:59
-#, qt-format
-msgid "Hello %1"
-msgstr "Hallo %1"
-
-#: Greeter/PassphraseLockscreen.qml:59
-msgid "Hello"
-msgstr "Hallo"
-
-#: Hud/HudParametrizedActionsPage.qml:132
-msgid "Confirm"
-msgstr "Bevestigen"
-
-#: Hud/Hud.qml:61 Hud/Hud.qml:99 Hud/Hud.qml:372
-msgid "Type or say a command"
-msgstr "Een opdracht intypen of inspreken"
-
-#: Hud/Hud.qml:84
-msgid "Loading. Please Wait..."
-msgstr "Bezig met laden. Even geduld a.u.b."
-
-#: Hud/Hud.qml:89
-msgid "Speak Now..."
-msgstr "Nu inspreken…"
-
-#: Hud/Hud.qml:94
-msgid "Speaking..."
-msgstr "Inspreken…"
-
-#: Notifications/NotificationMenuItemFactory.qml:89
-msgid "Show password"
-msgstr "Wachtwoord tonen"
-
-#: Panel/SearchIndicator.qml:27
-msgid "Search"
-msgstr "Zoeken"
+"X-Launchpad-Export-Date: 2014-02-19 05:44+0000\n"
+"X-Generator: Launchpad (build 16916)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -154,7 +27,152 @@ msgstr "In Starter vastzetten"
 msgid "Unlock from Launcher"
 msgstr "Uit Starter verwijderen"
 
-#: Shell.qml:439
+#: qml/Components/EdgeDemoOverlay.qml:151
+msgid "Skip intro"
+msgstr "Intro overslaan"
+
+#: qml/Components/EdgeDemo.qml:113
+msgid "Right edge"
+msgstr "Rechterrand"
+
+#: qml/Components/EdgeDemo.qml:114
+msgid "Try swiping from the right edge to unlock the phone"
+msgstr ""
+
+#: qml/Components/EdgeDemo.qml:145
+msgid "Top edge"
+msgstr "Bovenrand"
+
+#: qml/Components/EdgeDemo.qml:146
+msgid "Try swiping from the top edge to access the indicators"
+msgstr ""
+
+#: qml/Components/EdgeDemo.qml:171
+msgid "Close"
+msgstr "Sluiten"
+
+#: qml/Components/EdgeDemo.qml:172
+msgid "Swipe up again to close the settings screen"
+msgstr "Veeg nogmaals omhoog om het instellingenscherm te sluiten"
+
+#: qml/Components/EdgeDemo.qml:199
+msgid "Left edge"
+msgstr "Linkerrand"
+
+#: qml/Components/EdgeDemo.qml:200
+msgid "Swipe from the left to reveal the launcher for quick access to apps"
+msgstr "Veeg vanaf links om de Starter te tonen voor snelle toegang tot apps"
+
+#: qml/Components/EdgeDemo.qml:227
+msgid "Well done"
+msgstr "Goed gedaan"
+
+#: qml/Components/EdgeDemo.qml:228
+msgid ""
+"You have now mastered the edge gestures and can start using the "
+"phone<br><br>Tap on the screen to start"
+msgstr ""
+
+#: qml/Components/PageHeader.qml:340
+msgid "Recent searches"
+msgstr "Recente zoekopdrachten"
+
+#: qml/Components/SeeMore.qml:35
+msgid "See more"
+msgstr ""
+
+#: qml/Components/SeeMore.qml:57
+msgid "See less"
+msgstr ""
+
+#: qml/Dash/Apps/AppPreview.qml:136 qml/Dash/Previews/PreviewRating.qml:70
+msgid "Rate this"
+msgstr "Beoordeel dit"
+
+#. TRANSLATORS: Number of persons who rated this app/video/whatever
+#: qml/Dash/Previews/Header.qml:93
+#, qt-format
+msgid "(%1)"
+msgstr "(%1)"
+
+#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
+#: qml/Dash/Previews/Header.qml:105
+#, qt-format
+msgid "%1 review"
+msgid_plural "%1 reviews"
+msgstr[0] "%1 recensie"
+msgstr[1] "%1 recensies"
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "More..."
+msgstr ""
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "Less..."
+msgstr ""
+
+#: qml/Dash/Previews/PreviewRating.qml:114 qml/Dash/Previews/Reviews.qml:74
+msgid "Add a review"
+msgstr "Voeg recensie toe"
+
+#: qml/Dash/Previews/PreviewRating.qml:153 qml/Dash/Previews/Reviews.qml:121
+msgid "Send"
+msgstr "Versturen"
+
+#: qml/Dash/Previews/Reviews.qml:86
+msgid "Review"
+msgstr "Recensie"
+
+#: qml/Dash/Previews/Reviews.qml:139
+msgid "Comments:"
+msgstr "Reacties:"
+
+#: qml/Greeter/Lockscreen.qml:149
+msgid "Emergency Call"
+msgstr "Noodoproep"
+
+#: qml/Greeter/PassphraseLockscreen.qml:59
+#, qt-format
+msgid "Hello %1"
+msgstr "Hallo %1"
+
+#: qml/Greeter/PassphraseLockscreen.qml:59
+msgid "Hello"
+msgstr "Hallo"
+
+#: qml/Hud/HudParametrizedActionsPage.qml:132
+msgid "Confirm"
+msgstr "Bevestigen"
+
+#: qml/Hud/Hud.qml:61 qml/Hud/Hud.qml:99 qml/Hud/Hud.qml:372
+msgid "Type or say a command"
+msgstr "Een opdracht intypen of inspreken"
+
+#: qml/Hud/Hud.qml:84
+msgid "Loading. Please Wait..."
+msgstr "Bezig met laden. Even geduld a.u.b."
+
+#: qml/Hud/Hud.qml:89
+msgid "Speak Now..."
+msgstr "Nu inspreken…"
+
+#: qml/Hud/Hud.qml:94
+msgid "Speaking..."
+msgstr "Inspreken…"
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:91
+msgid "Show password"
+msgstr "Wachtwoord tonen"
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:103
+msgid "Please enter SIM PIN"
+msgstr ""
+
+#: qml/Panel/SearchIndicator.qml:27
+msgid "Search"
+msgstr "Zoeken"
+
+#: qml/Shell.qml:440
 #, qt-format
 msgid "Please enter %1"
 msgstr "Voer %1 in"

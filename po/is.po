@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-11-29 09:21+0100\n"
+"POT-Creation-Date: 2014-02-13 18:37+0000\n"
 "PO-Revision-Date: 2013-09-18 16:22+0000\n"
 "Last-Translator: Andri Thorlacius <Unknown>\n"
 "Language-Team: Icelandic <is@li.org>\n"
@@ -15,134 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-12-29 06:04+0000\n"
-"X-Generator: Launchpad (build 16877)\n"
-
-#: Components/EdgeDemoOverlay.qml:151
-msgid "Skip intro"
-msgstr "Hoppa yfir kynningu"
-
-#: Components/EdgeDemo.qml:112
-msgid "Right edge"
-msgstr "Hægri brún"
-
-#: Components/EdgeDemo.qml:113
-msgid "Try swiping from the right edge to unlock the phone"
-msgstr ""
-"Prufaðu að renna puttanum frá hægri brúninni til að aflæsa símanum þínum."
-
-#: Components/EdgeDemo.qml:144
-msgid "Top edge"
-msgstr "Efri brún"
-
-#: Components/EdgeDemo.qml:145
-msgid "Try swiping from the top edge to access the indicators"
-msgstr ""
-
-#: Components/EdgeDemo.qml:170
-msgid "Close"
-msgstr "Loka"
-
-#: Components/EdgeDemo.qml:171
-msgid "Swipe up again to close the settings screen"
-msgstr ""
-
-#: Components/EdgeDemo.qml:198
-msgid "Left edge"
-msgstr "Vinstri brún"
-
-#: Components/EdgeDemo.qml:199
-msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr ""
-
-#: Components/EdgeDemo.qml:226
-msgid "Well done"
-msgstr "Vel gert"
-
-#: Components/EdgeDemo.qml:227
-msgid ""
-"You have now mastered the edge gestures and can start using the "
-"phone<br><br>Tap anywhere to start"
-msgstr ""
-
-#: Components/PageHeader.qml:364
-msgid "Recent searches"
-msgstr "Nýlegar leitir"
-
-#: Dash/Apps/AppPreview.qml:135
-msgid "Rate this"
-msgstr "Gefa þessu einkunn"
-
-#. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: Dash/Previews/Header.qml:93
-#, qt-format
-msgid "(%1)"
-msgstr "(%1)"
-
-#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: Dash/Previews/Header.qml:105
-#, qt-format
-msgid "%1 review"
-msgid_plural "%1 reviews"
-msgstr[0] "%1 ummæli"
-msgstr[1] "%1 ummæli"
-
-#: Dash/Previews/Reviews.qml:74
-msgid "Add a review"
-msgstr "Gefa umsögn"
-
-#: Dash/Previews/Reviews.qml:86
-msgid "Review"
-msgstr "Umsögn"
-
-#: Dash/Previews/Reviews.qml:121
-msgid "Send"
-msgstr "Senda"
-
-#: Dash/Previews/Reviews.qml:139
-msgid "Comments:"
-msgstr "Athugasemdir:"
-
-#: Greeter/Lockscreen.qml:149
-msgid "Emergency Call"
-msgstr "Neyðarsímtal"
-
-#: Greeter/PassphraseLockscreen.qml:59
-#, qt-format
-msgid "Hello %1"
-msgstr "Hæ %1"
-
-#: Greeter/PassphraseLockscreen.qml:59
-msgid "Hello"
-msgstr "Hæ"
-
-#: Hud/HudParametrizedActionsPage.qml:132
-msgid "Confirm"
-msgstr "Staðfesta"
-
-#: Hud/Hud.qml:61 Hud/Hud.qml:99 Hud/Hud.qml:372
-msgid "Type or say a command"
-msgstr "Skrifaðu eða segðu eitthvað"
-
-#: Hud/Hud.qml:84
-msgid "Loading. Please Wait..."
-msgstr "Hleð. Vinsamlegast Bíðið..."
-
-#: Hud/Hud.qml:89
-msgid "Speak Now..."
-msgstr "Talaðu Núna..."
-
-#: Hud/Hud.qml:94
-msgid "Speaking..."
-msgstr "Tala..."
-
-#: Notifications/NotificationMenuItemFactory.qml:89
-msgid "Show password"
-msgstr ""
-
-#: Panel/SearchIndicator.qml:27
-msgid "Search"
-msgstr "Leita"
+"X-Launchpad-Export-Date: 2014-02-19 05:44+0000\n"
+"X-Generator: Launchpad (build 16916)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -153,7 +27,153 @@ msgstr ""
 msgid "Unlock from Launcher"
 msgstr ""
 
-#: Shell.qml:439
+#: qml/Components/EdgeDemoOverlay.qml:151
+msgid "Skip intro"
+msgstr "Hoppa yfir kynningu"
+
+#: qml/Components/EdgeDemo.qml:113
+msgid "Right edge"
+msgstr "Hægri brún"
+
+#: qml/Components/EdgeDemo.qml:114
+msgid "Try swiping from the right edge to unlock the phone"
+msgstr ""
+"Prufaðu að renna puttanum frá hægri brúninni til að aflæsa símanum þínum."
+
+#: qml/Components/EdgeDemo.qml:145
+msgid "Top edge"
+msgstr "Efri brún"
+
+#: qml/Components/EdgeDemo.qml:146
+msgid "Try swiping from the top edge to access the indicators"
+msgstr ""
+
+#: qml/Components/EdgeDemo.qml:171
+msgid "Close"
+msgstr "Loka"
+
+#: qml/Components/EdgeDemo.qml:172
+msgid "Swipe up again to close the settings screen"
+msgstr ""
+
+#: qml/Components/EdgeDemo.qml:199
+msgid "Left edge"
+msgstr "Vinstri brún"
+
+#: qml/Components/EdgeDemo.qml:200
+msgid "Swipe from the left to reveal the launcher for quick access to apps"
+msgstr ""
+
+#: qml/Components/EdgeDemo.qml:227
+msgid "Well done"
+msgstr "Vel gert"
+
+#: qml/Components/EdgeDemo.qml:228
+msgid ""
+"You have now mastered the edge gestures and can start using the "
+"phone<br><br>Tap on the screen to start"
+msgstr ""
+
+#: qml/Components/PageHeader.qml:340
+msgid "Recent searches"
+msgstr "Nýlegar leitir"
+
+#: qml/Components/SeeMore.qml:35
+msgid "See more"
+msgstr ""
+
+#: qml/Components/SeeMore.qml:57
+msgid "See less"
+msgstr ""
+
+#: qml/Dash/Apps/AppPreview.qml:136 qml/Dash/Previews/PreviewRating.qml:70
+msgid "Rate this"
+msgstr "Gefa þessu einkunn"
+
+#. TRANSLATORS: Number of persons who rated this app/video/whatever
+#: qml/Dash/Previews/Header.qml:93
+#, qt-format
+msgid "(%1)"
+msgstr "(%1)"
+
+#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
+#: qml/Dash/Previews/Header.qml:105
+#, qt-format
+msgid "%1 review"
+msgid_plural "%1 reviews"
+msgstr[0] "%1 ummæli"
+msgstr[1] "%1 ummæli"
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "More..."
+msgstr ""
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "Less..."
+msgstr ""
+
+#: qml/Dash/Previews/PreviewRating.qml:114 qml/Dash/Previews/Reviews.qml:74
+msgid "Add a review"
+msgstr "Gefa umsögn"
+
+#: qml/Dash/Previews/PreviewRating.qml:153 qml/Dash/Previews/Reviews.qml:121
+msgid "Send"
+msgstr "Senda"
+
+#: qml/Dash/Previews/Reviews.qml:86
+msgid "Review"
+msgstr "Umsögn"
+
+#: qml/Dash/Previews/Reviews.qml:139
+msgid "Comments:"
+msgstr "Athugasemdir:"
+
+#: qml/Greeter/Lockscreen.qml:149
+msgid "Emergency Call"
+msgstr "Neyðarsímtal"
+
+#: qml/Greeter/PassphraseLockscreen.qml:59
+#, qt-format
+msgid "Hello %1"
+msgstr "Hæ %1"
+
+#: qml/Greeter/PassphraseLockscreen.qml:59
+msgid "Hello"
+msgstr "Hæ"
+
+#: qml/Hud/HudParametrizedActionsPage.qml:132
+msgid "Confirm"
+msgstr "Staðfesta"
+
+#: qml/Hud/Hud.qml:61 qml/Hud/Hud.qml:99 qml/Hud/Hud.qml:372
+msgid "Type or say a command"
+msgstr "Skrifaðu eða segðu eitthvað"
+
+#: qml/Hud/Hud.qml:84
+msgid "Loading. Please Wait..."
+msgstr "Hleð. Vinsamlegast Bíðið..."
+
+#: qml/Hud/Hud.qml:89
+msgid "Speak Now..."
+msgstr "Talaðu Núna..."
+
+#: qml/Hud/Hud.qml:94
+msgid "Speaking..."
+msgstr "Tala..."
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:91
+msgid "Show password"
+msgstr ""
+
+#: qml/Notifications/NotificationMenuItemFactory.qml:103
+msgid "Please enter SIM PIN"
+msgstr ""
+
+#: qml/Panel/SearchIndicator.qml:27
+msgid "Search"
+msgstr "Leita"
+
+#: qml/Shell.qml:440
 #, qt-format
 msgid "Please enter %1"
 msgstr ""
