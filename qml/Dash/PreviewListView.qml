@@ -49,6 +49,7 @@ Item {
                 verticalCenter: parent.verticalCenter
             }
             text: scope ? i18n.tr("%1 Preview").arg(scope.name) : ""
+            // TODO Saviq: These should come from updated Ubuntu Palette.
             color: "#888888"
             font.family: "Ubuntu"
             font.weight: Font.Light
