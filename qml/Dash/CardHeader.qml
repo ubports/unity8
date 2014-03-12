@@ -32,7 +32,7 @@ Item {
 
     property bool inOverlay: false
     property bool useMascotShape: true
-    property color fontColor: "grey"
+    property color fontColor: Theme.palette.selected.backgroundText
 
     visible: mascotImage.status === Image.Ready || title
     height: row.height > 0 ? row.height + row.margins * 2 : 0
