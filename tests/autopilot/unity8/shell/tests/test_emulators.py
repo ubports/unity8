@@ -46,7 +46,6 @@ class DashBaseTestCase(tests.UnityTestCase):
     def setUp(self):
         super(DashBaseTestCase, self).setUp()
         unity_proxy = self.launch_unity()
-        process_helpers.unlock_unity(unity_proxy)
         self.dash = self.main_window.get_dash()
 
 

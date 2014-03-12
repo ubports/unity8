@@ -21,7 +21,6 @@
 
 from __future__ import absolute_import
 
-from unity8.process_helpers import unlock_unity
 from unity8.shell import disable_qml_mocking
 from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 

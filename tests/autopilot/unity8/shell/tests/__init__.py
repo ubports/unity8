@@ -395,7 +395,7 @@ class UnityTestCase(AutopilotTestCase):
         self.assertThat(home_scope.isCurrent, Eventually(Equals(True)))
 
     def assertGreeterReady(self):
-        greeter = self.main_window().get_greeter()
+        greeter = self.main_window.get_greeter()
         self.assertThat(greeter.created, Eventually(Equals(True)))
 
     def get_dash(self):

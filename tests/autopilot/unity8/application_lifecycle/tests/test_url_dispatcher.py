@@ -63,7 +63,6 @@ Icon=Not important
         self._qml_mock_enabled = False
         self._data_dirs_mock_enabled = False
         unity_proxy = self.launch_unity()
-        process_helpers.unlock_unity(unity_proxy)
 
     def create_test_application(self):
         # FIXME most of this code is duplicated in the toolkit. We should

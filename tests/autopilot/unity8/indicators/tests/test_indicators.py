@@ -22,7 +22,6 @@ from __future__ import absolute_import
 from autopilot import platform
 from testtools import skipIf
 
-from unity8.process_helpers import unlock_unity
 from unity8.shell.tests import UnityTestCase
 
 
@@ -45,6 +44,5 @@ class IndicatorTestCase(UnityTestCase):
 
     def test_indicator_exists(self):
         unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
         indicator = self.main_window.get_indicator(self.indicator_name)
         self.assertIsNotNone(indicator)

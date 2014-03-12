@@ -18,7 +18,7 @@
 #
 
 from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
-
+from autopilot.introspection.types import Rectangle
 from testtools.matchers import Equals
 
 class TestGreeter(UnityTestCase):
@@ -28,11 +28,11 @@ class TestGreeter(UnityTestCase):
     scenarios = _get_device_emulation_scenarios()
 
     def test_greeter_background(self):
-        """Test that the background of the greeter and the background of the shell are placed correctly
+        """Test that the background of the greeter is placed correctly
 
         """
-        self.launch_unity()
-        self.main_window.get_greeter()
+        self.launch_greeter()
         greeter_background = self.main_window.get_greeter_background()
-        shell_background = self.main_window.get_shell_background()
-        self.assertThat(greeter_background.globalRect, Equals(shell_background.globalRect))
+        winRect = Rectangle(self.main_window.x, self.main_window.y,
+                            self.main_window.width, self.main_window.height)
+        self.assertThat(greeter_background.globalRect, Equals(winRect))
