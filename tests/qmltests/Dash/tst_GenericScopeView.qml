@@ -144,7 +144,7 @@ Item {
 
                 var header2 = findChild(genericScopeView, "dashSectionHeader2")
                 var category2 = findChild(genericScopeView, "dashCategory2")
-                var category2FilterGrid = category2.children[0].children[2];
+                var category2FilterGrid = category2.children[1].children[2];
                 verify(UT.Util.isInstanceOf(category2FilterGrid, "DashFilterGrid"));
 
                 waitForRendering(header2);
