@@ -53,7 +53,7 @@ FocusScope {
 
     function activateApplication(appId) {
         if (ApplicationManager.findApplication(appId)) {
-            ApplicationManager.activateApplication(appId);
+            ApplicationManager.requestFocusApplication(appId);
             stages.show();
         } else {
             var execFlags = shell.sideStageEnabled ? ApplicationManager.NoFlag : ApplicationManager.ForceMainStage;

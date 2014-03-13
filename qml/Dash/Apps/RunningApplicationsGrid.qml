@@ -77,7 +77,7 @@ ResponsiveFlowView {
                 ApplicationManager.stopApplication(model.appId)
             }
             onRequestedApplicationActivation: {
-                ApplicationManager.activateApplication(model.appId)
+                ApplicationManager.requestFocusApplication(model.appId)
             }
 
             terminationModeEnabled: root.terminationModeEnabled
