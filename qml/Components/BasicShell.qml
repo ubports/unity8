@@ -69,6 +69,10 @@ FocusScope {
     Keys.onVolumeUpPressed: volumeControl.volumeUp()
     Keys.onVolumeDownPressed: volumeControl.volumeDown()
 
+    function hideIndicatorMenu(delay) {
+        panel.hideIndicatorMenu(delay);
+    }
+
     focus: true
     onFocusChanged: if (!focus) forceActiveFocus();
 
