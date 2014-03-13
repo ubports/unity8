@@ -547,7 +547,6 @@ FocusScope {
                 if (edgeDemo.running)
                     return;
 
-                print("calling this")
                 showHome()
             }
             onDash: {
