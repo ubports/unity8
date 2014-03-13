@@ -68,6 +68,10 @@ Item {
                     root.fullscreen = application.fullscreen
                     mainScreenshotImage.src = application.screenshot
                 }
+            } else {
+                spreadView.selectedIndex = -1
+                spreadView.stage = 0;
+                spreadView.contentX = -spreadView.shift;
             }
         }
 

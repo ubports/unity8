@@ -253,7 +253,10 @@ FocusScope {
             if (locked) {
                 return;
             }
+            forceHide();
+        }
 
+        function forceHide() {
             shown = false;
             if (ApplicationManager.focusedApplicationId) {
                 ApplicationManager.unfocusCurrentApplication();
@@ -441,7 +444,7 @@ FocusScope {
         var animate = !greeter.shown && !stages.shown
         greeter.hide()
         dash.setCurrentScope("home.scope", animate, false)
-        stages.hide()
+        stages.forceHide()
     }
 
     function hideIndicatorMenu(delay) {
@@ -544,6 +547,7 @@ FocusScope {
                 if (edgeDemo.running)
                     return;
 
+                print("calling this")
                 showHome()
             }
             onDash: {
