@@ -56,7 +56,11 @@ Item {
         target: ApplicationManager
 
         onFocusRequested: {
-            priv.switchToApp(appId);
+            if (spreadView.visible) {
+                spreadView.snapTo(priv.indexOf(appId))
+            } else {
+                priv.switchToApp(appId);
+            }
         }
 
         onFocusedApplicationIdChanged: {
@@ -136,6 +140,15 @@ Item {
             priv.newFocusedAppId = appId;
             root.fullscreen = ApplicationManager.findApplication(appId).fullscreen;
             applicationSwitchingAnimation.start();
+        }
+
+        function indexOf(appId) {
+            for (var i = 0; i < ApplicationManager.count; i++) {
+                if (ApplicationManager.get(i).appId == appId) {
+                    return i;
+                }
+            }
+            return -1;
         }
 
     }
@@ -444,7 +457,11 @@ Item {
 
                     onClicked: {
                         if (spreadView.stage == 2) {
-                            spreadView.snapTo(index);
+                            if (ApplicationManager.focusedApplicationId == ApplicationManager.get(index).appId) {
+                                spreadView.snapTo(index);
+                            } else {
+                                ApplicationManager.requestFocusApplication(ApplicationManager.get(index).appId);
+                            }
                         }
                     }
                 }
