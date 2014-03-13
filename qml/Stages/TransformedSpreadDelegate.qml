@@ -64,14 +64,14 @@ SpreadDelegate {
                     priv.stage2startTranslate = priv.easingAnimation(0, spreadView.positionMarker4, 0, -spreadView.width, spreadView.positionMarker4) + spreadView.width;
                     priv.stage2startAngle = priv.easingAnimation(0, spreadView.positionMarker4, root.startAngle, root.endAngle, spreadView.positionMarker4)
                     priv.stage2startScale = priv.easingAnimation(0, spreadView.positionMarker4, root.startScale, root.endScale, spreadView.positionMarker4)
-                    priv.stage2startTopMarginProgress = priv.linearAnimation(0, 1, 0, 1, spreadView.positionMarker4)
+                    priv.stage2startTopMarginProgress = priv.easingAnimation(0, 1, 0, 1, spreadView.positionMarker4)
                 } else if (index == 1) {
                     // find where the main easing for Tile 1 would be when reaching stage 2
                     var stage2Progress = spreadView.positionMarker4 - spreadView.tileDistance / spreadView.width;
                     priv.stage2startTranslate = priv.easingAnimation(0, stage2Progress, 0, -spreadView.width + root.endDistance, stage2Progress);
                     priv.stage2startAngle = priv.easingAnimation(0, stage2Progress, root.startAngle, root.endAngle, stage2Progress)
                     priv.stage2startScale = priv.easingAnimation(0, stage2Progress, root.startScale, root.endScale, stage2Progress);
-                    priv.stage2startTopMarginProgress = priv.linearAnimation(0, 1, 0, spreadView.positionMarker4, stage2Progress)
+                    priv.stage2startTopMarginProgress = priv.easingAnimation(0, 1, 0, spreadView.positionMarker4, stage2Progress)
                 }
             }
         }
