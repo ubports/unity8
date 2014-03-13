@@ -69,7 +69,11 @@ Upstart::Upstart(QObject *parent)
     if (QString(qgetenv("UPSTART_SESSION")).isEmpty())
     {
         QProcess *upstart = new QProcess(this);
-        upstart->start("/sbin/init --user --startup-event=unity8-greeter-started");
+        QString command = "/sbin/init --user --startup-event=unity8-greeter-started";
+        // in main.cpp, we convert client to server.  Convert back here.
+        if (qgetenv("QT_QPA_PLATFORM") == "ubuntumirserver")
+            command.prepend("/usr/bin/env QT_QPA_PLATFORM=ubuntumirclient ");
+        upstart->start(command);
     }
 }
 
