@@ -364,10 +364,13 @@ Item {
 
         function test_showPreviewCarousel() {
             tryCompareFunction(function() {
-                                    var dashCategory1 = findChild(dashContent, "dashCategory1");
-                                    if (dashCategory1 != null) {
-                                        var tile = findChild(dashCategory1, "carouselDelegate1");
-                                        return tile != null;
+                                    var scope = findChild(dashContent, "MockScope1 loader");
+                                    if (scope != null) {
+                                        var dashCategory1 = findChild(scope, "dashCategory1");
+                                        if (dashCategory1 != null) {
+                                            var tile = findChild(dashCategory1, "carouselDelegate1");
+                                            return tile != null;
+                                        }
                                     }
                                     return false;
                                 },
@@ -378,7 +381,8 @@ Item {
             var previewListView = findChild(dashContent, "dashContentPreviewList");
             tryCompare(previewListView, "open", false);
 
-            var dashCategory1 = findChild(dashContent, "dashCategory1");
+            var scope = findChild(dashContent, "MockScope1 loader");
+            var dashCategory1 = findChild(scope, "dashCategory1");
             var tile = findChild(dashCategory1, "carouselDelegate1");
             mouseClick(tile, tile.width / 2, tile.height / 2);
             tryCompare(previewListView, "open", true);
