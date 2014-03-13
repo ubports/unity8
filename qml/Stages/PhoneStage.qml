@@ -357,7 +357,7 @@ Item {
 
         SequentialAnimation {
             id: snapAnimation
-            property int targetContentX: -shift
+            property int targetContentX: -spreadView.shift
 
             UbuntuNumberAnimation {
                 target: spreadView
