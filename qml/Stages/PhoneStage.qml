@@ -233,11 +233,7 @@ Item {
                 spreadView.contentX = -spreadView.shift;
             }
             if (dragging && attachedToView) {
-                if (spreadRepeater.count == 2) {
-                    spreadView.contentX = Math.min(-touchX - spreadView.shift, spreadView.width * spreadView.positionMarker2 - spreadView.shift)
-                } else {
-                    spreadView.contentX = -touchX - spreadView.shift
-                }
+                spreadView.contentX = -touchX - spreadView.shift
             }
             if (attachedToView && spreadView.shiftedContentX >= spreadView.width * spreadView.positionMarker3) {
                 attachedToView = false;
@@ -386,7 +382,7 @@ Item {
 
         Item {
             id: spreadRow
-            width: ApplicationManager.count * spreadView.tileDistance + (spreadView.width - spreadView.tileDistance) * 1.5
+            width: Math.max(3, ApplicationManager.count) * spreadView.tileDistance + (spreadView.width - spreadView.tileDistance) * 1.5
 
             x: spreadView.contentX
 
