@@ -28,6 +28,7 @@ cleanup()
     exit 0
 }
 
+rm -f $XDG_RUNTIME_DIR/mir_socket # clear socket in case we were hard shut down
 exec $@ &
 CMD_PID=$!
 wait $CMD_PID
