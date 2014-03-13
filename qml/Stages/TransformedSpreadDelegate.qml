@@ -256,7 +256,7 @@ SpreadDelegate {
                 }
             }
 
-            return root.progress;
+            return easingCurve.value;
         }
     }
 
