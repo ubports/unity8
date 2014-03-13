@@ -153,11 +153,16 @@ Item {
 
     }
 
-    // FIXME: the signal connection seems to get lost with the fake application manager.
-    // Check with Qt 5.2, see if we can remove this Connections object
+    // FIXME: the signal connections seems to get lost.
+    // Check with Qt 5.2, see if we can remove this Connections and Binding objects
     Connections {
         target: priv.focusedApplication
         onScreenshotChanged: priv.focusedScreenshot = priv.focusedApplication.screenshot
+    }
+    Binding {
+        target: root
+        property: "fullscreen"
+        value: priv.focusedApplication ? priv.focusedApplication.fullscreen : false
     }
 
     Timer {
