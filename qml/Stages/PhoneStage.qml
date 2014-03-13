@@ -31,7 +31,7 @@ Item {
 
     // State information propagated to the outside
     readonly property bool painting: mainScreenshotImage.visible || fadeInScreenshotImage.visible || appSplash.visible || spreadView.visible
-    property bool fullscreen: ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).fullscreen
+    property bool fullscreen: priv.focusedApplication ? priv.focusedApplication.fullscreen : false
     property bool locked: spreadView.visible
 
     // Not used for PhoneStage, only useful for SideStage and similar
