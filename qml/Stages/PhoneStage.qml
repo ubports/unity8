@@ -164,7 +164,7 @@ Item {
         // PropertyAction seems to fail when secondApplicationStarting and we didn't have another screenshot before
         ScriptAction { script: mainScreenshotImage.src = priv.focusedScreenshot }
         PropertyAction { target: mainScreenshotImage; property: "visible"; value: true }
-        PropertyAction { target: fadeInScreenshotImage; property: "source"; value: ApplicationManager.findApplication(priv.newFocusedAppId).screenshot }
+        PropertyAction { target: fadeInScreenshotImage; property: "source"; value: ApplicationManager.findApplication(priv.newFocusedAppId) ? ApplicationManager.findApplication(priv.newFocusedAppId).screenshot : "" }
         PropertyAction { target: fadeInScreenshotImage; property: "visible"; value: true }
         PropertyAction { target: fadeInScreenshotImage; property: "opacity"; value: 0 }
         PropertyAction { target: fadeInScreenshotImage; property: "scale"; value: .8 }
