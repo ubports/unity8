@@ -25,6 +25,9 @@ ListView {
     interactive: false
 
     property real margin
+    property bool useModal
+
+    useModal: false
 
     delegate: Notification {
         objectName: "notification" + index
@@ -43,6 +46,18 @@ ListView {
         notification: notificationList.model.getRaw(notificationId)
         maxHeight: notificationList.height
         margins: notificationList.margin
+
+        ListView.onAdd: {
+            if (notificationList.count > 1) {
+                notificationList.useModal = true;
+            }
+        }
+
+        ListView.onRemove: {
+            if (notificationList.count <= 1) {
+                notificationList.useModal = false;
+            }
+        }
 
         // make sure there's no opacity-difference between the several
         // elements in a notification

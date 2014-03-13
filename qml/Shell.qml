@@ -699,6 +699,19 @@ FocusScope {
             }
         }
 
+        Rectangle {
+            id: modalNotificationBackground
+
+            visible: notifications.useModal
+            color: "#000000"
+            anchors.fill: parent
+            opacity: 0.5
+
+            MouseArea {
+                anchors.fill: parent
+            }
+        }
+
         Notifications {
             id: notifications
 
