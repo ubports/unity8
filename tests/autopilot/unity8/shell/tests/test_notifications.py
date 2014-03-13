@@ -196,7 +196,7 @@ class InteractiveNotificationBase(NotificationsBase):
         get_notification = lambda: notify_list.wait_select_single(
             'Notification', objectName='notification0')
         notification = get_notification()
-        self._assert_notification(notification, None, None, True, True, 1.0)
+        self._assert_notification(notification, summary, body, True, True, 1.0)
         initial_height = notification.height
         self.touch.tap_object(notification.select_single(objectName="button1"))
         self.assertThat(
@@ -208,6 +208,76 @@ class InteractiveNotificationBase(NotificationsBase):
                                   objectName="button4").height)))
         self.touch.tap_object(notification.select_single(objectName="button4"))
         self.assert_notification_action_id_was_called("action_decline_4")
+
+    def test_modal_sd_without_greeter (self):
+        """A snap-decision on a phone should block input to shell beneath it when there's no greeter."""
+        unity_proxy = self.launch_unity()
+        unlock_unity(unity_proxy)
+
+        summary = "Incoming file"
+        body = "Frank would like to send you the file: essay.pdf"
+        icon_path = "sync-idle"
+        hints = [
+            ("x-canonical-snap-decisions", "true"),
+            ("x-canonical-non-shaped-icon", "true"),
+        ]
+
+        actions = [
+            ('action_accept', 'Accept'),
+            ('action_decline_1', 'Decline'),
+        ]
+
+        self._create_interactive_notification(
+            summary,
+            body,
+            icon_path,
+            "NORMAL",
+            actions,
+            hints
+        )
+
+        notify_list = self._get_notifications_list()
+        get_notification = lambda: notify_list.wait_select_single(
+            'Notification', objectName='notification0')
+        notification = get_notification()
+        self._assert_notification(notification, summary, body, True, False, 1.0)
+        self.touch.tap_object(notification.select_single(objectName="button0"))
+        self.assert_notification_action_id_was_called("action_accept")
+
+    def test_modal_sd_with_greeter (self):
+        """A snap-decision on a phone should not block input to the greeter beneath it."""
+        unity_proxy = self.launch_unity()
+        greeter = self.main_window.get_greeter()
+
+        summary = "Incoming file"
+        body = "Frank would like to send you the file: essay.pdf"
+        icon_path = "sync-idle"
+        hints = [
+            ("x-canonical-snap-decisions", "true"),
+            ("x-canonical-non-shaped-icon", "true"),
+        ]
+
+        actions = [
+            ('action_accept', 'Accept'),
+            ('action_decline_1', 'Decline'),
+        ]
+
+        self._create_interactive_notification(
+            summary,
+            body,
+            icon_path,
+            "NORMAL",
+            actions,
+            hints
+        )
+
+        notify_list = self._get_notifications_list()
+        get_notification = lambda: notify_list.wait_select_single(
+            'Notification', objectName='notification0')
+        notification = get_notification()
+        self._assert_notification(notification, summary, body, True, False, 1.0)
+        self.touch.tap_object(notification.select_single(objectName="button0"))
+        self.assert_notification_action_id_was_called("action_accept")
 
     def _create_interactive_notification(
         self,
