@@ -702,7 +702,7 @@ FocusScope {
         Rectangle {
             id: modalNotificationBackground
 
-            visible: notifications.useModal
+            visible: notifications.useModal && !greeter.shown
             color: "#000000"
             anchors.fill: parent
             opacity: 0.5
