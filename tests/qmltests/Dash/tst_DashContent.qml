@@ -285,6 +285,7 @@ Item {
             tryCompareFunction(function() { button = findMusicButton(); return button != undefined; }, true);
             waitForRendering(button);
 
+            tryCompareFunction(function() { return button.opacity > 0; }, true);
             mouseClick(button, button.width / 2, button.height / 2)
 
             tryCompare(tabbar, "selectionMode", false);
