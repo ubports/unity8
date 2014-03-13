@@ -239,7 +239,7 @@ Item {
     EdgeDragArea {
         id: spreadDragArea
         direction: Direction.Leftwards
-        enabled: ApplicationManager.count > 1
+        enabled: ApplicationManager.count > 1 && spreadView.stage != 2
 
         anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
         width: root.dragAreaWidth
@@ -249,7 +249,7 @@ Item {
         property var gesturePoints: new Array()
 
         onTouchXChanged: {
-            if (!dragging && !priv.waitingForScreenshot && spreadView.stage !== 2) {
+            if (!dragging && !priv.waitingForScreenshot) {
                 priv.requestNewScreenshot();
                 spreadView.stage = 0;
                 spreadView.contentX = -spreadView.shift;
