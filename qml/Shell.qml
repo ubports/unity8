@@ -124,8 +124,6 @@ FocusScope {
             // Whether the underlay is fully covered by opaque UI elements.
             property bool fullyCovered: panel.indicators.fullyOpened && shell.width <= panel.indicatorsMenuWidth
 
-            readonly property bool applicationRunning: ApplicationManager.focusedApplicationId.length > 0
-
             // Whether the user should see the topmost application surface (if there's one at all).
             readonly property bool applicationSurfaceShouldBeSeen: stages.shown && !stages.painting && !stages.overlayMode
 
