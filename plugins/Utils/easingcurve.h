@@ -22,6 +22,17 @@
 #include <QObject>
 #include <QEasingCurve>
 
+/**
+ * @brief The EasingCurve class
+ *
+ * This class exposes the QEasingCurve C++ API to QML.
+ * This is useful for user interactive animations. While the QML Animation types
+ * all require a "from", "to" and "duration", this one is based on "period" and
+ * "progress". So you can control the position of the aimation by changing the
+ * progress, also going back and forward in the animation. Depending on the type
+ * of the easing curve, value will return the transformed progress.
+ */
+
 class EasingCurve: public QObject
 {
     Q_OBJECT
