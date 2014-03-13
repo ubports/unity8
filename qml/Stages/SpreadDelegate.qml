@@ -41,6 +41,7 @@ Item {
         id: appImage
         anchors { left: parent.left; bottom: parent.bottom; top: parent.top; topMargin: priv.heightDifference * Math.max(0, 1 - root.topMarginProgress) }
         source: model.screenshot
+        antialiasing: true
         scale: 1
     }
     MouseArea {
