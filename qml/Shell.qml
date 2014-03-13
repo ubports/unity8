@@ -407,7 +407,7 @@ FocusScope {
         Binding {
             target: ApplicationManager
             property: "suspended"
-            value: greeter.shown
+            value: greeter.shown && greeter.showProgress == 1
         }
     }
 
