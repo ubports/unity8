@@ -39,13 +39,13 @@ Item {
 
     Component.onCompleted: {
         if (type == Notification.SnapDecision) {
-            notificationList.snapDecisionCount++;            
+            notificationList.snapDecisionCount++;
         }
     }
 
     Component.onDestruction: {
         if (type == Notification.SnapDecision) {
-            notificationList.snapDecisionCount--;            
+            notificationList.snapDecisionCount--;
         }
     }
 
