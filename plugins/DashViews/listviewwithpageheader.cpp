@@ -1148,7 +1148,12 @@ void ListViewWithPageHeader::adjustMinYExtent()
             nonCreatedHeight = m_firstVisibleIndex * visibleItemsHeight / visibleItems;
 //             qDebug() << m_firstVisibleIndex << visibleItemsHeight << visibleItems << nonCreatedHeight;
         }
-        m_minYExtent = nonCreatedHeight - m_visibleItems.first()->y() - m_clipItem->y() + (m_headerItem ? m_headerItem->implicitHeight() : 0);
+        const qreal headerHeight = (m_headerItem ? m_headerItem->implicitHeight() : 0);
+        m_minYExtent = nonCreatedHeight - m_visibleItems.first()->y() - m_clipItem->y() + headerHeight;
+        if (m_minYExtent != 0 && qFuzzyIsNull(m_minYExtent)) {
+            m_minYExtent = 0;
+            m_visibleItems.first()->setY(nonCreatedHeight - m_clipItem->y() + headerHeight);
+        }
     }
 }
 
