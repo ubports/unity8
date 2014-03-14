@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-02-13 18:37+0000\n"
-"PO-Revision-Date: 2014-02-15 04:00+0000\n"
+"PO-Revision-Date: 2014-03-08 06:58+0000\n"
 "Last-Translator: Marcos Lans <Unknown>\n"
 "Language-Team: Galician <gl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-02-19 05:44+0000\n"
-"X-Generator: Launchpad (build 16916)\n"
+"X-Launchpad-Export-Date: 2014-03-09 06:08+0000\n"
+"X-Generator: Launchpad (build 16948)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -107,11 +107,11 @@ msgstr[1] "%1 opinións"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
-msgstr ""
+msgstr "Máis…"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "Less..."
-msgstr ""
+msgstr "Menos..."
 
 #: qml/Dash/Previews/PreviewRating.qml:114 qml/Dash/Previews/Reviews.qml:74
 msgid "Add a review"
