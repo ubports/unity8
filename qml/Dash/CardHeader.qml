@@ -24,6 +24,7 @@ Item {
     property alias subtitle: subtitleLabel.text
 
     property alias titleWeight: titleLabel.font.weight
+    property alias titleSize: titleLabel.fontSize
 
     // FIXME: Saviq, used to scale fonts down in Carousel
     property real fontScale: 1.0
@@ -58,6 +59,7 @@ Item {
             // TODO karni: Icon aspect-ratio is 8:7.5. Revisit these values to avoid fraction of pixels.
             width: units.gu(6)
             height: units.gu(5.625)
+            anchors.verticalCenter: parent.verticalCenter
             visible: useMascotShape && image && image.status === Image.Ready
             readonly property int maxSize: Math.max(width, height)
 
@@ -70,6 +72,7 @@ Item {
 
             width: source ? mascotShape.width : 0
             height: mascotShape.height
+            anchors.verticalCenter: parent.verticalCenter
             visible: !useMascotShape && status === Image.Ready
 
             sourceSize { width: mascotShape.maxSize; height: mascotShape.maxSize }
@@ -81,17 +84,18 @@ Item {
         Column {
             objectName: "column"
             width: parent.width - x
-            spacing: units.gu(0.5)
+            spacing: units.gu(0.25)
+            anchors.verticalCenter: parent.verticalCenter
 
             Label {
                 id: titleLabel
                 objectName: "titleLabel"
                 anchors { left: parent.left; right: parent.right }
                 elide: Text.ElideRight
-                font.weight: Font.DemiBold
+                font.weight: Font.Normal
+                fontSize: "small"
                 wrapMode: Text.Wrap
                 maximumLineCount: 2
-                fontSize: "small"
                 font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale)
                 color: fontColor
             }
@@ -101,9 +105,9 @@ Item {
                 objectName: "subtitleLabel"
                 anchors { left: parent.left; right: parent.right }
                 elide: Text.ElideRight
+                fontSize: "small"
                 font.weight: Font.Light
                 visible: titleLabel.text && text
-                fontSize: "x-small"
                 font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale)
                 color: fontColor
             }

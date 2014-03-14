@@ -34,5 +34,7 @@ PreviewWidget {
         title: root.widgetData["title"] || ""
         subtitle: root.widgetData["subtitle"] || ""
         width: parent.width
+
+        titleSize: "large"
     }
 }
