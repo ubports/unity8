@@ -25,6 +25,7 @@ Item {
     property var model: null
     property var scopes: null
     property alias currentIndex: dashContentList.currentIndex
+    property alias previewOpen: previewListView.open
 
     property ScopeDelegateMapper scopeMapper : ScopeDelegateMapper {}
     property ListModel searchHistory
