@@ -1,3 +1,39 @@
+unity8 (7.84+14.04.20140314-0ubuntu1) trusty; urgency=low
+
+  [ Michał Sawicz ]
+  * Fix tests under Qt 5.2.
+  * CardHeader improvements depending on background. Also drop prices,
+    they need to be reworked into attributes.
+  * Bring Cards closer to design
+  * Add back the workaround for not being able scroll the image gallery
+    Taken from AppPreview.qml (LP: #1281709)
+  * Only allow searching when preview isn't open. (LP: #1282475)
+  * Adds carousel dynamic switch
+
+  [ Leo Arias ]
+  * Update the url dispatcher test to use the fake app fixture from the
+    toolkit.
+
+  [ Albert Astals ]
+  * Fix tests under Qt 5.2.
+  * Workaround compiz/unity7 behaviour change/bug
+
+  [ Michael Zanetti ]
+  * Fix tests under Qt 5.2.
+  * Disable HUD from the bottom edge.
+
+  [ Andrea Cimitan ]
+  * Adds carousel dynamic switch
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Michał Karnicki ]
+  * CardHeader improvements depending on background. Also drop prices,
+    they need to be reworked into attributes.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 14 Mar 2014 15:46:10 +0000
+
 unity8 (7.84+14.04.20140307-0ubuntu1) trusty; urgency=low
 
   * New rebuild forced
