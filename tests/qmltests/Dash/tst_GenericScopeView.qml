@@ -69,7 +69,7 @@ Item {
             function init() {
                 shell.width = units.gu(120)
                 genericScopeView.categoryView.positionAtBeginning();
-                tryCompare(genericScopeView.categoryView.contentY, 0)
+                tryCompare(genericScopeView.categoryView, "contentY", 0)
             }
 
             function test_isCurrent() {
