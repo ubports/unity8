@@ -236,6 +236,13 @@ class InteractiveNotificationBase(NotificationsBase):
             hints
         )
 
+        # verify that we cannot reveal the launcher (no longer interact with the shell)
+        time.sleep(1)
+        self.main_window.show_dash_swiping()
+        launcher = self.main_window.get_launcher()
+        self.assertThat(launcher.shown, Eventually(Equals(False)))
+
+        # verify and interact with the triggered snap-decision notification
         notify_list = self._get_notifications_list()
         get_notification = lambda: notify_list.wait_select_single(
             'Notification', objectName='notification0')
@@ -247,7 +254,6 @@ class InteractiveNotificationBase(NotificationsBase):
     def test_modal_sd_with_greeter (self):
         """A snap-decision on a phone should not block input to the greeter beneath it."""
         unity_proxy = self.launch_unity()
-        greeter = self.main_window.get_greeter()
 
         summary = "Incoming file"
         body = "Frank would like to send you the file: essay.pdf"
@@ -271,6 +277,13 @@ class InteractiveNotificationBase(NotificationsBase):
             hints
         )
 
+        # verify that we can still reveal the launcher (interact with the shell)
+        time.sleep(1)
+        self.main_window.show_dash_swiping()
+        launcher = self.main_window.get_launcher()
+        self.assertThat(launcher.shown, Eventually(Equals(True)))
+
+        # verify and interact with the triggered snap-decision notification
         notify_list = self._get_notifications_list()
         get_notification = lambda: notify_list.wait_select_single(
             'Notification', objectName='notification0')
