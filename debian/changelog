@@ -4,6 +4,12 @@ unity8 (7.85+14.04.20140306-0ubuntu1) UNRELEASED; urgency=medium
 
  -- Michael Terry <mterry@ubuntu.com>  Wed, 12 Mar 2014 14:39:45 -0400
 
+unity8 (7.84+14.04.20140307-0ubuntu1) trusty; urgency=low
+
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 07 Mar 2014 10:54:33 +0000
+
 unity8 (7.84+14.04.20140306-0ubuntu1) trusty; urgency=low
 
   [ Bill Filler ]
