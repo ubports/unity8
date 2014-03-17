@@ -27,6 +27,8 @@ ListView {
     property real margin
     spacing: delegate.fullscreen ? 0 : units.gu(.5)
 
+    currentIndex: (currentIndex < 1 && count > 1) ? 1 : undefined
+
     delegate: Notification {
         objectName: "notification" + index
         anchors {
@@ -44,12 +46,6 @@ ListView {
         notification: notificationList.model.getRaw(notificationId)
         maxHeight: notificationList.height
         margins: notificationList.margin
-        
-        ListView.onAdd: {
-            if (notificationList.currentIndex < 1 && notificationList.count > 1) {
-                notificationList.currentIndex = 1
-            }
-        }
 
         // make sure there's no opacity-difference between the several
         // elements in a notification
