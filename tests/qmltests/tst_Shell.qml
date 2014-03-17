@@ -110,6 +110,9 @@ Item {
             swipeUntilScopeViewIsReached(dashHome);
 
             hideIndicators();
+
+            var dashContent = findChild(shell, "dashContent");
+            dashContent.previewOpen = false;
         }
 
         function killApps(apps) {
@@ -235,8 +238,8 @@ Item {
 
             var dash = findChild(shell, "dash");
             // check that dash has normal scale and opacity
-            tryCompare(dash.contentScale, 1.0);
-            tryCompare(dash.opacity, 1.0);
+            tryCompare(dash, "contentScale", 1.0);
+            tryCompare(dash, "opacity", 1.0);
 
             touchFlick(shell, touchX, touchY, shell.width * 0.1, touchY,
                        true /* beginTouch */, false /* endTouch */);
@@ -548,6 +551,19 @@ Item {
             greeter.show()
             tryCompare(greeter, "shown", true)
             tryCompare(searchIndicator, "opacity", 0)
+        }
+
+        function test_searchIndicatorHideOnPreviewShown() {
+            var searchIndicator = findChild(shell, "container");
+            var dashContent = findChild(shell, "dashContent");
+
+            verify(dashContent != null);
+
+            tryCompare(searchIndicator, "opacity", 1);
+
+            dashContent.previewOpen = true;
+
+            tryCompare(searchIndicator, "opacity", 0);
         }
     }
 }

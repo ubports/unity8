@@ -427,5 +427,54 @@ Rectangle {
 
             tryCompare(testCase.title.font, "weight", data.weight);
         }
+
+        function test_fontColor_data() {
+            return [
+                { tag: "#ffffff", dark: true },
+                { tag: "#fdfdfd", dark: true },
+                { tag: "#f9f9f9", dark: true },
+                { tag: "#000000", dark: false },
+                { tag: "#ef814c", dark: false },
+                { tag: "#312f2c", dark: false },
+                { tag: "#be332d", dark: false },
+                { tag: "#52ace4", dark: false },
+                { tag: "#3a5897", dark: false },
+                { tag: "#1caeeb", dark: false },
+                { tag: "#87c341", dark: false },
+                { tag: "#50893b", dark: false },
+            ];
+        }
+
+        function test_fontColor(data) {
+            selector.selectedIndex = 10;
+
+            background.color = data.tag;
+
+            var fontColor = data.dark ? "grey" : "white";
+
+            tryCompareFunction(function() { return Qt.colorEqual(summary.color, fontColor); }, true);
+            tryCompareFunction(function() { return Qt.colorEqual(header.fontColor, fontColor); }, true);
+        }
+
+        function test_mascotShape_data() {
+            return [
+                { tag: "Art and summary", shape: false, index: 0 },
+                { tag: "No Summary", shape: true, index: 6 },
+                { tag: "With background", shape: false, index: 10 },
+            ];
+        }
+
+        function test_mascotShape(data) {
+            selector.selectedIndex = data.index;
+
+            var shape = findChild(card, "mascotShape");
+            var image = findChild(card, "mascotImage");
+
+            verify(shape, "Could not find shape.");
+            verify(image, "Could not find image.");
+
+            tryCompare(shape, "visible", data.shape);
+            tryCompare(image, "visible", !data.shape);
+        }
     }
 }

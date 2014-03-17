@@ -22,7 +22,7 @@ import Unity.Test 0.1 as UT
 Item {
     id: root
     width: units.gu(60)
-    height: units.gu(80)
+    height: units.gu(90)
 
     property var calls: []
     property int counter: 0
@@ -81,7 +81,7 @@ Item {
 
             var actions = get_actions_data();
             for(var i = 0; i < actions.length; i++) {
-                compare(root.calls[i], actions[i].id);
+                tryCompare(root.calls, i, actions[i].id);
             }
         }
 
