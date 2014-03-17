@@ -64,8 +64,6 @@ int startShell(int argc, const char** argv, void* server)
         indicatorProfile = "phone";
     }
 
-    resolveIconTheme();
-
     QStringList args = application->arguments();
     ApplicationArguments qmlArgs(args);
 
