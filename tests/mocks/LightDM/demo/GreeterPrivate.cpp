@@ -36,6 +36,7 @@ void GreeterPrivate::handleAuthenticate()
     Q_Q(Greeter);
 
     QSettings settings(QDir::homePath() + "/.unity8-greeter-demo", QSettings::NativeFormat);
+    settings.beginGroup(authenticationUser);
     QVariant password = settings.value("password", "none");
 
     if (password == "pin") {
@@ -53,6 +54,7 @@ void GreeterPrivate::handleRespond(const QString &response)
     Q_Q(Greeter);
 
     QSettings settings(QDir::homePath() + "/.unity8-greeter-demo", QSettings::NativeFormat);
+    settings.beginGroup(authenticationUser);
     QVariant password = settings.value("password", "none");
 
     QString passwordValue;

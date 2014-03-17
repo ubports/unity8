@@ -80,14 +80,25 @@ macro(add_qml_test SUBPATH COMPONENT_NAME)
         endforeach(IMPORT_PATH)
     endif()
 
-    set(qmltest_command
-        env ${qmltest_ENVIRONMENT}
-        ${qmltestrunner_exe} -input ${CMAKE_CURRENT_SOURCE_DIR}/${qmltest_FILE}.qml
-            ${qmltestrunner_imports}
-            -o ${CMAKE_BINARY_DIR}/${qmltest_TARGET}.xml,xunitxml
-            -o -,txt
-            $(FUNCTION)
-    )
+    if("${CMAKE_GENERATOR}" STREQUAL "Ninja")
+        set(qmltest_command
+            env ${qmltest_ENVIRONMENT}
+            ${qmltestrunner_exe} -input ${CMAKE_CURRENT_SOURCE_DIR}/${qmltest_FILE}.qml
+                ${qmltestrunner_imports}
+                -o ${CMAKE_BINARY_DIR}/${qmltest_TARGET}.xml,xunitxml
+                -o -,txt
+        )
+    else()
+        set(qmltest_command
+            env ${qmltest_ENVIRONMENT}
+            ${qmltestrunner_exe} -input ${CMAKE_CURRENT_SOURCE_DIR}/${qmltest_FILE}.qml
+                ${qmltestrunner_imports}
+                -o ${CMAKE_BINARY_DIR}/${qmltest_TARGET}.xml,xunitxml
+                -o -,txt
+                $(FUNCTION)
+        )
+    endif()
+
     add_custom_target(${qmltest_TARGET} ${qmltest_command})
 
     if(NOT "${qmltest_PROPERTIES}" STREQUAL "")

@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2012-2013 Canonical
+# Copyright (C) 2012, 2013, 2014 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -43,8 +43,8 @@ from unity8 import (
     get_data_dirs
 )
 from unity8.process_helpers import restart_unity_with_testability
+from unity8.shell.emulators import main_window as main_window_emulator
 from unity8.shell.emulators.dash import Dash
-from unity8.shell.emulators.main_window import MainWindow
 
 
 logger = logging.getLogger(__name__)
@@ -85,12 +85,12 @@ class UnityTestCase(AutopilotTestCase):
     @classmethod
     def setUpClass(cls):
         try:
-            output = subprocess.check_output([
-                "/sbin/initctl",
-                "status",
-                "unity8"
-            ], stderr=subprocess.STDOUT)
-        except subprocess.CalledProcessError, e:
+            output = subprocess.check_output(
+                ["/sbin/initctl", "status", "unity8"],
+                stderr=subprocess.STDOUT,
+                universal_newlines=True,
+            )
+        except subprocess.CalledProcessError as e:
             sys.stderr.write(
                 "Error: `initctl status unity8` failed, most probably the "
                 "unity8 session could not be found:\n\n"
@@ -139,9 +139,8 @@ class UnityTestCase(AutopilotTestCase):
         self._proxy = None
         self._lightdm_mock_type = None
         self._qml_mock_enabled = True
+        self._data_dirs_mock_enabled = True
         self._environment = {}
-
-        self._patch_data_dirs()
 
         #### FIXME: This is a work around re: lp:1238417 ####
         if model() != "Desktop":
@@ -219,12 +218,11 @@ class UnityTestCase(AutopilotTestCase):
     def _patch_environment(self, key, value):
         """Wrapper for patching env for upstart environment."""
         try:
-            current_value = subprocess.check_output([
-                "/sbin/initctl",
-                "get-env",
-                "--global",
-                key
-            ], stderr=subprocess.STDOUT).rstrip()
+            current_value = subprocess.check_output(
+                ["/sbin/initctl", "get-env", "--global", key],
+                stderr=subprocess.STDOUT,
+                universal_newlines=True,
+            ).rstrip()
         except subprocess.CalledProcessError:
             current_value = None
 
@@ -268,6 +266,9 @@ class UnityTestCase(AutopilotTestCase):
         if self._qml_mock_enabled:
             self._setup_extra_mock_environment_patch()
 
+        if self._data_dirs_mock_enabled:
+            self._patch_data_dirs()
+
         # FIXME: we shouldn't be doing this
         # $MIR_SOCKET, fallback to $XDG_RUNTIME_DIR/mir_socket and
         # /tmp/mir_socket as last resort
@@ -303,7 +304,7 @@ class UnityTestCase(AutopilotTestCase):
 
         binary_arg = "BINARY=%s" % binary_path
         extra_args = "ARGS=%s" % " ".join(args)
-        env_args = ["%s=%s" % (k, v) for k, v in self._environment.iteritems()]
+        env_args = ["%s=%s" % (k, v) for k, v in self._environment.items()]
         all_args = [binary_arg, extra_args] + env_args
 
         self.addCleanup(self._cleanup_launching_upstart_unity)
@@ -321,7 +322,7 @@ class UnityTestCase(AutopilotTestCase):
             logger.warning("Appears unity was already stopped!")
 
     def _patch_data_dirs(self):
-        data_dirs = get_data_dirs()
+        data_dirs = get_data_dirs(self._data_dirs_mock_enabled)
         if data_dirs is not None:
             self._environment['XDG_DATA_DIRS'] = data_dirs
 
@@ -391,4 +392,4 @@ class UnityTestCase(AutopilotTestCase):
 
     @property
     def main_window(self):
-        return MainWindow(self._proxy)
+        return self._proxy.select_single(main_window_emulator.QQuickView)

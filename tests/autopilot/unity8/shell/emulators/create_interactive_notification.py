@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from __future__ import print_function
 
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
@@ -25,7 +26,7 @@ import signal
 
 
 def action_callback(notification, action_id, data):
-    print action_id
+    print(action_id)
 
 
 def quit_callback(notification):
@@ -87,7 +88,7 @@ if __name__ == '__main__':
             action_id,
             action_label,
             action_callback,
-            (None, ),
+            None,
             None
         )
 

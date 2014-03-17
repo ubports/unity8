@@ -27,17 +27,15 @@ don't break them for those external projects.
 
 """
 
-import os
-import sysconfig
+try:
+    from unittest import mock
+except ImportError:
+    import mock
 
-import mock
-
-import fixtures
 from testtools.matchers import Contains, HasLength
 
-import unity8
 from unity8 import process_helpers
-from unity8.shell import emulators, tests
+from unity8.shell import emulators, fixture_setup, tests
 from unity8.shell.emulators import dash as dash_emulators
 
 
@@ -140,6 +138,30 @@ class DashEmulatorTestCase(DashBaseTestCase):
         self.assertIsInstance(scope, dash_emulators.DashApps)
 
 
+class GenericScopeViewEmulatorTestCase(DashBaseTestCase):
+
+    def setUp(self):
+        # Set up the fake scopes before launching unity.
+        self.useFixture(fixture_setup.FakeScopes())
+        super(GenericScopeViewEmulatorTestCase, self).setUp()
+        self.home_scope = self.dash.open_scope('home')
+
+    def test_open_preview(self):
+        preview = self.home_scope.open_preview('0', 'Title.0')
+        self.assertIsInstance(preview, dash_emulators.DashPreview)
+        self.assertTrue(preview.isCurrent)
+        self.assertFalse(preview.showProcessingAction)
+
+    def test_get_details(self):
+        expected_details = dict(
+            title='Title', subtitle='Subtitle', description='Description')
+
+        preview = self.home_scope.open_preview('0', 'Title.0')
+        details = preview.get_details()
+
+        self.assertEqual(expected_details, details)
+
+
 class DashAppsEmulatorTestCase(DashBaseTestCase):
 
     available_applications = [
@@ -148,31 +170,10 @@ class DashAppsEmulatorTestCase(DashBaseTestCase):
         'Title.201', 'Title.221', 'Title.241', 'Title.261', 'Title.281']
 
     def setUp(self):
-        self._use_scope_fakes()
+        # Set up the fake scopes before launching unity.
+        self.useFixture(fixture_setup.FakeScopes())
         super(DashAppsEmulatorTestCase, self).setUp()
         self.applications_scope = self.dash.open_scope('applications')
-
-    def _use_scope_fakes(self):
-        self.useFixture(
-            fixtures.EnvironmentVariable(
-                'QML2_IMPORT_PATH',
-                newvalue=self._get_fake_scopes_library_path()))
-
-    def _get_fake_scopes_library_path(self):
-        if unity8.running_installed_tests():
-            mock_path = 'qml/scopefakes/'
-        else:
-            mock_path = os.path.join(
-                '../lib/', sysconfig.get_config_var('MULTIARCH'),
-                'unity8/qml/scopefakes/')
-        lib_path = unity8.get_lib_path()
-        ld_library_path = os.path.abspath(os.path.join(lib_path, mock_path))
-
-        if not os.path.exists(ld_library_path):
-            raise RuntimeError(
-                'Expected library path does not exists: %s.' % (
-                    ld_library_path))
-        return ld_library_path
 
     def test_get_applications_with_unexisting_category(self):
         exception = self.assertRaises(
@@ -205,3 +206,13 @@ class DashAppsEmulatorTestCase(DashBaseTestCase):
         preview = self.applications_scope.open_preview('installed', 'Title.1')
         self.assertIsInstance(preview, dash_emulators.AppPreview)
         self.assertTrue(preview.isCurrent)
+        self.assertFalse(preview.showProcessingAction)
+
+    def test_get_details(self):
+        expected_details = dict(
+            title='Title', publisher='', description='Description')
+
+        preview = self.applications_scope.open_preview('installed', 'Title.1')
+        details = preview.get_details()
+
+        self.assertEqual(expected_details, details)

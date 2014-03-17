@@ -33,7 +33,6 @@ FocusScope {
     property OpenEffect openEffect: null
     property Item previewListView: null
 
-    signal endReached
     signal movementStarted
     signal positionedAtBeginning
 
@@ -56,7 +55,7 @@ FocusScope {
     Binding {
         target: scope
         property: "isActive"
-        value: isCurrent
+        value: isCurrent && !previewListView.onScreen
     }
 
     Timer {
@@ -118,9 +117,6 @@ FocusScope {
         model: scopeView.categories
         forceNoClip: previewListView.onScreen
 
-        onAtYEndChanged: if (atYEnd) endReached()
-        onMovingChanged: if (moving && atYEnd) endReached()
-
         property string expandedCategoryId: ""
         signal correctExpandedCategory();
 
@@ -141,6 +137,7 @@ FocusScope {
             readonly property bool expandable: rendererLoader.item ? rendererLoader.item.expandable : false
             readonly property bool filtered: rendererLoader.item ? rendererLoader.item.filter : true
             readonly property string category: categoryId
+            readonly property var item: rendererLoader.item
 
             Loader {
                 id: rendererLoader
@@ -248,8 +245,10 @@ FocusScope {
                             }
                         }
                     }
+                    onOriginYChanged: rendererLoader.updateDelegateCreationRange();
                     onContentYChanged: rendererLoader.updateDelegateCreationRange();
                     onHeightChanged: rendererLoader.updateDelegateCreationRange();
+                    onContentHeightChanged: rendererLoader.updateDelegateCreationRange();
                 }
 
                 function updateDelegateCreationRange() {
@@ -261,7 +260,7 @@ FocusScope {
                         return;
                     }
 
-                    if (item.hasOwnProperty("delegateCreationBegin")) {
+                    if (item && item.hasOwnProperty("delegateCreationBegin")) {
                         if (baseItem.y + baseItem.height <= 0) {
                             // Not visible (item at top of the list)
                             item.delegateCreationBegin = baseItem.height
@@ -277,11 +276,14 @@ FocusScope {
                     }
                 }
             }
+
+            onHeightChanged: rendererLoader.updateDelegateCreationRange();
+            onYChanged: rendererLoader.updateDelegateCreationRange();
         }
 
         sectionProperty: "name"
         sectionDelegate: ListItems.Header {
-            objectName: "dashSectionHeader" + delegate.category
+            objectName: "dashSectionHeader" + (delegate ? delegate.category : "")
             property var delegate: categoryView.item(delegateIndex)
             width: categoryView.width
             text: section

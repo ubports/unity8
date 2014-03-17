@@ -5,6 +5,8 @@ Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
 Build-Depends: cmake,
                dbus-test-runner,
                debhelper (>= 9),
+               doxyqml,
+               graphviz,
                libdee-qt5-dev (>= 3.2),
                libgl1-mesa-dev[!armhf] | libgl-dev[!armhf],
                libgl1-mesa-dri,
@@ -26,7 +28,8 @@ Build-Depends: cmake,
                pkg-config,
                python:any (>= 2.7),
                python-setuptools,
-               python3:any,
+               python3-all:any,
+               python3-setuptools,
                qt5-default,
                qtbase5-dev,
                qtbase5-dev-tools,
@@ -37,6 +40,7 @@ Build-Depends: cmake,
                qtdeclarative5-private-dev,
                qtdeclarative5-qtquick2-plugin,
                qtdeclarative5-test-plugin,
+               qtdeclarative5-ubuntu-settings-components,
                qtdeclarative5-ubuntu-ui-toolkit-plugin,
                qtdeclarative5-xmllistmodel-plugin,
                libqt5xmlpatterns5-dev,
@@ -73,9 +77,11 @@ Architecture: any
 Provides: indicator-renderer,
 Depends: gsettings-desktop-schemas,
          libglib2.0-bin,
+         libunity-mir1,
          qmenumodel-qml (>= 0.2.7),
          qtdeclarative5-dee-plugin,
          qtdeclarative5-gsettings1.0,
+         qtdeclarative5-ubuntu-settings-components,
          qtdeclarative5-ubuntu-ui-toolkit-plugin,
          qtdeclarative5-unity-notifications-plugin | unity-notifications-impl,
          qtdeclarative5-xmllistmodel-plugin,
@@ -102,14 +108,22 @@ Depends: gir1.2-glib-2.0,
          libautopilot-qt (>= 1.4),
          libqt5test5,
          libqt5widgets5,
+         python-autopilot,
          python-evdev,
          python-fixtures,
          python-gi,
          python-mock,
+         python3-autopilot,
+         python3-evdev,
+         python3-fixtures,
+         python3-gi,
+         ubuntu-ui-toolkit-autopilot,
          unity8 (>= ${source:Version}),
          unity8-fake-env (>= ${source:Version}),
+         url-dispatcher-tools,
          ${misc:Depends},
          ${python:Depends},
+         ${python3:Depends},
          ${shlibs:Depends},
 Description: Test package for Unity 8 shell
  Autopilot tests for the unity8 package
@@ -138,3 +152,11 @@ Description: Unity 8 private libs
  .
  This package contains the private libraries for QML and other components
  only used by the shell.
+
+Package: unity8-doc
+Section: doc
+Architecture: all
+Multi-Arch: foreign
+Depends: ${misc:Depends},
+Description: Documentation for Unity8
+ The Unity 8 shell is the primary user interface for Ubuntu devices. (documentation)

@@ -58,13 +58,19 @@ private Q_SLOTS:
     void cleanup(); // called right after each and every test function is executed
 
     void dragThreshold_horizontal();
+    void dragThreshold_horizontal_data();
     void dragThreshold_vertical();
+    void dragThreshold_vertical_data();
     void stretch_horizontal();
     void stretch_vertical();
     void hintingAnimation();
+    void hintingAnimation_dontRestartAfterFinishedAndStillPressed();
+
 
 private:
     void flickAndHold(DirectionalDragArea *dragHandle, qreal distance);
+    void drag(QPointF &touchPoint, const QPointF& direction, qreal distance,
+              int numSteps, qint64 timeMs = 500);
     DirectionalDragArea *fetchAndSetupDragHandle(const char *objectName);
     qreal fetchDragThreshold(DirectionalDragArea *dragHandle);
     void tryCompare(std::function<qreal ()> actualFunc, qreal expectedValue);
@@ -120,7 +126,6 @@ QQuickView *tst_DragHandle::createView()
 {
     QQuickView *window = new QQuickView(0);
     window->setResizeMode(QQuickView::SizeRootObjectToView);
-    window->resize(600, 600);
     window->engine()->addImportPath(QLatin1String(UBUNTU_GESTURES_PLUGIN_DIR));
     window->engine()->addImportPath(QLatin1String(TEST_DIR));
 
@@ -141,17 +146,29 @@ void tst_DragHandle::tryCompare(std::function<qreal ()> actualFunc,
 namespace {
 QPointF calculateDirectionVector(DirectionalDragArea *edgeDragArea)
 {
-
+    QPointF localOrigin(0., 0.);
+    QPointF localDirection;
     switch (edgeDragArea->direction()) {
         case Direction::Upwards:
-            return QPointF(0, -1);
+            localDirection.rx() = 0.;
+            localDirection.ry() = -1.;
+            break;
         case Direction::Downwards:
-            return QPointF(0, 1);
+            localDirection.rx() = 0.;
+            localDirection.ry() = 1;
+            break;
         case Direction::Leftwards:
-            return QPointF(-1, 0);
+            localDirection.rx() = -1.;
+            localDirection.ry() = 0.;
+            break;
         default: // Direction::Rightwards:
-            return QPointF(1, 0);
+            localDirection.rx() = 1.;
+            localDirection.ry() = 0.;
+            break;
     }
+    QPointF sceneOrigin = edgeDragArea->mapToScene(localOrigin);
+    QPointF sceneDirection = edgeDragArea->mapToScene(localDirection);
+    return sceneDirection - sceneOrigin;
 }
 }
 
@@ -161,25 +178,29 @@ void tst_DragHandle::flickAndHold(DirectionalDragArea *dragHandle,
     QPointF initialTouchPos = dragHandle->mapToScene(
         QPointF(dragHandle->width() / 2.0, dragHandle->height() / 2.0));
     QPointF touchPoint = initialTouchPos;
-    int numSteps = 10;
-    qint64 flickTimeMs = 500;
-    qint64 timeStep = flickTimeMs / numSteps;
-
-    QPointF dragDirectionVector = calculateDirectionVector(dragHandle);
-    QPointF touchMovement = dragDirectionVector * (distance / (qreal)numSteps);
 
     QTest::touchEvent(m_view, m_device).press(0, touchPoint.toPoint());
 
-    for (int i = 0; i < numSteps; ++i) {
-        touchPoint += touchMovement;
-        m_fakeTimeSource->m_msecsSinceReference += timeStep;
-        QTest::touchEvent(m_view, m_device).move(0, touchPoint.toPoint());
-    }
+    int numSteps = 10;
+    QPointF dragDirectionVector = calculateDirectionVector(dragHandle);
+    drag(touchPoint, dragDirectionVector, distance, numSteps);
 
     // Wait for quite a bit before finally releasing to make a very low flick/release
     // speed.
     m_fakeTimeSource->m_msecsSinceReference += 5000;
     QTest::touchEvent(m_view, m_device).release(0, touchPoint.toPoint());
+}
+
+void tst_DragHandle::drag(QPointF &touchPoint, const QPointF& direction, qreal distance,
+                          int numSteps, qint64 timeMs)
+{
+    qint64 timeStep = timeMs / numSteps;
+    QPointF touchMovement = direction * (distance / (qreal)numSteps);
+    for (int i = 0; i < numSteps; ++i) {
+        touchPoint += touchMovement;
+        m_fakeTimeSource->m_msecsSinceReference += timeStep;
+        QTest::touchEvent(m_view, m_device).move(0, touchPoint.toPoint());
+    }
 }
 
 DirectionalDragArea *tst_DragHandle::fetchAndSetupDragHandle(const char *objectName)
@@ -214,6 +235,11 @@ qreal tst_DragHandle::fetchDragThreshold(DirectionalDragArea *dragHandle)
  */
 void tst_DragHandle::dragThreshold_horizontal()
 {
+    QFETCH(qreal, rotation);
+
+    QQuickItem *baseItem =  m_view->rootObject()->findChild<QQuickItem*>("baseItem");
+    baseItem->setRotation(rotation);
+
     DirectionalDragArea *dragHandle = fetchAndSetupDragHandle("rightwardsDragHandle");
 
     qreal dragThreshold = fetchDragThreshold(dragHandle);
@@ -252,8 +278,21 @@ void tst_DragHandle::dragThreshold_horizontal()
     QCOMPARE(parentItem->property("shown").toBool(), false);
 }
 
+void tst_DragHandle::dragThreshold_horizontal_data()
+{
+    QTest::addColumn<qreal>("rotation");
+
+    QTest::newRow("not rotated") << 0.;
+    QTest::newRow("rotated 90")  << 90.;
+}
+
 void tst_DragHandle::dragThreshold_vertical()
 {
+    QFETCH(qreal, rotation);
+
+    QQuickItem *baseItem =  m_view->rootObject()->findChild<QQuickItem*>("baseItem");
+    baseItem->setRotation(rotation);
+
     DirectionalDragArea *dragHandle = fetchAndSetupDragHandle("downwardsDragHandle");
 
     qreal dragThreshold = fetchDragThreshold(dragHandle);
@@ -290,6 +329,14 @@ void tst_DragHandle::dragThreshold_vertical()
     // should keep going until completion
     tryCompare([&](){ return parentItem->y(); }, -parentItem->height());
     QCOMPARE(parentItem->property("shown").toBool(), false);
+}
+
+void tst_DragHandle::dragThreshold_vertical_data()
+{
+    QTest::addColumn<qreal>("rotation");
+
+    QTest::newRow("not rotated") << 0.;
+    QTest::newRow("rotated 90")  << 90.;
 }
 
 /*
@@ -387,6 +434,53 @@ void tst_DragHandle::hintingAnimation()
     tryCompare([&](){ return parentItem->height(); }, 0.0);
 
     QCOMPARE(parentItem->property("shown").toBool(), false);
+}
+
+/*
+    Regression test for LP#1269022: https://bugs.launchpad.net/unity8/+bug/1269022
+
+    1) Click on handle.
+    2) wait for hint portion to appear
+    3) slowly drag handle, only a few pixels
+
+    Expected outcome:
+        Nothing happens
+
+    Actual outcome:
+        Handle will momentarily move back to zero position, then back down to the
+        hint displacement location.
+ */
+void tst_DragHandle::hintingAnimation_dontRestartAfterFinishedAndStillPressed()
+{
+    DirectionalDragArea *dragHandle = fetchAndSetupDragHandle("downwardsDragHandle");
+    QQuickItem *parentItem = dragHandle->parentItem();
+    qreal hintDisplacement = 100.0;
+
+    // enable hinting animations
+    m_view->rootObject()->setProperty("hintDisplacement", QVariant(hintDisplacement));
+    m_view->rootObject()->setProperty("stretch", QVariant(true));
+
+    QCOMPARE(parentItem->height(), 0.0);
+
+    QPointF initialTouchPos = dragHandle->mapToScene(
+        QPointF(dragHandle->width() / 2.0, dragHandle->height() / 2.0));
+    QPointF touchPoint = initialTouchPos;
+
+    // Pressing causes the Showable to be stretched by hintDisplacement pixels
+    const int touchId = 0;
+    QTest::touchEvent(m_view, m_device).press(touchId, touchPoint.toPoint());
+    tryCompare([&](){ return parentItem->height(); }, hintDisplacement);
+
+
+    QSignalSpy parentHeightChangedSpy(parentItem, SIGNAL(heightChanged()));
+
+    drag(touchPoint, QPointF(0.0, -1.0) /*dragDirectionVector*/, 15 /*distance*/, 3 /*numSteps*/);
+
+    // Give some time for animations to run, if any
+    QTest::qWait(300);
+
+    // parentItem height shouldn't have changed at all
+    QVERIFY(parentHeightChangedSpy.isEmpty());
 }
 
 QTEST_MAIN(tst_DragHandle)

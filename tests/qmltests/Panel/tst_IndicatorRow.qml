@@ -32,10 +32,10 @@ Item {
 
     function init_test()
     {
-        indicatorModel.load();
+        indicatorModel.load("test1");
 
         indicatorRow.state = "initial";
-        indicatorRow.currentItem = null;
+        indicatorRow.setCurrentItemIndex(-1);
         indicatorRow.unitProgress = 0.0;
     }
 
@@ -51,6 +51,8 @@ Item {
         }
 
         indicatorsModel: indicatorModel
+
+        Component.onCompleted: indicatorModel.load("test1")
     }
 
     Indicators.IndicatorsModel {
@@ -61,199 +63,98 @@ Item {
         name: "IndicatorRow"
         when: windowShown
 
+        function get_indicator_item(index) {
+            return findChild(indicatorRow.row, "item" + index);
+        }
+
         function test_set_current_item() {
             init_test();
-            indicatorRow.setCurrentItem(0);
-            compare(indicatorRow.indicatorsModel.get(indicatorRow.currentItemIndex).identifier, "indicator-fake1", "Incorrect item at position 0");
+            indicatorRow.setCurrentItemIndex(0);
+            compare(indicatorRow.indicatorsModel.data(indicatorRow.currentItemIndex, Indicators.IndicatorsModelRole.Identifier), "indicator-fake1", "Incorrect item at position 0");
 
-            indicatorRow.setCurrentItem(1);
-            compare(indicatorRow.indicatorsModel.get(indicatorRow.currentItemIndex).identifier, "indicator-fake2", "Incorrect item at position 1");
+            indicatorRow.setCurrentItemIndex(1);
+            compare(indicatorRow.indicatorsModel.data(indicatorRow.currentItemIndex, Indicators.IndicatorsModelRole.Identifier), "indicator-fake2", "Incorrect item at position 1");
 
-            indicatorRow.setCurrentItem(2);
-            compare(indicatorRow.indicatorsModel.get(indicatorRow.currentItemIndex).identifier, "indicator-fake3", "Incorrect item at position 2");
-        }
-    }
-
-    UT.UnityTestCase {
-        name: "IndicatorRow_IconPosition"
-        when: windowShown
-
-        function get_indicator_item_at(index) {
-            return findChild(indicatorRow, "rowRepeater").itemAt(index);
+            indicatorRow.setCurrentItemIndex(2);
+            compare(indicatorRow.indicatorsModel.data(indicatorRow.currentItemIndex, Indicators.IndicatorsModelRole.Identifier), "indicator-fake3", "Incorrect item at position 2");
         }
 
-        function test_current_item_commit() {
+        function test_highlight_data() {
+            return [
+                { index: 0, progress: 0.0, current: false, other: false },
+                { index: 0, progress: 0.1, current: true, other: false },
+                { index: 0, progress: 0.5, current: true, other: false },
+                { index: 0, progress: 1.0, current: true, other: false },
+                { index: 2, progress: 0.0, current: false, other: false },
+                { index: 2, progress: 0.1, current: true, other: false },
+                { index: 2, progress: 0.5, current: true, other: false },
+                { index: 2, progress: 1.0, current: true, other: false }
+            ];
+        }
+
+        function test_highlight(data) {
             init_test();
 
-            indicatorRow.setCurrentItem(2);
-            indicatorRow.state = "commit";
-            tryCompare(get_indicator_item_at(0), "opacity", 0.0);
-            tryCompare(get_indicator_item_at(1), "opacity", 0.0);
-            tryCompare(get_indicator_item_at(2), "opacity", 1.0);
-            tryCompare(get_indicator_item_at(3), "opacity", 0.0);
-            tryCompare(get_indicator_item_at(4), "opacity", 0.0);
-        }
-    }
+            indicatorRow.unitProgress = data.progress;
+            indicatorRow.setCurrentItemIndex(data.index);
 
-    UT.UnityTestCase {
-        name: "IndicatorRow_Highlight"
-        when: windowShown
+            compare(indicatorRow.currentItem.highlighted, data.current, "Indicator hightlight did not match for current item");
 
-        function get_indicator_item_at(index) {
-            return findChild(indicatorRow, "rowRepeater").itemAt(index);
+            for (var i = 0; i < indicatorRow.row.count; i++) {
+                compare(get_indicator_item(i).highlighted, i === data.index ? data.current: data.other, "Indicator hightlight did not match for item iter");
+            }
         }
 
-        function test_intial_state() {
+        function test_opacity_data() {
+            return [
+                { index: 0, progress: 0.0, current: 1.0, other: 1.0 },
+                { index: 0, progress: 0.1, current: 1.0, other: 0.9 },
+                { index: 0, progress: 0.5, current: 1.0, other: 0.5 },
+                { index: 0, progress: 1.0, current: 1.0, other: 0.0 },
+                { index: 2, progress: 0.0, current: 1.0, other: 1.0 },
+                { index: 2, progress: 0.1, current: 1.0, other: 0.9 },
+                { index: 2, progress: 0.5, current: 1.0, other: 0.5 },
+                { index: 2, progress: 1.0, current: 1.0, other: 0.0 }
+            ];
+        }
+
+        function test_opacity(data) {
             init_test();
 
-            indicatorRow.state = "initial";
-            indicatorRow.setCurrentItem(0);
+            indicatorRow.unitProgress = data.progress;
+            indicatorRow.setCurrentItemIndex(data.index);
 
-            compare(indicatorRow.currentItem.highlighted, false, "Indicator should not highlight when in initial state");
-            compare(get_indicator_item_at(1).highlighted, false, "Other indicators should not highlight when in initial state");
-            compare(get_indicator_item_at(2).highlighted, false, "Other indicators should not highlight when in initial state");
-            compare(get_indicator_item_at(3).highlighted, false, "Other indicators should not highlight when in initial state");
-            compare(get_indicator_item_at(4).highlighted, false, "Other indicators should not highlight when in initial state");
+            tryCompare(indicatorRow.currentItem, "opacity", data.current);
+
+            for (var i = 0; i < indicatorRow.row.count; i++) {
+                tryCompare(get_indicator_item(i), "opacity", i === data.index ? data.current: data.other);
+            }
         }
 
-        function test_hint_state() {
+        function test_dimmed_data() {
+            return [
+                { index: 0, progress: 0.0, current: false, other: false },
+                { index: 0, progress: 0.1, current: false, other: true },
+                { index: 0, progress: 0.5, current: false, other: true },
+                { index: 0, progress: 1.0, current: false, other: true },
+                { index: 2, progress: 0.0, current: false, other: false },
+                { index: 2, progress: 0.1, current: false, other: true },
+                { index: 2, progress: 0.5, current: false, other: true },
+                { index: 2, progress: 1.0, current: false, other: true }
+            ];
+        }
+
+        function test_dimmed(data) {
             init_test();
 
-            indicatorRow.state = "hint";
-            indicatorRow.setCurrentItem(0);
+            indicatorRow.unitProgress = data.progress;
+            indicatorRow.setCurrentItemIndex(data.index);
 
-            compare(indicatorRow.currentItem.highlighted, true, "Indicator should highlight when in hint state");
-            compare(get_indicator_item_at(1).highlighted, false, "Other indicators should not highlight when in hint state");
-            compare(get_indicator_item_at(2).highlighted, false, "Other indicators should not highlight when in hint state");
-            compare(get_indicator_item_at(3).highlighted, false, "Other indicators should not highlight when in hint state");
-            compare(get_indicator_item_at(4).highlighted, false, "Other indicators should not highlight when in hint state");
-        }
+            compare(indicatorRow.currentItem.dimmed, data.current, "Indicator dim did not match for current item");
 
-        function test_revealed_state() {
-            init_test();
-
-            indicatorRow.state = "reveal";
-            indicatorRow.setCurrentItem(0);
-
-            compare(indicatorRow.currentItem.highlighted, true, "Indicator should highlight when in reveal state");
-            compare(get_indicator_item_at(1).highlighted, false, "Other indicators should not highlight when in commit state");
-            compare(get_indicator_item_at(2).highlighted, false, "Other indicators should not highlight when in commit state");
-            compare(get_indicator_item_at(3).highlighted, false, "Other indicators should not highlight when in commit state");
-            compare(get_indicator_item_at(4).highlighted, false, "Other indicators should not highlight when in commit state");
-        }
-
-        function test_commit_state() {
-            init_test();
-
-            indicatorRow.state = "commit";
-            indicatorRow.setCurrentItem(0);
-
-            compare(indicatorRow.currentItem.highlighted, true, "Indicator should highlight when in commit state");
-            compare(get_indicator_item_at(1).highlighted, false, "Other indicators should not highlight when in commit state");
-            compare(get_indicator_item_at(2).highlighted, false, "Other indicators should not highlight when in commit state");
-            compare(get_indicator_item_at(3).highlighted, false, "Other indicators should not highlight when in commit state");
-            compare(get_indicator_item_at(4).highlighted, false, "Other indicators should not highlight when in commit state");
-        }
-
-        function test_locked_state() {
-            init_test();
-
-            indicatorRow.state = "locked";
-            indicatorRow.setCurrentItem(0);
-
-            compare(indicatorRow.currentItem.highlighted, true, "Indicator should highlight when in locked state");
-            compare(get_indicator_item_at(1).highlighted, false, "Other indicators should not highlight when in locked state");
-            compare(get_indicator_item_at(2).highlighted, false, "Other indicators should not highlight when in locked state");
-            compare(get_indicator_item_at(3).highlighted, false, "Other indicators should not highlight when in locked state");
-            compare(get_indicator_item_at(4).highlighted, false, "Other indicators should not highlight when in locked state");
-        }
-
-        function test_opacity() {
-            init_test();
-
-            indicatorRow.state = "reveal";
-            indicatorRow.unitProgress = 0.5;
-            indicatorRow.setCurrentItem(2);
-
-            compare(get_indicator_item_at(0).opacity, 0.5, "Other indicator opacity should change in response to panel progress");
-            compare(get_indicator_item_at(1).opacity, 0.5, "Other indicator opacity should change in response to panel progress");
-            compare(get_indicator_item_at(2).opacity, 1.0, "Current indicator should not change in response to panel progress");
-            compare(get_indicator_item_at(3).opacity, 0.5, "Other indicator opacity should change in response to panel progress");
-            compare(get_indicator_item_at(4).opacity, 0.5, "Other indicator opacity should change in response to panel progress");
-        }
-    }
-
-    UT.UnityTestCase {
-        name: "IndicatorRow_Dimmed"
-        when: windowShown
-
-        function get_indicator_item_at(index) {
-            return findChild(indicatorRow, "rowRepeater").itemAt(index);
-        }
-
-        function test_intial_state() {
-            init_test();
-
-            indicatorRow.state = "initial";
-            indicatorRow.setCurrentItem(0);
-
-            compare(get_indicator_item_at(0).dimmed, false, "Current indicator should not dim when in intiial state");
-            compare(get_indicator_item_at(1).dimmed, false, "Other indicators should not dim when in initial state");
-            compare(get_indicator_item_at(2).dimmed, false, "Other indicators should not dim when in initial state");
-            compare(get_indicator_item_at(3).dimmed, false, "Other indicators should not dim when in initial state");
-            compare(get_indicator_item_at(4).dimmed, false, "Other indicators should not dim when in initial state");
-        }
-
-        function test_hint_state() {
-            init_test();
-
-            indicatorRow.state = "hint";
-            indicatorRow.setCurrentItem(0);
-
-            compare(get_indicator_item_at(0).dimmed, false, "Current indicator should not dim when in hint state");
-            compare(get_indicator_item_at(1).dimmed, true, "Other indicators should dim when in hint state");
-            compare(get_indicator_item_at(2).dimmed, true, "Other indicators should dim when in hint state");
-            compare(get_indicator_item_at(3).dimmed, true, "Other indicators should dim when in hint state");
-            compare(get_indicator_item_at(4).dimmed, true, "Other indicators should dim when in hint state");
-        }
-
-        function test_revealed_state() {
-            init_test();
-
-            indicatorRow.state = "reveal";
-            indicatorRow.setCurrentItem(0);
-
-            compare(get_indicator_item_at(0).dimmed, false, "Current indicator should not dim when in reveal state");
-            compare(get_indicator_item_at(1).dimmed, true, "Other indicators should dim when in reveal state");
-            compare(get_indicator_item_at(2).dimmed, true, "Other indicators should dim when in reveal state");
-            compare(get_indicator_item_at(3).dimmed, true, "Other indicators should dim when in reveal state");
-            compare(get_indicator_item_at(4).dimmed, true, "Other indicators should dim when in reveal state");
-        }
-
-        function test_commit_state() {
-            init_test();
-
-            indicatorRow.state = "commit";
-            indicatorRow.setCurrentItem(0);
-
-            compare(get_indicator_item_at(0).dimmed, false, "Current indicator should not dim when in commit state");
-            compare(get_indicator_item_at(1).dimmed, true, "Other indicators should dim when in commit state");
-            compare(get_indicator_item_at(2).dimmed, true, "Other indicators should dim when in commit state");
-            compare(get_indicator_item_at(3).dimmed, true, "Other indicators should dim when in commit state");
-            compare(get_indicator_item_at(4).dimmed, true, "Other indicators should dim when in commit state");
-        }
-
-        function test_locked_state() {
-            init_test();
-
-            indicatorRow.state = "locked";
-            indicatorRow.setCurrentItem(0);
-
-            compare(get_indicator_item_at(0).dimmed, false, "Current indicator should not dim when in locked state");
-            compare(get_indicator_item_at(1).dimmed, true, "Other indicators should dim when in locked state");
-            compare(get_indicator_item_at(2).dimmed, true, "Other indicators should dim when in locked state");
-            compare(get_indicator_item_at(3).dimmed, true, "Other indicators should dim when in locked state");
-            compare(get_indicator_item_at(4).dimmed, true, "Other indicators should dim when in locked state");
+            for (var i = 0; i < indicatorRow.row.count; i++) {
+                compare(get_indicator_item(i).dimmed, i === data.index ? data.current: data.other, "Indicator dim did not match for item iter");
+            }
         }
     }
 }
