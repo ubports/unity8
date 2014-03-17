@@ -148,8 +148,8 @@ Item {
 
         function test_create_sliderMenu_data() {
             return [
-                {label: "testLabel1", enabled: false, minValue: 0, maxValue: 100, value: 10.5 },
-                {label: "testLabel2", enabled: true, minValue: 0, maxValue: 100, value: 100 },
+                {label: "testLabel1", enabled: false, minValue: 0, maxValue: 100, value1: 10.5, value2: 22 },
+                {label: "testLabel2", enabled: true, minValue: 0, maxValue: 100, value1: 100, value2: 50 },
             ];
         }
 
@@ -163,7 +163,7 @@ Item {
                 'minValue': data.minValue,
                 'maxValue': data.maxValue
             };
-            menuData.actionState = data.value;
+            menuData.actionState = data.value1;
 
             loader.data = menuData;
             loader.sourceComponent = factory.load(menuData);
@@ -175,8 +175,45 @@ Item {
             compare(loader.item.maxIcon, "file:///testMaxIcon", "MaxIcon does not match data");
             compare(loader.item.minimumValue, data.minValue, "MinValue does not match data");
             compare(loader.item.maximumValue, data.maxValue, "MaxValue does not match data");
-            compare(loader.item.value, data.value, "Value does not match data");
             compare(loader.item.enabled, data.enabled, "Enabled does not match data");
+            compare(loader.item.value, data.value1, "Value does not match data");
+
+            menuData.actionState = data.value2;
+            compare(loader.item.value, data.value2, "Value does not match new data");
+        }
+
+        function test_create_sliderMenu_lp1283191_data() {
+            return [
+                {label: "testLabel1", enabled: false, minValue: 0, maxValue: 100, value1: 10.5, value2: 22, manualValue: 0 },
+                {label: "testLabel2", enabled: true, minValue: 0, maxValue: 100, value1: 100, value2: 50, manualValue: 30 },
+            ];
+        }
+
+        function test_create_sliderMenu_lp1283191(data) {
+            menuData.type = "com.canonical.indicator.slider"
+            menuData.label = data.label;
+            menuData.sensitive = data.enabled;
+            menuData.ext = {
+                'minIcon': "file:///testMinIcon",
+                'maxIcon': "file:///testMaxIcon",
+                'minValue': data.minValue,
+                'maxValue': data.maxValue
+            };
+            menuData.actionState = data.value1;
+
+            loader.data = menuData;
+            loader.sourceComponent = factory.load(menuData);
+            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            compare(loader.item.value, data.value1, "Value does not match data");
+
+            var slider = findChild(loader.item, "slider");
+            verify(slider !== null);
+
+            slider.value = data.manualValue;
+            compare(loader.item.value, data.manualValue, "Slider value does not match manual set value");
+
+            menuData.actionState = data.value2;
+            compare(loader.item.value, data.value2, "Value does not match new data");
         }
 
         function test_create_buttonMenu_data() {
