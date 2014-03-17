@@ -58,8 +58,6 @@ int main(int argc, char *argv[])
         tracker.reset(new RegistryTracker(scopesDir));
     }
 
-    resolveIconTheme();
-
     bindtextdomain("unity8", translationDirectory().toUtf8().data());
 
     QQuickView* view = new QQuickView();

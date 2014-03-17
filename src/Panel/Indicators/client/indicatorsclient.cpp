@@ -32,7 +32,6 @@ IndicatorsClient::IndicatorsClient(int &argc, char **argv)
       m_view(0)
 {
     m_application = new QApplication(argc, argv);
-    resolveIconTheme();
 
     QStringList args = m_application->arguments();
 
