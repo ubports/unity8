@@ -255,6 +255,7 @@ Showable {
         anchors {
             left: parent.left
             right: parent.right
+            margins: units.gu(1)
         }
         height: indicators.panelHeight
         indicatorsModel: visibleIndicators.model
