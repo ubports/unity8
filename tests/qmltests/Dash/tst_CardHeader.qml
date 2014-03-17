@@ -95,7 +95,7 @@ Rectangle {
             return [
                 { tag: "Column width", object: column, width: cardHeader.width },
                 { tag: "Column width with mascot", object: column, width: cardHeader.width - mascot.width - outerRow.margins * 3, mascot: "artwork/avatar.png" },
-                { tag: "Header height", object: cardHeader, height: function() { return subtitleLabel.y + subtitleLabel.height + outerRow.margins * 2 } },
+                { tag: "Header height", object: cardHeader, height: function() { return outerRow.height + outerRow.margins * 2 } },
             ]
         }
 

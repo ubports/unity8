@@ -238,8 +238,8 @@ Item {
 
             var dash = findChild(shell, "dash");
             // check that dash has normal scale and opacity
-            tryCompare(dash.contentScale, 1.0);
-            tryCompare(dash.opacity, 1.0);
+            tryCompare(dash, "contentScale", 1.0);
+            tryCompare(dash, "opacity", 1.0);
 
             touchFlick(shell, touchX, touchY, shell.width * 0.1, touchY,
                        true /* beginTouch */, false /* endTouch */);
