@@ -25,7 +25,7 @@ ListView {
     interactive: false
 
     property real margin
-    spacing: units.gu(.5)
+    spacing: delegate.fullscreen ? 0 : units.gu(.5)
 
     delegate: Notification {
         objectName: "notification" + index
@@ -44,15 +44,7 @@ ListView {
         notification: notificationList.model.getRaw(notificationId)
         maxHeight: notificationList.height
         margins: notificationList.margin
-
-        Component.onCompleted: {
-            if (fullscreen) {
-                notificationList.spacing = 0
-            } else {
-                notificationList.spacing = units.gu(.5)
-            }
-        }
-
+        
         ListView.onAdd: {
             if (notificationList.currentIndex < 1 && notificationList.count > 1) {
                 notificationList.currentIndex = 1

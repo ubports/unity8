@@ -45,7 +45,7 @@ Item {
     opacity: 0
 
     state: {
-        var result = "undefined";
+        var result = "";
 
         if (type == Notification.SnapDecision) {
             if (notificationList.currentIndex == index) {
@@ -100,9 +100,11 @@ Item {
         id: shapedBack
 
         visible: !fullscreen
-        anchors.fill: parent
-        anchors.leftMargin: notification.margins
-        anchors.rightMargin: notification.margins
+        anchors {
+            fill: parent
+            leftMargin: notification.margins
+            rightMargin: notification.margins
+        }
         color: parent.color
         opacity: parent.opacity
         radius: "medium"
