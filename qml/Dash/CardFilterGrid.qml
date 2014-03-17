@@ -15,35 +15,62 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import "../Components"
 
-DashFilterGrid {
+DashRenderer {
     id: genericFilterGrid
 
-    minimumHorizontalSpacing: units.gu(1)
-    delegateWidth: cardTool.cardWidth
-    delegateHeight: cardTool.cardHeight
-    verticalSpacing: units.gu(1)
+    expandable: filterGrid.expandable
     collapsedRowCount: Math.min(2, cardTool && cardTool.template && cardTool.template["collapsed-rows"] || 2)
+    collapsedHeight: filterGrid.collapsedHeight
+    columns: filterGrid.columns
+    rows: filter ? collapsedRowCount : uncollapsedRowCount
+    margins: filterGrid.margins
+    uncollapsedHeight: filterGrid.uncollapsedHeight
+    verticalSpacing: units.gu(1)
+    currentItem: filterGrid.currentItem
+    height: filterGrid.height
 
-    delegate: Item {
-        width: genericFilterGrid.cellWidth
-        height: genericFilterGrid.cellHeight
-        Card {
-            id: card
-            width: cardTool.cardWidth
-            height: cardTool.cardHeight
-            headerHeight: cardTool.headerHeight
-            anchors.horizontalCenter: parent.horizontalCenter
-            objectName: "delegate" + index
-            cardData: model
-            template: cardTool.template
-            components: cardTool.components
+    function startFilterAnimation(filter) {
+        filterGrid.startFilterAnimation(filter)
+    }
 
-            headerAlignment: cardTool.headerAlignment
+    FilterGrid {
+        id: filterGrid
+        width: genericFilterGrid.width
+        minimumHorizontalSpacing: units.gu(1)
+        delegateWidth: cardTool.cardWidth
+        delegateHeight: cardTool.cardHeight
+        verticalSpacing: genericFilterGrid.verticalSpacing
+        model: genericFilterGrid.model
+        filter: genericFilterGrid.filter
+        collapsedRowCount: genericFilterGrid.collapsedRowCount
+        delegateCreationBegin: genericFilterGrid.delegateCreationBegin
+        delegateCreationEnd: genericFilterGrid.delegateCreationEnd
+        delegate: Item {
+            width: filterGrid.cellWidth
+            height: filterGrid.cellHeight
+            Card {
+                id: card
+                width: cardTool.cardWidth
+                height: cardTool.cardHeight
+                headerHeight: cardTool.headerHeight
+                anchors.horizontalCenter: parent.horizontalCenter
+                objectName: "delegate" + index
+                cardData: model
+                template: cardTool.template
+                components: cardTool.components
 
-            onClicked: genericFilterGrid.clicked(index, card.y)
-            onPressAndHold: genericFilterGrid.pressAndHold(index, card.y)
+                headerAlignment: cardTool.headerAlignment
+
+                onClicked: genericFilterGrid.clicked(index, card.y)
+                onPressAndHold: genericFilterGrid.pressAndHold(index, card.y)
+            }
+        }
+
+        onFilterChanged: {
+            genericFilterGrid.filter = filter
+            filter = Qt.binding(function() { return genericFilterGrid.filter })
         }
     }
 }
