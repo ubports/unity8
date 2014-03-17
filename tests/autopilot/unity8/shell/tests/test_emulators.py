@@ -184,7 +184,7 @@ class DashAppsEmulatorTestCase(DashBaseTestCase):
     def _get_number_of_application_slots(self, category):
         category_element = self.applications_scope._get_category_element(
             category)
-        grid = category_element.select_single('DashFilterGrid')
+        grid = category_element.select_single('CardFilterGrid')
         return grid.columns * grid.rows
 
     def test_open_preview(self):
