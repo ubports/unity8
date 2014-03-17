@@ -188,7 +188,7 @@ Row {
         name: "VisualQueueTest"
         when: windowShown
 
-        function test_VisualQueue_data() {
+        function test_VisualSnapDecisionsQueue_data() {
             return [
             {
                 tag: "Snap Decision 1",
@@ -254,7 +254,7 @@ Row {
             ]
         }
 
-        function test_VisualQueue(data) {
+        function test_VisualSnapDecisionsQueue(data) {
             // populate model with some mock notifications
             mockModel.append(data)
 
