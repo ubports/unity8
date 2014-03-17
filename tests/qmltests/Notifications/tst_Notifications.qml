@@ -444,7 +444,12 @@ Row {
 
                     // click to expand
                     mouseClick(buttonCancel, buttonCancel.width / 2, buttonCancel.height / 2)
-                    wait(500);
+                    var contentColumn = findChild(notification, "contentColumn")
+                    var collapsedContentColumnHeight = contentColumn.height;
+                    // Waiting for the inner column to change height because buttons appear
+                    tryCompareFunction(function() { return collapsedContentColumnHeight != contentColumn.height; }, true);
+                    // Waiting for notification to reach its target size
+                    tryCompare(notification, "height", contentColumn.height + contentColumn.spacing * 2)
                     actionSpy.clear()
 
                     // test the additional buttons

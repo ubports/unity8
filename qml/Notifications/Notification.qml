@@ -169,6 +169,7 @@ Item {
 
         Column {
             id: contentColumn
+            objectName: "contentColumn"
 
             anchors {
                 left: parent.left
