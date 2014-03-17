@@ -19,37 +19,29 @@ import Ubuntu.Components 0.1
 import Unity.Indicators 0.1 as Indicators
 import "../Components"
 
-Item {
-    id: indicatorItem
+Loader {
+    id: root
 
-    property alias widgetSource: loader.source
+    property alias widgetSource: root.source
     property bool dimmed: false
     property var indicatorProperties: undefined
-    property bool indicatorVisible: loader.item ? loader.item.enabled : false
+    property bool indicatorVisible: item ? item.enabled : false
     property string identifier
 
     opacity: dimmed ? 0.4 : 1
     Behavior on opacity { UbuntuNumberAnimation { duration: UbuntuAnimation.BriskDuration } }
 
-    width: loader.item ? loader.item.width : 0
-
-    Loader {
-        id: loader
-
-        onLoaded: {
-            item.height = Qt.binding(function() { return indicatorItem.height; });
-
-            for(var pName in indicatorProperties) {
-                if (item.hasOwnProperty(pName)) {
-                    item[pName] = indicatorProperties[pName];
-                }
+    onLoaded: {
+        for(var pName in indicatorProperties) {
+            if (item.hasOwnProperty(pName)) {
+                item[pName] = indicatorProperties[pName];
             }
         }
+    }
 
-        Binding {
-            target: loader.item
-            property: "objectName"
-            value: identifier + "-widget"
-        }
+    Binding {
+        target: item
+        property: "objectName"
+        value: identifier + "-widget"
     }
 }

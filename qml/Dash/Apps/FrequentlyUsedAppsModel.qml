@@ -48,24 +48,24 @@ ListModel {
         metadata: "subscope:applications.scope/applications-non-click.scope"
     }
     ListElement {
-        uri: "application://camera-app.desktop"
+        uri: "appid://com.ubuntu.camera/camera/current-user-version"
         icon: "../../graphics/applicationIcons/camera.png"
         category: 0
         mimetype: "application/x-desktop"
         title: "Camera"
         comment: ""
-        dndUri: "file:///usr/share/applications/camera-app.desktop"
-        metadata: "subscope:applications.scope/applications-non-click.scope"
+        dndUri: "appid://com.ubuntu.camera/camera/current-user-version"
+        metadata: "subscope:applications.scope/applications-click.scope?app_id=com.ubuntu.camera"
     }
     ListElement {
-        uri: "application://gallery-app.desktop"
+        uri: "appid://com.ubuntu.gallery/gallery/current-user-version"
         icon: "../../graphics/applicationIcons/gallery.png"
         category: 0
         mimetype: "application/x-desktop"
         title: "Gallery"
         comment: ""
-        dndUri: "file:///usr/share/applications/gallery.desktop"
-        metadata: "subscope:applications.scope/applications-non-click.scope"
+        dndUri: "appid://com.ubuntu.gallery/gallery/current-user-version"
+        metadata: "subscope:applications.scope/applications-click.scope?app_id=com.ubuntu.gallery"
     }
     ListElement {
         uri: "appid://com.ubuntu.developer.webapps.webapp-facebook/webapp-facebook/current-user-version"

@@ -17,12 +17,10 @@
 import QtQuick 2.0
 import Unity.Indicators 0.1 as Indicators
 
-ListModel {
+Indicators.FakeIndicatorsModel {
 
-    property var indicatorData : undefined
-
-    function load() {
-        clear();
+    function load(profile) {
+        unload();
 
         append({    "identifier": "indicator-fake1",
                     "position": 0,
