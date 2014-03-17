@@ -133,7 +133,7 @@ Item {
                 var menuIndex = i%menuCount;
 
                 activate_content(menuIndex);
-                testTabObjectName = indicatorsModel.get(menuIndex).identifier;
+                testTabObjectName = indicatorsModel.data(menuIndex, Indicators.IndicatorsModelRole.Identifier);
                 compare(tabs.selectedTabIndex, menuIndex, "Current tab index does not match selected tab index");
                 tryCompareFunction(selected_tab_equals_test_tab, true);
             }

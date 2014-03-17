@@ -23,6 +23,7 @@
 #include "fakeplugin.h"
 
 // local
+#include "fakeindicatorsmodel.h"
 #include "indicators.h"
 #include "menucontentactivator.h"
 #include "unitymenumodelstack.h"
@@ -32,10 +33,15 @@ void IndicatorsFakePlugin::registerTypes(const char * uri)
 {
     Q_INIT_RESOURCE(indicators_fake);
 
+    // internal
+    qmlRegisterType<FakeIndicatorsModel>(uri, 0, 1, "FakeIndicatorsModel");
+
+    // external
     qmlRegisterType<MenuContentActivator>(uri, 0, 1, "MenuContentActivator");
     qmlRegisterType<UnityMenuModelStack>(uri, 0, 1, "UnityMenuModelStack");
     qmlRegisterType<VisibleIndicatorsModel>(uri, 0, 1, "VisibleIndicatorsModel");
 
+    // external uncreatables
     qmlRegisterUncreatableType<MenuContentState>(uri, 0, 1, "MenuContentState", "Can't create MenuContentState class");
     qmlRegisterUncreatableType<ActionState>(uri, 0, 1, "ActionState", "Can't create ActionState class");
     qmlRegisterUncreatableType<NetworkActionState>(uri, 0, 1, "NetworkActionState", "Can't create NetworkActionState class");
