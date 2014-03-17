@@ -121,8 +121,7 @@ Item {
             revealer.dragLauncherIntoView()
 
             var listView = findChild(launcher, "launcherListView");
-            listView.flick(0, units.gu(500));
-            tryCompare(listView, "flicking", false);
+            listView.positionViewAtEnd();
 
             var appIcon = findChild(launcher, "launcherDelegate0")
 
@@ -397,8 +396,11 @@ Item {
 
             // Position launcher to where we need it
             var listView = findChild(launcher, "launcherListView");
-            listView.flick(0, units.gu(200) * (data.flickTo === "top" ? 1 : -1));
-            tryCompare(listView, "flicking", false);
+            if (data.flickTo == "top") {
+                listView.positionViewAtEnd();
+            } else {
+                listView.positionViewAtBeginning();
+            }
 
             // Doing longpress
             mousePress(draggedItem, draggedItem.width / 2, draggedItem.height / 2)

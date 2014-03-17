@@ -134,11 +134,12 @@ private Q_SLOTS:
         view->setSource(QUrl::fromLocalFile(DASHVIEWSTEST_FOLDER "/organicgridtest.qml"));
 
         view->show();
-        view->resize(470, 400);
         QTest::qWaitForWindowExposed(view);
+        view->resize(470, 400);
 
         grid = dynamic_cast<OrganicGrid*>(view->rootObject()->findChild<QObject*>("grid"));
         grid->setModel(model);
+        QTRY_COMPARE(grid->width(), 470.);
 
         checkInitialPositions();
     }
