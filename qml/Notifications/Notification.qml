@@ -48,11 +48,11 @@ Item {
         var result = "";
 
         if (type == Notification.SnapDecision) {
-            if (notificationList.currentIndex == index) {
+            if (ListView.view.currentIndex == index) {
                 result = "expanded";
             } else {
-                if (notificationList.count > 2) {
-                    if (notificationList.currentIndex == -1 && index == 1) {
+                if (ListView.view.count > 2) {
+                    if (ListView.view.currentIndex == -1 && index == 1) {
                         result = "expanded";
                     } else {
                         result = "contracted";
