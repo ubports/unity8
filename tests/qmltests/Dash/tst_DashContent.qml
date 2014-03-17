@@ -105,25 +105,19 @@ Item {
         signalName: "movementStarted"
     }
 
-    SignalSpy {
-        id: contentEndReachedSpy
-        target: dashContent
-        signalName: "contentEndReached"
-    }
-
     UT.UnityTestCase {
         name: "DashContent"
         when: scopesModel.loaded
 
         function init() {
             scopesModel.clear();
+            scopeLoadedSpy.clear();
             scopesModel.load();
+            tryCompare(scopeLoadedSpy, "count", 5);
         }
 
         function cleanup() {
-            scopeLoadedSpy.clear();
             movementStartedSpy.clear();
-            contentEndReachedSpy.clear();
             clear_scope_status();
             dashContent.visible = true;
 
@@ -132,17 +126,18 @@ Item {
             scopesModel.clear();
             // wait for dash to empty scopes.
             tryCompare(dashContentList, "count", 0);
-            // this is the default state for empty model
-            dashContentList.currentIndex = -1;
         }
 
         function test_current_index() {
             var dashContentList = findChild(dashContent, "dashContentList");
             verify(dashContentList != undefined)
 
+            scopesModel.clear();
             compare(dashContentList.count, 0, "DashContent should have 0 items when it starts");
-            compare(dashContentList.currentIndex, -1, "DashContent's currentIndex should be -1 while there have been no items in the model");
+            tryCompare(dashContentList, "currentIndex", -1);
 
+            scopeLoadedSpy.clear();
+            scopesModel.load();
             tryCompare(scopeLoadedSpy, "count", 5);
 
             verify(dashContentList.currentIndex >= 0);
@@ -152,10 +147,13 @@ Item {
             var dashContentList = findChild(dashContent, "dashContentList");
             verify(dashContentList != undefined)
 
-            compare(dashContentList.count, 0, "DashContent should have 0 items when it starts");
+            scopesModel.clear();
+            compare(dashContentList.count, 0, "DashContent should have 0 items after clearing");
             // pretend we're running after a model reset
             dashContentList.currentIndex = 27;
 
+            scopeLoadedSpy.clear();
+            scopesModel.load();
             tryCompare(scopeLoadedSpy, "count", 5);
 
             verify(dashContentList.currentIndex >= 0 && dashContentList.currentIndex < 5);
@@ -166,8 +164,6 @@ Item {
 
             var dashContentList = findChild(dashContent, "dashContentList");
             verify(dashContentList != undefined)
-
-            tryCompare(scopeLoadedSpy, "count", 5);
 
             dashContentList.movementStarted();
 
@@ -182,8 +178,6 @@ Item {
         function test_positioned_at_beginning_signal() {
             dashContent.setCurrentScopeAtIndex(3, true, false);
 
-            tryCompare(scopeLoadedSpy, "count", 5);
-
             dashContent.positionedAtBeginning();
             compare(scopeStatus["MockScope1"].positionedAtBeginning, 1, "MockScope1 should have emitted positionedAtBeginning signal when DashContent did.");
             compare(scopeStatus["MockScope2"].positionedAtBeginning, 1, "MockScope2 should have emitted positionedAtBeginning signal when DashContent did.");
@@ -192,30 +186,17 @@ Item {
             compare(scopeStatus["MockScope5"].positionedAtBeginning, 1, "MockScope5 should have emitted positionedAtBeginning signal when DashContent did.");
         }
 
-        function test_scope_loaded() {
-            tryCompare(scopeLoadedSpy, "count", 5);
-        }
-
-        function test_content_end_reached() {
-            var dashContentList = findChild(dashContent, "dashContentList");
-            verify(dashContentList != undefined);
-
-            tryCompare(scopeLoadedSpy, "count", 5);
-            dashContent.setCurrentScopeAtIndex(0, true, false);
-            dashContentList.currentItem.item.endReached();
-
-            compare(contentEndReachedSpy.count, 1);
-        }
-
         // This tests that setting the current scope index will end up at the correct index even if
         // the scopes are loaded asynchrounsly.
         function test_set_current_scope_index_async() {
+            scopesModel.clear();
             verify(scopesModel.loaded == false);
 
-            // next index is 1 if current is -1, otherwise it's current + 1
-            var next_index = ((dashContent.currentIndex == -1 ? 0 : dashContent.currentIndex) + 1) % 5
+            tryCompare(dashContent, "currentIndex", -1);
+            var next_index = 1
 
             dashContent.setCurrentScopeAtIndex(next_index, true, false);
+            scopesModel.load();
             tryCompare(dashContent, "currentIndex", next_index);
             verify(scopesModel.loaded == true);
 
@@ -264,8 +245,6 @@ Item {
 
         function test_is_active(data) {
             var dashContentList = findChild(dashContent, "dashContentList");
-
-            tryCompare(scopeLoadedSpy, "count", 5);
 
             dashContent.setCurrentScopeAtIndex(data.select, true, false);
             dashContent.visible = data.visible;

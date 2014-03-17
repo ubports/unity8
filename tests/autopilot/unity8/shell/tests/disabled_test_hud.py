@@ -163,7 +163,7 @@ class TestHud(UnityTestCase, DragMixin):
         self.assertThat(hud.shown, Eventually(Equals(False)))
 
     def _launch_test_app_from_app_screen(self):
-        """Launches the camera app using the Dash UI.
+        """Launches the browser app using the Dash UI.
 
         Because when testing on the desktop running
         self.launch_application() will launch the application on the desktop
@@ -171,7 +171,7 @@ class TestHud(UnityTestCase, DragMixin):
 
         """
         dash = self.main_window.get_dash()
-        icon = dash.get_application_icon('Camera')
+        icon = dash.get_application_icon('Browser')
         self.touch.tap_object(icon)
 
         # Ensure application is open
@@ -184,5 +184,12 @@ class TestHud(UnityTestCase, DragMixin):
     # we don't.
     def _maybe_release_finger(self):
         """Only release the finger if it is in fact down."""
-        if self.touch._touch_finger is not None:
+        # XXX This ugly code is here just temporarily, waiting for uinput
+        # improvements to land on autopilot so we don't have to access device
+        # private internal attributes. --elopio - 2014-02-12
+        try:
+            pressed = self.touch._touch_finger is not None
+        except AttributeError:
+            pressed = self.touch.pressed
+        if pressed:
             self.touch.release()

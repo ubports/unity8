@@ -83,6 +83,10 @@ private Q_SLOTS:
     void twoFingerTap();
     void movingDDA();
     void ignoreOldFinger();
+    void rotated();
+    void sceneDistance();
+    void sceneDistance_data();
+    void disabledWhileDragging();
 
 private:
     void passTime(qint64 timeSpan);
@@ -131,18 +135,10 @@ void tst_DirectionalDragArea::passTime(qint64 timeSpan)
 }
 
 namespace {
-QPointF calculateInitialTouchPos(DirectionalDragArea *edgeDragArea, QQuickView *view)
+QPointF calculateInitialTouchPos(DirectionalDragArea *edgeDragArea)
 {
-    switch (edgeDragArea->direction()) {
-        case Direction::Upwards:
-            return QPointF(view->width()/2.0f, view->height() - (edgeDragArea->height()/2.0f));
-        case Direction::Downwards:
-            return QPointF(view->width()/2.0f, edgeDragArea->height()/2.0f);
-        case Direction::Leftwards:
-            return QPointF(view->width() - (edgeDragArea->width()/2.0f), view->height()/2.0f);
-        default: // Direction::Rightwards:
-            return QPointF(edgeDragArea->width()/2.0f, view->height()/2.0f);
-    }
+    QPointF localCenter(edgeDragArea->width() / 2., edgeDragArea->height() / 2.);
+    return edgeDragArea->mapToScene(localCenter);
 }
 
 QPointF calculateDirectionVector(DirectionalDragArea *edgeDragArea,
@@ -193,7 +189,7 @@ void tst_DirectionalDragArea::edgeDrag()
 
     QSignalSpy draggingSpy(edgeDragArea, SIGNAL(draggingChanged(bool)));
 
-    QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea, m_view);
+    QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea);
     QPointF touchPoint = initialTouchPos;
 
     qreal desiredDragDistance = edgeDragArea->distanceThreshold()*dragDistanceFactor;
@@ -300,7 +296,7 @@ void tst_DirectionalDragArea::dragWithShortDirectionChange()
     edgeDragArea->setRecognitionTimer(fakeTimer);
     edgeDragArea->setTimeSource(fakeTimeSource);
 
-    QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea, m_view);
+    QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea);
     QPointF touchPoint = initialTouchPos;
 
     qreal desiredDragDistance = edgeDragArea->distanceThreshold()*2.0;
@@ -360,7 +356,7 @@ void tst_DirectionalDragArea::minSpeed()
 
     edgeDragArea->setMinSpeed(minSpeed);
 
-    QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea, m_view);
+    QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea);
     QPointF touchPoint = initialTouchPos;
 
     QPointF dragDirectionVector(1.0, 0.0);
@@ -408,7 +404,7 @@ void tst_DirectionalDragArea::recognitionTimerUsage()
 
     int timeStepMs = 5; // some arbitrary small value.
 
-    QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea, m_view);
+    QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea);
     QPointF touchPoint = initialTouchPos;
 
     QPointF dragDirectionVector(1.0, 0.0);
@@ -452,7 +448,7 @@ void tst_DirectionalDragArea::maxSilenceTime()
     // Make sure this property is not disabled
     edgeDragArea->setMaxSilenceTime(100);
 
-    QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea, m_view);
+    QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea);
     QPointF touchPoint = initialTouchPos;
 
     QTest::touchEvent(m_view, m_device).press(0, touchPoint.toPoint());
@@ -620,7 +616,7 @@ void tst_DirectionalDragArea::movingDDA()
     edgeDragArea->setRecognitionTimer(fakeTimer);
     edgeDragArea->setTimeSource(fakeTimeSource);
 
-    QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea, m_view);
+    QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea);
     QPointF touchPoint = initialTouchPos;
 
     qreal desiredDragDistance = edgeDragArea->distanceThreshold()*2.0f;
@@ -702,6 +698,147 @@ void tst_DirectionalDragArea::ignoreOldFinger()
         .release(1, touch1Pos);
 
     QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::WaitingForTouch);
+}
+
+/*
+    A Rightwards DDA that is rotated 90 degrees clockwise should recognize gestures
+    that are done downwards in scene coordinates. I.e. the gesture recognition direction
+    should be in local coordinates, not scene coordinates.
+ */
+void tst_DirectionalDragArea::rotated()
+{
+    QQuickItem *baseItem =  m_view->rootObject()->findChild<QQuickItem*>("baseItem");
+    baseItem->setRotation(90.);
+
+    QQuickItem *rightwardsLauncher =  m_view->rootObject()->findChild<QQuickItem*>("rightwardsLauncher");
+    Q_ASSERT(rightwardsLauncher != 0);
+
+    DirectionalDragArea *edgeDragArea =
+        rightwardsLauncher->findChild<DirectionalDragArea*>("hpDragArea");
+    Q_ASSERT(edgeDragArea != 0);
+    edgeDragArea->setRecognitionTimer(fakeTimer);
+    edgeDragArea->setTimeSource(fakeTimeSource);
+
+    QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea);
+    QPointF touchPoint = initialTouchPos;
+
+    qreal desiredDragDistance = edgeDragArea->distanceThreshold()*2.0f;
+    QPointF dragDirectionVector(0.0f, 1.0f);
+
+    qreal movementStepDistance = edgeDragArea->distanceThreshold() * 0.1f;
+    QPointF touchMovement = dragDirectionVector * movementStepDistance;
+    int totalMovementSteps = qCeil(desiredDragDistance / movementStepDistance);
+    int movementTimeStepMs = (edgeDragArea->compositionTime() * 1.5f) / totalMovementSteps;
+
+    QTest::touchEvent(m_view, m_device).press(0, touchPoint.toPoint());
+
+    for (int i = 0; i < totalMovementSteps; ++i) {
+        touchPoint += touchMovement;
+        passTime(movementTimeStepMs);
+        QTest::touchEvent(m_view, m_device).move(0, touchPoint.toPoint());
+    }
+
+    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::Recognized);
+
+    QTest::touchEvent(m_view, m_device).release(0, touchPoint.toPoint());
+}
+
+void tst_DirectionalDragArea::sceneDistance()
+{
+    QQuickItem *baseItem =  m_view->rootObject()->findChild<QQuickItem*>("baseItem");
+    QFETCH(qreal, rotation);
+    QFETCH(QPointF, dragDirectionVector);
+    baseItem->setRotation(rotation);
+
+    QQuickItem *rightwardsLauncher =  m_view->rootObject()->findChild<QQuickItem*>("rightwardsLauncher");
+    Q_ASSERT(rightwardsLauncher != 0);
+
+    DirectionalDragArea *edgeDragArea =
+        rightwardsLauncher->findChild<DirectionalDragArea*>("hpDragArea");
+    Q_ASSERT(edgeDragArea != 0);
+    edgeDragArea->setRecognitionTimer(fakeTimer);
+    edgeDragArea->setTimeSource(fakeTimeSource);
+
+    QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea);
+    QPointF touchPoint = initialTouchPos;
+
+    qreal desiredDragDistance = edgeDragArea->distanceThreshold()*2.0f;
+
+    qreal movementStepDistance = edgeDragArea->distanceThreshold() * 0.1f;
+    QPointF touchMovement = dragDirectionVector * movementStepDistance;
+    int totalMovementSteps = qCeil(desiredDragDistance / movementStepDistance);
+    int movementTimeStepMs = (edgeDragArea->compositionTime() * 1.5f) / totalMovementSteps;
+
+    QTest::touchEvent(m_view, m_device).press(0, touchPoint.toPoint());
+
+    for (int i = 0; i < totalMovementSteps; ++i) {
+        touchPoint += touchMovement;
+        passTime(movementTimeStepMs);
+        QTest::touchEvent(m_view, m_device).move(0, touchPoint.toPoint());
+    }
+
+    qreal actualDragDistance = ((qreal)totalMovementSteps) * movementStepDistance;
+
+    // DirectionalDragArea::sceneDistance() must match the actual drag distance as the
+    // drag was aligned with the gesture direction
+    // NB: qFuzzyCompare(), used internally by QCOMPARE(), is broken.
+    QVERIFY(qAbs(edgeDragArea->sceneDistance() - actualDragDistance) < 0.001);
+
+    QTest::touchEvent(m_view, m_device).release(0, touchPoint.toPoint());
+}
+
+void tst_DirectionalDragArea::sceneDistance_data()
+{
+    QTest::addColumn<qreal>("rotation");
+    QTest::addColumn<QPointF>("dragDirectionVector");
+
+    QTest::newRow("not rotated")           << 0.  << QPointF(1., 0.);
+    QTest::newRow("rotated by 90 degrees") << 90. << QPointF(0., 1.);
+}
+
+/*
+    Regression test for https://bugs.launchpad.net/unity8/+bug/1276122
+
+    The bug:
+    If setting "enabled: false" while the DirectionalDragArea's (DDA) dragging
+    property is true, the DDA stays in that state and doesn't recover any more.
+*/
+void tst_DirectionalDragArea::disabledWhileDragging()
+{
+    DirectionalDragArea *edgeDragArea =
+        m_view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
+    Q_ASSERT(edgeDragArea != 0);
+    edgeDragArea->setRecognitionTimer(fakeTimer);
+    edgeDragArea->setTimeSource(fakeTimeSource);
+
+    QPointF touchPoint = calculateInitialTouchPos(edgeDragArea);
+
+    qreal desiredDragDistance = edgeDragArea->distanceThreshold()*2.0f;
+    QPointF dragDirectionVector(1., 0.); // horizontal positive
+
+    qreal movementStepDistance = edgeDragArea->distanceThreshold() * 0.1f;
+    QPointF touchMovement = dragDirectionVector * movementStepDistance;
+    int totalMovementSteps = qCeil(desiredDragDistance / movementStepDistance);
+    int movementTimeStepMs = (edgeDragArea->compositionTime() * 1.5f) / totalMovementSteps;
+
+    QTest::touchEvent(m_view, m_device).press(0, touchPoint.toPoint());
+
+    for (int i = 0; i < totalMovementSteps; ++i) {
+        touchPoint += touchMovement;
+        passTime(movementTimeStepMs);
+        QTest::touchEvent(m_view, m_device).move(0, touchPoint.toPoint());
+    }
+
+    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::Recognized);
+    QCOMPARE(edgeDragArea->dragging(), true);
+
+    // disable the dragArea while it's being dragged.
+    edgeDragArea->setEnabled(false);
+
+    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::WaitingForTouch);
+    QCOMPARE(edgeDragArea->dragging(), false);
+
+    QTest::touchEvent(m_view, m_device).release(0, touchPoint.toPoint());
 }
 
 QTEST_MAIN(tst_DirectionalDragArea)

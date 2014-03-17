@@ -18,8 +18,8 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 
 Rectangle {
-    width: units.gu(40)
-    height: units.gu(71)
+    width: units.gu(60)
+    height: units.gu(60)
     color: "white"
 
     MouseArea {
@@ -33,14 +33,36 @@ Rectangle {
         }
     }
 
-    // NB: Do not anchor it as we will move it programmatically from the test
-    RightwardsLauncher {
-        id: hpLauncher;
+    Item {
+        id: baseItem
+        objectName: "baseItem"
         width: parent.width
         height: parent.height
+
+        // NB: Do not anchor it as we will move it programmatically from the test
+        RightwardsLauncher {
+            id: hpLauncher;
+            width: parent.width
+            height: parent.height
+        }
+
+        LeftwardsLauncher { id: hnLauncher; anchors.fill: parent }
+        DownwardsLauncher { id: vpLauncher; anchors.fill: parent }
+        UpwardsLauncher { id: vnLauncher; anchors.fill: parent }
     }
 
-    LeftwardsLauncher { id: hnLauncher; anchors.fill: parent }
-    DownwardsLauncher { id: vpLauncher; anchors.fill: parent }
-    UpwardsLauncher { id: vnLauncher; anchors.fill: parent }
+    Button {
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.margins: units.gu(1)
+
+        text: "rotation: " + baseItem.rotation
+        onClicked: {
+            if (baseItem.rotation === 0.0) {
+                baseItem.rotation = 90.0
+            } else {
+                baseItem.rotation = 0.0
+            }
+        }
+    }
 }

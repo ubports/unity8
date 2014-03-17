@@ -160,6 +160,7 @@ public:
 
     qreal distance() const;
     qreal sceneDistance() const;
+    void updateSceneDistance();
 
     qreal touchX() const;
     qreal touchY() const;
@@ -217,6 +218,7 @@ protected:
 
 private Q_SLOTS:
     void checkSpeed();
+    void onEnabledChanged();
 
 private:
     void touchEvent_absent(QTouchEvent *event);
@@ -231,6 +233,10 @@ private:
     void setPreviousScenePos(const QPointF &point);
     void updateVelocityCalculator(const QPointF &point);
     bool isWithinTouchCompositionWindow();
+    void updateSceneDirectionVector();
+    // returns the scalar projection between the given vector (in scene coordinates)
+    // and m_sceneDirectionVector
+    qreal projectOntoDirectionVector(const QPointF &sceneVector) const;
 
     Status m_status;
 
@@ -238,6 +244,7 @@ private:
     QPointF m_startScenePos;
     QPointF m_previousPos;
     QPointF m_previousScenePos;
+    qreal m_sceneDistance;
     int m_touchId;
 
     // A movement damper is used in some of the gesture recognition calculations
@@ -245,10 +252,14 @@ private:
     DampedPointF m_dampedScenePos;
     QPointF m_previousDampedScenePos;
 
+    // Unit vector in scene coordinates describing the direction of the gesture recognition
+    QPointF m_sceneDirectionVector;
+
     Direction::Type m_direction;
     qreal m_wideningAngle; // in degrees
-    qreal m_wideningFactor; // it's tan(degreesToRadian(m_wideningAngle))
+    qreal m_wideningFactor; // it's pow(cosine(m_wideningAngle), 2)
     qreal m_distanceThreshold;
+    qreal m_distanceThresholdSquared; // it's pow(m_distanceThreshold, 2)
     qreal m_minSpeed;
     int m_maxSilenceTime; // in milliseconds
     int m_silenceTime; // in milliseconds

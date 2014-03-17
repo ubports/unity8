@@ -85,12 +85,12 @@ class UnityTestCase(AutopilotTestCase):
     @classmethod
     def setUpClass(cls):
         try:
-            output = subprocess.check_output([
-                "/sbin/initctl",
-                "status",
-                "unity8"
-            ], stderr=subprocess.STDOUT)
-        except subprocess.CalledProcessError, e:
+            output = subprocess.check_output(
+                ["/sbin/initctl", "status", "unity8"],
+                stderr=subprocess.STDOUT,
+                universal_newlines=True,
+            )
+        except subprocess.CalledProcessError as e:
             sys.stderr.write(
                 "Error: `initctl status unity8` failed, most probably the "
                 "unity8 session could not be found:\n\n"
@@ -218,12 +218,11 @@ class UnityTestCase(AutopilotTestCase):
     def _patch_environment(self, key, value):
         """Wrapper for patching env for upstart environment."""
         try:
-            current_value = subprocess.check_output([
-                "/sbin/initctl",
-                "get-env",
-                "--global",
-                key
-            ], stderr=subprocess.STDOUT).rstrip()
+            current_value = subprocess.check_output(
+                ["/sbin/initctl", "get-env", "--global", key],
+                stderr=subprocess.STDOUT,
+                universal_newlines=True,
+            ).rstrip()
         except subprocess.CalledProcessError:
             current_value = None
 
@@ -305,7 +304,7 @@ class UnityTestCase(AutopilotTestCase):
 
         binary_arg = "BINARY=%s" % binary_path
         extra_args = "ARGS=%s" % " ".join(args)
-        env_args = ["%s=%s" % (k, v) for k, v in self._environment.iteritems()]
+        env_args = ["%s=%s" % (k, v) for k, v in self._environment.items()]
         all_args = [binary_arg, extra_args] + env_args
 
         self.addCleanup(self._cleanup_launching_upstart_unity)

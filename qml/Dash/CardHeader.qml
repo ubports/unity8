@@ -26,8 +26,12 @@ Item {
     property alias oldPrice: oldPriceLabel.text
     property alias altPrice: altPriceLabel.text
 
+    property alias titleWeight: titleLabel.font.weight
+
     // FIXME: Saviq, used to scale fonts down in Carousel
     property real fontScale: 1.0
+
+    property alias headerAlignment: titleLabel.horizontalAlignment
 
     visible: mascotImage.status === Image.Ready || title || price
     height: row.height > 0 ? row.height + row.margins * 2 : 0
