@@ -80,7 +80,8 @@ macro(add_qml_test SUBPATH COMPONENT_NAME)
         endforeach(IMPORT_PATH)
     endif()
 
-    if("${CMAKE_GENERATOR}" STREQUAL "Ninja")
+    string(TOLOWER "${CMAKE_GENERATOR}" cmake_generator_lower)
+    if(cmake_generator_lower STREQUAL "ninja")
         set(qmltest_command
             env ${qmltest_ENVIRONMENT}
             ${qmltestrunner_exe} -input ${CMAKE_CURRENT_SOURCE_DIR}/${qmltest_FILE}.qml
