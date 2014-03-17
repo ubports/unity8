@@ -1,3 +1,17 @@
+unity8 (7.84+14.04.20140317.2-0ubuntu1) trusty; urgency=low
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Michał Sawicz ]
+  * Revert disable-hud, we weren't ready to land it yet.
+
+  [ Mirco Müller ]
+  * The snap-decision AP-test for "incoming call"-case used the wrong
+    objectName "notification0". It has to be "notification1".
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 17 Mar 2014 15:54:39 +0000
+
 unity8 (7.84+14.04.20140314-0ubuntu1) trusty; urgency=low
 
   [ Michał Sawicz ]
