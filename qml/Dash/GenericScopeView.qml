@@ -283,7 +283,7 @@ FocusScope {
                 }
 
                 Image {
-                    // FIXME Should not rely on count field of model, SortfilterProxyModel in this case.
+                    // FIXME Should not rely on model.count but view.count, but ListViewWithPageHeader doesn't expose it yet.
                     visible: index != categoryView.model.count - 1
                     anchors {
                         bottom: parent.bottom

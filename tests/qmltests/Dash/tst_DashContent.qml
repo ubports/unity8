@@ -271,7 +271,7 @@ Item {
             tryCompare(scopesModel, "loaded", true);
             var tabbar = findChild(dashContent, "tabbar");
 
-            compare(dashContent.currentIndex, 0);
+            tryCompare(dashContent, "currentIndex", 0);
             tryCompare(tabbar, "selectedIndex", 0);
             tryCompare(tabbar, "selectionMode", false);
 

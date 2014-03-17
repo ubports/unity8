@@ -126,7 +126,6 @@ QQuickView *tst_DragHandle::createView()
 {
     QQuickView *window = new QQuickView(0);
     window->setResizeMode(QQuickView::SizeRootObjectToView);
-    window->resize(600, 600);
     window->engine()->addImportPath(QLatin1String(UBUNTU_GESTURES_PLUGIN_DIR));
     window->engine()->addImportPath(QLatin1String(TEST_DIR));
 

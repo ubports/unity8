@@ -152,7 +152,8 @@ PreviewWidget {
                             anchors { top: trackTitleLabel.bottom; left: parent.left; right: parent.right }
                             visible: text !== ""
                             opacity: 0.9
-                            color: "lightgrey"//Theme.palette.selected.backgroundText // TODO karni: Use updated Palette.
+                            color: "grey"//Theme.palette.selected.backgroundText // TODO karni: Use updated Palette.
+                            font.weight: Font.Light
                             fontSize: "small"
                             horizontalAlignment: Text.AlignLeft
                             text: modelData["subtitle"] || ""
