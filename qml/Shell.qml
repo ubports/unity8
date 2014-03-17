@@ -427,7 +427,7 @@ BasicShell {
                 contentEnabled: edgeDemo.panelContentEnabled
             }
             fullscreenMode: shell.fullscreenMode
-            searchVisible: dash.shown
+            searchVisible: dash.shown && dash.searchable
 
             InputFilterArea {
                 anchors {
