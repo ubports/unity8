@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-02-13 18:37+0000\n"
-"PO-Revision-Date: 2014-03-16 17:40+0000\n"
+"PO-Revision-Date: 2014-03-17 20:56+0000\n"
 "Last-Translator: Ibai Oihanguren Sala <Unknown>\n"
 "Language-Team: Basque <eu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-03-17 05:13+0000\n"
+"X-Launchpad-Export-Date: 2014-03-18 06:25+0000\n"
 "X-Generator: Launchpad (build 16963)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
@@ -104,8 +104,8 @@ msgstr "(%1)"
 #, qt-format
 msgid "%1 review"
 msgid_plural "%1 reviews"
-msgstr[0] "berrikuspen %1"
-msgstr[1] "%1 berrikuspen"
+msgstr[0] "kritika %1"
+msgstr[1] "%1 kritika"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -117,7 +117,7 @@ msgstr "Gutxiago..."
 
 #: qml/Dash/Previews/PreviewRating.qml:114 qml/Dash/Previews/Reviews.qml:74
 msgid "Add a review"
-msgstr "Gehitu berrikuspena"
+msgstr "Gehitu kritika"
 
 #: qml/Dash/Previews/PreviewRating.qml:153 qml/Dash/Previews/Reviews.qml:121
 msgid "Send"
@@ -125,7 +125,7 @@ msgstr "Bidali"
 
 #: qml/Dash/Previews/Reviews.qml:86
 msgid "Review"
-msgstr "Berrikusi"
+msgstr "Egin kritika"
 
 #: qml/Dash/Previews/Reviews.qml:139
 msgid "Comments:"
