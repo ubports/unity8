@@ -24,7 +24,7 @@ Item {
 
     property var model: null
     property var scopes: null
-    property alias currentIndex: dashContentList.currentIndex
+    readonly property alias currentIndex: dashContentList.currentIndex
     property alias previewOpen: previewListView.open
 
     property ScopeDelegateMapper scopeMapper : ScopeDelegateMapper {}
@@ -51,6 +51,12 @@ Item {
     }
 
     function setCurrentScopeAtIndex(index, animate, reset) {
+        // if the scopes haven't loaded yet, then wait until they are.
+        if (!scopes.loaded) {
+            set_current_index = [ index, animate, reset ]
+            return;
+        }
+
         var storedMoveDuration = dashContentList.highlightMoveDuration
         var storedMoveSpeed = dashContentList.highlightMoveVelocity
         if (!animate) {
@@ -58,11 +64,6 @@ Item {
             dashContentList.highlightMoveDuration = 0
         }
 
-        // if the scopes haven't loaded yet, then wait until they are.
-        if (!scopes.loaded) {
-            set_current_index = [ index, animate, reset ]
-            return;
-        }
         set_current_index = undefined;
 
         if (dashContentList.count > index)
@@ -100,7 +101,7 @@ Item {
             id: dashContentList
             objectName: "dashContentList"
 
-            interactive: dashContent.scopes.loaded && !previewListView.open && !currentItem.moving
+            interactive: dashContent.scopes.loaded && !previewListView.open && currentItem && !currentItem.moving
 
             anchors.fill: parent
             model: dashContent.model
@@ -124,7 +125,7 @@ Item {
                         dashContent.setCurrentScopeAtIndex(count-1, true, true)
                     } else if (currentIndex < 0) {
                         // setting currentIndex directly, cause we don't want to loose set_current_index
-                        dashContent.currentIndex = 0
+                        dashContentList.currentIndex = 0
                     }
                 }
             }
@@ -147,11 +148,12 @@ Item {
                     readonly property bool isLoaded: status == Loader.Ready
 
                     onLoaded: {
+                        item.objectName = scope.id
+                        item.pageHeader = dashPageHeader;
+                        item.previewListView = previewListView;
                         item.scope = Qt.binding(function() { return scope })
                         item.isCurrent = Qt.binding(function() { return visible && ListView.isCurrentItem })
                         item.tabBarHeight = dashPageHeader.implicitHeight;
-                        item.pageHeader = dashPageHeader;
-                        item.previewListView = previewListView;
                         dashContentList.movementStarted.connect(item.movementStarted)
                         dashContent.positionedAtBeginning.connect(item.positionedAtBeginning)
                         dashContent.scopeLoaded(item.scope.id)
@@ -177,23 +179,25 @@ Item {
             width: parent.width
             searchEntryEnabled: true
             searchHistory: dashContent.searchHistory
-            scope: dashContentList.currentItem.theScope
+            scope: dashContentList.currentItem && dashContentList.currentItem.theScope
 
             childItem: TabBar {
                 id: tabBar
                 objectName: "tabbar"
                 height: units.gu(6.5)
                 width: parent.width
-                selectionMode: false
                 style: DashContentTabBarStyle {}
 
-                // TODO This together with the __styleInstance onModelChanged below
-                // are a workaround for the first tab sometimes not showing the text.
-                // But Tabs are going away in the future so not sure if makes
-                // sense invetigating what's the problem at this stage
-                model: dashContentList.model.count > 0 ? dashContentList.model : null
+                model: dashContentList.model
 
                 onSelectedIndexChanged: {
+                    if (dashContentList.currentIndex == -1 && tabBar.selectedIndex != -1) {
+                        // TODO This together with the Timer below
+                        // are a workaround for the first tab sometimes not showing the text.
+                        // But Tabs are going away in the future so not sure if makes
+                        // sense invetigating what's the problem at this stage
+                        selectionModeTimer.restart();
+                    }
                     dashContentList.currentIndex = selectedIndex;
                 }
 
@@ -204,12 +208,10 @@ Item {
                     }
                 }
 
-                Connections {
-                    target: __styleInstance
-                    onModelChanged: {
-                        tabBar.selectedIndex = -1;
-                        tabBar.selectedIndex = 0;
-                    }
+                Timer {
+                    id: selectionModeTimer
+                    interval: 1
+                    onTriggered: tabBar.selectionMode = false
                 }
             }
         }
@@ -217,6 +219,7 @@ Item {
 
     PreviewListView {
         id: previewListView
+        objectName: "dashContentPreviewList"
         visible: x != width
         scope: dashContentList.currentItem ? dashContentList.currentItem.theScope : null
         pageHeader: dashPageHeader

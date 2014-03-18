@@ -74,6 +74,7 @@ Item {
 
         AbstractButton {
             id: backButton
+            objectName: root.objectName + "_backButton"
             visible: false
             height: header.height
             y: header.contentY

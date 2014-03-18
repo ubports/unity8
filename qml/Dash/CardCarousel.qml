@@ -42,7 +42,6 @@ DashRenderer {
         selectedItemScaleFactor: cardTool.carouselSelectedItemScaleFactor
         cacheBuffer: 1404 // 18px * 13gu * 6
         model: cardCarousel.model
-        highlightIndex: cardCarousel.highlightIndex
 
         onClicked: cardCarousel.clicked(index, itemY)
         onPressAndHold: cardCarousel.pressAndHold(index, itemY)
@@ -52,7 +51,7 @@ DashRenderer {
 
         itemComponent: Card {
             id: card
-            objectName: "delegate" + index
+            objectName: "carouselDelegate" + index
             headerHeight: carousel.headerHeight
             cardData: model
             template: cardTool.template

@@ -376,13 +376,18 @@ void ListViewWithPageHeader::positionAtBeginning()
     }
 }
 
+static inline bool uFuzzyCompare(qreal r1, qreal r2)
+{
+    return qFuzzyCompare(r1, r2) || (qFuzzyIsNull(r1) && qFuzzyIsNull(r2));
+}
+
 void ListViewWithPageHeader::showHeader()
 {
     if (!m_headerItem)
         return;
 
-    auto to = qMax(-minYExtent(), contentY() - m_headerItem->height() + m_headerItemShownHeight);
-    if (to != contentY()) {
+    const auto to = qMax(-minYExtent(), contentY() - m_headerItem->height() + m_headerItemShownHeight);
+    if (!uFuzzyCompare(to, contentY())) {
         const bool headerShownByItsOwn = contentY() < m_headerItem->y() + m_headerItem->height();
         if (headerShownByItsOwn && m_headerItemShownHeight == 0) {
             // We are not clipping since we are just at the top of the viewport
@@ -483,11 +488,6 @@ void ListViewWithPageHeader::componentComplete()
     QQuickFlickable::componentComplete();
 
     polish();
-}
-
-static inline bool uFuzzyCompare(qreal r1, qreal r2)
-{
-    return qFuzzyCompare(r1, r2) || (qFuzzyIsNull(r1) && qFuzzyIsNull(r2));
 }
 
 void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)

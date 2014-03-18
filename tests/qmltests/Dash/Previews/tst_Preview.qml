@@ -47,7 +47,7 @@ Rectangle {
     SignalSpy {
         id: triggeredSpy
         target: mockPreviewModel
-        signalName: "actionTriggered"
+        signalName: "triggered"
     }
 
     UT.UnityTestCase {
@@ -60,29 +60,15 @@ Rectangle {
 
             compare(typeof widget, "object", "Could not find the widget object.");
 
+            compare(triggeredSpy.count, 0)
             widget.triggered(widget.widgetId, "mockAction", {"mock": "data"});
-
-            triggeredSpy.wait();
+            compare(triggeredSpy.count, 1)
 
             var args = triggeredSpy.signalArguments[0];
 
             compare(args[0], "widget-3", "Widget id not passed correctly.");
             compare(args[1], "mockAction", "Action id not passed correctly.");
             compare(args[2]["mock"], "data", "Data not passed correctly.");
-        }
-
-        function test_showProcessing() {
-            waitForRendering(preview);
-            var widget = findChild(preview, "widget-3");
-            widget.triggered(widget.widgetId, "mockAction", {"mock": "data"});
-
-            var processing = findChild(preview, "processingMouseArea");
-
-            tryCompare(processing, "enabled", true);
-
-            preview.previewModelChanged();
-
-            tryCompare(processing, "enabled", false);
         }
 
         function test_containOnFocus() {

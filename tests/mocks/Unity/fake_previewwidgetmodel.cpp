@@ -19,13 +19,10 @@
  */
 
 // self
-#include "fake_preview_model.h"
+#include "fake_previewwidgetmodel.h"
 
 // Qt
 #include <QVariantMap>
-
-namespace scopes_ng
-{
 
 struct PreviewData
 {
@@ -38,7 +35,7 @@ struct PreviewData
     }
 };
 
-PreviewModel::PreviewModel(QObject* parent) : QAbstractListModel(parent)
+PreviewWidgetModel::PreviewWidgetModel(QObject* parent) : QAbstractListModel(parent)
 {
     m_roles[Roles::RoleWidgetId] = "widgetId";
     m_roles[Roles::RoleType] = "type";
@@ -47,7 +44,7 @@ PreviewModel::PreviewModel(QObject* parent) : QAbstractListModel(parent)
     populateWidgets();
 }
 
-void PreviewModel::populateWidgets()
+void PreviewWidgetModel::populateWidgets()
 {
     beginResetModel();
     m_previewWidgets.clear();
@@ -63,22 +60,17 @@ void PreviewModel::populateWidgets()
 
 }
 
-void PreviewModel::triggered(QString widgetId, QString actionId, QVariantMap data)
-{
-    Q_EMIT actionTriggered(widgetId, actionId, data);
-}
-
-QHash<int, QByteArray> PreviewModel::roleNames() const
+QHash<int, QByteArray> PreviewWidgetModel::roleNames() const
 {
     return m_roles;
 }
 
-int PreviewModel::rowCount(const QModelIndex&) const
+int PreviewWidgetModel::rowCount(const QModelIndex&) const
 {
     return m_previewWidgets.size();
 }
 
-QVariant PreviewModel::data(const QModelIndex& index, int role) const
+QVariant PreviewWidgetModel::data(const QModelIndex& index, int role) const
 {
     auto widget_data = m_previewWidgets.at(index.row());
     switch (role) {
@@ -92,5 +84,3 @@ QVariant PreviewModel::data(const QModelIndex& index, int role) const
             return QVariant();
     }
 }
-
-} // namespace scopes_ng

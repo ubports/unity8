@@ -34,6 +34,7 @@ Item {
 
     PageHeader {
         id: header
+        objectName: root.objectName + "_pageHeader"
         width: parent.width
         searchEntryEnabled: false
         scope: root.scope
@@ -60,7 +61,7 @@ Item {
 
     ListView  {
         id: previewListView
-        objectName: "previewListView"
+        objectName: root.objectName + "_listView"
         anchors {
             top: header.bottom
             bottom: parent.bottom
@@ -91,7 +92,7 @@ Item {
                 pageHeader.unfocus();
             } else {
                 // Cancel any pending preview requests or actions
-                if (previewListView.currentItem.previewData !== undefined) {
+                if (previewListView.currentItem && previewListView.currentItem.previewData !== undefined) {
                     previewListView.currentItem.previewData.cancelAction();
                 }
                 scope.cancelActivation();
@@ -100,6 +101,7 @@ Item {
         }
 
         delegate: Item {
+            objectName: "previewItem" + index
             height: previewListView.height
             width: previewListView.width
 

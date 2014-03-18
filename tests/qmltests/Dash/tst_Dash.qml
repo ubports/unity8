@@ -25,6 +25,14 @@ Item {
     width: units.gu(40)
     height: units.gu(80)
 
+    // BEGIN To reduce warnings
+    // TODO I think it we should pass down these variables
+    // as needed instead of hoping they will be globally around
+    property var greeter: null
+    property var panel: null
+    // BEGIN To reduce warnings
+
+
     Dash {
         id: dash
         anchors.fill: parent
@@ -36,8 +44,7 @@ Item {
         scopeDelegateMapping: {
             "MockScope1": Qt.resolvedUrl("qml/fake_scopeView1.qml"),
             "MockScope2": Qt.resolvedUrl("qml/fake_scopeView2.qml"),
-            "home.scope": Qt.resolvedUrl("qml/fake_scopeView3.qml"),
-            "applications.scope": Qt.resolvedUrl("qml/fake_scopeView4.qml")
+            "clickscope": Qt.resolvedUrl("qml/fake_scopeView3.qml")
         }
         genericScope: Qt.resolvedUrl("qml/fake_generic_scopeView.qml")
     }
@@ -67,9 +74,8 @@ Item {
             return [
                         { tag: "MockScope1", visualIndex: 0, shouldBeVisible: true },
                         { tag: "MockScope2", visualIndex: -1, shouldBeVisible: false },
-                        { tag: "home.scope", visualIndex: 1, shouldBeVisible: true },
-                        { tag: "applications.scope", visualIndex: 2, shouldBeVisible: true },
-                        { tag: "MockScope5", visualIndex: 3, shouldBeVisible: true },
+                        { tag: "clickscope", visualIndex: 1, shouldBeVisible: true },
+                        { tag: "MockScope5", visualIndex: 2, shouldBeVisible: true },
             ]
         }
 
@@ -107,7 +113,7 @@ Item {
             tryCompare(dashContentList, "count", 0);
             scopes.load();
             tryCompare(scopes, "loaded", true);
-            tryCompare(dashContentList, "count", 4);
+            tryCompare(dashContentList, "count", 3);
 
             verify(dashContentList != undefined);
             tryCompare(dashContentList, "currentIndex", data.visualIndex);
