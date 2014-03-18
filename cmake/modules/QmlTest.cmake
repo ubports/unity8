@@ -89,20 +89,20 @@ macro(add_qml_test SUBPATH COMPONENT_NAME)
             -o -,txt
     )
     set(qmltest_xvfb_command
-        env ${qmltest_ENVIRONMENT}
-        xvfb-run -l -s "-screen 0 1024x768x24"
+        env ${qmltest_ENVIRONMENT} LD_PRELOAD=/usr/lib/x86_64-linux-gnu/mesa/libGL.so.1
+        xvfb-run --server-args "-screen 0 1024x768x24" --auto-servernum
         ${qmltestrunner_exe} -input ${CMAKE_CURRENT_SOURCE_DIR}/${qmltest_FILE}.qml
             ${qmltestrunner_imports}
             -o ${CMAKE_BINARY_DIR}/${qmltest_TARGET}.xml,xunitxml
             -o -,txt
     )
 
-    add_qmltest_target(${qmltest_TARGET} "${qmltest_command}")
-    add_qmltest_target(${qmltest_xvfb_TARGET} "${qmltest_xvfb_command}")
+    add_qmltest_target(${qmltest_TARGET} "${qmltest_command}" TRUE)
+    add_qmltest_target(${qmltest_xvfb_TARGET} "${qmltest_xvfb_command}" ${qmltest_NO_TARGETS})
     add_manual_qml_test(${SUBPATH} ${COMPONENT_NAME} ${ARGN})
 endmacro(add_qml_test)
 
-macro(add_qmltest_target qmltest_TARGET qmltest_command)
+macro(add_qmltest_target qmltest_TARGET qmltest_command qmltest_NO_TARGETS)
     add_custom_target(${qmltest_TARGET} ${qmltest_command})
 
     if(NOT "${qmltest_PROPERTIES}" STREQUAL "")
