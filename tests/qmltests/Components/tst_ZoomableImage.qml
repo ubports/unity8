@@ -16,7 +16,7 @@
 
 import QtQuick 2.0
 import QtTest 1.0
-import "../../../../qml/Dash/Previews"
+import "../../../qml/Components"
 import Unity.Test 0.1 as UT
 
 Rectangle {
@@ -26,48 +26,76 @@ Rectangle {
     color: "lightgrey"
 
     property var widgetData0: {
-        "source": ""
+        "source": "",
+        "zoomable": false
     }
 
     property var widgetData1: {
-        "source": "../../graphics/phone_background.jpg",
+        "source": "../../../qml/graphics/phone_background.jpg",
         "zoomable": false
     }
 
     property var widgetData2: {
-        "source": "../graphics/phone/screenshots/gallery@12.png",
+        "source": "../../../qml/Dash/graphics/phone/screenshots/gallery@12.png",
         "zoomable": true
     }
 
-    PreviewZoomableImage {
+    ZoomableImage {
         id: zoomableImage
         width: parent.width
-        widgetData: widgetData1
         anchors.fill: parent
     }
 
+    SignalSpy {
+        id: signalSpy
+    }
+
     UT.UnityTestCase {
-        name: "PreviewZoomableImageTest"
+        name: "ZoomableImageTest"
         when: windowShown
 
         function test_loadImage() {
             var image = findChild(zoomableImage, "image");
 
-            zoomableImage.widgetData = widgetData0;
+            zoomableImage.source = widgetData0["source"];
+            zoomableImage.zoomable = widgetData0["zoomable"];
             waitForRendering(zoomableImage);
             tryCompare(image, "state", "default");
 
-            wait(3000);
+            signalSpy.signalName = "onStateChanged";
+            signalSpy.target = image;
+            signalSpy.clear();
 
-            zoomableImage.widgetData = widgetData1;
+            zoomableImage.source = widgetData1["source"];
+            zoomableImage.zoomable = widgetData1["zoomable"];
             waitForRendering(zoomableImage);
             tryCompare(image, "state", "ready");
+            compare (signalSpy.count, 2);
         }
 
-        function test_zoomable() {
+        function test_zoomable_data() {
+            return [ { source:widgetData2["source"],
+                       zoomable:false,
+                       answer1: true,
+                       answer2: false,
+                       answer3: true },
+                     { source:widgetData2["source"],
+                       zoomable:true,
+                       answer1: false,
+                       answer2: true,
+                       answer3: false }
+                   ]
+        }
+
+        function test_zoomable(data) {
             var image = findChild(zoomableImage, "image");
 
-            zoomableImage.widgetData = widgetData2;
+            signalSpy.signalName = "onScaleChanged";
+            signalSpy.target = image;
+            signalSpy.clear();
+
+            zoomableImage.source = data.source;
+            zoomableImage.zoomable = data.zoomable;
             waitForRendering(zoomableImage);
 
             tryCompare(image, "state", "ready");
@@ -108,8 +136,10 @@ Rectangle {
 
             var newScale = image.scale;
 
-            compare(newScale > oldScale, true, "the image should be larger than before");
-
+            compare(newScale == oldScale, data.answer1, "scale factor error");
+            compare(newScale > oldScale, data.answer2, "scale factor error");
+            compare(signalSpy.count == 0, data.answer3, "scale signal error");
         }
+
     }
 }
