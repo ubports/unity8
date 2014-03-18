@@ -1,7 +1,7 @@
-# QML tests that do not require graphical capabitlies.
+# QML tests that do not require graphical capabilities.
 add_custom_target(qmlunittests)
 
-# QML tests that require graphical capabitlies.
+# QML tests that require graphical capabilities.
 add_custom_target(qmluitests)
 
 add_custom_target(qmltests)

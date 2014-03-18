@@ -65,6 +65,7 @@ macro(add_qml_test SUBPATH COMPONENT_NAME)
     cmake_parse_arguments(qmltest "${options}" "" "${multi_value_keywords}" ${ARGN})
 
     set(qmltest_TARGET test${COMPONENT_NAME})
+    set(qmltest_xvfb_TARGET xvfbtest${COMPONENT_NAME})
     set(qmltest_FILE ${SUBPATH}/tst_${COMPONENT_NAME})
 
     set(qmltestrunner_imports "")
@@ -87,6 +88,21 @@ macro(add_qml_test SUBPATH COMPONENT_NAME)
             -o ${CMAKE_BINARY_DIR}/${qmltest_TARGET}.xml,xunitxml
             -o -,txt
     )
+    set(qmltest_xvfb_command
+        env ${qmltest_ENVIRONMENT}
+        xvfb-run -l -s "-screen 0 1024x768x24"
+        ${qmltestrunner_exe} -input ${CMAKE_CURRENT_SOURCE_DIR}/${qmltest_FILE}.qml
+            ${qmltestrunner_imports}
+            -o ${CMAKE_BINARY_DIR}/${qmltest_TARGET}.xml,xunitxml
+            -o -,txt
+    )
+
+    add_qmltest_target(${qmltest_TARGET} "${qmltest_command}")
+    add_qmltest_target(${qmltest_xvfb_TARGET} "${qmltest_xvfb_command}")
+    add_manual_qml_test(${SUBPATH} ${COMPONENT_NAME} ${ARGN})
+endmacro(add_qml_test)
+
+macro(add_qmltest_target qmltest_TARGET qmltest_command)
     add_custom_target(${qmltest_TARGET} ${qmltest_command})
 
     if(NOT "${qmltest_PROPERTIES}" STREQUAL "")
@@ -117,5 +133,4 @@ macro(add_qml_test SUBPATH COMPONENT_NAME)
         endif()
     endif("${qmltest_NO_TARGETS}" STREQUAL "FALSE")
 
-    add_manual_qml_test(${SUBPATH} ${COMPONENT_NAME} ${ARGN})
-endmacro(add_qml_test)
+endmacro(add_qmltest_target)
