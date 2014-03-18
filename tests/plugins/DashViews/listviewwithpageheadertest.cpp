@@ -1887,6 +1887,26 @@ private Q_SLOTS:
         QTRY_COMPARE(lvwph->m_visibleItems.count(), 1);
     }
 
+    void testResizeScrolledBigItem()
+    {
+        QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 0), Q_ARG(QVariant, 6));
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 0);
+
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 10000));
+        changeContentY(8000);
+
+        // Pretend the list is busy requesting some other index
+        lvwph->m_asyncRequestedIndex = 4;
+
+        lvwph->m_visibleItems[0]->m_item->setHeight(100);
+        // This resize makes the item go outside the viewport so its deleted
+        QCOMPARE(lvwph->m_visibleItems.count(), 0);
+        QCOMPARE(lvwph->m_firstVisibleIndex, -1);
+        // On the next polish the item will be readded
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 1);
+        QTRY_COMPARE(lvwph->m_firstVisibleIndex, 0);
+    }
+
 private:
     QQuickView *view;
     ListViewWithPageHeader *lvwph;
