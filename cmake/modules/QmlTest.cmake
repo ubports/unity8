@@ -81,20 +81,29 @@ macro(add_qml_test SUBPATH COMPONENT_NAME)
         endforeach(IMPORT_PATH)
     endif()
 
+    string(TOLOWER "${CMAKE_GENERATOR}" cmake_generator_lower)
+    if(cmake_generator_lower STREQUAL "unix makefiles")
+        set(function_ARGS $(FUNCTION))
+    else()
+        set(function_ARGS "")
+    endif()
+
     set(qmltest_command
         env ${qmltest_ENVIRONMENT}
         ${qmltestrunner_exe} -input ${CMAKE_CURRENT_SOURCE_DIR}/${qmltest_FILE}.qml
             ${qmltestrunner_imports}
             -o ${CMAKE_BINARY_DIR}/${qmltest_TARGET}.xml,xunitxml
             -o -,txt
+            ${function_ARGS}
     )
     set(qmltest_xvfb_command
         env ${qmltest_ENVIRONMENT} LD_PRELOAD=/usr/lib/x86_64-linux-gnu/mesa/libGL.so.1
         xvfb-run --server-args "-screen 0 1024x768x24" --auto-servernum
         ${qmltestrunner_exe} -input ${CMAKE_CURRENT_SOURCE_DIR}/${qmltest_FILE}.qml
-            ${qmltestrunner_imports}
+        ${qmltestrunner_imports}
             -o ${CMAKE_BINARY_DIR}/${qmltest_TARGET}.xml,xunitxml
             -o -,txt
+            ${function_ARGS}
     )
 
     add_qmltest_target(${qmltest_TARGET} "${qmltest_command}" TRUE)
