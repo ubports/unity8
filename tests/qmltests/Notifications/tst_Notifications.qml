@@ -440,7 +440,6 @@ Row {
 
                 // check if there's more than one negative choice
                 if (data.actions.length > 2) {
-                    waitForRendering(notification)
                     var initialHeight = notification.height
 
                     // click to expand
