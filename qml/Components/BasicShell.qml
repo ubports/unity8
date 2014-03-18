@@ -81,9 +81,4 @@ FocusScope {
         property: "domain"
         value: "unity8"
     }
-
-    OSKController {
-        anchors.topMargin: panel.panelHeight
-        anchors.fill: parent // as needs to know the geometry of the shell
-    }
 }

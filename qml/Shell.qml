@@ -575,6 +575,11 @@ BasicShell {
         blockInput: true
     }
 
+    OSKController {
+        anchors.topMargin: panel.panelHeight
+        anchors.fill: parent // as needs to know the geometry of the shell
+    }
+
     //FIXME: This should be handled in the input stack, keyboard shouldnt propagate
     MouseArea {
         anchors.bottom: parent.bottom
