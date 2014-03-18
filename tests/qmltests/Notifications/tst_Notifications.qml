@@ -440,7 +440,7 @@ Row {
 
                 // check if there's more than one negative choice
                 if (data.actions.length > 2) {
-                    var initialHeight = notification.height
+                    var initialHeight = notification.implicitHeight
 
                     // click to expand
                     mouseClick(buttonCancel, buttonCancel.width / 2, buttonCancel.height / 2)
