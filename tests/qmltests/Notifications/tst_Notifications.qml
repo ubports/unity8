@@ -417,7 +417,6 @@ Row {
             compare(summaryLabel.visible, data.summaryVisible, "summary-text visibility is incorrect")
             compare(bodyLabel.visible, data.bodyVisible, "body-text visibility is incorrect")
             compare(buttonRow.visible, data.buttonRowVisible, "button visibility is incorrect")
-            wait(500);
 
             if(data.buttonRowVisible) {
                 var buttonCancel = findChild(buttonRow, "button1")
@@ -425,7 +424,7 @@ Row {
 
                 // only test the left/cancel-button if two actions have been passed in
                 if (data.actions.length == 2) {
-                    mouseClick(buttonCancel, buttonCancel.width / 2, buttonCancel.height / 2)
+                    tryCompareFunction(function() { mouseClick(buttonCancel, buttonCancel.width / 2, buttonCancel.height / 2); return actionSpy.signalArguments.length > 0; }, true);
                     compare(actionSpy.signalArguments[0][0], data.actions[1]["id"], "got wrong id for negative action")
                     actionSpy.clear()
                 }
@@ -434,7 +433,7 @@ Row {
                 verify(buttonAccept.gradient === data.buttonTinted ? UbuntuColors.orangeGradient : UbuntuColors.greyGradient, "button has the wrong color-tint")
 
                 // click the positive/right button
-                mouseClick(buttonAccept, buttonAccept.width / 2, buttonAccept.height / 2)
+                tryCompareFunction(function() { mouseClick(buttonAccept, buttonAccept.width / 2, buttonAccept.height / 2); return actionSpy.signalArguments.length > 0; }, true);
                 compare(actionSpy.signalArguments[0][0], data.actions[0]["id"], "got wrong id positive action")
                 actionSpy.clear()
 
