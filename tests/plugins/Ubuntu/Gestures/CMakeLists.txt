@@ -22,8 +22,20 @@ macro(add_gesture_ui_test CLASSNAME)
           -o -,txt)
 
     add_custom_target(test${CLASSNAME} ${testCommand})
-    add_dependencies(qmluitests test${CLASSNAME})
     add_dependencies(test${CLASSNAME} ${CLASSNAME}TestExec UbuntuGesturesTestQmlFiles)
+
+    set(xvfbtestCommand
+          LD_PRELOAD=/usr/lib/x86_64-linux-gnu/mesa/libGL.so.1
+          LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/plugins/Ubuntu/Gestures
+          xvfb-run --server-args "-screen 0 1024x768x24" --auto-servernum
+          ${CMAKE_CURRENT_BINARY_DIR}/${CLASSNAME}TestExec
+          -o ${CMAKE_BINARY_DIR}/${CLASSNAME}Test.xml,xunitxml
+          -o -,txt)
+
+    add_custom_target(xvfbtest${CLASSNAME} ${xvfbtestCommand})
+    add_dependencies(test${CLASSNAME} ${CLASSNAME}TestExec UbuntuGesturesTestQmlFiles)
+
+    add_dependencies(qmluitests xvfbtest${CLASSNAME})
 
     add_executable(${CLASSNAME}TestExec tst_${CLASSNAME}.cpp GestureTest.cpp)
     qt5_use_modules(${CLASSNAME}TestExec Test Core Qml Gui Quick)
