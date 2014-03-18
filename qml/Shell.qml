@@ -421,7 +421,6 @@ FocusScope {
         Component.onCompleted: {
             if (LightDM.Users.count == 1) {
                 LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole))
-                greeter.selected(0)
             }
         }
     }
@@ -497,7 +496,6 @@ FocusScope {
                 // If there are more users, the Greeter will handle that
                 if (LightDM.Users.count == 1) {
                     LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
-                    greeter.selected(0);
                 }
                 greeter.forceActiveFocus();
                 removeApplicationFocus();
@@ -596,7 +594,7 @@ FocusScope {
                 contentEnabled: edgeDemo.panelContentEnabled
             }
             fullscreenMode: shell.fullscreenMode
-            searchVisible: !greeter.shown && !lockscreen.shown && dash.shown
+            searchVisible: !greeter.shown && !lockscreen.shown && dash.shown && dash.searchable
 
             InputFilterArea {
                 anchors {

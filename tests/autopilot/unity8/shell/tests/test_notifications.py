@@ -33,8 +33,14 @@ import os
 import logging
 import signal
 import subprocess
+import sys
 
 logger = logging.getLogger(__name__)
+
+# from __future__ import range
+# (python3's range, is same as python2's xrange)
+if sys.version_info < (3,):
+    range = xrange
 
 
 class NotificationsBase(UnityTestCase):
@@ -188,7 +194,7 @@ class InteractiveNotificationBase(NotificationsBase):
 
         notify_list = self._get_notifications_list()
         get_notification = lambda: notify_list.wait_select_single(
-            'Notification', objectName='notification0')
+            'Notification', objectName='notification1')
         notification = get_notification()
         self._assert_notification(notification, None, None, True, True, 1.0)
         initial_height = notification.height
@@ -261,6 +267,7 @@ class InteractiveNotificationBase(NotificationsBase):
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             close_fds=True,
+            universal_newlines=True,
         )
 
         self.addCleanup(self._tidy_up_script_process)
@@ -298,7 +305,7 @@ class InteractiveNotificationBase(NotificationsBase):
         if self._notify_proc is None:
             raise AssertionError("No interactive notification was created.")
 
-        for i in xrange(timeout):
+        for i in range(timeout):
             self._notify_proc.poll()
             if self._notify_proc.returncode is not None:
                 output = self._notify_proc.communicate()

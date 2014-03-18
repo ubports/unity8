@@ -30,7 +30,7 @@ Rectangle {
     }
 
     property var widgetData1: {
-        "source": "../../graphics/phone_background.jpg",
+        "source": Qt.resolvedUrl("../artwork/checkers.png"),
         "zoomable": false
     }
 
@@ -42,8 +42,6 @@ Rectangle {
     PreviewZoomableImage {
         id: zoomableImage
         width: parent.width
-        widgetData: widgetData1
-        anchors.fill: parent
     }
 
     UT.UnityTestCase {
@@ -109,7 +107,6 @@ Rectangle {
             var newScale = image.scale;
 
             compare(newScale > oldScale, true, "the image should be larger than before");
-
         }
     }
 }
