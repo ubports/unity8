@@ -58,7 +58,8 @@ PreviewWidget {
         }
         height: (!seeMore.visible || seeMore.more) ? contentHeight : contentHeight / lineCount * (maximumCollapsedLineCount - 2)
         clip: true
-        fontSize: "medium"
+        fontSize: "small"
+        lineHeight: 1.2
         color: Theme.palette.selected.backgroundText
         opacity: .8
         text: widgetData["text"]
