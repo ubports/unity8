@@ -214,6 +214,9 @@ Item {
 
             menuData.actionState = data.value2;
             compare(loader.item.value, data.value2, "Value does not match new data");
+
+            menuData.actionState = undefined;
+            compare(loader.item.value, data.value2, "Undefined state should not update slider value");
         }
 
         function test_create_buttonMenu_data() {
