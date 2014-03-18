@@ -385,6 +385,7 @@ Row {
             mockModel.append(data)
 
             // make sure the view is properly updated before going on
+            notifications.forceLayout();
             waitForRendering(notifications);
 
             var notification = findChild(notifications, "notification" + (mockModel.count - 1))
