@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-02-04 15:43+0000\n"
-"PO-Revision-Date: 2014-01-15 16:34+0000\n"
-"Last-Translator: Filippos Kolyvas <Unknown>\n"
+"POT-Creation-Date: 2014-02-13 18:37+0000\n"
+"PO-Revision-Date: 2014-02-26 09:58+0000\n"
+"Last-Translator: j3lc <x_nikos@yahoo.gr>\n"
 "Language-Team: Greek <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-02-12 06:27+0000\n"
-"X-Generator: Launchpad (build 16916)\n"
+"X-Launchpad-Export-Date: 2014-03-18 06:25+0000\n"
+"X-Generator: Launchpad (build 16963)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -74,20 +74,22 @@ msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
 msgstr ""
+"Πλέον γνωρίζετε τις χειρονομίες από τα άκρα και μπορείτε να ξεκινήσετε να "
+"χρησιμοποιείτε το τηλέφωνο<br><br>Αγγίξτε την οθόνη για να ξεκινήσετε"
 
-#: qml/Components/PageHeader.qml:339
+#: qml/Components/PageHeader.qml:340
 msgid "Recent searches"
 msgstr "Πρόσφατες αναζητήσεις"
 
-#: qml/Components/SeeMore.qml:32
+#: qml/Components/SeeMore.qml:35
 msgid "See more"
-msgstr ""
+msgstr "Περρισότερα"
 
-#: qml/Components/SeeMore.qml:61
+#: qml/Components/SeeMore.qml:57
 msgid "See less"
-msgstr ""
+msgstr "Λιγότερα"
 
-#: qml/Dash/Apps/AppPreview.qml:136
+#: qml/Dash/Apps/AppPreview.qml:136 qml/Dash/Previews/PreviewRating.qml:70
 msgid "Rate this"
 msgstr "Βαθμολογήστε το"
 
@@ -105,17 +107,25 @@ msgid_plural "%1 reviews"
 msgstr[0] "%1 αξιολόγηση"
 msgstr[1] "%1 αξιολογήσεις"
 
-#: qml/Dash/Previews/Reviews.qml:74
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "More..."
+msgstr ""
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "Less..."
+msgstr ""
+
+#: qml/Dash/Previews/PreviewRating.qml:114 qml/Dash/Previews/Reviews.qml:74
 msgid "Add a review"
 msgstr "Προσθέστε την αξιολόγησή σας"
+
+#: qml/Dash/Previews/PreviewRating.qml:153 qml/Dash/Previews/Reviews.qml:121
+msgid "Send"
+msgstr "Αποστολή"
 
 #: qml/Dash/Previews/Reviews.qml:86
 msgid "Review"
 msgstr "Αξιολόγηση"
-
-#: qml/Dash/Previews/Reviews.qml:121
-msgid "Send"
-msgstr "Αποστολή"
 
 #: qml/Dash/Previews/Reviews.qml:139
 msgid "Comments:"
@@ -144,7 +154,7 @@ msgstr "Πληκτρολογήστε ή πείτε μια εντολή"
 
 #: qml/Hud/Hud.qml:84
 msgid "Loading. Please Wait..."
-msgstr "Γίνεται φόρτωση, παρακαλώ περιμένετε..."
+msgstr "Γίνεται φόρτωση. Παρακαλώ περιμένετε..."
 
 #: qml/Hud/Hud.qml:89
 msgid "Speak Now..."
@@ -160,7 +170,7 @@ msgstr "Εμφάνιση κωδικού"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:103
 msgid "Please enter SIM PIN"
-msgstr ""
+msgstr "Παρακαλώ εισάγετε το PIN της κάρτας SIM"
 
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"

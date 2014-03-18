@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-02-04 15:43+0000\n"
-"PO-Revision-Date: 2014-02-14 13:28+0000\n"
+"POT-Creation-Date: 2014-02-13 18:37+0000\n"
+"PO-Revision-Date: 2014-03-09 19:22+0000\n"
 "Last-Translator: Jiri Grönroos <Unknown>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-02-15 07:45+0000\n"
-"X-Generator: Launchpad (build 16916)\n"
+"X-Launchpad-Export-Date: 2014-03-18 06:25+0000\n"
+"X-Generator: Launchpad (build 16963)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -72,20 +72,22 @@ msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
 msgstr ""
+"Hallitset nyt reunaeleet, joten voit aloittaa puhelimen "
+"käytön<br><br>Napauta näyttöä aloittaaksesi"
 
-#: qml/Components/PageHeader.qml:339
+#: qml/Components/PageHeader.qml:340
 msgid "Recent searches"
 msgstr "Viimeisimmät haut"
 
-#: qml/Components/SeeMore.qml:32
+#: qml/Components/SeeMore.qml:35
 msgid "See more"
-msgstr ""
+msgstr "Näytä lisää"
 
-#: qml/Components/SeeMore.qml:61
+#: qml/Components/SeeMore.qml:57
 msgid "See less"
-msgstr ""
+msgstr "Näytä vähemmän"
 
-#: qml/Dash/Apps/AppPreview.qml:136
+#: qml/Dash/Apps/AppPreview.qml:136 qml/Dash/Previews/PreviewRating.qml:70
 msgid "Rate this"
 msgstr "Arvioi tämä"
 
@@ -103,17 +105,25 @@ msgid_plural "%1 reviews"
 msgstr[0] "%1 arvostelu"
 msgstr[1] "%1 arvostelua"
 
-#: qml/Dash/Previews/Reviews.qml:74
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "More..."
+msgstr "Lisää..."
+
+#: qml/Dash/Previews/PreviewActionCombo.qml:34
+msgid "Less..."
+msgstr "Vähemmän..."
+
+#: qml/Dash/Previews/PreviewRating.qml:114 qml/Dash/Previews/Reviews.qml:74
 msgid "Add a review"
 msgstr "Lisää arvostelu"
+
+#: qml/Dash/Previews/PreviewRating.qml:153 qml/Dash/Previews/Reviews.qml:121
+msgid "Send"
+msgstr "Lähetä"
 
 #: qml/Dash/Previews/Reviews.qml:86
 msgid "Review"
 msgstr "Arvostelu"
-
-#: qml/Dash/Previews/Reviews.qml:121
-msgid "Send"
-msgstr "Lähetä"
 
 #: qml/Dash/Previews/Reviews.qml:139
 msgid "Comments:"

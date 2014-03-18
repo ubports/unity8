@@ -36,7 +36,6 @@ PreviewWidget {
             right: parent.right
         }
         scaleTo: "width"
-        visible: state === "ready"
         source: {
             var screenshot = widgetData["screenshot"];
             if (screenshot) return screenshot;
@@ -61,9 +60,11 @@ PreviewWidget {
             width: bigButton ? units.gu(8) : units.gu(4.5)
             height: width
             source: "../graphics/play_button%1%2.png".arg(previewImageMouseArea.pressed ? "_active" : "").arg(bigButton ? "_big" : "")
+            visible: parent.state === "ready"
         }
 
         MouseArea {
+            enabled: parent.state === "ready"
             id: previewImageMouseArea
             anchors.fill: parent
             onClicked: Qt.openUrlExternally(widgetData["source"])

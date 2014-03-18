@@ -1281,9 +1281,6 @@ private Q_SLOTS:
 
     void testShowHeaderHalfShown()
     {
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-        QSKIP("This test is extremely unstable in 5.0.x");
-#endif
         changeContentY(20);
 
         QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
@@ -1860,10 +1857,34 @@ private Q_SLOTS:
         model->setProperty(4, "size", 10);
         model->setProperty(5, "size", 10);
         model->setProperty(6, "size", 10);
-#if (QT_VERSION > QT_VERSION_CHECK(5, 0, 3))
-        QTRY_COMPARE(lvwph->m_minYExtent, 210.);
-#endif
         QTRY_COMPARE(lvwph->m_headerItem->y(), -lvwph->m_minYExtent);
+    }
+
+    void testResizeRemoveInsertBug1279434()
+    {
+        QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 0), Q_ARG(QVariant, 6));
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 0);
+
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 100));
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 125));
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 2);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+        verifyItem(0, 50., 125., false);
+        verifyItem(1, 175., 100., false);
+
+        lvwph->setContentY(175);
+
+        model->setProperty(1, "size", 4);
+        model->setProperty(0, "size", 4);
+
+        model->setProperty(0, "size", 6);
+
+        QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 0), Q_ARG(QVariant, 2));
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 0);
+        QCOMPARE(lvwph->m_firstVisibleIndex, -1);
+
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 100));
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 1);
     }
 
 private:

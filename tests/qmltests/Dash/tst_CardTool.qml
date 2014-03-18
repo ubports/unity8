@@ -72,11 +72,28 @@ Rectangle {
             "name": "Art, header - portrait",
             "layout": { "components": Helpers.update(JSON.parse(Helpers.fullMapping), { "art": {"aspect-ratio": 0.5, "summary": undefined }}) }
         },
+        {
+            "name": "Title - vertical",
+            "layout": { "template": { "card-layout": "vertical" }, "components": { "title": "title" } }
+        },
+        {
+            "name": "Title - horizontal",
+            "layout": { "template": { "card-layout": "horizontal" }, "components": { "title": "title" } }
+        },
+        {
+            "name": "Title, subtitle - vertical",
+            "layout": { "template": { "card-layout": "vertical" }, "components": { "title": "title", "subtitle": "subtitle" } }
+        },
+        {
+            "name": "Title, price - horizontal",
+            "layout": { "template": { "card-layout": "horizontal" }, "components": { "title": "title", "price": "price" } }
+        },
     ]
 
     CardTool {
         id: cardTool
 
+        count: 8
         template: Helpers.update(JSON.parse(Helpers.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['template'];
         components: Helpers.update(JSON.parse(Helpers.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['components'];
         viewWidth: units.gu(Math.round(widthSlider.value))
@@ -121,6 +138,7 @@ Rectangle {
             height: cardTool.cardHeight || implicitHeight
 
             clip: true
+            headerAlignment: cardTool.headerAlignment
 
             Rectangle {
                 anchors.fill: parent
@@ -301,6 +319,49 @@ Rectangle {
                     tryCompareFunction(function() { return cardTool.cardHeight === data.height() }, true);
                 } else tryCompare(cardTool, "cardHeight", data.height);
             }
+        }
+
+        function test_card_header_component_alignment_data() {
+            return [
+                { tag: "Title - vertical", component: "titleLabel", property: "headerAlignment",
+                  value: Text.AlignHCenter, index: 11, layout_index: 0 },
+                { tag: "Title - horizontal", component: "titleLabel", property: "headerAlignment",
+                  value: Text.AlignLeft, index: 12, layout_index: 0},
+                { tag: "Title, subtitle - vertical", component: "titleLabel", property: "headerAlignment",
+                  value: Text.AlignLeft, index: 13, layout_index: 0},
+                { tag: "Title, price - horizontal", component: "titleLabel", property: "headerAlignment",
+                  value: Text.AlignLeft, index: 14, layout_index: 0},
+            ]
+        }
+
+        function test_card_header_component_alignment(data) {
+            selector.selectedIndex = data.index;
+            if (data.hasOwnProperty("layout_index")) {
+                layoutSelector.selectedIndex = data.layout_index;
+            }
+
+            if (data.hasOwnProperty("property")) {
+                tryCompare(cardTool, data.property, data.value);
+            }
+        }
+
+        function test_categoryLayout_data() {
+            return [
+                { tag: "Default Grid", layout_index: 0, count: 2, viewWidth: units.gu(40), layout: "grid" },
+                { tag: "Long carousel", layout_index: 4, count: 6, viewWidth: units.gu(140), layout: "carousel" },
+                { tag: "Long carousel fallback", layout_index: 4, count: 5, viewWidth: units.gu(140), layout: "grid" },
+                { tag: "Short carousel", layout_index: 4, count: 4, viewWidth: units.gu(30), layout: "carousel" },
+                { tag: "Short carousel fallback", layout_index: 4, count: 3, viewWidth: units.gu(30), layout: "grid" },
+                { tag: "Journal", layout_index: 2, count: 8, viewWidth: units.gu(30), layout: "journal" }
+            ]
+        }
+
+        function test_categoryLayout(data) {
+            selector.selectedIndex = 0;
+            layoutSelector.selectedIndex = data.layout_index;
+            cardTool.viewWidth = data.viewWidth;
+            cardTool.count = data.count;
+            compare(cardTool.categoryLayout, data.layout);
         }
     }
 }

@@ -71,19 +71,8 @@ TestCase {
 
 
     // Find an object with the given name in the children tree of "obj"
-    function findChild(obj,objectName) {
-        var childs = new Array(0);
-        childs.push(obj)
-        while (childs.length > 0) {
-            if (childs[0].objectName == objectName) {
-                return childs[0]
-            }
-            for (var i in childs[0].children) {
-                childs.push(childs[0].children[i])
-            }
-            childs.splice(0, 1);
-        }
-        return null;
+    function findChild(obj, objectName) {
+        return findChildIn(obj, "children", objectName);
     }
 
     // Find an object with the given name in the children tree of "obj"
@@ -91,15 +80,20 @@ TestCase {
     // Note: you should use findChild if you're not sure you need this
     // as this tree is much bigger and might contain stuff that goes
     // away randomly.
-    function findInvisibleChild(obj,objectName) {
+    function findInvisibleChild(obj, objectName) {
+        return findChildIn(obj, "data", objectName);
+    }
+
+    // Find a child in the named property
+    function findChildIn(obj, prop, objectName) {
         var childs = new Array(0);
         childs.push(obj)
         while (childs.length > 0) {
             if (childs[0].objectName == objectName) {
                 return childs[0]
             }
-            for (var i in childs[0].data) {
-                childs.push(childs[0].data[i])
+            for (var i in childs[0][prop]) {
+                childs.push(childs[0][prop][i])
             }
             childs.splice(0, 1);
         }
