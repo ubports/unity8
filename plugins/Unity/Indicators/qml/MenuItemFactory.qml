@@ -77,7 +77,7 @@ Item {
             property var menuModel: menuFactory.menuModel
             property int menuIndex: -1
             property var extendedData: menuData && menuData.ext || undefined
-            property var serverValue: menuData && menuData.actionState || 0.0
+            property var serverValue: menuData && menuData.actionState || undefined
 
             text: menuData && menuData.label || ""
             iconSource: menuData && menuData.icon || ""
@@ -102,7 +102,9 @@ Item {
             }
             onServerValueChanged: {
                 // value can be changed by slider, so a binding won't work.
-                value = serverValue;
+                if (serverValue !== undefined) {
+                    value = serverValue;
+                }
             }
             onUpdated: {
                 menuModel.changeState(menuIndex, value);
