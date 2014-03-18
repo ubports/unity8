@@ -67,7 +67,7 @@ Item {
             function init() {
                 shell.width = units.gu(120)
                 genericScopeView.categoryView.positionAtBeginning();
-                tryCompare(genericScopeView.categoryView.contentY, 0)
+                tryCompare(genericScopeView.categoryView, "contentY", 0)
             }
 
             function test_isCurrent() {
@@ -184,13 +184,13 @@ Item {
                 categoryListView.positionAtBeginning();
                 waitForRendering(categoryListView);
                 categoryListView.flick(0, -units.gu(60));
-                tryCompare(categoryListView.flicking, false);
+                tryCompare(categoryListView, "flicking", false);
 
                 var tile = findChild(findChild(genericScopeView, "0"), "delegate0");
                 mouseClick(tile, tile.width / 2, tile.height - 1);
                 tryCompare(openEffect, "gap", 1);
 
-                verify(openEffect.positionPx >= pageHeader.height + categoryListView.stickyHeaderHeight);
+                verify(openEffect.positionPx >= Math.round(pageHeader.height + categoryListView.stickyHeaderHeight));
             }
 
             function test_previewCycle() {

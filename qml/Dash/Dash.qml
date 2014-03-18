@@ -27,6 +27,7 @@ Showable {
     visible: shown
 
     property ListModel searchHistory: SearchHistoryModel {}
+    property bool searchable: !dashContent.previewOpen
 
     property string showScopeOnLoaded: "home.scope"
     property real contentScale: 1.0

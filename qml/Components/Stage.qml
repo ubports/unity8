@@ -329,13 +329,11 @@ Showable {
 
         ScriptAction {
             script: {
-                if (!stage.focusedApplicationWhenUsingScreenshots) {
-                    // FIXME: only here to support case where application does
-                    // not exist yet but is about to
-                    return;
+                // FIXME: only here to support case where application does
+                // not exist yet but is about to
+                if (stage.focusedApplicationWhenUsingScreenshots) {
+                    stage.__focusApplication(stage.focusedApplicationWhenUsingScreenshots);
                 }
-
-                stage.__focusApplication(stage.focusedApplicationWhenUsingScreenshots);
             }
         }
     }

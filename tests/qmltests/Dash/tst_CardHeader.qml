@@ -46,7 +46,6 @@ Rectangle {
         property Item mascot: findChild(cardHeader, "mascotShape")
         property Item titleLabel: findChild(cardHeader, "titleLabel")
         property Item subtitleLabel: findChild(cardHeader, "subtitleLabel")
-        property Item prices: findChild(cardHeader, "prices")
         property Item oldPriceLabel: findChild(cardHeader, "oldPriceLabel")
         property Item outerRow: findChild(cardHeader, "outerRow")
         property Item column: findChild(cardHeader, "column")
@@ -55,7 +54,6 @@ Rectangle {
             verify(typeof testCase.mascot === "object", "Couldn't find mascot object.");
             verify(typeof testCase.titleLabel === "object", "Couldn't find titleLabel object.");
             verify(typeof testCase.subtitleLabel === "object", "Couldn't find subtitleLabel object.");
-            verify(typeof testCase.prices === "object", "Couldn't find prices object.");
             verify(typeof testCase.oldPriceLabel === "object", "Couldn't find oldPriceLabel object.");
         }
 
@@ -63,9 +61,6 @@ Rectangle {
             cardHeader.mascot = "";
             cardHeader.title = "";
             cardHeader.subtitle = "";
-            cardHeader.price = "";
-            cardHeader.oldPrice = "";
-            cardHeader.altPrice = "";
         }
 
         function test_mascot_data() {
@@ -96,33 +91,11 @@ Rectangle {
             tryCompare(cardHeader, "visible", data.visible);
         }
 
-        function test_prices_data() {
-            return [
-                        { tag: "Main", main: "$1.25", visible: true },
-                        { tag: "Alt", alt: "€1.00", visible: false },
-                        { tag: "Old", old: "€2.00", visible: false },
-                        { tag: "Main and Alt", main: "$1.25", alt: "€1.00", visible: true },
-                        { tag: "Main and Old", main: "$1.25", old: "$2.00", visible: true, oldAlign: Text.AlignRight },
-                        { tag: "Alt and Old", alt: "€1.00", old: "$2.00", visible: false },
-                        { tag: "All", main: "$1.25", alt: "€1.00", old: "$2.00", visible: true, oldAlign: Text.AlignHCenter },
-            ]
-        }
-
-        function test_prices(data) {
-            cardHeader.price = data.main !== undefined ? data.main : "";
-            cardHeader.oldPrice = data.old !== undefined ? data.old : "";
-            cardHeader.altPrice = data.alt !== undefined ? data.alt : "";
-            tryCompare(cardHeader, "visible", data.visible);
-            if (data.hasOwnProperty("oldAlign")) {
-                compare(testCase.oldPriceLabel.horizontalAlignment, data.oldAlign, "Old price label is aligned wrong.")
-            }
-        }
-
         function test_dimensions_data() {
             return [
                 { tag: "Column width", object: column, width: cardHeader.width },
                 { tag: "Column width with mascot", object: column, width: cardHeader.width - mascot.width - outerRow.margins * 3, mascot: "artwork/avatar.png" },
-                { tag: "Header height", object: cardHeader, height: function() { return subtitleLabel.y + subtitleLabel.height + outerRow.margins * 2 } },
+                { tag: "Header height", object: cardHeader, height: function() { return outerRow.height + outerRow.margins * 2 } },
             ]
         }
 
