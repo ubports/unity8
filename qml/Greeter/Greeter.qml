@@ -177,6 +177,6 @@ Showable {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         fillMode: Image.Tile
-        source: "../Hud/graphics/dropshadow_right.png"
+        source: "../graphics/dropshadow_right.png"
     }
 }
