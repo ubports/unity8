@@ -148,14 +148,14 @@ Item {
 
         function test_create_sliderMenu_data() {
             return [
-                {label: "testLabel1", enabled: false, minValue: 0, maxValue: 100, value1: 10.5, value2: 22 },
-                {label: "testLabel2", enabled: true, minValue: 0, maxValue: 100, value1: 100, value2: 50 },
+                {tag: "disabled", enabled: false, minValue: 0, maxValue: 100, value1: 10.5, value2: 22 },
+                {tag: "enabled", enabled: true, minValue: 0, maxValue: 100, value1: 100, value2: 50 },
             ];
         }
 
         function test_create_sliderMenu(data) {
             menuData.type = "com.canonical.indicator.slider"
-            menuData.label = data.label;
+            menuData.label = data.tag;
             menuData.sensitive = data.enabled;
             menuData.ext = {
                 'minIcon': "file:///testMinIcon",
@@ -170,7 +170,7 @@ Item {
             tryCompareFunction(function() { return loader.item != undefined; }, true);
             compare(loader.item.objectName, "sliderMenu", "Should have created a slider menu");
 
-            compare(loader.item.text, data.label, "Label does not match data");
+            compare(loader.item.text, data.tag, "Label does not match data");
             compare(loader.item.minIcon, "file:///testMinIcon", "MinIcon does not match data");
             compare(loader.item.maxIcon, "file:///testMaxIcon", "MaxIcon does not match data");
             compare(loader.item.minimumValue, data.minValue, "MinValue does not match data");
@@ -184,15 +184,15 @@ Item {
 
         function test_create_sliderMenu_lp1283191_data() {
             return [
-                {label: "testLabel1", enabled: false, minValue: 0, maxValue: 100, value1: 10.5, value2: 22, manualValue: 0 },
-                {label: "testLabel2", enabled: true, minValue: 0, maxValue: 100, value1: 100, value2: 50, manualValue: 30 },
-                {tag: "test-zero", label: "testLabel2", enabled: true, minValue: 0, maxValue: 100, value1: 10, value2: 0, manualValue: 20 },
+                {tag: "disabled", enabled: false, minValue: 0, maxValue: 100, value1: 10.5, value2: 22, manualValue: 0 },
+                {tag: "enabled", enabled: true, minValue: 0, maxValue: 100, value1: 100, value2: 50, manualValue: 30 },
+                {tag: "test-zero", enabled: true, minValue: 0, maxValue: 100, value1: 10, value2: 0, manualValue: 20 },
             ];
         }
 
         function test_create_sliderMenu_lp1283191(data) {
             menuData.type = "com.canonical.indicator.slider"
-            menuData.label = data.label;
+            menuData.label = data.tag;
             menuData.sensitive = data.enabled;
             menuData.ext = {
                 'minIcon': "file:///testMinIcon",
