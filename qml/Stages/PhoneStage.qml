@@ -245,20 +245,26 @@ Item {
         anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
         width: root.dragAreaWidth
 
+        // Sitting at the right edge of the screen, this EdgeDragArea directly controls the spreadView when
+        // attachedToView is true. When the finger movement passes positionMarker3 we detach it from the
+        // spreadView and make the spreadView snap to positionMarker4.
         property bool attachedToView: true
 
         property var gesturePoints: new Array()
 
         onTouchXChanged: {
             if (!dragging && !priv.waitingForScreenshot) {
+                // Initial touch. Let's update the screenshot and reset the spreadView to the starting position.
                 priv.requestNewScreenshot();
                 spreadView.stage = 0;
                 spreadView.contentX = -spreadView.shift;
             }
             if (dragging && attachedToView) {
+                // Gesture recognized. Let's move the spreadView with the finger
                 spreadView.contentX = -touchX - spreadView.shift;
             }
             if (attachedToView && spreadView.shiftedContentX >= spreadView.width * spreadView.positionMarker3) {
+                // We passed positionMarker3. Detach from spreadView and snap it.
                 attachedToView = false;
                 spreadView.snap();
             }
@@ -272,6 +278,11 @@ Item {
         }
 
         onDraggingChanged: {
+            if (dragging) {
+                return;
+            }
+
+            // Ok. The user released. Find out if it was a one-way movement.
             var oneWayFlick = true;
             var smallestX = spreadDragArea.width;
             for (var i = 0; i < gesturePoints.length; i++) {
@@ -283,9 +294,14 @@ Item {
             }
             gesturePoints = [];
 
-            if (oneWayFlick && spreadView.shiftedContentX > units.gu(2) && spreadView.shiftedContentX < spreadView.positionMarker1 * spreadView.width) {
+            if (oneWayFlick && spreadView.shiftedContentX > units.gu(2) &&
+                    spreadView.shiftedContentX < spreadView.positionMarker1 * spreadView.width) {
+                // If it was a short one-way movement, do the Alt+Tab switch
+                // no matter if we didn't cross positionMarker1 yet.
                 spreadView.snapTo(1);
             } else if (!dragging && attachedToView) {
+                // otherwise snap to the closest snap position we can find
+                // (might be back to start, to app 1 or to spread)
                 spreadView.snap();
             }
         }
@@ -321,10 +337,15 @@ Item {
 
         property int tileDistance: width / 4
 
+        // Those markers mark the various positions in the spread (ratio to screen width from right to left):
+        // 0 - 1: following finger, snap back to the beginning on release
         property real positionMarker1: 0.3
+        // 1 - 2: curved snapping movement, snap to app 1 on release
         property real positionMarker2: 0.45
+        // 2 - 3: movement follows finger, snaps back to app 1 on release
         property real positionMarker3: 0.6
-        property real positionMarker4: .9
+        // passing 3, we detach movement from the finger and snap to 4
+        property real positionMarker4: 0.9
 
         // This is where the first app snaps to when bringing it in from the right edge.
         property real snapPosition: 0.75
