@@ -231,6 +231,7 @@ Item {
         anchors { left: parent.left; bottom: parent.bottom }
         width: parent.width
 
+        // FIXME: Workaround for bug: https://bugs.launchpad.net/ubuntu-ui-toolkit/+bug/1194778
         property string src
         source: src
         visible: false
