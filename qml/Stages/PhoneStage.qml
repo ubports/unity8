@@ -74,7 +74,7 @@ Item {
                 }
             } else {
                 spreadView.selectedIndex = -1;
-                spreadView.stage = 0;
+                spreadView.phase = 0;
                 spreadView.contentX = -spreadView.shift;
             }
         }
@@ -240,7 +240,7 @@ Item {
     EdgeDragArea {
         id: spreadDragArea
         direction: Direction.Leftwards
-        enabled: ApplicationManager.count > 1 && spreadView.stage != 2
+        enabled: ApplicationManager.count > 1 && spreadView.phase != 2
 
         anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
         width: root.dragAreaWidth
@@ -256,7 +256,7 @@ Item {
             if (!dragging && !priv.waitingForScreenshot) {
                 // Initial touch. Let's update the screenshot and reset the spreadView to the starting position.
                 priv.requestNewScreenshot();
-                spreadView.stage = 0;
+                spreadView.phase = 0;
                 spreadView.contentX = -spreadView.shift;
             }
             if (dragging && attachedToView) {
@@ -323,7 +323,7 @@ Item {
         id: spreadView
         objectName: "spreadView"
         anchors.fill: parent
-        visible: spreadDragArea.status == DirectionalDragArea.Recognized || stage > 1 || snapAnimation.running
+        visible: spreadDragArea.status == DirectionalDragArea.Recognized || phase > 1 || snapAnimation.running
         contentWidth: spreadRow.width - shift
         contentX: -shift
 
@@ -350,26 +350,26 @@ Item {
         // This is where the first app snaps to when bringing it in from the right edge.
         property real snapPosition: 0.75
 
-        // Stage of the animation:
+        // Phase of the animation:
         // 0: Starting from right edge, a new app (index 1) comes in from the right
         // 1: The app has reached the first snap position.
-        // 2: The list is dragged further and snaps into the spread view when entering stage 2
-        property int stage: 0
+        // 2: The list is dragged further and snaps into the spread view when entering phase 2
+        property int phase: 0
 
         property int selectedIndex: -1
 
         onShiftedContentXChanged: {
-            switch (stage) {
+            switch (phase) {
             case 0:
                 if (shiftedContentX > width * positionMarker2) {
-                    stage = 1;
+                    phase = 1;
                 }
                 break;
             case 1:
                 if (shiftedContentX < width * positionMarker2) {
-                    stage = 0;
+                    phase = 0;
                 } else if (shiftedContentX >= width * positionMarker4) {
-                    stage = 2;
+                    phase = 2;
                 }
             }
         }
@@ -382,7 +382,7 @@ Item {
                 snapTo(1)
             } else if (shiftedContentX < positionMarker3 * width) {
                 snapTo(1)
-            } else if (stage < 2){
+            } else if (phase < 2){
                 // Add 1 pixel to make sure we definitely hit positionMarker4 even with rounding errors of the animation.
                 snapAnimation.targetContentX = width * positionMarker4 + 1 - shift;
                 snapAnimation.start();
@@ -411,12 +411,12 @@ Item {
                     if (spreadView.selectedIndex >= 0) {
                         ApplicationManager.focusApplication(ApplicationManager.get(spreadView.selectedIndex).appId);
                         spreadView.selectedIndex = -1
-                        spreadView.stage = 0;
+                        spreadView.phase = 0;
                         spreadView.contentX = -spreadView.shift;
                     }
                     if (spreadView.shiftedContentX == spreadView.width * spreadView.positionMarker2) {
-                        spreadView.stage = 4;
-                        spreadView.stage = 0;
+                        spreadView.phase = 4;
+                        spreadView.phase = 0;
                         spreadView.contentX = -spreadView.shift;
                     }
                 }
@@ -454,15 +454,15 @@ Item {
                     progress: {
                         var tileProgress = (spreadView.shiftedContentX - index * spreadView.tileDistance) / spreadView.width;
                         // Tile 1 needs to move directly from the beginning...
-                        if (index == 1 && spreadView.stage < 2) {
+                        if (index == 1 && spreadView.phase < 2) {
                             tileProgress += spreadView.tileDistance / spreadView.width;
                         }
                         return tileProgress;
                     }
 
-                    // This mostly is the same as progress, just adds the snapping to stage 1 for tiles 0 and 1
+                    // This mostly is the same as progress, just adds the snapping to phase 1 for tiles 0 and 1
                     animatedProgress: {
-                        if (spreadView.stage == 0 && index < 2) {
+                        if (spreadView.phase == 0 && index < 2) {
                             if (progress < spreadView.positionMarker1) {
                                 return progress;
                             } else if (progress < spreadView.positionMarker1 + snappingCurve.period){
@@ -482,7 +482,7 @@ Item {
                     }
 
                     onClicked: {
-                        if (spreadView.stage == 2) {
+                        if (spreadView.phase == 2) {
                             if (ApplicationManager.focusedApplicationId == ApplicationManager.get(index).appId) {
                                 spreadView.snapTo(index);
                             } else {

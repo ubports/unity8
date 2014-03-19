@@ -58,20 +58,20 @@ SpreadDelegate {
 
     Connections {
         target: spreadView
-        onStageChanged: {
-            if (spreadView.stage == 1) {
+        onPhaseChanged: {
+            if (spreadView.phase == 1) {
                 if (index == 0) {
-                    priv.stage2startTranslate = priv.easingAnimation(0, spreadView.positionMarker4, 0, -spreadView.width, spreadView.positionMarker4) + spreadView.width;
-                    priv.stage2startAngle = priv.easingAnimation(0, spreadView.positionMarker4, root.startAngle, root.endAngle, spreadView.positionMarker4);
-                    priv.stage2startScale = priv.easingAnimation(0, spreadView.positionMarker4, root.startScale, root.endScale, spreadView.positionMarker4);
-                    priv.stage2startTopMarginProgress = priv.easingAnimation(0, 1, 0, 1, spreadView.positionMarker4);
+                    priv.phase2startTranslate = priv.easingAnimation(0, spreadView.positionMarker4, 0, -spreadView.width, spreadView.positionMarker4) + spreadView.width;
+                    priv.phase2startAngle = priv.easingAnimation(0, spreadView.positionMarker4, root.startAngle, root.endAngle, spreadView.positionMarker4);
+                    priv.phase2startScale = priv.easingAnimation(0, spreadView.positionMarker4, root.startScale, root.endScale, spreadView.positionMarker4);
+                    priv.phase2startTopMarginProgress = priv.easingAnimation(0, 1, 0, 1, spreadView.positionMarker4);
                 } else if (index == 1) {
-                    // find where the main easing for Tile 1 would be when reaching stage 2
-                    var stage2Progress = spreadView.positionMarker4 - spreadView.tileDistance / spreadView.width;
-                    priv.stage2startTranslate = priv.easingAnimation(0, stage2Progress, 0, -spreadView.width + root.endDistance, stage2Progress);
-                    priv.stage2startAngle = priv.easingAnimation(0, stage2Progress, root.startAngle, root.endAngle, stage2Progress);
-                    priv.stage2startScale = priv.easingAnimation(0, stage2Progress, root.startScale, root.endScale, stage2Progress);
-                    priv.stage2startTopMarginProgress = priv.easingAnimation(0, 1, 0, spreadView.positionMarker4, stage2Progress);
+                    // find where the main easing for Tile 1 would be when reaching phase 2
+                    var phase2Progress = spreadView.positionMarker4 - spreadView.tileDistance / spreadView.width;
+                    priv.phase2startTranslate = priv.easingAnimation(0, phase2Progress, 0, -spreadView.width + root.endDistance, phase2Progress);
+                    priv.phase2startAngle = priv.easingAnimation(0, phase2Progress, root.startAngle, root.endAngle, phase2Progress);
+                    priv.phase2startScale = priv.easingAnimation(0, phase2Progress, root.startScale, root.endScale, phase2Progress);
+                    priv.phase2startTopMarginProgress = priv.easingAnimation(0, 1, 0, spreadView.positionMarker4, phase2Progress);
                 }
             }
         }
@@ -88,12 +88,12 @@ SpreadDelegate {
         property real selectedOpacity
         property real selectedTopMarginProgress
 
-        // Those values are needed as target values for the end of stage 1.
-        // As they are static values, lets caluclate them once when entering stage 1 instead of calculating them in each animation pass.
-        property real stage2startTranslate
-        property real stage2startAngle
-        property real stage2startScale
-        property real stage2startTopMarginProgress
+        // Those values are needed as target values for the end of phase 1.
+        // As they are static values, lets caluclate them once when entering phase 1 instead of calculating them in each animation pass.
+        property real phase2startTranslate
+        property real phase2startAngle
+        property real phase2startScale
+        property real phase2startTopMarginProgress
 
         function snapshot() {
             selectedProgress = root.progress;
@@ -106,7 +106,7 @@ SpreadDelegate {
         }
 
         property real negativeProgress: {
-            if (index == 1 && spreadView.stage < 2) {
+            if (index == 1 && spreadView.phase < 2) {
                 return 0;
             }
             return -index * spreadView.tileDistance / spreadView.width;
@@ -127,7 +127,7 @@ SpreadDelegate {
 
         property real xTranslate: {
             if (otherSelected) {
-                if (spreadView.stage < 2 && index == 0) {
+                if (spreadView.phase < 2 && index == 0) {
                     return linearAnimation(selectedProgress, negativeProgress, selectedXTranslate, selectedXTranslate - spreadView.tileDistance, root.progress);
                 }
 
@@ -136,13 +136,13 @@ SpreadDelegate {
 
             switch (index) {
             case 0:
-                if (spreadView.stage == 0) {
+                if (spreadView.phase == 0) {
                     return Math.min(0, linearAnimation(0, spreadView.positionMarker2,
                                                        0, -spreadView.width * .25, root.animatedProgress));
-                } else if (spreadView.stage == 1){
+                } else if (spreadView.phase == 1){
                     return linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4,
-                                           -spreadView.width * .25, priv.stage2startTranslate, root.progress);
-                } else if (!priv.isSelected){ // Stage 2
+                                           -spreadView.width * .25, priv.phase2startTranslate, root.progress);
+                } else if (!priv.isSelected){ // phase 2
                     // Apply the same animation as with the rest but add spreadView.width to align it with the others.
                     return -easingCurve.value * spreadView.width + spreadView.width;
                 } else if (priv.isSelected) {
@@ -150,12 +150,12 @@ SpreadDelegate {
                 }
 
             case 1:
-                if (spreadView.stage == 0 && !priv.isSelected) {
+                if (spreadView.phase == 0 && !priv.isSelected) {
                     return linearAnimation(0, spreadView.positionMarker2,
                                            0, -spreadView.width * spreadView.snapPosition, root.animatedProgress);
-                } else if (spreadView.stage == 1 && !priv.isSelected) {
+                } else if (spreadView.phase == 1 && !priv.isSelected) {
                     return linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4,
-                                           -spreadView.width * spreadView.snapPosition, priv.stage2startTranslate,
+                                           -spreadView.width * spreadView.snapPosition, priv.phase2startTranslate,
                                            root.progress);
                 }
             }
@@ -183,20 +183,20 @@ SpreadDelegate {
             }
             switch (index) {
             case 0:
-                if (spreadView.stage == 0) {
+                if (spreadView.phase == 0) {
                     return Math.max(0, linearAnimation(0, spreadView.positionMarker2,
                                                        0, root.tile0SnapAngle, root.animatedProgress));
-                } else if (spreadView.stage == 1) {
+                } else if (spreadView.phase == 1) {
                     return linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4,
-                                           root.tile0SnapAngle, stage2startAngle, root.progress);
+                                           root.tile0SnapAngle, phase2startAngle, root.progress);
                 }
             case 1:
-                if (spreadView.stage == 0) {
+                if (spreadView.phase == 0) {
                     return linearAnimation(0, spreadView.positionMarker2, root.startAngle,
                                            root.startAngle * (1-spreadView.snapPosition), root.animatedProgress);
-                } else if (spreadView.stage == 1) {
+                } else if (spreadView.phase == 1) {
                     return linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4,
-                                           root.startAngle * (1-spreadView.snapPosition), priv.stage2startAngle,
+                                           root.startAngle * (1-spreadView.snapPosition), priv.phase2startAngle,
                                            root.progress);
                 }
             }
@@ -213,21 +213,21 @@ SpreadDelegate {
 
             switch (index) {
             case 0:
-                if (spreadView.stage == 0) {
+                if (spreadView.phase == 0) {
                     return 1;
-                } else if(spreadView.stage == 1) {
+                } else if(spreadView.phase == 1) {
                     return linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4,
-                                           1, stage2startScale, root.progress);
+                                           1, phase2startScale, root.progress);
                 }
             case 1:
-                if (spreadView.stage == 0) {
+                if (spreadView.phase == 0) {
                     var targetScale = tile1StartScale - ((tile1StartScale - 1) * spreadView.snapPosition);
                     return linearAnimation(0, spreadView.positionMarker2,
                                            root.tile1StartScale, targetScale, root.animatedProgress);
-                } else if (spreadView.stage == 1) {
+                } else if (spreadView.phase == 1) {
                     var startScale = tile1StartScale - ((tile1StartScale - 1) * spreadView.snapPosition);
                     return linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4,
-                                           startScale, priv.stage2startScale, root.progress);
+                                           startScale, priv.phase2startScale, root.progress);
                 }
             }
             return root.startScale - easingCurve.value * (root.startScale - root.endScale);
@@ -239,7 +239,7 @@ SpreadDelegate {
                                         selectedOpacity, 0, root.progress);
             }
             if (index == 0) {
-                switch (spreadView.stage) {
+                switch (spreadView.phase) {
                 case 0:
                     return linearAnimation(0, spreadView.positionMarker2, 1, .3, root.animatedProgress);
                 case 1:
@@ -258,19 +258,19 @@ SpreadDelegate {
 
             switch (index) {
             case 0:
-                if (spreadView.stage == 0) {
+                if (spreadView.phase == 0) {
                     return 0;
-                } else if (spreadView.stage == 1) {
+                } else if (spreadView.phase == 1) {
                     return linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4,
-                                           0, priv.stage2startTopMarginProgress, root.progress);
+                                           0, priv.phase2startTopMarginProgress, root.progress);
                 }
                 break;
             case 1:
-                if (spreadView.stage == 0) {
+                if (spreadView.phase == 0) {
                     return 0;
-                } else if (spreadView.stage == 1) {
+                } else if (spreadView.phase == 1) {
                     return linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4,
-                                           0, priv.stage2startTopMarginProgress, root.progress);
+                                           0, priv.phase2startTopMarginProgress, root.progress);
                 }
             }
 
