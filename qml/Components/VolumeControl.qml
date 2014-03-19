@@ -22,8 +22,9 @@ Item {
     objectName: "volumeControl"
     visible: false
 
- property int stepUp: 1
- property int stepDown: -1
+    // TODO Work around http://pad.lv/1293478 until qmenumodel knows to cast
+    property int stepUp: 1
+    property int stepDown: -1
 
     QDBusActionGroup {
         id: actionGroup
