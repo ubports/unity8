@@ -34,7 +34,7 @@ BasicShell {
     id: shell
 
     function activateApplication(appId) {
-        SessionBroadcast.requestApplicationStart(LightDM.Greeter.authenticationUser, appId)
+        SessionBroadcast.requestUrlStart(LightDM.Greeter.authenticationUser, appId)
         greeter.hide()
     }
 
@@ -191,7 +191,7 @@ BasicShell {
             dragAreaWidth: shell.edgeSize
             available: greeter.narrowMode && !edgeDemo.active
             onLauncherApplicationSelected: {
-                shell.activateApplication(appId)
+                shell.activateApplication("application:///" + appId + ".desktop")
             }
             onShownChanged: {
                 if (shown) {

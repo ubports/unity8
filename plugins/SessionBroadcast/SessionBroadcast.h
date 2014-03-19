@@ -31,17 +31,17 @@ class SessionBroadcast: public QObject
 public:
     explicit SessionBroadcast(QObject *parent = 0);
 
-    Q_INVOKABLE void requestApplicationStart(const QString &username, const QString &appId);
+    Q_INVOKABLE void requestUrlStart(const QString &username, const QString &url);
 
 Q_SIGNALS:
     // This signal isn't actually used by the shell
     // (unity-greeter-session-broadcast handles launching an app for us), but
     // it's useful for testing the plugin.
-    void startApplication(const QString &appId);
+    void startUrl(const QString &url);
     void showHome();
 
 private Q_SLOTS:
-    void onStartApplication(const QString &username, const QString &appId);
+    void onStartUrl(const QString &username, const QString &url);
     void onShowHome(const QString &username);
 
 private:

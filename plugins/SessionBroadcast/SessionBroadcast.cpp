@@ -36,9 +36,9 @@ SessionBroadcast::SessionBroadcast(QObject* parent)
     connection.connect("com.canonical.Unity.Greeter.Broadcast",
                        "/com/canonical/Unity/Greeter/Broadcast",
                        "com.canonical.Unity.Greeter.Broadcast",
-                       "StartApplication",
+                       "StartUrl",
                        this,
-                       SLOT(onStartApplication(const QString &, const QString &)));
+                       SLOT(onStartUrl(const QString &, const QString &)));
 
     connection.connect("com.canonical.Unity.Greeter.Broadcast",
                        "/com/canonical/Unity/Greeter/Broadcast",
@@ -48,18 +48,18 @@ SessionBroadcast::SessionBroadcast(QObject* parent)
                        SLOT(onShowHome(const QString &)));
 }
 
-void SessionBroadcast::requestApplicationStart(const QString &username, const QString &appId)
+void SessionBroadcast::requestUrlStart(const QString &username, const QString &url)
 {
-    m_broadcaster->asyncCall("RequestApplicationStart", username, appId);
+    m_broadcaster->asyncCall("RequestUrlStart", username, url);
 }
 
-void SessionBroadcast::onStartApplication(const QString &username, const QString &appId)
+void SessionBroadcast::onStartUrl(const QString &username, const QString &url)
 {
     // Since this signal is just used for testing, we don't *really* care if
     // username matches, but just in case we do eventually use the signal, we
     // should only listen to our own requests.
     if (username == qgetenv("USER")) {
-        Q_EMIT startApplication(appId);
+        Q_EMIT startUrl(url);
     }
 }
 
