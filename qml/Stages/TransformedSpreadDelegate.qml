@@ -26,7 +26,9 @@ SpreadDelegate {
     property bool selected: false
     property bool otherSelected: false
 
+    // The progress animates the tiles. A value > 0 makes it appear from the right edge. At 1 it reaches the end position.
     property real progress: 0
+    // This is required to snap tile 1 during phase 1 and 2.
     property real animatedProgress: 0
 
     property real startAngle: 0
@@ -89,7 +91,7 @@ SpreadDelegate {
         property real selectedTopMarginProgress
 
         // Those values are needed as target values for the end of phase 1.
-        // As they are static values, lets caluclate them once when entering phase 1 instead of calculating them in each animation pass.
+        // As they are static values, lets calculate them once when entering phase 1 instead of calculating them in each animation pass.
         property real phase2startTranslate
         property real phase2startAngle
         property real phase2startScale
@@ -102,7 +104,6 @@ SpreadDelegate {
             selectedScale = scale;
             selectedOpacity = opacity;
             selectedTopMarginProgress = topMarginProgress;
-            if (index == 1) print("snapshotting values:", selectedProgress, selectedXTranslate, selectedAngle, selectedScale, selectedOpacity, selectedTopMarginProgress)
         }
 
         // This calculates how much negative progress there can be if unwinding the spread completely
@@ -228,7 +229,7 @@ SpreadDelegate {
             case 0:
                 if (spreadView.phase == 0) {
                     return 1;
-                } else if(spreadView.phase == 1) {
+                } else if (spreadView.phase == 1) {
                     return linearAnimation(spreadView.positionMarker2, spreadView.positionMarker4,
                                            1, phase2startScale, root.progress);
                 }
