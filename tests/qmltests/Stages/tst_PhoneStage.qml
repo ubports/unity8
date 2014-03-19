@@ -108,14 +108,14 @@ Item {
 
         function test_enterSpread_data() {
             return [
-                {tag: "<position1 (linear movement)", positionMarker: "positionMarker1", linear: true, offset: -1, endStage: 0, targetStage: 0, newFocusedIndex: 1 },
-                {tag: "<position1 (non-linear movement)", positionMarker: "positionMarker1", linear: false, offset: -1, endStage: 0, targetStage: 0, newFocusedIndex: 0 },
-                {tag: ">position1", positionMarker: "positionMarker1", linear: true, offset: +1, endStage: 0, targetStage: 0, newFocusedIndex: 1 },
-                {tag: "<position2 (linear)", positionMarker: "positionMarker2", linear: true, offset: -1, endStage: 0, targetStage: 0, newFocusedIndex: 1 },
-                {tag: "<position2 (non-linear)", positionMarker: "positionMarker2", linear: false, offset: -1, endStage: 0, targetStage: 0, newFocusedIndex: 1 },
-                {tag: ">position2", positionMarker: "positionMarker2", linear: true, offset: +1, endStage: 1, targetStage: 0, newFocusedIndex: 1 },
-                {tag: "<position3", positionMarker: "positionMarker3", linear: true, offset: -1, endStage: 1, targetStage: 0, newFocusedIndex: 1 },
-                {tag: ">position3", positionMarker: "positionMarker3", linear: true, offset: +1, endStage: 2, targetStage: 2, newFocusedIndex: 2 },
+                {tag: "<position1 (linear movement)", positionMarker: "positionMarker1", linear: true, offset: -1, endPhase: 0, targetPhase: 0, newFocusedIndex: 1 },
+                {tag: "<position1 (non-linear movement)", positionMarker: "positionMarker1", linear: false, offset: -1, endPhase: 0, targetPhase: 0, newFocusedIndex: 0 },
+                {tag: ">position1", positionMarker: "positionMarker1", linear: true, offset: +1, endPhase: 0, targetPhase: 0, newFocusedIndex: 1 },
+                {tag: "<position2 (linear)", positionMarker: "positionMarker2", linear: true, offset: -1, endPhase: 0, targetPhase: 0, newFocusedIndex: 1 },
+                {tag: "<position2 (non-linear)", positionMarker: "positionMarker2", linear: false, offset: -1, endPhase: 0, targetPhase: 0, newFocusedIndex: 1 },
+                {tag: ">position2", positionMarker: "positionMarker2", linear: true, offset: +1, endPhase: 1, targetPhase: 0, newFocusedIndex: 1 },
+                {tag: "<position3", positionMarker: "positionMarker3", linear: true, offset: -1, endPhase: 1, targetPhase: 0, newFocusedIndex: 1 },
+                {tag: ">position3", positionMarker: "positionMarker3", linear: true, offset: +1, endPhase: 2, targetPhase: 2, newFocusedIndex: 2 },
             ];
         }
 
@@ -135,7 +135,7 @@ Item {
             touchFlick(phoneStage, startX, startY, endX, endY,
                        true /* beginTouch */, false /* endTouch */, units.gu(10), 50);
 
-            tryCompare(spreadView, "stage", data.endStage)
+            tryCompare(spreadView, "phase", data.endPhase)
 
             if (!data.linear) {
                 touchFlick(phoneStage, endX, endY, endX + units.gu(.5), endY,
@@ -146,9 +146,9 @@ Item {
 
             touchRelease(phoneStage, endX, endY);
 
-            tryCompare(spreadView, "stage", data.targetStage)
+            tryCompare(spreadView, "phase", data.targetPhase)
 
-            if (data.targetStage == 2) {
+            if (data.targetPhase == 2) {
                 var app2 = findChild(spreadView, "appDelegate2");
                 mouseClick(app2, units.gu(1), units.gu(1));
             }
@@ -183,7 +183,7 @@ Item {
             touchFlick(phoneStage, startX, startY, endX, endY,
                        true /* beginTouch */, true /* endTouch */, units.gu(10), 50);
 
-            tryCompare(spreadView, "stage", 2);
+            tryCompare(spreadView, "phase", 2);
 
             var tile = findChild(spreadView, "appDelegate" + data.index);
             var appId = ApplicationManager.get(data.index).appId;
@@ -199,7 +199,7 @@ Item {
             console.log("clicking app", data.index, "(", appId, ")")
             mouseClick(spreadView, tile.mapToItem(spreadView).x + units.gu(1), spreadView.height / 2)
             tryCompare(ApplicationManager, "focusedApplicationId", appId);
-            tryCompare(spreadView, "stage", 0);
+            tryCompare(spreadView, "phase", 0);
         }
 
         function test_animateAppStartup() {

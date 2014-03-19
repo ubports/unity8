@@ -170,7 +170,7 @@ Item {
         // Mir signals us that the newly started app has gotten focus before it paints something on the screen
         // This would result in the old app surface becoming visible for a bit.
         // FIXME: change appManager to only change the focusedApplicationId when the surface is ready to be shown.
-        interval: 1500
+        interval: 0// 1500
         repeat: false
         onTriggered: {
             priv.applicationStarting = false;
@@ -279,6 +279,8 @@ Item {
 
         onDraggingChanged: {
             if (dragging) {
+                // Gesture recognized. Start recording this gesture
+                gesturePoints = [];
                 return;
             }
 
