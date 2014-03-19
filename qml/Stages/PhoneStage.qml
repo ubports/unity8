@@ -109,9 +109,9 @@ Item {
     QtObject {
         id: priv
 
-        property string focusedAppId: ApplicationManager.focusedApplicationId
-        property var focusedApplication: ApplicationManager.findApplication(focusedAppId)
-        property url focusedScreenshot: focusedApplication ? focusedApplication.screenshot : ""
+        readonly property string focusedAppId: ApplicationManager.focusedApplicationId
+        readonly property var focusedApplication: ApplicationManager.findApplication(focusedAppId)
+        readonly property url focusedScreenshot: focusedApplication ? focusedApplication.screenshot : ""
 
         property bool waitingForScreenshot: false
 
