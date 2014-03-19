@@ -371,6 +371,7 @@ Item {
                 } else if (shiftedContentX >= width * positionMarker4) {
                     phase = 2;
                 }
+                break;
             }
         }
 
