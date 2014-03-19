@@ -20,7 +20,7 @@
 #include "plugin.h"
 #include "DBusGreeterList.h"
 #include "Greeter.h"
-#include "Upstart.h"
+#include "URLDispatcher.h"
 #include "UsersModel.h"
 #include <libusermetricsoutput/ColorTheme.h>
 #include <libusermetricsoutput/UserMetrics.h>
@@ -47,11 +47,11 @@ static QObject *greeter_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
     return greeter;
 }
 
-static QObject *upstart_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
+static QObject *dispatcher_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
     Q_UNUSED(engine)
     Q_UNUSED(scriptEngine)
-    return new Upstart();
+    return new URLDispatcher();
 }
 
 static QObject *users_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
@@ -75,7 +75,7 @@ void LightDMPlugin::registerTypes(const char *uri)
 
     Q_ASSERT(uri == QLatin1String("LightDM"));
     qmlRegisterSingletonType<Greeter>(uri, 0, 1, "Greeter", greeter_provider);
-    qmlRegisterSingletonType<Upstart>(uri, 0, 1, "Upstart", upstart_provider);
+    qmlRegisterSingletonType<URLDispatcher>(uri, 0, 1, "URLDispatcher", dispatcher_provider);
     qmlRegisterSingletonType<UsersModel>(uri, 0, 1, "Users", users_provider);
     qmlRegisterUncreatableType<QLightDM::UsersModel>(uri, 0, 1, "UserRoles", "Type is not instantiable");
     qmlRegisterSingletonType<UserMetricsOutput::UserMetrics>(uri, 0, 1, "Infographic", infographic_provider);

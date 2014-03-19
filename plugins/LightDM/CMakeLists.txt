@@ -19,7 +19,7 @@ set(QMLPLUGIN_SRC
     DBusGreeterList.cpp
     Greeter.cpp
     plugin.cpp
-    Upstart.cpp
+    URLDispatcher.cpp
     UsersModel.cpp
     )
 

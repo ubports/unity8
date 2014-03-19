@@ -28,8 +28,17 @@ cleanup()
     exit 0
 }
 
-rm -f $XDG_RUNTIME_DIR/mir_socket # clear socket in case we were hard shut down
-exec $@ &
+SUB_SOCKET=$XDG_RUNTIME_DIR/mir_socket
+rm -f $SUB_SOCKET # clear socket in case we were hard shut down
+
+# Normal unity8 sessions are entirely driven by Upstart.  But greeters
+# are special.  They need access to the file descriptors that lightdm
+# creates for them and don't want to start all the services that a normal
+# session would.  So it's inconvenient to live within an upstart session.
+# But... we still want to use Upstart for some services.  So launch here.
+MIR_SOCKET=$SUB_SOCKET /sbin/init --user --startup-event=unity8-greeter-started &
+
+exec $@ --file=$SUB_SOCKET &
 CMD_PID=$!
 wait $CMD_PID
 CMD_PID=
