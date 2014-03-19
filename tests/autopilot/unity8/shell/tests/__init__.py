@@ -181,7 +181,7 @@ class UnityTestCase(AutopilotTestCase):
                 )
             geo_string = "%dx%d" % (width, height)
             self.unity_geometry_args = [
-                '-geometry',
+                '-windowgeometry',
                 geo_string,
                 '-frameless',
                 '-mousetouch'
