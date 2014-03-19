@@ -186,6 +186,7 @@ Item {
             return [
                 {label: "testLabel1", enabled: false, minValue: 0, maxValue: 100, value1: 10.5, value2: 22, manualValue: 0 },
                 {label: "testLabel2", enabled: true, minValue: 0, maxValue: 100, value1: 100, value2: 50, manualValue: 30 },
+                {tag: "test-zero", label: "testLabel2", enabled: true, minValue: 0, maxValue: 100, value1: 10, value2: 0, manualValue: 20 },
             ];
         }
 
