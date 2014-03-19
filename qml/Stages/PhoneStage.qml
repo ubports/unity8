@@ -68,7 +68,7 @@ Item {
                 if (priv.secondApplicationStarting || priv.applicationStarting) {
                     appSplashTimer.start();
                 } else {
-                    var application = ApplicationManager.findApplication(ApplicationManager.focusedApplicationId);
+                    var application = priv.focusedApplication;
                     root.fullscreen = application.fullscreen;
                     mainScreenshotImage.src = application.screenshot;
                 }
