@@ -172,11 +172,21 @@ Showable {
         }
     }
 
+    // right side shadow
     Image {
         anchors.left: parent.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         fillMode: Image.Tile
         source: "../graphics/dropshadow_right.png"
+    }
+
+    // left side shadow
+    Image {
+        anchors.right: parent.left
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        fillMode: Image.Tile
+        source: "../graphics/dropshadow_left.png"
     }
 }
