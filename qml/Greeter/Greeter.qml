@@ -137,12 +137,12 @@ Showable {
         }
 
         function maybeTease() {
-            if ((!greeter.locked || greeter.narrowMode) && greeter.x == 0)
+            if (!greeter.locked || greeter.narrowMode)
                 greeter.tease();
         }
 
-        onPressAndHold: maybeTease()
         onClicked: maybeTease()
+        onDragStart: maybeTease()
 
         onDragEnd: {
             if (rightEvaluator.shouldAutoComplete())

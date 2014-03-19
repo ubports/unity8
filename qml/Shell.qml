@@ -454,6 +454,13 @@ FocusScope {
         x: launcher.progress
         Behavior on x {SmoothedAnimation{velocity: 600}}
 
+        Rectangle {
+            anchors.fill: parent
+            color: "black"
+            opacity: 0.8
+            visible: greeter.shown
+        }
+
         Greeter {
             id: greeter
             objectName: "greeter"
