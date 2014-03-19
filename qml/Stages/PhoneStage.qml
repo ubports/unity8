@@ -383,7 +383,6 @@ Item {
                 property: "contentX"
                 to: snapAnimation.targetContentX
                 duration: UbuntuAnimation.FastDuration
-//                duration: UbuntuAnimation.SleepyDuration
             }
 
             ScriptAction {

@@ -102,6 +102,7 @@ SpreadDelegate {
             selectedScale = scale;
             selectedOpacity = opacity;
             selectedTopMarginProgress = topMarginProgress;
+            if (index == 1) print("snapshotting values:", selectedProgress, selectedXTranslate, selectedAngle, selectedScale, selectedOpacity, selectedTopMarginProgress)
         }
 
         property real negativeProgress: {
@@ -233,7 +234,7 @@ SpreadDelegate {
         }
 
         property real opacity: {
-            if (otherSelected) {
+            if (priv.otherSelected) {
                 return linearAnimation (selectedProgress, Math.max(0, selectedProgress - .5),
                                         selectedOpacity, 0, root.progress);
             }
@@ -251,7 +252,7 @@ SpreadDelegate {
         }
 
         property real topMarginProgress: {
-            if (selected) {
+            if (priv.isSelected) {
                 return linearAnimation(selectedProgress, negativeProgress, selectedTopMarginProgress, 0, root.progress);
             }
 
