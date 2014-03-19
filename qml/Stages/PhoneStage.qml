@@ -44,7 +44,7 @@ Item {
                 priv.requestNewScreenshot();
             } else {
                 mainScreenshotImage.anchors.leftMargin = 0;
-                mainScreenshotImage.src = ApplicationManager.get(0).screenshot
+                mainScreenshotImage.src = ApplicationManager.get(0).screenshot;
                 mainScreenshotImage.visible = true;
             }
         } else {
@@ -57,7 +57,7 @@ Item {
 
         onFocusRequested: {
             if (spreadView.visible) {
-                spreadView.snapTo(priv.indexOf(appId))
+                spreadView.snapTo(priv.indexOf(appId));
             } else {
                 priv.switchToApp(appId);
             }
@@ -68,12 +68,12 @@ Item {
                 if (priv.secondApplicationStarting || priv.applicationStarting) {
                     appSplashTimer.start();
                 } else {
-                    var application = ApplicationManager.findApplication(ApplicationManager.focusedApplicationId)
-                    root.fullscreen = application.fullscreen
-                    mainScreenshotImage.src = application.screenshot
+                    var application = ApplicationManager.findApplication(ApplicationManager.focusedApplicationId);
+                    root.fullscreen = application.fullscreen;
+                    mainScreenshotImage.src = application.screenshot;
                 }
             } else {
-                spreadView.selectedIndex = -1
+                spreadView.selectedIndex = -1;
                 spreadView.stage = 0;
                 spreadView.contentX = -spreadView.shift;
             }
@@ -92,7 +92,7 @@ Item {
             }
 
             if (spreadView.visible) {
-                spreadView.snapTo(0)
+                spreadView.snapTo(0);
             }
         }
 
@@ -101,7 +101,7 @@ Item {
                 mainScreenshotImage.src = ""
                 mainScreenshotImage.visible = false;
             } else {
-                mainScreenshotImage.src = ApplicationManager.get(0).screenshot
+                mainScreenshotImage.src = ApplicationManager.get(0).screenshot;
             }
         }
     }
@@ -256,13 +256,13 @@ Item {
                 spreadView.contentX = -spreadView.shift;
             }
             if (dragging && attachedToView) {
-                spreadView.contentX = -touchX - spreadView.shift
+                spreadView.contentX = -touchX - spreadView.shift;
             }
             if (attachedToView && spreadView.shiftedContentX >= spreadView.width * spreadView.positionMarker3) {
                 attachedToView = false;
                 spreadView.snap();
             }
-            gesturePoints.push(touchX)
+            gesturePoints.push(touchX);
         }
 
         onStatusChanged: {
@@ -284,7 +284,7 @@ Item {
             gesturePoints = [];
 
             if (oneWayFlick && spreadView.shiftedContentX > units.gu(2) && spreadView.shiftedContentX < spreadView.positionMarker1 * spreadView.width) {
-                spreadView.snapTo(1)
+                spreadView.snapTo(1);
             } else if (!dragging && attachedToView) {
                 spreadView.snap();
             }
@@ -432,10 +432,10 @@ Item {
                     // Each tile has a different progress value running from 0 to 1.
                     // A progress value of 0 means the tile is at the right edge. 1 means the tile has reched the left edge.
                     progress: {
-                        var tileProgress = (spreadView.shiftedContentX - index * spreadView.tileDistance) / spreadView.width
+                        var tileProgress = (spreadView.shiftedContentX - index * spreadView.tileDistance) / spreadView.width;
                         // Tile 1 needs to move directly from the beginning...
                         if (index == 1 && spreadView.stage < 2) {
-                            tileProgress += spreadView.tileDistance / spreadView.width
+                            tileProgress += spreadView.tileDistance / spreadView.width;
                         }
                         return tileProgress;
                     }
@@ -446,9 +446,9 @@ Item {
                             if (progress < spreadView.positionMarker1) {
                                 return progress;
                             } else if (progress < spreadView.positionMarker1 + snappingCurve.period){
-                                return spreadView.positionMarker1 + snappingCurve.value * 3
+                                return spreadView.positionMarker1 + snappingCurve.value * 3;
                             } else {
-                                return spreadView.positionMarker2
+                                return spreadView.positionMarker2;
                             }
                         }
                         return progress;
