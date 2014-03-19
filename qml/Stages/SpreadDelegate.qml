@@ -47,7 +47,6 @@ Item {
         }
         source: model.screenshot
         antialiasing: true
-        scale: 1
     }
     MouseArea {
         anchors.fill: appImage
