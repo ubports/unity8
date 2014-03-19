@@ -188,82 +188,9 @@ Row {
         name: "VisualQueueTest"
         when: windowShown
 
-        function fillMockModel () {
-            var n = {
-                tag: "Snap Decision 1",
-                type: Notification.SnapDecision,
-                hints: {"x-canonical-private-button-tint": "true"},
-                summary: "Incoming call",
-                body: "Frank Zappa\n+44 (0)7736 027340",
-                icon: "../graphics/avatars/funky.png",
-                secondaryIcon: "../graphics/applicationIcons/phone-app.png",
-                actions: [{ id: "pickup_id", label: "Pick up"},
-                          { id: "decline_1_id", label: "Decline"},
-                          { id: "decline_2_id", label: "Can't talk now, what's up?"},
-                          { id: "decline_3_id", label: "I call you back."},
-                          { id: "decline_4_id", label: "Send custom message..."}]
-            }
-            mockModel.append(n)
-
-            n = {
-                tag: "Snap Decision 2",
-                type: Notification.SnapDecision,
-                hints: {"x-canonical-private-button-tint": "true",
-                        "x-canonical-non-shaped-icon": "true"},
-                summary: "Incoming file",
-                body: "Frank would like to send you the file: essay.pdf.",
-                icon: "image://theme/search",
-                secondaryIcon: "",
-                actions: [{ id: "accept_id", label: "Accept"},
-                          { id: "reject_id", label: "Reject"}]
-            }
-            mockModel.append(n)
-
-            n = {
-                tag: "Snap Decision 3",
-                type: Notification.SnapDecision,
-                hints: {"x-canonical-private-button-tint": "true",
-                        "x-canonical-non-shaped-icon": "true"},
-                summary: "Authentication error",
-                body: "Please authorise Ubuntu to access your Google account.",
-                icon: "image://theme/search",
-                secondaryIcon: "",
-                actions: [{ id: "settings_id", label: "Settings..."},
-                          { id: "cancel_id", label: "Cancel"}]
-            }
-            mockModel.append(n)
-
-            n = {
-                tag: "Snap Decision 4",
-                type: Notification.SnapDecision,
-                hints: {"x-canonical-private-button-tint": "true",
-                        "x-canonical-non-shaped-icon": "true"},
-                summary: "Morning alarm",
-                body: "It's 6:30... time to get up!",
-                icon: "image://theme/search",
-                secondaryIcon: "",
-                actions: [{ id: "ok_reply", label: "Ok"},
-                          { id: "snooze_id", label: "Snooze"}]
-            }
-            mockModel.append(n)
-
-            n = {
-                tag: "Snap Decision 5",
-                type: Notification.SnapDecision,
-                hints: {"x-canonical-private-button-tint": "true"},
-                summary: "Jenny Sample",
-                body: "Hey there! Have you been watching the latest episode of that TV-show I told you about last week?",
-                icon: "../graphics/avatars/amanda.png",
-                secondaryIcon: "../graphics/applicationIcons/messages-app.png",
-                actions: [{ id: "reply_id", label: "Reply"},
-                          { id: "ignore_id", label: "Ignore"}]
-            }
-            mockModel.append(n)
-        }
-
         function test_VisualSnapDecisionsQueue() {
             // populate model with some mock notifications
-            fillMockModel();
+            addSomeSnapDecisionNotifications();
 
             // make sure the view is properly updated before going on
             waitForRendering(notifications);
