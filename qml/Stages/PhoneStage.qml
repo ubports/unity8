@@ -109,9 +109,9 @@ Item {
     QtObject {
         id: priv
 
-        readonly property string focusedAppId: ApplicationManager.focusedApplicationId
-        readonly property var focusedApplication: ApplicationManager.findApplication(focusedAppId)
-        readonly property url focusedScreenshot: focusedApplication ? focusedApplication.screenshot : ""
+        property string focusedAppId: ApplicationManager.focusedApplicationId
+        property var focusedApplication: ApplicationManager.findApplication(focusedAppId)
+        property url focusedScreenshot: focusedApplication ? focusedApplication.screenshot : ""
 
         property bool waitingForScreenshot: false
 
@@ -123,7 +123,7 @@ Item {
         onFocusedScreenshotChanged: {
             if (root.moving && priv.waitingForScreenshot) {
                 mainScreenshotImage.anchors.leftMargin = 0;
-                mainScreenshotImage.src = ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).screenshot;
+                mainScreenshotImage.src = priv.focusedScreenshot
                 mainScreenshotImage.visible = true;
             } else if (priv.secondApplicationStarting && priv.waitingForScreenshot) {
                 applicationSwitchingAnimation.start();
@@ -133,7 +133,7 @@ Item {
 
         function requestNewScreenshot() {
             waitingForScreenshot = true;
-            ApplicationManager.updateScreenshot(ApplicationManager.focusedApplicationId);
+            ApplicationManager.updateScreenshot(focusedAppId);
         }
 
         function switchToApp(appId) {
@@ -154,7 +154,6 @@ Item {
     }
 
     // FIXME: the signal connections seems to get lost.
-    // Check with Qt 5.2, see if we can remove this Connections and Binding objects
     Connections {
         target: priv.focusedApplication
         onScreenshotChanged: priv.focusedScreenshot = priv.focusedApplication.screenshot
@@ -183,11 +182,13 @@ Item {
         id: applicationSwitchingAnimation
         // setup
         PropertyAction { target: mainScreenshotImage; property: "anchors.leftMargin"; value: 0 }
-        // PropertyAction seems to fail when secondApplicationStarting and we didn't have another screenshot before
+        // FIXME: PropertyAction seems to fail when secondApplicationStarting and we didn't have another screenshot before
         ScriptAction { script: mainScreenshotImage.src = priv.focusedScreenshot }
-        PropertyAction { target: mainScreenshotImage; property: "visible"; value: true }
-        PropertyAction { target: fadeInScreenshotImage; property: "source"; value: ApplicationManager.findApplication(priv.newFocusedAppId) ? ApplicationManager.findApplication(priv.newFocusedAppId).screenshot : "" }
-        PropertyAction { target: fadeInScreenshotImage; property: "visible"; value: true }
+        PropertyAction { targets: [mainScreenshotImage, fadeInScreenshotImage]; property: "visible"; value: true }
+        PropertyAction { target: fadeInScreenshotImage; property: "source"; value: {
+                var newFocusedApp = ApplicationManager.findApplication(priv.newFocusedAppId);
+                return newFocusedApp ? newFocusedApp.screenshot : "" }
+        }
         PropertyAction { target: fadeInScreenshotImage; property: "opacity"; value: 0 }
         PropertyAction { target: fadeInScreenshotImage; property: "scale"; value: .8 }
 
@@ -195,8 +196,7 @@ Item {
         // The actual animation
         ParallelAnimation {
             UbuntuNumberAnimation { target: mainScreenshotImage; property: "anchors.leftMargin"; to: root.width; duration: UbuntuAnimation.SlowDuration }
-            UbuntuNumberAnimation { target: fadeInScreenshotImage; property: "opacity"; to: 1; duration: UbuntuAnimation.SlowDuration }
-            UbuntuNumberAnimation { target: fadeInScreenshotImage; property: "scale"; to: 1; duration: UbuntuAnimation.SlowDuration }
+            UbuntuNumberAnimation { target: fadeInScreenshotImage; properties: "opacity,scale"; to: 1; duration: UbuntuAnimation.SlowDuration }
         }
 
         // restore stuff
