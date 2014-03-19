@@ -457,8 +457,7 @@ FocusScope {
         Rectangle {
             anchors.fill: parent
             color: "black"
-            opacity: 0.8
-            visible: greeter.shown
+            opacity: (1 - Math.abs(greeter.x) / shell.width) * 0.8
         }
 
         Greeter {
