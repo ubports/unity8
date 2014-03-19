@@ -103,13 +103,13 @@ Item {
             // kill all (fake) running apps
             killApps(ApplicationManager);
 
+            var dashContent = findChild(shell, "dashContent");
+            dashContent.previewOpen = false;
+
             var dashHome = findChild(shell, "clickscope loader");
             swipeUntilScopeViewIsReached(dashHome);
 
             hideIndicators();
-
-            var dashContent = findChild(shell, "dashContent");
-            dashContent.previewOpen = false;
         }
 
         function killApps(apps) {
