@@ -188,9 +188,8 @@ Row {
         name: "VisualQueueTest"
         when: windowShown
 
-        function test_VisualSnapDecisionsQueue_data() {
-            return [
-            {
+        function fillMockModel () {
+            var n = {
                 tag: "Snap Decision 1",
                 type: Notification.SnapDecision,
                 hints: {"x-canonical-private-button-tint": "true"},
@@ -203,8 +202,10 @@ Row {
                           { id: "decline_2_id", label: "Can't talk now, what's up?"},
                           { id: "decline_3_id", label: "I call you back."},
                           { id: "decline_4_id", label: "Send custom message..."}]
-            },
-            {
+            }
+            mockModel.append(n)
+
+            n = {
                 tag: "Snap Decision 2",
                 type: Notification.SnapDecision,
                 hints: {"x-canonical-private-button-tint": "true",
@@ -215,8 +216,10 @@ Row {
                 secondaryIcon: "",
                 actions: [{ id: "accept_id", label: "Accept"},
                           { id: "reject_id", label: "Reject"}]
-            },
-            {
+            }
+            mockModel.append(n)
+
+            n = {
                 tag: "Snap Decision 3",
                 type: Notification.SnapDecision,
                 hints: {"x-canonical-private-button-tint": "true",
@@ -227,8 +230,10 @@ Row {
                 secondaryIcon: "",
                 actions: [{ id: "settings_id", label: "Settings..."},
                           { id: "cancel_id", label: "Cancel"}]
-            },
-            {
+            }
+            mockModel.append(n)
+
+            n = {
                 tag: "Snap Decision 4",
                 type: Notification.SnapDecision,
                 hints: {"x-canonical-private-button-tint": "true",
@@ -239,8 +244,10 @@ Row {
                 secondaryIcon: "",
                 actions: [{ id: "ok_reply", label: "Ok"},
                           { id: "snooze_id", label: "Snooze"}]
-            },
-            {
+            }
+            mockModel.append(n)
+
+            n = {
                 tag: "Snap Decision 5",
                 type: Notification.SnapDecision,
                 hints: {"x-canonical-private-button-tint": "true"},
@@ -251,57 +258,52 @@ Row {
                 actions: [{ id: "reply_id", label: "Reply"},
                           { id: "ignore_id", label: "Ignore"}]
             }
-            ]
+            mockModel.append(n)
         }
 
-        function test_VisualSnapDecisionsQueue(data) {
+        function test_VisualSnapDecisionsQueue() {
             // populate model with some mock notifications
-            mockModel.append(data)
+            fillMockModel();
 
             // make sure the view is properly updated before going on
             waitForRendering(notifications);
 
-            if (mockModel.count > 5) {
-                var snap_decision = [findChild(notifications, "notification1"),
-                                     findChild(notifications, "notification2"),
-                                     findChild(notifications, "notification3"),
-                                     findChild(notifications, "notification4"),
-                                     findChild(notifications, "notification5")]
+            var snap_decision = [findChild(notifications, "notification1"),
+                                 findChild(notifications, "notification2"),
+                                 findChild(notifications, "notification3"),
+                                 findChild(notifications, "notification4"),
+                                 findChild(notifications, "notification5")]
 
-                for (var index = 0; index < snap_decision.length; index++) {
-                    verify(snap_decision[index] !== undefined, index + ". snap-decision wasn't found");
-                }
+            for (var index = 0; index < snap_decision.length; index++) {
+                verify(snap_decision[index] !== undefined, index + ". snap-decision wasn't found");
+            }
 
-                // check initial states once all five snap-decisions were appended to the model
-                compare(snap_decision[0].state, "expanded", "state of first snap-decision is not expanded");
-                for (var index = 1; index < snap_decision.length; index++) {
-                    compare(snap_decision[index].state, "contracted", "state of "+ index + ".snap-decision is not contracted");
-                }
+            // check initial states once all five snap-decisions were appended to the model
+            compare(snap_decision[0].state, "expanded", "state of first snap-decision is not expanded");
+            for (var index = 1; index < snap_decision.length; index++) {
+                compare(snap_decision[index].state, "contracted", "state of "+ index + ".snap-decision is not contracted");
             }
 
             // click/tap on each snap-decision and verify only one is in expanded-state at any time
-            if (mockModel.count > 5) {
-                for (var index = 0; index < snap_decision.length; index++) {
-                    mouseClick(snap_decision[index], snap_decision[index].width / 2, snap_decision[index].height / 2)
-                    for (var kindex = 0; kindex < snap_decision.length; kindex++) {
-                        if (kindex == index) {
-                            compare(snap_decision[kindex].state, "expanded", "state of "+ kindex + ".snap-decision is not expanded");
-                        } else {
-                            compare(snap_decision[kindex].state, "contracted", "state of "+ kindex + ".snap-decision is not contracted");
-                        }
+            for (var index = 0; index < snap_decision.length; index++) {
+                mouseClick(snap_decision[index], snap_decision[index].width / 2, snap_decision[index].height / 2)
+                for (var kindex = 0; kindex < snap_decision.length; kindex++) {
+                    if (kindex == index) {
+                        compare(snap_decision[kindex].state, "expanded", "state of "+ kindex + ".snap-decision is not expanded");
+                    } else {
+                        compare(snap_decision[kindex].state, "contracted", "state of "+ kindex + ".snap-decision is not contracted");
                     }
                 }
             }
 
-            // once all five snap-decisions are appended to the model remove top-most and verify one of the remaining ones is still getting expanded
-            if (mockModel.count > 5) {
-                // make first snap-decision expand
-                mouseClick(snap_decision[0], snap_decision[0].width / 2, snap_decision[0].height / 2);
+            // remove top-most and verify one of the remaining ones is still getting expanded
 
-                for (var index = 1; index < snap_decision.length; index++) {
-                    removeTopMostNotification();
-                    compare(snap_decision[index].state, "expanded", "state of " + index + ". snap-decision is not expanded");
-                }
+            // make first snap-decision expand
+            mouseClick(snap_decision[0], snap_decision[0].width / 2, snap_decision[0].height / 2);
+
+            for (var index = 1; index < snap_decision.length; index++) {
+                removeTopMostNotification();
+                compare(snap_decision[index].state, "expanded", "state of " + index + ". snap-decision is not expanded");
             }
         }
     }
