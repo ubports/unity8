@@ -23,8 +23,8 @@ Item {
     visible: false
 
     // TODO Work around http://pad.lv/1293478 until qmenumodel knows to cast
-    property int stepUp: 1
-    property int stepDown: -1
+    readonly property int stepUp: 1
+    readonly property int stepDown: -1
 
     QDBusActionGroup {
         id: actionGroup
