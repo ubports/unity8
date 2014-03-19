@@ -140,6 +140,7 @@ Showable {
 
         onClicked: maybeTease()
         onDragStart: maybeTease()
+        onPressAndHold: {} // eat event, but no need to tease, as drag will cover it
 
         onDragEnd: {
             if (rightEvaluator.shouldAutoComplete())
