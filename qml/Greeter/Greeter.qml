@@ -98,28 +98,25 @@ Showable {
         anchors.bottomMargin: units.gu(5)
         text: i18n.tr("Swipe to unlock")
         color: "white"
-    }
 
-    SequentialAnimation {
-        id: showLabelAnimation
+        SequentialAnimation on opacity {
+            id: showLabelAnimation
+            running: false
+            loops: 2
 
-        PropertyAnimation {
-            target: swipeHint
-            property: "opacity"
-            from: 0.0
-            to: swipeHint.baseOpacity
-            duration: UbuntuAnimation.SlowDuration
+            StandardAnimation {
+                from: 0.0
+                to: swipeHint.baseOpacity
+                duration: UbuntuAnimation.SleepyDuration
+            }
+            PauseAnimation { duration: UbuntuAnimation.BriskDuration }
+            StandardAnimation {
+                from: swipeHint.baseOpacity
+                to: 0.0
+                duration: UbuntuAnimation.SleepyDuration
+            }
         }
-        PropertyAnimation {
-            duration: 10000
-        }
-        PropertyAnimation {
-            target: swipeHint
-            property: "opacity"
-            from: swipeHint.baseOpacity
-            to: 0.0
-            duration: UbuntuAnimation.SlowDuration
-        }
+
     }
 
     // Bi-directional revealer
