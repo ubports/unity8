@@ -415,10 +415,6 @@ Item {
                         spreadView.phase = 0;
                         spreadView.contentX = -spreadView.shift;
                     }
-                    if (spreadView.shiftedContentX == spreadView.width * spreadView.positionMarker2) {
-                        spreadView.phase = 0;
-                        spreadView.contentX = -spreadView.shift;
-                    }
                 }
             }
         }
