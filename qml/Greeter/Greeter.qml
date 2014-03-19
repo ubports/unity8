@@ -171,4 +171,12 @@ Showable {
             direction: Direction.Leftwards
         }
     }
+
+    Image {
+        anchors.left: parent.right
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        fillMode: Image.Tile
+        source: "../Hud/graphics/dropshadow_right.png"
+    }
 }
