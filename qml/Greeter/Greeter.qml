@@ -91,13 +91,14 @@ Showable {
     Label {
         id: swipeHint
         visible: greeter.shown
-        property real baseOpacity: 0.6
+        property real baseOpacity: 0.5
         opacity: 0.0
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
         anchors.bottomMargin: units.gu(5)
         text: i18n.tr("Swipe to unlock")
         color: "white"
+        font.weight: Font.Light
 
         SequentialAnimation on opacity {
             id: showLabelAnimation
