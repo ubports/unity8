@@ -22,6 +22,9 @@ Item {
     objectName: "volumeControl"
     visible: false
 
+ property int stepUp: 1
+ property int stepDown: -1
+
     QDBusActionGroup {
         id: actionGroup
         busType: 1
@@ -32,11 +35,11 @@ Item {
     }
 
     function volumeUp() {
-        actionGroup.actionObject.activate(1);
+        actionGroup.actionObject.activate(stepUp);
     }
 
     function volumeDown() {
-        actionGroup.actionObject.activate(-1);
+        actionGroup.actionObject.activate(stepDown);
     }
 
     Component.onCompleted: actionGroup.start()
