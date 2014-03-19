@@ -421,6 +421,9 @@ Item {
 
         Item {
             id: spreadRow
+            // This width controls how much the spread can be flicked left/right. It's composed of:
+            //  tileDistance * app count (with a minimum of 3 apps, in order to also allow moving 1 and 2 apps a bit)
+            //  + some constant value (still scales with the screen width) which looks good and somewhat fills the screen
             width: Math.max(3, ApplicationManager.count) * spreadView.tileDistance + (spreadView.width - spreadView.tileDistance) * 1.5
 
             x: spreadView.contentX
