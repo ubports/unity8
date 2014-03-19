@@ -26,7 +26,8 @@ Rectangle {
     color: "black"
 
     property var application
-    onApplicationChanged: print("setting app to", application.appId, application.screenshot)
+
+    signal switched()
 
     function switchTo(application) {
         if (root.application == application) {
@@ -39,8 +40,6 @@ Rectangle {
         switchToAnimation.start()
     }
 
-    signal switched()
-
     QtObject {
         id: priv
         property var newApplication
@@ -48,10 +47,8 @@ Rectangle {
 
     Image {
         id: newImage
-        visible: true
         anchors.bottom: parent.bottom
         width: root.width
-//        height: sourceSize.height
         source: priv.newApplication ? priv.newApplication.screenshot : ""
     }
 
@@ -64,7 +61,6 @@ Rectangle {
         anchors.bottom: parent.bottom
 
     }
-//    Rectangle { anchors.fill: parent; color: "yellow" }
 
     SequentialAnimation {
         id: switchToAnimation
