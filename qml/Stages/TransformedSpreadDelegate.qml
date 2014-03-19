@@ -105,6 +105,9 @@ SpreadDelegate {
             if (index == 1) print("snapshotting values:", selectedProgress, selectedXTranslate, selectedAngle, selectedScale, selectedOpacity, selectedTopMarginProgress)
         }
 
+        // This calculates how much negative progress there can be if unwinding the spread completely
+        // the progress for each tile starts at 0 when it crosses the right edge, so the later a tile comes in,
+        // the bigger its negativeProgress can be.
         property real negativeProgress: {
             if (index == 1 && spreadView.phase < 2) {
                 return 0;
@@ -125,10 +128,20 @@ SpreadDelegate {
 
         property real animatedEndDistance: linearAnimation(0, 2, root.endDistance, 0, root.progress)
 
+        // The following blocks handle the animation of the tile in the spread.
+        // At the beginning, each tile is attached at the right edge, outside the screen.
+        // The progress for each tile starts at 0 and it reaches its end position at a progress of 1.
+        // The first phases are handled special for the first 2 tiles. as we do the alt-tab and snapping in there
+        // Once we reached phase 3, the animation is the same for all tiles.
+        // When a tile is selected, the animation state is snapshotted, and the spreadView is unwound (progress animates
+        // back to negativeProgress). All tiles are kept in place and faded out to 0 opacity except
+        // the selected tile, which is animated from the snapshotted position to be fullscreen.
+
         property real xTranslate: {
             if (otherSelected) {
                 if (spreadView.phase < 2 && index == 0) {
-                    return linearAnimation(selectedProgress, negativeProgress, selectedXTranslate, selectedXTranslate - spreadView.tileDistance, root.progress);
+                    return linearAnimation(selectedProgress, negativeProgress,
+                                           selectedXTranslate, selectedXTranslate - spreadView.tileDistance, root.progress);
                 }
 
                 return selectedXTranslate;
