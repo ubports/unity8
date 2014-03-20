@@ -137,9 +137,13 @@ Item {
         }
 
         function switchToApp(appId) {
-            priv.newFocusedAppId = appId;
-            root.fullscreen = ApplicationManager.findApplication(appId).fullscreen;
-            applicationSwitchingAnimation.start();
+            if (priv.focusedAppId) {
+                priv.newFocusedAppId = appId;
+                root.fullscreen = ApplicationManager.findApplication(appId).fullscreen;
+                applicationSwitchingAnimation.start();
+            } else {
+                ApplicationManager.focusApplication(appId);
+            }
         }
 
         function indexOf(appId) {
