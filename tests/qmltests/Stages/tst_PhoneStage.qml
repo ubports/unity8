@@ -245,20 +245,17 @@ Item {
         }
 
         function test_fullscreenMode() {
-            for (var i = 0; i < 5; i++) {
-                addApps(1);
-                tryCompare(phoneStage, "fullscreen", ApplicationManager.get(0).fullscreen);
-            }
-
             var fullscreenApp = null;
             var normalApp = null;
 
-            for (var i = 0; i < ApplicationManager.count; i++) {
-                if (ApplicationManager.get(i).fullscreen && fullscreenApp == null) {
-                    fullscreenApp = ApplicationManager.get(i);
-                }
-                if (!ApplicationManager.get(i).fullscreen && normalApp == null) {
-                    normalApp = ApplicationManager.get(i);
+            for (var i = 0; i < 5; i++) {
+                addApps(1);
+                var newApp = ApplicationManager.get(0);
+                tryCompare(phoneStage, "fullscreen", newApp.fullscreen);
+                if (newApp.fullscreen && fullscreenApp == null) {
+                    fullscreenApp = newApp;
+                } else if (!newApp.fullscreen && normalApp == null){
+                    normalApp = newApp;
                 }
             }
             verify(fullscreenApp != null); // Can't continue the test without having a fullscreen app
