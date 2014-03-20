@@ -55,6 +55,9 @@ FocusScope {
         if (ApplicationManager.findApplication(appId)) {
             ApplicationManager.requestFocusApplication(appId);
             stages.show();
+            if (stages.locked && ApplicationManager.focusedApplicationId == appId) {
+                applicationsDisplayLoader.item.select(appId);
+            }
         } else {
             var execFlags = shell.sideStageEnabled ? ApplicationManager.NoFlag : ApplicationManager.ForceMainStage;
             ApplicationManager.startApplication(appId, execFlags);

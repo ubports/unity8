@@ -38,6 +38,10 @@ Item {
     property bool overlayMode: false
     property int overlayWidth: 0
 
+    function select(appId) {
+        spreadView.snapTo(priv.indexOf(appId))
+    }
+
     onMovingChanged: {
         if (moving) {
             if (ApplicationManager.focusedApplicationId) {
