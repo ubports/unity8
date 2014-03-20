@@ -26,31 +26,39 @@ ApplicationInfo::ApplicationInfo(const QString &appId, QObject *parent)
     : ApplicationInfoInterface(appId, parent)
     ,m_appId(appId)
     ,m_stage(MainStage)
-    ,m_state(Running)
+    ,m_state(Starting)
     ,m_focused(false)
     ,m_fullscreen(false)
     ,m_windowItem(0)
     ,m_windowComponent(0)
     ,m_parentItem(0)
 {
+    QTimer::singleShot(300, this, SLOT(setRunning()));
 }
 
 ApplicationInfo::ApplicationInfo(QObject *parent)
     : ApplicationInfoInterface(QString(), parent)
      ,m_stage(MainStage)
-     ,m_state(Running)
+     ,m_state(Starting)
      ,m_focused(false)
      ,m_fullscreen(false)
      ,m_windowItem(0)
      ,m_windowComponent(0)
      ,m_parentItem(0)
 {
+    QTimer::singleShot(300, this, SLOT(setRunning()));
 }
 
 void ApplicationInfo::onWindowComponentStatusChanged(QQmlComponent::Status status)
 {
     if (status == QQmlComponent::Ready && !m_windowItem)
         doCreateWindowItem();
+}
+
+void ApplicationInfo::setRunning()
+{
+    m_state = Running;
+    Q_EMIT stateChanged();
 }
 
 void ApplicationInfo::createWindowComponent()

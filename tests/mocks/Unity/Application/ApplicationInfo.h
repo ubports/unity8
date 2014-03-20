@@ -84,6 +84,7 @@ class ApplicationInfo : public ApplicationInfoInterface {
 
  private Q_SLOTS:
     void onWindowComponentStatusChanged(QQmlComponent::Status status);
+    void setRunning();
 
  private:
     void createWindowItem();
