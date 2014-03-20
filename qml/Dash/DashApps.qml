@@ -37,7 +37,7 @@ GenericScopeView {
 
         property bool canEnableTerminationMode: scopeView.isCurrent
 
-        model: ApplicationManager
+        model: ApplicationManager.count > 0 ? ApplicationManager : dummyVisibilityModifier
         filterRole: 0
         filterRegExp: invertMatch ? (ApplicationManager.count === 0 ? RegExp("running-apps") : RegExp("")) : RegExp("disabled")
         invertMatch: scopeView.scope.searchQuery.length == 0
