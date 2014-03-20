@@ -26,7 +26,6 @@
 #include <QQmlComponent>
 #include <QTimer>
 #include <QDateTime>
-#include <QDebug>
 
 ApplicationManager::ApplicationManager(QObject *parent)
     : ApplicationManagerInterface(parent)
@@ -94,7 +93,6 @@ void ApplicationManager::add(ApplicationInfo *application) {
     if (!application) {
         return;
     }
-    qDebug() << "add() " << application->appId();
 
     beginInsertRows(QModelIndex(), m_runningApplications.size(), m_runningApplications.size());
     m_runningApplications.append(application);
@@ -198,13 +196,11 @@ bool ApplicationManager::stopApplication(const QString &appId)
         unfocusCurrentApplication();
     }
     remove(application);
-    qDebug() << Q_FUNC_INFO << "emitting focusedAppChanged" << focusedApplicationId();
     return true;
 }
 
 bool ApplicationManager::updateScreenshot(const QString &appId)
 {
-    qDebug() << "updating screenshot for" << appId;
     int idx = -1;
     ApplicationInfo *application = nullptr;
     for (int i = 0; i < m_availableApplications.count(); ++i) {
@@ -221,7 +217,6 @@ bool ApplicationManager::updateScreenshot(const QString &appId)
 
     application->setScreenshot(QString("image://application/%1/%2").arg(appId).arg(QDateTime::currentMSecsSinceEpoch()));
     QModelIndex appIndex = index(idx);
-    qDebug() << "emitting dataChanged for RoleScreenshot on" << appId;
     Q_EMIT dataChanged(appIndex, appIndex, QVector<int>() << RoleScreenshot);
     return true;
 }
@@ -298,7 +293,6 @@ bool ApplicationManager::focusApplication(const QString &appId)
 
     // move app to top of stack
     move(m_runningApplications.indexOf(application), 0);
-    qDebug() << Q_FUNC_INFO << "emitting focusedAppChanged" << focusedApplicationId();
     Q_EMIT focusedApplicationIdChanged();
     return true;
 }
@@ -320,7 +314,6 @@ void ApplicationManager::unfocusCurrentApplication()
             app->setFocused(false);
         }
     }
-    qDebug() << Q_FUNC_INFO << "emitting focusedAppChanged" << focusedApplicationId();
     Q_EMIT focusedApplicationIdChanged();
 }
 

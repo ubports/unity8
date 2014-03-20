@@ -41,7 +41,6 @@ QImage ApplicationScreenshotProvider::requestImage(const QString &imageId, QSize
 
     ApplicationInfo* app = static_cast<ApplicationInfo*>(m_appManager->findApplication(appId));
     if (app == NULL) {
-        qDebug() << "ApplicationScreenshotProvider - app not found:" << appId;
         return QImage();
     }
 
@@ -49,7 +48,7 @@ QImage ApplicationScreenshotProvider::requestImage(const QString &imageId, QSize
 
     QImage image;
     if (!image.load(filePath)) {
-        qDebug() << "failed loading app image" << filePath;
+        qWarning() << "failed loading app image" << filePath;
     }
 
     QGuiApplication *unity = qobject_cast<QGuiApplication*>(qApp);
@@ -68,7 +67,6 @@ QImage ApplicationScreenshotProvider::requestImage(const QString &imageId, QSize
 
     size->setWidth(image.width());
     size->setHeight(image.height());
-    qDebug() << "got image of size" << size->width() << size->height() << requestedSize;
 
     return image;
 }
