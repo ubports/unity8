@@ -44,7 +44,7 @@ Item {
                 priv.requestNewScreenshot();
             } else {
                 mainScreenshotImage.anchors.leftMargin = 0;
-                mainScreenshotImage.src = ApplicationManager.get(0).screenshot;
+                mainScreenshotImage.source = ApplicationManager.get(0).screenshot;
                 mainScreenshotImage.visible = true;
             }
         } else {
@@ -70,7 +70,7 @@ Item {
                 } else {
                     var application = priv.focusedApplication;
                     root.fullscreen = application.fullscreen;
-                    mainScreenshotImage.src = application.screenshot;
+                    mainScreenshotImage.source = application.screenshot;
                 }
             } else {
                 spreadView.selectedIndex = -1;
@@ -81,11 +81,11 @@ Item {
 
         onApplicationAdded: {
             if (!priv.focusedApplication) {
-                mainScreenshotImage.src = "";
+                mainScreenshotImage.source = "";
                 mainScreenshotImage.visible = false;
                 priv.applicationStarting = true;
             } else {
-                mainScreenshotImage.src = "";
+                mainScreenshotImage.source = "";
                 priv.newFocusedAppId = appId;
                 priv.secondApplicationStarting = true;
                 priv.requestNewScreenshot();
@@ -98,10 +98,10 @@ Item {
 
         onApplicationRemoved: {
             if (ApplicationManager.count == 0) {
-                mainScreenshotImage.src = ""
+                mainScreenshotImage.source = ""
                 mainScreenshotImage.visible = false;
             } else {
-                mainScreenshotImage.src = ApplicationManager.get(0).screenshot;
+                mainScreenshotImage.source = ApplicationManager.get(0).screenshot;
             }
         }
     }
@@ -123,7 +123,7 @@ Item {
         onFocusedScreenshotChanged: {
             if (root.moving && priv.waitingForScreenshot) {
                 mainScreenshotImage.anchors.leftMargin = 0;
-                mainScreenshotImage.src = priv.focusedScreenshot
+                mainScreenshotImage.source = priv.focusedScreenshot
                 mainScreenshotImage.visible = true;
             } else if (priv.secondApplicationStarting && priv.waitingForScreenshot) {
                 applicationSwitchingAnimation.start();
@@ -186,8 +186,7 @@ Item {
         id: applicationSwitchingAnimation
         // setup
         PropertyAction { target: mainScreenshotImage; property: "anchors.leftMargin"; value: 0 }
-        // FIXME: PropertyAction seems to fail when secondApplicationStarting and we didn't have another screenshot before
-        ScriptAction { script: mainScreenshotImage.src = priv.focusedScreenshot }
+        PropertyAction { target: mainScreenshotImage; property: "source"; value: priv.focusedScreenshot }
         PropertyAction { targets: [mainScreenshotImage, fadeInScreenshotImage]; property: "visible"; value: true }
         PropertyAction { target: fadeInScreenshotImage; property: "source"; value: {
                 var newFocusedApp = ApplicationManager.findApplication(priv.newFocusedAppId);
@@ -234,10 +233,6 @@ Item {
         id: mainScreenshotImage
         anchors { left: parent.left; bottom: parent.bottom }
         width: parent.width
-
-        // FIXME: Workaround for bug: https://bugs.launchpad.net/ubuntu-ui-toolkit/+bug/1194778
-        property string src
-        source: src
         visible: false
     }
 
