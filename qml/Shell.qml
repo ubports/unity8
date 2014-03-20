@@ -250,13 +250,6 @@ FocusScope {
         }
 
         function hide() {
-            if (locked) {
-                return;
-            }
-            forceHide();
-        }
-
-        function forceHide() {
             shown = false;
             if (ApplicationManager.focusedApplicationId) {
                 ApplicationManager.unfocusCurrentApplication();
@@ -444,7 +437,7 @@ FocusScope {
         var animate = !greeter.shown && !stages.shown
         greeter.hide()
         dash.setCurrentScope("home.scope", animate, false)
-        stages.forceHide()
+        stages.hide()
     }
 
     function hideIndicatorMenu(delay) {
@@ -551,8 +544,10 @@ FocusScope {
             }
             onDash: {
                 if (stages.shown && !stages.overlayMode) {
-                    stages.hide();
-                    launcher.hide();
+                    if (!stages.locked) {
+                        stages.hide();
+                        launcher.hide();
+                    }
                 }
             }
             onDashSwipeChanged: if (dashSwipe && stages.shown) dash.setCurrentScope("applications.scope", false, true)
