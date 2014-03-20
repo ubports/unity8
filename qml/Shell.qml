@@ -284,6 +284,12 @@ FocusScope {
             onApplicationAdded: {
                 stages.show();
             }
+
+            onApplicationRemoved: {
+                if (ApplicationManager.focusedApplicationId.length == 0) {
+                    stages.hide();
+                }
+            }
         }
 
         Loader {

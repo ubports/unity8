@@ -170,7 +170,6 @@ Item {
 
     }
     // FIXME: the signal connection seems to get lost with the fake application manager.
-    // Check with Qt 5.2, see if we can remove this Connections object
     Connections {
         target: priv.sideStageApp
         onScreenshotChanged: priv.sideStageScreenshot = priv.sideStageApp.screenshot
@@ -241,6 +240,10 @@ Item {
             }
             if (priv.sideStageAppId == appId) {
                 priv.sideStageAppId = "";
+            }
+            if (priv.sideStageAppId.length == 0) {
+                sideStageImage.shown = false;
+                priv.overlayOverride = false;
             }
         }
 
