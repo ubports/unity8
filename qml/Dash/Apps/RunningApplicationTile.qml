@@ -33,7 +33,7 @@ AbstractButton {
     // To avoid "binding loop" warning
     height: shapedApplicationImage.height + labelContainer.height
 
-    width: shapedApplicationImage.width
+    width: shapedApplicationImage.width <= units.gu(11) ? units.gu(11) : height
 
     property bool terminationModeEnabled: false
 
@@ -63,7 +63,8 @@ AbstractButton {
             source: application.screenshot
             // height : width = ss.height : ss.width
             height: shapedApplicationImage.height
-            width: height * sourceSize.width / sourceSize.height
+            fillMode: Image.PreserveAspectCrop
+            width: Math.min(height, height * sourceSize.width / sourceSize.height)
         }
 
     }

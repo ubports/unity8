@@ -118,6 +118,11 @@ FocusScope {
         anchors.rightMargin: stages.overlayWidth
         clip: stages.overlayMode && !stages.painting
 
+        InputFilterArea {
+            anchors.fill: parent
+            blockInput: parent.clip
+        }
+
         Item {
             id: underlay
             objectName: "underlay"
