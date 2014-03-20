@@ -40,7 +40,7 @@ QImage ApplicationScreenshotProvider::requestImage(const QString &imageId, QSize
     QString appId = imageId.split('/').first();
 
     ApplicationInfo* app = static_cast<ApplicationInfo*>(m_appManager->findApplication(appId));
-    if (app == NULL) {
+    if (app == nullptr) {
         return QImage();
     }
 
@@ -51,16 +51,18 @@ QImage ApplicationScreenshotProvider::requestImage(const QString &imageId, QSize
         qWarning() << "failed loading app image" << filePath;
     }
 
-    QGuiApplication *unity = qobject_cast<QGuiApplication*>(qApp);
 
     if (app->stage() == ApplicationInfo::SideStage) {
         QByteArray gus = qgetenv("GRID_UNIT_PX");
         image = image.scaledToWidth(gus.toInt() * 48);
     } else {
+        // Lets scale main stage applications to be the size of the screen/window.
+        QGuiApplication *unity = qobject_cast<QGuiApplication*>(qApp);
         Q_FOREACH (QWindow *win, unity->allWindows()) {
             QQuickWindow *quickWin = qobject_cast<QQuickWindow*>(win);
             if (quickWin) {
                 image = image.scaledToWidth(quickWin->width() - m_appManager->rightMargin());
+                break;
             }
         }
     }
