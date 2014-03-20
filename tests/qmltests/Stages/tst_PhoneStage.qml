@@ -83,6 +83,18 @@ Item {
             }
         }
 
+        function goToSpread() {
+            var spreadView = findChild(phoneStage, "spreadView");
+
+            var startX = phoneStage.width;
+            var startY = phoneStage.height / 2;
+            var endY = startY;
+            var endX = units.gu(2);
+
+            touchFlick(phoneStage, startX, startY, endX, endY,
+                       true /* beginTouch */, true /* endTouch */, units.gu(10), 50);
+        }
+
         function test_shortFlick() {
             addApps(2)
             var startX = phoneStage.width - units.gu(1);
@@ -175,13 +187,7 @@ Item {
 
             var spreadView = findChild(phoneStage, "spreadView");
 
-            var startX = phoneStage.width;
-            var startY = phoneStage.height / 2;
-            var endY = startY;
-            var endX = spreadView.width - (spreadView.width * spreadView.positionMarker3) - 1 - phoneStage.dragAreaWidth;
-
-            touchFlick(phoneStage, startX, startY, endX, endY,
-                       true /* beginTouch */, true /* endTouch */, units.gu(10), 50);
+            goToSpread();
 
             tryCompare(spreadView, "phase", 2);
 
@@ -190,7 +196,11 @@ Item {
 
             if (tile.mapToItem(spreadView).x > spreadView.width) {
                 // Item is not visible... Need to flick the spread
-                touchFlick(phoneStage, startX - units.gu(1), startY, endX, endY, true, true, units.gu(10), 50)
+                var startX = phoneStage.width - units.gu(1);
+                var startY = phoneStage.height / 2;
+                var endY = startY;
+                var endX = units.gu(2);
+                touchFlick(phoneStage, startX, startY, endX, endY, true, true, units.gu(10), 50)
                 tryCompare(spreadView, "flicking", false);
                 tryCompare(spreadView, "moving", false);
 //                waitForRendering(phoneStage);
@@ -224,21 +234,50 @@ Item {
             addApps(5);
 
             var spreadView = findChild(phoneStage, "spreadView");
-
-            var startX = phoneStage.width;
-            var startY = phoneStage.height / 2;
-            var endY = startY;
-            var endX = units.gu(2);
-
             var selectedApp = ApplicationManager.get(data.index);
 
-            touchFlick(phoneStage, startX, startY, endX, endY,
-                       true /* beginTouch */, true /* endTouch */, units.gu(10), 50);
+            goToSpread();
 
             phoneStage.select(selectedApp.appId);
 
             tryCompare(phoneStage, "painting", false);
             compare(ApplicationManager.focusedApplicationId, selectedApp.appId);
+        }
+
+        function test_fullscreenMode() {
+            for (var i = 0; i < 5; i++) {
+                addApps(1);
+                tryCompare(phoneStage, "fullscreen", ApplicationManager.get(0).fullscreen);
+            }
+
+            var fullscreenApp = null;
+            var normalApp = null;
+
+            for (var i = 0; i < ApplicationManager.count; i++) {
+                if (ApplicationManager.get(i).fullscreen && fullscreenApp == null) {
+                    fullscreenApp = ApplicationManager.get(i);
+                }
+                if (!ApplicationManager.get(i).fullscreen && normalApp == null) {
+                    normalApp = ApplicationManager.get(i);
+                }
+            }
+            verify(fullscreenApp != null); // Can't continue the test without having a fullscreen app
+            verify(normalApp != null); // Can't continue the test without having a non-fullscreen app
+
+            // Select a normal app
+            goToSpread();
+            phoneStage.select(normalApp.appId);
+            tryCompare(phoneStage, "fullscreen", false);
+
+            // Select a fullscreen app
+            goToSpread();
+            phoneStage.select(fullscreenApp.appId);
+            tryCompare(phoneStage, "fullscreen", true);
+
+            // Select a normal app
+            goToSpread();
+            phoneStage.select(normalApp.appId);
+            tryCompare(phoneStage, "fullscreen", false);
         }
 
         function cleanup() {
