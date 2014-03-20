@@ -212,6 +212,35 @@ Item {
             tryCompare(phoneStage, "painting", false);
         }
 
+        function test_select_data() {
+            return [
+                { tag: "0", index: 0 },
+                { tag: "2", index: 2 },
+                { tag: "4", index: 4 },
+            ]
+        }
+
+        function test_select(data) {
+            addApps(5);
+
+            var spreadView = findChild(phoneStage, "spreadView");
+
+            var startX = phoneStage.width;
+            var startY = phoneStage.height / 2;
+            var endY = startY;
+            var endX = units.gu(2);
+
+            var selectedApp = ApplicationManager.get(data.index);
+
+            touchFlick(phoneStage, startX, startY, endX, endY,
+                       true /* beginTouch */, true /* endTouch */, units.gu(10), 50);
+
+            phoneStage.select(selectedApp.appId);
+
+            tryCompare(phoneStage, "painting", false);
+            compare(ApplicationManager.focusedApplicationId, selectedApp.appId);
+        }
+
         function cleanup() {
             while (ApplicationManager.count > 0) {
                 var oldCount = ApplicationManager.count;
