@@ -104,7 +104,8 @@ Item {
                     mainStageAppId = focusedApplicationId;
                     priv.overlayOverride = false;
                     if (priv.startingAppId == focusedApplicationId && sideStageImage.shown) {
-                        sideStageImage.snapTo(root.width)
+                        // There was already a sidestage app on top. bring it back!
+                        ApplicationManager.focusApplication(priv.sideStageAppId)
                         priv.startingAppId = "";
                     }
                 } else if (focusedApplication.stage == ApplicationInfoInterface.SideStage) {
@@ -216,10 +217,10 @@ Item {
                 if (root.shown) {
                     priv.mainStageAppId = application.appId;
                     mainStageImage.switchTo(application)
+                    ApplicationManager.focusApplication(appId)
                     if (sideStageImage.shown) {
-                        sideStageImage.snapTo(root.width)
-                    } else {
-                        ApplicationManager.focusApplication(appId)
+                        // There was already a focused SS app. Bring it back
+                        ApplicationManager.focusApplication(priv.sideStageAppId)
                     }
                 } else {
                     if (sideStageImage.shown) {
