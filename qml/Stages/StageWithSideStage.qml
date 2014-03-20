@@ -268,7 +268,7 @@ Item {
         id: sideStageHandle
         anchors { top: parent.top; right: sideStageImage.left; bottom: parent.bottom }
         width: root.dragAreaWidth
-        visible: root.shown && priv.sideStageAppId
+        visible: root.shown && priv.sideStageAppId && sideStageImage.x < root.width
 
     }
     MouseArea {
