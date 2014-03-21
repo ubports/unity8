@@ -106,12 +106,12 @@ macro(add_qml_test SUBPATH COMPONENT_NAME)
             ${function_ARGS}
     )
 
-    add_qmltest_target(${qmltest_TARGET} "${qmltest_command}" TRUE)
-    add_qmltest_target(${qmltest_xvfb_TARGET} "${qmltest_xvfb_command}" ${qmltest_NO_TARGETS})
+    add_qmltest_target(${qmltest_TARGET} "${qmltest_command}" TRUE ${qmltest_NO_ADD_TEST})
+    add_qmltest_target(${qmltest_xvfb_TARGET} "${qmltest_xvfb_command}" ${qmltest_NO_TARGETS} TRUE)
     add_manual_qml_test(${SUBPATH} ${COMPONENT_NAME} ${ARGN})
 endmacro(add_qml_test)
 
-macro(add_qmltest_target qmltest_TARGET qmltest_command qmltest_NO_TARGETS)
+macro(add_qmltest_target qmltest_TARGET qmltest_command qmltest_NO_TARGETS qmltest_NO_ADD_TEST)
     add_custom_target(${qmltest_TARGET} ${qmltest_command})
 
     if(NOT "${qmltest_PROPERTIES}" STREQUAL "")
