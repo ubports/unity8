@@ -1,0 +1,51 @@
+#!/bin/bash
+# -*- Mode: sh; indent-tabs-mode: nil; tab-width: 4 -*-
+
+# Our goal here is to get an Ubuntu Touch device into a testable unlocked state.
+# This will include reboots.
+
+boot_delay=20
+max_retries=5
+
+ANDROID_SERIAL=$1
+if [ -z "$ANDROID_SERIAL" ]; then
+    echo "E: Please provide an adb device number as an argument"
+    exit 1
+fi
+
+UNLOCK_SCRIPT="
+import dbus, logging;
+from unity8 import process_helpers as helpers;
+logging.basicConfig(level=logging.INFO);
+bus = dbus.SystemBus().get_object(\"com.canonical.powerd\", \"/com/canonical/powerd\");
+cookie = bus.requestSysState(\"unlock-device-hold\", 1, dbus_interface=\"com.canonical.powerd\");
+helpers.restart_unity_with_testability();
+bus.clearSysState(cookie, dbus_interface=\"com.canonical.powerd\");
+helpers.unlock_unity()
+"
+
+RETURN_CODE=0
+
+retries=0
+while [ $retries -lt $max_retries ]; do
+    ((retries += 1))
+    adb -s $ANDROID_SERIAL reboot
+    sleep 5
+    adb -s $ANDROID_SERIAL "wait-for-device"
+    sleep $boot_delay
+    UNLOCK_OUTPUT=$(adb -s $ANDROID_SERIAL shell "sudo -u phablet -i python3 -c '$UNLOCK_SCRIPT'" 2>&1)
+    if echo "$UNLOCK_OUTPUT" | grep 'Greeter unlocked' >/dev/null; then
+        echo "I: Unlock passed"
+        retries=$max_retries
+    else
+        echo "I: Unlock script output: '$UNLOCK_OUTPUT'"
+        if [ $retries -lt $max_retries ]; then
+            echo "W: Unlock failed, trying again"
+        else
+            echo "E: Unlock failed, no more retries"
+            RETURN_CODE=1
+        fi
+    fi
+done
+
+exit $RETURN_CODE

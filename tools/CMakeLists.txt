@@ -9,3 +9,5 @@ qt5_use_modules(${SCOPE_TOOL} Qml Quick)
 install(TARGETS ${SCOPE_TOOL}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     )
+
+install(FILES unlock-device DESTINATION ${SHELL_APP_DIR})
