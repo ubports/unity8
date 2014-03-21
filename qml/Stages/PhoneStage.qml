@@ -174,11 +174,11 @@ Item {
 
     Timer {
         id: appSplashTimer
-        // This is to show the splash screen a bit longer.
-        // Mir signals us that the newly started app has gotten focus before it paints something on the screen
-        // This would result in the old app surface becoming visible for a bit.
-        // FIXME: change appManager to only change the focusedApplicationId when the surface is ready to be shown.
-        interval: 1500
+        // FIXME: apart from removing this completely in the future and make the app surface paint
+        // meaningful stuff, also check for colin's stuff to land so we can shape 1.4 secs away from here
+        // https://code.launchpad.net/~cjwatson/upstart-app-launch/libclick-manifest/+merge/210520
+        // https://code.launchpad.net/~cjwatson/upstart-app-launch/libclick-pkgdir/+merge/209909
+        interval: 1700
         repeat: false
         onTriggered: {
             priv.applicationStarting = false;

@@ -253,7 +253,11 @@ Item {
 
     Timer {
         id: splashScreenTimer
-        interval: 1500
+        // FIXME: apart from removing this completely in the future and make the app surface paint
+        // meaningful stuff, also check for colin's stuff to land so we can shape 1.4 secs away from here
+        // https://code.launchpad.net/~cjwatson/upstart-app-launch/libclick-manifest/+merge/210520
+        // https://code.launchpad.net/~cjwatson/upstart-app-launch/libclick-pkgdir/+merge/209909
+        interval: 1700
         repeat: false
         onTriggered: {
             mainStageSplash.visible = false;
