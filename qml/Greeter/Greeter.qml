@@ -60,6 +60,58 @@ Showable {
         onRunningChanged: if (!__rightHideAnimation.running) greeter.hideAnimation = __leftHideAnimation
     }
 
+    // Bi-directional revealer
+    DraggingArea {
+        id: dragHandle
+        anchors.fill: parent
+        enabled: greeter.narrowMode || !greeter.locked
+        orientation: Qt.Horizontal
+        propagateComposedEvents: true
+
+        Component.onCompleted: {
+            // set evaluators to baseline of dragValue == 0
+            leftEvaluator.reset()
+            rightEvaluator.reset()
+        }
+
+        function maybeTease() {
+            if (!greeter.locked || greeter.narrowMode)
+                greeter.tease();
+        }
+
+        onClicked: maybeTease()
+        onDragStart: maybeTease()
+        onPressAndHold: {} // eat event, but no need to tease, as drag will cover it
+
+        onDragEnd: {
+            if (rightEvaluator.shouldAutoComplete())
+                greeter.hideRight()
+            else if (leftEvaluator.shouldAutoComplete())
+                greeter.hide();
+            else
+                greeter.show(); // undo drag
+        }
+
+        onDragValueChanged: {
+            // dragValue is kept as a "step" value since we do this x adjusting on the fly
+            greeter.x += dragValue
+        }
+
+        EdgeDragEvaluator {
+            id: rightEvaluator
+            trackedPosition: dragHandle.dragValue + greeter.x
+            maxDragDistance: parent.width
+            direction: Direction.Rightwards
+        }
+
+        EdgeDragEvaluator {
+            id: leftEvaluator
+            trackedPosition: dragHandle.dragValue + greeter.x
+            maxDragDistance: parent.width
+            direction: Direction.Leftwards
+        }
+    }
+
     Loader {
         id: greeterContentLoader
         objectName: "greeterContentLoader"
@@ -116,59 +168,6 @@ Showable {
                 to: 0.0
                 duration: UbuntuAnimation.SleepyDuration
             }
-        }
-
-    }
-
-    // Bi-directional revealer
-    DraggingArea {
-        id: dragHandle
-        anchors.fill: greeterContentLoader
-        enabled: greeter.narrowMode || !greeter.locked
-        orientation: Qt.Horizontal
-        propagateComposedEvents: true
-
-        Component.onCompleted: {
-            // set evaluators to baseline of dragValue == 0
-            leftEvaluator.reset()
-            rightEvaluator.reset()
-        }
-
-        function maybeTease() {
-            if (!greeter.locked || greeter.narrowMode)
-                greeter.tease();
-        }
-
-        onClicked: maybeTease()
-        onDragStart: maybeTease()
-        onPressAndHold: {} // eat event, but no need to tease, as drag will cover it
-
-        onDragEnd: {
-            if (rightEvaluator.shouldAutoComplete())
-                greeter.hideRight()
-            else if (leftEvaluator.shouldAutoComplete())
-                greeter.hide();
-            else
-                greeter.show(); // undo drag
-        }
-
-        onDragValueChanged: {
-            // dragValue is kept as a "step" value since we do this x adjusting on the fly
-            greeter.x += dragValue
-        }
-
-        EdgeDragEvaluator {
-            id: rightEvaluator
-            trackedPosition: dragHandle.dragValue + greeter.x
-            maxDragDistance: parent.width
-            direction: Direction.Rightwards
-        }
-
-        EdgeDragEvaluator {
-            id: leftEvaluator
-            trackedPosition: dragHandle.dragValue + greeter.x
-            maxDragDistance: parent.width
-            direction: Direction.Leftwards
         }
     }
 

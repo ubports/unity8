@@ -20,7 +20,7 @@ import Ubuntu.Components 0.1
 import LightDM 0.1 as LightDM
 import "../Components"
 
-MouseArea {
+Item {
     id: root
     anchors.fill: parent
 

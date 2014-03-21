@@ -61,6 +61,12 @@ Item {
         signalName: "unlocked"
     }
 
+    SignalSpy {
+        id: teaseSpy
+        target: greeter
+        signalName: "tease"
+    }
+
     UT.UnityTestCase {
         name: "Greeter"
         when: windowShown
@@ -82,56 +88,10 @@ Item {
         }
 
         function test_teasingArea(data) {
-            tryCompare(greeter, "leftTeaserPressed", false)
-            tryCompare(greeter, "rightTeaserPressed", false)
-            mousePress(greeter, data.posX, greeter.height - units.gu(1))
-            tryCompare(greeter, "leftTeaserPressed", data.leftPressed)
-            tryCompare(greeter, "rightTeaserPressed", data.rightPressed)
-            mouseRelease(greeter, data.posX, greeter.height - units.gu(1))
-            tryCompare(greeter, "leftTeaserPressed", false)
-            tryCompare(greeter, "rightTeaserPressed", false)
-        }
-
-        function test_teaseLockedUnlocked_data() {
-            return [
-                {tag: "unlocked", locked: false, moved: false},
-                {tag: "locked", locked: true, moved: false},
-                {tag: "moved", locked: false, moved: true}
-            ];
-        }
-
-        function test_teaseLockedUnlocked(data) {
-            tryCompare(greeter, "rightTeaserPressed", false);
-            tryCompare(greeter, "x", 0);
-            greeter.locked = data.locked;
-
-            // simulate greeter being in the middle of a swipe
-            if (data.moved) {
-                greeter.x = -units.gu(4);
-                tryCompare(greeter, "x", -units.gu(4));
-            }
-
-            mouseClick(greeter, greeter.width - units.gu(5), greeter.height - units.gu(1));
-            greeter.minX = 0; // This is needed because the transition actually makes x jump once before animating
-
-            if (!data.moved) {
-                // Check if it has been moved over by 2 GUs. Give it a 2 pixel grace area
-                // because animation duration and teaseTimer are the same duration and
-                // might cause slight offsets
-                tryCompareFunction(function() { return greeter.minX <= -units.gu(2) + 2}, true);
-            } else {
-                // waiting 100ms to make sure nothing moves
-                wait(100);
-                compare(greeter.minX, 0, "Greeter teasing not disabled even though it's locked or moving.");
-            }
-
-            // Restore position in case we moved it for the test
-            if (data.moved) {
-                greeter.x = 0;
-            }
-
-            // Wait until we're back to 0
-            tryCompareFunction(function() { return greeter.x;}, 0);
+            teaseSpy.clear()
+            mouseClick(greeter, data.posX, greeter.height - units.gu(1))
+            teaseSpy.wait()
+            tryCompare(teaseSpy, "count", 1)
         }
 
         function test_statsWelcomeScreen() {

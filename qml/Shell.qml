@@ -195,8 +195,8 @@ FocusScope {
 
             available: !greeter.shown && !lockscreen.shown
             hides: [stages, launcher, panel.indicators]
-            shown: disappearingAnimationProgress !== 1.0
-            enabled: disappearingAnimationProgress === 0.0 && edgeDemo.dashEnabled
+            shown: disappearingAnimationProgress !== 1.0 && greeter.showProgress !== 1.0
+            enabled: disappearingAnimationProgress === 0.0 && greeter.showProgress === 0.0 && edgeDemo.dashEnabled
             // FIXME: unfocus all applications when going back to the dash
             onEnabledChanged: {
                 if (enabled) {
