@@ -187,16 +187,9 @@ Item {
             priv.startingAppId = appId;
             splashScreenTimer.start();
             var application = ApplicationManager.findApplication(appId)
-            print("Application added:", appId, application.state, application.stage)
             if (application.stage == ApplicationInfoInterface.SideStage) {
-//                priv.sideStageAppId = appId;
-//                sideStageImage.switchTo(application)
-//                sideStageImage.visible = true;
                 sideStageSplash.visible = true;
             } else if (application.stage == ApplicationInfoInterface.MainStage) {
-//                priv.mainStageAppId = appId;
-//                mainStageImage.switchTo(application)
-//                mainStageImage.visible = true;
                 mainStageSplash.visible = true;
             }
         }
@@ -209,15 +202,21 @@ Item {
                     mainStageImage.application = null
                 }
                 if (sideStageImage.shown) {
-                    sideStageImage.switchTo(application)
-                    mainStageImage.visible = true;
-                    ApplicationManager.focusApplication(appId)
+                    sideStageImage.switchTo(application);
+                    if (priv.mainStageAppId) {
+                        mainStageImage.application = priv.mainStageApp;
+                        mainStageImage.visible = true;
+                    }
                 } else {
-                    sideStageImage.application = application
-                    sideStageImage.snapToApp(application)
+                    sideStageImage.application = application;
+                    sideStageImage.snapToApp(application);
                 }
             } else if (application.stage == ApplicationInfoInterface.MainStage) {
                 if (root.shown) {
+                    if (sideStageImage.shown) {
+                        sideStageImage.application = priv.sideStageApp;
+                        sideStageImage.visible = true;
+                    }
                     priv.mainStageAppId = application.appId;
                     mainStageImage.switchTo(application)
                     ApplicationManager.focusApplication(appId)
@@ -235,7 +234,6 @@ Item {
                     ApplicationManager.focusApplication(appId)
                 }
             }
-//            priv.overlayOverride = false;
         }
 
         onApplicationRemoved: {
@@ -265,7 +263,6 @@ Item {
 
     SwitchingApplicationImage {
         id: mainStageImage
-//        height: parent.height
         anchors.bottom: parent.bottom
         width: parent.width
         visible: false
@@ -273,8 +270,6 @@ Item {
         onSwitched: {
             sideStageImage.visible = false;
         }
-
-//        Rectangle { anchors.fill: parent; color: "red"; opacity: 0.5 }
     }
 
     Rectangle {
@@ -308,9 +303,6 @@ Item {
 
         onMouseXChanged: {
             dragPoints.push(mouseX)
-//            if (priv.waitingForScreenshots) {
-//                return;
-//            }
 
             var dragPoint = root.width + mouseX;
             if (sideStageImage.shown) {
@@ -338,7 +330,6 @@ Item {
                 sideStageImage.snapToApp(priv.sideStageApp)
             }
         }
-//        Rectangle { anchors.fill: parent; color: "purple"; opacity: .5 }
     }
 
     SwitchingApplicationImage {
@@ -350,10 +341,9 @@ Item {
         visible: true
         property bool shown: false
 
-//        Rectangle { anchors.fill: parent; color: "green"; opacity: 0.5 }
-
         onSwitched: {
             mainStageImage.visible = false;
+            ApplicationManager.focusApplication(application.appId)
         }
 
         function snapTo(targetX) {
