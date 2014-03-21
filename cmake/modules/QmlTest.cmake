@@ -96,8 +96,9 @@ macro(add_qml_test SUBPATH COMPONENT_NAME)
             -o -,txt
             ${function_ARGS}
     )
+    exec_program( gcc ARGS "-dumpmachine" OUTPUT_VARIABLE ARCH_TRIPLET )
     set(qmltest_xvfb_command
-        env ${qmltest_ENVIRONMENT} LD_PRELOAD=/usr/lib/x86_64-linux-gnu/mesa/libGL.so.1
+        env ${qmltest_ENVIRONMENT} LD_PRELOAD=/usr/lib/${ARCH_TRIPLET}/mesa/libGL.so.1
         xvfb-run --server-args "-screen 0 1024x768x24" --auto-servernum
         ${qmltestrunner_exe} -input ${CMAKE_CURRENT_SOURCE_DIR}/${qmltest_FILE}.qml
         ${qmltestrunner_imports}
@@ -110,6 +111,31 @@ macro(add_qml_test SUBPATH COMPONENT_NAME)
     add_qmltest_target(${qmltest_xvfb_TARGET} "${qmltest_xvfb_command}" ${qmltest_NO_TARGETS} TRUE)
     add_manual_qml_test(${SUBPATH} ${COMPONENT_NAME} ${ARGN})
 endmacro(add_qml_test)
+
+macro(add_binary_qml_test CLASS_NAME LD_PATH DEPS)
+    set(testCommand
+          LD_LIBRARY_PATH=${LD_PATH}
+          ${CMAKE_CURRENT_BINARY_DIR}/${CLASS_NAME}TestExec
+          -o ${CMAKE_BINARY_DIR}/${CLASSNAME}Test.xml,xunitxml
+          -o -,txt)
+
+    add_custom_target(test${CLASS_NAME} ${testCommand})
+    add_dependencies(test${CLASS_NAME} ${CLASS_NAME}TestExec ${DEPS})
+
+    set(xvfbtestCommand
+          LD_PRELOAD=/usr/lib/x86_64-linux-gnu/mesa/libGL.so.1
+          LD_LIBRARY_PATH=${LD_PATH}
+          xvfb-run --server-args "-screen 0 1024x768x24" --auto-servernum
+          ${CMAKE_CURRENT_BINARY_DIR}/${CLASS_NAME}TestExec
+          -o ${CMAKE_BINARY_DIR}/${CLASS_NAME}Test.xml,xunitxml
+          -o -,txt)
+
+    add_custom_target(xvfbtest${CLASS_NAME} ${xvfbtestCommand})
+    add_dependencies(test${CLASS_NAME} ${CLASS_NAME}TestExec ${DEPS})
+
+    add_dependencies(qmluitests xvfbtest${CLASS_NAME})
+    add_manual_qml_test(. ${CLASS_NAME} IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
+endmacro(add_binary_qml_test)
 
 macro(add_qmltest_target qmltest_TARGET qmltest_command qmltest_NO_TARGETS qmltest_NO_ADD_TEST)
     add_custom_target(${qmltest_TARGET} ${qmltest_command})
