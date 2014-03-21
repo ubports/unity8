@@ -129,14 +129,10 @@ Item {
         function test_reloadData() {
             var mainMenu = findChild(page, "mainMenu");
 
-            console.log("setting empty data");
             page.menuModel.modelData = [];
             tryCompare(mainMenu, "count", 0);
-            console.log("set empty data");
 
-            console.log("setting full data");
             page.menuModel.modelData = fullMenuData;
-            console.log("set full data");
             tryCompare(mainMenu, "count", 3);
 
             page.menuModel.modelData = [];

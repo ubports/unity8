@@ -29,62 +29,68 @@ import Ubuntu.Gestures 0.1
  */
 Item {
     id: root
-    width: 700
-    height: 500
+    width: units.gu(70)
+    height: units.gu(70)
 
     property var dragHandle
 
     property bool stretch: false
     property real hintDisplacement: 0
 
-    VerticalShowable {
-        onDragHandleRecognizedGesture: { root.dragHandle = dragHandle }
-        stretch: root.stretch
-        hintDisplacement: root.hintDisplacement
-    }
+    Item {
+        id: baseItem
+        objectName: "baseItem"
+        anchors.fill: parent
 
-    HorizontalShowable {
-        onDragHandleRecognizedGesture: { root.dragHandle = dragHandle }
-        stretch: root.stretch
-        hintDisplacement: root.hintDisplacement
-    }
+        VerticalShowable {
+            onDragHandleRecognizedGesture: { root.dragHandle = dragHandle }
+            stretch: root.stretch
+            hintDisplacement: root.hintDisplacement
+        }
 
-    // Visually mark drag threshold
-    Rectangle {
-        color: "black"
-        width: 2
-        height: parent.height
+        HorizontalShowable {
+            onDragHandleRecognizedGesture: { root.dragHandle = dragHandle }
+            stretch: root.stretch
+            hintDisplacement: root.hintDisplacement
+        }
 
-        visible: dragHandle !== undefined && Direction.isHorizontal(dragHandle.direction)
+        // Visually mark drag threshold
+        Rectangle {
+            color: "black"
+            width: 2
+            height: parent.height
 
-        x: {
-            if (dragHandle) {
-                if (dragHandle.direction === Direction.Rightwards) {
-                    dragHandle.edgeDragEvaluator.dragThreshold;
+            visible: dragHandle !== undefined && Direction.isHorizontal(dragHandle.direction)
+
+            x: {
+                if (dragHandle) {
+                    if (dragHandle.direction === Direction.Rightwards) {
+                        dragHandle.edgeDragEvaluator.dragThreshold;
+                    } else {
+                        parent.width - dragHandle.edgeDragEvaluator.dragThreshold;
+                    }
                 } else {
-                    parent.width - dragHandle.edgeDragEvaluator.dragThreshold;
+                    0
                 }
-            } else {
-                0
             }
         }
-    }
-    Rectangle {
-        color: "black";
-        height: 2
-        width: parent.width
+        Rectangle {
+            color: "black";
+            height: 2
+            width: parent.width
 
-        visible: dragHandle !== undefined && Direction.isVertical(dragHandle.direction)
+            visible: dragHandle !== undefined && Direction.isVertical(dragHandle.direction)
 
-        y: {
-            if (dragHandle) {
-                if (dragHandle.direction === Direction.Downwards) {
-                    dragHandle.edgeDragEvaluator.dragThreshold;
+            y: {
+                if (dragHandle) {
+                    if (dragHandle.direction === Direction.Downwards) {
+                        dragHandle.edgeDragEvaluator.dragThreshold;
+                    } else {
+                        parent.height - dragHandle.edgeDragEvaluator.dragThreshold;
+                    }
                 } else {
-                    parent.height - dragHandle.edgeDragEvaluator.dragThreshold;
+                    0
                 }
-            } else {
-                0
             }
         }
     }
@@ -119,27 +125,37 @@ Item {
         }
     }
 
-    TestButton {
-        id: stretchButton
+    Row {
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.margins: units.gu(1)
+        spacing: units.gu(1)
 
-        text: root.stretch ? "stretch" : "move"
-        onClicked: { root.stretch = !root.stretch; }
-    }
+        Button {
+            id: stretchButton
+            text: root.stretch ? "stretch" : "move"
+            onClicked: { root.stretch = !root.stretch; }
+        }
 
-    TestButton {
-        anchors.bottom: parent.bottom
-        anchors.left: stretchButton.right
-        anchors.margins: units.gu(1)
+        Button {
+            text: root.hintDisplacement > 0 ? "hint" : "no hint"
+            onClicked: {
+                if (root.hintDisplacement > 0) {
+                    root.hintDisplacement = 0;
+                } else {
+                    root.hintDisplacement = units.gu(6);
+                }
+            }
+        }
 
-        text: root.hintDisplacement > 0 ? "hint" : "no hint"
-        onClicked: {
-            if (root.hintDisplacement > 0) {
-                root.hintDisplacement = 0;
-            } else {
-                root.hintDisplacement = units.gu(6);
+        Button {
+            text: "rotation: " + baseItem.rotation
+            onClicked: {
+                if (baseItem.rotation === 0.0) {
+                    baseItem.rotation = 90.0
+                } else {
+                    baseItem.rotation = 0.0
+                }
             }
         }
     }

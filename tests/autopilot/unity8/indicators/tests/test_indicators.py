@@ -18,11 +18,14 @@
 
 from __future__ import absolute_import
 
+from time import sleep
+
 from autopilot import platform
 
 from unity8.indicators.emulators.widget import DefaultIndicatorWidget
 from unity8.process_helpers import unlock_unity
-from unity8.shell.tests import UnityTestCase
+from unity8.shell.emulators import main_window
+from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 
 
 class IndicatorTestCase(UnityTestCase):
@@ -70,8 +73,8 @@ class IndicatorPageTitleMatchesWidgetTestCase(UnityTestCase):
     ]
 
     def setUp(self):
-        if platform.model() == "Desktop":
-            self.skipTest("Test cannot be run on the desktop.")
+        #if platform.model() == "Desktop":
+        #    self.skipTest("Test cannot be run on the desktop.")
         super(IndicatorPageTitleMatchesWidgetTestCase, self).setUp()
 
     def test_indicator_page_title_matches_widget(self):
@@ -88,3 +91,30 @@ class IndicatorPageTitleMatchesWidgetTestCase(UnityTestCase):
             "IndicatorPage",
             title=self.title
         )
+
+
+class IndicatorWellarkTestCase(UnityTestCase):
+
+    scenarios = _get_device_emulation_scenarios('Nexus4')
+
+    def setUp(self):
+        #if platform.model() == "Desktop":
+        #    self.skipTest("Test cannot be run on the desktop.")
+        super(IndicatorWellarkTestCase, self).setUp()
+
+    def test_indicator_network_shows_something(self):
+        """Swiping open an indicator must show its correct title.
+
+        See https://bugs.launchpad.net/ubuntu-ux/+bug/1253804 .
+        """
+        unity_proxy = self.launch_unity()
+        unlock_unity(unity_proxy)
+        widget = self.main_window.get_indicator_widget('indicator-network')
+        widget.swipe_to_open_indicator(self.main_window)
+        sleep(5)
+        #title = self.main_window.wait_select_single(
+        #    "IndicatorPage",
+        #    title=self.title
+        #)
+        self.main_window.print_tree('/home/alesage/Desktop/Wellark-network-tree.log')
+        

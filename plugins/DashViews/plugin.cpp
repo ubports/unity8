@@ -19,6 +19,7 @@
 
 #include "horizontaljournal.h"
 #include "listviewwithpageheader.h"
+#include "organicgrid.h"
 #include "verticaljournal.h"
 
 #include <QAbstractItemModel>
@@ -29,5 +30,6 @@ void DashViewsPlugin::registerTypes(const char *uri)
     qmlRegisterType<QAbstractItemModel>();
     qmlRegisterType<HorizontalJournal>(uri, 0, 1, "HorizontalJournal");
     qmlRegisterType<ListViewWithPageHeader>(uri, 0, 1, "ListViewWithPageHeader");
+    qmlRegisterType<OrganicGrid>(uri, 0, 1, "OrganicGrid");
     qmlRegisterType<VerticalJournal>(uri, 0, 1, "VerticalJournal");
 }

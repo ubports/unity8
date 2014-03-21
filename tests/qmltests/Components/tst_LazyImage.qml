@@ -155,7 +155,7 @@ Rectangle {
 
             if (data.transition) {
                 // wait for the transition to complete
-                var transition = findInvisibleChild(data.image, data.transition);
+                var transition = findChildIn(data.image, "transitions", data.transition);
                 tryCompare(transition, "running", true);
                 tryCompare(transition, "running", false);
             }

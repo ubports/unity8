@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from autopilot.input import Pointer, Touch
-
 from unity8.shell.emulators import UnityEmulatorBase
 
 
@@ -27,7 +25,6 @@ class DefaultIndicatorWidget(UnityEmulatorBase):
 
     def __init__(self, *args, **kwargs):
         super(DefaultIndicatorWidget, self).__init__(*args, **kwargs)
-        self.pointer = Pointer(Touch.create())
 
     # TODO: submit to autopilot.introspection.types.Rectangle [alesage 2013-12-06]
     def get_center(self):
@@ -42,7 +39,7 @@ class DefaultIndicatorWidget(UnityEmulatorBase):
         start_x, start_y = self.get_center()
         end_x = start_x
         end_y = window.height
-        self.pointer.drag(
+        self.pointing_device.drag(
             start_x, start_y,
             end_x, end_y
         )
@@ -53,7 +50,7 @@ class DefaultIndicatorWidget(UnityEmulatorBase):
         end_x, end_y = self.get_center()
         start_x = end_x
         start_y = window.height
-        self.pointer.drag(
+        self.pointing_device.drag(
             start_x, start_y,
             end_x, end_y
         )

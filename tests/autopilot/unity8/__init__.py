@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2012-2013 Canonical
+# Copyright (C) 2012, 2013, 2014 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -82,33 +82,39 @@ def get_binary_path(binary="unity8"):
     )
     if not os.path.exists(binary_path):
         try:
-            binary_path = subprocess.check_output(['which', binary]).strip()
+            binary_path = subprocess.check_output(
+                ['which', binary],
+                universal_newlines=True,
+            ).strip()
         except subprocess.CalledProcessError as e:
             raise RuntimeError("Unable to locate %s binary: %r" % (binary, e))
     return binary_path
 
 
-def get_data_dirs():
+def get_data_dirs(data_dirs_mock_enabled=True):
     """Prepend a mock data path to XDG_DATA_DIRS."""
+    data_dirs = _get_xdg_env_path()
+    if data_dirs_mock_enabled:
+        mock_data_path = _get_full_mock_data_path()
+        if os.path.exists(mock_data_path):
+            if data_dirs is not None:
+                data_dirs = '{0}:{1}'.format(mock_data_path, data_dirs)
+            else:
+                data_dirs = mock_data_path
+    return data_dirs
+
+
+def _get_full_mock_data_path():
     if running_installed_tests():
         data_path = "/usr/share/unity8/mocks/data"
     else:
         data_path = "../../mocks/data"
-    full_data_path = os.path.abspath(
+    return os.path.abspath(
         os.path.join(
             os.path.dirname(__file__),
             data_path
         )
     )
-
-    if os.path.exists(full_data_path):
-        xdg_path = _get_xdg_env_path()
-        if xdg_path is not None:
-            return "{0}:{1}".format(full_data_path, xdg_path)
-        else:
-            return full_data_path
-    else:
-        return None
 
 
 def _get_xdg_env_path():
@@ -125,9 +131,10 @@ def _get_xdg_upstart_env():
             "get-env",
             "--global",
             "XDG_DATA_DIRS"
-        ]).rstrip()
+        ], universal_newlines=True).rstrip()
     except subprocess.CalledProcessError:
         return None
+
 
 def get_grid_size():
     grid_size = os.getenv('GRID_UNIT_PX')

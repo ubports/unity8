@@ -84,11 +84,13 @@ Item {
                 { tag: 'switch1', type: "unity.widgets.systemsettings.tablet.switch", objectName: "switchMenu" },
 
                 { tag: 'button', type: "com.canonical.indicator.button", objectName: "buttonMenu" },
-                { tag: 'separator', type: "com.canonical.indicator.div", objectName: "divMenu" },
+                { tag: 'separator', type: "com.canonical.indicator.div", objectName: "separatorMenu" },
                 { tag: 'section', type: "com.canonical.indicator.section", objectName: "sectionMenu" },
                 { tag: 'progress', type: "com.canonical.indicator.progress", objectName: "progressMenu" },
                 { tag: 'slider1', type: "com.canonical.indicator.slider", objectName: "sliderMenu" },
                 { tag: 'switch2', type: "com.canonical.indicator.switch", objectName: "switchMenu" },
+                { tag: 'alarm', type: "com.canonical.indicator.alarm", objectName: "alarmMenu" },
+                { tag: 'appointment', type: "com.canonical.indicator.appointment", objectName: "appointmentMenu" },
 
                 { tag: 'messageItem', type: "com.canonical.indicator.messages.messageitem", objectName: "messageItem" },
                 { tag: 'sourceItem', type: "com.canonical.indicator.messages.sourceitem", objectName: "groupedMessage" },
@@ -96,8 +98,8 @@ Item {
                 { tag: 'slider2', type: "com.canonical.unity.slider", objectName: "sliderMenu" },
                 { tag: 'switch3', type: "com.canonical.unity.switch", objectName: "switchMenu" },
 
-                { tag: 'mediaplayer', type: "com.canonical.unity.media-player", objectName: "standardMenu" },
-                { tag: 'playbackitem', type: "com.canonical.unity.playback-item", objectName: "standardMenu" },
+                { tag: 'mediaplayer', type: "com.canonical.unity.media-player", objectName: "mediaPayerMenu" },
+                { tag: 'playbackitem', type: "com.canonical.unity.playback-item", objectName: "playbackItemMenu" },
 
                 { tag: 'wifisection', type: "unity.widgets.systemsettings.tablet.wifisection", objectName: "wifiSection" },
                 { tag: 'accesspoint', type: "unity.widgets.systemsettings.tablet.accesspoint", objectName: "accessPoint" },
@@ -113,6 +115,16 @@ Item {
             loader.sourceComponent = factory.load(menuData);
             tryCompareFunction(function() { return loader.item != undefined; }, true);
             compare(loader.item.objectName, data.objectName, "Created object name does not match intended object (" + loader.item.objectName + " != " + data.objectName + ")");
+        }
+
+        function test_create_checkable() {
+            var tmpData = menuData;
+            tmpData.isCheck = true;
+
+            loader.data = tmpData;
+            loader.sourceComponent = factory.load(tmpData);
+            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            compare(loader.item.objectName, "checkableMenu", "Should have created a checkable menu");
         }
 
         function test_create_radio() {
@@ -131,40 +143,81 @@ Item {
             loader.data = menuData;
             loader.sourceComponent = factory.load(menuData);
             tryCompareFunction(function() { return loader.item != undefined; }, true);
-            compare(loader.item.objectName, "divMenu", "Should have created a separator menu");
+            compare(loader.item.objectName, "separatorMenu", "Should have created a separator menu");
         }
 
         function test_create_sliderMenu_data() {
             return [
-                {label: "testLabel1", enabled: false, minValue: 0, maxValue: 100, value: 10.5 },
-                {label: "testLabel2", enabled: true, minValue: 0, maxValue: 100, value: 100 },
+                {tag: "disabled", enabled: false, minValue: 0, maxValue: 100, value1: 10.5, value2: 22 },
+                {tag: "enabled", enabled: true, minValue: 0, maxValue: 100, value1: 100, value2: 50 },
             ];
         }
 
         function test_create_sliderMenu(data) {
             menuData.type = "com.canonical.indicator.slider"
-            menuData.label = data.label;
+            menuData.label = data.tag;
             menuData.sensitive = data.enabled;
-            menuData.actionState = data.value;
             menuData.ext = {
                 'minIcon': "file:///testMinIcon",
                 'maxIcon': "file:///testMaxIcon",
                 'minValue': data.minValue,
                 'maxValue': data.maxValue
             };
+            menuData.actionState = data.value1;
 
             loader.data = menuData;
             loader.sourceComponent = factory.load(menuData);
             tryCompareFunction(function() { return loader.item != undefined; }, true);
             compare(loader.item.objectName, "sliderMenu", "Should have created a slider menu");
 
-            compare(loader.item.text, data.label, "Label does not match data");
+            compare(loader.item.text, data.tag, "Label does not match data");
             compare(loader.item.minIcon, "file:///testMinIcon", "MinIcon does not match data");
             compare(loader.item.maxIcon, "file:///testMaxIcon", "MaxIcon does not match data");
             compare(loader.item.minimumValue, data.minValue, "MinValue does not match data");
             compare(loader.item.maximumValue, data.maxValue, "MaxValue does not match data");
-            compare(loader.item.value, data.value, "Calue does not match data");
             compare(loader.item.enabled, data.enabled, "Enabled does not match data");
+            compare(loader.item.value, data.value1, "Value does not match data");
+
+            menuData.actionState = data.value2;
+            compare(loader.item.value, data.value2, "Value does not match new data");
+        }
+
+        function test_create_sliderMenu_lp1283191_data() {
+            return [
+                {tag: "disabled", enabled: false, minValue: 0, maxValue: 100, value1: 10.5, value2: 22, manualValue: 0 },
+                {tag: "enabled", enabled: true, minValue: 0, maxValue: 100, value1: 100, value2: 50, manualValue: 30 },
+                {tag: "test-zero", enabled: true, minValue: 0, maxValue: 100, value1: 10, value2: 0, manualValue: 20 },
+            ];
+        }
+
+        function test_create_sliderMenu_lp1283191(data) {
+            menuData.type = "com.canonical.indicator.slider"
+            menuData.label = data.tag;
+            menuData.sensitive = data.enabled;
+            menuData.ext = {
+                'minIcon': "file:///testMinIcon",
+                'maxIcon': "file:///testMaxIcon",
+                'minValue': data.minValue,
+                'maxValue': data.maxValue
+            };
+            menuData.actionState = data.value1;
+
+            loader.data = menuData;
+            loader.sourceComponent = factory.load(menuData);
+            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            compare(loader.item.value, data.value1, "Value does not match data");
+
+            var slider = findChild(loader.item, "slider");
+            verify(slider !== null);
+
+            slider.value = data.manualValue;
+            compare(loader.item.value, data.manualValue, "Slider value does not match manual set value");
+
+            menuData.actionState = data.value2;
+            compare(loader.item.value, data.value2, "Value does not match new data");
+
+            menuData.actionState = undefined;
+            compare(loader.item.value, data.value2, "Undefined state should not update slider value");
         }
 
         function test_create_buttonMenu_data() {
@@ -232,7 +285,7 @@ Item {
 
         function test_create_standardMenu_data() {
             return [
-                {label: "testLabel1", enabled: true, icon: "file:///testIcon" },
+                {label: "testLabel1", enabled: true, icon: "file:///testIcon1" },
                 {label: "testLabel2", enabled: false, icon: "file:///testIcon2"},
             ];
         }
@@ -253,10 +306,34 @@ Item {
             compare(loader.item.enabled, data.enabled, "Enabled does not match data");
         }
 
-        function test_create_switchMenu_data() {
+        function test_create_checkableMenu_data() {
             return [
                 {label: "testLabel1", enabled: true, checked: false },
                 {label: "testLabel2", enabled: false, checked: true },
+            ];
+        }
+
+        function test_create_checkableMenu(data) {
+            menuData.type = "";
+            menuData.label = data.label;
+            menuData.sensitive = data.enabled;
+            menuData.isCheck = true;
+            menuData.isToggled = data.checked;
+
+            loader.data = menuData;
+            loader.sourceComponent = factory.load(menuData);
+            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            compare(loader.item.objectName, "checkableMenu", "Should have created a checkable menu");
+
+            compare(loader.item.text, data.label, "Label does not match data");
+            compare(loader.item.checked, data.checked, "Checked does not match data");
+            compare(loader.item.enabled, data.enabled, "Enabled does not match data");
+        }
+
+        function test_create_switchMenu_data() {
+            return [
+                {label: "testLabel1", enabled: true, checked: false, icon: "file:///testIcon1" },
+                {label: "testLabel2", enabled: false, checked: true, icon: "file:///testIcon2" },
             ];
         }
 
@@ -264,17 +341,63 @@ Item {
             menuData.type = "com.canonical.indicator.switch";
             menuData.label = data.label;
             menuData.sensitive = data.enabled;
-            menuData.icon = "file:///testIcon";
+            menuData.icon = data.icon;
             menuData.isToggled = data.checked;
 
             loader.data = menuData;
             loader.sourceComponent = factory.load(menuData);
             tryCompareFunction(function() { return loader.item != undefined; }, true);
-            compare(loader.item.objectName, "switchMenu", "Should have created a standard menu");
+            compare(loader.item.objectName, "switchMenu", "Should have created a switch menu");
 
             compare(loader.item.text, data.label, "Label does not match data");
-            compare(loader.item.icon, "file:///testIcon", "MaxIcon does not match data");
+            compare(loader.item.iconSource, data.icon, "Icon does not match data");
             compare(loader.item.checked, data.checked, "Checked does not match data");
+            compare(loader.item.enabled, data.enabled, "Enabled does not match data");
+        }
+
+        function test_create_alarmMenu_data() {
+            return [
+                {label: "testLabel1", enabled: true, icon: "file:///testIcon1" },
+                {label: "testLabel2", enabled: false, icon: "file:///testIcon2" },
+            ];
+        }
+
+        function test_create_alarmMenu(data) {
+            menuData.type = "com.canonical.indicator.alarm";
+            menuData.label = data.label;
+            menuData.sensitive = data.enabled;
+            menuData.icon = data.icon;
+
+            loader.data = menuData;
+            loader.sourceComponent = factory.load(menuData);
+            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            compare(loader.item.objectName, "alarmMenu", "Should have created a alarm menu");
+
+            compare(loader.item.text, data.label, "Label does not match data");
+            compare(loader.item.iconSource, data.icon, "Icon does not match data");
+            compare(loader.item.enabled, data.enabled, "Enabled does not match data");
+        }
+
+        function test_create_appointmentMenu_data() {
+            return [
+                {label: "testLabel1", enabled: true, icon: "file:///testIcon1" },
+                {label: "testLabel2", enabled: false, icon: "file:///testIcon2" },
+            ];
+        }
+
+        function test_create_appointmentMenu(data) {
+            menuData.type = "com.canonical.indicator.appointment";
+            menuData.label = data.label;
+            menuData.sensitive = data.enabled;
+            menuData.icon = data.icon;
+
+            loader.data = menuData;
+            loader.sourceComponent = factory.load(menuData);
+            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            compare(loader.item.objectName, "appointmentMenu", "Should have created a appointment menu");
+
+            compare(loader.item.text, data.label, "Label does not match data");
+            compare(loader.item.iconSource, data.icon, "Icon does not match data");
             compare(loader.item.enabled, data.enabled, "Enabled does not match data");
         }
 
@@ -322,7 +445,7 @@ Item {
             tryCompareFunction(function() { return loader.item != undefined; }, true);
             compare(loader.item.objectName, "accessPoint", "Should have created a access point menu");
 
-            compare(loader.item.label, data.label, "Label does not match data");
+            compare(loader.item.text, data.label, "Label does not match data");
             compare(loader.item.strengthAction.name, "action::strength", "Strength action incorrect");
             compare(loader.item.secure, data.secure, "Secure does not match data");
             compare(loader.item.adHoc, data.adHoc, "AdHoc does not match data");
@@ -341,8 +464,8 @@ Item {
 
         function test_create_groupedMessage_data() {
             return [
-                {label: "testLabel1", enabled: true, count: "5", appIcon: "file:///testIcon" },
-                {label: "testLabel2", enabled: false, count: "10", appIcon: "file:///testIcon2" },
+                {label: "testLabel1", enabled: true, count: "5", icon: "file:///testIcon" },
+                {label: "testLabel2", enabled: false, count: "10", icon: "file:///testIcon2" },
             ];
         }
 
@@ -350,8 +473,8 @@ Item {
             menuData.type = "com.canonical.indicator.messages.sourceitem";
             menuData.label = data.label;
             menuData.sensitive = data.enabled;
-            menuData.icon = data.appIcon;
-            menuData.ext = { 'icon': data.appIcon };
+            menuData.icon = data.icon;
+            menuData.ext = { 'icon': data.icon };
             menuData.actionState = [data.count];
             menuData.isToggled = true;
 
@@ -360,9 +483,103 @@ Item {
             tryCompareFunction(function() { return loader.item != undefined; }, true);
             compare(loader.item.objectName, "groupedMessage", "Should have created a group message menu");
 
-            compare(loader.item.title, data.label, "Label does not match data");
+            compare(loader.item.text, data.label, "Label does not match data");
             compare(loader.item.count, data.count, "Count does not match data");
-            compare(loader.item.appIcon, data.appIcon, "App Icon does not match data");
+            compare(loader.item.iconSource, data.icon, "Icon does not match data");
+            compare(loader.item.enabled, data.enabled, "Enabled does not match data");
+        }
+
+        function test_create_mediaPayerMenu_data() {
+            return [{
+                    label: "player1",
+                    icon: "file:://icon1",
+                    albumArt: "file:://art1",
+                    song: "song1",
+                    artist: "artist1",
+                    album: "album1",
+                    running: true,
+                    state: "Playing",
+                    enabled: true
+                },{
+                    label: "player2",
+                    icon: "file:://icon2",
+                    albumArt: "file:://art2",
+                    song: "song2",
+                    artist: "artist2",
+                    album: "album2",
+                    running: false,
+                    state: "Paused",
+                    enabled: false
+                }
+            ];
+        }
+
+        function test_create_mediaPayerMenu(data) {
+            menuData.type = "com.canonical.unity.media-player";
+            menuData.label = data.label;
+            menuData.sensitive = data.enabled;
+            menuData.icon = data.icon;
+            menuData.actionState = {
+                'art-url': data.albumArt,
+                'title': data.song,
+                'artist': data.artist,
+                'album': data.album,
+                'running': data.running,
+                'state': data.state,
+            };
+
+            loader.data = menuData;
+            loader.sourceComponent = factory.load(menuData);
+            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            compare(loader.item.objectName, "mediaPayerMenu", "Should have created a media player menu");
+
+            compare(loader.item.playerIcon, data.icon, "Album art does not match data");
+            compare(loader.item.playerName, data.label, "Album art does not match data");
+            compare(loader.item.albumArt, data.albumArt, "Album art does not match data");
+            compare(loader.item.song, data.song, "Song does not match data");
+            compare(loader.item.artist, data.artist, "Artist does not match data");
+            compare(loader.item.album, data.album, "Album does not match data");
+            compare(loader.item.running, data.running, "Running does not match data");
+            compare(loader.item.state, data.state, "State does not match data");
+            compare(loader.item.enabled, data.enabled, "Enabled does not match data");
+        }
+
+        function test_create_playbackItemMenu_data() {
+            return [{
+                    playAction: "action::play",
+                    nextAction: "action::next",
+                    previousAction: "action::previous",
+                    enabled: true
+                },{
+                    playAction: "action::play2",
+                    nextAction: "action::next2",
+                    previousAction: "action::previous2",
+                    enabled: false
+                }
+            ];
+        }
+
+        function test_create_playbackItemMenu(data) {
+            menuData.type = "com.canonical.unity.playback-item";
+            menuData.sensitive = data.enabled;
+            menuData.ext = {
+                'xCanonicalPlayAction': data.playAction,
+                'xCanonicalNextAction': data.nextAction,
+                'xCanonicalPreviousAction': data.previousAction
+            };
+
+            loader.data = menuData;
+            loader.sourceComponent = factory.load(menuData);
+            tryCompareFunction(function() { return loader.item != undefined; }, true);
+            compare(loader.item.objectName, "playbackItemMenu", "Should have created a playback menu");
+
+            compare(loader.item.playing, false, "Playing does not match data");
+            compare(loader.item.playAction.name, data.playAction, "Play action incorrect");
+            compare(loader.item.nextAction.name, data.nextAction, "Next action incorrect");
+            compare(loader.item.previousAction.name, data.previousAction, "Previous action incorrect");
+            compare(loader.item.canPlay, false, "CanPlay should be false");
+            compare(loader.item.canGoNext, false, "CanGoNext should be false");
+            compare(loader.item.canGoPrevious, false, "CanGoPrevious should be false");
             compare(loader.item.enabled, data.enabled, "Enabled does not match data");
         }
     }

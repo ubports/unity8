@@ -135,11 +135,12 @@ private Q_SLOTS:
         view->setSource(QUrl::fromLocalFile(DASHVIEWSTEST_FOLDER "/verticaljournaltest.qml"));
 
         view->show();
-        view->resize(470, 400);
         QTest::qWaitForWindowExposed(view);
+        view->resize(470, 400);
 
         vj = dynamic_cast<VerticalJournal*>(view->rootObject()->findChild<QObject*>("vj"));
         vj->setModel(model);
+        QTRY_COMPARE(vj->width(), 470.);
 
         checkInitialPositions();
     }
@@ -457,6 +458,38 @@ private Q_SLOTS:
         verifyItem(vj->m_columnVisibleItems[2][2],  5, 320, 70, true);
         verifyItem(vj->m_columnVisibleItems[0][1],  6,   0, 110, true);
         verifyItem(vj->m_columnVisibleItems[1][2],  7, 160, 120, true);
+    }
+
+    void testNegativeHeight()
+    {
+        QQuickItemPrivate::get(vj)->anchors()->resetFill();
+        vj->setHeight(-8);
+
+        QStringList heightList;
+        heightList << "100" << "50" << "50" << "30";
+        model->setStringList(heightList);
+
+        QTRY_COMPARE(vj->m_columnVisibleItems.count(), 3);
+        QTRY_COMPARE(vj->m_columnVisibleItems[0].count(), 0);
+        QTRY_COMPARE(vj->m_columnVisibleItems[1].count(), 0);
+        QTRY_COMPARE(vj->m_columnVisibleItems[2].count(), 0);
+        QTRY_COMPARE(vj->implicitHeight(), 0.);
+    }
+
+    void testNegativeDelegateCreationRange()
+    {
+        vj->setDelegateCreationBegin(0);
+        vj->setDelegateCreationEnd(-100);
+
+        QStringList heightList;
+        heightList << "100" << "50" << "50" << "30";
+        model->setStringList(heightList);
+
+        QTRY_COMPARE(vj->m_columnVisibleItems.count(), 3);
+        QTRY_COMPARE(vj->m_columnVisibleItems[0].count(), 0);
+        QTRY_COMPARE(vj->m_columnVisibleItems[1].count(), 0);
+        QTRY_COMPARE(vj->m_columnVisibleItems[2].count(), 0);
+        QTRY_COMPARE(vj->implicitHeight(), 0.);
     }
 
 private:
