@@ -119,21 +119,21 @@ macro(add_binary_qml_test CLASS_NAME LD_PATH DEPS)
           -o ${CMAKE_BINARY_DIR}/${CLASSNAME}Test.xml,xunitxml
           -o -,txt)
 
-    add_custom_target(test${CLASS_NAME} ${testCommand})
+    add_qmltest_target(test${CLASS_NAME} "${testCommand}" FALSE TRUE)
     add_dependencies(test${CLASS_NAME} ${CLASS_NAME}TestExec ${DEPS})
 
+    exec_program( gcc ARGS "-dumpmachine" OUTPUT_VARIABLE ARCH_TRIPLET )
     set(xvfbtestCommand
-          LD_PRELOAD=/usr/lib/x86_64-linux-gnu/mesa/libGL.so.1
+          LD_PRELOAD=/usr/lib/${ARCH_TRIPLET}/mesa/libGL.so.1
           LD_LIBRARY_PATH=${LD_PATH}
           xvfb-run --server-args "-screen 0 1024x768x24" --auto-servernum
           ${CMAKE_CURRENT_BINARY_DIR}/${CLASS_NAME}TestExec
           -o ${CMAKE_BINARY_DIR}/${CLASS_NAME}Test.xml,xunitxml
           -o -,txt)
 
-    add_custom_target(xvfbtest${CLASS_NAME} ${xvfbtestCommand})
-    add_dependencies(test${CLASS_NAME} ${CLASS_NAME}TestExec ${DEPS})
-
+    add_qmltest_target(xvfbtest${CLASS_NAME} "${xvfbtestCommand}" FALSE TRUE)
     add_dependencies(qmluitests xvfbtest${CLASS_NAME})
+
     add_manual_qml_test(. ${CLASS_NAME} IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
 endmacro(add_binary_qml_test)
 
