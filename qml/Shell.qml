@@ -279,6 +279,12 @@ FocusScope {
                         stages.hide();
                     }
                 }
+
+                // If any app is focused when greeter is open, it's due to a user action
+                // like a snap decision (say, an incoming call).
+                // TODO: these should be protected to only unlock for certain applications / certain usecases
+                // potentially only in connection with a notification.
+                greeter.hide()
             }
 
             onApplicationAdded: {
