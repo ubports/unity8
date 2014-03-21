@@ -1,3 +1,22 @@
+unity8 (7.84+14.04.20140319.1-0ubuntu1) trusty; urgency=low
+
+  [ Michał Sawicz ]
+  * Work around bug #1293478 - make sure to send ints, not doubles for
+    volume control. (LP: #1293478)
+
+  [ Nick Dedekind ]
+  * Fixed binding being cleared when manually changing slider value
+    (lp#1283191). (LP: #1283191)
+
+  [ Albert Astals ]
+  * Fix indicators highlight position on 5.2 We need to take into
+    account the list originX if we're using the list delegates x outside
+    the list itself
+  * LVWPH: Make sure m_firstVisibleIndex is correctly set on
+    removeNonVisibleItems
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 19 Mar 2014 16:40:20 +0000
+
 unity8 (7.84+14.04.20140317.2-0ubuntu1) trusty; urgency=low
 
   [ CI bot ]

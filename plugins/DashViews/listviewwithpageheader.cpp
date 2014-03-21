@@ -772,6 +772,9 @@ bool ListViewWithPageHeader::removeNonVisibleItems(qreal bufferFrom, qreal buffe
             ++i;
         }
     }
+    if (!foundVisible) {
+        m_firstVisibleIndex = -1;
+    }
     if (m_firstVisibleIndex != oldFirstVisibleIndex) {
         adjustMinYExtent();
     }
