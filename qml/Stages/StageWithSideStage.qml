@@ -185,17 +185,20 @@ Item {
 
         onApplicationAdded: {
             priv.startingAppId = appId;
-//            var application = ApplicationManager.findApplication(appId)
-//            print("Application added:", appId, application.state)
-//            if (application.stage == ApplicationInfoInterface.SideStage) {
+            splashScreenTimer.start();
+            var application = ApplicationManager.findApplication(appId)
+            print("Application added:", appId, application.state, application.stage)
+            if (application.stage == ApplicationInfoInterface.SideStage) {
 //                priv.sideStageAppId = appId;
-//                mainStageImage.switchTo(application)
-//                mainStageImage.visible = true;
-//            } else if (application.stage == ApplicationInfoInterface.MainStage) {
-//                priv.mainStageAppId = appId;
 //                sideStageImage.switchTo(application)
 //                sideStageImage.visible = true;
-//            }
+                sideStageSplash.visible = true;
+            } else if (application.stage == ApplicationInfoInterface.MainStage) {
+//                priv.mainStageAppId = appId;
+//                mainStageImage.switchTo(application)
+//                mainStageImage.visible = true;
+                mainStageSplash.visible = true;
+            }
         }
 
         onFocusRequested: {
@@ -250,6 +253,16 @@ Item {
 
     }
 
+    Timer {
+        id: splashScreenTimer
+        interval: 1500
+        repeat: false
+        onTriggered: {
+            mainStageSplash.visible = false;
+            sideStageSplash.visible = false;
+        }
+    }
+
     SwitchingApplicationImage {
         id: mainStageImage
 //        height: parent.height
@@ -262,6 +275,13 @@ Item {
         }
 
 //        Rectangle { anchors.fill: parent; color: "red"; opacity: 0.5 }
+    }
+
+    Rectangle {
+        id: mainStageSplash
+        anchors.fill: root
+        anchors.rightMargin: root.width - sideStageImage.x
+        color: "white"
     }
 
     SidestageHandle {
@@ -321,15 +341,14 @@ Item {
 //        Rectangle { anchors.fill: parent; color: "purple"; opacity: .5 }
     }
 
-
     SwitchingApplicationImage {
         id: sideStageImage
         width: priv.sideStageWidth
         height: root.height
-        x: root.width - width
+        x: root.width
         anchors.bottom: parent.bottom
         visible: true
-        property bool shown: true
+        property bool shown: false
 
 //        Rectangle { anchors.fill: parent; color: "green"; opacity: 0.5 }
 
@@ -381,5 +400,12 @@ Item {
                 }
             }
         }
+    }
+
+    Rectangle {
+        id: sideStageSplash
+        anchors.fill: parent
+        anchors.leftMargin: sideStageImage.x
+        color: "white"
     }
 }
