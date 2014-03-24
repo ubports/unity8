@@ -12,5 +12,4 @@ usr/share/unity8/Panel
 usr/share/unity8/Shell.qml
 usr/share/unity8/SideStage
 usr/share/unity8/graphics
-usr/share/unity8/unlock-device
 data/unity8.conf usr/share/upstart/sessions/
