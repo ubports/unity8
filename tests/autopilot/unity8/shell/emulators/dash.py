@@ -203,4 +203,3 @@ class AppPreview(DashPreview):
         return dict(
             title=details.get('title'), publisher=details.get('subtitle'),
             description=details.get('description'))
-
