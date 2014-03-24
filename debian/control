@@ -96,7 +96,6 @@ Depends: gsettings-desktop-schemas,
          ${shlibs:Depends},
 Recommends: unity-scope-click,
             unity-scope-mediascanner2,
-            unity-scope-onlinemusic,
             unity-scope-scopes,
 Breaks: indicator-network (<< 0.5.1)
 Replaces: ubuntu-touch-session (<< 0.82~)
