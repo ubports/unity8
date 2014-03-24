@@ -18,7 +18,7 @@ from bzrlib import branch, errors
 from bzrlib.urlutils import dirname, local_path_from_url
 
 def execute_makecheck(local_branch, master_branch, old_revision_number, old_revision_id, future_revision_number, future_revision_id, tree_delta, future_tree):
-    if not master_branch.basis_tree().has_filename("Shell.qml"):
+    if not master_branch.basis_tree().has_filename("qml/Shell.qml"):
         return
 
     os.chdir(local_path_from_url(master_branch.base))
