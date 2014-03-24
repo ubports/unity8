@@ -53,7 +53,9 @@ Showable {
     }
 
     function closeOverlayScope() {
-        dashContent.x = 0;
+        if (dashContent.x != 0) {
+            dashContent.x = 0;
+        }
     }
 
     SortFilterProxyModel {
