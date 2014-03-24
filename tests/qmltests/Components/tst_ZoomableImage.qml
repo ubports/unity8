@@ -44,6 +44,7 @@ Rectangle {
         id: zoomableImage
         width: parent.width
         anchors.fill: parent
+        asynchronous: false
     }
 
     SignalSpy {
@@ -55,22 +56,24 @@ Rectangle {
         when: windowShown
 
         function test_loadImage() {
-            var image = findChild(zoomableImage, "image");
+            var lazyImage = findChild(zoomableImage, "lazyImage");
 
             zoomableImage.source = widgetData0["source"];
             zoomableImage.zoomable = widgetData0["zoomable"];
             waitForRendering(zoomableImage);
-            tryCompare(image, "state", "default");
+            tryCompare(zoomableImage, "imageState", "default");
 
             signalSpy.signalName = "onStateChanged";
-            signalSpy.target = image;
+            signalSpy.target = lazyImage;
             signalSpy.clear();
 
             zoomableImage.source = widgetData1["source"];
             zoomableImage.zoomable = widgetData1["zoomable"];
+            waitForRendering(lazyImage);
+            tryCompareFunction(function() { return get_filename(lazyImage.source.toString()) === get_filename(widgetData1["source"]); }, true);
             waitForRendering(zoomableImage);
-            tryCompare(image, "state", "ready");
-            compare (signalSpy.count, 2);
+            tryCompare(zoomableImage, "imageState", "ready");
+            compare (signalSpy.count, 1);
         }
 
         function test_zoomable_data() {
@@ -87,8 +90,15 @@ Rectangle {
                    ]
         }
 
+        function get_filename(a) {
+            var wordsA = a.split("/");
+            var filenameA = wordsA[wordsA.length-1];
+            return filenameA;
+        }
+
         function test_zoomable(data) {
             var image = findChild(zoomableImage, "image");
+            var lazyImage = findChild(zoomableImage, "lazyImage");
 
             signalSpy.signalName = "onScaleChanged";
             signalSpy.target = image;
@@ -98,7 +108,8 @@ Rectangle {
             zoomableImage.zoomable = data.zoomable;
             waitForRendering(zoomableImage);
 
-            tryCompare(image, "state", "ready");
+            tryCompare(zoomableImage, "imageState", "ready");
+            tryCompareFunction(function() { return get_filename(lazyImage.source.toString()) === get_filename(data.source); }, true);
             waitForRendering(image);
 
             var event1 = touchEvent();

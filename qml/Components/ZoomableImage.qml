@@ -26,10 +26,11 @@ import "../Components"
 
 Item {
     id: root
-    property alias source: image.source
+    property alias source: lazyImage.source
     property var zoomable: false
-    property alias state: image.state
-    property alias scale: image.scale
+    property alias imageState: lazyImage.state
+    property alias scaleTo: lazyImage.scaleTo
+    property alias asynchronous: lazyImage.asynchronous
 
     Flickable {
         id: flickable
@@ -37,8 +38,8 @@ Item {
         clip: true
         contentHeight: imageContainer.height
         contentWidth: imageContainer.width
-        onHeightChanged: image.calculateSize()
-        onWidthChanged: image.calculateSize()
+        onHeightChanged: image.resetScale()
+        onWidthChanged: image.resetScale()
         anchors.fill: parent
 
         Item {
@@ -47,39 +48,57 @@ Item {
             width: Math.max(image.width * image.scale, flickable.width)
             height: Math.max(image.height * image.scale, flickable.height)
 
-            LazyImage {
+            Item {
                 id: image
                 objectName: "image"
-                property real prevScale
-                smooth: !flickable.movingVertically
+                property alias imageState: lazyImage.state
+                property var prevScale
                 anchors.centerIn: parent
-                fillMode: Image.PreserveAspectFit
 
-                function calculateSize() {
-                    image.scale = Math.min(flickable.width / image.width, flickable.height / image.height) * 0.98;
+                signal imageReloaded
+
+                LazyImage {
+                    id: lazyImage
+                    objectName: "lazyImage"
+                    smooth: !flickable.movingVertically
+                    anchors.fill: parent
+                    fillMode: Image.PreserveAspectFit
+                    scaleTo: "fit"
+
+                    onStateChanged: {
+                        if (state == "ready") {
+                            image.imageReloaded();
+                        }
+                    }
+                }
+
+                onImageReloaded: {
+                    image.width = flickable.width;
+                    image.height = flickable.height;
+                    image.resetScale();
+                }
+
+                function resetScale() {
+                    image.scale = Math.min(flickable.width / image.width, flickable.height / image.height);
                     pinchArea.minScale = image.scale;
                     prevScale = Math.min(image.scale, 1);
                 }
 
                 onScaleChanged: {
-                    if ((width * scale) > flickable.width) {
-                        var xoff = (flickable.width / 2 + flickable.contentX) * scale / prevScale;
+                    var currentWidth = width * scale
+                    var currentHeight = height * scale
+                    var scaleRatio = scale / prevScale
+                    if (currentWidth > flickable.width) {
+                        var xpos = flickable.width / 2 + flickable.contentX;
+                        var xoff = xpos * scaleRatio;
                         flickable.contentX = xoff - flickable.width / 2;
                     }
-                    if ((height * scale) > flickable.height) {
-                        var yoff = (flickable.height / 2 + flickable.contentY) * scale / prevScale;
+                    if (currentHeight > flickable.height) {
+                        var ypos = flickable.height / 2 + flickable.contentY;
+                        var yoff = ypos * scaleRatio;
                         flickable.contentY = yoff - flickable.height / 2;
                     }
-
                     prevScale = scale;
-                }
-
-                onStateChanged: {
-                    if (state == "ready") {
-                        image.width = flickable.width;
-                        image.height = flickable.height;
-                        calculateSize();
-                    }
                 }
             }
         }
@@ -88,7 +107,6 @@ Item {
             id: pinchArea
             objectName: "pinchArea"
             property real minScale: 1.0
-            property real lastScale: 1.0
             anchors.fill: parent
             enabled: zoomable ? zoomable : false
 
@@ -103,20 +121,14 @@ Item {
             objectName: "mouseArea"
 
             anchors.fill: parent
-            property bool doubleClicked: false
-            property bool swipeDone: false
-            property int startX
-            property int startY
-            property real startScale: pinchArea.minScale
             enabled: zoomable ? zoomable : false
 
             onWheel: {
+                var startScale = image.scale;
                 if (wheel.angleDelta.y > 0) {
-                    startScale = image.scale;
                     image.scale = startScale + 0.1;
                 } else if (wheel.angleDelta.y < 0) {
-                    startScale = image.scale;
-                    if (image.scale > 0.1) {
+                    if (image.scale > 0.1 && image.scale > pinchArea.minScale) {
                         image.scale = startScale - 0.1;
                     }
                 }
@@ -124,21 +136,15 @@ Item {
             }
 
             onPressed: {
-                startX = (mouse.x / image.scale);
-                startY = (mouse.y / image.scale);
-                startScale = image.scale;
+                mouse.accepted = false;
             }
 
             onReleased: {
-                if (image.scale == startScale) {
-                    var deltaX = (mouse.x / image.scale) - startX;
-                    var deltaY = (mouse.y / image.scale) - startY;
+                mouse.accepted = false;
+            }
 
-                    if (image.scale == pinchArea.minScale &&
-                            (Math.abs(deltaX) > 50 || Math.abs(deltaY) > 50)) {
-                        swipeDone = true;
-                    }
-                }
+            onClicked: {
+                mouse.accepted = false;
             }
         }
     }
