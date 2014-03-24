@@ -84,10 +84,7 @@ class Dash(emulators.UnityEmulatorBase):
                 'No scope found with id {0}'.format(scope_id))
 
     def _get_scope_from_loader(self, loader):
-        if loader.scopeId == 'applications.scope':
-            return loader.select_single(DashApps)
-        else:
-            return loader.select_single(GenericScopeView)
+        return loader.select_single(GenericScopeView)
 
     def _open_scope_scrolling(self, scope_loader):
         scroll = self._get_scroll_direction(scope_loader)
@@ -170,7 +167,7 @@ class GenericScopeView(emulators.UnityEmulatorBase):
         # --elopio - 2014-1-14
         self.pointing_device.click_object(icon)
         preview = self.get_root_instance().wait_select_single(
-            self.preview_class, isCurrent=True)
+            objectName="dashPreview", isCurrent=True)
         preview.showProcessingAction.wait_for(False)
         return preview
 
@@ -181,6 +178,18 @@ class GenericScopeView(emulators.UnityEmulatorBase):
         except dbus.StateNotFoundError:
             raise emulators.UnityEmulatorException(
                 'No category found with name {}'.format(category))
+
+    def get_applications(self, category):
+        """Return the list of applications on a category.
+
+        :parameter category: The name of the category.
+
+        """
+        category_element = self._get_category_element(category)
+        application_tiles = category_element.select_many('Tile')
+        # TODO return them on the same order they are displayed.
+        # --elopio - 2014-1-15
+        return [tile.text for tile in application_tiles]
 
 
 class AppPreview(DashPreview):
@@ -195,20 +204,3 @@ class AppPreview(DashPreview):
             title=details.get('title'), publisher=details.get('subtitle'),
             description=details.get('description'))
 
-
-class DashApps(GenericScopeView):
-    """Autopilot emulator for the applications scope."""
-
-    preview_class = AppPreview
-
-    def get_applications(self, category):
-        """Return the list of applications on a category.
-
-        :parameter category: The name of the category.
-
-        """
-        category_element = self._get_category_element(category)
-        application_tiles = category_element.select_many('Tile')
-        # TODO return them on the same order they are displayed.
-        # --elopio - 2014-1-15
-        return [tile.text for tile in application_tiles]

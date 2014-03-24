@@ -135,7 +135,7 @@ class DashEmulatorTestCase(DashBaseTestCase):
         scope_id = 'applications.scope'
         scope = self.dash.open_scope(self._get_scope_name_from_id(scope_id))
         self._assert_scope_is_opened(scope, scope_id)
-        self.assertIsInstance(scope, dash_emulators.DashApps)
+        self.assertIsInstance(scope, dash_emulators.GenericScopeView)
 
 
 class GenericScopeViewEmulatorTestCase(DashBaseTestCase):

@@ -19,6 +19,7 @@ import Ubuntu.Components 0.1
 
 Item {
     id: root
+    objectName: "dashPreview"
 
     property int keyboardSize: Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.height : 0
     property var previewData
