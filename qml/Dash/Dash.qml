@@ -40,6 +40,8 @@ Showable {
             return
         }
 
+        closeOverlayScope();
+
         dashContent.closePreview();
 
         if (scopeIndex == dashContent.currentIndex && !reset) {
@@ -48,6 +50,10 @@ Showable {
         }
 
         dashContent.setCurrentScopeAtIndex(scopeIndex, animate, reset)
+    }
+
+    function closeOverlayScope() {
+        dashContent.x = 0;
     }
 
     SortFilterProxyModel {
@@ -107,7 +113,7 @@ Showable {
         clip: scale != 1.0
         visible: scope != null
         onBack: {
-            dashContent.x = 0;
+            closeOverlayScope();
         }
         onGotoScope: {
             // TODO

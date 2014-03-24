@@ -20,6 +20,8 @@ import "../../../qml/Dash"
 import Ubuntu.Components 0.1
 import Unity.Test 0.1 as UT
 
+// TODO We don't have any tests for the overlay scope functionality.
+
 Item {
     id: shell
     width: units.gu(40)
