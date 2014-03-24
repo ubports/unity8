@@ -847,6 +847,7 @@ ListViewWithPageHeader::ListItem *ListViewWithPageHeader::createItem(int modelIn
             }
         }
         if (lostItem) {
+            listItem->setCulled(true);
             releaseItem(listItem);
             listItem = nullptr;
         } else {
