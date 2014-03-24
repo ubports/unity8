@@ -32,6 +32,10 @@
 #include <private/qquickitem_p.h>
 #pragma GCC diagnostic pop
 
+// TODO Think on how doing a test for lost items
+// particullary making sure that lost items are culled
+// and then removed in the next updatePolish cycle
+
 class ListViewWithPageHeaderTest : public QObject
 {
     Q_OBJECT
