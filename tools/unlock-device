@@ -13,18 +13,16 @@ if [ -z "$ANDROID_SERIAL" ]; then
     exit 1
 fi
 
-UNLOCK_SCRIPT="
+UNLOCK_SCRIPT='
 import dbus, logging;
 from unity8 import process_helpers as helpers;
 logging.basicConfig(level=logging.INFO);
-bus = dbus.SystemBus().get_object(\"com.canonical.powerd\", \"/com/canonical/powerd\");
-cookie = bus.requestSysState(\"unlock-device-hold\", 1, dbus_interface=\"com.canonical.powerd\");
+bus = dbus.SystemBus().get_object("com.canonical.powerd", "/com/canonical/powerd");
+cookie = bus.requestSysState("unlock-device-hold", 1, dbus_interface="com.canonical.powerd");
 helpers.restart_unity_with_testability();
-bus.clearSysState(cookie, dbus_interface=\"com.canonical.powerd\");
+bus.clearSysState(cookie, dbus_interface="com.canonical.powerd");
 helpers.unlock_unity()
-"
-
-RETURN_CODE=0
+'
 
 retries=0
 while [ $retries -lt $max_retries ]; do
@@ -43,9 +41,9 @@ while [ $retries -lt $max_retries ]; do
             echo "W: Unlock failed, trying again"
         else
             echo "E: Unlock failed, no more retries"
-            RETURN_CODE=1
+            exit 1
         fi
     fi
 done
 
-exit $RETURN_CODE
+exit 0
