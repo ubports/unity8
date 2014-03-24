@@ -37,18 +37,6 @@ Item {
     property int maxHeight
     property int margins
 
-    Component.onCompleted: {
-        if (type == Notification.SnapDecision) {
-            notificationList.snapDecisionCount++;
-        }
-    }
-
-    Component.onDestruction: {
-        if (type == Notification.SnapDecision) {
-            notificationList.snapDecisionCount--;
-        }
-    }
-
     fullscreen: false
     objectName: "background"
     implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : contentColumn.height + contentColumn.spacing * 4) : 0

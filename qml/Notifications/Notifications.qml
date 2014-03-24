@@ -16,6 +16,8 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Unity.Notifications 1.0 as UnityNotifications
+import Utils 0.1
 import "../Components"
 
 ListView {
@@ -26,10 +28,16 @@ ListView {
 
     property real margin
     property bool useModal
-    property int snapDecisionCount
 
-    snapDecisionCount: 0
-    useModal: snapDecisionCount > 0
+    useModal: snapDecisionProxyModel.count > 0
+
+    SortFilterProxyModel {
+        id: snapDecisionProxyModel
+
+        model: notificationList.model
+        filterRole: UnityNotifications.Model.RoleType
+        filterRegExp: RegExp(UnityNotifications.Notification.SnapDecision)
+    }
 
     delegate: Notification {
         objectName: "notification" + index
