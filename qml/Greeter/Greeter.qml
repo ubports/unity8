@@ -56,6 +56,16 @@ Showable {
         }
     }
 
+    Rectangle {
+        // To hide lockscreen until background finished fading in
+        id: backgroundBackup
+        anchors {
+            fill: parent
+            topMargin: -greeter.y
+        }
+        color: "black"
+    }
+
     CrossFadeImage {
         id: backgroundImage
         objectName: "greeterBackground"
