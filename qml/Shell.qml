@@ -28,7 +28,9 @@ import "Dash"
 import "Greeter"
 import "Launcher"
 import "Panel"
+import "Hud"
 import "Components"
+import "Bottombar"
 import "SideStage"
 import "Notifications"
 import Unity.Notifications 1.0 as NotificationBackend
@@ -123,27 +125,6 @@ FocusScope {
         shell.background = gSettingsPicture
     }
 
-    // This is a dummy image that is needed to determine if the picture url
-    // in backgroundSettings points to a valid picture file.
-    // We can't do this with the real background image because setting a
-    // new source in onStatusChanged triggers a binding loop detection
-    // inside Image, which causes it not to render even though a valid source
-    // would be set. We don't mind about this image staying black and just
-    // use it for verification to populate the source for the real
-    // background image.
-    Image {
-        source: shell.background
-        height: 0
-        width: 0
-        sourceSize.height: 0
-        sourceSize.width: 0
-        onStatusChanged: {
-            if (status == Image.Error && source != shell.defaultBackground) {
-                shell.background = defaultBackground
-            }
-        }
-    }
-
     VolumeControl {
         id: volumeControl
     }
@@ -172,19 +153,18 @@ FocusScope {
         // through the translucent parts of the shell surface.
         visible: !fullyCovered && !applicationSurfaceShouldBeSeen
 
-        CrossFadeImage {
-            id: backgroundImage
-            objectName: "backgroundImage"
-
-            anchors.fill: parent
-            source: shell.background
-            fillMode: Image.PreserveAspectCrop
-        }
-
         Rectangle {
             anchors.fill: parent
             color: "black"
             opacity: dash.disappearingAnimationProgress
+        }
+
+        Image {
+            anchors.fill: dash
+            source: shell.width > shell.height ? "Dash/graphics/paper_landscape.png" : "Dash/graphics/paper_portrait.png"
+            fillMode: Image.PreserveAspectCrop
+            horizontalAlignment: Image.AlignRight
+            verticalAlignment: Image.AlignTop
         }
 
         Dash {
@@ -401,7 +381,7 @@ FocusScope {
 
         readonly property int backgroundTopMargin: -panel.panelHeight
 
-        hides: [launcher, panel.indicators]
+        hides: [launcher, panel.indicators, hud]
         shown: false
         enabled: true
         showAnimation: StandardAnimation { property: "opacity"; to: 1 }
@@ -456,7 +436,7 @@ FocusScope {
         objectName: "greeter"
 
         available: true
-        hides: [launcher, panel.indicators]
+        hides: [launcher, panel.indicators, hud]
         shown: true
 
         defaultBackground: shell.background
@@ -543,7 +523,7 @@ FocusScope {
     InputFilterArea {
         anchors.fill: parent
         blockInput: !applicationFocused || greeter.shown || lockscreen.shown || launcher.shown
-                    || panel.indicators.shown
+                    || panel.indicators.shown || hud.shown
     }
 
     Connections {
@@ -569,7 +549,7 @@ FocusScope {
     function showHome() {
         var animate = !greeter.shown && !stages.shown
         greeter.hide()
-        dash.setCurrentScope("home.scope", animate, false)
+        dash.setCurrentScope("clickscope", animate, false)
         stages.hide()
     }
 
@@ -605,6 +585,48 @@ FocusScope {
             }
         }
 
+        Hud {
+            id: hud
+
+            width: parent.width > units.gu(60) ? units.gu(40) : parent.width
+            height: parent.height
+
+            available: !greeter.shown && !panel.indicators.shown && !lockscreen.shown && edgeDemo.dashEnabled
+            shown: false
+            showAnimation: StandardAnimation { property: "y"; duration: hud.showableAnimationDuration; to: 0; easing.type: Easing.Linear }
+            hideAnimation: StandardAnimation { property: "y"; duration: hud.showableAnimationDuration; to: hudRevealer.closedValue; easing.type: Easing.Linear }
+
+            Connections {
+                target: shell.applicationManager
+                onMainStageFocusedApplicationChanged: hud.hide()
+                onSideStageFocusedApplicationChanged: hud.hide()
+            }
+        }
+
+        Revealer {
+            id: hudRevealer
+
+            enabled: hud.shown
+            width: hud.width
+            anchors.left: hud.left
+            height: parent.height
+            target: hud.revealerTarget
+            closedValue: height
+            openedValue: 0
+            direction: Qt.RightToLeft
+            orientation: Qt.Vertical
+            handleSize: hud.handleHeight
+            onCloseClicked: target.hide()
+        }
+
+        Bottombar {
+            id: bottombar
+            theHud: hud
+            anchors.fill: parent
+            enabled: hud.available
+            applicationIsOnForeground: applicationFocused
+        }
+
         InputFilterArea {
             blockInput: launcher.shown
             anchors {
@@ -638,7 +660,7 @@ FocusScope {
                     launcher.hide();
                 }
             }
-            onDashSwipeChanged: if (dashSwipe && stages.shown) dash.setCurrentScope("applications.scope", false, true)
+            onDashSwipeChanged: if (dashSwipe && stages.shown) dash.setCurrentScope("clickscope", false, true)
             onLauncherApplicationSelected:{
                 if (edgeDemo.running)
                     return;
@@ -649,6 +671,8 @@ FocusScope {
             onShownChanged: {
                 if (shown) {
                     panel.indicators.hide()
+                    hud.hide()
+                    bottombar.hide()
                 }
             }
         }
