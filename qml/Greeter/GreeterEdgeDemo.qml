@@ -59,7 +59,7 @@ Item {
         id: d
         property Component overlay
         property QtObject rightEdgeDemo
-        property bool showEdgeDemoInGreeter: AccountsService.demoEdgesForCurrentUser
+        property bool showEdgeDemoInGreeter: AccountsService.demoEdgesForCurrentUser && AccountsService.demoEdges
 
         onShowEdgeDemoInGreeterChanged: {
             stopDemo()
