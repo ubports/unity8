@@ -24,6 +24,8 @@
 #include <QtQml/QQmlContext>
 #include <QScopedPointer>
 #include <QDebug>
+#include <QCommandLineParser>
+#include <QCommandLineOption>
 #include <libintl.h>
 
 
@@ -46,16 +48,33 @@ int main(int argc, char *argv[])
     QGuiApplication *application;
     application = new QGuiApplication(argc, argv);
 
-    QStringList arguments = application->arguments();
-    QString scopesDir;
-    if (arguments.contains("--scope-dir")) {
-        int idx = arguments.indexOf("--scope-dir");
-        scopesDir = arguments[idx+1];
-    }
+    QCommandLineParser parser;
+    parser.setApplicationDescription("Unity Scope Tool\n\n"
+    "This tool allows development and testing of scopes. Running it without\n"
+    "any arguments will open a session to all scopes available on the system.\n"
+    "Otherwise passing a path to a scope config file will open a session with\n"
+    "only that scope (assuming that the binary implementing the scope can be\n"
+    "found in the same directory as the config file).");
+    parser.addHelpOption();
+    parser.addPositionalArgument("scopes", "Paths to scope config files to spawn, optionally.", "[scopes...]");
+
+    QCommandLineOption includeSystemScopes("include-system-scopes",
+        "Initialize the registry with scopes installed on this system");
+    QCommandLineOption includeServerScopes("include-server-scopes",
+        "Initialize the registry with scopes on the default server");
+
+    parser.addOption(includeServerScopes);
+    parser.addOption(includeSystemScopes);
+
+    parser.process(*application);
+
+    QStringList extraScopes = parser.positionalArguments();
 
     QScopedPointer<RegistryTracker> tracker;
-    if (!scopesDir.isEmpty()) {
-        tracker.reset(new RegistryTracker(scopesDir));
+    if (!extraScopes.isEmpty()) {
+        bool systemScopes = parser.isSet(includeSystemScopes);
+        bool serverScopes = parser.isSet(includeServerScopes);
+        tracker.reset(new RegistryTracker(extraScopes, systemScopes, serverScopes));
     }
 
     resolveIconTheme();

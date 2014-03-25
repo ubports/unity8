@@ -18,7 +18,7 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 0.1
 import Utils 0.1
-import Unity 0.1
+import Unity 0.2
 import "Components"
 import "Dash"
 
@@ -59,6 +59,14 @@ Rectangle {
     Rectangle {
         anchors.fill: dashContent
         color: "#FCFCFC"
+    }
+
+    Image {
+        anchors.fill: dashContent
+        source: root.width > root.height ? "Dash/graphics/paper_landscape.png" : "Dash/graphics/paper_portrait.png"
+        fillMode: Image.PreserveAspectCrop
+        horizontalAlignment: Image.AlignRight
+        verticalAlignment: Image.AlignTop
     }
 
     DashContent {

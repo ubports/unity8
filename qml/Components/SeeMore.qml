@@ -34,7 +34,8 @@ Item {
             objectName: "seeMoreLabel"
             text: i18n.tr("See more")
             opacity: !more ? 0.8 : 0.4
-            color: Theme.palette.selected.backgroundText
+            // TODO: Fix requiring Palette update
+            color: "grey" //Theme.palette.selected.backgroundText
             font.weight: Font.Bold
 
             MouseArea {
@@ -56,7 +57,8 @@ Item {
             objectName: "seeLessLabel"
             text: i18n.tr("See less")
             opacity: more ? 0.8 : 0.4
-            color: Theme.palette.selected.backgroundText
+            // TODO: Fix requiring Palette update
+            color: "grey" //Theme.palette.selected.backgroundText
             font.weight: Font.Bold
 
             MouseArea {
