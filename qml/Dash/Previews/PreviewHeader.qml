@@ -34,5 +34,9 @@ PreviewWidget {
         title: root.widgetData["title"] || ""
         subtitle: root.widgetData["subtitle"] || ""
         width: parent.width
+
+        titleSize: "large"
+        // TODO Change "grey" to Ubuntu.Components.Palette color once updated.
+        fontColor: "grey"
     }
 }

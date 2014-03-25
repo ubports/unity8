@@ -77,6 +77,7 @@ Item {
             property var menuModel: menuFactory.menuModel
             property int menuIndex: -1
             property var extendedData: menuData && menuData.ext || undefined
+            property var serverValue: getExtendedProperty(menuData, "actionState", undefined)
 
             text: menuData && menuData.label || ""
             iconSource: menuData && menuData.icon || ""
@@ -91,7 +92,6 @@ Item {
                 }
                 return maximum;
             }
-            value: menuData && menuData.actionState || 0.0
             enabled: menuData && menuData.sensitive || false
 
             onMenuModelChanged: {
@@ -99,6 +99,12 @@ Item {
             }
             onMenuIndexChanged: {
                 loadAttributes();
+            }
+            onServerValueChanged: {
+                // value can be changed by slider, so a binding won't work.
+                if (serverValue !== undefined) {
+                    value = serverValue;
+                }
             }
             onUpdated: {
                 menuModel.changeState(menuIndex, value);

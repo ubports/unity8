@@ -93,6 +93,7 @@ Rectangle {
     CardTool {
         id: cardTool
 
+        count: 8
         template: Helpers.update(JSON.parse(Helpers.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['template'];
         components: Helpers.update(JSON.parse(Helpers.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['components'];
         viewWidth: units.gu(Math.round(widthSlider.value))
@@ -256,7 +257,7 @@ Rectangle {
         id: testCase
         name: "Card"
 
-        property Card internalCard: findChild(cardTool, "card")
+        property Card internalCard: findChild(cardTool, "cardToolCard")
 
         when: windowShown
 
@@ -342,6 +343,25 @@ Rectangle {
             if (data.hasOwnProperty("property")) {
                 tryCompare(cardTool, data.property, data.value);
             }
+        }
+
+        function test_categoryLayout_data() {
+            return [
+                { tag: "Default Grid", layout_index: 0, count: 2, viewWidth: units.gu(40), layout: "grid" },
+                { tag: "Long carousel", layout_index: 4, count: 6, viewWidth: units.gu(140), layout: "carousel" },
+                { tag: "Long carousel fallback", layout_index: 4, count: 5, viewWidth: units.gu(140), layout: "grid" },
+                { tag: "Short carousel", layout_index: 4, count: 4, viewWidth: units.gu(30), layout: "carousel" },
+                { tag: "Short carousel fallback", layout_index: 4, count: 3, viewWidth: units.gu(30), layout: "grid" },
+                { tag: "Journal", layout_index: 2, count: 8, viewWidth: units.gu(30), layout: "journal" }
+            ]
+        }
+
+        function test_categoryLayout(data) {
+            selector.selectedIndex = 0;
+            layoutSelector.selectedIndex = data.layout_index;
+            cardTool.viewWidth = data.viewWidth;
+            cardTool.count = data.count;
+            compare(cardTool.categoryLayout, data.layout);
         }
     }
 }

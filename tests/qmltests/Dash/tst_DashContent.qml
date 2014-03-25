@@ -19,7 +19,7 @@ import QtTest 1.0
 import "../../../qml/Dash"
 import "../../../qml/Components"
 import Ubuntu.Components 0.1
-import Unity 0.1
+import Unity 0.2
 import Unity.Test 0.1 as UT
 import Utils 0.1
 
@@ -28,23 +28,17 @@ Item {
     width: units.gu(40)
     height: units.gu(80)
 
-    Item {
-        // Fake. Make a few components less noisy
-        id: greeter
-        signal shownChanged
-    }
-
-    Item {
-        // Fake. Make a few components less noisy
-        id: panel
-        signal searchClicked
-    }
+    // BEGIN To reduce warnings
+    // TODO I think it we should pass down these variables
+    // as needed instead of hoping they will be globally around
+    property var greeter: null
+    property var panel: null
+    // BEGIN To reduce warnings
 
     property var scopeStatus: {
         'MockScope1': { 'movementStarted': 0, 'positionedAtBeginning': 0 },
         'MockScope2': { 'movementStarted': 0, 'positionedAtBeginning': 0 },
-        'home.scope': { 'movementStarted': 0, 'positionedAtBeginning': 0 },
-        'applications.scope': { 'movementStarted': 0, 'positionedAtBeginning': 0 },
+        'clickscope': { 'movementStarted': 0, 'positionedAtBeginning': 0 },
         'MockScope5': { 'movementStarted': 0, 'positionedAtBeginning': 0 }
     }
 
@@ -70,8 +64,7 @@ Item {
         scopeDelegateMapping: {
             "MockScope1": Qt.resolvedUrl("qml/fake_scopeView1.qml"),
             "MockScope2": Qt.resolvedUrl("qml/fake_scopeView2.qml"),
-            "home.scope": Qt.resolvedUrl("qml/fake_scopeView3.qml"),
-            "applications.scope": Qt.resolvedUrl("qml/fake_scopeView4.qml")
+            "clickscope": Qt.resolvedUrl("qml/fake_scopeView3.qml"),
         }
         genericScope: Qt.resolvedUrl("qml/fake_generic_scopeView.qml")
     }
@@ -83,11 +76,8 @@ Item {
         scopeStatus["MockScope2"].movementStarted = 0;
         scopeStatus["MockScope2"].positionedAtBeginning = 0;
 
-        scopeStatus["home.scope"].movementStarted = 0;
-        scopeStatus["home.scope"].positionedAtBeginning = 0;
-
-        scopeStatus["applications.scope"].movementStarted = 0;
-        scopeStatus["applications.scope"].positionedAtBeginning = 0;
+        scopeStatus["clickscope"].movementStarted = 0;
+        scopeStatus["clickscope"].positionedAtBeginning = 0;
 
         scopeStatus["MockScope5"].movementStarted = 0;
         scopeStatus["MockScope5"].positionedAtBeginning = 0;
@@ -113,7 +103,7 @@ Item {
             scopesModel.clear();
             scopeLoadedSpy.clear();
             scopesModel.load();
-            tryCompare(scopeLoadedSpy, "count", 5);
+            tryCompare(scopeLoadedSpy, "count", 4);
         }
 
         function cleanup() {
@@ -138,7 +128,7 @@ Item {
 
             scopeLoadedSpy.clear();
             scopesModel.load();
-            tryCompare(scopeLoadedSpy, "count", 5);
+            tryCompare(scopeLoadedSpy, "count", 4);
 
             verify(dashContentList.currentIndex >= 0);
         }
@@ -154,7 +144,7 @@ Item {
 
             scopeLoadedSpy.clear();
             scopesModel.load();
-            tryCompare(scopeLoadedSpy, "count", 5);
+            tryCompare(scopeLoadedSpy, "count", 4);
 
             verify(dashContentList.currentIndex >= 0 && dashContentList.currentIndex < 5);
         }
@@ -170,8 +160,7 @@ Item {
             compare(movementStartedSpy.count, 1, "DashContent should have emitted movementStarted signal when content list did.");
             compare(scopeStatus["MockScope1"].movementStarted, 1, "MockScope1 should have emitted movementStarted signal when content list did.");
             compare(scopeStatus["MockScope2"].movementStarted, 1, "MockScope2 should have emitted movementStarted signal when content list did.");
-            compare(scopeStatus["home.scope"].movementStarted, 1, "home.scope should have emitted movementStarted signal when content list did.");
-            compare(scopeStatus["applications.scope"].movementStarted, 1, "applications.scope should have emitted movementStarted signal when content list did.");
+            compare(scopeStatus["clickscope"].movementStarted, 1, "clickscope should have emitted movementStarted signal when content list did.");
             compare(scopeStatus["MockScope5"].movementStarted, 1, "MockScope5 should have emitted movementStarted signal when content list did.");
         }
 
@@ -181,8 +170,7 @@ Item {
             dashContent.positionedAtBeginning();
             compare(scopeStatus["MockScope1"].positionedAtBeginning, 1, "MockScope1 should have emitted positionedAtBeginning signal when DashContent did.");
             compare(scopeStatus["MockScope2"].positionedAtBeginning, 1, "MockScope2 should have emitted positionedAtBeginning signal when DashContent did.");
-            compare(scopeStatus["home.scope"].positionedAtBeginning, 1, "home.scope should have emitted positionedAtBeginning signal when DashContent did.");
-            compare(scopeStatus["applications.scope"].positionedAtBeginning, 1, "applications.scope should have emitted positionedAtBeginning signal when DashContent did.");
+            compare(scopeStatus["clickscope"].positionedAtBeginning, 1, "clickscope should have emitted positionedAtBeginning signal when DashContent did.");
             compare(scopeStatus["MockScope5"].positionedAtBeginning, 1, "MockScope5 should have emitted positionedAtBeginning signal when DashContent did.");
         }
 
@@ -220,11 +208,10 @@ Item {
 
         function test_scope_mapping_data() {
             return [
-                {tag: "index0", index: 0, objectName: "fake_scopeView1"},
-                {tag: "index1", index: 1, objectName: "fake_scopeView2"},
-                {tag: "index2", index: 2, objectName: "fake_scopeView3"},
-                {tag: "index3", index: 3, objectName: "fake_scopeView4"},
-                {tag: "index4", index: 4, objectName: "fake_generic_scopeView"}
+                {tag: "index0", index: 0, objectName: "MockScope1"},
+                {tag: "index1", index: 1, objectName: "MockScope2"},
+                {tag: "index2", index: 2, objectName: "clickscope"},
+                {tag: "index3", index: 3, objectName: "MockScope5"}
             ]
         }
 
@@ -284,7 +271,7 @@ Item {
             tryCompare(scopesModel, "loaded", true);
             var tabbar = findChild(dashContent, "tabbar");
 
-            compare(dashContent.currentIndex, 0);
+            tryCompare(dashContent, "currentIndex", 0);
             tryCompare(tabbar, "selectedIndex", 0);
             tryCompare(tabbar, "selectionMode", false);
 
@@ -298,6 +285,7 @@ Item {
             tryCompareFunction(function() { button = findMusicButton(); return button != undefined; }, true);
             waitForRendering(button);
 
+            tryCompareFunction(function() { return button.opacity > 0; }, true);
             mouseClick(button, button.width / 2, button.height / 2)
 
             tryCompare(tabbar, "selectionMode", false);
@@ -309,7 +297,8 @@ Item {
             var tabbar = findChild(dashContent, "tabbar");
             tryCompare(dashContent, "currentIndex", 0);
             compare(tabbar.selectedIndex, 0);
-            dashContent.currentIndex = 1;
+            var dashContentList = findChild(dashContent, "dashContentList");
+            dashContentList.currentIndex = 1;
             compare(tabbar.selectedIndex, 1);
         }
 
@@ -333,6 +322,99 @@ Item {
             tryCompare(dashContentList, "interactive", true);
 
             tryCompareFunction(checkFlickMovingAndNotInteractive, true);
+        }
+
+        function openPreview() {
+            tryCompareFunction(function() {
+                                    var filterGrid = findChild(dashContent, "0");
+                                    if (filterGrid != null) {
+                                        var tile = findChild(filterGrid, "delegate0");
+                                        return tile != null;
+                                    }
+                                    return false;
+                                },
+                                true);
+            var tile = findChild(findChild(dashContent, "0"), "delegate0");
+            mouseClick(tile, tile.width / 2, tile.height / 2);
+            var previewListView = findChild(dashContent, "dashContentPreviewList");
+            tryCompare(previewListView, "open", true);
+            tryCompare(previewListView, "x", 0);
+        }
+
+        function closePreview() {
+            var closePreviewMouseArea = findChild(dashContent, "dashContentPreviewList_pageHeader_backButton");
+            mouseClick(closePreviewMouseArea, closePreviewMouseArea.width / 2, closePreviewMouseArea.height / 2);
+
+            var previewListView = findChild(dashContent, "dashContentPreviewList");
+            tryCompare(previewListView, "open", false);
+        }
+
+        function test_previewOpenClose() {
+            tryCompare(scopeLoadedSpy, "count", 4);
+
+            var previewListView = findChild(dashContent, "dashContentPreviewList");
+            tryCompare(previewListView, "open", false);
+
+            var categoryListView = findChild(dashContent, "categoryListView");
+            categoryListView.positionAtBeginning();
+
+            openPreview();
+            closePreview();
+        }
+
+        function test_showPreviewCarousel() {
+            tryCompareFunction(function() {
+                                    var scope = findChild(dashContent, "MockScope1 loader");
+                                    if (scope != null) {
+                                        var dashCategory1 = findChild(scope, "dashCategory1");
+                                        if (dashCategory1 != null) {
+                                            var tile = findChild(dashCategory1, "carouselDelegate1");
+                                            return tile != null;
+                                        }
+                                    }
+                                    return false;
+                                },
+                                true);
+
+            tryCompare(scopeLoadedSpy, "count", 4);
+
+            var previewListView = findChild(dashContent, "dashContentPreviewList");
+            tryCompare(previewListView, "open", false);
+
+            var scope = findChild(dashContent, "MockScope1 loader");
+            var dashCategory1 = findChild(scope, "dashCategory1");
+            var tile = findChild(dashCategory1, "carouselDelegate1");
+            mouseClick(tile, tile.width / 2, tile.height / 2);
+            tryCompare(previewListView, "open", true);
+            tryCompare(previewListView, "x", 0);
+
+            closePreview();
+        }
+
+        function test_previewCycle() {
+            tryCompare(scopeLoadedSpy, "count", 4);
+
+            var categoryListView = findChild(dashContent, "categoryListView");
+            categoryListView.positionAtBeginning();
+
+            var previewListView = findChild(dashContent, "dashContentPreviewList");
+            tryCompare(previewListView, "open", false);
+            var previewListViewList = findChild(dashContent, "dashContentPreviewList_listView");
+
+            openPreview();
+
+            // flick to the next previews
+            tryCompare(previewListView, "count", 15);
+            for (var i = 1; i < previewListView.count; ++i) {
+                mouseFlick(previewListView, previewListView.width - units.gu(1),
+                                            previewListView.height / 2,
+                                            units.gu(2),
+                                            previewListView.height / 2);
+                tryCompare(previewListViewList, "moving", false);
+                tryCompare(previewListView.currentItem, "objectName", "previewItem" + i);
+
+            }
+            closePreview();
         }
     }
 }
