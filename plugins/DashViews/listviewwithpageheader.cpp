@@ -367,6 +367,18 @@ void ListViewWithPageHeader::positionAtBeginning()
         m_previousContentY = m_visibleItems.first()->y() - headerHeight;
     }
     setContentY(m_visibleItems.first()->y() + m_clipItem->y() - headerHeight);
+    if (m_headerItem) {
+        // TODO This should not be needed and the code that adjust the m_headerItem position
+        // in viewportMoved() should be enough but in some cases we have not found a way to reproduce
+        // yet the code of viewportMoved() fails so here we make sure that at least if we are calling
+        // positionAtBeginning the header item will be correctly positioned
+        m_headerItem->setY(-m_minYExtent);
+    }
+}
+
+static inline bool uFuzzyCompare(qreal r1, qreal r2)
+{
+    return qFuzzyCompare(r1, r2) || (qFuzzyIsNull(r1) && qFuzzyIsNull(r2));
 }
 
 void ListViewWithPageHeader::showHeader()
@@ -374,8 +386,8 @@ void ListViewWithPageHeader::showHeader()
     if (!m_headerItem)
         return;
 
-    auto to = qMax(-minYExtent(), contentY() - m_headerItem->height() + m_headerItemShownHeight);
-    if (to != contentY()) {
+    const auto to = qMax(-minYExtent(), contentY() - m_headerItem->height() + m_headerItemShownHeight);
+    if (!uFuzzyCompare(to, contentY())) {
         const bool headerShownByItsOwn = contentY() < m_headerItem->y() + m_headerItem->height();
         if (headerShownByItsOwn && m_headerItemShownHeight == 0) {
             // We are not clipping since we are just at the top of the viewport
@@ -476,11 +488,6 @@ void ListViewWithPageHeader::componentComplete()
     QQuickFlickable::componentComplete();
 
     polish();
-}
-
-static inline bool uFuzzyCompare(qreal r1, qreal r2)
-{
-    return qFuzzyCompare(r1, r2) || (qFuzzyIsNull(r1) && qFuzzyIsNull(r2));
 }
 
 void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
@@ -840,6 +847,7 @@ ListViewWithPageHeader::ListItem *ListViewWithPageHeader::createItem(int modelIn
             }
         }
         if (lostItem) {
+            listItem->setCulled(true);
             releaseItem(listItem);
             listItem = nullptr;
         } else {

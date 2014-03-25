@@ -132,19 +132,18 @@ BasicShell {
         // through the translucent parts of the shell surface.
         visible: !fullyCovered && !applicationSurfaceShouldBeSeen
 
-        CrossFadeImage {
-            id: backgroundImage
-            objectName: "backgroundImage"
-
-            anchors.fill: parent
-            source: shell.background
-            fillMode: Image.PreserveAspectCrop
-        }
-
         Rectangle {
             anchors.fill: parent
             color: "black"
             opacity: dash.disappearingAnimationProgress
+        }
+
+        Image {
+            anchors.fill: dash
+            source: shell.width > shell.height ? "Dash/graphics/paper_landscape.png" : "Dash/graphics/paper_portrait.png"
+            fillMode: Image.PreserveAspectCrop
+            horizontalAlignment: Image.AlignRight
+            verticalAlignment: Image.AlignTop
         }
 
         Dash {
@@ -408,7 +407,7 @@ BasicShell {
 
     function showHome(fromLauncher) {
         var animate = fromLauncher && !stages.shown
-        dash.setCurrentScope("home.scope", animate, false)
+        dash.setCurrentScope("clickscope", animate, false)
         stages.hide()
     }
 
@@ -515,7 +514,7 @@ BasicShell {
                     launcher.hide();
                 }
             }
-            onDashSwipeChanged: if (dashSwipe && stages.shown) dash.setCurrentScope("applications.scope", false, true)
+            onDashSwipeChanged: if (dashSwipe && stages.shown) dash.setCurrentScope("clickscope", false, true)
             onLauncherApplicationSelected:{
                 if (edgeDemo.running)
                     return;

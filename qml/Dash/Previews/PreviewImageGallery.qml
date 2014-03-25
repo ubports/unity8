@@ -32,6 +32,16 @@ PreviewWidget {
         orientation: ListView.Horizontal
         cacheBuffer: width * 3
         model: root.widgetData["sources"]
+        clip: true
+
+        // FIXME: Because of ListViews inside ListViews inside Flickables inside ListViews (and some more)
+        // we finally reached the point where this ListView doesn't correctly get swipe input any more but
+        // instead the parent ListView is the one that is swiped. This MouseArea sort of creates a blocking
+        // layer to make sure this ListView can be swiped, regardless of what's behind it.
+        MouseArea {
+            anchors.fill: parent
+            enabled: parent.contentWidth > parent.width
+        }
 
         // FIXME: Because of ListViews inside ListViews inside Flickables inside ListViews (and some more)
         // we finally reached the point where this ListView doesn't correctly get swipe input any more but

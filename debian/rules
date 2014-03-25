@@ -6,8 +6,6 @@
 export DPKG_GENSYMBOLS_CHECK_LEVEL=4
 export NO_PNG_PKG_MANGLE=1
 
-SCOPES_RECOMMENDS := $(shell perl debian/scopes-recommends-generator /usr/share/unity/client-scopes.json)
-
 .PHONY: build
 build %:
 	dh $@ --parallel --fail-missing --with python2,python3
@@ -37,6 +35,3 @@ override_dh_install:
 # use private lib directories
 override_dh_makeshlibs:
 	dh_makeshlibs -Nunity8-private -Nunity8-fake-env
-
-override_dh_gencontrol:
-	dh_gencontrol -- -Vunity-default-masterscopes="$(SCOPES_RECOMMENDS)"

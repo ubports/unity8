@@ -70,12 +70,9 @@ Item {
             do {
                 var dashContentList = findChild(shell, "dashContentList");
                 waitForRendering(dashContentList);
-                var homeLoader = findChild(dashContentList, "home.scope loader");
+                var homeLoader = findChild(dashContentList, "clickscope loader");
                 ok = homeLoader !== null
                     && homeLoader.item !== undefined;
-
-                var dashHome = findChild(shell, "DashHome");
-                ok &= dashHome !== null;
 
                 var launcherPanel = findChild(shell, "launcherPanel");
                 ok &= launcherPanel !== null;
@@ -97,13 +94,13 @@ Item {
             // kill all (fake) running apps
             killApps(ApplicationManager);
 
-            var dashHome = findChild(shell, "DashHome");
+            var dashContent = findChild(shell, "dashContent");
+            dashContent.previewOpen = false;
+
+            var dashHome = findChild(shell, "clickscope loader");
             swipeUntilScopeViewIsReached(dashHome);
 
             hideIndicators();
-
-            var dashContent = findChild(shell, "dashContent");
-            dashContent.previewOpen = false;
         }
 
         function killApps(apps) {
@@ -276,8 +273,7 @@ Item {
           - apps lens shown and Running Apps visible on screen
          */
         function test_minimizingAppTakesToRunningApps() {
-            var dashApps = findChild(shell, "DashApps");
-
+            var dashApps = findChild(shell, "clickscope");
             swipeUntilScopeViewIsReached(dashApps);
 
             // swipe finger up until the running/recent apps section (which we assume
@@ -315,7 +311,7 @@ Item {
 
             verify(itemIsOnScreen(dashApps));
 
-            var runningApplicationsGrid = findChild(appsCategoryListView, "recent");
+            var runningApplicationsGrid = findChild(appsCategoryListView, "running.apps.category");
             verify(runningApplicationsGrid);
             verify(itemIsOnScreen(runningApplicationsGrid));
         }
@@ -396,13 +392,13 @@ Item {
         }
 
         function swipeLeftFromCenter() {
-            var touchStartX = shell.width / 2;
+            var touchStartX = shell.width * 3 / 4;
             var touchStartY = shell.height / 2;
             touchFlick(shell, touchStartX, touchStartY, 0, touchStartY);
         }
 
         function swipeRightFromCenter() {
-            var touchStartX = shell.width / 2;
+            var touchStartX = shell.width * 3 / 4;
             var touchStartY = shell.height / 2;
             touchFlick(shell, touchStartX, touchStartY, shell.width, touchStartY);
         }
@@ -452,13 +448,6 @@ Item {
                 {tag: "invalid", url: "invalid", expectedUrl: shell.defaultBackground},
                 {tag: "empty", url: "", expectedUrl: shell.defaultBackground}
             ]
-        }
-
-        function test_background(data) {
-            var backgroundImage = findChild(shell, "backgroundImage")
-            GSettingsController.setPictureUri(data.url)
-            tryCompareFunction(function() { return backgroundImage.source.toString().indexOf(data.expectedUrl) !== -1; }, true)
-            tryCompare(backgroundImage, "status", Image.Ready)
         }
 
         function test_DashShown_data() {

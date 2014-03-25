@@ -139,7 +139,7 @@ PreviewWidget {
                             objectName: "trackTitleLabel"
                             anchors { top: parent.top; left: parent.left; right: parent.right }
                             opacity: 0.9
-                            color: Theme.palette.selected.backgroundText
+                            color: "grey"//Theme.palette.selected.backgroundText // TODO karni: Use updated Palette.
                             fontSize: "small"
                             horizontalAlignment: Text.AlignLeft
                             text: modelData["title"]
@@ -152,7 +152,8 @@ PreviewWidget {
                             anchors { top: trackTitleLabel.bottom; left: parent.left; right: parent.right }
                             visible: text !== ""
                             opacity: 0.9
-                            color: Theme.palette.selected.backgroundText
+                            color: "grey"//Theme.palette.selected.backgroundText // TODO karni: Use updated Palette.
+                            font.weight: Font.Light
                             fontSize: "small"
                             horizontalAlignment: Text.AlignLeft
                             text: modelData["subtitle"] || ""
@@ -192,7 +193,7 @@ PreviewWidget {
                         anchors.verticalCenter: parent.verticalCenter
                         width: parent.column3Width
                         opacity: 0.9
-                        color: Theme.palette.selected.backgroundText
+                        color: "grey"//Theme.palette.selected.backgroundText // TODO karni: Use updated Palette.
                         fontSize: "small"
                         horizontalAlignment: Text.AlignRight
                         text: audio.lengthToString(modelData["length"])
