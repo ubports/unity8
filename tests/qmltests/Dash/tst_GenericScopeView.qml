@@ -109,7 +109,7 @@ Item {
                 genericScopeView.scope.searchQuery = "test"
                 genericScopeView.scope = scopes.get(1)
                 genericScopeView.scope = scopes.get(2)
-                tryCompare(genericScopeView.scope, "searchQuery", "")
+                tryCompare(genericScopeView.scope, "searchQuery", "test")
             }
 
             function test_filter_expand_collapse() {
