@@ -24,7 +24,7 @@ Item {
 
     property var model
 
-    property int animDuration: 10
+    property int animDuration: 2
 
     Connections {
         target: model
@@ -46,6 +46,9 @@ Item {
 
         dotShowAnimTimer.startFromBeginning()
         notification.showAnim.start()
+
+        // First show will be very fast, after that we properly animate them
+        animDuration = 10
     }
 
     function startHideAnimation() {
@@ -58,8 +61,6 @@ Item {
     }
 
     visible: model.label !== ""
-
-    Component.onCompleted: startShowAnimation()
 
     Item {
         id: dataCircle

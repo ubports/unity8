@@ -65,6 +65,15 @@ Showable {
         }
         source: greeter.background
         fillMode: Image.PreserveAspectCrop
+
+        StandardAnimation {
+            running: true
+            target: backgroundImage
+            property: "opacity"
+            from: 0.0
+            to: 1.0
+            duration: 800
+        }
     }
 
     Loader {
