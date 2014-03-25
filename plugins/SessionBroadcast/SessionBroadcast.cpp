@@ -22,8 +22,7 @@
 #include <QDBusInterface>
 
 SessionBroadcast::SessionBroadcast(QObject* parent)
-  : QObject(parent),
-    m_broadcaster(NULL)
+  : QObject(parent)
 {
     auto connection = QDBusConnection::SM_BUSNAME();
     auto interface = connection.interface();

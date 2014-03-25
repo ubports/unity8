@@ -24,7 +24,6 @@
 AccountsService::AccountsService(QObject* parent)
   : QObject(parent),
     m_service(new AccountsServiceDBusAdaptor(this)),
-    m_user(qgetenv("USER")),
     m_demoEdges(false),
     m_statsWelcomeScreen(false)
 {

@@ -18,8 +18,7 @@
 
 #include "plugin.h"
 #include "SessionManager.h"
-
-#include <QtQml>
+#include <QtQml/qqml.h>
 
 static QObject *sessionmanager_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {

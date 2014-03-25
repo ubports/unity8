@@ -17,8 +17,6 @@
 #include "URLDispatcher.h"
 
 #include <QDBusConnection>
-#include <QProcess>
-#include <unistd.h>
 
 class URLDispatcherInterface : public QObject
 {
@@ -29,20 +27,16 @@ public:
     explicit URLDispatcherInterface(URLDispatcher *parent);
 
     Q_SCRIPTABLE void DispatchURL(const QString &url);
-
-private:
-    URLDispatcher *m_parent;
 };
 
 URLDispatcherInterface::URLDispatcherInterface(URLDispatcher *parent)
-  : QObject(parent),
-    m_parent(parent)
+  : QObject(parent)
 {
 }
 
 void URLDispatcherInterface::DispatchURL(const QString &url)
 {
-    Q_EMIT m_parent->dispatchURL(url);
+    Q_EMIT static_cast<URLDispatcher *>(parent())->dispatchURL(url);
 }
 
 URLDispatcher::URLDispatcher(QObject *parent)
