@@ -96,9 +96,13 @@ macro(add_qml_test SUBPATH COMPONENT_NAME)
             -o -,txt
             ${function_ARGS}
     )
-    exec_program( gcc ARGS "-dumpmachine" OUTPUT_VARIABLE ARCH_TRIPLET )
+    find_program( HAVE_GCC gcc )
+    if (NOT ${HAVE_GCC} STREQUAL "")
+        exec_program( gcc ARGS "-dumpmachine" OUTPUT_VARIABLE ARCH_TRIPLET )
+        set(LD_PRELOAD_PATH "LD_PRELOAD=/usr/lib/${ARCH_TRIPLET}/mesa/libGL.so.1")
+    endif()
     set(qmltest_xvfb_command
-        env ${qmltest_ENVIRONMENT} LD_PRELOAD=/usr/lib/${ARCH_TRIPLET}/mesa/libGL.so.1
+        env ${qmltest_ENVIRONMENT} ${LD_PRELOAD_PATH}
         xvfb-run --server-args "-screen 0 1024x768x24" --auto-servernum
         ${qmltestrunner_exe} -input ${CMAKE_CURRENT_SOURCE_DIR}/${qmltest_FILE}.qml
         ${qmltestrunner_imports}
@@ -122,9 +126,13 @@ macro(add_binary_qml_test CLASS_NAME LD_PATH DEPS)
     add_qmltest_target(test${CLASS_NAME} "${testCommand}" FALSE TRUE)
     add_dependencies(test${CLASS_NAME} ${CLASS_NAME}TestExec ${DEPS})
 
-    exec_program( gcc ARGS "-dumpmachine" OUTPUT_VARIABLE ARCH_TRIPLET )
+    find_program( HAVE_GCC gcc )
+    if (NOT ${HAVE_GCC} STREQUAL "")
+        exec_program( gcc ARGS "-dumpmachine" OUTPUT_VARIABLE ARCH_TRIPLET )
+        set(LD_PRELOAD_PATH "LD_PRELOAD=/usr/lib/${ARCH_TRIPLET}/mesa/libGL.so.1")
+    endif()
     set(xvfbtestCommand
-          LD_PRELOAD=/usr/lib/${ARCH_TRIPLET}/mesa/libGL.so.1
+          ${LD_PRELOAD_PATH}
           LD_LIBRARY_PATH=${LD_PATH}
           xvfb-run --server-args "-screen 0 1024x768x24" --auto-servernum
           ${CMAKE_CURRENT_BINARY_DIR}/${CLASS_NAME}TestExec
