@@ -1,3 +1,61 @@
+unity8 (7.84+14.04.20140324.4-0ubuntu1) trusty; urgency=low
+
+  [ Michal Hruby ]
+  * Change and extend the way non-installed scopes are started with the
+    scope-tool.
+  * Switch to new scope backend and apply required visual adaptations.
+    (LP: #1294294)
+
+  [ Gerry Boland ]
+  * Switch to new scope backend and apply required visual adaptations.
+    (LP: #1294294)
+
+  [ Michał Sawicz ]
+  * Fix rating input action to always be "rated", not dynamic. Based on
+    http://developer.ubuntu.com/api/devel/ubuntu-14.04/cplusplus/unity-
+    scopes/previewwidgets.html#rating-input
+  * Switch to new scope backend and apply required visual adaptations.
+    (LP: #1294294)
+
+  [ Kevin Gunn ]
+  * Switch to new scope backend and apply required visual adaptations.
+    (LP: #1294294)
+
+  [ Albert Astals ]
+  * Switch to new scope backend and apply required visual adaptations.
+    (LP: #1294294)
+  * LVWPH: cull lost items lost items will be released on the next
+    updatePolish cycle but meanwhile don't let them be visible
+
+  [ Daniel d'Andrada ]
+  * Switch to new scope backend and apply required visual adaptations.
+    (LP: #1294294)
+
+  [ Michał Karnicki ]
+  * Switch to new scope backend and apply required visual adaptations.
+    (LP: #1294294)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 24 Mar 2014 16:10:24 +0000
+
+unity8 (7.84+14.04.20140319.1-0ubuntu1) trusty; urgency=low
+
+  [ Michał Sawicz ]
+  * Work around bug #1293478 - make sure to send ints, not doubles for
+    volume control. (LP: #1293478)
+
+  [ Nick Dedekind ]
+  * Fixed binding being cleared when manually changing slider value
+    (lp#1283191). (LP: #1283191)
+
+  [ Albert Astals ]
+  * Fix indicators highlight position on 5.2 We need to take into
+    account the list originX if we're using the list delegates x outside
+    the list itself
+  * LVWPH: Make sure m_firstVisibleIndex is correctly set on
+    removeNonVisibleItems
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 19 Mar 2014 16:40:20 +0000
+
 unity8 (7.84+14.04.20140317.2-0ubuntu1) trusty; urgency=low
 
   [ CI bot ]

@@ -20,5 +20,5 @@ FakeScopeView {
     id: fake_scopeView3
     objectName: "fake_scopeView3"
 
-    backColor: "#B0B0B0"
+    backColor: "#B0C0B0"
 }

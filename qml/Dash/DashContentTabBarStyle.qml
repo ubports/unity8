@@ -18,4 +18,7 @@ import Ubuntu.Components.Themes.Ambiance 0.1
 
 TabBarStyle {
     indicatorImageSource: "graphics/tabbarchevron.png"
+    // TODO karni: These should come from updated Ubuntu Palette.
+    headerTextColor: "#88888888"
+    headerTextSelectedColor: "#888888"
 }

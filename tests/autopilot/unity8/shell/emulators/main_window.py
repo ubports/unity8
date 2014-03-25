@@ -42,10 +42,6 @@ class QQuickView(emulators.UnityEmulatorBase):
             objectName="greeterContentLoader"
         )
 
-    def get_greeter_background(self):
-        return self.select_single(
-            "CrossFadeImage", objectName="greeterBackground")
-
     def get_login_loader(self):
         return self.select_single("QQuickLoader", objectName="loginLoader")
 

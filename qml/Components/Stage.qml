@@ -65,7 +65,9 @@ Showable {
 
     function activateApplication(desktopFile, addDelay) {
         var application = applicationManager.getApplicationFromDesktopFile(desktopFile, stage.type);
-        if (application != null && application == stage.focusedApplication) {
+        if (application == null) {
+            return;
+        } else if (application == stage.focusedApplication) {
             stage.show();
             return;
         }
@@ -142,6 +144,14 @@ Showable {
         }
     }
 
+    Timer {
+        id: hideScreenshotsAfterBriefDelay
+        // Since Mir & Qt have independent event loops, Mir often applies a focus request a frame later than when Qt
+        // asks for it. To work around, delay removing the screenshots a touch so Mir has definitely shown the app.
+        interval: 10
+        onTriggered: stage.__hideScreenshots();
+    }
+
     function __hideScreenshots() {
         newApplicationScreenshot.clearApplication();
         oldApplicationScreenshot.clearApplication();
@@ -177,7 +187,7 @@ Showable {
                 applicationManager.focusApplication(application);
             }
             if (!delayedHideScreenshots.running) {
-                stage.__hideScreenshots();
+                hideScreenshotsAfterBriefDelay.start();
             }
         } else {
             /* FIXME: calling ApplicationManager::focusApplication does not focus
@@ -252,7 +262,7 @@ Showable {
                     delayedHideScreenshots.start();
                 } else {
                     stage.focusedApplicationWhenUsingScreenshots = null;
-                    stage.__hideScreenshots();
+                    hideScreenshotsAfterBriefDelay.start();
                 }
             }
         }

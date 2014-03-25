@@ -26,25 +26,13 @@ GenericScopeView {
     id: scopeView
     objectName: "DashApps"
 
-    ListModel {
-        id: dummyVisibilityModifier
-
-        ListElement { name: "running-apps" }
-    }
-
-    SortFilterProxyModel {
-        id: runningApplicationsModel
-
-        property bool canEnableTerminationMode: scopeView.isCurrent
-
-        model: ApplicationManager.count > 0 ? ApplicationManager : dummyVisibilityModifier
-        filterRole: 0
-        filterRegExp: invertMatch ? (ApplicationManager.count === 0 ? RegExp("running-apps") : RegExp("")) : RegExp("disabled")
-        invertMatch: scopeView.scope.searchQuery.length == 0
+    QtObject {
+        id: countObject
+        property int count: scopeView.scope.searchQuery.length == 0 ? (ApplicationManager.count) : 0
     }
 
     onScopeChanged: {
-        scopeView.scope.categories.overrideResults("recent", runningApplicationsModel);
+        scopeView.scope.categories.addSpecialCategory("running.apps.category", "Recent", "", "{ \"template\": { \"category-layout\": \"running-apps\" } }", countObject);
         enableHeightBehaviorOnNextCreation = ApplicationManager.count === 0
     }
 }

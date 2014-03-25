@@ -36,5 +36,7 @@ PreviewWidget {
         width: parent.width
 
         titleSize: "large"
+        // TODO Change "grey" to Ubuntu.Components.Palette color once updated.
+        fontColor: "grey"
     }
 }

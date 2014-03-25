@@ -98,10 +98,9 @@ AbstractButton {
             }
             text: (application) ? application.name : ""
 
-            color: Theme.palette.selected.backgroundText
+            // TODO karni: Update Ubuntu.Components.Themes.Palette and use theme color instead
+            color: "grey"
             opacity: 0.9
-            style: Text.Raised
-            styleColor: "black"
             fontSize: "small"
             elide: Text.ElideMiddle
             horizontalAlignment: Text.AlignHCenter
