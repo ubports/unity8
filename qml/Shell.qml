@@ -574,6 +574,16 @@ BasicShell {
         blockInput: true
     }
 
+    InputFilterArea {
+        anchors {
+            top: parent.top
+            bottom: parent.bottom
+            right: parent.right
+        }
+        width: shell.edgeSize
+        blockInput: true
+    }
+
     OSKController {
         anchors.topMargin: panel.panelHeight
         anchors.fill: parent // as needs to know the geometry of the shell
