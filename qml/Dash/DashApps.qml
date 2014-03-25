@@ -26,13 +26,15 @@ GenericScopeView {
     id: scopeView
     objectName: "DashApps"
 
+    property var model: ApplicationManager
+
     QtObject {
         id: countObject
-        property int count: scopeView.scope.searchQuery.length == 0 ? (ApplicationManager.count) : 0
+        property int count: scopeView.scope.searchQuery.length == 0 ? scopeView.model.count : 0
     }
 
     onScopeChanged: {
         scopeView.scope.categories.addSpecialCategory("running.apps.category", "Recent", "", "{ \"template\": { \"category-layout\": \"running-apps\" } }", countObject);
-        enableHeightBehaviorOnNextCreation = ApplicationManager.count === 0
+        enableHeightBehaviorOnNextCreation = scopeView.model.count === 0
     }
 }
