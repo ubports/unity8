@@ -35,7 +35,7 @@ GenericScopeView {
     }
 
     onScopeChanged: {
-        scopeView.scope.categories.addSpecialCategory("running.apps.category", "Recent", "", "{ \"template\": { \"category-layout\": \"running-apps\" } }", countObject);
+        scopeView.scope.categories.addSpecialCategory("running.apps.category", i18n.tr("Recent"), "", "{ \"template\": { \"category-layout\": \"running-apps\" } }", countObject);
         enableHeightBehaviorOnNextCreation = (mainStageApplicationsModel.count + sideStageApplicationModel.count == 0)
     }
 }
