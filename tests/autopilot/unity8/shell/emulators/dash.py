@@ -151,7 +151,7 @@ class GenericScopeView(emulators.UnityEmulatorBase):
         # --elopio - 2014-1-14
         self.pointing_device.click_object(icon)
         return self.get_root_instance().wait_select_single(
-            objectName="dashPreview", isCurrent=True)
+            'PreviewListView', objectName='dashContentPreviewList')
 
     def _get_category_element(self, category):
         try:
