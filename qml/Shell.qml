@@ -134,6 +134,14 @@ FocusScope {
                 opacity: dash.disappearingAnimationProgress
             }
 
+            Image {
+                anchors.fill: dash
+                source: shell.width > shell.height ? "Dash/graphics/paper_landscape.png" : "Dash/graphics/paper_portrait.png"
+                fillMode: Image.PreserveAspectCrop
+                horizontalAlignment: Image.AlignRight
+                verticalAlignment: Image.AlignTop
+            }
+
             Dash {
                 id: dash
                 objectName: "dash"
