@@ -68,12 +68,6 @@ MouseArea {
         }
     }
 
-    Rectangle {
-        anchors.fill: parent
-        color: "black"
-        opacity: 0.4
-    }
-
     MouseArea {
         id: teasingMouseArea
         anchors.fill: parent
