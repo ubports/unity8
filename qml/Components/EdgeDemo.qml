@@ -42,7 +42,6 @@ Item {
 
     function hideEdgeDemoInShell() {
         AccountsService.demoEdges = false;
-        stopDemo();
     }
 
     function stopDemo() {

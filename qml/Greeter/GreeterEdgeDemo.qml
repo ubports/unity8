@@ -36,7 +36,6 @@ Item {
 
     function hideEdgeDemoInGreeter() {
         AccountsService.demoEdgesForCurrentUser = false;
-        stopDemo();
     }
 
     function hideEdgeDemos() {
@@ -46,7 +45,7 @@ Item {
 
     function startDemo() {
         if (!d.overlay) {
-            d.overlay = Qt.createComponent("EdgeDemoOverlay.qml")
+            d.overlay = Qt.createComponent("../Components/EdgeDemoOverlay.qml")
         }
         startRightEdgeDemo()
     }

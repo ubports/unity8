@@ -59,6 +59,7 @@ bool AccountsService::demoEdges() const
 void AccountsService::setDemoEdges(bool demoEdges)
 {
     m_demoEdges = demoEdges;
+    Q_EMIT demoEdgesChanged();
     m_service->setUserProperty(m_user, "com.canonical.unity.AccountsService", "demo-edges", demoEdges);
 }
 
@@ -70,6 +71,7 @@ bool AccountsService::demoEdgesForCurrentUser() const
 void AccountsService::setDemoEdgesForCurrentUser(bool demoEdgesForCurrentUser)
 {
     m_demoEdgesForCurrentUser = demoEdgesForCurrentUser;
+    Q_EMIT demoEdgesForCurrentUserChanged();
     m_service->setUserProperty(qgetenv("USER"), "com.canonical.unity.AccountsService", "demo-edges", demoEdgesForCurrentUser);
 }
 
@@ -126,7 +128,7 @@ void AccountsService::propertiesChanged(const QString &user, const QString &inte
             if (qgetenv("USER") == user) {
                 updateDemoEdgesForCurrentUser();
             }
-            if (m_user != user) {
+            if (m_user == user) {
                 updateDemoEdges();
             }
         }
