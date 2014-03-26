@@ -91,8 +91,7 @@ class IndicatorPageTitleMatchesWidgetTestCase(IndicatorTestCase):
         unlock_unity(unity_proxy)
         widget = self.main_window.get_indicator_widget(self.indicator_name)
         widget.swipe_to_open_indicator(self.main_window)
-        self.main_window.wait_select_single(
-            "DefaultIndicatorPage",
-            title=self.title,
-            visible=True
+        indicator_page = self.main_window.get_indicator_page(
+            indicator_title=self.title
         )
+        self.assertTrue(indicator_page.visible)

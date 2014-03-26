@@ -94,6 +94,12 @@ class QQuickView(emulators.UnityEmulatorBase):
             objectName=indicator_name+'-widget'
         )
 
+    def get_indicator_page(self, indicator_title):
+        return self.select_single(
+            'DefaultIndicatorPage',
+            title=indicator_title
+        )
+
     def get_shell_background(self):
         return self.select_single(
             "CrossFadeImage", objectName="backgroundImage")
