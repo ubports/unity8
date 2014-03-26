@@ -17,7 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 
-Item {
+AbstractButton {
     id: root
     property var template
     property var components
@@ -25,7 +25,8 @@ Item {
 
     property alias fontScale: header.fontScale
     property alias headerAlignment: header.headerAlignment
-    readonly property alias headerHeight: header.height
+    property alias headerHeight: header.height
+    readonly property alias title: header.title
 
     property bool showHeader: true
 
@@ -89,6 +90,7 @@ Item {
             height: template && template["card-layout"] === "horizontal" ? header.height : width / artShape.aspect
             objectName: "artImage"
             source: cardData && cardData["art"] || ""
+            cache: true
             // FIXME uncomment when having investigated / fixed the crash
             //sourceSize.width: width > height ? width : 0
             //sourceSize.height: height > width ? height : 0
@@ -165,7 +167,7 @@ Item {
         titleWeight: components && components["subtitle"] ? Font.DemiBold : Font.Normal
 
         opacity: showHeader ? 1 : 0
-        inOverlay: template["overlay"] === true
+        inOverlay: root.template && root.template["overlay"] === true
         fontColor: inOverlay ? "white" : summary.color
         useMascotShape: !background.visible && !inOverlay
 
