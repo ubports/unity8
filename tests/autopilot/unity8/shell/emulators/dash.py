@@ -159,7 +159,7 @@ class GenericScopeView(emulators.UnityEmulatorBase):
     def _get_category_element(self, category):
         try:
             return self.wait_select_single(
-                'Base', objectName='dashCategory{}'.format(category))
+                'Base', objectName='dashSectionHeader{}'.format(category))
         except dbus.StateNotFoundError:
             raise emulators.UnityEmulatorException(
                 'No category found with name {}'.format(category))
@@ -176,10 +176,14 @@ class DashApps(GenericScopeView):
         """
         category_element = self._get_category_element(category)
         application_tiles = category_element.select_many('Card')
-        # TODO return them on the same order they are displayed.
-        # --elopio - 2014-1-15
         result = []
         for card in application_tiles:
             if card.objectName != 'cardToolCard':
                 result.append(card)
-        return result
+
+        def visible_order(card):
+            """Enable sorting of cards by vertical, horizontal."""
+            # NOTE that we limit testable resolution to 10K
+            return card.globalRect[1] * 10000 + card.globalRect[0]
+
+        return sorted(result, key=visible_order)

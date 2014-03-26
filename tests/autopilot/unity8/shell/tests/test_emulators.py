@@ -32,6 +32,8 @@ try:
 except ImportError:
     import mock
 
+from time import sleep
+
 from testtools.matchers import Contains, HasLength
 
 from unity8 import process_helpers
@@ -180,6 +182,17 @@ class DashAppsEmulatorTestCase(DashBaseTestCase):
         self.assertThat(applications, HasLength(expected_apps_count))
         for expected in expected_applications:
             self.assertThat(applications_titles, Contains(expected))
+
+    def test_get_applications_list_matches_visible_ordering(self):
+        category = '2'
+        expected_apps_count = self._get_number_of_application_slots(category)
+        expected_application_titles = self.available_applications[
+            :expected_apps_count]
+        applications = self.applications_scope.get_applications(category)
+        for card_num in range(len(applications)):
+            card_header = applications[card_num].select_single('CardHeader')
+            self.assertEqual(expected_application_titles[card_num],
+                             card_header.title)
 
     def _get_number_of_application_slots(self, category):
         category_element = self.applications_scope._get_category_element(
