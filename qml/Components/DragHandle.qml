@@ -97,7 +97,7 @@ EdgeDragArea {
     // Private stuff
     QtObject {
         id: d
-        property var previousStatus: undefined
+        property var previousStatus: DirectionalDragArea.WaitingForTouch
         property real startValue
         property real minValue: Direction.isPositive(direction) ? startValue
                                                                 : startValue - maxTotalDragDistance
@@ -167,7 +167,8 @@ EdgeDragArea {
     EdgeDragEvaluator {
         objectName: "edgeDragEvaluator"
         id: dragEvaluator
-        trackedPosition: sceneDistance
+        // Effectively convert distance into the drag position projected onto the gesture direction axis
+        trackedPosition: Direction.isPositive(dragArea.direction) ? sceneDistance : -sceneDistance
         maxDragDistance: maxTotalDragDistance
         direction: dragArea.direction
     }
@@ -193,14 +194,14 @@ EdgeDragArea {
                 d.rollbackDrag();
             }
         } else /* Undecided || Recognized */ {
-            if (d.previousStatus === DirectionalDragArea.WaitingForTouch ||
-                    d.previousStatus === undefined) {
+            if (d.previousStatus === DirectionalDragArea.WaitingForTouch) {
                 dragEvaluator.reset();
                 d.startValue = parent[d.targetProp];
-            }
-            if (hintDisplacement > 0) {
-                hintingAnimation.targetValue = d.startValue;
-                hintingAnimation.start();
+
+                if (hintDisplacement > 0) {
+                    hintingAnimation.targetValue = d.startValue;
+                    hintingAnimation.start();
+                }
             }
         }
 

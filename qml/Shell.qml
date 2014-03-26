@@ -125,27 +125,6 @@ FocusScope {
         shell.background = gSettingsPicture
     }
 
-    // This is a dummy image that is needed to determine if the picture url
-    // in backgroundSettings points to a valid picture file.
-    // We can't do this with the real background image because setting a
-    // new source in onStatusChanged triggers a binding loop detection
-    // inside Image, which causes it not to render even though a valid source
-    // would be set. We don't mind about this image staying black and just
-    // use it for verification to populate the source for the real
-    // background image.
-    Image {
-        source: shell.background
-        height: 0
-        width: 0
-        sourceSize.height: 0
-        sourceSize.width: 0
-        onStatusChanged: {
-            if (status == Image.Error && source != shell.defaultBackground) {
-                shell.background = defaultBackground
-            }
-        }
-    }
-
     VolumeControl {
         id: volumeControl
     }
@@ -174,19 +153,18 @@ FocusScope {
         // through the translucent parts of the shell surface.
         visible: !fullyCovered && !applicationSurfaceShouldBeSeen
 
-        CrossFadeImage {
-            id: backgroundImage
-            objectName: "backgroundImage"
-
-            anchors.fill: parent
-            source: shell.background
-            fillMode: Image.PreserveAspectCrop
-        }
-
         Rectangle {
             anchors.fill: parent
             color: "black"
             opacity: dash.disappearingAnimationProgress
+        }
+
+        Image {
+            anchors.fill: dash
+            source: shell.width > shell.height ? "Dash/graphics/paper_landscape.png" : "Dash/graphics/paper_portrait.png"
+            fillMode: Image.PreserveAspectCrop
+            horizontalAlignment: Image.AlignRight
+            verticalAlignment: Image.AlignTop
         }
 
         Dash {
@@ -340,7 +318,7 @@ FocusScope {
                     }
                 }
 
-                enabled: shell.width >= units.gu(60)
+                enabled: shell.width >= units.gu(100)
                 visible: enabled
                 fullyShown: stages.fullyShown && shown
                             && sideStage[sideStageRevealer.boundProperty] == sideStageRevealer.openedValue
@@ -421,7 +399,6 @@ FocusScope {
         Component.onCompleted: {
             if (LightDM.Users.count == 1) {
                 LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole))
-                greeter.selected(0)
             }
         }
     }
@@ -497,7 +474,6 @@ FocusScope {
                 // If there are more users, the Greeter will handle that
                 if (LightDM.Users.count == 1) {
                     LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
-                    greeter.selected(0);
                 }
                 greeter.forceActiveFocus();
                 removeApplicationFocus();
@@ -573,7 +549,7 @@ FocusScope {
     function showHome() {
         var animate = !greeter.shown && !stages.shown
         greeter.hide()
-        dash.setCurrentScope("home.scope", animate, false)
+        dash.setCurrentScope("clickscope", animate, false)
         stages.hide()
     }
 
@@ -596,7 +572,7 @@ FocusScope {
                 contentEnabled: edgeDemo.panelContentEnabled
             }
             fullscreenMode: shell.fullscreenMode
-            searchVisible: !greeter.shown && !lockscreen.shown && dash.shown
+            searchVisible: !greeter.shown && !lockscreen.shown && dash.shown && dash.searchable
 
             InputFilterArea {
                 anchors {
@@ -684,7 +660,7 @@ FocusScope {
                     launcher.hide();
                 }
             }
-            onDashSwipeChanged: if (dashSwipe && stages.shown) dash.setCurrentScope("applications.scope", false, true)
+            onDashSwipeChanged: if (dashSwipe && stages.shown) dash.setCurrentScope("clickscope", false, true)
             onLauncherApplicationSelected:{
                 if (edgeDemo.running)
                     return;

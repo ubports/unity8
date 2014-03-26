@@ -63,7 +63,7 @@ Item {
                     dragAreaRect.opacity = 0.3
                     launcher.y = Qt.binding(launcher.followDragArea)
                     break;
-                defaut: // DirectionalDragArea.Recognized:
+                default: // DirectionalDragArea.Recognized:
                     dragAreaRect.color = "green"
                     dragAreaRect.opacity = 0.5
                     break;
@@ -75,5 +75,12 @@ Item {
             right: parent.right
             top: parent.top
         }
+    }
+
+    Label {
+        text: "Downwards"
+        anchors.top: parent.top
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.topMargin: units.gu(1)
     }
 }

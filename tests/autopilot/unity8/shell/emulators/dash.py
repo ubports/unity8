@@ -36,11 +36,9 @@ class Dash(emulators.UnityEmulatorBase):
         self.dash_content_list = self.wait_select_single(
             'QQuickListView', objectName='dashContentList')
 
-    def get_home_applications_grid(self):
-        get_grid = self.get_scope('home').wait_select_single(
-            "GenericFilterGrid",
-            objectName="applications.scope"
-        )
+    def get_applications_grid(self):
+        get_grid = self.get_scope('clickscope').wait_select_single(
+            'CardFilterGrid', objectName='local')
         return get_grid
 
     def get_application_icon(self, text):
@@ -50,24 +48,22 @@ class Dash(emulators.UnityEmulatorBase):
         :param text: String containing the text of the icon to search for.
 
         """
-        app_grid = self.get_home_applications_grid()
+        app_grid = self.get_applications_grid()
         resp_grid = app_grid.wait_select_single('ResponsiveGridView')
         return resp_grid.select_single('Tile', text=text)
 
-    def get_scope(self, scope_name='home'):
-        scope_id = "%s.scope" % scope_name
+    def get_scope(self, scope_name='clickscope'):
         return self.dash_content_list.select_single(
-            'QQuickLoader', scopeId=scope_id)
+            'QQuickLoader', scopeId=scope_name)
 
     @autopilot_logging.log_action(logger.info)
-    def open_scope(self, scope_name):
+    def open_scope(self, scope_id):
         """Open a dash scope.
 
-        :parameter scope_name: The name of the scope.
+        :parameter scope_id: The id of the scope.
         :return: The scope.
 
         """
-        scope_id = "%s.scope" % scope_name
         scope_loader = self._get_scope_loader(scope_id)
         if scope_loader.isCurrent:
             logger.info('The scope is already open.')
@@ -84,7 +80,7 @@ class Dash(emulators.UnityEmulatorBase):
                 'No scope found with id {0}'.format(scope_id))
 
     def _get_scope_from_loader(self, loader):
-        if loader.scopeId == 'applications.scope':
+        if loader.scopeId == 'clickscope':
             return loader.select_single(DashApps)
         else:
             return loader.select_single(GenericScopeView)
@@ -94,9 +90,9 @@ class Dash(emulators.UnityEmulatorBase):
 
         while not scope_loader.isCurrent:
             scroll()
+            self.dash_content_list.moving.wait_for(False)
 
         scope = self._get_scope_from_loader(scope_loader)
-        scope.moving.wait_for(False)
         scope.isCurrent.wait_for(True)
         return scope
 
@@ -115,7 +111,7 @@ class Dash(emulators.UnityEmulatorBase):
         original_index = self.dash_content_list.currentIndex
         # Scroll on the border of the page header, because some scopes have
         # contents that can be scrolled horizontally.
-        page_header = self.select_single('PageHeader')
+        page_header = self._get_page_header()
         border = page_header.select_single('QQuickBorderImage')
         start_x = border.width / 3
         stop_x = border.width / 3 * 2
@@ -123,12 +119,15 @@ class Dash(emulators.UnityEmulatorBase):
         self.pointing_device.drag(start_x, start_y, stop_x, stop_y)
         self.dash_content_list.currentIndex.wait_for(original_index - 1)
 
+    def _get_page_header(self):
+        return self.select_single('PageHeader', objectName='pageHeader')
+
     @autopilot_logging.log_action(logger.info)
     def _scroll_to_right_scope(self):
         original_index = self.dash_content_list.currentIndex
         # Scroll on the border of the page header, because some scopes have
         # contents that can be scrolled horizontally.
-        page_header = self.select_single('PageHeader')
+        page_header = self._get_page_header()
         border = page_header.select_single('QQuickBorderImage')
         start_x = border.width / 3 * 2
         stop_x = border.width / 3
@@ -138,8 +137,49 @@ class Dash(emulators.UnityEmulatorBase):
 
 
 class GenericScopeView(emulators.UnityEmulatorBase):
-    """Autopilot emulators for generic scopes."""
+    """Autopilot emulator for generic scopes."""
+
+    @autopilot_logging.log_action(logger.info)
+    def open_preview(self, category, app_name):
+        """Open the preview of an application.
+
+        :parameter category: The name of the category where the application is.
+        :app_name: The name of the application.
+
+        """
+        category_element = self._get_category_element(category)
+        icon = category_element.select_single('Card', title=app_name)
+        # FIXME some categories need a long press in order to see the preview.
+        # Some categories do not show previews, like recent apps.
+        # --elopio - 2014-1-14
+        self.pointing_device.click_object(icon)
+        return self.get_root_instance().wait_select_single(
+            'PreviewListView', objectName='dashContentPreviewList')
+
+    def _get_category_element(self, category):
+        try:
+            return self.wait_select_single(
+                'Base', objectName='dashCategory{}'.format(category))
+        except dbus.StateNotFoundError:
+            raise emulators.UnityEmulatorException(
+                'No category found with name {}'.format(category))
 
 
-class DashApps(emulators.UnityEmulatorBase):
-    """Autopilot emulators for the applications scope."""
+class DashApps(GenericScopeView):
+    """Autopilot emulator for the applications scope."""
+
+    def get_applications(self, category):
+        """Return the list of applications on a category.
+
+        :parameter category: The name of the category.
+
+        """
+        category_element = self._get_category_element(category)
+        application_tiles = category_element.select_many('Card')
+        # TODO return them on the same order they are displayed.
+        # --elopio - 2014-1-15
+        result = []
+        for card in application_tiles:
+            if card.objectName != 'cardToolCard':
+                result.append(card)
+        return result

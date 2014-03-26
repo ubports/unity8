@@ -56,7 +56,6 @@ Item {
             fill: parent
             leftMargin: margin/2
             rightMargin: margin/2
-            topMargin: verticalSpacing
         }
         clip: parent.height != totalContentHeight
 
@@ -72,7 +71,7 @@ Item {
 
         function columnsForSpacing(spacing) {
             // minimum margin is half of the spacing
-            return Math.max(1, Math.floor((parent.width - spacing/2) / (delegateWidth + spacing)));
+            return Math.max(1, Math.floor(parent.width / (delegateWidth + spacing)));
         }
 
         property real allocatableHorizontalSpace: parent.width - columns * delegateWidth

@@ -6,11 +6,9 @@
 export DPKG_GENSYMBOLS_CHECK_LEVEL=4
 export NO_PNG_PKG_MANGLE=1
 
-SCOPES_RECOMMENDS := $(shell perl debian/scopes-recommends-generator /usr/share/unity/client-scopes.json)
-
 .PHONY: build
 build %:
-	dh $@ --parallel --fail-missing --with python2
+	dh $@ --parallel --fail-missing --with python2,python3
 
 override_dh_auto_clean:
 	dh_auto_clean
@@ -21,10 +19,14 @@ override_dh_auto_configure:
 	# So until Debian bug 719148 is fixed, do it ourselves.
 	dh_auto_configure -- -DCMAKE_INSTALL_LOCALSTATEDIR="/var"
 
+override_dh_auto_build:
+	# doc is not a default target
+	dh_auto_build -- all doc
+
 override_dh_install:
 	# install autopilot tests
 	cd tests/autopilot; \
-	set -ex; for python in $(shell pyversions -r); do \
+	set -ex; for python in $(shell pyversions -r) $(shell py3versions -r); do \
 	    $$python setup.py install --root=$(CURDIR)/debian/tmp --install-layout=deb; \
 	done; \
 	cd $(CURDIR)
@@ -37,6 +39,3 @@ override_dh_makeshlibs:
 # libMockLightDM-qml.so links against liblightdm-qt5-2.so which doesn't exist
 override_dh_shlibdeps:
 	dh_shlibdeps -XlibMockLightDM-qml.so
-
-override_dh_gencontrol:
-	dh_gencontrol -- -Vunity-default-masterscopes="$(SCOPES_RECOMMENDS)"

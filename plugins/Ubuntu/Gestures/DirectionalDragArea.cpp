@@ -109,11 +109,13 @@ private:
 DirectionalDragArea::DirectionalDragArea(QQuickItem *parent)
     : QQuickItem(parent)
     , m_status(WaitingForTouch)
+    , m_sceneDistance(0)
     , m_touchId(-1)
     , m_direction(Direction::Rightwards)
     , m_wideningAngle(0)
     , m_wideningFactor(0)
     , m_distanceThreshold(0)
+    , m_distanceThresholdSquared(0.)
     , m_minSpeed(0)
     , m_maxSilenceTime(200)
     , m_silenceTime(0)
@@ -128,6 +130,8 @@ DirectionalDragArea::DirectionalDragArea(QQuickItem *parent)
     m_recognitionTimer->setInterval(60);
 
     m_velocityCalculator = new AxisVelocityCalculator(this);
+
+    connect(this, &QQuickItem::enabledChanged, this, &DirectionalDragArea::onEnabledChanged);
 }
 
 Direction::Type DirectionalDragArea::direction() const
@@ -162,7 +166,14 @@ void DirectionalDragArea::setWideningAngle(qreal angle)
         return;
 
     m_wideningAngle = angle;
-    m_wideningFactor = qTan(angle * M_PI / 180.0);
+
+    // wideningFactor = pow(cosine(angle), 2)
+    {
+        qreal angleRadians = angle * M_PI / 180.0;
+        m_wideningFactor = qCos(angleRadians);
+        m_wideningFactor = m_wideningFactor * m_wideningFactor;
+    }
+
     Q_EMIT wideningAngleChanged(angle);
 }
 
@@ -170,6 +181,7 @@ void DirectionalDragArea::setDistanceThreshold(qreal value)
 {
     if (m_distanceThreshold != value) {
         m_distanceThreshold = value;
+        m_distanceThresholdSquared = m_distanceThreshold * m_distanceThreshold;
         Q_EMIT distanceThresholdChanged(value);
     }
 }
@@ -237,13 +249,15 @@ qreal DirectionalDragArea::distance() const
     }
 }
 
+void DirectionalDragArea::updateSceneDistance()
+{
+    QPointF totalMovement = m_previousScenePos - m_startScenePos;
+    m_sceneDistance = projectOntoDirectionVector(totalMovement);
+}
+
 qreal DirectionalDragArea::sceneDistance() const
 {
-    if (Direction::isHorizontal(m_direction)) {
-        return m_previousScenePos.x() - m_startScenePos.x();
-    } else {
-        return m_previousScenePos.y() - m_startScenePos.y();
-    }
+    return m_sceneDistance;
 }
 
 qreal DirectionalDragArea::touchX() const
@@ -335,12 +349,13 @@ void DirectionalDragArea::touchEvent_absent(QTouchEvent *event)
     m_startScenePos = newTouchPoint->scenePos();
     m_touchId = newTouchPoint->id();
     m_dampedScenePos.reset(m_startScenePos);
-    updateVelocityCalculator(m_startScenePos);
+    m_velocityCalculator->setTrackedPosition(0.);
     m_velocityCalculator->reset();
     m_numSamplesOnLastSpeedCheck = 0;
     m_silenceTime = 0;
     setPreviousPos(m_startPos);
     setPreviousScenePos(m_startScenePos);
+    updateSceneDirectionVector();
 
     setStatus(Undecided);
 }
@@ -441,44 +456,53 @@ const QTouchEvent::TouchPoint *DirectionalDragArea::fetchTargetTouchPoint(QTouch
 
 bool DirectionalDragArea::pointInsideAllowedArea() const
 {
-    qreal dX = m_dampedScenePos.x() - m_startScenePos.x();
-    qreal dY = m_dampedScenePos.y() - m_startScenePos.y();
+    // NB: Using squared values to avoid computing the square root to find
+    // the length totalMovement
 
-    switch (m_direction) {
-        case Direction::Upwards:
-            return dY <= 0 && qFabs(dX) <= qFabs(dY) * m_wideningFactor;
-        case Direction::Downwards:
-            return dY >= 0 && qFabs(dX) <= dY * m_wideningFactor;
-        case Direction::Leftwards:
-            return dX <= 0  && qFabs(dY) <= qFabs(dX) * m_wideningFactor;
-        default: // Direction::Rightwards:
-            return dX >= 0 && qFabs(dY) <= dX * m_wideningFactor;
+    QPointF totalMovement(m_dampedScenePos.x() - m_startScenePos.x(),
+                          m_dampedScenePos.y() - m_startScenePos.y());
+
+    qreal squaredTotalMovSize = totalMovement.x() * totalMovement.x() +
+                                totalMovement.y() * totalMovement.y();
+
+    if (squaredTotalMovSize == 0.) {
+        // didn't move
+        return true;
     }
+
+    qreal projectedMovement = projectOntoDirectionVector(totalMovement);
+
+
+    qreal cosineAngleSquared = (projectedMovement * projectedMovement) / squaredTotalMovSize;
+
+    // Same as:
+    // angle_between_movement_vector_and_gesture_direction_vector <= widening_angle
+    return cosineAngleSquared >= m_wideningFactor;
 }
 
 bool DirectionalDragArea::movingInRightDirection() const
 {
-    switch (m_direction) {
-        case Direction::Upwards:
-            return m_dampedScenePos.y() <= m_previousDampedScenePos.y();
-        case Direction::Downwards:
-            return m_dampedScenePos.y() >= m_previousDampedScenePos.y();
-        case Direction::Leftwards:
-            return m_dampedScenePos.x() <= m_previousDampedScenePos.x();
-        default: // Direction::Rightwards:
-            return m_dampedScenePos.x() >= m_previousDampedScenePos.x();
-    }
+    QPointF movementVector(m_dampedScenePos.x() - m_previousDampedScenePos.x(),
+                           m_dampedScenePos.y() - m_previousDampedScenePos.y());
+
+    qreal scalarProjection = projectOntoDirectionVector(movementVector);
+
+    return scalarProjection >= 0.;
 }
 
 bool DirectionalDragArea::movedFarEnough(const QPointF &point) const
 {
-    if (m_distanceThreshold > 0) {
-        if (Direction::isHorizontal(m_direction))
-            return qFabs(point.x() - m_startScenePos.x()) > m_distanceThreshold;
-        else
-            return qFabs(point.y() - m_startScenePos.y()) > m_distanceThreshold;
-    } else {
+    if (m_distanceThreshold <= 0.) {
+        // distance threshold check is disabled
         return true;
+    } else {
+        QPointF totalMovement(point.x() - m_startScenePos.x(),
+                              point.y() - m_startScenePos.y());
+
+        qreal squaredTotalMovSize = totalMovement.x() * totalMovement.x() +
+                                    totalMovement.y() * totalMovement.y();
+
+        return squaredTotalMovSize > m_distanceThresholdSquared;
     }
 }
 
@@ -505,6 +529,13 @@ void DirectionalDragArea::checkSpeed()
         m_silenceTime = 0;
     }
     m_numSamplesOnLastSpeedCheck = m_velocityCalculator->numSamples();
+}
+
+void DirectionalDragArea::onEnabledChanged()
+{
+    if (!isEnabled() && m_status != WaitingForTouch) {
+        setStatus(WaitingForTouch);
+    }
 }
 
 void DirectionalDragArea::setStatus(DirectionalDragArea::Status newStatus)
@@ -568,28 +599,33 @@ void DirectionalDragArea::setPreviousScenePos(const QPointF &point)
     bool xChanged = m_previousScenePos.x() != point.x();
     bool yChanged = m_previousScenePos.y() != point.y();
 
+    if (!xChanged && !yChanged)
+        return;
+
+    qreal oldSceneDistance = sceneDistance();
     m_previousScenePos = point;
+    updateSceneDistance();
+
+    if (oldSceneDistance != sceneDistance()) {
+        Q_EMIT sceneDistanceChanged(sceneDistance());
+    }
 
     if (xChanged) {
         Q_EMIT touchSceneXChanged(point.x());
-        if (Direction::isHorizontal(m_direction))
-            Q_EMIT sceneDistanceChanged(sceneDistance());
     }
 
     if (yChanged) {
         Q_EMIT touchSceneYChanged(point.y());
-        if (Direction::isVertical(m_direction))
-            Q_EMIT sceneDistanceChanged(sceneDistance());
     }
 }
 
-void DirectionalDragArea::updateVelocityCalculator(const QPointF &point)
+void DirectionalDragArea::updateVelocityCalculator(const QPointF &scenePos)
 {
-    if (Direction::isHorizontal(m_direction)) {
-        m_velocityCalculator->setTrackedPosition(point.x());
-    } else {
-        m_velocityCalculator->setTrackedPosition(point.y());
-    }
+    QPointF totalSceneMovement = scenePos - m_startScenePos;
+
+    qreal scalarProjection = projectOntoDirectionVector(totalSceneMovement);
+
+    m_velocityCalculator->setTrackedPosition(scalarProjection);
 }
 
 bool DirectionalDragArea::isWithinTouchCompositionWindow()
@@ -691,6 +727,40 @@ qint64 DirectionalDragArea::ActiveTouchesInfo::mostRecentStartTime()
     } while (i < m_lastUsedIndex);
 
     return highestStartTime;
+}
+
+void DirectionalDragArea::updateSceneDirectionVector()
+{
+    QPointF localOrigin(0., 0.);
+    QPointF localDirection;
+    switch (m_direction) {
+        case Direction::Upwards:
+            localDirection.rx() = 0.;
+            localDirection.ry() = -1.;
+            break;
+        case Direction::Downwards:
+            localDirection.rx() = 0.;
+            localDirection.ry() = 1;
+            break;
+        case Direction::Leftwards:
+            localDirection.rx() = -1.;
+            localDirection.ry() = 0.;
+            break;
+        default: // Direction::Rightwards:
+            localDirection.rx() = 1.;
+            localDirection.ry() = 0.;
+            break;
+    }
+    QPointF sceneOrigin = mapToScene(localOrigin);
+    QPointF sceneDirection = mapToScene(localDirection);
+    m_sceneDirectionVector = sceneDirection - sceneOrigin;
+}
+
+qreal DirectionalDragArea::projectOntoDirectionVector(const QPointF &sceneVector) const
+{
+    // same as dot product as m_sceneDirectionVector is a unit vector
+    return  sceneVector.x() * m_sceneDirectionVector.x() +
+            sceneVector.y() * m_sceneDirectionVector.y();
 }
 
 // Because we are defining a new QObject-based class (RecognitionTimer) here.
