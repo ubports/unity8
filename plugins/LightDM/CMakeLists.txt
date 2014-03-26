@@ -37,7 +37,3 @@ qt5_use_modules(LightDM-qml DBus Qml)
 # export the qmldir qmltypes and plugin files
 export_qmlfiles(LightDM LightDM)
 export_qmlplugin(LightDM 0.1 LightDM TARGETS LightDM-qml)
-
-install(FILES unity8-greeter-init.conf
-    DESTINATION ${CMAKE_INSTALL_DATADIR}/upstart/sessions
-    )

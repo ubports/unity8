@@ -10,9 +10,12 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${SHELL_APP}.desktop ${CMAKE_CURRENT_B
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${GREETER_APP}.desktop
     DESTINATION ${CMAKE_INSTALL_DATADIR}/lightdm/greeters
     )
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/51-${GREETER_APP}.conf
+install(FILES 51-${GREETER_APP}.conf
     DESTINATION ${CMAKE_INSTALL_DATADIR}/lightdm/lightdm.conf.d
     )
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${GREETER_APP}-wrapper
+install(FILES ${GREETER_APP}-wrapper
     DESTINATION ${CMAKE_INSTALL_BINDIR}
+    )
+install(FILES unity8-greeter-init.conf
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/upstart/sessions
     )
