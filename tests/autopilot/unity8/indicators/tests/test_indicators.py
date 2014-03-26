@@ -19,15 +19,25 @@
 from __future__ import absolute_import
 
 from autopilot import platform
+from testscenarios import multiply_scenarios
 
-from unity8.indicators.emulators.widget import DefaultIndicatorWidget
 from unity8.process_helpers import unlock_unity
-from unity8.shell.tests import UnityTestCase
+from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 
 
 class IndicatorTestCase(UnityTestCase):
 
-    scenarios = [
+    device_emulation_scenarios = _get_device_emulation_scenarios()
+
+    def setUp(self):
+        if platform.model() == "Desktop":
+            self.skipTest("Test cannot be run on the desktop.")
+        super(IndicatorTestCase, self).setUp()
+
+
+class IndicatorExistsTestCase(IndicatorTestCase):
+
+    indicator_scenarios = [
         ('Bluetooth', dict(indicator_name='indicator-bluetooth')),
         ('Datetime', dict(indicator_name='indicator-datetime')),
         ('Location', dict(indicator_name='indicator-location')),
@@ -36,23 +46,22 @@ class IndicatorTestCase(UnityTestCase):
         ('Power', dict(indicator_name='indicator-power')),
         ('Sound', dict(indicator_name='indicator-sound')),
     ]
-
-    def setUp(self):
-        if platform.model() == "Desktop":
-            self.skipTest("Test cannot be run on the desktop.")
-        super(IndicatorTestCase, self).setUp()
+    scenarios = multiply_scenarios(
+        indicator_scenarios,
+        IndicatorTestCase.device_emulation_scenarios
+    )
 
     def test_indicator_exists(self):
         unity_proxy = self.launch_unity()
         unlock_unity(unity_proxy)
-        widget = self.main_window.get_indicator_widget(
+        self.main_window.get_indicator_widget(
             self.indicator_name
         )
 
 
-class IndicatorPageTitleMatchesWidgetTestCase(UnityTestCase):
+class IndicatorPageTitleMatchesWidgetTestCase(IndicatorTestCase):
 
-    scenarios = [
+    indicator_scenarios = [
         ('Bluetooth', dict(indicator_name='indicator-bluetooth',
                            title='Bluetooth')),
         ('Datetime', dict(indicator_name='indicator-datetime',
@@ -68,11 +77,10 @@ class IndicatorPageTitleMatchesWidgetTestCase(UnityTestCase):
         ('Sound', dict(indicator_name='indicator-sound',
                        title='Sound')),
     ]
-
-    def setUp(self):
-        if platform.model() == "Desktop":
-            self.skipTest("Test cannot be run on the desktop.")
-        super(IndicatorPageTitleMatchesWidgetTestCase, self).setUp()
+    scenarios = multiply_scenarios(
+        indicator_scenarios,
+        IndicatorTestCase.device_emulation_scenarios
+    )
 
     def test_indicator_page_title_matches_widget(self):
         """Swiping open an indicator must show its correct title.
@@ -81,10 +89,10 @@ class IndicatorPageTitleMatchesWidgetTestCase(UnityTestCase):
         """
         unity_proxy = self.launch_unity()
         unlock_unity(unity_proxy)
-        window = self.main_window.get_qml_view()
         widget = self.main_window.get_indicator_widget(self.indicator_name)
-        widget.swipe_to_open_indicator(window)
-        title = window.wait_select_single(
-            "IndicatorPage",
-            title=self.title
+        widget.swipe_to_open_indicator(self.main_window)
+        self.main_window.wait_select_single(
+            "DefaultIndicatorPage",
+            title=self.title,
+            visible=True
         )
