@@ -18,7 +18,6 @@
 
 from __future__ import absolute_import
 
-from autopilot import platform
 from testscenarios import multiply_scenarios
 
 from unity8.process_helpers import unlock_unity
@@ -30,9 +29,11 @@ class IndicatorTestCase(UnityTestCase):
     device_emulation_scenarios = _get_device_emulation_scenarios()
 
     def setUp(self):
-        if platform.model() == "Desktop":
-            self.skipTest("Test cannot be run on the desktop.")
+        if platform.model() == 'Desktop':
+            self.skipTest('Test cannot be run on the desktop.')
         super(IndicatorTestCase, self).setUp()
+        self.unity_proxy = self.launch_unity()
+        unlock_unity(self.unity_proxy)
 
 
 class IndicatorExistsTestCase(IndicatorTestCase):
@@ -52,8 +53,6 @@ class IndicatorExistsTestCase(IndicatorTestCase):
     )
 
     def test_indicator_exists(self):
-        unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
         self.main_window.get_indicator_widget(
             self.indicator_name
         )
@@ -87,11 +86,7 @@ class IndicatorPageTitleMatchesWidgetTestCase(IndicatorTestCase):
 
         See https://bugs.launchpad.net/ubuntu-ux/+bug/1253804 .
         """
-        unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
-        widget = self.main_window.get_indicator_widget(self.indicator_name)
-        widget.swipe_to_open_indicator(self.main_window)
-        indicator_page = self.main_window.get_indicator_page(
-            indicator_title=self.title
-        )
+        indicator_page = self.main_window.open_indicator_page(
+            self.indicator_name)
         self.assertTrue(indicator_page.visible)
+        self.assertEqual(indicator_page.title, self.title)

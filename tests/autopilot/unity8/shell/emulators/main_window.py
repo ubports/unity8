@@ -20,13 +20,13 @@
 import logging
 
 from autopilot import logging as autopilot_logging
+from autopilot.input._common import get_center_point
 
 from unity8.shell import emulators
 from unity8.shell.emulators.greeter import Greeter
 from unity8.shell.emulators.hud import Hud
 from unity8.shell.emulators.dash import Dash
 from unity8.shell.emulators.launcher import Launcher
-from unity8.indicators.emulators.widget import DefaultIndicatorWidget
 
 logger = logging.getLogger(__name__)
 
@@ -90,15 +90,39 @@ class QQuickView(emulators.UnityEmulatorBase):
 
     def get_indicator_widget(self, indicator_name):
         return self.select_single(
-            DefaultIndicatorWidget,
+            'DefaultIndicatorWidget',
             objectName=indicator_name+'-widget'
         )
 
-    def get_indicator_page(self, indicator_title):
+    def get_indicator_page(self, indicator_name):
         return self.select_single(
             'DefaultIndicatorPage',
-            title=indicator_title
+            objectName=indicator_name+'-page'
         )
+
+    @autopilot_logging.log_action(logger.info)
+    def open_indicator_page(self, indicator_name):
+        """Return the indicator page.
+
+        Swipe to open the indicator, wait until it's open.
+        """
+        widget = self.get_indicator_widget(indicator_name)
+        start_x, start_y = get_center_point(widget)
+        end_x = start_x
+        end_y = self.height
+        self.pointing_device.drag(start_x, start_y, end_x, end_y)
+        # TODO: assert that the indicator page opened [alesage 2013-12-06]
+        return self.get_indicator_page(indicator_name)
+
+    @autopilot_logging.log_action(logger.info)
+    def close_indicator_page(self, indicator_name):
+        """Swipe to close the indicator, wait until it's closed."""
+        widget = self.get_indicator_widget(indicator_name)
+        end_x, end_y = get_center_point(widget)
+        start_x = end_x
+        start_y = self.height
+        self.pointing_device.drag(start_x, start_y, end_x, end_y)
+        # TODO: assert that the indicator page closed [alesage 2013-12-06]
 
     def get_shell_background(self):
         return self.select_single(
