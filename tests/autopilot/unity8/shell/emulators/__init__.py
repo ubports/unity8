@@ -17,15 +17,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from autopilot import input, introspection
+from ubuntuuitoolkit import emulators as toolkit_emulators
 
 
-class UnityEmulatorBase(introspection.CustomEmulatorBase):
+class UnityEmulatorBase(toolkit_emulators.UbuntuUIToolkitEmulatorBase):
     """A base class for all unity emulators."""
-
-    def __init__(self, *args):
-        super(UnityEmulatorBase, self).__init__(*args)
-        self.pointing_device = input.Pointer(device=input.Touch.create())
 
 
 class UnityEmulatorException(Exception):
