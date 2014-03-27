@@ -497,7 +497,7 @@ FocusScope {
                 LauncherModel.setUser(user);
             }
 
-            onTease: launcher.tease() //launcher.state = "visible"
+            onTease: launcher.tease()
 
             Connections {
                 target: applicationManager
