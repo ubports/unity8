@@ -20,22 +20,12 @@ import Ubuntu.Components 0.1
 import LightDM 0.1 as LightDM
 import "../Components"
 
-MouseArea {
+Item {
     id: root
     anchors.fill: parent
 
-    property bool leftTeaserPressed: teasingMouseArea.pressed &&
-                                     teasingMouseArea.mouseX < teasingMouseArea.width / 2
-    property bool rightTeaserPressed: teasingMouseArea.pressed &&
-                                     teasingMouseArea.mouseX > teasingMouseArea.width / 2
-
     signal selected(int uid)
     signal unlocked(int uid)
-
-    MouseArea {
-        id: teasingMouseArea
-        anchors.fill: parent
-    }
 
     Loader {
         id: loginLoader

@@ -455,5 +455,8 @@ Item {
                     !circleGrowAnimTimer.running)
                 infographic.model.nextDataSource()
         }
+
+        onClicked: mouse.accepted = false
+        onPressed: mouse.accepted = false
     }
 }

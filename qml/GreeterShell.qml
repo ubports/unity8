@@ -98,52 +98,61 @@ BasicShell {
         }
     }
 
-    Greeter {
-        id: greeter
-        objectName: "greeter"
-
-        available: true
-        hides: [launcher, panel.indicators]
-        shown: true
-        background: shell.background
-
-        y: panel.panelHeight
+    Item {
+        // Just a tiny wrapper to adjust greeter's x without messing with its own dragging
         width: parent.width
-        height: parent.height - panel.panelHeight
+        height: parent.height
+        x: launcher.progress
+        Behavior on x {SmoothedAnimation{velocity: 600}}
 
-        dragHandleWidth: shell.edgeSize
-
-        function login() {
-            enabled = false;
-            LightDM.Greeter.startSessionSync();
+        Rectangle {
+            anchors.fill: parent
+            color: "black"
+            opacity: (1 - Math.abs(greeter.x) / shell.width) * 0.8
         }
 
-        onShownChanged: {
-            if (shown) {
-                lockscreen.reset();
-                // If there is only one user, we start authenticating with that one here.
-                // If there are more users, the Greeter will handle that
-                if (LightDM.Users.count == 1) {
-                    LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
+        Greeter {
+            id: greeter
+            objectName: "greeter"
+
+            available: true
+            hides: [launcher, panel.indicators]
+            shown: true
+            background: shell.background
+
+            y: panel.panelHeight
+            width: parent.width
+            height: parent.height - panel.panelHeight
+
+            dragHandleWidth: shell.edgeSize
+
+            function login() {
+                enabled = false;
+                LightDM.Greeter.startSessionSync();
+            }
+
+            onShownChanged: {
+                if (shown) {
+                    lockscreen.reset();
+                    // If there is only one user, we start authenticating with that one here.
+                    // If there are more users, the Greeter will handle that
+                    if (LightDM.Users.count == 1) {
+                        LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
+                    }
+                    greeter.forceActiveFocus();
                 }
-                greeter.forceActiveFocus();
             }
-        }
 
-        onShowProgressChanged: if (LightDM.Greeter.promptless && showProgress == 0) login()
+            onShowProgressChanged: if (LightDM.Greeter.promptless && showProgress == 0) login()
 
-        onUnlocked: login()
-        onSelected: {
-            // Update launcher items for new user
-            var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole);
-            AccountsService.user = user;
-            LauncherModel.setUser(user);
-        }
-
-        onLeftTeaserPressedChanged: {
-            if (leftTeaserPressed) {
-                launcher.tease();
+            onUnlocked: login()
+            onSelected: {
+                // Update launcher items for new user
+                var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole);
+                AccountsService.user = user;
+                LauncherModel.setUser(user);
             }
+            onTease: launcher.tease()
         }
     }
 
@@ -203,6 +212,10 @@ BasicShell {
                 if (shown) {
                     panel.indicators.hide()
                 }
+            }
+            onDash: {
+                hide()
+                greeter.hideRight()
             }
             onShowDashHome: greeter.show()
         }
