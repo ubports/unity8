@@ -34,14 +34,9 @@ Rectangle {
         "zoomable": false
     }
 
-    property var widgetData2: {
-        "source": "../graphics/phone/screenshots/gallery@12.png",
-        "zoomable": true
-    }
-
     PreviewZoomableImage {
         id: zoomableImage
-        width: parent.width
+        anchors.fill: parent
     }
 
     UT.UnityTestCase {
@@ -53,11 +48,11 @@ Rectangle {
 
             zoomableImage.widgetData = widgetData0;
             waitForRendering(zoomableImage);
-            tryCompare(image, "state", "default");
+            tryCompare(image, "imageState", "default");
 
             zoomableImage.widgetData = widgetData1;
             waitForRendering(zoomableImage);
-            tryCompare(image, "state", "ready");
+            tryCompare(image, "imageState", "ready");
         }
     }
 }

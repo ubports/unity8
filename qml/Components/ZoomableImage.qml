@@ -38,6 +38,7 @@ Item {
         clip: true
         contentHeight: imageContainer.height
         contentWidth: imageContainer.width
+
         onHeightChanged: image.resetScale()
         onWidthChanged: image.resetScale()
         anchors.fill: parent

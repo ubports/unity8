@@ -21,8 +21,8 @@ import Unity.Test 0.1 as UT
 
 Rectangle {
     id: root
-    width: units.gu(40)
-    height: units.gu(80)
+    width: units.gu(20)
+    height: units.gu(40)
     color: "lightgrey"
 
     property var widgetData0: {
@@ -76,6 +76,12 @@ Rectangle {
             compare (signalSpy.count, 1);
         }
 
+        function get_filename(a) {
+            var wordsA = a.split("/");
+            var filenameA = wordsA[wordsA.length-1];
+            return filenameA;
+        }
+
         function test_zoomable_data() {
             return [ { source:widgetData2["source"],
                        zoomable:false,
@@ -88,12 +94,6 @@ Rectangle {
                        answer2: true,
                        answer3: false }
                    ]
-        }
-
-        function get_filename(a) {
-            var wordsA = a.split("/");
-            var filenameA = wordsA[wordsA.length-1];
-            return filenameA;
         }
 
         function test_zoomable(data) {
@@ -135,9 +135,9 @@ Rectangle {
 
             for (var i = 0.0; i < 1.0; i += 0.02) {
                 event1.move(0, x1Start + (x1End - x1Start) * i, y1Start + (y1End - y1Start) * i);
+                event1.commit();
                 event1.move(1, x2Start + (x2End - x2Start) * i, y2Start + (y2End - y2Start) * i);
                 event1.commit();
-                wait(30);
             }
 
             event1.release(0, x1End, y1End);
