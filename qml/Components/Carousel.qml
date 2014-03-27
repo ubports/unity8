@@ -261,7 +261,7 @@ Item {
                                                                      listView.gapToEndPhase,
                                                                      listView.translationXViewFactor)
 
-        delegate: tileWidth != 0 && tileHeight != 0 ? loaderComponent : undefined
+        delegate: tileWidth > 0 && tileHeight > 0 ? loaderComponent : undefined
 
         Component {
             id: loaderComponent
