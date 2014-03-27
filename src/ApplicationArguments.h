@@ -29,8 +29,8 @@ class ApplicationArguments : public QObject
     Q_OBJECT
 public:
     ApplicationArguments(const QStringList& args) {
-        if (args.contains(QLatin1String("-geometry")) && args.size() > args.indexOf(QLatin1String("-geometry")) + 1) {
-            QStringList geometryArg = args.at(args.indexOf(QLatin1String("-geometry")) + 1).split('x');
+        if (args.contains(QLatin1String("-windowgeometry")) && args.size() > args.indexOf(QLatin1String("-windowgeometry")) + 1) {
+            QStringList geometryArg = args.at(args.indexOf(QLatin1String("-windowgeometry")) + 1).split('x');
             if (geometryArg.size() == 2) {
                 m_size.rwidth() = geometryArg.at(0).toInt();
                 m_size.rheight() = geometryArg.at(1).toInt();
