@@ -28,7 +28,7 @@ Showable {
     property url defaultBackground
 
     // 1 when fully shown and 0 when fully hidden
-    property real showProgress: MathUtils.clamp((width + x) / width, 0, 1)
+    property real showProgress: MathUtils.clamp((width - Math.abs(x)) / width, 0, 1)
 
     showAnimation: StandardAnimation { property: "x"; to: 0 }
     hideAnimation: __leftHideAnimation
