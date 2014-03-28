@@ -29,28 +29,13 @@ GenericScopeView {
     property var mainStageApplicationsModel: shell.applicationManager.mainStageApplications
     property var sideStageApplicationModel: shell.applicationManager.sideStageApplications
 
-    ListModel {
-        id: dummyVisibilityModifier
-
-        ListElement { name: "running-apps" }
-    }
-
-    SortFilterProxyModel {
-        id: runningApplicationsModel
-
-        property var firstModel: mainStageApplicationsModel
-        property var secondModel: sideStageApplicationModel
-        property bool canEnableTerminationMode: scopeView.isCurrent
-
-        model: dummyVisibilityModifier
-        filterRole: 0
-        filterRegExp: invertMatch ? ((mainStageApplicationsModel.count === 0 &&
-                                      sideStageApplicationModel.count === 0) ? RegExp("running-apps") : RegExp("")) : RegExp("disabled")
-        invertMatch: scopeView.scope.searchQuery.length == 0
+    QtObject {
+        id: countObject
+        property int count: scopeView.scope.searchQuery.length == 0 ? (mainStageApplicationsModel.count + sideStageApplicationModel.count) : 0
     }
 
     onScopeChanged: {
-        scopeView.scope.categories.overrideResults("recent", runningApplicationsModel);
+        scopeView.scope.categories.addSpecialCategory("running.apps.category", i18n.tr("Recent"), "", "{ \"template\": { \"category-layout\": \"running-apps\" } }", countObject);
         enableHeightBehaviorOnNextCreation = (mainStageApplicationsModel.count + sideStageApplicationModel.count == 0)
     }
 }

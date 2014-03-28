@@ -181,7 +181,7 @@ class UnityTestCase(AutopilotTestCase):
                 )
             geo_string = "%dx%d" % (width, height)
             self.unity_geometry_args = [
-                '-geometry',
+                '-windowgeometry',
                 geo_string,
                 '-frameless',
                 '-mousetouch'
@@ -376,7 +376,7 @@ class UnityTestCase(AutopilotTestCase):
 
     def assertUnityReady(self):
         dash = self.get_dash()
-        home_scope = dash.get_scope('home')
+        home_scope = dash.get_scope('clickscope')
 
         # FIXME! There is a huge timeout here for when we're doing CI on
         # VMs. See lp:1203715

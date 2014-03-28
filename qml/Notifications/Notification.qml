@@ -39,20 +39,72 @@ Item {
 
     fullscreen: false
     objectName: "background"
-    implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : contentColumn.height + contentColumn.spacing * 4) : 0
+    implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : contentColumn.height + contentColumn.spacing * 2) : 0
 
     color: Qt.rgba(0.132, 0.117, 0.109, 0.97)
     opacity: 0
 
+    state: {
+        var result = "";
+
+        if (type == Notification.SnapDecision) {
+            if (ListView.view.currentIndex == index) {
+                result = "expanded";
+            } else {
+                if (ListView.view.count > 2) {
+                    if (ListView.view.currentIndex == -1 && index == 1) {
+                        result = "expanded";
+                    } else {
+                        result = "contracted";
+                    }
+                } else {
+                    result = "expanded";
+                }
+            }
+        }
+
+        return result;
+    }
+
+    Behavior on height {
+        id: normalHeightBehavior
+
+        //enabled: menuItemFactory.progress == 1
+        enabled: true
+        SequentialAnimation {
+            PauseAnimation {
+                duration: UbuntuAnimation.SnapDuration
+            }
+            UbuntuNumberAnimation {
+                duration: UbuntuAnimation.SnapDuration
+            }
+        }
+    }
+
+    states:[
+        State {
+            name: "contracted"
+            PropertyChanges {target: notification; height: units.gu(8)}
+        },
+        State {
+            name: "expanded"
+            PropertyChanges {target: notification; height: implicitHeight}
+        }
+    ]
+
     clip: fullscreen ? false : true
+
     visible: type != Notification.PlaceHolder
 
     UbuntuShape {
         id: shapedBack
 
         visible: !fullscreen
-        anchors.fill: parent
-        anchors.margins: notification.margins
+        anchors {
+            fill: parent
+            leftMargin: notification.margins
+            rightMargin: notification.margins
+        }
         color: parent.color
         opacity: parent.opacity
         radius: "medium"
@@ -104,17 +156,20 @@ Item {
         MouseArea {
             id: interactiveArea
 
-            anchors.fill: contentColumn
+            anchors.fill: parent
             objectName: "interactiveArea"
             onClicked: {
                 if (notification.type == Notification.Interactive) {
                     notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
+                } else {
+                    notificationList.currentIndex = index;
                 }
             }
         }
 
         Column {
             id: contentColumn
+            objectName: "contentColumn"
 
             anchors {
                 left: parent.left
@@ -207,6 +262,8 @@ Item {
                     model: unityMenuModel
 
                     NotificationMenuItemFactory {
+                        id: menuItemFactory
+
                         anchors.left: parent.left; anchors.right: parent.right
 
                         menuModel: unityMenuModel
