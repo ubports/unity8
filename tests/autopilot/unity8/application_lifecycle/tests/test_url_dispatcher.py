@@ -20,6 +20,7 @@
 """Test the integration with the URL dispatcher service."""
 
 import os
+import subprocess
 
 from autopilot import platform
 from autopilot.matchers import Eventually
@@ -70,7 +71,8 @@ MainView {
 
         self.assertEqual('', self.main_window.get_current_focused_app_id())
         self.addCleanup(os.system, 'pkill qmlscene')
-        os.system('url-dispatcher application:///{}'.format(desktop_file_name))
+        subprocess.check_call(
+            ['url-dispatcher', 'application:///{}'.format(desktop_file_name)])
         self.assertThat(
             self.main_window.get_current_focused_app_id,
             Eventually(Equals(application_name)))
