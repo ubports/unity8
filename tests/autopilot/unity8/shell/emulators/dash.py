@@ -80,7 +80,7 @@ class Dash(emulators.UnityEmulatorBase):
                 'No scope found with id {0}'.format(scope_id))
 
     def _get_scope_from_loader(self, loader):
-        return loader.select_single(GenericScopeView)
+        return loader.get_children()[0]
 
     def _open_scope_scrolling(self, scope_loader):
         scroll = self._get_scroll_direction(scope_loader)
@@ -161,6 +161,7 @@ class GenericScopeView(emulators.UnityEmulatorBase):
             raise emulators.UnityEmulatorException(
                 'No category found with name {}'.format(category))
 
+class DashApps(emulators.UnityEmulatorBase):
     def get_applications(self, category):
         """Return the list of applications on a category.
 
@@ -176,3 +177,11 @@ class GenericScopeView(emulators.UnityEmulatorBase):
             if card.objectName != 'cardToolCard':
                 result.append(card)
         return result
+
+    def _get_category_element(self, category):
+        try:
+            return self.wait_select_single(
+                'Base', objectName='dashCategory{}'.format(category))
+        except dbus.StateNotFoundError:
+            raise emulators.UnityEmulatorException(
+                'No category found with name {}'.format(category))
