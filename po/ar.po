@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-02-13 18:37+0000\n"
+"POT-Creation-Date: 2014-03-25 16:48+0100\n"
 "PO-Revision-Date: 2014-02-21 11:19+0000\n"
 "Last-Translator: Ibrahim Saed <ibraheem5000@gmail.com>\n"
 "Language-Team: Arabic <ar@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n % 100 >= "
 "3 && n % 100 <= 10 ? 3 : n % 100 >= 11 && n % 100 <= 99 ? 4 : 5;\n"
-"X-Launchpad-Export-Date: 2014-03-27 08:17+0000\n"
+"X-Launchpad-Export-Date: 2014-03-28 06:48+0000\n"
 "X-Generator: Launchpad (build 16967)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
@@ -77,7 +77,7 @@ msgstr ""
 "أنت الآن بارع في إيماءات الحواف ويمكنك البدء باستخدام هاتفك<br><br>انقر على "
 "الشاشة للبدء"
 
-#: qml/Components/PageHeader.qml:340
+#: qml/Components/PageHeader.qml:365
 msgid "Recent searches"
 msgstr "عمليات البحث الأخيرة"
 
@@ -85,31 +85,18 @@ msgstr "عمليات البحث الأخيرة"
 msgid "See more"
 msgstr "شاهد المزيد"
 
-#: qml/Components/SeeMore.qml:57
+#: qml/Components/SeeMore.qml:58
 msgid "See less"
 msgstr "شاهد أقل"
 
-#: qml/Dash/Apps/AppPreview.qml:136 qml/Dash/Previews/PreviewRating.qml:70
-msgid "Rate this"
-msgstr "قيّم ذلك"
+#: qml/Dash/DashApps.qml:38
+msgid "Recent"
+msgstr ""
 
-#. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: qml/Dash/Previews/Header.qml:93
+#: qml/Dash/PreviewListView.qml:52
 #, qt-format
-msgid "(%1)"
-msgstr "(%1)"
-
-#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: qml/Dash/Previews/Header.qml:105
-#, qt-format
-msgid "%1 review"
-msgid_plural "%1 reviews"
-msgstr[0] "لا تعليقات (%1)"
-msgstr[1] "تعليق واحد (%1)"
-msgstr[2] "تعليقان (%1)"
-msgstr[3] "%1 تعليقات"
-msgstr[4] "%1 تعليقا"
-msgstr[5] "%1 تعليق"
+msgid "%1 Preview"
+msgstr ""
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -119,21 +106,17 @@ msgstr "المزيد..."
 msgid "Less..."
 msgstr "أقل..."
 
-#: qml/Dash/Previews/PreviewRating.qml:114 qml/Dash/Previews/Reviews.qml:74
+#: qml/Dash/Previews/PreviewRatingInput.qml:81
+msgid "Rate this"
+msgstr "قيّم ذلك"
+
+#: qml/Dash/Previews/PreviewRatingInput.qml:126
 msgid "Add a review"
 msgstr "أضف تعليق"
 
-#: qml/Dash/Previews/PreviewRating.qml:153 qml/Dash/Previews/Reviews.qml:121
+#: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
 msgstr "أرسل"
-
-#: qml/Dash/Previews/Reviews.qml:86
-msgid "Review"
-msgstr "التعليق"
-
-#: qml/Dash/Previews/Reviews.qml:139
-msgid "Comments:"
-msgstr "التعليقات:"
 
 #: qml/Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
@@ -180,7 +163,27 @@ msgstr "من فضلك أدخِل رقم التعريف الشخصي لبطاقة
 msgid "Search"
 msgstr "ابحث"
 
-#: qml/Shell.qml:440
+#: qml/Shell.qml:417
 #, qt-format
 msgid "Please enter %1"
 msgstr "من فضلك أدخِل %1"
+
+#~ msgid "Review"
+#~ msgstr "التعليق"
+
+#, qt-format
+#~ msgid "(%1)"
+#~ msgstr "(%1)"
+
+#~ msgid "Comments:"
+#~ msgstr "التعليقات:"
+
+#, qt-format
+#~ msgid "%1 review"
+#~ msgid_plural "%1 reviews"
+#~ msgstr[0] "لا تعليقات (%1)"
+#~ msgstr[1] "تعليق واحد (%1)"
+#~ msgstr[2] "تعليقان (%1)"
+#~ msgstr[3] "%1 تعليقات"
+#~ msgstr[4] "%1 تعليقا"
+#~ msgstr[5] "%1 تعليق"

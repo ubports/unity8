@@ -80,13 +80,26 @@ macro(add_qml_test SUBPATH COMPONENT_NAME)
         endforeach(IMPORT_PATH)
     endif()
 
-    set(qmltest_command
-        env ${qmltest_ENVIRONMENT}
-        ${qmltestrunner_exe} -input ${CMAKE_CURRENT_SOURCE_DIR}/${qmltest_FILE}.qml
-            ${qmltestrunner_imports}
-            -o ${CMAKE_BINARY_DIR}/${qmltest_TARGET}.xml,xunitxml
-            -o -,txt
-    )
+    string(TOLOWER "${CMAKE_GENERATOR}" cmake_generator_lower)
+    if(cmake_generator_lower STREQUAL "unix makefiles")
+        set(qmltest_command
+            env ${qmltest_ENVIRONMENT}
+            ${qmltestrunner_exe} -input ${CMAKE_CURRENT_SOURCE_DIR}/${qmltest_FILE}.qml
+                ${qmltestrunner_imports}
+                -o ${CMAKE_BINARY_DIR}/${qmltest_TARGET}.xml,xunitxml
+                -o -,txt
+                $(FUNCTION)
+        )
+    else()
+        set(qmltest_command
+            env ${qmltest_ENVIRONMENT}
+            ${qmltestrunner_exe} -input ${CMAKE_CURRENT_SOURCE_DIR}/${qmltest_FILE}.qml
+                ${qmltestrunner_imports}
+                -o ${CMAKE_BINARY_DIR}/${qmltest_TARGET}.xml,xunitxml
+                -o -,txt
+        )
+    endif()
+
     add_custom_target(${qmltest_TARGET} ${qmltest_command})
 
     if(NOT "${qmltest_PROPERTIES}" STREQUAL "")

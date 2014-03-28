@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-02-13 18:37+0000\n"
+"POT-Creation-Date: 2014-03-25 16:48+0100\n"
 "PO-Revision-Date: 2014-01-26 15:56+0000\n"
 "Last-Translator: Zonov Roman <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2014-03-27 08:17+0000\n"
+"X-Launchpad-Export-Date: 2014-03-28 06:49+0000\n"
 "X-Generator: Launchpad (build 16967)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
@@ -79,7 +79,7 @@ msgid ""
 "phone<br><br>Tap on the screen to start"
 msgstr ""
 
-#: qml/Components/PageHeader.qml:340
+#: qml/Components/PageHeader.qml:365
 msgid "Recent searches"
 msgstr "Последние поисковые запросы"
 
@@ -87,28 +87,18 @@ msgstr "Последние поисковые запросы"
 msgid "See more"
 msgstr ""
 
-#: qml/Components/SeeMore.qml:57
+#: qml/Components/SeeMore.qml:58
 msgid "See less"
 msgstr ""
 
-#: qml/Dash/Apps/AppPreview.qml:136 qml/Dash/Previews/PreviewRating.qml:70
-msgid "Rate this"
-msgstr "Оцените это"
+#: qml/Dash/DashApps.qml:38
+msgid "Recent"
+msgstr ""
 
-#. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: qml/Dash/Previews/Header.qml:93
+#: qml/Dash/PreviewListView.qml:52
 #, qt-format
-msgid "(%1)"
-msgstr "(%1)"
-
-#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: qml/Dash/Previews/Header.qml:105
-#, qt-format
-msgid "%1 review"
-msgid_plural "%1 reviews"
-msgstr[0] "%1 отзыв"
-msgstr[1] "%1 отзыва"
-msgstr[2] "%1 отзывов"
+msgid "%1 Preview"
+msgstr ""
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -118,21 +108,17 @@ msgstr ""
 msgid "Less..."
 msgstr ""
 
-#: qml/Dash/Previews/PreviewRating.qml:114 qml/Dash/Previews/Reviews.qml:74
+#: qml/Dash/Previews/PreviewRatingInput.qml:81
+msgid "Rate this"
+msgstr "Оцените это"
+
+#: qml/Dash/Previews/PreviewRatingInput.qml:126
 msgid "Add a review"
 msgstr "Добавьте отзыв"
 
-#: qml/Dash/Previews/PreviewRating.qml:153 qml/Dash/Previews/Reviews.qml:121
+#: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
 msgstr "Отправить"
-
-#: qml/Dash/Previews/Reviews.qml:86
-msgid "Review"
-msgstr "Отзыв"
-
-#: qml/Dash/Previews/Reviews.qml:139
-msgid "Comments:"
-msgstr "Комментарии:"
 
 #: qml/Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
@@ -179,7 +165,24 @@ msgstr ""
 msgid "Search"
 msgstr "Поиск"
 
-#: qml/Shell.qml:440
+#: qml/Shell.qml:417
 #, qt-format
 msgid "Please enter %1"
 msgstr "Пожалуйста, введите %1"
+
+#, qt-format
+#~ msgid "(%1)"
+#~ msgstr "(%1)"
+
+#~ msgid "Comments:"
+#~ msgstr "Комментарии:"
+
+#~ msgid "Review"
+#~ msgstr "Отзыв"
+
+#, qt-format
+#~ msgid "%1 review"
+#~ msgid_plural "%1 reviews"
+#~ msgstr[0] "%1 отзыв"
+#~ msgstr[1] "%1 отзыва"
+#~ msgstr[2] "%1 отзывов"
