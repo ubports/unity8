@@ -168,6 +168,12 @@ Rectangle {
             compare(data.image.initialHeight, data.initialHeight);
             compare(data.image.initialWidth, data.initialWidth);
 
+            // check the sourceSize
+            var sourceHeight = (data.image.scaleTo === "height" || (data.image.scaleTo === "fit" && data.height <= data.width)) ? data.height : 0
+            var sourceWidth = (data.image.scaleTo === "width" || (data.image.scaleTo === "fit" && data.width <= data.height)) ? data.width : 0
+            compare(data.image.sourceSize.height, sourceHeight);
+            compare(data.image.sourceSize.width, sourceWidth);
+
             // check the shape dimensions
             var shape = findChild(data.image, "shape");
             compare(shape.width, data.imageWidth);
