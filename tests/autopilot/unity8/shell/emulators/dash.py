@@ -159,7 +159,7 @@ class GenericScopeView(emulators.UnityEmulatorBase):
     def _get_category_element(self, category):
         try:
             return self.wait_select_single(
-                'Base', objectName='dashSectionHeader{}'.format(category))
+                'Base', objectName='dashCategory{}'.format(category))
         except dbus.StateNotFoundError:
             raise emulators.UnityEmulatorException(
                 'No category found with name {}'.format(category))
