@@ -21,8 +21,8 @@ import Unity.Test 0.1 as UT
 
 Rectangle {
     id: root
-    width: units.gu(20)
-    height: units.gu(40)
+    width: units.gu(30)
+    height: units.gu(60)
     color: "lightgrey"
 
     property var widgetData0: {
@@ -87,12 +87,14 @@ Rectangle {
                        zoomable:false,
                        answer1: true,
                        answer2: false,
-                       answer3: true },
+                       answer3: true,
+                       answer4: 1.0 },
                      { source:widgetData2["source"],
                        zoomable:true,
                        answer1: false,
                        answer2: true,
-                       answer3: false }
+                       answer3: false,
+                       answer4: 1.1 }
                    ]
         }
 
@@ -147,10 +149,10 @@ Rectangle {
 
             var newScale = image.scale;
 
-            compare(newScale == oldScale, data.answer1, "scale factor error");
-            compare(newScale > oldScale, data.answer2, "scale factor error");
-            compare(signalSpy.count == 0, data.answer3, "scale signal error");
+            compare(newScale == oldScale, data.answer1, "scale factor not equal");
+            compare(newScale > oldScale, data.answer2, "scale factor didn't changed");
+            compare(signalSpy.count == 0, data.answer3, "scale signal count error");
+            compare(newScale, data.answer4, "scale factor error");
         }
-
     }
 }
