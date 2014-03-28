@@ -49,7 +49,7 @@ FocusScope {
 
     property bool dashShown: dash.shown
 
-    property bool sideStageEnabled: shell.width >= units.gu(60)
+    property bool sideStageEnabled: shell.width >= units.gu(100)
     readonly property string focusedApplicationId: ApplicationManager.focusedApplicationId
 
     function activateApplication(appId) {
