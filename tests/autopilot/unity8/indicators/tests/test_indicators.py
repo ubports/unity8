@@ -20,6 +20,8 @@ from __future__ import absolute_import
 
 from testscenarios import multiply_scenarios
 
+from autopilot import platform
+
 from unity8.process_helpers import unlock_unity
 from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 

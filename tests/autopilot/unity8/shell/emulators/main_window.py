@@ -102,9 +102,9 @@ class QQuickView(emulators.UnityEmulatorBase):
 
     @autopilot_logging.log_action(logger.info)
     def open_indicator_page(self, indicator_name):
-        """Return the indicator page.
+        """Swipe to open the indicator, wait until it's open.
 
-        Swipe to open the indicator, wait until it's open.
+        :returns: The indicator page.
         """
         widget = self.get_indicator_widget(indicator_name)
         start_x, start_y = get_center_point(widget)
