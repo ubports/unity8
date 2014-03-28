@@ -143,7 +143,9 @@ class GenericScopeViewEmulatorTestCase(DashBaseTestCase):
         preview = self.generic_scope.open_preview('0', 'Title.0.0')
         preview.x.wait_for(0)
 
+
 class DashAppsEmulatorTestCase(DashBaseTestCase):
+    """Autopilot emulator for the applications scope."""
 
     available_applications = [
         'Title.2.0', 'Title.2.1', 'Title.2.2',  'Title.2.3', 'Title.2.4',
