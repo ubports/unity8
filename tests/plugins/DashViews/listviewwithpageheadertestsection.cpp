@@ -2109,7 +2109,7 @@ private Q_SLOTS:
 
         QTest::qWait(1);
         QCoreApplication::instance()->processEvents();
-        
+
         changeContentY(-15);
 
         QTRY_COMPARE(lvwph->m_visibleItems.count(), 1);
