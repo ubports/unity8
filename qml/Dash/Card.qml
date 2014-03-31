@@ -71,23 +71,27 @@ AbstractButton {
         id: artShape
         radius: "medium"
         objectName: "artShape"
-        width: {
-            if (!visible) return 0
-            return image.fillMode === Image.PreserveAspectCrop || aspect < image.aspect ? image.width : height * image.aspect
-        }
-        height: {
-            if (!visible) return 0
-            return image.fillMode === Image.PreserveAspectCrop || aspect > image.aspect ? image.height : width / image.aspect
-        }
         anchors.horizontalCenter: template && template["card-layout"] === "horizontal" ? undefined : parent.horizontalCenter
         anchors.left: template && template["card-layout"] === "horizontal" ? parent.left : undefined
         visible: cardData && cardData["art"] || false
 
-        property real aspect: components !== undefined ? components["art"]["aspect-ratio"] : 1
+        readonly property real aspect: components !== undefined ? components["art"]["aspect-ratio"] : 1
+        readonly property bool useImageWidthForWidth: image.fillMode === Image.PreserveAspectCrop || aspect < image.aspect
+
+        Component.onCompleted: updateWidthHeightBindings();
+        onUseImageWidthForWidthChanged: updateWidthHeightBindings();
+
+        function updateWidthHeightBindings() {
+            if (useImageWidthForWidth) {
+                width = Qt.binding(function() { return visible ? image.width : 0 });
+                height = Qt.binding(function() { return visible ? width / image.aspect : 0 });
+            } else {
+                width = Qt.binding(function() { return visible ? height * image.aspect : 0  });
+                height = Qt.binding(function() { return visible ? image.height : 0 });
+            }
+        }
 
         image: Image {
-            width: template && template["card-layout"] === "horizontal" ? height * artShape.aspect : root.width
-            height: template && template["card-layout"] === "horizontal" ? header.height : width / artShape.aspect
             objectName: "artImage"
             source: cardData && cardData["art"] || ""
             cache: true
@@ -96,7 +100,21 @@ AbstractButton {
             //sourceSize.height: height > width ? height : 0
             fillMode: components && components["art"]["fill-mode"] === "fit" ? Image.PreserveAspectFit: Image.PreserveAspectCrop
 
-            property real aspect: implicitWidth / implicitHeight
+            readonly property real aspect: implicitWidth / implicitHeight
+            readonly property bool isHorizontal: template && template["card-layout"] === "horizontal"
+
+            Component.onCompleted: updateWidthHeightBindings();
+            onIsHorizontalChanged: updateWidthHeightBindings();
+
+            function updateWidthHeightBindings() {
+                if (isHorizontal) {
+                    width = Qt.binding(function() { return height * artShape.aspect });
+                    height = Qt.binding(function() { return header.height });
+                } else {
+                    width = Qt.binding(function() { return root.width });
+                    height = Qt.binding(function() { return width / artShape.aspect });
+                }
+            }
         }
     }
 
