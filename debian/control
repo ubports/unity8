@@ -89,7 +89,7 @@ Depends: gsettings-desktop-schemas,
          unity8-fake-env | qtubuntu-shell,
          unity8-private (= ${binary:Version}),
          unity8-private | unity-launcher-impl,
-         unity8-private | unity-application-impl,
+         libunity-mir1 | unity-application-impl,
          unity-plugin-scopes | unity-scopes-impl,
          unity-scopes-impl-0,
 # for setcap:
