@@ -87,7 +87,7 @@ AbstractButton {
                 height = Qt.binding(function() { return !visible ? 0 : image.fillMode === Image.PreserveAspectCrop ? image.height : width / image.aspect });
             } else {
                 width = Qt.binding(function() { return !visible ? 0 : image.fillMode === Image.PreserveAspectCrop ? image.width : height * image.aspect });
-                height = Qt.binding(function() { return visible ? image.height : 0 });
+                height = Qt.binding(function() { return !visible ? 0 : image.height });
             }
         }
 
