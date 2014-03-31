@@ -115,6 +115,8 @@ Item {
                         priv.startingAppId = "";
                     }
                 }
+            } else if (root.overlayMode){
+                sideStageImage.snapTo(root.width)
             }
         }
 
