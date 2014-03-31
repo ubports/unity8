@@ -86,6 +86,7 @@ macro(add_qml_test SUBPATH COMPONENT_NAME)
             env ${qmltest_ENVIRONMENT}
             ${qmltestrunner_exe} -input ${CMAKE_CURRENT_SOURCE_DIR}/${qmltest_FILE}.qml
                 ${qmltestrunner_imports}
+                -iterations 1000
                 -o ${CMAKE_BINARY_DIR}/${qmltest_TARGET}.xml,xunitxml
                 -o -,txt
                 $(FUNCTION)
@@ -95,6 +96,7 @@ macro(add_qml_test SUBPATH COMPONENT_NAME)
             env ${qmltest_ENVIRONMENT}
             ${qmltestrunner_exe} -input ${CMAKE_CURRENT_SOURCE_DIR}/${qmltest_FILE}.qml
                 ${qmltestrunner_imports}
+                -iterations 1000
                 -o ${CMAKE_BINARY_DIR}/${qmltest_TARGET}.xml,xunitxml
                 -o -,txt
         )
