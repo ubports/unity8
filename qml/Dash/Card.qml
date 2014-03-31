@@ -16,6 +16,8 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+// For image://albumart and image://thumbnailer image providers
+import Ubuntu.Thumbnailer 0.1
 
 AbstractButton {
     id: root
