@@ -31,39 +31,44 @@ AbstractButton {
     property bool showHeader: true
 
     implicitWidth: childrenRect.width
-    implicitHeight: summary.y + summary.height + (summary.text && background.visible ? units.gu(1) : 0)
+    implicitHeight: summary.y + summary.height + (summary.text && backgroundLoader.active ? units.gu(1) : 0)
 
-    UbuntuShape {
-        id: background
-        objectName: "background"
-        radius: "medium"
-        visible: template["card-layout"] !== "horizontal" && (template["card-background"] || components["background"]
-                                                              || artAndSummary)
-        property bool artAndSummary: components["art"]["field"] && components["summary"] || false
-        color: getColor(0) || "white"
-        gradientColor: getColor(1) || color
+    Loader {
+        id: backgroundLoader
+        objectName: "backgroundLoader"
+
+        readonly property bool artAndSummary: components["art"]["field"] && components["summary"] || false
+        active: template["card-layout"] !== "horizontal" && (template["card-background"] || components["background"] || artAndSummary)
         anchors.fill: parent
-        image: backgroundImage.source ? backgroundImage : null
 
-        property real luminance: 0.2126 * color.r + 0.7152 * color.g + 0.0722 * color.b
+        sourceComponent: UbuntuShape {
+            objectName: "background"
+            radius: "medium"
+            color: getColor(0) || "white"
+            gradientColor: getColor(1) || color
+            anchors.fill: parent
+            image: backgroundImage.source ? backgroundImage : null
 
-        property Image backgroundImage: Image {
-            objectName: "backgroundImage"
-            source: {
-                if (cardData && typeof cardData["background"] === "string") return cardData["background"]
-                else if (template && typeof template["card-background"] === "string") return template["card-background"]
-                else return ""
+            property real luminance: 0.2126 * color.r + 0.7152 * color.g + 0.0722 * color.b
+
+            property Image backgroundImage: Image {
+                objectName: "backgroundImage"
+                source: {
+                    if (cardData && typeof cardData["background"] === "string") return cardData["background"]
+                    else if (template && typeof template["card-background"] === "string") return template["card-background"]
+                    else return ""
+                }
             }
-        }
 
-        function getColor(index) {
-            if (cardData && typeof cardData["background"] === "object"
-                && (cardData["background"]["type"] === "color" || cardData["background"]["type"] === "gradient")) {
-                return cardData["background"]["elements"][index];
-            } else if (template && typeof template["card-background"] === "object"
-                       && (template["card-background"]["type"] === "color" || template["card-background"]["type"] === "gradient"))  {
-                return template["card-background"]["elements"][index];
-            } else return undefined;
+            function getColor(index) {
+                if (cardData && typeof cardData["background"] === "object"
+                    && (cardData["background"]["type"] === "color" || cardData["background"]["type"] === "gradient")) {
+                    return cardData["background"]["elements"][index];
+                } else if (template && typeof template["card-background"] === "object"
+                        && (template["card-background"]["type"] === "color" || template["card-background"]["type"] === "gradient"))  {
+                    return template["card-background"]["elements"][index];
+                } else return undefined;
+            }
         }
     }
 
@@ -187,7 +192,7 @@ AbstractButton {
         opacity: showHeader ? 1 : 0
         inOverlay: root.template && root.template["overlay"] === true
         fontColor: inOverlay ? "white" : summary.color
-        useMascotShape: !background.visible && !inOverlay
+        useMascotShape: !backgroundLoader.active && !inOverlay
 
         Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
     }
@@ -199,7 +204,7 @@ AbstractButton {
             top: header.visible ? header.bottom : artShape.bottom
             left: parent.left
             right: parent.right
-            margins: background.visible ? units.gu(1) : 0
+            margins: backgroundLoader.active ? units.gu(1) : 0
             topMargin: 0
         }
         wrapMode: Text.Wrap
@@ -209,6 +214,6 @@ AbstractButton {
         height: text ? implicitHeight : 0
         fontSize: "small"
         // TODO karni: Change "grey" to Ubuntu.Components.Palette color once updated.
-        color: background.visible && background.luminance < 0.7 ? "white" : "grey"
+        color: backgroundLoader.active && backgroundLoader.item.luminance < 0.7 ? "white" : "grey"
     }
 }

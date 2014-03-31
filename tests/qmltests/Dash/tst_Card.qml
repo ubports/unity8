@@ -187,6 +187,7 @@ Rectangle {
         property Item artImage: findChild(card, "artImage")
         property Item summary: findChild(card, "summaryLabel")
         property Item background: findChild(card, "background")
+        property Item backgroundLoader: findChild(card, "backgroundLoader")
         property Item backgroundImage: findChild(card, "backgroundImage")
 
         function initTestCase() {
@@ -400,7 +401,7 @@ Rectangle {
 
             waitForRendering(card);
 
-            tryCompare(background, "visible", data.visible);
+            tryCompare(backgroundLoader, "active", data.visible);
 
             if (data.hasOwnProperty("color")) {
                 tryCompare(background, "color", data.color);
