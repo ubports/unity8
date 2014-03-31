@@ -137,7 +137,7 @@ Pre-Depends: ${misc:Pre-Depends},
 Depends: ${misc:Depends},
          ${shlibs:Depends},
 Provides: unity-application-impl,
-        unity-application-impl-2
+        unity-application-impl-2,
 Description: Fake environment for running Unity 8 shell
  Provides fake implementations of some QML modules used by Unity 8 shell
  (e.g Ubuntu.Application) so that you can run it in a sandboxed environment.
