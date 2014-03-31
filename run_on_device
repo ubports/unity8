@@ -103,7 +103,6 @@ run() {
         ARGS="$ARGS -k"
     fi
 
-    exec_with_ssh "killall -9 dialer-app; killall -9 gallery-app; killall -9 messaging-app; killall -9 address-book-app; killall -9 webbrowser-app"
     exec_with_ssh "stop unity8"
     exec_with_ssh "start maliit-server"
     exec_with_ssh "cd $CODE_DIR/ && ./run $ARGS -- $RUN_OPTIONS"
