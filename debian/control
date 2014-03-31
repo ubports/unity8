@@ -135,7 +135,7 @@ Pre-Depends: ${misc:Pre-Depends},
 Depends: ${misc:Depends},
          ${shlibs:Depends},
 Provides: unity-application-impl,
-        unity-application-impl-2,
+          unity-application-impl-2,
 Description: Fake environment for running Unity 8 shell
  Provides fake implementations of some QML modules used by Unity 8 shell
  (e.g Ubuntu.Application) so that you can run it in a sandboxed environment.
@@ -148,7 +148,6 @@ Depends: ${misc:Depends},
          ${shlibs:Depends},
 Provides: unity-launcher-impl,
           unity-launcher-impl-3,
-          unity-application-impl-2,
 Description: Unity 8 private libs
  The Unity 8 shell is the primary user interface for Ubuntu devices.
  .
