@@ -150,7 +150,7 @@ class DashAppsEmulatorTestCase(DashBaseTestCase):
     available_applications = [
         'Title.2.0', 'Title.2.1', 'Title.2.2',  'Title.2.3', 'Title.2.4',
         'Title.2.5', 'Title.2.6', 'Title.2.7',  'Title.2.8', 'Title.2.9',
-        'Title.2.9', 'Title.2.10', 'Title.2.11']
+        'Title.2.10', 'Title.2.11', 'Title.2.12']
 
     def setUp(self):
         # Set up the fake scopes before launching unity.
