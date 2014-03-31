@@ -76,17 +76,17 @@ AbstractButton {
         visible: cardData && cardData["art"] || false
 
         readonly property real aspect: components !== undefined ? components["art"]["aspect-ratio"] : 1
-        readonly property bool useImageWidthForWidth: image.fillMode === Image.PreserveAspectCrop || aspect < image.aspect
+        readonly property bool aspectSmallerThanImageAspect: aspect < image.aspect
 
         Component.onCompleted: updateWidthHeightBindings();
-        onUseImageWidthForWidthChanged: updateWidthHeightBindings();
+        onAspectSmallerThanImageAspectChanged: updateWidthHeightBindings();
 
         function updateWidthHeightBindings() {
-            if (useImageWidthForWidth) {
-                width = Qt.binding(function() { return visible ? image.width : 0 });
-                height = Qt.binding(function() { return visible ? width / image.aspect : 0 });
+            if (aspectSmallerThanImageAspect) {
+                width = Qt.binding(function() { return !visible ? 0 : image.width });
+                height = Qt.binding(function() { return !visible ? 0 : image.fillMode === Image.PreserveAspectCrop ? image.height : width / image.aspect });
             } else {
-                width = Qt.binding(function() { return visible ? height * image.aspect : 0  });
+                width = Qt.binding(function() { return !visible ? 0 : image.fillMode === Image.PreserveAspectCrop ? image.width : height * image.aspect });
                 height = Qt.binding(function() { return visible ? image.height : 0 });
             }
         }
