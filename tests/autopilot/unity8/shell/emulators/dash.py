@@ -23,6 +23,7 @@ from unity8.shell import emulators
 
 from autopilot import logging as autopilot_logging
 from autopilot.introspection import dbus
+from testtools.matchers import MatchesAny, Equals
 from ubuntuuitoolkit import emulators as toolkit_emulators
 
 
@@ -145,7 +146,8 @@ class Dash(emulators.UnityEmulatorBase):
         page_header = self._get_page_header()
         search_container = page_header.select_single(
             'QQuickItem', objectName='searchContainer')
-        search_container.state.wait_for('narrowActive')
+        search_container.state.wait_for(
+            MatchesAny(Equals('narrowActive'), Equals('active')))
         return search_container.select_single(toolkit_emulators.TextField)
 
 
