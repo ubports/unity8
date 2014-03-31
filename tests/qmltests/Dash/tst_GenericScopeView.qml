@@ -105,6 +105,17 @@ Item {
                 tryCompare(previewListView, "open", false);
             }
 
+            function test_searchQuery() {
+                genericScopeView.scope = scopes.get(0);
+                genericScopeView.scope.searchQuery = "test";
+                genericScopeView.scope = scopes.get(1);
+                genericScopeView.scope.searchQuery = "test2";
+                genericScopeView.scope = scopes.get(0);
+                tryCompare(genericScopeView.scope, "searchQuery", "test");
+                genericScopeView.scope = scopes.get(1);
+                tryCompare(genericScopeView.scope, "searchQuery", "test2");
+            }
+
             function test_changeScope() {
                 genericScopeView.scope.searchQuery = "test"
                 genericScopeView.scope = scopes.get(1)
