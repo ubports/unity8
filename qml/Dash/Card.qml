@@ -123,44 +123,48 @@ AbstractButton {
         }
     }
 
-    ShaderEffect {
-        id: overlay
+    Loader {
+        id: overlayLoader
         anchors {
             left: artShape.left
             right: artShape.right
             bottom: artShape.bottom
         }
+        active: template && template["overlay"] && artShape.visible && artShape.image.status === Image.Ready || false
 
-        height: header.height
-        opacity: header.opacity * 0.6
-        visible: template && template["overlay"] && artShape.visible && artShape.image.status === Image.Ready || false
+        sourceComponent: ShaderEffect {
+            id: overlay
 
-        property var source: ShaderEffectSource {
-            id: shaderSource
-            sourceItem: artShape
-            onVisibleChanged: if (visible) scheduleUpdate()
-            live: false
-            sourceRect: Qt.rect(0, artShape.height - overlay.height, artShape.width, overlay.height)
+            height: header.height
+            opacity: header.opacity * 0.6
+
+            property var source: ShaderEffectSource {
+                id: shaderSource
+                sourceItem: artShape
+                onVisibleChanged: if (visible) scheduleUpdate()
+                live: false
+                sourceRect: Qt.rect(0, artShape.height - overlay.height, artShape.width, overlay.height)
+            }
+
+            vertexShader: "
+                uniform highp mat4 qt_Matrix;
+                attribute highp vec4 qt_Vertex;
+                attribute highp vec2 qt_MultiTexCoord0;
+                varying highp vec2 coord;
+                void main() {
+                    coord = qt_MultiTexCoord0;
+                    gl_Position = qt_Matrix * qt_Vertex;
+                }"
+
+            fragmentShader: "
+                varying highp vec2 coord;
+                uniform sampler2D source;
+                uniform lowp float qt_Opacity;
+                void main() {
+                    lowp vec4 tex = texture2D(source, coord);
+                    gl_FragColor = vec4(0, 0, 0, tex.a) * qt_Opacity;
+                }"
         }
-
-        vertexShader: "
-            uniform highp mat4 qt_Matrix;
-            attribute highp vec4 qt_Vertex;
-            attribute highp vec2 qt_MultiTexCoord0;
-            varying highp vec2 coord;
-            void main() {
-                coord = qt_MultiTexCoord0;
-                gl_Position = qt_Matrix * qt_Vertex;
-            }"
-
-        fragmentShader: "
-            varying highp vec2 coord;
-            uniform sampler2D source;
-            uniform lowp float qt_Opacity;
-            void main() {
-                lowp vec4 tex = texture2D(source, coord);
-                gl_FragColor = vec4(0, 0, 0, tex.a) * qt_Opacity;
-            }"
     }
 
     CardHeader {
@@ -169,7 +173,7 @@ AbstractButton {
         anchors {
             top: {
                 if (template) {
-                    if (template["overlay"]) return overlay.top;
+                    if (template["overlay"]) return overlayLoader.top;
                     if (template["card-layout"] === "horizontal") return artShape.top;
                 }
                 return artShape.bottom;
