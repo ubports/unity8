@@ -111,7 +111,7 @@ class QQuickView(emulators.UnityEmulatorBase):
         end_x = start_x
         end_y = self.height
         self.pointing_device.drag(start_x, start_y, end_x, end_y)
-        # TODO: assert that the indicator page opened [alesage 2013-12-06]
+        self.wait_select_single('Indicators', fullyOpened=True)
         return self.get_indicator_page(indicator_name)
 
     @autopilot_logging.log_action(logger.info)
@@ -122,7 +122,7 @@ class QQuickView(emulators.UnityEmulatorBase):
         start_x = end_x
         start_y = self.height
         self.pointing_device.drag(start_x, start_y, end_x, end_y)
-        # TODO: assert that the indicator page closed [alesage 2013-12-06]
+        self.wait_select_single('Indicators', fullyOpened=True)
 
     def get_shell_background(self):
         return self.select_single(
