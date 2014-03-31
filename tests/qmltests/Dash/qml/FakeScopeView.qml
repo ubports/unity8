@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.0
-import Unity 0.1
+import Unity 0.2
 
 import "../../../../qml/Dash"
 

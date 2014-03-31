@@ -58,7 +58,7 @@ PreviewWidget {
              reviewTextArea.text === "")) return;
 
         var data = {"rating": rating.value, "review": reviewTextArea.text, "author": null};
-        triggered(root.widgetId, widgetData["required"], data);
+        triggered(root.widgetId, "rated", data);
     }
 
     Item {

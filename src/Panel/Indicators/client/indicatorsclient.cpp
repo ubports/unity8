@@ -49,8 +49,8 @@ IndicatorsClient::IndicatorsClient(int &argc, char **argv)
 
     m_view->setSource(QUrl("IndicatorsClient.qml"));
     m_view->setResizeMode(QQuickView::SizeRootObjectToView);
-    if (args.contains(QLatin1String("-geometry")) && args.size() > args.indexOf(QLatin1String("-geometry")) + 1) {
-        QStringList geometryArg = args.at(args.indexOf(QLatin1String("-geometry")) + 1).split('x');
+    if (args.contains(QLatin1String("-windowgeometry")) && args.size() > args.indexOf(QLatin1String("-windowgeometry")) + 1) {
+        QStringList geometryArg = args.at(args.indexOf(QLatin1String("-windowgeometry")) + 1).split('x');
         if (geometryArg.size() == 2) {
             m_view->resize(geometryArg.at(0).toInt(), geometryArg.at(1).toInt());
         }

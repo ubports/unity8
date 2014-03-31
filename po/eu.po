@@ -7,25 +7,24 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-02-13 18:37+0000\n"
-"PO-Revision-Date: 2014-02-03 22:04+0000\n"
+"POT-Creation-Date: 2014-03-25 16:48+0100\n"
+"PO-Revision-Date: 2014-03-30 12:44+0000\n"
 "Last-Translator: Ibai Oihanguren Sala <Unknown>\n"
 "Language-Team: Basque <eu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-02-19 05:44+0000\n"
-"X-Generator: Launchpad (build 16916)\n"
+"X-Launchpad-Export-Date: 2014-03-31 06:44+0000\n"
+"X-Generator: Launchpad (build 16967)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Lock to Launcher"
-msgstr ""
+msgstr "Lotu abiarazlera"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Unlock from Launcher"
-msgstr ""
+msgstr "Askatu abiarazletik"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -74,107 +73,96 @@ msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
 msgstr ""
+"Jadanik ezagutzen dituzu ertzetako keinuak, eta mugikorra erabiltzen has "
+"zaitezke<br><br>Ukitu pantaila hasteko"
 
-#: qml/Components/PageHeader.qml:340
+#: qml/Components/PageHeader.qml:365
 msgid "Recent searches"
-msgstr ""
+msgstr "Azken bilaketak"
 
 #: qml/Components/SeeMore.qml:35
 msgid "See more"
-msgstr ""
+msgstr "Ikusi gehiago"
 
-#: qml/Components/SeeMore.qml:57
+#: qml/Components/SeeMore.qml:58
 msgid "See less"
-msgstr ""
+msgstr "Ikusi gutxiago"
 
-#: qml/Dash/Apps/AppPreview.qml:136 qml/Dash/Previews/PreviewRating.qml:70
-msgid "Rate this"
-msgstr ""
+#: qml/Dash/DashApps.qml:38
+msgid "Recent"
+msgstr "Azkenak"
 
-#. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: qml/Dash/Previews/Header.qml:93
+#: qml/Dash/PreviewListView.qml:52
 #, qt-format
-msgid "(%1)"
-msgstr ""
-
-#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: qml/Dash/Previews/Header.qml:105
-#, qt-format
-msgid "%1 review"
-msgid_plural "%1 reviews"
-msgstr[0] ""
-msgstr[1] ""
+msgid "%1 Preview"
+msgstr "%1 aurrebista"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
-msgstr ""
+msgstr "Gehiago..."
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "Less..."
-msgstr ""
+msgstr "Gutxiago..."
 
-#: qml/Dash/Previews/PreviewRating.qml:114 qml/Dash/Previews/Reviews.qml:74
+#: qml/Dash/Previews/PreviewRatingInput.qml:81
+msgid "Rate this"
+msgstr "Puntuatu hau"
+
+#: qml/Dash/Previews/PreviewRatingInput.qml:126
 msgid "Add a review"
-msgstr ""
+msgstr "Gehitu kritika"
 
-#: qml/Dash/Previews/PreviewRating.qml:153 qml/Dash/Previews/Reviews.qml:121
+#: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
-msgstr ""
-
-#: qml/Dash/Previews/Reviews.qml:86
-msgid "Review"
-msgstr ""
-
-#: qml/Dash/Previews/Reviews.qml:139
-msgid "Comments:"
-msgstr ""
+msgstr "Bidali"
 
 #: qml/Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
-msgstr ""
+msgstr "Larrialdi-deia"
 
 #: qml/Greeter/PassphraseLockscreen.qml:59
 #, qt-format
 msgid "Hello %1"
-msgstr ""
+msgstr "Kaixo %1"
 
 #: qml/Greeter/PassphraseLockscreen.qml:59
 msgid "Hello"
-msgstr ""
+msgstr "Kaixo"
 
 #: qml/Hud/HudParametrizedActionsPage.qml:132
 msgid "Confirm"
-msgstr ""
+msgstr "Baieztatu"
 
 #: qml/Hud/Hud.qml:61 qml/Hud/Hud.qml:99 qml/Hud/Hud.qml:372
 msgid "Type or say a command"
-msgstr ""
+msgstr "Idatzi edo esan agindu bat"
 
 #: qml/Hud/Hud.qml:84
 msgid "Loading. Please Wait..."
-msgstr ""
+msgstr "Kargatzen. Itxaron, mesedez..."
 
 #: qml/Hud/Hud.qml:89
 msgid "Speak Now..."
-msgstr ""
+msgstr "Hitz egin orain..."
 
 #: qml/Hud/Hud.qml:94
 msgid "Speaking..."
-msgstr ""
+msgstr "Hitz egiten..."
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:91
 msgid "Show password"
-msgstr ""
+msgstr "Erakutsi pasahitza"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:103
 msgid "Please enter SIM PIN"
-msgstr ""
+msgstr "Sartu SIMaren PINa"
 
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
-msgstr ""
+msgstr "Bilatu"
 
-#: qml/Shell.qml:440
+#: qml/Shell.qml:417
 #, qt-format
 msgid "Please enter %1"
-msgstr ""
+msgstr "Sartu %1"

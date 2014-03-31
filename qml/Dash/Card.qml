@@ -17,7 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 
-Item {
+AbstractButton {
     id: root
     property var template
     property var components
@@ -25,7 +25,8 @@ Item {
 
     property alias fontScale: header.fontScale
     property alias headerAlignment: header.headerAlignment
-    readonly property alias headerHeight: header.height
+    property alias headerHeight: header.height
+    readonly property alias title: header.title
 
     property bool showHeader: true
 
@@ -43,6 +44,8 @@ Item {
         gradientColor: getColor(1) || color
         anchors.fill: parent
         image: backgroundImage.source ? backgroundImage : null
+
+        property real luminance: 0.2126 * color.r + 0.7152 * color.g + 0.0722 * color.b
 
         property Image backgroundImage: Image {
             objectName: "backgroundImage"
@@ -87,6 +90,7 @@ Item {
             height: template && template["card-layout"] === "horizontal" ? header.height : width / artShape.aspect
             objectName: "artImage"
             source: cardData && cardData["art"] || ""
+            cache: true
             // FIXME uncomment when having investigated / fixed the crash
             //sourceSize.width: width > height ? width : 0
             //sourceSize.height: height > width ? height : 0
@@ -163,6 +167,9 @@ Item {
         titleWeight: components && components["subtitle"] ? Font.DemiBold : Font.Normal
 
         opacity: showHeader ? 1 : 0
+        inOverlay: root.template && root.template["overlay"] === true
+        fontColor: inOverlay ? "white" : summary.color
+        useMascotShape: !background.visible && !inOverlay
 
         Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
     }
@@ -183,5 +190,7 @@ Item {
         text: cardData && cardData["summary"] || ""
         height: text ? implicitHeight : 0
         fontSize: "small"
+        // TODO karni: Change "grey" to Ubuntu.Components.Palette color once updated.
+        color: background.visible && background.luminance < 0.7 ? "white" : "grey"
     }
 }

@@ -38,6 +38,9 @@ ListView {
         filterRole: UnityNotifications.Model.RoleType
         filterRegExp: RegExp(UnityNotifications.Notification.SnapDecision)
     }
+    spacing: delegate.fullscreen ? 0 : units.gu(.5)
+
+    currentIndex: (currentIndex < 1 && count > 1) ? 1 : -1
 
     delegate: Notification {
         objectName: "notification" + index
@@ -88,6 +91,7 @@ ListView {
     displaced: Transition {
         UbuntuNumberAnimation {
             properties: "x,y"
+            duration: UbuntuAnimation.SnapDuration
         }
     }
 }

@@ -25,8 +25,10 @@
 #include "registry-tracker.h"
 
 
-RegistryTracker::RegistryTracker(QString const& scope_dir):
-    m_scopeDir(scope_dir),
+RegistryTracker::RegistryTracker(QStringList const& scopes, bool systemScopes, bool serverScopes):
+    m_scopes(scopes),
+    m_systemScopes(systemScopes),
+    m_serverScopes(serverScopes),
     m_registry(nullptr),
     m_endpoints_dir(QDir::temp().filePath("scope-dev-endpoints.XXXXXX"))
 {
@@ -56,7 +58,8 @@ RegistryTracker::~RegistryTracker()
 "Zmq.EndpointDir = %2\n" \
 "Zmq.ConfigFile = %3\n" \
 "Scope.InstallDir = %4\n" \
-"Scoperunner.Path = %5\n"
+"Scoperunner.Path = %5\n" \
+"%6"
 
 #define MW_CONFIG \
 "[Zmq]\n" \
@@ -95,7 +98,17 @@ void RegistryTracker::runRegistry()
     QString scopeRunnerPath = QDir(scopesLibdir).filePath("scoperunner/scoperunner");
 
     QString runtime_ini = QString(RUNTIME_CONFIG).arg(m_registry_config.fileName()).arg(m_mw_config.fileName());
-    QString registry_ini = QString(REGISTRY_CONFIG).arg(m_endpoints_dir.path()).arg(m_endpoints_dir.path()).arg(m_mw_config.fileName()).arg(m_scopeDir).arg(scopeRunnerPath);
+    // FIXME: keep in sync with the SSRegistry config
+    QString serverRegistryConfig(m_serverScopes ? "SS.Registry.Identity = SSRegistry\nSS.Registry.Endpoint = ipc:///tmp/SSRegistry" : "");
+    QString scopeInstallDir(scopesLibdir + "/unity-scopes");
+    if (!m_systemScopes) {
+        m_scopeInstallDir.reset(new QTemporaryDir(tmp.filePath("scopes.XXXXXX")));
+        if (!m_scopeInstallDir->isValid()) {
+            qWarning("Unable to create temporary scopes directory!");
+        }
+        scopeInstallDir = m_scopeInstallDir->path();
+    }
+    QString registry_ini = QString(REGISTRY_CONFIG).arg(m_endpoints_dir.path()).arg(m_endpoints_dir.path()).arg(m_mw_config.fileName()).arg(scopeInstallDir).arg(scopeRunnerPath).arg(serverRegistryConfig);
     QString mw_ini = QString(MW_CONFIG).arg(m_endpoints_dir.path()).arg(m_endpoints_dir.path());
 
     m_runtime_config.write(runtime_ini.toUtf8());
@@ -111,6 +124,8 @@ void RegistryTracker::runRegistry()
     QString registryBin(QDir(scopesLibdir).filePath("scoperegistry/scoperegistry"));
     QStringList arguments;
     arguments << m_runtime_config.fileName();
+    arguments << m_scopes;
 
+    m_registry.setProcessChannelMode(QProcess::ForwardedChannels);
     m_registry.start(registryBin, arguments);
 }
