@@ -4,6 +4,35 @@ unity8 (7.85+14.04.20140306-0ubuntu1) UNRELEASED; urgency=medium
 
  -- Michael Terry <mterry@ubuntu.com>  Wed, 12 Mar 2014 14:39:45 -0400
 
+unity8 (7.84+14.04.20140327.1-0ubuntu1) trusty; urgency=low
+
+  [ Michał Sawicz ]
+  * Increase kill timeout so that crashes are not truncated.
+
+  [ Ying-Chun Liu ]
+  * Fix a small typo in LazyImage: scale -> scaleTo
+
+  [ Albert Astals ]
+  * Make geometry calls for autopilot work again -geometry is a internal
+    Qt argument that only works for QWidget based apps Before it was
+    being returned to us in -args but now it's eaten so we need to use a
+    different one, -windowgeometry
+  * Make "Recent" translatable and update pot file
+
+  [ Mirco Müller ]
+  * Make visual queue of (up to five) snap-decisions contract and expand
+    according to visual design-spec.
+
+  [ Michael Terry ]
+  * Pass user's preference for auto-brightness on to powerd. (LP:
+    #1273174)
+
+  [ Michael Zanetti ]
+  * allow executing a single test function example: make testShell
+    FUNCTION="Shell::test_background"
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 27 Mar 2014 12:38:21 +0000
+
 unity8 (7.84+14.04.20140324.4-0ubuntu1) trusty; urgency=low
 
   [ Michal Hruby ]

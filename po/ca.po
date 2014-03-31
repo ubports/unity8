@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-02-13 18:37+0000\n"
+"POT-Creation-Date: 2014-03-25 16:48+0100\n"
 "PO-Revision-Date: 2014-01-10 07:45+0000\n"
 "Last-Translator: Adolfo Jayme <fitoschido@gmail.com>\n"
 "Language-Team: Catalan <ca@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-03-27 08:17+0000\n"
+"X-Launchpad-Export-Date: 2014-03-28 06:48+0000\n"
 "X-Generator: Launchpad (build 16967)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
@@ -79,7 +79,7 @@ msgid ""
 "phone<br><br>Tap on the screen to start"
 msgstr ""
 
-#: qml/Components/PageHeader.qml:340
+#: qml/Components/PageHeader.qml:365
 msgid "Recent searches"
 msgstr "Cerques recents"
 
@@ -87,27 +87,18 @@ msgstr "Cerques recents"
 msgid "See more"
 msgstr ""
 
-#: qml/Components/SeeMore.qml:57
+#: qml/Components/SeeMore.qml:58
 msgid "See less"
 msgstr ""
 
-#: qml/Dash/Apps/AppPreview.qml:136 qml/Dash/Previews/PreviewRating.qml:70
-msgid "Rate this"
+#: qml/Dash/DashApps.qml:38
+msgid "Recent"
 msgstr ""
 
-#. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: qml/Dash/Previews/Header.qml:93
+#: qml/Dash/PreviewListView.qml:52
 #, qt-format
-msgid "(%1)"
-msgstr "(%1)"
-
-#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: qml/Dash/Previews/Header.qml:105
-#, qt-format
-msgid "%1 review"
-msgid_plural "%1 reviews"
-msgstr[0] "%1 ressenya"
-msgstr[1] "%1 ressenyes"
+msgid "%1 Preview"
+msgstr ""
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -117,21 +108,17 @@ msgstr ""
 msgid "Less..."
 msgstr ""
 
-#: qml/Dash/Previews/PreviewRating.qml:114 qml/Dash/Previews/Reviews.qml:74
+#: qml/Dash/Previews/PreviewRatingInput.qml:81
+msgid "Rate this"
+msgstr ""
+
+#: qml/Dash/Previews/PreviewRatingInput.qml:126
 msgid "Add a review"
 msgstr "Afegiu una ressenya"
 
-#: qml/Dash/Previews/PreviewRating.qml:153 qml/Dash/Previews/Reviews.qml:121
+#: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
 msgstr "Envia"
-
-#: qml/Dash/Previews/Reviews.qml:86
-msgid "Review"
-msgstr "Ressenya"
-
-#: qml/Dash/Previews/Reviews.qml:139
-msgid "Comments:"
-msgstr "Comentaris:"
 
 #: qml/Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
@@ -178,7 +165,23 @@ msgstr ""
 msgid "Search"
 msgstr "Cerca"
 
-#: qml/Shell.qml:440
+#: qml/Shell.qml:417
 #, qt-format
 msgid "Please enter %1"
 msgstr "Introduïu %1"
+
+#, qt-format
+#~ msgid "(%1)"
+#~ msgstr "(%1)"
+
+#~ msgid "Comments:"
+#~ msgstr "Comentaris:"
+
+#~ msgid "Review"
+#~ msgstr "Ressenya"
+
+#, qt-format
+#~ msgid "%1 review"
+#~ msgid_plural "%1 reviews"
+#~ msgstr[0] "%1 ressenya"
+#~ msgstr[1] "%1 ressenyes"
