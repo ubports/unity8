@@ -185,7 +185,11 @@ class DashAppsEmulatorTestCase(DashBaseTestCase):
         category_element = self.applications_scope._get_category_element(
             category)
         grid = category_element.select_single('CardFilterGrid')
-        return grid.columns * grid.rows
+        filtergrid = grid.select_single('FilterGrid')
+        if (grid.filter):
+            return filtergrid.collapsedRowCount * filtergrid.columns
+        else:
+            return filtergrid.uncollapsedRowCount * filtergrid.columns
 
     def test_open_preview(self):
         preview = self.applications_scope.open_preview('2', 'Title.2.1')
