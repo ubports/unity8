@@ -97,7 +97,8 @@ Depends: gsettings-desktop-schemas,
 Recommends: unity-scope-click,
             unity-scope-mediascanner2,
             unity-scope-scopes,
-Breaks: indicator-network (<< 0.5.1)
+Breaks: indicator-network (<< 0.5.1),
+        ubuntu-touch-session (<< 0.107),
 Replaces: ubuntu-touch-session (<< 0.82~)
 Description: Unity 8 shell
  The Unity 8 shell is the primary user interface for Ubuntu devices.
