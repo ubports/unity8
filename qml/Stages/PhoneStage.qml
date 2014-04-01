@@ -70,7 +70,8 @@ Item {
         onFocusedApplicationIdChanged: {
             if (ApplicationManager.focusedApplicationId.length > 0) {
                 if (priv.secondApplicationStarting || priv.applicationStarting) {
-                    appSplashTimer.start();
+
+                    appSplashTimer.restart();
                 } else {
                     var application = priv.focusedApplication;
                     root.fullscreen = application.fullscreen;
@@ -174,11 +175,9 @@ Item {
 
     Timer {
         id: appSplashTimer
-        // FIXME: apart from removing this completely in the future and make the app surface paint
-        // meaningful stuff, also check for colin's stuff to land so we can shape 1.4 secs away from here
-        // https://code.launchpad.net/~cjwatson/upstart-app-launch/libclick-manifest/+merge/210520
-        // https://code.launchpad.net/~cjwatson/upstart-app-launch/libclick-pkgdir/+merge/209909
-        interval: 1700
+        // FIXME: We really need to show something meaningful in the app surface instead of guessing
+        // when it might be ready
+        interval: 500
         repeat: false
         onTriggered: {
             priv.applicationStarting = false;

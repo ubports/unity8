@@ -55,14 +55,14 @@ FocusScope {
     function activateApplication(appId) {
         if (ApplicationManager.findApplication(appId)) {
             ApplicationManager.requestFocusApplication(appId);
-            stages.show();
+            stages.show(true);
             if (stages.locked && ApplicationManager.focusedApplicationId == appId) {
                 applicationsDisplayLoader.item.select(appId);
             }
         } else {
             var execFlags = shell.sideStageEnabled ? ApplicationManager.NoFlag : ApplicationManager.ForceMainStage;
             ApplicationManager.startApplication(appId, execFlags);
-            stages.show();
+            stages.show(false);
         }
     }
 
@@ -198,7 +198,7 @@ FocusScope {
         onDraggingChanged: {
             if (!dragging) {
                 if (ApplicationManager.count > 0 && progress < stages.width - units.gu(10)) {
-                    stages.show()
+                    stages.show(true)
                 }
                 stagesDragHandle.progress = stages.width;
             }
@@ -237,10 +237,10 @@ FocusScope {
         property int overlayWidth: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.overlayWidth : false
         property bool locked: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.locked : false
 
-        function show() {
+        function show(focusApp) {
             shown = true;
             panel.indicators.hide();
-            if (!ApplicationManager.focusedApplicationId && ApplicationManager.count > 0) {
+            if (!ApplicationManager.focusedApplicationId && ApplicationManager.count > 0 && focusApp) {
                 ApplicationManager.focusApplication(ApplicationManager.get(0).appId);
             }
         }
@@ -256,12 +256,12 @@ FocusScope {
             target: ApplicationManager
 
             onFocusRequested: {
-                stages.show();
+                stages.show(true);
             }
 
             onFocusedApplicationIdChanged: {
                 if (ApplicationManager.focusedApplicationId.length > 0) {
-                    stages.show();
+                    stages.show(false);
                 } else {
                     if (!stages.overlayMode) {
                         stages.hide();
@@ -276,7 +276,7 @@ FocusScope {
             }
 
             onApplicationAdded: {
-                stages.show();
+                stages.show(false);
             }
 
             onApplicationRemoved: {
