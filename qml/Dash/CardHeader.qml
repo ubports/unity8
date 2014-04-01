@@ -21,7 +21,7 @@ Item {
     id: root
     property alias mascot: mascotImage.source
     property alias title: titleLabel.text
-    property alias subtitle: subtitleLabel.text
+    property var subtitle
 
     property alias titleWeight: titleLabel.font.weight
     property alias titleSize: titleLabel.fontSize
@@ -103,16 +103,19 @@ Item {
                 color: fontColor
             }
 
-            Label {
-                id: subtitleLabel
-                objectName: "subtitleLabel"
+            Loader {
+                active: titleLabel.text && root.subtitle
                 anchors { left: parent.left; right: parent.right }
-                elide: Text.ElideRight
-                fontSize: "small"
-                font.weight: Font.Light
-                visible: titleLabel.text && text
-                font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale)
-                color: fontColor
+                sourceComponent: Label {
+                    id: subtitleLabel
+                    objectName: "subtitleLabel"
+                    elide: Text.ElideRight
+                    fontSize: "small"
+                    font.weight: Font.Light
+                    font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale)
+                    color: fontColor
+                    text: root.subtitle
+                }
             }
         }
     }
