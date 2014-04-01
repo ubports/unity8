@@ -1,3 +1,14 @@
+unity8 (7.84+14.04.20140327.1-0ubuntu2) trusty; urgency=medium
+
+  * For now, have libunity-private depending on libunity-core-6.0-9 as the
+    gsettings schema is here. The dependency wasn't direct and dropped from
+    Touch image #271. Consequently, unity8 didn't start (gsettings
+    segfaulting).
+    Proper strategy will be to include the schema in another package to only
+    pull it.
+
+ -- Didier Roche <didrocks@ubuntu.com>  Tue, 01 Apr 2014 09:52:14 +0200
+
 unity8 (7.84+14.04.20140327.1-0ubuntu1) trusty; urgency=low
 
   [ Michał Sawicz ]
