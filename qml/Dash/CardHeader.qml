@@ -19,7 +19,7 @@ import Ubuntu.Components 0.1
 
 Item {
     id: root
-    property alias mascot: mascotImage.source
+    property var mascot
     property alias title: titleLabel.text
     property var subtitle
 
@@ -35,7 +35,7 @@ Item {
     property bool useMascotShape: true
     property color fontColor: Theme.palette.selected.backgroundText
 
-    visible: mascotImage.status === Image.Ready || title
+    visible: mascot || title
     implicitHeight: row.height > 0 ? row.height + row.margins * 2 : 0
 
     Row {
@@ -44,7 +44,7 @@ Item {
 
         property real margins: units.gu(1)
 
-        spacing: mascotShapeLoader.active || mascotImage.visible || inOverlay ? margins : 0
+        spacing: mascotShapeLoader.active || mascotImageLoader.active || inOverlay ? margins : 0
         anchors {
             top: parent.top; left: parent.left; right: parent.right
             margins: margins
@@ -56,7 +56,7 @@ Item {
             id: mascotShapeLoader
             objectName: "mascotShapeLoader"
 
-            active: useMascotShape && mascotImage && mascotImage.status === Image.Ready
+            active: useMascotShape && mascotImageLoader.item && mascotImageLoader.item.status === Image.Ready
             visible: active
             anchors.verticalCenter: parent.verticalCenter
             // TODO karni: Icon aspect-ratio is 8:7.5. Revisit these values to avoid fraction of pixels.
@@ -65,23 +65,27 @@ Item {
             readonly property int maxSize: Math.max(width, height) * 4
 
             sourceComponent: UbuntuShape {
-                image: useMascotShape ? mascotImage : null
+                image: mascotImageLoader.item
             }
         }
 
-        Image {
-            id: mascotImage
-            objectName: "mascotImage"
-
-            width: source ? mascotShapeLoader.width : 0
-            height: mascotShapeLoader.height
+        Loader {
+            id: mascotImageLoader
+            active: root.mascot
             anchors.verticalCenter: parent.verticalCenter
-            visible: !useMascotShape && status === Image.Ready
+            sourceComponent: Image {
+                objectName: "mascotImage"
 
-            sourceSize { width: mascotShapeLoader.maxSize; height: mascotShapeLoader.maxSize }
-            fillMode: Image.PreserveAspectCrop
-            horizontalAlignment: Image.AlignHCenter
-            verticalAlignment: Image.AlignVCenter
+                source: root.mascot
+                width: source ? mascotShapeLoader.width : 0
+                height: mascotShapeLoader.height
+                visible: !useMascotShape && status === Image.Ready
+
+                sourceSize { width: mascotShapeLoader.maxSize; height: mascotShapeLoader.maxSize }
+                fillMode: Image.PreserveAspectCrop
+                horizontalAlignment: Image.AlignHCenter
+                verticalAlignment: Image.AlignVCenter
+            }
         }
 
         Column {

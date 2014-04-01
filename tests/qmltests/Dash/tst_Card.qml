@@ -207,7 +207,7 @@ Rectangle {
 
         function test_header_binding_data() {
             return [
-                { tag: "Mascot", property: "mascot", value: Qt.resolvedUrl("artwork/avatar.png"), index: 0 },
+                { tag: "Mascot", property: "mascot", value: "../../tests/qmltests/Dash/artwork/avatar.png", index: 0 },
                 { tag: "Title", property: "title", value: "foo", index: 0 },
                 { tag: "Subtitle", property: "subtitle", value: "bar", index: 0 },
             ];
