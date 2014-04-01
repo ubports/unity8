@@ -88,13 +88,13 @@ class QQuickView(emulators.UnityEmulatorBase):
     def get_pinentryField(self):
         return self.select_single(objectName="pinentryField")
 
-    def get_indicator_widget(self, indicator_name):
+    def _get_indicator_widget(self, indicator_name):
         return self.select_single(
             'DefaultIndicatorWidget',
             objectName=indicator_name+'-widget'
         )
 
-    def get_indicator_page(self, indicator_name):
+    def _get_indicator_page(self, indicator_name):
         return self.select_single(
             'DefaultIndicatorPage',
             objectName=indicator_name+'-page'
@@ -106,13 +106,13 @@ class QQuickView(emulators.UnityEmulatorBase):
 
         :returns: The indicator page.
         """
-        widget = self.get_indicator_widget(indicator_name)
+        widget = self._get_indicator_widget(indicator_name)
         start_x, start_y = get_center_point(widget)
         end_x = start_x
         end_y = self.height
         self.pointing_device.drag(start_x, start_y, end_x, end_y)
         self.wait_select_single('Indicators', fullyOpened=True)
-        return self.get_indicator_page(indicator_name)
+        return self._get_indicator_page(indicator_name)
 
     def get_shell_background(self):
         return self.select_single(

@@ -55,7 +55,7 @@ class IndicatorExistsTestCase(IndicatorTestCase):
     )
 
     def test_indicator_exists(self):
-        self.main_window.get_indicator_widget(
+        self.main_window._get_indicator_widget(
             self.indicator_name
         )
 
