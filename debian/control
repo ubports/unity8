@@ -17,7 +17,7 @@ Build-Depends: cmake,
                libnih-dev,
                libpulse-dev,
                libqmenumodel-dev (>= 0.2.7),
-               libunity-api-dev (>= 7.80.4),
+               libunity-api-dev (>= 7.80.6),
                libunity-mir-dev,
                libupstart-dev,
                libusermetricsoutput1-dev,
@@ -83,9 +83,10 @@ Depends: gsettings-desktop-schemas,
          qtdeclarative5-ubuntu-ui-toolkit-plugin,
          qtdeclarative5-unity-notifications-plugin | unity-notifications-impl,
          qtdeclarative5-xmllistmodel-plugin,
+         unity-application-impl-2,
          unity-launcher-impl-3,
          unity-notifications-impl-2,
-         unity8-fake-env | qtubuntu-shell,
+         unity8-fake-env | unity-application-impl,
          unity8-private (= ${binary:Version}),
          unity8-private | unity-launcher-impl,
          unity-plugin-scopes | unity-scopes-impl,
@@ -97,7 +98,8 @@ Depends: gsettings-desktop-schemas,
 Recommends: unity-scope-click,
             unity-scope-mediascanner2,
             unity-scope-scopes,
-Breaks: indicator-network (<< 0.5.1)
+Breaks: indicator-network (<< 0.5.1),
+        ubuntu-touch-session (<< 0.107),
 Replaces: ubuntu-touch-session (<< 0.82~)
 Description: Unity 8 shell
  The Unity 8 shell is the primary user interface for Ubuntu devices.
@@ -134,7 +136,8 @@ Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends},
 Depends: ${misc:Depends},
          ${shlibs:Depends},
-Provides: qtubuntu-shell,
+Provides: unity-application-impl,
+          unity-application-impl-2,
 Description: Fake environment for running Unity 8 shell
  Provides fake implementations of some QML modules used by Unity 8 shell
  (e.g Ubuntu.Application) so that you can run it in a sandboxed environment.

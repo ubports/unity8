@@ -18,6 +18,7 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Utils 0.1
 import Unity 0.2
+import Unity.Application 0.1
 import "../Components"
 import "../Components/ListItems" as ListItems
 
@@ -167,8 +168,7 @@ FocusScope {
                     if (source.toString().indexOf("Apps/RunningApplicationsGrid.qml") != -1) {
                         // TODO: this is still a kludge :D Ideally add some kind of hook so that we
                         // can do this from DashApps.qml or think a better way that needs no special casing
-                        item.firstModel = Qt.binding(function() { return mainStageApplicationsModel })
-                        item.secondModel = Qt.binding(function() { return sideStageApplicationModel })
+                        item.model = Qt.binding(function() { return runningApps; })
                         item.canEnableTerminationMode = Qt.binding(function() { return scopeView.isCurrent })
                     } else {
                         item.model = Qt.binding(function() { return results })

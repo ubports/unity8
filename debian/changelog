@@ -1,3 +1,10 @@
+unity8 (7.85-0ubuntu1) UNRELEASED; urgency=medium
+
+  * Bump version to ensure incompatibility with previous Unity.Application
+    implementations.
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Mon, 31 Mar 2014 14:44:30 +0100
+
 unity8 (7.84+14.04.20140327.1-0ubuntu2) trusty; urgency=medium
 
   * For now, have libunity-private depending on libunity-core-6.0-9 as the
