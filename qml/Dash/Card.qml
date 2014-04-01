@@ -23,10 +23,9 @@ AbstractButton {
     property var components
     property var cardData
 
-    property alias fontScale: header.fontScale
-    property alias headerAlignment: header.headerAlignment
-    property alias headerHeight: header.height
-    readonly property alias title: header.title
+    property real fontScale: 1.0
+    property int headerAlignment: Text.AlignLeft
+    readonly property int headerHeight: headerLoader.item ? headerLoader.item.height : 0
 
     property bool showHeader: true
 
@@ -114,7 +113,7 @@ AbstractButton {
             function updateWidthHeightBindings() {
                 if (isHorizontal) {
                     width = Qt.binding(function() { return height * artShape.aspect });
-                    height = Qt.binding(function() { return header.height });
+                    height = Qt.binding(function() { return root.headerHeight });
                 } else {
                     width = Qt.binding(function() { return root.width });
                     height = Qt.binding(function() { return width / artShape.aspect });
@@ -135,8 +134,8 @@ AbstractButton {
         sourceComponent: ShaderEffect {
             id: overlay
 
-            height: header.height
-            opacity: header.opacity * 0.6
+            height: headerLoader.item.height
+            opacity: headerLoader.item.opacity * 0.6
 
             property var source: ShaderEffectSource {
                 id: shaderSource
@@ -167,9 +166,10 @@ AbstractButton {
         }
     }
 
-    CardHeader {
-        id: header
-        objectName: "cardHeader"
+    Loader {
+        id: headerLoader
+        objectName: "cardHeaderLoader"
+
         anchors {
             top: {
                 if (template) {
@@ -186,26 +186,33 @@ AbstractButton {
             }
             right: parent.right
         }
+        active: cardData && cardData["title"] || cardData && cardData["mascot"] || false
 
-        mascot: cardData && cardData["mascot"] || ""
-        title: cardData && cardData["title"] || ""
-        subtitle: cardData && cardData["subtitle"] || ""
+        sourceComponent: CardHeader {
+            id: header
+            objectName: "cardHeader"
 
-        titleWeight: components && components["subtitle"] ? Font.DemiBold : Font.Normal
+            mascot: cardData && cardData["mascot"] || ""
+            title: cardData && cardData["title"] || ""
+            subtitle: cardData && cardData["subtitle"] || ""
 
-        opacity: showHeader ? 1 : 0
-        inOverlay: root.template && root.template["overlay"] === true
-        fontColor: inOverlay ? "white" : summary.color
-        useMascotShape: !backgroundLoader.active && !inOverlay
+            titleWeight: components && components["subtitle"] ? Font.DemiBold : Font.Normal
 
-        Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
+            opacity: showHeader ? 1 : 0
+            inOverlay: root.template && root.template["overlay"] === true
+            fontColor: inOverlay ? "white" : summary.color
+            useMascotShape: !backgroundLoader.active && !inOverlay
+            headerAlignment: root.headerAlignment
+
+            Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
+        }
     }
 
     Label {
         id: summary
         objectName: "summaryLabel"
         anchors {
-            top: header.visible ? header.bottom : artShape.bottom
+            top: headerLoader.active ? headerLoader.bottom : artShape.bottom
             left: parent.left
             right: parent.right
             margins: backgroundLoader.active ? units.gu(1) : 0
