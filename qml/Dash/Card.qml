@@ -205,6 +205,7 @@ AbstractButton {
             useMascotShape: !backgroundLoader.active && !inOverlay
             headerAlignment: root.headerAlignment
             height: root.fixedHeaderHeight != -1 ? root.fixedHeaderHeight : implicitHeight
+            fontScale: root.fontScale
 
             Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
         }
