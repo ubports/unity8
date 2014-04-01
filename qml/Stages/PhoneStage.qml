@@ -70,7 +70,6 @@ Item {
         onFocusedApplicationIdChanged: {
             if (ApplicationManager.focusedApplicationId.length > 0) {
                 if (priv.secondApplicationStarting || priv.applicationStarting) {
-
                     appSplashTimer.restart();
                 } else {
                     var application = priv.focusedApplication;
