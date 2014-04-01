@@ -41,6 +41,7 @@ install_dependencies() {
     sudo apt-get install devscripts \
                          equivs \
                          gsettings-desktop-schemas \
+                         gsettings-ubuntu-schemas \
                          qmenumodel-qml \
                          qtdeclarative5-dee-plugin \
                          qtdeclarative5-gsettings1.0 \

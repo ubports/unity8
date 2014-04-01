@@ -146,7 +146,8 @@ Package: unity8-private
 Architecture: any
 Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends},
-Depends: ${misc:Depends},
+Depends: gsettings-ubuntu-schemas,
+         ${misc:Depends},
          ${shlibs:Depends},
          libunity-core-6.0-9,
 Provides: unity-launcher-impl,
