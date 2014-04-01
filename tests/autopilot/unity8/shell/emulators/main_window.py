@@ -114,16 +114,6 @@ class QQuickView(emulators.UnityEmulatorBase):
         self.wait_select_single('Indicators', fullyOpened=True)
         return self.get_indicator_page(indicator_name)
 
-    @autopilot_logging.log_action(logger.info)
-    def close_indicator_page(self, indicator_name):
-        """Swipe to close the indicator, wait until it's closed."""
-        widget = self.get_indicator_widget(indicator_name)
-        end_x, end_y = get_center_point(widget)
-        start_x = end_x
-        start_y = self.height
-        self.pointing_device.drag(start_x, start_y, end_x, end_y)
-        self.wait_select_single('Indicators', fullyOpened=True)
-
     def get_shell_background(self):
         return self.select_single(
             "CrossFadeImage", objectName="backgroundImage")
