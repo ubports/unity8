@@ -36,17 +36,18 @@ Rectangle {
       "summary": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
     }'
 
-//     property string cardModel: '{ "components": { "title": "title", "art": "art", "subtitle": "subtitle", "mascot": "mascot", "summary": "summary" } }'
-//     property string cardModel: '{ "components": { "title": "title", "art": "art", "subtitle": "subtitle", "mascot": "mascot" } }'
-    property string cardModel: '{ "components": { "title": "title", "art": "art", "subtitle": "subtitle" } }'
-//     property string cardModel: '{ "components": { "title": "title", "art": "art" } }'
-//     property string cardModel: '{ "components": { "art": "art" } }'
-//     property string cardModel: '{ "components": { "title": "title" } }'
+    property string currentModel
+    property string cardTitleArtSubtitleMascotSummaryModel: '{ "components": { "title": "title", "art": "art", "subtitle": "subtitle", "mascot": "mascot", "summary": "summary" } }'
+    property string cardTitleArtSubtitleMascotModel: '{ "components": { "title": "title", "art": "art", "subtitle": "subtitle", "mascot": "mascot" } }'
+    property string cardTitleArtSubtitleModel: '{ "components": { "title": "title", "art": "art", "subtitle": "subtitle" } }'
+    property string cardTitleArtModel: '{ "components": { "title": "title", "art": "art" } }'
+    property string cardArtModel: '{ "components": { "art": "art" } }'
+    property string cardTitleModel: '{ "components": { "title": "title" } }'
 
     CardTool {
         id: cardTool
-        template: Helpers.update(JSON.parse(Helpers.defaultLayout), JSON.parse(cardModel))['template'];
-        components: Helpers.update(JSON.parse(Helpers.defaultLayout), JSON.parse(cardModel))['components'];
+        template: Helpers.update(JSON.parse(Helpers.defaultLayout), JSON.parse(currentModel))['template'];
+        components: Helpers.update(JSON.parse(Helpers.defaultLayout), JSON.parse(currentModel))['components'];
         viewWidth: units.gu(48)
     }
 
@@ -69,7 +70,23 @@ Rectangle {
 
         when: windowShown
 
-        function benchmark_time() {
+        function benchmark_time_data() {
+            return [
+                { tag: "cardTitleArtSubtitleMascotSummaryModel", model: cardTitleArtSubtitleMascotSummaryModel },
+                { tag: "cardTitleArtSubtitleMascotModel",        model: cardTitleArtSubtitleMascotModel },
+                { tag: "cardTitleArtSubtitleModel",              model: cardTitleArtSubtitleModel },
+                { tag: "cardTitleArtModel",                      model: cardTitleArtModel },
+                { tag: "cardArtModel",                           model: cardArtModel },
+                { tag: "cardTitleModel",                         model: cardTitleModel },
+            ];
+        }
+        
+        function init() {
+            wait(1);
+        }
+
+        function benchmark_time(data) {
+            currentModel = data.model
             cardRepeater.model = 1
             cardRepeater.model = 0
         }
