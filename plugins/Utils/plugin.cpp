@@ -26,7 +26,6 @@
 #include "plugin.h"
 
 // local
-#include "albumartprovider.h"
 #include "bottombarvisibilitycommunicatorshell.h"
 #include "qlimitproxymodelqml.h"
 #include "qsortfilterproxymodelqml.h"
@@ -53,19 +52,6 @@ void UtilsPlugin::registerTypes(const char *uri)
 void UtilsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
 {
     QQmlExtensionPlugin::initializeEngine(engine, uri);
-
-    try
-    {
-        engine->addImageProvider(QLatin1String("albumart"), new AlbumArtProvider);
-    }
-    catch (const std::runtime_error &e)
-    {
-        qWarning() << "Failed to register image provider for albumart:" << e.what();
-    }
-    catch (...)
-    {
-        qWarning() << "Failed to register image provider for albumart (unknown error)";
-    }
 
     QDBusConnection::sessionBus().registerService(DBUS_SERVICE);
     BottomBarVisibilityCommunicatorShell *bottomBarVisibilityCommunicator = &BottomBarVisibilityCommunicatorShell::instance();
