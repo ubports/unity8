@@ -103,6 +103,14 @@ void tst_DirectionalDragArea::init()
 {
     GestureTest::init();
 
+    // We shouldn't need the three lines below, but a compiz/unity7
+    // regression means we don't pass the test without them because
+    // the window doesn't have the proper size. Can be removed in the
+    // future if the regression is fixed and tests pass again
+    m_view->resize(m_view->rootObject()->width(), m_view->rootObject()->height());
+    QTRY_COMPARE(m_view->width(), (int)m_view->rootObject()->width());
+    QTRY_COMPARE(m_view->height(), (int)m_view->rootObject()->height());
+
     fakeTimeSource.reset(new FakeTimeSource);
     fakeTimer = new FakeTimer(fakeTimeSource);
 }

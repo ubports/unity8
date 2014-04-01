@@ -31,9 +31,6 @@ Item {
 
     property int rows: 1
 
-    // Index of the highlighted item
-    property int highlightIndex: -1
-
     property int margins: 0
 
     property int uncollapsedHeight: height
@@ -49,6 +46,11 @@ Item {
 
     // The model to renderer
     property var model
+
+    /*!
+     \brief CardTool component.
+     */
+    property var cardTool: undefined
 
     /// Emitted when the user clicked on an item
     /// @param index is the index of the clicked item

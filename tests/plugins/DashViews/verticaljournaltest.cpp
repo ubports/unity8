@@ -135,11 +135,12 @@ private Q_SLOTS:
         view->setSource(QUrl::fromLocalFile(DASHVIEWSTEST_FOLDER "/verticaljournaltest.qml"));
 
         view->show();
-        view->resize(470, 400);
         QTest::qWaitForWindowExposed(view);
+        view->resize(470, 400);
 
         vj = dynamic_cast<VerticalJournal*>(view->rootObject()->findChild<QObject*>("vj"));
         vj->setModel(model);
+        QTRY_COMPARE(vj->width(), 470.);
 
         checkInitialPositions();
     }

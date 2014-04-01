@@ -18,9 +18,10 @@
 #define FAKE_SCOPE_H
 
 #include "fake_categories.h"
+#include "fake_previewstack.h"
 
 #include <QObject>
-#include <QDebug>
+#include <QTimer>
 
 class Preview;
 
@@ -33,12 +34,12 @@ class Scope : public QObject
     Q_PROPERTY(QString iconHint READ iconHint NOTIFY iconHintChanged)
     Q_PROPERTY(QString description READ description NOTIFY descriptionChanged)
     Q_PROPERTY(QString searchHint READ searchHint NOTIFY searchHintChanged)
+    Q_PROPERTY(bool searchInProgress READ searchInProgress WRITE setSearchInProgress NOTIFY searchInProgressChanged)
     Q_PROPERTY(bool visible READ visible NOTIFY visibleChanged)
     Q_PROPERTY(QString shortcut READ shortcut NOTIFY shortcutChanged)
-    Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
     Q_PROPERTY(Categories* categories READ categories NOTIFY categoriesChanged)
+    //Q_PROPERTY(Filters* filters READ filters NOTIFY filtersChanged)
 
-    Q_PROPERTY(bool searchInProgress READ searchInProgress WRITE setSearchInProgress NOTIFY searchInProgressChanged)
     Q_PROPERTY(QString searchQuery READ searchQuery WRITE setSearchQuery NOTIFY searchQueryChanged)
     Q_PROPERTY(QString noResultsHint READ noResultsHint WRITE setNoResultsHint NOTIFY noResultsHintChanged)
     Q_PROPERTY(QString formFactor READ formFactor WRITE setFormFactor NOTIFY formFactorChanged)
@@ -72,17 +73,13 @@ public:
     void setActive(const bool);
     void setSearchInProgress(const bool inProg);
 
-    Q_INVOKABLE void activate(const QVariant &uri, const QVariant &icon_hint, const QVariant &category,
-                              const QVariant &result_type, const QVariant &mimetype, const QVariant &title,
-                              const QVariant &comment, const QVariant &dnd_uri, const QVariant &metadata);
-    Q_INVOKABLE void preview(const QVariant &uri, const QVariant &icon_hint, const QVariant &category,
-                              const QVariant &result_type, const QVariant &mimetype, const QVariant &title,
-                              const QVariant &comment, const QVariant &dnd_uri, const QVariant &metadata);
-
+    Q_INVOKABLE void activate(QVariant const& result);
+    Q_INVOKABLE PreviewStack* preview(QVariant const& result);
     Q_INVOKABLE void cancelActivation();
+    Q_INVOKABLE void closeScope(Scope* scope);
 
 Q_SIGNALS:
-    void idChanged(const QString&);
+    void idChanged();
     void nameChanged(const QString&);
     void iconHintChanged(const QString&);
     void descriptionChanged(const QString&);
@@ -90,18 +87,23 @@ Q_SIGNALS:
     void searchInProgressChanged();
     void visibleChanged(bool);
     void shortcutChanged(const QString&);
-    void connectedChanged(bool);
     void categoriesChanged();
+    //void filtersChanged();
     void searchQueryChanged();
     void noResultsHintChanged();
     void formFactorChanged();
-    void isActiveChanged();
+    void isActiveChanged(bool);
 
     // signals triggered by activate(..) or preview(..) requests.
-    void previewReady(Preview *preview);
-    void activateApplication(const QString &desktop);
     void showDash();
     void hideDash();
+    void gotoUri(const QString &uri);
+    void activated();
+    void previewRequested(QVariant const& result);
+    void gotoScope(QString const& scopeId);
+    void openScope(Scope* scope);
+
+    void activateApplication(const QString &desktop);
 
 protected:
 
@@ -119,9 +121,6 @@ protected:
     QString m_previewRendererName;
 
     Categories* m_categories;
-    DeeListModel* m_results;
-
-    QTimer m_timer;
 };
 
 #endif // FAKE_SCOPE_H

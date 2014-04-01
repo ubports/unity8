@@ -6,8 +6,6 @@
 export DPKG_GENSYMBOLS_CHECK_LEVEL=4
 export NO_PNG_PKG_MANGLE=1
 
-SCOPES_RECOMMENDS := $(shell perl debian/scopes-recommends-generator /usr/share/unity/client-scopes.json)
-
 .PHONY: build
 build %:
 	dh $@ --parallel --fail-missing --with python2,python3
@@ -41,6 +39,3 @@ override_dh_makeshlibs:
 # libMockLightDM-qml.so links against liblightdm-qt5-2.so which doesn't exist
 override_dh_shlibdeps:
 	dh_shlibdeps -XlibMockLightDM-qml.so
-
-override_dh_gencontrol:
-	dh_gencontrol -- -Vunity-default-masterscopes="$(SCOPES_RECOMMENDS)"
