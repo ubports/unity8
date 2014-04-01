@@ -80,7 +80,7 @@ Rectangle {
                 { tag: "cardTitleModel",                         model: cardTitleModel },
             ];
         }
-        
+
         function init() {
             wait(1);
         }
