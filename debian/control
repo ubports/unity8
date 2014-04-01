@@ -75,7 +75,7 @@ Architecture: any
 Provides: indicator-renderer,
 Depends: gsettings-desktop-schemas,
          libglib2.0-bin,
-         libunity-mir1 | unity-application-impl,
+         libunity-mir1,
          qmenumodel-qml (>= 0.2.7),
          qtdeclarative5-dee-plugin,
          qtdeclarative5-gsettings1.0,
@@ -86,6 +86,7 @@ Depends: gsettings-desktop-schemas,
          unity-application-impl-2,
          unity-launcher-impl-3,
          unity-notifications-impl-2,
+         unity8-fake-env | unity-application-impl,
          unity8-private (= ${binary:Version}),
          unity8-private | unity-launcher-impl,
          unity-plugin-scopes | unity-scopes-impl,
@@ -97,7 +98,8 @@ Depends: gsettings-desktop-schemas,
 Recommends: unity-scope-click,
             unity-scope-mediascanner2,
             unity-scope-scopes,
-Breaks: indicator-network (<< 0.5.1)
+Breaks: indicator-network (<< 0.5.1),
+        ubuntu-touch-session (<< 0.107),
 Replaces: ubuntu-touch-session (<< 0.82~)
 Description: Unity 8 shell
  The Unity 8 shell is the primary user interface for Ubuntu devices.
