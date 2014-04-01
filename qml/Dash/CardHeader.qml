@@ -72,6 +72,7 @@ Item {
         Loader {
             id: mascotImageLoader
             active: root.mascot
+            visible: root.mascot && !useMascotShape && item.status === Image.Ready
             anchors.verticalCenter: parent.verticalCenter
             sourceComponent: Image {
                 objectName: "mascotImage"
@@ -79,7 +80,6 @@ Item {
                 source: root.mascot
                 width: source ? mascotShapeLoader.width : 0
                 height: mascotShapeLoader.height
-                visible: !useMascotShape && status === Image.Ready
 
                 sourceSize { width: mascotShapeLoader.maxSize; height: mascotShapeLoader.maxSize }
                 fillMode: Image.PreserveAspectCrop
