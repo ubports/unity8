@@ -4,10 +4,15 @@
 # Our goal here is to get an Ubuntu Touch device into a testable unlocked state.
 # This will include a reboot.
 
-while getopts s: opt; do
+WAIT_COMMAND="sleep 20"
+
+while getopts s:w: opt; do
         case $opt in
         s)
                 export ANDROID_SERIAL=$OPTARG
+                ;;
+        w)
+                WAIT_COMMAND=$OPTARG
                 ;;
         esac
 done
@@ -26,7 +31,7 @@ helpers.unlock_unity()
 adb reboot
 sleep 5
 adb "wait-for-device"
-sleep 20
+eval "$WAIT_COMMAND"
 UNLOCK_OUTPUT=$(adb shell "sudo -u phablet -i python3 -c '$UNLOCK_SCRIPT'" 2>&1)
 if echo "$UNLOCK_OUTPUT" | grep 'Greeter unlocked' >/dev/null; then
     echo "I: Unlock passed"
