@@ -44,7 +44,7 @@ Item {
 
         property real margins: units.gu(1)
 
-        spacing: mascotShape.visible || mascotImage.visible || inOverlay ? margins : 0
+        spacing: mascotShapeLoader.active || mascotImage.visible || inOverlay ? margins : 0
         anchors {
             top: parent.top; left: parent.left; right: parent.right
             margins: margins
@@ -52,30 +52,33 @@ Item {
             rightMargin: spacing
         }
 
-        UbuntuShape {
-            id: mascotShape
-            objectName: "mascotShape"
+        Loader {
+            id: mascotShapeLoader
+            objectName: "mascotShapeLoader"
 
+            active: useMascotShape && mascotImage && mascotImage.status === Image.Ready
+            visible: active
+            anchors.verticalCenter: parent.verticalCenter
             // TODO karni: Icon aspect-ratio is 8:7.5. Revisit these values to avoid fraction of pixels.
             width: units.gu(6)
             height: units.gu(5.625)
-            anchors.verticalCenter: parent.verticalCenter
-            visible: useMascotShape && image && image.status === Image.Ready
             readonly property int maxSize: Math.max(width, height) * 4
 
-            image: useMascotShape ? mascotImage : null
+            sourceComponent: UbuntuShape {
+                image: useMascotShape ? mascotImage : null
+            }
         }
 
         Image {
             id: mascotImage
             objectName: "mascotImage"
 
-            width: source ? mascotShape.width : 0
-            height: mascotShape.height
+            width: source ? mascotShapeLoader.width : 0
+            height: mascotShapeLoader.height
             anchors.verticalCenter: parent.verticalCenter
             visible: !useMascotShape && status === Image.Ready
 
-            sourceSize { width: mascotShape.maxSize; height: mascotShape.maxSize }
+            sourceSize { width: mascotShapeLoader.maxSize; height: mascotShapeLoader.maxSize }
             fillMode: Image.PreserveAspectCrop
             horizontalAlignment: Image.AlignHCenter
             verticalAlignment: Image.AlignVCenter

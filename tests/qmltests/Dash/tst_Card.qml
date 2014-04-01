@@ -469,13 +469,13 @@ Rectangle {
         function test_mascotShape(data) {
             selector.selectedIndex = data.index;
 
-            var shape = findChild(card, "mascotShape");
+            var shape = findChild(card, "mascotShapeLoader");
             var image = findChild(card, "mascotImage");
 
             verify(shape, "Could not find shape.");
             verify(image, "Could not find image.");
 
-            tryCompare(shape, "visible", data.shape);
+            tryCompare(shape, "active", data.shape);
             tryCompare(image, "visible", !data.shape);
         }
     }
