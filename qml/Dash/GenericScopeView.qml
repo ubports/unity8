@@ -39,11 +39,8 @@ FocusScope {
     property bool enableHeightBehaviorOnNextCreation: false
     property var categoryView: categoryView
 
-    // FIXME delay the search so that daemons have time to settle, note that
-    // removing this will break ScopeView::test_changeScope
     onScopeChanged: {
         if (scope) {
-            timer.restart();
             scope.activateApplication.connect(activateApp);
         }
     }
@@ -56,12 +53,6 @@ FocusScope {
         target: scope
         property: "isActive"
         value: isCurrent && !previewListView.open
-    }
-
-    Timer {
-        id: timer
-        interval: 2000
-        onTriggered: scope.searchQuery = ""
     }
 
     SortFilterProxyModel {
