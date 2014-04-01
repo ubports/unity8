@@ -145,6 +145,7 @@ Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends},
 Depends: ${misc:Depends},
          ${shlibs:Depends},
+         libunity-core-6.0-9,
 Provides: unity-launcher-impl,
           unity-launcher-impl-3,
 Description: Unity 8 private libs
