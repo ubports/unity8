@@ -20,7 +20,7 @@
 import logging
 
 from autopilot import logging as autopilot_logging
-from autopilot.input._common import get_center_point
+from autopilot import input
 
 from unity8.shell import emulators
 from unity8.shell.emulators.greeter import Greeter
@@ -107,7 +107,7 @@ class QQuickView(emulators.UnityEmulatorBase):
         :returns: The indicator page.
         """
         widget = self._get_indicator_widget(indicator_name)
-        start_x, start_y = get_center_point(widget)
+        start_x, start_y = input.get_center_point(widget)
         end_x = start_x
         end_y = self.height
         self.pointing_device.drag(start_x, start_y, end_x, end_y)
