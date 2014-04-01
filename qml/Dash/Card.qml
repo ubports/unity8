@@ -26,6 +26,7 @@ AbstractButton {
     property real fontScale: 1.0
     property int headerAlignment: Text.AlignLeft
     readonly property int headerHeight: headerLoader.item ? headerLoader.item.height : 0
+    property int fixedHeaderHeight: -1
 
     property bool showHeader: true
 
@@ -203,6 +204,7 @@ AbstractButton {
             fontColor: inOverlay ? "white" : summary.color
             useMascotShape: !backgroundLoader.active && !inOverlay
             headerAlignment: root.headerAlignment
+            height: root.fixedHeaderHeight != -1 ? root.fixedHeaderHeight : implicitHeight
 
             Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
         }

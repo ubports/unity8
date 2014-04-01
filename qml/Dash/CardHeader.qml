@@ -36,7 +36,7 @@ Item {
     property color fontColor: Theme.palette.selected.backgroundText
 
     visible: mascotImage.status === Image.Ready || title
-    height: row.height > 0 ? row.height + row.margins * 2 : 0
+    implicitHeight: row.height > 0 ? row.height + row.margins * 2 : 0
 
     Row {
         id: row

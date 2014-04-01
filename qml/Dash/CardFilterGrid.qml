@@ -51,7 +51,7 @@ DashRenderer {
                 id: card
                 width: cardTool.cardWidth
                 height: cardTool.cardHeight
-                headerHeight: cardTool.headerHeight
+                fixedHeaderHeight: cardTool.headerHeight
                 anchors.horizontalCenter: parent.horizontalCenter
                 objectName: "delegate" + index
                 cardData: model
