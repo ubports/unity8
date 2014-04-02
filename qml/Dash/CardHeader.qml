@@ -19,7 +19,7 @@ import Ubuntu.Components 0.1
 
 Item {
     id: root
-    property var mascot
+    property url mascot: ""
     property alias title: titleLabel.text
     property var subtitle
 
@@ -35,7 +35,7 @@ Item {
     property bool useMascotShape: true
     property color fontColor: Theme.palette.selected.backgroundText
 
-    visible: mascot || title
+    visible: mascot != "" || title
     implicitHeight: row.height > 0 ? row.height + row.margins * 2 : 0
 
     Row {
@@ -71,8 +71,8 @@ Item {
 
         Loader {
             id: mascotImageLoader
-            active: root.mascot
-            visible: root.mascot && !useMascotShape && item.status === Image.Ready
+            active: root.mascot != ""
+            visible: active && !useMascotShape && item.status === Image.Ready
             anchors.verticalCenter: parent.verticalCenter
             sourceComponent: Image {
                 objectName: "mascotImage"
