@@ -174,11 +174,10 @@ class DashApps(GenericScopeView):
         category_element = self._get_category_element(category)
         application_cards = category_element.select_many('Card')
 
-        def visible_order(card):
-            """Enable sorting of cards by vertical, horizontal."""
-            # NOTE that we limit testable resolution to 10K
-            return card.globalRect[1] * 10000 + card.globalRect[0]
-        application_cards = sorted(application_cards, key=visible_order)
+        # sort by y, x
+        application_cards = sorted(
+            application_cards,
+            key=lambda card: (card.globalRect.y, card.globalRect.x))
 
         result = []
         for card in application_cards:
