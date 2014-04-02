@@ -17,9 +17,7 @@
 import QtQuick 2.0
 
 QtObject {
-    property var scopeDelegateMapping: {"applications.scope": "DashApps.qml",
-                                       "home.scope": "DashHome.qml"
-                                      }
+    property var scopeDelegateMapping: {"clickscope": "DashApps.qml"}
     property string genericScope: "GenericScopeView.qml"
 
     function map(scopeId) {

@@ -68,12 +68,9 @@ Item {
             do {
                 var dashContentList = findChild(shell, "dashContentList");
                 waitForRendering(dashContentList);
-                var homeLoader = findChild(dashContentList, "home.scope loader");
+                var homeLoader = findChild(dashContentList, "clickscope loader");
                 ok = homeLoader !== null
                     && homeLoader.item !== undefined;
-
-                var dashHome = findChild(shell, "DashHome");
-                ok &= dashHome !== null;
 
                 var greeter = findChild(shell, "greeter");
                 ok &= greeter !== null;
@@ -106,13 +103,13 @@ Item {
             // kill all (fake) running apps
             killApps(ApplicationManager);
 
-            var dashHome = findChild(shell, "DashHome");
+            var dashContent = findChild(shell, "dashContent");
+            dashContent.previewOpen = false;
+
+            var dashHome = findChild(shell, "clickscope loader");
             swipeUntilScopeViewIsReached(dashHome);
 
             hideIndicators();
-
-            var dashContent = findChild(shell, "dashContent");
-            dashContent.previewOpen = false;
         }
 
         function killApps(apps) {
@@ -120,6 +117,7 @@ Item {
             while (apps.count > 0) {
                 ApplicationManager.stopApplication(apps.get(0).appId);
             }
+            compare(ApplicationManager.count, 0)
         }
 
         /*
@@ -190,26 +188,34 @@ Item {
             tapOnAppIconInLauncher();
             waitUntilApplicationWindowIsFullyVisible();
 
-            var mainApp = ApplicationManager.focusedApplicationId;
-            verify(mainApp != "");
+            var mainAppId = ApplicationManager.focusedApplicationId;
+            verify(mainAppId != "");
+            var mainApp = ApplicationManager.findApplication(mainAppId);
+            verify(mainApp);
+            tryCompare(mainApp.state, ApplicationInfo.Running);
 
             // Try to suspend while proximity is engaged...
             Powerd.displayPowerStateChange(Powerd.Off, Powerd.UseProximity);
             tryCompare(greeter, "showProgress", 0);
 
             // Now really suspend
+            print("suspending")
             Powerd.displayPowerStateChange(Powerd.Off, 0);
+            print("done suspending")
             tryCompare(greeter, "showProgress", 1);
-            tryCompare(ApplicationManager, "focusedApplicationId", "");
+
+            tryCompare(ApplicationManager, "suspended", true);
+            compare(mainApp.state, ApplicationInfo.Suspended);
 
             // And wake up
             Powerd.displayPowerStateChange(Powerd.On, 0);
-            tryCompare(ApplicationManager, "focusedApplicationId", "");
             tryCompare(greeter, "showProgress", 1);
 
             // Swipe away greeter to focus app
             swipeAwayGreeter();
-            tryCompare(ApplicationManager, "focusedApplicationId", mainApp);
+            tryCompare(ApplicationManager, "suspended", false);
+            compare(mainApp.state, ApplicationInfo.Running);
+            tryCompare(ApplicationManager, "focusedApplicationId", mainAppId);
         }
 
         function swipeAwayGreeter() {
@@ -242,7 +248,7 @@ Item {
             tryCompare(dash, "opacity", 1.0);
 
             touchFlick(shell, touchX, touchY, shell.width * 0.1, touchY,
-                       true /* beginTouch */, false /* endTouch */);
+                       true /* beginTouch */, false /* endTouch */, units.gu(10), 50);
 
             // check that Dash has been scaled down and had its opacity reduced
             tryCompareFunction(function() { return dash.contentScale <= 0.9; }, true);
@@ -273,7 +279,7 @@ Item {
             tryCompare(dash, "opacity", 1.0);
 
             touchFlick(shell, touchX, touchY, shell.width * 0.1, touchY,
-                       true /* beginTouch */, false /* endTouch */);
+                       true /* beginTouch */, false /* endTouch */, units.gu(10), 50);
 
             // check that Dash has been scaled down and had its opacity reduced
             tryCompareFunction(function() { return dash.contentScale <= 0.9; }, true);
@@ -301,8 +307,7 @@ Item {
           - apps lens shown and Running Apps visible on screen
          */
         function test_minimizingAppTakesToRunningApps() {
-            var dashApps = findChild(shell, "DashApps");
-
+            var dashApps = findChild(shell, "clickscope");
             swipeUntilScopeViewIsReached(dashApps);
 
             // swipe finger up until the running/recent apps section (which we assume
@@ -340,7 +345,7 @@ Item {
 
             verify(itemIsOnScreen(dashApps));
 
-            var runningApplicationsGrid = findChild(appsCategoryListView, "recent");
+            var runningApplicationsGrid = findChild(appsCategoryListView, "running.apps.category");
             verify(runningApplicationsGrid);
             verify(itemIsOnScreen(runningApplicationsGrid));
         }
@@ -421,13 +426,13 @@ Item {
         }
 
         function swipeLeftFromCenter() {
-            var touchStartX = shell.width / 2;
+            var touchStartX = shell.width * 3 / 4;
             var touchStartY = shell.height / 2;
             touchFlick(shell, touchStartX, touchStartY, 0, touchStartY);
         }
 
         function swipeRightFromCenter() {
-            var touchStartX = shell.width / 2;
+            var touchStartX = shell.width * 3 / 4;
             var touchStartY = shell.height / 2;
             touchFlick(shell, touchStartX, touchStartY, shell.width, touchStartY);
         }
@@ -479,21 +484,6 @@ Item {
             ]
         }
 
-        function test_background(data) {
-            var backgroundImage = findChild(shell, "backgroundImage")
-            GSettingsController.setPictureUri(data.url)
-            tryCompareFunction(function() { return backgroundImage.source.toString().indexOf(data.expectedUrl) !== -1; }, true)
-            tryCompare(backgroundImage, "status", Image.Ready)
-        }
-
-        function test_lockscreen_background() {
-            var backgroundImage = findChild(shell, "backgroundImage")
-            var lockscreen = findChild(shell, "lockscreen")
-            var lockscreenBackground = findChild(lockscreen, "lockscreenBackground")
-            var lockscreenBackgroundMapped = lockscreenBackground.mapToItem(shell, 0, 0)
-            compare(backgroundImage.y, lockscreenBackgroundMapped.y)
-        }
-
         function test_DashShown_data() {
             return [
                 {tag: "in focus", greeter: false, app: false, launcher: false, indicators: false, expectedShown: true},
@@ -505,7 +495,6 @@ Item {
         }
 
         function test_DashShown(data) {
-
             if (data.greeter) {
                 // Swipe the greeter in
                 var greeter = findChild(shell, "greeter");

@@ -38,7 +38,8 @@ PreviewWidget {
             right: parent.right
         }
         fontSize: "large"
-        color: Theme.palette.selected.backgroundText
+        // TODO karni: Yet another fix requiring Palette update.
+        color: "grey" //Theme.palette.selected.backgroundText
         visible: text !== ""
         opacity: .8
         text: widgetData["title"] || ""
@@ -60,7 +61,8 @@ PreviewWidget {
         clip: true
         fontSize: "small"
         lineHeight: 1.2
-        color: Theme.palette.selected.backgroundText
+        // TODO karni: Yet another fix requiring Palette update.
+        color: "grey" //Theme.palette.selected.backgroundText
         opacity: .8
         text: widgetData["text"]
         wrapMode: Text.Wrap

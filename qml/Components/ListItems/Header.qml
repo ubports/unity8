@@ -36,7 +36,7 @@ Item {
             right: parent.right
             rightMargin: units.gu(0.5)
             top: parent.top
-            bottom: bottomBorder.top
+            bottom: parent.bottom
         }
 
         Label {
@@ -47,14 +47,11 @@ Item {
                 verticalCenter: parent.verticalCenter
             }
 
-            color: Theme.palette.selected.backgroundText //at 60%
-            opacity: 0.6
+            color: "grey" // TODO karni: Update Ubuntu.Compoonents.Themes.Palette.
             font.family: "Ubuntu"
             fontSize: "medium"
             elide: Text.ElideRight
             textFormat: Text.PlainText
-            style: Text.Raised
-            styleColor: "black"
             width: parent.width - image.width - image.leftMargin - anchors.leftMargin
         }
 
@@ -65,15 +62,6 @@ Item {
             anchors {
                 verticalCenter: parent.verticalCenter
             }
-        }
-    }
-
-    ThinDivider {
-        id: bottomBorder
-        anchors {
-            left: parent.left
-            right: parent.right
-            bottom: parent.bottom
         }
     }
 

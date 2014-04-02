@@ -32,6 +32,10 @@
 #include <private/qquickitem_p.h>
 #pragma GCC diagnostic pop
 
+// TODO Think on how doing a test for lost items
+// particullary making sure that lost items are culled
+// and then removed in the next updatePolish cycle
+
 class ListViewWithPageHeaderTest : public QObject
 {
     Q_OBJECT
@@ -1851,7 +1855,6 @@ private Q_SLOTS:
         scrollToBottom();
         lvwph->showHeader();
         QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());
-        QTest::qWait(100); // Make sure stuff is stable
         QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 100));
         model->setProperty(3, "size", 10);
         model->setProperty(4, "size", 10);
@@ -1885,6 +1888,26 @@ private Q_SLOTS:
 
         QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 100));
         QTRY_COMPARE(lvwph->m_visibleItems.count(), 1);
+    }
+
+    void testResizeScrolledBigItem()
+    {
+        QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 0), Q_ARG(QVariant, 6));
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 0);
+
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 10000));
+        changeContentY(8000);
+
+        // Pretend the list is busy requesting some other index
+        lvwph->m_asyncRequestedIndex = 4;
+
+        lvwph->m_visibleItems[0]->m_item->setHeight(100);
+        // This resize makes the item go outside the viewport so its deleted
+        QCOMPARE(lvwph->m_visibleItems.count(), 0);
+        QCOMPARE(lvwph->m_firstVisibleIndex, -1);
+        // On the next polish the item will be readded
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 1);
+        QTRY_COMPARE(lvwph->m_firstVisibleIndex, 0);
     }
 
 private:

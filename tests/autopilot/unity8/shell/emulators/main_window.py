@@ -42,10 +42,6 @@ class QQuickView(emulators.UnityEmulatorBase):
             objectName="greeterContentLoader"
         )
 
-    def get_greeter_background(self):
-        return self.select_single(
-            "CrossFadeImage", objectName="greeterBackground")
-
     def get_login_loader(self):
         return self.select_single("QQuickLoader", objectName="loginLoader")
 
@@ -116,4 +112,4 @@ class QQuickView(emulators.UnityEmulatorBase):
 
     def get_current_focused_app_id(self):
         """Return the id of the focused application."""
-        return self.select_single('Shell').currentFocusedAppId
+        return self.select_single('Shell').focusedApplicationId

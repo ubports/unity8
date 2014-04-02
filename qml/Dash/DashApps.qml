@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Utils 0.1
+import Unity.Application 0.1
 import "../Components"
 import "../Components/ListItems"
 import "Apps"
@@ -25,32 +26,15 @@ GenericScopeView {
     id: scopeView
     objectName: "DashApps"
 
-    // FIXME: a way to aggregate these models would be ideal
-    property var mainStageApplicationsModel: shell.applicationManager.mainStageApplications
-    property var sideStageApplicationModel: shell.applicationManager.sideStageApplications
+    property var runningApps: ApplicationManager
 
-    ListModel {
-        id: dummyVisibilityModifier
-
-        ListElement { name: "running-apps" }
-    }
-
-    SortFilterProxyModel {
-        id: runningApplicationsModel
-
-        property var firstModel: mainStageApplicationsModel
-        property var secondModel: sideStageApplicationModel
-        property bool canEnableTerminationMode: scopeView.isCurrent
-
-        model: dummyVisibilityModifier
-        filterRole: 0
-        filterRegExp: invertMatch ? ((mainStageApplicationsModel.count === 0 &&
-                                      sideStageApplicationModel.count === 0) ? RegExp("running-apps") : RegExp("")) : RegExp("disabled")
-        invertMatch: scopeView.scope.searchQuery.length == 0
+    QtObject {
+        id: countObject
+        property int count: scopeView.scope.searchQuery.length == 0 ? scopeView.runningApps.count : 0
     }
 
     onScopeChanged: {
-        scopeView.scope.categories.overrideResults("recent", runningApplicationsModel);
-        enableHeightBehaviorOnNextCreation = (mainStageApplicationsModel.count + sideStageApplicationModel.count == 0)
+        scopeView.scope.categories.addSpecialCategory("running.apps.category", i18n.tr("Recent"), "", "{ \"template\": { \"category-layout\": \"running-apps\" } }", countObject);
+        enableHeightBehaviorOnNextCreation = scopeView.runningApps.count === 0
     }
 }

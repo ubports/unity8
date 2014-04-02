@@ -137,7 +137,7 @@ Item {
         anchors.top: row.bottom
         visible: indicatorRow.currentItem != null
 
-        property real intendedX: row.x + (indicatorRow.currentItem != null ? indicatorRow.currentItem.x + centerOffset : 0)
+        property real intendedX: row.x + (indicatorRow.currentItem != null ? (indicatorRow.currentItem.x - row.originX) + centerOffset : 0)
         x: intendedX >= row.x ? (intendedX + width <= row.x + row.width ? intendedX : row.x + row.width - width) : row.x // listview boundaries
         width: indicatorRow.currentItem != null ? indicatorRow.currentItem.width : 0
 

@@ -61,7 +61,7 @@ Item {
             height: units.gu(5.625)
             anchors.verticalCenter: parent.verticalCenter
             visible: useMascotShape && image && image.status === Image.Ready
-            readonly property int maxSize: Math.max(width, height)
+            readonly property int maxSize: Math.max(width, height) * 4
 
             image: useMascotShape ? mascotImage : null
         }
@@ -84,7 +84,7 @@ Item {
         Column {
             objectName: "column"
             width: parent.width - x
-            spacing: units.gu(0.25)
+            spacing: units.dp(2)
             anchors.verticalCenter: parent.verticalCenter
 
             Label {

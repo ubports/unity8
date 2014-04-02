@@ -22,6 +22,10 @@ Item {
     objectName: "volumeControl"
     visible: false
 
+    // TODO Work around http://pad.lv/1293478 until qmenumodel knows to cast
+    readonly property int stepUp: 1
+    readonly property int stepDown: -1
+
     QDBusActionGroup {
         id: actionGroup
         busType: 1
@@ -32,11 +36,11 @@ Item {
     }
 
     function volumeUp() {
-        actionGroup.actionObject.activate(1);
+        actionGroup.actionObject.activate(stepUp);
     }
 
     function volumeDown() {
-        actionGroup.actionObject.activate(-1);
+        actionGroup.actionObject.activate(stepDown);
     }
 
     Component.onCompleted: actionGroup.start()

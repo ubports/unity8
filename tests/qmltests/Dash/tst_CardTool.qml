@@ -257,7 +257,7 @@ Rectangle {
         id: testCase
         name: "Card"
 
-        property Card internalCard: findChild(cardTool, "card")
+        property Card internalCard: findChild(cardTool, "cardToolCard")
 
         when: windowShown
 

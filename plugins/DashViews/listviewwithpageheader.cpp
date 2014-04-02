@@ -367,6 +367,18 @@ void ListViewWithPageHeader::positionAtBeginning()
         m_previousContentY = m_visibleItems.first()->y() - headerHeight;
     }
     setContentY(m_visibleItems.first()->y() + m_clipItem->y() - headerHeight);
+    if (m_headerItem) {
+        // TODO This should not be needed and the code that adjust the m_headerItem position
+        // in viewportMoved() should be enough but in some cases we have not found a way to reproduce
+        // yet the code of viewportMoved() fails so here we make sure that at least if we are calling
+        // positionAtBeginning the header item will be correctly positioned
+        m_headerItem->setY(-m_minYExtent);
+    }
+}
+
+static inline bool uFuzzyCompare(qreal r1, qreal r2)
+{
+    return qFuzzyCompare(r1, r2) || (qFuzzyIsNull(r1) && qFuzzyIsNull(r2));
 }
 
 void ListViewWithPageHeader::showHeader()
@@ -374,8 +386,8 @@ void ListViewWithPageHeader::showHeader()
     if (!m_headerItem)
         return;
 
-    auto to = qMax(-minYExtent(), contentY() - m_headerItem->height() + m_headerItemShownHeight);
-    if (to != contentY()) {
+    const auto to = qMax(-minYExtent(), contentY() - m_headerItem->height() + m_headerItemShownHeight);
+    if (!uFuzzyCompare(to, contentY())) {
         const bool headerShownByItsOwn = contentY() < m_headerItem->y() + m_headerItem->height();
         if (headerShownByItsOwn && m_headerItemShownHeight == 0) {
             // We are not clipping since we are just at the top of the viewport
@@ -476,11 +488,6 @@ void ListViewWithPageHeader::componentComplete()
     QQuickFlickable::componentComplete();
 
     polish();
-}
-
-static inline bool uFuzzyCompare(qreal r1, qreal r2)
-{
-    return qFuzzyCompare(r1, r2) || (qFuzzyIsNull(r1) && qFuzzyIsNull(r2));
 }
 
 void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
@@ -772,6 +779,9 @@ bool ListViewWithPageHeader::removeNonVisibleItems(qreal bufferFrom, qreal buffe
             ++i;
         }
     }
+    if (!foundVisible) {
+        m_firstVisibleIndex = -1;
+    }
     if (m_firstVisibleIndex != oldFirstVisibleIndex) {
         adjustMinYExtent();
     }
@@ -837,6 +847,7 @@ ListViewWithPageHeader::ListItem *ListViewWithPageHeader::createItem(int modelIn
             }
         }
         if (lostItem) {
+            listItem->setCulled(true);
             releaseItem(listItem);
             listItem = nullptr;
         } else {
@@ -1086,7 +1097,7 @@ void ListViewWithPageHeader::itemGeometryChanged(QQuickItem * /*item*/, const QR
 {
     const qreal heightDiff = newGeometry.height() - oldGeometry.height();
     if (heightDiff != 0) {
-        if (oldGeometry.y() + oldGeometry.height() + m_clipItem->y() <= contentY() && !m_visibleItems.isEmpty()) {
+        if (!m_inContentHeightKeepHeaderShown && oldGeometry.y() + oldGeometry.height() + m_clipItem->y() <= contentY() && !m_visibleItems.isEmpty()) {
             ListItem *firstItem = m_visibleItems.first();
             firstItem->setY(firstItem->y() - heightDiff);
             adjustMinYExtent();
@@ -1282,11 +1293,6 @@ void ListViewWithPageHeader::updatePolish()
     refill();
 
     if (m_contentHeightDirty) {
-        // We need to make sure all bindings have updated otherwise
-        // we may end up with bindings updating when we call setContentHeight
-        // and then everything gets out of sync, i.e. testHeaderPositionBug1240118
-        QCoreApplication::instance()->processEvents();
-
         qreal contentHeight;
         if (m_visibleItems.isEmpty()) {
             contentHeight = m_headerItem ? m_headerItem->height() : 0;

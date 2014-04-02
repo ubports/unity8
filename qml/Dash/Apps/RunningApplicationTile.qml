@@ -23,7 +23,6 @@ import "../../Components/ListItems"
 AbstractButton {
     id: root
     property var application
-    property bool __sideStageEnabled: shell.applicationManager.sideStageEnabled
 
     signal requestedApplicationActivation(var application)
     signal requestedApplicationTermination(var application)
@@ -34,7 +33,7 @@ AbstractButton {
     // To avoid "binding loop" warning
     height: shapedApplicationImage.height + labelContainer.height
 
-    width: shapedApplicationImage.width
+    width: shapedApplicationImage.width <= units.gu(11) ? units.gu(11) : height
 
     property bool terminationModeEnabled: false
 
@@ -51,32 +50,23 @@ AbstractButton {
         }
     }
 
-    function updateScreenshotFromCache() {
-        applicationImage.updateFromCache();
-    }
-
-    // FIXME: should use UbuntuShape from SDK
-    UbuntuShapeForItem {
+    UbuntuShape {
         id: shapedApplicationImage
-        anchors {
-            top: parent.top
-            horizontalCenter: parent.horizontalCenter
+        anchors { top: parent.top; horizontalCenter: parent.horizontalCenter }
+
+        height: units.gu(17)
+        width: applicationImage.width
+        radius: "medium"
+
+        image: Image {
+            id: applicationImage
+            source: application.screenshot
+            // height : width = ss.height : ss.width
+            height: shapedApplicationImage.height
+            fillMode: Image.PreserveAspectCrop
+            width: Math.min(height, height * sourceSize.width / sourceSize.height)
         }
 
-        // FIXME: width and height should be defined according to the
-        // application window's aspect ratio.
-        width: (application.stage === ApplicationInfo.MainStage && __sideStageEnabled) ?
-            units.gu(22) : units.gu(11)
-        height: (__sideStageEnabled) ? units.gu(22) : units.gu(19)
-        radius: "medium"
-        image: applicationImage
-    }
-
-    ApplicationImage {
-        id: applicationImage
-        source: ApplicationManager.findApplication((application) ? application.appId : "")
-        width: shapedApplicationImage.width
-        height: shapedApplicationImage.height
     }
 
     UbuntuShape {
@@ -108,10 +98,9 @@ AbstractButton {
             }
             text: (application) ? application.name : ""
 
-            color: Theme.palette.selected.backgroundText
+            // TODO karni: Update Ubuntu.Components.Themes.Palette and use theme color instead
+            color: "grey"
             opacity: 0.9
-            style: Text.Raised
-            styleColor: "black"
             fontSize: "small"
             elide: Text.ElideMiddle
             horizontalAlignment: Text.AlignHCenter

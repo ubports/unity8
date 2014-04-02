@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013, 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import Unity 0.1
+import Unity 0.2
 import Utils 0.1
 import "../Components"
 
@@ -27,9 +27,9 @@ Showable {
     visible: shown
 
     property ListModel searchHistory: SearchHistoryModel {}
-    property bool searchable: !dashContent.previewOpen
+    property bool searchable: !dashContent.previewOpen && !scopeItem.previewOpen
 
-    property string showScopeOnLoaded: "home.scope"
+    property string showScopeOnLoaded: "clickscope"
     property real contentScale: 1.0
 
     function setCurrentScope(scopeId, animate, reset) {
@@ -40,12 +40,22 @@ Showable {
             return
         }
 
+        closeOverlayScope();
+
+        dashContent.closePreview();
+
         if (scopeIndex == dashContent.currentIndex && !reset) {
             // the scope is already the current one
             return
         }
 
         dashContent.setCurrentScopeAtIndex(scopeIndex, animate, reset)
+    }
+
+    function closeOverlayScope() {
+        if (dashContent.x != 0) {
+            dashContent.x = 0;
+        }
     }
 
     SortFilterProxyModel {
@@ -62,10 +72,19 @@ Showable {
     DashContent {
         id: dashContent
         objectName: "dashContent"
-        anchors.fill: parent
+        width: parent.width
+        height: parent.height
         model: filteredScopes
         scopes: scopes
         searchHistory: dash.searchHistory
+        visible: x != -width
+        onGotoScope: {
+            dash.setCurrentScope(scopeId, true, false);
+        }
+        onOpenScope: {
+            scopeItem.scope = scope;
+            x = -width;
+        }
         onScopeLoaded: {
             if (scopeId == dash.showScopeOnLoaded) {
                 dash.setCurrentScope(scopeId, false, false)
@@ -73,6 +92,39 @@ Showable {
             }
         }
         scale: dash.contentScale
+        clip: scale != 1.0 || scopeItem.visible
+        Behavior on x {
+            UbuntuNumberAnimation {
+                onRunningChanged: {
+                    if (!running && dashContent.x == 0) {
+                        dashContent.closeScope(scopeItem.scope);
+                        scopeItem.scope = null;
+                    }
+                }
+            }
+        }
+    }
+
+    ScopeItem {
+        id: scopeItem
+        anchors.left: dashContent.right
+        width: parent.width
+        height: parent.height
+        searchHistory: dash.searchHistory
+        scale: dash.contentScale
         clip: scale != 1.0
+        visible: scope != null
+        onBack: {
+            closeOverlayScope();
+        }
+        onGotoScope: {
+            // TODO
+            console.log("gotoScope from an openScope scope is not implemented");
+        }
+        onOpenScope: {
+            // TODO
+            console.log("openScope from an openScope scope is not implemented");
+        }
+
     }
 }

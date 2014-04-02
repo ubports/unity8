@@ -17,20 +17,20 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Utils 0.1
-import Unity 0.1
+import Unity 0.2
+import Unity.Application 0.1
 import "../Components"
 import "../Components/ListItems" as ListItems
 
 FocusScope {
     id: scopeView
 
-    property Scope scope
+    property Scope scope: null
     property SortFilterProxyModel categories: categoryFilter
-    property bool isCurrent
+    property bool isCurrent: false
     property alias moving: categoryView.moving
     property int tabBarHeight: 0
     property PageHeader pageHeader: null
-    property OpenEffect openEffect: null
     property Item previewListView: null
 
     signal movementStarted
@@ -39,11 +39,8 @@ FocusScope {
     property bool enableHeightBehaviorOnNextCreation: false
     property var categoryView: categoryView
 
-    // FIXME delay the search so that daemons have time to settle, note that
-    // removing this will break ScopeView::test_changeScope
     onScopeChanged: {
         if (scope) {
-            timer.restart();
             scope.activateApplication.connect(activateApp);
         }
     }
@@ -55,13 +52,7 @@ FocusScope {
     Binding {
         target: scope
         property: "isActive"
-        value: isCurrent && !previewListView.onScreen
-    }
-
-    Timer {
-        id: timer
-        interval: 2000
-        onTriggered: scope.searchQuery = ""
+        value: isCurrent && !previewListView.open
     }
 
     SortFilterProxyModel {
@@ -92,7 +83,7 @@ FocusScope {
     Binding {
         target: pageHeader
         property: "searchQuery"
-        value: scopeView.scope.searchQuery
+        value: scopeView.scope ? scopeView.scope.searchQuery : ""
         when: isCurrent
     }
 
@@ -115,29 +106,33 @@ FocusScope {
         objectName: "categoryListView"
         anchors.fill: parent
         model: scopeView.categories
-        forceNoClip: previewListView.onScreen
+        forceNoClip: previewListView.open
 
         property string expandedCategoryId: ""
-        signal correctExpandedCategory();
 
         onContentYChanged: pageHeader.positionRealHeader();
         onOriginYChanged: pageHeader.positionRealHeader();
         onContentHeightChanged: pageHeader.positionRealHeader();
 
-        Behavior on contentY {
-            enabled: previewListView.open
-            UbuntuNumberAnimation {}
-        }
-
         delegate: ListItems.Base {
             id: baseItem
             objectName: "dashCategory" + category
             highlightWhenPressed: false
+            showDivider: false
 
             readonly property bool expandable: rendererLoader.item ? rendererLoader.item.expandable : false
             readonly property bool filtered: rendererLoader.item ? rendererLoader.item.filter : true
             readonly property string category: categoryId
             readonly property var item: rendererLoader.item
+
+            CardTool {
+                id: cardTool
+
+                count: results.count
+                template: model.renderer
+                components: model.components
+                viewWidth: parent.width
+            }
 
             Loader {
                 id: rendererLoader
@@ -147,7 +142,14 @@ FocusScope {
                     right: parent.right
                 }
 
-                source: getRenderer(model.renderer, model.contentType, model.rendererHint, results)
+                source: {
+                    switch (cardTool.categoryLayout) {
+                        case "carousel": return "CardCarousel.qml";
+                        case "running-apps": return "Apps/RunningApplicationsGrid.qml";
+                        case "grid":
+                        default: return "CardFilterGrid.qml";
+                    }
+                }
 
                 onLoaded: {
                     if (item.enableHeightBehavior !== undefined && item.enableHeightBehaviorOnNextCreation !== undefined) {
@@ -155,9 +157,9 @@ FocusScope {
                         scopeView.enableHeightBehaviorOnNextCreation = false;
                     }
                     if (source.toString().indexOf("Apps/RunningApplicationsGrid.qml") != -1) {
-                        // TODO: the running apps grid doesn't support standard scope results model yet
-                        item.firstModel = Qt.binding(function() { return results.firstModel })
-                        item.secondModel = Qt.binding(function() { return results.secondModel })
+                        // TODO: this is still a kludge :D Ideally add some kind of hook so that we
+                        // can do this from DashApps.qml or think a better way that needs no special casing
+                        item.model = Qt.binding(function() { return runningApps; })
                         item.canEnableTerminationMode = Qt.binding(function() { return scopeView.isCurrent })
                     } else {
                         item.model = Qt.binding(function() { return results })
@@ -170,6 +172,7 @@ FocusScope {
                         }
                     }
                     updateDelegateCreationRange();
+                    item.cardTool = cardTool;
                 }
 
                 Component.onDestruction: {
@@ -181,47 +184,29 @@ FocusScope {
                 Connections {
                     target: rendererLoader.item
                     onClicked: {
-                        // Prepare the preview in case activate() triggers a preview only
-                        openEffect.positionPx = Math.max(mapToItem(categoryView, 0, itemY).y, pageHeader.height + categoryView.stickyHeaderHeight);
-                        previewListView.categoryId = categoryId
-                        previewListView.categoryDelegate = rendererLoader.item
-                        previewListView.model = target.model;
-                        previewListView.init = true;
-                        previewListView.currentIndex = index;
-
-                        var item = target.model.get(index);
-
-                        if ((scopeView.scope.id == "applications.scope" && categoryId == "installed")
-                                || (scopeView.scope.id == "home.scope" && categoryId == "applications.scope")) {
-                            scopeView.scope.activate(item.uri, item.icon, item.category, 0, item.mimetype, item.title,
-                                                     item.comment, item.dndUri, item.metadata)
+                        if (scopeView.scope.id === "scopes" || (scopeView.scope.id == "clickscope" && categoryId == "local")) {
+                            // TODO Technically it is possible that calling activate() will make the scope emit
+                            // previewRequested so that we show a preview but there's no scope that does that yet
+                            // so it's not implemented
+                            var item = target.model.get(index);
+                            scopeView.scope.activate(item.result)
                         } else {
+                            previewListView.model = target.model;
+                            previewListView.currentIndex = -1
+                            previewListView.currentIndex = index;
                             previewListView.open = true
-
-                            scopeView.scope.preview(item.uri, item.icon, item.category, 0, item.mimetype, item.title,
-                                                    item.comment, item.dndUri, item.metadata)
                         }
                     }
                     onPressAndHold: {
-                        openEffect.positionPx = Math.max(mapToItem(categoryView, 0, itemY).y, pageHeader.height + categoryView.stickyHeaderHeight);
-                        previewListView.categoryId = categoryId
-                        previewListView.categoryDelegate = rendererLoader.item
                         previewListView.model = target.model;
-                        previewListView.init = true;
+                        previewListView.currentIndex = -1
                         previewListView.currentIndex = index;
                         previewListView.open = true
-
-                        var item = target.model.get(index)
-                        scopeView.scope.preview(item.uri, item.icon, item.category, 0, item.mimetype, item.title,
-                                                item.comment, item.dndUri, item.metadata)
                     }
                 }
                 Connections {
                     target: categoryView
                     onExpandedCategoryIdChanged: {
-                        collapseAllButExpandedCategory();
-                    }
-                    onCorrectExpandedCategory: {
                         collapseAllButExpandedCategory();
                     }
                     function collapseAllButExpandedCategory() {
@@ -275,6 +260,31 @@ FocusScope {
                         }
                     }
                 }
+
+                Image {
+                    visible: index != 0
+                    anchors {
+                        top: parent.top
+                        left: parent.left
+                        right: parent.right
+                    }
+                    fillMode: Image.Stretch
+                    source: "graphics/dash_divider_top_lightgrad.png"
+                    z: -1
+                }
+
+                Image {
+                    // FIXME Should not rely on model.count but view.count, but ListViewWithPageHeader doesn't expose it yet.
+                    visible: index != categoryView.model.count - 1
+                    anchors {
+                        bottom: parent.bottom
+                        left: parent.left
+                        right: parent.right
+                    }
+                    fillMode: Image.Stretch
+                    source: "graphics/dash_divider_top_darkgrad.png"
+                    z: -1
+                }
             }
 
             onHeightChanged: rendererLoader.updateDelegateCreationRange();
@@ -302,95 +312,17 @@ FocusScope {
         pageHeader: Item {
             implicitHeight: scopeView.tabBarHeight
             onHeightChanged: {
-                if (scopeView.pageHeader) {
+                if (scopeView.pageHeader && scopeView.isCurrent) {
                     scopeView.pageHeader.height = height;
                 }
             }
             onYChanged: positionRealHeader();
 
             function positionRealHeader() {
-                if (scopeView.pageHeader) {
+                if (scopeView.pageHeader && scopeView.isCurrent) {
                     scopeView.pageHeader.y = y + parent.y;
                 }
             }
-        }
-    }
-
-    function getDefaultRendererId(contentType) {
-        switch (contentType) {
-            default: return "grid";
-        }
-    }
-
-    function getRenderer(rendererId, contentType, rendererHint, results) {
-        if (rendererId == "default") {
-            rendererId = getDefaultRendererId(contentType);
-        }
-        if (rendererId == "carousel") {
-            // Selectively disable carousel, 6 is fixed for now, should change on the form factor
-            if (results.count <= 6)
-                rendererId = "grid"
-        }
-        switch (rendererId) {
-            case "carousel": {
-                switch (contentType) {
-                    case "music": return "Music/MusicCarousel.qml";
-                    case "video": return "Video/VideoCarousel.qml";
-                    default: return "Generic/GenericCarousel.qml";
-                }
-            }
-            case "grid": {
-                switch (contentType) {
-                    case "apps": {
-                        if (rendererHint == "toggled")
-                            return "Apps/DashPluginFilterGrid.qml";
-                        else
-                            return "Generic/GenericFilterGrid.qml";
-                    }
-                    case "music": return "Music/MusicFilterGrid.qml";
-                    case "video": return "Video/VideoFilterGrid.qml";
-                    case "weather": return "Generic/WeatherFilterGrid.qml";
-                    default: return "Generic/GenericFilterGrid.qml";
-                }
-            }
-            case "special": {
-                switch (contentType) {
-                    case "apps": return "Apps/RunningApplicationsGrid.qml";
-                    default: return "Generic/GenericFilterGrid.qml";
-                }
-            }
-            default: return "Generic/GenericFilterGrid.qml";
-        }
-    }
-
-    Connections {
-        target: scopeView.scope
-        onPreviewReady: {
-            if (previewListView.init) {
-                // Preview was triggered because of a click on the item. Need to expand now.
-                if (!previewListView.open) {
-                    previewListView.open = true
-                }
-
-                var index = previewListView.currentIndex
-                previewListView.currentIndex = -1
-                previewListView.currentIndex = index
-                previewListView.init = false
-            }
-            previewListView.currentItem.previewData = preview
-        }
-    }
-
-    // TODO: Move as InverseMouseArea to DashPreview
-    MouseArea {
-        objectName: "closePreviewMouseArea"
-        enabled: previewListView.onScreen
-        anchors {
-            fill: parent
-            topMargin: openEffect.bottomGapPx
-        }
-        onClicked: {
-            previewListView.open = false;
         }
     }
 }

@@ -12,9 +12,6 @@ set(qmltest_DEFAULT_TARGETS qmlunittests)
 set(qmltest_DEFAULT_NO_ADD_TEST FALSE)
 set(qmltest_DEFAULT_PROPERTIES ENVIRONMENT "QT_QPA_PLATFORM=minimal")
 add_qml_test(Components AnimationControllerWithSignals)
-add_qml_test(Components Carousel)
-add_qml_test(Components OpenEffect)
-add_qml_test(Components RatingStars)
 add_qml_test(Panel IndicatorItem)
 add_qml_test(utils/Unity/Test UnityTest)
 
@@ -24,6 +21,7 @@ set(qmltest_DEFAULT_PROPERTIES "")
 
 add_qml_test(. Shell IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/tests/mocks
                      ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/LightDM/single")
+add_qml_test(Components Carousel)
 add_qml_test(Components DraggingArea)
 add_qml_test(Components EdgeDemoOverlay)
 add_qml_test(Components FilterGrid IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/plugins)
@@ -37,24 +35,16 @@ add_qml_test(Components Showable)
 add_qml_test(Components Stage IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS}
                                            ${CMAKE_BINARY_DIR}/tests/mocks
                                            ${CMAKE_BINARY_DIR}/plugins)
-add_qml_test(Components Tile)
 add_qml_test(Components PageHeaderLabel)
 add_qml_test(Dash Dash IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
 add_qml_test(Dash DashContent IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
-add_qml_test(Dash DashPreview)
-add_qml_test(Dash GenericPreview)
 add_qml_test(Dash Card)
 add_qml_test(Dash CardHeader)
 add_qml_test(Dash CardTool)
 add_qml_test(Dash GenericScopeView IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
-add_qml_test(Dash FilterGrids IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/plugins ${CMAKE_CURRENT_SOURCE_DIR}/plugins
-                                           ${CMAKE_BINARY_DIR}/tests/mocks)
 add_qml_test(Dash/Apps RunningApplicationsGrid IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS}
                                                             ${CMAKE_BINARY_DIR}/tests/mocks
                                                             ${CMAKE_BINARY_DIR}/plugins)
-add_qml_test(Dash/Apps AppPreview IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/tests/mocks)
-add_qml_test(Dash/Movie MoviePreview IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/tests/mocks)
-add_qml_test(Dash/Music MusicPreview IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/tests/mocks)
 add_qml_test(Dash/Previews Preview IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/tests/mocks)
 add_qml_test(Dash/Previews PreviewActions IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/tests/mocks)
 add_qml_test(Dash/Previews PreviewAudioPlayback IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/tests/mocks)
@@ -81,6 +71,7 @@ add_qml_test(Hud Hud)
 add_qml_test(Hud Result)
 add_qml_test(Launcher Launcher IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
 add_qml_test(Notifications Notifications IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/plugins)
+add_qml_test(Notifications VisualSnapDecisionsQueue IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/plugins)
 add_qml_test(Panel IndicatorRow)
 add_qml_test(Panel Indicators IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
 add_qml_test(Panel MenuContent IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
@@ -92,6 +83,6 @@ add_qml_test(Panel/Indicators DefaultIndicatorPage IMPORT_PATHS ${CMAKE_BINARY_D
                                                   ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel")
 add_qml_test(Panel/Indicators MenuItemFactory IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/plugins)
 add_qml_test(Panel/Indicators MessageMenuItemFactory IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/plugins)
-add_qml_test(SideStage SideStage IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS}
+add_qml_test(Stages PhoneStage IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS}
                                               ${CMAKE_BINARY_DIR}/tests/mocks
                                               ${CMAKE_BINARY_DIR}/plugins)
