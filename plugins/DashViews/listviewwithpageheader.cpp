@@ -1097,7 +1097,7 @@ void ListViewWithPageHeader::itemGeometryChanged(QQuickItem * /*item*/, const QR
 {
     const qreal heightDiff = newGeometry.height() - oldGeometry.height();
     if (heightDiff != 0) {
-        if (oldGeometry.y() + oldGeometry.height() + m_clipItem->y() <= contentY() && !m_visibleItems.isEmpty()) {
+        if (!m_inContentHeightKeepHeaderShown && oldGeometry.y() + oldGeometry.height() + m_clipItem->y() <= contentY() && !m_visibleItems.isEmpty()) {
             ListItem *firstItem = m_visibleItems.first();
             firstItem->setY(firstItem->y() - heightDiff);
             adjustMinYExtent();
@@ -1293,11 +1293,6 @@ void ListViewWithPageHeader::updatePolish()
     refill();
 
     if (m_contentHeightDirty) {
-        // We need to make sure all bindings have updated otherwise
-        // we may end up with bindings updating when we call setContentHeight
-        // and then everything gets out of sync, i.e. testHeaderPositionBug1240118
-        QCoreApplication::instance()->processEvents();
-
         qreal contentHeight;
         if (m_visibleItems.isEmpty()) {
             contentHeight = m_headerItem ? m_headerItem->height() : 0;
