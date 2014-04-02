@@ -18,6 +18,7 @@ import QtQuick 2.0
 import "../../Components"
 
 import Ubuntu.Gestures 0.1
+import Unity.Application 0.1
 
 ResponsiveFlowView {
     id: root
@@ -25,13 +26,7 @@ ResponsiveFlowView {
 
     signal updateScreenshots
     property alias enableHeightBehavior: heightBehaviour.enabled
-    property bool enableHeightBehaviorOnNextCreation: firstModel.count + secondModel.count == 0
-
-    Connections {
-        target: shell
-        onDashShownChanged: if (shell.dashShown && shell.stageScreenshotsReady) updateScreenshots();
-        onStageScreenshotsReadyChanged: if (shell.dashShown && shell.stageScreenshotsReady) updateScreenshots();
-    }
+    property bool enableHeightBehaviorOnNextCreation: model.count === 0
 
     Behavior on height {
         id: heightBehaviour
@@ -40,13 +35,7 @@ ResponsiveFlowView {
     }
 
     Connections {
-        target: root.firstModel
-        onCountChanged: {
-            heightBehaviour.enabled = true;
-        }
-    }
-    Connections {
-        target: root.secondModel
+        target: root.model
         onCountChanged: {
             heightBehaviour.enabled = true;
         }
@@ -85,17 +74,13 @@ ResponsiveFlowView {
                     root.terminationModeEnabled = true
             }
             onRequestedApplicationTermination: {
-                shell.applicationManager.stopApplication(model.appId)
+                ApplicationManager.stopApplication(model.appId)
             }
             onRequestedApplicationActivation: {
-                shell.activateApplication(model.appId)
+                ApplicationManager.requestFocusApplication(model.appId)
             }
 
             terminationModeEnabled: root.terminationModeEnabled
-
-            Component.onCompleted: {
-                root.updateScreenshots.connect(updateScreenshotFromCache);
-            }
         }
     }
 

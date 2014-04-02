@@ -261,77 +261,83 @@ Item {
                                                                      listView.gapToEndPhase,
                                                                      listView.translationXViewFactor)
 
-        delegate: Loader {
-            property bool explicitlyScaled: explicitScaleFactor == carousel.selectedItemScaleFactor
-            property real explicitScaleFactor: explicitScale ? carousel.selectedItemScaleFactor : 1.0
-            readonly property bool explicitScale: (!listView.moving ||
-                                                   listView.realContentX <= 0 ||
-                                                   listView.realContentX >= listView.realContentWidth - listView.realWidth) &&
-                                                  listView.newContentX === listView.disabledNewContentX &&
-                                                  index === listView.selectedIndex
-            readonly property real cachedTiles: listView.realPathItemCount + carousel.drawBuffer / listView.tileWidth
-            readonly property real distance: listView.continuousIndex - index
-            readonly property real itemTranslationScale: CarouselJS.getItemScale(0.5,
-                                                                                 (index + 0.5), // good approximation of scale while changing selected item
-                                                                                 listView.count,
-                                                                                 listView.visibleTilesScaleFactor)
-            readonly property real itemScale: CarouselJS.getItemScale(distance,
-                                                                      listView.continuousIndex,
-                                                                      listView.count,
-                                                                      listView.visibleTilesScaleFactor)
-            readonly property real translationX: CarouselJS.getItemTranslation(index,
-                                                                               listView.selectedIndex,
-                                                                               distance,
-                                                                               itemScale,
-                                                                               itemTranslationScale,
-                                                                               listView.maximumItemTranslation)
+        delegate: tileWidth > 0 && tileHeight > 0 ? loaderComponent : undefined
 
-            readonly property real xTransform: listView.viewTranslation + translationX * listView.scaleFactor
-            readonly property real center: x - listView.contentX + xTransform - drawBuffer + (width/2)
+        Component {
+            id: loaderComponent
 
-            width: listView.tileWidth
-            height: listView.tileHeight
-            scale: itemScale * explicitScaleFactor
-            sourceComponent: itemComponent
-            z: cachedTiles - Math.abs(index - listView.selectedIndex)
+            Loader {
+                property bool explicitlyScaled: explicitScaleFactor == carousel.selectedItemScaleFactor
+                property real explicitScaleFactor: explicitScale ? carousel.selectedItemScaleFactor : 1.0
+                readonly property bool explicitScale: (!listView.moving ||
+                                                    listView.realContentX <= 0 ||
+                                                    listView.realContentX >= listView.realContentWidth - listView.realWidth) &&
+                                                    listView.newContentX === listView.disabledNewContentX &&
+                                                    index === listView.selectedIndex
+                readonly property real cachedTiles: listView.realPathItemCount + carousel.drawBuffer / listView.tileWidth
+                readonly property real distance: listView.continuousIndex - index
+                readonly property real itemTranslationScale: CarouselJS.getItemScale(0.5,
+                                                                                    (index + 0.5), // good approximation of scale while changing selected item
+                                                                                    listView.count,
+                                                                                    listView.visibleTilesScaleFactor)
+                readonly property real itemScale: CarouselJS.getItemScale(distance,
+                                                                        listView.continuousIndex,
+                                                                        listView.count,
+                                                                        listView.visibleTilesScaleFactor)
+                readonly property real translationX: CarouselJS.getItemTranslation(index,
+                                                                                listView.selectedIndex,
+                                                                                distance,
+                                                                                itemScale,
+                                                                                itemTranslationScale,
+                                                                                listView.maximumItemTranslation)
 
-            transform: Translate {
-                x: xTransform
-            }
+                readonly property real xTransform: listView.viewTranslation + translationX * listView.scaleFactor
+                readonly property real center: x - listView.contentX + xTransform - drawBuffer + (width/2)
 
-            Behavior on explicitScaleFactor {
-                SequentialAnimation {
-                    ScriptAction {
-                        script: if (!explicitScale)
-                                    explicitlyScaled = false
-                    }
-                    NumberAnimation {
-                        duration: explicitScaleFactor === 1.0 ? 250 : 150
-                        easing.type: Easing.InOutQuad
-                    }
-                    ScriptAction {
-                        script: if (explicitScale)
-                                    explicitlyScaled = true
-                    }
-                }
-            }
+                width: listView.tileWidth
+                height: listView.tileHeight
+                scale: itemScale * explicitScaleFactor
+                sourceComponent: itemComponent
+                z: cachedTiles - Math.abs(index - listView.selectedIndex)
 
-            onLoaded: {
-                item.explicitlyScaled = Qt.binding(function() { return explicitlyScaled; })
-                item.model = Qt.binding(function() { return model; })
-            }
-
-            MouseArea {
-                id: mouseArea
-
-                anchors.fill: parent
-
-                onClicked: {
-                    listView.itemClicked(index, item)
+                transform: Translate {
+                    x: xTransform
                 }
 
-                onPressAndHold: {
-                    listView.itemPressAndHold(index, item)
+                Behavior on explicitScaleFactor {
+                    SequentialAnimation {
+                        ScriptAction {
+                            script: if (!explicitScale)
+                                        explicitlyScaled = false
+                        }
+                        NumberAnimation {
+                            duration: explicitScaleFactor === 1.0 ? 250 : 150
+                            easing.type: Easing.InOutQuad
+                        }
+                        ScriptAction {
+                            script: if (explicitScale)
+                                        explicitlyScaled = true
+                        }
+                    }
+                }
+
+                onLoaded: {
+                    item.explicitlyScaled = Qt.binding(function() { return explicitlyScaled; })
+                    item.model = Qt.binding(function() { return model; })
+                }
+
+                MouseArea {
+                    id: mouseArea
+
+                    anchors.fill: parent
+
+                    onClicked: {
+                        listView.itemClicked(index, item)
+                    }
+
+                    onPressAndHold: {
+                        listView.itemPressAndHold(index, item)
+                    }
                 }
             }
         }
