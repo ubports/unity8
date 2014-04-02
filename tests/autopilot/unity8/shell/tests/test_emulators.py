@@ -174,14 +174,10 @@ class DashAppsEmulatorTestCase(DashBaseTestCase):
             :expected_apps_count]
 
         applications = self.applications_scope.get_applications(category)
-        applications_titles = []
-        for application in applications:
-            cardHeader = application.select_single('CardHeader')
-            applications_titles.append(cardHeader.title)
 
         self.assertThat(applications, HasLength(expected_apps_count))
         for expected in expected_applications:
-            self.assertThat(applications_titles, Contains(expected))
+            self.assertThat(applications, Contains(expected))
 
     def test_get_applications_list_matches_visible_ordering(self):
         category = '2'
@@ -190,9 +186,8 @@ class DashAppsEmulatorTestCase(DashBaseTestCase):
             :expected_apps_count]
         applications = self.applications_scope.get_applications(category)
         for card_num in range(len(applications)):
-            card_header = applications[card_num].select_single('CardHeader')
             self.assertEqual(expected_application_titles[card_num],
-                             card_header.title)
+                             applications[card_num])
 
     def _get_number_of_application_slots(self, category):
         category_element = self.applications_scope._get_category_element(
