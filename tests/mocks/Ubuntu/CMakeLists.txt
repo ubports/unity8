@@ -1,1 +1,2 @@
 add_subdirectory(DownloadDaemonListener)
+add_subdirectory(Thumbnailer)

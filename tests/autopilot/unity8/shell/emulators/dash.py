@@ -80,10 +80,7 @@ class Dash(emulators.UnityEmulatorBase):
                 'No scope found with id {0}'.format(scope_id))
 
     def _get_scope_from_loader(self, loader):
-        if loader.scopeId == 'clickscope':
-            return loader.select_single(DashApps)
-        else:
-            return loader.select_single(GenericScopeView)
+        return loader.get_children()[0]
 
     def _open_scope_scrolling(self, scope_loader):
         scroll = self._get_scroll_direction(scope_loader)
