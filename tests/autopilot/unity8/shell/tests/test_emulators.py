@@ -32,8 +32,6 @@ try:
 except ImportError:
     import mock
 
-from time import sleep
-
 from testtools.matchers import Contains, HasLength
 
 from unity8 import process_helpers
