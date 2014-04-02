@@ -45,6 +45,10 @@ class ApplicationManager : public ApplicationManagerInterface {
 
     Q_PROPERTY(bool fake READ fake CONSTANT)
 
+    // Only for testing
+    // This can be used to place some controls to right, like make tryPhoneStage for example
+    Q_PROPERTY(int rightMargin READ rightMargin WRITE setRightMargin)
+
  public:
     ApplicationManager(QObject *parent = NULL);
     virtual ~ApplicationManager();
@@ -87,13 +91,22 @@ class ApplicationManager : public ApplicationManagerInterface {
     Q_INVOKABLE void move(int from, int to);
 
     // Application control methods
+    Q_INVOKABLE bool requestFocusApplication(const QString &appId) override;
     Q_INVOKABLE bool focusApplication(const QString &appId) override;
     Q_INVOKABLE void unfocusCurrentApplication() override;
     Q_INVOKABLE ApplicationInfo *startApplication(const QString &appId, const QStringList &arguments = QStringList()) override;
     Q_INVOKABLE ApplicationInfo *startApplication(const QString &appId, ExecFlags flags, const QStringList &arguments = QStringList());
     Q_INVOKABLE bool stopApplication(const QString &appId) override;
+    Q_INVOKABLE bool updateScreenshot(const QString &appId) override;
 
     QString focusedApplicationId() const override;
+    bool suspended() const;
+    void setSuspended(bool suspended);
+
+    // Only for testing
+    Q_INVOKABLE QStringList availableApplications();
+    int rightMargin() const;
+    void setRightMargin(int rightMargin);
 
  Q_SIGNALS:
     void keyboardHeightChanged();
@@ -113,12 +126,15 @@ class ApplicationManager : public ApplicationManagerInterface {
     void createSideStage();
     int m_keyboardHeight;
     bool m_keyboardVisible;
+    bool m_suspended;
     QList<ApplicationInfo*> m_runningApplications;
     QList<ApplicationInfo*> m_availableApplications;
     QQmlComponent *m_mainStageComponent;
     QQuickItem *m_mainStage;
     QQmlComponent *m_sideStageComponent;
     QQuickItem *m_sideStage;
+
+    int m_rightMargin;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(ApplicationManager::ExecFlags)

@@ -5,6 +5,7 @@ set(FakeUnityApplicationQml_SOURCES
     ApplicationInfo.cpp
     ApplicationImage.cpp
     ApplicationManager.cpp
+    ApplicationScreenshotProvider.cpp
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
 )
