@@ -35,7 +35,7 @@ ListView {
         id: snapDecisionProxyModel
 
         model: notificationList.model
-        filterRole: UnityNotifications.Model.RoleType
+        filterRole: UnityNotifications.ModelInterface.RoleType
         filterRegExp: RegExp(UnityNotifications.Notification.SnapDecision)
     }
     spacing: delegate.fullscreen ? 0 : units.gu(.5)
