@@ -41,7 +41,7 @@ macro(add_gesture_test CLASSNAME)
         ENVIRONMENT LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/plugins/Ubuntu/Gestures)
 
     add_executable(${CLASSNAME}TestExec tst_${CLASSNAME}.cpp)
-    qt5_use_modules(${CLASSNAME}TestExec Test Core)
+    qt5_use_modules(${CLASSNAME}TestExec Test Core Qml)
     target_link_libraries(${CLASSNAME}TestExec UbuntuGestureQml)
 endmacro(add_gesture_test)
 
