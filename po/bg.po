@@ -8,14 +8,13 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-03-25 16:48+0100\n"
-"PO-Revision-Date: 2014-01-28 19:22+0000\n"
+"PO-Revision-Date: 2014-04-01 14:08+0000\n"
 "Last-Translator: Atanas Kovachki <Unknown>\n"
 "Language-Team: Bulgarian <bg@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-03-28 06:48+0000\n"
+"X-Launchpad-Export-Date: 2014-04-02 06:50+0000\n"
 "X-Generator: Launchpad (build 16967)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
@@ -94,7 +93,7 @@ msgstr ""
 
 #: qml/Dash/DashApps.qml:38
 msgid "Recent"
-msgstr ""
+msgstr "Последни"
 
 #: qml/Dash/PreviewListView.qml:52
 #, qt-format
@@ -107,7 +106,7 @@ msgstr ""
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "Less..."
-msgstr ""
+msgstr "По-малко..."
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:81
 msgid "Rate this"
@@ -170,19 +169,3 @@ msgstr "Търсене"
 #, qt-format
 msgid "Please enter %1"
 msgstr "Моля, въведете %1"
-
-#~ msgid "Review"
-#~ msgstr "Отзив"
-
-#, qt-format
-#~ msgid "%1 review"
-#~ msgid_plural "%1 reviews"
-#~ msgstr[0] "%1 отзив"
-#~ msgstr[1] "%1 отзива"
-
-#, qt-format
-#~ msgid "(%1)"
-#~ msgstr "(%1)"
-
-#~ msgid "Comments:"
-#~ msgstr "Коментари:"
