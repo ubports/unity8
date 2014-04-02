@@ -193,6 +193,7 @@ Row {
             addSomeSnapDecisionNotifications();
 
             // make sure the view is properly updated before going on
+            notifications.forceLayout();
             waitForRendering(notifications);
 
             var snap_decision = [findChild(notifications, "notification1"),
