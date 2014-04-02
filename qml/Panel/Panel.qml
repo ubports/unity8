@@ -62,7 +62,7 @@ Item {
         height: __panelMinusSeparatorLineHeight
         y: 0
 
-        Behavior on y { StandardAnimation {duration: 500} }
+        Behavior on y { StandardAnimation { duration: 500 } }
     }
 
     PanelSeparatorLine {

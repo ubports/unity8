@@ -27,9 +27,8 @@ Item {
     property alias verticalSpacing: flow.verticalSpacing
     property alias horizontalSpacing: flow.horizontalSpacing
     property int referenceDelegateWidth
-    property alias firstModel: repeater1.model
-    property alias secondModel: repeater2.model
-    property alias delegate: repeater1.delegate
+    property alias model: repeater.model
+    property alias delegate: repeater.delegate
     readonly property int cellWidth: referenceDelegateWidth + horizontalSpacing
     readonly property int cellHeight: referenceDelegateWidth + verticalSpacing
     property alias move: flow.move
@@ -69,13 +68,7 @@ Item {
         property int margin: allocatableVerticalSpace - columns * horizontalSpacing
 
         Repeater {
-            id: repeater1
-            model: (root.model) ? root.model[0] : null
-        }
-        Repeater {
-            id: repeater2
-            model: (root.model) ? root.model[1] : null
-            delegate: repeater1.delegate
+            id: repeater
         }
     }
 }

@@ -1,8 +1,62 @@
-unity8 (7.85+14.04.20140306-0ubuntu1) UNRELEASED; urgency=medium
+unity8 (7.86+14.04.20140306-0ubuntu1) UNRELEASED; urgency=medium
 
   * Bump version for Breaks due to unity8-greeter
 
- -- Michael Terry <mterry@ubuntu.com>  Wed, 12 Mar 2014 14:39:45 -0400
+ -- Michael Terry <mterry@ubuntu.com>  Wed, 02 Apr 2014 14:39:45 -0400
+
+unity8 (7.85+14.04.20140401.3-0ubuntu1) trusty; urgency=medium
+
+  [ Michał Sawicz ]
+  * Bump version to ensure incompatibility with previous Unity.Application
+    implementations.
+  * We'll only have the unity-mir and mock Ubuntu.Application plugins
+    now, no need for mangling the import paths.
+
+  [ Michal Hruby ]
+  * Remove the albumart image provider. (LP: #1262711)
+  * Don't reset search string after 2 seconds. (LP: #1297246)
+
+  [ James Henstridge ]
+  * Remove the albumart image provider. (LP: #1262711)
+
+  [ Albert Astals ]
+  * Carousel: Add test to make sure we only create the needed delegates
+    and not more
+  * LVWPH: Remove processEvents() call from updatePolish() It causes
+    some reentrancy issues and in some times you end up in polishItems()
+    with items that have been deleted because you called processEvents()
+    This means i need a small tweak in itemGeometryChanged to not
+    reposition items if we are inside a setContentHeight call and two
+    small tweaks to tests since now things happen in a different order
+    and numbers are different (though equivalent) (LP: #1297240)
+  * Card.qml binding loops are gone. hooray \o/ Also made the aspect
+    properties readonly
+
+  [ Mirco Müller ]
+  * A potential fix for "Cannot read property 'state' of null"-failure
+    on Jenkins with the VisualSnapDecisionsQueue QML-test of
+    notifications.
+
+  [ Michael Terry ]
+  * Pass user's preference for auto-brightness on to powerd. (LP:
+    #1273174)
+
+  [ Michael Zanetti ]
+  * Registers a dummy QObject as QTestRootObject in uqmlscene in order
+    to fix make trySomething with Qt 5.2.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 01 Apr 2014 22:56:52 +0000
+
+unity8 (7.84+14.04.20140327.1-0ubuntu2) trusty; urgency=medium
+
+  * For now, have libunity-private depending on libunity-core-6.0-9 as the
+    gsettings schema is here. The dependency wasn't direct and dropped from
+    Touch image #271. Consequently, unity8 didn't start (gsettings
+    segfaulting).
+    Proper strategy will be to include the schema in another package to only
+    pull it.
+
+ -- Didier Roche <didrocks@ubuntu.com>  Tue, 01 Apr 2014 09:52:14 +0200
 
 unity8 (7.84+14.04.20140327.1-0ubuntu1) trusty; urgency=low
 

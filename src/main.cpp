@@ -120,18 +120,14 @@ int startShell(int argc, const char** argv, void* server)
     prependImportPaths(view->engine(), ::overrideImportPaths());
     appendImportPaths(view->engine(), ::fallbackImportPaths());
 
-    if (isUbuntuMirServer) {
-        QStringList importPaths = view->engine()->importPathList();
-        importPaths.replaceInStrings(QRegExp("qt5/imports$"), "qt5/imports/Unity-Mir");
-        view->engine()->setImportPathList(importPaths);
-
 #if UNITY8_GREETER
+    if (isUbuntuMirServer) {
         // Add alpha to surface, so that the greeter can bleed through
         QSurfaceFormat format;
         format.setAlphaBufferSize(8);
         view->setFormat(format);
-#endif
     }
+#endif
 
     view->setSource(source);
     view->setColor(Qt::transparent);

@@ -108,6 +108,7 @@ Item {
             while (apps.count > 0) {
                 ApplicationManager.stopApplication(apps.get(0).appId);
             }
+            compare(ApplicationManager.count, 0)
         }
 
         /*
@@ -176,24 +177,33 @@ Item {
             tapOnAppIconInLauncher();
             waitUntilApplicationWindowIsFullyVisible();
 
-            var mainApp = ApplicationManager.focusedApplicationId;
-            verify(mainApp != "");
+            var mainAppId = ApplicationManager.focusedApplicationId;
+            verify(mainAppId != "");
+            var mainApp = ApplicationManager.findApplication(mainAppId);
+            verify(mainApp);
+            tryCompare(mainApp, "state", ApplicationInfo.Running);
 
             // Try to suspend while proximity is engaged...
             Powerd.displayPowerStateChange(Powerd.Off, Powerd.UseProximity);
-            tryCompare(ApplicationManager, "focusedApplicationId", mainApp);
+            tryCompare(SessionManager, "active", true);
 
             // Now really suspend
+            print("suspending")
             Powerd.displayPowerStateChange(Powerd.Off, 0);
-            tryCompare(ApplicationManager, "focusedApplicationId", "");
+            print("done suspending")
+            tryCompare(SessionManager, "active", false);
+
+            tryCompare(ApplicationManager, "suspended", true);
+            compare(mainApp.state, ApplicationInfo.Suspended);
 
             // And wake up
             Powerd.displayPowerStateChange(Powerd.On, 0);
-            tryCompare(ApplicationManager, "focusedApplicationId", "");
 
             // Activate session to focus app
             SessionManager.active = true;
-            tryCompare(ApplicationManager, "focusedApplicationId", mainApp);
+            tryCompare(ApplicationManager, "suspended", false);
+            compare(mainApp.state, ApplicationInfo.Running);
+            tryCompare(ApplicationManager, "focusedApplicationId", mainAppId);
         }
 
         /*
@@ -214,7 +224,7 @@ Item {
             tryCompare(dash, "opacity", 1.0);
 
             touchFlick(shell, touchX, touchY, shell.width * 0.1, touchY,
-                       true /* beginTouch */, false /* endTouch */);
+                       true /* beginTouch */, false /* endTouch */, units.gu(10), 50);
 
             // check that Dash has been scaled down and had its opacity reduced
             tryCompareFunction(function() { return dash.contentScale <= 0.9; }, true);
@@ -245,7 +255,7 @@ Item {
             tryCompare(dash, "opacity", 1.0);
 
             touchFlick(shell, touchX, touchY, shell.width * 0.1, touchY,
-                       true /* beginTouch */, false /* endTouch */);
+                       true /* beginTouch */, false /* endTouch */, units.gu(10), 50);
 
             // check that Dash has been scaled down and had its opacity reduced
             tryCompareFunction(function() { return dash.contentScale <= 0.9; }, true);
@@ -460,7 +470,6 @@ Item {
         }
 
         function test_DashShown(data) {
-
             if (data.app) {
                 dragLauncherIntoView();
                 tapOnAppIconInLauncher();
