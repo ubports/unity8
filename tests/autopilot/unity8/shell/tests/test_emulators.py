@@ -165,27 +165,13 @@ class DashAppsEmulatorTestCase(DashBaseTestCase):
         self.assertEqual(
             'No category found with name unexisting category', str(exception))
 
-    def test_get_applications_should_return_list_with_names(self):
+    def test_get_applications_should_return_correct_applications(self):
         category = '2'
         expected_apps_count = self._get_number_of_application_slots(category)
         expected_applications = self.available_applications[
             :expected_apps_count]
-
         applications = self.applications_scope.get_applications(category)
-
-        self.assertThat(applications, HasLength(expected_apps_count))
-        for expected in expected_applications:
-            self.assertThat(applications, Contains(expected))
-
-    def test_get_applications_list_matches_visible_ordering(self):
-        category = '2'
-        expected_apps_count = self._get_number_of_application_slots(category)
-        expected_application_titles = self.available_applications[
-            :expected_apps_count]
-        applications = self.applications_scope.get_applications(category)
-        for card_num in range(len(applications)):
-            self.assertEqual(expected_application_titles[card_num],
-                             applications[card_num])
+        self.assertEqual(expected_applications, applications)
 
     def _get_number_of_application_slots(self, category):
         category_element = self.applications_scope._get_category_element(
