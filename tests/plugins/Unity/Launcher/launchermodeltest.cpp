@@ -39,6 +39,7 @@ public:
     ApplicationInfoInterface::Stage stage() const { return ApplicationInfoInterface::MainStage; }
     ApplicationInfoInterface::State state() const { return ApplicationInfoInterface::Running; }
     bool focused() const { return m_focused; }
+    QUrl screenshot() const { return QUrl(); }
 
     // Methods used for mocking (not in the interface)
     void setFocused(bool focused) { m_focused = focused; Q_EMIT focusedChanged(focused); }
@@ -92,6 +93,10 @@ public:
         m_list.takeAt(index)->deleteLater();
         endRemoveRows();
     }
+    bool updateScreenshot(const QString &appId) { Q_UNUSED(appId); return true; }
+    bool requestFocusApplication(const QString &appId) { Q_UNUSED(appId); return true; }
+    bool suspended() const { return false; }
+    void setSuspended(bool) {}
 
 private:
     QList<MockApp*> m_list;

@@ -20,6 +20,7 @@
 #include <QQuickItem>
 #include <QQuickView>
 #include <QQmlComponent>
+#include <QTimer>
 
 ApplicationInfo::ApplicationInfo(const QString &appId, QObject *parent)
     : ApplicationInfoInterface(appId, parent)
@@ -32,6 +33,7 @@ ApplicationInfo::ApplicationInfo(const QString &appId, QObject *parent)
     ,m_windowComponent(0)
     ,m_parentItem(0)
 {
+    QTimer::singleShot(300, this, SLOT(setRunning()));
 }
 
 ApplicationInfo::ApplicationInfo(QObject *parent)
@@ -44,12 +46,19 @@ ApplicationInfo::ApplicationInfo(QObject *parent)
      ,m_windowComponent(0)
      ,m_parentItem(0)
 {
+    QTimer::singleShot(300, this, SLOT(setRunning()));
 }
 
 void ApplicationInfo::onWindowComponentStatusChanged(QQmlComponent::Status status)
 {
     if (status == QQmlComponent::Ready && !m_windowItem)
         doCreateWindowItem();
+}
+
+void ApplicationInfo::setRunning()
+{
+    m_state = Running;
+    Q_EMIT stateChanged();
 }
 
 void ApplicationInfo::createWindowComponent()

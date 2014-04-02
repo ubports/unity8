@@ -112,7 +112,7 @@ class QQuickView(emulators.UnityEmulatorBase):
 
     def get_current_focused_app_id(self):
         """Return the id of the focused application."""
-        return self.select_single('Shell').currentFocusedAppId
+        return self.select_single('Shell').focusedApplicationId
 
     @autopilot_logging.log_action(logger.info)
     def search(self, query):
