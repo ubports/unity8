@@ -117,6 +117,9 @@ int startShell(int argc, const char** argv, void* server)
 
     QUrl source(::qmlDirectory()+"Shell.qml");
     prependImportPaths(view->engine(), ::overrideImportPaths());
+    if (!isUbuntuMirServer) {
+        prependImportPaths(view->engine(), ::nonMirImportPaths());
+    }
     appendImportPaths(view->engine(), ::fallbackImportPaths());
 
     view->setSource(source);
