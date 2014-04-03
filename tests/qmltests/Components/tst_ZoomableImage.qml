@@ -154,5 +154,39 @@ Rectangle {
             compare(signalSpy.count == 0, data.answer3, "scale signal count error");
             compare(newScale, data.answer4, "scale factor error");
         }
+
+        function test_mousewheel() {
+            var image = findChild(zoomableImage, "image");
+            var lazyImage = findChild(zoomableImage, "lazyImage");
+            var flickable = findChild(zoomableImage, "flickable");
+
+            zoomableImage.source = "";
+            zoomableImage.source = widgetData2["source"];
+            zoomableImage.zoomable = true;
+            waitForRendering(zoomableImage);
+
+            tryCompare(zoomableImage, "imageState", "ready");
+            tryCompareFunction(function() { return get_filename(lazyImage.source.toString()) === get_filename(widgetData2["source"]); }, true);
+            waitForRendering(image);
+
+            // move to center
+            mouseMove(zoomableImage, zoomableImage.width / 2, zoomableImage.height / 2);
+
+            // zoom in
+            for (var i=0; i<10; i++) {
+                mouseWheel(zoomableImage, zoomableImage.width / 2, zoomableImage.height / 2, 0, 10);
+                tryCompare(image, "scale", 1.0 + (i + 1) * 0.1);
+                compare(flickable.contentWidth, lazyImage.width * image.scale);
+                compare(flickable.contentHeight, lazyImage.height * image.scale);
+            }
+
+            // zoom out
+            for (var i=0; i<10; i++) {
+                mouseWheel(zoomableImage, zoomableImage.width / 2, zoomableImage.height / 2, 0, -10);
+                tryCompare(image, "scale", 2.0 - (i + 1) * 0.1);
+                compare(flickable.contentWidth, lazyImage.width * image.scale);
+                compare(flickable.contentHeight, lazyImage.height * image.scale);
+            }
+        }
     }
 }
