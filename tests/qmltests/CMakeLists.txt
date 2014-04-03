@@ -21,7 +21,6 @@ set(qmltest_DEFAULT_PROPERTIES "")
 
 add_qml_test(. Shell IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/tests/mocks
                      ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/LightDM/single")
-add_manual_qml_test(Components DragHandle IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
 add_qml_test(Components Carousel)
 add_qml_test(Components DraggingArea)
 add_qml_test(Components EdgeDemoOverlay)
