@@ -17,6 +17,13 @@
  */
 
 #include "Powerd.h"
+#include <QDBusPendingCall>
+
+void autoBrightnessChanged(GSettings *settings, const gchar *key, QDBusInterface *powerd)
+{
+    bool value = g_settings_get_boolean(settings, key);
+    powerd->asyncCall("userAutobrightnessEnable", QVariant(value));
+}
 
 Powerd::Powerd(QObject* parent)
   : QObject(parent),
@@ -33,4 +40,14 @@ Powerd::Powerd(QObject* parent)
                                  "DisplayPowerStateChange",
                                  this,
                                  SIGNAL(displayPowerStateChange(int, unsigned int)));
+
+    systemSettings = g_settings_new("com.ubuntu.touch.system");
+    g_signal_connect(systemSettings, "changed::auto-brightness", G_CALLBACK(autoBrightnessChanged), powerd);
+    autoBrightnessChanged(systemSettings, "auto-brightness", powerd);
+}
+
+Powerd::~Powerd()
+{
+    g_signal_handlers_disconnect_by_data(systemSettings, powerd);
+    g_object_unref(systemSettings);
 }

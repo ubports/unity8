@@ -141,7 +141,9 @@ class GenericScopeViewEmulatorTestCase(DashBaseTestCase):
 
     def test_open_preview(self):
         preview = self.generic_scope.open_preview('0', 'Title.0.0')
-        preview.x.wait_for(0)
+        self.assertIsInstance(preview, dash_emulators.Preview)
+        self.assertTrue(preview.isCurrent)
+
 
 class DashAppsEmulatorTestCase(DashBaseTestCase):
 
@@ -190,7 +192,3 @@ class DashAppsEmulatorTestCase(DashBaseTestCase):
             return filtergrid.collapsedRowCount * filtergrid.columns
         else:
             return filtergrid.uncollapsedRowCount * filtergrid.columns
-
-    def test_open_preview(self):
-        preview = self.applications_scope.open_preview('2', 'Title.2.1')
-        preview.x.wait_for(0)
