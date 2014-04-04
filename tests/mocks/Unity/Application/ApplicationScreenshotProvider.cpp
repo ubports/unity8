@@ -54,6 +54,9 @@ QImage ApplicationScreenshotProvider::requestImage(const QString &imageId, QSize
 
     if (app->stage() == ApplicationInfo::SideStage) {
         QByteArray gus = qgetenv("GRID_UNIT_PX");
+        if (gus.isEmpty() || gus.toInt() == 0) {
+            gus = "8";
+        }
         image = image.scaledToWidth(gus.toInt() * 48);
     } else {
         // Lets scale main stage applications to be the size of the screen/window.
