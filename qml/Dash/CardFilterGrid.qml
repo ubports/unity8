@@ -44,7 +44,8 @@ DashRenderer {
         collapsedRowCount: Math.min(2, cardTool && cardTool.template && cardTool.template["collapsed-rows"] || 2)
         delegateCreationBegin: genericFilterGrid.delegateCreationBegin
         delegateCreationEnd: genericFilterGrid.delegateCreationEnd
-        delegate: Item {
+        delegate: Loader {
+            asynchronous: true
             width: filterGrid.cellWidth
             height: filterGrid.cellHeight
             Card {
