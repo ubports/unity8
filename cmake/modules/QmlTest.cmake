@@ -147,7 +147,6 @@ macro(add_binary_qml_test CLASS_NAME LD_PATH DEPS)
 endmacro(add_binary_qml_test)
 
 macro(add_qmltest_target qmltest_TARGET qmltest_command qmltest_NO_TARGETS qmltest_NO_ADD_TEST)
->>>>>>> MERGE-SOURCE
     add_custom_target(${qmltest_TARGET} ${qmltest_command})
 
     if(NOT "${qmltest_PROPERTIES}" STREQUAL "")
