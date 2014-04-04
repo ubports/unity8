@@ -192,7 +192,7 @@ Item {
             verify(mainAppId != "");
             var mainApp = ApplicationManager.findApplication(mainAppId);
             verify(mainApp);
-            tryCompare(mainApp.state, ApplicationInfo.Running);
+            tryCompare(mainApp, "state", ApplicationInfo.Running);
 
             // Try to suspend while proximity is engaged...
             Powerd.displayPowerStateChange(Powerd.Off, Powerd.UseProximity);
