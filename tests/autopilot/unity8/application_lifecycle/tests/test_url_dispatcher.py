@@ -22,8 +22,6 @@
 import os
 
 from autopilot import platform
-from autopilot.matchers import Eventually
-from testtools.matchers import Equals
 
 from unity8 import process_helpers
 from unity8.application_lifecycle import tests
@@ -64,11 +62,7 @@ MainView {
         self.assertEqual('', self.main_window.get_current_focused_app_id())
         self.addCleanup(os.system, 'pkill qmlscene')
         os.system('url-dispatcher application:///{}'.format(desktop_file_name))
-        self.assertThat(
-            self.main_window.get_current_focused_app_id,
-            Eventually(Equals(application_name)))
+        self.assert_current_focused_application(application_name)
 
         self.main_window.show_dash_swiping()
-        self.assertThat(
-            self.main_window.get_current_focused_app_id,
-            Eventually(Equals('')))
+        self.assert_current_focused_application('')

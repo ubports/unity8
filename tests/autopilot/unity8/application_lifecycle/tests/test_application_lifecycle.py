@@ -26,21 +26,22 @@ import os
 
 from autopilot.matchers import Eventually
 from autopilot.platform import model
-from testtools.matchers import Equals, NotEquals
+from testtools.matchers import Equals
 from ubuntuuitoolkit import (
     base,
     emulators as toolkit_emulators,
 )
 
+from unity8.application_lifecycle import tests
 from unity8.process_helpers import unlock_unity
 from unity8.shell import disable_qml_mocking
-from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
+from unity8.shell.tests import _get_device_emulation_scenarios
 
 
 logger = logging.getLogger(__name__)
 
 
-class ApplicationLifecycleTests(UnityTestCase):
+class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
 
     scenarios = _get_device_emulation_scenarios()
 
@@ -98,11 +99,7 @@ class ApplicationLifecycleTests(UnityTestCase):
         unlock_unity(unity_proxy)
 
         application_name = self.launch_fake_app()
-
-        self.assertThat(
-            self.main_window.get_current_focused_app_id(),
-            Eventually(Equals(application_name))
-        )
+        self.assert_current_focused_application(application_name)
 
     @disable_qml_mocking
     def test_can_launch_multiple_applications(self):
