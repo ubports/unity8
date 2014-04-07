@@ -34,6 +34,8 @@ public:
     QString desktopFile;
     QString displayName;
     QString icon;
+    int     count;
+    bool    countVisible;
 };
 
 LauncherBackend::LauncherBackend(QObject *parent):
@@ -153,10 +155,25 @@ int LauncherBackend::progress(const QString &appId) const
 
 int LauncherBackend::count(const QString &appId) const
 {
-    // TODO: Return value for count emblem.
     // TODO: emit countChanged() when this value changes.
-    Q_UNUSED(appId)
-    return 0;
+
+    int count = 0;
+    LauncherBackendItem *item = m_itemCache.value(appId);
+    if (!item) {
+        QString df = findDesktopFile(appId);
+        if (!df.isEmpty()) {
+            item = parseDesktopFile(df);
+            m_itemCache.insert(appId, item);
+        }
+    }
+
+    if (!item) {
+        if (item->countVisible) {
+            count = item->count;
+        }
+    }
+
+    return count;
 }
 
 void LauncherBackend::setUser(const QString &username)
@@ -295,6 +312,8 @@ void LauncherBackend::loadFromVariant(const QVariantMap &details)
     item->desktopFile = details.value("desktopFile").toString();
     item->displayName = details.value("name").toString();
     item->icon = details.value("icon").toString();
+    item->count = details.value("count").toInt();
+    item->countVisible = details.value("countVisible").toBool();
 
     m_itemCache.insert(appId, item);
     m_storedApps.append(appId);
@@ -308,6 +327,8 @@ QVariantMap LauncherBackend::itemToVariant(const QString &appId) const
     details.insert("name", item->displayName);
     details.insert("icon", item->icon);
     details.insert("desktopFile", item->desktopFile);
+    details.insert("count", item->count);
+    details.insert("countVisible", item->countVisible);
     return details;
 }
 
