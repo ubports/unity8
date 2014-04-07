@@ -24,9 +24,7 @@ from __future__ import absolute_import
 import logging
 import os
 
-from autopilot.matchers import Eventually
 from autopilot.platform import model
-from testtools.matchers import Equals
 from ubuntuuitoolkit import (
     base,
     emulators as toolkit_emulators,
@@ -61,24 +59,6 @@ class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
         logger.info("Swiping screen from the right edge")
         self.touch.drag(start_x, start_y, end_x, end_y)
 
-    def _launch_app(self, app_name):
-        """Launches the application *app_name*
-
-        Assumes that the desktop file resides at:
-        /usr/share/applications/{app_name}.desktop
-
-        """
-        desktop_file = "--desktop_file_hint="\
-            "/usr/share/applications/{app_name}.desktop".format(
-                app_name=app_name
-            )
-        return self.launch_test_application(
-            app_name,
-            desktop_file,
-            "--stage_hint=main_stage",
-            app_type='qt'
-        )
-
     def launch_fake_app(self):
         qml_file_path, desktop_file_path = self.create_test_application()
         desktop_file_name = os.path.basename(desktop_file_path)
@@ -107,17 +87,12 @@ class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
         unity_proxy = self.launch_unity()
         unlock_unity(unity_proxy)
 
-        self._launch_app("messaging-app")
-        self.assertThat(
-            self.main_window.get_current_focused_app_id(),
-            Eventually(Equals("messaging-app"))
-        )
+        application1_name = self.launch_fake_app()
+        self.assert_current_focused_application(application1_name)
 
-        self._launch_app("address-book-app")
-        self.assertThat(
-            self.main_window.get_current_focused_app_id(),
-            Eventually(Equals("address-book-app"))
-        )
+        application2_name = self.launch_fake_app()
+        self.assertFalse(application1_name == application2_name)
+        self.assert_current_focused_application(application2_name)
 
     @disable_qml_mocking
     def test_app_moves_from_unfocused_to_focused(self):
@@ -128,21 +103,13 @@ class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
         unity_proxy = self.launch_unity()
         unlock_unity(unity_proxy)
 
-        self._launch_app("messaging-app")
-        self.assertThat(
-            self.main_window.get_current_focused_app_id(),
-            Eventually(Equals("messaging-app"))
-        )
+        application1_name = self.launch_fake_app()
+        self.assert_current_focused_application(application1_name)
 
-        self._launch_app("address-book-app")
-        self.assertThat(
-            self.main_window.get_current_focused_app_id(),
-            Eventually(Equals("address-book-app"))
-        )
+        application2_name = self.launch_fake_app()
+        self.assertFalse(application1_name == application2_name)
+        self.assert_current_focused_application(application2_name)
 
         self.swipe_screen_from_right()
 
-        self.assertThat(
-            self.main_window.get_current_focused_app_id(),
-            Eventually(Equals("messaging-app"))
-        )
+        self.assert_current_focused_application(application1_name)
