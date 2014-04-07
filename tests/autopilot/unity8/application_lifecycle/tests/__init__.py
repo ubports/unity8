@@ -21,10 +21,17 @@ from autopilot.matchers import Eventually
 from testtools.matchers import Equals
 from ubuntuuitoolkit import fixture_setup
 
+from unity8 import process_helpers
 from unity8.shell import tests
 
 
 class ApplicationLifeCycleTestCase(tests.UnityTestCase):
+
+    def setUp(self):
+        self._qml_mock_enabled = False
+        self._data_dirs_mock_enabled = False
+        unity_proxy = self.launch_unity()
+        process_helpers.unlock_unity(unity_proxy)
 
     def create_test_application(self):
         fake_application = fixture_setup.FakeApplication()

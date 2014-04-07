@@ -23,7 +23,6 @@ import os
 
 from autopilot import platform
 
-from unity8 import process_helpers
 from unity8.application_lifecycle import tests
 
 
@@ -35,10 +34,6 @@ class URLDispatcherTestCase(tests.ApplicationLifeCycleTestCase):
         if platform.model() == 'Desktop':
             self.skipTest("URL dispatcher doesn't work on the desktop.")
         super(URLDispatcherTestCase, self).setUp()
-        self._qml_mock_enabled = False
-        self._data_dirs_mock_enabled = False
-        unity_proxy = self.launch_unity()
-        process_helpers.unlock_unity(unity_proxy)
 
     def test_swipe_out_application_started_by_url_dispatcher(self):
         _, desktop_file_path = self.create_test_application()

@@ -31,7 +31,6 @@ from ubuntuuitoolkit import (
 )
 
 from unity8.application_lifecycle import tests
-from unity8.process_helpers import unlock_unity
 from unity8.shell import disable_qml_mocking
 from unity8.shell.tests import _get_device_emulation_scenarios
 
@@ -44,12 +43,9 @@ class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
     scenarios = _get_device_emulation_scenarios()
 
     def setUp(self):
+        if model() == 'Desktop':
+            self.skipTest('Test cannot be run on the desktop.')
         super(ApplicationLifecycleTests, self).setUp()
-        if model() == "Desktop":
-            self.skipTest("Test cannot be run on the desktop.")
-
-        unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
 
     def swipe_screen_from_right(self):
         width = self.main_window.width
@@ -75,13 +71,11 @@ class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
                 app_type='qt')
         return application_name
 
-    @disable_qml_mocking
     def test_can_launch_application(self):
         """Must be able to launch an application."""
         application_name = self.launch_fake_app()
         self.assert_current_focused_application(application_name)
 
-    @disable_qml_mocking
     def test_can_launch_multiple_applications(self):
         """A second application launched must be focused."""
         application1_name = self.launch_fake_app()
@@ -91,7 +85,6 @@ class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
         self.assertFalse(application1_name == application2_name)
         self.assert_current_focused_application(application2_name)
 
-    @disable_qml_mocking
     def test_app_moves_from_unfocused_to_focused(self):
         """An application that is in the unfocused state must be able to be
         brought back to the focused state.
