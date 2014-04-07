@@ -292,6 +292,11 @@ LauncherBackendItem* LauncherBackend::parseDesktopFile(const QString &desktopFil
     } else {
         item->icon =  "image://theme/" + iconString;
     }
+
+    /* TODO: These should be looked up in a cache somewhere */
+    item->count = 0;
+    item->countVisible = false;
+
     return item;
 }
 
