@@ -24,6 +24,7 @@
 #include <QObject>
 #include <QSettings>
 #include <QStringList>
+#include <QDBusVirtualObject>
 
 class AccountsServiceDBusAdaptor;
 
@@ -33,7 +34,7 @@ class AccountsServiceDBusAdaptor;
 
 class LauncherBackendItem;
 
-class LauncherBackend : public QObject
+class LauncherBackend : public QDBusVirtualObject
 {
     Q_OBJECT
 
@@ -121,6 +122,21 @@ public:
       * @param username The username to use.
       */
     void setUser(const QString &username);
+
+    /**
+      * @brief Handle a message to an application node
+      * @param message DBus message to handle
+      * @param connection DBus connection that we're using
+      * @returns whether the message was handled
+      */
+    virtual bool handleMessage(const QDBusMessage& message, const QDBusConnection& connection);
+
+    /**
+      * @brief Get introspection information on the objects we're exporting
+      * @param path the dbus path containing the appid
+      * @returns Introspection information for that node in the tree
+      */
+    virtual QString introspect (const QString &path) const;
 
 Q_SIGNALS:
     void quickListChanged(const QString &appId, const QList<QuickListEntry> &quickList);

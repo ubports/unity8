@@ -37,7 +37,7 @@ public:
 };
 
 LauncherBackend::LauncherBackend(QObject *parent):
-    QObject(parent),
+    QDBusVirtualObject(parent),
     m_accounts(nullptr)
 {
 #ifndef LAUNCHER_TESTING
@@ -317,4 +317,17 @@ bool LauncherBackend::isDefaultsItem(const QList<QVariantMap> &apps) const
     // yet (and should thus be populated with the defaults), we use a special
     // list of one item with the 'defaults' field set to true.
     return (apps.size() == 1 && apps[0].value("defaults").toBool());
+}
+
+bool LauncherBackend::handleMessage(const QDBusMessage& message, const QDBusConnection& connection)
+{
+    Q_UNUSED(message)
+    Q_UNUSED(connection)
+    return false;
+}
+
+QString LauncherBackend::introspect (const QString &path) const
+{
+    Q_UNUSED(path)
+    return "";
 }
