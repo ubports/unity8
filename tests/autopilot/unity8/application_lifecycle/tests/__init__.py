@@ -28,6 +28,7 @@ from unity8.shell import tests
 class ApplicationLifeCycleTestCase(tests.UnityTestCase):
 
     def setUp(self):
+        super(ApplicationLifeCycleTestCase, self).setUp()
         self._qml_mock_enabled = False
         self._data_dirs_mock_enabled = False
         unity_proxy = self.launch_unity()
