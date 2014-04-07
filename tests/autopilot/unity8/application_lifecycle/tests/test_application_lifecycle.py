@@ -31,16 +31,12 @@ from ubuntuuitoolkit import (
 )
 
 from unity8.application_lifecycle import tests
-from unity8.shell import disable_qml_mocking
-from unity8.shell.tests import _get_device_emulation_scenarios
 
 
 logger = logging.getLogger(__name__)
 
 
 class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
-
-    scenarios = _get_device_emulation_scenarios()
 
     def setUp(self):
         if model() == 'Desktop':

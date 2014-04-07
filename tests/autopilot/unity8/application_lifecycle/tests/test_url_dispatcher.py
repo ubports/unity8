@@ -28,8 +28,6 @@ from unity8.application_lifecycle import tests
 
 class URLDispatcherTestCase(tests.ApplicationLifeCycleTestCase):
 
-    scenarios = tests._get_device_emulation_scenarios()
-
     def setUp(self):
         if platform.model() == 'Desktop':
             self.skipTest("URL dispatcher doesn't work on the desktop.")
