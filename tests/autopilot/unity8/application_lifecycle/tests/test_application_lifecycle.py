@@ -48,6 +48,9 @@ class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
         if model() == "Desktop":
             self.skipTest("Test cannot be run on the desktop.")
 
+        unity_proxy = self.launch_unity()
+        unlock_unity(unity_proxy)
+
     def swipe_screen_from_right(self):
         width = self.main_window.width
         height = self.main_window.height
@@ -75,18 +78,12 @@ class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
     @disable_qml_mocking
     def test_can_launch_application(self):
         """Must be able to launch an application."""
-        unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
-
         application_name = self.launch_fake_app()
         self.assert_current_focused_application(application_name)
 
     @disable_qml_mocking
     def test_can_launch_multiple_applications(self):
         """A second application launched must be focused."""
-        unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
-
         application1_name = self.launch_fake_app()
         self.assert_current_focused_application(application1_name)
 
@@ -100,9 +97,6 @@ class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
         brought back to the focused state.
 
         """
-        unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
-
         application1_name = self.launch_fake_app()
         self.assert_current_focused_application(application1_name)
 

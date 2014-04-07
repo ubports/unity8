@@ -31,20 +31,6 @@ class URLDispatcherTestCase(tests.ApplicationLifeCycleTestCase):
 
     scenarios = tests._get_device_emulation_scenarios()
 
-    test_qml = ("""
-import QtQuick 2.0
-import Ubuntu.Components 0.1
-
-MainView {
-    width: units.gu(48)
-    height: units.gu(60)
-
-    Label {
-        text: 'Test application.'
-    }
-}
-""")
-
     def setUp(self):
         if platform.model() == 'Desktop':
             self.skipTest("URL dispatcher doesn't work on the desktop.")
@@ -55,7 +41,7 @@ MainView {
         process_helpers.unlock_unity(unity_proxy)
 
     def test_swipe_out_application_started_by_url_dispatcher(self):
-        _, desktop_file_path = self.create_test_application(self.test_qml)
+        _, desktop_file_path = self.create_test_application()
         desktop_file_name = os.path.basename(desktop_file_path)
         application_name, _ = os.path.splitext(desktop_file_name)
 

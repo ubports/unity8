@@ -26,8 +26,8 @@ from unity8.shell import tests
 
 class ApplicationLifeCycleTestCase(tests.UnityTestCase):
 
-    def create_test_application(self, test_qml=None):
-        fake_application = fixture_setup.FakeApplication(test_qml)
+    def create_test_application(self):
+        fake_application = fixture_setup.FakeApplication()
         self.useFixture(fake_application)
         return (
             fake_application.qml_file_path, fake_application.desktop_file_path)
