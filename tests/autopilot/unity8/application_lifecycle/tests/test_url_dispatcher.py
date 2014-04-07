@@ -24,13 +24,12 @@ import os
 from autopilot import platform
 from autopilot.matchers import Eventually
 from testtools.matchers import Equals
-from ubuntuuitoolkit import fixture_setup
 
 from unity8 import process_helpers
-from unity8.shell import tests
+from unity8.application_lifecycle import tests
 
 
-class URLDispatcherTestCase(tests.UnityTestCase):
+class URLDispatcherTestCase(tests.ApplicationLifeCycleTestCase):
 
     scenarios = tests._get_device_emulation_scenarios()
 
@@ -57,14 +56,8 @@ MainView {
         unity_proxy = self.launch_unity()
         process_helpers.unlock_unity(unity_proxy)
 
-    def create_test_application(self):
-        fake_application = fixture_setup.FakeApplication(self.test_qml)
-        self.useFixture(fake_application)
-        return (
-            fake_application.qml_file_path, fake_application.desktop_file_path)
-
     def test_swipe_out_application_started_by_url_dispatcher(self):
-        _, desktop_file_path = self.create_test_application()
+        _, desktop_file_path = self.create_test_application(self.test_qml)
         desktop_file_name = os.path.basename(desktop_file_path)
         application_name, _ = os.path.splitext(desktop_file_name)
 

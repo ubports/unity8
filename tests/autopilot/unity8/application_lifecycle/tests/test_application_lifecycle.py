@@ -21,15 +21,21 @@
 
 from __future__ import absolute_import
 
-from unity8.process_helpers import unlock_unity
-from unity8.shell import disable_qml_mocking
-from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
+import logging
+import os
 
 from autopilot.matchers import Eventually
 from autopilot.platform import model
 from testtools.matchers import Equals, NotEquals
+from ubuntuuitoolkit import (
+    base,
+    emulators as toolkit_emulators,
+)
 
-import logging
+from unity8.process_helpers import unlock_unity
+from unity8.shell import disable_qml_mocking
+from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
+
 
 logger = logging.getLogger(__name__)
 
@@ -72,18 +78,30 @@ class ApplicationLifecycleTests(UnityTestCase):
             app_type='qt'
         )
 
+    def launch_fake_app(self):
+        qml_file_path, desktop_file_path = self.create_test_application()
+        desktop_file_name = os.path.basename(desktop_file_path)
+        application_name, _ = os.path.splitext(desktop_file_name)
+        self.launch_test_application(
+            base.get_qmlscene_launch_command(),
+            qml_file_path,
+            '--desktop_file_hint={0}'.format(
+                desktop_file_path),
+                emulator_base=toolkit_emulators.UbuntuUIToolkitEmulatorBase,
+                app_type='qt')
+        return application_name
+
     @disable_qml_mocking
     def test_can_launch_application(self):
         """Must be able to launch an application."""
         unity_proxy = self.launch_unity()
         unlock_unity(unity_proxy)
 
-        app = self._launch_app("messaging-app")
+        application_name = self.launch_fake_app()
 
-        self.assertThat(app, NotEquals(None))
         self.assertThat(
             self.main_window.get_current_focused_app_id(),
-            Eventually(Equals("messaging-app"))
+            Eventually(Equals(application_name))
         )
 
     @disable_qml_mocking
