@@ -237,12 +237,12 @@ FocusScope {
                 }
 
                 function updateDelegateCreationRange() {
-                    if (moving) {
+                    if (categoryView.moving) {
                         // Do not update the range if we are overshooting up or down, since we'll come back
                         // to the stable position and delete/create items without any reason
                         if (categoryView.contentY < categoryView.originY) {
                             return;
-                        } else if (categoryView.originY + categoryView.contentHeight > categoryView.height &&
+                        } else if (categoryView.contentHeight - categoryView.originY > categoryView.height &&
                                    categoryView.contentY + categoryView.height > categoryView.contentHeight) {
                             return;
                         }
