@@ -365,6 +365,29 @@ bool LauncherBackend::handleMessage(const QDBusMessage& message, const QDBusConn
 
 QString LauncherBackend::introspect (const QString &path) const
 {
-    Q_UNUSED(path)
-    return "";
+    /* This case we should just list the nodes */
+    if (path == "/com/canonical/unity/launcher/" || path == "/com/canonical/unity/launcher") {
+        QString nodes;
+
+        Q_FOREACH(const QString &appId, m_storedApps) {
+            nodes.append("<node name=\"");
+            nodes.append(appId);
+            nodes.append("\"/>\n");
+        }
+
+        return nodes;
+    }
+
+    /* Should not happen, but let's handle it */
+    if (!path.startsWith("/com/canonical/unity/launcher")) {
+        return "";
+    }
+
+    /* Now we should be looking at a node */
+    QString nodeiface =
+        "<interface name=\"com.canonical.unity.Launcher.Item\">"
+            "<property name=\"count\" type=\"i\" access=\"readwrite\" />"
+            "<property name=\"countVisible\" type=\"b\" access=\"readwrite\" />"
+        "</interface>";
+    return nodeiface;
 }
