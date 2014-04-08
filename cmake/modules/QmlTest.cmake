@@ -65,6 +65,7 @@ macro(add_qml_test SUBPATH COMPONENT_NAME)
     cmake_parse_arguments(qmltest "${options}" "" "${multi_value_keywords}" ${ARGN})
 
     set(qmltest_TARGET test${COMPONENT_NAME})
+    set(qmltest_xvfb_TARGET xvfbtest${COMPONENT_NAME})
     set(qmltest_FILE ${SUBPATH}/tst_${COMPONENT_NAME})
 
     set(qmltestrunner_imports "")
@@ -80,13 +81,71 @@ macro(add_qml_test SUBPATH COMPONENT_NAME)
         endforeach(IMPORT_PATH)
     endif()
 
+    string(TOLOWER "${CMAKE_GENERATOR}" cmake_generator_lower)
+    if(cmake_generator_lower STREQUAL "unix makefiles")
+        set(function_ARGS $(FUNCTION))
+    else()
+        set(function_ARGS "")
+    endif()
+
     set(qmltest_command
         env ${qmltest_ENVIRONMENT}
         ${qmltestrunner_exe} -input ${CMAKE_CURRENT_SOURCE_DIR}/${qmltest_FILE}.qml
             ${qmltestrunner_imports}
             -o ${CMAKE_BINARY_DIR}/${qmltest_TARGET}.xml,xunitxml
             -o -,txt
+            ${function_ARGS}
     )
+    find_program( HAVE_GCC gcc )
+    if (NOT ${HAVE_GCC} STREQUAL "")
+        exec_program( gcc ARGS "-dumpmachine" OUTPUT_VARIABLE ARCH_TRIPLET )
+        set(LD_PRELOAD_PATH "LD_PRELOAD=/usr/lib/${ARCH_TRIPLET}/mesa/libGL.so.1")
+    endif()
+    set(qmltest_xvfb_command
+        env ${qmltest_ENVIRONMENT} ${LD_PRELOAD_PATH}
+        xvfb-run --server-args "-screen 0 1024x768x24" --auto-servernum
+        ${qmltestrunner_exe} -input ${CMAKE_CURRENT_SOURCE_DIR}/${qmltest_FILE}.qml
+        ${qmltestrunner_imports}
+            -o ${CMAKE_BINARY_DIR}/${qmltest_TARGET}.xml,xunitxml
+            -o -,txt
+            ${function_ARGS}
+    )
+
+    add_qmltest_target(${qmltest_TARGET} "${qmltest_command}" TRUE ${qmltest_NO_ADD_TEST})
+    add_qmltest_target(${qmltest_xvfb_TARGET} "${qmltest_xvfb_command}" ${qmltest_NO_TARGETS} TRUE)
+    add_manual_qml_test(${SUBPATH} ${COMPONENT_NAME} ${ARGN})
+endmacro(add_qml_test)
+
+macro(add_binary_qml_test CLASS_NAME LD_PATH DEPS)
+    set(testCommand
+          LD_LIBRARY_PATH=${LD_PATH}
+          ${CMAKE_CURRENT_BINARY_DIR}/${CLASS_NAME}TestExec
+          -o ${CMAKE_BINARY_DIR}/${CLASSNAME}Test.xml,xunitxml
+          -o -,txt)
+
+    add_qmltest_target(test${CLASS_NAME} "${testCommand}" FALSE TRUE)
+    add_dependencies(test${CLASS_NAME} ${CLASS_NAME}TestExec ${DEPS})
+
+    find_program( HAVE_GCC gcc )
+    if (NOT ${HAVE_GCC} STREQUAL "")
+        exec_program( gcc ARGS "-dumpmachine" OUTPUT_VARIABLE ARCH_TRIPLET )
+        set(LD_PRELOAD_PATH "LD_PRELOAD=/usr/lib/${ARCH_TRIPLET}/mesa/libGL.so.1")
+    endif()
+    set(xvfbtestCommand
+          ${LD_PRELOAD_PATH}
+          LD_LIBRARY_PATH=${LD_PATH}
+          xvfb-run --server-args "-screen 0 1024x768x24" --auto-servernum
+          ${CMAKE_CURRENT_BINARY_DIR}/${CLASS_NAME}TestExec
+          -o ${CMAKE_BINARY_DIR}/${CLASS_NAME}Test.xml,xunitxml
+          -o -,txt)
+
+    add_qmltest_target(xvfbtest${CLASS_NAME} "${xvfbtestCommand}" FALSE TRUE)
+    add_dependencies(qmluitests xvfbtest${CLASS_NAME})
+
+    add_manual_qml_test(. ${CLASS_NAME} IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
+endmacro(add_binary_qml_test)
+
+macro(add_qmltest_target qmltest_TARGET qmltest_command qmltest_NO_TARGETS qmltest_NO_ADD_TEST)
     add_custom_target(${qmltest_TARGET} ${qmltest_command})
 
     if(NOT "${qmltest_PROPERTIES}" STREQUAL "")
@@ -117,5 +176,4 @@ macro(add_qml_test SUBPATH COMPONENT_NAME)
         endif()
     endif("${qmltest_NO_TARGETS}" STREQUAL "FALSE")
 
-    add_manual_qml_test(${SUBPATH} ${COMPONENT_NAME} ${ARGN})
-endmacro(add_qml_test)
+endmacro(add_qmltest_target)

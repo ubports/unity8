@@ -57,6 +57,16 @@ inline QStringList overrideImportPaths() {
     return paths;
 }
 
+inline QStringList nonMirImportPaths() {
+    QStringList paths;
+    if (isRunningInstalled()) {
+        paths << QString("@CMAKE_INSTALL_PREFIX@/@SHELL_INSTALL_QML@/nonmirplugins");
+    } else {
+        paths << QString("@CMAKE_BINARY_DIR@/nonmirplugins");
+    }
+    return paths;
+}
+
 inline QStringList fallbackImportPaths() {
     QStringList paths;
     if (isRunningInstalled()) {

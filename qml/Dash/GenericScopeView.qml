@@ -18,6 +18,7 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Utils 0.1
 import Unity 0.2
+import Unity.Application 0.1
 import "../Components"
 import "../Components/ListItems" as ListItems
 
@@ -38,11 +39,8 @@ FocusScope {
     property bool enableHeightBehaviorOnNextCreation: false
     property var categoryView: categoryView
 
-    // FIXME delay the search so that daemons have time to settle, note that
-    // removing this will break ScopeView::test_changeScope
     onScopeChanged: {
         if (scope) {
-            timer.restart();
             scope.activateApplication.connect(activateApp);
         }
     }
@@ -55,12 +53,6 @@ FocusScope {
         target: scope
         property: "isActive"
         value: isCurrent && !previewListView.open
-    }
-
-    Timer {
-        id: timer
-        interval: 2000
-        onTriggered: scope.searchQuery = ""
     }
 
     SortFilterProxyModel {
@@ -167,8 +159,7 @@ FocusScope {
                     if (source.toString().indexOf("Apps/RunningApplicationsGrid.qml") != -1) {
                         // TODO: this is still a kludge :D Ideally add some kind of hook so that we
                         // can do this from DashApps.qml or think a better way that needs no special casing
-                        item.firstModel = Qt.binding(function() { return mainStageApplicationsModel })
-                        item.secondModel = Qt.binding(function() { return sideStageApplicationModel })
+                        item.model = Qt.binding(function() { return runningApps; })
                         item.canEnableTerminationMode = Qt.binding(function() { return scopeView.isCurrent })
                     } else {
                         item.model = Qt.binding(function() { return results })
@@ -256,16 +247,16 @@ FocusScope {
 
                     if (item && item.hasOwnProperty("delegateCreationBegin")) {
                         if (baseItem.y + baseItem.height <= 0) {
-                            // Not visible (item at top of the list)
-                            item.delegateCreationBegin = baseItem.height
-                            item.delegateCreationEnd = baseItem.height
+                            // Not visible (item at top of the list viewport)
+                            item.delegateCreationBegin = item.originY + baseItem.height
+                            item.delegateCreationEnd = item.originY + baseItem.height
                         } else if (baseItem.y >= categoryView.height) {
-                            // Not visible (item at bottom of the list)
-                            item.delegateCreationBegin = 0
-                            item.delegateCreationEnd = 0
+                            // Not visible (item at bottom of the list viewport)
+                            item.delegateCreationBegin = item.originY
+                            item.delegateCreationEnd = item.originY
                         } else {
-                            item.delegateCreationBegin = Math.max(-baseItem.y, 0)
-                            item.delegateCreationEnd = Math.min(categoryView.height + item.delegateCreationBegin, baseItem.height)
+                            item.delegateCreationBegin = item.originY + Math.max(-baseItem.y, 0)
+                            item.delegateCreationEnd = item.originY + Math.min(categoryView.height + item.delegateCreationBegin, baseItem.height)
                         }
                     }
                 }

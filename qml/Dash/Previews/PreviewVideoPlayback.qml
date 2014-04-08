@@ -16,6 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Ubuntu.Thumbnailer 0.1
 import "../../Components"
 
 /*! \brief Preview widget for video.

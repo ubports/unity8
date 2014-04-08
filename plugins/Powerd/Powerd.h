@@ -20,6 +20,7 @@
 #ifndef UNITY_POWERD_H
 #define UNITY_POWERD_H
 
+#include <gio/gio.h>
 #include <QtCore/QObject>
 #include <QtDBus/QDBusInterface>
 
@@ -43,12 +44,14 @@ public:
     };
 
     explicit Powerd(QObject *parent = 0);
+    ~Powerd();
 
 Q_SIGNALS:
     void displayPowerStateChange(int status, unsigned int flags);
 
 private:
     QDBusInterface *powerd;
+    GSettings *systemSettings;
 };
 
 #endif

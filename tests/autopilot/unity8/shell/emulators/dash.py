@@ -80,10 +80,7 @@ class Dash(emulators.UnityEmulatorBase):
                 'No scope found with id {0}'.format(scope_id))
 
     def _get_scope_from_loader(self, loader):
-        if loader.scopeId == 'clickscope':
-            return loader.select_single(DashApps)
-        else:
-            return loader.select_single(GenericScopeView)
+        return loader.get_children()[0]
 
     def _open_scope_scrolling(self, scope_loader):
         scroll = self._get_scroll_direction(scope_loader)
@@ -145,6 +142,7 @@ class GenericScopeView(emulators.UnityEmulatorBase):
 
         :parameter category: The name of the category where the application is.
         :app_name: The name of the application.
+        :return: The opened preview.
 
         """
         category_element = self._get_category_element(category)
@@ -153,8 +151,11 @@ class GenericScopeView(emulators.UnityEmulatorBase):
         # Some categories do not show previews, like recent apps.
         # --elopio - 2014-1-14
         self.pointing_device.click_object(icon)
-        return self.get_root_instance().wait_select_single(
+        preview_list = self.get_root_instance().wait_select_single(
             'PreviewListView', objectName='dashContentPreviewList')
+        preview_list.x.wait_for(0)
+        return preview_list.select_single(
+            Preview, objectName='preview{}'.format(preview_list.currentIndex))
 
     def _get_category_element(self, category):
         try:
@@ -183,3 +184,7 @@ class DashApps(GenericScopeView):
             if card.objectName != 'cardToolCard':
                 result.append(card)
         return result
+
+
+class Preview(emulators.UnityEmulatorBase):
+    """Autopilot custom proxy object for generic previews."""

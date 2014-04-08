@@ -15,20 +15,11 @@ add_custom_target(UbuntuGesturesTestQmlFiles ALL
 add_definitions(-DUBUNTU_GESTURES_PLUGIN_DIR="${CMAKE_BINARY_DIR}/plugins")
 
 macro(add_gesture_ui_test CLASSNAME)
-    set(testCommand
-          LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/plugins/Ubuntu/Gestures
-          ${CMAKE_CURRENT_BINARY_DIR}/${CLASSNAME}TestExec
-          -o ${CMAKE_BINARY_DIR}/${CLASSNAME}Test.xml,xunitxml
-          -o -,txt)
-
-    add_custom_target(test${CLASSNAME} ${testCommand})
-    add_dependencies(qmluitests test${CLASSNAME})
-    add_dependencies(test${CLASSNAME} ${CLASSNAME}TestExec UbuntuGesturesTestQmlFiles)
-
     add_executable(${CLASSNAME}TestExec tst_${CLASSNAME}.cpp GestureTest.cpp)
     qt5_use_modules(${CLASSNAME}TestExec Test Core Qml Gui Quick)
     target_link_libraries(${CLASSNAME}TestExec UbuntuGestureQml)
-    add_manual_qml_test(. ${CLASSNAME} IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
+
+    add_binary_qml_test(${CLASSNAME} ${CMAKE_BINARY_DIR}/plugins/Ubuntu/Gestures UbuntuGesturesTestQmlFiles)
 endmacro(add_gesture_ui_test)
 
 macro(add_gesture_test CLASSNAME)
