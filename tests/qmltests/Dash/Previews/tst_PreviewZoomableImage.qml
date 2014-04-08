@@ -37,6 +37,7 @@ Rectangle {
     PreviewZoomableImage {
         id: zoomableImage
         anchors.fill: parent
+        widgetData: widgetData1
     }
 
     UT.UnityTestCase {

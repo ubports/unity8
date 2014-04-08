@@ -134,6 +134,7 @@ Rectangle {
         function test_pinch(data) {
             var image = findChild(zoomableImage, "image");
             var lazyImage = findChild(zoomableImage, "lazyImage");
+            var flickable = findChild(zoomableImage, "flickable");
 
             signalSpy.signalName = "onScaleChanged";
             signalSpy.target = image;
@@ -188,6 +189,8 @@ Rectangle {
             compare(newScale > oldScale, data.answer2, "scale factor didn't changed");
             compare(signalSpy.count == 0, data.answer3, "scale signal count error");
             compare(newScale, data.answer4, "scale factor error");
+            compare(flickable.contentWidth, lazyImage.width * image.scale);
+            compare(flickable.contentHeight, lazyImage.height * image.scale);
         }
     }
 }
