@@ -159,6 +159,9 @@ private:
 
     AccountsServiceDBusAdaptor *m_accounts;
     QString m_user;
+
+    QString decodeAppId (const QString& path) const;
+    QString encodeAppId (const QString& appId) const;
 };
 
 #endif // LAUNCHERBACKEND_H

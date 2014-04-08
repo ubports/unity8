@@ -358,9 +358,40 @@ bool LauncherBackend::isDefaultsItem(const QList<QVariantMap> &apps) const
 
 bool LauncherBackend::handleMessage(const QDBusMessage& message, const QDBusConnection& connection)
 {
-    Q_UNUSED(message)
-    Q_UNUSED(connection)
-    return false;
+    /* Check to make sure we're getting properties on our interface */
+    if (message.type() != QDBusMessage::MessageType::MethodCallMessage)
+        return false;
+    if (message.interface() != "org.freedesktop.DBus.Properties")
+        return false;
+    if (message.arguments()[0].toString() != "com.canonical.unity.Launcher.Item")
+        return false;
+
+    /* Break down the path to just the app id */
+    QString pathtemp = message.path();
+    if (!pathtemp.startsWith("/com/canonical/unity/launcher/"))
+        return false;
+    pathtemp.remove("/com/canonical/unity/launcher/");
+    if (pathtemp.indexOf('/') >= 0)
+        return false;
+
+    /* Find ourselves an appid */
+    QString appid = decodeAppId(pathtemp);
+    QVariant retval;
+
+    if (message.member() == "Get") {
+        if (message.arguments()[1].toString() == "count")
+            retval = this->count(appid);
+    } else if (message.member() == "Set") {
+        //if (message.arguments()[1].toString() == "count")
+            /* TODO: setCount */
+    } else if (message.member() == "GetAll") {
+        retval = this->itemToVariant(appid);
+    } else {
+        return false;
+    }
+
+    QDBusMessage reply = message.createReply(retval);
+    return connection.send(reply);
 }
 
 QString LauncherBackend::introspect (const QString &path) const
@@ -371,7 +402,7 @@ QString LauncherBackend::introspect (const QString &path) const
 
         Q_FOREACH(const QString &appId, m_storedApps) {
             nodes.append("<node name=\"");
-            nodes.append(appId);
+            nodes.append(encodeAppId(appId));
             nodes.append("\"/>\n");
         }
 
@@ -390,4 +421,52 @@ QString LauncherBackend::introspect (const QString &path) const
             "<property name=\"countVisible\" type=\"b\" access=\"readwrite\" />"
         "</interface>";
     return nodeiface;
+}
+
+QString LauncherBackend::decodeAppId (const QString& path) const
+{
+    QByteArray bytes = path.toUtf8();
+    QByteArray decoded;
+
+    for (int i = 0; i < bytes.size(); ++i) {
+        char chr = bytes.at(i);
+
+        if (chr == '_') {
+            QString number;
+            number.append(bytes.at(i+1));
+            number.append(bytes.at(i+2));
+
+            bool okay;
+            char newchar = number.toUInt(&okay, 16);
+            if (okay)
+                decoded.append(newchar);
+
+            i += 2;
+        } else {
+            decoded.append(chr);
+        }
+    }
+
+    return decoded;
+}
+
+QString LauncherBackend::encodeAppId (const QString& appId) const
+{
+    QByteArray bytes = appId.toUtf8();
+    QString encoded;
+
+    for (int i = 0; i < bytes.size(); ++i) {
+        char chr = bytes.at(i);
+
+        if ((chr >= 'a' && chr <= 'z') ||
+            (chr >= 'A' && chr <= 'Z') ||
+            (chr >= '0' && chr <= '9'&& i != 0)) {
+            encoded.append(chr);
+        } else {
+            encoded.append('_');
+            encoded.arg((ushort)chr, 2, 16, QChar('0'));
+        }
+    }
+
+    return encoded;
 }
