@@ -140,7 +140,9 @@ class GenericScopeViewEmulatorTestCase(DashBaseTestCase):
 
     def test_open_preview(self):
         preview = self.generic_scope.open_preview('0', 'Title.0.0')
-        preview.x.wait_for(0)
+        self.assertIsInstance(preview, dash_emulators.Preview)
+        self.assertTrue(preview.isCurrent)
+
 
 class DashAppsEmulatorTestCase(DashBaseTestCase):
 
@@ -184,8 +186,8 @@ class DashAppsEmulatorTestCase(DashBaseTestCase):
         category_element = self.applications_scope._get_category_element(
             category)
         grid = category_element.select_single('CardFilterGrid')
-        return grid.columns * grid.rows
-
-    def test_open_preview(self):
-        preview = self.applications_scope.open_preview('2', 'Title.2.1')
-        preview.x.wait_for(0)
+        filtergrid = grid.select_single('FilterGrid')
+        if (grid.filter):
+            return filtergrid.collapsedRowCount * filtergrid.columns
+        else:
+            return filtergrid.uncollapsedRowCount * filtergrid.columns

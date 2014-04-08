@@ -118,6 +118,9 @@ int startShell(int argc, const char** argv, void* server)
 
     QUrl source(::qmlDirectory() + (UNITY8_GREETER ? "GreeterShell.qml" : "Shell.qml"));
     prependImportPaths(view->engine(), ::overrideImportPaths());
+    if (!isUbuntuMirServer) {
+        prependImportPaths(view->engine(), ::nonMirImportPaths());
+    }
     appendImportPaths(view->engine(), ::fallbackImportPaths());
 
 #if UNITY8_GREETER

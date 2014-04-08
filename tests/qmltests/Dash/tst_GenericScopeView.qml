@@ -67,6 +67,7 @@ Item {
             when: scopes.loaded
 
             function init() {
+                genericScopeView.scope = scopes.get(2)
                 shell.width = units.gu(120)
                 genericScopeView.categoryView.positionAtBeginning();
                 tryCompare(genericScopeView.categoryView, "contentY", 0)

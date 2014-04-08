@@ -4,6 +4,41 @@ unity8 (7.86+14.04.20140306-0ubuntu1) UNRELEASED; urgency=medium
 
  -- Michael Terry <mterry@ubuntu.com>  Wed, 02 Apr 2014 14:39:45 -0400
 
+unity8 (7.85+14.04.20140404-0ubuntu1) trusty; urgency=low
+
+  [ Albert Astals ]
+  * Adapt to new TabBar
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 04 Apr 2014 15:03:00 +0000
+
+unity8 (7.85+14.04.20140403.1-0ubuntu1) trusty; urgency=low
+
+  [ Michael Terry ]
+  * Re-enable test_networkmanager_integration autopilot test on phone
+    platforms
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Leo Arias ]
+  * Reverted the open_preview autopilot helper to return a Preview
+    object.
+
+  [ Albert Astals ]
+  * If not running in Mir load the "fake" application manager (LP:
+    #1301547)
+  * Remove unused properties from DashRenderer
+
+  [ Michael Zanetti ]
+  * Fix tests after right edge merge. Drop old stages tests. Fix right
+    edge tests if someone doesn't have the GRID_UNIT_PX exported. make
+    GenericScopeView test more robust that broke because the ordering
+    changed
+  * add "make xvfbtestSomething" target to run qml tests in xvfb
+  * make the "make test" commit hook work again
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 03 Apr 2014 10:38:53 +0000
+
 unity8 (7.85+14.04.20140401.3-0ubuntu1) trusty; urgency=medium
 
   [ Michał Sawicz ]
