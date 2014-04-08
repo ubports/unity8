@@ -63,8 +63,8 @@ class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
             qml_file_path,
             '--desktop_file_hint={0}'.format(
                 desktop_file_path),
-                emulator_base=toolkit_emulators.UbuntuUIToolkitEmulatorBase,
-                app_type='qt')
+            emulator_base=toolkit_emulators.UbuntuUIToolkitEmulatorBase,
+            app_type='qt')
         return application_name
 
     def test_can_launch_application(self):
