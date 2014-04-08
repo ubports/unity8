@@ -82,7 +82,7 @@ Rectangle {
             return filenameA;
         }
 
-        function test_zoomable_data() {
+        function test_pinch_data() {
             return [ { source:widgetData2["source"],
                        zoomable:false,
                        answer1: true,
@@ -94,65 +94,8 @@ Rectangle {
                        answer1: false,
                        answer2: true,
                        answer3: false,
-                       answer4: 1.1 }
+                       answer4: 1.7740461882048026 }
                    ]
-        }
-
-        function test_zoomable(data) {
-            var image = findChild(zoomableImage, "image");
-            var lazyImage = findChild(zoomableImage, "lazyImage");
-
-            signalSpy.signalName = "onScaleChanged";
-            signalSpy.target = image;
-            signalSpy.clear();
-
-            zoomableImage.source = data.source;
-            zoomableImage.zoomable = data.zoomable;
-            waitForRendering(zoomableImage);
-
-            tryCompare(zoomableImage, "imageState", "ready");
-            tryCompareFunction(function() { return get_filename(lazyImage.source.toString()) === get_filename(data.source); }, true);
-            waitForRendering(image);
-
-            var event1 = touchEvent();
-            var event2 = touchEvent();
-            var x1Start = zoomableImage.width * 2 / 6;
-            var y1Start = zoomableImage.height * 2 / 6;
-            var x1End = zoomableImage.width * 1 / 6;
-            var y1End = zoomableImage.height * 1 / 6;
-            var x2Start = zoomableImage.width * 4 / 6;
-            var y2Start = zoomableImage.height * 4 / 6;
-            var x2End = zoomableImage.width * 5 / 6;
-            var y2End = zoomableImage.height * 5 / 6;
-
-            var oldScale = image.scale;
-
-            mouseMove(zoomableImage, zoomableImage.width / 2, zoomableImage.height / 2);
-            mouseWheel(zoomableImage, zoomableImage.width / 2, zoomableImage.height / 2, 0, 10);
-
-            event1.press(0, x1Start, y1Start);
-            event1.commit();
-            event1.press(1, x2Start, y2Start);
-            event1.commit();
-
-            for (var i = 0.0; i < 1.0; i += 0.02) {
-                event1.move(0, x1Start + (x1End - x1Start) * i, y1Start + (y1End - y1Start) * i);
-                event1.commit();
-                event1.move(1, x2Start + (x2End - x2Start) * i, y2Start + (y2End - y2Start) * i);
-                event1.commit();
-            }
-
-            event1.release(0, x1End, y1End);
-            event1.commit();
-            event1.release(1, x2End, y2End);
-            event1.commit();
-
-            var newScale = image.scale;
-
-            compare(newScale == oldScale, data.answer1, "scale factor not equal");
-            compare(newScale > oldScale, data.answer2, "scale factor didn't changed");
-            compare(signalSpy.count == 0, data.answer3, "scale signal count error");
-            compare(newScale, data.answer4, "scale factor error");
         }
 
         function test_mousewheel() {
@@ -160,7 +103,6 @@ Rectangle {
             var lazyImage = findChild(zoomableImage, "lazyImage");
             var flickable = findChild(zoomableImage, "flickable");
 
-            zoomableImage.source = "";
             zoomableImage.source = widgetData2["source"];
             zoomableImage.zoomable = true;
             waitForRendering(zoomableImage);
@@ -169,7 +111,7 @@ Rectangle {
             tryCompareFunction(function() { return get_filename(lazyImage.source.toString()) === get_filename(widgetData2["source"]); }, true);
             waitForRendering(image);
 
-            // move to center
+            // move mouse to center
             mouseMove(zoomableImage, zoomableImage.width / 2, zoomableImage.height / 2);
 
             // zoom in
@@ -187,6 +129,65 @@ Rectangle {
                 compare(flickable.contentWidth, lazyImage.width * image.scale);
                 compare(flickable.contentHeight, lazyImage.height * image.scale);
             }
+        }
+
+        function test_pinch(data) {
+            var image = findChild(zoomableImage, "image");
+            var lazyImage = findChild(zoomableImage, "lazyImage");
+
+            signalSpy.signalName = "onScaleChanged";
+            signalSpy.target = image;
+            signalSpy.clear();
+
+            zoomableImage.source = data.source;
+            zoomableImage.zoomable = data.zoomable;
+            waitForRendering(zoomableImage);
+
+            tryCompare(zoomableImage, "imageState", "ready");
+            tryCompareFunction(function() { return get_filename(lazyImage.source.toString()) === get_filename(data.source); }, true);
+            waitForRendering(image);
+
+            var x1Start = zoomableImage.width * 2 / 6;
+            var y1Start = zoomableImage.height * 2 / 6;
+            var x1End = zoomableImage.width * 1 / 6;
+            var y1End = zoomableImage.height * 1 / 6;
+            var x2Start = zoomableImage.width * 4 / 6;
+            var y2Start = zoomableImage.height * 4 / 6;
+            var x2End = zoomableImage.width * 5 / 6;
+            var y2End = zoomableImage.height * 5 / 6;
+
+            var oldScale = image.scale;
+
+            // move mouse to center
+            mouseMove(zoomableImage, zoomableImage.width / 2, zoomableImage.height / 2);
+
+            var event1 = touchEvent();
+            // first finger
+            event1.press(0, x1Start, y1Start);
+            event1.commit();
+            // second finger
+            event1.stationary(0);
+            event1.press(1, x2Start, y2Start);
+            event1.commit();
+
+            // pinch
+            for (var i = 0.0; i < 1.0; i += 0.02) {
+                event1.move(0, x1Start + (x1End - x1Start) * i, y1Start + (y1End - y1Start) * i);
+                event1.move(1, x2Start + (x2End - x2Start) * i, y2Start + (y2End - y2Start) * i);
+                event1.commit();
+            }
+
+            // release
+            event1.release(0, x1End, y1End);
+            event1.release(1, x2End, y2End);
+            event1.commit();
+
+            tryCompare(image, "scale", data.answer4);
+            var newScale = image.scale;
+            compare(newScale == oldScale, data.answer1, "scale factor not equal: "+ oldScale + "=?" + newScale);
+            compare(newScale > oldScale, data.answer2, "scale factor didn't changed");
+            compare(signalSpy.count == 0, data.answer3, "scale signal count error");
+            compare(newScale, data.answer4, "scale factor error");
         }
     }
 }
