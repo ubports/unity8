@@ -90,13 +90,14 @@ def unlock_unity(unity_proxy_obj=None):
 
 
 def lock_unity():
-    import evdev
+    import evdev, time
     uinput = evdev.UInput(name='unity8-autopilot-power-button',
                           devnode='/dev/autopilot-uinput')
     # One press and release to turn screen off (locking unity)
     uinput.write(evdev.ecodes.EV_KEY, evdev.ecodes.KEY_POWER, 1)
     uinput.write(evdev.ecodes.EV_KEY, evdev.ecodes.KEY_POWER, 0)
     uinput.syn()
+    time.sleep(1)
     # And another press and release to turn screen back on
     uinput.write(evdev.ecodes.EV_KEY, evdev.ecodes.KEY_POWER, 1)
     uinput.write(evdev.ecodes.EV_KEY, evdev.ecodes.KEY_POWER, 0)

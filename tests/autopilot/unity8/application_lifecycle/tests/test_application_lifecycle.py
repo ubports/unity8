@@ -170,6 +170,7 @@ class ApplicationLifecycleTests(UnityTestCase):
     def test_greeter_hides_on_app_focus(self):
         """Greeter should hide when an app is re-focused"""
         unity_proxy = self.launch_unity()
+        greeter = self.main_window.get_greeter()
         unlock_unity(unity_proxy)
 
         self._launch_app("messaging-app")
@@ -185,7 +186,6 @@ class ApplicationLifecycleTests(UnityTestCase):
         )
 
         lock_unity()
-        greeter = self.main_window.get_greeter()
         self.assertThat(greeter.created, Eventually(Equals(True)))
 
         self._launch_app("messaging-app")
