@@ -47,10 +47,21 @@ LauncherBackend::LauncherBackend(QObject *parent):
 #endif
     m_user = qgetenv("USER");
     syncFromAccounts();
+
+    /* Set up ourselves on DBus */
+    QDBusConnection con = QDBusConnection::sessionBus();
+    con.registerService("com.canonical.unity.launcher");
+    con.registerObject("/com/canonical/unity/launcher/", this);
 }
 
 LauncherBackend::~LauncherBackend()
 {
+    /* Remove oursevles from DBus */
+    QDBusConnection con = QDBusConnection::sessionBus();
+    con.unregisterService("com.canonical.unity.launcher");
+    con.unregisterObject("/com/canonical/unity/launcher/");
+
+    /* Clear data */
     m_storedApps.clear();
 
     Q_FOREACH(LauncherBackendItem *item, m_itemCache) {
