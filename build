@@ -54,6 +54,7 @@ install_dependencies() {
                          unity-scope-home \
                          unity-lens-applications \
                          unity-plugin-scopes \
+                         xvfb \
         || exit 5
 }
 

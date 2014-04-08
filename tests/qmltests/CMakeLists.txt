@@ -21,7 +21,6 @@ set(qmltest_DEFAULT_PROPERTIES "")
 
 add_qml_test(. Shell IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS} ${CMAKE_BINARY_DIR}/tests/mocks
                      ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/LightDM/single")
-add_manual_qml_test(Components DragHandle IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
 add_qml_test(Components Carousel)
 add_qml_test(Components DraggingArea)
 add_qml_test(Components EdgeDemoOverlay)
@@ -33,9 +32,6 @@ add_qml_test(Components ResponsiveGridView)
 add_qml_test(Components Revealer)
 add_qml_test(Components SeeMore)
 add_qml_test(Components Showable)
-add_qml_test(Components Stage IMPORT_PATHS ${qmltest_DEFAULT_IMPORT_PATHS}
-                                           ${CMAKE_BINARY_DIR}/tests/mocks
-                                           ${CMAKE_BINARY_DIR}/plugins)
 add_qml_test(Components PageHeaderLabel)
 add_qml_test(Dash Dash IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
 add_qml_test(Dash DashContent IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${qmltest_DEFAULT_IMPORT_PATHS})
