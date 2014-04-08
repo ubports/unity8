@@ -1,3 +1,121 @@
+unity8 (7.85+14.04.20140404-0ubuntu1) trusty; urgency=low
+
+  [ Albert Astals ]
+  * Adapt to new TabBar
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 04 Apr 2014 15:03:00 +0000
+
+unity8 (7.85+14.04.20140403.1-0ubuntu1) trusty; urgency=low
+
+  [ Michael Terry ]
+  * Re-enable test_networkmanager_integration autopilot test on phone
+    platforms
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Leo Arias ]
+  * Reverted the open_preview autopilot helper to return a Preview
+    object.
+
+  [ Albert Astals ]
+  * If not running in Mir load the "fake" application manager (LP:
+    #1301547)
+  * Remove unused properties from DashRenderer
+
+  [ Michael Zanetti ]
+  * Fix tests after right edge merge. Drop old stages tests. Fix right
+    edge tests if someone doesn't have the GRID_UNIT_PX exported. make
+    GenericScopeView test more robust that broke because the ordering
+    changed
+  * add "make xvfbtestSomething" target to run qml tests in xvfb
+  * make the "make test" commit hook work again
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 03 Apr 2014 10:38:53 +0000
+
+unity8 (7.85+14.04.20140401.3-0ubuntu1) trusty; urgency=medium
+
+  [ Michał Sawicz ]
+  * Bump version to ensure incompatibility with previous Unity.Application
+    implementations.
+  * We'll only have the unity-mir and mock Ubuntu.Application plugins
+    now, no need for mangling the import paths.
+
+  [ Michal Hruby ]
+  * Remove the albumart image provider. (LP: #1262711)
+  * Don't reset search string after 2 seconds. (LP: #1297246)
+
+  [ James Henstridge ]
+  * Remove the albumart image provider. (LP: #1262711)
+
+  [ Albert Astals ]
+  * Carousel: Add test to make sure we only create the needed delegates
+    and not more
+  * LVWPH: Remove processEvents() call from updatePolish() It causes
+    some reentrancy issues and in some times you end up in polishItems()
+    with items that have been deleted because you called processEvents()
+    This means i need a small tweak in itemGeometryChanged to not
+    reposition items if we are inside a setContentHeight call and two
+    small tweaks to tests since now things happen in a different order
+    and numbers are different (though equivalent) (LP: #1297240)
+  * Card.qml binding loops are gone. hooray \o/ Also made the aspect
+    properties readonly
+
+  [ Mirco Müller ]
+  * A potential fix for "Cannot read property 'state' of null"-failure
+    on Jenkins with the VisualSnapDecisionsQueue QML-test of
+    notifications.
+
+  [ Michael Terry ]
+  * Pass user's preference for auto-brightness on to powerd. (LP:
+    #1273174)
+
+  [ Michael Zanetti ]
+  * Registers a dummy QObject as QTestRootObject in uqmlscene in order
+    to fix make trySomething with Qt 5.2.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 01 Apr 2014 22:56:52 +0000
+
+unity8 (7.84+14.04.20140327.1-0ubuntu2) trusty; urgency=medium
+
+  * For now, have libunity-private depending on libunity-core-6.0-9 as the
+    gsettings schema is here. The dependency wasn't direct and dropped from
+    Touch image #271. Consequently, unity8 didn't start (gsettings
+    segfaulting).
+    Proper strategy will be to include the schema in another package to only
+    pull it.
+
+ -- Didier Roche <didrocks@ubuntu.com>  Tue, 01 Apr 2014 09:52:14 +0200
+
+unity8 (7.84+14.04.20140327.1-0ubuntu1) trusty; urgency=low
+
+  [ Michał Sawicz ]
+  * Increase kill timeout so that crashes are not truncated.
+
+  [ Ying-Chun Liu ]
+  * Fix a small typo in LazyImage: scale -> scaleTo
+
+  [ Albert Astals ]
+  * Make geometry calls for autopilot work again -geometry is a internal
+    Qt argument that only works for QWidget based apps Before it was
+    being returned to us in -args but now it's eaten so we need to use a
+    different one, -windowgeometry
+  * Make "Recent" translatable and update pot file
+
+  [ Mirco Müller ]
+  * Make visual queue of (up to five) snap-decisions contract and expand
+    according to visual design-spec.
+
+  [ Michael Terry ]
+  * Pass user's preference for auto-brightness on to powerd. (LP:
+    #1273174)
+
+  [ Michael Zanetti ]
+  * allow executing a single test function example: make testShell
+    FUNCTION="Shell::test_background"
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 27 Mar 2014 12:38:21 +0000
+
 unity8 (7.84+14.04.20140324.4-0ubuntu1) trusty; urgency=low
 
   [ Michal Hruby ]

@@ -11,13 +11,12 @@ include_directories(
 )
 
 set(QMLPLUGIN_SRC
-    albumartprovider.cpp
     bottombarvisibilitycommunicatorshell.cpp
-    mediaartcache.cpp
     qlimitproxymodelqml.cpp
     qsortfilterproxymodelqml.cpp
     timeformatter.cpp
     unitymenumodelpaths.cpp
+    easingcurve.cpp
     plugin.cpp
     )
 
@@ -33,7 +32,7 @@ target_link_libraries(Utils-qml ${GIO_LDFLAGS})
 # files directly in targets.
 set_target_properties(Utils-qml PROPERTIES COMPILE_FLAGS -fvisibility=default)
 
-qt5_use_modules(Utils-qml Qml Quick DBus Network XmlPatterns Concurrent)
+qt5_use_modules(Utils-qml Qml Quick DBus Network XmlPatterns Gui Concurrent)
 
 # export the qmldir qmltypes and plugin files
 export_qmlfiles(Utils Utils)
