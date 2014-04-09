@@ -122,12 +122,14 @@ Item {
             onPinchUpdated: {
                 image.scale = pinch.scale;
                 pinch.accepted = true;
+                console.log("Pinch Updated pinch.scale = "+pinch.scale+" image.scale = "+image.scale);
             }
 
             onPinchFinished: {
                 image.scale = pinch.scale;
                 flickable.returnToBounds();
                 pinch.accepted = true;
+                console.log("Pinch Finished pinch.scale = "+pinch.scale+" image.scale = "+image.scale);
             }
         }
 

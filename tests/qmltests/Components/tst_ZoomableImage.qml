@@ -82,22 +82,6 @@ Rectangle {
             return filenameA;
         }
 
-        function test_pinch_data() {
-            return [ { source:widgetData2["source"],
-                       zoomable:false,
-                       answer1: true,
-                       answer2: false,
-                       answer3: true,
-                       answer4: 1.0 },
-                     { source:widgetData2["source"],
-                       zoomable:true,
-                       answer1: false,
-                       answer2: true,
-                       answer3: false,
-                       answer4: 1.7740461882048026 }
-                   ]
-        }
-
         function test_mousewheel() {
             var image = findChild(zoomableImage, "image");
             var lazyImage = findChild(zoomableImage, "lazyImage");
@@ -131,6 +115,45 @@ Rectangle {
             }
         }
 
+        function touchPinch(x1Start, y1Start, x1End, y1End, x2Start, y2Start, x2End, y2End) {
+            var event1 = touchEvent();
+            // first finger
+            event1.press(0, x1Start, y1Start);
+            event1.commit();
+            // second finger
+            event1.stationary(0);
+            event1.press(1, x2Start, y2Start);
+            event1.commit();
+
+            // pinch
+            for (var i = 0.0; i < 1.0; i += 0.02) {
+                event1.move(0, x1Start + (x1End - x1Start) * i, y1Start + (y1End - y1Start) * i);
+                event1.move(1, x2Start + (x2End - x2Start) * i, y2Start + (y2End - y2Start) * i);
+                event1.commit();
+            }
+
+            // release
+            event1.release(0, x1End, y1End);
+            event1.release(1, x2End, y2End);
+            event1.commit();
+        }
+
+        function test_pinch_data() {
+            return [ { source:widgetData2["source"],
+                       zoomable:false,
+                       answer1: true,
+                       answer2: false,
+                       answer3: true,
+                       answer4: 1.0 },
+                     { source:widgetData2["source"],
+                       zoomable:true,
+                       answer1: false,
+                       answer2: true,
+                       answer3: false,
+                       answer4: 1.7740461882048026 }
+                   ]
+        }
+
         function test_pinch(data) {
             var image = findChild(zoomableImage, "image");
             var lazyImage = findChild(zoomableImage, "lazyImage");
@@ -162,26 +185,8 @@ Rectangle {
             // move mouse to center
             mouseMove(zoomableImage, zoomableImage.width / 2, zoomableImage.height / 2);
 
-            var event1 = touchEvent();
-            // first finger
-            event1.press(0, x1Start, y1Start);
-            event1.commit();
-            // second finger
-            event1.stationary(0);
-            event1.press(1, x2Start, y2Start);
-            event1.commit();
-
             // pinch
-            for (var i = 0.0; i < 1.0; i += 0.02) {
-                event1.move(0, x1Start + (x1End - x1Start) * i, y1Start + (y1End - y1Start) * i);
-                event1.move(1, x2Start + (x2End - x2Start) * i, y2Start + (y2End - y2Start) * i);
-                event1.commit();
-            }
-
-            // release
-            event1.release(0, x1End, y1End);
-            event1.release(1, x2End, y2End);
-            event1.commit();
+            touchPinch(x1Start, y1Start, x1End, y1End, x2Start, y2Start, x2End, y2End);
 
             tryCompare(image, "scale", data.answer4);
             var newScale = image.scale;
@@ -191,6 +196,13 @@ Rectangle {
             compare(newScale, data.answer4, "scale factor error");
             compare(flickable.contentWidth, lazyImage.width * image.scale);
             compare(flickable.contentHeight, lazyImage.height * image.scale);
+
+            // move mouse to center
+            mouseMove(zoomableImage, zoomableImage.width / 2, zoomableImage.height / 2);
+
+            // pinch
+            touchPinch(x1End, y1End, x1Start, y1Start, x2End, y2End, x2Start, y2Start);
+            tryCompare(image, "scale", oldScale);
         }
     }
 }
