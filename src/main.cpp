@@ -117,13 +117,10 @@ int startShell(int argc, const char** argv, void* server)
 
     QUrl source(::qmlDirectory()+"Shell.qml");
     prependImportPaths(view->engine(), ::overrideImportPaths());
-    appendImportPaths(view->engine(), ::fallbackImportPaths());
-
-    if (isUbuntuMirServer) {
-        QStringList importPaths = view->engine()->importPathList();
-        importPaths.replaceInStrings(QRegExp("qt5/imports$"), "qt5/imports/Unity-Mir");
-        view->engine()->setImportPathList(importPaths);
+    if (!isUbuntuMirServer) {
+        prependImportPaths(view->engine(), ::nonMirImportPaths());
     }
+    appendImportPaths(view->engine(), ::fallbackImportPaths());
 
     view->setSource(source);
     view->setColor("transparent");

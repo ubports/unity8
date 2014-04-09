@@ -5,6 +5,7 @@ set(FakeUnityApplicationQml_SOURCES
     ApplicationInfo.cpp
     ApplicationImage.cpp
     ApplicationManager.cpp
+    ApplicationScreenshotProvider.cpp
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
 )
@@ -33,4 +34,18 @@ install(TARGETS FakeUnityApplicationQml
 
 install(FILES qmldir InputFilterArea.qml OSKController.qml
     DESTINATION ${SHELL_INSTALL_QML}/mocks/Unity/Application
+    )
+
+# Duplicate the mock to nonmirplugins
+# In shadow builds we just link it, in real installs we also install it to the other path
+add_custom_target(OSKControllerQmlFile2 ALL
+    COMMAND mkdir -p ${CMAKE_BINARY_DIR}/nonmirplugins/Unity && rm -f ${CMAKE_BINARY_DIR}/nonmirplugins/Unity/Application && ln -s ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_BINARY_DIR}/nonmirplugins/Unity
+    DEPENDS qmldir
+)
+install(TARGETS FakeUnityApplicationQml
+    DESTINATION ${SHELL_INSTALL_QML}/nonmirplugins/Unity/Application
+    )
+
+install(FILES qmldir InputFilterArea.qml OSKController.qml
+    DESTINATION ${SHELL_INSTALL_QML}/nonmirplugins/Unity/Application
     )

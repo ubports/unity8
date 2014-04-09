@@ -7,16 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-02-13 18:37+0000\n"
-"PO-Revision-Date: 2014-03-09 19:22+0000\n"
+"POT-Creation-Date: 2014-03-25 16:48+0100\n"
+"PO-Revision-Date: 2014-04-05 09:57+0000\n"
 "Last-Translator: Jiri Grönroos <Unknown>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-03-18 06:25+0000\n"
-"X-Generator: Launchpad (build 16963)\n"
+"X-Launchpad-Export-Date: 2014-04-08 07:13+0000\n"
+"X-Generator: Launchpad (build 16976)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -75,7 +74,7 @@ msgstr ""
 "Hallitset nyt reunaeleet, joten voit aloittaa puhelimen "
 "käytön<br><br>Napauta näyttöä aloittaaksesi"
 
-#: qml/Components/PageHeader.qml:340
+#: qml/Components/PageHeader.qml:365
 msgid "Recent searches"
 msgstr "Viimeisimmät haut"
 
@@ -83,27 +82,18 @@ msgstr "Viimeisimmät haut"
 msgid "See more"
 msgstr "Näytä lisää"
 
-#: qml/Components/SeeMore.qml:57
+#: qml/Components/SeeMore.qml:58
 msgid "See less"
 msgstr "Näytä vähemmän"
 
-#: qml/Dash/Apps/AppPreview.qml:136 qml/Dash/Previews/PreviewRating.qml:70
-msgid "Rate this"
-msgstr "Arvioi tämä"
+#: qml/Dash/DashApps.qml:38
+msgid "Recent"
+msgstr "Viimeisimmät"
 
-#. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: qml/Dash/Previews/Header.qml:93
+#: qml/Dash/PreviewListView.qml:52
 #, qt-format
-msgid "(%1)"
-msgstr "(%1)"
-
-#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: qml/Dash/Previews/Header.qml:105
-#, qt-format
-msgid "%1 review"
-msgid_plural "%1 reviews"
-msgstr[0] "%1 arvostelu"
-msgstr[1] "%1 arvostelua"
+msgid "%1 Preview"
+msgstr "%1 esikatselu"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -113,21 +103,17 @@ msgstr "Lisää..."
 msgid "Less..."
 msgstr "Vähemmän..."
 
-#: qml/Dash/Previews/PreviewRating.qml:114 qml/Dash/Previews/Reviews.qml:74
+#: qml/Dash/Previews/PreviewRatingInput.qml:81
+msgid "Rate this"
+msgstr "Arvioi tämä"
+
+#: qml/Dash/Previews/PreviewRatingInput.qml:126
 msgid "Add a review"
 msgstr "Lisää arvostelu"
 
-#: qml/Dash/Previews/PreviewRating.qml:153 qml/Dash/Previews/Reviews.qml:121
+#: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
 msgstr "Lähetä"
-
-#: qml/Dash/Previews/Reviews.qml:86
-msgid "Review"
-msgstr "Arvostelu"
-
-#: qml/Dash/Previews/Reviews.qml:139
-msgid "Comments:"
-msgstr "Kommentit:"
 
 #: qml/Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
@@ -174,7 +160,7 @@ msgstr "Anna SIM-kortin PIN-koodi"
 msgid "Search"
 msgstr "Hae"
 
-#: qml/Shell.qml:440
+#: qml/Shell.qml:417
 #, qt-format
 msgid "Please enter %1"
 msgstr "Kirjoita %1"
