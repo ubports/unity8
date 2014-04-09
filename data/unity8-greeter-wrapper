@@ -21,7 +21,9 @@ cleanup()
 {
     trap - TERM EXIT
     # Kill upstart and indicators
-    pkill -u lightdm -x init
+    if [ -n "$INIT_PID" ]; then
+        kill "$INIT_PID"
+    fi
     if [ -n "$CMD_PID" ]; then
         kill "$CMD_PID"
     fi
@@ -55,13 +57,12 @@ fi
 # creates for them and don't want to start all the services that a normal
 # session would.  So it's inconvenient to live within an upstart session.
 # But... we still want to use Upstart for some services.  So launch here.
-MIR_SOCKET=$SUB_SOCKET $TOUCH_WRAPPER /sbin/init --user --startup-event=unity8-greeter-started &
+MIR_SOCKET=$SUB_SOCKET $TOUCH_WRAPPER /sbin/init --user --no-startup-event &
 INIT_PID=$!
 while [ ! -e "$XDG_RUNTIME_DIR/upstart/sessions/$INIT_PID.session" ]; do sleep 0.1; done
 export UPSTART_SESSION=$(/sbin/initctl list-sessions | grep "^$INIT_PID " | cut -d' ' -f2)
 
-export MIR_SERVER_FILE=$SUB_SOCKET
-exec $TOUCH_WRAPPER $@ &
+exec env MIR_SERVER_FILE=$SUB_SOCKET $TOUCH_WRAPPER $@ &
 CMD_PID=$!
 wait $CMD_PID
 CMD_PID=

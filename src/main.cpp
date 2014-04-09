@@ -26,6 +26,7 @@
 #include <qpa/qplatformnativeinterface.h>
 #include <QLibrary>
 #include <QDebug>
+#include <QProcess>
 #include <libintl.h>
 #include <dlfcn.h>
 #include <csignal>
@@ -129,6 +130,10 @@ int startShell(int argc, const char** argv, void* server)
         QSurfaceFormat format;
         format.setAlphaBufferSize(8);
         view->setFormat(format);
+    }
+
+    if (!QProcess::startDetached("/sbin/initctl emit --no-wait unity8-greeter-started")) {
+        qDebug() << "Unable to send unity8-greeter-started event to Upstart";
     }
 #endif
 
