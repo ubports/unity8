@@ -6,7 +6,6 @@ project(IndicatorsQml)
 pkg_check_modules(GLIB REQUIRED glib-2.0>=2.32)
 pkg_check_modules(GIO REQUIRED gio-2.0>=2.32)
 pkg_check_modules(QMENUMODEL REQUIRED qmenumodel)
-pkg_check_modules(LIBUPSTART REQUIRED libupstart libnih libnih-dbus dbus-1)
 
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Quick REQUIRED)
@@ -19,7 +18,6 @@ include_directories(
     ${GLIB_INCLUDE_DIRS}
     ${GIO_INCLUDE_DIRS}
     ${QMENUMODEL_INCLUDE_DIRS}
-    ${LIBUPSTART_INCLUDE_DIRS}
 )
 
 set(IndicatorsQML_SOURCES
@@ -54,7 +52,6 @@ target_link_libraries(IndicatorsQml
     ${GLIB_LIBRARIES}
     ${GIO_LIBRARIES}
     ${QMENUMODEL_LDFLAGS}
-    ${LIBUPSTART_LIBRARIES}
 )
 
 qt5_use_modules(IndicatorsQml Core Qml Quick)
