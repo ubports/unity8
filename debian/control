@@ -70,9 +70,6 @@ Depends: unity8-common (= ${binary:Version}),
 Description: Development tool for Unity scopes
  This package contains the development tool for new generation Unity scopes, based
  on Unity8.
-Recommends: unity-scope-click,
-            unity-scope-mediascanner2,
-            unity-scope-scopes,
 
 Package: unity8
 Architecture: any
@@ -87,7 +84,6 @@ Depends: gsettings-desktop-schemas,
          qtdeclarative5-ubuntu-settings-components,
          qtdeclarative5-unity-notifications-plugin | unity-notifications-impl,
          qtdeclarative5-xmllistmodel-plugin,
-         ubuntu-thumbnailer-impl-0,
          unity-launcher-impl-3,
          unity-notifications-impl-2,
          unity8-common (= ${binary:Version}),
@@ -108,6 +104,7 @@ Package: unity8-common
 Architecture: all
 Depends: qtdeclarative5-ubuntu-thumbnailer0.1 | ubuntu-thumbnailer-impl,
          qtdeclarative5-ubuntu-ui-toolkit-plugin,
+         ubuntu-thumbnailer-impl-0,
          unity-application-impl-2,
          unity-plugin-scopes | unity-scopes-impl,
          unity-scopes-impl-0,
