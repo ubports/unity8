@@ -62,6 +62,10 @@ INIT_PID=$!
 while [ ! -e "$XDG_RUNTIME_DIR/upstart/sessions/$INIT_PID.session" ]; do sleep 0.1; done
 export UPSTART_SESSION=$(/sbin/initctl list-sessions | grep "^$INIT_PID " | cut -d' ' -f2)
 
+# Start any pre-greeter tasks if needed (like wizard)
+/sbin/initctl emit unity8-greeter-starting
+
+# And finally actually start the greeter
 exec env MIR_SERVER_FILE=$SUB_SOCKET $TOUCH_WRAPPER $@ &
 CMD_PID=$!
 wait $CMD_PID
