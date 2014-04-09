@@ -63,12 +63,16 @@ Description: Indicators client test application
 
 Package: unity-scope-tool
 Architecture: any
-Depends: unity8 (= ${binary:Version}),
+Depends: unity8-common (= ${binary:Version}),
+         unity8-private (= ${binary:Version}),
          ${misc:Depends},
          ${shlibs:Depends},
 Description: Development tool for Unity scopes
  This package contains the development tool for new generation Unity scopes, based
  on Unity8.
+Recommends: unity-scope-click,
+            unity-scope-mediascanner2,
+            unity-scope-scopes,
 
 Package: unity8
 Architecture: any
@@ -80,19 +84,14 @@ Depends: gsettings-desktop-schemas,
          qtdeclarative5-dee-plugin,
          qtdeclarative5-gsettings1.0,
          qtdeclarative5-ubuntu-settings-components,
-         qtdeclarative5-ubuntu-thumbnailer0.1 | ubuntu-thumbnailer-impl,
-         ubuntu-thumbnailer-impl-0,
-         qtdeclarative5-ubuntu-ui-toolkit-plugin,
          qtdeclarative5-unity-notifications-plugin | unity-notifications-impl,
          qtdeclarative5-xmllistmodel-plugin,
-         unity-application-impl-2,
+         ubuntu-thumbnailer-impl-0,
          unity-launcher-impl-3,
          unity-notifications-impl-2,
-         unity8-fake-env | unity-application-impl,
+         unity8-common (= ${binary:Version}),
          unity8-private (= ${binary:Version}),
          unity8-private | unity-launcher-impl,
-         unity-plugin-scopes | unity-scopes-impl,
-         unity-scopes-impl-0,
 # for setcap:
          libcap2-bin,
          ${misc:Depends},
@@ -105,6 +104,20 @@ Breaks: indicator-network (<< 0.5.1),
 Replaces: ubuntu-touch-session (<< 0.82~)
 Description: Unity 8 shell
  The Unity 8 shell is the primary user interface for Ubuntu devices.
+
+Package: unity8-common
+Architecture: all
+Depends: qtdeclarative5-ubuntu-thumbnailer0.1 | ubuntu-thumbnailer-impl,
+         qtdeclarative5-ubuntu-ui-toolkit-plugin,
+         unity-application-impl-2,
+         unity8-fake-env | unity-application-impl,
+         unity-plugin-scopes | unity-scopes-impl,
+         unity-scopes-impl-0,
+Description: Unity 8 shell (common files)
+ The Unity 8 shell is the primary user interface for Ubuntu devices.
+ .
+ This package contains the QML, graphics and locale files shared between
+ unity8 and unity-scope-tool.
 
 Package: unity8-autopilot
 Architecture: all
