@@ -63,7 +63,7 @@ Description: Indicators client test application
 
 Package: unity-scope-tool
 Architecture: any
-Depends: unity8-common (= ${binary:Version}),
+Depends: unity8-common (= ${source:Version}),
          unity8-private (= ${binary:Version}),
          ${misc:Depends},
          ${shlibs:Depends},
@@ -86,7 +86,7 @@ Depends: gsettings-desktop-schemas,
          qtdeclarative5-xmllistmodel-plugin,
          unity-launcher-impl-3,
          unity-notifications-impl-2,
-         unity8-common (= ${binary:Version}),
+         unity8-common (= ${source:Version}),
          unity8-private (= ${binary:Version}),
          unity8-private | unity-launcher-impl,
          ${misc:Depends},
