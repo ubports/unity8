@@ -25,10 +25,6 @@ import logging
 import os
 
 from autopilot.platform import model
-from ubuntuuitoolkit import (
-    base,
-    emulators as toolkit_emulators,
-)
 
 from unity8.application_lifecycle import tests
 
@@ -55,7 +51,7 @@ class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
         self.touch.drag(start_x, start_y, end_x, end_y)
 
     def launch_fake_app(self):
-        qml_file_path, desktop_file_path = self.create_test_application()
+        _, desktop_file_path = self.create_test_application()
         desktop_file_name = os.path.basename(desktop_file_path)
         application_name, _ = os.path.splitext(desktop_file_name)
         self.launch_upstart_application(application_name)
