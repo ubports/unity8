@@ -8,15 +8,14 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-03-25 16:48+0100\n"
-"PO-Revision-Date: 2014-03-08 06:58+0000\n"
+"PO-Revision-Date: 2014-04-08 07:04+0000\n"
 "Last-Translator: Marcos Lans <Unknown>\n"
 "Language-Team: Galician <gl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-03-28 06:48+0000\n"
-"X-Generator: Launchpad (build 16967)\n"
+"X-Launchpad-Export-Date: 2014-04-09 07:31+0000\n"
+"X-Generator: Launchpad (build 16976)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -89,12 +88,12 @@ msgstr "Ver menos"
 
 #: qml/Dash/DashApps.qml:38
 msgid "Recent"
-msgstr ""
+msgstr "Recentes"
 
 #: qml/Dash/PreviewListView.qml:52
 #, qt-format
 msgid "%1 Preview"
-msgstr ""
+msgstr "%1 previsualización"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -165,19 +164,3 @@ msgstr "Buscar"
 #, qt-format
 msgid "Please enter %1"
 msgstr "Introduza %1"
-
-#, qt-format
-#~ msgid "(%1)"
-#~ msgstr "(%1)"
-
-#~ msgid "Comments:"
-#~ msgstr "Comentarios:"
-
-#~ msgid "Review"
-#~ msgstr "Opinión"
-
-#, qt-format
-#~ msgid "%1 review"
-#~ msgid_plural "%1 reviews"
-#~ msgstr[0] "%1 opinión"
-#~ msgstr[1] "%1 opinións"

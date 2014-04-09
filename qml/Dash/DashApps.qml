@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Utils 0.1
+import Unity.Application 0.1
 import "../Components"
 import "../Components/ListItems"
 import "Apps"
@@ -25,17 +26,15 @@ GenericScopeView {
     id: scopeView
     objectName: "DashApps"
 
-    // FIXME: a way to aggregate these models would be ideal
-    property var mainStageApplicationsModel: shell.applicationManager.mainStageApplications
-    property var sideStageApplicationModel: shell.applicationManager.sideStageApplications
+    property var runningApps: ApplicationManager
 
     QtObject {
         id: countObject
-        property int count: scopeView.scope.searchQuery.length == 0 ? (mainStageApplicationsModel.count + sideStageApplicationModel.count) : 0
+        property int count: scopeView.scope.searchQuery.length == 0 ? scopeView.runningApps.count : 0
     }
 
     onScopeChanged: {
         scopeView.scope.categories.addSpecialCategory("running.apps.category", i18n.tr("Recent"), "", "{ \"template\": { \"category-layout\": \"running-apps\" } }", countObject);
-        enableHeightBehaviorOnNextCreation = (mainStageApplicationsModel.count + sideStageApplicationModel.count == 0)
+        enableHeightBehaviorOnNextCreation = scopeView.runningApps.count === 0
     }
 }
