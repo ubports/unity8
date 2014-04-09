@@ -364,9 +364,11 @@ FocusScope {
 
     Item {
         // Just a tiny wrapper to adjust greeter's x without messing with its own dragging
-        width: parent.width
-        height: parent.height
         x: launcher.progress
+        y: panel.panelHeight
+        width: parent.width
+        height: parent.height - panel.panelHeight
+
         Behavior on x {SmoothedAnimation{velocity: 600}}
 
         Rectangle {
@@ -385,9 +387,8 @@ FocusScope {
 
             defaultBackground: shell.background
 
-            y: panel.panelHeight
             width: parent.width
-            height: parent.height - panel.panelHeight
+            height: parent.height
 
             dragHandleWidth: shell.edgeSize
 
