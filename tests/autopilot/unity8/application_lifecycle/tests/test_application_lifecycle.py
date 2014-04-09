@@ -58,13 +58,7 @@ class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
         qml_file_path, desktop_file_path = self.create_test_application()
         desktop_file_name = os.path.basename(desktop_file_path)
         application_name, _ = os.path.splitext(desktop_file_name)
-        self.launch_test_application(
-            base.get_qmlscene_launch_command(),
-            qml_file_path,
-            '--desktop_file_hint={0}'.format(
-                desktop_file_path),
-            emulator_base=toolkit_emulators.UbuntuUIToolkitEmulatorBase,
-            app_type='qt')
+        self.launch_upstart_application(application_name)
         return application_name
 
     def test_can_launch_application(self):
