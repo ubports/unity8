@@ -27,9 +27,7 @@ ListView {
     interactive: false
 
     property real margin
-    property bool useModal
-
-    useModal: snapDecisionProxyModel.count > 0
+    property bool useModal: snapDecisionProxyModel.count > 0
 
     SortFilterProxyModel {
         id: snapDecisionProxyModel
