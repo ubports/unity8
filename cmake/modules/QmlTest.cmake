@@ -141,8 +141,6 @@ macro(add_binary_qml_test CLASS_NAME LD_PATH DEPS)
 
     add_qmltest_target(xvfbtest${CLASS_NAME} "${xvfbtestCommand}" FALSE TRUE)
     add_dependencies(qmluitests xvfbtest${CLASS_NAME})
-
-    add_manual_qml_test(. ${CLASS_NAME} IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
 endmacro(add_binary_qml_test)
 
 macro(add_qmltest_target qmltest_TARGET qmltest_command qmltest_NO_TARGETS qmltest_NO_ADD_TEST)

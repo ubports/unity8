@@ -248,4 +248,4 @@ private:
 
 QTEST_MAIN(ListViewWithPageHeaderTestSection)
 
-#include "listviewwithpageheadertestsectionexternalmodel.moc"
+#include "listviewwithpageheadersectionexternalmodeltest.moc"
