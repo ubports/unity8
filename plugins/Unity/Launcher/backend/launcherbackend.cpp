@@ -51,9 +51,9 @@ LauncherBackend::LauncherBackend(QObject *parent):
     /* Set up ourselves on DBus */
     QDBusConnection con = QDBusConnection::sessionBus();
     if (!con.registerService("com.canonical.unity.launcher"))
-		qDebug() << "Unable to register launcher name";
-    if (!con.registerObject("/com/canonical/unity/launcher", this))
-		qDebug() << "Unable to register launcher object";
+        qDebug() << "Unable to register launcher name";
+    if (!con.registerVirtualObject("/com/canonical/unity/launcher", this, QDBusConnection::VirtualObjectRegisterOption::SubPath))
+        qDebug() << "Unable to register launcher object";
 }
 
 LauncherBackend::~LauncherBackend()
