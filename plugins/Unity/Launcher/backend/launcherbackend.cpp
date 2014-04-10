@@ -133,16 +133,9 @@ QString LauncherBackend::displayName(const QString &appId) const
 QString LauncherBackend::icon(const QString &appId) const
 {
     QString iconName;
-    LauncherBackendItem *item = m_itemCache.value(appId);
+    LauncherBackendItem *item = getItem(appId);
     if (item) {
         iconName = item->icon;
-    } else {
-        QString df = findDesktopFile(appId);
-        if (!df.isEmpty()) {
-            LauncherBackendItem *item = parseDesktopFile(df);
-            m_itemCache.insert(appId, item);
-            iconName = item->icon;
-        }
     }
 
     return iconName;
@@ -169,14 +162,7 @@ int LauncherBackend::progress(const QString &appId) const
 int LauncherBackend::count(const QString &appId) const
 {
     int count = -1;
-    LauncherBackendItem *item = m_itemCache.value(appId);
-    if (!item) {
-        QString df = findDesktopFile(appId);
-        if (!df.isEmpty()) {
-            item = parseDesktopFile(df);
-            m_itemCache.insert(appId, item);
-        }
-    }
+    LauncherBackendItem *item = getItem(appId);
 
     if (!item) {
         if (item->countVisible) {
@@ -189,14 +175,7 @@ int LauncherBackend::count(const QString &appId) const
 
 void LauncherBackend::setCount(const QString &appId, int count) const
 {
-    LauncherBackendItem *item = m_itemCache.value(appId);
-    if (!item) {
-        QString df = findDesktopFile(appId);
-        if (!df.isEmpty()) {
-            item = parseDesktopFile(df);
-            m_itemCache.insert(appId, item);
-        }
-    }
+    LauncherBackendItem *item = getItem(appId);
 
     bool emitchange = false;
     if (!item) {
@@ -217,14 +196,7 @@ void LauncherBackend::setCount(const QString &appId, int count) const
 bool LauncherBackend::countVisible(const QString &appId) const
 {
     bool visible = false;
-    LauncherBackendItem *item = m_itemCache.value(appId);
-    if (!item) {
-        QString df = findDesktopFile(appId);
-        if (!df.isEmpty()) {
-            item = parseDesktopFile(df);
-            m_itemCache.insert(appId, item);
-        }
-    }
+    LauncherBackendItem *item = getItem(appId);
 
     if (!item) {
         visible = item->countVisible;
@@ -235,20 +207,13 @@ bool LauncherBackend::countVisible(const QString &appId) const
 
 void LauncherBackend::setCountVisible(const QString &appId, bool visible) const
 {
-    LauncherBackendItem *item = m_itemCache.value(appId);
-    if (!item) {
-        QString df = findDesktopFile(appId);
-        if (!df.isEmpty()) {
-            item = parseDesktopFile(df);
-            m_itemCache.insert(appId, item);
-        }
-    }
+    LauncherBackendItem *item = getItem(appId);
 
     bool emitchange = false;
     if (!item) {
         emitchange = (item->countVisible != visible);
         item->countVisible = visible;
-	}
+    }
 
     if (emitchange) {
         /* TODO: Because we're using visible in determining the
@@ -380,6 +345,23 @@ LauncherBackendItem* LauncherBackend::parseDesktopFile(const QString &desktopFil
     /* TODO: These should be looked up in a cache somewhere */
     item->count = 0;
     item->countVisible = false;
+
+    return item;
+}
+
+/* Gets an item, and tries to create a new one if we need it to */
+LauncherBackendItem* LauncherBackend::getItem (const QString &appId) const
+{
+    LauncherBackendItem *item = m_itemCache.value(appId);
+    if (!item) {
+        QString df = findDesktopFile(appId);
+        if (!df.isEmpty()) {
+            item = parseDesktopFile(df);
+            if (item) {
+                m_itemCache.insert(appId, item);
+            }
+        }
+    }
 
     return item;
 }

@@ -168,6 +168,7 @@ Q_SIGNALS:
 private:
     QString findDesktopFile(const QString &appId) const;
     LauncherBackendItem* parseDesktopFile(const QString &desktopFile) const;
+    LauncherBackendItem* getItem (const QString& appId) const;
 
     QVariantMap itemToVariant(const QString &appId) const;
     void loadFromVariant(const QVariantMap &details);
