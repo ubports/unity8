@@ -1,6 +1,6 @@
 unity8 (7.85+14.04.20140409-0ubuntu1) UNRELEASED; urgency=medium
 
-  * 
+  * Resync trunk with previous revert upload
 
  -- Didier Roche <didrocks@ubuntu.com>  Thu, 10 Apr 2014 10:27:41 +0200
 
