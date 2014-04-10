@@ -65,7 +65,7 @@ Loader {
 
             TextField {
                 id: textfield
-                
+
                 // TODO using Qt.ImhNoPredictiveText here until lp #1291575 is fixed for ubuntu-ui-toolkit
                 inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText
                 anchors.left: parent.left; anchors.right: parent.right
