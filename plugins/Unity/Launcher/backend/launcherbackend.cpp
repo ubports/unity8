@@ -363,6 +363,9 @@ LauncherBackendItem* LauncherBackend::getItem (const QString &appId) const
         }
     }
 
+    if (!item)
+        qDebug() << "Unable to find item for: " << appId;
+
     return item;
 }
 
@@ -459,7 +462,7 @@ QString LauncherBackend::introspect (const QString &path) const
     if (path == "/com/canonical/unity/launcher/" || path == "/com/canonical/unity/launcher") {
         QString nodes;
 
-        Q_FOREACH(const QString &appId, m_storedApps) {
+        Q_FOREACH(const QString &appId, m_itemCache.keys()) {
             nodes.append("<node name=\"");
             nodes.append(encodeAppId(appId));
             nodes.append("\"/>\n");
