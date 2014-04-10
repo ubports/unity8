@@ -205,6 +205,7 @@ Showable {
         anchors.left: parent.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
+        visible: parent.visible
         fillMode: Image.Tile
         source: "../graphics/dropshadow_right.png"
     }
@@ -214,6 +215,7 @@ Showable {
         anchors.right: parent.left
         anchors.top: parent.top
         anchors.bottom: parent.bottom
+        visible: parent.visible
         fillMode: Image.Tile
         source: "../graphics/dropshadow_left.png"
     }

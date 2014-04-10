@@ -98,18 +98,22 @@ BasicShell {
         }
     }
 
+    Rectangle {
+        anchors.fill: parent
+        color: "black"
+        opacity: greeterWrapper.showProgress * 0.8
+    }
+
     Item {
         // Just a tiny wrapper to adjust greeter's x without messing with its own dragging
+        id: greeterWrapper
         width: parent.width
         height: parent.height
         x: launcher.progress
         Behavior on x {SmoothedAnimation{velocity: 600}}
 
-        Rectangle {
-            anchors.fill: parent
-            color: "black"
-            opacity: (1 - Math.abs(greeter.x) / shell.width) * 0.8
-        }
+        readonly property real showProgress: x === 0 ? greeter.showProgress : (1 - x/width)
+        onShowProgressChanged: if (LightDM.Greeter.promptless && showProgress === 0) greeter.login()
 
         Greeter {
             id: greeter
@@ -142,8 +146,6 @@ BasicShell {
                     greeter.forceActiveFocus();
                 }
             }
-
-            onShowProgressChanged: if (LightDM.Greeter.promptless && showProgress == 0) login()
 
             onUnlocked: login()
             onSelected: {
