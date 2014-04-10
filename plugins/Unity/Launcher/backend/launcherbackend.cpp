@@ -248,7 +248,7 @@ void LauncherBackend::setCountVisible(const QString &appId, bool visible) const
     if (!item) {
         emitchange = (item->countVisible != visible);
         item->countVisible = visible;
-    }
+	}
 
     if (emitchange) {
         /* TODO: Because we're using visible in determining the
@@ -449,20 +449,20 @@ bool LauncherBackend::handleMessage(const QDBusMessage& message, const QDBusConn
 
     /* Find ourselves an appid */
     QString appid = decodeAppId(pathtemp);
-    QVariant retval;
+    QVariantList retval;
 
     if (message.member() == "Get") {
         if (message.arguments()[1].toString() == "count")
-            retval = this->count(appid);
+            retval.append(this->count(appid));
         else if (message.arguments()[1].toString() == "countVisible")
-            retval = this->countVisible(appid);
+            retval.append(this->countVisible(appid));
     } else if (message.member() == "Set") {
         if (message.arguments()[1].toString() == "count")
             this->setCount(appid, message.arguments()[2].toInt());
         else if (message.arguments()[1].toString() == "countVisible")
             this->setCountVisible(appid, message.arguments()[2].toBool());
     } else if (message.member() == "GetAll") {
-        retval = this->itemToVariant(appid);
+        retval.append(this->itemToVariant(appid));
     } else {
         return false;
     }
