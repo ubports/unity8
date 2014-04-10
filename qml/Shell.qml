@@ -378,7 +378,7 @@ FocusScope {
 
         Behavior on x {SmoothedAnimation{velocity: 600}}
 
-        readonly property real showProgress: x === 0.0 ? greeter.showProgress : (1 - x/width)
+        readonly property real showProgress: MathUtils.clamp((1 - x/width) + greeter.showProgress - 1, 0, 1)
 
         Greeter {
             id: greeter
@@ -567,8 +567,10 @@ FocusScope {
                         launcher.hide();
                     }
                 }
-                if (greeter.shown)
+                if (greeter.shown) {
                     greeter.hideRight();
+                    launcher.hide();
+                }
             }
             onDashSwipeChanged: if (dashSwipe && stages.shown) dash.setCurrentScope("clickscope", false, true)
             onLauncherApplicationSelected:{
