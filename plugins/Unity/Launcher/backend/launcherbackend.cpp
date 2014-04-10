@@ -525,8 +525,8 @@ QString LauncherBackend::encodeAppId (const QString& appId) const
             (chr >= '0' && chr <= '9'&& i != 0)) {
             encoded.append(chr);
         } else {
-            encoded.append('_');
-            encoded.arg((ushort)chr, 2, 16, QChar('0'));
+            QString hexval = QString("_%1").arg((ushort)chr, 2, 16, QChar('0'));
+            encoded.append(hexval);
         }
     }
 
