@@ -148,8 +148,8 @@ FocusScope {
 
                 available: !greeter.shown && !lockscreen.shown
                 hides: [stages, launcher, panel.indicators]
-                shown: disappearingAnimationProgress !== 1.0 && greeter.showProgress !== 1.0
-                enabled: disappearingAnimationProgress === 0.0 && greeter.showProgress === 0.0 && edgeDemo.dashEnabled
+                shown: disappearingAnimationProgress !== 1.0 && greeterWrapper.showProgress !== 1.0
+                enabled: disappearingAnimationProgress === 0.0 && greeterWrapper.showProgress === 0.0 && edgeDemo.dashEnabled
 
                 anchors {
                     fill: parent
@@ -362,8 +362,15 @@ FocusScope {
         }
     }
 
+    Rectangle {
+        anchors.fill: parent
+        color: "black"
+        opacity: greeterWrapper.showProgress * 0.8
+    }
+
     Item {
         // Just a tiny wrapper to adjust greeter's x without messing with its own dragging
+        id: greeterWrapper
         x: launcher.progress
         y: panel.panelHeight
         width: parent.width
@@ -371,11 +378,7 @@ FocusScope {
 
         Behavior on x {SmoothedAnimation{velocity: 600}}
 
-        Rectangle {
-            anchors.fill: parent
-            color: "black"
-            opacity: (1 - Math.abs(greeter.x) / shell.width) * 0.8
-        }
+        readonly property real showProgress: x === 0.0 ? greeter.showProgress : (1 - x/width)
 
         Greeter {
             id: greeter
@@ -417,7 +420,7 @@ FocusScope {
             Binding {
                 target: ApplicationManager
                 property: "suspended"
-                value: greeter.shown && greeter.showProgress == 1
+                value: greeter.shown && greeterWrapper.showProgress == 1
             }
         }
     }
