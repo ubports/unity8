@@ -1,8 +1,39 @@
-unity8 (7.85+14.04.20140409-0ubuntu1) UNRELEASED; urgency=medium
+unity8 (7.85+14.04.20140410.1-0ubuntu1) trusty; urgency=medium
 
+  [ Didier Roche ]
   * Resync trunk with previous revert upload
 
- -- Didier Roche <didrocks@ubuntu.com>  Thu, 10 Apr 2014 10:27:41 +0200
+  [ Michał Sawicz ]
+  * Set the Qt.ImhNoPredictiveText flag on wifi password field, fixes
+    lp:1291575 (LP: #1291575)
+
+  [ Albert Astals ]
+  * Take into account the originY when specifying the delegate ranges
+    Fixes bug #1300302 (LP: #1300302)
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Allan LeSage ]
+  * Swiping open an indicator must show its correct title--protect
+    against lp:1253804 . (LP: #1253804)
+
+  [ Alexander Sack ]
+  * Fix TypeError: issue seen in system_integration autopilot test on
+    image 279. (LP: #1303685)
+
+  [ Bill Filler ]
+  * Set the Qt.ImhNoPredictiveText flag on wifi password field, fixes
+    lp:1291575 (LP: #1291575)
+
+  [ Leo Arias ]
+  * Added a search autopilot helper.
+
+  [ Michael Terry ]
+  * Provide a all-in-one script for getting a device to an unlocked
+    state.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 10 Apr 2014 10:03:31 +0000
 
 unity8 (7.85+14.04.20140404.is.7.85+14.04.20140403.1-0ubuntu1) trusty; urgency=medium
 
