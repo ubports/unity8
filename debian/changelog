@@ -1,3 +1,10 @@
+unity8 (7.85+14.04.20140404.is.7.85+14.04.20140403.1-0ubuntu1) trusty; urgency=medium
+
+  * Revert to previous version as it's linked to latest sdk change which
+    is making gallery-app AP tests failing on the CI dashboard
+
+ -- Didier Roche <didrocks@ubuntu.com>  Tue, 08 Apr 2014 13:53:47 +0200
+
 unity8 (7.85+14.04.20140404-0ubuntu1) trusty; urgency=low
 
   [ Albert Astals ]
