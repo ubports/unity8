@@ -443,9 +443,9 @@ bool LauncherBackend::handleMessage(const QDBusMessage& message, const QDBusConn
             retval.append(this->countVisible(appid));
     } else if (message.member() == "Set") {
         if (message.arguments()[1].toString() == "count")
-            this->setCount(appid, message.arguments()[2].toInt());
+            this->setCount(appid, message.arguments()[2].value<QDBusVariant>().variant().toInt());
         else if (message.arguments()[1].toString() == "countVisible")
-            this->setCountVisible(appid, message.arguments()[2].toBool());
+            this->setCountVisible(appid, message.arguments()[2].value<QDBusVariant>().variant().toBool());
     } else if (message.member() == "GetAll") {
         retval.append(this->itemToVariant(appid));
     } else {
