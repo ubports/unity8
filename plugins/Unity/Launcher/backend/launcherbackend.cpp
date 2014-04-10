@@ -166,9 +166,7 @@ int LauncherBackend::progress(const QString &appId) const
 
 int LauncherBackend::count(const QString &appId) const
 {
-    // TODO: emit countChanged() when this value changes.
-
-    int count = 0;
+    int count = -1;
     LauncherBackendItem *item = m_itemCache.value(appId);
     if (!item) {
         QString df = findDesktopFile(appId);
@@ -185,6 +183,79 @@ int LauncherBackend::count(const QString &appId) const
     }
 
     return count;
+}
+
+void LauncherBackend::setCount(const QString &appId, int count) const
+{
+    LauncherBackendItem *item = m_itemCache.value(appId);
+    if (!item) {
+        QString df = findDesktopFile(appId);
+        if (!df.isEmpty()) {
+            item = parseDesktopFile(df);
+            m_itemCache.insert(appId, item);
+        }
+    }
+
+    bool emitchange = false;
+    if (!item) {
+        emitchange = (item->count != count);
+        item->count = count;
+    }
+
+    if (emitchange) {
+        /* TODO: This needs to use the accessor to handle the visibility
+           correctly, but when we have the two properties we can just use
+           the local value */
+        Q_EMIT countChanged(appId, this->count(appId));
+        QVariant vcount(item->count);
+        emitPropChangedDbus(appId, "count", vcount);
+    }
+}
+
+bool LauncherBackend::countVisible(const QString &appId) const
+{
+    bool visible = false;
+    LauncherBackendItem *item = m_itemCache.value(appId);
+    if (!item) {
+        QString df = findDesktopFile(appId);
+        if (!df.isEmpty()) {
+            item = parseDesktopFile(df);
+            m_itemCache.insert(appId, item);
+        }
+    }
+
+    if (!item) {
+        visible = item->countVisible;
+    }
+
+    return visible;
+}
+
+void LauncherBackend::setCountVisible(const QString &appId, bool visible) const
+{
+    LauncherBackendItem *item = m_itemCache.value(appId);
+    if (!item) {
+        QString df = findDesktopFile(appId);
+        if (!df.isEmpty()) {
+            item = parseDesktopFile(df);
+            m_itemCache.insert(appId, item);
+        }
+    }
+
+    bool emitchange = false;
+    if (!item) {
+        emitchange = (item->countVisible != visible);
+        item->countVisible = visible;
+    }
+
+    if (emitchange) {
+        /* TODO: Because we're using visible in determining the
+           count we need to emit a count changed as well */
+        Q_EMIT countChanged(appId, this->count(appId));
+        Q_EMIT countVisibleChanged(appId, item->countVisible);
+        QVariant vCountVisible(item->countVisible);
+        emitPropChangedDbus(appId, "countVisible", vCountVisible);
+    }
 }
 
 void LauncherBackend::setUser(const QString &username)
@@ -469,4 +540,25 @@ QString LauncherBackend::encodeAppId (const QString& appId) const
     }
 
     return encoded;
+}
+
+void LauncherBackend::emitPropChangedDbus (const QString& appId, const QString& property, QVariant &value) const
+{
+    QString path("/com/canonical/unity/launcher/");
+    path.append(encodeAppId(appId));
+
+    QDBusMessage message = QDBusMessage::createSignal(path, "org.freedesktop.DBus.Properties", "PropertiesChanged");
+
+    QList<QVariant> arguments;
+    QVariantHash changedprops;
+    changedprops[property] = value;
+    QVariantList deletedprops;
+
+    arguments.append(changedprops);
+    arguments.append(deletedprops);
+
+    message.setArguments(arguments);
+
+    QDBusConnection con = QDBusConnection::sessionBus();
+    con.send(message);
 }

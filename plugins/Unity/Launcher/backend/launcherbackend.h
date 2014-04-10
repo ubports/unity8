@@ -118,6 +118,27 @@ public:
     int count(const QString &appId) const;
 
     /**
+      * @brief Set the count on an item
+      * @param appId The ID of the application
+      * @param count Count to show on the application
+      */
+    void setCount(const QString &appId, int count) const;
+
+    /**
+      * @brief Get whether the count should be visible
+      * @param appId The ID of the application.
+      * @returns Whether to show a count on the launcher
+      */
+    bool countVisible(const QString &appId) const;
+
+    /**
+      * @brief Set the visibility of the count item
+      * @param appId The ID of the application
+      * @param visible Whether the count should be visible
+      */
+    void setCountVisible(const QString &appId, bool visible) const;
+
+    /**
       * @brief Sets the username for which to look up launcher items.
       * @param username The username to use.
       */
@@ -139,9 +160,10 @@ public:
     virtual QString introspect (const QString &path) const;
 
 Q_SIGNALS:
-    void quickListChanged(const QString &appId, const QList<QuickListEntry> &quickList);
-    void progressChanged(const QString &appId, int progress);
-    void countChanged(const QString &appId, int count);
+    void quickListChanged(const QString &appId, const QList<QuickListEntry> &quickList) const;
+    void progressChanged(const QString &appId, int progress) const;
+    void countChanged(const QString &appId, int count) const;
+    void countVisibleChanged(const QString &appId, bool visible) const;
 
 private:
     QString findDesktopFile(const QString &appId) const;
@@ -162,6 +184,8 @@ private:
 
     QString decodeAppId (const QString& path) const;
     QString encodeAppId (const QString& appId) const;
+
+    void emitPropChangedDbus (const QString& appId, const QString& property, QVariant &value) const;
 };
 
 #endif // LAUNCHERBACKEND_H
