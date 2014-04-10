@@ -50,8 +50,10 @@ LauncherBackend::LauncherBackend(QObject *parent):
 
     /* Set up ourselves on DBus */
     QDBusConnection con = QDBusConnection::sessionBus();
-    con.registerService("com.canonical.unity.launcher");
-    con.registerObject("/com/canonical/unity/launcher/", this);
+    if (!con.registerService("com.canonical.unity.launcher"))
+		qDebug() << "Unable to register launcher name";
+    if (!con.registerObject("/com/canonical/unity/launcher", this))
+		qDebug() << "Unable to register launcher object";
 }
 
 LauncherBackend::~LauncherBackend()
@@ -59,7 +61,7 @@ LauncherBackend::~LauncherBackend()
     /* Remove oursevles from DBus */
     QDBusConnection con = QDBusConnection::sessionBus();
     con.unregisterService("com.canonical.unity.launcher");
-    con.unregisterObject("/com/canonical/unity/launcher/");
+    con.unregisterObject("/com/canonical/unity/launcher");
 
     /* Clear data */
     m_storedApps.clear();
