@@ -354,14 +354,18 @@ LauncherBackendItem* LauncherBackend::parseDesktopFile(const QString &desktopFil
 /* Gets an item, and tries to create a new one if we need it to */
 LauncherBackendItem* LauncherBackend::getItem (const QString &appId) const
 {
-    LauncherBackendItem *item = m_itemCache.value(appId);
+    LauncherBackendItem *item = m_itemCache[appId];
     if (!item) {
         QString df = findDesktopFile(appId);
         if (!df.isEmpty()) {
             item = parseDesktopFile(df);
             if (item) {
-                m_itemCache.insert(appId, item);
+                m_itemCache[appId] = item;
+            } else {
+                qDebug() << "Unable to parse desktop file for:" << appId;
             }
+        } else {
+            qDebug() << "Unable to find desktop file for:" << appId;
         }
     }
 
