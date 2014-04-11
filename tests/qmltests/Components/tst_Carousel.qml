@@ -227,12 +227,14 @@ Item {
             var stepAnimation = findInvisibleChild(carouselList, "stepAnimation");
             var stepDiff = 0;
             stepAnimation.onRunningChanged.connect(function() { if (stepAnimation.running) stepDiff = Math.abs(carouselList.contentX - stepAnimation.to); })
-            while (carouselList.realContentX < carouselList.realContentWidth - carouselList.realWidth) {
+            var overshootOnce = false;
+            while (!overshootOnce) {
+                overshootOnce = carouselList.realContentX > carouselList.realContentWidth - carouselList.realWidth;
                 mouseFlick(carousel, carousel.width - units.gu(1),
                                             carousel.height / 2,
                                             units.gu(2),
                                             carousel.height / 2);
-                wait(1000);
+                tryCompare(carouselList, "moving", false);
             }
             verify(stepDiff < 1);
             var x = carouselList.getXFromContinuousIndex(carousel.model - 1);
