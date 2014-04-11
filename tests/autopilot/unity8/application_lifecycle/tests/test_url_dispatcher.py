@@ -20,6 +20,7 @@
 """Test the integration with the URL dispatcher service."""
 
 import os
+import subprocess
 
 from autopilot import platform
 
@@ -40,7 +41,9 @@ class URLDispatcherTestCase(tests.ApplicationLifeCycleTestCase):
 
         self.assertEqual('', self.main_window.get_current_focused_app_id())
         self.addCleanup(os.system, 'pkill qmlscene')
-        os.system('url-dispatcher application:///{}'.format(desktop_file_name))
+
+        subprocess.check_call(
+            ['url-dispatcher', 'application:///{}'.format(desktop_file_name)])
         self.assert_current_focused_application(application_name)
 
         self.main_window.show_dash_swiping()
