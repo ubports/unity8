@@ -245,7 +245,7 @@ class InteractiveNotificationBase(NotificationsBase):
         # verify and interact with the triggered snap-decision notification
         notify_list = self._get_notifications_list()
         get_notification = lambda: notify_list.wait_select_single(
-            'Notification', objectName='notification0')
+            'Notification', objectName='notification1')
         notification = get_notification()
         self._assert_notification(notification, summary, body, True, False, 1.0)
         self.touch.tap_object(notification.select_single(objectName="button0"))
@@ -286,7 +286,7 @@ class InteractiveNotificationBase(NotificationsBase):
         # verify and interact with the triggered snap-decision notification
         notify_list = self._get_notifications_list()
         get_notification = lambda: notify_list.wait_select_single(
-            'Notification', objectName='notification0')
+            'Notification', objectName='notification1')
         notification = get_notification()
         self._assert_notification(notification, summary, body, True, False, 1.0)
         self.touch.tap_object(notification.select_single(objectName="button0"))
