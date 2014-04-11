@@ -1,3 +1,82 @@
+unity8 (7.85+14.04.20140410.1-0ubuntu1) trusty; urgency=medium
+
+  [ Didier Roche ]
+  * Resync trunk with previous revert upload
+
+  [ Michał Sawicz ]
+  * Set the Qt.ImhNoPredictiveText flag on wifi password field, fixes
+    lp:1291575 (LP: #1291575)
+
+  [ Albert Astals ]
+  * Take into account the originY when specifying the delegate ranges
+    Fixes bug #1300302 (LP: #1300302)
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Allan LeSage ]
+  * Swiping open an indicator must show its correct title--protect
+    against lp:1253804 . (LP: #1253804)
+
+  [ Alexander Sack ]
+  * Fix TypeError: issue seen in system_integration autopilot test on
+    image 279. (LP: #1303685)
+
+  [ Bill Filler ]
+  * Set the Qt.ImhNoPredictiveText flag on wifi password field, fixes
+    lp:1291575 (LP: #1291575)
+
+  [ Leo Arias ]
+  * Added a search autopilot helper.
+
+  [ Michael Terry ]
+  * Provide a all-in-one script for getting a device to an unlocked
+    state.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 10 Apr 2014 10:03:31 +0000
+
+unity8 (7.85+14.04.20140404.is.7.85+14.04.20140403.1-0ubuntu1) trusty; urgency=medium
+
+  * Revert to previous version as it's linked to latest sdk change which
+    is making gallery-app AP tests failing on the CI dashboard
+
+ -- Didier Roche <didrocks@ubuntu.com>  Tue, 08 Apr 2014 13:53:47 +0200
+
+unity8 (7.85+14.04.20140404-0ubuntu1) trusty; urgency=low
+
+  [ Albert Astals ]
+  * Adapt to new TabBar
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 04 Apr 2014 15:03:00 +0000
+
+unity8 (7.85+14.04.20140403.1-0ubuntu1) trusty; urgency=low
+
+  [ Michael Terry ]
+  * Re-enable test_networkmanager_integration autopilot test on phone
+    platforms
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Leo Arias ]
+  * Reverted the open_preview autopilot helper to return a Preview
+    object.
+
+  [ Albert Astals ]
+  * If not running in Mir load the "fake" application manager (LP:
+    #1301547)
+  * Remove unused properties from DashRenderer
+
+  [ Michael Zanetti ]
+  * Fix tests after right edge merge. Drop old stages tests. Fix right
+    edge tests if someone doesn't have the GRID_UNIT_PX exported. make
+    GenericScopeView test more robust that broke because the ordering
+    changed
+  * add "make xvfbtestSomething" target to run qml tests in xvfb
+  * make the "make test" commit hook work again
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 03 Apr 2014 10:38:53 +0000
+
 unity8 (7.85+14.04.20140401.3-0ubuntu1) trusty; urgency=medium
 
   [ Michał Sawicz ]

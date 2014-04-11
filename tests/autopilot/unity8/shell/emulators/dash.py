@@ -23,6 +23,8 @@ from unity8.shell import emulators
 
 from autopilot import logging as autopilot_logging
 from autopilot.introspection import dbus
+from testtools.matchers import MatchesAny, Equals
+from ubuntuuitoolkit import emulators as toolkit_emulators
 
 
 logger = logging.getLogger(__name__)
@@ -132,6 +134,19 @@ class Dash(emulators.UnityEmulatorBase):
         self.pointing_device.drag(start_x, start_y, stop_x, stop_y)
         self.dash_content_list.currentIndex.wait_for(original_index + 1)
 
+    def enter_search_query(self, query):
+        search_text_field = self._get_search_text_field()
+        search_text_field.write(query)
+        search_text_field.state.wait_for('idle')
+
+    def _get_search_text_field(self):
+        page_header = self._get_page_header()
+        search_container = page_header.select_single(
+            'QQuickItem', objectName='searchContainer')
+        search_container.state.wait_for(
+            MatchesAny(Equals('narrowActive'), Equals('active')))
+        return search_container.select_single(toolkit_emulators.TextField)
+
 
 class GenericScopeView(emulators.UnityEmulatorBase):
     """Autopilot emulator for generic scopes."""
@@ -142,6 +157,7 @@ class GenericScopeView(emulators.UnityEmulatorBase):
 
         :parameter category: The name of the category where the application is.
         :app_name: The name of the application.
+        :return: The opened preview.
 
         """
         category_element = self._get_category_element(category)
@@ -150,8 +166,11 @@ class GenericScopeView(emulators.UnityEmulatorBase):
         # Some categories do not show previews, like recent apps.
         # --elopio - 2014-1-14
         self.pointing_device.click_object(icon)
-        return self.get_root_instance().wait_select_single(
+        preview_list = self.get_root_instance().wait_select_single(
             'PreviewListView', objectName='dashContentPreviewList')
+        preview_list.x.wait_for(0)
+        return preview_list.select_single(
+            Preview, objectName='preview{}'.format(preview_list.currentIndex))
 
     def _get_category_element(self, category):
         try:
@@ -180,3 +199,7 @@ class DashApps(GenericScopeView):
             if card.objectName != 'cardToolCard':
                 result.append(card)
         return result
+
+
+class Preview(emulators.UnityEmulatorBase):
+    """Autopilot custom proxy object for generic previews."""
