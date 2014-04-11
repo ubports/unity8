@@ -164,7 +164,7 @@ int LauncherBackend::count(const QString &appId) const
     int count = -1;
     LauncherBackendItem *item = getItem(appId);
 
-    if (!item) {
+    if (item) {
         if (item->countVisible) {
             count = item->count;
         }
@@ -178,7 +178,7 @@ void LauncherBackend::setCount(const QString &appId, int count) const
     LauncherBackendItem *item = getItem(appId);
 
     bool emitchange = false;
-    if (!item) {
+    if (item) {
         emitchange = (item->count != count);
         item->count = count;
     }
@@ -198,7 +198,7 @@ bool LauncherBackend::countVisible(const QString &appId) const
     bool visible = false;
     LauncherBackendItem *item = getItem(appId);
 
-    if (!item) {
+    if (item) {
         visible = item->countVisible;
     }
 
@@ -210,9 +210,11 @@ void LauncherBackend::setCountVisible(const QString &appId, bool visible) const
     LauncherBackendItem *item = getItem(appId);
 
     bool emitchange = false;
-    if (!item) {
+    if (item) {
         emitchange = (item->countVisible != visible);
         item->countVisible = visible;
+    } else {
+        qDebug() << "Unable to find:" << appId;
     }
 
     if (emitchange) {
