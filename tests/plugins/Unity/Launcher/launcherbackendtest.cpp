@@ -66,6 +66,22 @@ private Q_SLOTS:
 
         QCOMPARE(backend.icon(appId), expectedIcon);
     }
+
+    void testCount_data() {
+        QTest::addColumn<QString>("appId");
+        QTest::addColumn<int>("expectedCount");
+
+        QTest::newRow("Bootstrap") << "rel-icon" << -1;
+    }
+
+    void testCount() {
+        QFETCH(QString, appId);
+        QFETCH(int, expectedCount);
+
+        LauncherBackend backend;
+
+        QCOMPARE(backend.count(appId), expectedCount);
+    }
 };
 
 QTEST_GUILESS_MAIN(LauncherBackendTest)
