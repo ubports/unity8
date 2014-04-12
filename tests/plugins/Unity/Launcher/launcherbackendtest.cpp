@@ -69,16 +69,36 @@ private Q_SLOTS:
 
     void testCount_data() {
         QTest::addColumn<QString>("appId");
+        QTest::addColumn<bool>("setCount");
+        QTest::addColumn<int>("inCount");
+        QTest::addColumn<bool>("countVisible");
         QTest::addColumn<int>("expectedCount");
 
-        QTest::newRow("Bootstrap") << "rel-icon" << -1;
+        /* Get baseline data on things working */
+        QTest::newRow("Baseline") << "rel-icon" << false << 0 << false << -1;
+
+        /* Valid count, but not visible */
+        QTest::newRow("Not visible") << "rel-icon" << true << 42 << false << -1;
+
+        /* Turn it on */
+        QTest::newRow("Visible Count") << "rel-icon" << true << 42 << true << 42;
+
+        /* Invalide app to load */
+        QTest::newRow("Invalid App ID") << "this-app-doesnt-exist" << true << 42 << true << -1;
     }
 
     void testCount() {
         QFETCH(QString, appId);
+        QFETCH(bool, setCount);
+        QFETCH(int, inCount);
+        QFETCH(bool, countVisible);
         QFETCH(int, expectedCount);
 
         LauncherBackend backend;
+
+        if (setCount)
+            backend.setCount(appId, inCount);
+        backend.setCountVisible(appId, countVisible);
 
         QCOMPARE(backend.count(appId), expectedCount);
     }
