@@ -30,19 +30,6 @@ cleanup()
     exit 0
 }
 
-# Define language here for phone if available.  When phone user switches their
-# language, they expect that to affect the greeter too.  But the user doesn't
-# have permission to switch system language, only their own.  So we notice if
-# the phablet user exists and use their language if so.  TODO: talk to design
-# about whether we should switch language on fly as users are selected (this
-# is very hard to do technically).
-if [ "$(id -u phablet 2>/dev/null)" = "32011" ]; then
-    USER_LANG=$(gdbus call --system --dest org.freedesktop.Accounts --object-path /org/freedesktop/Accounts/User32011 --method org.freedesktop.DBus.Properties.Get org.freedesktop.Accounts.User Language | cut -d\' -f2)
-    if [ -n "$USER_LANG" ]; then
-        export LANGUAGE="$USER_LANG"
-    fi
-fi
-
 SUB_SOCKET=$XDG_RUNTIME_DIR/mir_socket
 rm -f $SUB_SOCKET # clear socket in case we were hard shut down
 
@@ -64,6 +51,22 @@ export UPSTART_SESSION=$(/sbin/initctl list-sessions | grep "^$INIT_PID " | cut 
 
 # Start any pre-greeter tasks if needed (like wizard)
 /sbin/initctl emit unity8-greeter-starting
+
+# Define language here for phone if available.  When phone user switches their
+# language, they expect that to affect the greeter too.  But the user doesn't
+# have permission to switch system language, only their own.  So we notice if
+# the phablet user exists and use their language if so.  TODO: talk to design
+# about whether we should switch language on fly as users are selected (this
+# is very hard to do technically).
+#
+# Do this after unity8-greeter-starting, in case a customization upstart job
+# changes language.
+if [ "$(id -u phablet 2>/dev/null)" = "32011" ]; then
+    USER_LANG=$(gdbus call --system --dest org.freedesktop.Accounts --object-path /org/freedesktop/Accounts/User32011 --method org.freedesktop.DBus.Properties.Get org.freedesktop.Accounts.User Language | cut -d\' -f2)
+    if [ -n "$USER_LANG" ]; then
+        export LANGUAGE="$USER_LANG"
+    fi
+fi
 
 # And finally actually start the greeter
 exec env MIR_SERVER_FILE=$SUB_SOCKET $TOUCH_WRAPPER $@ &
