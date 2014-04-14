@@ -491,7 +491,7 @@ QString LauncherBackend::introspect (const QString &path) const
     return nodeiface;
 }
 
-QString LauncherBackend::decodeAppId (const QString& path) const
+QString LauncherBackend::decodeAppId (const QString& path)
 {
     QByteArray bytes = path.toUtf8();
     QByteArray decoded;
@@ -518,7 +518,7 @@ QString LauncherBackend::decodeAppId (const QString& path) const
     return decoded;
 }
 
-QString LauncherBackend::encodeAppId (const QString& appId) const
+QString LauncherBackend::encodeAppId (const QString& appId)
 {
     QByteArray bytes = appId.toUtf8();
     QString encoded;

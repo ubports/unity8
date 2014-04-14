@@ -183,10 +183,11 @@ private:
     AccountsServiceDBusAdaptor *m_accounts;
     QString m_user;
 
-    QString decodeAppId (const QString& path) const;
-    QString encodeAppId (const QString& appId) const;
-
     void emitPropChangedDbus (const QString& appId, const QString& property, QVariant &value) const;
+
+public: /* Only public to make them easier to test independently */
+    static QString decodeAppId (const QString& path);
+    static QString encodeAppId (const QString& appId);
 };
 
 #endif // LAUNCHERBACKEND_H
