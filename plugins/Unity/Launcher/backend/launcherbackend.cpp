@@ -515,7 +515,7 @@ QString LauncherBackend::decodeAppId (const QString& path)
         }
     }
 
-    return decoded;
+    return QString::fromUtf8(decoded);
 }
 
 QString LauncherBackend::encodeAppId (const QString& appId)
@@ -524,14 +524,14 @@ QString LauncherBackend::encodeAppId (const QString& appId)
     QString encoded;
 
     for (int i = 0; i < bytes.size(); ++i) {
-        char chr = bytes.at(i);
+        uchar chr = bytes.at(i);
 
         if ((chr >= 'a' && chr <= 'z') ||
             (chr >= 'A' && chr <= 'Z') ||
             (chr >= '0' && chr <= '9'&& i != 0)) {
             encoded.append(chr);
         } else {
-            QString hexval = QString("_%1").arg((ushort)chr, 2, 16, QChar('0'));
+            QString hexval = QString("_%1").arg(chr, 2, 16, QChar('0'));
             encoded.append(hexval.toUpper());
         }
     }

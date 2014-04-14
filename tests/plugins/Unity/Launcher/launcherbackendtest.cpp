@@ -120,18 +120,18 @@ private Q_SLOTS:
         QTest::newRow("Hyphen test") << "typical-application" << "typical_2Dapplication";
 
         /* Japanese test */
-        QTest::newRow("日本語 test") << "日本語" << "_65_E5_67_2C_8A_9E";
+        QTest::newRow("日本語 test") << "日本語" << "_E6_97_A5_E6_9C_AC_E8_AA_9E";
     }
 
     void testDbusName() {
         QFETCH(QString, decoded);
         QFETCH(QString, encoded);
 
-        QString decodeOut = LauncherBackend::decodeAppId(encoded);
-        QCOMPARE(decoded, decodeOut);
-
         QString encodeOut = LauncherBackend::encodeAppId(decoded);
         QCOMPARE(encoded, encodeOut);
+
+        QString decodeOut = LauncherBackend::decodeAppId(encoded);
+        QCOMPARE(decoded, decodeOut);
     }
 };
 
