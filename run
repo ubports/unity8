@@ -70,7 +70,7 @@ fi
 
 control_c()
 {
-  /sbin/stop unity8
+  /sbin/initctl stop unity8
   exit $?
 }
 
@@ -84,6 +84,6 @@ else
     echo "Unity8 is already running, please stop it first"
     exit 1
   fi
-  /sbin/start unity8 BINARY="`readlink -f $QML_PHONE_SHELL_PATH` $QML_PHONE_SHELL_ARGS $@"
+  /sbin/initctl start unity8 BINARY="`readlink -f $QML_PHONE_SHELL_PATH` $QML_PHONE_SHELL_ARGS $@"
   tailf -n 0 ~/.cache/upstart/unity8.log
 fi
