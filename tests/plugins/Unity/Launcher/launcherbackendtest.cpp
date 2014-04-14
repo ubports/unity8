@@ -109,6 +109,18 @@ private Q_SLOTS:
 
         /* Passthrough test */
         QTest::newRow("Passthrough") << "fine" << "fine";
+
+        /* Number as first characeter */
+        QTest::newRow("Number first") << "31337" << "_331337";
+
+        /* Underscore test */
+        QTest::newRow("Underscore test") << "this_is_c_style_namespacing" << "this_5Fis_5Fc_5Fstyle_5Fnamespacing";
+
+        /* Hyphen test */
+        QTest::newRow("Hyphen test") << "typical-application" << "typical_2Dapplication";
+
+        /* Japanese test */
+        QTest::newRow("日本語 test") << "日本語" << "_65_E5_67_2C_8A_9E";
     }
 
     void testDbusName() {
@@ -118,7 +130,7 @@ private Q_SLOTS:
         QString decodeOut = LauncherBackend::decodeAppId(encoded);
         QCOMPARE(decoded, decodeOut);
 
-        QString encodeOut = LauncherBackend::encodeAppId(encoded);
+        QString encodeOut = LauncherBackend::encodeAppId(decoded);
         QCOMPARE(encoded, encodeOut);
     }
 };
