@@ -89,7 +89,8 @@ def unlock_unity(unity_proxy_obj=None):
             break
 
 
-def lock_unity():
+def lock_unity(unity_proxy_obj=None):
+    """Helper function that attempts to lock the unity greeter."""
     import evdev, time
     uinput = evdev.UInput(name='unity8-autopilot-power-button',
                           devnode='/dev/autopilot-uinput')

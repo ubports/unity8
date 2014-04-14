@@ -23,6 +23,8 @@ from unity8.shell import emulators
 
 from autopilot import logging as autopilot_logging
 from autopilot.introspection import dbus
+from testtools.matchers import MatchesAny, Equals
+from ubuntuuitoolkit import emulators as toolkit_emulators
 
 
 logger = logging.getLogger(__name__)
@@ -131,6 +133,19 @@ class Dash(emulators.UnityEmulatorBase):
         start_y = stop_y = border.globalRect.y + border.height / 2
         self.pointing_device.drag(start_x, start_y, stop_x, stop_y)
         self.dash_content_list.currentIndex.wait_for(original_index + 1)
+
+    def enter_search_query(self, query):
+        search_text_field = self._get_search_text_field()
+        search_text_field.write(query)
+        search_text_field.state.wait_for('idle')
+
+    def _get_search_text_field(self):
+        page_header = self._get_page_header()
+        search_container = page_header.select_single(
+            'QQuickItem', objectName='searchContainer')
+        search_container.state.wait_for(
+            MatchesAny(Equals('narrowActive'), Equals('active')))
+        return search_container.select_single(toolkit_emulators.TextField)
 
 
 class GenericScopeView(emulators.UnityEmulatorBase):
