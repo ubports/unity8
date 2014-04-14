@@ -1,0 +1,36 @@
+#!/bin/bash
+# -*- Mode: sh; indent-tabs-mode: nil; tab-width: 4 -*-
+
+# Our goal here is to get an Ubuntu Touch device into a testable unlocked state.
+# This will include a reboot.
+
+WAIT_COMMAND="sleep 20"
+
+while getopts s:w: opt; do
+        case $opt in
+        s)
+                export ANDROID_SERIAL=$OPTARG
+                ;;
+        w)
+                WAIT_COMMAND=$OPTARG
+                ;;
+        esac
+done
+
+LIGHTDM_CONFIG="
+[SeatDefaults]
+autologin-in-background=false
+"
+LIGHTDM_CONFIG_FILE="/etc/lightdm/lightdm.conf.d/99-unity8-greeter-unlock.conf"
+
+adb shell "echo '$LIGHTDM_CONFIG' > $LIGHTDM_CONFIG_FILE"
+adb reboot
+sleep 5
+adb "wait-for-device"
+
+# Let session come up before we return control
+eval "$WAIT_COMMAND"
+
+adb shell "rm -f $LIGHTDM_CONFIG_FILE"
+
+exit 0

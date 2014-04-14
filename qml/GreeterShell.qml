@@ -107,12 +107,13 @@ BasicShell {
     Item {
         // Just a tiny wrapper to adjust greeter's x without messing with its own dragging
         id: greeterWrapper
+        x: launcher.progress
         width: parent.width
         height: parent.height
-        x: launcher.progress
+
         Behavior on x {SmoothedAnimation{velocity: 600}}
 
-        readonly property real showProgress: x === 0 ? greeter.showProgress : (1 - x/width)
+        readonly property real showProgress: MathUtils.clamp((1 - x/width) + greeter.showProgress - 1, 0, 1)
         onShowProgressChanged: if (LightDM.Greeter.promptless && showProgress === 0) greeter.login()
 
         Greeter {
@@ -216,8 +217,8 @@ BasicShell {
                 }
             }
             onDash: {
-                hide()
                 greeter.hideRight()
+                hide()
             }
             onShowDashHome: greeter.show()
         }
