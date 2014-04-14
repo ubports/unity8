@@ -532,7 +532,7 @@ QString LauncherBackend::encodeAppId (const QString& appId)
             encoded.append(chr);
         } else {
             QString hexval = QString("_%1").arg((ushort)chr, 2, 16, QChar('0'));
-            encoded.append(hexval);
+            encoded.append(hexval.toUpper());
         }
     }
 
