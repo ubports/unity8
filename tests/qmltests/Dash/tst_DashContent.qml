@@ -64,7 +64,6 @@ Item {
     }
 
     UT.UnityTestCase {
-        id: testCase
         name: "DashContent"
         when: scopesModel.loaded
 
