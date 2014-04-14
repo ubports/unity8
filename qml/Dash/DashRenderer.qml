@@ -33,6 +33,8 @@ Item {
 
     property var delegateCreationEnd: undefined
 
+    property real originY: 0
+
     property real verticalSpacing: 0
 
     // The current item of the renderer
