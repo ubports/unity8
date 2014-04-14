@@ -176,7 +176,7 @@ Showable {
         anchors.left: parent.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        visible: parent.visible
+        visible: parent.required
         fillMode: Image.Tile
         source: "../graphics/dropshadow_right.png"
     }
@@ -186,7 +186,7 @@ Showable {
         anchors.right: parent.left
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        visible: parent.visible
+        visible: parent.required
         fillMode: Image.Tile
         source: "../graphics/dropshadow_left.png"
     }
