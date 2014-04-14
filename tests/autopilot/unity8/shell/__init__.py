@@ -21,8 +21,9 @@
 
 from time import sleep
 from functools import wraps
-import logging
+from gi.repository import Notify
 
+import logging
 
 logger = logging.getLogger(__name__)
 
@@ -48,6 +49,7 @@ def disable_qml_mocking(fn):
         return fn(*args, **kwargs)
     return wrapper
 
+
 class DragMixin(object):
     def _drag(self, x1, y1, x2, y2):
         # XXX This ugly code is here just temporarily, waiting for drag
@@ -69,3 +71,51 @@ class DragMixin(object):
             self.touch._finger_move(int(x2), int(y2))
         except AttributeError:
             self.touch._device.finger_move(int(x2), int(y2))
+
+
+def create_ephemeral_notification(
+    summary='',
+    body='',
+    icon=None,
+    hints=[],
+    urgency='NORMAL'
+):
+    """Create an ephemeral (non-interactive) notification
+
+        :param summary: Summary text for the notification
+        :param body: Body text to display in the notification
+        :param icon: Path string to the icon to use
+        :param hint_strings: List of tuples containing the 'name' and value
+            for setting the hint strings for the notification
+        :param urgency: Urgency string for the noticiation, either: 'LOW',
+            'NORMAL', 'CRITICAL'
+
+    """
+    Notify.init('Unity8')
+
+    logger.info(
+        "Creating ephemeral: summary(%s), body(%s), urgency(%r) "
+        "and Icon(%s)",
+        summary,
+        body,
+        urgency,
+        icon
+    )
+
+    notification = Notify.Notification.new(summary, body, icon)
+
+    for hint in hints:
+        key, value = hint
+        notification.set_hint_string(key, value)
+        logger.info("Adding hint to notification: (%s, %s)", key, value)
+    notification.set_urgency(_get_urgency(urgency))
+
+    return notification
+
+
+def _get_urgency(urgency):
+    """Translates urgency string to enum."""
+    _urgency_enums = {'LOW': Notify.Urgency.LOW,
+                      'NORMAL': Notify.Urgency.NORMAL,
+                      'CRITICAL': Notify.Urgency.CRITICAL}
+    return _urgency_enums.get(urgency.upper())
