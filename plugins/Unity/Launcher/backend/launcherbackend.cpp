@@ -444,9 +444,9 @@ bool LauncherBackend::handleMessage(const QDBusMessage& message, const QDBusConn
 
     if (message.member() == "Get") {
         if (message.arguments()[1].toString() == "count")
-            retval.append(this->count(appid));
+            retval.append(QVariant::fromValue(QDBusVariant(this->count(appid))));
         else if (message.arguments()[1].toString() == "countVisible")
-            retval.append(this->countVisible(appid));
+            retval.append(QVariant::fromValue(QDBusVariant(this->countVisible(appid))));
     } else if (message.member() == "Set") {
         if (message.arguments()[1].toString() == "count")
             this->setCount(appid, message.arguments()[2].value<QDBusVariant>().variant().toInt());
@@ -548,7 +548,7 @@ void LauncherBackend::emitPropChangedDbus (const QString& appId, const QString& 
 
     QList<QVariant> arguments;
     QVariantHash changedprops;
-    changedprops[property] = value;
+    changedprops[property] = QVariant::fromValue(QDBusVariant(value));
     QVariantList deletedprops;
 
     arguments.append(changedprops);

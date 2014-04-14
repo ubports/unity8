@@ -20,6 +20,10 @@
 #include "launcherbackend.h"
 
 #include <QtTest>
+#include <QDBusConnection>
+#include <QDBusMessage>
+#include <QDBusVariant>
+
 
 class LauncherBackendTest : public QObject
 {
@@ -132,6 +136,80 @@ private Q_SLOTS:
 
         QString decodeOut = LauncherBackend::decodeAppId(encoded);
         QCOMPARE(decoded, decodeOut);
+    }
+
+    void testDbusIface_data() {
+        QTest::addColumn<QString>("appId");
+        QTest::addColumn<bool>("setCount");
+        QTest::addColumn<int>("inCount");
+        QTest::addColumn<bool>("countVisible");
+        QTest::addColumn<int>("expectedCount");
+
+        /* Get baseline data on things working */
+        QTest::newRow("Baseline") << "rel-icon" << false << 0 << false << -1;
+
+        /* Turn it on */
+        QTest::newRow("Visible Count") << "rel-icon" << true << 42 << true << 42;
+
+        /* Invalide app to load */
+        QTest::newRow("Invalid App ID") << "this-app-doesnt-exist" << true << 42 << true << -1;
+    }
+
+    void testDbusIface() {
+        QFETCH(QString, appId);
+        QFETCH(bool, setCount);
+        QFETCH(int, inCount);
+        QFETCH(bool, countVisible);
+        QFETCH(int, expectedCount);
+
+        QDBusConnection con = QDBusConnection::sessionBus();
+        QDBusMessage message;
+        QDBusMessage reply;
+
+        LauncherBackend backend;
+
+        if (setCount) {
+            message = QDBusMessage::createMethodCall("com.canonical.unity.launcher",
+                                                     "/com/canonical/unity/launcher/" + LauncherBackend::encodeAppId(appId),
+                                                     "org.freedesktop.DBus.Properties",
+                                                     "Set");
+            QVariantList cargs;
+            cargs.append(QString("com.canonical.unity.Launcher.Item"));
+            cargs.append(QString("count"));
+            cargs.append(QVariant::fromValue(QDBusVariant(inCount)));
+
+            message.setArguments(cargs);
+            reply = con.call(message);
+            QCOMPARE(reply.type(), QDBusMessage::ReplyMessage);
+        }
+
+        /* Set countVisible */
+        message = QDBusMessage::createMethodCall("com.canonical.unity.launcher",
+                                                 "/com/canonical/unity/launcher/" + LauncherBackend::encodeAppId(appId),
+                                                 "org.freedesktop.DBus.Properties",
+                                                 "Set");
+        QVariantList cvargs;
+        cvargs.append(QString("com.canonical.unity.Launcher.Item"));
+        cvargs.append(QString("countVisible"));
+        cvargs.append(QVariant::fromValue(QDBusVariant(countVisible)));
+
+        message.setArguments(cvargs);
+        reply = con.call(message);
+        QCOMPARE(reply.type(), QDBusMessage::ReplyMessage);
+
+        /* Get value */
+        message = QDBusMessage::createMethodCall("com.canonical.unity.launcher",
+                                                 "/com/canonical/unity/launcher/" + LauncherBackend::encodeAppId(appId),
+                                                 "org.freedesktop.DBus.Properties",
+                                                 "Get");
+        QVariantList getargs;
+        getargs.append(QString("com.canonical.unity.Launcher.Item"));
+        getargs.append(QString("count"));
+
+        message.setArguments(getargs);
+        reply = con.call(message);
+        QCOMPARE(reply.type(), QDBusMessage::ReplyMessage);
+        QCOMPARE(reply.arguments()[0].value<QDBusVariant>().variant().toInt(), expectedCount);
     }
 };
 
