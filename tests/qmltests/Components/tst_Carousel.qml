@@ -31,10 +31,13 @@ Item {
         property int createdDelegates: 0
         property int destroyedDelegates: 0
 
-        itemComponent: Rectangle {
-            color: "red"
-            Component.onCompleted: carousel.createdDelegates++
-            Component.onDestruction: carousel.destroyedDelegates++
+        itemComponent: BaseCarouselDelegate {
+            Rectangle {
+                anchors.fill: parent
+                color: "red"
+                Component.onCompleted: carousel.createdDelegates++
+                Component.onDestruction: carousel.destroyedDelegates++
+            }
         }
     }
     TestCase {
