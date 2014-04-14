@@ -196,7 +196,7 @@ class InteractiveNotificationBase(NotificationsBase):
         get_notification = lambda: notify_list.wait_select_single(
             'Notification', objectName='notification1')
         notification = get_notification()
-        self._assert_notification(notification, summary, body, True, True, 1.0)
+        self._assert_notification(notification, None, None, True, True, 1.0)
         initial_height = notification.height
         self.touch.tap_object(notification.select_single(objectName="button1"))
         self.assertThat(
