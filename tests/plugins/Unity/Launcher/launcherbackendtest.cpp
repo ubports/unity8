@@ -102,6 +102,25 @@ private Q_SLOTS:
 
         QCOMPARE(backend.count(appId), expectedCount);
     }
+
+    void testDbusName_data() {
+        QTest::addColumn<QString>("decoded");
+        QTest::addColumn<QString>("encoded");
+
+        /* Passthrough test */
+        QTest::newRow("Passthrough") << "fine" << "fine";
+    }
+
+    void testDbusName() {
+        QFETCH(QString, decoded);
+        QFETCH(QString, encoded);
+
+        QString decodeOut = LauncherBackend::decodeAppId(encoded);
+        QCOMPARE(decoded, decodeOut);
+
+        QString encodeOut = LauncherBackend::encodeAppId(encoded);
+        QCOMPARE(encoded, encodeOut);
+    }
 };
 
 QTEST_GUILESS_MAIN(LauncherBackendTest)
