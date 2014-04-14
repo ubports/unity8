@@ -277,11 +277,11 @@ class InteractiveNotificationBase(NotificationsBase):
             hints
         )
 
-        # verify that we can still reveal the launcher (interact with the shell)
+        # verify that we can swipe away the greeter (interact with the "shell")
         time.sleep(1)
         self.main_window.show_dash_swiping()
-        launcher = self.main_window.get_launcher()
-        self.assertThat(launcher.shown, Eventually(Equals(True)))
+        greeter = self.main_window.get_greeter()
+        self.assertThat(greeter.shown, Eventually(Equals(False)))
 
         # verify and interact with the triggered snap-decision notification
         notify_list = self._get_notifications_list()
