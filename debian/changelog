@@ -1,3 +1,17 @@
+unity8 (7.85+14.04.20140415.2-0ubuntu1) trusty; urgency=low
+
+  [ Michael Terry ]
+  * When an application requests focus, handle it in Shell.qml by hiding
+    the greeter and stopping any edge demo. (LP: #1227753)
+
+  [ Leo Arias ]
+  * Use subprocess.check_call when caling url-dispatcher, so an error
+    will be raised if it fails.
+  * Test application life cycle with fake apps, instead of messaging and
+    address book.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 15 Apr 2014 12:47:11 +0000
+
 unity8 (7.85+14.04.20140410.1-0ubuntu1) trusty; urgency=medium
 
   [ Didier Roche ]
