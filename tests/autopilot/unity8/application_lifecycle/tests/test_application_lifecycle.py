@@ -24,8 +24,11 @@ from __future__ import absolute_import
 import logging
 import os
 
+from autopilot.matchers import Eventually
 from autopilot.platform import model
+from testtools.matchers import Equals
 
+from unity8 import process_helpers
 from unity8.application_lifecycle import tests
 
 
@@ -86,3 +89,29 @@ class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
         self.swipe_screen_from_right()
 
         self.assert_current_focused_application(application1_name)
+
+    def test_greeter_hides_on_app_open(self):
+        """Greeter should hide when an app is opened"""
+        process_helpers.lock_unity()
+        greeter = self.main_window.get_greeter()
+        self.assertThat(greeter.created, Eventually(Equals(True)))
+
+        application_name = self.launch_fake_app()
+        self.assertThat(greeter.created, Eventually(Equals(False)))
+        self.assert_current_focused_application(application_name)
+
+    def test_greeter_hides_on_app_focus(self):
+        """Greeter should hide when an app is re-focused"""
+        application_name = self.launch_fake_app()
+        self.assert_current_focused_application(application_name)
+
+        self.main_window.show_dash_swiping()
+        self.assert_current_focused_application('')
+
+        process_helpers.lock_unity()
+        greeter = self.main_window.get_greeter()
+        self.assertThat(greeter.created, Eventually(Equals(True)))
+
+        self.launch_upstart_application(application_name)
+        self.assertThat(greeter.created, Eventually(Equals(False)))
+        self.assert_current_focused_application(application_name)

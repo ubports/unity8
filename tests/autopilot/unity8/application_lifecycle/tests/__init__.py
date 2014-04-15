@@ -35,7 +35,10 @@ class ApplicationLifeCycleTestCase(tests.UnityTestCase):
         process_helpers.unlock_unity(unity_proxy)
 
     def create_test_application(self):
-        fake_application = fixture_setup.FakeApplication()
+        desktop_file_dict = fixture_setup.DEFAULT_DESKTOP_FILE_DICT
+        desktop_file_dict.update({'X-Ubuntu-Single-Instance': 'true'})
+        fake_application = fixture_setup.FakeApplication(
+            desktop_file_dict=desktop_file_dict)
         self.useFixture(fake_application)
         return (
             fake_application.qml_file_path, fake_application.desktop_file_path)

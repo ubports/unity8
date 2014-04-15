@@ -240,6 +240,8 @@ FocusScope {
         function show(focusApp) {
             shown = true;
             panel.indicators.hide();
+            edgeDemo.stopDemo();
+            greeter.hide();
             if (!ApplicationManager.focusedApplicationId && ApplicationManager.count > 0 && focusApp) {
                 ApplicationManager.focusApplication(ApplicationManager.get(0).appId);
             }
@@ -267,12 +269,6 @@ FocusScope {
                         stages.hide();
                     }
                 }
-
-                // If any app is focused when greeter is open, it's due to a user action
-                // like a snap decision (say, an incoming call).
-                // TODO: these should be protected to only unlock for certain applications / certain usecases
-                // potentially only in connection with a notification.
-                greeter.hide()
             }
 
             onApplicationAdded: {
@@ -559,12 +555,9 @@ FocusScope {
                 }
             }
             onDashSwipeChanged: if (dashSwipe && stages.shown) dash.setCurrentScope("clickscope", false, true)
-            onLauncherApplicationSelected:{
-                if (edgeDemo.running)
-                    return;
-
-                greeter.hide()
-                shell.activateApplication(appId)
+            onLauncherApplicationSelected: {
+                if (!edgeDemo.running)
+                    shell.activateApplication(appId)
             }
             onShownChanged: {
                 if (shown) {
