@@ -28,7 +28,7 @@ Item {
     property date currentDate
 
     // If active, time will be updated through the indicators service
-    property bool active: clock.enabled && clock.visible
+    property bool active: visible
 
     Component.onCompleted: {
         if (active) {
