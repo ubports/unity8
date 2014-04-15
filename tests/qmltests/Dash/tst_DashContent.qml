@@ -118,9 +118,9 @@ Item {
 
         function test_show_header_on_list_movement() {
             var dashContentList = findChild(dashContent, "dashContentList");
-            verify(dashContentList != undefined)
+            verify(dashContentList != undefined);
             var categoryListView = findChild(dashContentList, "categoryListView");
-            verify(categoryListView != undefined)
+            verify(categoryListView != undefined);
 
             waitForRendering(categoryListView);
 
@@ -130,24 +130,24 @@ Item {
             var startX = dashContentList.width/2;
             var startY = dashContentList.height/2;
             touchFlick(dashContentList, startX - units.gu(2), startY, startX, startY);
-            tryCompare(categoryListView, "contentY", units.gu(11) - categoryListView.pageHeader.height)
+            tryCompare(categoryListView, "contentY", units.gu(11) - categoryListView.pageHeader.height);
         }
 
         function test_set_current_scope_reset() {
             var dashContentList = findChild(dashContent, "dashContentList");
-            verify(dashContentList != undefined)
+            verify(dashContentList != undefined);
             var categoryListView = findChild(dashContentList, "categoryListView");
-            verify(categoryListView != undefined)
+            verify(categoryListView != undefined);
 
             categoryListView.contentY = units.gu(10);
 
             compare(dashContentList.currentItem.item.objectName,  "MockScope1")
-            compare(categoryListView.contentY, units.gu(10))
+            compare(categoryListView.contentY, units.gu(10));
 
             dashContent.setCurrentScopeAtIndex(0, false, true);
 
             compare(dashContentList.currentItem.item.objectName,  "MockScope1")
-            compare(categoryListView.contentY,  0)
+            compare(categoryListView.contentY,  0);
         }
 
         // This tests that setting the current scope index will end up at the correct index even if
