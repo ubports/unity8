@@ -586,6 +586,11 @@ FocusScope {
             MouseArea {
                 anchors.fill: parent
             }
+
+            InputFilterArea {
+                anchors.fill: parent
+                blockInput: modalNotificationBackground.visible
+            }
         }
 
         Notifications {
