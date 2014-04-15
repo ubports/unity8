@@ -23,46 +23,16 @@ import os
 import subprocess
 
 from autopilot import platform
-from autopilot.matchers import Eventually
-from testtools.matchers import Equals
-from ubuntuuitoolkit import fixture_setup
 
-from unity8 import process_helpers
-from unity8.shell import tests
+from unity8.application_lifecycle import tests
 
 
-class URLDispatcherTestCase(tests.UnityTestCase):
-
-    scenarios = tests._get_device_emulation_scenarios()
-
-    test_qml = ("""
-import QtQuick 2.0
-import Ubuntu.Components 0.1
-
-MainView {
-    width: units.gu(48)
-    height: units.gu(60)
-
-    Label {
-        text: 'Test application.'
-    }
-}
-""")
+class URLDispatcherTestCase(tests.ApplicationLifeCycleTestCase):
 
     def setUp(self):
         if platform.model() == 'Desktop':
             self.skipTest("URL dispatcher doesn't work on the desktop.")
         super(URLDispatcherTestCase, self).setUp()
-        self._qml_mock_enabled = False
-        self._data_dirs_mock_enabled = False
-        unity_proxy = self.launch_unity()
-        process_helpers.unlock_unity(unity_proxy)
-
-    def create_test_application(self):
-        fake_application = fixture_setup.FakeApplication(self.test_qml)
-        self.useFixture(fake_application)
-        return (
-            fake_application.qml_file_path, fake_application.desktop_file_path)
 
     def test_swipe_out_application_started_by_url_dispatcher(self):
         _, desktop_file_path = self.create_test_application()
@@ -71,13 +41,10 @@ MainView {
 
         self.assertEqual('', self.main_window.get_current_focused_app_id())
         self.addCleanup(os.system, 'pkill qmlscene')
+
         subprocess.check_call(
             ['url-dispatcher', 'application:///{}'.format(desktop_file_name)])
-        self.assertThat(
-            self.main_window.get_current_focused_app_id,
-            Eventually(Equals(application_name)))
+        self.assert_current_focused_application(application_name)
 
         self.main_window.show_dash_swiping()
-        self.assertThat(
-            self.main_window.get_current_focused_app_id,
-            Eventually(Equals('')))
+        self.assert_current_focused_application('')

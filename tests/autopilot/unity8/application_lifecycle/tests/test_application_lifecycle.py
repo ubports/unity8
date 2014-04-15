@@ -21,27 +21,23 @@
 
 from __future__ import absolute_import
 
-from unity8.process_helpers import unlock_unity
-from unity8.shell import disable_qml_mocking
-from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
-
-from autopilot.matchers import Eventually
-from autopilot.platform import model
-from testtools.matchers import Equals, NotEquals
-
 import logging
+import os
+
+from autopilot.platform import model
+
+from unity8.application_lifecycle import tests
+
 
 logger = logging.getLogger(__name__)
 
 
-class ApplicationLifecycleTests(UnityTestCase):
-
-    scenarios = _get_device_emulation_scenarios()
+class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
 
     def setUp(self):
+        if model() == 'Desktop':
+            self.skipTest('Test cannot be run on the desktop.')
         super(ApplicationLifecycleTests, self).setUp()
-        if model() == "Desktop":
-            self.skipTest("Test cannot be run on the desktop.")
 
     def swipe_screen_from_right(self):
         width = self.main_window.width
@@ -54,80 +50,39 @@ class ApplicationLifecycleTests(UnityTestCase):
         logger.info("Swiping screen from the right edge")
         self.touch.drag(start_x, start_y, end_x, end_y)
 
-    def _launch_app(self, app_name):
-        """Launches the application *app_name*
+    def launch_fake_app(self):
+        _, desktop_file_path = self.create_test_application()
+        desktop_file_name = os.path.basename(desktop_file_path)
+        application_name, _ = os.path.splitext(desktop_file_name)
+        self.launch_upstart_application(application_name)
+        return application_name
 
-        Assumes that the desktop file resides at:
-        /usr/share/applications/{app_name}.desktop
-
-        """
-        desktop_file = "--desktop_file_hint="\
-            "/usr/share/applications/{app_name}.desktop".format(
-                app_name=app_name
-            )
-        return self.launch_test_application(
-            app_name,
-            desktop_file,
-            "--stage_hint=main_stage",
-            app_type='qt'
-        )
-
-    @disable_qml_mocking
     def test_can_launch_application(self):
         """Must be able to launch an application."""
-        unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
+        application_name = self.launch_fake_app()
+        self.assert_current_focused_application(application_name)
 
-        app = self._launch_app("messaging-app")
-
-        self.assertThat(app, NotEquals(None))
-        self.assertThat(
-            self.main_window.get_current_focused_app_id(),
-            Eventually(Equals("messaging-app"))
-        )
-
-    @disable_qml_mocking
     def test_can_launch_multiple_applications(self):
         """A second application launched must be focused."""
-        unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
+        application1_name = self.launch_fake_app()
+        self.assert_current_focused_application(application1_name)
 
-        self._launch_app("messaging-app")
-        self.assertThat(
-            self.main_window.get_current_focused_app_id(),
-            Eventually(Equals("messaging-app"))
-        )
+        application2_name = self.launch_fake_app()
+        self.assertFalse(application1_name == application2_name)
+        self.assert_current_focused_application(application2_name)
 
-        self._launch_app("address-book-app")
-        self.assertThat(
-            self.main_window.get_current_focused_app_id(),
-            Eventually(Equals("address-book-app"))
-        )
-
-    @disable_qml_mocking
     def test_app_moves_from_unfocused_to_focused(self):
         """An application that is in the unfocused state must be able to be
         brought back to the focused state.
 
         """
-        unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
+        application1_name = self.launch_fake_app()
+        self.assert_current_focused_application(application1_name)
 
-        self._launch_app("messaging-app")
-        self.assertThat(
-            self.main_window.get_current_focused_app_id(),
-            Eventually(Equals("messaging-app"))
-        )
-
-        self._launch_app("address-book-app")
-        self.assertThat(
-            self.main_window.get_current_focused_app_id(),
-            Eventually(Equals("address-book-app"))
-        )
+        application2_name = self.launch_fake_app()
+        self.assertFalse(application1_name == application2_name)
+        self.assert_current_focused_application(application2_name)
 
         self.swipe_screen_from_right()
 
-        self.assertThat(
-            self.main_window.get_current_focused_app_id(),
-            Eventually(Equals("messaging-app"))
-        )
+        self.assert_current_focused_application(application1_name)
