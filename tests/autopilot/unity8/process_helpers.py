@@ -121,7 +121,7 @@ def restart_unity(*args):
             raise
 
     try:
-        command = ['/sbin/initctl', 'start', 'unity8', 'LC_ALL=C'] + list(args)
+        command = ['/sbin/initctl', 'start', 'unity8'] + list(args)
         output = subprocess.check_output(
             command,
             stderr=subprocess.STDOUT,
