@@ -117,7 +117,6 @@ Item {
         verticalSpacing: units.gu(2)
 
         model: LimitProxyModel {
-            id: limitModel
             model: root.model
             limit: d.filter ? rowsWhenCollapsed * iconTileGrid.columns : -1
         }
