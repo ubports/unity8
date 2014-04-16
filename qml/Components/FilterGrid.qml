@@ -69,7 +69,7 @@ Item {
     property alias highlightIndex: iconTileGrid.highlightIndex
     readonly property alias currentItem: iconTileGrid.currentItem
 
-    height: filter ? root.collapsedHeight : root.uncollapsedHeight
+    height: d.filter ? root.collapsedHeight : root.uncollapsedHeight
     clip: filterAnimation.running
 
     Behavior on height {
