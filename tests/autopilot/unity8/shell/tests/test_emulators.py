@@ -190,14 +190,10 @@ class DashAppsEmulatorTestCase(DashBaseTestCase):
             :expected_apps_count]
 
         applications = self.applications_scope.get_applications(category)
-        applications_titles = []
-        for application in applications:
-            cardHeader = application.select_single('CardHeader')
-            applications_titles.append(cardHeader.title)
 
         self.assertThat(applications, HasLength(expected_apps_count))
         for expected in expected_applications:
-            self.assertThat(applications_titles, Contains(expected))
+            self.assertThat(applications, Contains(expected))
 
     def _get_number_of_application_slots(self, category):
         category_element = self.applications_scope._get_category_element(

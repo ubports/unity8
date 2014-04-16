@@ -191,13 +191,15 @@ class DashApps(GenericScopeView):
 
         """
         category_element = self._get_category_element(category)
-        application_tiles = category_element.select_many('Card')
+        application_cards = category_element.select_many('Card')
         # TODO return them on the same order they are displayed.
         # --elopio - 2014-1-15
         result = []
-        for card in application_tiles:
+        for card in application_cards:
             if card.objectName != 'cardToolCard':
-                result.append(card)
+                card_header = card.select_single('CardHeader')
+                result.append(card_header.title)
+
         return result
 
 
