@@ -35,13 +35,6 @@ Item {
     property var panel: null
     // BEGIN To reduce warnings
 
-    property var scopeStatus: {
-        'MockScope1': { 'movementStarted': 0, 'positionedAtBeginning': 0 },
-        'MockScope2': { 'movementStarted': 0, 'positionedAtBeginning': 0 },
-        'clickscope': { 'movementStarted': 0, 'positionedAtBeginning': 0 },
-        'MockScope5': { 'movementStarted': 0, 'positionedAtBeginning': 0 }
-    }
-
     Scopes {
         id: scopesModel
     }
@@ -55,32 +48,7 @@ Item {
         }
         scopes : scopesModel
 
-        scopeMapper : scopeDelegateMapper
         searchHistory: SearchHistoryModel {}
-    }
-
-    ScopeDelegateMapper {
-        id: scopeDelegateMapper
-        scopeDelegateMapping: {
-            "MockScope1": Qt.resolvedUrl("qml/fake_scopeView1.qml"),
-            "MockScope2": Qt.resolvedUrl("qml/fake_scopeView2.qml"),
-            "clickscope": Qt.resolvedUrl("qml/fake_scopeView3.qml"),
-        }
-        genericScope: Qt.resolvedUrl("qml/fake_generic_scopeView.qml")
-    }
-
-    function clear_scope_status() {
-        scopeStatus["MockScope1"].movementStarted = 0;
-        scopeStatus["MockScope1"].positionedAtBeginning = 0;
-
-        scopeStatus["MockScope2"].movementStarted = 0;
-        scopeStatus["MockScope2"].positionedAtBeginning = 0;
-
-        scopeStatus["clickscope"].movementStarted = 0;
-        scopeStatus["clickscope"].positionedAtBeginning = 0;
-
-        scopeStatus["MockScope5"].movementStarted = 0;
-        scopeStatus["MockScope5"].positionedAtBeginning = 0;
     }
 
     SignalSpy {
@@ -108,7 +76,6 @@ Item {
 
         function cleanup() {
             movementStartedSpy.clear();
-            clear_scope_status();
             dashContent.visible = true;
 
             var dashContentList = findChild(dashContent, "dashContentList");
@@ -149,29 +116,38 @@ Item {
             verify(dashContentList.currentIndex >= 0 && dashContentList.currentIndex < 5);
         }
 
-        function test_movement_started_signal() {
-            dashContent.setCurrentScopeAtIndex(3, true, false);
-
+        function test_show_header_on_list_movement() {
             var dashContentList = findChild(dashContent, "dashContentList");
-            verify(dashContentList != undefined)
+            verify(dashContentList != undefined);
+            var categoryListView = findChild(dashContentList, "categoryListView");
+            verify(categoryListView != undefined);
 
-            dashContentList.movementStarted();
+            waitForRendering(categoryListView);
 
-            compare(movementStartedSpy.count, 1, "DashContent should have emitted movementStarted signal when content list did.");
-            compare(scopeStatus["MockScope1"].movementStarted, 1, "MockScope1 should have emitted movementStarted signal when content list did.");
-            compare(scopeStatus["MockScope2"].movementStarted, 1, "MockScope2 should have emitted movementStarted signal when content list did.");
-            compare(scopeStatus["clickscope"].movementStarted, 1, "clickscope should have emitted movementStarted signal when content list did.");
-            compare(scopeStatus["MockScope5"].movementStarted, 1, "MockScope5 should have emitted movementStarted signal when content list did.");
+            categoryListView.contentY = units.gu(11);
+            console.log("contentY", categoryListView.contentY);
+
+            var startX = dashContentList.width/2;
+            var startY = dashContentList.height/2;
+            touchFlick(dashContentList, startX - units.gu(2), startY, startX, startY);
+            tryCompare(categoryListView, "contentY", units.gu(11) - categoryListView.pageHeader.height);
         }
 
-        function test_positioned_at_beginning_signal() {
-            dashContent.setCurrentScopeAtIndex(3, true, false);
+        function test_set_current_scope_reset() {
+            var dashContentList = findChild(dashContent, "dashContentList");
+            verify(dashContentList != undefined);
+            var categoryListView = findChild(dashContentList, "categoryListView");
+            verify(categoryListView != undefined);
 
-            dashContent.positionedAtBeginning();
-            compare(scopeStatus["MockScope1"].positionedAtBeginning, 1, "MockScope1 should have emitted positionedAtBeginning signal when DashContent did.");
-            compare(scopeStatus["MockScope2"].positionedAtBeginning, 1, "MockScope2 should have emitted positionedAtBeginning signal when DashContent did.");
-            compare(scopeStatus["clickscope"].positionedAtBeginning, 1, "clickscope should have emitted positionedAtBeginning signal when DashContent did.");
-            compare(scopeStatus["MockScope5"].positionedAtBeginning, 1, "MockScope5 should have emitted positionedAtBeginning signal when DashContent did.");
+            categoryListView.contentY = units.gu(10);
+
+            compare(dashContentList.currentItem.item.objectName,  "MockScope1")
+            compare(categoryListView.contentY, units.gu(10));
+
+            dashContent.setCurrentScopeAtIndex(0, false, true);
+
+            compare(dashContentList.currentItem.item.objectName,  "MockScope1")
+            compare(categoryListView.contentY,  0);
         }
 
         // This tests that setting the current scope index will end up at the correct index even if
