@@ -62,6 +62,17 @@ Item {
     readonly property alias currentItem: iconTileGrid.currentItem
     readonly property alias filtered: d.filter
 
+    QtObject {
+        id: d
+        // We do have filter and collapsed properties because we need to decouple
+        // the real filtering with the animation since the closing animation
+        // i.e. setFilter(false. true) we still need to not be filtering until
+        // the animation finishes otherwise we hide the items when the animation
+        // is still running
+        property bool filter: true
+        property bool collapsed: true
+    }
+
     height: d.collapsed ? root.collapsedHeight : root.uncollapsedHeight
     clip: filterAnimation.running
 
@@ -82,17 +93,6 @@ Item {
                 heightBehaviour.enabled = false;
             }
         }
-    }
-
-    QtObject {
-        id: d
-        // We do have filter and collapsed properties because we need to decouple
-        // the real filtering with the animation since the closing animation
-        // i.e. setFilter(false. true) we still need to not be filtering until
-        // the animation finishes otherwise we hide the items when the animation
-        // is still running
-        property bool filter: true
-        property bool collapsed: true
     }
 
     function setFilter(filter, animate) {
