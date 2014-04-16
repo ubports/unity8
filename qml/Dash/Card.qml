@@ -138,8 +138,8 @@ AbstractButton {
         sourceComponent: ShaderEffect {
             id: overlay
 
-            height: headerLoader.item.height
-            opacity: headerLoader.item.opacity * 0.6
+            height: headerLoader.item ? headerLoader.item.height : 0
+            opacity: headerLoader.item ? headerLoader.item.opacity * 0.6 : 0
 
             property var source: ShaderEffectSource {
                 id: shaderSource
