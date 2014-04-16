@@ -18,6 +18,7 @@ import QtQuick 2.0
 import QtTest 1.0
 import "../../../qml/Components/"
 import "../../../qml/Components/carousel.js" as Carousel
+import Unity.Test 0.1 as UT
 
 Item {
     width: 700
@@ -32,12 +33,13 @@ Item {
         property int destroyedDelegates: 0
 
         itemComponent: Rectangle {
+            border.color: "black"
             color: "red"
             Component.onCompleted: carousel.createdDelegates++
             Component.onDestruction: carousel.destroyedDelegates++
         }
     }
-    TestCase {
+    UT.UnityTestCase {
         id: root
         name: "Carousel"
         when: windowShown
@@ -55,8 +57,11 @@ Item {
         property real kGapEnd: kMiddleIndex * (1 - gapToEndPhase / gapToMiddlePhase)
         property real kXBeginningEnd: 1 / tileWidth + kMiddleIndex / gapToMiddlePhase
 
-        function test_onlyNeededItemsCreated() {
-            compare(carousel.createdDelegates, 10);
+        // This test needs to run first since it tests a corner case condition
+        // to where the carousel is just being created
+        // That is why it has a 1 in the name
+        function test_1onlyNeededItemsCreated() {
+            tryCompare(carousel, "createdDelegates", 10);
             compare(carousel.destroyedDelegates, 0);
         }
 
@@ -215,6 +220,25 @@ Item {
                                                     data.maxScale,
                                                     data.maxTranslation)
             compare(scale, data.result)
+        }
+
+        function test_lastItemXPosition() {
+            var carouselList = findChild(carousel, "listView");
+            var stepAnimation = findInvisibleChild(carouselList, "stepAnimation");
+            var stepDiff = 0;
+            stepAnimation.onRunningChanged.connect(function() { if (stepAnimation.running) stepDiff = Math.abs(carouselList.contentX - stepAnimation.to); })
+            var overshootOnce = false;
+            while (!overshootOnce) {
+                overshootOnce = carouselList.realContentX > carouselList.realContentWidth - carouselList.realWidth;
+                mouseFlick(carousel, carousel.width - units.gu(1),
+                                            carousel.height / 2,
+                                            units.gu(2),
+                                            carousel.height / 2);
+                tryCompare(carouselList, "moving", false);
+            }
+            verify(stepDiff < 1);
+            var x = carouselList.getXFromContinuousIndex(carousel.model - 1);
+            verify(Math.abs(x - carouselList.contentX) < 1);
         }
     }
 }
