@@ -65,7 +65,7 @@ Item {
 
     UT.UnityTestCase {
         name: "DashContent"
-        when: scopesModel.loaded
+        when: scopesModel.loaded && windowShown
 
         function init() {
             scopesModel.clear();
