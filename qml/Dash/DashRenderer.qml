@@ -20,9 +20,6 @@ Item {
     // Can the item be expanded?
     property bool expandable: false
 
-    // In case it can be expanded, should we filter it
-    property bool filter: true
-
     property int collapsedHeight: height
 
     property int margins: 0
@@ -58,6 +55,6 @@ Item {
     /// @param itemY is y of the held delegate
     signal pressAndHold(int index, real itemY)
 
-    function startFilterAnimation(filter) {
+    function setFilter(filter, animate) {
     }
 }
