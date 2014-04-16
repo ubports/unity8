@@ -28,14 +28,6 @@ import "../Components"
 Item {
     id: root
 
-    QtObject {
-        id: d
-        /* If true, the number of elements displayed will be limited by collapsedRowCount.
-           If false, all elements will be displayed, effectively looking the same as a regular
-           ResponsiveGridView. Manipulate this property through setFilter */
-        property bool filter: true
-    }
-
     /* Whether, when collapsed, a button should be displayed enabling the user to expand
        the grid to its full size. */
     readonly property bool expandable: model.count > rowsWhenCollapsed * iconTileGrid.columns
@@ -68,8 +60,9 @@ Item {
     readonly property alias pressDelay: iconTileGrid.pressDelay
     property alias highlightIndex: iconTileGrid.highlightIndex
     readonly property alias currentItem: iconTileGrid.currentItem
+    readonly property alias filtered: limitModel.filter
 
-    height: d.filter ? root.collapsedHeight : root.uncollapsedHeight
+    height: d.collapsed ? root.collapsedHeight : root.uncollapsedHeight
     clip: filterAnimation.running
 
     Behavior on height {
@@ -84,16 +77,21 @@ Item {
             easing.type: Easing.InOutQuad
             onRunningChanged: {
                 if (!running) {
-                    limitModel.filter = d.filter;
+                    limitModel.filter = d.collapsed;
                 }
                 heightBehaviour.enabled = false;
             }
         }
     }
 
+    QtObject {
+        id: d
+        property bool collapsed: true
+    }
+
     function setFilter(filter, animate) {
         heightBehaviour.enabled = animate;
-        d.filter = filter;
+        d.collapsed = filter;
         if (!animate || !filter) {
             limitModel.filter = filter;
         }
@@ -114,11 +112,10 @@ Item {
 
         model: LimitProxyModel {
             id: limitModel
-            // We do have another filter property here because
-            // we can't directly use filter from the root since we need to decouple
+            // We do have filter and collapsed propertis because we need to decouple
             // the real filtering with the animation since the closing animation
-            // i.e. filter=false we still need to not be filtering until
-            // t    he animation finishes otherwise we hide the items when the animation
+            // i.e. setFilter(false. true) we still need to not be filtering until
+            // the animation finishes otherwise we hide the items when the animation
             // is still running
             property bool filter: true
             model: root.model

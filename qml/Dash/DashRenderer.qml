@@ -20,6 +20,9 @@ Item {
     // Can the item be expanded?
     property bool expandable: false
 
+    // In case it can be expanded, is it filtered
+    property bool filtered: true
+
     property int collapsedHeight: height
 
     property int margins: 0

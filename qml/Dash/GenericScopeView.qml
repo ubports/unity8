@@ -121,7 +121,7 @@ FocusScope {
             showDivider: false
 
             readonly property bool expandable: rendererLoader.item ? rendererLoader.item.expandable : false
-            readonly property bool filtered: categoryView.expandedCategoryId != categoryId
+            readonly property bool filtered: rendererLoader.item ? rendererLoader.item.filtered : true
             readonly property string category: categoryId
             readonly property var item: rendererLoader.item
 

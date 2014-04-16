@@ -28,6 +28,7 @@ DashRenderer {
     verticalSpacing: units.gu(1)
     currentItem: filterGrid.currentItem
     height: filterGrid.height
+    filtered: filterGrid.filtered
 
     function setFilter(filter, animate) {
         filterGrid.setFilter(filter, animate)
