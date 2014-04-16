@@ -192,14 +192,17 @@ class DashApps(GenericScopeView):
         """
         category_element = self._get_category_element(category)
         application_cards = category_element.select_many('Card')
-        # TODO return them on the same order they are displayed.
-        # --elopio - 2014-1-15
+
+        # sort by y, x
+        application_cards = sorted(
+            application_cards,
+            key=lambda card: (card.globalRect.y, card.globalRect.x))
+
         result = []
         for card in application_cards:
             if card.objectName != 'cardToolCard':
                 card_header = card.select_single('CardHeader')
                 result.append(card_header.title)
-
         return result
 
 

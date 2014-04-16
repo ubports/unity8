@@ -166,7 +166,7 @@ class DashAppsEmulatorTestCase(DashBaseTestCase):
     available_applications = [
         'Title.2.0', 'Title.2.1', 'Title.2.2',  'Title.2.3', 'Title.2.4',
         'Title.2.5', 'Title.2.6', 'Title.2.7',  'Title.2.8', 'Title.2.9',
-        'Title.2.9', 'Title.2.10', 'Title.2.11']
+        'Title.2.10', 'Title.2.11', 'Title.2.12']
 
     def setUp(self):
         # Set up the fake scopes before launching unity.
@@ -183,17 +183,13 @@ class DashAppsEmulatorTestCase(DashBaseTestCase):
         self.assertEqual(
             'No category found with name unexisting category', str(exception))
 
-    def test_get_applications_should_return_list_with_names(self):
+    def test_get_applications_should_return_correct_applications(self):
         category = '2'
         expected_apps_count = self._get_number_of_application_slots(category)
         expected_applications = self.available_applications[
             :expected_apps_count]
-
         applications = self.applications_scope.get_applications(category)
-
-        self.assertThat(applications, HasLength(expected_apps_count))
-        for expected in expected_applications:
-            self.assertThat(applications, Contains(expected))
+        self.assertEqual(expected_applications, applications)
 
     def _get_number_of_application_slots(self, category):
         category_element = self.applications_scope._get_category_element(
