@@ -82,14 +82,13 @@ def create_ephemeral_notification(
 ):
     """Create an ephemeral (non-interactive) notification
 
-        :param summary: Summary text for the notification
-        :param body: Body text to display in the notification
-        :param icon: Path string to the icon to use
-        :param hint_strings: List of tuples containing the 'name' and value
-            for setting the hint strings for the notification
-        :param urgency: Urgency string for the noticiation, either: 'LOW',
-            'NORMAL', 'CRITICAL'
-
+    :param summary: Summary text for the notification
+    :param body: Body text to display in the notification
+    :param icon: Path string to the icon to use
+    :param hint_strings: List of tuples containing the 'name' and value
+        for setting the hint strings for the notification
+    :param urgency: Urgency string for the noticiation, either: 'LOW',
+        'NORMAL', 'CRITICAL'
     """
     Notify.init('Unity8')
 
