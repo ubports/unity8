@@ -60,7 +60,7 @@ Item {
     readonly property alias pressDelay: iconTileGrid.pressDelay
     property alias highlightIndex: iconTileGrid.highlightIndex
     readonly property alias currentItem: iconTileGrid.currentItem
-    readonly property alias filtered: limitModel.filter
+    readonly property alias filtered: d.filter
 
     height: d.collapsed ? root.collapsedHeight : root.uncollapsedHeight
     clip: filterAnimation.running
@@ -77,7 +77,7 @@ Item {
             easing.type: Easing.InOutQuad
             onRunningChanged: {
                 if (!running) {
-                    limitModel.filter = d.collapsed;
+                    d.filter = d.collapsed;
                 }
                 heightBehaviour.enabled = false;
             }
@@ -86,6 +86,12 @@ Item {
 
     QtObject {
         id: d
+        // We do have filter and collapsed properties because we need to decouple
+        // the real filtering with the animation since the closing animation
+        // i.e. setFilter(false. true) we still need to not be filtering until
+        // the animation finishes otherwise we hide the items when the animation
+        // is still running
+        property bool filter: true
         property bool collapsed: true
     }
 
@@ -93,7 +99,7 @@ Item {
         heightBehaviour.enabled = animate;
         d.collapsed = filter;
         if (!animate || !filter) {
-            limitModel.filter = filter;
+            d.filter = filter;
         }
    }
 
@@ -112,14 +118,8 @@ Item {
 
         model: LimitProxyModel {
             id: limitModel
-            // We do have filter and collapsed propertis because we need to decouple
-            // the real filtering with the animation since the closing animation
-            // i.e. setFilter(false. true) we still need to not be filtering until
-            // the animation finishes otherwise we hide the items when the animation
-            // is still running
-            property bool filter: true
             model: root.model
-            limit: filter ? rowsWhenCollapsed * iconTileGrid.columns : -1
+            limit: d.filter ? rowsWhenCollapsed * iconTileGrid.columns : -1
         }
     }
 }
