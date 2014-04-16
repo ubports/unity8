@@ -70,6 +70,10 @@ Rectangle {
 
         when: windowShown
 
+        function init() {
+            wait(1);
+        }
+
         function benchmark_time_data() {
             return [
                 { tag: "cardTitleArtSubtitleMascotSummaryModel", model: cardTitleArtSubtitleMascotSummaryModel },
@@ -81,14 +85,10 @@ Rectangle {
             ];
         }
 
-        function init() {
-            wait(1);
-        }
-
         function benchmark_time(data) {
-            currentModel = data.model
-            cardRepeater.model = 1
-            cardRepeater.model = 0
+            currentModel = data.model;
+            cardRepeater.model = 1;
+            cardRepeater.model = 0;
         }
     }
 }
