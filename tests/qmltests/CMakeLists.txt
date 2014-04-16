@@ -10,7 +10,10 @@ set(qmltest_DEFAULT_IMPORT_PATHS
 
 set(qmltest_DEFAULT_TARGETS qmlunittests)
 set(qmltest_DEFAULT_NO_ADD_TEST FALSE)
-set(qmltest_DEFAULT_PROPERTIES ENVIRONMENT "QT_QPA_PLATFORM=minimal" ENVIRONMENT "LC_ALL=C")
+set(qmltest_DEFAULT_PROPERTIES ENVIRONMENT
+  "QT_QPA_PLATFORM=minimal"
+  "LC_ALL=C"
+)
 add_qml_test(Components AnimationControllerWithSignals)
 add_qml_test(Panel IndicatorItem)
 add_qml_test(utils/Unity/Test UnityTest)
