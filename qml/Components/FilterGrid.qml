@@ -28,10 +28,13 @@ import "../Components"
 Item {
     id: root
 
-    /* If true, the number of elements displayed will be limited by collapsedRowCount.
-       If false, all elements will be displayed, effectively looking the same as a regular
-       ResponsiveGridView. Manipulate this property through setFilter */
-    property bool filter: true
+    QtObject {
+        id: d
+        /* If true, the number of elements displayed will be limited by collapsedRowCount.
+           If false, all elements will be displayed, effectively looking the same as a regular
+           ResponsiveGridView. Manipulate this property through setFilter */
+        property bool filter: true
+    }
 
     /* Whether, when collapsed, a button should be displayed enabling the user to expand
        the grid to its full size. */
@@ -81,7 +84,7 @@ Item {
             easing.type: Easing.InOutQuad
             onRunningChanged: {
                 if (!running) {
-                    limitModel.filter = root.filter;
+                    limitModel.filter = d.filter;
                 }
                 heightBehaviour.enabled = false;
             }
@@ -90,7 +93,7 @@ Item {
 
     function setFilter(filter, animate) {
         heightBehaviour.enabled = animate;
-        root.filter = filter;
+        d.filter = filter;
         if (!animate || !filter) {
             limitModel.filter = filter;
         }
