@@ -29,6 +29,7 @@ AbstractButton {
     property int headerAlignment: Text.AlignLeft
     readonly property int headerHeight: headerLoader.item ? headerLoader.item.height : 0
     property int fixedHeaderHeight: -1
+    readonly property string title: cardData && cardData["title"] || ""
 
     property bool showHeader: true
 
@@ -196,7 +197,7 @@ AbstractButton {
             objectName: "cardHeader"
 
             mascot: cardData && cardData["mascot"] || ""
-            title: cardData && cardData["title"] || ""
+            title: root.title
             subtitle: cardData && cardData["subtitle"] || ""
 
             titleWeight: components && components["subtitle"] ? Font.DemiBold : Font.Normal
