@@ -59,11 +59,11 @@ macro(add_manual_qml_test SUBPATH COMPONENT_NAME)
 endmacro(add_manual_qml_test)
 
 macro(add_qml_benchmark SUBPATH COMPONENT_NAME ITERATIONS)
-    add_qml_test_internal(${SUBPATH} ${COMPONENT_NAME} ${ITERATIONS})
+    add_qml_test_internal(${SUBPATH} ${COMPONENT_NAME} ${ITERATIONS} ${ARGN})
 endmacro(add_qml_benchmark)
 
 macro(add_qml_test SUBPATH COMPONENT_NAME)
-    add_qml_test_internal(${SUBPATH} ${COMPONENT_NAME} 0)
+    add_qml_test_internal(${SUBPATH} ${COMPONENT_NAME} 0 ${ARGN})
 endmacro(add_qml_test)
 
 macro(add_qml_test_internal SUBPATH COMPONENT_NAME ITERATIONS)
