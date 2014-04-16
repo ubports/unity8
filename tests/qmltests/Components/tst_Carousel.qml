@@ -32,11 +32,14 @@ Item {
         property int createdDelegates: 0
         property int destroyedDelegates: 0
 
-        itemComponent: Rectangle {
-            border.color: "black"
-            color: "red"
-            Component.onCompleted: carousel.createdDelegates++
-            Component.onDestruction: carousel.destroyedDelegates++
+        itemComponent: BaseCarouselDelegate {
+            Rectangle {
+                anchors.fill: parent
+                border.color: "black"
+                color: "red"
+                Component.onCompleted: carousel.createdDelegates++
+                Component.onDestruction: carousel.destroyedDelegates++
+            }
         }
     }
     UT.UnityTestCase {
