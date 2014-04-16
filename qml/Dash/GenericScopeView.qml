@@ -247,16 +247,16 @@ FocusScope {
 
                     if (item && item.hasOwnProperty("delegateCreationBegin")) {
                         if (baseItem.y + baseItem.height <= 0) {
-                            // Not visible (item at top of the list)
-                            item.delegateCreationBegin = baseItem.height
-                            item.delegateCreationEnd = baseItem.height
+                            // Not visible (item at top of the list viewport)
+                            item.delegateCreationBegin = item.originY + baseItem.height
+                            item.delegateCreationEnd = item.originY + baseItem.height
                         } else if (baseItem.y >= categoryView.height) {
-                            // Not visible (item at bottom of the list)
-                            item.delegateCreationBegin = 0
-                            item.delegateCreationEnd = 0
+                            // Not visible (item at bottom of the list viewport)
+                            item.delegateCreationBegin = item.originY
+                            item.delegateCreationEnd = item.originY
                         } else {
-                            item.delegateCreationBegin = Math.max(-baseItem.y, 0)
-                            item.delegateCreationEnd = Math.min(categoryView.height + item.delegateCreationBegin, baseItem.height)
+                            item.delegateCreationBegin = item.originY + Math.max(-baseItem.y, 0)
+                            item.delegateCreationEnd = item.originY + Math.min(categoryView.height + item.delegateCreationBegin, baseItem.height)
                         }
                     }
                 }

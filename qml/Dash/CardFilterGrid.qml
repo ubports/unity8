@@ -24,6 +24,7 @@ DashRenderer {
     collapsedHeight: filterGrid.collapsedHeight
     margins: filterGrid.margins
     uncollapsedHeight: filterGrid.uncollapsedHeight
+    originY: filterGrid.originY
     verticalSpacing: units.gu(1)
     currentItem: filterGrid.currentItem
     height: filterGrid.height
