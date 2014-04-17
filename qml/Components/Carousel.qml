@@ -75,6 +75,7 @@ Item {
        The scaling of the items is controlled by the variable continuousIndex, described below. */
     ListView {
         id: listView
+        objectName: "listView"
 
         property int highlightIndex: -1
         property real minimumTileWidth: 0
@@ -148,15 +149,19 @@ Item {
         maximumFlickVelocity: Math.max(2500 * Math.pow(realWidth / referenceWidth, 1.5), 2500) // 2500 is platform default
         orientation: ListView.Horizontal
 
-        function itemClicked(index, delegateItem) {
-            listView.currentIndex = index
-            var x = CarouselJS.getXFromContinuousIndex(index,
+        function getXFromContinuousIndex(index) {
+            return CarouselJS.getXFromContinuousIndex(index,
                                                        realWidth,
-                                                       realContentWidth,
+                                                       footerItem.x,
                                                        tileWidth,
                                                        gapToMiddlePhase,
                                                        gapToEndPhase,
                                                        carousel.drawBuffer)
+        }
+
+        function itemClicked(index, delegateItem) {
+            listView.currentIndex = index
+            var x = getXFromContinuousIndex(index);
 
             if (Math.abs(x - contentX) < 1 && delegateItem !== undefined) {
                 /* We're clicking the selected item and
@@ -174,13 +179,7 @@ Item {
         }
 
         function itemPressAndHold(index, delegateItem) {
-            var x = CarouselJS.getXFromContinuousIndex(index,
-                                                       realWidth,
-                                                       realContentWidth,
-                                                       tileWidth,
-                                                       gapToMiddlePhase,
-                                                       gapToEndPhase,
-                                                       carousel.drawBuffer);
+            var x = getXFromContinuousIndex(index);
 
             if (Math.abs(x - contentX) < 1 && delegateItem !== undefined) {
                 /* We're pressAndHold the selected item and
@@ -209,22 +208,17 @@ Item {
             newContentX = disabledNewContentX
         }
         onMovementEnded: {
-            if (realContentX > 0 && realContentX < realContentWidth - realWidth)
+            if (realContentX > 0)
                 stepAnimation.start()
         }
 
         SmoothedAnimation {
             id: stepAnimation
+            objectName: "stepAnimation"
 
             target: listView
             property: "contentX"
-            to: CarouselJS.getXFromContinuousIndex(listView.selectedIndex,
-                                                   listView.realWidth,
-                                                   listView.realContentWidth,
-                                                   listView.tileWidth,
-                                                   listView.gapToMiddlePhase,
-                                                   listView.gapToEndPhase,
-                                                   carousel.drawBuffer)
+            to: listView.getXFromContinuousIndex(listView.selectedIndex)
             duration: 450
             velocity: 200
             easing.type: Easing.InOutQuad
