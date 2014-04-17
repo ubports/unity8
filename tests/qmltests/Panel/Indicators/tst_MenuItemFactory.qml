@@ -44,6 +44,7 @@ Item {
 
     UT.UnityTestCase {
         name: "MenuItemFactory"
+        when: windowShown
 
         property QtObject menuData: QtObject {
             property string label: "root"

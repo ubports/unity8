@@ -33,9 +33,6 @@ FocusScope {
     property PageHeader pageHeader: null
     property Item previewListView: null
 
-    signal movementStarted
-    signal positionedAtBeginning
-
     property bool enableHeightBehaviorOnNextCreation: false
     property var categoryView: categoryView
 
@@ -47,6 +44,14 @@ FocusScope {
 
     function activateApp(appId) {
         shell.activateApplication(appId);
+    }
+
+    function positionAtBeginning() {
+        categoryView.positionAtBeginning()
+    }
+
+    function showHeader() {
+        categoryView.showHeader()
     }
 
     Binding {
@@ -68,10 +73,6 @@ FocusScope {
         pageHeader.resetSearch();
         previewListView.open = false;
     }
-
-    onMovementStarted: categoryView.showHeader()
-
-    onPositionedAtBeginning: categoryView.positionAtBeginning()
 
     Binding {
         target: scopeView.scope
@@ -241,7 +242,7 @@ FocusScope {
                     // to the stable position and delete/create items without any reason
                     if (categoryView.contentY < categoryView.originY) {
                         return;
-                    } else if (categoryView.contentY + categoryView.height > categoryView.contentHeight) {
+                    } else if (categoryView.contentHeight > categoryView.height && categoryView.contentY + categoryView.height > categoryView.contentHeight) {
                         return;
                     }
 
