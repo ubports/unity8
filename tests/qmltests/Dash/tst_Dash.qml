@@ -41,16 +41,6 @@ Item {
         showScopeOnLoaded: "MockScope2"
     }
 
-    ScopeDelegateMapper {
-        id: scopeDelegateMapper
-        scopeDelegateMapping: {
-            "MockScope1": Qt.resolvedUrl("qml/fake_scopeView1.qml"),
-            "MockScope2": Qt.resolvedUrl("qml/fake_scopeView2.qml"),
-            "clickscope": Qt.resolvedUrl("qml/fake_scopeView3.qml")
-        }
-        genericScope: Qt.resolvedUrl("qml/fake_generic_scopeView.qml")
-    }
-
     UT.UnityTestCase {
         name: "Dash"
         when: windowShown
@@ -59,7 +49,6 @@ Item {
 
         Component.onCompleted: {
             var dashContent = findChild(dash, "dashContent");
-            dashContent.scopeMapper = scopeDelegateMapper;
             scopes = dashContent.scopes;
         }
 
