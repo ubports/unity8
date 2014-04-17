@@ -284,6 +284,10 @@ FocusScope {
                     stages.hide();
                 }
             }
+
+            onUnityLogout: {
+                Qt.quit();
+            }
         }
 
         Loader {
