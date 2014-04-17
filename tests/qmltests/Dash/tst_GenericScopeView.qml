@@ -64,7 +64,7 @@ Item {
 
         UT.UnityTestCase {
             name: "GenericScopeView"
-            when: scopes.loaded
+            when: scopes.loaded && windowShown
 
             function init() {
                 genericScopeView.scope = scopes.get(2)
