@@ -196,7 +196,7 @@ class InteractiveNotificationBase(NotificationsBase):
         get_notification = lambda: notify_list.wait_select_single(
             'Notification', objectName='notification1')
         notification = get_notification()
-        self._assert_notification(notification, None, None, True, True, 1.0)
+        self._assert_notification(notification, summary, body, True, True, 1.0)
         initial_height = notification.height
         self.touch.tap_object(notification.select_single(objectName="button1"))
         self.assertThat(
@@ -403,7 +403,6 @@ class EphemeralNotificationsTests(NotificationsBase):
 
         notification = lambda: notify_list.wait_select_single(
             'Notification', objectName='notification1')
-
         self._assert_notification(
             notification(),
             summary,
@@ -579,7 +578,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         icon_path = self._get_icon_path('avatars/amanda.png')
         notification.update(summary, body, icon_path)
         notification.show()
-        self._assert_notification(get_notification(), summary, body)
+        self._assert_notification(get_notification(), summary, body, True, False, 1.0)
 
     def test_update_notification_layout_change(self):
         """Notification must allow updating its contents and layout while
@@ -626,7 +625,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         notification.show()
 
         self.assertThat(get_notification, Eventually(NotEquals(None)))
-        self._assert_notification(get_notification(), summary, body, False)
+        self._assert_notification(get_notification(), summary, body, False, False, 1.0)
 
     def test_append_hint(self):
         """Notification has to accumulate body-text using append-hint."""

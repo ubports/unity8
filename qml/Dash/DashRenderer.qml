@@ -23,13 +23,7 @@ Item {
     // In case it can be expanded, should we filter it
     property bool filter: true
 
-    property int collapsedRowCount: 1
-
     property int collapsedHeight: height
-
-    property int columns: 1
-
-    property int rows: 1
 
     property int margins: 0
 
@@ -38,6 +32,8 @@ Item {
     property var delegateCreationBegin: undefined
 
     property var delegateCreationEnd: undefined
+
+    property real originY: 0
 
     property real verticalSpacing: 0
 
