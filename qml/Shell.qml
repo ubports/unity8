@@ -216,6 +216,8 @@ BasicShell {
         function show(focusApp) {
             shown = true;
             panel.indicators.hide();
+            edgeDemo.stopDemo();
+            greeter.hide();
             if (!ApplicationManager.focusedApplicationId && ApplicationManager.count > 0 && focusApp) {
                 ApplicationManager.focusApplication(ApplicationManager.get(0).appId);
             }
@@ -409,6 +411,7 @@ BasicShell {
             width: parent.width
             dragAreaWidth: shell.edgeSize
             available: edgeDemo.launcherEnabled
+
             onShowDashHome: {
                 if (edgeDemo.running)
                     return;
@@ -425,11 +428,9 @@ BasicShell {
                 }
             }
             onDashSwipeChanged: if (dashSwipe && stages.shown) dash.setCurrentScope("clickscope", false, true)
-            onLauncherApplicationSelected:{
-                if (edgeDemo.running)
-                    return;
-
-                shell.activateApplication(appId)
+            onLauncherApplicationSelected: {
+                if (!edgeDemo.running)
+                    shell.activateApplication(appId)
             }
             onShownChanged: {
                 if (shown) {

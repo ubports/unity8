@@ -66,6 +66,7 @@ Item {
 
     UT.UnityTestCase {
         id: revealer
+        when: windowShown
 
         function dragLauncherIntoView() {
             var startX = launcher.dragAreaWidth/2;

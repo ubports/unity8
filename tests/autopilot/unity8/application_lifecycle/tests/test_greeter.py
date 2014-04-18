@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2014 Canonical
+# Copyright (C) 2013, 2014 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,35 +17,43 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-"""Test the integration with the URL dispatcher service."""
+"""Tests for the application lifecycle in the greeter."""
 
+from __future__ import absolute_import
+
+import logging
 import os
 import subprocess
 
-from autopilot import platform
+from autopilot.matchers import Eventually
+from autopilot.platform import model
+from testtools.matchers import Equals
 
 from unity8.application_lifecycle import tests
+from unity8.shell import with_lightdm_mock
 
 
-class URLDispatcherTestCase(tests.ApplicationLifeCycleTestCase):
+logger = logging.getLogger(__name__)
+
+
+class GreeterApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
 
     def setUp(self):
-        if platform.model() == 'Desktop':
-            self.skipTest("URL dispatcher doesn't work on the desktop.")
-        super(URLDispatcherTestCase, self).setUp()
-        self.launch_unity()
+        if model() == 'Desktop':
+            self.skipTest('Test cannot be run on the desktop.')
+        super(GreeterApplicationLifecycleTests, self).setUp()
+        self.launch_greeter()
 
-    def test_swipe_out_application_started_by_url_dispatcher(self):
+    @with_lightdm_mock("single")
+    def test_greeter_hides_on_url_dispatcher(self):
+        """Greeter should hide when an app is opened"""
+        greeter = self.main_window.get_greeter()
+        self.assertThat(greeter.created, Eventually(Equals(True)))
+
         _, desktop_file_path = self.create_test_application()
         desktop_file_name = os.path.basename(desktop_file_path)
         application_name, _ = os.path.splitext(desktop_file_name)
 
-        self.assertEqual('', self.main_window.get_current_focused_app_id())
-        self.addCleanup(os.system, 'pkill qmlscene')
-
         subprocess.check_call(
             ['url-dispatcher', 'application:///{}'.format(desktop_file_name)])
-        self.assert_current_focused_application(application_name)
-
-        self.main_window.show_dash_swiping()
-        self.assert_current_focused_application('')
+        self.assertThat(greeter.created, Eventually(Equals(False)))

@@ -50,14 +50,20 @@ Showable {
     signal tease()
 
     function hideRight() {
-        hideAnimation = __rightHideAnimation
-        hide()
+        if (shown) {
+            hideAnimation = __rightHideAnimation
+            hide()
+        }
     }
 
-    Connections {
-        target: __rightHideAnimation
+    onRequiredChanged: {
         // Reset hide animation to default once we're finished with it
-        onRunningChanged: if (!__rightHideAnimation.running) greeter.hideAnimation = __leftHideAnimation
+        if (!required) {
+            // Put back on left for reliable show direction and so that
+            // if normal hide() is called, we don't animate from right.
+            x = -width
+            hideAnimation = __leftHideAnimation
+        }
     }
 
     // Bi-directional revealer
@@ -205,7 +211,7 @@ Showable {
         anchors.left: parent.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        visible: parent.visible
+        visible: parent.required
         fillMode: Image.Tile
         source: "../graphics/dropshadow_right.png"
     }
@@ -215,7 +221,7 @@ Showable {
         anchors.right: parent.left
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        visible: parent.visible
+        visible: parent.required
         fillMode: Image.Tile
         source: "../graphics/dropshadow_left.png"
     }

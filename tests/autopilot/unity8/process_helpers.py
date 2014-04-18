@@ -32,6 +32,23 @@ logger = logging.getLogger(__name__)
 class CannotAccessUnity(Exception):
     pass
 
+
+def lock_unity(unity_proxy_obj=None):
+    """Helper function that attempts to lock the unity greeter."""
+    import evdev, time
+    uinput = evdev.UInput(name='unity8-autopilot-power-button',
+                          devnode='/dev/autopilot-uinput')
+    # One press and release to turn screen off (locking unity)
+    uinput.write(evdev.ecodes.EV_KEY, evdev.ecodes.KEY_POWER, 1)
+    uinput.write(evdev.ecodes.EV_KEY, evdev.ecodes.KEY_POWER, 0)
+    uinput.syn()
+    time.sleep(1)
+    # And another press and release to turn screen back on
+    uinput.write(evdev.ecodes.EV_KEY, evdev.ecodes.KEY_POWER, 1)
+    uinput.write(evdev.ecodes.EV_KEY, evdev.ecodes.KEY_POWER, 0)
+    uinput.syn()
+
+
 def restart_unity_with_testability(*args):
     """Restarts (or starts) unity with testability enabled.
 
