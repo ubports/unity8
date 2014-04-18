@@ -39,6 +39,10 @@ if [ -x /usr/bin/ubuntu-touch-session ]; then
     TOUCH_WRAPPER=/usr/bin/ubuntu-touch-session
 fi
 
+# Pretend that we're in an ubuntu-touch session, so that indicator-network
+# will start.
+export DESKTOP_SESSION=ubuntu-touch
+
 # Normal unity8 sessions are entirely driven by Upstart.  But greeters
 # are special.  They need access to the file descriptors that lightdm
 # creates for them and don't want to start all the services that a normal
