@@ -81,7 +81,10 @@ QT_LOAD_TESTABILITY instead. \nLoad the testability driver"));
     } else {
         application = new QGuiApplication(argc, (char**)argv);
     }
-    
+   
+    // Treat args with single dashes the same as arguments with two dashes
+    // Ex: -fullscreen == --fullscreen
+    parser.setSingleDashWordOptionMode(QCommandLineParser::ParseAsLongOptions);
     parser.process(*application);
 
     QString indicatorProfile = qgetenv("UNITY_INDICATOR_PROFILE");

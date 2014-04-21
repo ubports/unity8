@@ -19,7 +19,7 @@ usage() {
     echo " -k, --keylock Use a passphrase protected user." >&2
     echo " -g, --gdb Run through gdb." >&2
     echo " -h, --help Show this help." >&2
-    echo " -m, --nomousetouch Run without -mousetouch argument." >&2
+    echo " -m, --nomousetouch Run without --mousetouch argument." >&2
     echo >&2
     exit 1
 }
@@ -65,7 +65,7 @@ fi
 
 QML_PHONE_SHELL_ARGS=""
 if $MOUSE_TOUCH; then
-  QML_PHONE_SHELL_ARGS="$QML_PHONE_SHELL_ARGS -mousetouch"
+  QML_PHONE_SHELL_ARGS="$QML_PHONE_SHELL_ARGS --mousetouch"
 fi
 
 control_c()
