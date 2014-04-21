@@ -18,6 +18,7 @@
  */
 
 // Qt
+#include <QCommandLineParser>
 #include <QtQuick/QQuickView>
 #include <QtGui/QGuiApplication>
 #include <QtQml/QQmlEngine>
@@ -43,6 +44,15 @@ int startShell(int argc, const char** argv, void* server)
 
     QGuiApplication::setApplicationName("Unity 8");
     QGuiApplication *application;
+
+    QCommandLineParser parser;
+    parser.setApplicationDescription("Application Description Goes Here!");
+    parser.addHelpOption();
+    
+    QCommandLineOption fullscreenOption (QStringList() << "f" << "fullscreen",
+        "Run in fullscreen");
+    parser.addOption(fullscreenOption);
+
     if (isUbuntuMirServer) {
         QLibrary unityMir("unity-mir", 1);
         unityMir.load();
@@ -58,6 +68,8 @@ int startShell(int argc, const char** argv, void* server)
     } else {
         application = new QGuiApplication(argc, (char**)argv);
     }
+    
+    parser.process(*application);
 
     QString indicatorProfile = qgetenv("UNITY_INDICATOR_PROFILE");
     if (indicatorProfile.isEmpty()) {
@@ -125,7 +137,7 @@ int startShell(int argc, const char** argv, void* server)
     view->setSource(source);
     view->setColor("transparent");
 
-    if (qgetenv("QT_QPA_PLATFORM") == "ubuntu" || isUbuntuMirServer || args.contains(QLatin1String("-fullscreen"))) {
+    if (qgetenv("QT_QPA_PLATFORM") == "ubuntu" || isUbuntuMirServer || parser.isSet(fullscreenOption)) {
         view->showFullScreen();
     } else {
         view->show();
