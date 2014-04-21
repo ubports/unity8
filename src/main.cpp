@@ -49,18 +49,22 @@ int startShell(int argc, const char** argv, void* server)
     parser.setApplicationDescription("Description: Unity 8 Shell");
     parser.addHelpOption();
 
-    QCommandLineOption fullscreenOption ("fullscreen",
-        QCoreApplication::translate("fullscreen","Run in fullscreen"));
+    QCommandLineOption fullscreenOption("fullscreen",
+        QCoreApplication::translate("fullscreen", "Run in fullscreen"));
     parser.addOption(fullscreenOption);
 
-    QCommandLineOption framelessOption ("frameless",
-        QCoreApplication::translate("frameless","Run without window borders"));
+    QCommandLineOption framelessOption("frameless",
+        QCoreApplication::translate("frameless", "Run without window borders"));
     parser.addOption(framelessOption);
 
-    QCommandLineOption mousetouchOption ("mousetouch",
-        QCoreApplication::translate("mousetouch","Allow the mouse to provide touch input"));
+    QCommandLineOption mousetouchOption("mousetouch",
+        QCoreApplication::translate("mousetouch", "Allow the mouse to provide touch input"));
     parser.addOption(mousetouchOption);
-    
+
+    QCommandLineOption testabilityOption("testability",
+        QCoreApplication::translate("testability", "DISCOURAGED: Please set \
+QT_LOAD_TESTABILITY instead. \nLoad the testability driver"));
+    parser.addOption(testabilityOption); 
 
     if (isUbuntuMirServer) {
         QLibrary unityMir("unity-mir", 1);
@@ -92,7 +96,7 @@ int startShell(int argc, const char** argv, void* server)
 
     // The testability driver is only loaded by QApplication but not by QGuiApplication.
     // However, QApplication depends on QWidget which would add some unneeded overhead => Let's load the testability driver on our own.
-    if (args.contains(QLatin1String("-testability")) || getenv("QT_LOAD_TESTABILITY")) {
+    if (parser.isSet(testabilityOption) || getenv("QT_LOAD_TESTABILITY")) {
         QLibrary testLib(QLatin1String("qttestability"));
         if (testLib.load()) {
             typedef void (*TasInitialize)(void);
