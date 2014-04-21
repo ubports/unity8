@@ -46,12 +46,21 @@ int startShell(int argc, const char** argv, void* server)
     QGuiApplication *application;
 
     QCommandLineParser parser;
-    parser.setApplicationDescription("Application Description Goes Here!");
+    parser.setApplicationDescription("Description: Unity 8 Shell");
     parser.addHelpOption();
-    
-    QCommandLineOption fullscreenOption (QStringList() << "f" << "fullscreen",
-        "Run in fullscreen");
+
+    QCommandLineOption fullscreenOption ("fullscreen",
+        QCoreApplication::translate("fullscreen","Run in fullscreen"));
     parser.addOption(fullscreenOption);
+
+    QCommandLineOption framelessOption ("frameless",
+        QCoreApplication::translate("frameless","Run without window borders"));
+    parser.addOption(framelessOption);
+
+    QCommandLineOption mousetouchOption ("mousetouch",
+        QCoreApplication::translate("mousetouch","Allow the mouse to provide touch input"));
+    parser.addOption(mousetouchOption);
+    
 
     if (isUbuntuMirServer) {
         QLibrary unityMir("unity-mir", 1);
@@ -106,14 +115,14 @@ int startShell(int argc, const char** argv, void* server)
     view->engine()->setBaseUrl(QUrl::fromLocalFile(::qmlDirectory()));
     view->rootContext()->setContextProperty("applicationArguments", &qmlArgs);
     view->rootContext()->setContextProperty("indicatorProfile", indicatorProfile);
-    if (args.contains(QLatin1String("-frameless"))) {
+    if (parser.isSet(framelessOption)) {
         view->setFlags(Qt::FramelessWindowHint);
     }
 
     // You will need this if you want to interact with touch-only components using a mouse
     // Needed only when manually testing on a desktop.
     MouseTouchAdaptor *mouseTouchAdaptor = 0;
-    if (args.contains(QLatin1String("-mousetouch"))) {
+    if (parser.isSet(mousetouchOption)) {
         mouseTouchAdaptor = new MouseTouchAdaptor;
         application->installNativeEventFilter(mouseTouchAdaptor);
     }
