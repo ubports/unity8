@@ -39,6 +39,22 @@ from unity8.shell import emulators, fixture_setup, tests
 from unity8.shell.emulators import dash as dash_emulators
 
 
+class MainWindowTestCase(tests.UnityTestCase):
+
+    scenarios = tests._get_device_emulation_scenarios()
+
+    def setUp(self):
+        super(MainWindowTestCase, self).setUp()
+        unity_proxy = self.launch_unity()
+        process_helpers.unlock_unity(unity_proxy)
+
+    def test_search(self):
+        self.main_window.search('Test')
+        text_field = self.main_window.get_dash()._get_search_text_field()
+        self.assertEqual(text_field.text, 'Test')
+        self.assertEqual(text_field.state, 'idle')
+
+
 class DashBaseTestCase(tests.UnityTestCase):
 
     scenarios = tests._get_device_emulation_scenarios()
@@ -141,14 +157,16 @@ class GenericScopeViewEmulatorTestCase(DashBaseTestCase):
 
     def test_open_preview(self):
         preview = self.generic_scope.open_preview('0', 'Title.0.0')
-        preview.x.wait_for(0)
+        self.assertIsInstance(preview, dash_emulators.Preview)
+        self.assertTrue(preview.isCurrent)
+
 
 class DashAppsEmulatorTestCase(DashBaseTestCase):
 
     available_applications = [
         'Title.2.0', 'Title.2.1', 'Title.2.2',  'Title.2.3', 'Title.2.4',
         'Title.2.5', 'Title.2.6', 'Title.2.7',  'Title.2.8', 'Title.2.9',
-        'Title.2.9', 'Title.2.10', 'Title.2.11']
+        'Title.2.10', 'Title.2.11', 'Title.2.12']
 
     def setUp(self):
         # Set up the fake scopes before launching unity.
@@ -165,28 +183,20 @@ class DashAppsEmulatorTestCase(DashBaseTestCase):
         self.assertEqual(
             'No category found with name unexisting category', str(exception))
 
-    def test_get_applications_should_return_list_with_names(self):
+    def test_get_applications_should_return_correct_applications(self):
         category = '2'
         expected_apps_count = self._get_number_of_application_slots(category)
         expected_applications = self.available_applications[
             :expected_apps_count]
-
         applications = self.applications_scope.get_applications(category)
-        applications_titles = []
-        for application in applications:
-            cardHeader = application.select_single('CardHeader')
-            applications_titles.append(cardHeader.title)
-
-        self.assertThat(applications, HasLength(expected_apps_count))
-        for expected in expected_applications:
-            self.assertThat(applications_titles, Contains(expected))
+        self.assertEqual(expected_applications, applications)
 
     def _get_number_of_application_slots(self, category):
         category_element = self.applications_scope._get_category_element(
             category)
         grid = category_element.select_single('CardFilterGrid')
-        return grid.columns * grid.rows
-
-    def test_open_preview(self):
-        preview = self.applications_scope.open_preview('2', 'Title.2.1')
-        preview.x.wait_for(0)
+        filtergrid = grid.select_single('FilterGrid')
+        if (grid.filter):
+            return filtergrid.collapsedRowCount * filtergrid.columns
+        else:
+            return filtergrid.uncollapsedRowCount * filtergrid.columns

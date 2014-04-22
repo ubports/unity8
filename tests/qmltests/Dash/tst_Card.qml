@@ -182,11 +182,13 @@ Rectangle {
         when: windowShown
 
         property Item header: findChild(card, "cardHeader")
+        property Item headerLoader: findChild(card, "cardHeaderLoader")
         property Item title: findChild(header, "titleLabel")
         property Item art: findChild(card, "artShape")
         property Item artImage: findChild(card, "artImage")
         property Item summary: findChild(card, "summaryLabel")
         property Item background: findChild(card, "background")
+        property Item backgroundLoader: findChild(card, "backgroundLoader")
         property Item backgroundImage: findChild(card, "backgroundImage")
 
         function initTestCase() {
@@ -244,8 +246,8 @@ Rectangle {
                 { tag: "Wide", width: units.gu(18.5), aspect: 0.5, index: 0 },
                 { tag: "Horizontal", width: units.gu(38), index: 5 },
                 // Make sure card ends with header when there's no summary
-                { tag: "NoSummary", height: function() { return header.y + header.height }, index: 6 },
-                { tag: "HorizontalNoSummary", height: function() { return header.height }, card_layout: "horizontal", index: 6 },
+                { tag: "NoSummary", height: function() { return headerLoader.y + headerLoader.height }, index: 6 },
+                { tag: "HorizontalNoSummary", height: function() { return headerLoader.height }, card_layout: "horizontal", index: 6 },
             ]
         }
 
@@ -288,7 +290,7 @@ Rectangle {
                 { tag: "Fit", height: units.gu(38), size: "large", width: units.gu(19), index: 4 },
                 { tag: "VerticalWidth", width: function() { return header.width }, index: 0 },
                 { tag: "HorizontalHeight", height: function() { return header.height }, index: 5 },
-                { tag: "HorizontalWidth", width: function() { return header.x }, index: 5 },
+                { tag: "HorizontalWidth", width: function() { return headerLoader.x }, index: 5 },
             ]
         }
 
@@ -332,7 +334,7 @@ Rectangle {
         function test_art_layout(data) {
             selector.selectedIndex = data.index;
 
-            tryCompare(testCase.header, "x", data.left());
+            tryCompare(testCase.headerLoader, "x", data.left());
         }
 
         function test_header_layout_data() {
@@ -349,13 +351,13 @@ Rectangle {
         function test_header_layout(data) {
             selector.selectedIndex = data.index;
 
-            tryCompareFunction(function() { return testCase.header.y === data.top() }, true);
-            tryCompareFunction(function() { return testCase.header.x === data.left() }, true);
+            tryCompareFunction(function() { return testCase.headerLoader.y === data.top() }, true);
+            tryCompareFunction(function() { return testCase.headerLoader.x === data.left() }, true);
         }
 
         function test_summary_layout_data() {
             return [
-                { tag: "With header", top: function() { return header.y + header.height }, index: 0 },
+                { tag: "With header", top: function() { return headerLoader.y + headerLoader.height }, index: 0 },
                 { tag: "Without header", top: function() { return art.y + art.height }, index: 7 },
             ]
         }
@@ -400,7 +402,7 @@ Rectangle {
 
             waitForRendering(card);
 
-            tryCompare(background, "visible", data.visible);
+            tryCompare(backgroundLoader, "active", data.visible);
 
             if (data.hasOwnProperty("color")) {
                 tryCompare(background, "color", data.color);
@@ -467,13 +469,13 @@ Rectangle {
         function test_mascotShape(data) {
             selector.selectedIndex = data.index;
 
-            var shape = findChild(card, "mascotShape");
+            var shape = findChild(card, "mascotShapeLoader");
             var image = findChild(card, "mascotImage");
 
             verify(shape, "Could not find shape.");
             verify(image, "Could not find image.");
 
-            tryCompare(shape, "visible", data.shape);
+            tryCompare(shape, "active", data.shape);
             tryCompare(image, "visible", !data.shape);
         }
     }

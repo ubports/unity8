@@ -341,6 +341,16 @@ static void loadDummyDataFiles(QQmlEngine &engine, const QString& directory)
     }
 }
 
+static QObject *s_testRootObject = nullptr;
+static QObject *testRootObject(QQmlEngine *engine, QJSEngine *jsEngine)
+{
+    Q_UNUSED(jsEngine);
+    if (!s_testRootObject) {
+        s_testRootObject = new QObject(engine);
+    }
+    return s_testRootObject;
+}
+
 static void usage()
 {
     qWarning("Usage: uqmlscene [options] <filename>");
@@ -470,6 +480,9 @@ int main(int argc, char ** argv)
                 loadDummyDataFiles(engine, fi.path());
             }
             QObject::connect(&engine, SIGNAL(quit()), QCoreApplication::instance(), SLOT(quit()));
+
+            qmlRegisterSingletonType<QObject>("Qt.test.qtestroot", 1, 0, "QTestRootObject", testRootObject);
+
             component->loadUrl(options.file);
             if ( !component->isReady() ) {
                 qWarning("%s", qPrintable(component->errorString()));

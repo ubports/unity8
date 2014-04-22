@@ -115,7 +115,7 @@ Rectangle {
             }
         }
 
-        function touchPinch(x1Start, y1Start, x1End, y1End, x2Start, y2Start, x2End, y2End) {
+        function touchPinch1(x1Start, y1Start, x1End, y1End, x2Start, y2Start, x2End, y2End) {
             var event1 = touchEvent();
             // first finger
             event1.press(0, x1Start, y1Start);
@@ -144,13 +144,15 @@ Rectangle {
                        answer1: true,
                        answer2: false,
                        answer3: true,
-                       answer4: 1.0 },
+                       answer4: 1.0,
+                       answer5: 1.0 },
                      { source:widgetData2["source"],
                        zoomable:true,
                        answer1: false,
                        answer2: true,
                        answer3: false,
-                       answer4: 1.7740461882048026 }
+                       answer4: 1.7740461882048026,
+                       answer5: 0.5405058029189072 }
                    ]
         }
 
@@ -186,7 +188,7 @@ Rectangle {
             mouseMove(zoomableImage, zoomableImage.width / 2, zoomableImage.height / 2);
 
             // pinch
-            touchPinch(x1Start, y1Start, x1End, y1End, x2Start, y2Start, x2End, y2End);
+            touchPinch(zoomableImage, x1Start, y1Start, x1End, y1End, x2Start, y2Start, x2End, y2End);
 
             tryCompare(image, "scale", data.answer4);
             var newScale = image.scale;
@@ -199,10 +201,11 @@ Rectangle {
 
             // move mouse to center
             mouseMove(zoomableImage, zoomableImage.width / 2, zoomableImage.height / 2);
+	    wait(3000); // have to delay between two pinch event.
 
             // pinch
-            touchPinch(x1End, y1End, x1Start, y1Start, x2End, y2End, x2Start, y2Start);
-            tryCompare(image, "scale", oldScale);
+            touchPinch(zoomableImage, x1End, y1End, x1Start, y1Start, x2End, y2End, x2Start, y2Start);
+            tryCompare(image, "scale", data.answer5);
         }
     }
 }
