@@ -115,29 +115,6 @@ Rectangle {
             }
         }
 
-        function touchPinch1(x1Start, y1Start, x1End, y1End, x2Start, y2Start, x2End, y2End) {
-            var event1 = touchEvent();
-            // first finger
-            event1.press(0, x1Start, y1Start);
-            event1.commit();
-            // second finger
-            event1.stationary(0);
-            event1.press(1, x2Start, y2Start);
-            event1.commit();
-
-            // pinch
-            for (var i = 0.0; i < 1.0; i += 0.02) {
-                event1.move(0, x1Start + (x1End - x1Start) * i, y1Start + (y1End - y1Start) * i);
-                event1.move(1, x2Start + (x2End - x2Start) * i, y2Start + (y2End - y2Start) * i);
-                event1.commit();
-            }
-
-            // release
-            event1.release(0, x1End, y1End);
-            event1.release(1, x2End, y2End);
-            event1.commit();
-        }
-
         function test_pinch_data() {
             return [ { source:widgetData2["source"],
                        zoomable:false,
