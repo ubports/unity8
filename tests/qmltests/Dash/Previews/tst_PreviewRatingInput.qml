@@ -144,9 +144,9 @@ Rectangle {
                     case "rating": {
                         if (rating.visible === false || data.inputRating < 0) {
                             compare(spy.count, 0);
-                        }
-                        else
+                        } else {
                             compare(spy.count, 1);
+                        }
                         break;
                     }
                     case "both":
