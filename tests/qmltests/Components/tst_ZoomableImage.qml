@@ -178,7 +178,7 @@ Rectangle {
 
             // move mouse to center
             mouseMove(zoomableImage, zoomableImage.width / 2, zoomableImage.height / 2);
-	    wait(3000); // have to delay between two pinch event.
+            wait(3000); // have to delay between two pinch event.
 
             // pinch
             touchPinch(zoomableImage, x1End, y1End, x1Start, y1Start, x2End, y2End, x2Start, y2Start);
