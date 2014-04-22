@@ -36,6 +36,8 @@ Rectangle {
     property var triggeredDataReviewOnly: { "rating": invalidInputRating, "review": validInputText, "author": null }
 
     property var widgetDataBoth: { "visible": "both", "required": "both" }
+    property var widgetDataBothRequireRating: { "visible": "both", "required": "rating" }
+    property var widgetDataBothRequireReview: { "visible": "both", "required": "review" }
     property var widgetDataRating: { "visible": "rating", "required": "rating" }
     property var widgetDataRatingBroken: { "visible": "rating", "required": "review" }
     property var widgetDataReview: { "visible": "review", "required": "review" }
@@ -85,6 +87,14 @@ Rectangle {
                 {tag: "both, rating-only review", widgetData: widgetDataBoth, inputRating: validInputRating, inputText: invalidInputText, emitted: false},
                 {tag: "both, review-only review", widgetData: widgetDataBoth, inputRating: invalidInputRating, inputText: validInputText, emitted: false},
                 {tag: "both, complete review", widgetData: widgetDataBoth, inputRating: validInputRating, inputText: validInputText, emitted: true},
+                {tag: "both require rating, null review", widgetData: widgetDataBothRequireRating, inputRating: invalidInputRating, inputText: invalidInputText, emitted: false},
+                {tag: "both require rating, rating-only review", widgetData: widgetDataBothRequireRating, inputRating: validInputRating, inputText: invalidInputText, emitted: true},
+                {tag: "both require rating, review-only review", widgetData: widgetDataBothRequireRating, inputRating: invalidInputRating, inputText: validInputText, emitted: false},
+                {tag: "both require rating, complete review", widgetData: widgetDataBothRequireRating, inputRating: validInputRating, inputText: validInputText, emitted: true},
+                {tag: "both require review, null review", widgetData: widgetDataBothRequireReview, inputRating: invalidInputRating, inputText: invalidInputText, emitted: false},
+                {tag: "both require review, rating-only review", widgetData: widgetDataBothRequireReview, inputRating: validInputRating, inputText: invalidInputText, emitted: false},
+                {tag: "both require review, review-only review", widgetData: widgetDataBothRequireReview, inputRating: invalidInputRating, inputText: validInputText, emitted: true},
+                {tag: "both require review, complete review", widgetData: widgetDataBothRequireReview, inputRating: validInputRating, inputText: validInputText, emitted: true},
                 {tag: "rating, null review", widgetData: widgetDataRating, inputRating: invalidInputRating, inputText: invalidInputText, emitted: false},
                 {tag: "rating, rating-only review", widgetData: widgetDataRating, inputRating: validInputRating, inputText: invalidInputText, emitted: true},
                 {tag: "rating, review-only review", widgetData: widgetDataRating, inputRating: invalidInputRating, inputText: validInputText, emitted: false},
@@ -114,7 +124,9 @@ Rectangle {
                 verify(rating.visible === true);
 
                 rating.value = data.inputRating;
-                if (data.widgetData["required"] !== "rating" || data.inputRating < 0) {
+                if (data.widgetData["required"] !== "rating" ||
+                    data.widgetData["visible"] !== "rating" ||
+                    data.inputRating < 0) {
                     compare(spy.count, 0);
                 } else {
                     compare(spy.count, 1);
@@ -129,7 +141,14 @@ Rectangle {
                 reviewTextArea.text = data.inputText;
                 mouseClick(submitButton, submitButton.width / 2, submitButton.height / 2);
                 switch (data.widgetData["required"]) {
-                    case "rating": compare(spy.count, 0); break;
+                    case "rating": {
+                        if (rating.visible === false || data.inputRating < 0) {
+                            compare(spy.count, 0);
+                        }
+                        else
+                            compare(spy.count, 1);
+                        break;
+                    }
                     case "both":
                     default: {
                         if (data.inputRating < 0 || data.inputText === "") {
