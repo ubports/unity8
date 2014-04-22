@@ -50,20 +50,20 @@ int startShell(int argc, const char** argv, void* server)
     parser.addHelpOption();
 
     QCommandLineOption fullscreenOption("fullscreen",
-        QCoreApplication::translate("fullscreen", "Run in fullscreen"));
+        "Run in fullscreen");
     parser.addOption(fullscreenOption);
 
     QCommandLineOption framelessOption("frameless",
-        QCoreApplication::translate("frameless", "Run without window borders"));
+        "Run without window borders");
     parser.addOption(framelessOption);
 
     QCommandLineOption mousetouchOption("mousetouch",
-        QCoreApplication::translate("mousetouch", "Allow the mouse to provide touch input"));
+        "Allow the mouse to provide touch input");
     parser.addOption(mousetouchOption);
 
     QCommandLineOption testabilityOption("testability",
-        QCoreApplication::translate("testability", "DISCOURAGED: Please set \
-QT_LOAD_TESTABILITY instead. \nLoad the testability driver"));
+        "DISCOURAGED: Please set QT_LOAD_TESTABILITY instead. \n \
+Load the testability driver");
     parser.addOption(testabilityOption); 
 
     if (isUbuntuMirServer) {
