@@ -64,7 +64,7 @@ int startShell(int argc, const char** argv, void* server)
     QCommandLineOption testabilityOption("testability",
         "DISCOURAGED: Please set QT_LOAD_TESTABILITY instead. \n \
 Load the testability driver");
-    parser.addOption(testabilityOption); 
+    parser.addOption(testabilityOption);
 
     if (isUbuntuMirServer) {
         QLibrary unityMir("unity-mir", 1);
@@ -81,7 +81,7 @@ Load the testability driver");
     } else {
         application = new QGuiApplication(argc, (char**)argv);
     }
-   
+
     // Treat args with single dashes the same as arguments with two dashes
     // Ex: -fullscreen == --fullscreen
     parser.setSingleDashWordOptionMode(QCommandLineParser::ParseAsLongOptions);
