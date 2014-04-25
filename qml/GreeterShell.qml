@@ -73,6 +73,11 @@ BasicShell {
     Connections {
         target: LightDM.Greeter
 
+        onIdle: {
+            greeter.enabled = true
+            greeter.showNow()
+        }
+
         onShowPrompt: {
             if (LightDM.Users.count == 1) {
                 // TODO: There's no better way for now to determine if its a PIN or a passphrase.
@@ -190,7 +195,7 @@ BasicShell {
                 hides: [launcher]
                 available: !edgeDemo.active
             }
-            fullscreenMode: initialPanelDelay.running
+            fullscreenMode: true
             searchVisible: false
         }
 
@@ -198,6 +203,13 @@ BasicShell {
             id: initialPanelDelay
             running: true
             interval: 300
+            onTriggered: panel.fullscreenMode = false
+        }
+
+        Connections {
+            target: LightDM.Greeter
+            onIdle: {initialPanelDelay.stop(); panel.fullscreenMode = true}
+            onReset: initialPanelDelay.start()
         }
 
         Launcher {

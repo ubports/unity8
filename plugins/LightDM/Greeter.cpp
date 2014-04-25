@@ -56,8 +56,11 @@ Greeter::Greeter(QObject* parent)
             this, SLOT(showPromptFilter(QString, QLightDM::Greeter::PromptType)));
     connect(d->m_greeter, SIGNAL(authenticationComplete()),
             this, SLOT(authenticationCompleteFilter()));
+    connect(d->m_greeter, SIGNAL(idle()), this, SIGNAL(idle()));
+    connect(d->m_greeter, SIGNAL(reset()), this, SIGNAL(reset()));
 
     d->m_greeter->connectSync();
+    d->m_greeter->setResettable(true);
 }
 
 bool Greeter::isAuthenticated() const
