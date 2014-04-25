@@ -70,7 +70,6 @@ private Q_SLOTS:
     void showMessageFilter(const QString &text, QLightDM::Greeter::MessageType type);
     void showPromptFilter(const QString &text, QLightDM::Greeter::PromptType type);
     void authenticationCompleteFilter();
-    void handleAppStateChange(Qt::ApplicationState state);
 };
 
 #endif

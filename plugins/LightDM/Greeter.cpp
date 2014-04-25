@@ -17,10 +17,7 @@
  */
 
 #include "Greeter.h"
-#include <QCoreApplication>
 #include <QLightDM/Greeter>
-
-#include <QDebug>
 
 class GreeterPrivate
 {
@@ -60,16 +57,7 @@ Greeter::Greeter(QObject* parent)
     connect(d->m_greeter, SIGNAL(authenticationComplete()),
             this, SLOT(authenticationCompleteFilter()));
 
-    // Listen for "state resets"
-    connect(QCoreApplication::instance(), SIGNAL(applicationStateChanged(Qt::ApplicationState)),
-            this, SLOT(handleAppStateChange(Qt::ApplicationState)));
-
     d->m_greeter->connectSync();
-}
-
-void Greeter::handleAppStateChange(Qt::ApplicationState state)
-{
-    qDebug() << "MIKE state change " << state;
 }
 
 bool Greeter::isAuthenticated() const
