@@ -98,20 +98,23 @@ Rectangle {
             // move mouse to center
             mouseMove(zoomableImage, zoomableImage.width / 2, zoomableImage.height / 2);
 
-            // zoom in
-            for (var i=0; i<10; i++) {
-                mouseWheel(zoomableImage, zoomableImage.width / 2, zoomableImage.height / 2, 0, 10);
-                tryCompare(image, "scale", 1.0 + (i + 1) * 0.1);
-                compare(flickable.contentWidth, lazyImage.width * image.scale);
-                compare(flickable.contentHeight, lazyImage.height * image.scale);
-            }
+            // Test Zoom-in Zoom-out twice.
+            for (var c=0; c<2; c++) {
+                // zoom in
+                for (var i=0; i<10; i++) {
+                    mouseWheel(zoomableImage, zoomableImage.width / 2, zoomableImage.height / 2, 0, 10);
+                    tryCompare(image, "scale", 1.0 + (i + 1) * 0.1);
+                    compare(flickable.contentWidth, lazyImage.width * image.scale);
+                    compare(flickable.contentHeight, lazyImage.height * image.scale);
+                }
 
-            // zoom out
-            for (var i=0; i<10; i++) {
-                mouseWheel(zoomableImage, zoomableImage.width / 2, zoomableImage.height / 2, 0, -10);
-                tryCompare(image, "scale", 2.0 - (i + 1) * 0.1);
-                compare(flickable.contentWidth, lazyImage.width * image.scale);
-                compare(flickable.contentHeight, lazyImage.height * image.scale);
+                // zoom out
+                for (var i=0; i<10; i++) {
+                    mouseWheel(zoomableImage, zoomableImage.width / 2, zoomableImage.height / 2, 0, -10);
+                    tryCompare(image, "scale", 2.0 - (i + 1) * 0.1);
+                    compare(flickable.contentWidth, lazyImage.width * image.scale);
+                    compare(flickable.contentHeight, lazyImage.height * image.scale);
+                }
             }
         }
 
@@ -129,7 +132,7 @@ Rectangle {
                        answer2: true,
                        answer3: false,
                        answer4: 1.7740461882048026,
-                       answer5: 0.5405058029189072 }
+                       answer5: 1.0 }
                    ]
         }
 
@@ -164,25 +167,26 @@ Rectangle {
             // move mouse to center
             mouseMove(zoomableImage, zoomableImage.width / 2, zoomableImage.height / 2);
 
-            // pinch
-            touchPinch(zoomableImage, x1Start, y1Start, x1End, y1End, x2Start, y2Start, x2End, y2End);
+            // Test Zoom-in Zoom-out twice.
+            for (var c=0; c<2; c++) {
+                wait(3000); // have to delay between two consequent pinch event.
+                // pinch zoom-in
+                touchPinch(zoomableImage, x1Start, y1Start, x1End, y1End, x2Start, y2Start, x2End, y2End);
 
-            tryCompare(image, "scale", data.answer4);
-            var newScale = image.scale;
-            compare(newScale == oldScale, data.answer1, "scale factor not equal: "+ oldScale + "=?" + newScale);
-            compare(newScale > oldScale, data.answer2, "scale factor didn't changed");
-            compare(signalSpy.count == 0, data.answer3, "scale signal count error");
-            compare(newScale, data.answer4, "scale factor error");
-            compare(flickable.contentWidth, lazyImage.width * image.scale);
-            compare(flickable.contentHeight, lazyImage.height * image.scale);
+                tryCompare(image, "scale", data.answer4);
+                var newScale = image.scale;
+                compare(newScale == oldScale, data.answer1, "scale factor not equal: "+ oldScale + "=?" + newScale);
+                compare(newScale > oldScale, data.answer2, "scale factor didn't changed");
+                compare(signalSpy.count == 0, data.answer3, "scale signal count error");
+                compare(newScale, data.answer4, "scale factor error");
+                compare(flickable.contentWidth, lazyImage.width * image.scale);
+                compare(flickable.contentHeight, lazyImage.height * image.scale);
 
-            // move mouse to center
-            mouseMove(zoomableImage, zoomableImage.width / 2, zoomableImage.height / 2);
-            wait(3000); // have to delay between two pinch event.
-
-            // pinch
-            touchPinch(zoomableImage, x1End, y1End, x1Start, y1Start, x2End, y2End, x2Start, y2Start);
-            tryCompare(image, "scale", data.answer5);
+                wait(3000); // have to delay between two consequent pinch event.
+                // pinch zoom-out
+                touchPinch(zoomableImage, x1End, y1End, x1Start, y1Start, x2End, y2End, x2Start, y2Start);
+                tryCompare(image, "scale", data.answer5);
+            }
         }
     }
 }

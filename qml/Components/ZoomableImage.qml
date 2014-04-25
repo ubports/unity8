@@ -113,22 +113,9 @@ Item {
 
             pinch.target: image
             pinch.minimumScale: minScale
-            pinch.dragAxis: Pinch.XAndYAxis
+            pinch.maximumScale: 10
 
-            onPinchStarted: {
-                pinch.accepted = true;
-            }
-
-            onPinchUpdated: {
-                image.scale = pinch.scale;
-                pinch.accepted = true;
-            }
-
-            onPinchFinished: {
-                image.scale = pinch.scale;
-                flickable.returnToBounds();
-                pinch.accepted = true;
-            }
+            onPinchFinished: flickable.returnToBounds()
         }
 
         MouseArea {
