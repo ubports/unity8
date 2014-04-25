@@ -23,11 +23,7 @@
 #include <QtTestGui>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-pedantic"
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-#include <private/qquicklistmodel_p.h>
-#else
 #include <private/qqmllistmodel_p.h>
-#endif
 #include <private/qquickanimation_p.h>
 #include <private/qquickitem_p.h>
 #pragma GCC diagnostic pop
@@ -124,11 +120,7 @@ private Q_SLOTS:
         view->engine()->addImportPath(BUILT_PLUGINS_DIR);
         view->setSource(QUrl::fromLocalFile(DASHVIEWSTEST_FOLDER "/listviewwithpageheadertest.qml"));
         lvwph = dynamic_cast<ListViewWithPageHeader*>(view->rootObject()->findChild<QQuickFlickable*>());
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-        model = view->rootObject()->findChild<QQuickListModel*>();
-#else
         model = view->rootObject()->findChild<QQmlListModel*>();
-#endif
         otherDelegate = view->rootObject()->findChild<QQmlComponent*>();
         QVERIFY(lvwph);
         QVERIFY(model);
@@ -1747,9 +1739,6 @@ private Q_SLOTS:
 
     void testMaximizeVisibleAreaMoveUpAndShowHeader()
     {
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-        QSKIP("This test is extremely unstable in 5.0.x");
-#endif
         model->setProperty(0, "size", 800);
         verifyItem(0, 50., 800., false);
 
@@ -1913,11 +1902,7 @@ private Q_SLOTS:
 private:
     QQuickView *view;
     ListViewWithPageHeader *lvwph;
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-    QQuickListModel *model;
-#else
     QQmlListModel *model;
-#endif
     QQmlComponent *otherDelegate;
 };
 
