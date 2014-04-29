@@ -1,4 +1,4 @@
-unity8 (7.86-0ubuntu1) utopic; urgency=medium
+unity8 (7.86-0ubuntu1) UNRELEASED; urgency=medium
 
   [ Andrea Cimitan ]
   * Update upstart job to reflect latest unity-mir changes
