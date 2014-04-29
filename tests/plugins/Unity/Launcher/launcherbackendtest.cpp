@@ -71,6 +71,28 @@ private Q_SLOTS:
         QCOMPARE(backend.icon(appId), expectedIcon);
     }
 
+    void testGetItem_data() {
+        QTest::addColumn<QString>("appId");
+        QTest::addColumn<bool>("exists");
+
+        QTest::newRow("Exists") << "rel-icon" << true;
+        QTest::newRow("Doesn't Exist") << "does-not-exist" << false;
+    }
+
+    void testGetItem() {
+        QFETCH(QString, appId);
+        QFETCH(bool, exists);
+
+        LauncherBackend backend;
+        auto item = backend.getItem(appId);
+
+        if (exists) {
+            QVERIFY(item != nullptr);
+        } else {
+            QVERIFY(item == nullptr);
+        }
+    }
+
     void testCount_data() {
         QTest::addColumn<QString>("appId");
         QTest::addColumn<bool>("setCount");

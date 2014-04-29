@@ -168,7 +168,6 @@ Q_SIGNALS:
 private:
     QString findDesktopFile(const QString &appId) const;
     LauncherBackendItem* parseDesktopFile(const QString &desktopFile) const;
-    LauncherBackendItem* getItem (const QString& appId) const;
 
     QVariantMap itemToVariant(const QString &appId) const;
     void loadFromVariant(const QVariantMap &details);
@@ -186,6 +185,8 @@ private:
     void emitPropChangedDbus (const QString& appId, const QString& property, QVariant &value) const;
 
 public: /* Only public to make them easier to test independently */
+    LauncherBackendItem* getItem (const QString& appId) const;
+
     static QString decodeAppId (const QString& path);
     static QString encodeAppId (const QString& appId);
 };
