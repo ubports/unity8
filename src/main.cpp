@@ -22,6 +22,7 @@
 #include <QtGui/QGuiApplication>
 #include <QtQml/QQmlEngine>
 #include <QtQml/QQmlContext>
+#include <QtQml/qqml.h>
 #include <qpa/qplatformnativeinterface.h>
 #include <QLibrary>
 #include <QDebug>
@@ -105,6 +106,8 @@ int startShell(int argc, const char** argv, void* server)
         mouseTouchAdaptor = new MouseTouchAdaptor;
         application->installNativeEventFilter(mouseTouchAdaptor);
     }
+
+    qmlRegisterSingletonType(QUrl("file://" + qmlDirectory() + "Dash/CardCreatorCache.qml"), "Unity.Dash", 1, 0, "CardCreatorCache");
 
     QPlatformNativeInterface* nativeInterface = QGuiApplication::platformNativeInterface();
     /* Shell is declared as a system session so that it always receives all

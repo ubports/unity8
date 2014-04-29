@@ -19,7 +19,7 @@
 
 .pragma library
 
-function createCardComponent(parent, template, components, asynchronous) {
+function createCardComponent(parent, template, components) {
     var imports = 'import QtQuick 2.2; \
                    import Ubuntu.Components 0.1; \
                    import Ubuntu.Thumbnailer 0.1;';
@@ -34,7 +34,7 @@ function createCardComponent(parent, template, components, asynchronous) {
                 property int headerAlignment: Text.AlignLeft; \
                 property size fixedArtShapeSize: Qt.size(-1, -1); \
                 readonly property string title: cardData && cardData["title"] || ""; \
-                property bool asynchronous: ' + asynchronous + '; \
+                property bool asynchronous: true; \
                 property bool showHeader: true; \
                 implicitWidth: childrenRect.width; ';
 

@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.0
-import "CardCreator.js" as CardCreator
+import Unity.Dash 1.0
 
 /*!
  \brief Tool for introspecting Card properties.
@@ -66,37 +66,7 @@ Item {
         return layout;
     }
 
-    property var cardComponent: undefined
-
-    onTemplateChanged: {
-//         console.log("onTemplateChanged", cardTool, JSON.stringify(template));
-        updateCardComponent();
-    }
-    onComponentsChanged: {
-//         console.log("onComponentsChanged", cardTool, JSON.stringify(components));
-        updateCardComponent();
-    }
-
-    // For some reason we get spurious template and components changed signals, since we
-    // do not want to call createCardComponent without need we cache the stringified vars
-    // and do a second changed check
-    property string templateString: ""
-    property string componentsString: ""
-
-    function updateCardComponent()
-    {
-        if (cardTool.template === undefined || cardTool.components === undefined)
-            return;
-
-        var tString = JSON.stringify(template);
-        var cString = JSON.stringify(components);
-        if (tString != templateString || cString != componentsString) {
-            templateString = tString;
-            componentsString = cString;
-            console.log("CardTool CALLING createCardComponent", cardLoader, tString, cString);
-            cardComponent = CardCreator.createCardComponent(cardLoader, cardTool.template, cardTool.components, true /* async */);
-        }
-    }
+    property var cardComponent: CardCreatorCache.getCardComponent(cardTool.template, cardTool.components);
 
     // FIXME: Saviq
     // Only way for the card below to actually be laid out completely.
