@@ -33,11 +33,13 @@ class AccountsServiceDBusAdaptor;
   */
 
 class LauncherBackendItem;
+class LauncherBackendTest;
 
 class LauncherBackend : public QDBusVirtualObject
 {
     Q_OBJECT
 
+    friend LauncherBackendTest;
 
 public:
     LauncherBackend(QObject *parent = 0);
@@ -184,9 +186,7 @@ private:
 
     void emitPropChangedDbus(const QString& appId, const QString& property, QVariant &value) const;
 
-#ifdef LAUNCHER_TESTING
-public: /* Only public to make them easier to test independently */
-#endif
+protected: /* Protected to allow testing */
     LauncherBackendItem* getItem(const QString& appId) const;
 
     static QString decodeAppId(const QString& path);
