@@ -122,7 +122,7 @@ FocusScope {
             showDivider: false
 
             readonly property bool expandable: rendererLoader.item ? rendererLoader.item.expandable : false
-            readonly property bool filtered: rendererLoader.item ? rendererLoader.item.filter : true
+            readonly property bool filtered: rendererLoader.item ? rendererLoader.item.filtered : true
             readonly property string category: categoryId
             readonly property var item: rendererLoader.item
 
@@ -168,9 +168,7 @@ FocusScope {
                     item.objectName = Qt.binding(function() { return categoryId })
                     if (item.expandable) {
                         var shouldFilter = categoryId != categoryView.expandedCategoryId;
-                        if (shouldFilter != item.filter) {
-                            item.filter = shouldFilter;
-                        }
+                        item.setFilter(shouldFilter, false /*animate*/);
                     }
                     updateDelegateCreationRange();
                     item.cardTool = cardTool;
@@ -219,11 +217,8 @@ FocusScope {
                                 var shrinkingVisible = shouldFilter && y + item.collapsedHeight < categoryView.height;
                                 var growingVisible = !shouldFilter && y + height < categoryView.height;
                                 if (!previewListView.open || !shouldFilter) {
-                                    if (shrinkingVisible || growingVisible) {
-                                        item.startFilterAnimation(shouldFilter)
-                                    } else {
-                                        item.filter = shouldFilter;
-                                    }
+                                    var animate = shrinkingVisible || growingVisible;
+                                    item.setFilter(shouldFilter, animate)
                                     if (!shouldFilter && !previewListView.open) {
                                         categoryView.maximizeVisibleArea(index, item.uncollapsedHeight);
                                     }
