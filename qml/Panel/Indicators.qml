@@ -48,14 +48,12 @@ Showable {
     // use its own values. Need to ask design about this.
     showAnimation: StandardAnimation {
         property: "height"
-        duration: 350
         to: openedHeight
-        easing.type: Easing.OutCubic
 
         // Re-size if we've changed the openHeight while shown.
         onToChanged: {
             if (indicators.shown) {
-                indicators.show();
+                height = openedHeight;
             }
         }
     }

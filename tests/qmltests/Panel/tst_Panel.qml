@@ -40,6 +40,7 @@ Item {
     Panel {
         id: panel
         anchors.fill: parent
+        fullscreenMode: true
 
         indicators {
             profile: "test1"

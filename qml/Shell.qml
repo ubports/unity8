@@ -151,10 +151,10 @@ FocusScope {
                 shown: disappearingAnimationProgress !== 1.0
                 enabled: disappearingAnimationProgress === 0.0 && edgeDemo.dashEnabled
 
-                anchors {
-                    fill: parent
-                    topMargin: panel.panelHeight
-                }
+                y: panel.panelHeight
+                width: parent.width
+                height: parent.height - panel.panelHeight
+                Behavior on y { StandardAnimation {} }
 
                 contentScale: 1.0 - 0.2 * disappearingAnimationProgress
                 opacity: 1.0 - disappearingAnimationProgress
@@ -317,10 +317,13 @@ FocusScope {
         enabled: true
         showAnimation: StandardAnimation { property: "opacity"; to: 1 }
         hideAnimation: StandardAnimation { property: "opacity"; to: 0 }
+
         y: panel.panelHeight
         x: required ? 0 : - width
         width: parent.width
         height: parent.height - panel.panelHeight
+        Behavior on y { StandardAnimation {} }
+
         background: shell.background
         pinLength: 4
 
@@ -375,6 +378,8 @@ FocusScope {
         y: panel.panelHeight
         width: parent.width
         height: parent.height - panel.panelHeight
+        Behavior on y { StandardAnimation {} }
+        Behavior on height { StandardAnimation {} }
 
         dragHandleWidth: shell.edgeSize
 
@@ -574,12 +579,12 @@ FocusScope {
             model: NotificationBackend.Model
             margin: units.gu(1)
 
-            anchors {
-                top: parent.top
-                right: parent.right
-                bottom: parent.bottom
-                topMargin: panel.panelHeight
-            }
+            y: panel.panelHeight
+            width: parent.width
+            height: parent.height - panel.panelHeight
+            Behavior on y { StandardAnimation {} }
+            Behavior on height { StandardAnimation {} }
+
             states: [
                 State {
                     name: "narrow"
@@ -632,8 +637,11 @@ FocusScope {
     }
 
     OSKController {
-        anchors.topMargin: panel.panelHeight
-        anchors.fill: parent // as needs to know the geometry of the shell
+        y: panel.panelHeight
+        width: parent.width
+        height: parent.height - panel.panelHeight
+        Behavior on y { StandardAnimation {} }
+        Behavior on height { StandardAnimation {} }
     }
 
     //FIXME: This should be handled in the input stack, keyboard shouldnt propagate

@@ -20,14 +20,12 @@ import "../Components"
 
 Item {
     id: root
-    readonly property real panelHeight: units.gu(3) + units.dp(2)
-    property real indicatorsMenuWidth: (shell.width > units.gu(60)) ? units.gu(40) : shell.width
+    readonly property real panelHeight: callHint.active ? callHint.height + lowerPanelHeight : lowerPanelHeight
+    property real indicatorsMenuWidth: (width > units.gu(60)) ? units.gu(40) : width
     property alias indicators: indicatorsMenu
     property bool fullscreenMode: false
     property bool searchVisible: true
-
-    readonly property real separatorLineHeight: leftSeparatorLine.height
-    readonly property real __panelMinusSeparatorLineHeight: panelHeight - separatorLineHeight
+    readonly property real lowerPanelHeight: indicatorsMenu.panelHeight + leftSeparatorLine.height
 
     signal searchClicked
 
@@ -53,120 +51,147 @@ Item {
         onShownChanged: hideTimer.stop()
     }
 
-    PanelBackground {
-        id: panelBackground
+    ActiveCallHint {
+        id: callHint
+
         anchors {
             left: parent.left
             right: parent.right
         }
-        height: __panelMinusSeparatorLineHeight
-        y: 0
+        height: units.gu(3)
 
-        Behavior on y { StandardAnimation { duration: UbuntuAnimation.FastDuration } }
+        y: active ? 0 : -height
+        z: 1
+
+        Behavior on y { StandardAnimation {} }
     }
 
-    PanelSeparatorLine {
-        id: leftSeparatorLine
-        anchors {
-            top: panelBackground.bottom
-            left: parent.left
-            right: indicatorsMenu.left
-        }
-        saturation: 1 - indicatorsMenu.unitProgress
-    }
+    Item {
+        id: lowerPanel
 
-    Rectangle {
-        id: darkenedArea
-        property real darkenedOpacity: 0.6
         anchors {
             left: parent.left
             right: parent.right
-            top: panelBackground.bottom
-            bottom: parent.bottom
         }
-        color: "black"
-        opacity: indicatorsMenu.unitProgress * darkenedOpacity
-        MouseArea {
-            anchors.fill: parent
-            enabled: indicatorsMenu.shown
-            onClicked: if (indicatorsMenu.fullyOpened) indicatorsMenu.hide();
+        height: root.height - lowerPanel.y
+        z: 0
+
+        PanelBackground {
+            id: panelBackground
+            anchors {
+                top: parent.top
+                left: parent.left
+                right: parent.right
+            }
+            height: indicatorsMenu.panelHeight
         }
-    }
 
-    Indicators {
-        id: indicatorsMenu
-        objectName: "indicators"
-
-        anchors.right: parent.right
-        y: panelBackground.y
-        width: root.indicatorsMenuWidth
-        shown: false
-        panelHeight: __panelMinusSeparatorLineHeight
-        openedHeight: parent.height + (pinnedMode ? 0 : root.panelHeight)
-        pinnedMode: !fullscreenMode
-        overFlowWidth: search.state=="hidden" ? parent.width : parent.width - search.width
-    }
-
-    PanelSeparatorLine {
-        id: indicatorsSeparatorLine
-        visible: true
-        anchors {
-            left: indicatorsMenu.left
-            right: indicatorsMenu.right
+        PanelSeparatorLine {
+            id: leftSeparatorLine
+            anchors {
+                top: panelBackground.bottom
+                left: parent.left
+                right: indicatorsMenu.left
+            }
+            saturation: 1 - indicatorsMenu.unitProgress
         }
-        y: indicatorsMenu.visualBottom
-    }
 
-    BorderImage {
-        id: dropShadow
-        anchors {
-            top: indicators.top
-            bottom: indicatorsSeparatorLine.bottom
-            left: indicators.left
-            right: indicators.right
-            margins: -units.gu(1)
+        Rectangle {
+            id: darkenedArea
+            property real darkenedOpacity: 0.6
+            anchors {
+                left: parent.left
+                right: parent.right
+                top: panelBackground.bottom
+                bottom: parent.bottom
+            }
+            color: "black"
+            opacity: indicatorsMenu.unitProgress * darkenedOpacity
+            MouseArea {
+                anchors.fill: parent
+                enabled: indicatorsMenu.shown
+                onClicked: if (indicatorsMenu.fullyOpened) indicatorsMenu.hide();
+            }
         }
-        visible: indicatorsMenu.height > indicatorsMenu.panelHeight
-        source: "graphics/rectangular_dropshadow.sci"
-    }
 
-    SearchIndicator {
-        id: search
-        objectName: "search"
-        enabled: root.searchVisible
+        Indicators {
+            id: indicatorsMenu
+            objectName: "indicators"
 
-        state: {
-            if (parent.width < indicatorsMenu.width + width) {
-                if (indicatorsMenu.state != "initial") {
-                    return "hidden";
+            anchors {
+                top: parent.top
+                right: parent.right
+            }
+
+            width: root.indicatorsMenuWidth
+            shown: false
+            panelHeight: units.gu(3)
+            openedHeight: parent.height
+            pinnedMode: !fullscreenMode
+            overFlowWidth: search.state=="hidden" ? parent.width : parent.width - search.width
+        }
+
+        PanelSeparatorLine {
+            id: indicatorsSeparatorLine
+            visible: true
+            anchors {
+                left: indicatorsMenu.left
+                right: indicatorsMenu.right
+            }
+            y: indicatorsMenu.visualBottom
+        }
+
+        BorderImage {
+            id: dropShadow
+            anchors {
+                top: indicators.top
+                bottom: indicatorsSeparatorLine.bottom
+                left: indicators.left
+                right: indicators.right
+                margins: -units.gu(1)
+            }
+            visible: indicatorsMenu.height > indicatorsMenu.panelHeight
+            source: "graphics/rectangular_dropshadow.sci"
+        }
+
+        SearchIndicator {
+            id: search
+            objectName: "search"
+            enabled: root.searchVisible
+
+            state: {
+                if (parent.width < indicatorsMenu.width + width) {
+                    if (indicatorsMenu.state != "initial") {
+                        return "hidden";
+                    }
                 }
+                if (root.searchVisible && !indicatorsMenu.showAll) {
+                    return "visible";
+                }
+
+                return "hidden";
             }
-            if (root.searchVisible && !indicatorsMenu.showAll) {
-                return "visible";
+
+            anchors {
+                top: panelBackground.top
+                left: panelBackground.left
             }
+            height: panelBackground.height
 
-            return "hidden";
+            onClicked: root.searchClicked()
         }
-
-        height: __panelMinusSeparatorLineHeight
-        anchors {
-            top: panelBackground.top
-            left: panelBackground.left
-        }
-
-        onClicked: root.searchClicked()
     }
 
     states: [
         State {
             name: "in" //fully opaque and visible at top edge of screen
             when: !fullscreenMode
-            PropertyChanges { target: panelBackground; y: 0 }
+            PropertyChanges { target: lowerPanel; y: callHint.y + callHint.height }
         },
         State {
             name: "out" //pushed off screen
             when: fullscreenMode
-            PropertyChanges { target: panelBackground; y: -panelHeight }
+            PropertyChanges { target: lowerPanel; y: callHint.y + callHint.height - lowerPanelHeight }
         }
     ]
 }
