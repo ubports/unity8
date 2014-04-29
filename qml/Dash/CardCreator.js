@@ -363,13 +363,13 @@ function createCardComponent(parent, template, components, asynchronous) {
 
     // Close the AbstractButton
     if (hasSummary && hasBackground) {
-        code += 'implicitHeight: summary.y + summary.height + (summary.text && backgroundLoader.active ? units.gu(1) : 0)';
+        code += 'implicitHeight: summary.y + summary.height + (summary.text && backgroundLoader.active ? units.gu(1) : 0);';
     } else if (hasSummary) {
-        code += 'implicitHeight: summary.y + summary.height';
+        code += 'implicitHeight: summary.y + summary.height;';
     } else if (hasMascot) {
-        code += 'implicitHeight: mascotImage.y + mascotImage.height';
+        code += 'implicitHeight: mascotImage.y + mascotImage.height;';
     } else if (hasTitle) {
-        code += 'implicitHeight: titleLabel.y + titleLabel.height';
+        code += 'implicitHeight: titleLabel.y + titleLabel.height;';
     }
     code += '}';
 
