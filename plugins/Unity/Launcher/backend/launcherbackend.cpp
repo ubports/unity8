@@ -352,7 +352,7 @@ LauncherBackendItem* LauncherBackend::parseDesktopFile(const QString &desktopFil
 }
 
 /* Gets an item, and tries to create a new one if we need it to */
-LauncherBackendItem* LauncherBackend::getItem (const QString &appId) const
+LauncherBackendItem* LauncherBackend::getItem(const QString &appId) const
 {
     LauncherBackendItem *item = m_itemCache.value(appId, nullptr);
     if (!item) {
@@ -462,7 +462,7 @@ bool LauncherBackend::handleMessage(const QDBusMessage& message, const QDBusConn
     return connection.send(reply);
 }
 
-QString LauncherBackend::introspect (const QString &path) const
+QString LauncherBackend::introspect(const QString &path) const
 {
     /* This case we should just list the nodes */
     if (path == "/com/canonical/Unity/Launcher/" || path == "/com/canonical/Unity/Launcher") {
@@ -491,7 +491,7 @@ QString LauncherBackend::introspect (const QString &path) const
     return nodeiface;
 }
 
-QString LauncherBackend::decodeAppId (const QString& path)
+QString LauncherBackend::decodeAppId(const QString& path)
 {
     QByteArray bytes = path.toUtf8();
     QByteArray decoded;
@@ -518,7 +518,7 @@ QString LauncherBackend::decodeAppId (const QString& path)
     return QString::fromUtf8(decoded);
 }
 
-QString LauncherBackend::encodeAppId (const QString& appId)
+QString LauncherBackend::encodeAppId(const QString& appId)
 {
     QByteArray bytes = appId.toUtf8();
     QString encoded;
@@ -539,7 +539,7 @@ QString LauncherBackend::encodeAppId (const QString& appId)
     return encoded;
 }
 
-void LauncherBackend::emitPropChangedDbus (const QString& appId, const QString& property, QVariant &value) const
+void LauncherBackend::emitPropChangedDbus(const QString& appId, const QString& property, QVariant &value) const
 {
     QString path("/com/canonical/Unity/Launcher/");
     path.append(encodeAppId(appId));
