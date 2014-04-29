@@ -76,7 +76,8 @@ PreviewWidget {
                 verticalCenter: parent.verticalCenter
                 left: parent.left
             }
-            color: Theme.palette.selected.backgroundText
+            // TODO cimi: Yet another fix requiring Palette update.
+            color: "grey" //Theme.palette.selected.backgroundText
             opacity: .8
             text: widgetData["rating-label"] || i18n.tr("Rate this")
         }
@@ -121,7 +122,8 @@ PreviewWidget {
                 left: parent.left
                 right: parent.right
             }
-            color: Theme.palette.selected.backgroundText
+            // TODO cimi: Yet another fix requiring Palette update.
+            color: "grey" //Theme.palette.selected.backgroundText
             opacity: .8
             text: widgetData["review-label"] || i18n.tr("Add a review")
         }

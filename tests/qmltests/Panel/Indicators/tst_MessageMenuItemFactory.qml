@@ -39,6 +39,7 @@ Item {
 
     UT.UnityTestCase {
         name: "MessageMenuItemFactory"
+        when: windowShown
 
         property QtObject menuData: QtObject {
             property string label: "root"
