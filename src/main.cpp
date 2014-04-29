@@ -61,8 +61,8 @@ int startShell(int argc, const char** argv, void* server)
         "Allow the mouse to provide touch input");
     parser.addOption(mousetouchOption);
 
-    QCommandLineOption windowGeometryOption("windowgeometry",
-            "Specify the window geometry as [<width>x<height>]");
+    QCommandLineOption windowGeometryOption(QStringList() << "windowgeometry",
+            "Specify the window geometry as [<width>x<height>]", "windowgeometry", "1");
     parser.addOption(windowGeometryOption);
 
     QCommandLineOption testabilityOption("testability",
@@ -98,8 +98,16 @@ Load the testability driver");
 
     resolveIconTheme();
 
-    QStringList args = application->arguments();
-    ApplicationArguments qmlArgs(args);
+    std::auto_ptr<ApplicationArguments> appArgs;
+    if (parser.isSet(windowGeometryOption) &&
+        parser.value(windowGeometryOption).split('x').size() == 2) {
+            QStringList geom =
+            parser.value(windowGeometryOption).split('x');
+            appArgs.reset(new ApplicationArguments(geom.at(0).toInt(), geom.at(1).toInt()));
+    } else {
+        appArgs.reset(new ApplicationArguments());
+    }
+    ApplicationArguments& qmlArgs = *appArgs;
 
     // The testability driver is only loaded by QApplication but not by QGuiApplication.
     // However, QApplication depends on QWidget which would add some unneeded overhead => Let's load the testability driver on our own.
