@@ -49,10 +49,10 @@ DashRenderer {
             width: filterGrid.cellWidth
             height: filterGrid.cellHeight
             Loader {
+                id: loader
                 sourceComponent: cardTool.cardComponent
                 anchors.horizontalCenter: parent.horizontalCenter
                 onLoaded: {
-//                     console.log("CardFilterGrid onLoaded", cardTool.artShapeSize, cardTool.cardWidth);
                     item.objectName = "delegate" + index;
                     item.width = Qt.binding(function() { return cardTool.cardWidth; });
                     item.height = Qt.binding(function() { return cardTool.cardHeight; });
@@ -63,7 +63,7 @@ DashRenderer {
                     item.headerAlignment = Qt.binding(function() { return cardTool.headerAlignment; });
                 }
                 Connections {
-                    target: item
+                    target: loader.item
                     onClicked: genericFilterGrid.clicked(index, item.y)
                     onPressAndHold: genericFilterGrid.pressAndHold(index, item.y)
                 }
