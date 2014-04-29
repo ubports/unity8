@@ -169,12 +169,12 @@ private Q_SLOTS:
         LauncherBackend backend;
 
         if (setCount) {
-            message = QDBusMessage::createMethodCall("com.canonical.unity.launcher",
-                                                     "/com/canonical/unity/launcher/" + LauncherBackend::encodeAppId(appId),
+            message = QDBusMessage::createMethodCall("com.canonical.Unity.Launcher",
+                                                     "/com/canonical/Unity/Launcher/" + LauncherBackend::encodeAppId(appId),
                                                      "org.freedesktop.DBus.Properties",
                                                      "Set");
             QVariantList cargs;
-            cargs.append(QString("com.canonical.unity.Launcher.Item"));
+            cargs.append(QString("com.canonical.Unity.Launcher.Item"));
             cargs.append(QString("count"));
             cargs.append(QVariant::fromValue(QDBusVariant(inCount)));
 
@@ -184,12 +184,12 @@ private Q_SLOTS:
         }
 
         /* Set countVisible */
-        message = QDBusMessage::createMethodCall("com.canonical.unity.launcher",
-                                                 "/com/canonical/unity/launcher/" + LauncherBackend::encodeAppId(appId),
+        message = QDBusMessage::createMethodCall("com.canonical.Unity.Launcher",
+                                                 "/com/canonical/Unity/Launcher/" + LauncherBackend::encodeAppId(appId),
                                                  "org.freedesktop.DBus.Properties",
                                                  "Set");
         QVariantList cvargs;
-        cvargs.append(QString("com.canonical.unity.Launcher.Item"));
+        cvargs.append(QString("com.canonical.Unity.Launcher.Item"));
         cvargs.append(QString("countVisible"));
         cvargs.append(QVariant::fromValue(QDBusVariant(countVisible)));
 
@@ -198,12 +198,12 @@ private Q_SLOTS:
         QCOMPARE(reply.type(), QDBusMessage::ReplyMessage);
 
         /* Get value */
-        message = QDBusMessage::createMethodCall("com.canonical.unity.launcher",
-                                                 "/com/canonical/unity/launcher/" + LauncherBackend::encodeAppId(appId),
+        message = QDBusMessage::createMethodCall("com.canonical.Unity.Launcher",
+                                                 "/com/canonical/Unity/Launcher/" + LauncherBackend::encodeAppId(appId),
                                                  "org.freedesktop.DBus.Properties",
                                                  "Get");
         QVariantList getargs;
-        getargs.append(QString("com.canonical.unity.Launcher.Item"));
+        getargs.append(QString("com.canonical.Unity.Launcher.Item"));
         getargs.append(QString("count"));
 
         message.setArguments(getargs);

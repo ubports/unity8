@@ -50,9 +50,9 @@ LauncherBackend::LauncherBackend(QObject *parent):
 
     /* Set up ourselves on DBus */
     QDBusConnection con = QDBusConnection::sessionBus();
-    if (!con.registerService("com.canonical.unity.launcher"))
+    if (!con.registerService("com.canonical.Unity.Launcher"))
         qDebug() << "Unable to register launcher name";
-    if (!con.registerVirtualObject("/com/canonical/unity/launcher", this, QDBusConnection::VirtualObjectRegisterOption::SubPath))
+    if (!con.registerVirtualObject("/com/canonical/Unity/Launcher", this, QDBusConnection::VirtualObjectRegisterOption::SubPath))
         qDebug() << "Unable to register launcher object";
 }
 
@@ -60,8 +60,8 @@ LauncherBackend::~LauncherBackend()
 {
     /* Remove oursevles from DBus */
     QDBusConnection con = QDBusConnection::sessionBus();
-    con.unregisterService("com.canonical.unity.launcher");
-    con.unregisterObject("/com/canonical/unity/launcher");
+    con.unregisterService("com.canonical.Unity.Launcher");
+    con.unregisterObject("/com/canonical/Unity/Launcher");
 
     /* Clear data */
     m_storedApps.clear();
@@ -427,14 +427,14 @@ bool LauncherBackend::handleMessage(const QDBusMessage& message, const QDBusConn
         return false;
     if (message.interface() != "org.freedesktop.DBus.Properties")
         return false;
-    if (message.arguments()[0].toString() != "com.canonical.unity.Launcher.Item")
+    if (message.arguments()[0].toString() != "com.canonical.Unity.Launcher.Item")
         return false;
 
     /* Break down the path to just the app id */
     QString pathtemp = message.path();
-    if (!pathtemp.startsWith("/com/canonical/unity/launcher/"))
+    if (!pathtemp.startsWith("/com/canonical/Unity/Launcher/"))
         return false;
-    pathtemp.remove("/com/canonical/unity/launcher/");
+    pathtemp.remove("/com/canonical/Unity/Launcher/");
     if (pathtemp.indexOf('/') >= 0)
         return false;
 
@@ -465,7 +465,7 @@ bool LauncherBackend::handleMessage(const QDBusMessage& message, const QDBusConn
 QString LauncherBackend::introspect (const QString &path) const
 {
     /* This case we should just list the nodes */
-    if (path == "/com/canonical/unity/launcher/" || path == "/com/canonical/unity/launcher") {
+    if (path == "/com/canonical/Unity/Launcher/" || path == "/com/canonical/Unity/Launcher") {
         QString nodes;
 
         Q_FOREACH(const QString &appId, m_itemCache.keys()) {
@@ -478,13 +478,13 @@ QString LauncherBackend::introspect (const QString &path) const
     }
 
     /* Should not happen, but let's handle it */
-    if (!path.startsWith("/com/canonical/unity/launcher")) {
+    if (!path.startsWith("/com/canonical/Unity/Launcher")) {
         return "";
     }
 
     /* Now we should be looking at a node */
     QString nodeiface =
-        "<interface name=\"com.canonical.unity.Launcher.Item\">"
+        "<interface name=\"com.canonical.Unity.Launcher.Item\">"
             "<property name=\"count\" type=\"i\" access=\"readwrite\" />"
             "<property name=\"countVisible\" type=\"b\" access=\"readwrite\" />"
         "</interface>";
@@ -541,7 +541,7 @@ QString LauncherBackend::encodeAppId (const QString& appId)
 
 void LauncherBackend::emitPropChangedDbus (const QString& appId, const QString& property, QVariant &value) const
 {
-    QString path("/com/canonical/unity/launcher/");
+    QString path("/com/canonical/Unity/Launcher/");
     path.append(encodeAppId(appId));
 
     QDBusMessage message = QDBusMessage::createSignal(path, "org.freedesktop.DBus.Properties", "PropertiesChanged");
