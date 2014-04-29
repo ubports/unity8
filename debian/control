@@ -107,6 +107,8 @@ Depends: qtdeclarative5-ubuntu-thumbnailer0.1 | ubuntu-thumbnailer-impl,
          unity-scopes-impl-0,
          unity8-fake-env | unity-application-impl,
          ${misc:Depends},
+Breaks: unity8 (<< 7.86)
+Replaces: unity8 (<< 7.86)
 Description: Unity 8 shell (common files)
  The Unity 8 shell is the primary user interface for Ubuntu devices.
  .

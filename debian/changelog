@@ -3,6 +3,9 @@ unity8 (7.86-0ubuntu1) UNRELEASED; urgency=medium
   [ Andrea Cimitan ]
   * Update upstart job to reflect latest unity-mir changes
 
+  [ Michał Sawicz ]
+  * Split out unity8-common package
+
  -- Andrea Cimitan <andrea.cimitan@gmail.com>  Tue, 29 Apr 2014 09:13:06 +0100
 
 unity8 (7.85+14.04.20140416-0ubuntu1) trusty; urgency=low
