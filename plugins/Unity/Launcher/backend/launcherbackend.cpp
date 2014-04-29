@@ -362,7 +362,7 @@ LauncherBackendItem* LauncherBackend::getItem(const QString &appId) const
             if (item) {
                 m_itemCache[appId] = item;
             } else {
-                qDebug() << "Unable to parse desktop file for:" << appId;
+                qWarning() << "Unable to parse desktop file for" << appId << "path" << df;
             }
         } else {
             qDebug() << "Unable to find desktop file for:" << appId;
@@ -370,7 +370,7 @@ LauncherBackendItem* LauncherBackend::getItem(const QString &appId) const
     }
 
     if (!item)
-        qDebug() << "Unable to find item for: " << appId;
+        qWarning() << "Unable to find item for: " << appId;
 
     return item;
 }
