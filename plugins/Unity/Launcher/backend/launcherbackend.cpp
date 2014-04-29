@@ -50,10 +50,12 @@ LauncherBackend::LauncherBackend(QObject *parent):
 
     /* Set up ourselves on DBus */
     QDBusConnection con = QDBusConnection::sessionBus();
-    if (!con.registerService("com.canonical.Unity.Launcher"))
+    if (!con.registerService("com.canonical.Unity.Launcher")) {
         qDebug() << "Unable to register launcher name";
-    if (!con.registerVirtualObject("/com/canonical/Unity/Launcher", this, QDBusConnection::VirtualObjectRegisterOption::SubPath))
+	}
+    if (!con.registerVirtualObject("/com/canonical/Unity/Launcher", this, QDBusConnection::VirtualObjectRegisterOption::SubPath)) {
         qDebug() << "Unable to register launcher object";
+	}
 }
 
 LauncherBackend::~LauncherBackend()
@@ -423,35 +425,42 @@ bool LauncherBackend::isDefaultsItem(const QList<QVariantMap> &apps) const
 bool LauncherBackend::handleMessage(const QDBusMessage& message, const QDBusConnection& connection)
 {
     /* Check to make sure we're getting properties on our interface */
-    if (message.type() != QDBusMessage::MessageType::MethodCallMessage)
+    if (message.type() != QDBusMessage::MessageType::MethodCallMessage) {
         return false;
-    if (message.interface() != "org.freedesktop.DBus.Properties")
+	}
+    if (message.interface() != "org.freedesktop.DBus.Properties") {
         return false;
-    if (message.arguments()[0].toString() != "com.canonical.Unity.Launcher.Item")
+	}
+    if (message.arguments()[0].toString() != "com.canonical.Unity.Launcher.Item") {
         return false;
+	}
 
     /* Break down the path to just the app id */
     QString pathtemp = message.path();
-    if (!pathtemp.startsWith("/com/canonical/Unity/Launcher/"))
+    if (!pathtemp.startsWith("/com/canonical/Unity/Launcher/")) {
         return false;
+	}
     pathtemp.remove("/com/canonical/Unity/Launcher/");
-    if (pathtemp.indexOf('/') >= 0)
+    if (pathtemp.indexOf('/') >= 0) {
         return false;
+	}
 
     /* Find ourselves an appid */
     QString appid = decodeAppId(pathtemp);
     QVariantList retval;
 
     if (message.member() == "Get") {
-        if (message.arguments()[1].toString() == "count")
+        if (message.arguments()[1].toString() == "count") {
             retval.append(QVariant::fromValue(QDBusVariant(this->count(appid))));
-        else if (message.arguments()[1].toString() == "countVisible")
+        } else if (message.arguments()[1].toString() == "countVisible") {
             retval.append(QVariant::fromValue(QDBusVariant(this->countVisible(appid))));
+		}
     } else if (message.member() == "Set") {
-        if (message.arguments()[1].toString() == "count")
+        if (message.arguments()[1].toString() == "count") {
             this->setCount(appid, message.arguments()[2].value<QDBusVariant>().variant().toInt());
-        else if (message.arguments()[1].toString() == "countVisible")
+        } else if (message.arguments()[1].toString() == "countVisible") {
             this->setCountVisible(appid, message.arguments()[2].value<QDBusVariant>().variant().toBool());
+		}
     } else if (message.member() == "GetAll") {
         retval.append(this->itemToVariant(appid));
     } else {
