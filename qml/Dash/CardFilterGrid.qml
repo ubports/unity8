@@ -24,6 +24,7 @@ DashRenderer {
     collapsedHeight: filterGrid.collapsedHeight
     margins: filterGrid.margins
     uncollapsedHeight: filterGrid.uncollapsedHeight
+    originY: filterGrid.originY
     verticalSpacing: units.gu(1)
     currentItem: filterGrid.currentItem
     height: filterGrid.height
@@ -44,14 +45,15 @@ DashRenderer {
         collapsedRowCount: Math.min(2, cardTool && cardTool.template && cardTool.template["collapsed-rows"] || 2)
         delegateCreationBegin: genericFilterGrid.delegateCreationBegin
         delegateCreationEnd: genericFilterGrid.delegateCreationEnd
-        delegate: Item {
+        delegate: Loader {
+            asynchronous: true
             width: filterGrid.cellWidth
             height: filterGrid.cellHeight
             Card {
                 id: card
                 width: cardTool.cardWidth
                 height: cardTool.cardHeight
-                headerHeight: cardTool.headerHeight
+                fixedHeaderHeight: cardTool.headerHeight
                 anchors.horizontalCenter: parent.horizontalCenter
                 objectName: "delegate" + index
                 cardData: model

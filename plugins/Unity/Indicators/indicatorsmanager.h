@@ -28,8 +28,6 @@
 #include <QHash>
 #include <QSharedPointer>
 
-typedef struct nih_dbus_proxy        NihDBusProxy;
-
 class UNITYINDICATORS_EXPORT IndicatorsManager : public QObject
 {
     Q_OBJECT

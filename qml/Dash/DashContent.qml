@@ -17,7 +17,6 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Unity 0.2
-import Utils 0.1
 import "../Components"
 
 Item {
@@ -28,13 +27,9 @@ Item {
     readonly property alias currentIndex: dashContentList.currentIndex
     property alias previewOpen: previewListView.open
 
-    property ScopeDelegateMapper scopeMapper : ScopeDelegateMapper {}
     property ListModel searchHistory
 
-    signal movementStarted()
-    signal movementEnded()
     signal scopeLoaded(string scopeId)
-    signal positionedAtBeginning()
     signal gotoScope(string scopeId)
     signal openScope(var scope)
 
@@ -72,7 +67,7 @@ Item {
             dashContentList.currentIndex = index
 
             if (reset) {
-                dashContent.positionedAtBeginning()
+                dashContentList.currentItem.item.positionAtBeginning()
             }
         }
 
@@ -115,8 +110,7 @@ Item {
             highlightRangeMode: ListView.StrictlyEnforceRange
             // TODO Investigate if we can switch to a smaller cache buffer when/if UbuntuShape gets more performant
             cacheBuffer: 1073741823
-            onMovementStarted: dashContent.movementStarted()
-            onMovementEnded: dashContent.movementEnded()
+            onMovementStarted: currentItem.item.showHeader();
             clip: parent.x != 0
 
             // If the number of items is less than the current index, then need to reset to another item.
@@ -136,7 +130,9 @@ Item {
                     width: ListView.view.width
                     height: ListView.view.height
                     asynchronous: true
-                    source: scopeMapper.map(scope.id)
+                    // TODO This if will eventually go away since we're killing DashApps.qml
+                    // once we move app closing to the spread
+                    source: (scope.id == "clickscope") ? "DashApps.qml" : "GenericScopeView.qml"
                     objectName: scope.id + " loader"
 
                     readonly property bool moving: item ? item.moving : false
@@ -155,8 +151,6 @@ Item {
                         item.scope = Qt.binding(function() { return scope })
                         item.isCurrent = Qt.binding(function() { return visible && ListView.isCurrentItem })
                         item.tabBarHeight = dashPageHeader.implicitHeight;
-                        dashContentList.movementStarted.connect(item.movementStarted)
-                        dashContent.positionedAtBeginning.connect(item.positionedAtBeginning)
                         dashContent.scopeLoaded(item.scope.id)
                     }
                     Connections {
@@ -189,30 +183,23 @@ Item {
                 width: parent.width
                 style: DashContentTabBarStyle {}
 
-                SortFilterProxyModel {
-                    id: tabBarModel
+                model: dashContentList.model
 
-                    model: dashContentList.model
-
-                    property int selectedIndex: -1
-                    onSelectedIndexChanged: {
-                        if (dashContentList.currentIndex == -1 && tabBar.selectedIndex != -1) {
-                            // TODO This together with the Timer below
-                            // are a workaround for the first tab sometimes not showing the text.
-                            // But Tabs are going away in the future so not sure if makes
-                            // sense invetigating what's the problem at this stage
-                            selectionModeTimer.restart();
-                        }
-                        dashContentList.currentIndex = selectedIndex;
+                onSelectedIndexChanged: {
+                    if (dashContentList.currentIndex == -1 && tabBar.selectedIndex != -1) {
+                        // TODO This together with the Timer below
+                        // are a workaround for the first tab sometimes not showing the text.
+                        // But Tabs are going away in the future so not sure if makes
+                        // sense invetigating what's the problem at this stage
+                        selectionModeTimer.restart();
                     }
+                    dashContentList.currentIndex = selectedIndex;
                 }
-
-                model: tabBarModel.count > 0 ? tabBarModel : null
 
                 Connections {
                     target: dashContentList
                     onCurrentIndexChanged: {
-                        tabBarModel.selectedIndex = dashContentList.currentIndex
+                        tabBar.selectedIndex = dashContentList.currentIndex
                     }
                 }
 

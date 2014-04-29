@@ -1,3 +1,135 @@
+unity8 (7.85+14.04.20140416-0ubuntu1) trusty; urgency=low
+
+  [ Albert Astals ]
+  * Fix last item X position Fixes clicking on the last item sometimes
+    not working (LP: #1301871)
+  * Use upstart in ./run Makes it so that you can use the lock button on
+    the device without getting that nasty hwc crash
+  * Remove AnimationControllerWithSignals.
+  * Use the correct delegate base item for the Carousel test
+  * Some simplification in DashContent Kill the ScopeDelegateMapper in
+    favour of a simple if (that will eventually go away). Removal of all
+    the fake scopes in the tests that added nothing of value to the
+    tests. Removal of movementEnded signal that was unused. Removal of
+    movementStarted and positionedAtBeginning signals that were being
+    used as function calls. Rework DashContent tests so they what the
+    function does what it is supposed to do instead of just making sure
+    QML signals work .
+  * Improve Card creation time by adding loaders that make sure only
+    what's needed is loaded In my computer it goes from RESULT :
+    qmltestrunner::benchmark_time:"cardTitleArtSubtitleMascotSummaryMode
+    l": 3.217 msecs per iteration (total: 3,218, iterations: 1000)
+    RESULT :
+    qmltestrunner::benchmark_time:"cardTitleArtSubtitleMascotModel":
+    1.647 msecs per iteration (total: 1,648, iterations: 1000) RESULT :
+    qmltestrunner::benchmark_time:"cardTitleArtSubtitleModel": 1.514
+    msecs per iteration (total: 1,515, iterations: 1000) RESULT :
+    qmltestrunner::benchmark_time:"cardTitleArtModel": 1.471 msecs per
+    iteration (total: 1,471, iterations: 1000) RESULT :
+    qmltestrunner::benchmark_time:"cardArtModel": 1.447 msecs per
+    iteration (total: 1,448, iterations: 1000) RESULT :
+    qmltestrunner::benchmark_time:"cardTitleModel": 1.276 msecs per
+    iteration (total: 1,276, iterations: 1000) to RESULT :
+    qmltestrunner::benchmark_time:"cardTitleArtSubtitleMascotSummaryMode
+    l": 2.916 msecs per iteration (total: 2,917, iterations: 1000)
+    RESULT :
+    qmltestrunner::benchmark_time:"cardTitleArtSubtitleMascotModel":
+    1.504 msecs per iteration (total: 1,504, iterations: 1000) RESULT :
+    qmltestrunner::benchmark_time:"cardTitleArtSubtitleModel": 1.060
+    msecs per iteration (total: 1,061, iterations: 1000) RESULT :
+    qmltestrunner::benchmark_time:"cardTitleArtModel": 1.052 msecs per
+    iteration (total: 1,053, iterations: 1000) RESULT :
+    qmltestrunner::benchmark_time:"cardArtModel": 0.727 msecs per
+    iteration (total: 728, iterations: 1000) RESULT :
+    qmltestrunner::benchmark_time:"cardTitleModel": 0.817 msecs per
+    iteration (total: 818, iterations: 1000) (LP: #1297197)
+
+  [ Allan LeSage ]
+  * DashApps emulator get_applications should return a list ordered by
+    visible y, x.
+
+  [ Andrea Cimitan ]
+  * Workaround for lp1301309 until fixes for palette in ui toolkit (LP:
+    #1301309)
+
+  [ Leo Arias ]
+  * Reverted the change that returns application cards instead of
+    titles.
+
+  [ Nick Dedekind ]
+  * Indicator services started by unity8 upstart configuration rather
+    than manual emmision from indicator manager.
+
+  [ Mirco Müller ]
+  * Fix notification ap-test assertions.
+
+  [ Michael Terry ]
+  * Use new tablet and phone backgrounds from Design.
+
+  [ Michael Zanetti ]
+  * workaround the QTestLogger assertion issue with make tryXyz and our
+    custom uqmlscene
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 16 Apr 2014 13:45:01 +0000
+
+unity8 (7.85+14.04.20140415.2-0ubuntu1) trusty; urgency=low
+
+  [ Michael Terry ]
+  * When an application requests focus, handle it in Shell.qml by hiding
+    the greeter and stopping any edge demo. (LP: #1227753)
+
+  [ Leo Arias ]
+  * Use subprocess.check_call when caling url-dispatcher, so an error
+    will be raised if it fails.
+  * Test application life cycle with fake apps, instead of messaging and
+    address book.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 15 Apr 2014 12:47:11 +0000
+
+unity8 (7.85+14.04.20140410.1-0ubuntu1) trusty; urgency=medium
+
+  [ Didier Roche ]
+  * Resync trunk with previous revert upload
+
+  [ Michał Sawicz ]
+  * Set the Qt.ImhNoPredictiveText flag on wifi password field, fixes
+    lp:1291575 (LP: #1291575)
+
+  [ Albert Astals ]
+  * Take into account the originY when specifying the delegate ranges
+    Fixes bug #1300302 (LP: #1300302)
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Allan LeSage ]
+  * Swiping open an indicator must show its correct title--protect
+    against lp:1253804 . (LP: #1253804)
+
+  [ Alexander Sack ]
+  * Fix TypeError: issue seen in system_integration autopilot test on
+    image 279. (LP: #1303685)
+
+  [ Bill Filler ]
+  * Set the Qt.ImhNoPredictiveText flag on wifi password field, fixes
+    lp:1291575 (LP: #1291575)
+
+  [ Leo Arias ]
+  * Added a search autopilot helper.
+
+  [ Michael Terry ]
+  * Provide a all-in-one script for getting a device to an unlocked
+    state.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 10 Apr 2014 10:03:31 +0000
+
+unity8 (7.85+14.04.20140404.is.7.85+14.04.20140403.1-0ubuntu1) trusty; urgency=medium
+
+  * Revert to previous version as it's linked to latest sdk change which
+    is making gallery-app AP tests failing on the CI dashboard
+
+ -- Didier Roche <didrocks@ubuntu.com>  Tue, 08 Apr 2014 13:53:47 +0200
+
 unity8 (7.85+14.04.20140404-0ubuntu1) trusty; urgency=low
 
   [ Albert Astals ]
