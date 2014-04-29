@@ -61,6 +61,10 @@ int startShell(int argc, const char** argv, void* server)
         "Allow the mouse to provide touch input");
     parser.addOption(mousetouchOption);
 
+    QCommandLineOption windowGeometryOption("windowgeometry",
+            "Specify the window geometry as [<width>x<height>]");
+    parser.addOption(windowGeometryOption);
+
     QCommandLineOption testabilityOption("testability",
         "DISCOURAGED: Please set QT_LOAD_TESTABILITY instead. \n \
 Load the testability driver");
