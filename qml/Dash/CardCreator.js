@@ -25,7 +25,6 @@ function createCardComponent(parent, template, components) {
                    import Ubuntu.Thumbnailer 0.1;';
     var code;
     code = 'AbstractButton { \
-                clip: true; \
                 id: root; \
                 property var template; \
                 property var components; \
