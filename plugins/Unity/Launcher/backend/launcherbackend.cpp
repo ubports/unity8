@@ -105,7 +105,7 @@ void LauncherBackend::setStoredApplications(const QStringList &appIds)
 
 QString LauncherBackend::desktopFile(const QString &appId) const
 {
-    LauncherBackendItem *item = m_itemCache.value(appId);
+    LauncherBackendItem *item = m_itemCache.value(appId, nullptr);
     if (item) {
         return item->desktopFile;
     }
@@ -115,7 +115,7 @@ QString LauncherBackend::desktopFile(const QString &appId) const
 
 QString LauncherBackend::displayName(const QString &appId) const
 {
-    LauncherBackendItem *item = m_itemCache.value(appId);
+    LauncherBackendItem *item = m_itemCache.value(appId, nullptr);
     if (item) {
         return item->displayName;
     }
@@ -354,7 +354,7 @@ LauncherBackendItem* LauncherBackend::parseDesktopFile(const QString &desktopFil
 /* Gets an item, and tries to create a new one if we need it to */
 LauncherBackendItem* LauncherBackend::getItem (const QString &appId) const
 {
-    LauncherBackendItem *item = m_itemCache[appId];
+    LauncherBackendItem *item = m_itemCache.value(appId, nullptr);
     if (!item) {
         QString df = findDesktopFile(appId);
         if (!df.isEmpty()) {
@@ -382,7 +382,7 @@ void LauncherBackend::loadFromVariant(const QVariantMap &details)
     }
     QString appId = details.value("id").toString();
 
-    LauncherBackendItem *item = m_itemCache.value(appId);
+    LauncherBackendItem *item = m_itemCache.value(appId, nullptr);
     if (item) {
         delete item;
     }
