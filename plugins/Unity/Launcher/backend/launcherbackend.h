@@ -184,7 +184,9 @@ private:
 
     void emitPropChangedDbus(const QString& appId, const QString& property, QVariant &value) const;
 
+#ifdef LAUNCHER_TESTING
 public: /* Only public to make them easier to test independently */
+#endif
     LauncherBackendItem* getItem(const QString& appId) const;
 
     static QString decodeAppId(const QString& path);
