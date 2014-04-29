@@ -193,24 +193,22 @@ function createCardComponent(parent, template, components) {
     }
 
     var headerVerticalAnchors;
-    if (isHorizontal) {
-        headerVerticalAnchors = 'anchors.top: artShapeHolder.top; \
-                                 anchors.topMargin: units.gu(1);';
+    if (inOverlay) {
+        headerVerticalAnchors = 'anchors.bottom: artShapeHolder.bottom; \
+                                 anchors.bottomMargin: units.gu(1);';
     } else {
-        if (inOverlay) {
-            headerVerticalAnchors = 'anchors.bottom: artShapeHolder.bottom; \
-                                     anchors.bottomMargin: units.gu(1);';
-        } else {
-            if (hasArt) {
-                headerVerticalAnchors = 'anchors.top: artShapeHolder.bottom; \
+        if (hasArt) {
+            if (isHorizontal) {
+                headerVerticalAnchors = 'anchors.top: artShapeHolder.top; \
                                          anchors.topMargin: units.gu(1);';
             } else {
-                headerVerticalAnchors = 'anchors.top: parent.top; \
+                headerVerticalAnchors = 'anchors.top: artShapeHolder.bottom; \
                                          anchors.topMargin: units.gu(1);';
-            }
+        } else {
+            headerVerticalAnchors = 'anchors.top: parent.top; \
+                                     anchors.topMargin: units.gu(1);';
         }
     }
-
 
     if (hasMascot) {
         var useMascotShape = !hasBackground && !inOverlay;
