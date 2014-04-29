@@ -139,6 +139,8 @@ function createCardComponent(parent, template, components) {
                         } \
                     } \
                 }'
+    } else {
+        code += 'readonly property size artShapeSize: Qt.size(-1, -1);'
     }
 
     if (inOverlay) {
@@ -199,8 +201,13 @@ function createCardComponent(parent, template, components) {
             headerVerticalAnchors = 'anchors.bottom: artShapeHolder.bottom; \
                                      anchors.bottomMargin: units.gu(1);';
         } else {
-            headerVerticalAnchors = 'anchors.top: artShapeHolder.bottom; \
-                                     anchors.topMargin: units.gu(1);';
+            if (hasArt) {
+                headerVerticalAnchors = 'anchors.top: artShapeHolder.bottom; \
+                                         anchors.topMargin: units.gu(1);';
+            } else {
+                headerVerticalAnchors = 'anchors.top: parent.top; \
+                                         anchors.topMargin: units.gu(1);';
+            }
         }
     }
 
@@ -265,8 +272,7 @@ function createCardComponent(parent, template, components) {
             anchors += 'anchors.left: mascotImage.right; \
                         anchors.leftMargin: units.gu(1);';
         } else {
-            anchors += 'anchors.left: parent.left; \
-                        anchors.leftMargin: units.gu(1);';
+            anchors += 'anchors.left: parent.left;';
         }
         anchors += headerVerticalAnchors;
 
@@ -274,6 +280,7 @@ function createCardComponent(parent, template, components) {
         var subtitleAnchors = "";
         if (hasMascot && hasSubtitle) {
             titleAnchors = 'anchors { left: parent.left; right: parent.right }';
+            subtitleAnchors = titleAnchors;
             code += 'Item { \
                         ' + anchors + '\
                         height: mascotImage.height; \
@@ -284,7 +291,7 @@ function createCardComponent(parent, template, components) {
         } else {
             titleAnchors = anchors;
             subtitleAnchors = 'anchors.left: parent.left; \
-                               anchors.leftMargin: units.gu(1); \
+                               anchors.right: parent.right; \
                                anchors.top: titleLabel.bottom; \
                                anchors.topMargin: units.dp(2);';
         }

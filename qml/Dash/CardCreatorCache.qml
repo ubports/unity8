@@ -16,6 +16,7 @@ QtObject {
         var allString = tString + cString;
         var component = cache[allString];
         if (component === undefined) {
+            console.log("Create", tString, cString);
             component = CardCreator.createCardComponent(root, template, components);
             cache[allString] = component;
         }
