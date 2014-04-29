@@ -72,7 +72,7 @@ Architecture: any
 Provides: indicator-renderer,
 Depends: gsettings-desktop-schemas,
          libglib2.0-bin,
-         libunity-mir1,
+         libunity-mir1 (>= 0.4),
          qmenumodel-qml (>= 0.2.7),
          qtdeclarative5-dee-plugin,
          qtdeclarative5-gsettings1.0,
