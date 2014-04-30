@@ -195,7 +195,7 @@ class DashAppsEmulatorTestCase(DashBaseTestCase):
             category)
         grid = category_element.select_single('CardFilterGrid')
         filtergrid = grid.select_single('FilterGrid')
-        if (grid.filter):
+        if (grid.filtered):
             return filtergrid.collapsedRowCount * filtergrid.columns
         else:
             return filtergrid.uncollapsedRowCount * filtergrid.columns

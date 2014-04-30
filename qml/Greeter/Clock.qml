@@ -24,14 +24,11 @@ Item {
     implicitWidth: childrenRect.width
     implicitHeight: childrenRect.height
 
-    // Allows to set the current Date. Will be overwritten if active
+    // Allows to set the current Date. Will be overwritten if visible
     property date currentDate
 
-    // If active, time will be updated through the indicators service
-    property bool active: clock.enabled && clock.visible
-
     Component.onCompleted: {
-        if (active) {
+        if (visible) {
             currentDate = new Date()
         }
     }
@@ -42,7 +39,7 @@ Item {
 
         busName: "com.canonical.indicator.datetime"
         actionsObjectPath: "/com/canonical/indicator/datetime"
-        menuObjectPath: clock.active ? "/com/canonical/indicator/datetime/phone_greeter" : ""
+        menuObjectPath: clock.visible ? "/com/canonical/indicator/datetime/phone_greeter" : ""
 
         Indicators.RootActionState {
             menu: timeModel.model

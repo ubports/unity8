@@ -217,7 +217,6 @@ BasicShell {
             shown = true;
             panel.indicators.hide();
             edgeDemo.stopDemo();
-            greeter.hide();
             if (!ApplicationManager.focusedApplicationId && ApplicationManager.count > 0 && focusApp) {
                 ApplicationManager.focusApplication(ApplicationManager.get(0).appId);
             }

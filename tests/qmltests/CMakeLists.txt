@@ -17,7 +17,7 @@ add_qml_test(utils/Unity/Test UnityTest)
 
 set(qmltest_DEFAULT_TARGETS qmluitests)
 set(qmltest_DEFAULT_NO_ADD_TEST TRUE)
-set(qmltest_DEFAULT_PROPERTIES "")
+set(qmltest_DEFAULT_PROPERTIES ENVIRONMENT "LC_ALL=C")
 
 add_qml_test(. Shell)
 add_qml_test(. GreeterShell ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/liblightdm/single")
@@ -70,6 +70,7 @@ add_qml_test(Panel Panel)
 add_qml_test(Panel SearchIndicator)
 add_qml_test(Panel/Indicators DefaultIndicatorWidget ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel")
 add_qml_test(Panel/Indicators DefaultIndicatorPage ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel")
-add_qml_test(Panel/Indicators MenuItemFactory)
-add_qml_test(Panel/Indicators MessageMenuItemFactory)
+# These MenuItemFactory tests need the test/mocks/ to come before plugins/
+add_qml_test(Panel/Indicators MenuItemFactory IMPORT_PATHS ${CMAKE_BINARY_DIR}/tests/mocks ${qmltest_DEFAULT_IMPORT_PATHS})
+add_qml_test(Panel/Indicators MessageMenuItemFactory IMPORT_PATHS ${CMAKE_BINARY_DIR}/tests/mocks ${qmltest_DEFAULT_IMPORT_PATHS})
 add_qml_test(Stages PhoneStage)

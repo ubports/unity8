@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Unity Scope Tool
-Comment=Developer tool for Unity scopes.
-Exec=@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_BINDIR@/unity-scope-tool
-Terminal=false
-Icon=unity-scope-tool
-X-Ubuntu-Touch=true

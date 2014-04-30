@@ -1,7 +1,7 @@
 usr/lib/*/unity8/qml/AccountsService
+usr/lib/*/unity8/qml/DashViews
 usr/lib/*/unity8/qml/HudClient
 usr/lib/*/unity8/qml/LightDM
-usr/lib/*/unity8/qml/DashViews
 usr/lib/*/unity8/qml/Powerd
 usr/lib/*/unity8/qml/SessionBroadcast
 usr/lib/*/unity8/qml/SessionManager

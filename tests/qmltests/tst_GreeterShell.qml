@@ -24,6 +24,7 @@ import GSettings 1.0
 import Unity.Application 0.1
 import Unity.Test 0.1 as UT
 import Powerd 0.1
+import LightDM 0.1 as LightDM
 
 import "../../qml"
 
@@ -74,6 +75,14 @@ Item {
             AccountsService.backgroundFile = data.accounts
             verify(greeterBackground.source.toString().indexOf(data.expected) !== -1)
             tryCompare(greeterBackground, "status", Image.Ready)
+        }
+
+        function test_dispatchURLHidesGreeter() {
+            var greeter = findChild(shell, "greeter")
+            greeter.showNow()
+            tryCompare(greeter, "showProgress", 1)
+            LightDM.URLDispatcher.dispatchURL("application:///notes-app")
+            tryCompare(greeter, "showProgress", 0)
         }
     }
 }
