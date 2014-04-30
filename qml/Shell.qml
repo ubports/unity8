@@ -148,8 +148,8 @@ FocusScope {
 
                 available: !greeter.shown && !lockscreen.shown
                 hides: [stages, launcher, panel.indicators]
-                shown: disappearingAnimationProgress !== 1.0
-                enabled: disappearingAnimationProgress === 0.0 && edgeDemo.dashEnabled
+                shown: disappearingAnimationProgress !== 1.0 && greeterWrapper.showProgress !== 1.0
+                enabled: disappearingAnimationProgress === 0.0 && greeterWrapper.showProgress === 0.0 && edgeDemo.dashEnabled
 
                 y: panel.panelHeight
                 width: parent.width
@@ -159,18 +159,14 @@ FocusScope {
                 contentScale: 1.0 - 0.2 * disappearingAnimationProgress
                 opacity: 1.0 - disappearingAnimationProgress
                 property real disappearingAnimationProgress: {
-                    if (greeter.shown) {
-                        return greeter.showProgress;
+                    if (stages.overlayMode) {
+                        return 0;
                     } else {
-                        if (stages.overlayMode) {
-                            return 0;
-                        }
                         return stages.showProgress
                     }
                 }
 
-                // FIXME: only necessary because stages.showProgress and
-                // greeterRevealer.animatedProgress are not animated
+                // FIXME: only necessary because stages.showProgress is not animated
                 Behavior on disappearingAnimationProgress { SmoothedAnimation { velocity: 5 }}
             }
         }
@@ -365,54 +361,68 @@ FocusScope {
         }
     }
 
-    Greeter {
-        id: greeter
-        objectName: "greeter"
+    Rectangle {
+        anchors.fill: parent
+        color: "black"
+        opacity: greeterWrapper.showProgress * 0.8
+    }
 
-        available: true
-        hides: [launcher, panel.indicators, hud]
-        shown: true
-
-        defaultBackground: shell.background
-
+    Item {
+        // Just a tiny wrapper to adjust greeter's x without messing with its own dragging
+        id: greeterWrapper
+        x: launcher.progress
         y: panel.panelHeight
         width: parent.width
         height: parent.height - panel.panelHeight
         Behavior on y { StandardAnimation {} }
         Behavior on height { StandardAnimation {} }
 
-        dragHandleWidth: shell.edgeSize
+        Behavior on x {SmoothedAnimation{velocity: 600}}
 
-        onShownChanged: {
-            if (shown) {
-                lockscreen.reset();
-                // If there is only one user, we start authenticating with that one here.
-                // If there are more users, the Greeter will handle that
-                if (LightDM.Users.count == 1) {
-                    LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
+        readonly property real showProgress: MathUtils.clamp((1 - x/width) + greeter.showProgress - 1, 0, 1)
+
+        Greeter {
+            id: greeter
+            objectName: "greeter"
+
+            available: true
+            hides: [launcher, panel.indicators, hud]
+            shown: true
+
+            defaultBackground: shell.background
+
+            width: parent.width
+            height: parent.height
+
+            dragHandleWidth: shell.edgeSize
+
+            onShownChanged: {
+                if (shown) {
+                    lockscreen.reset();
+                    // If there is only one user, we start authenticating with that one here.
+                    // If there are more users, the Greeter will handle that
+                    if (LightDM.Users.count == 1) {
+                        LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
+                    }
+                    greeter.forceActiveFocus();
                 }
-                greeter.forceActiveFocus();
             }
-        }
 
-        onUnlocked: greeter.hide()
-        onSelected: {
-            // Update launcher items for new user
-            var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole);
-            AccountsService.user = user;
-            LauncherModel.setUser(user);
-        }
-
-        onLeftTeaserPressedChanged: {
-            if (leftTeaserPressed) {
-                launcher.tease();
+            onUnlocked: greeter.hide()
+            onSelected: {
+                // Update launcher items for new user
+                var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole);
+                AccountsService.user = user;
+                LauncherModel.setUser(user);
             }
-        }
 
-        Binding {
-            target: ApplicationManager
-            property: "suspended"
-            value: greeter.shown && greeter.showProgress == 1
+            onTease: launcher.tease()
+
+            Binding {
+                target: ApplicationManager
+                property: "suspended"
+                value: greeter.shown && greeterWrapper.showProgress == 1
+            }
         }
     }
 
@@ -543,7 +553,7 @@ FocusScope {
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
-            available: (!greeter.shown || greeter.narrowMode) && edgeDemo.launcherEnabled
+            available: edgeDemo.launcherEnabled
 
             onShowDashHome: {
                 if (edgeDemo.running)
@@ -557,6 +567,10 @@ FocusScope {
                         stages.hide();
                         launcher.hide();
                     }
+                }
+                if (greeter.shown) {
+                    greeter.hideRight();
+                    launcher.hide();
                 }
             }
             onDashSwipeChanged: if (dashSwipe && stages.shown) dash.setCurrentScope("clickscope", false, true)

@@ -11,7 +11,8 @@ macro(run_tests)
               -o ${CMAKE_BINARY_DIR}/${_test}.xml,xunitxml
               -o -,txt)
         add_test(NAME ${_test} COMMAND ${testCommand})
-        add_custom_target(${_test} ${testCommand})
+        set_tests_properties(${_test} PROPERTIES ENVIRONMENT "LC_ALL=C")
+        add_custom_target(${_test} env "LC_ALL=C" ${testCommand})
         add_executable(${_test}Exec ${_test}.cpp modeltest.cpp)
         qt5_use_modules(${_test}Exec Test Core Qml)
         target_link_libraries(${_test}Exec
