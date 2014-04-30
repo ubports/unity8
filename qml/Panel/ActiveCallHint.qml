@@ -115,7 +115,6 @@ Rectangle {
         property int columnHeight: column1 ? column1.height : 0
 
         delegate: contactColumnRow
-
         model: 2
         offset: 0
 
@@ -124,17 +123,6 @@ Rectangle {
             PathLine {
                 y: labelPathView.columnHeight * 1.5
             }
-        }
-
-        property real actualOffset: 0
-        property bool offsetGuard: false
-        onActualOffsetChanged: {
-            if (offsetGuard) { return; }
-            offsetGuard = true;
-
-            offset = actualOffset;
-            if (actualOffset === model) { actualOffset = 0.0; }
-            offsetGuard = false;
         }
 
         Behavior on offset {
@@ -168,13 +156,13 @@ Rectangle {
         onRunningChanged: {
             if (running) {
                 offsetBehaviour.enabled = false;
-                labelPathView.actualOffset = 0;
+                labelPathView.offset = 0;
                 offsetBehaviour.enabled = true;
             }
         }
 
         onTriggered: {
-            labelPathView.actualOffset = labelPathView.actualOffset + 0.5;
+            labelPathView.offset = labelPathView.offset + 0.5;
         }
     }
 
