@@ -59,11 +59,11 @@ macro(add_manual_qml_test SUBPATH COMPONENT_NAME)
 endmacro(add_manual_qml_test)
 
 macro(add_qml_benchmark SUBPATH COMPONENT_NAME ITERATIONS)
-    add_qml_test_internal(${SUBPATH} ${COMPONENT_NAME} ${ITERATIONS})
+    add_qml_test_internal(${SUBPATH} ${COMPONENT_NAME} ${ITERATIONS} ${ARGN})
 endmacro(add_qml_benchmark)
 
 macro(add_qml_test SUBPATH COMPONENT_NAME)
-    add_qml_test_internal(${SUBPATH} ${COMPONENT_NAME} 0)
+    add_qml_test_internal(${SUBPATH} ${COMPONENT_NAME} 0 ${ARGN})
 endmacro(add_qml_test)
 
 macro(add_qml_test_internal SUBPATH COMPONENT_NAME ITERATIONS)
@@ -156,8 +156,6 @@ macro(add_binary_qml_test CLASS_NAME LD_PATH DEPS)
 
     add_qmltest_target(xvfbtest${CLASS_NAME} "${xvfbtestCommand}" FALSE TRUE)
     add_dependencies(qmluitests xvfbtest${CLASS_NAME})
-
-    add_manual_qml_test(. ${CLASS_NAME} IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
 endmacro(add_binary_qml_test)
 
 macro(add_qmltest_target qmltest_TARGET qmltest_command qmltest_NO_TARGETS qmltest_NO_ADD_TEST)

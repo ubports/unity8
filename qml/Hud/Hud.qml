@@ -491,6 +491,6 @@ Item {
         anchors.top: hudContentClipper.top
         anchors.bottom: hudContentClipper.bottom
         fillMode: Image.Tile
-        source: "graphics/dropshadow_right.png"
+        source: "../graphics/dropshadow_right.png"
     }
 }

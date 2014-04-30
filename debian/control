@@ -74,7 +74,7 @@ Provides: indicator-renderer,
 Depends: gsettings-desktop-schemas,
          libcap2-bin,
          libglib2.0-bin,
-         libunity-mir1,
+         libunity-mir1 (>= 0.4),
          qmenumodel-qml (>= 0.2.7),
          qtdeclarative5-dee-plugin,
          qtdeclarative5-gsettings1.0,
@@ -107,6 +107,11 @@ Depends: qtdeclarative5-ubuntu-thumbnailer0.1 | ubuntu-thumbnailer-impl,
          unity-scopes-impl-0,
          unity8-fake-env | unity-application-impl,
          ${misc:Depends},
+<<<<<<< TREE
+=======
+Breaks: unity8 (<< 7.86),
+Replaces: unity8 (<< 7.86),
+>>>>>>> MERGE-SOURCE
 Description: Unity 8 shell (common files)
  The Unity 8 shell is the primary user interface for Ubuntu devices.
  .
@@ -129,8 +134,8 @@ Depends: gir1.2-glib-2.0,
          python3-fixtures,
          python3-gi,
          ubuntu-ui-toolkit-autopilot,
-         unity8 (>= ${source:Version}),
-         unity8-fake-env (>= ${source:Version}),
+         unity8 (= ${source:Version}),
+         unity8-fake-env (= ${source:Version}),
          url-dispatcher-tools,
          ${misc:Depends},
          ${python3:Depends},

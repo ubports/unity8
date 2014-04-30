@@ -54,6 +54,12 @@ Item {
         signalName: "selected"
     }
 
+    SignalSpy {
+        id: teaseSpy
+        target: greeter
+        signalName: "tease"
+    }
+
     UT.UnityTestCase {
         name: "Greeter"
         when: windowShown
@@ -325,14 +331,36 @@ Item {
         }
 
         function test_teasingArea(data) {
-            tryCompare(greeter, "leftTeaserPressed", false)
-            tryCompare(greeter, "rightTeaserPressed", false)
-            mousePress(greeter, data.posX, greeter.height - units.gu(1))
-            tryCompare(greeter, "leftTeaserPressed", data.leftPressed)
-            tryCompare(greeter, "rightTeaserPressed", data.rightPressed)
-            mouseRelease(greeter, data.posX, greeter.height - units.gu(1))
-            tryCompare(greeter, "leftTeaserPressed", false)
-            tryCompare(greeter, "rightTeaserPressed", false)
+            teaseSpy.clear()
+            mouseClick(greeter, data.posX, greeter.height - units.gu(1))
+            teaseSpy.wait()
+            tryCompare(teaseSpy, "count", 1)
+        }
+
+        function test_teaseLockedUnlocked_data() {
+            return [
+                {tag: "unlocked", locked: false, narrow: false},
+                {tag: "locked", locked: true, narrow: false},
+            ];
+        }
+
+        function test_teaseLockedUnlocked(data) {
+            teaseSpy.clear()
+            greeter.locked = data.locked;
+
+            mouseClick(greeter, greeter.width - units.gu(5), greeter.height - units.gu(1));
+
+            if (!data.locked || data.narrow) {
+                teaseSpy.wait()
+                tryCompare(teaseSpy, "count", 1);
+            } else {
+                // waiting 100ms to make sure nothing happens
+                wait(100);
+                compare(teaseSpy.count, 0, "Greeter teasing not disabled even though it's locked.");
+            }
+
+            // Reset value
+            greeter.locked = false;
         }
 
         function test_dbus_set_active_entry() {
