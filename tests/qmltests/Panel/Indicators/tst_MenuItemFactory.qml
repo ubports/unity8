@@ -19,6 +19,7 @@ import QtTest 1.0
 import Unity.Test 0.1 as UT
 import QMenuModel 0.1
 import Unity.Indicators 0.1 as Indicators
+import Utils 0.1 as Utils
 
 Item {
     id: testView
@@ -42,8 +43,13 @@ Item {
         }
     }
 
+    Utils.GDateTimeFormatter {
+        id: timeFormatter
+    }
+
     UT.UnityTestCase {
         name: "MenuItemFactory"
+        when: windowShown
 
         property QtObject menuData: QtObject {
             property string label: "root"
@@ -357,8 +363,10 @@ Item {
 
         function test_create_alarmMenu_data() {
             return [
-                {label: "testLabel1", enabled: true, icon: "file:///testIcon1" },
-                {label: "testLabel2", enabled: false, icon: "file:///testIcon2" },
+                {label: "testLabel1", enabled: true, icon: "file:///testIcon1", color: Qt.rgba(0, 0, 0, 0),
+                            time: new Date(2014, 04, 14).getTime()*1000, timeFormat: "%a %d %b %l:%M %p"},
+                {label: "testLabel2", enabled: false, icon: "file:///testIcon2", color: Qt.rgba(1, 0, 0, 0),
+                            time: new Date(2015, 12, 31).getTime()*1000, timeFormat: "%A" },
             ];
         }
 
@@ -367,6 +375,12 @@ Item {
             menuData.label = data.label;
             menuData.sensitive = data.enabled;
             menuData.icon = data.icon;
+            menuData.ext = {
+                'xCanonicalTime': data.time,
+                'xCanonicalTimeFormat': data.timeFormat
+            };
+            timeFormatter.format = data.timeFormat;
+            timeFormatter.time = data.time;
 
             loader.data = menuData;
             loader.sourceComponent = factory.load(menuData);
@@ -375,13 +389,16 @@ Item {
 
             compare(loader.item.text, data.label, "Label does not match data");
             compare(loader.item.iconSource, data.icon, "Icon does not match data");
+            compare(loader.item.time, timeFormatter.timeString, "Time does not match data");
             compare(loader.item.enabled, data.enabled, "Enabled does not match data");
         }
 
         function test_create_appointmentMenu_data() {
             return [
-                {label: "testLabel1", enabled: true, icon: "file:///testIcon1" },
-                {label: "testLabel2", enabled: false, icon: "file:///testIcon2" },
+                {label: "testLabel1", enabled: true, icon: "file:///testIcon1", color: Qt.rgba(0, 0, 0, 0),
+                            time: new Date(2014, 04, 14).getTime()*1000, timeFormat: "%a %d %b %l:%M %p"},
+                {label: "testLabel2", enabled: false, icon: "file:///testIcon2", color: Qt.rgba(1, 0, 0, 0),
+                            time: new Date(2015, 12, 31).getTime()*1000, timeFormat: "%A" },
             ];
         }
 
@@ -390,6 +407,13 @@ Item {
             menuData.label = data.label;
             menuData.sensitive = data.enabled;
             menuData.icon = data.icon;
+            menuData.ext = {
+                'xCanonicalColor': data.colour,
+                'xCanonicalTime': data.time,
+                'xCanonicalTimeFormat': data.timeFormat
+            };
+            timeFormatter.format = data.timeFormat;
+            timeFormatter.time = data.time;
 
             loader.data = menuData;
             loader.sourceComponent = factory.load(menuData);
@@ -398,6 +422,8 @@ Item {
 
             compare(loader.item.text, data.label, "Label does not match data");
             compare(loader.item.iconSource, data.icon, "Icon does not match data");
+            compare(loader.item.time, timeFormatter.timeString, "Time does not match data");
+            compare(loader.item.eventColor, data.color, "Colour does not match data");
             compare(loader.item.enabled, data.enabled, "Enabled does not match data");
         }
 

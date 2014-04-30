@@ -28,10 +28,10 @@ Showable {
     property url defaultBackground
 
     // 1 when fully shown and 0 when fully hidden
-    property real showProgress: MathUtils.clamp((width + x) / width, 0, 1)
+    property real showProgress: MathUtils.clamp((width - Math.abs(x)) / width, 0, 1)
 
     showAnimation: StandardAnimation { property: "x"; to: 0 }
-    hideAnimation: StandardAnimation { property: "x"; to: -width }
+    hideAnimation: __leftHideAnimation
 
     property alias dragHandleWidth: dragHandle.width
     property alias model: greeterContentLoader.model
@@ -40,19 +40,81 @@ Showable {
     readonly property bool narrowMode: !multiUser && height > width
     readonly property bool multiUser: LightDM.Users.count > 1
 
-    readonly property bool leftTeaserPressed: greeterContentLoader.status == Loader.Ready &&
-                                              greeterContentLoader.item.leftTeaserPressed
-    readonly property bool rightTeaserPressed: greeterContentLoader.status == Loader.Ready &&
-                                               greeterContentLoader.item.rightTeaserPressed
-
     readonly property int currentIndex: greeterContentLoader.currentIndex
+
+    property var __leftHideAnimation: StandardAnimation { property: "x"; to: -width }
+    property var __rightHideAnimation: StandardAnimation { property: "x"; to: width }
 
     signal selected(int uid)
     signal unlocked(int uid)
+    signal tease()
 
-    onRightTeaserPressedChanged: {
-        if (rightTeaserPressed && (!locked || narrowMode) && x == 0) {
-            teasingTimer.start();
+    function hideRight() {
+        if (shown) {
+            hideAnimation = __rightHideAnimation
+            hide()
+        }
+    }
+
+    onRequiredChanged: {
+        // Reset hide animation to default once we're finished with it
+        if (!required) {
+            // Put back on left for reliable show direction and so that
+            // if normal hide() is called, we don't animate from right.
+            x = -width
+            hideAnimation = __leftHideAnimation
+        }
+    }
+
+    // Bi-directional revealer
+    DraggingArea {
+        id: dragHandle
+        anchors.fill: parent
+        enabled: greeter.narrowMode || !greeter.locked
+        orientation: Qt.Horizontal
+        propagateComposedEvents: true
+
+        Component.onCompleted: {
+            // set evaluators to baseline of dragValue == 0
+            leftEvaluator.reset()
+            rightEvaluator.reset()
+        }
+
+        function maybeTease() {
+            if (!greeter.locked || greeter.narrowMode)
+                greeter.tease();
+        }
+
+        onClicked: maybeTease()
+        onDragStart: maybeTease()
+        onPressAndHold: {} // eat event, but no need to tease, as drag will cover it
+
+        onDragEnd: {
+            if (rightEvaluator.shouldAutoComplete())
+                greeter.hideRight()
+            else if (leftEvaluator.shouldAutoComplete())
+                greeter.hide();
+            else
+                greeter.show(); // undo drag
+        }
+
+        onDragValueChanged: {
+            // dragValue is kept as a "step" value since we do this x adjusting on the fly
+            greeter.x += dragValue
+        }
+
+        EdgeDragEvaluator {
+            id: rightEvaluator
+            trackedPosition: dragHandle.dragValue + greeter.x
+            maxDragDistance: parent.width
+            direction: Direction.Rightwards
+        }
+
+        EdgeDragEvaluator {
+            id: leftEvaluator
+            trackedPosition: dragHandle.dragValue + greeter.x
+            maxDragDistance: parent.width
+            direction: Direction.Leftwards
         }
     }
 
@@ -82,45 +144,56 @@ Showable {
         }
     }
 
-    Timer {
-        id: teasingTimer
-        interval: 200
+    onTease: showLabelAnimation.start()
+
+    Label {
+        id: swipeHint
+        visible: greeter.shown
+        property real baseOpacity: 0.5
+        opacity: 0.0
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: units.gu(5)
+        text: i18n.tr("Swipe to unlock")
+        color: "white"
+        font.weight: Font.Light
+
+        SequentialAnimation on opacity {
+            id: showLabelAnimation
+            running: false
+            loops: 2
+
+            StandardAnimation {
+                from: 0.0
+                to: swipeHint.baseOpacity
+                duration: UbuntuAnimation.SleepyDuration
+            }
+            PauseAnimation { duration: UbuntuAnimation.BriskDuration }
+            StandardAnimation {
+                from: swipeHint.baseOpacity
+                to: 0.0
+                duration: UbuntuAnimation.SleepyDuration
+            }
+        }
     }
 
-    states: [
-        State {
-            name: "teasing"
-            when: teasingTimer.running
-            PropertyChanges {
-                target: greeter
-                x: -dragHandle.hintDisplacement
-            }
-        }
-    ]
-    transitions: [
-        Transition {
-            from: "*"
-            to: "*"
-            NumberAnimation {
-                target: greeter
-                property: "x"
-                duration: 300
-                easing.type: Easing.OutCubic
-            }
-        }
-    ]
-
-    DragHandle {
-        id: dragHandle
-
+    // right side shadow
+    Image {
+        anchors.left: parent.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        anchors.right: parent.right
+        visible: parent.required
+        fillMode: Image.Tile
+        source: "../graphics/dropshadow_right.png"
+    }
 
-        hintDisplacement: units.gu(2)
-
-        enabled: greeter.narrowMode || !greeter.locked
-
-        direction: Direction.Leftwards
+    // left side shadow
+    Image {
+        anchors.right: parent.left
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        visible: parent.required
+        fillMode: Image.Tile
+        source: "../graphics/dropshadow_left.png"
     }
 }

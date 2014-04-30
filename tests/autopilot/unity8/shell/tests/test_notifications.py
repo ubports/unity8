@@ -21,6 +21,7 @@
 
 from __future__ import absolute_import
 
+from unity8 import shell
 from unity8.process_helpers import unlock_unity
 from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
 
@@ -64,7 +65,8 @@ class NotificationsBase(UnityTestCase):
         if os.path.abspath(__file__).startswith('/usr/'):
             return '/usr/share/unity8/graphics/' + icon_name
         else:
-            return os.path.dirname(__file__) + "/../../../../../qml/graphics/" + icon_name
+            return os.path.dirname(__file__) + (
+                "/../../../../../qml/graphics/" + icon_name)
 
     def _get_notifications_list(self):
         return self.main_window.select_single(
@@ -196,7 +198,7 @@ class InteractiveNotificationBase(NotificationsBase):
         get_notification = lambda: notify_list.wait_select_single(
             'Notification', objectName='notification1')
         notification = get_notification()
-        self._assert_notification(notification, None, None, True, True, 1.0)
+        self._assert_notification(notification, summary, body, True, True, 1.0)
         initial_height = notification.height
         self.touch.tap_object(notification.select_single(objectName="button1"))
         self.assertThat(
@@ -437,7 +439,7 @@ class EphemeralNotificationsTests(NotificationsBase):
             )
         ]
 
-        notification = self._create_ephemeral_notification(
+        notification = shell.create_ephemeral_notification(
             summary,
             body,
             icon_path,
@@ -474,7 +476,7 @@ class EphemeralNotificationsTests(NotificationsBase):
             )
         ]
 
-        notification = self._create_ephemeral_notification(
+        notification = shell.create_ephemeral_notification(
             summary,
             None,
             None,
@@ -486,7 +488,6 @@ class EphemeralNotificationsTests(NotificationsBase):
 
         notification = lambda: notify_list.wait_select_single(
             'Notification', objectName='notification1')
-
         self._assert_notification(
             notification(),
             summary,
@@ -517,7 +518,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         body_critical = 'Dude, this is so urgent you have no idea :)'
         icon_path_critical = self._get_icon_path('avatars/anna_olsson.png')
 
-        notification_normal = self._create_ephemeral_notification(
+        notification_normal = shell.create_ephemeral_notification(
             summary_normal,
             body_normal,
             icon_path_normal,
@@ -525,7 +526,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         )
         notification_normal.show()
 
-        notification_low = self._create_ephemeral_notification(
+        notification_low = shell.create_ephemeral_notification(
             summary_low,
             body_low,
             icon_path_low,
@@ -533,7 +534,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         )
         notification_low.show()
 
-        notification_critical = self._create_ephemeral_notification(
+        notification_critical = shell.create_ephemeral_notification(
             summary_critical,
             body_critical,
             icon_path_critical,
@@ -594,7 +595,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         summary = 'Summary-Body'
         body = 'This is a superfluous notification'
 
-        notification = self._create_ephemeral_notification(summary, body)
+        notification = shell.create_ephemeral_notification(summary, body)
         notification.show()
 
         notification = notify_list.wait_select_single(
@@ -618,7 +619,7 @@ class EphemeralNotificationsTests(NotificationsBase):
 
         summary = 'Summary-Only'
 
-        notification = self._create_ephemeral_notification(summary)
+        notification = shell.create_ephemeral_notification(summary)
         notification.show()
 
         notification = notify_list.wait_select_single(
@@ -638,7 +639,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         body = 'This is the original content of this notification-bubble.'
         icon_path = self._get_icon_path('avatars/funky.png')
 
-        notification = self._create_ephemeral_notification(
+        notification = shell.create_ephemeral_notification(
             summary,
             body,
             icon_path
@@ -662,7 +663,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         icon_path = self._get_icon_path('avatars/amanda.png')
         notification.update(summary, body, icon_path)
         notification.show()
-        self._assert_notification(get_notification(), summary, body)
+        self._assert_notification(get_notification(), summary, body, True, False, 1.0)
 
     def test_update_notification_layout_change(self):
         """Notification must allow updating its contents and layout while
@@ -678,7 +679,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         icon_path = self._get_icon_path('avatars/anna_olsson.png')
         hint_icon = self._get_icon_path('applicationIcons/phone-app.png')
 
-        notification = self._create_ephemeral_notification(
+        notification = shell.create_ephemeral_notification(
             summary,
             body,
             icon_path
@@ -709,7 +710,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         notification.show()
 
         self.assertThat(get_notification, Eventually(NotEquals(None)))
-        self._assert_notification(get_notification(), summary, body, False)
+        self._assert_notification(get_notification(), summary, body, False, False, 1.0)
 
     def test_append_hint(self):
         """Notification has to accumulate body-text using append-hint."""
@@ -722,7 +723,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         body = 'Hey Bro Coly!'
         icon_path = self._get_icon_path('avatars/amanda.png')
         body_sum = body
-        notification = self._create_ephemeral_notification(
+        notification = shell.create_ephemeral_notification(
             summary,
             body,
             icon_path,
@@ -758,7 +759,7 @@ class EphemeralNotificationsTests(NotificationsBase):
         for new_body in bodies:
             body = new_body
             body_sum += '\n' + body
-            notification = self._create_ephemeral_notification(
+            notification = shell.create_ephemeral_notification(
                 summary,
                 body,
                 icon_path,
@@ -779,48 +780,3 @@ class EphemeralNotificationsTests(NotificationsBase):
                 False,
                 1.0
             )
-
-    def _create_ephemeral_notification(
-        self,
-        summary="",
-        body="",
-        icon=None,
-        hints=[],
-        urgency="NORMAL"
-    ):
-        """Create an ephemeral (non-interactive) notification
-
-            :param summary: Summary text for the notification
-            :param body: Body text to display in the notification
-            :param icon: Path string to the icon to use
-            :param hint_strings: List of tuples containing the 'name' and value
-                for setting the hint strings for the notification
-            :param urgency: Urgency string for the noticiation, either: 'LOW',
-                'NORMAL', 'CRITICAL'
-
-        """
-        logger.info(
-            "Creating ephemeral: summary(%s), body(%s), urgency(%r) "
-            "and Icon(%s)",
-            summary,
-            body,
-            urgency,
-            icon
-        )
-
-        n = Notify.Notification.new(summary, body, icon)
-
-        for hint in hints:
-            key, value = hint
-            n.set_hint_string(key, value)
-            logger.info("Adding hint to notification: (%s, %s)", key, value)
-        n.set_urgency(self._get_urgency(urgency))
-
-        return n
-
-    def _get_urgency(self, urgency):
-        """Translates urgency string to enum."""
-        _urgency_enums = {'LOW': Notify.Urgency.LOW,
-                          'NORMAL': Notify.Urgency.NORMAL,
-                          'CRITICAL': Notify.Urgency.CRITICAL}
-        return _urgency_enums.get(urgency.upper())

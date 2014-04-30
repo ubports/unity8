@@ -1,15 +1,10 @@
+data/unity8.conf usr/share/upstart/sessions/
 usr/bin/unity8
 usr/share/applications/unity8.desktop
-usr/share/locale
 usr/share/unity8/Bottombar
-usr/share/unity8/Components
-usr/share/unity8/Dash
 usr/share/unity8/Greeter
 usr/share/unity8/Hud
 usr/share/unity8/Launcher
-usr/share/unity8/Notifications
 usr/share/unity8/Panel
 usr/share/unity8/Shell.qml
 usr/share/unity8/Stages
-usr/share/unity8/graphics
-data/unity8.conf usr/share/upstart/sessions/

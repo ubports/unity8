@@ -192,7 +192,7 @@ Item {
             verify(mainAppId != "");
             var mainApp = ApplicationManager.findApplication(mainAppId);
             verify(mainApp);
-            tryCompare(mainApp.state, ApplicationInfo.Running);
+            tryCompare(mainApp, "state", ApplicationInfo.Running);
 
             // Try to suspend while proximity is engaged...
             Powerd.displayPowerStateChange(Powerd.Off, Powerd.UseProximity);
@@ -553,6 +553,17 @@ Item {
             dashContent.previewOpen = true;
 
             tryCompare(searchIndicator, "opacity", 0);
+        }
+
+        function test_focusRequestedHidesGreeter() {
+            var greeter = findChild(shell, "greeter")
+
+            greeter.show()
+            tryCompare(greeter, "showProgress", 1)
+
+            ApplicationManager.focusRequested("notes-app")
+            tryCompare(greeter, "showProgress", 0)
+            waitUntilApplicationWindowIsFullyVisible()
         }
     }
 }

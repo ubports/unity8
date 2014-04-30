@@ -64,9 +64,10 @@ Item {
 
         UT.UnityTestCase {
             name: "GenericScopeView"
-            when: scopes.loaded
+            when: scopes.loaded && windowShown
 
             function init() {
+                genericScopeView.scope = scopes.get(2)
                 shell.width = units.gu(120)
                 genericScopeView.categoryView.positionAtBeginning();
                 tryCompare(genericScopeView.categoryView, "contentY", 0)
@@ -139,7 +140,7 @@ Item {
                 mouseClick(header, header.width / 2, header.height / 2);
                 tryCompareFunction(function() { middleHeight = category.height; return category.height > initialHeight; }, true);
                 tryCompare(category, "filtered", false);
-                verify(category.height > middleHeight);
+                tryCompareFunction(function() { return category.height > middleHeight; }, true);
 
                 mouseClick(header, header.width / 2, header.height / 2);
                 verify(category.expandable);
@@ -164,7 +165,7 @@ Item {
 
                 mouseClick(header2, header2.width / 2, header2.height / 2);
                 tryCompare(category2, "filtered", false);
-                tryCompare(category2FilterGrid, "filter", false);
+                tryCompare(category2FilterGrid, "filtered", false);
 
                 categoryListView.positionAtBeginning();
 
@@ -181,7 +182,7 @@ Item {
                 mouseClick(header0, header0.width / 2, header0.height / 2);
                 tryCompare(category0, "filtered", false);
                 tryCompare(category2, "filtered", true);
-                tryCompare(category2FilterGrid, "filter", true);
+                tryCompare(category2FilterGrid, "filtered", true);
                 mouseClick(header0, header0.width / 2, header0.height / 2);
                 tryCompare(category0, "filtered", true);
                 tryCompare(category2, "filtered", true);

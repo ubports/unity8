@@ -33,9 +33,6 @@ FocusScope {
     property PageHeader pageHeader: null
     property Item previewListView: null
 
-    signal movementStarted
-    signal positionedAtBeginning
-
     property bool enableHeightBehaviorOnNextCreation: false
     property var categoryView: categoryView
 
@@ -47,6 +44,14 @@ FocusScope {
 
     function activateApp(appId) {
         shell.activateApplication(appId);
+    }
+
+    function positionAtBeginning() {
+        categoryView.positionAtBeginning()
+    }
+
+    function showHeader() {
+        categoryView.showHeader()
     }
 
     Binding {
@@ -68,10 +73,6 @@ FocusScope {
         pageHeader.resetSearch();
         previewListView.open = false;
     }
-
-    onMovementStarted: categoryView.showHeader()
-
-    onPositionedAtBeginning: categoryView.positionAtBeginning()
 
     Binding {
         target: scopeView.scope
@@ -121,7 +122,7 @@ FocusScope {
             showDivider: false
 
             readonly property bool expandable: rendererLoader.item ? rendererLoader.item.expandable : false
-            readonly property bool filtered: rendererLoader.item ? rendererLoader.item.filter : true
+            readonly property bool filtered: rendererLoader.item ? rendererLoader.item.filtered : true
             readonly property string category: categoryId
             readonly property var item: rendererLoader.item
 
@@ -167,9 +168,7 @@ FocusScope {
                     item.objectName = Qt.binding(function() { return categoryId })
                     if (item.expandable) {
                         var shouldFilter = categoryId != categoryView.expandedCategoryId;
-                        if (shouldFilter != item.filter) {
-                            item.filter = shouldFilter;
-                        }
+                        item.setFilter(shouldFilter, false /*animate*/);
                     }
                     updateDelegateCreationRange();
                     item.cardTool = cardTool;
@@ -218,11 +217,8 @@ FocusScope {
                                 var shrinkingVisible = shouldFilter && y + item.collapsedHeight < categoryView.height;
                                 var growingVisible = !shouldFilter && y + height < categoryView.height;
                                 if (!previewListView.open || !shouldFilter) {
-                                    if (shrinkingVisible || growingVisible) {
-                                        item.startFilterAnimation(shouldFilter)
-                                    } else {
-                                        item.filter = shouldFilter;
-                                    }
+                                    var animate = shrinkingVisible || growingVisible;
+                                    item.setFilter(shouldFilter, animate)
                                     if (!shouldFilter && !previewListView.open) {
                                         categoryView.maximizeVisibleArea(index, item.uncollapsedHeight);
                                     }
@@ -237,26 +233,29 @@ FocusScope {
                 }
 
                 function updateDelegateCreationRange() {
-                    // Do not update the range if we are overshooting up or down, since we'll come back
-                    // to the stable position and delete/create items without any reason
-                    if (categoryView.contentY < categoryView.originY) {
-                        return;
-                    } else if (categoryView.contentY + categoryView.height > categoryView.contentHeight) {
-                        return;
+                    if (categoryView.moving) {
+                        // Do not update the range if we are overshooting up or down, since we'll come back
+                        // to the stable position and delete/create items without any reason
+                        if (categoryView.contentY < categoryView.originY) {
+                            return;
+                        } else if (categoryView.contentHeight - categoryView.originY > categoryView.height &&
+                                   categoryView.contentY + categoryView.height > categoryView.contentHeight) {
+                            return;
+                        }
                     }
 
                     if (item && item.hasOwnProperty("delegateCreationBegin")) {
                         if (baseItem.y + baseItem.height <= 0) {
-                            // Not visible (item at top of the list)
-                            item.delegateCreationBegin = baseItem.height
-                            item.delegateCreationEnd = baseItem.height
+                            // Not visible (item at top of the list viewport)
+                            item.delegateCreationBegin = item.originY + baseItem.height
+                            item.delegateCreationEnd = item.originY + baseItem.height
                         } else if (baseItem.y >= categoryView.height) {
-                            // Not visible (item at bottom of the list)
-                            item.delegateCreationBegin = 0
-                            item.delegateCreationEnd = 0
+                            // Not visible (item at bottom of the list viewport)
+                            item.delegateCreationBegin = item.originY
+                            item.delegateCreationEnd = item.originY
                         } else {
-                            item.delegateCreationBegin = Math.max(-baseItem.y, 0)
-                            item.delegateCreationEnd = Math.min(categoryView.height + item.delegateCreationBegin, baseItem.height)
+                            item.delegateCreationBegin = item.originY + Math.max(-baseItem.y, 0)
+                            item.delegateCreationEnd = item.originY + Math.min(categoryView.height + item.delegateCreationBegin, baseItem.height)
                         }
                     }
                 }
