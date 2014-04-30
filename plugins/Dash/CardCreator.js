@@ -235,6 +235,7 @@ function createCardComponent(parent, template, components) {
         var anchors = "";
         if (!hasHeaderRow) {
             anchors += headerLeftAnchor;
+            anchors += 'anchors.leftMargin: units.gu(1);'
             anchors += headerVerticalAnchors;
         } else {
             anchors = "anchors.verticalCenter: parent.verticalCenter;"
