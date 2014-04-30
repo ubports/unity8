@@ -24,6 +24,8 @@ Rectangle {
     id: callHint
 
     readonly property bool active: callManager.hasCalls && ApplicationManager.focusedApplicationId !== "dialer-app"
+    readonly property QtObject contactWatcher: _contactWatcher
+    property int alternateLabelInterval: 4000
 
     Component.onCompleted: {
         telepathyHelper.registerChannelObserver("unity8");
@@ -39,51 +41,147 @@ Rectangle {
         }
     }
 
-    Column {
-        id: column
+    Component {
+        id: contactColumnRow
+
+        Column {
+            id: column
+            objectName: "contactColumn"
+
+            anchors {
+                left: parent.left
+                right: parent.right
+            }
+            height: childrenRect.height
+
+            Component.onCompleted: {
+                if (index === 0) {
+                    labelPathView.column1 = column;
+                } else {
+                    labelPathView.column2 = column;
+                }
+            }
+
+            Label {
+                id: contactLabel
+                objectName: "contactLabel"
+
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                }
+                height: callHint.height
+                verticalAlignment: Text.AlignVCenter
+
+                text: {
+                    if (!d.activeCall) {
+                        return "";
+                    } else if (d.activeCall.isConference) {
+                        return i18n.tr("Conference");
+                    } else {
+                        return contactWatcher.alias !== "" ? contactWatcher.alias : contactWatcher.phoneNumber;
+                    }
+                }
+            }
+
+            Label {
+                id: returnLabel
+
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                }
+                height: callHint.height
+                verticalAlignment: Text.AlignVCenter
+                text: i18n.tr("Tap to return to call...");
+            }
+        }
+    }
+
+    PathView {
+        id: labelPathView
+        objectName: "labelPathView"
 
         anchors {
+            top: parent.top
             left: parent.left
             leftMargin:units.gu(1)
             right: time.left
         }
-        y: 0
-        Behavior on y { StandardAnimation { duration: 400 } }
+        height: columnHeight > callHint.height ? callHint.height : columnHeight
 
-        Label {
-            id: label1
-            anchors {
-                left: parent.left
-                right: parent.right
-            }
-            height: callHint.height
-            verticalAlignment: Text.AlignVCenter
+        property Column column1
+        property Column column2
+        property int columnHeight: column1 ? column1.height : 0
 
-            text: {
-                if (!d.activeCall) {
-                    return "";
-                } else if (d.activeCall.isConference) {
-                    return i18n.tr("Conference");
-                } else {
-                    return contactWatcher.alias !== "" ? contactWatcher.alias : contactWatcher.phoneNumber;
-                }
+        delegate: contactColumnRow
+
+        model: 2
+        offset: 0
+
+        path: Path {
+            startY: -labelPathView.columnHeight / 2
+            PathLine {
+                y: labelPathView.columnHeight * 1.5
             }
         }
 
-        Label {
-            id: label2
-            anchors {
-                left: parent.left
-                right: parent.right
+        property real actualOffset: 0
+        property bool offsetGuard: false
+        onActualOffsetChanged: {
+            if (offsetGuard) { return; }
+            offsetGuard = true;
+
+            offset = actualOffset;
+            if (actualOffset === model) { actualOffset = 0.0; }
+            offsetGuard = false;
+        }
+
+        Behavior on offset {
+            id: offsetBehaviour
+            SmoothedAnimation {
+                id: offsetAnimation
+                // ensure we go faster than the label switch
+                duration: alternateLabelInterval / 2
+                velocity: 1.0
+                easing.type: Easing.InOutQuad
             }
-            height: callHint.height
-            verticalAlignment: Text.AlignVCenter
-            text: i18n.tr("Tap to return to call...");
+        }
+    }
+
+    // Fade in text
+    Rectangle {
+        anchors.fill: labelPathView
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: Qt.rgba(callHint.color.r, callHint.color.g, callHint.color.b, 1.0) }
+            GradientStop { position: 0.25; color: Qt.rgba(callHint.color.r, callHint.color.g, callHint.color.b, 0.0) }
+            GradientStop { position: 0.75; color: Qt.rgba(callHint.color.r, callHint.color.g, callHint.color.b, 0.0) }
+            GradientStop { position: 1.0; color: Qt.rgba(callHint.color.r, callHint.color.g, callHint.color.b, 1.0) }
+        }
+    }
+
+    Timer {
+        running: callHint.active
+        interval: alternateLabelInterval
+        repeat: true
+
+        onRunningChanged: {
+            if (running) {
+                offsetBehaviour.enabled = false;
+                labelPathView.actualOffset = 0;
+                offsetBehaviour.enabled = true;
+            }
+        }
+
+        onTriggered: {
+            labelPathView.actualOffset = labelPathView.actualOffset + 0.5;
         }
     }
 
     Label {
         id: time
+        objectName: "timeLabel"
+
         anchors {
             right: parent.right
             rightMargin:units.gu(1)
@@ -106,28 +204,9 @@ Rectangle {
     }
 
     Telephony.ContactWatcher {
-        id: contactWatcher
+        id: _contactWatcher
+        objectName: "contactWatcher"
         phoneNumber: d.activeCall ? d.activeCall.phoneNumber : ""
-    }
-
-    Timer {
-        running: callHint.active
-        interval: 4000
-        repeat: true
-
-        property int iteration: 0
-
-        onRunningChanged: iteration = 0; // bit longer for the first one.
-
-        onTriggered: {
-            // every 4 seconds.
-            if (iteration % 2 == 0) {
-                column.y = -label1.height;
-            } else {
-                column.y = 0;
-            }
-            iteration++;
-        }
     }
 
     QtObject {
