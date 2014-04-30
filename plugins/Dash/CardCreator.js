@@ -211,16 +211,11 @@ function createCardComponent(parent, template, components) {
         }
     }
     var headerLeftAnchor;
-    if (isHorizontal) {
-        if (hasArt) {
-            headerLeftAnchor = 'anchors.left: artShapeHolder.right; \
-                                anchors.leftMargin: units.gu(1);';
-        } else {
-            headerLeftAnchor = 'anchors.left: parent.left;';
-        }
-    } else {
-        headerLeftAnchor = 'anchors.left: parent.left; \
+    if (isHorizontal && hasArt) {
+        headerLeftAnchor = 'anchors.left: artShapeHolder.right; \
                             anchors.leftMargin: units.gu(1);';
+    } else {
+        headerLeftAnchor = 'anchors.left: parent.left;';
     }
 
     if (hasHeaderRow) {
@@ -288,12 +283,13 @@ function createCardComponent(parent, template, components) {
         } else {
             color = '"grey"';
         }
+
         var anchors = "anchors.right: parent.right;";
         if (hasMascot) {
             anchors += 'anchors.left: mascotImage.right; \
                         anchors.leftMargin: units.gu(1);';
         } else {
-            anchors += 'anchors.left: parent.left;';
+            anchors += headerLeftAnchor;
         }
         anchors += headerVerticalAnchors;
 
