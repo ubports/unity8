@@ -82,7 +82,7 @@ class UpstartIntegrationTests(UnityTestCase):
         ))
 
     def test_no_sigstop(self):
-        self.patch_environment("UPSTART_JOB", "foo")
+        self.patch_environment("UNITY_MIR_EMITS_SIGSTOP", "")
         self._launch_unity()
         self._set_proxy()
 
@@ -91,7 +91,7 @@ class UpstartIntegrationTests(UnityTestCase):
         logger.debug("Unity loaded and ready.")
 
     def test_expect_sigstop(self):
-        self.patch_environment("UPSTART_JOB", "unity8")
+        self.patch_environment("UNITY_MIR_EMITS_SIGSTOP", "1")
         self._launch_unity()
         self.assertThat(lambda: os.WIFSTOPPED(self._get_status()), Eventually(Equals(True)), "Unity8 should raise SIGSTOP when ready")
 

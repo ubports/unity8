@@ -155,8 +155,8 @@ PreviewWidget {
                 objectName: "submitButton"
 
                 readonly property bool readyToSubmit: {
-                    if (reviewTextArea.text === "" ||
-                        (widgetData["visible"] === "both" && rating.value < 0)) return false;
+                    if ((widgetData["required"] !== "review" && rating.value < 0) ||
+                        (widgetData["required"] !== "rating" && reviewTextArea.text === "")) return false;
                     else return true;
                 }
 
