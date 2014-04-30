@@ -302,6 +302,8 @@ function createCardComponent(parent, template, components) {
                         anchors.verticalCenter: parent.verticalCenter; \
                         spacing: units.dp(2); \
                         width: parent.width - x;';
+        } else if (hasMascot) {
+            titleAnchors = 'anchors.verticalCenter: parent.verticalCenter;'
         } else {
             titleAnchors = anchors;
             subtitleAnchors = 'anchors.left: titleLabel.left; \
