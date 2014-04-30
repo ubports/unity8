@@ -304,8 +304,9 @@ function createCardComponent(parent, template, components) {
                         width: parent.width - x;';
         } else {
             titleAnchors = anchors;
-            subtitleAnchors = 'anchors.left: parent.left; \
-                               anchors.right: parent.right; \
+            subtitleAnchors = 'anchors.left: titleLabel.left; \
+                               anchors.leftMargin: titleLabel.leftMargin; \
+                               anchors.right: titleLabel.right; \
                                anchors.top: titleLabel.bottom; \
                                anchors.topMargin: units.dp(2);';
         }
