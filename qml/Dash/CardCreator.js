@@ -204,6 +204,7 @@ function createCardComponent(parent, template, components) {
             } else {
                 headerVerticalAnchors = 'anchors.top: artShapeHolder.bottom; \
                                          anchors.topMargin: units.gu(1);';
+            }
         } else {
             headerVerticalAnchors = 'anchors.top: parent.top; \
                                      anchors.topMargin: units.gu(1);';
