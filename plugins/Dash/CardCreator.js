@@ -377,7 +377,7 @@ function createCardComponent(parent, template, components) {
                         top: ' + summaryTopAnchor + '; \
                         left: parent.left; \
                         right: parent.right; \
-                        margins: backgroundLoader.active ? units.gu(1) : 0; \
+                        margins: units.gu(1); \
                         topMargin: ' + (hasMascot || hasSubtitle ? 'anchors.margins' : 0) + '; \
                     } \
                     wrapMode: Text.Wrap; \
@@ -391,10 +391,8 @@ function createCardComponent(parent, template, components) {
     }
 
     // Close the AbstractButton
-    if (hasSummary && hasBackground) {
-        code += 'implicitHeight: summary.y + summary.height + (summary.text && backgroundLoader.active ? units.gu(1) : 0);';
-    } else if (hasSummary) {
-        code += 'implicitHeight: summary.y + summary.height;';
+    if (hasSummary) {
+        code += 'implicitHeight: summary.y + summary.height + (summary.text ? units.gu(1) : 0);';
     } else if (hasHeaderRow) {
         code += 'implicitHeight: row.y + row.height + units.gu(1);';
     } else if (hasMascot) {
