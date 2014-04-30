@@ -2166,4 +2166,4 @@ private:
 
 QTEST_MAIN(ListViewWithPageHeaderTestSection)
 
-#include "listviewwithpageheadertestsection.moc"
+#include "listviewwithpageheadersectiontest.moc"

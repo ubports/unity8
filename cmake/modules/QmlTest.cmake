@@ -58,7 +58,15 @@ macro(add_manual_qml_test SUBPATH COMPONENT_NAME)
 
 endmacro(add_manual_qml_test)
 
+macro(add_qml_benchmark SUBPATH COMPONENT_NAME ITERATIONS)
+    add_qml_test_internal(${SUBPATH} ${COMPONENT_NAME} ${ITERATIONS} ${ARGN})
+endmacro(add_qml_benchmark)
+
 macro(add_qml_test SUBPATH COMPONENT_NAME)
+    add_qml_test_internal(${SUBPATH} ${COMPONENT_NAME} 0 ${ARGN})
+endmacro(add_qml_test)
+
+macro(add_qml_test_internal SUBPATH COMPONENT_NAME ITERATIONS)
     set(options NO_ADD_TEST NO_TARGETS)
     set(multi_value_keywords IMPORT_PATHS TARGETS PROPERTIES ENVIRONMENT)
 
@@ -88,10 +96,17 @@ macro(add_qml_test SUBPATH COMPONENT_NAME)
         set(function_ARGS "")
     endif()
 
+    if (${ITERATIONS} GREATER 0)
+        set(ITERATIONS_STRING "-iterations" ${ITERATIONS})
+    else()
+        set(ITERATIONS_STRING "")
+    endif()
+
     set(qmltest_command
         env ${qmltest_ENVIRONMENT}
         ${qmltestrunner_exe} -input ${CMAKE_CURRENT_SOURCE_DIR}/${qmltest_FILE}.qml
             ${qmltestrunner_imports}
+            ${ITERATIONS_STRING}
             -o ${CMAKE_BINARY_DIR}/${qmltest_TARGET}.xml,xunitxml
             -o -,txt
             ${function_ARGS}
@@ -114,7 +129,7 @@ macro(add_qml_test SUBPATH COMPONENT_NAME)
     add_qmltest_target(${qmltest_TARGET} "${qmltest_command}" TRUE ${qmltest_NO_ADD_TEST})
     add_qmltest_target(${qmltest_xvfb_TARGET} "${qmltest_xvfb_command}" ${qmltest_NO_TARGETS} TRUE)
     add_manual_qml_test(${SUBPATH} ${COMPONENT_NAME} ${ARGN})
-endmacro(add_qml_test)
+endmacro(add_qml_test_internal)
 
 macro(add_binary_qml_test CLASS_NAME LD_PATH DEPS)
     set(testCommand
@@ -141,8 +156,6 @@ macro(add_binary_qml_test CLASS_NAME LD_PATH DEPS)
 
     add_qmltest_target(xvfbtest${CLASS_NAME} "${xvfbtestCommand}" FALSE TRUE)
     add_dependencies(qmluitests xvfbtest${CLASS_NAME})
-
-    add_manual_qml_test(. ${CLASS_NAME} IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
 endmacro(add_binary_qml_test)
 
 macro(add_qmltest_target qmltest_TARGET qmltest_command qmltest_NO_TARGETS qmltest_NO_ADD_TEST)
