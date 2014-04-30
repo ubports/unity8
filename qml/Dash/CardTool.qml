@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.0
-import Unity.Dash 1.0
+import DashViews 0.1
 
 /*!
  \brief Tool for introspecting Card properties.

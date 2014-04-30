@@ -29,8 +29,8 @@ Rectangle {
 
     property string cardData: '
     {
-      "art": "../../tests/qmltests/Dash/artwork/music-player-design.png",
-      "mascot": "../../tests/qmltests/Dash/artwork/avatar.png",
+      "art": "../../../tests/qmltests/Dash/artwork/music-player-design.png",
+      "mascot": "../../../tests/qmltests/Dash/artwork/avatar.png",
       "title": "foo",
       "subtitle": "bar",
       "summary": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
@@ -98,21 +98,26 @@ Rectangle {
 
     CardTool {
         id: cardTool
-        template: card.template
-        components: card.components
+        template: Helpers.update(JSON.parse(Helpers.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['template'];
+        components: Helpers.update(JSON.parse(Helpers.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['components'];
         viewWidth: units.gu(48)
     }
 
-    Card {
-        id: card
+    readonly property var card: loader.item
+
+    Loader {
+        id: loader
         anchors { top: parent.top; left: parent.left; margins: units.gu(1) }
 
-        width: cardTool.cardWidth || implicitWidth
-        height: cardTool.cardHeight || implicitHeight
+        sourceComponent: cardTool.cardComponent
+        onLoaded: {
+            item.template = Qt.binding(function() { return cardTool.template; });
+            item.components = Qt.binding(function() { return cardTool.components; });
+            item.cardData = Qt.binding(function() { return Helpers.mapData(dataArea.text, cardTool.components, dataError); });
+            item.width = Qt.binding(function() { return cardTool.cardWidth || item.implicitWidth; });
+            item.height = Qt.binding(function() { return cardTool.cardHeight || item.implicitHeight; });
+        }
 
-        template: Helpers.update(JSON.parse(Helpers.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['template'];
-        components: Helpers.update(JSON.parse(Helpers.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['components'];
-        cardData: Helpers.mapData(dataArea.text, components, dataError)
     }
 
     Rectangle {
