@@ -25,46 +25,41 @@ remove_definitions(-DQT_NO_KEYWORDS)
 add_definitions(-DDASHVIEWSTEST_FOLDER="${CMAKE_CURRENT_SOURCE_DIR}")
 add_definitions(-DBUILT_PLUGINS_DIR="${CMAKE_BINARY_DIR}/plugins")
 
-add_executable(listviewwithpageheadertestExec listviewwithpageheadertest.cpp ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/DashViews/listviewwithpageheader.cpp)
-qt5_use_modules(listviewwithpageheadertestExec Test Core Qml)
-target_link_libraries(listviewwithpageheadertestExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
-add_custom_target(testlistviewwithpageheader ${CMAKE_CURRENT_BINARY_DIR}/listviewwithpageheadertestExec -o ${CMAKE_BINARY_DIR}/testlistviewwithpageheader.xml,xunitxml -o -,txt)
+macro(add_lvwph_test FILENAME TESTNAME)
+    add_executable(${TESTNAME}TestExec
+        ${FILENAME}test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/DashViews/listviewwithpageheader.cpp)
+    qt5_use_modules(${TESTNAME}TestExec Test Core Qml)
+    target_link_libraries(${TESTNAME}TestExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
 
-add_executable(listviewwithpageheadertestsectionExec listviewwithpageheadertestsection.cpp ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/DashViews/listviewwithpageheader.cpp)
-qt5_use_modules(listviewwithpageheadertestsectionExec Test Core Qml)
-target_link_libraries(listviewwithpageheadertestsectionExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
-add_custom_target(testlistviewwithpageheadersection ${CMAKE_CURRENT_BINARY_DIR}/listviewwithpageheadertestsectionExec -o ${CMAKE_BINARY_DIR}/testlistviewwithpageheadersection.xml,xunitxml -o -,txt)
+    add_binary_qml_test(${TESTNAME} "" "DashViews-qml")
+endmacro()
 
-add_executable(listviewwithpageheadertestsectionexternalmodelExec listviewwithpageheadertestsectionexternalmodel.cpp ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/DashViews/listviewwithpageheader.cpp)
-qt5_use_modules(listviewwithpageheadertestsectionexternalmodelExec Test Core Qml)
-target_link_libraries(listviewwithpageheadertestsectionexternalmodelExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
-add_custom_target(testlistviewwithpageheadersectionexternalmodel ${CMAKE_CURRENT_BINARY_DIR}/listviewwithpageheadertestsectionexternalmodelExec -o ${CMAKE_BINARY_DIR}/testlistviewwithpageheadersectionexternalmodel.xml,xunitxml -o -,txt)
+add_lvwph_test(listviewwithpageheader ListViewWithPageHeader)
+add_lvwph_test(listviewwithpageheadersection ListViewWithPageHeaderSection)
+add_lvwph_test(listviewwithpageheadersectionexternalmodel ListViewWithPageHeaderSectionExternalModel)
 
 macro(add_dashview_try_test FILENAME TESTNAME)
-    add_executable(${FILENAME}testExec
+    add_executable(${TESTNAME}TestExec
         ${FILENAME}test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/DashViews/${FILENAME}.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/DashViews/abstractdashview.cpp
     )
-    qt5_use_modules(${FILENAME}testExec Test Core Qml)
-    target_link_libraries(${FILENAME}testExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
-    add_custom_target(test${TESTNAME}
-        ${CMAKE_CURRENT_BINARY_DIR}/${FILENAME}testExec
-        -o ${CMAKE_BINARY_DIR}/test${TESTNAME}.xml,xunitxml
-        -o -,txt
-        DEPENDS ${FILENAME}testExec DashViews-qml
-    )
+    qt5_use_modules(${TESTNAME}TestExec Test Core Qml)
+    target_link_libraries(${TESTNAME}TestExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
 
-    add_executable(${FILENAME}tryExec
+    add_binary_qml_test(${TESTNAME} "" "DashViews-qml")
+
+    add_executable(${TESTNAME}tryExec
         ${FILENAME}try.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/DashViews/${FILENAME}.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/DashViews/abstractdashview.cpp
     )
-    qt5_use_modules(${FILENAME}tryExec Test Core Qml)
-    target_link_libraries(${FILENAME}tryExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
+    qt5_use_modules(${TESTNAME}tryExec Test Core Qml)
+    target_link_libraries(${TESTNAME}tryExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
     add_custom_target(try${TESTNAME}
-        ${CMAKE_CURRENT_BINARY_DIR}/${FILENAME}tryExec
-        DEPENDS ${FILENAME}tryExec DashViews-qml
+        ${CMAKE_CURRENT_BINARY_DIR}/${TESTNAME}tryExec
+        DEPENDS ${TESTNAME}tryExec DashViews-qml
     )
 endmacro()
 
@@ -72,13 +67,6 @@ add_dashview_try_test(verticaljournal VerticalJournal)
 add_dashview_try_test(horizontaljournal HorizontalJournal)
 add_dashview_try_test(organicgrid OrganicGrid)
 
+set(qmltest_DEFAULT_TARGETS qmluitests)
 set(qmltest_DEFAULT_NO_ADD_TEST TRUE)
-add_qml_test(. listviewwithpageheaderqml IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
-
-add_dependencies(qmluitests testlistviewwithpageheader)
-add_dependencies(qmluitests testlistviewwithpageheadersection)
-add_dependencies(qmluitests testlistviewwithpageheadersectionexternalmodel)
-add_dependencies(qmluitests testlistviewwithpageheaderqml)
-add_dependencies(qmluitests testVerticalJournal)
-add_dependencies(qmluitests testHorizontalJournal)
-add_dependencies(qmluitests testOrganicGrid)
+add_qml_test(. ListViewWithPageHeaderQML IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)

@@ -122,7 +122,7 @@ FocusScope {
             showDivider: false
 
             readonly property bool expandable: rendererLoader.item ? rendererLoader.item.expandable : false
-            readonly property bool filtered: rendererLoader.item ? rendererLoader.item.filter : true
+            readonly property bool filtered: rendererLoader.item ? rendererLoader.item.filtered : true
             readonly property string category: categoryId
             readonly property var item: rendererLoader.item
 
@@ -170,9 +170,7 @@ FocusScope {
                     item.objectName = Qt.binding(function() { return categoryId })
                     if (item.expandable) {
                         var shouldFilter = categoryId != categoryView.expandedCategoryId;
-                        if (shouldFilter != item.filter) {
-                            item.filter = shouldFilter;
-                        }
+                        item.setFilter(shouldFilter, false /*animate*/);
                     }
                     updateDelegateCreationRange();
                     item.cardTool = cardTool;
@@ -222,11 +220,8 @@ FocusScope {
                                 var shrinkingVisible = shouldFilter && y + item.collapsedHeight < categoryView.height;
                                 var growingVisible = !shouldFilter && y + height < categoryView.height;
                                 if (!previewListView.open || !shouldFilter) {
-                                    if (shrinkingVisible || growingVisible) {
-                                        item.startFilterAnimation(shouldFilter)
-                                    } else {
-                                        item.filter = shouldFilter;
-                                    }
+                                    var animate = shrinkingVisible || growingVisible;
+                                    item.setFilter(shouldFilter, animate)
                                     if (!shouldFilter && !previewListView.open) {
                                         categoryView.maximizeVisibleArea(index, item.uncollapsedHeight);
                                     }
@@ -241,12 +236,15 @@ FocusScope {
                 }
 
                 function updateDelegateCreationRange() {
-                    // Do not update the range if we are overshooting up or down, since we'll come back
-                    // to the stable position and delete/create items without any reason
-                    if (categoryView.contentY < categoryView.originY) {
-                        return;
-                    } else if (categoryView.contentHeight > categoryView.height && categoryView.contentY + categoryView.height > categoryView.contentHeight) {
-                        return;
+                    if (categoryView.moving) {
+                        // Do not update the range if we are overshooting up or down, since we'll come back
+                        // to the stable position and delete/create items without any reason
+                        if (categoryView.contentY < categoryView.originY) {
+                            return;
+                        } else if (categoryView.contentHeight - categoryView.originY > categoryView.height &&
+                                   categoryView.contentY + categoryView.height > categoryView.contentHeight) {
+                            return;
+                        }
                     }
 
                     if (item && item.hasOwnProperty("delegateCreationBegin")) {

@@ -167,10 +167,6 @@ NB: Manual test or interation doesn't make sense for all components or classes,
 particularly the non-graphical ones. In such cases no "tryFoo" make target is
 provided.
 
-NB: The tests expect the locale to be the C locale, they may fail if run
-under a different locale, if you get failures others can not reproduce
-prepend 'LC_ALL=C' to the 'make test' command
-
 Running autopilot tests
 =======================
 
