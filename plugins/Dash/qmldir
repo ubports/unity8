@@ -1,4 +1,4 @@
-module DashViews
-plugin DashViews-qml
+module Dash
+plugin Dash-qml
 typeinfo plugin.qmltypes
 singleton CardCreatorCache 0.1 CardCreatorCache.qml

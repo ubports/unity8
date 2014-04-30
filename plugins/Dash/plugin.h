@@ -15,13 +15,13 @@
  *
  */
 
-#ifndef DASHVIEWS_PLUGIN_H
-#define DASHVIEWS_PLUGIN_H
+#ifndef DASH_PLUGIN_H
+#define DASH_PLUGIN_H
 
 #include <QtQml/QQmlEngine>
 #include <QtQml/QQmlExtensionPlugin>
 
-class DashViewsPlugin : public QQmlExtensionPlugin
+class DashPlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
