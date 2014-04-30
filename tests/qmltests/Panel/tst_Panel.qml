@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import QtTest 1.0
 import Unity.Test 0.1 as UT
+import Ubuntu.Telephony 0.1 as Telephony
 import ".."
 import "../../../qml/Panel"
 
@@ -40,25 +41,22 @@ Item {
     Panel {
         id: panel
         anchors.fill: parent
-        fullscreenMode: true
+        fullscreenMode: false
 
         indicators {
             profile: "test1"
+            panelHeight: units.gu(5)
         }
+    }
+
+    Telephony.CallEntry {
+        id: phoneCall
+        phoneNumber: "+447812221111"
     }
 
     UT.UnityTestCase {
         name: "Panel"
         when: windowShown
-
-        function get_window_data() {
-            return [
-                {tag: "pinned", fullscreenFlag: false, alreadyOpen: false },
-                {tag: "fullscreen", fullscreenFlag: true, alreadyOpen: false },
-                {tag: "pinned-alreadyOpen", fullscreenFlag: false, alreadyOpen: true },
-                {tag: "fullscreen-alreadyOpen", fullscreenFlag: true, alreadyOpen: true }
-            ];
-        }
 
         function init() {
             panel.indicators.initialise();
@@ -67,6 +65,7 @@ Item {
             panel.indicators.hide();
             tryCompare(panel.indicators.hideAnimation, "running", false);
             tryCompare(panel.indicators, "state", "initial");
+            callManager.foregroundCall = null;
         }
 
         function get_indicator_item(index) {
@@ -114,7 +113,8 @@ Item {
             panel.fullscreenMode = true;
             // Wait for the indicators to get into position.
             // (switches between normal and fullscreen modes are animated)
-            tryCompare(panel.indicators, "y", -panel.panelHeight);
+            var indicatorArea = findChild(panel, "indicatorArea");
+            tryCompare(indicatorArea, "y", -panel.panelHeight);
 
             var indicatorItemCoord = get_indicator_item_position(0);
 
@@ -124,7 +124,7 @@ Item {
             wait(500);
 
             // no hint animation when fullscreen
-            compare(panel.indicators.y, -panel.panelHeight);
+            compare(indicatorArea.y, -panel.panelHeight);
             var indicatorRow = findChild(panel.indicators, "indicatorRow");
             verify(indicatorRow !== null);
             compare(indicatorRow.y, 0);
@@ -138,34 +138,48 @@ Item {
             touchRelease(panel, indicatorItemCoord.x, panel.panelHeight/2);
         }
 
-        function test_drag_show_data() { return get_window_data(); }
+        function test_drag_show_data() {
+            return [
+                { tag: "pinned", fullscreenFlag: false, alreadyOpen: false, call: null,
+                            indicatorY: function() { return 0 } },
+                { tag: "fullscreen", fullscreenFlag: true, alreadyOpen: false, call: null,
+                            indicatorY: function() {return -panel.panelHeight } },
+                { tag: "pinned-alreadyOpen", fullscreenFlag: false, alreadyOpen: true, call: null,
+                            indicatorY: function() { return 0 } },
+                { tag: "fullscreen-alreadyOpen", fullscreenFlag: true, alreadyOpen: true, call: null,
+                            indicatorY: function() {return -panel.panelHeight } },
+                { tag: "pinned-callActive", fullscreenFlag: false, alreadyOpen: false, call: phoneCall,
+                            indicatorY: function() { return units.gu(3) } },
+                { tag: "fullscreen-callActive", fullscreenFlag: true, alreadyOpen: false, call: phoneCall,
+                            indicatorY: function() {return units.gu(3) - (panel.panelHeight - units.gu(3)) } }
+            ];
+        }
 
         // Dragging from a indicator item in the panel will gradually expose the
         // indicators, first by running the hint animation, then after dragging down will
         // expose more of the panel, binding it to the selected indicator and opening it's menu.
         function test_drag_show(data) {
             panel.fullscreenMode = data.fullscreenFlag;
+
+            callManager.foregroundCall = data.call;
+
             if (data.alreadyOpen) {
                 panel.indicators.show();
                 tryCompare(panel.indicators, "fullyOpened", true);
             }
 
-           var indicatorRow = findChild(panel.indicators, "indicatorRow");
+            var indicatorRow = findChild(panel.indicators, "indicatorRow");
             verify(indicatorRow !== null);
 
             var menuContent = findChild(panel.indicators, "menuContent");
-            verify(indicatorRow !== null);
+            verify(menuContent !== null);
 
-            var menuContent = findChild(panel.indicators, "menuContent");
-            verify(indicatorRow !== null);
+            var indicatorArea = findChild(panel, "indicatorArea");
+            verify(indicatorArea !== null);
 
             // Wait for the indicators to get into position.
             // (switches between normal and fullscreen modes are animated)
-            if (data.fullscreenFlag) {
-                tryCompare(panel.indicators, "y", -panel.panelHeight);
-            } else {
-                tryCompare(panel.indicators, "y", 0);
-            }
+            tryCompare(indicatorArea, "y", data.indicatorY());
 
             // do this for each indicator item
             for (var i = 0; i < indicatorRow.row.count; i++) {
@@ -184,7 +198,7 @@ Item {
                 // 1) Drag the mouse down
                 touchFlick(panel,
                            indicatorItemCoord.x, panel.panelHeight / 2,
-                           indicatorItemCoord.x, panel.height * 0.8,
+                           indicatorItemCoord.x, panel.height,
                            false /* beginTouch */, false /* endTouch */);
 
                 // Indicators height should follow the drag, and therefore increase accordingly.
@@ -193,7 +207,7 @@ Item {
                     function() {return panel.indicators.height >= panel.height * 0.5},
                     true);
 
-                touchRelease(panel, indicatorItemCoord.x, panel.height * 0.8);
+                touchRelease(panel, indicatorItemCoord.x, panel.height);
 
                 compare(indicatorRow.currentItem, indicatorItem,
                         "Incorrect item activated at position " + i);
@@ -201,7 +215,9 @@ Item {
 
                 // init for next indicatorItem
                 if (!data.alreadyOpen) {
-                    init();
+                    panel.indicators.hide();
+                    tryCompare(panel.indicators.hideAnimation, "running", false);
+                    tryCompare(panel.indicators, "state", "initial");
                 }
             }
         }

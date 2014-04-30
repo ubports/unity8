@@ -110,7 +110,7 @@ FocusScope {
             anchors.rightMargin: -parent.anchors.rightMargin
 
             // Whether the underlay is fully covered by opaque UI elements.
-            property bool fullyCovered: panel.indicators.fullyOpened && shell.width <= panel.indicatorsMenuWidth
+            property bool fullyCovered: panel.indicators.fullyOpened && shell.width <= panel.indicators.width
 
             // Whether the user should see the topmost application surface (if there's one at all).
             readonly property bool applicationSurfaceShouldBeSeen: stages.shown && !stages.painting && !stages.overlayMode
@@ -471,11 +471,12 @@ FocusScope {
         Panel {
             id: panel
             anchors.fill: parent //because this draws indicator menus
-            indicatorsMenuWidth: parent.width > units.gu(60) ? units.gu(40) : parent.width
             indicators {
                 hides: [launcher]
                 available: edgeDemo.panelEnabled
                 contentEnabled: edgeDemo.panelContentEnabled
+                width: parent.width > units.gu(60) ? units.gu(40) : parent.width
+                panelHeight: units.gu(3)
             }
             property string focusedAppId: ApplicationManager.focusedApplicationId
             property var focusedApplication: ApplicationManager.findApplication(focusedAppId)

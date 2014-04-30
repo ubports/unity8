@@ -20,12 +20,10 @@ import "../Components"
 
 Item {
     id: root
-    readonly property real panelHeight: callHint.active ? callHint.height + lowerPanelHeight : lowerPanelHeight
-    property real indicatorsMenuWidth: (width > units.gu(60)) ? units.gu(40) : width
+    readonly property real panelHeight: callHint.active ? callHint.height + indicatorArea.indicatorHeight : indicatorArea.indicatorHeight
     property alias indicators: indicatorsMenu
     property bool fullscreenMode: false
     property bool searchVisible: true
-    readonly property real lowerPanelHeight: indicatorsMenu.panelHeight + leftSeparatorLine.height
 
     signal searchClicked
 
@@ -67,13 +65,16 @@ Item {
     }
 
     Item {
-        id: lowerPanel
+        id: indicatorArea
+        objectName: "indicatorArea"
+
+        readonly property real indicatorHeight: indicatorsMenu.panelHeight + leftSeparatorLine.height
 
         anchors {
             left: parent.left
             right: parent.right
         }
-        height: root.height - lowerPanel.y
+        height: root.height - indicatorArea.y
         z: 0
 
         PanelBackground {
@@ -123,7 +124,7 @@ Item {
                 right: parent.right
             }
 
-            width: root.indicatorsMenuWidth
+            width: (root.width > units.gu(60)) ? units.gu(40) : root.width
             shown: false
             panelHeight: units.gu(3)
             openedHeight: parent.height
@@ -173,8 +174,8 @@ Item {
             }
 
             anchors {
-                top: panelBackground.top
-                left: panelBackground.left
+                top: parent.top
+                left: parent.left
             }
             height: panelBackground.height
 
@@ -186,12 +187,12 @@ Item {
         State {
             name: "in" //fully opaque and visible at top edge of screen
             when: !fullscreenMode
-            PropertyChanges { target: lowerPanel; y: callHint.y + callHint.height }
+            PropertyChanges { target: indicatorArea; y: callHint.y + callHint.height }
         },
         State {
             name: "out" //pushed off screen
             when: fullscreenMode
-            PropertyChanges { target: lowerPanel; y: callHint.y + callHint.height - lowerPanelHeight }
+            PropertyChanges { target: indicatorArea; y: callHint.y + callHint.height - indicatorHeight }
         }
     ]
 }
