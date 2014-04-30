@@ -74,8 +74,8 @@ Item {
                 }
 
                 onImageReloaded: {
-                    image.width = flickable.width;
-                    image.height = flickable.height;
+                    image.height = lazyImage.sourceImage.implicitHeight
+                    image.width = lazyImage.sourceImage.implicitWidth
                     image.resetScale();
                 }
 
