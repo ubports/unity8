@@ -1,8 +1,7 @@
-
 .pragma library
 
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,6 +45,7 @@ function createCardComponent(parent, template, components) {
     var hasTitle = components["title"] || false;
     var hasMascot = components["mascot"] || false;
     var hasSubtitle = components["subtitle"] || false;
+    var hasHeaderRow = hasMascot && hasTitle;
     var mascotImageHeight = 'units.gu(5.625)';
 
     if (hasBackground) {
@@ -210,18 +210,40 @@ function createCardComponent(parent, template, components) {
                                      anchors.topMargin: units.gu(1);';
         }
     }
+    var headerLeftAnchor;
+    if (isHorizontal) {
+        if (hasArt) {
+            headerLeftAnchor = 'anchors.left: artShapeHolder.right; \
+                                anchors.leftMargin: units.gu(1);';
+        } else {
+            headerLeftAnchor = 'anchors.left: parent.left;';
+        }
+    } else {
+        headerLeftAnchor = 'anchors.left: parent.left; \
+                            anchors.leftMargin: units.gu(1);';
+    }
+
+    if (hasHeaderRow) {
+        code += 'Row { \
+                    id: row; \
+                    objectName: "outerRow"; \
+                    property real margins: units.gu(1); \
+                    spacing: margins; \
+                    ' + headerVerticalAnchors + '\
+                    ' + headerLeftAnchor + '\
+                    anchors.right: parent.right; \
+                    anchors.margins: margins;';
+    }
 
     if (hasMascot) {
         var useMascotShape = !hasBackground && !inOverlay;
         var anchors = "";
-        if (isHorizontal) {
-            anchors += 'anchors.left: artShapeHolder.right; \
-                       anchors.leftMargin: units.gu(1);';
+        if (!hasHeaderRow) {
+            anchors += headerLeftAnchor;
+            anchors += headerVerticalAnchors;
         } else {
-            anchors += 'anchors.left: parent.left; \
-                       anchors.leftMargin: units.gu(1);';
+            anchors = "anchors.verticalCenter: parent.verticalCenter;"
         }
-        anchors += headerVerticalAnchors;
 
         if (useMascotShape) {
             code += 'Loader { \
@@ -280,13 +302,10 @@ function createCardComponent(parent, template, components) {
         if (hasMascot && hasSubtitle) {
             titleAnchors = 'anchors { left: parent.left; right: parent.right }';
             subtitleAnchors = titleAnchors;
-            code += 'Item { \
-                        ' + anchors + '\
-                        height: mascotImage.height; \
-                        Column { \
-                            anchors.verticalCenter: parent.verticalCenter; \
-                            spacing: units.dp(2); \
-                            width: parent.width - x;';
+            code += 'Column { \
+                        anchors.verticalCenter: parent.verticalCenter; \
+                        spacing: units.dp(2); \
+                        width: parent.width - x;';
         } else {
             titleAnchors = anchors;
             subtitleAnchors = 'anchors.left: parent.left; \
@@ -317,24 +336,29 @@ function createCardComponent(parent, template, components) {
                         ' + subtitleAnchors + '\
                         elide: Text.ElideRight; \
                         fontSize: "small"; \
-                        wrapMode: Text.Wrap; \
-                        maximumLineCount: 2; \
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); \
                         color: ' + color + '; \
-                        text: cardData && cardData["subtitle"] || " "; \
+                        visible: titleLabel.text; \
+                        text: cardData && cardData["subtitle"] || ""; \
                         font.weight: Font.Light; \
                         horizontalAlignment: root.headerAlignment; \
                     }';
 
-            // Close Column and Item
+            // Close Column
             if (hasMascot)
-                code += '} }';
+                code += '}';
         }
+    }
+
+    if (hasHeaderRow) {
+        // Close Row
+        code += '}';
     }
 
     if (hasSummary) {
         var summaryTopAnchor;
         if (isHorizontal) summaryTopAnchor = "artShapeHolder.bottom";
+        else if (hasHeaderRow) summaryTopAnchor = "row.bottom";
         else if (hasMascot) summaryTopAnchor = "mascotImage.bottom";
         else if (hasSubtitle) summaryTopAnchor = "subtitleLabel.bottom";
         else if (hasTitle) summaryTopAnchor = "titleLabel.bottom";
@@ -371,10 +395,14 @@ function createCardComponent(parent, template, components) {
         code += 'implicitHeight: summary.y + summary.height + (summary.text && backgroundLoader.active ? units.gu(1) : 0);';
     } else if (hasSummary) {
         code += 'implicitHeight: summary.y + summary.height;';
+    } else if (hasHeaderRow) {
+        code += 'implicitHeight: row.y + row.height + units.gu(1);';
     } else if (hasMascot) {
         code += 'implicitHeight: mascotImage.y + mascotImage.height;';
+    } else if (hasSubtitle) {
+        code += 'implicitHeight: subtitleLabel.y + subtitleLabel.height + units.gu(1);';
     } else if (hasTitle) {
-        code += 'implicitHeight: titleLabel.y + titleLabel.height;';
+        code += 'implicitHeight: titleLabel.y + titleLabel.height + units.gu(1);';
     }
     code += '}';
 
