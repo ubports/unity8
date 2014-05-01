@@ -28,12 +28,7 @@ import "../../Components"
 
 PreviewWidget {
     id: root
-    implicitHeight: {
-        var tmpHeight = textLabel.height;
-        if (titleLabel.visible) tmpHeight += titleLabel.height;
-        if (seeMore.visible) tmpHeight += seeMore.height + seeMore.anchors.topMargin;
-        return tmpHeight;
-    }
+    implicitHeight: childrenRect.height
 
     Label {
         id: titleLabel
@@ -42,6 +37,7 @@ PreviewWidget {
             left: parent.left
             right: parent.right
         }
+        height: visible ? implicitHeight : 0
         fontSize: "large"
         // TODO karni: Yet another fix requiring Palette update.
         color: "grey" //Theme.palette.selected.backgroundText
@@ -84,8 +80,9 @@ PreviewWidget {
             left: parent.left
             right: parent.right
             top: textLabel.bottom
-            topMargin: units.gu(1)
+            topMargin: visible ? units.gu(1) : 0
         }
+        height: visible ? implicitHeight : 0
         visible: textLabel.lineCount > textLabel.maximumCollapsedLineCount
     }
 }
