@@ -64,4 +64,3 @@ void MockCallEntry::timerEvent(QTimerEvent * event)
     m_elapsed++;
     Q_EMIT elapsedTimeChanged();
 }
-
