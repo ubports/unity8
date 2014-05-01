@@ -28,59 +28,66 @@ import "../../Components"
 
 PreviewWidget {
     id: root
-    implicitHeight: seeMore.visible ? childrenRect.height : childrenRect.height - seeMore.height - seeMore.anchors.topMargin
+    implicitHeight: column.height
 
-    Label {
-        id: titleLabel
-        objectName: "titleLabel"
+    Column {
+        id: column
         anchors {
             left: parent.left
             right: parent.right
         }
-        fontSize: "large"
-        // TODO karni: Yet another fix requiring Palette update.
-        color: "grey" //Theme.palette.selected.backgroundText
-        visible: text !== ""
-        opacity: .8
-        text: widgetData["title"] || ""
-        wrapMode: Text.Wrap
-    }
 
-    Label {
-        id: textLabel
-        objectName: "textLabel"
+        Label {
+            id: titleLabel
+            objectName: "titleLabel"
 
-        readonly property int maximumCollapsedLineCount: 7
-
-        anchors {
-            left: parent.left
-            right: parent.right
-            top: titleLabel.visible ? titleLabel.bottom : parent.top
+            anchors {
+                left: parent.left
+                right: parent.right
+            }
+            fontSize: "large"
+            // TODO karni: Yet another fix requiring Palette update.
+            color: "grey" //Theme.palette.selected.backgroundText
+            visible: text !== ""
+            opacity: .8
+            text: widgetData["title"] || ""
+            wrapMode: Text.Wrap
         }
-        height: (!seeMore.visible || seeMore.more) ? contentHeight : contentHeight / lineCount * (maximumCollapsedLineCount - 2)
-        clip: true
-        fontSize: "small"
-        lineHeight: 1.2
-        // TODO karni: Yet another fix requiring Palette update.
-        color: "grey" //Theme.palette.selected.backgroundText
-        opacity: .8
-        text: widgetData["text"]
-        wrapMode: Text.Wrap
 
-        Behavior on height {
-            UbuntuNumberAnimation {}
-        }
-    }
+        Label {
+            id: textLabel
+            objectName: "textLabel"
 
-    SeeMore {
-        id: seeMore
-        objectName: "seeMore"
-        anchors {
-            left: parent.left
-            right: parent.right
-            top: textLabel.bottom
-            topMargin: units.gu(1)
+            readonly property int maximumCollapsedLineCount: 7
+
+            anchors {
+                left: parent.left
+                right: parent.right
+            }
+            height: (!seeMore.visible || seeMore.more) ? contentHeight : contentHeight / lineCount * (maximumCollapsedLineCount - 2)
+            clip: true
+            fontSize: "small"
+            lineHeight: 1.2
+            // TODO karni: Yet another fix requiring Palette update.
+            color: "grey" //Theme.palette.selected.backgroundText
+            opacity: .8
+            text: widgetData["text"]
+            wrapMode: Text.Wrap
+
+            Behavior on height {
+                UbuntuNumberAnimation {}
+            }
         }
-        visible: textLabel.lineCount > textLabel.maximumCollapsedLineCount
+
+        SeeMore {
+            id: seeMore
+            objectName: "seeMore"
+            anchors {
+                left: parent.left
+                right: parent.right
+                topMargin: units.gu(1)
+            }
+            visible: textLabel.lineCount > textLabel.maximumCollapsedLineCount
+        }
     }
 }
