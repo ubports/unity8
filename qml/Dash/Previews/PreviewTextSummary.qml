@@ -73,7 +73,7 @@ PreviewWidget {
         wrapMode: Text.Wrap
 
         Behavior on height {
-            UbuntuNumberAnimation {}
+            UbuntuAnimation { duration: UbuntuAnimation.SnapDuration }
         }
     }
 
