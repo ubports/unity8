@@ -49,6 +49,11 @@ Item {
         onShownChanged: hideTimer.stop()
     }
 
+    PanelBackground {
+        id: callHintBackground
+        anchors.fill: callHint
+    }
+
     ActiveCallHint {
         id: callHint
 
@@ -103,7 +108,7 @@ Item {
             anchors {
                 left: parent.left
                 right: parent.right
-                top: panelBackground.bottom
+                top: leftSeparatorLine.bottom
                 bottom: parent.bottom
             }
             color: "black"

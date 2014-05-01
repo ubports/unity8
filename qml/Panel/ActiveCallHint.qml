@@ -20,24 +20,57 @@ import Ubuntu.Components 0.1
 import Unity.Application 0.1
 import "../Components"
 
-Rectangle {
+Item {
     id: callHint
 
     readonly property bool active: callManager.hasCalls && ApplicationManager.focusedApplicationId !== "dialer-app"
     readonly property QtObject contactWatcher: _contactWatcher
     property int alternateLabelInterval: 4000
+    property color color: Qt.rgba(0.1, 0.6, 0.1, 1.0)
+    property color colorFlash: Qt.rgba(0.1, 0.9, 0.1, 1.0)
 
     Component.onCompleted: {
         telepathyHelper.registerChannelObserver("unity8");
     }
 
-    color: Qt.rgba(0,0.8,0,1)
-    clip: true
-
-    MouseArea {
+    Rectangle {
+        id: background
         anchors.fill: parent
-        onClicked: {
-            ApplicationManager.requestFocusApplication("dialer-app");
+        color: callHint.color
+
+        states: [
+            State {
+                name: "fade-down"
+            },
+            State {
+                name: "fade-up"
+                PropertyChanges { target: background; color: callHint.colorFlash }
+            }
+        ]
+        state: "fade-down"
+
+        transitions: [
+            Transition {
+                to: "fade-up";
+                ColorAnimation { duration: 260; easing.type: Easing.InQuart }
+            },
+            Transition {
+                to: "fade-down";
+                ColorAnimation { duration: 150; easing.type: Easing.OutQuad }
+            }
+        ]
+
+        Timer {
+            running: callHint.active && color != colorFlash
+            interval: background.state == "fade-down" ? 3000 : 400
+            repeat: true
+            onTriggered: {
+                if (background.state == "fade-down") {
+                    background.state = "fade-up";
+                } else {
+                    background.state = "fade-down";
+                }
+            }
         }
     }
 
@@ -109,6 +142,7 @@ Rectangle {
             right: time.left
         }
         height: columnHeight > callHint.height ? callHint.height : columnHeight
+        clip: true
 
         property Column column1
         property Column column2
@@ -117,6 +151,7 @@ Rectangle {
         delegate: contactColumnRow
         model: 2
         offset: 0
+        interactive: false
 
         path: Path {
             startY: -labelPathView.columnHeight / 2
@@ -131,7 +166,7 @@ Rectangle {
                 id: offsetAnimation
                 // ensure we go faster than the label switch
                 duration: alternateLabelInterval / 2
-                velocity: 1.0
+                velocity: 0.75
                 easing.type: Easing.InOutQuad
             }
         }
@@ -139,12 +174,12 @@ Rectangle {
 
     // Fade in text
     Rectangle {
-        anchors.fill: labelPathView
+        anchors.fill: parent
         gradient: Gradient {
-            GradientStop { position: 0.0; color: Qt.rgba(callHint.color.r, callHint.color.g, callHint.color.b, 1.0) }
-            GradientStop { position: 0.25; color: Qt.rgba(callHint.color.r, callHint.color.g, callHint.color.b, 0.0) }
-            GradientStop { position: 0.75; color: Qt.rgba(callHint.color.r, callHint.color.g, callHint.color.b, 0.0) }
-            GradientStop { position: 1.0; color: Qt.rgba(callHint.color.r, callHint.color.g, callHint.color.b, 1.0) }
+            GradientStop { position: 0.0; color: background.color }
+            GradientStop { position: 0.25; color: Qt.rgba(background.color.r, background.color.g, background.color.b, 0.0) }
+            GradientStop { position: 0.75; color: Qt.rgba(background.color.r, background.color.g, background.color.b, 0.0) }
+            GradientStop { position: 1.0; color: background.color }
         }
     }
 
@@ -188,6 +223,13 @@ Rectangle {
             } else {
                 return m + ":0" + ss;
             }
+        }
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        onClicked: {
+            ApplicationManager.requestFocusApplication("dialer-app");
         }
     }
 
