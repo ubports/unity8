@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-03-25 16:48+0100\n"
+"POT-Creation-Date: 2014-04-10 11:13-0400\n"
 "PO-Revision-Date: 2014-04-03 13:07+0000\n"
 "Last-Translator: Zonov Roman <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-04-04 07:12+0000\n"
-"X-Generator: Launchpad (build 16976)\n"
+"X-Launchpad-Export-Date: 2014-05-01 06:44+0000\n"
+"X-Generator: Launchpad (build 16985)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -91,7 +91,7 @@ msgstr "Подробнее"
 msgid "See less"
 msgstr "Вкратце"
 
-#: qml/Dash/DashApps.qml:38
+#: qml/Dash/DashApps.qml:37
 msgid "Recent"
 msgstr "Недавние"
 
@@ -119,6 +119,10 @@ msgstr "Добавьте отзыв"
 #: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
 msgstr "Отправить"
+
+#: qml/Greeter/Greeter.qml:151
+msgid "Swipe to unlock"
+msgstr ""
 
 #: qml/Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
@@ -165,7 +169,7 @@ msgstr "Введите PIN код"
 msgid "Search"
 msgstr "Поиск"
 
-#: qml/Shell.qml:417
+#: qml/Shell.qml:348
 #, qt-format
 msgid "Please enter %1"
 msgstr "Пожалуйста, введите %1"
