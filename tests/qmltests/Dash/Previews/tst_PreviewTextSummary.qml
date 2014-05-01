@@ -65,12 +65,12 @@ Rectangle {
 
             // verify titleLabel is visible and textLabel is anchored below it
             compare(titleLabel.visible, true)
-            compare(textLabel.y, titleLabel.height)
+            tryCompare(textLabel, "y", titleLabel.height)
 
             // verify titleLabel disappears and textLabel moves up
             previewTextSummary.widgetData = widgetDataNoTitle
             compare(titleLabel.visible, false)
-            compare(textLabel.y, 0)
+            tryCompare(textLabel, "y", 0)
         }
 
         function test_see_more() {
