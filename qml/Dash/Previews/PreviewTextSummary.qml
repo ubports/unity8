@@ -40,7 +40,6 @@ PreviewWidget {
         Label {
             id: titleLabel
             objectName: "titleLabel"
-
             anchors {
                 left: parent.left
                 right: parent.right
