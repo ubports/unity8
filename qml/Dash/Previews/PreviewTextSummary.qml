@@ -32,18 +32,12 @@ PreviewWidget {
 
     Column {
         id: column
-        anchors {
-            left: parent.left
-            right: parent.right
-        }
+        anchors { left: parent.left; right: parent.right; }
 
         Label {
             id: titleLabel
             objectName: "titleLabel"
-            anchors {
-                left: parent.left
-                right: parent.right
-            }
+            anchors { left: parent.left; right: parent.right }
             fontSize: "large"
             // TODO karni: Yet another fix requiring Palette update.
             color: "grey" //Theme.palette.selected.backgroundText
@@ -59,11 +53,8 @@ PreviewWidget {
 
             readonly property int maximumCollapsedLineCount: 7
 
-            anchors {
-                left: parent.left
-                right: parent.right
-            }
-            height: (!seeMore.visible || seeMore.more) ? contentHeight : contentHeight / lineCount * (maximumCollapsedLineCount - 2) + units.gu(1)
+            anchors { left: parent.left; right: parent.right }
+            height: (!seeMoreContainer.visible || seeMore.more) ? contentHeight : contentHeight / lineCount * (maximumCollapsedLineCount - 2)
             clip: true
             fontSize: "small"
             lineHeight: 1.2
@@ -78,14 +69,23 @@ PreviewWidget {
             }
         }
 
-        SeeMore {
-            id: seeMore
-            objectName: "seeMore"
-            anchors {
-                left: parent.left
-                right: parent.right
-            }
+        Item {
+            id: seeMoreContainer
+            objectName: "seeMoreContainer"
+            anchors { left: parent.left; right: parent.right }
+            height: seeMore.height
             visible: textLabel.lineCount > textLabel.maximumCollapsedLineCount
+
+            SeeMore {
+                id: seeMore
+                objectName: "seeMore"
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    top: parent.top
+                    topMargin: units.gu(1)
+                }
+            }
         }
     }
 }
