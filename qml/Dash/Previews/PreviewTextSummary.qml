@@ -28,7 +28,7 @@ import "../../Components"
 
 PreviewWidget {
     id: root
-    implicitHeight: childrenRect.height
+    implicitHeight: seeMore.visible ? childrenRect.height : childrenRect.height - seeMore.height - seeMore.anchors.topMargin
 
     Label {
         id: titleLabel
