@@ -28,7 +28,12 @@ import "../../Components"
 
 PreviewWidget {
     id: root
-    implicitHeight: seeMore.visible ? childrenRect.height : titleLabel.height + textLabel.height
+    implicitHeight: {
+        var tmpHeight = textLabel.height;
+        if (titleLabel.visible) tmpHeight += titleLabel.height;
+        if (seeMore.visible) tmpHeight += seeMore.height + seeMore.anchors.topMargin;
+        return tmpHeight;
+    }
 
     Label {
         id: titleLabel
