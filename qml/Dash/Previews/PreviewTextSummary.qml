@@ -63,7 +63,7 @@ PreviewWidget {
                 left: parent.left
                 right: parent.right
             }
-            height: (!seeMore.visible || seeMore.more) ? contentHeight : contentHeight / lineCount * (maximumCollapsedLineCount - 2)
+            height: (!seeMore.visible || seeMore.more) ? contentHeight : contentHeight / lineCount * (maximumCollapsedLineCount - 2) + units.gu(1)
             clip: true
             fontSize: "small"
             lineHeight: 1.2
@@ -84,7 +84,6 @@ PreviewWidget {
             anchors {
                 left: parent.left
                 right: parent.right
-                topMargin: units.gu(1)
             }
             visible: textLabel.lineCount > textLabel.maximumCollapsedLineCount
         }
