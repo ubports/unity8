@@ -16,11 +16,12 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Unity.Application 0.1
 import "../Components"
 
 Item {
     id: root
-    readonly property real panelHeight: callHint.active ? callHint.height + indicatorArea.indicatorHeight : indicatorArea.indicatorHeight
+    readonly property real panelHeight: indicatorArea.y + indicatorArea.indicatorHeight
     property alias indicators: indicatorsMenu
     property bool fullscreenMode: false
     property bool searchVisible: true
@@ -62,16 +63,30 @@ Item {
             right: parent.right
         }
         height: units.gu(3)
+        y: -height
 
-        y: active ? 0 : -height
-        z: 1
+        states: [
+            State {
+                name: "active"
+                when: callHint.active
+                PropertyChanges { target: callHint; y: 0 }
+                PropertyChanges { target: search.mouseArea; anchors.topMargin: -callHint.height/3 }
+            }
+        ]
+        Behavior on y { StandardAnimation { id: callHintYAnimation } }
 
-        Behavior on y { StandardAnimation {} }
+        mouseArea.onClicked: callHint.activate();
+
+        Rectangle {
+            anchors.fill: callHint.mouseArea
+            color: Qt.rgba(0,1,0,0.5)
+        }
     }
 
     Item {
         id: indicatorArea
         objectName: "indicatorArea"
+        z: 1
 
         readonly property real indicatorHeight: indicatorsMenu.panelHeight + leftSeparatorLine.height
 
@@ -80,7 +95,11 @@ Item {
             right: parent.right
         }
         height: root.height - indicatorArea.y
-        z: 0
+
+        Behavior on y {
+            enabled: !callHintYAnimation.running
+            StandardAnimation {}
+        }
 
         PanelBackground {
             id: panelBackground
@@ -113,10 +132,28 @@ Item {
             }
             color: "black"
             opacity: indicatorsMenu.unitProgress * darkenedOpacity
+
             MouseArea {
                 anchors.fill: parent
                 enabled: indicatorsMenu.shown
                 onClicked: if (indicatorsMenu.fullyOpened) indicatorsMenu.hide();
+            }
+        }
+
+        MouseArea {
+            id: indicatorAreaClick
+            enabled: callHint.active
+            anchors {
+                top: parent.top
+                left: search.right
+                right: indicatorsMenu.right
+            }
+            height: indicatorsMenu.panelHeight/2
+            onClicked: callHint.activate();
+
+            Rectangle {
+                anchors.fill: indicatorAreaClick
+                color: Qt.rgba(0,1,0,0.5)
             }
         }
 
@@ -134,7 +171,20 @@ Item {
             panelHeight: units.gu(3)
             openedHeight: parent.height
             pinnedMode: !fullscreenMode
+            enableHint: !callHint.active
             overFlowWidth: search.state=="hidden" ? parent.width : parent.width - search.width
+            hintAreaHeightOffset: callHint.active ? callHint.height : 0
+
+            onShowTapped: {
+                if (callHint.active && position.y < y + indicatorsMenu.panelHeight/2) {
+                    callHint.activate();
+                }
+            }
+
+            Rectangle {
+                anchors.fill: indicatorsMenu
+                color: Qt.rgba(1,1,0,0.5)
+            }
         }
 
         PanelSeparatorLine {
@@ -174,7 +224,6 @@ Item {
                 if (root.searchVisible && !indicatorsMenu.showAll) {
                     return "visible";
                 }
-
                 return "hidden";
             }
 
@@ -184,7 +233,13 @@ Item {
             }
             height: panelBackground.height
 
-            onClicked: root.searchClicked()
+            mouseArea {
+                onClicked: root.searchClicked()
+            }
+            Rectangle {
+                anchors.fill: search.mouseArea
+                color: Qt.rgba(1,0,0,0.5)
+            }
         }
     }
 
@@ -193,11 +248,13 @@ Item {
             name: "in" //fully opaque and visible at top edge of screen
             when: !fullscreenMode
             PropertyChanges { target: indicatorArea; y: callHint.y + callHint.height }
+            PropertyChanges { target: callHint; z: 0 }
         },
         State {
             name: "out" //pushed off screen
             when: fullscreenMode
             PropertyChanges { target: indicatorArea; y: callHint.y + callHint.height - indicatorHeight }
+            PropertyChanges { target: callHint; z: 2 }
         }
     ]
 }

@@ -25,13 +25,12 @@ Item {
     height: units.gu(3)
 
     property string headerText: i18n.tr("Search")
-
-    signal clicked
+    readonly property alias mouseArea: __mouseArea
 
     // eater
     MouseArea {
+        id: __mouseArea
         anchors.fill: parent
-        onClicked: search.clicked()
     }
 
     Row {

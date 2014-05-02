@@ -43,6 +43,10 @@ Showable {
     property bool initalizeItem: true
     readonly property alias content: menuContent
     property real unitProgress: (height - panelHeight) / (openedHeight - panelHeight)
+    property bool enableHint: true
+    property real hintAreaHeightOffset: 0
+
+    signal showTapped(point position)
 
     // TODO: Perhaps we need a animation standard for showing/hiding? Each showable seems to
     // use its own values. Need to ask design about this.
@@ -357,10 +361,10 @@ Showable {
         anchors.bottomMargin: pinnedMode ? 0 : -panelHeight
         anchors.left: parent.left
         anchors.right: parent.right
-        height: panelHeight
+        height: panelHeight + hintAreaHeightOffset
         direction: Direction.Downwards
         enabled: !indicators.shown && indicators.available
-        hintDisplacement: pinnedMode ? indicators.hintValue : 0
+        hintDisplacement: enableHint && pinnedMode ? indicators.hintValue : 0
         autoCompleteDragThreshold: maxTotalDragDistance / 2
         stretch: true
         maxTotalDragDistance: openedHeight - panelHeight
@@ -371,6 +375,8 @@ Showable {
                 menuContent.activateContent();
             }
         }
+
+        onTapped: showTapped(Qt.point(x + touchX, y + touchY))
     }
     DragHandle {
         id: hideDragHandle

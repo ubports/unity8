@@ -151,10 +151,10 @@ FocusScope {
                 shown: disappearingAnimationProgress !== 1.0 && greeterWrapper.showProgress !== 1.0
                 enabled: disappearingAnimationProgress === 0.0 && greeterWrapper.showProgress === 0.0 && edgeDemo.dashEnabled
 
-                y: panel.panelHeight
-                width: parent.width
-                height: parent.height - panel.panelHeight
-                Behavior on y { StandardAnimation {} }
+                anchors {
+                    fill: parent
+                    topMargin: panel.panelHeight
+                }
 
                 contentScale: 1.0 - 0.2 * disappearingAnimationProgress
                 opacity: 1.0 - disappearingAnimationProgress
@@ -314,12 +314,12 @@ FocusScope {
         showAnimation: StandardAnimation { property: "opacity"; to: 1 }
         hideAnimation: StandardAnimation { property: "opacity"; to: 0 }
 
-        y: panel.panelHeight
-        x: required ? 0 : - width
-        width: parent.width
-        height: parent.height - panel.panelHeight
-        Behavior on y { StandardAnimation {} }
-
+        anchors {
+            top: parent.top
+            right: parent.right
+            bottom: parent.bottom
+            topMargin: panel.panelHeight
+        }
         background: shell.background
         pinLength: 4
 
@@ -374,8 +374,6 @@ FocusScope {
         y: panel.panelHeight
         width: parent.width
         height: parent.height - panel.panelHeight
-        Behavior on y { StandardAnimation {} }
-        Behavior on height { StandardAnimation {} }
 
         Behavior on x {SmoothedAnimation{velocity: 600}}
 
@@ -461,6 +459,13 @@ FocusScope {
 
     function hideIndicatorMenu(delay) {
         panel.hideIndicatorMenu(delay);
+    }
+
+    Timer {
+        running: true
+        interval: 7000
+        repeat: true
+        onTriggered: {panel.fullscreenMode = !panel.fullscreenMode }
     }
 
     Item {
@@ -597,8 +602,6 @@ FocusScope {
             y: panel.panelHeight
             width: parent.width
             height: parent.height - panel.panelHeight
-            Behavior on y { StandardAnimation {} }
-            Behavior on height { StandardAnimation {} }
 
             states: [
                 State {
@@ -652,11 +655,8 @@ FocusScope {
     }
 
     OSKController {
-        y: panel.panelHeight
-        width: parent.width
-        height: parent.height - panel.panelHeight
-        Behavior on y { StandardAnimation {} }
-        Behavior on height { StandardAnimation {} }
+        anchors.topMargin: panel.panelHeight
+        anchors.fill: parent // as needs to know the geometry of the shell
     }
 
     //FIXME: This should be handled in the input stack, keyboard shouldnt propagate
