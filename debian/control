@@ -11,34 +11,34 @@ Build-Depends: cmake,
                libgl1-mesa-dev[!armhf] | libgl-dev[!armhf],
                libgl1-mesa-dri,
                libgles2-mesa-dev[armhf],
+               libglib2.0-dev,
                libgsettings-qt-dev,
                libhud-client2-dev,
                libpulse-dev,
                libqmenumodel-dev (>= 0.2.7),
+               libqt5xmlpatterns5-dev,
                libunity-api-dev (>= 7.80.6),
                libunity-mir-dev,
                libusermetricsoutput1-dev,
                libxcb1-dev,
-               libglib2.0-dev,
                pkg-config,
-               python:any (>= 2.7),
                python-setuptools,
                python3-all:any,
                python3-setuptools,
+               python:any (>= 2.7),
                qt5-default,
                qtbase5-dev,
                qtbase5-dev-tools,
                qtbase5-private-dev,
                qtdeclarative5-dev,
                qtdeclarative5-dev-tools,
-               qtdeclarative5-qtmultimedia-plugin,
                qtdeclarative5-private-dev,
+               qtdeclarative5-qtmultimedia-plugin,
                qtdeclarative5-qtquick2-plugin,
                qtdeclarative5-test-plugin,
                qtdeclarative5-ubuntu-settings-components,
                qtdeclarative5-ubuntu-ui-toolkit-plugin,
                qtdeclarative5-xmllistmodel-plugin,
-               libqt5xmlpatterns5-dev,
                ttf-ubuntu-font-family,
 Standards-Version: 3.9.4
 Homepage: http://launchpad.net/unity
@@ -60,7 +60,8 @@ Description: Indicators client test application
 
 Package: unity-scope-tool
 Architecture: any
-Depends: unity8 (= ${binary:Version}),
+Depends: unity8-common (= ${source:Version}),
+         unity8-private (= ${binary:Version}),
          ${misc:Depends},
          ${shlibs:Depends},
 Description: Development tool for Unity scopes
@@ -71,27 +72,18 @@ Package: unity8
 Architecture: any
 Provides: indicator-renderer,
 Depends: gsettings-desktop-schemas,
+         libcap2-bin,
          libglib2.0-bin,
-         libunity-mir1,
+         libunity-mir1 (>= 0.4),
          qmenumodel-qml (>= 0.2.7),
          qtdeclarative5-dee-plugin,
          qtdeclarative5-gsettings1.0,
          qtdeclarative5-ubuntu-settings-components,
-         qtdeclarative5-ubuntu-thumbnailer0.1 | ubuntu-thumbnailer-impl,
-         ubuntu-thumbnailer-impl-0,
-         qtdeclarative5-ubuntu-ui-toolkit-plugin,
-         qtdeclarative5-unity-notifications-plugin | unity-notifications-impl,
          qtdeclarative5-xmllistmodel-plugin,
-         unity-application-impl-2,
          unity-launcher-impl-3,
-         unity-notifications-impl-2,
-         unity8-fake-env | unity-application-impl,
+         unity8-common (= ${source:Version}),
          unity8-private (= ${binary:Version}),
          unity8-private | unity-launcher-impl,
-         unity-plugin-scopes | unity-scopes-impl,
-         unity-scopes-impl-0,
-# for setcap:
-         libcap2-bin,
          ${misc:Depends},
          ${shlibs:Depends},
 Recommends: unity-scope-click,
@@ -99,9 +91,29 @@ Recommends: unity-scope-click,
             unity-scope-scopes,
 Breaks: indicator-network (<< 0.5.1),
         ubuntu-touch-session (<< 0.107),
-Replaces: ubuntu-touch-session (<< 0.82~)
+Replaces: ubuntu-touch-session (<< 0.82~),
 Description: Unity 8 shell
  The Unity 8 shell is the primary user interface for Ubuntu devices.
+
+Package: unity8-common
+Architecture: all
+Depends: qtdeclarative5-ubuntu-thumbnailer0.1 | ubuntu-thumbnailer-impl,
+         qtdeclarative5-ubuntu-ui-toolkit-plugin,
+         qtdeclarative5-unity-notifications-plugin | unity-notifications-impl,
+         ubuntu-thumbnailer-impl-0,
+         unity-application-impl-2,
+         unity-notifications-impl-2,
+         unity-plugin-scopes | unity-scopes-impl,
+         unity-scopes-impl-0,
+         unity8-fake-env | unity-application-impl,
+         ${misc:Depends},
+Breaks: unity8 (<< 7.86),
+Replaces: unity8 (<< 7.86),
+Description: Unity 8 shell (common files)
+ The Unity 8 shell is the primary user interface for Ubuntu devices.
+ .
+ This package contains the QML, graphics and locale files shared between
+ unity8 and unity-scope-tool.
 
 Package: unity8-autopilot
 Architecture: all
@@ -119,12 +131,12 @@ Depends: gir1.2-glib-2.0,
          python3-fixtures,
          python3-gi,
          ubuntu-ui-toolkit-autopilot,
-         unity8 (>= ${source:Version}),
-         unity8-fake-env (>= ${source:Version}),
+         unity8 (= ${source:Version}),
+         unity8-fake-env (= ${source:Version}),
          url-dispatcher-tools,
          ${misc:Depends},
-         ${python:Depends},
          ${python3:Depends},
+         ${python:Depends},
          ${shlibs:Depends},
 Description: Test package for Unity 8 shell
  Autopilot tests for the unity8 package
@@ -146,9 +158,9 @@ Architecture: any
 Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends},
 Depends: gsettings-ubuntu-schemas,
+         libunity-core-6.0-9,
          ${misc:Depends},
          ${shlibs:Depends},
-         libunity-core-6.0-9,
 Provides: unity-launcher-impl,
           unity-launcher-impl-3,
 Description: Unity 8 private libs
