@@ -37,17 +37,4 @@ target_link_libraries(IndicatorsFakeQml)
 
 qt5_use_modules(IndicatorsFakeQml Core Qml Quick)
 
-file(GLOB IndicatorsFake_QMLFILES
-    *.qml
-    qml/FakeMenuPage.qml
-)
-
-# copy qmldir file into build directory for shadow builds
-file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
-    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
-)
-
-# copy qmldir file into build directory for shadow builds
-file(COPY ${IndicatorsFake_QMLFILES}
-    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
-)
+add_unity8_mock(Unity.Indicators 0.1 Unity/Indicators TARGETS MockLauncherPlugin)
