@@ -285,15 +285,6 @@ function createCardComponent(parent, template, components) {
             color = '"grey"';
         }
 
-        var anchors = "anchors.right: parent.right;";
-        if (hasMascot) {
-            anchors += 'anchors.left: mascotImage.right; \
-                        anchors.leftMargin: units.gu(1);';
-        } else {
-            anchors += headerLeftAnchor;
-        }
-        anchors += headerVerticalAnchors;
-
         var titleAnchors = "";
         var subtitleAnchors = "";
         if (hasMascot && hasSubtitle) {
@@ -305,8 +296,24 @@ function createCardComponent(parent, template, components) {
                         width: parent.width - x;';
         } else if (hasMascot) {
             titleAnchors = 'anchors.verticalCenter: parent.verticalCenter;'
+        } else if (inOverlay && hasSubtitle) {
+            titleAnchors = 'anchors.right: parent.right; \
+                            anchors.bottom: subtitleLabel.top; \
+                            anchors.bottomMargin: units.dp(2);';
+            titleAnchors += headerLeftAnchor;
+            subtitleAnchors = 'anchors.left: titleLabel.left; \
+                               anchors.leftMargin: titleLabel.leftMargin; \
+                               anchors.right: titleLabel.right;';
+            subtitleAnchors += headerVerticalAnchors;
         } else {
-            titleAnchors = anchors;
+            titleAnchors = "anchors.right: parent.right;";
+            if (hasMascot) {
+                titleAnchors += 'anchors.left: mascotImage.right; \
+                                 anchors.leftMargin: units.gu(1);';
+            } else {
+                titleAnchors += headerLeftAnchor;
+            }
+            titleAnchors += headerVerticalAnchors;
             subtitleAnchors = 'anchors.left: titleLabel.left; \
                                anchors.leftMargin: titleLabel.leftMargin; \
                                anchors.right: titleLabel.right; \
@@ -357,7 +364,8 @@ function createCardComponent(parent, template, components) {
 
     if (hasSummary) {
         var summaryTopAnchor;
-        if (isHorizontal) summaryTopAnchor = "artShapeHolder.bottom";
+        if (isHorizontal && hasArt) summaryTopAnchor = "artShapeHolder.bottom";
+        else if (inOverlay && hasArt) summaryTopAnchor = "artShapeHolder.bottom";
         else if (hasHeaderRow) summaryTopAnchor = "row.bottom";
         else if (hasMascot) summaryTopAnchor = "mascotImage.bottom";
         else if (hasSubtitle) summaryTopAnchor = "subtitleLabel.bottom";
