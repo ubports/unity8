@@ -37,4 +37,4 @@ target_link_libraries(IndicatorsFakeQml)
 
 qt5_use_modules(IndicatorsFakeQml Core Qml Quick)
 
-add_unity8_mock(Unity.Indicators 0.1 Unity/Indicators TARGETS MockLauncherPlugin)
+add_unity8_mock(Unity.Indicators 0.1 Unity/Indicators TARGETS IndicatorsFakeQml)
