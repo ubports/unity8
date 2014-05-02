@@ -112,6 +112,7 @@ function createCardComponent(parent, template, components) {
                         visible: status == Loader.Ready; \
                         sourceComponent: UbuntuShape { \
                             id: artShape; \
+                            objectName: "artShape"; \
                             radius: "medium"; \
                             readonly property real aspect: components !== undefined ? components["art"]["aspect-ratio"] : 1; \
                             readonly property bool aspectSmallerThanImageAspect: aspect < image.aspect; \

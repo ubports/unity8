@@ -186,29 +186,13 @@ Rectangle {
 
         when: windowShown
 
-        property Item header: findChild(card, "cardHeader")
-        property Item headerLoader: findChild(card, "cardHeaderLoader")
-        property Item title: findChild(header, "titleLabel")
-        property Item art: findChild(card, "artShape")
+        property var headerRow: findChild(card, "outerRow")
+        property var art: findChild(card, "artShape")
         property Item artImage: findChild(card, "artImage")
-        property Item summary: findChild(card, "summaryLabel")
-        property Item background: findChild(card, "background")
-        property Item backgroundLoader: findChild(card, "backgroundLoader")
-        property Item backgroundImage: findChild(card, "backgroundImage")
-
-        function initTestCase() {
-            verify(typeof testCase.header === "object", "Couldn't find header object.");
-            verify(typeof testCase.art === "object", "Couldn't find art object.");
-            verify(typeof testCase.artImage === "object", "Couldn't find artImage object.");
-            verify(typeof testCase.summary === "object", "Couldn't find summary object.");
-            verify(typeof testCase.artImage === "object", "Couldn't find background object.");
-            verify(typeof testCase.summary === "object", "Couldn't find backgroundImage object.");
-        }
 
         function cleanup() {
             selector.selectedIndex = -1;
         }
-
 
         function test_header_binding_data() {
             return [
@@ -291,16 +275,17 @@ Rectangle {
                 { tag: "Medium", width: units.gu(18.5), fill: Image.PreserveAspectCrop, index: 0 },
                 { tag: "Small", width: units.gu(12), index: 1 },
                 { tag: "Large", width: units.gu(38), index: 2 },
-                { tag: "Wide", height: units.gu(19), size: "large", index: 3 },
-                { tag: "Fit", height: units.gu(38), size: "large", width: units.gu(19), index: 4 },
-                { tag: "VerticalWidth", width: function() { return header.width }, index: 0 },
-                { tag: "HorizontalHeight", height: function() { return header.height }, index: 5 },
-                { tag: "HorizontalWidth", width: function() { return headerLoader.x }, index: 5 },
+                { tag: "Wide", height: units.gu(18.5) / 2, size: "large", index: 3 },
+                { tag: "Fit", height: units.gu(18.5), size: "large", width: units.gu(18.5) / 2, index: 4 },
+                { tag: "VerticalWidth", width: function() { return headerRow.width + units.gu(1) * 2 }, index: 0 },
+                { tag: "HorizontalHeight", height: function() { return headerRow.height + units.gu(1) * 2 }, index: 5 },
+                { tag: "HorizontalWidth", width: function() { return headerRow.x - units.gu(1) }, index: 5 },
             ]
         }
 
         function test_art_size(data) {
             selector.selectedIndex = data.index;
+            tryCompareFunction(function() { return art !== null }, true);
 
             if (data.hasOwnProperty("size")) {
                 card.template['card-size'] = data.size;
@@ -331,15 +316,16 @@ Rectangle {
 
         function test_art_layout_data() {
             return [
-                { tag: "Vertical", left: function() { return 0 }, index: 0},
-                { tag: "Horizontal", left: function() { return art.width }, index: 5 },
+                { tag: "Vertical", left: function() { return units.gu(1); }, index: 0},
+                { tag: "Horizontal", left: function() { return art.width + units.gu(1); }, index: 5 },
             ];
         }
 
         function test_art_layout(data) {
             selector.selectedIndex = data.index;
+            tryCompareFunction(function() { return art !== null }, true);
 
-            tryCompare(testCase.headerLoader, "x", data.left());
+            tryCompare(headerRow, "x", data.left());
         }
 
         function test_header_layout_data() {
