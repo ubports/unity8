@@ -159,7 +159,7 @@ function createCardComponent(parent, template, components) {
             } \
             active: artShapeLoader.active && artShapeLoader.item && artShapeLoader.item.image.status === Image.Ready || false; \
             asynchronous: root.asynchronous; \
-            visible: status == Loader.Ready; \
+            visible: showHeader && status == Loader.Ready; \
             sourceComponent: ShaderEffect { \
                 id: overlay; \
                 height: ' + height + ' \
@@ -247,7 +247,7 @@ function createCardComponent(parent, template, components) {
                         objectName: "mascotShapeLoader"; \
                         asynchronous: root.asynchronous; \
                         active: mascotImage.status === Image.Ready; \
-                        visible: active && status == Loader.Ready; \
+                        visible: showHeader && active && status == Loader.Ready; \
                         width: units.gu(6); \
                         height: units.gu(5.625); \
                         sourceComponent: UbuntuShape { image: mascotImage } \
@@ -267,7 +267,7 @@ function createCardComponent(parent, template, components) {
                     fillMode: Image.PreserveAspectCrop; \
                     horizontalAlignment: Image.AlignHCenter; \
                     verticalAlignment: Image.AlignVCenter; \
-                    visible:' + (useMascotShape ? 'false' : 'true') + '; \
+                    visible: showHeader && ' + (useMascotShape ? 'false' : 'true') + '; \
                 }';
     }
 
@@ -297,7 +297,8 @@ function createCardComponent(parent, template, components) {
         } else if (hasMascot) {
             titleAnchors = 'anchors.verticalCenter: parent.verticalCenter;'
         } else if (inOverlay && hasSubtitle) {
-            titleAnchors = 'anchors.right: parent.right; \
+            titleAnchors = 'anchors.leftMargin: units.gu(1); \
+                            anchors.right: parent.right; \
                             anchors.bottom: subtitleLabel.top; \
                             anchors.bottomMargin: units.dp(2);';
             titleAnchors += headerLeftAnchor;
@@ -331,6 +332,7 @@ function createCardComponent(parent, template, components) {
                     maximumLineCount: 2; \
                     font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); \
                     color: ' + color + '; \
+                    visible: showHeader; \
                     text: root.title; \
                     font.weight: components && components["subtitle"] ? Font.DemiBold : Font.Normal; \
                     horizontalAlignment: root.headerAlignment; \
@@ -345,7 +347,7 @@ function createCardComponent(parent, template, components) {
                         fontSize: "small"; \
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); \
                         color: ' + color + '; \
-                        visible: titleLabel.text; \
+                        visible: showHeader && titleLabel.text; \
                         text: cardData && cardData["subtitle"] || ""; \
                         font.weight: Font.Light; \
                         horizontalAlignment: root.headerAlignment; \

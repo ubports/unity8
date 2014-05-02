@@ -49,21 +49,25 @@ DashRenderer {
         property real fontScale: 1 / selectedItemScaleFactor
         property real headerHeight: cardTool.headerHeight / selectedItemScaleFactor
 
-        itemComponent: Card {
-            id: card
-            objectName: "carouselDelegate" + index
-            fixedHeaderHeight: carousel.headerHeight
-            cardData: model
-            template: cardTool.template
-            components: cardTool.components
+        itemComponent: Loader {
+            id: loader
 
             property bool explicitlyScaled
             property var model
-
             enabled: false
-            showHeader: explicitlyScaled
 
-            fontScale: carousel.fontScale
+            sourceComponent: cardTool.cardComponent
+            anchors.horizontalCenter: parent.horizontalCenter
+            onLoaded: {
+                item.objectName = "carouselDelegate" + index;
+//                 item.fixedHeaderHeight = Qt.binding(function() { return cardTool.headerHeight; });
+                item.height = Qt.binding(function() { return cardTool.cardHeight; });
+                item.cardData = Qt.binding(function() { return model; });
+                item.template = Qt.binding(function() { return cardTool.template; });
+                item.components = Qt.binding(function() { return cardTool.components; });
+                item.fontScale = Qt.binding(function() { return carousel.fontScale; });
+                item.showHeader = Qt.binding(function() { return loader.explicitlyScaled; });
+            }
         }
     }
 }
