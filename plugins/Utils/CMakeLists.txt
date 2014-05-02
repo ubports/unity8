@@ -34,6 +34,4 @@ set_target_properties(Utils-qml PROPERTIES COMPILE_FLAGS -fvisibility=default)
 
 qt5_use_modules(Utils-qml Qml Quick DBus Network XmlPatterns Gui Concurrent)
 
-# export the qmldir qmltypes and plugin files
-export_qmlfiles(Utils Utils)
-export_qmlplugin(Utils 0.1 Utils TARGETS Utils-qml)
+add_unity8_plugin(Utils 0.1 Utils TARGETS Utils-qml)

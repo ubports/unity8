@@ -1,6 +1,3 @@
-# export_qmlplugin macro
-include(Plugins)
-
 # Dependencies
 include(FindPkgConfig)
 pkg_check_modules(LIBUSERMETRICSOUTPUT REQUIRED libusermetricsoutput-1)
@@ -37,6 +34,4 @@ target_link_libraries(LightDM-qml
 
 qt5_use_modules(LightDM-qml DBus Gui Qml)
 
-# export the qmldir qmltypes and plugin files
-export_qmlfiles(LightDM LightDM)
-export_qmlplugin(LightDM 0.1 LightDM TARGETS LightDM-qml)
+add_unity8_plugin(LightDM 0.1 LightDM TARGETS LightDM-qml)

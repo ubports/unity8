@@ -1,3 +1,3 @@
 module Powerd
 plugin Powerd-qml
-typeinfo plugin.qmltypes
+typeinfo Powerd.qmltypes
