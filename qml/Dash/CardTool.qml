@@ -177,7 +177,6 @@ Item {
         }
         sourceComponent: cardTool.cardComponent
         onLoaded: {
-//             console.log("CardTool onLoaded");
             item.asynchronous = false;
             item.template = Qt.binding(function() { return cardTool.template; });
             item.components = Qt.binding(function() { return cardTool.components; });
@@ -187,7 +186,6 @@ Item {
         Connections {
             target: cardLoader.item
             onComponentsChanged: {
-//                 console.log("CardTool onComponentsChanged");
                 var data = {};
                 for (var k in cardLoader.fields) {
                     var component = cardLoader.item.components[cardLoader.fields[k]];

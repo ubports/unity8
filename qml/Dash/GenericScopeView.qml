@@ -131,9 +131,7 @@ FocusScope {
 
                 count: results.count
                 template: model.renderer
-//                 onTemplateChanged: console.log("TCH", cardTool, JSON.stringify(template))
                 components: model.components
-//                 onComponentsChanged: console.log("CCH", cardTool, JSON.stringify(components))
                 viewWidth: parent.width
             }
 
@@ -174,7 +172,6 @@ FocusScope {
                     }
                     updateDelegateCreationRange();
                     item.cardTool = cardTool;
-                    console.log("rendererLoader onLoaded");
                 }
 
                 Component.onDestruction: {

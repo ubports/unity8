@@ -22,7 +22,6 @@
 #include <QtGui/QGuiApplication>
 #include <QtQml/QQmlEngine>
 #include <QtQml/QQmlContext>
-#include <QtQml/qqml.h>
 #include <qpa/qplatformnativeinterface.h>
 #include <QLibrary>
 #include <QDebug>
