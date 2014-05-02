@@ -169,6 +169,7 @@ Categories::data(const QModelIndex& index, int role) const
                 artMap["field"] = "art";
                 map["art"] = artMap;
                 map["title"] = "HOLA";
+                map["subtitle"] = "HOLA";
                 return map;
             }
             case RoleProgressSource:

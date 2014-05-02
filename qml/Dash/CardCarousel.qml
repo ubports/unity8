@@ -60,7 +60,7 @@ DashRenderer {
             anchors.horizontalCenter: parent.horizontalCenter
             onLoaded: {
                 item.objectName = "carouselDelegate" + index;
-//                 item.fixedHeaderHeight = Qt.binding(function() { return cardTool.headerHeight; });
+                item.fixedHeaderHeight = Qt.binding(function() { return carousel.headerHeight; });
                 item.height = Qt.binding(function() { return cardTool.cardHeight; });
                 item.cardData = Qt.binding(function() { return model; });
                 item.template = Qt.binding(function() { return cardTool.template; });

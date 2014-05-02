@@ -30,6 +30,7 @@ function createCardComponent(parent, template, components) {
                 property var cardData; \
                 property real fontScale: 1.0; \
                 property int headerAlignment: Text.AlignLeft; \
+                property int fixedHeaderHeight: -1; \
                 property size fixedArtShapeSize: Qt.size(-1, -1); \
                 readonly property string title: cardData && cardData["title"] || ""; \
                 property bool asynchronous: true; \
@@ -41,12 +42,11 @@ function createCardComponent(parent, template, components) {
     var artAndSummary = hasArt && hasSummary;
     var isHorizontal = template["card-layout"] === "horizontal";
     var hasBackground = !isHorizontal && (template["card-background"] || components["background"] || artAndSummary);
-    var inOverlay = hasArt && template && template["overlay"] === true;
     var hasTitle = components["title"] || false;
     var hasMascot = components["mascot"] || false;
+    var inOverlay = hasArt && template && template["overlay"] === true && (hasTitle || hasMascot);
     var hasSubtitle = components["subtitle"] || false;
     var hasHeaderRow = hasMascot && hasTitle;
-    var mascotImageHeight = 'units.gu(5.625)';
 
     if (hasBackground) {
         code += 'Loader {\
@@ -88,12 +88,12 @@ function createCardComponent(parent, template, components) {
         code += 'readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);'
         var imageWidthHeight;
         if (isHorizontal) {
-            if (hasMascot) {
+            if (hasMascot || hasTitle) {
                 imageWidthHeight = 'width: height * artShape.aspect; \
-                                    height: mascotImage.height + 2 * units.gu(1);'
+                                    height: headerHeight;'
             } else {
                 imageWidthHeight = 'width: height * artShape.aspect; \
-                                    height: ' + mascotImageHeight + ' + 2 * units.gu(1);'
+                                    height: units.gu(8.625)';
             }
         } else {
             imageWidthHeight = 'width: root.width; \
@@ -144,12 +144,7 @@ function createCardComponent(parent, template, components) {
     }
 
     if (inOverlay) {
-        var height;
-        if (hasMascot) {
-            var height = 'mascotImage.height + 2 * units.gu(1);';
-        } else {
-            var height = mascotImageHeight + ' + 2 * units.gu(1);';
-        }
+        var height = 'fixedHeaderHeight != -1 ? fixedHeaderHeight : headerHeight;';
         code += 'Loader { \
             id: overlayLoader; \
             anchors { \
@@ -219,6 +214,7 @@ function createCardComponent(parent, template, components) {
     }
 
     if (hasHeaderRow) {
+        code += 'readonly property int headerHeight: row.height + row.margins * 2;'
         code += 'Row { \
                     id: row; \
                     objectName: "outerRow"; \
@@ -237,6 +233,7 @@ function createCardComponent(parent, template, components) {
             anchors += headerLeftAnchor;
             anchors += 'anchors.leftMargin: units.gu(1);'
             anchors += headerVerticalAnchors;
+            code += 'readonly property int headerHeight: mascotImage.height + units.gu(1) * 2;'
         } else {
             anchors = "anchors.verticalCenter: parent.verticalCenter;"
         }
@@ -262,7 +259,7 @@ function createCardComponent(parent, template, components) {
                     readonly property int maxSize: Math.max(width, height) * 4; \
                     source: cardData && cardData["mascot"]; \
                     width: units.gu(6); \
-                    height: ' + mascotImageHeight + '; \
+                    height: units.gu(5.625); \
                     sourceSize { width: maxSize; height: maxSize } \
                     fillMode: Image.PreserveAspectCrop; \
                     horizontalAlignment: Image.AlignHCenter; \
@@ -296,16 +293,17 @@ function createCardComponent(parent, template, components) {
                         width: parent.width - x;';
         } else if (hasMascot) {
             titleAnchors = 'anchors.verticalCenter: parent.verticalCenter;'
-        } else if (inOverlay && hasSubtitle) {
-            titleAnchors = 'anchors.leftMargin: units.gu(1); \
+        } else if (inOverlay) {
+            titleAnchors = 'anchors.left: parent.left; \
+                            anchors.leftMargin: units.gu(1); \
                             anchors.right: parent.right; \
-                            anchors.bottom: subtitleLabel.top; \
-                            anchors.bottomMargin: units.dp(2);';
-            titleAnchors += headerLeftAnchor;
+                            anchors.top: overlayLoader.top; \
+                            anchors.topMargin: units.gu(1);';
             subtitleAnchors = 'anchors.left: titleLabel.left; \
                                anchors.leftMargin: titleLabel.leftMargin; \
-                               anchors.right: titleLabel.right;';
-            subtitleAnchors += headerVerticalAnchors;
+                               anchors.right: titleLabel.right; \
+                               anchors.top: titleLabel.bottom; \
+                               anchors.topMargin: units.dp(2);';
         } else {
             titleAnchors = "anchors.right: parent.right;";
             if (hasMascot) {
@@ -321,6 +319,13 @@ function createCardComponent(parent, template, components) {
                                anchors.top: titleLabel.bottom; \
                                anchors.topMargin: units.dp(2);';
         }
+        if (!hasHeaderRow) {
+            if (hasSubtitle) {
+                code += 'readonly property int headerHeight: subtitleLabel.y + subtitleLabel.height - titleLabel.y + titleLabel.anchors.topMargin * 2 + subtitleLabel.anchors.topMargin;'
+            } else {
+                code += 'readonly property int headerHeight: titleLabel.height + titleLabel.anchors.topMargin * 2;'
+            }
+        }
 
         code += 'Label { \
                     id: titleLabel; \
@@ -332,7 +337,7 @@ function createCardComponent(parent, template, components) {
                     maximumLineCount: 2; \
                     font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); \
                     color: ' + color + '; \
-                    visible: showHeader; \
+                    visible: showHeader ' + (inOverlay ? '&& overlayLoader.active': '') + '; \
                     text: root.title; \
                     font.weight: components && components["subtitle"] ? Font.DemiBold : Font.Normal; \
                     horizontalAlignment: root.headerAlignment; \
@@ -347,7 +352,7 @@ function createCardComponent(parent, template, components) {
                         fontSize: "small"; \
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); \
                         color: ' + color + '; \
-                        visible: showHeader && titleLabel.text; \
+                        visible: titleLabel.visible && titleLabel.text; \
                         text: cardData && cardData["subtitle"] || ""; \
                         font.weight: Font.Light; \
                         horizontalAlignment: root.headerAlignment; \
