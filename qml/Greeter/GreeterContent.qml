@@ -119,16 +119,9 @@ Item {
         }
 
         Timer {
-            id: infoFadeTimer
             running: true
             interval: 200
             onTriggered: infoFadeAnimation.start()
-        }
-
-        Connections {
-            target: LightDM.Greeter
-            onIdle: {infoFadeTimer.stop(); infographics.opacity = 0; infographics.scale = 0.9}
-            onReset: infoFadeTimer.start()
         }
     }
 
@@ -161,16 +154,9 @@ Item {
         }
 
         Timer {
-            id: clockFadeTimer
             running: narrowMode
             interval: 600
             onTriggered: clockFadeAnimation.start()
-        }
-
-        Connections {
-            target: LightDM.Greeter
-            onIdle: {clockFadeTimer.stop(); clock.opacity = 0; clock.scale = 0.9}
-            onReset: clockFadeTimer.start()
         }
     }
 }

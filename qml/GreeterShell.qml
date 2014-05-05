@@ -195,7 +195,7 @@ BasicShell {
                 hides: [launcher]
                 available: !edgeDemo.active
             }
-            fullscreenMode: true
+            fullscreenMode: initialPanelDelay.running
             searchVisible: false
         }
 
@@ -203,13 +203,6 @@ BasicShell {
             id: initialPanelDelay
             running: true
             interval: 300
-            onTriggered: panel.fullscreenMode = false
-        }
-
-        Connections {
-            target: LightDM.Greeter
-            onIdle: {initialPanelDelay.stop(); panel.fullscreenMode = true}
-            onReset: initialPanelDelay.start()
         }
 
         Launcher {
