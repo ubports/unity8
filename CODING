@@ -107,9 +107,9 @@ Notes
 - exporting ANDROID_SERIAL=$your_device_serial or 
   ANDROID_SERIAL=$your_device_ip:5555 will make adb not complain about 
   multiple devices
-- you can export TARGET_IP=$your_device_ip TARGET_SSH_PORT=22 for run_on_device
+- you can export TARGET_IP=$your_device_ip TARGET_SSH_PORT=22 for run_on_device.sh
   to not use adb forwarding - useful if you use multiple devices
-- using Ninja (package ninja-build - run_on_device -s installs this now)
+- using Ninja (package ninja-build - run_on_device.sh -s installs this now)
   will improve build times (especially in the nothing-to-build case)
 
 
