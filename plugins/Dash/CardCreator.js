@@ -1,5 +1,3 @@
-.pragma library
-
 /*
  * Copyright (C) 2014 Canonical, Ltd.
  *
