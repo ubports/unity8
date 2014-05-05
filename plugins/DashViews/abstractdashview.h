@@ -23,12 +23,8 @@ class QAbstractItemModel;
 class QQmlComponent;
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-pedantic"
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-#include <private/qquickvisualdatamodel_p.h>
-#else
 #include <private/qqmldelegatemodel_p.h>
 #include <qqmlinfo.h>
-#endif
 #pragma GCC diagnostic pop
 
 class AbstractDashView : public QQuickItem
@@ -94,13 +90,8 @@ protected:
     void setImplicitHeightDirty();
 
 private Q_SLOTS:
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-    void itemCreated(int modelIndex, QQuickItem *item);
-    void onModelUpdated(const QQuickChangeSet &changeSet, bool reset);
-#else
     void itemCreated(int modelIndex, QObject *object);
     void onModelUpdated(const QQmlChangeSet &changeSet, bool reset);
-#endif
     void onHeightChanged();
 
 private:
@@ -117,17 +108,9 @@ private:
     virtual void doRelayout() = 0;
     virtual void updateItemCulling(qreal visibleFromY, qreal visibleToY) = 0;
     virtual void calculateImplicitHeight() = 0;
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-    virtual void processModelRemoves(const QVector<QQuickChangeSet::Remove> &removes) = 0;
-#else
     virtual void processModelRemoves(const QVector<QQmlChangeSet::Remove> &removes) = 0;
-#endif
 
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-    QQuickVisualDataModel *m_delegateModel;
-#else
     QQmlDelegateModel *m_delegateModel;
-#endif
 
     // Index we are waiting because we requested it asynchronously
     int m_asyncRequestedIndex;

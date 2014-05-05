@@ -239,17 +239,9 @@ void VerticalJournal::updateItemCulling(qreal visibleFromY, qreal visibleToY)
     }
 }
 
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-void VerticalJournal::processModelRemoves(const QVector<QQuickChangeSet::Remove> &removes)
-#else
 void VerticalJournal::processModelRemoves(const QVector<QQmlChangeSet::Remove> &removes)
-#endif
 {
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-    Q_FOREACH(const QQuickChangeSet::Remove &remove, removes) {
-#else
     Q_FOREACH(const QQmlChangeSet::Remove &remove, removes) {
-#endif
         for (int i = remove.count - 1; i >= 0; --i) {
             const int indexToRemove = remove.index + i;
             // Since we only support removing from the end, indexToRemove
