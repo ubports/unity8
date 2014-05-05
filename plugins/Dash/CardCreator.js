@@ -424,4 +424,3 @@ function createCardComponent(parent, template, components) {
 //     console.log(code)
     return Qt.createQmlObject(code, parent, "createCardComponent");
 }
-

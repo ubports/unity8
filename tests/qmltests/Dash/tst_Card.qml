@@ -236,7 +236,7 @@ Rectangle {
                 { tag: "Wide", width: units.gu(18.5), index: 0 },
                 { tag: "Horizontal", width: units.gu(38), index: 5 },
                 // Make sure card ends with header when there's no summary
-                { tag: "NoSummary", height: function() { var cardToolRow = findChild(cardTool, "outerRow"); 
+                { tag: "NoSummary", height: function() { var cardToolRow = findChild(cardTool, "outerRow");
                                                          return cardToolRow.y + cardToolRow.height + units.gu(1) }, index: 6 },
                 { tag: "HorizontalNoSummary", height: function() { return headerRow.height + units.gu(2) }, card_layout: "horizontal", index: 6 },
             ]
