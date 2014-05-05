@@ -104,8 +104,8 @@ Depends: dbus-x11,
          unity8 (= ${source:Version}),
          ${misc:Depends},
          ${shlibs:Depends},
-Breaks: unity8 (<< 7.86),
-Replaces: unity8 (<< 7.86),
+Breaks: unity8 (<< 7.87),
+Replaces: unity8 (<< 7.87),
 Description: Ubuntu QML greeter
  The Ubuntu QML greeter is the primary greeter for Ubuntu devices.
 
