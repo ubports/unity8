@@ -24,11 +24,7 @@
 #include <QtTestGui>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-pedantic"
-#if QT_VERSION < QT_VERSION_CHECK(5, 1, 0)
-#include <private/qquicklistmodel_p.h>
-#else
 #include <private/qqmllistmodel_p.h>
-#endif
 #include <private/qquickanimation_p.h>
 #include <private/qquickitem_p.h>
 #pragma GCC diagnostic pop

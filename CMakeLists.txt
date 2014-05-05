@@ -48,11 +48,11 @@ add_custom_target(cppcheck COMMAND cppcheck --enable=all -q --error-exitcode=2
                                        ${CMAKE_SOURCE_DIR}/src ${CMAKE_SOURCE_DIR}/tests)
 
 include(FindPkgConfig)
-find_package(Qt5Core)
-find_package(Qt5Qml)
-find_package(Qt5Quick)
-find_package(Qt5Gui)
-find_package(Qt5DBus)
+find_package(Qt5Core 5.2 REQUIRED)
+find_package(Qt5Qml 5.2 REQUIRED)
+find_package(Qt5Quick 5.2 REQUIRED)
+find_package(Qt5Gui 5.2 REQUIRED)
+find_package(Qt5DBus 5.2 REQUIRED)
 
 # Standard install paths
 include(GNUInstallDirs)

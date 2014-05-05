@@ -28,14 +28,11 @@ PreviewWidget {
     id: root
     implicitHeight: units.gu(22)
 
-    LazyImage {
+    ZoomableImage {
+        id: image
         objectName: "image"
-        anchors {
-            top: parent.top
-            bottom: parent.bottom
-        }
-        scaleTo: "height"
         source: widgetData["source"]
-        initialWidth: units.gu(13)
+        zoomable: widgetData["zoomable"] ? widgetData["zoomable"] : false
+        anchors.fill: parent
     }
 }

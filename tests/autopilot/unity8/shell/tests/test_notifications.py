@@ -208,6 +208,89 @@ class InteractiveNotificationBase(NotificationsBase):
         self.touch.tap_object(notification.select_single(objectName="button4"))
         self.assert_notification_action_id_was_called("action_decline_4")
 
+    def test_modal_sd_without_greeter (self):
+        """A snap-decision on a phone should block input to shell beneath it when there's no greeter."""
+        unity_proxy = self.launch_unity()
+        unlock_unity(unity_proxy)
+
+        summary = "Incoming file"
+        body = "Frank would like to send you the file: essay.pdf"
+        icon_path = "sync-idle"
+        hints = [
+            ("x-canonical-snap-decisions", "true"),
+            ("x-canonical-non-shaped-icon", "true"),
+        ]
+
+        actions = [
+            ('action_accept', 'Accept'),
+            ('action_decline_1', 'Decline'),
+        ]
+
+        self._create_interactive_notification(
+            summary,
+            body,
+            icon_path,
+            "NORMAL",
+            actions,
+            hints
+        )
+
+        # verify that we cannot reveal the launcher (no longer interact with the shell)
+        time.sleep(1)
+        self.main_window.show_dash_swiping()
+        launcher = self.main_window.get_launcher()
+        self.assertThat(launcher.shown, Eventually(Equals(False)))
+
+        # verify and interact with the triggered snap-decision notification
+        notify_list = self._get_notifications_list()
+        get_notification = lambda: notify_list.wait_select_single(
+            'Notification', objectName='notification1')
+        notification = get_notification()
+        self._assert_notification(notification, summary, body, True, False, 1.0)
+        self.touch.tap_object(notification.select_single(objectName="button0"))
+        self.assert_notification_action_id_was_called("action_accept")
+
+    def test_modal_sd_with_greeter (self):
+        """A snap-decision on a phone should not block input to the greeter beneath it."""
+        unity_proxy = self.launch_unity()
+
+        summary = "Incoming file"
+        body = "Frank would like to send you the file: essay.pdf"
+        icon_path = "sync-idle"
+        hints = [
+            ("x-canonical-snap-decisions", "true"),
+            ("x-canonical-non-shaped-icon", "true"),
+        ]
+
+        actions = [
+            ('action_accept', 'Accept'),
+            ('action_decline_1', 'Decline'),
+        ]
+
+        self._create_interactive_notification(
+            summary,
+            body,
+            icon_path,
+            "NORMAL",
+            actions,
+            hints
+        )
+
+        # verify that we can swipe away the greeter (interact with the "shell")
+        time.sleep(1)
+        self.main_window.show_dash_swiping()
+        greeter = self.main_window.get_greeter()
+        self.assertThat(greeter.shown, Eventually(Equals(False)))
+
+        # verify and interact with the triggered snap-decision notification
+        notify_list = self._get_notifications_list()
+        get_notification = lambda: notify_list.wait_select_single(
+            'Notification', objectName='notification1')
+        notification = get_notification()
+        self._assert_notification(notification, summary, body, True, False, 1.0)
+        self.touch.tap_object(notification.select_single(objectName="button0"))
+        self.assert_notification_action_id_was_called("action_accept")
+
     def _create_interactive_notification(
         self,
         summary="",
