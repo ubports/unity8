@@ -16,10 +16,7 @@
 
 .pragma library
 
-function createCardComponent(parent, template, components) {
-    var imports = 'import QtQuick 2.2; \
-                   import Ubuntu.Components 0.1; \
-                   import Ubuntu.Thumbnailer 0.1;';
+function cardString(template, components) {
     var code;
     code = 'AbstractButton { \
                 id: root; \
@@ -418,9 +415,14 @@ function createCardComponent(parent, template, components) {
     }
     code += '}';
 
+    return code;
+}
 
-
-    code = imports + 'Component {' + code + '}';
-//     console.log(code)
+function createCardComponent(parent, template, components) {
+    var imports = 'import QtQuick 2.2; \
+                   import Ubuntu.Components 0.1; \
+                   import Ubuntu.Thumbnailer 0.1;';
+    var card = cardString(template, components);
+    var code = imports + 'Component {' + card + '}';
     return Qt.createQmlObject(code, parent, "createCardComponent");
 }
