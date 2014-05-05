@@ -98,16 +98,13 @@ Load the testability driver");
 
     resolveIconTheme();
 
-    std::auto_ptr<ApplicationArguments> appArgs;
+    ApplicationArguments qmlArgs;
     if (parser.isSet(windowGeometryOption) &&
-        parser.value(windowGeometryOption).split('x').size() == 2) {
-            QStringList geom =
-            parser.value(windowGeometryOption).split('x');
-            appArgs.reset(new ApplicationArguments(geom.at(0).toInt(), geom.at(1).toInt()));
-    } else {
-        appArgs.reset(new ApplicationArguments());
+        parser.value(windowGeometryOption).split('x').size() == 2)
+    {
+      QStringList geom = parser.value(windowGeometryOption).split('x');
+      qmlArgs.setSize(geom.at(0).toInt(), geom.at(1).toInt());
     }
-    ApplicationArguments& qmlArgs = *appArgs;
 
     // The testability driver is only loaded by QApplication but not by QGuiApplication.
     // However, QApplication depends on QWidget which would add some unneeded overhead => Let's load the testability driver on our own.

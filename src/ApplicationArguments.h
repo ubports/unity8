@@ -28,11 +28,8 @@ class ApplicationArguments : public QObject
 {
     Q_OBJECT
 public:
-    ApplicationArguments()
-    {
-    }
-
-    ApplicationArguments(int width, int height) {
+    // Not exposed to the app as setSize isn't invokable
+    void setSize(int width, int height) {
         m_size.rwidth()  = width;
         m_size.rheight() = height;
     }
