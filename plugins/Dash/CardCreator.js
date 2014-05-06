@@ -16,6 +16,209 @@
 
 .pragma library
 
+var backgroundLoaderCode = 'Loader {\n\
+                                id: backgroundLoader; \n\
+                                objectName: "backgroundLoader"; \n\
+                                anchors.fill: parent; \n\
+                                asynchronous: root.asynchronous; \n\
+                                visible: status == Loader.Ready; \n\
+                                sourceComponent: UbuntuShape { \n\
+                                    objectName: "background"; \n\
+                                    radius: "medium"; \n\
+                                    color: getColor(0) || "white"; \n\
+                                    gradientColor: getColor(1) || color; \n\
+                                    anchors.fill: parent; \n\
+                                    image: backgroundImage.source ? backgroundImage : null; \n\
+                                    property real luminance: 0.2126 * color.r + 0.7152 * color.g + 0.0722 * color.b; \n\
+                                    property Image backgroundImage: Image { \n\
+                                        objectName: "backgroundImage"; \n\
+                                        source: { \n\
+                                            if (cardData && typeof cardData["background"] === "string") return cardData["background"]; \n\
+                                            else if (template && typeof template["card-background"] === "string") return template["card-background"]; \n\
+                                            else return ""; \n\
+                                        } \n\
+                                    } \n\
+                                    function getColor(index) { \n\
+                                        if (cardData && typeof cardData["background"] === "object" \n\
+                                            && (cardData["background"]["type"] === "color" || cardData["background"]["type"] === "gradient")) { \n\
+                                            return cardData["background"]["elements"][index]; \n\
+                                        } else if (template && typeof template["card-background"] === "object" \n\
+                                                && (template["card-background"]["type"] === "color" || template["card-background"]["type"] === "gradient"))  { \n\
+                                            return template["card-background"]["elements"][index]; \n\
+                                        } else return undefined; \n\
+                                    } \n\
+                                } \n\
+                            }\n';
+
+var artShapeHolderCode = 'Item  { \n\
+                            id: artShapeHolder; \n\
+                            height: root.fixedArtShapeSize.height != -1 ? root.fixedArtShapeSize.height : artShapeLoader.height; \n\
+                            width: root.fixedArtShapeSize.width != -1 ? root.fixedArtShapeSize.width : artShapeLoader.width; \n\
+                            %1 \n\
+                            Loader { \n\
+                                id: artShapeLoader; \n\
+                                objectName: "artShapeLoader"; \n\
+                                active: cardData && cardData["art"] || false; \n\
+                                asynchronous: root.asynchronous; \n\
+                                visible: status == Loader.Ready; \n\
+                                sourceComponent: UbuntuShape { \n\
+                                    id: artShape; \n\
+                                    objectName: "artShape"; \n\
+                                    radius: "medium"; \n\
+                                    readonly property real aspect: components !== undefined ? components["art"]["aspect-ratio"] : 1; \n\
+                                    readonly property bool aspectSmallerThanImageAspect: aspect < image.aspect; \n\
+                                    Component.onCompleted: updateWidthHeightBindings(); \n\
+                                    onAspectSmallerThanImageAspectChanged: updateWidthHeightBindings(); \n\
+                                    visible: image.status == Image.Ready; \n\
+                                    function updateWidthHeightBindings() { \n\
+                                        if (aspectSmallerThanImageAspect) { \n\
+                                            width = Qt.binding(function() { return !visible ? 0 : image.width }); \n\
+                                            height = Qt.binding(function() { return !visible ? 0 : image.fillMode === Image.PreserveAspectCrop ? image.height : width / image.aspect }); \n\
+                                        } else { \n\
+                                            width = Qt.binding(function() { return !visible ? 0 : image.fillMode === Image.PreserveAspectCrop ? image.width : height * image.aspect }); \n\
+                                            height = Qt.binding(function() { return !visible ? 0 : image.height }); \n\
+                                        } \n\
+                                    } \n\
+                                    image: Image { \n\
+                                        objectName: "artImage"; \n\
+                                        source: cardData && cardData["art"] || ""; \n\
+                                        cache: true; \n\
+                                        asynchronous: root.asynchronous; \n\
+                                        fillMode: components && components["art"]["fill-mode"] === "fit" ? Image.PreserveAspectFit: Image.PreserveAspectCrop; \n\
+                                        readonly property real aspect: implicitWidth / implicitHeight; \n\
+                                        %2 \n\
+                                    } \n\
+                                } \n\
+                            } \n\
+                        }\n';
+
+var overlayLoaderCode = 'Loader { \n\
+                            id: overlayLoader; \n\
+                            anchors { \n\
+                                left: artShapeHolder.left; \n\
+                                right: artShapeHolder.right; \n\
+                                bottom: artShapeHolder.bottom; \n\
+                            } \n\
+                            active: artShapeLoader.active && artShapeLoader.item && artShapeLoader.item.image.status === Image.Ready || false; \n\
+                            asynchronous: root.asynchronous; \n\
+                            visible: showHeader && status == Loader.Ready; \n\
+                            sourceComponent: ShaderEffect { \n\
+                                id: overlay; \n\
+                                height: fixedHeaderHeight != -1 ? fixedHeaderHeight : headerHeight; \n\
+                                opacity: 0.6; \n\
+                                property var source: ShaderEffectSource { \n\
+                                    id: shaderSource; \n\
+                                    sourceItem: artShapeLoader.item; \n\
+                                    onVisibleChanged: if (visible) scheduleUpdate(); \n\
+                                    live: false; \n\
+                                    sourceRect: Qt.rect(0, artShapeLoader.height - overlay.height, artShapeLoader.width, overlay.height); \n\
+                                } \n\
+                                vertexShader: " \n\
+                                    uniform highp mat4 qt_Matrix; \n\
+                                    attribute highp vec4 qt_Vertex; \n\
+                                    attribute highp vec2 qt_MultiTexCoord0; \n\
+                                    varying highp vec2 coord; \n\
+                                    void main() { \n\
+                                        coord = qt_MultiTexCoord0; \n\
+                                        gl_Position = qt_Matrix * qt_Vertex; \n\
+                                    }"; \n\
+                                fragmentShader: " \n\
+                                    varying highp vec2 coord; \n\
+                                    uniform sampler2D source; \n\
+                                    uniform lowp float qt_Opacity; \n\
+                                    void main() { \n\
+                                        lowp vec4 tex = texture2D(source, coord); \n\
+                                        gl_FragColor = vec4(0, 0, 0, tex.a) * qt_Opacity; \n\
+                                    }"; \n\
+                            } \n\
+                        }\n';
+
+var headerRowCode = 'Row { \n\
+                        id: row; \n\
+                        objectName: "outerRow"; \n\
+                        property real margins: units.gu(1); \n\
+                        spacing: margins; \n\
+                        %1 \n\
+                        %2 \n\
+                        anchors.right: parent.right; \n\
+                        anchors.margins: margins;\n';
+
+var mascotShapeLoaderCode = 'Loader { \n\
+                                id: mascotShapeLoader; \n\
+                                objectName: "mascotShapeLoader"; \n\
+                                asynchronous: root.asynchronous; \n\
+                                active: mascotImage.status === Image.Ready; \n\
+                                visible: showHeader && active && status == Loader.Ready; \n\
+                                width: units.gu(6); \n\
+                                height: units.gu(5.625); \n\
+                                sourceComponent: UbuntuShape { image: mascotImage } \n\
+                                %1 \n\
+                            }\n';
+
+var mascotImageCode = 'Image { \n\
+                            id: mascotImage; \n\
+                            objectName: "mascotImage"; \n\
+                            %1 \n\
+                            readonly property int maxSize: Math.max(width, height) * 4; \n\
+                            source: cardData && cardData["mascot"]; \n\
+                            width: units.gu(6); \n\
+                            height: units.gu(5.625); \n\
+                            sourceSize { width: maxSize; height: maxSize } \n\
+                            fillMode: Image.PreserveAspectCrop; \n\
+                            horizontalAlignment: Image.AlignHCenter; \n\
+                            verticalAlignment: Image.AlignVCenter; \n\
+                            visible: %2; \n\
+                        }\n';
+
+var titleLabelCode = 'Label { \n\
+                        id: titleLabel; \n\
+                        objectName: "titleLabel"; \n\
+                        %1 \n\
+                        elide: Text.ElideRight; \n\
+                        fontSize: "small"; \n\
+                        wrapMode: Text.Wrap; \n\
+                        maximumLineCount: 2; \n\
+                        font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); \n\
+                        color: %2; \n\
+                        visible: showHeader %3; \n\
+                        text: root.title; \n\
+                        font.weight: components && components["subtitle"] ? Font.DemiBold : Font.Normal; \n\
+                        horizontalAlignment: root.headerAlignment; \n\
+                    }\n';
+
+var subtitleLabelCode = 'Label { \n\
+                            id: subtitleLabel; \n\
+                            objectName: "subtitleLabel"; \n\
+                            %1 \n\
+                            elide: Text.ElideRight; \n\
+                            fontSize: "small"; \n\
+                            font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); \n\
+                            color: %2; \n\
+                            visible: titleLabel.visible && titleLabel.text; \n\
+                            text: cardData && cardData["subtitle"] || ""; \n\
+                            font.weight: Font.Light; \n\
+                            horizontalAlignment: root.headerAlignment; \n\
+                        }\n';
+
+var summaryLabelCode = 'Label { \n\
+                            id: summary; \n\
+                            objectName: "summaryLabel"; \n\
+                            anchors { \n\
+                                top: %1; \n\
+                                left: parent.left; \n\
+                                right: parent.right; \n\
+                                margins: units.gu(1); \n\
+                                topMargin: %2; \n\
+                            } \n\
+                            wrapMode: Text.Wrap; \n\
+                            maximumLineCount: 5; \n\
+                            elide: Text.ElideRight; \n\
+                            text: cardData && cardData["summary"] || ""; \n\
+                            height: text ? implicitHeight : 0; \n\
+                            fontSize: "small"; \n\
+                            color: %3; \n\
+                        }\n';
+
 function cardString(template, components) {
     var code;
     code = 'AbstractButton { \n\
@@ -44,144 +247,38 @@ function cardString(template, components) {
     var hasHeaderRow = hasMascot && hasTitle;
 
     if (hasBackground) {
-        code += 'Loader {\n\
-                    id: backgroundLoader; \n\
-                    objectName: "backgroundLoader"; \n\
-                    anchors.fill: parent; \n\
-                    asynchronous: root.asynchronous; \n\
-                    visible: status == Loader.Ready; \n\
-                    sourceComponent: UbuntuShape { \n\
-                        objectName: "background"; \n\
-                        radius: "medium"; \n\
-                        color: getColor(0) || "white"; \n\
-                        gradientColor: getColor(1) || color; \n\
-                        anchors.fill: parent; \n\
-                        image: backgroundImage.source ? backgroundImage : null; \n\
-                        property real luminance: 0.2126 * color.r + 0.7152 * color.g + 0.0722 * color.b; \n\
-                        property Image backgroundImage: Image { \n\
-                            objectName: "backgroundImage"; \n\
-                            source: { \n\
-                                if (cardData && typeof cardData["background"] === "string") return cardData["background"]; \n\
-                                else if (template && typeof template["card-background"] === "string") return template["card-background"]; \n\
-                                else return ""; \n\
-                            } \n\
-                        } \n\
-                        function getColor(index) { \n\
-                            if (cardData && typeof cardData["background"] === "object" \n\
-                                && (cardData["background"]["type"] === "color" || cardData["background"]["type"] === "gradient")) { \n\
-                                return cardData["background"]["elements"][index]; \n\
-                            } else if (template && typeof template["card-background"] === "object" \n\
-                                    && (template["card-background"]["type"] === "color" || template["card-background"]["type"] === "gradient"))  { \n\
-                                return template["card-background"]["elements"][index]; \n\
-                            } else return undefined; \n\
-                        } \n\
-                    } \n\
-                }\n';
+        code += backgroundLoaderCode;
     }
 
     if (hasArt) {
-        code += 'readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);\n'
-        var imageWidthHeight;
+        code += 'readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);\n';
+
+        var imageWidthHeightCode;
+        var anchors;
         if (isHorizontal) {
+            anchors = 'anchors.left: parent.left;';
             if (hasMascot || hasTitle) {
-                imageWidthHeight = 'width: height * artShape.aspect; \n\
-                                    height: headerHeight;\n'
+                imageWidthHeightCode = 'width: height * artShape.aspect; \n\
+                                        height: headerHeight;\n';
             } else {
                 // This side of the else is a bit silly, who wants an horizontal layout without mascot and title?
                 // So we define a "random" height of the image height + 2 gu for the margins
-                imageWidthHeight = 'width: height * artShape.aspect; \n\
-                                    height: units.gu(7.625)';
+                imageWidthHeightCode = 'width: height * artShape.aspect; \n\
+                                        height: units.gu(7.625)';
             }
         } else {
-            imageWidthHeight = 'width: root.width; \n\
-                                height: width / artShape.aspect;\n'
+            anchors = 'anchors.horizontalCenter: parent.horizontalCenter;';
+            imageWidthHeightCode = 'width: root.width; \n\
+                                    height: width / artShape.aspect;\n';
         }
-        code += 'Item  { \n\
-                    id: artShapeHolder; \n\
-                    height: root.fixedArtShapeSize.height != -1 ? root.fixedArtShapeSize.height : artShapeLoader.height; \n\
-                    width: root.fixedArtShapeSize.width != -1 ? root.fixedArtShapeSize.width : artShapeLoader.width; \n\
-                    ' + (isHorizontal ? 'anchors.left: parent.left;' : 'anchors.horizontalCenter: parent.horizontalCenter;\n' ) + '\n\
-                    Loader { \n\
-                        id: artShapeLoader; \n\
-                        objectName: "artShapeLoader"; \n\
-                        active: cardData && cardData["art"] || false; \n\
-                        asynchronous: root.asynchronous; \n\
-                        visible: status == Loader.Ready; \n\
-                        sourceComponent: UbuntuShape { \n\
-                            id: artShape; \n\
-                            objectName: "artShape"; \n\
-                            radius: "medium"; \n\
-                            readonly property real aspect: components !== undefined ? components["art"]["aspect-ratio"] : 1; \n\
-                            readonly property bool aspectSmallerThanImageAspect: aspect < image.aspect; \n\
-                            Component.onCompleted: updateWidthHeightBindings(); \n\
-                            onAspectSmallerThanImageAspectChanged: updateWidthHeightBindings(); \n\
-                            visible: image.status == Image.Ready; \n\
-                            function updateWidthHeightBindings() { \n\
-                                if (aspectSmallerThanImageAspect) { \n\
-                                    width = Qt.binding(function() { return !visible ? 0 : image.width }); \n\
-                                    height = Qt.binding(function() { return !visible ? 0 : image.fillMode === Image.PreserveAspectCrop ? image.height : width / image.aspect }); \n\
-                                } else { \n\
-                                    width = Qt.binding(function() { return !visible ? 0 : image.fillMode === Image.PreserveAspectCrop ? image.width : height * image.aspect }); \n\
-                                    height = Qt.binding(function() { return !visible ? 0 : image.height }); \n\
-                                } \n\
-                            } \n\
-                            image: Image { \n\
-                                objectName: "artImage"; \n\
-                                source: cardData && cardData["art"] || ""; \n\
-                                cache: true; \n\
-                                asynchronous: root.asynchronous; \n\
-                                fillMode: components && components["art"]["fill-mode"] === "fit" ? Image.PreserveAspectFit: Image.PreserveAspectCrop; \n\
-                                readonly property real aspect: implicitWidth / implicitHeight; \n\
-                                ' + imageWidthHeight + '\n\
-                            } \n\
-                        } \n\
-                    } \n\
-                }\n'
+
+        code += artShapeHolderCode.arg(anchors).arg(imageWidthHeightCode);
     } else {
         code += 'readonly property size artShapeSize: Qt.size(-1, -1);\n'
     }
 
     if (headerAsOverlay) {
-        code += 'Loader { \n\
-            id: overlayLoader; \n\
-            anchors { \n\
-                left: artShapeHolder.left; \n\
-                right: artShapeHolder.right; \n\
-                bottom: artShapeHolder.bottom; \n\
-            } \n\
-            active: artShapeLoader.active && artShapeLoader.item && artShapeLoader.item.image.status === Image.Ready || false; \n\
-            asynchronous: root.asynchronous; \n\
-            visible: showHeader && status == Loader.Ready; \n\
-            sourceComponent: ShaderEffect { \n\
-                id: overlay; \n\
-                height: fixedHeaderHeight != -1 ? fixedHeaderHeight : headerHeight; \n\
-                opacity: 0.6; \n\
-                property var source: ShaderEffectSource { \n\
-                    id: shaderSource; \n\
-                    sourceItem: artShapeLoader.item; \n\
-                    onVisibleChanged: if (visible) scheduleUpdate(); \n\
-                    live: false; \n\
-                    sourceRect: Qt.rect(0, artShapeLoader.height - overlay.height, artShapeLoader.width, overlay.height); \n\
-                } \n\
-                vertexShader: " \n\
-                    uniform highp mat4 qt_Matrix; \n\
-                    attribute highp vec4 qt_Vertex; \n\
-                    attribute highp vec2 qt_MultiTexCoord0; \n\
-                    varying highp vec2 coord; \n\
-                    void main() { \n\
-                        coord = qt_MultiTexCoord0; \n\
-                        gl_Position = qt_Matrix * qt_Vertex; \n\
-                    }"; \n\
-                fragmentShader: " \n\
-                    varying highp vec2 coord; \n\
-                    uniform sampler2D source; \n\
-                    uniform lowp float qt_Opacity; \n\
-                    void main() { \n\
-                        lowp vec4 tex = texture2D(source, coord); \n\
-                        gl_FragColor = vec4(0, 0, 0, tex.a) * qt_Opacity; \n\
-                    }"; \n\
-            } \n\
-        }\n';
+        code += overlayLoaderCode;
     }
 
     var headerVerticalAnchors;
@@ -214,15 +311,7 @@ function cardString(template, components) {
 
     if (hasHeaderRow) {
         code += 'readonly property int headerHeight: row.height + row.margins * 2;\n'
-        code += 'Row { \n\
-                    id: row; \n\
-                    objectName: "outerRow"; \n\
-                    property real margins: units.gu(1); \n\
-                    spacing: margins; \n\
-                    ' + headerVerticalAnchors + '\n\
-                    ' + headerLeftAnchor + '\n\
-                    anchors.right: parent.right; \n\
-                    anchors.margins: margins;\n';
+        code += headerRowCode.arg(headerVerticalAnchors).arg(headerLeftAnchor);
     } else if (hasMascot) {
         code += 'readonly property int headerHeight: mascotImage.height + units.gu(1) * 2;\n'
     } else if (hasSubtitle) {
@@ -247,33 +336,11 @@ function cardString(template, components) {
         }
 
         if (useMascotShape) {
-            code += 'Loader { \n\
-                        id: mascotShapeLoader; \n\
-                        objectName: "mascotShapeLoader"; \n\
-                        asynchronous: root.asynchronous; \n\
-                        active: mascotImage.status === Image.Ready; \n\
-                        visible: showHeader && active && status == Loader.Ready; \n\
-                        width: units.gu(6); \n\
-                        height: units.gu(5.625); \n\
-                        sourceComponent: UbuntuShape { image: mascotImage } \n\
-                        ' + anchors + '\n\
-                    }\n';
+            code += mascotShapeLoaderCode.arg(anchors);
         }
 
-        code += 'Image { \n\
-                    id: mascotImage; \n\
-                    objectName: "mascotImage"; \n\
-                    ' + anchors + '\n\
-                    readonly property int maxSize: Math.max(width, height) * 4; \n\
-                    source: cardData && cardData["mascot"]; \n\
-                    width: units.gu(6); \n\
-                    height: units.gu(5.625); \n\
-                    sourceSize { width: maxSize; height: maxSize } \n\
-                    fillMode: Image.PreserveAspectCrop; \n\
-                    horizontalAlignment: Image.AlignHCenter; \n\
-                    verticalAlignment: Image.AlignVCenter; \n\
-                    visible: showHeader && ' + (useMascotShape ? 'false' : 'true') + '; \n\
-                }\n';
+        var mascotImageVisible = useMascotShape ? 'false' : 'showHeader';
+        code += mascotImageCode.arg(anchors).arg(mascotImageVisible);
     }
 
     var summaryColorWithBackground = 'backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < 0.7 ? "white" : "grey"';
@@ -328,36 +395,11 @@ function cardString(template, components) {
                                anchors.topMargin: units.dp(2);\n';
         }
 
-        code += 'Label { \n\
-                    id: titleLabel; \n\
-                    objectName: "titleLabel"; \n\
-                    ' + titleAnchors + '\n\
-                    elide: Text.ElideRight; \n\
-                    fontSize: "small"; \n\
-                    wrapMode: Text.Wrap; \n\
-                    maximumLineCount: 2; \n\
-                    font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); \n\
-                    color: ' + color + '; \n\
-                    visible: showHeader ' + (headerAsOverlay ? '&& overlayLoader.active': '') + '; \n\
-                    text: root.title; \n\
-                    font.weight: components && components["subtitle"] ? Font.DemiBold : Font.Normal; \n\
-                    horizontalAlignment: root.headerAlignment; \n\
-                }\n';
+        var titleLabelVisibleExtra = (headerAsOverlay ? '&& overlayLoader.active': '');
+        code += titleLabelCode.arg(titleAnchors).arg(color).arg(titleLabelVisibleExtra);
 
         if (hasSubtitle) {
-            code += 'Label { \n\
-                        id: subtitleLabel; \n\
-                        objectName: "subtitleLabel"; \n\
-                        ' + subtitleAnchors + '\n\
-                        elide: Text.ElideRight; \n\
-                        fontSize: "small"; \n\
-                        font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); \n\
-                        color: ' + color + '; \n\
-                        visible: titleLabel.visible && titleLabel.text; \n\
-                        text: cardData && cardData["subtitle"] || ""; \n\
-                        font.weight: Font.Light; \n\
-                        horizontalAlignment: root.headerAlignment; \n\
-                    }\n';
+            code += subtitleLabelCode.arg(subtitleAnchors).arg(color);
 
             // Close Column
             if (hasMascot)
@@ -380,33 +422,19 @@ function cardString(template, components) {
         else if (hasTitle) summaryTopAnchor = "titleLabel.bottom";
         else if (hasArt) summaryTopAnchor = "artShapeHolder.bottom";
         else summaryTopAnchor = "parent.top";
+
         var color;
         if (hasBackground) {
             color = summaryColorWithBackground;
         } else {
             color = '"grey"';
         }
-        code += 'Label { \n\
-                    id: summary; \n\
-                    objectName: "summaryLabel"; \n\
-                    anchors { \n\
-                        top: ' + summaryTopAnchor + '; \n\
-                        left: parent.left; \n\
-                        right: parent.right; \n\
-                        margins: units.gu(1); \n\
-                        topMargin: ' + (hasMascot || hasSubtitle ? 'anchors.margins' : 0) + '; \n\
-                    } \n\
-                    wrapMode: Text.Wrap; \n\
-                    maximumLineCount: 5; \n\
-                    elide: Text.ElideRight; \n\
-                    text: cardData && cardData["summary"] || ""; \n\
-                    height: text ? implicitHeight : 0; \n\
-                    fontSize: "small"; \n\
-                    color: ' + color + '; \n\
-                }\n';
+
+        var summaryTopMargin = (hasMascot || hasSubtitle ? 'anchors.margins' : '0');
+
+        code += summaryLabelCode.arg(summaryTopAnchor).arg(summaryTopMargin).arg(color);
     }
 
-    // Close the AbstractButton
     if (hasSummary) {
         code += 'implicitHeight: summary.y + summary.height + (summary.text ? units.gu(1) : 0);\n';
     } else if (hasHeaderRow) {
@@ -418,6 +446,7 @@ function cardString(template, components) {
     } else if (hasTitle) {
         code += 'implicitHeight: titleLabel.y + titleLabel.height + units.gu(1);\n';
     }
+    // Close the AbstractButton
     code += '}\n';
 
     return code;

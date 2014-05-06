@@ -48,7 +48,7 @@ Image {
                     fillMode: Image.PreserveAspectCrop; 
                     horizontalAlignment: Image.AlignHCenter; 
                     verticalAlignment: Image.AlignVCenter; 
-                    visible: showHeader && false; 
+                    visible: false; 
                 }
 Column { 
                         anchors.verticalCenter: parent.verticalCenter; 

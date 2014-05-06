@@ -70,7 +70,7 @@ Image {
                     fillMode: Image.PreserveAspectCrop; 
                     horizontalAlignment: Image.AlignHCenter; 
                     verticalAlignment: Image.AlignVCenter; 
-                    visible: showHeader && true; 
+                    visible: showHeader; 
                 }
 Column { 
                         anchors.verticalCenter: parent.verticalCenter; 
