@@ -67,6 +67,13 @@ add_dashview_try_test(verticaljournal VerticalJournal)
 add_dashview_try_test(horizontaljournal HorizontalJournal)
 add_dashview_try_test(organicgrid OrganicGrid)
 
+# CardCreator test
+add_executable(CardCreatorTestExec cardcreatortest.cpp)
+qt5_use_modules(CardCreatorTestExec Test Core Qml)
+target_link_libraries(CardCreatorTestExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
+add_binary_qml_test(CardCreator "" "Dash-qml")
+
+# plain qml test
 set(qmltest_DEFAULT_TARGETS qmluitests)
 set(qmltest_DEFAULT_NO_ADD_TEST TRUE)
 add_qml_test(. ListViewWithPageHeaderQML IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
