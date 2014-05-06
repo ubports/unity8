@@ -222,6 +222,14 @@ function cardString(template, components) {
                     ' + headerLeftAnchor + '\
                     anchors.right: parent.right; \
                     anchors.margins: margins;';
+    } else if (hasMascot) {
+        code += 'readonly property int headerHeight: mascotImage.height + units.gu(1) * 2;'
+    } else if (hasSubtitle) {
+        code += 'readonly property int headerHeight: subtitleLabel.y + subtitleLabel.height - titleLabel.y + titleLabel.anchors.topMargin * 2 + subtitleLabel.anchors.topMargin;'
+    } else if (hasTitle) {
+        code += 'readonly property int headerHeight: titleLabel.height + titleLabel.anchors.topMargin * 2;'
+    } else {
+        code += 'readonly property int headerHeight: 0;'
     }
 
     if (hasMascot) {
@@ -231,7 +239,6 @@ function cardString(template, components) {
             anchors += headerLeftAnchor;
             anchors += 'anchors.leftMargin: units.gu(1);'
             anchors += headerVerticalAnchors;
-            code += 'readonly property int headerHeight: mascotImage.height + units.gu(1) * 2;'
         } else {
             anchors = "anchors.verticalCenter: parent.verticalCenter;"
         }
@@ -316,13 +323,6 @@ function cardString(template, components) {
                                anchors.right: titleLabel.right; \
                                anchors.top: titleLabel.bottom; \
                                anchors.topMargin: units.dp(2);';
-        }
-        if (!hasHeaderRow) {
-            if (hasSubtitle) {
-                code += 'readonly property int headerHeight: subtitleLabel.y + subtitleLabel.height - titleLabel.y + titleLabel.anchors.topMargin * 2 + subtitleLabel.anchors.topMargin;'
-            } else {
-                code += 'readonly property int headerHeight: titleLabel.height + titleLabel.anchors.topMargin * 2;'
-            }
         }
 
         code += 'Label { \
