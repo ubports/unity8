@@ -283,9 +283,12 @@ FocusScope {
             target: DBusUnitySessionService
 
             onLogoutRequested: {
+                // TODO: Display a dialog to ask the user to confirm.
+                DBusUnitySessionService.Logout();
             }
 
             onLogoutReady: {
+                // close all the apps.
                 while (true) {
                     var app = ApplicationManager.get(0);
                     if (app === null) {
@@ -293,6 +296,7 @@ FocusScope {
                     }
                     ApplicationManager.stopApplication(app.appId);
                 }
+
                 Qt.quit();
             }
         }
