@@ -32,7 +32,7 @@ function cardString(template, components) {
                 property bool showHeader: true; \
                 implicitWidth: childrenRect.width; ';
 
-    var hasArt = components["art"]["field"];
+    var hasArt = components["art"] && components["art"]["field"] || false;
     var hasSummary = components["summary"] || false;
     var artAndSummary = hasArt && hasSummary;
     var isHorizontal = template["card-layout"] === "horizontal";
