@@ -39,7 +39,7 @@ function cardString(template, components) {
     var hasBackground = !isHorizontal && (template["card-background"] || components["background"] || artAndSummary);
     var hasTitle = components["title"] || false;
     var hasMascot = components["mascot"] || false;
-    var inOverlay = hasArt && template && template["overlay"] === true && (hasTitle || hasMascot);
+    var headerAsOverlay = hasArt && template && template["overlay"] === true && (hasTitle || hasMascot);
     var hasSubtitle = components["subtitle"] || false;
     var hasHeaderRow = hasMascot && hasTitle;
 
@@ -141,7 +141,7 @@ function cardString(template, components) {
         code += 'readonly property size artShapeSize: Qt.size(-1, -1);\n'
     }
 
-    if (inOverlay) {
+    if (headerAsOverlay) {
         var height = 'fixedHeaderHeight != -1 ? fixedHeaderHeight : headerHeight;\n';
         code += 'Loader { \n\
             id: overlayLoader; \n\
@@ -186,7 +186,7 @@ function cardString(template, components) {
     }
 
     var headerVerticalAnchors;
-    if (inOverlay) {
+    if (headerAsOverlay) {
         headerVerticalAnchors = 'anchors.bottom: artShapeHolder.bottom; \n\
                                  anchors.bottomMargin: units.gu(1);\n';
     } else {
@@ -235,7 +235,7 @@ function cardString(template, components) {
     }
 
     if (hasMascot) {
-        var useMascotShape = !hasBackground && !inOverlay;
+        var useMascotShape = !hasBackground && !headerAsOverlay;
         var anchors = "";
         if (!hasHeaderRow) {
             anchors += headerLeftAnchor;
@@ -281,7 +281,7 @@ function cardString(template, components) {
 
     if (hasTitle) {
         var color;
-        if (inOverlay) {
+        if (headerAsOverlay) {
             color = '"white"';
         } else if (hasSummary) {
             color = 'summary.color';
@@ -302,7 +302,7 @@ function cardString(template, components) {
                         width: parent.width - x;\n';
         } else if (hasMascot) {
             titleAnchors = 'anchors.verticalCenter: parent.verticalCenter;\n'
-        } else if (inOverlay) {
+        } else if (headerAsOverlay) {
             titleAnchors = 'anchors.left: parent.left; \n\
                             anchors.leftMargin: units.gu(1); \n\
                             anchors.right: parent.right; \n\
@@ -339,7 +339,7 @@ function cardString(template, components) {
                     maximumLineCount: 2; \n\
                     font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); \n\
                     color: ' + color + '; \n\
-                    visible: showHeader ' + (inOverlay ? '&& overlayLoader.active': '') + '; \n\
+                    visible: showHeader ' + (headerAsOverlay ? '&& overlayLoader.active': '') + '; \n\
                     text: root.title; \n\
                     font.weight: components && components["subtitle"] ? Font.DemiBold : Font.Normal; \n\
                     horizontalAlignment: root.headerAlignment; \n\
@@ -374,7 +374,7 @@ function cardString(template, components) {
     if (hasSummary) {
         var summaryTopAnchor;
         if (isHorizontal && hasArt) summaryTopAnchor = "artShapeHolder.bottom";
-        else if (inOverlay && hasArt) summaryTopAnchor = "artShapeHolder.bottom";
+        else if (headerAsOverlay && hasArt) summaryTopAnchor = "artShapeHolder.bottom";
         else if (hasHeaderRow) summaryTopAnchor = "row.bottom";
         else if (hasMascot) summaryTopAnchor = "mascotImage.bottom";
         else if (hasSubtitle) summaryTopAnchor = "subtitleLabel.bottom";
