@@ -141,7 +141,16 @@ var headerRowCode = 'Row { \n\
                         %1 \n\
                         %2 \n\
                         anchors.right: parent.right; \n\
-                        anchors.margins: margins;\n';
+                        anchors.margins: margins;\n\
+                        %3 \n\
+                    }\n';
+
+var headerColumnCode = 'Column { \n\
+                            anchors.verticalCenter: parent.verticalCenter; \n\
+                            spacing: units.dp(2); \n\
+                            width: parent.width - x;\n\
+                            %1 \n\
+                        }\n';
 
 var mascotShapeLoaderCode = 'Loader { \n\
                                 id: mascotShapeLoader; \n\
@@ -311,7 +320,6 @@ function cardString(template, components) {
 
     if (hasHeaderRow) {
         code += 'readonly property int headerHeight: row.height + row.margins * 2;\n'
-        code += headerRowCode.arg(headerVerticalAnchors).arg(headerLeftAnchor);
     } else if (hasMascot) {
         code += 'readonly property int headerHeight: mascotImage.height + units.gu(1) * 2;\n'
     } else if (hasSubtitle) {
@@ -322,6 +330,7 @@ function cardString(template, components) {
         code += 'readonly property int headerHeight: 0;\n'
     }
 
+    var mascotCode = "";
     if (hasMascot) {
         var useMascotShape = !hasBackground && !headerAsOverlay;
         var anchors = "";
@@ -336,15 +345,16 @@ function cardString(template, components) {
         }
 
         if (useMascotShape) {
-            code += mascotShapeLoaderCode.arg(anchors);
+            mascotCode += mascotShapeLoaderCode.arg(anchors);
         }
 
         var mascotImageVisible = useMascotShape ? 'false' : 'showHeader';
-        code += mascotImageCode.arg(anchors).arg(mascotImageVisible);
+        mascotCode += mascotImageCode.arg(anchors).arg(mascotImageVisible);
     }
 
     var summaryColorWithBackground = 'backgroundLoader.active && backgroundLoader.item && backgroundLoader.item.luminance < 0.7 ? "white" : "grey"';
 
+    var titleSubtitleCode = "";
     if (hasTitle) {
         var color;
         if (headerAsOverlay) {
@@ -357,37 +367,29 @@ function cardString(template, components) {
             color = '"grey"';
         }
 
-        var titleAnchors = "";
-        var subtitleAnchors = "";
+        var titleAnchors;
+        var subtitleAnchors;
         if (hasMascot && hasSubtitle) {
+            // Using row + column
             titleAnchors = 'anchors { left: parent.left; right: parent.right }\n';
             subtitleAnchors = titleAnchors;
-            code += 'Column { \n\
-                        anchors.verticalCenter: parent.verticalCenter; \n\
-                        spacing: units.dp(2); \n\
-                        width: parent.width - x;\n';
         } else if (hasMascot) {
+            // Using row + label
             titleAnchors = 'anchors.verticalCenter: parent.verticalCenter;\n'
-        } else if (headerAsOverlay) {
-            titleAnchors = 'anchors.left: parent.left; \n\
-                            anchors.leftMargin: units.gu(1); \n\
-                            anchors.right: parent.right; \n\
-                            anchors.top: overlayLoader.top; \n\
-                            anchors.topMargin: units.gu(1);\n';
-            subtitleAnchors = 'anchors.left: titleLabel.left; \n\
-                               anchors.leftMargin: titleLabel.leftMargin; \n\
-                               anchors.right: titleLabel.right; \n\
-                               anchors.top: titleLabel.bottom; \n\
-                               anchors.topMargin: units.dp(2);\n';
         } else {
-            titleAnchors = "anchors.right: parent.right;";
-            if (hasMascot) {
-                titleAnchors += 'anchors.left: mascotImage.right; \n\
-                                 anchors.leftMargin: units.gu(1);\n';
+            if (headerAsOverlay) {
+                // Using anchors to the overlay
+                titleAnchors = 'anchors.left: parent.left; \n\
+                                anchors.leftMargin: units.gu(1); \n\
+                                anchors.right: parent.right; \n\
+                                anchors.top: overlayLoader.top; \n\
+                                anchors.topMargin: units.gu(1);\n';
             } else {
+                // Using anchors to the mascot/parent
+                titleAnchors = "anchors.right: parent.right;";
                 titleAnchors += headerLeftAnchor;
+                titleAnchors += headerVerticalAnchors;
             }
-            titleAnchors += headerVerticalAnchors;
             subtitleAnchors = 'anchors.left: titleLabel.left; \n\
                                anchors.leftMargin: titleLabel.leftMargin; \n\
                                anchors.right: titleLabel.right; \n\
@@ -396,20 +398,22 @@ function cardString(template, components) {
         }
 
         var titleLabelVisibleExtra = (headerAsOverlay ? '&& overlayLoader.active': '');
-        code += titleLabelCode.arg(titleAnchors).arg(color).arg(titleLabelVisibleExtra);
+        titleSubtitleCode += titleLabelCode.arg(titleAnchors).arg(color).arg(titleLabelVisibleExtra);
 
         if (hasSubtitle) {
-            code += subtitleLabelCode.arg(subtitleAnchors).arg(color);
+            titleSubtitleCode += subtitleLabelCode.arg(subtitleAnchors).arg(color);
+        }
 
-            // Close Column
-            if (hasMascot)
-                code += '}\n';
+        if (hasMascot && hasSubtitle) {
+            // If using row + column wrap the code in the column
+            titleSubtitleCode = headerColumnCode.arg(titleSubtitleCode);
         }
     }
 
     if (hasHeaderRow) {
-        // Close Row
-        code += '}\n';
+        code += headerRowCode.arg(headerVerticalAnchors).arg(headerLeftAnchor).arg(mascotCode + titleSubtitleCode);
+    } else {
+        code += mascotCode + titleSubtitleCode;
     }
 
     if (hasSummary) {
