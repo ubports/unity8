@@ -87,6 +87,8 @@ function cardString(template, components) {
                 imageWidthHeight = 'width: height * artShape.aspect; \
                                     height: headerHeight;'
             } else {
+                // This side of the else is a bit silly, who wants an horizontal layout without mascot and title?
+                // So we define a "random" height of the image height + 2 gu for the margins
                 imageWidthHeight = 'width: height * artShape.aspect; \
                                     height: units.gu(7.625)';
             }
