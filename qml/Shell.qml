@@ -582,6 +582,24 @@ FocusScope {
             }
         }
 
+        Rectangle {
+            id: modalNotificationBackground
+
+            visible: notifications.useModal && !greeter.shown && (notifications.state == "narrow")
+            color: "#000000"
+            anchors.fill: parent
+            opacity: 0.5
+
+            MouseArea {
+                anchors.fill: parent
+            }
+
+            InputFilterArea {
+                anchors.fill: parent
+                blockInput: modalNotificationBackground.visible
+            }
+        }
+
         Notifications {
             id: notifications
 

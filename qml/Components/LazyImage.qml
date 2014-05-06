@@ -36,6 +36,7 @@ Item {
     property alias cache: image.cache
     property alias horizontalAlignment: image.horizontalAlignment
     property alias verticalAlignment: image.verticalAlignment
+    property alias sourceImage: image
 
     state: "default"
 
