@@ -59,8 +59,8 @@ Greeter::Greeter(QObject* parent)
     connect(d->m_greeter, SIGNAL(idle()), this, SIGNAL(idle()));
     connect(d->m_greeter, SIGNAL(reset()), this, SIGNAL(reset()));
 
-    d->m_greeter->connectSync();
     d->m_greeter->setResettable(true);
+    d->m_greeter->connectSync();
 }
 
 bool Greeter::isAuthenticated() const
