@@ -142,7 +142,6 @@ function cardString(template, components) {
     }
 
     if (headerAsOverlay) {
-        var height = 'fixedHeaderHeight != -1 ? fixedHeaderHeight : headerHeight;\n';
         code += 'Loader { \n\
             id: overlayLoader; \n\
             anchors { \n\
@@ -155,7 +154,7 @@ function cardString(template, components) {
             visible: showHeader && status == Loader.Ready; \n\
             sourceComponent: ShaderEffect { \n\
                 id: overlay; \n\
-                height: ' + height + ' \n\
+                height: fixedHeaderHeight != -1 ? fixedHeaderHeight : headerHeight; \n\
                 opacity: 0.6; \n\
                 property var source: ShaderEffectSource { \n\
                     id: shaderSource; \n\
