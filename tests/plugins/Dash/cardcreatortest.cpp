@@ -44,7 +44,7 @@ private Q_SLOTS:
         delete view;
     }
 
-    void testKnownCases() 
+    void testKnownCases()
     {
         const QString templateString("template: ");
         const QString componentsString("components: ");
@@ -54,6 +54,7 @@ private Q_SLOTS:
         QDir d(testDirPath);
         const QStringList testFiles = d.entryList(QStringList() << "*.tst");
         foreach(const QString &testFileName, testFiles) {
+            qDebug() << testFileName;
             QFile testFile(testDirPath + testFileName);
             QVERIFY(testFile.open(QIODevice::ReadOnly));
             QTextStream ts(&testFile);
