@@ -88,7 +88,7 @@ function cardString(template, components) {
                                     height: headerHeight;'
             } else {
                 imageWidthHeight = 'width: height * artShape.aspect; \
-                                    height: units.gu(8.625)';
+                                    height: units.gu(7.625)';
             }
         } else {
             imageWidthHeight = 'width: root.width; \
