@@ -195,14 +195,8 @@ BasicShell {
                 hides: [launcher]
                 available: !edgeDemo.active
             }
-            fullscreenMode: initialPanelDelay.running
+            fullscreenMode: false
             searchVisible: false
-        }
-
-        Timer {
-            id: initialPanelDelay
-            running: true
-            interval: 300
         }
 
         Launcher {

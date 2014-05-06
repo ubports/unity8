@@ -77,7 +77,6 @@ Item {
         objectName: "infographics"
         height: narrowMode ? parent.height : 0.75 * parent.height
         model: greeterContentLoader.infographicModel
-        opacity: 0.0
 
         property string selectedUser
         property string infographicUser: AccountsService.statsWelcomeScreen ? selectedUser : ""
@@ -99,64 +98,15 @@ Item {
             left: narrowMode ? root.left : loginLoader.right
             right: root.right
         }
-
-        ParallelAnimation {
-            id: infoFadeAnimation
-            StandardAnimation {
-                target: infographics
-                property: "opacity"
-                from: 0.0
-                to: 1.0
-                duration: 800
-            }
-            StandardAnimation {
-                target: infographics
-                property: "scale"
-                from: 0.9
-                to: 1.0
-                duration: 800
-            }
-        }
-
-        Timer {
-            running: true
-            interval: 200
-            onTriggered: infoFadeAnimation.start()
-        }
     }
 
     Clock {
         id: clock
-        opacity: 0.0
 
         anchors {
             top: parent.top
             topMargin: units.gu(2)
             horizontalCenter: parent.horizontalCenter
-        }
-
-        ParallelAnimation {
-            id: clockFadeAnimation
-            StandardAnimation {
-                target: clock
-                property: "opacity"
-                from: 0.0
-                to: 1.0
-                duration: 600
-            }
-            StandardAnimation {
-                target: clock
-                property: "scale"
-                from: 0.9
-                to: 1.0
-                duration: 600
-            }
-        }
-
-        Timer {
-            running: narrowMode
-            interval: 600
-            onTriggered: clockFadeAnimation.start()
         }
     }
 }
