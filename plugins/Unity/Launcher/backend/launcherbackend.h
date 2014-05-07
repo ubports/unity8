@@ -42,7 +42,7 @@ class LauncherBackend : public QDBusVirtualObject
     friend LauncherBackendTest;
 
 public:
-    LauncherBackend(QObject *parent = 0);
+    LauncherBackend(bool greeterMode = false, QObject *parent = 0);
     virtual ~LauncherBackend();
 
     /**
@@ -162,6 +162,7 @@ public:
     virtual QString introspect (const QString &path) const;
 
 Q_SIGNALS:
+    void refreshApplications() const;
     void quickListChanged(const QString &appId, const QList<QuickListEntry> &quickList) const;
     void progressChanged(const QString &appId, int progress) const;
     void countChanged(const QString &appId, int count) const;
@@ -178,6 +179,8 @@ private:
     void syncFromAccounts();
     void syncToAccounts();
 
+    bool m_greeterMode;
+
     QList<QString> m_storedApps;
     mutable QHash<QString, LauncherBackendItem*> m_itemCache;
 
@@ -185,6 +188,9 @@ private:
     QString m_user;
 
     void emitPropChangedDbus(const QString& appId, const QString& property, QVariant &value) const;
+
+private Q_SLOTS:
+    void accountsListChanged(const QString &user, const QString &interface, const QStringList &changed);
 
 protected: /* Protected to allow testing */
     LauncherBackendItem* getItem(const QString& appId) const;
