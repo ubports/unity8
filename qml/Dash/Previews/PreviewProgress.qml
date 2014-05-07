@@ -34,11 +34,12 @@ PreviewWidget {
     ProgressBar {
         id: progressBar
         objectName: "progressBar"
+        anchors.right: parent.right
         value: 0
         maximumValue: 100
-        implicitHeight: units.gu(5)
+        implicitHeight: units.gu(4)
         height: parent.height
-        width: parent.width
+        width: (root.width - units.gu(1)) / 2
 
         property var source: widgetData["source"]
         // TODO Eventually we will need to support more sources other

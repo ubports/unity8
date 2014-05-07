@@ -1,3 +1,43 @@
+unity8 (7.86+14.10.20140505-0ubuntu1) utopic; urgency=low
+
+  [ Ted Gould ]
+  * Provide a dbus interface for setting the count and countVisible
+    properties. (LP: #1301400)
+
+  [ Michał Sawicz ]
+  * Pass env variables to initctl start.
+  * Suffix .sh to our scripts and clean up debian/rules.
+  * Adapt to Debian Qt package renames and drop unneeded Dee plugin
+    dependency.
+
+  [ Ying-Chun Liu ]
+  * Add Zoomable Image for Preview widgets.
+
+  [ Albert Astals ]
+  * Remove support for Qt <= 5.2.1
+
+  [ Mirco Müller ]
+  * Implemented feature-request from Design for modal snap-decision
+    notifications on the phone. See LP #1285712 (LP: #1285712)
+
+  [ Andrea Cimitan ]
+  * Make progressbas in preview widget big as the button
+
+  [ CI bot ]
+  * Resync trunk
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 05 May 2014 12:09:43 +0000
+
+unity8 (7.86+14.10.20140502.6-0ubuntu1) utopic; urgency=low
+
+  [ tpeeters ]
+  * Adapt to new TabBar
+
+  [ Tim Peeters ]
+  * Adapt to new TabBar
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 02 May 2014 16:44:52 +0000
+
 unity8 (7.86+14.10.20140429.2-0ubuntu1) utopic; urgency=medium
 
   [ Andrea Cimitan ]

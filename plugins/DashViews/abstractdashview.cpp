@@ -46,17 +46,10 @@ void AbstractDashView::setModel(QAbstractItemModel *model)
         if (!m_delegateModel) {
             createDelegateModel();
         } else {
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-            disconnect(m_delegateModel, SIGNAL(modelUpdated(QQuickChangeSet,bool)), this, SLOT(onModelUpdated(QQuickChangeSet,bool)));
-        }
-        m_delegateModel->setModel(QVariant::fromValue<QAbstractItemModel *>(model));
-        connect(m_delegateModel, SIGNAL(modelUpdated(QQuickChangeSet,bool)), this, SLOT(onModelUpdated(QQuickChangeSet,bool)));
-#else
             disconnect(m_delegateModel, SIGNAL(modelUpdated(QQmlChangeSet,bool)), this, SLOT(onModelUpdated(QQmlChangeSet,bool)));
         }
         m_delegateModel->setModel(QVariant::fromValue<QAbstractItemModel *>(model));
         connect(m_delegateModel, SIGNAL(modelUpdated(QQmlChangeSet,bool)), this, SLOT(onModelUpdated(QQmlChangeSet,bool)));
-#endif
 
         cleanupExistingItems();
 
@@ -181,13 +174,8 @@ void AbstractDashView::resetDelegateCreationEnd()
 
 void AbstractDashView::createDelegateModel()
 {
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-    m_delegateModel = new QQuickVisualDataModel(qmlContext(this), this);
-    connect(m_delegateModel, SIGNAL(createdItem(int,QQuickItem*)), this, SLOT(itemCreated(int,QQuickItem*)));
-#else
     m_delegateModel = new QQmlDelegateModel(qmlContext(this), this);
     connect(m_delegateModel, SIGNAL(createdItem(int,QObject*)), this, SLOT(itemCreated(int,QObject*)));
-#endif
     if (isComponentComplete())
         m_delegateModel->componentComplete();
 }
@@ -253,16 +241,9 @@ QQuickItem *AbstractDashView::createItem(int modelIndex, bool asynchronous)
         return nullptr;
 
     m_asyncRequestedIndex = -1;
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-    QQuickItem *item = m_delegateModel->item(modelIndex, asynchronous);
-#else
     QObject* object = m_delegateModel->object(modelIndex, asynchronous);
     QQuickItem *item = qmlobject_cast<QQuickItem*>(object);
-#endif
     if (!item) {
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-        m_asyncRequestedIndex = modelIndex;
-#else
         if (object) {
             m_delegateModel->release(object);
             if (!m_delegateValidated) {
@@ -273,7 +254,6 @@ QQuickItem *AbstractDashView::createItem(int modelIndex, bool asynchronous)
         } else {
             m_asyncRequestedIndex = modelIndex;
         }
-#endif
         return nullptr;
     } else {
         addItemToView(modelIndex, item);
@@ -283,13 +263,8 @@ QQuickItem *AbstractDashView::createItem(int modelIndex, bool asynchronous)
 
 void AbstractDashView::releaseItem(QQuickItem *item)
 {
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-    QQuickVisualModel::ReleaseFlags flags = m_delegateModel->release(item);
-    if (flags & QQuickVisualModel::Destroyed) {
-#else
     QQmlDelegateModel::ReleaseFlags flags = m_delegateModel->release(item);
     if (flags & QQmlDelegateModel::Destroyed) {
-#endif
         item->setParentItem(nullptr);
     }
 }
@@ -299,10 +274,6 @@ void AbstractDashView::setImplicitHeightDirty()
     m_implicitHeightDirty = true;
 }
 
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-void AbstractDashView::itemCreated(int modelIndex, QQuickItem *item)
-{
-#else
 void AbstractDashView::itemCreated(int modelIndex, QObject *object)
 {
     QQuickItem *item = qmlobject_cast<QQuickItem*>(object);
@@ -310,7 +281,6 @@ void AbstractDashView::itemCreated(int modelIndex, QObject *object)
         qWarning() << "AbstractDashView::itemCreated got a non item for index" << modelIndex;
         return;
     }
-#endif
     item->setParentItem(this);
 
     // We only need to call createItem if we are here because of an asynchronous generation
@@ -325,11 +295,7 @@ void AbstractDashView::itemCreated(int modelIndex, QObject *object)
     }
 }
 
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-void AbstractDashView::onModelUpdated(const QQuickChangeSet &changeSet, bool reset)
-#else
 void AbstractDashView::onModelUpdated(const QQmlChangeSet &changeSet, bool reset)
-#endif
 {
     if (reset) {
         cleanupExistingItems();
