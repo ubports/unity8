@@ -204,10 +204,12 @@ var titleLabelCode = 'Label { \n\
                         horizontalAlignment: root.headerAlignment; \n\
                     }\n';
 
+// %1 is used as anchors of subtitleLabel
+// %2 is used as color of subtitleLabel
 var subtitleLabelCode = 'Label { \n\
                             id: subtitleLabel; \n\
                             objectName: "subtitleLabel"; \n\
-                            %1 \n\
+                            anchors { %1 } \n\
                             elide: Text.ElideRight; \n\
                             fontSize: "small"; \n\
                             font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); \n\
@@ -381,7 +383,7 @@ function cardString(template, components) {
         if (hasMascot && hasSubtitle) {
             // Using row + column
             titleAnchors = 'anchors { left: parent.left; right: parent.right }\n';
-            subtitleAnchors = titleAnchors;
+            subtitleAnchors = 'left: parent.left; right: parent.right';
         } else if (hasMascot) {
             // Using row + label
             titleAnchors = 'anchors.verticalCenter: parent.verticalCenter;\n'
@@ -399,11 +401,11 @@ function cardString(template, components) {
                 titleAnchors += headerLeftAnchor;
                 titleAnchors += headerVerticalAnchors;
             }
-            subtitleAnchors = 'anchors.left: titleLabel.left; \n\
-                               anchors.leftMargin: titleLabel.leftMargin; \n\
-                               anchors.right: titleLabel.right; \n\
-                               anchors.top: titleLabel.bottom; \n\
-                               anchors.topMargin: units.dp(2);\n';
+            subtitleAnchors = 'left: titleLabel.left; \n\
+                               leftMargin: titleLabel.leftMargin; \n\
+                               right: titleLabel.right; \n\
+                               top: titleLabel.bottom; \n\
+                               topMargin: units.dp(2);\n';
         }
 
         var titleLabelVisibleExtra = (headerAsOverlay ? '&& overlayLoader.active': '');

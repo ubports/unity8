@@ -121,11 +121,11 @@ Label {
 Label { 
                         id: subtitleLabel; 
                         objectName: "subtitleLabel"; 
-                        anchors.left: titleLabel.left; 
-                               anchors.leftMargin: titleLabel.leftMargin; 
-                               anchors.right: titleLabel.right; 
-                               anchors.top: titleLabel.bottom; 
-                               anchors.topMargin: units.dp(2);
+                        anchors { left: titleLabel.left; 
+                               leftMargin: titleLabel.leftMargin; 
+                               right: titleLabel.right; 
+                               top: titleLabel.bottom; 
+                               topMargin: units.dp(2); }
 
                         elide: Text.ElideRight; 
                         fontSize: "small"; 
