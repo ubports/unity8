@@ -220,6 +220,9 @@ var subtitleLabelCode = 'Label { \n\
                             horizontalAlignment: root.headerAlignment; \n\
                         }\n';
 
+// %1 is used as top anchor of summary
+// %2 is used as topMargin anchor of summary
+// %3 is used as color of summary
 var summaryLabelCode = 'Label { \n\
                             id: summary; \n\
                             objectName: "summaryLabel"; \n\
