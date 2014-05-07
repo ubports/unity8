@@ -54,17 +54,14 @@ RegistryTracker::~RegistryTracker()
 #define REGISTRY_CONFIG \
 "[Registry]\n" \
 "Middleware = Zmq\n" \
-"Zmq.Endpoint = ipc://%1/Registry\n" \
-"Zmq.EndpointDir = %2\n" \
-"Zmq.ConfigFile = %3\n" \
-"Scope.InstallDir = %4\n" \
-"Scoperunner.Path = %5\n" \
-"%6"
+"Zmq.ConfigFile = %1\n" \
+"Scope.InstallDir = %2\n" \
+"Scoperunner.Path = %3\n" \
+"%4"
 
 #define MW_CONFIG \
 "[Zmq]\n" \
-"EndpointDir.Public = %1\n" \
-"EndpointDir.Private = %2\n"
+"EndpointDir = %1\n"
 
 void RegistryTracker::runRegistry()
 {
@@ -78,29 +75,41 @@ void RegistryTracker::runRegistry()
         return;
     }
 
-    QString scopesLibdir;
+    QString scopeInstallDir;
+    QString scopeRegistryBin;
+    QString scopeRunnerBin;
     {
         QProcess pkg_config;
+        QByteArray output;
         QStringList arguments;
-        arguments << "--variable=libdir";
+        arguments << "--variable=scopesdir";
         arguments << "libunity-scopes";
         pkg_config.start("pkg-config", arguments);
         pkg_config.waitForFinished();
-        QByteArray libdir = pkg_config.readAllStandardOutput();
-        scopesLibdir = QDir(QString::fromLocal8Bit(libdir)).path().trimmed();
+        output = pkg_config.readAllStandardOutput();
+        scopeInstallDir = QDir(QString::fromLocal8Bit(output)).path().trimmed();
+
+        arguments[0] = "--variable=scoperegistry_bin";
+        pkg_config.start("pkg-config", arguments);
+        pkg_config.waitForFinished();
+        output = pkg_config.readAllStandardOutput();
+        scopeRegistryBin = QString::fromLocal8Bit(output).trimmed();
+
+        arguments[0] = "--variable=scoperunner_bin";
+        pkg_config.start("pkg-config", arguments);
+        pkg_config.waitForFinished();
+        output = pkg_config.readAllStandardOutput();
+        scopeRunnerBin = QString::fromLocal8Bit(output).trimmed();
     }
 
-    if (scopesLibdir.size() == 0) {
+    if (scopeInstallDir.isEmpty() || scopeRegistryBin.isEmpty() || scopeRunnerBin.isEmpty()) {
         qWarning("Unable to find libunity-scopes package config file");
         return;
     }
 
-    QString scopeRunnerPath = QDir(scopesLibdir).filePath("scoperunner/scoperunner");
-
     QString runtime_ini = QString(RUNTIME_CONFIG).arg(m_registry_config.fileName()).arg(m_mw_config.fileName());
     // FIXME: keep in sync with the SSRegistry config
-    QString serverRegistryConfig(m_serverScopes ? "SS.Registry.Identity = SSRegistry\nSS.Registry.Endpoint = ipc:///tmp/SSRegistry" : "");
-    QString scopeInstallDir(scopesLibdir + "/unity-scopes");
+    QString serverRegistryConfig(m_serverScopes ? "SS.Registry.Identity = SSRegistry\n" : "");
     if (!m_systemScopes) {
         m_scopeInstallDir.reset(new QTemporaryDir(tmp.filePath("scopes.XXXXXX")));
         if (!m_scopeInstallDir->isValid()) {
@@ -108,8 +117,8 @@ void RegistryTracker::runRegistry()
         }
         scopeInstallDir = m_scopeInstallDir->path();
     }
-    QString registry_ini = QString(REGISTRY_CONFIG).arg(m_endpoints_dir.path()).arg(m_endpoints_dir.path()).arg(m_mw_config.fileName()).arg(scopeInstallDir).arg(scopeRunnerPath).arg(serverRegistryConfig);
-    QString mw_ini = QString(MW_CONFIG).arg(m_endpoints_dir.path()).arg(m_endpoints_dir.path());
+    QString registry_ini = QString(REGISTRY_CONFIG).arg(m_mw_config.fileName()).arg(scopeInstallDir).arg(scopeRunnerBin).arg(serverRegistryConfig);
+    QString mw_ini = QString(MW_CONFIG).arg(m_endpoints_dir.path());
 
     m_runtime_config.write(runtime_ini.toUtf8());
     m_registry_config.write(registry_ini.toUtf8());
@@ -121,11 +130,10 @@ void RegistryTracker::runRegistry()
 
     qputenv("UNITY_SCOPES_RUNTIME_PATH", m_runtime_config.fileName().toLocal8Bit());
 
-    QString registryBin(QDir(scopesLibdir).filePath("scoperegistry/scoperegistry"));
     QStringList arguments;
     arguments << m_runtime_config.fileName();
     arguments << m_scopes;
 
     m_registry.setProcessChannelMode(QProcess::ForwardedChannels);
-    m_registry.start(registryBin, arguments);
+    m_registry.start(scopeRegistryBin, arguments);
 }
