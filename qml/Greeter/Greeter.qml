@@ -174,6 +174,10 @@ Showable {
     }
 
     onTease: showLabelAnimation.start()
+    onShownChanged: {
+        showLabelAnimation.stop()
+        swipeHint.opacity = 0
+    }
 
     Label {
         id: swipeHint
