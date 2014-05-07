@@ -34,7 +34,6 @@ except ImportError:
 
 from testtools.matchers import Contains, HasLength
 
-from unity8 import process_helpers
 from unity8.shell import emulators, fixture_setup, tests
 from unity8.shell.emulators import dash as dash_emulators
 
@@ -46,7 +45,6 @@ class MainWindowTestCase(tests.UnityTestCase):
     def setUp(self):
         super(MainWindowTestCase, self).setUp()
         unity_proxy = self.launch_unity()
-        process_helpers.unlock_unity(unity_proxy)
 
     def test_search(self):
         self.main_window.search('Test')

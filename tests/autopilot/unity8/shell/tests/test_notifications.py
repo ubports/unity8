@@ -211,7 +211,6 @@ class InteractiveNotificationBase(NotificationsBase):
     def test_modal_sd_without_greeter (self):
         """A snap-decision on a phone should block input to shell beneath it when there's no greeter."""
         unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
 
         summary = "Incoming file"
         body = "Frank would like to send you the file: essay.pdf"
@@ -252,7 +251,7 @@ class InteractiveNotificationBase(NotificationsBase):
 
     def test_modal_sd_with_greeter (self):
         """A snap-decision on a phone should not block input to the greeter beneath it."""
-        unity_proxy = self.launch_unity()
+        unity_proxy = self.launch_greeter()
 
         summary = "Incoming file"
         body = "Frank would like to send you the file: essay.pdf"
@@ -278,8 +277,8 @@ class InteractiveNotificationBase(NotificationsBase):
 
         # verify that we can swipe away the greeter (interact with the "shell")
         time.sleep(1)
-        self.main_window.show_dash_swiping()
         greeter = self.main_window.get_greeter()
+        greeter.swipe()
         self.assertThat(greeter.shown, Eventually(Equals(False)))
 
         # verify and interact with the triggered snap-decision notification

@@ -42,7 +42,23 @@ class GreeterApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
         if model() == 'Desktop':
             self.skipTest('Test cannot be run on the desktop.')
         super(GreeterApplicationLifecycleTests, self).setUp()
+        # Kill user's url-dispatcher daemon, because we want to own its dbus
+        # name during these tests.
+        try:
+            subprocess.check_output(
+                ["/sbin/initctl", "stop", "url-dispatcher"],
+                stderr=subprocess.STDOUT
+            )
+        except subprocess.CalledProcessError:
+            logger.warning("Appears url-dispatcher was already stopped!")
+        self.addCleanup(self._start_dispatcher)
         self.launch_greeter()
+
+    def _start_dispatcher(self):
+        subprocess.call(
+            ["/sbin/initctl", "start", "url-dispatcher"],
+            stderr=subprocess.STDOUT
+        )
 
     @with_lightdm_mock("single")
     def test_greeter_hides_on_url_dispatcher(self):
