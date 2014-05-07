@@ -54,6 +54,7 @@ Column {
                         anchors.verticalCenter: parent.verticalCenter; 
                         spacing: units.dp(2); 
                         width: parent.width - x;
+data: [
 Label { 
                     id: titleLabel; 
                     objectName: "titleLabel"; 
@@ -70,6 +71,7 @@ Label {
                     font.weight: components && components["subtitle"] ? Font.DemiBold : Font.Normal; 
                     horizontalAlignment: root.headerAlignment; 
                 }
+,
 Label { 
                         id: subtitleLabel; 
                         objectName: "subtitleLabel"; 
@@ -84,6 +86,7 @@ Label {
                         font.weight: Font.Light; 
                         horizontalAlignment: root.headerAlignment; 
                     }
+]
 }
 }
 implicitHeight: row.y + row.height + units.gu(1);

@@ -149,11 +149,16 @@ var headerRowCode = 'Row { \n\
                         %3 \n\
                     }\n';
 
+// %1 is used as first child of the column
+// %2 is used as second child of the column
 var headerColumnCode = 'Column { \n\
                             anchors.verticalCenter: parent.verticalCenter; \n\
                             spacing: units.dp(2); \n\
                             width: parent.width - x;\n\
-                            %1 \n\
+                            data: [ %1\n\
+                                    ,\n\
+                                    %2 \n\
+                                  ] \n\
                         }\n';
 
 var mascotShapeLoaderCode = 'Loader { \n\
@@ -402,15 +407,17 @@ function cardString(template, components) {
         }
 
         var titleLabelVisibleExtra = (headerAsOverlay ? '&& overlayLoader.active': '');
-        titleSubtitleCode += titleLabelCode.arg(titleAnchors).arg(color).arg(titleLabelVisibleExtra);
-
+        var titleCode = titleLabelCode.arg(titleAnchors).arg(color).arg(titleLabelVisibleExtra);
+        var subtitleCode = "";
         if (hasSubtitle) {
-            titleSubtitleCode += subtitleLabelCode.arg(subtitleAnchors).arg(color);
+            subtitleCode += subtitleLabelCode.arg(subtitleAnchors).arg(color);
         }
 
         if (hasMascot && hasSubtitle) {
             // If using row + column wrap the code in the column
-            titleSubtitleCode = headerColumnCode.arg(titleSubtitleCode);
+            titleSubtitleCode = headerColumnCode.arg(titleCode).arg(subtitleCode);
+        } else {
+            titleSubtitleCode = titleCode + subtitleCode;
         }
     }
 
