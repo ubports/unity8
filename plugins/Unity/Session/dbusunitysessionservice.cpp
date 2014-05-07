@@ -1,4 +1,3 @@
-/* -*- mode: c++; indent-tabs-mode: nil; tab-width: 4 -*- */
 /*
  * Copyright (C) 2014 Canonical, Ltd.
  *
@@ -22,17 +21,6 @@
 #include <QDBusConnection>
 
 DBusUnitySessionService::DBusUnitySessionService() : QObject()
-{
-    QDBusConnection connection = QDBusConnection::sessionBus();
-
-    connection.registerService("com.canonical.Unity.Session");
-    connection.registerObject("/com/canonical/Unity/Session", this,
-                              QDBusConnection::ExportScriptableSignals
-                              | QDBusConnection::ExportScriptableSlots
-                              | QDBusConnection::ExportScriptableInvokables);
-}
-
-DBusUnitySessionService::DBusUnitySessionService(QObject *parent) : QObject(parent)
 {
     QDBusConnection connection = QDBusConnection::sessionBus();
 

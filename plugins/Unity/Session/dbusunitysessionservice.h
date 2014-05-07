@@ -1,4 +1,3 @@
-/* -*- mode: c++; indent-tabs-mode: nil; tab-width: 4 -*- */
 /*
  * Copyright (C) 2014 Canonical, Ltd.
  *
@@ -34,7 +33,6 @@ class DBusUnitySessionService : public QObject
 
 public:
     DBusUnitySessionService();
-    explicit DBusUnitySessionService(QObject* parent);
     ~DBusUnitySessionService();
 
 Q_SIGNALS:
