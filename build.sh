@@ -41,17 +41,19 @@ install_dependencies() {
     sudo apt-get install devscripts \
                          equivs \
                          gsettings-desktop-schemas \
+                         gsettings-ubuntu-schemas \
                          qmenumodel-qml \
-                         qtdeclarative5-dee-plugin \
+                         qml-module-qtquick-xmllistmodel \
                          qtdeclarative5-gsettings1.0 \
                          qtdeclarative5-ubuntu-ui-toolkit-plugin \
                          qtdeclarative5-ubuntu-settings-components \
+                         qtdeclarative5-ubuntu-thumbnailer0.1 \
                          unity-notifications-impl \
-                         qtdeclarative5-xmllistmodel-plugin \
                          ubuntu-mobile-icons \
                          unity-scope-home \
                          unity-lens-applications \
                          unity-plugin-scopes \
+                         xvfb \
         || exit 5
 }
 

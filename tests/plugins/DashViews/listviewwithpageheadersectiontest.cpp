@@ -23,11 +23,7 @@
 #include <QtTestGui>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-pedantic"
-#if QT_VERSION < QT_VERSION_CHECK(5, 1, 0)
-#include <private/qquicklistmodel_p.h>
-#else
 #include <private/qqmllistmodel_p.h>
-#endif
 #include <private/qquickanimation_p.h>
 #include <private/qquickitem_p.h>
 #pragma GCC diagnostic pop
@@ -135,11 +131,7 @@ private Q_SLOTS:
         view->engine()->addImportPath(BUILT_PLUGINS_DIR);
         view->setSource(QUrl::fromLocalFile(DASHVIEWSTEST_FOLDER "/listviewwithpageheadertestsection.qml"));
         lvwph = dynamic_cast<ListViewWithPageHeader*>(view->rootObject()->findChild<QQuickFlickable*>());
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-        model = view->rootObject()->findChild<QQuickListModel*>();
-#else
         model = view->rootObject()->findChild<QQmlListModel*>();
-#endif
         otherDelegate = view->rootObject()->findChild<QQmlComponent*>();
         QVERIFY(lvwph);
         QVERIFY(model);
@@ -1680,12 +1672,11 @@ private Q_SLOTS:
         verifyItem(18, 700, 50., false, QString(), true);
         verifyItem(19, 750, 50., false, QString(), true);
         verifyItem(20, 800, 50., false, QString(), true);
-        QCOMPARE(lvwph->m_minYExtent, 5 * 1510./21. + 660 - 1970 + 50);
-        QCOMPARE(lvwph->m_clipItem->y(), 1970.);
+        QCOMPARE(lvwph->m_clipItem->y(), lvwph->contentY());
+        QCOMPARE(lvwph->m_minYExtent, 5 * 1510./21. + 660 - lvwph->contentY() + 50);
         QCOMPARE(lvwph->m_clipItem->clip(), false);
         QCOMPARE(lvwph->m_headerItem->y(), 0.);
         QCOMPARE(lvwph->m_headerItem->height(), 50.);
-        QCOMPARE(lvwph->contentY(), 1970.);
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
     }
 
@@ -2108,6 +2099,7 @@ private Q_SLOTS:
         QVERIFY(QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
 
         QTest::qWait(1);
+        QCoreApplication::instance()->processEvents();
 
         changeContentY(-15);
 
@@ -2156,14 +2148,10 @@ private Q_SLOTS:
 private:
     QQuickView *view;
     ListViewWithPageHeader *lvwph;
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-    QQuickListModel *model;
-#else
     QQmlListModel *model;
-#endif
     QQmlComponent *otherDelegate;
 };
 
 QTEST_MAIN(ListViewWithPageHeaderTestSection)
 
-#include "listviewwithpageheadertestsection.moc"
+#include "listviewwithpageheadersectiontest.moc"

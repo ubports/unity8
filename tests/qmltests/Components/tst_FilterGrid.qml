@@ -50,6 +50,7 @@ Rectangle {
             CheckBox {
                 id: filterCheckBox
                 checked: true
+                onCheckedChanged: filterGrid.setFilter(checked, false /*animate*/)
             }
         }
     }
@@ -99,7 +100,6 @@ Rectangle {
             maximumNumberOfColumns: 3
             collapsedRowCount:
                 collapsedRowCountSelector.values[collapsedRowCountSelector.selectedIndex]
-            filter: filterCheckBox.checked
             minimumHorizontalSpacing: units.gu(1)
             delegateWidth: units.gu(6)
             delegateHeight: units.gu(6)

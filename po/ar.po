@@ -7,17 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-03-25 16:48+0100\n"
+"POT-Creation-Date: 2014-04-10 11:13-0400\n"
 "PO-Revision-Date: 2014-02-21 11:19+0000\n"
 "Last-Translator: Ibrahim Saed <ibraheem5000@gmail.com>\n"
 "Language-Team: Arabic <ar@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n % 100 >= "
-"3 && n % 100 <= 10 ? 3 : n % 100 >= 11 && n % 100 <= 99 ? 4 : 5;\n"
-"X-Launchpad-Export-Date: 2014-03-28 06:48+0000\n"
-"X-Generator: Launchpad (build 16967)\n"
+"X-Launchpad-Export-Date: 2014-05-01 06:43+0000\n"
+"X-Generator: Launchpad (build 16985)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -89,7 +87,7 @@ msgstr "شاهد المزيد"
 msgid "See less"
 msgstr "شاهد أقل"
 
-#: qml/Dash/DashApps.qml:38
+#: qml/Dash/DashApps.qml:37
 msgid "Recent"
 msgstr ""
 
@@ -117,6 +115,10 @@ msgstr "أضف تعليق"
 #: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
 msgstr "أرسل"
+
+#: qml/Greeter/Greeter.qml:151
+msgid "Swipe to unlock"
+msgstr ""
 
 #: qml/Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
@@ -163,27 +165,7 @@ msgstr "من فضلك أدخِل رقم التعريف الشخصي لبطاقة
 msgid "Search"
 msgstr "ابحث"
 
-#: qml/Shell.qml:417
+#: qml/Shell.qml:348
 #, qt-format
 msgid "Please enter %1"
 msgstr "من فضلك أدخِل %1"
-
-#~ msgid "Review"
-#~ msgstr "التعليق"
-
-#, qt-format
-#~ msgid "(%1)"
-#~ msgstr "(%1)"
-
-#~ msgid "Comments:"
-#~ msgstr "التعليقات:"
-
-#, qt-format
-#~ msgid "%1 review"
-#~ msgid_plural "%1 reviews"
-#~ msgstr[0] "لا تعليقات (%1)"
-#~ msgstr[1] "تعليق واحد (%1)"
-#~ msgstr[2] "تعليقان (%1)"
-#~ msgstr[3] "%1 تعليقات"
-#~ msgstr[4] "%1 تعليقا"
-#~ msgstr[5] "%1 تعليق"

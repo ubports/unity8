@@ -1,3 +1,297 @@
+unity8 (7.86+14.10.20140505-0ubuntu1) utopic; urgency=low
+
+  [ Ted Gould ]
+  * Provide a dbus interface for setting the count and countVisible
+    properties. (LP: #1301400)
+
+  [ Michał Sawicz ]
+  * Pass env variables to initctl start.
+  * Suffix .sh to our scripts and clean up debian/rules.
+  * Adapt to Debian Qt package renames and drop unneeded Dee plugin
+    dependency.
+
+  [ Ying-Chun Liu ]
+  * Add Zoomable Image for Preview widgets.
+
+  [ Albert Astals ]
+  * Remove support for Qt <= 5.2.1
+
+  [ Mirco Müller ]
+  * Implemented feature-request from Design for modal snap-decision
+    notifications on the phone. See LP #1285712 (LP: #1285712)
+
+  [ Andrea Cimitan ]
+  * Make progressbas in preview widget big as the button
+
+  [ CI bot ]
+  * Resync trunk
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 05 May 2014 12:09:43 +0000
+
+unity8 (7.86+14.10.20140502.6-0ubuntu1) utopic; urgency=low
+
+  [ tpeeters ]
+  * Adapt to new TabBar
+
+  [ Tim Peeters ]
+  * Adapt to new TabBar
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 02 May 2014 16:44:52 +0000
+
+unity8 (7.86+14.10.20140429.2-0ubuntu1) utopic; urgency=medium
+
+  [ Andrea Cimitan ]
+  * Update upstart job to reflect latest unity-mir changes
+  * Fix locale in qml tests and fixtimeformattertest (LP: #1301038)
+  * Fix 1309135 (LP: #1309135)
+
+  [ Michał Sawicz ]
+  * Split out unity8-common package
+  * Don't wait for indicator services to start, and drop Scope Tool's
+    .desktop file. (LP: #1310172)
+
+  [ Michael Terry ]
+  * Stop clock from hiding when the 'show dash' button is pressed in
+    greeter. (LP: #1308139)
+  * Make swipe teases in the greeter more helpful and obvious (LP:
+    #1267623)
+
+  [ Nick Dedekind ]
+  * Fixed datetime indicator appointment colour (LP: #1307048)
+
+  [ Albert Astals ]
+  * Improve Card creation time by adding loaders that make sure only
+    what's needed is loaded (LP: #1297197)
+  * CategoryDelegateRange: Fix condition for detecting overshooting
+  * Make xvfbtests work in the DashView plugins
+  * Fix binding loop in FilterGrid height
+
+  [ Victor R. Ruiz ]
+  * Move autopilot notification code to a helper method.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 29 Apr 2014 15:21:33 +0000
+
+unity8 (7.85+14.04.20140416-0ubuntu1) trusty; urgency=low
+
+  [ Albert Astals ]
+  * Fix last item X position Fixes clicking on the last item sometimes
+    not working (LP: #1301871)
+  * Use upstart in ./run Makes it so that you can use the lock button on
+    the device without getting that nasty hwc crash
+  * Remove AnimationControllerWithSignals.
+  * Use the correct delegate base item for the Carousel test
+  * Some simplification in DashContent Kill the ScopeDelegateMapper in
+    favour of a simple if (that will eventually go away). Removal of all
+    the fake scopes in the tests that added nothing of value to the
+    tests. Removal of movementEnded signal that was unused. Removal of
+    movementStarted and positionedAtBeginning signals that were being
+    used as function calls. Rework DashContent tests so they what the
+    function does what it is supposed to do instead of just making sure
+    QML signals work .
+  * Improve Card creation time by adding loaders that make sure only
+    what's needed is loaded In my computer it goes from RESULT :
+    qmltestrunner::benchmark_time:"cardTitleArtSubtitleMascotSummaryMode
+    l": 3.217 msecs per iteration (total: 3,218, iterations: 1000)
+    RESULT :
+    qmltestrunner::benchmark_time:"cardTitleArtSubtitleMascotModel":
+    1.647 msecs per iteration (total: 1,648, iterations: 1000) RESULT :
+    qmltestrunner::benchmark_time:"cardTitleArtSubtitleModel": 1.514
+    msecs per iteration (total: 1,515, iterations: 1000) RESULT :
+    qmltestrunner::benchmark_time:"cardTitleArtModel": 1.471 msecs per
+    iteration (total: 1,471, iterations: 1000) RESULT :
+    qmltestrunner::benchmark_time:"cardArtModel": 1.447 msecs per
+    iteration (total: 1,448, iterations: 1000) RESULT :
+    qmltestrunner::benchmark_time:"cardTitleModel": 1.276 msecs per
+    iteration (total: 1,276, iterations: 1000) to RESULT :
+    qmltestrunner::benchmark_time:"cardTitleArtSubtitleMascotSummaryMode
+    l": 2.916 msecs per iteration (total: 2,917, iterations: 1000)
+    RESULT :
+    qmltestrunner::benchmark_time:"cardTitleArtSubtitleMascotModel":
+    1.504 msecs per iteration (total: 1,504, iterations: 1000) RESULT :
+    qmltestrunner::benchmark_time:"cardTitleArtSubtitleModel": 1.060
+    msecs per iteration (total: 1,061, iterations: 1000) RESULT :
+    qmltestrunner::benchmark_time:"cardTitleArtModel": 1.052 msecs per
+    iteration (total: 1,053, iterations: 1000) RESULT :
+    qmltestrunner::benchmark_time:"cardArtModel": 0.727 msecs per
+    iteration (total: 728, iterations: 1000) RESULT :
+    qmltestrunner::benchmark_time:"cardTitleModel": 0.817 msecs per
+    iteration (total: 818, iterations: 1000) (LP: #1297197)
+
+  [ Allan LeSage ]
+  * DashApps emulator get_applications should return a list ordered by
+    visible y, x.
+
+  [ Andrea Cimitan ]
+  * Workaround for lp1301309 until fixes for palette in ui toolkit (LP:
+    #1301309)
+
+  [ Leo Arias ]
+  * Reverted the change that returns application cards instead of
+    titles.
+
+  [ Nick Dedekind ]
+  * Indicator services started by unity8 upstart configuration rather
+    than manual emmision from indicator manager.
+
+  [ Mirco Müller ]
+  * Fix notification ap-test assertions.
+
+  [ Michael Terry ]
+  * Use new tablet and phone backgrounds from Design.
+
+  [ Michael Zanetti ]
+  * workaround the QTestLogger assertion issue with make tryXyz and our
+    custom uqmlscene
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 16 Apr 2014 13:45:01 +0000
+
+unity8 (7.85+14.04.20140415.2-0ubuntu1) trusty; urgency=low
+
+  [ Michael Terry ]
+  * When an application requests focus, handle it in Shell.qml by hiding
+    the greeter and stopping any edge demo. (LP: #1227753)
+
+  [ Leo Arias ]
+  * Use subprocess.check_call when caling url-dispatcher, so an error
+    will be raised if it fails.
+  * Test application life cycle with fake apps, instead of messaging and
+    address book.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 15 Apr 2014 12:47:11 +0000
+
+unity8 (7.85+14.04.20140410.1-0ubuntu1) trusty; urgency=medium
+
+  [ Didier Roche ]
+  * Resync trunk with previous revert upload
+
+  [ Michał Sawicz ]
+  * Set the Qt.ImhNoPredictiveText flag on wifi password field, fixes
+    lp:1291575 (LP: #1291575)
+
+  [ Albert Astals ]
+  * Take into account the originY when specifying the delegate ranges
+    Fixes bug #1300302 (LP: #1300302)
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Allan LeSage ]
+  * Swiping open an indicator must show its correct title--protect
+    against lp:1253804 . (LP: #1253804)
+
+  [ Alexander Sack ]
+  * Fix TypeError: issue seen in system_integration autopilot test on
+    image 279. (LP: #1303685)
+
+  [ Bill Filler ]
+  * Set the Qt.ImhNoPredictiveText flag on wifi password field, fixes
+    lp:1291575 (LP: #1291575)
+
+  [ Leo Arias ]
+  * Added a search autopilot helper.
+
+  [ Michael Terry ]
+  * Provide a all-in-one script for getting a device to an unlocked
+    state.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 10 Apr 2014 10:03:31 +0000
+
+unity8 (7.85+14.04.20140404.is.7.85+14.04.20140403.1-0ubuntu1) trusty; urgency=medium
+
+  * Revert to previous version as it's linked to latest sdk change which
+    is making gallery-app AP tests failing on the CI dashboard
+
+ -- Didier Roche <didrocks@ubuntu.com>  Tue, 08 Apr 2014 13:53:47 +0200
+
+unity8 (7.85+14.04.20140404-0ubuntu1) trusty; urgency=low
+
+  [ Albert Astals ]
+  * Adapt to new TabBar
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 04 Apr 2014 15:03:00 +0000
+
+unity8 (7.85+14.04.20140403.1-0ubuntu1) trusty; urgency=low
+
+  [ Michael Terry ]
+  * Re-enable test_networkmanager_integration autopilot test on phone
+    platforms
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Leo Arias ]
+  * Reverted the open_preview autopilot helper to return a Preview
+    object.
+
+  [ Albert Astals ]
+  * If not running in Mir load the "fake" application manager (LP:
+    #1301547)
+  * Remove unused properties from DashRenderer
+
+  [ Michael Zanetti ]
+  * Fix tests after right edge merge. Drop old stages tests. Fix right
+    edge tests if someone doesn't have the GRID_UNIT_PX exported. make
+    GenericScopeView test more robust that broke because the ordering
+    changed
+  * add "make xvfbtestSomething" target to run qml tests in xvfb
+  * make the "make test" commit hook work again
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 03 Apr 2014 10:38:53 +0000
+
+unity8 (7.85+14.04.20140401.3-0ubuntu1) trusty; urgency=medium
+
+  [ Michał Sawicz ]
+  * Bump version to ensure incompatibility with previous Unity.Application
+    implementations.
+  * We'll only have the unity-mir and mock Ubuntu.Application plugins
+    now, no need for mangling the import paths.
+
+  [ Michal Hruby ]
+  * Remove the albumart image provider. (LP: #1262711)
+  * Don't reset search string after 2 seconds. (LP: #1297246)
+
+  [ James Henstridge ]
+  * Remove the albumart image provider. (LP: #1262711)
+
+  [ Albert Astals ]
+  * Carousel: Add test to make sure we only create the needed delegates
+    and not more
+  * LVWPH: Remove processEvents() call from updatePolish() It causes
+    some reentrancy issues and in some times you end up in polishItems()
+    with items that have been deleted because you called processEvents()
+    This means i need a small tweak in itemGeometryChanged to not
+    reposition items if we are inside a setContentHeight call and two
+    small tweaks to tests since now things happen in a different order
+    and numbers are different (though equivalent) (LP: #1297240)
+  * Card.qml binding loops are gone. hooray \o/ Also made the aspect
+    properties readonly
+
+  [ Mirco Müller ]
+  * A potential fix for "Cannot read property 'state' of null"-failure
+    on Jenkins with the VisualSnapDecisionsQueue QML-test of
+    notifications.
+
+  [ Michael Terry ]
+  * Pass user's preference for auto-brightness on to powerd. (LP:
+    #1273174)
+
+  [ Michael Zanetti ]
+  * Registers a dummy QObject as QTestRootObject in uqmlscene in order
+    to fix make trySomething with Qt 5.2.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 01 Apr 2014 22:56:52 +0000
+
+unity8 (7.84+14.04.20140327.1-0ubuntu2) trusty; urgency=medium
+
+  * For now, have libunity-private depending on libunity-core-6.0-9 as the
+    gsettings schema is here. The dependency wasn't direct and dropped from
+    Touch image #271. Consequently, unity8 didn't start (gsettings
+    segfaulting).
+    Proper strategy will be to include the schema in another package to only
+    pull it.
+
+ -- Didier Roche <didrocks@ubuntu.com>  Tue, 01 Apr 2014 09:52:14 +0200
+
 unity8 (7.84+14.04.20140327.1-0ubuntu1) trusty; urgency=low
 
   [ Michał Sawicz ]

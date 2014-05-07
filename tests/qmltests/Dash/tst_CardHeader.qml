@@ -43,7 +43,7 @@ Rectangle {
 
         when: windowShown
 
-        property Item mascot: findChild(cardHeader, "mascotShape")
+        property Item mascot: findChild(cardHeader, "mascotShapeLoader")
         property Item titleLabel: findChild(cardHeader, "titleLabel")
         property Item subtitleLabel: findChild(cardHeader, "subtitleLabel")
         property Item oldPriceLabel: findChild(cardHeader, "oldPriceLabel")

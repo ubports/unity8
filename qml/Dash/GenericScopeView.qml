@@ -18,6 +18,7 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Utils 0.1
 import Unity 0.2
+import Unity.Application 0.1
 import "../Components"
 import "../Components/ListItems" as ListItems
 
@@ -32,17 +33,11 @@ FocusScope {
     property PageHeader pageHeader: null
     property Item previewListView: null
 
-    signal movementStarted
-    signal positionedAtBeginning
-
     property bool enableHeightBehaviorOnNextCreation: false
     property var categoryView: categoryView
 
-    // FIXME delay the search so that daemons have time to settle, note that
-    // removing this will break ScopeView::test_changeScope
     onScopeChanged: {
         if (scope) {
-            timer.restart();
             scope.activateApplication.connect(activateApp);
         }
     }
@@ -51,16 +46,18 @@ FocusScope {
         shell.activateApplication(appId);
     }
 
+    function positionAtBeginning() {
+        categoryView.positionAtBeginning()
+    }
+
+    function showHeader() {
+        categoryView.showHeader()
+    }
+
     Binding {
         target: scope
         property: "isActive"
         value: isCurrent && !previewListView.open
-    }
-
-    Timer {
-        id: timer
-        interval: 2000
-        onTriggered: scope.searchQuery = ""
     }
 
     SortFilterProxyModel {
@@ -76,10 +73,6 @@ FocusScope {
         pageHeader.resetSearch();
         previewListView.open = false;
     }
-
-    onMovementStarted: categoryView.showHeader()
-
-    onPositionedAtBeginning: categoryView.positionAtBeginning()
 
     Binding {
         target: scopeView.scope
@@ -129,7 +122,7 @@ FocusScope {
             showDivider: false
 
             readonly property bool expandable: rendererLoader.item ? rendererLoader.item.expandable : false
-            readonly property bool filtered: rendererLoader.item ? rendererLoader.item.filter : true
+            readonly property bool filtered: rendererLoader.item ? rendererLoader.item.filtered : true
             readonly property string category: categoryId
             readonly property var item: rendererLoader.item
 
@@ -167,8 +160,7 @@ FocusScope {
                     if (source.toString().indexOf("Apps/RunningApplicationsGrid.qml") != -1) {
                         // TODO: this is still a kludge :D Ideally add some kind of hook so that we
                         // can do this from DashApps.qml or think a better way that needs no special casing
-                        item.firstModel = Qt.binding(function() { return mainStageApplicationsModel })
-                        item.secondModel = Qt.binding(function() { return sideStageApplicationModel })
+                        item.model = Qt.binding(function() { return runningApps; })
                         item.canEnableTerminationMode = Qt.binding(function() { return scopeView.isCurrent })
                     } else {
                         item.model = Qt.binding(function() { return results })
@@ -176,9 +168,7 @@ FocusScope {
                     item.objectName = Qt.binding(function() { return categoryId })
                     if (item.expandable) {
                         var shouldFilter = categoryId != categoryView.expandedCategoryId;
-                        if (shouldFilter != item.filter) {
-                            item.filter = shouldFilter;
-                        }
+                        item.setFilter(shouldFilter, false /*animate*/);
                     }
                     updateDelegateCreationRange();
                     item.cardTool = cardTool;
@@ -227,11 +217,8 @@ FocusScope {
                                 var shrinkingVisible = shouldFilter && y + item.collapsedHeight < categoryView.height;
                                 var growingVisible = !shouldFilter && y + height < categoryView.height;
                                 if (!previewListView.open || !shouldFilter) {
-                                    if (shrinkingVisible || growingVisible) {
-                                        item.startFilterAnimation(shouldFilter)
-                                    } else {
-                                        item.filter = shouldFilter;
-                                    }
+                                    var animate = shrinkingVisible || growingVisible;
+                                    item.setFilter(shouldFilter, animate)
                                     if (!shouldFilter && !previewListView.open) {
                                         categoryView.maximizeVisibleArea(index, item.uncollapsedHeight);
                                     }
@@ -246,26 +233,29 @@ FocusScope {
                 }
 
                 function updateDelegateCreationRange() {
-                    // Do not update the range if we are overshooting up or down, since we'll come back
-                    // to the stable position and delete/create items without any reason
-                    if (categoryView.contentY < categoryView.originY) {
-                        return;
-                    } else if (categoryView.contentY + categoryView.height > categoryView.contentHeight) {
-                        return;
+                    if (categoryView.moving) {
+                        // Do not update the range if we are overshooting up or down, since we'll come back
+                        // to the stable position and delete/create items without any reason
+                        if (categoryView.contentY < categoryView.originY) {
+                            return;
+                        } else if (categoryView.contentHeight - categoryView.originY > categoryView.height &&
+                                   categoryView.contentY + categoryView.height > categoryView.contentHeight) {
+                            return;
+                        }
                     }
 
                     if (item && item.hasOwnProperty("delegateCreationBegin")) {
                         if (baseItem.y + baseItem.height <= 0) {
-                            // Not visible (item at top of the list)
-                            item.delegateCreationBegin = baseItem.height
-                            item.delegateCreationEnd = baseItem.height
+                            // Not visible (item at top of the list viewport)
+                            item.delegateCreationBegin = item.originY + baseItem.height
+                            item.delegateCreationEnd = item.originY + baseItem.height
                         } else if (baseItem.y >= categoryView.height) {
-                            // Not visible (item at bottom of the list)
-                            item.delegateCreationBegin = 0
-                            item.delegateCreationEnd = 0
+                            // Not visible (item at bottom of the list viewport)
+                            item.delegateCreationBegin = item.originY
+                            item.delegateCreationEnd = item.originY
                         } else {
-                            item.delegateCreationBegin = Math.max(-baseItem.y, 0)
-                            item.delegateCreationEnd = Math.min(categoryView.height + item.delegateCreationBegin, baseItem.height)
+                            item.delegateCreationBegin = item.originY + Math.max(-baseItem.y, 0)
+                            item.delegateCreationEnd = item.originY + Math.min(categoryView.height + item.delegateCreationBegin, baseItem.height)
                         }
                     }
                 }

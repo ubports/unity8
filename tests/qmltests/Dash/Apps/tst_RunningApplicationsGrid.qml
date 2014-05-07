@@ -18,87 +18,20 @@ import QtQuick 2.0
 import QtTest 1.0
 import "../../../../qml/Dash/Apps"
 import Unity.Test 0.1 as UT
+import Unity.Application 0.1
 
-Item {
+// Using Rectangle to have an opaque surface because AppManager paints app surfaces behind it.
+Rectangle {
     width: units.gu(50)
     height: units.gu(40)
 
-    QtObject {
-        id: fakeApplicationManager
-
-        property bool sideStageEnabled: false
-
-        function stopApplication(appId) {
-            for (var i=0, len=fakeRunningAppsModel.count; i<len; i++) {
-                if (appId == fakeRunningAppsModel.get(i).appId) {
-                    fakeRunningAppsModel.remove(i)
-                }
-            }
-        }
-    }
-
-    QtObject {
-        id: shell
-        property bool dashShown: true
-        property bool stageScreenshotsReady: false
-        property var applicationManager: fakeApplicationManager
-
-        function activateApplication(appId) {
-        }
-    }
-
-    ListModel {
-        id: fakeRunningAppsModel
-
-        function contains(appId) {
-            for (var i=0, len=fakeRunningAppsModel.count; i<len; i++) {
-                if (appId == fakeRunningAppsModel.get(i).appId) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        function rePopulate() {
-            for (var i=0, len=availableAppsModel.count; i<len; i++) {
-                fakeRunningAppsModel.append(availableAppsModel.get(i));
-            }
-        }
-    }
-
-    ListModel {
-        id: availableAppsModel
-        ListElement {
-            name: "Phone"
-            icon: "phone-app"
-            exec: "/usr/bin/phone-app"
-            appId: "phone"
-            imageQml: "import QtQuick 2.0\n \
-                       Rectangle { \n \
-                          anchors.fill:parent \n \
-                          color:'darkgreen' \n \
-                          Text { anchors.centerIn: parent; text: 'PHONE' } \n \
-                      }"
-        }
-
-        ListElement {
-            name: "Calendar"
-            icon: "calendar-app"
-            exec: "/usr/bin/calendar-app"
-            appId: "calendar"
-            imageQml: "import QtQuick 2.0\n \
-                       Rectangle { \n \
-                           anchors.fill:parent \n \
-                           color:'darkblue' \n \
-                           Text { anchors.centerIn: parent; text: 'CALENDAR'\n \
-                                  color:'white'} \n \
-                      }"
-        }
-    }
-
     function resetRunningApplications() {
-        fakeRunningAppsModel.clear()
-        fakeRunningAppsModel.rePopulate()
+        while (ApplicationManager.count > 0) {
+            ApplicationManager.stopApplication(ApplicationManager.get(0).appId)
+        }
+
+        ApplicationManager.startApplication("phone-app");
+        ApplicationManager.startApplication("webbrowser-app");
     }
 
     Component.onCompleted: {
@@ -109,7 +42,7 @@ Item {
     RunningApplicationsGrid {
         id: runningApplicationsGrid
         anchors.fill: parent
-        firstModel: fakeRunningAppsModel
+        model: ApplicationManager
     }
 
     UT.UnityTestCase {
@@ -121,11 +54,11 @@ Item {
             resetRunningApplications()
         }
 
-        property var calendarTile
+        property var browserTile
         property var phoneTile
 
-        property var isCalendarLongPressed: false
-        function onCalendarLongPressed() {isCalendarLongPressed = true}
+        property var isBrowserLongPressed: false
+        function onBrowserLongPressed() {isBrowserLongPressed = true}
 
         property var isPhoneLongPressed: false
         function onPhoneLongPressed() {isPhoneLongPressed = true}
@@ -133,25 +66,25 @@ Item {
         // Tiles should go to termination mode when any one of them is long-pressed.
         // Long-pressing when they're in termination mode brings them back to activation mode
         function test_enterTerminationMode() {
-            calendarTile = findChild(runningApplicationsGrid, "runningAppTile Calendar")
-            verify(calendarTile != undefined)
-            calendarTile.onPressAndHold.connect(onCalendarLongPressed)
+            browserTile = findChild(runningApplicationsGrid, "runningAppTile Browser")
+            verify(browserTile != undefined)
+            browserTile.onPressAndHold.connect(onBrowserLongPressed)
 
             phoneTile = findChild(runningApplicationsGrid, "runningAppTile Phone")
             verify(phoneTile != undefined)
             phoneTile.onPressAndHold.connect(onPhoneLongPressed)
 
-            compare(calendarTile.terminationModeEnabled, false)
+            compare(browserTile.terminationModeEnabled, false)
             compare(phoneTile.terminationModeEnabled, false)
             compare(runningApplicationsGrid.terminationModeEnabled, false)
 
-            isCalendarLongPressed = false
-            mousePress(calendarTile, calendarTile.width/2, calendarTile.height/2)
+            isBrowserLongPressed = false
+            mousePress(browserTile, browserTile.width/2, browserTile.height/2)
             tryCompareFunction(checkSwitchToTerminationModeAfterLongPress, true)
 
-            mouseRelease(calendarTile, calendarTile.width/2, calendarTile.height/2)
+            mouseRelease(browserTile, browserTile.width/2, browserTile.height/2)
 
-            compare(calendarTile.terminationModeEnabled, true)
+            compare(browserTile.terminationModeEnabled, true)
             compare(phoneTile.terminationModeEnabled, true)
             compare(runningApplicationsGrid.terminationModeEnabled, true)
 
@@ -161,23 +94,23 @@ Item {
 
             mouseRelease(phoneTile, phoneTile.width/2, phoneTile.height/2)
 
-            compare(calendarTile.terminationModeEnabled, false)
+            compare(browserTile.terminationModeEnabled, false)
             compare(phoneTile.terminationModeEnabled, false)
             compare(runningApplicationsGrid.terminationModeEnabled, false)
 
-            calendarTile.onPressAndHold.disconnect(onCalendarLongPressed)
+            browserTile.onPressAndHold.disconnect(onBrowserLongPressed)
             phoneTile.onPressAndHold.disconnect(onPhoneLongPressed)
         }
 
         // Checks that components swicth to termination mode after (and only after) a long
-        // press happens on Calendar tile.
+        // press happens on Browser tile.
         function checkSwitchToTerminationModeAfterLongPress() {
-            compare(calendarTile.terminationModeEnabled, isCalendarLongPressed)
-            compare(phoneTile.terminationModeEnabled, isCalendarLongPressed)
-            compare(runningApplicationsGrid.terminationModeEnabled, isCalendarLongPressed)
+            compare(browserTile.terminationModeEnabled, isBrowserLongPressed)
+            compare(phoneTile.terminationModeEnabled, isBrowserLongPressed)
+            compare(runningApplicationsGrid.terminationModeEnabled, isBrowserLongPressed)
 
-            return isCalendarLongPressed &&
-                calendarTile.terminationModeEnabled &&
+            return isBrowserLongPressed &&
+                browserTile.terminationModeEnabled &&
                 phoneTile.terminationModeEnabled &&
                 runningApplicationsGrid.terminationModeEnabled
         }
@@ -185,12 +118,12 @@ Item {
         // Checks that components swicth to activation mode after (and only after) a long
         // press happens on Phone tile.
         function checkSwitchToActivationModeAfterLongPress() {
-            compare(calendarTile.terminationModeEnabled, !isPhoneLongPressed)
+            compare(browserTile.terminationModeEnabled, !isPhoneLongPressed)
             compare(phoneTile.terminationModeEnabled, !isPhoneLongPressed)
             compare(runningApplicationsGrid.terminationModeEnabled, !isPhoneLongPressed)
 
             return isPhoneLongPressed &&
-                !calendarTile.terminationModeEnabled &&
+                !browserTile.terminationModeEnabled &&
                 !phoneTile.terminationModeEnabled &&
                 !runningApplicationsGrid.terminationModeEnabled
         }
@@ -200,17 +133,17 @@ Item {
         function test_clickTileNotClose() {
             runningApplicationsGrid.terminationModeEnabled = true
 
-            var calendarTile = findChild(runningApplicationsGrid, "runningAppTile Calendar")
-            verify(calendarTile != undefined)
+            var browserTile = findChild(runningApplicationsGrid, "runningAppTile Browser")
+            verify(browserTile != undefined)
 
-            verify(fakeRunningAppsModel.contains("calendar"))
+            verify(ApplicationManager.findApplication("webbrowser-app") !== null)
 
-            mouseClick(calendarTile, calendarTile.width/2, calendarTile.height/2)
+            mouseClick(browserTile, browserTile.width/2, browserTile.height/2)
 
-            verify(fakeRunningAppsModel.contains("calendar"))
+            verify(ApplicationManager.findApplication("webbrowser-app") !== null)
 
-            // The tile for the Calendar app should stay there
-            tryCompareFunction(checkCalendarTileExists, true)
+            // The tile for the Browser app should stay there
+            tryCompareFunction(checkBrowserTileExists, true)
         }
 
         // While in termination mode, clicking on a running application tile's close icon
@@ -218,25 +151,25 @@ Item {
         function test_clickCloseIconToTerminateApp() {
             runningApplicationsGrid.terminationModeEnabled = true
 
-            var calendarTile = findChild(runningApplicationsGrid, "runningAppTile Calendar")
-            var calendarTileCloseButton = findChild(runningApplicationsGrid, "closeIcon Calendar")
+            var browserTile = findChild(runningApplicationsGrid, "runningAppTile Browser")
+            var browserTileCloseButton = findChild(runningApplicationsGrid, "closeIcon Browser")
 
-            verify(calendarTile != undefined)
-            verify(calendarTileCloseButton != undefined)
-            verify(fakeRunningAppsModel.contains("calendar"))
+            verify(browserTile != undefined)
+            verify(browserTileCloseButton != undefined)
+            verify(ApplicationManager.findApplication("webbrowser-app") !== 0)
 
-            mouseClick(calendarTileCloseButton, calendarTileCloseButton.width/2, calendarTileCloseButton.height/2)
+            mouseClick(browserTileCloseButton, browserTileCloseButton.width/2, browserTileCloseButton.height/2)
             wait(0) // spin event loop to start any pending animation
 
-            verify(!fakeRunningAppsModel.contains("calendar"))
+            verify(ApplicationManager.findApplication("webbrowser-app") === null)
 
-            // The tile for the Calendar app should eventually vanish since the
+            // The tile for the Browser app should eventually vanish since the
             // application has been terminated.
-            tryCompareFunction(checkCalendarTileExists, false)
+            tryCompareFunction(checkBrowserTileExists, false)
         }
 
-        function checkCalendarTileExists() {
-            return findChild(runningApplicationsGrid, "runningAppTile Calendar")
+        function checkBrowserTileExists() {
+            return findChild(runningApplicationsGrid, "runningAppTile Browser")
                     != undefined
         }
 
@@ -245,8 +178,8 @@ Item {
         function test_clickOutsideTilesDisablesTerminationMode() {
             runningApplicationsGrid.terminationModeEnabled = true
 
-            var calendarTile = findChild(runningApplicationsGrid, "runningAppTile Calendar")
-            verify(calendarTile != undefined)
+            var browserTile = findChild(runningApplicationsGrid, "runningAppTile Browser")
+            verify(browserTile != undefined)
 
             verify(runningApplicationsGrid.terminationModeEnabled);
 

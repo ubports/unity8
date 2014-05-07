@@ -23,6 +23,8 @@ from unity8.shell import emulators
 
 from autopilot import logging as autopilot_logging
 from autopilot.introspection import dbus
+from testtools.matchers import MatchesAny, Equals
+from ubuntuuitoolkit import emulators as toolkit_emulators
 
 
 logger = logging.getLogger(__name__)
@@ -80,10 +82,7 @@ class Dash(emulators.UnityEmulatorBase):
                 'No scope found with id {0}'.format(scope_id))
 
     def _get_scope_from_loader(self, loader):
-        if loader.scopeId == 'clickscope':
-            return loader.select_single(DashApps)
-        else:
-            return loader.select_single(GenericScopeView)
+        return loader.get_children()[0]
 
     def _open_scope_scrolling(self, scope_loader):
         scroll = self._get_scroll_direction(scope_loader)
@@ -135,6 +134,19 @@ class Dash(emulators.UnityEmulatorBase):
         self.pointing_device.drag(start_x, start_y, stop_x, stop_y)
         self.dash_content_list.currentIndex.wait_for(original_index + 1)
 
+    def enter_search_query(self, query):
+        search_text_field = self._get_search_text_field()
+        search_text_field.write(query)
+        search_text_field.state.wait_for('idle')
+
+    def _get_search_text_field(self):
+        page_header = self._get_page_header()
+        search_container = page_header.select_single(
+            'QQuickItem', objectName='searchContainer')
+        search_container.state.wait_for(
+            MatchesAny(Equals('narrowActive'), Equals('active')))
+        return search_container.select_single(toolkit_emulators.TextField)
+
 
 class GenericScopeView(emulators.UnityEmulatorBase):
     """Autopilot emulator for generic scopes."""
@@ -145,6 +157,7 @@ class GenericScopeView(emulators.UnityEmulatorBase):
 
         :parameter category: The name of the category where the application is.
         :app_name: The name of the application.
+        :return: The opened preview.
 
         """
         category_element = self._get_category_element(category)
@@ -153,8 +166,11 @@ class GenericScopeView(emulators.UnityEmulatorBase):
         # Some categories do not show previews, like recent apps.
         # --elopio - 2014-1-14
         self.pointing_device.click_object(icon)
-        return self.get_root_instance().wait_select_single(
+        preview_list = self.get_root_instance().wait_select_single(
             'PreviewListView', objectName='dashContentPreviewList')
+        preview_list.x.wait_for(0)
+        return preview_list.select_single(
+            Preview, objectName='preview{}'.format(preview_list.currentIndex))
 
     def _get_category_element(self, category):
         try:
@@ -175,11 +191,20 @@ class DashApps(GenericScopeView):
 
         """
         category_element = self._get_category_element(category)
-        application_tiles = category_element.select_many('Card')
-        # TODO return them on the same order they are displayed.
-        # --elopio - 2014-1-15
+        application_cards = category_element.select_many('Card')
+
+        # sort by y, x
+        application_cards = sorted(
+            application_cards,
+            key=lambda card: (card.globalRect.y, card.globalRect.x))
+
         result = []
-        for card in application_tiles:
+        for card in application_cards:
             if card.objectName != 'cardToolCard':
-                result.append(card)
+                card_header = card.select_single('CardHeader')
+                result.append(card_header.title)
         return result
+
+
+class Preview(emulators.UnityEmulatorBase):
+    """Autopilot custom proxy object for generic previews."""

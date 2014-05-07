@@ -97,11 +97,7 @@
 #include <qqmlengine.h>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-pedantic"
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-#include <private/qquickvisualdatamodel_p.h>
-#else
 #include <private/qqmldelegatemodel_p.h>
-#endif
 #include <private/qqmlglobal_p.h>
 #include <private/qquickitem_p.h>
 #include <private/qquickanimation_p.h>
@@ -191,17 +187,10 @@ void ListViewWithPageHeader::setModel(QAbstractItemModel *model)
         if (!m_delegateModel) {
             createDelegateModel();
         } else {
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-            disconnect(m_delegateModel, SIGNAL(modelUpdated(QQuickChangeSet,bool)), this, SLOT(onModelUpdated(QQuickChangeSet,bool)));
-        }
-        m_delegateModel->setModel(QVariant::fromValue<QAbstractItemModel *>(model));
-        connect(m_delegateModel, SIGNAL(modelUpdated(QQuickChangeSet,bool)), this, SLOT(onModelUpdated(QQuickChangeSet,bool)));
-#else
             disconnect(m_delegateModel, SIGNAL(modelUpdated(QQmlChangeSet,bool)), this, SLOT(onModelUpdated(QQmlChangeSet,bool)));
         }
         m_delegateModel->setModel(QVariant::fromValue<QAbstractItemModel *>(model));
         connect(m_delegateModel, SIGNAL(modelUpdated(QQmlChangeSet,bool)), this, SLOT(onModelUpdated(QQmlChangeSet,bool)));
-#endif
         Q_EMIT modelChanged();
         polish();
         // TODO?
@@ -570,13 +559,8 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
 
 void ListViewWithPageHeader::createDelegateModel()
 {
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-    m_delegateModel = new QQuickVisualDataModel(qmlContext(this), this);
-    connect(m_delegateModel, SIGNAL(createdItem(int,QQuickItem*)), this, SLOT(itemCreated(int,QQuickItem*)));
-#else
     m_delegateModel = new QQmlDelegateModel(qmlContext(this), this);
     connect(m_delegateModel, SIGNAL(createdItem(int,QObject*)), this, SLOT(itemCreated(int,QObject*)));
-#endif
     if (isComponentComplete())
         m_delegateModel->componentComplete();
     updateWatchedRoles();
@@ -657,13 +641,8 @@ bool ListViewWithPageHeader::addVisibleItems(qreal fillFrom, qreal fillTo, bool 
 void ListViewWithPageHeader::reallyReleaseItem(ListItem *listItem)
 {
     QQuickItem *item = listItem->m_item;
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-    QQuickVisualModel::ReleaseFlags flags = m_delegateModel->release(item);
-    if (flags & QQuickVisualModel::Destroyed) {
-#else
     QQmlDelegateModel::ReleaseFlags flags = m_delegateModel->release(item);
     if (flags & QQmlDelegateModel::Destroyed) {
-#endif
         item->setParentItem(nullptr);
     }
     delete listItem->m_sectionItem;
@@ -796,16 +775,9 @@ ListViewWithPageHeader::ListItem *ListViewWithPageHeader::createItem(int modelIn
         return nullptr;
 
     m_asyncRequestedIndex = -1;
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-    QQuickItem *item = m_delegateModel->item(modelIndex, asynchronous);
-#else
     QObject* object = m_delegateModel->object(modelIndex, asynchronous);
     QQuickItem *item = qmlobject_cast<QQuickItem*>(object);
-#endif
     if (!item) {
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-        m_asyncRequestedIndex = modelIndex;
-#else
         if (object) {
             m_delegateModel->release(object);
             if (!m_delegateValidated) {
@@ -816,7 +788,6 @@ ListViewWithPageHeader::ListItem *ListViewWithPageHeader::createItem(int modelIn
         } else {
             m_asyncRequestedIndex = modelIndex;
         }
-#endif
         return 0;
     } else {
 //         qDebug() << "ListViewWithPageHeader::createItem::We have the item" << modelIndex << item;
@@ -872,10 +843,6 @@ ListViewWithPageHeader::ListItem *ListViewWithPageHeader::createItem(int modelIn
     }
 }
 
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-void ListViewWithPageHeader::itemCreated(int modelIndex, QQuickItem *item)
-{
-#else
 void ListViewWithPageHeader::itemCreated(int modelIndex, QObject *object)
 {
     QQuickItem *item = qmlobject_cast<QQuickItem*>(object);
@@ -883,7 +850,6 @@ void ListViewWithPageHeader::itemCreated(int modelIndex, QObject *object)
         qWarning() << "ListViewWithPageHeader::itemCreated got a non item for index" << modelIndex;
         return;
     }
-#endif
 //     qDebug() << "ListViewWithPageHeader::itemCreated" << modelIndex << item;
     // Check we are not being taken down and don't paint anything
     // TODO Check if we still need this in 5.2
@@ -924,21 +890,13 @@ void ListViewWithPageHeader::onHeightChanged()
 }
 
 
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-void ListViewWithPageHeader::onModelUpdated(const QQuickChangeSet &changeSet, bool /*reset*/)
-#else
 void ListViewWithPageHeader::onModelUpdated(const QQmlChangeSet &changeSet, bool /*reset*/)
-#endif
 {
     // TODO Do something with reset
 //     qDebug() << "ListViewWithPageHeader::onModelUpdated" << changeSet << reset;
     const auto oldFirstVisibleIndex = m_firstVisibleIndex;
 
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-    Q_FOREACH(const QQuickChangeSet::Remove &remove, changeSet.removes()) {
-#else
     Q_FOREACH(const QQmlChangeSet::Remove &remove, changeSet.removes()) {
-#endif
 //         qDebug() << "ListViewWithPageHeader::onModelUpdated Remove" << remove.index << remove.count;
         if (remove.index + remove.count > m_firstVisibleIndex && remove.index < m_firstVisibleIndex + m_visibleItems.count()) {
             const qreal oldFirstValidIndexPos = m_visibleItems.first()->y();
@@ -992,11 +950,7 @@ void ListViewWithPageHeader::onModelUpdated(const QQmlChangeSet &changeSet, bool
         }
     }
 
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-    Q_FOREACH(const QQuickChangeSet::Insert &insert, changeSet.inserts()) {
-#else
     Q_FOREACH(const QQmlChangeSet::Insert &insert, changeSet.inserts()) {
-#endif
 //         qDebug() << "ListViewWithPageHeader::onModelUpdated Insert" << insert.index << insert.count;
         const bool insertingInValidIndexes = insert.index > m_firstVisibleIndex && insert.index < m_firstVisibleIndex + m_visibleItems.count();
         const bool firstItemWithViewOnTop = insert.index == 0 && m_firstVisibleIndex == 0 && m_visibleItems.first()->y() + m_clipItem->y() > contentY();
@@ -1054,11 +1008,7 @@ void ListViewWithPageHeader::onModelUpdated(const QQmlChangeSet &changeSet, bool
         }
     }
 
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-    Q_FOREACH(const QQuickChangeSet::Change &change, changeSet.changes()) {
-#else
     Q_FOREACH(const QQmlChangeSet::Change &change, changeSet.changes()) {
-#endif
 //         qDebug() << "ListViewWithPageHeader::onModelUpdated Change" << change.index << change.count;
         for (int i = change.index; i < change.count; ++i) {
             ListItem *item = itemAtIndex(i);
@@ -1097,7 +1047,7 @@ void ListViewWithPageHeader::itemGeometryChanged(QQuickItem * /*item*/, const QR
 {
     const qreal heightDiff = newGeometry.height() - oldGeometry.height();
     if (heightDiff != 0) {
-        if (oldGeometry.y() + oldGeometry.height() + m_clipItem->y() <= contentY() && !m_visibleItems.isEmpty()) {
+        if (!m_inContentHeightKeepHeaderShown && oldGeometry.y() + oldGeometry.height() + m_clipItem->y() <= contentY() && !m_visibleItems.isEmpty()) {
             ListItem *firstItem = m_visibleItems.first();
             firstItem->setY(firstItem->y() - heightDiff);
             adjustMinYExtent();
@@ -1293,11 +1243,6 @@ void ListViewWithPageHeader::updatePolish()
     refill();
 
     if (m_contentHeightDirty) {
-        // We need to make sure all bindings have updated otherwise
-        // we may end up with bindings updating when we call setContentHeight
-        // and then everything gets out of sync, i.e. testHeaderPositionBug1240118
-        QCoreApplication::instance()->processEvents();
-
         qreal contentHeight;
         if (m_visibleItems.isEmpty()) {
             contentHeight = m_headerItem ? m_headerItem->height() : 0;
