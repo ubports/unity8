@@ -57,7 +57,6 @@ DashRenderer {
             enabled: false
 
             sourceComponent: cardTool.cardComponent
-            anchors.horizontalCenter: parent.horizontalCenter
             onLoaded: {
                 item.objectName = "carouselDelegate" + index;
                 item.fixedHeaderHeight = Qt.binding(function() { return carousel.headerHeight; });
