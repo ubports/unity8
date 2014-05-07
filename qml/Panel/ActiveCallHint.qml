@@ -23,27 +23,18 @@ import "../Components"
 Item {
     id: callHint
 
-    property bool active: true//callManager.hasCalls && ApplicationManager.focusedApplicationId !== "dialer-app"
+    property bool active: callManager.hasCalls && ApplicationManager.focusedApplicationId !== "dialer-app"
     readonly property QtObject contactWatcher: _contactWatcher
     property int alternateLabelInterval: 4000
     property color color: Qt.rgba(0.1, 0.6, 0.1, 1.0)
     property color colorFlash: Qt.lighter(color)
-    readonly property alias mouseArea: __mouseArea
 
     Component.onCompleted: {
         telepathyHelper.registerChannelObserver("unity8");
     }
 
     function activate() {
-        console.log("PLOP")
-//        ApplicationManager.requestFocusApplication("dialer-app");
-    }
-
-    Timer {
-        running: true
-        interval: 4000
-        repeat: true
-        onTriggered: active = !active
+        ApplicationManager.requestFocusApplication("dialer-app");
     }
 
     Rectangle {
@@ -237,12 +228,6 @@ Item {
                 return m + ":0" + ss;
             }
         }
-    }
-
-    // eater
-    MouseArea {
-        id: __mouseArea
-        anchors.fill: parent
     }
 
     Telephony.ContactWatcher {

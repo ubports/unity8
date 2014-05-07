@@ -461,13 +461,6 @@ FocusScope {
         panel.hideIndicatorMenu(delay);
     }
 
-    Timer {
-        running: true
-        interval: 7000
-        repeat: true
-        onTriggered: {panel.fullscreenMode = !panel.fullscreenMode }
-    }
-
     Item {
         id: overlay
 

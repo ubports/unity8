@@ -28,7 +28,6 @@ Showable {
 
     property real openedHeight: units.gu(71)
     property int panelHeight: units.gu(3)
-    property bool pinnedMode: true  //should be set true if indicators menu can cover whole screen
     property alias overFlowWidth: indicatorRow.overFlowWidth
     property alias showAll: indicatorRow.showAll
     // TODO: This should be sourced by device type (eg "desktop", "tablet", "phone"...)
@@ -38,13 +37,13 @@ Showable {
     readonly property int lockThreshold: openedHeight / 2
     property bool fullyOpened: height == openedHeight
     property bool partiallyOpened: height > panelHeight && !fullyOpened
-    property real visualBottom: Math.max(y+height, y+indicatorRow.y+indicatorRow.height)
     property bool contentEnabled: true
     property bool initalizeItem: true
     readonly property alias content: menuContent
     property real unitProgress: (height - panelHeight) / (openedHeight - panelHeight)
     property bool enableHint: true
-    property real hintAreaHeightOffset: 0
+    property real showHintBottomMargin: 0
+    property real showHintHeightOffset: 0
 
     signal showTapped(point position)
 
@@ -53,13 +52,6 @@ Showable {
     showAnimation: StandardAnimation {
         property: "height"
         to: openedHeight
-
-        // Re-size if we've changed the openHeight while shown.
-        onToChanged: {
-            if (indicators.shown) {
-                height = openedHeight;
-            }
-        }
     }
 
     hideAnimation: StandardAnimation {
@@ -69,16 +61,24 @@ Showable {
         easing.type: Easing.OutCubic
     }
 
+    onOpenedHeightChanged: {
+        if (showAnimation.running) {
+            showAnimation.restart();
+        } else if (indicators.shown) {
+            height = openedHeight;
+        }
+    }
+
     height: panelHeight
-    onHeightChanged: updateRevealProgressState(indicators.height - panelHeight, true)
+    onHeightChanged: updateRevealProgressState(indicators.height - panelHeight - showHintBottomMargin, true)
 
     function updateRevealProgressState(revealProgress, enableRelease) {
         if (!showAnimation.running && !hideAnimation.running) {
             if (revealProgress === 0) {
                 indicators.state = "initial";
-            } else if (revealProgress > 0 && revealProgress <= hintValue) {
+            } else if (enableHint && revealProgress > 0 && revealProgress <= hintValue) {
                 indicators.state = "hint";
-            } else if (revealProgress > hintValue && revealProgress < lockThreshold) {
+            } else if ((!enableHint || revealProgress > hintValue) && revealProgress < lockThreshold) {
                 indicators.state = "reveal";
             } else if (revealProgress >= lockThreshold && lockThreshold > 0) {
                 indicators.state = "locked";
@@ -173,17 +173,6 @@ Showable {
         }
     }
 
-    VerticalThinDivider {
-        anchors {
-            top: indicators.top
-            topMargin: panelHeight
-            bottom: handle.bottom
-            right: indicators.left
-        }
-        width: units.dp(2)
-        source: "graphics/VerticalDivider.png"
-    }
-
     VisibleIndicators {
         id: visibleIndicators
     }
@@ -245,10 +234,6 @@ Showable {
         MouseArea { //prevent clicks passing through
             anchors.fill: parent
         }
-    }
-
-    PanelBackground {
-        anchors.fill: indicatorRow
     }
 
     IndicatorRow {
@@ -358,17 +343,17 @@ Showable {
         id: showDragHandle
         anchors.bottom: parent.bottom
         // go beyond parent so that it stays reachable, at the top of the screen.
-        anchors.bottomMargin: pinnedMode ? 0 : -panelHeight
+        anchors.bottomMargin: showHintBottomMargin
         anchors.left: parent.left
         anchors.right: parent.right
-        height: panelHeight + hintAreaHeightOffset
+        height: panelHeight + showHintHeightOffset
         direction: Direction.Downwards
         enabled: !indicators.shown && indicators.available
-        hintDisplacement: enableHint && pinnedMode ? indicators.hintValue : 0
+        hintDisplacement: enableHint ? indicators.hintValue : 0
         autoCompleteDragThreshold: maxTotalDragDistance / 2
         stretch: true
         maxTotalDragDistance: openedHeight - panelHeight
-        distanceThreshold: pinnedMode ? 0 : units.gu(3)
+        distanceThreshold: panelHeight
 
         onStatusChanged: {
             if (status === DirectionalDragArea.Recognized) {
@@ -376,8 +361,9 @@ Showable {
             }
         }
 
-        onTapped: showTapped(Qt.point(x + touchX, y + touchY))
+        onTapped: showTapped(Qt.point(touchSceneX, touchSceneY));
     }
+
     DragHandle {
         id: hideDragHandle
         anchors.fill: handle
@@ -400,10 +386,6 @@ Showable {
         },
         State {
             name: "hint"
-            PropertyChanges {
-                target: indicatorRow;
-                y: pinnedMode ? 0 : panelHeight
-            }
             StateChangeScript {
                 script: {
                     if (d.activeDragHandle) {
@@ -436,5 +418,6 @@ Showable {
     Component.onCompleted: initialise();
     function initialise() {
         visibleIndicators.load(profile);
+        indicatorRow.setDefaultItem();
     }
 }
