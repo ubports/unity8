@@ -50,11 +50,14 @@ var backgroundLoaderCode = 'Loader {\n\
                                 } \n\
                             }\n';
 
+// %1 is used as anchors of artShapeHolder
+// %2 is used as image width
+// %3 is used as image height
 var artShapeHolderCode = 'Item  { \n\
                             id: artShapeHolder; \n\
                             height: root.fixedArtShapeSize.height != -1 ? root.fixedArtShapeSize.height : artShapeLoader.height; \n\
                             width: root.fixedArtShapeSize.width != -1 ? root.fixedArtShapeSize.width : artShapeLoader.width; \n\
-                            %1 \n\
+                            anchors { %1 } \n\
                             Loader { \n\
                                 id: artShapeLoader; \n\
                                 objectName: "artShapeLoader"; \n\
@@ -86,7 +89,8 @@ var artShapeHolderCode = 'Item  { \n\
                                         asynchronous: root.asynchronous; \n\
                                         fillMode: components && components["art"]["fill-mode"] === "fit" ? Image.PreserveAspectFit: Image.PreserveAspectCrop; \n\
                                         readonly property real aspect: implicitWidth / implicitHeight; \n\
-                                        %2 \n\
+                                        width: %2; \n\
+                                        height: %3; \n\
                                     } \n\
                                 } \n\
                             } \n\
@@ -262,26 +266,26 @@ function cardString(template, components) {
     if (hasArt) {
         code += 'readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);\n';
 
-        var imageWidthHeightCode;
+        var widthCode, heightCode;
         var anchors;
         if (isHorizontal) {
-            anchors = 'anchors.left: parent.left;';
+            anchors = 'left: parent.left';
             if (hasMascot || hasTitle) {
-                imageWidthHeightCode = 'width: height * artShape.aspect; \n\
-                                        height: headerHeight;\n';
+                widthCode = 'height * artShape.aspect'
+                heightCode = 'headerHeight';
             } else {
                 // This side of the else is a bit silly, who wants an horizontal layout without mascot and title?
                 // So we define a "random" height of the image height + 2 gu for the margins
-                imageWidthHeightCode = 'width: height * artShape.aspect; \n\
-                                        height: units.gu(7.625)';
+                widthCode = 'height * artShape.aspect'
+                heightCode = 'units.gu(7.625)';
             }
         } else {
-            anchors = 'anchors.horizontalCenter: parent.horizontalCenter;';
-            imageWidthHeightCode = 'width: root.width; \n\
-                                    height: width / artShape.aspect;\n';
+            anchors = 'horizontalCenter: parent.horizontalCenter;';
+            widthCode = 'root.width'
+            heightCode = 'width / artShape.aspect';
         }
 
-        code += artShapeHolderCode.arg(anchors).arg(imageWidthHeightCode);
+        code += artShapeHolderCode.arg(anchors).arg(widthCode).arg(heightCode);
     } else {
         code += 'readonly property size artShapeSize: Qt.size(-1, -1);\n'
     }

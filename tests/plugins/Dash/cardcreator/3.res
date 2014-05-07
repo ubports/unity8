@@ -16,7 +16,7 @@ Item  {
                     id: artShapeHolder; 
                     height: root.fixedArtShapeSize.height != -1 ? root.fixedArtShapeSize.height : artShapeLoader.height; 
                     width: root.fixedArtShapeSize.width != -1 ? root.fixedArtShapeSize.width : artShapeLoader.width; 
-                    anchors.horizontalCenter: parent.horizontalCenter;
+                    anchors { horizontalCenter: parent.horizontalCenter; }
 
                     Loader { 
                         id: artShapeLoader; 
