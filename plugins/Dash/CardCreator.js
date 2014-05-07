@@ -368,7 +368,7 @@ function cardString(template, components) {
     } else if (hasMascot) {
         code += 'readonly property int headerHeight: mascotImage.height + units.gu(1) * 2;\n'
     } else if (hasSubtitle) {
-        code += 'readonly property int headerHeight: subtitleLabel.y + subtitleLabel.height - titleLabel.y + titleLabel.anchors.topMargin * 2 + subtitleLabel.anchors.topMargin;\n'
+        code += 'readonly property int headerHeight: titleLabel.height + titleLabel.anchors.topMargin * 2 + subtitleLabel.height + subtitleLabel.anchors.topMargin;\n'
     } else if (hasTitle) {
         code += 'readonly property int headerHeight: titleLabel.height + titleLabel.anchors.topMargin * 2;\n'
     } else {
