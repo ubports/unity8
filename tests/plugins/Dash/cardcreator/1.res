@@ -17,7 +17,6 @@ Item  {
                     height: root.fixedArtShapeSize.height != -1 ? root.fixedArtShapeSize.height : artShapeLoader.height; 
                     width: root.fixedArtShapeSize.width != -1 ? root.fixedArtShapeSize.width : artShapeLoader.width; 
                     anchors { horizontalCenter: parent.horizontalCenter; }
-
                     Loader { 
                         id: artShapeLoader; 
                         objectName: "artShapeLoader"; 
@@ -51,7 +50,6 @@ Item  {
                                 readonly property real aspect: implicitWidth / implicitHeight; 
                                 width: root.width; 
                                 height: width / artShape.aspect;
-
                             } 
                         } 
                     } 
@@ -60,10 +58,10 @@ readonly property int headerHeight: titleLabel.height + titleLabel.anchors.topMa
 Label { 
                     id: titleLabel; 
                     objectName: "titleLabel"; 
-                    anchors.right: parent.right;anchors.left: parent.left;
-anchors.top: artShapeHolder.bottom; 
-                                         anchors.topMargin: units.gu(1);
-
+                    anchors { right: parent.right;left: parent.left;
+top: artShapeHolder.bottom; 
+                                         topMargin: units.gu(1);
+ }
                     elide: Text.ElideRight; 
                     fontSize: "small"; 
                     wrapMode: Text.Wrap; 

@@ -18,14 +18,13 @@ Row {
                     objectName: "outerRow"; 
                     property real margins: units.gu(1); 
                     spacing: margins; 
-                    anchors.top: parent.top; 
-                                     anchors.topMargin: units.gu(1);
-
-                    anchors.left: parent.left;
-
+                    anchors { top: parent.top; 
+                                     topMargin: units.gu(1);
+                    left: parent.left;
+}
                     anchors.right: parent.right; 
                     anchors.margins: margins;
-Loader { 
+data: [ Loader { 
                         id: mascotShapeLoader; 
                         objectName: "mascotShapeLoader"; 
                         asynchronous: root.asynchronous; 
@@ -34,12 +33,14 @@ Loader {
                         width: units.gu(6); 
                         height: units.gu(5.625); 
                         sourceComponent: UbuntuShape { image: mascotImage } 
-                        anchors.verticalCenter: parent.verticalCenter;
+                        anchors { verticalCenter: parent.verticalCenter; }
                     }
+
+,
 Image { 
                     id: mascotImage; 
                     objectName: "mascotImage"; 
-                    anchors.verticalCenter: parent.verticalCenter;
+                    anchors { verticalCenter: parent.verticalCenter; }
                     readonly property int maxSize: Math.max(width, height) * 4; 
                     source: cardData && cardData["mascot"]; 
                     width: units.gu(6); 
@@ -50,16 +51,16 @@ Image {
                     verticalAlignment: Image.AlignVCenter; 
                     visible: false; 
                 }
+
+,
 Column { 
                         anchors.verticalCenter: parent.verticalCenter; 
                         spacing: units.dp(2); 
                         width: parent.width - x;
-data: [
-Label { 
+data: [ Label { 
                     id: titleLabel; 
                     objectName: "titleLabel"; 
                     anchors { left: parent.left; right: parent.right }
-
                     elide: Text.ElideRight; 
                     fontSize: "small"; 
                     wrapMode: Text.Wrap; 
@@ -88,6 +89,7 @@ Label {
                     }
 ]
 }
+]
 }
 implicitHeight: row.y + row.height + units.gu(1);
 }

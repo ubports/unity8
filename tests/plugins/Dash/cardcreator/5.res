@@ -17,7 +17,6 @@ Item  {
                     height: root.fixedArtShapeSize.height != -1 ? root.fixedArtShapeSize.height : artShapeLoader.height; 
                     width: root.fixedArtShapeSize.width != -1 ? root.fixedArtShapeSize.width : artShapeLoader.width; 
                     anchors { horizontalCenter: parent.horizontalCenter; }
-
                     Loader { 
                         id: artShapeLoader; 
                         objectName: "artShapeLoader"; 
@@ -51,7 +50,6 @@ Item  {
                                 readonly property real aspect: implicitWidth / implicitHeight; 
                                 width: root.width; 
                                 height: width / artShape.aspect;
-
                             } 
                         } 
                     } 
@@ -69,7 +67,6 @@ Loader {
             sourceComponent: ShaderEffect { 
                 id: overlay; 
                 height: fixedHeaderHeight != -1 ? fixedHeaderHeight : headerHeight;
- 
                 opacity: 0.6; 
                 property var source: ShaderEffectSource { 
                     id: shaderSource; 
@@ -101,12 +98,12 @@ readonly property int headerHeight: subtitleLabel.y + subtitleLabel.height - tit
 Label { 
                     id: titleLabel; 
                     objectName: "titleLabel"; 
-                    anchors.left: parent.left; 
-                            anchors.leftMargin: units.gu(1); 
-                            anchors.right: parent.right; 
-                            anchors.top: overlayLoader.top; 
-                            anchors.topMargin: units.gu(1);
-
+                    anchors { left: parent.left; 
+                            leftMargin: units.gu(1); 
+                            right: parent.right; 
+                            top: overlayLoader.top; 
+                            topMargin: units.gu(1);
+}
                     elide: Text.ElideRight; 
                     fontSize: "small"; 
                     wrapMode: Text.Wrap; 
@@ -125,8 +122,8 @@ Label {
                                leftMargin: titleLabel.leftMargin; 
                                right: titleLabel.right; 
                                top: titleLabel.bottom; 
-                               topMargin: units.dp(2); }
-
+                               topMargin: units.dp(2);
+ }
                         elide: Text.ElideRight; 
                         fontSize: "small"; 
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
