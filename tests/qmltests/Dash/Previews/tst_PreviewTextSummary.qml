@@ -42,7 +42,7 @@ Rectangle {
 
     PreviewTextSummary {
         id: previewTextSummary
-        anchors.fill: parent
+        anchors { left: parent.left; right: parent.right }
         widgetData: widgetDataComplete
     }
 
@@ -51,6 +51,7 @@ Rectangle {
         when: windowShown
 
         property var textLabel: findChild(previewTextSummary, "textLabel")
+        property var titleLabel: findChild(previewTextSummary, "titleLabel")
 
         function init() {
             verify(typeof textLabel === "object", "TextLabel object could not be found.")
@@ -61,8 +62,6 @@ Rectangle {
         }
 
         function test_optional_title() {
-            var titleLabel = findChild(previewTextSummary, "titleLabel")
-
             // verify titleLabel is visible and textLabel is anchored below it
             compare(titleLabel.visible, true)
             tryCompare(textLabel, "y", titleLabel.height)
@@ -96,6 +95,7 @@ Rectangle {
             verify(textLabel.lineCount <= textLabel.maximumCollapsedLineCount)
             compare(seeMore.visible, false)
             tryCompare(textLabel, "height", textLabel.contentHeight)
+            tryCompare(previewTextSummary, "height", titleLabel.height + textLabel.height)
         }
     }
 }
