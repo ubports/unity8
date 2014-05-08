@@ -57,13 +57,15 @@ private Q_SLOTS:
     void testToQVariantIcons()
     {
         GVariantBuilder builderIcons;
-        g_variant_builder_init(&builderIcons, G_VARIANT_TYPE_ARRAY);
-
+        g_variant_builder_init(&builderIcons, G_VARIANT_TYPE("av"));
         for (int i = 0; i < 3; i ++) {
+
             GIcon* icon = NULL;
             icon = g_icon_new_for_string (QString("testIcon%1").arg(i).toUtf8().constData(), NULL);
 
-            g_variant_builder_add_value(&builderIcons, g_icon_serialize (icon));
+            g_variant_builder_add(&builderIcons,
+                                  "v",
+                                  g_icon_serialize (icon));
             g_object_unref(icon);
         }
 
