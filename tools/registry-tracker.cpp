@@ -66,9 +66,9 @@ RegistryTracker::~RegistryTracker()
 void RegistryTracker::runRegistry()
 {
     QDir tmp(QDir::temp());
-    m_runtime_config.setFileTemplate(tmp.filePath("Runtime.ini.XXXXXX"));
-    m_registry_config.setFileTemplate(tmp.filePath("Registry.ini.XXXXXX"));
-    m_mw_config.setFileTemplate(tmp.filePath("Zmq.ini.XXXXXX"));
+    m_runtime_config.setFileTemplate(tmp.filePath("Runtime.XXXXXX.ini"));
+    m_registry_config.setFileTemplate(tmp.filePath("Registry.XXXXXX.ini"));
+    m_mw_config.setFileTemplate(tmp.filePath("Zmq.XXXXXX.ini"));
 
     if (!m_runtime_config.open() || !m_registry_config.open() || !m_mw_config.open() || !m_endpoints_dir.isValid()) {
         qWarning("Unable to open temporary files!");
