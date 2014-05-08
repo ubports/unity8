@@ -43,6 +43,12 @@ fi
 # will start.
 export DESKTOP_SESSION=ubuntu-touch
 
+# We disable ofono using pulse.  It causes problems with racing with the user's
+# pulse.  We need to come up with a better long-term fix for this, because we
+# eventually need the greeter to play ringtones for users that aren't logged in.
+export PA_DISABLED=1
+gdbus call --session --dest org.freedesktop.DBus --object-path /org/freedesktop/DBus --method org.freedesktop.DBus.UpdateActivationEnvironment "{'PA_DISABLED': '1'}"
+
 # Normal unity8 sessions are entirely driven by Upstart.  But greeters
 # are special.  They need access to the file descriptors that lightdm
 # creates for them and don't want to start all the services that a normal
