@@ -49,15 +49,15 @@ RegistryTracker::~RegistryTracker()
 "Registry.Identity = Registry\n" \
 "Registry.ConfigFile = %1\n" \
 "Default.Middleware = Zmq\n" \
-"Zmq.ConfigFile = %2\n"
+"Zmq.ConfigFile = %2\n" \
+"Smartscopes.Registry.Identity = %3\n"
 
 #define REGISTRY_CONFIG \
 "[Registry]\n" \
 "Middleware = Zmq\n" \
 "Zmq.ConfigFile = %1\n" \
 "Scope.InstallDir = %2\n" \
-"Scoperunner.Path = %3\n" \
-"%4"
+"Scoperunner.Path = %3\n"
 
 #define MW_CONFIG \
 "[Zmq]\n" \
@@ -107,9 +107,8 @@ void RegistryTracker::runRegistry()
         return;
     }
 
-    QString runtime_ini = QString(RUNTIME_CONFIG).arg(m_registry_config.fileName()).arg(m_mw_config.fileName());
     // FIXME: keep in sync with the SSRegistry config
-    QString serverRegistryConfig(m_serverScopes ? "SS.Registry.Identity = SSRegistry\n" : "");
+    QString runtime_ini = QString(RUNTIME_CONFIG).arg(m_registry_config.fileName()).arg(m_mw_config.fileName()).arg(m_serverScopes ? "SSRegistry" : "");
     if (!m_systemScopes) {
         m_scopeInstallDir.reset(new QTemporaryDir(tmp.filePath("scopes.XXXXXX")));
         if (!m_scopeInstallDir->isValid()) {
@@ -117,7 +116,7 @@ void RegistryTracker::runRegistry()
         }
         scopeInstallDir = m_scopeInstallDir->path();
     }
-    QString registry_ini = QString(REGISTRY_CONFIG).arg(m_mw_config.fileName()).arg(scopeInstallDir).arg(scopeRunnerBin).arg(serverRegistryConfig);
+    QString registry_ini = QString(REGISTRY_CONFIG).arg(m_mw_config.fileName()).arg(scopeInstallDir).arg(scopeRunnerBin);
     QString mw_ini = QString(MW_CONFIG).arg(m_endpoints_dir.path());
 
     m_runtime_config.write(runtime_ini.toUtf8());
