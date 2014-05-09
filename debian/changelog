@@ -1,3 +1,83 @@
+unity8 (7.86+14.10.20140507.3-0ubuntu1) utopic; urgency=low
+
+  [ Michał Sawicz ]
+  * Remove HUD from the bottom edge. Again.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 07 May 2014 11:14:30 +0000
+
+unity8 (7.86+14.10.20140505-0ubuntu1) utopic; urgency=low
+
+  [ Ted Gould ]
+  * Provide a dbus interface for setting the count and countVisible
+    properties. (LP: #1301400)
+
+  [ Michał Sawicz ]
+  * Pass env variables to initctl start.
+  * Suffix .sh to our scripts and clean up debian/rules.
+  * Adapt to Debian Qt package renames and drop unneeded Dee plugin
+    dependency.
+
+  [ Ying-Chun Liu ]
+  * Add Zoomable Image for Preview widgets.
+
+  [ Albert Astals ]
+  * Remove support for Qt <= 5.2.1
+
+  [ Mirco Müller ]
+  * Implemented feature-request from Design for modal snap-decision
+    notifications on the phone. See LP #1285712 (LP: #1285712)
+
+  [ Andrea Cimitan ]
+  * Make progressbas in preview widget big as the button
+
+  [ CI bot ]
+  * Resync trunk
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 05 May 2014 12:09:43 +0000
+
+unity8 (7.86+14.10.20140502.6-0ubuntu1) utopic; urgency=low
+
+  [ tpeeters ]
+  * Adapt to new TabBar
+
+  [ Tim Peeters ]
+  * Adapt to new TabBar
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 02 May 2014 16:44:52 +0000
+
+unity8 (7.86+14.10.20140429.2-0ubuntu1) utopic; urgency=medium
+
+  [ Andrea Cimitan ]
+  * Update upstart job to reflect latest unity-mir changes
+  * Fix locale in qml tests and fixtimeformattertest (LP: #1301038)
+  * Fix 1309135 (LP: #1309135)
+
+  [ Michał Sawicz ]
+  * Split out unity8-common package
+  * Don't wait for indicator services to start, and drop Scope Tool's
+    .desktop file. (LP: #1310172)
+
+  [ Michael Terry ]
+  * Stop clock from hiding when the 'show dash' button is pressed in
+    greeter. (LP: #1308139)
+  * Make swipe teases in the greeter more helpful and obvious (LP:
+    #1267623)
+
+  [ Nick Dedekind ]
+  * Fixed datetime indicator appointment colour (LP: #1307048)
+
+  [ Albert Astals ]
+  * Improve Card creation time by adding loaders that make sure only
+    what's needed is loaded (LP: #1297197)
+  * CategoryDelegateRange: Fix condition for detecting overshooting
+  * Make xvfbtests work in the DashView plugins
+  * Fix binding loop in FilterGrid height
+
+  [ Victor R. Ruiz ]
+  * Move autopilot notification code to a helper method.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 29 Apr 2014 15:21:33 +0000
+
 unity8 (7.85+14.04.20140416-0ubuntu1) trusty; urgency=low
 
   [ Albert Astals ]

@@ -79,11 +79,7 @@ private:
     void doRelayout() override;
     void updateItemCulling(qreal visibleFromY, qreal visibleToY) override;
     void calculateImplicitHeight() override;
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-    void processModelRemoves(const QVector<QQuickChangeSet::Remove> &removes) override;
-#else
     void processModelRemoves(const QVector<QQmlChangeSet::Remove> &removes) override;
-#endif
 
     QSizeF m_smallDelegateSize;
     QSizeF m_bigDelegateSize;

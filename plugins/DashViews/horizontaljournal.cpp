@@ -28,12 +28,8 @@
 #include <qqmlengine.h>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-pedantic"
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-#include <private/qquickvisualdatamodel_p.h>
-#else
 #include <private/qqmldelegatemodel_p.h>
 #include <qqmlinfo.h>
-#endif
 #include <private/qquickitem_p.h>
 #pragma GCC diagnostic pop
 
@@ -188,17 +184,9 @@ void HorizontalJournal::calculateImplicitHeight()
     }
 }
 
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-void HorizontalJournal::processModelRemoves(const QVector<QQuickChangeSet::Remove> &removes)
-#else
 void HorizontalJournal::processModelRemoves(const QVector<QQmlChangeSet::Remove> &removes)
-#endif
 {
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-    Q_FOREACH(const QQuickChangeSet::Remove &remove, removes) {
-#else
     Q_FOREACH(const QQmlChangeSet::Remove &remove, removes) {
-#endif
         for (int i = remove.count - 1; i >= 0; --i) {
             const int indexToRemove = remove.index + i;
             // We only support removing from the end so

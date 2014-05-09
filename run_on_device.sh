@@ -88,7 +88,7 @@ sync_code() {
 }
 
 build() {
-    exec_with_ssh PATH=/usr/lib/ccache:$PATH "cd $CODE_DIR/ && PATH=/usr/lib/ccache:$PATH ./build"
+    exec_with_ssh PATH=/usr/lib/ccache:$PATH "cd $CODE_DIR/ && PATH=/usr/lib/ccache:$PATH ./build.sh"
 }
 
 run() {
@@ -105,7 +105,7 @@ run() {
 
     exec_with_ssh "stop unity8"
     exec_with_ssh "start maliit-server"
-    exec_with_ssh "cd $CODE_DIR/ && ./run $ARGS -- $RUN_OPTIONS"
+    exec_with_ssh "cd $CODE_DIR/ && ./run.sh $ARGS -- $RUN_OPTIONS"
     exec_with_ssh "stop maliit-server"
     exec_with_ssh "start unity8"
 }

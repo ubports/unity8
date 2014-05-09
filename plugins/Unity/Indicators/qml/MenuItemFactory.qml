@@ -273,7 +273,7 @@ Item {
             text: menuData && menuData.label || ""
             iconSource: menuData && menuData.icon || "image://theme/calendar"
             time: timeFormatter.timeString
-            eventColor: menu && menu.ext.hasOwnProperty("xCanonicalColor") ? menu.ext.xCanonicalColor : Qt.rgba(0.0, 0.0, 0.0, 0.0)
+            eventColor: getExtendedProperty(extendedData, "xCanonicalColor", Qt.rgba(0.0, 0.0, 0.0, 0.0))
             enabled: menuData && menuData.sensitive || false
 
             onMenuModelChanged: {

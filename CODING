@@ -20,7 +20,7 @@ install dependencies
 If its your first time, install build dependencies
 
 $ cd ~/unity8/trunk
-$ ./build --setup
+$ ./build.sh --setup
 
   this will:
   - install the required dependencies to build, as well as run on the desktop
@@ -31,7 +31,7 @@ build Unity 8
 -------------
 
 $ cd ~/unity8/trunk
-$ ./build
+$ ./build.sh
 
 You may also rebuild with the -c for clean, which just deletes the build
 directory.
@@ -43,10 +43,10 @@ Running Unity 8 on your desktop
 run the Unity 8 shell
 ---------------------
 $ cd ~/unity8/trunk
-$ ./run
+$ ./run.sh
 
 Options can be passed to test the lock screen
-$ ./run -p OR -k
+$ ./run.sh -p OR -k
 
 -p is for pin lock, for which the default prompt answer is "1234"
 -k is for keylock passphrase, for which the default prompt answer is "password"
@@ -78,19 +78,19 @@ Running Unity 8 on devices
   on the device yourself)
 
 $ cd ~/unity/trunk
-$ ./run_on_device --setup
+$ ./run_on_device.sh --setup
   this will:
   - install your public SSH key on the device
   - install the needed dependencies
 
-$ ./run_on_device
+$ ./run_on_device.sh
   this will:
   - rsync the code to the device
   - build on the device
   - replace the running shell
 
 Options can be passed to test the lock screen
-$ ./run_on_device -p OR -k
+$ ./run_on_device.sh -p OR -k
 
 -p is for pin lock, for which the default prompt answer is "1234"
 -k is for keylock passphrase, for which the default prompt answer is "password"
@@ -107,9 +107,9 @@ Notes
 - exporting ANDROID_SERIAL=$your_device_serial or 
   ANDROID_SERIAL=$your_device_ip:5555 will make adb not complain about 
   multiple devices
-- you can export TARGET_IP=$your_device_ip TARGET_SSH_PORT=22 for run_on_device
+- you can export TARGET_IP=$your_device_ip TARGET_SSH_PORT=22 for run_on_device.sh
   to not use adb forwarding - useful if you use multiple devices
-- using Ninja (package ninja-build - run_on_device -s installs this now)
+- using Ninja (package ninja-build - run_on_device.sh -s installs this now)
   will improve build times (especially in the nothing-to-build case)
 
 
@@ -131,7 +131,7 @@ Running tests
 =============
 
 Tests are run from the build directory (which will be ./builddir if you used
-the ./build script).
+the ./build.sh script).
 
 To run the tests that do not require any graphical capability and therefore
 are pretty fast run:
@@ -167,15 +167,11 @@ NB: Manual test or interation doesn't make sense for all components or classes,
 particularly the non-graphical ones. In such cases no "tryFoo" make target is
 provided.
 
-NB: The tests expect the locale to be the C locale, they may fail if run
-under a different locale, if you get failures others can not reproduce
-prepend 'LC_ALL=C' to the 'make test' command
-
 Running autopilot tests
 =======================
 
 Autopilot tests are run from the build directory (which will be ./builddir if you used
-the ./build script).
+the ./build.sh script).
 
 $ make autopilot
 

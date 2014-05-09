@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-25 16:48+0100\n"
+"POT-Creation-Date: 2014-04-10 11:13-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -84,7 +84,7 @@ msgstr ""
 msgid "See less"
 msgstr ""
 
-#: qml/Dash/DashApps.qml:38
+#: qml/Dash/DashApps.qml:37
 msgid "Recent"
 msgstr ""
 
@@ -111,6 +111,10 @@ msgstr ""
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
+msgstr ""
+
+#: qml/Greeter/Greeter.qml:151
+msgid "Swipe to unlock"
 msgstr ""
 
 #: qml/Greeter/Lockscreen.qml:149
@@ -158,7 +162,7 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: qml/Shell.qml:417
+#: qml/Shell.qml:348
 #, qt-format
 msgid "Please enter %1"
 msgstr ""
