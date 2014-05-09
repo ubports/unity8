@@ -69,6 +69,7 @@ Item {
 
     Audio {
         id: sound
+        objectName: "sound"
         source: hints["sound-file"]
     }
 
