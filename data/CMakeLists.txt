@@ -15,6 +15,6 @@ install(FILES 51-${GREETER_APP}.conf
 install(FILES ${GREETER_APP}-wrapper
     DESTINATION ${CMAKE_INSTALL_BINDIR}
     )
-install(FILES unity8-greeter-init.conf unity8-greeter-ofono.conf
+install(FILES ${GREETER_APP}-init.conf
     DESTINATION ${CMAKE_INSTALL_DATADIR}/upstart/sessions
     )
