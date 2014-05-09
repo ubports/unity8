@@ -27,6 +27,12 @@ Item {
     signal selected(int uid)
     signal unlocked(int uid)
 
+    Rectangle {
+        anchors.fill: parent
+        color: "black"
+        opacity: 0.4
+    }
+
     Loader {
         id: loginLoader
         objectName: "loginLoader"
