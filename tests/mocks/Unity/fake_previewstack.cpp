@@ -21,8 +21,10 @@
 #include "fake_previewmodel.h"
 #include "fake_scope.h"
 
-PreviewStack::PreviewStack(QObject* parent) : QAbstractListModel(parent)
+PreviewStack::PreviewStack(QObject* parent)
 {
+    setParent(parent);
+
     m_previews << new PreviewModel(this);
 }
 
@@ -56,7 +58,7 @@ int PreviewStack::rowCount(const QModelIndex&) const
     return m_previews.size();
 }
 
-PreviewModel* PreviewStack::get(int index) const
+unity::shell::scopes::PreviewModelInterface* PreviewStack::get(int index) const
 {
     if (index >= m_previews.size()) {
         return nullptr;

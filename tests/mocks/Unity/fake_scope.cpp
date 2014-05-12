@@ -22,8 +22,7 @@ Scope::Scope(QObject* parent) : Scope(QString(), QString(), false, parent)
 }
 
 Scope::Scope(QString const& id, QString const& name, bool visible, QObject* parent)
-    : QObject(parent)
-    , m_id(id)
+    : m_id(id)
     , m_name(name)
     , m_visible(visible)
     , m_searching(false)
@@ -31,6 +30,7 @@ Scope::Scope(QString const& id, QString const& name, bool visible, QObject* pare
     , m_previewRendererName("preview-generic")
     , m_categories(new Categories(20, this))
 {
+    setParent(parent);
 }
 
 QString Scope::id() const {
@@ -59,10 +59,6 @@ QString Scope::searchHint() const {
 
 QString Scope::shortcut() const {
     return QString("");
-}
-
-bool Scope::connected() const {
-    return true;
 }
 
 bool Scope::searchInProgress() const {
@@ -149,7 +145,7 @@ void Scope::cancelActivation()
 {
 }
 
-void Scope::closeScope(Scope* /*scope*/)
+void Scope::closeScope(unity::shell::scopes::ScopeInterface* /*scope*/)
 {
     qFatal("Scope::closeScope is not implemented");
 }

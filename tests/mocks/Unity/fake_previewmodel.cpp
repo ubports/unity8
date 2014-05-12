@@ -27,8 +27,10 @@
 // Qt
 #include <QDebug>
 
-PreviewModel::PreviewModel(QObject* parent) : QAbstractListModel(parent)
+PreviewModel::PreviewModel(QObject* parent)
 {
+    setParent(parent);
+
     // we have one column by default
     PreviewWidgetModel* columnModel = new PreviewWidgetModel(this);
     m_previewWidgetModels.append(columnModel);

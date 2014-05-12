@@ -24,11 +24,11 @@
 // Qt
 #include <QTimer>
 
-Scopes::Scopes(QObject *parent)
-: QAbstractListModel(parent)
-, m_loaded(false)
+Scopes::Scopes(QObject *parent) : m_loaded(false)
 , timer(this)
 {
+    setParent(parent);
+
     m_roles[Scopes::RoleScope] = "scope";
     m_roles[Scopes::RoleId] = "id";
     m_roles[Scopes::RoleVisible] = "visible";

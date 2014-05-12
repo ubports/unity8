@@ -35,8 +35,10 @@ struct PreviewData
     }
 };
 
-PreviewWidgetModel::PreviewWidgetModel(QObject* parent) : QAbstractListModel(parent)
+PreviewWidgetModel::PreviewWidgetModel(QObject* parent)
 {
+    setParent(parent);
+
     m_roles[Roles::RoleWidgetId] = "widgetId";
     m_roles[Roles::RoleType] = "type";
     m_roles[Roles::RoleProperties] = "properties";

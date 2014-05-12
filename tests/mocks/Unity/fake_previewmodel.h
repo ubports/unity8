@@ -18,44 +18,29 @@
 #ifndef FAKE_PREVIEWMODEL_H
 #define FAKE_PREVIEWMODEL_H
 
-#include <QAbstractListModel>
+#include <unity/shell/scopes/PreviewModelInterface.h>
+
 #include <QSharedPointer>
 #include <QVariantMap>
 
 class PreviewWidgetModel;
 
-class PreviewModel : public QAbstractListModel
+class PreviewModel : public unity::shell::scopes::PreviewModelInterface
 {
     Q_OBJECT
 
-    Q_ENUMS(Roles)
-
-    Q_PROPERTY(int widgetColumnCount READ widgetColumnCount WRITE setWidgetColumnCount NOTIFY widgetColumnCountChanged)
-    Q_PROPERTY(bool loaded READ loaded NOTIFY loadedChanged)
-    Q_PROPERTY(bool processingAction READ processingAction NOTIFY processingActionChanged)
-
 public:
     explicit PreviewModel(QObject* parent = 0);
-
-    enum Roles {
-        RoleColumnModel
-    };
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 
-    void setWidgetColumnCount(int count);
-    int widgetColumnCount() const;
-    bool loaded() const;
-    bool processingAction() const;
+    void setWidgetColumnCount(int count) override;
+    int widgetColumnCount() const override;
+    bool loaded() const override;
+    bool processingAction() const override;
     void setProcessingAction(bool processing);
-
-Q_SIGNALS:
-    void widgetColumnCountChanged();
-    void loadedChanged();
-    void processingActionChanged();
-    void triggered(QString const&, QString const&, QVariantMap const&);
 
 private:
     QHash<int, QByteArray> m_roles;

@@ -23,10 +23,11 @@
 #include <paths.h>
 
 ResultsModel::ResultsModel(int result_count, int categoryId, QObject* parent)
-    : QAbstractListModel(parent)
-    , m_result_count(result_count)
+    : m_result_count(result_count)
     , m_categoryId(categoryId)
 {
+    setParent(parent);
+
     m_roles[ResultsModel::RoleUri] = "uri";
     m_roles[ResultsModel::RoleCategoryId] = "categoryId";
     m_roles[ResultsModel::RoleDndUri] = "dndUri";
@@ -36,11 +37,6 @@ ResultsModel::ResultsModel(int result_count, int categoryId, QObject* parent)
     m_roles[ResultsModel::RoleSubtitle] = "subtitle";
     m_roles[ResultsModel::RoleMascot] = "mascot";
     m_roles[ResultsModel::RoleEmblem] = "emblem";
-    m_roles[ResultsModel::RoleOldPrice] = "oldPrice";
-    m_roles[ResultsModel::RolePrice] = "price";
-    m_roles[ResultsModel::RoleAltPrice] = "altPrice";
-    m_roles[ResultsModel::RoleRating] = "rating";
-    m_roles[ResultsModel::RoleAltRating] = "altRating";
     m_roles[ResultsModel::RoleSummary] = "summary";
 }
 
@@ -105,11 +101,6 @@ ResultsModel::data(const QModelIndex& index, int role) const
         case RoleSubtitle:
         case RoleMascot:
         case RoleEmblem:
-        case RoleOldPrice:
-        case RolePrice:
-        case RoleAltPrice:
-        case RoleRating:
-        case RoleAltRating:
         case RoleSummary:
         default:
             return QVariant();

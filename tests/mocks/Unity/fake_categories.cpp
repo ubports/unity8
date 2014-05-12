@@ -22,9 +22,10 @@
 #include "fake_resultsmodel.h"
 
 Categories::Categories(int category_count, QObject* parent)
-    : QAbstractListModel(parent)
-    , m_category_count(category_count)
+    : m_category_count(category_count)
 {
+    setParent(parent);
+
     m_roles[Categories::RoleCategoryId] = "categoryId";
     m_roles[Categories::RoleName] = "name";
     m_roles[Categories::RoleIcon] = "icon";
@@ -63,6 +64,11 @@ void Categories::addSpecialCategory(QString const& categoryId, QString const& na
     if (countObject) {
         connect(countObject, SIGNAL(countChanged()), this, SLOT(countChanged()));
     }
+}
+
+bool Categories::overrideCategoryJson(QString const& categoryId, QString const& json)
+{
+    qFatal("Using un-implemented Categories::overrideCategoryJson");
 }
 
 void Categories::countChanged()
