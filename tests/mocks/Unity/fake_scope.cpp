@@ -65,7 +65,7 @@ bool Scope::searchInProgress() const {
     return m_searching;
 }
 
-Categories* Scope::categories() const {
+unity::shell::scopes::CategoriesInterface* Scope::categories() const {
     return m_categories;
 }
 

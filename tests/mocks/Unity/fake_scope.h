@@ -41,7 +41,7 @@ public:
     bool visible() const override;
     QString shortcut() const override;
     bool searchInProgress() const override;
-    Categories* categories() const override;
+    unity::shell::scopes::CategoriesInterface* categories() const override;
     QString searchQuery() const override;
     QString noResultsHint() const override;
     QString formFactor() const override;
