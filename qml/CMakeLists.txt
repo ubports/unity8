@@ -5,7 +5,6 @@ install(FILES ${QML_JS_FILES}
     )
 
 set(QML_DIRS
-    Bottombar
     Components
     Dash
     graphics
