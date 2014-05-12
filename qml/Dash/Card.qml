@@ -36,6 +36,12 @@ AbstractButton {
     implicitWidth: childrenRect.width
     implicitHeight: summary.y + summary.height + (summary.text && backgroundLoader.active ? units.gu(1) : 0)
 
+    BorderImage {
+        source: "graphics/carousel_dropshadow.sci"
+        anchors.fill: artShape
+        anchors.margins: -units.gu(1)
+    }
+
     Loader {
         id: backgroundLoader
         objectName: "backgroundLoader"
@@ -82,6 +88,7 @@ AbstractButton {
         anchors.horizontalCenter: template && template["card-layout"] === "horizontal" ? undefined : parent.horizontalCenter
         anchors.left: template && template["card-layout"] === "horizontal" ? parent.left : undefined
         visible: cardData && cardData["art"] || false
+        borderSource: "none"
 
         readonly property real aspect: components !== undefined ? components["art"]["aspect-ratio"] : 1
         readonly property bool aspectSmallerThanImageAspect: aspect < image.aspect
