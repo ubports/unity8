@@ -18,7 +18,6 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import "../Components"
 
-
 DashRenderer {
     id: cardCarousel
 
@@ -66,7 +65,7 @@ DashRenderer {
                 item.components = Qt.binding(function() { return cardTool.components; });
                 item.fontScale = Qt.binding(function() { return carousel.fontScale; });
                 item.showHeader = Qt.binding(function() { return loader.explicitlyScaled; });
-                item.artShapeBorder = "none";
+                item.artShapeBorderSource = "none";
             }
 
             BorderImage {
