@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,11 +15,11 @@
  */
 
 import QtQuick 2.1
-import DashViews 0.1
+import Dash 0.1
 
 Item {
     id: root
-    signal add()
+    signal add(int height)
     signal remove()
 
     ListViewWithPageHeader {
@@ -28,11 +28,10 @@ Item {
         height: parent.height
         width: parent.width - controls.width
 
-        delegate: OrganicGrid {
-            id: grid
-            model: gridModel
-            smallDelegateSize: Qt.size(90, 90)
-            bigDelegateSize: Qt.size(180, 180)
+        delegate: VerticalJournal {
+            id: vj
+            model: vjModel
+            columnWidth: 100
             columnSpacing: 10
             rowSpacing: 10
             width: parent.width
@@ -43,10 +42,11 @@ Item {
             delegate: Rectangle {
                 width: 100
                 color: "red";
+                height: modelHeight
                 border.width: 3
 
                 Text {
-                    text: index
+                    text: index + "\ny: " + parent.y + "\nheight: " + parent.height
                     x: 10
                     y: 10
                 }
@@ -73,11 +73,17 @@ Item {
             }
             MouseArea {
                 anchors.fill: parent
-                onClicked: root.add()
+                onClicked: root.add(addField.text)
             }
         }
-        Rectangle {
+        TextInput {
+            id: addField
             anchors.top: addButton.bottom
+            height: 30
+            width: parent.width
+        }
+        Rectangle {
+            anchors.top: addField.bottom
             height: 50
             width: parent.width
             color: "red"

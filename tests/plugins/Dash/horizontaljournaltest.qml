@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,26 +15,26 @@
  */
 
 import QtQuick 2.1
-import DashViews 0.1
+import Dash 0.1
 
 Item {
 
-    OrganicGrid {
-        id: vj
-        objectName: "grid"
+    HorizontalJournal {
+        objectName: "hj"
         anchors.fill: parent
+        rowHeight: 150
         columnSpacing: 10
         rowSpacing: 10
-        smallDelegateSize: Qt.size(90, 90)
-        bigDelegateSize: Qt.size(180, 180)
 
         delegate: Rectangle {
             property real randomValue: Math.random()
+            height: 150
             color: randomValue < 0.3 ? "green" : randomValue < 0.6 ? "blue" : "red";
+            width: modelWidth
             border.width: 3
 
             Text {
-                text: index
+                text: index + "\nx: " + parent.x + "\nwidth: " + parent.width
                 x: 10
                 y: 10
             }

@@ -16,7 +16,7 @@
 
 import QtQuick 2.0
 import QtTest 1.0
-import DashViews 0.1
+import Dash 0.1
 
 Rectangle {
     width: 300

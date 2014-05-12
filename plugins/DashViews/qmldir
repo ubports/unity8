@@ -1,3 +1,0 @@
-module DashViews
-plugin DashViews-qml
-typeinfo plugin.qmltypes
