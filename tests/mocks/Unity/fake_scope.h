@@ -53,7 +53,7 @@ public:
     void setNoResultsHint(const QString& hint) override;
     void setFormFactor(const QString& form_factor) override;
     void setActive(const bool) override;
-    void setSearchInProgress(const bool inProg);
+    Q_INVOKABLE void setSearchInProgress(const bool inProg); // This is not invokable in the Interface, here for testing benefits
 
     Q_INVOKABLE void activate(QVariant const& result) override;
     Q_INVOKABLE PreviewStack* preview(QVariant const& result) override;
