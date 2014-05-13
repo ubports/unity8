@@ -32,15 +32,6 @@ PreviewStack::~PreviewStack()
 {
 }
 
-QHash<int, QByteArray> PreviewStack::roleNames() const
-{
-    QHash<int, QByteArray> roles;
-
-    roles[Roles::RolePreviewModel] = "previewModel";
-
-    return roles;
-}
-
 void PreviewStack::setWidgetColumnCount(int columnCount)
 {
     if (columnCount != 1) {

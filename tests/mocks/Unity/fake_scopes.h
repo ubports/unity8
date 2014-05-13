@@ -47,7 +47,6 @@ public:
     Q_INVOKABLE void load();
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
-    QHash<int, QByteArray> roleNames() const;
     QModelIndex parent ( const QModelIndex & index ) const;
 
     bool loaded() const override;
@@ -62,7 +61,6 @@ private Q_SLOTS:
 
 private:
     QList<Scope*> m_scopes;
-    QHash<int, QByteArray> m_roles;
     bool m_loaded;
     QTimer timer;
 };

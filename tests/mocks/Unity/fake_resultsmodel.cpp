@@ -27,17 +27,6 @@ ResultsModel::ResultsModel(int result_count, int categoryId, QObject* parent)
     , m_categoryId(categoryId)
 {
     setParent(parent);
-
-    m_roles[ResultsModel::RoleUri] = "uri";
-    m_roles[ResultsModel::RoleCategoryId] = "categoryId";
-    m_roles[ResultsModel::RoleDndUri] = "dndUri";
-    m_roles[ResultsModel::RoleResult] = "result";
-    m_roles[ResultsModel::RoleTitle] = "title";
-    m_roles[ResultsModel::RoleArt] = "art";
-    m_roles[ResultsModel::RoleSubtitle] = "subtitle";
-    m_roles[ResultsModel::RoleMascot] = "mascot";
-    m_roles[ResultsModel::RoleEmblem] = "emblem";
-    m_roles[ResultsModel::RoleSummary] = "summary";
 }
 
 QString ResultsModel::categoryId() const
@@ -48,12 +37,6 @@ QString ResultsModel::categoryId() const
 void ResultsModel::setCategoryId(QString const& /*id*/)
 {
     qFatal("Calling un-implemented ResultsModel::setCategoryId");
-}
-
-QHash<int, QByteArray>
-ResultsModel::roleNames() const
-{
-    return m_roles;
 }
 
 int ResultsModel::rowCount(const QModelIndex& parent) const

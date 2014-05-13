@@ -29,11 +29,6 @@ Scopes::Scopes(QObject *parent) : m_loaded(false)
 {
     setParent(parent);
 
-    m_roles[Scopes::RoleScope] = "scope";
-    m_roles[Scopes::RoleId] = "id";
-    m_roles[Scopes::RoleVisible] = "visible";
-    m_roles[Scopes::RoleTitle] = "title";
-
     QObject::connect(this, SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SIGNAL(countChanged()));
     QObject::connect(this, SIGNAL(rowsRemoved(const QModelIndex &, int, int)), this, SIGNAL(countChanged()));
     QObject::connect(this, SIGNAL(modelReset()), this, SIGNAL(countChanged()));
@@ -81,11 +76,6 @@ void Scopes::clear()
 void Scopes::load()
 {
     timer.start();
-}
-
-QHash<int, QByteArray> Scopes::roleNames() const
-{
-    return m_roles;
 }
 
 int Scopes::rowCount(const QModelIndex&) const

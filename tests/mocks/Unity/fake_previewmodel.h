@@ -33,7 +33,6 @@ public:
     explicit PreviewModel(QObject* parent = 0);
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
-    QHash<int, QByteArray> roleNames() const override;
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 
     void setWidgetColumnCount(int count) override;
@@ -43,7 +42,6 @@ public:
     void setProcessingAction(bool processing);
 
 private:
-    QHash<int, QByteArray> m_roles;
     QList<PreviewWidgetModel*> m_previewWidgetModels;
 };
 

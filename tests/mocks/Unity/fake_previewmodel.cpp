@@ -36,15 +36,6 @@ PreviewModel::PreviewModel(QObject* parent)
     m_previewWidgetModels.append(columnModel);
 }
 
-QHash<int, QByteArray> PreviewModel::roleNames() const
-{
-    QHash<int, QByteArray> roles;
-
-    roles[Roles::RoleColumnModel] = "columnModel";
-
-    return roles;
-}
-
 void PreviewModel::setWidgetColumnCount(int count)
 {
     if (count != 1) {

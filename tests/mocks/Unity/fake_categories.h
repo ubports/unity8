@@ -32,7 +32,6 @@ public:
     Categories(int category_count, QObject* parent = 0);
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
-    QHash<int, QByteArray> roleNames() const override;
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 
     Q_INVOKABLE void addSpecialCategory(QString const& categoryId, QString const& name, QString const& icon, QString const& rawTemplate, QObject* countObject) override;
@@ -43,7 +42,6 @@ private Q_SLOTS:
 
 private:
     mutable QHash<int, ResultsModel*> m_resultsModels;
-    QHash<int, QByteArray> m_roles;
     int m_category_count;
 
     struct CategoryData {
