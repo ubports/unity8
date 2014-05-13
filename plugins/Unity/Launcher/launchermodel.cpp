@@ -23,6 +23,8 @@
 
 #include <unity/shell/application/ApplicationInfoInterface.h>
 
+#include <QDebug>
+
 using namespace unity::shell::application;
 
 LauncherModel::LauncherModel(QObject *parent):
@@ -156,6 +158,7 @@ void LauncherModel::requestRemove(const QString &appId)
     }
 
     if (m_appManager->findApplication(appId)) {
+        qDebug() << "unpinning app" << appId;
         m_list.at(index)->setPinned(false);
         return;
     }
@@ -248,6 +251,7 @@ void LauncherModel::storeAppList()
     QStringList appIds;
     Q_FOREACH(LauncherItem *item, m_list) {
         if (item->pinned()) {
+            qDebug() << "storing pinned app:" << item->appId();
             appIds << item->appId();
         }
     }
@@ -323,6 +327,8 @@ void LauncherModel::applicationRemoved(const QModelIndex &parent, int row)
             break;
         }
     }
+
+    qDebug() << "app removed:" << appIndex << m_list.at(appIndex)->pinned();
 
     if (appIndex > -1 && !m_list.at(appIndex)->pinned()) {
         beginRemoveRows(QModelIndex(), appIndex, appIndex);
