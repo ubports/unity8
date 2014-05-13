@@ -53,12 +53,6 @@ Rectangle {
         function test_loadScreenshot() {
             var screenshot = findChild(videoPlayback, "screenshot");
 
-            videoPlayback.widgetData = widgetData0;
-            tryCompare(screenshot.visible, false);
-
-            videoPlayback.widgetData = widgetData1;
-            tryCompare(screenshot.visible, true);
-
             videoPlayback.widgetData = widgetData2;
             var screenshotSource = screenshot.source
             verify(screenshotSource.toString().indexOf("image://thumbnailer/") === 0)

@@ -91,6 +91,7 @@
 
 #include "listviewwithpageheader.h"
 
+#include <QCoreApplication>
 #include <QDebug>
 #include <qqmlinfo.h>
 #include <qqmlengine.h>
@@ -366,6 +367,18 @@ void ListViewWithPageHeader::positionAtBeginning()
         m_previousContentY = m_visibleItems.first()->y() - headerHeight;
     }
     setContentY(m_visibleItems.first()->y() + m_clipItem->y() - headerHeight);
+    if (m_headerItem) {
+        // TODO This should not be needed and the code that adjust the m_headerItem position
+        // in viewportMoved() should be enough but in some cases we have not found a way to reproduce
+        // yet the code of viewportMoved() fails so here we make sure that at least if we are calling
+        // positionAtBeginning the header item will be correctly positioned
+        m_headerItem->setY(-m_minYExtent);
+    }
+}
+
+static inline bool uFuzzyCompare(qreal r1, qreal r2)
+{
+    return qFuzzyCompare(r1, r2) || (qFuzzyIsNull(r1) && qFuzzyIsNull(r2));
 }
 
 void ListViewWithPageHeader::showHeader()
@@ -373,8 +386,8 @@ void ListViewWithPageHeader::showHeader()
     if (!m_headerItem)
         return;
 
-    auto to = qMax(-minYExtent(), contentY() - m_headerItem->height() + m_headerItemShownHeight);
-    if (to != contentY()) {
+    const auto to = qMax(-minYExtent(), contentY() - m_headerItem->height() + m_headerItemShownHeight);
+    if (!uFuzzyCompare(to, contentY())) {
         const bool headerShownByItsOwn = contentY() < m_headerItem->y() + m_headerItem->height();
         if (headerShownByItsOwn && m_headerItemShownHeight == 0) {
             // We are not clipping since we are just at the top of the viewport
@@ -491,11 +504,7 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
     const bool showHeaderAnimationRunning = m_contentYAnimation->isRunning() && contentYAnimationType == ContentYAnimationShowHeader;
     if (m_headerItem) {
         const auto oldHeaderItemShownHeight = m_headerItemShownHeight;
-        if (contentY() < -m_minYExtent) {
-            // Stick the header item to the top when dragging down
-            m_headerItem->setY(contentY());
-            m_headerItem->setHeight(m_headerItem->implicitHeight() + (-m_minYExtent - contentY()));
-        } else {
+        if (uFuzzyCompare(contentY(), -m_minYExtent) || contentY() > -m_minYExtent) {
             m_headerItem->setHeight(m_headerItem->implicitHeight());
             // We are going down (but it's not because of the rebound at the end)
             // (but the header was not shown by it's own position)
@@ -509,21 +518,32 @@ void ListViewWithPageHeader::viewportMoved(Qt::Orientations orient)
                 m_headerItemShownHeight = 0;
                 m_headerItem->setY(-m_minYExtent);
             } else if ((scrolledUp && notRebounding && notShownByItsOwn && !maximizeVisibleAreaRunning) || (m_headerItemShownHeight > 0) || m_inContentHeightKeepHeaderShown) {
-                if (maximizeVisibleAreaRunning && diff > 0) // If we are maximizing and the header was shown, make sure we hide it
+                if (maximizeVisibleAreaRunning && diff > 0) {
+                    // If we are maximizing and the header was shown, make sure we hide it
                     m_headerItemShownHeight -= diff;
-                else
+                } else {
                     m_headerItemShownHeight += diff;
-                if (contentY() == -m_minYExtent) {
+                }
+                if (uFuzzyCompare(contentY(), -m_minYExtent)) {
                     m_headerItemShownHeight = 0;
                 } else {
                     m_headerItemShownHeight = qBound(static_cast<qreal>(0.), m_headerItemShownHeight, m_headerItem->height());
                 }
                 if (m_headerItemShownHeight > 0) {
-                    m_headerItem->setY(contentY() - m_headerItem->height() + m_headerItemShownHeight);
+                    if (uFuzzyCompare(m_headerItem->height(), m_headerItemShownHeight)) {
+                        m_headerItem->setY(contentY());
+                        m_headerItemShownHeight = m_headerItem->height();
+                    } else {
+                        m_headerItem->setY(contentY() - m_headerItem->height() + m_headerItemShownHeight);
+                    }
                 } else {
                     m_headerItem->setY(-m_minYExtent);
                 }
             }
+        } else {
+            // Stick the header item to the top when dragging down
+            m_headerItem->setY(contentY());
+            m_headerItem->setHeight(m_headerItem->implicitHeight() + (-m_minYExtent - contentY()));
         }
         // We will be changing the clip item, need to accomadate for it
         // otherwise we move the firstItem down/up twice (unless the
@@ -759,6 +779,9 @@ bool ListViewWithPageHeader::removeNonVisibleItems(qreal bufferFrom, qreal buffe
             ++i;
         }
     }
+    if (!foundVisible) {
+        m_firstVisibleIndex = -1;
+    }
     if (m_firstVisibleIndex != oldFirstVisibleIndex) {
         adjustMinYExtent();
     }
@@ -824,6 +847,7 @@ ListViewWithPageHeader::ListItem *ListViewWithPageHeader::createItem(int modelIn
             }
         }
         if (lostItem) {
+            listItem->setCulled(true);
             releaseItem(listItem);
             listItem = nullptr;
         } else {
@@ -1073,7 +1097,7 @@ void ListViewWithPageHeader::itemGeometryChanged(QQuickItem * /*item*/, const QR
 {
     const qreal heightDiff = newGeometry.height() - oldGeometry.height();
     if (heightDiff != 0) {
-        if (oldGeometry.y() + oldGeometry.height() + m_clipItem->y() <= contentY() && !m_visibleItems.isEmpty()) {
+        if (!m_inContentHeightKeepHeaderShown && oldGeometry.y() + oldGeometry.height() + m_clipItem->y() <= contentY() && !m_visibleItems.isEmpty()) {
             ListItem *firstItem = m_visibleItems.first();
             firstItem->setY(firstItem->y() - heightDiff);
             adjustMinYExtent();
@@ -1128,7 +1152,12 @@ void ListViewWithPageHeader::adjustMinYExtent()
             nonCreatedHeight = m_firstVisibleIndex * visibleItemsHeight / visibleItems;
 //             qDebug() << m_firstVisibleIndex << visibleItemsHeight << visibleItems << nonCreatedHeight;
         }
-        m_minYExtent = nonCreatedHeight - m_visibleItems.first()->y() - m_clipItem->y() + (m_headerItem ? m_headerItem->implicitHeight() : 0);
+        const qreal headerHeight = (m_headerItem ? m_headerItem->implicitHeight() : 0);
+        m_minYExtent = nonCreatedHeight - m_visibleItems.first()->y() - m_clipItem->y() + headerHeight;
+        if (m_minYExtent != 0 && qFuzzyIsNull(m_minYExtent)) {
+            m_minYExtent = 0;
+            m_visibleItems.first()->setY(nonCreatedHeight - m_clipItem->y() + headerHeight);
+        }
     }
 }
 

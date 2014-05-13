@@ -16,8 +16,10 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+// For image://albumart and image://thumbnailer image providers
+import Ubuntu.Thumbnailer 0.1
 
-Item {
+AbstractButton {
     id: root
     property var template
     property var components
@@ -25,7 +27,8 @@ Item {
 
     property alias fontScale: header.fontScale
     property alias headerAlignment: header.headerAlignment
-    readonly property alias headerHeight: header.height
+    property alias headerHeight: header.height
+    readonly property alias title: header.title
 
     property bool showHeader: true
 
@@ -43,6 +46,8 @@ Item {
         gradientColor: getColor(1) || color
         anchors.fill: parent
         image: backgroundImage.source ? backgroundImage : null
+
+        property real luminance: 0.2126 * color.r + 0.7152 * color.g + 0.0722 * color.b
 
         property Image backgroundImage: Image {
             objectName: "backgroundImage"
@@ -68,31 +73,50 @@ Item {
         id: artShape
         radius: "medium"
         objectName: "artShape"
-        width: {
-            if (!visible) return 0
-            return image.fillMode === Image.PreserveAspectCrop || aspect < image.aspect ? image.width : height * image.aspect
-        }
-        height: {
-            if (!visible) return 0
-            return image.fillMode === Image.PreserveAspectCrop || aspect > image.aspect ? image.height : width / image.aspect
-        }
         anchors.horizontalCenter: template && template["card-layout"] === "horizontal" ? undefined : parent.horizontalCenter
         anchors.left: template && template["card-layout"] === "horizontal" ? parent.left : undefined
         visible: cardData && cardData["art"] || false
 
-        property real aspect: components !== undefined ? components["art"]["aspect-ratio"] : 1
+        readonly property real aspect: components !== undefined ? components["art"]["aspect-ratio"] : 1
+        readonly property bool aspectSmallerThanImageAspect: aspect < image.aspect
+
+        Component.onCompleted: updateWidthHeightBindings();
+        onAspectSmallerThanImageAspectChanged: updateWidthHeightBindings();
+
+        function updateWidthHeightBindings() {
+            if (aspectSmallerThanImageAspect) {
+                width = Qt.binding(function() { return !visible ? 0 : image.width });
+                height = Qt.binding(function() { return !visible ? 0 : image.fillMode === Image.PreserveAspectCrop ? image.height : width / image.aspect });
+            } else {
+                width = Qt.binding(function() { return !visible ? 0 : image.fillMode === Image.PreserveAspectCrop ? image.width : height * image.aspect });
+                height = Qt.binding(function() { return !visible ? 0 : image.height });
+            }
+        }
 
         image: Image {
-            width: template && template["card-layout"] === "horizontal" ? height * artShape.aspect : root.width
-            height: template && template["card-layout"] === "horizontal" ? header.height : width / artShape.aspect
             objectName: "artImage"
             source: cardData && cardData["art"] || ""
+            cache: true
             // FIXME uncomment when having investigated / fixed the crash
             //sourceSize.width: width > height ? width : 0
             //sourceSize.height: height > width ? height : 0
             fillMode: components && components["art"]["fill-mode"] === "fit" ? Image.PreserveAspectFit: Image.PreserveAspectCrop
 
-            property real aspect: implicitWidth / implicitHeight
+            readonly property real aspect: implicitWidth / implicitHeight
+            readonly property bool isHorizontal: template && template["card-layout"] === "horizontal"
+
+            Component.onCompleted: updateWidthHeightBindings();
+            onIsHorizontalChanged: updateWidthHeightBindings();
+
+            function updateWidthHeightBindings() {
+                if (isHorizontal) {
+                    width = Qt.binding(function() { return height * artShape.aspect });
+                    height = Qt.binding(function() { return header.height });
+                } else {
+                    width = Qt.binding(function() { return root.width });
+                    height = Qt.binding(function() { return width / artShape.aspect });
+                }
+            }
         }
     }
 
@@ -163,6 +187,9 @@ Item {
         titleWeight: components && components["subtitle"] ? Font.DemiBold : Font.Normal
 
         opacity: showHeader ? 1 : 0
+        inOverlay: root.template && root.template["overlay"] === true
+        fontColor: inOverlay ? "white" : summary.color
+        useMascotShape: !background.visible && !inOverlay
 
         Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
     }
@@ -183,5 +210,7 @@ Item {
         text: cardData && cardData["summary"] || ""
         height: text ? implicitHeight : 0
         fontSize: "small"
+        // TODO karni: Change "grey" to Ubuntu.Components.Palette color once updated.
+        color: background.visible && background.luminance < 0.7 ? "white" : "grey"
     }
 }

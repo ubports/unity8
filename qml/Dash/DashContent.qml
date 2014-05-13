@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013, 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,8 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import Unity 0.1
+import Unity 0.2
+import Utils 0.1
 import "../Components"
 
 Item {
@@ -24,7 +25,8 @@ Item {
 
     property var model: null
     property var scopes: null
-    property alias currentIndex: dashContentList.currentIndex
+    readonly property alias currentIndex: dashContentList.currentIndex
+    property alias previewOpen: previewListView.open
 
     property ScopeDelegateMapper scopeMapper : ScopeDelegateMapper {}
     property ListModel searchHistory
@@ -33,6 +35,8 @@ Item {
     signal movementEnded()
     signal scopeLoaded(string scopeId)
     signal positionedAtBeginning()
+    signal gotoScope(string scopeId)
+    signal openScope(var scope)
 
     // If we set the current scope index before the scopes have been added,
     // then we need to wait until the loaded signals gets emitted from the scopes
@@ -48,6 +52,12 @@ Item {
     }
 
     function setCurrentScopeAtIndex(index, animate, reset) {
+        // if the scopes haven't loaded yet, then wait until they are.
+        if (!scopes.loaded) {
+            set_current_index = [ index, animate, reset ]
+            return;
+        }
+
         var storedMoveDuration = dashContentList.highlightMoveDuration
         var storedMoveSpeed = dashContentList.highlightMoveVelocity
         if (!animate) {
@@ -55,11 +65,6 @@ Item {
             dashContentList.highlightMoveDuration = 0
         }
 
-        // if the scopes haven't loaded yet, then wait until they are.
-        if (!scopes.loaded) {
-            set_current_index = [ index, animate, reset ]
-            return;
-        }
         set_current_index = undefined;
 
         if (dashContentList.count > index)
@@ -77,15 +82,27 @@ Item {
         }
     }
 
+    function closeScope(scope) {
+        dashContentList.currentItem.theScope.closeScope(scope)
+    }
+
+    function closePreview() {
+        previewListView.open = false;
+    }
+
     Item {
         id: dashContentListHolder
-        anchors.fill: parent
+
+        x: previewListView.open ? -width : 0
+        Behavior on x { UbuntuNumberAnimation { } }
+        width: parent.width
+        height: parent.height
 
         ListView {
             id: dashContentList
             objectName: "dashContentList"
 
-            interactive: dashContent.scopes.loaded && !previewListView.onScreen && !currentItem.moving
+            interactive: dashContent.scopes.loaded && !previewListView.open && currentItem && !currentItem.moving
 
             anchors.fill: parent
             model: dashContent.model
@@ -100,6 +117,7 @@ Item {
             cacheBuffer: 1073741823
             onMovementStarted: dashContent.movementStarted()
             onMovementEnded: dashContent.movementEnded()
+            clip: parent.x != 0
 
             // If the number of items is less than the current index, then need to reset to another item.
             onCountChanged: {
@@ -108,7 +126,7 @@ Item {
                         dashContent.setCurrentScopeAtIndex(count-1, true, true)
                     } else if (currentIndex < 0) {
                         // setting currentIndex directly, cause we don't want to loose set_current_index
-                        dashContent.currentIndex = 0
+                        dashContentList.currentIndex = 0
                     }
                 }
             }
@@ -131,15 +149,25 @@ Item {
                     readonly property bool isLoaded: status == Loader.Ready
 
                     onLoaded: {
+                        item.objectName = scope.id
+                        item.pageHeader = dashPageHeader;
+                        item.previewListView = previewListView;
                         item.scope = Qt.binding(function() { return scope })
                         item.isCurrent = Qt.binding(function() { return visible && ListView.isCurrentItem })
-                        item.tabBarHeight = pageHeader.implicitHeight;
-                        item.pageHeader = pageHeader;
-                        item.openEffect = openEffect;
-                        item.previewListView = previewListView;
+                        item.tabBarHeight = dashPageHeader.implicitHeight;
                         dashContentList.movementStarted.connect(item.movementStarted)
                         dashContent.positionedAtBeginning.connect(item.positionedAtBeginning)
                         dashContent.scopeLoaded(item.scope.id)
+                    }
+                    Connections {
+                        target: isCurrent ? scope : null
+                        onGotoScope: {
+                            // Note here scopeId is the signal parameter and not the loader property
+                            dashContent.gotoScope(scopeId);
+                        }
+                        onOpenScope: {
+                            dashContent.openScope(scope);
+                        }
                     }
 
                     Component.onDestruction: active = false
@@ -147,65 +175,64 @@ Item {
         }
 
         PageHeader {
-            id: pageHeader
+            id: dashPageHeader
             objectName: "pageHeader"
             width: parent.width
             searchEntryEnabled: true
             searchHistory: dashContent.searchHistory
-            scope: dashContentList.currentItem.theScope
+            scope: dashContentList.currentItem && dashContentList.currentItem.theScope
 
             childItem: TabBar {
                 id: tabBar
                 objectName: "tabbar"
-                height: units.gu(7)
+                height: units.gu(6.5)
                 width: parent.width
-                selectionMode: false
                 style: DashContentTabBarStyle {}
 
-                model: dashContentList.model
+                SortFilterProxyModel {
+                    id: tabBarModel
 
-                onSelectedIndexChanged: {
-                    dashContentList.currentIndex = selectedIndex;
+                    model: dashContentList.model
+
+                    property int selectedIndex: -1
+                    onSelectedIndexChanged: {
+                        if (dashContentList.currentIndex == -1 && tabBar.selectedIndex != -1) {
+                            // TODO This together with the Timer below
+                            // are a workaround for the first tab sometimes not showing the text.
+                            // But Tabs are going away in the future so not sure if makes
+                            // sense invetigating what's the problem at this stage
+                            selectionModeTimer.restart();
+                        }
+                        dashContentList.currentIndex = selectedIndex;
+                    }
                 }
+
+                model: tabBarModel.count > 0 ? tabBarModel : null
 
                 Connections {
                     target: dashContentList
                     onCurrentIndexChanged: {
-                        tabBar.selectedIndex = dashContentList.currentIndex
+                        tabBarModel.selectedIndex = dashContentList.currentIndex
                     }
                 }
 
-                Connections {
-                    target: model
-                    onCountChanged: {
-                        if (tabBar.selectedIndex < 0 && model.count > 0)
-                            tabBar.selectedIndex = 0;
-                    }
-                }
-
-                Component.onCompleted: {
-                    __styleInstance.headerTextStyle = Text.Raised
-                    __styleInstance.headerTextStyleColor = "black"
+                Timer {
+                    id: selectionModeTimer
+                    interval: 1
+                    onTriggered: tabBar.selectionMode = false
                 }
             }
         }
     }
 
-    DashContentOpenEffect {
-        id: openEffect
-        anchors {
-            fill: parent
-            bottomMargin: -bottomOverflow
-        }
-        sourceItem: dashContentListHolder
-        previewListView: previewListView
-    }
-
     PreviewListView {
         id: previewListView
-        openEffect: openEffect
-        categoryView: dashContentList.currentItem ? dashContentList.currentItem.categoryView : null
+        objectName: "dashContentPreviewList"
+        visible: x != width
         scope: dashContentList.currentItem ? dashContentList.currentItem.theScope : null
-        anchors.fill: parent
+        pageHeader: dashPageHeader
+        width: parent.width
+        height: parent.height
+        anchors.left: dashContentListHolder.right
     }
 }

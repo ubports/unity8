@@ -43,6 +43,21 @@ Row {
         function getRaw(id) {
             return mockNotification.createObject(mockModel)
         }
+
+        // add the default/PlaceHolder notification to the model
+        Component.onCompleted: {
+            var n = {
+                type: Notification.PlaceHolder,
+                hints: {},
+                summary: "",
+                body: "",
+                icon: "",
+                secondaryIcon: "",
+                actions: []
+            }
+
+            append(n)
+        }
     }
 
     function addSnapDecisionNotification() {
@@ -376,6 +391,8 @@ Row {
             var notification = findChild(notifications, "notification" + (mockModel.count - 1))
             verify(notification !== undefined, "notification wasn't found");
 
+            waitForRendering(notification);
+
             var icon = findChild(notification, "icon")
             var shapedIcon = findChild(notification, "shapedIcon")
             var nonShapedIcon = findChild(notification, "nonShapedIcon")
@@ -384,7 +401,6 @@ Row {
             var summaryLabel = findChild(notification, "summaryLabel")
             var bodyLabel = findChild(notification, "bodyLabel")
             var buttonRow = findChild(notification, "buttonRow")
-            waitForRendering(buttonRow)
 
             compare(icon.visible, data.iconVisible, "avatar-icon visibility is incorrect")
             compare(shapedIcon.visible, data.shapedIcon, "shaped-icon visibility is incorrect")
@@ -407,12 +423,9 @@ Row {
                 var buttonCancel = findChild(buttonRow, "button1")
                 var buttonAccept = findChild(buttonRow, "button0")
 
-                waitForRendering(notification)
-
                 // only test the left/cancel-button if two actions have been passed in
                 if (data.actions.length == 2) {
-                    mouseClick(buttonCancel, buttonCancel.width / 2, buttonCancel.height / 2)
-                    actionSpy.wait()
+                    tryCompareFunction(function() { mouseClick(buttonCancel, buttonCancel.width / 2, buttonCancel.height / 2); return actionSpy.signalArguments.length > 0; }, true);
                     compare(actionSpy.signalArguments[0][0], data.actions[1]["id"], "got wrong id for negative action")
                     actionSpy.clear()
                 }
@@ -421,38 +434,39 @@ Row {
                 verify(buttonAccept.gradient === data.buttonTinted ? UbuntuColors.orangeGradient : UbuntuColors.greyGradient, "button has the wrong color-tint")
 
                 // click the positive/right button
-                mouseClick(buttonAccept, buttonAccept.width / 2, buttonAccept.height / 2)
-                actionSpy.wait()
+                tryCompareFunction(function() { mouseClick(buttonAccept, buttonAccept.width / 2, buttonAccept.height / 2); return actionSpy.signalArguments.length > 0; }, true);
                 compare(actionSpy.signalArguments[0][0], data.actions[0]["id"], "got wrong id positive action")
                 actionSpy.clear()
+                waitForRendering(notification)
 
                 // check if there's more than one negative choice
                 if (data.actions.length > 2) {
-                    var initialHeight = notification.height
+                    var initialHeight = notification.implicitHeight
 
                     // click to expand
                     mouseClick(buttonCancel, buttonCancel.width / 2, buttonCancel.height / 2)
-                    waitForRendering(notification)
+                    var contentColumn = findChild(notification, "contentColumn")
+                    var collapsedContentColumnHeight = contentColumn.height;
+                    // Waiting for the inner column to change height because buttons appear
+                    tryCompareFunction(function() { return collapsedContentColumnHeight != contentColumn.height; }, true);
+                    // Waiting for notification to reach its target size
+                    tryCompare(notification, "height", contentColumn.height + contentColumn.spacing * 2)
                     actionSpy.clear()
 
                     // test the additional buttons
                     for (var i = 2; i < data.actions.length; i++) {
-                        waitForRendering(notification)
                         var buttonColumn = findChild(notification, "buttonColumn")
                         var button = findChild(buttonColumn, "button" + i)
                         mouseClick(button, button.width / 2, button.height / 2)
-                        actionSpy.wait()
                         compare(actionSpy.signalArguments[0][0], data.actions[i]["id"], "got wrong id for additional negative action")
                         actionSpy.clear()
                     }
 
                     // click to collapse
                     mouseClick(buttonCancel, buttonCancel.width / 2, buttonCancel.height / 2)
-                    waitForRendering(notification)
                     tryCompare(notification, "height", initialHeight)
                 } else {
                     mouseClick(buttonCancel, buttonCancel.width / 2, buttonCancel.height / 2)
-                    actionSpy.wait()
                     compare(actionSpy.signalArguments[0][0], data.actions[1]["id"], "got wrong id for negative action")
                 }
             }

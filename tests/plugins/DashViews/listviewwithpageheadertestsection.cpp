@@ -1486,9 +1486,6 @@ private Q_SLOTS:
 
     void testShowHeaderHalfShown()
     {
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-        QSKIP("This test is extremely unstable in 5.0.x");
-#endif
         changeContentY(20);
 
         QTRY_COMPARE(lvwph->m_visibleItems.count(), 3);
@@ -1683,12 +1680,11 @@ private Q_SLOTS:
         verifyItem(18, 700, 50., false, QString(), true);
         verifyItem(19, 750, 50., false, QString(), true);
         verifyItem(20, 800, 50., false, QString(), true);
-        QCOMPARE(lvwph->m_minYExtent, 5 * 1510./21. + 660 - 1970 + 50);
-        QCOMPARE(lvwph->m_clipItem->y(), 1970.);
+        QCOMPARE(lvwph->m_clipItem->y(), lvwph->contentY());
+        QCOMPARE(lvwph->m_minYExtent, 5 * 1510./21. + 660 - lvwph->contentY() + 50);
         QCOMPARE(lvwph->m_clipItem->clip(), false);
         QCOMPARE(lvwph->m_headerItem->y(), 0.);
         QCOMPARE(lvwph->m_headerItem->height(), 50.);
-        QCOMPARE(lvwph->contentY(), 1970.);
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
     }
 
@@ -2111,6 +2107,7 @@ private Q_SLOTS:
         QVERIFY(QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
 
         QTest::qWait(1);
+        QCoreApplication::instance()->processEvents();
 
         changeContentY(-15);
 

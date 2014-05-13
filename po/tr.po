@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-02-13 18:37+0000\n"
+"POT-Creation-Date: 2014-03-25 16:48+0100\n"
 "PO-Revision-Date: 2014-03-05 08:54+0000\n"
 "Last-Translator: Muhammed Yüce <muhammedyuceee@gmail.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-03-15 07:34+0000\n"
-"X-Generator: Launchpad (build 16963)\n"
+"X-Launchpad-Export-Date: 2014-03-28 06:49+0000\n"
+"X-Generator: Launchpad (build 16967)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -76,7 +76,7 @@ msgstr ""
 "Kenar haraketlerini öğrendiniz ve telefonu kullanmaya "
 "başlayabilirsiniz<br><br>Başlamak için ekrana dokunun"
 
-#: qml/Components/PageHeader.qml:340
+#: qml/Components/PageHeader.qml:365
 msgid "Recent searches"
 msgstr "Son aramalar"
 
@@ -84,27 +84,18 @@ msgstr "Son aramalar"
 msgid "See more"
 msgstr "Daha fazlası"
 
-#: qml/Components/SeeMore.qml:57
+#: qml/Components/SeeMore.qml:58
 msgid "See less"
 msgstr "Daha azını gör"
 
-#: qml/Dash/Apps/AppPreview.qml:136 qml/Dash/Previews/PreviewRating.qml:70
-msgid "Rate this"
-msgstr "Oyla"
+#: qml/Dash/DashApps.qml:38
+msgid "Recent"
+msgstr ""
 
-#. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: qml/Dash/Previews/Header.qml:93
+#: qml/Dash/PreviewListView.qml:52
 #, qt-format
-msgid "(%1)"
-msgstr "(%1)"
-
-#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: qml/Dash/Previews/Header.qml:105
-#, qt-format
-msgid "%1 review"
-msgid_plural "%1 reviews"
-msgstr[0] "%1 inceleme"
-msgstr[1] "%1 inceleme"
+msgid "%1 Preview"
+msgstr ""
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -114,21 +105,17 @@ msgstr "Daha fazlası..."
 msgid "Less..."
 msgstr "Daha az.."
 
-#: qml/Dash/Previews/PreviewRating.qml:114 qml/Dash/Previews/Reviews.qml:74
+#: qml/Dash/Previews/PreviewRatingInput.qml:81
+msgid "Rate this"
+msgstr "Oyla"
+
+#: qml/Dash/Previews/PreviewRatingInput.qml:126
 msgid "Add a review"
 msgstr "Bir inceleme ekle"
 
-#: qml/Dash/Previews/PreviewRating.qml:153 qml/Dash/Previews/Reviews.qml:121
+#: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
 msgstr "Gönder"
-
-#: qml/Dash/Previews/Reviews.qml:86
-msgid "Review"
-msgstr "İnceleme"
-
-#: qml/Dash/Previews/Reviews.qml:139
-msgid "Comments:"
-msgstr "Yorumlar:"
 
 #: qml/Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
@@ -175,7 +162,23 @@ msgstr "Lütfen SIM PIN'inizi girin"
 msgid "Search"
 msgstr "Ara"
 
-#: qml/Shell.qml:440
+#: qml/Shell.qml:417
 #, qt-format
 msgid "Please enter %1"
 msgstr "Lütfen %1 girin"
+
+#~ msgid "Review"
+#~ msgstr "İnceleme"
+
+#, qt-format
+#~ msgid "%1 review"
+#~ msgid_plural "%1 reviews"
+#~ msgstr[0] "%1 inceleme"
+#~ msgstr[1] "%1 inceleme"
+
+#, qt-format
+#~ msgid "(%1)"
+#~ msgstr "(%1)"
+
+#~ msgid "Comments:"
+#~ msgstr "Yorumlar:"

@@ -7,16 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-02-13 18:37+0000\n"
-"PO-Revision-Date: 2014-03-16 17:40+0000\n"
+"POT-Creation-Date: 2014-03-25 16:48+0100\n"
+"PO-Revision-Date: 2014-03-30 12:44+0000\n"
 "Last-Translator: Ibai Oihanguren Sala <Unknown>\n"
 "Language-Team: Basque <eu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-03-17 05:13+0000\n"
-"X-Generator: Launchpad (build 16963)\n"
+"X-Launchpad-Export-Date: 2014-03-31 06:44+0000\n"
+"X-Generator: Launchpad (build 16967)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -77,7 +76,7 @@ msgstr ""
 "Jadanik ezagutzen dituzu ertzetako keinuak, eta mugikorra erabiltzen has "
 "zaitezke<br><br>Ukitu pantaila hasteko"
 
-#: qml/Components/PageHeader.qml:340
+#: qml/Components/PageHeader.qml:365
 msgid "Recent searches"
 msgstr "Azken bilaketak"
 
@@ -85,27 +84,18 @@ msgstr "Azken bilaketak"
 msgid "See more"
 msgstr "Ikusi gehiago"
 
-#: qml/Components/SeeMore.qml:57
+#: qml/Components/SeeMore.qml:58
 msgid "See less"
 msgstr "Ikusi gutxiago"
 
-#: qml/Dash/Apps/AppPreview.qml:136 qml/Dash/Previews/PreviewRating.qml:70
-msgid "Rate this"
-msgstr "Puntuatu hau"
+#: qml/Dash/DashApps.qml:38
+msgid "Recent"
+msgstr "Azkenak"
 
-#. TRANSLATORS: Number of persons who rated this app/video/whatever
-#: qml/Dash/Previews/Header.qml:93
+#: qml/Dash/PreviewListView.qml:52
 #, qt-format
-msgid "(%1)"
-msgstr "(%1)"
-
-#. TRANSLATORS: Number of persons who wrote reviews for this app/video/whatever
-#: qml/Dash/Previews/Header.qml:105
-#, qt-format
-msgid "%1 review"
-msgid_plural "%1 reviews"
-msgstr[0] "berrikuspen %1"
-msgstr[1] "%1 berrikuspen"
+msgid "%1 Preview"
+msgstr "%1 aurrebista"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
@@ -115,21 +105,17 @@ msgstr "Gehiago..."
 msgid "Less..."
 msgstr "Gutxiago..."
 
-#: qml/Dash/Previews/PreviewRating.qml:114 qml/Dash/Previews/Reviews.qml:74
-msgid "Add a review"
-msgstr "Gehitu berrikuspena"
+#: qml/Dash/Previews/PreviewRatingInput.qml:81
+msgid "Rate this"
+msgstr "Puntuatu hau"
 
-#: qml/Dash/Previews/PreviewRating.qml:153 qml/Dash/Previews/Reviews.qml:121
+#: qml/Dash/Previews/PreviewRatingInput.qml:126
+msgid "Add a review"
+msgstr "Gehitu kritika"
+
+#: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
 msgstr "Bidali"
-
-#: qml/Dash/Previews/Reviews.qml:86
-msgid "Review"
-msgstr "Berrikusi"
-
-#: qml/Dash/Previews/Reviews.qml:139
-msgid "Comments:"
-msgstr "Iruzkinak:"
 
 #: qml/Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
@@ -176,7 +162,7 @@ msgstr "Sartu SIMaren PINa"
 msgid "Search"
 msgstr "Bilatu"
 
-#: qml/Shell.qml:440
+#: qml/Shell.qml:417
 #, qt-format
 msgid "Please enter %1"
 msgstr "Sartu %1"

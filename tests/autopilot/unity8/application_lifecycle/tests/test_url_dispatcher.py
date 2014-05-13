@@ -20,12 +20,11 @@
 """Test the integration with the URL dispatcher service."""
 
 import os
-import tempfile
 
 from autopilot import platform
 from autopilot.matchers import Eventually
 from testtools.matchers import Equals
-from ubuntuuitoolkit import base as toolkit_base
+from ubuntuuitoolkit import fixture_setup
 
 from unity8 import process_helpers
 from unity8.shell import tests
@@ -49,13 +48,6 @@ MainView {
 }
 """)
 
-    desktop_file_contents = ("""[Desktop Entry]
-Type=Application
-Name=test
-Exec={qmlscene} {qml_file_path}
-Icon=Not important
-""")
-
     def setUp(self):
         if platform.model() == 'Desktop':
             self.skipTest("URL dispatcher doesn't work on the desktop.")
@@ -66,37 +58,10 @@ Icon=Not important
         process_helpers.unlock_unity(unity_proxy)
 
     def create_test_application(self):
-        # FIXME most of this code is duplicated in the toolkit. We should
-        # create a fixture on the toolkit for other projects to use.
-        # http://pad.lv/1277334 --elopio - 2014-02-06
-        qml_file_path = self._write_test_qml_file()
-        self.addCleanup(os.remove, qml_file_path)
-        desktop_file_path = self._write_test_desktop_file(qml_file_path)
-        self.addCleanup(os.remove, desktop_file_path)
-        return qml_file_path, desktop_file_path
-
-    def _write_test_qml_file(self):
-        qml_file = tempfile.NamedTemporaryFile(suffix='.qml', delete=False)
-        qml_file.write(self.test_qml.encode('utf-8'))
-        qml_file.close()
-        return qml_file.name
-
-    def _write_test_desktop_file(self, qml_file_path):
-        desktop_file_dir = self._get_local_desktop_file_directory()
-        if not os.path.exists(desktop_file_dir):
-            os.makedirs(desktop_file_dir)
-        desktop_file = tempfile.NamedTemporaryFile(
-            suffix='.desktop', dir=desktop_file_dir, delete=False)
-        contents = self.desktop_file_contents.format(
-            qmlscene=toolkit_base.get_qmlscene_launch_command(),
-            qml_file_path=qml_file_path)
-        desktop_file.write(contents.encode('utf-8'))
-        desktop_file.close()
-        return desktop_file.name
-
-    def _get_local_desktop_file_directory(self):
-        return os.path.join(
-            os.environ.get('HOME'), '.local', 'share', 'applications')
+        fake_application = fixture_setup.FakeApplication(self.test_qml)
+        self.useFixture(fake_application)
+        return (
+            fake_application.qml_file_path, fake_application.desktop_file_path)
 
     def test_swipe_out_application_started_by_url_dispatcher(self):
         _, desktop_file_path = self.create_test_application()

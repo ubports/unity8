@@ -22,12 +22,14 @@
 #include <QTemporaryFile>
 #include <QTemporaryDir>
 #include <QDebug>
+#include <QStringList>
+#include <QScopedPointer>
 
 
 class RegistryTracker
 {
 public:
-    RegistryTracker(QString const&);
+    RegistryTracker(QStringList const&, bool, bool);
     ~RegistryTracker();
 
     QProcess* registry() const;
@@ -35,10 +37,13 @@ public:
 private:
     void runRegistry();
 
-    QString m_scopeDir;
+    QStringList m_scopes;
+    bool m_systemScopes;
+    bool m_serverScopes;
     QProcess m_registry;
     QTemporaryDir m_endpoints_dir;
     QTemporaryFile m_runtime_config;
     QTemporaryFile m_registry_config;
     QTemporaryFile m_mw_config;
+    QScopedPointer<QTemporaryDir> m_scopeInstallDir;
 };
