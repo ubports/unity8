@@ -71,10 +71,10 @@ Rectangle {
             var dateString = Qt.formatDate(dateObj, Qt.DefaultLocaleLongDate)
             var timeString = Qt.formatTime(dateObj)
 
-            clock.enabled = false
+            clock.visible = false
             var timeModel = findInvisibleChild(clock, "timeModel")
 
-            compare(timeModel.menuObjectPath, "", "Clock shouldn't be connected to Indicators when not active.")
+            compare(timeModel.menuObjectPath, "", "Clock shouldn't be connected to Indicators when not visible.")
 
             clock.currentDate = dateObj
 
@@ -83,7 +83,7 @@ Rectangle {
             var timeLabel = findChild(clock, "timeLabel")
             compare(timeLabel.text, timeString, "Not the expected time")
 
-            clock.enabled = true
+            clock.visible = true
 
             verify(timeModel.menuObjectPath != "", "Should be connected to Indicators.")
         }

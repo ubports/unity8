@@ -237,17 +237,9 @@ void OrganicGrid::calculateImplicitHeight()
     }
 }
 
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-void OrganicGrid::processModelRemoves(const QVector<QQuickChangeSet::Remove> &removes)
-#else
 void OrganicGrid::processModelRemoves(const QVector<QQmlChangeSet::Remove> &removes)
-#endif
 {
-#if (QT_VERSION < QT_VERSION_CHECK(5, 1, 0))
-    Q_FOREACH(const QQuickChangeSet::Remove &remove, removes) {
-#else
     Q_FOREACH(const QQmlChangeSet::Remove &remove, removes) {
-#endif
         for (int i = remove.count - 1; i >= 0; --i) {
             const int indexToRemove = remove.index + i;
             // We only support removing from the end

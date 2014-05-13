@@ -24,12 +24,14 @@ DashRenderer {
     collapsedHeight: filterGrid.collapsedHeight
     margins: filterGrid.margins
     uncollapsedHeight: filterGrid.uncollapsedHeight
+    originY: filterGrid.originY
     verticalSpacing: units.gu(1)
     currentItem: filterGrid.currentItem
     height: filterGrid.height
+    filtered: filterGrid.filtered
 
-    function startFilterAnimation(filter) {
-        filterGrid.startFilterAnimation(filter)
+    function setFilter(filter, animate) {
+        filterGrid.setFilter(filter, animate)
     }
 
     FilterGrid {
@@ -40,18 +42,18 @@ DashRenderer {
         delegateHeight: cardTool.cardHeight
         verticalSpacing: genericFilterGrid.verticalSpacing
         model: genericFilterGrid.model
-        filter: genericFilterGrid.filter
         collapsedRowCount: Math.min(2, cardTool && cardTool.template && cardTool.template["collapsed-rows"] || 2)
         delegateCreationBegin: genericFilterGrid.delegateCreationBegin
         delegateCreationEnd: genericFilterGrid.delegateCreationEnd
-        delegate: Item {
+        delegate: Loader {
+            asynchronous: true
             width: filterGrid.cellWidth
             height: filterGrid.cellHeight
             Card {
                 id: card
                 width: cardTool.cardWidth
                 height: cardTool.cardHeight
-                headerHeight: cardTool.headerHeight
+                fixedHeaderHeight: cardTool.headerHeight
                 anchors.horizontalCenter: parent.horizontalCenter
                 objectName: "delegate" + index
                 cardData: model
@@ -63,11 +65,6 @@ DashRenderer {
                 onClicked: genericFilterGrid.clicked(index, card.y)
                 onPressAndHold: genericFilterGrid.pressAndHold(index, card.y)
             }
-        }
-
-        onFilterChanged: {
-            genericFilterGrid.filter = filter
-            filter = Qt.binding(function() { return genericFilterGrid.filter })
         }
     }
 }

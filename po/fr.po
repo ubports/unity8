@@ -7,16 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-03-25 16:48+0100\n"
-"PO-Revision-Date: 2014-01-28 00:34+0000\n"
-"Last-Translator: Pierre <Unknown>\n"
+"POT-Creation-Date: 2014-04-10 11:13-0400\n"
+"PO-Revision-Date: 2014-05-08 17:29+0000\n"
+"Last-Translator: Sébastien Maes <nautilussebastien@gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2014-03-28 06:48+0000\n"
-"X-Generator: Launchpad (build 16967)\n"
+"X-Launchpad-Export-Date: 2014-05-10 08:01+0000\n"
+"X-Generator: Launchpad (build 16996)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -25,7 +24,7 @@ msgstr "Conserver dans le lanceur"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Unlock from Launcher"
-msgstr ""
+msgstr "Retirer du lanceur"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -38,6 +37,7 @@ msgstr "Bord droit"
 #: qml/Components/EdgeDemo.qml:114
 msgid "Try swiping from the right edge to unlock the phone"
 msgstr ""
+"Faites glisser votre doigt à partir du bord droit pour déverrouiller."
 
 #: qml/Components/EdgeDemo.qml:145
 msgid "Top edge"
@@ -46,6 +46,8 @@ msgstr "Bord supérieur"
 #: qml/Components/EdgeDemo.qml:146
 msgid "Try swiping from the top edge to access the indicators"
 msgstr ""
+"Faites glisser votre doigt à partir du bord supérieur pour accéder aux "
+"indicateurs."
 
 #: qml/Components/EdgeDemo.qml:171
 msgid "Close"
@@ -54,6 +56,8 @@ msgstr "Fermer"
 #: qml/Components/EdgeDemo.qml:172
 msgid "Swipe up again to close the settings screen"
 msgstr ""
+"Faites glisser à nouveau votre doigt vers le bord supérieur pour fermer "
+"l'écran des paramètres"
 
 #: qml/Components/EdgeDemo.qml:199
 msgid "Left edge"
@@ -62,16 +66,20 @@ msgstr "Bord gauche"
 #: qml/Components/EdgeDemo.qml:200
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
 msgstr ""
+"Faites glisser votre doigt à partir du bord gauche pour afficher le lanceur "
+"d'applications."
 
 #: qml/Components/EdgeDemo.qml:227
 msgid "Well done"
-msgstr ""
+msgstr "Félicitations"
 
 #: qml/Components/EdgeDemo.qml:228
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
 msgstr ""
+"Vous maîtrisez maintenant les différents gestes et pouvez commencer à "
+"utiliser le téléphone<br><br>Appuyez sur l'écran pour commencer"
 
 #: qml/Components/PageHeader.qml:365
 msgid "Recent searches"
@@ -79,28 +87,28 @@ msgstr "Recherches récentes"
 
 #: qml/Components/SeeMore.qml:35
 msgid "See more"
-msgstr ""
+msgstr "Voir plus"
 
 #: qml/Components/SeeMore.qml:58
 msgid "See less"
-msgstr ""
+msgstr "Voir moins"
 
-#: qml/Dash/DashApps.qml:38
+#: qml/Dash/DashApps.qml:37
 msgid "Recent"
-msgstr ""
+msgstr "Récent"
 
 #: qml/Dash/PreviewListView.qml:52
 #, qt-format
 msgid "%1 Preview"
-msgstr ""
+msgstr "%1 Aperçu"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
-msgstr ""
+msgstr "Plus..."
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "Less..."
-msgstr ""
+msgstr "Moins..."
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:81
 msgid "Rate this"
@@ -113,6 +121,10 @@ msgstr "Ajouter un avis"
 #: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
 msgstr "Envoyer"
+
+#: qml/Greeter/Greeter.qml:151
+msgid "Swipe to unlock"
+msgstr "Faites glisser pour déverrouiller"
 
 #: qml/Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
@@ -145,7 +157,7 @@ msgstr "Parlez maintenant…"
 
 #: qml/Hud/Hud.qml:94
 msgid "Speaking..."
-msgstr ""
+msgstr "En cours d'écoute..."
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:91
 msgid "Show password"
@@ -153,29 +165,13 @@ msgstr "Afficher le mot de passe"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:103
 msgid "Please enter SIM PIN"
-msgstr ""
+msgstr "Veuillez entrer le code PIN de votre carte SIM"
 
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
 msgstr "Rechercher"
 
-#: qml/Shell.qml:417
+#: qml/Shell.qml:348
 #, qt-format
 msgid "Please enter %1"
 msgstr "Veuillez saisir %1"
-
-#~ msgid "Review"
-#~ msgstr "Avis"
-
-#, qt-format
-#~ msgid "%1 review"
-#~ msgid_plural "%1 reviews"
-#~ msgstr[0] "%1 avis"
-#~ msgstr[1] "%1 avis"
-
-#~ msgid "Comments:"
-#~ msgstr "Commentaires :"
-
-#, qt-format
-#~ msgid "(%1)"
-#~ msgstr "(%1)"

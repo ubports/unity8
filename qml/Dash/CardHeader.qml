@@ -19,9 +19,9 @@ import Ubuntu.Components 0.1
 
 Item {
     id: root
-    property alias mascot: mascotImage.source
+    property url mascot: ""
     property alias title: titleLabel.text
-    property alias subtitle: subtitleLabel.text
+    property var subtitle
 
     property alias titleWeight: titleLabel.font.weight
     property alias titleSize: titleLabel.fontSize
@@ -35,8 +35,8 @@ Item {
     property bool useMascotShape: true
     property color fontColor: Theme.palette.selected.backgroundText
 
-    visible: mascotImage.status === Image.Ready || title
-    height: row.height > 0 ? row.height + row.margins * 2 : 0
+    visible: mascot != "" || title
+    implicitHeight: row.height > 0 ? row.height + row.margins * 2 : 0
 
     Row {
         id: row
@@ -44,7 +44,7 @@ Item {
 
         property real margins: units.gu(1)
 
-        spacing: mascotShape.visible || mascotImage.visible || inOverlay ? margins : 0
+        spacing: mascotShapeLoader.active || mascotImageLoader.active || inOverlay ? margins : 0
         anchors {
             top: parent.top; left: parent.left; right: parent.right
             margins: margins
@@ -52,33 +52,40 @@ Item {
             rightMargin: spacing
         }
 
-        UbuntuShape {
-            id: mascotShape
-            objectName: "mascotShape"
+        Loader {
+            id: mascotShapeLoader
+            objectName: "mascotShapeLoader"
 
+            active: useMascotShape && mascotImageLoader.item && mascotImageLoader.item.status === Image.Ready
+            visible: active
+            anchors.verticalCenter: parent.verticalCenter
             // TODO karni: Icon aspect-ratio is 8:7.5. Revisit these values to avoid fraction of pixels.
             width: units.gu(6)
             height: units.gu(5.625)
-            anchors.verticalCenter: parent.verticalCenter
-            visible: useMascotShape && image && image.status === Image.Ready
             readonly property int maxSize: Math.max(width, height) * 4
 
-            image: useMascotShape ? mascotImage : null
+            sourceComponent: UbuntuShape {
+                image: mascotImageLoader.item
+            }
         }
 
-        Image {
-            id: mascotImage
-            objectName: "mascotImage"
-
-            width: source ? mascotShape.width : 0
-            height: mascotShape.height
+        Loader {
+            id: mascotImageLoader
+            active: root.mascot != ""
+            visible: active && !useMascotShape && item.status === Image.Ready
             anchors.verticalCenter: parent.verticalCenter
-            visible: !useMascotShape && status === Image.Ready
+            sourceComponent: Image {
+                objectName: "mascotImage"
 
-            sourceSize { width: mascotShape.maxSize; height: mascotShape.maxSize }
-            fillMode: Image.PreserveAspectCrop
-            horizontalAlignment: Image.AlignHCenter
-            verticalAlignment: Image.AlignVCenter
+                source: root.mascot
+                width: source ? mascotShapeLoader.width : 0
+                height: mascotShapeLoader.height
+
+                sourceSize { width: mascotShapeLoader.maxSize; height: mascotShapeLoader.maxSize }
+                fillMode: Image.PreserveAspectCrop
+                horizontalAlignment: Image.AlignHCenter
+                verticalAlignment: Image.AlignVCenter
+            }
         }
 
         Column {
@@ -100,16 +107,19 @@ Item {
                 color: fontColor
             }
 
-            Label {
-                id: subtitleLabel
-                objectName: "subtitleLabel"
+            Loader {
+                active: titleLabel.text && root.subtitle
                 anchors { left: parent.left; right: parent.right }
-                elide: Text.ElideRight
-                fontSize: "small"
-                font.weight: Font.Light
-                visible: titleLabel.text && text
-                font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale)
-                color: fontColor
+                sourceComponent: Label {
+                    id: subtitleLabel
+                    objectName: "subtitleLabel"
+                    elide: Text.ElideRight
+                    fontSize: "small"
+                    font.weight: Font.Light
+                    font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale)
+                    color: fontColor
+                    text: root.subtitle
+                }
             }
         }
     }

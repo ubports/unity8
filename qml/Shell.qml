@@ -28,9 +28,7 @@ import "Dash"
 import "Greeter"
 import "Launcher"
 import "Panel"
-import "Hud"
 import "Components"
-import "Bottombar"
 import "Notifications"
 import Unity.Notifications 1.0 as NotificationBackend
 
@@ -148,8 +146,8 @@ FocusScope {
 
                 available: !greeter.shown && !lockscreen.shown
                 hides: [stages, launcher, panel.indicators]
-                shown: disappearingAnimationProgress !== 1.0
-                enabled: disappearingAnimationProgress === 0.0 && edgeDemo.dashEnabled
+                shown: disappearingAnimationProgress !== 1.0 && greeterWrapper.showProgress !== 1.0
+                enabled: disappearingAnimationProgress === 0.0 && greeterWrapper.showProgress === 0.0 && edgeDemo.dashEnabled
 
                 anchors {
                     fill: parent
@@ -159,18 +157,14 @@ FocusScope {
                 contentScale: 1.0 - 0.2 * disappearingAnimationProgress
                 opacity: 1.0 - disappearingAnimationProgress
                 property real disappearingAnimationProgress: {
-                    if (greeter.shown) {
-                        return greeter.showProgress;
+                    if (stages.overlayMode) {
+                        return 0;
                     } else {
-                        if (stages.overlayMode) {
-                            return 0;
-                        }
                         return stages.showProgress
                     }
                 }
 
-                // FIXME: only necessary because stages.showProgress and
-                // greeterRevealer.animatedProgress are not animated
+                // FIXME: only necessary because stages.showProgress is not animated
                 Behavior on disappearingAnimationProgress { SmoothedAnimation { velocity: 5 }}
             }
         }
@@ -240,6 +234,8 @@ FocusScope {
         function show(focusApp) {
             shown = true;
             panel.indicators.hide();
+            edgeDemo.stopDemo();
+            greeter.hide();
             if (!ApplicationManager.focusedApplicationId && ApplicationManager.count > 0 && focusApp) {
                 ApplicationManager.focusApplication(ApplicationManager.get(0).appId);
             }
@@ -267,12 +263,6 @@ FocusScope {
                         stages.hide();
                     }
                 }
-
-                // If any app is focused when greeter is open, it's due to a user action
-                // like a snap decision (say, an incoming call).
-                // TODO: these should be protected to only unlock for certain applications / certain usecases
-                // potentially only in connection with a notification.
-                greeter.hide()
             }
 
             onApplicationAdded: {
@@ -316,7 +306,7 @@ FocusScope {
 
         readonly property int backgroundTopMargin: -panel.panelHeight
 
-        hides: [launcher, panel.indicators, hud]
+        hides: [launcher, panel.indicators]
         shown: false
         enabled: true
         showAnimation: StandardAnimation { property: "opacity"; to: 1 }
@@ -366,59 +356,73 @@ FocusScope {
         }
     }
 
-    Greeter {
-        id: greeter
-        objectName: "greeter"
+    Rectangle {
+        anchors.fill: parent
+        color: "black"
+        opacity: greeterWrapper.showProgress * 0.8
+    }
 
-        available: true
-        hides: [launcher, panel.indicators, hud]
-        shown: true
-
-        defaultBackground: shell.background
-
+    Item {
+        // Just a tiny wrapper to adjust greeter's x without messing with its own dragging
+        id: greeterWrapper
+        x: launcher.progress
         y: panel.panelHeight
         width: parent.width
         height: parent.height - panel.panelHeight
 
-        dragHandleWidth: shell.edgeSize
+        Behavior on x {SmoothedAnimation{velocity: 600}}
 
-        onShownChanged: {
-            if (shown) {
-                lockscreen.reset();
-                // If there is only one user, we start authenticating with that one here.
-                // If there are more users, the Greeter will handle that
-                if (LightDM.Users.count == 1) {
-                    LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
+        readonly property real showProgress: MathUtils.clamp((1 - x/width) + greeter.showProgress - 1, 0, 1)
+
+        Greeter {
+            id: greeter
+            objectName: "greeter"
+
+            available: true
+            hides: [launcher, panel.indicators]
+            shown: true
+
+            defaultBackground: shell.background
+
+            width: parent.width
+            height: parent.height
+
+            dragHandleWidth: shell.edgeSize
+
+            onShownChanged: {
+                if (shown) {
+                    lockscreen.reset();
+                    // If there is only one user, we start authenticating with that one here.
+                    // If there are more users, the Greeter will handle that
+                    if (LightDM.Users.count == 1) {
+                        LightDM.Greeter.authenticate(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
+                    }
+                    greeter.forceActiveFocus();
                 }
-                greeter.forceActiveFocus();
             }
-        }
 
-        onUnlocked: greeter.hide()
-        onSelected: {
-            // Update launcher items for new user
-            var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole);
-            AccountsService.user = user;
-            LauncherModel.setUser(user);
-        }
-
-        onLeftTeaserPressedChanged: {
-            if (leftTeaserPressed) {
-                launcher.tease();
+            onUnlocked: greeter.hide()
+            onSelected: {
+                // Update launcher items for new user
+                var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole);
+                AccountsService.user = user;
+                LauncherModel.setUser(user);
             }
-        }
 
-        Binding {
-            target: ApplicationManager
-            property: "suspended"
-            value: greeter.shown && greeter.showProgress == 1
+            onTease: launcher.tease()
+
+            Binding {
+                target: ApplicationManager
+                property: "suspended"
+                value: greeter.shown && greeterWrapper.showProgress == 1
+            }
         }
     }
 
     InputFilterArea {
         anchors.fill: parent
         blockInput: ApplicationManager.focusedApplicationId.length === 0 || greeter.shown || lockscreen.shown || launcher.shown
-                    || panel.indicators.shown || hud.shown
+                    || panel.indicators.shown
     }
 
     Connections {
@@ -482,47 +486,6 @@ FocusScope {
             }
         }
 
-        Hud {
-            id: hud
-
-            width: parent.width > units.gu(60) ? units.gu(40) : parent.width
-            height: parent.height
-
-            available: !greeter.shown && !panel.indicators.shown && !lockscreen.shown && edgeDemo.dashEnabled
-            shown: false
-            showAnimation: StandardAnimation { property: "y"; duration: hud.showableAnimationDuration; to: 0; easing.type: Easing.Linear }
-            hideAnimation: StandardAnimation { property: "y"; duration: hud.showableAnimationDuration; to: hudRevealer.closedValue; easing.type: Easing.Linear }
-
-            Connections {
-                target: ApplicationManager
-                onFocusedApplicationIdChanged: hud.hide()
-            }
-        }
-
-        Revealer {
-            id: hudRevealer
-
-            enabled: hud.shown
-            width: hud.width
-            anchors.left: hud.left
-            height: parent.height
-            target: hud.revealerTarget
-            closedValue: height
-            openedValue: 0
-            direction: Qt.RightToLeft
-            orientation: Qt.Vertical
-            handleSize: hud.handleHeight
-            onCloseClicked: target.hide()
-        }
-
-        Bottombar {
-            id: bottombar
-            theHud: hud
-            anchors.fill: parent
-            enabled: hud.available
-            applicationIsOnForeground: ApplicationManager.focusedApplicationId
-        }
-
         InputFilterArea {
             blockInput: launcher.shown
             anchors {
@@ -542,7 +505,7 @@ FocusScope {
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
-            available: (!greeter.shown || greeter.narrowMode) && edgeDemo.launcherEnabled
+            available: edgeDemo.launcherEnabled
 
             onShowDashHome: {
                 if (edgeDemo.running)
@@ -557,21 +520,38 @@ FocusScope {
                         launcher.hide();
                     }
                 }
+                if (greeter.shown) {
+                    greeter.hideRight();
+                    launcher.hide();
+                }
             }
             onDashSwipeChanged: if (dashSwipe && stages.shown) dash.setCurrentScope("clickscope", false, true)
-            onLauncherApplicationSelected:{
-                if (edgeDemo.running)
-                    return;
-
-                greeter.hide()
-                shell.activateApplication(appId)
+            onLauncherApplicationSelected: {
+                if (!edgeDemo.running)
+                    shell.activateApplication(appId)
             }
             onShownChanged: {
                 if (shown) {
                     panel.indicators.hide()
-                    hud.hide()
-                    bottombar.hide()
                 }
+            }
+        }
+
+        Rectangle {
+            id: modalNotificationBackground
+
+            visible: notifications.useModal && !greeter.shown && (notifications.state == "narrow")
+            color: "#000000"
+            anchors.fill: parent
+            opacity: 0.5
+
+            MouseArea {
+                anchors.fill: parent
+            }
+
+            InputFilterArea {
+                anchors.fill: parent
+                blockInput: modalNotificationBackground.visible
             }
         }
 

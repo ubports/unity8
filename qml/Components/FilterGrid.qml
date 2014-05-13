@@ -28,11 +28,6 @@ import "../Components"
 Item {
     id: root
 
-    /* If true, the number of elements displayed will be limited by collapsedRowCount.
-       If false, all elements will be displayed, effectively looking the same as a regular
-       ResponsiveGridView. */
-    property bool filter: true
-
     /* Whether, when collapsed, a button should be displayed enabling the user to expand
        the grid to its full size. */
     readonly property bool expandable: model.count > rowsWhenCollapsed * iconTileGrid.columns
@@ -59,35 +54,54 @@ Item {
     property alias cellHeight: iconTileGrid.cellHeight
     property alias delegateCreationBegin: iconTileGrid.delegateCreationBegin
     property alias delegateCreationEnd: iconTileGrid.delegateCreationEnd
+    readonly property alias originY: iconTileGrid.originY
     readonly property alias flicking: iconTileGrid.flicking
     readonly property alias moving: iconTileGrid.moving
     readonly property alias pressDelay: iconTileGrid.pressDelay
     property alias highlightIndex: iconTileGrid.highlightIndex
     readonly property alias currentItem: iconTileGrid.currentItem
+    readonly property alias filtered: d.filter
 
-    height: !filterAnimation.running ? childrenRect.height : height
+    QtObject {
+        id: d
+        // We do have filter and collapsed properties because we need to decouple
+        // the real filtering with the animation since the closing animation
+        // i.e. setFilter(false. true) we still need to not be filtering until
+        // the animation finishes otherwise we hide the items when the animation
+        // is still running
+        property bool filter: true
+        property bool collapsed: true
+    }
+
+    height: d.collapsed ? root.collapsedHeight : root.uncollapsedHeight
     clip: filterAnimation.running
 
-    NumberAnimation {
-        property bool filterEndValue
-        id: filterAnimation
-        target: root
-        property: "height"
-        to: filterEndValue ? root.collapsedHeight : root.uncollapsedHeight
-        // Duration and easing here match the ListViewWithPageHeader::m_contentYAnimation
-        // otherwise since both animations can run at the same time you'll get
-        // some visual weirdness.
-        duration: 200
-        easing.type: Easing.InOutQuad
-        onStopped: {
-            root.filter = filterEndValue;
+    Behavior on height {
+        id: heightBehaviour
+        enabled: false
+        NumberAnimation {
+            id: filterAnimation
+            // Duration and easing here match the ListViewWithPageHeader::m_contentYAnimation
+            // otherwise since both animations can run at the same time you'll get
+            // some visual weirdness.
+            duration: 200
+            easing.type: Easing.InOutQuad
+            onRunningChanged: {
+                if (!running) {
+                    d.filter = d.collapsed;
+                }
+                heightBehaviour.enabled = false;
+            }
         }
     }
 
-    function startFilterAnimation(filter) {
-        filterAnimation.filterEndValue = filter
-        filterAnimation.start();
-    }
+    function setFilter(filter, animate) {
+        heightBehaviour.enabled = animate;
+        d.collapsed = filter;
+        if (!animate || !filter) {
+            d.filter = filter;
+        }
+   }
 
     ResponsiveGridView {
         id: iconTileGrid
@@ -104,7 +118,7 @@ Item {
 
         model: LimitProxyModel {
             model: root.model
-            limit: (filter && !filterAnimation.running) ? rowsWhenCollapsed * iconTileGrid.columns : -1
+            limit: d.filter ? rowsWhenCollapsed * iconTileGrid.columns : -1
         }
     }
 }

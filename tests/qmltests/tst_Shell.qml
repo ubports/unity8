@@ -554,5 +554,16 @@ Item {
 
             tryCompare(searchIndicator, "opacity", 0);
         }
+
+        function test_focusRequestedHidesGreeter() {
+            var greeter = findChild(shell, "greeter")
+
+            greeter.show()
+            tryCompare(greeter, "showProgress", 1)
+
+            ApplicationManager.focusRequested("notes-app")
+            tryCompare(greeter, "showProgress", 0)
+            waitUntilApplicationWindowIsFullyVisible()
+        }
     }
 }
