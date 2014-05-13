@@ -15,11 +15,11 @@
  */
 
 import QtQuick 2.1
-import DashViews 0.1
+import Dash 0.1
 
 Item {
     id: root
-    signal add(int height)
+    signal add(int width)
     signal remove()
 
     ListViewWithPageHeader {
@@ -28,10 +28,9 @@ Item {
         height: parent.height
         width: parent.width - controls.width
 
-        delegate: VerticalJournal {
-            id: vj
+        delegate: HorizontalJournal {
             model: vjModel
-            columnWidth: 100
+            rowHeight: 100
             columnSpacing: 10
             rowSpacing: 10
             width: parent.width
@@ -40,13 +39,13 @@ Item {
             delegateCreationEnd: lvwph.contentY + lvwph.height
 
             delegate: Rectangle {
-                width: 100
+                height: 100
                 color: "red";
-                height: modelHeight
+                width: modelWidth
                 border.width: 3
 
                 Text {
-                    text: index + "\ny: " + parent.y + "\nheight: " + parent.height
+                    text: index + "\nx: " + parent.x + "\nwidth: " + parent.width
                     x: 10
                     y: 10
                 }

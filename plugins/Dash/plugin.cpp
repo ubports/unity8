@@ -24,9 +24,9 @@
 
 #include <QAbstractItemModel>
 
-void DashViewsPlugin::registerTypes(const char *uri)
+void DashPlugin::registerTypes(const char *uri)
 {
-    Q_ASSERT(uri == QLatin1String("DashViews"));
+    Q_ASSERT(uri == QLatin1String("Dash"));
     qmlRegisterType<QAbstractItemModel>();
     qmlRegisterType<HorizontalJournal>(uri, 0, 1, "HorizontalJournal");
     qmlRegisterType<ListViewWithPageHeader>(uri, 0, 1, "ListViewWithPageHeader");
