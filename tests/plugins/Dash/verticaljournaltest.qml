@@ -15,26 +15,27 @@
  */
 
 import QtQuick 2.1
-import DashViews 0.1
+import Dash 0.1
 
 Item {
 
-    HorizontalJournal {
-        objectName: "hj"
+    VerticalJournal {
+        id: vj
+        objectName: "vj"
         anchors.fill: parent
-        rowHeight: 150
+        columnWidth: 150
         columnSpacing: 10
         rowSpacing: 10
 
         delegate: Rectangle {
             property real randomValue: Math.random()
-            height: 150
+            width: 150
             color: randomValue < 0.3 ? "green" : randomValue < 0.6 ? "blue" : "red";
-            width: modelWidth
+            height: modelHeight
             border.width: 3
 
             Text {
-                text: index + "\nx: " + parent.x + "\nwidth: " + parent.width
+                text: index + "\ny: " + parent.y + "\nheight: " + parent.height
                 x: 10
                 y: 10
             }
