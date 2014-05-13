@@ -256,7 +256,6 @@ void LauncherBackend::syncFromAccounts()
     if (m_accounts && defaults) { // Checking accounts as it'll be null when !useStorage
         QGSettings gSettings("com.canonical.Unity.Launcher", "/com/canonical/unity/launcher/");
         Q_FOREACH(const QString &entry, gSettings.get("favorites").toStringList()) {
-            qDebug() << "loading entry" << entry;
             if (entry.startsWith("application://")) {
                 QString appId = entry;
                 // Transform "application://foobar.desktop" to "application://foobar"
@@ -285,7 +284,6 @@ void LauncherBackend::syncFromAccounts()
                 }
                 appId = appId.split('/').first() +  "_" + appId.split('/').at(1);
                 QString df = findDesktopFile(appId);
-                qDebug() << "got df file" << df;
 
                 if (!df.isEmpty()) {
                     m_storedApps << appId;
@@ -325,7 +323,6 @@ QString LauncherBackend::findDesktopFile(const QString &appId) const
 #ifdef LAUNCHER_TESTING
     searchDirs << "";
 #endif
-    qDebug() << "search dirs are" << searchDirs;
 
     do {
         if (dashPos != -1) {
@@ -386,7 +383,7 @@ LauncherBackendItem* LauncherBackend::getItem(const QString &appId) const
                 qWarning() << "Unable to parse desktop file for" << appId << "path" << df;
             }
         } else {
-            qDebug() << "Unable to find desktop file for:" << appId;
+            qWarning() << "Unable to find desktop file for:" << appId;
         }
     }
 
