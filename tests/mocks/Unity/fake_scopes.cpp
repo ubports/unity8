@@ -24,11 +24,11 @@
 // Qt
 #include <QTimer>
 
-Scopes::Scopes(QObject *parent) : m_loaded(false)
-, timer(this)
+Scopes::Scopes(QObject *parent)
+ : unity::shell::scopes::ScopesInterface(parent)
+ , m_loaded(false)
+ , timer(this)
 {
-    setParent(parent);
-
     QObject::connect(this, SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SIGNAL(countChanged()));
     QObject::connect(this, SIGNAL(rowsRemoved(const QModelIndex &, int, int)), this, SIGNAL(countChanged()));
     QObject::connect(this, SIGNAL(modelReset()), this, SIGNAL(countChanged()));

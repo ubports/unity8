@@ -22,9 +22,9 @@
 #include "fake_resultsmodel.h"
 
 Categories::Categories(int category_count, QObject* parent)
-    : m_category_count(category_count)
+    : unity::shell::scopes::CategoriesInterface(parent)
+    , m_category_count(category_count)
 {
-    setParent(parent);
 }
 
 int Categories::rowCount(const QModelIndex& /*parent*/) const

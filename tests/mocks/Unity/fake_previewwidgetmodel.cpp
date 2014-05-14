@@ -36,9 +36,8 @@ struct PreviewData
 };
 
 PreviewWidgetModel::PreviewWidgetModel(QObject* parent)
+ : unity::shell::scopes::PreviewWidgetModelInterface(parent)
 {
-    setParent(parent);
-
     populateWidgets();
 }
 

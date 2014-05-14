@@ -22,7 +22,8 @@ Scope::Scope(QObject* parent) : Scope(QString(), QString(), false, parent)
 }
 
 Scope::Scope(QString const& id, QString const& name, bool visible, QObject* parent)
-    : m_id(id)
+    : unity::shell::scopes::ScopeInterface(parent)
+    , m_id(id)
     , m_name(name)
     , m_visible(visible)
     , m_searching(false)
@@ -30,7 +31,6 @@ Scope::Scope(QString const& id, QString const& name, bool visible, QObject* pare
     , m_previewRendererName("preview-generic")
     , m_categories(new Categories(20, this))
 {
-    setParent(parent);
 }
 
 QString Scope::id() const {

@@ -28,9 +28,8 @@
 #include <QDebug>
 
 PreviewModel::PreviewModel(QObject* parent)
+ : unity::shell::scopes::PreviewModelInterface(parent)
 {
-    setParent(parent);
-
     // we have one column by default
     PreviewWidgetModel* columnModel = new PreviewWidgetModel(this);
     m_previewWidgetModels.append(columnModel);
