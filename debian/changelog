@@ -1,3 +1,11 @@
+unity8 (7.86+14.10.20140514.1-0ubuntu1) utopic; urgency=low
+
+  [ Antti Kaijanmäki ]
+  * Indicators/RootActionState: use g_variant_iter_loop to extract
+    icons.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 14 May 2014 11:43:55 +0000
+
 unity8 (7.86+14.10.20140513-0ubuntu1) utopic; urgency=low
 
   [ Andrea Cimitan ]
