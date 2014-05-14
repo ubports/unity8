@@ -316,7 +316,6 @@ MenuContentState* MenuContentActivatorPrivate::content_at(QQmlListProperty<MenuC
     if (!d->m_content.contains(index)) {
         MenuContentState* content = new MenuContentState(false);
         d->m_content[index] = content;
-        Q_EMIT p->contentChanged();
         return content;
     }
 

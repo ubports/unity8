@@ -24,6 +24,7 @@
 #include <QObject>
 #include <QSettings>
 #include <QStringList>
+#include <QDBusVirtualObject>
 
 class AccountsServiceDBusAdaptor;
 
@@ -32,11 +33,13 @@ class AccountsServiceDBusAdaptor;
   */
 
 class LauncherBackendItem;
+class LauncherBackendTest;
 
-class LauncherBackend : public QObject
+class LauncherBackend : public QDBusVirtualObject
 {
     Q_OBJECT
 
+    friend LauncherBackendTest;
 
 public:
     LauncherBackend(QObject *parent = 0);
@@ -117,15 +120,52 @@ public:
     int count(const QString &appId) const;
 
     /**
+      * @brief Set the count on an item
+      * @param appId The ID of the application
+      * @param count Count to show on the application
+      */
+    void setCount(const QString &appId, int count) const;
+
+    /**
+      * @brief Get whether the count should be visible
+      * @param appId The ID of the application.
+      * @returns Whether to show a count on the launcher
+      */
+    bool countVisible(const QString &appId) const;
+
+    /**
+      * @brief Set the visibility of the count item
+      * @param appId The ID of the application
+      * @param visible Whether the count should be visible
+      */
+    void setCountVisible(const QString &appId, bool visible) const;
+
+    /**
       * @brief Sets the username for which to look up launcher items.
       * @param username The username to use.
       */
     void setUser(const QString &username);
 
+    /**
+      * @brief Handle a message to an application node
+      * @param message DBus message to handle
+      * @param connection DBus connection that we're using
+      * @returns whether the message was handled
+      */
+    virtual bool handleMessage(const QDBusMessage& message, const QDBusConnection& connection);
+
+    /**
+      * @brief Get introspection information on the objects we're exporting
+      * @param path the dbus path containing the appid
+      * @returns Introspection information for that node in the tree
+      */
+    virtual QString introspect (const QString &path) const;
+
 Q_SIGNALS:
-    void quickListChanged(const QString &appId, const QList<QuickListEntry> &quickList);
-    void progressChanged(const QString &appId, int progress);
-    void countChanged(const QString &appId, int count);
+    void quickListChanged(const QString &appId, const QList<QuickListEntry> &quickList) const;
+    void progressChanged(const QString &appId, int progress) const;
+    void countChanged(const QString &appId, int count) const;
+    void countVisibleChanged(const QString &appId, bool visible) const;
 
 private:
     QString findDesktopFile(const QString &appId) const;
@@ -143,6 +183,14 @@ private:
 
     AccountsServiceDBusAdaptor *m_accounts;
     QString m_user;
+
+    void emitPropChangedDbus(const QString& appId, const QString& property, QVariant &value) const;
+
+protected: /* Protected to allow testing */
+    LauncherBackendItem* getItem(const QString& appId) const;
+
+    static QString decodeAppId(const QString& path);
+    static QString encodeAppId(const QString& appId);
 };
 
 #endif // LAUNCHERBACKEND_H

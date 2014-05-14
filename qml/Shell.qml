@@ -28,9 +28,7 @@ import "Dash"
 import "Greeter"
 import "Launcher"
 import "Panel"
-import "Hud"
 import "Components"
-import "Bottombar"
 import "Notifications"
 import Unity.Notifications 1.0 as NotificationBackend
 import Unity.Session 0.1
@@ -333,7 +331,7 @@ FocusScope {
 
         readonly property int backgroundTopMargin: -panel.panelHeight
 
-        hides: [launcher, panel.indicators, hud]
+        hides: [launcher, panel.indicators]
         shown: false
         enabled: true
         showAnimation: StandardAnimation { property: "opacity"; to: 1 }
@@ -406,7 +404,7 @@ FocusScope {
             objectName: "greeter"
 
             available: true
-            hides: [launcher, panel.indicators, hud]
+            hides: [launcher, panel.indicators]
             shown: true
 
             defaultBackground: shell.background
@@ -449,7 +447,7 @@ FocusScope {
     InputFilterArea {
         anchors.fill: parent
         blockInput: ApplicationManager.focusedApplicationId.length === 0 || greeter.shown || lockscreen.shown || launcher.shown
-                    || panel.indicators.shown || hud.shown
+                    || panel.indicators.shown
     }
 
     Connections {
@@ -513,47 +511,6 @@ FocusScope {
             }
         }
 
-        Hud {
-            id: hud
-
-            width: parent.width > units.gu(60) ? units.gu(40) : parent.width
-            height: parent.height
-
-            available: !greeter.shown && !panel.indicators.shown && !lockscreen.shown && edgeDemo.dashEnabled
-            shown: false
-            showAnimation: StandardAnimation { property: "y"; duration: hud.showableAnimationDuration; to: 0; easing.type: Easing.Linear }
-            hideAnimation: StandardAnimation { property: "y"; duration: hud.showableAnimationDuration; to: hudRevealer.closedValue; easing.type: Easing.Linear }
-
-            Connections {
-                target: ApplicationManager
-                onFocusedApplicationIdChanged: hud.hide()
-            }
-        }
-
-        Revealer {
-            id: hudRevealer
-
-            enabled: hud.shown
-            width: hud.width
-            anchors.left: hud.left
-            height: parent.height
-            target: hud.revealerTarget
-            closedValue: height
-            openedValue: 0
-            direction: Qt.RightToLeft
-            orientation: Qt.Vertical
-            handleSize: hud.handleHeight
-            onCloseClicked: target.hide()
-        }
-
-        Bottombar {
-            id: bottombar
-            theHud: hud
-            anchors.fill: parent
-            enabled: hud.available
-            applicationIsOnForeground: ApplicationManager.focusedApplicationId
-        }
-
         InputFilterArea {
             blockInput: launcher.shown
             anchors {
@@ -601,9 +558,25 @@ FocusScope {
             onShownChanged: {
                 if (shown) {
                     panel.indicators.hide()
-                    hud.hide()
-                    bottombar.hide()
                 }
+            }
+        }
+
+        Rectangle {
+            id: modalNotificationBackground
+
+            visible: notifications.useModal && !greeter.shown && (notifications.state == "narrow")
+            color: "#000000"
+            anchors.fill: parent
+            opacity: 0.5
+
+            MouseArea {
+                anchors.fill: parent
+            }
+
+            InputFilterArea {
+                anchors.fill: parent
+                blockInput: modalNotificationBackground.visible
             }
         }
 
