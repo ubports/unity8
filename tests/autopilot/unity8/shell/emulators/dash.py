@@ -161,7 +161,7 @@ class GenericScopeView(emulators.UnityEmulatorBase):
 
         """
         category_element = self._get_category_element(category)
-        icon = category_element.select_single('Card', title=app_name)
+        icon = category_element.select_single('AbstractButton', title=app_name)
         # FIXME some categories need a long press in order to see the preview.
         # Some categories do not show previews, like recent apps.
         # --elopio - 2014-1-14
@@ -191,7 +191,7 @@ class DashApps(GenericScopeView):
 
         """
         category_element = self._get_category_element(category)
-        application_cards = category_element.select_many('Card')
+        application_cards = category_element.select_many('AbstractButton')
 
         # sort by y, x
         application_cards = sorted(
@@ -201,8 +201,7 @@ class DashApps(GenericScopeView):
         result = []
         for card in application_cards:
             if card.objectName != 'cardToolCard':
-                card_header = card.select_single('CardHeader')
-                result.append(card_header.title)
+                result.append(card.title)
         return result
 
 

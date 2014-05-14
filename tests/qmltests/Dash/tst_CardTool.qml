@@ -127,26 +127,6 @@ Rectangle {
                 }
             }
         }
-
-        Card {
-            id: card
-            template: cardTool.template;
-            components: cardTool.components;
-            cardData: Helpers.mapData(dataArea.text, components, dataError)
-
-            width: cardTool.cardWidth || implicitWidth
-            height: cardTool.cardHeight || implicitHeight
-
-            clip: true
-            headerAlignment: cardTool.headerAlignment
-
-            Rectangle {
-                anchors.fill: parent
-                color: "transparent"
-                border.width: 1
-                border.color: "green"
-            }
-        }
     }
 
     Rectangle {
@@ -257,7 +237,7 @@ Rectangle {
         id: testCase
         name: "Card"
 
-        property Card internalCard: findChild(cardTool, "cardToolCard")
+        property var internalCard: findChild(cardTool, "cardToolCard")
 
         when: windowShown
 
@@ -272,16 +252,16 @@ Rectangle {
 
         function test_card_size_data() {
             return [
-                { tag: "Medium", width: units.gu(18.5), height: function() { return card.height }, index: 0 },
-                { tag: "No art", width: units.gu(18.5), height: function() { return card.height }, index: 1 },
-                { tag: "No summary", width: units.gu(18.5), height: function() { return card.height }, index: 2 },
-                { tag: "Just header", width: units.gu(18.5), height: function() { return card.height }, index: 3 },
-                { tag: "Just title", width: units.gu(18.5), height: function() { return card.height }, index: 4 },
-                { tag: "Title and subtitle", width: units.gu(18.5), height: function() { return card.height }, index: 5 },
-                { tag: "Title and mascot", width: units.gu(18.5), height: function() { return card.height }, index: 6 },
-                { tag: "Small", width: units.gu(12), height: function() { return card.height }, index: 7 },
-                { tag: "Large", width: units.gu(38), height: function() { return card.height }, index: 8 },
-                { tag: "Horizontal", width: units.gu(38), height: function() { return card.height }, index: 9 },
+                { tag: "Medium", width: units.gu(18.5), height: function() { return internalCard ? internalCard.height : 0 }, index: 0 },
+                { tag: "No art", width: units.gu(18.5), height: function() { return internalCard ? internalCard.height : 0 }, index: 1 },
+                { tag: "No summary", width: units.gu(18.5), height: function() { return internalCard ? internalCard.height : 0 }, index: 2 },
+                { tag: "Just header", width: units.gu(18.5), height: function() { return internalCard ? internalCard.height : 0 }, index: 3 },
+                { tag: "Just title", width: units.gu(18.5), height: function() { return internalCard ? internalCard.height : 0 }, index: 4 },
+                { tag: "Title and subtitle", width: units.gu(18.5), height: function() { return internalCard ? internalCard.height : 0 }, index: 5 },
+                { tag: "Title and mascot", width: units.gu(18.5), height: function() { return internalCard ? internalCard.height : 0 }, index: 6 },
+                { tag: "Small", width: units.gu(12), height: function() { return internalCard ? internalCard.height : 0 }, index: 7 },
+                { tag: "Large", width: units.gu(38), height: function() { return internalCard ? internalCard.height : 0 }, index: 8 },
+                { tag: "Horizontal", width: units.gu(38), height: function() { return internalCard ? internalCard.height : 0 }, index: 9 },
                 { tag: "OrganicGrid", width: undefined, height: undefined, index: 0, layout_index: 1},
                 { tag: "Journal", width: undefined, height: units.gu(20), size: 20, index: 0, layout_index: 2 },
                 { tag: "OversizedJournal", width: undefined, height: units.gu(18.5), size: 40, index: 0, layout_index: 2 },

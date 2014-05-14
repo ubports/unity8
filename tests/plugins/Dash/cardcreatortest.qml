@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,15 +14,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Dash 0.1
+import QtQuick 2.2
+import "../../../plugins/Dash/CardCreator.js" as CardCreator
 
-ListViewWithPageHeader {
-    maximumFlickVelocity: height * 10
-    flickDeceleration: height * 2
+Item {
+    id: root
+    function cardString(template, components) {
+        return CardCreator.cardString(JSON.parse(template), JSON.parse(components));
+    }
 
-    Connections {
-        target: greeter
-        onShownChanged: if (greeter.shown) showHeader()
+    function createCardComponent(template, components) {
+        return CardCreator.createCardComponent(root, JSON.parse(template), JSON.parse(components)) !== null;
     }
 }
