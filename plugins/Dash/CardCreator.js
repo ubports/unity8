@@ -281,7 +281,7 @@ function cardString(template, components) {
                 property var template; \n\
                 property var components; \n\
                 property var cardData; \n\
-                property var artShapeBorderSource: "radius_idle.sci"; \n\
+                property var artShapeBorderSource; \n\
                 property real fontScale: 1.0; \n\
                 property int headerAlignment: Text.AlignLeft; \n\
                 property int fixedHeaderHeight: -1; \n\
