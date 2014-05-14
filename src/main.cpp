@@ -178,10 +178,6 @@ Load the testability driver");
     view->setColor(Qt::transparent);
 
     if (qgetenv("QT_QPA_PLATFORM") == "ubuntu" || isUbuntuMirServer || parser.isSet(fullscreenOption)) {
-        // First, size window equal to screen (fake a real WM fullscreen mode).
-        // Then, in case we are actually running inside a windowing system,
-        // nicely set actual WM fullscreen hint for its benefit.
-        view->resize(view->screen()->size());
         view->showFullScreen();
     } else {
         view->show();
