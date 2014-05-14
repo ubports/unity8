@@ -282,13 +282,7 @@ FocusScope {
         Connections {
             target: DBusUnitySessionService
 
-            onLogoutRequested: {
-                // TODO: Display a dialog to ask the user to confirm.
-                DBusUnitySessionService.Logout();
-            }
-
-            onLogoutReady: {
-                // close all the apps.
+            function closeAllApps() {
                 while (true) {
                     var app = ApplicationManager.get(0);
                     if (app === null) {
@@ -296,7 +290,15 @@ FocusScope {
                     }
                     ApplicationManager.stopApplication(app.appId);
                 }
+            }
 
+            onLogoutRequested: {
+                // TODO: Display a dialog to ask the user to confirm.
+                DBusUnitySessionService.Logout();
+            }
+
+            onLogoutReady: {
+                closeAllApps();
                 Qt.quit();
             }
         }
