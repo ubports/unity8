@@ -1,0 +1,4 @@
+module Dash
+plugin Dash-qml
+typeinfo Dash.qmltypes
+singleton CardCreatorCache 0.1 CardCreatorCache.qml

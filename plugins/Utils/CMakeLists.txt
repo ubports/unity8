@@ -11,7 +11,6 @@ include_directories(
 )
 
 set(QMLPLUGIN_SRC
-    bottombarvisibilitycommunicatorshell.cpp
     qlimitproxymodelqml.cpp
     qsortfilterproxymodelqml.cpp
     timeformatter.cpp

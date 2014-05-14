@@ -37,6 +37,7 @@ PreviewWidget {
             left: parent.left
             right: parent.right
         }
+        height: visible ? implicitHeight : 0
         fontSize: "large"
         // TODO karni: Yet another fix requiring Palette update.
         color: "grey" //Theme.palette.selected.backgroundText
@@ -68,7 +69,7 @@ PreviewWidget {
         wrapMode: Text.Wrap
 
         Behavior on height {
-            UbuntuNumberAnimation {}
+            UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration }
         }
     }
 
@@ -79,8 +80,9 @@ PreviewWidget {
             left: parent.left
             right: parent.right
             top: textLabel.bottom
-            topMargin: units.gu(1)
+            topMargin: visible ? units.gu(1) : 0
         }
+        height: visible ? implicitHeight : 0
         visible: textLabel.lineCount > textLabel.maximumCollapsedLineCount
     }
 }
