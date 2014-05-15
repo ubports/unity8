@@ -21,7 +21,6 @@
 #include <QCommandLineParser>
 #include <QtQuick/QQuickView>
 #include <QtGui/QGuiApplication>
-#include <QtGui/QScreen>
 #include <QtQml/QQmlEngine>
 #include <QtQml/QQmlContext>
 #include <qpa/qplatformnativeinterface.h>
