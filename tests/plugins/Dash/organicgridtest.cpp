@@ -499,16 +499,13 @@ private Q_SLOTS:
         QTRY_COMPARE(grid->m_firstVisibleIndex, 0);
         QTRY_COMPARE(grid->m_visibleItems.count(), 198);
 
-        grid->setDelegateCreationBegin(300);
-        grid->setDelegateCreationEnd(400);
+        grid->setDisplayMarginBeginning(-300);
+        grid->setDisplayMarginEnd(-(grid->height() - 400));
         checkImplicitHeight(2290);
 
         QTRY_COMPARE(grid->m_firstVisibleIndex, 36);
         QTRY_COMPARE(grid->m_visibleItems.count(), 54);
         checkImplicitHeight(2290);
-
-        grid->resetDelegateCreationBegin();
-        grid->resetDelegateCreationEnd();
 
         view->resize(470, 470);
 
