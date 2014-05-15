@@ -54,7 +54,7 @@ gdbus call --session --dest org.freedesktop.DBus --object-path /org/freedesktop/
 # creates for them and don't want to start all the services that a normal
 # session would.  So it's inconvenient to live within an upstart session.
 # But... we still want to use Upstart for some services.  So launch here.
-MIR_SOCKET=$SUB_SOCKET $TOUCH_WRAPPER /sbin/init --user --no-startup-event &
+USC_SOCKET=$MIR_SOCKET MIR_SOCKET=$SUB_SOCKET $TOUCH_WRAPPER /sbin/init --user --no-startup-event &
 INIT_PID=$!
 while [ ! -e "$XDG_RUNTIME_DIR/upstart/sessions/$INIT_PID.session" ]; do sleep 0.1; done
 export UPSTART_SESSION=$(/sbin/initctl list-sessions | grep "^$INIT_PID " | cut -d' ' -f2)
