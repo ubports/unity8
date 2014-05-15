@@ -32,6 +32,7 @@ Item  {
                             Component.onCompleted: updateWidthHeightBindings(); 
                             onAspectSmallerThanImageAspectChanged: updateWidthHeightBindings(); 
                             visible: image.status == Image.Ready; 
+                            borderSource: artShapeBorderSource; 
                             function updateWidthHeightBindings() { 
                                 if (aspectSmallerThanImageAspect) { 
                                     width = Qt.binding(function() { return !visible ? 0 : image.width }); 

@@ -73,7 +73,7 @@ var kArtShapeHolderCode = 'Item  { \n\
                                     Component.onCompleted: updateWidthHeightBindings(); \n\
                                     onAspectSmallerThanImageAspectChanged: updateWidthHeightBindings(); \n\
                                     visible: image.status == Image.Ready; \n\
-                                    borderSource: artShapeBorderSource \n\
+                                    borderSource: artShapeBorderSource; \n\
                                     function updateWidthHeightBindings() { \n\
                                         if (aspectSmallerThanImageAspect) { \n\
                                             width = Qt.binding(function() { return !visible ? 0 : image.width }); \n\
