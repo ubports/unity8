@@ -54,6 +54,8 @@ macro(export_qmlfiles PLUGIN PATH)
         ${QMLFILES_SEARCH_PATH}/qmldir
     )
 
+    execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${qmlfiles_dir})
+
     # copy the files
     add_custom_target(${QMLFILES_TARGET_PREFIX}${PLUGIN}-qmlfiles ALL
                         COMMAND cp ${QMLFILES} ${qmlfiles_dir}
@@ -125,6 +127,12 @@ macro(export_qmlplugin PLUGIN VERSION PATH)
             )
         endif()
     endif()
+
+    set_target_properties(${QMLPLUGIN_TARGETS} PROPERTIES
+                          ARCHIVE_OUTPUT_DIRECTORY ${qmlplugin_dir}
+                          LIBRARY_OUTPUT_DIRECTORY ${qmlplugin_dir}
+                          RUNTIME_OUTPUT_DIRECTORY ${qmlplugin_dir}
+    )
 
     if (QMLPLUGIN_DESTINATION)
         # Install additional targets
