@@ -127,7 +127,7 @@ Item {
             var dashContent = findChild(dash, "dashContent");
             var current_index = dashContent.currentIndex;
 
-            tabbar.selectedIndex = data.visualIndex;
+            tabbar.model.selectedIndex = data.visualIndex;
             compare(dashContent.currentIndex, data.shouldBeVisible ? data.visualIndex : current_index);
         }
     }
