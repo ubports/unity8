@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-04-10 11:13-0400\n"
-"PO-Revision-Date: 2013-10-09 13:51+0000\n"
-"Last-Translator: Aron Xu <Unknown>\n"
+"PO-Revision-Date: 2014-05-16 04:13+0000\n"
+"Last-Translator: Shuduo Sang <Unknown>\n"
 "Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-05-01 06:44+0000\n"
-"X-Generator: Launchpad (build 16985)\n"
+"X-Launchpad-Export-Date: 2014-05-16 06:52+0000\n"
+"X-Generator: Launchpad (build 17007)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
@@ -28,7 +28,7 @@ msgstr ""
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
-msgstr ""
+msgstr "跳过简介"
 
 #: qml/Components/EdgeDemo.qml:113
 msgid "Right edge"
@@ -36,7 +36,7 @@ msgstr ""
 
 #: qml/Components/EdgeDemo.qml:114
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr ""
+msgstr "从右边滑动可以解锁"
 
 #: qml/Components/EdgeDemo.qml:145
 msgid "Top edge"
@@ -48,7 +48,7 @@ msgstr ""
 
 #: qml/Components/EdgeDemo.qml:171
 msgid "Close"
-msgstr ""
+msgstr "关闭"
 
 #: qml/Components/EdgeDemo.qml:172
 msgid "Swipe up again to close the settings screen"
@@ -82,7 +82,7 @@ msgstr ""
 
 #: qml/Components/SeeMore.qml:58
 msgid "See less"
-msgstr ""
+msgstr "显示更少"
 
 #: qml/Dash/DashApps.qml:37
 msgid "Recent"
@@ -91,35 +91,35 @@ msgstr ""
 #: qml/Dash/PreviewListView.qml:52
 #, qt-format
 msgid "%1 Preview"
-msgstr ""
+msgstr "%1 预览"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
-msgstr ""
+msgstr "更多..."
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "Less..."
-msgstr ""
+msgstr "更少..."
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:81
 msgid "Rate this"
-msgstr ""
+msgstr "评分"
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:126
 msgid "Add a review"
-msgstr ""
+msgstr "添加评论"
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
-msgstr ""
+msgstr "发送"
 
 #: qml/Greeter/Greeter.qml:151
 msgid "Swipe to unlock"
-msgstr ""
+msgstr "滑动解锁"
 
 #: qml/Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
-msgstr ""
+msgstr "紧急电话"
 
 #: qml/Greeter/PassphraseLockscreen.qml:59
 #, qt-format
@@ -152,11 +152,11 @@ msgstr "讲话中..."
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:91
 msgid "Show password"
-msgstr ""
+msgstr "显示密码"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:103
 msgid "Please enter SIM PIN"
-msgstr ""
+msgstr "请输入 SIM PIN"
 
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
@@ -165,4 +165,4 @@ msgstr "搜索"
 #: qml/Shell.qml:348
 #, qt-format
 msgid "Please enter %1"
-msgstr ""
+msgstr "请输入 %1"
