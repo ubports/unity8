@@ -219,7 +219,10 @@ BasicShell {
                 greeter.hideRight()
                 hide()
             }
-            onShowDashHome: greeter.show()
+            onShowDashHome: {
+                SessionBroadcast.requestHomeShown(LightDM.Greeter.authenticationUser)
+                greeter.hide()
+            }
         }
 
         Notifications {

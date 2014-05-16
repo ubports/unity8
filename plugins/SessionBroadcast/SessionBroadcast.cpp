@@ -52,6 +52,11 @@ void SessionBroadcast::requestUrlStart(const QString &username, const QString &u
     m_broadcaster->asyncCall("RequestUrlStart", username, url);
 }
 
+void SessionBroadcast::requestHomeShown(const QString &username)
+{
+    m_broadcaster->asyncCall("RequestHomeShown", username);
+}
+
 void SessionBroadcast::onStartUrl(const QString &username, const QString &url)
 {
     // Since this signal is just used for testing, we don't *really* care if

@@ -32,6 +32,7 @@ public:
     explicit SessionBroadcast(QObject *parent = 0);
 
     Q_INVOKABLE void requestUrlStart(const QString &username, const QString &url);
+    Q_INVOKABLE void requestHomeShown(const QString &username);
 
 Q_SIGNALS:
     // This signal isn't actually used by the shell
