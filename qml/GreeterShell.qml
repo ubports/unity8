@@ -169,19 +169,6 @@ BasicShell {
         blockInput: true
     }
 
-    Revealer {
-        id: greeterRevealer
-        objectName: "greeterRevealer"
-
-        property real animatedProgress: MathUtils.clamp(-dragPosition / closedValue, 0, 1)
-        target: greeter
-        width: greeter.width
-        height: greeter.height
-        handleSize: shell.edgeSize
-        orientation: Qt.Horizontal
-        enabled: !greeter.locked
-    }
-
     Item {
         id: overlay
 
