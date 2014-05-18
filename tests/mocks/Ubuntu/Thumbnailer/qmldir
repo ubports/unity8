@@ -1,2 +1,4 @@
 module Ubuntu.Thumbnailer
+typeinfo Thumbnailer.qmltypes
+
 Dummy 0.1 Dummy.qml

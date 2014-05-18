@@ -1,6 +1,3 @@
-# export_qmlplugin macro
-include(Plugins)
-
 set(QMLPLUGIN_SRC
     plugin.cpp
     SessionManager.cpp
@@ -22,6 +19,4 @@ target_link_libraries(SessionManager-qml
 
 qt5_use_modules(SessionManager-qml Qml)
 
-# export the qmldir qmltypes and plugin files
-export_qmlfiles(SessionManager SessionManager)
-export_qmlplugin(SessionManager 0.1 SessionManager TARGETS SessionManager-qml)
+add_unity8_plugin(SessionManager 0.1 SessionManager TARGETS SessionManager-qml)

@@ -1,6 +1,3 @@
-# export_qmlplugin macro
-include(Plugins)
-
 # Dependencies
 include(FindPkgConfig)
 pkg_check_modules(LIBLIGHTDM REQUIRED liblightdm-qt5-3)
@@ -34,6 +31,4 @@ target_link_libraries(LightDM-qml
 
 qt5_use_modules(LightDM-qml DBus Qml)
 
-# export the qmldir qmltypes and plugin files
-export_qmlfiles(LightDM LightDM)
-export_qmlplugin(LightDM 0.1 LightDM TARGETS LightDM-qml)
+add_unity8_plugin(LightDM 0.1 LightDM TARGETS LightDM-qml)

@@ -1,6 +1,3 @@
-# export_qmlplugin macro
-include(Plugins)
-
 # There's no cmake var for v8 include path :-/
 # so create one
 LIST(GET Qt5Core_INCLUDE_DIRS 0 QtCoreDir0)
@@ -41,6 +38,4 @@ target_link_libraries(Dash-qml
 
 qt5_use_modules(Dash-qml Qml Quick)
 
-# export the qmldir qmltypes and plugin files
-export_qmlfiles(Dash Dash)
-export_qmlplugin(Dash 0.1 Dash TARGETS Dash-qml)
+add_unity8_plugin(Dash 0.1 Dash TARGETS Dash-qml)

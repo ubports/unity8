@@ -73,6 +73,7 @@ var kArtShapeHolderCode = 'Item  { \n\
                                     Component.onCompleted: updateWidthHeightBindings(); \n\
                                     onAspectSmallerThanImageAspectChanged: updateWidthHeightBindings(); \n\
                                     visible: image.status == Image.Ready; \n\
+                                    borderSource: artShapeBorderSource; \n\
                                     function updateWidthHeightBindings() { \n\
                                         if (aspectSmallerThanImageAspect) { \n\
                                             width = Qt.binding(function() { return !visible ? 0 : image.width }); \n\
@@ -280,6 +281,7 @@ function cardString(template, components) {
                 property var template; \n\
                 property var components; \n\
                 property var cardData; \n\
+                property var artShapeBorderSource; \n\
                 property real fontScale: 1.0; \n\
                 property int headerAlignment: Text.AlignLeft; \n\
                 property int fixedHeaderHeight: -1; \n\

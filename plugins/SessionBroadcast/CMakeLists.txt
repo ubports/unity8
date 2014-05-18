@@ -1,5 +1,3 @@
-include(Plugins)
-
 add_definitions(-DSM_BUSNAME=systemBus)
 
 add_library(SessionBroadcast-qml MODULE
@@ -9,5 +7,4 @@ add_library(SessionBroadcast-qml MODULE
 
 qt5_use_modules(SessionBroadcast-qml DBus Qml)
 
-export_qmlfiles(SessionBroadcast SessionBroadcast)
-export_qmlplugin(SessionBroadcast 0.1 SessionBroadcast TARGETS SessionBroadcast-qml)
+add_unity8_plugin(SessionBroadcast 0.1 SessionBroadcast TARGETS SessionBroadcast-qml)

@@ -31,7 +31,6 @@
 class LauncherBackendItem
 {
 public:
-    QString desktopFile;
     QString displayName;
     QString icon;
     int     count;
@@ -110,11 +109,6 @@ void LauncherBackend::setStoredApplications(const QStringList &appIds)
 
 QString LauncherBackend::desktopFile(const QString &appId) const
 {
-    LauncherBackendItem *item = m_itemCache.value(appId, nullptr);
-    if (item) {
-        return item->desktopFile;
-    }
-
     return findDesktopFile(appId);
 }
 
@@ -276,11 +270,31 @@ void LauncherBackend::syncFromAccounts()
         Q_FOREACH(const QString &entry, gSettings.get("favorites").toStringList()) {
             if (entry.startsWith("application://")) {
                 QString appId = entry;
-                // Transform "application://foobar.desktop" to "foobar"
+                // Transform "application://foobar.desktop" to "application://foobar"
                 appId.remove("application://");
                 if (appId.endsWith(".desktop")) {
                     appId.chop(8);
                 }
+                QString df = findDesktopFile(appId);
+
+                if (!df.isEmpty()) {
+                    m_storedApps << appId;
+
+                    if (!m_itemCache.contains(appId)) {
+                        m_itemCache.insert(appId, parseDesktopFile(df));
+                    }
+                }
+            }
+            if (entry.startsWith("appid://")) {
+                QString appId = entry;
+                appId.remove("appid://");
+                // Strip hook name and current-user-version in case its there
+
+                if (appId.split('/').count() != 3) {
+                    qWarning() << "ignoring entry " + appId + ". Not a valid appId.";
+                    continue;
+                }
+                appId = appId.split('/').first() +  "_" + appId.split('/').at(1);
                 QString df = findDesktopFile(appId);
 
                 if (!df.isEmpty()) {
@@ -329,10 +343,13 @@ QString LauncherBackend::findDesktopFile(const QString &appId) const
             helper = helper.replace(dashPos, 1, '/');
         }
 
-        Q_FOREACH(const QString &searchDir, searchDirs) {
-            QFileInfo fileInfo(QDir(searchDir), helper + ".desktop");
-            if (fileInfo.exists()) {
-                return fileInfo.absoluteFilePath();
+        Q_FOREACH(const QString &searchDirName, searchDirs) {
+            QDir searchDir(searchDirName);
+            Q_FOREACH(const QString &desktopFile, searchDir.entryList(QStringList() << "*.desktop")) {
+                if (desktopFile.startsWith(helper)) {
+                    QFileInfo fileInfo(searchDir, desktopFile);
+                    return fileInfo.absoluteFilePath();
+                }
             }
         }
 
@@ -347,7 +364,6 @@ LauncherBackendItem* LauncherBackend::parseDesktopFile(const QString &desktopFil
     QSettings settings(desktopFile, QSettings::IniFormat);
 
     LauncherBackendItem* item = new LauncherBackendItem();
-    item->desktopFile = desktopFile;
     item->displayName = settings.value("Desktop Entry/Name").toString();
 
     QString iconString = settings.value("Desktop Entry/Icon").toString();
@@ -381,7 +397,7 @@ LauncherBackendItem* LauncherBackend::getItem(const QString &appId) const
                 qWarning() << "Unable to parse desktop file for" << appId << "path" << df;
             }
         } else {
-            qDebug() << "Unable to find desktop file for:" << appId;
+            qWarning() << "Unable to find desktop file for:" << appId;
         }
     }
 
@@ -405,7 +421,6 @@ void LauncherBackend::loadFromVariant(const QVariantMap &details)
 
     item = new LauncherBackendItem();
 
-    item->desktopFile = details.value("desktopFile").toString();
     item->displayName = details.value("name").toString();
     item->icon = details.value("icon").toString();
     item->count = details.value("count").toInt();
@@ -422,7 +437,6 @@ QVariantMap LauncherBackend::itemToVariant(const QString &appId) const
     details.insert("id", appId);
     details.insert("name", item->displayName);
     details.insert("icon", item->icon);
-    details.insert("desktopFile", item->desktopFile);
     details.insert("count", item->count);
     details.insert("countVisible", item->countVisible);
     return details;

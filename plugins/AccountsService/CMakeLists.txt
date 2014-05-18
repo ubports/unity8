@@ -1,5 +1,3 @@
-include(Plugins)
-
 add_definitions(-DSM_BUSNAME=systemBus)
 
 add_library(AccountsService-qml MODULE
@@ -10,8 +8,7 @@ add_library(AccountsService-qml MODULE
 
 qt5_use_modules(AccountsService-qml DBus Qml)
 
-export_qmlfiles(AccountsService AccountsService)
-export_qmlplugin(AccountsService 0.1 AccountsService TARGETS AccountsService-qml)
+add_unity8_plugin(AccountsService 0.1 AccountsService TARGETS AccountsService-qml)
 
 set(POLKIT_LIB_DIR "${CMAKE_INSTALL_LOCALSTATEDIR}/lib/polkit-1")
 set(POLKIT_DATA_DIR "${CMAKE_INSTALL_PREFIX}/share/polkit-1")
