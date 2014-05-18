@@ -393,6 +393,11 @@ BasicShell {
                     panel.indicators.hide()
                 }
             }
+
+            Connections {
+                target: SessionManager
+                onActiveChanged: if (!SessionManager.active) launcher.hide()
+            }
         }
 
         Rectangle {

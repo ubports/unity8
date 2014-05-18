@@ -79,6 +79,17 @@ void SessionManager::getSessionSlot(QDBusPendingCallWatcher *watcher)
                                          this,
                                          SLOT(propertiesChanged(QString, QVariantMap, QStringList)));
 
+        // Login1 is very odd about emitting PropertiesChanged.  It often does
+        // not do so when active is becoming false.  But it always does when
+        // it becomes true.  So we watch for the "Lock" signal too, which is a
+        // reliably hint that active is false.
+        l1_manager->connection().connect("org.freedesktop.login1",
+                                         path.path(),
+                                         "org.freedesktop.login1.Session",
+                                         "Lock",
+                                         this,
+                                         SLOT(sessionLocked()));
+
         propertiesChanged("", QVariantMap(), QStringList() << "Active");
     }
     watcher->deleteLater();
@@ -104,4 +115,10 @@ void SessionManager::propertiesChanged(const QString &interface, const QVariantM
         is_active = value.toBool();
         Q_EMIT activeChanged();
     }
+}
+
+void SessionManager::sessionLocked()
+{
+    is_active = false;
+    Q_EMIT activeChanged();
 }

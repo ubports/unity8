@@ -49,6 +49,7 @@ Q_SIGNALS:
 private Q_SLOTS:
     void getSessionSlot(QDBusPendingCallWatcher *watcher);
     void propertiesChanged(const QString &interface, const QVariantMap &changed, const QStringList &invalid);
+    void sessionLocked();
 
 private:
     QDBusInterface *l1_manager;
