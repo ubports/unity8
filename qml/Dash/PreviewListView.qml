@@ -23,7 +23,7 @@ import "Previews" as Previews
 Item {
     id: root
 
-    property Scope scope: null
+    property var scope: null
     property var pageHeader: null
 
     property alias open: previewListView.open
@@ -116,7 +116,7 @@ Item {
 
                 previewModel: {
                     var previewStack = root.scope.preview(result);
-                    return previewStack.get(0);
+                    return previewStack.getPreviewModel(0);
                 }
             }
 

@@ -33,8 +33,6 @@ public:
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
 
-    Q_INVOKABLE QVariant get(int row) const override;
-
     /* getters */
     QString categoryId() const override;
     int count() const override;

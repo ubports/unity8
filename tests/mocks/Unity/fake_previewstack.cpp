@@ -48,7 +48,7 @@ int PreviewStack::rowCount(const QModelIndex&) const
     return m_previews.size();
 }
 
-unity::shell::scopes::PreviewModelInterface* PreviewStack::get(int index) const
+unity::shell::scopes::PreviewModelInterface* PreviewStack::getPreviewModel(int index) const
 {
     if (index >= m_previews.size()) {
         return nullptr;

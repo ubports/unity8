@@ -38,8 +38,8 @@ public:
 
     Q_INVOKABLE int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 
-    Q_INVOKABLE QVariant get(int row) const override;
-    Q_INVOKABLE QVariant get(const QString& scope_id) const override;
+    Q_INVOKABLE unity::shell::scopes::ScopeInterface* getScope(int row) const override;
+    Q_INVOKABLE unity::shell::scopes::ScopeInterface* getScope(const QString& scope_id) const override;
 
     Q_INVOKABLE void addScope(Scope* scope);
 

@@ -36,7 +36,7 @@ public:
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 
-    Q_INVOKABLE unity::shell::scopes::PreviewModelInterface* get(int index) const override;
+    Q_INVOKABLE unity::shell::scopes::PreviewModelInterface* getPreviewModel(int index) const override;
 
     void setWidgetColumnCount(int columnCount) override;
     int widgetColumnCount() const override;

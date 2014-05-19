@@ -104,14 +104,18 @@ QVariant Scopes::data(const QModelIndex& index, int role) const
     }
 }
 
-QVariant Scopes::get(int row) const
+unity::shell::scopes::ScopeInterface* Scopes::getScope(int row) const
 {
-    return data(QAbstractListModel::index(row), 0);
+    if (row < 0 || row >= m_scopes.size()) {
+        return nullptr;
+    }
+
+    return m_scopes[row];
 }
 
-QVariant Scopes::get(QString const&) const
+unity::shell::scopes::ScopeInterface* Scopes::getScope(QString const&) const
 {
-    return QVariant();
+    return nullptr;
 }
 
 QModelIndex Scopes::parent(const QModelIndex&) const

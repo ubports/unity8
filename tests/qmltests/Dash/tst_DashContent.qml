@@ -195,7 +195,7 @@ Item {
             dashContent.setCurrentScopeAtIndex(data.index, true, false);
             tryCompareFunction(get_current_item_object_name, data.objectName)
             var pageHeader = findChild(dashContent, "pageHeader");
-            compare(pageHeader.scope, scopesModel.get(data.index));
+            compare(pageHeader.scope, scopesModel.getScope(data.index));
         }
 
         function test_is_active_data() {
@@ -212,9 +212,9 @@ Item {
             dashContent.setCurrentScopeAtIndex(data.select, true, false);
             dashContent.visible = data.visible;
 
-            tryCompare(scopesModel.get(0), "isActive", data.active0);
-            tryCompare(scopesModel.get(1), "isActive", data.active1);
-            tryCompare(scopesModel.get(2), "isActive", data.active2);
+            tryCompare(scopesModel.getScope(0), "isActive", data.active0);
+            tryCompare(scopesModel.getScope(1), "isActive", data.active1);
+            tryCompare(scopesModel.getScope(2), "isActive", data.active2);
         }
 
         function doFindMusicButton(parent) {
