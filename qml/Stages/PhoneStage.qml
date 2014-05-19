@@ -17,43 +17,26 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
-import Unity.Application 0.1
+import Mir.Application 0.1
 import Utils 0.1
 import "../Components"
 
-Item {
+Rectangle {
     id: root
+    color: "green"
 
     // Controls to be set from outside
-    property bool shown: false
-    property bool moving: false
     property int dragAreaWidth
 
+    // FIXME: Should be registerd singleton type QAbstractItemModel.
+    property var surfaces
+
     // State information propagated to the outside
-    readonly property bool painting: mainScreenshotImage.visible || fadeInScreenshotImage.visible || appSplash.visible || spreadView.visible
     property bool fullscreen: priv.focusedApplication ? priv.focusedApplication.fullscreen : false
     property bool locked: spreadView.visible
 
-    // Not used for PhoneStage, only useful for SideStage and similar
-    property bool overlayMode: false
-    property int overlayWidth: 0
-
     function select(appId) {
         spreadView.snapTo(priv.indexOf(appId))
-    }
-
-    onMovingChanged: {
-        if (moving) {
-            if (ApplicationManager.focusedApplicationId) {
-                priv.requestNewScreenshot();
-            } else {
-                mainScreenshotImage.anchors.leftMargin = 0;
-                mainScreenshotImage.source = ApplicationManager.get(0).screenshot;
-                mainScreenshotImage.visible = true;
-            }
-        } else {
-            mainScreenshotImage.visible = false;
-        }
     }
 
     Connections {
@@ -74,7 +57,6 @@ Item {
                 } else {
                     var application = priv.focusedApplication;
                     root.fullscreen = application.fullscreen;
-                    mainScreenshotImage.source = application.screenshot;
                 }
             } else {
                 spreadView.selectedIndex = -1;
@@ -84,29 +66,7 @@ Item {
         }
 
         onApplicationAdded: {
-            if (!priv.focusedApplication) {
-                mainScreenshotImage.source = "";
-                mainScreenshotImage.visible = false;
-                priv.applicationStarting = true;
-            } else {
-                mainScreenshotImage.source = "";
-                priv.newFocusedAppId = appId;
-                priv.secondApplicationStarting = true;
-                priv.requestNewScreenshot();
-            }
-
-            if (spreadView.visible) {
-                spreadView.snapTo(0);
-            }
-        }
-
-        onApplicationRemoved: {
-            if (ApplicationManager.count == 0) {
-                mainScreenshotImage.source = ""
-                mainScreenshotImage.visible = false;
-            } else {
-                mainScreenshotImage.source = ApplicationManager.get(0).screenshot;
-            }
+            spreadView.snapTo(0);
         }
     }
 
@@ -115,30 +75,11 @@ Item {
 
         property string focusedAppId: ApplicationManager.focusedApplicationId
         property var focusedApplication: ApplicationManager.findApplication(focusedAppId)
-        property url focusedScreenshot: focusedApplication ? focusedApplication.screenshot : ""
-
-        property bool waitingForScreenshot: false
 
         property bool applicationStarting: false
         property bool secondApplicationStarting: false
 
         property string newFocusedAppId
-
-        onFocusedScreenshotChanged: {
-            if (root.moving && priv.waitingForScreenshot) {
-                mainScreenshotImage.anchors.leftMargin = 0;
-                mainScreenshotImage.source = priv.focusedScreenshot
-                mainScreenshotImage.visible = true;
-            } else if (priv.secondApplicationStarting && priv.waitingForScreenshot) {
-                applicationSwitchingAnimation.start();
-            }
-            waitingForScreenshot = false;
-        }
-
-        function requestNewScreenshot() {
-            waitingForScreenshot = true;
-            ApplicationManager.updateScreenshot(focusedAppId);
-        }
 
         function switchToApp(appId) {
             if (priv.focusedAppId) {
@@ -147,6 +88,8 @@ Item {
                 applicationSwitchingAnimation.start();
             } else {
                 ApplicationManager.focusApplication(appId);
+                // TODO: Should happen behind the schenes
+                surfaces.move(surfaces.getIndexOfSurfaceWithAppId(appId), 0);
             }
         }
 
@@ -161,155 +104,6 @@ Item {
 
     }
 
-    // FIXME: the signal connections seems to get lost.
-    Connections {
-        target: priv.focusedApplication
-        onScreenshotChanged: priv.focusedScreenshot = priv.focusedApplication.screenshot
-    }
-    Binding {
-        target: root
-        property: "fullscreen"
-        value: priv.focusedApplication ? priv.focusedApplication.fullscreen : false
-    }
-
-    Timer {
-        id: appSplashTimer
-        // FIXME: We really need to show something meaningful in the app surface instead of guessing
-        // when it might be ready
-        interval: 500
-        repeat: false
-        onTriggered: {
-            priv.applicationStarting = false;
-            priv.secondApplicationStarting = false;
-        }
-    }
-
-    SequentialAnimation {
-        id: applicationSwitchingAnimation
-        // setup
-        PropertyAction { target: mainScreenshotImage; property: "anchors.leftMargin"; value: 0 }
-        PropertyAction { target: mainScreenshotImage; property: "source"; value: priv.focusedScreenshot }
-        PropertyAction { targets: [mainScreenshotImage, fadeInScreenshotImage]; property: "visible"; value: true }
-        PropertyAction { target: fadeInScreenshotImage; property: "source"; value: {
-                var newFocusedApp = ApplicationManager.findApplication(priv.newFocusedAppId);
-                return newFocusedApp ? newFocusedApp.screenshot : "" }
-        }
-        PropertyAction { target: fadeInScreenshotImage; property: "opacity"; value: 0 }
-        PropertyAction { target: fadeInScreenshotImage; property: "scale"; value: .8 }
-
-
-        // The actual animation
-        ParallelAnimation {
-            UbuntuNumberAnimation { target: mainScreenshotImage; property: "anchors.leftMargin"; to: root.width; duration: UbuntuAnimation.SlowDuration }
-            UbuntuNumberAnimation { target: fadeInScreenshotImage; properties: "opacity,scale"; to: 1; duration: UbuntuAnimation.SlowDuration }
-        }
-
-        // restore stuff
-        ScriptAction { script: ApplicationManager.focusApplication(priv.newFocusedAppId); }
-        PropertyAction { target: fadeInScreenshotImage; property: "visible"; value: false }
-        PropertyAction { target: mainScreenshotImage; property: "visible"; value: false }
-    }
-
-    // FIXME: Drop this and make the imageprovider show a splashscreen instead
-    Rectangle {
-        id: appSplash2
-        anchors.fill: parent
-        color: "white"
-        visible: priv.secondApplicationStarting
-    }
-    Image {
-        id: fadeInScreenshotImage
-        anchors { left: parent.left; bottom: parent.bottom }
-        width: parent.width
-        scale: .7
-        visible: false
-    }
-
-    Rectangle {
-        id: appSplash
-        anchors.fill: parent
-        color: "white"
-        visible: priv.applicationStarting
-    }
-    Image {
-        id: mainScreenshotImage
-        anchors { left: parent.left; bottom: parent.bottom }
-        width: parent.width
-        visible: false
-    }
-
-    EdgeDragArea {
-        id: spreadDragArea
-        direction: Direction.Leftwards
-        enabled: ApplicationManager.count > 1 && spreadView.phase != 2
-
-        anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
-        width: root.dragAreaWidth
-
-        // Sitting at the right edge of the screen, this EdgeDragArea directly controls the spreadView when
-        // attachedToView is true. When the finger movement passes positionMarker3 we detach it from the
-        // spreadView and make the spreadView snap to positionMarker4.
-        property bool attachedToView: true
-
-        property var gesturePoints: new Array()
-
-        onTouchXChanged: {
-            if (!dragging && !priv.waitingForScreenshot) {
-                // Initial touch. Let's update the screenshot and reset the spreadView to the starting position.
-                priv.requestNewScreenshot();
-                spreadView.phase = 0;
-                spreadView.contentX = -spreadView.shift;
-            }
-            if (dragging && attachedToView) {
-                // Gesture recognized. Let's move the spreadView with the finger
-                spreadView.contentX = -touchX - spreadView.shift;
-            }
-            if (attachedToView && spreadView.shiftedContentX >= spreadView.width * spreadView.positionMarker3) {
-                // We passed positionMarker3. Detach from spreadView and snap it.
-                attachedToView = false;
-                spreadView.snap();
-            }
-            gesturePoints.push(touchX);
-        }
-
-        onStatusChanged: {
-            if (status == DirectionalDragArea.Recognized) {
-                attachedToView = true;
-            }
-        }
-
-        onDraggingChanged: {
-            if (dragging) {
-                // Gesture recognized. Start recording this gesture
-                gesturePoints = [];
-                return;
-            }
-
-            // Ok. The user released. Find out if it was a one-way movement.
-            var oneWayFlick = true;
-            var smallestX = spreadDragArea.width;
-            for (var i = 0; i < gesturePoints.length; i++) {
-                if (gesturePoints[i] >= smallestX) {
-                    oneWayFlick = false;
-                    break;
-                }
-                smallestX = gesturePoints[i];
-            }
-            gesturePoints = [];
-
-            if (oneWayFlick && spreadView.shiftedContentX > units.gu(2) &&
-                    spreadView.shiftedContentX < spreadView.positionMarker1 * spreadView.width) {
-                // If it was a short one-way movement, do the Alt+Tab switch
-                // no matter if we didn't cross positionMarker1 yet.
-                spreadView.snapTo(1);
-            } else if (!dragging && attachedToView) {
-                // otherwise snap to the closest snap position we can find
-                // (might be back to start, to app 1 or to spread)
-                spreadView.snap();
-            }
-        }
-    }
-
     Rectangle {
         id: coverFlipBackground
         anchors.fill: parent
@@ -317,16 +111,13 @@ Item {
         visible: spreadView.visible
     }
 
-    InputFilterArea {
-        anchors.fill: root
-        blockInput: spreadView.visible
-    }
 
     Flickable {
         id: spreadView
         objectName: "spreadView"
         anchors.fill: parent
-        visible: spreadDragArea.status == DirectionalDragArea.Recognized || phase > 1 || snapAnimation.running
+//        visible: spreadDragArea.status == DirectionalDragArea.Recognized || phase > 1 || snapAnimation.running
+        interactive: spreadDragArea.status == DirectionalDragArea.Recognized || phase > 1 || snapAnimation.running
         contentWidth: spreadRow.width - shift
         contentX: -shift
 
@@ -414,6 +205,10 @@ Item {
                 script: {
                     if (spreadView.selectedIndex >= 0) {
                         ApplicationManager.focusApplication(ApplicationManager.get(spreadView.selectedIndex).appId);
+
+                        // TODO: Should happen behind the schenes
+                        surfaces.move(spreadView.selectedIndex, 0);
+
                         spreadView.selectedIndex = -1
                         spreadView.phase = 0;
                         spreadView.contentX = -spreadView.shift;
@@ -433,7 +228,7 @@ Item {
 
             Repeater {
                 id: spreadRepeater
-                model: ApplicationManager
+                model: root.surfaces
                 delegate: TransformedSpreadDelegate {
                     id: appDelegate
                     objectName: "appDelegate" + index
@@ -447,6 +242,8 @@ Item {
                     height: spreadView.height
                     selected: spreadView.selectedIndex == index
                     otherSelected: spreadView.selectedIndex >= 0 && !selected
+                    surface: model.surface
+                    interactive: !spreadView.interactive
 
                     z: index
                     x: index == 0 ? 0 : spreadView.width + (index - 1) * spreadView.tileDistance
@@ -496,4 +293,76 @@ Item {
             }
         }
     }
+
+    EdgeDragArea {
+        id: spreadDragArea
+        direction: Direction.Leftwards
+        enabled: ApplicationManager.count > 1 && spreadView.phase != 2
+
+        anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
+        width: root.dragAreaWidth
+
+        // Sitting at the right edge of the screen, this EdgeDragArea directly controls the spreadView when
+        // attachedToView is true. When the finger movement passes positionMarker3 we detach it from the
+        // spreadView and make the spreadView snap to positionMarker4.
+        property bool attachedToView: true
+
+        property var gesturePoints: new Array()
+
+        onTouchXChanged: {
+            if (!dragging) {
+                // Initial touch. Let's reset the spreadView to the starting position.
+                spreadView.phase = 0;
+                spreadView.contentX = -spreadView.shift;
+            }
+            if (dragging && attachedToView) {
+                // Gesture recognized. Let's move the spreadView with the finger
+                spreadView.contentX = -touchX - spreadView.shift;
+            }
+            if (attachedToView && spreadView.shiftedContentX >= spreadView.width * spreadView.positionMarker3) {
+                // We passed positionMarker3. Detach from spreadView and snap it.
+                attachedToView = false;
+                spreadView.snap();
+            }
+            gesturePoints.push(touchX);
+        }
+
+        onStatusChanged: {
+            if (status == DirectionalDragArea.Recognized) {
+                attachedToView = true;
+            }
+        }
+
+        onDraggingChanged: {
+            if (dragging) {
+                // Gesture recognized. Start recording this gesture
+                gesturePoints = [];
+                return;
+            }
+
+            // Ok. The user released. Find out if it was a one-way movement.
+            var oneWayFlick = true;
+            var smallestX = spreadDragArea.width;
+            for (var i = 0; i < gesturePoints.length; i++) {
+                if (gesturePoints[i] >= smallestX) {
+                    oneWayFlick = false;
+                    break;
+                }
+                smallestX = gesturePoints[i];
+            }
+            gesturePoints = [];
+
+            if (oneWayFlick && spreadView.shiftedContentX > units.gu(2) &&
+                    spreadView.shiftedContentX < spreadView.positionMarker1 * spreadView.width) {
+                // If it was a short one-way movement, do the Alt+Tab switch
+                // no matter if we didn't cross positionMarker1 yet.
+                spreadView.snapTo(1);
+            } else if (!dragging && attachedToView) {
+                // otherwise snap to the closest snap position we can find
+                // (might be back to start, to app 1 or to spread)
+                spreadView.snap();
+            }
+        }
+    }
+
 }

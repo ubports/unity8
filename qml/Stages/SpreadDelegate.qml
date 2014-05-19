@@ -22,34 +22,46 @@ Item {
     id: root
 
     signal clicked()
-
     property real topMarginProgress
+    property bool interactive: true
 
-    QtObject {
-        id: priv
-        property real heightDifference: root.height - appImage.implicitHeight
+    // FIXME: This really should be invisible to QML code.
+    // e.g. Create a SurfaceItem {} in C++ which we just use without any imperative hacks.
+    property var surface
+    onSurfaceChanged: {
+        if (surface) {
+            root.width = surface.implicitWidth;
+            root.height = surface.implicitHeight;
+            surface.parent = root;
+            surface.anchors.fill = root;
+            surface.enabled = root.interactive;
+            surface.z = 1;
+        }
     }
 
-    Image {
+    Component.onDestruction: {
+        if (surface) {
+            surface.release();
+        }
+    }
+
+    BorderImage {
         id: dropShadow
-        anchors.fill: appImage
+        anchors.fill: root
         anchors.margins: -units.gu(2)
         source: "graphics/dropshadow.png"
         opacity: .4
+        border { left: 50; right: 50; top: 50; bottom: 50 }
     }
-    Image {
-        id: appImage
-        anchors {
-            left: parent.left;
-            bottom: parent.bottom;
-            top: parent.top;
-            topMargin: priv.heightDifference * Math.max(0, 1 - root.topMarginProgress)
-        }
-        source: model.screenshot
-        antialiasing: true
-    }
+
+    // This is used to get clicked events on the whole app. e.g. when in spreadView.
+    // It's only enabled when the surface is !interactive
     MouseArea {
-        anchors.fill: appImage
-        onClicked: root.clicked()
+        anchors.fill: parent
+        z: 2
+        enabled: !root.interactive
+        onClicked: {
+            root.clicked()
+        }
     }
 }
