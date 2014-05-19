@@ -23,6 +23,7 @@ import "../Components"
 Item {
     id: dashContent
 
+    property int orientationAngle
     property var model: null
     property var scopes: null
     readonly property alias currentIndex: dashContentList.currentIndex
@@ -153,6 +154,10 @@ Item {
                         item.isCurrent = Qt.binding(function() { return visible && ListView.isCurrentItem })
                         item.tabBarHeight = dashPageHeader.implicitHeight;
                         dashContent.scopeLoaded(item.scope.id)
+
+                        if ("orientationAngle" in item) {
+                            item.orientationAngle = Qt.binding(function() { return dashContent.orientationAngle })
+                        }
                     }
                     Connections {
                         target: isCurrent ? scope : null

@@ -29,11 +29,11 @@ AbstractButton {
     signal requestedActivationMode()
     signal requestedTerminationMode()
 
-    // Was: childrenRect.height
-    // To avoid "binding loop" warning
-    height: shapedApplicationImage.height + labelContainer.height
+    width: thumbnail.width
+    height: thumbnail.height + labelContainer.height
 
-    width: shapedApplicationImage.width <= units.gu(11) ? units.gu(11) : height
+    // Orientation angle of the Shell UI, relative to the scene (QQuickView's) root item.
+    property int orientationAngle
 
     property bool terminationModeEnabled: false
 
@@ -50,42 +50,104 @@ AbstractButton {
         }
     }
 
-    UbuntuShape {
-        id: shapedApplicationImage
-        anchors { top: parent.top; horizontalCenter: parent.horizontalCenter }
+    Item {
+        id: thumbnail
 
-        height: units.gu(17)
-        width: applicationImage.width
-        radius: "medium"
+        width: thumbnailHelper.flippedDimensions ? shapedApplicationImage.height : shapedApplicationImage.width
+        height: thumbnailHelper.flippedDimensions ? shapedApplicationImage.width : shapedApplicationImage.height
 
-        image: Image {
-            id: applicationImage
-            source: application.screenshot
-            // height : width = ss.height : ss.width
-            height: shapedApplicationImage.height
-            fillMode: Image.PreserveAspectCrop
-            width: Math.min(height, height * sourceSize.width / sourceSize.height)
+        onWidthChanged: {console.log("thumbnail.width = " + width);}
+        onHeightChanged: {console.log("thumbnail.height = " + height);}
+
+
+        Item {
+            id: thumbnailHelper
+
+            property bool flippedDimensions: root.orientationAngle == 90 || root.orientationAngle == 270
+
+            // Compensate for the UI rotation that is done by the application itself
+            // TODO: Only counter-rotate if the application UI is rotated in the first place
+            //       Currently we don't have this info, so we just assume every single app rotate
+            //       its UI
+            transformOrigin: Item.TopLeft
+            state: orientationAngle.toString()
+            states: [
+                State {
+                    name: "0"
+                    PropertyChanges {
+                        target: thumbnailHelper
+                        rotation: 0
+                        x: 0
+                        y: 0
+                    }
+                },
+                State {
+                    name: "90"
+                    PropertyChanges {
+                        target: thumbnailHelper
+                        rotation: -90
+                        x: 0
+                        y: shapedApplicationImage.width
+                    }
+                },
+                State {
+                    name: "180"
+                    PropertyChanges {
+                        target: thumbnailHelper
+                        rotation: -180
+                        x: shapedApplicationImage.width
+                        y: shapedApplicationImage.height
+                    }
+                },
+                State {
+                    name: "270"
+                    PropertyChanges {
+                        target: thumbnailHelper
+                        rotation: -270
+                        x: shapedApplicationImage.height
+                        y: 0
+                    }
+                }
+            ]
+
+            UbuntuShape {
+                id: shapedApplicationImage
+                x: 0
+                y: 0
+                height: applicationImage.height
+                width: applicationImage.width
+                radius: "medium"
+
+                image: Image {
+                    id: applicationImage
+                    source: application.screenshot
+                    // height : width = ss.height : ss.width
+                    height: units.gu(17)
+                    fillMode: Image.PreserveAspectCrop
+                    width: Math.min(height, height * sourceSize.width / sourceSize.height)
+                }
+
+            }
+
+            UbuntuShape {
+                id: borderPressed
+
+                anchors.fill: shapedApplicationImage
+                radius: "medium"
+                borderSource: "radius_pressed.sci"
+                opacity: root.pressed ? 1.0 : 0.0
+                Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.OutQuint } }
+            }
         }
-
-    }
-
-    UbuntuShape {
-        id: borderPressed
-
-        anchors.fill: shapedApplicationImage
-        radius: "medium"
-        borderSource: "radius_pressed.sci"
-        opacity: root.pressed ? 1.0 : 0.0
-        Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.OutQuint } }
     }
 
     // FIXME: label code duplicated with Tile
     Item {
         id: labelContainer
         anchors {
-            left: parent.left
-            right: parent.right
-            top: shapedApplicationImage.bottom
+            left: thumbnail.left
+            right: thumbnail.right
+            top: thumbnail.bottom
         }
         height: units.gu(2)
 
@@ -110,9 +172,9 @@ AbstractButton {
     CloseIcon {
         objectName: "closeIcon " + model.name
         anchors {
-            left: shapedApplicationImage.left
+            left: thumbnail.left
             leftMargin: -units.gu(1)
-            top: parent.top
+            top: thumbnail.top
             topMargin: -units.gu(1)
         }
         height: units.gu(6)

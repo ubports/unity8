@@ -121,6 +121,8 @@ FocusScope {
             id: dash
             objectName: "dash"
 
+            orientationAngle: shell.orientationAngle
+
             available: !greeter.shown && !lockscreen.shown
             hides: [stages, launcher, panel.indicators]
             shown: disappearingAnimationProgress !== 1.0 && greeterWrapper.showProgress !== 1.0
@@ -164,7 +166,7 @@ FocusScope {
                 if (!stages.empty && progress < stages.width - units.gu(10)) {
                     stages.show();
                 }
-                stagesDragArea.progress = stages.width;
+                stagesDragArea.progress = Qt.binding(function () { return stages.width; });
             }
         }
     }

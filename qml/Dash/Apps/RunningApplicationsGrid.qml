@@ -28,6 +28,8 @@ ResponsiveFlowView {
     property alias enableHeightBehavior: heightBehaviour.enabled
     property bool enableHeightBehaviorOnNextCreation: model.count === 0
 
+    property int orientationAngle
+
     Behavior on height {
         id: heightBehaviour
         enabled: false
@@ -63,6 +65,7 @@ ResponsiveFlowView {
         RunningApplicationTile {
             id: runningAppTile
             objectName: "runningAppTile " + model.name
+            orientationAngle: root.orientationAngle
             anchors {
                 top: parent.top
                 horizontalCenter: parent.horizontalCenter
