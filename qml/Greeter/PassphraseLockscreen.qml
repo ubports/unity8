@@ -75,7 +75,9 @@ Item {
             hasClearButton: false
 
             onAccepted: {
-                root.entered(pinentryField.text);
+                if (pinentryField.text) {
+                    root.entered(pinentryField.text);
+                }
             }
         }
     }

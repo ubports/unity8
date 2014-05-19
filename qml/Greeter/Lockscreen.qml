@@ -15,7 +15,8 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.0
+import Ubuntu.Components.Popups 1.0
 import "../Components"
 
 Showable {
@@ -27,12 +28,24 @@ Showable {
     // Placeholder text
     property string placeholderText: ""
 
+    // Informational text. (e.g. some text to tell which domain this is pin is entered for.
+    property string infoText: ""
+
     // In case the Lockscreen can show a greeter message, this is the username
     property string username: ""
 
-    // Set this to a value greater 0 to enable auto-confirm behavior for the lockscreen.
-    // This is ignored by the alphaNumeric lockscreen as that one is confirmed with pressing enter on the OSK.
-    property int pinLength: -1
+    // Set those to a value greater 0 to restrict the pin length.
+    // If both are unset, the Lockscreen will show a confirm button and allow typing any length of pin before
+    // confirming. If minPinLength is set to a value > 0, the confirm button will only become active when the
+    // entered pin is at least that long. If maxPinLength is set, the lockscreen won't allow entering any
+    // more numbers than that. If both are set, the lockscreen will enter auto confirming behavior, hiding the
+    // confirmation button and triggering that automatically when the entered pin reached that length.
+    // This is ignored by the alphaNumeric lockscreen as that one is always confirmed by pressing enter on the OSK.
+    property int minPinLength: -1
+    property int maxPinLength: -1
+
+    // Set this to a value greater 0 to show a label telling the user how many retries are left
+    property int retryCount: -1
 
     property url background: ""
 
@@ -56,6 +69,10 @@ Showable {
         pinPadLoader.item.clear(showAnimation);
     }
 
+    function showInfoPopup(title, text) {
+        PopupUtils.open(infoPopupComponent, root, {title: title, text: text})
+    }
+
     Rectangle {
         // In case background fails to load or is undefined
         id: backgroundBackup
@@ -68,7 +85,6 @@ Showable {
         objectName: "lockscreenBackground"
         anchors {
             fill: parent
-            topMargin: backgroundTopMargin
         }
         source: root.required ? root.background : ""
         fillMode: Image.PreserveAspectCrop
@@ -77,6 +93,43 @@ Showable {
     MouseArea {
         anchors.fill: root
     }
+
+    Column {
+        spacing: units.gu(2)
+        anchors {
+            left: parent.left
+            right: parent.right
+            bottom: pinPadLoader.top
+            bottomMargin: units.gu(2)
+        }
+        Label {
+            objectName: "retryCountLabel"
+            anchors {
+                left: parent.left
+                right: parent.right
+            }
+            text: i18n.tr("%1 retries remaining").arg(root.retryCount)
+            horizontalAlignment: Text.AlignHCenter
+            color: "#f3f3e7"
+            opacity: 0.6
+            visible: root.retryCount >= 0
+        }
+        Label {
+            id: infoTextLabel
+            objectName: "infoTextLabel"
+            anchors {
+                left: parent.left
+                right: parent.right
+            }
+            text: root.infoText
+            horizontalAlignment: Text.AlignHCenter
+            color: "#f3f3e7"
+            opacity: 0.6
+            visible: root.infoText.length > 0
+        }
+    }
+
+
 
     Loader {
         id: pinPadLoader
@@ -105,8 +158,13 @@ Showable {
 
         Binding {
             target: pinPadLoader.item
-            property: "pinLength"
-            value: root.pinLength
+            property: "minPinLength"
+            value: root.minPinLength
+        }
+        Binding {
+            target: pinPadLoader.item
+            property: "maxPinLength"
+            value: root.maxPinLength
         }
         Binding {
             target: pinPadLoader.item
@@ -151,6 +209,20 @@ Showable {
             opacity: 0.6
             fontSize: "medium"
             anchors.horizontalCenter: parent.horizontalCenter
+        }
+    }
+
+    Component {
+        id: infoPopupComponent
+        Dialog {
+            id: dialog
+            objectName: "infoPopup"
+
+            Button {
+                objectName: "infoPopupOkButton"
+                text: i18n.tr("OK")
+                onClicked: PopupUtils.close(dialog)
+            }
         }
     }
 }

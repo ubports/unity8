@@ -23,25 +23,33 @@ import LightDM 0.1 as LightDM
 import Unity.Test 0.1 as UT
 
 Rectangle {
-    width: units.gu(60)
+    id: root
+    width: units.gu(80)
     height: units.gu(80)
     color: "orange"
 
     Lockscreen {
         id: lockscreen
         anchors.fill: parent
-        anchors.rightMargin: units.gu(18)
+        anchors.rightMargin: units.gu(30)
         placeholderText: "Please enter your PIN"
         alphaNumeric: pinPadCheckBox.checked
-        pinLength: pinLengthTextField.text
+        minPinLength: minPinLengthTextField.text
+        maxPinLength: maxPinLengthTextField.text
+        retryCount: retryCountTextField.text
         username: "Lola"
+        background: "../../../qml/graphics/phone_background.jpg"
+        infoText: infoTextTextField.text
     }
 
     Connections {
         target: lockscreen
 
         onEmergencyCall: emergencyCheckBox.checked = true
-        onEntered: enteredLabel.text = passphrase
+        onEntered: {
+            enteredLabel.text = passphrase
+            lockscreen.clear(true)
+        }
     }
 
     Connections {
@@ -49,9 +57,9 @@ Rectangle {
 
         onShowPrompt: {
             if (text.indexOf("PIN") >= 0) {
-                lockscreen.alphaNumeric = false
+                pinPadCheckBox.checked = false
             } else {
-                lockscreen.alphaNumeric = true
+                pinPadCheckBox.checked = true
             }
             lockscreen.placeholderText = text;
         }
@@ -65,6 +73,7 @@ Rectangle {
         Column {
             anchors.fill: parent
             anchors.margins: units.gu(1)
+            spacing: units.gu(1)
 
             Row {
                 CheckBox {
@@ -86,12 +95,32 @@ Rectangle {
             }
             Row {
                 TextField {
-                    id: pinLengthTextField
+                    id: minPinLengthTextField
                     width: units.gu(7)
                     text: "4"
                 }
                 Label {
-                    text: "PIN length"
+                    text: "Min PIN length"
+                }
+            }
+            Row {
+                TextField {
+                    id: maxPinLengthTextField
+                    width: units.gu(7)
+                    text: "4"
+                }
+                Label {
+                    text: "Max PIN length"
+                }
+            }
+            Row {
+                TextField {
+                    id: retryCountTextField
+                    width: units.gu(7)
+                    text: "3"
+                }
+                Label {
+                    text: "Retries left"
                 }
             }
             Label {
@@ -108,11 +137,39 @@ Rectangle {
             }
             Button {
                 text: "start auth (1234)"
+                width: parent.width
                 onClicked: LightDM.Greeter.authenticate("has-pin")
             }
             Button {
                 text: "start auth (password)"
+                width: parent.width
                 onClicked: LightDM.Greeter.authenticate("has-password")
+            }
+
+            TextField {
+                id: infoTextTextField
+                width: parent.width
+                placeholderText: "Infotext"
+                text: "+49 179 3253553"
+            }
+
+            TextField {
+                id: infoPopupTitleTextField
+                width: parent.width
+                placeholderText: "Popup title"
+                text: "This will be the last attempt"
+            }
+
+            TextArea {
+                id: infoPopupTextArea
+                width: parent.width
+                text: "If the SIM PIN is entered incorrectly, your SIM will be blocked and would require the PUK code to unlock."
+            }
+
+            Button {
+                text: "open info popup"
+                width: parent.width
+                onClicked: lockscreen.showInfoPopup(infoPopupTitleTextField.text, infoPopupTextArea.text)
             }
         }
     }
@@ -120,6 +177,16 @@ Rectangle {
     UT.UnityTestCase {
         name: "Lockscreen"
         when: windowShown
+
+        function cleanup() {
+            lockscreen.clear(false);
+        }
+
+        function waitForLockscreenReady() {
+            var pinPadLoader = findChild(lockscreen, "pinPadLoader");
+            tryCompare(pinPadLoader, "status", Loader.Ready)
+            waitForRendering(lockscreen)
+        }
 
         function test_loading_data() {
             return [
@@ -129,8 +196,8 @@ Rectangle {
         }
 
         function test_loading(data) {
-            lockscreen.alphaNumeric = data.alphanumeric
-            waitForRendering(lockscreen)
+            pinPadCheckBox.checked = data.alphanumeric
+            waitForLockscreenReady();
             if (data.pinPadAvailable) {
                 compare(findChild(lockscreen, "pinPadButton8").text, "8", "Could not find number 8 on PinPad")
             } else {
@@ -147,8 +214,8 @@ Rectangle {
 
         function test_emergency_call(data) {
             emergencyCheckBox.checked = false
-            lockscreen.alphaNumeric = data.alphanumeric
-            waitForRendering(lockscreen)
+            pinPadCheckBox.checked = data.alphanumeric
+            waitForLockscreenReady();
             var emergencyButton = findChild(lockscreen, "emergencyCallIcon")
             mouseClick(emergencyButton, units.gu(1), units.gu(1))
             tryCompare(emergencyCheckBox, "checked", true)
@@ -163,9 +230,9 @@ Rectangle {
         }
 
         function test_labels(data) {
-            lockscreen.alphaNumeric = data.alphanumeric
+            pinPadCheckBox.checked = data.alphanumeric
             lockscreen.placeholderText = data.placeholderText
-            waitForRendering(lockscreen)
+            waitForLockscreenReady();
             compare(findChild(lockscreen, "pinentryField").placeholderText, data.placeholderText, "Placeholdertext is not what it should be")
             if (data.alphanumeric) {
                 compare(findChild(lockscreen, "greeterLabel").text, "Hello " + data.username, "Greeter is not set correctly")
@@ -175,23 +242,25 @@ Rectangle {
 
         function test_unlock_data() {
             return [
-                {tag: "numeric", alphanumeric: false, username: "has-pin", password: "1234", pinLength: 4},
-                {tag: "alphanumeric",  alphanumeric: true, username: "has-password", password: "password", pinLength: -1},
-                {tag: "numeric (wrong)",  alphanumeric: false, username: "has-pin", password: "4321", pinLength: 4},
-                {tag: "alphanumeric (wrong)",  alphanumeric: true, username: "has-password", password: "drowssap", pinLength: -1},
-                {tag: "flexible length",  alphanumeric: false, username: "has-pin", password: "1234", pinLength: -1},
+                {tag: "numeric", alphanumeric: false, username: "has-pin", password: "1234", minPinLength: 4, maxPinLength: 4},
+                {tag: "alphanumeric",  alphanumeric: true, username: "has-password", password: "password", minPinLength: -1, maxPinLength: -1},
+                {tag: "numeric (wrong)",  alphanumeric: false, username: "has-pin", password: "4321", minPinLength: 4, maxPinLength: 4},
+                {tag: "alphanumeric (wrong)",  alphanumeric: true, username: "has-password", password: "drowssap", minPinLength: -1, maxPinLength: -1},
+                {tag: "flexible length",  alphanumeric: false, username: "has-pin", password: "1234", minPinLength: -1, maxPinLength: -1},
             ]
         }
 
         function test_unlock(data) {
             enteredLabel.text = ""
-            pinLengthTextField.text = data.pinLength
+            minPinLengthTextField.text = data.minPinLength
+            maxPinLengthTextField.text = data.maxPinLength
             LightDM.Greeter.authenticate(data.username)
-            waitForRendering(lockscreen)
+            waitForLockscreenReady();
 
             var inputField = findChild(lockscreen, "pinentryField")
             if (data.alphanumeric) {
                 mouseClick(inputField, units.gu(1), units.gu(1))
+                tryCompare(inputField, "focus", true);
                 typeString(data.password)
                 keyClick(Qt.Key_Enter)
             } else {
@@ -200,7 +269,7 @@ Rectangle {
                     var button = findChild(lockscreen, "pinPadButton" + character)
                     mouseClick(button, units.gu(1), units.gu(1))
                 }
-                if (data.pinLength == -1) {
+                if (data.minPinLength !== data.maxPinLength || data.minPinLength == -1) {
                     var pinPadButtonErase = findChild(lockscreen, "pinPadButtonErase");
                     mouseClick(pinPadButtonErase, units.gu(1), units.gu(1));
                 }
@@ -219,11 +288,12 @@ Rectangle {
 
         function test_clear(data) {
             pinPadCheckBox.checked = data.alphanumeric
-            waitForRendering(lockscreen)
+            waitForLockscreenReady();
 
             var inputField = findChild(lockscreen, "pinentryField")
             if (data.alphanumeric) {
                 mouseClick(inputField, units.gu(1), units.gu(1))
+                tryCompare(inputField, "activeFocus", true);
                 typeString("1")
             } else {
                 var button = findChild(lockscreen, "pinPadButton1")
@@ -246,33 +316,121 @@ Rectangle {
 
         function test_backspace_data() {
             return [
-                {tag: "fixed length", pinLength: 4},
-                {tag: "variable length", pinLength: -1}
+                {tag: "fixed length", minPinLength: 4, maxPinLength: 4},
+                {tag: "variable undefined length", minPinLength: -1, maxPinLength: -1},
+                {tag: "variable restricted length", minPinLength: 4, maxPinLength: 8}
             ];
         }
 
         function test_backspace(data) {
             pinPadCheckBox.checked = false
-            pinLengthTextField.text = data.pinLength
-            waitForRendering(lockscreen);
+            minPinLengthTextField.text = data.minPinLength
+            maxPinLengthTextField.text = data.maxPinLength
+            waitForLockscreenReady();
 
             var pinPadButtonErase = findChild(lockscreen, "pinPadButtonErase");
             var backspaceIcon = findChild(lockscreen, "backspaceIcon");
             var pinEntryField = findChild(lockscreen, "pinentryField");
 
-            compare(pinPadButtonErase.iconName, data.pinLength == -1 ? "" : "erase");
-            compare(backspaceIcon.visible, data.pinLength == -1);
+            var autoConfirmEnabled = data.minPinLength === data.maxPinLength && data.minPinLength !== -1;
+            compare(pinPadButtonErase.iconName, autoConfirmEnabled ? "erase" : "");
+            compare(backspaceIcon.visible, !autoConfirmEnabled);
 
             var pinPadButton5 = findChild(lockscreen, "pinPadButton5");
             mouseClick(pinPadButton5, units.gu(1), units.gu(1));
             compare(pinEntryField.text, "5");
 
-            if (data.pinLength == -1) {
+            if (data.minPinLength !== data.maxPinLength) {
                 mouseClick(backspaceIcon, units.gu(1), units.gu(1));
             } else {
                 mouseClick(pinPadButtonErase, units.gu(1), units.gu(1));
             }
             compare(pinEntryField.text, "");
+        }
+
+        function test_minMaxLength_data() {
+            return [
+                {tag: "undefined", minPinLength: -1, maxPinLength: -1},
+                {tag: "fixed", minPinLength: 4, maxPinLength: 4},
+                {tag: "variable, limited", minPinLength: 4, maxPinLength: 8},
+            ];
+        }
+
+        function test_minMaxLength(data) {
+            pinPadCheckBox.checked = false
+            minPinLengthTextField.text = data.minPinLength
+            maxPinLengthTextField.text = data.maxPinLength
+            waitForLockscreenReady();
+
+            var pinPadButton5 = findChild(lockscreen, "pinPadButton5");
+            var pinPadButtonErase = findChild(lockscreen, "pinPadButtonErase");
+            var inputField = findChild(lockscreen, "pinentryField")
+
+            for (var i = 0; i < 10; i++) {
+                mouseClick(pinPadButton5, units.gu(1), units.gu(1));
+
+                if (data.minPinLength == data.maxPinLength && data.minPinLength != -1) {
+                    // auto confirm mode...
+                    compare(inputField.text.length, (i+1) % data.minPinLength);
+                } else {
+                    // manual confirm mode
+                    tryCompare(pinPadButtonErase, "enabled", (i+1) >= data.minPinLength)
+                    if (data.maxPinLength == -1) {
+                        compare(inputField.text.length, i+1);
+                    } else {
+                        compare(inputField.text.length, Math.min(data.maxPinLength, i+1));
+                    }
+
+                }
+            }
+        }
+
+        function test_retryDisplay_data() {
+            return [
+                {tag: "0", retryCount: 0, shown: true},
+                {tag: "1", retryCount: 1, shown: true},
+                {tag: "3", retryCount: 3, shown: true},
+                {tag: "-1", retryCount: -1, shown: false},
+            ]
+        }
+
+        function test_retryDisplay(data) {
+            pinPadCheckBox.checked = false
+            waitForLockscreenReady();
+
+            retryCountTextField.text = data.retryCount;
+            var label = findChild(lockscreen, "retryCountLabel")
+            compare(label.visible, data.shown);
+        }
+
+        function test_infoPopup() {
+            verify(findChild(root, "infoPopup") === null);
+            lockscreen.showInfoPopup("foo", "bar");
+            tryCompareFunction(function() { return findChild(root, "infoPopup") !== null}, true);
+
+            var infoPopup = findChild(root, "infoPopup");
+            compare(infoPopup.title, "foo");
+            compare(infoPopup.text, "bar");
+            var okButton = findChild(root, "infoPopupOkButton");
+            mouseClick(okButton, okButton.width / 2, okButton.height / 2);
+
+            tryCompareFunction(function() { return findChild(root, "infoPopup") === null}, true);
+        }
+
+        function test_infoTextDisplay_data() {
+            return [
+                {tag: "empty string", text: "", shown: false},
+                {tag: "hello world", text: "hello world", shown: true},
+            ]
+        }
+
+        function test_infoTextDisplay(data) {
+            pinPadCheckBox.checked = false
+            waitForLockscreenReady();
+
+            infoTextTextField.text = data.text;
+            var label = findChild(lockscreen, "infoTextLabel")
+            compare(label.visible, data.shown);
         }
     }
 }
