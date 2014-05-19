@@ -1,3 +1,5 @@
 module Unity.Test
 plugin UnityTestQml
+typeinfo Test.qmltypes
+
 UnityTestCase 0.1 UnityTestCase.qml

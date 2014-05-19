@@ -240,19 +240,18 @@ QVariant RootActionState::toQVariant(GVariant* state) const
 
                 QStringList icons;
 
-                if (g_variant_type_is_array(g_variant_get_type(vvalue))) {
-
-
-                    for (int i = 0, iMax = g_variant_n_children(vvalue); i < iMax; i++) {
-                        GVariant *child = g_variant_get_child_value(vvalue, i);
-
+                if (g_variant_is_of_type(vvalue, G_VARIANT_TYPE("av"))) {
+                    GVariantIter iter;
+                    GVariant *val = 0;
+                    g_variant_iter_init (&iter, vvalue);
+                    while (g_variant_iter_loop (&iter, "v", &val))
+                    {
                         // FIXME - should be sending a url.
-                        GIcon *gicon = g_icon_deserialize (child);
+                        GIcon *gicon = g_icon_deserialize (val);
                         if (gicon) {
                             icons << iconUri(gicon);
                             g_object_unref (gicon);
                         }
-                        g_variant_unref(child);
                     }
                 }
                 // will overwrite icon.
