@@ -29,9 +29,9 @@ Item {
 
     property int uncollapsedHeight: height
 
-    property var delegateCreationBegin: undefined
+    property int displayMarginBeginning: 0
 
-    property var delegateCreationEnd: undefined
+    property int displayMarginEnd: 0
 
     property real originY: 0
 
