@@ -17,7 +17,7 @@
 import QtQuick 2.0
 import AccountsService 0.1
 import GSettings 1.0
-import Unity.Application 0.1
+import Mir.Application 0.1
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
 import Unity.Launcher 0.1
@@ -30,6 +30,7 @@ import "Launcher"
 import "Panel"
 import "Components"
 import "Notifications"
+import "Stages"
 import Unity.Notifications 1.0 as NotificationBackend
 
 FocusScope {
@@ -48,19 +49,14 @@ FocusScope {
     property bool dashShown: dash.shown
 
     property bool sideStageEnabled: shell.width >= units.gu(100)
-    readonly property string focusedApplicationId: ApplicationManager.focusedApplicationId
 
     function activateApplication(appId) {
         if (ApplicationManager.findApplication(appId)) {
             ApplicationManager.requestFocusApplication(appId);
-            stages.show(true);
-            if (stages.locked && ApplicationManager.focusedApplicationId == appId) {
-                applicationsDisplayLoader.item.select(appId);
-            }
         } else {
             var execFlags = shell.sideStageEnabled ? ApplicationManager.NoFlag : ApplicationManager.ForceMainStage;
             ApplicationManager.startApplication(appId, execFlags);
-            stages.show(false);
+            stages.show();
         }
     }
 
@@ -91,87 +87,65 @@ FocusScope {
     Keys.onVolumeDownPressed: volumeControl.volumeDown()
 
     Item {
-        id: underlayClipper
+        id: underlay
+        objectName: "underlay"
         anchors.fill: parent
-        anchors.rightMargin: stages.overlayWidth
-        clip: stages.overlayMode && !stages.painting
 
-        InputFilterArea {
+        // Whether the underlay is fully covered by opaque UI elements.
+        property bool fullyCovered: panel.indicators.fullyOpened && shell.width <= panel.indicatorsMenuWidth
+
+        // NB! Application surfaces are stacked behind the shell one. So they can only be seen by the user
+        // through the translucent parts of the shell surface.
+        visible: !fullyCovered
+
+        CrossFadeImage {
+            id: backgroundImage
+            objectName: "backgroundImage"
+
             anchors.fill: parent
-            blockInput: parent.clip
+            source: shell.background
+            fillMode: Image.PreserveAspectCrop
         }
 
-        Item {
-            id: underlay
-            objectName: "underlay"
+        Rectangle {
             anchors.fill: parent
-            anchors.rightMargin: -parent.anchors.rightMargin
+            color: "black"
+            opacity: dash.disappearingAnimationProgress
+        }
 
-            // Whether the underlay is fully covered by opaque UI elements.
-            property bool fullyCovered: panel.indicators.fullyOpened && shell.width <= panel.indicatorsMenuWidth
+        Image {
+            anchors.fill: dash
+            source: shell.width > shell.height ? "Dash/graphics/paper_landscape.png" : "Dash/graphics/paper_portrait.png"
+            fillMode: Image.PreserveAspectCrop
+            horizontalAlignment: Image.AlignRight
+            verticalAlignment: Image.AlignTop
+        }
 
-            // Whether the user should see the topmost application surface (if there's one at all).
-            readonly property bool applicationSurfaceShouldBeSeen: stages.shown && !stages.painting && !stages.overlayMode
+        Dash {
+            id: dash
+            objectName: "dash"
 
-            // NB! Application surfaces are stacked behind the shell one. So they can only be seen by the user
-            // through the translucent parts of the shell surface.
-            visible: !fullyCovered && !applicationSurfaceShouldBeSeen
+            available: !greeter.shown && !lockscreen.shown
+            hides: [stages, launcher, panel.indicators]
+            shown: disappearingAnimationProgress !== 1.0 && greeterWrapper.showProgress !== 1.0
+            enabled: disappearingAnimationProgress === 0.0 && greeterWrapper.showProgress === 0.0 && edgeDemo.dashEnabled
 
-            CrossFadeImage {
-                id: backgroundImage
-                objectName: "backgroundImage"
-
-                anchors.fill: parent
-                source: shell.background
-                fillMode: Image.PreserveAspectCrop
+            anchors {
+                fill: parent
+                topMargin: panel.panelHeight
             }
 
-            Rectangle {
-                anchors.fill: parent
-                color: "black"
-                opacity: dash.disappearingAnimationProgress
-            }
+            contentScale: 1.0 - 0.2 * disappearingAnimationProgress
+            opacity: 1.0 - disappearingAnimationProgress
+            property real disappearingAnimationProgress: stages.showProgress
 
-            Image {
-                anchors.fill: dash
-                source: shell.width > shell.height ? "Dash/graphics/paper_landscape.png" : "Dash/graphics/paper_portrait.png"
-                fillMode: Image.PreserveAspectCrop
-                horizontalAlignment: Image.AlignRight
-                verticalAlignment: Image.AlignTop
-            }
-
-            Dash {
-                id: dash
-                objectName: "dash"
-
-                available: !greeter.shown && !lockscreen.shown
-                hides: [stages, launcher, panel.indicators]
-                shown: disappearingAnimationProgress !== 1.0 && greeterWrapper.showProgress !== 1.0
-                enabled: disappearingAnimationProgress === 0.0 && greeterWrapper.showProgress === 0.0 && edgeDemo.dashEnabled
-
-                anchors {
-                    fill: parent
-                    topMargin: panel.panelHeight
-                }
-
-                contentScale: 1.0 - 0.2 * disappearingAnimationProgress
-                opacity: 1.0 - disappearingAnimationProgress
-                property real disappearingAnimationProgress: {
-                    if (stages.overlayMode) {
-                        return 0;
-                    } else {
-                        return stages.showProgress
-                    }
-                }
-
-                // FIXME: only necessary because stages.showProgress is not animated
-                Behavior on disappearingAnimationProgress { SmoothedAnimation { velocity: 5 }}
-            }
+            // FIXME: only necessary because stages.showProgress is not animated
+            Behavior on disappearingAnimationProgress { SmoothedAnimation { velocity: 5 }}
         }
     }
 
     EdgeDragArea {
-        id: stagesDragHandle
+        id: stagesDragArea
         direction: Direction.Leftwards
 
         anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
@@ -181,99 +155,50 @@ FocusScope {
 
         onTouchXChanged: {
             if (status == DirectionalDragArea.Recognized) {
-                if (ApplicationManager.count == 0) {
-                    progress = Math.max(stages.width - stagesDragHandle.width + touchX, stages.width * .3)
+                if (stages.empty) {
+                    progress = Math.max(stages.width - stagesDragArea.width + touchX, stages.width * .3);
                 } else {
-                    progress = stages.width - stagesDragHandle.width + touchX
+                    progress = stages.width - stagesDragArea.width + touchX;
                 }
             }
         }
 
         onDraggingChanged: {
             if (!dragging) {
-                if (ApplicationManager.count > 0 && progress < stages.width - units.gu(10)) {
-                    stages.show(true)
+                if (!stages.empty && progress < stages.width - units.gu(10)) {
+                    stages.show();
                 }
-                stagesDragHandle.progress = stages.width;
+                stagesDragArea.progress = stages.width;
             }
         }
     }
 
-    Item {
+    Rectangle {
         id: stages
         objectName: "stages"
         width: parent.width
         height: parent.height
+        color: "khaki"
 
-        x: {
-            if (shown) {
-                if (overlayMode || locked) {
-                    return 0;
-                }
-                return launcher.progress
-            } else {
-                return stagesDragHandle.progress
-            }
-        }
-
+        x: shown ? launcher.progress : stagesDragArea.progress
         Behavior on x { SmoothedAnimation { velocity: 600; duration: UbuntuAnimation.FastDuration } }
 
         property bool shown: false
 
-        property real showProgress: overlayMode ? 0 : MathUtils.clamp(1 - x / shell.width, 0, 1)
+        property real showProgress: MathUtils.clamp(1 - x / shell.width, 0, 1)
 
         property bool fullyShown: x == 0
         property bool fullyHidden: x == width
 
-        property bool painting: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.painting : false
-        property bool fullscreen: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.fullscreen : false
-        property bool overlayMode: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.overlayMode : false
-        property int overlayWidth: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.overlayWidth : false
-        property bool locked: applicationsDisplayLoader.item ? applicationsDisplayLoader.item.locked : false
+        property bool empty: SurfaceManager.count == 0
 
-        function show(focusApp) {
+        function show() {
             shown = true;
-            panel.indicators.hide();
-            edgeDemo.stopDemo();
-            greeter.hide();
-            if (!ApplicationManager.focusedApplicationId && ApplicationManager.count > 0 && focusApp) {
-                ApplicationManager.focusApplication(ApplicationManager.get(0).appId);
-            }
+//            panel.indicators.hide();
         }
 
         function hide() {
             shown = false;
-            if (ApplicationManager.focusedApplicationId) {
-                ApplicationManager.unfocusCurrentApplication();
-            }
-        }
-
-        Connections {
-            target: ApplicationManager
-
-            onFocusRequested: {
-                stages.show(true);
-            }
-
-            onFocusedApplicationIdChanged: {
-                if (ApplicationManager.focusedApplicationId.length > 0) {
-                    stages.show(false);
-                } else {
-                    if (!stages.overlayMode) {
-                        stages.hide();
-                    }
-                }
-            }
-
-            onApplicationAdded: {
-                stages.show(false);
-            }
-
-            onApplicationRemoved: {
-                if (ApplicationManager.focusedApplicationId.length == 0) {
-                    stages.hide();
-                }
-            }
         }
 
         Loader {
@@ -284,18 +209,39 @@ FocusScope {
 
             Binding {
                 target: applicationsDisplayLoader.item
-                property: "moving"
-                value: !stages.fullyShown
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "shown"
-                value: stages.shown
+                property: "surfaces"
+                value: SurfaceManager
             }
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "dragAreaWidth"
                 value: shell.edgeSize
+            }
+        }
+    }
+
+    InputMethod {
+        id: inputMethod
+    }
+
+    Connections {
+        target: SurfaceManager
+        onSurfaceCreated: {
+            if (surface.type == MirSurfaceItem.InputMethod) {
+                inputMethod.surface = surface;
+            } else {
+                stages.show();
+            }
+        }
+
+        onSurfaceDestroyed: {
+            var orphan = !surface.parent;
+            if (inputMethod.surface == surface) {
+                inputMethod.removeSurface(surface);
+            }
+            if (orphan) {
+                // there's no one displaying it. delete it right away
+                surface.release();
             }
         }
     }
@@ -419,12 +365,6 @@ FocusScope {
         }
     }
 
-    InputFilterArea {
-        anchors.fill: parent
-        blockInput: ApplicationManager.focusedApplicationId.length === 0 || greeter.shown || lockscreen.shown || launcher.shown
-                    || panel.indicators.shown
-    }
-
     Connections {
         id: powerConnection
         target: Powerd
@@ -472,28 +412,9 @@ FocusScope {
             }
             property string focusedAppId: ApplicationManager.focusedApplicationId
             property var focusedApplication: ApplicationManager.findApplication(focusedAppId)
-            fullscreenMode: focusedApplication && stages.fullscreen && !greeter.shown && !lockscreen.shown
+            //fullscreenMode: focusedApplication && stages.fullscreen && !greeter.shown && !lockscreen.shown
+            fullscreenMode: focusedApplication && !greeter.shown && !lockscreen.shown
             searchVisible: !greeter.shown && !lockscreen.shown && dash.shown && dash.searchable
-
-            InputFilterArea {
-                anchors {
-                    top: parent.top
-                    left: parent.left
-                    right: parent.right
-                }
-                height: (panel.fullscreenMode) ? shell.edgeSize : panel.panelHeight
-                blockInput: true
-            }
-        }
-
-        InputFilterArea {
-            blockInput: launcher.shown
-            anchors {
-                top: parent.top
-                bottom: parent.bottom
-                left: parent.left
-            }
-            width: launcher.width
         }
 
         Launcher {
@@ -514,11 +435,9 @@ FocusScope {
                 showHome()
             }
             onDash: {
-                if (stages.shown && !stages.overlayMode) {
-                    if (!stages.locked) {
-                        stages.hide();
-                        launcher.hide();
-                    }
+                if (!stages.locked) {
+                    stages.hide();
+                    launcher.hide();
                 }
                 if (greeter.shown) {
                     greeter.hideRight();
@@ -548,11 +467,6 @@ FocusScope {
             MouseArea {
                 anchors.fill: parent
             }
-
-            InputFilterArea {
-                anchors.fill: parent
-                blockInput: modalNotificationBackground.visible
-            }
         }
 
         Notifications {
@@ -580,57 +494,16 @@ FocusScope {
                     PropertyChanges { target: notifications; width: units.gu(38) }
                 }
             ]
-
-            InputFilterArea {
-                anchors { left: parent.left; right: parent.right }
-                height: parent.contentHeight
-                blockInput: height > 0
-            }
         }
     }
 
     focus: true
     onFocusChanged: if (!focus) forceActiveFocus();
 
-    InputFilterArea {
-        anchors {
-            top: parent.top
-            bottom: parent.bottom
-            left: parent.left
-        }
-        width: shell.edgeSize
-        blockInput: true
-    }
-
-    InputFilterArea {
-        anchors {
-            top: parent.top
-            bottom: parent.bottom
-            right: parent.right
-        }
-        width: shell.edgeSize
-        blockInput: true
-    }
-
     Binding {
         target: i18n
         property: "domain"
         value: "unity8"
-    }
-
-    OSKController {
-        anchors.topMargin: panel.panelHeight
-        anchors.fill: parent // as needs to know the geometry of the shell
-    }
-
-    //FIXME: This should be handled in the input stack, keyboard shouldnt propagate
-    MouseArea {
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
-        height: ApplicationManager.keyboardVisible ? ApplicationManager.keyboardHeight : 0
-
-        enabled: ApplicationManager.keyboardVisible
     }
 
     Label {

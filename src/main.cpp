@@ -35,12 +35,9 @@
 #include "MouseTouchAdaptor.h"
 #include "ApplicationArguments.h"
 
-#include <unity-mir/qmirserver.h>
-
-
-int startShell(int argc, const char** argv, void* server)
+int startShell(int argc, const char** argv)
 {
-    const bool isUbuntuMirServer = qgetenv("QT_QPA_PLATFORM") == "ubuntumirserver";
+    const bool isMirServer = qgetenv("QT_QPA_PLATFORM") == "mirserver";
 
     QGuiApplication::setApplicationName("Unity 8");
     QGuiApplication *application;
@@ -70,21 +67,7 @@ int startShell(int argc, const char** argv, void* server)
 Load the testability driver");
     parser.addOption(testabilityOption);
 
-    if (isUbuntuMirServer) {
-        QLibrary unityMir("unity-mir", 1);
-        unityMir.load();
-
-        typedef QGuiApplication* (*createServerApplication_t)(int&, const char **, void*);
-        createServerApplication_t createQMirServerApplication = (createServerApplication_t) unityMir.resolve("createQMirServerApplication");
-        if (!createQMirServerApplication) {
-            qDebug() << "unable to resolve symbol: createQMirServerApplication";
-            return 4;
-        }
-
-        application = createQMirServerApplication(argc, argv, server);
-    } else {
-        application = new QGuiApplication(argc, (char**)argv);
-    }
+    application = new QGuiApplication(argc, (char**)argv);
 
     // Treat args with single dashes the same as arguments with two dashes
     // Ex: -fullscreen == --fullscreen
@@ -154,15 +137,14 @@ Load the testability driver");
 
     QUrl source(::qmlDirectory()+"Shell.qml");
     prependImportPaths(view->engine(), ::overrideImportPaths());
-    if (!isUbuntuMirServer) {
+    if (!isMirServer) {
         prependImportPaths(view->engine(), ::nonMirImportPaths());
     }
     appendImportPaths(view->engine(), ::fallbackImportPaths());
 
     view->setSource(source);
-    view->setColor("transparent");
 
-    if (qgetenv("QT_QPA_PLATFORM") == "ubuntu" || isUbuntuMirServer || parser.isSet(fullscreenOption)) {
+    if (isMirServer || parser.isSet(fullscreenOption)) {
         view->showFullScreen();
     } else {
         view->show();
@@ -187,43 +169,10 @@ int main(int argc, const char *argv[])
     setenv("QML_FORCE_THREADED_RENDERER", "1", 1);
     setenv("QML_FIXED_ANIMATION_STEP", "1", 1);
 
-    // For ubuntumirserver/ubuntumirclient
-    if (qgetenv("QT_QPA_PLATFORM").startsWith("ubuntumir")) {
-        setenv("QT_QPA_PLATFORM", "ubuntumirserver", 1);
-
-        // If we use unity-mir directly, we automatically link to the Mir-server
-        // platform-api bindings, which result in unexpected behaviour when
-        // running the non-Mir scenario.
-        QLibrary unityMir("unity-mir", 1);
-        unityMir.load();
-        if (!unityMir.isLoaded()) {
-            qDebug() << "Library unity-mir not found/loaded";
-            return 1;
-        }
-
-        typedef QMirServer* (*createServer_t)(int, const char **);
-        createServer_t createQMirServer = (createServer_t) unityMir.resolve("createQMirServer");
-        if (!createQMirServer) {
-            qDebug() << "unable to resolve symbol: createQMirServer";
-            return 2;
-        }
-
-        QMirServer* mirServer = createQMirServer(argc, argv);
-
-        typedef int (*runWithClient_t)(QMirServer*, std::function<int(int, const char**, void*)>);
-        runWithClient_t runWithClient = (runWithClient_t) unityMir.resolve("runQMirServerWithClient");
-        if (!runWithClient) {
-            qDebug() << "unable to resolve symbol: runWithClient";
-            return 3;
-        }
-
-        return runWithClient(mirServer, startShell);
-    } else {
-        if (qgetenv("UPSTART_JOB") == "unity8") {
-            // Emit SIGSTOP as expected by upstart, under Mir it's unity-mir that will raise it.
-            // see http://upstart.ubuntu.com/cookbook/#expect-stop
-            raise(SIGSTOP);
-        }
-        return startShell(argc, argv, nullptr);
+    if (qgetenv("QT_QPA_PLATFORM") == "ubuntuclient"
+            || qgetenv("QT_QPA_PLATFORM") == "ubuntumirclient") {
+        setenv("QT_QPA_PLATFORM", "mirserver", 1 /* overwrite */);
     }
+
+    return startShell(argc, argv);
 }
