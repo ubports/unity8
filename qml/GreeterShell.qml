@@ -153,7 +153,7 @@ BasicShell {
                 }
             }
 
-            onUnlocked: login()
+            onUnlocked: hide()
             onSelected: {
                 // Update launcher items for new user
                 var user = LightDM.Users.data(uid, LightDM.UserRoles.NameRole);
