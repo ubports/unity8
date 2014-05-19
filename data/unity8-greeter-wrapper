@@ -30,6 +30,15 @@ cleanup()
     exit 0
 }
 
+set_greeter_var()
+{
+    export "$1=$2"
+    gdbus call --session --dest org.freedesktop.DBus --object-path /org/freedesktop/DBus --method org.freedesktop.DBus.UpdateActivationEnvironment "{'$1': '$2'}"
+    if [ -n "$INIT_PID" ]; then
+        initctl set-env --global "$1=$2"
+    fi
+}
+
 SUB_SOCKET=$XDG_RUNTIME_DIR/mir_socket
 rm -f $SUB_SOCKET # clear socket in case we were hard shut down
 
@@ -46,8 +55,7 @@ export DESKTOP_SESSION=ubuntu-touch
 # We disable ofono using pulse.  It causes problems with racing with the user's
 # pulse.  We need to come up with a better long-term fix for this, because we
 # eventually need the greeter to play ringtones for users that aren't logged in.
-export PA_DISABLED=1
-gdbus call --session --dest org.freedesktop.DBus --object-path /org/freedesktop/DBus --method org.freedesktop.DBus.UpdateActivationEnvironment "{'PA_DISABLED': '1'}"
+set_greeter_var PA_DISABLED 1
 
 # Normal unity8 sessions are entirely driven by Upstart.  But greeters
 # are special.  They need access to the file descriptors that lightdm
@@ -74,7 +82,12 @@ export UPSTART_SESSION=$(/sbin/initctl list-sessions | grep "^$INIT_PID " | cut 
 if [ "$(id -u phablet 2>/dev/null)" = "32011" ]; then
     USER_LANG=$(gdbus call --system --dest org.freedesktop.Accounts --object-path /org/freedesktop/Accounts/User32011 --method org.freedesktop.DBus.Properties.Get org.freedesktop.Accounts.User Language | cut -d\' -f2)
     if [ -n "$USER_LANG" ]; then
-        export LANGUAGE="$USER_LANG"
+        set_greeter_var LANGUAGE "$USER_LANG"
+    fi
+    USER_LOCALE=$(gdbus call --system --dest org.freedesktop.Accounts --object-path /org/freedesktop/Accounts/User32011 --method org.freedesktop.DBus.Properties.Get org.freedesktop.Accounts.User FormatsLocale | cut -d\' -f2)
+    if [ -n "$USER_LOCALE" ]; then
+        set_greeter_var LANG "$USER_LOCALE"
+        set_greeter_var LC_ALL "$USER_LOCALE"
     fi
 fi
 
