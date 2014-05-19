@@ -20,8 +20,4 @@ add_library(MockLauncherPlugin MODULE ${MockLauncherModel_SOURCES})
 
 qt5_use_modules(MockLauncherPlugin Core Quick)
 
-# copy files into build directory for shadow builds
-add_custom_target(LauncherPluginQmlDirFile ALL
-    COMMAND cp "${CMAKE_CURRENT_SOURCE_DIR}/qmldir" ${CMAKE_CURRENT_BINARY_DIR}
-    DEPENDS qmldir
-)
+add_unity8_mock(Unity.Launcher 0.1 Unity/Launcher TARGETS MockLauncherPlugin)

@@ -3,6 +3,7 @@ AbstractButton {
                 property var template; 
                 property var components; 
                 property var cardData; 
+                property var artShapeBorderSource; 
                 property real fontScale: 1.0; 
                 property int headerAlignment: Text.AlignLeft; 
                 property int fixedHeaderHeight: -1; 
@@ -32,6 +33,7 @@ Item  {
                             Component.onCompleted: updateWidthHeightBindings(); 
                             onAspectSmallerThanImageAspectChanged: updateWidthHeightBindings(); 
                             visible: image.status == Image.Ready; 
+                            borderSource: artShapeBorderSource; 
                             function updateWidthHeightBindings() { 
                                 if (aspectSmallerThanImageAspect) { 
                                     width = Qt.binding(function() { return !visible ? 0 : image.width }); 

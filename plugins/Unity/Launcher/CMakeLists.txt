@@ -32,6 +32,4 @@ target_link_libraries(UnityLauncher-qml ${GSETTINGS_QT_LDFLAGS})
 
 qt5_use_modules(UnityLauncher-qml DBus Qml)
 
-# export the qmldir and qmltypes files
-export_qmlfiles(Unity.Launcher Unity/Launcher)
-export_qmlplugin(Unity.Launcher 0.1 Unity/Launcher TARGETS UnityLauncher-qml)
+add_unity8_plugin(Unity.Launcher 0.1 Unity/Launcher TARGETS UnityLauncher-qml)
