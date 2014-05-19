@@ -30,6 +30,20 @@ Showable {
     // 1 when fully shown and 0 when fully hidden
     property real showProgress: MathUtils.clamp((width - Math.abs(x)) / width, 0, 1)
 
+    // Adjust the "hidden" position of the greeter when its size changes,
+    // otherwise parts of it might show up on the screen.
+    // Also, showProgress property will show up a greater than 0 value in such case, and
+    // that must not happen
+    onWidthChanged: {
+        if (!shown) {
+            if (x > 0) {
+                x = width;
+            } else {
+                x = -width;
+            }
+        }
+    }
+
     showAnimation: StandardAnimation { property: "x"; to: 0 }
     hideAnimation: __leftHideAnimation
 

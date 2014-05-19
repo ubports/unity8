@@ -36,11 +36,7 @@ import Unity.Notifications 1.0 as NotificationBackend
 FocusScope {
     id: shell
 
-    // this is only here to select the width / height of the window if not running fullscreen
-    property bool tablet: false
-    width: tablet ? units.gu(160) : applicationArguments.hasGeometry() ? applicationArguments.width() : units.gu(40)
-    height: tablet ? units.gu(100) : applicationArguments.hasGeometry() ? applicationArguments.height() : units.gu(71)
-
+    property int orientationAngle
     property real edgeSize: units.gu(2)
     property url defaultBackground: Qt.resolvedUrl(shell.width >= units.gu(60) ? "graphics/tablet_background.jpg" : "graphics/phone_background.jpg")
     property url background
@@ -181,11 +177,14 @@ FocusScope {
         color: "khaki"
 
         x: shown ? launcher.progress : stagesDragArea.progress
-        Behavior on x { SmoothedAnimation { velocity: 600; duration: UbuntuAnimation.FastDuration } }
+        //Behavior on x { SmoothedAnimation { velocity: 600; duration: UbuntuAnimation.FastDuration } }
 
         property bool shown: false
 
-        property real showProgress: MathUtils.clamp(1 - x / shell.width, 0, 1)
+        // Avoid a silent "divide by zero -> NaN" situation during init as shell.width will be
+        // zero. That breaks the property binding and the function won't be reevaluated once
+        // shell.width is set, with the NaN result staying there for good.
+        property real showProgress: shell.width ? MathUtils.clamp(1 - x / shell.width, 0, 1) : 0
 
         property bool fullyShown: x == 0
         property bool fullyHidden: x == width
@@ -216,6 +215,11 @@ FocusScope {
                 target: applicationsDisplayLoader.item
                 property: "dragAreaWidth"
                 value: shell.edgeSize
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "orientationAngleOfSurfaces"
+                value: shell.orientationAngle
             }
         }
     }

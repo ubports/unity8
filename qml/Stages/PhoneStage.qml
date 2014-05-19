@@ -25,6 +25,8 @@ Rectangle {
     id: root
     color: "green"
 
+    property int orientationAngleOfSurfaces
+
     // Controls to be set from outside
     property int dragAreaWidth
 
@@ -37,6 +39,12 @@ Rectangle {
 
     function select(appId) {
         spreadView.snapTo(priv.indexOf(appId))
+    }
+
+    onWidthChanged: {
+        spreadView.selectedIndex = -1;
+        spreadView.phase = 0;
+        spreadView.contentX = -spreadView.shift;
     }
 
     Connections {
@@ -232,6 +240,7 @@ Rectangle {
                 delegate: TransformedSpreadDelegate {
                     id: appDelegate
                     objectName: "appDelegate" + index
+                    orientationAngle: root.orientationAngleOfSurfaces
                     startAngle: 45
                     endAngle: 5
                     startScale: 1.1

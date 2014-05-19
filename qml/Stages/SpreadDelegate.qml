@@ -24,20 +24,72 @@ Item {
     signal clicked()
     property real topMarginProgress
     property bool interactive: true
+    property int orientationAngle
 
     // FIXME: This really should be invisible to QML code.
     // e.g. Create a SurfaceItem {} in C++ which we just use without any imperative hacks.
     property var surface
     onSurfaceChanged: {
         if (surface) {
-            root.width = surface.implicitWidth;
-            root.height = surface.implicitHeight;
             surface.parent = root;
-            surface.anchors.fill = root;
             surface.enabled = root.interactive;
             surface.z = 1;
+
+            // for the counter-rotation
+            surface.transformOrigin = Item.TopLeft;
         }
     }
+
+    // Applications already rotate automatically. And so does the shell
+    // Therefore we have to counter-rotate the app item to undo the rotation applied to
+    // it by the shell
+    state: orientationAngle.toString()
+    states: [
+        State {
+            name: "0"
+            PropertyChanges {
+                target: surface
+                rotation: 0
+                x: 0
+                y: 0
+                width: root.width
+                height: root.height
+            }
+        },
+        State {
+            name: "90"
+            PropertyChanges {
+                target: surface
+                rotation: -90
+                x: 0
+                y: root.height
+                width: root.height
+                height: root.width
+            }
+        },
+        State {
+            name: "180"
+            PropertyChanges {
+                target: surface
+                rotation: -180
+                x: root.width
+                y: root.height
+                width: root.width
+                height: root.height
+            }
+        },
+        State {
+            name: "270"
+            PropertyChanges {
+                target: surface
+                rotation: -270
+                x: root.width
+                y: 0
+                width: root.height
+                height: root.width
+            }
+        }
+    ]
 
     Component.onDestruction: {
         if (surface) {
