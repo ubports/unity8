@@ -28,14 +28,10 @@ class ApplicationArguments : public QObject
 {
     Q_OBJECT
 public:
-    ApplicationArguments(const QStringList& args) {
-        if (args.contains(QLatin1String("-windowgeometry")) && args.size() > args.indexOf(QLatin1String("-windowgeometry")) + 1) {
-            QStringList geometryArg = args.at(args.indexOf(QLatin1String("-windowgeometry")) + 1).split('x');
-            if (geometryArg.size() == 2) {
-                m_size.rwidth() = geometryArg.at(0).toInt();
-                m_size.rheight() = geometryArg.at(1).toInt();
-            }
-        }
+    // Not exposed to the app as setSize isn't invokable
+    void setSize(int width, int height) {
+        m_size.rwidth()  = width;
+        m_size.rheight() = height;
     }
 
     Q_INVOKABLE bool hasGeometry() const { return m_size.isValid(); }

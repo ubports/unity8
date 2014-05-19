@@ -1,6 +1,3 @@
-# export_qmlplugin macro
-include(Plugins)
-
 project(IndicatorsQml)
 
 pkg_check_modules(GLIB REQUIRED glib-2.0>=2.32)
@@ -9,8 +6,6 @@ pkg_check_modules(QMENUMODEL REQUIRED qmenumodel)
 
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Quick REQUIRED)
-
-add_subdirectory(qml)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -56,5 +51,7 @@ target_link_libraries(IndicatorsQml
 
 qt5_use_modules(IndicatorsQml Core Qml Quick)
 
-# export the qmltypes and plugin files
-export_qmlplugin(Unity.Indicators 0.1 Unity/Indicators TARGETS IndicatorsQml)
+add_unity8_plugin(Unity.Indicators 0.1 Unity/Indicators
+    SEARCH_PATH qml
+    TARGETS IndicatorsQml
+)
