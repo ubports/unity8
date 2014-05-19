@@ -8,23 +8,23 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-04-10 11:13-0400\n"
-"PO-Revision-Date: 2013-09-30 10:34+0000\n"
+"PO-Revision-Date: 2014-05-17 21:08+0000\n"
 "Last-Translator: Akerbeltz <fios@akerbeltz.org>\n"
 "Language-Team: Gaelic; Scottish <gd@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-05-01 06:43+0000\n"
-"X-Generator: Launchpad (build 16985)\n"
+"X-Launchpad-Export-Date: 2014-05-18 05:57+0000\n"
+"X-Generator: Launchpad (build 17007)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Lock to Launcher"
-msgstr ""
+msgstr "Glais ris an lòinsear"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Unlock from Launcher"
-msgstr ""
+msgstr "Dealaich on lòinsear"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
@@ -77,6 +77,8 @@ msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
 msgstr ""
+"Fhuair thu air na gluasadan oire ceart a dhèanamh a-nis agus is urrainn dhut "
+"am fòn a chleachdadh<br><br>Thoir gnogag air an sgrìn airson tòiseachadh"
 
 #: qml/Components/PageHeader.qml:365
 msgid "Recent searches"
@@ -84,28 +86,28 @@ msgstr "Na lorg thu o chionn goirid"
 
 #: qml/Components/SeeMore.qml:35
 msgid "See more"
-msgstr ""
+msgstr "Seall barrachd"
 
 #: qml/Components/SeeMore.qml:58
 msgid "See less"
-msgstr ""
+msgstr "Seall nas lugha"
 
 #: qml/Dash/DashApps.qml:37
 msgid "Recent"
-msgstr ""
+msgstr "O chionn goirid"
 
 #: qml/Dash/PreviewListView.qml:52
 #, qt-format
 msgid "%1 Preview"
-msgstr ""
+msgstr "Ro-shealladh %1"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
-msgstr ""
+msgstr "Barrachd..."
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "Less..."
-msgstr ""
+msgstr "Nas lugha..."
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:81
 msgid "Rate this"
@@ -121,7 +123,7 @@ msgstr "Cuir"
 
 #: qml/Greeter/Greeter.qml:151
 msgid "Swipe to unlock"
-msgstr ""
+msgstr "Dèan grad-shlaighdeadh gus a' ghlas a thoirt dheth"
 
 #: qml/Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
@@ -158,11 +160,11 @@ msgstr "A' bruidhinn..."
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:91
 msgid "Show password"
-msgstr ""
+msgstr "Seall am facal-faire"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:103
 msgid "Please enter SIM PIN"
-msgstr ""
+msgstr "Cuir a-steach SIM PIN"
 
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"

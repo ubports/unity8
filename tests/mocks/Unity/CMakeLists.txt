@@ -38,15 +38,4 @@ target_link_libraries(FakeUnityQml
 
 qt5_use_modules(FakeUnityQml Qml)
 
-# copy qmldir file into build directory for shadow builds
-file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
-    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
-    )
-
-install(TARGETS FakeUnityQml
-    DESTINATION ${SHELL_INSTALL_QML}/scopefakes/Unity
-    )
-
-install(FILES qmldir
-    DESTINATION ${SHELL_INSTALL_QML}/scopefakes/Unity
-    )
+add_unity8_mock(Unity 0.2 Unity PREFIX scopefakes TARGETS FakeUnityQml)

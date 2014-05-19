@@ -12,40 +12,14 @@ set(FakeUnityApplicationQml_SOURCES
 
 add_library(FakeUnityApplicationQml MODULE ${FakeUnityApplicationQml_SOURCES})
 
+add_library(NonMirUnityApplicationQml MODULE ${FakeUnityApplicationQml_SOURCES})
+set_target_properties(NonMirUnityApplicationQml PROPERTIES OUTPUT_NAME FakeUnityApplicationQml)
+
 qt5_use_modules(FakeUnityApplicationQml Core Quick)
+qt5_use_modules(NonMirUnityApplicationQml Core Quick)
 
-# copy files into build directory for shadow builds
-add_custom_target(UnityAppQmlDirFile ALL
-    COMMAND cp "${CMAKE_CURRENT_SOURCE_DIR}/qmldir" ${CMAKE_CURRENT_BINARY_DIR}
-    DEPENDS qmldir
-)
-add_custom_target(InputFilterAreaQmlFile ALL
-    COMMAND cp "${CMAKE_CURRENT_SOURCE_DIR}/InputFilterArea.qml" ${CMAKE_CURRENT_BINARY_DIR}
-    DEPENDS InputFilterArea.qml
-)
-add_custom_target(OSKControllerQmlFile ALL
-    COMMAND cp "${CMAKE_CURRENT_SOURCE_DIR}/OSKController.qml" ${CMAKE_CURRENT_BINARY_DIR}
-    DEPENDS OSKController.qml
-)
-
-install(TARGETS FakeUnityApplicationQml
-    DESTINATION ${SHELL_INSTALL_QML}/mocks/Unity/Application
-    )
-
-install(FILES qmldir InputFilterArea.qml OSKController.qml
-    DESTINATION ${SHELL_INSTALL_QML}/mocks/Unity/Application
-    )
-
-# Duplicate the mock to nonmirplugins
-# In shadow builds we just link it, in real installs we also install it to the other path
-add_custom_target(OSKControllerQmlFile2 ALL
-    COMMAND mkdir -p ${CMAKE_BINARY_DIR}/nonmirplugins/Unity && rm -f ${CMAKE_BINARY_DIR}/nonmirplugins/Unity/Application && ln -s ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_BINARY_DIR}/nonmirplugins/Unity
-    DEPENDS qmldir
-)
-install(TARGETS FakeUnityApplicationQml
-    DESTINATION ${SHELL_INSTALL_QML}/nonmirplugins/Unity/Application
-    )
-
-install(FILES qmldir InputFilterArea.qml OSKController.qml
-    DESTINATION ${SHELL_INSTALL_QML}/nonmirplugins/Unity/Application
-    )
+add_unity8_mock(Unity.Application 0.1 Unity/Application PREFIX mocks TARGETS FakeUnityApplicationQml)
+add_unity8_mock(Unity.Application 0.1 Unity/Application
+                PREFIX nonmirplugins
+                TARGETS NonMirUnityApplicationQml
+                BINARY_DIR ${CMAKE_BINARY_DIR}/nonmirplugins)

@@ -7,15 +7,4 @@ add_library(MockPowerd-qml MODULE
 
 qt5_use_modules(MockPowerd-qml Qml)
 
-# copy qmldir file into build directory for shadow builds
-file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
-    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
-    )
-
-install(TARGETS MockPowerd-qml
-    DESTINATION ${SHELL_INSTALL_QML}/mocks/Powerd
-    )
-
-install(FILES qmldir
-    DESTINATION ${SHELL_INSTALL_QML}/mocks/Powerd
-    )
+add_unity8_mock(Powerd 0.1 Powerd TARGETS MockPowerd-qml)

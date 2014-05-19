@@ -8,69 +8,69 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-04-10 11:13-0400\n"
-"PO-Revision-Date: 2013-10-09 13:51+0000\n"
-"Last-Translator: Aron Xu <Unknown>\n"
+"PO-Revision-Date: 2014-05-19 02:24+0000\n"
+"Last-Translator: Shuduo Sang <Unknown>\n"
 "Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-05-01 06:44+0000\n"
-"X-Generator: Launchpad (build 16985)\n"
+"X-Launchpad-Export-Date: 2014-05-19 06:25+0000\n"
+"X-Generator: Launchpad (build 17007)\n"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:43
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Lock to Launcher"
-msgstr ""
+msgstr "固定到启动器"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:73
 msgid "Unlock from Launcher"
-msgstr ""
+msgstr "从启动器移除"
 
 #: qml/Components/EdgeDemoOverlay.qml:151
 msgid "Skip intro"
-msgstr ""
+msgstr "跳过简介"
 
 #: qml/Components/EdgeDemo.qml:113
 msgid "Right edge"
-msgstr ""
+msgstr "右边缘"
 
 #: qml/Components/EdgeDemo.qml:114
 msgid "Try swiping from the right edge to unlock the phone"
-msgstr ""
+msgstr "从右边滑动可以解锁"
 
 #: qml/Components/EdgeDemo.qml:145
 msgid "Top edge"
-msgstr ""
+msgstr "上边缘"
 
 #: qml/Components/EdgeDemo.qml:146
 msgid "Try swiping from the top edge to access the indicators"
-msgstr ""
+msgstr "从上边缘划入可以访问指示器"
 
 #: qml/Components/EdgeDemo.qml:171
 msgid "Close"
-msgstr ""
+msgstr "关闭"
 
 #: qml/Components/EdgeDemo.qml:172
 msgid "Swipe up again to close the settings screen"
-msgstr ""
+msgstr "再次向上划动可以关闭设置界面"
 
 #: qml/Components/EdgeDemo.qml:199
 msgid "Left edge"
-msgstr ""
+msgstr "左边缘"
 
 #: qml/Components/EdgeDemo.qml:200
 msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr ""
+msgstr "从左边划入展开启动器可以快速打开应用"
 
 #: qml/Components/EdgeDemo.qml:227
 msgid "Well done"
-msgstr ""
+msgstr "做得好"
 
 #: qml/Components/EdgeDemo.qml:228
 msgid ""
 "You have now mastered the edge gestures and can start using the "
 "phone<br><br>Tap on the screen to start"
-msgstr ""
+msgstr "您现在已经掌握了边缘滑动手势，可以开始使用手机了<br><br>请点击屏幕开始使用"
 
 #: qml/Components/PageHeader.qml:365
 msgid "Recent searches"
@@ -78,48 +78,48 @@ msgstr "近期搜索"
 
 #: qml/Components/SeeMore.qml:35
 msgid "See more"
-msgstr ""
+msgstr "了解更多"
 
 #: qml/Components/SeeMore.qml:58
 msgid "See less"
-msgstr ""
+msgstr "显示更少"
 
 #: qml/Dash/DashApps.qml:37
 msgid "Recent"
-msgstr ""
+msgstr "最近使用过的"
 
 #: qml/Dash/PreviewListView.qml:52
 #, qt-format
 msgid "%1 Preview"
-msgstr ""
+msgstr "%1 预览"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "More..."
-msgstr ""
+msgstr "更多..."
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:34
 msgid "Less..."
-msgstr ""
+msgstr "更少..."
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:81
 msgid "Rate this"
-msgstr ""
+msgstr "评分"
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:126
 msgid "Add a review"
-msgstr ""
+msgstr "添加评论"
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:166
 msgid "Send"
-msgstr ""
+msgstr "发送"
 
 #: qml/Greeter/Greeter.qml:151
 msgid "Swipe to unlock"
-msgstr ""
+msgstr "滑动解锁"
 
 #: qml/Greeter/Lockscreen.qml:149
 msgid "Emergency Call"
-msgstr ""
+msgstr "紧急电话"
 
 #: qml/Greeter/PassphraseLockscreen.qml:59
 #, qt-format
@@ -152,11 +152,11 @@ msgstr "讲话中..."
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:91
 msgid "Show password"
-msgstr ""
+msgstr "显示密码"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:103
 msgid "Please enter SIM PIN"
-msgstr ""
+msgstr "请输入 SIM PIN"
 
 #: qml/Panel/SearchIndicator.qml:27
 msgid "Search"
@@ -165,4 +165,4 @@ msgstr "搜索"
 #: qml/Shell.qml:348
 #, qt-format
 msgid "Please enter %1"
-msgstr ""
+msgstr "请输入 %1"
