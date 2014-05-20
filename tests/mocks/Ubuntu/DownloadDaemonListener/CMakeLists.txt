@@ -7,12 +7,4 @@ add_library(FakeUbuntuDownloadDaemonListenerQml MODULE ${FakeUbuntuDownloadDaemo
 
 qt5_use_modules(FakeUbuntuDownloadDaemonListenerQml Core Quick)
 
-# copy files into build directory for shadow builds
-add_custom_target(UbuntuDownloadQmlDirFile ALL
-    COMMAND cp "${CMAKE_CURRENT_SOURCE_DIR}/qmldir" ${CMAKE_CURRENT_BINARY_DIR}
-    DEPENDS qmldir
-)
-
-install(TARGETS FakeUbuntuDownloadDaemonListenerQml
-    DESTINATION ${SHELL_INSTALL_QML}/mocks/Ubuntu/DownloadDaemonListener
-    )
+add_unity8_mock(Ubuntu.DownloadDaemonListener 0.1 Ubuntu/DownloadDaemonListener TARGETS FakeUbuntuDownloadDaemonListenerQml)

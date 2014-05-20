@@ -17,7 +17,4 @@ target_link_libraries(FakeGSettingsQml
 
 qt5_use_modules(FakeGSettingsQml Qml)
 
-# copy qmldir file into build directory for shadow builds
-file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/qmldir"
-    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
-    )
+add_unity8_mock(GSettings 1.0 GSettings.1.0 TARGETS FakeGSettingsQml)

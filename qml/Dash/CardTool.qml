@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.0
+import Dash 0.1
 
 /*!
  \brief Tool for introspecting Card properties.
@@ -65,6 +66,8 @@ Item {
         return layout;
     }
 
+    property var cardComponent: CardCreatorCache.getCardComponent(cardTool.template, cardTool.components);
+
     // FIXME: Saviq
     // Only way for the card below to actually be laid out completely.
     // If invisible or in "data" array, some components are not taken into account.
@@ -108,7 +111,7 @@ Item {
                 if (template["card-size"] >= 12 && template["card-size"] <= 38) return units.gu(template["card-size"]);
                 return units.gu(18.5);
             case "grid":
-                return card.implicitHeight
+                return cardLoader.item ? cardLoader.item.implicitHeight : 0
             case "carousel":
                 return cardWidth / (components ? components["art"]["aspect-ratio"] : 1)
             case undefined:
@@ -122,7 +125,8 @@ Item {
     /*!
      type:real \brief Height of the card's header.
     */
-    readonly property alias headerHeight: card.headerHeight
+    readonly property int headerHeight: cardLoader.item ? cardLoader.item.headerHeight : 0
+    readonly property size artShapeSize: cardLoader.item ? cardLoader.item.artShapeSize : 0
 
     /*!
      \brief Desired alignment of header components.
@@ -161,15 +165,8 @@ Item {
         }
     }
 
-    Card {
-        id: card
-        objectName: "cardToolCard"
-        template: cardTool.template
-        components: cardTool.components
-
-        width: cardTool.cardWidth || implicitWidth
-        height: cardTool.cardHeight || implicitHeight
-
+    Loader {
+        id: cardLoader
         property var fields: ["art", "mascot", "title", "subtitle", "summary"]
         property var maxData: {
             "art": Qt.resolvedUrl("graphics/checkers.png"),
@@ -178,19 +175,30 @@ Item {
             "subtitle": "—",
             "summary": "—\n—\n—\n—\n—"
         }
-
-        onComponentsChanged: {
-            var data = {};
-            for (var k in fields) {
-                var component = components[fields[k]];
-                var key = fields[k];
-                if ((typeof component === "string" && component.length > 0) ||
-                    (typeof component === "object" && component !== null
-                     && typeof component["field"] === "string" && component["field"].length > 0)) {
-                    data[key] = maxData[key];
+        sourceComponent: cardTool.cardComponent
+        onLoaded: {
+            item.objectName = "cardToolCard";
+            item.asynchronous = false;
+            item.template = Qt.binding(function() { return cardTool.template; });
+            item.components = Qt.binding(function() { return cardTool.components; });
+            item.width = Qt.binding(function() { return cardTool.cardWidth || item.implicitWidth; });
+            item.height = Qt.binding(function() { return cardTool.cardHeight || item.implicitHeight; });
+        }
+        Connections {
+            target: cardLoader.item
+            onComponentsChanged: {
+                var data = {};
+                for (var k in cardLoader.fields) {
+                    var component = cardLoader.item.components[cardLoader.fields[k]];
+                    var key = cardLoader.fields[k];
+                    if ((typeof component === "string" && component.length > 0) ||
+                        (typeof component === "object" && component !== null
+                        && typeof component["field"] === "string" && component["field"].length > 0)) {
+                        data[key] = cardLoader.maxData[key];
+                    }
                 }
+                cardLoader.item.cardData = data;
             }
-            cardData = data;
         }
     }
 }

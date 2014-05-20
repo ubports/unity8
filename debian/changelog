@@ -1,3 +1,86 @@
+unity8 (7.86+14.10.20140516.5-0ubuntu1) utopic; urgency=low
+
+  [ Michal Hruby ]
+  * Updated scope tool to create proper config files after recent
+    libunity-scopes-api changes.
+
+  [ Michał Sawicz ]
+  * Refactor export_qmlfiles and export_qmlplugins to be more generic
+    and clean up installed mocks.
+
+  [ Albert Astals ]
+  * Remove empty dirs
+  * Set the tabbarmodel index as we do on real code It works better :D
+    (LP: #1317255)
+
+  [ Thomi Richards ]
+  * Use new import location for ProcessSearchError in process_helpers
+    script.
+
+  [ Andrea Cimitan ]
+  * Adds shadow for the carousel
+
+  [ Daniel d'Andrada ]
+  * Remove Revealer component It's not used anywhere anymore. It's been
+    replaced by DragHandle.
+
+  [ Andy Doan ]
+  * unlock_device: support more complex reboot/wait cycles Currently
+    this script only allows you to override how to "wait" on the device.
+    This changes the logic to also support how you go about rebooting
+    the device. This is handy for the ubuntu-emulator because adb-reboot
+    is not currently supported. However, we also have a more
+    sophisticated, fool-proof way we reboot/wait in the CI lab that
+    would be nice to take advantage of:
+    http://bazaar.launchpad.net/~ubuntu-test-case-dev/ubuntu-test-
+    cases/touch/view/head:/scripts/reboot-and-wait
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 16 May 2014 18:46:32 +0000
+
+unity8 (7.86+14.10.20140516.2-0ubuntu1) utopic; urgency=low
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Michael Zanetti ]
+  * support appid:// entries in gsettings schema and make
+    findDesktopFile work with short-appid (LP: #1239750)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 16 May 2014 12:32:40 +0000
+
+unity8 (7.86+14.10.20140514.1-0ubuntu1) utopic; urgency=low
+
+  [ Antti Kaijanmäki ]
+  * Indicators/RootActionState: use g_variant_iter_loop to extract
+    icons.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 14 May 2014 11:43:55 +0000
+
+unity8 (7.86+14.10.20140513-0ubuntu1) utopic; urgency=low
+
+  [ Andrea Cimitan ]
+  * Improve padding in Text preview widget. (LP: #1316683)
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Nick Dedekind ]
+  * Removed binding loop from Unity.Indicators.MenuContentActivator
+    Change handler for QMLListProperty used by MenuContent.qml:
+    menuActivator.content[index].active If we're already asking for the
+    index, we know it exists already. No need to send a
+    changeNotification on an implied creation.
+
+  [ Josh Arenson ]
+  * Implements usage-style documentation for unity8 executable. Fixes
+    lp:1269282 (LP: #1269282)
+
+  [ Albert Astals ]
+  * Create specialized Card code in Javascript instead of having various
+    copied&pasted files (LP: #1297197)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 13 May 2014 08:34:02 +0000
+
 unity8 (7.86+14.10.20140507.3-0ubuntu1) utopic; urgency=low
 
   [ Michał Sawicz ]

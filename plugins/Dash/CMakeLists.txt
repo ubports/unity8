@@ -1,6 +1,3 @@
-# export_qmlplugin macro
-include(Plugins)
-
 # There's no cmake var for v8 include path :-/
 # so create one
 LIST(GET Qt5Core_INCLUDE_DIRS 0 QtCoreDir0)
@@ -30,17 +27,15 @@ set(QMLPLUGIN_SRC
     organicgrid.cpp
     )
 
-add_library(DashViews-qml MODULE
+add_library(Dash-qml MODULE
     ${QMLPLUGIN_SRC}
     )
 
-target_link_libraries(DashViews-qml
+target_link_libraries(Dash-qml
     ${Qt5Gui_LIBRARIES}
     ${Qt5Quick_LIBRARIES}
     )
 
-qt5_use_modules(DashViews-qml Qml Quick)
+qt5_use_modules(Dash-qml Qml Quick)
 
-# export the qmldir qmltypes and plugin files
-export_qmlfiles(DashViews DashViews)
-export_qmlplugin(DashViews 0.1 DashViews TARGETS DashViews-qml)
+add_unity8_plugin(Dash 0.1 Dash TARGETS Dash-qml)

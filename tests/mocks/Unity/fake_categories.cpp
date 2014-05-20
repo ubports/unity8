@@ -98,7 +98,12 @@ Categories::data(const QModelIndex& index, int role) const
             case RoleRenderer:
             {
                 QVariantMap map;
-                map["category-layout"] = index.row() % 2 == 0 ? "grid" : "carousel";
+                if (index.row() % 2 == 0) {
+                    map["category-layout"] = "grid";
+                } else {
+                    map["category-layout"] = "carousel";
+                    map["overlay"] = true;
+                }
                 map["card-size"] = "small";
                 return map;
             }
@@ -133,7 +138,14 @@ Categories::data(const QModelIndex& index, int role) const
             case RoleRenderer:
             {
                 QVariantMap map;
-                map["category-layout"] = index.row() % 2 == 0 ? "grid" : "carousel";
+                if (index.row() % 2 == 0) {
+                    map["category-layout"] = "grid";
+                } else {
+                    map["category-layout"] = "carousel";
+                    map["card-size"] = "medium";
+                    map["collapsed-rows"] = 2;
+                    map["overlay"] = true;
+                }
                 map["card-size"] = "small";
                 return map;
             }
@@ -144,6 +156,7 @@ Categories::data(const QModelIndex& index, int role) const
                 artMap["field"] = "art";
                 map["art"] = artMap;
                 map["title"] = "HOLA";
+                map["subtitle"] = "HOLA";
                 return map;
             }
             case RoleResults:

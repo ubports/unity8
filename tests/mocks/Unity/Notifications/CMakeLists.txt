@@ -1,11 +1,1 @@
-file(GLOB QMLFILES
-    *.qml
-    *.js
-    qmldir
-)
-
-# copy files into build directory for shadow builds
-add_custom_target(NotificationsQmlFiles ALL
-    COMMAND cp ${QMLFILES} ${CMAKE_CURRENT_BINARY_DIR}
-    DEPENDS ${QMLFILES}
-)
+add_unity8_mock(Unity.Notifications 1.0 Unity/Notifications)
