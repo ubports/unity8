@@ -53,7 +53,6 @@ public:
     int count() const;
 
 Q_SIGNALS:
-    void activateScopeRequested(const QString& scope_id);
     void countChanged();
 
 private Q_SLOTS:
