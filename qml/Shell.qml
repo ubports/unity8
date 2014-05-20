@@ -144,7 +144,7 @@ FocusScope {
 
         onTouchXChanged: {
             if (status == DirectionalDragArea.Recognized) {
-                if (stages.empty) {
+                if (SurfaceManager.empty) {
                     progress = Math.max(stages.width - stagesDragArea.width + touchX, stages.width * .3);
                 } else {
                     progress = stages.width - stagesDragArea.width + touchX;
@@ -154,7 +154,7 @@ FocusScope {
 
         onDraggingChanged: {
             if (!dragging) {
-                if (!stages.empty && progress < stages.width - units.gu(10)) {
+                if (!SurfaceManager.empty && progress < stages.width - units.gu(10)) {
                     stages.show();
                 }
                 stagesDragArea.progress = Qt.binding(function () { return stages.width; });
@@ -176,9 +176,16 @@ FocusScope {
 
         property bool shown: false
         onShownChanged: {
-            if (!shown && ApplicationManager.focusedApplicationId) {
-                ApplicationManager.updateScreenshot(ApplicationManager.focusedApplicationId);
-                ApplicationManager.unfocusCurrentApplication();
+            if (shown) {
+                if (SurfaceManager.count > 0) {
+                    var topmostSurface = SurfaceManager.getSurface(0);
+                    ApplicaitonManager.focusApplication(topmostSurface.application.appId);
+                }
+            } else {
+                if (ApplicationManager.focusedApplicationId) {
+                    ApplicationManager.updateScreenshot(ApplicationManager.focusedApplicationId);
+                    ApplicationManager.unfocusCurrentApplication();
+                }
             }
         }
 
@@ -190,12 +197,8 @@ FocusScope {
         property bool fullyShown: x == 0
         property bool fullyHidden: x == width
 
-        property bool empty: SurfaceManager.count == 0
-        onEmptyChanged: {
-            if (empty) {
-                hide();
-            }
-        }
+        // It might technically not be fullyShown but visually it just looks so.
+        property bool roughlyFullyShown: x >= 0 && x <= units.gu(1)
 
         function show() {
             shown = true;
@@ -256,6 +259,12 @@ FocusScope {
             if (orphan) {
                 // there's no one displaying it. delete it right away
                 surface.release();
+            }
+        }
+
+        onEmptyChanged: {
+            if (SurfaceManager.empty) {
+                stages.hide();
             }
         }
     }
@@ -424,10 +433,20 @@ FocusScope {
                 available: edgeDemo.panelEnabled
                 contentEnabled: edgeDemo.panelContentEnabled
             }
-            property string focusedAppId: ApplicationManager.focusedApplicationId
-            property var focusedApplication: ApplicationManager.findApplication(focusedAppId)
-            //fullscreenMode: focusedApplication && stages.fullscreen && !greeter.shown && !lockscreen.shown
-            fullscreenMode: focusedApplication && !greeter.shown && !lockscreen.shown
+
+            property bool topmostSurfaceIsFullscreen: {
+                if (SurfaceManager.empty) {
+                    return false;
+                } else {
+                    // TODO check the actual surface size to see if it fills the screen
+                    // For now they're all fullscreen anyway, so this assumption will hold.
+                    return true;
+                }
+            }
+
+            fullscreenMode: stages.roughlyFullyShown && topmostSurfaceIsFullscreen
+                    && !greeter.shown && !lockscreen.shown
+
             searchVisible: !greeter.shown && !lockscreen.shown && dash.shown && dash.searchable
         }
 
