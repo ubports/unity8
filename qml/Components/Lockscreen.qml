@@ -33,8 +33,6 @@ Showable {
     // This is ignored by the alphaNumeric lockscreen as that one is confirmed with pressing enter on the OSK.
     property int pinLength: -1
 
-    property url background: ""
-
     signal entered(string passphrase)
     signal cancel()
     signal emergencyCall()
