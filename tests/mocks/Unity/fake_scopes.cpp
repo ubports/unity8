@@ -128,11 +128,6 @@ bool Scopes::loaded() const
     return m_loaded;
 }
 
-int Scopes::count() const
-{
-    return rowCount();
-}
-
 void Scopes::addScope(Scope* scope)
 {
     int index = rowCount();

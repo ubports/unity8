@@ -50,10 +50,6 @@ public:
     QModelIndex parent ( const QModelIndex & index ) const;
 
     bool loaded() const override;
-    int count() const;
-
-Q_SIGNALS:
-    void countChanged();
 
 private Q_SLOTS:
     void updateScopes();
