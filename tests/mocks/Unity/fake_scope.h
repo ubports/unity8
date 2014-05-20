@@ -48,7 +48,6 @@ public:
     bool isActive() const override;
 
     /* setters */
-    void setName(const QString& name);
     void setSearchQuery(const QString& search_query) override;
     void setNoResultsHint(const QString& hint) override;
     void setFormFactor(const QString& form_factor) override;

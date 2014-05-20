@@ -85,13 +85,6 @@ bool Scope::isActive() const {
     return m_isActive;
 }
 
-void Scope::setName(const QString &str) {
-    if (str != m_name) {
-        m_name = str;
-        Q_EMIT nameChanged(m_name);
-    }
-}
-
 void Scope::setSearchQuery(const QString &str) {
     if (str != m_searchQuery) {
         m_searchQuery = str;
