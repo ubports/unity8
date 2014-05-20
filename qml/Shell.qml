@@ -178,10 +178,18 @@ FocusScope {
         height: parent.height
         color: "khaki"
 
+        visible: !fullyHidden
+
         x: shown ? launcher.progress : stagesDragArea.progress
         //Behavior on x { SmoothedAnimation { velocity: 600; duration: UbuntuAnimation.FastDuration } }
 
         property bool shown: false
+        onShownChanged: {
+            if (!shown && ApplicationManager.focusedApplicationId) {
+                ApplicationManager.updateScreenshot(ApplicationManager.focusedApplicationId);
+                ApplicationManager.unfocusCurrentApplication();
+            }
+        }
 
         // Avoid a silent "divide by zero -> NaN" situation during init as shell.width will be
         // zero. That breaks the property binding and the function won't be reevaluated once
@@ -192,14 +200,23 @@ FocusScope {
         property bool fullyHidden: x == width
 
         property bool empty: SurfaceManager.count == 0
+        onEmptyChanged: {
+            if (empty) {
+                hide();
+            }
+        }
 
         function show() {
             shown = true;
-//            panel.indicators.hide();
         }
 
         function hide() {
             shown = false;
+        }
+
+        Connections {
+            target: ApplicationManager
+            onFocusRequested: { stages.show(); }
         }
 
         Loader {
