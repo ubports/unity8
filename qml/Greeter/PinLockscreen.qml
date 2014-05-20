@@ -88,7 +88,7 @@ Column {
             id: pinentryFieldPlaceHolder
             anchors.centerIn: parent
             color: "grey"
-            text: parent.placeholderText
+            text: wrongPasswordAnimation.running ? i18n.tr("Incorrect passcode") : parent.placeholderText
             visible: pinentryFieldLabel.text.length == 0
         }
 

@@ -109,7 +109,7 @@ Showable {
                 left: parent.left
                 right: parent.right
             }
-            text: i18n.tr("%1 retries remaining").arg(root.retryCount)
+            text: i18n.tr("%1 retry remaining", "%1 retries remaining", root.retryCount).arg(root.retryCount)
             horizontalAlignment: Text.AlignHCenter
             color: "#f3f3e7"
             opacity: 0.6
