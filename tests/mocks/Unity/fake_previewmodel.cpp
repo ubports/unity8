@@ -57,11 +57,6 @@ bool PreviewModel::processingAction() const
     return false;
 }
 
-void PreviewModel::setProcessingAction(bool /*processing*/)
-{
-    qFatal("PreviewModel::setProcessingAction not implemented");
-}
-
 int PreviewModel::rowCount(const QModelIndex&) const
 {
     return m_previewWidgetModels.size();

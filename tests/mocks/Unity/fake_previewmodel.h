@@ -39,7 +39,6 @@ public:
     int widgetColumnCount() const override;
     bool loaded() const override;
     bool processingAction() const override;
-    void setProcessingAction(bool processing);
 
 private:
     QList<PreviewWidgetModel*> m_previewWidgetModels;
