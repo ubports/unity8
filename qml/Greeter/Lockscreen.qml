@@ -225,6 +225,7 @@ Showable {
         Dialog {
             id: dialog
             objectName: "infoPopup"
+            modal: true
 
             Button {
                 objectName: "infoPopupOkButton"
