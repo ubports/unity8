@@ -160,6 +160,15 @@ Load the testability driver");
     }
     appendImportPaths(view->engine(), ::fallbackImportPaths());
 
+    view->setSource(source);
+    view->setColor(Qt::transparent);
+
+    if (qgetenv("QT_QPA_PLATFORM") == "ubuntu" || isUbuntuMirServer || parser.isSet(fullscreenOption)) {
+        view->showFullScreen();
+    } else {
+        view->show();
+    }
+
 #if UNITY8_GREETER
     if (isUbuntuMirServer) {
         // Add alpha to surface, so that the greeter can bleed through
@@ -172,15 +181,6 @@ Load the testability driver");
         qDebug() << "Unable to send unity8-greeter-started event to Upstart";
     }
 #endif
-
-    view->setSource(source);
-    view->setColor(Qt::transparent);
-
-    if (qgetenv("QT_QPA_PLATFORM") == "ubuntu" || isUbuntuMirServer || parser.isSet(fullscreenOption)) {
-        view->showFullScreen();
-    } else {
-        view->show();
-    }
 
     int result = application->exec();
 
