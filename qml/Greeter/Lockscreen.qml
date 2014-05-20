@@ -29,6 +29,8 @@ Showable {
     property string placeholderText: ""
     // Placeholder text while shaking (e.g. Incorrect passprase)
     property string wrongPlaceholderText: ""
+    // Retries text (e.g. 3 retries left)
+    property string retryText: ""
 
     // Informational text. (e.g. some text to tell which domain this is pin is entered for.
     property string infoText: ""
@@ -46,9 +48,6 @@ Showable {
     // enter on the OSK.
     property int minPinLength: -1
     property int maxPinLength: -1
-
-    // Set this to a value greater 0 to show a label telling the user how many retries are left
-    property int retryCount: -1
 
     property url background: ""
 
@@ -112,11 +111,11 @@ Showable {
                 left: parent.left
                 right: parent.right
             }
-            text: i18n.tr("%1 retry remaining", "%1 retries remaining", root.retryCount).arg(root.retryCount)
+            text: root.retryText
             horizontalAlignment: Text.AlignHCenter
             color: "#f3f3e7"
             opacity: 0.6
-            visible: root.retryCount >= 0
+            visible: root.retryText.length > 0
         }
         Label {
             id: infoTextLabel

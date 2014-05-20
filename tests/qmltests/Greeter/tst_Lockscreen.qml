@@ -34,10 +34,10 @@ Rectangle {
         anchors.rightMargin: units.gu(30)
         placeholderText: "Please enter your PIN"
         wrongPlaceholderText: "Incorrect PIN"
+        retryText: retryCountTextField.text
         alphaNumeric: pinPadCheckBox.checked
         minPinLength: minPinLengthTextField.text
         maxPinLength: maxPinLengthTextField.text
-        retryCount: retryCountTextField.text
         username: "Lola"
         background: "../../../qml/graphics/phone_background.jpg"
         infoText: infoTextTextField.text
@@ -118,7 +118,7 @@ Rectangle {
                 TextField {
                     id: retryCountTextField
                     width: units.gu(7)
-                    text: "3"
+                    text: "3 retries left"
                 }
                 Label {
                     text: "Retries left"
@@ -398,10 +398,8 @@ Rectangle {
 
         function test_retryDisplay_data() {
             return [
-                {tag: "0", retryCount: 0, shown: true},
-                {tag: "1", retryCount: 1, shown: true},
-                {tag: "3", retryCount: 3, shown: true},
-                {tag: "-1", retryCount: -1, shown: false},
+                {tag: "empty", retryText: "", shown: false},
+                {tag: "3 retries left", retryText: "3 retries left", shown: true},
             ]
         }
 
@@ -409,7 +407,7 @@ Rectangle {
             pinPadCheckBox.checked = false
             waitForLockscreenReady();
 
-            retryCountTextField.text = data.retryCount;
+            retryCountTextField.text = data.retryText;
             var label = findChild(lockscreen, "retryCountLabel")
             compare(label.visible, data.shown);
         }
