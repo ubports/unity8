@@ -25,6 +25,7 @@ Column {
     spacing: units.gu(3.5)
 
     property alias placeholderText: pinentryField.placeholderText
+    property alias wrongPlaceholderText: pinentryField.wrongPlaceholderText
     property int padWidth: units.gu(34)
     property int padHeight: units.gu(28)
     property int minPinLength: -1
@@ -57,6 +58,7 @@ Column {
         radius: "medium"
         property string text: ""
         property string placeholderText: ""
+        property string wrongPlaceholderText: ""
 
         function appendChar(character) {
             if (root.maxPinLength == -1 || pinentryField.text.length < root.maxPinLength) {
@@ -86,9 +88,10 @@ Column {
         }
         Label {
             id: pinentryFieldPlaceHolder
+            objectName: "pinentryFieldPlaceHolder"
             anchors.centerIn: parent
             color: "grey"
-            text: wrongPasswordAnimation.running ? i18n.tr("Incorrect passcode") : parent.placeholderText
+            text: wrongPasswordAnimation.running ? parent.wrongPlaceholderText : parent.placeholderText
             visible: pinentryFieldLabel.text.length == 0
         }
 

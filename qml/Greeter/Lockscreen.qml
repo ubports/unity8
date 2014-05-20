@@ -27,6 +27,8 @@ Showable {
 
     // Placeholder text
     property string placeholderText: ""
+    // Placeholder text while shaking (e.g. Incorrect passprase)
+    property string wrongPlaceholderText: ""
 
     // Informational text. (e.g. some text to tell which domain this is pin is entered for.
     property string infoText: ""
@@ -53,6 +55,7 @@ Showable {
     signal entered(string passphrase)
     signal cancel()
     signal emergencyCall()
+    signal infoPopupConfirmed()
 
     onRequiredChanged: {
         if (required && pinPadLoader.item) {
@@ -174,6 +177,11 @@ Showable {
         }
         Binding {
             target: pinPadLoader.item
+            property: "wrongPlaceholderText"
+            value: root.wrongPlaceholderText
+        }
+        Binding {
+            target: pinPadLoader.item
             property: "username"
             value: root.username
         }
@@ -222,7 +230,10 @@ Showable {
             Button {
                 objectName: "infoPopupOkButton"
                 text: i18n.tr("OK")
-                onClicked: PopupUtils.close(dialog)
+                onClicked: {
+                    PopupUtils.close(dialog)
+                    root.infoPopupConfirmed();
+                }
             }
         }
     }

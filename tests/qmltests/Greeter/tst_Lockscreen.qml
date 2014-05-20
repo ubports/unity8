@@ -33,6 +33,7 @@ Rectangle {
         anchors.fill: parent
         anchors.rightMargin: units.gu(30)
         placeholderText: "Please enter your PIN"
+        wrongPlaceholderText: "Incorrect PIN"
         alphaNumeric: pinPadCheckBox.checked
         minPinLength: minPinLengthTextField.text
         maxPinLength: maxPinLengthTextField.text
@@ -309,6 +310,16 @@ Rectangle {
 
             wait(0) // Trigger event loop to make sure the animation would start running
             compare(animation.running, data.animation)
+            if (data.animation) {
+                if (data.alphanumeric) {
+                    tryCompare(inputField, "placeholderText", lockscreen.wrongPlaceholderText)
+                    tryCompare(inputField, "placeholderText", lockscreen.placeholderText)
+                } else {
+                    var label = findChild(lockscreen, "pinentryFieldPlaceHolder");
+                    tryCompare(label, "text", lockscreen.wrongPlaceholderText)
+                    tryCompare(label, "text", lockscreen.placeholderText)
+                }
+            }
 
             // wait for animation to finish to not disturb other tests
             tryCompare(animation, "running", false)
@@ -411,10 +422,16 @@ Rectangle {
             var infoPopup = findChild(root, "infoPopup");
             compare(infoPopup.title, "foo");
             compare(infoPopup.text, "bar");
+
+            signalSpy.signalName = "infoPopupConfirmed"
+            signalSpy.clear();
+
             var okButton = findChild(root, "infoPopupOkButton");
             mouseClick(okButton, okButton.width / 2, okButton.height / 2);
 
             tryCompareFunction(function() { return findChild(root, "infoPopup") === null}, true);
+
+            tryCompare(signalSpy, "count", 1);
         }
 
         function test_infoTextDisplay_data() {
@@ -432,5 +449,10 @@ Rectangle {
             var label = findChild(lockscreen, "infoTextLabel")
             compare(label.visible, data.shown);
         }
+    }
+
+    SignalSpy {
+        id: signalSpy
+        target: lockscreen
     }
 }
