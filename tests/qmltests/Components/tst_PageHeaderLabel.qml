@@ -26,7 +26,7 @@ Item {
     width: units.gu(110)
     height: units.gu(30)
 
-    Scope {
+    MockScope {
         id: scopeMock
     }
 
