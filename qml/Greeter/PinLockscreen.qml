@@ -90,7 +90,8 @@ Column {
             id: pinentryFieldPlaceHolder
             objectName: "pinentryFieldPlaceHolder"
             anchors.centerIn: parent
-            color: "grey"
+            color: "#f3f3e7"
+            opacity: 0.6
             text: wrongPasswordAnimation.running ? parent.wrongPlaceholderText : parent.placeholderText
             visible: pinentryFieldLabel.text.length == 0
         }
@@ -109,6 +110,8 @@ Column {
             visible: !priv.autoConfirm
             width: height
             name: "erase"
+            color: "#f3f3e7"
+            opacity: 0.6
             MouseArea {
                 anchors.fill: parent
                 onClicked: pinentryField.text = pinentryField.text.substring(0, pinentryField.text.length-1);
