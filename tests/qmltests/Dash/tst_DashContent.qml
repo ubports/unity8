@@ -67,11 +67,15 @@ Item {
         name: "DashContent"
         when: scopesModel.loaded && windowShown
 
-        function init() {
-            scopesModel.clear();
+        function loadScopes() {
             scopeLoadedSpy.clear();
             scopesModel.load();
             tryCompare(scopeLoadedSpy, "count", 4);
+        }
+
+        function init() {
+            scopesModel.clear();
+            loadScopes();
         }
 
         function cleanup() {
@@ -93,9 +97,7 @@ Item {
             compare(dashContentList.count, 0, "DashContent should have 0 items when it starts");
             tryCompare(dashContentList, "currentIndex", -1);
 
-            scopeLoadedSpy.clear();
-            scopesModel.load();
-            tryCompare(scopeLoadedSpy, "count", 4);
+            loadScopes();
 
             verify(dashContentList.currentIndex >= 0);
         }
@@ -109,9 +111,7 @@ Item {
             // pretend we're running after a model reset
             dashContentList.currentIndex = 27;
 
-            scopeLoadedSpy.clear();
-            scopesModel.load();
-            tryCompare(scopeLoadedSpy, "count", 4);
+            loadScopes();
 
             verify(dashContentList.currentIndex >= 0 && dashContentList.currentIndex < 5);
         }
@@ -326,8 +326,6 @@ Item {
         }
 
         function test_previewOpenClose() {
-            tryCompare(scopeLoadedSpy, "count", 4);
-
             var previewListView = findChild(dashContent, "dashContentPreviewList");
             tryCompare(previewListView, "open", false);
 
@@ -352,8 +350,6 @@ Item {
                                 },
                                 true);
 
-            tryCompare(scopeLoadedSpy, "count", 4);
-
             var previewListView = findChild(dashContent, "dashContentPreviewList");
             tryCompare(previewListView, "open", false);
 
@@ -368,8 +364,6 @@ Item {
         }
 
         function test_previewCycle() {
-            tryCompare(scopeLoadedSpy, "count", 4);
-
             var categoryListView = findChild(dashContent, "categoryListView");
             categoryListView.positionAtBeginning();
 
@@ -391,6 +385,27 @@ Item {
 
             }
             closePreview();
+        }
+
+        function test_carouselAspectRatio() {
+            tryCompareFunction(function() {
+                                    var scope = findChild(dashContent, "MockScope1 loader");
+                                    if (scope != null) {
+                                        var dashCategory1 = findChild(scope, "dashCategory1");
+                                        if (dashCategory1 != null) {
+                                            var tile = findChild(dashCategory1, "carouselDelegate1");
+                                            return tile != null;
+                                        }
+                                    }
+                                    return false;
+                                },
+                                true);
+
+            var scope = findChild(dashContent, "MockScope1 loader");
+            var dashCategory1 = findChild(scope, "dashCategory1");
+            var cardTool = findChild(dashCategory1, "cardTool");
+            var carouselLV = findChild(dashCategory1, "listView");
+            verify(carouselLV.tileWidth / carouselLV.tileHeight == cardTool.components["art"]["aspect-ratio"]);
         }
     }
 }
