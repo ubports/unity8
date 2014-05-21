@@ -45,3 +45,5 @@ public:
 Q_SIGNALS:
     void displayPowerStateChange(int status, int reason);
 };
+
+#endif
