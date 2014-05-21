@@ -28,9 +28,16 @@ class Powerd: public QObject
 {
     Q_OBJECT
     Q_ENUMS(Status)
-    Q_FLAGS(DisplayFlag DisplayFlags)
+    Q_ENUMS(DisplayStateChangeReason)
 
 public:
+    enum DisplayStateChangeReason {
+        Normal          = 0,
+        Inactivity      = 1, // Display changed state due to inactivity
+        PowerKey        = 2, // Display changed state due to user pressing power key
+        Proximity       = 3, // Display changed state due to proximity events
+    };
+
     enum Status {
         Off,
         On,
@@ -40,7 +47,7 @@ public:
     ~Powerd();
 
 Q_SIGNALS:
-    void displayPowerStateChange(int status);
+    void displayPowerStateChange(int status, int reason);
 
 private:
     QDBusInterface *powerd;

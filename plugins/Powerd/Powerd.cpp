@@ -39,7 +39,7 @@ Powerd::Powerd(QObject* parent)
                                  "com.canonical.Unity.Screen",
                                  "DisplayPowerStateChange",
                                  this,
-                                 SIGNAL(displayPowerStateChange(int)));
+                                 SIGNAL(displayPowerStateChange(int, int)));
 
     systemSettings = g_settings_new("com.ubuntu.touch.system");
     g_signal_connect(systemSettings, "changed::auto-brightness", G_CALLBACK(autoBrightnessChanged), powerd);
