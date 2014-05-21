@@ -393,11 +393,6 @@ BasicShell {
                     panel.indicators.hide()
                 }
             }
-
-            Connections {
-                target: SessionManager
-                onActiveChanged: if (!SessionManager.active) launcher.hide()
-            }
         }
 
         Rectangle {
@@ -448,6 +443,16 @@ BasicShell {
                 anchors { left: parent.left; right: parent.right }
                 height: parent.contentHeight
                 blockInput: height > 0
+            }
+        }
+
+        Connections {
+            target: SessionManager
+            onActiveChanged: {
+                if (!SessionManager.active) {
+                    launcher.hide()
+                    panel.indicators.hide()
+                }
             }
         }
     }
