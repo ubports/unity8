@@ -193,7 +193,7 @@ BasicShell {
             anchors.bottom: parent.bottom
             width: parent.width
             dragAreaWidth: shell.edgeSize
-            available: greeter.narrowMode && !edgeDemo.active
+            available: !edgeDemo.active
             onLauncherApplicationSelected: {
                 shell.activateApplication("application:///" + appId + ".desktop")
             }
