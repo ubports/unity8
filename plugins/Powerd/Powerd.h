@@ -51,6 +51,7 @@ Q_SIGNALS:
 
 private:
     QDBusInterface *powerd;
+    QDBusInterface *unityScreen;
     GSettings *systemSettings;
 };
 

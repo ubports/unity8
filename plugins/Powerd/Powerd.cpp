@@ -29,17 +29,22 @@ Powerd::Powerd(QObject* parent)
   : QObject(parent),
     powerd(NULL)
 {
-    powerd = new QDBusInterface("com.canonical.Unity.Screen",
-                                "/com/canonical/Unity/Screen",
-                                "com.canonical.Unity.Screen",
+    powerd = new QDBusInterface("com.canonical.powerd",
+                                "/com/canonical/powerd",
+                                "com.canonical.powerd",
                                 QDBusConnection::SM_BUSNAME(), this);
 
-    powerd->connection().connect("com.canonical.Unity.Screen",
-                                 "/com/canonical/Unity/Screen",
-                                 "com.canonical.Unity.Screen",
-                                 "DisplayPowerStateChange",
-                                 this,
-                                 SIGNAL(displayPowerStateChange(int, int)));
+    unityScreen = new QDBusInterface("com.canonical.Unity.Screen",
+                                     "/com/canonical/Unity/Screen",
+                                     "com.canonical.Unity.Screen",
+                                     QDBusConnection::SM_BUSNAME(), this);
+
+    unityScreen->connection().connect("com.canonical.Unity.Screen",
+                                      "/com/canonical/Unity/Screen",
+                                      "com.canonical.Unity.Screen",
+                                      "DisplayPowerStateChange",
+                                      this,
+                                      SIGNAL(displayPowerStateChange(int, int)));
 
     systemSettings = g_settings_new("com.ubuntu.touch.system");
     g_signal_connect(systemSettings, "changed::auto-brightness", G_CALLBACK(autoBrightnessChanged), powerd);
